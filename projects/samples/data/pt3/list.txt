@@ -1,0 +1,33 @@
+ Le volume dans le lecteur D s'appelle DATA
+ Le num‚ro de s‚rie du volume est 0265-8FFE
+
+ R‚pertoire de D:\Dev\Private\MSX\proj\samples\data\pt3
+
+21/01/2021  01:14            38ÿ757 !ndiffer.h
+21/01/2021  01:14            34ÿ665 !_can_be.h
+21/01/2021  01:14            22ÿ461 After2.h
+21/01/2021  01:14            16ÿ271 Backhome.h
+21/01/2021  01:14            32ÿ669 Beg!nsum.h
+21/01/2021  01:14            60ÿ849 Chuta.h
+21/01/2021  01:14            12ÿ447 Fret.h
+21/01/2021  01:14            24ÿ985 Golubka.h
+21/01/2021  01:14             8ÿ531 jawingame.h
+21/01/2021  01:14            15ÿ757 Ma9w!nds.h
+21/01/2021  01:14            23ÿ987 Minimal.h
+21/01/2021  01:14            16ÿ765 Morensh.h
+21/01/2021  01:14            30ÿ717 Mysong.h
+21/01/2021  01:14            22ÿ133 m_entryO.h
+21/01/2021  01:14            17ÿ557 Naylc-o2.h
+21/01/2021  01:14            20ÿ921 NeOtpusk.h
+21/01/2021  01:14            56ÿ851 Oblaka.h
+21/01/2021  01:14            24ÿ263 Perseve.h
+21/01/2021  01:14            50ÿ381 Reaofno!.h
+21/01/2021  01:14            20ÿ215 Red_cap.h
+21/01/2021  01:14            15ÿ147 smario.h
+21/01/2021  01:14            32ÿ509 SNA1+.h
+21/01/2021  01:14            28ÿ589 Soulomat.h
+21/01/2021  01:14            42ÿ609 Specific.h
+21/01/2021  01:14            68ÿ830 TrafOfD.h
+21/01/2021  01:14            67ÿ280 UckA_!a.h
+              26 fichier(s)          806ÿ146 octets
+               0 R‚p(s)  29ÿ625ÿ454ÿ592 octets libres

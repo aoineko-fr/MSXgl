@@ -1,0 +1,2 @@
+Author: Guillaume "Aoineko" Blanchard
+License(s): CC-BY-SA
