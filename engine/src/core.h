@@ -6,8 +6,8 @@
 #pragma once
 
 // Library version
-#define VERSION_MAJOR			1		// 4-bits (0-15)
-#define VERSION_MINOR			0		// 6-bits (0-63)
+#define VERSION_MAJOR			0		// 4-bits (0-15)
+#define VERSION_MINOR			3		// 6-bits (0-63)
 #define VERSION_PATCH			0		// 6-bits (0-63)
 #define VERSION(a, b, c)		(((a & 0x0F) << 12) | ((b & 0x3F) << 6) | (c & 0x3F))
 #define VERSION_CURRENT			VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)		
