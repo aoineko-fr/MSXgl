@@ -21,28 +21,28 @@ if /I %EmulatorName%==openmsx (
 
 	rem ---- Add launch options ----
 	if %EmulMachine%==1 (
-		if /I %Version%==1 (
+		if /I %Machine%==1 (
 			if %Emul60Hz%==1 (
 				set EmulatorArgs=!EmulatorArgs! -machine C-BIOS_MSX1_JP
 			) else (
 				set EmulatorArgs=!EmulatorArgs! -machine C-BIOS_MSX1_EU
 			)
-		) else if /I %Version%==2 (
+		) else if /I %Machine%==2 (
 			if %Emul60Hz%==1 (
 				set EmulatorArgs=!EmulatorArgs! -machine C-BIOS_MSX2_JP
 			) else (
 				set EmulatorArgs=!EmulatorArgs! -machine C-BIOS_MSX2_EU
 			)
-		) else if /I %Version%==2P (
+		) else if /I %Machine%==2P (
 			if %Emul60Hz%==1 (
 				set EmulatorArgs=!EmulatorArgs! -machine C-BIOS_MSX2+_JP
 			) else (
 				set EmulatorArgs=!EmulatorArgs! -machine C-BIOS_MSX2+_EU
 			)
-		) else if /I %Version%==TR (
+		) else if /I %Machine%==TR (
 			echo %RED%Error: No MSX turbo R default machine in OpenMSX%RESET%
 			exit /B 500
-		) else if /I %Version%==12 (
+		) else if /I %Machine%==12 (
 			if %Emul60Hz%==1 (
 				set EmulatorArgs=!EmulatorArgs! -machine C-BIOS_MSX1_JP
 			) else (
@@ -73,33 +73,33 @@ if /I %EmulatorName%==bluemsx (
 
 	rem ---- Add launch options ----
 	if %EmulMachine%==1 (
-		if /I %Version%==1 (
+		if /I %Machine%==1 (
 			if %Emul60Hz%==1 (
 				set EmulatorArgs=!EmulatorArgs! /machine "MSX - Japanese"
 			) else (
 				set EmulatorArgs=!EmulatorArgs! /machine "MSX"
 			)
-		) else if /I %Version%==2 (
+		) else if /I %Machine%==2 (
 			if %Emul60Hz%==1 (
 				set EmulatorArgs=!EmulatorArgs! /machine "MSX2 - Japanese"
 			) else (
 				set EmulatorArgs=!EmulatorArgs! /machine "MSX2"
 			)
-		) else if /I %Version%==2P (
+		) else if /I %Machine%==2P (
 			if %Emul60Hz%==1 (
 				set EmulatorArgs=!EmulatorArgs! /machine "MSX2+"
 			) else (
 				set EmulatorArgs=!EmulatorArgs! /machine "MSX2+ - C-BIOS"
 				echo Note: 50Hz MSX2+ is C-BIOS based with BlueMSX
 			)
-		) else if /I %Version%==TR (
+		) else if /I %Machine%==TR (
 			if %Emul60Hz%==1 (
 				set EmulatorArgs=!EmulatorArgs! /machine "MSXturboR"
 			) else (
 				set EmulatorArgs=!EmulatorArgs! /machine "MSXturboR"
 				echo %YELLOW%Warning: MSXturboR is only 60Hz with BlueMSX%RESET%
 			)
-		) else if /I %Version%==12 (
+		) else if /I %Machine%==12 (
 			if %Emul60Hz%==1 (
 				set EmulatorArgs=!EmulatorArgs! /machine "MSX"
 			) else (
@@ -125,16 +125,16 @@ if /I %EmulatorName%==fmsx (
 
 	rem ---- Add launch options ----
 	if %EmulMachine%==1 (
-		if /I %Version%==1 (
+		if /I %Machine%==1 (
 			set EmulatorArgs=!EmulatorArgs! -msx1
-		) else if /I %Version%==2 (
+		) else if /I %Machine%==2 (
 			set EmulatorArgs=!EmulatorArgs! -msx2
-		) else if /I %Version%==2P (
+		) else if /I %Machine%==2P (
 			set EmulatorArgs=!EmulatorArgs! -msx2+
-		) else if /I %Version%==TR (
+		) else if /I %Machine%==TR (
 			echo %RED%Error: No MSX turbo R support in fMSX%RESET%
 			exit /B 510
-		) else if /I %Version%==12 (
+		) else if /I %Machine%==12 (
 			set EmulatorArgs=!EmulatorArgs! -msx1
 		)
 	)

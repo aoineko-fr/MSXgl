@@ -150,9 +150,9 @@ void DisplayPage()
 	Print_DrawChar('\x81');
 	Print_DrawText(src->Name);
 	Print_DrawChar('\x80');
-	Draw_HLine(0, src->Width - 1, 12, src->White, 0);
-	Draw_HLine(0, src->Width - 1, 114, src->White, 0);
-	Draw_VLine(src->Width / 2, 16, 212, src->White, 0);
+	Draw_LineH(0, src->Width - 1, 12, src->White, 0);
+	Draw_LineH(0, src->Width - 1, 114, src->White, 0);
+	Draw_LineV(src->Width / 2, 16, 212, src->White, 0);
 	
 	// Draw lines
 	for(u8 i = 0; i < 16; ++i)
@@ -164,9 +164,9 @@ void DisplayPage()
 	for(u8 i = 0; i < 8; ++i)
 	{
 		RandomizeData(src->Width / 2, 16);
-		Draw_HLine(g_Data.x1, g_Data.x2, g_Data.y2, g_Data.color, 0);
+		Draw_LineH(g_Data.x1, g_Data.x2, g_Data.y2, g_Data.color, 0);
 		RandomizeData(src->Width / 2, 16);
-		Draw_VLine(g_Data.x1, g_Data.y1, g_Data.y2, g_Data.color, 0);
+		Draw_LineV(g_Data.x1, g_Data.y1, g_Data.y2, g_Data.color, 0);
 	}
 	// Draw boxes
 	for(u8 i = 0; i < 16; ++i)

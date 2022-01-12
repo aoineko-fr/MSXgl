@@ -6,30 +6,7 @@ rem █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█�
 rem ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
 rem  Build Tool configuration
 rem ───────────────────────────────────────────────────────────────────────────
-
-rem ***************************************************************************
-rem * DIRECTORIES SETTINGS                                                    *
-rem ***************************************************************************
-set ProjDir=.
-REM set ProjDir=%~d0%~p0
-set OutDir=%ProjDir%\out
-set LibDir=%ProjDir%\..\..\engine
-set ToolsDir=%ProjDir%\..\..\tools
-rem ***************************************************************************
-rem * TOOLS SETTINGS                                                          *
-rem ***************************************************************************
-set SDCC=%ToolsDir%\SDCC\bin
-set Hex2Bin=%ToolsDir%\Hex2bin\hex2bin.exe
-set FillFile=%ToolsDir%\MakeROM\fillfile.exe
-set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
-REM set Emulator=D:\Jeux\MSX\Emulator\BlueMSX\blueMSX.exe
-REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
-REM set Emulator=D:\Jeux\MSX\Emulator\MESEI\MESEI.exe
-REM set Emulator=%ToolsDir%\fMSX\fMSX.exe
-REM set Emulator=%ToolsDir%\RuMSX\MSX.exe
-set Debugger=%ToolsDir%\OpenMSX\Debugger\openmsx-debugger.exe
-set MSXDOS=%ToolsDir%\MSXDOS
-set DskTool=%ToolsDir%\DskTool\dsktool.exe
+call ..\default_config.cmd
 
 rem ***************************************************************************
 rem * PROJECT SETTINGS                                                        *
@@ -50,7 +27,7 @@ rem  - 2		MSX 2
 rem  - 2P		MSX 2+
 rem  - TR		MSX TurboR
 rem  - 12		MSX 1/2
-set Version=1
+set Machine=1
 
 rem  Target:
 rem  - BIN				.bin	BASIC binary program (8000h~)
@@ -113,7 +90,7 @@ set DoCompile=1
 set DoMake=1
 set DoPackage=1
 set DoDeploy=1
-set DoRun=1
+set DoRun=0
 
 rem ***************************************************************************
 rem * START BUILD                                                             *

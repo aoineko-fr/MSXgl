@@ -1,19 +1,20 @@
-//_____________________________________________________________________________
-//   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄                                                        
-//  ██ ▀ ██▀█ ▀█▄  ▀█▄▀                                                        
-//  ▀█▄▀ ██ █ ▄▄█▀ ██ █                                                        
-//_____________________________________________________________________________
-// PSG module header file
+// ____________________________ 
+// ██▀███▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄   ▄▄▄  ▄▄▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ▀█▄  ██  
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ▄▄█▀ ▀█▄█
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
+//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//─────────────────────────────────────────────────────────────────────────────
+// PSG handler module
 //
 // References:
-//  - AY-3-8910 / 8912 Programmable Sound Generator Data Manual
-//  - https://www.angelfire.com/art2/unicorndreams/msx/RR-PSG.html
-//-----------------------------------------------------------------------------
-
-//=============================================================================
-// INCLUDES
-//=============================================================================
-
+//  - AY-3-8910 Programmable Sound Generator Data Manual
+//     http://map.grauw.nl/resources/sound/generalinstrument_ay-3-8910.pdf
+//  - YM2149 Programmable Software-Controlled Sound Generator Manual
+//     http://map.grauw.nl/resources/sound/yamaha_ym2149.pdf
+//  - The Revised MSX Red Book - PSG
+//     https://www.angelfire.com/art2/unicorndreams/msx/RR-PSG.html
+//─────────────────────────────────────────────────────────────────────────────
 #include "psg.h"
 
 //=============================================================================

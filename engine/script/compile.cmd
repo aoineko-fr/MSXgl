@@ -26,12 +26,12 @@ if /I %FileExt%==.c (
 	if /I %Optim%==Speed (set AddOpt=!AddOpt! --opt-code-speed)
 	if /I %Optim%==Size (set AddOpt=!AddOpt! --opt-code-size)
 
-	set SDCCParam=-c -mz80 --vc -DTARGET=TARGET_%Target% -DMSX_VERSION=MSX_%Version% -I%ProjDir% -I%LibDir%\src !AddOpt! --constseg RODATA %File% -o %OutDir%\
+	set SDCCParam=-c -mz80 --vc -DTARGET=TARGET_%Target% -DMSX_VERSION=MSX_%Machine% -I%ProjDir% -I%LibDir%\src -I%LibDir%\content !AddOpt! --constseg RODATA %File% -o %OutDir%\
 
 	echo %BLUE%Compiling %1 using SDCC C compiler...%RESET%
 	
 	echo SDCC !SDCCParam!
-	%SDCC%\sdcc.exe !SDCCParam!
+	%Compiler% !SDCCParam!
     if errorlevel 1 ( goto :Error )
 )
 
@@ -45,7 +45,7 @@ if /I %FileExt%==.asm (
 	echo %BLUE%Compiling %1 using SDASZ80 ASM compiler...%RESET%
 	
 	echo SDASZ80 !ASMParam!
-    %SDCC%\sdasz80.exe !ASMParam!
+    %Assembler% !ASMParam!
     if errorlevel 1 ( goto :Error )
 	move %FilePath%%FileName%.rel %OutDir%
 	move %FilePath%%FileName%.lst %OutDir%

@@ -1,61 +1,57 @@
-//_____________________________________________________________________________
-//   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄                                                        
-//  ██ ▀ ██▀█ ▀█▄  ▀█▄▀                                                        
-//  ▀█▄▀ ██ █ ▄▄█▀ ██ █                                                        
-//_____________________________________________________________________________
-/*
-   SDCC Vortex Tracker II PT3 player for MSX
-
-   Version: 1.1.4 (08/01/2021)
-   Architecture: MSX
-   Format: C Object (SDCC .rel)
-   Programming language: C and Z80 assembler
-
-   Authors:
-    - Vortex Tracker II v1.0 PT3 player for ZX Spectrum by S.V.Bulba 
-      <vorobey@mail.khstu.ru> http://bulba.at.kz
-    - (09-Jan-05) Adapted to MSX by Alfonso D. C. aka Dioniso 
-      <dioniso072@yahoo.es>
-    - Arrangements for MSX ROM: MSXKun/Paxanga soft > 
-      http://paxangasoft.retroinvaders.com/
-    - asMSX version: SapphiRe > http://www.z80st.es/
-    - Adapted to SDCC: mvac7/303bcn > <mvac7303b@gmail.com>
-
-   Description:
-     Adaptation of the Vortex Tracker II PT3 Player for MSX to be used in 
-     software development in C (SDCC). 
-     
-   History of versions:
-    - 1.1.4 (08/01/2021)>PT3_Init and Bug #11 in loop
-    - 1.1.3 (05/01/2021) PT3state, PT3_Loop, PT3_Pause and PT3_Resume
-    - 1.1.2 (04/01/2021) assignment of frequency table memory address to NoteTable 
-    - 1.1 (28/05/2019) Adaptation to SDCC of asMSX version by SapphiRe.
-    - 1.0 (21/10/2016) Adaptation to SDCC of the ROM version by Kun.
-
-In this replayer:
-
-Dioniso version:
- - No version detection (just for Vortex Tracker II and PT3.5).
- - No frequency table decompression (default is number 2). 
-   Coger tabla segun quiera, en fichero aparte
- - No volume table decompression (Vortex Tracker II/PT3.5 volume table used).
-
-
-msxKun version:
- - Usable desde ROM (solo tiene en RAM area de trabajo, lo minimo posible).
-
-SapphiRe version:
- This version of the replayer uses a fixed volume and note table, if you need a 
- different note table you can copy it from TABLES.TXT file, distributed with the
- original PT3 distribution. This version also allows the use of PT3 commands.
-
- PLAY and PSG WRITE routines seperated to allow independent calls
-
-
-mvac7 version:
- Adaptation to C (SDCC) of the SapphiRe version.
-
-============================================================================= */
+// ____________________________
+// ██▀███▀██▀▀▀▀▀▀▀█▀▀█        │
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
+//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//─────────────────────────────────────────────────────────────────────────────
+// SDCC Vortex Tracker II PT3 player for MSX
+// 
+// Version: 1.1.4 (08/01/2021)
+// Architecture: MSX
+// Format: C Object (SDCC .rel)
+// Programming language: C and Z80 assembler
+// 
+// Authors:
+//  - Vortex Tracker II v1.0 PT3 player for ZX Spectrum by S.V.Bulba 
+//    <vorobey@mail.khstu.ru> http://bulba.at.kz
+//  - (09-Jan-05) Adapted to MSX by Alfonso D. C. aka Dioniso 
+//    <dioniso072@yahoo.es>
+//  - Arrangements for MSX ROM: MSXKun/Paxanga soft > 
+//    http://paxangasoft.retroinvaders.com/
+//  - asMSX version: SapphiRe > http://www.z80st.es/
+//  - Adapted to SDCC: mvac7/303bcn > <mvac7303b@gmail.com>
+// 
+// Description:
+//   Adaptation of the Vortex Tracker II PT3 Player for MSX to be used in 
+//   software development in C (SDCC). 
+//   
+// History of versions:
+//  - 1.1.4 (08/01/2021)>PT3_Init and Bug #11 in loop
+//  - 1.1.3 (05/01/2021) PT3state, PT3_Loop, PT3_Pause and PT3_Resume
+//  - 1.1.2 (04/01/2021) assignment of frequency table memory address to NoteTable 
+//  - 1.1 (28/05/2019) Adaptation to SDCC of asMSX version by SapphiRe.
+//  - 1.0 (21/10/2016) Adaptation to SDCC of the ROM version by Kun.
+//-----------------------------------------------------------------------------
+// Dioniso version:
+//  - No version detection (just for Vortex Tracker II and PT3.5).
+//  - No frequency table decompression (default is number 2). 
+//    Coger tabla segun quiera, en fichero aparte
+//  - No volume table decompression (Vortex Tracker II/PT3.5 volume table used).
+// 
+// msxKun version:
+//  - Usable desde ROM (solo tiene en RAM area de trabajo, lo minimo posible).
+// 
+// SapphiRe version:
+//  This version of the replayer uses a fixed volume and note table, if you need a 
+//  different note table you can copy it from TABLES.TXT file, distributed with the
+//  original PT3 distribution. This version also allows the use of PT3 commands.
+// 
+//  PLAY and PSG WRITE routines seperated to allow independent calls
+// 
+// mvac7 version:
+//  Adaptation to C (SDCC) of the SapphiRe version.
+//─────────────────────────────────────────────────────────────────────────────
 #include "pt3_player.h"
 
 //VARS:

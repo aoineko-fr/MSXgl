@@ -1,8 +1,10 @@
-//_____________________________________________________________________________
-//   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄                                                        
-//  ██ ▀ ██▀█ ▀█▄  ▀█▄▀                                                        
-//  ▀█▄▀ ██ █ ▄▄█▀ ██ █                                                        
-//_____________________________________________________________________________
+// ____________________________
+// ██▀███▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ █ ██▄▀ ▄▀██ █ ██
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ██   ▀▄██ █▀█▀
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
+//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//─────────────────────────────────────────────────────────────────────────────
 #include "draw.h"
 
 #if (MSX_VERSION >= MSX_2)
@@ -53,7 +55,7 @@ void Draw_Line(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 
 //-----------------------------------------------------------------------------
 /// Draw an horizontal line (pixel unit)
-void Draw_HLine(UX x1, UX x2, UY y, u8 color, u8 op)
+void Draw_LineH(UX x1, UX x2, UY y, u8 color, u8 op)
 {
 	u16 dx, nx;
 	if(x1 > x2)
@@ -71,7 +73,7 @@ void Draw_HLine(UX x1, UX x2, UY y, u8 color, u8 op)
 
 //-----------------------------------------------------------------------------
 /// Draw a vertical line (pixel unit)
-void Draw_VLine(UX x, UY y1, UY y2, u8 color, u8 op)
+void Draw_LineV(UX x, UY y1, UY y2, u8 color, u8 op)
 {
 	u16 dy, ny;
 	if(y1 < y2)
@@ -91,10 +93,10 @@ void Draw_VLine(UX x, UY y1, UY y2, u8 color, u8 op)
 /// Draw a box (pixel unit)
 void Draw_Box(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 {
-	Draw_HLine(x1, x2, y1, color, op);
-	Draw_HLine(x1, x2, y2, color, op);
-	Draw_VLine(x1, y1, y2, color, op);
-	Draw_VLine(x2, y1, y2, color, op);
+	Draw_LineH(x1, x2, y1, color, op);
+	Draw_LineH(x1, x2, y2, color, op);
+	Draw_LineV(x1, y1, y2, color, op);
+	Draw_LineV(x2, y1, y2, color, op);
 }
 
 //-----------------------------------------------------------------------------

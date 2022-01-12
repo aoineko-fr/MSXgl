@@ -1,16 +1,17 @@
-//_____________________________________________________________________________
-//   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄                                                        
-//  ██ ▀ ██▀█ ▀█▄  ▀█▄▀                                                        
-//  ▀█▄▀ ██ █ ▄▄█▀ ██ █                                                        
-//_____________________________________________________________________________
-/**
- * @file Features to manage the VDP - Defines, structures and functions header
- *
- * References:
- *  - V9938 Technical Data Book Programmer's Guide
- *  - https://www.msx.org/wiki/Category:VDP_Registers
- *  - http://map.grauw.nl/articles/
- */
+// ____________________________
+// ██▀███▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄ ▄ ▄▄▄  ▄▄▄ 
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ █ ██ █ ██▄▀
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▀  ██▄▀ ██  
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
+//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//─────────────────────────────────────────────────────────────────────────────
+// Features to manage the VDP
+//
+// References:
+// - V9938 Technical Data Book Programmer's Guide
+// - https://www.msx.org/wiki/Category:VDP_Registers
+// - http://map.grauw.nl/articles/
+//─────────────────────────────────────────────────────────────────────────────
 #pragma once
 #pragma sdcc_hash +
 
@@ -301,6 +302,9 @@ void VDP_SetGrayScale(bool enable);
 #define VDP_FREQ_60HZ			0			///< Frequency at 60 Hz
 /// Change VDP frequency
 void VDP_SetFrequency(u8 freq);
+
+/// Set current VRAM page
+void VDP_SetPage(u8 page);
 
 /// Set layout table VRAM address
 void VDP_SetLayoutTable(VADDR addr);

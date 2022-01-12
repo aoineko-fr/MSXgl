@@ -1,16 +1,17 @@
-//_____________________________________________________________________________
-//   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄                                                        
-//  ██ ▀ ██▀█ ▀█▄  ▀█▄▀                                                        
-//  ▀█▄▀ ██ █ ▄▄█▀ ██ █                                                        
-//_____________________________________________________________________________
-/**
- * @file Features to manage the VDP - Source code
- *
- * References:
- *  - V9938 Technical Data Book Programmer's Guide
- *  - https://www.msx.org/wiki/Category:VDP_Registers
- *  - http://map.grauw.nl/articles/
- */
+// ____________________________
+// ██▀███▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄ ▄ ▄▄▄  ▄▄▄ 
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ █ ██ █ ██▄▀
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▀  ██▄▀ ██  
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
+//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//─────────────────────────────────────────────────────────────────────────────
+// Features to manage the VDP
+//
+// References:
+// - V9938 Technical Data Book Programmer's Guide
+// - https://www.msx.org/wiki/Category:VDP_Registers
+// - http://map.grauw.nl/articles/
+//─────────────────────────────────────────────────────────────────────────────
 
 //-----------------------------------------------------------------------------
 // INCLUDES
@@ -1654,6 +1655,16 @@ void VDP_EnableDisplay(bool enable)
 	if(enable)
 		reg |= R01_BL;	
 	VDP_RegWriteBak(1, reg);
+}
+
+//-----------------------------------------------------------------------------
+// Set current VRAM page
+void VDP_SetPage(u8 page)
+{
+	u8 reg = g_VDP_REGSAV[2];
+	reg &= 0x9F;
+	reg |= page << 5;
+	VDP_RegWriteBak(2, reg);
 }
 
 //-----------------------------------------------------------------------------

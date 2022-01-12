@@ -34,11 +34,11 @@ rem * TARGET SETTINGS                                                         *
 rem ***************************************************************************
 
 rem -- Check MSX version
-if /I %Version%==1			( echo » Version: MSX 1
-) else if /I %Version%==2	( echo » Version: MSX 2
-) else if /I %Version%==2P	( echo » Version: MSX 2+
-) else if /I %Version%==TR	( echo » Version: MSX turbo R
-) else if /I %Version%==12	( echo » Version: MSX 1/2
+if /I %Machine%==1			( echo » Machine: MSX 1
+) else if /I %Machine%==2	( echo » Machine: MSX 2
+) else if /I %Machine%==2P	( echo » Machine: MSX 2+
+) else if /I %Machine%==TR	( echo » Machine: MSX turbo R
+) else if /I %Machine%==12	( echo » Machine: MSX 1/2
 ) else (
 	echo %RED%Error: Unknow MSX Version%RESET%
 	exit /B 10
@@ -71,12 +71,16 @@ if not defined ProjName (
 )
 
 rem -- Check tools
-if not exist %SDCC%\sdcc.exe (
-	echo %RED%Error: Invalide path to C Compiler [%SDCC%\sdcc.exe]%RESET%
+if not exist %Compiler% (
+	echo %RED%Error: Invalide path to C Compiler [%Compiler%]%RESET%
 	exit /B 30
 )
-if not exist %SDCC%\sdasz80.exe (
-	echo %RED%Error: Invalide path to ASM Compiler [%SDCC%\sdasz80.exe]%RESET%
+if not exist %Assembler% (
+	echo %RED%Error: Invalide path to Assembler [%Assembler%]%RESET%
+	exit /B 40
+)
+if not exist %Linker% (
+	echo %RED%Error: Invalide path to Linker [%Linker%]%RESET%
 	exit /B 40
 )
 if not exist %Hex2Bin% (
@@ -185,8 +189,6 @@ echo ┌────────────────────────
 echo │ COMPILE                                                                   │
 echo └───────────────────────────────────────────────────────────────────────────┘
 
-%SDCC%\sdcc.exe --version
-
 call %LibDir%\script\compile_all.cmd
 if errorlevel 1 goto :Error
 
@@ -202,14 +204,12 @@ echo └────────────────────────
 
 echo %BLUE%Making %ProjName% using SDCC...%RESET%
 
-%SDCC%\sdcc.exe --version
-
 if %Optim%==Speed (set LinkOpt=%LinkOpt% --opt-code-speed)
 if %Optim%==Size (set LinkOpt=%LinkOpt% --opt-code-size)
 
 set SDCCParam=-mz80 --no-std-crt0 --code-loc 0x%CodeAddr% --data-loc 0x%RamAddr% --constseg RODATA --vc %LinkOpt% %LibList% -o %OutDir%\
 echo SDCC %SDCCParam%
-%SDCC%\sdcc.exe %SDCCParam%
+%Linker% %SDCCParam%
 if errorlevel 1 goto :Error
 echo %GREEN%Succeed%RESET%
 
@@ -283,7 +283,7 @@ for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
 goto :NoMapper
 
 :AddSegment
-	%SDCC%\sdcc.exe -mz80 --no-std-crt0 --code-loc 0x%2 --data-loc 0x%2 --vc %1 -o out\
+	%Linker% -mz80 --no-std-crt0 --code-loc 0x%2 --data-loc 0x%2 --vc %1 -o out\
 	%Hex2Bin% -e %Ext% -s 0x%2 %OutDir%\%~n1.ihx
 	%FillFile% %OutDir%\%~n1.%Ext% %SegSize%
 	copy /Y /B %OutDir%\%Crt0%.%Ext%+%OutDir%\%~n1.%Ext% %OutDir%\%Crt0%.%Ext%

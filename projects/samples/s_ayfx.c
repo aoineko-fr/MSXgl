@@ -367,7 +367,7 @@ void main()
 
 	Print_SetPosition(0, PT3_Y);
 	Print_DrawText(" PT3\n\n");
-	Draw_HLine(0, 255, PT3_Y+10, 0x5, 0);
+	Draw_LineH(0, 255, PT3_Y+10, 0x5, 0);
 	Print_DrawText("Music\n");
 	Print_DrawText("Pattern\n");		
 
@@ -397,7 +397,7 @@ void main()
 
 	Print_SetPosition(0, AYFX_Y);
 	Print_DrawText(" ayFX\n\n");
-	Draw_HLine(0, 255, AYFX_Y+10, 0x5, 0);
+	Draw_LineH(0, 255, AYFX_Y+10, 0x5, 0);
 	Print_DrawText("Channel\n");
 	Print_DrawText("FX Bank\n");
 	Print_DrawText("FX File\n");
@@ -417,7 +417,7 @@ void main()
 
 	Print_SetPosition(0, PSG_Y);
 	Print_DrawText(" PSG\n\n");		
-	Draw_HLine(0, 255, PSG_Y+10, 0x5, 0);
+	Draw_LineH(0, 255, PSG_Y+10, 0x5, 0);
 	Print_DrawText("Chan. A\n");		
 	Print_DrawText("Chan. B\n");
 	Print_DrawText("Chan. C\n");

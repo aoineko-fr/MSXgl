@@ -122,7 +122,7 @@ void DisplayHeader(const c8* title)
 	Print_SetPosition(0, 2);
 	Print_DrawText("\x1\x2\x3\x4\x5\x6   MATH SAMPLE - ");
 	Print_DrawText(title);
-	Draw_HLine(0, 255, 12, COLOR_WHITE, 0);
+	Draw_LineH(0, 255, 12, COLOR_WHITE, 0);
 }
 
 
@@ -130,7 +130,7 @@ void DisplayHeader(const c8* title)
 // Diplay page footer
 void DisplayFooter()
 {
-	Draw_HLine(0, 255, 199, COLOR_WHITE, 0);
+	Draw_LineH(0, 255, 199, COLOR_WHITE, 0);
 	Print_SetColor(COLOR_WHITE, COLOR_DARK_BLUE);
 	Print_SetPosition(0, 203);
 	Print_DrawText("F1:Rnd8 F2:Rnd16 F3:Curve");
@@ -248,8 +248,8 @@ void DisplayCurve()
 	Print_DrawText("Table: ");
 	Print_DrawText(curve->Name);
 
-	Draw_HLine(0, 255, curve->ZeroY, COLOR_LIGHT_BLUE, 0);
-	Draw_VLine(curve->ZeroX, 32, 196, COLOR_LIGHT_BLUE, 0);
+	Draw_LineH(0, 255, curve->ZeroY, COLOR_LIGHT_BLUE, 0);
+	Draw_LineV(curve->ZeroX, 32, 196, COLOR_LIGHT_BLUE, 0);
 
 	Print_SetColor(COLOR_LIGHT_BLUE, COLOR_DARK_BLUE);
 	Print_SetPosition(2, curve->ZeroY + 2);

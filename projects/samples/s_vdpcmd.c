@@ -155,7 +155,7 @@ void DisplayPage()
 	Print_SetPosition(4, 2);
 	Print_DrawText(MSX_GL "  VDP SAMPLE - ");
 	Print_DrawText(src->Name);
-	Draw_HLine(0, src->Width - 1, 12, src->Text, 0);
+	Draw_LineH(0, src->Width - 1, 12, src->Text, 0);
 
 	//-------------------------------------------------------------------------
 	// WriteVRAM(src, destLow, destHigh, count) - Write data from RAM to VRAM

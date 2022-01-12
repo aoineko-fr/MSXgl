@@ -152,7 +152,7 @@ void PrintHeader()
 	Print_DrawText("MGL - PRINT SAMPLE (");
 	Print_DrawText(g_Modes[g_ModeIndex].Name);
 	Print_DrawText(")\n");
-	Draw_HLine(0, g_PrintData.ScreenWidth - 1, 12, 0xFF, 0);
+	Draw_LineH(0, g_PrintData.ScreenWidth - 1, 12, 0xFF, 0);
 
 	g_StartTime = g_JIFFY;
 }
