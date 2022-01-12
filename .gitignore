@@ -1,15 +1,13 @@
 /engine/data/cursor/*.xcf
-/engine/src/arkos/out
 /engine/src/arkos/misc/doc
-/engine/src/arkos/playerAkg/doc
+/engine/src/arkos/playerAkg
+/engine/src/arkos/playerAkm
 /engine/src/arkos/playerAky
 /engine/src/arkos/playerLightweight
 /engine/src/arkos/playerMod
 /engine/src/arkos/playerSoundEffects
 /engine/src/arkos/serial
 /engine/src/arkos/misc
-/engine/src/arkos/playerAkg
-/engine/src/arkos/playerAkm
 /engine/src/ayfx/vt.bin
 /engine/src/ayfx/ayFX_FileFormat.odt
 /engine/src/ayfx/readme.txt
@@ -34,10 +32,14 @@
 /projects/gos
 /projects/tennis
 /projects/samples/data/datasrc
-/projects/template/out
 /tools/Hex2Bin2
 /tools/SDCC
 /tools/OpenMSX
 /tools/DskTool/src
 /tools/DskTool/dsktool in Launchpad.url
 /projects/FinalSmash
+/engine/datasrc/font/*.xcf
+/tools/CMSXtk/src
+/tools/CMSXtk/*.sln
+.vs
+out

@@ -55,12 +55,12 @@ void main()
 		Print_DrawChar(g_ChrAnim[chr]);
 
 		if(Keyboard_IsKeyPressed(KEY_1))
-			PCM_Play_8K((u16)g_hello, 13274/2);
+			PCM_Play_8K((u16)g_hello);
 		else if(Keyboard_IsKeyPressed(KEY_2))
-			PCM_Play_11K((u16)g_hello, 13274/2);
+			PCM_Play_11K((u16)g_hello);
 		else if(Keyboard_IsKeyPressed(KEY_3))
-			PCM_Play_22K((u16)g_hello, 13274/2);
+			PCM_Play_22K((u16)g_hello);
 		else if(Keyboard_IsKeyPressed(KEY_4))
-			PCM_Play_44K((u16)g_hello, 13274/2);
+			PCM_Play_44K((u16)g_hello);
 	}
 }

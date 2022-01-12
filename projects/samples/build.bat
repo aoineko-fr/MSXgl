@@ -70,7 +70,7 @@ rem  - ROM_KONAMI		.rom	128KB ROM using Konami mapper (8KB segments)
 rem  - ROM_KONAMI_SCC	.rom	128KB ROM using Konami SCC mapper (8KB segments)
 rem  - DOS1|2			.com	MSX-DOS program (0100h~) No direct acces to Main-ROM
 rem  - DOS_ARG			.com	MSX-DOS program (using command line arguments ; 0100h~) No direct acces to Main-ROM
-set Target=BIN
+set Target=ROM_32K
 if not "%2"=="" set Target=%2
 
 rem  Optim:
@@ -109,7 +109,7 @@ set DoCompile=1
 set DoMake=1
 set DoPackage=1
 set DoDeploy=1
-set DoRun=0
+set DoRun=1
 
 rem ***************************************************************************
 rem * START BUILD                                                             *

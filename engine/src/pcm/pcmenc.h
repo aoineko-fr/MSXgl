@@ -21,20 +21,20 @@
 
 #if (PCMENC_FREQ & PCMENC_8K)
 /// Play a pcmenc sound at 8 KHz (synchronously)
-void PCM_Play_8K(u16 addr, u16 len);
+void PCM_Play_8K(u16 addr);
 #endif
 
 #if (PCMENC_FREQ & PCMENC_11K)
 /// Play a pcmenc sound at 11 KHz (synchronously)
-void PCM_Play_11K(u16 addr, u16 len);
+void PCM_Play_11K(u16 addr);
 #endif
 
 #if (PCMENC_FREQ & PCMENC_22K)
 /// Play a pcmenc sound at 22 KHz (synchronously)
-void PCM_Play_22K(u16 addr, u16 len);
+void PCM_Play_22K(u16 addr);
 #endif
 
 #if (PCMENC_FREQ & PCMENC_44K)
 /// Play a pcmenc sound at 44 KHz (synchronously)
-void PCM_Play_44K(u16 addr, u16 len);
+void PCM_Play_44K(u16 addr);
 #endif

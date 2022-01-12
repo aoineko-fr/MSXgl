@@ -37,11 +37,14 @@
 //-----------------------------------------------------------------------------
 /// Play a pcmenc sound (synchronously)
 //-----------------------------------------------------------------------------
-void PCM_Play_8K(u16 addr, u16 len)
+void PCM_Play_8K(u16 addr)
 {
 	addr; // HL
-	len;  // DE
 __asm   
+        ld		e, (hl)
+		inc		hl
+        ld		d, (hl)
+		inc		hl
 //-------------------------------------
 // Plays one sample
 // IN   HL - Encoded sample start address
@@ -182,11 +185,14 @@ Wait147:
 //-----------------------------------------------------------------------------
 /// Play a pcmenc sound (synchronously)
 //-----------------------------------------------------------------------------
-void PCM_Play_11K(u16 addr, u16 len)
+void PCM_Play_11K(u16 addr)
 {
 	addr; // HL
-	len;  // DE
 	__asm   
+        ld		e, (hl)
+		inc		hl
+        ld		d, (hl)
+		inc		hl
 //-------------------------------------
 // Plays one sample
 // IN   HL - Encoded sample start address
@@ -309,11 +315,14 @@ void PCM_Play_11K(u16 addr, u16 len)
 //-----------------------------------------------------------------------------
 /// Play a pcmenc sound (synchronously)
 //-----------------------------------------------------------------------------
-void PCM_Play_22K(u16 addr, u16 len)
+void PCM_Play_22K(u16 addr)
 {
 	addr; // HL
-	len;  // DE
 	__asm   
+        ld		e, (hl)
+		inc		hl
+        ld		d, (hl)
+		inc		hl
 //-------------------------------------
 // Plays one sample
 // IN   HL - Encoded sample start address
@@ -433,11 +442,14 @@ void PCM_Play_22K(u16 addr, u16 len)
 //-----------------------------------------------------------------------------
 /// Play a pcmenc sound (synchronously)
 //-----------------------------------------------------------------------------
-void PCM_Play_44K(u16 addr, u16 len)
+void PCM_Play_44K(u16 addr)
 {
 	addr; // HL
-	len;  // DE
 	__asm   
+        ld		e, (hl)
+		inc		hl
+        ld		d, (hl)
+		inc		hl
 //-------------------------------------
 // Plays one sample
 // IN   HL - Encoded sample start address
