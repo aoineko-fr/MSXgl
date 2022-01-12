@@ -41,9 +41,9 @@ void PCM_Play_8K(u16 addr)
 {
 	addr; // HL
 __asm   
-        ld		e, (hl)
+		ld		e, (hl)
 		inc		hl
-        ld		d, (hl)
+		ld		d, (hl)
 		inc		hl
 //-------------------------------------
 // Plays one sample
@@ -189,9 +189,9 @@ void PCM_Play_11K(u16 addr)
 {
 	addr; // HL
 	__asm   
-        ld		e, (hl)
+		ld		e, (hl)
 		inc		hl
-        ld		d, (hl)
+		ld		d, (hl)
 		inc		hl
 //-------------------------------------
 // Plays one sample
@@ -319,9 +319,9 @@ void PCM_Play_22K(u16 addr)
 {
 	addr; // HL
 	__asm   
-        ld		e, (hl)
+		ld		e, (hl)
 		inc		hl
-        ld		d, (hl)
+		ld		d, (hl)
 		inc		hl
 //-------------------------------------
 // Plays one sample
@@ -446,9 +446,9 @@ void PCM_Play_44K(u16 addr)
 {
 	addr; // HL
 	__asm   
-        ld		e, (hl)
+		ld		e, (hl)
 		inc		hl
-        ld		d, (hl)
+		ld		d, (hl)
 		inc		hl
 //-------------------------------------
 // Plays one sample
