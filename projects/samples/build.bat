@@ -11,11 +11,44 @@ rem ─────────────────────────�
 call ..\default_config.cmd %0
 
 rem ***************************************************************************
-rem * PROJECT SETTINGS                                                        *
+rem  PROJECT SELECTION
+rem ***************************************************************************
+set Pause=0
+set Input=%~n1
+
+:CheckInput
+if exist %Input%.c goto :FoundInput
+cls
+set Pause=1
+echo No valide sample selected...
+echo Available samples:
+for /R .\ %%G in (*.c) do call :DisplayFilter %%~nG
+set /p Name=Enter a sample: 
+for %%I in ("%Name%") do (set Input=%%~nI)
+goto :CheckInput
+
+:DisplayFilter
+	:: Setup variables
+	set name=%1
+	set ext=%name:~-3%
+
+	:: Skip ROM mapper segments
+	if /I %ext%==_b0 exit /b
+	if /I %ext%==_b1 exit /b
+	if /I %ext%==_b2 exit /b
+	if /I %ext%==_b3 exit /b
+	
+	:: Do display
+	echo - %1
+	exit /b
+	
+:FoundInput
+rem ***************************************************************************
+rem  PROJECT SETTINGS
 rem ***************************************************************************
 
 rem  Project name (will be use for output filename)
-set ProjName=%~n1
+set ProjName=%Input%
 
 rem  Project modules to build (use ProjName if not defined)
 set ProjModules=%ProjName%
@@ -68,7 +101,7 @@ rem  Verbose mode: 0 or 1
 set Verbose=0
 
 rem  Emulator options: 0 or 1
-set EmulMachine=0
+set EmulMachine=1
 set Emul60Hz=0
 set EmulFullScreen=0
 set EmulMute=0
@@ -88,9 +121,11 @@ set DoCompile=1
 set DoMake=1
 set DoPackage=1
 set DoDeploy=1
-set DoRun=0
+set DoRun=1
 
 rem ***************************************************************************
 rem * START BUILD                                                             *
 rem ***************************************************************************
 call %LibDir%\script\build.cmd
+
+if %Pause%==1 pause

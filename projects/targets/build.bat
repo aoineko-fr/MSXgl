@@ -11,6 +11,25 @@ rem ─────────────────────────�
 call ..\default_config.cmd %0
 
 rem ***************************************************************************
+rem  PROJECT SELECTION
+rem ***************************************************************************
+set Pause=0
+set Input=%~n1
+
+:CheckInput
+if not [%Input%]==[] goto :FoundInput
+cls
+set Pause=1
+echo No valide target selected...
+echo Available targets:
+set Formats=BIN,DOS1,DOS2,ROM_8K,ROM_8K_P2,ROM_16K,ROM_16K_P2,ROM_32K,ROM_48K,ROM_48K_ISR,ROM_64K,ROM_64K_ISR,ROM_ASCII8,ROM_ASCII16,ROM_KONAMI,ROM_KONAMI_SCC
+for %%G in (%Formats%) do echo - %%G
+set /p Name=Enter a target: 
+for %%I in ("%Name%") do (set Input=%%~nI)
+goto :CheckInput
+
+:FoundInput
+rem ***************************************************************************
 rem * PROJECT SETTINGS                                                        *
 rem ***************************************************************************
 
@@ -50,7 +69,7 @@ rem  - ROM_KONAMI_SCC	.rom	128KB ROM using Konami SCC mapper (8KB segments)
 rem  - DOS1				.com	MSX-DOS 1 program (0100h~) No direct acces to Main-ROM
 rem  - DOS2				.com	MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
 rem  - DOS2_ARG			.com	MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM
-set Target=%1
+set Target=%Input%
 rem  Mapper size
 set ROMSize=%2
 
@@ -98,3 +117,5 @@ rem ***************************************************************************
 rem * START BUILD                                                             *
 rem ***************************************************************************
 call %LibDir%\script\build.cmd
+
+if %Pause%==1 pause

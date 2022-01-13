@@ -1,7 +1,7 @@
-::██▀▀█▀▀██▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█
-::██  ▀  █▄  ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █
-::█  ▄ ▄  ▀▀  ▀█▀  ▄  ▀█ ▀▄█ █▄ █
-::█▄▄█▄█▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
+::██▀▀█▀▀███▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█
+::██  ▀  ██   ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █
+::█  ▄ ▄  ▀▀▀   █▀  ▄  ▀█ ▀▄█ █▄ █
+::█▄▄█▄█▄▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
 :: by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 @echo off
 
@@ -95,7 +95,7 @@ rem EMULATOR SETING
 rem *****************************************************************************
 
 rem Emulator options: 0 or 1
-set EmulMachine=0
+set EmulMachine=1
 set Emul60Hz=0
 set EmulFullScreen=0
 set EmulMute=0
