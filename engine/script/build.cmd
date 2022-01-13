@@ -1,4 +1,9 @@
-REM @echo off
+::██▀▀█▀▀██▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█
+::██  ▀  █▄  ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █
+::█  ▄ ▄  ▀▀  ▀█▀  ▄  ▀█ ▀▄█ █▄ █
+::█▄▄█▄█▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
+:: by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+@echo off
 "%__APPDIR__%chcp.com" 65001 > nul
 title <nul & title MSXgl Build Tool – %ProjName% – %Target%
 
@@ -18,10 +23,11 @@ cls
 echo %BG%
 echo ╔═══════════════════════════════════════════════════════════════════════════╗
 echo ║                                                                           ║
-echo ║  ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄                                                 ║
-echo ║  █  ▄ █▄ ▀██▄ ▀▄█ ██   ██                                                 ║
-echo ║  █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄                                               ║
-echo ║  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀                                                         ║
+echo ║  ██▀▀█▀▀██▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█                                          ║
+echo ║  ██  ▀  █▄  ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █                                          ║
+echo ║  █  ▄ ▄  ▀▀  ▀█▀  ▄  ▀█ ▀▄█ █▄ █                                          ║
+echo ║  █▄▄█▄█▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█                                          ║
+echo ║                                                                           ║
 echo ║   ▄▄▄       ▄  ▄▄    ▄▄   ▄▄▄▄           ▄▄                               ║
 echo ║   ██▄▀ ██ █ ▄  ██   ▄██    ██  ▄█▀▄ ▄█▀▄ ██                               ║
 echo ║   ██▄▀ ▀█▄█ ██ ▀█▄ ▀▄██    ██  ▀█▄▀ ▀█▄▀ ▀█▄                              ║
@@ -273,9 +279,9 @@ for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
 	) else ( 
 		echo Not Found. Add dummy data
 		if %SegSize% EQU %Size8K% (
-			copy /Y /B %OutDir%\%Crt0%.%Ext%+%ToolsDir%\MakeROM\rom_seg8k.bin %OutDir%\%Crt0%.%Ext%
+			copy /Y /B %OutDir%\%Crt0%.%Ext%+%ToolsDir%\build\MakeROM\rom_seg8k.bin %OutDir%\%Crt0%.%Ext%
 		) else (
-			copy /Y /B %OutDir%\%Crt0%.%Ext%+%ToolsDir%\MakeROM\rom_seg16k.bin %OutDir%\%Crt0%.%Ext%
+			copy /Y /B %OutDir%\%Crt0%.%Ext%+%ToolsDir%\build\MakeROM\rom_seg16k.bin %OutDir%\%Crt0%.%Ext%
 		)
 	)
 )

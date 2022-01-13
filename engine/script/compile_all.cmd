@@ -1,3 +1,8 @@
+::██▀▀█▀▀██▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█
+::██  ▀  █▄  ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █
+::█  ▄ ▄  ▀▀  ▀█▀  ▄  ▀█ ▀▄█ █▄ █
+::█▄▄█▄█▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
+:: by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 @echo off
 
 for %%G in (%SrcList%) do (

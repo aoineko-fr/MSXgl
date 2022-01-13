@@ -23,7 +23,7 @@
 #include "font\font_mgl_sample6.h"
 
 // PCM-Encoder data
-#include "content\pcm_hello.h"
+#include "content\pcm\pcm_hello.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };

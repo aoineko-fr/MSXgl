@@ -1,3 +1,8 @@
+::██▀▀█▀▀██▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█
+::██  ▀  █▄  ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █
+::█  ▄ ▄  ▀▀  ▀█▀  ▄  ▀█ ▀▄█ █▄ █
+::█▄▄█▄█▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
+:: by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 @echo off
 REM %~1 - expands %1 removing any surrounding quotes (")
 REM %~f1 - expands %1 to a fully qualified path name

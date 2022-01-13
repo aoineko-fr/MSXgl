@@ -1,3 +1,10 @@
+::██▀▀█▀▀██▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█
+::██  ▀  █▄  ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █
+::█  ▄ ▄  ▀▀  ▀█▀  ▄  ▀█ ▀▄█ █▄ █
+::█▄▄█▄█▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
+:: by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+@echo off
+
 set MapperSize=0
 set DOS=0
 if not defined ROMSize set ROMSize=128

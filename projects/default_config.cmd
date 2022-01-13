@@ -1,17 +1,19 @@
+::██▀▀█▀▀██▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█
+::██  ▀  █▄  ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █
+::█  ▄ ▄  ▀▀  ▀█▀  ▄  ▀█ ▀▄█ █▄ █
+::█▄▄█▄█▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
+:: by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 @echo off
-rem __________________________
-rem ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │
-rem █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │
-rem █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│
-rem ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘
-rem Build Tool configuration
+
+rem ───────────────────────────────────────────────────────────────────────────
+rem  Build Tool default configuration
 rem ───────────────────────────────────────────────────────────────────────────
 
 rem ***************************************************************************
 rem DIRECTORIES SETTINGS
 rem ***************************************************************************
-set ProjDir=.
-REM set ProjDir=%~d0%~p0
+REM set ProjDir=.
+set ProjDir=%~d1%~p1
 set OutDir=%ProjDir%\out
 set LibDir=%ProjDir%\..\..\engine
 set ToolsDir=%ProjDir%\..\..\tools
