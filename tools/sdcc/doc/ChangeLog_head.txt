@@ -1,0 +1,100 @@
+2021-10-29 Philipp Klaus Krause <pkk AT spth.de>
+
+	* support/makebin/makebin.c:
+	  Option for logo omission, patch #395 by bbbbbr.
+
+2021-10-20 Philipp Klaus Krause <pkk AT spth.de>
+
+	* src/z80/gen.c:
+	  Fix issues in cost handling for large functions.
+
+2021-10-18 Philipp Klaus Krause <pkk AT spth.de>
+
+	* src/stm8/peeph.def:
+	  Peephole rule refactoring inspired by fix to a bug found by roybaer.
+
+2021-10-14 Philipp Klaus Krause <pkk AT spth.de>
+
+	* device/lib/stm8/_divulong.s,
+	  device/lib/stm8/_modulong.s,
+	  device/lib/stm8/Makefile.in,
+	  src/stm8/peeph.def:
+	  Revert some hand-written asm back to generic C, since SDCC now generates better code.
+
+2021-10-13 Philipp Klaus Krause <pkk AT spth.de>
+
+	* device/lib/btowc.c:
+	  Fix btowc handling of int values that are valid characters when cast to unsigned char.
+
+2021-10-13 Philipp Klaus Krause <pkk AT spth.de>
+
+	* src/stm8/gen.c:
+	  Improve wide left shift by literal.
+
+2021-10-11 Philipp Klaus Krause <pkk AT spth.de>
+
+	* src/stm8/gen.c:
+	  Minor code cleanup.
+	* device/lib/_strchr.c:
+	  Fix strchr handling of c outside of char range.
+
+2021-09-28 Philipp Klaus Krause <pkk AT spth.de>
+
+	* device/lib/z80/__mulsint2slong.s:
+	  Improve int x int -> long multiplication for z80.
+
+2021-09-27 Philipp Klaus Krause <pkk AT spth.de>
+
+	* device/lib/z80/__mulsint2slong.s:
+	  Improve int x int -> long multiplication for z80.
+
+2021-09-26 Philipp Klaus Krause <pkk AT spth.de>
+
+	* device/lib/z80/__mulsint2slong.s,
+	  src/z80/main.c,
+	  device/lib/z80/Makefile.in:
+	  int x int -> long multiplication support routine for z80.
+
+2021-09-25 Philipp Klaus Krause <pkk AT spth.de>
+
+	* src/z80/main.c,
+	  src/z80/gen.c,
+	  doc/sdccman.lyx,
+	  device/lib/z80,
+	  device/lib/z180,
+	  device/lib/z80n,
+	  device/lib/_memset.c,
+	  support/regression/ports/*/spec.mk,
+	  support/regression/tests/z80n-push-nn.c,
+	  .version:
+	  __sdcccall(1) convention as default for z80, z80n and z180 picked from breaktheworld branch.
+
+2021-09-23 Philipp Klaus Krause <pkk AT spth.de>
+
+	* src/stm8/ralloc.c:
+	  Optimize out some redundant temporaries early.
+	* src/stm8/peep.c,
+	  src/stm8/peeph.def,
+	  src/stm8/gen.c:
+	  Fix handling of v flag.
+	* device/lib/_fs2ulong.c,
+	  device/lib/_fsmul.c,
+	  device/lib/stm8/__mulsint2slong.s:
+	  Minor improvements in float support.
+
+2021-09-22 Philipp Klaus Krause <pkk AT spth.de>
+
+	* support/regression/tests/bug-3282.c:
+	  Test for bug #3282.
+	* src/z80/gen.c,
+	  src/z80/peeph.def,
+	  support/regression/tests/bug-3283.c:
+	  Fix bug #3283.
+
+2021-09-20 Philipp Klaus Krause <pkk AT spth.de>
+
+	* src/stm8/ralloc2.cc,
+	  src/stm8/gen.c:
+	  Fix bug #3282.
+
+2021-09-18 Philipp Klaus Krause <pkk AT spth.de>
