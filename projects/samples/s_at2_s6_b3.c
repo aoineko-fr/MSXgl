@@ -6,4 +6,4 @@
 //  All targets sample
 //─────────────────────────────────────────────────────────────────────────────
 
-#include "data\arkos\akg_Justaddcream.h"
+#include "content\arkos\akg_Justaddcream.h"

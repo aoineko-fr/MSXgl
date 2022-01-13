@@ -105,9 +105,9 @@ const u8 g_CursorForm[] =
 };
 
 // Bitmaps by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "data\data_bmp_2b.h"
-#include "data\data_bmp_4b.h"
-#include "data\data_bmp_8b.h"
+#include "content\data_bmp_2b.h"
+#include "content\data_bmp_4b.h"
+#include "content\data_bmp_8b.h"
 
 // Screen mode settings
 const struct ScreenSetting g_Settings[] =

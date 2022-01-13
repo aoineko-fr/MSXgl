@@ -6,4 +6,4 @@
 //  All targets sample
 //─────────────────────────────────────────────────────────────────────────────
 
-#include "data\vgm\vgm_honotori_09.h"
+#include "content\vgm\vgm_honotori_09.h"

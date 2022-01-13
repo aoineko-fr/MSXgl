@@ -53,9 +53,9 @@ struct SongData
 #include "pt3/pt3_notetable2.h"
 
 // Music
-#include "data/pt3/smario.h"
-#include "data/pt3/Beg!nsum.h"
-#include "data/pt3/Fret.h"
+#include "content/pt3/smario.h"
+#include "content/pt3/Beg!nsum.h"
+#include "content/pt3/Fret.h"
 
 // Songs data table
 const struct SongData g_SongData[] = {

@@ -35,9 +35,9 @@ struct Entry
 //=============================================================================
 
 // Sample compressed data
-#include "data/rlep/lvl1.dat.h"
-#include "data/rlep/lvl3.dat.h"
-#include "data/rlep/lvl5.dat.h"
+#include "content/rlep/lvl1.dat.h"
+#include "content/rlep/lvl3.dat.h"
+#include "content/rlep/lvl5.dat.h"
 
 // Fonts
 #include "font\font_mgl_std0.h"

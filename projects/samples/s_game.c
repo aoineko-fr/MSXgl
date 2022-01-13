@@ -35,7 +35,7 @@ bool State_Pause();
 // Fonts
 #include "font\font_mgl_sample8.h"
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "data\data_sprt_16il.h"
+#include "content\data_sprt_16il.h"
 // Sinus & cosinus table
 #include "mathtable\mt_trigo_64.inc"
 

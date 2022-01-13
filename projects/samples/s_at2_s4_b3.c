@@ -6,4 +6,4 @@
 //  All targets sample
 //─────────────────────────────────────────────────────────────────────────────
 
-#include "data\arkos\akg_AHarmlessGrenade.h"
+#include "content\arkos\akg_AHarmlessGrenade.h"

@@ -66,8 +66,8 @@ struct SpriteData
 #include "font\font_mgl_symbol1.h"
 
 // Sprite by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "data\data_sprt_16.h"
-#include "data\data_sprt_16or.h"
+#include "content\data_sprt_16.h"
+#include "content\data_sprt_16or.h"
 
 // Character animation
 const u8 chrAnim[] = { '|', '\\', '-', '/' };

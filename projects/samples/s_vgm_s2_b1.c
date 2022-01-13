@@ -6,4 +6,4 @@
 //  All targets sample
 //─────────────────────────────────────────────────────────────────────────────
 
-#include "data\vgm\vgm_ds4_03.h"
+#include "content\vgm\vgm_ds4_03.h"

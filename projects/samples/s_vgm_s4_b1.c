@@ -6,4 +6,4 @@
 //  All targets sample
 //─────────────────────────────────────────────────────────────────────────────
 
-#include "data\vgm\vgm_penguin_12.h"
+#include "content\vgm\vgm_penguin_12.h"

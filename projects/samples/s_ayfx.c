@@ -65,14 +65,14 @@ struct SFXData
 #include "pt3\pt3_notetable2.h"
 
 // Music
-#include "data\pt3\Beg!nsum.h"
+#include "content\pt3\Beg!nsum.h"
 
 // SFX bank
-#include "data\ayfx_bank.h"
+#include "content\ayfx_bank.h"
 
 // SFX file
-#include "data\ayfx_fx017.h"
-#include "data\ayfx_fx019.h"
+#include "content\ayfx_fx017.h"
+#include "content\ayfx_fx019.h"
 
 // ayFX files
 const struct SFXData g_SFXFiles[] =

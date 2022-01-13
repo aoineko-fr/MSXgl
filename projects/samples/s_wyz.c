@@ -17,8 +17,8 @@
 // Note table
 #include "PT3player\PT3player_NoteTable2.h"
 // Music
-#include "data\pt3\A_funny_day_with_my_MSX.h"
-#include "data\pt3\After2.h"
+#include "content\pt3\A_funny_day_with_my_MSX.h"
+#include "content\pt3\After2.h"
 // Character animation
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
