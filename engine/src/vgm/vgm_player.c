@@ -16,8 +16,8 @@
 
 #define VGM_IDENT *(u32*)"Vgm "
 
-// #define VGM_WAIT	735 // 60 Hz
-#define VGM_WAIT	882 // 50 Hz
+#define VGM_WAIT	735 // 60 Hz
+// #define VGM_WAIT	882 // 50 Hz
 
 //=============================================================================
 // MEMORY DATA

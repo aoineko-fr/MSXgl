@@ -1,4 +1,3 @@
-/engine/data/cursor/*.xcf
 /engine/src/arkos/misc/doc
 /engine/src/arkos/playerAkg
 /engine/src/arkos/playerAkm
@@ -38,8 +37,28 @@
 /tools/DskTool/src
 /tools/DskTool/dsktool in Launchpad.url
 /projects/FinalSmash
-/engine/datasrc/font/*.xcf
 /tools/CMSXtk/src
 /tools/CMSXtk/*.sln
 .vs
 out
+/projects/samples/datasrc/pcm
+/projects/samples/datasrc/pt3
+/projects/samples/datasrc/vgm
+/projects/samples/datasrc/wyz
+/projects/samples/datasrc/ZomBCool
+/projects/samples/datasrc/arkos
+/projects/samples/datasrc/ayfx
+/projects/samples/datasrc/GrafxKid
+/projects/samples/datasrc/misc
+*.xcf
+/tools/audio/pcmenc/replayer_core_22050.asm
+/tools/audio/pcmenc/replayer_core_44100.asm
+/tools/audio/pcmenc/resampl.h
+/tools/audio/pcmenc/resample.c
+/tools/audio/pcmenc/st.h
+/tools/audio/pcmenc/vplayer.asm
+/tools/audio/pcmenc/MSX.ORG
+/tools/audio/pcmenc/pcmenc.cpp
+/tools/audio/pcmenc/replayer_core_8000.asm
+/tools/audio/pcmenc/replayer_core_8000v2.asm
+/tools/audio/pcmenc/replayer_core_11025.asm

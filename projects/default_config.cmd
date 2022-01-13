@@ -19,15 +19,15 @@ set ToolsDir=%ProjDir%\..\..\tools
 rem ***************************************************************************
 rem TOOLS SETTINGS
 rem ***************************************************************************
-set Compiler=%ToolsDir%\SDCC\bin\sdcc.exe
-set Assembler=%ToolsDir%\SDCC\bin\sdasz80.exe
-set Linker=%ToolsDir%\SDCC\bin\sdcc.exe
-set Hex2Bin=%ToolsDir%\Hex2bin\hex2bin.exe
-set FillFile=%ToolsDir%\MakeROM\fillfile.exe
+set Compiler=%ToolsDir%\sdcc\bin\sdcc.exe
+set Assembler=%ToolsDir%\sdcc\bin\sdasz80.exe
+set Linker=%ToolsDir%\sdcc\bin\sdcc.exe
+set Hex2Bin=%ToolsDir%\build\Hex2bin\hex2bin.exe
+set FillFile=%ToolsDir%\build\MakeROM\fillfile.exe
+set MSXDOS=%ToolsDir%\build\MSXDOS
+set DskTool=%ToolsDir%\build\DskTool\dsktool.exe
 set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
 set Debugger=%ToolsDir%\OpenMSX\Debugger\openmsx-debugger.exe
-set MSXDOS=%ToolsDir%\MSXDOS
-set DskTool=%ToolsDir%\DskTool\dsktool.exe
 
 rem ***************************************************************************
 rem PROJECT SETTINGS
