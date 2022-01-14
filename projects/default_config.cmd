@@ -29,6 +29,11 @@ set FillFile=%ToolsDir%\build\MakeROM\fillfile.exe
 set MSXDOS=%ToolsDir%\build\MSXDOS
 set DskTool=%ToolsDir%\build\DskTool\dsktool.exe
 set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
+REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
+REM set Emulator=%ToolsDir%\MEISEI\meisei.exe
+REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
+REM set Emulator=%ToolsDir%\fMSX\fMSX.exe
+REM set Emulator=%ToolsDir%\RuMSX\MSX.exe
 set Debugger=%ToolsDir%\OpenMSX\Debugger\openmsx-debugger.exe
 
 rem ***************************************************************************

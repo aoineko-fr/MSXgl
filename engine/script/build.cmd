@@ -36,22 +36,16 @@ echo ╚════════════════════════
 echo %RESET%
 
 rem ***************************************************************************
-rem * TARGET SETTINGS                                                         *
+rem  BUILD INITIALIZATION
 rem ***************************************************************************
 
-rem -- Check MSX version
-if /I %Machine%==1			( echo » Machine: MSX 1
-) else if /I %Machine%==2	( echo » Machine: MSX 2
-) else if /I %Machine%==2P	( echo » Machine: MSX 2+
-) else if /I %Machine%==TR	( echo » Machine: MSX turbo R
-) else if /I %Machine%==12	( echo » Machine: MSX 1/2
-) else (
-	echo %RED%Error: Unknow MSX Version%RESET%
-	exit /B 10
-)
-
-rem -- Target specific initializations
+rem -- Target specific initialization
 call %LibDir%\script\setup_target.cmd
+if errorlevel 1 goto :Error
+
+rem -- Check parmaters validity
+call %LibDir%\script\check_config.cmd
+if errorlevel 1 goto :Error
 
 rem -- Create ctr0 config file
 if defined Mapper (
@@ -59,7 +53,6 @@ if defined Mapper (
 	echo ROM_MAPPER=%Mapper%		>> %OutDir%\crt0_config.asm
 	echo ADDR_BOOT=0x%StartAddr%	>> %OutDir%\crt0_config.asm
 )
-
 rem -- Overwrite RAM start address
 if defined ForceRamAddr (
 	echo Force RAM address to %ForceRamAddr%
@@ -67,50 +60,7 @@ if defined ForceRamAddr (
 )
 
 rem ***************************************************************************
-rem * CHECK PARAMETERS                                                        *
-rem ***************************************************************************
-
-rem -- Check parameters
-if not defined ProjName (
-	echo %RED%Error: Invalide project name [%ProjName%]%RESET%
-	exit /B 20
-)
-
-rem -- Check tools
-if not exist %Compiler% (
-	echo %RED%Error: Invalide path to C Compiler [%Compiler%]%RESET%
-	exit /B 30
-)
-if not exist %Assembler% (
-	echo %RED%Error: Invalide path to Assembler [%Assembler%]%RESET%
-	exit /B 40
-)
-if not exist %Linker% (
-	echo %RED%Error: Invalide path to Linker [%Linker%]%RESET%
-	exit /B 40
-)
-if not exist %Hex2Bin% (
-	echo %RED%Error: Invalide path to Hex2Bin [%Hex2Bin%]%RESET%
-	exit /B 50
-)
-if not exist %FillFile% (
-	echo %RED%Error: Invalide path to FillFile [%FillFile%]%RESET%
-	exit /B 60
-)
-if not exist %Emulator% (
-	echo %YELLOW%Warning: Invalide path to Emulator [%Emulator%]%RESET%
-)
-if not exist %Debugger% (
-	echo %YELLOW%Warning: Invalide path to Debugger [%Debugger%]%RESET%
-)
-if not exist %DskTool% (
-	echo %YELLOW%Warning: Invalide path to DskTool [%DskTool%]%RESET%
-	echo Only programs in ROM format will be testable with most emulators 
-)
-
-
-rem ***************************************************************************
-rem * MODULES                                                                 *
+rem  GENERATE MODULES LIST
 rem ***************************************************************************
 
 rem  Add crt0 source to build list (it must be the first in the list)
@@ -118,10 +68,6 @@ set SrcList=%LibDir%\src\crt0\%Crt0%.asm
 set LibList=%OutDir%\%Crt0%.rel 
 
 rem  Add project sources to build list
-if not defined ProjModules (
-	echo %YELLOW%Warning: ProjModules not defined. Adding %ProjName% to build list.%RESET%
-	set ProjModules=%ProjName%
-)
 for %%G in (%ProjModules%) do (
 	if not exist %%G.c (
 		echo %RED%Error: Source file %%G.c don't exist%RESET%
