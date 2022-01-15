@@ -16,6 +16,9 @@
 // DEFINES
 //=============================================================================
 
+// Library's logo
+#define MSX_GL "\x01\x02\x03\x04\x05\x06"
+
 // Song data structure
 struct SongData
 {
@@ -46,20 +49,20 @@ struct SongData
 //=============================================================================
 
 // Fonts
-#include "font/font_mgl_std0.h"
+#include "font/font_mgl_sample6.h"
 #include "font/font_mgl_symbol1.h"
 
 // Note table
 #include "pt3/pt3_notetable2.h"
 
 // Music
-#include "content/pt3/smario.h"
+// #include "content/pt3/smario.h"
 #include "content/pt3/Beg!nsum.h"
 #include "content/pt3/Fret.h"
 
 // Songs data table
 const struct SongData g_SongData[] = {
-	{ g_smario, 	"smario",		sizeof(g_smario) },
+	// { g_smario, 	"smario",		sizeof(g_smario) },
 	{ g_Beg_nsum, 	"Beg!nsum",		sizeof(g_Beg_nsum) },
 	{ g_Fret,     	"Fret",			sizeof(g_Fret) },
 };
@@ -107,7 +110,7 @@ void SetSong(u8 songId) __FASTCALL
 	
 	PT3_InitSong(g_SongData[songId].Raw);
 
-	Print_SetFont(g_Font_MGL_Std0);
+	Print_SetFont(g_Font_MGL_Sample6);
 	VDP_CommandHMMV(64, 56, 6*8, 8, 0x44);
 	Print_SetPosition(64, 56);
 	Print_DrawText(g_SongData[songId].Name);
@@ -291,11 +294,11 @@ void main()
 	VDP_CommandHMMV(0, 0, 256, 212, 0x44);
 
 	Print_SetBitmapFont(null);
-	Print_SetFont(g_Font_MGL_Std0);
+	Print_SetFont(g_Font_MGL_Sample6);
 	Print_SetMode(PRINT_MODE_BITMAP_TRANS);
 	Print_SetColor(0xF, 0);
 	Print_SetPosition(4, 4);
-	Print_DrawText("MGL - PT3 PLAYER SAMPLE");
+	Print_DrawText(MSX_GL "  PT3 PLAYER SAMPLE");
 	Draw_Box(0, 0, 255, 14, 0x0F, 0);
 
 	Print_SetPosition(0, 56);
@@ -307,7 +310,7 @@ void main()
 
 	Print_SetColor(0x5, 0x4);
 	Print_SetPosition(0, 204);
-	Print_DrawText("<>:Song  Space:Pause  123:Mute  Del:Loop");		
+	Print_DrawText("\x8D:Song  Space:Pause  123:Mute  Del:Loop");		
 
 	// PLAYER
 	
@@ -357,7 +360,7 @@ void main()
 
 		// DEFAULT FONT ----------------------------------------------------------
 
-		Print_SetFont(g_Font_MGL_Std0);
+		Print_SetFont(g_Font_MGL_Sample6);
 		Print_SetColor(0xF, 0x4);
 
 		Print_SetPosition(255-8, 4);

@@ -68,11 +68,11 @@ struct SFXData
 #include "content\pt3\Beg!nsum.h"
 
 // SFX bank
-#include "content\ayfx_bank.h"
+#include "content\ayfx\ayfx_bank.h"
 
 // SFX file
-#include "content\ayfx_fx017.h"
-#include "content\ayfx_fx019.h"
+#include "content\ayfx\ayfx_fx017.h"
+#include "content\ayfx\ayfx_fx019.h"
 
 // ayFX files
 const struct SFXData g_SFXFiles[] =

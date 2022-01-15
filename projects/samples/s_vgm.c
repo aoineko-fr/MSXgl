@@ -181,10 +181,10 @@ void main()
 	while(1)
 	{
 		Halt();
-		VDP_SetColor(0xFE);
+		// VDP_SetColor(0xFE);
 		VGM_Decode();
 		PSG_Apply();
-		VDP_SetColor(0xF0);
+		// VDP_SetColor(0xF0);
 
 		DrawVGM(g_VGM_Pointer);
 

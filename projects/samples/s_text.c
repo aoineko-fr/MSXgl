@@ -103,7 +103,7 @@ void DrawPage()
 	Print_SetColor(0xF, 0x0);
 
 	Print_SetPosition(0, 0);
-	Print_DrawText("MGL - TEXT MODE SAMPLE");
+	Print_DrawText("MSXgl - TEXT MODE SAMPLE");
 	Print_SetPosition(0, 1);
 	Print_DrawCharX('-', g_PrintData.ScreenWidth);
 

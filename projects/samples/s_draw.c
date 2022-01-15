@@ -133,7 +133,7 @@ void DisplayPage()
 	// Init
 	
 	VDP_SetMode(src->Mode);
-	VDP_SetColor(src->Black);
+	VDP_SetColor(src->Background);
 	VDP_CommandHMMV(0, 0, src->Width, 212, src->Background);
 	
 	VDP_SetPaletteEntry(1, RGB16(0, 0, 0));
