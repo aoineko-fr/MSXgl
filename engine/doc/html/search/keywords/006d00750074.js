@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("mut",["Function"],[["Mutex_Gate",,[[,,,,0,"File:mutex.h:Mutex_Gate"]]],["Mutex_Init",,[[,,,,0,"File:mutex.h:Mutex_Init"]]],["Mutex_Lock",,[[,,,,0,"File:mutex.h:Mutex_Lock"]]],["Mutex_Release",,[[,,,,0,"File:mutex.h:Mutex_Release"]]],["Mutex_Wait",,[[,,,,0,"File:mutex.h:Mutex_Wait"]]]]);

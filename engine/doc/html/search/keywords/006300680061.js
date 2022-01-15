@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("cha",["Function"],[["Char_IsAlpha",,[[,,,,0,"File:string.h:Char_IsAlpha"]]],["Char_IsAlphaNum",,[[,,,,0,"File:string.h:Char_IsAlphaNum"]]],["Char_IsNum",,[[,,,,0,"File:string.h:Char_IsNum"]]]]);

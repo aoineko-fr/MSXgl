@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("joy",["Function"],[["Joystick_GetDirection",,[[,,,,0,"File:input.h:Joystick_GetDirection"]]],["Joystick_GetTrigger",,[[,,,,0,"File:input.h:Joystick_GetTrigger"]]],["Joystick_Read",,[[,,,,0,"File:input.h:Joystick_Read"]]]]);

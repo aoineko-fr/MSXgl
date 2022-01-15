@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("dis",["Function"],[["DisableInterrupt",,[[,,,,0,"File:system.h:DisableInterrupt"]]]]);

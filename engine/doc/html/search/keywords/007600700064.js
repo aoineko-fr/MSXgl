@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("vpd",["Function"],[["VPD_CommandReadLoop",,[[,,,,0,"File:vdp.h:VPD_CommandReadLoop"]]],["VPD_CommandSetupR32",,[[,,,,0,"File:vdp.h:VPD_CommandSetupR32"]]],["VPD_CommandSetupR36",,[[,,,,0,"File:vdp.h:VPD_CommandSetupR36"]]],["VPD_CommandWriteLoop",,[[,,,,0,"File:vdp.h:VPD_CommandWriteLoop"]]]]);

@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:bios.h","bios.h");NDSummary.OnSummaryLoaded("File:bios.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[269,0,1,"Functions","Functions"],[270,0,0,"Bios_MainCall","Bios_MainCall"],[271,0,0,"Bios_Reboot","Bios_Reboot"],[272,0,0,"Bios_Exit","Bios_Exit"]]);

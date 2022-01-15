@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("ena",["Function"],[["EnableInterrupt",,[[,,,,0,"File:system.h:EnableInterrupt"]]]]);

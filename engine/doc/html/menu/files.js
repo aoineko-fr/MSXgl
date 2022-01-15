@@ -1,0 +1,1 @@
+﻿NDMenu.OnSectionLoaded("files.js",[[1,"bios.h"],[1,"bios_hook.h"],[1,"clock.h"],[1,"compress.h"],[1,"draw.h"],[1,"game.h"],[1,"input.h"],[1,"math.h"],[1,"memory.h"],[1,"mutex.h"],[1,"print.h"],[1,"print.inl"],[1,"psg.h"],[1,"string.h"],[1,"system.h"],[1,"vdp.h"],[1,"vdp.inl"]]);

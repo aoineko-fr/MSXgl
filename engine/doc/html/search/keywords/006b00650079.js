@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("key",["Function"],[["Keyboard_IsKeyPressed",,[[,,,,0,"File:input.h:Keyboard_IsKeyPressed"]]],["Keyboard_Read",,[[,,,,0,"File:input.h:Keyboard_Read"]]]]);
