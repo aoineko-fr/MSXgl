@@ -14,6 +14,7 @@
 #include "core.h"
 #include "bios.h"
 #include "system_port.h"
+#include "asm.h"
 
 //=============================================================================
 // DEFINES
@@ -59,74 +60,10 @@
 #define SLOT_PRIM(s)	(s & 0x03)
 #define SLOT_SEC(s)		((s >> 2 ) & 0x03)
 
-inline bool Sys_SlotIsExpended(u8 slot) { return slot & SLOT_EXP; }
-inline u8 Sys_SlotGetPrimary(u8 slot) { return slot & 0x03; }
-inline u8 Sys_SlotGetSecondary(u8 slot) { return (slot >> 2) & 0x03; }
-
 //-----------------------------------------------------------------------------
-// Optimized assmbler bits shift
-
-// Right shift of A register
-#define RShift(a)	RShift_##a
-// a >> 1
-#define RShift_1	srl	a
-// a >> 2
-#define RShift_2	rrca			\
-					rrca			\
-					and a, #0x3F
-// a >> 3
-#define RShift_3	rrca			\
-					rrca			\
-					rrca			\
-					and a, #0x1F	
-// a >> 4
-#define RShift_4	rlca			\
-					rlca			\
-					rlca			\
-					rlca			\
-					and a, #0x0F
-// a >> 5
-#define RShift_5	rlca			\
-					rlca			\
-					rlca			\
-					and a, #0x07
-// a >> 6
-#define RShift_6	rlca			\
-					rlca			\
-					and a, #0x03
-// a >> 7
-#define RShift_7	rlca			\
-					and a, #0x01
-
-// Left shift of A register
-#define LShift(a)	LShift_##a
-// a << 1
-#define LShift_1	add	a, a
-// a << 2
-#define LShift_2	add	a, a		\
-					add	a, a
-// a << 3
-#define LShift_3	add	a, a		\
-					add	a, a		\
-					add	a, a
-// a << 4
-#define LShift_4	add	a, a		\
-					add	a, a		\
-					add	a, a		\
-					add	a, a
-// a << 5
-#define LShift_5	rrca			\
-					rrca			\
-					rrca			\
-					and a, #0xE0
-// a << 6
-#define LShift_6	rrca			\
-					rrca			\
-					and a, #0xC0
-// a << 7
-#define LShift_7	rrca			\
-					and a, #0x80
-
+extern u16 g_FirstAddr;
+extern u16 g_HeaderAddr;
+extern u16 g_LastAddr;
 
 
 //=============================================================================
@@ -134,42 +71,95 @@ inline u8 Sys_SlotGetSecondary(u8 slot) { return (slot >> 2) & 0x03; }
 //=============================================================================
 
 //-----------------------------------------------------------------------------
+// Group: Helper
 // Helper inline functions
 
-/// Direct call a routine at a given address (generate ASM code: "call XXXX")
+// Function: Call
+// Direct call a routine at a given address (generate ASM code: "call XXXX")
+//
+// Parameters:
+//   addr - Address to call
 inline void Call(u16 addr) { ((void(*)(void))(addr))(); }
 
-/// Enable interruption
+// Function: EnableInterrupt
+// Enable interruption
 inline void EnableInterrupt() { __asm__("ei"); }
 
-/// Disable interruption
+// Function: DisableInterrupt
+// Disable interruption
 inline void DisableInterrupt() { __asm__("di"); }
 
-/// Disable interruption
+// Function: Halt
+// Disable interruption
 inline void Halt() { __asm__("halt"); }
 
-extern u16 g_FirstAddr;
-extern u16 g_HeaderAddr;
-extern u16 g_LastAddr;
-
-/// Disable interruption
-inline u16 Sys_GetFirstAddr() { return (u16)&g_FirstAddr; }
-inline u16 Sys_GetHeardAddr() { return (u16)&g_HeaderAddr; }
-inline u16 Sys_GetLastAddr()  { return (u16)&g_LastAddr; }
-
 //-----------------------------------------------------------------------------
-// Slot
+// Group: Slot
+// Slot handling functions
 
-/// Get the slot ID of a given page
+// Function: Sys_GetPageSlot
+// Get the slot ID of a given page
+//
+// Parameters:
+//   page - The page to ckeck
 u8 Sys_GetPageSlot(u8 page);
 
-/// Set the slot ID of a given page
-void Sys_SetPageSlot(u8 page, u8 slot);
+// Function: Sys_SetPageSlot
+// Select a slot in a given page
+//
+// Parameters:
+//   page - The page to change
+//   slotId - The slot ID to select
+void Sys_SetPageSlot(u8 page, u8 slotId);
 
-/// Set the slot ID of a given page
+// Function: Sys_IsSlotExpanded
+// Check if slot is expanded
+//
+// Parameters:
+//   slot - The slot to check
 inline bool Sys_IsSlotExpanded(u8 slot) { return g_EXPTBL[slot] & 0x80; }
 
-/// Set a given slot in page 0
+// Function: Sys_SetPage0Slot
+// Select a given slot in page 0
+//
+// Parameters:
+//   slotId - The slot to select
 void Sys_SetPage0Slot(u8 slotId);
 
+// Function: Sys_SlotIsExpended
+// Check expended flag from slot ID
+//
+// Parameters:
+//   slotId - The slot ID
+inline bool Sys_SlotIsExpended(u8 slotId) { return slotId & SLOT_EXP; }
+
+// Function: Sys_SlotGetPrimary
+// Get primary slot from slot ID
+//
+// Parameters:
+//   slotId - The slot ID
+inline u8 Sys_SlotGetPrimary(u8 slotId) { return slotId & 0x03; }
+
+// Function: Sys_SlotGetSecondary
+// Get secondary slot from slot ID
+//
+// Parameters:
+//   slotId - The slot ID
+inline u8 Sys_SlotGetSecondary(u8 slotId) { return (slotId >> 2) & 0x03; }
+
+//-----------------------------------------------------------------------------
+// Group: Address
+// Binary address functions
+
+// Function: Sys_GetFirstAddr
+// Get first address of program binary
+inline u16 Sys_GetFirstAddr() { return (u16)&g_FirstAddr; }
+
+// Function: Sys_GetHeardAddr
+// Get address of program header (if any)
+inline u16 Sys_GetHeardAddr() { return (u16)&g_HeaderAddr; }
+
+// Function: Sys_GetLastAddr
+// Get last address of program binary
+inline u16 Sys_GetLastAddr()  { return (u16)&g_LastAddr; }
 

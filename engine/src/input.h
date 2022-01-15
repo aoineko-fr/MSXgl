@@ -10,6 +10,7 @@
 #pragma once
 
 //-----------------------------------------------------------------------------
+// Group: Joystick
 // Direct access to joystick
 //-----------------------------------------------------------------------------
 #if (USE_INPUT_JOYSTICK || USE_INPUT_MANAGER)
@@ -33,24 +34,44 @@
 #define IS_JOY_PRESSED(stat, input) ((stat & input) == 0)
 #define IS_JOY_RELEASED(stat, input) ((stat & input) != 0)
 
-// Get the current joystick information (bit=0: pressed)
-// Input  : JOY_PORT_1 or JOY_PORT_2
-// Output : xxBARLDU
-//            │││││└─ Up
-//            ││││└── Down
-//            │││└─── Left
-//            ││└──── Right
-//            │└───── Trigger A
-//            └────── Trigger B
+// Function: Joystick_Read
+// Get the current joystick information
+//
+// Parameters:
+//   port - JOY_PORT_1 or JOY_PORT_2
+//
+// Returns:
+//   Joystick state (bit=0: pressed)
+// : xxBARLDU
+// :   │││││└─ Up
+// :   ││││└── Down
+// :   │││└─── Left
+// :   ││└──── Right
+// :   │└───── Trigger A
+// :   └────── Trigger B
 u8 Joystick_Read(u8 port) __FASTCALL;
 
+// Function: Joystick_GetDirection
 // Get current direction of the given joystick
-// Input  : JOY_PORT_1 or JOY_PORT_2
+//
+// Parameters:
+//   port - JOY_PORT_1 or JOY_PORT_2
+//
+// Returns:
+//   One or two of those defines:
+// : JOY_INPUT_DIR_NONE
+// : JOY_INPUT_DIR_UP
+// : JOY_INPUT_DIR_DOWN
+// : JOY_INPUT_DIR_LEFT
+// : JOY_INPUT_DIR_RIGHT
 u8 Joystick_GetDirection(u8 port) __FASTCALL;
 
+// Function: Joystick_GetTrigger
 // Get current trigger status of the given joystick (0: released; 1: pressed)
-// Input  : JOY_PORT_1 or JOY_PORT_2
-//          JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B
+//
+// Parameters:
+//   port - JOY_PORT_1 or JOY_PORT_2
+//   trigger - JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B
 inline u8 Joystick_GetTrigger(u8 port, u8 trigger)
 {
 	u8 in = Joystick_Read(port);
@@ -59,6 +80,7 @@ inline u8 Joystick_GetTrigger(u8 port, u8 trigger)
 #endif // (USE_INPUT_JOYSTICK || USE_INPUT_MANAGER)
 
 //-----------------------------------------------------------------------------
+// Group: Keyboard
 // Direct access to keyboard
 //-----------------------------------------------------------------------------
 #if (USE_INPUT_KEYBOARD || USE_INPUT_MANAGER)
@@ -171,15 +193,24 @@ inline u8 Joystick_GetTrigger(u8 port, u8 trigger)
 #define KEY_NUM_COM		MAKE_KEY(10, 6)
 #define KEY_NUM_DOT		MAKE_KEY(10, 7)
 
+// Function: Keyboard_Read
 // Read keyboard matrix row
+//
+// Parameters:
+//   row - The row to read (0-10)
 u8 Keyboard_Read(u8 row) __FASTCALL;
 
+// Function: Keyboard_IsKeyPressed
 // Check if a given key is pressed
-u8 Keyboard_IsKeyPressed(u8 key) __FASTCALL;
+//
+// Parameters:
+//   key - The key ID to check
+bool Keyboard_IsKeyPressed(u8 key) __FASTCALL;
 
 #endif // (USE_INPUT_KEYBOARD || USE_INPUT_MANAGER)
 
 //-----------------------------------------------------------------------------
+// Group: Input Manager
 // Advanced input manager
 //-----------------------------------------------------------------------------
 #if USE_INPUT_MANAGER
@@ -295,9 +326,11 @@ typedef struct
 
 extern IPM_Data g_IPM;
 
+// Function: IPM_Initialize
 // Initialize input manager
 void IPM_Initialize(IPM_Config* config);
 
+// Function: IPM_SetTimer
 // Initialize input manager
 inline void IPM_SetTimer(u8 doubleClk, u8 hold)
 {
@@ -305,25 +338,32 @@ inline void IPM_SetTimer(u8 doubleClk, u8 hold)
 	g_IPM.Config.HoldTimer = hold;
 }
 
+// Function: IPM_Update
 // Update device manager
 void IPM_Update();
 
+// Function: IPM_RegisterEvent
 // Register a callback to a given device manager's event
 bool IPM_RegisterEvent(u8 joy, u8 input, u8 event, IPM_cb cb);
 
+// Function: IPM_GetStatus
 // Get current device status
 inline u8 IPM_GetStatus(u8 joy);
 
+// Function: IPM_GetStickDirection
 // Get current direction of the given device
 inline u8 IPM_GetStickDirection(u8 joy);
 
+// Function: IPM_GetInputState
 // Get current device state
 inline u8 IPM_GetInputState(u8 joy, u8 in);
 
+// Function: IPM_GetInputTimer
 // Get current device state timer
 inline u8 IPM_GetInputTimer(u8 joy, u8 in);
 
-// 
+// Function: IPM_GetEventName
+// Get event name
 const c8* IPM_GetEventName(u8 ev);
 
 #endif // USE_INPUT_MANAGER

@@ -14,16 +14,24 @@
 //   G A M E
 //-----------------------------------------------------------------------------
 
+// Group: Game
+
 //-----------------------------------------------------------------------------
 // FUNCTIONS
 
-/// Initialize game module
+// Function: Game_Initialize
+// Initialize game module
+//
+// Parameters:
+//   screenMode - The screen mode to select at game start. See <VDP_MODE>
 void Game_Initialize(u8 screenMode);
 
-/// Update game frame
+// Function: Game_Update
+// Update game frame
 void Game_Update();
 
-/// Release game module
+// Function: Game_Release
+// Release game module
 void Game_Release();
 
 
@@ -31,6 +39,7 @@ void Game_Release();
 //   G A M E   L O O P
 //-----------------------------------------------------------------------------
 #if (USE_GAME_LOOP)
+// Group: Game Loop
 
 //-----------------------------------------------------------------------------
 // DATA RAM
@@ -39,10 +48,15 @@ void Game_Release();
 //-----------------------------------------------------------------------------
 // FUNCTIONS
 
-/// Game main loop
+// Function: Game_MainLoop
+// Game main loop
+//
+// Parameters:
+//   screenMode - The screen mode to select at game start. See <VDP_MODE>
 void Game_MainLoop(u8 screenMode);
 
-/// Game exit
+// Function: Game_Exit
+// Game exit
 void Game_Exit();
 
 #endif
@@ -52,21 +66,30 @@ void Game_Exit();
 //   G A M E   S T A T E
 //-----------------------------------------------------------------------------
 #if (USE_GAME_STATE)
+// Group: Game State
 
 //-----------------------------------------------------------------------------
 // DFINES
 
 // Functions
-typedef bool (*State)(void);	///< Callback default signature
+typedef bool (*State)(void);	//< Callback default signature
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
 
-/// Set the next state (change will be effective at the next state update)
-void Game_SetState(State newState) __FASTCALL;
-/// Restore the previous state
+// Function: Game_SetState
+// Set the next state (change will be effective at the next state update)
+//
+// Parameters:
+//   newState - The new state to execute
+void Game_SetState(State newState);
+
+// Function: Game_RestoreState
+// Restore the previous state
 void Game_RestoreState();
-/// Check state transition and update current state
+
+// Function: Game_UpdateState
+// Check state transition and update current state
 void Game_UpdateState();
 
 #endif // (USE_GAME_STATE)
@@ -76,6 +99,7 @@ void Game_UpdateState();
 //   G A M E   V - S Y N C
 //-----------------------------------------------------------------------------
 #if (USE_GAME_VSYNC)
+// Group: Game V-Synch
 
 //-----------------------------------------------------------------------------
 // DATA RAM
@@ -85,13 +109,19 @@ extern u8 g_GameFrame;
 //-----------------------------------------------------------------------------
 // FUNCTIONS
 
-/// Vertical-synchronization hook handler
+// Function: Game_VSyncHook
+// Vertical-synchronization hook handler
 void Game_VSyncHook();
 
-/// Set V-Sync callback
-void Game_SetVSyncCallback(callback cb) __FASTCALL;
+// Function: Game_SetVSyncCallback
+// Set V-Sync callback
+//
+// Parameters:
+//   cb - The v-sync function to set
+void Game_SetVSyncCallback(callback cb);
 
-/// Wait for vertical-synchronization 
+// Function: Game_WaitVSync
+// Wait for vertical-synchronization 
 void Game_WaitVSync();
 
 #endif // (USE_GAME_VSYNC)

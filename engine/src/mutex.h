@@ -7,20 +7,37 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
-extern u8 g_Mutex; ///< @note Must be declared somewhere in the application code
+extern u8 g_Mutex; //< @note Must be declared somewhere in the application code
 #define MUTEX_DATA() u8 g_Mutex
 
-/// Initialize mutex
-inline void MutexInit() { g_Mutex = 0; }
+// Function: Mutex_Init
+// Initialize mutex
+inline void Mutex_Init() { g_Mutex = 0; }
 
-/// Lock the given mutex (0-7)
-inline void MutexLock(u8 mutex) { g_Mutex |= (1 << mutex); }
+// Function: Mutex_Lock
+// Lock the given mutex
+//
+// Parameters:
+//   mutex - Mutex index (0-7)
+inline void Mutex_Lock(u8 mutex) { g_Mutex |= (1 << mutex); }
 
-// Release the given mutex (0-7)
-inline void MutexRelease(u8 mutex) { g_Mutex &= ~(1 << mutex); }
+// Function: Mutex_Release
+// Release the given mutex
+//
+// Parameters:
+//   mutex - Mutex index (0-7)
+inline void Mutex_Release(u8 mutex) { g_Mutex &= ~(1 << mutex); }
 
-/// Wait for mutex release (0-7)
-inline void MutexWait(u8 mutex) { while((g_Mutex & (1 << mutex)) != 0); }
+// Function: Mutex_Wait
+// Wait for mutex release
+//
+// Parameters:
+//   mutex - Mutex index (0-7)
+inline void Mutex_Wait(u8 mutex) { while((g_Mutex & (1 << mutex)) != 0); }
 
-/// Gate for mutex (0-7)
-inline bool MutexGate(u8 mutex) { return ((g_Mutex & (1 << mutex)) == 0); }
+// Function: Mutex_Gate
+// Gate for mutex
+//
+// Parameters:
+//   mutex - Mutex index (0-7)
+inline bool Mutex_Gate(u8 mutex) { return ((g_Mutex & (1 << mutex)) == 0); }

@@ -18,7 +18,7 @@
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-/// Initialize game module
+// Initialize game module
 void Game_Initialize(u8 screenMode)
 {
 	VDP_SetMode(screenMode);
@@ -29,7 +29,7 @@ void Game_Initialize(u8 screenMode)
 }
 
 //-----------------------------------------------------------------------------
-/// Update game frame
+// Update game frame
 void Game_Update()
 {
 	#if (USE_GAME_VSYNC)
@@ -41,7 +41,7 @@ void Game_Update()
 }
 
 //-----------------------------------------------------------------------------
-/// Release game module
+// Release game module
 void Game_Release()
 {
 	#if (USE_GAME_VSYNC)
@@ -66,7 +66,7 @@ bool g_GameExit = false;
 // FUNCTIONS
 
 //-----------------------------------------------------------------------------
-/// Game main loop
+// Game main loop
 void Game_MainLoop(u8 screenMode)
 {
 	Game_Initialize(screenMode);
@@ -76,7 +76,7 @@ void Game_MainLoop(u8 screenMode)
 }
 
 //-----------------------------------------------------------------------------
-/// Game exit
+// Game exit
 void Game_Exit()
 {
 	g_GameExit = true;
@@ -101,16 +101,16 @@ State g_GamePrevState = null;
 // FUNCTIONS
 
 //-----------------------------------------------------------------------------
-/// Set the next state (change will be effective at the next state update)
-/// @param		newState	The new state to start (can be NULL to desactivate state-machine)
-void Game_SetState(State newState) __FASTCALL
+// Set the next state (change will be effective at the next state update)
+// @param		newState	The new state to start (can be NULL to desactivate state-machine)
+void Game_SetState(State newState)
 {
 	g_GamePrevState = g_GameState;
 	g_GameState = newState;
 }
 
 //-----------------------------------------------------------------------------
-/// Restore the previous state
+// Restore the previous state
 void Game_RestoreState()
 {
 	State prev = g_GamePrevState;
@@ -119,7 +119,7 @@ void Game_RestoreState()
 }
 
 //-----------------------------------------------------------------------------
-/// Check state transition and update current state
+// Check state transition and update current state
 void Game_UpdateState()
 {
 	bool bFrameFinish = false;
@@ -152,18 +152,18 @@ callback g_GameVSyncCB = Game_DefaultVSyncCB;
 // FUNCTIONS
 
 //-----------------------------------------------------------------------------
-/// Default V-Sync callback
+// Default V-Sync callback
 void Game_DefaultVSyncCB() {}
 
 //-----------------------------------------------------------------------------
-/// Set V-Sync callback
-void Game_SetVSyncCallback(callback cb) __FASTCALL
+// Set V-Sync callback
+void Game_SetVSyncCallback(callback cb)
 {
 	g_GameVSyncCB = cb;
 }
 
 //-----------------------------------------------------------------------------
-/// Vertical-synchronization hook handler
+// Vertical-synchronization hook handler
 void Game_VSyncHook()
 {
 	g_GameVSync = true;
@@ -171,7 +171,7 @@ void Game_VSyncHook()
 }
 
 //-----------------------------------------------------------------------------
-/// Wait for vertical-synchronization 
+// Wait for vertical-synchronization 
 void Game_WaitVSync()
 {
 	while(g_GameVSync == false) {}

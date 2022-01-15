@@ -41,7 +41,13 @@
 //									2: A sequence of a given 2 bytes (provided after the header).
 //									3: A sequence of uncompressed data (provided after the header).
 
-/// Unpack RLEp compressed data to memory
+// Function: UnpackRLEpToRAM
+// Unpack RLEp compressed data to memory
+//
+// Parameters:
+//   src - Source data
+//   dst - Destination data in RAM
+//   size - Size of the data to unpack (only if USE_COMPRESS_RLEP_FIXSIZE defined)
 u16 UnpackRLEpToRAM(const u8* src, u8* dst RLEP_FIXSIZE_PARAM);
 
 #endif // (USE_COMPRESS_RLEP)

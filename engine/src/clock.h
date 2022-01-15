@@ -119,48 +119,79 @@
 // FUNCTIONS
 //-----------------------------------------------------------------------------
 
-/// Initialize the clock module
+//-----------------------------------------------------------------------------
+// Group: Base
+//-----------------------------------------------------------------------------
+
+// Function: Clock_Initialize
+// Initialize the clock module
 void Clock_Initialize();
 
-/// Set clock mode
-void Clock_SetMode(u8 mode) __FASTCALL;
+// Function: Clock_SetMode
+// Set clock mode
+//
+// Parameters:
+//   mode - The clock mode flags
+void Clock_SetMode(u8 mode);
 
-/// Get current clock second counter (0-59)
+// Function: Clock_GetSecond
+// Get current clock second counter (0-59)
 u8 Clock_GetSecond();
 
-/// Get current clock minute counter (0-59)
+// Function: Clock_GetMinute
+// Get current clock minute counter (0-59)
 u8 Clock_GetMinute();
 
-/// Get current clock hour counter (0-23)
+// Function: Clock_GetHour
+// Get current clock hour counter (0-23)
 u8 Clock_GetHour();
 
-/// Get current clock day-of-week counter (0-6)
+// Function: Clock_GetDayOfWeek
+// Get current clock day-of-week counter (0-6)
 u8 Clock_GetDayOfWeek();
 
-/// Get current clock day counter (1-31)
+// Function: Clock_GetDay
+// Get current clock day counter (1-31)
 u8 Clock_GetDay();
 
-/// Get current clock month counter (1-12)
+// Function: Clock_GetMonth
+// Get current clock month counter (1-12)
 u8 Clock_GetMonth();
 
-/// Get current clock year counter (0-99)
+// Function: Clock_GetYear
+// Get current clock year counter (0-99)
 u8 Clock_GetYear();
 
-/// Read a RTC register value
-u8 Clock_Read(u8 reg) __FASTCALL;
+// Function: Clock_Read
+// Read a RTC register value
+//
+// Parameters:
+//   reg - RTC register number
+u8 Clock_Read(u8 reg);
 
-/// Write a RTC register value
+// Function: Clock_Write
+// Write a RTC register value
+//
+// Parameters:
+//   reg - RTC register number
+//   value - The value to write in the register
 void Clock_Write(u8 reg, u8 value);
 
 #if (USE_CLOCK_EXTRA)
+//-----------------------------------------------------------------------------
+// Group: Extra
+//-----------------------------------------------------------------------------
 
-/// Get current clock day of week string
+// Function: Clock_GetDayOfWeekString
+// Get current clock day of week string
 const c8* Clock_GetDayOfWeekString();
 
-/// Get current clock month counter string
+// Function: Clock_GetMonthString
+// Get current clock month counter string
 const c8* Clock_GetMonthString();
 
-/// Get current clock 4-digits year counter (1980-2079)
+// Function: Clock_GetYear4
+// Get current clock 4-digits year counter (1980-2079)
 u16 Clock_GetYear4();
 
 #endif // (USE_CLOCK_EXTRA)

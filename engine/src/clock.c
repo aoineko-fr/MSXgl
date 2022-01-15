@@ -16,22 +16,22 @@
 #if (MSX_VERSION >= MSX_2)
 
 //-----------------------------------------------------------------------------
-/// Initialize the clock module
+// Initialize the clock module
 void Clock_Initialize()
 {
 	Clock_SetMode(RTC_MODE_TIME + RTC_MODE_ALARM_OFF + RTC_MODE_SEC_ON);
 }
 
 //-----------------------------------------------------------------------------
-/// Set clock mode
-void Clock_SetMode(u8 mode) __FASTCALL
+// Set clock mode
+void Clock_SetMode(u8 mode)
 {
 	g_RTC_AddrPort = RTC_REG_MODE;
 	g_RTC_DataPort = mode;
 }
 
 //-----------------------------------------------------------------------------
-/// Get current clock second counter (0-59)
+// Get current clock second counter (0-59)
 u8 Clock_GetSecond()
 {
 	u8 ret;
@@ -45,7 +45,7 @@ u8 Clock_GetSecond()
 }
 
 //-----------------------------------------------------------------------------
-/// Get current clock minute counter (0-59)
+// Get current clock minute counter (0-59)
 u8 Clock_GetMinute()
 {
 	u8 ret;
@@ -59,7 +59,7 @@ u8 Clock_GetMinute()
 }
 
 //-----------------------------------------------------------------------------
-/// Get current clock hour counter (0-23)
+// Get current clock hour counter (0-23)
 u8 Clock_GetHour()
 {
 	u8 ret;
@@ -73,7 +73,7 @@ u8 Clock_GetHour()
 }
 
 //-----------------------------------------------------------------------------
-/// Get current clock day-of-week counter (0-6)
+// Get current clock day-of-week counter (0-6)
 u8 Clock_GetDayOfWeek()
 {
 	// g_RTC_AddrPort = RTC_REG_MODE;
@@ -83,7 +83,7 @@ u8 Clock_GetDayOfWeek()
 }
 
 //-----------------------------------------------------------------------------
-/// Get current clock day counter (1-31)
+// Get current clock day counter (1-31)
 u8 Clock_GetDay()
 {
 	u8 ret;
@@ -97,7 +97,7 @@ u8 Clock_GetDay()
 }
 
 //-----------------------------------------------------------------------------
-/// Get current clock month counter (1-12)
+// Get current clock month counter (1-12)
 u8 Clock_GetMonth()
 {
 	u8 ret;
@@ -111,7 +111,7 @@ u8 Clock_GetMonth()
 }
 
 //-----------------------------------------------------------------------------
-/// Get current clock year counter (0-99)
+// Get current clock year counter (0-99)
 u8 Clock_GetYear()
 {
 	u8 ret;
@@ -125,15 +125,15 @@ u8 Clock_GetYear()
 }
 
 //-----------------------------------------------------------------------------
-/// Read a RTC register value
-u8 Clock_Read(u8 reg) __FASTCALL
+// Read a RTC register value
+u8 Clock_Read(u8 reg)
 {
 	g_RTC_AddrPort = reg;
 	return g_RTC_DataPort;
 }
 
 //-----------------------------------------------------------------------------
-/// Write a RTC register value
+// Write a RTC register value
 void Clock_Write(u8 reg, u8 value)
 {
 	g_RTC_AddrPort = reg;
@@ -168,21 +168,21 @@ const c8* g_Clock_Month[] = {
 };
 
 //-----------------------------------------------------------------------------
-/// Get current clock day of week string
+// Get current clock day of week string
 const c8* Clock_GetDayOfWeekString()
 {
 	return g_Clock_DayOfWeek[Clock_GetDayOfWeek()];
 }
 
 //-----------------------------------------------------------------------------
-/// Get current clock month counter string
+// Get current clock month counter string
 const c8* Clock_GetMonthString()
 {
 	return g_Clock_Month[Clock_GetMonth() - 1];
 }
 
 //-----------------------------------------------------------------------------
-/// Get current clock 4-number year counter (1980-2079)
+// Get current clock 4-number year counter (1980-2079)
 u16 Clock_GetYear4()
 {
 	return 1980 + Clock_GetYear();
