@@ -8,14 +8,17 @@
 #pragma once
 
 //-----------------------------------------------------------------------------
-/// Set the current font
-/// @param		patternX	Width of the character data (should be always 8)
-/// @param		patternY	Height of the character data
-/// @param		sizeX		Width of the chatacter to display (can be different than the one of the data)
-/// @param		sizeY		Height of the chatacter to display (can be different than the one of the data)
-/// @param		firstChr	ASCII code of the first character included in the font data
-/// @param		lastChr		ASCII code of the last character included in the font data
-/// @param		patterns	Address of the character data table
+// Function: Print_SetFontEx
+// Set the current font
+//
+// Parameters:
+//   patternX	- Width of the character data (should be always 8)
+//   patternY	- Height of the character data
+//   sizeX		- Width of the chatacter to display (can be different than the one of the data)
+//   sizeY		- Height of the chatacter to display (can be different than the one of the data)
+//   firstChr	- ASCII code of the first character included in the font data
+//   lastChr	- ASCII code of the last character included in the font data
+//   patterns	- Address of the character data table
 inline void Print_SetFontEx(u8 patternX, u8 patternY, u8 sizeX, u8 sizeY, u8 firstChr, u8 lastChr, const u8* patterns)
 {
 	g_PrintData.PatternX     = patternX;
@@ -31,7 +34,8 @@ inline void Print_SetFontEx(u8 patternX, u8 patternY, u8 sizeX, u8 sizeY, u8 fir
 
 #if (USE_PRINT_TEXT)
 //-----------------------------------------------------------------------------
-/// Set cursor position
+// Function: Print_SelectTextFont
+// Set cursor position
 inline void Print_SelectTextFont(const u8* font, u8 offset)
 {
 	g_PrintData.PatternOffset = offset;
@@ -42,7 +46,8 @@ inline void Print_SelectTextFont(const u8* font, u8 offset)
 #endif
 
 //-----------------------------------------------------------------------------
-/// Set cursor position
+// Function: Print_SetPosition
+// Set cursor position
 inline void Print_SetPosition(UX x, UY y)
 {
 	g_PrintData.CursorX = x;
@@ -50,7 +55,8 @@ inline void Print_SetPosition(UX x, UY y)
 }
 
 //-----------------------------------------------------------------------------
-/// Set cursor position
+// Function: Print_SetCharSize
+// Set cursor position
 inline void Print_SetCharSize(u8 x, u8 y)
 {
 	g_PrintData.UnitX = x;
@@ -58,22 +64,25 @@ inline void Print_SetCharSize(u8 x, u8 y)
 }
 
 //-----------------------------------------------------------------------------
-/// Set tabulation size in pixel
-/// @param		size		Size of the tabulation in pixel (must be a power of 2 like 16, 32, 64, ...)
+// Function: Print_SetTabSize
+// Set tabulation size in pixel
+// @param		size		Size of the tabulation in pixel (must be a power of 2 like 16, 32, 64, ...)
 inline void Print_SetTabSize(u8 size)
 {
 	g_PrintData.TabSize = size;
 }
 
 //-----------------------------------------------------------------------------
-/// Print space
+// Function: Print_Space
+// Print space
 inline void Print_Space()
 {
 	g_PrintData.CursorX += PRINT_W(g_PrintData.UnitX);
 }
 
 //-----------------------------------------------------------------------------
-/// Print tabulation
+// Function: Print_Tab
+// Print tabulation
 inline void Print_Tab()
 {
 	g_PrintData.CursorX += PRINT_W(g_PrintData.UnitX) + g_PrintData.TabSize - 1;
@@ -81,7 +90,8 @@ inline void Print_Tab()
 }
 
 //-----------------------------------------------------------------------------
-/// Print return
+// Function: Print_Return
+// Print return
 inline void Print_Return()
 {
 	g_PrintData.CursorX = 0;
@@ -89,14 +99,16 @@ inline void Print_Return()
 }
 
 //-----------------------------------------------------------------------------
-/// Get first character code
+// Function: Print_GetFontInfo
+// Get first character code
 inline const struct Print_Data* Print_GetFontInfo()
 {
 	return &g_PrintData;
 }
 
 //-----------------------------------------------------------------------------
-/// Print a character string
+// Function: Print_DrawTextAt
+// Print a character string
 inline void Print_DrawTextAt(u8 x, u8 y, const c8* string)
 {
 	Print_SetPosition(x, y);

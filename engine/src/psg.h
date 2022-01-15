@@ -30,13 +30,13 @@
 
 // Ports
 #if (PSG_CHIP == PSG_INTERNAL)
-	#define PSG_PORT_REG		P_PSG_REGS     ///< Used to select a specific register by writing its number (0 to 15)
-	#define PSG_PORT_WRITE		P_PSG_DATA     ///< Used to write to any register once it has been selected by the Address Port.	
-	#define PSG_PORT_READ		P_PSG_STAT     ///< Used to read any register once it has been selected by the Address Port.
+	#define PSG_PORT_REG		P_PSG_REGS     //< Used to select a specific register by writing its number (0 to 15)
+	#define PSG_PORT_WRITE		P_PSG_DATA     //< Used to write to any register once it has been selected by the Address Port.	
+	#define PSG_PORT_READ		P_PSG_STAT     //< Used to read any register once it has been selected by the Address Port.
 #elif (PSG_CHIP == PSG_EXTERNAL)
-	#define PSG_PORT_REG		P_PSG_EXT_REGS ///< Used to select a specific register by writing its number (0 to 15)
-	#define PSG_PORT_WRITE		P_PSG_EXT_DATA ///< Used to write to any register once it has been selected by the Address Port.	
-	#define PSG_PORT_READ		P_PSG_EXT_STAT ///< Used to read any register once it has been selected by the Address Port.
+	#define PSG_PORT_REG		P_PSG_EXT_REGS //< Used to select a specific register by writing its number (0 to 15)
+	#define PSG_PORT_WRITE		P_PSG_EXT_DATA //< Used to write to any register once it has been selected by the Address Port.	
+	#define PSG_PORT_READ		P_PSG_EXT_STAT //< Used to read any register once it has been selected by the Address Port.
 #elif (PSG_CHIP == PSG_BOTH)
 	// PRimary PSG
 	#define PSG_PORT_REG		P_PSG_REGS
@@ -129,45 +129,64 @@ extern struct PSG_Data g_PSG2_Regs;
 // PROTOTYPE
 //=============================================================================
 
-/// Set the value of a given register
+// Group: Register
+
+// Function: PSG_SetRegister
+// Set the value of a given register
 void PSG_SetRegister(u8 reg, u8 value);
 
-/// Get the value of a given register
+// Function: PSG_GetRegister
+// Get the value of a given register
 u8 PSG_GetRegister(u8 reg);
 
-/// Set the tone period of a given channel (tone generator control register)
+// Group: Helper
+
+// Function: PSG_SetTone
+// Set the tone period of a given channel (tone generator control register)
 void PSG_SetTone(u8 chan, u16 period);
 
-/// Set the noise period (noise generator control register)
+// Function: PSG_SetNoise
+// Set the noise period (noise generator control register)
 void PSG_SetNoise(u8 period);
 
-/// Setup mixer by enabling tune and noise generators for each channel (mixer control enable register)
+// Function: PSG_SetMixer
+// Setup mixer by enabling tune and noise generators for each channel (mixer control enable register)
 void PSG_SetMixer(u8 mix);
 
-/// Set the volume of a given channel (Amplitude control register)
+// Function: PSG_SetVolume
+// Set the volume of a given channel (Amplitude control register)
 void PSG_SetVolume(u8 chan, u8 vol);
 
-/// Set the envelope period (Envelope priod control register)
+// Function: PSG_SetEnvelope
+// Set the envelope period (Envelope priod control register)
 void PSG_SetEnvelope(u16 period);
 
-/// Set the envelope shape (Envelope shape control register)
+// Function: PSG_SetShape
+// Set the envelope shape (Envelope shape control register)
 void PSG_SetShape(u8 shape);
 
-///
+// Function: PSG_EnableTone
+// Enable/disable tone on the given channel
 void PSG_EnableTone(u8 chan, u8 val);
 
-///
+// Function: PSG_EnableNoise
+// Enable/disable noise on the given channel
 void PSG_EnableNoise(u8 chan, u8 val);
 
-///
+// Function: PSG_EnableEnvelope
+// Enable/disable envelope on the given channel
 void PSG_EnableEnvelope(u8 chan, u8 val);
 
-///
+// Function: PSG_Silent
+// Silent the PSG (set according registers)
 void PSG_Silent();
 
 #if (PSG_ACCESS == PSG_INDIRECT)
 
-/// Send data to PSG registers #0 to #13
+// Group: Indirect
+
+// Function: PSG_Apply
+// Send data to PSG registers #0 to #13
 void PSG_Apply();
 
 #endif

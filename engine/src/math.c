@@ -16,16 +16,6 @@
 #include "core.h"
 #include "math.h"
 
-/// Clamp a value into a interval 
-i8 Math_Clamp(i8 val, i8 min, i8 max)
-{
-	if(val < min)
-		return min;
-	if(val > max)
-		return max;
-	return val;
-}
-
 //-----------------------------------------------------------------------------
 // DIVISION
 //-----------------------------------------------------------------------------

@@ -45,15 +45,20 @@
 //  █▀█ ██▄ █▄▄ █▀▀ ██▄ █▀▄   █▀  █▄█ █ ▀█ █▄▄  █  █ █▄█ █ ▀█ ▄█
 //-----------------------------------------------------------------------------
 
-// Call a bios function
+// Function: Bios_MainCall
+// Call a function in Main-ROM
+//
+// Parameters:
+//   addr - Address to call
 inline void Bios_MainCall(u16 addr);
 
-/// Handle soft reboot
+// Function: Bios_Reboot
+// Handle soft reboot
 void Bios_Reboot();
 
-/// Handle clean transition to Basic or MSX-DOS environment
+// Function: Bios_Exit
+// Handle clean exit form Basic or MSX-DOS environment
+//
+// Parameters:
+//   ret - Return value (for MSX-DOS environment)
 void Bios_Exit(u8 ret) __FASTCALL;
-
-/// Get the slot ID of a given page
-// u8 Bios_GetSlot(u8 page) __FASTCALL;
-

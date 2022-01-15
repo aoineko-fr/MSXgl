@@ -754,7 +754,7 @@ void DrawChar_Trans(u8 chr)
 #if (USE_PRINT_VRAM)
 //-----------------------------------------------------------------------------
 /// Set the current font and upload it to VRAM
-void Print_SetFontVRAM(const u8* font, UY y, u8 color)
+void Print_SetVRAMFont(const u8* font, UY y, u8 color)
 {
 	UX cx = g_PrintData.CursorX;
 	UY cy = g_PrintData.CursorY;
@@ -943,7 +943,7 @@ extern u8  g_SpritePatternHigh;
 
 //-----------------------------------------------------------------------------
 /// 
-void Print_SetFontSprite(const u8* font, u8 patIdx, u8 sprtIdx)
+void Print_SetSpriteFont(const u8* font, u8 patIdx, u8 sprtIdx)
 {
 	g_PrintData.SpritePattern = patIdx;
 	g_PrintData.SpriteID = sprtIdx;
@@ -1010,8 +1010,8 @@ void DrawChar_Sprite(u8 chr)
 void Print_SetShadow(bool enable, i8 offsetX, i8 offsetY, u8 color)
 {
 	Print_EnableShadow(enable);
-	g_PrintData.ShadowOffsetX = 3 + offsetX; // Math_Clamp(offsetX, (i8)-3, 4);
-	g_PrintData.ShadowOffsetY = 3 + offsetY; // Math_Clamp(offsetY, (i8)-3, 4);
+	g_PrintData.ShadowOffsetX = 3 + offsetX;
+	g_PrintData.ShadowOffsetY = 3 + offsetY;
 	g_PrintData.ShadowColor   = color;
 }
 

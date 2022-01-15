@@ -142,7 +142,7 @@ void DisplayPage()
 	// Init
 	
 	VDP_SetMode(src->Mode);
-	VDP_SetColor(src->Black);
+	VDP_SetColor(src->Background);
 	VDP_CommandHMMV(0, 0, src->Width, 212, src->Background);
 	
 	VDP_SetPaletteEntry(1, RGB16(0, 0, 0));
@@ -272,7 +272,7 @@ void DisplayPage()
 	VDP_CommandLMMV(X, Y + 8, blockWidth, 16, clr, VDP_OP_IMP);
 
 	Print_SetPosition(4, 200);
-	Print_DrawText("Pad: Chg mode  Space+Pad: Move cursor");
+	Print_DrawText("\x81\x82\x80:Chg mode  Space+\x81\x82\x80:Move cursor");
 
 	// Init sprite
 	VDP_EnableSprite(true);

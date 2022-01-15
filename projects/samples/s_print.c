@@ -282,7 +282,7 @@ void PrintEffect()
 	Print_DrawText("VRAM: ");
 #if (USE_PRINT_VRAM)
 	Print_DrawText("Loading...");
-	Print_SetFontVRAM(g_Fonts[g_FontIndex].Font, 212, g_Modes[g_ModeIndex].ColorAlt);
+	Print_SetVRAMFont(g_Fonts[g_FontIndex].Font, 212, g_Modes[g_ModeIndex].ColorAlt);
 	Print_Backspace(String_Length("Loading..."));
 	Print_DrawText(g_SampleTextShort);
 #else
@@ -302,7 +302,7 @@ void PrintEffect()
 	VDP_SetSpriteTables(0x1C000, 0x1CA00);
 	VDP_SetSpriteFlag(VDP_SPRITE_SCALE_2);
 
-	Print_SetFontSprite(g_Fonts[g_FontIndex].Font, 0, 0);
+	Print_SetSpriteFont(g_Fonts[g_FontIndex].Font, 0, 0);
 	#if (PRINT_COLOR_NUM > 1)
 		Print_SetColorShade(g_Modes[g_ModeIndex].ColorSprite);
 	#else
@@ -341,7 +341,7 @@ void PrintBenchmark()
 
 	Print_DrawText("\n\nLoading...");
 	Print_SetColor(g_Modes[g_ModeIndex].ColorAlt, g_Modes[g_ModeIndex].ColorBG);
-	Print_SetFontVRAM(g_Fonts[g_FontIndex].Font, 212, g_Modes[g_ModeIndex].ColorAlt);
+	Print_SetVRAMFont(g_Fonts[g_FontIndex].Font, 212, g_Modes[g_ModeIndex].ColorAlt);
 	Print_Backspace(String_Length("Loading..."));
 	u8 startTime = g_JIFFY;
 	Print_DrawText(text1);

@@ -58,7 +58,7 @@ void main()
 	VDP_CommandHMMV(0, 0, 256, 212, 0x44);
 
 	Print_Initialize(null);
-	Print_SetFontVRAM(g_Font_MGL_Std0, 212);
+	Print_SetVRAMFont(g_Font_MGL_Std0, 212);
 	Print_SetPosition(3, 2);
 	Print_DrawText("PT3 PLAYER SAMPLE");
 	Draw_Box(0, 0, 255, 16, 0, 0x0F);
