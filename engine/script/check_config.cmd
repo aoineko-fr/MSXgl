@@ -22,7 +22,7 @@ if /I %Machine%==1			( echo » Machine: MSX 1
 
 :: Check project name
 if not defined ProjName (
-	echo %RED%Error: Invalide project name [%ProjName%]%RESET%
+	echo %RED%Error: Invalid project name [%ProjName%]%RESET%
 	exit /B 20
 )
 
@@ -37,56 +37,56 @@ rem  CHECK TOOLS PATH
 rem ***************************************************************************
 
 :: Check binary tools
-if not exist %Compiler% (
-	echo %RED%Error: Invalide path to C Compiler [%Compiler%]%RESET%
+if not exist "%Compiler%" (
+	echo %RED%Error: Invalid path to C Compiler [%Compiler%]%RESET%
 	exit /B 30
 )
-if not exist %Assembler% (
-	echo %RED%Error: Invalide path to Assembler [%Assembler%]%RESET%
+if not exist "%Assembler%" (
+	echo %RED%Error: Invalid path to Assembler [%Assembler%]%RESET%
 	exit /B 40
 )
-if not exist %Linker% (
-	echo %RED%Error: Invalide path to Linker [%Linker%]%RESET%
+if not exist "%Linker%" (
+	echo %RED%Error: Invalid path to Linker [%Linker%]%RESET%
 	exit /B 40
 )
-if not exist %Hex2Bin% (
-	echo %RED%Error: Invalide path to Hex2Bin [%Hex2Bin%]%RESET%
+if not exist "%Hex2Bin%" (
+	echo %RED%Error: Invalid path to Hex2Bin [%Hex2Bin%]%RESET%
 	exit /B 50
 )
 
 :: ROM specific tools
 if /I %Ext%==rom (
-	if not exist %FillFile% (
-		echo %RED%Error: Invalide path to FillFile [%FillFile%]%RESET%
+	if not exist "%FillFile%" (
+		echo %RED%Error: Invalid path to FillFile [%FillFile%]%RESET%
 		exit /B 60
 	)
 )
 
 :: BASIC/MSX-DOS specific tools
 if /I not %Ext%==rom (
-	if not exist %DskTool% (
-		echo %YELLOW%Warning: Invalide path to DskTool [%DskTool%]%RESET%
+	if not exist "%DskTool%" (
+		echo %YELLOW%Warning: Invalid path to DskTool [%DskTool%]%RESET%
 		echo Only programs in ROM format will be testable with most emulators 
 	)
 )
 
 :: MSX-DOS specific tools
 if /I %Ext%==com (
-	if not exist %MSXDOS% (
-		echo %YELLOW%Warning: Invalide path to MSX-DOS system files [%MSXDOS%]%RESET%
+	if not exist "%MSXDOS%" (
+		echo %YELLOW%Warning: Invalid path to MSX-DOS system files [%MSXDOS%]%RESET%
 		echo Program will not be testable with emualtor
 	)
 )
 
 :: Emulator specific tools
 if %DoRun%==1 (
-	if not exist %Emulator% (
-		echo %YELLOW%Warning: Invalide path to Emulator [%Emulator%]%RESET%
+	if not exist "%Emulator%" (
+		echo %YELLOW%Warning: Invalid path to Emulator [%Emulator%]%RESET%
 	)
 
 	if %EmulDebug%==1 (
-		if not exist %Debugger% (
-			echo %YELLOW%Warning: Invalide path to Debugger [%Debugger%]%RESET%
+		if not exist "%Debugger%" (
+			echo %YELLOW%Warning: Invalid path to Debugger [%Debugger%]%RESET%
 		)
 	)
 )

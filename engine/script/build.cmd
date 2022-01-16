@@ -69,7 +69,7 @@ set LibList=%OutDir%\%Crt0%.rel
 
 rem  Add project sources to build list
 for %%G in (%ProjModules%) do (
-	if not exist %%G.c (
+	if not exist "%%G.c" (
 		echo %RED%Error: Source file %%G.c don't exist%RESET%
 		exit /B 100
 	)
@@ -81,7 +81,7 @@ echo » Modules: %LibModules%
 
 rem  Add modules sources to build list
 for %%G in (%LibModules%) do (
-	if not exist %LibDir%\src\%%G.c (
+	if not exist "%LibDir%\src\%%G.c" (
 		echo %RED%Error: Module %%G don't exist%RESET%
 		exit /B 110
 	)
@@ -111,26 +111,26 @@ if exist %ProjDir%\emul (
 rem ***************************************************************************
 rem * INIT                                                                    *
 rem ***************************************************************************
-if not exist %OutDir% ( md %OutDir% )
-if not exist %ProjDir%\emul ( md %ProjDir%\emul )
+if not exist "%OutDir%" ( md %OutDir% )
+if not exist "%ProjDir%\emul" ( md %ProjDir%\emul )
 if /I %Ext%==rom (
-	if not exist %ProjDir%\emul\rom ( md %ProjDir%\emul\rom )
+	if not exist "%ProjDir%\emul\rom" ( md %ProjDir%\emul\rom )
 )
 if /I %Ext%==bin (
-	if not exist %ProjDir%\emul\bin ( md %ProjDir%\emul\bin )
-	if not exist %ProjDir%\emul\dsk ( md %ProjDir%\emul\dsk )
+	if not exist "%ProjDir%\emul\bin" ( md %ProjDir%\emul\bin )
+	if not exist "%ProjDir%\emul\dsk" ( md %ProjDir%\emul\dsk )
 )
 if /I %Ext%==com (
-	if not exist %ProjDir%\emul\dos%DOS% ( md %ProjDir%\emul\dos%DOS% )
+	if not exist "%ProjDir%\emul\dos%DOS%" ( md %ProjDir%\emul\dos%DOS% )
 	if /I %DOS%==1 (
-		if not exist %ProjDir%\emul\dos%DOS%\COMMAND.COM  ( copy /Y %MSXDOS%\COMMAND.COM %ProjDir%\emul\dos%DOS% )
-		if not exist %ProjDir%\emul\dos%DOS%\MSXDOS.SYS   ( copy /Y %MSXDOS%\MSXDOS.SYS %ProjDir%\emul\dos%DOS% )
+		if not exist "%ProjDir%\emul\dos%DOS%\COMMAND.COM"  ( copy /Y %MSXDOS%\COMMAND.COM %ProjDir%\emul\dos%DOS% )
+		if not exist "%ProjDir%\emul\dos%DOS%\MSXDOS.SYS"   ( copy /Y %MSXDOS%\MSXDOS.SYS %ProjDir%\emul\dos%DOS% )
 	)
 	if /I %DOS%==2 (
-		if not exist %ProjDir%\emul\dos%DOS%\COMMAND2.COM ( copy /Y %MSXDOS%\COMMAND2.COM %ProjDir%\emul\dos%DOS% )
-		if not exist %ProjDir%\emul\dos%DOS%\MSXDOS2.SYS  ( copy /Y %MSXDOS%\MSXDOS2.SYS %ProjDir%\emul\dos%DOS% )
+		if not exist "%ProjDir%\emul\dos%DOS%\COMMAND2.COM" ( copy /Y %MSXDOS%\COMMAND2.COM %ProjDir%\emul\dos%DOS% )
+		if not exist "%ProjDir%\emul\dos%DOS%\MSXDOS2.SYS"  ( copy /Y %MSXDOS%\MSXDOS2.SYS %ProjDir%\emul\dos%DOS% )
 	)
-	if not exist %ProjDir%\emul\dsk ( md %ProjDir%\emul\dsk )
+	if not exist "%ProjDir%\emul\dsk" ( md %ProjDir%\emul\dsk )
 )
 
 rem ***************************************************************************
