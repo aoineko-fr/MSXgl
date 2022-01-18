@@ -4,12 +4,12 @@
 //   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ 
 // ______________________________▀▀  ___________________________________________
 // CMSXzip 1.0.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Tue Jan 18 12:29:53 2022
+// File generated on Wed Jan 19 00:06:06 2022
 // Soure file: vgm\metalgear_06.vgm (19404 bytes)
 // Compressor: ayVGM
 const u8 g_ayVGM_metalgear_06[] = {
 	0x61, 0x79, 0x4D, 0x20, // Ident
-	0x06, // Flag
+	0x07, // Flag
 	0xE0, // Wait60: En
 	0x07, 0x00, // R#7: 07 nn
 	0x10, // R#1: 1n
@@ -24,6 +24,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD9, // Wait50: Dn
 	0xEA, // Wait60: En
 	0x14, // R#1: 1n
 	0x00, 0x70, // R#0: 00 nn
@@ -38,18 +39,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0xD0, // R#4: 04 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
@@ -58,6 +63,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6D, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -67,20 +73,25 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x0C, 0x00, // R#12: 0C nn
 	0x0B, 0xB8, // R#11: 0B nn
@@ -89,20 +100,24 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x48, // R#6: 4n
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
@@ -112,6 +127,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x86, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x11, // R#1: 1n
 	0x00, 0xAC, // R#0: 00 nn
@@ -124,6 +140,525 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6C, // R#8: 6n
+	0x8B, // R#9: 8n
+	0x30, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0x07, 0x1C, // R#7: 07 nn
+	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6B, // R#8: 6n
+	0x8A, // R#9: 8n
+	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6A, // R#8: 6n
+	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0xA6, // R#10: An
+	0xE0, // Wait60: En
+	0x07, 0x3C, // R#7: 07 nn
+	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x31, // R#5: 3n
+	0x04, 0x80, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xCA, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x30, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0x07, 0x1C, // R#7: 07 nn
+	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0xA6, // R#10: An
+	0xE0, // Wait60: En
+	0x07, 0x3C, // R#7: 07 nn
+	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x31, // R#5: 3n
+	0x04, 0x80, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xCA, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x30, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0x07, 0x1C, // R#7: 07 nn
+	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x69, // R#8: 6n
+	0x89, // R#9: 8n
+	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x00, 0xA8, // R#0: 00 nn
+	0x68, // R#8: 6n
+	0x02, 0x3C, // R#2: 02 nn
+	0x88, // R#9: 8n
+	0xA7, // R#10: An
+	0xE0, // Wait60: En
+	0x67, // R#8: 6n
+	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
+	0xA6, // R#10: An
+	0xE0, // Wait60: En
+	0x66, // R#8: 6n
+	0x86, // R#9: 8n
+	0x07, 0x3C, // R#7: 07 nn
+	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x14, // R#1: 1n
+	0x00, 0x70, // R#0: 00 nn
+	0x6D, // R#8: 6n
+	0x23, // R#3: 2n
+	0x02, 0x58, // R#2: 02 nn
+	0x8C, // R#9: 8n
+	0x31, // R#5: 3n
+	0x04, 0x80, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xCA, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6C, // R#8: 6n
+	0x8B, // R#9: 8n
+	0x30, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0x07, 0x1C, // R#7: 07 nn
+	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6B, // R#8: 6n
+	0x8A, // R#9: 8n
+	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6A, // R#8: 6n
+	0xA8, // R#10: An
+	0xE0, // Wait60: En
+	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x31, // R#5: 3n
+	0x04, 0x80, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xCA, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x30, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0x07, 0x1C, // R#7: 07 nn
+	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x69, // R#8: 6n
+	0x89, // R#9: 8n
+	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x68, // R#8: 6n
+	0x88, // R#9: 8n
+	0xA8, // R#10: An
+	0xE0, // Wait60: En
+	0x67, // R#8: 6n
+	0x87, // R#9: 8n
+	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x66, // R#8: 6n
+	0x86, // R#9: 8n
+	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x00, 0x30, // R#0: 00 nn
+	0x6D, // R#8: 6n
+	0x28, // R#3: 2n
+	0x02, 0x60, // R#2: 02 nn
+	0x8C, // R#9: 8n
+	0x0C, 0x03, // R#12: 0C nn
+	0x0B, 0x00, // R#11: 0B nn
+	0x33, // R#5: 3n
+	0x04, 0xD0, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xC9, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6C, // R#8: 6n
+	0x8B, // R#9: 8n
+	0x36, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6B, // R#8: 6n
+	0x8A, // R#9: 8n
+	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6A, // R#8: 6n
+	0x89, // R#9: 8n
+	0x38, // R#5: 3n
+	0xE0, // Wait60: En
+	0x69, // R#8: 6n
+	0x88, // R#9: 8n
+	0x07, 0x3C, // R#7: 07 nn
+	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x68, // R#8: 6n
+	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6D, // R#8: 6n
+	0x8C, // R#9: 8n
+	0x33, // R#5: 3n
+	0x04, 0xD0, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xC9, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6C, // R#8: 6n
+	0x8B, // R#9: 8n
+	0x36, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6B, // R#8: 6n
+	0x8A, // R#9: 8n
+	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6A, // R#8: 6n
+	0x38, // R#5: 3n
+	0xE0, // Wait60: En
+	0x07, 0x3C, // R#7: 07 nn
+	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
+	0xE1, // Wait60: En
+	0x0C, 0x00, // R#12: 0C nn
+	0x0B, 0xB8, // R#11: 0B nn
+	0x31, // R#5: 3n
+	0x04, 0x80, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xCA, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x30, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0x07, 0x1C, // R#7: 07 nn
+	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x69, // R#8: 6n
+	0x89, // R#9: 8n
+	0xA9, // R#10: An
+	0xE0, // Wait60: En
+	0x68, // R#8: 6n
+	0xD0, // Wait50: Dn
+	0x88, // R#9: 8n
+	0xA8, // R#10: An
+	0xE0, // Wait60: En
+	0x67, // R#8: 6n
+	0x87, // R#9: 8n
+	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x66, // R#8: 6n
+	0x86, // R#9: 8n
+	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x11, // R#1: 1n
+	0x00, 0x94, // R#0: 00 nn
+	0x6D, // R#8: 6n
+	0x21, // R#3: 2n
+	0x02, 0x30, // R#2: 02 nn
+	0x8C, // R#9: 8n
+	0x31, // R#5: 3n
+	0x04, 0x80, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xCA, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6C, // R#8: 6n
+	0x8B, // R#9: 8n
+	0x30, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0x07, 0x1C, // R#7: 07 nn
+	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6B, // R#8: 6n
+	0x8A, // R#9: 8n
+	0xA9, // R#10: An
+	0xE0, // Wait60: En
+	0x6A, // R#8: 6n
+	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x31, // R#5: 3n
+	0x04, 0x80, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xCA, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x30, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0x07, 0x1C, // R#7: 07 nn
+	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0xA9, // R#10: An
+	0xE0, // Wait60: En
+	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x31, // R#5: 3n
+	0x04, 0x80, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xCA, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x30, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0x07, 0x1C, // R#7: 07 nn
+	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x69, // R#8: 6n
+	0x89, // R#9: 8n
+	0xA9, // R#10: An
+	0xE0, // Wait60: En
+	0x00, 0x90, // R#0: 00 nn
+	0x68, // R#8: 6n
+	0x02, 0x2C, // R#2: 02 nn
+	0x88, // R#9: 8n
+	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x67, // R#8: 6n
+	0x87, // R#9: 8n
+	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x66, // R#8: 6n
+	0x86, // R#9: 8n
+	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x14, // R#1: 1n
+	0x00, 0x30, // R#0: 00 nn
+	0x6D, // R#8: 6n
+	0x23, // R#3: 2n
+	0x02, 0x28, // R#2: 02 nn
+	0x8C, // R#9: 8n
+	0x33, // R#5: 3n
+	0x07, 0x38, // R#7: 07 nn
+	0xAD, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6C, // R#8: 6n
+	0x8B, // R#9: 8n
+	0x04, 0x0A, // R#4: 04 nn
+	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6B, // R#8: 6n
+	0x8A, // R#9: 8n
+	0x04, 0x15, // R#4: 04 nn
+	0xE0, // Wait60: En
+	0x6A, // R#8: 6n
+	0x04, 0x20, // R#4: 04 nn
+	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x04, 0x2A, // R#4: 04 nn
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x04, 0x35, // R#4: 04 nn
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x34, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0xAE, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x04, 0x15, // R#4: 04 nn
+	0xAD, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x69, // R#8: 6n
+	0x89, // R#9: 8n
+	0x04, 0x30, // R#4: 04 nn
+	0xAC, // R#10: An
+	0xE0, // Wait60: En
+	0x68, // R#8: 6n
+	0x88, // R#9: 8n
+	0x04, 0x45, // R#4: 04 nn
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x67, // R#8: 6n
+	0x87, // R#9: 8n
+	0x04, 0x60, // R#4: 04 nn
+	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x66, // R#8: 6n
+	0x86, // R#9: 8n
+	0x04, 0x75, // R#4: 04 nn
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x00, 0x70, // R#0: 00 nn
+	0x6D, // R#8: 6n
+	0x28, // R#3: 2n
+	0x02, 0xE0, // R#2: 02 nn
+	0x8C, // R#9: 8n
+	0x0C, 0x03, // R#12: 0C nn
+	0x0B, 0x00, // R#11: 0B nn
+	0x33, // R#5: 3n
+	0x04, 0xD0, // R#4: 04 nn
+	0xC9, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6C, // R#8: 6n
+	0x8B, // R#9: 8n
+	0x36, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0xE0, // Wait60: En
+	0x6B, // R#8: 6n
+	0x8A, // R#9: 8n
+	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6A, // R#8: 6n
+	0x89, // R#9: 8n
+	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x69, // R#8: 6n
+	0x88, // R#9: 8n
+	0x07, 0x3C, // R#7: 07 nn
+	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x68, // R#8: 6n
+	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6D, // R#8: 6n
+	0x8C, // R#9: 8n
+	0x33, // R#5: 3n
+	0x04, 0xD0, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xC9, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6C, // R#8: 6n
+	0x8B, // R#9: 8n
+	0x36, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0xE0, // Wait60: En
+	0x6B, // R#8: 6n
+	0x8A, // R#9: 8n
+	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x6A, // R#8: 6n
+	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x07, 0x3C, // R#7: 07 nn
+	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
+	0xE1, // Wait60: En
+	0x0C, 0x00, // R#12: 0C nn
+	0x0B, 0xB8, // R#11: 0B nn
+	0x31, // R#5: 3n
+	0x04, 0x80, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xCA, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x30, // R#5: 3n
+	0x04, 0x00, // R#4: 04 nn
+	0x07, 0x1C, // R#7: 07 nn
+	0xA9, // R#10: An
+	0xE0, // Wait60: En
+	0x69, // R#8: 6n
+	0x89, // R#9: 8n
+	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x68, // R#8: 6n
+	0x88, // R#9: 8n
+	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x67, // R#8: 6n
+	0x87, // R#9: 8n
+	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x66, // R#8: 6n
+	0x86, // R#9: 8n
+	0x07, 0x3C, // R#7: 07 nn
+	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
+	0xE0, // Wait60: En
+	0x11, // R#1: 1n
+	0x00, 0xAC, // R#0: 00 nn
+	0x6D, // R#8: 6n
+	0x21, // R#3: 2n
+	0x02, 0x40, // R#2: 02 nn
+	0x8C, // R#9: 8n
+	0x31, // R#5: 3n
+	0x04, 0x80, // R#4: 04 nn
+	0x07, 0x38, // R#7: 07 nn
+	0xCA, // R#13: Cn
+	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -135,20 +670,25 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x31, // R#5: 3n
 	0x04, 0x80, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
@@ -156,19 +696,24 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xA9, // R#10: An
 	0xE0, // Wait60: En
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x31, // R#5: 3n
 	0x04, 0x80, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
@@ -178,21 +723,25 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0xA8, // R#0: 00 nn
 	0x68, // R#8: 6n
 	0x02, 0x3C, // R#2: 02 nn
 	0x88, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x14, // R#1: 1n
 	0x00, 0x70, // R#0: 00 nn
@@ -212,17 +761,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x31, // R#5: 3n
 	0x04, 0x80, // R#4: 04 nn
@@ -234,22 +788,27 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x30, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -268,22 +827,27 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6D, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -297,16 +861,20 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x0C, 0x00, // R#12: 0C nn
 	0x0B, 0xB8, // R#11: 0B nn
@@ -320,458 +888,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
-	0xE0, // Wait60: En
-	0x69, // R#8: 6n
-	0x89, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // Wait60: En
-	0x68, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // Wait60: En
-	0x67, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // Wait60: En
-	0x66, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA6, // R#10: An
-	0xE0, // Wait60: En
-	0x11, // R#1: 1n
-	0x00, 0x94, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x21, // R#3: 2n
-	0x02, 0x30, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x31, // R#5: 3n
-	0x04, 0x80, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xCA, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0x30, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0x07, 0x1C, // R#7: 07 nn
-	0xAB, // R#10: An
-	0xE0, // Wait60: En
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // Wait60: En
-	0x6A, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // Wait60: En
-	0xA7, // R#10: An
-	0xE0, // Wait60: En
-	0xA6, // R#10: An
-	0xE0, // Wait60: En
-	0x31, // R#5: 3n
-	0x04, 0x80, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xCA, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x30, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0x07, 0x1C, // R#7: 07 nn
-	0xAB, // R#10: An
-	0xE0, // Wait60: En
-	0xA9, // R#10: An
-	0xE0, // Wait60: En
-	0xA8, // R#10: An
-	0xE0, // Wait60: En
-	0xA7, // R#10: An
-	0xE0, // Wait60: En
-	0xA6, // R#10: An
-	0xE0, // Wait60: En
-	0x31, // R#5: 3n
-	0x04, 0x80, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xCA, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x30, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0x07, 0x1C, // R#7: 07 nn
-	0xAB, // R#10: An
-	0xE0, // Wait60: En
-	0x69, // R#8: 6n
-	0x89, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // Wait60: En
-	0x00, 0x90, // R#0: 00 nn
-	0x68, // R#8: 6n
-	0x02, 0x2C, // R#2: 02 nn
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // Wait60: En
-	0x67, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // Wait60: En
-	0x66, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA6, // R#10: An
-	0xE0, // Wait60: En
-	0x14, // R#1: 1n
-	0x00, 0x30, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x23, // R#3: 2n
-	0x02, 0x28, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x33, // R#5: 3n
-	0x07, 0x38, // R#7: 07 nn
-	0xAD, // R#10: An
-	0xE0, // Wait60: En
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0x04, 0x0A, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // Wait60: En
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0x04, 0x15, // R#4: 04 nn
-	0xE0, // Wait60: En
-	0x6A, // R#8: 6n
-	0x04, 0x20, // R#4: 04 nn
-	0xAB, // R#10: An
-	0xE0, // Wait60: En
-	0x04, 0x2A, // R#4: 04 nn
-	0xE0, // Wait60: En
-	0x04, 0x35, // R#4: 04 nn
-	0xE0, // Wait60: En
-	0x34, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0xAE, // R#10: An
-	0xE0, // Wait60: En
-	0x04, 0x15, // R#4: 04 nn
-	0xAD, // R#10: An
-	0xE0, // Wait60: En
-	0x69, // R#8: 6n
-	0x89, // R#9: 8n
-	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // Wait60: En
-	0x68, // R#8: 6n
-	0x88, // R#9: 8n
-	0x04, 0x45, // R#4: 04 nn
-	0xE0, // Wait60: En
-	0x67, // R#8: 6n
-	0x87, // R#9: 8n
-	0x04, 0x60, // R#4: 04 nn
-	0xAB, // R#10: An
-	0xE0, // Wait60: En
-	0x66, // R#8: 6n
-	0x86, // R#9: 8n
-	0x04, 0x75, // R#4: 04 nn
-	0xE0, // Wait60: En
-	0x00, 0x70, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x28, // R#3: 2n
-	0x02, 0xE0, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x0C, 0x03, // R#12: 0C nn
-	0x0B, 0x00, // R#11: 0B nn
-	0x33, // R#5: 3n
-	0x04, 0xD0, // R#4: 04 nn
-	0xC9, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0x36, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0xE0, // Wait60: En
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0x37, // R#5: 3n
-	0xE0, // Wait60: En
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0x38, // R#5: 3n
-	0xE0, // Wait60: En
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0x07, 0x3C, // R#7: 07 nn
-	0xA0, // R#10: An
-	0xE0, // Wait60: En
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // Wait60: En
-	0x6D, // R#8: 6n
-	0x8C, // R#9: 8n
-	0x33, // R#5: 3n
-	0x04, 0xD0, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xC9, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0x36, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0xE0, // Wait60: En
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0x37, // R#5: 3n
-	0xE0, // Wait60: En
-	0x6A, // R#8: 6n
-	0x38, // R#5: 3n
-	0xE0, // Wait60: En
-	0x07, 0x3C, // R#7: 07 nn
-	0xA0, // R#10: An
-	0xE1, // Wait60: En
-	0x0C, 0x00, // R#12: 0C nn
-	0x0B, 0xB8, // R#11: 0B nn
-	0x31, // R#5: 3n
-	0x04, 0x80, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xCA, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x30, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0x07, 0x1C, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // Wait60: En
-	0x69, // R#8: 6n
-	0x89, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // Wait60: En
-	0x68, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // Wait60: En
-	0x67, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA6, // R#10: An
-	0xE0, // Wait60: En
-	0x66, // R#8: 6n
-	0x86, // R#9: 8n
-	0x07, 0x3C, // R#7: 07 nn
-	0xA0, // R#10: An
-	0xE0, // Wait60: En
-	0x11, // R#1: 1n
-	0x00, 0xAC, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x21, // R#3: 2n
-	0x02, 0x40, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x31, // R#5: 3n
-	0x04, 0x80, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xCA, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0x30, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0x07, 0x1C, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // Wait60: En
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // Wait60: En
-	0x6A, // R#8: 6n
-	0xA7, // R#10: An
-	0xE0, // Wait60: En
-	0xA6, // R#10: An
-	0xE0, // Wait60: En
-	0x07, 0x3C, // R#7: 07 nn
-	0xA0, // R#10: An
-	0xE0, // Wait60: En
-	0x31, // R#5: 3n
-	0x04, 0x80, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xCA, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x30, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0x07, 0x1C, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // Wait60: En
-	0xA8, // R#10: An
-	0xE0, // Wait60: En
-	0xA7, // R#10: An
-	0xE0, // Wait60: En
-	0xA6, // R#10: An
-	0xE0, // Wait60: En
-	0x07, 0x3C, // R#7: 07 nn
-	0xA0, // R#10: An
-	0xE0, // Wait60: En
-	0x31, // R#5: 3n
-	0x04, 0x80, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xCA, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x30, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0x07, 0x1C, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // Wait60: En
-	0x69, // R#8: 6n
-	0x89, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // Wait60: En
-	0x00, 0xA8, // R#0: 00 nn
-	0x68, // R#8: 6n
-	0x02, 0x3C, // R#2: 02 nn
-	0x88, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // Wait60: En
-	0x67, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA6, // R#10: An
-	0xE0, // Wait60: En
-	0x66, // R#8: 6n
-	0x86, // R#9: 8n
-	0x07, 0x3C, // R#7: 07 nn
-	0xA0, // R#10: An
-	0xE0, // Wait60: En
-	0x14, // R#1: 1n
-	0x00, 0x70, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x23, // R#3: 2n
-	0x02, 0x58, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x31, // R#5: 3n
-	0x04, 0x80, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xCA, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0x30, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0x07, 0x1C, // R#7: 07 nn
-	0xAB, // R#10: An
-	0xE0, // Wait60: En
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // Wait60: En
-	0x6A, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // Wait60: En
-	0xA7, // R#10: An
-	0xE0, // Wait60: En
-	0xA6, // R#10: An
-	0xE0, // Wait60: En
-	0x31, // R#5: 3n
-	0x04, 0x80, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xCA, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x30, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0x07, 0x1C, // R#7: 07 nn
-	0xAB, // R#10: An
-	0xE0, // Wait60: En
-	0x69, // R#8: 6n
-	0x89, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // Wait60: En
-	0x68, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // Wait60: En
-	0x67, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // Wait60: En
-	0x66, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA6, // R#10: An
-	0xE0, // Wait60: En
-	0x00, 0x30, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x28, // R#3: 2n
-	0x02, 0x60, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x0C, 0x03, // R#12: 0C nn
-	0x0B, 0x00, // R#11: 0B nn
-	0x33, // R#5: 3n
-	0x04, 0xD0, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xC9, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0x36, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0xE0, // Wait60: En
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0x37, // R#5: 3n
-	0xE0, // Wait60: En
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0x38, // R#5: 3n
-	0xE0, // Wait60: En
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0x07, 0x3C, // R#7: 07 nn
-	0xA0, // R#10: An
-	0xE0, // Wait60: En
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // Wait60: En
-	0x6D, // R#8: 6n
-	0x8C, // R#9: 8n
-	0x33, // R#5: 3n
-	0x04, 0xD0, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xC9, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0x36, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0xE0, // Wait60: En
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0x37, // R#5: 3n
-	0xE0, // Wait60: En
-	0x6A, // R#8: 6n
-	0x38, // R#5: 3n
-	0xE0, // Wait60: En
-	0x07, 0x3C, // R#7: 07 nn
-	0xA0, // R#10: An
-	0xE1, // Wait60: En
-	0x0C, 0x00, // R#12: 0C nn
-	0x0B, 0xB8, // R#11: 0B nn
-	0x31, // R#5: 3n
-	0x04, 0x80, // R#4: 04 nn
-	0x07, 0x38, // R#7: 07 nn
-	0xCA, // R#13: Cn
-	0xB0, // R#10: Bn | 0x10
-	0xE0, // Wait60: En
-	0x30, // R#5: 3n
-	0x04, 0x00, // R#4: 04 nn
-	0x07, 0x1C, // R#7: 07 nn
-	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0x69, // R#8: 6n
 	0xE0, // Wait60: En
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0x68, // R#8: 6n
 	0xE0, // Wait60: En
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0x67, // R#8: 6n
 	0xE0, // Wait60: En
 	0x87, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
 	0xE0, // Wait60: En
@@ -779,6 +911,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x11, // R#1: 1n
 	0x00, 0x94, // R#0: 00 nn
 	0x6D, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x21, // R#3: 2n
 	0x02, 0x30, // R#2: 02 nn
@@ -795,14 +928,18 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xE0, // Wait60: En
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
 	0xE0, // Wait60: En
@@ -811,17 +948,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
 	0xE0, // Wait60: En
@@ -830,25 +972,30 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x90, // R#0: 00 nn
 	0x68, // R#8: 6n
 	0x02, 0x2C, // R#2: 02 nn
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
@@ -863,39 +1010,48 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x33, // R#5: 3n
 	0x07, 0x38, // R#7: 07 nn
 	0xAD, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x04, 0x0A, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x04, 0x15, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x04, 0x20, // R#4: 04 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x2A, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x35, // R#4: 04 nn
 	0xE0, // Wait60: En
 	0x34, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0xAE, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x15, // R#4: 04 nn
 	0xAD, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0x30, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x04, 0x45, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
@@ -903,6 +1059,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xAB, // R#10: An
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x86, // R#9: 8n
 	0x04, 0x75, // R#4: 04 nn
 	0xE0, // Wait60: En
@@ -918,19 +1075,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
@@ -939,6 +1100,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x14, // R#1: 1n
 	0x00, 0x70, // R#0: 00 nn
@@ -950,19 +1112,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
@@ -971,6 +1137,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
@@ -985,6 +1152,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -993,35 +1161,44 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -1035,40 +1212,50 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
@@ -1082,6 +1269,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -1090,10 +1278,12 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
@@ -1102,10 +1292,12 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x14, // R#1: 1n
 	0x00, 0x70, // R#0: 00 nn
@@ -1120,42 +1312,51 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x40, // R#6: 4n
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD3, // Wait50: Dn
 	0xE4, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
@@ -1165,9 +1366,11 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
@@ -1182,6 +1385,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -1190,17 +1394,21 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x0C, 0x03, // R#12: 0C nn
 	0x0B, 0x00, // R#11: 0B nn
@@ -1209,9 +1417,11 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
@@ -1219,15 +1429,18 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0x38, // R#5: 3n
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -1238,25 +1451,30 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
+	0xD2, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
@@ -1265,14 +1483,17 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
@@ -1286,6 +1507,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -1294,6 +1516,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -1301,28 +1524,36 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x14, // R#1: 1n
 	0x00, 0x70, // R#0: 00 nn
@@ -1337,11 +1568,13 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -1349,28 +1582,35 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x89, // R#9: 8n
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
@@ -1385,6 +1625,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -1396,32 +1637,41 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xA9, // R#10: An
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -1435,6 +1685,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -1444,31 +1695,39 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
@@ -1482,6 +1741,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -1494,18 +1754,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x80, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -1520,6 +1784,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0x6C, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
@@ -1528,11 +1793,14 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8A, // R#9: 8n
 	0xE0, // Wait60: En
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x40, // R#6: 4n
 	0x30, // R#5: 3n
@@ -1541,6 +1809,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xAB, // R#10: An
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD4, // Wait50: Dn
 	0xE4, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
@@ -1550,22 +1819,27 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0xF8, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -1587,17 +1861,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x0C, 0x03, // R#12: 0C nn
 	0x0B, 0x00, // R#11: 0B nn
@@ -1609,22 +1888,27 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -1640,11 +1924,14 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8B, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
+	0xD2, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
@@ -1654,19 +1941,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
@@ -1674,6 +1965,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
 	0x6D, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x02, 0x38, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0x0C, 0x00, // R#12: 0C nn
@@ -1691,15 +1983,19 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
 	0xE0, // Wait60: En
@@ -1707,19 +2003,24 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x3A, // R#5: 3n
 	0x07, 0x18, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
@@ -1731,6 +2032,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x28, // R#3: 2n
 	0x02, 0xE0, // R#2: 02 nn
 	0x8C, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0x0C, 0x03, // R#12: 0C nn
 	0x0B, 0x00, // R#11: 0B nn
 	0x33, // R#5: 3n
@@ -1743,19 +2045,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
@@ -1765,24 +2071,29 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
@@ -1800,6 +2111,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -1808,35 +2120,44 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -1850,40 +2171,50 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
@@ -1897,6 +2228,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -1905,14 +2237,17 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
@@ -1921,6 +2256,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x14, // R#1: 1n
 	0x00, 0x70, // R#0: 00 nn
@@ -1935,42 +2271,52 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x40, // R#6: 4n
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD3, // Wait50: Dn
 	0xE4, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
@@ -1979,10 +2325,12 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
+	0xD0, // Wait50: Dn
 	0xA0, // R#10: An
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
@@ -1997,6 +2345,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -2005,17 +2354,21 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x0C, 0x03, // R#12: 0C nn
 	0x0B, 0x00, // R#11: 0B nn
@@ -2024,13 +2377,16 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
@@ -2040,9 +2396,11 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -2053,29 +2411,36 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
+	0xD1, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
@@ -2085,9 +2450,11 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
@@ -2101,6 +2468,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -2109,35 +2477,44 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xA8, // R#10: An
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x14, // R#1: 1n
 	0x00, 0x70, // R#0: 00 nn
@@ -2152,11 +2529,13 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -2164,28 +2543,35 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
@@ -2200,6 +2586,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -2208,6 +2595,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -2215,28 +2603,36 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -2250,11 +2646,13 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -2262,27 +2660,34 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6A, // R#8: 6n
 	0xE0, // Wait60: En
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
@@ -2297,6 +2702,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x48, // R#6: 4n
@@ -2308,18 +2714,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x80, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -2334,6 +2744,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
@@ -2342,12 +2753,15 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x0C, 0x00, // R#12: 0C nn
 	0x0B, 0xB8, // R#11: 0B nn
@@ -2356,6 +2770,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
@@ -2363,25 +2778,30 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xA9, // R#10: An
 	0xE0, // Wait60: En
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x31, // R#5: 3n
 	0x04, 0x80, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x31, // R#5: 3n
 	0x04, 0x80, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
@@ -2391,19 +2811,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0xF8, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -2415,6 +2839,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -2426,14 +2851,18 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x31, // R#5: 3n
 	0x04, 0x80, // R#4: 04 nn
@@ -2444,24 +2873,29 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
+	0xD0, // Wait50: Dn
 	0xA9, // R#10: An
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -2476,18 +2910,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8B, // R#9: 8n
 	0x04, 0x0A, // R#4: 04 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x04, 0x15, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x04, 0x20, // R#4: 04 nn
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x2A, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x35, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
@@ -2495,23 +2934,28 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x04, 0x0A, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0x15, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x04, 0x20, // R#4: 04 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0x04, 0x2A, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
 	0x04, 0x35, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xF8, // R#0: 00 nn
@@ -2526,43 +2970,53 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8B, // R#9: 8n
 	0x04, 0x15, // R#4: 04 nn
 	0xAD, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x04, 0x30, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x04, 0x45, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x60, // R#4: 04 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x75, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x00, // R#4: 04 nn
 	0xAE, // R#10: An
 	0xE0, // Wait60: En
 	0x04, 0x15, // R#4: 04 nn
 	0xAD, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0x30, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x04, 0x45, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0x04, 0x60, // R#4: 04 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
 	0x04, 0x75, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0xC0, // R#0: 00 nn
@@ -2581,24 +3035,29 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
 	0xE0, // Wait60: En
 	0x6D, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x8C, // R#9: 8n
 	0x40, // R#6: 4n
 	0x30, // R#5: 3n
@@ -2609,19 +3068,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8B, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
@@ -2634,6 +3097,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8C, // R#9: 8n
 	0x0C, 0x00, // R#12: 0C nn
 	0x0B, 0xB8, // R#11: 0B nn
+	0xD0, // Wait50: Dn
 	0x31, // R#5: 3n
 	0x04, 0x80, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
@@ -2647,32 +3111,41 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
@@ -2689,39 +3162,49 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x86, // R#9: 8n
 	0xE0, // Wait60: En
 	0x00, 0x80, // R#0: 00 nn
@@ -2736,6 +3219,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -2744,14 +3228,17 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
@@ -2760,6 +3247,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0xC0, // R#0: 00 nn
@@ -2774,46 +3262,57 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x40, // R#6: 4n
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD3, // Wait50: Dn
 	0xE4, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
@@ -2822,6 +3321,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0x80, // R#0: 00 nn
@@ -2836,6 +3336,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -2844,17 +3345,21 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x0C, 0x03, // R#12: 0C nn
 	0x0B, 0x00, // R#11: 0B nn
@@ -2863,25 +3368,30 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x38, // R#5: 3n
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0xD0, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -2892,29 +3402,36 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
+	0xD1, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
@@ -2924,9 +3441,11 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x80, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -2940,6 +3459,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -2948,35 +3468,44 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0xC0, // R#0: 00 nn
@@ -2991,40 +3520,49 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x68, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x88, // R#9: 8n
 	0x67, // R#8: 6n
 	0xE0, // Wait60: En
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0x66, // R#8: 6n
 	0xE0, // Wait60: En
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0x12, // R#1: 1n
 	0x00, 0x80, // R#0: 00 nn
 	0xE0, // Wait60: En
@@ -3039,6 +3577,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xE0, // Wait60: En
@@ -3047,34 +3586,43 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xE0, // Wait60: En
 	0xA9, // R#10: An
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0xD0, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -3089,10 +3637,12 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -3100,28 +3650,35 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x80, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -3135,6 +3692,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -3143,6 +3701,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -3151,14 +3710,17 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x18, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -3172,6 +3734,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -3179,28 +3742,34 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x40, // R#6: 4n
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD3, // Wait50: Dn
 	0xE4, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
@@ -3208,18 +3777,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x80, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -3232,6 +3805,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -3244,13 +3818,17 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x0C, 0x03, // R#12: 0C nn
 	0x0B, 0x00, // R#11: 0B nn
@@ -3259,6 +3837,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
@@ -3266,18 +3845,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0xD0, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -3288,6 +3871,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -3296,14 +3880,17 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
+	0xD2, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
@@ -3311,18 +3898,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x80, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -3339,6 +3930,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0x48, // R#6: 4n
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
@@ -3348,13 +3940,17 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0x3A, // R#5: 3n
@@ -3364,19 +3960,24 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0xC0, // R#0: 00 nn
@@ -3396,22 +3997,27 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6D, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -3423,22 +4029,27 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8B, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0x80, // R#0: 00 nn
@@ -3461,38 +4072,48 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
 	0xE0, // Wait60: En
 	0x00, 0xD0, // R#0: 00 nn
 	0x6D, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x22, // R#3: 2n
 	0x02, 0x18, // R#2: 02 nn
 	0x8C, // R#9: 8n
@@ -3508,32 +4129,41 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
@@ -3547,6 +4177,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x0B, 0xB8, // R#11: 0B nn
 	0x31, // R#5: 3n
 	0x04, 0x80, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
@@ -3558,18 +4189,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
@@ -3588,46 +4223,57 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x40, // R#6: 4n
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD3, // Wait50: Dn
 	0xE4, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
@@ -3636,6 +4282,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0x80, // R#0: 00 nn
@@ -3650,6 +4297,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -3658,17 +4306,21 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x0C, 0x03, // R#12: 0C nn
 	0x0B, 0x00, // R#11: 0B nn
@@ -3677,17 +4329,21 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
@@ -3696,6 +4352,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0xD0, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -3706,33 +4363,41 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
+	0xD1, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
@@ -3741,6 +4406,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x80, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -3754,6 +4420,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -3762,34 +4429,43 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0x69, // R#8: 6n
 	0xE0, // Wait60: En
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0x68, // R#8: 6n
 	0xE0, // Wait60: En
 	0x88, // R#9: 8n
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0xC0, // R#0: 00 nn
@@ -3805,39 +4481,48 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0x80, // R#0: 00 nn
@@ -3853,6 +4538,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x48, // R#6: 4n
@@ -3860,35 +4546,44 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
 	0xE0, // Wait60: En
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0xD0, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -3902,40 +4597,49 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x88, // R#9: 8n
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x80, // R#0: 00 nn
 	0x6D, // R#8: 6n
@@ -3949,6 +4653,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -3957,6 +4662,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -3964,15 +4670,18 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xA8, // R#10: An
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -3987,11 +4696,13 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -3999,9 +4710,11 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x0C, 0x00, // R#12: 0C nn
 	0x0B, 0xB8, // R#11: 0B nn
@@ -4010,11 +4723,13 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA8, // R#10: An
 	0xE0, // Wait60: En
@@ -4023,24 +4738,29 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x31, // R#5: 3n
 	0x04, 0x80, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
@@ -4049,15 +4769,18 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0x38, // R#0: 00 nn
@@ -4070,6 +4793,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -4077,6 +4801,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -4084,17 +4809,21 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x31, // R#5: 3n
 	0x04, 0x80, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
@@ -4102,21 +4831,25 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xA9, // R#10: An
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x89, // R#9: 8n
 	0xA8, // R#10: An
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -4126,6 +4859,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x32, // R#5: 3n
 	0x07, 0x38, // R#7: 07 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -4135,25 +4869,30 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x04, 0x15, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0x20, // R#4: 04 nn
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0x04, 0x2A, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
 	0x04, 0x35, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6D, // R#8: 6n
 	0x8C, // R#9: 8n
 	0x33, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0xAD, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -4163,19 +4902,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x04, 0x15, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0x20, // R#4: 04 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0x04, 0x2A, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
 	0x04, 0x35, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6D, // R#8: 6n
 	0x23, // R#3: 2n
@@ -4184,6 +4927,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x34, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0xAE, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -4194,17 +4938,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8A, // R#9: 8n
 	0x04, 0x30, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x04, 0x45, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x60, // R#4: 04 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x75, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x00, // R#4: 04 nn
 	0xAE, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x15, // R#4: 04 nn
 	0xAD, // R#10: An
@@ -4213,19 +4962,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x89, // R#9: 8n
 	0x04, 0x30, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x04, 0x45, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
 	0x04, 0x60, // R#4: 04 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
 	0x04, 0x75, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x16, // R#1: 1n
 	0x00, 0x50, // R#0: 00 nn
@@ -4241,6 +4994,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x8C, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
@@ -4248,18 +5002,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6D, // R#8: 6n
 	0x8D, // R#9: 8n
@@ -4272,22 +5030,27 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8C, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x28, // R#0: 00 nn
@@ -4310,22 +5073,27 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6D, // R#8: 6n
 	0x8D, // R#9: 8n
@@ -4336,18 +5104,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8C, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x16, // R#1: 1n
 	0x00, 0x50, // R#0: 00 nn
@@ -4367,22 +5140,27 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8C, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6D, // R#8: 6n
 	0x8D, // R#9: 8n
@@ -4396,19 +5174,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8C, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
@@ -4416,6 +5198,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x13, // R#1: 1n
 	0x00, 0x28, // R#0: 00 nn
 	0x6D, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x21, // R#3: 2n
 	0x02, 0x94, // R#2: 02 nn
 	0x8D, // R#9: 8n
@@ -4434,18 +5217,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
@@ -4457,6 +5244,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x22, // R#3: 2n
 	0x02, 0x38, // R#2: 02 nn
 	0x8D, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0x0C, 0x03, // R#12: 0C nn
 	0x0B, 0x00, // R#11: 0B nn
 	0x33, // R#5: 3n
@@ -4469,34 +5257,43 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8C, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x40, // R#6: 4n
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x86, // R#9: 8n
@@ -4508,24 +5305,29 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
@@ -4543,6 +5345,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -4551,19 +5354,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0x6A, // R#8: 6n
 	0xE0, // Wait60: En
 	0x8A, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0x69, // R#8: 6n
 	0xE0, // Wait60: En
 	0x89, // R#9: 8n
 	0xA7, // R#10: An
 	0x68, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x88, // R#9: 8n
 	0xA6, // R#10: An
@@ -4572,22 +5379,27 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8D, // R#9: 8n
 	0x40, // R#6: 4n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xE0, // Wait60: En
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x16, // R#1: 1n
 	0x00, 0xB0, // R#0: 00 nn
@@ -4603,18 +5415,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
@@ -4623,6 +5439,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6D, // R#8: 6n
 	0x8D, // R#9: 8n
@@ -4632,18 +5449,22 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
@@ -4652,6 +5473,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -4666,6 +5488,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -4674,14 +5497,17 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
@@ -4690,6 +5516,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6D, // R#8: 6n
 	0x8D, // R#9: 8n
@@ -4697,25 +5524,30 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x3A, // R#5: 3n
 	0x07, 0x18, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
 	0x30, // R#5: 3n
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x89, // R#9: 8n
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xD0, // R#0: 00 nn
@@ -4726,16 +5558,19 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x48, // R#6: 4n
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -4743,12 +5578,14 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xA6, // R#10: An
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -4757,15 +5594,18 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -4774,11 +5614,13 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -4791,15 +5633,18 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -4808,11 +5653,13 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -4821,15 +5668,18 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -4838,11 +5688,13 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x14, // R#1: 1n
 	0x00, 0x00, // R#0: 00 nn
@@ -4854,15 +5706,18 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
@@ -4871,10 +5726,12 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -4883,11 +5740,13 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -4895,15 +5754,18 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xA8, // R#10: An
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0xC0, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -4914,11 +5776,13 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -4927,14 +5791,17 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -4943,11 +5810,13 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -4956,14 +5825,17 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA6, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x00, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -4974,11 +5846,13 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x30, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -4991,6 +5865,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0xCA, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
@@ -4998,10 +5873,12 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0x1C, // R#7: 07 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -5009,9 +5886,11 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x04, 0xA0, // R#4: 04 nn
 	0x07, 0x38, // R#7: 07 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0xAA, // R#4: 04 nn
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -5021,14 +5900,17 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8A, // R#9: 8n
 	0x04, 0xC0, // R#4: 04 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0xCA, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x04, 0xD5, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x00, 0x58, // R#0: 00 nn
@@ -5037,6 +5919,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8C, // R#9: 8n
 	0x04, 0xA0, // R#4: 04 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0xAA, // R#4: 04 nn
 	0xAA, // R#10: An
@@ -5044,24 +5927,29 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x04, 0xB5, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x04, 0xC0, // R#4: 04 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0xCA, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x04, 0xD5, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
 	0x04, 0xA0, // R#4: 04 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0xAA, // R#4: 04 nn
 	0xAA, // R#10: An
@@ -5069,19 +5957,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x04, 0xB5, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x04, 0xC0, // R#4: 04 nn
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0xCA, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x04, 0xD5, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x00, 0xD0, // R#0: 00 nn
@@ -5092,6 +5984,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x32, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x0A, // R#4: 04 nn
 	0xAB, // R#10: An
@@ -5099,25 +5992,30 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x04, 0x15, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x04, 0x20, // R#4: 04 nn
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0x2A, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x04, 0x35, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
 	0x33, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0xAD, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x0A, // R#4: 04 nn
 	0xAC, // R#10: An
@@ -5125,19 +6023,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x04, 0x15, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x04, 0x20, // R#4: 04 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0x2A, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x04, 0x35, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x60, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -5146,6 +6048,7 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x34, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0xAE, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x04, 0x15, // R#4: 04 nn
 	0xAD, // R#10: An
@@ -5154,19 +6057,23 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0x8B, // R#9: 8n
 	0x04, 0x30, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x04, 0x45, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0x60, // R#4: 04 nn
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
 	0x04, 0x75, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -5179,28 +6086,33 @@ const u8 g_ayVGM_metalgear_06[] = {
 	0xE0, // Wait60: En
 	0x36, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0x37, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x38, // R#5: 3n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0x07, 0x3C, // R#7: 07 nn
 	0xA0, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x88, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x14, // R#1: 1n
 	0x00, 0x70, // R#0: 00 nn
 	0x6D, // R#8: 6n
 	0x28, // R#3: 2n
 	0x02, 0xE0, // R#2: 02 nn
-	0xFE, 0x4E, 0x04, // End of music with loop
+	0xFE, 0xEB, 0x04, // End of music with loop
 };
-// Total size: 6286 bytes
+// Total size: 7198 bytes

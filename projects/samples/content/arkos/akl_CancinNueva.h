@@ -4,7 +4,7 @@
 //   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▀ ██ ██ █
 // _____________________________________________________________________________
 // CMSXbin 1.2.0 by Guillaume "Aoineko" Blanchard (2021) under CC BY-SA free license
-// File generated on Tue Jan 18 12:29:56 2022
+// File generated on Wed Jan 19 00:06:09 2022
 // Soure file: arkos\CancinNueva.akl
 const unsigned char g_AKL_CancinNueva[] = {
 	0x41, 0x54, 0x4C, 0x57, 0x01, 0x11, 0xA0, 0x0D, 0xA0, 0x0F, 0xA0, 0x34, 0xA0, 0x00, 0x00, 0x00, //      0

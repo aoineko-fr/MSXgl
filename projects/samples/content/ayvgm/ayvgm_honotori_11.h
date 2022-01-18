@@ -4,12 +4,12 @@
 //   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ 
 // ______________________________▀▀  ___________________________________________
 // CMSXzip 1.0.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Tue Jan 18 12:29:53 2022
+// File generated on Wed Jan 19 00:06:05 2022
 // Soure file: vgm\honotori_11.vgm (3616 bytes)
 // Compressor: ayVGM
 const u8 g_ayVGM_honotori_11[] = {
 	0x61, 0x79, 0x4D, 0x20, // Ident
-	0x02, // Flag
+	0x03, // Flag
 	0x07, 0x00, // R#7: 07 nn
 	0x18, // R#1: 1n
 	0x00, 0x00, // R#0: 00 nn
@@ -27,12 +27,15 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD2, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
@@ -41,29 +44,36 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x02, 0x7C, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD1, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x4A, // R#6: 4n
 	0x10, // R#1: 1n
@@ -72,30 +82,37 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x02, 0x54, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x07, 0x38, // R#7: 07 nn
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x50, // R#6: 5n | 0x10
 	0x10, // R#1: 1n
 	0x07, 0x31, // R#7: 07 nn
 	0x66, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x65, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x46, // R#6: 4n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x39, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x18, // R#1: 1n
 	0x07, 0x38, // R#7: 07 nn
@@ -107,17 +124,22 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
@@ -126,49 +148,62 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
+	0xD1, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x02, 0x7C, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD1, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x4A, // R#6: 4n
 	0x10, // R#1: 1n
@@ -182,16 +217,20 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x07, 0x38, // R#7: 07 nn
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x50, // R#6: 5n | 0x10
 	0x10, // R#1: 1n
 	0x07, 0x31, // R#7: 07 nn
 	0x66, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x65, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x46, // R#6: 4n
 	0x89, // R#9: 8n
@@ -201,6 +240,7 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x60, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x18, // R#1: 1n
 	0x07, 0x38, // R#7: 07 nn
@@ -208,24 +248,30 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x02, 0x1C, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD1, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0xE0, // R#0: 00 nn
 	0x6B, // R#8: 6n
@@ -233,24 +279,30 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x8C, // R#9: 8n
 	0x04, 0x70, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD1, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x02, 0x7C, // R#2: 02 nn
@@ -260,12 +312,15 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD2, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
@@ -274,6 +329,7 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x4A, // R#6: 4n
 	0x10, // R#1: 1n
@@ -283,30 +339,36 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x02, 0x54, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x07, 0x38, // R#7: 07 nn
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x50, // R#6: 5n | 0x10
 	0x10, // R#1: 1n
 	0x07, 0x31, // R#7: 07 nn
 	0x66, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x65, // R#8: 6n
 	0xE0, // Wait60: En
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x46, // R#6: 4n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x39, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x18, // R#1: 1n
 	0x00, 0xE0, // R#0: 00 nn
@@ -315,29 +377,36 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x02, 0x00, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
 	0xE0, // Wait60: En
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x89, // R#9: 8n
@@ -345,11 +414,14 @@ const u8 g_ayVGM_honotori_11[] = {
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
+	0xD2, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x88, // R#9: 8n
@@ -357,30 +429,37 @@ const u8 g_ayVGM_honotori_11[] = {
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x87, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xA8, // R#10: An
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x02, 0x7C, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD1, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x4A, // R#6: 4n
 	0x10, // R#1: 1n
@@ -390,30 +469,37 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x02, 0x54, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x07, 0x38, // R#7: 07 nn
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x50, // R#6: 5n | 0x10
 	0x10, // R#1: 1n
 	0x07, 0x31, // R#7: 07 nn
 	0x66, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x65, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x46, // R#6: 4n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x39, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x18, // R#1: 1n
 	0x00, 0xE0, // R#0: 00 nn
@@ -424,20 +510,24 @@ const u8 g_ayVGM_honotori_11[] = {
 	0xAC, // R#10: An
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD2, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
 	0xE0, // Wait60: En
@@ -449,13 +539,16 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x8C, // R#9: 8n
 	0x04, 0xC0, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD2, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
@@ -463,33 +556,41 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x02, 0xBE, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD1, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x4A, // R#6: 4n
 	0x10, // R#1: 1n
@@ -499,6 +600,7 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x02, 0xE4, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x07, 0x38, // R#7: 07 nn
@@ -510,14 +612,18 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x07, 0x31, // R#7: 07 nn
 	0x66, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x65, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x46, // R#6: 4n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x39, // R#7: 07 nn
 	0x60, // R#8: 6n
@@ -532,18 +638,23 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x02, 0x00, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0xAB, // R#10: An
@@ -551,36 +662,45 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
+	0xD1, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x20, // R#3: 2n
 	0x02, 0xE4, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -588,13 +708,16 @@ const u8 g_ayVGM_honotori_11[] = {
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD2, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
@@ -609,50 +732,62 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x02, 0x1C, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x07, 0x38, // R#7: 07 nn
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x50, // R#6: 5n | 0x10
 	0x10, // R#1: 1n
 	0x07, 0x31, // R#7: 07 nn
 	0x66, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x65, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xAA, // R#10: An
 	0xE0, // Wait60: En
 	0x46, // R#6: 4n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x39, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x19, // R#1: 1n
 	0x00, 0x80, // R#0: 00 nn
 	0x07, 0x38, // R#7: 07 nn
 	0x6B, // R#8: 6n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
+	0xD1, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x1A, // R#1: 1n
 	0x00, 0x00, // R#0: 00 nn
@@ -662,6 +797,7 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x35, // R#5: 3n
 	0x04, 0x00, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -669,13 +805,16 @@ const u8 g_ayVGM_honotori_11[] = {
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD2, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
@@ -684,11 +823,14 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x6B, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
+	0xD2, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0xAA, // R#10: An
@@ -696,10 +838,12 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x67, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x4A, // R#6: 4n
 	0x10, // R#1: 1n
@@ -707,37 +851,45 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x6A, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x07, 0x38, // R#7: 07 nn
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x50, // R#6: 5n | 0x10
 	0x10, // R#1: 1n
 	0x07, 0x31, // R#7: 07 nn
 	0x66, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x65, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x46, // R#6: 4n
 	0x88, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x39, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x1A, // R#1: 1n
 	0x07, 0x38, // R#7: 07 nn
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -746,18 +898,23 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x68, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x88, // R#9: 8n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x87, // R#9: 8n
@@ -765,14 +922,17 @@ const u8 g_ayVGM_honotori_11[] = {
 	0xE0, // Wait60: En
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xAC, // R#10: An
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD2, // Wait50: Dn
 	0xE2, // Wait60: En
 	0x68, // R#8: 6n
 	0x89, // R#9: 8n
@@ -781,10 +941,12 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x67, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x4A, // R#6: 4n
 	0x10, // R#1: 1n
@@ -795,47 +957,59 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x34, // R#5: 3n
 	0x04, 0x70, // R#4: 04 nn
 	0xAC, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x12, // R#1: 1n
 	0x07, 0x38, // R#7: 07 nn
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x50, // R#6: 5n | 0x10
 	0x10, // R#1: 1n
 	0x07, 0x31, // R#7: 07 nn
 	0x66, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x65, // R#8: 6n
+	0xD1, // Wait50: Dn
 	0xE1, // Wait60: En
 	0x46, // R#6: 4n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x39, // R#7: 07 nn
 	0x60, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x13, // R#1: 1n
 	0x07, 0x38, // R#7: 07 nn
 	0x6C, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x0A, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xE0, // Wait60: En
 	0x00, 0x15, // R#0: 00 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x20, // R#0: 00 nn
 	0x6A, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x2A, // R#0: 00 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x35, // R#0: 00 nn
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x40, // R#0: 00 nn
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x4A, // R#0: 00 nn
 	0x87, // R#9: 8n
@@ -844,6 +1018,7 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x14, // R#1: 1n
 	0x00, 0x00, // R#0: 00 nn
 	0x6D, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0x02, 0x00, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0x04, 0x00, // R#4: 04 nn
@@ -853,30 +1028,41 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x30, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x8A, // R#9: 8n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x45, // R#0: 00 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x60, // R#0: 00 nn
 	0x6A, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0x75, // R#0: 00 nn
 	0xE0, // Wait60: En
 	0x00, 0x90, // R#0: 00 nn
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x00, 0xB0, // R#0: 00 nn
 	0x69, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x18, // R#1: 1n
 	0x00, 0x00, // R#0: 00 nn
 	0x6B, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x6A, // R#8: 6n
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x69, // R#8: 6n
+	0xDF, // Wait50: Dn
+	0xDF, // Wait50: Dn
+	0xD9, // Wait50: Dn
 	0xEF, // Wait60: En
 	0xEF, // Wait60: En
 	0xEF, // Wait60: En
@@ -886,14 +1072,17 @@ const u8 g_ayVGM_honotori_11[] = {
 	0x68, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x67, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA8, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x66, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA7, // R#10: An
+	0xD0, // Wait50: Dn
 	0xE0, // Wait60: En
 	0x07, 0x39, // R#7: 07 nn
 	0x60, // R#8: 6n
@@ -903,4 +1092,4 @@ const u8 g_ayVGM_honotori_11[] = {
 	0xA0, // R#10: An
 	0xFF, // End of music
 };
-// Total size: 1001 bytes
+// Total size: 1190 bytes
