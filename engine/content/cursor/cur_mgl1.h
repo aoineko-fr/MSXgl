@@ -6,7 +6,7 @@
 // Author: Guillaume "Aoineko" Blanchard, for MSXgl (MSX Game library)
 // License: CC-BY-SA
 // _____________________________________________________________________________
-// Data generated using CMSXimg 1.12.0 on Thu Jan 13 19:16:33 2022
+// Data generated using CMSXimg 1.12.0 on Mon Jan 17 23:01:50 2022
 // by Guillaume "Aoineko" Blanchard (2021) under CC BY-SA free license
 // Generation parameters:
 //  - Input file:     cursor\cur_mgl1.png

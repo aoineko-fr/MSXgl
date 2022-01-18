@@ -16,6 +16,10 @@ rem -- Build VGM data --
 if not exist %Dest%\vgm md %Dest%\vgm
 for %%I in (vgm\*.vgm) do %CMSXtk%\CMSXbin.exe %%I -t g_VGM_%%~nI -ad  -o %Dest%\vgm\vgm_%%~nI.h
 
+rem -- Build ayVGM data --
+if not exist %Dest%\ayvgm md %Dest%\ayvgm
+for %%I in (vgm\*.vgm) do %CMSXtk%\CMSXzip.exe %%I -t g_ayVGM_%%~nI -ad -ayVGM -freq both -o %Dest%\ayvgm\ayvgm_%%~nI.h
+
 rem -- Build Arkos data --
 if not exist %Dest%\arkos md %Dest%\arkos
 for %%I in (arkos\*.akg) do %CMSXtk%\CMSXbin.exe %%I -t g_AKG_%%~nI -ad -o %Dest%\arkos\akg_%%~nI.h
@@ -24,9 +28,23 @@ for %%I in (arkos\*.aky) do %CMSXtk%\CMSXbin.exe %%I -t g_AKY_%%~nI -ad -o %Dest
 for %%I in (arkos\*.akl) do %CMSXtk%\CMSXbin.exe %%I -t g_AKL_%%~nI -ad -o %Dest%\arkos\akl_%%~nI.h
 
 rem -- Build pcmenc data --
-REM if not exist pcm md pcm
-REM for %%I in (pcm\*.wav) do Tools%\Audio\pcmenc\pcmenc.exe %%I
-REM for %%I in (pcm\*.bin) do %CMSXtk%\CMSXbin.exe %%I -ad -o pcm\pcm_%%~nI.h
+REM if not exist %Dest%\pcm md %Dest%\pcm
+REM :: 8 KHz
+REM for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -dt1 31 -dt2 27 -dt3 388 %%I
+REM move pcm\*.bin pcm\8K
+REM for %%I in (pcm\8K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -ad -o %Dest%\pcm\pcm_8k_%%~nI.h
+REM :: 11 KHz
+REM for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -dt1 32 -dt2 27 -dt3 265 %%I
+REM move pcm\*.bin pcm\11K
+REM for %%I in (pcm\11K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -ad -o %Dest%\pcm\pcm_11k_%%~nI.h
+REM :: 22 KHz
+REM for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -rto 2 -dt1 156 -dt2 27 -dt3 141 %%I
+REM move pcm\*.bin pcm\22K
+REM for %%I in (pcm\22K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -ad -o %Dest%\pcm\pcm_22k_%%~nI.h
+REM :: 44 KHz
+REM for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -p 1 -rto 3 -dt1 73 -dt2 84 -dt3 87 %%I
+REM move pcm\*.bin pcm\44K
+REM for %%I in (pcm\44K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -ad -o %Dest%\pcm\pcm_44k_%%~nI.h
 
 rem -- Build CMSXimg data --
 %CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_bmp_8b.h    -pos 16 32  -size 16 16 -num 1 1  -name g_DataBmp8b    -trans 0x8468a1 -bpc 8

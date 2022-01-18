@@ -4,7 +4,7 @@
 //   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▀ ██ ██ █
 // _____________________________________________________________________________
 // CMSXbin 1.2.0 by Guillaume "Aoineko" Blanchard (2021) under CC BY-SA free license
-// File generated on Thu Jan 13 15:06:19 2022
+// File generated on Mon Jan 17 21:02:38 2022
 // Soure file: arkos\CancinNueva.aky
 const unsigned char g_AKY_CancinNueva[] = {
 	0x80, 0x03, 0x58, 0x0F, 0x1B, 0x00, 0x40, 0x01, 0x5B, 0xA0, 0x70, 0xA0, 0x3A, 0xA0, 0x40, 0x01, //      0

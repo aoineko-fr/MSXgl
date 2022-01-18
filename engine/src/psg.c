@@ -222,7 +222,7 @@ void PSG_Silent()
 	g_PSG_Regs.Volume[0] = 0;
 	g_PSG_Regs.Volume[1] = 0;
 	g_PSG_Regs.Volume[2] = 0;
-	g_PSG_Regs.Mixer = 0;
+	// g_PSG_Regs.Mixer = 0;
 }
 
 #else // if (PSG_ACCESS == PSG_DIRECT)

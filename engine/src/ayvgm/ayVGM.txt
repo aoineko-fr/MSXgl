@@ -1,0 +1,57 @@
+	Header
+----------------------------
+	nn nn		"ayM "
+	nn			Options
+				7 6 5 4 3 2 1 0
+				          │ │ └── 50 Hz frequency marker included 
+				          │ └──── 60 Hz frequency marker included
+				          └────── Loop data included
+
+
+	Opcode		Action
+----------------------------
+ Tone Period
+----------------------------
+	00 nn		R#0	= nn
+	1n		    R#1	= n	& 0x0F
+	02 nn	    R#2	= nn
+	2n		    R#3	= n	& 0x0F
+	04 nn	    R#4	= nn
+	3n		    R#5	= n	& 0x0F
+----------------------------
+ Noise Period
+----------------------------
+	4n	    	R#6	= n
+	5n	    	R#6	= n | 0x10
+----------------------------
+ Noise Period
+----------------------------
+	07 nn       R#7	= nn
+----------------------------
+ Tone Amplitude
+----------------------------
+	6n	    	R#8	= n	
+	7n	    	R#8	= n | 0x10
+	8n	    	R#9	= n
+	9n	    	R#9	= n | 0x10
+	An	    	R#A	= n
+	Bn	    	R#A	= n | 0x10
+----------------------------
+ Envelope Period
+----------------------------
+	0B nn       R#11 = nn
+	0C nn       R#12 = nn
+----------------------------
+ Envelope Shape
+----------------------------
+	Cn          R#13 = n & 0x0F
+----------------------------
+ Wait
+----------------------------
+	Dn			Wait 882 * (n & 0x0F + 1) samples (50 Hz)
+	En			Wait 735 * (n & 0x0F + 1) samples (60 Hz)
+----------------------------
+ Special
+----------------------------
+	FE nn nn    End of song with loop
+	FF          End of song (without loop)
