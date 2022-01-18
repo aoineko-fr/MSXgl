@@ -18,7 +18,7 @@ for %%I in (vgm\*.vgm) do %CMSXtk%\CMSXbin.exe %%I -t g_VGM_%%~nI -ad  -o %Dest%
 
 rem -- Build ayVGM data --
 if not exist %Dest%\ayvgm md %Dest%\ayvgm
-for %%I in (vgm\*.vgm) do %CMSXtk%\CMSXzip.exe %%I -t g_ayVGM_%%~nI -ad -ayVGM -freq both -o %Dest%\ayvgm\ayvgm_%%~nI.h
+for %%I in (vgm\*.vgm) do %CMSXtk%\CMSXzip.exe %%I -t g_ayVGM_%%~nI -ad -ayVGM -freq 60 -o %Dest%\ayvgm\ayvgm_%%~nI.h
 
 rem -- Build Arkos data --
 if not exist %Dest%\arkos md %Dest%\arkos

@@ -11,7 +11,18 @@
 // DEFINES
 //=============================================================================
 
-/// VGM header file data structure
+// VGM playback state flag
+enum VGM_STATE
+{
+	VGM_STATE_50HZ = 0b00000001,
+	VGM_STATE_LOOP = 0b00000010,
+	VGM_STATE_PLAY = 0b10000000,
+};
+
+#define VGM_WAIT_50HZ	882 // 50 Hz
+#define VGM_WAIT_60HZ	735 // 60 Hz
+
+// VGM header file data structure
 struct VGM_Header
 {
 	u32 Ident;			u32 EoF_offset;		u32 Version;		u32 SN76489_clock;
@@ -47,14 +58,42 @@ struct VGM_Header
 extern const struct VGM_Header* g_VGM_Header;
 extern const u8* g_VGM_Pointer;
 extern const u8* g_VGM_Loop;
-extern u16       g_VGM_Wait;
+extern u16       g_VGM_WaitCount;
+extern u16       g_VGM_WaitFrame;
+extern u8        g_VGM_State;
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
-/// Play a VGM data
-bool VGM_Play(const void* addr, u8 loop);
+// Function: VGM_Play
+// Start music playback
+bool VGM_Play(const void* addr, bool loop);
 
-/// Decode a frame of VGM data
+// Function: VGM_Stop
+// Stop music playback
+void VGM_Stop();
+
+// Function: ayVGM_SetFrequency50Hz
+// Change frequency to 50 Hz
+inline bool VGM_SetFrequency50Hz() { g_VGM_State |= VGM_STATE_50HZ; g_VGM_WaitFrame = VGM_WAIT_50HZ; }
+
+// Function: ayVGM_SetFrequency60Hz
+// Change frequency to 60 Hz
+inline bool VGM_SetFrequency60Hz() { g_VGM_State &= ~VGM_STATE_50HZ; g_VGM_WaitFrame = VGM_WAIT_60HZ; }
+
+// Function: VGM_IsPlaying
+// Check if music playing
+inline bool VGM_IsPlaying() { return g_VGM_State & VGM_STATE_PLAY; }
+
+// Function: VGM_Resume
+// Resume music playback
+inline void VGM_Resume() { g_VGM_State |= VGM_STATE_PLAY; }
+
+// Function: VGM_Pause
+// Pause music playback
+inline void VGM_Pause() { g_VGM_State &= ~VGM_STATE_PLAY; PSG_Silent(); }
+
+// Function: VGM_Decode
+// Decode a frame of music
 void VGM_Decode();

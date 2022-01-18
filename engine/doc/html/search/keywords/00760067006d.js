@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("vgm",["Function"],[["VGM_Decode",,[[,,,,0,"File:vgm/vgm_player.h:VGM_Decode"]]],["VGM_Play",,[[,,,,0,"File:vgm/vgm_player.h:VGM_Play"]]]]);

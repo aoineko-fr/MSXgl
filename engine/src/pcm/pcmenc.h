@@ -22,21 +22,29 @@
 
 
 #if (PCMENC_FREQ & PCMENC_8K)
-/// Play a pcmenc sound at 8 KHz (synchronously)
+// Function: PCM_Play_8K
+// Play a pcmenc sound at 8 KHz (synchronously).
+// Available only if (PCMENC_FREQ & PCMENC_8K).
 void PCM_Play_8K(u16 addr);
 #endif
 
 #if (PCMENC_FREQ & PCMENC_11K)
-/// Play a pcmenc sound at 11 KHz (synchronously)
+// Function: PCM_Play_11K
+// Play a pcmenc sound at 11 KHz (synchronously).
+// Available only if (PCMENC_FREQ & PCMENC_11K).
 void PCM_Play_11K(u16 addr);
 #endif
 
 #if (PCMENC_FREQ & PCMENC_22K)
-/// Play a pcmenc sound at 22 KHz (synchronously)
+// Function: PCM_Play_22K
+// Play a pcmenc sound at 22 KHz (synchronously).
+// Available only if (PCMENC_FREQ & PCMENC_22K).
 void PCM_Play_22K(u16 addr);
 #endif
 
 #if (PCMENC_FREQ & PCMENC_44K)
-/// Play a pcmenc sound at 44 KHz (synchronously)
+// Function: PCM_Play_44K
+// Play a pcmenc sound at 44 KHz (synchronously).
+// Available only if (PCMENC_FREQ & PCMENC_44K).
 void PCM_Play_44K(u16 addr);
 #endif

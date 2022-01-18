@@ -121,7 +121,7 @@ set DoCompile=1
 set DoMake=1
 set DoPackage=1
 set DoDeploy=1
-set DoRun=0
+set DoRun=1
 
 rem ***************************************************************************
 rem * START BUILD                                                             *

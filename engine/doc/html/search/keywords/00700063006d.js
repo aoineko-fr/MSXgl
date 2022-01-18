@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("pcm",["Function"],[["PCM_Play_11K",,[[,,,,0,"File:pcm/pcmenc.h:PCM_Play_11K"]]],["PCM_Play_22K",,[[,,,,0,"File:pcm/pcmenc.h:PCM_Play_22K"]]],["PCM_Play_44K",,[[,,,,0,"File:pcm/pcmenc.h:PCM_Play_44K"]]],["PCM_Play_8K",,[[,,,,0,"File:pcm/pcmenc.h:PCM_Play_8K"]]]]);

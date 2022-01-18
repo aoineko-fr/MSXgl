@@ -12,8 +12,8 @@
 ::*****************************************************************************
 :: DIRECTORIES SETTINGS
 ::*****************************************************************************
-REM set ProjDir=.
-set ProjDir=%~d1%~p1
+set ProjDir=.
+REM set ProjDir=%~d1%~p1
 set OutDir=%ProjDir%\out
 set LibDir=%ProjDir%\..\..\engine
 set ToolsDir=%ProjDir%\..\..\tools
@@ -28,7 +28,7 @@ set Hex2Bin=%ToolsDir%\build\Hex2bin\hex2bin.exe
 set FillFile=%ToolsDir%\build\MakeROM\fillfile.exe
 set MSXDOS=%ToolsDir%\build\MSXDOS
 set DskTool=%ToolsDir%\build\DskTool\dsktool.exe
-set Emulator=
+set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
 REM set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
 REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
 REM set Emulator=%ToolsDir%\MEISEI\meisei.exe

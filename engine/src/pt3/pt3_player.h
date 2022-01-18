@@ -56,6 +56,7 @@
 
 //-----------------------------------------------------------------------------
 // INCLUDES
+//-----------------------------------------------------------------------------
 
 // MSXgl headers
 #include "core.h"
@@ -63,12 +64,12 @@
 
 //-----------------------------------------------------------------------------
 // DEFINES
+//-----------------------------------------------------------------------------
 
 #define PT3_SKIP_HEADER		1
 #define PT3_AUTOPLAY		0
 #define PT3_EXTRA			1
 #define PT3_USE_CALLBACK	0
-
 
 //ChannelsVars
 //struc	CHNPRM
@@ -173,118 +174,153 @@ extern u16 PT3_SrtCrPsPtr;	// Cursor position in pattern at start
 extern callback PT3_Finish; // Finish callback
 
 //-----------------------------------------------------------------------------
-// FUNCTIONS PROTOTYPE
+// FUNCTIONS
+//-----------------------------------------------------------------------------
 
-/// Initialize the PT3 player
+// Group: Core
+
+// Function: PT3_Init
+// Initialize the PT3 player
 void PT3_Init();
 
-/// Initialize a given song to make it ready to playback
-/// @param		songAddr	Start address of the data
-///							If PT3_SKIP_HEADER is set, this address must be header address + 100 (if the data are not troncated)
+// Function: PT3_InitSong
+// Initialize a given song to make it ready to playback
+//
+// Parameters: PT3_InitSong
+//   songAddr	- Start address of the data. If PT3_SKIP_HEADER is set, this address must be header address + 100 (if the data are not troncated)
 void PT3_InitSong(const void* songADDR) __z88dk_fastcall;
 
-/// Pause song playback
+// Function: PT3_Pause
+// Pause song playback
 void PT3_Pause();
 
-/// Resume song playback
+// Function: PT3_Resume
+// Resume song playback
 void PT3_Resume();
 
-/// Change state of playback loop
-/// @param		loop		Either loop or not (true: do loop; false: don't loop)
+// Function: PT3_SetLoop
+// Change state of playback loop
+//
+// Parameters:
+//   loop		- Either loop or not (true: do loop; false: don't loop)
 void PT3_SetLoop(bool loop) __z88dk_fastcall; 
 
-/// Silence the PSG
+// Function: PT3_Silence
+// Silence the PSG
 void PT3_Silence();
 
-/// Decode a frame from PT3 song
+// Function: PT3_Decode
+// Decode a frame from PT3 song
 void PT3_Decode(); 
 
-/// Send data to PSG registers
-/// @note					Must be executed on each V-Blank interruption
+// Function: PT3_UpdatePSG
+// Send data to PSG registers
+// @note					Must be executed on each V-Blank interruption
 void PT3_UpdatePSG();
 
+// Group: Inline
 
-//-----------------------------------------------------------------------------
-// INLINE FUNCTIONS PROTOTYPE
+// Function: PT3_SetNoteTable
+// Set notes table
+//
+// Parameters:
+//   nt			- Address of the note table to use
+inline void PT3_SetNoteTable(const void* nt) { PT3_NoteTable = nt; }
 
-//-----------------------------------------------------------------------------
-/// Set notes table
-/// @param		nt			Address of the note table to use
-inline void PT3_SetNoteTable(const void* nt)
-{
-	PT3_NoteTable = nt;
-}
-
-//-----------------------------------------------------------------------------
-/// Check if loop flag is set
-///	@return				True (1) if loop flag is set, false (0) otherwise
+// Function: PT3_GetLoop
+// Check if loop flag is set
+//
+// Returns:
+//   True (1) if loop flag is set, false (0) otherwise
 inline bool PT3_GetLoop()
 {
 	return (PT3_State & PT3_STATE_LOOP);
 }
 
-//-----------------------------------------------------------------------------
-/// Check if playback flag is set
-///	@return				True (1) if playback flag is set, false (0) otherwise
+// Function: PT3_IsPlaying
+// Check if playback flag is set
+//
+// Returns:
+//	 True (1) if playback flag is set, false (0) otherwise
 inline bool PT3_IsPlaying()
 {
 	return (PT3_State & PT3_STATE_PLAY);
 }
 
-//-----------------------------------------------------------------------------
-/// Play the current music
+// Function: PT3_Play
+// Play the current music
 inline void PT3_Play()
 {
 	PT3_Resume();
 }
 
-//-----------------------------------------------------------------------------
-/// Get the current amplitude of a given channel
-///	@param		chan		The channel number (0: channel A, 1: channel B, 2: channel C)
-/// @return					Volume in bits #0 to #3 and envelope seting in bit #4
-//	7	6	5	4	3	2	1	0	
-//	x	x	x	M	L3	L2	L1	L0 	
-//  			│	└───┴───┴───┴── Channel A Amplitude (volume)
-//				└────────────────── Volume controlled by Envelope enable/disable
+// Function: PT3_GetVolume
+// Get the current amplitude of a given channel
+//
+// Parameters:
+//	 chan		- The channel number (0: channel A, 1: channel B, 2: channel C)
+//
+// Returns:
+//   Volume in bits #0 to #3 and envelope seting in bit #4
+// :	7	6	5	4	3	2	1	0	
+// :	x	x	x	M	L3	L2	L1	L0 	
+// :  			│	└───┴───┴───┴── Channel A Amplitude (volume)
+// :			└────────────────── Volume controlled by Envelope enable/disable
 inline u8 PT3_GetVolume(u8 chan)
 {
 	return PT3_Regs[PSG_REG_AMP_A + chan] & 0x0F;
 }
 
-//-----------------------------------------------------------------------------
-/// Get the current frequency of a given channel
-///	@param		chan		The channel number (0: channel A, 1: channel B, 2: channel C)
-/// @return					12-bits tone period (1 to 4095)
-///							Frequency = 111,861 Hz / Period.
-///							Reange from 111,861 Hz (divide by 1) down to 27.3 Hz (divide by 4095)
+// Function: PT3_GetFrequency
+// Get the current frequency of a given channel
+//
+// Parameters:
+//	 chan		- The channel number (0: channel A, 1: channel B, 2: channel C)
+//
+// Returns:
+//   12-bits tone period (1 to 4095).
+//   Frequency = 111,861 Hz / Period.
+//   Reange from 111,861 Hz (divide by 1) down to 27.3 Hz (divide by 4095)
 inline u16 PT3_GetFrequency(u8 chan)
 {
 	return *(u16*)&PT3_Regs[PSG_REG_TONE_A + chan * 2];
 }
 
-//-----------------------------------------------------------------------------
-/// Get a given PSG register value
-///	@param		reg			The PSG register number (0-13)
-/// @return					Value of the given register in the PT3 buffer
+// Function: PT3_GetPSGRegister
+// Get a given PSG register value
+//
+// Parameters:
+//	 reg			- The PSG register number (0-13)
+//
+// Returns:
+//   Value of the given register in the PT3 buffer
 inline u8 PT3_GetPSGRegister(u8 reg)
 {
 	return PT3_Regs[reg];
 }
 
 #if (PT3_EXTRA)
+	
+// Group: Extra
 
 //-----------------------------------------------------------------------------
-/// Get the current pattern number
-/// @return					Pattern number between 0 and max
+// Function: PT3_GetPattern
+// Get the current pattern number
+//
+// Returns:
+//   Pattern number between 0 and max
 inline u8 PT3_GetPattern()
 {
 	return PT3_CrPsPtr - PT3_SrtCrPsPtr;
 }
 
 //-----------------------------------------------------------------------------
-/// Mute a given channel
-///	@param		chan		The channel number (0: channel A, 1: channel B, 2: channel C)
-///	@param		mute		Mute (true) or un-mute (false) the given channel
+// Function: PT3_Mute
+// Mute a given channel
+//
+// Parameters:
+//	 chan		- The channel number (0: channel A, 1: channel B, 2: channel C)
+//	 mute		- Mute (true) or un-mute (false) the given channel
 inline void PT3_Mute(u8 chan, bool mute)
 {
 	if(mute)
@@ -294,7 +330,8 @@ inline void PT3_Mute(u8 chan, bool mute)
 }
 
 //-----------------------------------------------------------------------------
-/// Set the function to be call when the music ended
+// Function: PT3_SetFinishCB
+// Set the function to be call when the music ended
 inline u8 PT3_SetFinishCB(callback cb)
 {
 	PT3_Finish = cb; 

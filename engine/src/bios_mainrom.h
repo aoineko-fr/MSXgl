@@ -107,12 +107,17 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 // RST-and other routines
 //=============================================================================
 
+// Group: Core
+
 //-----------------------------------------------------------------------------
 // CHKRAM (STARTUP, RESET, BOOT)	#0000	Tests RAM and sets RAM slot for the system
 #define R_CHKRAM	0x0000 // Tests RAM and sets RAM slot for the system
 #define R_STARTUP	0x0000
 #define R_RESET		0x0000
 #define R_BOOT		0x0000
+
+// Function: Bios_Startup
+// Tests RAM and sets RAM slot for the system
 inline void Bios_Startup();
 
 //-----------------------------------------------------------------------------
@@ -122,7 +127,13 @@ inline void Bios_Startup();
 //-----------------------------------------------------------------------------
 // RDSLT	#000C	Reads the value of an address in another slot
 #define R_RDSLT		0x000C // Reads the value of an address in another slot
+
+// Function: Bios_InterSlotRead
+// Reads the value of an address in another slot
 u8 Bios_InterSlotRead(u8 slot, u16 addr);
+
+// Function: Bios_MainROMRead
+// Reads the value of an address in another slot
 u8 Bios_MainROMRead(u16 addr) __FASTCALL;
 
 //-----------------------------------------------------------------------------
@@ -132,6 +143,9 @@ u8 Bios_MainROMRead(u16 addr) __FASTCALL;
 //-----------------------------------------------------------------------------
 // WRSLT	#0014	Writes a value to an address in another slot
 #define R_WRSLT		0x0014 // Writes a value to an address in another slot
+
+// Function: Bios_InterSlotWrite
+// Writes a value to an address in another slot
 void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value) __sdcccall(0);
 
 //-----------------------------------------------------------------------------
@@ -141,7 +155,13 @@ void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value) __sdcccall(0);
 //-----------------------------------------------------------------------------
 // CALSLT	#001C	Executes inter-slot call
 #define R_CALSLT	0x001C // Executes inter-slot call
+
+// Function: Bios_InterSlotCall
+// Executes inter-slot call
 void Bios_InterSlotCall(u8 slot, u16 addr) __sdcccall(0);
+
+// Function: Bios_MainROMCall
+// Executes inter-slot call
 void Bios_MainROMCall(u16 addr) __FASTCALL;
 
 //-----------------------------------------------------------------------------
@@ -151,6 +171,9 @@ void Bios_MainROMCall(u16 addr) __FASTCALL;
 //-----------------------------------------------------------------------------
 // ENASLT	#0024	Switches indicated slot at indicated page on perpetually
 #define R_ENASLT	0x0024 // Switches indicated slot at indicated page on perpetual
+
+// Function: Bios_SwitchSlot
+// Switches indicated slot at indicated page on perpetual
 void Bios_SwitchSlot(u8 page, u8 slot);
 
 //-----------------------------------------------------------------------------
@@ -179,6 +202,8 @@ void Bios_SwitchSlot(u8 page, u8 slot);
 // Initialization-routines
 //=============================================================================
 
+// Group: Initialization
+
 //-----------------------------------------------------------------------------
 // INITIO	#003B	Initialises the device
 #define R_INITIO	0x003B // Initialises the device
@@ -190,66 +215,104 @@ void Bios_SwitchSlot(u8 page, u8 slot);
 //=============================================================================
 // VDP routines
 //=============================================================================
+
+// Group: VDP
 #if USE_BIOS_VDP
 
 //-----------------------------------------------------------------------------
 // DISSCR	#0041	Inhibits the screen display
 #define R_DISSCR	0x0041 // Inhibits the screen display
+
+// Function: Bios_DisableScreen
+// Inhibits the screen display
 inline void Bios_DisableScreen();
 
 //-----------------------------------------------------------------------------
 // ENASCR	#0044	Displays the screen
 #define R_ENASCR	0x0044 // Displays the screen
+
+// Function: Bios_EnableScreen
+// Displays the screen
 inline void Bios_EnableScreen();
 
 //-----------------------------------------------------------------------------
 // WRTVDP	#0047	Write data in the VDP-register
 #define R_WRTVDP	0x0047 // Write data in the VDP-register
+
+// Function: Bios_WriteVDP
+// Write data in the VDP-register
 void Bios_WriteVDP(u8 reg, u8 value) __sdcccall(0);
 
 //-----------------------------------------------------------------------------
 // RDVRM	#004A	Reads the content of VRAM
 #define R_RDVRM		0x004A // Reads the content of VRAM
+
+// Function: Bios_ReadVRAM
+// Reads the content of VRAM
 u8 Bios_ReadVRAM(u16 addr) __FASTCALL;
 
 //-----------------------------------------------------------------------------
 // WRTVRM	#004D	Writes data in VRAM
 #define R_WRTVRM	0x004D // Writes data in VRAM
+
+// Function: Bios_WriteVRAM
+// Writes data in VRAM
 void Bios_WriteVRAM(u16 addr, u8 value) __sdcccall(0);
 
 //-----------------------------------------------------------------------------
 // SETRD	#0050	Sets VRAM address to read a byte or more
 #define R_SETRD		0x0050 // Enable VDP to read
+
+// Function: Bios_SetAddressForRead
+// Enable VDP to read
 void Bios_SetAddressForRead(u16 addr) __FASTCALL;
 
 //-----------------------------------------------------------------------------
 // SETWRT	#0053	Sets VRAM address to write or more
 #define R_SETWRT	0x0053 // Enable VDP to write
+
+// Function: Bios_SetAddressForWrite
+// Enable VDP to write
 void Bios_SetAddressForWrite(u16 addr) __FASTCALL;
 
 //-----------------------------------------------------------------------------
 // FILVRM	#0056	Fills the specified VRAM area with the same data
 #define R_FILVRM	0x0056 // Fill VRAM with value
+
+// Function: Bios_FillVRAM
+// Fill VRAM with value
 void Bios_FillVRAM(u16 addr, u16 length, u8 value) __sdcccall(0);
 
 //-----------------------------------------------------------------------------
 // LDIRMV	#0059	Block transfer from VRAM to memory
 #define R_LDIRMV	0x0059 // Block transfer to memory from VRAM
+
+// Function: Bios_TransfertVRAMtoRAM
+// Block transfer to memory from VRAM
 void Bios_TransfertVRAMtoRAM(u16 vram, u16 ram, u16 length) __sdcccall(0);
 
 //-----------------------------------------------------------------------------
 // LDIRVM	#005C	Block transfer from memory to VRAM
 #define R_LDIRVM	0x005C // Block transfer to VRAM from memory
+
+// Function: Bios_TransfertRAMtoVRAM
+// Block transfer to VRAM from memory
 void Bios_TransfertRAMtoVRAM(u16 ram, u16 vram, u16 length) __sdcccall(0);
 
 //-----------------------------------------------------------------------------
 // CHGMOD	#005F	Switches to given screen mode
 #define R_CHGMOD	0x005F // Switches to given screenmode
+
+// Function: Bios_ChangeMode
+// Switches to given screenmode
 void Bios_ChangeMode(u8 screen) __FASTCALL;
 
 //-----------------------------------------------------------------------------
 // CHGCLR	#0062	Changes the screen colors
 #define R_CHGCLR	0x0062 // Changes the screencolors
+
+// Function: Bios_ChangeColor
+// Changes the screencolors
 void Bios_ChangeColor(u8 text, u8 back, u8 border) __sdcccall(0);
 
 //-----------------------------------------------------------------------------
@@ -259,78 +322,137 @@ void Bios_ChangeColor(u8 text, u8 back, u8 border) __sdcccall(0);
 //-----------------------------------------------------------------------------
 // INITXT	#006C	Switches to SCREEN 0 (text screen with 40×24 characters)
 #define R_INITXT	0x006C // Switches to SCREEN 0 (text screen with 40*24 characters)
+
+// Function: Bios_InitScreen0
+// Switches to SCREEN 0 (text screen with 40*24 characters)
 inline void Bios_InitScreen0();
+
+// Function: Bios_InitScreen0Ex
+// Switches to SCREEN 0 (text screen with 40*24 characters)
 inline void Bios_InitScreen0Ex(u16 pnt, u16 pgt, u8 width, u8 text, u8 bg, u8 border);
+
 #define Bios_InitTextMode   Bios_InitScreen0
 #define Bios_InitTextModeEx Bios_InitScreen0Ex
 
 //-----------------------------------------------------------------------------
 // INIT32	#006F	Switches to SCREEN 1 (text screen with 32×24 characters)
 #define R_INIT32	0x006F // Switches to SCREEN 1 (text screen with 32*24 characters)
+
+// Function: Bios_InitScreen1
+// Switches to SCREEN 1 (text screen with 32*24 characters)
 inline void Bios_InitScreen1();
+
+// Function: Bios_InitScreen1Ex
+// Switches to SCREEN 1 (text screen with 32*24 characters)
 inline void Bios_InitScreen1Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 bg, u8 border);
+
 #define Bios_InitText32Mode   Bios_InitScreen1	
 #define Bios_InitText32ModeEx Bios_InitScreen1Ex	
 
 //-----------------------------------------------------------------------------
 // INIGRP	#0072	Switches to SCREEN 2 (high resolution screen with 256×192 pixels)
 #define R_INIGRP	0x0072 // Switches to SCREEN 2 (high resolution screen with 256*192 pixels)
+
+// Function: Bios_InitScreen2
+// Switches to SCREEN 2 (high resolution screen with 256*192 pixels)
 inline void Bios_InitScreen2();
+
+// Function: Bios_InitScreen2Ex
+// Switches to SCREEN 2 (high resolution screen with 256*192 pixels)
 inline void Bios_InitScreen2Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 bg, u8 border);
+
 #define Bios_InitGraphicMode   Bios_InitScreen2	
 #define Bios_InitGraphicModeEx Bios_InitScreen2Ex	
 
 //-----------------------------------------------------------------------------
 // INIMLT	#0075	Switches to SCREEN 3 (multi-color screen with 64×48 pixels)
 #define R_INIMLT	0x0075 // Switches to SCREEN 3 (multi-color screen 64*48 pixels)
+
+// Function: Bios_InitScreen3
+// Switches to SCREEN 3 (multi-color screen 64*48 pixels)
 inline void Bios_InitScreen3();
+
+// Function: Bios_InitScreen3Ex
+// Switches to SCREEN 3 (multi-color screen 64*48 pixels)
 inline void Bios_InitScreen3Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 bg, u8 border);
+
 #define Bios_InitMulticolorMode   Bios_InitScreen3
 #define Bios_InitMulticolorModeEx Bios_InitScreen3Ex
 
 //-----------------------------------------------------------------------------
 // SETTXT	#0078	Switches VDP to SCREEN 0 mode
 #define R_SETTXT	0x0078 // Switches VDP in SCREEN 0 mode
+
+// Function: Bios_SetScreen0
+// Switches VDP in SCREEN 0 mode
 inline void Bios_SetScreen0();
+
 #define Bios_SetTextMode Bios_SetScreen0
 
 //-----------------------------------------------------------------------------
 // SETT32	#007B	Switches VDP to SCREEN 1 mode
 #define R_SETT32	0x007B // Switches VDP in SCREEN 1 mode
+
+// Function: Bios_SetScreen1
+// Switches VDP in SCREEN 1 mode
 inline void Bios_SetScreen1();
+
 #define Bios_SetText32Mode Bios_SetScreen1	
 
 //-----------------------------------------------------------------------------
 // SETGRP	#007E	Switches VDP to SCREEN 2 mode
 #define R_SETGRP	0x007E // Switches VDP to SCREEN 2 mode
+
+// Function: Bios_SetScreen2
+// Switches VDP to SCREEN 2 mode
 inline void Bios_SetScreen2();
+
 #define Bios_SetGraphicMode Bios_SetScreen2	
 
 //-----------------------------------------------------------------------------
 // SETMLT	#0081	Switches VDP to SCREEN 3 mode
 #define R_SETMLT	0x0081 // Switches VDP to SCREEN 3 mode
+
+// Function: Bios_SetScreen3
+// Switches VDP to SCREEN 3 mode
 inline void Bios_SetScreen3();
+
 #define Bios_SetMulticolorMode Bios_SetScreen3
 
 //-----------------------------------------------------------------------------
 // CALPAT	#0084	Returns the address of the sprite pattern table
 #define R_CALPAT	0x0084 // Returns the address of the sprite pattern table
+
+// Function: Bios_GetPatternTableAddress
+// Returns the address of the sprite pattern table
 u16 Bios_GetPatternTableAddress(u8 id) __FASTCALL;
 
 //-----------------------------------------------------------------------------
 // CALATR	#0087	Returns the address of the sprite attribute table
 #define R_CALATR	0x0087 // Returns the address of the sprite attribute table
+
+// Function: Bios_GetAttributeTableAddress
+// Returns the address of the sprite attribute table
 u16 Bios_GetAttributeTableAddress(u8 id) __FASTCALL;
 
 //-----------------------------------------------------------------------------
 // GSPSIZ	#008A	Returns current sprite size
 #define R_GSPSIZ	0x008A // Returns current sprite size
+
+// Function: Bios_GetSpriteSize
+// Returns current sprite size
 u8 Bios_GetSpriteSize();
 
 //-----------------------------------------------------------------------------
 // GRPPRT	#008D	Displays a character on the graphic screen
 #define R_GRPPRT	0x008D // Displays a character on the graphic screen
+
+// Function: Bios_GraphPrintChar
+// Displays a character on the graphic screen
 void Bios_GraphPrintChar(u8 chr) __FASTCALL;
+
+// Function: Bios_GraphPrintCharEx
+// Displays a character on the graphic screen
 void Bios_GraphPrintCharEx(u8 chr, u16 x, u8 y, u8 color, u8 op);
 
 #endif // USE_BIOS_VDP
@@ -338,26 +460,39 @@ void Bios_GraphPrintCharEx(u8 chr, u16 x, u8 y, u8 color, u8 op);
 //=============================================================================
 // PSG routines
 //=============================================================================
+
+// Group: PSG
 #if USE_BIOS_PSG
 
 //-----------------------------------------------------------------------------
 // GICINI	#0090	Initialises PSG and sets initial value for the PLAY statement
 #define R_GICINI	0x0090 // Initialises PSG and sets initial value for the PLAY statement
+
+// Function: Bios_InitPSG
 inline void Bios_InitPSG();
 
 //-----------------------------------------------------------------------------
 // WRTPSG	#0093	Writes data to PSG register
 #define R_WRTPSG	0x0093 // Writes data to PSG-register
+
+// Function: Bios_WritePSG
+// Writes data to PSG-register
 void Bios_WritePSG(u8 reg, u8 value) __sdcccall(0);
 
 //-----------------------------------------------------------------------------
 // RDPSG	#0096	Reads value from PSG register
 #define R_RDPSG		0x0096 // Reads value from PSG-register
+
+// Function: Bios_ReadPSG
+// Reads value from PSG-register
 u8 Bios_ReadPSG(u8 reg) __FASTCALL;
 
 //-----------------------------------------------------------------------------
 // STRTMS	#0099	Tests whether the PLAY statement is being executed as a background task. If not, begins to execute the PLAY statement
 #define R_STRTMS	0x0099 // Tests whether the PLAY statement is being executed as a background task
+
+// Function: Bios_PlayPSG
+// Tests whether the PLAY statement is being executed as a background task
 inline void Bios_PlayPSG();
 
 #endif // USE_BIOS_PSG
@@ -366,6 +501,8 @@ inline void Bios_PlayPSG();
 // Console routines
 //=============================================================================
 
+// Group: Console
+
 //-----------------------------------------------------------------------------
 // CHSNS	#009C	Tests the status of the keyboard buffer
 #define R_CHSNS		0x009C // Tests the status of the keyboard buffer
@@ -373,11 +510,17 @@ inline void Bios_PlayPSG();
 //-----------------------------------------------------------------------------
 // CHGET	#009F	Waits for a character input on the keyboard
 #define R_CHGET		0x009F // One character input (waiting)
+
+// Function: Bios_GetCharacter
+// One character input (waiting)
 u8 Bios_GetCharacter();
 
 //-----------------------------------------------------------------------------
 // CHPUT	#00A2	Displays one character
 #define R_CHPUT		0x00A2 // Displays one character
+
+// Function: Bios_TextPrintChar
+// Displays one character
 void Bios_TextPrintChar(u8 chr) __FASTCALL;
 
 //-----------------------------------------------------------------------------
@@ -419,16 +562,24 @@ void Bios_TextPrintChar(u8 chr) __FASTCALL;
 //-----------------------------------------------------------------------------
 // BEEP		#00C0	Generates beep
 #define R_BEEP		0x00C0 // Generates beep
+
+// Function: 
 inline void Bios_Beep();
 
 //-----------------------------------------------------------------------------
 // CLS		#00C3	Clears the screen
 #define R_CLS		0x00C3 // Clears the screen
+
+// Function: Bios_ClearScreen
+// Clears the screen
 inline void Bios_ClearScreen();
 
 //-----------------------------------------------------------------------------
 // POSIT	#00C6	Moves cursor to the specified position
 #define R_POSIT		0x00C6 // Moves cursor to the specified position
+
+// Function: Bios_SetCursorPosition
+// Moves cursor to the specified position
 void Bios_SetCursorPosition(u8 X, u8 Y);
 
 //-----------------------------------------------------------------------------
@@ -451,14 +602,22 @@ void Bios_SetCursorPosition(u8 X, u8 Y);
 // Controller routines
 //=============================================================================
 
+// Group: Controller
+
 //-----------------------------------------------------------------------------
 // GTSTCK	#00D5	Returns the joystick status
 #define R_GTSTCK	0x00D5 // Returns the joystick status
+
+// Function: Bios_GetJoystickDirection
+// Returns the joystick status
 u8 Bios_GetJoystickDirection(u8 port) __FASTCALL;
 
 //-----------------------------------------------------------------------------
 // GTTRIG	#00D8	Returns current trigger status
 #define R_GTTRIG	0x00D8 // Returns current trigger status
+
+// Function: Bios_GetJoystickTrigger
+// Returns current trigger status
 u8 Bios_GetJoystickTrigger(u8 trigger) __FASTCALL;
 
 //-----------------------------------------------------------------------------
@@ -472,6 +631,8 @@ u8 Bios_GetJoystickTrigger(u8 trigger) __FASTCALL;
 //=============================================================================
 // Tape device routines
 //=============================================================================
+
+// Group: Tape
 
 //-----------------------------------------------------------------------------
 // TAPION	#00E1	Reads the header block after turning the cassette motor on
@@ -505,6 +666,8 @@ u8 Bios_GetJoystickTrigger(u8 trigger) __FASTCALL;
 // Queue routines
 //=============================================================================
 
+// Group: Queue
+
 //-----------------------------------------------------------------------------
 // LFTQ		#00F6	Gives number of bytes in queue
 #define R_LFTQ		0x00F6 // Gives number of bytes in queue
@@ -516,6 +679,8 @@ u8 Bios_GetJoystickTrigger(u8 trigger) __FASTCALL;
 //=============================================================================
 // Graphic routines
 //=============================================================================
+
+// Group: Graphic
 
 //-----------------------------------------------------------------------------
 // RIGHTC	#00FC	Shifts screen pixel to the right
@@ -593,6 +758,8 @@ u8 Bios_GetJoystickTrigger(u8 trigger) __FASTCALL;
 // Misc routines
 //=============================================================================
 
+// Group: Misc
+
 //-----------------------------------------------------------------------------
 // CHGCAP	#0132	Alternates the CAPS lamp status
 #define R_CHGCAP	0x0132 // Alternates the CAPS lamp status
@@ -616,6 +783,9 @@ u8 Bios_GetJoystickTrigger(u8 trigger) __FASTCALL;
 //-----------------------------------------------------------------------------
 // SNSMAT	#0141	Returns the value of the specified line from the keyboard matrix
 #define R_SNSMAT	0x0141 // Returns the value of the specified line from the keyboard matrix
+
+// Function: Bios_GetKeyboardMatrix
+// Returns the value of the specified line from the keyboard matrix
 u8 Bios_GetKeyboardMatrix(u8 line) __FASTCALL;
 
 //-----------------------------------------------------------------------------
@@ -653,6 +823,8 @@ u8 Bios_GetKeyboardMatrix(u8 line) __FASTCALL;
 //=============================================================================
 // MSX 2
 //=============================================================================
+
+// Group: MSX2
 #if (MSX_VERSION >= MSX_2)
 
 //-----------------------------------------------------------------------------
@@ -700,6 +872,8 @@ u8 Bios_GetKeyboardMatrix(u8 line) __FASTCALL;
 //=============================================================================
 // MSX 2+
 //=============================================================================
+
+// Group: MSX2+
 #if (MSX_VERSION >= MSX_2P)
 
 //-----------------------------------------------------------------------------
@@ -715,6 +889,8 @@ u8 Bios_GetKeyboardMatrix(u8 line) __FASTCALL;
 //=============================================================================
 // MSX turbo R
 //=============================================================================
+
+// Group: MSX turbo R
 #if (MSX_VERSION == MSX_TR)
 
 #define CPU_MODE_Z80		0x00
@@ -725,11 +901,17 @@ u8 Bios_GetKeyboardMatrix(u8 line) __FASTCALL;
 //-----------------------------------------------------------------------------
 // CHGCPU	#0180	Changes CPU mode
 #define R_CHGCPU	0x0180 // Changes CPU mode
+
+// Function: Bios_SetCPUMode
+// Changes CPU mode
 void Bios_SetCPUMode(u8 mode) __FASTCALL;
 
 //-----------------------------------------------------------------------------
 // GETCPU	#0183	Returns current CPU mode
 #define R_GETCPU	0x0183 // Returns current CPU mode
+
+// Function: Bios_GetCPUMode
+// Returns current CPU mode
 u8 Bios_GetCPUMode();
 
 //-----------------------------------------------------------------------------

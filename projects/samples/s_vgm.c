@@ -14,7 +14,12 @@
 //=============================================================================
 
 // Library's logo
-#define MSX_GL "\x01\x02\x03\x04\x05\x06"
+#define MSX_GL "\x02\x03\x04\x05"
+
+//
+#define LOG_SIZE 16
+//
+#define PLAYER_Y 3
 
 // VGM music entry
 struct MusicEntry
@@ -24,13 +29,27 @@ struct MusicEntry
 	u8        Segment;
 };
 
+// Player button entry
+struct ButtonEntry
+{
+	u8        Char;
+	callback  Func;
+};
+
+// Button callbacks
+void ButtonPlay();
+void ButtonPause();
+void ButtonStop();
+void ButtonPrev();
+void ButtonNext();
+void ButtonLoop();
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample6.h"
-
+#include "font\font_mgl_sample8.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
@@ -45,11 +64,26 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Hi no Tori       ", 0x8000, 6 },
 };
 
+// Player button list
+const struct ButtonEntry g_ButtonEntry[] =
+{
+	{ 0x80, ButtonPlay },
+	{ 0xB8, ButtonPause },
+	{ 0xB9, ButtonStop },
+	{ 0xBB, ButtonPrev },
+	{ 0xBA, ButtonNext },
+	{ 0xBE, ButtonLoop },
+};
+
+// Color shade
+const u8 g_ColorBlink[4] = { COLOR_LIGHT_RED, COLOR_MEDIUM_RED, COLOR_DARK_RED, COLOR_MEDIUM_RED };
+
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
 u8 g_CurrentMusic = 0;
+u8 g_CurrentButton;
 
 
 //=============================================================================
@@ -78,13 +112,13 @@ const c8* GetChipName(u8 type)
 //
 void DrawVGM(const u8* ptr)
 {
-	Print_SetPosition(34, 2);
+	Print_SetPosition(25, 2);
 	Print_DrawFormat("%4x", ptr);
-	Print_SetPosition(34, 3);
+	Print_SetPosition(25, 3);
 	Print_DrawText("------");
 	for(u8 i = 0; i < 1; ++i)
 	{
-		Print_SetPosition(34, 4 + i);
+		Print_SetPosition(25, 4 + i);
 		if(*ptr == 0xA0) // AY8910, write value dd to register aa
 		{
 			Print_DrawFormat("R#%1x=%2x", ptr[1], ptr[2]);
@@ -123,18 +157,29 @@ void DrawVGM(const u8* ptr)
 
 //-----------------------------------------------------------------------------
 //
+void UpdatePlayer()
+{
+	Print_SetPosition(0, 7);
+	Print_DrawText("Player:\n");
+	Print_DrawFormat("\x07" "Freq      %s\n", (g_VGM_State & VGM_STATE_50HZ) ? "50Hz" : "60Hz");
+	Print_DrawFormat("\x07" "DoLoop    %c\n", (g_VGM_State & VGM_STATE_LOOP) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "DoPlay    %c\n", (g_VGM_State & VGM_STATE_PLAY) ? '\x0C' : '\x0B');
+}
+
+//-----------------------------------------------------------------------------
+//
 void SetMusic(u8 idx)
 {
 	g_CurrentMusic = idx;
 
 	SET_BANK_SEGMENT(1, g_MusicEntry[idx].Segment);
-	
+
 	bool ok = VGM_Play(g_MusicEntry[idx].Data, true);
-
+	
 	Print_SetPosition(0, 2);
-	Print_DrawFormat("\x8D Music #%i: %s", idx, g_MusicEntry[idx].Name);
+	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
 
-	Print_SetPosition(0, 4);
+	Print_SetPosition(0, 12);
 	Print_DrawFormat("Ident:       %s   (%x)\n", ok ? "OK" : "Invalide", (u16)&g_VGM_Header->Ident);
 	Print_DrawFormat("EOF offset:  %4X (%x)\n", g_VGM_Header->EoF_offset, (u16)&g_VGM_Header->EoF_offset + (u16)g_VGM_Header->EoF_offset);
 	Print_DrawFormat("Version:     %4X\n", g_VGM_Header->Version);
@@ -145,11 +190,69 @@ void SetMusic(u8 idx)
 	Print_DrawFormat("AY8910 clk:  %X\n", g_VGM_Header->AY8910_clock);
 	Print_DrawFormat("AY8910 type: %s\n", GetChipName(g_VGM_Header->AYT));
 	Print_DrawFormat("AY8910 flag: %2x,%2x,%2x\n", g_VGM_Header->AY_Flags[0], g_VGM_Header->AY_Flags[1], g_VGM_Header->AY_Flags[2]);
-	Print_Return();
-	
-	// u8* ptr = (u8*)((u16)&g_VGM_Header->Data_offset + (u16)g_VGM_Header->Data_offset);
-	// DrawVGM(ptr);
+
+	UpdatePlayer();
 }
+
+//-----------------------------------------------------------------------------
+//
+void ButtonPlay()
+{
+	VGM_Resume();
+	UpdatePlayer();
+}
+
+//-----------------------------------------------------------------------------
+//
+void ButtonPause()
+{
+	VGM_Pause();
+	UpdatePlayer();
+}
+
+//-----------------------------------------------------------------------------
+//
+void ButtonStop()
+{
+	VGM_Stop();	
+	UpdatePlayer();
+}
+
+//-----------------------------------------------------------------------------
+//
+void ButtonPrev()
+{
+	if(g_CurrentMusic > 0)
+		SetMusic(g_CurrentMusic - 1);
+}
+
+//-----------------------------------------------------------------------------
+//
+void ButtonNext()
+{
+	if(g_CurrentMusic < numberof(g_MusicEntry) - 1)
+		SetMusic(g_CurrentMusic + 1);
+}
+
+//-----------------------------------------------------------------------------
+//
+void ButtonLoop()
+{
+	if(g_VGM_State & VGM_STATE_LOOP)
+		g_VGM_State &= ~VGM_STATE_LOOP;
+	else
+		g_VGM_State |= VGM_STATE_LOOP;
+	UpdatePlayer();
+}
+
+//-----------------------------------------------------------------------------
+//
+void SetCursor(u8 id)
+{
+	g_CurrentButton = id % 6;
+	VDP_SetSpriteSM1(0, 8 + 16 * g_CurrentButton, (PLAYER_Y + 1) * 8 - 1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
+}
+
 
 //=============================================================================
 // MAIN LOOP
@@ -160,23 +263,44 @@ void SetMusic(u8 idx)
 void main()
 {
 	// Initialize screen
-	VDP_SetMode(VDP_MODE_SCREEN0);
+	VDP_SetMode(VDP_MODE_SCREEN1);
 	VDP_ClearVRAM();
 	VDP_EnableVBlank(true);
 
 	// Initialize font
-	Print_SetTextFont(g_Font_MGL_Sample6, 1); // Initialize font
-	Print_DrawText(MSX_GL "  VGM Sample");
-	Print_DrawLineH(0, 1, 40);
+	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
+	Print_DrawText(MSX_GL " VGM Sample");
+	Print_DrawLineH(0, 1, 32);
+
+	Print_SetPosition(20, 8);
+	Print_DrawText("Main-ROM:");
+	Print_SetPosition(20, 9);
+	Print_DrawFormat("\x07" "Freq  %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
 
 	// Decode VGM header
 	SetMusic(0);
+	Print_DrawBox(0, PLAYER_Y, numberof(g_ButtonEntry) * 2 + 1, 3);
+	for(u8 i = 0; i < numberof(g_ButtonEntry); ++i)
+	{
+		Print_SetPosition(1 + 2 * i, PLAYER_Y + 1);
+		Print_DrawChar(g_ButtonEntry[i].Char);
+		
+	}
 
 	// Footer
-	Print_DrawLineH(0, 22, 40);
+	Print_DrawLineH(0, 22, 32);
 	Print_SetPosition(0, 23);
-	Print_DrawText("");
+	Print_DrawText("\x8D:Button \x83:Action \x82:Freq");
 
+	//-------------------------------------------------------------------------
+	// Sprite
+	
+	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8 + VDP_SPRITE_SCALE_1);
+	VDP_LoadSpritePattern(g_Font_MGL_Sample8 + 4, 0, g_Font_MGL_Sample8[3] - g_Font_MGL_Sample8[2]);
+
+	SetCursor(4);
+
+	u8 prevRow8 = 0xFF;
 	u8 count = 0;
 	while(1)
 	{
@@ -185,59 +309,43 @@ void main()
 		VGM_Decode();
 		PSG_Apply();
 		// VDP_SetColor(0xF0);
-
+		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
+		
 		DrawVGM(g_VGM_Pointer);
 
-		Print_SetPosition(39, 0);
+
+		Print_SetPosition(31, 0);
 		u8 chr = count++ & 0x03;
 		Print_DrawChar(g_ChrAnim[chr]);
 		
 		// Handle input
 		u8 row8 = Keyboard_Read(8);
 
-		// Change music
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+		// Change button
+		if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
 		{
-			if(g_CurrentMusic < numberof(g_MusicEntry) - 1)
-				SetMusic(g_CurrentMusic + 1);
+			SetCursor(g_CurrentButton + 1);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
+		else if(IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
 		{
-			if(g_CurrentMusic > 0)
-				SetMusic(g_CurrentMusic - 1);
+			SetCursor(g_CurrentButton - 1);
 		}
-
-		// Explore VGM data
-		/*if(IS_KEY_PRESSED(row8, KEY_SPACE))
+		// Activate button
+		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
-			if(IS_KEY_PRESSED(row8, KEY_UP))
-			{
-				g_VGM_Pointer -= 0x0100;
-				DrawVGM(g_VGM_Pointer);
-			}
-			else if(IS_KEY_PRESSED(row8, KEY_DOWN))
-			{
-				g_VGM_Pointer += 0x0100;
-				DrawVGM(g_VGM_Pointer);
-			}
+			g_ButtonEntry[g_CurrentButton].Func();
 		}
-		else
+		// Change frequency
+		if((IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
+		 || (IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN)))
 		{
-			if(IS_KEY_PRESSED(row8, KEY_UP))
-			{
-				g_VGM_Pointer--;
-				DrawVGM(g_VGM_Pointer);
-			}
-			else if(IS_KEY_PRESSED(row8, KEY_DOWN))
-			{
-				if(*g_VGM_Pointer == 0xA0) // reg copy
-					g_VGM_Pointer += 3;
-				else if(*g_VGM_Pointer == 0x61) // wait 16b
-					g_VGM_Pointer += 3;
-				else
-					g_VGM_Pointer++;
-				DrawVGM(g_VGM_Pointer);
-			}
-		}*/
+			if(g_VGM_State & VGM_STATE_50HZ)
+				VGM_SetFrequency60Hz();
+			else
+				VGM_SetFrequency50Hz();
+			UpdatePlayer();
+		}
+		
+		prevRow8 = row8;
 	}
 }
