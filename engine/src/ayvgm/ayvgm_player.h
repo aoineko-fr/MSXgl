@@ -39,7 +39,7 @@ extern const struct ayVGM_Header* g_ayVGM_Header;
 extern const u8* g_ayVGM_Pointer;
 extern u8        g_ayVGM_Wait;
 extern u8        g_ayVGM_State;
-extern const u8  g_ayVGM_RegTable[12];
+extern const u8  g_ayVGM_RegTable[13];
 extern const u8  g_ayVGM_Ident[4];
 
 //=============================================================================

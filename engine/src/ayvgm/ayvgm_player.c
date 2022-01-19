@@ -17,8 +17,8 @@
 // READ-ONLY DATA
 //=============================================================================
 
-// ay regsiter convertor         1  2  3  4  5' 6  7' 8  9' A   B'  C
-const u8  g_ayVGM_RegTable[] = { 1, 3, 5, 6, 6, 8, 8, 9, 9, 10, 10, 13 };
+// ay regsiter convertor         -  1  2  3  4  5' 6  7' 8  9' A   B'  C
+const u8  g_ayVGM_RegTable[] = { 0, 1, 3, 5, 6, 6, 8, 8, 9, 9, 10, 10, 13 };
 
 // File ident data
 const u8  g_ayVGM_Ident[4] = { 'a', 'y', 'M', ' ' };
@@ -70,56 +70,72 @@ void ayVGM_Stop()
 //
 void ayVGM_Decode()
 {
+	// Check if the music is playing
 	if(!(g_ayVGM_State & AYVGM_STATE_PLAY))
 		return;
-	while(g_ayVGM_Wait == 0)
+	
+	// Check if there are still waiting cycles
+	if(g_ayVGM_Wait != 0)
 	{
-		u8 op = *g_ayVGM_Pointer >> 4;
-		u8 val = *g_ayVGM_Pointer & 0x0F;
+		g_ayVGM_Wait--;
+		return;
+	}
+	
+	// Parse music data
+	while(1)
+	{
+		u8 op = *g_ayVGM_Pointer & 0xF0;
 		switch(op)
 		{
-		case 0x0:
-			g_ayVGM_Pointer++;
-			PSG_SetRegister(val, *g_ayVGM_Pointer);
-			break;
-		case 0x5:
-		case 0x7:
-		case 0x9:
-		case 0xB:
-			val |= 0x10;
-		case 0x1:
-		case 0x2:
-		case 0x3:
-		case 0x4:
-		case 0x6:
-		case 0x8:
-		case 0xA:
-		case 0xC:
-			PSG_SetRegister(g_ayVGM_RegTable[--op], val);
-			break;
-		case 0xD: // 50 Hz wait
-			if(g_ayVGM_State & AYVGM_STATE_50HZ)
-				g_ayVGM_Wait += 1 + val;
-			break;
-		case 0xE: // 60 Hz wait
-			if(!(g_ayVGM_State & AYVGM_STATE_50HZ))
-				g_ayVGM_Wait += 1 + val;
-			break;
-		case 0xF:
-			// handle loop
-			if((val == 0xE) && (g_ayVGM_State & AYVGM_STATE_LOOP))
+			case 0x00:
 			{
-				g_ayVGM_Pointer++;
-				u16 loopOffset = *(u16*)g_ayVGM_Pointer;
-				g_ayVGM_Pointer = (const u8*)(g_ayVGM_Header) + sizeof(struct ayVGM_Header) + loopOffset;
-				return;
+				u8 reg = *g_ayVGM_Pointer & 0x0F;
+				PSG_SetRegister(reg, *++g_ayVGM_Pointer);
+				break;
 			}
-			// if(val == 0xF)
-			ayVGM_Stop();
-			return;
+			case 0xD0: // 50 Hz wait
+				if(g_ayVGM_State & AYVGM_STATE_50HZ)
+				{
+					g_ayVGM_Wait += *g_ayVGM_Pointer & 0x0F;
+					g_ayVGM_Pointer++;
+					return;
+				}
+				break;
+			case 0xE0: // 60 Hz wait
+				if(!(g_ayVGM_State & AYVGM_STATE_50HZ))
+				{
+					g_ayVGM_Wait += *g_ayVGM_Pointer & 0x0F;
+					g_ayVGM_Pointer++;
+					return;
+				}
+				break;
+			case 0xF0:
+				// handle loop
+				if((*g_ayVGM_Pointer == 0xFE) && (g_ayVGM_State & AYVGM_STATE_LOOP))
+				{
+					u16 loopOffset = *(u16*)++g_ayVGM_Pointer;
+					g_ayVGM_Pointer = (const u8*)(g_ayVGM_Header) + sizeof(struct ayVGM_Header) + loopOffset;
+					return;
+				}
+				// if(val == 0xF)
+				ayVGM_Stop();
+				return;
+			// case 0x10:
+			// case 0x20:
+			// case 0x30:
+			// case 0x40:
+			// case 0x50:
+			// case 0x60:
+			// case 0x70:
+			// case 0x80:
+			// case 0x90:
+			// case 0xA0:
+			// case 0xB0:
+			// case 0xC0:
+			default:
+				PSG_SetRegister(g_ayVGM_RegTable[*g_ayVGM_Pointer >> 4], *g_ayVGM_Pointer);
+				break;
 		}
 		g_ayVGM_Pointer++;
 	}
-
-	g_ayVGM_Wait--;
 }
