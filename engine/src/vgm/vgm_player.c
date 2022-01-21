@@ -10,6 +10,9 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "vgm_player.h"
 #include "bios_mainrom.h"
+#if (USE_VGM_SCC)
+#include "scc.h"
+#endif
 
 //=============================================================================
 // DEFINES
@@ -84,6 +87,23 @@ void VGM_Decode()
 			PSG_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
 		}
+		#if (USE_VGM_SCC)
+		else if(*g_VGM_Pointer == 0xD2) // SCC1, port pp, write value dd to register aa
+		{
+			u8 reg = 0;
+			switch(g_VGM_Pointer[1])
+			{
+			// case 0:	reg = 0x00;	break; // 0x00 - waveform
+			case 1:	reg = 0x80;	break; // 0x01 - frequency
+			case 2:	reg = 0x8A;	break; // 0x02 - volume
+			case 3:	reg = 0x8F;	break; // 0x03 - key on/off
+			case 4:	reg = 0xA0;	break; // 0x04 - waveform (0x00 used to do SCC access, 0x04 SCC+)
+			case 5:	reg = 0xE0;	break; // 0x05 - test register
+			}
+			SCC_SetRegister(reg + g_VGM_Pointer[2], g_VGM_Pointer[3]);
+			g_VGM_Pointer += 3;
+		}
+		#endif
 		else if(*g_VGM_Pointer == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
 			g_VGM_WaitCount += *(u16*)(g_VGM_Pointer+1);
@@ -105,6 +125,9 @@ void VGM_Decode()
 			}
 			else
 			{
+				#if (USE_VGM_SCC)
+				SCC_Mute();
+				#endif
 				PSG_Silent();
 				return;
 			}

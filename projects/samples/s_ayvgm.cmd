@@ -4,5 +4,5 @@
 :: PROJECT OVERWRITE
 ::*****************************************************************************
 set Machine=1
-set Target=ROM_32K
-set LibModules=psg,ayvgm\ayvgm_player,%LibModules%
+set LibModules=psg,scc,ayvgm\ayvgm_player,%LibModules%
+set EmulExtraParam=-extb scc

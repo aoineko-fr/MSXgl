@@ -141,6 +141,30 @@ echo ┌────────────────────────
 echo │ COMPILE                                                                   │
 echo └───────────────────────────────────────────────────────────────────────────┘
 
+::*****************************************************************************
+:: COMPILE MAPPER SEGMENT
+::*****************************************************************************
+REM if %MapperSize%==0 goto :NoMapperCompile
+
+REM set /A FirstSeg=%FillSize% / %SegSize%
+REM set /A LastSeg=(%MapperSize% / %SegSize%) - 1
+
+REM echo %BLUE%Search for extra mapper segments to compile [%FirstSeg%-%LastSeg%]...%RESET%
+REM for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
+	REM for %%J in (0,1,2,3) do (
+		REM for %%K in (c,asm) do (
+			REM if exist %ProjName%_s%%I_b%%J.%%K (
+				REM echo Segment found: %ProjName%_s%%I_b%%J.%%K
+				REM call %LibDir%\script\compile.cmd %ProjName%_s%%I_b%%J.%%K
+			REM )
+		REM )
+	REM )
+REM )
+REM :NoMapperCompile
+
+::*****************************************************************************
+:: COMPILE MODULES
+::*****************************************************************************
 call %LibDir%\script\compile_all.cmd
 if errorlevel 1 goto :Error
 

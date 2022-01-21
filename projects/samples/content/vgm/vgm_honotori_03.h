@@ -4,7 +4,7 @@
 //   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▀ ██ ██ █
 // _____________________________________________________________________________
 // CMSXbin 1.2.0 by Guillaume "Aoineko" Blanchard (2021) under CC BY-SA free license
-// File generated on Wed Jan 19 00:06:03 2022
+// File generated on Thu Jan 20 21:38:59 2022
 // Soure file: vgm\honotori_03.vgm
 const unsigned char g_VGM_honotori_03[] = {
 	0x56, 0x67, 0x6D, 0x20, 0xC5, 0x8B, 0x00, 0x00, 0x51, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //      0

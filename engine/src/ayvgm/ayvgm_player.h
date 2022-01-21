@@ -11,12 +11,22 @@
 // DEFINES
 //=============================================================================
 
+#define USE_AYVGM_SCC 0
+
 // ayVGM data flag
 enum AYVGM_FLAG
 {
 	AYVGM_FLAG_50HZ = 0b00000001,
 	AYVGM_FLAG_60HZ = 0b00000010,
 	AYVGM_FLAG_LOOP = 0b00000100,
+
+	AYVGM_FLAG_SCC  = 0b00010000,
+	AYVGM_FLAG_SCCI = 0b00100000,
+	AYVGM_FLAG_ext3 = 0b00110000,
+	AYVGM_FLAG_ext4 = 0b01000000,
+	AYVGM_FLAG_ext5 = 0b01010000,
+	AYVGM_FLAG_ext6 = 0b01100000,
+	AYVGM_FLAG_ext7 = 0b01110000,
 };
 
 // ayVGM playback state flag

@@ -6,10 +6,13 @@
 //  PCM-Encoder replayer
 //─────────────────────────────────────────────────────────────────────────────
 #include "psg.h"
+#include "scc.h"
 
 //=============================================================================
 // DEFINES
 //=============================================================================
+
+#define USE_VGM_SCC 1
 
 // VGM playback state flag
 enum VGM_STATE
@@ -92,7 +95,14 @@ inline void VGM_Resume() { g_VGM_State |= VGM_STATE_PLAY; }
 
 // Function: VGM_Pause
 // Pause music playback
-inline void VGM_Pause() { g_VGM_State &= ~VGM_STATE_PLAY; PSG_Silent(); }
+inline void VGM_Pause()
+{
+	g_VGM_State &= ~VGM_STATE_PLAY; 
+	PSG_Silent();
+	#if (USE_VGM_SCC)
+	SCC_Mute();
+	#endif
+}
 
 // Function: VGM_Decode
 // Decode a frame of music

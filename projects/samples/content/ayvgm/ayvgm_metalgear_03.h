@@ -4,12 +4,12 @@
 //   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ 
 // ______________________________▀▀  ___________________________________________
 // CMSXzip 1.0.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Wed Jan 19 00:06:06 2022
+// File generated on Thu Jan 20 21:39:04 2022
 // Soure file: vgm\metalgear_03.vgm (37577 bytes)
 // Compressor: ayVGM
 const u8 g_ayVGM_metalgear_03[] = {
 	0x61, 0x79, 0x4D, 0x20, // Ident
-	0x07, // Flag
+	0x27, // Flag
 	0xE0, // Wait60: En
 	0x07, 0x00, // R#7: 07 nn
 	0x10, // R#1: 1n

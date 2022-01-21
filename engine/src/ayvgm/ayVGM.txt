@@ -1,57 +1,113 @@
-	Header
-----------------------------
+=======================================
+ HEADER
+=======================================
 	nn nn		"ayM "
 	nn			Options
 				7 6 5 4 3 2 1 0
-				          │ │ └── 50 Hz frequency marker included 
-				          │ └──── 60 Hz frequency marker included
-				          └────── Loop data included
+				    │ │   │ │ └── 50 Hz frequency marker included 
+				    │ │   │ └──── 60 Hz frequency marker included
+				    │ │   └────── Loop data included
+				    └─┴────────── Extension data included
+									0: SCC
+									1: SCC+
+									2: 
+									3: 
 
 
-	Opcode		Action
-----------------------------
+=======================================
+ DATA 
+=======================================
+
+	Opcode			Action
+---------------------------------------
  Tone Period
-----------------------------
-	00 nn		R#0	= nn
-	1n		    R#1	= n	& 0x0F
-	02 nn	    R#2	= nn
-	2n		    R#3	= n	& 0x0F
-	04 nn	    R#4	= nn
-	3n		    R#5	= n	& 0x0F
-----------------------------
+---------------------------------------
+	00 nn			R#0	= nn
+	1n				R#1	= n
+	02 nn			R#2	= nn
+	2n				R#3	= n
+	04 nn			R#4	= nn
+	3n				R#5	= n
+---------------------------------------
  Noise Period
-----------------------------
-	4n	    	R#6	= n
-	5n	    	R#6	= n | 0x10
-----------------------------
+---------------------------------------
+	4n				R#6	= n
+	5n				R#6	= n | 0x10
+---------------------------------------
  Mixer
-----------------------------
-	07 nn       R#7	= nn
-----------------------------
+---------------------------------------
+	07 nn			R#7	= nn
+---------------------------------------
  Tone Amplitude
-----------------------------
-	6n	    	R#8	= n	
-	7n	    	R#8	= n | 0x10
-	8n	    	R#9	= n
-	9n	    	R#9	= n | 0x10
-	An	    	R#A	= n
-	Bn	    	R#A	= n | 0x10
-----------------------------
+---------------------------------------
+	6n				R#8 = n	
+	7n				R#8 = n | 0x10
+	8n				R#9 = n
+	9n				R#9 = n | 0x10
+	An				R#A = n
+	Bn				R#A = n | 0x10
+---------------------------------------
  Envelope Period
-----------------------------
-	0B nn       R#11 = nn
-	0C nn       R#12 = nn
-----------------------------
+---------------------------------------
+	0B nn			R#11 = nn
+	0C nn			R#12 = nn
+---------------------------------------
  Envelope Shape
-----------------------------
-	Cn          R#13 = n & 0x0F
-----------------------------
+---------------------------------------
+	Cn				R#13 = n
+---------------------------------------
  Wait
-----------------------------
-	Dn			Wait 882 * (n & 0x0F + 1) samples (50 Hz)
-	En			Wait 735 * (n & 0x0F + 1) samples (60 Hz)
-----------------------------
+---------------------------------------
+	Dn				Wait 882 * (n & 0x0F + 1) samples (50 Hz)
+	En				Wait 735 * (n & 0x0F + 1) samples (60 Hz)
+---------------------------------------
  Special
-----------------------------
-	FE nn nn    End of song with loop
-	FF          End of song (without loop)
+---------------------------------------
+	FE nn nn    	End of song with loop
+	FF          	End of song (without loop)
+
+
+=======================================
+ SCC ADDON
+=======================================
+
+---------------------------------------
+ Generic Register Access
+---------------------------------------
+	F3 aa nn		0x00 + aa = nn
+---------------------------------------
+ Frequency
+---------------------------------------
+	F0 nn			0x80 = nn		Frequency channel 1 - LSB
+	F1 1n			0x81 = n		Frequency channel 1 - MSB
+	F2 nn			0x82 = nn		Frequency channel 2 - LSB
+	F1 3n			0x83 = n		Frequency channel 2 - MSB
+	F4 nn			0x84 = nn		Frequency channel 3 - LSB
+	F1 5n			0x85 = n		Frequency channel 3 - MSB
+	F6 nn			0x86 = nn		Frequency channel 4 - LSB
+	F1 7n			0x87 = n		Frequency channel 4 - MSB
+	F8 nn			0x88 = nn		Frequency channel 5 - LSB
+	F1 9n			0x89 = n		Frequency channel 5 - MSB
+---------------------------------------
+ Volume
+---------------------------------------
+	F1 An			0x8A = n		Volume channel 1
+	F1 Bn			0x8B = n		Volume channel 2
+	F1 Cn			0x8C = n		Volume channel 3
+	F1 Dn			0x8D = n		Volume channel 4
+	F1 En			0x8E = n		Volume channel 5
+---------------------------------------
+ Mixer
+---------------------------------------
+	F1 0n			0x8F = n			On/off switch channel 1 to 5
+	F1 Fn	 		0x8F = n | 0x10		On/off switch channel 1 to 5
+---------------------------------------
+ Waveform
+---------------------------------------
+	F9 nn[32]		nn[32] -> 0x00[32]	Waveform channel 1
+	FA nn[32]		nn[32] -> 0x20[32]	Waveform channel 2
+	FB nn[32]		nn[32] -> 0x40[32]	Waveform channel 3
+	FC nn[32]		nn[32] -> 0x60[32]	Waveform channel 4
+	FD nn[32]		nn[32] -> 0xA0[32]	Waveform channel 5 (SCC+ only)
+.......................................
+	F5 aa bb nn*	nn[bb] -> (0x00 + aa)[bb] (with bb > 1)

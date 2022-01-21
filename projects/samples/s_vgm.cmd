@@ -3,6 +3,7 @@
 rem ***************************************************************************
 rem * PROJECT OVERWRITE                                                       *
 rem ***************************************************************************
-SET Machine=1
+set Machine=1
 set Target=ROM_ASCII16
-SET LibModules=psg,vgm\vgm_player,%LibModules%
+set LibModules=psg,scc,vgm\vgm_player,%LibModules%
+set EmulExtraParam=-extb scc

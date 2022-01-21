@@ -7,6 +7,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "psg.h"
+#include "scc.h"
 #include "vgm\vgm_player.h"
 
 //=============================================================================
@@ -62,6 +63,7 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Penguin Adventure", 0x8000, 4 },
 	{ "Metal Gear       ", 0x8000, 5 },
 	{ "Hi no Tori       ", 0x8000, 6 },
+	{ "F1 Spirit (SCC)  ", 0x8000, 7 },
 };
 
 // Player button list
@@ -123,6 +125,21 @@ void DrawVGM(const u8* ptr)
 		{
 			Print_DrawFormat("R#%1x=%2x", ptr[1], ptr[2]);
 			ptr += 2;
+		}
+		else if(*ptr == 0xD2) // SCC1, port pp, write value dd to register aa
+		{
+			u8 reg = 0;
+			// switch(ptr[1])
+			// {
+			// case 0:	reg = 0x00;	break; // 0x00 - waveform
+			// case 1:	reg = 0x80;	break; // 0x01 - frequency
+			// case 2:	reg = 0x8A;	break; // 0x02 - volume
+			// case 3:	reg = 0x8F;	break; // 0x03 - key on/off
+			// case 4:	reg = 0xA0;	break; // 0x04 - waveform (0x00 used to do SCC access, 0x04 SCC+)
+			// case 5:	reg = 0xE0;	break; // 0x05 - test register
+			// }
+			Print_DrawFormat("R#%1x=%2x", reg + ptr[2], ptr[3]);
+			ptr += 3;
 		}
 		else if(*ptr == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
@@ -266,6 +283,10 @@ void main()
 	VDP_SetMode(VDP_MODE_SCREEN1);
 	VDP_ClearVRAM();
 	VDP_EnableVBlank(true);
+
+	#if (USE_VGM_SCC)
+		SCC_Initialize();
+	#endif
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font

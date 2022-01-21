@@ -96,9 +96,7 @@ set EmulMachine=1
 set Emul60Hz=0
 set EmulFullScreen=0
 set EmulMute=0
-set EmulSubSlot=1
 set EmulDebug=0
-
 rem  Emulator extra parameters to be add to command-line
 set EmulExtraParam=
 

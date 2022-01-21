@@ -7,6 +7,9 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "ayvgm_player.h"
 #include "bios_mainrom.h"
+#if (USE_AYVGM_SCC)
+#include "scc.h"
+#endif
 
 //=============================================================================
 // DEFINES
@@ -109,7 +112,71 @@ void ayVGM_Decode()
 					return;
 				}
 				break;
-			case 0xF0:
+			case 0xF0: // Special
+			#if (USE_AYVGM_SCC)
+				switch(*g_ayVGM_Pointer)
+				{
+				// F1 1n    0x81 = n           Frequency channel 1 - MSB
+				// F1 3n    0x83 = n           Frequency channel 2 - MSB
+				// F1 5n    0x85 = n           Frequency channel 3 - MSB
+				// F1 7n    0x87 = n           Frequency channel 4 - MSB
+				// F1 9n    0x89 = n           Frequency channel 5 - MSB
+				// F1 An    0x8A = n           Volume channel 1
+				// F1 Bn    0x8B = n           Volume channel 2
+				// F1 Cn    0x8C = n           Volume channel 3
+				// F1 Dn    0x8D = n           Volume channel 4
+				// F1 En    0x8E = n           Volume channel 5
+				// F1 0n    0x8F = n           On/off switch channel 1 to 5
+				// F1 Fn    0x8F = n | 0x10    On/off switch channel 1 to 5
+				case 0xF1:
+				{
+					u8 val = g_ayVGM_Pointer[1];
+					if((val & 0xF0) == 0x00)
+						SCC_SetRegister(0x8F, val & 0x0F);
+					else if((val & 0xF0) == 0xF0)
+						SCC_SetRegister(0x8F, (val & 0x0F) | 0x10);
+					else
+						SCC_SetRegister(0x80 + (val >> 4), val & 0x0F);
+					g_ayVGM_Pointer++;
+					break;
+				}
+				case 0xF0: // F0 nn    0x80 = nn    Frequency channel 1 - LSB
+				case 0xF2: // F2 nn    0x82 = nn    Frequency channel 2 - LSB
+				case 0xF4: // F4 nn    0x84 = nn    Frequency channel 3 - LSB
+				case 0xF6: // F6 nn    0x86 = nn    Frequency channel 4 - LSB
+				case 0xF8: // F8 nn    0x88 = nn    Frequency channel 5 - LSB
+				{
+					u8 val = g_ayVGM_Pointer[1];
+					SCC_SetRegister(0x80 + (*g_ayVGM_Pointer & 0x0F), val);
+					g_ayVGM_Pointer++;
+					break;
+				}
+				// F9 nn[32]    nn[32] -> 0x00[32]    Waveform channel 1
+				// FA nn[32]    nn[32] -> 0x20[32]    Waveform channel 2
+				// FB nn[32]    nn[32] -> 0x40[32]    Waveform channel 3
+				// FC nn[32]    nn[32] -> 0x60[32]    Waveform channel 4
+				// FD nn[32]    nn[32] -> 0xA0[32]    Waveform channel 5 (SCC+ only)
+				case 0xF5: // nn[bb] -> (0x00 + aa)[bb] (with bb > 1)
+				{
+					u8 reg = g_ayVGM_Pointer[1];
+					u8 num = g_ayVGM_Pointer[2];
+					for(u8 i = 0; i < num; i++)
+						SCC_SetRegister(reg + i, g_ayVGM_Pointer[3 + i]);
+					g_ayVGM_Pointer += 2 + num;
+					break;
+				}
+				case 0xFE: // End of music with loop
+					if(g_ayVGM_State & AYVGM_STATE_LOOP)
+					{
+						u16 loopOffset = *(u16*)++g_ayVGM_Pointer;
+						g_ayVGM_Pointer = (const u8*)(g_ayVGM_Header) + sizeof(struct ayVGM_Header) + loopOffset;
+						return;
+					}
+				case 0xFF: // End of music
+					ayVGM_Stop();
+					return;
+				}
+			#else
 				// handle loop
 				if((*g_ayVGM_Pointer == 0xFE) && (g_ayVGM_State & AYVGM_STATE_LOOP))
 				{
@@ -120,6 +187,8 @@ void ayVGM_Decode()
 				// if(val == 0xF)
 				ayVGM_Stop();
 				return;
+			#endif
+
 			// case 0x10:
 			// case 0x20:
 			// case 0x30:

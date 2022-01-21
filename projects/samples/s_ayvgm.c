@@ -55,6 +55,8 @@ void ButtonLoop();
 // #include "content\ayvgm\ayvgm_penguin_12.h"
 #include "content\ayvgm\ayvgm_metalgear_05.h"
 #include "content\ayvgm\ayvgm_honotori_09.h"
+// #include "content\ayvgm\ayvgm_scc_quarth_02.h"
+// #include "content\ayvgm\ayvgm_scc_f1spirit_01.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
@@ -67,6 +69,8 @@ const struct MusicEntry g_MusicEntry[] =
 	// { "Penguin Adventure", g_ayVGM_penguin_12, 0 },
 	{ "Metal Gear       ", g_ayVGM_metalgear_05, 0 },
 	{ "Hi no Tori       ", g_ayVGM_honotori_09, 0 },
+	// { "Quarth (SCC)     ", g_ayVGM_scc_quarth_02, 0 },
+	// { "F1-Spirit (SCC)  ", g_ayVGM_scc_f1spirit_01, 0 },
 };
 
 // Player button list
@@ -161,7 +165,7 @@ void SetMusic(u8 idx)
 	bool ok = ayVGM_Play(g_MusicEntry[idx].Data, true);
 	
 	Print_SetPosition(0, 2);
-	Print_DrawFormat("[%i] %s", idx, g_MusicEntry[idx].Name);
+	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
 
 	Print_SetPosition(0, 4);
 	Print_DrawText("Data:\n");
@@ -284,10 +288,11 @@ void main()
 	while(1)
 	{
 		Halt();
-		// VDP_SetColor(0xFE);
+		VDP_SetColor(0xF4);
 		ayVGM_Decode();
+		VDP_SetColor(0xF6);
 		PSG_Apply();
-		// VDP_SetColor(0xF0);
+		VDP_SetColor(0xF0);
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
 		DrawVGM(g_ayVGM_Pointer, 1);

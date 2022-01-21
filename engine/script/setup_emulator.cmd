@@ -13,7 +13,6 @@ echo EmulMachine=%EmulMachine%
 echo Emul60Hz=%Emul60Hz%
 echo EmulFullScreen=%EmulFullScreen%
 echo EmulMute=%EmulMute%
-echo EmulSubSlot=%EmulSubSlot%
 echo EmulDebug=%EmulDebug%
 
 set  EmulatorArgs=%EmulExtraParam%
@@ -59,7 +58,6 @@ if /I %EmulatorName%==openmsx (
 	)
 	if %EmulFullScreen%==1 ( set EmulatorArgs=!EmulatorArgs! -command "set fullscreen on" )
 	if %EmulMute%==1       ( set EmulatorArgs=!EmulatorArgs! -command "set mute on" )
-	if %EmulSubSlot%==1    ( set EmulatorArgs=!EmulatorArgs! -ext slotexpander )
 
 	rem ---- Add launch program ----
 	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! -diska %ProjDir%\emul\bin )
@@ -116,7 +114,6 @@ if /I %EmulatorName%==bluemsx (
 	)
 	if %EmulFullScreen%==1 ( set EmulatorArgs=!EmulatorArgs! /fullscreen )
 	if %EmulMute%==1       ( echo %YELLOW%Warning: EmulMute can't be use with BlueMSX%RESET% )
-	if %EmulSubSlot%==1    ( echo %YELLOW%Warning: EmulSubSlot can't be use with BlueMSX%RESET% )
 
 	rem ---- Add launch program ----
 	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! /diskA %ProjDir%\emul\dsk\%ProjName%.dsk )
@@ -152,7 +149,6 @@ if /I %EmulatorName%==fmsx (
 	)
 	if %EmulFullScreen%==1 ( echo %YELLOW%Warning: EmulFullScreen can't be use with fMSX%RESET% )
 	if %EmulMute%==1       ( set EmulatorArgs=!EmulatorArgs! -nosound )
-	if %EmulSubSlot%==1    ( echo %YELLOW%Warning: EmulSubSlot can't be use with fMSX%RESET% )
 
 	rem ---- Add launch program ----
 	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! -diska %ProjDir%\emul\dsk\%ProjName%.dsk )
@@ -168,7 +164,6 @@ if /I %EmulatorName%==meisei (
 	if %Emul60Hz%==1       ( echo %YELLOW%Warning: Emul60Hz can't be use with Mesei%RESET% )
 	if %EmulFullScreen%==1 ( echo %YELLOW%Warning: EmulFullScreen can't be use with Mesei%RESET% )
 	if %EmulMute%==1       ( echo %YELLOW%Warning: EmulMute can't be use with Mesei%RESET% )
-	if %EmulSubSlot%==1    ( echo %YELLOW%Warning: EmulSubSlot can't be use with Mesei%RESET% )
 
 	rem ---- Add launch program ----
 	if /I %Ext%==rom ( 
@@ -192,7 +187,6 @@ if /I %EmulatorName%==emulicious (
 	)
 	if %EmulFullScreen%==1 ( set EmulatorArgs=!EmulatorArgs! -fullscreen )
 	if %EmulMute%==1       ( set EmulatorArgs=!EmulatorArgs! -muted )
-	if %EmulSubSlot%==1    ( echo %YELLOW%Warning: EmulSubSlot can't be use with Emulicious%RESET% )
 
 	rem ---- Add launch program ----
 	if /I %Ext%==rom ( 
@@ -221,7 +215,6 @@ if /I %EmulatorName%==msx (
 	if %Emul60Hz%==1       ( echo %YELLOW%Warning: Emul60Hz can't be use with RuMSX%RESET% )
 	if %EmulFullScreen%==1 ( echo %YELLOW%Warning: EmulFullScreen can't be use with RuMSX%RESET% )
 	if %EmulMute%==1       ( set EmulatorArgs=!EmulatorArgs! -NoSoundOut )
-	if %EmulSubSlot%==1    ( echo %YELLOW%Warning: EmulSubSlot can't be use with RuMSX%RESET% )
 
 	rem ---- Add launch program ----
 	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! -dirAsDisk -disk %ProjDir%\emul\bin )
