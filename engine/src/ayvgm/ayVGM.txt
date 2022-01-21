@@ -8,9 +8,8 @@
 				    │ │   │ └──── 60 Hz frequency marker included
 				    │ │   └────── Loop data included
 				    └─┴────────── Extension data included
-									0: SCC
-									1: SCC+
-									2: 
+									1: SCC
+									2: SCC+
 									3: 
 
 
