@@ -92,7 +92,7 @@ void ayVGM_Decode()
 		{
 			case 0x00:
 			{
-				u8 reg = *g_ayVGM_Pointer & 0x0F;
+				u8 reg = *g_ayVGM_Pointer;
 				PSG_SetRegister(reg, *++g_ayVGM_Pointer);
 				break;
 			}

@@ -31,7 +31,7 @@ if /I %FileExt%==.c (
 	if /I %Optim%==Speed (set AddOpt=!AddOpt! --opt-code-speed)
 	if /I %Optim%==Size (set AddOpt=!AddOpt! --opt-code-size)
 
-	set SDCCParam=-c -mz80 --vc -DTARGET=TARGET_%Target% -DMSX_VERSION=MSX_%Machine% -I%ProjDir% -I%LibDir%\src -I%LibDir%\content !AddOpt! --constseg RODATA %File% -o %OutDir%\
+	set SDCCParam=-c -mz80 --vc -DTARGET=TARGET_%Target% -DMSX_VERSION=MSX_%Machine% -I%ProjDir% -I%LibDir%\src -I%LibDir%\content !AddOpt! %File% -o %OutDir%\
 
 	echo %BLUE%Compiling %1 using SDCC C compiler...%RESET%
 	

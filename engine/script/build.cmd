@@ -183,7 +183,7 @@ echo %BLUE%Making %ProjName% using SDCC...%RESET%
 if %Optim%==Speed (set LinkOpt=%LinkOpt% --opt-code-speed)
 if %Optim%==Size (set LinkOpt=%LinkOpt% --opt-code-size)
 
-set SDCCParam=-mz80 --no-std-crt0 --code-loc 0x%CodeAddr% --data-loc 0x%RamAddr% --constseg RODATA --vc %LinkOpt% %LibList% -o %OutDir%\
+set SDCCParam=-mz80 --no-std-crt0 --code-loc 0x%CodeAddr% --data-loc 0x%RamAddr% --constseg RODATA --vc --debug %LinkOpt% %LibList% -o %OutDir%\
 echo SDCC %SDCCParam%
 %Linker% %SDCCParam%
 if errorlevel 1 goto :Error

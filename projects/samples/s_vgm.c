@@ -129,15 +129,15 @@ void DrawVGM(const u8* ptr)
 		else if(*ptr == 0xD2) // SCC1, port pp, write value dd to register aa
 		{
 			u8 reg = 0;
-			// switch(ptr[1])
-			// {
-			// case 0:	reg = 0x00;	break; // 0x00 - waveform
-			// case 1:	reg = 0x80;	break; // 0x01 - frequency
-			// case 2:	reg = 0x8A;	break; // 0x02 - volume
-			// case 3:	reg = 0x8F;	break; // 0x03 - key on/off
-			// case 4:	reg = 0xA0;	break; // 0x04 - waveform (0x00 used to do SCC access, 0x04 SCC+)
-			// case 5:	reg = 0xE0;	break; // 0x05 - test register
-			// }
+			switch(ptr[1])
+			{
+			case 0:	reg = 0x00;	break; // 0x00 - waveform
+			case 1:	reg = 0x80;	break; // 0x01 - frequency
+			case 2:	reg = 0x8A;	break; // 0x02 - volume
+			case 3:	reg = 0x8F;	break; // 0x03 - key on/off
+			case 4:	reg = 0xA0;	break; // 0x04 - waveform (0x00 used to do SCC access, 0x04 SCC+)
+			case 5:	reg = 0xE0;	break; // 0x05 - test register
+			}
 			Print_DrawFormat("R#%1x=%2x", reg + ptr[2], ptr[3]);
 			ptr += 3;
 		}
@@ -192,21 +192,22 @@ void SetMusic(u8 idx)
 	SET_BANK_SEGMENT(1, g_MusicEntry[idx].Segment);
 
 	bool ok = VGM_Play(g_MusicEntry[idx].Data, true);
-	
+
 	Print_SetPosition(0, 2);
 	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
 
 	Print_SetPosition(0, 12);
 	Print_DrawFormat("Ident:       %s   (%x)\n", ok ? "OK" : "Invalide", (u16)&g_VGM_Header->Ident);
-	Print_DrawFormat("EOF offset:  %4X (%x)\n", g_VGM_Header->EoF_offset, (u16)&g_VGM_Header->EoF_offset + (u16)g_VGM_Header->EoF_offset);
+	// Print_DrawFormat("EOF offset:  %4X (%x)\n", g_VGM_Header->EoF_offset, (u16)&g_VGM_Header->EoF_offset + (u16)g_VGM_Header->EoF_offset);
 	Print_DrawFormat("Version:     %4X\n", g_VGM_Header->Version);
-	Print_DrawFormat("GD3 offset:  %4X (%x)\n", g_VGM_Header->GD3_offset, (u16)&g_VGM_Header->GD3_offset + (u16)g_VGM_Header->GD3_offset);
+	// Print_DrawFormat("GD3 offset:  %4X (%x)\n", g_VGM_Header->GD3_offset, (u16)&g_VGM_Header->GD3_offset + (u16)g_VGM_Header->GD3_offset);
 	Print_DrawFormat("Loop offset: %4X (%x)\n", g_VGM_Header->Loop_offset, (u16)&g_VGM_Header->Loop_offset + (u16)g_VGM_Header->Loop_offset);
-	Print_DrawFormat("Rate:        %4X\n", g_VGM_Header->Rate);
-	Print_DrawFormat("Data offset: %4X (%x)\n", g_VGM_Header->Data_offset, (u16)&g_VGM_Header->Data_offset + (u16)g_VGM_Header->Data_offset);
+	// Print_DrawFormat("Rate:        %4X\n", g_VGM_Header->Rate);
+	// Print_DrawFormat("Data offset: %4X (%x)\n", g_VGM_Header->Data_offset, (u16)&g_VGM_Header->Data_offset + (u16)g_VGM_Header->Data_offset);
 	Print_DrawFormat("AY8910 clk:  %X\n", g_VGM_Header->AY8910_clock);
 	Print_DrawFormat("AY8910 type: %s\n", GetChipName(g_VGM_Header->AYT));
 	Print_DrawFormat("AY8910 flag: %2x,%2x,%2x\n", g_VGM_Header->AY_Flags[0], g_VGM_Header->AY_Flags[1], g_VGM_Header->AY_Flags[2]);
+	Print_DrawFormat("K051649 clk: %X\n", (g_VGM_Header->Version >= 0x0161) ? g_VGM_Header->K051649_clock : 0);
 
 	UpdatePlayer();
 }
@@ -270,6 +271,22 @@ void SetCursor(u8 id)
 	VDP_SetSpriteSM1(0, 8 + 16 * g_CurrentButton, (PLAYER_Y + 1) * 8 - 1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
 }
 
+//-----------------------------------------------------------------------------
+//
+void Print_DrawSlot(u8 slot)
+{
+	if(slot == 0xFF)
+	{
+		Print_DrawText("Not found!");
+		return;
+	}
+	Print_DrawInt(Sys_SlotGetPrimary(slot));
+	if(Sys_SlotIsExpended(slot))
+	{
+		Print_DrawChar('-');
+		Print_DrawInt(Sys_SlotGetSecondary(slot));
+	}
+}
 
 //=============================================================================
 // MAIN LOOP
@@ -293,10 +310,14 @@ void main()
 	Print_DrawText(MSX_GL " VGM Sample");
 	Print_DrawLineH(0, 1, 32);
 
-	Print_SetPosition(20, 8);
+	Print_SetPosition(20, 7);
 	Print_DrawText("Main-ROM:");
-	Print_SetPosition(20, 9);
+	Print_SetPosition(20, 8);
 	Print_DrawFormat("\x07" "Freq  %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
+
+	Print_SetPosition(0, 21);
+	Print_DrawText("SCC Slot: ");
+	Print_DrawSlot(SCC_SLOT);
 
 	// Decode VGM header
 	SetMusic(0);
