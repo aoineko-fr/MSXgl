@@ -12,16 +12,50 @@
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="VGM_Play"></a><a name="Topic357"></a><div class="CTopic TFunction LC">
+<a name="VGM_Play"></a><a name="Topic407"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VGM_Play</div>
- <div id="NDPrototype357" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> VGM_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">loop</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Play a VGM data</p></div>
+ <div id="NDPrototype407" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> VGM_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="first"></td><td class="PType"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">loop</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Start music playback</p></div>
 </div>
 
-<a name="VGM_Decode"></a><a name="Topic358"></a><div class="CTopic TFunction LC last">
+<a name="VGM_Stop"></a><a name="Topic408"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VGM_Stop</div>
+ <div id="NDPrototype408" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VGM_Stop()</div></div>
+ <div class="CBody"><p>Stop music playback</p></div>
+</div>
+
+<a name="ayVGM_SetFrequency50Hz"></a><a name="Topic409"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">ayVGM_SetFrequency50Hz</div>
+ <div class="CBody"><p>Change frequency to 50 Hz</p></div>
+</div>
+
+<a name="ayVGM_SetFrequency60Hz"></a><a name="Topic410"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">ayVGM_SetFrequency60Hz</div>
+ <div class="CBody"><p>Change frequency to 60 Hz</p></div>
+</div>
+
+<a name="VGM_IsPlaying"></a><a name="Topic411"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VGM_IsPlaying</div>
+ <div id="NDPrototype411" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_IsPlaying()</div></div>
+ <div class="CBody"><p>Check if music playing</p></div>
+</div>
+
+<a name="VGM_Resume"></a><a name="Topic412"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VGM_Resume</div>
+ <div id="NDPrototype412" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VGM_Resume()</div></div>
+ <div class="CBody"><p>Resume music playback</p></div>
+</div>
+
+<a name="VGM_Pause"></a><a name="Topic413"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VGM_Pause</div>
+ <div id="NDPrototype413" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VGM_Pause()</div></div>
+ <div class="CBody"><p>Pause music playback</p></div>
+</div>
+
+<a name="VGM_Decode"></a><a name="Topic414"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">VGM_Decode</div>
- <div id="NDPrototype358" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VGM_Decode()</div></div>
- <div class="CBody"><p>Decode a frame of VGM data</p></div>
+ <div id="NDPrototype414" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VGM_Decode()</div></div>
+ <div class="CBody"><p>Decode a frame of music</p></div>
 </div>
 
 </body></html>

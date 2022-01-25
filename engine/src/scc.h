@@ -1,7 +1,7 @@
 // ____________________________ 
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄   ▄▄▄  ▄▄▄
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ▀█▄  ██  
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ▄▄█▀ ▀█▄█
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄  ▄▄   ▄▄ 
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ██ ▀ ██ ▀
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀█▄▀ ▀█▄▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 //─────────────────────────────────────────────────────────────────────────────
@@ -109,6 +109,8 @@
 // PROTOTYPE
 //=============================================================================
 
+// Group: Core
+
 // Function: SCC_Initialize
 // Initialize SCC module
 bool SCC_Initialize();
@@ -136,6 +138,7 @@ u8 SCC_GetRegister(u8 reg);
 void SCC_Mute();
 
 #if (USE_SCC_EXTA)
+// Group: Extra
 	
 // Function: SCC_LoadWaveform
 // Load a full waveform

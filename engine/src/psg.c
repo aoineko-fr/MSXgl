@@ -217,7 +217,7 @@ void PSG_EnableEnvelope(u8 chan, u8 val)
 
 
 ///
-void PSG_Silent()
+void PSG_Mute()
 {
 	g_PSG_Regs.Volume[0] = 0;
 	g_PSG_Regs.Volume[1] = 0;

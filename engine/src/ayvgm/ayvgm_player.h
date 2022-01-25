@@ -82,7 +82,7 @@ inline void ayVGM_Resume() { g_ayVGM_State |= AYVGM_STATE_PLAY; }
 
 // Function: ayVGM_Pause
 // Pause music playback
-inline void ayVGM_Pause() { g_ayVGM_State &= ~AYVGM_STATE_PLAY; PSG_Silent(); }
+inline void ayVGM_Pause() { g_ayVGM_State &= ~AYVGM_STATE_PLAY; PSG_Mute(); }
 
 // Function: ayVGM_Decode
 // Decode a frame of music

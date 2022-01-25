@@ -6,4 +6,4 @@
 //  All targets sample
 //─────────────────────────────────────────────────────────────────────────────
 
-#include "content\vgm\vgm_goemon07.h"
+#include "content\vgm\vgm_psg_goemon07.h"

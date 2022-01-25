@@ -6,4 +6,4 @@
 //  All targets sample
 //─────────────────────────────────────────────────────────────────────────────
 
-#include "content\vgm\vgm_metalgear_05.h"
+#include "content\vgm\vgm_psg_metalgear_05.h"

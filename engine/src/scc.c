@@ -1,15 +1,15 @@
 // ____________________________ 
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄   ▄▄▄  ▄▄▄
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ▀█▄  ██  
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ▄▄█▀ ▀█▄█
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄  ▄▄   ▄▄ 
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ██ ▀ ██ ▀
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀█▄▀ ▀█▄▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 //─────────────────────────────────────────────────────────────────────────────
 // PSG handler module
 //
 // References:
-//  - The Revised MSX Red Book - PSG
-//     https://www.angelfire.com/art2/unicorndreams/msx/RR-PSG.html
+//  - Konami SCC Sound Chip
+//     http://bifi.msxnet.org/msxnet/tech/scc.html
 //─────────────────────────────────────────────────────────────────────────────
 #include "scc.h"
 #include "system.h"

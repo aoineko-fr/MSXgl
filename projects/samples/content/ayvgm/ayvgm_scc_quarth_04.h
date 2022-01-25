@@ -4,7 +4,7 @@
 //   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ 
 // ______________________________▀▀  ___________________________________________
 // CMSXzip 1.0.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Jan 20 21:39:08 2022
+// File generated on Tue Jan 25 01:01:10 2022
 // Soure file: vgm\scc_quarth_04.vgm (70934 bytes)
 // Compressor: ayVGM
 const u8 g_ayVGM_scc_quarth_04[] = {

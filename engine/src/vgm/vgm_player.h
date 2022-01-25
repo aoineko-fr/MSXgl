@@ -12,7 +12,8 @@
 // DEFINES
 //=============================================================================
 
-#define USE_VGM_SCC 1
+#define USE_VGM_SCC		1
+#define USE_VGM_MSXMUS	1
 
 // VGM playback state flag
 enum VGM_STATE
@@ -95,14 +96,7 @@ inline void VGM_Resume() { g_VGM_State |= VGM_STATE_PLAY; }
 
 // Function: VGM_Pause
 // Pause music playback
-inline void VGM_Pause()
-{
-	g_VGM_State &= ~VGM_STATE_PLAY; 
-	PSG_Silent();
-	#if (USE_VGM_SCC)
-	SCC_Mute();
-	#endif
-}
+void VGM_Pause();
 
 // Function: VGM_Decode
 // Decode a frame of music

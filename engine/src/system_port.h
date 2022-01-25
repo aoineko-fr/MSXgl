@@ -13,7 +13,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 
 //-----------------------------------------------------------------------------
-// PPI
+// PPI Ports
 //-----------------------------------------------------------------------------
 
 #define P_PSL_STAT #0xA8   // slot status
@@ -79,7 +79,7 @@ __sfr __at(P_VDP_IREG)	g_VDP_IRegPort;	///< Indirect register access port (write
 #endif // (MSX_VERSION >= MSX_2)
 
 //-----------------------------------------------------------------------------
-// PSG
+// PSG Ports
 //-----------------------------------------------------------------------------
 
 // Internal PSG I/O ports
@@ -99,7 +99,18 @@ __sfr __at(P_PSG_EXT_DATA) g_PSG_Ext_DataPort;
 __sfr __at(P_PSG_EXT_STAT) g_PSG_Ext_StatPort;
 
 //-----------------------------------------------------------------------------
-// RTC
+// MSX-Music Ports
+//-----------------------------------------------------------------------------
+
+// Internal/external MSX-Music I/O ports
+#define P_MSXMUS_INDEX	0x7C // Register Index
+__sfr __at(P_MSXMUS_INDEX) g_MSXMusic_Index;
+#define P_MSXMUS_DATA	0x7D // Register data
+__sfr __at(P_MSXMUS_DATA) g_MSXMusic_Data;
+
+//-----------------------------------------------------------------------------
+// RTC Ports
+//-----------------------------------------------------------------------------
 
 #define P_RTC_ADDR #0xB4   // RTC address
 __sfr __at(P_RTC_ADDR) g_RTC_AddrPort;

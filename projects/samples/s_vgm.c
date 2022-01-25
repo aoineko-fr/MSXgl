@@ -58,12 +58,12 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
-	{ "Dragon Slayer 4  ", 0x8000, 2 },
-	{ "Gambare Goemon   ", 0x8000, 3 },
-	{ "Penguin Adventure", 0x8000, 4 },
-	{ "Metal Gear       ", 0x8000, 5 },
-	{ "Hi no Tori       ", 0x8000, 6 },
-	{ "F1 Spirit (SCC)  ", 0x8000, 7 },
+	{ "Dragon Slayer 4    ", 0x8000, 2 },
+	{ "Gambare Goemon     ", 0x8000, 3 },
+	{ "Metal Gear         ", 0x8000, 5 },
+	{ "Hi no Tori         ", 0x8000, 6 },
+	{ "F1 Spirit (SCC)    ", 0x8000, 7 },
+	{ "Undeadline (MSXMus)", 0x8000, 4 },
 };
 
 // Player button list
@@ -126,6 +126,7 @@ void DrawVGM(const u8* ptr)
 			Print_DrawFormat("R#%1x=%2x", ptr[1], ptr[2]);
 			ptr += 2;
 		}
+		#if (USE_VGM_SCC)
 		else if(*ptr == 0xD2) // SCC1, port pp, write value dd to register aa
 		{
 			u8 reg = 0;
@@ -141,6 +142,14 @@ void DrawVGM(const u8* ptr)
 			Print_DrawFormat("R#%1x=%2x", reg + ptr[2], ptr[3]);
 			ptr += 3;
 		}
+		#endif
+		#if (USE_VGM_MSXMUS)
+		else if(*ptr == 0x51) // YM2413, write value dd to register aa
+		{
+			Print_DrawFormat("R#%1x=%2x", ptr[1], ptr[2]);
+			ptr += 2;
+		}
+		#endif
 		else if(*ptr == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
 			Print_DrawFormat("W=%4x", *(u16*)(ptr+1));
@@ -207,6 +216,7 @@ void SetMusic(u8 idx)
 	Print_DrawFormat("AY8910 clk:  %X\n", g_VGM_Header->AY8910_clock);
 	Print_DrawFormat("AY8910 type: %s\n", GetChipName(g_VGM_Header->AYT));
 	Print_DrawFormat("AY8910 flag: %2x,%2x,%2x\n", g_VGM_Header->AY_Flags[0], g_VGM_Header->AY_Flags[1], g_VGM_Header->AY_Flags[2]);
+	Print_DrawFormat("YM2413 clk:  %X\n", g_VGM_Header->YM2413_clock);	
 	Print_DrawFormat("K051649 clk: %X\n", (g_VGM_Header->Version >= 0x0161) ? g_VGM_Header->K051649_clock : 0);
 
 	UpdatePlayer();

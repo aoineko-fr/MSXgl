@@ -177,9 +177,9 @@ void PSG_EnableNoise(u8 chan, u8 val);
 // Enable/disable envelope on the given channel
 void PSG_EnableEnvelope(u8 chan, u8 val);
 
-// Function: PSG_Silent
+// Function: PSG_Mute
 // Silent the PSG (set according registers)
-void PSG_Silent();
+void PSG_Mute();
 
 #if (PSG_ACCESS == PSG_INDIRECT)
 
