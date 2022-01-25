@@ -13,13 +13,13 @@ call ..\default_config.cmd %0
 rem ***************************************************************************
 rem  PROJECT SELECTION
 rem ***************************************************************************
-set Pause=0
+set DoPause=0
 set Input=%~n1
 
 :CheckInput
 if not [%Input%]==[] goto :FoundInput
 cls
-set Pause=1
+set DoPause=1
 echo No valide target selected...
 echo Available targets:
 set Formats=BIN,DOS1,DOS2,ROM_8K,ROM_8K_P2,ROM_16K,ROM_16K_P2,ROM_32K,ROM_48K,ROM_48K_ISR,ROM_64K,ROM_64K_ISR,ROM_ASCII8,ROM_ASCII16,ROM_KONAMI,ROM_KONAMI_SCC
@@ -70,7 +70,8 @@ rem - DOS2				.com	MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
 rem - DOS2_ARG			.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 set Target=%Input%
 rem  Mapper size
-set ROMSize=%2
+REM set ROMSize=%2
+set ROMSize=
 
 rem  Optim:
 rem  - Default
@@ -108,11 +109,11 @@ set DoCompile=1
 set DoMake=1
 set DoPackage=1
 set DoDeploy=1
-set DoRun=0
+set DoRun=1
 
 rem ***************************************************************************
 rem * START BUILD                                                             *
 rem ***************************************************************************
 call %LibDir%\script\build.cmd
 
-if %Pause%==1 pause
+if %DoPause%==1 pause

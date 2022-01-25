@@ -36,8 +36,6 @@
 	#define SCC_SLOT g_SCC_SlotId
 #endif
 
-#define SCC_SLOT_NOTFOUND 0xFF
-
 //-----------------------------------------------------------------------------
 // SCC Registers
 

@@ -8,7 +8,7 @@
 #include "system.h"
 
 //-----------------------------------------------------------------------------
-/// Get the slot ID of a given page
+// Get the slot ID of a given page
 u8 Sys_GetPageSlot(u8 page)
 {
 	// Get page's primary slot
@@ -29,7 +29,7 @@ u8 Sys_GetPageSlot(u8 page)
 }
 
 //-----------------------------------------------------------------------------
-/// Set a slot in a given page
+// Set a slot in a given page
 void Sys_SetPageSlot(u8 page, u8 slotId)
 {
 	// WORK IN PROGERSS...
@@ -57,9 +57,8 @@ void Sys_SetPageSlot(u8 page, u8 slotId)
 	}*/
 }
 
-
 //-----------------------------------------------------------------------------
-/// Set a given slot in page 0
+// Set a given slot in page 0
 void Sys_SetPage0Slot(u8 slotId)
 {
 	slotId; // A: ExxxSSPP
@@ -132,4 +131,25 @@ void Sys_SetPage0Slot(u8 slotId)
 		
 	__endasm;
 
+}
+
+//-----------------------------------------------------------------------------
+// Check all slots with a given callback function
+u8 Sys_CheckSlot(CheckSlotCallback cb)
+{
+	for(u8 slot = 0; slot < 4; ++slot)
+	{
+		if(g_EXPTBL[slot] & SLOT_EXP)
+		{
+			for(u8 sub = 0; sub < 4; ++sub)
+			{
+				u8 slotId = SLOTEX(slot, sub);
+				if(cb(slotId))
+					return slotId;
+			}
+		}
+		else if(cb(slot))
+			return slot;
+	}
+	return SLOT_NOTFOUND;
 }

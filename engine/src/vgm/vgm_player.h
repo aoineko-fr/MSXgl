@@ -101,3 +101,19 @@ void VGM_Pause();
 // Function: VGM_Decode
 // Decode a frame of music
 void VGM_Decode();
+
+// Function: VGM_ContainsPSG
+// Check if initialized song contains PSG data
+inline bool VGM_ContainsPSG() { return (g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock; }
+
+// Function: VGM_ContainsMSXMusic
+// Check if initialized song contains MSX-Music data
+inline bool VGM_ContainsMSXMusic() { return g_VGM_Header->YM2413_clock; }
+
+// Function: VGM_ContainsMSXAudio
+// Check if initialized song contains MSX-Audio data
+inline bool VGM_ContainsMSXAudio() { return (g_VGM_Header->Version >= 0x0151) && g_VGM_Header->Y8950_clock; }
+
+// Function: VGM_ContainsSCC
+// Check if initialized song contains SCC data
+inline bool VGM_ContainsSCC() { return (g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock; }

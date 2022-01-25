@@ -23,12 +23,15 @@
 //=============================================================================
 
 // Detection result
-enum MSXMUS_DETECTION
+enum MSXMUSIC_DETECTION
 {
-	MSXMUS_NOTFOUND = 0, // No MSX-Music found
-	MSXMUS_INTERNAL = 1, // Internal MSX-Music device found
-	MSXMUS_EXTERNAL = 2, // External MSX-Music device found (FM-PAC)
+	MSXMUSIC_NOTFOUND = 0, // No MSX-Music found
+	MSXMUSIC_INTERNAL = 1, // Internal MSX-Music device found
+	MSXMUSIC_EXTERNAL = 2, // External MSX-Music device found (FM-PAC)
 };
+
+// Slot of the MSX-Music chip
+extern u8 g_MSXMusic_SlotId;
 
 //=============================================================================
 // PROTOTYPE

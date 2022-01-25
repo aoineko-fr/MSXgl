@@ -32,7 +32,7 @@
 //=============================================================================
 
 #if ((SCC_SLOT_MODE == SCC_SLOT_USER) || (SCC_SLOT_MODE == SCC_SLOT_AUTO))
-	u8 g_SCC_SlotId = SCC_SLOT_NOTFOUND;
+	u8 g_SCC_SlotId = SLOT_NOTFOUND;
 #endif
 
 //=============================================================================
@@ -40,8 +40,10 @@
 //=============================================================================
 
 #if (SCC_SLOT_MODE == SCC_SLOT_AUTO)
+
+//-----------------------------------------------------------------------------
 //
-/*bool SCC_CheckSlotID(u8 slotId)
+bool SCC_CheckSlotID(u8 slotId)
 {
 	// Check ROM
 	u8 val = Bios_InterSlotRead(slotId, 0x8000);
@@ -71,28 +73,12 @@
 //
 u8 SCC_AutoDetect()
 {
-	for(u8 slot = 0; slot < 4; ++slot)
-	{
-		if(g_EXPTBL[slot] & SLOT_EXP)
-		{
-			for(u8 sub = 0; sub < 4; ++sub)
-			{
-				u8 slotId = SLOTEX(slot, sub);
-				if(SCC_CheckSlotID(slotId))
-					return slotId;
-			}
-		}
-		else
-			if(SCC_CheckSlotID(slot))
-				return slot;
-	}
-
-	return 0xFF;
-}*/
+	return Sys_CheckSlot(SCC_CheckSlotID);
+}
 
 //-----------------------------------------------------------------------------
 // Auto-detecting the SCC slot id
-u8 SCC_AutoDetect() __naked
+/*u8 SCC_AutoDetect() __naked
 {
 __asm
 	
@@ -190,7 +176,7 @@ SCC_Done:
 	ret
 
 __endasm;
-}
+}*/
 
 //-----------------------------------------------------------------------------
 //
@@ -200,7 +186,7 @@ __asm
 
 	call	SCCDETECT
 	ret		nc // SCC found (result in A)
-	ld		a, #SCC_SLOT_NOTFOUND
+	ld		a, #SLOT_NOTFOUND
 	ret
 
 SCCDETECT:
@@ -293,7 +279,7 @@ bool SCC_Initialize()
 {
 	#if (SCC_SLOT_MODE == SCC_SLOT_AUTO)
 		g_SCC_SlotId = SCC_AutoDetect();
-		if(g_SCC_SlotId == SCC_SLOT_NOTFOUND)
+		if(g_SCC_SlotId == SLOT_NOTFOUND)
 			return false;
 	#elif (SCC_SLOT_MODE == SCC_SLOT_USER)
 		g_SCC_SlotId = SLOT_2; // Non-expanded secondary slot cartridge 

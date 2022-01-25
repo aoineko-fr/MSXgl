@@ -8,6 +8,7 @@
 #include "msxgl.h"
 #include "psg.h"
 #include "scc.h"
+#include "msx-music.h"
 #include "vgm\vgm_player.h"
 
 //=============================================================================
@@ -206,18 +207,23 @@ void SetMusic(u8 idx)
 	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
 
 	Print_SetPosition(0, 12);
-	Print_DrawFormat("Ident:       %s   (%x)\n", ok ? "OK" : "Invalide", (u16)&g_VGM_Header->Ident);
-	// Print_DrawFormat("EOF offset:  %4X (%x)\n", g_VGM_Header->EoF_offset, (u16)&g_VGM_Header->EoF_offset + (u16)g_VGM_Header->EoF_offset);
-	Print_DrawFormat("Version:     %4X\n", g_VGM_Header->Version);
-	// Print_DrawFormat("GD3 offset:  %4X (%x)\n", g_VGM_Header->GD3_offset, (u16)&g_VGM_Header->GD3_offset + (u16)g_VGM_Header->GD3_offset);
-	Print_DrawFormat("Loop offset: %4X (%x)\n", g_VGM_Header->Loop_offset, (u16)&g_VGM_Header->Loop_offset + (u16)g_VGM_Header->Loop_offset);
-	// Print_DrawFormat("Rate:        %4X\n", g_VGM_Header->Rate);
-	// Print_DrawFormat("Data offset: %4X (%x)\n", g_VGM_Header->Data_offset, (u16)&g_VGM_Header->Data_offset + (u16)g_VGM_Header->Data_offset);
-	Print_DrawFormat("AY8910 clk:  %X\n", g_VGM_Header->AY8910_clock);
-	Print_DrawFormat("AY8910 type: %s\n", GetChipName(g_VGM_Header->AYT));
-	Print_DrawFormat("AY8910 flag: %2x,%2x,%2x\n", g_VGM_Header->AY_Flags[0], g_VGM_Header->AY_Flags[1], g_VGM_Header->AY_Flags[2]);
-	Print_DrawFormat("YM2413 clk:  %X\n", g_VGM_Header->YM2413_clock);	
-	Print_DrawFormat("K051649 clk: %X\n", (g_VGM_Header->Version >= 0x0161) ? g_VGM_Header->K051649_clock : 0);
+	Print_DrawFormat("Ident:   %s   (%x)\n", ok ? "OK" : "Invalide", (u16)&g_VGM_Header->Ident);
+	Print_DrawFormat("Version: %1x.%1x.%1x\n", (u8)(g_VGM_Header->Version >> 8) & 0xF, (u8)(g_VGM_Header->Version >> 4) & 0xF, (u8)(g_VGM_Header->Version) & 0xF);
+	Print_DrawFormat("Loop:    %4X (%x)\n", g_VGM_Header->Loop_offset, (u16)&g_VGM_Header->Loop_offset + (u16)g_VGM_Header->Loop_offset);
+	Print_DrawFormat("AY8910:  %c\n", VGM_ContainsPSG() ? '\x0C' : '\x0B');
+	if(VGM_ContainsPSG())
+	{
+		Print_DrawFormat(" type:   %s\n", GetChipName(g_VGM_Header->AYT));
+		Print_DrawFormat(" flag:   %2x,%2x,%2x\n", g_VGM_Header->AY_Flags[0], g_VGM_Header->AY_Flags[1], g_VGM_Header->AY_Flags[2]);
+	}
+	else
+	{
+		Print_DrawText(" type:         \n");
+		Print_DrawText(" flag:           \n");
+	}
+	Print_DrawFormat("YM2413:  %c\n", VGM_ContainsMSXMusic() ? '\x0C' : '\x0B');
+	Print_DrawFormat("Y8950:   %c\n", VGM_ContainsMSXAudio() ? '\x0C' : '\x0B');
+	Print_DrawFormat("K051649: %c\n", VGM_ContainsSCC() ? '\x0C' : '\x0B');
 
 	UpdatePlayer();
 }
@@ -287,7 +293,7 @@ void Print_DrawSlot(u8 slot)
 {
 	if(slot == 0xFF)
 	{
-		Print_DrawText("Not found!");
+		Print_DrawText("No!");
 		return;
 	}
 	Print_DrawInt(Sys_SlotGetPrimary(slot));
@@ -314,6 +320,9 @@ void main()
 	#if (USE_VGM_SCC)
 		SCC_Initialize();
 	#endif
+	#if (USE_VGM_MSXMUS)
+		MSXMusic_Initialize();
+	#endif
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
@@ -325,8 +334,15 @@ void main()
 	Print_SetPosition(20, 8);
 	Print_DrawFormat("\x07" "Freq  %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
 
-	Print_SetPosition(0, 21);
-	Print_DrawText("SCC Slot: ");
+	Print_SetPosition(20, 17);
+	Print_DrawText("Slots: ");
+	Print_SetPosition(20, 18);
+	Print_DrawText("\x07" "YM2413: ");
+	Print_DrawSlot(g_MSXMusic_SlotId);
+	Print_SetPosition(20, 19);
+	Print_DrawText("\x07" "Y8950:  ");
+	Print_SetPosition(20, 20);
+	Print_DrawText("\x07" "SCC:    ");
 	Print_DrawSlot(SCC_SLOT);
 
 	// Decode VGM header
