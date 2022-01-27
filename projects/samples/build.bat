@@ -84,6 +84,7 @@ set Machine=2
 :: - DOS2_ARG		.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 set Target=ROM_32K
 if not "%2"=="" set Target=%2
+set ROMSize=
 
 :: Optim:
 :: - Default

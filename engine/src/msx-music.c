@@ -98,15 +98,16 @@ u8 MSXMusic_Detect()
 // Set MSX-Music register value
 void MSXMusic_SetRegister(u8 reg, u8 value)
 {
-	g_MSXMusic_Index = reg;
-	g_MSXMusic_Data = value;
+	g_MSXMusic_IndexPort = reg;
+	g_MSXMusic_DataPort = value;
 }
 
 //-----------------------------------------------------------------------------
-// Get MSX-Music register value
+// Get MSX-Music register value (most of the registers are write-only)
 u8 MSXMusic_GetRegister(u8 reg)
 {
-	return 0;
+	g_MSXMusic_IndexPort = reg;
+	return g_MSXMusic_DataPort;
 }
 
 //-----------------------------------------------------------------------------

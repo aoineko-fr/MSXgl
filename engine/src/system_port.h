@@ -103,10 +103,26 @@ __sfr __at(P_PSG_EXT_STAT) g_PSG_Ext_StatPort;
 //-----------------------------------------------------------------------------
 
 // Internal/external MSX-Music I/O ports
-#define P_MSXMUS_INDEX	0x7C // Register Index
-__sfr __at(P_MSXMUS_INDEX) g_MSXMusic_Index;
-#define P_MSXMUS_DATA	0x7D // Register data
-__sfr __at(P_MSXMUS_DATA) g_MSXMusic_Data;
+#define P_MSXMUSIC_INDEX	0x7C // Register Index
+__sfr __at(P_MSXMUSIC_INDEX) g_MSXMusic_IndexPort;
+#define P_MSXMUSIC_DATA	0x7D // Register data
+__sfr __at(P_MSXMUSIC_DATA) g_MSXMusic_DataPort;
+
+//-----------------------------------------------------------------------------
+// MSX-Audio Ports
+//-----------------------------------------------------------------------------
+
+// Primary MSX-Audio I/O ports
+#define P_MSXAUDIO_INDEX	0xC0 // Register Index
+__sfr __at(P_MSXAUDIO_INDEX) g_MSXAudio_IndexPort;
+#define P_MSXAUDIO_DATA		0xC1 // Register data
+__sfr __at(P_MSXAUDIO_DATA) g_MSXAudio_DataPort;
+
+// Secondary MSX-Audio I/O ports
+#define P_MSXAUDIO_INDEX2	0xC2 // Register Index
+__sfr __at(P_MSXAUDIO_INDEX2) g_MSXAudio_IndexPort2;
+#define P_MSXAUDIO_DATA2	0xC3 // Register data
+__sfr __at(P_MSXAUDIO_DATA2) g_MSXAudio_DataPort2;
 
 //-----------------------------------------------------------------------------
 // RTC Ports

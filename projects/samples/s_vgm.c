@@ -7,9 +7,16 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "psg.h"
-#include "scc.h"
-#include "msx-music.h"
 #include "vgm\vgm_player.h"
+#if (USE_VGM_SCC)
+	#include "scc.h"
+#endif
+#if (USE_VGM_MSXMUSIC)
+	#include "msx-music.h"
+#endif
+#if (USE_VGM_MSXAUDIO)
+	#include "msx-audio.h"
+#endif
 
 //=============================================================================
 // DEFINES
@@ -64,7 +71,10 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Metal Gear         ", 0x8000, 5 },
 	{ "Hi no Tori         ", 0x8000, 6 },
 	{ "F1 Spirit (SCC)    ", 0x8000, 7 },
-	{ "Undeadline (MSXMus)", 0x8000, 4 },
+	{ "Undeadline (M-M)   ", 0x8000, 4 },
+	{ "Final Fantasy (M-M)", 0x8000, 8 },
+	{ "Xevious (M-A)      ", 0x8000, 9 },
+	{ "Pro Yakyu (M-A)    ", 0x8000, 10 },
 };
 
 // Player button list
@@ -124,7 +134,7 @@ void DrawVGM(const u8* ptr)
 		Print_SetPosition(25, 4 + i);
 		if(*ptr == 0xA0) // AY8910, write value dd to register aa
 		{
-			Print_DrawFormat("R#%1x=%2x", ptr[1], ptr[2]);
+			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
 			ptr += 2;
 		}
 		#if (USE_VGM_SCC)
@@ -140,14 +150,21 @@ void DrawVGM(const u8* ptr)
 			case 4:	reg = 0xA0;	break; // 0x04 - waveform (0x00 used to do SCC access, 0x04 SCC+)
 			case 5:	reg = 0xE0;	break; // 0x05 - test register
 			}
-			Print_DrawFormat("R#%1x=%2x", reg + ptr[2], ptr[3]);
+			Print_DrawFormat("#%2x=%2x", reg + ptr[2], ptr[3]);
 			ptr += 3;
 		}
 		#endif
-		#if (USE_VGM_MSXMUS)
+		#if (USE_VGM_MSXMUSIC)
 		else if(*ptr == 0x51) // YM2413, write value dd to register aa
 		{
-			Print_DrawFormat("R#%1x=%2x", ptr[1], ptr[2]);
+			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
+			ptr += 2;
+		}
+		#endif
+		#if (USE_VGM_MSXAUDIO)
+		else if(*ptr == 0x5C) // Y8950, write value dd to register aa
+		{
+			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
 			ptr += 2;
 		}
 		#endif
@@ -188,9 +205,9 @@ void UpdatePlayer()
 {
 	Print_SetPosition(0, 7);
 	Print_DrawText("Player:\n");
-	Print_DrawFormat("\x07" "Freq      %s\n", (g_VGM_State & VGM_STATE_50HZ) ? "50Hz" : "60Hz");
-	Print_DrawFormat("\x07" "DoLoop    %c\n", (g_VGM_State & VGM_STATE_LOOP) ? '\x0C' : '\x0B');
-	Print_DrawFormat("\x07" "DoPlay    %c\n", (g_VGM_State & VGM_STATE_PLAY) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Freq    %s\n", (g_VGM_State & VGM_STATE_50HZ) ? "50Hz" : "60Hz");
+	Print_DrawFormat("\x07" "DoLoop  %c\n", (g_VGM_State & VGM_STATE_LOOP) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "DoPlay  %c\n", (g_VGM_State & VGM_STATE_PLAY) ? '\x0C' : '\x0B');
 }
 
 //-----------------------------------------------------------------------------
@@ -320,8 +337,11 @@ void main()
 	#if (USE_VGM_SCC)
 		SCC_Initialize();
 	#endif
-	#if (USE_VGM_MSXMUS)
+	#if (USE_VGM_MSXMUSIC)
 		MSXMusic_Initialize();
+	#endif
+	#if (USE_VGM_MSXAUDIO)
+		MSXAudio_Initialize();
 	#endif
 
 	// Initialize font
@@ -341,6 +361,8 @@ void main()
 	Print_DrawSlot(g_MSXMusic_SlotId);
 	Print_SetPosition(20, 19);
 	Print_DrawText("\x07" "Y8950:  ");
+	Print_DrawChar(MSXAudio_Detect() ? '\x0C' : '\x0B');
+	// Print_DrawSlot(g_MSXAudio_SlotId);
 	Print_SetPosition(20, 20);
 	Print_DrawText("\x07" "SCC:    ");
 	Print_DrawSlot(SCC_SLOT);

@@ -4,7 +4,7 @@
 //   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ 
 // ______________________________▀▀  ___________________________________________
 // CMSXzip 1.0.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Tue Jan 25 01:01:10 2022
+// File generated on Wed Jan 26 13:47:06 2022
 // Soure file: vgm\scc_salamander_02.vgm (67298 bytes)
 // Compressor: ayVGM
 const u8 g_ayVGM_scc_salamander_02[] = {

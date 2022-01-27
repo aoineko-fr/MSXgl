@@ -12,8 +12,9 @@
 // DEFINES
 //=============================================================================
 
-#define USE_VGM_SCC		1
-#define USE_VGM_MSXMUS	1
+#define USE_VGM_SCC			1
+#define USE_VGM_MSXMUSIC	1
+#define USE_VGM_MSXAUDIO	1
 
 // VGM playback state flag
 enum VGM_STATE

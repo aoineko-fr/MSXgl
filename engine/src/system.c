@@ -125,7 +125,7 @@ void Sys_SetPage0Slot(u8 slotId)
 		and		#0b11111100			// A=[******00]	Resets the bits of page 0
 		or		d					// A=[******PP]	Sets the bits of page 0 to the input slot
 		di
-		out		(P_PPI_A), a		// Select inpur primary slot for the page 0
+		out		(P_PPI_A), a		// Select input primary slot for the page 0
 
 		ret
 		

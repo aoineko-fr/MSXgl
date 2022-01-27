@@ -13,8 +13,11 @@
 #if (USE_VGM_SCC)
 #include "scc.h"
 #endif
-#if (USE_VGM_MSXMUS)
+#if (USE_VGM_MSXMUSIC)
 #include "msx-music.h"
+#endif
+#if (USE_VGM_MSXAUDIO)
+#include "msx-audio.h"
 #endif
 
 
@@ -79,9 +82,12 @@ void VGM_Pause()
 	#if (USE_VGM_SCC)
 	SCC_Mute();
 	#endif
-	#if (USE_VGM_MSXMUS)
+	#if (USE_VGM_MSXMUSIC)
 	MSXMusic_Mute();
 	#endif
+	// #if (USE_VGM_MSXAUDIO)
+	// MSXAudio_Mute();
+	// #endif
 }
 
 //-----------------------------------------------------------------------------
@@ -124,13 +130,20 @@ void VGM_Decode()
 			g_VGM_Pointer += 3;
 		}
 		#endif
-		#if (USE_VGM_MSXMUS)
+		#if (USE_VGM_MSXMUSIC)
 		else if(*g_VGM_Pointer == 0x51) // YM2413, write value dd to register aa
 		{
 			MSXMusic_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
 		}
 		#endif
+		// #if (USE_VGM_MSXAUDIO)
+		else if(*g_VGM_Pointer == 0x5C) // Y8950, write value dd to register aa
+		{
+			MSXAudio_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
+			g_VGM_Pointer += 2;
+		}
+		// #endif
 		else if(*g_VGM_Pointer == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
 			g_VGM_WaitCount += *(u16*)(g_VGM_Pointer+1);
@@ -152,10 +165,7 @@ void VGM_Decode()
 			}
 			else
 			{
-				#if (USE_VGM_SCC)
-				SCC_Mute();
-				#endif
-				PSG_Mute();
+				VGM_Stop();
 				return;
 			}
 		}

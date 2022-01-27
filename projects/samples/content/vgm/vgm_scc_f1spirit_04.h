@@ -4,7 +4,7 @@
 //   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▀ ██ ██ █
 // _____________________________________________________________________________
 // CMSXbin 1.2.0 by Guillaume "Aoineko" Blanchard (2021) under CC BY-SA free license
-// File generated on Tue Jan 25 01:01:07 2022
+// File generated on Tue Jan 25 23:40:27 2022
 // Soure file: vgm\scc_f1spirit_04.vgm
 const unsigned char g_VGM_scc_f1spirit_04[] = {
 	0x56, 0x67, 0x6D, 0x20, 0xE4, 0x0E, 0x01, 0x00, 0x61, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //      0
