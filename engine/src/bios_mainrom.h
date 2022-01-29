@@ -217,7 +217,7 @@ void Bios_SwitchSlot(u8 page, u8 slot);
 //=============================================================================
 
 // Group: VDP
-#if USE_BIOS_VDP
+#if BIOS_USE_VDP
 
 //-----------------------------------------------------------------------------
 // DISSCR	#0041	Inhibits the screen display
@@ -455,14 +455,14 @@ void Bios_GraphPrintChar(u8 chr) __FASTCALL;
 // Displays a character on the graphic screen
 void Bios_GraphPrintCharEx(u8 chr, u16 x, u8 y, u8 color, u8 op);
 
-#endif // USE_BIOS_VDP
+#endif // BIOS_USE_VDP
 
 //=============================================================================
 // PSG routines
 //=============================================================================
 
 // Group: PSG
-#if USE_BIOS_PSG
+#if BIOS_USE_PSG
 
 //-----------------------------------------------------------------------------
 // GICINI	#0090	Initialises PSG and sets initial value for the PLAY statement
@@ -495,7 +495,7 @@ u8 Bios_ReadPSG(u8 reg) __FASTCALL;
 // Tests whether the PLAY statement is being executed as a background task
 inline void Bios_PlayPSG();
 
-#endif // USE_BIOS_PSG
+#endif // BIOS_USE_PSG
 
 //=============================================================================
 // Console routines

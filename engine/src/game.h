@@ -38,7 +38,7 @@ void Game_Release();
 //-----------------------------------------------------------------------------
 //   G A M E   L O O P
 //-----------------------------------------------------------------------------
-#if (USE_GAME_LOOP)
+#if (GAME_USE_LOOP)
 // Group: Game Loop
 
 //-----------------------------------------------------------------------------
@@ -65,7 +65,7 @@ void Game_Exit();
 //-----------------------------------------------------------------------------
 //   G A M E   S T A T E
 //-----------------------------------------------------------------------------
-#if (USE_GAME_STATE)
+#if (GAME_USE_STATE)
 // Group: Game State
 
 //-----------------------------------------------------------------------------
@@ -92,13 +92,13 @@ void Game_RestoreState();
 // Check state transition and update current state
 void Game_UpdateState();
 
-#endif // (USE_GAME_STATE)
+#endif // (GAME_USE_STATE)
 
 
 //-----------------------------------------------------------------------------
 //   G A M E   V - S Y N C
 //-----------------------------------------------------------------------------
-#if (USE_GAME_VSYNC)
+#if (GAME_USE_VSYNC)
 // Group: Game V-Synch
 
 //-----------------------------------------------------------------------------
@@ -124,5 +124,5 @@ void Game_SetVSyncCallback(callback cb);
 // Wait for vertical-synchronization 
 void Game_WaitVSync();
 
-#endif // (USE_GAME_VSYNC)
+#endif // (GAME_USE_VSYNC)
 

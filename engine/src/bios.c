@@ -346,7 +346,7 @@ void Bios_SwitchSlot(u8 page, u8 slot)
 // VDP routines
 //
 //=============================================================================
-#if USE_BIOS_VDP
+#if BIOS_USE_VDP
 
 //-----------------------------------------------------------------------------
 // DISSCR
@@ -921,7 +921,7 @@ void Bios_GraphPrintCharEx(u8 chr, u16 x, u8 y, u8 color, u8 op)
 	Bios_GraphPrintChar(chr);
 }
 
-#endif // USE_BIOS_VDP
+#endif // BIOS_USE_VDP
 
 
 //=============================================================================
@@ -929,7 +929,7 @@ void Bios_GraphPrintCharEx(u8 chr, u16 x, u8 y, u8 color, u8 op)
 // PSG routines
 //
 //=============================================================================
-#if USE_BIOS_PSG
+#if BIOS_USE_PSG
 
 //-----------------------------------------------------------------------------
 // GICINI
@@ -1010,7 +1010,7 @@ inline void Bios_PlayPSG()
 	Bios_MainCall(R_STRTMS);
 }
 
-#endif // USE_BIOS_PSG
+#endif // BIOS_USE_PSG
 
 
 //=============================================================================

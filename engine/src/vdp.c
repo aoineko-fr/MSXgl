@@ -113,7 +113,7 @@ u16 g_SpriteColorLow;			//< Address of the Sprite Color Table
 //
 //-----------------------------------------------------------------------------
 
-#if (USE_VDP_MODE_T1)
+#if (VDP_USE_MODE_T1)
 //-----------------------------------------------------------------------------
 // Data structure to initialize Text 1 screen mode
 static const u8 modeT1[] = 
@@ -149,9 +149,9 @@ void VDP_SetModeText1()
 		g_ScreenPatternHigh  = 0x00;
 	#endif
 }
-#endif // USE_VDP_MODE_T1
+#endif // VDP_USE_MODE_T1
 
-#if (USE_VDP_MODE_MC)
+#if (VDP_USE_MODE_MC)
 //-----------------------------------------------------------------------------
 // Data structure to initialize Multi Color screen mode
 static const u8 modeMC[] = 
@@ -191,9 +191,9 @@ void VDP_SetModeMultiColor()
 		g_SpritePatternHigh  = 0x00;
 	#endif
 }
-#endif // USE_VDP_MODE_MC
+#endif // VDP_USE_MODE_MC
 
-#if (USE_VDP_MODE_G1)
+#if (VDP_USE_MODE_G1)
 //-----------------------------------------------------------------------------
 // Data structure to initialize Graphic 1 screen mode
 static const u8 modeG1[] = 
@@ -235,9 +235,9 @@ void VDP_SetModeGraphic1()
 		g_SpritePatternHigh  = 0x00;
 	#endif
 }
-#endif // USE_VDP_MODE_G1
+#endif // VDP_USE_MODE_G1
 
-#if (USE_VDP_MODE_G2)
+#if (VDP_USE_MODE_G2)
 //-----------------------------------------------------------------------------
 // Data structure to initialize Graphic 2 screen mode
 static const u8 modeG2[] = 
@@ -279,7 +279,7 @@ void VDP_SetModeGraphic2()
 		g_SpritePatternHigh  = 0x00;
 	#endif
 }
-#endif // USE_VDP_MODE_G2
+#endif // VDP_USE_MODE_G2
 
 //-----------------------------------------------------------------------------
 //
@@ -681,7 +681,7 @@ void VDP_RegIncWrite(u16 src, u8 count, u8 reg) __sdcccall(0)
 //
 //-----------------------------------------------------------------------------
 
-#if (USE_VDP_MODE_T2)
+#if (VDP_USE_MODE_T2)
 //-----------------------------------------------------------------------------
 // Data structure to initialize Text 2 screen mode
 static const u8 modeT2[] = 
@@ -714,9 +714,9 @@ void VDP_SetModeText2()
 		g_SpritePatternHigh  = 0x00;
 	#endif
 }
-#endif // USE_VDP_MODE_T2
+#endif // VDP_USE_MODE_T2
 
-#if (USE_VDP_MODE_G3)
+#if (VDP_USE_MODE_G3)
 //-----------------------------------------------------------------------------
 // Data structure to initialize Graphic 3 screen mode
 static const u8 modeG3[] = 
@@ -751,9 +751,9 @@ void VDP_SetModeGraphic3()
 		g_SpritePatternHigh  = 0x00;
 	#endif
 }
-#endif // USE_VDP_MODE_G3
+#endif // VDP_USE_MODE_G3
 
-#if (USE_VDP_MODE_G4)
+#if (VDP_USE_MODE_G4)
 //-----------------------------------------------------------------------------
 // Data structure to initialize Graphic 4 screen mode
 static const u8 modeG4[] = 
@@ -774,9 +774,9 @@ void VDP_SetModeGraphic4()
 {
 	ASM_REG_WRITE_INC_BK(modeG4, 0, 10);
 }
-#endif // USE_VDP_MODE_G4
+#endif // VDP_USE_MODE_G4
 
-#if (USE_VDP_MODE_G5)
+#if (VDP_USE_MODE_G5)
 //-----------------------------------------------------------------------------
 // Data structure to initialize Graphic 5 screen mode
 static const u8 modeG5[] = 
@@ -797,9 +797,9 @@ void VDP_SetModeGraphic5()
 {
 	ASM_REG_WRITE_INC_BK(modeG5, 0, 10);
 }
-#endif // USE_VDP_MODE_G5
+#endif // VDP_USE_MODE_G5
 
-#if (USE_VDP_MODE_G6)
+#if (VDP_USE_MODE_G6)
 //-----------------------------------------------------------------------------
 // Data structure to initialize Graphic 6 screen mode
 static const u8 modeG6[] = 
@@ -820,9 +820,9 @@ void VDP_SetModeGraphic6()
 {
 	ASM_REG_WRITE_INC_BK(modeG6, 0, 10);
 }
-#endif // USE_VDP_MODE_G6
+#endif // VDP_USE_MODE_G6
 
-#if (USE_VDP_MODE_G7)
+#if (VDP_USE_MODE_G7)
 //-----------------------------------------------------------------------------
 // Data structure to initialize Graphic 7 screen mode
 static const u8 modeG7[] = 
@@ -843,7 +843,7 @@ void VDP_SetModeGraphic7()
 {
 	ASM_REG_WRITE_INC_BK(modeG7, 0, 10);
 }
-#endif // USE_VDP_MODE_G7
+#endif // VDP_USE_MODE_G7
 
 //-----------------------------------------------------------------------------
 //
@@ -1364,99 +1364,99 @@ void VDP_SetMode(const u8 mode)
 	g_VDP_Data.Mode = mode;
 	switch(mode)
 	{
-#if (USE_VDP_MODE_T1)
+#if (VDP_USE_MODE_T1)
 	// case VDP_MODE_SCREEN0:
 	// case VDP_MODE_SCREEN0_W40:
 	case VDP_MODE_TEXT1:
 		VDP_SetModeText1();
 		return;
-#endif // USE_VDP_MODE_T1
+#endif // VDP_USE_MODE_T1
 	
-#if (USE_VDP_MODE_MC)
+#if (VDP_USE_MODE_MC)
 	// case VDP_MODE_SCREEN3:
 	case VDP_MODE_MULTICOLOR:
 		VDP_SetModeMultiColor();
 		return;
-#endif // USE_VDP_MODE_MC
+#endif // VDP_USE_MODE_MC
 
-#if (USE_VDP_MODE_G1)
+#if (VDP_USE_MODE_G1)
 	// case VDP_MODE_SCREEN1:
 	case VDP_MODE_GRAPHIC1:
 		VDP_SetModeGraphic1();
 		return;
-#endif // USE_VDP_MODE_G1
+#endif // VDP_USE_MODE_G1
 
-#if (USE_VDP_MODE_G2)
+#if (VDP_USE_MODE_G2)
 	// case VDP_MODE_SCREEN2:
 	case VDP_MODE_GRAPHIC2:
 		VDP_SetModeGraphic2();
 		return;
-#endif // USE_VDP_MODE_G2
+#endif // VDP_USE_MODE_G2
 
 #if (MSX_VERSION >= MSX_2)
 
-#if (USE_VDP_MODE_T2)
+#if (VDP_USE_MODE_T2)
 	// case VDP_MODE_SCREEN0_W80:
 	case VDP_MODE_TEXT2:
 		VDP_SetModeText2();
 		return;
-#endif // USE_VDP_MODE_T2²
+#endif // VDP_USE_MODE_T2²
 
-#if (USE_VDP_MODE_G3)
+#if (VDP_USE_MODE_G3)
 	// case VDP_MODE_SCREEN4:
 	case VDP_MODE_GRAPHIC3:
 		VDP_SetModeGraphic3();
 		return;
-#endif // USE_VDP_MODE_G3
+#endif // VDP_USE_MODE_G3
 	
-#if (USE_VDP_MODE_G4)
+#if (VDP_USE_MODE_G4)
 	// case VDP_MODE_SCREEN5:
 	case VDP_MODE_GRAPHIC4:
 		VDP_SetModeGraphic4();
 		return;
-#endif // USE_VDP_MODE_G4
+#endif // VDP_USE_MODE_G4
 	
-#if (USE_VDP_MODE_G5)
+#if (VDP_USE_MODE_G5)
 	// case VDP_MODE_SCREEN6:
 	case VDP_MODE_GRAPHIC5:
 		VDP_SetModeGraphic5();
 		return;
-#endif // USE_VDP_MODE_G5
+#endif // VDP_USE_MODE_G5
 	
-#if (USE_VDP_MODE_G6)
+#if (VDP_USE_MODE_G6)
 	// case VDP_MODE_SCREEN7:
 	case VDP_MODE_GRAPHIC6:
 		VDP_SetModeGraphic6();
 		return;
-#endif // USE_VDP_MODE_G6
+#endif // VDP_USE_MODE_G6
 		
-#if (USE_VDP_MODE_G7)
+#if (VDP_USE_MODE_G7)
 	// case VDP_MODE_SCREEN8:
 	case VDP_MODE_GRAPHIC7:
 		VDP_SetModeGraphic7();
 		return;
-#endif // USE_VDP_MODE_G7
+#endif // VDP_USE_MODE_G7
 		
-#if (USE_VDP_MODE_G5)
+#if (VDP_USE_MODE_G5)
 	// case VDP_MODE_SCREEN9:
 	case VDP_MODE_SCREEN9_40:
 		VDP_SetModeGraphic5();
 		// @todo Further setting needed
 		return;
-#endif // USE_VDP_MODE_G5
+#endif // VDP_USE_MODE_G5
 	
-#if (USE_VDP_MODE_G4)
+#if (VDP_USE_MODE_G4)
 	case VDP_MODE_SCREEN9_80:
 		VDP_SetModeGraphic4();
 		// @todo Further setting needed
 		return;
-#endif // USE_VDP_MODE_G4
+#endif // VDP_USE_MODE_G4
 
 #endif // (MSX_VERSION >= MSX_2)
 
 #if (MSX_VERSION >= MSX_2P)
 
-#if (USE_VDP_MODE_G7)
+#if (VDP_USE_MODE_G7)
 	case VDP_MODE_SCREEN10:
 		VDP_SetModeGraphic7();
 		// @todo Further setting needed
@@ -1471,7 +1471,7 @@ void VDP_SetMode(const u8 mode)
 		VDP_SetModeGraphic7();
 		// @todo Further setting needed
 		return;
-#endif // USE_VDP_MODE_G7
+#endif // VDP_USE_MODE_G7
 
 #endif // (MSX_VERSION >= MSX_2P)
 	}
@@ -2048,7 +2048,7 @@ void VDP_SendSpriteAttribute(u8 index) __FASTCALL
 //
 //=============================================================================
 
-#if (USE_VDP_MODE_G2 || USE_VDP_MODE_G3)
+#if (VDP_USE_MODE_G2 || VDP_USE_MODE_G3)
 
 //-----------------------------------------------------------------------------
 // Fill the full screen with a given pattern value

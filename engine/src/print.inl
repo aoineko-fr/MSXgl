@@ -32,7 +32,7 @@ inline void Print_SetFontEx(u8 patternX, u8 patternY, u8 sizeX, u8 sizeY, u8 fir
 	g_PrintData.FontAddr     = g_PrintData.FontPatterns - (firstChr * g_PrintData.PatternY); // pre-compute address of the virtual index 0 character (used to quick drawing in PutChar_GX functions)
 }
 
-#if (USE_PRINT_TEXT)
+#if (PRINT_USE_TEXT)
 //-----------------------------------------------------------------------------
 // Function: Print_SelectTextFont
 // Set cursor position

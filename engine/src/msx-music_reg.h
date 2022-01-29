@@ -30,7 +30,7 @@
 //  │	│	└────────────────────── Switching between sustained tone and Percussive tone.
 //  │	└────────────────────────── Vibrato on/off switch. When this bit is '1', vibrato will be applied to the slot.
 //  └────────────────────────────── Amplitude modulation on/off switch. When this bit is '1', amplitude modulation wil be epplied to the slot. 
-#define MSXMUSIC_REG_USER_MOD_MUL	0x00
+#define MSXMUSIC_REG_USER_0			0x00
 
 //-----------------------------------------------------------------------------
 // R#01    User Tone - Carrier - Multiplication control
@@ -43,7 +43,7 @@
 //  │	│	└────────────────────── Switching between sustained tone and Percussive tone.
 //  │	└────────────────────────── Vibrato on/off switch. When this bit is '1', vibrato will be applied to the slot.
 //  └────────────────────────────── Amplitude modulation on/off switch. When this bit is '1', amplitude modulation wil be epplied to the slot. 
-#define MSXMUSIC_REG_USER_CAR_MUL	0x01
+#define MSXMUSIC_REG_USER_1			0x01
 
 //-----------------------------------------------------------------------------
 // R#02    User Tone - Modulator - Attenuation control
@@ -52,7 +52,7 @@
 //	KSL	KSL	TL	TL	TL	TL	TL	TL
 //	│	│	└───┴───┴───┴───┴───┴── The minimum resolution of the attenuation level is 0.75 dB and the sound level can be reduced down to 47.25 dB.
 //  └───┴────────────────────────── This bit controls the level of key scaling. In key scale mode, the level of attenuation increases as pitch rises, to 1.5 dB/oct, 3 dB/oct, 6 dB/oct, and 0 dB/oct.
-#define MSXMUSIC_REG_USER_MOD_ATT	0x02
+#define MSXMUSIC_REG_USER_2			0x02
 
 //-----------------------------------------------------------------------------
 // R#03    User Tone - Carrier - Attenuation control
@@ -63,7 +63,7 @@
 //  │	│		│	└────────────── The modulated wave is rectified to half wave.
 //  │	│		└────────────────── The carrier wave is rectified to half wave.
 //  └───┴────────────────────────── This bit controls the level of key scaling. In key scale mode, the level of attenuation increases as pitch rises, to 1.5 dB/oct, 3 dB/oct, 6 dB/oct, and 0 dB/oct.
-#define MSXMUSIC_REG_USER_CAR_ATT	0x03
+#define MSXMUSIC_REG_USER_3			0x03
 
 //-----------------------------------------------------------------------------
 // R#04    User Tone - Modulator - Rate control
@@ -72,7 +72,7 @@
 //	AR	AR	AR	AR	DR	DR	DR	DR
 //	│	│	│	│	└───┴───┴───┴── Decay Rate defines the decay time
 //  └───┴───┴───┴────────────────── Attack Rate defines the attack time of the sounds
-#define MSXMUSIC_REG_USER_MOD_RATE	0x04
+#define MSXMUSIC_REG_USER_4			0x04
 
 //-----------------------------------------------------------------------------
 // R#05    User Tone - Carrier - Rate control
@@ -81,7 +81,7 @@
 //	AR	AR	AR	AR	DR	DR	DR	DR
 //	│	│	│	│	└───┴───┴───┴── Decay Rate defines the decay time
 //  └───┴───┴───┴────────────────── Attack Rate defines the attack time of the sounds
-#define MSXMUSIC_REG_USER_CAR_RATE	0x05
+#define MSXMUSIC_REG_USER_5			0x05
 
 //-----------------------------------------------------------------------------
 // R#06    User Tone - Modulator - Sustain control
@@ -90,7 +90,7 @@
 //	SL	SL	SL	SL	RR	RR	RR	RR
 //	│	│	│	│	└───┴───┴───┴── Sustain Level is the critical point that, when sustaining sound has been attenuated to the prescribed level, the level is maintained thereafter. With percussive tone, it is the critical point of change from decay mode to release mode.
 //  └───┴───┴───┴────────────────── Release Rate is the disappearing rate of sustaining sounds after key OFF. For percussive tone, attenuation above the sustain level is expressed with decay rate and attenuation below the sustain level with release rate.
-#define MSXMUSIC_REG_USER_MOD_SUS	0x06
+#define MSXMUSIC_REG_USER_6			0x06
 
 //-----------------------------------------------------------------------------
 // R#07    User Tone - Carrier - Sustain  control
@@ -99,7 +99,7 @@
 //	SL	SL	SL	SL	RR	RR	RR	RR
 //	│	│	│	│	└───┴───┴───┴── Sustain Level is the critical point that, when sustaining sound has been attenuated to the prescribed level, the level is maintained thereafter. With percussive tone, it is the critical point of change from decay mode to release mode.
 //  └───┴───┴───┴────────────────── Release Rate is the disappearing rate of sustaining sounds after key OFF. For percussive tone, attenuation above the sustain level is expressed with decay rate and attenuation below the sustain level with release rate.
-#define MSXMUSIC_REG_USER_CAR_SUS	0x07
+#define MSXMUSIC_REG_USER_7			0x07
 
 
 //-----------------------------------------------------------------------------
@@ -125,15 +125,15 @@
 //-----------------------------------------------------------------------------
 // R#1x    F-Number LSB 8 bits
 //-----------------------------------------------------------------------------
-#define MSXMUSIC_REG_FERQ_0			0x10
-#define MSXMUSIC_REG_FERQ_1			0x11
-#define MSXMUSIC_REG_FERQ_2			0x12
-#define MSXMUSIC_REG_FERQ_3			0x13
-#define MSXMUSIC_REG_FERQ_4			0x14
-#define MSXMUSIC_REG_FERQ_5			0x15
-#define MSXMUSIC_REG_FERQ_6			0x16
-#define MSXMUSIC_REG_FERQ_7			0x17
-#define MSXMUSIC_REG_FERQ_8			0x18
+#define MSXMUSIC_REG_FREQ_1			0x10
+#define MSXMUSIC_REG_FREQ_2			0x11
+#define MSXMUSIC_REG_FREQ_3			0x12
+#define MSXMUSIC_REG_FREQ_4			0x13
+#define MSXMUSIC_REG_FREQ_5			0x14
+#define MSXMUSIC_REG_FREQ_6			0x15
+#define MSXMUSIC_REG_FREQ_7			0x16
+#define MSXMUSIC_REG_FREQ_8			0x17
+#define MSXMUSIC_REG_FREQ_9			0x18
 
 //-----------------------------------------------------------------------------
 // R#2x    F-Number MSB, octave set. Key ON/OFF register. Sustain ON/OFF register
@@ -144,15 +144,15 @@
 //			│	│	└───┴───┴────── Defines octave information.
 //  		│	└────────────────── This bit indicates the ON/OFF state of the key. When this bit is '1', the associated channel is on and sound is produced. '0' is equivalent to Key-OFF.
 //			└────────────────────── When this bit is '1', the RR with the key off will be 5.
-#define MSXMUSIC_REG_CTRL_0			0x20
-#define MSXMUSIC_REG_CTRL_1			0x21
-#define MSXMUSIC_REG_CTRL_2			0x22
-#define MSXMUSIC_REG_CTRL_3			0x23
-#define MSXMUSIC_REG_CTRL_4			0x24
-#define MSXMUSIC_REG_CTRL_5			0x25
-#define MSXMUSIC_REG_CTRL_6			0x26
-#define MSXMUSIC_REG_CTRL_7			0x27
-#define MSXMUSIC_REG_CTRL_8			0x28
+#define MSXMUSIC_REG_CTRL_1			0x20
+#define MSXMUSIC_REG_CTRL_2			0x21
+#define MSXMUSIC_REG_CTRL_3			0x22
+#define MSXMUSIC_REG_CTRL_4			0x23
+#define MSXMUSIC_REG_CTRL_5			0x24
+#define MSXMUSIC_REG_CTRL_6			0x25
+#define MSXMUSIC_REG_CTRL_7			0x26
+#define MSXMUSIC_REG_CTRL_8			0x27
+#define MSXMUSIC_REG_CTRL_9			0x28
 
 //-----------------------------------------------------------------------------
 // R#3x    Instruments Selection and Volume Register
@@ -165,16 +165,16 @@
 //										1=Violin        5=Clarinet      9=Horn              13=Synthesizer Bass
 //										2=Guitar        6=Oboe          10=Synthesizer      14=Acoustic Bass
 //										3=Piano         7=Trumpet       11=Harpsichord      15=Electric Guitar
-#define MSXMUSIC_REG_INST_0			0x30
-#define MSXMUSIC_REG_INST_1			0x31
-#define MSXMUSIC_REG_INST_2			0x32
-#define MSXMUSIC_REG_INST_3			0x33
-#define MSXMUSIC_REG_INST_4			0x34
-#define MSXMUSIC_REG_INST_5			0x35
+#define MSXMUSIC_REG_INST_1			0x30
+#define MSXMUSIC_REG_INST_2			0x31
+#define MSXMUSIC_REG_INST_3			0x32
+#define MSXMUSIC_REG_INST_4			0x33
+#define MSXMUSIC_REG_INST_5			0x34
+#define MSXMUSIC_REG_INST_6			0x35
 // If (0x0E.5 == 0)
-#define MSXMUSIC_REG_INST_6			0x36
-#define MSXMUSIC_REG_INST_7			0x37
-#define MSXMUSIC_REG_INST_8			0x38
+#define MSXMUSIC_REG_INST_7			0x36
+#define MSXMUSIC_REG_INST_8			0x37
+#define MSXMUSIC_REG_INST_9			0x38
 
 // If (0x0E.5 == 1)
 //-----------------------------------------------------------------------------
@@ -183,7 +183,7 @@
 //	7	6	5	4	3	2	1	0
 //					BD	BD	BD	BD	
 //					└───┴───┴───┴── Bass Drum volume
-#define MSXMUSIC_REG_BD_VOL			0x36
+#define MSXMUSIC_REG_RHYTHM_VOL_0	0x36
 
 //-----------------------------------------------------------------------------
 // R#37    Rhythm volume - High Hat & Snare Drum
@@ -192,7 +192,7 @@
 //	HH	HH	HH	HH	SD	SD	SD	SD
 //	│	│	│	│	└───┴───┴───┴── Snare Drum volume
 //  └───┴───┴───┴────────────────── High Hat volume
-#define MSXMUSIC_REG_HHSD_VOL		0x37
+#define MSXMUSIC_REG_RHYTHM_VOL_1	0x37
 
 //-----------------------------------------------------------------------------
 // R#38    Rhythm volume - Tom-tom & Top Cymbal
@@ -201,7 +201,7 @@
 //	TOM	TOM	TOM	TOM	TCY	TCY	TCY	TCY
 //	│	│	│	│	└───┴───┴───┴── Top Cymbal
 //  └───┴───┴───┴────────────────── Tom-tom volume
-#define MSXMUSIC_REG_TOMTCY_VOL		0x38
+#define MSXMUSIC_REG_RHYTHM_VOL_2	0x38
 
 
 

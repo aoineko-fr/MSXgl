@@ -20,49 +20,49 @@
 
 //-----------------------------------------------------------------------------
 // MSX_VERSION options
-#define MSX_1				0 // MSX 1
-#define MSX_2				1 // MSX 2
-#define MSX_2P				2 // MSX 2+
-#define MSX_TR				3 // MSX Turbo-R
-#define MSX_3				4 // MSX 3 (reserved)
-#define MSX_12				3 // MSX 1/2
+#define MSX_1						0 // MSX 1
+#define MSX_2						1 // MSX 2
+#define MSX_2P						2 // MSX 2+
+#define MSX_TR						3 // MSX Turbo-R
+#define MSX_3						4 // MSX 3 (reserved)
+#define MSX_12						3 // MSX 1/2
 
 //-----------------------------------------------------------------------------
 // TARGET_TYPE options
-#define TYPE_BIN			0 // BASIC binary program
-#define TYPE_ROM			1 // ROM program
-#define TYPE_DOS			2 // MSX-DOS program
+#define TYPE_BIN					0 // BASIC binary program
+#define TYPE_ROM					1 // ROM program
+#define TYPE_DOS					2 // MSX-DOS program
 
 //-----------------------------------------------------------------------------
 // TARGET options
 
 // DOS options
-#define DOS_1				0 // MSX-DOS 1
-#define DOS_2				2 // MSX-DOS 2
-#define DOS_2_ARGS			3 // MSX-DOS 2 with command-line arguments
+#define DOS_1						0 // MSX-DOS 1
+#define DOS_2						2 // MSX-DOS 2
+#define DOS_2_ARGS					3 // MSX-DOS 2 with command-line arguments
 
-// ROM_MAPPER options
-#define ROM_PLAIN			0
-#define ROM_ASCII8			1
-#define ROM_ASCII16			2
-#define ROM_KONAMI			3
-#define ROM_KONAMI_SCC		4
+// ROM_MAPPER options		
+#define ROM_PLAIN					0
+#define ROM_ASCII8					1
+#define ROM_ASCII16					2
+#define ROM_KONAMI					3
+#define ROM_KONAMI_SCC				4
 
 // ROM_SIZE options
-#define ROM_8K				0	
-#define ROM_16K				1	
-#define ROM_32K				2	
-#define ROM_48K				3	
-#define ROM_64K				4
-#define ROM_128K			5	
-#define ROM_256K			6	
-#define ROM_512K			7	
-#define ROM_1024K			8	
-#define ROM_2048K			9	
-#define ROM_4096K			10	
+#define ROM_8K						0	
+#define ROM_16K						1	
+#define ROM_32K						2	
+#define ROM_48K						3	
+#define ROM_64K						4
+#define ROM_128K					5	
+#define ROM_256K					6	
+#define ROM_512K					7	
+#define ROM_1024K					8	
+#define ROM_2048K					9	
+#define ROM_4096K					10	
 
-#define ROM_ISR				(1<<12)	
-#define ROM_MIRROR			(1<<13)	
+#define ROM_ISR						(1<<12)	
+#define ROM_MIRROR					(1<<13)	
 
 // ROM target type define
 //	15	14	13	12	11	10	9	8	7	6	5	4	3	2	1	0
@@ -76,7 +76,7 @@
 #define MAKE_ROM(m, s, p, b)		((TYPE_ROM << 14) | ((m) << 8) | ((s) << 4) | ((p) << 2) | (b))
 #define MAKE_BASIC(x)				((TYPE_BIN << 14) | (x))
 #define MAKE_DOS(x)					((TYPE_DOS << 14) | (x))
-	
+
 // -- BASIC program
 #define TARGET_BIN			  		MAKE_BASIC(0) // BASIC binary program (8000h~)
 // -- DOS program
@@ -156,40 +156,40 @@
 //-----------------------------------------------------------------------------
 
 // RENDER_MODE options
-#define RENDER_BIOS			0 // Use BIOS routines
-#define RENDER_VDP			1 // Use direct VDP registers
+#define RENDER_BIOS					0 // Use BIOS routines
+#define RENDER_VDP					1 // Use direct VDP registers
 
-// BIOS_CALL options
-#define CALL_DIRECT			0 // Use direct access to Bios routines (Main-ROM must be in Slot 0)
-#define CALL_INTERSLOT		1 // Use inter-slot access to Bios routines
+// BIOS_CALL options		
+#define CALL_DIRECT					0 // Use direct access to Bios routines (Main-ROM must be in Slot 0)
+#define CALL_INTERSLOT				1 // Use inter-slot access to Bios routines
 
 //-----------------------------------------------------------------------------
 // PRINT MODULE
 //-----------------------------------------------------------------------------
 
 // PRINT_WIDTH
-#define PRINT_WIDTH_1		1 // 
-#define PRINT_WIDTH_6		6 // 
-#define PRINT_WIDTH_8		8 // 
-#define PRINT_WIDTH_X		0 // Not supported (fall back to PRINT_WIDTH_8)
+#define PRINT_WIDTH_1				1 // 
+#define PRINT_WIDTH_6				6 // 
+#define PRINT_WIDTH_8				8 // 
+#define PRINT_WIDTH_X				0 // Not supported (fall back to PRINT_WIDTH_8)
 // PRINT_HEIGHT
-#define PRINT_HEIGHT_1		1 // 
-#define PRINT_HEIGHT_8		8 // 
-#define PRINT_HEIGHT_X		0 // 
+#define PRINT_HEIGHT_1				1 // 
+#define PRINT_HEIGHT_8				8 // 
+#define PRINT_HEIGHT_X				0 // 
 
 //-----------------------------------------------------------------------------
 // VDP MODULE
 //-----------------------------------------------------------------------------
 
 // VDP_VRAM
-#define VDP_VRAM_ADDR_14	0 // Use 14-bits 16K VRAM addressing for MSX 1 (u16)
-#define VDP_VRAM_ADDR_17	1 // Use 17-bits 128K VRAM addressing for MSX 2/2+/Turbo-R (u32)
+#define VDP_VRAM_ADDR_14			0 // Use 14-bits 16K VRAM addressing for MSX 1 (u16)
+#define VDP_VRAM_ADDR_17			1 // Use 17-bits 128K VRAM addressing for MSX 2/2+/Turbo-R (u32)
 
 // VDP_UNIT
-#define VDP_UNIT_U8			0 // X and Y use 8-bits values
-#define VDP_UNIT_X16		1 // X use 16-bits and Y use 8-bits values
-#define VDP_UNIT_Y16		2 // X use 8-bits and Y use 16-bits values
-#define VDP_UNIT_U16		3 // X and Y use 16-bits values
+#define VDP_UNIT_U8					0 // X and Y use 8-bits values
+#define VDP_UNIT_X16				1 // X use 16-bits and Y use 8-bits values
+#define VDP_UNIT_Y16				2 // X use 8-bits and Y use 16-bits values
+#define VDP_UNIT_U16				3 // X and Y use 16-bits values
 
 
 //-----------------------------------------------------------------------------
@@ -201,48 +201,49 @@
 //-----------------------------------------------------------------------------
 
 // RANDOM_8_METHOD
-#define RANDOM_8_NONE		0 // No 8-bits random
-#define RANDOM_8_REGISTER	1 // R Register value (7-bits)
-#define RANDOM_8_RACC		2 // R Register accumulation (7-bits)
-#define RANDOM_8_ION		3 // Ion Random
-#define RANDOM_8_MEMORY		4 // Memory Peek from R
+#define RANDOM_8_NONE				0 // No 8-bits random
+#define RANDOM_8_REGISTER			1 // R Register value (7-bits)
+#define RANDOM_8_RACC				2 // R Register accumulation (7-bits)
+#define RANDOM_8_ION				3 // Ion Random
+#define RANDOM_8_MEMORY				4 // Memory Peek from R
 
 // RANDOM_16_METHOD
-#define RANDOM_16_NONE		0 // No 16-bits random
-#define RANDOM_16_LINEAR	1 // Linear congruential
-#define RANDOM_16_XORSHIFT	2 // XOR Shift
-#define RANDOM_16_LFSR_LCG	3 // Combined LFSR/LCG
+#define RANDOM_16_NONE				0 // No 16-bits random
+#define RANDOM_16_LINEAR			1 // Linear congruential
+#define RANDOM_16_XORSHIFT			2 // XOR Shift
+#define RANDOM_16_LFSR_LCG			3 // Combined LFSR/LCG
 
 //-----------------------------------------------------------------------------
-// PSG
+// AUDIO
 //-----------------------------------------------------------------------------
 
 // PSG_CHIP
-#define PSG_INTERNAL		0 // Use internal PSG chip (port A0-A2)
-#define PSG_EXTERNAL		1 // Use external PSG chip (port 10-12)
-#define PSG_BOTH			2 // Use both internal and external PSG chips
+#define PSG_INTERNAL				0 // Use internal PSG chip (port A0-A2)
+#define PSG_EXTERNAL				1 // Use external PSG chip (port 10-12)
+#define PSG_BOTH					2 // Use both internal and external PSG chips
 
 // PSG_ACCESS
-#define PSG_DIRECT			0 // Function set directly the PSG registers
-#define PSG_INDIRECT		1 // Function set a buffer (Apply() function must be used once a frame)
+#define PSG_DIRECT					0 // Function set directly the PSG registers
+#define PSG_INDIRECT				1 // Function set a buffer (Apply() function must be used once a frame)
 
-
-//-----------------------------------------------------------------------------
-// PCM ENCODER
-//-----------------------------------------------------------------------------
+// SCC_SLOT_MODE
+#define SCC_SLOT_DIRECT				0 // Program on a SCC cartridge
+#define SCC_SLOT_FIXED				1 // Fixed slot-id (non-expanded second cartridge slot)
+#define SCC_SLOT_USER				2 // Defined by the user
+#define SCC_SLOT_AUTO				3 // First auto-detected cartridge
 
 // PCMENC_FREQ
-#define PCMENC_NONE			0 // 0000
-#define PCMENC_8K			1 // 0001
-#define PCMENC_11K			2 // 0010
-#define PCMENC_22K			4 // 0100
-#define PCMENC_44K			8 // 1000
+#define PCMENC_NONE					0 // 0000
+#define PCMENC_8K					1 // 0001
+#define PCMENC_11K					2 // 0010
+#define PCMENC_22K					4 // 0100
+#define PCMENC_44K					8 // 1000
 
 //-----------------------------------------------------------------------------
 // MISC
 //-----------------------------------------------------------------------------
 
 // PROFILE_MODE
-#define PROFILE_DISABLE		0 // No profiler
-#define PROFILE_OPENMSX_G	1 // Grauw profile script for OpenMSX
-#define PROFILE_OPENMSX_S	2 // Salutte profile script for OpenMSX
+#define PROFILE_DISABLE				0 // No profiler
+#define PROFILE_OPENMSX_G			1 // Grauw profile script for OpenMSX
+#define PROFILE_OPENMSX_S			2 // Salutte profile script for OpenMSX

@@ -13,7 +13,7 @@
 #pragma once
 
 #include "core.h"
-// #include "msx-audio_reg.h"
+#include "msx-audio_reg.h"
 
 //=============================================================================
 // DEFINES
@@ -42,3 +42,9 @@ u8 MSXAudio_GetRegister(u8 reg);
 // Function: MSXAudio_Mute
 // Mute MSX-Audio sound
 void MSXAudio_Mute();
+
+#if (MSXAUDIO_USE_RESUME)
+// Function: MSXAudio_Resume
+// Resume MSX-Audio sound
+void MSXAudio_Resume();
+#endif

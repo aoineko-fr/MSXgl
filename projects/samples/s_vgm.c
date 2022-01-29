@@ -8,13 +8,13 @@
 #include "msxgl.h"
 #include "psg.h"
 #include "vgm\vgm_player.h"
-#if (USE_VGM_SCC)
+#if (VGM_USE_SCC)
 	#include "scc.h"
 #endif
-#if (USE_VGM_MSXMUSIC)
+#if (VGM_USE_MSXMUSIC)
 	#include "msx-music.h"
 #endif
-#if (USE_VGM_MSXAUDIO)
+#if (VGM_USE_MSXAUDIO)
 	#include "msx-audio.h"
 #endif
 
@@ -137,7 +137,7 @@ void DrawVGM(const u8* ptr)
 			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
 			ptr += 2;
 		}
-		#if (USE_VGM_SCC)
+		#if (VGM_USE_SCC)
 		else if(*ptr == 0xD2) // SCC1, port pp, write value dd to register aa
 		{
 			u8 reg = 0;
@@ -154,14 +154,14 @@ void DrawVGM(const u8* ptr)
 			ptr += 3;
 		}
 		#endif
-		#if (USE_VGM_MSXMUSIC)
+		#if (VGM_USE_MSXMUSIC)
 		else if(*ptr == 0x51) // YM2413, write value dd to register aa
 		{
 			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
 			ptr += 2;
 		}
 		#endif
-		#if (USE_VGM_MSXAUDIO)
+		#if (VGM_USE_MSXAUDIO)
 		else if(*ptr == 0x5C) // Y8950, write value dd to register aa
 		{
 			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
@@ -225,7 +225,7 @@ void SetMusic(u8 idx)
 
 	Print_SetPosition(0, 12);
 	Print_DrawFormat("Ident:   %s   (%x)\n", ok ? "OK" : "Invalide", (u16)&g_VGM_Header->Ident);
-	Print_DrawFormat("Version: %1x.%1x.%1x\n", (u8)(g_VGM_Header->Version >> 8) & 0xF, (u8)(g_VGM_Header->Version >> 4) & 0xF, (u8)(g_VGM_Header->Version) & 0xF);
+	Print_DrawFormat("Version: %1x.%1x%1x\n", (u8)(g_VGM_Header->Version >> 8) & 0xF, (u8)(g_VGM_Header->Version >> 4) & 0xF, (u8)(g_VGM_Header->Version) & 0xF);
 	Print_DrawFormat("Loop:    %4X (%x)\n", g_VGM_Header->Loop_offset, (u16)&g_VGM_Header->Loop_offset + (u16)g_VGM_Header->Loop_offset);
 	Print_DrawFormat("AY8910:  %c\n", VGM_ContainsPSG() ? '\x0C' : '\x0B');
 	if(VGM_ContainsPSG())
@@ -334,13 +334,13 @@ void main()
 	VDP_ClearVRAM();
 	VDP_EnableVBlank(true);
 
-	#if (USE_VGM_SCC)
+	#if (VGM_USE_SCC)
 		SCC_Initialize();
 	#endif
-	#if (USE_VGM_MSXMUSIC)
+	#if (VGM_USE_MSXMUSIC)
 		MSXMusic_Initialize();
 	#endif
-	#if (USE_VGM_MSXAUDIO)
+	#if (VGM_USE_MSXAUDIO)
 		MSXAudio_Initialize();
 	#endif
 

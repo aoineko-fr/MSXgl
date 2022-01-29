@@ -484,7 +484,7 @@ void VDP_HideSpriteFrom(u8 index);
 // Group: GM2
 // Graph mode 2 & 3 specific functions
 //-----------------------------------------------------------------------------
-#if (USE_VDP_MODE_G2 || USE_VDP_MODE_G3)
+#if (VDP_USE_MODE_G2 || VDP_USE_MODE_G3)
 // Function: VDP_FillScreen_GM2
 // Fill the full screen with a given pattern value
 void VDP_FillScreen_GM2(u8 value);

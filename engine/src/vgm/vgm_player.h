@@ -12,16 +12,36 @@
 // DEFINES
 //=============================================================================
 
-#define USE_VGM_SCC			1
-#define USE_VGM_MSXMUSIC	1
-#define USE_VGM_MSXAUDIO	1
-
 // VGM playback state flag
 enum VGM_STATE
 {
 	VGM_STATE_50HZ = 0b00000001,
 	VGM_STATE_LOOP = 0b00000010,
 	VGM_STATE_PLAY = 0b10000000,
+};
+
+// Chip data included in the VGM file
+enum VGM_CHIP
+{
+	VGM_CHIP_PSG		= 0b00000001,
+	VGM_CHIP_MSXMUSIC	= 0b00000010,
+	VGM_CHIP_MSXAUDIO	= 0b00000100,
+	VGM_CHIP_SCC		= 0b00001000,
+	VGM_CHIP_SCCI		= 0b00010000,
+	VGM_CHIP_MOONSOUND	= 0b00100000,
+	// VGM_CHIP_			= 0b01000000,
+	// VGM_CHIP_			= 0b10000000,
+	
+	VGM_CHIP_AY8910		= VGM_CHIP_PSG,
+	VGM_CHIP_YM2149		= VGM_CHIP_PSG,
+	VGM_CHIP_K051649	= VGM_CHIP_SCC,
+	VGM_CHIP_YM2413		= VGM_CHIP_MSXMUSIC,
+	VGM_CHIP_OPLL		= VGM_CHIP_MSXMUSIC,
+	VGM_CHIP_Y8950		= VGM_CHIP_MSXAUDIO,
+	VGM_CHIP_YM3526		= VGM_CHIP_MSXAUDIO, // + ADPCM
+	VGM_CHIP_OPL1		= VGM_CHIP_MSXAUDIO, // + ADPCM
+	VGM_CHIP_YMF278B	= VGM_CHIP_MOONSOUND, // + YAC513 DAC
+	VGM_CHIP_OPL4		= VGM_CHIP_MOONSOUND, // + YAC513 DAC
 };
 
 #define VGM_WAIT_50HZ	882 // 50 Hz
@@ -93,7 +113,7 @@ inline bool VGM_IsPlaying() { return g_VGM_State & VGM_STATE_PLAY; }
 
 // Function: VGM_Resume
 // Resume music playback
-inline void VGM_Resume() { g_VGM_State |= VGM_STATE_PLAY; }
+void VGM_Resume();
 
 // Function: VGM_Pause
 // Pause music playback

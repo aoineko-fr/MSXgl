@@ -17,7 +17,7 @@
 // Direct access to joystick
 //
 //-----------------------------------------------------------------------------
-#if (USE_INPUT_JOYSTICK || USE_INPUT_MANAGER)
+#if (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER)
 
 #define PSG_REG_IO_PORT_A	14
 #define PSG_REG_IO_PORT_B	15
@@ -72,7 +72,7 @@ u8 Joystick_GetDirection(u8 port) __FASTCALL
 	return ((in & trigger) == 0);
 }*/
 
-#endif // (USE_INPUT_JOYSTICK || USE_INPUT_MANAGER)
+#endif // (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER)
 
 
 //-----------------------------------------------------------------------------
@@ -80,7 +80,7 @@ u8 Joystick_GetDirection(u8 port) __FASTCALL
 // Direct access to keyboard
 //
 //-----------------------------------------------------------------------------
-#if (USE_INPUT_KEYBOARD || USE_INPUT_MANAGER)
+#if (INPUT_USE_KEYBOARD || INPUT_USE_MANAGER)
 
 //-----------------------------------------------------------------------------
 // Read keyboard matrix row
@@ -106,7 +106,7 @@ u8 Keyboard_IsKeyPressed(u8 key) __FASTCALL
 	return (Keyboard_Read(key & 0x0F) & (1 << (key >> 4))) == 0;
 }
 
-#endif // (USE_INPUT_KEYBOARD || USE_INPUT_MANAGER)
+#endif // (INPUT_USE_KEYBOARD || INPUT_USE_MANAGER)
 
 
 //-----------------------------------------------------------------------------
@@ -114,7 +114,7 @@ u8 Keyboard_IsKeyPressed(u8 key) __FASTCALL
 // Complete input manager
 //
 //-----------------------------------------------------------------------------
-#if USE_INPUT_MANAGER
+#if INPUT_USE_MANAGER
 
 IPM_Data g_IPM;
 
@@ -455,4 +455,4 @@ const c8* IPM_GetEventName(u8 ev)
 	return "???";
 }
 
-#endif // USE_INPUT_MANAGER
+#endif // INPUT_USE_MANAGER

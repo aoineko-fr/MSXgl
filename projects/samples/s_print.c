@@ -252,7 +252,7 @@ void PrintEffect()
 	// Shadow
 	Print_SetColor(g_Modes[g_ModeIndex].ColorText, g_Modes[g_ModeIndex].ColorBG);
 	Print_DrawText("Shadow: ");
-#if (USE_PRINT_FX_SHADOW)
+#if (PRINT_USE_FX_SHADOW)
 	Print_SetShadow(true, 1, 1, g_Modes[g_ModeIndex].ColorGray);
 	Print_DrawText(g_SampleTextShort);
 	Print_EnableShadow(false);
@@ -266,7 +266,7 @@ void PrintEffect()
 	// Outine
 	Print_SetColor(g_Modes[g_ModeIndex].ColorText, g_Modes[g_ModeIndex].ColorBG);
 	Print_DrawText("Outline: ");
-#if (USE_PRINT_FX_OUTLINE)
+#if (PRINT_USE_FX_OUTLINE)
 	Print_SetOutline(true, g_Modes[g_ModeIndex].ColorGray);
 	Print_DrawText(g_SampleTextShort);
 	Print_EnableOutline(false);
@@ -280,7 +280,7 @@ void PrintEffect()
 	// VRAM font
 	Print_SetColor(g_Modes[g_ModeIndex].ColorText, g_Modes[g_ModeIndex].ColorBG);
 	Print_DrawText("VRAM: ");
-#if (USE_PRINT_VRAM)
+#if (PRINT_USE_VRAM)
 	Print_DrawText("Loading...");
 	Print_SetVRAMFont(g_Fonts[g_FontIndex].Font, 212, g_Modes[g_ModeIndex].ColorAlt);
 	Print_Backspace(String_Length("Loading..."));
@@ -297,7 +297,7 @@ void PrintEffect()
 	Print_SetColor(g_Modes[g_ModeIndex].ColorText, g_Modes[g_ModeIndex].ColorBG);
 
 	Print_DrawText("Sprite: ");
-#if (USE_PRINT_SPRITE)
+#if (PRINT_USE_SPRITE)
 	VDP_EnableSprite(true);
 	VDP_SetSpriteTables(0x1C000, 0x1CA00);
 	VDP_SetSpriteFlag(VDP_SPRITE_SCALE_2);
@@ -329,7 +329,7 @@ void PrintBenchmark()
 	Print_DrawText("Font: ");
 	Print_DrawText(g_Fonts[g_FontIndex].Name);
 	
-#if (USE_PRINT_VRAM)
+#if (PRINT_USE_VRAM)
 	////////////////////////
     static const char text1[]="BONJOUR LE FUTUR\n";
     static const char text2[]="ICI LE MSX QUI VOUS PARLE\n";
@@ -439,7 +439,7 @@ void main()
 		Print_SetPosition(g_PrintData.ScreenWidth - 8, 0);
 		Print_DrawChar(chrAnim[count & 0x03]);
 
-		#if (USE_PRINT_SPRITE)
+		#if (PRINT_USE_SPRITE)
 		if(cb == PrintEffect)
 		{
 			for(u8 i = 0; i < String_Length(g_SpriteText); ++i)

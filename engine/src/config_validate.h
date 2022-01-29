@@ -30,60 +30,60 @@
 	#endif
 
 	// Check for MSX1 supported screen mode
-	#if (USE_VDP_MODE_T2)
-		#warning Cant use USE_VDP_MODE_T2 with MSX1! Option will be disable
-		#undef  USE_VDP_MODE_T2
-		#define USE_VDP_MODE_T2			0
+	#if (VDP_USE_MODE_T2)
+		#warning Cant use VDP_USE_MODE_T2 with MSX1! Option will be disable
+		#undef  VDP_USE_MODE_T2
+		#define VDP_USE_MODE_T2			0
 	#endif
-	#if (USE_VDP_MODE_G3)
-		#warning Cant use USE_VDP_MODE_G3 with MSX1! Option will be disable
-		#undef  USE_VDP_MODE_G3
-		#define USE_VDP_MODE_G3			0
+	#if (VDP_USE_MODE_G3)
+		#warning Cant use VDP_USE_MODE_G3 with MSX1! Option will be disable
+		#undef  VDP_USE_MODE_G3
+		#define VDP_USE_MODE_G3			0
 	#endif
-	#if (USE_VDP_MODE_G4)
-		#warning Cant use USE_VDP_MODE_G4 with MSX1! Option will be disable
-		#undef  USE_VDP_MODE_G4
-		#define USE_VDP_MODE_G4			0
+	#if (VDP_USE_MODE_G4)
+		#warning Cant use VDP_USE_MODE_G4 with MSX1! Option will be disable
+		#undef  VDP_USE_MODE_G4
+		#define VDP_USE_MODE_G4			0
 	#endif
-	#if (USE_VDP_MODE_G5)
-		#warning Cant use USE_VDP_MODE_G5 with MSX1! Option will be disable
-		#undef  USE_VDP_MODE_G5
-		#define USE_VDP_MODE_G5			0
+	#if (VDP_USE_MODE_G5)
+		#warning Cant use VDP_USE_MODE_G5 with MSX1! Option will be disable
+		#undef  VDP_USE_MODE_G5
+		#define VDP_USE_MODE_G5			0
 	#endif
-	#if (USE_VDP_MODE_G6)
-		#warning Cant use USE_VDP_MODE_G6 with MSX1! Option will be disable
-		#undef  USE_VDP_MODE_G6
-		#define USE_VDP_MODE_G6			0
+	#if (VDP_USE_MODE_G6)
+		#warning Cant use VDP_USE_MODE_G6 with MSX1! Option will be disable
+		#undef  VDP_USE_MODE_G6
+		#define VDP_USE_MODE_G6			0
 	#endif
-	#if (USE_VDP_MODE_G7)
-		#warning Cant use USE_VDP_MODE_G7 with MSX1! Option will be disable
-		#undef  USE_VDP_MODE_G7
-		#define USE_VDP_MODE_G7			0
+	#if (VDP_USE_MODE_G7)
+		#warning Cant use VDP_USE_MODE_G7 with MSX1! Option will be disable
+		#undef  VDP_USE_MODE_G7
+		#define VDP_USE_MODE_G7			0
 	#endif
-	#if (USE_PRINT_BITMAP)
-		#warning Cant use USE_PRINT_BITMAP with MSX1! Option will be disable
-		#undef  USE_PRINT_BITMAP
-		#define USE_PRINT_BITMAP		0
+	#if (PRINT_USE_BITMAP)
+		#warning Cant use PRINT_USE_BITMAP with MSX1! Option will be disable
+		#undef  PRINT_USE_BITMAP
+		#define PRINT_USE_BITMAP		0
 	#endif
 #endif // (MSX_VERSION == MSX_1)
 
-// Check USE_PRINT_BITMAP dependency
-#if(!USE_PRINT_BITMAP)
-	#if(USE_PRINT_VRAM)
-		#warning USE_PRINT_VRAM need USE_PRINT_BITMAP to be set! Option will be disable
-		#undef  USE_PRINT_VRAM
-		#define USE_PRINT_VRAM			0
+// Check PRINT_USE_BITMAP dependency
+#if(!PRINT_USE_BITMAP)
+	#if(PRINT_USE_VRAM)
+		#warning PRINT_USE_VRAM need PRINT_USE_BITMAP to be set! Option will be disable
+		#undef  PRINT_USE_VRAM
+		#define PRINT_USE_VRAM			0
 	#endif
 
-	#if(USE_PRINT_FX_SHADOW)
-		#warning USE_PRINT_FX_SHADOW need USE_PRINT_BITMAP to be set! Option will be disable
-		#undef  USE_PRINT_FX_SHADOW
-		#define USE_PRINT_FX_SHADOW			0
+	#if(PRINT_USE_FX_SHADOW)
+		#warning PRINT_USE_FX_SHADOW need PRINT_USE_BITMAP to be set! Option will be disable
+		#undef  PRINT_USE_FX_SHADOW
+		#define PRINT_USE_FX_SHADOW			0
 	#endif
 
-	#if(USE_PRINT_FX_OUTLINE)
-		#warning USE_PRINT_FX_OUTLINE need USE_PRINT_BITMAP to be set! Option will be disable
-		#undef  USE_PRINT_FX_OUTLINE
-		#define USE_PRINT_FX_OUTLINE			0
+	#if(PRINT_USE_FX_OUTLINE)
+		#warning PRINT_USE_FX_OUTLINE need PRINT_USE_BITMAP to be set! Option will be disable
+		#undef  PRINT_USE_FX_OUTLINE
+		#define PRINT_USE_FX_OUTLINE			0
 	#endif
-#endif // (!USE_PRINT_BITMAP)
+#endif // (!PRINT_USE_BITMAP)

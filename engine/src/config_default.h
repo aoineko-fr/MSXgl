@@ -85,35 +85,35 @@
 // PRINT MODULE
 //-----------------------------------------------------------------------------
 
-// USE_PRINT_VALIDATOR
-#ifndef USE_PRINT_VALIDATOR
-	#warning USE_PRINT_VALIDATOR is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define USE_PRINT_VALIDATOR			0
+// PRINT_USE_VALIDATOR
+#ifndef PRINT_USE_VALIDATOR
+	#warning PRINT_USE_VALIDATOR is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define PRINT_USE_VALIDATOR			0
 #endif
-// USE_PRINT_VRAM
-#ifndef USE_PRINT_VRAM
-	#warning USE_PRINT_VRAM is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define USE_PRINT_VRAM				0
+// PRINT_USE_VRAM
+#ifndef PRINT_USE_VRAM
+	#warning PRINT_USE_VRAM is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define PRINT_USE_VRAM				0
 #endif
-// USE_PRINT_SPRITE
-#ifndef USE_PRINT_SPRITE
-	#warning USE_PRINT_SPRITE is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define USE_PRINT_SPRITE			0
+// PRINT_USE_SPRITE
+#ifndef PRINT_USE_SPRITE
+	#warning PRINT_USE_SPRITE is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define PRINT_USE_SPRITE			0
 #endif
-// USE_PRINT_FX_SHADOW
-#ifndef USE_PRINT_FX_SHADOW
-	#warning USE_PRINT_FX_SHADOW is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define USE_PRINT_FX_SHADOW			0
+// PRINT_USE_FX_SHADOW
+#ifndef PRINT_USE_FX_SHADOW
+	#warning PRINT_USE_FX_SHADOW is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define PRINT_USE_FX_SHADOW			0
 #endif
-// USE_PRINT_FX_OUTLINE
-#ifndef USE_PRINT_FX_OUTLINE
-	#warning USE_PRINT_FX_OUTLINE is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define USE_PRINT_FX_OUTLINE		0
+// PRINT_USE_FX_OUTLINE
+#ifndef PRINT_USE_FX_OUTLINE
+	#warning PRINT_USE_FX_OUTLINE is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define PRINT_USE_FX_OUTLINE		0
 #endif
-// USE_PRINT_UNIT
-#ifndef USE_PRINT_UNIT
-	#warning USE_PRINT_UNIT is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define USE_PRINT_UNIT				0
+// PRINT_USE_UNIT
+#ifndef PRINT_USE_UNIT
+	#warning PRINT_USE_UNIT is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define PRINT_USE_UNIT				0
 #endif
 // PRINT_WIDTH
 #ifndef PRINT_WIDTH
@@ -135,20 +135,20 @@
 	#warning PRINT_SKIP_SPACE is not defined in "msxgl_config.h"! Default value will be used: 0
 	#define PRINT_SKIP_SPACE			0
 #endif
-// USE_PRINT_GRAPH
-#ifndef USE_PRINT_GRAPH
-	#warning USE_PRINT_GRAPH is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define USE_PRINT_GRAPH				1
+// PRINT_USE_GRAPH
+#ifndef PRINT_USE_GRAPH
+	#warning PRINT_USE_GRAPH is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define PRINT_USE_GRAPH				1
 #endif
-// USE_PRINT_FORMAT
-#ifndef USE_PRINT_FORMAT
-	#warning USE_PRINT_FORMAT is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define USE_PRINT_FORMAT			1
+// PRINT_USE_FORMAT
+#ifndef PRINT_USE_FORMAT
+	#warning PRINT_USE_FORMAT is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define PRINT_USE_FORMAT			1
 #endif
-// USE_PRINT_32B
-#ifndef USE_PRINT_32B
-	#warning USE_PRINT_32B is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define USE_PRINT_32B				0
+// PRINT_USE_32B
+#ifndef PRINT_USE_32B
+	#warning PRINT_USE_32B is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define PRINT_USE_32B				0
 #endif
 
 
@@ -156,22 +156,22 @@
 // GAME MODULE
 //-----------------------------------------------------------------------------
 
-// USE_GAME_STATE
-#ifndef USE_GAME_STATE
-	#warning USE_GAME_STATE is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define USE_GAME_STATE				1
+// GAME_USE_STATE
+#ifndef GAME_USE_STATE
+	#warning GAME_USE_STATE is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define GAME_USE_STATE				1
 #endif
 
-// USE_GAME_VSYNC
-#ifndef USE_GAME_VSYNC
-	#warning USE_GAME_VSYNC is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define USE_GAME_VSYNC				1
+// GAME_USE_VSYNC
+#ifndef GAME_USE_VSYNC
+	#warning GAME_USE_VSYNC is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define GAME_USE_VSYNC				1
 #endif
 
-// USE_GAME_LOOP
-#ifndef USE_GAME_LOOP
-	#warning USE_GAME_LOOP is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define USE_GAME_LOOP				1
+// GAME_USE_LOOP
+#ifndef GAME_USE_LOOP
+	#warning GAME_USE_LOOP is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define GAME_USE_LOOP				1
 #endif
 
 //-----------------------------------------------------------------------------

@@ -47,6 +47,9 @@ struct PSG_Data g_PSG2_Regs;
 #endif
 #endif
 
+#if (PSG_USE_RESUME)
+u8 g_PSG_VolumeBackup[3];
+#endif
 
 //=============================================================================
 // FUNCTIONS
@@ -55,7 +58,7 @@ struct PSG_Data g_PSG2_Regs;
 #if (PSG_ACCESS == PSG_INDIRECT)
 
 //-----------------------------------------------------------------------------
-/// Set the value of a given register
+// Set the value of a given register
 void PSG_SetRegister(u8 reg, u8 value)
 {
 	u8* ptr;
@@ -74,7 +77,7 @@ void PSG_SetRegister(u8 reg, u8 value)
 }
 
 //-----------------------------------------------------------------------------
-/// Get the value of a given register
+// Get the value of a given register
 u8 PSG_GetRegister(u8 reg)
 {
 	u8* ptr;
@@ -93,7 +96,7 @@ u8 PSG_GetRegister(u8 reg)
 }
 
 //-----------------------------------------------------------------------------
-/// Set the tone period of a given channel (tone generator control register)
+// Set the tone period of a given channel (tone generator control register)
 void PSG_SetTone(u8 chan, u16 period)
 {
 	u8* ptr;
@@ -112,7 +115,7 @@ void PSG_SetTone(u8 chan, u16 period)
 }
 
 //-----------------------------------------------------------------------------
-/// Set the noise period (noise generator control register)
+// Set the noise period (noise generator control register)
 void PSG_SetNoise(u8 period)
 {
 	u8* ptr;
@@ -129,7 +132,7 @@ void PSG_SetNoise(u8 period)
 }
 
 //-----------------------------------------------------------------------------
-/// Setup mixer by enabling tune and noise generators for each channel (mixer control enable register)
+// Setup mixer by enabling tune and noise generators for each channel (mixer control enable register)
 void PSG_SetMixer(u8 mix)
 {
 	u8* ptr;
@@ -143,7 +146,7 @@ void PSG_SetMixer(u8 mix)
 }
 
 //-----------------------------------------------------------------------------
-/// Set the volume of a given channel (Amplitude control register)
+// Set the volume of a given channel (Amplitude control register)
 void PSG_SetVolume(u8 chan, u8 vol)
 {
 	u8* ptr;
@@ -161,21 +164,21 @@ void PSG_SetVolume(u8 chan, u8 vol)
 }
 
 //-----------------------------------------------------------------------------
-/// Set the envelope period (Envelope priod control register)
+// Set the envelope period (Envelope priod control register)
 void PSG_SetEnvelope(u16 period)
 {
 	g_PSG_Regs.Envelope = period;
 }
 
 //-----------------------------------------------------------------------------
-/// Set the envelope shape (Envelope shape control register)
+// Set the envelope shape (Envelope shape control register)
 void PSG_SetShape(u8 shape)
 {
 	g_PSG_Regs.Shape = shape;
 }
 
 //-----------------------------------------------------------------------------
-///
+//
 void PSG_EnableTone(u8 chan, u8 val)
 {
 	u8 mix = g_PSG_Regs.Mixer;
@@ -189,7 +192,7 @@ void PSG_EnableTone(u8 chan, u8 val)
 }
 
 //-----------------------------------------------------------------------------
-///
+//
 void PSG_EnableNoise(u8 chan, u8 val)
 {
 	u8 mix = g_PSG_Regs.Mixer;
@@ -203,7 +206,7 @@ void PSG_EnableNoise(u8 chan, u8 val)
 }
 
 //-----------------------------------------------------------------------------
-///
+//
 void PSG_EnableEnvelope(u8 chan, u8 val)
 {
 	u8 vol = g_PSG_Regs.Volume[chan];
@@ -215,15 +218,28 @@ void PSG_EnableEnvelope(u8 chan, u8 val)
 	g_PSG_Regs.Volume[chan] = vol;
 }
 
-
-///
+//-----------------------------------------------------------------------------
+//
 void PSG_Mute()
 {
-	g_PSG_Regs.Volume[0] = 0;
-	g_PSG_Regs.Volume[1] = 0;
-	g_PSG_Regs.Volume[2] = 0;
-	// g_PSG_Regs.Mixer = 0;
+	loop(i, 3)
+	{
+		g_PSG_VolumeBackup[i] = g_PSG_Regs.Volume[i];
+		g_PSG_Regs.Volume[i] = 0;
+	}
 }
+
+#if (PSG_USE_RESUME)
+//-----------------------------------------------------------------------------
+// Resume PSG sound
+void PSG_Resume()
+{
+	loop(i, 3)
+	{
+		g_PSG_Regs.Volume[i] = g_PSG_VolumeBackup[i];
+	}
+}
+#endif
 
 #else // if (PSG_ACCESS == PSG_DIRECT)
 
@@ -236,8 +252,8 @@ void PSG_Mute()
 #if (PSG_ACCESS == PSG_INDIRECT)
 
 //-----------------------------------------------------------------------------
-/// Send data to PSG registers #1 to #13
-/// @note					Must be executed on each V-Blank interruption
+// Send data to PSG registers #1 to #13
+// @note					Must be executed on each V-Blank interruption
 void PSG_Apply()
 {
 __asm

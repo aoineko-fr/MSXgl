@@ -181,6 +181,12 @@ void PSG_EnableEnvelope(u8 chan, u8 val);
 // Silent the PSG (set according registers)
 void PSG_Mute();
 
+#if (PSG_USE_RESUME)
+// Function: PSG_Resume
+// Resume PSG sound
+void PSG_Resume();
+#endif
+
 #if (PSG_ACCESS == PSG_INDIRECT)
 
 // Group: Indirect

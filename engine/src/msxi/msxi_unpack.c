@@ -31,12 +31,12 @@ bool SearchColorReplacement(const u8* clrReplace, u8* color)
 }
 
 //-----------------------------------------------------------------------------
-#if USE_MSXi_COMP_NONE			
+#if MSXi_USE_COMP_NONE			
 void MSXi_UnpackToVRAM_None_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace) {}
-#endif // USE_MSXi_COMP_NONE
+#endif // MSXi_USE_COMP_NONE
 
 //-----------------------------------------------------------------------------
-#if USE_MSXi_COMP_CROP16		
+#if MSXi_USE_COMP_CROP16		
 void MSXi_UnpackToVRAM_Crop16_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace)
 {
 	clrReplace;
@@ -96,20 +96,20 @@ void MSXi_UnpackToVRAM_Crop16_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 
 		}
 	}
 }
-#endif // USE_MSXi_COMP_CROP16
+#endif // MSXi_USE_COMP_CROP16
 
 //-----------------------------------------------------------------------------
-#if USE_MSXi_COMP_CROP32		
+#if MSXi_USE_COMP_CROP32		
 void MSXi_UnpackToVRAM_Crop32_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace) {}
-#endif // USE_MSXi_COMP_CROP32
+#endif // MSXi_USE_COMP_CROP32
 
 //-----------------------------------------------------------------------------
-#if USE_MSXi_COMP_CROP256		
+#if MSXi_USE_COMP_CROP256		
 void MSXi_UnpackToVRAM_Crop256_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace) {}
-#endif // USE_MSXi_COMP_CROP256
+#endif // MSXi_USE_COMP_CROP256
 
 //-----------------------------------------------------------------------------
-#if USE_MSXi_COMP_CROPLINE16	
+#if MSXi_USE_COMP_CROPLINE16	
 void MSXi_UnpackToVRAM_CropLine16_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace)
 {	
 	clrReplace;
@@ -169,29 +169,29 @@ void MSXi_UnpackToVRAM_CropLine16_4_4(void* src, u16 destX, u16 destY, u8 sizeX,
 		}
 	}
 }
-#endif // USE_MSXi_COMP_CROPLINE16
+#endif // MSXi_USE_COMP_CROPLINE16
 
 //-----------------------------------------------------------------------------
-#if USE_MSXi_COMP_CROPLINE32	
+#if MSXi_USE_COMP_CROPLINE32	
 void MSXi_UnpackToVRAM_CropLine32_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace) {}
-#endif // USE_MSXi_COMP_CROPLINE32
+#endif // MSXi_USE_COMP_CROPLINE32
 
 //-----------------------------------------------------------------------------
-#if USE_MSXi_COMP_CROPLINE256	
+#if MSXi_USE_COMP_CROPLINE256	
 void MSXi_UnpackToVRAM_CropLine256_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace) {}
-#endif // USE_MSXi_COMP_CROPLINE256
+#endif // MSXi_USE_COMP_CROPLINE256
 
 //-----------------------------------------------------------------------------
-#if USE_MSXi_COMP_RLE0			
+#if MSXi_USE_COMP_RLE0			
 void MSXi_UnpackToVRAM_RLE0_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace) {}
-#endif // USE_MSXi_COMP_RLE0
+#endif // MSXi_USE_COMP_RLE0
 
 //-----------------------------------------------------------------------------
-#if USE_MSXi_COMP_RLE4			
+#if MSXi_USE_COMP_RLE4			
 void MSXi_UnpackToVRAM_RLE4_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace) {}
-#endif // USE_MSXi_COMP_RLE4
+#endif // MSXi_USE_COMP_RLE4
 
 //-----------------------------------------------------------------------------
-#if USE_MSXi_COMP_RLE8			
+#if MSXi_USE_COMP_RLE8			
 void MSXi_UnpackToVRAM_RLE8_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace) {}
-#endif // USE_MSXi_COMP_RLE8
+#endif // MSXi_USE_COMP_RLE8

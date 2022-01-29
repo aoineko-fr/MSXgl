@@ -11,13 +11,133 @@
 //  - 
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
-/*
+
 //=============================================================================
 // DEFINES
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// R#00    User Tone - Modulator - Multiplication control
+// S#01    Status
+//-----------------------------------------------------------------------------
+//	7	6	5	4	3	2	1	0	
+//	INT	T1	T2	EOS	BR			PCM
+//	│	│	│	│	│			└── PCM busy
+//  │	│	│	│	└────────────── Buffer ready
+//	│	│	│	└────────────────── 
+//  │	│	└────────────────────── 
+//  │	└────────────────────────── 
+//  └────────────────────────────── 
+
+
+//-----------------------------------------------------------------------------
+// R#01    Test
+//-----------------------------------------------------------------------------
+#define MSXAUDIO_REG_TEST			0x01
+
+//-----------------------------------------------------------------------------
+// R#02    Timers
+//-----------------------------------------------------------------------------
+#define MSXAUDIO_REG_TIMER_1		0x02
+#define MSXAUDIO_REG_TIMER_2		0x03
+
+//-----------------------------------------------------------------------------
+// R#04    Flag control
+//-----------------------------------------------------------------------------
+//	7	6	5	4	3	2	1	0	
+//	IRQ	MT1	MT2	EOS	MBR		ST2	ST1
+//	│	│	│	│	│		│	└── Controls the start/stop operations of timer-1
+//	│	│	│	│	│		└────── Controls the start/stop operations of timer-2
+//  │	│	│	│	└────────────── When this bit is set to "1", data write/read request are masked during data transfert between the processor and ADPCM or external storage
+//	│	│	│	└────────────────── Mask the flag indicating the end of read/write of ADPCM or external storage, or the end of AD conversion
+//  │	│	└────────────────────── Mask timer-2 flag
+//  │	└────────────────────────── Mask timer-1 flag
+//  └────────────────────────────── Reset the IRQ status
+#define MSXAUDIO_REG_FLAG_CTRL		0x04
+
+//-----------------------------------------------------------------------------
+// R#05    Keyboard in/out
+//-----------------------------------------------------------------------------
+#define MSXAUDIO_KEYBOARD_IN		0x05
+#define MSXAUDIO_KEYBOARD_OUT		0x06
+
+//-----------------------------------------------------------------------------
+// R#07    Start of ADPCM voice analysis/synthesis and setting of external memory access
+//-----------------------------------------------------------------------------
+//	7	6	5	4	3	2	1	0	
+//	│	│	│	│	│			└── RESET
+//  │	│	│	│	└────────────── SP-OFF
+//	│	│	│	└────────────────── REPEAT
+//  │	│	└────────────────────── MEMORY DATA
+//  │	└────────────────────────── REC
+//  └────────────────────────────── START
+#define MSXAUDIO_REG_ADPCM_CTRL		0x07
+
+//-----------------------------------------------------------------------------
+// R#08    Composite sinusoidal modeling mode, AD/DA conversion, and type of external memory
+//-----------------------------------------------------------------------------
+//	7	6	5	4	3	2	1	0	
+//	│	│			│	│	│	└── ROM
+//  │	│			│	│	└────── 64K
+//	│	│			│	└────────── DA/AD
+//  │	│			└────────────── SAMPL
+//  │	└────────────────────────── NOTE SEL
+//  └────────────────────────────── CSM
+#define MSXAUDIO_REG_MODE_CTRL		0x08
+
+//-----------------------------------------------------------------------------
+// R#09    Start address
+//-----------------------------------------------------------------------------
+#define MSXAUDIO_REG_START_L		0x09
+#define MSXAUDIO_REG_START_H		0x0A
+
+//-----------------------------------------------------------------------------
+// R#0B    Stop address
+//-----------------------------------------------------------------------------
+#define MSXAUDIO_REG_STOP_L			0x0B
+#define MSXAUDIO_REG_STOP_H			0x0C
+
+//-----------------------------------------------------------------------------
+// R#0D    Sample rate for AD/DA conversion
+//-----------------------------------------------------------------------------
+#define MSXAUDIO_REG_PRESCALE_L		0x0D
+#define MSXAUDIO_REG_PRESCALE_H		0x0E // 3-bits
+
+//-----------------------------------------------------------------------------
+// R#0F    ADPCM data address
+//-----------------------------------------------------------------------------
+#define MSXAUDIO_REG_ADPCM_DATA		0x0F
+
+//-----------------------------------------------------------------------------
+// R#10    Factor used for linear interpolation
+//-----------------------------------------------------------------------------
+#define MSXAUDIO_REG_DELTA_L		0x10
+#define MSXAUDIO_REG_DELTA_H		0x11
+
+//-----------------------------------------------------------------------------
+// R#12    Envelope control
+//-----------------------------------------------------------------------------
+#define MSXAUDIO_REG_ENV_CTRL		0x12
+
+//-----------------------------------------------------------------------------
+// R#15    Digital data for DA conversion
+//-----------------------------------------------------------------------------
+#define MSXAUDIO_REG_DAC_DATA_L		0x15
+#define MSXAUDIO_REG_DAC_DATA_H		0x16
+#define MSXAUDIO_REG_DAC_DATA_SHIFT	0x17
+
+//-----------------------------------------------------------------------------
+// R#18    I/O control & data
+//-----------------------------------------------------------------------------
+#define MSXAUDIO_REG_IO_CTRL		0x18
+#define MSXAUDIO_REG_IO_DATA		0x19
+
+//-----------------------------------------------------------------------------
+// R#1A    PCM data
+//-----------------------------------------------------------------------------
+#define MSXAUDIO_REG_PCM_DATA		0x1A
+
+//-----------------------------------------------------------------------------
+// R#20    User Tone
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0	
 //	AM	VIB	EG	KSR	MUL	MUL	MUL	MUL
@@ -27,179 +147,162 @@
 //  │	│	└────────────────────── Switching between sustained tone and Percussive tone.
 //  │	└────────────────────────── Vibrato on/off switch. When this bit is '1', vibrato will be applied to the slot.
 //  └────────────────────────────── Amplitude modulation on/off switch. When this bit is '1', amplitude modulation wil be epplied to the slot. 
-#define MSXMUSIC_REG_USER_MOD_MUL	0x00
+#define MSXAUDIO_REG_MUL_1_MOD		0x20 // Modulated wave
+#define MSXAUDIO_REG_MUL_2_MOD		0x21 // Carrier wave
+#define MSXAUDIO_REG_MUL_3_MOD		0x22
+#define MSXAUDIO_REG_MUL_1_CAR		0x23
+#define MSXAUDIO_REG_MUL_2_CAR		0x24
+#define MSXAUDIO_REG_MUL_3_CAR		0x25
+#define MSXAUDIO_REG_MUL_4_MOD		0x28
+#define MSXAUDIO_REG_MUL_5_MOD		0x29
+#define MSXAUDIO_REG_MUL_6_MOD		0x2A
+#define MSXAUDIO_REG_MUL_4_CAR		0x2B
+#define MSXAUDIO_REG_MUL_5_CAR		0x2C
+#define MSXAUDIO_REG_MUL_6_CAR		0x2D
+#define MSXAUDIO_REG_MUL_7_MOD		0x30
+#define MSXAUDIO_REG_MUL_8_MOD		0x31
+#define MSXAUDIO_REG_MUL_9_MOD		0x32
+#define MSXAUDIO_REG_MUL_7_CAR		0x33
+#define MSXAUDIO_REG_MUL_8_CAR		0x34
+#define MSXAUDIO_REG_MUL_9_CAR		0x35
 
 //-----------------------------------------------------------------------------
-// R#01    User Tone - Carrier - Multiplication control
+// R#40    KLS/total level
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0	
-//	AM	VIB	EG	KSR	MUL	MUL	MUL	MUL
-//	│	│	│	│	└───┴───┴───┴── The frequencies of the carrier wave and the modulated wave (0-15)
-//	│	│	│	│					0=½, 1=1, 2=2, 3=3, 4=4, 5=5, 6=6, 7=7, 8=8, 9=9, A=10, B=10, C=12, D=12, E=15, F=15
-//	│	│	│	└────────────────── This bit specifies the key scale of RATE
-//  │	│	└────────────────────── Switching between sustained tone and Percussive tone.
-//  │	└────────────────────────── Vibrato on/off switch. When this bit is '1', vibrato will be applied to the slot.
-//  └────────────────────────────── Amplitude modulation on/off switch. When this bit is '1', amplitude modulation wil be epplied to the slot. 
-#define MSXMUSIC_REG_USER_CAR_MUL	0x01
+//	KSL	KSL	LVL	LVL	LVL	LVL	LVL	LVL
+//	│	│	└───┴───┴───┴───┴───┴── Total level
+//  └───┴────────────────────────── KSL
+#define MSXAUDIO_REG_LEVEL_1_MOD	0x40
+#define MSXAUDIO_REG_LEVEL_2_MOD	0x41
+#define MSXAUDIO_REG_LEVEL_3_MOD	0x42
+#define MSXAUDIO_REG_LEVEL_1_CAR	0x43
+#define MSXAUDIO_REG_LEVEL_2_CAR	0x44
+#define MSXAUDIO_REG_LEVEL_3_CAR	0x45
+#define MSXAUDIO_REG_LEVEL_4_MOD	0x48
+#define MSXAUDIO_REG_LEVEL_5_MOD	0x49
+#define MSXAUDIO_REG_LEVEL_6_MOD	0x4A
+#define MSXAUDIO_REG_LEVEL_4_CAR	0x4B
+#define MSXAUDIO_REG_LEVEL_5_CAR	0x4C
+#define MSXAUDIO_REG_LEVEL_6_CAR	0x4D
+#define MSXAUDIO_REG_LEVEL_7_MOD	0x50
+#define MSXAUDIO_REG_LEVEL_8_MOD	0x51
+#define MSXAUDIO_REG_LEVEL_9_MOD	0x52
+#define MSXAUDIO_REG_LEVEL_7_CAR	0x53
+#define MSXAUDIO_REG_LEVEL_8_CAR	0x54
+#define MSXAUDIO_REG_LEVEL_9_CAR	0x55
 
 //-----------------------------------------------------------------------------
-// R#02    User Tone - Modulator - Attenuation control
-//-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	KSL	KSL	TL	TL	TL	TL	TL	TL
-//	│	│	└───┴───┴───┴───┴───┴── The minimum resolution of the attenuation level is 0.75 dB and the sound level can be reduced down to 47.25 dB.
-//  └───┴────────────────────────── This bit controls the level of key scaling. In key scale mode, the level of attenuation increases as pitch rises, to 1.5 dB/oct, 3 dB/oct, 6 dB/oct, and 0 dB/oct.
-#define MSXMUSIC_REG_USER_MOD_ATT	0x02
-
-//-----------------------------------------------------------------------------
-// R#03    User Tone - Carrier - Attenuation control
-//-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	KSL	KSL		DC	DM	FB	FB	FB
-//	│	│		│	│	└───┴───┴── For the modulated wave of the first slot's feedback FM modulation.
-//  │	│		│	└────────────── The modulated wave is rectified to half wave.
-//  │	│		└────────────────── The carrier wave is rectified to half wave.
-//  └───┴────────────────────────── This bit controls the level of key scaling. In key scale mode, the level of attenuation increases as pitch rises, to 1.5 dB/oct, 3 dB/oct, 6 dB/oct, and 0 dB/oct.
-#define MSXMUSIC_REG_USER_CAR_ATT	0x03
-
-//-----------------------------------------------------------------------------
-// R#04    User Tone - Modulator - Rate control
+// R#60    Attack/decay rate
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0	
 //	AR	AR	AR	AR	DR	DR	DR	DR
 //	│	│	│	│	└───┴───┴───┴── Decay Rate defines the decay time
 //  └───┴───┴───┴────────────────── Attack Rate defines the attack time of the sounds
-#define MSXMUSIC_REG_USER_MOD_RATE	0x04
+#define MSXAUDIO_REG_ATT_1_MOD		0x60
+#define MSXAUDIO_REG_ATT_2_MOD		0x61
+#define MSXAUDIO_REG_ATT_3_MOD		0x62
+#define MSXAUDIO_REG_ATT_1_CAR		0x63
+#define MSXAUDIO_REG_ATT_2_CAR		0x64
+#define MSXAUDIO_REG_ATT_3_CAR		0x65
+#define MSXAUDIO_REG_ATT_4_MOD		0x68
+#define MSXAUDIO_REG_ATT_5_MOD		0x69
+#define MSXAUDIO_REG_ATT_6_MOD		0x6A
+#define MSXAUDIO_REG_ATT_4_CAR		0x6B
+#define MSXAUDIO_REG_ATT_5_CAR		0x6C
+#define MSXAUDIO_REG_ATT_6_CAR		0x6D
+#define MSXAUDIO_REG_ATT_7_MOD		0x70
+#define MSXAUDIO_REG_ATT_8_MOD		0x71
+#define MSXAUDIO_REG_ATT_9_MOD		0x72
+#define MSXAUDIO_REG_ATT_7_CAR		0x73
+#define MSXAUDIO_REG_ATT_8_CAR		0x74
+#define MSXAUDIO_REG_ATT_9_CAR		0x75
 
 //-----------------------------------------------------------------------------
-// R#05    User Tone - Carrier - Rate control
-//-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	AR	AR	AR	AR	DR	DR	DR	DR
-//	│	│	│	│	└───┴───┴───┴── Decay Rate defines the decay time
-//  └───┴───┴───┴────────────────── Attack Rate defines the attack time of the sounds
-#define MSXMUSIC_REG_USER_CAR_RATE	0x05
-
-//-----------------------------------------------------------------------------
-// R#06    User Tone - Modulator - Sustain control
+// R#80    
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0	
 //	SL	SL	SL	SL	RR	RR	RR	RR
 //	│	│	│	│	└───┴───┴───┴── Sustain Level is the critical point that, when sustaining sound has been attenuated to the prescribed level, the level is maintained thereafter. With percussive tone, it is the critical point of change from decay mode to release mode.
 //  └───┴───┴───┴────────────────── Release Rate is the disappearing rate of sustaining sounds after key OFF. For percussive tone, attenuation above the sustain level is expressed with decay rate and attenuation below the sustain level with release rate.
-#define MSXMUSIC_REG_USER_MOD_SUS	0x06
+#define MSXAUDIO_REG_SUS_1_MOD		0x80
+#define MSXAUDIO_REG_SUS_2_MOD		0x81
+#define MSXAUDIO_REG_SUS_3_MOD		0x82
+#define MSXAUDIO_REG_SUS_1_CAR		0x83
+#define MSXAUDIO_REG_SUS_2_CAR		0x84
+#define MSXAUDIO_REG_SUS_3_CAR		0x85
+#define MSXAUDIO_REG_SUS_4_MOD		0x88
+#define MSXAUDIO_REG_SUS_5_MOD		0x89
+#define MSXAUDIO_REG_SUS_6_MOD		0x8A
+#define MSXAUDIO_REG_SUS_4_CAR		0x8B
+#define MSXAUDIO_REG_SUS_5_CAR		0x8C
+#define MSXAUDIO_REG_SUS_6_CAR		0x8D
+#define MSXAUDIO_REG_SUS_7_MOD		0x90
+#define MSXAUDIO_REG_SUS_8_MOD		0x91
+#define MSXAUDIO_REG_SUS_9_MOD		0x92
+#define MSXAUDIO_REG_SUS_7_CAR		0x93
+#define MSXAUDIO_REG_SUS_8_CAR		0x94
+#define MSXAUDIO_REG_SUS_9_CAR		0x95
 
 //-----------------------------------------------------------------------------
-// R#07    User Tone - Carrier - Sustain  control
+// R#A0    F-Number LSB 8 bits
 //-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	SL	SL	SL	SL	RR	RR	RR	RR
-//	│	│	│	│	└───┴───┴───┴── Sustain Level is the critical point that, when sustaining sound has been attenuated to the prescribed level, the level is maintained thereafter. With percussive tone, it is the critical point of change from decay mode to release mode.
-//  └───┴───┴───┴────────────────── Release Rate is the disappearing rate of sustaining sounds after key OFF. For percussive tone, attenuation above the sustain level is expressed with decay rate and attenuation below the sustain level with release rate.
-#define MSXMUSIC_REG_USER_CAR_SUS	0x07
-
+#define MSXAUDIO_REG_FREQ_1			0xA0
+#define MSXAUDIO_REG_FREQ_2			0xA1
+#define MSXAUDIO_REG_FREQ_3			0xA2
+#define MSXAUDIO_REG_FREQ_4			0xA3
+#define MSXAUDIO_REG_FREQ_5			0xA4
+#define MSXAUDIO_REG_FREQ_6			0xA5
+#define MSXAUDIO_REG_FREQ_7			0xA6
+#define MSXAUDIO_REG_FREQ_8			0xA7
+#define MSXAUDIO_REG_FREQ_9			0xA8
 
 //-----------------------------------------------------------------------------
-// R#0E    Rhythm Control
+// R#B0    F-Number MSB, octave set. Key ON/OFF register.
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0
-//			RHY	BD	SD	TOM	TCY	HH
-//			│	│	│	│	│	└── High Hat instrument ON/OFF
-//			│	│	│	│	└────── Top Cymbal instrument ON/OFF
-//  		│	│	│	└────────── Tom-tom instrument ON/OFF
-//  		│	│	└────────────── Snare Drum instrument ON/OFF
-//  		│	└────────────────── Bass Drum instrument ON/OFF
-//			└────────────────────── When 1, OPLL is in Rhythm mode with percussion sounds produced through channels 7~9 (see page 5). In this mode, the melody section is limited to six sounds.
-#define MSXMUSIC_REG_RHYTHM			0x0E
-
-
-//-----------------------------------------------------------------------------
-// R#0F    OPLL Test Data
-//-----------------------------------------------------------------------------
-#define MSXMUSIC_REG_TEST			0x0F
-
+//			KEY	BL	BL	BL	F-N	F-N
+//			│	│	│	│	└───┴── MSB 1 bit of F-Number
+//			│	└───┴───┴────────── Defines octave information.
+//  		└────────────────────── This bit indicates the ON/OFF state of the key. When this bit is '1', the associated channel is on and sound is produced. '0' is equivalent to Key-OFF.
+#define MSXAUDIO_REG_CTRL_1			0xB0
+#define MSXAUDIO_REG_CTRL_2			0xB1
+#define MSXAUDIO_REG_CTRL_3			0xB2
+#define MSXAUDIO_REG_CTRL_4			0xB3
+#define MSXAUDIO_REG_CTRL_5			0xB4
+#define MSXAUDIO_REG_CTRL_6			0xB5
+#define MSXAUDIO_REG_CTRL_7			0xB6
+#define MSXAUDIO_REG_CTRL_8			0xB7
+#define MSXAUDIO_REG_CTRL_9			0xB8
 
 //-----------------------------------------------------------------------------
-// R#1x    F-Number LSB 8 bits
-//-----------------------------------------------------------------------------
-#define MSXMUSIC_REG_FERQ_0			0x10
-#define MSXMUSIC_REG_FERQ_1			0x11
-#define MSXMUSIC_REG_FERQ_2			0x12
-#define MSXMUSIC_REG_FERQ_3			0x13
-#define MSXMUSIC_REG_FERQ_4			0x14
-#define MSXMUSIC_REG_FERQ_5			0x15
-#define MSXMUSIC_REG_FERQ_6			0x16
-#define MSXMUSIC_REG_FERQ_7			0x17
-#define MSXMUSIC_REG_FERQ_8			0x18
-
-//-----------------------------------------------------------------------------
-// R#2x    F-Number MSB, octave set. Key ON/OFF register. Sustain ON/OFF register
+// R#BD    Rhythm Control
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0
-//			SUS	KEY	BL	BL	BL	F-N
-//			│	│	│	│	│	└── MSB 1 bit of F-Number
-//			│	│	└───┴───┴────── Defines octave information.
-//  		│	└────────────────── This bit indicates the ON/OFF state of the key. When this bit is '1', the associated channel is on and sound is produced. '0' is equivalent to Key-OFF.
-//			└────────────────────── When this bit is '1', the RR with the key off will be 5.
-#define MSXMUSIC_REG_CTRL_0			0x20
-#define MSXMUSIC_REG_CTRL_1			0x21
-#define MSXMUSIC_REG_CTRL_2			0x22
-#define MSXMUSIC_REG_CTRL_3			0x23
-#define MSXMUSIC_REG_CTRL_4			0x24
-#define MSXMUSIC_REG_CTRL_5			0x25
-#define MSXMUSIC_REG_CTRL_6			0x26
-#define MSXMUSIC_REG_CTRL_7			0x27
-#define MSXMUSIC_REG_CTRL_8			0x28
+//	AD	VD	RHY	BD	SD	TOM	TCY	HH
+//	│	│	│	│	│	│	│	└── High Hat instrument ON/OFF
+//	│	│	│	│	│	│	└────── Top Cymbal instrument ON/OFF
+//  │	│	│	│	│	└────────── Tom-tom instrument ON/OFF
+//  │	│	│	│	└────────────── Snare Drum instrument ON/OFF
+//  │	│	│	└────────────────── Bass Drum instrument ON/OFF
+//	│	│	└────────────────────── When 1, MSX-AUDIO is in Rhythm mode with percussion sounds produced through channels 7~9
+//	│	└────────────────────────── Select one of the 2 vibrato depths
+//	└────────────────────────────── Select one of the 2 amplitude-modulation depths
+#define MSXAUDIO_REG_RHYTHM			0xBD
 
 //-----------------------------------------------------------------------------
-// R#3x    Instruments Selection and Volume Register
+// R#C0    Feedback/connection
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0
-//	INS	INS	INS	INS	VOL	VOL	VOL	VOL
-//	│	│	│	│	└───┴───┴───┴── Determine the volume for the voices. The minimum resolution is 3 dB and the maximum 45 dB.
-//  └───┴───┴───┴────────────────── These four bits determine voices as follows:
-//										0=User tone		4=Flute			8=Organ				12=Vibraphone
-//										1=Violin        5=Clarinet      9=Horn              13=Synthesizer Bass
-//										2=Guitar        6=Oboe          10=Synthesizer      14=Acoustic Bass
-//										3=Piano         7=Trumpet       11=Harpsichord      15=Electric Guitar
-#define MSXMUSIC_REG_INST_0			0x30
-#define MSXMUSIC_REG_INST_1			0x31
-#define MSXMUSIC_REG_INST_2			0x32
-#define MSXMUSIC_REG_INST_3			0x33
-#define MSXMUSIC_REG_INST_4			0x34
-#define MSXMUSIC_REG_INST_5			0x35
-// If (0x0E.5 == 0)
-#define MSXMUSIC_REG_INST_6			0x36
-#define MSXMUSIC_REG_INST_7			0x37
-#define MSXMUSIC_REG_INST_8			0x38
-
-// If (0x0E.5 == 1)
-//-----------------------------------------------------------------------------
-// R#36    Rhythm volume - Bass Drum
-//-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0
-//					BD	BD	BD	BD	
-//					└───┴───┴───┴── Bass Drum volume
-#define MSXMUSIC_REG_BD_VOL			0x36
-
-//-----------------------------------------------------------------------------
-// R#37    Rhythm volume - High Hat & Snare Drum
-//-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0
-//	HH	HH	HH	HH	SD	SD	SD	SD
-//	│	│	│	│	└───┴───┴───┴── Snare Drum volume
-//  └───┴───┴───┴────────────────── High Hat volume
-#define MSXMUSIC_REG_HHSD_VOL		0x37
-
-//-----------------------------------------------------------------------------
-// R#38    Rhythm volume - Tom-tom & Top Cymbal
-//-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0
-//	TOM	TOM	TOM	TOM	TCY	TCY	TCY	TCY
-//	│	│	│	│	└───┴───┴───┴── Top Cymbal
-//  └───┴───┴───┴────────────────── Tom-tom volume
-#define MSXMUSIC_REG_TOMTCY_VOL		0x38
-
-
-
-*/
+//					FB	FB	FB	C
+//					│	│	│	└── Connection
+//					└───┴───┴────── Feedback
+#define MSXAUDIO_REG_FEED_1			0xC0
+#define MSXAUDIO_REG_FEED_2			0xC1
+#define MSXAUDIO_REG_FEED_3			0xC2
+#define MSXAUDIO_REG_FEED_4			0xC3
+#define MSXAUDIO_REG_FEED_5			0xC4
+#define MSXAUDIO_REG_FEED_6			0xC5
+#define MSXAUDIO_REG_FEED_7			0xC6
+#define MSXAUDIO_REG_FEED_8			0xC7
+#define MSXAUDIO_REG_FEED_9			0xC8

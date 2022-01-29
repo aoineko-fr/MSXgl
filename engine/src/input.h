@@ -13,7 +13,7 @@
 // Group: Joystick
 // Direct access to joystick
 //-----------------------------------------------------------------------------
-#if (USE_INPUT_JOYSTICK || USE_INPUT_MANAGER)
+#if (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER)
 
 #define JOY_PORT_1					0
 #define JOY_PORT_2					(1 << 6)
@@ -77,13 +77,13 @@ inline u8 Joystick_GetTrigger(u8 port, u8 trigger)
 	u8 in = Joystick_Read(port);
 	return ((in & trigger) == 0);
 }
-#endif // (USE_INPUT_JOYSTICK || USE_INPUT_MANAGER)
+#endif // (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER)
 
 //-----------------------------------------------------------------------------
 // Group: Keyboard
 // Direct access to keyboard
 //-----------------------------------------------------------------------------
-#if (USE_INPUT_KEYBOARD || USE_INPUT_MANAGER)
+#if (INPUT_USE_KEYBOARD || INPUT_USE_MANAGER)
 
 #define MAKE_KEY(r, b)		((b << 4) | r)
 #define KEY_ROW(key)		(key & 0x0F)
@@ -207,13 +207,13 @@ u8 Keyboard_Read(u8 row) __FASTCALL;
 //   key - The key ID to check
 bool Keyboard_IsKeyPressed(u8 key) __FASTCALL;
 
-#endif // (USE_INPUT_KEYBOARD || USE_INPUT_MANAGER)
+#endif // (INPUT_USE_KEYBOARD || INPUT_USE_MANAGER)
 
 //-----------------------------------------------------------------------------
 // Group: Input Manager
 // Advanced input manager
 //-----------------------------------------------------------------------------
-#if USE_INPUT_MANAGER
+#if INPUT_USE_MANAGER
 
 // Device ID
 enum IPM_DEVICE
@@ -366,7 +366,7 @@ inline u8 IPM_GetInputTimer(u8 joy, u8 in);
 // Get event name
 const c8* IPM_GetEventName(u8 ev);
 
-#endif // USE_INPUT_MANAGER
+#endif // INPUT_USE_MANAGER
 
 
 

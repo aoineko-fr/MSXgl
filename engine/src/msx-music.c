@@ -31,6 +31,10 @@ const c8 g_MSXMusic_Ident[] = "APRLOPLL";
 //=============================================================================
 u8 g_MSXMusic_SlotId = SLOT_NOTFOUND;
 
+#if (MSXMUSIC_USE_RESUME)
+u8 g_MSXMusic_RegBackup[16];
+#endif
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -100,6 +104,11 @@ void MSXMusic_SetRegister(u8 reg, u8 value)
 {
 	g_MSXMusic_IndexPort = reg;
 	g_MSXMusic_DataPort = value;
+
+	#if (MSXMUSIC_USE_RESUME)
+	if((reg & 0xF0) == 0x20) // MSXMUSIC_REG_CTRL_x
+		g_MSXMusic_RegBackup[reg & 0x0F] = value;
+	#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -116,8 +125,18 @@ void MSXMusic_Mute()
 {
 	loop(i, 9)
 	{
-		MSXMusic_SetRegister(MSXMUSIC_REG_FERQ_0 + i, 0);
-		MSXMusic_SetRegister(MSXMUSIC_REG_CTRL_0 + i, 0);
-		MSXMusic_SetRegister(MSXMUSIC_REG_INST_0 + i, 0);
+		MSXMusic_SetRegister(MSXMUSIC_REG_CTRL_1 + i, 0); // seem to be enough
 	}
 }
+
+#if (MSXMUSIC_USE_RESUME)
+//-----------------------------------------------------------------------------
+// Resume MSX-Music sound
+void MSXMusic_Resume()
+{
+	loop(i, 9)
+	{
+		MSXMusic_SetRegister(MSXMUSIC_REG_CTRL_1 + i, g_MSXMusic_RegBackup[i]); // seem to be enough
+	}
+}
+#endif

@@ -10,13 +10,13 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "vgm_player.h"
 #include "bios_mainrom.h"
-#if (USE_VGM_SCC)
+#if (VGM_USE_SCC)
 #include "scc.h"
 #endif
-#if (USE_VGM_MSXMUSIC)
+#if (VGM_USE_MSXMUSIC)
 #include "msx-music.h"
 #endif
-#if (USE_VGM_MSXAUDIO)
+#if (VGM_USE_MSXAUDIO)
 #include "msx-audio.h"
 #endif
 
@@ -53,7 +53,7 @@ bool VGM_Play(const void* addr, bool loop)
 	if(g_VGM_Header->Ident != VGM_IDENT)
 		return false;
 	
-	g_VGM_State = 0;
+	g_VGM_State = VGM_STATE_PLAY;
 	if(loop)
 		g_VGM_State |= VGM_STATE_LOOP;
 
@@ -69,24 +69,54 @@ bool VGM_Play(const void* addr, bool loop)
 	else
 		VGM_SetFrequency60Hz();
 
-	VGM_Resume();
 	return true;
+}
+
+//-----------------------------------------------------------------------------
+// Resume music playback
+void VGM_Resume()
+{
+	g_VGM_State |= VGM_STATE_PLAY;
+
+	#if (PSG_USE_RESUME)
+	if(VGM_ContainsPSG())
+		PSG_Resume();
+	#endif
+
+	#if (VGM_USE_MSXMUSIC && MSXMUSIC_USE_RESUME)
+	if(VGM_ContainsMSXMusic())
+		MSXMusic_Resume();
+	#endif
+
+	#if (VGM_USE_MSXAUDIO && MSXAUDIO_USE_RESUME)
+	if(VGM_ContainsMSXAudio())
+		MSXAudio_Resume();
+	#endif
+
+	#if (VGM_USE_SCC && SCC_USE_RESUME)
+	if(VGM_ContainsSCC())
+		SCC_Resume();
+	#endif
 }
 
 //-----------------------------------------------------------------------------
 // Pause music playback
 void VGM_Pause()
 {
-	g_VGM_State &= ~VGM_STATE_PLAY; 
+	g_VGM_State &= ~VGM_STATE_PLAY;
+	
 	PSG_Mute();
-	#if (USE_VGM_SCC)
-	SCC_Mute();
-	#endif
-	#if (USE_VGM_MSXMUSIC)
+
+	#if (VGM_USE_MSXMUSIC)
 	MSXMusic_Mute();
 	#endif
-	#if (USE_VGM_MSXAUDIO)
+	
+	#if (VGM_USE_MSXAUDIO)
 	MSXAudio_Mute();
+	#endif
+	
+	#if (VGM_USE_SCC)
+	SCC_Mute();
 	#endif
 }
 
@@ -113,7 +143,7 @@ void VGM_Decode()
 			PSG_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
 		}
-		#if (USE_VGM_SCC)
+		#if (VGM_USE_SCC)
 		else if(*g_VGM_Pointer == 0xD2) // SCC1, port pp, write value dd to register aa
 		{
 			u8 reg = 0;
@@ -130,14 +160,26 @@ void VGM_Decode()
 			g_VGM_Pointer += 3;
 		}
 		#endif
-		#if (USE_VGM_MSXMUSIC)
+		#if (VGM_USE_MSXMUSIC)
 		else if(*g_VGM_Pointer == 0x51) // YM2413, write value dd to register aa
 		{
 			MSXMusic_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
 		}
 		#endif
-		#if (USE_VGM_MSXAUDIO)
+		#if (VGM_USE_MSXAUDIO)
+		else if(*g_VGM_Pointer == 0x5C) // Y8950, write value dd to register aa
+		{
+			u8 reg = g_VGM_Pointer[1];
+			if((reg != 0x04) && (reg != 0x18) && (reg != 0x19))
+			{
+				u8 value = g_VGM_Pointer[2];
+				if(reg == 0x08)
+					value &= 0b11000100;
+				MSXAudio_SetRegister(reg, value);
+			}
+			g_VGM_Pointer += 2;
+		}
 		else if(*g_VGM_Pointer == 0x5C) // Y8950, write value dd to register aa
 		{
 			MSXAudio_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);

@@ -11,9 +11,9 @@
 //=============================================================================
 // RLEp
 //=============================================================================
-#if (USE_COMPRESS_RLEP)
+#if (COMPRESS_USE_RLEP)
 
-#if (USE_COMPRESS_RLEP_DEFAULT)
+#if (COMPRESS_USE_RLEP_DEFAULT)
 	#define RLEP_DEFAULT_SET	u8 def = *src++;
 	#define RLEP_DEFAULT_GET	def
 #else
@@ -21,7 +21,7 @@
 	#define RLEP_DEFAULT_GET	0
 #endif
 
-#if (USE_COMPRESS_RLEP_FIXSIZE)
+#if (COMPRESS_USE_RLEP_FIXSIZE)
 	#define RLEP_FIXSIZE_PARAM	, u8 size
 	#define RLEP_FIXSIZE_WHILE	while(((u16)dst - start) < size)
 #else
@@ -47,7 +47,7 @@
 // Parameters:
 //   src - Source data
 //   dst - Destination data in RAM
-//   size - Size of the data to unpack (only if USE_COMPRESS_RLEP_FIXSIZE defined)
+//   size - Size of the data to unpack (only if COMPRESS_USE_RLEP_FIXSIZE defined)
 u16 UnpackRLEpToRAM(const u8* src, u8* dst RLEP_FIXSIZE_PARAM);
 
-#endif // (USE_COMPRESS_RLEP)
+#endif // (COMPRESS_USE_RLEP)

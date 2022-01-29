@@ -12,7 +12,7 @@
 //=============================================================================
 // RLEp
 //=============================================================================
-#if (USE_COMPRESS_RLEP)
+#if (COMPRESS_USE_RLEP)
 
 //-----------------------------------------------------------------------------
 // RLEp Chunk Header
@@ -67,4 +67,4 @@ u16 UnpackRLEpToRAM(const u8* src, u8* dst RLEP_FIXSIZE_PARAM)
 	return ((u16)dst - start);
 }
 
-#endif // (USE_COMPRESS_RLEP)
+#endif // (COMPRESS_USE_RLEP)

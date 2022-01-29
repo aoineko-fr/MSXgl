@@ -17,20 +17,20 @@
 enum PRINT_MODE
 {
 	// Bitmap modes (from RAM)
-#if ((USE_PRINT_BITMAP) || (USE_PRINT_VRAM))
+#if ((PRINT_USE_BITMAP) || (PRINT_USE_VRAM))
 	PRINT_MODE_BITMAP		= 0,	//< Draw characters from RAM (R-T unpack font data and draw it)
 	PRINT_MODE_BITMAP_TRANS	= 1,	//< Draw characters from RAM with transparency (R-T unpack font data and draw it)
 #endif
 	// Bitmap mode (from VRAM)
-#if (USE_PRINT_VRAM)
+#if (PRINT_USE_VRAM)
 	PRINT_MODE_BITMAP_VRAM	= 2,	//< Draw characters from VRAM (font data is upack once in VRAM thne drawing is done by VRAM copy)
 #endif
 	// Sprite mode
-#if (USE_PRINT_SPRITE)
+#if (PRINT_USE_SPRITE)
 	PRINT_MODE_SPRITE		= 3,	//< Draw characters from sprites (load font data as sprite pattern in VRAM then display characters using sprite system)
 #endif
 	// Text mode
-#if (USE_PRINT_TEXT)
+#if (PRINT_USE_TEXT)
 	PRINT_MODE_TEXT			= 4,	//< Draw characters as pattern names (text mode)
 #endif
 };
@@ -91,31 +91,31 @@ struct Print_Data
 	u8 SourceMode       : 4;	//< Character display mode : RAM, VRAM or Sprite (@see PRINT_MODE)
 	u16 ScreenWidth;			//< Screen width
 	// Bitmap from RAM
-// #if (USE_PRINT_)
+// #if (PRINT_USE_)
 	const u8* FontPatterns;		//< Forms of the font
 	const u8* FontAddr;			//< Address of the virtual index 0 character (used to quick drawing in DrawChar_GX functions)
 // #endif
-#if (USE_PRINT_VRAM)
+#if (PRINT_USE_VRAM)
 	// Bitmap from VRAM
 	UY FontVRAMY;				//< Y position of the font in VRAM
 	u8 CharPerLine;
 #endif
-#if (USE_PRINT_SPRITE)
+#if (PRINT_USE_SPRITE)
 	// Sprites
 	u8 SpritePattern;			//< Pattern index of the 1st sprite character
 	u8 SpriteID;				//< Index of the current sprite
 #endif
-#if (USE_PRINT_TEXT)
+#if (PRINT_USE_TEXT)
 	// Text mode
 	u8 PatternOffset;
 #endif
-#if (USE_PRINT_FX_SHADOW)
+#if (PRINT_USE_FX_SHADOW)
 	u8 Shadow			: 1;	//< Is shadow render active
 	u8 ShadowOffsetX	: 3;	//< Shadow X offset (0:7 => -3:+4)
 	u8 ShadowOffsetY	: 3;	//< Shadow Y offset (0:7 => -3:+4)
 	u8 ShadowColor;				//< Shadow color
 #endif
-#if (USE_PRINT_FX_OUTLINE)
+#if (PRINT_USE_FX_OUTLINE)
 	u8 Outline			: 1;	//< Is shadow render active
 	u8 OutlineColor;			//< Shadow color
 #endif
@@ -139,25 +139,25 @@ void Print_SetMode(u8 src);
 // Set the current font (and set mode to RAM)
 void Print_SetFont(const u8* font);
 
-#if (USE_PRINT_BITMAP)
+#if (PRINT_USE_BITMAP)
 // Function: Print_SetBitmapFont
 // Initialize print module and set a font in RAM
 bool Print_SetBitmapFont(const u8* font);
 #endif
 
-#if (USE_PRINT_VRAM)
+#if (PRINT_USE_VRAM)
 // Function: Print_SetVRAMFont
 // Set the current font and upload data to VRAM 
 void Print_SetVRAMFont(const u8* font, UY y, u8 color);
 #endif
 
-#if (USE_PRINT_TEXT)
+#if (PRINT_USE_TEXT)
 // Function: Print_SetTextFont
 // Initialize print module and set a font in RAM
 void Print_SetTextFont(const u8* font, u8 offset);
 #endif
 
-#if (USE_PRINT_SPRITE)
+#if (PRINT_USE_SPRITE)
 // Function: Print_SetSpriteFont
 // Set the current font and upload to Sprite Pattern Table
 void Print_SetSpriteFont(const u8* font, u8 patIdx, u8 sprtIdx);
@@ -199,7 +199,7 @@ void Print_SetColor(u8 text, u8 bg);
 void Print_SetColorShade(const u8* shade);
 #endif
 
-#if (USE_PRINT_FX_SHADOW)	
+#if (PRINT_USE_FX_SHADOW)	
 // Function: Print_SetShadow
 // Set shadow effect
 void Print_SetShadow(bool enable, i8 offsetX, i8 offsetY, u8 color);
@@ -209,7 +209,7 @@ void Print_SetShadow(bool enable, i8 offsetX, i8 offsetY, u8 color);
 void Print_EnableShadow(bool enable);
 #endif
 
-#if (USE_PRINT_FX_OUTLINE)	
+#if (PRINT_USE_FX_OUTLINE)	
 // Function: Print_SetOutline
 // Set shadow effect
 void Print_SetOutline(bool enable, u8 color);
@@ -248,13 +248,13 @@ void Print_DrawHex16(u16 value);
 // Print a 8-bits binary value
 void Print_DrawBin8(u8 value);
 
-#if (USE_PRINT_32B)
+#if (PRINT_USE_32B)
 // Function: Print_DrawHex32
 // Print a 32-bits hexadecimal value
 void Print_DrawHex32(u32 value);
 
 // Function: Print_DrawInt
-// Print a 16/32-bits signed decimal value (depends on USE_PRINT_32B flag)
+// Print a 16/32-bits signed decimal value (depends on PRINT_USE_32B flag)
 void Print_DrawInt(i32 value);
 
 #else
@@ -264,7 +264,7 @@ void Print_DrawInt(i16 value);
 #endif
 
 //-----------------------------------------------------------------------------
-#if (USE_PRINT_FORMAT)
+#if (PRINT_USE_FORMAT)
 // Function: Print_DrawFormat
 // Print a formated string with a variable number of parameters
 void Print_DrawFormat(const c8* format, ...);
@@ -274,7 +274,7 @@ void Print_DrawFormat(const c8* format, ...);
 // Group: Graph
 // Boxes draw functions
 //-----------------------------------------------------------------------------
-#if (USE_PRINT_GRAPH)
+#if (PRINT_USE_GRAPH)
 
 // Function: Print_DrawLineH
 // Draw an horizontal line using characters
@@ -288,7 +288,7 @@ void Print_DrawLineV(u8 x, u8 y, u8 len);
 // Draw a box using characters
 void Print_DrawBox(u8 x, u8 y, u8 width, u8 height);
 
-#endif // (USE_PRINT_GRAPH)
+#endif // (PRINT_USE_GRAPH)
 
 //-----------------------------------------------------------------------------
 // INLINE FUNCTIONS

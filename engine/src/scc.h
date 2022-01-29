@@ -19,16 +19,6 @@
 // DEFINES
 //=============================================================================
 
-#define USE_SCC_EXTA		1
-
-#define SCC_SLOT_DIRECT		0	// Program on a SCC cartridge
-#define SCC_SLOT_FIXED		1	// Fixed slot-id (non-expanded second cartridge slot)
-#define SCC_SLOT_USER		2	// Defined by the user
-#define SCC_SLOT_AUTO		3	// First auto-detected cartridge
-//-------------------------------------
-#define SCC_SLOT_MODE		SCC_SLOT_AUTO
-
-
 #if (SCC_SLOT_MODE == SCC_SLOT_FIXED)
 	#define SCC_SLOT SLOT_2 // Non-expanded second cartridge slot 
 #else
@@ -40,18 +30,18 @@
 // SCC Registers
 
 // Read / write - 32 bytes
-#define SCC_REG_WAVE_1	0x00 // Waveform channel 1
-#define SCC_REG_WAVE_2	0x20 // Waveform channel 2
-#define SCC_REG_WAVE_3	0x40 // Waveform channel 3
-#define SCC_REG_WAVE_4	0x60 // Waveform channel 4 (and channel 5 for SCC)
-#define SCC_REG_WAVE_5	0xA0 // Waveform channel 5 (SCC-I only)
+#define SCC_REG_WAVE_1		0x00 // Waveform channel 1
+#define SCC_REG_WAVE_2		0x20 // Waveform channel 2
+#define SCC_REG_WAVE_3		0x40 // Waveform channel 3
+#define SCC_REG_WAVE_4		0x60 // Waveform channel 4 (and channel 5 for SCC)
+#define SCC_REG_WAVE_5		0xA0 // Waveform channel 5 (SCC-I only)
 
 // Write only - 16 bits
-#define SCC_REG_FREQ_1	0x80 // Frequency channel 1
-#define SCC_REG_FREQ_2	0x82 // Frequency channel 2
-#define SCC_REG_FREQ_3	0x84 // Frequency channel 3
-#define SCC_REG_FREQ_4	0x86 // Frequency channel 4
-#define SCC_REG_FREQ_5	0x88 // Frequency channel 5
+#define SCC_REG_FREQ_1		0x80 // Frequency channel 1
+#define SCC_REG_FREQ_2		0x82 // Frequency channel 2
+#define SCC_REG_FREQ_3		0x84 // Frequency channel 3
+#define SCC_REG_FREQ_4		0x86 // Frequency channel 4
+#define SCC_REG_FREQ_5		0x88 // Frequency channel 5
 //	7	6	5	4	3	2	1	0	
 //	F7	F6	F5	F4	F3	F2	F1	F0
 //	└───┴───┴───┴───┴───┴───┴───┴── Frequency, LSB (fine tune)
@@ -60,17 +50,17 @@
 //	                └───┴───┴───┴── Frequency, MSB (coarse tune)
 
 // Write only - 8 bits
-#define SCC_REG_VOL_1	0x8A // Volume channel 1
-#define SCC_REG_VOL_2	0x8B // Volume channel 2
-#define SCC_REG_VOL_3	0x8C // Volume channel 3
-#define SCC_REG_VOL_4	0x8D // Volume channel 4
-#define SCC_REG_VOL_5	0x8E // Volume channel 5
+#define SCC_REG_VOL_1		0x8A // Volume channel 1
+#define SCC_REG_VOL_2		0x8B // Volume channel 2
+#define SCC_REG_VOL_3		0x8C // Volume channel 3
+#define SCC_REG_VOL_4		0x8D // Volume channel 4
+#define SCC_REG_VOL_5		0x8E // Volume channel 5
 //	7	6	5	4	3	2	1	0	
 //	x	x	x	x	V3	V2	V1	V0
 //	                └───┴───┴───┴── Amplitude
 
 // Write only - 8 bits
-#define SCC_REG_MIXER	0x8F // On/off switch channel 1 to 5
+#define SCC_REG_MIXER		0x8F // On/off switch channel 1 to 5
 //	7	6	5	4	3	2	1	0	
 //	x	x	x	A5	A4	A3	A2	A1
 //				│	│	│	│	└── Activate channel 1
@@ -80,7 +70,7 @@
 //				└────────────────── Activate channel 5
 
 // Write only - 8 bits
-#define SCC_REG_TEST	0xC0 // Test register
+#define SCC_REG_TEST		0xC0 // Test register
 
 //-----------------------------------------------------------------------------
 // SCC Access Address
@@ -135,7 +125,13 @@ u8 SCC_GetRegister(u8 reg);
 // Mute the SCC sound chip
 void SCC_Mute();
 
-#if (USE_SCC_EXTA)
+#if (SCC_USE_RESUME)
+// Function: SCC_Resume
+// Resume SCC sound
+void SCC_Resume();
+#endif
+
+#if (SCC_USE_EXTA)
 // Group: Extra
 	
 // Function: SCC_LoadWaveform
@@ -154,4 +150,4 @@ inline void SCC_SetVolume(u8 channel, u8 vol) { SCC_SetRegister(SCC_REG_VOL_1 + 
 // Set channels mixer
 inline void SCC_SetMixer(u8 mix) { SCC_SetRegister(SCC_REG_MIXER, mix); }
 
-#endif // (USE_SCC_EXTA)
+#endif // (SCC_USE_EXTA)

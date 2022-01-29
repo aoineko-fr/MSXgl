@@ -47,11 +47,11 @@
 #define BIOS_CALL_DISKROM			BIOS_CALL_INTERSLOT
 
 // MAIN-Bios module setting
-#define USE_BIOS_MAINROM			1	// Allow use of Main-ROM routines
-#define USE_BIOS_VDP				1	// Give access to Main-ROM routines related to VDP
-#define USE_BIOS_PSG				1	// Give access to Main-ROM routines related to PSG
-#define USE_BIOS_SUBROM				1	// Allow use of Sub-ROM routines (MSX 2/2+/turbo R)
-#define USE_BIOS_DISKROM			1	// Allow use of Disk-ROM routines
+#define BIOS_USE_MAINROM			1	// Allow use of Main-ROM routines
+#define BIOS_USE_VDP				1	// Give access to Main-ROM routines related to VDP
+#define BIOS_USE_PSG				1	// Give access to Main-ROM routines related to PSG
+#define BIOS_USE_SUBROM				1	// Allow use of Sub-ROM routines (MSX 2/2+/turbo R)
+#define BIOS_USE_DISKROM			1	// Allow use of Disk-ROM routines
 
 //-----------------------------------------------------------------------------
 // VDP MODULE
@@ -70,25 +70,25 @@
 #define VDP_UNIT					VDP_UNIT_U8
 
 // VDP screen modes (additionnal limitations come from the selected MSX_VERSION)
-#define USE_VDP_MODE_T1				1	// MSX1		Screen 0 Width 40
-#define USE_VDP_MODE_MC				1	// MSX1		Screen 3
-#define USE_VDP_MODE_G1				1	// MSX1		Screen 1
-#define USE_VDP_MODE_G2				1	// MSX1		Screen 2
-#define USE_VDP_MODE_T2				0	// MSX2		Screen 0 Width 80
-#define USE_VDP_MODE_G3				0	// MSX2		Screen 4
-#define USE_VDP_MODE_G4				0	// MSX2		Screen 5
-#define USE_VDP_MODE_G5				0	// MSX2		Screen 6
-#define USE_VDP_MODE_G6				0	// MSX2		Screen 7
-#define USE_VDP_MODE_G7				0	// MSX2/2+	Screen 8, 10, 11 & 12
+#define VDP_USE_MODE_T1				1	// MSX1		Screen 0 Width 40
+#define VDP_USE_MODE_MC				1	// MSX1		Screen 3
+#define VDP_USE_MODE_G1				1	// MSX1		Screen 1
+#define VDP_USE_MODE_G2				1	// MSX1		Screen 2
+#define VDP_USE_MODE_T2				0	// MSX2		Screen 0 Width 80
+#define VDP_USE_MODE_G3				0	// MSX2		Screen 4
+#define VDP_USE_MODE_G4				0	// MSX2		Screen 5
+#define VDP_USE_MODE_G5				0	// MSX2		Screen 6
+#define VDP_USE_MODE_G6				0	// MSX2		Screen 7
+#define VDP_USE_MODE_G7				0	// MSX2/2+	Screen 8, 10, 11 & 12
 
 //-----------------------------------------------------------------------------
 // INPUT MODULE
 //-----------------------------------------------------------------------------
 
 // Input module setting
-#define USE_INPUT_JOYSTICK			1
-#define USE_INPUT_KEYBOARD			1
-#define USE_INPUT_MANAGER			1
+#define INPUT_USE_JOYSTICK			1
+#define INPUT_USE_KEYBOARD			1
+#define INPUT_USE_MANAGER			1
 
 //-----------------------------------------------------------------------------
 // DRAW MODULE
@@ -99,17 +99,17 @@
 //-----------------------------------------------------------------------------
 
 // Print module setting
-#define USE_PRINT_TEXT				1	// Allow use of Text font (T1-T2, G1-G3)
-#define USE_PRINT_BITMAP			0	// Allow use of Bitmap font (G4-G7)
-#define USE_PRINT_VRAM				0	// Allow use of VRAM stored font (G4-G7)
-#define USE_PRINT_SPRITE			0	// Allow use of Sprite font (G3-G7)
-#define USE_PRINT_FX_SHADOW			0	// [Bitmap] Allow use of text shadow
-#define USE_PRINT_FX_OUTLINE		0	// [Bitmap] Allow use of text outline
-#define USE_PRINT_GRAPH				1	// Allow use of character lines and boxes
-#define USE_PRINT_VALIDATOR			1	// Add validator character code
-#define USE_PRINT_UNIT				1	// Display integer type (h: hexadecimal, b: binary)
-#define USE_PRINT_FORMAT			0
-#define USE_PRINT_32B				0
+#define PRINT_USE_TEXT				1	// Allow use of Text font (T1-T2, G1-G3)
+#define PRINT_USE_BITMAP			0	// Allow use of Bitmap font (G4-G7)
+#define PRINT_USE_VRAM				0	// Allow use of VRAM stored font (G4-G7)
+#define PRINT_USE_SPRITE			0	// Allow use of Sprite font (G3-G7)
+#define PRINT_USE_FX_SHADOW			0	// [Bitmap] Allow use of text shadow
+#define PRINT_USE_FX_OUTLINE		0	// [Bitmap] Allow use of text outline
+#define PRINT_USE_GRAPH				1	// Allow use of character lines and boxes
+#define PRINT_USE_VALIDATOR			1	// Add validator character code
+#define PRINT_USE_UNIT				1	// Display integer type (h: hexadecimal, b: binary)
+#define PRINT_USE_FORMAT			0
+#define PRINT_USE_32B				0
 #define PRINT_SKIP_SPACE			1	// Skill space character
 #define PRINT_COLOR_NUM				12	// 1 color per line
 // - PRINT_WIDTH_1
@@ -127,26 +127,60 @@
 //-----------------------------------------------------------------------------
 
 // Game state setting
-#define USE_GAME_STATE				1
-#define USE_GAME_STATE_TRANSITION	1
-#define USE_GAME_VSYNC				1
-#define USE_GAME_LOOP				1
+#define GAME_USE_STATE				1
+#define GAME_USE_STATE_TRANSITION	1
+#define GAME_USE_VSYNC				1
+#define GAME_USE_LOOP				1
+
+//-----------------------------------------------------------------------------
+// AUDIO 
+//-----------------------------------------------------------------------------
+
+// PSG options
+#define PSG_CHIP					PSG_INTERNAL
+#define PSG_ACCESS					PSG_INDIRECT
+#define PSG_USE_NOTES				1
+#define PSG_USE_RESUME				1
+
+// MSX-Music options
+#define MSXAUDIO_USE_RESUME			1
+
+// MSX-Audio options
+#define MSXMUSIC_USE_RESUME			1
+
+// SCC options
+#define SCC_USE_EXTA				1
+#define SCC_USE_RESUME				1
+// - SCC_SLOT_DIRECT .............. Program on a SCC cartridge
+// - SCC_SLOT_FIXED	............... Fixed slot-id (non-expanded second cartridge slot)
+// - SCC_SLOT_USER ................ Defined by the user
+// - SCC_SLOT_AUTO ................ First auto-detected cartridge
+#define SCC_SLOT_MODE				SCC_SLOT_AUTO
+
+// VGM supported chip
+#define VGM_USE_PSG					1
+#define VGM_USE_MSXMUSIC			1
+#define VGM_USE_MSXAUDIO			1
+#define VGM_USE_SCC					1
+
+// PCM-Encoder supported frequency (more than 1 value allowed)
+#define PCMENC_FREQ					PCMENC_8K | PCMENC_11K | PCMENC_22K | PCMENC_44K
 
 //-----------------------------------------------------------------------------
 // MSXi MODULE
 //-----------------------------------------------------------------------------
 
 // MSXi compressor support
-#define USE_MSXi_COMP_NONE			1
-#define USE_MSXi_COMP_CROP16		1
-#define USE_MSXi_COMP_CROP32		1
-#define USE_MSXi_COMP_CROP256		1
-#define USE_MSXi_COMP_CROPLINE16	1
-#define USE_MSXi_COMP_CROPLINE32	1
-#define USE_MSXi_COMP_CROPLINE256	1
-#define USE_MSXi_COMP_RLE0			1
-#define USE_MSXi_COMP_RLE4			1
-#define USE_MSXi_COMP_RLE8			1
+#define MSXi_USE_COMP_NONE			1
+#define MSXi_USE_COMP_CROP16		1
+#define MSXi_USE_COMP_CROP32		1
+#define MSXi_USE_COMP_CROP256		1
+#define MSXi_USE_COMP_CROPLINE16	1
+#define MSXi_USE_COMP_CROPLINE32	1
+#define MSXi_USE_COMP_CROPLINE256	1
+#define MSXi_USE_COMP_RLE0			1
+#define MSXi_USE_COMP_RLE4			1
+#define MSXi_USE_COMP_RLE8			1
 
 //-----------------------------------------------------------------------------
 // MATH MODULE
@@ -170,16 +204,9 @@
 //-----------------------------------------------------------------------------
 
 // RLEp compression
-#define USE_COMPRESS_RLEP			1
-#define USE_COMPRESS_RLEP_DEFAULT	1
-#define USE_COMPRESS_RLEP_FIXSIZE	1
-
-//-----------------------------------------------------------------------------
-// AUDIO 
-//-----------------------------------------------------------------------------
-
-// PCM-Encoder supported frequency (more than 1 value allowed)
-#define PCMENC_FREQ					PCMENC_8K | PCMENC_11K | PCMENC_22K | PCMENC_44K
+#define COMPRESS_USE_RLEP			1
+#define COMPRESS_USE_RLEP_DEFAULT	1
+#define COMPRESS_USE_RLEP_FIXSIZE	1
 
 //-----------------------------------------------------------------------------
 // MISC

@@ -23,8 +23,12 @@
 // READ-ONLY DATA
 //=============================================================================
 
-#if (USE_SCC_EXTA)
-	const u16 g_SCC_WaveformAddr[5] = { SCC_ADDR_WAVE_1, SCC_ADDR_WAVE_2, SCC_ADDR_WAVE_3, SCC_ADDR_WAVE_4, SCC_ADDR_WAVE_5 };
+#if (SCC_USE_EXTA)
+const u16 g_SCC_WaveformAddr[5] = { SCC_ADDR_WAVE_1, SCC_ADDR_WAVE_2, SCC_ADDR_WAVE_3, SCC_ADDR_WAVE_4, SCC_ADDR_WAVE_5 };
+#endif
+
+#if (SCC_USE_RESUME)
+u8 g_SCC_MixerBackup;
 #endif
 
 //=============================================================================
@@ -310,6 +314,11 @@ void SCC_SetRegister(u8 reg, u8 value)
 	#else
 		Bios_InterSlotWrite(SCC_SLOT, 0x9800 + reg, value);
 	#endif
+
+	#if (SCC_USE_RESUME)
+	if(reg == SCC_REG_MIXER)
+		g_SCC_MixerBackup = value;
+	#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -334,10 +343,24 @@ void SCC_Mute()
 	#endif
 }
 
+#if (SCC_USE_RESUME)
+//-----------------------------------------------------------------------------
+// Resume SCC sound
+void SCC_Resume()
+{
+	#if (SCC_SLOT_MODE == SCC_SLOT_DIRECT)
+		POKE(SCC_ADDR_MIXER, g_SCC_MixerBackup);
+	#else
+		Bios_InterSlotWrite(SCC_SLOT, SCC_ADDR_MIXER, g_SCC_MixerBackup);
+	#endif
+}
+#endif
+
+
 //-----------------------------------------------------------------------------
 // EXTRA FEATURES
 //-----------------------------------------------------------------------------
-#if (USE_SCC_EXTA)
+#if (SCC_USE_EXTA)
 	
 //-----------------------------------------------------------------------------
 // Load a full waveform
@@ -366,4 +389,4 @@ void SCC_SetFrequency(u8 channel, u16 freq)
 	
 }
 
-#endif // (USE_SCC_EXTA)
+#endif // (SCC_USE_EXTA)

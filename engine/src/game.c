@@ -22,7 +22,7 @@
 void Game_Initialize(u8 screenMode)
 {
 	VDP_SetMode(screenMode);
-	#if (USE_GAME_VSYNC)
+	#if (GAME_USE_VSYNC)
 		VDP_EnableVBlank(true);
 		Bios_SetHookCallback(H_TIMI, Game_VSyncHook);
 	#endif
@@ -32,10 +32,10 @@ void Game_Initialize(u8 screenMode)
 // Update game frame
 void Game_Update()
 {
-	#if (USE_GAME_VSYNC)
+	#if (GAME_USE_VSYNC)
 		Game_WaitVSync();
 	#endif
-	#if (USE_GAME_STATE)
+	#if (GAME_USE_STATE)
 		Game_UpdateState();
 	#endif	
 }
@@ -44,7 +44,7 @@ void Game_Update()
 // Release game module
 void Game_Release()
 {
-	#if (USE_GAME_VSYNC)
+	#if (GAME_USE_VSYNC)
 		Bios_ClearHook(H_TIMI);
 	#endif
 }
@@ -55,7 +55,7 @@ void Game_Release()
 //   G A M E   L O O P
 //
 //=============================================================================
-#if (USE_GAME_LOOP)
+#if (GAME_USE_LOOP)
 
 //-----------------------------------------------------------------------------
 // RAM DATA
@@ -82,14 +82,14 @@ void Game_Exit()
 	g_GameExit = true;
 }
 
-#endif // (USE_GAME_LOOP)
+#endif // (GAME_USE_LOOP)
 
 //=============================================================================
 //
 //   G A M E   S T A T E
 //
 //=============================================================================
-#if (USE_GAME_STATE)
+#if (GAME_USE_STATE)
 
 //-----------------------------------------------------------------------------
 // RAM DATA
@@ -129,7 +129,7 @@ void Game_UpdateState()
 	}	
 }
 
-#endif // (USE_GAME_STATE)
+#endif // (GAME_USE_STATE)
 
 
 //=============================================================================
@@ -137,7 +137,7 @@ void Game_UpdateState()
 //   G A M E   V - S Y N C H
 //
 //=============================================================================
-#if (USE_GAME_VSYNC)
+#if (GAME_USE_VSYNC)
 
 void Game_DefaultVSyncCB();
 
@@ -179,4 +179,4 @@ void Game_WaitVSync()
 	g_GameFrame++;
 }
 
-#endif // (USE_GAME_VSYNC)
+#endif // (GAME_USE_VSYNC)

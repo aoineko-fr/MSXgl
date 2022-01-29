@@ -40,61 +40,61 @@ typedef struct
 
 #define  MSXi_UnpackToVRAM(src, destX, destY, sizeX, sizeY, numX, numY, clrReplace, compressor, srcBPC, destBPC) MSXi_UnpackToVRAM_##compressor##_##srcBPC##_##destBPC(src, destX, destY, sizeX, sizeY, numX, numY, clrReplace)
 
-#if USE_MSXi_COMP_NONE
+#if MSXi_USE_COMP_NONE
 // Function: MSXi_UnpackToVRAM_None_4_4
 // Uncompress 16 colors NONE data to VRAM
 void MSXi_UnpackToVRAM_None_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace);
 #endif
 
-#if USE_MSXi_COMP_CROP16		
+#if MSXi_USE_COMP_CROP16		
 // Function: MSXi_UnpackToVRAM_Crop16_4_4
 // Uncompress 16 colors CROP16 data to VRAM
 void MSXi_UnpackToVRAM_Crop16_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace);
 #endif
 
-#if USE_MSXi_COMP_CROP32		
+#if MSXi_USE_COMP_CROP32		
 // Function: MSXi_UnpackToVRAM_Crop32_4_4
 // Uncompress 16 colors CROP32 data to VRAM
 void MSXi_UnpackToVRAM_Crop32_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace);
 #endif
 
-#if USE_MSXi_COMP_CROP256		
+#if MSXi_USE_COMP_CROP256		
 // Function: MSXi_UnpackToVRAM_Crop256_4_4
 // Uncompress 16 colors CROP256 data to VRAM
 void MSXi_UnpackToVRAM_Crop256_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace);
 #endif
 
-#if USE_MSXi_COMP_CROPLINE16	
+#if MSXi_USE_COMP_CROPLINE16	
 // Function: MSXi_UnpackToVRAM_CropLine16_4_4
 // Uncompress 16 colors CROPLINE16 data to VRAM
 void MSXi_UnpackToVRAM_CropLine16_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace);
 #endif
 
-#if USE_MSXi_COMP_CROPLINE32	
+#if MSXi_USE_COMP_CROPLINE32	
 // Function: MSXi_UnpackToVRAM_CropLine32_4_4
 // Uncompress 16 colors CROPLINE32 data to VRAM
 void MSXi_UnpackToVRAM_CropLine32_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace);
 #endif
 
-#if USE_MSXi_COMP_CROPLINE256	
+#if MSXi_USE_COMP_CROPLINE256	
 // Function: MSXi_UnpackToVRAM_CropLine256_4_4
 // Uncompress 16 colors CROPLINE256	 data to VRAM
 void MSXi_UnpackToVRAM_CropLine256_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace);
 #endif
 
-#if USE_MSXi_COMP_RLE0			
+#if MSXi_USE_COMP_RLE0			
 // Function: MSXi_UnpackToVRAM_RLE0_4_4
 // Uncompress 16 colors RLE0 data to VRAM
 void MSXi_UnpackToVRAM_RLE0_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace);
 #endif
 
-#if USE_MSXi_COMP_RLE4			
+#if MSXi_USE_COMP_RLE4			
 // Function: MSXi_UnpackToVRAM_RLE4_4_4
 // Uncompress 16 colors RLE4 data to VRAM
 void MSXi_UnpackToVRAM_RLE4_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace);
 #endif
 
-#if USE_MSXi_COMP_RLE8			
+#if MSXi_USE_COMP_RLE8			
 // Function: MSXi_UnpackToVRAM_RLE8_4_4
 // Uncompress 16 colors RLE8 data to VRAM
 void MSXi_UnpackToVRAM_RLE8_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 sizeY, u8 numX, u8 numY, u8* clrReplace);
