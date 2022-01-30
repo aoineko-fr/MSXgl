@@ -22,6 +22,17 @@ set FileExt=%~x1
 
 if not exist %OutDir% ( md %OutDir% )
 
+
+rem ---------------------------------------------------------------------------
+rem  Skip file if compile data is newer than the source 
+if %CompileSkip% == 0 ( goto :NoSkip )
+
+copy %File% %OutDir% /Y >NUL
+for /F %%i in ('dir /B /O:D %OutDir%\%FileName%.*') do set NewestFile=%%i
+if /I %NewestFile% NEQ %FileName%%FileExt% ( goto :Skip )
+
+:NoSkip
+
 rem ***************************************************************************
 rem * COMPILE C SOURCE                                                        *
 rem ***************************************************************************
@@ -58,6 +69,11 @@ if /I %FileExt%==.asm (
 )
 
 echo %GREEN%Succeed%RESET%
+exit /B 0
+
+:Skip
+
+echo %YELLOW%Skip compiling %FileName%%FileExt%%RESET% (outdated source)
 exit /B 0
 
 :Error

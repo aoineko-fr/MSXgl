@@ -84,20 +84,20 @@ set Machine=2
 :: - DOS2_ARG		.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 set Target=ROM_32K
 if not "%2"=="" set Target=%2
+:: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
+:: Overwrite RAM starting address
+set ForceRamAddr=
 
 :: Optim:
 :: - Default
 :: - Speed
 :: - Size
 set Optim=Speed
-
-:: Overwrite RAM starting address
-set ForceRamAddr=
-
 :: Additionnal compilation flag
 set CompileOpt=
-
+:: Skip file if compile data is newer than the source 
+set CompileSkip=0
 :: Verbose mode: 0 or 1
 set Verbose=0
 
@@ -113,7 +113,7 @@ set EmulMSXAudio=0
 :: Emulator extra parameters to be add to command-line
 set EmulExtraParam=
 
-:: Check for project specific parameters
+:: Check for sample specific parameters
 if exist %ProjName%.cmd call %ProjName%.cmd
 
 ::*****************************************************************************
@@ -124,7 +124,7 @@ set DoCompile=1
 set DoMake=1
 set DoPackage=1
 set DoDeploy=1
-set DoRun=1
+set DoRun=0
 
 ::*****************************************************************************
 :: START BUILD

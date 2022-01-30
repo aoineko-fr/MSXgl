@@ -28,8 +28,8 @@ set Hex2Bin=%ToolsDir%\build\Hex2bin\hex2bin.exe
 set FillFile=%ToolsDir%\build\MakeROM\fillfile.exe
 set MSXDOS=%ToolsDir%\build\MSXDOS
 set DskTool=%ToolsDir%\build\DskTool\dsktool.exe
-REM set Emulator=
-set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
+set Emulator=
+REM set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
 REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
 REM set Emulator=%ToolsDir%\MEISEI\meisei.exe
 REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
@@ -80,19 +80,18 @@ set Machine=1
 set Target=
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
+:: Overwrite RAM starting address
+set ForceRamAddr=
 
 :: Optim:
 :: - Default
 :: - Speed
 :: - Size
 set Optim=Speed
-
-:: Overwrite RAM starting address
-set ForceRamAddr=
-
 :: Additionnal compilation flag
 set CompileOpt=
-
+:: Skip file if compile data is newer than the source 
+set CompileSkip=0
 :: Verbose mode: 0 or 1
 set Verbose=0
 
