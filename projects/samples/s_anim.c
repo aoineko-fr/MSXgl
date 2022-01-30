@@ -11,12 +11,13 @@
 //=============================================================================
 #include "msxgl.h"
 #include "game.h"
+#include "game_pawn.h"
 
 //=============================================================================
 // DEFINES
 //=============================================================================
 
-#define FORCE		12
+#define FORCE		24
 #define GRAVITY		1
 #define GROUND		112
 
@@ -35,27 +36,92 @@ bool State_Pause();
 // Fonts
 #include "font\font_mgl_sample8.h"
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "content\data_sprt_16il.h"
+#include "content\data_sprt_layer.h"
 // Sinus & cosinus table
 #include "mathtable\mt_trigo_64.inc"
+
+// Pawn sprite layers
+const Game_Sprite g_SpriteLayers[] =
+{
+	{ 0, 0, 0, 16, 0, COLOR_BLACK },
+	{ 1, 0, 0, 16, 4, COLOR_WHITE },
+	{ 2, 0, 0, 16, 8, COLOR_LIGHT_RED },
+};
+
+// Idle animation frames
+const Game_Frame g_FramesIdle[] =
+{
+	{ 6,	48,	null },
+	{ 7,	24,	null },
+};
+
+// Move animation frames
+const Game_Frame g_FramesMove[] =
+{
+	{ 0,	4,	null },
+	{ 1,	4,	null },
+	{ 2,	4,	null },
+	{ 3,	4,	null },
+	{ 4,	4,	null },
+	{ 5,	4,	null },
+};
+
+// Jump animation frames
+const Game_Frame g_FramesJump[] =
+{
+	{ 3,	4,	null },
+	{ 8,	4,	null },
+};
+
+// Fall animation frames
+const Game_Frame g_FramesFall[] =
+{
+	{ 9,	4,	null },
+};
+
+// Actions id
+enum ANIM_ACTION_ID
+{
+	ACTION_IDLE = 0,
+	ACTION_MOVE,
+	ACTION_JUMP,
+	ACTION_FALL,
+};
+
+// List of all player actions
+const Game_Action g_AnimActions[] =
+{ //  Frames        Number                  Loop? Interrupt?
+	{ g_FramesIdle, numberof(g_FramesIdle), true, true },
+	{ g_FramesMove, numberof(g_FramesMove), true, true },
+	{ g_FramesJump, numberof(g_FramesJump), true, true },
+	{ g_FramesFall, numberof(g_FramesFall), true, true },
+};
 
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
+Game_Pawn g_PlayerPawn = 
+{
+	g_SpriteLayers,
+	numberof(g_SpriteLayers),
+	g_AnimActions,
+	16,
+	GROUND,
+	0xFF,
+	0xFF,
+	0xFF,
+	0xFF,
+	0xFF,
+};
+
 bool g_bFlicker = true;
-
-u8   g_X = 16;
-u8   g_Y = GROUND;
-
 bool g_bMoving = false;
 bool g_bJumping = false;
-u8   g_JumpForce;
+i8   g_JumpForce;
 u8   g_PrevRow8 = 0xFF;
-
-//=============================================================================
-// HELPER FUNCTIONS
-//=============================================================================
+u8   g_X = 16;
+u8   g_Y = GROUND;
 
 //-----------------------------------------------------------------------------
 //
@@ -78,21 +144,11 @@ bool State_Initialize()
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
-	u8 chrSprt = 0;
-	for(u8 j = 0; j < 6; j++) // Pattern 0-95
-	{
-		for(u8 i = 0; i < 6; i++)
-		{
-			VDP_LoadSpritePattern(g_DataSprt16il + (i * 2 +  0 + 24 * j) * 8, chrSprt++, 1);
-			VDP_LoadSpritePattern(g_DataSprt16il + (i * 2 + 12 + 24 * j) * 8, chrSprt++, 1);
-			VDP_LoadSpritePattern(g_DataSprt16il + (i * 2 +  1 + 24 * j) * 8, chrSprt++, 1);
-			VDP_LoadSpritePattern(g_DataSprt16il + (i * 2 + 13 + 24 * j) * 8, chrSprt++, 1);	
-		}
-	}
-	VDP_SetSpriteSM1(0, 16, 16,  0, COLOR_BLACK);
-	VDP_SetSpriteSM1(1, 16, 16, 24, COLOR_WHITE);
-	VDP_SetSpriteSM1(2, 16, 16, 48, COLOR_LIGHT_RED);
+	VDP_LoadSpritePattern(g_DataSprtLayer, 0, 156);	
 	VDP_SetSpriteSM1(3, 0, 208, 0, 0); // hide
+
+	// Init player pawn
+	GamePawn_Initialize(&g_PlayerPawn);
 
 	// Initialize text
 	Print_SetPosition(0, 0);
@@ -111,13 +167,19 @@ bool State_Initialize()
 //
 bool State_Game()
 {
-	u8 animId = g_bJumping ? 16 : g_bMoving ? ((g_GameFrame >> 2) % 6) * 4 : 16;
-	bool bOdd = g_bFlicker ? (g_GameFrame & 1) == 1 : 0;
+	u8 act = ACTION_IDLE;
+	if(g_bJumping && (g_JumpForce >= 0))
+		act = ACTION_JUMP;
+	else if(g_bJumping && (g_JumpForce < 0))
+		act = ACTION_FALL;
+	else if(g_bMoving)
+		act = ACTION_MOVE;
+	GamePawn_SetAction(&g_PlayerPawn, act);
+	GamePawn_SetPosition(&g_PlayerPawn, g_X, g_Y);
 
-	VDP_SetSpriteSM1(0, g_X, g_Y, 72 * bOdd + animId, 0x01);
-	VDP_SetSpriteSM1(1, g_X, g_Y, 24 + animId, 0x0F);
-	VDP_SetSpriteSM1(2, g_X, g_Y, 48 + animId, 0x09);
-	
+	GamePawn_Update(&g_PlayerPawn);
+	GamePawn_Draw(&g_PlayerPawn);
+
 	u8 row8 = Keyboard_Read(8);
 	if(IS_KEY_PRESSED(row8, KEY_RIGHT))
 	{
@@ -134,7 +196,7 @@ bool State_Game()
 	
 	if(g_bJumping)
 	{
-		g_Y -= g_JumpForce;
+		g_Y -= (g_JumpForce / 4);
 		g_JumpForce -= GRAVITY;
 		if(g_Y > GROUND)
 		{

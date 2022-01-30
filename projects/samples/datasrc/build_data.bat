@@ -47,14 +47,19 @@ REM move pcm\*.bin pcm\44K
 REM for %%I in (pcm\44K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -ad -o %Dest%\pcm\pcm_44k_%%~nI.h
 
 rem -- Build CMSXimg data --
-%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_bmp_8b.h    -pos 16 32  -size 16 16 -num 1 1  -name g_DataBmp8b    -trans 0x8468a1 -bpc 8
-%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_bmp_4b.h    -pos 16 32  -size 16 16 -num 1 1  -name g_DataBmp4b    -trans 0x8468a1 -bpc 4 -pal msx1
-%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_bmp_2b.h    -pos 16 32  -size 16 16 -num 1 1  -name g_DataBmp2b    -trans 0x8468a1 -bpc 2 -pal custom
-%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_8.h    -pos 0 144  -size 8 8   -num 32 3 -name g_DataSprt8    -trans 0x8468a1 -bpc 1
-%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_16.h   -pos 0 80   -size 8 8   -num 12 4 -name g_DataSprt16   -trans 0x8468a1 -bpc 1
-%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_16or.h -pos 128 80 -size 8 8   -num 12 4 -name g_DataSprt16or -trans 0x8468a1 -bpc 1
-%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_16il.h -pos 0 160  -size 8 8   -num 12 8 -name g_DataSprt16il -trans 0x8468a1 -bpc 1
-
+%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_bmp_8b.h     -pos 16 32  -size 16 16 -num 1 1  -name g_DataBmp8b    -trans 0x8468a1 -bpc 8
+%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_bmp_4b.h     -pos 16 32  -size 16 16 -num 1 1  -name g_DataBmp4b    -trans 0x8468a1 -bpc 4 -pal msx1
+%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_bmp_2b.h     -pos 16 32  -size 16 16 -num 1 1  -name g_DataBmp2b    -trans 0x8468a1 -bpc 2 -pal custom
+%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_8.h     -pos 0 144  -size 8 8   -num 32 3 -name g_DataSprt8    -trans 0x8468a1 -bpc 1
+%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_16.h    -pos 0 80   -size 8 8   -num 12 4 -name g_DataSprt16   -trans 0x8468a1 -bpc 1
+%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_16or.h  -pos 128 80 -size 8 8   -num 12 4 -name g_DataSprt16or -trans 0x8468a1 -bpc 1
+%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_16il.h  -pos 0 160  -size 8 8   -num 12 8 -name g_DataSprt16il -trans 0x8468a1 -bpc 1
+%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_layer.h -pos 0 128  -size 16 16 -num 13 1 -name g_DataSprtLayer -mode sprt ^
+    -l i16 0 0 1 1 0x1B141E ^
+    -l i16 0 0 1 1 0xFDF5F1 0xB8D8D1 0x759DA9 ^
+    -l i16 0 0 1 1 0xEB8A06 0xBE5340 ^
+    -l i16 0 0 1 1 0x1B141E 0x759DA9 0xB8D8D1 0xBE5340
+	
 if not exist %Dest%\8b md %Dest%\8b
 %CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\8b\data_bmp_8b_no.h    -pos 16 0 -size 16 16 -num 1 1 -name g_DataBmp8b_no    -trans 0x8468a1 -bpc 8
 %CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\8b\data_bmp_8b_c16.h   -pos 16 0 -size 16 16 -num 1 1 -name g_DataBmp8b_c16   -trans 0x8468a1 -bpc 8 -compress crop16
