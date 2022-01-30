@@ -43,9 +43,10 @@ bool State_Pause();
 // Pawn sprite layers
 const Game_Sprite g_SpriteLayers[] =
 {
-	{ 0, 0, 0, 16, 0, COLOR_BLACK },
-	{ 1, 0, 0, 16, 4, COLOR_WHITE },
-	{ 2, 0, 0, 16, 8, COLOR_LIGHT_RED },
+	{ 0, 0, 0, 16,  0, COLOR_BLACK, PAWN_SPRITE_EVEN },
+	{ 0, 0, 0, 16, 12, COLOR_BLACK, PAWN_SPRITE_ODD },
+	{ 1, 0, 0, 16,  4, COLOR_WHITE, 0 },
+	{ 2, 0, 0, 16,  8, COLOR_LIGHT_RED, 0 },
 };
 
 // Idle animation frames
@@ -101,19 +102,7 @@ const Game_Action g_AnimActions[] =
 // MEMORY DATA
 //=============================================================================
 
-Game_Pawn g_PlayerPawn = 
-{
-	g_SpriteLayers,
-	numberof(g_SpriteLayers),
-	g_AnimActions,
-	16,
-	GROUND,
-	0xFF,
-	0xFF,
-	0xFF,
-	0xFF,
-	0xFF,
-};
+Game_Pawn g_PlayerPawn;
 
 bool g_bFlicker = true;
 bool g_bMoving = false;
@@ -144,11 +133,12 @@ bool State_Initialize()
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
-	VDP_LoadSpritePattern(g_DataSprtLayer, 0, 156);	
+	VDP_LoadSpritePattern(g_DataSprtLayer, 0, 13*4*4);	
 	VDP_SetSpriteSM1(3, 0, 208, 0, 0); // hide
 
 	// Init player pawn
-	GamePawn_Initialize(&g_PlayerPawn);
+	GamePawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), g_AnimActions);
+	GamePawn_SetPosition(&g_PlayerPawn, 16, GROUND);
 
 	// Initialize text
 	Print_SetPosition(0, 0);

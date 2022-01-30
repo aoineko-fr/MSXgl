@@ -16,11 +16,15 @@
 
 //-----------------------------------------------------------------------------
 // Initialize game pawn
-void GamePawn_Initialize(Game_Pawn* pawn)
+void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNum, const Game_Action* actList)
 {
+	pawn->SpriteList = sprtList;
+	pawn->SpriteNum = sprtNum;
+	pawn->ActionList = actList;
 	pawn->ActionId = 0xFF;
 	pawn->AnimFrame = 0xFF;
 	pawn->Update = 0xFF;
+	pawn->Counter = 0;
 	GamePawn_SetAction(pawn, 0);
 	
 	loop(i, pawn->SpriteNum)
@@ -91,6 +95,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 	// Update animation
 	pawn->AnimFrame = act->FrameList[pawn->AnimStep].Id;
 	pawn->AnimTimer++;
+	pawn->Counter++;
 }
 
 //-----------------------------------------------------------------------------
@@ -103,6 +108,17 @@ void GamePawn_Draw(Game_Pawn* pawn)
 	loop(i, pawn->SpriteNum)
 	{
 		const Game_Sprite* sprt = &pawn->SpriteList[i];
+		
+		if(sprt->Flag & PAWN_SPRITE_EVEN)
+		{
+			if((pawn->Counter & 1) != 0)
+				continue;
+		}
+		else if(sprt->Flag & PAWN_SPRITE_ODD)
+		{
+			if((pawn->Counter & 1) == 0)
+				continue;
+		}
 
 		if(pawn->Update & PAWN_UPDATE_POSITION)
 		{
@@ -111,7 +127,7 @@ void GamePawn_Draw(Game_Pawn* pawn)
 			VDP_SetSpritePosition(sprt->SpriteID, x, y);
 		}
 		
-		if(pawn->Update & PAWN_UPDATE_PATTERN)
+		if(sprt->Flag || (pawn->Update & PAWN_UPDATE_PATTERN))
 		{
 			u8 pattern = (pawn->AnimFrame * sprt->DataMultiply) + sprt->DataOffset;
 			VDP_SetSpritePattern(sprt->SpriteID, pattern);

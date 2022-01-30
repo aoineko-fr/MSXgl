@@ -33,6 +33,15 @@ typedef struct
 	u8			       Interrupt : 1; // Is action interruptable?
 } Game_Action;
 
+
+// Pawn sprite flags
+enum PAWN_SPRITE_FLAG
+{
+	PAWN_SPRITE_EVEN = 0b00000001,
+	PAWN_SPRITE_ODD  = 0b00000010,
+	PAWN_SPRITE_OR   = 0b00000100,
+};
+
 // Pawn structure
 typedef struct
 {
@@ -42,6 +51,7 @@ typedef struct
 	u8                 DataMultiply; // Data index multiplier
 	u8                 DataOffset;   // Data index offset
 	u8                 Color;        // Sprite color
+	u8                 Flag;         // Sprite flag
 } Game_Sprite;
 
 // Pawn update flags
@@ -64,6 +74,7 @@ typedef struct
 	u8			       AnimStep;   // Current step into the animation
 	u8			       AnimTimer;  // Animation timer (into the current step)
 	u8			       Update;     // Pawn update flags
+	u8                 Counter;    // Global update counter
 } Game_Pawn;
 
 //=============================================================================
@@ -72,7 +83,7 @@ typedef struct
 
 // Function: GamePawn_Initialize
 // Initialize game pawn
-void GamePawn_Initialize(Game_Pawn* pawn);
+void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNum, const Game_Action* actList);
 
 // Function: GamePawn_SetPosition
 // Set game pawn position
