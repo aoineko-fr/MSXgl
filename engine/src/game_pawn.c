@@ -103,59 +103,64 @@ void GamePawn_Update(Game_Pawn* pawn)
 	pawn->Counter++;
 
 #if (GAMEPAWN_USE_PHYSICS)
-	if(pawn->TargetY > pawn->PositionY) // Go down
+	if(pawn->Update & PAWN_UPDATE_COLLISION)
 	{
-		u8 cellX = (pawn->TargetX + (pawn->BoundX / 2)) / 8;
-		u8 cellY = (pawn->TargetY + pawn->BoundY) / 8;		
-		u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-		if(pawn->CollisionCB(tile))
+		// Vertical movement
+		if(pawn->TargetY > pawn->PositionY) // Go down
 		{
-			pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN);
-			pawn->TargetY = (cellY * 8) - pawn->BoundY;
+			u8 cellX = (pawn->TargetX + (pawn->BoundX / 2)) / 8;
+			u8 cellY = (pawn->TargetY + pawn->BoundY) / 8;		
+			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+			if(pawn->CollisionCB(tile))
+			{
+				pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN);
+				pawn->TargetY = (cellY * 8) - pawn->BoundY;
+			}
 		}
-	}
-	else if(pawn->TargetY < pawn->PositionY) // Go up
-	{
-		u8 cellX = (pawn->TargetX + (pawn->BoundX / 2)) / 8;
-		u8 cellY = (pawn->TargetY) / 8;		
-		u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-		if(pawn->CollisionCB(tile))
+		else if(pawn->TargetY < pawn->PositionY) // Go up
 		{
-			pawn->PhysicsCB(PAWN_PHYSICS_COL_UP);
-			pawn->TargetY = (cellY * 8) + 8;
+			u8 cellX = (pawn->TargetX + (pawn->BoundX / 2)) / 8;
+			u8 cellY = (pawn->TargetY) / 8;		
+			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+			if(pawn->CollisionCB(tile))
+			{
+				pawn->PhysicsCB(PAWN_PHYSICS_COL_UP);
+				pawn->TargetY = (cellY * 8) + 8;
+			}
 		}
-	}
-	else // if(pawn->TargetY == pawn->PositionY)
-	{
-		u8 cellX = (pawn->TargetX + (pawn->BoundX / 2)) / 8;
-		u8 cellY = (pawn->TargetY + pawn->BoundY) / 8;		
-		u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-		if(!pawn->CollisionCB(tile))
+		else // if(pawn->TargetY == pawn->PositionY)
 		{
-			pawn->PhysicsCB(PAWN_PHYSICS_FALL);
+			u8 cellX = (pawn->TargetX + (pawn->BoundX / 2)) / 8;
+			u8 cellY = (pawn->TargetY + pawn->BoundY) / 8;		
+			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+			if(!pawn->CollisionCB(tile))
+			{
+				pawn->PhysicsCB(PAWN_PHYSICS_FALL);
+			}
 		}
-	}
 
-	if(pawn->TargetX > pawn->PositionX) // Go right
-	{
-		u8 cellX = (pawn->TargetX + pawn->BoundX) / 8;
-		u8 cellY = (pawn->TargetY + (pawn->BoundY / 2)) / 8;		
-		u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-		if(pawn->CollisionCB(tile))
+		// Horizontal movement
+		if(pawn->TargetX > pawn->PositionX) // Go right
 		{
-			pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT);
-			pawn->TargetX = (cellX * 8) - pawn->BoundX;
+			u8 cellX = (pawn->TargetX + pawn->BoundX) / 8;
+			u8 cellY = (pawn->TargetY + (pawn->BoundY / 2)) / 8;		
+			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+			if(pawn->CollisionCB(tile))
+			{
+				pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT);
+				pawn->TargetX = (cellX * 8) - pawn->BoundX;
+			}
 		}
-	}
-	else if(pawn->TargetX < pawn->PositionX) // Go left
-	{
-		u8 cellX = (pawn->TargetX) / 8;
-		u8 cellY = (pawn->TargetY + (pawn->BoundY / 2)) / 8;		
-		u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-		if(pawn->CollisionCB(tile))
+		else if(pawn->TargetX < pawn->PositionX) // Go left
 		{
-			pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT);
-			pawn->TargetX = (cellX * 8) + 8;
+			u8 cellX = (pawn->TargetX) / 8;
+			u8 cellY = (pawn->TargetY + (pawn->BoundY / 2)) / 8;		
+			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+			if(pawn->CollisionCB(tile))
+			{
+				pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT);
+				pawn->TargetX = (cellX * 8) + 8;
+			}
 		}
 	}
 
@@ -203,3 +208,25 @@ void GamePawn_Draw(Game_Pawn* pawn)
 	pawn->Update = 0;
 }
 
+
+#if (GAMEPAWN_USE_PHYSICS)
+//-----------------------------------------------------------------------------
+// Set pawn target position
+void GamePawn_SetTargetPosition(Game_Pawn* pawn, u8 x, u8 y) 
+{ 
+	pawn->TargetX = x;
+	pawn->TargetY = y;
+	pawn->Update |= PAWN_UPDATE_COLLISION;
+}
+
+//-----------------------------------------------------------------------------
+// Set pawn physics callback
+void GamePawn_InitializePhysics(Game_Pawn* pawn, Game_PhysicsCB pcb, Game_CollisionCB ccb, u8 boundX, u8 boundY)
+{ 
+	pawn->PhysicsCB = pcb; 
+	pawn->CollisionCB = ccb;
+	pawn->BoundX = boundX;
+	pawn->BoundY = boundY;
+}
+
+#endif

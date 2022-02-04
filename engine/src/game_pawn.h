@@ -16,8 +16,6 @@
 // DEFINES
 //=============================================================================
 
-//
-#define GAMEPAWN_USE_PHYSICS		1
 
 // Animation frame structure (one pose of the pawn)
 typedef struct
@@ -60,8 +58,12 @@ typedef struct
 // Pawn update flags
 enum PAWN_UPDATE_FLAG
 {
-	PAWN_UPDATE_POSITION = 0b00000001,
-	PAWN_UPDATE_PATTERN  = 0b00000010,
+	PAWN_UPDATE_POSITION  = 0b00000001,
+	PAWN_UPDATE_PATTERN   = 0b00000010,
+	#if (GAMEPAWN_USE_PHYSICS)
+	PAWN_UPDATE_COLLISION = 0b00010000,
+	PAWN_UPDATE_PHYSICS   = 0b00100000,
+	#endif
 };
 
 #if (GAMEPAWN_USE_PHYSICS)
@@ -146,17 +148,11 @@ void GamePawn_Draw(Game_Pawn* pawn);
 
 // Function: GamePawn_SetTargetPosition
 // Set pawn target position
-inline void GamePawn_SetTargetPosition(Game_Pawn* pawn, u8 x, u8 y) { pawn->TargetX = x; pawn->TargetY = y; }
+void GamePawn_SetTargetPosition(Game_Pawn* pawn, u8 x, u8 y) ;
 
 // Function: GamePawn_SetPhysicsCallback
 // Set pawn physics callback
-inline void GamePawn_InitializePhysics(Game_Pawn* pawn, Game_PhysicsCB pcb, Game_CollisionCB ccb, u8 boundX, u8 boundY)
-{ 
-	pawn->PhysicsCB = pcb; 
-	pawn->CollisionCB = ccb;
-	pawn->BoundX = boundX;
-	pawn->BoundY = boundY;
-}
+void GamePawn_InitializePhysics(Game_Pawn* pawn, Game_PhysicsCB pcb, Game_CollisionCB ccb, u8 boundX, u8 boundY);
 
 // Function: GamePawn_GetPhysicsState
 // Get pawn physics state
