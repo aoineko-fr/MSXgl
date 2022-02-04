@@ -12,6 +12,7 @@
 #include "msxgl.h"
 #include "game.h"
 #include "game_pawn.h"
+#include "math.h"
 
 //=============================================================================
 // DEFINES
@@ -19,7 +20,7 @@
 
 #define FORCE		24
 #define GRAVITY		1
-#define GROUND		112
+#define GROUND		192
 
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
@@ -37,8 +38,12 @@ bool State_Pause();
 #include "font\font_mgl_sample8.h"
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
 #include "content\data_sprt_layer.h"
+#include "content\data_bg.h"
 // Sinus & cosinus table
 #include "mathtable\mt_trigo_64.inc"
+
+// Character animation data
+const c8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
 // Pawn sprite layers
 const Game_Sprite g_SpriteLayers[] =
@@ -110,7 +115,35 @@ bool g_bJumping = false;
 i8   g_JumpForce;
 u8   g_PrevRow8 = 0xFF;
 u8   g_X = 16;
-u8   g_Y = GROUND;
+u8   g_Y = 16;
+
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
+
+// Physics callback
+void PhysicsEvent(u8 event)
+{
+	if(event & PAWN_PHYSICS_COL_DOWN)
+	{
+		g_bJumping = false;
+	}
+	if(event & PAWN_PHYSICS_COL_UP)
+	{
+		g_JumpForce = 0;
+	}	
+	else if((event & PAWN_PHYSICS_FALL) && !g_bJumping)
+	{
+		g_bJumping = true;
+		g_JumpForce = 0;
+	}
+}
+
+// Collision callback
+bool PhysicsCollision(u8 tile)
+{
+	return (tile < 8);
+}
 
 //-----------------------------------------------------------------------------
 //
@@ -121,15 +154,34 @@ bool State_Initialize()
 	VDP_SetColor(1);
 	
 	// Initialize pattern
-	VDP_FillVRAM(0xFF, g_ScreenPatternLow, 0, 256*8); // pattern
-	Print_SetTextFont(g_Font_MGL_Sample8, 16);
+	VDP_FillVRAM(0x00, g_ScreenPatternLow, 0, 256*8); // Clear pattern
+	VDP_WriteVRAM(g_DataBackground, g_ScreenPatternLow, 0, 24*8);
+	Print_SetTextFont(g_Font_MGL_Sample8, 32);
 	Print_SetColor(0xF, 0x1);
 
 	// Initialize color
-	VDP_FillVRAM(0x51, g_ScreenColorLow + 0, 0, 1); // color
-	VDP_FillVRAM(0x41, g_ScreenColorLow + 1, 0, 1); // color
-	for(u8 i = 0; i < 24; ++i)
-		VDP_FillVRAM(i < 16 ? 8 : 0, g_ScreenLayoutLow + i * 32, 0, 32); // name
+	VDP_FillVRAM(0xF0, g_ScreenColorLow, 0, 32); // Clear color
+	VDP_Poke_16K(0xF7, g_ScreenColorLow + 0);
+	VDP_Poke_16K(0x54, g_ScreenColorLow + 1);
+	VDP_Poke_16K(0xF5, g_ScreenColorLow + 2);
+	VDP_Poke_16K(0x99, g_ScreenColorLow + 3);
+
+	// Initialize layout
+	loop(i, 24)
+		VDP_FillVRAM((i == 12) ? 9 : (i < 12) ? 16 : 8, g_ScreenLayoutLow + i * 32, 0, 32);
+	loop(i, 8)
+	{
+		u8 y = Math_GetRandom8() & 0x0F ;
+		loop(j, y)
+		{
+			VDP_FillVRAM((j == (y - 1)) ? 1 : 3, g_ScreenLayoutLow + ((23 - j) * 32) + (i * 4), 0, 4);
+		}
+	}
+	loop(i, 12)
+	{
+		u8 rnd = Math_GetRandom8();
+		VDP_FillVRAM(1, g_ScreenLayoutLow + (rnd & 0x0F) * 32 + (rnd >> 3), 0, 2);
+	}
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
@@ -138,7 +190,8 @@ bool State_Initialize()
 
 	// Init player pawn
 	GamePawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), g_AnimActions);
-	GamePawn_SetPosition(&g_PlayerPawn, 16, GROUND);
+	GamePawn_SetPosition(&g_PlayerPawn, g_X, g_Y);
+	GamePawn_InitializePhysics(&g_PlayerPawn, PhysicsEvent, PhysicsCollision, 16, 16);
 
 	// Initialize text
 	Print_SetPosition(0, 0);
@@ -157,18 +210,24 @@ bool State_Initialize()
 //
 bool State_Game()
 {
+	Print_SetPosition(31, 0);
+	Print_DrawChar(g_ChrAnim[g_PlayerPawn.Counter & 0x03]);
+
 	u8 act = ACTION_IDLE;
-	if(g_bJumping && (g_JumpForce >= -4))
+	if(g_bJumping && (g_JumpForce >= 0))
 		act = ACTION_JUMP;
 	else if(g_bJumping)
 		act = ACTION_FALL;
 	else if(g_bMoving)
 		act = ACTION_MOVE;
 	GamePawn_SetAction(&g_PlayerPawn, act);
-	GamePawn_SetPosition(&g_PlayerPawn, g_X, g_Y);
+	GamePawn_SetTargetPosition(&g_PlayerPawn, g_X, g_Y);
 
 	GamePawn_Update(&g_PlayerPawn);
 	GamePawn_Draw(&g_PlayerPawn);
+
+	g_X = g_PlayerPawn.PositionX;
+	g_Y = g_PlayerPawn.PositionY;
 
 	u8 row8 = Keyboard_Read(8);
 	if(IS_KEY_PRESSED(row8, KEY_RIGHT))
@@ -186,13 +245,14 @@ bool State_Game()
 	
 	if(g_bJumping)
 	{
-		g_Y -= (g_JumpForce / 4);
+		g_Y -= g_JumpForce / 4;
+		if(g_Y > (u8)(192-16))
+			g_Y -= (u8)(192-16);
+		
 		g_JumpForce -= GRAVITY;
-		if(g_Y > GROUND)
-		{
-			g_Y = GROUND;
-			g_bJumping = false;
-		}
+		if(g_JumpForce < -FORCE)
+			g_JumpForce = -FORCE;
+
 	}
 	else if(IS_KEY_PRESSED(row8, KEY_SPACE) || IS_KEY_PRESSED(row8, KEY_UP))
 	{

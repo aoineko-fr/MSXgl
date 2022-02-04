@@ -16,6 +16,9 @@
 // DEFINES
 //=============================================================================
 
+//
+#define GAMEPAWN_USE_PHYSICS		1
+
 // Animation frame structure (one pose of the pawn)
 typedef struct
 {
@@ -61,6 +64,33 @@ enum PAWN_UPDATE_FLAG
 	PAWN_UPDATE_PATTERN  = 0b00000010,
 };
 
+#if (GAMEPAWN_USE_PHYSICS)
+// Physics callback
+typedef void (*Game_PhysicsCB)(u8 event);
+
+// Collision callback
+typedef bool (*Game_CollisionCB)(u8 tile);
+
+// Pawn physics events
+enum PAWN_PHYSICS_EVENT
+{
+	// Collision
+	PAWN_PHYSICS_COL_DOWN  = 0b00000001,
+	PAWN_PHYSICS_COL_UP    = 0b00000010,
+	PAWN_PHYSICS_COL_RIGHT = 0b00000100,
+	PAWN_PHYSICS_COL_LEFT  = 0b00001000,
+	// Physics
+	PAWN_PHYSICS_FALL      = 0b00010000,
+};
+
+// Pawn physics states
+enum PAWN_PHYSICS_STATE
+{
+	PAWN_PHYSICS_INAIR     = 0b00000001, // Grounded overwise
+};
+#endif
+
+
 // Pawn structure
 typedef struct
 {
@@ -75,11 +105,21 @@ typedef struct
 	u8			       AnimTimer;  // Animation timer (into the current step)
 	u8			       Update;     // Pawn update flags
 	u8                 Counter;    // Global update counter
+#if (GAMEPAWN_USE_PHYSICS)
+	u8                 TargetX;    // Pawn target position
+	u8                 TargetY;
+	u8                 BoundX;     // Pawn collision bound
+	u8                 BoundY;
+	u8                 PhysicsState;
+	Game_PhysicsCB     PhysicsCB;
+	Game_CollisionCB   CollisionCB;
+#endif
 } Game_Pawn;
 
 //=============================================================================
-// HELPER FUNCTIONS
+// FUNCTIONS
 //=============================================================================
+// Group: Core
 
 // Function: GamePawn_Initialize
 // Initialize game pawn
@@ -100,3 +140,38 @@ void GamePawn_Update(Game_Pawn* pawn);
 // Function: GamePawn_Draw
 // Update rendering of the game pawn
 void GamePawn_Draw(Game_Pawn* pawn);
+
+#if (GAMEPAWN_USE_PHYSICS)
+// Group: Physics
+
+// Function: GamePawn_SetTargetPosition
+// Set pawn target position
+inline void GamePawn_SetTargetPosition(Game_Pawn* pawn, u8 x, u8 y) { pawn->TargetX = x; pawn->TargetY = y; }
+
+// Function: GamePawn_SetPhysicsCallback
+// Set pawn physics callback
+inline void GamePawn_InitializePhysics(Game_Pawn* pawn, Game_PhysicsCB pcb, Game_CollisionCB ccb, u8 boundX, u8 boundY)
+{ 
+	pawn->PhysicsCB = pcb; 
+	pawn->CollisionCB = ccb;
+	pawn->BoundX = boundX;
+	pawn->BoundY = boundY;
+}
+
+// Function: GamePawn_GetPhysicsState
+// Get pawn physics state
+inline u8 GamePawn_GetPhysicsState(Game_Pawn* pawn) { return pawn->PhysicsState; }
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,6 +9,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "game_pawn.h"
 #include "vdp.h"
+#include "memory.h"
 
 //=============================================================================
 // FUNCTIONS
@@ -18,15 +19,16 @@
 // Initialize game pawn
 void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNum, const Game_Action* actList)
 {
+	// Initialize pawn structure
+	Mem_Set(0xFF, pawn, sizeof(Game_Pawn));
 	pawn->SpriteList = sprtList;
 	pawn->SpriteNum = sprtNum;
 	pawn->ActionList = actList;
-	pawn->ActionId = 0xFF;
-	pawn->AnimFrame = 0xFF;
-	pawn->Update = 0xFF;
-	pawn->Counter = 0;
+
+	// Initialize pawn action
 	GamePawn_SetAction(pawn, 0);
 	
+	// Initialize pawn sprite color
 	loop(i, pawn->SpriteNum)
 	{
 		const Game_Sprite* sprt = &pawn->SpriteList[i];
@@ -41,6 +43,8 @@ void GamePawn_SetPosition(Game_Pawn* pawn, u8 x, u8 y)
 {
 	pawn->PositionX = x;
 	pawn->PositionY = y;
+	pawn->TargetX = x;
+	pawn->TargetY = y;
 	pawn->Update |= PAWN_UPDATE_POSITION;
 }
 
@@ -89,13 +93,76 @@ void GamePawn_Update(Game_Pawn* pawn)
 	}
 	
 	// Execute event
-	if(act->FrameList[pawn->AnimStep].Event != 0)
-		act->FrameList[pawn->AnimStep].Event();
+	const Game_Frame* frame = &act->FrameList[pawn->AnimStep];
+	if(frame->Event != 0)
+		frame->Event();
 	
 	// Update animation
-	pawn->AnimFrame = act->FrameList[pawn->AnimStep].Id;
+	pawn->AnimFrame = frame->Id;
 	pawn->AnimTimer++;
 	pawn->Counter++;
+
+#if (GAMEPAWN_USE_PHYSICS)
+	if(pawn->TargetY > pawn->PositionY) // Go down
+	{
+		u8 cellX = (pawn->TargetX + (pawn->BoundX / 2)) / 8;
+		u8 cellY = (pawn->TargetY + pawn->BoundY) / 8;		
+		u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+		if(pawn->CollisionCB(tile))
+		{
+			pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN);
+			pawn->TargetY = (cellY * 8) - pawn->BoundY;
+		}
+	}
+	else if(pawn->TargetY < pawn->PositionY) // Go up
+	{
+		u8 cellX = (pawn->TargetX + (pawn->BoundX / 2)) / 8;
+		u8 cellY = (pawn->TargetY) / 8;		
+		u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+		if(pawn->CollisionCB(tile))
+		{
+			pawn->PhysicsCB(PAWN_PHYSICS_COL_UP);
+			pawn->TargetY = (cellY * 8) + 8;
+		}
+	}
+	else // if(pawn->TargetY == pawn->PositionY)
+	{
+		u8 cellX = (pawn->TargetX + (pawn->BoundX / 2)) / 8;
+		u8 cellY = (pawn->TargetY + pawn->BoundY) / 8;		
+		u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+		if(!pawn->CollisionCB(tile))
+		{
+			pawn->PhysicsCB(PAWN_PHYSICS_FALL);
+		}
+	}
+
+	if(pawn->TargetX > pawn->PositionX) // Go right
+	{
+		u8 cellX = (pawn->TargetX + pawn->BoundX) / 8;
+		u8 cellY = (pawn->TargetY + (pawn->BoundY / 2)) / 8;		
+		u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+		if(pawn->CollisionCB(tile))
+		{
+			pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT);
+			pawn->TargetX = (cellX * 8) - pawn->BoundX;
+		}
+	}
+	else if(pawn->TargetX < pawn->PositionX) // Go left
+	{
+		u8 cellX = (pawn->TargetX) / 8;
+		u8 cellY = (pawn->TargetY + (pawn->BoundY / 2)) / 8;		
+		u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+		if(pawn->CollisionCB(tile))
+		{
+			pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT);
+			pawn->TargetX = (cellX * 8) + 8;
+		}
+	}
+
+	pawn->PositionX = pawn->TargetX;
+	pawn->PositionY = pawn->TargetY;
+	pawn->Update |= PAWN_UPDATE_POSITION;
+#endif
 }
 
 //-----------------------------------------------------------------------------

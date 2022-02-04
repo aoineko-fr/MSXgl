@@ -59,6 +59,7 @@ rem -- Build CMSXimg data --
     -l i16 0 0 1 1 0xFDF5F1 0xB8D8D1 0x759DA9 ^
     -l i16 0 0 1 1 0xEB8A06 0xBE5340 ^
     -l i16 0 0 1 1 0x1B141E 0x759DA9 0xB8D8D1 0xBE5340
+%CMSXtk%\CMSXimg.exe img\data.png -out %Dest%\data_bg.h -pos 128 160 -size 8 8 -num 8 3 -name g_DataBackground -mode sprt -l i8 0 0 1 1 0xFFFFFF
 	
 if not exist %Dest%\8b md %Dest%\8b
 %CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\8b\data_bmp_8b_no.h    -pos 16 0 -size 16 16 -num 1 1 -name g_DataBmp8b_no    -trans 0x8468a1 -bpc 8
