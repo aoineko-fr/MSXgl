@@ -124,19 +124,24 @@ u8   g_Y = 16;
 // Physics callback
 void PhysicsEvent(u8 event)
 {
-	if(event & PAWN_PHYSICS_COL_DOWN)
+	switch(event)
 	{
+	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
 		g_bJumping = false;
-	}
-	if(event & PAWN_PHYSICS_COL_UP)
-	{
+		break;
+		
+	case PAWN_PHYSICS_COL_UP: // Handle upward collisions
 		g_JumpForce = 0;
-	}	
-	else if((event & PAWN_PHYSICS_FALL) && !g_bJumping)
-	{
-		g_bJumping = true;
-		g_JumpForce = 0;
-	}
+		break;
+	
+	case PAWN_PHYSICS_FALL: // Handle falling
+		if(!g_bJumping)
+		{
+			g_bJumping = true;
+			g_JumpForce = 0;
+		}
+		break;
+	};
 }
 
 // Collision callback
