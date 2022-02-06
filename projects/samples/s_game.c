@@ -48,10 +48,10 @@ const c8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Pawn sprite layers
 const Game_Sprite g_SpriteLayers[] =
 {
-	{ 0, 0, 0, 0,  COLOR_BLACK, PAWN_SPRITE_EVEN },
-	{ 0, 0, 0, 12, COLOR_BLACK, PAWN_SPRITE_ODD },
-	{ 1, 0, 0, 4,  COLOR_WHITE, 0 },
-	{ 2, 0, 0, 8,  COLOR_LIGHT_RED, 0 },
+	{ 0, 0, 0,  COLOR_BLACK, PAWN_SPRITE_EVEN },
+	{ 0, 0, 12, COLOR_BLACK, PAWN_SPRITE_ODD },
+	{ 0, 0, 4,  COLOR_WHITE, 0 },
+	{ 0, 0, 8,  COLOR_LIGHT_RED, 0 },
 };
 
 // Idle animation frames
@@ -194,7 +194,7 @@ bool State_Initialize()
 	VDP_SetSpriteSM1(3, 0, 208, 0, 0); // hide
 
 	// Init player pawn
-	GamePawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), g_AnimActions);
+	GamePawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
 	GamePawn_SetPosition(&g_PlayerPawn, g_X, g_Y);
 	GamePawn_InitializePhysics(&g_PlayerPawn, PhysicsEvent, PhysicsCollision, 16, 16);
 

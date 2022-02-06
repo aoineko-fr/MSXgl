@@ -20,7 +20,7 @@
 // Animation frame structure (one pose of the pawn)
 typedef struct
 {
-	u8			       Id;       // Animation frame data index
+	u8			       Id;       // Animation frame data index (0-255)
 	u8			       Duration; // Frame duration (in frame number)
 	callback	       Event;    // Event to execute at this frame
 } Game_Frame;
@@ -46,7 +46,6 @@ enum PAWN_SPRITE_FLAG
 // Pawn structure
 typedef struct
 {
-	u8                 SpriteID;     // Sprite ID (0~31)
 	i8                 OffsetX;      // Layer position offset...
 	i8                 OffsetY;      // ...can be positive or negative
 	u8                 DataOffset;   // Data index offset
@@ -97,6 +96,7 @@ typedef struct
 {
 	const Game_Sprite* SpriteList; // List of sprite layers
 	u8                 SpriteNum;  // Number of sprite layers
+	u8                 SpriteID;   // Sprite ID of the first layer (0~31)
 	const Game_Action* ActionList; // List of actions
 	u8                 PositionX;  // Pawn screen position
 	u8                 PositionY;
@@ -124,7 +124,7 @@ typedef struct
 
 // Function: GamePawn_Initialize
 // Initialize game pawn
-void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNum, const Game_Action* actList);
+void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNum, u8 sprtID, const Game_Action* actList);
 
 // Function: GamePawn_SetPosition
 // Set game pawn position

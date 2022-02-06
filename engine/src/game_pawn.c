@@ -17,22 +17,29 @@
 
 //-----------------------------------------------------------------------------
 // Initialize game pawn
-void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNum, const Game_Action* actList)
+void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNum, u8 sprtID, const Game_Action* actList)
 {
 	// Initialize pawn structure
 	Mem_Set(0xFF, pawn, sizeof(Game_Pawn));
 	pawn->SpriteList = sprtList;
 	pawn->SpriteNum = sprtNum;
+	pawn->SpriteID = sprtID;
 	pawn->ActionList = actList;
 
 	// Initialize pawn action
 	GamePawn_SetAction(pawn, 0);
 	
 	// Initialize pawn sprite color
+	u8 sprtIdx = sprtID;
+	const Game_Sprite* sprt = sprtList;
 	loop(i, pawn->SpriteNum)
 	{
-		const Game_Sprite* sprt = &pawn->SpriteList[i];
-		VDP_SetSpriteColorSM1(sprt->SpriteID, sprt->Color);
+		VDP_SetSpriteColorSM1(sprtIdx, sprt->Color);
+
+		if((sprt->Flag & PAWN_SPRITE_ODD) == 0)
+			sprtIdx++;
+		
+		sprt++;
 	}
 
 }
@@ -171,6 +178,10 @@ void GamePawn_Update(Game_Pawn* pawn)
 #endif
 }
 
+u8 g_Game_DrawY;
+u8 g_Game_DrawX;
+u8 g_Game_DrawPattern;
+
 //-----------------------------------------------------------------------------
 // Update rendering of the game pawn
 void GamePawn_Draw(Game_Pawn* pawn)
@@ -179,6 +190,7 @@ void GamePawn_Draw(Game_Pawn* pawn)
 		return;
 
 	const Game_Sprite* sprt = pawn->SpriteList;
+	u16 dest = g_SpriteAtributeLow + (pawn->SpriteID * 4);
 	loop(i, pawn->SpriteNum)
 	{	
 		if(sprt->Flag & PAWN_SPRITE_EVEN) // Skip odd frames
@@ -196,21 +208,21 @@ void GamePawn_Draw(Game_Pawn* pawn)
 				pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
 
-		if(pawn->Update & PAWN_UPDATE_POSITION)
-		{
-			u8 x = pawn->PositionX + sprt->OffsetX;
-			u8 y = pawn->PositionY + sprt->OffsetY;
-			VDP_SetSpritePosition(sprt->SpriteID, x, y);
-		}
+		g_Game_DrawY = pawn->PositionY + sprt->OffsetY;
+		g_Game_DrawX = pawn->PositionX + sprt->OffsetX;
+		u8 size = 2;
 		
 		if(pawn->Update & PAWN_UPDATE_PATTERN)
 		{
-			u8 pattern = pawn->AnimFrame + sprt->DataOffset;
-			VDP_SetSpritePattern(sprt->SpriteID, pattern);
+			g_Game_DrawPattern = pawn->AnimFrame + sprt->DataOffset;
+			size++;
 		}
+
+		VDP_WriteVRAM((u8*)&g_Game_DrawY, dest, g_SpriteAtributeHigh, size);
+		dest += 4;
 		
-		SkipDrawing:
-			sprt++;
+	SkipDrawing:
+		sprt++;
 	}
 	pawn->Update = 0;
 }
