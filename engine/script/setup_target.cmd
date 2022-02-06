@@ -9,9 +9,10 @@ set MapperSize=0
 set DOS=0
 if not defined ROMSize set ROMSize=128
 
-if /I %Target%==DOS			set Target=DOS2
-if /I %Target%==DOS_ARG		set Target=DOS2_ARG
-if /I %Target%==ROM			set Target=ROM_32K
+if /I %Target%==DOS     set Target=DOS1
+if /I %Target%==DOS_ARG set Target=DOS2_ARG
+if /I %Target%==ROM     set Target=ROM_32K
+if /I %Target%==BAS     set Target=BIN
 
 rem ***************************************************************************
 rem * BASIC                                                                   *
