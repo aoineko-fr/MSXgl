@@ -162,11 +162,12 @@ void GamePawn_Update(Game_Pawn* pawn)
 				pawn->TargetX = (cellX * 8) + 8;
 			}
 		}
+		
+		pawn->PositionX = pawn->TargetX;
+		pawn->PositionY = pawn->TargetY;
+		pawn->Update |= PAWN_UPDATE_POSITION;
+		pawn->Update &= ~PAWN_UPDATE_COLLISION;
 	}
-
-	pawn->PositionX = pawn->TargetX;
-	pawn->PositionY = pawn->TargetY;
-	pawn->Update |= PAWN_UPDATE_POSITION;
 #endif
 }
 
@@ -177,33 +178,39 @@ void GamePawn_Draw(Game_Pawn* pawn)
 	if(pawn->Update == 0)
 		return;
 
+	const Game_Sprite* sprt = pawn->SpriteList;
 	loop(i, pawn->SpriteNum)
-	{
-		const Game_Sprite* sprt = &pawn->SpriteList[i];
-		
-		if(sprt->Flag & PAWN_SPRITE_EVEN)
+	{	
+		if(sprt->Flag & PAWN_SPRITE_EVEN) // Skip odd frames
 		{
 			if((pawn->Counter & 1) != 0)
-				continue;
+				goto SkipDrawing;
+			else
+				pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
-		else if(sprt->Flag & PAWN_SPRITE_ODD)
+		else if(sprt->Flag & PAWN_SPRITE_ODD) // Skip even frames
 		{
 			if((pawn->Counter & 1) == 0)
-				continue;
+				goto SkipDrawing;
+			else
+				pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
 
 		if(pawn->Update & PAWN_UPDATE_POSITION)
 		{
 			u8 x = pawn->PositionX + sprt->OffsetX;
-			u8 y = pawn->PositionY + sprt->OffsetY;	
+			u8 y = pawn->PositionY + sprt->OffsetY;
 			VDP_SetSpritePosition(sprt->SpriteID, x, y);
 		}
 		
-		if(sprt->Flag || (pawn->Update & PAWN_UPDATE_PATTERN))
+		if(pawn->Update & PAWN_UPDATE_PATTERN)
 		{
-			u8 pattern = (pawn->AnimFrame * sprt->DataMultiply) + sprt->DataOffset;
+			u8 pattern = pawn->AnimFrame + sprt->DataOffset;
 			VDP_SetSpritePattern(sprt->SpriteID, pattern);
 		}
+		
+		SkipDrawing:
+			sprt++;
 	}
 	pawn->Update = 0;
 }

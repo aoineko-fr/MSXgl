@@ -49,7 +49,6 @@ typedef struct
 	u8                 SpriteID;     // Sprite ID (0~31)
 	i8                 OffsetX;      // Layer position offset...
 	i8                 OffsetY;      // ...can be positive or negative
-	u8                 DataMultiply; // Data index multiplier
 	u8                 DataOffset;   // Data index offset
 	u8                 Color;        // Sprite color
 	u8                 Flag;         // Sprite flag
@@ -157,6 +156,7 @@ void GamePawn_InitializePhysics(Game_Pawn* pawn, Game_PhysicsCB pcb, Game_Collis
 // Function: GamePawn_GetPhysicsState
 // Get pawn physics state
 inline u8 GamePawn_GetPhysicsState(Game_Pawn* pawn) { return pawn->PhysicsState; }
+
 #endif
 
 

@@ -48,41 +48,41 @@ const c8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Pawn sprite layers
 const Game_Sprite g_SpriteLayers[] =
 {
-	{ 0, 0, 0, 16,  0, COLOR_BLACK, PAWN_SPRITE_EVEN },
-	{ 0, 0, 0, 16, 12, COLOR_BLACK, PAWN_SPRITE_ODD },
-	{ 1, 0, 0, 16,  4, COLOR_WHITE, 0 },
-	{ 2, 0, 0, 16,  8, COLOR_LIGHT_RED, 0 },
+	{ 0, 0, 0, 0,  COLOR_BLACK, PAWN_SPRITE_EVEN },
+	{ 0, 0, 0, 12, COLOR_BLACK, PAWN_SPRITE_ODD },
+	{ 1, 0, 0, 4,  COLOR_WHITE, 0 },
+	{ 2, 0, 0, 8,  COLOR_LIGHT_RED, 0 },
 };
 
 // Idle animation frames
 const Game_Frame g_FramesIdle[] =
 {
-	{ 6,	48,	null },
-	{ 7,	24,	null },
+	{ 6*16,	48,	null },
+	{ 7*16,	24,	null },
 };
 
 // Move animation frames
 const Game_Frame g_FramesMove[] =
 {
-	{ 0,	4,	null },
-	{ 1,	4,	null },
-	{ 2,	4,	null },
-	{ 3,	4,	null },
-	{ 4,	4,	null },
-	{ 5,	4,	null },
+	{ 0*16,	4,	null },
+	{ 1*16,	4,	null },
+	{ 2*16,	4,	null },
+	{ 3*16,	4,	null },
+	{ 4*16,	4,	null },
+	{ 5*16,	4,	null },
 };
 
 // Jump animation frames
 const Game_Frame g_FramesJump[] =
 {
-	{ 3,	4,	null },
-	{ 8,	4,	null },
+	{ 3*16,	4,	null },
+	{ 8*16,	4,	null },
 };
 
 // Fall animation frames
 const Game_Frame g_FramesFall[] =
 {
-	{ 9,	4,	null },
+	{ 9*16,	4,	null },
 };
 
 // Actions id
@@ -147,7 +147,7 @@ void PhysicsEvent(u8 event, u8 tile)
 // Collision callback
 bool PhysicsCollision(u8 tile)
 {
-	return (tile < 8);
+	return (tile < 8) || (tile >= 32);
 }
 
 //-----------------------------------------------------------------------------
@@ -176,7 +176,7 @@ bool State_Initialize()
 		VDP_FillVRAM((i == 12) ? 9 : (i < 12) ? 16 : 8, g_ScreenLayoutLow + i * 32, 0, 32);
 	loop(i, 8)
 	{
-		u8 y = Math_GetRandom8() & 0x0F ;
+		u8 y = Math_GetRandom8() & 0x07 ;
 		loop(j, y)
 		{
 			VDP_FillVRAM((j == (y - 1)) ? 1 : 3, g_ScreenLayoutLow + ((23 - j) * 32) + (i * 4), 0, 4);
@@ -227,11 +227,10 @@ bool State_Game()
 		act = ACTION_MOVE;
 	GamePawn_SetAction(&g_PlayerPawn, act);
 	GamePawn_SetTargetPosition(&g_PlayerPawn, g_X, g_Y);
-// VDP_SetColor(8);
 	GamePawn_Update(&g_PlayerPawn);
-// VDP_SetColor(4);
+// VDP_SetColor(COLOR_DARK_RED);
 	GamePawn_Draw(&g_PlayerPawn);
-// VDP_SetColor(1);
+// VDP_SetColor(COLOR_BLACK);
 
 	g_X = g_PlayerPawn.PositionX;
 	g_Y = g_PlayerPawn.PositionY;
