@@ -122,7 +122,7 @@ u8   g_Y = 16;
 //=============================================================================
 
 // Physics callback
-void PhysicsEvent(u8 event)
+void PhysicsEvent(u8 event, u8 tile)
 {
 	switch(event)
 	{
@@ -227,9 +227,11 @@ bool State_Game()
 		act = ACTION_MOVE;
 	GamePawn_SetAction(&g_PlayerPawn, act);
 	GamePawn_SetTargetPosition(&g_PlayerPawn, g_X, g_Y);
-
+// VDP_SetColor(8);
 	GamePawn_Update(&g_PlayerPawn);
+// VDP_SetColor(4);
 	GamePawn_Draw(&g_PlayerPawn);
+// VDP_SetColor(1);
 
 	g_X = g_PlayerPawn.PositionX;
 	g_Y = g_PlayerPawn.PositionY;

@@ -113,7 +113,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 			if(pawn->CollisionCB(tile))
 			{
-				pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN);
+				pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
 				pawn->TargetY = (cellY * 8) - pawn->BoundY;
 			}
 		}
@@ -124,7 +124,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 			if(pawn->CollisionCB(tile))
 			{
-				pawn->PhysicsCB(PAWN_PHYSICS_COL_UP);
+				pawn->PhysicsCB(PAWN_PHYSICS_COL_UP, tile);
 				pawn->TargetY = (cellY * 8) + 8;
 			}
 		}
@@ -135,7 +135,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 			if(!pawn->CollisionCB(tile))
 			{
-				pawn->PhysicsCB(PAWN_PHYSICS_FALL);
+				pawn->PhysicsCB(PAWN_PHYSICS_FALL, tile);
 			}
 		}
 
@@ -147,7 +147,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 			if(pawn->CollisionCB(tile))
 			{
-				pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT);
+				pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT, tile);
 				pawn->TargetX = (cellX * 8) - pawn->BoundX;
 			}
 		}
@@ -158,7 +158,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 			if(pawn->CollisionCB(tile))
 			{
-				pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT);
+				pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT, tile);
 				pawn->TargetX = (cellX * 8) + 8;
 			}
 		}

@@ -68,7 +68,7 @@ enum PAWN_UPDATE_FLAG
 
 #if (GAMEPAWN_USE_PHYSICS)
 // Physics callback
-typedef void (*Game_PhysicsCB)(u8 event);
+typedef void (*Game_PhysicsCB)(u8 event, u8 tile);
 
 // Collision callback
 typedef bool (*Game_CollisionCB)(u8 tile);

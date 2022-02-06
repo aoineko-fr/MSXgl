@@ -270,19 +270,22 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __sdcccall(0);
 // Read data from VRAM to RAM
 void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0);
 
-// Function: VDP_Peek_16K
-// Read a value from VRAM
-u8 VDP_Peek_16K(u16 dest);
-
 // Function: VDP_Poke_16K
 // Write a value to VRAM
 void VDP_Poke_16K(u8 val, u16 dest);
+
+// Function: VDP_Peek_16K
+// Read a value from VRAM
+u8 VDP_Peek_16K(u16 dest);
 
 #if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_14)
 
 	#define VDP_WriteVRAM(src, destLow, destHigh, count)	VDP_WriteVRAM_16K(src, destLow, count)
 	#define VDP_FillVRAM(value, destLow, destHigh, count)	VDP_FillVRAM_16K(value, destLow, count)
 	#define VDP_ReadVRAM(srcLow, srcHigh, dest, count)		VDP_ReadVRAM_16K(srcLow, dest, count)
+
+	#define VDP_Poke(val, destLow, destHigh)				VDP_Poke_16K(val, destLow)
+	#define VDP_Peek(srcLow, srcHigh)						VDP_Peek_16K(srcLow)
 
 #else // (MSX_VERSION >= MSX_2)
 
@@ -297,6 +300,13 @@ void VDP_Poke_16K(u8 val, u16 dest);
 	// Function: VDP_ReadVRAM
 	// Read data from VRAM to RAM
 	void VDP_ReadVRAM(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0);
+
+	// Write a value to VRAM
+	//void VDP_Poke(u8 val, u16 destLow, u8 destHigh);
+
+	// Read a value from VRAM
+	//u8 VDP_Peek(u16 srcLow, u8 srcHigh);
+
 #endif
 
 //-----------------------------------------------------------------------------
