@@ -8,13 +8,9 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic429"></a><div class="CTopic TGroup LC first">
- <div class="CTitle">Functions</div>
-</div>
-
-<a name="GamePawn_Initialize"></a><a name="Topic430"></a><div class="CTopic TFunction LC">
+<a name="GamePawn_Initialize"></a><a name="Topic14"></a><div class="CTopic TFunction LC first">
  <div class="CTitle">GamePawn_Initialize</div>
- <div id="NDPrototype430" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> GamePawn_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Game_Pawn*&nbsp;</td><td class="PName last">pawn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype14" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> GamePawn_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">Game_Pawn*&nbsp;</td><td class="PName last">pawn,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">Game_Sprite*&nbsp;</td><td class="PName last">sprtList,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">sprtNum,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">sprtID,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">Game_Action*&nbsp;</td><td class="PName last">actList</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Initialize game pawn</p></div>
 </div>
 
@@ -36,10 +32,31 @@
  <div class="CBody"><p>Update animation of the game pawn</p></div>
 </div>
 
-<a name="GamePawn_Draw"></a><a name="Topic434"></a><div class="CTopic TFunction LC last">
+<a name="GamePawn_Draw"></a><a name="Topic434"></a><div class="CTopic TFunction LC">
  <div class="CTitle">GamePawn_Draw</div>
  <div id="NDPrototype434" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> GamePawn_Draw(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Game_Pawn*&nbsp;</td><td class="PName last">pawn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Update rendering of the game pawn</p></div>
+</div>
+
+<a name="Physics"></a><a name="Topic442"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Physics</div>
+</div>
+
+<a name="GamePawn_SetTargetPosition"></a><a name="Topic443"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">GamePawn_SetTargetPosition</div>
+ <div id="NDPrototype443" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> GamePawn_SetTargetPosition(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Game_Pawn*&nbsp;</td><td class="PName last">pawn,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set pawn target position</p></div>
+</div>
+
+<a name="GamePawn_SetPhysicsCallback"></a><a name="Topic444"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">GamePawn_SetPhysicsCallback</div>
+ <div class="CBody"><p>Set pawn physics callback</p></div>
+</div>
+
+<a name="GamePawn_GetPhysicsState"></a><a name="Topic445"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">GamePawn_GetPhysicsState</div>
+ <div id="NDPrototype445" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 GamePawn_GetPhysicsState(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Game_Pawn*&nbsp;</td><td class="PName last">pawn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get pawn physics state</p></div>
 </div>
 
 </body></html>

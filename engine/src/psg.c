@@ -55,178 +55,248 @@ u8 g_PSG_VolumeBackup[3];
 // FUNCTIONS
 //=============================================================================
 
-#if (PSG_ACCESS == PSG_INDIRECT)
-
 //-----------------------------------------------------------------------------
 // Set the value of a given register
 void PSG_SetRegister(u8 reg, u8 value)
 {
-	u8* ptr;
-	#if (PSG_CHIP == PSG_BOTH)
-		if(reg & 0x80)
-		{
-			ptr = (u8*)g_PSG2_Regs;
-			reg &= 0x0F;
-		}
-		else
-	#endif
-			ptr = (u8*)g_PSG_Regs;
-
+#if (PSG_ACCESS == PSG_INDIRECT)
+	
+	u8* ptr = (u8*)g_PSG_Regs;
 	ptr += reg;
 	*ptr = value;
+
+#else // if (PSG_ACCESS == PSG_DIRECT)
+
+	PSG_VAR_REG = reg;
+	PSG_VAR_WRITE = value;
+
+#endif
 }
 
 //-----------------------------------------------------------------------------
 // Get the value of a given register
 u8 PSG_GetRegister(u8 reg)
 {
-	u8* ptr;
-	#if (PSG_CHIP == PSG_BOTH)
-		if(reg & 0x80)
-		{
-			ptr = (u8*)g_PSG2_Regs;
-			reg &= 0x0F;
-		}
-		else
-	#endif
-			ptr = (u8*)g_PSG_Regs;
+#if (PSG_ACCESS == PSG_INDIRECT)
 
+	u8* ptr = (u8*)g_PSG_Regs;
 	ptr += reg;
 	return *ptr;
+
+#else // if (PSG_ACCESS == PSG_DIRECT)
+
+	PSG_VAR_REG = reg;
+	return PSG_VAR_READ;
+
+#endif
 }
+
+#if (PSG_USE_EXTRA)
 
 //-----------------------------------------------------------------------------
 // Set the tone period of a given channel (tone generator control register)
 void PSG_SetTone(u8 chan, u16 period)
 {
-	u8* ptr;
-	#if (PSG_CHIP == PSG_BOTH)
-	if(chan & 0x80)
-	{
-		ptr = (u8*)g_PSG2_Regs;
-		chan &= 0x03;
-	}
-	else
-	#endif
-		ptr = (u8*)g_PSG_Regs;
+#if (PSG_ACCESS == PSG_INDIRECT)
+
+	u8* ptr = (u8*)g_PSG_Regs;
 	ptr += (chan * 2);
 	*ptr = (u8)period;
-	*++ptr = (u8)(period >> 8) & 0x0F;
+	*++ptr = (u8)(period >> 8);
+
+#else // if (PSG_ACCESS == PSG_DIRECT)
+
+	u8 reg = (chan * 2);
+	PSG_VAR_REG = reg;
+	PSG_VAR_WRITE = (u8)period;
+	PSG_VAR_REG = ++reg;
+	PSG_VAR_WRITE = (u8)(period >> 8);
+
+#endif
 }
 
 //-----------------------------------------------------------------------------
 // Set the noise period (noise generator control register)
 void PSG_SetNoise(u8 period)
 {
-	u8* ptr;
-	#if (PSG_CHIP == PSG_BOTH)
-	if(period & 0x80)
-	{
-		ptr = (u8*)g_PSG2_Regs + PSG_REG_NOISE;
-		period &= 0x1F;
-	}
-	else
-	#endif
-		ptr = (u8*)g_PSG_Regs + PSG_REG_NOISE;
+#if (PSG_ACCESS == PSG_INDIRECT)
+
+	u8* ptr = (u8*)g_PSG_Regs + PSG_REG_NOISE;
 	*ptr = period;
+
+#else // if (PSG_ACCESS == PSG_DIRECT)
+
+	PSG_VAR_REG = PSG_REG_NOISE;
+	PSG_VAR_WRITE = period;
+
+#endif
 }
 
 //-----------------------------------------------------------------------------
 // Setup mixer by enabling tune and noise generators for each channel (mixer control enable register)
 void PSG_SetMixer(u8 mix)
 {
-	u8* ptr;
-	#if (PSG_CHIP == PSG_BOTH)
-	if(mix & 0x80)
-		ptr = (u8*)g_PSG2_Regs + PSG_REG_MIXER;
-	else
-	#endif
-		ptr = (u8*)g_PSG_Regs + PSG_REG_MIXER;
+#if (PSG_ACCESS == PSG_INDIRECT)
+
+	u8* ptr = (u8*)g_PSG_Regs + PSG_REG_MIXER;
 	*ptr = ~mix; // with PSG_INDIRECT bit #6 & #7 are handled in PSG_Apply() function
+
+#else // if (PSG_ACCESS == PSG_DIRECT)
+
+	PSG_VAR_REG = PSG_REG_MIXER;
+	PSG_VAR_WRITE = ~mix;
+
+#endif
 }
 
 //-----------------------------------------------------------------------------
 // Set the volume of a given channel (Amplitude control register)
 void PSG_SetVolume(u8 chan, u8 vol)
 {
-	u8* ptr;
-	#if (PSG_CHIP == PSG_BOTH)
-	if(chan & 0x80)
-	{
-		ptr = (u8*)g_PSG2_Regs + PSG_REG_AMP_A;
-		chan &= 0x03;
-	}
-	else
-	#endif
-		ptr = (u8*)g_PSG_Regs + PSG_REG_AMP_A;
+#if (PSG_ACCESS == PSG_INDIRECT)
+
+	u8* ptr = (u8*)g_PSG_Regs + PSG_REG_AMP_A;
 	ptr += chan;
 	*ptr = vol;
+
+#else // if (PSG_ACCESS == PSG_DIRECT)
+
+	PSG_VAR_REG = PSG_REG_AMP_A + chan;
+	PSG_VAR_WRITE = vol;
+
+#endif
 }
 
 //-----------------------------------------------------------------------------
 // Set the envelope period (Envelope priod control register)
 void PSG_SetEnvelope(u16 period)
 {
+#if (PSG_ACCESS == PSG_INDIRECT)
+
 	g_PSG_Regs.Envelope = period;
+
+#else // if (PSG_ACCESS == PSG_DIRECT)
+
+	u8 reg = PSG_REG_ENV;
+	PSG_VAR_REG = reg;
+	PSG_VAR_WRITE = (u8)period;
+	PSG_VAR_REG = ++reg;
+	PSG_VAR_WRITE = (u8)(period >> 8);
+
+#endif
 }
 
 //-----------------------------------------------------------------------------
 // Set the envelope shape (Envelope shape control register)
 void PSG_SetShape(u8 shape)
 {
+#if (PSG_ACCESS == PSG_INDIRECT)
+
 	g_PSG_Regs.Shape = shape;
+
+#else // if (PSG_ACCESS == PSG_DIRECT)
+
+	PSG_VAR_REG = PSG_REG_SHAPE;
+	PSG_VAR_WRITE = shape;
+
+#endif
 }
 
 //-----------------------------------------------------------------------------
 //
 void PSG_EnableTone(u8 chan, u8 val)
 {
+#if (PSG_ACCESS == PSG_INDIRECT)
 	u8 mix = g_PSG_Regs.Mixer;
+#else // if (PSG_ACCESS == PSG_DIRECT)
+	PSG_VAR_REG = PSG_REG_MIXER;
+	u8 mix = PSG_VAR_READ;
+#endif
+
 	u8 bit = 1 << chan;
 	mix &= ~bit;
 	
 	if(val == 0)
 		mix |= bit;
 	
+#if (PSG_ACCESS == PSG_INDIRECT)
 	g_PSG_Regs.Mixer = mix;
+#else // if (PSG_ACCESS == PSG_DIRECT)
+	PSG_VAR_WRITE = mix;
+#endif
 }
 
 //-----------------------------------------------------------------------------
 //
 void PSG_EnableNoise(u8 chan, u8 val)
 {
+#if (PSG_ACCESS == PSG_INDIRECT)
 	u8 mix = g_PSG_Regs.Mixer;
+#else // if (PSG_ACCESS == PSG_DIRECT)
+	PSG_VAR_REG = PSG_REG_MIXER;
+	u8 mix = PSG_VAR_READ;
+#endif
+
 	u8 bit = 8 << chan;
 	mix &= ~bit;
 	
 	if(val == 0)
 		mix |= bit;
 	
+#if (PSG_ACCESS == PSG_INDIRECT)
 	g_PSG_Regs.Mixer = mix;
+#else // if (PSG_ACCESS == PSG_DIRECT)
+	PSG_VAR_WRITE = mix;
+#endif
 }
 
 //-----------------------------------------------------------------------------
 //
 void PSG_EnableEnvelope(u8 chan, u8 val)
 {
+#if (PSG_ACCESS == PSG_INDIRECT)
 	u8 vol = g_PSG_Regs.Volume[chan];
+#else // if (PSG_ACCESS == PSG_DIRECT)
+	PSG_VAR_REG = PSG_REG_AMP_A + chan;
+	u8 vol = PSG_VAR_READ;
+#endif
+
 	vol &= 0x0F;
 	
 	if(val != 0)
 		vol |= PSG_F_ENV;
 	
+#if (PSG_ACCESS == PSG_INDIRECT)
 	g_PSG_Regs.Volume[chan] = vol;
+#else // if (PSG_ACCESS == PSG_DIRECT)
+	PSG_VAR_WRITE = vol;
+#endif
 }
+
+#endif // (PSG_USE_EXTRA)
 
 //-----------------------------------------------------------------------------
 //
 void PSG_Mute()
 {
+#if (PSG_ACCESS == PSG_INDIRECT)
+
 	loop(i, 3)
 	{
 		g_PSG_VolumeBackup[i] = g_PSG_Regs.Volume[i];
 		g_PSG_Regs.Volume[i] = 0;
 	}
+
+#else // if (PSG_ACCESS == PSG_DIRECT)
+
+	loop(i, 3)
+	{
+		PSG_VAR_REG = PSG_REG_AMP_A + i;
+		g_PSG_VolumeBackup[i] = PSG_VAR_READ;
+		PSG_VAR_WRITE= 0;
+	}
+
+#endif
 }
 
 #if (PSG_USE_RESUME)
@@ -234,23 +304,27 @@ void PSG_Mute()
 // Resume PSG sound
 void PSG_Resume()
 {
+#if (PSG_ACCESS == PSG_INDIRECT)
+
 	loop(i, 3)
 	{
 		g_PSG_Regs.Volume[i] = g_PSG_VolumeBackup[i];
 	}
-}
-#endif
 
 #else // if (PSG_ACCESS == PSG_DIRECT)
 
-#endif // (PSG_ACCESS == PSG_INDIRECT)
+	loop(i, 3)
+	{
+		PSG_VAR_REG = PSG_REG_AMP_A + i;
+		PSG_VAR_WRITE = g_PSG_VolumeBackup[i];
+	}
 
-
-
+#endif
+}
+#endif
 
 
 #if (PSG_ACCESS == PSG_INDIRECT)
-
 //-----------------------------------------------------------------------------
 // Send data to PSG registers #1 to #13
 // @note					Must be executed on each V-Blank interruption
@@ -288,38 +362,38 @@ PSG_End:
 	or		#0x80					// 
 	ld		(HL), A					// 
 
-	#if (PSG_CHIP == PSG_BOTH)
-		// Update mixer register wanted value with I/O 2-bits from the current mixer register value
-		ld		A, (#_g_PSG2_Regs + PSG_REG_MIXER)
-		and		#0b00111111				// Keep register value but the higher 2-bits
-		ld		B, A					// Store in B
-		ld		A, #PSG_REG_MIXER		// Select R#7
-		out		(#PSG2_PORT_REG), A
-		in		A, (#PSG2_PORT_READ)		// Read R#7
-		and		#0b11000000				// Keep the higher 2-bits of R#7
-		or		B						// Merge
-		ld		(#_g_PSG2_Regs + PSG_REG_MIXER), A
+#if (PSG_CHIP == PSG_BOTH)
+	// Update mixer register wanted value with I/O 2-bits from the current mixer register value
+	ld		A, (#_g_PSG2_Regs + PSG_REG_MIXER)
+	and		#0b00111111				// Keep register value but the higher 2-bits
+	ld		B, A					// Store in B
+	ld		A, #PSG_REG_MIXER		// Select R#7
+	out		(#PSG2_PORT_REG), A
+	in		A, (#PSG2_PORT_READ)		// Read R#7
+	and		#0b11000000				// Keep the higher 2-bits of R#7
+	or		B						// Merge
+	ld		(#_g_PSG2_Regs + PSG_REG_MIXER), A
 
-		// Registers value copy loop
-		ld		HL, #_g_PSG2_Regs		// Data to copy to PSG registers
-		ld		C, #PSG2_PORT_WRITE		// Setup outi register
-		xor		A						// Initialize register number
-		// R#0-12
-		.rept 13
-			out		(PSG2_PORT_REG), A	// port_reg <- reg_num
-			outi						// port_data <- data[i++]
-			inc		A					// 
-		.endm
-		// R#13
-		out		(PSG2_PORT_REG), A		// port_reg <- reg_num
-		ld		A, (HL)					// 
-		and		A						// 
-		jp		M, PSG2_End				// don't copy R#13 if value is negative
-		out		(PSG2_PORT_WRITE), A	// port_data <- data[i]
+	// Registers value copy loop
+	ld		HL, #_g_PSG2_Regs		// Data to copy to PSG registers
+	ld		C, #PSG2_PORT_WRITE		// Setup outi register
+	xor		A						// Initialize register number
+	// R#0-12
+	.rept 13
+		out		(PSG2_PORT_REG), A	// port_reg <- reg_num
+		outi						// port_data <- data[i++]
+		inc		A					// 
+	.endm
+	// R#13
+	out		(PSG2_PORT_REG), A		// port_reg <- reg_num
+	ld		A, (HL)					// 
+	and		A						// 
+	jp		M, PSG2_End				// don't copy R#13 if value is negative
+	out		(PSG2_PORT_WRITE), A	// port_data <- data[i]
 PSG2_End:
-		or		#0x80					// 
-		ld		(HL), A					// 
-	#endif
+	or		#0x80					// 
+	ld		(HL), A					// 
+#endif
 
 __endasm;
 }

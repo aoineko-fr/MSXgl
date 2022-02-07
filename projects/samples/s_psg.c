@@ -18,7 +18,7 @@
 //=============================================================================
 
 // Library's logo
-#define MSX_GL "\x02\x03\x04\x05\x06"
+#define MSX_GL "\x02\x03\x04\x05"
 
 // 
 typedef void (*UICall)(u8 chan, u8 action);
@@ -334,7 +334,7 @@ void main()
 	Print_SetTextFont(g_Font_MGL_Sample8, 0); // Initialize font
 	VDP_FillVRAM_16K(0, g_ScreenPatternLow, 8);
 
-	Print_DrawText(MSX_GL "  PSG SAMPLE");
+	Print_DrawText(MSX_GL " PSG SAMPLE");
 	Print_DrawLineH(0, 1, 32);
 	
 	#if (PSG_CHIP == PSG_INTERNAL)

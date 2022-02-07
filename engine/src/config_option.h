@@ -224,7 +224,7 @@
 
 // PSG_ACCESS
 #define PSG_DIRECT					0 // Function set directly the PSG registers
-#define PSG_INDIRECT				1 // Function set a buffer (Apply() function must be used once a frame)
+#define PSG_INDIRECT				1 // Function set a buffer (Apply() function must be call once a frame)
 
 // SCC_SLOT_MODE
 #define SCC_SLOT_DIRECT				0 // Program on a SCC cartridge

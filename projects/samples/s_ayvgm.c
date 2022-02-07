@@ -50,11 +50,11 @@ void ButtonLoop();
 #include "font\font_mgl_sample8.h"
 
 // Music
-#include "content\ayvgm\ayvgm_ds4_03.h"
-#include "content\ayvgm\ayvgm_goemon07.h"
-// #include "content\ayvgm\ayvgm_penguin_12.h"
-#include "content\ayvgm\ayvgm_metalgear_05.h"
-#include "content\ayvgm\ayvgm_honotori_09.h"
+#include "content\ayvgm\ayvgm_psg_ds4_03.h"
+#include "content\ayvgm\ayvgm_psg_goemon07.h"
+// #include "content\ayvgm\ayvgm_psg_penguin_12.h"
+#include "content\ayvgm\ayvgm_psg_metalgear_05.h"
+#include "content\ayvgm\ayvgm_psg_honotori_09.h"
 // #include "content\ayvgm\ayvgm_scc_quarth_02.h"
 // #include "content\ayvgm\ayvgm_scc_f1spirit_01.h"
 
@@ -64,11 +64,11 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
-	{ "Dragon Slayer 4  ", g_ayVGM_ds4_03, 0 },
-	{ "Gambare Goemon   ", g_ayVGM_goemon07, 0 },
-	// { "Penguin Adventure", g_ayVGM_penguin_12, 0 },
-	{ "Metal Gear       ", g_ayVGM_metalgear_05, 0 },
-	{ "Hi no Tori       ", g_ayVGM_honotori_09, 0 },
+	{ "Dragon Slayer 4  ", g_ayVGM_psg_ds4_03, 0 },
+	{ "Gambare Goemon   ", g_ayVGM_psg_goemon07, 0 },
+	// { "Penguin Adventure", g_ayVGM_psg_penguin_12, 0 },
+	{ "Metal Gear       ", g_ayVGM_psg_metalgear_05, 0 },
+	{ "Hi no Tori       ", g_ayVGM_psg_honotori_09, 0 },
 	// { "Quarth (SCC)     ", g_ayVGM_scc_quarth_02, 0 },
 	// { "F1-Spirit (SCC)  ", g_ayVGM_scc_f1spirit_01, 0 },
 };
@@ -288,11 +288,13 @@ void main()
 	while(1)
 	{
 		Halt();
-		VDP_SetColor(0xF4);
+VDP_SetColor(0xF4);
 		ayVGM_Decode();
-		VDP_SetColor(0xF6);
+VDP_SetColor(0xF6);
+		#if (PSG_ACCESS == PSG_INDIRECT)
 		PSG_Apply();
-		VDP_SetColor(0xF0);
+		#endif
+VDP_SetColor(0xF0);
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
 		DrawVGM(g_ayVGM_Pointer, 1);

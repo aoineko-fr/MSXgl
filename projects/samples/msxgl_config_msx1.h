@@ -140,9 +140,15 @@
 //-----------------------------------------------------------------------------
 
 // PSG options
+// - PSG_INTERNAL ................. Use internal PSG chip (port A0-A2)
+// - PSG_EXTERNAL ................. Use external PSG chip (port 10-12)
+// - PSG_BOTH ..................... Use both internal and external PSG chips
 #define PSG_CHIP					PSG_INTERNAL
+// - PSG_DIRECT ................... Function set directly the PSG registers
+// - PSG_INDIRECT ................. Function set a buffer (Apply() function must be call once a frame)
 #define PSG_ACCESS					PSG_INDIRECT
 #define PSG_USE_NOTES				1
+#define PSG_USE_EXTRA				1
 #define PSG_USE_RESUME				1
 
 // MSX-Music options

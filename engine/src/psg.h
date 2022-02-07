@@ -33,10 +33,18 @@
 	#define PSG_PORT_REG		P_PSG_REGS     //< Used to select a specific register by writing its number (0 to 15)
 	#define PSG_PORT_WRITE		P_PSG_DATA     //< Used to write to any register once it has been selected by the Address Port.	
 	#define PSG_PORT_READ		P_PSG_STAT     //< Used to read any register once it has been selected by the Address Port.
+	#define PSG_VAR_REG			g_PSG_RegPort
+	#define PSG_VAR_WRITE		g_PSG_DataPort
+	#define PSG_VAR_READ		g_PSG_StatPort
+	
 #elif (PSG_CHIP == PSG_EXTERNAL)
 	#define PSG_PORT_REG		P_PSG_EXT_REGS //< Used to select a specific register by writing its number (0 to 15)
 	#define PSG_PORT_WRITE		P_PSG_EXT_DATA //< Used to write to any register once it has been selected by the Address Port.	
 	#define PSG_PORT_READ		P_PSG_EXT_STAT //< Used to read any register once it has been selected by the Address Port.
+	#define PSG_VAR_REG			g_PSG_Ext_RegPort
+	#define PSG_VAR_WRITE		g_PSG_Ext_DataPort
+	#define PSG_VAR_READ		g_PSG_Ext_StatPort
+
 #elif (PSG_CHIP == PSG_BOTH)
 	// PRimary PSG
 	#define PSG_PORT_REG		P_PSG_REGS
@@ -140,7 +148,7 @@ void PSG_SetRegister(u8 reg, u8 value);
 u8 PSG_GetRegister(u8 reg);
 
 // Group: Helper
-
+#if (PSG_USE_EXTRA)
 // Function: PSG_SetTone
 // Set the tone period of a given channel (tone generator control register)
 void PSG_SetTone(u8 chan, u16 period);
@@ -176,6 +184,8 @@ void PSG_EnableNoise(u8 chan, u8 val);
 // Function: PSG_EnableEnvelope
 // Enable/disable envelope on the given channel
 void PSG_EnableEnvelope(u8 chan, u8 val);
+
+#endif //(PSG_USE_EXTRA)
 
 // Function: PSG_Mute
 // Silent the PSG (set according registers)

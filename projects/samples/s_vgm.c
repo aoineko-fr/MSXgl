@@ -397,7 +397,9 @@ void main()
 		Halt();
 		// VDP_SetColor(0xFE);
 		VGM_Decode();
+		#if (PSG_ACCESS == PSG_INDIRECT)
 		PSG_Apply();
+		#endif
 		// VDP_SetColor(0xF0);
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
