@@ -20,7 +20,7 @@
 void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNum, u8 sprtID, const Game_Action* actList)
 {
 	// Initialize pawn structure
-	Mem_Set(0xFF, pawn, sizeof(Game_Pawn));
+	Mem_Set(0x00, pawn, sizeof(Game_Pawn));
 	pawn->SpriteList = sprtList;
 	pawn->SpriteNum = sprtNum;
 	pawn->SpriteID = sprtID;
