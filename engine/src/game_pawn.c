@@ -12,6 +12,16 @@
 #include "memory.h"
 
 //=============================================================================
+// MEMORY DATA
+//=============================================================================
+
+static u8 g_Game_DrawY;
+static u8 g_Game_DrawX;
+static u8 g_Game_DrawPattern;
+static Game_Pawn* g_Pawn;
+static const Game_Sprite* g_Sprite;
+
+//=============================================================================
 // FUNCTIONS
 //=============================================================================
 
@@ -19,27 +29,28 @@
 // Initialize game pawn
 void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNum, u8 sprtID, const Game_Action* actList)
 {
+	g_Pawn = pawn;
 	// Initialize pawn structure
-	Mem_Set(0x00, pawn, sizeof(Game_Pawn));
-	pawn->SpriteList = sprtList;
-	pawn->SpriteNum = sprtNum;
-	pawn->SpriteID = sprtID;
-	pawn->ActionList = actList;
+	Mem_Set(0x00, g_Pawn, sizeof(Game_Pawn));
+	g_Pawn->SpriteList = sprtList;
+	g_Pawn->SpriteNum = sprtNum;
+	g_Pawn->SpriteID = sprtID;
+	g_Pawn->ActionList = actList;
 
 	// Initialize pawn action
-	GamePawn_SetAction(pawn, 0);
+	GamePawn_SetAction(g_Pawn, 0);
 	
 	// Initialize pawn sprite color
 	u8 sprtIdx = sprtID;
-	const Game_Sprite* sprt = sprtList;
-	loop(i, pawn->SpriteNum)
+	g_Sprite = sprtList;
+	loop(i, g_Pawn->SpriteNum)
 	{
-		VDP_SetSpriteColorSM1(sprtIdx, sprt->Color);
+		VDP_SetSpriteColorSM1(sprtIdx, g_Sprite->Color);
 
-		if((sprt->Flag & PAWN_SPRITE_ODD) == 0)
+		if((g_Sprite->Flag & PAWN_SPRITE_ODD) == 0)
 			sprtIdx++;
 		
-		sprt++;
+		g_Sprite++;
 	}
 
 }
@@ -73,148 +84,146 @@ void GamePawn_SetAction(Game_Pawn* pawn, u8 id)
 // Update animation of the game pawn
 void GamePawn_Update(Game_Pawn* pawn)
 {
-	const Game_Action* act = &pawn->ActionList[pawn->ActionId];
+	g_Pawn = pawn;
+	const Game_Action* act = &g_Pawn->ActionList[g_Pawn->ActionId];
 
 	// Finished current animation step
-	if(pawn->AnimTimer >= act->FrameList[pawn->AnimStep].Duration)
+	if(g_Pawn->AnimTimer >= act->FrameList[g_Pawn->AnimStep].Duration)
 	{
-		pawn->AnimTimer = 0;
-		pawn->AnimStep++;
-		pawn->Update |= PAWN_UPDATE_PATTERN;
+		g_Pawn->AnimTimer = 0;
+		g_Pawn->AnimStep++;
+		g_Pawn->Update |= PAWN_UPDATE_PATTERN;
 	}
 
 	// Finished last animation step
-	if(pawn->AnimStep >= act->FrameNum)
+	if(g_Pawn->AnimStep >= act->FrameNum)
 	{
 		if(act->Loop) // restart action
 		{
-			pawn->AnimTimer = 0;
-			pawn->AnimStep = 0;
-			pawn->Update |= PAWN_UPDATE_PATTERN;
+			g_Pawn->AnimTimer = 0;
+			g_Pawn->AnimStep = 0;
+			g_Pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
 		else // stop action and transit to default action
 		{
-			GamePawn_SetAction(pawn, 0);
+			GamePawn_SetAction(g_Pawn, 0);
 			return;
 		}
 	}
 	
 	// Execute event
-	const Game_Frame* frame = &act->FrameList[pawn->AnimStep];
+	const Game_Frame* frame = &act->FrameList[g_Pawn->AnimStep];
 	if(frame->Event != 0)
 		frame->Event();
 	
 	// Update animation
-	pawn->AnimFrame = frame->Id;
-	pawn->AnimTimer++;
-	pawn->Counter++;
+	g_Pawn->AnimFrame = frame->Id;
+	g_Pawn->AnimTimer++;
+	g_Pawn->Counter++;
 
 #if (GAMEPAWN_USE_PHYSICS)
-	if(pawn->Update & PAWN_UPDATE_COLLISION)
+	if(g_Pawn->Update & PAWN_UPDATE_COLLISION)
 	{
 		// Vertical movement
-		if(pawn->TargetY > pawn->PositionY) // Go down
+		if(g_Pawn->TargetY > g_Pawn->PositionY) // Go down
 		{
-			u8 cellX = (pawn->TargetX + (pawn->BoundX / 2)) / 8;
-			u8 cellY = (pawn->TargetY + pawn->BoundY) / 8;		
+			u8 cellX = (g_Pawn->TargetX + (g_Pawn->BoundX / 2)) / 8;
+			u8 cellY = (g_Pawn->TargetY + g_Pawn->BoundY) / 8;		
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-			if(pawn->CollisionCB(tile))
+			if(g_Pawn->CollisionCB(tile))
 			{
-				pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-				pawn->TargetY = (cellY * 8) - pawn->BoundY;
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
+				g_Pawn->TargetY = (cellY * 8) - g_Pawn->BoundY;
 			}
 		}
-		else if(pawn->TargetY < pawn->PositionY) // Go up
+		else if(g_Pawn->TargetY < g_Pawn->PositionY) // Go up
 		{
-			u8 cellX = (pawn->TargetX + (pawn->BoundX / 2)) / 8;
-			u8 cellY = (pawn->TargetY) / 8;		
+			u8 cellX = (g_Pawn->TargetX + (g_Pawn->BoundX / 2)) / 8;
+			u8 cellY = (g_Pawn->TargetY) / 8;		
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-			if(pawn->CollisionCB(tile))
+			if(g_Pawn->CollisionCB(tile))
 			{
-				pawn->PhysicsCB(PAWN_PHYSICS_COL_UP, tile);
-				pawn->TargetY = (cellY * 8) + 8;
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_UP, tile);
+				g_Pawn->TargetY = (cellY * 8) + 8;
 			}
 		}
-		else // if(pawn->TargetY == pawn->PositionY)
+		else // if(g_Pawn->TargetY == g_Pawn->PositionY)
 		{
-			u8 cellX = (pawn->TargetX + (pawn->BoundX / 2)) / 8;
-			u8 cellY = (pawn->TargetY + pawn->BoundY) / 8;		
+			u8 cellX = (g_Pawn->TargetX + (g_Pawn->BoundX / 2)) / 8;
+			u8 cellY = (g_Pawn->TargetY + g_Pawn->BoundY) / 8;		
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-			if(!pawn->CollisionCB(tile))
+			if(!g_Pawn->CollisionCB(tile))
 			{
-				pawn->PhysicsCB(PAWN_PHYSICS_FALL, tile);
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_FALL, tile);
 			}
 		}
 
 		// Horizontal movement
-		if(pawn->TargetX > pawn->PositionX) // Go right
+		if(g_Pawn->TargetX > g_Pawn->PositionX) // Go right
 		{
-			u8 cellX = (pawn->TargetX + pawn->BoundX) / 8;
-			u8 cellY = (pawn->TargetY + (pawn->BoundY / 2)) / 8;		
+			u8 cellX = (g_Pawn->TargetX + g_Pawn->BoundX) / 8;
+			u8 cellY = (g_Pawn->TargetY + (g_Pawn->BoundY / 2)) / 8;		
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-			if(pawn->CollisionCB(tile))
+			if(g_Pawn->CollisionCB(tile))
 			{
-				pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT, tile);
-				pawn->TargetX = (cellX * 8) - pawn->BoundX;
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT, tile);
+				g_Pawn->TargetX = (cellX * 8) - g_Pawn->BoundX;
 			}
 		}
-		else if(pawn->TargetX < pawn->PositionX) // Go left
+		else if(g_Pawn->TargetX < g_Pawn->PositionX) // Go left
 		{
-			u8 cellX = (pawn->TargetX) / 8;
-			u8 cellY = (pawn->TargetY + (pawn->BoundY / 2)) / 8;		
+			u8 cellX = (g_Pawn->TargetX) / 8;
+			u8 cellY = (g_Pawn->TargetY + (g_Pawn->BoundY / 2)) / 8;		
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-			if(pawn->CollisionCB(tile))
+			if(g_Pawn->CollisionCB(tile))
 			{
-				pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT, tile);
-				pawn->TargetX = (cellX * 8) + 8;
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT, tile);
+				g_Pawn->TargetX = (cellX * 8) + 8;
 			}
 		}
 		
-		pawn->PositionX = pawn->TargetX;
-		pawn->PositionY = pawn->TargetY;
-		pawn->Update |= PAWN_UPDATE_POSITION;
-		pawn->Update &= ~PAWN_UPDATE_COLLISION;
+		g_Pawn->PositionX = g_Pawn->TargetX;
+		g_Pawn->PositionY = g_Pawn->TargetY;
+		g_Pawn->Update |= PAWN_UPDATE_POSITION;
+		g_Pawn->Update &= ~PAWN_UPDATE_COLLISION;
 	}
 #endif
 }
-
-u8 g_Game_DrawY;
-u8 g_Game_DrawX;
-u8 g_Game_DrawPattern;
 
 //-----------------------------------------------------------------------------
 // Update rendering of the game pawn
 void GamePawn_Draw(Game_Pawn* pawn)
 {
-	if(pawn->Update == 0)
+	g_Pawn = pawn;
+	if(g_Pawn->Update == 0)
 		return;
 
-	const Game_Sprite* sprt = pawn->SpriteList;
-	u16 dest = g_SpriteAtributeLow + (pawn->SpriteID * 4);
-	loop(i, pawn->SpriteNum)
+	g_Sprite = g_Pawn->SpriteList;
+	u16 dest = g_SpriteAtributeLow + (g_Pawn->SpriteID * 4);
+	loop(i, g_Pawn->SpriteNum)
 	{	
-		if(sprt->Flag & PAWN_SPRITE_EVEN) // Skip odd frames
+		if(g_Sprite->Flag & PAWN_SPRITE_EVEN) // Skip odd frames
 		{
-			if((pawn->Counter & 1) != 0)
+			if((g_Pawn->Counter & 1) != 0)
 				goto SkipDrawing;
 			else
-				pawn->Update |= PAWN_UPDATE_PATTERN;
+				g_Pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
-		else if(sprt->Flag & PAWN_SPRITE_ODD) // Skip even frames
+		else if(g_Sprite->Flag & PAWN_SPRITE_ODD) // Skip even frames
 		{
-			if((pawn->Counter & 1) == 0)
+			if((g_Pawn->Counter & 1) == 0)
 				goto SkipDrawing;
 			else
-				pawn->Update |= PAWN_UPDATE_PATTERN;
+				g_Pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
 
-		g_Game_DrawY = pawn->PositionY + sprt->OffsetY;
-		g_Game_DrawX = pawn->PositionX + sprt->OffsetX;
+		g_Game_DrawY = g_Pawn->PositionY + g_Sprite->OffsetY;
+		g_Game_DrawX = g_Pawn->PositionX + g_Sprite->OffsetX;
 		u8 size = 2;
 		
-		if(pawn->Update & PAWN_UPDATE_PATTERN)
+		if(g_Pawn->Update & PAWN_UPDATE_PATTERN)
 		{
-			g_Game_DrawPattern = pawn->AnimFrame + sprt->DataOffset;
+			g_Game_DrawPattern = g_Pawn->AnimFrame + g_Sprite->DataOffset;
 			size++;
 		}
 
@@ -222,9 +231,9 @@ void GamePawn_Draw(Game_Pawn* pawn)
 		dest += 4;
 		
 	SkipDrawing:
-		sprt++;
+		g_Sprite++;
 	}
-	pawn->Update = 0;
+	g_Pawn->Update = 0;
 }
 
 
