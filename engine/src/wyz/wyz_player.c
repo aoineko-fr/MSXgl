@@ -28,7 +28,7 @@
  Adaptation of the WYZ music player for programming in C with the SDCC compiler.
  
  History of versions:
- - 1.3 (14/06/2021) Add Player_IsEnd function
+ - 1.3 (14/06/2021) Add WYZ_IsFinished function
  - 1.2 (15/02/2021) same function names in music libraries
  - 1.1 (18/01/2021) same nomenclature for function names on WYZ and Vortex 
                      players #3
@@ -65,104 +65,101 @@ Switches: 1=ON; 0=OFF
 - BIT 6 = ?
 - BIT 7 = is END? 0=No, 1=Yes    
 */
-char WYZstate;  // (v SDCC) original player name = INTERR
+u8 WYZstate;  // (v SDCC) original player name = INTERR
 
+u8 SONG;   //number of song playing
+u8 TEMPO;  //TEMPO
+u8 TTEMPO; //CONTADOR TEMPO
 
+u16 PUNTERO_A;      //DW PUNTERO DEL CANAL A
+u16 PUNTERO_B;      //DW PUNTERO DEL CANAL B
+u16 PUNTERO_C;      //DW PUNTERO DEL CANAL C
 
+u16 CANAL_A;        //DW DIRECION DE INICIO DE LA MUSICA A
+u16 CANAL_B;        //DW DIRECION DE INICIO DE LA MUSICA B
+u16 CANAL_C;        //DW DIRECION DE INICIO DE LA MUSICA C
 
-char SONG;   //number of song playing
-char TEMPO;  //TEMPO
-char TTEMPO; //CONTADOR TEMPO
+u16 PUNTERO_P_A;    //DW PUNTERO PAUTA CANAL A
+u16 PUNTERO_P_B;    //DW PUNTERO PAUTA CANAL B
+u16 PUNTERO_P_C;    //DW PUNTERO PAUTA CANAL C
 
-unsigned int PUNTERO_A;      //DW PUNTERO DEL CANAL A
-unsigned int PUNTERO_B;      //DW PUNTERO DEL CANAL B
-unsigned int PUNTERO_C;      //DW PUNTERO DEL CANAL C
+u16 PUNTERO_P_A0;   //DW INI PUNTERO PAUTA CANAL A
+u16 PUNTERO_P_B0;   //DW INI PUNTERO PAUTA CANAL B
+u16 PUNTERO_P_C0;   //DW INI PUNTERO PAUTA CANAL C
 
-unsigned int CANAL_A;        //DW DIRECION DE INICIO DE LA MUSICA A
-unsigned int CANAL_B;        //DW DIRECION DE INICIO DE LA MUSICA B
-unsigned int CANAL_C;        //DW DIRECION DE INICIO DE LA MUSICA C
+u16 PUNTERO_P_DECA; //DW PUNTERO DE INICIO DEL DECODER CANAL A
+u16 PUNTERO_P_DECB; //DW PUNTERO DE INICIO DEL DECODER CANAL B
+u16 PUNTERO_P_DECC; //DW PUNTERO DE INICIO DEL DECODER CANAL C
 
-unsigned int PUNTERO_P_A;    //DW PUNTERO PAUTA CANAL A
-unsigned int PUNTERO_P_B;    //DW PUNTERO PAUTA CANAL B
-unsigned int PUNTERO_P_C;    //DW PUNTERO PAUTA CANAL C
+u16 PUNTERO_DECA;   //DW PUNTERO DECODER CANAL A
+u16 PUNTERO_DECB;   //DW PUNTERO DECODER CANAL B
+u16 PUNTERO_DECC;   //DW PUNTERO DECODER CANAL C
 
-unsigned int PUNTERO_P_A0;   //DW INI PUNTERO PAUTA CANAL A
-unsigned int PUNTERO_P_B0;   //DW INI PUNTERO PAUTA CANAL B
-unsigned int PUNTERO_P_C0;   //DW INI PUNTERO PAUTA CANAL C
+u8 REG_NOTA_A; //DB REGISTRO DE LA NOTA EN EL CANAL A
+u8 VOL_INST_A; //DB VOLUMEN RELATIVO DEL INSTRUMENTO DEL CANAL A
+u8 REG_NOTA_B; //DB REGISTRO DE LA NOTA EN EL CANAL B
+u8 VOL_INST_B; //DB VOLUMEN RELATIVO DEL INSTRUMENTO DEL CANAL B
+u8 REG_NOTA_C; //DB REGISTRO DE LA NOTA EN EL CANAL C
+u8 VOL_INST_C; //DB VOLUMEN RELATIVO DEL INSTRUMENTO DEL CANAL C
 
-unsigned int PUNTERO_P_DECA; //DW PUNTERO DE INICIO DEL DECODER CANAL A
-unsigned int PUNTERO_P_DECB; //DW PUNTERO DE INICIO DEL DECODER CANAL B
-unsigned int PUNTERO_P_DECC; //DW PUNTERO DE INICIO DEL DECODER CANAL C
-
-unsigned int PUNTERO_DECA;   //DW PUNTERO DECODER CANAL A
-unsigned int PUNTERO_DECB;   //DW PUNTERO DECODER CANAL B
-unsigned int PUNTERO_DECC;   //DW PUNTERO DECODER CANAL C
-
-char REG_NOTA_A; //DB REGISTRO DE LA NOTA EN EL CANAL A
-char VOL_INST_A; //DB VOLUMEN RELATIVO DEL INSTRUMENTO DEL CANAL A
-char REG_NOTA_B; //DB REGISTRO DE LA NOTA EN EL CANAL B
-char VOL_INST_B; //DB VOLUMEN RELATIVO DEL INSTRUMENTO DEL CANAL B
-char REG_NOTA_C; //DB REGISTRO DE LA NOTA EN EL CANAL C
-char VOL_INST_C; //DB VOLUMEN RELATIVO DEL INSTRUMENTO DEL CANAL C
-
-unsigned int PUNTERO_L_DECA; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL A
-unsigned int PUNTERO_L_DECB; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL B
-unsigned int PUNTERO_L_DECC; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL C
+u16 PUNTERO_L_DECA; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL A
+u16 PUNTERO_L_DECB; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL B
+u16 PUNTERO_L_DECC; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL C
 
 //CANAL DE EFECTOS DE RITMO - ENMASCARA OTRO CANAL
-unsigned int PUNTERO_P;      //DW PUNTERO DEL CANAL EFECTOS
-unsigned int CANAL_P;        //DW DIRECION DE INICIO DE LOS EFECTOS
+u16 PUNTERO_P;      //DW PUNTERO DEL CANAL EFECTOS
+u16 CANAL_P;        //DW DIRECION DE INICIO DE LOS EFECTOS
 
-unsigned int PUNTERO_P_DECP; //DW PUNTERO DE INICIO DEL DECODER CANAL P
-unsigned int PUNTERO_DECP;   //DW PUNTERO DECODER CANAL P
-unsigned int PUNTERO_L_DECP; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL P
+u16 PUNTERO_P_DECP; //DW PUNTERO DE INICIO DEL DECODER CANAL P
+u16 PUNTERO_DECP;   //DW PUNTERO DECODER CANAL P
+u16 PUNTERO_L_DECP; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL P
 //SELECT_CANAL_P	EQU	INTERR+$36	;DB SELECCION DE CANAL DE EFECTOS DE RITMO
 
 
-unsigned int SFX_L;      //DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO BAJO
-unsigned int SFX_H;      //DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO ALTO
-unsigned int SFX_V;      //DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO VOLUMEN
-unsigned int SFX_MIX;    //DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO MIXER
+u16 SFX_L;      //DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO BAJO
+u16 SFX_H;      //DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO ALTO
+u16 SFX_V;      //DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO VOLUMEN
+u16 SFX_MIX;    //DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO MIXER
 
 
 //EFECTOS DE SONIDO
-char N_SONIDO;               //DB : NUMERO DE SONIDO
-unsigned int PUNTERO_SONIDO; //DW : PUNTERO DEL SONIDO QUE SE REPRODUCE
+u8 N_SONIDO;               //DB : NUMERO DE SONIDO
+u16 PUNTERO_SONIDO; //DW : PUNTERO DEL SONIDO QUE SE REPRODUCE
 
 
 
 //DB [13] BUFFERs DE REGISTROS DEL PSG
 
-char PSG_REG[16];
-char AYREGS[16];  //PSG_REG_SEC
-char ENVOLVENTE;	    /*DB : FORMA DE LA ENVOLVENTE
+u8 PSG_REG[16];
+u8 AYREGS[16];  //PSG_REG_SEC
+u8 ENVOLVENTE;	    /*DB : FORMA DE LA ENVOLVENTE
 ;BIT 0	  : FRECUENCIA CANAL ON/OFF
 ;BIT 1-2  : RATIO 
 ;BIT 3-3  : FORMA */
-char ENVOLVENTE_BACK; //DB:	BACKUP DE LA FORMA DE LA ENVOLENTE
+u8 ENVOLVENTE_BACK; //DB:	BACKUP DE LA FORMA DE LA ENVOLENTE
 
 
-char SOUND_BUFFER_A[0x10];
-char SOUND_BUFFER_B[0x10];
-char SOUND_BUFFER_C[0x10];
-char SOUND_BUFFER_P[0x10];
+u8 SOUND_BUFFER_A[0x10];
+u8 SOUND_BUFFER_B[0x10];
+u8 SOUND_BUFFER_C[0x10];
+u8 SOUND_BUFFER_P[0x10];
 
 
 
 //songs index address
-unsigned int TABLA_SONG;
+u16 TABLA_SONG;
 
 //instruments index address
-unsigned int TABLA_PAUTAS;
+u16 TABLA_PAUTAS;
 
 //FXs index address 
-unsigned int TABLA_SONIDOS;
+u16 TABLA_SONIDOS;
 
 //Data of the frequencies of the notes
-unsigned int DATOS_NOTAS;
+u16 DATOS_NOTAS;
 
 /*
-unsigned int DATOS_NOTAS[]={0,0,
+u16 DATOS_NOTAS[]={0,0,
 1711,1614,1524,1438,1358,1281,1210,1142,1078,1017,
 960,906,855,807,762,719,679,641,605,571,
 539,509,480,453,428,404,381,360,339,320,
@@ -177,15 +174,15 @@ unsigned int DATOS_NOTAS[]={0,0,
 
 
 // ############################################################################# <<< ASIGNAR VALORES EN EL INIT
-char SELECT_CANAL_A[7]; 
+u8 SELECT_CANAL_A[7]; 
 // DW	PSG_REG_SEC+0,PSG_REG_SEC+1,PSG_REG_SEC+8
 // DB	10110001B
 
-char SELECT_CANAL_B[7]; 
+u8 SELECT_CANAL_B[7]; 
 //	DW	PSG_REG_SEC+2,PSG_REG_SEC+3,PSG_REG_SEC+9
 //  DB	10101010B
 
-char SELECT_CANAL_C[7]; 
+u8 SELECT_CANAL_C[7]; 
 //	DW	PSG_REG_SEC+4,PSG_REG_SEC+5,PSG_REG_SEC+10
 //  DB	10011100B
 // ############################################################################# <<< ASIGNAR VALORES EN EL INIT
@@ -193,7 +190,7 @@ char SELECT_CANAL_C[7];
 
 //TABLA_DATOS_CANAL_SFX:
 //DW	SELECT_CANAL_A,SELECT_CANAL_B,SELECT_CANAL_C
-char TABLA_DATOS_CANAL_SFX[6];
+u8 TABLA_DATOS_CANAL_SFX[6];
 
 
 // -----------------------------------------------------------------------------
@@ -210,15 +207,15 @@ char TABLA_DATOS_CANAL_SFX[6];
 
 
 /* =============================================================================
- Player_Init
+ WYZ_Initialize
  Description: Initialize the Player
- Input:       (unsigned int) Songs data index memory address
-              (unsigned int) Instruments data index memory address
-              (unsigned int) FXs data index memory address
-              (unsigned int) Notes Table memory address
+ Input:       (u16) Songs data index memory address
+              (u16) Instruments data index memory address
+              (u16) FXs data index memory address
+              (u16) Notes Table memory address
  Output:      
 ============================================================================= */
-void Player_Init(unsigned int addrSONGs, unsigned int addrInstruments, unsigned int addrFXs, unsigned int addrFreqs) __sdcccall(0)
+void WYZ_Initialize(u16 addrSONGs, u16 addrInstruments, u16 addrFXs, u16 addrFreqs) __sdcccall(0)
 {
 addrSONGs;
 addrInstruments;
@@ -319,19 +316,19 @@ __asm
     		
 __endasm;
 }         
-// ----------------------------------------------------------------------------- <<< END Player_Init      	
+// ----------------------------------------------------------------------------- <<< END WYZ_Initialize      	
 
 
 
 
 
 /* =============================================================================
- Player_Pause
+ WYZ_Pause
  Description: Pause song playback
  Input:       -
  Output:      -
 ============================================================================= */
-void Player_Pause() __naked
+void WYZ_Pause() __naked
 {
 __asm
     
@@ -362,7 +359,7 @@ CLEAR_PSG_BUFFER:
    
 __endasm;
 }
-// ----------------------------------------------------------------------------- <<< END Player_Pause
+// ----------------------------------------------------------------------------- <<< END WYZ_Pause
 
 
 
@@ -370,12 +367,12 @@ __endasm;
 
 
 /* =============================================================================
- Player_Resume
+ WYZ_Resume
  Description: Resume song playback
  Input:       -
  Output:      -
 ============================================================================= */  	
-void Player_Resume() __naked
+void WYZ_Resume() __naked
 {
 __asm
    LD      HL,#_WYZstate       
@@ -384,18 +381,18 @@ __asm
    RET
 __endasm;
 }
-// ----------------------------------------------------------------------------- <<< END Player_Resume
+// ----------------------------------------------------------------------------- <<< END WYZ_Resume
 
 
 
 
 /* -----------------------------------------------------------------------------
- Player_IsEnd
+ WYZ_IsFinished
  Description: Indicates whether the song has finished playing
  Input:       -
- Output:      [char] 0 = No, 1 = Yes 
+ Output:      [u8] 0 = No, 1 = Yes 
 ----------------------------------------------------------------------------- */
-char Player_IsEnd() __naked
+u8 WYZ_IsFinished() __naked
 {
 __asm
     xor  A
@@ -410,18 +407,18 @@ retPlayerEndState:
     ret  
 __endasm;
 }
-// ----------------------------------------------------------------------------- <<< END Player_IsEnd
+// ----------------------------------------------------------------------------- <<< END WYZ_IsFinished
 
 
 
 
 /* =============================================================================
- Player_Loop
+ WYZ_SetLoop
  Description: Change loop mode
- Input:       [char] false = 0, true = 1
+ Input:       [u8] false = 0, true = 1
  Output:      -
 ============================================================================= */  	
-void Player_Loop(char loop) __naked __sdcccall(0)
+void WYZ_SetLoop(u8 loop) __naked __sdcccall(0)
 {
 loop;
 __asm
@@ -451,19 +448,19 @@ resetLOOP:
 
 __endasm;
 }
-// ----------------------------------------------------------------------------- <<< END Player_Loop
+// ----------------------------------------------------------------------------- <<< END WYZ_SetLoop
 
 
 
 
 
 /* =============================================================================
- PlayFX
+ WYZ_PlayFX
  Description: Play Sound Effect
- Input:       (char) FX number
+ Input:       (u8) FX number
  Output:      -
 ============================================================================= */
-void PlayFX(char numSound) __naked __sdcccall(0)
+void WYZ_PlayFX(u8 numSound) __naked __sdcccall(0)
 {
 numSound;
 __asm
@@ -495,7 +492,7 @@ INICIA_SONIDO:
     
 __endasm;
 } 
-// ----------------------------------------------------------------------------- <<< END PlayFX
+// ----------------------------------------------------------------------------- <<< END WYZ_PlayFX
 
 
 
@@ -505,13 +502,13 @@ __endasm;
 
  
 /* =============================================================================
- PlayAY
+ WYZ_PlayAY
  Description: Send data from AYREGS buffer to AY registers.
               Execute on each interruption of VBLANK
  Input:       -
  Output:      -
 ============================================================================= */
-void PlayAY() __naked
+void WYZ_PlayAY() __naked
 {
 __asm
     
@@ -570,7 +567,7 @@ LOUT:
 
 __endasm;
 }
-// ----------------------------------------------------------------------------- <<< END PlayAY
+// ----------------------------------------------------------------------------- <<< END WYZ_PlayAY
 
 
 
@@ -581,13 +578,13 @@ __endasm;
 
 
 /* =============================================================================
- Player_InitSong
+ WYZ_PlaySong
  Description: Initialize song
- Input:       [char] song number
-              [char] loop status (false = 0, true = 1)
+ Input:       [u8] song number
+              [u8] loop status (false = 0, true = 1)
  Output:      -
 ============================================================================= */
-void Player_InitSong(char numSong, char loop) __sdcccall(0)
+void WYZ_PlaySong(u8 numSong, u8 loop) __sdcccall(0)
 {
 numSong;
 loop;
@@ -785,7 +782,7 @@ BGICMODBC1:
 
 __endasm;
 }
-// ----------------------------------------------------------------------------- <<< END Player_InitSong
+// ----------------------------------------------------------------------------- <<< END WYZ_PlaySong
 
 
 
@@ -798,12 +795,12 @@ __endasm;
 
 
 /* =============================================================================
- Player_Decode
+ WYZ_Decode
  Description: Process the next step in the song sequence 
  Input:       -
  Output:      -
 ============================================================================= */        
-void Player_Decode() __naked __sdcccall(0)
+void WYZ_Decode() __naked __sdcccall(0)
 {
 __asm
 
@@ -1502,5 +1499,5 @@ EXT_WORD:
 
 __endasm;
 }
-// ----------------------------------------------------------------------------- <<< END Player_Decode 
+// ----------------------------------------------------------------------------- <<< END WYZ_Decode 
 

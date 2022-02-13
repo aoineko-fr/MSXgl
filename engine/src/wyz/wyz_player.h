@@ -60,121 +60,121 @@ INTERRUPTORES 1=ON 0=OFF
 - BIT 3=SFX ON/OFF
 - BIT 4=LOOP
 */
-extern char WYZstate;
+extern u8 WYZstate;
 
-extern char SONG;   //number of song playing
-extern char TEMPO;  //TEMPO
+extern u8 SONG;   //number of song playing
+extern u8 TEMPO;  //TEMPO
 
-extern char AYREGS[16];       //PSG registers buffer
+extern u8 AYREGS[16];       //PSG registers buffer
 
-//extern unsigned int TABLA_SONG;    //songs index  
-//extern unsigned int TABLA_PAUTAS;  //instruments index
-//extern unsigned int TABLA_SONIDOS; //FXs index
-//extern unsigned int DATOS_NOTAS;   //Data of the frequencies of the notes
+//extern u16 TABLA_SONG;    //songs index  
+//extern u16 TABLA_PAUTAS;  //instruments index
+//extern u16 TABLA_SONIDOS; //FXs index
+//extern u16 DATOS_NOTAS;   //Data of the frequencies of the notes
 
 //------------------------------------------------------------------------------
 
 
 
 /* =============================================================================
- Player_Init
+ WYZ_Initialize
  Description: Initialize the Player
- Input:       (unsigned int) Songs data index memory address
-              (unsigned int) Instruments data index memory address
-              (unsigned int) FXs data index memory address
-              (unsigned int) Notes Table memory address
+ Input:       (u16) Songs data index memory address
+              (u16) Instruments data index memory address
+              (u16) FXs data index memory address
+              (u16) Notes Table memory address
  Output:      -
 ============================================================================= */
-void Player_Init(unsigned int addrSONGs, unsigned int addrInstruments, unsigned int addrFXs, unsigned int addrFreqs) __sdcccall(0);
+void WYZ_Initialize(u16 addrSONGs, u16 addrInstruments, u16 addrFXs, u16 addrFreqs) __sdcccall(0);
 
 
 
 /* =============================================================================
- Player_Pause
+ WYZ_Pause
  Description: Pause song playback
  Input:       -
  Output:      -
 ============================================================================= */
-void Player_Pause() __naked;  
+void WYZ_Pause() __naked;  
 
 
 
 /* =============================================================================
- Player_Resume
+ WYZ_Resume
  Description: Resume song playback
  Input:       -
  Output:      -
 ============================================================================= */ 
-void Player_Resume() __naked; 
+void WYZ_Resume() __naked; 
 
 
 
 /* =============================================================================
- Player_Loop
+ WYZ_SetLoop
  Description: Change loop mode
- Input:       [char] false = 0, true = 1
+ Input:       [u8] false = 0, true = 1
  Output:      -
 ============================================================================= */ 
-void Player_Loop(char loop) __naked __sdcccall(0);
+void WYZ_SetLoop(u8 loop) __naked __sdcccall(0);
 
 
 
 /* -----------------------------------------------------------------------------
- Player_IsEnd
+ WYZ_IsFinished
  Description: Indicates whether the song has finished playing
  Input:       -
- Output:      [char] 0 = No, 1 = Yes 
+ Output:      [u8] 0 = No, 1 = Yes 
 ----------------------------------------------------------------------------- */
-char Player_IsEnd() __naked;
+u8 WYZ_IsFinished() __naked;
 
 
 
 /* =============================================================================
- PlayFX
+ WYZ_PlayFX
  Description: Play Sound Effect
- Input:       (char) FX number
+ Input:       (u8) FX number
  Output:      -
 ============================================================================= */
-void PlayFX(char numSound) __naked __sdcccall(0); 
+void WYZ_PlayFX(u8 numSound) __naked __sdcccall(0); 
 
 
 
 /* =============================================================================
- PlayAY
+ WYZ_PlayAY
  Description: Send data from AYREGS buffer to AY registers.
               Execute on each interruption of VBLANK
  Input:       -
  Output:      -
 ============================================================================= */
-void PlayAY() __naked;
+void WYZ_PlayAY() __naked;
 
 
 
 /* =============================================================================
- Player_InitSong
+ WYZ_PlaySong
  Description: Initialize song
- Input:       [char] song number
-              [char] loop status (false = 0, true = 1)
+ Input:       [u8] song number
+              [u8] loop status (false = 0, true = 1)
  Output:      -
 ============================================================================= */
-void Player_InitSong(char numSong, char loop) __sdcccall(0); 
+void WYZ_PlaySong(u8 numSong, u8 loop) __sdcccall(0); 
 
 
 
 /* =============================================================================
- Player_Decode
+ WYZ_Decode
  Description: Process the next step in the song sequence 
  Input:       -
  Output:      -
 ============================================================================= */
-void Player_Decode() __naked; 
+void WYZ_Decode() __naked; 
 
 
 
 
 
 // mute functions, 0=off, other=on
-//void muteChannelA(char value);
-//void muteChannelB(char value);
-//void muteChannelC(char value);
-//void muteChannelFX(char value);
+//void muteChannelA(u8 value);
+//void muteChannelB(u8 value);
+//void muteChannelC(u8 value);
+//void muteChannelFX(u8 value);

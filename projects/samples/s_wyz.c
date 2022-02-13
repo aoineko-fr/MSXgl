@@ -108,8 +108,8 @@ void SetMusic(u8 idx)
 	g_CurrentMusic = idx;
 	const struct MusicEntry* entry = &g_MusicEntry[idx];
 
-	Player_Init(entry->Song, entry->Inst, entry->FX, entry->Freq);
-	Player_InitSong(0, true); 
+	WYZ_Initialize(entry->Song, entry->Inst, entry->FX, entry->Freq);
+	WYZ_PlaySong(0, true); 
 	
 	Print_SetPosition(0, 2);
 	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), entry->Name);
@@ -224,8 +224,8 @@ void main()
 		Halt();
 		if(!g_Freq60Hz || (count % 6 != 0))
 		{
-			Player_Decode();
-			PlayAY();
+			WYZ_Decode();
+			WYZ_PlayAY();
 		}
 		// ayVGM_Decode();
 		// #if (PSG_ACCESS == PSG_INDIRECT)
