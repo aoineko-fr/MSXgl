@@ -1,10 +1,25 @@
 REM @echo off
 
+set BuildWYZ=1
+set BuildayFX=1
+set BuildVGM=1
+set BuildayVGM=1
+set BuildayArkos=1
+set BuildayEnc=1
+
 set Tools=..\..\..\tools
 set CMSXtk=%Tools%\CMSXtk\bin
+set AudioMisc=%Tools%\audio\misc
 set Dest=..\content
 
 if not exist %Dest% md %Dest%
+
+rem -- Convert WYZ data --
+if not exist %Dest%\wyz md %Dest%\wyz
+for %%I in (wyz\*.mus) do call %AudioMisc%\wyz_merge.bat %%I %Dest%\wyz content\wyz
+
+REM pause
+REM exit /b 0
 
 rem -- Build ayFX data --
 if not exist %Dest%\ayfx md %Dest%\ayfx
@@ -27,7 +42,7 @@ for %%I in (arkos\*.akm) do %CMSXtk%\CMSXbin.exe %%I -t g_AKM_%%~nI -ad -o %Dest
 for %%I in (arkos\*.aky) do %CMSXtk%\CMSXbin.exe %%I -t g_AKY_%%~nI -ad -o %Dest%\arkos\aky_%%~nI.h
 for %%I in (arkos\*.akl) do %CMSXtk%\CMSXbin.exe %%I -t g_AKL_%%~nI -ad -o %Dest%\arkos\akl_%%~nI.h
 
-rem -- Build pcmenc data --
+REM rem -- Build pcmenc data --
 REM if not exist %Dest%\pcm md %Dest%\pcm
 REM :: 8 KHz
 REM for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -dt1 31 -dt2 27 -dt3 388 %%I

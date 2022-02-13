@@ -3,117 +3,258 @@
 // █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
-//  WYZ replayer sample
+//  VGM format sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
-#include "PT3player/PT3player.h"
+#include "psg.h"
+#include "wyz\wyz_player.h"
 
-//-----------------------------------------------------------------------------
-// Data
+//=============================================================================
+// DEFINES
+//=============================================================================
+
+extern u16 WYZ_songs;
+extern u16 WYZ_instruments;
+extern u16 WYZ_FXs;
+extern u16 WYZ_notes;
+
+extern u16 RA_PSG_Song;
+extern u16 RA_PSG_Inst;
+extern u16 RA_PSG_FX;
+extern u16 RA_PSG_Freq;
+
+extern u16 jinj_med_Song;
+extern u16 jinj_med_Inst;
+extern u16 jinj_med_FX;
+extern u16 jinj_med_Freq;
+
+// Library's logo
+#define MSX_GL "\x02\x03\x04\x05"
+
+// VGM music entry
+struct MusicEntry
+{
+	const c8* Name;
+	u16       Song;
+	u16       Inst;
+	u16       FX;
+	u16       Freq;
+};
+
+// Player button entry
+struct ButtonEntry
+{
+	u8        Char;
+	callback  Func;
+};
+
+// Button callbacks
+void ButtonPlay();
+void ButtonPause();
+void ButtonStop();
+void ButtonPrev();
+void ButtonNext();
+void ButtonLoop();
+
+//=============================================================================
+// READ-ONLY DATA
+//=============================================================================
 
 // Fonts
-#include "font\font_mgl_std0.h"
-#include "font\font_mgl_symbol1.h"
-// Note table
-#include "PT3player\PT3player_NoteTable2.h"
-// Music
-#include "content\pt3\A_funny_day_with_my_MSX.h"
-#include "content\pt3\After2.h"
-// Character animation
+#include "font\font_mgl_sample8.h"
+
+// Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
-//-----------------------------------------------------------------------------
-// Static variables
-
-u8 g_VBlank = 0;
-u8 g_Frame = 0;
-
-//-----------------------------------------------------------------------------
-/// H_TIMI interrupt hook
-void VBlankHook()
+// Music list
+const struct MusicEntry g_MusicEntry[] =
 {
-	g_VBlank = 1;
-	g_Frame++;
+	{ "Jinj Med ", (u16)&jinj_med_Song, (u16)&jinj_med_Inst, (u16)&jinj_med_FX, (u16)&jinj_med_Freq },
+	{ "RA_PSG   ", (u16)&RA_PSG_Song, (u16)&RA_PSG_Inst, (u16)&RA_PSG_FX, (u16)&RA_PSG_Freq },
+	{ "Nayade   ", (u16)&WYZ_songs, (u16)&WYZ_instruments, (u16)&WYZ_FXs, (u16)&WYZ_notes },
+};
 
-    // PT3_PlayAY();
-	PT3_PlayAY();
-	PT3_Decode(); 
+// Player button list
+const struct ButtonEntry g_ButtonEntry[] =
+{
+	{ 0x80, ButtonPlay },
+	{ 0xB8, ButtonPause },
+	{ 0xB9, ButtonStop },
+	{ 0xBB, ButtonPrev },
+	{ 0xBA, ButtonNext },
+	{ 0xBE, ButtonLoop },
+};
+
+// Color shade
+const u8 g_ColorBlink[4] = { COLOR_LIGHT_RED, COLOR_MEDIUM_RED, COLOR_DARK_RED, COLOR_MEDIUM_RED };
+
+//=============================================================================
+// MEMORY DATA
+//=============================================================================
+
+u8   g_CurrentMusic = 0;
+u8   g_CurrentButton;
+bool g_Freq60Hz = false;
+
+
+//=============================================================================
+// HELPER FUNCTIONS
+//=============================================================================
+
+//-----------------------------------------------------------------------------
+//
+void SetMusic(u8 idx)
+{
+	g_CurrentMusic = idx;
+	const struct MusicEntry* entry = &g_MusicEntry[idx];
+
+	Player_Init(entry->Song, entry->Inst, entry->FX, entry->Freq);
+	Player_InitSong(0, true); 
+	
+	Print_SetPosition(0, 2);
+	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), entry->Name);
 }
 
-/// Wait for V-Blank period
-void WaitVBlank()
+//-----------------------------------------------------------------------------
+//
+void ButtonPlay()
 {
-	while(g_VBlank == 0) {}
-	g_VBlank = 0;
+	// ayVGM_Resume();
 }
+
+//-----------------------------------------------------------------------------
+//
+void ButtonPause()
+{
+	// ayVGM_Pause();
+}
+
+//-----------------------------------------------------------------------------
+//
+void ButtonStop()
+{
+	// ayVGM_Stop();	
+}
+
+//-----------------------------------------------------------------------------
+//
+void ButtonPrev()
+{
+	if(g_CurrentMusic > 0)
+		SetMusic(g_CurrentMusic - 1);
+}
+
+//-----------------------------------------------------------------------------
+//
+void ButtonNext()
+{
+	if(g_CurrentMusic < numberof(g_MusicEntry) - 1)
+		SetMusic(g_CurrentMusic + 1);
+}
+
+//-----------------------------------------------------------------------------
+//
+void ButtonLoop()
+{
+	// if(g_ayVGM_State & AYVGM_STATE_LOOP)
+		// g_ayVGM_State &= ~AYVGM_STATE_LOOP;
+	// else
+		// g_ayVGM_State |= AYVGM_STATE_LOOP;
+}
+
+//-----------------------------------------------------------------------------
+//
+void SetCursor(u8 id)
+{
+	g_CurrentButton = id % 6;
+	VDP_SetSpriteSM1(0, 8 + 16*g_CurrentButton, 128-1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
+}
+
+
+//=============================================================================
+// MAIN LOOP
+//=============================================================================
 
 //-----------------------------------------------------------------------------
 // Program entry point
 void main()
 {
-	VDP_SetMode(VDP_MODE_SCREEN5);
-	VDP_SetFrequency(VDP_FREQ_50HZ);
-	VDP_EnableSprite(false);
-	VDP_SetColor(0x4);
-	VDP_CommandHMMV(0, 0, 256, 212, 0x44);
+	// Initialize screen
+	VDP_SetMode(VDP_MODE_SCREEN1);
+	VDP_ClearVRAM();
+	VDP_EnableVBlank(true);
 
-	Print_Initialize(null);
-	Print_SetVRAMFont(g_Font_MGL_Std0, 212);
-	Print_SetPosition(3, 2);
-	Print_DrawText("PT3 PLAYER SAMPLE");
-	Draw_Box(0, 0, 255, 16, 0, 0x0F);
-	
-	Print_SetPosition(0, 24);
-	Print_DrawText("- Song #0 -\n\n");
-	Print_DrawText("Name:   ");
-	Print_DrawText(SONG00_name);
-	Print_Return();
-	Print_DrawText("Author: ");
-	Print_DrawText(SONG00_author);
-	Print_Return();
-	Print_DrawText("Size:   ");
-	Print_DrawInt(sizeof(SONG00));
-	Print_DrawText(" bytes");
-	
-	Print_SetColor(0x0F, 0x05);
-	Print_SetFont(g_Font_MGL_Symbol1);
-	Print_SetMode(PRINT_MODE_DEFAULT);
-	Print_SetPosition(0, 128);
-	Print_DrawChar(112);
-	g_PrintData.CursorX += 2;
-	Print_DrawChar(113);
-	g_PrintData.CursorX += 2;
-	Print_DrawChar(114);
-	g_PrintData.CursorX += 2;
-	Print_DrawChar(117);
-	g_PrintData.CursorX += 2;
-	Print_DrawChar(116);
-	g_PrintData.CursorX += 2;
-	Print_DrawChar(121);
+	// Initialize font
+	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
+	Print_DrawText(MSX_GL " WYZ Sample");
+	Print_DrawLineH(0, 1, 32);
 
-	NoteTable = (unsigned int) NT;
-	PT3_Init();
-	PT3_InitSong((u16)SONG00, true);
-	// PT3_InitSong((u16)g_After2, true);
-	
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
+	Print_SetPosition(20, 10);
+	Print_DrawText("Main-ROM:");
+	Print_SetPosition(20, 11);
+	Print_DrawFormat("\x07" "Freq  %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
 
-	Print_SetFont(g_Font_MGL_Std0);
-	Print_SetMode(PRINT_MODE_VRAM);
-
-	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	// Decode VGM header
+	SetMusic(0);
+	Print_DrawBox(0, 15, numberof(g_ButtonEntry) * 2 + 1, 3);
+	for(u8 i = 0; i < numberof(g_ButtonEntry); ++i)
 	{
-		WaitVBlank();
-
-		Print_SetPosition(255-8, 0);
-		u8 chr = count++ & 0x03;
-		Print_DrawChar(g_ChrAnim[chr]);		
-			
-		// PT3_PlayAY();
-		// PT3_Decode(); 
+		Print_SetPosition(1 + 2 * i, 16);
+		Print_DrawChar(g_ButtonEntry[i].Char);
+		
 	}
 
-	// Bios_ClearHook(H_TIMI);
-	// Bios_Exit(0);
+	// Footer
+	Print_DrawLineH(0, 22, 32);
+	Print_SetPosition(0, 23);
+	Print_DrawText("\x8D:Button \x83:Action");
+
+	//-------------------------------------------------------------------------
+	// Sprite
+	
+	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8 + VDP_SPRITE_SCALE_1);
+	VDP_LoadSpritePattern(g_Font_MGL_Sample8 + 4, 0, g_Font_MGL_Sample8[3] - g_Font_MGL_Sample8[2]);
+
+	SetCursor(4);
+
+	u8 prevRow8 = 0xFF;
+	u8 count = 0;
+	while(1)
+	{
+		Halt();
+		if(!g_Freq60Hz || (count % 6 != 0))
+		{
+			Player_Decode();
+			PlayAY();
+		}
+		// ayVGM_Decode();
+		// #if (PSG_ACCESS == PSG_INDIRECT)
+		// PSG_Apply();
+		// #endif
+		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
+		
+		Print_SetPosition(31, 0);
+		u8 chr = count++ & 0x03;
+		Print_DrawChar(g_ChrAnim[chr]);
+		
+		// Handle input
+		u8 row8 = Keyboard_Read(8);
+
+		// Change button
+		if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
+		{
+			SetCursor(g_CurrentButton + 1);
+		}
+		else if(IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
+		{
+			SetCursor(g_CurrentButton - 1);
+		}
+		// Activate button
+		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		{
+			g_ButtonEntry[g_CurrentButton].Func();
+		}
+		
+		prevRow8 = row8;
+	}
 }

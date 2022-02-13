@@ -89,6 +89,18 @@ for %%G in (%LibModules%) do (
 	set LibList=!LibList! %OutDir%\%%~nG.rel
 )
 
+:: Additional source files to build
+if not defined AddSources goto NoAddSources
+for %%G in (%AddSources%) do (
+	if not exist "%%G" (
+		echo %RED%Error: Additionnal source %%G don't exist%RESET%
+		exit /B 120
+	)
+	set SrcList=!SrcList!,%%G
+	set LibList=!LibList! %OutDir%\%%~nG.rel
+)
+:NoAddSources
+
 rem ***************************************************************************
 if %DoClean%==0 goto :NoClean
 

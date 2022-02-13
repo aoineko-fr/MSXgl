@@ -1,1042 +1,180 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄ ▄ ▄▄ ▄ ▄▄▄▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ █ ▀█▄▀  ▄█▀
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▀█  ██  ██▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 //─────────────────────────────────────────────────────────────────────────────
+// WYZ player module
+//
+// Authors: 
+// - MSX PSG proPLAYER V0.3 by WYZ 09.03.2016 https://sites.google.com/site/wyzplayer/home
+// - Adapted to SDCC: mvac7/303bcn > <mvac7303b@gmail.com>
+//─────────────────────────────────────────────────────────────────────────────
 #include "core.h"
 
-//  MSX PSG proPLAYER V 0.47c - WYZ 19.03.2016
-//  (WYZTracker 2.0 o superior)
+/* =============================================================================
+ SDCC WYZ player for MSX
+ Version: 1.3 (14/06/2021)
+ Author: MSX PSG proPLAYER v0.3 (09.03.2016) by WYZ/Iggy Rock
+         Adapted to SDCC: mvac7/303bcn > <mvac7303b@gmail.com>
+ Architecture: MSX
+ Format: C Object (SDCC .rel)
+ Programming language: Assembler and C (SDCC)
+ WEB: https://sites.google.com/site/wyzplayer/home
+      http://www.cpcwiki.eu/index.php/WYZTracker
+      
+ Description:
+ Adaptation of the WYZ music player for programming in C with the SDCC compiler.                                          
+============================================================================= */
+
+#ifndef AY_REGISTERS
+#define AY_REGISTERS
+#define AY_ToneA      0 //Channel A Tone Period (12 bits)
+#define AY_ToneB      2 //Channel B Tone Period (12 bits)
+#define AY_ToneC      4 //Channel C Tone Period (12 bits)
+#define AY_Noise      6 //Noise Period (5 bits)
+#define AY_Mixer      7 //Mixer
+#define AY_AmpA       8 //Channel Volume A (4 bits + B5 active Envelope)
+#define AY_AmpB       9 //Channel Volume B (4 bits + B5 active Envelope)
+#define AY_AmpC      10 //Channel Volume C (4 bits + B5 active Envelope)
+#define AY_EnvPeriod 11 //Envelope Period (16 bits)
+#define AY_EnvShape  13 //Envelope Shape
+#endif
 
-u8 INTERR;  // INTERRUPTORES 1=ON 0=OFF
-// BIT 0=CARGA CANCION ON/OFF
-// BIT 1=PLAYER ON/OFF
-// BIT 2=EFECTOS ON/OFF
-// BIT 3=SFX ON/OFF
-// BIT 4=LOOP
+
+
+#ifndef _SWITCHER
+#define _SWITCHER
+  typedef enum {OFF = 0, ON = 1} SWITCHER;
+#endif
+
 
-// MUSIC **** THE ORDER OF THE VARIABLES IS FIXED ******
 
-u8 SONG;				// DB Song number
-u8 TEMPO;				// DB Tempo
-u8 TTEMPO;				// DB Tempo counter
+/*
+WYZstate = INTERR            
+INTERRUPTORES 1=ON 0=OFF
+- BIT 0=CARGA CANCION ON/OFF
+- BIT 1=PLAYER ON/OFF
+- BIT 2=EFECTOS ON/OFF
+- BIT 3=SFX ON/OFF
+- BIT 4=LOOP
+*/
+extern char WYZstate;
 
-u16 PUNTERO_A;			// DW Channel A pointer
-u16 PUNTERO_B;			// DW Channel B pointer
-u16 PUNTERO_C;			// DW Channel C pointer
+extern char SONG;   //number of song playing
+extern char TEMPO;  //TEMPO
 
-u16 CANAL_A;			// DW Music start address A
-u16 CANAL_B;			// DW Music start address B
-u16 CANAL_C;			// DW Music start address C
+extern char AYREGS[16];       //PSG registers buffer
+
+//extern unsigned int TABLA_SONG;    //songs index  
+//extern unsigned int TABLA_PAUTAS;  //instruments index
+//extern unsigned int TABLA_SONIDOS; //FXs index
+//extern unsigned int DATOS_NOTAS;   //Data of the frequencies of the notes
 
-u16 PUNTERO_P_A;		// DW Pointer channel A
-u16 PUNTERO_P_B;		// DW Pointer channel B
-u16 PUNTERO_P_C;		// DW Pointer channel C
+//------------------------------------------------------------------------------
 
-u16 PUNTERO_P_A0;		// DW Ini pointer channel A
-u16 PUNTERO_P_B0;		// DW Ini pointer channel B
-u16 PUNTERO_P_C0;		// DW Ini pointer channel C
-    
-u16 PUNTERO_P_DECA;		// DW PUNTERO DE INICIO DEL DECODER CANAL A
-u16 PUNTERO_P_DECB;		// DW PUNTERO DE INICIO DEL DECODER CANAL B
-u16 PUNTERO_P_DECC;		// DW PUNTERO DE INICIO DEL DECODER CANAL C
-    
-u16 PUNTERO_DECA;		// DW PUNTERO DECODER CANAL A
-u16 PUNTERO_DECB;		// DW PUNTERO DECODER CANAL B
-u16 PUNTERO_DECC;		// DW PUNTERO DECODER CANAL C
 
-u8  REG_NOTA_A;			// DB REGISTRO DE LA NOTA EN EL CANAL A
-u8  VOL_INST_A;			// DB VOLUMEN RELATIVO DEL INSTRUMENTO DEL CANAL A
-u8  REG_NOTA_B;			// DB REGISTRO DE LA NOTA EN EL CANAL B
-u8  VOL_INST_B;			// DB VOLUMEN RELATIVO DEL INSTRUMENTO DEL CANAL B
-u8  REG_NOTA_C;			// DB REGISTRO DE LA NOTA EN EL CANAL C
-u8  VOL_INST_C;			// DB VOLUMEN RELATIVO DEL INSTRUMENTO DEL CANAL C
 
-u16 PUNTERO_L_DECA;		// DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL A
-u16 PUNTERO_L_DECB;		// DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL B
-u16 PUNTERO_L_DECC;		// DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL C
+/* =============================================================================
+ Player_Init
+ Description: Initialize the Player
+ Input:       (unsigned int) Songs data index memory address
+              (unsigned int) Instruments data index memory address
+              (unsigned int) FXs data index memory address
+              (unsigned int) Notes Table memory address
+ Output:      -
+============================================================================= */
+void Player_Init(unsigned int addrSONGs, unsigned int addrInstruments, unsigned int addrFXs, unsigned int addrFreqs) __sdcccall(0);
 
-// CANAL DE EFECTOS DE RITMO - ENMASCARA OTRO CANAL
 
-u16 PUNTERO_P;			// DW PUNTERO DEL CANAL EFECTOS
-u16 CANAL_P;			// DW DIRECION DE INICIO DE LOS EFECTOS
-u16 PUNTERO_P_DECP;		// DW PUNTERO DE INICIO DEL DECODER CANAL P
-u16 PUNTERO_DECP;		// DW PUNTERO DECODER CANAL P
-u16 PUNTERO_L_DECP;		// DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL P
-// SELECT_CANAL_P	DB	INTERR+$36	// DB SELECCION DE CANAL DE EFECTOS DE RITMO
 
-u16 SFX_L;				// DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO BAJO
-u16 SFX_H;				// DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO ALTO
-u16 SFX_V;				// DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO VOLUMEN
-u16 SFX_MIX;			// DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO MIXER
+/* =============================================================================
+ Player_Pause
+ Description: Pause song playback
+ Input:       -
+ Output:      -
+============================================================================= */
+void Player_Pause() __naked;  
 
 
-// EFECTOS DE SONIDO
 
-u8  N_SONIDO;			// DB : NUMERO DE SONIDO
-u16 PUNTERO_SONIDO;		// DW : PUNTERO DEL SONIDO QUE SE REPRODUCE
+/* =============================================================================
+ Player_Resume
+ Description: Resume song playback
+ Input:       -
+ Output:      -
+============================================================================= */ 
+void Player_Resume() __naked; 
 
 
-// DB [13] BUFFERs DE REGISTROS DEL PSG
-
-u8  PSG_REG[16];
-u8  PSG_REG_SEC[16];
-u8  ENVOLVENTE;		// DB : FORMA DE LA _ENVOLVENTE
-// BIT 0	  : FRECUENCIA CANAL ON/OFF
-// BIT 1-2  : RATIO
-// BIT 3-3  : FORMA
-u8  ENVOLVENTE_BACK;		// DB:	BACKUP DE LA FORMA DE LA ENVOLENTE
 
+/* =============================================================================
+ Player_Loop
+ Description: Change loop mode
+ Input:       [char] false = 0, true = 1
+ Output:      -
+============================================================================= */ 
+void Player_Loop(char loop) __naked __sdcccall(0);
 
-// MEMORIA PARA BUFFER DE SONIDO!
-// RECOMENDABLE $10 O MAS BYTES POR CANAL.
-
-u8  BUFFER_CANAL_A[16];
-u8  BUFFER_CANAL_B[16];
-u8  BUFFER_CANAL_C[16];
-u8  BUFFER_CANAL_P[16];
-
-
-
-void Temp() __naked
-{
-
-	__asm
-//  MSX PSG proPLAYER V 0.47c - WYZ 19.03.2016
-//  (WYZTracker 2.0 o superior)
-
-
-//  ENSAMBLAR CON AsMSX
-
-//  CARACTERISTICAS
-//  5 OCTAVAS:		O(2-6)=60 NOTAS
-//  4 LONGITUDES DE NOTA: L(0-3)+PUNTILLO
-
-
-//  LOS DATOS QUE HAY QUE VARIAR :
-//  * BUFFER DE SONIDO DONDE SE DECODIFICA TOTALMENTE EL ARCHIVO MUS
-//  * Nº DE CANCION.
-//  * TABLA DE CANCIONES
-
-
-
-
-// ______________________________________________________
-
-
-INICIO:		CALL	ROUT
-
-		LD	HL,#_PSG_REG
-		LD	DE,#_PSG_REG_SEC
-		LD	BC,#14
-		LDIR
-		CALL	REPRODUCE_SONIDO
-		JP	PLAY
-		//  CALL	REPRODUCE_EFECTO
-		//  RET
 
 
+/* -----------------------------------------------------------------------------
+ Player_IsEnd
+ Description: Indicates whether the song has finished playing
+ Input:       -
+ Output:      [char] 0 = No, 1 = Yes 
+----------------------------------------------------------------------------- */
+char Player_IsEnd() __naked;
 
-// REPRODUCE EFECTOS DE SONIDO
-
-REPRODUCE_SONIDO:
-
-		LD	HL,#_INTERR
-		BIT	2,(HL)		// ESTA ACTIVADO EL EFECTO?
-		RET	Z
-		LD	HL,(_PUNTERO_SONIDO)
-		LD	A,(HL)
-		CP	#0xFF
-		JR	Z,FIN_SONIDO
-		LD	DE,(_SFX_L)
-		LD	(DE),A
-		INC	HL
-		LD	A,(HL)
-		RRCA
-		RRCA
-		RRCA
-		RRCA
-		AND	#0b00001111
-		LD	DE,(_SFX_H)
-		LD	(DE),A
-		LD	A,(HL)
-		AND	#0b00001111
-		LD	DE,(_SFX_V)
-		LD	(DE),A
-
-		INC	HL
-		LD	A,(HL)
-		LD	B,A
-		BIT	7,A				// 09.08.13 BIT MAS SIGINIFICATIVO ACTIVA ENVOLVENTES
-		JR	Z,NO_ENVOLVENTES_SONIDO
-		LD	A,#0x12
-		LD	(DE),A
-		INC	HL
-		LD	A,(HL)
-		LD	(_PSG_REG_SEC+11),A
-		INC	HL
-		LD	A,(HL)
-		LD	(_PSG_REG_SEC+12),A
-		INC	HL
-		LD	A,(HL)
-		CP	#1
-		JR	Z,NO_ENVOLVENTES_SONIDO		// NO ESCRIBE LA _ENVOLVENTE SI SU VALOR ES 1
-		LD	(_PSG_REG_SEC+13),A
-
-
-NO_ENVOLVENTES_SONIDO:
-
-		LD	A,B
-		and #0x7f	//  RES	7,A
-			//  AND	A
-		JR	Z,NO_RUIDO
-		LD	(_PSG_REG_SEC+6),A
-		LD	A,(_SFX_MIX)
-		JR	SI_RUIDO
-NO_RUIDO:	XOR	A
-		LD	(_PSG_REG_SEC+6),A
-		LD	A,#0b10111000
-SI_RUIDO:	LD	(_PSG_REG_SEC+7),A
-
-		INC	HL
-		LD	(_PUNTERO_SONIDO),HL
-		RET
-FIN_SONIDO:	LD	HL,#_INTERR
-		RES	2,(HL)
-		LD	A,(_ENVOLVENTE_BACK)		// NO RESTAURA LA _ENVOLVENTE SI ES 0
-		AND	A
-		JR	Z,FIN_NOPLAYER
-		// xor	a //  ***
-		LD	(_PSG_REG_SEC+13),A			// 08.13 RESTAURA LA _ENVOLVENTE TRAS EL SFX
 
-FIN_NOPLAYER:	LD	A,#0b10111000
-		LD	(_PSG_REG_SEC+7),A
 
-		RET
+/* =============================================================================
+ PlayFX
+ Description: Play Sound Effect
+ Input:       (char) FX number
+ Output:      -
+============================================================================= */
+void PlayFX(char numSound) __naked __sdcccall(0); 
 
 
 
-// VUELCA BUFFER DE SONIDO AL PSG
+/* =============================================================================
+ PlayAY
+ Description: Send data from AYREGS buffer to AY registers.
+              Execute on each interruption of VBLANK
+ Input:       -
+ Output:      -
+============================================================================= */
+void PlayAY() __naked;
 
-ROUT:		LD	A,(_PSG_REG+13)
-		AND	A			// ES CERO?
-		JR	Z,NO_BACKUP_ENVOLVENTE
-		LD	(_ENVOLVENTE_BACK),A	// 08.13 / GUARDA LA _ENVOLVENTE EN EL BACKUP
 
 
-		XOR	A
+/* =============================================================================
+ Player_InitSong
+ Description: Initialize song
+ Input:       [char] song number
+              [char] loop status (false = 0, true = 1)
+ Output:      -
+============================================================================= */
+void Player_InitSong(char numSong, char loop) __sdcccall(0); 
 
 
-NO_BACKUP_ENVOLVENTE:
 
+/* =============================================================================
+ Player_Decode
+ Description: Process the next step in the song sequence 
+ Input:       -
+ Output:      -
+============================================================================= */
+void Player_Decode() __naked; 
 
-		LD	C,#0xA0
-		LD	HL,#_PSG_REG_SEC
-LOUT:		OUT	(C),A
-		INC	C
-		OUTI
-		DEC	C
-		INC	A
-		CP	#13
-		JR	NZ,LOUT
-		OUT	(C),A
-		LD	A,(HL)
-		AND	A
-		RET	Z
-		INC	C
-		OUT	(C),A
-		XOR	A
-		LD	(_PSG_REG_SEC+13),A
-		LD	(_PSG_REG+13),A
-		RET
 
 
-// INICIA EL SONIDO Nº (A)
 
-INICIA_SONIDO:	// CP	8		// SFX SPEECH
-		// JP	Z,SLOOP		// 
 
-		LD	HL,_TABLA_SONIDOS
-		CALL	EXT_WORD
-		LD	(_PUNTERO_SONIDO),DE
-		LD	HL,#_INTERR
-		SET	2,(HL)
-		RET
-		
-// PLAYER INIT
-
-PLAYER_INIT:	LD	HL,#_BUFFER_CANAL_A	// RESERVAR MEMORIA PARA BUFFER DE SONIDO!!!!!
-		LD	(_CANAL_A),HL		// RECOMENDABLE $10 O MAS BYTES POR CANAL.
-
-		LD	HL,#_BUFFER_CANAL_B
-		LD	(_CANAL_B),HL
-
-		LD	HL,#_BUFFER_CANAL_C
-		LD	(_CANAL_C),HL
-
-		LD	HL,#_BUFFER_CANAL_P
-		LD	(_CANAL_P),HL
-
-// PLAYER OFF
-
-PLAYER_OFF:	XOR	A			// ***** IMPORTANTE SI NO HAY MUSICA ****
-		LD	(_INTERR),A
-		// LD	(FADE),A		// solo si hay fade out
-
-CLEAR_PSG_BUFFER:
-		LD	HL,#_PSG_REG
-		LD	DE,#_PSG_REG+1
-		LD	BC,#14
-		LD	(HL),A
-		LDIR
-
-		LD	A,#0b10111000		//  **** POR SI ACASO ****
-		LD	(_PSG_REG+7),A
-
-		LD	HL,#_PSG_REG
-		LD	DE,#_PSG_REG_SEC
-		LD	BC,#14
-		LDIR
-
-		JP	ROUT
-
-
-// CARGA UNA CANCION
-// IN:(A)=Nº DE CANCION
-
-CARGA_CANCION:	LD	HL,#_INTERR	// CARGA CANCION
-
-		SET	1,(HL)		// REPRODUCE CANCION
-		LD	HL,#_SONG
-		LD	(HL),A		// Nº A
-
-
-
-// DECODIFICAR
-// IN-> INTERR 0 ON
-//      SONG
-
-// CARGA CANCION SI/NO
-
-DECODE_SONG:	LD	A,(_SONG)
-
-// LEE CABECERA DE LA CANCION
-// BYTE 0=TEMPO
-
-		LD	HL,TABLA_SONG
-		CALL	EXT_WORD
-		LD	A,(DE)
-		LD	(_TEMPO),A
-		DEC	A
-		LD	(_TTEMPO),A
-
-// HEADER BYTE 1
-// (-|-|-|-|  3-1 | 0  )
-// (-|-|-|-|FX CHN|LOOP)
-
-		INC	DE		// LOOP 1=ON/0=OFF?
-		LD	A,(DE)
-		BIT	0,A
-		JR	Z,NPTJP0
-		LD	HL,#_INTERR
-		SET	4,(HL)
-
-
-
-// SELECCION DEL CANAL DE EFECTOS DE RITMO
-
-NPTJP0:		AND	#0b00000110
-		RRA
-		// LD	(SELECT_CANAL_P),A
-
-		PUSH	DE
-		LD	HL,TABLA_DATOS_CANAL_SFX
-		CALL	EXT_WORD
-		PUSH	DE
-		POP	IX
-		LD	E,(IX+0)
-		LD	D,(IX+1)
-		LD	(_SFX_L),DE
-
-		LD	E,(IX+2)
-		LD	D,(IX+3)
-		LD	(_SFX_H),DE
-
-		LD	E,(IX+4)
-		LD	D,(IX+5)
-		LD	(_SFX_V),DE
-
-		LD	A,(IX+6)
-		LD	(_SFX_MIX),A
-		POP	HL
-
-		INC	HL		// 2 BYTES RESERVADOS
-		INC	HL
-		INC	HL
-
-// BUSCA Y GUARDA INICIO DE LOS CANALES EN EL MODULO MUS (OPTIMIZAR****************)
-// AÑADE OFFSET DEL LOOP
-
-		PUSH	HL			// IX INICIO OFFSETS LOOP POR CANAL
-		POP	IX
-
-		LD	DE,#0x0008		// HASTA INICIO DEL CANAL A
-		ADD	HL,DE
-
-
-		LD	(_PUNTERO_P_DECA),HL	// GUARDA PUNTERO INICIO CANAL
-		LD	E,(IX+0)
-		LD	D,(IX+1)
-		ADD	HL,DE
-		LD	(_PUNTERO_L_DECA),HL	// GUARDA PUNTERO INICIO LOOP
-
-		CALL	BGICMODBC1
-		LD	(_PUNTERO_P_DECB),HL
-		LD	E,(IX+2)
-		LD	D,(IX+3)
-		ADD	HL,DE
-		LD	(_PUNTERO_L_DECB),HL
-
-		CALL	BGICMODBC1
-		LD	(_PUNTERO_P_DECC),HL
-		LD	E,(IX+4)
-		LD	D,(IX+5)
-		ADD	HL,DE
-		LD	(_PUNTERO_L_DECC),HL
-
-		CALL	BGICMODBC1
-		LD	(_PUNTERO_P_DECP),HL
-		LD	E,(IX+6)
-		LD	D,(IX+7)
-		ADD	HL,DE
-		LD	(_PUNTERO_L_DECP),HL
-
-
-// LEE DATOS DE LAS NOTAS
-// (|)(|||||) LONGITUD\NOTA
-
-INIT_DECODER:	LD	DE,(_CANAL_A)
-		LD	(_PUNTERO_A),DE
-		LD	HL,(_PUNTERO_P_DECA)
-		CALL	DECODE_CANAL		// CANAL A
-		LD	(_PUNTERO_DECA),HL
-
-		LD	DE,(_CANAL_B)
-		LD	(_PUNTERO_B),DE
-		LD	HL,(_PUNTERO_P_DECB)
-		CALL	DECODE_CANAL		// CANAL B
-		LD	(_PUNTERO_DECB),HL
-
-		LD	DE,(_CANAL_C)
-		LD	(_PUNTERO_C),DE
-		LD	HL,(_PUNTERO_P_DECC)
-		CALL	DECODE_CANAL		// CANAL C
-		LD	(_PUNTERO_DECC),HL
-
-		LD	DE,(_CANAL_P)
-		LD	(_PUNTERO_P),DE
-		LD	HL,(_PUNTERO_P_DECP)
-		CALL	DECODE_CANAL		// CANAL P
-		LD	(_PUNTERO_DECP),HL
-
-		RET
-
-// BUSCA INICIO DEL CANAL
-
-BGICMODBC1:	LD	E,#0x3F			// CODIGO INSTRUMENTO 0
-BGICMODBC2:	XOR	A			// BUSCA EL BYTE 0
-		LD	B,#0xFF			// EL MODULO DEBE TENER UNA LONGITUD MENOR DE $FF00 ... o_O!
-		CPIR
-
-		DEC	HL
-		DEC	HL
-		LD	A,E			// ES EL INSTRUMENTO 0??
-		CP	(HL)
-		INC	HL
-		INC	HL
-		JR	Z,BGICMODBC2
-
-		DEC	HL
-		DEC	HL
-		DEC	HL
-		LD	A,E			// ES VOLUMEN 0??
-		CP	(HL)
-		INC	HL
-		INC	HL
-		INC	HL
-		JR	Z,BGICMODBC2
-		RET
-
-// DECODIFICA NOTAS DE UN CANAL
-// IN (DE)=DIRECCION DESTINO
-// NOTA=0 FIN CANAL
-// NOTA=1 SILENCIO
-// NOTA=2 PUNTILLO
-// NOTA=3 COMANDO I
-
-DECODE_CANAL:	LD	A,(HL)
-		AND	A		// FIN DEL CANAL?
-		JR	Z,FIN_DEC_CANAL
-		CALL	GETLEN
-
-		CP	#0b00000001	// ES SILENCIO?
-		JR	NZ,NO_SILENCIO
-		or #0x40	//  SET	6,A
-		JR	NO_MODIFICA
-
-NO_SILENCIO:	CP	#0b00111110	// ES PUNTILLO?
-		JR	NZ,NO_PUNTILLO
-		OR	A
-		RRC	B
-		XOR	A
-		JR	NO_MODIFICA
-
-NO_PUNTILLO:	CP	#0b00111111	// ES COMANDO?
-		JR	NZ,NO_MODIFICA
-		BIT	0,B		// COMADO=INSTRUMENTO?
-		JR	Z,NO_INSTRUMENTO
-		LD	A,#0b11000001	// CODIGO DE INSTRUMENTO
-		LD	(DE),A
-		INC	HL
-		INC	DE
-		ldi	//  LD	A,(HL)		// Nº DE INSTRUMENTO
-			//  LD	(DE),A
-			//  INC	DE
-			//  INC	HL
-		ldi	//  LD	A,(HL)		// VOLUMEN RELATIVO DEL INSTRUMENTO
-			//  LD	(DE),A
-			//  INC	DE
-			//  INC	HL
-		JR	DECODE_CANAL
-
-NO_INSTRUMENTO:	BIT	2,B
-		JR	Z,NO_ENVOLVENTE
-		LD	A,#0b11000100	// CODIGO _ENVOLVENTE
-		LD	(DE),A
-		INC	DE
-		INC	HL
-		ldi	//  LD	A,(HL)
-			//  LD	(DE),A
-			//  INC	DE
-			//  INC	HL
-		JR	DECODE_CANAL
-
-NO_ENVOLVENTE:	BIT	1,B
-		JR	Z,NO_MODIFICA
-		LD	A,#0b11000010	// CODIGO EFECTO
-		LD	(DE),A
-		INC	HL
-		INC	DE
-		LD	A,(HL)
-		CALL	GETLEN
-
-NO_MODIFICA:	LD	(DE),A
-		INC	DE
-		XOR	A
-		DJNZ	NO_MODIFICA
-		or #0x81	//  SET	7,A
-			//  SET	0,A
-		LD	(DE),A
-		INC	DE
-		INC	HL
-		RET			// ** JR	    DECODE_CANAL
-
-FIN_DEC_CANAL:	or #0x80	//  SET	7,A
-		LD	(DE),A
-		INC	DE
-		RET
-
-GETLEN:		LD	B,A
-		AND	#0b00111111
-		PUSH	AF
-		LD	A,B
-		AND	#0b11000000
-		RLCA
-		RLCA
-		INC	A
-		LD	B,A
-		LD	A,#0b10000000
-DCBC0:		RLCA
-		DJNZ	DCBC0
-		LD	B,A
-		POP	AF
-		RET
-
-
-
-
-
-// PLAY __________________________________________________
-
-
-PLAY:		LD	HL,#_INTERR	// PLAY BIT 1 ON?
-		BIT	1,(HL)
-		RET	Z
-// TEMPO
-		LD	HL,#_TTEMPO	// CONTADOR TEMPO
-		INC	(HL)
-		LD	A,(_TEMPO)
-		CP	(HL)
-		JR	NZ,PAUTAS
-		LD	(HL),0
-
-// INTERPRETA
-		LD	IY,#_PSG_REG
-		LD	IX,#_PUNTERO_A
-		LD	BC,#_PSG_REG+8
-		CALL	LOCALIZA_NOTA
-		LD	IY,#_PSG_REG+2
-		LD	IX,#_PUNTERO_B
-		LD	BC,#_PSG_REG+9
-		CALL	LOCALIZA_NOTA
-		LD	IY,#_PSG_REG+4
-		LD	IX,#_PUNTERO_C
-		LD	BC,#_PSG_REG+10
-		CALL	LOCALIZA_NOTA
-		LD	IX,#_PUNTERO_P	// EL CANAL DE EFECTOS ENMASCARA OTRO CANAL
-		CALL	LOCALIZA_EFECTO
-
-// PAUTAS
-
-PAUTAS:		LD	IY,#_PSG_REG+0
-		LD	IX,#_PUNTERO_P_A
-		LD	HL,#_PSG_REG+8
-		CALL	PAUTA		// PAUTA CANAL A
-		LD	IY,#_PSG_REG+2
-		LD	IX,#_PUNTERO_P_B
-		LD	HL,#_PSG_REG+9
-		CALL	PAUTA		// PAUTA CANAL B
-		LD	IY,#_PSG_REG+4
-		LD	IX,#_PUNTERO_P_C
-		LD	HL,#_PSG_REG+10
-		JP	PAUTA		// PAUTA CANAL C
-
-
-
-
-
-// LOCALIZA NOTA CANAL A
-// IN (_PUNTERO_A)
-
-// LOCALIZA NOTA CANAL A
-// IN (_PUNTERO_A)
-
-LOCALIZA_NOTA:	LD	L,(IX+_PUNTERO_A-_PUNTERO_A)	// HL=(PUNTERO_A_C_B)
-		LD	H,(IX+_PUNTERO_A-_PUNTERO_A+1)
-		LD	A,(HL)
-		AND	#0b11000000			// COMANDO?
-		CP	#0b11000000
-		JR	NZ,LNJP0
-
-// BIT(0)=INSTRUMENTO
-
-COMANDOS:	LD	A,(HL)
-		BIT	0,A				// INSTRUMENTO
-		JR	Z,COM_EFECTO
-
-		INC	HL
-		LD	A,(HL)				// Nº DE PAUTA
-		INC	HL
-		LD	E,(HL)
-
-		PUSH	HL				// // TEMPO ******************
-		LD	HL,#_TEMPO
-		BIT	5,E
-		JR	Z,NO_DEC_TEMPO
-		DEC	(HL)
-NO_DEC_TEMPO:	BIT	6,E
-		JR	Z,NO_INC_TEMPO
-		INC	(HL)
-NO_INC_TEMPO:	RES	5,E				// SIEMPRE RESETEA LOS BITS DE TEMPO
-		RES	6,E
-		POP	HL
-
-		LD	(IX+_VOL_INST_A-_PUNTERO_A),E	// REGISTRO DEL VOLUMEN RELATIVO
-		INC	HL
-		LD	(IX+_PUNTERO_A-_PUNTERO_A),L
-		LD	(IX+_PUNTERO_A-_PUNTERO_A+1),H
-		LD	HL,TABLA_PAUTAS
-		CALL	EXT_WORD
-		LD	(IX+_PUNTERO_P_A0-_PUNTERO_A),E
-		LD	(IX+_PUNTERO_P_A0-_PUNTERO_A+1),D
-		LD	(IX+_PUNTERO_P_A-_PUNTERO_A),E
-		LD	(IX+_PUNTERO_P_A-_PUNTERO_A+1),D
-		LD	L,C
-		LD	H,B
-		RES	4,(HL)				// APAGA EFECTO _ENVOLVENTE
-		XOR	A
-		LD	(_PSG_REG_SEC+13),A
-		LD	(_PSG_REG+13),A
-		// LD	(_ENVOLVENTE_BACK),A		// 08.13 / RESETEA EL BACKUP DE LA _ENVOLVENTE
-		JR	LOCALIZA_NOTA
-
-COM_EFECTO:	BIT	1,A				// EFECTO DE SONIDO
-		JR	Z,COM_ENVOLVENTE
-
-		INC	HL
-		LD	A,(HL)
-		INC	HL
-		LD	(IX+_PUNTERO_A-_PUNTERO_A),L
-		LD	(IX+_PUNTERO_A-_PUNTERO_A+1),H
-		JP	INICIA_SONIDO
-
-COM_ENVOLVENTE:	BIT	2,A
-		RET	Z				// IGNORA - ERROR
-
-		INC	HL
-		LD	A,(HL)			// CARGA CODIGO DE _ENVOLVENTE
-		LD	(_ENVOLVENTE),A
-		INC	HL
-		LD	(IX+_PUNTERO_A-_PUNTERO_A),L
-		LD	(IX+_PUNTERO_A-_PUNTERO_A+1),H
-		LD	L,C
-		LD	H,B
-		LD	(HL),#0b00010000			// ENCIENDE EFECTO _ENVOLVENTE
-		JR	LOCALIZA_NOTA
-
-
-LNJP0:		LD	A,(HL)
-		INC	HL
-		BIT	7,A
-		JR	Z,NO_FIN_CANAL_A	// 
-		BIT	0,A
-		JR	Z,FIN_CANAL_A
-
-FIN_NOTA_A:	LD	E,(IX+_CANAL_A-_PUNTERO_A)
-		LD	D,(IX+_CANAL_A-_PUNTERO_A+1)	// PUNTERO BUFFER AL INICIO
-		LD	(IX+_PUNTERO_A-_PUNTERO_A),E
-		LD	(IX+_PUNTERO_A-_PUNTERO_A+1),D
-		LD	L,(IX+_PUNTERO_DECA-_PUNTERO_A)	// CARGA PUNTERO DECODER
-		LD	H,(IX+_PUNTERO_DECA-_PUNTERO_A+1)
-		PUSH	BC
-		CALL	DECODE_CANAL			// DECODIFICA CANAL
-		POP	BC
-		LD	(IX+_PUNTERO_DECA-_PUNTERO_A),L	// GUARDA PUNTERO DECODER
-		LD	(IX+_PUNTERO_DECA-_PUNTERO_A+1),H
-		JP	LOCALIZA_NOTA
-
-FIN_CANAL_A:	LD	HL,#_INTERR			// LOOP?
-		BIT	4,(HL)
-		JR	NZ,FCA_CONT
-		POP	AF
-		JP	PLAYER_OFF
-
-
-FCA_CONT:	LD	L,(IX+_PUNTERO_L_DECA-_PUNTERO_A)	// CARGA PUNTERO INICIAL DECODER
-		LD	H,(IX+_PUNTERO_L_DECA-_PUNTERO_A+1)
-		LD	(IX+_PUNTERO_DECA-_PUNTERO_A),L
-		LD	(IX+_PUNTERO_DECA-_PUNTERO_A+1),H
-		JR	FIN_NOTA_A
-
-NO_FIN_CANAL_A:	LD	(IX+_PUNTERO_A-_PUNTERO_A),L	// (PUNTERO_A_B_C)=HL GUARDA PUNTERO
-		LD	(IX+_PUNTERO_A-_PUNTERO_A+1),H
-		AND	A				// NO REPRODUCE NOTA SI NOTA=0
-		JR	Z,FIN_RUTINA
-		BIT	6,A				// SILENCIO?
-		JR	Z,NO_SILENCIO_A
-		LD	A,(BC)
-		AND	#0b00010000
-		JR	NZ,SILENCIO_ENVOLVENTE
-
-		XOR	A
-		LD	(BC),A				// RESET VOLUMEN DEL CORRESPODIENTE CHIP
-		LD	(IY+0),A
-		LD	(IY+1),A
-		RET
-
-SILENCIO_ENVOLVENTE:
-		LD	A,#0xFF
-		LD	(_PSG_REG+11),A
-		LD	(_PSG_REG+12),A
-		XOR	A
-		LD	(_PSG_REG+13),A
-		LD	(IY+0),A
-		LD	(IY+1),A
-		RET
-
-NO_SILENCIO_A:	LD	(IX+_REG_NOTA_A-_PUNTERO_A),A	// REGISTRO DE LA NOTA DEL CANAL
-		CALL	NOTA				// REPRODUCE NOTA
-		LD	L,(IX+_PUNTERO_P_A0-_PUNTERO_A)	  // HL=(_PUNTERO_P_A0) RESETEA PAUTA
-		LD	H,(IX+_PUNTERO_P_A0-_PUNTERO_A+1)
-		LD	(IX+_PUNTERO_P_A-_PUNTERO_A),L	   // (_PUNTERO_P_A)=HL
-		LD	(IX+_PUNTERO_P_A-_PUNTERO_A+1),H
-FIN_RUTINA:	RET
-
-
-// LOCALIZA EFECTO
-// IN HL=(_PUNTERO_P)
-
-LOCALIZA_EFECTO:LD	L,(IX+0)       // HL=(_PUNTERO_P)
-		LD	H,(IX+1)
-		LD	A,(HL)
-		CP	#0b11000010
-		JR	NZ,LEJP0
-
-		INC	HL
-		LD	A,(HL)
-		INC	HL
-		LD	(IX+00),L
-		LD	(IX+01),H
-		JP	INICIA_SONIDO
-
-
-LEJP0:		INC	HL
-		BIT	7,A
-		JR	Z,NO_FIN_CANAL_P	// 
-		BIT	0,A
-		JR	Z,FIN_CANAL_P
-FIN_NOTA_P:	LD	DE,(_CANAL_P)
-		LD	(IX+0),E
-		LD	(IX+1),D
-		LD	HL,(_PUNTERO_DECP)	// CARGA PUNTERO DECODER
-		PUSH	BC
-		CALL	DECODE_CANAL		// DECODIFICA CANAL
-		POP	BC
-		LD	(_PUNTERO_DECP),HL	// GUARDA PUNTERO DECODER
-		JP	LOCALIZA_EFECTO
-
-FIN_CANAL_P:	LD	HL,(_PUNTERO_L_DECP)	// CARGA PUNTERO INICIAL DECODER
-		LD	(_PUNTERO_DECP),HL
-		JR	FIN_NOTA_P
-
-NO_FIN_CANAL_P:	LD	(IX+0),L	// (PUNTERO_A_B_C)=HL GUARDA PUNTERO
-		LD	(IX+1),H
-		RET
-
-//  PAUTA DE LOS 3 CANALES
-//  IN:(IX):PUNTERO DE LA PAUTA
-//     (HL):REGISTRO DE VOLUMEN
-//     (IY):REGISTROS DE FRECUENCIA
-
-//  FORMATO PAUTA
-// 	    7	 6     5     4	 3-0			    3-0
-//  BYTE 1 (LOOP|OCT-1|OCT+1|ORNMT|VOL) - BYTE 2 ( | | | |PITCH/NOTA)
-
-PAUTA:		BIT	4,(HL)	      // SI LA _ENVOLVENTE ESTA ACTIVADA NO ACTUA PAUTA
-		RET	NZ
-
-		LD	A,(IY+0)
-		LD	B,(IY+1)
-		OR	B
-		RET	Z
-
-
-		PUSH	HL
-
-PCAJP4:		LD	L,(IX+0)
-		LD	H,(IX+1)
-		LD	A,(HL)
-
-		BIT	7,A		// LOOP / EL RESTO DE BITS NO AFECTAN
-		JR	Z,PCAJP0
-		AND	#0b00011111	// MÁXIMO LOOP PAUTA (0,32)X2!!!-> PARA ORNAMENTOS
-		RLCA			// X2
-		LD	D,#0
-		LD	E,A
-		SBC	HL,DE
-		LD	A,(HL)
-
-PCAJP0:		BIT	6,A		// OCTAVA -1
-		JR	Z,PCAJP1
-		LD	E,(IY+0)
-		LD	D,(IY+1)
-
-		AND	A
-		RRC	D
-		RR	E
-		LD	(IY+0),E
-		LD	(IY+1),D
-		JR	PCAJP2
-
-PCAJP1:		BIT	5,A		// OCTAVA +1
-		JR	Z,PCAJP2
-		LD	E,(IY+0)
-		LD	D,(IY+1)
-
-		AND	A
-		RLC	E
-		RL	D
-		LD	(IY+0),E
-		LD	(IY+1),D
-
-
-
-
-PCAJP2:		LD	A,(HL)
-		BIT	4,A
-		JR	NZ,PCAJP6	// ORNAMENTOS SELECCIONADOS
-
-		INC	HL		// ______________________ FUNCION PITCH DE FRECUENCIA__________________
-		PUSH	HL
-		LD	E,A
-		LD	A,(HL)		// PITCH DE FRECUENCIA
-		LD	L,A
-		AND	A
-		LD	A,E
-		JR	Z,ORNMJP1
-
-		LD	A,(IY+0)	// SI LA FRECUENCIA ES 0 NO HAY PITCH
-		ADD	A,(IY+1)
-		AND	A
-		LD	A,E
-		JR	Z,ORNMJP1
-
-
-		BIT	7,L
-		JR	Z,ORNNEG
-		LD	H,#0xFF
-		JR	PCAJP3
-ORNNEG:		LD	H,0
-
-PCAJP3:		LD	E,(IY+0)
-		LD	D,(IY+1)
-		ADC	HL,DE
-		LD	(IY+0),L
-		LD	(IY+1),H
-		JR	ORNMJP1
-
-
-PCAJP6:		INC	HL		// ______________________ FUNCION ORNAMENTOS__________________
-
-		PUSH	HL
-		PUSH	AF
-		LD	A,(IX+_REG_NOTA_A-_PUNTERO_P_A)	// RECUPERA REGISTRO DE NOTA EN EL CANAL
-		LD	E,(HL)		// 
-		ADC	E		// +- NOTA
-		CALL	TABLA_NOTAS
-		POP	AF
-
-
-ORNMJP1:	POP	HL
-
-		INC	HL
-		LD	(IX+0),L
-		LD	(IX+1),H
-PCAJP5:		POP	HL
-		LD	B,(IX+_VOL_INST_A-_PUNTERO_P_A)	// VOLUMEN RELATIVO
-		ADD	B
-		JP	P,PCAJP7
-		LD	A,#1		// NO SE EXTIGUE EL VOLUMEN
-PCAJP7:		AND	#0b00001111	// VOLUMEN FINAL MODULADO
-		LD	(HL),A
-		RET
-
-
-
-// NOTA : REPRODUCE UNA NOTA
-// IN (A)=CODIGO DE LA NOTA
-//    (IY)=REGISTROS DE FRECUENCIA
-
-
-NOTA:		LD	L,C
-		LD	H,B
-		BIT	4,(HL)
-		LD	B,A
-		JR	NZ,EVOLVENTES
-		LD	A,B
-TABLA_NOTAS:	LD	HL,DATOS_NOTAS		// BUSCA FRECUENCIA
-		CALL	EXT_WORD
-		LD	(IY+0),E
-		LD	(IY+1),D
-		RET
-
-
-
-
-// IN (A)=CODIGO DE LA _ENVOLVENTE
-//    (IY)=REGISTRO DE FRECUENCIA
-
-EVOLVENTES:	LD	HL,DATOS_NOTAS
-		// SUB	12
-		RLCA			// X2
-		LD	D,#0
-		LD	E,A
-		ADD	HL,DE
-		LD	E,(HL)
-		INC	HL
-		LD	D,(HL)
-
-		PUSH	DE
-		LD	A,(_ENVOLVENTE)		// FRECUENCIA DEL CANAL ON/OFF
-		RRA
-		JR	NC,FRECUENCIA_OFF
-		LD	(IY+0),E
-		LD	(IY+1),D
-		JR	CONT_ENV
-
-FRECUENCIA_OFF:	LD	DE,#0x0000
-		LD	(IY+0),E
-		LD	(IY+1),D
-					// CALCULO DEL RATIO (OCTAVA ARRIBA)
-CONT_ENV:	POP	DE
-		PUSH	AF
-		PUSH	BC
-		AND	#0b00000011
-		LD	B,A
-		// INC	B
-
-		// AND	A			// 1/2
-		RR	D
-		RR	E
-CRTBC0:		// AND	A			// 1/4 - 1/8 - 1/16
-		RR	D
-		RR	E
-		DJNZ	CRTBC0
-		LD	A,E
-		LD	(_PSG_REG+11),A
-		LD	A,D
-		AND	#0b00000011
-		LD	(_PSG_REG+12),A
-		POP	BC
-		POP	AF			// SELECCION FORMA DE _ENVOLVENTE
-
-		RRA
-		AND	#0b00000110		// $08,$0A,$0C,$0E
-		ADD	#8
-		LD	(_PSG_REG+13),A
-		LD	(_ENVOLVENTE_BACK),A
-		RET
-
-
-// EXTRAE UN WORD DE UNA TABLA
-// IN:(HL)=DIRECCION TABLA
-//    (A)= POSICION
-// OUT(DE)=WORD
-
-EXT_WORD:	LD	D,#0
-		RLCA
-		LD	E,A
-		ADD	HL,DE
-		LD	E,(HL)
-		INC	HL
-		LD	D,(HL)
-		RET
-
-// TABLA DE DATOS DEL SELECTOR DEL CANAL DE EFECTOS DE RITMO
-
-TABLA_DATOS_CANAL_SFX:
-
-		.DW	SELECT_CANAL_A,SELECT_CANAL_B,SELECT_CANAL_C
-
-
-// BYTE 0:_SFX_L
-// BYTE 1:_SFX_H
-// BYTE 2:_SFX_V
-// BYTE 3:_SFX_MIX
-
-SELECT_CANAL_A:	
-		.DW	_PSG_REG_SEC+0,#_PSG_REG_SEC+1,#_PSG_REG_SEC+8
-		.DB	#0b10110001
-
-SELECT_CANAL_B:	
-		.DW	_PSG_REG_SEC+2,#_PSG_REG_SEC+3,#_PSG_REG_SEC+9
-		.DB	#0b10101010
-
-SELECT_CANAL_C:	
-		.DW	_PSG_REG_SEC+4,#_PSG_REG_SEC+5,#_PSG_REG_SEC+10
-		.DB	#0b10011100
-
-	__endasm;	
-}
+// mute functions, 0=off, other=on
+//void muteChannelA(char value);
+//void muteChannelB(char value);
+//void muteChannelC(char value);
+//void muteChannelFX(char value);
