@@ -28,6 +28,13 @@ echo ;--------------------------------------------------------------------------
 echo .module wyz_%FileName% >> %OutFileName%
 echo _%FileName%_Song:: DW SONG00 >> %OutFileName%
 type %FilePath%%FileName%.mus.asm >> %OutFileName%
+
+%AudioMisc%\fart.exe -C %OutFileName% "TABLA_PAUTAS:"  "_%FileName%_Inst::"
+%AudioMisc%\fart.exe -C %OutFileName% "TABLA_SONIDOS:" "_%FileName%_FX::"
+%AudioMisc%\fart.exe -C %OutFileName% "DATOS_NOTAS:"   "_%FileName%_Freq::"
+%AudioMisc%\fart.exe -C %OutFileName% "DB"             ".DB"
+%AudioMisc%\fart.exe -C %OutFileName% "DW"             ".DW"
+
 echo ; Song data >> %OutFileName%
 echo SONG00: >> %OutFileName%
 REM echo .incbin "%IncFilePath%\%FileName%.mus" >> %OutFileName%
@@ -35,12 +42,6 @@ type %OutFilePath%\%FileName%_asmsong.asm >> %OutFileName%
 echo ; End of file >> %OutFileName%
 echo _%FileName%_End:: >> %OutFileName%
 
-:: Replace 
-%AudioMisc%\fart.exe -C %OutFileName% "TABLA_PAUTAS:"  "_%FileName%_Inst::"
-%AudioMisc%\fart.exe -C %OutFileName% "TABLA_SONIDOS:" "_%FileName%_FX::"
-%AudioMisc%\fart.exe -C %OutFileName% "DATOS_NOTAS:"   "_%FileName%_Freq::"
-%AudioMisc%\fart.exe -C %OutFileName% "DB"             ".DB"
-%AudioMisc%\fart.exe -C %OutFileName% "DW"             ".DW"
 
 :: Copy MUS file
 REM copy %FilePath%%FileName%.mus %OutFilePath%\%FileName%.mus

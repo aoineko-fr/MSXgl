@@ -28,6 +28,16 @@ extern u16 jinj_med_Inst;
 extern u16 jinj_med_FX;
 extern u16 jinj_med_Freq;
 
+extern u16 gothic_Song;
+extern u16 gothic_Inst;
+extern u16 gothic_FX;
+extern u16 gothic_Freq;
+
+extern u16 shampoo_Song;
+extern u16 shampoo_Inst;
+extern u16 shampoo_FX;
+extern u16 shampoo_Freq;
+
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
 
@@ -72,6 +82,8 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Jinj Med ", (u16)&jinj_med_Song, (u16)&jinj_med_Inst, (u16)&jinj_med_FX, (u16)&jinj_med_Freq },
 	{ "RA_PSG   ", (u16)&RA_PSG_Song, (u16)&RA_PSG_Inst, (u16)&RA_PSG_FX, (u16)&RA_PSG_Freq },
 	{ "Nayade   ", (u16)&WYZ_songs, (u16)&WYZ_instruments, (u16)&WYZ_FXs, (u16)&WYZ_notes },
+	{ "Gothic   ", (u16)&gothic_Song, (u16)&gothic_Inst, (u16)&gothic_FX, (u16)&gothic_Freq },
+	{ "Shampoo  ", (u16)&shampoo_Song, (u16)&shampoo_Inst, (u16)&shampoo_FX, (u16)&shampoo_Freq },
 };
 
 // Player button list
@@ -95,6 +107,7 @@ const u8 g_ColorBlink[4] = { COLOR_LIGHT_RED, COLOR_MEDIUM_RED, COLOR_DARK_RED, 
 u8   g_CurrentMusic = 0;
 u8   g_CurrentButton;
 bool g_Freq60Hz = true;
+bool g_DoLoop = true;
 
 
 //=============================================================================
@@ -109,7 +122,7 @@ void SetMusic(u8 idx)
 	const struct MusicEntry* entry = &g_MusicEntry[idx];
 
 	WYZ_Initialize(entry->Song, entry->Inst, entry->FX, entry->Freq);
-	WYZ_PlaySong(0, true); 
+	WYZ_PlaySong(0, g_DoLoop); 
 	
 	Print_SetPosition(0, 2);
 	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), entry->Name);
@@ -119,14 +132,14 @@ void SetMusic(u8 idx)
 //
 void ButtonPlay()
 {
-	// ayVGM_Resume();
+	WYZ_Resume();
 }
 
 //-----------------------------------------------------------------------------
 //
 void ButtonPause()
 {
-	// ayVGM_Pause();
+	WYZ_Pause();
 }
 
 //-----------------------------------------------------------------------------
@@ -156,10 +169,8 @@ void ButtonNext()
 //
 void ButtonLoop()
 {
-	// if(g_ayVGM_State & AYVGM_STATE_LOOP)
-		// g_ayVGM_State &= ~AYVGM_STATE_LOOP;
-	// else
-		// g_ayVGM_State |= AYVGM_STATE_LOOP;
+	g_DoLoop = 1 - g_DoLoop;
+	WYZ_SetLoop(g_DoLoop);
 }
 
 //-----------------------------------------------------------------------------
@@ -193,6 +204,11 @@ void main()
 	Print_DrawText("Main-ROM:");
 	Print_SetPosition(20, 11);
 	Print_DrawFormat("\x07" "Freq  %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
+
+	Print_SetPosition(0, 18);
+	Print_DrawText(" Chan A\n");
+	Print_DrawText(" Chan B\n");
+	Print_DrawText(" Chan C");
 
 	// Decode VGM header
 	SetMusic(0);
@@ -236,6 +252,29 @@ void main()
 		Print_SetPosition(31, 0);
 		u8 chr = count++ & 0x03;
 		Print_DrawChar(g_ChrAnim[chr]);
+		
+		// VU metter
+		u8* ayReg = &AYREGS[PSG_REG_AMP_A];
+		u8 y = 18;
+		loop(i, 3)
+		{
+			Print_SetPosition(8, y++);
+			
+			if(*ayReg < 8)
+			{
+				u8 l = *ayReg & 0x07;
+				Print_DrawChar((l == 0) ? ' ' : 0xA0 + l);
+				Print_DrawChar(' ');
+			}
+			else // if(*ayReg >= 8)
+			{
+				Print_DrawChar(0xA0);
+				u8 h = *ayReg >> 3;
+				Print_DrawChar((h == 0) ? ' ' : 0xA0 + h);
+			}
+				
+			ayReg++;
+		}
 		
 		// Handle input
 		u8 row8 = Keyboard_Read(8);

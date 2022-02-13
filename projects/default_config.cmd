@@ -47,9 +47,10 @@ set ProjName=
 
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=
-
 :: List of library modules to build
 set LibModules=system,bios,vdp,print,input,memory
+:: Additional sources
+set AddSources=
 
 :: MSX version:
 :: - 1		MSX 1
@@ -80,8 +81,14 @@ set Machine=1
 set Target=
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
+
 :: Overwrite RAM starting address
 set ForceRamAddr=
+:: Assembler code optimizer
+:: - None
+:: - PeepHole	SDCC otpimizer
+:: - MDL		MDL z80 otpimizer
+set AsmOptim=PeepHole
 
 :: Optim:
 :: - Default

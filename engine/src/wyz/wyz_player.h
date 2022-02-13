@@ -24,16 +24,6 @@
 //-----------------------------------------------------------------------------
 // DEFINES
 //-----------------------------------------------------------------------------
-#define AY_ToneA		0 //Channel A Tone Period (12 bits)
-#define AY_ToneB		2 //Channel B Tone Period (12 bits)
-#define AY_ToneC		4 //Channel C Tone Period (12 bits)
-#define AY_Noise		6 //Noise Period (5 bits)
-#define AY_Mixer		7 //Mixer
-#define AY_AmpA			8 //Channel Volume A (4 bits + B5 active Envelope)
-#define AY_AmpB			9 //Channel Volume B (4 bits + B5 active Envelope)
-#define AY_AmpC			10 //Channel Volume C (4 bits + B5 active Envelope)
-#define AY_EnvPeriod	11 //Envelope Period (16 bits)
-#define AY_EnvShape		13 //Envelope Shape
 
 // WYZ player status
 // 7 6 5 4 3 2 1 0
@@ -47,8 +37,8 @@ extern u8 g_WYZ_State;
 
 extern u8 g_WYZ_Song; //number of song playing
 extern u8 g_WYZ_Tempo; //TEMPO
-extern u8 AYREGS[16]; //PSG registers buffer
 
+extern u8 AYREGS[16]; //PSG registers buffer
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -70,7 +60,7 @@ void WYZ_Pause() __naked;
 
 // Function: WYZ_Resume
 // Resume song playback
-void WYZ_Resume() __naked; 
+void WYZ_Resume(); 
 
 // Function: WYZ_SetLoop
 // Change loop mode
@@ -84,7 +74,7 @@ void WYZ_SetLoop(u8 loop) __naked __sdcccall(0);
 //
 // Returns:
 //   true if finished
-bool WYZ_IsFinished() __naked;
+bool WYZ_IsFinished();
 
 // Function: WYZ_PlayFX
 // Play Sound Effect
