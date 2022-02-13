@@ -94,7 +94,7 @@ const u8 g_ColorBlink[4] = { COLOR_LIGHT_RED, COLOR_MEDIUM_RED, COLOR_DARK_RED, 
 
 u8   g_CurrentMusic = 0;
 u8   g_CurrentButton;
-bool g_Freq60Hz = false;
+bool g_Freq60Hz = true;
 
 
 //=============================================================================

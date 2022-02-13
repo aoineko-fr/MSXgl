@@ -50,50 +50,43 @@
 #define AY0write 0x11
 #define AY0read  0x12*/
 
+// WYZ player status
+// 7 6 5 4 3 2 1 0
+// │     │ │ │ │ └── Load song ON/OFF
+// │     │ │ │ └──── Player ON/OFF
+// │     │ │ └────── EFECTOS ON/OFF
+// │     │ └──────── SFX ON/OFF
+// │     └────────── Is looping?
+// └──────────────── Is ended?
+u8 g_WYZ_State;
 
+u8 g_WYZ_Song; // Number of the playing song 
+u8 g_WYZ_Tempo; // Tempo
+u8 TTEMPO; // Tempo counter
 
-
-/*
-WYZstate = INTERR            
-Switches: 1=ON; 0=OFF
-- BIT 0 = CARGA CANCION ON/OFF
-- BIT 1 = PLAYER ON/OFF
-- BIT 2 = EFECTOS ON/OFF
-- BIT 3 = SFX ON/OFF
-- BIT 4 = LOOP
-- BIT 5 = ?
-- BIT 6 = ?
-- BIT 7 = is END? 0=No, 1=Yes    
-*/
-u8 WYZstate;  // (v SDCC) original player name = INTERR
-
-u8 SONG;   //number of song playing
-u8 TEMPO;  //TEMPO
-u8 TTEMPO; //CONTADOR TEMPO
-
-u16 PUNTERO_A;      //DW PUNTERO DEL CANAL A
-u16 PUNTERO_B;      //DW PUNTERO DEL CANAL B
-u16 PUNTERO_C;      //DW PUNTERO DEL CANAL C
+u16 PointerA; // Channel A pointer
+u16 PointerB; // Channel B pointer
+u16 PointerC; // Channel C pointer
 
 u16 CANAL_A;        //DW DIRECION DE INICIO DE LA MUSICA A
 u16 CANAL_B;        //DW DIRECION DE INICIO DE LA MUSICA B
 u16 CANAL_C;        //DW DIRECION DE INICIO DE LA MUSICA C
 
-u16 PUNTERO_P_A;    //DW PUNTERO PAUTA CANAL A
-u16 PUNTERO_P_B;    //DW PUNTERO PAUTA CANAL B
-u16 PUNTERO_P_C;    //DW PUNTERO PAUTA CANAL C
+u16 PointerP_A;    //DW PUNTERO PAUTA CANAL A
+u16 PointerP_B;    //DW PUNTERO PAUTA CANAL B
+u16 PointerP_C;    //DW PUNTERO PAUTA CANAL C
 
-u16 PUNTERO_P_A0;   //DW INI PUNTERO PAUTA CANAL A
-u16 PUNTERO_P_B0;   //DW INI PUNTERO PAUTA CANAL B
-u16 PUNTERO_P_C0;   //DW INI PUNTERO PAUTA CANAL C
+u16 PointerP_A0;   //DW INI PUNTERO PAUTA CANAL A
+u16 PointerP_B0;   //DW INI PUNTERO PAUTA CANAL B
+u16 PointerP_C0;   //DW INI PUNTERO PAUTA CANAL C
 
-u16 PUNTERO_P_DECA; //DW PUNTERO DE INICIO DEL DECODER CANAL A
-u16 PUNTERO_P_DECB; //DW PUNTERO DE INICIO DEL DECODER CANAL B
-u16 PUNTERO_P_DECC; //DW PUNTERO DE INICIO DEL DECODER CANAL C
+u16 PointerP_DECA; //DW PUNTERO DE INICIO DEL DECODER CANAL A
+u16 PointerP_DECB; //DW PUNTERO DE INICIO DEL DECODER CANAL B
+u16 PointerP_DECC; //DW PUNTERO DE INICIO DEL DECODER CANAL C
 
-u16 PUNTERO_DECA;   //DW PUNTERO DECODER CANAL A
-u16 PUNTERO_DECB;   //DW PUNTERO DECODER CANAL B
-u16 PUNTERO_DECC;   //DW PUNTERO DECODER CANAL C
+u16 PointerDECA;   //DW PUNTERO DECODER CANAL A
+u16 PointerDECB;   //DW PUNTERO DECODER CANAL B
+u16 PointerDECC;   //DW PUNTERO DECODER CANAL C
 
 u8 REG_NOTA_A; //DB REGISTRO DE LA NOTA EN EL CANAL A
 u8 VOL_INST_A; //DB VOLUMEN RELATIVO DEL INSTRUMENTO DEL CANAL A
@@ -102,17 +95,17 @@ u8 VOL_INST_B; //DB VOLUMEN RELATIVO DEL INSTRUMENTO DEL CANAL B
 u8 REG_NOTA_C; //DB REGISTRO DE LA NOTA EN EL CANAL C
 u8 VOL_INST_C; //DB VOLUMEN RELATIVO DEL INSTRUMENTO DEL CANAL C
 
-u16 PUNTERO_L_DECA; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL A
-u16 PUNTERO_L_DECB; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL B
-u16 PUNTERO_L_DECC; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL C
+u16 PointerL_DECA; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL A
+u16 PointerL_DECB; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL B
+u16 PointerL_DECC; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL C
 
 //CANAL DE EFECTOS DE RITMO - ENMASCARA OTRO CANAL
-u16 PUNTERO_P;      //DW PUNTERO DEL CANAL EFECTOS
+u16 PointerP;      //DW PUNTERO DEL CANAL EFECTOS
 u16 CANAL_P;        //DW DIRECION DE INICIO DE LOS EFECTOS
 
-u16 PUNTERO_P_DECP; //DW PUNTERO DE INICIO DEL DECODER CANAL P
-u16 PUNTERO_DECP;   //DW PUNTERO DECODER CANAL P
-u16 PUNTERO_L_DECP; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL P
+u16 PointerP_DECP; //DW PUNTERO DE INICIO DEL DECODER CANAL P
+u16 PointerDECP;   //DW PUNTERO DECODER CANAL P
+u16 PointerL_DECP; //DW PUNTERO DE INICIO DEL LOOP DEL DECODER CANAL P
 //SELECT_CANAL_P	EQU	INTERR+$36	;DB SELECCION DE CANAL DE EFECTOS DE RITMO
 
 
@@ -124,7 +117,7 @@ u16 SFX_MIX;    //DW DIRECCION BUFFER EFECTOS DE RITMO REGISTRO MIXER
 
 //EFECTOS DE SONIDO
 u8 N_SONIDO;               //DB : NUMERO DE SONIDO
-u16 PUNTERO_SONIDO; //DW : PUNTERO DEL SONIDO QUE SE REPRODUCE
+u16 PointerSONIDO; //DW : PUNTERO DEL SONIDO QUE SE REPRODUCE
 
 
 
@@ -244,7 +237,7 @@ __asm
     
    
     XOR	 A
-    LD	 (#_WYZstate),A
+    LD	 (#_g_WYZ_State),A
    
     call CLEAR_PSG_BUFFER   ;PLAYER_OFF
    
@@ -336,7 +329,7 @@ PLAYER_OFF:
 ;  XOR	A			
 ;  LD	[INTERR],A
 ;  LD	[FADE],A		;solo si hay fade out
-   LD   HL,#_WYZstate       
+   LD   HL,#_g_WYZ_State       
    RES  1,(HL)
 
 CLEAR_PSG_BUFFER:
@@ -375,7 +368,7 @@ __endasm;
 void WYZ_Resume() __naked
 {
 __asm
-   LD      HL,#_WYZstate       
+   LD      HL,#_g_WYZ_State       
    SET     1,(HL)      ;PLAYER ON
    
    RET
@@ -392,12 +385,12 @@ __endasm;
  Input:       -
  Output:      [u8] 0 = No, 1 = Yes 
 ----------------------------------------------------------------------------- */
-u8 WYZ_IsFinished() __naked
+bool WYZ_IsFinished() __naked
 {
 __asm
     xor  A
     
-    LD   HL,#_WYZstate
+    LD   HL,#_g_WYZ_State
     BIT  7,(HL)
     jr   Z,retPlayerEndState
     ld   A,#1
@@ -418,7 +411,7 @@ __endasm;
  Input:       [u8] false = 0, true = 1
  Output:      -
 ============================================================================= */  	
-void WYZ_SetLoop(u8 loop) __naked __sdcccall(0)
+void WYZ_SetLoop(bool loop) __naked __sdcccall(0)
 {
 loop;
 __asm
@@ -433,7 +426,7 @@ __asm
     RET
 
 setLoop:   
-    LD    HL,#_WYZstate
+    LD    HL,#_g_WYZ_State
    
     or    A
     jr    Z,resetLOOP
@@ -485,8 +478,8 @@ INICIA_SONIDO:
 
    LD      HL,(#_TABLA_SONIDOS)    ;(v SDCC) HL,TABLA_SONIDOS  
    CALL    EXT_WORD
-   LD      (#_PUNTERO_SONIDO),HL
-   LD      HL,#_WYZstate
+   LD      (#_PointerSONIDO),HL
+   LD      HL,#_g_WYZ_State
    SET     2,(HL)
    RET  
     
@@ -584,7 +577,7 @@ __endasm;
               [u8] loop status (false = 0, true = 1)
  Output:      -
 ============================================================================= */
-void WYZ_PlaySong(u8 numSong, u8 loop) __sdcccall(0)
+void WYZ_PlaySong(u8 numSong, bool loop) __sdcccall(0)
 {
 numSong;
 loop;
@@ -610,30 +603,30 @@ __asm
 
 CARGA_CANCION:
    
-   ;LD   HL,#_SONG
-   LD   (#_SONG),A   ;N� A
+   ;LD   HL,#_g_WYZ_Song
+   LD   (#_g_WYZ_Song),A   ;N� A
    
-   LD   HL,#_WYZstate       ;CARGA CANCION		
+   LD   HL,#_g_WYZ_State       ;CARGA CANCION		
    SET  1,(HL)              ;REPRODUCE CANCION
    RES  7,(HL)              ;END off
    
 
 ;DECODIFICAR
-;IN-> WYZstate 0 ON
-;     SONG
+;IN-> g_WYZ_State 0 ON
+;     g_WYZ_Song
 
 ;CARGA CANCION SI/NO
 
 DECODE_SONG:
-   LD   A,(#_SONG)
+   LD   A,(#_g_WYZ_Song)
 
 ;LEE CABECERA DE LA CANCION
-;BYTE 0=TEMPO
+;BYTE 0=g_WYZ_Tempo
 
    LD   HL,(#_TABLA_SONG)   ;(v SDCC) HL,_TABLA_SONG
    CALL EXT_WORD
    LD   A,(HL)
-   LD   (#_TEMPO),A
+   LD   (#_g_WYZ_Tempo),A
    DEC  A
    LD   (#_TTEMPO),A
          
@@ -647,7 +640,7 @@ DECODE_SONG:
    ;JR   Z,NPTJP0
    
    ;PUSH HL
-   ;LD   HL,#_WYZstate
+   ;LD   HL,#_g_WYZ_State
    ;SET  4,(HL)
    ;POP  HL
 
@@ -695,32 +688,32 @@ NPTJP0:
    ADD  HL,DE
 
 
-   LD   (#_PUNTERO_P_DECA),HL	;GUARDA PUNTERO INICIO CANAL
+   LD   (#_PointerP_DECA),HL	;GUARDA PUNTERO INICIO CANAL
    LD   E,(IX)
    LD   D,1(IX)
    ADD  HL,DE
-   LD   (#_PUNTERO_L_DECA),HL	;GUARDA PUNTERO INICIO LOOP
+   LD   (#_PointerL_DECA),HL	;GUARDA PUNTERO INICIO LOOP
 
    CALL BGICMODBC1
-   LD   (#_PUNTERO_P_DECB),HL
+   LD   (#_PointerP_DECB),HL
    LD   E,2(IX)
    LD   D,3(IX)
    ADD  HL,DE
-   LD   (#_PUNTERO_L_DECB),HL
+   LD   (#_PointerL_DECB),HL
 
    CALL BGICMODBC1
-   LD   (#_PUNTERO_P_DECC),HL
+   LD   (#_PointerP_DECC),HL
    LD   E,4(IX)
    LD   D,5(IX)
    ADD  HL,DE
-   LD   (#_PUNTERO_L_DECC),HL
+   LD   (#_PointerL_DECC),HL
 
    CALL BGICMODBC1
-   LD   (#_PUNTERO_P_DECP),HL
+   LD   (#_PointerP_DECP),HL
    LD   E,6(IX)
    LD   D,7(IX)
    ADD  HL,DE
-   LD   (#_PUNTERO_L_DECP),HL
+   LD   (#_PointerL_DECP),HL
 
 
 ;LEE DATOS DE LAS NOTAS
@@ -728,28 +721,28 @@ NPTJP0:
 
 INIT_DECODER:
    LD   DE,(#_CANAL_A)
-   LD   (#_PUNTERO_A),DE
-   LD   HL,(#_PUNTERO_P_DECA)
+   LD   (#_PointerA),DE
+   LD   HL,(#_PointerP_DECA)
    CALL DECODE_CANAL    	;CANAL A
-   LD   (#_PUNTERO_DECA),HL
+   LD   (#_PointerDECA),HL
    
    LD   DE,(#_CANAL_B)
-   LD   (#_PUNTERO_B),DE
-   LD   HL,(#_PUNTERO_P_DECB)
+   LD   (#_PointerB),DE
+   LD   HL,(#_PointerP_DECB)
    CALL DECODE_CANAL    	;CANAL B
-   LD   (#_PUNTERO_DECB),HL
+   LD   (#_PointerDECB),HL
    
    LD   DE,(#_CANAL_C)
-   LD   (#_PUNTERO_C),DE
-   LD   HL,(#_PUNTERO_P_DECC)
+   LD   (#_PointerC),DE
+   LD   HL,(#_PointerP_DECC)
    CALL DECODE_CANAL    	;CANAL C
-   LD   (#_PUNTERO_DECC),HL
+   LD   (#_PointerDECC),HL
    
    LD   DE,(#_CANAL_P)
-   LD   (#_PUNTERO_P),DE
-   LD   HL,(#_PUNTERO_P_DECP)
+   LD   (#_PointerP),DE
+   LD   HL,(#_PointerP_DECP)
    CALL DECODE_CANAL    	;CANAL P (FX)
-   LD   (#_PUNTERO_DECP),HL
+   LD   (#_PointerDECP),HL
    
    RET
 
@@ -832,10 +825,10 @@ INICIO:
 
 REPRODUCE_SONIDO:
 
-   LD   HL,#_WYZstate
+   LD   HL,#_g_WYZ_State
    BIT  2,(HL)   ;ESTA ACTIVADO EL EFECTO?
    RET  Z
-   LD   HL,(#_PUNTERO_SONIDO)
+   LD   HL,(#_PointerSONIDO)
    LD   A,(HL)
    CP   #0xFF
    JR   Z,FIN_SONIDO
@@ -892,11 +885,11 @@ NO_RUIDO:
 SI_RUIDO:
    LD   (#_AYREGS+AY_Mixer),A   
    INC  HL
-   LD   (#_PUNTERO_SONIDO),HL
+   LD   (#_PointerSONIDO),HL
    RET
 
 FIN_SONIDO:
-   LD   HL,#_WYZstate
+   LD   HL,#_g_WYZ_State
    RES  2,(HL)
    LD   A,(#_ENVOLVENTE_BACK)		;NO RESTAURA LA ENVOLVENTE SI ES 0
    AND  A
@@ -913,45 +906,45 @@ FIN_NOPLAYER:
 
 
 PLAY:
-   LD   HL,#_WYZstate       ;PLAY BIT 1 ON?
+   LD   HL,#_g_WYZ_State       ;PLAY BIT 1 ON?
    BIT  1,(HL)
    RET  Z
    
 ;TEMPO
    LD   HL,#_TTEMPO       ;CONTADOR TEMPO
    INC  (HL)
-   LD   A,(#_TEMPO)
+   LD   A,(#_g_WYZ_Tempo)
    CP   (HL)
    JR   NZ,PAUTAS
    LD   (HL),#0
 
 ;INTERPRETA
    LD   IY,#_PSG_REG
-   LD   IX,#_PUNTERO_A
+   LD   IX,#_PointerA
    LD   BC,#_PSG_REG+AY_AmpA
    CALL LOCALIZA_NOTA
    LD   IY,#_PSG_REG+AY_ToneB
-   LD   IX,#_PUNTERO_B
+   LD   IX,#_PointerB
    LD   BC,#_PSG_REG+AY_AmpB
    CALL LOCALIZA_NOTA
    LD   IY,#_PSG_REG+AY_ToneC
-   LD   IX,#_PUNTERO_C
+   LD   IX,#_PointerC
    LD   BC,#_PSG_REG+AY_AmpC
    CALL LOCALIZA_NOTA
-   LD   IX,#_PUNTERO_P    ;EL CANAL DE EFECTOS ENMASCARA OTRO CANAL
+   LD   IX,#_PointerP    ;EL CANAL DE EFECTOS ENMASCARA OTRO CANAL
    CALL LOCALIZA_EFECTO
 
 PAUTAS:
    LD   IY,#_PSG_REG+AY_ToneA
-   LD   IX,#_PUNTERO_P_A
+   LD   IX,#_PointerP_A
    LD   HL,#_PSG_REG+AY_AmpA
    CALL PAUTA    ;PAUTA CANAL A
    LD   IY,#_PSG_REG+AY_ToneB
-   LD   IX,#_PUNTERO_P_B
+   LD   IX,#_PointerP_B
    LD   HL,#_PSG_REG+AY_AmpB
    CALL PAUTA    ;PAUTA CANAL B
    LD   IY,#_PSG_REG+AY_ToneC
-   LD   IX,#_PUNTERO_P_C
+   LD   IX,#_PointerP_C
    LD   HL,#_PSG_REG+AY_AmpC
    CALL PAUTA    ;PAUTA CANAL C
 
@@ -1068,14 +1061,14 @@ DCBC0:
 
 
 ;LOCALIZA NOTA CANAL A
-;IN [PUNTERO_A]
+;IN [PointerA]
 
 ;LOCALIZA NOTA CANAL A
-;IN [PUNTERO_A]
+;IN [PointerA]
 
 LOCALIZA_NOTA:
-   LD      L,_PUNTERO_A - _PUNTERO_A(IX)	  ;HL=[PUNTERO_A_C_B] 
-   LD      H,_PUNTERO_A - _PUNTERO_A+1(IX)  ;
+   LD      L,_PointerA - _PointerA(IX)	  ;HL=[PointerA_C_B] 
+   LD      H,_PointerA - _PointerA+1(IX)  ;
    LD      A,(HL)
    AND     #0b11000000       ;COMANDO?
    CP      #0b11000000
@@ -1089,12 +1082,12 @@ COMANDOS:
    JR      Z,COM_EFECTO
 
    INC     HL
-   LD      A,(HL)   ;N� DE PAUTA
+   LD      A,(HL)   ;N° DE PAUTA
    INC     HL
    LD      E,(HL)
 
    PUSH    HL       ;TEMPO
-   LD      HL,#_TEMPO
+   LD      HL,#_g_WYZ_Tempo
    BIT     5,E
    JR      Z,NO_DEC_TEMPO
    DEC     (HL)
@@ -1107,16 +1100,16 @@ NO_INC_TEMPO:
    RES     6,E
    POP     HL
    
-   LD      _VOL_INST_A - _PUNTERO_A(IX),E	;REGISTRO DEL VOLUMEN RELATIVO
+   LD      _VOL_INST_A - _PointerA(IX),E	;REGISTRO DEL VOLUMEN RELATIVO
    INC     HL
-   LD      _PUNTERO_A - _PUNTERO_A(IX),L   ;
-   LD      _PUNTERO_A - _PUNTERO_A+1(IX),H   ;
+   LD      _PointerA - _PointerA(IX),L   ;
+   LD      _PointerA - _PointerA+1(IX),H   ;
    LD      HL,(#_TABLA_PAUTAS)   ;(v sdcc) HL,#_TABLA_PAUTAS
    CALL    EXT_WORD
-   LD      _PUNTERO_P_A0 - _PUNTERO_A(IX),L
-   LD      _PUNTERO_P_A0 - _PUNTERO_A+1(IX),H
-   LD      _PUNTERO_P_A - _PUNTERO_A(IX),L
-   LD      _PUNTERO_P_A - _PUNTERO_A+1(IX),H
+   LD      _PointerP_A0 - _PointerA(IX),L
+   LD      _PointerP_A0 - _PointerA+1(IX),H
+   LD      _PointerP_A - _PointerA(IX),L
+   LD      _PointerP_A - _PointerA+1(IX),H
    LD      L,C
    LD      H,B
    RES     4,(HL)     ;APAGA EFECTO ENVOLVENTE
@@ -1133,8 +1126,8 @@ COM_EFECTO:
    INC     HL
    LD      A,(HL)
    INC     HL
-   LD      _PUNTERO_A - _PUNTERO_A(IX),L  ;
-   LD      _PUNTERO_A - _PUNTERO_A+1(IX),H  ;
+   LD      _PointerA - _PointerA(IX),L  ;
+   LD      _PointerA - _PointerA+1(IX),H  ;
    CALL    INICIA_SONIDO
    RET
 
@@ -1146,8 +1139,8 @@ COM_ENVOLVENTE:
    LD   A,(HL)   ;CARGA CODIGO DE ENVOLVENTE
    LD   (#_ENVOLVENTE),A
    INC  HL
-   LD   _PUNTERO_A - _PUNTERO_A(IX),L   ;
-   LD   _PUNTERO_A - _PUNTERO_A+1(IX),H   ;
+   LD   _PointerA - _PointerA(IX),L   ;
+   LD   _PointerA - _PointerA+1(IX),H   ;
    LD   L,C
    LD   H,B
    LD   (HL),#0b00010000    ;ENCIENDE EFECTO ENVOLVENTE
@@ -1162,21 +1155,21 @@ LNJP0:
    JR   Z,FIN_CANAL_A
 
 FIN_NOTA_A:
-   LD   E,_CANAL_A - _PUNTERO_A(IX)
-   LD   D,_CANAL_A - _PUNTERO_A+1(IX)	;PUNTERO BUFFER AL INICIO
-   LD   _PUNTERO_A - _PUNTERO_A(IX),E  ;
-   LD   _PUNTERO_A - _PUNTERO_A+1(IX),D  ;
-   LD   L,_PUNTERO_DECA - _PUNTERO_A(IX)	;CARGA PUNTERO DECODER
-   LD   H,_PUNTERO_DECA - _PUNTERO_A+1(IX)
+   LD   E,_CANAL_A - _PointerA(IX)
+   LD   D,_CANAL_A - _PointerA+1(IX)	;PUNTERO BUFFER AL INICIO
+   LD   _PointerA - _PointerA(IX),E  ;
+   LD   _PointerA - _PointerA+1(IX),D  ;
+   LD   L,_PointerDECA - _PointerA(IX)	;CARGA PUNTERO DECODER
+   LD   H,_PointerDECA - _PointerA+1(IX)
    PUSH BC
    CALL DECODE_CANAL      ;DECODIFICA CANAL
    POP  BC
-   LD   _PUNTERO_DECA - _PUNTERO_A(IX),L	;GUARDA PUNTERO DECODER
-   LD   _PUNTERO_DECA - _PUNTERO_A+1(IX),H
+   LD   _PointerDECA - _PointerA(IX),L	;GUARDA PUNTERO DECODER
+   LD   _PointerDECA - _PointerA+1(IX),H
    JP   LOCALIZA_NOTA
    
 FIN_CANAL_A:
-   LD   HL,#_WYZstate     ;LOOP?
+   LD   HL,#_g_WYZ_State     ;LOOP?
    BIT  4,(HL)
    JR   NZ,FCA_CONT
    POP  AF
@@ -1185,15 +1178,15 @@ FIN_CANAL_A:
    JP   PLAYER_OFF
 
 FCA_CONT:
-   LD   L,_PUNTERO_L_DECA - _PUNTERO_A(IX)	;CARGA PUNTERO INICIAL DECODER
-   LD   H,_PUNTERO_L_DECA - _PUNTERO_A+1(IX)
-   LD   _PUNTERO_DECA - _PUNTERO_A(IX),L
-   LD   _PUNTERO_DECA - _PUNTERO_A+1(IX),H
+   LD   L,_PointerL_DECA - _PointerA(IX)	;CARGA PUNTERO INICIAL DECODER
+   LD   H,_PointerL_DECA - _PointerA+1(IX)
+   LD   _PointerDECA - _PointerA(IX),L
+   LD   _PointerDECA - _PointerA+1(IX),H
    JR   FIN_NOTA_A
    
 NO_FIN_CANAL_A:
-   LD   _PUNTERO_A - _PUNTERO_A(IX),L   ;[PUNTERO_A_B_C]=HL GUARDA PUNTERO   
-   LD   _PUNTERO_A - _PUNTERO_A+1(IX),H   ;
+   LD   _PointerA - _PointerA(IX),L   ;[PointerA_B_C]=HL GUARDA PUNTERO   
+   LD   _PointerA - _PointerA+1(IX),H   ;
    AND  A    ;NO REPRODUCE NOTA SI NOTA=0
    JR   Z,FIN_RUTINA
    BIT  6,A      		;SILENCIO?
@@ -1219,20 +1212,20 @@ SILENCIO_ENVOLVENTE:
    RET
 
 NO_SILENCIO_A:
-   LD   _REG_NOTA_A - _PUNTERO_A(IX),A	;REGISTRO DE LA NOTA DEL CANAL
+   LD   _REG_NOTA_A - _PointerA(IX),A	;REGISTRO DE LA NOTA DEL CANAL
    CALL NOTA     		;REPRODUCE NOTA
-   LD   L,_PUNTERO_P_A0 - _PUNTERO_A(IX)     ;HL=[PUNTERO_P_A0] RESETEA PAUTA 
-   LD   H,_PUNTERO_P_A0 - _PUNTERO_A+1(IX)
-   LD   _PUNTERO_P_A - _PUNTERO_A(IX),L       ;[PUNTERO_P_A]=HL
-   LD   _PUNTERO_P_A - _PUNTERO_A+1(IX),H
+   LD   L,_PointerP_A0 - _PointerA(IX)     ;HL=[PointerP_A0] RESETEA PAUTA 
+   LD   H,_PointerP_A0 - _PointerA+1(IX)
+   LD   _PointerP_A - _PointerA(IX),L       ;[PointerP_A]=HL
+   LD   _PointerP_A - _PointerA+1(IX),H
 FIN_RUTINA:
    RET
 
 
 ;LOCALIZA EFECTO
-;IN HL=[PUNTERO_P]
+;IN HL=[PointerP]
 LOCALIZA_EFECTO:
-   LD      L,0(IX)       ;HL=[PUNTERO_P]
+   LD      L,0(IX)       ;HL=[PointerP]
    LD      H,1(IX)
    LD      A,(HL)
    CP      #0b11000010
@@ -1258,20 +1251,20 @@ FIN_NOTA_P:
    LD   DE,(#_CANAL_P)
    LD   0(IX),E
    LD   1(IX),D
-   LD   HL,(#_PUNTERO_DECP)	;CARGA PUNTERO DECODER
+   LD   HL,(#_PointerDECP)	;CARGA PUNTERO DECODER
    PUSH BC
    CALL DECODE_CANAL    	;DECODIFICA CANAL
    POP  BC
-   LD   (#_PUNTERO_DECP),HL	;GUARDA PUNTERO DECODER
+   LD   (#_PointerDECP),HL	;GUARDA PUNTERO DECODER
    JP   LOCALIZA_EFECTO
    
 FIN_CANAL_P:
-   LD   HL,(#_PUNTERO_L_DECP)	;CARGA PUNTERO INICIAL DECODER
-   LD   (#_PUNTERO_DECP),HL
+   LD   HL,(#_PointerL_DECP)	;CARGA PUNTERO INICIAL DECODER
+   LD   (#_PointerDECP),HL
    JR   FIN_NOTA_P
    
 NO_FIN_CANAL_P:
-   LD   0(IX),L        ;[PUNTERO_A_B_C]=HL GUARDA PUNTERO
+   LD   0(IX),L        ;[PointerA_B_C]=HL GUARDA PUNTERO
    LD   1(IX),H
    RET
 
@@ -1378,7 +1371,7 @@ PCAJP6:
    INC  HL
    PUSH HL
    PUSH AF
-   LD   A,_REG_NOTA_A - _PUNTERO_P_A(IX)	;RECUPERA REGISTRO DE NOTA EN EL CANAL
+   LD   A,_REG_NOTA_A - _PointerP_A(IX)	;RECUPERA REGISTRO DE NOTA EN EL CANAL
    LD   E,(HL)		;
    ADC  E		;+- NOTA 
    CALL TABLA_NOTAS
@@ -1391,7 +1384,7 @@ ORNMJP1:
    LD   1(IX),H
 PCAJP5:
    POP  HL
-   LD   B,_VOL_INST_A - _PUNTERO_P_A(IX)	;VOLUMEN RELATIVO
+   LD   B,_VOL_INST_A - _PointerP_A(IX)	;VOLUMEN RELATIVO
    ADD  B
    JP   P,PCAJP7
    LD   A,#1		;NO SE EXTIGUE EL VOLUMEN
