@@ -13,30 +13,7 @@
 // DEFINES
 //=============================================================================
 
-extern u16 WYZ_songs;
-extern u16 WYZ_instruments;
-extern u16 WYZ_FXs;
-extern u16 WYZ_notes;
-
-extern u16 RA_PSG_Song;
-extern u16 RA_PSG_Inst;
-extern u16 RA_PSG_FX;
-extern u16 RA_PSG_Freq;
-
-extern u16 jinj_med_Song;
-extern u16 jinj_med_Inst;
-extern u16 jinj_med_FX;
-extern u16 jinj_med_Freq;
-
-extern u16 gothic_Song;
-extern u16 gothic_Inst;
-extern u16 gothic_FX;
-extern u16 gothic_Freq;
-
-extern u16 shampoo_Song;
-extern u16 shampoo_Inst;
-extern u16 shampoo_FX;
-extern u16 shampoo_Freq;
+#define PLAYER_Y 4
 
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
@@ -65,6 +42,28 @@ void ButtonStop();
 void ButtonPrev();
 void ButtonNext();
 void ButtonLoop();
+
+// Music
+extern u16 WYZ_songs;
+extern u16 WYZ_instruments;
+extern u16 WYZ_FXs;
+extern u16 WYZ_notes;
+extern u16 RA_PSG_Song;
+extern u16 RA_PSG_Inst;
+extern u16 RA_PSG_FX;
+extern u16 RA_PSG_Freq;
+extern u16 jinj_med_Song;
+extern u16 jinj_med_Inst;
+extern u16 jinj_med_FX;
+extern u16 jinj_med_Freq;
+extern u16 gothic_Song;
+extern u16 gothic_Inst;
+extern u16 gothic_FX;
+extern u16 gothic_Freq;
+extern u16 shampoo_Song;
+extern u16 shampoo_Inst;
+extern u16 shampoo_FX;
+extern u16 shampoo_Freq;
 
 //=============================================================================
 // READ-ONLY DATA
@@ -106,7 +105,7 @@ const u8 g_ColorBlink[4] = { COLOR_LIGHT_RED, COLOR_MEDIUM_RED, COLOR_DARK_RED, 
 
 u8   g_CurrentMusic = 0;
 u8   g_CurrentButton;
-bool g_Freq60Hz = true;
+bool g_Freq50Hz = false;
 bool g_DoLoop = true;
 
 
@@ -147,6 +146,7 @@ void ButtonPause()
 void ButtonStop()
 {
 	// ayVGM_Stop();	
+	WYZ_Pause();
 }
 
 //-----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ void ButtonLoop()
 void SetCursor(u8 id)
 {
 	g_CurrentButton = id % 6;
-	VDP_SetSpriteSM1(0, 8 + 16*g_CurrentButton, 128-1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
+	VDP_SetSpriteSM1(0, 8 + 16*g_CurrentButton, ((PLAYER_Y+1)*8)-1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
 }
 
 
@@ -200,30 +200,40 @@ void main()
 	Print_DrawText(MSX_GL " WYZ Sample");
 	Print_DrawLineH(0, 1, 32);
 
-	Print_SetPosition(20, 10);
-	Print_DrawText("Main-ROM:");
-	Print_SetPosition(20, 11);
-	Print_DrawFormat("\x07" "Freq  %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
-
-	Print_SetPosition(0, 18);
-	Print_DrawText(" Chan A\n");
-	Print_DrawText(" Chan B\n");
-	Print_DrawText(" Chan C");
-
 	// Decode VGM header
 	SetMusic(0);
-	Print_DrawBox(0, 15, numberof(g_ButtonEntry) * 2 + 1, 3);
+	Print_DrawBox(0, PLAYER_Y, numberof(g_ButtonEntry) * 2 + 1, 3);
 	for(u8 i = 0; i < numberof(g_ButtonEntry); ++i)
 	{
-		Print_SetPosition(1 + 2 * i, 16);
+		Print_SetPosition(1 + 2 * i, PLAYER_Y+1);
 		Print_DrawChar(g_ButtonEntry[i].Char);
 		
 	}
+	Print_SetPosition(0, PLAYER_Y+3);
+	Print_DrawText(" Chan A\n");
+	Print_DrawText(" Chan B\n");
+	Print_DrawText(" Chan C\n\n");
+
+	Print_SetPosition(0, 11);
+	Print_DrawText("Load:\n");
+	Print_DrawText("Playing:\n");
+	Print_DrawText("Effect:\n");
+	Print_DrawText("SFX:\n");
+	Print_DrawText("Loop:\n");
+	Print_DrawText("Ended:");
+	
+	g_Freq50Hz = g_ROMVersion.VSF ? 1 : 0;
+
+	Print_SetPosition(0, 18);
+	Print_DrawFormat("Freq: %s", (g_Freq50Hz) ? "50Hz" : "60Hz");
+
+	Print_SetPosition(20, 18);
+	Print_DrawFormat("BIOS: %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
 
 	// Footer
 	Print_DrawLineH(0, 22, 32);
 	Print_SetPosition(0, 23);
-	Print_DrawText("\x8D:Button \x83:Action");
+	Print_DrawText("\x8D:Button \x83:Action \x82:Freq Home:FX");
 
 	//-------------------------------------------------------------------------
 	// Sprite
@@ -238,7 +248,7 @@ void main()
 	while(1)
 	{
 		Halt();
-		if(!g_Freq60Hz || (count % 6 != 0))
+		if(g_Freq50Hz || (count % 6 != 0))
 		{
 			WYZ_Decode();
 			WYZ_PlayAY();
@@ -249,13 +259,20 @@ void main()
 		// #endif
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
+		Print_SetPosition(8, 11); Print_DrawChar((g_WYZ_State & (1 << 0)) ? 0xC : 0xB);
+		Print_SetPosition(8, 12); Print_DrawChar((g_WYZ_State & (1 << 1)) ? 0xC : 0xB);
+		Print_SetPosition(8, 13); Print_DrawChar((g_WYZ_State & (1 << 2)) ? 0xC : 0xB);
+		Print_SetPosition(8, 14); Print_DrawChar((g_WYZ_State & (1 << 3)) ? 0xC : 0xB);
+		Print_SetPosition(8, 15); Print_DrawChar((g_WYZ_State & (1 << 4)) ? 0xC : 0xB);
+		Print_SetPosition(8, 16); Print_DrawChar((g_WYZ_State & (1 << 7)) ? 0xC : 0xB);	
+		
 		Print_SetPosition(31, 0);
 		u8 chr = count++ & 0x03;
 		Print_DrawChar(g_ChrAnim[chr]);
 		
 		// VU metter
 		u8* ayReg = &AYREGS[PSG_REG_AMP_A];
-		u8 y = 18;
+		u8 y = PLAYER_Y+3;
 		loop(i, 3)
 		{
 			Print_SetPosition(8, y++);
@@ -292,6 +309,18 @@ void main()
 		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
 			g_ButtonEntry[g_CurrentButton].Func();
+		}
+		// Change frequency
+		if((IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP)) || (IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN)))
+		{
+			g_Freq50Hz = 1 - g_Freq50Hz;
+			Print_SetPosition(0, 18);
+			Print_DrawFormat("Freq: %s", (g_Freq50Hz) ? "50Hz" : "60Hz");
+		}
+		// Activate button
+		if(IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(prevRow8, KEY_HOME))
+		{
+			WYZ_PlayFX(0);
 		}
 		
 		prevRow8 = row8;

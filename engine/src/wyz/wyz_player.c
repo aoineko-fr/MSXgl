@@ -58,12 +58,11 @@
 
 // WYZ player status
 // 7 6 5 4 3 2 1 0
-// │     │ │ │ │ └── Load song ON/OFF
-// │     │ │ │ └──── Player ON/OFF
-// │     │ │ └────── EFECTOS ON/OFF
-// │     │ └──────── SFX ON/OFF
-// │     └────────── Is looping?
-// └──────────────── Is ended?
+// │     │   │ │ └── Song loaded?
+// │     │   │ └──── Song playing?
+// │     │   └────── SFX playing?
+// │     └────────── Song looping?
+// └──────────────── Song ended?
 u8 g_WYZ_State;
 u8 g_WYZ_Song;  // Number of the playing song 
 u8 g_WYZ_Tempo; // Tempo
@@ -140,19 +139,19 @@ u8 SOUND_BUFFER_C[0x10];
 u8 SOUND_BUFFER_P[0x10];
 
 // Songs index address
-u16 TABLA_SONG;
+u16 SONG_TABLE;
 
 // Instruments index address
-u16 TABLA_PAUTAS;
+u16 INST_TABLE;
 
 // FXs index address 
-u16 TABLA_SONIDOS;
+u16 EFFECT_TABLE;
 
 // Data of the frequencies of the notes
-u16 DATOS_NOTAS;
+u16 NOTE_TABLE;
 
 /*
-u16 DATOS_NOTAS[]={0,0,
+u16 NOTE_TABLE[]={0,0,
 1711,1614,1524,1438,1358,1281,1210,1142,1078,1017,
 960,906,855,807,762,719,679,641,605,571,
 539,509,480,453,428,404,381,360,339,320,
@@ -183,12 +182,12 @@ u8 TABLA_DATOS_CANAL_SFX[6];
 
 //-----------------------------------------------------------------------------
 // Initialize the Player
-void WYZ_Initialize(u16 addrSONGs, u16 addrInstruments, u16 addrFXs, u16 addrFreqs) __sdcccall(0)
+void WYZ_Initialize(u16 song, u16 inst, u16 fx, u16 freq) __sdcccall(0)
 {
-addrSONGs;
-addrInstruments;
-addrFXs;
-addrFreqs;
+	song; // IX+4
+	inst; // IX+6
+	fx;   // IX+8
+	freq; // IX+10
 __asm
 	push	IX
 	ld		IX, #0
@@ -196,26 +195,26 @@ __asm
 
 	ld		L, 4(IX)
 	ld		H, 5(IX)
-	ld		(#_TABLA_SONG), HL
+	ld		(#_SONG_TABLE), HL
 
 	ld		L, 6(IX)
 	ld		H, 7(IX)
-	ld		(#_TABLA_PAUTAS), HL
+	ld		(#_INST_TABLE), HL
 
 	ld		L, 8(IX)
 	ld		H, 9(IX)
-	ld		(#_TABLA_SONIDOS), HL
+	ld		(#_EFFECT_TABLE), HL
 
 	ld		L, 10(IX)
 	ld		H, 11(IX)
-	ld		(#_DATOS_NOTAS), HL
+	ld		(#_NOTE_TABLE), HL
 
-	xor		A
-	ld		(#_g_WYZ_State), A
+	ld		HL, #_g_WYZ_State
+	ld		(HL), #0x01				// Song loaded
 
-	call	CLEAR_PSG_BUFFER   // PLAYER_OFF
+	call	CLEAR_PSG_BUFFER		// PLAYER_OFF
 
-	ld		HL, #_SOUND_BUFFER_A        	// Reserve memory for sound buffering!!!!!
+	ld		HL, #_SOUND_BUFFER_A	// Reserve memory for sound buffering!!!!!
 	ld		(#_CANAL_A), HL
 
 	ld		HL, #_SOUND_BUFFER_B        	
@@ -287,13 +286,11 @@ __endasm;
 void WYZ_Pause() __naked
 {
 __asm
-
-PLAYER_OFF:
 	// xor		A			
 	// ld		[INTERR],A
 	// ld		[FADE],A		// Only if there is a fade out
 	ld		HL, #_g_WYZ_State       
-	res		1, (HL)
+	res		1, (HL) // Playing OFF
 
 CLEAR_PSG_BUFFER:
 	xor		A
@@ -311,7 +308,7 @@ CLEAR_PSG_BUFFER:
 	ld		BC, #14
 	ldir		
 
-	jp		ROUT
+	jp		_WYZ_PlayAY
    
 __endasm;
 }
@@ -322,7 +319,7 @@ void WYZ_Resume()
 {
 __asm
 	ld		HL, #_g_WYZ_State       
-	set		1, (HL)      // PLAYER ON
+	set		1, (HL)      //  Playing ON
 __endasm;
 }
 
@@ -335,7 +332,7 @@ __asm
 	ld		HL, #_g_WYZ_State
 	bit		7, (HL)
 	jr		Z, retPlayerEndState
-	ld		A, #1
+	inc		A
     
 retPlayerEndState:    
 	ld		L, A
@@ -344,65 +341,45 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Change loop mode
-void WYZ_SetLoop(bool loop) __naked __sdcccall(0)
+void WYZ_SetLoop(bool loop)
 {
-loop;
+	loop; // A
+
 __asm
-	push	IX
-	ld		IX, #0
-	add		IX, SP
-
-	ld		A, 4(IX)
-	call	setLoop
-
-	pop		IX
-	ret
-
-setLoop:
 	ld		HL, #_g_WYZ_State
-
 	or		A
-	jr		Z, resetLOOP
+	jr		Z, resetLoop
 
-	set		4, (HL) // LOOP ON
+setLoop:           
+	set		4, (HL) // Loop ON
 	ret
 
-resetLOOP:           
-
-	res		4, (HL)
-	ret
-
+resetLoop:           
+	res		4, (HL) // Loop OFF
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Play Sound Effect
-void WYZ_PlayFX(u8 numSound) __naked __sdcccall(0)
+void WYZ_PlayFX(u8 numSound)
 {
-numSound;
+	numSound; // A
 __asm
-   push IX
-   ld   IX,#0
-   add  IX,sp
    
-   LD   A,4(IX)
-   CALL INICIA_SONIDO
-   
-   pop  IX
-   ret
+	call	INICIA_SONIDO
+	ret
 
 // Start sound No [A]
-
 INICIA_SONIDO:
-//CP	8		//SFX SPEECH
-//JP	Z,SLOOP		
+	// cp		8		// SFX speech
+	// jp		Z, SLOOP
 
-   LD      HL,(#_TABLA_SONIDOS)    //(v SDCC) HL,TABLA_SONIDOS  
-   CALL    EXT_WORD
-   LD      (#_PointerSONIDO),HL
-   LD      HL,#_g_WYZ_State
-   SET     2,(HL)
-   RET  
+	ld      HL, (#_EFFECT_TABLE)    //(v SDCC) HL,EFFECT_TABLE  
+	call    EXT_WORD
+	ld      (#_PointerSONIDO), HL
+	
+	ld      HL, #_g_WYZ_State
+	set     2, (HL) // SFX ON
     
 __endasm;
 }
@@ -410,26 +387,23 @@ __endasm;
 //-----------------------------------------------------------------------------
 // Send data from AYREGS buffer to AY registers.
 // Execute on each interruption of VBLANK
-void WYZ_PlayAY() __naked
+void WYZ_PlayAY()
 {
 __asm
-    
-ROUT:
-
 //Record register 7 of the AY38910 ----------------------------------------------
 //collects the last two bits for joysctick port control
 //and adds them to the value of the mixer bits
-   ld   A,(#_AYREGS+PSG_REG_MIXER)
-   and  #0b00111111
-   ld   B,A
-      
-   ld   A,#PSG_REG_MIXER
-   out  (#AY0index),A
-   in   A,(#AY0read)  
-   and	 #0b11000000	// Mask to catch only the two bits of joys 
-   or	 B		        // Add B
-  
-   ld   (#_AYREGS+PSG_REG_MIXER),A
+	ld		A, (#_AYREGS+PSG_REG_MIXER)
+	and		#0b00111111
+	ld		B, A
+
+	ld		A, #PSG_REG_MIXER
+	out		(#AY0index), A
+	in		A, (#AY0read)  
+	and		#0b11000000	// Mask to catch only the two bits of joys 
+	or		B		        // Add B
+
+	ld		(#_AYREGS+PSG_REG_MIXER), A
 //END register 7 ----------------------------------------------------------------
 
 
@@ -437,35 +411,32 @@ ROUT:
 //   AND  A			//ES CERO?
 //   JR   Z,NO_BACKUP_ENVOLVENTE
 //   LD   (#_ENVOLVENTE_BACK),A	//08.13 / GUARDA LA ENVOLVENTE EN EL BACKUP
-
 NO_BACKUP_ENVOLVENTE:
-   XOR  A
-   LD   C,#AY0index   //0xA0
-   LD   HL,#_AYREGS
+	xor		A
+	ld		C, #AY0index   //0xA0
+	ld		HL, #_AYREGS
    
 LOUT:
-   OUT     (C),A
-   INC     C
-   OUTI 
-   DEC     C
-   INC     A
-   CP      #13
-   JR      NZ,LOUT
-   
-   OUT     (C),A
-   LD      A,(HL)
-   AND     A
-   RET     Z
-   
-   INC     C
-   OUT     (C),A
-   LD      (#_ENVOLVENTE_BACK),A
-       
-   XOR     A
-   LD      (#_AYREGS+PSG_REG_SHAPE),A
-   LD	   (#_PSG_REG+PSG_REG_SHAPE),A
-   
-   RET
+	out		(C), A
+	inc		C
+	outi 
+	dec		C
+	inc		A
+	cp		#13
+	jr		NZ, LOUT
+
+	out		(C), A
+	ld		A, (HL)
+	and		A
+	ret		Z
+
+	inc		C
+	out		(C), A
+	ld		(#_ENVOLVENTE_BACK), A
+
+	xor		A
+	ld		(#_AYREGS+PSG_REG_SHAPE), A
+	ld		(#_PSG_REG+PSG_REG_SHAPE), A
 
 __endasm;
 }
@@ -482,7 +453,7 @@ __asm
    add  IX,sp
    
    ld   A,5(IX)
-   call setLoop
+   call _WYZ_SetLoop
    
    LD   A,4(IX)
    call CARGA_CANCION
@@ -514,7 +485,7 @@ DECODE_SONG:
 //LEE CABECERA DE LA CANCION
 //BYTE 0=g_WYZ_Tempo
 
-   LD   HL,(#_TABLA_SONG)   //(v SDCC) HL,_TABLA_SONG
+   LD   HL,(#_SONG_TABLE)   //(v SDCC) HL,_SONG_TABLE
    CALL EXT_WORD
    LD   A,(HL)
    LD   (#_g_WYZ_Tempo),A
@@ -968,7 +939,7 @@ NO_INC_TEMPO:
    INC     HL
    LD      _PointerA - _PointerA(IX),L   //
    LD      _PointerA - _PointerA+1(IX),H   //
-   LD      HL,(#_TABLA_PAUTAS)   //(v sdcc) HL,#_TABLA_PAUTAS
+   LD      HL,(#_INST_TABLE)   //(v sdcc) HL,#_INST_TABLE
    CALL    EXT_WORD
    LD      _PointerP_A0 - _PointerA(IX),L
    LD      _PointerP_A0 - _PointerA+1(IX),H
@@ -1039,7 +1010,7 @@ FIN_CANAL_A:
    POP  AF
    
    SET  7,(HL)           //End song
-   JP   PLAYER_OFF
+   JP   _WYZ_Pause
 
 FCA_CONT:
    LD   L,_PointerL_DECA - _PointerA(IX)	//CARGA PUNTERO INICIAL DECODER
@@ -1268,7 +1239,7 @@ NOTA:
    JR    NZ,EVOLVENTES
    LD    A,B
 TABLA_NOTAS:
-   LD    HL,(#_DATOS_NOTAS)     //BUSCA FRECUENCIA
+   LD    HL,(#_NOTE_TABLE)     //BUSCA FRECUENCIA
    CALL  EXT_WORD
    LD    0(IY),L
    LD    1(IY),H
@@ -1277,7 +1248,7 @@ TABLA_NOTAS:
 //IN [A]=CODIGO DE LA ENVOLVENTE
 //   [IY]=REGISTRO DE FRECUENCIA
 EVOLVENTES:
-    LD    HL,(#_DATOS_NOTAS)
+    LD    HL,(#_NOTE_TABLE)
     //SUB	12
     RLCA      //X2
     LD    D,#0

@@ -27,12 +27,11 @@
 
 // WYZ player status
 // 7 6 5 4 3 2 1 0
-// │     │ │ │ │ └── Load song ON/OFF
-// │     │ │ │ └──── Player ON/OFF
-// │     │ │ └────── EFECTOS ON/OFF
-// │     │ └──────── SFX ON/OFF
-// │     └────────── Is looping?
-// └──────────────── Is ended?
+// │     │   │ │ └── Song loaded?
+// │     │   │ └──── Song playing?
+// │     │   └────── SFX playing?
+// │     └────────── Song looping?
+// └──────────────── Song ended?
 extern u8 g_WYZ_State;
 
 extern u8 g_WYZ_Song; //number of song playing
@@ -67,7 +66,7 @@ void WYZ_Resume();
 //
 // Parameters:
 //   loop - false = 0, true = 1
-void WYZ_SetLoop(u8 loop) __naked __sdcccall(0);
+void WYZ_SetLoop(u8 loop);
 
 // Function: WYZ_IsFinished
 // Indicates whether the song has finished playing
@@ -81,12 +80,12 @@ bool WYZ_IsFinished();
 //
 // Parameters:
 //   FX number
-void WYZ_PlayFX(u8 numSound) __naked __sdcccall(0); 
+void WYZ_PlayFX(u8 numSound); 
 
 // Function: WYZ_PlayAY
 // Send data from AYREGS buffer to AY registers.
 // Execute on each interruption of VBLANK
-void WYZ_PlayAY() __naked;
+void WYZ_PlayAY();
 
 // Function: WYZ_PlaySong
 // Start song playback
