@@ -50,24 +50,24 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntryAKG[] =
 {
-	{ "A Harmless Grenade", 0xA000, 4 },
-	{ "Hocus Pocus       ", 0xA000, 5 },
 	{ "Just add cream    ", 0xA000, 6 },
 	{ "Sarkboteur        ", 0xA000, 7 },
+	{ "A Harmless Grenade", 0xA000, 4 },
+	{ "Hocus Pocus       ", 0xA000, 5 },
 };
 const struct MusicEntry g_MusicEntryAKY[] =
 {
-	{ "A Harmless Grenade", 0xA000, 12 },
-	{ "Hocus Pocus       ", 0xA000, 13 },
 	{ "Just add cream    ", 0xA000, 14 },
 	{ "Sarkboteur        ", 0xA000, 15 },
+	{ "A Harmless Grenade", 0xA000, 12 },
+	{ "Hocus Pocus       ", 0xA000, 13 },
 };
 const struct MusicEntry g_MusicEntryAKM[] =
 {
-	{ "A Harmless Grenade", 0xA000, 8 },
-	{ "Hocus Pocus       ", 0xA000, 9 },
 	{ "Just add cream    ", 0xA000, 10 },
 	{ "Sarkboteur        ", 0xA000, 11 },
+	{ "A Harmless Grenade", 0xA000, 8 },
+	{ "Hocus Pocus       ", 0xA000, 9 },
 };
 
 const struct PlayerEntry g_PlayerEntry[] =
@@ -134,6 +134,7 @@ void main()
 	VDP_SetMode(VDP_MODE_SCREEN0); // Initialize screen mode 0 (text)
 	VDP_ClearVRAM();
 	VDP_EnableVBlank(true);
+	VDP_SetColor(0xF4);
 
 	// Header
 	Print_SetTextFont(g_Font_MGL_Sample6, 1); // Initialize font
@@ -161,9 +162,9 @@ void main()
 		Halt();
 		if(g_Freq50Hz || (count % 6) != 0)
 		{
-VDP_SetColor(0xF4);
+VDP_SetColor(0xF5);
 			g_CurrentPlayer->Decode();
-VDP_SetColor(0xF0);
+VDP_SetColor(0xF4);
 		}
 		
 		Print_SetPosition(39, 0);
