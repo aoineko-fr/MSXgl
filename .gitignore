@@ -1,3 +1,9 @@
+.vs
+out
+*.xcf
+
+/engine/doc/Natural Docs
+/engine/doc/NaturalDocs_Config/Working Data
 /engine/src/arkos/misc/doc
 /engine/src/arkos/playerAkg
 /engine/src/arkos/playerAkm
@@ -7,40 +13,13 @@
 /engine/src/arkos/playerSoundEffects
 /engine/src/arkos/serial
 /engine/src/arkos/misc
-/engine/src/ayfx/vt.bin
-/engine/src/ayfx/ayFX_FileFormat.odt
-/engine/src/ayfx/readme.txt
 /engine/src/obsolete
-/engine/src/pcm/replayer_core_44100.asm
-/engine/src/pcm/replayer_core_8000.asm
-/engine/src/pcm/replayer_core_8000v2.asm
-/engine/src/pcm/replayer_core_11025.asm
-/engine/src/pcm/replayer_core_22050.asm
-/engine/src/wyz/WYZPROPLAY47c_CPC.ASM
-/engine/src/wyz/WYZPROPLAY47c_RAM.ASM
-/engine/src/wyz/WYZPROPLAY47c_RAM.tniasm.ASM
-/engine/src/wyz/WYZPROPLAY47c_ZX.ASM
-/engine/src/wyz/WYZPROPLAY47cMSX.ASM
-/engine/src/wyz/external.mus
-/engine/src/wyz/external.mus.asm
-/engine/src/wyz/external.wyz
-/engine/src/wyz/Prueba_MSX.asm
-/engine/src/wyz/Prueba_MSX.tniasm.asm
-/engine/src/wyz/wyz_player_mvac7.c
-/engine/src/wyz/WYZPLAYER_FADE_OUT.ASM
+
 /projects/gos
 /projects/tennis
-/projects/samples/data/datasrc
-/tools/Hex2Bin2
-/tools/SDCC
-/tools/OpenMSX
-/tools/DskTool/src
-/tools/DskTool/dsktool in Launchpad.url
 /projects/FinalSmash
-/tools/CMSXtk/src
-/tools/CMSXtk/*.sln
-.vs
-out
+/projects/wizzl
+/projects/wizzl_old
 /projects/samples/datasrc/pcm
 /projects/samples/datasrc/pt3
 /projects/samples/datasrc/vgm
@@ -50,7 +29,7 @@ out
 /projects/samples/datasrc/ayfx
 /projects/samples/datasrc/GrafxKid
 /projects/samples/datasrc/misc
-*.xcf
+
 /tools/audio/pcmenc/replayer_core_22050.asm
 /tools/audio/pcmenc/replayer_core_44100.asm
 /tools/audio/pcmenc/resampl.h
@@ -62,12 +41,16 @@ out
 /tools/audio/pcmenc/replayer_core_8000.asm
 /tools/audio/pcmenc/replayer_core_8000v2.asm
 /tools/audio/pcmenc/replayer_core_11025.asm
+
 /tools/build/DskTool/src
-/engine/doc/Natural Docs
-/engine/doc/NaturalDocs_Config/Working Data
-/tools/fMSX
-/tools/RuMSX
-/tools/OpenMSX_1_17
-/tools/MEISEI
-/tools/Emulicious
+
 /tools/BlueMSX
+/tools/Emulicious
+/tools/fMSX
+/tools/MEISEI
+/tools/OpenMSX
+/tools/OpenMSX_1_17
+/tools/RuMSX
+
+/tools/CMSXtk/src
+/tools/CMSXtk/*.sln

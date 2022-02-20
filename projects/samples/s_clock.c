@@ -198,7 +198,7 @@ void main()
 	Print_SetColor(0xFF, 0x11);
 	Print_Clear();
 	Print_SetPosition(4, 4);
-	Print_DrawText(MSX_GL "  RTC SAMPLE");
+	Print_DrawText(MSX_GL " RTC SAMPLE");
 	Draw_Box(0, 0, 255, 14, 0xF, 0);
 	
 	// Initialize the RTC module

@@ -20,11 +20,17 @@
 // INCLUDES
 //-----------------------------------------------------------------------------
 #include "core.h"
+#include "psg.h"
 
 //-----------------------------------------------------------------------------
 // DEFINES
 //-----------------------------------------------------------------------------
 
+#define WYZ_STATE_LOAD	0b00000001
+#define WYZ_STATE_PLAY	0b00000010
+#define WYZ_STATE_SFX	0b00000100
+#define WYZ_STATE_LOOP	0b00010000
+#define WYZ_STATE_END	0b10000000
 // WYZ player status
 // 7 6 5 4 3 2 1 0
 // │     │   │ │ └── Song loaded?
@@ -97,4 +103,4 @@ void WYZ_PlaySong(u8 numSong, bool loop) __sdcccall(0);
 
 // Function: WYZ_Decode
 // Process the next step in the song sequence 
-void WYZ_Decode() __naked; 
+void WYZ_Decode(); 

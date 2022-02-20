@@ -64,6 +64,10 @@ extern u16 shampoo_Song;
 extern u16 shampoo_Inst;
 extern u16 shampoo_FX;
 extern u16 shampoo_Freq;
+extern u16 quezesto_Song;
+extern u16 quezesto_Inst;
+extern u16 quezesto_FX;
+extern u16 quezesto_Freq;
 
 //=============================================================================
 // READ-ONLY DATA
@@ -83,6 +87,7 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Nayade   ", (u16)&WYZ_songs, (u16)&WYZ_instruments, (u16)&WYZ_FXs, (u16)&WYZ_notes },
 	{ "Gothic   ", (u16)&gothic_Song, (u16)&gothic_Inst, (u16)&gothic_FX, (u16)&gothic_Freq },
 	{ "Shampoo  ", (u16)&shampoo_Song, (u16)&shampoo_Inst, (u16)&shampoo_FX, (u16)&shampoo_Freq },
+	{ "Quezesto ", (u16)&quezesto_Song, (u16)&quezesto_Inst, (u16)&quezesto_FX, (u16)&quezesto_Freq },
 };
 
 // Player button list

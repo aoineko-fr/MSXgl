@@ -18,7 +18,8 @@
 //=============================================================================
 
 // Library's logo
-#define MSX_GL "\x01\x02\x03\x04\x05\x06"
+#define MSX_GL6 "\x01\x02\x03\x04\x05\x06"
+#define MSX_GL8 "\x02\x03\x04\x05"
 
 // Screen setting
 struct ScreenSetting
@@ -40,6 +41,7 @@ struct ScreenSetting
 	const u8*  Data;
 	const u8*  DataLMMC;
 	const u16* Palette;
+	const c8*  Title;
 };
 
 //
@@ -60,10 +62,10 @@ struct DrawData
 // Screen mode settings
 const struct ScreenSetting g_Settings[] =
 { //  Name              Mode              Width BPC Txt   BG    Red   White Gray  Black Font              Data  DataLMMC Palette 
-	{ "Screen 5 (G4)",	VDP_MODE_SCREEN5, 256,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample6, null, null, null }, // 0
-	{ "Screen 6 (G5)",	VDP_MODE_SCREEN6, 512,	2,	0xFF, 0xAA, 0x55, 0xFF, 0xAA, 0x55, g_Font_MGL_Sample8, null, null, null }, // 1
-	{ "Screen 7 (G6)",	VDP_MODE_SCREEN7, 512,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample8, null, null, null }, // 2
-	{ "Screen 8 (G7)",	VDP_MODE_SCREEN8, 256,	8,	0xFF, 0x47, 0x1C, 0xFF, 0x6D, 0x00, g_Font_MGL_Sample6, null, null, null }, // 3
+	{ "Screen 5 (G4)",	VDP_MODE_SCREEN5, 256,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample6, null, null, null, MSX_GL6 }, // 0
+	{ "Screen 6 (G5)",	VDP_MODE_SCREEN6, 512,	2,	0xFF, 0xAA, 0x55, 0xFF, 0xAA, 0x55, g_Font_MGL_Sample8, null, null, null, MSX_GL8 }, // 1
+	{ "Screen 7 (G6)",	VDP_MODE_SCREEN7, 512,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample8, null, null, null, MSX_GL8 }, // 2
+	{ "Screen 8 (G7)",	VDP_MODE_SCREEN8, 256,	8,	0xFF, 0x47, 0x1C, 0xFF, 0x6D, 0x00, g_Font_MGL_Sample6, null, null, null, MSX_GL6 }, // 3
 };
 
 // Character animation
@@ -145,8 +147,9 @@ void DisplayPage()
 	Print_SetBitmapFont(src->Font);
 	Print_SetColor(src->Text, src->Background);
 	
-	Print_SetPosition(4, 2);
-	Print_DrawText(MSX_GL "  DRAW SAMPLE  ");
+	Print_SetPosition(2, 2);
+	Print_DrawText(src->Title);
+	Print_DrawText(" DRAW SAMPLE  ");
 	Print_DrawChar('\x81');
 	Print_DrawText(src->Name);
 	Print_DrawChar('\x80');

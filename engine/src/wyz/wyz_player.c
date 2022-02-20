@@ -16,7 +16,6 @@
 // INCLUDES
 //-----------------------------------------------------------------------------
 #include "wyz_player.h"
-#include "psg.h"
 
 /* =============================================================================
  SDCC WYZ player for MSX
@@ -111,7 +110,6 @@ u16 CANAL_P;  // Direction of onset of effects
 u16 PointerP_DECP; // P-Channel decoder start pointer
 u16 PointerDECP;   // P-Channel decoder pointer
 u16 PointerL_DECP; // Decoder loop start pointer channel P
-//SELECT_CANAL_P	EQU	INTERR+$36	;DB SELECCION DE CANAL DE EFECTOS DE RITMO
 
 u16 SFX_L;   // Address buffer effects rhythm effects low register
 u16 SFX_H;   // Address buffering rate effects high register
@@ -122,8 +120,7 @@ u16 SFX_MIX; // Address buffer effects rhythm effects mixer register
 u8 N_SONIDO;       // Sound number
 u16 PointerSONIDO; // Pointer of the sound being played
 
-//DB [13] BUFFERs DE REGISTROS DEL PSG
-
+// PSG RGISTERS BUFFER
 u8 PSG_REG[16];
 u8 AYREGS[16];  //PSG_REG_SEC
 
@@ -162,8 +159,7 @@ u16 NOTE_TABLE[]={0,0,
 
 // Rhythm effect channel selector data table
 
-// ############################################################################# <<< Assign values in the init
-u8 SELECT_CANAL_A[7]; 
+u8 SELECT_CANAL_A[7]; // Assign values in the init
 // DW	PSG_REG_SEC+0,PSG_REG_SEC+1,PSG_REG_SEC+8
 // DB	10110001B
 
@@ -174,9 +170,8 @@ u8 SELECT_CANAL_B[7];
 u8 SELECT_CANAL_C[7]; 
 //	DW	PSG_REG_SEC+4,PSG_REG_SEC+5,PSG_REG_SEC+10
 //  DB	10011100B
-// ############################################################################# <<< Assign values in the init
 
-//TABLA_DATOS_CANAL_SFX:
+// TABLA_DATOS_CANAL_SFX:
 //DW	SELECT_CANAL_A,SELECT_CANAL_B,SELECT_CANAL_C
 u8 TABLA_DATOS_CANAL_SFX[6];
 
@@ -209,10 +204,10 @@ __asm
 	ld		H, 11(IX)
 	ld		(#_NOTE_TABLE), HL
 
-	ld		HL, #_g_WYZ_State
-	ld		(HL), #0x01				// Song loaded
+	call	_WYZ_Pause		// PLAYER_OFF
 
-	call	CLEAR_PSG_BUFFER		// PLAYER_OFF
+	ld		HL, #_g_WYZ_State
+	ld		(HL), #0x01				// Set state to Song loaded
 
 	ld		HL, #_SOUND_BUFFER_A	// Reserve memory for sound buffering!!!!!
 	ld		(#_CANAL_A), HL
@@ -266,7 +261,7 @@ __asm
 	ld		A, #0b10011100
 	ld		(#_SELECT_CANAL_C+6), A
 
-// TABLA_DATOS_CANAL_SFX
+	// TABLA_DATOS_CANAL_SFX
 	ld		HL, #_SELECT_CANAL_A        	
 	ld		(#_TABLA_DATOS_CANAL_SFX), HL
 
@@ -292,7 +287,7 @@ __asm
 	ld		HL, #_g_WYZ_State       
 	res		1, (HL) // Playing OFF
 
-CLEAR_PSG_BUFFER:
+// CLEAR_PSG_BUFFER:
 	xor		A
 	ld		HL, #_PSG_REG
 	ld		DE, #_PSG_REG+1
@@ -344,7 +339,6 @@ __endasm;
 void WYZ_SetLoop(bool loop)
 {
 	loop; // A
-
 __asm
 	ld		HL, #_g_WYZ_State
 	or		A
@@ -365,12 +359,6 @@ void WYZ_PlayFX(u8 numSound)
 {
 	numSound; // A
 __asm
-   
-	call	INICIA_SONIDO
-	ret
-
-// Start sound No [A]
-INICIA_SONIDO:
 	// cp		8		// SFX speech
 	// jp		Z, SLOOP
 
@@ -406,7 +394,6 @@ __asm
 	ld		(#_AYREGS+PSG_REG_MIXER), A
 //END register 7 ----------------------------------------------------------------
 
-
 //   LD   A,(#_PSG_REG+PSG_REG_SHAPE)			
 //   AND  A			//ES CERO?
 //   JR   Z,NO_BACKUP_ENVOLVENTE
@@ -416,14 +403,14 @@ NO_BACKUP_ENVOLVENTE:
 	ld		C, #AY0index   //0xA0
 	ld		HL, #_AYREGS
    
-LOUT:
+playAYLoop:
 	out		(C), A
 	inc		C
 	outi 
 	dec		C
 	inc		A
 	cp		#13
-	jr		NZ, LOUT
+	jr		NZ, playAYLoop
 
 	out		(C), A
 	ld		A, (HL)
@@ -445,303 +432,284 @@ __endasm;
 // Initialize song
 void WYZ_PlaySong(u8 numSong, bool loop) __sdcccall(0)
 {
-numSong;
-loop;
+	numSong;
+	loop;
 __asm
-   push IX
-   ld   IX,#0
-   add  IX,sp
-   
-   ld   A,5(IX)
-   call _WYZ_SetLoop
-   
-   LD   A,4(IX)
-   call CARGA_CANCION
-   
-   pop  IX
-   ret
+	push	IX
+	ld		IX, #0
+	add		IX, SP
 
-//CARGA UNA CANCION
-//IN:[A]=N� DE CANCION
+	ld		A, 5(IX)
+	call	_WYZ_SetLoop
 
-CARGA_CANCION:
-   
-   //LD   HL,#_g_WYZ_Song
-   LD   (#_g_WYZ_Song),A   //N� A
-   
-   LD   HL,#_g_WYZ_State       //CARGA CANCION		
-   SET  1,(HL)              //REPRODUCE CANCION
-   RES  7,(HL)              //END off
+	LD		A, 4(IX)
+	call	loadSong
 
-//DECODIFICAR
-//IN-> g_WYZ_State 0 ON
-//     g_WYZ_Song
+	pop		IX
+	ret
 
-//CARGA CANCION SI/NO
+// LOAD A SONG
+// IN:[A]=Song number
+loadSong:
+   	ld		(#_g_WYZ_Song), A		// N° A
 
-DECODE_SONG:
-   LD   A,(#_g_WYZ_Song)
+	ld		HL,#_g_WYZ_State		// Song	state
+	set		1,(HL)					// Set song playing ON
+	res		7,(HL)					// Set song ended OFF
 
-//LEE CABECERA DE LA CANCION
+// DECODE SONG
+// IN-> g_WYZ_State 0 ON
+//      g_WYZ_Song
+
+// LOAD SONG YES/NO
+decodeSong:
+	ld		A, (#_g_WYZ_Song)
+
+// READ SONG HEADER
 //BYTE 0=g_WYZ_Tempo
+	ld		HL, (#_SONG_TABLE)   //(v SDCC) HL,_SONG_TABLE
+	call	EXT_WORD
+	ld		A, (HL)
+	ld		(#_g_WYZ_Tempo), A
+	dec		A
+	ld		(#_TempoCount), A
 
-   LD   HL,(#_SONG_TABLE)   //(v SDCC) HL,_SONG_TABLE
-   CALL EXT_WORD
-   LD   A,(HL)
-   LD   (#_g_WYZ_Tempo),A
-   DEC  A
-   LD   (#_TempoCount),A
-         
 //HEADER BYTE 1
 //[-|-|-|-|  3-1 | 0  ]
 //[-|-|-|-|FX CHN|LOOP]
 
-   INC  HL     //LOOP 1=ON/0=OFF?
-   LD   A,(HL)
-   //BIT  0,A
-   //JR   Z,NPTJP0
-   
-   //PUSH HL
-   //LD   HL,#_g_WYZ_State
-   //SET  4,(HL)
-   //POP  HL
+	inc		HL     //LOOP 1=ON/0=OFF?
+	ld		A, (HL)
+	// bit		0, A
+	// jr		Z, NPTJP0
+
+	// push		HL
+	// ld		HL, #_g_WYZ_State
+	// set		4, (HL)
+	// pop		HL
 
 // Selection of the rhythm effect channel
-
 NPTJP0:
-   AND  #0b00000110 
-   RRA
-   //LD	(#_SELECT_CANAL_P),A
-   
-   PUSH	HL
-   LD	  HL,#_TABLA_DATOS_CANAL_SFX
-   CALL  EXT_WORD
-   PUSH	HL
-   POP  IX
-   LD   E,0(IX)
-   LD   D,1(IX)
-   LD   (#_SFX_L),DE
-   
-   LD   E,2(IX)
-   LD   D,3(IX)
-   LD   (#_SFX_H),DE
-   
-   LD   E,4(IX)
-   LD   D,5(IX)
-   LD   (#_SFX_V),DE
-   
-   LD   A,6(IX)
-   LD   (#_SFX_MIX),A
-   POP	HL
-   
-   INC	HL		//2 BYTES RESERVADOS
-   INC	HL
-   INC	HL
+	and		#0b00000110 
+	rra
+
+	push	HL
+	ld		HL, #_TABLA_DATOS_CANAL_SFX
+	call	EXT_WORD
+	push	HL
+	pop		IX
+	ld		E, 0(IX)
+	ld		D, 1(IX)
+	ld		(#_SFX_L), DE
+
+	ld		E, 2(IX)
+	ld		D, 3(IX)
+	ld		(#_SFX_H), DE
+
+	ld		E, 4(IX)
+	ld		D, 5(IX)
+	ld		(#_SFX_V), DE
+
+	ld		A, 6(IX)
+	ld		(#_SFX_MIX), A
+	pop		HL
+
+	inc		HL // 2 bytes reserved
+	inc		HL
+	inc		HL
 
 // Search and save start of channels in the mus module (Optimize)
-// A�ADE OFFSET DEL LOOP
+	push	HL						// IX start offsets loop per canal
+	pop		IX
 
-   PUSH HL     //IX INICIO OFFSETS LOOP POR CANAL
-   POP  IX
+	ld		DE, #0x0008				// To start of channel A
+	add		HL, DE
 
-   LD   DE,#0x0008		//HASTA INICIO DEL CANAL A
-   ADD  HL,DE
+	ld		(#_PointerP_DECA), HL	// Saves channel start pointer
+	ld		E, (IX)
+	ld		D, 1(IX)
+	add		HL, DE
+	ld		(#_PointerL_DECA), HL	// Saves pointer start loop
 
+	call	BGICMODBC1
+	ld		(#_PointerP_DECB), HL
+	ld		E, 2(IX)
+	ld		D, 3(IX)
+	add		HL, DE
+	ld		(#_PointerL_DECB), HL
 
-   LD   (#_PointerP_DECA),HL	//GUARDA PUNTERO INICIO CANAL
-   LD   E,(IX)
-   LD   D,1(IX)
-   ADD  HL,DE
-   LD   (#_PointerL_DECA),HL	//GUARDA PUNTERO INICIO LOOP
+	call	BGICMODBC1
+	ld		(#_PointerP_DECC), HL
+	ld		E, 4(IX)
+	ld		D, 5(IX)
+	add		HL, DE
+	ld		(#_PointerL_DECC), HL
 
-   CALL BGICMODBC1
-   LD   (#_PointerP_DECB),HL
-   LD   E,2(IX)
-   LD   D,3(IX)
-   ADD  HL,DE
-   LD   (#_PointerL_DECB),HL
+	call	BGICMODBC1
+	ld		(#_PointerP_DECP), HL
+	ld		E, 6(IX)
+	ld		D, 7(IX)
+	add		HL, DE
+	ld		(#_PointerL_DECP), HL
 
-   CALL BGICMODBC1
-   LD   (#_PointerP_DECC),HL
-   LD   E,4(IX)
-   LD   D,5(IX)
-   ADD  HL,DE
-   LD   (#_PointerL_DECC),HL
-
-   CALL BGICMODBC1
-   LD   (#_PointerP_DECP),HL
-   LD   E,6(IX)
-   LD   D,7(IX)
-   ADD  HL,DE
-   LD   (#_PointerL_DECP),HL
-
-
-//LEE DATOS DE LAS NOTAS
+// Read data from the notes
 //[|][|||||] LONGITUD\NOTA
-
 INIT_DECODER:
-   LD   DE,(#_CANAL_A)
-   LD   (#_PointerA),DE
-   LD   HL,(#_PointerP_DECA)
-   CALL DECODE_CANAL    	//CANAL A
-   LD   (#_PointerDECA),HL
-   
-   LD   DE,(#_CANAL_B)
-   LD   (#_PointerB),DE
-   LD   HL,(#_PointerP_DECB)
-   CALL DECODE_CANAL    	//CANAL B
-   LD   (#_PointerDECB),HL
-   
-   LD   DE,(#_CANAL_C)
-   LD   (#_PointerC),DE
-   LD   HL,(#_PointerP_DECC)
-   CALL DECODE_CANAL    	//CANAL C
-   LD   (#_PointerDECC),HL
-   
-   LD   DE,(#_CANAL_P)
-   LD   (#_PointerP),DE
-   LD   HL,(#_PointerP_DECP)
-   CALL DECODE_CANAL    	//CANAL P (FX)
-   LD   (#_PointerDECP),HL
-   
-   RET
+	ld		DE, (#_CANAL_A)
+	ld		(#_PointerA), DE
+	ld		HL, (#_PointerP_DECA)
+	call	DECODE_CANAL    	// Canal A
+	ld		(#_PointerDECA), HL
 
+	ld		DE, (#_CANAL_B)
+	ld		(#_PointerB), DE
+	ld		HL, (#_PointerP_DECB)
+	call	DECODE_CANAL    	// Canal B
+	ld		(#_PointerDECB), HL
 
-//BUSCA INICIO DEL CANAL
+	ld		DE, (#_CANAL_C)
+	ld		(#_PointerC), DE
+	ld		HL, (#_PointerP_DECC)
+	call	DECODE_CANAL    	// Canal C
+	ld		(#_PointerDECC), HL
+
+	ld		DE, (#_CANAL_P)
+	ld		(#_PointerP), DE
+	ld		HL, (#_PointerP_DECP)
+	call	DECODE_CANAL    	// Canal P (FX)
+	ld		(#_PointerDECP), HL
+
+	ret
+
+// Search channel start
 BGICMODBC1:
-   XOR  A     //BUSCA EL BYTE 0
-   LD   E,#0x3F   //CODIGO INSTRUMENTO 0
-   LD   B,#0xFF   //EL MODULO DEBE TENER UNA LONGITUD MENOR DE $FF00 ... o_O!
-   CPIR
-   
-   DEC  HL
-   DEC  HL
-   LD   A,E      //ES EL INSTRUMENTO 0??
-   CP   (HL)
-   INC  HL
-   INC  HL
-   JR   Z,BGICMODBC1
-   
-   DEC  HL
-   DEC  HL
-   DEC  HL
-   LD   A,E     //ES VOLUMEN 0??
-   CP   (HL)
-   INC  HL
-   INC  HL
-   INC  HL
-   JR   Z,BGICMODBC1
-   RET
+	xor		A						// Search for byte 0
+	ld		E, #0x3F				// Instrument code 0
+	ld		B, #0xFF				// The module must have a length of less than $FF00... o_O!
+	cpir
+
+	dec		HL
+	dec		HL
+	ld		A, E					// Is instrument 0?
+	cp		(HL)
+	inc		HL
+	inc		HL
+	jr		Z, BGICMODBC1
+
+	dec		HL
+	dec		HL
+	dec		HL
+	ld		A, E					// Is volume 0?
+	cp		(HL)
+	inc		HL
+	inc		HL
+	inc		HL
+	jr		Z, BGICMODBC1
+	// ret
 
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Process the next step in the song sequence 
-void WYZ_Decode() __naked __sdcccall(0)
+void WYZ_Decode()
 {
 __asm
 
 INICIO:
+	push	IX
+	// call	ROUT
+	// call	MIXER
 
-   push IX
-//   CALL ROUT
+	ld		HL, #_PSG_REG
+	ld		DE, #_AYREGS
+	ld		BC, #14
+	ldir
 
-//   CALL MIXER
+	call	REPRODUCE_SONIDO
+	call	PLAY
 
-   LD   HL,#_PSG_REG
-   LD   DE,#_AYREGS
-   LD   BC,#14
-   LDIR
-
-   CALL REPRODUCE_SONIDO
-
-   CALL PLAY
-
-   pop  IX
-   RET
+	pop		IX
+	ret
 
 // Plays sound effects
 REPRODUCE_SONIDO:
+	ld		HL, #_g_WYZ_State
+	bit		2, (HL)   // Is the effect activated?
+	ret		Z
+	ld		HL, (#_PointerSONIDO)
+	ld		A, (HL)
+	cp		#0xFF
+	jr		Z, FIN_SONIDO
+	ld		DE, (#_SFX_L)
+	ld		(DE), A
+	inc		HL
+	ld		A, (HL)
+	rrca
+	rrca
+	rrca
+	rrca
+	and		#0b00001111
+	ld		DE, (#_SFX_H)
+	ld		(DE), A
+	ld		A, (HL)
+	and		#0b00001111
+	ld		DE, (#_SFX_V)
+	ld		(DE), A
 
-   LD   HL,#_g_WYZ_State
-   BIT  2,(HL)   // Is the effect activated?
-   RET  Z
-   LD   HL,(#_PointerSONIDO)
-   LD   A,(HL)
-   CP   #0xFF
-   JR   Z,FIN_SONIDO
-   LD   DE,(#_SFX_L)
-   LD   (DE),A
-   INC  HL
-   LD   A,(HL)
-   RRCA
-   RRCA
-   RRCA
-   RRCA
-   AND  #0b00001111
-   LD   DE,(#_SFX_H)
-   LD   (DE),A
-   LD   A,(HL)
-   AND  #0b00001111
-   LD   DE,(#_SFX_V)
-   LD   (DE),A
-
-   INC  HL
-   LD   A,(HL)
-   LD   B,A
-   BIT  7,A       //09.08.13 BIT MAS SIGINIFICATIVO ACTIVA ENVOLVENTES
-   JR   Z,NO_ENVOLVENTES_SONIDO
-   LD   A,#0x12
-   LD   (DE),A
-   INC  HL
-   LD   A,(HL)
-   LD   (#_AYREGS+PSG_REG_ENV),A
-   INC  HL
-   LD   A,(HL)
-   LD   (#_AYREGS+PSG_REG_ENV+1),A
-   INC  HL
-   LD   A,(HL)
-   CP   #1
-   JR   Z,NO_ENVOLVENTES_SONIDO		//NO ESCRIBE LA ENVOLVENTE SI SU VALOR ES 1
-   LD   (#_AYREGS+PSG_REG_SHAPE),A
+	inc		HL
+	ld		A, (HL)
+	ld		B, A
+	bit		7, A					// Most siginificant bit active surroundings
+	jr		Z, NO_ENVOLVENTES_SONIDO
+	ld		A, #0x12
+	ld		(DE), A
+	inc		HL
+	ld		A, (HL)
+	ld		(#_AYREGS+PSG_REG_ENV), A
+	inc		HL
+	ld		A, (HL)
+	ld		(#_AYREGS+PSG_REG_ENV+1), A
+	inc		HL
+	ld		A, (HL)
+	cp		#1
+	jr		Z, NO_ENVOLVENTES_SONIDO // Does not write the envelope if its value is 1
+	ld		(#_AYREGS+PSG_REG_SHAPE), A
 
 NO_ENVOLVENTES_SONIDO:
-   LD   A,B
-   RES  7,A
-   AND  A
-   JR   Z,NO_RUIDO
-   LD   (#_AYREGS+PSG_REG_NOISE),A
-   LD   A,(#_SFX_MIX)
-   JR   SI_RUIDO
+	ld		A, B
+	res		7, A
+	and		A
+	jr		Z, NO_RUIDO
+	ld		(#_AYREGS+PSG_REG_NOISE), A
+	ld		A, (#_SFX_MIX)
+	jr		SI_RUIDO
 
 NO_RUIDO:
-   XOR  A
-   LD   (#_AYREGS+PSG_REG_NOISE),A
-   LD   A,#0b10111000
+	XOR  A
+	LD   (#_AYREGS+PSG_REG_NOISE),A
+	LD   A,#0b10111000
 
 SI_RUIDO:
-   LD   (#_AYREGS+PSG_REG_MIXER),A   
-   INC  HL
-   LD   (#_PointerSONIDO),HL
-   RET
+	LD   (#_AYREGS+PSG_REG_MIXER),A   
+	INC  HL
+	LD   (#_PointerSONIDO),HL
+	RET
 
 FIN_SONIDO:
-   LD   HL,#_g_WYZ_State
-   RES  2,(HL)
-   LD   A,(#_ENVOLVENTE_BACK)		//NO RESTAURA LA ENVOLVENTE SI ES 0
-   AND  A
-   JR   Z,FIN_NOPLAYER
-   //xor  a 
-   LD   (#_AYREGS+PSG_REG_SHAPE),A			//08.13 RESTAURA LA ENVOLVENTE TRAS EL SFX
+	LD   HL,#_g_WYZ_State
+	RES  2,(HL)
+	LD   A,(#_ENVOLVENTE_BACK)		//NO RESTAURA LA ENVOLVENTE SI ES 0
+	AND  A
+	JR   Z,FIN_NOPLAYER
+	//xor  a 
+	LD   (#_AYREGS+PSG_REG_SHAPE),A			//08.13 RESTAURA LA ENVOLVENTE TRAS EL SFX
 
 FIN_NOPLAYER:
    LD   A,#0b10111000
    LD   (#_AYREGS+PSG_REG_MIXER),A
 
    RET
-
-
 
 PLAY:
    LD   HL,#_g_WYZ_State       //PLAY BIT 1 ON?
@@ -787,9 +755,6 @@ PAUTAS:
    CALL PAUTA    //PAUTA CANAL C
 
    RET
-
-
-
 
 //DECODIFICA NOTAS DE UN CANAL
 //IN (DE)=DIRECCION DESTINO
@@ -963,7 +928,7 @@ COM_EFECTO:
    INC     HL
    LD      _PointerA - _PointerA(IX),L  //
    LD      _PointerA - _PointerA+1(IX),H  //
-   CALL    INICIA_SONIDO
+   CALL    _WYZ_PlayFX
    RET
 
 COM_ENVOLVENTE:
@@ -1071,7 +1036,7 @@ LOCALIZA_EFECTO:
    INC     HL
    LD      0(IX),L
    LD      1(IX),H
-   CALL    INICIA_SONIDO
+   CALL    _WYZ_PlayFX
    RET
 
 
@@ -1316,7 +1281,7 @@ EXT_WORD:
     INC   HL
     LD    D,(HL)
     EX    DE,HL
-    RET
+    // RET
 
 __endasm;
 }
