@@ -5,9 +5,9 @@
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 //─────────────────────────────────────────────────────────────────────────────
-#include "ayvgm_player.h"
+#include "lvgm_player.h"
 #include "bios_mainrom.h"
-#if (USE_AYVGM_SCC)
+#if (USE_LVGM_SCC)
 #include "scc.h"
 #endif
 
@@ -21,100 +21,100 @@
 //=============================================================================
 
 // ay regsiter convertor         -  1  2  3  4  5' 6  7' 8  9' A   B'  C
-const u8  g_ayVGM_RegTable[] = { 0, 1, 3, 5, 6, 6, 8, 8, 9, 9, 10, 10, 13 };
+const u8  g_LVGM_RegTable[] = { 0, 1, 3, 5, 6, 6, 8, 8, 9, 9, 10, 10, 13 };
 
 // File ident data
-const u8  g_ayVGM_Ident[4] = { 'a', 'y', 'M', ' ' };
+const u8  g_LVGM_Ident[4] = { 'a', 'y', 'M', ' ' };
 
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
-const struct ayVGM_Header* g_ayVGM_Header;
-const u8* g_ayVGM_Pointer;
-u8        g_ayVGM_Wait;
-u8        g_ayVGM_State;
+const struct LVGM_Header* g_LVGM_Header;
+const u8* g_LVGM_Pointer;
+u8        g_LVGM_Wait;
+u8        g_LVGM_State;
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// Play a ayVGM data
-bool ayVGM_Play(const void* addr, bool loop)
+// Play a LVGM data
+bool LVGM_Play(const void* addr, bool loop)
 {
-	g_ayVGM_Header = (const struct ayVGM_Header*)(addr);
+	g_LVGM_Header = (const struct LVGM_Header*)(addr);
 	for(u8 i = 0; i < 4; i++)
-		if(g_ayVGM_Header->Ident[i] != g_ayVGM_Ident[i])
+		if(g_LVGM_Header->Ident[i] != g_LVGM_Ident[i])
 			return false;
 
-	g_ayVGM_State = 0;
-	if(!(g_ayVGM_Header->Flag & AYVGM_FLAG_60HZ) || ((g_ayVGM_Header->Flag & AYVGM_FLAG_50HZ) && (g_ROMVersion.VSF)))
-		g_ayVGM_State |= AYVGM_STATE_50HZ;
+	g_LVGM_State = 0;
+	if(!(g_LVGM_Header->Flag & LVGM_FLAG_60HZ) || ((g_LVGM_Header->Flag & LVGM_FLAG_50HZ) && (g_ROMVersion.VSF)))
+		g_LVGM_State |= LVGM_STATE_50HZ;
 	if(loop)
-		g_ayVGM_State |= AYVGM_STATE_LOOP;
+		g_LVGM_State |= LVGM_STATE_LOOP;
 	
-	g_ayVGM_Pointer = (const u8*)(g_ayVGM_Header) + sizeof(struct ayVGM_Header);
-	g_ayVGM_Wait = 0;
-	ayVGM_Resume();
+	g_LVGM_Pointer = (const u8*)(g_LVGM_Header) + sizeof(struct LVGM_Header);
+	g_LVGM_Wait = 0;
+	LVGM_Resume();
 	return true;
 }
 
 //-----------------------------------------------------------------------------
-// Play a ayVGM data
-void ayVGM_Stop()
+// Play a LVGM data
+void LVGM_Stop()
 {
-	ayVGM_Pause();
-	g_ayVGM_Pointer = (const u8*)(g_ayVGM_Header) + sizeof(struct ayVGM_Header);
-	g_ayVGM_Wait = 0;
+	LVGM_Pause();
+	g_LVGM_Pointer = (const u8*)(g_LVGM_Header) + sizeof(struct LVGM_Header);
+	g_LVGM_Wait = 0;
 }
 
 //-----------------------------------------------------------------------------
 //
-void ayVGM_Decode()
+void LVGM_Decode()
 {
 	// Check if the music is playing
-	if(!(g_ayVGM_State & AYVGM_STATE_PLAY))
+	if(!(g_LVGM_State & LVGM_STATE_PLAY))
 		return;
 	
 	// Check if there are still waiting cycles
-	if(g_ayVGM_Wait != 0)
+	if(g_LVGM_Wait != 0)
 	{
-		g_ayVGM_Wait--;
+		g_LVGM_Wait--;
 		return;
 	}
 	
 	// Parse music data
 	while(1)
 	{
-		u8 op = *g_ayVGM_Pointer & 0xF0;
+		u8 op = *g_LVGM_Pointer & 0xF0;
 		switch(op)
 		{
 			case 0x00:
 			{
-				u8 reg = *g_ayVGM_Pointer;
-				PSG_SetRegister(reg, *++g_ayVGM_Pointer);
+				u8 reg = *g_LVGM_Pointer;
+				PSG_SetRegister(reg, *++g_LVGM_Pointer);
 				break;
 			}
 			case 0xD0: // 50 Hz wait
-				if(g_ayVGM_State & AYVGM_STATE_50HZ)
+				if(g_LVGM_State & LVGM_STATE_50HZ)
 				{
-					g_ayVGM_Wait += *g_ayVGM_Pointer & 0x0F;
-					g_ayVGM_Pointer++;
+					g_LVGM_Wait += *g_LVGM_Pointer & 0x0F;
+					g_LVGM_Pointer++;
 					return;
 				}
 				break;
 			case 0xE0: // 60 Hz wait
-				if(!(g_ayVGM_State & AYVGM_STATE_50HZ))
+				if(!(g_LVGM_State & LVGM_STATE_50HZ))
 				{
-					g_ayVGM_Wait += *g_ayVGM_Pointer & 0x0F;
-					g_ayVGM_Pointer++;
+					g_LVGM_Wait += *g_LVGM_Pointer & 0x0F;
+					g_LVGM_Pointer++;
 					return;
 				}
 				break;
 			case 0xF0: // Special
-			#if (USE_AYVGM_SCC)
-				switch(*g_ayVGM_Pointer)
+			#if (USE_LVGM_SCC)
+				switch(*g_LVGM_Pointer)
 				{
 				// F1 1n    0x81 = n           Frequency channel 1 - MSB
 				// F1 3n    0x83 = n           Frequency channel 2 - MSB
@@ -130,14 +130,14 @@ void ayVGM_Decode()
 				// F1 Fn    0x8F = n | 0x10    On/off switch channel 1 to 5
 				case 0xF1:
 				{
-					u8 val = g_ayVGM_Pointer[1];
+					u8 val = g_LVGM_Pointer[1];
 					if((val & 0xF0) == 0x00)
 						SCC_SetRegister(0x8F, val & 0x0F);
 					else if((val & 0xF0) == 0xF0)
 						SCC_SetRegister(0x8F, (val & 0x0F) | 0x10);
 					else
 						SCC_SetRegister(0x80 + (val >> 4), val & 0x0F);
-					g_ayVGM_Pointer++;
+					g_LVGM_Pointer++;
 					break;
 				}
 				case 0xF0: // F0 nn    0x80 = nn    Frequency channel 1 - LSB
@@ -146,9 +146,9 @@ void ayVGM_Decode()
 				case 0xF6: // F6 nn    0x86 = nn    Frequency channel 4 - LSB
 				case 0xF8: // F8 nn    0x88 = nn    Frequency channel 5 - LSB
 				{
-					u8 val = g_ayVGM_Pointer[1];
-					SCC_SetRegister(0x80 + (*g_ayVGM_Pointer & 0x0F), val);
-					g_ayVGM_Pointer++;
+					u8 val = g_LVGM_Pointer[1];
+					SCC_SetRegister(0x80 + (*g_LVGM_Pointer & 0x0F), val);
+					g_LVGM_Pointer++;
 					break;
 				}
 				// F9 nn[32]    nn[32] -> 0x00[32]    Waveform channel 1
@@ -158,34 +158,34 @@ void ayVGM_Decode()
 				// FD nn[32]    nn[32] -> 0xA0[32]    Waveform channel 5 (SCC+ only)
 				case 0xF5: // nn[bb] -> (0x00 + aa)[bb] (with bb > 1)
 				{
-					u8 reg = g_ayVGM_Pointer[1];
-					u8 num = g_ayVGM_Pointer[2];
+					u8 reg = g_LVGM_Pointer[1];
+					u8 num = g_LVGM_Pointer[2];
 					for(u8 i = 0; i < num; i++)
-						SCC_SetRegister(reg + i, g_ayVGM_Pointer[3 + i]);
-					g_ayVGM_Pointer += 2 + num;
+						SCC_SetRegister(reg + i, g_LVGM_Pointer[3 + i]);
+					g_LVGM_Pointer += 2 + num;
 					break;
 				}
 				case 0xFE: // End of music with loop
-					if(g_ayVGM_State & AYVGM_STATE_LOOP)
+					if(g_LVGM_State & LVGM_STATE_LOOP)
 					{
-						u16 loopOffset = *(u16*)++g_ayVGM_Pointer;
-						g_ayVGM_Pointer = (const u8*)(g_ayVGM_Header) + sizeof(struct ayVGM_Header) + loopOffset;
+						u16 loopOffset = *(u16*)++g_LVGM_Pointer;
+						g_LVGM_Pointer = (const u8*)(g_LVGM_Header) + sizeof(struct LVGM_Header) + loopOffset;
 						return;
 					}
 				case 0xFF: // End of music
-					ayVGM_Stop();
+					LVGM_Stop();
 					return;
 				}
 			#else
 				// handle loop
-				if((*g_ayVGM_Pointer == 0xFE) && (g_ayVGM_State & AYVGM_STATE_LOOP))
+				if((*g_LVGM_Pointer == 0xFE) && (g_LVGM_State & LVGM_STATE_LOOP))
 				{
-					u16 loopOffset = *(u16*)++g_ayVGM_Pointer;
-					g_ayVGM_Pointer = (const u8*)(g_ayVGM_Header) + sizeof(struct ayVGM_Header) + loopOffset;
+					u16 loopOffset = *(u16*)++g_LVGM_Pointer;
+					g_LVGM_Pointer = (const u8*)(g_LVGM_Header) + sizeof(struct LVGM_Header) + loopOffset;
 					return;
 				}
 				// if(val == 0xF)
-				ayVGM_Stop();
+				LVGM_Stop();
 				return;
 			#endif
 
@@ -202,9 +202,9 @@ void ayVGM_Decode()
 			// case 0xB0:
 			// case 0xC0:
 			default:
-				PSG_SetRegister(g_ayVGM_RegTable[*g_ayVGM_Pointer >> 4], *g_ayVGM_Pointer);
+				PSG_SetRegister(g_LVGM_RegTable[*g_LVGM_Pointer >> 4], *g_LVGM_Pointer);
 				break;
 		}
-		g_ayVGM_Pointer++;
+		g_LVGM_Pointer++;
 	}
 }

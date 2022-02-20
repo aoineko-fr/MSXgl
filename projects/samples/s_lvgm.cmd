@@ -4,5 +4,5 @@
 :: PROJECT OVERWRITE
 ::*****************************************************************************
 set Machine=1
-set LibModules=psg,scc,ayvgm\ayvgm_player,%LibModules%
-set EmulExtraParam=-exta slotexpander -ext scc -ext MegaFlashROM_SCC+_SD
+set LibModules=psg,scc,msx-music,msx-audio,lvgm\lvgm_player,system,bios,vdp,print,input,memory
+set EmulExtraParam=-exta slotexpander -ext scc -ext fmpac -ext audio
