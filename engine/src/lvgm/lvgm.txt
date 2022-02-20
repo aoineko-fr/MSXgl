@@ -30,15 +30,16 @@
 	F0				Start of AY-3-8910 chunk (default when not defined)
 	F1				Start of MSX-MUSIC chunk
 	F2				Start of MSX-AUDIO chunk
-	F3				Start of SCC/SCC+ chunk
-	F4				Start of secondary AY-3-8910 chunk
+	F3				Start of SCC chunk
+	F4				Start of SCC+ chunk
+	F5				Start of secondary AY-3-8910 chunk
 
 	FD nn rr vv[]	Copy nn bytes (0~255) from register rr
 
 	FE nn nn    	End of song with loop
 	FF          	End of song (without loop)
-
-					Not used: F5~FC
+..............................................................................
+					Not used: F6~FC
 
 
 ==============================================================================
@@ -82,7 +83,7 @@
  Envelope Shape
 ------------------------------------------------------------------------------
 	Cn				R#13 = n
-
+..............................................................................
 					Not used: 01, 03, 05, 06, 08, 09, 0A, 0D~0F
 
 
@@ -98,9 +99,9 @@
 	50 nn[9]		F-Number  (copy 9 bytes from R#10)
 	60 nn[9]		Setting   (copy 9 bytes from R#20)
 	70 nn[9]		Inst/col  (copy 9 bytes from R#30)
-
-					Not used: 08~0D, 19~1F, 29~2F, 39~3F, 41~4F, 51~5F, 
-					 61~6F, 71~CF
+..............................................................................
+					Not used: 08~0D, 19~1F, 29~2F, 39~3F, 41~4F, 
+					 51~5F, 61~6F, 71~CF
 
 
 ==============================================================================
@@ -120,14 +121,14 @@
 	7F nn[8]		User Tone 7 (copy 8 bytes in 30,33,50,53,70,73,90,93)
 	8F nn[8]		User Tone 8 (copy 8 bytes in 31,34,51,54,71,74,91,94)
 	9F nn[8]		User Tone 9 (copy 8 bytes in 32,35,52,55,72,75,92,95)
-
+..............................................................................
 					Not used: 13~14, 1B~1E, 26~27, 2E, 36~3E, 46~47, 
 					 4E, 56~5E, 66~67, 6E, 76~7E, 86~87, 8E, 96~9E, 
 					 A9~AF, B9~BC, BE~BF, C9~CF
 
 
 ==============================================================================
- SCC DATA  (00~CF)
+ SCC/SCC+ DATA  (00~CF)
 ==============================================================================
 
 	Opcode			Action
@@ -138,6 +139,6 @@
 	92 nn[32]		Copy 32 bytes to channel 2 waveform (9820h)
 	94 nn[32]		Copy 32 bytes to channel 3 waveform (9840h)
 	96 nn[32]		Copy 32 bytes to channel 4 waveform (9860h)
-	98 nn[32]		Copy 32 bytes to channel 5 waveform (98A0h)
-
+	98 nn[32]		Copy 32 bytes to channel 5 waveform (98A0h) (SCC+ only)
+..............................................................................
 					Not used: 91, 93, 95, 97, 99~9F, C1~CF
