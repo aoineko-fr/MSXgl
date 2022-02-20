@@ -9,12 +9,13 @@
 				└─┴─┴─┴────────── File format version (0)
 	nn			Devices
 				7 6 5 4 3 2 1 0
-				    │ │ │ │ │ └── Include AY-3-8910 data
-				    │ │ │ │ └──── Include MSX-MUSIC data
-				    │ │ │ └────── Include MSX-AUDIO data
-				    │ │ └──────── Include SCC data
-				    │ └────────── Include SCC+ data
-				    └──────────── Include secondary AY-3-8910 data
+				│   │ │ │ │ │ └── Include PSG data (AY-3-8910)
+				│   │ │ │ │ └──── Include MSX-MUSIC data (YM2413/OPLL)
+				│   │ │ │ └────── Include MSX-AUDIO data (Y8950/OPL1+ADPCM)
+				│   │ │ └──────── Include SCC data (K051649)
+				│   │ └────────── Include SCC+ data (K052539)
+				│   └──────────── Include secondary PSG data
+				└──────────────── Include Moonsound data (YMF278/OPL4)
 
 
 ==============================================================================
@@ -23,27 +24,28 @@
 
 	Opcode			Action
 ------------------------------------------------------------------------------
-	Dn				Wait n+1 cycles
+	Dn				Wait n+1 cycles (1~16)
 ..............................................................................
-	En rr vv[]		Copy n+3 bytes (3~18) from register rr
+	En rr vv[]		Copy n+3 bytes (3~18) from register #rr
 ..............................................................................
-	F0				Start of AY-3-8910 chunk (default when not defined)
+	F0				Start of PSG chunk (default when not defined)
 	F1				Start of MSX-MUSIC chunk
 	F2				Start of MSX-AUDIO chunk
 	F3				Start of SCC chunk
 	F4				Start of SCC+ chunk
-	F5				Start of secondary AY-3-8910 chunk
+	F5				Start of secondary PSG chunk
+	F7				Start of Moonsound chunk
 
-	FD nn rr vv[]	Copy nn bytes (0~255) from register rr
+	FD nn rr vv[]	Copy nn bytes (0~255) from register #rr
 
 	FE nn nn    	End of song with loop
 	FF          	End of song (without loop)
 ..............................................................................
-					Not used: F6~FC
+					Not used: F6, F8~FC
 
 
 ==============================================================================
- AY-3-8910 DATA  (00~CF)
+ PSG DATA  (00~CF)
 ==============================================================================
 
 	Opcode			Action
