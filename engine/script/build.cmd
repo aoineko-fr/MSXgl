@@ -227,7 +227,13 @@ rem * FILL                                                                    *
 rem ***************************************************************************
 if %FillSize%==0 goto :NoFill
 
-echo %BLUE%Filling binary up to %FillSize% bytes...%RESET%
+for %%K in ("%OutDir%\%Crt0%.%Ext%") do set CurrentSize=%%~zK
+if %CurrentSize% GTR %FillSize% (
+    echo %RED%ROM size ^(%CurrentSize%^) exceeds expected size ^(%FillSize%^)%RESET%
+	goto :Error
+)
+
+echo %BLUE%Filling binary from %CurrentSize% to %FillSize% bytes...%RESET%
 %FillFile% %OutDir%\%Crt0%.%Ext% %FillSize%
 if errorlevel 1 goto :Error
 echo %GREEN%Succeed%RESET%
