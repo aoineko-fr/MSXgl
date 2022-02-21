@@ -7,7 +7,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "psg.h"
-#include "ayvgm\ayvgm_player.h"
+#include "lvgm\lvgm_player.h"
 
 //=============================================================================
 // DEFINES
@@ -132,7 +132,7 @@ void DrawVGM(const u8* ptr, u8 len)
 		case 0x8:
 		case 0xA:
 		case 0xC:
-			Print_DrawFormat("R#%1x=%2x", g_ayVGM_RegTable[--op], val);
+			Print_DrawFormat("R#%1x=%2x", g_LVGM_RegTable[--op], val);
 			break;
 		case 0xD:
 		case 0xE:
@@ -151,9 +151,9 @@ void UpdatePlayer()
 {
 	Print_SetPosition(0, 10);
 	Print_DrawText("Player:\n");
-	Print_DrawFormat("\x07" "Freq      %s\n", (g_ayVGM_State & AYVGM_STATE_50HZ) ? "50Hz" : "60Hz");
-	Print_DrawFormat("\x07" "DoLoop    %c\n", (g_ayVGM_State & AYVGM_STATE_LOOP) ? '\x0C' : '\x0B');
-	Print_DrawFormat("\x07" "DoPlay    %c\n", (g_ayVGM_State & AYVGM_STATE_PLAY) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Freq      %s\n", (g_LVGM_State & LVGM_STATE_50HZ) ? "50Hz" : "60Hz");
+	Print_DrawFormat("\x07" "DoLoop    %c\n", (g_LVGM_State & LVGM_STATE_LOOP) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "DoPlay    %c\n", (g_LVGM_State & LVGM_STATE_PLAY) ? '\x0C' : '\x0B');
 }
 
 //-----------------------------------------------------------------------------
@@ -162,7 +162,7 @@ void SetMusic(u8 idx)
 {
 	g_CurrentMusic = idx;
 
-	bool ok = ayVGM_Play(g_MusicEntry[idx].Data, true);
+	bool ok = LVGM_Play(g_MusicEntry[idx].Data, true);
 	
 	Print_SetPosition(0, 2);
 	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
@@ -170,9 +170,9 @@ void SetMusic(u8 idx)
 	Print_SetPosition(0, 4);
 	Print_DrawText("Data:\n");
 	Print_DrawFormat("\x07" "Ident     %c\n", ok ? '\x0C' : '\x0B');
-	Print_DrawFormat("\x07" "50Hz mark %c\n", (g_ayVGM_Header->Flag & AYVGM_FLAG_50HZ) ? '\x0C' : '\x0B');
-	Print_DrawFormat("\x07" "60Hz mark %c\n", (g_ayVGM_Header->Flag & AYVGM_FLAG_60HZ) ? '\x0C' : '\x0B');
-	Print_DrawFormat("\x07" "Loop      %c\n", (g_ayVGM_Header->Flag & AYVGM_FLAG_LOOP) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "50Hz mark %c\n", (g_LVGM_Header->Flag & LVGM_FLAG_50HZ) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "60Hz mark %c\n", (g_LVGM_Header->Flag & LVGM_FLAG_60HZ) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Loop      %c\n", (g_LVGM_Header->Flag & LVGM_FLAG_LOOP) ? '\x0C' : '\x0B');
 
 	UpdatePlayer();
 }
@@ -181,7 +181,7 @@ void SetMusic(u8 idx)
 //
 void ButtonPlay()
 {
-	ayVGM_Resume();
+	LVGM_Resume();
 	UpdatePlayer();
 }
 
@@ -189,7 +189,7 @@ void ButtonPlay()
 //
 void ButtonPause()
 {
-	ayVGM_Pause();
+	LVGM_Pause();
 	UpdatePlayer();
 }
 
@@ -197,7 +197,7 @@ void ButtonPause()
 //
 void ButtonStop()
 {
-	ayVGM_Stop();	
+	LVGM_Stop();	
 	UpdatePlayer();
 }
 
@@ -221,10 +221,10 @@ void ButtonNext()
 //
 void ButtonLoop()
 {
-	if(g_ayVGM_State & AYVGM_STATE_LOOP)
-		g_ayVGM_State &= ~AYVGM_STATE_LOOP;
+	if(g_LVGM_State & LVGM_STATE_LOOP)
+		g_LVGM_State &= ~LVGM_STATE_LOOP;
 	else
-		g_ayVGM_State |= AYVGM_STATE_LOOP;
+		g_LVGM_State |= LVGM_STATE_LOOP;
 	UpdatePlayer();
 }
 
@@ -252,7 +252,7 @@ void main()
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
-	Print_DrawText(MSX_GL " ayVGM Sample");
+	Print_DrawText(MSX_GL " LVGM Sample");
 	Print_DrawLineH(0, 1, 32);
 
 	Print_SetPosition(20, 10);
@@ -289,7 +289,7 @@ void main()
 	{
 		Halt();
 VDP_SetColor(0xF4);
-		ayVGM_Decode();
+		LVGM_Decode();
 VDP_SetColor(0xF6);
 		#if (PSG_ACCESS == PSG_INDIRECT)
 		PSG_Apply();
@@ -297,7 +297,7 @@ VDP_SetColor(0xF6);
 VDP_SetColor(0xF0);
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
-		DrawVGM(g_ayVGM_Pointer, 1);
+		DrawVGM(g_LVGM_Pointer, 1);
 
 
 		Print_SetPosition(31, 0);
@@ -325,10 +325,10 @@ VDP_SetColor(0xF0);
 		if((IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
 		 || (IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN)))
 		{
-			if(g_ayVGM_State & AYVGM_STATE_50HZ)
-				g_ayVGM_State &= ~AYVGM_STATE_50HZ;
+			if(g_LVGM_State & LVGM_STATE_50HZ)
+				g_LVGM_State &= ~LVGM_STATE_50HZ;
 			else
-				g_ayVGM_State |= AYVGM_STATE_50HZ;
+				g_LVGM_State |= LVGM_STATE_50HZ;
 			UpdatePlayer();
 		}
 		
