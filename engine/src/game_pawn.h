@@ -11,21 +11,10 @@
 
 #include "core.h"
 
-
 //=============================================================================
 // DEFINES
 //=============================================================================
 
-#define GAMEPAWN_BORDER_DOWN	1
-#define GAMEPAWN_BORDER_UP		2
-#define GAMEPAWN_BORDER_RIGHT	4
-#define GAMEPAWN_BORDER_LEFT	8
-
-// 
-#define GAMEPAWN_BORDER_EVENT	GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_RIGHT|GAMEPAWN_BORDER_LEFT
-#define GAMEPAWN_BORDER_BLOCK	GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_RIGHT|GAMEPAWN_BORDER_LEFT
-#define GAMEPAWN_BORDER_MAX_Y	192
-		
 // Animation frame structure (one pose of the pawn)
 typedef struct
 {

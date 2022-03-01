@@ -135,6 +135,11 @@
 // GamePawn setting
 #define GAMEPAWN_USE_PHYSICS		1
 
+// GamePawn's border collision
+#define GAMEPAWN_BORDER_EVENT		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_RIGHT|GAMEPAWN_BORDER_LEFT)
+#define GAMEPAWN_BORDER_BLOCK		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_RIGHT|GAMEPAWN_BORDER_LEFT)
+#define GAMEPAWN_BORDER_MAX_Y		192
+
 //-----------------------------------------------------------------------------
 // AUDIO 
 //-----------------------------------------------------------------------------

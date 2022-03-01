@@ -126,12 +126,16 @@ void PhysicsEvent(u8 event, u8 tile)
 {
 	switch(event)
 	{
+	#if (GAMEPAWN_BORDER_EVENT || GAMEPAWN_BORDER_BLOCK)
 	case PAWN_PHYSICS_BORDER_DOWN:
+	#endif
 	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
 		g_bJumping = false;
 		break;
-		
+	
+	#if (GAMEPAWN_BORDER_EVENT || GAMEPAWN_BORDER_BLOCK)
 	case PAWN_PHYSICS_BORDER_UP:
+	#endif
 	case PAWN_PHYSICS_COL_UP: // Handle upward collisions
 		g_VelocityY = 0;
 		break;
@@ -237,10 +241,9 @@ bool State_Game()
 	Print_SetPosition(31, 0);
 	Print_DrawChar(g_ChrAnim[g_PlayerPawn.Counter & 0x03]);
 
-	Print_SetPosition(0, 2);
-	Print_DrawInt(g_DX); Print_DrawText(" \n");
-	Print_DrawInt(g_DY); Print_DrawText(" \n");
-
+	// Print_SetPosition(0, 2);
+	// Print_DrawInt(g_DX); Print_DrawText(" \n");
+	// Print_DrawInt(g_DY); Print_DrawText(" \n");
 
 	g_DX = 0;
 	g_DY = 0;

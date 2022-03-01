@@ -162,6 +162,12 @@
 	#define GAME_USE_STATE				1
 #endif
 
+// GAME_USE_STATE_TRANSITION
+#ifndef GAME_USE_STATE_TRANSITION
+	#warning GAME_USE_STATE_TRANSITION is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define GAME_USE_STATE_TRANSITION	1
+#endif
+
 // GAME_USE_VSYNC
 #ifndef GAME_USE_VSYNC
 	#warning GAME_USE_VSYNC is not defined in "msxgl_config.h"! Default value will be used: 1
@@ -172,6 +178,31 @@
 #ifndef GAME_USE_LOOP
 	#warning GAME_USE_LOOP is not defined in "msxgl_config.h"! Default value will be used: 1
 	#define GAME_USE_LOOP				1
+#endif
+
+
+// GAMEPAWN_USE_PHYSICS
+#ifndef GAMEPAWN_USE_PHYSICS
+	#warning GAMEPAWN_USE_PHYSICS is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define GAMEPAWN_USE_PHYSICS		0
+#endif
+
+// GAMEPAWN_BORDER_EVENT
+#ifndef GAMEPAWN_BORDER_EVENT
+	#warning GAMEPAWN_BORDER_EVENT is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define GAMEPAWN_BORDER_EVENT		0
+#endif
+
+// GAMEPAWN_BORDER_BLOCK
+#ifndef GAMEPAWN_BORDER_BLOCK
+	#warning GAMEPAWN_BORDER_BLOCK is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define GAMEPAWN_BORDER_BLOCK		0
+#endif
+
+// GAMEPAWN_BORDER_MAX_Y
+#ifndef GAMEPAWN_BORDER_MAX_Y
+	#warning GAMEPAWN_BORDER_MAX_Y is not defined in "msxgl_config.h"! Default value will be used: 192
+	#define GAMEPAWN_BORDER_MAX_Y		192
 #endif
 
 //-----------------------------------------------------------------------------
