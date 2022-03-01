@@ -126,10 +126,12 @@ void PhysicsEvent(u8 event, u8 tile)
 {
 	switch(event)
 	{
+	// case PAWN_PHYSICS_BORDER_DOWN:
 	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
 		g_bJumping = false;
 		break;
 		
+	// case PAWN_PHYSICS_BORDER_UP:
 	case PAWN_PHYSICS_COL_UP: // Handle upward collisions
 		g_JumpForce = 0;
 		break;
@@ -147,7 +149,8 @@ void PhysicsEvent(u8 event, u8 tile)
 // Collision callback
 bool PhysicsCollision(u8 tile)
 {
-	return (tile < 8) || (tile >= 32);
+	// return (tile < 8) || (tile >= 32);
+	return (tile < 8);
 }
 
 //-----------------------------------------------------------------------------
@@ -156,7 +159,7 @@ bool State_Initialize()
 {
 	// Initialize display
 	VDP_EnableDisplay(false);
-	VDP_SetColor(1);
+	VDP_SetColor(COLOR_BLACK);
 	
 	// Initialize pattern
 	VDP_FillVRAM(0x00, g_ScreenPatternLow, 0, 256*8); // Clear pattern
@@ -227,10 +230,11 @@ bool State_Game()
 		act = ACTION_MOVE;
 	GamePawn_SetAction(&g_PlayerPawn, act);
 	GamePawn_SetTargetPosition(&g_PlayerPawn, g_X, g_Y);
+// VDP_SetColor(4);
 	GamePawn_Update(&g_PlayerPawn);
-// VDP_SetColor(COLOR_DARK_RED);
+// VDP_SetColor(8);
 	GamePawn_Draw(&g_PlayerPawn);
-// VDP_SetColor(COLOR_BLACK);
+// VDP_SetColor(1);
 
 	g_X = g_PlayerPawn.PositionX;
 	g_Y = g_PlayerPawn.PositionY;

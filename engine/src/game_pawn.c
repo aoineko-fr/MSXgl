@@ -61,8 +61,8 @@ void GamePawn_SetPosition(Game_Pawn* pawn, u8 x, u8 y)
 {
 	pawn->PositionX = x;
 	pawn->PositionY = y;
-	pawn->TargetX = x;
-	pawn->TargetY = y;
+	pawn->MoveX = 0;
+	pawn->MoveY = 0;
 	pawn->Update |= PAWN_UPDATE_POSITION;
 }
 
@@ -124,33 +124,58 @@ void GamePawn_Update(Game_Pawn* pawn)
 #if (GAMEPAWN_USE_PHYSICS)
 	if(g_Pawn->Update & PAWN_UPDATE_COLLISION)
 	{
+		u8 targetX = g_Pawn->PositionX + g_Pawn->MoveX;
+		u8 targetY = g_Pawn->PositionY + g_Pawn->MoveY;
+
 		// Vertical movement
-		if(g_Pawn->TargetY > g_Pawn->PositionY) // Go down
+		if(g_Pawn->MoveY > 0) // Go down
 		{
-			u8 cellX = (g_Pawn->TargetX + (g_Pawn->BoundX / 2)) / 8;
-			u8 cellY = (g_Pawn->TargetY + g_Pawn->BoundY) / 8;		
+			u8 cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
+			u8 cellY = (targetY + g_Pawn->BoundY) / 8;		
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 			if(g_Pawn->CollisionCB(tile))
 			{
 				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-				g_Pawn->TargetY = (cellY * 8) - g_Pawn->BoundY;
+				targetY = (cellY * 8) - g_Pawn->BoundY;
 			}
+			// #if (GAMEPAWN_BORDER_EVENT || GAMEPAWN_BORDER_BLOCK)
+				// if((targetY < g_Pawn->PositionY) /*|| (targetY + g_Pawn->BoundY >= GAMEPAWN_BORDER_MAX_Y)*/)
+				// {
+					// #if (GAMEPAWN_BORDER_EVENT)
+						// g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_DOWN, 0);
+					// #endif
+					// #if (GAMEPAWN_BORDER_BLOCK)
+						// targetY = GAMEPAWN_BORDER_MAX_Y - g_Pawn->BoundY;
+					// #endif
+				// }			
+			// #endif
 		}
-		else if(g_Pawn->TargetY < g_Pawn->PositionY) // Go up
+		else if(g_Pawn->MoveY < 0) // Go up
 		{
-			u8 cellX = (g_Pawn->TargetX + (g_Pawn->BoundX / 2)) / 8;
-			u8 cellY = (g_Pawn->TargetY) / 8;		
+			u8 cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
+			u8 cellY = (targetY) / 8;		
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 			if(g_Pawn->CollisionCB(tile))
 			{
 				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_UP, tile);
-				g_Pawn->TargetY = (cellY * 8) + 8;
+				targetY = (cellY * 8) + 8;
 			}
+			// #if (GAMEPAWN_BORDER_EVENT || GAMEPAWN_BORDER_BLOCK)
+				// if(targetY > g_Pawn->PositionY)
+				// {
+					// #if (GAMEPAWN_BORDER_EVENT)
+						// g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_UP, 0);
+					// #endif
+					// #if (GAMEPAWN_BORDER_BLOCK)
+						// targetY = 0;
+					// #endif
+				// }			
+			// #endif
 		}
-		else // if(g_Pawn->TargetY == g_Pawn->PositionY)
+		else // if(g_Pawn->MoveY == 0)
 		{
-			u8 cellX = (g_Pawn->TargetX + (g_Pawn->BoundX / 2)) / 8;
-			u8 cellY = (g_Pawn->TargetY + g_Pawn->BoundY) / 8;		
+			u8 cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
+			u8 cellY = (targetY + g_Pawn->BoundY) / 8;		
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 			if(!g_Pawn->CollisionCB(tile))
 			{
@@ -159,31 +184,31 @@ void GamePawn_Update(Game_Pawn* pawn)
 		}
 
 		// Horizontal movement
-		if(g_Pawn->TargetX > g_Pawn->PositionX) // Go right
+		if(g_Pawn->MoveX > 0) // Go right
 		{
-			u8 cellX = (g_Pawn->TargetX + g_Pawn->BoundX) / 8;
-			u8 cellY = (g_Pawn->TargetY + (g_Pawn->BoundY / 2)) / 8;		
+			u8 cellX = (targetX + g_Pawn->BoundX) / 8;
+			u8 cellY = (targetY + (g_Pawn->BoundY / 2)) / 8;		
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 			if(g_Pawn->CollisionCB(tile))
 			{
 				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT, tile);
-				g_Pawn->TargetX = (cellX * 8) - g_Pawn->BoundX;
+				targetX = (cellX * 8) - g_Pawn->BoundX;
 			}
 		}
-		else if(g_Pawn->TargetX < g_Pawn->PositionX) // Go left
+		else if(g_Pawn->MoveX < 0) // Go left
 		{
-			u8 cellX = (g_Pawn->TargetX) / 8;
-			u8 cellY = (g_Pawn->TargetY + (g_Pawn->BoundY / 2)) / 8;		
+			u8 cellX = (targetX) / 8;
+			u8 cellY = (targetY + (g_Pawn->BoundY / 2)) / 8;		
 			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 			if(g_Pawn->CollisionCB(tile))
 			{
 				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT, tile);
-				g_Pawn->TargetX = (cellX * 8) + 8;
+				targetX = (cellX * 8) + 8;
 			}
 		}
 		
-		g_Pawn->PositionX = g_Pawn->TargetX;
-		g_Pawn->PositionY = g_Pawn->TargetY;
+		g_Pawn->PositionX = targetX;
+		g_Pawn->PositionY = targetY;
 		g_Pawn->Update |= PAWN_UPDATE_POSITION;
 		g_Pawn->Update &= ~PAWN_UPDATE_COLLISION;
 	}
@@ -239,11 +264,11 @@ void GamePawn_Draw(Game_Pawn* pawn)
 
 #if (GAMEPAWN_USE_PHYSICS)
 //-----------------------------------------------------------------------------
-// Set pawn target position
-void GamePawn_SetTargetPosition(Game_Pawn* pawn, u8 x, u8 y) 
+// Set pawn movement vector
+void GamePawn_SetMovement(Game_Pawn* pawn, i8 dx, i8 dy) 
 { 
-	pawn->TargetX = x;
-	pawn->TargetY = y;
+	pawn->MoveX = dx;
+	pawn->MoveY = dy;
 	pawn->Update |= PAWN_UPDATE_COLLISION;
 }
 

@@ -247,3 +247,4 @@
 #define PROFILE_DISABLE				0 // No profiler
 #define PROFILE_OPENMSX_G			1 // Grauw profile script for OpenMSX
 #define PROFILE_OPENMSX_S			2 // Salutte profile script for OpenMSX
+#define PROFILE_EMULICIOUS			3 // Profile script for Emulicious

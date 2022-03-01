@@ -19,6 +19,8 @@
 //-----------------------------------------------------------------------------
 #if (PROFILE_MODE == PROFILE_OPENMSX_G)
 
+	#define PROFILE_BREAK()
+
 	#define P_PROFILE_SECTION	#0x2C
 	#define P_PROFILE_FRAME		#0x2D
 
@@ -47,6 +49,8 @@
 //-----------------------------------------------------------------------------
 #elif (PROFILE_MODE == PROFILE_OPENMSX_S)
 
+	#define PROFILE_BREAK()
+
 	#define P_PROFILE_START		#0x2C
 	#define P_PROFILE_END		#0x2D
 
@@ -62,7 +66,20 @@
 	#define PROFILE_FRAME_END()		{ g_ProfileMsg = "frame"; g_PortEndProfile = 0; }
 
 //-----------------------------------------------------------------------------
+#elif (PROFILE_MODE == PROFILE_EMULICIOUS)
+
+	#define PROFILE_BREAK()		__asm__("ld b, b");
+
+	#define PROFILE_SECTION_START(id, level)
+	#define PROFILE_SECTION_END(id, level)
+
+	#define PROFILE_FRAME_START()
+	#define PROFILE_FRAME_END()
+
+//-----------------------------------------------------------------------------
 #else // if (PROFILE_MODE == PROFILE_DISABLE)
+
+	#define PROFILE_BREAK()
 
 	#define PROFILE_SECTION_START(id, level)
 	#define PROFILE_SECTION_END(id, level)

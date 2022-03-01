@@ -16,7 +16,10 @@
 // DEFINES
 //=============================================================================
 
-
+#define GAMEPAWN_BORDER_EVENT	0
+#define GAMEPAWN_BORDER_BLOCK	0
+#define GAMEPAWN_BORDER_MAX_Y	192
+		
 // Animation frame structure (one pose of the pawn)
 typedef struct
 {
@@ -81,6 +84,13 @@ enum PAWN_PHYSICS_EVENT
 	PAWN_PHYSICS_COL_LEFT,
 	// Physics
 	PAWN_PHYSICS_FALL,
+	// Border
+	#if (GAMEPAWN_BORDER_EVENT || GAMEPAWN_BORDER_BLOCK)
+		PAWN_PHYSICS_BORDER_DOWN,
+		PAWN_PHYSICS_BORDER_UP,
+		PAWN_PHYSICS_BORDER_RIGHT,
+		PAWN_PHYSICS_BORDER_LEFT,
+	#endif
 };
 
 // Pawn physics states
@@ -107,8 +117,8 @@ typedef struct
 	u8			       Update;     // Pawn update flags
 	u8                 Counter;    // Global update counter
 #if (GAMEPAWN_USE_PHYSICS)
-	u8                 TargetX;    // Pawn target position
-	u8                 TargetY;
+	i8                 MoveX;      // Pawn movement offset
+	i8                 MoveY;
 	u8                 BoundX;     // Pawn collision bound
 	u8                 BoundY;
 	u8                 PhysicsState;
@@ -145,9 +155,13 @@ void GamePawn_Draw(Game_Pawn* pawn);
 #if (GAMEPAWN_USE_PHYSICS)
 // Group: Physics
 
+// Function: GamePawn_SetMovement
+// Set pawn target position
+void GamePawn_SetMovement(Game_Pawn* pawn, i8 dx, i8 dy);
+
 // Function: GamePawn_SetTargetPosition
 // Set pawn target position
-void GamePawn_SetTargetPosition(Game_Pawn* pawn, u8 x, u8 y) ;
+inline void GamePawn_SetTargetPosition(Game_Pawn* pawn, u8 x, u8 y) { GamePawn_SetMovement(pawn, x - pawn->PositionX, y - pawn->PositionY); }
 
 // Function: GamePawn_SetPhysicsCallback
 // Set pawn physics callback
