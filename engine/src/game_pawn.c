@@ -130,80 +130,119 @@ void GamePawn_Update(Game_Pawn* pawn)
 		// Vertical movement
 		if(g_Pawn->MoveY > 0) // Go down
 		{
-			u8 cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
-			u8 cellY = (targetY + g_Pawn->BoundY) / 8;		
-			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-			if(g_Pawn->CollisionCB(tile))
+			#if ((GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_DOWN) || (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_DOWN))
+			if(targetY + g_Pawn->BoundY >= GAMEPAWN_BORDER_MAX_Y)
 			{
-				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-				targetY = (cellY * 8) - g_Pawn->BoundY;
+				#if (GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_DOWN)
+					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_DOWN, 0);
+				#endif
+				#if (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_DOWN)
+					targetY = GAMEPAWN_BORDER_MAX_Y - g_Pawn->BoundY;
+				#endif
 			}
-			// #if (GAMEPAWN_BORDER_EVENT || GAMEPAWN_BORDER_BLOCK)
-				// if((targetY < g_Pawn->PositionY) /*|| (targetY + g_Pawn->BoundY >= GAMEPAWN_BORDER_MAX_Y)*/)
-				// {
-					// #if (GAMEPAWN_BORDER_EVENT)
-						// g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_DOWN, 0);
-					// #endif
-					// #if (GAMEPAWN_BORDER_BLOCK)
-						// targetY = GAMEPAWN_BORDER_MAX_Y - g_Pawn->BoundY;
-					// #endif
-				// }			
-			// #endif
+			else			
+			#endif
+			{
+				u8 cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
+				u8 cellY = (targetY + g_Pawn->BoundY) / 8;		
+				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+				if(g_Pawn->CollisionCB(tile))
+				{
+					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
+					targetY = (cellY * 8) - g_Pawn->BoundY;
+				}
+			}
 		}
 		else if(g_Pawn->MoveY < 0) // Go up
 		{
-			u8 cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
-			u8 cellY = (targetY) / 8;		
-			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-			if(g_Pawn->CollisionCB(tile))
+			#if ((GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_UP) || (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_UP))
+			if(targetY > g_Pawn->PositionY)
 			{
-				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_UP, tile);
-				targetY = (cellY * 8) + 8;
+				#if (GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_UP)
+					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_UP, 0);
+				#endif
+				#if (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_UP)
+					targetY = 0;
+				#endif
 			}
-			// #if (GAMEPAWN_BORDER_EVENT || GAMEPAWN_BORDER_BLOCK)
-				// if(targetY > g_Pawn->PositionY)
-				// {
-					// #if (GAMEPAWN_BORDER_EVENT)
-						// g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_UP, 0);
-					// #endif
-					// #if (GAMEPAWN_BORDER_BLOCK)
-						// targetY = 0;
-					// #endif
-				// }			
-			// #endif
+			else
+			#endif
+			{
+				u8 cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
+				u8 cellY = (targetY) / 8;		
+				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+				if(g_Pawn->CollisionCB(tile))
+				{
+					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_UP, tile);
+					targetY = (cellY * 8) + 8;
+				}
+			}
 		}
 		else // if(g_Pawn->MoveY == 0)
 		{
-			u8 cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
-			u8 cellY = (targetY + g_Pawn->BoundY) / 8;		
-			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-			if(!g_Pawn->CollisionCB(tile))
+			#if (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_DOWN)
+			if(targetY + g_Pawn->BoundY < GAMEPAWN_BORDER_MAX_Y)
+			#endif
 			{
-				g_Pawn->PhysicsCB(PAWN_PHYSICS_FALL, tile);
+				u8 cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
+				u8 cellY = (targetY + g_Pawn->BoundY) / 8;		
+				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+				if(!g_Pawn->CollisionCB(tile))
+				{
+					g_Pawn->PhysicsCB(PAWN_PHYSICS_FALL, tile);
+				}
 			}
 		}
 
 		// Horizontal movement
 		if(g_Pawn->MoveX > 0) // Go right
 		{
-			u8 cellX = (targetX + g_Pawn->BoundX) / 8;
-			u8 cellY = (targetY + (g_Pawn->BoundY / 2)) / 8;		
-			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-			if(g_Pawn->CollisionCB(tile))
+			#if ((GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_RIGHT) || (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_RIGHT))
+			if((u8)(targetX + g_Pawn->BoundX) < g_Pawn->PositionX)
 			{
-				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT, tile);
-				targetX = (cellX * 8) - g_Pawn->BoundX;
+				#if (GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_RIGHT)
+					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_RIGHT, 0);
+				#endif
+				#if (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_RIGHT)
+					targetX = 0 - g_Pawn->BoundX;
+				#endif
+			}
+			else
+			#endif
+			{
+				u8 cellX = (targetX + g_Pawn->BoundX) / 8;
+				u8 cellY = (targetY + (g_Pawn->BoundY / 2)) / 8;		
+				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+				if(g_Pawn->CollisionCB(tile))
+				{
+					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT, tile);
+					targetX = (cellX * 8) - g_Pawn->BoundX;
+				}
 			}
 		}
 		else if(g_Pawn->MoveX < 0) // Go left
 		{
-			u8 cellX = (targetX) / 8;
-			u8 cellY = (targetY + (g_Pawn->BoundY / 2)) / 8;		
-			u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-			if(g_Pawn->CollisionCB(tile))
+			#if ((GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_LEFT) || (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_LEFT))
+			if(targetX > g_Pawn->PositionX)
 			{
-				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT, tile);
-				targetX = (cellX * 8) + 8;
+				#if (GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_LEFT)
+					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_LEFT, 0);
+				#endif
+				#if (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_LEFT)
+					targetX = 0;
+				#endif
+			}
+			else
+			#endif
+			{
+				u8 cellX = (targetX) / 8;
+				u8 cellY = (targetY + (g_Pawn->BoundY / 2)) / 8;		
+				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+				if(g_Pawn->CollisionCB(tile))
+				{
+					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT, tile);
+					targetX = (cellX * 8) + 8;
+				}
 			}
 		}
 		

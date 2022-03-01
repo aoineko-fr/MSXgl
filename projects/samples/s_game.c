@@ -112,10 +112,10 @@ Game_Pawn g_PlayerPawn;
 bool g_bFlicker = true;
 bool g_bMoving = false;
 bool g_bJumping = false;
-i8   g_JumpForce;
+i8   g_VelocityY;
 u8   g_PrevRow8 = 0xFF;
-u8   g_X = 16;
-u8   g_Y = 16;
+i8   g_DX = 0;
+i8   g_DY = 0;
 
 //=============================================================================
 // FUNCTIONS
@@ -126,21 +126,21 @@ void PhysicsEvent(u8 event, u8 tile)
 {
 	switch(event)
 	{
-	// case PAWN_PHYSICS_BORDER_DOWN:
+	case PAWN_PHYSICS_BORDER_DOWN:
 	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
 		g_bJumping = false;
 		break;
 		
-	// case PAWN_PHYSICS_BORDER_UP:
+	case PAWN_PHYSICS_BORDER_UP:
 	case PAWN_PHYSICS_COL_UP: // Handle upward collisions
-		g_JumpForce = 0;
+		g_VelocityY = 0;
 		break;
 	
 	case PAWN_PHYSICS_FALL: // Handle falling
 		if(!g_bJumping)
 		{
 			g_bJumping = true;
-			g_JumpForce = 0;
+			g_VelocityY = 0;
 		}
 		break;
 	};
@@ -151,6 +151,7 @@ bool PhysicsCollision(u8 tile)
 {
 	// return (tile < 8) || (tile >= 32);
 	return (tile < 8);
+	// return false;
 }
 
 //-----------------------------------------------------------------------------
@@ -198,7 +199,7 @@ bool State_Initialize()
 
 	// Init player pawn
 	GamePawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
-	GamePawn_SetPosition(&g_PlayerPawn, g_X, g_Y);
+	GamePawn_SetPosition(&g_PlayerPawn, 16, 16);
 	GamePawn_InitializePhysics(&g_PlayerPawn, PhysicsEvent, PhysicsCollision, 16, 16);
 
 	// Initialize text
@@ -218,36 +219,41 @@ bool State_Initialize()
 //
 bool State_Game()
 {
-	Print_SetPosition(31, 0);
-	Print_DrawChar(g_ChrAnim[g_PlayerPawn.Counter & 0x03]);
-
 	u8 act = ACTION_IDLE;
-	if(g_bJumping && (g_JumpForce >= 0))
+	if(g_bJumping && (g_VelocityY >= 0))
 		act = ACTION_JUMP;
 	else if(g_bJumping)
 		act = ACTION_FALL;
 	else if(g_bMoving)
 		act = ACTION_MOVE;
 	GamePawn_SetAction(&g_PlayerPawn, act);
-	GamePawn_SetTargetPosition(&g_PlayerPawn, g_X, g_Y);
+	GamePawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
 // VDP_SetColor(4);
 	GamePawn_Update(&g_PlayerPawn);
 // VDP_SetColor(8);
 	GamePawn_Draw(&g_PlayerPawn);
 // VDP_SetColor(1);
 
-	g_X = g_PlayerPawn.PositionX;
-	g_Y = g_PlayerPawn.PositionY;
+	Print_SetPosition(31, 0);
+	Print_DrawChar(g_ChrAnim[g_PlayerPawn.Counter & 0x03]);
+
+	Print_SetPosition(0, 2);
+	Print_DrawInt(g_DX); Print_DrawText(" \n");
+	Print_DrawInt(g_DY); Print_DrawText(" \n");
+
+
+	g_DX = 0;
+	g_DY = 0;
 
 	u8 row8 = Keyboard_Read(8);
 	if(IS_KEY_PRESSED(row8, KEY_RIGHT))
 	{
-		g_X++;
+		g_DX++;
 		g_bMoving = true;
 	}
 	else if(IS_KEY_PRESSED(row8, KEY_LEFT))
 	{
-		g_X--;
+		g_DX--;
 		g_bMoving = true;
 	}
 	else
@@ -255,19 +261,17 @@ bool State_Game()
 	
 	if(g_bJumping)
 	{
-		g_Y -= g_JumpForce / 4;
-		if(g_Y > (u8)(192-16))
-			g_Y -= (u8)(192-16);
+		g_DY -= g_VelocityY / 4;
 		
-		g_JumpForce -= GRAVITY;
-		if(g_JumpForce < -FORCE)
-			g_JumpForce = -FORCE;
+		g_VelocityY -= GRAVITY;
+		if(g_VelocityY < -FORCE)
+			g_VelocityY = -FORCE;
 
 	}
 	else if(IS_KEY_PRESSED(row8, KEY_SPACE) || IS_KEY_PRESSED(row8, KEY_UP))
 	{
 		g_bJumping = true;
-		g_JumpForce = FORCE;
+		g_VelocityY = FORCE;
 	}
 
 	if(IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(g_PrevRow8, KEY_HOME))
