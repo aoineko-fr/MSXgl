@@ -8,10 +8,10 @@
 #pragma once
 
 // Library version
-#define VERSION_MAJOR			0		// 4-bits (0-15)
-#define VERSION_MINOR			3		// 6-bits (0-63)
-#define VERSION_PATCH			0		// 6-bits (0-63)
-#define VERSION(a, b, c)		(((a & 0x0F) << 12) | ((b & 0x3F) << 6) | (c & 0x3F))
+#define VERSION_MAJOR			(u16)0		// 4-bits (0-15)
+#define VERSION_MINOR			(u16)3		// 6-bits (0-63)
+#define VERSION_PATCH			(u16)1		// 6-bits (0-63)
+#define VERSION(a, b, c)		((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT			VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)		
 
 // SDCC version
@@ -42,6 +42,7 @@
 typedef unsigned char		bool; 	///< 8 bits boolean type
 #define true				1		///< Value for "true" boolean
 #define false				0		///< Value for "false" boolean
+#define TOGGLE(a)			a = 1 - a
 
 // Integer	
 typedef signed char			i8;		///< 8 bits signed integer type
@@ -108,16 +109,16 @@ typedef void (*callback)(void);	///< Callback default signature
 #define __SDCCCALL0			__sdcccall(0)
 #define __SDCCCALL1			__sdcccall(1)
 // Return value:
-//	8 bits			A
-//	16 bits			DE
-//	32 bits			HL-DE
+// - 8 bits					A
+// - 16 bits				DE
+// - 32 bits				HL-DE
 // Parameters value:
-//	8 bits			A
-//	16 bits			HL
-//	32 bits			HL-DE
-//	8 + 8 bits		A + L
-//	8 + 16 bits		A + DE
-//	16 + 16 bits	HL + DE
+// - 8 bits					A
+// - 16 bits				HL
+// - 32 bits				HL-DE
+// - 8 + 8 bits				A + L
+// - 8 + 16 bits			A + DE
+// - 16 + 16 bits			HL + DE
 
 
 //-----------------------------------------------------------------------------
