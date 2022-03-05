@@ -199,10 +199,41 @@
 	#define GAMEPAWN_BORDER_BLOCK		0
 #endif
 
+// GAMEPAWN_BORDER_MIN_Y
+#ifndef GAMEPAWN_BORDER_MIN_Y
+	#warning GAMEPAWN_BORDER_MIN_Y is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define GAMEPAWN_BORDER_MIN_Y		0
+#endif
+
 // GAMEPAWN_BORDER_MAX_Y
 #ifndef GAMEPAWN_BORDER_MAX_Y
 	#warning GAMEPAWN_BORDER_MAX_Y is not defined in "msxgl_config.h"! Default value will be used: 192
 	#define GAMEPAWN_BORDER_MAX_Y		192
+#endif
+
+
+// GAMEPAWN_COL_DOWN
+#ifndef GAMEPAWN_COL_DOWN
+	#warning GAMEPAWN_COL_DOWN is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
+	#define GAMEPAWN_COL_DOWN			GAMEPAWN_COL_50
+#endif
+
+// GAMEPAWN_COL_UP
+#ifndef GAMEPAWN_COL_UP
+	#warning GAMEPAWN_COL_UP is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
+	#define GAMEPAWN_COL_UP				GAMEPAWN_COL_50
+#endif
+
+// GAMEPAWN_COL_RIGHT
+#ifndef GAMEPAWN_COL_RIGHT
+	#warning GAMEPAWN_COL_RIGHT is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
+	#define GAMEPAWN_COL_RIGHT			GAMEPAWN_COL_50
+#endif
+
+// GAMEPAWN_COL_LEFT
+#ifndef GAMEPAWN_COL_LEFT
+	#warning GAMEPAWN_COL_LEFT is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
+	#define GAMEPAWN_COL_LEFT			GAMEPAWN_COL_50
 #endif
 
 //-----------------------------------------------------------------------------
@@ -235,10 +266,10 @@
 // MISC
 //-----------------------------------------------------------------------------
 
-// PROFILE_MODE
-#if !defined(PROFILE_MODE)
-	#warning PROFILE_MODE is not defined in "msxgl_config.h"! Default value will be used: PROFILE_DISABLE
-	#define PROFILE_MODE				PROFILE_DISABLE
+// DEBUG_TOOL
+#if !defined(DEBUG_TOOL)
+	#warning DEBUG_TOOL is not defined in "msxgl_config.h"! Default value will be used: DEBUG_DISABLE
+	#define DEBUG_TOOL					DEBUG_DISABLE
 #endif
 
 // PROFILE_LEVEL
@@ -247,7 +278,3 @@
 	#define PROFILE_LEVEL				10
 #endif
 
-// RANDOM
-#if !defined(RANDOM_METHOD)
-#define RANDOM_METHOD RANDOM_XORSHIFT
-#endif

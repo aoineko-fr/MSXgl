@@ -134,11 +134,14 @@
 
 // GamePawn setting
 #define GAMEPAWN_USE_PHYSICS		1
-
-// GamePawn's border collision
+#define GAMEPAWN_COL_DOWN			(GAMEPAWN_COL_25|GAMEPAWN_COL_75)
+#define GAMEPAWN_COL_UP				GAMEPAWN_COL_50
+#define GAMEPAWN_COL_RIGHT			GAMEPAWN_COL_50
+#define GAMEPAWN_COL_LEFT			GAMEPAWN_COL_50
 #define GAMEPAWN_BORDER_EVENT		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_RIGHT|GAMEPAWN_BORDER_LEFT)
 #define GAMEPAWN_BORDER_BLOCK		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_RIGHT|GAMEPAWN_BORDER_LEFT)
-#define GAMEPAWN_BORDER_MAX_Y		192
+#define GAMEPAWN_BORDER_MIN_Y		0
+#define GAMEPAWN_BORDER_MAX_Y		191
 
 //-----------------------------------------------------------------------------
 // AUDIO 
@@ -227,8 +230,9 @@
 //-----------------------------------------------------------------------------
 
 // Profiler method
-// - PROFILE_DISABLE .............. No profiler
-// - PROFILE_OPENMSX_G ............ Grauw profile script for OpenMSX
-// - PROFILE_OPENMSX_S ............ Salutte profile script for OpenMSX
-#define PROFILE_MODE				PROFILE_OPENMSX_G
+// - DEBUG_DISABLE ................ No profiler
+// - DEBUG_OPENMSX_G .............. Grauw profile script for OpenMSX
+// - DEBUG_OPENMSX_S .............. Salutte profile script for OpenMSX
+// - DEBUG_EMULICIOUS ............. Profile script for Emulicious
+#define DEBUG_TOOL					DEBUG_EMULICIOUS
 #define PROFILE_LEVEL				10 

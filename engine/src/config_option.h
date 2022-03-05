@@ -250,12 +250,23 @@
 #define GAMEPAWN_BORDER_RIGHT		4 // 0100
 #define GAMEPAWN_BORDER_LEFT		8 // 1000
 
+// Collision position options
+#define GAMEPAWN_COL_0				1  // 00000001
+#define GAMEPAWN_COL_25             2  // 00000010
+#define GAMEPAWN_COL_50             4  // 00000100
+#define GAMEPAWN_COL_75             8  // 00001000
+#define GAMEPAWN_COL_100			16 // 00010000
+
+#define GAMEPAWN_COL_1P_MIDDLE		GAMEPAWN_COL_50
+#define GAMEPAWN_COL_2P_MIDDLE		(GAMEPAWN_COL_25|GAMEPAWN_COL_75)
+#define GAMEPAWN_COL_2P_CORNER		(GAMEPAWN_COL_0|GAMEPAWN_COL_100)
+
 //-----------------------------------------------------------------------------
 // MISC
 //-----------------------------------------------------------------------------
 
-// PROFILE_MODE
-#define PROFILE_DISABLE				0 // No profiler
-#define PROFILE_OPENMSX_G			1 // Grauw profile script for OpenMSX
-#define PROFILE_OPENMSX_S			2 // Salutte profile script for OpenMSX
-#define PROFILE_EMULICIOUS			3 // Profile script for Emulicious
+// DEBUG_TOOL
+#define DEBUG_DISABLE				0 // No profiler
+#define DEBUG_OPENMSX_G			1 // Grauw profile script for OpenMSX
+#define DEBUG_OPENMSX_S			2 // Salutte profile script for OpenMSX
+#define DEBUG_EMULICIOUS			3 // Profile script for Emulicious

@@ -13,6 +13,7 @@
 #include "game.h"
 #include "game_pawn.h"
 #include "math.h"
+#include "debug.h"
 
 //=============================================================================
 // DEFINES
@@ -231,7 +232,7 @@ bool State_Game()
 	else if(g_bMoving)
 		act = ACTION_MOVE;
 	GamePawn_SetAction(&g_PlayerPawn, act);
-	GamePawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
+	GamePawn_SetMovement(&g_PlayerPawn, g_DX, g_DY); DEBUG_BREAK();
 // VDP_SetColor(4);
 	GamePawn_Update(&g_PlayerPawn);
 // VDP_SetColor(8);

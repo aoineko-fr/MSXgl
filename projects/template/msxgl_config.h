@@ -227,8 +227,8 @@
 //-----------------------------------------------------------------------------
 
 // Profiler method
-// - PROFILE_DISABLE .............. No profiler
-// - PROFILE_OPENMSX_G ............ Grauw profile script for OpenMSX
-// - PROFILE_OPENMSX_S ............ Salutte profile script for OpenMSX
-#define PROFILE_MODE				PROFILE_OPENMSX_G
+// - DEBUG_DISABLE .............. No profiler
+// - DEBUG_OPENMSX_G ............ Grauw profile script for OpenMSX
+// - DEBUG_OPENMSX_S ............ Salutte profile script for OpenMSX
+#define DEBUG_TOOL				DEBUG_OPENMSX_G
 #define PROFILE_LEVEL				10 

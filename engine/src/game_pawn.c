@@ -143,14 +143,79 @@ void GamePawn_Update(Game_Pawn* pawn)
 			else			
 			#endif
 			{
-				u8 cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
 				u8 cellY = (targetY + g_Pawn->BoundY) / 8;		
-				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-				if(g_Pawn->CollisionCB(tile))
-				{
-					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-					targetY = (cellY * 8) - g_Pawn->BoundY;
-				}
+				u8 cellX, lastCell = 0xFF;
+				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_0)
+					cellX = (targetX) / 8;
+					if(cellX != lastCell)
+					{
+						lastCell = cellX;
+						u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						if(g_Pawn->CollisionCB(tile))
+						{
+							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
+							targetY = (cellY * 8) - g_Pawn->BoundY;
+							goto skipGoDown;
+						}
+					}
+				#endif
+				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_25)
+					cellX = (targetX + (g_Pawn->BoundX / 4)) / 8;
+					if(cellX != lastCell)
+					{
+						lastCell = cellX;
+						u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						if(g_Pawn->CollisionCB(tile))
+						{
+							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
+							targetY = (cellY * 8) - g_Pawn->BoundY;
+							goto skipGoDown;
+						}
+					}
+				#endif
+				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_50)
+					cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
+					if(cellX != lastCell)
+					{
+						lastCell = cellX;
+						u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						if(g_Pawn->CollisionCB(tile))
+						{
+							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
+							targetY = (cellY * 8) - g_Pawn->BoundY;
+							goto skipGoDown;
+						}
+					}
+				#endif
+				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_75)
+					cellX = (targetX + g_Pawn->BoundX - (g_Pawn->BoundX / 4)) / 8;
+					if(cellX != lastCell)
+					{
+						lastCell = cellX;
+						u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						if(g_Pawn->CollisionCB(tile))
+						{
+							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
+							targetY = (cellY * 8) - g_Pawn->BoundY;
+							goto skipGoDown;
+						}
+					}
+				#endif
+				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_100)
+					cellX = (targetX + g_Pawn->BoundX - 1) / 8;
+					if(cellX != lastCell)
+					{
+						lastCell = cellX;
+						u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						if(g_Pawn->CollisionCB(tile))
+						{
+							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
+							targetY = (cellY * 8) - g_Pawn->BoundY;
+							goto skipGoDown;
+						}
+					}
+				#endif
+				skipGoDown:
 			}
 		}
 		else if(g_Pawn->MoveY < 0) // Go up
@@ -184,13 +249,61 @@ void GamePawn_Update(Game_Pawn* pawn)
 			if(targetY + g_Pawn->BoundY < GAMEPAWN_BORDER_MAX_Y)
 			#endif
 			{
-				u8 cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
+				u8 tile;
 				u8 cellY = (targetY + g_Pawn->BoundY) / 8;		
-				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
-				if(!g_Pawn->CollisionCB(tile))
-				{
-					g_Pawn->PhysicsCB(PAWN_PHYSICS_FALL, tile);
-				}
+				u8 cellX, lastCell = 0xFF;
+				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_0)
+					cellX = (targetX) / 8;
+					if(cellX != lastCell)
+					{
+						lastCell = cellX;
+						tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						if(g_Pawn->CollisionCB(tile))
+							goto skipFalling;
+					}
+				#endif
+				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_25)
+					cellX = (targetX + (g_Pawn->BoundX / 4)) / 8;
+					if(cellX != lastCell)
+					{
+						lastCell = cellX;
+						tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						if(g_Pawn->CollisionCB(tile))
+							goto skipFalling;
+					}
+				#endif
+				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_50)
+					cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
+					if(cellX != lastCell)
+					{
+						lastCell = cellX;
+						tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						if(g_Pawn->CollisionCB(tile))
+							goto skipFalling;
+					}
+				#endif
+				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_75)
+					cellX = (targetX + g_Pawn->BoundX - (g_Pawn->BoundX / 4)) / 8;
+					if(cellX != lastCell)
+					{
+						lastCell = cellX;
+						tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						if(g_Pawn->CollisionCB(tile))
+							goto skipFalling;
+					}
+				#endif
+				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_100)
+					cellX = (targetX + g_Pawn->BoundX - 1) / 8;
+					if(cellX != lastCell)
+					{
+						lastCell = cellX;
+						tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						if(g_Pawn->CollisionCB(tile))
+							goto skipFalling;
+					}
+				#endif
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_FALL, tile);					
+			skipFalling:
 			}
 		}
 
