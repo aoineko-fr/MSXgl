@@ -267,6 +267,6 @@
 
 // DEBUG_TOOL
 #define DEBUG_DISABLE				0 // No profiler
-#define DEBUG_OPENMSX_G			1 // Grauw profile script for OpenMSX
-#define DEBUG_OPENMSX_S			2 // Salutte profile script for OpenMSX
+#define DEBUG_OPENMSX_G				1 // Grauw profile script for OpenMSX
+#define DEBUG_OPENMSX_S				2 // Salutte profile script for OpenMSX
 #define DEBUG_EMULICIOUS			3 // Profile script for Emulicious

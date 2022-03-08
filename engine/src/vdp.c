@@ -2000,7 +2000,7 @@ void VDP_SetSpriteData(u8 index, const u8* data)
 
 //-----------------------------------------------------------------------------
 //
-void VDP_HideSpriteFrom(u8 index)
+void VDP_DisableSpritesFrom(u8 index)
 {
 	u8 y = VDP_SPRITE_DISABLE_SM1;
 	#if (MSX_VERSION >= MSX_2)

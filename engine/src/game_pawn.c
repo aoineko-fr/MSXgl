@@ -127,8 +127,9 @@ void GamePawn_Update(Game_Pawn* pawn)
 		u8 targetX = g_Pawn->PositionX + g_Pawn->MoveX;
 		u8 targetY = g_Pawn->PositionY + g_Pawn->MoveY;
 
-		// Vertical movement
-		if(g_Pawn->MoveY > 0) // Go down
+		//.....................................................................
+		// Vertical movement - Go down
+		if(g_Pawn->MoveY > 0)
 		{
 			#if ((GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_DOWN) || (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_DOWN))
 			if(targetY + g_Pawn->BoundY >= GAMEPAWN_BORDER_MAX_Y)
@@ -218,16 +219,18 @@ void GamePawn_Update(Game_Pawn* pawn)
 				skipGoDown:
 			}
 		}
-		else if(g_Pawn->MoveY < 0) // Go up
+		//.....................................................................
+		// Vertical movement - Go up
+		else if(g_Pawn->MoveY < 0)
 		{
 			#if ((GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_UP) || (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_UP))
-			if(targetY > g_Pawn->PositionY)
+			if((targetY > g_Pawn->PositionY) || ((targetY < GAMEPAWN_BORDER_MIN_Y)))
 			{
 				#if (GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_UP)
 					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_UP, 0);
 				#endif
 				#if (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_UP)
-					targetY = 0;
+					targetY = GAMEPAWN_BORDER_MIN_Y;
 				#endif
 			}
 			else
@@ -243,6 +246,8 @@ void GamePawn_Update(Game_Pawn* pawn)
 				}
 			}
 		}
+		//.....................................................................
+		// No vertical movement - Check floor
 		else // if(g_Pawn->MoveY == 0)
 		{
 			#if (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_DOWN)
@@ -307,8 +312,9 @@ void GamePawn_Update(Game_Pawn* pawn)
 			}
 		}
 
-		// Horizontal movement
-		if(g_Pawn->MoveX > 0) // Go right
+		//.....................................................................
+		// Horizontal movement - Go right
+		if(g_Pawn->MoveX > 0)
 		{
 			#if ((GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_RIGHT) || (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_RIGHT))
 			if((u8)(targetX + g_Pawn->BoundX) < g_Pawn->PositionX)
@@ -333,7 +339,9 @@ void GamePawn_Update(Game_Pawn* pawn)
 				}
 			}
 		}
-		else if(g_Pawn->MoveX < 0) // Go left
+		//.....................................................................
+		// Horizontal movement - Go left
+		else if(g_Pawn->MoveX < 0)
 		{
 			#if ((GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_LEFT) || (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_LEFT))
 			if(targetX > g_Pawn->PositionX)

@@ -17,13 +17,14 @@
 #include "core.h"
 
 //-----------------------------------------------------------------------------
+// Grauw profile script for OpenMSX emulator
 #if (DEBUG_TOOL == DEBUG_OPENMSX_G)
 
 	#define DEBUG_BREAK()
-	#define DEBUG_ASSERT(a)		if(!(a)) DEBUG_BREAK()
+	#define DEBUG_ASSERT(a)			if(!(a)) DEBUG_BREAK()
 
-	#define P_PROFILE_SECTION	#0x2C
-	#define P_PROFILE_FRAME		#0x2D
+	#define P_PROFILE_SECTION		#0x2C
+	#define P_PROFILE_FRAME			#0x2D
 
 	#define PROFILE_SECTION_START(id, level) if (level < PROFILE_LEVEL) {		\
 		__asm																	\
@@ -48,13 +49,15 @@
 		__endasm;
 
 //-----------------------------------------------------------------------------
+// Salutte profile script for OpenMSX emulator
 #elif (DEBUG_TOOL == DEBUG_OPENMSX_S)
 
+	// https://github.com/MartinezTorres/OpenMSX_profiler
 	#define DEBUG_BREAK()
-	#define DEBUG_ASSERT(a)		if(!(a)) DEBUG_BREAK()
+	#define DEBUG_ASSERT(a)			if(!(a)) DEBUG_BREAK()
 
-	#define P_PROFILE_START		#0x2C
-	#define P_PROFILE_END		#0x2D
+	#define P_PROFILE_START			#0x2C
+	#define P_PROFILE_END			#0x2D
 
 	__sfr __at 0x2C g_PortStartProfile;
 	__sfr __at 0x2D g_PortEndProfile;
@@ -64,26 +67,59 @@
 	#define PROFILE_SECTION_START(id, level) if (level < PROFILE_LEVEL) { g_ProfileMsg = #id; g_PortStartProfile = 0; }
 	#define PROFILE_SECTION_END(id, level)   if (level < PROFILE_LEVEL) { g_ProfileMsg = #id; g_PortEndProfile = 0; }
 
-	#define PROFILE_FRAME_START()	{ g_ProfileMsg = "frame"; g_PortStartProfile = 0; }
-	#define PROFILE_FRAME_END()		{ g_ProfileMsg = "frame"; g_PortEndProfile = 0; }
+	#define PROFILE_FRAME_START()	{ g_ProfileMsg = "FRAME"; g_PortStartProfile = 0; }
+	#define PROFILE_FRAME_END()		{ g_ProfileMsg = "FRAME"; g_PortEndProfile = 0; }
 
 //-----------------------------------------------------------------------------
+// Profile script for Emulicious emulaor
 #elif (DEBUG_TOOL == DEBUG_EMULICIOUS)
 
-	#define DEBUG_BREAK()		__asm__("ld b, b");
-	#define DEBUG_ASSERT(a)		if(!(a)) DEBUG_BREAK()
+	// Macro from gbdk-2020 (see https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/include/gb/emu_debug.h)
+	#define EMU_MACRONAME(A)		EMU_MACRONAME1(A)
+	#define EMU_MACRONAME1(A)		EMULOG##A
+	#define EMU_MESSAGE1(name, message_text) 									\
+	__asm																		\
+		.macro name msg_t, ?llbl												\
+			ld		d, d														\
+			jr		llbl														\
+			.dw		0x6464														\
+			.dw		0x0000														\
+			.ascii	msg_t														\
+		llbl:																	\
+		.endm																	\
+		name ^/message_text/													\
+	__endasm
+	#define EMU_MESSAGE_SUFFIX(message_text, message_suffix) EMU_MESSAGE3(EMU_MACRONAME(__LINE__), message_text, message_suffix)
+	#define EMU_MESSAGE3(name, message_text, message_suffix)					\
+	__asm																		\
+		.macro name msg_t, msg_s, ?llbl											\
+			ld		d, d														\
+			jr		llbl														\
+			.dw		0x6464														\
+			.dw		0x0000														\
+			.ascii	msg_t														\
+			.ascii	msg_s														\
+		llbl:																	\
+		.endm																	\
+		name ^/message_text/, ^/message_suffix/									\
+	__endasm
 
-	#define PROFILE_SECTION_START(id, level)
-	#define PROFILE_SECTION_END(id, level)
+	#define DEBUG_BREAK()			__asm__("ld b, b")
+	#define DEBUG_ASSERT(a)			if(!(a)) DEBUG_BREAK()
+	#define DEBUG_LOG(msg)			EMU_MESSAGE1(EMU_MACRONAME(__LINE__), msg)
 
-	#define PROFILE_FRAME_START()
-	#define PROFILE_FRAME_END()
+	#define PROFILE_SECTION_START(id, level) if (level < PROFILE_LEVEL) { EMU_MESSAGE_SUFFIX(#id, ":S%ZEROCLKS%"); }
+	#define PROFILE_SECTION_END(id, level)   if (level < PROFILE_LEVEL) { EMU_MESSAGE_SUFFIX(#id, ":E=%-18+LASTCLKS%"); }	
+
+	#define PROFILE_FRAME_START()	PROFILE_SECTION_START(FRAME, 0)
+	#define PROFILE_FRAME_END()		PROFILE_SECTION_END(FRAME, 0)
 
 //-----------------------------------------------------------------------------
 #else // if (DEBUG_TOOL == DEBUG_DISABLE)
 
 	#define DEBUG_BREAK()
 	#define DEBUG_ASSERT(a)
+	#define DEBUG_LOG(msg)
 
 	#define PROFILE_SECTION_START(id, level)
 	#define PROFILE_SECTION_END(id, level)

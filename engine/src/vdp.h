@@ -486,9 +486,14 @@ void VDP_SetSpriteData(u8 index, const u8* data);
 #define VDP_SPRITE_DISABLE_SM1	208			//> This sprite and all lower priority sprites will be disabled (Sprite Mode 1)
 #define VDP_SPRITE_DISABLE_SM2	216			//> This sprite and all lower priority sprites will be disabled (Sprite Mode 1)
 #define VDP_SPRITE_HIDE			213			//> 
-// Function: VDP_HideSpriteFrom
-// Disable sprites from a given index
-void VDP_HideSpriteFrom(u8 index);
+// Function: VDP_DisableSpritesFrom
+// Disable all sprites from a given index
+void VDP_DisableSpritesFrom(u8 index);
+#define VDP_HideSpriteFrom VDP_DisableSpritesFrom // Backward compatibility 
+
+// Function: VDP_HideSprite
+// Hide a given sprite (don't disable following sprites)
+inline void VDP_HideSprite(u8 index) { VDP_SetSpritePositionY(index, VDP_SPRITE_HIDE); }
 
 //-----------------------------------------------------------------------------
 // Group: GM2
