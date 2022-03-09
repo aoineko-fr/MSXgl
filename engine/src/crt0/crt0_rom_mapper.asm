@@ -39,6 +39,9 @@ _g_HeaderAddr::
 .area	_CODE
 
 crt0_init:
+	; Install BDOS driver (if ROM_BDOS is 1)
+	INSTALL_BDOS
+
 	di
 	; Set stack address at the top of free memory
 	ld		sp, (HIMEM)

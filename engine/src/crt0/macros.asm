@@ -124,6 +124,31 @@
 		out		(PPI_A), a				;                 Set primary slots info
 .endm
 
+;------------------------------------------------------------------------------
+.macro INSTALL_BDOS
+	.if ROM_BDOS
+	; Setup the hook H.STKE to run the ROM with disk support
+	crt0_bdos_install:
+		ld		a, c					; Get the ROM slot number
+		ld		hl, #crt0_bdos_hook
+		ld		de, #H_STKE
+		ld		bc, #4
+		ldir							; Copy the routine to execute the ROM to the hook
+		ld		(H_STKE+1), a			; Put the ROM slot number to the hook
+		ret								; Back to slots scanning
+
+	; Routine to execute the ROM
+	crt0_bdos_hook:
+		rst		0x30					; Inter-slot call
+		.db		1						; This byte will be replaced by the slot number of ROM
+		.dw		crt0_bdos_end			; Address to execute the ROM
+
+	; Remove the hook and resume the ROM boot sequence
+	crt0_bdos_end:
+		ld		a, #0xC9				; 'ret' instruction
+		ld		(H_STKE), a
+	.endif
+.endm
 
 ;==============================================================================
 ; ROM MAPPER

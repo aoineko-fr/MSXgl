@@ -7,7 +7,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "psg.h"
-#include "wyz\wyz_player.h"
+#include "wyz\wyz_player2.h"
 
 //=============================================================================
 // DEFINES
@@ -126,7 +126,12 @@ void SetMusic(u8 idx)
 	const struct MusicEntry* entry = &g_MusicEntry[idx];
 
 	WYZ_Initialize(entry->Song, entry->Inst, entry->FX, entry->Freq);
-	WYZ_PlaySong(0, g_DoLoop); 
+	// WYZ_PlaySong(0, g_DoLoop);
+	WYZ_Play(0);
+	
+	////////////////////////////////////////////////// DEBUG
+	while(1) { Halt(); WYZ_Decode(); }
+	//////////////////////////////////////////////////
 	
 	Print_SetPosition(0, 2);
 	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), entry->Name);
@@ -136,14 +141,14 @@ void SetMusic(u8 idx)
 //
 void ButtonPlay()
 {
-	WYZ_Resume();
+	// WYZ_Resume();
 }
 
 //-----------------------------------------------------------------------------
 //
 void ButtonPause()
 {
-	WYZ_Pause();
+	// WYZ_Pause();
 }
 
 //-----------------------------------------------------------------------------
@@ -151,7 +156,7 @@ void ButtonPause()
 void ButtonStop()
 {
 	// ayVGM_Stop();	
-	WYZ_Pause();
+	// WYZ_Pause();
 }
 
 //-----------------------------------------------------------------------------
@@ -175,7 +180,7 @@ void ButtonNext()
 void ButtonLoop()
 {
 	g_DoLoop = 1 - g_DoLoop;
-	WYZ_SetLoop(g_DoLoop);
+	// WYZ_SetLoop(g_DoLoop);
 }
 
 //-----------------------------------------------------------------------------
@@ -202,7 +207,7 @@ void main()
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
-	Print_DrawText(MSX_GL " WYZ Sample");
+	Print_DrawText(MSX_GL " WYZ2 Sample");
 	Print_DrawLineH(0, 1, 32);
 
 	// Decode VGM header
@@ -256,7 +261,7 @@ void main()
 		if(g_Freq50Hz || (count % 6 != 0))
 		{
 			WYZ_Decode();
-			WYZ_PlayAY();
+			// WYZ_PlayAY();
 		}
 		// ayVGM_Decode();
 		// #if (PSG_ACCESS == PSG_INDIRECT)
@@ -264,39 +269,39 @@ void main()
 		// #endif
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
-		Print_SetPosition(8, 11); Print_DrawChar((g_WYZ_State & (1 << 0)) ? 0xC : 0xB);
-		Print_SetPosition(8, 12); Print_DrawChar((g_WYZ_State & (1 << 1)) ? 0xC : 0xB);
-		Print_SetPosition(8, 13); Print_DrawChar((g_WYZ_State & (1 << 2)) ? 0xC : 0xB);
-		Print_SetPosition(8, 14); Print_DrawChar((g_WYZ_State & (1 << 3)) ? 0xC : 0xB);
-		Print_SetPosition(8, 15); Print_DrawChar((g_WYZ_State & (1 << 4)) ? 0xC : 0xB);
-		Print_SetPosition(8, 16); Print_DrawChar((g_WYZ_State & (1 << 7)) ? 0xC : 0xB);	
+		// Print_SetPosition(8, 11); Print_DrawChar((g_WYZ_State & (1 << 0)) ? 0xC : 0xB);
+		// Print_SetPosition(8, 12); Print_DrawChar((g_WYZ_State & (1 << 1)) ? 0xC : 0xB);
+		// Print_SetPosition(8, 13); Print_DrawChar((g_WYZ_State & (1 << 2)) ? 0xC : 0xB);
+		// Print_SetPosition(8, 14); Print_DrawChar((g_WYZ_State & (1 << 3)) ? 0xC : 0xB);
+		// Print_SetPosition(8, 15); Print_DrawChar((g_WYZ_State & (1 << 4)) ? 0xC : 0xB);
+		// Print_SetPosition(8, 16); Print_DrawChar((g_WYZ_State & (1 << 7)) ? 0xC : 0xB);	
 		
 		Print_SetPosition(31, 0);
 		u8 chr = count++ & 0x03;
 		Print_DrawChar(g_ChrAnim[chr]);
 		
 		// VU metter
-		u8* ayReg = &AYREGS[PSG_REG_AMP_A];
-		u8 y = PLAYER_Y+3;
-		loop(i, 3)
-		{
-			Print_SetPosition(8, y++);
+		// u8* ayReg = &AYREGS[PSG_REG_AMP_A];
+		// u8 y = PLAYER_Y+3;
+		// loop(i, 3)
+		// {
+			// Print_SetPosition(8, y++);
 			
-			if(*ayReg < 8)
-			{
-				u8 l = *ayReg & 0x07;
-				Print_DrawChar((l == 0) ? ' ' : 0xA0 + l);
-				Print_DrawChar(' ');
-			}
-			else // if(*ayReg >= 8)
-			{
-				Print_DrawChar(0xA0);
-				u8 h = *ayReg >> 3;
-				Print_DrawChar((h == 0) ? ' ' : 0xA0 + h);
-			}
+			// if(*ayReg < 8)
+			// {
+				// u8 l = *ayReg & 0x07;
+				// Print_DrawChar((l == 0) ? ' ' : 0xA0 + l);
+				// Print_DrawChar(' ');
+			// }
+			// else // if(*ayReg >= 8)
+			// {
+				// Print_DrawChar(0xA0);
+				// u8 h = *ayReg >> 3;
+				// Print_DrawChar((h == 0) ? ' ' : 0xA0 + h);
+			// }
 				
-			ayReg++;
-		}
+			// ayReg++;
+		// }
 		
 		// Handle input
 		u8 row8 = Keyboard_Read(8);
@@ -323,10 +328,10 @@ void main()
 			Print_DrawFormat("Freq: %s", (g_Freq50Hz) ? "50Hz" : "60Hz");
 		}
 		// Activate button
-		if(IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(prevRow8, KEY_HOME))
-		{
-			WYZ_PlayFX(0);
-		}
+		// if(IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(prevRow8, KEY_HOME))
+		// {
+			// WYZ_PlayFX(0);
+		// }
 		
 		prevRow8 = row8;
 	}
