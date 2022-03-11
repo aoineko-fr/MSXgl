@@ -44,7 +44,6 @@ REM set Debugger=%ToolsDir%\OpenMSX\Debugger\openmsx-debugger.exe
 
 :: Project name (will be use for output filename)
 set ProjName=
-
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=
 :: List of library modules to build
@@ -59,7 +58,6 @@ set AddSources=
 :: - TR		MSX TurboR
 :: - 12		MSX 1/2 (working on MSX1 but allow to use MSX2 feature)
 set Machine=1
-
 :: Target:
 :: - BIN			.bin	BASIC binary program (8000h~)
 :: - ROM_8K			.rom	8KB ROM in page 1 (4000h ~ 5FFFh)
@@ -81,15 +79,16 @@ set Machine=1
 set Target=
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
-
+:: Allow BDOS driver installation for ROM target
+set InstallBDOS=0
 :: Overwrite RAM starting address
 set ForceRamAddr=
+
 :: Assembler code optimizer
 :: - None
 :: - PeepHole	SDCC otpimizer
 :: - MDL		MDL z80 otpimizer
 set AsmOptim=PeepHole
-
 :: Optim:
 :: - Default
 :: - Speed

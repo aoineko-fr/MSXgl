@@ -192,6 +192,7 @@ echo │ MAKE                                                                   
 echo └───────────────────────────────────────────────────────────────────────────┘
 
 echo %BLUE%Making %ProjName% using SDCC...%RESET%
+%Linker% --version
 
 if %Optim%==Speed (set LinkOpt=%LinkOpt% --opt-code-speed)
 if %Optim%==Size (set LinkOpt=%LinkOpt% --opt-code-size)
