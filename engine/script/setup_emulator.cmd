@@ -3,6 +3,7 @@
 ::█  ▄ ▄  ▀▀▀   █▀  ▄  ▀█ ▀▄█ █▄ █
 ::█▄▄█▄█▄▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
 :: by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+::-----------------------------------------------------------------------------
 @echo off
 
 for %%I in ("%Emulator%") do (set EmulatorName=%%~nI)
@@ -17,9 +18,9 @@ echo EmulDebug=%EmulDebug%
 
 set  EmulatorArgs=%EmulExtraParam%
 
-::***************************************************************************
-::* OpenMSX                                                                 *
-::***************************************************************************
+::*****************************************************************************
+:: OpenMSX
+::*****************************************************************************
 :: Doc: https://openmsx.org/manual/commands.html
 if /I %EmulatorName%==openmsx (
 
@@ -70,9 +71,44 @@ if /I %EmulatorName%==openmsx (
 	::---- Start emulator ----
 	if %EmulDebug%==1 ( start /b %Debugger% )	
 )
-::***************************************************************************
-::* BlueMSX                                                                 *
-::***************************************************************************
+
+::*****************************************************************************
+:: Emulicious
+::*****************************************************************************
+:: See ReadMe.txt and Emulicious.ini
+if /I %EmulatorName%==emulicious (
+
+	set EmulatorArgs=!EmulatorArgs! -set System=MSX
+
+	::---- Open/close debugger
+	if %EmulDebug%==1 (
+		set EmulatorArgs=!EmulatorArgs! -set WindowDebuggerOpen=true
+	) else (
+		set EmulatorArgs=!EmulatorArgs! -set WindowDebuggerOpen=false 
+	)
+
+	::---- Add launch options ----
+	if %EmulMachine%==1    ( echo %YELLOW%Warning: EmulMachine can't be use with Emulicious%RESET% )
+	if %Emul60Hz%==1       ( 
+		set EmulatorArgs=!EmulatorArgs! -set MSXPAL=false 
+	) else (
+		set EmulatorArgs=!EmulatorArgs! -set MSXPAL=true 
+	)
+	if %EmulFullScreen%==1 ( set EmulatorArgs=!EmulatorArgs! -fullscreen )
+	if %EmulMute%==1       ( set EmulatorArgs=!EmulatorArgs! -muted )
+
+	::---- Add launch program ----
+	if /I %Ext%==rom ( 
+		set EmulatorArgs=!EmulatorArgs! %ProjDir%\emul\rom\%ProjName%.rom 
+	) else (
+		echo %RED%Error: Emulicious only support ROM format%RESET%
+		exit /B 530
+	)
+)
+
+::*****************************************************************************
+:: BlueMSX
+::*****************************************************************************
 :: Doc: http://www.msxblue.com/manual/commandlineargs_c.htm
 if /I %EmulatorName%==bluemsx (
 
@@ -120,9 +156,10 @@ if /I %EmulatorName%==bluemsx (
 	if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! /rom1 %ProjDir%\emul\rom\%ProjName%.rom )
 	if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! /diskA %ProjDir%\emul\dsk\%ProjName%.dsk )
 )
-::***************************************************************************
-::* fMSX                                                                    *
-::***************************************************************************
+
+::*****************************************************************************
+:: fMSX
+::*****************************************************************************
 :: Doc: https://fms.komkon.org/fMSX/fMSX.html#LABI
 if /I %EmulatorName%==fmsx (
 	echo Note: Command line parameters are only fonctionnal since fMSX 6.0
@@ -155,9 +192,10 @@ if /I %EmulatorName%==fmsx (
 	if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! %ProjDir%\emul\rom\%ProjName%.rom )
 	if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! -diska %ProjDir%\emul\dsk\%ProjName%.dsk )
 )
-::***************************************************************************
-::* Mesei                                                                   *
-::***************************************************************************
+
+::*****************************************************************************
+:: Mesei
+::*****************************************************************************
 if /I %EmulatorName%==meisei (
 	::---- Add launch options ----
 	if %EmulMachine%==1    ( echo %YELLOW%Warning: EmulMachine can't be use with Mesei%RESET% )
@@ -173,38 +211,10 @@ if /I %EmulatorName%==meisei (
 		exit /B 520
 	)
 )
-::***************************************************************************
-::* Emulicious                                                              *
-::***************************************************************************
-if /I %EmulatorName%==emulicious (
 
-	::---- Add launch options ----
-	if %EmulMachine%==1    ( echo %YELLOW%Warning: EmulMachine can't be use with Emulicious%RESET% )
-	if %Emul60Hz%==1       ( 
-		set EmulatorArgs=!EmulatorArgs! -set MSXPAL=false 
-	) else (
-		set EmulatorArgs=!EmulatorArgs! -set MSXPAL=true 
-	)
-	if %EmulFullScreen%==1 ( set EmulatorArgs=!EmulatorArgs! -fullscreen )
-	if %EmulMute%==1       ( set EmulatorArgs=!EmulatorArgs! -muted )
-
-	::---- Add launch program ----
-	if /I %Ext%==rom ( 
-		set EmulatorArgs=!EmulatorArgs! %ProjDir%\emul\rom\%ProjName%.rom 
-	) else (
-		echo %RED%Error: Emulicious only support ROM format%RESET%
-		exit /B 530
-	)
-	
-	REM -muted = start without sound (can still be manually enabled, see controls below)
-	REM -scale [level] = start with given zoom level
-	REM -link [address] = connects your Emulicious via link with the given address (e.g. "-link localhost" to connect to yourself) 
-	REM -throttle [speed] = throttles the speed to the given value in percent
-	REM -disassemble [file] = Disassemble the provided file. If a directory is provided, all contained files are disassembled.
-)
-::***************************************************************************
-::* RuMSX                                                                   *
-::***************************************************************************
+::*****************************************************************************
+:: RuMSX
+::*****************************************************************************
 if /I %EmulatorName%==msxw (
 	set EmulatorName=msx
 )
@@ -222,8 +232,8 @@ if /I %EmulatorName%==msx (
 	if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! -dirAsDisk -disk %ProjDir%\emul\dos%DOS% )
 )
 
-::***************************************************************************
-::* START EMULATOR                                                          *
-::***************************************************************************
+::*****************************************************************************
+:: START EMULATOR
+::*****************************************************************************
 echo %EmulatorName% %EmulatorArgs%
 start /b %Emulator% %EmulatorArgs%

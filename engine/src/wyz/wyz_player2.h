@@ -63,7 +63,7 @@ extern u8  g_WYZ_Header; // Music data header
 // FUNCTIONS
 //-----------------------------------------------------------------------------
 
-void WYZ_InitPlayer() __naked;
+void WYZ_InitPlayer();
 
 // Function: WYZ_Initialize
 // Initialize the Player
@@ -92,7 +92,7 @@ void WYZ_Play(u8 music) __naked;
 
 // Function: WYZ_Stop
 // Stop song playback 
-void WYZ_Stop() __naked; 
+void WYZ_Stop(); 
 
 // Function: WYZ_Decode
 // Process the next step in the song sequence 

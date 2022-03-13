@@ -44,6 +44,16 @@ goto :CheckInput
 	
 :FoundInput
 ::*****************************************************************************
+:: TOOLS SETTINGS
+::*****************************************************************************
+REM set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
+REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
+REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
+REM set Emulator=%ToolsDir%\MEISEI\meisei.exe
+REM set Emulator=%ToolsDir%\fMSX\fMSX.exe
+REM set Emulator=%ToolsDir%\RuMSX\MSX.exe
+
+::*****************************************************************************
 :: PROJECT SETTINGS
 ::*****************************************************************************
 
@@ -98,7 +108,7 @@ set Optim=Speed
 :: Additionnal compilation flag
 set CompileOpt=
 :: Skip file if compile data is newer than the source 
-set CompileSkip=0
+set CompileSkipOld=0
 :: Verbose mode: 0 or 1
 set Verbose=0
 

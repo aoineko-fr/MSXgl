@@ -99,7 +99,7 @@ set Optim=Speed
 :: Additionnal compilation flag
 set CompileOpt=
 :: Skip file if compile data is newer than the source 
-set CompileSkip=0
+set CompileSkipOld=0
 :: Verbose mode: 0 or 1
 set Verbose=0
 

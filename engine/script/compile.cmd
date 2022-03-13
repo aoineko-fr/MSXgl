@@ -3,6 +3,7 @@
 ::█  ▄ ▄  ▀▀▀   █▀  ▄  ▀█ ▀▄█ █▄ █
 ::█▄▄█▄█▄▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
 :: by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+::-----------------------------------------------------------------------------
 @echo off
 REM %~1 - expands %1 removing any surrounding quotes (")
 REM %~f1 - expands %1 to a fully qualified path name
@@ -25,7 +26,7 @@ if not exist %OutDir% ( md %OutDir% )
 
 ::-----------------------------------------------------------------------------
 :: Skip file if compile data is newer than the source 
-if %CompileSkip% == 0 ( goto :NoSkip )
+if %CompileSkipOld% == 0 ( goto :NoSkip )
 
 copy %File% %OutDir% /Y >NUL
 for /F %%i in ('dir /B /O:D %OutDir%\%FileName%.*') do set NewestFile=%%i

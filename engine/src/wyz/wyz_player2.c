@@ -182,11 +182,11 @@ u8 ENVOLVENTE_BACK;		// Backup of the envelope shape
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-void WYZ_InitPlayer() __naked
+void WYZ_InitPlayer()
 {
+	WYZ_Stop();
+	
 __asm
-	CALL	_WYZ_Stop
-
 //-- Music initial data
 	LD      HL,#_CANAL_A_BUFFER		// Reserve memory for sound buffering (main PSG)
 	LD      (_CANAL_A),HL			// Recommended 16 or more bytes per channel. 
@@ -211,8 +211,6 @@ __asm
 	LD      HL,#_CANAL_P_BUFFER       	
 	LD      (_CANAL_P),HL 
 	
-	RET
-	
 __endasm;
 }
 
@@ -221,10 +219,7 @@ __endasm;
 void WYZ_Decode() __naked
 {
 __asm
-	push	ix
-	call	INICIO
-	pop		ix
-	ret
+	push	ix // Backup C frame buffer
 
 INICIO:
 #if (WYZ_USE_DIRECT_ACCESS)
@@ -242,6 +237,8 @@ INICIO:
 	CALL    REPRODUCE_SONIDO
 	CALL    PLAY
 	// CALL	REPRODUCE_EFECTO
+
+	pop		ix // Restore C frame buffer
 
 	RET
 
@@ -404,7 +401,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Stop music playback
-void WYZ_Stop() __naked
+void WYZ_Stop()
 {
 __asm
 PLAYER_OFF:
@@ -419,7 +416,7 @@ CLEAR_PSG_BUFFER:
 	LD		(HL),A
 	LDIR
 
-	LD      A,#0b10111000			// Just in case
+	LD      A,#0b10111000			// Set PSG mixer register (just in case)
 	LD      (_PSG_REG_INT+7),A
 
 	LD		HL,#_PSG_REG_INT
@@ -440,8 +437,6 @@ CLEAR_PSG_BUFFER:
 	CALL	ROUT_EXT
 #endif // (WYZ_CHANNELS == WYZ_6CH)
 #endif // (WYZ_USE_DIRECT_ACCESS)
-
-	RET
 
 __endasm;
 
@@ -823,8 +818,6 @@ TEMPO_ENTERO:
 
 INTERPRETA:
 
-	// push	ix // backup C frame pointer
-
 	LD      IY,#_PSG_REG_INT		// Internal PSG
 	LD      IX,#_POINTER_A
 	LD      BC,#_PSG_REG_INT+8
@@ -885,8 +878,6 @@ PAUTAS:
 	LD      HL,#_PSG_REG_EXT+10
 	CALL    PAUTA					// Channel F pattern
 #endif
-
-	// pop		ix // backup C frame pointer
 
 	RET
 
