@@ -23,8 +23,8 @@ set FileExt=%~x1
 if not exist %OutDir% ( md %OutDir% )
 
 
-rem ---------------------------------------------------------------------------
-rem  Skip file if compile data is newer than the source 
+::-----------------------------------------------------------------------------
+:: Skip file if compile data is newer than the source 
 if %CompileSkip% == 0 ( goto :NoSkip )
 
 copy %File% %OutDir% /Y >NUL
@@ -33,9 +33,9 @@ if /I %NewestFile% NEQ %FileName%%FileExt% ( goto :Skip )
 
 :NoSkip
 
-rem ***************************************************************************
-rem * COMPILE C SOURCE                                                        *
-rem ***************************************************************************
+::*****************************************************************************
+::* COMPILE C SOURCE                                                          *
+::*****************************************************************************
 if /I %FileExt%==.c (
 
 	set AddOpt=%CompileOpt%
@@ -51,9 +51,9 @@ if /I %FileExt%==.c (
     if errorlevel 1 ( goto :Error )
 )
 
-rem ***************************************************************************
-rem * COMPILE ASSEMBLER SOURCE                                                *
-rem ***************************************************************************
+::*****************************************************************************
+::* COMPILE ASSEMBLER SOURCE                                                  *
+::*****************************************************************************
 if /I %FileExt%==.asm (
 	
 	set ASMParam=-o -l -s -I%ProjDir% -I%OutDir% -I%LibDir%\src %File%

@@ -23,7 +23,8 @@
 #define WYZ_6CH 					1
 
 #define WYZ_CHANNELS				WYZ_3CH
-#define WYZ_USE_DIRECT_ACCESS		1
+#define WYZ_USE_DIRECT_ACCESS		0
+#define WYZ_CHAN_BUFFER_SIZE		0x20
 
 extern u16 g_WYZ_SongTable;
 extern u16 g_WYZ_InstrumentTable;
@@ -48,11 +49,21 @@ extern u8  g_WYZ_Header; // Music data header
 //   └────────────── Frequency (0:50 Hz, 1:60 Hz)
 
 
+#if (WYZ_USE_DIRECT_ACCESS)
+	extern u8 PSG_REG_INT[14];
+	extern u8 PSG_REG_EXT[14];
+	#define AYREGS  PSG_REG_INT
+	#define AYREGS2 PSG_REG_EXT
+#else
+	#define AYREGS  g_PSG_Regs
+	#define AYREGS2 g_PSG2_Regs
+#endif
+
 //-----------------------------------------------------------------------------
 // FUNCTIONS
 //-----------------------------------------------------------------------------
 
-void WYZ_InitPlayer();
+void WYZ_InitPlayer() __naked;
 
 // Function: WYZ_Initialize
 // Initialize the Player
@@ -77,12 +88,12 @@ inline void WYZ_Initialize(u16 song, u16 inst, u16 fx, u16 freq)
 //
 // Parameters:
 //   music - Music number
-void WYZ_Play(u8 music); 
+void WYZ_Play(u8 music) __naked; 
 
 // Function: WYZ_Stop
 // Stop song playback 
-void WYZ_Stop(); 
+void WYZ_Stop() __naked; 
 
 // Function: WYZ_Decode
 // Process the next step in the song sequence 
-void WYZ_Decode(); 
+void WYZ_Decode() __naked; 

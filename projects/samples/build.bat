@@ -49,10 +49,8 @@ goto :CheckInput
 
 :: Project name (will be use for output filename)
 set ProjName=%Input%
-
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=%ProjName%
-
 :: List of library modules to build
 set LibModules=system,bios,vdp,print,input,memory,math,draw
 
@@ -63,7 +61,6 @@ set LibModules=system,bios,vdp,print,input,memory,math,draw
 :: - TR		MSX TurboR
 :: - 12		MSX 1/2
 set Machine=2
-
 :: Target:
 :: - BIN			.bin	BASIC binary program (8000h~)
 :: - ROM_8K			.rom	8KB ROM in page 1 (4000h ~ 5FFFh)
@@ -86,9 +83,13 @@ set Target=ROM_32K
 if not "%2"=="" set Target=%2
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
+:: Install BDOS driver for ROM program?
+set InstallBDOS=1
 :: Overwrite RAM starting address
 set ForceRamAddr=
 
+:: Set debug flag
+set Debug=1
 :: Optim:
 :: - Default
 :: - Speed

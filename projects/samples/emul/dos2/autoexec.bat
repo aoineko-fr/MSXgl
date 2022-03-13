@@ -1,3 +1,0 @@
-echo Loading... 
-s_draw.com 
-s_draw 

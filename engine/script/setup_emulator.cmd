@@ -17,15 +17,15 @@ echo EmulDebug=%EmulDebug%
 
 set  EmulatorArgs=%EmulExtraParam%
 
-rem ***************************************************************************
-rem * OpenMSX                                                                 *
-rem ***************************************************************************
-rem  Doc: https://openmsx.org/manual/commands.html
+::***************************************************************************
+::* OpenMSX                                                                 *
+::***************************************************************************
+:: Doc: https://openmsx.org/manual/commands.html
 if /I %EmulatorName%==openmsx (
 
 	echo Note: You can only change frequency by setting the machine
 
-	rem ---- Add launch options ----
+	::---- Add launch options ----
 	if %EmulMachine%==1 (
 		if /I %Machine%==1 (
 			if %Emul60Hz%==1 (
@@ -59,7 +59,7 @@ if /I %EmulatorName%==openmsx (
 	if %EmulFullScreen%==1 ( set EmulatorArgs=!EmulatorArgs! -command "set fullscreen on" )
 	if %EmulMute%==1       ( set EmulatorArgs=!EmulatorArgs! -command "set mute on" )
 
-	rem ---- Add launch program ----
+	::---- Add launch program ----
 	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! -diska %ProjDir%\emul\bin )
 	if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! -cart %ProjDir%\emul\rom\%ProjName%.rom )
 	if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! -diska %ProjDir%\emul\dos%DOS% -ext msxdos2 )
@@ -67,16 +67,16 @@ if /I %EmulatorName%==openmsx (
 	REM if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! -cart %ProjDir%\emul\rom\%ProjName%.rom )
 	REM if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! -ext ide -hda %ProjDir%\emul\dsk\%ProjName%.dsk -ext msxdos2 )
 	
-	rem ---- Start emulator ----
+	::---- Start emulator ----
 	if %EmulDebug%==1 ( start /b %Debugger% )	
 )
-rem ***************************************************************************
-rem * BlueMSX                                                                 *
-rem ***************************************************************************
-rem  Doc: http://www.msxblue.com/manual/commandlineargs_c.htm
+::***************************************************************************
+::* BlueMSX                                                                 *
+::***************************************************************************
+:: Doc: http://www.msxblue.com/manual/commandlineargs_c.htm
 if /I %EmulatorName%==bluemsx (
 
-	rem ---- Add launch options ----
+	::---- Add launch options ----
 	if %EmulMachine%==1 (
 		if /I %Machine%==1 (
 			if %Emul60Hz%==1 (
@@ -115,19 +115,19 @@ if /I %EmulatorName%==bluemsx (
 	if %EmulFullScreen%==1 ( set EmulatorArgs=!EmulatorArgs! /fullscreen )
 	if %EmulMute%==1       ( echo %YELLOW%Warning: EmulMute can't be use with BlueMSX%RESET% )
 
-	rem ---- Add launch program ----
+	::---- Add launch program ----
 	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! /diskA %ProjDir%\emul\dsk\%ProjName%.dsk )
 	if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! /rom1 %ProjDir%\emul\rom\%ProjName%.rom )
 	if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! /diskA %ProjDir%\emul\dsk\%ProjName%.dsk )
 )
-rem ***************************************************************************
-rem * fMSX                                                                    *
-rem ***************************************************************************
-rem  Doc: https://fms.komkon.org/fMSX/fMSX.html#LABI
+::***************************************************************************
+::* fMSX                                                                    *
+::***************************************************************************
+:: Doc: https://fms.komkon.org/fMSX/fMSX.html#LABI
 if /I %EmulatorName%==fmsx (
 	echo Note: Command line parameters are only fonctionnal since fMSX 6.0
 
-	rem ---- Add launch options ----
+	::---- Add launch options ----
 	if %EmulMachine%==1 (
 		if /I %Machine%==1 (
 			set EmulatorArgs=!EmulatorArgs! -msx1
@@ -150,22 +150,22 @@ if /I %EmulatorName%==fmsx (
 	if %EmulFullScreen%==1 ( echo %YELLOW%Warning: EmulFullScreen can't be use with fMSX%RESET% )
 	if %EmulMute%==1       ( set EmulatorArgs=!EmulatorArgs! -nosound )
 
-	rem ---- Add launch program ----
+	::---- Add launch program ----
 	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! -diska %ProjDir%\emul\dsk\%ProjName%.dsk )
 	if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! %ProjDir%\emul\rom\%ProjName%.rom )
 	if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! -diska %ProjDir%\emul\dsk\%ProjName%.dsk )
 )
-rem ***************************************************************************
-rem * Mesei                                                                   *
-rem ***************************************************************************
+::***************************************************************************
+::* Mesei                                                                   *
+::***************************************************************************
 if /I %EmulatorName%==meisei (
-	rem ---- Add launch options ----
+	::---- Add launch options ----
 	if %EmulMachine%==1    ( echo %YELLOW%Warning: EmulMachine can't be use with Mesei%RESET% )
 	if %Emul60Hz%==1       ( echo %YELLOW%Warning: Emul60Hz can't be use with Mesei%RESET% )
 	if %EmulFullScreen%==1 ( echo %YELLOW%Warning: EmulFullScreen can't be use with Mesei%RESET% )
 	if %EmulMute%==1       ( echo %YELLOW%Warning: EmulMute can't be use with Mesei%RESET% )
 
-	rem ---- Add launch program ----
+	::---- Add launch program ----
 	if /I %Ext%==rom ( 
 		set EmulatorArgs=!EmulatorArgs! %ProjDir%\emul\rom\%ProjName%.rom 
 	) else (
@@ -173,12 +173,12 @@ if /I %EmulatorName%==meisei (
 		exit /B 520
 	)
 )
-rem ***************************************************************************
-rem * Emulicious                                                              *
-rem ***************************************************************************
+::***************************************************************************
+::* Emulicious                                                              *
+::***************************************************************************
 if /I %EmulatorName%==emulicious (
 
-	rem ---- Add launch options ----
+	::---- Add launch options ----
 	if %EmulMachine%==1    ( echo %YELLOW%Warning: EmulMachine can't be use with Emulicious%RESET% )
 	if %Emul60Hz%==1       ( 
 		set EmulatorArgs=!EmulatorArgs! -set MSXPAL=false 
@@ -188,7 +188,7 @@ if /I %EmulatorName%==emulicious (
 	if %EmulFullScreen%==1 ( set EmulatorArgs=!EmulatorArgs! -fullscreen )
 	if %EmulMute%==1       ( set EmulatorArgs=!EmulatorArgs! -muted )
 
-	rem ---- Add launch program ----
+	::---- Add launch program ----
 	if /I %Ext%==rom ( 
 		set EmulatorArgs=!EmulatorArgs! %ProjDir%\emul\rom\%ProjName%.rom 
 	) else (
@@ -202,28 +202,28 @@ if /I %EmulatorName%==emulicious (
 	REM -throttle [speed] = throttles the speed to the given value in percent
 	REM -disassemble [file] = Disassemble the provided file. If a directory is provided, all contained files are disassembled.
 )
-rem ***************************************************************************
-rem * RuMSX                                                                   *
-rem ***************************************************************************
+::***************************************************************************
+::* RuMSX                                                                   *
+::***************************************************************************
 if /I %EmulatorName%==msxw (
 	set EmulatorName=msx
 )
 
 if /I %EmulatorName%==msx (
-	rem ---- Add launch options ----
+	::---- Add launch options ----
 	if %EmulMachine%==1    ( echo %YELLOW%Warning: EmulMachine can't be use with RuMSX%RESET% )
 	if %Emul60Hz%==1       ( echo %YELLOW%Warning: Emul60Hz can't be use with RuMSX%RESET% )
 	if %EmulFullScreen%==1 ( echo %YELLOW%Warning: EmulFullScreen can't be use with RuMSX%RESET% )
 	if %EmulMute%==1       ( set EmulatorArgs=!EmulatorArgs! -NoSoundOut )
 
-	rem ---- Add launch program ----
+	::---- Add launch program ----
 	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! -dirAsDisk -disk %ProjDir%\emul\bin )
 	if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! -rom %ProjDir%\emul\rom\%ProjName%.rom )
 	if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! -dirAsDisk -disk %ProjDir%\emul\dos%DOS% )
 )
 
-rem ***************************************************************************
-rem * START EMULATOR                                                          *
-rem ***************************************************************************
+::***************************************************************************
+::* START EMULATOR                                                          *
+::***************************************************************************
 echo %EmulatorName% %EmulatorArgs%
 start /b %Emulator% %EmulatorArgs%

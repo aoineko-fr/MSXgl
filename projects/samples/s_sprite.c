@@ -257,7 +257,7 @@ void main()
 	Print_SetBitmapFont(g_Font_MGL_Sample6);
 	Print_SetColor(0xF, 0x4);
 	Print_SetPosition(0, 2);
-	Print_DrawText("\x1\x2\x3\x4\x5\x6   VDP SPRITE SAMPLE (G4)");
+	Print_DrawText("\x1\x2\x3\x4\x5\x6 SPRITE MODE 2 (G4)");
 	Draw_LineH(0, 255, 12, 0xFF, 0);
 	Draw_LineH(0, 255, 64, 0xFF, 0);
 	Draw_LineH(0, 255, 114, 0xFF, 0);

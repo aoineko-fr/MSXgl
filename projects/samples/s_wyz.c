@@ -291,7 +291,7 @@ void main()
 			else // if(*ayReg >= 8)
 			{
 				Print_DrawChar(0xA0);
-				u8 h = *ayReg >> 3;
+				u8 h = *ayReg - 8;
 				Print_DrawChar((h == 0) ? ' ' : 0xA0 + h);
 			}
 				

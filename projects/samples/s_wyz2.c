@@ -129,10 +129,6 @@ void SetMusic(u8 idx)
 	// WYZ_PlaySong(0, g_DoLoop);
 	WYZ_Play(0);
 	
-	////////////////////////////////////////////////// DEBUG
-	while(1) { Halt(); WYZ_Decode(); }
-	//////////////////////////////////////////////////
-	
 	Print_SetPosition(0, 2);
 	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), entry->Name);
 }
@@ -155,8 +151,7 @@ void ButtonPause()
 //
 void ButtonStop()
 {
-	// ayVGM_Stop();	
-	// WYZ_Pause();
+	WYZ_Stop();
 }
 
 //-----------------------------------------------------------------------------
@@ -258,15 +253,15 @@ void main()
 	while(1)
 	{
 		Halt();
+		count++;
 		if(g_Freq50Hz || (count % 6 != 0))
 		{
 			WYZ_Decode();
-			// WYZ_PlayAY();
+			#if (!WYZ_USE_DIRECT_ACCESS)
+			PSG_Apply();
+			#endif
 		}
-		// ayVGM_Decode();
-		// #if (PSG_ACCESS == PSG_INDIRECT)
-		// PSG_Apply();
-		// #endif
+		
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
 		// Print_SetPosition(8, 11); Print_DrawChar((g_WYZ_State & (1 << 0)) ? 0xC : 0xB);
@@ -277,31 +272,31 @@ void main()
 		// Print_SetPosition(8, 16); Print_DrawChar((g_WYZ_State & (1 << 7)) ? 0xC : 0xB);	
 		
 		Print_SetPosition(31, 0);
-		u8 chr = count++ & 0x03;
+		u8 chr = count & 0x03;
 		Print_DrawChar(g_ChrAnim[chr]);
 		
 		// VU metter
-		// u8* ayReg = &AYREGS[PSG_REG_AMP_A];
-		// u8 y = PLAYER_Y+3;
-		// loop(i, 3)
-		// {
-			// Print_SetPosition(8, y++);
+		u8* ayReg = (u8*)AYREGS + PSG_REG_AMP_A;
+		u8 y = PLAYER_Y+3;
+		loop(i, 3)
+		{
+			Print_SetPosition(8, y++);
 			
-			// if(*ayReg < 8)
-			// {
-				// u8 l = *ayReg & 0x07;
-				// Print_DrawChar((l == 0) ? ' ' : 0xA0 + l);
-				// Print_DrawChar(' ');
-			// }
-			// else // if(*ayReg >= 8)
-			// {
-				// Print_DrawChar(0xA0);
-				// u8 h = *ayReg >> 3;
-				// Print_DrawChar((h == 0) ? ' ' : 0xA0 + h);
-			// }
+			if(*ayReg < 8)
+			{
+				u8 l = *ayReg & 0x07;
+				Print_DrawChar((l == 0) ? ' ' : 0xA0 + l);
+				Print_DrawChar(' ');
+			}
+			else // if(*ayReg >= 8)
+			{
+				Print_DrawChar(0xA0);
+				u8 h = *ayReg - 8;
+				Print_DrawChar((h == 0) ? ' ' : 0xA0 + h);
+			}
 				
-			// ayReg++;
-		// }
+			ayReg++;
+		}
 		
 		// Handle input
 		u8 row8 = Keyboard_Read(8);

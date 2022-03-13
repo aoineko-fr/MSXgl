@@ -196,7 +196,7 @@ void main()
 	Print_SetTextFont(g_Font_MGL_Sample8, 0);
 	Print_SetColor(0xF, 0x4);
 	Print_SetPosition(0, 0);
-	Print_DrawText("\x2\x3\x4\x5\x6  SPRITE MODE 1 (G2)\n");
+	Print_DrawText("\x2\x3\x4\x5 SPRITE MODE 1 (G2)\n");
 	Print_DrawLineH(0, 1, 32);
 	
 	Print_DrawLineH(0, 18, 32);

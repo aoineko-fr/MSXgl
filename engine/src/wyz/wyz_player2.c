@@ -6,6 +6,8 @@
 //  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 //─────────────────────────────────────────────────────────────────────────────
 // WYZ player module
+// 
+// From MSX PSG proPLAYER V0.3 - WYZ 47d
 //─────────────────────────────────────────────────────────────────────────────
 
 //-----------------------------------------------------------------------------
@@ -17,8 +19,6 @@
 // DEFINES
 //-----------------------------------------------------------------------------
 
-#define CANAL_BUFFER_SIZE 0x20
-
 //-----------------------------------------------------------------------------
 // VARIABLES
 //-----------------------------------------------------------------------------
@@ -28,21 +28,15 @@ u16 g_WYZ_InstrumentTable;
 u16 g_WYZ_SoundTable;
 u16 g_WYZ_NoteTable;
 
-u8  CANAL_A_BUFFER[CANAL_BUFFER_SIZE];
-u8  CANAL_B_BUFFER[CANAL_BUFFER_SIZE];
-u8  CANAL_C_BUFFER[CANAL_BUFFER_SIZE];
+u8  CANAL_A_BUFFER[WYZ_CHAN_BUFFER_SIZE];
+u8  CANAL_B_BUFFER[WYZ_CHAN_BUFFER_SIZE];
+u8  CANAL_C_BUFFER[WYZ_CHAN_BUFFER_SIZE];
 #if (WYZ_CHANNELS == WYZ_6CH)
-u8  CANAL_D_BUFFER[CANAL_BUFFER_SIZE];
-u8  CANAL_E_BUFFER[CANAL_BUFFER_SIZE];
-u8  CANAL_F_BUFFER[CANAL_BUFFER_SIZE];
+u8  CANAL_D_BUFFER[WYZ_CHAN_BUFFER_SIZE];
+u8  CANAL_E_BUFFER[WYZ_CHAN_BUFFER_SIZE];
+u8  CANAL_F_BUFFER[WYZ_CHAN_BUFFER_SIZE];
 #endif
-u8  CANAL_P_BUFFER[CANAL_BUFFER_SIZE];
-
-#if (WYZ_CHANNELS == WYZ_6CH)
-u8  PLAYER_BUFFER[0xB2];
-#else
-u8  PLAYER_BUFFER[0x72];
-#endif
+u8  CANAL_P_BUFFER[WYZ_CHAN_BUFFER_SIZE];
 
 u8  HYBRID;				// Hybrid tempo
 						//  BIT 6 = Alternator
@@ -161,12 +155,16 @@ u8  N_SONIDO;			// Sound number
 u16 POINTER_SONIDO;		// Pointer of the sound being played
 
 // PSG register buffers
-// u8 PSG_REG_INT[14];
-#define _PSG_REG_INT _g_PSG_Regs
-u8 PSG_REG_SEC[14];
-#if (WYZ_CHANNELS == WYZ_6CH)
-// u8 PSG_REG_EXT[14];
-#define _PSG_REG_EXT _g_PSG2_Regs
+#if (WYZ_USE_DIRECT_ACCESS)
+	u8 PSG_REG_INT[14];
+	u8 PSG_REG_BAK[14];
+	#if (WYZ_CHANNELS == WYZ_6CH)
+	u8 PSG_REG_EXT[14];
+	#endif
+#else
+	#define _PSG_REG_INT _g_PSG_Regs
+	u8 PSG_REG_BAK[14];
+	#define _PSG_REG_EXT _g_PSG2_Regs
 #endif
 
 // Envelope
@@ -184,7 +182,7 @@ u8 ENVOLVENTE_BACK;		// Backup of the envelope shape
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-void WYZ_InitPlayer()
+void WYZ_InitPlayer() __naked
 {
 __asm
 	CALL	_WYZ_Stop
@@ -213,14 +211,21 @@ __asm
 	LD      HL,#_CANAL_P_BUFFER       	
 	LD      (_CANAL_P),HL 
 	
+	RET
+	
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 //
-void WYZ_Decode()
+void WYZ_Decode() __naked
 {
 __asm
+	push	ix
+	call	INICIO
+	pop		ix
+	ret
+
 INICIO:
 #if (WYZ_USE_DIRECT_ACCESS)
 	CALL	ROUT_INT
@@ -230,7 +235,7 @@ INICIO:
 #endif // (WYZ_USE_DIRECT_ACCESS)
 
 	LD		HL,#_PSG_REG_INT
-	LD		DE,#_PSG_REG_SEC
+	LD		DE,#_PSG_REG_BAK
 	LD		BC,#14
 	LDIR	
 
@@ -275,30 +280,30 @@ REPRODUCE_SONIDO:
 	LD		(DE),A
 	INC		HL
 	LD      A,(HL)
-	LD		(_PSG_REG_SEC+11),A
+	LD		(_PSG_REG_BAK+11),A
 	INC		HL
 	LD      A,(HL)
-	LD		(_PSG_REG_SEC+12),A
+	LD		(_PSG_REG_BAK+12),A
 	INC		HL
 	LD      A,(HL)
 	CP		#1
 	JR		Z,NO_ENVOLVENTES_SONIDO	// Does not write the envelope if its value is 1
-	LD		(_PSG_REG_SEC+13),A                
+	LD		(_PSG_REG_BAK+13),A                
 
 NO_ENVOLVENTES_SONIDO:
 	LD		A,B
 	RES		7,A
 	AND     A
 	JR      Z,NO_RUIDO
-	LD      (_PSG_REG_SEC+6),A
+	LD      (_PSG_REG_BAK+6),A
 	LD      A,(_SFX_MIX)
 	JR      SI_RUIDO
 NO_RUIDO:
 	XOR		A
-	LD      (_PSG_REG_SEC+6),A
+	LD      (_PSG_REG_BAK+6),A
 	LD      A,#0b10111000
 SI_RUIDO:
-	LD      (_PSG_REG_SEC+7),A
+	LD      (_PSG_REG_BAK+7),A
 	INC     HL
 	LD      (_POINTER_SONIDO),HL
 	RET
@@ -313,12 +318,12 @@ FIN_SONIDO:
 #if (WYZ_CHANNELS == WYZ_6CH)
 	LD		(_PSG_REG_INT+13),A		// Restores the envelope after the sfx
 #else
-	LD		(_PSG_REG_SEC+13),A		// Restores the envelope after the sfx
+	LD		(_PSG_REG_BAK+13),A		// Restores the envelope after the sfx
 #endif
        		
 FIN_NOPLAYER:
 	LD      A,#0b10111000
-	LD      (_PSG_REG_SEC+7),A
+	LD      (_PSG_REG_BAK+7),A
 
 	RET                        
 
@@ -333,7 +338,7 @@ ROUT_INT:
 NO_BACKUP_ENVOLVENTE:
 	XOR     A
 	LD      C,#P_PSG_REGS
-	LD      HL,#_PSG_REG_SEC
+	LD      HL,#_PSG_REG_BAK
 LOUT_INT:	
 	OUT     (C),A
 	INC     C
@@ -349,7 +354,7 @@ LOUT_INT:
 	INC     C
 	OUT     (C),A
 	XOR     A
-	LD      (_PSG_REG_SEC+13),A
+	LD      (_PSG_REG_BAK+13),A
 	LD		(_PSG_REG_INT+13),A
 	RET
 
@@ -399,7 +404,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Stop music playback
-void WYZ_Stop()
+void WYZ_Stop() __naked
 {
 __asm
 PLAYER_OFF:
@@ -410,7 +415,7 @@ PLAYER_OFF:
 CLEAR_PSG_BUFFER:
 	LD		HL,#_PSG_REG_INT
 	LD		DE,#_PSG_REG_INT+1
-	LD		BC,#14
+	LD		BC,#13
 	LD		(HL),A
 	LDIR
 
@@ -418,7 +423,7 @@ CLEAR_PSG_BUFFER:
 	LD      (_PSG_REG_INT+7),A
 
 	LD		HL,#_PSG_REG_INT
-	LD		DE,#_PSG_REG_SEC
+	LD		DE,#_PSG_REG_BAK
 	LD		BC,#14
 	LDIR		
 
@@ -436,17 +441,19 @@ CLEAR_PSG_BUFFER:
 #endif // (WYZ_CHANNELS == WYZ_6CH)
 #endif // (WYZ_USE_DIRECT_ACCESS)
 
+	RET
+
 __endasm;
 
 #if (!WYZ_USE_DIRECT_ACCESS)
-	PSG_Mute();
+	PSG_Apply();
 #endif
 }
 
 //-----------------------------------------------------------------------------
 // Load a song
 // IN:(A)=Song no.
-void WYZ_Play(u8 music)
+void WYZ_Play(u8 music) __naked
 {
 	music; // A
 __asm
@@ -462,7 +469,6 @@ CARGA_CANCION:
 
 // Load song YES/NO
 DECODE_SONG:
-	LD      A,(SONG)
 
 //---- Read song header
 
@@ -470,6 +476,7 @@ DECODE_SONG:
 // 7 6 5 4 3 2 1 0
 // │ └─┴─┴─┴─┴─┴─┴── Tempo (7-bits)
 // └──────────────── Hybrid tempo ON/OFF
+	LD      A,(SONG)
 	LD      HL,(_g_WYZ_SongTable)
 	CALL    EXT_WORD
 	LD      A,(HL)
@@ -508,20 +515,20 @@ NPTJP0:
 	LD		HL,#TABLA_DATOS_CANAL_SFX
 	CALL    EXT_WORD
 	PUSH	HL
-	POP		IX
-	LD		E,0(IX)
-	LD		D,1(IX)
+	POP		IY
+	LD		E,0(IY)
+	LD		D,1(IY)
 	LD		(_SFX_L),DE
 
-	LD		E,2(IX)
-	LD		D,3(IX)
+	LD		E,2(IY)
+	LD		D,3(IY)
 	LD		(_SFX_H),DE
 
-	LD		E,4(IX)
-	LD		D,5(IX)
+	LD		E,4(IY)
+	LD		D,5(IY)
 	LD		(_SFX_V),DE
 
-	LD		A,6(IX)
+	LD		A,6(IY)
 	LD		(_SFX_MIX),A
 	POP		HL
 
@@ -531,8 +538,8 @@ NPTJP0:
 
 // Search and save start of channels in the mus module (optimize)
 // Add loop offset
-	PUSH	HL						// IX start offset loop per channel
-	POP		IX
+	PUSH	HL						// IY start offset loop per channel
+	POP		IY
 
 #if (WYZ_CHANNELS == WYZ_6CH)
 	LD		DE,#0x0008+6			// To start of channel A (for 6 channels)
@@ -542,58 +549,58 @@ NPTJP0:
 	ADD		HL,DE
 
 	LD		(_POINTER_P_DECA),HL	// Guard pointer home internal channels
-	LD		E,0(IX)
-	LD		D,1(IX)
+	LD		E,0(IY)
+	LD		D,1(IY)
 	ADD		HL,DE
 	LD		(_POINTER_L_DECA),HL	// Saves pointer start loop
 
 	CALL	BGICMODBC1
 	LD		(_POINTER_P_DECB),HL
-	LD		E,2(IX)
-	LD		D,3(IX)
+	LD		E,2(IY)
+	LD		D,3(IY)
 	ADD		HL,DE
 	LD		(_POINTER_L_DECB),HL
 
 	CALL	BGICMODBC1
 	LD		(_POINTER_P_DECC),HL
-	LD		E,4(IX)
-	LD		D,5(IX)
+	LD		E,4(IY)
+	LD		D,5(IY)
 	ADD		HL,DE
 	LD		(_POINTER_L_DECC),HL
 
 #if (WYZ_CHANNELS == WYZ_6CH)
 	CALL	BGICMODBC1
 	LD		(_POINTER_P_DECD),HL	// Guard pointer home external channels
-	LD		E,6(IX)
-	LD		D,7(IX)
+	LD		E,6(IY)
+	LD		D,7(IY)
 	ADD		HL,DE
 	LD		(_POINTER_L_DECD),HL	// Saves pointer start loop
 
 	CALL	BGICMODBC1
 	LD		(_POINTER_P_DECE),HL
-	LD		E,8(IX)
-	LD		D,9(IX)
+	LD		E,8(IY)
+	LD		D,9(IY)
 	ADD		HL,DE
 	LD		(_POINTER_L_DECE),HL
 
 	CALL	BGICMODBC1
 	LD		(_POINTER_P_DECF),HL
-	LD		E,10(IX)
-	LD		D,11(IX)
+	LD		E,10(IY)
+	LD		D,11(IY)
 	ADD		HL,DE
 	LD		(_POINTER_L_DECF),HL
 
 	CALL	BGICMODBC1
 	LD		(_POINTER_P_DECP),HL
-	LD		E,12(IX)
-	LD		D,13(IX)
+	LD		E,12(IY)
+	LD		D,13(IY)
 	ADD		HL,DE
 	LD		(_POINTER_L_DECP),HL
 #else
 	CALL	BGICMODBC1
 	LD		(_POINTER_P_DECP),HL
-	LD		E,6(IX)
-	LD		D,7(IX)
+	LD		E,6(IY)
+	LD		D,7(IY)
 	ADD		HL,DE
 	LD		(_POINTER_L_DECP),HL
 #endif
@@ -815,6 +822,9 @@ TEMPO_ENTERO:
 	SET		6,(HL)
 
 INTERPRETA:
+
+	// push	ix // backup C frame pointer
+
 	LD      IY,#_PSG_REG_INT		// Internal PSG
 	LD      IX,#_POINTER_A
 	LD      BC,#_PSG_REG_INT+8
@@ -876,6 +886,8 @@ PAUTAS:
 	CALL    PAUTA					// Channel F pattern
 #endif
 
+	// pop		ix // backup C frame pointer
+
 	RET
 
 
@@ -928,7 +940,7 @@ NO_INC_TEMPO:
 	LD      H,B
 	RES     4,(HL)        			// Erases the enveloppe effect
 	XOR     A
-	LD      (_PSG_REG_SEC+13),A
+	LD      (_PSG_REG_BAK+13),A
 	LD		(_PSG_REG_INT+13),A
 	// LD		(_ENVOLVENTE_BACK),A	// Resets the envelope backup
 	JR      LOCALIZA_NOTA
@@ -1331,15 +1343,15 @@ TABLA_DATOS_CANAL_SFX:
 // BYTE 2:_SFX_V	
 // BYTE 3:_SFX_MIX
 SELECT_CANAL_A:
-	.DW	_PSG_REG_SEC+0,_PSG_REG_SEC+1,_PSG_REG_SEC+8
+	.DW	_PSG_REG_BAK+0,_PSG_REG_BAK+1,_PSG_REG_BAK+8
 	.DB	#0b10110001
 		
 SELECT_CANAL_B:	
-	.DW	_PSG_REG_SEC+2,_PSG_REG_SEC+3,_PSG_REG_SEC+9
+	.DW	_PSG_REG_BAK+2,_PSG_REG_BAK+3,_PSG_REG_BAK+9
 	.DB	#0b10101010
 		
 SELECT_CANAL_C:	
-	.DW	_PSG_REG_SEC+4,_PSG_REG_SEC+5,_PSG_REG_SEC+10
+	.DW	_PSG_REG_BAK+4,_PSG_REG_BAK+5,_PSG_REG_BAK+10
 	.DB	#0b10011100
 __endasm;
 }

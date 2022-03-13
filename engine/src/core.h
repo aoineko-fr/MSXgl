@@ -51,6 +51,8 @@ typedef signed short		i16;	///< 16 bits signed integer type
 typedef unsigned short		u16;	///< 16 bits unsigned integer type
 typedef signed long			i32;	///< 32 bits signed integer type
 typedef unsigned long		u32;	///< 32 bits unsigned integer type
+typedef signed long long	i64;	///< 64 bits signed integer type
+typedef unsigned long long	u64;	///< 64 bits unsigned integer type
 	
 // Float	
 typedef float				f32;	///< 32 bits float type (IEEE 754)
