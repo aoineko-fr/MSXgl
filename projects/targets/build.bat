@@ -70,8 +70,7 @@ rem - DOS2				.com	MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
 rem - DOS2_ARG			.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 set Target=%Input%
 rem  Mapper size
-REM set ROMSize=%2
-set ROMSize=
+set ROMSize=%2
 
 rem  Optim:
 rem  - Default

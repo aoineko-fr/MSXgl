@@ -58,7 +58,7 @@ void main()
 	Bios_ChangeWidth(40);
 	Bios_ChangeColor(COLOR_LIGHT_GREEN, COLOR_BLACK, COLOR_GRAY);
 	
-	Bios_PrintTextAt(0, 0, "MSX-GL   BIOS SAMPLE");
+	Bios_PrintTextAt(0, 0, "MSXgl  BIOS SAMPLE");
 	Bios_PrintTextAt(0, 1, "----------------------------------------");
 	Bios_PrintTextAt(0, 21, "----------------------------------------");
 	Bios_PrintTextAt(0, 23, "<||> Move     [space] Jump");

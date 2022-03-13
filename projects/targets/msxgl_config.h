@@ -1,11 +1,9 @@
-// ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
-//─────────────────────────────────────────────────────────────────────────────
-// Library configuration
+// __________________________
+// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
+// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+//  Library configuration
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
@@ -136,11 +134,14 @@
 
 // GamePawn setting
 #define GAMEPAWN_USE_PHYSICS		0
-
-// GamePawn's border collision
+#define GAMEPAWN_COL_DOWN			0
+#define GAMEPAWN_COL_UP				0
+#define GAMEPAWN_COL_RIGHT			0
+#define GAMEPAWN_COL_LEFT			0
 #define GAMEPAWN_BORDER_EVENT		0
 #define GAMEPAWN_BORDER_BLOCK		0
-#define GAMEPAWN_BORDER_MAX_Y		192
+#define GAMEPAWN_BORDER_MIN_Y		0
+#define GAMEPAWN_BORDER_MAX_Y		191
 
 //-----------------------------------------------------------------------------
 // AUDIO 
@@ -229,8 +230,9 @@
 //-----------------------------------------------------------------------------
 
 // Profiler method
-// - DEBUG_DISABLE .............. No profiler
-// - DEBUG_OPENMSX_G ............ Grauw profile script for OpenMSX
-// - DEBUG_OPENMSX_S ............ Salutte profile script for OpenMSX
-#define DEBUG_TOOL				DEBUG_OPENMSX_G
+// - DEBUG_DISABLE ................ No profiler
+// - DEBUG_OPENMSX_G .............. Grauw profile script for OpenMSX
+// - DEBUG_OPENMSX_S .............. Salutte profile script for OpenMSX
+// - DEBUG_EMULICIOUS ............. Profile script for Emulicious
+#define DEBUG_TOOL					DEBUG_EMULICIOUS
 #define PROFILE_LEVEL				10 

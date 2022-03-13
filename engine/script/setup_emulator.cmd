@@ -82,7 +82,7 @@ if /I %EmulatorName%==emulicious (
 
 	::---- Open/close debugger
 	if %EmulDebug%==1 (
-		set EmulatorArgs=!EmulatorArgs! -set WindowDebuggerOpen=true
+		set EmulatorArgs=!EmulatorArgs! -set WindowDebuggerOpen=true -set DebuggerSuspendOnOpen=false
 	) else (
 		set EmulatorArgs=!EmulatorArgs! -set WindowDebuggerOpen=false 
 	)
