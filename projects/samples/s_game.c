@@ -118,8 +118,7 @@ u8   g_PrevRow8 = 0xFF;
 i8   g_DX = 0;
 i8   g_DY = 0;
 u8   g_LastEvent = 0;
-u8   g_WorldX;
-u8   g_WorldY;
+u16  g_Level = 0;
 
 //=============================================================================
 // FUNCTIONS
@@ -131,9 +130,7 @@ void PhysicsEvent(u8 event, u8 tile)
 	switch(event)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN:
-	case PAWN_PHYSICS_BORDER_UP:
 	case PAWN_PHYSICS_BORDER_RIGHT:
-	case PAWN_PHYSICS_BORDER_LEFT:
 		g_LastEvent = event;
 		break;
 	
@@ -165,16 +162,20 @@ bool PhysicsCollision(u8 tile)
 
 //-----------------------------------------------------------------------------
 //
-void DrawMap()
+void DrawLevel()
 {
-	Math_SetRandomSeed16(((u16)g_WorldX * 256) + (u16)g_WorldY);
-	
+	Print_SetPosition(25, 0);
+	Print_DrawInt(g_Level);
+
 	// Background
 	loop(i, 24-2)
 		VDP_FillVRAM((i == 12) ? 9 : (i < 12) ? 16 : 8, g_ScreenLayoutLow + (i+2) * 32, 0, 32);
 	// Ground
+	Math_SetRandomSeed16(g_Level);
 	loop(i, 8)
 	{
+		if(i == 7)
+			Math_SetRandomSeed16(g_Level + 1);
 		u8 y = Math_GetRandom16() & 0x07 ;
 		loop(j, y)
 		{
@@ -211,9 +212,6 @@ bool State_Initialize()
 	VDP_Poke_16K(0xF5, g_ScreenColorLow + 2);
 	VDP_Poke_16K(0x99, g_ScreenColorLow + 3);
 
-	// Initialize layout
-	DrawMap();
-
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 	VDP_LoadSpritePattern(g_DataSprtLayer, 0, 13*4*4);	
@@ -228,8 +226,11 @@ bool State_Initialize()
 	Print_SetPosition(0, 0);
 	Print_DrawCharX(' ', 32);
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL " GAME SAMPLE");
+	Print_DrawText(MSX_GL " GAME SAMPLE     Lvl");
 	Print_DrawLineH(0, 1, 32);
+
+	// Initialize layout
+	DrawLevel();
 
 	VDP_EnableDisplay(true);
 
@@ -241,6 +242,7 @@ bool State_Initialize()
 //
 bool State_Game()
 {
+	// Update player animation & physics
 	u8 act = ACTION_IDLE;
 	if(g_bJumping && (g_VelocityY >= 0))
 		act = ACTION_JUMP;
@@ -256,25 +258,30 @@ bool State_Game()
 	GamePawn_Draw(&g_PlayerPawn);
 // VDP_SetColor(1);
 
+	// Character animation
 	Print_SetPosition(31, 0);
 	Print_DrawChar(g_ChrAnim[g_PlayerPawn.Counter & 0x03]);
 
+	// Background horizon blink
+	VDP_FillVRAM(g_PlayerPawn.Counter & 1 ? 9 : 10, g_ScreenLayoutLow + (12+2) * 32, 0, 32);
+
+	// Handle collision events
 	switch(g_LastEvent)
 	{
-	case PAWN_PHYSICS_BORDER_DOWN:	g_WorldY++; GamePawn_SetPosition(&g_PlayerPawn, g_PlayerPawn.PositionX, 16+4); break;
-	case PAWN_PHYSICS_BORDER_UP:	g_WorldY--; GamePawn_SetPosition(&g_PlayerPawn, g_PlayerPawn.PositionX, (u8)(191-16-4)); break;
-	case PAWN_PHYSICS_BORDER_RIGHT:	g_WorldX++; GamePawn_SetPosition(&g_PlayerPawn, 0+4, g_PlayerPawn.PositionY); break;
-	case PAWN_PHYSICS_BORDER_LEFT:	g_WorldX--; GamePawn_SetPosition(&g_PlayerPawn, (u8)(255-16-4), g_PlayerPawn.PositionY); break;
-	}
-	if(g_LastEvent)
-	{
-		DrawMap();
+	case PAWN_PHYSICS_BORDER_DOWN:
+		/* handle game over */
+		break;
+	case PAWN_PHYSICS_BORDER_RIGHT:
 		g_LastEvent = 0;
+		GamePawn_SetPosition(&g_PlayerPawn, 0+4, g_PlayerPawn.PositionY);
+		g_Level++;
+		DrawLevel();
+		break;
 	}
 
+	// Update movement
 	g_DX = 0;
 	g_DY = 0;
-
 	u8 row8 = Keyboard_Read(8);
 	if(IS_KEY_PRESSED(row8, KEY_RIGHT))
 	{
