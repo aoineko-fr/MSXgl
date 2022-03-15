@@ -48,6 +48,7 @@ void Bios_Exit(u8 ret) __FASTCALL
 #if (TARGET_TYPE == TARGET_TYPE_DOS)
 
 	__asm
+	#if BIOS_USE_VDP
 		push	hl
 		// Set Screen mode to 5...
 		ld		a, #5
@@ -61,16 +62,19 @@ void Bios_Exit(u8 ret) __FASTCALL
 		ei
 		// Set return value to L
 		pop		hl
+	#endif
 	__endasm;
 
 #elif (TARGET_TYPE == TARGET_TYPE_BIN)
 	
 	__asm
+	#if BIOS_USE_VDP
 		// Set Screen mode to 5...
 		ld		a, #5
 		call	R_CHGMOD
 		// ... to be able to call TOTEXT routine
 		call	R_TOTEXT
+	#endif
 		// 
 		ld		ix, #0x409B
 		call	R_CALBAS

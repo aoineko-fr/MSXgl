@@ -3,6 +3,7 @@
 ::█  ▄ ▄  ▀▀  ▀█▀  ▄  ▀█ ▀▄█ █▄ █
 ::█▄▄█▄█▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
 :: by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+::─────────────────────────────────────────────────────────────────────────────
 @echo off
 
 ::─────────────────────────────────────────────────────────────────────────────
@@ -94,12 +95,12 @@ if not "%2"=="" set Target=%2
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
 :: Install BDOS driver for ROM program?
-set InstallBDOS=1
+set InstallBDOS=0
 :: Overwrite RAM starting address
 set ForceRamAddr=
 
 :: Set debug flag
-set Debug=1
+set Debug=0
 :: Optim:
 :: - Default
 :: - Speed
