@@ -16,7 +16,9 @@
 //=============================================================================
 
 // Library's logo
-#define MSX_GL "\x01\x02\x03\x04\x05\x06"
+#define MSX_GL6 "\x01\x02\x03\x04\x05\x06"
+#define MSX_GL8 "\x02\x03\x04\x05"
+#define GET_OP(a) (g_Operator == 0xFF) ? a : g_Operator
 
 // Screen setting
 struct ScreenSetting
@@ -49,6 +51,7 @@ u8 g_SrcModeIndex;
 u8 g_VBlank = 0;
 u8 g_Frame = 0;
 u16 SX, SY;
+u8 g_Operator = 0xFF; // default
 
 // Memory buffer to unpack compressed data
 u8 g_LMMC2b[16*16];
@@ -125,6 +128,25 @@ const u8 chrAnim[] = { '|', '\\', '-', '/' };
 // HELPER FUNCTIONS
 //=============================================================================
 
+const c8* GetOpName(u8 op)
+{
+	u8 val = GET_OP(op);
+	switch(val)
+	{
+		case VDP_OP_IMP:	return "IMP";	
+		case VDP_OP_AND:	return "AND";	
+		case VDP_OP_OR:		return "OR";	
+		case VDP_OP_XOR:	return "XOR";	
+		case VDP_OP_NOT:	return "NOT";	
+		case VDP_OP_TIMP:	return "TIMP";	
+		case VDP_OP_TAND:	return "TAND";	
+		case VDP_OP_TOR:	return "TOR";	
+		case VDP_OP_TXOR:	return "TXOR";	
+		case VDP_OP_TNOT:	return "TNOT";	
+	}
+	return "???";
+}
+
 //-----------------------------------------------------------------------------
 //
 void DisplayPage()
@@ -153,7 +175,10 @@ void DisplayPage()
 	Print_SetColor(src->Text, src->Background);
 	
 	Print_SetPosition(4, 2);
-	Print_DrawText(MSX_GL "  VDP SAMPLE - ");
+	if(src->Font == g_Font_MGL_Sample6)
+		Print_DrawText(MSX_GL6 " VDP SAMPLE - ");
+	else
+		Print_DrawText(MSX_GL8 " VDP SAMPLE - ");
 	Print_DrawText(src->Name);
 	Draw_LineH(0, src->Width - 1, 12, src->Text, 0);
 
@@ -205,28 +230,28 @@ void DisplayPage()
 	// LMMC(addr, dx, dy, nx, ny, op) - Logical move CPU to VRAM
 	Y += 32;
 	Print_SetPosition(X, Y);
-	Print_DrawText("LMMC(TI)");
-	VDP_CommandLMMC(src->DataLMMC, X, Y + 8, 16, 16, VDP_OP_TIMP);
+	Print_DrawFormat("LMMC(%s)", GetOpName(VDP_OP_TIMP));
+	VDP_CommandLMMC(src->DataLMMC, X, Y + 8, 16, 16, GET_OP(VDP_OP_TIMP));
 
 	// LMCM() - Logical move VRAM to CPU
 	Y += 32;
 	Print_SetPosition(X, Y);
-	Print_DrawText("LMCM(TI)");
+	Print_DrawFormat("LMCM(%s)", GetOpName(VDP_OP_TIMP));
 	Print_SetPosition(X, Y + 8);
 	Print_DrawText("xxx");
 
 	// LMMM(sx, sy, dx, dy, nx, ny, op) - Logical move VRAM to VRAM
 	Y += 32;
 	Print_SetPosition(X, Y);
-	Print_DrawText("LMMM(TI)");
-	VDP_CommandLMMM(SX, SY, X, Y + 8, 16, 16, VDP_OP_TIMP);
+	Print_DrawFormat("LMMM(%s)", GetOpName(VDP_OP_TIMP));
+	VDP_CommandLMMM(SX, SY, X, Y + 8, 16, 16, GET_OP(VDP_OP_TIMP));
 
 	// LMMV(dx, dy, nx, ny, col, op) - Logical move VDP to VRAM
 	Y += 32;
 	Print_SetPosition(X, Y);
-	Print_DrawText("LMMV(OR)");
+	Print_DrawFormat("LMMV(%s)", GetOpName(VDP_OP_OR));
 	VDP_CommandLMMV(X - blockWidth/4, Y + 8 + 4, blockWidth + blockWidth/2, 16 - 8, src->Red, VDP_OP_IMP);
-	VDP_CommandLMMV(X, Y + 8, blockWidth, 16, src->Gray, VDP_OP_OR);
+	VDP_CommandLMMV(X, Y + 8, blockWidth, 16, src->Gray, GET_OP(VDP_OP_OR));
 
 	//-----------------------------------------------------------------------------
 	// FillVRAM(value, destLow, destHigh, count) - Fill VRAM area with a given value
@@ -240,12 +265,12 @@ void DisplayPage()
 	// LINE - Draw straight line in VRAM
 	Y += 32;
 	Print_SetPosition(X, Y);
-	Print_DrawText("LINE(OR)");
+	Print_DrawFormat("LINE(%s)", GetOpName(VDP_OP_OR));
 	VDP_CommandHMMV(X - blockWidth/4, Y + 8 + 4,  blockWidth + blockWidth/2, 8, src->Red);
-	VDP_CommandLINE(X, Y + 8,      blockWidth, 16, src->Gray, VDP_ARG_DIY_DOWN + VDP_ARG_DIX_RIGHT, VDP_OP_OR);
-	VDP_CommandLINE(X, Y + 16 + 8, blockWidth, 16, src->Gray, VDP_ARG_DIY_UP + VDP_ARG_DIX_RIGHT, VDP_OP_OR);
-	VDP_CommandLINE(X, Y + 8 + 8,  blockWidth, 0,  src->Gray, VDP_ARG_DIY_DOWN + VDP_ARG_DIX_RIGHT, VDP_OP_OR);
-	VDP_CommandLINE(X + blockWidth/2, Y + 8, 16, 0,  src->Gray, VDP_ARG_DIY_DOWN + VDP_ARG_MAJ_V, VDP_OP_OR);
+	VDP_CommandLINE(X, Y + 8,      blockWidth, 16, src->Gray, VDP_ARG_DIY_DOWN + VDP_ARG_DIX_RIGHT, GET_OP(VDP_OP_OR));
+	VDP_CommandLINE(X, Y + 16 + 8, blockWidth, 16, src->Gray, VDP_ARG_DIY_UP + VDP_ARG_DIX_RIGHT, GET_OP(VDP_OP_OR));
+	VDP_CommandLINE(X, Y + 8 + 8,  blockWidth, 0,  src->Gray, VDP_ARG_DIY_DOWN + VDP_ARG_DIX_RIGHT, GET_OP(VDP_OP_OR));
+	VDP_CommandLINE(X + blockWidth/2, Y + 8, 16, 0,  src->Gray, VDP_ARG_DIY_DOWN + VDP_ARG_MAJ_V, GET_OP(VDP_OP_OR));
 
 	// SRCH - Search for the specific color in VRAM to the right or left of the starting point
 	Y += 32;
@@ -257,22 +282,24 @@ void DisplayPage()
 	// PSET - Draw a dot in VRAM 
 	Y += 32;
 	Print_SetPosition(X, Y);
-	Print_DrawText("PSET(I)");
+	Print_DrawFormat("PSET(%s)", GetOpName(VDP_OP_IMP));
 	for(u16 i = 0; i < 32; ++i)
 	{
 		u16 rnd = Math_GetRandom16();
-		VDP_CommandPSET(X + rnd % blockWidth, Y + 8 + (rnd >> 4) % 16, (rnd >> 8), VDP_OP_IMP);
+		VDP_CommandPSET(X + rnd % blockWidth, Y + 8 + (rnd >> 4) % 16, (rnd >> 8), GET_OP(VDP_OP_IMP));
 	}
 	
 	// POINT(sx, sy) - Read the color of the specified dot located in VRAM 
 	Y += 32;
 	Print_SetPosition(X, Y);
-	Print_DrawText("POINT(I)");
+	Print_DrawFormat("POINT(%s)", GetOpName(VDP_OP_IMP));
 	u8 clr = VDP_CommandPOINT(SX, SY);
-	VDP_CommandLMMV(X, Y + 8, blockWidth, 16, clr, VDP_OP_IMP);
+	VDP_CommandLMMV(X, Y + 8, blockWidth, 16, clr, GET_OP(VDP_OP_IMP));
 
+	// Print_SetColor(src->Gray, src->Background);
 	Print_SetPosition(4, 200);
-	Print_DrawText("\x81\x82\x80:Chg mode  Space+\x81\x82\x80:Move cursor");
+	Print_DrawText("\x8D:Src  \x82:Op  \x83+\x81\x82\x80:Cursor  ");
+	Print_DrawInt(g_Operator);
 
 	// Init sprite
 	VDP_EnableSprite(true);
@@ -377,7 +404,7 @@ void main()
 		}
 		else
 		{
-			if(((row & KEY_FLAG(KEY_UP)) == 0) || ((row & KEY_FLAG(KEY_LEFT)) == 0))
+			if((row & KEY_FLAG(KEY_LEFT)) == 0)
 			{
 				if(g_SrcModeIndex > 0)
 					g_SrcModeIndex--;
@@ -385,12 +412,30 @@ void main()
 					g_SrcModeIndex = numberof(g_Settings) - 1;
 				DisplayPage();
 			}
-			else if(((row & KEY_FLAG(KEY_DOWN)) == 0) || ((row & KEY_FLAG(KEY_RIGHT)) == 0))
+			else if((row & KEY_FLAG(KEY_RIGHT)) == 0)
 			{
 				if(g_SrcModeIndex < numberof(g_Settings) - 1)
 					g_SrcModeIndex++;
 				else
 					g_SrcModeIndex = 0;
+				DisplayPage();
+			}
+			if((row & KEY_FLAG(KEY_UP)) == 0)
+			{
+				g_Operator++;
+				if(g_Operator == 0x05)
+					g_Operator = 0x08;
+				else if(g_Operator == 0x0D)
+					g_Operator = 0xFF;
+				DisplayPage();
+			}
+			else if((row & KEY_FLAG(KEY_DOWN)) == 0)
+			{
+				g_Operator--;
+				if(g_Operator == 0xFE)
+					g_Operator = 0x0C;
+				else if(g_Operator == 0x07)
+					g_Operator = 0x04;
 				DisplayPage();
 			}
 
