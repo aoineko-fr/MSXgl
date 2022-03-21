@@ -27,6 +27,42 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "pcmenc.h"
 
+#if (PCMENC_FREQ != PCMENC_NONE)
+//-----------------------------------------------------------------------------
+// Reset PSG registers (must not change HL!)
+void PCM_Reset()
+{
+	__asm
+        xor     a
+        ld      bc, #0xFFA1
+        out     (P_PSG_REGS), a
+        inc     a
+        out     (c), b
+        out     (P_PSG_REGS), a
+        inc     a
+        out     (c), b
+        out     (P_PSG_REGS), a
+        inc     a
+        out     (c), b
+        out     (P_PSG_REGS), a
+        inc     a
+        out     (c), b
+        out     (P_PSG_REGS), a
+        inc     a
+        out     (c), b
+        out     (P_PSG_REGS), a
+        inc     a
+        out     (c), b
+        out     (P_PSG_REGS), a
+        inc     a
+        out     (c), b
+        out     (P_PSG_REGS), a
+        ld      b, #0xBF
+        out     (c), b
+	__endasm;		
+}
+#endif
+
 #if (PCMENC_FREQ & PCMENC_8K)
 //=============================================================================
 // 8K REPLAYER
@@ -37,12 +73,16 @@
 // and optionally -r to split sample into 8kB blocks for rom replayer
 
 //-----------------------------------------------------------------------------
-/// Play a pcmenc sound (synchronously)
+// Play a pcmenc sound (synchronously)
 //-----------------------------------------------------------------------------
 void PCM_Play_8K(u16 addr)
 {
 	addr; // HL
-__asm   
+	
+	PCM_Reset(); // don't change HL
+
+__asm
+		di
 		ld		e, (hl)
 		inc		hl
 		ld		d, (hl)
@@ -123,6 +163,7 @@ __asm
         jr      nz, PCM_8K_Loop     // 8/13   -> 18   Total: 447
         dec     h                   // 5
         jp      nz, PCM_8K_Loop     // 11
+		ei
         ret
         
 PCM_8K_WaitA:
@@ -190,7 +231,11 @@ Wait147:
 void PCM_Play_11K(u16 addr)
 {
 	addr; // HL
-	__asm   
+
+	PCM_Reset(); // don't change HL
+
+	__asm
+		di
 		ld		e, (hl)
 		inc		hl
 		ld		d, (hl)
@@ -275,6 +320,7 @@ void PCM_Play_11K(u16 addr)
         jr      nz, PCM_11K_Loop    // 8/13   -> 18   Total: 325
         dec     h                   // 5
         jp      nz, PCM_11K_Loop    // 11
+		ei
         ret
 
 	PCM_11K_WaitA:
@@ -320,7 +366,11 @@ void PCM_Play_11K(u16 addr)
 void PCM_Play_22K(u16 addr)
 {
 	addr; // HL
-	__asm   
+
+	PCM_Reset(); // don't change HL
+
+	__asm
+		di
 		ld		e, (hl)
 		inc		hl
 		ld		d, (hl)
@@ -401,6 +451,7 @@ void PCM_Play_22K(u16 addr)
         jr      nz, PCM_22K_Loop    // 8/13   -> 18   Total: 325
         dec     h                   // 5
         jp      nz, PCM_22K_Loop    // 11
+		ei
         ret
         
 	PCM_22K_WaitA:
@@ -447,7 +498,11 @@ void PCM_Play_22K(u16 addr)
 void PCM_Play_44K(u16 addr)
 {
 	addr; // HL
-	__asm   
+
+	PCM_Reset(); // don't change HL
+
+	__asm
+		di
 		ld		e, (hl)
 		inc		hl
 		ld		d, (hl)
@@ -515,6 +570,7 @@ void PCM_Play_44K(u16 addr)
         dec     h                   // 5
         exx                         // 5     -> 5
         jp      nz, PCM_44K_Loop    // 11
+		ei
         ret
         
 	PCM_44K_WaitA:

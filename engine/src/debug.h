@@ -22,6 +22,7 @@
 
 	#define DEBUG_BREAK()
 	#define DEBUG_ASSERT(a)			if(!(a)) DEBUG_BREAK()
+	#define DEBUG_LOG(msg)
 
 	#define P_PROFILE_SECTION		#0x2C
 	#define P_PROFILE_FRAME			#0x2D
@@ -55,6 +56,7 @@
 	// https://github.com/MartinezTorres/OpenMSX_profiler
 	#define DEBUG_BREAK()
 	#define DEBUG_ASSERT(a)			if(!(a)) DEBUG_BREAK()
+	#define DEBUG_LOG(msg)
 
 	#define P_PROFILE_START			#0x2C
 	#define P_PROFILE_END			#0x2D
