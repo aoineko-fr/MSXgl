@@ -18,7 +18,7 @@ call ..\default_config.cmd %0
 :: Project name (will be use for output filename)
 set ProjName=template
 :: Project modules to build (use ProjName if not defined)
-set ProjModules=template
+set ProjModules=%ProjName%
 :: List of modules to link
 SET LibModules=system,bios,vdp,print,input,memory,math,draw
 

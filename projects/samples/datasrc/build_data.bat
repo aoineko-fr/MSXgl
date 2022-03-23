@@ -14,54 +14,54 @@ set Dest=..\content
 
 if not exist %Dest% md %Dest%
 
-rem -- Convert WYZ data --
+::-- Convert WYZ data --
 if not exist %Dest%\wyz md %Dest%\wyz
 for %%I in (wyz\*.mus) do call %AudioMisc%\wyz_merge.bat %%I %Dest%\wyz content\wyz
 
 REM pause
 REM exit /b 0
 
-rem -- Build ayFX data --
+::-- Build ayFX data --
 if not exist %Dest%\ayfx md %Dest%\ayfx
 %CMSXtk%\CMSXbin.exe ayfx\ayfx_bank.afb  -ad -ascii -o %Dest%\ayfx\ayfx_bank.h
 %CMSXtk%\CMSXbin.exe ayfx\ayfx_fx017.afx -ad -ascii -o %Dest%\ayfx\ayfx_fx017.h
 %CMSXtk%\CMSXbin.exe ayfx\ayfx_fx019.afx -ad -ascii -o %Dest%\ayfx\ayfx_fx019.h
 
-rem -- Build VGM data --
+::-- Build VGM data --
 if not exist %Dest%\vgm md %Dest%\vgm
 for %%I in (vgm\*.vgm) do %CMSXtk%\CMSXbin.exe %%I -t g_VGM_%%~nI -ad  -o %Dest%\vgm\vgm_%%~nI.h
 
-rem -- Build ayVGM data --
+::-- Build ayVGM data --
 if not exist %Dest%\ayvgm md %Dest%\ayvgm
 for %%I in (vgm\*.vgm) do %CMSXtk%\CMSXzip.exe %%I -t g_ayVGM_%%~nI -ad -ayVGM -freq both -o %Dest%\ayvgm\ayvgm_%%~nI.h
 
-rem -- Build Arkos data --
+::-- Build Arkos data --
 if not exist %Dest%\arkos md %Dest%\arkos
 for %%I in (arkos\*.akg) do %CMSXtk%\CMSXbin.exe %%I -t g_AKG_%%~nI -ad -o %Dest%\arkos\akg_%%~nI.h
 for %%I in (arkos\*.akm) do %CMSXtk%\CMSXbin.exe %%I -t g_AKM_%%~nI -ad -o %Dest%\arkos\akm_%%~nI.h
 for %%I in (arkos\*.aky) do %CMSXtk%\CMSXbin.exe %%I -t g_AKY_%%~nI -ad -o %Dest%\arkos\aky_%%~nI.h
 for %%I in (arkos\*.akl) do %CMSXtk%\CMSXbin.exe %%I -t g_AKL_%%~nI -ad -o %Dest%\arkos\akl_%%~nI.h
 
-REM rem -- Build pcmenc data --
-REM if not exist %Dest%\pcm md %Dest%\pcm
-REM :: 8 KHz
-REM for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -dt1 31 -dt2 27 -dt3 388 %%I
-REM move pcm\*.bin pcm\8K
-REM for %%I in (pcm\8K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -ad -o %Dest%\pcm\pcm_8k_%%~nI.h
-REM :: 11 KHz
-REM for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -dt1 32 -dt2 27 -dt3 265 %%I
-REM move pcm\*.bin pcm\11K
-REM for %%I in (pcm\11K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -ad -o %Dest%\pcm\pcm_11k_%%~nI.h
-REM :: 22 KHz
-REM for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -rto 2 -dt1 156 -dt2 27 -dt3 141 %%I
-REM move pcm\*.bin pcm\22K
-REM for %%I in (pcm\22K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -ad -o %Dest%\pcm\pcm_22k_%%~nI.h
-REM :: 44 KHz
-REM for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -p 1 -rto 3 -dt1 73 -dt2 84 -dt3 87 %%I
-REM move pcm\*.bin pcm\44K
-REM for %%I in (pcm\44K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -ad -o %Dest%\pcm\pcm_44k_%%~nI.h
+::-- Build pcmenc data
+if not exist %Dest%\pcm md %Dest%\pcm
+::---- 8 KHz
+for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -dt1 31 -dt2 27 -dt3 388 %%I
+move pcm\*.bin pcm\8K
+for %%I in (pcm\8K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -t g_%%I_8K -ad -o %Dest%\pcm\pcm_8k_%%~nI.h
+::---- 11 KHz
+for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -dt1 32 -dt2 27 -dt3 265 %%I
+move pcm\*.bin pcm\11K
+for %%I in (pcm\11K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -t g_%%I_11K -ad -o %Dest%\pcm\pcm_11k_%%~nI.h
+::---- 22 KHz
+for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -rto 2 -dt1 156 -dt2 27 -dt3 141 %%I
+move pcm\*.bin pcm\22K
+for %%I in (pcm\22K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -t g_%%I_22K -ad -o %Dest%\pcm\pcm_22k_%%~nI.h
+::---- 44 KHz
+for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -p 1 -rto 3 -dt1 73 -dt2 84 -dt3 87 %%I
+move pcm\*.bin pcm\44K
+for %%I in (pcm\44K\*.bin) do %CMSXtk%\CMSXbin.exe %%I -t g_%%I_44K -ad -o %Dest%\pcm\pcm_44k_%%~nI.h
 
-rem -- Build CMSXimg data --
+::-- Build CMSXimg data --
 %CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_bmp_8b.h     -pos 16 32  -size 16 16 -num 1 1  -name g_DataBmp8b    -trans 0x8468a1 -bpc 8
 %CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_bmp_4b.h     -pos 16 32  -size 16 16 -num 1 1  -name g_DataBmp4b    -trans 0x8468a1 -bpc 4 -pal msx1
 %CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_bmp_2b.h     -pos 16 32  -size 16 16 -num 1 1  -name g_DataBmp2b    -trans 0x8468a1 -bpc 2 -pal custom
