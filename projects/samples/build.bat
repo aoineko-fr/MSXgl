@@ -47,7 +47,7 @@ goto :CheckInput
 ::*****************************************************************************
 :: TOOLS SETTINGS
 ::*****************************************************************************
-set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
+REM set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
 REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
 REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
 REM set Emulator=%ToolsDir%\MEISEI\meisei.exe
@@ -100,7 +100,7 @@ set InstallBDOS=0
 set ForceRamAddr=
 
 :: Set debug flag (0=false, 1=true)
-set Debug=1
+set Debug=0
 :: Optim:
 :: - Default
 :: - Speed
@@ -109,7 +109,7 @@ set Optim=Speed
 :: Additionnal compilation flag
 set CompileOpt=
 :: Skip file if compile data is newer than the source (0=false, 1=true)
-set CompileSkipOld=1
+set CompileSkipOld=0
 :: Verbose mode (0=false, 1=true)
 set Verbose=0
 
@@ -136,7 +136,7 @@ set DoCompile=1
 set DoMake=1
 set DoPackage=1
 set DoDeploy=1
-set DoRun=1
+set DoRun=0
 
 ::*****************************************************************************
 :: START BUILD
