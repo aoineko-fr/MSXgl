@@ -47,7 +47,7 @@ goto :CheckInput
 ::*****************************************************************************
 :: TOOLS SETTINGS
 ::*****************************************************************************
-REM set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
+set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
 REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
 REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
 REM set Emulator=%ToolsDir%\MEISEI\meisei.exe
@@ -94,13 +94,13 @@ set Target=ROM_32K
 if not "%2"=="" set Target=%2
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
-:: Install BDOS driver for ROM program?
+:: Install BDOS driver for ROM program? (0=false, 1=true)
 set InstallBDOS=0
 :: Overwrite RAM starting address
 set ForceRamAddr=
 
-:: Set debug flag
-set Debug=0
+:: Set debug flag (0=false, 1=true)
+set Debug=1
 :: Optim:
 :: - Default
 :: - Speed
@@ -108,12 +108,12 @@ set Debug=0
 set Optim=Speed
 :: Additionnal compilation flag
 set CompileOpt=
-:: Skip file if compile data is newer than the source 
-set CompileSkipOld=0
-:: Verbose mode: 0 or 1
+:: Skip file if compile data is newer than the source (0=false, 1=true)
+set CompileSkipOld=1
+:: Verbose mode (0=false, 1=true)
 set Verbose=0
 
-:: Emulator options: 0 or 1
+:: Emulator options (0=false, 1=true)
 set EmulMachine=0
 set Emul60Hz=0
 set EmulFullScreen=0
@@ -136,7 +136,7 @@ set DoCompile=1
 set DoMake=1
 set DoPackage=1
 set DoDeploy=1
-set DoRun=0
+set DoRun=1
 
 ::*****************************************************************************
 :: START BUILD

@@ -33,7 +33,10 @@
 
 #define SCROLL_SKIP				SCROLL_SKIP_NONE
 
-#define SCROLL_SPRITE_MASK		1
+#if (MSX_VERSION >= MSX_2)
+	#define SCROLL_MASK			1
+	#define SCROLL_MASK_ID		0
+#endif
 
 extern u8  g_Scroll_Count;
 extern u16 g_Scroll_OffsetX;

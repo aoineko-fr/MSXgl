@@ -29,6 +29,8 @@
 // MAIN LOOP
 //=============================================================================
 
+i8 g_ScrollSpeed = 1;
+
 //-----------------------------------------------------------------------------
 // Program entry point
 void main()
@@ -39,18 +41,12 @@ void main()
 	#else
 	VDP_SetMode(VDP_MODE_GRAPHIC2);
 	#endif
-
-// VRAM Tables Address
-#define VRAM_LAYOUT_TABLE			0x3800
-#define VRAM_COLOR_TABLE			0x2000
-#define VRAM_PATTERN_TABLE			0x0000
-#define VRAM_SPRITE_ATTRIBUTE		0x3E00
-#define VRAM_SPRITE_PATTERN			0x1800
-	VDP_SetLayoutTable(VRAM_LAYOUT_TABLE);
-	VDP_SetColorTable(VRAM_COLOR_TABLE);
-	VDP_SetPatternTable(VRAM_PATTERN_TABLE);
-	VDP_SetSpritePatternTable(VRAM_SPRITE_PATTERN);
-	VDP_SetSpriteAttributeTable(VRAM_SPRITE_ATTRIBUTE);
+	// VRAM Tables Address
+	VDP_SetLayoutTable(0x3800);
+	VDP_SetColorTable(0x2000);
+	VDP_SetPatternTable(0x0000);
+	VDP_SetSpritePatternTable(0x1800);
+	VDP_SetSpriteAttributeTable(0x3E00);
 
 	VDP_SetColor(0xF0);
 	VDP_ClearVRAM();
@@ -60,6 +56,8 @@ void main()
 	Print_SetTextFont(g_Font_MGL_Sample8, 128);
 	VDP_FillLayout_GM2(128, 0, 0, 32, 24);
 	Print_DrawText(MSX_GL " SCROLL SAMPLE");
+	Print_SetPosition(26, 0);
+	Print_DrawFormat("Spd:%i", g_ScrollSpeed);
 	Print_DrawLineH(0, 1, 32);
 
 	// Load tiles pattern
@@ -69,19 +67,39 @@ void main()
 	// Initialize scroll module
 	Scroll_Initialize((u16)g_DataMapGM2_Names);
 	
+	u8 prevRow8 = 0xFF;
 	while(1)
 	{
 		Halt();		
 		Scroll_Update();
 
 		u8 row8 = Keyboard_Read(8);
+		if(IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
+		{
+			if(g_ScrollSpeed < 8)
+			{
+				g_ScrollSpeed++;
+				Print_SetPosition(30, 0);
+				Print_DrawInt(g_ScrollSpeed);
+			}
+		}
+		else if(IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN))
+		{
+			if(g_ScrollSpeed > 1)
+			{
+				g_ScrollSpeed--;				
+				Print_SetPosition(30, 0);
+				Print_DrawInt(g_ScrollSpeed);
+			}
+		}
 		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
-			Scroll_SetOffset(1);
+			Scroll_SetOffset(g_ScrollSpeed);
 		}
 		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
-			Scroll_SetOffset(-1);
+			Scroll_SetOffset(-g_ScrollSpeed);
 		}
+		prevRow8 = row8;
 	}
 }
