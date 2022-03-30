@@ -4,7 +4,7 @@
 //   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ 
 // ______________________________▀▀  ___________________________________________
 // CMSXzip 1.0.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Wed Jan 26 13:47:04 2022
+// File generated on Sun Mar 20 11:10:34 2022
 // Soure file: vgm\scc_f1spirit_01.vgm (14028 bytes)
 // Compressor: ayVGM
 const u8 g_ayVGM_scc_f1spirit_01[] = {
