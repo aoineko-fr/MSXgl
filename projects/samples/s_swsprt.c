@@ -148,6 +148,21 @@ void InitScreen()
 	
 	//-------------------------------------------------------------------------
 	// Initialize background
+	if(src->BPC == 2)
+	{
+		VDP_SetPaletteEntry(0, RGB16(1, 3, 1));
+		VDP_SetPaletteEntry(1, RGB16(0, 0, 0));
+		VDP_SetPaletteEntry(2, RGB16(3, 5, 3));
+		VDP_SetPaletteEntry(3, RGB16(7, 7, 7));
+	}
+	else if(src->BPC == 4)
+	{
+		VDP_SetPaletteEntry(0, COLOR16_DEFAULT_0);
+		VDP_SetPaletteEntry(1, COLOR16_DEFAULT_1);
+		VDP_SetPaletteEntry(2, COLOR16_DEFAULT_2);
+		VDP_SetPaletteEntry(3, COLOR16_DEFAULT_3);
+		VDP_SetPaletteEntry(13, RGB16(4, 4, 4));
+	}
 	VDP_CommandHMMV(0, 0, src->Width, HEIGHT, src->Background);
 	for(u8 i = 0; i < 255; ++i)
 	{
@@ -160,7 +175,6 @@ void InitScreen()
 	}
 
 	// Initialize sprite
-	VDP_SetPaletteEntry(13, RGB16(4, 4, 2));
 	VDP_CommandHMMV(0, HEIGHT, sprtWidth * 6, 16, 0);
 	for(u8 i = 0; i < 6; ++i)
 	{
