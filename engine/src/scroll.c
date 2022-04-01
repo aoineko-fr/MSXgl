@@ -95,7 +95,9 @@ void Scroll_Update()
 
 	#if (MSX_VERSION >= MSX_2)
 	u8 offsetStep = g_Scroll_OffsetX & 0x7;
-	VDP_SetAdjustOffset(offsetStep);
+		#if (SCROLL_ADJUST)
+		VDP_SetAdjustOffset(offsetStep);
+		#endif
 		#if (SCROLL_MASK)
 		VDP_SetSpritePosition(SCROLL_MASK_ID + 0, offsetStep, (u8)255+0); // Left mask
 		VDP_SetSpritePosition(SCROLL_MASK_ID + 1, offsetStep, (u8)255+32);
