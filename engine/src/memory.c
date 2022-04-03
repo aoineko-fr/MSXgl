@@ -56,15 +56,13 @@ void Mem_Copy(const void* src, void* dest, u16 size)
 {
 	src;	// HL
 	dest;	// DE
-	size;	// IX+5 IX+4
+	size;	// IY+5 IY+4
 	__asm
 		// Get parameters
-		push	ix
-		ld		ix, #0
-		add		ix, sp
-		ld		c, 4(ix)
-		ld		b, 5(ix)
-		pop		ix
+		ld		iy, #2
+		add		iy, sp
+		ld		c, 4-4(iy)
+		ld		b, 5-4(iy)
 #if 1			
 		// Skip if size == 0
 		ld		a, b
@@ -119,18 +117,16 @@ void Mem_Set(u8 val, void* dest, u16 size)
 {
 	val;	// A
 	dest;	// DE
-	size;	// IX+5 IX+4
+	size;	// iy+5 iy+4
 	__asm
 		// Get parameters
 		ld		h, d
 		ld		l, e
 		ld		e, a
-		push	ix
-		ld		ix, #0
-		add		ix, sp
-		ld		c, 4(ix)
-		ld		b, 5(ix)
-		pop		ix
+		ld		iy, #2
+		add		iy, sp
+		ld		c, 4-4(iy)
+		ld		b, 5-4(iy)
 		// Skip if size == 0
 		ld		a, b
 		or		c

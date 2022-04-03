@@ -77,10 +77,10 @@ u8 g_LMMC4b_2[32*16*6];
 // Screen mode settings
 const struct ScreenSetting g_Settings[] =
 { //  Name                                       Mode             Width BPC Txt   BG    Red   White Gray  Black Font                Data         DataLMMC     Palette 
-	{ MSX_GL6 " Software Sprite Sample (S5/G4)", VDP_MODE_SCREEN5, 256,	4,	0xFF, 0xCC, 0x22, 0x33, 0x11, 0x11, g_Font_MGL_Sample6, g_DataBmp4b, g_LMMC4b,    null }, // 0
-	{ MSX_GL8 " Software Sprite Sample (S6/G5)", VDP_MODE_SCREEN6, 512,	2,	0xFF, 0x00, 0x55, 0xAA, 0xAA, 0x55, g_Font_MGL_Sample8, g_DataBmp2b, g_LMMC2b_2,  null }, // 1
-	{ MSX_GL8 " Software Sprite Sample (S7/G6)", VDP_MODE_SCREEN7, 512,	4,	0xFF, 0xCC, 0x22, 0x33, 0x11, 0x11, g_Font_MGL_Sample8, g_DataBmp4b, g_LMMC4b_2,  null }, // 2
-	{ MSX_GL6 " Software Sprite Sample (S8/G7)", VDP_MODE_SCREEN8, 256,	8,	0xFF, COLOR8_DARKGREEN, COLOR8_GREEN, COLOR8_LIGHTGREEN, 0x6D, 0x00, g_Font_MGL_Sample6, g_DataBmp8b, g_DataBmp8b, null }, // 3
+	{ MSX_GL6 " SOFTWARE SPRITE SAMPLE (S5/G4)", VDP_MODE_SCREEN5, 256,	4,	0xFF, 0xCC, 0x22, 0x33, 0x11, 0x11, g_Font_MGL_Sample6, g_DataBmp4b, g_LMMC4b,    null }, // 0
+	{ MSX_GL8 " SOFTWARE SPRITE SAMPLE (S6/G5)", VDP_MODE_SCREEN6, 512,	2,	0xFF, 0x00, 0x55, 0xAA, 0xAA, 0x55, g_Font_MGL_Sample8, g_DataBmp2b, g_LMMC2b_2,  null }, // 1
+	{ MSX_GL8 " SOFTWARE SPRITE SAMPLE (S7/G6)", VDP_MODE_SCREEN7, 512,	4,	0xFF, 0xCC, 0x22, 0x33, 0x11, 0x11, g_Font_MGL_Sample8, g_DataBmp4b, g_LMMC4b_2,  null }, // 2
+	{ MSX_GL6 " SOFTWARE SPRITE SAMPLE (S8/G7)", VDP_MODE_SCREEN8, 256,	8,	0xFF, COLOR8_DARKGREEN, COLOR8_GREEN, COLOR8_LIGHTGREEN, 0x6D, 0x00, g_Font_MGL_Sample6, g_DataBmp8b, g_DataBmp8b, null }, // 3
 };
 
 // Character animation
@@ -193,7 +193,7 @@ void InitScreen()
 	
 	// Display footer
 	Print_SetPosition(0, 204);
-	Print_DrawText("\x83:Screen \x81\x82\x80:Move");
+	Print_DrawText("\x81\x82\x80:Move \x83:Change mode");
 
 	BackupBackground();
 }

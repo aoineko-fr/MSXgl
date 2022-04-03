@@ -16,7 +16,8 @@
 //=============================================================================
 
 // Library's logo
-#define MSX_GL "\x01\x02\x03\x04\x05\x06"
+#define MSX_GL6		"\x01\x02\x03\x04\x05\x06"
+#define MSX_GL8		"\x02\x03\x04\x05"
 
 // Screen setting
 struct ScreenSetting
@@ -112,10 +113,10 @@ const u8 g_CursorForm[] =
 // Screen mode settings
 const struct ScreenSetting g_Settings[] =
 { //  Name              Mode              Width BPC Txt   BG    Red   White Gray  Black Font                Data         DataLMMC     Palette 
-	{ "Screen 5 (G4)",	VDP_MODE_SCREEN5, 256,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample6, g_DataBmp4b, g_LMMC4b,    null }, // 0
-	{ "Screen 6 (G5)",	VDP_MODE_SCREEN6, 512,	2,	0xFF, 0xAA, 0x55, 0xFF, 0xAA, 0x55, g_Font_MGL_Sample8, g_DataBmp2b, g_LMMC2b,    null }, // 1
-	{ "Screen 7 (G6)",	VDP_MODE_SCREEN7, 512,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample8, g_DataBmp4b, g_LMMC4b,    null }, // 2
-	{ "Screen 8 (G7)",	VDP_MODE_SCREEN8, 256,	8,	0xFF, 0x47, 0x1C, 0xFF, 0x6D, 0x00, g_Font_MGL_Sample6, g_DataBmp8b, g_DataBmp8b, null }, // 3
+	{ MSX_GL6 " VDP COMMAND SAMPLE (S5/G4)",	VDP_MODE_SCREEN5, 256,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample6, g_DataBmp4b, g_LMMC4b,    null }, // 0
+	{ MSX_GL8 " VDP COMMAND SAMPLE (S6/G5)",	VDP_MODE_SCREEN6, 512,	2,	0xFF, 0xAA, 0x55, 0xFF, 0xAA, 0x55, g_Font_MGL_Sample8, g_DataBmp2b, g_LMMC2b,    null }, // 1
+	{ MSX_GL8 " VDP COMMAND SAMPLE (S7/G6)",	VDP_MODE_SCREEN7, 512,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample8, g_DataBmp4b, g_LMMC4b,    null }, // 2
+	{ MSX_GL6 " VDP COMMAND SAMPLE (S8/G7)",	VDP_MODE_SCREEN8, 256,	8,	0xFF, 0x47, 0x1C, 0xFF, 0x6D, 0x00, g_Font_MGL_Sample6, g_DataBmp8b, g_DataBmp8b, null }, // 3
 };
 
 // Character animation
@@ -153,7 +154,6 @@ void DisplayPage()
 	Print_SetColor(src->Text, src->Background);
 	
 	Print_SetPosition(4, 2);
-	Print_DrawText(MSX_GL "  VDP SAMPLE - ");
 	Print_DrawText(src->Name);
 	Draw_LineH(0, src->Width - 1, 12, src->Text, 0);
 

@@ -65,18 +65,18 @@ void Scroll_Initialize(u16 map)
 	VDP_EnableSprite(true);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 | VDP_SPRITE_SCALE_2);
 	VDP_FillVRAM(0xFF, g_SpritePatternLow, g_SpritePatternHigh, 8*4);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 0,  0, (u8)0,   0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 1,  0, (u8)32,  0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 2,  0, (u8)64,  0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 3,  0, (u8)96,  0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 4,  0, (u8)128, 0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 5,  0, (u8)160, 0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 6,  0, (u8)0,   0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 7,  0, (u8)32,  0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 8,  0, (u8)64,  0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 9,  0, (u8)96,  0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 10, 0, (u8)128, 0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 11, 0, (u8)160, 0, COLOR_BLACK);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 0,  0, (u8)255+0,   0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 1,  0, (u8)255+32,  0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 2,  0, (u8)255+64,  0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 3,  0, (u8)255+96,  0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 4,  0, (u8)255+128, 0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 5,  0, (u8)255+160, 0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 6,  0, (u8)255+0,   0, COLOR_BLACK);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 7,  0, (u8)255+32,  0, COLOR_BLACK);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 8,  0, (u8)255+64,  0, COLOR_BLACK);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 9,  0, (u8)255+96,  0, COLOR_BLACK);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 10, 0, (u8)255+128, 0, COLOR_BLACK);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 11, 0, (u8)255+160, 0, COLOR_BLACK);
 	VDP_DisableSpritesFrom(12);
 	#endif
 }
@@ -129,19 +129,19 @@ void Scroll_Update()
 		VDP_SetAdjustOffset(offsetStep);
 		#endif
 		#if (SCROLL_MASK)
-		VDP_SetSpritePosition(SCROLL_MASK_ID + 0, offsetStep, (u8)255+0); // Left mask
-		VDP_SetSpritePosition(SCROLL_MASK_ID + 1, offsetStep, (u8)255+32);
-		VDP_SetSpritePosition(SCROLL_MASK_ID + 2, offsetStep, (u8)255+64);
-		VDP_SetSpritePosition(SCROLL_MASK_ID + 3, offsetStep, (u8)255+96);
-		VDP_SetSpritePosition(SCROLL_MASK_ID + 4, offsetStep, (u8)255+128);
-		VDP_SetSpritePosition(SCROLL_MASK_ID + 5, offsetStep, (u8)255+160);
+		VDP_SetSpritePositionX(SCROLL_MASK_ID + 0, offsetStep); // Left mask
+		VDP_SetSpritePositionX(SCROLL_MASK_ID + 1, offsetStep);
+		VDP_SetSpritePositionX(SCROLL_MASK_ID + 2, offsetStep);
+		VDP_SetSpritePositionX(SCROLL_MASK_ID + 3, offsetStep);
+		VDP_SetSpritePositionX(SCROLL_MASK_ID + 4, offsetStep);
+		VDP_SetSpritePositionX(SCROLL_MASK_ID + 5, offsetStep);
 		offsetStep += 255 - 7;
-		VDP_SetSpritePosition(SCROLL_MASK_ID + 6,  offsetStep, (u8)255+0); // Right mask
-		VDP_SetSpritePosition(SCROLL_MASK_ID + 7,  offsetStep, (u8)255+32);
-		VDP_SetSpritePosition(SCROLL_MASK_ID + 8,  offsetStep, (u8)255+64);
-		VDP_SetSpritePosition(SCROLL_MASK_ID + 9,  offsetStep, (u8)255+96);
-		VDP_SetSpritePosition(SCROLL_MASK_ID + 10, offsetStep, (u8)255+128);
-		VDP_SetSpritePosition(SCROLL_MASK_ID + 11, offsetStep, (u8)255+160);
+		VDP_SetSpritePositionX(SCROLL_MASK_ID + 6,  offsetStep); // Right mask
+		VDP_SetSpritePositionX(SCROLL_MASK_ID + 7,  offsetStep);
+		VDP_SetSpritePositionX(SCROLL_MASK_ID + 8,  offsetStep);
+		VDP_SetSpritePositionX(SCROLL_MASK_ID + 9,  offsetStep);
+		VDP_SetSpritePositionX(SCROLL_MASK_ID + 10, offsetStep);
+		VDP_SetSpritePositionX(SCROLL_MASK_ID + 11, offsetStep);
 		#endif
 	#endif
 
