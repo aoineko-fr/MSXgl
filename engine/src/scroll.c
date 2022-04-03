@@ -12,30 +12,32 @@
 // DEFINES
 //=============================================================================
 
-#define SCROLL_SRC_X			0
-#define SCROLL_SRC_Y			0
-#define SCROLL_SRC_W			128
-#define SCROLL_SRC_H			24
+#define SCROLL_SRC_X				0
+#define SCROLL_SRC_Y				0
+#define SCROLL_SRC_W				128
+#define SCROLL_SRC_H				24
 
-#define SCROLL_DST_X			0
-#define SCROLL_DST_Y			2
-#define SCROLL_DST_W			32
-#define SCROLL_DST_H			22
+#define SCROLL_DST_X				0
+#define SCROLL_DST_Y				2
+#define SCROLL_DST_W				32
+#define SCROLL_DST_H				22
 
-#define SCROLL_WRAP				1
+#define SCROLL_WRAP					0
 
-#define SCROLL_SKIP_NONE		0
-#define SCROLL_SKIP_1			0x1
-#define SCROLL_SKIP_2			0x3
-#define SCROLL_SKIP_4			0x7
-#define SCROLL_SKIP_8			0xF
+#define SCROLL_SKIP_NONE			0
+#define SCROLL_SKIP_1				0x1
+#define SCROLL_SKIP_2				0x3
+#define SCROLL_SKIP_4				0x7
+#define SCROLL_SKIP_8				0xF
 
-#define SCROLL_SKIP				SCROLL_SKIP_NONE
+#define SCROLL_SKIP					SCROLL_SKIP_NONE
 
 #if (MSX_VERSION >= MSX_2)
-	#define SCROLL_ADJUST		1
-	#define SCROLL_MASK			1
-	#define SCROLL_MASK_ID		0
+	#define SCROLL_ADJUST			1
+
+	#define SCROLL_MASK				1
+	#define SCROLL_MASK_ID			0
+	#define SCROLL_MASK_COLOR		COLOR_BLACK
 #endif
 
 //=============================================================================
@@ -48,6 +50,8 @@
 u8  g_Scroll_Count = 0;
 u16 g_Scroll_OffsetX = 0;
 u16 g_Scroll_OffsetY = 0;
+u8  g_Scroll_TileX = 0;
+u8  g_Scroll_TileY = 0;
 u16 g_Scroll_Map;
 
 //=============================================================================
@@ -59,24 +63,26 @@ u16 g_Scroll_Map;
 void Scroll_Initialize(u16 map)
 {	
 	g_Scroll_Map = map;
+	g_Scroll_OffsetX = 0;
+	g_Scroll_TileX = 0xFF;
 
 	#if ((MSX_VERSION >= MSX_2) && SCROLL_MASK)
 	// Initialize mask sprites
 	VDP_EnableSprite(true);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 | VDP_SPRITE_SCALE_2);
 	VDP_FillVRAM(0xFF, g_SpritePatternLow, g_SpritePatternHigh, 8*4);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 0,  0, (u8)255+0,   0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 1,  0, (u8)255+32,  0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 2,  0, (u8)255+64,  0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 3,  0, (u8)255+96,  0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 4,  0, (u8)255+128, 0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 5,  0, (u8)255+160, 0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 6,  0, (u8)255+0,   0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 7,  0, (u8)255+32,  0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 8,  0, (u8)255+64,  0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 9,  0, (u8)255+96,  0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 10, 0, (u8)255+128, 0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 11, 0, (u8)255+160, 0, COLOR_BLACK);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 0,  0, (u8)(255+(SCROLL_DST_Y*8)+0),   0, (u8)(SCROLL_MASK_COLOR + VDP_SPRITE_EC));
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 1,  0, (u8)(255+(SCROLL_DST_Y*8)+32),  0, (u8)(SCROLL_MASK_COLOR + VDP_SPRITE_EC));
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 2,  0, (u8)(255+(SCROLL_DST_Y*8)+64),  0, (u8)(SCROLL_MASK_COLOR + VDP_SPRITE_EC));
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 3,  0, (u8)(255+(SCROLL_DST_Y*8)+96),  0, (u8)(SCROLL_MASK_COLOR + VDP_SPRITE_EC));
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 4,  0, (u8)(255+(SCROLL_DST_Y*8)+128), 0, (u8)(SCROLL_MASK_COLOR + VDP_SPRITE_EC));
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 5,  0, (u8)(255+(SCROLL_DST_Y*8)+160), 0, (u8)(SCROLL_MASK_COLOR + VDP_SPRITE_EC));
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 6,  0, (u8)(255+(SCROLL_DST_Y*8)+0),   0, SCROLL_MASK_COLOR);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 7,  0, (u8)(255+(SCROLL_DST_Y*8)+32),  0, SCROLL_MASK_COLOR);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 8,  0, (u8)(255+(SCROLL_DST_Y*8)+64),  0, SCROLL_MASK_COLOR);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 9,  0, (u8)(255+(SCROLL_DST_Y*8)+96),  0, SCROLL_MASK_COLOR);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 10, 0, (u8)(255+(SCROLL_DST_Y*8)+128), 0, SCROLL_MASK_COLOR);
+	VDP_SetSpriteExUniColor(SCROLL_MASK_ID + 11, 0, (u8)(255+(SCROLL_DST_Y*8)+160), 0, SCROLL_MASK_COLOR);
 	VDP_DisableSpritesFrom(12);
 	#endif
 }
@@ -129,13 +135,14 @@ void Scroll_Update()
 		VDP_SetAdjustOffset(offsetStep);
 		#endif
 		#if (SCROLL_MASK)
+		offsetStep += (SCROLL_DST_X * 8);
 		VDP_SetSpritePositionX(SCROLL_MASK_ID + 0, offsetStep); // Left mask
 		VDP_SetSpritePositionX(SCROLL_MASK_ID + 1, offsetStep);
 		VDP_SetSpritePositionX(SCROLL_MASK_ID + 2, offsetStep);
 		VDP_SetSpritePositionX(SCROLL_MASK_ID + 3, offsetStep);
 		VDP_SetSpritePositionX(SCROLL_MASK_ID + 4, offsetStep);
 		VDP_SetSpritePositionX(SCROLL_MASK_ID + 5, offsetStep);
-		offsetStep += 255 - 7;
+		offsetStep += ((SCROLL_DST_W - 1) * 8);
 		VDP_SetSpritePositionX(SCROLL_MASK_ID + 6,  offsetStep); // Right mask
 		VDP_SetSpritePositionX(SCROLL_MASK_ID + 7,  offsetStep);
 		VDP_SetSpritePositionX(SCROLL_MASK_ID + 8,  offsetStep);
@@ -146,6 +153,10 @@ void Scroll_Update()
 	#endif
 
 	u16 offsetTileX = g_Scroll_OffsetX >> 3;
+	if(offsetTileX == g_Scroll_TileX)
+		return;
+	
+	g_Scroll_TileX = offsetTileX;
 
 	u16 src = (u16)g_Scroll_Map + offsetTileX + SCROLL_SRC_Y * SCROLL_SRC_W;
 	u16 dst = g_ScreenLayoutLow + (SCROLL_DST_Y * 32) + SCROLL_DST_X;

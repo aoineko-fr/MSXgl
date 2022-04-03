@@ -70,7 +70,7 @@ void main()
 	u8 prevRow8 = 0xFF;
 	while(1)
 	{
-		Halt();		
+		Halt();
 		Scroll_Update();
 
 		u8 row8 = Keyboard_Read(8);
