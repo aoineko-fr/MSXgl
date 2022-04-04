@@ -8,6 +8,14 @@
 #pragma once
 
 //-----------------------------------------------------------------------------
+// stdarg.h macros
+typedef u8* va_list;
+#define va_start(marker, last)  { marker = (va_list)&last + sizeof(last); }
+#define va_arg(marker, type)    *((type *)((marker += sizeof(type)) - sizeof(type)))
+#define va_copy(dest, src)      { dest = src; }
+#define va_end(marker)          { marker = (va_list) 0; };
+
+//-----------------------------------------------------------------------------
 // Group: Character
 
 //-----------------------------------------------------------------------------
@@ -52,10 +60,14 @@ inline bool Char_IsAlphaNum(c8 chr)
 //
 // Parameters:
 //   str - The string to check
-inline u8 String_Length(const c8* str)
-{
-	u8 ret = 0;
-	while(*str++)
-		ret++;		
-	return ret;
-}
+u8 String_Length(const c8* str);
+
+//-----------------------------------------------------------------------------
+// Function: String_Format
+// Build a zero-terminated string
+//
+// Parameters:
+//   dest - Destination string buffer (must big enough to contain the whole string)
+//   format - Formating string
+//   ... - Variable number of parameter (depends on the Formating string)
+void String_Format(c8* dest, const c8* format, ...);

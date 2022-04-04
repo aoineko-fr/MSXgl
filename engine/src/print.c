@@ -11,6 +11,7 @@
 #include "print.h"
 #include "memory.h"
 #include "math.h"
+#include "string.h"
 
 //-----------------------------------------------------------------------------
 //
@@ -1230,14 +1231,6 @@ void Print_DrawInt(i16 value)
 // FORMAT FUNCTION
 //-----------------------------------------------------------------------------
 #if (PRINT_USE_FORMAT)
-
-//-----------------------------------------------------------------------------
-// stdarg.h macros
-typedef u8* va_list;
-#define va_start(marker, last)  { marker = (va_list)&last + sizeof(last); }
-#define va_arg(marker, type)    *((type *)((marker += sizeof(type)) - sizeof(type)))
-#define va_copy(dest, src)      { dest = src; }
-#define va_end(marker)          { marker = (va_list) 0; };
 
 //-----------------------------------------------------------------------------
 /// Print a formated string with a variable number of parameters
