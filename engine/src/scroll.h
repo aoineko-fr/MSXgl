@@ -22,11 +22,14 @@ extern u16 g_Scroll_Map;
 // PROTOTYPE
 //=============================================================================
 
-// 
-void Scroll_Initialize(u16 map);
+// Initialize scrolling module
+u8 Scroll_Initialize(u16 map);
 
-// 
-void Scroll_SetOffset(i8 offset);
+// Set scrolling horizontal offset
+void Scroll_SetOffsetH(i8 offset);
 
-// 
+// Set scrolling vertical offset
+void Scroll_SetOffsetV(i8 offset);
+
+// Update scrolling
 void Scroll_Update();

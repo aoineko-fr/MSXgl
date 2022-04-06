@@ -94,11 +94,19 @@ void main()
 		}
 		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
-			Scroll_SetOffset(g_ScrollSpeed);
+			Scroll_SetOffsetH(g_ScrollSpeed);
 		}
 		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
-			Scroll_SetOffset(-g_ScrollSpeed);
+			Scroll_SetOffsetH(-g_ScrollSpeed);
+		}
+		if(IS_KEY_PRESSED(row8, KEY_DOWN))
+		{
+			Scroll_SetOffsetV(g_ScrollSpeed);
+		}
+		else if(IS_KEY_PRESSED(row8, KEY_UP))
+		{
+			Scroll_SetOffsetV(-g_ScrollSpeed);
 		}
 		prevRow8 = row8;
 	}
