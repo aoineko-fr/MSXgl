@@ -104,9 +104,9 @@ void Draw_Box(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 /// @author		Ibán Cereijo (https://ibancg.github.io/A-fast-circle-algorithm-for-ZX-Spectrum)
 void Draw_Circle(UX dx, UY dy, u8 radius, u8 color, u8 op)
 {
-	i16 x = radius;
-	i16 y = 0;
-	i16 e = 0;
+	USX x = radius;
+	USY y = 0;
+	USX e = 0;
 
 	while(1)
 	{

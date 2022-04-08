@@ -126,16 +126,24 @@ extern u16 g_SpriteColorLow;		//< Address of the Sprite Color Table
 
 #if (VDP_UNIT == VDP_UNIT_U16)
 	#define UX				u16
+	#define USX				i16
 	#define UY				u16
+	#define USY				i16
 #elif (VDP_UNIT == VDP_UNIT_X16)
 	#define UX				u16
+	#define USX				i16
 	#define UY				u8
+	#define USY				i8
 #elif (VDP_UNIT == VDP_UNIT_Y16)
 	#define UX				u8
+	#define USX				i8
 	#define UY				u16
+	#define USY				i16
 #else // if (VDP_UNIT == VDP_UNIT_U8)
 	#define UX				u8
+	#define USX				i8
 	#define UY				u8
+	#define USY				i8
 #endif
 
 
@@ -483,9 +491,9 @@ void VDP_SetSpriteMultiColor(u8 index, const u8* ram);
 void VDP_SetSpriteData(u8 index, const u8* data);
 #endif // (MSX_VERSION >= MSX_2)
 
-#define VDP_SPRITE_DISABLE_SM1	208			//> This sprite and all lower priority sprites will be disabled (Sprite Mode 1)
-#define VDP_SPRITE_DISABLE_SM2	216			//> This sprite and all lower priority sprites will be disabled (Sprite Mode 1)
-#define VDP_SPRITE_HIDE			213			//> 
+#define VDP_SPRITE_DISABLE_SM1	208			// This sprite and all lower priority sprites will be disabled (Sprite Mode 1)
+#define VDP_SPRITE_DISABLE_SM2	216			// This sprite and all lower priority sprites will be disabled (Sprite Mode 2)
+#define VDP_SPRITE_HIDE			213			// 
 // Function: VDP_DisableSpritesFrom
 // Disable all sprites from a given index
 void VDP_DisableSpritesFrom(u8 index);
