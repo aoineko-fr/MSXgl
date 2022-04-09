@@ -144,6 +144,35 @@
 #define GAMEPAWN_BORDER_MAX_Y		191
 
 //-----------------------------------------------------------------------------
+// SCROLL MODULE 
+//-----------------------------------------------------------------------------
+
+// Allow horizontal and/or vertical scrolling
+#define SCROLL_HORIZONTAL			1
+#define SCROLL_VERTICAL				1
+// Source data info
+#define SCROLL_SRC_X				64
+#define SCROLL_SRC_Y				0
+#define SCROLL_SRC_W				128
+#define SCROLL_SRC_H				24
+// Destination data info
+#define SCROLL_DST_X				0
+#define SCROLL_DST_Y				2
+#define SCROLL_DST_W				32
+#define SCROLL_DST_H				20
+#define SCROLL_SCREEN_W				32
+// Allow scroll data looping (only for horizontal scrolling)
+#define SCROLL_WRAP					1
+// Use screen position adjust register (allow per-pixel scrolling) [MSX2]
+#define SCROLL_ADJUST				(MSX_VERSION >= MSX_2)
+#define SCROLL_ADJUST_SPLIT			(MSX_VERSION >= MSX_2)
+// Use sprite mask (allow smooth per-pixel scrolling) [MSX2]
+#define SCROLL_MASK					(MSX_VERSION >= MSX_2)
+#define SCROLL_MASK_ID				0
+#define SCROLL_MASK_COLOR			COLOR_BLACK
+#define SCROLL_MASK_PATTERN			0
+
+//-----------------------------------------------------------------------------
 // AUDIO 
 //-----------------------------------------------------------------------------
 
