@@ -6,4 +6,4 @@
 //  All targets sample
 //─────────────────────────────────────────────────────────────────────────────
 
-#include "content\arkos\akm_AHarmlessGrenade.h"
+#include "content\arkos\akm_jinj_med.h"

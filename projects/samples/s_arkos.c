@@ -34,6 +34,7 @@ struct PlayerEntry
 	const c8* Name;
 	cbInit    Init;
 	callback  Decode;
+	callback  Stop;
 	const struct MusicEntry* Musics;
 };
 
@@ -50,31 +51,31 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntryAKG[] =
 {
-	{ "Just add cream    ", 0xA000, 6 },
-	{ "Sarkboteur        ", 0xA000, 7 },
-	{ "A Harmless Grenade", 0xA000, 4 },
-	{ "Hocus Pocus       ", 0xA000, 5 },
+	{ "Cancion Nueva  ", 0xA000, 4 },
+	{ "Hocus Pocus    ", 0xA000, 5 },
+	{ "Just add cream ", 0xA000, 6 },
+	{ "Sarkboteur     ", 0xA000, 7 },
 };
 const struct MusicEntry g_MusicEntryAKY[] =
 {
-	{ "Just add cream    ", 0xA000, 14 },
-	{ "Sarkboteur        ", 0xA000, 15 },
-	{ "A Harmless Grenade", 0xA000, 12 },
-	{ "Hocus Pocus       ", 0xA000, 13 },
+	{ "Cancion Nueva  ", 0xA000, 12 },
+	{ "Hocus Pocus    ", 0xA000, 13 },
+	{ "Just add cream ", 0xA000, 14 },
+	{ "Sarkboteur     ", 0xA000, 15 },
 };
 const struct MusicEntry g_MusicEntryAKM[] =
 {
-	{ "Just add cream    ", 0xA000, 10 },
-	{ "Sarkboteur        ", 0xA000, 11 },
-	{ "A Harmless Grenade", 0xA000, 8 },
-	{ "Hocus Pocus       ", 0xA000, 9 },
+	{ "Cancion Nueva  ", 0xA000, 8 },
+	{ "Hocus Pocus    ", 0xA000, 9 },
+	{ "Just add cream ", 0xA000, 10 },
+	{ "Sarkboteur     ", 0xA000, 11 },
 };
 
 const struct PlayerEntry g_PlayerEntry[] =
 {
-	{ "AKG", AKG_Init, AKG_Decode, g_MusicEntryAKG },
-	{ "AKY", AKY_Init, AKY_Decode, g_MusicEntryAKY },
-	{ "AKM", AKM_Init, AKM_Decode, g_MusicEntryAKM },
+	{ "AKG", AKG_Init, AKG_Decode, AKG_Stop, g_MusicEntryAKG },
+	{ "AKY", AKY_Init, AKY_Decode, null,     g_MusicEntryAKY },
+	{ "AKM", AKM_Init, AKM_Decode, AKM_Stop, g_MusicEntryAKM },
 };
 
 //=============================================================================
@@ -116,9 +117,9 @@ void SetPlayer(u8 idx)
 	g_CurrentPlayer = &g_PlayerEntry[idx];
 
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL " Arkos ");
+	Print_DrawText(MSX_GL " ARKOS ");
 	Print_DrawText(g_CurrentPlayer->Name);
-	Print_DrawText(" Sample");
+	Print_DrawText(" SAMPLE");
 	
 	SetMusic(g_MusicIdx);
 }
@@ -173,25 +174,30 @@ VDP_SetColor(0xF4);
 
 		// Handle input
 		u8 row8 = Keyboard_Read(8);
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT)&& !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
+		if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
 		{
 			if(g_MusicIdx < numberof(g_MusicEntryAKG) - 1)
 				SetMusic(g_MusicIdx + 1);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT)&& !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
+		else if(IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
 		{
 			if(g_MusicIdx > 0)
 				SetMusic(g_MusicIdx - 1);
 		}
-		if(IS_KEY_PRESSED(row8, KEY_UP)&& !IS_KEY_PRESSED(prevRow8, KEY_UP))
+		if(IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
 		{
 			if(g_PlayerIdx < numberof(g_PlayerEntry) - 1)
 				SetPlayer(g_PlayerIdx + 1);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_DOWN)&& !IS_KEY_PRESSED(prevRow8, KEY_DOWN))
+		else if(IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN))
 		{
 			if(g_PlayerIdx > 0)
 				SetPlayer(g_PlayerIdx - 1);
+		}
+		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		{
+			if(g_CurrentPlayer->Stop != null)
+				g_CurrentPlayer->Stop();
 		}
 		prevRow8 = row8;
 	}

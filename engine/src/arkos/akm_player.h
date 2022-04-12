@@ -11,11 +11,11 @@
 #pragma once
 #include "core.h"
 
-///
+//
 void AKM_Init(const void* data, u16 sng);
 
-///
+//
 void AKM_Stop();
 
-///
+//
 void AKM_Decode();

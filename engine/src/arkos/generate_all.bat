@@ -3,6 +3,7 @@
 set Players=akg,akm,aky,lw
 
 for %%I in (%Players%) do (
-	echo ==== Generate %%I ====
+	echo ========================================
+	echo Generate %%I
 	generate %%I
 )

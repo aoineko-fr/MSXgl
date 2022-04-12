@@ -5,10 +5,10 @@ set BuildWYZ=0
 set BuildayFX=0
 set BuildVGM=0
 set BuildayVGM=0
-set BuildArkos=0
+set BuildArkos=1
 set BuildPCMEnc=0
 :: Image
-set BuildImage=1
+set BuildImage=0
 set BuildCompress=0
 set BuildTile=0
 
