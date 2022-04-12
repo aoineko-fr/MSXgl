@@ -23,9 +23,9 @@
 // TARGET is defined by the build tool
 
 // Target type
-// - TARGET_TYPE_BIN .............. BASIC binary program
-// - TARGET_TYPE_ROM .............. ROM
-// - TARGET_TYPE_DOS .............. MSX-DOS program
+// - TYPE_BIN ..................... BASIC binary program
+// - TYPE_ROM ..................... ROM
+// - TYPE_DOS ..................... MSX-DOS program
 // TARGET_TYPE is defined by the build tool
 
 // MSX version

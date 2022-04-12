@@ -28,7 +28,7 @@
 // TARGET_TYPE
 #if !defined(TARGET_TYPE)
 	#warning TARGET_TYPE is not defined in "msxgl_config.h"! Default value will be used: TARGET_ROM32
-	#define TARGET_TYPE					TARGET_TYPE_ROM
+	#define TARGET_TYPE					TYPE_ROM
 #endif
 
 // MSX_VERSION

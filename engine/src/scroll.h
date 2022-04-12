@@ -13,42 +13,53 @@
 // DEFINES
 //=============================================================================
 
-#define SCROLL_SRC_X			0
-#define SCROLL_SRC_Y			0
-#define SCROLL_SRC_W			128
-#define SCROLL_SRC_H			24
-
-#define SCROLL_DST_X			0
-#define SCROLL_DST_Y			2
-#define SCROLL_DST_W			32
-#define SCROLL_DST_H			22
-
-#define SCROLL_WRAP				1
-
-#define SCROLL_SKIP_NONE		0
-#define SCROLL_SKIP_1			0x1
-#define SCROLL_SKIP_2			0x3
-#define SCROLL_SKIP_4			0x7
-#define SCROLL_SKIP_8			0xF
-
-#define SCROLL_SKIP				SCROLL_SKIP_NONE
-
-#define SCROLL_SPRITE_MASK		1
-
-extern u8  g_Scroll_Count;
-extern u16 g_Scroll_OffsetX;
-extern u16 g_Scroll_OffsetY;
+// Address of the source map data
 extern u16 g_Scroll_Map;
 
+#if (SCROLL_HORIZONTAL)
+// Horizontal offset (in pixel)
+extern u16 g_Scroll_OffsetX;
+// Horizontal offset (in tiles)
+extern u8 g_Scroll_TileX;
+#endif
+
+#if (SCROLL_VERTICAL)
+// Vertical offset (in pixel)
+extern u16 g_Scroll_OffsetY;
+// Vertical offset (in tiles)
+extern u8 g_Scroll_TileY;
+#endif
+
+#if (SCROLL_ADJUST)
+extern u8 g_Scroll_Adjust;
+#endif
+
 //=============================================================================
-// PROTOTYPE
+// FUNCTIONS PROTOTYPE
 //=============================================================================
 
-// 
-void Scroll_Initialize(u16 map);
+// Function: Scroll_Initialize
+// Initialize scrolling module
+u8 Scroll_Initialize(u16 map);
 
-// 
-void Scroll_SetOffset(i8 offset);
+#if (SCROLL_HORIZONTAL)
+// Function: Scroll_SetOffsetH
+// Set scrolling horizontal offset
+void Scroll_SetOffsetH(i8 offset);
+#endif
 
-// 
+#if (SCROLL_VERTICAL)
+// Function: Scroll_SetOffsetV
+// Set scrolling vertical offset
+void Scroll_SetOffsetV(i8 offset);
+#endif
+
+#if ((SCROLL_ADJUST) && (SCROLL_ADJUST_SPLIT))
+// Function: Scroll_HBlankAdjust
+// Adjust screen offset
+void Scroll_HBlankAdjust(u8 adjust);
+#endif
+
+// Function: Scroll_Update
+// Update scrolling
 void Scroll_Update();

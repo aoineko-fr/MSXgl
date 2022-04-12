@@ -45,7 +45,7 @@ void Bios_Reboot()
 // For MSX-DOS, return value is in L
 void Bios_Exit(u8 ret) __FASTCALL
 {
-#if (TARGET_TYPE == TARGET_TYPE_DOS)
+#if (TARGET_TYPE == TYPE_DOS)
 
 	__asm
 	#if BIOS_USE_VDP
@@ -65,7 +65,7 @@ void Bios_Exit(u8 ret) __FASTCALL
 	#endif
 	__endasm;
 
-#elif (TARGET_TYPE == TARGET_TYPE_BIN)
+#elif (TARGET_TYPE == TYPE_BIN)
 	
 	__asm
 	#if BIOS_USE_VDP
@@ -80,7 +80,7 @@ void Bios_Exit(u8 ret) __FASTCALL
 		call	R_CALBAS
 	__endasm;
 
-#else // if (TARGET_TYPE == TARGET_TYPE_ROM)
+#else // if (TARGET_TYPE == TYPE_ROM)
 
 	// Do nothing
 

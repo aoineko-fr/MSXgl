@@ -308,31 +308,38 @@ void VDP_ClearVRAM()
 // @param		count		Nomber of byte to copy in VRAM
 void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 {
-	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
-		VDP_RegWrite(14, 0); // VDP register 14 must be reset to 0
-	#endif
-	src, dest, count;
+	src;   // IY+0
+	dest;  // IY+2
+	count; // IY+4
+
 	__asm
-		push	ix
-		ld		ix, #0
-		add		ix, sp
+
+	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
+		xor		a
+		out		(P_VDP_REG), a
+		ld		a, #VDP_REG(14)
+		out		(P_VDP_REG), a
+	#endif
+
+		ld		iy, #2
+		add		iy, sp
 		// Setup address register 
-		ld		a, 6 (ix)
+		ld		a, 2(iy)
 		di //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = (dest & 0xFF)
-		ld		a, 7 (ix)
+		ld		a, 3(iy)
 		and		a, #0x3F
 		add		a, #F_VDP_WRIT
 		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT
 
-#if ((MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
+	#if ((MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
 
 		// Setup fast 16-bits loop
-		ld		l, 4 (ix)				// source address
-		ld		h, 5 (ix)
-		ld		e, 8 (ix)				// count
-		ld		d, 9 (ix)
+		ld		l, 0(iy)				// source address
+		ld		h, 1(iy)
+		ld		e, 4(iy)				// count
+		ld		d, 5(iy)
 		ld		c, #P_VDP_DATA	
 		ld		b, e					// number of loops is in DE
 		dec		de						// calculate DB value (destroys B, D and E)
@@ -344,21 +351,21 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 		dec		d
 		jp		nz, wrt16_loop_start		// b = 0 = 256
 
-#else // if (MSX_VERSION >= MSX_2)
+	#else // if (MSX_VERSION >= MSX_2)
 
 		// while(count--) DataPort = *src++;
-		ld		l, 4 (ix)				// source address
-		ld		h, 5 (ix)
+		ld		l, 0(iy)				// source address
+		ld		h, 1(iy)
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
-		ld		a, 8 (ix)				// count LSB
+		ld		a, 4(iy)				// count LSB
 		cp		a, #0
 		jp		z, wrt16_loop_init		// skip LSB
 		ld		b, a					// send (count & 0x00FF) bytes
 		otir
 		// Handle count MSB
 	wrt16_loop_init:
-		ld		a, 9 (ix)				// count MSB
+		ld		a, 5(iy)				// count MSB
 	wrt16_loop_start:
 		cp		a, #0
 		jp		z, wrt16_loop_end			// finished
@@ -367,10 +374,9 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 		dec		a
 		jp		wrt16_loop_start
 
-#endif
+	#endif
 
 	wrt16_loop_end:
-		pop	ix
 	__endasm;
 }
 
@@ -381,27 +387,34 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 // @param		count		Nomber of byte to copy in VRAM
 void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __sdcccall(0)
 {
-	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
-		VDP_RegWrite(14, 0); // VDP register 14 must be reset to 0
-	#endif
-	dest, value, count;
+	value; // IY+0
+	dest;  // IY+1
+	count; // IY+3
+
 	__asm
-		push	ix
-		ld		ix, #0
-		add		ix, sp
+
+	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
+		xor		a
+		out		(P_VDP_REG), a
+		ld		a, #VDP_REG(14)
+		out		(P_VDP_REG), a
+	#endif
+
+		ld		iy, #2
+		add		iy, sp
 		// Setup address register
-		ld		a, 5 (ix)
+		ld		a, 1(iy)
 		di //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = (dest & 0x00FF);
-		ld		a, 6 (ix)
+		ld		a, 2(iy)
 		and		a, #0x3F
 		add		a, #F_VDP_WRIT
 		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT;
 		// while(count--) DataPort = value;
-		ld		e, 7 (ix)				// count
-		ld		d, 8 (ix)
-		ld		a, 4 (ix)				// value
+		ld		e, 3(iy)				// count
+		ld		d, 4(iy)
+		ld		a, 0(iy)				// value
 		// fast 16-bits loop
 		ld		b, e					// number of loops is in DE
 		dec		de						// calculate DB value (destroys B, D and E)
@@ -412,7 +425,6 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __sdcccall(0)
 		dec		d
 		jp		nz, fll16_loop_start
 
-		pop	ix
 	__endasm;
 }
 
@@ -423,31 +435,38 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __sdcccall(0)
 // @param		count		Nomber of byte to copy from VRAM
 void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
 {
-	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
-		VDP_RegWrite(14, 0); // VDP register 14 must be reset to 0
-	#endif
-	src, dest, count;
+	src;   // IY+0
+	dest;  // IY+2
+	count; // IY+4
+
 	__asm
-		push	ix
-		ld		ix, #0
-		add		ix, sp
+
+	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
+		xor		a
+		out		(P_VDP_REG), a
+		ld		a, #VDP_REG(14)
+		out		(P_VDP_REG), a
+	#endif
+
+		ld		iy, #2
+		add		iy, sp
 		// Setup address register 	
-		ld		a, 4 (ix)
+		ld		a, 0(iy)
 		di //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = (srcLow & 0x00FF)
-		ld		a, 5 (ix)
+		ld		a, 1(iy)
 		and		a, #0x3F
 		add		a, #F_VDP_READ
 		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_READ
-		
-#if ((MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
+
+	#if ((MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
 
 		// Setup fast 16-bits loop
-		ld		l, 6 (ix)				// source address
-		ld		h, 7 (ix)
-		ld		e, 8 (ix)				// count
-		ld		d, 9 (ix)
+		ld		l, 2(iy)				// source address
+		ld		h, 3(iy)
+		ld		e, 4(iy)				// count
+		ld		d, 5(iy)
 		ld		c, #P_VDP_DATA	
 		ld		b, e					// number of loops is in DE
 		dec		de						// calculate DB value (destroys B, D and E)
@@ -458,22 +477,22 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
 		jp		nz, rd16_loop_start
 		dec		d
 		jp		nz, rd16_loop_start		// b = 0 = 256
-		
-#else // if (MSX_VERSION >= MSX_2)
+
+	#else // if (MSX_VERSION >= MSX_2)
 
 		// while(count--) *src++ = DataPort;
-		ld		l, 6 (ix)				// source address
-		ld		h, 7 (ix)
+		ld		l, 2(iy)				// source address
+		ld		h, 3(iy)
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
-		ld		a, 8 (ix)				// count LSB
+		ld		a, 4(iy)				// count LSB
 		cp		a, #0
 		jp		z, rd16_loop_init			// skip LSB
 		ld		b, a					// retreive (count & 0x00FF) bytes
 		inir		
 		// Handle count MSB		
 	rd16_loop_init:
-		ld		a, 9 (ix)				// count MSB
+		ld		a, 5(iy)				// count MSB
 	rd16_loop_start:
 		cp		a, #0
 		jp		z, rd16_loop_end			// finished
@@ -482,10 +501,9 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
 		dec		a
 		jp		rd16_loop_start
 
-#endif
+	#endif
 
 	rd16_loop_end:
-		pop	ix
 	__endasm;
 }
 
@@ -493,23 +511,33 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
 // Read a value from VRAM
 u8 VDP_Peek_16K(u16 dest)
 {
-	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
-		VDP_RegWrite(14, 0); // VDP register 14 must be reset to 0
-	#endif
 	dest; // HL
+
 	__asm
-		ld		b, a
-		// Setup address register 	
+
+	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
+		// Reset R#14
+		xor		a
+		out		(P_VDP_REG), a
+		ld		a, #VDP_REG(14)
+		out		(P_VDP_REG), a
+	#endif
+
+		// Set destination address bits 0~7 to port #1
 		ld		a, l
 		di //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = (srcLow & 0x00FF)
+
+		// Set destination address bits 8~13 to port #1
 		ld		a, h
 		and		a, #0x3F
 		add		a, #F_VDP_READ
 		out		(P_VDP_ADDR), a			// AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_READ
-		// Write data 	
+
+		// Read data 	
 		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		in		a, (P_VDP_DATA)			// value = DataPort
+
 	__endasm;
 }
 
@@ -517,25 +545,36 @@ u8 VDP_Peek_16K(u16 dest)
 // Write a value to VRAM
 void VDP_Poke_16K(u8 val, u16 dest)
 {
-	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
-		VDP_RegWrite(14, 0); // VDP register 14 must be reset to 0
-	#endif
 	val;  // A
 	dest; // DE
+
 	__asm
-		ld		b, a
-		// Setup address register 	
+		ld		b, a					// Backup A register
+
+	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
+		// Reset R#14
+		xor		a
+		out		(P_VDP_REG), a
+		ld		a, #VDP_REG(14)
+		out		(P_VDP_REG), a
+	#endif
+
+		// Set destination address bits 0~7 to port #1
 		ld		a, e
 		di //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = (srcLow & 0x00FF)
+
+		// Set destination address bits 8~13 to port #1
 		ld		a, d
 		and		a, #0x3F
 		add		a, #F_VDP_WRIT
 		out		(P_VDP_ADDR), a			// AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_WRIT
+
 		// Write data 	
 		ld		a, b
 		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_DATA), a			// DataPort = value
+
 	__endasm;
 }
 
@@ -560,32 +599,31 @@ void VDP_Poke_16K(u8 val, u16 dest)
 // @param	src		Address of the data to be write into the registers
 // @param	count	Number of registers to be write
 // @param	reg		First register to be write (will be automaticaly incremented at each write)
-void VDP_RegIncWrite(u16 src, u8 count, u8 reg) __sdcccall(0)
+/*void VDP_RegIncWrite(const u8* src, u8 count, u8 reg) __sdcccall(0)
 {
 	src, count, reg;
 	
 	__asm
-		push	ix
-		ld		ix, #0
-		add		ix, sp
+		ld		iy, #2
+		add		iy, sp
 
 		// Backup VDP registers
 		//ld		de, #(_g_VDP_REGSAV + 0) // first reg
 		ld		hl, #_g_VDP_REGSAV
 		ld		b, #0
-		ld		c, 7(ix)				// first register
+		ld		c, 3(iy)				// first register
 		add		hl, bc
 		ld		d, h
 		ld		e, l
 
 		ld		b, #0
-		ld		c, 6(ix)				// size
-		ld		l, 4(ix)				// source address
-		ld		h, 5(ix)
+		ld		c, 2(iy)				// size
+		ld		l, 0(iy)				// source address
+		ld		h, 1(iy)
 		ldir
 
 		// Setup incremental VDP port writing
-		ld		a, 7(ix)				// first register
+		ld		a, 3(iy)				// first register
 		di //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a
 		ld		a, #VDP_REG(17)
@@ -593,62 +631,22 @@ void VDP_RegIncWrite(u16 src, u8 count, u8 reg) __sdcccall(0)
 		out		(P_VDP_ADDR), a
 
 		// Do incremental VDP port writing
-		ld		b, 6(ix)				// size
+		ld		b, 2(iy)				// size
 		ld		c, #P_VDP_IREG
-		ld		l, 4(ix)				// source address
-		ld		h, 5(ix)
+		ld		l, 0(iy)				// source address
+		ld		h, 1(iy)
 		otir
 
-		pop		ix
 	__endasm;
-}
+}*/
 
-#define OUTI_1	\
-	ei			\
-	outi
-
-#define OUTI_2	\
-	OUTI_1		\
-	outi
-
-#define OUTI_3	\
-	OUTI_2		\
-	outi
-
-#define OUTI_4	\
-	OUTI_3		\
-	outi
-
-#define OUTI_5	\
-	OUTI_4		\
-	outi
-
-#define OUTI_6	\
-	OUTI_5	\
-	outi
-
-#define OUTI_7	\
-	OUTI_6		\
-	outi
-
-#define OUTI_8	\
-	OUTI_7		\
-	outi
-
-#define OUTI_9	\
-	OUTI_8		\
-	outi
-
-#define OUTI_10	\
-	OUTI_9		\
-	outi
-
-//#define OUTI(_x)	OUTI_##_x
-#define OUTI(_x)	\
-	.rept _x		\
+// N times outi 
+#define OUTI(_n)	\
+	.rept _n-1		\
 		outi		\
 	.endm			\
-	ei
+	ei				\
+	outi
 
 // Fast incremental write to VDP register with backup to RAM
 #define ASM_REG_WRITE_INC_BK(_addr, _reg, _count)	\
@@ -1067,22 +1065,21 @@ void VDP_SetPageAlternance(bool enable)
 // @param		destLow		Destiation address in VRAM (16 LSB of 17-bits VRAM address)
 // @param		destHigh	Destiation address in VRAM (1 MSB of 17-bits VRAM address)
 // @param		count		Nomber of byte to copy in VRAM
-void VDP_WriteVRAM(const u8* src, u16 destLow, u8 destHigh, u16 count) __sdcccall(0)
+void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count) __sdcccall(0)
 {
-	src;      // IX+5 IX+4
-	destLow;  // IX+7 IX+6
-	destHigh; // IX+8
-	count;    // IX+10 IX+9
+	src;      // iy+5 iy+4
+	destLow;  // iy+7 iy+6
+	destHigh; // iy+8
+	count;    // iy+10 iy+9
 	__asm
-		push	ix
-		ld		ix, #0
-		add		ix, sp
+		ld		iy, #2
+		add		iy, sp
 		// Setup address register 
-		ld		a, 8 (ix)
+		ld		a, 4(iy)
 		add		a, a
 		add		a, a
 		ld		c, a
-		ld		a, 7 (ix)
+		ld		a, 3(iy)
 		rlca
 		rlca
 		and		a, #0x03
@@ -1091,26 +1088,26 @@ void VDP_WriteVRAM(const u8* src, u16 destLow, u8 destHigh, u16 count) __sdcccal
 		out		(P_VDP_ADDR), a			// RegPort = (page << 2) + (dest >> 14)
 		ld		a, #VDP_REG(14)
 		out		(P_VDP_REG), a			// RegPort = VDP_REG(14)
-		ld		a, 6 (ix)
+		ld		a, 2(iy)
 		out		(P_VDP_ADDR), a			// RegPort = (dest & 0xFF)
-		ld		a, 7 (ix)
+		ld		a, 3(iy)
 		and		a, #0x3f
 		add		a, #F_VDP_WRIT
 		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT
 		// while(count--) DataPort = *src++;
-		ld		l, 4 (ix)				// source address
-		ld		h, 5 (ix)
+		ld		l, 0(iy)				// source address
+		ld		h, 1(iy)
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
-		ld		a, 9 (ix)				// count LSB
+		ld		a, 5(iy)				// count LSB
 		cp		a, #0
 		jp		z, wrt_loop_init		// skip LSB
 		ld		b, a					// send (count & 0x00FF) bytes
 		otir
 		// Handle count MSB
 	wrt_loop_init:
-		ld		a, 10 (ix)				// count MSB
+		ld		a, 6(iy)				// count MSB
 	wrt_loop_start:
 		cp		a, #0
 		jp		z, wrt_loop_end			// finished
@@ -1120,7 +1117,6 @@ void VDP_WriteVRAM(const u8* src, u16 destLow, u8 destHigh, u16 count) __sdcccal
 		jp		wrt_loop_start
 
 	wrt_loop_end:
-		pop	ix
 	__endasm;
 }
 
@@ -1130,22 +1126,22 @@ void VDP_WriteVRAM(const u8* src, u16 destLow, u8 destHigh, u16 count) __sdcccal
 // @param		destLow		Destiation address in VRAM (16 LSB of 17-bits VRAM address)
 // @param		destHigh	Destiation address in VRAM (1 MSB of 17-bits VRAM address)
 // @param		count		Nomber of byte to copy in VRAM
-void VDP_FillVRAM(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall(0)
+void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall(0)
 {
-	value;		// IX+4
-	destLow;	// IX+6 IX+5
-	destHigh;	// IX+7
-	count;		// IX+9 IX+8
+	value;		// iy+4
+	destLow;	// iy+6 iy+5
+	destHigh;	// iy+7
+	count;		// iy+9 iy+8
+
 	__asm
-		push	ix
-		ld		ix, #0
-		add		ix, sp
+		ld		iy, #2
+		add		iy, sp
 		// Setup address register 
-		ld		a, 7 (ix)
+		ld		a, 3(iy)
 		add		a, a
 		add		a, a
 		ld		c, a
-		ld		a, 6 (ix)
+		ld		a, 2(iy)
 		rlca
 		rlca
 		and		a, #0x03
@@ -1154,17 +1150,17 @@ void VDP_FillVRAM(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall(0)
 		out		(P_VDP_ADDR), a			// RegPort = (page << 2) + (dest >> 14);
 		ld		a, #VDP_REG(14)
 		out		(P_VDP_ADDR), a			// RegPort = VDP_REG(14);
-		ld		a, 5 (ix)
+		ld		a, 1(iy)
 		out		(P_VDP_ADDR), a			// RegPort = (dest & 0x00FF);
-		ld		a, 6 (ix)
+		ld		a, 2(iy)
 		and		a, #0x3F
 		add		a, #F_VDP_WRIT
 		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT;
 		// while(count--) DataPort = value;
-		ld		e, 8 (ix)				// count
-		ld		d, 9 (ix)
-		ld		a, 4 (ix)				// value
+		ld		e, 4(iy)				// count
+		ld		d, 5(iy)
+		ld		a, 0(iy)				// value
 		// fast 16-bits loop
 		ld		b, e					// number of loops is in DE
 		dec		de						// calculate DB value (destroys B, D and E)
@@ -1175,7 +1171,6 @@ void VDP_FillVRAM(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall(0)
 		dec		d
 		jp		nz, fll_loop_start
 
-		pop	ix
 	__endasm;
 }
 
@@ -1185,19 +1180,18 @@ void VDP_FillVRAM(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall(0)
 // @param		srcHigh		Source address in VRAM (1 MSB of 17-bits VRAM address)
 // @param		dst			Desitation data address in RAM
 // @param		count		Nomber of byte to copy from VRAM
-void VDP_ReadVRAM(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0)
+void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0)
 {
 	srcLow, srcHigh, dest, count;
 	__asm
-		push	ix
-		ld		ix, #0
-		add		ix, sp
+		ld		iy, #2
+		add		iy, sp
 		// Setup address register 	
-		ld		a, 6 (ix)
+		ld		a, 2(iy)
 		add		a, a
 		add		a, a
 		ld		c, a
-		ld		a, 5 (ix)
+		ld		a, 1(iy)
 		rlca
 		rlca
 		and		a, #0x03
@@ -1206,26 +1200,26 @@ void VDP_ReadVRAM(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0)
 		out		(P_VDP_ADDR), a			// AddrPort = (srcHigh << 2) + (srcLow >> 14)
 		ld		a, #VDP_REG(14)
 		out		(P_VDP_REG), a			// RegPort  = (u8)(VDP_REG(14))
-		ld		a, 4 (ix)
+		ld		a, 0(iy)
 		out		(P_VDP_ADDR), a			// AddrPort = (srcLow & 0xFF)
-		ld		a, 5 (ix)
+		ld		a, 1(iy)
 		and		a, #0x3f
 		add		a, #F_VDP_READ
 		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_READ
 		// while(count--) *src++ = DataPort;
-		ld		l, 7 (ix)				// source address
-		ld		h, 8 (ix)
+		ld		l, 3(iy)				// source address
+		ld		h, 4(iy)
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
-		ld		a, 9 (ix)				// count LSB
+		ld		a, 5(iy)				// count LSB
 		cp		a, #0
 		jp		z, rd_loop_init			// skip LSB
 		ld		b, a					// retreive (count & 0x00FF) bytes
 		inir		
 		// Handle count MSB		
 	rd_loop_init:
-		ld		a, 10 (ix)				// count MSB
+		ld		a, 6(iy)				// count MSB
 	rd_loop_start:
 		cp		a, #0
 		jp		z, rd_loop_end			// finished
@@ -1235,9 +1229,98 @@ void VDP_ReadVRAM(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0)
 		jp		rd_loop_start
 		
 	rd_loop_end:
-		pop	ix
 	__endasm;
 }
+
+//-----------------------------------------------------------------------------
+// Write a value to VRAM
+void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh) __sdcccall(0)
+{
+	val;      // IY+0
+	destLow;  // IY+1
+	destHigh; // IY+3
+
+	__asm
+		ld		iy, #2
+		add		iy, sp
+
+		// Set destination address bits 14~16 to R#14 
+		ld		a, 3(iy)
+		add		a, a
+		add		a, a
+		ld		c, a
+		ld		a, 2(iy)
+		rlca
+		rlca
+		and		a, #0x03
+		add		a, c
+		di //~~~~~~~~~~~~~~~~~~~~~~~~~~
+		out		(P_VDP_REG), a			// RegPort = (destHigh << 2) + (destLow >> 14);
+		ld		a, #VDP_REG(14)
+		out		(P_VDP_REG), a			// RegPort = VDP_REG(14);
+
+		// Set destination address bits 0~7 to port #1
+		ld		a, 1(iy)
+		out		(P_VDP_ADDR), a			// AddrPort = (destLow & 0x00FF);
+
+		// Set destination address bits 8~13 to port #1
+		ld		a, 2(iy)
+		and		a, #0x3F
+		add		a, #F_VDP_WRIT
+		out		(P_VDP_ADDR), a			// AddrPort = ((destLow >> 8) & 0x3F) + F_VDP_WRIT;
+		
+		// Write data
+		ld		a, 0(iy)
+		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
+		out		(P_VDP_DATA), a			// DataPort = val
+
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Read a value from VRAM
+u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0)
+{
+	srcLow;  // IY+0
+	srcHigh; // IY+2
+
+	__asm
+		ld		iy, #2
+		add		iy, sp
+
+		// Set destination address bits 14~16 to R#14 
+		ld		a, 2(iy)
+		add		a, a
+		add		a, a
+		ld		c, a
+		ld		a, 1(iy)
+		rlca
+		rlca
+		and		a, #0x03
+		add		a, c
+		di //~~~~~~~~~~~~~~~~~~~~~~~~~~
+		out		(P_VDP_REG), a			// RegPort = (destHigh << 2) + (destLow >> 14);
+		ld		a, #VDP_REG(14)
+		out		(P_VDP_REG), a			// RegPort = VDP_REG(14);
+
+		// Set destination address bits 0~7 to port #1
+		ld		a, 0(iy)
+		out		(P_VDP_ADDR), a			// AddrPort = (destLow & 0x00FF);
+
+		// Set destination address bits 8~13 to port #1
+		ld		a, 1(iy)
+		and		a, #0x3F
+		add		a, #F_VDP_WRIT
+		out		(P_VDP_ADDR), a			// AddrPort = ((destLow >> 8) & 0x3F) + F_VDP_WRIT;
+		
+		// Read data 	
+		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
+		in		a, (P_VDP_DATA)			// value = DataPort
+		ld		l, a
+
+	__endasm;
+}
+
 
 #endif // (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
 
@@ -1937,36 +2020,39 @@ void VDP_SetSpritePosition(u8 index, u8 x, u8 y)
 }
 
 //-----------------------------------------------------------------------------
+// Update sprite position X
+void VDP_SetSpritePositionX(u8 index, u8 x)
+{
+	u16 low = g_SpriteAtributeLow;
+	low += (index * 4);
+	VDP_Poke(x, ++low, g_SpriteAtributeHigh);
+}
+
+//-----------------------------------------------------------------------------
 // Update sprite position Y
 void VDP_SetSpritePositionY(u8 index, u8 y)
 {
-	g_VDP_Sprite.Y = y;				// Y coordinate on screen (all lower priority sprite will be disable if equal to 216 or 0xD0)
-
 	u16 low = g_SpriteAtributeLow;
 	low += (index * 4);
-	VDP_WriteVRAM((u8*)&g_VDP_Sprite, low, g_SpriteAtributeHigh, 1);
+	VDP_Poke(y, low, g_SpriteAtributeHigh);
 }
 
 //-----------------------------------------------------------------------------
 // Update sprite pattern
 void VDP_SetSpritePattern(u8 index, u8 shape)
 {
-    g_VDP_Sprite.Pattern = shape;	// Pattern index
-
 	u16 low = g_SpriteAtributeLow + 2;
 	low += (index * 4);
-	VDP_WriteVRAM((u8*)&g_VDP_Sprite.Pattern, low, g_SpriteAtributeHigh, 1);
+	VDP_Poke(shape, low, g_SpriteAtributeHigh);
 }
 
 //-----------------------------------------------------------------------------
 // Update sprite pattern (Shader mode 1)
 void VDP_SetSpriteColorSM1(u8 index, u8 color)
 {
-    g_VDP_Sprite.Color = color;	// Color index (Sprite Mode 1 only) + Early clock
-
 	u16 low = g_SpriteAtributeLow + 3;
 	low += (index * 4);
-	VDP_WriteVRAM((u8*)&g_VDP_Sprite.Color, low, g_SpriteAtributeHigh, 1);
+	VDP_Poke(color, low, g_SpriteAtributeHigh);
 }
 
 #if (MSX_VERSION >= MSX_2)

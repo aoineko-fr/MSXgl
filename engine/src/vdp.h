@@ -297,23 +297,32 @@ u8 VDP_Peek_16K(u16 dest);
 
 #else // (MSX_VERSION >= MSX_2)
 
-	// Function: VDP_WriteVRAM
+	// Function: VDP_WriteVRAM_128K
 	// Write data from RAM to VRAM
-	void VDP_WriteVRAM(const u8* src, u16 destLow, u8 destHigh, u16 count) __sdcccall(0);
+	void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count) __sdcccall(0);
 
-	// Function: VDP_FillVRAM
+	// Function: VDP_FillVRAM_128K
 	// Fill VRAM area with a given value
-	void VDP_FillVRAM(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall(0);
+	void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall(0);
 
-	// Function: VDP_ReadVRAM
+	// Function: VDP_ReadVRAM_128K
 	// Read data from VRAM to RAM
-	void VDP_ReadVRAM(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0);
+	void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0);
 
+	// Function: VDP_Poke_128K
 	// Write a value to VRAM
-	//void VDP_Poke(u8 val, u16 destLow, u8 destHigh);
+	void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh) __sdcccall(0);
 
+	// Function: VDP_Peek_128K
 	// Read a value from VRAM
-	//u8 VDP_Peek(u16 srcLow, u8 srcHigh);
+	u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0);
+
+	#define VDP_WriteVRAM(src, destLow, destHigh, count)	VDP_WriteVRAM_128K(src, destLow, destHigh, count)
+	#define VDP_FillVRAM(value, destLow, destHigh, count)	VDP_FillVRAM_128K(value, destLow, destHigh, count)
+	#define VDP_ReadVRAM(srcLow, srcHigh, dest, count)		VDP_ReadVRAM_128K(srcLow, srcHigh, dest, count)
+
+	#define VDP_Poke(val, destLow, destHigh)				VDP_Poke_128K(val, destLow, destHigh)
+	#define VDP_Peek(srcLow, srcHigh)						VDP_Peek_128K(srcLow, srcHigh)
 
 #endif
 
@@ -464,6 +473,10 @@ void VDP_SetSpriteExUniColor(u8 index, u8 x, u8 y, u8 shape, u8 color);
 // Function: VDP_SetSpritePosition
 // Update sprite position
 void VDP_SetSpritePosition(u8 index, u8 x, u8 y);
+
+// Function: VDP_SetSpritePositionX
+// Update sprite position X
+void VDP_SetSpritePositionX(u8 index, u8 x);
 
 // Function: VDP_SetSpritePositionY
 // Update sprite position Y

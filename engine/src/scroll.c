@@ -9,139 +9,248 @@
 #include "color.h"
 
 //=============================================================================
+// DEFINES
+//=============================================================================
+
+//=============================================================================
 // READ-ONLY DATA
 //=============================================================================
 
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
-u8  g_Scroll_Count = 0;
-u16 g_Scroll_OffsetX = 0;
-u16 g_Scroll_OffsetY = 0;
+
+// Address of the source map data
 u16 g_Scroll_Map;
+
+#if (SCROLL_HORIZONTAL)
+// Horizontal offset (in pixel)
+u16 g_Scroll_OffsetX;
+// Horizontal offset (in tiles)
+u8 g_Scroll_TileX;
+#endif
+
+#if (SCROLL_VERTICAL)
+// Vertical offset (in pixel)
+u16 g_Scroll_OffsetY;
+// Vertical offset (in tiles)
+u8 g_Scroll_TileY;
+#endif
+
+#if (SCROLL_ADJUST)
+u8 g_Scroll_Adjust;
+#endif
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// 
-void Scroll_Initialize(u16 map)
+// Initialize scrolling module
+u8 Scroll_Initialize(u16 map)
 {	
 	g_Scroll_Map = map;
 
-	#if ((MSX_VERSION >= MSX_2) && SCROLL_SPRITE_MASK)
+	#if (SCROLL_HORIZONTAL)
+	g_Scroll_OffsetX = 0;
+	g_Scroll_TileX = 0xFF;
+	#endif
+
+	#if (SCROLL_VERTICAL)
+	g_Scroll_OffsetY = 0;
+	g_Scroll_TileY = 0xFF;
+	#endif
+
+	#if (SCROLL_ADJUST)
+	g_Scroll_Adjust = 0;
+	#endif
+
+	u8 sprtId = 0;
+	
+	#if ((SCROLL_HORIZONTAL) && (SCROLL_MASK))
 	// Initialize mask sprites
 	VDP_EnableSprite(true);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 | VDP_SPRITE_SCALE_2);
-	VDP_FillVRAM(0xFF, g_SpritePatternLow, g_SpritePatternHigh, 8*4);
-	VDP_SetSpriteExUniColor(0,  0, (u8)0,   0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(1,  0, (u8)32,  0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(2,  0, (u8)64,  0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(3,  0, (u8)96,  0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(4,  0, (u8)128, 0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(5,  0, (u8)160, 0, (u8)COLOR_BLACK + VDP_SPRITE_EC);
-	VDP_SetSpriteExUniColor(6,  0, (u8)0,   0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(7,  0, (u8)32,  0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(8,  0, (u8)64,  0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(9,  0, (u8)96,  0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(10, 0, (u8)128, 0, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(11, 0, (u8)160, 0, COLOR_BLACK);
-	VDP_DisableSpritesFrom(12);
+	VDP_FillVRAM(0xFF, g_SpritePatternLow + (SCROLL_MASK_PATTERN * 4), g_SpritePatternHigh, 8 * 4);
+	sprtId = SCROLL_MASK_ID;
+	u8 y = (SCROLL_DST_Y) * 8 - 1;
+	for(u8 i = 0; i < (SCROLL_DST_H + 3) / 4; ++i)
+	{
+		VDP_SetSpriteExUniColor(sprtId++, 0, y, 0, (u8)(SCROLL_MASK_COLOR + VDP_SPRITE_EC));
+		y += 32;
+	}
+	y = (SCROLL_DST_Y) * 8 - 1;
+	for(u8 i = 0; i < (SCROLL_DST_H + 3) / 4; ++i)
+	{
+		VDP_SetSpriteExUniColor(sprtId++, 0, y, 0, SCROLL_MASK_COLOR);
+		y += 32;
+	}
+	VDP_DisableSpritesFrom(sprtId);
 	#endif
+	
+	return sprtId;
 }
 
+#if (SCROLL_HORIZONTAL)
 //-----------------------------------------------------------------------------
-// 
-void Scroll_SetOffset(i8 offset)
+// Set scrolling horizontal offset
+void Scroll_SetOffsetH(i8 offset)
 {
 	if(offset > 0)
 	{
-		if(g_Scroll_OffsetX + offset < (SCROLL_SRC_W - SCROLL_DST_W) * 8)
+	#if (SCROLL_WRAP)
+		g_Scroll_OffsetX += offset;
+		if(g_Scroll_OffsetX >= ((SCROLL_SRC_W) * 8))
+			g_Scroll_OffsetX += offset - ((SCROLL_SRC_W) * 8);
+	#else
+		if(g_Scroll_OffsetX + offset < ((SCROLL_SRC_W) - (SCROLL_DST_W)) * 8)
 			g_Scroll_OffsetX += offset;
 		else
-			g_Scroll_OffsetX = (SCROLL_SRC_W - SCROLL_DST_W) * 8;
+			g_Scroll_OffsetX = ((SCROLL_SRC_W) - (SCROLL_DST_W)) * 8;
+	#endif
 	}
-	else
+	else // if(offset <= 0)
 	{
+	#if (SCROLL_WRAP)
+		if(g_Scroll_OffsetX > -offset)
+			g_Scroll_OffsetX += offset;
+		else
+			g_Scroll_OffsetX += offset + ((SCROLL_SRC_W) * 8);
+	#else
 		if(g_Scroll_OffsetX > -offset)
 			g_Scroll_OffsetX += offset;
 		else
 			g_Scroll_OffsetX = 0;
+	#endif
 	}
-
-	// if(offset > 0)
-	// {
-		// #if (SCROLL_WRAP)
-		// g_Scroll_OffsetX++;
-		// if(g_Scroll_OffsetX == SCROLL_SRC_W)
-			// g_Scroll_OffsetX = 0;
-		// #else
-		// if(g_Scroll_OffsetX < SCROLL_SRC_W - SCROLL_DST_W)
-			// g_Scroll_OffsetX++;
-		// #endif
-	// }
-	// else if(offset < 0)
-	// {
-		// #if (SCROLL_WRAP)
-		// g_Scroll_OffsetX--;
-		// if(g_Scroll_OffsetX == 0xFFFF)
-			// g_Scroll_OffsetX = SCROLL_SRC_W-1;
-		// #else
-		// if(g_Scroll_OffsetX > 0)
-			// g_Scroll_OffsetX--;
-		// #endif
-	// }
 }
+#endif // (SCROLL_HORIZONTAL)
+
+#if (SCROLL_VERTICAL)
+//-----------------------------------------------------------------------------
+// Set scrolling vertical offset
+void Scroll_SetOffsetV(i8 offset)
+{
+	if(offset > 0)
+	{
+		if(g_Scroll_OffsetY + offset < ((SCROLL_SRC_H) - (SCROLL_DST_H)) * 8)
+			g_Scroll_OffsetY += offset;
+		else
+			g_Scroll_OffsetY = ((SCROLL_SRC_H) - (SCROLL_DST_H)) * 8;
+	}
+	else // if(offset <= 0)
+	{
+		if(g_Scroll_OffsetY > -offset)
+			g_Scroll_OffsetY += offset;
+		else
+			g_Scroll_OffsetY = 0;
+	}
+}
+#endif // (SCROLL_VERTICAL)
 
 //-----------------------------------------------------------------------------
-// 
+#if ((SCROLL_ADJUST) && (SCROLL_ADJUST_SPLIT))
+void Scroll_HBlankAdjust(u8 adjust)
+{
+	switch(adjust)
+	{
+	case 0:
+		VDP_SetHBlankLine((SCROLL_DST_Y) * 8 - 7);
+		break;
+	case 1:
+		VDP_SetAdjustOffset(g_Scroll_Adjust);
+		VDP_SetHBlankLine((SCROLL_DST_Y + SCROLL_DST_H) * 8 - 4);
+		break;
+	default:
+		VDP_SetAdjustOffset(0);
+		break;
+	}
+}
+#endif
+
+//-----------------------------------------------------------------------------
+// Update scrolling
 void Scroll_Update()
 {	
-	#if (SCROLL_SKIP != SCROLL_SKIP_NONE)
-	if(count & SCROLL_SKIP)
-		continue;
-	#endif
-
-	#if (MSX_VERSION >= MSX_2)
-	u8 offsetStep = g_Scroll_OffsetX & 0x7;
-	VDP_SetAdjustOffset(offsetStep);
-		#if (SCROLL_SPRITE_MASK)
-		VDP_SetSpritePosition(0, offsetStep, (u8)255+0); // Left mask
-		VDP_SetSpritePosition(1, offsetStep, (u8)255+32);
-		VDP_SetSpritePosition(2, offsetStep, (u8)255+64);
-		VDP_SetSpritePosition(3, offsetStep, (u8)255+96);
-		VDP_SetSpritePosition(4, offsetStep, (u8)255+128);
-		VDP_SetSpritePosition(5, offsetStep, (u8)255+160);
-		offsetStep += 255 - 7;
-		VDP_SetSpritePosition(6,  offsetStep, (u8)255+0); // Right mask
-		VDP_SetSpritePosition(7,  offsetStep, (u8)255+32);
-		VDP_SetSpritePosition(8,  offsetStep, (u8)255+64);
-		VDP_SetSpritePosition(9,  offsetStep, (u8)255+96);
-		VDP_SetSpritePosition(10, offsetStep, (u8)255+128);
-		VDP_SetSpritePosition(11, offsetStep, (u8)255+160);
-		#endif
-	#endif
-
+	// Compute horizontal scrolling step
+	#if (SCROLL_HORIZONTAL)
+	u8  offsetStepX = g_Scroll_OffsetX & 0x7;
 	u16 offsetTileX = g_Scroll_OffsetX >> 3;
+	#endif
+	
+	// Compute vertical scrolling step
+	#if (SCROLL_VERTICAL)
+	u8  offsetStepY = g_Scroll_OffsetY & 0x7;
+	u16 offsetTileY = g_Scroll_OffsetY >> 3;
+	#endif
+	
+	// Set screen adjustment register
+	#if (SCROLL_ADJUST)
+	g_Scroll_Adjust = 0;
+	#if (SCROLL_HORIZONTAL)
+	g_Scroll_Adjust |= offsetStepX;
+	#endif
+	#if (SCROLL_VERTICAL)
+	g_Scroll_Adjust |= offsetStepY << 4;
+	#endif
+	#if (!SCROLL_ADJUST_SPLIT)
+	VDP_SetAdjustOffset(g_Scroll_Adjust);
+	#endif
+	#endif
 
-	u16 src = (u16)g_Scroll_Map + offsetTileX + SCROLL_SRC_Y * SCROLL_SRC_W;
-	u16 dst = g_ScreenLayoutLow + (SCROLL_DST_Y * 32) + SCROLL_DST_X;
-	for(u8 y = 0; y < SCROLL_DST_H; ++y)
+	// Update sprite mask position
+	#if ((SCROLL_HORIZONTAL) && (SCROLL_MASK))
+	u8 sprtId = SCROLL_MASK_ID;
+	offsetStepX += ((SCROLL_DST_X) * 8);
+	for(u8 i = 0; i < (SCROLL_DST_H + 3) / 4; ++i)
+		VDP_SetSpritePositionX(sprtId++, offsetStepX);
+	offsetStepX += (((SCROLL_DST_W) - 1) * 8);
+	for(u8 i = 0; i < (SCROLL_DST_H + 3) / 4; ++i)
+		VDP_SetSpritePositionX(sprtId++, offsetStepX);
+	#endif
+
+	// Check for tile movement
+	#if ((SCROLL_HORIZONTAL) && (SCROLL_VERTICAL))
+	if((offsetTileX == g_Scroll_TileX) && (offsetTileY == g_Scroll_TileY))
+		return;
+	#elif (SCROLL_HORIZONTAL)
+	if(offsetTileX == g_Scroll_TileX)
+		return;
+	#elif (SCROLL_VERTICAL)
+	if(offsetTileY == g_Scroll_TileY)
+		return;
+	#endif
+
+	#if (SCROLL_HORIZONTAL)
+	g_Scroll_TileX = offsetTileX;
+	#define TILE_X	offsetTileX
+	#else
+	#define TILE_X	0
+	#endif
+
+	#if (SCROLL_VERTICAL)
+	g_Scroll_TileY = offsetTileY;
+	#define TILE_Y	offsetTileY
+	#else
+	#define TILE_Y	0
+	#endif
+
+	// Do scrolling -- Update tiles table in VRAM
+	u16 src = (u16)g_Scroll_Map + ((SCROLL_SRC_Y) * (SCROLL_SRC_W)) + (TILE_Y * (SCROLL_SRC_W)) + TILE_X;
+	u16 dst = g_ScreenLayoutLow + ((SCROLL_DST_Y) * SCROLL_SCREEN_W) + (SCROLL_DST_X);
+	u16 sw = (SCROLL_SRC_W) - TILE_X;
+	for(u8 y = 0; y < (SCROLL_DST_H); ++y)
 	{
 		#if(SCROLL_WRAP)
-		if(offsetTileX + (SCROLL_DST_W * 8) > (SCROLL_SRC_W * 8))
+		if(TILE_X + (SCROLL_DST_W) > (SCROLL_SRC_W))
 		{
-			u16 sw = SCROLL_SRC_W - offsetTileX;
 			VDP_WriteVRAM_16K((const u8*)src, dst, sw);
-			VDP_WriteVRAM_16K((const u8*)src - offsetTileX, dst + sw, SCROLL_DST_W - sw);
+			VDP_WriteVRAM_16K((const u8*)src - TILE_X, dst + sw, (SCROLL_DST_W) - sw);
 		}
 		else
 		#endif
-		VDP_WriteVRAM_16K((const u8*)src, dst, SCROLL_DST_W);
-		dst += 32;
-		src += SCROLL_SRC_W;
+		VDP_WriteVRAM_16K((const u8*)src, dst, (SCROLL_DST_W));
+		src += (SCROLL_SRC_W);
+		dst += SCROLL_SCREEN_W;
 	}
 }
-
-

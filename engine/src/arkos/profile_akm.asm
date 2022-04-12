@@ -6,4 +6,4 @@ PLY_AKM_ROM_Buffer = #D000
 
 ; Include replayer
 include "playerAkm/sources/PlayerAkm.asm"
-;include "playerAkm/sources/PlayerAkm_SoundEffects.asm"
+; include "playerAkm/sources/PlayerAkm_SoundEffects.asm"
