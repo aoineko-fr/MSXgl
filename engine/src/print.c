@@ -63,17 +63,17 @@ void DrawChar_Layout(u8 chr);
 //
 //-----------------------------------------------------------------------------
 
-/// Address of the heap top
+// Address of the heap top
 extern u16 g_HeapStartAddress;
 
-/// Allocate memory for Print module data structure
+// Allocate memory for Print module data structure
 struct Print_Data g_PrintData;
 
-/// Table use to quick decimal-to-hexadecimal conversion
+// Table use to quick decimal-to-hexadecimal conversion
 static const c8 g_HexChar[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 #if (PRINT_USE_VALIDATOR)
-/// Character use by character validator to show invalid character
+// Character use by character validator to show invalid character
 u8 g_PrintInvalid[] =
 {
 	0xFF, /* ######## */ 
@@ -97,7 +97,7 @@ u8 g_PrintInvalid[] =
 #if ((PRINT_USE_BITMAP) || (PRINT_USE_SPRITE))
 
 #if (PRINT_USE_VALIDATOR)
-/// Slit color from merged colors
+// Slit color from merged colors
 u8 Print_SplitColor(u8 color)
 {
 	#if (PRINT_USE_SPRITE)
@@ -152,7 +152,7 @@ u8 Print_MergeColor(u8 color)
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-/// Initialize print module. Must be called after VDP_SetMode()
+// Initialize print module. Must be called after VDP_SetMode()
 bool Print_Initialize()
 {
 	Print_SetColor(0xF, 0x0);
@@ -237,7 +237,7 @@ bool Print_Initialize()
 }
 
 //-----------------------------------------------------------------------------
-///
+//
 void Print_SetMode(u8 mode)
 {
 	g_PrintData.SourceMode = mode;
@@ -315,8 +315,8 @@ void Print_SetMode(u8 mode)
 }
 
 //-----------------------------------------------------------------------------
-/// Set the current font
-/// @param		font		Pointer to font data to use (null=use Main-ROM font)
+// Set the current font
+// @param		font		Pointer to font data to use (null=use Main-ROM font)
 void Print_SetFont(const u8* font)
 {
 	if(font == null) // Use Bios font (if any)
@@ -327,7 +327,7 @@ void Print_SetFont(const u8* font)
 
 #if ((PRINT_USE_BITMAP) || (PRINT_USE_SPRITE))
 //-----------------------------------------------------------------------------
-/// Initialize color buffer
+// Initialize color buffer
 void Print_InitColorBuffer(u8 t, u8 b)
 {
 	// Pre-compute colors combinaison for 2-bits of a character pattern line (used to quick drawing in DrawChar_GX functions)
@@ -383,9 +383,9 @@ void Print_InitColorBuffer(u8 t, u8 b)
 #endif // ((PRINT_USE_BITMAP) || (PRINT_USE_SPRITE))
 
 //-----------------------------------------------------------------------------
-/// Set the draw color
-/// @param		text		Text color (format depend of current screen mode)
-/// @param		bg			Background color (format depend of current screen mode)
+// Set the draw color
+// @param		text		Text color (format depend of current screen mode)
+// @param		bg			Background color (format depend of current screen mode)
 void Print_SetColor(u8 text, u8 bg)
 {
 	if(VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
@@ -458,7 +458,7 @@ void Print_SetColor(u8 text, u8 bg)
 
 #if (PRINT_COLOR_NUM > 1)
 //-----------------------------------------------------------------------------
-/// Set color shade
+// Set color shade
 void Print_SetColorShade(const u8* shade)
 {
 	if(VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
@@ -513,8 +513,8 @@ void Print_SetColorShade(const u8* shade)
 
 #if (PRINT_USE_VALIDATOR)
 //-----------------------------------------------------------------------------
-/// Validate character. Try to convert invalid letter to their upper/lower case conterpart or use default invalid character
-/// @param		chr			Address of the character to check
+// Validate character. Try to convert invalid letter to their upper/lower case conterpart or use default invalid character
+// @param		chr			Address of the character to check
 void Print_ValidateChar(u8* chr)
 {
 	if((*chr < g_PrintData.CharFirst) || (*chr > g_PrintData.CharLast))
@@ -532,9 +532,9 @@ void Print_ValidateChar(u8* chr)
 	}
 }
 //-----------------------------------------------------------------------------
-/// Validate character. Try to convert invalid letter to their upper/lower case conterpart or use default invalid character
-/// @param		chr			Address of the character to check
-/// @param		patterns	Address of the font data to check
+// Validate character. Try to convert invalid letter to their upper/lower case conterpart or use default invalid character
+// @param		chr			Address of the character to check
+// @param		patterns	Address of the font data to check
 void Print_ValidatePattern(u8* chr, const c8** patterns)
 {
 	if((*chr < g_PrintData.CharFirst) || (*chr > g_PrintData.CharLast))
@@ -564,8 +564,8 @@ void Print_ValidatePattern(u8* chr, const c8** patterns)
 
 #if (PRINT_USE_BITMAP)
 //-----------------------------------------------------------------------------
-/// Initialize print module. Must be called after VDP_SetMode()
-/// @param		font		Pointer to font data to use (null=use Main-ROM font)
+// Initialize print module. Must be called after VDP_SetMode()
+// @param		font		Pointer to font data to use (null=use Main-ROM font)
 bool Print_SetBitmapFont(const u8* font)
 {
 	Print_SetFont(font);
@@ -575,8 +575,8 @@ bool Print_SetBitmapFont(const u8* font)
 
 #if (VDP_USE_MODE_G7)
 //-----------------------------------------------------------------------------
-/// Graphic 7 (Screen mode 8) low-level function to draw a character in VRAM 
-/// @param		chr			The character to draw
+// Graphic 7 (Screen mode 8) low-level function to draw a character in VRAM 
+// @param		chr			The character to draw
 void DrawChar_8B(u8 chr)
 {
 	const u8* patterns = g_PrintData.FontAddr + chr * PRINT_H(g_PrintData.PatternY); // Get character patterns' base address
@@ -604,8 +604,8 @@ void DrawChar_8B(u8 chr)
 
 #if (VDP_USE_MODE_G4 || VDP_USE_MODE_G6)
 //-----------------------------------------------------------------------------
-/// Graphic 4/6 (Screen mode 5/7) low-level function to draw a character in VRAM 
-/// @param		chr			The character to draw
+// Graphic 4/6 (Screen mode 5/7) low-level function to draw a character in VRAM 
+// @param		chr			The character to draw
 void DrawChar_4B(u8 chr)
 {
 	const u8* patterns = g_PrintData.FontAddr + chr * PRINT_H(g_PrintData.PatternY); // Get character patterns' base address
@@ -633,8 +633,8 @@ void DrawChar_4B(u8 chr)
 
 #if (VDP_USE_MODE_G5)
 //-----------------------------------------------------------------------------
-/// Graphic 5 (Screen mode 6) low-level function to draw a character in VRAM 
-/// @param		chr			The character to draw
+// Graphic 5 (Screen mode 6) low-level function to draw a character in VRAM 
+// @param		chr			The character to draw
 void DrawChar_2B(u8 chr)
 {
 	const u8* patterns = g_PrintData.FontAddr + chr * PRINT_H(g_PrintData.PatternY); // Get character patterns' base address
@@ -657,7 +657,7 @@ void DrawChar_2B(u8 chr)
 
 #if (VDP_USE_MODE_G4 || VDP_USE_MODE_G5 || VDP_USE_MODE_G6 || VDP_USE_MODE_G7)
 //-----------------------------------------------------------------------------
-///
+//
 void DrawChar_Trans(u8 chr)
 {
 	const u8* patterns = g_PrintData.FontAddr + chr * PRINT_H(g_PrintData.PatternY); // Get character patterns' base address
@@ -753,7 +753,7 @@ void DrawChar_Trans(u8 chr)
 
 #if (PRINT_USE_VRAM)
 //-----------------------------------------------------------------------------
-/// Set the current font and upload it to VRAM
+// Set the current font and upload it to VRAM
 void Print_SetVRAMFont(const u8* font, UY y, u8 color)
 {
 	UX cx = g_PrintData.CursorX;
@@ -788,8 +788,8 @@ void Print_SetVRAMFont(const u8* font, UY y, u8 color)
 
 #if (VDP_USE_MODE_G4 || VDP_USE_MODE_G7)
 //-----------------------------------------------------------------------------
-/// 
-/// @param		chr			The character to draw
+// 
+// @param		chr			The character to draw
 void DrawChar_VRAM256(u8 chr)
 {
 	#if (PRINT_USE_VALIDATOR)
@@ -813,8 +813,8 @@ void DrawChar_VRAM256(u8 chr)
 
 #if (VDP_USE_MODE_G5 || VDP_USE_MODE_G6)
 //-----------------------------------------------------------------------------
-/// 
-/// @param		chr			The character to draw
+// 
+// @param		chr			The character to draw
 void DrawChar_VRAM512(u8 chr)
 {
 	#if (PRINT_USE_VALIDATOR)
@@ -862,7 +862,7 @@ void CopyNo8HeightFontData(const u8* src, u16 dst, u8 height)
 #endif
 
 //-----------------------------------------------------------------------------
-/// Set the current font and upload it to VRAM
+// Set the current font and upload it to VRAM
 void Print_SetTextFont(const u8* fontData, u8 offset)
 {
 	g_PrintData.PatternOffset = offset;
@@ -914,8 +914,8 @@ void Print_SetTextFont(const u8* fontData, u8 offset)
 }
 
 //-----------------------------------------------------------------------------
-/// Draw characters as pattern name
-/// @param		chr			The character to draw
+// Draw characters as pattern name
+// @param		chr			The character to draw
 void DrawChar_Layout(u8 chr)
 {
 	#if (PRINT_USE_VALIDATOR)
@@ -942,7 +942,7 @@ extern u16 g_SpritePatternLow;
 extern u8  g_SpritePatternHigh;
 
 //-----------------------------------------------------------------------------
-/// 
+// 
 void Print_SetSpriteFont(const u8* font, u8 patIdx, u8 sprtIdx)
 {
 	g_PrintData.SpritePattern = patIdx;
@@ -979,8 +979,8 @@ void Print_SetSpriteFont(const u8* font, u8 patIdx, u8 sprtIdx)
 
 
 //-----------------------------------------------------------------------------
-/// 
-/// @param		chr			The character to draw
+// 
+// @param		chr			The character to draw
 void DrawChar_Sprite(u8 chr)
 {
 	u16 shape = chr - g_PrintData.CharFirst + g_PrintData.SpritePattern;
@@ -1002,11 +1002,11 @@ void DrawChar_Sprite(u8 chr)
 
 #if (PRINT_USE_FX_SHADOW)
 //-----------------------------------------------------------------------------
-/// Set shadow effect
-/// @param		activate	Activate/deactivate shadow
-/// @param		offsetX		Shadow offset on X axis (can be from -3 to +4)
-/// @param		offsetY		Shadow offset on Y axis (can be from -3 to +4)
-/// @param		color		Shadow color (depend of the screen mode)
+// Set shadow effect
+// @param		activate	Activate/deactivate shadow
+// @param		offsetX		Shadow offset on X axis (can be from -3 to +4)
+// @param		offsetY		Shadow offset on Y axis (can be from -3 to +4)
+// @param		color		Shadow color (depend of the screen mode)
 void Print_SetShadow(bool enable, i8 offsetX, i8 offsetY, u8 color)
 {
 	Print_EnableShadow(enable);
@@ -1016,8 +1016,8 @@ void Print_SetShadow(bool enable, i8 offsetX, i8 offsetY, u8 color)
 }
 
 //-----------------------------------------------------------------------------
-/// Activate/desactivate shadow effect
-/// @param		activate	Activate/deactivate shadow
+// Activate/desactivate shadow effect
+// @param		activate	Activate/deactivate shadow
 void Print_EnableShadow(bool enable)
 {
 	g_PrintData.Shadow = enable;
@@ -1027,7 +1027,7 @@ void Print_EnableShadow(bool enable)
 
 #if (PRINT_USE_FX_OUTLINE)	
 //-----------------------------------------------------------------------------
-/// Set shadow effect
+// Set shadow effect
 void Print_SetOutline(bool enable, u8 color)
 {
 	Print_EnableOutline(enable);
@@ -1035,7 +1035,7 @@ void Print_SetOutline(bool enable, u8 color)
 }
 
 //-----------------------------------------------------------------------------
-/// Activate/desactivate shadow effect
+// Activate/desactivate shadow effect
 void Print_EnableOutline(bool enable)
 {
 	g_PrintData.Outline = enable;
@@ -1051,7 +1051,7 @@ void Print_EnableOutline(bool enable)
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-/// Clear screen on the current page
+// Clear screen on the current page
 void Print_Clear()
 {
 	if(VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
@@ -1071,8 +1071,8 @@ void Print_Clear()
 }
 
 //-----------------------------------------------------------------------------
-/// Clear X character back from current cursor position
-/// @param		num			Number of characters to remove
+// Clear X character back from current cursor position
+// @param		num			Number of characters to remove
 void Print_Backspace(u8 num)
 {
 	if(VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
@@ -1099,8 +1099,8 @@ void Print_Backspace(u8 num)
 	}
 }
 //-----------------------------------------------------------------------------
-/// Print a single character
-/// @param		chr			The character to draw
+// Print a single character
+// @param		chr			The character to draw
 void Print_DrawChar(u8 chr)
 {
 	#if (PRINT_USE_VALIDATOR)
@@ -1117,9 +1117,9 @@ void Print_DrawChar(u8 chr)
 }
 
 //-----------------------------------------------------------------------------
-/// Print the same character many times
-/// @param		chr			Character to draw
-/// @param		num			Number of drawing
+// Print the same character many times
+// @param		chr			Character to draw
+// @param		num			Number of drawing
 void Print_DrawCharX(c8 chr, u8 num)
 {
 	for(u8 i = 0; i < num; ++i)
@@ -1127,8 +1127,8 @@ void Print_DrawCharX(c8 chr, u8 num)
 }
 
 //-----------------------------------------------------------------------------
-/// Print a character string
-/// @param		chr			String to draw (must be null-terminated)
+// Print a character string
+// @param		chr			String to draw (must be null-terminated)
 void Print_DrawText(const c8* str)
 {
 	while(*str != 0)
@@ -1148,8 +1148,8 @@ void Print_DrawText(const c8* str)
 }
 
 //-----------------------------------------------------------------------------
-/// Print a 8-bits binary value
-/// @param		value		Value to print
+// Print a 8-bits binary value
+// @param		value		Value to print
 void Print_DrawBin8(u8 value)
 {
 	for(u8 i = 0; i < 8; ++i)
@@ -1165,8 +1165,8 @@ void Print_DrawBin8(u8 value)
 }
 
 //-----------------------------------------------------------------------------
-/// Print a 8-bits hexadecimal value
-/// @param		value		Value to print
+// Print a 8-bits hexadecimal value
+// @param		value		Value to print
 void Print_DrawHex8(u8 value)
 {
 	Print_DrawChar(g_HexChar[(value >> 4) & 0x000F]);
@@ -1177,8 +1177,8 @@ void Print_DrawHex8(u8 value)
 }
 
 //-----------------------------------------------------------------------------
-/// Print a 16-bits hexadecimal value
-/// @param		value		Value to print
+// Print a 16-bits hexadecimal value
+// @param		value		Value to print
 void Print_DrawHex16(u16 value)
 {
 	Print_DrawHex8(value >> 8);
@@ -1187,8 +1187,8 @@ void Print_DrawHex16(u16 value)
 
 #if (PRINT_USE_32B)
 //-----------------------------------------------------------------------------
-/// Print a 16-bits hexadecimal value
-/// @param		value		Value to print
+// Print a 16-bits hexadecimal value
+// @param		value		Value to print
 void Print_DrawHex32(u32 value)
 {
 	Print_DrawHex16(value >> 16);
@@ -1198,12 +1198,12 @@ void Print_DrawHex32(u32 value)
 
 //-----------------------------------------------------------------------------
 #if (PRINT_USE_32B)
-/// Print a 32-bits signed decimal value
-/// @param		value		Value to print
+// Print a 32-bits signed decimal value
+// @param		value		Value to print
 void Print_DrawInt(i32 value)
 #else
-/// Print a 16-bits signed decimal value
-/// @param		value		Value to print
+// Print a 16-bits signed decimal value
+// @param		value		Value to print
 void Print_DrawInt(i16 value)
 #endif
 {
@@ -1240,7 +1240,7 @@ typedef u8* va_list;
 #define va_end(marker)          { marker = (va_list) 0; };
 
 //-----------------------------------------------------------------------------
-/// Print a formated string with a variable number of parameters
+// Print a formated string with a variable number of parameters
 void Print_DrawFormat(const c8* format, ...)
 {
 	va_list args;
@@ -1359,7 +1359,7 @@ void Print_DrawFormat(const c8* format, ...)
 #if (PRINT_USE_GRAPH)
 
 //-----------------------------------------------------------------------------
-/// Draw an horizontal line using characters
+// Draw an horizontal line using characters
 void Print_DrawLineH(u8 x, u8 y, u8 len)
 {
 	Print_SetPosition(x, y);
@@ -1367,7 +1367,7 @@ void Print_DrawLineH(u8 x, u8 y, u8 len)
 }
 
 //-----------------------------------------------------------------------------
-/// Draw a vertical line using characters
+// Draw a vertical line using characters
 void Print_DrawLineV(u8 x, u8 y, u8 len)
 {
 	for(u8 i = 0; i < len; i++)
@@ -1378,7 +1378,7 @@ void Print_DrawLineV(u8 x, u8 y, u8 len)
 }
 
 //-----------------------------------------------------------------------------
-/// Draw a box using characters
+// Draw a box using characters
 void Print_DrawBox(u8 x, u8 y, u8 width, u8 height)
 {
 	// Draw corners
