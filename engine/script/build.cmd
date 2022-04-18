@@ -281,7 +281,7 @@ for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
 goto :NoMapper
 
 :AddSegment
-	%Linker% -mz80 --no-std-crt0 --code-loc 0x%2 --data-loc 0x%2 --vc %1 -o out\
+	%Linker% -mz80 --no-std-crt0 --code-loc 0x%2 --data-loc 0x%2 --vc -DTARGET=TARGET_%Target% -DMSX_VERSION=MSX_%Machine% -I%ProjDir% -I%LibDir%\src -I%LibDir%\content %1 -o out\
 	%Hex2Bin% -e %Ext% -s 0x%2 %OutDir%\%~n1.ihx
 	%FillFile% %OutDir%\%~n1.%Ext% %SegSize%
 	copy /Y /B %OutDir%\%Crt0%.%Ext%+%OutDir%\%~n1.%Ext% %OutDir%\%Crt0%.%Ext%

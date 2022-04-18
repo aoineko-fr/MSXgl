@@ -35,7 +35,10 @@ goto :CheckInput
 ::*****************************************************************************
 
 :: Project name (will be use for output filename)
-set ProjName=s_target
+set ProjName=s_target_%1
+if not "%2" == "" (
+	set ProjName=%ProjName%_%2K
+)
 
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=s_target

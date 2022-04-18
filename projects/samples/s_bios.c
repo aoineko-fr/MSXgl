@@ -73,12 +73,11 @@ void main()
 		prevX = x;
 		prevY = y;
 
-		line = Bios_GetKeyboardMatrix(8);
-		if(IS_KEY_PRESSED(line, KEY_DEL))
+		if(Bios_IsKeyPressed(KEY_DEL))
 			bContinue = false;
-		if(IS_KEY_PRESSED(line, KEY_RIGHT))
+		if(Bios_IsKeyPressed(KEY_RIGHT))
 			x++;
-		else if(IS_KEY_PRESSED(line, KEY_LEFT))
+		else if(Bios_IsKeyPressed(KEY_LEFT))
 			x--;
 		
 		if(bJump)
@@ -87,7 +86,7 @@ void main()
 			if(jumpFrame >= numberof(g_Jump) * 2)
 				bJump = false;
 		}
-		else if(IS_KEY_PRESSED(line, KEY_SPACE) || IS_KEY_PRESSED(line, KEY_UP))
+		else if(Bios_IsKeyPressed(KEY_SPACE))
 		{
 			Bios_Beep();
 			bJump = true;

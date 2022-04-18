@@ -87,10 +87,27 @@ u8   g_PlayerIdx;
 u8   g_MusicIdx = 0;
 bool g_Freq50Hz = false;
 
+// V-blank synchronization flag
+u8 g_VBlank = 0;
 
 //=============================================================================
 // HELPER FUNCTIONS
 //=============================================================================
+
+//-----------------------------------------------------------------------------
+// H_TIMI interrupt hook
+void VBlankHook()
+{
+	g_VBlank = 1;
+}
+
+//-----------------------------------------------------------------------------
+// Wait for V-Blank period
+void WaitVBlank()
+{
+	while(g_VBlank == 0) {}
+	g_VBlank = 0;
+}
 
 //-----------------------------------------------------------------------------
 //
@@ -156,11 +173,14 @@ void main()
 	Print_SetPosition(0, 23);
 	Print_DrawText("\x8D:Music \x83:Pause \x82:Player Home:Freq");
 
+	VDP_EnableVBlank(true);
+	Bios_SetHookCallback(H_TIMI, VBlankHook);
+
 	u8 prevRow8 = 0xFF;
 	u8 count = 0;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
-		Halt();
+		WaitVBlank();
 		if(g_Freq50Hz || (count % 6) != 0)
 		{
 VDP_SetColor(0xF5);

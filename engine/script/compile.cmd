@@ -23,7 +23,6 @@ set FileExt=%~x1
 
 if not exist %OutDir% ( md %OutDir% )
 
-
 ::-----------------------------------------------------------------------------
 :: Skip file if compile data is newer than the source 
 if %CompileSkipOld% == 0 ( goto :NoSkip )
@@ -34,40 +33,52 @@ if /I %NewestFile% NEQ %FileName%%FileExt% ( goto :Skip )
 
 :NoSkip
 
+if /I %FileExt%==.c goto :CompileC
+if /I %FileExt%==.asm goto :CompileASM
+if /I %FileExt%==.s goto :CompileASM
+echo %RED%Error: Compile failed with error number %errorlevel%%RESET%
+goto :Error
+
 ::*****************************************************************************
 ::* COMPILE C SOURCE                                                          *
 ::*****************************************************************************
-if /I %FileExt%==.c (
+:CompileC
 
-	set AddOpt=%CompileOpt%
-	if /I %Optim%==Speed (set AddOpt=!AddOpt! --opt-code-speed)
-	if /I %Optim%==Size (set AddOpt=!AddOpt! --opt-code-size)
+set AddOpt=%CompileOpt%
+if /I %Optim%==Speed (set AddOpt=!AddOpt! --opt-code-speed)
+if /I %Optim%==Size (set AddOpt=!AddOpt! --opt-code-size)
 
-	set SDCCParam=-c -mz80 --vc -DTARGET=TARGET_%Target% -DMSX_VERSION=MSX_%Machine% -I%ProjDir% -I%LibDir%\src -I%LibDir%\content !AddOpt! %File% -o %OutDir%\
+set SDCCParam=-c -mz80 --vc -DTARGET=TARGET_%Target% -DMSX_VERSION=MSX_%Machine% -I%ProjDir% -I%LibDir%\src -I%LibDir%\content !AddOpt! %File% -o %OutDir%\
 
-	echo %BLUE%Compiling %1 using SDCC C compiler...%RESET%
-	
-	echo SDCC !SDCCParam!
-	%Compiler% !SDCCParam!
-    if errorlevel 1 ( goto :Error )
-)
+echo %BLUE%Compiling %1 using SDCC C compiler...%RESET%
+
+echo SDCC !SDCCParam!
+%Compiler% !SDCCParam!
+if errorlevel 1 ( goto :Error )
+goto :Succeed
 
 ::*****************************************************************************
 ::* COMPILE ASSEMBLER SOURCE                                                  *
 ::*****************************************************************************
-if /I %FileExt%==.asm (
-	
-	set ASMParam=-o -l -s -I%ProjDir% -I%OutDir% -I%LibDir%\src %File%
-	
-	echo %BLUE%Compiling %1 using SDASZ80 ASM compiler...%RESET%
-	
-	echo SDASZ80 !ASMParam!
-    %Assembler% !ASMParam!
-    if errorlevel 1 ( goto :Error )
-	move %FilePath%%FileName%.rel %OutDir%
-	move %FilePath%%FileName%.lst %OutDir%
-	move %FilePath%%FileName%.sym %OutDir%
-)
+:CompileASM
+
+set ASMParam=-o -l -s -I%ProjDir% -I%OutDir% -I%LibDir%\src %File%
+
+echo %BLUE%Compiling %1 using SDASZ80 ASM compiler...%RESET%
+
+echo SDASZ80 !ASMParam!
+%Assembler% !ASMParam!
+if errorlevel 1 ( goto :Error )
+move %FilePath%%FileName%.rel %OutDir%
+move %FilePath%%FileName%.lst %OutDir%
+move %FilePath%%FileName%.sym %OutDir%
+goto :Succeed
+
+::*****************************************************************************
+:: FINISH
+::*****************************************************************************
+
+:Succeed
 
 echo %GREEN%Succeed%RESET%
 exit /B 0

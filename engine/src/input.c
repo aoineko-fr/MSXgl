@@ -11,6 +11,7 @@
 #include "system_port.h"
 #include "input.h"
 #include "memory.h"
+#include "bios_var.h"
 
 //-----------------------------------------------------------------------------
 //
@@ -99,12 +100,45 @@ u8 Keyboard_Read(u8 row) __FASTCALL
 	__endasm;
 }
 
+#if (INPUT_KB_UPDATE)
+//-----------------------------------------------------------------------------
+// Update all keyboard rows at once
+bool Keyboard_Update()
+{
+	for(u8 i = INPUT_KB_UPDATE_MIN; i <= INPUT_KB_UPDATE_MAX; ++i)	
+	{
+		((u8*)g_OLDKEY)[i] = g_NEWKEY[i];
+		((u8*)g_NEWKEY)[i] = Keyboard_Read(i);
+	}
+}
+
 //-----------------------------------------------------------------------------
 // Check if a given key is pressed
-u8 Keyboard_IsKeyPressed(u8 key) __FASTCALL
+bool Keyboard_IsKeyPressed(u8 key)
 {
-	return (Keyboard_Read(key & 0x0F) & (1 << (key >> 4))) == 0;
+	return (g_NEWKEY[KEY_ROW(key)] & (1 << KEY_IDX(key))) == 0;
 }
+
+//-----------------------------------------------------------------------------
+// Check if a given key is just pushed
+bool Keyboard_IsKeyPushed(u8 key)
+{
+	u8 flag = 1 << KEY_IDX(key);
+	u8 newKey = (g_NEWKEY[KEY_ROW(key)] & flag) == 0;
+	u8 oldKey = (g_OLDKEY[KEY_ROW(key)] & flag) == 0;
+	return newKey && !oldKey;
+}
+
+#else // if !(INPUT_KB_UPDATE)
+
+//-----------------------------------------------------------------------------
+// Check if a given key is pressed
+u8 Keyboard_IsKeyPressed(u8 key)
+{
+	return (Keyboard_Read(KEY_ROW(key)) & (1 << KEY_IDX(key))) == 0;
+}
+
+#endif // (INPUT_KB_UPDATE)
 
 #endif // (INPUT_USE_KEYBOARD || INPUT_USE_MANAGER)
 

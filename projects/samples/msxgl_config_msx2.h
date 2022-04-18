@@ -89,6 +89,10 @@
 #define INPUT_USE_JOYSTICK			1
 #define INPUT_USE_KEYBOARD			1
 #define INPUT_USE_MANAGER			1
+// Key update handler
+#define INPUT_KB_UPDATE				0 // Add function to update all keyboard rows at once
+#define INPUT_KB_UPDATE_MIN			0 // First row to update
+#define INPUT_KB_UPDATE_MAX			8 // Last row to update (10 for numerical-pad, 8 otherwise)
 
 //-----------------------------------------------------------------------------
 // DRAW MODULE

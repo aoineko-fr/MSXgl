@@ -15,6 +15,8 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 #include "bios.h"
+#include "input.h"
+#include "bios_var.h"
 
 //-----------------------------------------------------------------------------
 //  █▀▀ █▀█ █▄ █ █▀ ▀█▀ ▄▀█ █▄ █ ▀█▀ █▀
@@ -787,6 +789,21 @@ u8 Bios_GetJoystickTrigger(u8 trigger) __FASTCALL;
 // Function: Bios_GetKeyboardMatrix
 // Returns the value of the specified line from the keyboard matrix
 u8 Bios_GetKeyboardMatrix(u8 line) __FASTCALL;
+
+// Function: Bios_IsKeyPressed
+// Check if the given key is pressed
+inline bool Bios_IsKeyPressed(u8 key)
+{
+	return (g_NEWKEY[KEY_ROW(key)] & (1 << KEY_IDX(key))) == 0;
+}
+
+// Check if the given key is just pushed // don't work with standard system BIOS because g_OLDKEY is reset during ISR
+/*inline bool Bios_IsKeyPushed(u8 key)
+{
+	u8 newKey = Bios_IsKeyPressed(key);
+	u8 oldKey = (g_OLDKEY[KEY_ROW(key)] & (1 << KEY_IDX(key))) == 0;
+	return newKey && !oldKey;
+}*/
 
 //-----------------------------------------------------------------------------
 // PHYDIO	#0144	Executes I/O for mass-storage media like disks

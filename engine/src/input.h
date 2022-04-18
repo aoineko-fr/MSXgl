@@ -200,12 +200,28 @@ inline u8 Joystick_GetTrigger(u8 port, u8 trigger)
 //   row - The row to read (0-10)
 u8 Keyboard_Read(u8 row) __FASTCALL;
 
+#if (INPUT_KB_UPDATE)
+// Function: Keyboard_Update
+// Update all keyboard rows at once
+bool Keyboard_Update();
+
 // Function: Keyboard_IsKeyPressed
+// Check if a given key is pressed
+bool Keyboard_IsKeyPressed(u8 key);
+
+// Function: Keyboard_IsKeyPushed
+// Check if a given key is just pushed
+bool Keyboard_IsKeyPushed(u8 key);
+
+#else
+
 // Check if a given key is pressed
 //
 // Parameters:
 //   key - The key ID to check
-bool Keyboard_IsKeyPressed(u8 key) __FASTCALL;
+bool Keyboard_IsKeyPressed(u8 key);
+
+#endif // (INPUT_KB_UPDATE)
 
 #endif // (INPUT_USE_KEYBOARD || INPUT_USE_MANAGER)
 
@@ -213,7 +229,7 @@ bool Keyboard_IsKeyPressed(u8 key) __FASTCALL;
 // Group: Input Manager
 // Advanced input manager
 //-----------------------------------------------------------------------------
-#if INPUT_USE_MANAGER
+#if (INPUT_USE_MANAGER)
 
 // Device ID
 enum IPM_DEVICE
