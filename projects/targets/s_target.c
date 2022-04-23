@@ -337,7 +337,8 @@ const c8* GetROMSize(u8 size)
 //
 void DisplayHeader()
 {
-	Print_Clear();
+	// Print_Clear();
+	VDP_FillVRAM(' ' - g_PrintData.CharFirst + g_PrintData.PatternOffset, g_ScreenLayoutLow, g_ScreenLayoutHigh, 40 * 24);
 	Print_SetPosition(0, 0);
 	Print_DrawText(MSX_GL "   Target Sample");
 	Print_DrawLineH(0, 1, 40);

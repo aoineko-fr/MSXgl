@@ -11,80 +11,43 @@ setlocal EnableDelayedExpansion
 set Mappers=ROM_ASCII8,ROM_ASCII16,ROM_KONAMI,ROM_KONAMI_SCC
 
 ::-----------------------------------------------------------------------------
-:: BASIC, MSX-DOS and plain ROM
-set Formats=BIN,DOS1,DOS2,ROM_8K,ROM_8K_P2,ROM_16K,ROM_16K_P2,ROM_32K,ROM_48K,ROM_48K_ISR,ROM_64K,ROM_64K_ISR
-set Unsupported=ROM_32K_P0,DOS2_ARG
+:: BASIC and MSX-DOS
+set Formats=BIN,DOS1,DOS2
+set Unsupported=DOS2_ARG
 for %%G in (%Formats%) do (
-
-	rem ---- Build target ----
 	call build %%G
-
-	rem ---- Rename output file to prevent overwriting ----
-	REM call :RenameOutput %%G
 )
 
-::-----------------------------------------------------------------------------
-:: ASCII-8 mapped ROM
-for %%G in (64,128,256,512,1024,2048) do (
-	rem ---- Build target ----
-	call build ROM_ASCII8 %%G
+REM ::-----------------------------------------------------------------------------
+REM :: Plain ROM
+REM set Formats=ROM_8K,ROM_8K_P2,ROM_16K,ROM_16K_P2,ROM_32K,ROM_48K,ROM_48K_ISR,ROM_64K,ROM_64K_ISR
+REM set Unsupported=ROM_32K_P0
+REM for %%G in (%Formats%) do (
+	REM call build %%G %%G
+REM )
 
-	rem ---- Rename output file to prevent overwriting ----
-	REM call :RenameOutput ROM_ASCII8_%%GK
-)
+REM ::-----------------------------------------------------------------------------
+REM :: ASCII-8 mapped ROM
+REM for %%G in (64,128,256,512,1024,2048) do (
+	REM call build ROM_ASCII8 ROM_ASCII8 %%G
+REM )
 
-::-----------------------------------------------------------------------------
-:: ASCII-16 mapped ROM
-for %%G in (64,128,256,512,1024,2048,4096) do (
-	rem ---- Build target ----
-	call build ROM_ASCII16 %%G
+REM ::-----------------------------------------------------------------------------
+REM :: ASCII-16 mapped ROM
+REM for %%G in (64,128,256,512,1024,2048,4096) do (
+	REM call build ROM_ASCII16 ROM_ASCII16 %%G
+REM )
 
-	rem ---- Rename output file to prevent overwriting ----
-	REM call :RenameOutput ROM_ASCII16_%%GK
-)
+REM ::-----------------------------------------------------------------------------
+REM :: Konami mapped ROM
+REM for %%G in (64,128,256,512,1024,2048) do (
+	REM call build ROM_KONAMI ROM_KONAMI %%G
+REM )
 
-::-----------------------------------------------------------------------------
-:: Konami mapped ROM
-for %%G in (64,128,256,512,1024,2048) do (
-	rem ---- Build target ----
-	call build ROM_KONAMI %%G
-
-	rem ---- Rename output file to prevent overwriting ----
-	REM call :RenameOutput ROM_KONAMI_%%GK
-)
-
-::-----------------------------------------------------------------------------
-:: Konami-SCC mapped ROM
-for %%G in (64,128,256,512,1024,2048) do (
-	rem ---- Build target ----
-	call build ROM_KONAMI_SCC %%G
-
-	rem ---- Rename output file to prevent overwriting ----
-	REM call :RenameOutput ROM_KONAMI_SCC_%%GK
-)
-
-goto :EOF
-
-::-----------------------------------------------------------------------------
-:: Rename output target
-REM :RenameOutput
-	REM set Temp=%1
-	REM set Type=%Temp:~0,3%
-	REM if /I !Type!==bin (
-		REM echo Rename %ProjDir%\emul\dsk\%ProjName%.dsk to %ProjName%_%1.dsk 
-		REM if exist %ProjDir%\emul\dsk\%ProjName%_%1.dsk ( del /Q %ProjDir%\emul\dsk\%ProjName%_%1.dsk )
-		REM rename %ProjDir%\emul\dsk\%ProjName%.dsk %ProjName%_%1.dsk 
-	REM )
-	REM if /I !Type!==rom (
-		REM echo Rename %ProjDir%\emul\rom\%ProjName%.rom to %ProjName%_%1.rom 
-		REM if exist %ProjDir%\emul\rom\%ProjName%_%1.rom ( del /Q %ProjDir%\emul\rom\%ProjName%_%1.rom )
-		REM rename %ProjDir%\emul\rom\%ProjName%.rom %ProjName%_%1.rom
-	REM )
-	REM if /I !Type!==dos (
-		REM echo Rename %ProjDir%\emul\dsk\%ProjName%.dsk to %ProjName%_%1.dsk 
-		REM if exist %ProjDir%\emul\dsk\%ProjName%_%1.dsk ( del /Q %ProjDir%\emul\dsk\%ProjName%_%1.dsk )
-		REM rename %ProjDir%\emul\dsk\%ProjName%.dsk %ProjName%_%1.dsk 
-	REM )
-	REM exit /B 0
+REM ::-----------------------------------------------------------------------------
+REM :: Konami-SCC mapped ROM
+REM for %%G in (64,128,256,512,1024,2048) do (
+	REM call build ROM_KONAMI_SCC ROM_KONAMI_SCC %%G
+REM )
 	
 :EOF

@@ -35,9 +35,12 @@ goto :CheckInput
 ::*****************************************************************************
 
 :: Project name (will be use for output filename)
-set ProjName=s_target_%1
+set ProjName=s_target
 if not "%2" == "" (
-	set ProjName=%ProjName%_%2K
+	set ProjName=%ProjName%_%2
+)
+if not "%3" == "" (
+	set ProjName=%ProjName%_%3K
 )
 
 :: Project modules to build (use ProjName if not defined)
@@ -74,7 +77,7 @@ set Machine=1
 :: - DOS2_ARG		.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 set Target=%Input%
 :: Mapper size
-set ROMSize=%2
+set ROMSize=%3
 
 :: Optim:
 :: - Default
