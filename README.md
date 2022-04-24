@@ -21,6 +21,10 @@ The library also provides interrupt handling code to create ROMs that always rem
 <img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_print.jpg" />
 <img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_sprite.jpg" />
 <img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_clock.jpg" />
+<img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_swsprt.png" />
+<img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_vdpcmd.jpg" />
+<img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_text.jpg" />
+<img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_math.jpg" />
 </div>
 
 The MSXgl Build Tool allows in 1 click to create a final program for a **large number of formats**:
