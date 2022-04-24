@@ -31,7 +31,7 @@ Here are also the supported audio formats:
 * ayFX
 * VGM (for all supported audio chip)
 * lVGM (a light-VGM format for PSG)
-* PCM-Encoder (aka. Crystal clean PCM 8bit samples on the poor PSG)
+* PCM-Encoder (aka. _Crystal clean PCM 8bit samples on the poor PSG_)
 
 Many thanks to the members of the MSX Ressource Center and MSX Village who have been very helpful.
 The library is distribute under Creative Commons BY-SA license. Tools or sources from other authors could use other free license.
