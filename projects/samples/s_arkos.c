@@ -51,31 +51,31 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntryAKG[] =
 {
-	{ "Cancion Nueva ", 0xA000, 4 },
-	{ "Hocus Pocus   ", 0xA000, 5 },
-	{ "Just add cream", 0xA000, 6 },
-	{ "Sarkboteur    ", 0xA000, 7 },
+	{ "Cancion Nueva                        ", 0xA000, 4 },
+	{ "Hocus Pocus (by Targhan)             ", 0xA000, 5 },
+	{ "Just add cream (by Excellence in Art)", 0xA000, 6 },
+	{ "Sarkboteur (by Rob Hubbard)          ", 0xA000, 7 },
 };
 const struct MusicEntry g_MusicEntryAKY[] =
 {
-	{ "Cancion Nueva ", 0xA000, 12 },
-	{ "Hocus Pocus   ", 0xA000, 13 },
-	{ "Just add cream", 0xA000, 14 },
-	{ "Sarkboteur    ", 0xA000, 15 },
+	{ "Cancion Nueva                        ", 0xA000, 12 },
+	{ "Hocus Pocus (by Targhan)             ", 0xA000, 13 },
+	{ "Just add cream (by Excellence in Art)", 0xA000, 14 },
+	{ "Sarkboteur (by Rob Hubbard)          ", 0xA000, 15 },
 };
 const struct MusicEntry g_MusicEntryAKM[] =
 {
-	{ "Cancion Nueva ", 0xA000, 8 },
-	{ "Hocus Pocus   ", 0xA000, 9 },
-	{ "Just add cream", 0xA000, 10 },
-	{ "Sarkboteur    ", 0xA000, 11 },
+	{ "Cancion Nueva                        ", 0xA000, 8 },
+	{ "Hocus Pocus (by Targhan)             ", 0xA000, 9 },
+	{ "Just add cream (by Excellence in Art)", 0xA000, 10 },
+	{ "Sarkboteur (by Rob Hubbard)          ", 0xA000, 11 },
 };
 
 const struct PlayerEntry g_PlayerEntry[] =
 {
-	{ "AKG", AKG_Init, AKG_Decode, AKG_Stop, g_MusicEntryAKG },
-	{ "AKY", AKY_Init, AKY_Decode, null,     g_MusicEntryAKY },
-	{ "AKM", AKM_Init, AKM_Decode, AKM_Stop, g_MusicEntryAKM },
+	{ "AKG (generic)",    AKG_Init, AKG_Decode, AKG_Stop, g_MusicEntryAKG },
+	{ "AKY (fast)",       AKY_Init, AKY_Decode, null,     g_MusicEntryAKY },
+	{ "AKM (minimalist)", AKM_Init, AKM_Decode, AKM_Stop, g_MusicEntryAKM },
 };
 
 //=============================================================================
@@ -83,7 +83,7 @@ const struct PlayerEntry g_PlayerEntry[] =
 //=============================================================================
 
 const struct PlayerEntry* g_CurrentPlayer;
-u8   g_PlayerIdx;
+u8   g_PlayerIdx = 0;
 u8   g_MusicIdx = 0;
 bool g_Freq50Hz = false;
 
@@ -117,14 +117,13 @@ void SetMusic(u8 idx)
 	
 	const struct MusicEntry* mus = &g_PlayerEntry[g_PlayerIdx].Musics[idx];
 
-	Print_SetPosition(0, 3);
-	Print_DrawFormat("Music %i/%i: %s", idx + 1, numberof(g_MusicEntryAKG), mus->Name);
+	Print_SetPosition(0, 10);
+	Print_DrawFormat("Music [%i/%i]:\n\n  %s", idx + 1, numberof(g_MusicEntryAKG), mus->Name);
 
 	SET_BANK_SEGMENT(3, mus->Segment);
 
 	g_CurrentPlayer->Init(mus->Data, 0);
 }
-
 
 //-----------------------------------------------------------------------------
 //
@@ -133,12 +132,21 @@ void SetPlayer(u8 idx)
 	g_PlayerIdx = idx;
 	g_CurrentPlayer = &g_PlayerEntry[idx];
 
-	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL " ARKOS ");
-	Print_DrawText(g_CurrentPlayer->Name);
-	Print_DrawText(" SAMPLE");
+	for(u8 i = 0; i < numberof(g_PlayerEntry) ; i++)
+	{
+		Print_SetPosition(0, i + 5);
+		Print_DrawChar((i == idx) ? '\x8A' : ' ');		
+	}
 	
 	SetMusic(g_MusicIdx);
+}
+
+//-----------------------------------------------------------------------------
+//
+void DisplayFreq()
+{
+	Print_SetPosition(0, 20);
+	Print_DrawFormat("Freq: %s", (g_Freq50Hz) ? "50Hz" : "60Hz");
 }
 
 //=============================================================================
@@ -156,22 +164,31 @@ void main()
 
 	// Header
 	Print_SetTextFont(g_Font_MGL_Sample6, 1); // Initialize font
+	Print_SetPosition(0, 0);
+	Print_DrawText(MSX_GL " ARKOS SAMPLE");
 	Print_DrawLineH(0, 1, 40);
 	
-	SetPlayer(1);
+	Print_SetPosition(0, 3);
+	Print_DrawText("Player: ");
+	for(u8 i = 0; i < numberof(g_PlayerEntry) ; i++)
+	{
+		Print_SetPosition(2, i + 5);
+		Print_DrawText(g_PlayerEntry[i].Name);		
+	}
+
+	SetPlayer(0);
 	SetMusic(0);
 
 	// Frequency
 	g_Freq50Hz = g_ROMVersion.VSF ? 1 : 0;
-	Print_SetPosition(0, 18);
-	Print_DrawFormat("Freq: %s", (g_Freq50Hz) ? "50Hz" : "60Hz");
-	Print_SetPosition(20, 18);
+	DisplayFreq();
+	Print_SetPosition(20, 20);
 	Print_DrawFormat("BIOS: %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
 
 	// Footer
 	Print_DrawLineH(0, 22, 40);
 	Print_SetPosition(0, 23);
-	Print_DrawText("\x8D:Music \x83:Pause \x82:Player Home:Freq");
+	Print_DrawText("\x8D:Music  \x83:Pause  \x82:Player  Home:Freq");
 
 	VDP_EnableVBlank(true);
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
@@ -183,9 +200,9 @@ void main()
 		WaitVBlank();
 		if(g_Freq50Hz || (count % 6) != 0)
 		{
-VDP_SetColor(0xF5);
+			VDP_SetColor(0xF5);
 			g_CurrentPlayer->Decode();
-VDP_SetColor(0xF4);
+			VDP_SetColor(0xF4);
 		}
 		
 		Print_SetPosition(39, 0);
@@ -194,6 +211,7 @@ VDP_SetColor(0xF4);
 
 		// Handle input
 		u8 row8 = Keyboard_Read(8);
+		// Change played music
 		if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
 		{
 			if(g_MusicIdx < numberof(g_MusicEntryAKG) - 1)
@@ -204,20 +222,28 @@ VDP_SetColor(0xF4);
 			if(g_MusicIdx > 0)
 				SetMusic(g_MusicIdx - 1);
 		}
+		// Change Arkos replayer
 		if(IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
-		{
-			if(g_PlayerIdx < numberof(g_PlayerEntry) - 1)
-				SetPlayer(g_PlayerIdx + 1);
-		}
-		else if(IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN))
 		{
 			if(g_PlayerIdx > 0)
 				SetPlayer(g_PlayerIdx - 1);
 		}
+		else if(IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN))
+		{
+			if(g_PlayerIdx < numberof(g_PlayerEntry) - 1)
+				SetPlayer(g_PlayerIdx + 1);
+		}
+		// Stop music playback
 		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
 			if(g_CurrentPlayer->Stop != null)
 				g_CurrentPlayer->Stop();
+		}
+		// Change frequency
+		if(IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(prevRow8, KEY_HOME))
+		{
+			g_Freq50Hz = 1 - g_Freq50Hz;
+			DisplayFreq();
 		}
 		prevRow8 = row8;
 	}
