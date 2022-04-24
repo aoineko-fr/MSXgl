@@ -13,6 +13,9 @@ The library also provides interrupt handling code to create ROMs that always rem
 
 **Many sample programs** are available to demonstrate the different features of the library.
 
+<img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/finalsmash.jpg" /><img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_draw.jpg" /><img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_clock.jpg" /><img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_game.png" />
+<img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_scroll.png" /><img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_print.jpg" /><img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_sprite.jpg" /><img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_psg.jpg" />
+
 The MSXgl Build Tool allows in 1 click to create a final program for a **large number of formats**:
 * **Plain ROM** from 8K to 64K (interrupt handler can be install in page 0),
 * **Mapped ROM** from 64K to 4096K (ASCII-8, ASCII-16, Konami and Konami SCC mappers),
