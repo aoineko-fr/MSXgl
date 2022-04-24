@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:arkos/akm_player.h","akm_player.h");NDSummary.OnSummaryLoaded("File:arkos/akm_player.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[458,0,1,"Functions","Functions"],[462,0,0,"AKM_Init","AKM_Init"],[463,0,0,"AKM_Stop","AKM_Stop"],[464,0,0,"AKM_Decode","AKM_Decode"]]);

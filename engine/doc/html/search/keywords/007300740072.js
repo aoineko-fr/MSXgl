@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("str",["Function"],[["String_Length",,[[,,,,0,"File:string.h:String_Length"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("str",["Function"],[["String_Format",,[[,,,,0,"File:string.c:String_Format"]]],["String_Length",,[[,,,,0,"File:string.c:String_Length"]]]]);

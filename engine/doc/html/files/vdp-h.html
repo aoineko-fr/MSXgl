@@ -88,22 +88,34 @@
  <div class="CBody"><p>Read a value from VRAM</p></div>
 </div>
 
-<a name="VDP_WriteVRAM"></a><a name="Topic79"></a><div class="CTopic TFunction LC">
- <div class="CTitle">VDP_WriteVRAM</div>
- <div id="NDPrototype79" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_WriteVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">destLow,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">destHigh,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">) __sdcccall(<span class="SHNumber">0</span>)</td></tr></table></div></div>
+<a name="VDP_WriteVRAM_128K"></a><a name="Topic476"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_WriteVRAM_128K</div>
+ <div id="NDPrototype476" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_WriteVRAM_128K(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">destLow,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">destHigh,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">) __sdcccall(<span class="SHNumber">0</span>)</td></tr></table></div></div>
  <div class="CBody"><p>Write data from RAM to VRAM</p></div>
 </div>
 
-<a name="VDP_FillVRAM"></a><a name="Topic80"></a><div class="CTopic TFunction LC">
- <div class="CTitle">VDP_FillVRAM</div>
- <div id="NDPrototype80" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_FillVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">destLow,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">destHigh,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">) __sdcccall(<span class="SHNumber">0</span>)</td></tr></table></div></div>
+<a name="VDP_FillVRAM_128K"></a><a name="Topic477"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_FillVRAM_128K</div>
+ <div id="NDPrototype477" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_FillVRAM_128K(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">destLow,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">destHigh,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">) __sdcccall(<span class="SHNumber">0</span>)</td></tr></table></div></div>
  <div class="CBody"><p>Fill VRAM area with a given value</p></div>
 </div>
 
-<a name="VDP_ReadVRAM"></a><a name="Topic81"></a><div class="CTopic TFunction LC">
- <div class="CTitle">VDP_ReadVRAM</div>
- <div id="NDPrototype81" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_ReadVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">srcLow,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">srcHigh,</td></tr><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">) __sdcccall(<span class="SHNumber">0</span>)</td></tr></table></div></div>
+<a name="VDP_ReadVRAM_128K"></a><a name="Topic478"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_ReadVRAM_128K</div>
+ <div id="NDPrototype478" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_ReadVRAM_128K(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">srcLow,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">srcHigh,</td></tr><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">) __sdcccall(<span class="SHNumber">0</span>)</td></tr></table></div></div>
  <div class="CBody"><p>Read data from VRAM to RAM</p></div>
+</div>
+
+<a name="VDP_Poke_128K"></a><a name="Topic479"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_Poke_128K</div>
+ <div id="NDPrototype479" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_Poke_128K(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">destLow,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">destHigh</td></tr></table></td><td class="PAfterParameters">) __sdcccall(<span class="SHNumber">0</span>)</td></tr></table></div></div>
+ <div class="CBody"><p>Write a value to VRAM</p></div>
+</div>
+
+<a name="VDP_Peek_128K"></a><a name="Topic480"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_Peek_128K</div>
+ <div id="NDPrototype480" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 VDP_Peek_128K(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">srcLow,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">srcHigh</td></tr></table></td><td class="PAfterParameters">) __sdcccall(<span class="SHNumber">0</span>)</td></tr></table></div></div>
+ <div class="CBody"><p>Read a value from VRAM</p></div>
 </div>
 
 <a name="Setup"></a><a name="Topic82"></a><div class="CTopic TGroup LC">
@@ -302,6 +314,12 @@
  <div class="CTitle">VDP_SetSpritePosition</div>
  <div id="NDPrototype115" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpritePosition(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Update sprite position</p></div>
+</div>
+
+<a name="VDP_SetSpritePositionX"></a><a name="Topic481"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetSpritePositionX</div>
+ <div id="NDPrototype481" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpritePositionX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Update sprite position X</p></div>
 </div>
 
 <a name="VDP_SetSpritePositionY"></a><a name="Topic116"></a><div class="CTopic TFunction LC">

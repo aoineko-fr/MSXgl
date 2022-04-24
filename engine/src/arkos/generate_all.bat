@@ -1,11 +1,11 @@
 @echo off
 
-set Players=akg,akm,aky,lw
+set Players=AKG,AKM,AKY,LW
 
 for %%I in (%Players%) do (
-	echo ========================================
-	echo Generate %%I
+	echo ==== Generate %%I ====
 	call generate %%I
+	echo.
 )
 
-pause
+REM pause

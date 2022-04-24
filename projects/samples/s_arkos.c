@@ -51,24 +51,24 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntryAKG[] =
 {
-	{ "Cancion Nueva  ", 0xA000, 4 },
-	{ "Hocus Pocus    ", 0xA000, 5 },
-	{ "Just add cream ", 0xA000, 6 },
-	{ "Sarkboteur     ", 0xA000, 7 },
+	{ "Cancion Nueva ", 0xA000, 4 },
+	{ "Hocus Pocus   ", 0xA000, 5 },
+	{ "Just add cream", 0xA000, 6 },
+	{ "Sarkboteur    ", 0xA000, 7 },
 };
 const struct MusicEntry g_MusicEntryAKY[] =
 {
-	{ "Cancion Nueva  ", 0xA000, 12 },
-	{ "Hocus Pocus    ", 0xA000, 13 },
-	{ "Just add cream ", 0xA000, 14 },
-	{ "Sarkboteur     ", 0xA000, 15 },
+	{ "Cancion Nueva ", 0xA000, 12 },
+	{ "Hocus Pocus   ", 0xA000, 13 },
+	{ "Just add cream", 0xA000, 14 },
+	{ "Sarkboteur    ", 0xA000, 15 },
 };
 const struct MusicEntry g_MusicEntryAKM[] =
 {
-	{ "Cancion Nueva  ", 0xA000, 8 },
-	{ "Hocus Pocus    ", 0xA000, 9 },
-	{ "Just add cream ", 0xA000, 10 },
-	{ "Sarkboteur     ", 0xA000, 11 },
+	{ "Cancion Nueva ", 0xA000, 8 },
+	{ "Hocus Pocus   ", 0xA000, 9 },
+	{ "Just add cream", 0xA000, 10 },
+	{ "Sarkboteur    ", 0xA000, 11 },
 };
 
 const struct PlayerEntry g_PlayerEntry[] =

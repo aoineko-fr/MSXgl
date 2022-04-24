@@ -5,10 +5,10 @@
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 //─────────────────────────────────────────────────────────────────────────────
-//  Arkos AKY replayer
-//─────────────────────────────────────────────────────────────────────────────
+// Arkos AKY replayer (Fastest)
+//
 // Arkos Tracker and the Z80 players are coded and designed by Julien Névo a.k.a Targhan/Arkos.
-// https://www.julien-nevo.com/arkostracker/index.php/credits/
+//  https://www.julien-nevo.com/arkostracker/index.php/credits/
 //─────────────────────────────────────────────────────────────────────────────
 #include "aky_player.h"
 

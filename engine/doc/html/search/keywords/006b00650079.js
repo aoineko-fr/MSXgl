@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("key",["Function"],[["Keyboard_IsKeyPressed",,[[,,,,0,"File:input.h:Keyboard_IsKeyPressed"]]],["Keyboard_Read",,[[,,,,0,"File:input.h:Keyboard_Read"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("key",["Function"],[["Keyboard_IsKeyPressed",,[[,,,,0,"File:input.h:Keyboard_IsKeyPressed"]]],["Keyboard_IsKeyPushed",,[[,,,,0,"File:input.h:Keyboard_IsKeyPushed"]]],["Keyboard_Read",,[[,,,,0,"File:input.h:Keyboard_Read"]]],["Keyboard_Update",,[[,,,,0,"File:input.h:Keyboard_Update"]]]]);

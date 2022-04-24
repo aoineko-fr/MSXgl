@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("akg",["Function"],[["AKG_Decode",,[[,,,,0,"File:arkos/akg_player.h:AKG_Decode"]]],["AKG_Init",,[[,,,,0,"File:arkos/akg_player.h:AKG_Init"]]],["AKG_Stop",,[[,,,,0,"File:arkos/akg_player.h:AKG_Stop"]]]]);

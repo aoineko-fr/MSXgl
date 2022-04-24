@@ -34,10 +34,16 @@
  <div class="CTitle">String</div>
 </div>
 
-<a name="String_Length"></a><a name="Topic33"></a><div class="CTopic TFunction LC last">
+<a name="String_Length"></a><a name="Topic79"></a><div class="CTopic TFunction LC">
  <div class="CTitle">String_Length</div>
- <div id="NDPrototype33" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 String_Length(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">str</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype79" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 String_Length(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">str</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get the length of a given string</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">str<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>The string to check</p></td></tr></table></div>
+</div>
+
+<a name="String_Format"></a><a name="Topic80"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">String_Format</div>
+ <div id="NDPrototype80" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> String_Format(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">c8*&nbsp;</td><td></td><td class="PName last">dest,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td></td><td class="PName last">format,</td></tr><tr><td class="first"></td><td></td><td class="PSymbols">...</td><td class="last"></td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Build a zero-terminated string</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">dest<div class="CDLParameterType">c8*</div></td><td class="CDLDefinition"><p>Destination string buffer (must big enough to contain the whole string)</p></td></tr><tr><td class="CDLEntry">format<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Formating string</p></td></tr><tr><td class="CDLEntry">...</td><td class="CDLDefinition"><p>Variable number of parameter (depends on the Formating string)</p></td></tr></table></div>
 </div>
 
 </body></html>
