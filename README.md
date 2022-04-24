@@ -1,21 +1,23 @@
 # MSXgl
 
-MSXGL is a Game Library wrote in C and targeting MSX computers.
+**MSXGL is a Game Library wrote in C and targeting MSX computers.**
 
-The goal of this library is to offer to C programmers, the whole set of functionalities to create a game with high performances.
+The goal of this library is to offer to C programmers, the **whole set of functionalities to create a game** with high performances.
 EvenEven if a C program can never be as efficient as a program written entirely in assembler, the goal is to try to get as close as possible.
 
-To achieve this goal, the library is dynamically compiled to allow the user to configure the functionalities to best suit his needs.
+To achieve this goal, the **library is dynamically compiled** to allow the user to configure the functionalities to best suit his needs.
 Also, the most expensive features are written in assembler.
 
-The other goal was to create a library that could be totally independent of the BIOS. This makes it much easier to use the 16K of page 0.
+The other goal was to create a library that could be **totally independent of the BIOS**. This makes it much easier to use the 16K of page 0.
 The library also provides interrupt handling code to create ROMs that always remain on page 0.
 
-The Build Tool allows in 1 click to create a final program for a large number of formats:
-* Plain ROM from 8K to 64K (interrupt handler can be install in page 0),
-* Mapped ROM from 64K to 4096K (ASCII-8, ASCII-16, Konami and Konami SCC mappers),
-* MSX-DOS 1 or 2 binary program,
-* BASIC binary program.
+**Many sample programs** are available to demonstrate the different features of the library.
+
+The MSXgl Build Tool allows in 1 click to create a final program for a **large number of formats**:
+* **Plain ROM** from 8K to 64K (interrupt handler can be install in page 0),
+* **Mapped ROM** from 64K to 4096K (ASCII-8, ASCII-16, Konami and Konami SCC mappers),
+* **MSX-DOS** 1 or 2 binary program,
+* **BASIC** binary program.
 
 The library supports the following devices:
 * VDP (TMS9918 and V9938),
