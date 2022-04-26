@@ -1,11 +1,12 @@
 @echo off
 
 :: Audio
+set BuildTrilo=1
 set BuildWYZ=0
 set BuildayFX=0
 set BuildVGM=0
 set BuildayVGM=0
-set BuildArkos=1
+set BuildArkos=0
 set BuildPCMEnc=0
 :: Image
 set BuildImage=0
@@ -23,6 +24,17 @@ if not exist %Dest% md %Dest%
 ::=============================================================================
 :: AUDIO
 ::=============================================================================
+
+::-----------------------------------------------------------------------------
+:: Build Trilo data
+if %BuildTrilo%==1 (
+	echo Building Trilo data...
+	if not exist %Dest%\trilo md %Dest%\trilo
+	for %%I in (trilo\*.tmu) do (
+		%AudioMisc%\tmucompile.exe %%I %Dest%\trilo\tmu_%%~nI.asm
+		%CMSXtk%\CMSXbin.exe %%I -t g_TMU_%%~nI -ad  -o %Dest%\trilo\tmu_%%~nI.h
+	)
+)
 
 ::-----------------------------------------------------------------------------
 :: Build WYZ data
