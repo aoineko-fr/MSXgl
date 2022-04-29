@@ -1,13 +1,14 @@
-﻿//_____________________________________________________________________________
-//   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄      ▄        
-//  ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▀▀██ ▄  ██▀▄  
-//  ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀   
-//______________________________▀▀  ___________________________________________
-//
-// by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
-// available on GitHub (https://github.com/aoineko-fr/MSXbin)
-// under CC-BY-AS free license (https://creativecommons.org/licenses/by-sa/2.0/)
+﻿// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │       ▄        
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀▀██ ▄  ██▀▄  
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▄ ██ ██▀   
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘          ▀▀
+//  by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
+//  available on GitHub (https://github.com/aoineko-fr/MSXgl/tree/main/tools/MSXtk)
+//  under CC-BY-AS free license (https://creativecommons.org/licenses/by-sa/2.0/)
+//─────────────────────────────────────────────────────────────────────────────
 
+// std
 #include <stdlib.h>
 #include <stdio.h>
 #include <string>
