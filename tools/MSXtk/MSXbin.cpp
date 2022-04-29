@@ -128,33 +128,6 @@ inline std::string StringFormat(const char* fmt, ...)
 #endif
 }
 
-// Remove the filename extension (if any)
-std::string RemoveExt(const std::string& str)
-{
-	size_t lastdot = str.find_last_of(".");
-	if (lastdot == std::string::npos)
-		return str;
-	return str.substr(0, lastdot);
-}
-
-// Remove the filename extension (if any)
-std::string RemovePath(const std::string& str)
-{
-	size_t lastpos;
-	size_t last1 = str.find_last_of("\\");
-	size_t last2 = str.find_last_of("/");
-	if ((last1 == std::string::npos) && (last2 == std::string::npos))
-		return str;
-	else if (last1 == std::string::npos)
-		lastpos = last2;
-	else if (last2 == std::string::npos)
-		lastpos = last1;
-	else
-		lastpos = std::max(last1, last2);
-
-	return str.substr(lastpos + 1);
-}
-
 // Remode all non-alphanumeric character 
 std::string ConvertToAlphaNum(const std::string& str)
 {
@@ -499,7 +472,7 @@ i32 Export()
 void PrintHelp()
 {
 	printf("MSXbin %s - Convert binary to text file\n", VERSION);
-	printf("Usage: bin2h <inputfile> [options]\n");
+	printf("Usage: msxbin <inputfile> [options]\n");
 	printf("Options:\n");
 	printf("  -o output     Filename of the output file (default: use input filename with .h/.asm extension)\n");
 	printf("  -t mane       Data table name (default: use input filename)\n");
@@ -633,7 +606,7 @@ int main(int argc, const char* argv[])
 	// Validate parameters
 	if (g_OutputFile.empty())
 	{
-		g_OutputFile = RemoveExt(g_InputFile);
+		g_OutputFile = MSX::RemoveExt(g_InputFile);
 		switch (g_Lang)
 		{
 		default:
@@ -643,8 +616,8 @@ int main(int argc, const char* argv[])
 	}
 	if (g_TableName.empty())
 	{
-		g_TableName = RemovePath(g_InputFile);
-		g_TableName = RemoveExt(g_TableName);
+		g_TableName = MSX::RemovePath(g_InputFile);
+		g_TableName = MSX::RemoveExt(g_TableName);
 		g_TableName = "g_" + ConvertToAlphaNum(g_TableName);
 	}
 

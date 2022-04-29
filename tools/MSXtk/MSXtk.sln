@@ -1,0 +1,73 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MSXbin", "proj\MSXbin.vcxproj", "{3C4DD346-CDE6-4962-864F-B44E472D29E9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MSXzip", "proj\MSXzip.vcxproj", "{3C4DD346-CDE6-4962-864F-B44E472D29E6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MSXmath", "proj\MSXmath.vcxproj", "{3C4DD346-CDE6-4962-864F-B44E472D29E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "inc", "inc", "{8DED7E11-AF9F-4508-A00A-844F746209BF}"
+	ProjectSection(SolutionItems) = preProject
+		src\ayVGM.h = src\ayVGM.h
+		src\MSXtk.h = src\MSXtk.h
+		src\MSXtk_data.h = src\MSXtk_data.h
+		src\MSXtk_export.h = src\MSXtk_export.h
+		src\MSXtk_file.h = src\MSXtk_file.h
+		src\MSXtk_string.h = src\MSXtk_string.h
+		src\MSXtk_types.h = src\MSXtk_types.h
+		src\RLEp.h = src\RLEp.h
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MSXhex", "proj\MSXhex.vcxproj", "{3C4DD346-CDE6-4962-864F-B44E472D29E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C4DD346-CDE6-4962-864F-B44E472D29E9}.Debug|x64.ActiveCfg = Debug|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E9}.Debug|x64.Build.0 = Debug|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E9}.Debug|x86.ActiveCfg = Debug|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E9}.Debug|x86.Build.0 = Debug|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E9}.Release|x64.ActiveCfg = Release|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E9}.Release|x64.Build.0 = Release|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E9}.Release|x86.ActiveCfg = Release|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E9}.Release|x86.Build.0 = Release|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E6}.Debug|x64.ActiveCfg = Debug|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E6}.Debug|x64.Build.0 = Debug|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E6}.Debug|x86.ActiveCfg = Debug|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E6}.Debug|x86.Build.0 = Debug|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E6}.Release|x64.ActiveCfg = Release|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E6}.Release|x64.Build.0 = Release|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E6}.Release|x86.ActiveCfg = Release|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E6}.Release|x86.Build.0 = Release|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E7}.Debug|x64.ActiveCfg = Debug|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E7}.Debug|x64.Build.0 = Debug|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E7}.Debug|x86.ActiveCfg = Debug|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E7}.Debug|x86.Build.0 = Debug|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E7}.Release|x64.ActiveCfg = Release|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E7}.Release|x64.Build.0 = Release|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E7}.Release|x86.ActiveCfg = Release|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E7}.Release|x86.Build.0 = Release|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E1}.Debug|x64.ActiveCfg = Debug|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E1}.Debug|x64.Build.0 = Debug|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E1}.Debug|x86.ActiveCfg = Debug|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E1}.Debug|x86.Build.0 = Debug|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E1}.Release|x64.ActiveCfg = Release|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E1}.Release|x64.Build.0 = Release|x64
+		{3C4DD346-CDE6-4962-864F-B44E472D29E1}.Release|x86.ActiveCfg = Release|Win32
+		{3C4DD346-CDE6-4962-864F-B44E472D29E1}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B996E83C-A5E1-4EA4-9E26-A239B774899E}
+	EndGlobalSection
+EndGlobal

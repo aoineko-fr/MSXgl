@@ -41,4 +41,8 @@ typedef double             f64; ///< 64 bits floating-point
 typedef char               c8;	///<  8 bits character
 typedef wchar_t            c16;	///< 16 bits character
 
-#define numberof(tab) sizeof(tab) / sizeof(tab[0])
+//-----------------------------------------------------------------------------
+// help macros
+#define numberof(tab)		(sizeof(tab) / sizeof(tab[0]))
+#define loop(var, x)		for(u32 var = 0; var < x; var++)
+#define loopx(x)			for(u32 i##__LINE__ = 0; i##__LINE__ < x; i##__LINE__++)
