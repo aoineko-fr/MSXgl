@@ -30,9 +30,12 @@ if not exist %Dest% md %Dest%
 if %BuildTrilo%==1 (
 	echo Building Trilo data...
 	if not exist %Dest%\trilo md %Dest%\trilo
+	if not exist %Dest%\trilo\out md %Dest%\trilo\out
 	for %%I in (trilo\*.tmu) do (
-		%AudioMisc%\tmucompile.exe %%I %Dest%\trilo\tmu_%%~nI.asm
-		%CMSXtk%\CMSXbin.exe %%I -t g_TMU_%%~nI -ad  -o %Dest%\trilo\tmu_%%~nI.h
+		%AudioMisc%\tmucompile.exe %%I %Dest%\trilo\out\tmu_%%~nI.asm
+		%Tools%\audio\misc\sjasm -s %Dest%\trilo\out\tmu_%%~nI.asm %Dest%\trilo\out\tmu_%%~nI.bin
+		%Tools%\audio\misc\rxrepl -f %Dest%\trilo\out\tmu_%%~nI.sym -o %Dest%\trilo\out\tmu_%%~nI_rasm.sym -s ": equ [0123456789ABCDEF]{4}([0123456789ABCDEF]{4})h" -r " #\1 B0"
+		%Tools%\audio\arkos\Disark.exe %Dest%\trilo\out\tmu_%%~nI.bin %Dest%\trilo\tmu_%%~nI.asm --symbolFile %Dest%\trilo\out\tmu_%%~nI_rasm.sym --undocumentedOpcodesToBytes --src16bitsValuesInHex --src8bitsValuesInHex --sourceProfile sdcc
 	)
 )
 

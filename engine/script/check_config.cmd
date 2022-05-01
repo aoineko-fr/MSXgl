@@ -29,9 +29,20 @@ if not defined ProjName (
 
 :: Check project modules
 if not defined ProjModules (
-	echo %YELLOW%Warning: ProjModules not defined. Adding %ProjName% to build list.%RESET%
+	echo Note: ProjModules not defined. Adding %ProjName% to build list.
 	set ProjModules=%ProjName%
 )
+
+:: Project segments base name
+if not %MapperSize%==0 (
+	if not defined ProjSegments (
+		echo Note: ProjSegments not defined. Using %ProjName%.
+		set ProjSegments=%ProjName%
+	)
+)
+
+if not defined InstallBDOS ( set InstallBDOS=0 )
+if not defined BankedCall  ( set BankedCall=0 )
 
 ::***************************************************************************
 :: CHECK TOOLS PATH
@@ -44,7 +55,7 @@ if not exist "%Compiler%" (
 )
 if not exist "%Assembler%" (
 	echo %RED%Error: Invalid path to Assembler [%Assembler%]%RESET%
-	exit /B 40
+	exit /B 35
 )
 if not exist "%Linker%" (
 	echo %RED%Error: Invalid path to Linker [%Linker%]%RESET%

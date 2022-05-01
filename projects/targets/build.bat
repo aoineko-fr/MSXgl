@@ -46,6 +46,9 @@ if not "%3" == "" (
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=s_target
 
+:: Project segments base name
+set ProjSegments=s_target
+
 :: List of library modules to build
 set LibModules=system,bios,vdp,print,input,memory
 
@@ -54,7 +57,7 @@ set LibModules=system,bios,vdp,print,input,memory
 :: - 2		MSX 2
 :: - 2P		MSX 2+
 :: - TR		MSX TurboR
-:: - 12		MSX 1/2
+:: - 12		MSX 1 or 2
 set Machine=1
 
 :: Target:
@@ -78,17 +81,25 @@ set Machine=1
 set Target=%Input%
 :: Mapper size
 set ROMSize=%3
+:: Install BDOS driver for ROM program? (0=false, 1=true)
+set InstallBDOS=1
+:: Use banked call and add trampoline functions (0=false, 1=true)
+set BankedCall=1
+:: Overwrite RAM starting address
+set ForceRamAddr=
 
+:: Set debug flag (0=false, 1=true)
+set Debug=1
 :: Optim:
 :: - Default
 :: - Speed
 :: - Size
 set Optim=Size
-:: Overwrite RAM starting address
-set ForceRamAddr=
 :: Additionnal compilation flag
 set CompileOpt=
-:: Verbose mode: 0 or 1
+:: Skip file if compile data is newer than the source (0=false, 1=true)
+set CompileSkipOld=0
+:: Verbose mode (0=false, 1=true)
 set Verbose=0
 
 ::*****************************************************************************

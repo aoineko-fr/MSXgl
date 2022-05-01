@@ -41,25 +41,27 @@
 #define DOS_2						2 // MSX-DOS 2
 #define DOS_2_ARGS					3 // MSX-DOS 2 with command-line arguments
 
-// ROM_MAPPER options		
+// ROM_MAPPER options (0-15)
 #define ROM_PLAIN					0
 #define ROM_ASCII8					1
 #define ROM_ASCII16					2
 #define ROM_KONAMI					3
 #define ROM_KONAMI_SCC				4
 
-// ROM_SIZE options
-#define ROM_8K						0	
-#define ROM_16K						1	
-#define ROM_32K						2	
-#define ROM_48K						3	
-#define ROM_64K						4
-#define ROM_128K					5	
-#define ROM_256K					6	
-#define ROM_512K					7	
-#define ROM_1024K					8	
-#define ROM_2048K					9	
-#define ROM_4096K					10	
+// ROM_SIZE options (0-15)
+#define ROM_8K						0
+#define ROM_16K						1
+#define ROM_24K						2
+#define ROM_32K						3
+#define ROM_48K						4
+#define ROM_64K						5
+#define ROM_128K					6
+#define ROM_256K					7
+#define ROM_512K					8
+#define ROM_1024K					9
+#define ROM_2048K					10
+#define ROM_3072K					11
+#define ROM_4096K					12
 
 #define ROM_ISR						(1<<12)	
 #define ROM_MIRROR					(1<<13)	

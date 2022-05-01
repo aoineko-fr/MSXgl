@@ -64,6 +64,9 @@ crt0_start:
 	ei
 	call	_main
 	rst		0
+	
+	; Add banked call trampoline
+	SUPPORT_BANKED_CALL
 
 ;------------------------------------------------------------------------------
 ; Ordering of segments for the linker
@@ -79,8 +82,15 @@ _g_LastAddr::
 
 ;-- RAM --
 .area	_DATA
+
 _g_HeapStartAddress::
 	.ds 2
+
+.if ROM_BCALL
+_g_CurrentSegment::
+	.ds 1
+.endif
+
 .area	_INITIALIZED
 .area	_BSEG
 .area   _BSS

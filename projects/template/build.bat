@@ -48,6 +48,18 @@ SET Machine=1
 :: - DOS2_ARG		.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 set Target=ROM_32K
 
+:: Set debug flag (0=false, 1=true)
+set Debug=1
+:: Optim:
+:: - Default
+:: - Speed
+:: - Size
+set Optim=Speed
+:: Skip file if compile data is newer than the source (0=false, 1=true)
+set CompileSkipOld=0
+:: Verbose mode (0=false, 1=true)
+set Verbose=0
+
 ::*****************************************************************************
 :: BUILD STEPS
 ::*****************************************************************************

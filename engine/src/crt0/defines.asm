@@ -47,6 +47,7 @@ ROM_KONAMI_SCC		= 4
 
 ;------------------------------------------------------------------------------
 ; Default values
+ADDR_BOOT			= 0x4000
 ROM_MAPPER			= ROM_PLAIN
 ROM_BDOS			= 0
-ADDR_BOOT			= 0x4000
+ROM_BCALL			= 0

@@ -15,10 +15,6 @@
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
 
-// Music
-// #include "content/trilo/tmu_nem3-st1.h"
-
-
 // VGM music entry
 struct MusicEntry
 {
@@ -42,6 +38,8 @@ void ButtonPrev();
 void ButtonNext();
 void ButtonLoop();
 
+extern u16 tmu_kv2_puzz;
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -49,18 +47,16 @@ void ButtonLoop();
 // Fonts
 // #include "font\font_mgl_sample8.h"
 
-// Music
-
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
-	{ "kv2-puzz", 0x8000, 1 },
-	{ "nem3airb", 0x8000, 2 },
-	{ "nem3-st1", 0x8000, 3 },
-	{ "triplets", 0x8000, 4 },
+	{ "kv2-puzz", null, 1 },
+	{ "nem3airb", null, 2 },
+	{ "nem3-st1", null, 3 },
+	{ "triplets", null, 4 },
 };
 
 // Player button list
@@ -88,13 +84,6 @@ u8 g_CurrentButton;
 //=============================================================================
 // HELPER FUNCTIONS
 //=============================================================================
-
-void MusicAddr()
-{
-	__asm
-		#include "content/trilo/tmu_nem3-st1.asm"
-	__endasm;
-}
 
 //-----------------------------------------------------------------------------
 //
@@ -198,7 +187,7 @@ void main()
 	}
 	
 	TriloSCC_Initialize();
-	TriloSCC_LoadSong((u16)MusicAddr);
+	TriloSCC_LoadSong(tmu_kv2_puzz);
 	
 
 	// Footer
@@ -222,7 +211,7 @@ void main()
 		TriloSCC_Apply();
 		TriloSCC_Play();
 
-		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
+		// VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
 		Print_SetPosition(31, 0);
 		u8 chr = count++ & 0x03;

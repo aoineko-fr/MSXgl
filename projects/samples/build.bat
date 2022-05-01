@@ -62,6 +62,8 @@ REM set Emulator=%ToolsDir%\RuMSX\MSX.exe
 set ProjName=%Input%
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=%ProjName%
+:: Project segments base name
+set ProjSegments=%ProjName%
 :: List of library modules to build
 set LibModules=system,bios,vdp,print,input,memory,math,draw
 
@@ -70,7 +72,7 @@ set LibModules=system,bios,vdp,print,input,memory,math,draw
 :: - 2		MSX 2
 :: - 2P		MSX 2+
 :: - TR		MSX TurboR
-:: - 12		MSX 1/2
+:: - 12		MSX 1 or 2
 set Machine=2
 :: Target:
 :: - BIN			.bin	BASIC binary program (8000h~)
@@ -83,10 +85,10 @@ set Machine=2
 :: - ROM_48K_ISR	.rom	48KB ROM in page 0-2 (0000h ~ BFFFh). Pages 0-2 visible at start
 :: - ROM_64K		.rom	64KB ROM in page 0-3 (0000h ~ FFFFh). Pages 1-2 visible at start
 :: - ROM_64K_ISR	.rom	64KB ROM in page 0-3 (0000h ~ FFFFh). Pages 0-2 visible at start
-:: - ROM_ASCII8		.rom	128KB ROM using ASCII-8 mapper
-:: - ROM_ASCII16	.rom	128KB ROM using ASCII-16 mapper
-:: - ROM_KONAMI		.rom	128KB ROM using Konami mapper (8KB segments)
-:: - ROM_KONAMI_SCC	.rom	128KB ROM using Konami SCC mapper (8KB segments)
+:: - ROM_ASCII8		.rom	Mega-ROM using ASCII-8 mapper
+:: - ROM_ASCII16	.rom	Mega-ROM using ASCII-16 mapper
+:: - ROM_KONAMI		.rom	Mega-ROM using Konami mapper (8KB segments)
+:: - ROM_KONAMI_SCC	.rom	Mega-ROM using Konami SCC mapper (8KB segments)
 :: - DOS1			.com	MSX-DOS 1 program (0100h~) No direct acces to Main-ROM
 :: - DOS2			.com	MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
 :: - DOS2_ARG		.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
@@ -96,6 +98,8 @@ if not "%2"=="" set Target=%2
 set ROMSize=
 :: Install BDOS driver for ROM program? (0=false, 1=true)
 set InstallBDOS=0
+:: Use banked call (and trampoline functions)
+set BankedCall=1
 :: Overwrite RAM starting address
 set ForceRamAddr=
 

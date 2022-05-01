@@ -22,6 +22,19 @@
 	#undef  MAPPER_NUM
 	#define MAPPER_NUM	ROM_SEGMENTS
 #endif
+#if (ROM_MAPPER > ROM_PLAIN)
+	#if (ROM_MAPPER == ROM_ASCII16)
+		void PrintSegment2Data(u8 x, u8 y) __banked;
+		#define BANKED_BANK 1
+		#define BANKED_SEG 2
+		#define BANKED_CALL(x, y) PrintSegment2Data(x, y)
+	#else	
+		void PrintSegment4Data(u8 x, u8 y) __banked;
+		#define BANKED_BANK 2
+		#define BANKED_SEG 4
+		#define BANKED_CALL(x, y) PrintSegment4Data(x, y)
+	#endif
+#endif
 
 // Slots page
 #define SLOT_Y		3
@@ -566,6 +579,15 @@ void DiplayInfo()
 		Print_DrawChar('\x1B');
 
 		UpdateMapper();
+
+		// #if (ROM_MAPPER == ROM_ASCII16)
+			// SET_BANK_SEGMENT(1, BANKED_SEG);
+		// #else
+			// SET_BANK_SEGMENT(2, BANKED_SEG);
+		// #endif		
+		Print_SetPosition(0, MAPPER_Y + 4 + MAPPER_NUM);
+		Print_DrawText("Banked call:");
+		BANKED_CALL(1, MAPPER_Y + 5 + MAPPER_NUM);
 
 	#endif
 

@@ -11,6 +11,7 @@
 
 ;------------------------------------------------------------------------------
 ; Initialize globals
+;------------------------------------------------------------------------------
 .macro INIT_GLOBALS
 
 	crt0_init_globals:
@@ -27,6 +28,7 @@
 
 ;------------------------------------------------------------------------------
 ; Set page #2 at the same slot than the page #1 (for 32K ROM)
+;------------------------------------------------------------------------------
 .macro INIT_P1_TO_P2
 
 	crt0_p1_to_p2:
@@ -75,6 +77,7 @@
 
 ;------------------------------------------------------------------------------
 ; Set pages #0 and #2 at the same slot than the page #1 (for 48K ROM)
+;------------------------------------------------------------------------------
 .macro INIT_P1_TO_P02
 
 	crt0_p1_to_p02:
@@ -125,6 +128,8 @@
 .endm
 
 ;------------------------------------------------------------------------------
+; Install BDOS
+;------------------------------------------------------------------------------
 .macro INSTALL_BDOS
 	.if ROM_BDOS
 	; Setup the hook H.STKE to run the ROM with disk support
@@ -150,15 +155,42 @@
 	.endif
 .endm
 
+;------------------------------------------------------------------------------
+; Add banked call trampoline
+;------------------------------------------------------------------------------
+.macro SUPPORT_BANKED_CALL
+	.if ROM_BCALL
+	; Set segment (get value from register A)
+	set_bank::
+		.ifeq ROM_MAPPER-ROM_ASCII16
+		ld		(BANK1_ADDR), a ; Bank 1 (8000h)
+		.else
+		ld		(BANK2_ADDR), a ; Bank 2 (8000h)
+		.endif
+		ld		(_g_CurrentSegment), a
+		ret
+
+	; Get segment (return value in register A)
+	get_bank::
+		ld		a, (_g_CurrentSegment)
+		ret
+	.endif
+.endm
+
+
 ;==============================================================================
 ; ROM MAPPER
 ;==============================================================================
 
 ;------------------------------------------------------------------------------
+; ROM_PLAIN
+;------------------------------------------------------------------------------
 .ifeq ROM_MAPPER-ROM_PLAIN
 	.macro INIT_MAPPER
 	.endm
 .endif
+;------------------------------------------------------------------------------
+; ROM_ASCII8
 ;------------------------------------------------------------------------------
 .ifeq ROM_MAPPER-ROM_ASCII8
 	BANK0_ADDR = #0x6000
@@ -173,10 +205,16 @@
 		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
 		inc		a
 		ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
+		.if ROM_BCALL
+		ld		(_g_CurrentSegment), a
+		.endif
 		inc		a
 		ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
+
 	.endm
 .endif
+;------------------------------------------------------------------------------
+; ROM_ASCII16
 ;------------------------------------------------------------------------------
 .ifeq ROM_MAPPER-ROM_ASCII16
 	BANK0_ADDR = #0x6000
@@ -187,8 +225,13 @@
 		ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
 		inc		a
 		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
+		.if ROM_BCALL
+		ld		(_g_CurrentSegment), a
+		.endif
 	.endm
 .endif
+;------------------------------------------------------------------------------
+; ROM_KONAMI
 ;------------------------------------------------------------------------------
 .ifeq ROM_MAPPER-ROM_KONAMI
 	BANK1_ADDR = #0x6000
@@ -200,10 +243,15 @@
 		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
 		inc		a
 		ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
+		.if ROM_BCALL
+		ld		(_g_CurrentSegment), a
+		.endif
 		inc		a
 		ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
 	.endm
 .endif
+;------------------------------------------------------------------------------
+; ROM_KONAMI_SCC
 ;------------------------------------------------------------------------------
 .ifeq ROM_MAPPER-ROM_KONAMI_SCC
 	BANK0_ADDR = #0x5000
@@ -218,6 +266,9 @@
 		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
 		inc		a
 		ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
+		.if ROM_BCALL
+		ld		(_g_CurrentSegment), a
+		.endif
 		inc		a
 		ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
 	.endm
