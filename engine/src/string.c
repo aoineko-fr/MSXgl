@@ -15,20 +15,6 @@ static const c8 g_HexChar[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '
 // Group: String
 
 //-----------------------------------------------------------------------------
-// Function: String_Length
-// Get the length of a given string
-//
-// Parameters:
-//   str - The string to check
-u8 String_Length(const c8* str)
-{
-	u8 ret = 0;
-	while(*str++)
-		ret++;		
-	return ret;
-}
-
-//-----------------------------------------------------------------------------
 // Function: String_Format
 // Build a zero-terminated string
 //

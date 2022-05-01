@@ -243,8 +243,7 @@ int ParseHex(std::string inFile)
 
 	// Display header
 	printf("MSXhex %s - Convert Intel HEX file to binary\n", VERSION);
-	printf(" Start addr: %08X, Binary size: %08X\n", g_StartAddress, g_DataSize);
-	printf(" Bank size: %08X, Padding: %02X\n", g_BankSize, g_Padding);
+	printf(" Start: %08X, Size: %08X, Bank: %08X, Pad: %02X\n", g_StartAddress, g_DataSize, g_BankSize, g_Padding);
 
 	// Read binary file
 	if (fopen_s(&file, inFile.c_str(), "rb") != 0)

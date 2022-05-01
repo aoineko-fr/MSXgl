@@ -60,8 +60,13 @@ inline bool Char_IsAlphaNum(c8 chr)
 //
 // Parameters:
 //   str - The string to check
-u8 String_Length(const c8* str);
-
+inline u8 String_Length(const c8* str)
+{
+	u8 ret = 0;
+	while(*str++)
+		ret++;		
+	return ret;
+}
 //-----------------------------------------------------------------------------
 // Function: String_Format
 // Build a zero-terminated string

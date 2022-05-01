@@ -38,6 +38,20 @@ struct PlayerEntry
 	const struct MusicEntry* Musics;
 };
 
+// Segment data
+extern const u8* g_AKG_jinj_med;
+extern const u8* g_AKG_HocusPocus;
+extern const u8* g_AKG_Justaddcream;
+extern const u8* g_AKG_Sarkboteur;
+extern const u8* g_AKM_jinj_med;
+extern const u8* g_AKM_HocusPocus;
+extern const u8* g_AKM_Justaddcream;
+extern const u8* g_AKM_Sarkboteur;
+extern const u8* g_AKY_jinj_med;
+extern const u8* g_AKY_AHarmlessGrenade;
+extern const u8* g_AKY_Justaddcream;
+extern const u8* g_AKY_Sarkboteur;
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -51,24 +65,24 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntryAKG[] =
 {
-	{ "Cancion Nueva                        ", 0xA000, 4 },
-	{ "Hocus Pocus (by Targhan)             ", 0xA000, 5 },
-	{ "Just add cream (by Excellence in Art)", 0xA000, 6 },
-	{ "Sarkboteur (by Rob Hubbard)          ", 0xA000, 7 },
+	{ "Cancion Nueva                        ", g_AKG_jinj_med,     4 },
+	{ "Hocus Pocus (by Targhan)             ", g_AKG_HocusPocus,   5 },
+	{ "Just add cream (by Excellence in Art)", g_AKG_Justaddcream, 6 },
+	{ "Sarkboteur (by Rob Hubbard)          ", g_AKG_Sarkboteur,   7 },
 };
 const struct MusicEntry g_MusicEntryAKY[] =
 {
-	{ "Cancion Nueva                        ", 0xA000, 12 },
-	{ "Hocus Pocus (by Targhan)             ", 0xA000, 13 },
-	{ "Just add cream (by Excellence in Art)", 0xA000, 14 },
-	{ "Sarkboteur (by Rob Hubbard)          ", 0xA000, 15 },
+	{ "Cancion Nueva                        ", g_AKY_jinj_med,     12 },
+	{ "A Harmless Grenade (by Targhan)      ", g_AKY_AHarmlessGrenade, 13 },
+	{ "Just add cream (by Excellence in Art)", g_AKY_Justaddcream, 14 },
+	{ "Sarkboteur (by Rob Hubbard)          ", g_AKY_Sarkboteur,   15 },
 };
 const struct MusicEntry g_MusicEntryAKM[] =
 {
-	{ "Cancion Nueva                        ", 0xA000, 8 },
-	{ "Hocus Pocus (by Targhan)             ", 0xA000, 9 },
-	{ "Just add cream (by Excellence in Art)", 0xA000, 10 },
-	{ "Sarkboteur (by Rob Hubbard)          ", 0xA000, 11 },
+	{ "Cancion Nueva                        ", g_AKM_jinj_med,     8 },
+	{ "Hocus Pocus (by Targhan)             ", g_AKM_HocusPocus,   9 },
+	{ "Just add cream (by Excellence in Art)", g_AKM_Justaddcream, 10 },
+	{ "Sarkboteur (by Rob Hubbard)          ", g_AKM_Sarkboteur,   11 },
 };
 
 const struct PlayerEntry g_PlayerEntry[] =

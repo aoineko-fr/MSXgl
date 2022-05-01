@@ -28,6 +28,8 @@
 // Tiles
 #include "content\tile\data_tile_gm2.h"
 #include "content\tile\data_map_gm2.h"
+// Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
+#include "content\data_sprt_layer.h"
 
 //=============================================================================
 // MEMORY DATA
@@ -154,9 +156,18 @@ void main()
 	VDP_LoadColor_GM2(g_DataMapGM2_Colors, 94, 0);
 	
 	// Initialize scroll module
-	Scroll_Initialize((u16)g_DataMapGM2_Names);
+	u8 sprt = Scroll_Initialize((u16)g_DataMapGM2_Names);
 	Scroll_SetOffsetV(16);
-	
+
+	// Initialize sprite
+	// VDP_EnableSprite(true);
+	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 | VDP_SPRITE_SCALE_2);
+	VDP_LoadSpritePattern(g_DataSprtLayer, 32, 13*4*4);
+	VDP_SetSpriteSM1(sprt++, 90, 130, 32, COLOR_BLACK);
+	VDP_SetSpriteSM1(sprt++, 90, 130, 36, COLOR_WHITE);
+	VDP_SetSpriteSM1(sprt++, 90, 130, 40, COLOR_LIGHT_RED);
+	VDP_DisableSpritesFrom(sprt);
+
 	u8 prevRow8 = 0xFF;
 	while(1)
 	{

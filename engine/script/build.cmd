@@ -156,32 +156,52 @@ echo │ COMPILE                                                                
 echo └───────────────────────────────────────────────────────────────────────────┘
 
 ::=============================================================================
-:: COMPILE MAPPER SEGMENT
-::=============================================================================
-REM if %MapperSize%==0 goto :NoMapperCompile
-
-REM set /A FirstSeg=%FillSize% / %SegSize%
-REM set /A LastSeg=(%MapperSize% / %SegSize%) - 1
-
-REM echo %BLUE%Search for extra mapper segments to compile [%FirstSeg%-%LastSeg%]...%RESET%
-REM for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
-	REM for %%J in (0,1,2,3) do (
-		REM for %%K in (c,asm) do (
-			REM if exist %ProjName%_s%%I_b%%J.%%K (
-				REM echo Segment found: %ProjName%_s%%I_b%%J.%%K
-				REM call %LibDir%\script\compile.cmd %ProjName%_s%%I_b%%J.%%K
-			REM )
-		REM )
-	REM )
-REM )
-REM :NoMapperCompile
-
-::=============================================================================
 :: COMPILE MODULES
 ::=============================================================================
 call %LibDir%\script\compile_all.cmd
 if errorlevel 1 goto :Error
 
+::=============================================================================
+:: COMPILE MAPPER SEGMENT
+::=============================================================================
+if %MapperSize%==0 goto :NoMapperCompile
+
+set /A FirstSeg=%FillSize% / %SegSize%
+set /A LastSeg=(%MapperSize% / %SegSize%) - 1
+set MapperBanks=
+
+echo %BLUE%Search for extra mapper segments to compile [%FirstSeg%-%LastSeg%]...%RESET%
+for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
+	for %%K in (c,s,asm) do (
+		call :toHex %%I hex
+		if exist %ProjName%_s%%I_b0.%%K (
+			echo Segment found: %ProjName%_s%%I_b0.%%K ^(addr: !hex!%Bank0Addr%^)
+			set MapperBanks=!MapperBanks! -Wl-b_SEG%%I^=0x!hex!%Bank0Addr%
+			call %LibDir%\script\compile.cmd %ProjName%_s%%I_b0.%%K %%I
+			set LibList=!LibList! %OutDir%\%ProjName%_s%%I_b0.rel
+		)
+		if exist %ProjName%_s%%I_b1.%%K (
+			echo Segment found: %ProjName%_s%%I_b1.%%K ^(addr: !hex!%Bank1Addr%^)
+			set MapperBanks=!MapperBanks! -Wl-b_SEG%%I^=0x!hex!%Bank1Addr%
+			call %LibDir%\script\compile.cmd %ProjName%_s%%I_b1.%%K %%I
+			set LibList=!LibList! %OutDir%\%ProjName%_s%%I_b1.rel
+		)
+		if exist %ProjName%_s%%I_b2.%%K (
+			echo Segment found: %ProjName%_s%%I_b2.%%K ^(addr: !hex!%Bank2Addr%^)
+			set MapperBanks=!MapperBanks! -Wl-b_SEG%%I^=0x!hex!%Bank2Addr%
+			call %LibDir%\script\compile.cmd %ProjName%_s%%I_b2.%%K %%I
+			set LibList=!LibList! %OutDir%\%ProjName%_s%%I_b2.rel
+		)
+		if exist %ProjName%_s%%I_b3.%%K (
+			echo Segment found: %ProjName%_s%%I_b3.%%K ^(addr: !hex!%Bank3Addr%^)
+			set MapperBanks=!MapperBanks! -Wl-b_SEG%%I^=0x!hex!%Bank3Addr%
+			call %LibDir%\script\compile.cmd %ProjName%_s%%I_b3.%%K %%I
+			set LibList=!LibList! %OutDir%\%ProjName%_s%%I_b3.rel
+		)
+	)
+)
+
+:NoMapperCompile
 :NoCompile
 
 ::-----------------------------------------------------------------------------
@@ -189,7 +209,7 @@ if %DoMake%==0 goto :NoMake
 
 echo.
 echo ┌───────────────────────────────────────────────────────────────────────────┐
-echo │ MAKE                                                                      │
+echo │ LINK                                                                      │
 echo └───────────────────────────────────────────────────────────────────────────┘
 
 echo %BLUE%Making %ProjName% using SDCC...%RESET%
@@ -199,7 +219,7 @@ if %Optim%==Speed ( set LinkOpt=%LinkOpt% --opt-code-speed )
 if %Optim%==Size ( set LinkOpt=%LinkOpt% --opt-code-size )
 if %Debug%==1 ( set LinkOpt=%LinkOpt% --debug )
 
-set SDCCParam=-mz80 --no-std-crt0 --code-loc 0x%CodeAddr% --data-loc 0x%RamAddr% --constseg RODATA --vc %LinkOpt% %LibList% -o %OutDir%\
+set SDCCParam=-mz80 --vc --no-std-crt0 --code-loc 0x%CodeAddr% --data-loc 0x%RamAddr% %LinkOpt% %MapperBanks% %LibList% -o %OutDir%\
 echo SDCC %SDCCParam%
 %Linker% %SDCCParam%
 if errorlevel 1 goto :Error
@@ -216,78 +236,20 @@ echo │ PACKAGE                                                                
 echo └───────────────────────────────────────────────────────────────────────────┘
 
 ::=============================================================================
-:: HEX2BIN
+:: MSXhex
 ::=============================================================================
-set H2BParam=-e %Ext% -s %StartAddr% %OutDir%\%Crt0%.ihx
 echo %BLUE%Converting to binary...%RESET%
+
+if %MapperSize%==0 (
+	set H2BParam=%OutDir%\%Crt0%.ihx -e %Ext% -s 0x%StartAddr% -l %FillSize%
+) else (	
+	set H2BParam=%OutDir%\%Crt0%.ihx -e %Ext% -s 0x%StartAddr% -l %MapperSize% -b %SegSize%
+)
 
 echo HEX2BIN %H2BParam%
 %Hex2Bin% %H2BParam% 
 if errorlevel 1 goto :Error
 echo %GREEN%Succeed%RESET%
-
-::=============================================================================
-:: FILL
-::=============================================================================
-if %FillSize%==0 goto :NoFill
-
-for %%K in ("%OutDir%\%Crt0%.%Ext%") do set CurrentSize=%%~zK
-if %CurrentSize% GTR %FillSize% (
-    echo %RED%ROM size ^(%CurrentSize%^) exceeds expected size ^(%FillSize%^)%RESET%
-	goto :Error
-)
-
-echo %BLUE%Filling binary from %CurrentSize% to %FillSize% bytes...%RESET%
-%FillFile% %OutDir%\%Crt0%.%Ext% %FillSize%
-if errorlevel 1 goto :Error
-echo %GREEN%Succeed%RESET%
-
-:NoFill
-
-::=============================================================================
-:: MAPPER SEGMENTS
-::=============================================================================
-if %MapperSize%==0 goto :NoMapper
-
-set /A FirstSeg=%FillSize% / %SegSize%
-set /A LastSeg=(%MapperSize% / %SegSize%) - 1
-set /A Size8K=8*1024
-
-echo %BLUE%Adding extra mapper segments [%FirstSeg%-%LastSeg%]...%RESET%
-for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
-	echo %CYAN%-- Segment #%%I --%RESET%
-	if exist %ProjName%_s%%I_b0.c (
-		echo Found. Add %ProjName%_s%%I_b0.c in Bank #0 at %Bank0Addr%
-		call :AddSegment %ProjName%_s%%I_b0.c %Bank0Addr%
-	) else if exist %ProjName%_s%%I_b1.c (
-		echo Found. Add %ProjName%_s%%I_b1.c in Bank #1 at %Bank1Addr%
-		call :AddSegment %ProjName%_s%%I_b1.c %Bank1Addr%
-	) else if exist %ProjName%_s%%I_b2.c (
-		echo Found. Add %ProjName%_s%%I_b2.c in Bank #2 at %Bank2Addr%
-		call :AddSegment %ProjName%_s%%I_b2.c %Bank2Addr%
-	) else if exist %ProjName%_s%%I_b3.c (
-		echo Found. Add %ProjName%_s%%I_b3.c in Bank #3 at %Bank3Addr%
-		call :AddSegment %ProjName%_s%%I_b3.c %Bank3Addr%
-	) else ( 
-		echo Not Found. Add dummy data
-		if %SegSize% EQU %Size8K% (
-			copy /Y /B %OutDir%\%Crt0%.%Ext%+%ToolsDir%\build\MakeROM\rom_seg8k.bin %OutDir%\%Crt0%.%Ext%
-		) else (
-			copy /Y /B %OutDir%\%Crt0%.%Ext%+%ToolsDir%\build\MakeROM\rom_seg16k.bin %OutDir%\%Crt0%.%Ext%
-		)
-	)
-)
-
-goto :NoMapper
-
-:AddSegment
-	%Linker% -mz80 --no-std-crt0 --code-loc 0x%2 --data-loc 0x%2 --vc -DTARGET=TARGET_%Target% -DMSX_VERSION=MSX_%Machine% -I%ProjDir% -I%LibDir%\src -I%LibDir%\content %1 -o out\
-	%Hex2Bin% -e %Ext% -s 0x%2 %OutDir%\%~n1.ihx
-	%FillFile% %OutDir%\%~n1.%Ext% %SegSize%
-	copy /Y /B %OutDir%\%Crt0%.%Ext%+%OutDir%\%~n1.%Ext% %OutDir%\%Crt0%.%Ext%
-	exit /B 200
-
-:NoMapper
 
 :NoPackage
 
@@ -423,3 +385,28 @@ exit /B 0
 
 echo %RED%Error: Build Failed with error number %errorlevel%%RESET%
 exit /B 666
+
+::***************************************************************************
+:: HELPER FUNCTIONS
+::***************************************************************************
+
+:toHex dec hex -- convert a decimal number to hexadecimal, i.e. -20 to FFFFFFEC or 26 to 0000001A
+::             -- dec [in]      - decimal number to convert
+::             -- hex [out,opt] - variable to store the converted hexadecimal number in
+::Thanks to 'dbenham' dostips forum users who inspired to improve this function
+:$created 20091203 :$changed 20110330 :$categories Arithmetic,Encoding
+:$source https://www.dostips.com
+setlocal ENABLEDELAYEDEXPANSION
+set /a dec=%~1
+set "hex="
+set "map=0123456789ABCDEF"
+for /L %%N in (1,1,8) do (
+    set /a "d=dec&15,dec>>=4"
+    for %%D in (!d!) do set "hex=!map:~%%D,1!!hex!"
+)
+rem !!!! REMOVE LEADING ZEROS by activating the next line, e.g. will return 1A instead of 0000001A
+for /f "tokens=* delims=0" %%A in ("%hex%") do set "hex=%%A"&if not defined hex set "hex=0"
+( ENDLOCAL & REM RETURN VALUES
+    if "%~2" NEQ "" (set %~2=%hex%) else echo.%hex%
+)
+exit /b

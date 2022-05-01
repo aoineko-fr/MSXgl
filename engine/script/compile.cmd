@@ -33,9 +33,11 @@ if /I %NewestFile% NEQ %FileName%%FileExt% ( goto :Skip )
 
 :NoSkip
 
+::-----------------------------------------------------------------------------
+:: Switch compiler according to file extension
 if /I %FileExt%==.c goto :CompileC
-if /I %FileExt%==.asm goto :CompileASM
 if /I %FileExt%==.s goto :CompileASM
+if /I %FileExt%==.asm goto :CompileASM
 echo %RED%Error: Compile failed with error number %errorlevel%%RESET%
 goto :Error
 
@@ -45,8 +47,12 @@ goto :Error
 :CompileC
 
 set AddOpt=%CompileOpt%
-if /I %Optim%==Speed (set AddOpt=!AddOpt! --opt-code-speed)
-if /I %Optim%==Size (set AddOpt=!AddOpt! --opt-code-size)
+if /I %Optim%==Speed ( set AddOpt=!AddOpt! --opt-code-speed )
+if /I %Optim%==Size ( set AddOpt=!AddOpt! --opt-code-size )
+if not "%2"=="" ( set AddOpt=!AddOpt! --codeseg SEG%2 )
+
+REM set AddOpt=!AddOpt! --max-allocs-per-node 100000
+REM set AddOpt=!AddOpt! --constseg RODATA
 
 set SDCCParam=-c -mz80 --vc -DTARGET=TARGET_%Target% -DMSX_VERSION=MSX_%Machine% -I%ProjDir% -I%LibDir%\src -I%LibDir%\content !AddOpt! %File% -o %OutDir%\
 

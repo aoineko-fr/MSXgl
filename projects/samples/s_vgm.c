@@ -53,6 +53,17 @@ void ButtonPrev();
 void ButtonNext();
 void ButtonLoop();
 
+// Segment data
+extern const c8* g_VGM_psg_ds4_03;
+extern const c8* g_VGM_psg_goemon07;
+extern const c8* g_VGM_psg_metalgear_05;
+extern const c8* g_VGM_psg_honotori_09;
+extern const c8* g_VGM_scc_f1spirit_01;
+extern const c8* g_VGM_mm_undeadline_03;
+extern const c8* g_VGM_mm_ff_03;
+extern const c8* g_VGM_ma_xevious_01;
+extern const c8* g_VGM_ma_proyakyu_10;
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -66,15 +77,15 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
-	{ "Dragon Slayer 4    ", 0x8000, 2 },
-	{ "Gambare Goemon     ", 0x8000, 3 },
-	{ "Metal Gear         ", 0x8000, 5 },
-	{ "Hi no Tori         ", 0x8000, 6 },
-	{ "F1 Spirit (SCC)    ", 0x8000, 7 },
-	{ "Undeadline (M-M)   ", 0x8000, 4 },
-	{ "Final Fantasy (M-M)", 0x8000, 8 },
-	{ "Xevious (M-A)      ", 0x8000, 9 },
-	{ "Pro Yakyu (M-A)    ", 0x8000, 10 },
+	{ "Dragon Slayer 4    ", g_VGM_psg_ds4_03,       2 },
+	{ "Gambare Goemon     ", g_VGM_psg_goemon07,     3 },
+	{ "Metal Gear         ", g_VGM_psg_metalgear_05, 5 },
+	{ "Hi no Tori         ", g_VGM_psg_honotori_09,  6 },
+	{ "F1 Spirit (SCC)    ", g_VGM_scc_f1spirit_01,  7 },
+	{ "Undeadline (M-M)   ", g_VGM_mm_undeadline_03, 4 },
+	{ "Final Fantasy (M-M)", g_VGM_mm_ff_03,         8 },
+	{ "Xevious (M-A)      ", g_VGM_ma_xevious_01,    9 },
+	{ "Pro Yakyu (M-A)    ", g_VGM_ma_proyakyu_10,   10 },
 };
 
 // Player button list
