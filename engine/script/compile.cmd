@@ -49,7 +49,9 @@ goto :Error
 set AddOpt=%CompileOpt%
 if /I %Optim%==Speed ( set AddOpt=!AddOpt! --opt-code-speed )
 if /I %Optim%==Size ( set AddOpt=!AddOpt! --opt-code-size )
-if not "%2"=="" ( set AddOpt=!AddOpt! --codeseg SEG%2 )
+if not "%2"=="" ( set AddOpt=!AddOpt! --code-size %2 )
+if not "%3"=="" ( set AddOpt=!AddOpt! --codeseg SEG%3 )
+
 
 REM set AddOpt=!AddOpt! --max-allocs-per-node 100000
 REM set AddOpt=!AddOpt! --constseg RODATA
