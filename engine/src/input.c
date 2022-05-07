@@ -14,6 +14,27 @@
 #include "bios_var.h"
 
 //-----------------------------------------------------------------------------
+// Constant data
+//-----------------------------------------------------------------------------
+#if INPUT_USE_MANAGER
+
+const IPM_Config g_DefaultConfig =
+{
+	// DeviceSupport
+	{	true,	true,	true,	true },
+	// Timer
+	0x10, 0x04,
+	// Keyboard set
+	{
+		{ KEY_UP,	KEY_RIGHT,	KEY_DOWN,	KEY_LEFT,	KEY_SPACE,	KEY_N },
+		{ KEY_W,	KEY_D,		KEY_S,		KEY_A,		KEY_CTRL,	KEY_SHIFT },
+	}
+};
+
+#endif // INPUT_USE_MANAGER
+
+
+//-----------------------------------------------------------------------------
 //
 // Direct access to joystick
 //
@@ -212,7 +233,7 @@ void IPM_Initialize(IPM_Config* config)
 	g_IPM.Checker[IPM_EVENT_DOUBLE_CLICK_HOLD] = CheckDoubleClickHold;
 	
 	if(config == null)
-		config = &g_DefaultConfig;
+		config = (IPM_Config*)&g_DefaultConfig;
 		
 	Mem_Copy(config, &g_IPM.Config, sizeof(g_IPM.Config));
 }

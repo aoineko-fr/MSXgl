@@ -318,19 +318,6 @@ typedef struct
 	IPM_KeySet	KeySet[2];
 } IPM_Config;	
 
-static IPM_Config g_DefaultConfig =
-{
-	// DeviceSupport
-	{	true,	true,	true,	true },
-	// Timer
-	0x10, 0x04,
-	// Keyboard set
-	{
-		{ KEY_UP,	KEY_RIGHT,	KEY_DOWN,	KEY_LEFT,	KEY_SPACE,	KEY_N },
-		{ KEY_W,	KEY_D,		KEY_S,		KEY_A,		KEY_CTRL,	KEY_SHIFT },
-	}
-};
-
 typedef struct
 {
 	IPM_Process	Process[IPM_DEVICE_MAX];
