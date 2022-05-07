@@ -38,14 +38,14 @@ void ButtonPrev();
 void ButtonNext();
 void ButtonLoop();
 
-extern u16 tmu_kv2_puzz;
+extern u16 tmu_kv2puzz;
 
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
 
 // Fonts
-// #include "font\font_mgl_sample8.h"
+#include "font\font_mgl_sample8.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
@@ -85,6 +85,15 @@ u8 g_CurrentButton;
 // HELPER FUNCTIONS
 //=============================================================================
 
+void AsmData()
+{
+	__asm
+
+_tmu_kv2puzz::
+	.include "content/trilo/tmu_kv2puzz.asm"
+
+	__endasm;
+}
 //-----------------------------------------------------------------------------
 //
 void SetMusic(u8 idx)
@@ -146,11 +155,11 @@ void ButtonLoop()
 
 //-----------------------------------------------------------------------------
 //
-// void SetCursor(u8 id)
-// {
-	// g_CurrentButton = id % 6;
-	// VDP_SetSpriteSM1(0, 8 + 16*g_CurrentButton, 128-1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
-// }
+void SetCursor(u8 id)
+{
+	g_CurrentButton = id % 6;
+	VDP_SetSpriteSM1(0, 8 + 16*g_CurrentButton, 128-1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
+}
 
 
 //=============================================================================
@@ -167,7 +176,7 @@ void main()
 	VDP_EnableVBlank(true);
 
 	// Initialize font
-	Print_SetTextFont(null/*g_Font_MGL_Sample8*/, 1); // Initialize font
+	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
 	Print_DrawText("MSXgl - TRILO SAMPLE");
 	Print_DrawLineH(0, 1, 32);
 
@@ -183,12 +192,11 @@ void main()
 	{
 		Print_SetPosition(1 + 2 * i, 16);
 		Print_DrawChar(g_ButtonEntry[i].Char);
-		
 	}
 	
+	// SET_BANK_SEGMENT(3, 4);
 	TriloSCC_Initialize();
-	TriloSCC_LoadSong(tmu_kv2_puzz);
-	
+	TriloSCC_LoadSong((u16)&tmu_kv2puzz);
 
 	// Footer
 	Print_DrawLineH(0, 22, 32);
@@ -198,10 +206,10 @@ void main()
 	//-------------------------------------------------------------------------
 	// Sprite
 	
-	// VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8 + VDP_SPRITE_SCALE_1);
-	// VDP_LoadSpritePattern(g_Font_MGL_Sample8 + 4, 0, g_Font_MGL_Sample8[3] - g_Font_MGL_Sample8[2]);
+	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8 + VDP_SPRITE_SCALE_1);
+	VDP_LoadSpritePattern(g_Font_MGL_Sample8 + 4, 0, g_Font_MGL_Sample8[3] - g_Font_MGL_Sample8[2]);
 
-	// SetCursor(4);
+	SetCursor(4);
 
 	u8 prevRow8 = 0xFF;
 	u8 count = 0;
@@ -211,7 +219,7 @@ void main()
 		TriloSCC_Apply();
 		TriloSCC_Play();
 
-		// VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
+		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
 		Print_SetPosition(31, 0);
 		u8 chr = count++ & 0x03;
@@ -221,14 +229,14 @@ void main()
 		u8 row8 = Keyboard_Read(8);
 
 		// Change button
-		// if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
-		// {
-			// // SetCursor(g_CurrentButton + 1);
-		// }
-		// else if(IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
-		// {
-			// // SetCursor(g_CurrentButton - 1);
-		// }
+		if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
+		{
+			SetCursor(g_CurrentButton + 1);
+		}
+		else if(IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
+		{
+			SetCursor(g_CurrentButton - 1);
+		}
 		// Activate button
 		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{

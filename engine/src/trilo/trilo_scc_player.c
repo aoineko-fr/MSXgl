@@ -27,8 +27,8 @@ void TriloSCC_Initialize()
 	__asm
 		// clear RAM
 		ld			bc, #0x300 // 768
-		ld			hl, #_SP_Storage
-		ld			de, #_SP_Storage+1
+		ld			hl, #0xE000 // _SP_Storage
+		ld			de, #0xE001 // _SP_Storage+1
 		ld			(hl), #0
 		ldir	
 
@@ -38,6 +38,10 @@ void TriloSCC_Initialize()
 		// Only call this on start-up
 		// Input: none
 		call		replay_init
+
+		ld			a, #1
+		ld			(equalization_freq), a
+		ld			(equalization_cnt), a	
 		pop			ix
 	__endasm;
 }

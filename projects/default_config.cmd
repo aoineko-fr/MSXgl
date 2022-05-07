@@ -25,6 +25,7 @@ set Compiler=%ToolsDir%\sdcc\bin\sdcc.exe
 set Assembler=%ToolsDir%\sdcc\bin\sdasz80.exe
 set Linker=%ToolsDir%\sdcc\bin\sdcc.exe
 set Hex2Bin=%ToolsDir%\MSXtk\bin\MSXhex.exe
+REM set Hex2Bin=%ToolsDir%\\build\Hex2bin\Hex2bin.exe
 set FillFile=%ToolsDir%\build\MakeROM\fillfile.exe
 set MSXDOS=%ToolsDir%\build\MSXDOS
 set DskTool=%ToolsDir%\build\DskTool\dsktool.exe
@@ -79,8 +80,10 @@ set Machine=1
 set Target=
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
-:: Allow BDOS driver installation for ROM target
+:: Install BDOS driver for ROM program? (0=false, 1=true)
 set InstallBDOS=0
+:: Use banked call (and trampoline functions)
+set BankedCall=0
 :: Overwrite RAM starting address
 set ForceRamAddr=
 

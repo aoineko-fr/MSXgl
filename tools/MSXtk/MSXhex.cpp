@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.0";
+const char* VERSION = "0.1.2";
 
 #define BUFFER_SIZE 1024
 
@@ -41,6 +41,16 @@ struct Record
 	u8  Checksum;
 
 	Record() : Count(0), Address(0), Type(0), Checksum(0) {}
+};
+
+// Record structure
+struct Segment
+{
+	u16 Size;
+	u16 Lower;
+	u16 Higher;
+
+	Segment() : Size(0), Lower(0xFFFF), Higher(0) {}
 };
 
 //
@@ -64,12 +74,14 @@ std::string       g_OutputFile;
 std::string       g_OutputExt;
 bool              g_Log = false;
 bool              g_Check = false;
+bool              g_Verbose = true;
 u32               g_StartAddress = 0;
 u32               g_DataSize = 0;
 u32               g_BankSize = 0;
 std::vector<u8>   g_BinData;
 std::vector<bool> g_BinCheck;
 u8                g_Padding = 0xFF;
+std::vector<Segment> g_SegmentInfo;
 
 std::map<c8, u8> g_HexaMap = {
 	{ '0', 0 },
@@ -157,26 +169,36 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 	// Check starting address
 	if (addr < g_StartAddress)
 	{
-		printf("Error: Try to write value bellow start address! (start:%08X, addr:%08X)\n", g_StartAddress, addr);
+		printf("Error: Try to write value bellow start address! (Start=%08Xh Addr=%08Xh)\n", g_StartAddress, addr);
 		return false;
 	}
 
 	// Check banked data segment
-	if ((g_BankSize != 0) && (addr > 0xFFFF))
-	{
-		u16 segment = (addr >> 16);
+	u16 segNum = (addr >> 16);
+	u16 segAddr = (addr & 0xFFFF);
+	if ((g_BankSize != 0) && (segNum > 0))
+	{	
 		u16 segOffset = (u16)(addr & (g_BankSize - 1));
-		addr = g_StartAddress + (segment * g_BankSize) + segOffset;
+		addr = g_StartAddress + (segNum * g_BankSize) + segOffset;
 	}
+
+	// Update segment info
+	if ((u16)g_SegmentInfo.size() < segNum + 1)
+		g_SegmentInfo.resize(segNum + 1);
+	g_SegmentInfo[segNum].Size += (u16)data.size();
+	if (segAddr < g_SegmentInfo[segNum].Lower)
+		g_SegmentInfo[segNum].Lower = segAddr;
+	if (segAddr + data.size() - 1 > g_SegmentInfo[segNum].Higher)
+		g_SegmentInfo[segNum].Higher = segAddr + (u16)data.size() - 1;
 
 	// Get file offset
 	u32 offsetStart = addr - g_StartAddress;
-	u32 offsetEnd = offsetStart + data.size() - 1;
+	u32 offsetEnd = offsetStart + (u32)data.size() - 1;
 
 	// Check max size
 	if ((g_DataSize != 0) && (offsetEnd > g_DataSize - 1))
 	{
-		printf("Error: Try to write value outside defined data length! (max:%08X, destination:%08X)\n", g_DataSize - 1, offsetEnd);
+		printf("Error: Try to write value outside defined data length! (Max=%08Xh Destination=%08Xh)\n", g_DataSize - 1, offsetEnd);
 		return false;
 	}
 
@@ -193,7 +215,7 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 	{
 		if (g_BinCheck[offset])
 		{
-			printf("Error: Writing address overwrite at offset %08X!\n", offset);
+			printf("Error: Writing address overwrite at offset %08Xh!\n", offset);
 			return false;
 		}
 
@@ -210,6 +232,16 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 // Save binary file
 int SaveBinary(std::string outFile)
 {
+	if (g_Verbose)
+	{
+		printf("Saving %s...\n", outFile.c_str());
+		for (u16 i = 0; i < g_SegmentInfo.size(); i++)
+		{
+			if(g_SegmentInfo[i].Size > 0)
+				printf(" Seg[%03i]: Lower=%04Xh Higher=%04Xh Size=%i (Holes=%i)\n", i, g_SegmentInfo[i].Lower, g_SegmentInfo[i].Higher, g_SegmentInfo[i].Higher - g_SegmentInfo[i].Lower + 1, (g_SegmentInfo[i].Higher - g_SegmentInfo[i].Lower + 1) - g_SegmentInfo[i].Size);
+		}
+	}
+
 	// Pad to desired size
 	if ((g_DataSize != 0) && (g_BinData.size() < g_DataSize))
 		g_BinData.resize(g_DataSize, g_Padding);
@@ -224,7 +256,7 @@ int SaveBinary(std::string outFile)
 	// Write data
 	if (fwrite(g_BinData.data(), sizeof(u8), g_BinData.size(), file) != g_BinData.size())
 	{
-		printf("Error: Fail to write %i bytes to file %s\n", g_BinData.size(), outFile.c_str());
+		printf("Error: Fail to write %i bytes to file %s\n", (int)g_BinData.size(), outFile.c_str());
 		return 1;
 	}
 	fclose(file);
@@ -243,7 +275,8 @@ int ParseHex(std::string inFile)
 
 	// Display header
 	printf("MSXhex %s - Convert Intel HEX file to binary\n", VERSION);
-	printf(" Start: %08X, Size: %08X, Bank: %08X, Pad: %02X\n", g_StartAddress, g_DataSize, g_BankSize, g_Padding);
+	if (g_Verbose)
+		printf(" Start=%08Xh Size=%08Xh Bank=%08Xh Pad=%02Xh\n", g_StartAddress, g_DataSize, g_BankSize, g_Padding);
 
 	// Read binary file
 	if (fopen_s(&file, inFile.c_str(), "rb") != 0)
@@ -308,7 +341,7 @@ int ParseHex(std::string inFile)
 		{
 		case Type_Data:
 			if (g_Log)
-				printf("Log: Record[%i] addr=%08x size=%i\n", index, addr, rec.Count);
+				printf("Log: Record[%i] Addr=%08Xh Size=%i\n", index, addr, rec.Count);
 			WriteBytes(addr, rec.Data);
 			break;
 		case Type_EndOfFile:
@@ -359,7 +392,7 @@ void PrintHelp()
 	}
 }
 
-//const char* ARGV[] = { "", "../testcases/main.ihx", "-e", "rom", "-s", "0x4000", "-l", "128K", "-b", "8K", "-p", "0" };
+//const char* ARGV[] = { "", "../testcases/crt0_rom_mapper.ihx", "-e", "rom", "-s", "0x4000", "-l", "256K", "-b", "16K", "-p", "0xFF" };
 //#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------

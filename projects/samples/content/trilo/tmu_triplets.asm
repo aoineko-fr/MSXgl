@@ -3,1309 +3,1309 @@
 ; Period table: A440 Modern
 
 ; [ Song start data ]
-	db $06					; Initial song speed.
-	dw .waveform_start			; Start of the waveform data.
-	dw .instrument_start			; Start of the instrument data.
+	.db 0x06					; Initial song speed
+	.dw triplets_waveform_start			; Start of the waveform data
+	.dw triplets_instrument_start			; Start of the instrument data
 
 ; [ Song order pointer list ]
-.restart:
-	dw .track_000, .track_000, .track_002, .track_002, .track_004, .track_005, .track_000, .track_000	; Step:000 Pattern:000
-	dw .track_008, .track_009, .track_010, .track_011, .track_012, .track_013, .track_014, .track_015	; Step:001 Pattern:001
-	dw .track_008, .track_009, .track_010, .track_011, .track_012, .track_013, .track_014, .track_015	; Step:002 Pattern:001
-	dw .track_016, .track_017, .track_018, .track_011, .track_012, .track_021, .track_022, .track_023	; Step:003 Pattern:002
-	dw .track_016, .track_017, .track_018, .track_011, .track_012, .track_021, .track_022, .track_023	; Step:004 Pattern:002
-	dw .track_008, .track_009, .track_010, .track_011, .track_012, .track_013, .track_014, .track_015	; Step:005 Pattern:001
-	dw .track_024, .track_025, .track_018, .track_027, .track_028, .track_029, .track_030, .track_031	; Step:006 Pattern:003
-	dw 0x0000, .restart				; End of sequence delimiter + restart address.
+triplets_restart:
+	.dw triplets_track_000, triplets_track_000, triplets_track_002, triplets_track_002, triplets_track_004, triplets_track_005, triplets_track_000, triplets_track_000	; Step:000 Pattern:000
+	.dw triplets_track_008, triplets_track_009, triplets_track_010, triplets_track_011, triplets_track_012, triplets_track_013, triplets_track_014, triplets_track_015	; Step:001 Pattern:001
+	.dw triplets_track_008, triplets_track_009, triplets_track_010, triplets_track_011, triplets_track_012, triplets_track_013, triplets_track_014, triplets_track_015	; Step:002 Pattern:001
+	.dw triplets_track_016, triplets_track_017, triplets_track_018, triplets_track_011, triplets_track_012, triplets_track_021, triplets_track_022, triplets_track_023	; Step:003 Pattern:002
+	.dw triplets_track_016, triplets_track_017, triplets_track_018, triplets_track_011, triplets_track_012, triplets_track_021, triplets_track_022, triplets_track_023	; Step:004 Pattern:002
+	.dw triplets_track_008, triplets_track_009, triplets_track_010, triplets_track_011, triplets_track_012, triplets_track_013, triplets_track_014, triplets_track_015	; Step:005 Pattern:001
+	.dw triplets_track_024, triplets_track_025, triplets_track_018, triplets_track_027, triplets_track_028, triplets_track_029, triplets_track_030, triplets_track_031	; Step:006 Pattern:003
+	.dw 0x0000, triplets_restart				; End of sequence delimiter + triplets_restart address
 
 ; [ Custom FM voices ]
-.customvoice_start:
+triplets_customvoice_start:
 
 ; [ SCC Waveforms ]
-.waveform_start:
-	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00				; Waveform:0
-	db $80, $b0, $c0, $10, $1a, $2a, $2c, $1a, $00, $e0, $d0, $e0, $22, $53, $70, $75, $70, $31, $ea, $80, $88, $8a, $8c, $8e, $00, $7f, $75, $73, $62, $00, $c0, $90				; Waveform:1
-	db $a0, $90, $a0, $ac, $f0, $a0, $16, $00, $90, $00, $20, $40, $60, $50, $38, $1c, $f2, $e2, $d6, $d0, $d0, $da, $dc, $e0, $e2, $e2, $e2, $e0, $dc, $d8, $d0, $b0				; Waveform:7
-	db $00, $19, $31, $47, $5a, $6a, $75, $7d, $7f, $7d, $75, $6a, $5a, $47, $31, $19, $80, $90, $a0, $b0, $c0, $d0, $e0, $f0, $00, $10, $20, $30, $40, $50, $60, $70				; Waveform:8
-	db $00, $30, $50, $60, $70, $60, $50, $30, $00, $d0, $b0, $a0, $90, $a0, $b0, $d0, $00, $40, $60, $70, $60, $40, $00, $c0, $a0, $90, $a0, $c0, $00, $70, $00, $90				; Waveform:11
-	db $28, $58, $58, $28, $00, $00, $18, $48, $68, $78, $68, $38, $e8, $d8, $e0, $00, $20, $20, $10, $c0, $a0, $90, $a0, $c0, $00, $00, $d0, $b0, $b0, $d0, $00, $00				; Waveform:13
-	db $00, $68, $48, $18, $48, $68, $28, $00, $48, $77, $58, $08, $28, $38, $00, $b8, $08, $58, $00, $e8, $f8, $00, $b8, $98, $c8, $08, $e8, $a8, $c8, $f8, $c8, $a8				; Waveform:20
-	db $00, $e0, $c0, $a0, $80, $a0, $c0, $e0, $00, $20, $40, $60, $7f, $60, $40, $20, $00, $e0, $c0, $a0, $80, $a0, $c0, $e0, $00, $20, $40, $60, $7f, $60, $40, $20				; Waveform:22
-	db $10, $20, $28, $18, $f0, $d0, $b0, $d0, $f0, $00, $18, $50, $7f, $68, $50, $40, $20, $e0, $a8, $a0, $c8, $f0, $10, $30, $50, $38, $08, $e0, $b8, $a0, $b8, $e8				; Waveform:24
-	db $07, $57, $37, $4f, $27, $e7, $9f, $2f, $6f, $b7, $ff, $e7, $1f, $ff, $4f, $d7, $e7, $ff, $f7, $df, $f7, $67, $47, $d7, $1f, $97, $b7, $e7, $d7, $c7, $f7, $ff				; Waveform:31
+triplets_waveform_start:
+	.db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00				; Waveform:0
+	.db 0x80, 0xb0, 0xc0, 0x10, 0x1a, 0x2a, 0x2c, 0x1a, 0x00, 0xe0, 0xd0, 0xe0, 0x22, 0x53, 0x70, 0x75, 0x70, 0x31, 0xea, 0x80, 0x88, 0x8a, 0x8c, 0x8e, 0x00, 0x7f, 0x75, 0x73, 0x62, 0x00, 0xc0, 0x90				; Waveform:1
+	.db 0xa0, 0x90, 0xa0, 0xac, 0xf0, 0xa0, 0x16, 0x00, 0x90, 0x00, 0x20, 0x40, 0x60, 0x50, 0x38, 0x1c, 0xf2, 0xe2, 0xd6, 0xd0, 0xd0, 0xda, 0xdc, 0xe0, 0xe2, 0xe2, 0xe2, 0xe0, 0xdc, 0xd8, 0xd0, 0xb0				; Waveform:7
+	.db 0x00, 0x19, 0x31, 0x47, 0x5a, 0x6a, 0x75, 0x7d, 0x7f, 0x7d, 0x75, 0x6a, 0x5a, 0x47, 0x31, 0x19, 0x80, 0x90, 0xa0, 0xb0, 0xc0, 0xd0, 0xe0, 0xf0, 0x00, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70				; Waveform:8
+	.db 0x00, 0x30, 0x50, 0x60, 0x70, 0x60, 0x50, 0x30, 0x00, 0xd0, 0xb0, 0xa0, 0x90, 0xa0, 0xb0, 0xd0, 0x00, 0x40, 0x60, 0x70, 0x60, 0x40, 0x00, 0xc0, 0xa0, 0x90, 0xa0, 0xc0, 0x00, 0x70, 0x00, 0x90				; Waveform:11
+	.db 0x28, 0x58, 0x58, 0x28, 0x00, 0x00, 0x18, 0x48, 0x68, 0x78, 0x68, 0x38, 0xe8, 0xd8, 0xe0, 0x00, 0x20, 0x20, 0x10, 0xc0, 0xa0, 0x90, 0xa0, 0xc0, 0x00, 0x00, 0xd0, 0xb0, 0xb0, 0xd0, 0x00, 0x00				; Waveform:13
+	.db 0x00, 0x68, 0x48, 0x18, 0x48, 0x68, 0x28, 0x00, 0x48, 0x77, 0x58, 0x08, 0x28, 0x38, 0x00, 0xb8, 0x08, 0x58, 0x00, 0xe8, 0xf8, 0x00, 0xb8, 0x98, 0xc8, 0x08, 0xe8, 0xa8, 0xc8, 0xf8, 0xc8, 0xa8				; Waveform:20
+	.db 0x00, 0xe0, 0xc0, 0xa0, 0x80, 0xa0, 0xc0, 0xe0, 0x00, 0x20, 0x40, 0x60, 0x7f, 0x60, 0x40, 0x20, 0x00, 0xe0, 0xc0, 0xa0, 0x80, 0xa0, 0xc0, 0xe0, 0x00, 0x20, 0x40, 0x60, 0x7f, 0x60, 0x40, 0x20				; Waveform:22
+	.db 0x10, 0x20, 0x28, 0x18, 0xf0, 0xd0, 0xb0, 0xd0, 0xf0, 0x00, 0x18, 0x50, 0x7f, 0x68, 0x50, 0x40, 0x20, 0xe0, 0xa8, 0xa0, 0xc8, 0xf0, 0x10, 0x30, 0x50, 0x38, 0x08, 0xe0, 0xb8, 0xa0, 0xb8, 0xe8				; Waveform:24
+	.db 0x07, 0x57, 0x37, 0x4f, 0x27, 0xe7, 0x9f, 0x2f, 0x6f, 0xb7, 0xff, 0xe7, 0x1f, 0xff, 0x4f, 0xd7, 0xe7, 0xff, 0xf7, 0xdf, 0xf7, 0x67, 0x47, 0xd7, 0x1f, 0x97, 0xb7, 0xe7, 0xd7, 0xc7, 0xf7, 0xff				; Waveform:31
 
 ; [ FM Drum macros]
-.drummacro_start:
+triplets_drummacro_start:
 
 ; [ Instruments]
-.instrument_start:
-	dw .instrument_00				; BD C2           
-	dw .instrument_01				; SD A3           
-	dw .instrument_02				; HH CL A8        
-	dw .instrument_03				; TOM             
-	dw .instrument_04				; GTR CHORDS      
-	dw .instrument_05				; SC Bass         
-	dw .instrument_06				; SC Brass Satan  
-	dw .instrument_07				; ARP SQ          
-	dw .instrument_08				; Clarinet low    
-	dw .instrument_09				; Response BELL   
-	dw .instrument_10				; HH OP A8        
-	dw .instrument_11				; SD-MAIN         
+triplets_instrument_start:
+	.dw triplets_instrument_00				; BD C2           
+	.dw triplets_instrument_01				; SD A3           
+	.dw triplets_instrument_02				; HH CL A8        
+	.dw triplets_instrument_03				; TOM             
+	.dw triplets_instrument_04				; GTR CHORDS      
+	.dw triplets_instrument_05				; SC Bass         
+	.dw triplets_instrument_06				; SC Brass Satan  
+	.dw triplets_instrument_07				; ARP SQ          
+	.dw triplets_instrument_08				; Clarinet low    
+	.dw triplets_instrument_09				; Response BELL   
+	.dw triplets_instrument_10				; HH OP A8        
+	.dw triplets_instrument_11				; SD-MAIN         
 
-.instrument_00:					; BD C2           
-	db $20						; Waveform 4
-	db $02,$10						; Mixer (T)
-	db $06,$c0,$ff					; Tone sub
-	db $1c,$03						; Envelope shape
-	db $02,$10						; Mixer (T)
-	db $06,$c0,$ff					; Tone sub
-	db $1a						; Envelope
+triplets_instrument_00:					; BD C2           
+	.db 0x20						; Waveform 4
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x06,0xc0,0xff					; Tone sub
+	.db 0x1c,0x03						; Envelope shape
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x06,0xc0,0xff					; Tone sub
+	.db 0x1a						; Envelope
 								; --- Macro loop
-	db $08,$00						; Volume _
-	db $18,$fd						; Loop (-4)
+	.db 0x08,0x00						; Volume _
+	.db 0x18,0xfd						; Loop (-4)
 
-.instrument_01:					; SD A3           
-	db $08						; Waveform 1
-	db $02,$10						; Mixer (T)
-	db $08,$0f						; Volume _
-	db $02,$80						; Mixer (N)
-	db $0E,$06						; Noise _
-	db $08,$0c						; Volume _
-	db $02,$80						; Mixer (N)
-	db $08,$0b						; Volume _
-	db $02,$80						; Mixer (N)
-	db $08,$0a						; Volume _
-	db $02,$80						; Mixer (N)
-	db $08,$09						; Volume _
-	db $02,$80						; Mixer (N)
-	db $08,$08						; Volume _
-	db $02,$80						; Mixer (N)
-	db $08,$07						; Volume _
-	db $02,$80						; Mixer (N)
-	db $08,$06						; Volume _
-	db $02,$80						; Mixer (N)
-	db $08,$05						; Volume _
-	db $02,$80						; Mixer (N)
-	db $08,$04						; Volume _
+triplets_instrument_01:					; SD A3           
+	.db 0x08						; Waveform 1
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0f						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x0E,0x06						; Noise _
+	.db 0x08,0x0c						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x08,0x0b						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x08,0x0a						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x08,0x09						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x08,0x08						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x08,0x07						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x08,0x06						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x08,0x05						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x08,0x04						; Volume _
 								; --- Macro loop
-	db $08,$00						; Volume _
-	db $18,$fd						; Loop (-4)
+	.db 0x08,0x00						; Volume _
+	.db 0x18,0xfd						; Loop (-4)
 
-.instrument_02:					; HH CL A8        
-	db $10						; Waveform 2
-	db $02,$90						; Mixer (TN)
-	db $0E,$00						; Noise _
-	db $08,$0f						; Volume _
+triplets_instrument_02:					; HH CL A8        
+	.db 0x10						; Waveform 2
+	.db 0x02,0x90						; Mixer (TN)
+	.db 0x0E,0x00						; Noise _
+	.db 0x08,0x0f						; Volume _
 								; --- Macro loop
-	db $08,$00						; Volume _
-	db $18,$fd						; Loop (-4)
+	.db 0x08,0x00						; Volume _
+	.db 0x18,0xfd						; Loop (-4)
 
-.instrument_03:					; TOM             
-	db $38						; Waveform 7
-	db $02,$10						; Mixer (T)
-	db $04,$40,$00					; Tone add
-	db $08,$0f						; Volume _
-	db $02,$10						; Mixer (T)
-	db $04,$40,$00					; Tone add
-	db $08,$0d						; Volume _
+triplets_instrument_03:					; TOM             
+	.db 0x38						; Waveform 7
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x04,0x40,0x00					; Tone add
+	.db 0x08,0x0f						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x04,0x40,0x00					; Tone add
+	.db 0x08,0x0d						; Volume _
 								; --- Macro loop
-	db $02,$10						; Mixer (T)
-	db $04,$40,$00					; Tone add
-	db $0c,$01						; Volume -
-	db $02,$10						; Mixer (T)
-	db $04,$40,$00					; Tone add
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $04,$40,$00					; Tone add
-	db $00							; Volume same
-	db $18,$ec						; Loop (-21)
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x04,0x40,0x00					; Tone add
+	.db 0x0c,0x01						; Volume -
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x04,0x40,0x00					; Tone add
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x04,0x40,0x00					; Tone add
+	.db 0x00							; Volume same
+	.db 0x18,0xec						; Loop (-21)
 
-.instrument_04:					; GTR CHORDS      
-	db $48						; Waveform 9
-	db $02,$10						; Mixer (T)
-	db $08,$0c						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0f						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0d						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0c						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$09						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$08						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$07						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$06						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$05						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$04						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$03						; Volume _
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $08,$04						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$05						; Volume _
+triplets_instrument_04:					; GTR CHORDS      
+	.db 0x48						; Waveform 9
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0c						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0f						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0d						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0c						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x09						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x08						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x07						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x06						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x05						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x04						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x03						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x04						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x05						; Volume _
 								; --- Macro loop
-	db $02,$10						; Mixer (T)
-	db $08,$07						; Volume _
-	db $18,$fb						; Loop (-6)
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x07						; Volume _
+	.db 0x18,0xfb						; Loop (-6)
 
-.instrument_05:					; SC Bass         
-	db $08						; Waveform 1
-	db $02,$10						; Mixer (T)
-	db $08,$0f						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0c						; Volume _
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $08,$0a						; Volume _
+triplets_instrument_05:					; SC Bass         
+	.db 0x08						; Waveform 1
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0f						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0c						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0a						; Volume _
 								; --- Macro loop
-	db $02,$10						; Mixer (T)
-	db $0c,$01						; Volume -
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $18,$f5						; Loop (-12)
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x0c,0x01						; Volume -
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x18,0xf5						; Loop (-12)
 
-.instrument_06:					; SC Brass Satan  
-	db $18						; Waveform 3
-	db $02,$10						; Mixer (T)
-	db $08,$0c						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0f						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0d						; Volume _
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $08,$0c						; Volume _
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $08,$0b						; Volume _
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $08,$0a						; Volume _
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $08,$09						; Volume _
+triplets_instrument_06:					; SC Brass Satan  
+	.db 0x18						; Waveform 3
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0c						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0f						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0d						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0c						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0b						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0a						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x09						; Volume _
 								; --- Macro loop
-	db $02,$10						; Mixer (T)
-	db $08,$08						; Volume _
-	db $18,$fb						; Loop (-6)
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x08						; Volume _
+	.db 0x18,0xfb						; Loop (-6)
 
-.instrument_07:					; ARP SQ          
-	db $30						; Waveform 6
-	db $02,$10						; Mixer (T)
-	db $08,$0c						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0b						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0a						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$09						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$08						; Volume _
+triplets_instrument_07:					; ARP SQ          
+	.db 0x30						; Waveform 6
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0c						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0b						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0a						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x09						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x08						; Volume _
 								; --- Macro loop
-	db $00							; Volume same
-	db $18,$fe						; Loop (-3)
+	.db 0x00							; Volume same
+	.db 0x18,0xfe						; Loop (-3)
 
-.instrument_08:					; Clarinet low    
-	db $40						; Waveform 8
-	db $02,$10						; Mixer (T)
-	db $08,$0c						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0d						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0f						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0e						; Volume _
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $08,$0c						; Volume _
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
+triplets_instrument_08:					; Clarinet low    
+	.db 0x40						; Waveform 8
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0c						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0d						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0f						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0e						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0c						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
 								; --- Macro loop
-	db $02,$10						; Mixer (T)
-	db $0c,$01						; Volume -
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $18,$e6						; Loop (-27)
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x0c,0x01						; Volume -
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x18,0xe6						; Loop (-27)
 
-.instrument_09:					; Response BELL   
-	db $28						; Waveform 5
-	db $02,$10						; Mixer (T)
-	db $08,$0d						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0b						; Volume _
-	db $02,$10						; Mixer (T)
-	db $08,$0a						; Volume _
+triplets_instrument_09:					; Response BELL   
+	.db 0x28						; Waveform 5
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0d						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0b						; Volume _
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0a						; Volume _
 								; --- Macro loop
-	db $02,$10						; Mixer (T)
-	db $0c,$01						; Volume -
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $0a,$01						; Volume +
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $00							; Volume same
-	db $02,$10						; Mixer (T)
-	db $0c,$01						; Volume -
-	db $18,$d8						; Loop (-41)
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x0c,0x01						; Volume -
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x0a,0x01						; Volume +
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x00							; Volume same
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x0c,0x01						; Volume -
+	.db 0x18,0xd8						; Loop (-41)
 
-.instrument_10:					; HH OP A8        
-	db $00						; Waveform 0
-	db $02,$90						; Mixer (TN)
-	db $0E,$00						; Noise _
-	db $08,$0e						; Volume _
+triplets_instrument_10:					; HH OP A8        
+	.db 0x00						; Waveform 0
+	.db 0x02,0x90						; Mixer (TN)
+	.db 0x0E,0x00						; Noise _
+	.db 0x08,0x0e						; Volume _
 								; --- Macro loop
-	db $02,$90						; Mixer (TN)
-	db $0E,$00						; Noise _
-	db $0c,$01						; Volume -
-	db $02,$90						; Mixer (TN)
-	db $00							; Volume same
-	db $02,$90						; Mixer (TN)
-	db $00							; Volume same
-	db $02,$90						; Mixer (TN)
-	db $00							; Volume same
-	db $18,$f0						; Loop (-17)
+	.db 0x02,0x90						; Mixer (TN)
+	.db 0x0E,0x00						; Noise _
+	.db 0x0c,0x01						; Volume -
+	.db 0x02,0x90						; Mixer (TN)
+	.db 0x00							; Volume same
+	.db 0x02,0x90						; Mixer (TN)
+	.db 0x00							; Volume same
+	.db 0x02,0x90						; Mixer (TN)
+	.db 0x00							; Volume same
+	.db 0x18,0xf0						; Loop (-17)
 
-.instrument_11:					; SD-MAIN         
-	db $08						; Waveform 1
-	db $02,$10						; Mixer (T)
-	db $08,$0e						; Volume _
-	db $02,$80						; Mixer (N)
-	db $0E,$04						; Noise _
-	db $08,$0c						; Volume _
-	db $02,$80						; Mixer (N)
-	db $0E,$03						; Noise _
-	db $08,$0a						; Volume _
-	db $02,$80						; Mixer (N)
-	db $00							; Volume same
-	db $02,$80						; Mixer (N)
-	db $0E,$02						; Noise _
-	db $08,$09						; Volume _
-	db $02,$80						; Mixer (N)
-	db $00							; Volume same
-	db $02,$80						; Mixer (N)
-	db $0E,$01						; Noise _
-	db $08,$08						; Volume _
-	db $02,$80						; Mixer (N)
-	db $00							; Volume same
-	db $02,$80						; Mixer (N)
-	db $0E,$00						; Noise _
-	db $08,$07						; Volume _
-	db $02,$80						; Mixer (N)
-	db $00							; Volume same
+triplets_instrument_11:					; SD-MAIN         
+	.db 0x08						; Waveform 1
+	.db 0x02,0x10						; Mixer (T)
+	.db 0x08,0x0e						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x0E,0x04						; Noise _
+	.db 0x08,0x0c						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x0E,0x03						; Noise _
+	.db 0x08,0x0a						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x00							; Volume same
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x0E,0x02						; Noise _
+	.db 0x08,0x09						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x00							; Volume same
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x0E,0x01						; Noise _
+	.db 0x08,0x08						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x00							; Volume same
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x0E,0x00						; Noise _
+	.db 0x08,0x07						; Volume _
+	.db 0x02,0x80						; Mixer (N)
+	.db 0x00							; Volume same
 								; --- Macro loop
-	db $08,$00						; Volume _
-	db $18,$fd						; Loop (-4)
+	.db 0x08,0x00						; Volume _
+	.db 0x18,0xfd						; Loop (-4)
 
 
 ; [ Song track data ]
-.track_000:
-	db $60			;Release 96
-	db $70			;Volume 15
-	db $71			;Instrument 0
-	db $df			;Wait 32
-	db $bf			;[End-Of-Track]
-.track_002:
-	db $70			;Volume 15
-	db $71			;Instrument 0
-	db $df			;Wait 32
-	db $bf			;[End-Of-Track]
-.track_004:
-	db $46			;Note A#6
-	db $6f			;Volume 14
-	db $78			;Instrument 7
-	db $c0			;Wait 1
-	db $43			;Note G-6
-	db $9a,$02			;CMD Note delay
+triplets_track_000:
+	.db 0x60			;Release 96
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
+	.db 0xdf			;Wait 32
+	.db 0xbf			;[End-Of-Track]
+triplets_track_002:
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
+	.db 0xdf			;Wait 32
+	.db 0xbf			;[End-Of-Track]
+triplets_track_004:
+	.db 0x46			;Note A#6
+	.db 0x6f			;Volume 14
+	.db 0x78			;Instrument 7
+	.db 0xc0			;Wait 1
+	.db 0x43			;Note G-6
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $41			;Note F-6
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $3e			;Note D-6
-	db $c0			;Wait 1
-	db $3a			;Note A#5
-	db $9a,$02			;CMD Note delay
+	.db 0x41			;Note F-6
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x3e			;Note D-6
+	.db 0xc0			;Wait 1
+	.db 0x3a			;Note A#5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $37			;Note G-5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $46			;Note A#6
-	db $6b			;Volume 10
-	db $a1,$08			;CMD Track detune
-	db $c0			;Wait 1
-	db $43			;Note G-6
-	db $9a,$02			;CMD Note delay
+	.db 0x37			;Note G-5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x46			;Note A#6
+	.db 0x6b			;Volume 10
+	.db 0xa1,0x08			;CMD Track detune
+	.db 0xc0			;Wait 1
+	.db 0x43			;Note G-6
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $41			;Note F-6
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $3e			;Note D-6
-	db $c0			;Wait 1
-	db $3a			;Note A#5
-	db $9a,$02			;CMD Note delay
+	.db 0x41			;Note F-6
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x3e			;Note D-6
+	.db 0xc0			;Wait 1
+	.db 0x3a			;Note A#5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $37			;Note G-5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $46			;Note A#6
-	db $6b			;Volume 10
-	db $a8				; SCC Soften Waveform
-	db $c0			;Wait 1
-	db $43			;Note G-6
-	db $9a,$02			;CMD Note delay
+	.db 0x37			;Note G-5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x46			;Note A#6
+	.db 0x6b			;Volume 10
+	.db 0xa8				; SCC Soften Waveform
+	.db 0xc0			;Wait 1
+	.db 0x43			;Note G-6
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $41			;Note F-6
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $3e			;Note D-6
-	db $c0			;Wait 1
-	db $3a			;Note A#5
-	db $9a,$02			;CMD Note delay
+	.db 0x41			;Note F-6
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x3e			;Note D-6
+	.db 0xc0			;Wait 1
+	.db 0x3a			;Note A#5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $37			;Note G-5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $46			;Note A#6
-	db $67			;Volume 6
-	db $a1,$08			;CMD Track detune
-	db $c0			;Wait 1
-	db $43			;Note G-6
-	db $9a,$02			;CMD Note delay
+	.db 0x37			;Note G-5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x46			;Note A#6
+	.db 0x67			;Volume 6
+	.db 0xa1,0x08			;CMD Track detune
+	.db 0xc0			;Wait 1
+	.db 0x43			;Note G-6
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $41			;Note F-6
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $3e			;Note D-6
-	db $c0			;Wait 1
-	db $3a			;Note A#5
-	db $9a,$02			;CMD Note delay
+	.db 0x41			;Note F-6
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x3e			;Note D-6
+	.db 0xc0			;Wait 1
+	.db 0x3a			;Note A#5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $37			;Note G-5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $bf			;[End-Of-Track]
-.track_005:
-	db $60			;Release 96
-	db $c2			;Wait 3
-	db $46			;Note A#6
-	db $67			;Volume 6
-	db $78			;Instrument 7
-	db $c0			;Wait 1
-	db $43			;Note G-6
-	db $9a,$02			;CMD Note delay
+	.db 0x37			;Note G-5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0xbf			;[End-Of-Track]
+triplets_track_005:
+	.db 0x60			;Release 96
+	.db 0xc2			;Wait 3
+	.db 0x46			;Note A#6
+	.db 0x67			;Volume 6
+	.db 0x78			;Instrument 7
+	.db 0xc0			;Wait 1
+	.db 0x43			;Note G-6
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $41			;Note F-6
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $3e			;Note D-6
-	db $c0			;Wait 1
-	db $3a			;Note A#5
-	db $9a,$02			;CMD Note delay
+	.db 0x41			;Note F-6
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x3e			;Note D-6
+	.db 0xc0			;Wait 1
+	.db 0x3a			;Note A#5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $37			;Note G-5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $46			;Note A#6
-	db $66			;Volume 5
-	db $a1,$08			;CMD Track detune
-	db $c0			;Wait 1
-	db $43			;Note G-6
-	db $9a,$02			;CMD Note delay
+	.db 0x37			;Note G-5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x46			;Note A#6
+	.db 0x66			;Volume 5
+	.db 0xa1,0x08			;CMD Track detune
+	.db 0xc0			;Wait 1
+	.db 0x43			;Note G-6
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $41			;Note F-6
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $3e			;Note D-6
-	db $c0			;Wait 1
-	db $3a			;Note A#5
-	db $9a,$02			;CMD Note delay
+	.db 0x41			;Note F-6
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x3e			;Note D-6
+	.db 0xc0			;Wait 1
+	.db 0x3a			;Note A#5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $37			;Note G-5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $46			;Note A#6
-	db $65			;Volume 4
-	db $a8				; SCC Soften Waveform
-	db $c0			;Wait 1
-	db $43			;Note G-6
-	db $9a,$02			;CMD Note delay
+	.db 0x37			;Note G-5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x46			;Note A#6
+	.db 0x65			;Volume 4
+	.db 0xa8				; SCC Soften Waveform
+	.db 0xc0			;Wait 1
+	.db 0x43			;Note G-6
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $41			;Note F-6
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $3e			;Note D-6
-	db $c0			;Wait 1
-	db $3a			;Note A#5
-	db $9a,$02			;CMD Note delay
+	.db 0x41			;Note F-6
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x3e			;Note D-6
+	.db 0xc0			;Wait 1
+	.db 0x3a			;Note A#5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $37			;Note G-5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $46			;Note A#6
-	db $64			;Volume 3
-	db $a1,$08			;CMD Track detune
-	db $c0			;Wait 1
-	db $43			;Note G-6
-	db $9a,$02			;CMD Note delay
+	.db 0x37			;Note G-5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x46			;Note A#6
+	.db 0x64			;Volume 3
+	.db 0xa1,0x08			;CMD Track detune
+	.db 0xc0			;Wait 1
+	.db 0x43			;Note G-6
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $41			;Note F-6
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $3e			;Note D-6
-	db $bf			;[End-Of-Track]
-.track_008:
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
-	db $c3			;Wait 4
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
-	db $c1			;Wait 2
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
+	.db 0x41			;Note F-6
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x3e			;Note D-6
+	.db 0xbf			;[End-Of-Track]
+triplets_track_008:
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
+	.db 0xc3			;Wait 4
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
+	.db 0xc1			;Wait 2
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
 					;Wait Repeat 2
-	db $21			;Note A-3
-	db $70			;Volume 15
-	db $7c			;Instrument 11
+	.db 0x21			;Note A-3
+	.db 0x70			;Volume 15
+	.db 0x7c			;Instrument 11
 					;Wait Repeat 2
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
 					;Wait Repeat 2
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
-	db $c3			;Wait 4
-	db $2f			;Note B-4
-	db $6e			;Volume 13
-	db $74			;Instrument 3
-	db $c0			;Wait 1
-	db $2f			;Note B-4
-	db $c3			;Wait 4
-	db $29			;Note F-4
-	db $9a,$03			;CMD Note delay
-	db $c4			;Wait 5
-	db $26			;Note D-4
-	db $9a,$05			;CMD Note delay
-	db $c5			;Wait 6
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
-	db $c3			;Wait 4
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
-	db $c1			;Wait 2
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
+	.db 0xc3			;Wait 4
+	.db 0x2f			;Note B-4
+	.db 0x6e			;Volume 13
+	.db 0x74			;Instrument 3
+	.db 0xc0			;Wait 1
+	.db 0x2f			;Note B-4
+	.db 0xc3			;Wait 4
+	.db 0x29			;Note F-4
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc4			;Wait 5
+	.db 0x26			;Note D-4
+	.db 0x9a,0x05			;CMD Note delay
+	.db 0xc5			;Wait 6
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
+	.db 0xc3			;Wait 4
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
+	.db 0xc1			;Wait 2
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
 					;Wait Repeat 2
-	db $21			;Note A-3
-	db $70			;Volume 15
-	db $7c			;Instrument 11
+	.db 0x21			;Note A-3
+	.db 0x70			;Volume 15
+	.db 0x7c			;Instrument 11
 					;Wait Repeat 2
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
 					;Wait Repeat 2
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
-	db $c3			;Wait 4
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
+	.db 0xc3			;Wait 4
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
 					;Wait Repeat 4
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
 					;Wait Repeat 4
-	db $21			;Note A-3
-	db $70			;Volume 15
-	db $7c			;Instrument 11
-	db $c1			;Wait 2
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
+	.db 0x21			;Note A-3
+	.db 0x70			;Volume 15
+	.db 0x7c			;Instrument 11
+	.db 0xc1			;Wait 2
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
 					;Wait Repeat 2
-	db $5d			;Note A-8
-	db $6f			;Volume 14
-	db $7b			;Instrument 10
+	.db 0x5d			;Note A-8
+	.db 0x6f			;Volume 14
+	.db 0x7b			;Instrument 10
 					;Wait Repeat 2
-	db $21			;Note A-3
-	db $6d			;Volume 12
-	db $72			;Instrument 1
-	db $c1			;Wait 2
-	db $bf			;[End-Of-Track]
-.track_009:
-	db $a5,$00			;CMD Envelope multiplier low
-	db $c2			;Wait 3
-	db $47			;Note B-6
-	db $69			;Volume 8
-	db $7a			;Instrument 9
-	db $a1,$08			;CMD Track detune
-	db $c1			;Wait 2
-	db $42			;Note F#6
+	.db 0x21			;Note A-3
+	.db 0x6d			;Volume 12
+	.db 0x72			;Instrument 1
+	.db 0xc1			;Wait 2
+	.db 0xbf			;[End-Of-Track]
+triplets_track_009:
+	.db 0xa5,0x00			;CMD Envelope multiplier low
+	.db 0xc2			;Wait 3
+	.db 0x47			;Note B-6
+	.db 0x69			;Volume 8
+	.db 0x7a			;Instrument 9
+	.db 0xa1,0x08			;CMD Track detune
+	.db 0xc1			;Wait 2
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
-	db $bf			;[End-Of-Track]
-.track_010:
-	db $a4,$04			;CMD Envelope multiplier high
-	db $ff			;Wait 64
-	db $bf			;[End-Of-Track]
-.track_011:
-	db $47			;Note B-6
-	db $6e			;Volume 13
-	db $78			;Instrument 7
-	db $a1,$08			;CMD Track detune
-	db $c1			;Wait 2
-	db $42			;Note F#6
-	db $6b			;Volume 10
+	.db 0x3b			;Note B-5
+	.db 0xbf			;[End-Of-Track]
+triplets_track_010:
+	.db 0xa4,0x04			;CMD Envelope multiplier high
+	.db 0xff			;Wait 64
+	.db 0xbf			;[End-Of-Track]
+triplets_track_011:
+	.db 0x47			;Note B-6
+	.db 0x6e			;Volume 13
+	.db 0x78			;Instrument 7
+	.db 0xa1,0x08			;CMD Track detune
+	.db 0xc1			;Wait 2
+	.db 0x42			;Note F#6
+	.db 0x6b			;Volume 10
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
-	db $c1			;Wait 2
-	db $bf			;[End-Of-Track]
-.track_012:
-	db $0b			;Note B-1
-	db $6e			;Volume 13
-	db $76			;Instrument 5
-	db $c3			;Wait 4
-	db $0b			;Note B-1
-	db $c1			;Wait 2
-	db $0b			;Note B-1
+	.db 0x42			;Note F#6
+	.db 0xc1			;Wait 2
+	.db 0xbf			;[End-Of-Track]
+triplets_track_012:
+	.db 0x0b			;Note B-1
+	.db 0x6e			;Volume 13
+	.db 0x76			;Instrument 5
+	.db 0xc3			;Wait 4
+	.db 0x0b			;Note B-1
+	.db 0xc1			;Wait 2
+	.db 0x0b			;Note B-1
 					;Wait Repeat 2
-	db $17			;Note B-2
-	db $c3			;Wait 4
-	db $0b			;Note B-1
-	db $c1			;Wait 2
-	db $0b			;Note B-1
+	.db 0x17			;Note B-2
+	.db 0xc3			;Wait 4
+	.db 0x0b			;Note B-1
+	.db 0xc1			;Wait 2
+	.db 0x0b			;Note B-1
 					;Wait Repeat 2
-	db $0d			;Note C#2
-	db $c4			;Wait 5
-	db $15			;Note A-2
-	db $9a,$02			;CMD Note delay
+	.db 0x0d			;Note C#2
+	.db 0xc4			;Wait 5
+	.db 0x15			;Note A-2
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 5
-	db $19			;Note C#3
-	db $9a,$05			;CMD Note delay
-	db $c5			;Wait 6
-	db $0e			;Note D-2
-	db $c3			;Wait 4
-	db $0e			;Note D-2
-	db $c1			;Wait 2
-	db $0e			;Note D-2
+	.db 0x19			;Note C#3
+	.db 0x9a,0x05			;CMD Note delay
+	.db 0xc5			;Wait 6
+	.db 0x0e			;Note D-2
+	.db 0xc3			;Wait 4
+	.db 0x0e			;Note D-2
+	.db 0xc1			;Wait 2
+	.db 0x0e			;Note D-2
 					;Wait Repeat 2
-	db $1a			;Note D-3
-	db $c3			;Wait 4
-	db $0e			;Note D-2
-	db $c1			;Wait 2
-	db $0e			;Note D-2
+	.db 0x1a			;Note D-3
+	.db 0xc3			;Wait 4
+	.db 0x0e			;Note D-2
+	.db 0xc1			;Wait 2
+	.db 0x0e			;Note D-2
 					;Wait Repeat 2
-	db $0d			;Note C#2
-	db $c3			;Wait 4
-	db $0d			;Note C#2
-	db $c1			;Wait 2
-	db $0d			;Note C#2
+	.db 0x0d			;Note C#2
+	.db 0xc3			;Wait 4
+	.db 0x0d			;Note C#2
+	.db 0xc1			;Wait 2
+	.db 0x0d			;Note C#2
 					;Wait Repeat 2
-	db $19			;Note C#3
-	db $c7			;Wait 8
-	db $bf			;[End-Of-Track]
-.track_013:
-	db $21			;Note A-3
-	db $6c			;Volume 11
-	db $77			;Instrument 6
-	db $cb			;Wait 12
-	db $21			;Note A-3
-	db $c1			;Wait 2
-	db $21			;Note A-3
+	.db 0x19			;Note C#3
+	.db 0xc7			;Wait 8
+	.db 0xbf			;[End-Of-Track]
+triplets_track_013:
+	.db 0x21			;Note A-3
+	.db 0x6c			;Volume 11
+	.db 0x77			;Instrument 6
+	.db 0xcb			;Wait 12
+	.db 0x21			;Note A-3
+	.db 0xc1			;Wait 2
+	.db 0x21			;Note A-3
 					;Wait Repeat 2
-	db $23			;Note B-3
-	db $c4			;Wait 5
-	db $23			;Note B-3
-	db $9a,$03			;CMD Note delay
+	.db 0x23			;Note B-3
+	.db 0xc4			;Wait 5
+	.db 0x23			;Note B-3
+	.db 0x9a,0x03			;CMD Note delay
 					;Wait Repeat 5
-	db $23			;Note B-3
-	db $9a,$05			;CMD Note delay
-	db $c5			;Wait 6
-	db $25			;Note C#4
-	db $cb			;Wait 12
-	db $25			;Note C#4
-	db $c1			;Wait 2
-	db $25			;Note C#4
+	.db 0x23			;Note B-3
+	.db 0x9a,0x05			;CMD Note delay
+	.db 0xc5			;Wait 6
+	.db 0x25			;Note C#4
+	.db 0xcb			;Wait 12
+	.db 0x25			;Note C#4
+	.db 0xc1			;Wait 2
+	.db 0x25			;Note C#4
 					;Wait Repeat 2
-	db $23			;Note B-3
-	db $c4			;Wait 5
-	db $23			;Note B-3
-	db $9a,$03			;CMD Note delay
+	.db 0x23			;Note B-3
+	.db 0xc4			;Wait 5
+	.db 0x23			;Note B-3
+	.db 0x9a,0x03			;CMD Note delay
 					;Wait Repeat 5
-	db $20			;Note G#3
-	db $9a,$05			;CMD Note delay
-	db $c5			;Wait 6
-	db $bf			;[End-Of-Track]
-.track_014:
-	db $26			;Note D-4
-	db $6c			;Volume 11
-	db $77			;Instrument 6
-	db $a9,$18			; SCC Set Waveform 8
-	db $cb			;Wait 12
-	db $26			;Note D-4
-	db $c1			;Wait 2
-	db $26			;Note D-4
+	.db 0x20			;Note G#3
+	.db 0x9a,0x05			;CMD Note delay
+	.db 0xc5			;Wait 6
+	.db 0xbf			;[End-Of-Track]
+triplets_track_014:
+	.db 0x26			;Note D-4
+	.db 0x6c			;Volume 11
+	.db 0x77			;Instrument 6
+	.db 0xa9,0x18			; SCC Set Waveform 8
+	.db 0xcb			;Wait 12
+	.db 0x26			;Note D-4
+	.db 0xc1			;Wait 2
+	.db 0x26			;Note D-4
 					;Wait Repeat 2
-	db $28			;Note E-4
-	db $c4			;Wait 5
-	db $28			;Note E-4
-	db $9a,$03			;CMD Note delay
+	.db 0x28			;Note E-4
+	.db 0xc4			;Wait 5
+	.db 0x28			;Note E-4
+	.db 0x9a,0x03			;CMD Note delay
 					;Wait Repeat 5
-	db $28			;Note E-4
-	db $9a,$05			;CMD Note delay
-	db $c5			;Wait 6
-	db $2a			;Note F#4
-	db $cb			;Wait 12
-	db $2a			;Note F#4
-	db $c1			;Wait 2
-	db $2a			;Note F#4
+	.db 0x28			;Note E-4
+	.db 0x9a,0x05			;CMD Note delay
+	.db 0xc5			;Wait 6
+	.db 0x2a			;Note F#4
+	.db 0xcb			;Wait 12
+	.db 0x2a			;Note F#4
+	.db 0xc1			;Wait 2
+	.db 0x2a			;Note F#4
 					;Wait Repeat 2
-	db $28			;Note E-4
-	db $c4			;Wait 5
-	db $28			;Note E-4
-	db $9a,$03			;CMD Note delay
+	.db 0x28			;Note E-4
+	.db 0xc4			;Wait 5
+	.db 0x28			;Note E-4
+	.db 0x9a,0x03			;CMD Note delay
 					;Wait Repeat 5
-	db $23			;Note B-3
-	db $9a,$05			;CMD Note delay
-	db $c5			;Wait 6
-	db $bf			;[End-Of-Track]
-.track_015:
-	db $2a			;Note F#4
-	db $6c			;Volume 11
-	db $77			;Instrument 6
-	db $c2			;Wait 3
-	db $94,$66			;CMD Vibrato
-	db $c8			;Wait 9
-	db $2a			;Note F#4
-	db $9b			;CMD End 
-	db $c1			;Wait 2
-	db $2a			;Note F#4
+	.db 0x23			;Note B-3
+	.db 0x9a,0x05			;CMD Note delay
+	.db 0xc5			;Wait 6
+	.db 0xbf			;[End-Of-Track]
+triplets_track_015:
+	.db 0x2a			;Note F#4
+	.db 0x6c			;Volume 11
+	.db 0x77			;Instrument 6
+	.db 0xc2			;Wait 3
+	.db 0x94,0x66			;CMD Vibrato
+	.db 0xc8			;Wait 9
+	.db 0x2a			;Note F#4
+	.db 0x9b			;CMD End 
+	.db 0xc1			;Wait 2
+	.db 0x2a			;Note F#4
 					;Wait Repeat 2
-	db $2c			;Note G#4
-	db $c4			;Wait 5
-	db $2d			;Note A-4
-	db $9a,$03			;CMD Note delay
+	.db 0x2c			;Note G#4
+	.db 0xc4			;Wait 5
+	.db 0x2d			;Note A-4
+	.db 0x9a,0x03			;CMD Note delay
 					;Wait Repeat 5
-	db $2f			;Note B-4
-	db $9a,$05			;CMD Note delay
-	db $c5			;Wait 6
-	db $2d			;Note A-4
-	db $c3			;Wait 4
-	db $94,$66			;CMD Vibrato
-	db $c7			;Wait 8
-	db $2d			;Note A-4
-	db $9b			;CMD End 
-	db $c1			;Wait 2
-	db $2d			;Note A-4
+	.db 0x2f			;Note B-4
+	.db 0x9a,0x05			;CMD Note delay
+	.db 0xc5			;Wait 6
+	.db 0x2d			;Note A-4
+	.db 0xc3			;Wait 4
+	.db 0x94,0x66			;CMD Vibrato
+	.db 0xc7			;Wait 8
+	.db 0x2d			;Note A-4
+	.db 0x9b			;CMD End 
+	.db 0xc1			;Wait 2
+	.db 0x2d			;Note A-4
 					;Wait Repeat 2
-	db $2c			;Note G#4
-	db $c4			;Wait 5
-	db $2a			;Note F#4
-	db $9a,$03			;CMD Note delay
+	.db 0x2c			;Note G#4
+	.db 0xc4			;Wait 5
+	.db 0x2a			;Note F#4
+	.db 0x9a,0x03			;CMD Note delay
 					;Wait Repeat 5
-	db $28			;Note E-4
-	db $9a,$05			;CMD Note delay
-	db $c5			;Wait 6
-	db $bf			;[End-Of-Track]
-.track_016:
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
-	db $c3			;Wait 4
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
-	db $c1			;Wait 2
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
+	.db 0x28			;Note E-4
+	.db 0x9a,0x05			;CMD Note delay
+	.db 0xc5			;Wait 6
+	.db 0xbf			;[End-Of-Track]
+triplets_track_016:
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
+	.db 0xc3			;Wait 4
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
+	.db 0xc1			;Wait 2
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
 					;Wait Repeat 2
-	db $21			;Note A-3
-	db $70			;Volume 15
-	db $7c			;Instrument 11
+	.db 0x21			;Note A-3
+	.db 0x70			;Volume 15
+	.db 0x7c			;Instrument 11
 					;Wait Repeat 2
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
 					;Wait Repeat 2
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
-	db $c3			;Wait 4
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
+	.db 0xc3			;Wait 4
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
 					;Wait Repeat 4
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
 					;Wait Repeat 4
-	db $21			;Note A-3
-	db $70			;Volume 15
-	db $7c			;Instrument 11
-	db $c1			;Wait 2
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
+	.db 0x21			;Note A-3
+	.db 0x70			;Volume 15
+	.db 0x7c			;Instrument 11
+	.db 0xc1			;Wait 2
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
 					;Wait Repeat 2
-	db $5d			;Note A-8
-	db $6f			;Volume 14
-	db $7b			;Instrument 10
+	.db 0x5d			;Note A-8
+	.db 0x6f			;Volume 14
+	.db 0x7b			;Instrument 10
 					;Wait Repeat 2
-	db $21			;Note A-3
-	db $6d			;Volume 12
-	db $72			;Instrument 1
+	.db 0x21			;Note A-3
+	.db 0x6d			;Volume 12
+	.db 0x72			;Instrument 1
 					;Wait Repeat 2
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
-	db $c3			;Wait 4
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
-	db $c1			;Wait 2
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
+	.db 0xc3			;Wait 4
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
+	.db 0xc1			;Wait 2
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
 					;Wait Repeat 2
-	db $21			;Note A-3
-	db $70			;Volume 15
-	db $7c			;Instrument 11
+	.db 0x21			;Note A-3
+	.db 0x70			;Volume 15
+	.db 0x7c			;Instrument 11
 					;Wait Repeat 2
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
 					;Wait Repeat 2
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
-	db $c3			;Wait 4
-	db $5d			;Note A-8
-	db $6d			;Volume 12
-	db $73			;Instrument 2
-	db $c1			;Wait 2
-	db $5d			;Note A-8
-	db $6d			;Volume 12
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
+	.db 0xc3			;Wait 4
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
+	.db 0x73			;Instrument 2
+	.db 0xc1			;Wait 2
+	.db 0x5d			;Note A-8
+	.db 0x6d			;Volume 12
 					;Wait Repeat 2
-	db $5d			;Note A-8
-	db $6e			;Volume 13
-	db $7b			;Instrument 10
+	.db 0x5d			;Note A-8
+	.db 0x6e			;Volume 13
+	.db 0x7b			;Instrument 10
 					;Wait Repeat 2
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
 					;Wait Repeat 2
-	db $21			;Note A-3
-	db $70			;Volume 15
-	db $7c			;Instrument 11
-	db $c3			;Wait 4
-	db $5d			;Note A-8
-	db $6f			;Volume 14
-	db $7b			;Instrument 10
-	db $c1			;Wait 2
-	db $21			;Note A-3
-	db $6d			;Volume 12
-	db $72			;Instrument 1
-	db $c1			;Wait 2
-	db $bf			;[End-Of-Track]
-.track_017:
-	db $c2			;Wait 3
-	db $47			;Note B-6
-	db $69			;Volume 8
-	db $7a			;Instrument 9
-	db $a1,$08			;CMD Track detune
-	db $c1			;Wait 2
-	db $42			;Note F#6
+	.db 0x21			;Note A-3
+	.db 0x70			;Volume 15
+	.db 0x7c			;Instrument 11
+	.db 0xc3			;Wait 4
+	.db 0x5d			;Note A-8
+	.db 0x6f			;Volume 14
+	.db 0x7b			;Instrument 10
+	.db 0xc1			;Wait 2
+	.db 0x21			;Note A-3
+	.db 0x6d			;Volume 12
+	.db 0x72			;Instrument 1
+	.db 0xc1			;Wait 2
+	.db 0xbf			;[End-Of-Track]
+triplets_track_017:
+	.db 0xc2			;Wait 3
+	.db 0x47			;Note B-6
+	.db 0x69			;Volume 8
+	.db 0x7a			;Instrument 9
+	.db 0xa1,0x08			;CMD Track detune
+	.db 0xc1			;Wait 2
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $47			;Note B-6
+	.db 0x47			;Note B-6
 					;Wait Repeat 2
-	db $42			;Note F#6
+	.db 0x42			;Note F#6
 					;Wait Repeat 2
-	db $3b			;Note B-5
-	db $bf			;[End-Of-Track]
-.track_018:
-	db $ff			;Wait 64
-	db $bf			;[End-Of-Track]
-.track_021:
-	db $1a			;Note D-3
-	db $6b			;Volume 10
-	db $75			;Instrument 4
-	db $c1			;Wait 2
-	db $1a			;Note D-3
+	.db 0x3b			;Note B-5
+	.db 0xbf			;[End-Of-Track]
+triplets_track_018:
+	.db 0xff			;Wait 64
+	.db 0xbf			;[End-Of-Track]
+triplets_track_021:
+	.db 0x1a			;Note D-3
+	.db 0x6b			;Volume 10
+	.db 0x75			;Instrument 4
+	.db 0xc1			;Wait 2
+	.db 0x1a			;Note D-3
 					;Wait Repeat 2
-	db $1a			;Note D-3
+	.db 0x1a			;Note D-3
 					;Wait Repeat 2
-	db $1a			;Note D-3
-	db $c5			;Wait 6
-	db $1a			;Note D-3
-	db $c1			;Wait 2
-	db $1a			;Note D-3
+	.db 0x1a			;Note D-3
+	.db 0xc5			;Wait 6
+	.db 0x1a			;Note D-3
+	.db 0xc1			;Wait 2
+	.db 0x1a			;Note D-3
 					;Wait Repeat 2
-	db $1c			;Note E-3
+	.db 0x1c			;Note E-3
 					;Wait Repeat 2
-	db $1c			;Note E-3
-	db $c5			;Wait 6
-	db $1c			;Note E-3
-	db $c1			;Wait 2
-	db $1c			;Note E-3
-	db $c5			;Wait 6
-	db $1e			;Note F#3
-	db $c1			;Wait 2
-	db $1e			;Note F#3
+	.db 0x1c			;Note E-3
+	.db 0xc5			;Wait 6
+	.db 0x1c			;Note E-3
+	.db 0xc1			;Wait 2
+	.db 0x1c			;Note E-3
+	.db 0xc5			;Wait 6
+	.db 0x1e			;Note F#3
+	.db 0xc1			;Wait 2
+	.db 0x1e			;Note F#3
 					;Wait Repeat 2
-	db $1e			;Note F#3
+	.db 0x1e			;Note F#3
 					;Wait Repeat 2
-	db $1e			;Note F#3
-	db $c5			;Wait 6
-	db $1e			;Note F#3
-	db $c1			;Wait 2
-	db $1e			;Note F#3
-	db $c1			;Wait 2
-	db $1c			;Note E-3
-	db $77			;Instrument 6
-	db $c7			;Wait 8
-	db $14			;Note G#2
-	db $c7			;Wait 8
-	db $bf			;[End-Of-Track]
-.track_022:
-	db $34			;Note E-5
-	db $70			;Volume 15
-	db $79			;Instrument 8
-	db $a1,$08			;CMD Track detune
-	db $c0			;Wait 1
-	db $36			;Note F#5
-	db $90,$0a			;CMD Portamento tone
-	db $c3			;Wait 4
-	db $94,$26			;CMD Vibrato
-	db $c4			;Wait 5
-	db $34			;Note E-5
-	db $9b			;CMD End 
-	db $c1			;Wait 2
-	db $32			;Note D-5
+	.db 0x1e			;Note F#3
+	.db 0xc5			;Wait 6
+	.db 0x1e			;Note F#3
+	.db 0xc1			;Wait 2
+	.db 0x1e			;Note F#3
+	.db 0xc1			;Wait 2
+	.db 0x1c			;Note E-3
+	.db 0x77			;Instrument 6
+	.db 0xc7			;Wait 8
+	.db 0x14			;Note G#2
+	.db 0xc7			;Wait 8
+	.db 0xbf			;[End-Of-Track]
+triplets_track_022:
+	.db 0x34			;Note E-5
+	.db 0x70			;Volume 15
+	.db 0x79			;Instrument 8
+	.db 0xa1,0x08			;CMD Track detune
+	.db 0xc0			;Wait 1
+	.db 0x36			;Note F#5
+	.db 0x90,0x0a			;CMD Portamento tone
+	.db 0xc3			;Wait 4
+	.db 0x94,0x26			;CMD Vibrato
+	.db 0xc4			;Wait 5
+	.db 0x34			;Note E-5
+	.db 0x9b			;CMD End 
+	.db 0xc1			;Wait 2
+	.db 0x32			;Note D-5
 					;Wait Repeat 2
-	db $36			;Note F#5
+	.db 0x36			;Note F#5
 					;Wait Repeat 2
-	db $38			;Note G#5
-	db $c1			;Wait 2
-	db $34			;Note E-5
-	db $9a,$03			;CMD Note delay
-	db $c2			;Wait 3
-	db $2f			;Note B-4
-	db $9a,$02			;CMD Note delay
+	.db 0x38			;Note G#5
+	.db 0xc1			;Wait 2
+	.db 0x34			;Note E-5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc2			;Wait 3
+	.db 0x2f			;Note B-4
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 3
-	db $34			;Note E-5
-	db $c1			;Wait 2
-	db $38			;Note G#5
-	db $9a,$03			;CMD Note delay
-	db $c2			;Wait 3
-	db $3b			;Note B-5
-	db $9a,$02			;CMD Note delay
+	.db 0x34			;Note E-5
+	.db 0xc1			;Wait 2
+	.db 0x38			;Note G#5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc2			;Wait 3
+	.db 0x3b			;Note B-5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 3
-	db $38			;Note G#5
-	db $c0			;Wait 1
-	db $39			;Note A-5
-	db $90,$04			;CMD Portamento tone
-	db $c3			;Wait 4
-	db $94,$36			;CMD Vibrato
+	.db 0x38			;Note G#5
+	.db 0xc0			;Wait 1
+	.db 0x39			;Note A-5
+	.db 0x90,0x04			;CMD Portamento tone
+	.db 0xc3			;Wait 4
+	.db 0x94,0x36			;CMD Vibrato
 					;Wait Repeat 4
-	db $9b			;CMD End 
-	db $c0			;Wait 1
-	db $38			;Note G#5
-	db $c1			;Wait 2
-	db $39			;Note A-5
+	.db 0x9b			;CMD End 
+	.db 0xc0			;Wait 1
+	.db 0x38			;Note G#5
+	.db 0xc1			;Wait 2
+	.db 0x39			;Note A-5
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $3e			;Note D-6
-	db $c0			;Wait 1
-	db $3d			;Note C#6
-	db $9a,$02			;CMD Note delay
+	.db 0x3e			;Note D-6
+	.db 0xc0			;Wait 1
+	.db 0x3d			;Note C#6
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $3b			;Note B-5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $39			;Note A-5
-	db $c0			;Wait 1
-	db $38			;Note G#5
-	db $9a,$02			;CMD Note delay
+	.db 0x3b			;Note B-5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x39			;Note A-5
+	.db 0xc0			;Wait 1
+	.db 0x38			;Note G#5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $36			;Note F#5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $34			;Note E-5
-	db $a1,$08			;CMD Track detune
-	db $c0			;Wait 1
-	db $36			;Note F#5
-	db $9a,$02			;CMD Note delay
+	.db 0x36			;Note F#5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x34			;Note E-5
+	.db 0xa1,0x08			;CMD Track detune
+	.db 0xc0			;Wait 1
+	.db 0x36			;Note F#5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $38			;Note G#5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $39			;Note A-5
-	db $c0			;Wait 1
-	db $34			;Note E-5
-	db $9a,$02			;CMD Note delay
+	.db 0x38			;Note G#5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x39			;Note A-5
+	.db 0xc0			;Wait 1
+	.db 0x34			;Note E-5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $31			;Note C#5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $bf			;[End-Of-Track]
-.track_023:
-	db $c2			;Wait 3
-	db $34			;Note E-5
-	db $68			;Volume 7
-	db $79			;Instrument 8
-	db $a1,$09			;CMD Track detune
-	db $c0			;Wait 1
-	db $36			;Note F#5
-	db $90,$0a			;CMD Portamento tone
-	db $c3			;Wait 4
-	db $94,$26			;CMD Vibrato
-	db $c4			;Wait 5
-	db $34			;Note E-5
-	db $9b			;CMD End 
-	db $c1			;Wait 2
-	db $32			;Note D-5
+	.db 0x31			;Note C#5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0xbf			;[End-Of-Track]
+triplets_track_023:
+	.db 0xc2			;Wait 3
+	.db 0x34			;Note E-5
+	.db 0x68			;Volume 7
+	.db 0x79			;Instrument 8
+	.db 0xa1,0x09			;CMD Track detune
+	.db 0xc0			;Wait 1
+	.db 0x36			;Note F#5
+	.db 0x90,0x0a			;CMD Portamento tone
+	.db 0xc3			;Wait 4
+	.db 0x94,0x26			;CMD Vibrato
+	.db 0xc4			;Wait 5
+	.db 0x34			;Note E-5
+	.db 0x9b			;CMD End 
+	.db 0xc1			;Wait 2
+	.db 0x32			;Note D-5
 					;Wait Repeat 2
-	db $36			;Note F#5
+	.db 0x36			;Note F#5
 					;Wait Repeat 2
-	db $38			;Note G#5
-	db $c1			;Wait 2
-	db $34			;Note E-5
-	db $9a,$03			;CMD Note delay
-	db $c2			;Wait 3
-	db $2f			;Note B-4
-	db $9a,$02			;CMD Note delay
+	.db 0x38			;Note G#5
+	.db 0xc1			;Wait 2
+	.db 0x34			;Note E-5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc2			;Wait 3
+	.db 0x2f			;Note B-4
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 3
-	db $34			;Note E-5
-	db $c1			;Wait 2
-	db $38			;Note G#5
-	db $9a,$03			;CMD Note delay
-	db $c2			;Wait 3
-	db $3b			;Note B-5
-	db $9a,$02			;CMD Note delay
+	.db 0x34			;Note E-5
+	.db 0xc1			;Wait 2
+	.db 0x38			;Note G#5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc2			;Wait 3
+	.db 0x3b			;Note B-5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 3
-	db $38			;Note G#5
-	db $c0			;Wait 1
-	db $39			;Note A-5
-	db $90,$04			;CMD Portamento tone
-	db $c3			;Wait 4
-	db $94,$36			;CMD Vibrato
+	.db 0x38			;Note G#5
+	.db 0xc0			;Wait 1
+	.db 0x39			;Note A-5
+	.db 0x90,0x04			;CMD Portamento tone
+	.db 0xc3			;Wait 4
+	.db 0x94,0x36			;CMD Vibrato
 					;Wait Repeat 4
-	db $9b			;CMD End 
-	db $c0			;Wait 1
-	db $38			;Note G#5
-	db $c1			;Wait 2
-	db $39			;Note A-5
+	.db 0x9b			;CMD End 
+	.db 0xc0			;Wait 1
+	.db 0x38			;Note G#5
+	.db 0xc1			;Wait 2
+	.db 0x39			;Note A-5
 					;Wait Repeat 2
-	db $3b			;Note B-5
+	.db 0x3b			;Note B-5
 					;Wait Repeat 2
-	db $3e			;Note D-6
-	db $c0			;Wait 1
-	db $3d			;Note C#6
-	db $9a,$02			;CMD Note delay
+	.db 0x3e			;Note D-6
+	.db 0xc0			;Wait 1
+	.db 0x3d			;Note C#6
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $3b			;Note B-5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $39			;Note A-5
-	db $c0			;Wait 1
-	db $38			;Note G#5
-	db $9a,$02			;CMD Note delay
+	.db 0x3b			;Note B-5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x39			;Note A-5
+	.db 0xc0			;Wait 1
+	.db 0x38			;Note G#5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $36			;Note F#5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $34			;Note E-5
-	db $a1,$08			;CMD Track detune
-	db $c0			;Wait 1
-	db $36			;Note F#5
-	db $9a,$02			;CMD Note delay
+	.db 0x36			;Note F#5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x34			;Note E-5
+	.db 0xa1,0x08			;CMD Track detune
+	.db 0xc0			;Wait 1
+	.db 0x36			;Note F#5
+	.db 0x9a,0x02			;CMD Note delay
 					;Wait Repeat 1
-	db $38			;Note G#5
-	db $9a,$03			;CMD Note delay
-	db $c1			;Wait 2
-	db $39			;Note A-5
-	db $bf			;[End-Of-Track]
-.track_024:
-	db $11			;Note F-2
-	db $70			;Volume 15
-	db $71			;Instrument 0
+	.db 0x38			;Note G#5
+	.db 0x9a,0x03			;CMD Note delay
+	.db 0xc1			;Wait 2
+	.db 0x39			;Note A-5
+	.db 0xbf			;[End-Of-Track]
+triplets_track_024:
+	.db 0x11			;Note F-2
+	.db 0x70			;Volume 15
+	.db 0x71			;Instrument 0
 			;CMD EE Not supported [Global transpose][WARNING]
-	db $c0			;Wait 1
+	.db 0xc0			;Wait 1
 			;CMD EE Not supported [Global transpose][WARNING]
-	db $fe			;Wait 63
-	db $bf			;[End-Of-Track]
-.track_025:
-	db $a5,$42			;CMD Envelope multiplier low
-	db $ff			;Wait 64
-	db $bf			;[End-Of-Track]
-.track_027:
-	db $47			;Note B-6
-	db $6e			;Volume 13
-	db $78			;Instrument 7
-	db $a1,$08			;CMD Track detune
-	db $ff			;Wait 64
-	db $bf			;[End-Of-Track]
-.track_028:
-	db $0b			;Note B-1
-	db $6e			;Volume 13
-	db $76			;Instrument 5
-	db $c2			;Wait 3
-	db $ac,$06			; SCC Morph speed 6
-	db $c0			;Wait 1
-	db $aa				; SCC Morph foloow (Carbon C0poy) 0
-	db $fb			;Wait 60
-	db $bf			;[End-Of-Track]
-.track_029:
-	db $21			;Note A-3
-	db $6c			;Volume 11
-	db $77			;Instrument 6
-	db $c3			;Wait 4
-	db $9c,$00			; SCC Morph to Waveform 0
-	db $fb			;Wait 60
-	db $bf			;[End-Of-Track]
-.track_030:
-	db $26			;Note D-4
-	db $6c			;Volume 11
-	db $77			;Instrument 6
-	db $c3			;Wait 4
-	db $aa				; SCC Morph foloow (Carbon C0poy) 0
-	db $fb			;Wait 60
-	db $bf			;[End-Of-Track]
-.track_031:
-	db $2a			;Note F#4
-	db $6c			;Volume 11
-	db $77			;Instrument 6
-	db $c2			;Wait 3
-	db $94,$66			;CMD Vibrato
-	db $c0			;Wait 1
-	db $aa				; SCC Morph foloow (Carbon C0poy) 0
-	db $fb			;Wait 60
-	db $bf			;[End-Of-Track]
+	.db 0xfe			;Wait 63
+	.db 0xbf			;[End-Of-Track]
+triplets_track_025:
+	.db 0xa5,0x42			;CMD Envelope multiplier low
+	.db 0xff			;Wait 64
+	.db 0xbf			;[End-Of-Track]
+triplets_track_027:
+	.db 0x47			;Note B-6
+	.db 0x6e			;Volume 13
+	.db 0x78			;Instrument 7
+	.db 0xa1,0x08			;CMD Track detune
+	.db 0xff			;Wait 64
+	.db 0xbf			;[End-Of-Track]
+triplets_track_028:
+	.db 0x0b			;Note B-1
+	.db 0x6e			;Volume 13
+	.db 0x76			;Instrument 5
+	.db 0xc2			;Wait 3
+	.db 0xac,0x06			; SCC Morph speed 6
+	.db 0xc0			;Wait 1
+	.db 0xaa				; SCC Morph foloow (Carbon C0poy) 0
+	.db 0xfb			;Wait 60
+	.db 0xbf			;[End-Of-Track]
+triplets_track_029:
+	.db 0x21			;Note A-3
+	.db 0x6c			;Volume 11
+	.db 0x77			;Instrument 6
+	.db 0xc3			;Wait 4
+	.db 0x9c,0x00			; SCC Morph to Waveform 0
+	.db 0xfb			;Wait 60
+	.db 0xbf			;[End-Of-Track]
+triplets_track_030:
+	.db 0x26			;Note D-4
+	.db 0x6c			;Volume 11
+	.db 0x77			;Instrument 6
+	.db 0xc3			;Wait 4
+	.db 0xaa				; SCC Morph foloow (Carbon C0poy) 0
+	.db 0xfb			;Wait 60
+	.db 0xbf			;[End-Of-Track]
+triplets_track_031:
+	.db 0x2a			;Note F#4
+	.db 0x6c			;Volume 11
+	.db 0x77			;Instrument 6
+	.db 0xc2			;Wait 3
+	.db 0x94,0x66			;CMD Vibrato
+	.db 0xc0			;Wait 1
+	.db 0xaa				; SCC Morph foloow (Carbon C0poy) 0
+	.db 0xfb			;Wait 60
+	.db 0xbf			;[End-Of-Track]
 

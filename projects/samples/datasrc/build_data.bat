@@ -33,9 +33,7 @@ if %BuildTrilo%==1 (
 	if not exist %Dest%\trilo\out md %Dest%\trilo\out
 	for %%I in (trilo\*.tmu) do (
 		%AudioMisc%\tmucompile.exe %%I %Dest%\trilo\out\tmu_%%~nI.asm
-		%Tools%\audio\misc\sjasm -s %Dest%\trilo\out\tmu_%%~nI.asm %Dest%\trilo\out\tmu_%%~nI.bin
-		%Tools%\audio\misc\rxrepl -f %Dest%\trilo\out\tmu_%%~nI.sym -o %Dest%\trilo\out\tmu_%%~nI_rasm.sym -s ": equ [0123456789ABCDEF]{4}([0123456789ABCDEF]{4})h" -r " #\1 B0"
-		%Tools%\audio\arkos\Disark.exe %Dest%\trilo\out\tmu_%%~nI.bin %Dest%\trilo\tmu_%%~nI.asm --symbolFile %Dest%\trilo\out\tmu_%%~nI_rasm.sym --undocumentedOpcodesToBytes --src16bitsValuesInHex --src8bitsValuesInHex --sourceProfile sdcc
+		%Tools%\audio\misc\rxrepl -f %Dest%\trilo\out\tmu_%%~nI.asm -o %Dest%\trilo\tmu_%%~nI.asm -s "\." -r "" -s "\$" -r "0x" -s "db" -r ".db" -s "dw" -r ".dw" -s "waveform_" -r "%%~nI_waveform_" -s "instrument_" -r "%%~nI_instrument_" -s "track_" -r "%%~nI_track_" -s "restart" -r "%%~nI_restart" -s "customvoice_" -r "%%~nI_customvoice_" -s "drummacro_" -r "%%~nI_drummacro_" 
 	)
 )
 
