@@ -15,6 +15,8 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+#include "core.h"
+
 // Bios calls that can be called directly from MSX-DOS
 //
 // RDSLT (000CH) - read value at specified address of specified slot
