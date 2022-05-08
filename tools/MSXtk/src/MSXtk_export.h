@@ -193,8 +193,8 @@ public:
 	virtual bool Export(std::string filename) const
 	{
 		// Write header file
-		FILE* file;
-		if (fopen_s(&file, filename.c_str(), "wb") != 0)
+		FILE* file = fopen(filename.c_str(), "wb");
+		if (file == NULL)
 		{
 			printf("Error: Fail to create %s\n", filename.c_str());
 			return false;
@@ -229,8 +229,8 @@ public:
 	virtual bool Export(std::string filename) const
 	{
 		// Write header file
-		FILE* file;
-		if (fopen_s(&file, filename.c_str(), "wb") != 0)
+		FILE* file = fopen(filename.c_str(), "wb");
+		if (file == NULL)
 		{
 			printf("Error: Fail to create %s\n", filename.c_str());
 			return false;

@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.2";
+const char* VERSION = "0.1.3";
 
 #define BUFFER_SIZE 1024
 
@@ -169,7 +169,7 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 	// Check starting address
 	if (addr < g_StartAddress)
 	{
-		printf("Error: Try to write value bellow start address! (Start=%08Xh Addr=%08Xh)\n", g_StartAddress, addr);
+		printf("Error: Try to write value bellow start address! (Start=%08lXh Addr=%08lXh)\n", g_StartAddress, addr);
 		return false;
 	}
 
@@ -198,7 +198,7 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 	// Check max size
 	if ((g_DataSize != 0) && (offsetEnd > g_DataSize - 1))
 	{
-		printf("Error: Try to write value outside defined data length! (Max=%08Xh Destination=%08Xh)\n", g_DataSize - 1, offsetEnd);
+		printf("Error: Try to write value outside defined data length! (Max=%08lXh Destination=%08lXh)\n", g_DataSize - 1, offsetEnd);
 		return false;
 	}
 
@@ -215,7 +215,7 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 	{
 		if (g_BinCheck[offset])
 		{
-			printf("Error: Writing address overwrite at offset %08Xh!\n", offset);
+			printf("Error: Writing address overwrite at offset %08lXh!\n", offset);
 			return false;
 		}
 
@@ -247,8 +247,8 @@ int SaveBinary(std::string outFile)
 		g_BinData.resize(g_DataSize, g_Padding);
 
 	// Open binary file
-	FILE* file;
-	if (fopen_s(&file, outFile.c_str(), "wb") != 0)
+	FILE* file = fopen(outFile.c_str(), "wb");
+	if (file == NULL)
 	{
 		printf("Error: Fail to open output file %s\n", outFile.c_str());
 		return 1;
@@ -268,7 +268,6 @@ int SaveBinary(std::string outFile)
 // Load and parse Intel HEX file
 int ParseHex(std::string inFile)
 {
-	FILE* file;
 	std::string strData;
 	u8* binData;
 	u32 baseAddr = 0x00000000, lowAddr = 0xFFFFFFFF;
@@ -276,10 +275,11 @@ int ParseHex(std::string inFile)
 	// Display header
 	printf("MSXhex %s - Convert Intel HEX file to binary\n", VERSION);
 	if (g_Verbose)
-		printf(" Start=%08Xh Size=%08Xh Bank=%08Xh Pad=%02Xh\n", g_StartAddress, g_DataSize, g_BankSize, g_Padding);
+		printf(" Start=%08lXh Size=%08lXh Bank=%08lXh Pad=%02Xh\n", g_StartAddress, g_DataSize, g_BankSize, g_Padding);
 
 	// Read binary file
-	if (fopen_s(&file, inFile.c_str(), "rb") != 0)
+	FILE* file = fopen(inFile.c_str(), "rb");
+	if (file == NULL)
 	{
 		printf("Error: Fail to open input file %s\n", inFile.c_str());
 		return 1;
@@ -288,7 +288,7 @@ int ParseHex(std::string inFile)
 	u32 fileSize = ftell(file);
 	binData = (u8*)malloc(fileSize);
 	fseek(file, 0, SEEK_SET);
-	if (fread_s(binData, fileSize, sizeof(u8), fileSize, file) != fileSize)
+	if (fread(binData, sizeof(u8), fileSize, file) != fileSize)
 	{
 		free(binData);
 		printf("Error: Fail to read file %s\n", inFile.c_str());
@@ -326,7 +326,7 @@ int ParseHex(std::string inFile)
 				sum += rec.Data[i];
 			if (sum != 0)
 			{
-				printf("Error: Record[%i] checksum error!\n", index);
+				printf("Error: Record[%li] checksum error!\n", index);
 				return 1;
 			}
 		}
@@ -341,7 +341,7 @@ int ParseHex(std::string inFile)
 		{
 		case Type_Data:
 			if (g_Log)
-				printf("Log: Record[%i] Addr=%08Xh Size=%i\n", index, addr, rec.Count);
+				printf("Log: Record[%li] Addr=%08lXh Size=%i\n", index, addr, rec.Count);
 			WriteBytes(addr, rec.Data);
 			break;
 		case Type_EndOfFile:
@@ -386,10 +386,11 @@ void PrintHelp()
 	printf(" One of the following named values can also be used:\n  ");
 	for (std::map<const c8*, u32>::iterator it = g_NamedValue.begin(); it != g_NamedValue.end(); ++it)
 	{
-		printf(it->first);
+		printf("%s", it->first);
 		if(std::next(it) != g_NamedValue.end())
 			printf(", ");
 	}
+	printf("\n");
 }
 
 //const char* ARGV[] = { "", "../testcases/crt0_rom_mapper.ihx", "-e", "rom", "-s", "0x4000", "-l", "256K", "-b", "16K", "-p", "0xFF" };

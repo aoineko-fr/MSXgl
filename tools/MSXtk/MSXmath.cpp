@@ -22,7 +22,7 @@
 //-----------------------------------------------------------------------------
 // D E F I N E S
 
-const c8* VERSION = "1.6.0";
+const c8* VERSION = "1.6.1";
 
 const f64 PI = 3.14159265358979323846f;
 const f64 PI_2 = 2.0f * PI;
@@ -173,7 +173,7 @@ void PrintTable(i32 op)
 		x *= multi;
 
 
-		sprintf_s(tmpStr, BUFFER_SIZE, "%s, ", MSX::GetDataFormat(MSX::DATAFORMAT_Hexa, Bytes));
+		sprintf(tmpStr, "%s, ", MSX::GetDataFormat(MSX::DATAFORMAT_Hexa, Bytes));
 		if (Bytes == 1)
 			printf(tmpStr, 0xFF & (i32)x);
 		else if (Bytes == 2)
@@ -209,7 +209,7 @@ void PrintTable(i32 op)
 			x *= multi;
 
 			
-			sprintf_s(tmpStr, BUFFER_SIZE, "%s, ", MSX::GetDataFormat(MSX::DATAFORMAT_Hexa, Bytes));
+			sprintf(tmpStr, "%s, ", MSX::GetDataFormat(MSX::DATAFORMAT_Hexa, Bytes));
 			if (Bytes == 1)
 				printf(tmpStr, 0xFF & (i32)x);
 			else if (Bytes == 2)
@@ -239,7 +239,7 @@ void PrintTable(i32 op)
 			x = OpTable[op].func(x);
 			x *= multi;
 
-			sprintf_s(tmpStr, BUFFER_SIZE, "%s ", MSX::GetDataFormat(MSX::DATAFORMAT_Hexa, Bytes));
+			sprintf(tmpStr, "%s ", MSX::GetDataFormat(MSX::DATAFORMAT_Hexa, Bytes));
 			printf(tmpStr, (i32)x);
 			//if (Bytes == 1)
 			//	printf("0x%02X", 0xFF & (i32)x);

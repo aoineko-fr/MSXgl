@@ -28,7 +28,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "1.1.0";
+const char* VERSION = "1.1.1";
 
 /// Data format enum
 enum OUTPUT_FORMAT

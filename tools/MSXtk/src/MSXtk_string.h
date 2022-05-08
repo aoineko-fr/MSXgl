@@ -18,6 +18,7 @@
 #include <ctime>
 #include <cstdarg>
 #include <string.h>
+#include <locale>
 
 #define BUFFER_SIZE 1024
 
@@ -60,11 +61,36 @@ inline std::string Format(const char* fmt, ...)
 #endif
 }
 
+/// Convert string to lowercase
+inline std::string ToLower(const std::string& str)
+{
+	std::string ret = str;
+	for (int i = 0; i < (int)ret.size(); i++)
+		if ((ret[i] >= 'A') && (ret[i] <= 'Z'))
+			ret[i] = ret[i] - 'A' + 'a';
+	return ret;
+}
+
+/// Convert string to uppercase
+inline std::string ToUpper(const std::string& str)
+{
+	std::string ret = str;
+	for (int i = 0; i < (int)ret.size(); i++)
+		if ((ret[i] >= 'a') && (ret[i] <= 'z'))
+			ret[i] = ret[i] - 'a' + 'A';
+	return ret;
+}
+
 /// Check if 2 string are equal
 inline bool StrEqual(const c8* str1, const c8* str2, bool bCaseInsensitive = true)
 {
 	if(bCaseInsensitive)
-		return (_stricmp(str1, str2) == 0);
+	{
+		//return (_stricmp(str1, str2) == 0);
+		std::string out1 = str1;
+		std::string out2 = str2;
+		return (strcmp(ToLower(out1).c_str(), ToLower(out2).c_str()) == 0);
+	}
 	else
 		return (strcmp(str1, str2) == 0);
 }

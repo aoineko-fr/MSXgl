@@ -32,7 +32,8 @@ public:
 	/// Read binary file
 	static bool Load(FileData& file)
 	{
-		if (fopen_s(&file.Interface, file.Filename.c_str(), "rb") != 0)
+		file.Interface = fopen(file.Filename.c_str(), "rb");
+		if (file.Interface == NULL)
 		{
 			printf("Error: Fail to open file %s\n", file.Filename.c_str());
 			return false;
@@ -41,7 +42,7 @@ public:
 		file.Size = ftell(file.Interface);
 		file.Data.resize(file.Size);
 		fseek(file.Interface, 0, SEEK_SET);
-		if (fread_s(file.Data.data(), file.Size, sizeof(u8), file.Size, file.Interface) != file.Size)
+		if (fread(file.Data.data(), sizeof(u8), file.Size, file.Interface) != file.Size)
 		{
 			file.Data.resize(0);
 			printf("Error: Fail to read file %s\n", file.Filename.c_str());
