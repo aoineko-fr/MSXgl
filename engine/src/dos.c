@@ -12,6 +12,9 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "dos.h"
 
+
+i8 g_DOS_LastError;
+	
 //=============================================================================
 // MSX-DOS 1
 //=============================================================================
@@ -26,9 +29,9 @@ i8 DOS_Open(fcb* stream)
 	stream; // HL
 __asm
 	// FCB pointer
-	ld		de, hl
+	ex		de, hl
 	// Open file
-	ld		c, #DOS_FOPEN
+	ld		c, #DOS_FUNC_FOPEN
 	call	BDOS
 	ld		(_g_DOS_LastError), a
 __endasm;
@@ -41,9 +44,9 @@ i8 DOS_Create(fcb* stream)
 	stream; // HL
 __asm
 	// FCB pointer
-	ld		de, hl
+	ex		de, hl
 	// Create file
-	ld		c, #DOS_FMAKE
+	ld		c, #DOS_FUNC_FMAKE
 	call	BDOS
 	ld		(_g_DOS_LastError), a
 __endasm;
@@ -56,9 +59,9 @@ i8 DOS_Close(fcb* stream)
 	stream; // HL
 __asm
 	// FCB pointer
-	ld		de, hl
+	ex		de, hl
 	// Close file
-	ld		c, #DOS_FCLOSE
+	ld		c, #DOS_FUNC_FCLOSE
 	call	BDOS
 	ld		(_g_DOS_LastError), a
 __endasm;
@@ -68,12 +71,12 @@ __endasm;
 // Set transfer address
 i8 DOS_SetTransferAddr(void* data)
 {
-	stream; // HL
+	data; // HL
 __asm
 	// FCB pointer
-	ld		de, hl
+	ex		de, hl
 	// 
-	ld		c, #DOS_SETDTA
+	ld		c, #DOS_FUNC_SETDTA
 	call	BDOS
 	ld		(_g_DOS_LastError),a
 __endasm;
@@ -86,9 +89,9 @@ i8 DOS_SequentialRead(fcb* stream)
 	stream; // HL
 __asm
 	// FCB pointer
-	ld		de, hl
+	ex		de, hl
 	// Sequential read
-	ld		c, #DOS_RDSEQ
+	ld		c, #DOS_FUNC_RDSEQ
 	call	BDOS
 	ld		(_g_DOS_LastError), a
 __endasm;
@@ -101,9 +104,9 @@ i8 DOS_SequentialWrite(fcb* stream)
 	stream; // HL
 __asm
 	// FCB pointer
-	ld		de, hl
+	ex		de, hl
 	// Sequential write
-	ld		c, #DOS_WRSEQ
+	ld		c, #DOS_FUNC_WRSEQ
 	call	BDOS
 	ld		(_g_DOS_LastError), a
 __endasm;
