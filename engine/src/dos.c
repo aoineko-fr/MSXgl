@@ -28,12 +28,14 @@ i8 DOS_Open(fcb* stream)
 {
 	stream; // HL
 __asm
+	push	ix
 	// FCB pointer
 	ex		de, hl
 	// Open file
 	ld		c, #DOS_FUNC_FOPEN
 	call	BDOS
 	ld		(_g_DOS_LastError), a
+	pop ix
 __endasm;
 }
 
@@ -43,12 +45,14 @@ i8 DOS_Create(fcb* stream)
 {
 	stream; // HL
 __asm
+	push	ix
 	// FCB pointer
 	ex		de, hl
 	// Create file
 	ld		c, #DOS_FUNC_FMAKE
 	call	BDOS
 	ld		(_g_DOS_LastError), a
+	pop		ix
 __endasm;
 }
 
@@ -58,12 +62,14 @@ i8 DOS_Close(fcb* stream)
 {
 	stream; // HL
 __asm
+	push	ix
 	// FCB pointer
 	ex		de, hl
 	// Close file
 	ld		c, #DOS_FUNC_FCLOSE
 	call	BDOS
 	ld		(_g_DOS_LastError), a
+	pop		ix
 __endasm;
 }
 
@@ -73,12 +79,14 @@ i8 DOS_SetTransferAddr(void* data)
 {
 	data; // HL
 __asm
+	push	ix
 	// FCB pointer
 	ex		de, hl
 	// 
 	ld		c, #DOS_FUNC_SETDTA
 	call	BDOS
 	ld		(_g_DOS_LastError),a
+	pop		ix
 __endasm;
 }
 
@@ -88,12 +96,14 @@ i8 DOS_SequentialRead(fcb* stream)
 {
 	stream; // HL
 __asm
+	push	ix
 	// FCB pointer
 	ex		de, hl
 	// Sequential read
 	ld		c, #DOS_FUNC_RDSEQ
 	call	BDOS
 	ld		(_g_DOS_LastError), a
+	pop		ix
 __endasm;
 }
 
@@ -103,12 +113,52 @@ i8 DOS_SequentialWrite(fcb* stream)
 {
 	stream; // HL
 __asm
+	push	ix
 	// FCB pointer
 	ex		de, hl
 	// Sequential write
 	ld		c, #DOS_FUNC_WRSEQ
 	call	BDOS
 	ld		(_g_DOS_LastError), a
+	pop		ix
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Random block read
+u16 DOS_RandomBlockRead(fcb* stream, u16 records)
+{
+	stream; // HL
+	records: // DE
+__asm
+	push	ix
+	// FCB pointer
+	ex		de, hl
+	// Read random block
+	ld		c, #DOS_FUNC_RDBLK
+	call	BDOS
+	ld		(_g_DOS_LastError), a
+	ex		de, hl	// DE becomes actual number of records read
+	pop		ix
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Random block write
+u16 DOS_RandomBlockWrite(fcb* stream, u16 records)
+{
+	stream; // HL
+	records: // DE
+__asm
+	push	ix
+	// FCB pointer
+	ex		de, hl
+	// Write random block
+	ld		c, #DOS_FUNC_WRBLK
+	call	BDOS
+	ld		(_g_DOS_LastError), a
+	ex		de, hl	// DE becomes actual number of records written
+	pop		ix
 __endasm;
 }
 
