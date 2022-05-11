@@ -855,6 +855,7 @@ inline bool Bios_IsKeyPressed(u8 key)
 //-----------------------------------------------------------------------------
 // CHKSLZ	#0162	Search slots for SUB-ROM
 #define R_CHKSLZ	0x0162 // Search slots for SUB-ROM
+// /!\ Modify IX register
 
 //-----------------------------------------------------------------------------
 // CHKNEW	#0165	Tests screen mode

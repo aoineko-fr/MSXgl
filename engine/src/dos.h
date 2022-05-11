@@ -33,90 +33,118 @@
 #define BDOS						0xF37D	
 #endif
 
-#define	DOS_FUNC_TERM0		0x00 // system reset
-#define	DOS_FUNC_CONIN		0x01 // get one character from console (input wait, echo back, control code check)
-#define	DOS_FUNC_CONOUT		0x02 // send one character to console
-#define	DOS_FUNC_AUXIN		0x03 // get one character from auxiliary device
-#define	DOS_FUNC_AUXOUT		0x04 // send one character to auxiliary device
-#define	DOS_FUNC_LSTOUT		0x05 // send one character to printer
-#define	DOS_FUNC_DIRIO		0x06 // get one character from console (no input wait, no echo back, no control code check) / one character output
-#define	DOS_FUNC_DIRIN		0x07 // get one character from console (input wait, no echo back, no control code check)
-#define	DOS_FUNC_INNOE		0x08 // get one character from console (input wait, no echo back, control code check)
-#define	DOS_FUNC_STROUT		0x09 // send string
-#define	DOS_FUNC_BUFIN		0x0A // get string
-#define	DOS_FUNC_CONST		0x0B // check input from console
-#define	DOS_FUNC_CPMVER		0x0C // get version number
-#define	DOS_FUNC_DSKRST		0x0D // disk reset
-#define	DOS_FUNC_SELDSK		0x0E // select default drive
-#define	DOS_FUNC_FOPEN		0x0F // open file
-#define	DOS_FUNC_FCLOSE		0x10 // close file
-#define	DOS_FUNC_SFIRST		0x11 // search the first file matched with wildcard
-#define	DOS_FUNC_SNEXT		0x12 // search the second and after the second file matched wildcard
-#define	DOS_FUNC_FDEL		0x13 // delete file
-#define	DOS_FUNC_RDSEQ		0x14 // read sequential file
-#define	DOS_FUNC_WRSEQ		0x15 // write sequential file
-#define	DOS_FUNC_FMAKE		0x16 // create file
-#define	DOS_FUNC_FREN		0x17 // rename file
-#define	DOS_FUNC_LOGIN		0x18 // get login vector
-#define	DOS_FUNC_CURDRV		0x19 // get default drive name
-#define	DOS_FUNC_SETDTA		0x1A // set DMA address
-#define	DOS_FUNC_ALLOC		0x1B // get disk information
+#define	DOS_FUNC_TERM0		0x00 // System reset
+#define	DOS_FUNC_CONIN		0x01 // Get one character from console (input wait, echo back, control code check)
+#define	DOS_FUNC_CONOUT		0x02 // Send one character to console
+#define	DOS_FUNC_AUXIN		0x03 // Get one character from auxiliary device
+#define	DOS_FUNC_AUXOUT		0x04 // Send one character to auxiliary device
+#define	DOS_FUNC_LSTOUT		0x05 // Send one character to printer
+#define	DOS_FUNC_DIRIO		0x06 // Get one character from console (no input wait, no echo back, no control code check) / one character output
+#define	DOS_FUNC_DIRIN		0x07 // Get one character from console (input wait, no echo back, no control code check)
+#define	DOS_FUNC_INNOE		0x08 // Get one character from console (input wait, no echo back, control code check)
+#define	DOS_FUNC_STROUT		0x09 // Send string
+#define	DOS_FUNC_BUFIN		0x0A // Get string
+#define	DOS_FUNC_CONST		0x0B // Check input from console
+#define	DOS_FUNC_CPMVER		0x0C // Get version number
+#define	DOS_FUNC_DSKRST		0x0D // Disk reset
+#define	DOS_FUNC_SELDSK		0x0E // Select default drive
+#define	DOS_FUNC_FOPEN		0x0F // Open file
+#define	DOS_FUNC_FCLOSE		0x10 // Close file
+#define	DOS_FUNC_SFIRST		0x11 // Search the first file matched with wildcard
+#define	DOS_FUNC_SNEXT		0x12 // Search the second and after the second file matched wildcard
+#define	DOS_FUNC_FDEL		0x13 // Delete file
+#define	DOS_FUNC_RDSEQ		0x14 // Read sequential file
+#define	DOS_FUNC_WRSEQ		0x15 // Write sequential file
+#define	DOS_FUNC_FMAKE		0x16 // Create file
+#define	DOS_FUNC_FREN		0x17 // Rename file
+#define	DOS_FUNC_LOGIN		0x18 // Get login vector
+#define	DOS_FUNC_CURDRV		0x19 // Get default drive name
+#define	DOS_FUNC_SETDTA		0x1A // Set DMA address
+#define	DOS_FUNC_ALLOC		0x1B // Get disk information
 //                      0x1C-0x20 no function
-#define	DOS_FUNC_RDRND		0x21 // write random file
-#define	DOS_FUNC_WRRND		0x22 // read random file
-#define	DOS_FUNC_FSIZE		0x23 // get file size
-#define	DOS_FUNC_SETRND		0x24 // set random record field
+#define	DOS_FUNC_RDRND		0x21 // Write random file
+#define	DOS_FUNC_WRRND		0x22 // Read random file
+#define	DOS_FUNC_FSIZE		0x23 // Get file size
+#define	DOS_FUNC_SETRND		0x24 // Set random record field
 //                      0x25 no function
-#define	DOS_FUNC_WRBLK		0x26 // write random block
-#define	DOS_FUNC_RDBLK		0x27 // read random block
-#define	DOS_FUNC_WRZER		0x28 // write random file (00H is set to unused portion)
+#define	DOS_FUNC_WRBLK		0x26 // Write random block
+#define	DOS_FUNC_RDBLK		0x27 // Read random block
+#define	DOS_FUNC_WRZER		0x28 // Write random file (00H is set to unused portion)
 //						0x29  no function
-#define	DOS_FUNC_GDATE		0x2A // get date
-#define	DOS_FUNC_SDATE		0x2B // set date
-#define	DOS_FUNC_GTIME		0x2C // get time
-#define	DOS_FUNC_STIME		0x2D // set time
-#define	DOS_FUNC_VERIFY		0x2E // set verify flag
-#define	DOS_FUNC_RDABS		0x2F // read logical sector
-#define	DOS_FUNC_WRABS		0x30 // write logical sector
+#define	DOS_FUNC_GDATE		0x2A // Get date
+#define	DOS_FUNC_SDATE		0x2B // Set date
+#define	DOS_FUNC_GTIME		0x2C // Get time
+#define	DOS_FUNC_STIME		0x2D // Set time
+#define	DOS_FUNC_VERIFY		0x2E // Set verify flag
+#define	DOS_FUNC_RDABS		0x2F // Read logical sector
+#define	DOS_FUNC_WRABS		0x30 // Write logical sector
 
 //=============================================================================
 // MSX-DOS 1
 //=============================================================================
 
-typedef struct {
-	u8  drive;			// 0: default drive
-	c8  name[11];		// Filename (format: 8.3)
-	u8  reserved1[3];
-	u8  record_size;
-	u32 size;
-	u8  reserved2[26];
-} fcb;
+// Device ID
+enum DEVICE_ID
+{
+	DEVICE_PRINTER   = 0xFB,
+	DEVICE_LIST      = 0xFC,
+	DEVICE_NULL      = 0xFC,
+	DEVICE_AUXILIARY = 0xFE,
+	DEVICE_CONSOLE   = 0xFF,
+};
 
+// File Control Block structure
+typedef struct {
+	u8   Drive;			// Drive number containing the file. (0 for Default drive, 1 for A, 2 for B, ..., 8 for H)
+	c8   Name[11];		// Filename (format: 8.3)
+	u16  CurrentBlock;	// Number of blocks from the top of the file to the current block
+	u16  RecordSize;	
+	u32  Size;
+	u16  Date;			// The two bytes format for DATE are [YYYYYYYM|MMMDDDDD].
+	u16  Time;
+	u8   DeviceID;
+	u8   Directory;
+	u16  TopCluster;	// Top cluster number of the file
+	u16  LastCluster;	// Last cluster number accessed
+	u16  RelativeLoc;	// Relative location from top cluster of the file
+	u8   CurrentRecord;
+	u32  RandomRecord;	// Record order from the top of the file
+} FCB;
+
+// Backup of the last error value
 extern i8 g_DOS_LastError;
 
+// Function: DOS_Open
 // Open file
-i8 DOS_Open(fcb* stream);
+i8 DOS_Open(FCB* stream);
 
+// Function: DOS_Create
 // Create file
-i8 DOS_Create(fcb* stream);
+i8 DOS_Create(FCB* stream);
 
+// Function: DOS_Close
 // Close file
-i8 DOS_Close(fcb* stream);
+i8 DOS_Close(FCB* stream);
 
+// Function: DOS_SetTransferAddr
 // Set transfer address
 i8 DOS_SetTransferAddr(void* data);
 
+// Function: DOS_SequentialRead
 // Sequential read
-i8 DOS_SequentialRead(fcb* stream);
+i8 DOS_SequentialRead(FCB* stream);
 
+// Function: DOS_SequentialWrite
 // Sequential write
-i8 DOS_SequentialWrite(fcb* stream);
+i8 DOS_SequentialWrite(FCB* stream);
 
+// Function: DOS_RandomBlockRead
 // Random block read
-u16 DOS_RandomBlockRead(fcb* stream, u16 records);
+u16 DOS_RandomBlockRead(FCB* stream, u16 records);
 
+// Function: DOS_RandomBlockWrite
 // Random block write
-u16 DOS_RandomBlockWrite(fcb* stream, u16 records);
+u16 DOS_RandomBlockWrite(FCB* stream, u16 records);
 
 //=============================================================================
 // MSX-DOS 2

@@ -24,7 +24,7 @@ i8 g_DOS_LastError;
 //  The unopened FCB must contain a drive which may be zero to indicate the current drive and a filename and extension which may be ambiguous.
 //  The current directory of the specified drive will be searched for a matching file and if found it will be opened.
 //  Matching entries which are sub-directories or system files will be ignored, and if the filename is ambiguous then the first suitable matching entry will be opened.
-i8 DOS_Open(fcb* stream)
+i8 DOS_Open(FCB* stream)
 {
 	stream; // HL
 __asm
@@ -41,7 +41,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Create file
-i8 DOS_Create(fcb* stream)
+i8 DOS_Create(FCB* stream)
 {
 	stream; // HL
 __asm
@@ -58,7 +58,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Close file
-i8 DOS_Close(fcb* stream)
+i8 DOS_Close(FCB* stream)
 {
 	stream; // HL
 __asm
@@ -92,7 +92,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Sequential read
-i8 DOS_SequentialRead(fcb* stream)
+i8 DOS_SequentialRead(FCB* stream)
 {
 	stream; // HL
 __asm
@@ -109,7 +109,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Sequential write
-i8 DOS_SequentialWrite(fcb* stream)
+i8 DOS_SequentialWrite(FCB* stream)
 {
 	stream; // HL
 __asm
@@ -126,7 +126,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Random block read
-u16 DOS_RandomBlockRead(fcb* stream, u16 records)
+u16 DOS_RandomBlockRead(FCB* stream, u16 records)
 {
 	stream; // HL
 	records: // DE
@@ -145,7 +145,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Random block write
-u16 DOS_RandomBlockWrite(fcb* stream, u16 records)
+u16 DOS_RandomBlockWrite(FCB* stream, u16 records)
 {
 	stream; // HL
 	records: // DE
