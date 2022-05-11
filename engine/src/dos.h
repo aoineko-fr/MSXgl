@@ -27,7 +27,11 @@
 
 // Start BASIC from DOS : https://www.msx.org/wiki/Disk-ROM_BIOS#4022H
 
+#if ((TARGET == TARGET_DOS1) || (TARGET == TARGET_DOS2))
 #define BDOS						0x0005
+#else
+#define BDOS						0xF37D	
+#endif
 
 #define	DOS_FUNC_TERM0		0x00 // system reset
 #define	DOS_FUNC_CONIN		0x01 // get one character from console (input wait, echo back, control code check)
@@ -108,6 +112,11 @@ i8 DOS_SequentialRead(fcb* stream);
 // Sequential write
 i8 DOS_SequentialWrite(fcb* stream);
 
+// Random block read
+u16 DOS_RandomBlockRead(fcb* stream, u16 records);
+
+// Random block write
+u16 DOS_RandomBlockWrite(fcb* stream, u16 records);
 
 //=============================================================================
 // MSX-DOS 2
