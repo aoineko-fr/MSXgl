@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------
 // DEFINES
 
-const char* VERSION = "1.3.0";
+const char* VERSION = "1.3.1";
 
 #define BUFFER_SIZE 1024
 
@@ -160,7 +160,7 @@ const c8* GetNumberFormat()
 		switch (g_Size)
 		{
 		default:
-		case DATA_SIZE_8B: return "0b%08X";
+		case DATA_SIZE_8B: return "0b%08lX";
 		case DATA_SIZE_16B: return "0b%016X";
 		case DATA_SIZE_32B:	return "0b%032X";
 		};
@@ -171,7 +171,7 @@ const c8* GetNumberFormat()
 		default:
 		case DATA_SIZE_8B: return "0x%02X";
 		case DATA_SIZE_16B: return "0x%04X";
-		case DATA_SIZE_32B:	return "0x%08X";
+		case DATA_SIZE_32B:	return "0x%08lX";
 		};
 	}
 }
@@ -302,7 +302,6 @@ void AddDWord(std::string& data, u32 value)
 //
 i32 Export()
 {
-	FILE* file;
 	std::string strData;
 	u8* binData;
 	char strBuf[BUFFER_SIZE];
@@ -311,7 +310,8 @@ i32 Export()
 	//u32 dword;
 
 	// Read binary file
-	if (fopen_s(&file, g_InputFile.c_str(), "rb") != 0)
+	FILE* file = fopen(g_InputFile.c_str(), "rb");
+	if (file == NULL)
 	{
 		printf("Error: Fail to open file %s\n", g_InputFile.c_str());
 		return 0;
@@ -320,7 +320,7 @@ i32 Export()
 	u32 fileSize = ftell(file);
 	binData = (u8*)malloc(fileSize);
 	fseek(file, 0, SEEK_SET);
-	if (fread_s(binData, fileSize, sizeof(u8), fileSize, file) != fileSize)
+	if (fread(binData, sizeof(u8), fileSize, file) != fileSize)
 	{
 		free(binData);
 		printf("Error: Fail to read file %s\n", g_InputFile.c_str());
@@ -438,9 +438,9 @@ i32 Export()
 				if (g_Address != ADDR_NONE)
 				{
 					if (g_ASCII && (g_Size == DATA_SIZE_8B))
-						sprintf_s(strBuf, BUFFER_SIZE, (g_Address == ADDR_HEXA) ? "%08X | %s" : "%6d | %s", offset, strLine);
+						sprintf(strBuf, (g_Address == ADDR_HEXA) ? "%08lX | %s" : "%6ld | %s", offset, strLine);
 					else
-						sprintf_s(strBuf, BUFFER_SIZE, (g_Address == ADDR_HEXA) ? "%08X" : "%6d", offset);
+						sprintf(strBuf, (g_Address == ADDR_HEXA) ? "%08lX" : "%6ld", offset);
 
 					strcpy(strLine, strBuf);
 					offset = total;
@@ -458,7 +458,8 @@ i32 Export()
 	AddComment(strData, StringFormat("Total bytes: %d", total));
 
 	// Write header file
-	if (fopen_s(&file, g_OutputFile.c_str(), "wb") != 0)
+	file = fopen(g_OutputFile.c_str(), "wb");
+	if (file == NULL)
 	{
 		printf("Error: Fail to create file %s\n", g_OutputFile.c_str());
 		return 0;
@@ -559,7 +560,7 @@ int main(int argc, const char* argv[])
 		{
 			g_AddStartAddr = true;
 			i++;
-			sscanf_s(argv[i], "%i", &g_StartAddr);
+			sscanf(argv[i], "%li", &g_StartAddr);
 		}
 		// Data language
 		else if (MSX::StrEqual(argv[i], "-c"))
