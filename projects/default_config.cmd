@@ -86,6 +86,8 @@ set InstallBDOS=0
 set BankedCall=0
 :: Overwrite RAM starting address
 set ForceRamAddr=
+:: Data to copy to disk
+set DiskFiles=
 
 :: Set debug flag
 set Debug=0

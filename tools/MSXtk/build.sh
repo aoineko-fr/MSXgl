@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# @echo off
-
-# if not exist out ( md out )
-# if not exist bin ( md bin )
+[ -d "out" ] || mkdir out
+[ -d "bin" ] || mkdir bin
 
 echo ----------------------------------------------------------------------
 echo Building MSXbin...
