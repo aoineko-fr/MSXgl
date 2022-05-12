@@ -1,6 +1,6 @@
 # MSXtk
 
-**MSXtk is a Tools Kit to help development on MSX computers.**
+**MSXtk is a Tools Kit with several program to help development on MSX computers.**
 
 ...
 
