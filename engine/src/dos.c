@@ -20,6 +20,59 @@ i8 g_DOS_LastError;
 //=============================================================================
 
 //-----------------------------------------------------------------------------
+// Call a BDOS function
+void DOS_Call(u8 func)
+{
+__asm
+	push	ix
+	ld		c, a
+	call	BDOS
+	pop		ix
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Output character
+void DOS_CharOutput(c8 chr)
+{
+	chr; // A
+__asm
+	push	ix
+	ld		e, a
+	ld		c, #DOS_FUNC_CONOUT
+	call	BDOS
+	pop		ix
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Input character
+c8 DOS_CharInput()
+{
+__asm
+	push	ix
+	ld		c, #DOS_FUNC_CONIN
+	call	BDOS
+	pop		ix
+	// return value in A
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// The characters of the string will be output. The string is terminated by "$" (ASCII 24h).
+void DOS_StringOutput(const c8* str)
+{
+	str; // HL
+__asm
+	push	ix
+	ex		de, hl
+	ld		c, #DOS_FUNC_STROUT
+	call	BDOS
+	pop		ix
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
 // Open file
 //  The unopened FCB must contain a drive which may be zero to indicate the current drive and a filename and extension which may be ambiguous.
 //  The current directory of the specified drive will be searched for a matching file and if found it will be opened.
@@ -35,7 +88,7 @@ __asm
 	ld		c, #DOS_FUNC_FOPEN
 	call	BDOS
 	ld		(_g_DOS_LastError), a
-	pop ix
+	pop		ix
 __endasm;
 }
 
@@ -158,6 +211,35 @@ __asm
 	call	BDOS
 	ld		(_g_DOS_LastError), a
 	ex		de, hl	// DE becomes actual number of records written
+	pop		ix
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Search the first file matched with wildcard
+i8 DOS_FindFirstFile(FCB* stream)
+{
+	stream; // HL
+__asm
+	push	ix
+	// FCB pointer
+	ex		de, hl
+	ld		c, #DOS_FUNC_SFIRST
+	call	BDOS
+	ld		(_g_DOS_LastError), a
+	pop		ix
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Search the second and after the second file matched wildcard
+i8 DOS_FindNextFile()
+{
+__asm
+	push	ix
+	ld		c, #DOS_FUNC_SNEXT
+	call	BDOS
+	ld		(_g_DOS_LastError), a
 	pop		ix
 __endasm;
 }

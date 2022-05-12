@@ -15,6 +15,10 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+//=============================================================================
+// DEFINES
+//=============================================================================
+
 #include "core.h"
 
 // Bios calls that can be called directly from MSX-DOS
@@ -27,7 +31,7 @@
 
 // Start BASIC from DOS : https://www.msx.org/wiki/Disk-ROM_BIOS#4022H
 
-#if ((TARGET == TARGET_DOS1) || (TARGET == TARGET_DOS2))
+#if (TARGET_TYPE == TYPE_DOS)
 #define BDOS						0x0005
 #else
 #define BDOS						0xF37D	
@@ -83,14 +87,43 @@
 // MSX-DOS 1
 //=============================================================================
 
-// Device ID
-enum DEVICE_ID
+// DOS function return value
+#define DOS_ERROR			0xFF
+#define DOS_NO_ERROR		0x00
+
+// Drive number
+enum DOS_DRIVE
 {
-	DEVICE_PRINTER   = 0xFB,
-	DEVICE_LIST      = 0xFC,
-	DEVICE_NULL      = 0xFC,
-	DEVICE_AUXILIARY = 0xFE,
-	DEVICE_CONSOLE   = 0xFF,
+	DOS_DRIVE_DEFAULT = 0x00,
+	DOS_DRIVE_A       = 0x01,
+	DOS_DRIVE_B       = 0x02,
+	DOS_DRIVE_C       = 0x03,
+	DOS_DRIVE_D       = 0x04,
+	DOS_DRIVE_E       = 0x05,
+	DOS_DRIVE_F       = 0x06,
+	DOS_DRIVE_G       = 0x07,
+	DOS_DRIVE_H       = 0x08,
+};
+
+
+// Device ID
+enum DOS_DEVICE
+{
+	// Disk devices
+	DOS_DEVICE_DRIVE_A   = 0x40,
+	DOS_DEVICE_DRIVE_B   = 0x41,
+	DOS_DEVICE_DRIVE_C   = 0x42,
+	DOS_DEVICE_DRIVE_D   = 0x43,
+	DOS_DEVICE_DRIVE_E   = 0x44,
+	DOS_DEVICE_DRIVE_F   = 0x45,
+	DOS_DEVICE_DRIVE_G   = 0x46,
+	DOS_DEVICE_DRIVE_H   = 0x47,
+	// Special devices
+	DOS_DEVICE_PRINTER   = 0xFB,
+	DOS_DEVICE_LIST      = 0xFC,
+	DOS_DEVICE_NULL      = 0xFC,
+	DOS_DEVICE_AUXILIARY = 0xFE,
+	DOS_DEVICE_CONSOLE   = 0xFF,
 };
 
 // File Control Block structure
@@ -114,9 +147,46 @@ typedef struct {
 // Backup of the last error value
 extern i8 g_DOS_LastError;
 
+// TPA (Transient Program Area) upper address
+__at(0x0006) u16 DOS_TPAUpperAddr;
+
+//-----------------------------------------------------------------------------
+// Goup: Console IO
+
+// Function: DOS_Call
+// Call a BDOS function
+void DOS_Call(u8 func);
+
+// Function: DOS_CharacterOutput
+// Output character
+void DOS_CharOutput(c8 chr);
+
+// Function: DOS_CharInput
+// Input character
+c8 DOS_CharInput();
+
+// Function: DOS_CharacterOutput
+// Clear console screen
+inline void DOS_ClearScreen() { DOS_CharOutput(0x0C); }
+
+// Function: DOS_StringOutput
+// The characters of the string will be output. The string is terminated by "$" (ASCII 24h).
+void DOS_StringOutput(const c8* str);
+
+//-----------------------------------------------------------------------------
+// Goup: File Handling
+
+// Function: DOS_SetTransferAddr
+// Set transfer address
+i8 DOS_SetTransferAddr(void* data);
+
 // Function: DOS_Open
 // Open file
 i8 DOS_Open(FCB* stream);
+
+// Function: DOS_GetFileSize
+// Get the size of an opened file
+inline u32 DOS_GetSize(FCB* stream) { return stream->Size; }
 
 // Function: DOS_Create
 // Create file
@@ -125,10 +195,6 @@ i8 DOS_Create(FCB* stream);
 // Function: DOS_Close
 // Close file
 i8 DOS_Close(FCB* stream);
-
-// Function: DOS_SetTransferAddr
-// Set transfer address
-i8 DOS_SetTransferAddr(void* data);
 
 // Function: DOS_SequentialRead
 // Sequential read
@@ -145,6 +211,14 @@ u16 DOS_RandomBlockRead(FCB* stream, u16 records);
 // Function: DOS_RandomBlockWrite
 // Random block write
 u16 DOS_RandomBlockWrite(FCB* stream, u16 records);
+
+// Function: DOS_FindFirstFile
+// Search the first file matched with wildcard
+i8 DOS_FindFirstFile(FCB* stream);
+
+// Function: DOS_FindNextFile
+// Search the second and after the second file matched wildcard
+i8 DOS_FindNextFile();
 
 //=============================================================================
 // MSX-DOS 2

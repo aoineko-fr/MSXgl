@@ -23,7 +23,6 @@ struct ImageEntry
 	const c8* Name;
 	const c8* Text;
 	u8        Mode;
-	u16       Size;
 };
 
 //=============================================================================
@@ -36,12 +35,12 @@ struct ImageEntry
 // Images table
 const struct ImageEntry g_Images[] =
 {
-	{ "IMAGE01 SC5", "Screen 5", VDP_MODE_SCREEN5, 27143 },
-	{ "IMAGE01 SC8", "Screen 8", VDP_MODE_SCREEN8, 54279 },
-	{ "IMAGE04 SC5", "Screen 5", VDP_MODE_SCREEN5, 27143 },
-	{ "IMAGE04 SC8", "Screen 8", VDP_MODE_SCREEN8, 54279 },
-	{ "PALETTE SC5", "Screen 5", VDP_MODE_SCREEN5, 27143 },
-	{ "PALETTE SC8", "Screen 8", VDP_MODE_SCREEN8, 54279 },
+	{ "IMAGE01 SC5", "Screen 5", VDP_MODE_SCREEN5 },
+	{ "IMAGE01 SC8", "Screen 8", VDP_MODE_SCREEN8 },
+	{ "IMAGE04 SC5", "Screen 5", VDP_MODE_SCREEN5 },
+	{ "IMAGE04 SC8", "Screen 8", VDP_MODE_SCREEN8 },
+	{ "PALETTE SC5", "Screen 5", VDP_MODE_SCREEN5 },
+	{ "PALETTE SC8", "Screen 8", VDP_MODE_SCREEN8 },
 };
 
 //=============================================================================
@@ -71,10 +70,10 @@ void LoadImage(u8 idx)
 	Mem_Set(0, &g_File, sizeof(FCB));
 	Mem_Copy(img->Name, &g_File.Name, 11);
 	DOS_Open(&g_File);
-
+	
 	// Read file and copy content into VRAM
 	u16 dst = 0;
-	for (u16 i = 0; i < img->Size; i+=128)
+	for (u16 i = 0; i < g_File.Size; i+=128)
 	{
 		DOS_SetTransferAddr(g_Buffer);
 		DOS_SequentialRead(&g_File);
@@ -108,7 +107,7 @@ void LoadImage(u8 idx)
 	
 	// Diplay footer	
 	Print_SetColor(0xEE, 0x00);
-	Print_SetPosition(0, 212-9);
+	Print_SetPosition(0, (u8)(212-9));
 	Print_DrawText("\x83:Next image");
 }
 
@@ -120,6 +119,57 @@ void LoadImage(u8 idx)
 // Program entry point
 void main()
 {
+StartProgram:
+
+	DOS_ClearScreen();
+	DOS_StringOutput("+--------------------+\n\r$");
+	DOS_StringOutput("| MSXgl - DOS Sample |\n\r$");
+	DOS_StringOutput("+--------------------+\n\r$");
+	DOS_StringOutput("Which screen mode?\n\r$");
+	DOS_StringOutput(" (can be: 5, 8)\n\r$");
+
+	i8 scrMode = DOS_CharInput();
+	switch(scrMode)
+	{
+	case '5':
+		DOS_StringOutput("\n\rScreen mode 5 selected\n\r$");
+		break;
+	case '8':
+		DOS_StringOutput("\n\rScreen mode 8 selected\n\r$");
+		break;
+	default:
+		DOS_StringOutput("\n\rUnsupported screen mode\n\rPress a key\n\r$");
+		DOS_CharInput();
+		goto StartProgram;
+		break;
+	}
+
+
+
+	Mem_Set(0, &g_File, sizeof(FCB));
+	Mem_Copy("????????SC?", &g_File.Name, 11);
+	g_File.Name[10] = scrMode;
+	i8 idx = 0;
+	if(DOS_FindFirstFile(&g_File) == 0)
+	{
+		// DOS_CharOutput('0' + idx++);
+		// DOS_StringOutput(": ");
+		((c8*)0x0080)[12] = '$';
+		DOS_StringOutput((const c8*)0x0080);
+		DOS_StringOutput("\n\r$");
+		while(DOS_FindNextFile() == 0)
+		{
+			// DOS_CharOutput('0' + idx++);
+			// DOS_StringOutput(": ");
+			((c8*)0x0080)[12] = '$';
+			DOS_StringOutput((const c8*)0x0080);
+			DOS_StringOutput("\n\r$");
+		}
+	}
+	DOS_Close(&g_File);
+
+	DOS_CharInput();
+
 	// Load first image
 	LoadImage(g_ImageIdx);
 
@@ -134,4 +184,8 @@ void main()
 			LoadImage(g_ImageIdx);
 		}
 	}
+	
+	// VDP_SetMode(VDP_MODE_SCREEN0);
+	// DOS_Call(DOS_FUNC_TERM0);
+	__asm__("call 0x0000");
 }
