@@ -149,7 +149,8 @@ StartProgram:
 	// Setup screen mode
 	u8 scrMode;
 	i8 scrChr = DOS_CharInput();
-	DOS_StringOutput("\n\r$");
+	DOS_Beep();
+	DOS_Return();
 	switch(scrChr)
 	{
 	case '5':
@@ -195,7 +196,7 @@ StartProgram:
 	// Select image index to display
 	DOS_StringOutput("Which image to display?\n\r$");
 	u8 imgIdx = DOS_CharInput() - '0';
-	DOS_StringOutput("\n\r$");
+	DOS_Return();
 
 	// Invalid image index
 	if(imgIdx >= g_FileNum)
@@ -207,6 +208,7 @@ StartProgram:
 	}
 
 	// Load and display image
+	DOS_Beep();
 	DOS_StringOutput("Loading image...\n\r$");
 	LoadImage(scrMode, imgIdx);
 

@@ -84,6 +84,14 @@
 #define	DOS_FUNC_RDABS				0x2F // Read logical sector
 #define	DOS_FUNC_WRABS				0x30 // Write logical sector
 
+#define CTRL_BEEP					0x07 // Produces a simple 'beep' PSG sound
+#define CTRL_BS						0x08 // Back Space key
+#define CTRL_TAB					0x09 // Tabulation key
+#define CTRL_LF						0x0A // Descends the cursor of a line
+#define CTRL_HOME					0x0B // Places the cursor at top left
+#define CTRL_CLS					0x0C // Clears the screen
+#define CTRL_RETURN					0x0D // Executes previous instruction
+
 //=============================================================================
 // MSX-DOS 1
 //=============================================================================
@@ -168,10 +176,6 @@ void DOS_CharOutput(c8 chr);
 // Input character
 c8 DOS_CharInput();
 
-// Function: DOS_CharacterOutput
-// Clear console screen
-inline void DOS_ClearScreen() { DOS_CharOutput(0x0C); }
-
 // Function: DOS_StringOutput
 // The characters of the string will be output. The string is terminated by "$" (ASCII 24h).
 void DOS_StringOutput(const c8* str);
@@ -179,6 +183,18 @@ void DOS_StringOutput(const c8* str);
 // Function: DOS_Exit
 // Exit program and return to DOS
 void DOS_Exit();
+
+// Function: DOS_Beep
+// Play bip sound
+inline void DOS_Beep() { DOS_CharOutput(CTRL_BEEP); }
+
+// Function: DOS_CharacterOutput
+// Clear console screen
+inline void DOS_ClearScreen() { DOS_CharOutput(CTRL_CLS); }
+
+// Function: DOS_Return
+// Carriage return
+inline void DOS_Return() { DOS_StringOutput("\n\r$"); }
 
 //-----------------------------------------------------------------------------
 // Goup: File Handling
