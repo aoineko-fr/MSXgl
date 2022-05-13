@@ -50,6 +50,8 @@ const struct ImageEntry g_Images[] =
 FCB g_File;
 u8  g_Buffer[128];
 u8  g_ImageIdx = 0;
+u8  g_FileNum = 0;
+c8  g_FileList[10][12];
 
 //=============================================================================
 // HELPER FUNCTIONS
@@ -57,18 +59,16 @@ u8  g_ImageIdx = 0;
 
 //-----------------------------------------------------------------------------
 // Load image using DOS file manager
-void LoadImage(u8 idx)
+void LoadImage(u8 srcMode, u8 imgIdx)
 {
-	const struct ImageEntry* img = &g_Images[idx];
-	
 	// Init render
-	VDP_SetMode(img->Mode);
+	VDP_SetMode(srcMode);
 	VDP_SetColor(0x00);
 	VDP_ClearVRAM();
 
 	// Open File
 	Mem_Set(0, &g_File, sizeof(FCB));
-	Mem_Copy(img->Name, &g_File.Name, 11);
+	Mem_Copy(g_FileList[imgIdx], &g_File.Name, 11);
 	DOS_Open(&g_File);
 	
 	// Read file and copy content into VRAM
@@ -94,7 +94,6 @@ void LoadImage(u8 idx)
 		VDP_WriteVRAM_128K(src, dst, 0, size);
 		dst += size;
 	}
-
 	DOS_Close(&g_File);
 
 	// Initialize font
@@ -103,12 +102,48 @@ void LoadImage(u8 idx)
 	// Diplay header	
 	Print_SetColor(0xFF, 0x00);
 	Print_SetPosition(0, 0);
-	Print_DrawFormat(MSX_GL "DOS SAMPLE (%s)", img->Text);
+	Print_DrawFormat(MSX_GL "DOS SAMPLE (Screen Mode %s)", srcMode == VDP_MODE_SCREEN5 ? "5" : "8");
 	
 	// Diplay footer	
 	Print_SetColor(0xEE, 0x00);
 	Print_SetPosition(0, (u8)(212-9));
-	Print_DrawText("\x83:Next image");
+	Print_DrawText("Esc:Exit");
+}
+
+//-----------------------------------------------------------------------------
+// Add image to list
+void AddFile()
+{
+	if(g_FileNum >= 10)
+		return;
+	
+	Mem_Copy(((c8*)0x0081), g_FileList[g_FileNum], 11);
+	
+	((c8*)0x0081)[11] = '$';
+	DOS_CharOutput('0' + g_FileNum);
+	DOS_StringOutput(": $");
+	DOS_StringOutput((const c8*)0x0081);
+	DOS_StringOutput("\n\r$");
+	
+	g_FileNum++;
+}
+
+//-----------------------------------------------------------------------------
+// Add image to list
+void ExitToDOS()
+{
+	__asm
+		// Set Screen mode to 5...
+		ld		a, #5
+		ld		ix, #R_CHGMOD
+		ld		iy, (M_EXPTBL-1)
+		call	R_CALSLT
+		// ... to be able to call TOTEXT routine
+		ld		ix, #R_TOTEXT
+		ld		iy, (M_EXPTBL-1)
+		call	R_CALSLT
+		ei
+	__endasm;
 }
 
 //=============================================================================
@@ -121,6 +156,7 @@ void main()
 {
 StartProgram:
 
+	// Program header
 	DOS_ClearScreen();
 	DOS_StringOutput("+--------------------+\n\r$");
 	DOS_StringOutput("| MSXgl - DOS Sample |\n\r$");
@@ -128,64 +164,73 @@ StartProgram:
 	DOS_StringOutput("Which screen mode?\n\r$");
 	DOS_StringOutput(" (can be: 5, 8)\n\r$");
 
-	i8 scrMode = DOS_CharInput();
-	switch(scrMode)
+	// Setup screen mode
+	u8 scrMode;
+	i8 scrChr = DOS_CharInput();
+	DOS_StringOutput("\n\r$");
+	switch(scrChr)
 	{
 	case '5':
-		DOS_StringOutput("\n\rScreen mode 5 selected\n\r$");
+		DOS_StringOutput("Screen mode 5 selected\n\r\n\r$");
+		DOS_StringOutput("Searching for *.SC5 files...\n\r$");
+		scrMode = VDP_MODE_SCREEN5;
 		break;
 	case '8':
-		DOS_StringOutput("\n\rScreen mode 8 selected\n\r$");
+		DOS_StringOutput("Screen mode 8 selected\n\r\n\r$");
+		DOS_StringOutput("Searching for *.SC8 files...\n\r$");
+		scrMode = VDP_MODE_SCREEN8;
 		break;
 	default:
-		DOS_StringOutput("\n\rUnsupported screen mode\n\rPress a key\n\r$");
+		DOS_StringOutput("Error: Unsupported screen mode!\n\r$");
+		DOS_StringOutput("Press a key...\n\r$");
 		DOS_CharInput();
 		goto StartProgram;
 		break;
 	}
 
-
-
+	// Search for compatible images
 	Mem_Set(0, &g_File, sizeof(FCB));
 	Mem_Copy("????????SC?", &g_File.Name, 11);
-	g_File.Name[10] = scrMode;
-	i8 idx = 0;
-	if(DOS_FindFirstFile(&g_File) == 0)
+	g_File.Name[10] = scrChr;
+	g_FileNum = 0;
+	if(DOS_FindFirstFile(&g_File) == DOS_NO_ERROR)
 	{
-		// DOS_CharOutput('0' + idx++);
-		// DOS_StringOutput(": ");
-		((c8*)0x0080)[12] = '$';
-		DOS_StringOutput((const c8*)0x0080);
-		DOS_StringOutput("\n\r$");
-		while(DOS_FindNextFile() == 0)
-		{
-			// DOS_CharOutput('0' + idx++);
-			// DOS_StringOutput(": ");
-			((c8*)0x0080)[12] = '$';
-			DOS_StringOutput((const c8*)0x0080);
-			DOS_StringOutput("\n\r$");
-		}
+		AddFile();
+		while(DOS_FindNextFile() == DOS_NO_ERROR)
+			AddFile();
 	}
 	DOS_Close(&g_File);
 
-	DOS_CharInput();
+	// No image found
+	if(g_FileNum == 0)
+	{
+		DOS_StringOutput("Error: No file found!\n\r$");
+		DOS_StringOutput("Press a key...\n\r$");
+		DOS_CharInput();
+		goto StartProgram;		
+	}
 
-	// Load first image
-	LoadImage(g_ImageIdx);
+	// Select image index to display
+	DOS_StringOutput("Which image to display?\n\r$");
+	i8 imgIdx = DOS_CharInput() - '0';
+	DOS_StringOutput("\n\r$");
+
+	// Invalid image index
+	if((imgIdx < 0) || (imgIdx >= g_FileNum))
+	{
+		DOS_StringOutput("Error: Invalide image index!\n\r$");
+		DOS_StringOutput("Press a key...\n\r$");
+		DOS_CharInput();
+		goto StartProgram;		
+	}
+
+	// Load and display image
+	DOS_StringOutput("Loading image...\n\r$");
+	LoadImage(scrMode, imgIdx);
 
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
-		// Load next image
-		if(Keyboard_IsKeyPressed(KEY_SPACE))
-		{
-			g_ImageIdx++;
-			if(g_ImageIdx >= numberof(g_Images))
-				g_ImageIdx = 0;
-			LoadImage(g_ImageIdx);
-		}
 	}
-	
-	// VDP_SetMode(VDP_MODE_SCREEN0);
-	// DOS_Call(DOS_FUNC_TERM0);
-	__asm__("call 0x0000");
+
+	ExitToDOS();
 }

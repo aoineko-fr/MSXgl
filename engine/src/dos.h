@@ -33,6 +33,7 @@
 
 #if (TARGET_TYPE == TYPE_DOS)
 #define BDOS						0x0005
+#define DOS_TPA						0x0006
 #else
 #define BDOS						0xF37D	
 #endif
@@ -65,16 +66,16 @@
 #define	DOS_FUNC_CURDRV		0x19 // Get default drive name
 #define	DOS_FUNC_SETDTA		0x1A // Set DMA address
 #define	DOS_FUNC_ALLOC		0x1B // Get disk information
-//                      0x1C-0x20 no function
+//                      	0x1C-0x20 no function
 #define	DOS_FUNC_RDRND		0x21 // Write random file
 #define	DOS_FUNC_WRRND		0x22 // Read random file
 #define	DOS_FUNC_FSIZE		0x23 // Get file size
 #define	DOS_FUNC_SETRND		0x24 // Set random record field
-//                      0x25 no function
+//                      	0x25 no function
 #define	DOS_FUNC_WRBLK		0x26 // Write random block
 #define	DOS_FUNC_RDBLK		0x27 // Read random block
 #define	DOS_FUNC_WRZER		0x28 // Write random file (00H is set to unused portion)
-//						0x29  no function
+//							0x29 no function
 #define	DOS_FUNC_GDATE		0x2A // Get date
 #define	DOS_FUNC_SDATE		0x2B // Set date
 #define	DOS_FUNC_GTIME		0x2C // Get time
@@ -148,7 +149,9 @@ typedef struct {
 extern i8 g_DOS_LastError;
 
 // TPA (Transient Program Area) upper address
-__at(0x0006) u16 DOS_TPAUpperAddr;
+#if (TARGET_TYPE == TYPE_DOS)
+__at(DOS_TPA) u16 DOS_TPAUpperAddr;
+#endif
 
 //-----------------------------------------------------------------------------
 // Goup: Console IO
