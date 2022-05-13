@@ -128,24 +128,6 @@ void AddFile()
 	g_FileNum++;
 }
 
-//-----------------------------------------------------------------------------
-// Add image to list
-void ExitToDOS()
-{
-	__asm
-		// Set Screen mode to 5...
-		ld		a, #5
-		ld		ix, #R_CHGMOD
-		ld		iy, (M_EXPTBL-1)
-		call	R_CALSLT
-		// ... to be able to call TOTEXT routine
-		ld		ix, #R_TOTEXT
-		ld		iy, (M_EXPTBL-1)
-		call	R_CALSLT
-		ei
-	__endasm;
-}
-
 //=============================================================================
 // MAIN LOOP
 //=============================================================================
@@ -212,11 +194,11 @@ StartProgram:
 
 	// Select image index to display
 	DOS_StringOutput("Which image to display?\n\r$");
-	i8 imgIdx = DOS_CharInput() - '0';
+	u8 imgIdx = DOS_CharInput() - '0';
 	DOS_StringOutput("\n\r$");
 
 	// Invalid image index
-	if((imgIdx < 0) || (imgIdx >= g_FileNum))
+	if(imgIdx >= g_FileNum)
 	{
 		DOS_StringOutput("Error: Invalide image index!\n\r$");
 		DOS_StringOutput("Press a key...\n\r$");
@@ -232,5 +214,5 @@ StartProgram:
 	{
 	}
 
-	ExitToDOS();
+	DOS_Exit();
 }
