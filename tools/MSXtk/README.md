@@ -6,6 +6,6 @@
 
 ## Windows 64
 Requirements:
-- Visual C++ Redistributable for Visual Studio 2015
+- Visual C++ Redistributable for Visual Studio 2019
 
 ## Linux
