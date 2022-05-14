@@ -76,6 +76,23 @@
 	#define VDP_UNIT					VDP_UNIT_U8
 #endif
 
+// VDP_USE_VRAM16K
+#ifndef VDP_USE_VRAM16K
+	#warning VDP_USE_VRAM16K is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define VDP_USE_VRAM16K				1
+#endif
+
+// VDP_USE_SPRITE
+#ifndef VDP_USE_SPRITE
+	#warning VDP_USE_SPRITE is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define VDP_USE_SPRITE				1
+#endif
+
+// VDP_USE_COMMAND
+#ifndef VDP_USE_COMMAND
+	#warning VDP_USE_COMMAND is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define VDP_USE_COMMAND				1
+#endif
 
 //-----------------------------------------------------------------------------
 // DRAW MODULE

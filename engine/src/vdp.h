@@ -45,7 +45,6 @@
 //     outi
 //     jp nz, OutiToVram
 
-
 //-----------------------------------------------------------------------------
 // STRUCTURES
 //-----------------------------------------------------------------------------
@@ -91,9 +90,16 @@ struct VDP_Sprite
 
 extern u8 g_VDP_REGSAV[28];
 extern u8 g_VDP_STASAV[10];
+
 extern struct VDP_Data    g_VDP_Data;
+
+#if (VDP_USE_COMMAND)
 extern struct VDP_Command g_VDP_Command;
+#endif
+
+#if (VDP_USE_SPRITE)
 extern struct VDP_Sprite  g_VDP_Sprite;
+#endif
 
 extern u16 g_ScreenLayoutLow;		//< Address of the Pattern Layout Table (Name)
 extern u16 g_ScreenColorLow;		//< Address of the Color Table
@@ -238,6 +244,10 @@ enum VRAM_SIZE
 // Set screen mode. @see VDP_MODE
 void VDP_SetMode(const u8 mode);
 
+// Function: VDP_GetMode
+// Get screen mode
+inline u8 VDP_GetMode() { return g_VDP_Data.Mode; }
+
 // Function: VDP_IsBitmapMode
 // Tell if the given screen mode is a bitmap mode (pattern/text mode otherwise)
 bool VDP_IsBitmapMode(const u8 mode);
@@ -266,6 +276,8 @@ u8 VDP_ReadDefaultStatus();
 // Read a given status register then reset status register to default (0)
 u8 VDP_ReadStatus(u8 stat) __FASTCALL;
 
+#if ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
+
 // Function: VDP_WriteVRAM_16K
 // Write data from RAM to VRAM
 void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0);
@@ -285,6 +297,8 @@ void VDP_Poke_16K(u8 val, u16 dest);
 // Function: VDP_Peek_16K
 // Read a value from VRAM
 u8 VDP_Peek_16K(u16 dest);
+
+#endif // (VDP_USE_VRAM16K)
 
 #if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_14)
 
@@ -421,9 +435,19 @@ void VDP_ClearVRAM();
 //-----------------------------------------------------------------------------
 // Group: Sprite
 //-----------------------------------------------------------------------------
+#if (VDP_USE_SPRITE)
+
+#if (MSX_VERSION >= MSX_2)
+
 // Function: VDP_EnableSprite
 // Enable/disable sprite rendering
 void VDP_EnableSprite(u8 enable);
+
+// Function: VDP_DisableSprite
+// Disable sprite rendering
+inline void VDP_DisableSprite() { VDP_EnableSprite(false); }
+
+#endif // (MSX_VERSION >= MSX_2)
 
 #define VDP_SPRITE_SIZE_8		0			//< Use 8x8 sprite size
 #define VDP_SPRITE_SIZE_16		R01_ST		//< Use 16x16 sprite size
@@ -516,32 +540,42 @@ void VDP_DisableSpritesFrom(u8 index);
 // Hide a given sprite (don't disable following sprites)
 inline void VDP_HideSprite(u8 index) { VDP_SetSpritePositionY(index, VDP_SPRITE_HIDE); }
 
+#endif // (VDP_USE_SPRITE)
+
+
 //-----------------------------------------------------------------------------
 // Group: GM2
 // Graph mode 2 & 3 specific functions
 //-----------------------------------------------------------------------------
 #if (VDP_USE_MODE_G2 || VDP_USE_MODE_G3)
+
 // Function: VDP_FillScreen_GM2
 // Fill the full screen with a given pattern value
 void VDP_FillScreen_GM2(u8 value);
+
 // Function: VDP_LoadPattern_GM2
 // Load patterns in all 3 screen sections
 void VDP_LoadPattern_GM2(const u8* src, u8 count, u8 offset);
+
 // Function: VDP_LoadColor_GM2
 // Load colors in all 3 screen sections
 void VDP_LoadColor_GM2(const u8* src, u8 count, u8 offset);
+
 // Function: VDP_WriteLayout_GM2
 // Copy patterns to a rectangle
 void VDP_WriteLayout_GM2(const u8* src, u8 dx, u8 dy, u8 nx, u8 ny);
+
 // Function: VDP_FillLayout_GM2
 // Fill a rectangle with a given value
 void VDP_FillLayout_GM2(u8 value, u8 dx, u8 dy, u8 nx, u8 ny);
+
 #endif
 
 //-----------------------------------------------------------------------------
 // Group: Command
 // VDP commands wrapper functions
 //-----------------------------------------------------------------------------
+#if (VDP_USE_COMMAND)
 
 // Function: VDP_CommandWait
 // Wait for previous VDP command to be finished
@@ -600,3 +634,5 @@ void VPD_CommandReadLoop(u8* addr) __FASTCALL;
 #define VDP_DrawPoint				VDP_CommandPSET		//< Draw a dot in VRAM 
 #define VDP_ReadPoint				VDP_CommandPOINT	//< Read the color of the specified dot located in VRAM 
 #define VDP_AbortCommand			VDP_CommandSTOP		//< Abort current command
+
+#endif // (VDP_USE_COMMAND)

@@ -47,7 +47,7 @@ goto :CheckInput
 ::*****************************************************************************
 :: TOOLS SETTINGS
 ::*****************************************************************************
-REM set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
+set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
 REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
 REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
 REM set Emulator=%ToolsDir%\MEISEI\meisei.exe
@@ -99,12 +99,12 @@ set ROMSize=
 :: Install BDOS driver for ROM program? (0=false, 1=true)
 set InstallBDOS=0
 :: Use banked call (and trampoline functions)
-set BankedCall=1
+set BankedCall=0
 :: Overwrite RAM starting address
 set ForceRamAddr=
 
 :: Set debug flag (0=false, 1=true)
-set Debug=0
+set Debug=1
 :: Optim:
 :: - Default
 :: - Speed
@@ -140,7 +140,7 @@ set DoCompile=1
 set DoMake=1
 set DoPackage=1
 set DoDeploy=1
-set DoRun=0
+set DoRun=1
 
 ::*****************************************************************************
 :: START BUILD

@@ -81,23 +81,30 @@ void VDP_SetModeGraphic7();
 
 u8 g_VDP_REGSAV[28];
 u8 g_VDP_STASAV[10];
-struct VDP_Data    g_VDP_Data;
-struct VDP_Command g_VDP_Command;
-struct VDP_Sprite  g_VDP_Sprite;
 
-u16 g_ScreenLayoutLow;			//< Address of the Pattern Layout Table (Name)
-u16 g_ScreenColorLow;			//< Address of the Color Table
-u16 g_ScreenPatternLow;			//< Address of the Pattern Generator Table
-u16 g_SpriteAtributeLow;		//< Address of the Sprite Attribute Table
-u16 g_SpritePatternLow;			//< Address of the Sprite Pattern Generator Table
-u16 g_SpriteColorLow;			//< Address of the Sprite Color Table
+struct VDP_Data    g_VDP_Data;
+
+#if (VDP_USE_COMMAND)
+struct VDP_Command g_VDP_Command;
+#endif
+
+#if (VDP_USE_SPRITE)
+struct VDP_Sprite  g_VDP_Sprite;
+#endif
+
+u16 g_ScreenLayoutLow;			// Address of the Pattern Layout Table (Name)
+u16 g_ScreenColorLow;			// Address of the Color Table
+u16 g_ScreenPatternLow;			// Address of the Pattern Generator Table
+u16 g_SpriteAtributeLow;		// Address of the Sprite Attribute Table
+u16 g_SpritePatternLow;			// Address of the Sprite Pattern Generator Table
+u16 g_SpriteColorLow;			// Address of the Sprite Color Table
 #if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
-	u8  g_ScreenLayoutHigh;		//< Address of the Pattern Layout Table (Name)
-	u8  g_ScreenColorHigh;		//< Address of the Color Table
-	u8  g_ScreenPatternHigh;	//< Address of the Pattern Generator Table
-	u8  g_SpriteAtributeHigh;	//< Address of the Sprite Attribute Table
-	u8  g_SpritePatternHigh;	//< Address of the Sprite Pattern Generator Table
-	u8  g_SpriteColorHigh;		//< Address of the Sprite Color Table
+	u8  g_ScreenLayoutHigh;		// Address of the Pattern Layout Table (Name)
+	u8  g_ScreenColorHigh;		// Address of the Color Table
+	u8  g_ScreenPatternHigh;	// Address of the Pattern Generator Table
+	u8  g_SpriteAtributeHigh;	// Address of the Sprite Attribute Table
+	u8  g_SpritePatternHigh;	// Address of the Sprite Pattern Generator Table
+	u8  g_SpriteColorHigh;		// Address of the Sprite Color Table
 #endif
 
 //=============================================================================
@@ -300,6 +307,8 @@ void VDP_ClearVRAM()
 		VDP_FillVRAM(0, 0x8000, 1, 0x8000); // Clear VRAM by 32 KB step
 	#endif
 }
+
+#if ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
 
 //-----------------------------------------------------------------------------
 // Write data from RAM to VRAM (16KB VRAM)
@@ -577,6 +586,8 @@ void VDP_Poke_16K(u8 val, u16 dest)
 
 	__endasm;
 }
+
+#endif // ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
 
 
 //=============================================================================
@@ -928,7 +939,9 @@ void VDP_SetVerticalOffset(u8 offset)
 // Adjustment of the display location on the screen [MSX2/2+/TR]
 void VDP_SetAdjustOffset(u8 offset)
 {
+	#if (VDP_USE_COMMAND)
 	VDP_CommandWait(); // @todo Check if it's really needed. Cf. https://www.msx.org/wiki/VDP_Display_Registers#Control_Register_18
+	#endif
 	VDP_RegWrite(18, offset);
 }
 
@@ -1333,7 +1346,7 @@ u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0)
 //
 //=============================================================================
 
-#if (MSX_VERSION >= MSX_2)
+#if ((VDP_USE_COMMAND) && (MSX_VERSION >= MSX_2))
 
 //-----------------------------------------------------------------------------
 // Wait for previous VDP command to be finished
@@ -1417,7 +1430,7 @@ void VPD_CommandWriteLoop(const u8* addr) __FASTCALL
 	__endasm;
 }
 
-#endif // (MSX_VERSION >= MSX_2)
+#endif // ((VDP_USE_COMMAND) && (MSX_VERSION >= MSX_2))
 
 //=============================================================================
 //
@@ -1846,6 +1859,7 @@ void VDP_SetPatternTable(VADDR addr)
 //   S P R I T E S
 //
 //-----------------------------------------------------------------------------
+#if (VDP_USE_SPRITE)
 
 #if (MSX_VERSION >= MSX_2)
 //-----------------------------------------------------------------------------
@@ -2126,6 +2140,8 @@ void VDP_SendSpriteAttribute(u8 index) __FASTCALL
 	__endasm;
 }
 */
+
+#endif // (VDP_USE_SPRITE)
 
 
 //=============================================================================

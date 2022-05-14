@@ -81,6 +81,10 @@
 #define VDP_USE_MODE_G6				1	// MSX2		Screen 7
 #define VDP_USE_MODE_G7				1	// MSX2/2+	Screen 8, 10, 11 & 12
 
+#define VDP_USE_VRAM16K				1	// Use 16K VRAM access functions on MSX2
+#define VDP_USE_SPRITE				1	// Use sprite handling functions
+#define VDP_USE_COMMAND				1	// Use VDP commands wrapper functions
+
 //-----------------------------------------------------------------------------
 // INPUT MODULE
 //-----------------------------------------------------------------------------
