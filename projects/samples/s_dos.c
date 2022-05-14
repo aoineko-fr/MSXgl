@@ -128,24 +128,6 @@ void AddFile()
 	g_FileNum++;
 }
 
-//-----------------------------------------------------------------------------
-// Add image to list
-void ExitToDOS()
-{
-	__asm
-		// Set Screen mode to 5...
-		ld		a, #5
-		ld		ix, #R_CHGMOD
-		ld		iy, (M_EXPTBL-1)
-		call	R_CALSLT
-		// ... to be able to call TOTEXT routine
-		ld		ix, #R_TOTEXT
-		ld		iy, (M_EXPTBL-1)
-		call	R_CALSLT
-		ei
-	__endasm;
-}
-
 //=============================================================================
 // MAIN LOOP
 //=============================================================================
@@ -167,7 +149,8 @@ StartProgram:
 	// Setup screen mode
 	u8 scrMode;
 	i8 scrChr = DOS_CharInput();
-	DOS_StringOutput("\n\r$");
+	DOS_Beep();
+	DOS_Return();
 	switch(scrChr)
 	{
 	case '5':
@@ -212,11 +195,11 @@ StartProgram:
 
 	// Select image index to display
 	DOS_StringOutput("Which image to display?\n\r$");
-	i8 imgIdx = DOS_CharInput() - '0';
-	DOS_StringOutput("\n\r$");
+	u8 imgIdx = DOS_CharInput() - '0';
+	DOS_Return();
 
 	// Invalid image index
-	if((imgIdx < 0) || (imgIdx >= g_FileNum))
+	if(imgIdx >= g_FileNum)
 	{
 		DOS_StringOutput("Error: Invalide image index!\n\r$");
 		DOS_StringOutput("Press a key...\n\r$");
@@ -225,6 +208,7 @@ StartProgram:
 	}
 
 	// Load and display image
+	DOS_Beep();
 	DOS_StringOutput("Loading image...\n\r$");
 	LoadImage(scrMode, imgIdx);
 
@@ -232,5 +216,5 @@ StartProgram:
 	{
 	}
 
-	ExitToDOS();
+	DOS_Exit();
 }

@@ -11,6 +11,7 @@
 // - http://map.grauw.nl/resources/dos2_environment.php
 //─────────────────────────────────────────────────────────────────────────────
 #include "dos.h"
+#include "bios.h"
 
 // Backup of the last error value
 i8 g_DOS_LastError;
@@ -241,6 +242,27 @@ __asm
 	call	BDOS
 	ld		(_g_DOS_LastError), a
 	pop		ix
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Exit program and return to DOS
+void DOS_Exit()
+{
+__asm
+	// Set Screen mode to 5...
+	ld		a, #5
+	ld		ix, #R_CHGMOD
+	ld		iy, (M_EXPTBL-1)
+	call	R_CALSLT
+	// ... to be able to call TOTEXT routine
+	ld		ix, #R_TOTEXT
+	ld		iy, (M_EXPTBL-1)
+	call	R_CALSLT
+	ei
+	// Exit
+	ld		c, #DOS_FUNC_TERM0
+	jp		BDOS
 __endasm;
 }
 
