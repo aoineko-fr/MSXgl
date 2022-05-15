@@ -85,6 +85,13 @@
 #define VDP_USE_SPRITE				1	// Use sprite handling functions
 #define VDP_USE_COMMAND				1	// Use VDP commands wrapper functions
 
+// Initial frequency setting
+// - VDP_INIT_FREQ_NONE ........... No initial setting
+// - VDP_INIT_FREQ_50HZ ........... Force VDP frequency to 50 Hz
+// - VDP_INIT_FREQ_60HZ ........... Force VDP frequency to 60 Hz
+// - VDP_INIT_FREQ_BIOS ........... Set VDP frequence according to BIOS setting
+#define VDP_INIT_FREQ				VDP_INIT_FREQ_NONE
+
 //-----------------------------------------------------------------------------
 // INPUT MODULE
 //-----------------------------------------------------------------------------

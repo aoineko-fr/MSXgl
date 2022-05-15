@@ -94,6 +94,12 @@
 	#define VDP_USE_COMMAND				1
 #endif
 
+// VDP_INIT_FREQ
+#ifndef VDP_INIT_FREQ
+	#warning VDP_INIT_FREQ is not defined in "msxgl_config.h"! Default value will be used: VDP_INIT_FREQ_NONE
+	#define VDP_INIT_FREQ					VDP_INIT_FREQ_NONE
+#endif
+
 //-----------------------------------------------------------------------------
 // DRAW MODULE
 //-----------------------------------------------------------------------------

@@ -320,7 +320,7 @@ if /I %Ext%==bin (
 	copy /Y %OutDir%\%Crt0%.%Ext% %ProjDir%\emul\bin\%ProjName%.%Ext%
 	if errorlevel 1 goto :Error
 	::---- Copy data files ----
-	if defined DiskFiles do (
+	if defined DiskFiles (
 		echo -- Copy data files to disk ^(%DiskFiles%^)
 		for %%G in (%DiskFiles%) do (
 			copy /Y %%G %ProjDir%\emul\bin\%%~nG%%~xG
@@ -339,15 +339,14 @@ if /I %Ext%==bin (
 		echo -- Temporary copy files to DskTool directory
 		copy /Y %ProjDir%\emul\bin\autoexec.bas %DskToolPath%
 		copy /Y %ProjDir%\emul\bin\%ProjName%.%Ext% %DskToolPath%
-		if defined DiskFiles do (
+		if defined DiskFiles (
 			for %%G in (%DiskFiles%) do (
 				copy /Y %%G %ProjDir%\emul\bin\%%~nG%%~xG
 			)
 		)
 
 		set FilesList=autoexec.bas %ProjName%.%Ext%
-		)
-		if defined DiskFiles do (
+		if defined DiskFiles (
 			for %%G in (%DiskFiles%) do (
 				set FilesList=!FilesList! %%~nG%%~xG
 			)
@@ -375,7 +374,7 @@ if /I %Ext%==com (
 	copy /Y %OutDir%\%Crt0%.%Ext% %ProjDir%\emul\dos%DOS%\%ProjName%.%Ext%
 	if errorlevel 1 goto :Error
 	::---- Copy data files ----
-	if defined DiskFiles do (
+	if defined DiskFiles (
 		echo -- Copy data files to disk ^(%DiskFiles%^)
 		for %%G in (%DiskFiles%) do (
 			copy /Y %%G %ProjDir%\emul\dos%DOS%\%%~nG%%~xG
@@ -403,7 +402,7 @@ if /I %Ext%==com (
 		if /I %DOS%==2 (
 			set FilesList=COMMAND2.COM MSXDOS2.SYS autoexec.bat %ProjName%.%Ext%
 		)
-		if defined DiskFiles do (
+		if defined DiskFiles (
 			for %%G in (%DiskFiles%) do (
 				set FilesList=!FilesList! %%~nG%%~xG
 			)

@@ -19,6 +19,7 @@
 #include "vdp.h"
 #include "system_port.h"
 #include "color.h"
+#include "bios_mainrom.h"
 
 //-----------------------------------------------------------------------------
 // DEFINES
@@ -1460,117 +1461,114 @@ void VDP_SetMode(const u8 mode)
 	g_VDP_Data.Mode = mode;
 	switch(mode)
 	{
+//.............................................................................
+// MSX 1
 #if (VDP_USE_MODE_T1)
 	// case VDP_MODE_SCREEN0:
 	// case VDP_MODE_SCREEN0_W40:
-	case VDP_MODE_TEXT1:
-		VDP_SetModeText1();
-		return;
-#endif // VDP_USE_MODE_T1
+	case VDP_MODE_TEXT1:		VDP_SetModeText1(); break;
+#endif
 	
 #if (VDP_USE_MODE_MC)
 	// case VDP_MODE_SCREEN3:
-	case VDP_MODE_MULTICOLOR:
-		VDP_SetModeMultiColor();
-		return;
-#endif // VDP_USE_MODE_MC
+	case VDP_MODE_MULTICOLOR:	VDP_SetModeMultiColor(); break;
+#endif
 
 #if (VDP_USE_MODE_G1)
 	// case VDP_MODE_SCREEN1:
-	case VDP_MODE_GRAPHIC1:
-		VDP_SetModeGraphic1();
-		return;
-#endif // VDP_USE_MODE_G1
+	case VDP_MODE_GRAPHIC1:		VDP_SetModeGraphic1(); break;
+#endif
 
 #if (VDP_USE_MODE_G2)
 	// case VDP_MODE_SCREEN2:
-	case VDP_MODE_GRAPHIC2:
-		VDP_SetModeGraphic2();
-		return;
-#endif // VDP_USE_MODE_G2
+	case VDP_MODE_GRAPHIC2:		VDP_SetModeGraphic2(); break;
+#endif
 
+//.............................................................................
+// MSX 2
 #if (MSX_VERSION >= MSX_2)
 
 #if (VDP_USE_MODE_T2)
 	// case VDP_MODE_SCREEN0_W80:
-	case VDP_MODE_TEXT2:
-		VDP_SetModeText2();
-		return;
-#endif // VDP_USE_MODE_T2²
+	case VDP_MODE_TEXT2:		VDP_SetModeText2(); break;
+#endif
 
 #if (VDP_USE_MODE_G3)
 	// case VDP_MODE_SCREEN4:
-	case VDP_MODE_GRAPHIC3:
-		VDP_SetModeGraphic3();
-		return;
-#endif // VDP_USE_MODE_G3
+	case VDP_MODE_GRAPHIC3:		VDP_SetModeGraphic3(); break;
+#endif
 	
 #if (VDP_USE_MODE_G4)
 	// case VDP_MODE_SCREEN5:
-	case VDP_MODE_GRAPHIC4:
-		VDP_SetModeGraphic4();
-		return;
-#endif // VDP_USE_MODE_G4
+	case VDP_MODE_GRAPHIC4:		VDP_SetModeGraphic4(); break;
+#endif
 	
 #if (VDP_USE_MODE_G5)
 	// case VDP_MODE_SCREEN6:
-	case VDP_MODE_GRAPHIC5:
-		VDP_SetModeGraphic5();
-		return;
-#endif // VDP_USE_MODE_G5
+	case VDP_MODE_GRAPHIC5:		VDP_SetModeGraphic5(); break;
+#endif
 	
 #if (VDP_USE_MODE_G6)
 	// case VDP_MODE_SCREEN7:
-	case VDP_MODE_GRAPHIC6:
-		VDP_SetModeGraphic6();
-		return;
-#endif // VDP_USE_MODE_G6
+	case VDP_MODE_GRAPHIC6:		VDP_SetModeGraphic6(); break;
+#endif
 		
 #if (VDP_USE_MODE_G7)
 	// case VDP_MODE_SCREEN8:
-	case VDP_MODE_GRAPHIC7:
-		VDP_SetModeGraphic7();
-		return;
-#endif // VDP_USE_MODE_G7
+	case VDP_MODE_GRAPHIC7:		VDP_SetModeGraphic7(); break;
+#endif
 		
-#if (VDP_USE_MODE_G5)
-	// case VDP_MODE_SCREEN9:
-	case VDP_MODE_SCREEN9_40:
-		VDP_SetModeGraphic5();
-		// @todo Further setting needed
-		return;
-#endif // VDP_USE_MODE_G5
-	
-#if (VDP_USE_MODE_G4)
-	case VDP_MODE_SCREEN9_80:
-		VDP_SetModeGraphic4();
-		// @todo Further setting needed
-		return;
-#endif // VDP_USE_MODE_G4
+// #if (VDP_USE_MODE_G5)
+// 	// case VDP_MODE_SCREEN9:
+// 	case VDP_MODE_SCREEN9_40:	VDP_SetModeGraphic5();
+// 		// @todo Further setting needed
+// 		break;
+// #endif // VDP_USE_MODE_G5
+// 	
+// #if (VDP_USE_MODE_G4)
+// 	case VDP_MODE_SCREEN9_80:
+// 		VDP_SetModeGraphic4();
+// 		// @todo Further setting needed
+// 		break;
+// #endif // VDP_USE_MODE_G4
 
 #endif // (MSX_VERSION >= MSX_2)
 
+//.............................................................................
+// MSX 2+
 #if (MSX_VERSION >= MSX_2P)
 
 #if (VDP_USE_MODE_G7)
 	case VDP_MODE_SCREEN10:
 		VDP_SetModeGraphic7();
 		// @todo Further setting needed
-		return;
+		break;
 
 	case VDP_MODE_SCREEN11:
 		VDP_SetModeGraphic7();
 		// @todo Further setting needed
-		return;
+		break;
 
 	case VDP_MODE_SCREEN12:
 		VDP_SetModeGraphic7();
 		// @todo Further setting needed
-		return;
+		break;
 #endif // VDP_USE_MODE_G7
 
 #endif // (MSX_VERSION >= MSX_2P)
 	}
+
+// Default VDP frequency
+#if (MSX_VERSION >= MSX_2)
+	#if (VDP_INIT_FREQ == VDP_INIT_FREQ_50HZ)
+		VDP_SetFrequency(VDP_FREQ_50HZ);
+	#elif (VDP_INIT_FREQ == VDP_INIT_FREQ_60HZ)
+		VDP_SetFrequency(VDP_FREQ_60HZ);
+	#elif (VDP_INIT_FREQ == VDP_INIT_FREQ_BIOS)
+		u8 freq = (g_ROMVersion.VSF) ? VDP_FREQ_50HZ : VDP_FREQ_60HZ;
+		VDP_SetFrequency(freq);
+	#endif
+#endif
 }
 
 //-----------------------------------------------------------------------------

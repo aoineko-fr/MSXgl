@@ -55,9 +55,11 @@ set AddSources=
 :: MSX version:
 :: - 1		MSX 1
 :: - 2		MSX 2
+:: - 12		MSX 1 or 2 (dual support)
+:: - 2K		Korean MSX 2 (SC9 support)
 :: - 2P		MSX 2+
-:: - TR		MSX TurboR
-:: - 12		MSX 1/2 (working on MSX1 but allow to use MSX2 feature)
+:: - TR		MSX Turbo-R
+:: - 3		MSX 3 (reserved)
 set Machine=1
 :: Target:
 :: - BIN			.bin	BASIC binary program (8000h~)
