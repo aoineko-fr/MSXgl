@@ -463,7 +463,7 @@ inline u8 IPM_GetStickDirection(u8 dev)
 	case JOY_INPUT_DIR_UP:			return 0;
 	case JOY_INPUT_DIR_UP_RIGHT:	return 1;
 	case JOY_INPUT_DIR_RIGHT:		return 2;
-	case JOY_INPUT_DIR_DOWN_RIGTH:	return 3;
+	case JOY_INPUT_DIR_DOWN_RIGHT:	return 3;
 	case JOY_INPUT_DIR_DOWN:		return 4;
 	case JOY_INPUT_DIR_DOWN_LEFT:	return 5;
 	case JOY_INPUT_DIR_LEFT:		return 6;
