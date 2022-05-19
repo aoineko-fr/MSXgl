@@ -13,4 +13,4 @@
 
 // Function: ZX0_Unpack
 // Unpack ZX0 compressed data to a RAM buffer
-void ZX0_Unpack(u16 source, u16 dest);
+void ZX0_Unpack(const void* source, void* dest);
