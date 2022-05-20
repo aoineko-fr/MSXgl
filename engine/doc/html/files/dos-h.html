@@ -12,10 +12,67 @@
  <div class="CTitle">Functions</div>
 </div>
 
+<a name="DOS_Call"></a><a name="Topic497"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_Call</div>
+ <div id="NDPrototype497" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_Call(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">func</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Call a BDOS function</p></div>
+</div>
+
+<a name="DOS_CharacterOutput"></a><a name="Topic498"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_CharacterOutput</div>
+ <div class="CBody"><p>Output character</p></div>
+</div>
+
+<a name="DOS_CharInput"></a><a name="Topic499"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_CharInput</div>
+ <div id="NDPrototype499" class="NDPrototype"><div class="PSection PPlainSection">c8 DOS_CharInput()</div></div>
+ <div class="CBody"><p>Input character</p></div>
+</div>
+
+<a name="DOS_StringOutput"></a><a name="Topic500"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_StringOutput</div>
+ <div id="NDPrototype500" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_StringOutput(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">str</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>The characters of the string will be output. The string is terminated by &quot;$&quot; (ASCII 24h).</p></div>
+</div>
+
+<a name="DOS_Exit"></a><a name="Topic501"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_Exit</div>
+ <div id="NDPrototype501" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DOS_Exit()</div></div>
+ <div class="CBody"><p>Exit program and return to DOS</p></div>
+</div>
+
+<a name="DOS_Beep"></a><a name="Topic502"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_Beep</div>
+ <div id="NDPrototype502" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DOS_Beep()</div></div>
+ <div class="CBody"><p>Play bip sound</p></div>
+</div>
+
+<a name="DOS_CharacterOutput(2)"></a><a name="Topic503"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_CharacterOutput</div>
+ <div class="CBody"><p>Clear console screen</p></div>
+</div>
+
+<a name="DOS_Return"></a><a name="Topic504"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_Return</div>
+ <div id="NDPrototype504" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DOS_Return()</div></div>
+ <div class="CBody"><p>Carriage return</p></div>
+</div>
+
+<a name="DOS_SetTransferAddr"></a><a name="Topic492"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_SetTransferAddr</div>
+ <div id="NDPrototype492" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">i8 DOS_SetTransferAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set transfer address</p></div>
+</div>
+
 <a name="DOS_Open"></a><a name="Topic489"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Open</div>
  <div id="NDPrototype489" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">i8 DOS_Open(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Open file</p></div>
+</div>
+
+<a name="DOS_GetFileSize"></a><a name="Topic505"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetFileSize</div>
+ <div class="CBody"><p>Get the size of an opened file</p></div>
 </div>
 
 <a name="DOS_Create"></a><a name="Topic490"></a><div class="CTopic TFunction LC">
@@ -28,12 +85,6 @@
  <div class="CTitle">DOS_Close</div>
  <div id="NDPrototype491" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">i8 DOS_Close(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Close file</p></div>
-</div>
-
-<a name="DOS_SetTransferAddr"></a><a name="Topic492"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_SetTransferAddr</div>
- <div id="NDPrototype492" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">i8 DOS_SetTransferAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set transfer address</p></div>
 </div>
 
 <a name="DOS_SequentialRead"></a><a name="Topic493"></a><div class="CTopic TFunction LC">
@@ -54,10 +105,22 @@
  <div class="CBody"><p>Random block read</p></div>
 </div>
 
-<a name="DOS_RandomBlockWrite"></a><a name="Topic496"></a><div class="CTopic TFunction LC last">
+<a name="DOS_RandomBlockWrite"></a><a name="Topic496"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_RandomBlockWrite</div>
  <div id="NDPrototype496" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_RandomBlockWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">FCB*&nbsp;</td><td class="PName last">stream,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">records</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Random block write</p></div>
+</div>
+
+<a name="DOS_FindFirstFile"></a><a name="Topic506"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_FindFirstFile</div>
+ <div id="NDPrototype506" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">i8 DOS_FindFirstFile(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Search the first file matched with wildcard</p></div>
+</div>
+
+<a name="DOS_FindNextFile"></a><a name="Topic507"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">DOS_FindNextFile</div>
+ <div id="NDPrototype507" class="NDPrototype"><div class="PSection PPlainSection">i8 DOS_FindNextFile()</div></div>
+ <div class="CBody"><p>Search the second and after the second file matched wildcard</p></div>
 </div>
 
 </body></html>
