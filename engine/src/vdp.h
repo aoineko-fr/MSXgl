@@ -19,6 +19,16 @@
 #include "vdp_reg.h"
 #include "bios_var.h"
 
+#define VDP_AUTO_INIT		1
+
+#define VDP_INIT_OFF		0b00
+#define VDP_INIT_ON			0b01
+#define VDP_INIT_AUTO		0b10
+#define VDP_INIT_DEFAULT	0b11
+
+#define VDP_INIT_50HZ		VDP_INIT_ON
+
+
 // @todo Handle VRAM read/write access timing
 //
 // Minimum VRAM access timings in 3.58 MHz Z80 cycles
@@ -52,10 +62,10 @@
 // Structure used to store VDP module data
 struct VDP_Data
 {
-	u8  Mode;		//< Current screen mode (@see VDP_MODE)
-	u8  BPC : 4;	//< Bits per color of the current mode (can be 1, 2, 4 or 8)
-	u8  Width : 1;	//< Width of the current screen (0: 256 px, 1: 512 px)
-	u8  Height : 1;	//< Height of the current screen (0: 192 px, 1: 212 px)
+	u8  Mode;		// Current screen mode (@see VDP_MODE)
+	u8  BPC : 4;	// Bits per color of the current mode (can be 1, 2, 4 or 8)
+	u8  Width : 1;	// Width of the current screen (0: 256 px, 1: 512 px)
+	u8  Height : 1;	// Height of the current screen (0: 192 px, 1: 212 px)
 };
 
 // Structure used to store register data for VDP command
@@ -199,6 +209,10 @@ enum VDP_MODE
 	VDP_MODE_SCREEN11,
 	VDP_MODE_SCREEN12,
 #endif
+	VDP_MODE_UNDOC, // Undocumented screen mode. Only available on TMS 9918A
+	VDP_MODE_UNDOC_02 = VDP_MODE_UNDOC,	// 00101	
+	VDP_MODE_UNDOC_12,					// 00100	
+	VDP_MODE_UNDOC_32,					// 00110	
 	VDP_MODE_MAX,
 };
 
@@ -221,6 +235,82 @@ enum VRAM_SIZE
 #define GET_VRAM_SIZE()	((g_MODE >> 1) & 0x3)
 
 //-----------------------------------------------------------------------------
+// Default Screen Mode tables VRAM address
+
+// Screen 0 (Width 40)
+#define VDP_T1_MODE			0b00001
+#define VDP_T1_ADDR_NT		0x0000 // Name Table
+#define VDP_T1_ADDR_PT		0x0800 // Pattern Table
+
+// Screen 1
+#define VDP_G1_MODE			0b00000
+#define VDP_G1_ADDR_NT		0x1800 // Name Table
+#define VDP_G1_ADDR_CT		0x2000 // Color Table
+#define VDP_G1_ADDR_PT		0x0000 // Pattern Table
+#define VDP_G1_ADDR_SAT		0x1B00 // Sprite Attribute Table
+#define VDP_G1_ADDR_SPT		0x3800 // Sprite Pattern Table
+
+// Screen 2
+#define VDP_G2_MODE			0b00100
+#define VDP_G2_ADDR_NT		0x1800 // Name Table
+#define VDP_G2_ADDR_CT		0x2000 // Color Table
+#define VDP_G2_ADDR_PT		0x0000 // Pattern Table
+#define VDP_G2_ADDR_SAT		0x1B00 // Sprite Attribute Table
+#define VDP_G2_ADDR_SPT		0x3800 // Sprite Pattern Table
+
+// Screen 3
+#define VDP_MC_MODE			0b00010
+#define VDP_MC_ADDR_NT		0x0800 // Name Table
+#define VDP_MC_ADDR_PT		0x0000 // Pattern Table
+#define VDP_MC_ADDR_SAT		0x1B00 // Sprite Attribute Table
+#define VDP_MC_ADDR_SPT		0x3800 // Sprite Pattern Table
+
+// Screen 0 (Width 80)
+#define VDP_T2_MODE			0b01001
+#define VDP_T2_ADDR_NT		0x0000 // Name Table
+#define VDP_T2_ADDR_PT		0x1000 // Pattern Table
+
+// Screen 4
+#define VDP_G3_MODE			0b01000
+#define VDP_G3_ADDR_NT		0x1800 // Name Table
+#define VDP_G3_ADDR_CT		0x2000 // Color Table
+#define VDP_G3_ADDR_PT		0x0000 // Pattern Table
+#define VDP_G3_ADDR_SAT		0x1E00 // Sprite Attribute Table
+#define VDP_G3_ADDR_SPT		0x3800 // Sprite Pattern Table
+
+// Screen 5
+#define VDP_G4_MODE			0b01100
+#define VDP_G4_ADDR_NT		0x0000 // Name Table
+#define VDP_G4_ADDR_SAT		0x7600 // Sprite Attribute Table
+#define VDP_G4_ADDR_SPT		0x7800 // Sprite Pattern Table
+
+// Screen 6
+#define VDP_G5_MODE			0b10000
+#define VDP_G5_ADDR_NT		0x0000 // Name Table
+#define VDP_G5_ADDR_SAT		0x7600 // Sprite Attribute Table
+#define VDP_G5_ADDR_SPT		0x7800 // Sprite Pattern Table
+
+// Screen 7
+#define VDP_G6_MODE			0b10100
+#define VDP_G6_ADDR_NT		0x0000 // Name Table
+#define VDP_G6_ADDR_SAT		0xFA00 // Sprite Attribute Table
+#define VDP_G6_ADDR_SPT		0xF000 // Sprite Pattern Table
+
+// Screen 8
+#define VDP_G7_MODE			0b11100
+#define VDP_G7_ADDR_NT		0x0000 // Name Table
+#define VDP_G7_ADDR_SAT		0xFA00 // Sprite Attribute Table
+#define VDP_G7_ADDR_SPT		0xF000 // Sprite Pattern Table
+
+// Screen 9 (Korean)
+
+// Screen 10
+
+// Screen 11
+
+// Screen 12
+
+//-----------------------------------------------------------------------------
 // MSX 1 FUNCTIONS
 //-----------------------------------------------------------------------------
 
@@ -240,6 +330,10 @@ enum VRAM_SIZE
 // Group: Screen mode
 //-----------------------------------------------------------------------------
 
+// Function: VDP_Initialize
+// Initialize VDP module
+void VDP_Initialize();
+
 // Function: VDP_SetMode
 // Set screen mode. @see VDP_MODE
 void VDP_SetMode(const u8 mode);
@@ -248,9 +342,20 @@ void VDP_SetMode(const u8 mode);
 // Get screen mode
 inline u8 VDP_GetMode() { return g_VDP_Data.Mode; }
 
+// Function: VDP_SetModeFlag
+// Set screen mode flag (VRAM tables address must be set to fit the new screen mode)
+void VDP_SetModeFlag(u8 flag);
+
 // Function: VDP_IsBitmapMode
 // Tell if the given screen mode is a bitmap mode (pattern/text mode otherwise)
-bool VDP_IsBitmapMode(const u8 mode);
+inline bool VDP_IsBitmapMode(const u8 mode)
+{
+#if (MSX_VERSION == MSX_1)
+	return false;
+#else
+	return mode >= VDP_MODE_GRAPHIC4;
+#endif
+}
 
 // Function: VDP_IsPatternMode
 // Tell if the given screen mode is a pattern/text mode (bitmap mode otherwise)
@@ -534,7 +639,6 @@ void VDP_SetSpriteData(u8 index, const u8* data);
 // Function: VDP_DisableSpritesFrom
 // Disable all sprites from a given index
 void VDP_DisableSpritesFrom(u8 index);
-#define VDP_HideSpriteFrom VDP_DisableSpritesFrom // Backward compatibility 
 
 // Function: VDP_HideSprite
 // Hide a given sprite (don't disable following sprites)

@@ -7,6 +7,8 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+#include "deprecated.h"
+
 // Library version
 #define VERSION_MAJOR			(u16)0		// 4-bits (0-15)
 #define VERSION_MINOR			(u16)3		// 6-bits (0-63)

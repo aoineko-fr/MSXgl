@@ -19,6 +19,12 @@
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
 
+#if (MSX_VERSION == MSX_1)
+	#define SET_SPRITE		VDP_SetSpriteSM1
+#else
+	#define SET_SPRITE		VDP_SetSpriteExUniColor
+#endif
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -163,9 +169,9 @@ void main()
 	// VDP_EnableSprite(true);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 | VDP_SPRITE_SCALE_2);
 	VDP_LoadSpritePattern(g_DataSprtLayer, 32, 13*4*4);
-	VDP_SetSpriteSM1(sprt++, 90, 130, 32, COLOR_BLACK);
-	VDP_SetSpriteSM1(sprt++, 90, 130, 36, COLOR_WHITE);
-	VDP_SetSpriteSM1(sprt++, 90, 130, 40, COLOR_LIGHT_RED);
+	SET_SPRITE(sprt++, 70, 130, 32, COLOR_BLACK);
+	SET_SPRITE(sprt++, 70, 130, 36, COLOR_WHITE);
+	SET_SPRITE(sprt++, 70, 130, 40, COLOR_LIGHT_RED);
 	VDP_DisableSpritesFrom(sprt);
 
 	u8 prevRow8 = 0xFF;

@@ -27,13 +27,12 @@
 
 // VDP Registers Flags
 
-#define F_VDP_REG	0x80	// VDP register write port (bit 7=1 in second write)
-#define F_VDP_VRAM	0x00	// VRAM address register (bit 7=0 in second write)
-#define F_VDP_WRIT	0x40	// bit 6: read/write access (1=write)
-#define F_VDP_READ	0x00	// bit 6: read/write access (0=read)
+#define F_VDP_REG			0x80 // VDP register write port (bit 7=1 in second write)
+#define F_VDP_VRAM			0x00 // VRAM address register (bit 7=0 in second write)
+#define F_VDP_WRIT			0x40 // bit 6: read/write access (1=write)
+#define F_VDP_READ			0x00 // bit 6: read/write access (0=read)
 
-#define VDP_REG(_r) (F_VDP_REG | _r)
-
+#define VDP_REG(_r)			(F_VDP_REG | _r)
 
 //-----------------------------------------------------------------------------
 // PROTOTYPES
@@ -93,19 +92,23 @@ struct VDP_Command g_VDP_Command;
 struct VDP_Sprite  g_VDP_Sprite;
 #endif
 
-u16 g_ScreenLayoutLow;			// Address of the Pattern Layout Table (Name)
-u16 g_ScreenColorLow;			// Address of the Color Table
-u16 g_ScreenPatternLow;			// Address of the Pattern Generator Table
-u16 g_SpriteAtributeLow;		// Address of the Sprite Attribute Table
-u16 g_SpritePatternLow;			// Address of the Sprite Pattern Generator Table
-u16 g_SpriteColorLow;			// Address of the Sprite Color Table
+u16 g_ScreenLayoutLow;		// Address of the Name Table
+u16 g_ScreenColorLow;		// Address of the Color Table
+u16 g_ScreenPatternLow;		// Address of the Pattern Table
+u16 g_SpriteAtributeLow;	// Address of the Sprite Attribute Table
+u16 g_SpritePatternLow;		// Address of the Sprite Pattern Table
+u16 g_SpriteColorLow;		// Address of the Sprite Color Table
 #if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
-	u8  g_ScreenLayoutHigh;		// Address of the Pattern Layout Table (Name)
-	u8  g_ScreenColorHigh;		// Address of the Color Table
-	u8  g_ScreenPatternHigh;	// Address of the Pattern Generator Table
-	u8  g_SpriteAtributeHigh;	// Address of the Sprite Attribute Table
-	u8  g_SpritePatternHigh;	// Address of the Sprite Pattern Generator Table
-	u8  g_SpriteColorHigh;		// Address of the Sprite Color Table
+u8  g_ScreenLayoutHigh;		// Address of the Name Table
+u8  g_ScreenColorHigh;		// Address of the Color Table
+u8  g_ScreenPatternHigh;	// Address of the Pattern Table
+u8  g_SpriteAtributeHigh;	// Address of the Sprite Attribute Table
+u8  g_SpritePatternHigh;	// Address of the Sprite Pattern Table
+u8  g_SpriteColorHigh;		// Address of the Sprite Color Table
+#endif
+
+#if (VDP_AUTO_INIT)
+bool g_VDPInitilized = false;		// Address of the Sprite Color Table
 #endif
 
 //=============================================================================
@@ -121,171 +124,84 @@ u16 g_SpriteColorLow;			// Address of the Sprite Color Table
 //
 //-----------------------------------------------------------------------------
 
+//-----------------------------------------------------------------------------
+// Set screen mode flag
+void VDP_SetModeFlag(u8 flag) // 111 00
+{
+	// VDP register #1
+	u8 reg1 = g_VDP_REGSAV[1];
+	reg1 &= 0b11100111;
+	if(flag & 0b00001)
+		reg1 |= 0b00010000;
+	if(flag & 0b00010)
+		reg1 |= 0b00001000;
+	VDP_RegWriteBak(1, reg1);
+
+	// VDP register #0
+	u8 reg0 = g_VDP_REGSAV[0];
+#if (MSX_VERSION == MSX_1) // TMS 9918
+	reg0 &= 0b11111101;
+	flag >>= 1;
+	flag &= 0b00000010;
+	reg0 |= flag;
+#else // V9938/V9958
+	reg0 &= 0b11110001;
+	flag >>= 1;
+	flag &= 0b00001110;
+	reg0 |= flag;
+#endif
+	VDP_RegWriteBak(0, reg0);
+}
+
 #if (VDP_USE_MODE_T1)
 //-----------------------------------------------------------------------------
-// Data structure to initialize Text 1 screen mode
-static const u8 modeT1[] = 
-{
-	0x00, VDP_REG(0), // Text Mode, No External Video
-	0xD0, VDP_REG(1), // 16K, Enable Disp., Disable Int.
-	0x02, VDP_REG(2), // Address of Name Table in VRAM = 0800h
-	//    VDP_REG(3), // (not used) Color is defined in Reg. 7
-	0x00, VDP_REG(4), // Address of Pattern Table in VRAM = 0000h
-	//    VDP_REG(5), // (not used)
-	//    VDP_REG(6), // (not used)
-	0xF5, VDP_REG(7), // White Text on Light Blue Background
-};
-
-// Initialize Text 1 screen mode. Use MSX 1 method without incremental register writing.
+// Initialize Text 1 screen mode.
 void VDP_SetModeText1()
 {
-	// Backup vdp register @todo Can be optimized
-	for(u8 i = 0; i < 10; i += 2)
-		g_VDP_REGSAV[modeT1[i + 1] & 0x7F] = modeT1[i];
-
-	__asm
-		ld		hl, #_modeT1
-		ld		bc, #(10 * 0x100 + P_VDP_ADDR) // [num|0x99]
-		otir
-	__endasm;
-
-	g_ScreenLayoutLow   = 0x0800;
-	g_ScreenPatternLow  = 0x0000;
-
-	#if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
-		g_ScreenLayoutHigh   = 0x00;
-		g_ScreenPatternHigh  = 0x00;
-	#endif
+	VDP_SetModeFlag(VDP_T1_MODE);
+	VDP_SetLayoutTable(VDP_T1_ADDR_NT);
+	VDP_SetPatternTable(VDP_T1_ADDR_PT);
 }
 #endif // VDP_USE_MODE_T1
 
 #if (VDP_USE_MODE_MC)
 //-----------------------------------------------------------------------------
-// Data structure to initialize Multi Color screen mode
-static const u8 modeMC[] = 
-{
-	0x00, VDP_REG(0), // Multicolor Mode, No External Video
-	0xCB, VDP_REG(1), // 16K, Enable Disp., Disable Int., 16x16 Sprites, Mag. On
-	0x05, VDP_REG(2), // Address of Name Table in VRAM = 1400h
-	//    VDP_REG(3), // (not used)
-	0x01, VDP_REG(4), // Address of Pattern Table in VRAM = 0800h
-	0x20, VDP_REG(5), // Address of Sprite Attribute Table in VRAM = 1000h
-	0x00, VDP_REG(6), // Address of Sprite Pattern Table in VRAM = 0000h
-	0x04, VDP_REG(7), // Backdrop Color = Dark Blue
-};
-
-// Initialize Multi Color screen mode. Use MSX 1 method without incremental register writing.
+// Initialize Multi Color screen mode.
 void VDP_SetModeMultiColor()
 {
-	// Backup vdp register @todo Can be optimized
-	for(u8 i = 0; i < 14; i += 2)
-		g_VDP_REGSAV[modeMC[i + 1] & 0x7F] = modeMC[i];
-
-	__asm
-		ld		hl, #_modeMC
-		ld		bc, #(14 * 0x100 + P_VDP_ADDR) // [num|0x99]
-		otir
-	__endasm;
-
-	g_ScreenLayoutLow   = 0x1400;
-	g_ScreenPatternLow  = 0x0800;
-	g_SpriteAtributeLow = 0x1000;
-	g_SpritePatternLow  = 0x0000;
-
-	#if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
-		g_ScreenLayoutHigh   = 0x00;
-		g_ScreenPatternHigh  = 0x00;
-		g_SpriteAtributeHigh = 0x00;
-		g_SpritePatternHigh  = 0x00;
-	#endif
+	VDP_SetModeFlag(VDP_MC_MODE);
+	VDP_SetLayoutTable(VDP_MC_ADDR_NT);
+	VDP_SetPatternTable(VDP_MC_ADDR_PT);
+	VDP_SetSpriteAttributeTable(VDP_MC_ADDR_SAT);
+	VDP_SetSpritePatternTable(VDP_MC_ADDR_SPT);
 }
 #endif // VDP_USE_MODE_MC
 
 #if (VDP_USE_MODE_G1)
 //-----------------------------------------------------------------------------
-// Data structure to initialize Graphic 1 screen mode
-static const u8 modeG1[] = 
-{
-	0x00, VDP_REG(0), // Graphics 1 Mode, No External Video
-	0xC0, VDP_REG(1), // 16K, Enable display, Disable Int, 8x8 Srpites, Mag. off
-	0x05, VDP_REG(2), // Address of Name Table in VRAM = 1400h
-	0x80, VDP_REG(3), // Address of Color Table in VRAM = 2000h
-	0x01, VDP_REG(4), // Address of Pattern Table in VRAM = 0800h
-	0x20, VDP_REG(5), // Address of Sprite Attribute Table in VRAM = 1000h
-	0x00, VDP_REG(6), // Address of Sprite Pattern Table in VRAM = 0000h
-	0x01, VDP_REG(7), // Backdrop Color = Black
-};
-
-// Initialize Graphic 1 screen mode. Use MSX 1 method without incremental register writing.
+// Initialize Graphic 1 screen mode.
 void VDP_SetModeGraphic1()
 {
-	// Backup vdp register @todo Can be optimized
-	for(u8 i = 0; i < 16; i += 2)
-		g_VDP_REGSAV[modeG1[i + 1] & 0x7F] = modeG1[i];
-
-	__asm
-		ld		hl, #_modeG1
-		ld		bc, #(16 * 0x100 + P_VDP_ADDR) // [num|0x99]
-		otir
-	__endasm;
-
-	g_ScreenLayoutLow   = 0x1400;
-	g_ScreenColorLow    = 0x2000;
-	g_ScreenPatternLow  = 0x0800;
-	g_SpriteAtributeLow = 0x1000;
-	g_SpritePatternLow  = 0x0000;
-
-	#if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
-		g_ScreenLayoutHigh   = 0x00;
-		g_ScreenColorHigh    = 0x00;
-		g_ScreenPatternHigh  = 0x00;
-		g_SpriteAtributeHigh = 0x00;
-		g_SpritePatternHigh  = 0x00;
-	#endif
+	VDP_SetModeFlag(VDP_G1_MODE);
+	VDP_SetLayoutTable(VDP_G1_ADDR_NT);
+	VDP_SetColorTable(VDP_G1_ADDR_CT);
+	VDP_SetPatternTable(VDP_G1_ADDR_PT);
+	VDP_SetSpriteAttributeTable(VDP_G1_ADDR_SAT);
+	VDP_SetSpritePatternTable(VDP_G1_ADDR_SPT);
 }
 #endif // VDP_USE_MODE_G1
 
 #if (VDP_USE_MODE_G2)
 //-----------------------------------------------------------------------------
-// Data structure to initialize Graphic 2 screen mode
-static const u8 modeG2[] = 
-{
-	0x02, VDP_REG(0), // Graphics 2 Mode, No External Video
-	0xC2, VDP_REG(1), // 16K, Enable Disp., Disable Int., 16x16 Sprites, Mag. Off
-	0x0E, VDP_REG(2), // Address of Name Table in VRAM = 3800h
-	0xFF, VDP_REG(3), // Address of Color Table in VRAM = 2000h
-	0x03, VDP_REG(4), // Address of Pattern Table in VRAM = 0000h
-	0x76, VDP_REG(5), // Address of Sprite Attribute Table in VRAM = 3B00h
-	0x03, VDP_REG(6), // Address of Sprite Pattern Table in VRAM = 1800h
-	0x0F, VDP_REG(7), // Backdrop Color = White
-};
-
-// Initialize Graphic 2 screen mode. Use MSX 1 method without incremental register writing.
+// Initialize Graphic 2 screen mode.
 void VDP_SetModeGraphic2()
 {
-	// Backup vdp register @todo Can be optimized
-	for(u8 i = 0; i < 16; i += 2)
-		g_VDP_REGSAV[modeG2[i + 1] & 0x7F] = modeG2[i];
-
-	__asm
-		ld		hl, #_modeG2
-		ld		bc, #(16 * 0x100 + P_VDP_ADDR) // [num|0x99]
-		otir
-	__endasm;
-
-	g_ScreenLayoutLow   = 0x3800;
-	g_ScreenColorLow    = 0x2000;
-	g_ScreenPatternLow  = 0x0000;
-	g_SpriteAtributeLow = 0x3B00;
-	g_SpritePatternLow  = 0x1800;
-
-	#if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
-		g_ScreenLayoutHigh   = 0x00;
-		g_ScreenColorHigh    = 0x00;
-		g_ScreenPatternHigh  = 0x00;
-		g_SpriteAtributeHigh = 0x00;
-		g_SpritePatternHigh  = 0x00;
-	#endif
+	VDP_SetModeFlag(VDP_G2_MODE);
+	VDP_SetLayoutTable(VDP_G2_ADDR_NT);
+	VDP_SetColorTable(VDP_G2_ADDR_CT);
+	VDP_SetPatternTable(VDP_G2_ADDR_PT);
+	VDP_SetSpriteAttributeTable(VDP_G2_ADDR_SAT);
+	VDP_SetSpritePatternTable(VDP_G2_ADDR_SPT);
 }
 #endif // VDP_USE_MODE_G2
 
@@ -693,165 +609,74 @@ void VDP_Poke_16K(u8 val, u16 dest)
 
 #if (VDP_USE_MODE_T2)
 //-----------------------------------------------------------------------------
-// Data structure to initialize Text 2 screen mode
-static const u8 modeT2[] = 
-{
-	0x04, // R#0
-	0x70, // R#1
-	0x03, // R#2
-	0x27, // R#3
-	0x02, // R#4
-	0x36, // R#5
-	0x07, // R#6
-	0xF4, // R#7
-	0x08, // R#8
-	0x02, // R#9
-};
-// Initialize Text 2 screen mode. Use MSX 2 incremental VDP registers writing
+// Initialize Text 2 screen mode.
 void VDP_SetModeText2()
 {
-	ASM_REG_WRITE_INC_BK(modeT2, 0, 10);
-
-	g_ScreenLayoutLow   = 0x0000;
-	g_ScreenPatternLow  = 0x1000;
-	g_SpriteAtributeLow = 0x1B00;
-	g_SpritePatternLow  = 0x3800;
-
-	#if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
-		g_ScreenLayoutHigh   = 0x00;
-		g_ScreenPatternHigh  = 0x00;
-		g_SpriteAtributeHigh = 0x00;
-		g_SpritePatternHigh  = 0x00;
-	#endif
+	VDP_SetModeFlag(VDP_T2_MODE);
+	VDP_SetLayoutTable(VDP_T2_ADDR_NT);
+	VDP_SetPatternTable(VDP_T2_ADDR_PT);
 }
 #endif // VDP_USE_MODE_T2
 
 #if (VDP_USE_MODE_G3)
 //-----------------------------------------------------------------------------
-// Data structure to initialize Graphic 3 screen mode
-static const u8 modeG3[] = 
-{
-	0x04, // R#0
-	0x60, // R#1
-	0x06, // R#2
-	0xFF, // R#3
-	0x03, // R#4
-	0x3F, // R#5
-	0x07, // R#6
-	0x04, // R#7
-	0x08, // R#8
-	0x02, // R#9
-};
-// Initialize Graphic 3 screen mode. Use MSX 2 incremental VDP registers writing
+// Initialize Graphic 3 screen mode.
 void VDP_SetModeGraphic3()
 {
-	ASM_REG_WRITE_INC_BK(modeG3, 0, 10);
-
-	g_ScreenLayoutLow   = 0x1800;
-	g_ScreenColorLow    = 0x2000;
-	g_ScreenPatternLow  = 0x0000;
-	g_SpriteAtributeLow = 0x1E00;
-	g_SpritePatternLow  = 0x3800;
-
-	#if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
-		g_ScreenLayoutHigh   = 0x00;
-		g_ScreenColorHigh    = 0x00;
-		g_ScreenPatternHigh  = 0x00;
-		g_SpriteAtributeHigh = 0x00;
-		g_SpritePatternHigh  = 0x00;
-	#endif
+	VDP_SetModeFlag(VDP_G3_MODE);
+	VDP_SetLayoutTable(VDP_G3_ADDR_NT);
+	VDP_SetColorTable(VDP_G3_ADDR_CT);
+	VDP_SetPatternTable(VDP_G3_ADDR_PT);
+	VDP_SetSpriteAttributeTable(VDP_G3_ADDR_SAT);
+	VDP_SetSpritePatternTable(VDP_G3_ADDR_SPT);
 }
 #endif // VDP_USE_MODE_G3
 
 #if (VDP_USE_MODE_G4)
 //-----------------------------------------------------------------------------
-// Data structure to initialize Graphic 4 screen mode
-static const u8 modeG4[] = 
-{
-	0x06, // R#0
-	0x60, // R#1
-	0x1F, // R#2
-	0xFF, // R#3
-	0x03, // R#4
-	0xEF, // R#5
-	0x0F, // R#6
-	0x04, // R#7
-	0x08, // R#8
-	0x82, // R#9
-};
-// Initialize Graphic 4 screen mode. Use MSX 2 incremental VDP registers writing
+// Initialize Graphic 4 screen mode.
 void VDP_SetModeGraphic4()
 {
-	ASM_REG_WRITE_INC_BK(modeG4, 0, 10);
+	VDP_SetModeFlag(VDP_G4_MODE);
+	VDP_SetLayoutTable(VDP_G4_ADDR_NT);
+	VDP_SetSpriteAttributeTable(VDP_G4_ADDR_SAT);
+	VDP_SetSpritePatternTable(VDP_G4_ADDR_SPT);
 }
 #endif // VDP_USE_MODE_G4
 
 #if (VDP_USE_MODE_G5)
 //-----------------------------------------------------------------------------
-// Data structure to initialize Graphic 5 screen mode
-static const u8 modeG5[] = 
-{
-	0x08, // R#0
-	0x60, // R#1
-	0x1F, // R#2
-	0xFF, // R#3
-	0x03, // R#4
-	0xEF, // R#5
-	0x0F, // R#6
-	0x04, // R#7
-	0x08, // R#8
-	0x82, // R#9
-};
-// Initialize Graphic 5 screen mode. Use MSX 2 incremental VDP registers writing
+// Initialize Graphic 5 screen mode.
 void VDP_SetModeGraphic5()
 {
-	ASM_REG_WRITE_INC_BK(modeG5, 0, 10);
+	VDP_SetModeFlag(VDP_G5_MODE);
+	VDP_SetLayoutTable(VDP_G5_ADDR_NT);
+	VDP_SetSpriteAttributeTable(VDP_G5_ADDR_SAT);
+	VDP_SetSpritePatternTable(VDP_G5_ADDR_SPT);
 }
 #endif // VDP_USE_MODE_G5
 
 #if (VDP_USE_MODE_G6)
 //-----------------------------------------------------------------------------
-// Data structure to initialize Graphic 6 screen mode
-static const u8 modeG6[] = 
-{
-	0x0A, // R#0
-	0x60, // R#1
-	0x1F, // R#2
-	0xFF, // R#3
-	0x03, // R#4
-	0xF7, // R#5
-	0x1E, // R#6
-	0x04, // R#7
-	0x08, // R#8
-	0x82, // R#9
-};
-// Initialize Graphic 6 screen mode. Use MSX 2 incremental VDP registers writing
+// Initialize Graphic 6 screen mode.
 void VDP_SetModeGraphic6()
 {
-	ASM_REG_WRITE_INC_BK(modeG6, 0, 10);
+	VDP_SetModeFlag(VDP_G6_MODE);
+	VDP_SetLayoutTable(VDP_G6_ADDR_NT);
+	VDP_SetSpriteAttributeTable(VDP_G6_ADDR_SAT);
+	VDP_SetSpritePatternTable(VDP_G6_ADDR_SPT);
 }
 #endif // VDP_USE_MODE_G6
 
 #if (VDP_USE_MODE_G7)
 //-----------------------------------------------------------------------------
-// Data structure to initialize Graphic 7 screen mode
-static const u8 modeG7[] = 
-{
-	0x0E, // R#0
-	0x60, // R#1
-	0x1F, // R#2
-	0xFF, // R#3
-	0x03, // R#4
-	0xF7, // R#5
-	0x1E, // R#6
-	0x04, // R#7
-	0x08, // R#8
-	0x82, // R#9
-};
-// Initialize Graphic 7 screen mode. Use MSX 2 incremental VDP registers writing
+// Initialize Graphic 7 screen mode.
 void VDP_SetModeGraphic7()
 {
-	ASM_REG_WRITE_INC_BK(modeG7, 0, 10);
+	VDP_SetModeFlag(VDP_G7_MODE);
+	VDP_SetLayoutTable(VDP_G7_ADDR_NT);
+	VDP_SetSpriteAttributeTable(VDP_G7_ADDR_SAT);
+	VDP_SetSpritePatternTable(VDP_G7_ADDR_SPT);
 }
 #endif // VDP_USE_MODE_G7
 
@@ -1454,10 +1279,55 @@ void VPD_CommandWriteLoop(const u8* addr) __FASTCALL
 //=============================================================================
 
 //-----------------------------------------------------------------------------
+// Initialize VDP module
+void VDP_Initialize()
+{
+__asm
+	// Copy 8 bytes from M_RG0SAV to g_VDP_REGSAV+0 (0-7)
+	ld		hl, #M_RG0SAV
+	ld		de, #_g_VDP_REGSAV+0
+	ld		bc, #8
+	ldir
+__endasm;
+
+#if (MSX_VERSION >= MSX_2)
+__asm
+	// Copy 16 bytes from M_RG08SAV to g_VDP_REGSAV+8 (8-23)
+	ld		hl, #M_RG08SAV
+	ld		de, #_g_VDP_REGSAV+8
+	ld		bc, #16
+	ldir
+__endasm;
+#endif
+
+#if (MSX_VERSION >= MSX_2P)
+__asm
+	// Copy 3 bytes from M_RG25SAV to g_VDP_REGSAV+25 (25-27)
+	ld		hl, #M_RG25SAV
+	ld		de, #_g_VDP_REGSAV+25
+	ld		bc, #3
+	ldir
+__endasm;
+#endif
+
+	g_VDP_STASAV[0] = g_STATFL;
+
+	#if (VDP_AUTO_INIT)
+	g_VDPInitilized = true;
+	#endif
+}
+
+
+//-----------------------------------------------------------------------------
 // Set the current screen mode
 // @param 		mode		The new screen mode to set (@see VDP_MODE enum)
 void VDP_SetMode(const u8 mode)
 {
+	#if (VDP_AUTO_INIT)
+	if(!g_VDPInitilized)
+		VDP_Initialize();
+	#endif
+
 	g_VDP_Data.Mode = mode;
 	switch(mode)
 	{
@@ -1558,27 +1428,23 @@ void VDP_SetMode(const u8 mode)
 #endif // (MSX_VERSION >= MSX_2P)
 	}
 
-// Default VDP frequency
+// Default VDP setting
+	VDP_EnableDisplay(true);
+	VDP_EnableVBlank(true);
 #if (MSX_VERSION >= MSX_2)
-	#if (VDP_INIT_FREQ == VDP_INIT_FREQ_50HZ)
+	#if (VDP_INIT_50HZ == VDP_INIT_ON)
 		VDP_SetFrequency(VDP_FREQ_50HZ);
-	#elif (VDP_INIT_FREQ == VDP_INIT_FREQ_60HZ)
+	#elif (VDP_INIT_50HZ == VDP_INIT_OFF)
 		VDP_SetFrequency(VDP_FREQ_60HZ);
-	#elif (VDP_INIT_FREQ == VDP_INIT_FREQ_BIOS)
+	#elif (VDP_INIT_50HZ == VDP_INIT_AUTO)
 		u8 freq = (g_ROMVersion.VSF) ? VDP_FREQ_50HZ : VDP_FREQ_60HZ;
 		VDP_SetFrequency(freq);
 	#endif
-#endif
-}
-
-//-----------------------------------------------------------------------------
-// Tell if the given screen mode is a bitmap mode (text mode otherwise)
-bool VDP_IsBitmapMode(const u8 mode)
-{
-#if (MSX_VERSION == MSX_1)
-	return false;
-#else
-	return mode >= VDP_MODE_GRAPHIC4;
+	VDP_EnableSprite(true);
+	if(VDP_IsBitmapMode(mode)) // Activate 212 lines for bitmap mode
+		VDP_SetLineCount(VDP_LINE_212);
+	VDP_SetInterlace(false);
+	VDP_SetPageAlternance(false);
 #endif
 }
 
