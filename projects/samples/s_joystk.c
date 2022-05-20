@@ -203,7 +203,7 @@ void main()
 				Print_SetPosition(18 + (21 * joy), 8);
 				Print_DrawChar('-');
 				break;
-			case JOY_INPUT_DIR_UP_RIGTH:
+			case JOY_INPUT_DIR_UP_RIGHT:
 				Print_SetPosition(18 + (21 * joy), 7);
 				Print_DrawChar('/');
 				break;
@@ -211,7 +211,7 @@ void main()
 				Print_SetPosition(16 + (21 * joy), 7);
 				Print_DrawChar('\\');
 				break;
-			case JOY_INPUT_DIR_DOWN_RIGTH:
+			case JOY_INPUT_DIR_DOWN_RIGHT:
 				Print_SetPosition(18 + (21 * joy), 9);
 				Print_DrawChar('\\');
 				break;

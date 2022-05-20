@@ -710,9 +710,9 @@ const u8 __at(M_PADY) g_PADY;
 #define M_PADX	0xFC9D	// 1	X-coordinate of a connected touch pad. (Until MSX2+)
 const u8 __at(M_PADX) g_PADX;
 
-#define M_JIFFY	0xFC9E	// 1	Contains value of the software clock, each interrupt of the VDP it is increased by 1.
+#define M_JIFFY	0xFC9E	// 2	Contains value of the software clock, each interrupt of the VDP it is increased by 1.
 // The contents can be read or changed by the function 'TIME' or instruction 'TIME'.
-const u8 __at(M_JIFFY) g_JIFFY;
+const u16 __at(M_JIFFY) g_JIFFY;
 
 #define M_INTVAL	0xFCA0	// 2	Contains length of the interval when the ON INTERVAL routine was established.
 const u16 __at(M_INTVAL) g_INTVAL;
