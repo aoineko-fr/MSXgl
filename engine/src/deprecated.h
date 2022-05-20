@@ -11,3 +11,10 @@
 
 // VDP module
 #define VDP_HideSpriteFrom			VDP_DisableSpritesFrom
+
+// Compress Module
+#define UnpackRLEpToRAM				RLEp_UnpackToRAM
+
+// Input Module
+#define JOY_INPUT_DIR_UP_RIGTH		JOY_INPUT_DIR_UP_RIGHT
+#define JOY_INPUT_DIR_DOWN_RIGTH	JOY_INPUT_DIR_DOWN_RIGHT

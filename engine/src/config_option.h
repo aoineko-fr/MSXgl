@@ -194,11 +194,11 @@
 #define VDP_UNIT_Y16				2 // X use 8-bits and Y use 16-bits values
 #define VDP_UNIT_U16				3 // X and Y use 16-bits values
 
-// VDP_INIT_FREQ - Initial frequency setting
-#define VDP_INIT_FREQ_NONE				0 // No initial setting
-#define VDP_INIT_FREQ_50HZ				1 // Force VDP frequency to 50 Hz
-#define VDP_INIT_FREQ_60HZ				2 // Force VDP frequency to 60 Hz
-#define VDP_INIT_FREQ_BIOS				3 // Set VDP frequence according to BIOS setting
+// VDP initial value
+#define VDP_INIT_OFF				0b00 // Force option to be disable
+#define VDP_INIT_ON					0b01 // Force option to be enable
+#define VDP_INIT_AUTO				0b10 // Determining the best value for the context
+#define VDP_INIT_DEFAULT			0b11 // Keep default value
 
 //-----------------------------------------------------------------------------
 // DRAW MODULE

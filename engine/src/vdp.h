@@ -19,16 +19,6 @@
 #include "vdp_reg.h"
 #include "bios_var.h"
 
-#define VDP_AUTO_INIT		1
-
-#define VDP_INIT_OFF		0b00
-#define VDP_INIT_ON			0b01
-#define VDP_INIT_AUTO		0b10
-#define VDP_INIT_DEFAULT	0b11
-
-#define VDP_INIT_50HZ		VDP_INIT_ON
-
-
 // @todo Handle VRAM read/write access timing
 //
 // Minimum VRAM access timings in 3.58 MHz Z80 cycles

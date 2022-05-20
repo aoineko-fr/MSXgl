@@ -169,10 +169,10 @@ void main()
 	// VDP_EnableSprite(true);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 | VDP_SPRITE_SCALE_2);
 	VDP_LoadSpritePattern(g_DataSprtLayer, 32, 13*4*4);
-	SET_SPRITE(sprt++, 70, 130, 32, COLOR_BLACK);
-	SET_SPRITE(sprt++, 70, 130, 36, COLOR_WHITE);
-	SET_SPRITE(sprt++, 70, 130, 40, COLOR_LIGHT_RED);
-	VDP_DisableSpritesFrom(sprt);
+	SET_SPRITE(sprt+0, 70, 130, 32, COLOR_BLACK);
+	SET_SPRITE(sprt+1, 70, 130, 36, COLOR_WHITE);
+	SET_SPRITE(sprt+2, 70, 130, 40, COLOR_LIGHT_RED);
+	VDP_DisableSpritesFrom(sprt+3);
 
 	u8 prevRow8 = 0xFF;
 	while(1)
@@ -182,6 +182,11 @@ void main()
 		
 		// Update scrolling rendering
 		Scroll_Update();
+
+		u8 sprtOffset = g_Scroll_OffsetX % 8;
+		VDP_SetSpritePositionX(sprt+0, 70 + sprtOffset);
+		VDP_SetSpritePositionX(sprt+1, 70 + sprtOffset);
+		VDP_SetSpritePositionX(sprt+2, 70 + sprtOffset);
 
 		u8 row8 = Keyboard_Read(8);
 		// Update scrolling speed

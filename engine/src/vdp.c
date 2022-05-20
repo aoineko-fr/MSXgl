@@ -1470,13 +1470,13 @@ u8 VDP_GetVersion() __naked
 		in		a, (P_VDP_ADDR)			// read s#1
 		and		#0b00111110				// get VDP ID
 		rrca
-		ex		af, af'
+		ex		af, af'					; '
 		xor		a						// select s#0 as required by BIOS
 		out		(P_VDP_ADDR), a
 		ld		a, #VDP_REG(15)
 		ei
 		out		(P_VDP_ADDR), a
-		ex		af, af'
+		ex		af, af'					; '
 		ret		nz						// return VDP ID for V9958 or higher
 		inc		a						// return 1 for V9938
 		ret
@@ -1502,7 +1502,7 @@ u8 VDP_GetVersion() __naked
 		ld		a, #VDP_REG(15)			// (this mirrors to r#7 on TMS9918 VDPs)
 		out		(P_VDP_ADDR), a
 		in		a, (P_VDP_ADDR)			// read s#2 / s#0
-		ex		af, af'
+		ex		af, af'					; '
 		xor		a						// select s#0 as required by BIOS
 		out		(P_VDP_ADDR), a
 		ld		a, #VDP_REG(15)
@@ -1512,7 +1512,7 @@ u8 VDP_GetVersion() __naked
 		ld		a, #VDP_REG(7)
 		ei
 		out		(P_VDP_ADDR), a
-		ex		af, af'
+		ex		af, af'					; '
 		and		#0b01000000				// check if bit 6 was 0 (s#0 5S) or 1 (s#2 VR)
 		ret
 	

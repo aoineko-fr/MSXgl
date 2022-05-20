@@ -94,10 +94,16 @@
 	#define VDP_USE_COMMAND				1
 #endif
 
-// VDP_INIT_FREQ
-#ifndef VDP_INIT_FREQ
-	#warning VDP_INIT_FREQ is not defined in "msxgl_config.h"! Default value will be used: VDP_INIT_FREQ_NONE
-	#define VDP_INIT_FREQ					VDP_INIT_FREQ_NONE
+// VDP_AUTO_INIT
+#ifndef VDP_AUTO_INIT
+	#warning VDP_AUTO_INIT is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define VDP_AUTO_INIT				1
+#endif
+
+// VDP_INIT_50HZ
+#ifndef VDP_INIT_50HZ
+	#warning VDP_INIT_50HZ is not defined in "msxgl_config.h"! Default value will be used: VDP_INIT_ON
+	#define VDP_INIT_50HZ				VDP_INIT_ON
 #endif
 
 //-----------------------------------------------------------------------------

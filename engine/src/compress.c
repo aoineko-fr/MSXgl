@@ -28,7 +28,7 @@
 
 //-----------------------------------------------------------------------------
 /// Unpack RLEp compressed data to memory
-u16 UnpackRLEpToRAM(const u8* src, u8* dst RLEP_FIXSIZE_PARAM)
+u16 RLEp_UnpackToRAM(const u8* src, u8* dst RLEP_FIXSIZE_PARAM)
 {
 	RLEP_DEFAULT_SET
 	
