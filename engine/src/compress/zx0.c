@@ -9,7 +9,7 @@
 //  "Standard" version (68 bytes only)
 //  https://github.com/einar-saukas/ZX0/blob/main/z80/dzx0_standard.asm
 //─────────────────────────────────────────────────────────────────────────────
-#include "core.h"
+#include "zx0.h"
 
 //-----------------------------------------------------------------------------
 // Unpack ZX0 compressed data to a RAM buffer

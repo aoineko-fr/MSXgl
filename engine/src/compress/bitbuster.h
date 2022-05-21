@@ -1,18 +1,16 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄▄ ▄▄ ▄  ▄▄ 
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │   ▄█▀ ▀█▄▀ █ ██
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▄ ██ █ ▀▄█▀
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄  ▄  ▄▄  ▄▄             ▄▄           
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ▄  ██▀ ██▄  ██ █  ██▀ ██▀ ▄███ ██▄▀
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ██ ▀█▄ ██▄▀ ▀█▄█ ▄██  ▀█▄ ▀█▄▄ ██  
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
 //  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 //─────────────────────────────────────────────────────────────────────────────
-// ZX0 decoder by Einar Saukas & Urusergi
-//  "Standard" version (68 bytes only)
-//  https://github.com/einar-saukas/ZX0/blob/main/z80/dzx0_standard.asm
+// Bitbuster v1.2 - (c) 2002-2003  Team Bomba
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
 #include "core.h"
 
-// Function: ZX0_Unpack
-// Unpack ZX0 compressed data to a RAM buffer
-void ZX0_Unpack(const void* source, void* dest);
+// Function: Bitbuster_Unpack
+// Unpack Bitbuster compressed data to a RAM buffer
+void Bitbuster_Unpack(const void* source, void* dest);
