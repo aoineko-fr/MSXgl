@@ -268,7 +268,7 @@
 // RLEp compression
 #define COMPRESS_USE_RLEP			1
 #define COMPRESS_USE_RLEP_DEFAULT	1
-#define COMPRESS_USE_RLEP_FIXSIZE	1
+#define COMPRESS_USE_RLEP_FIXSIZE	0
 
 //-----------------------------------------------------------------------------
 // MISC

@@ -1,7 +1,8 @@
 @echo off
+setlocal EnableDelayedExpansion
 
 :: Audio
-set BuildTrilo=1
+set BuildTrilo=0
 set BuildWYZ=0
 set BuildayFX=0
 set BuildVGM=0
@@ -9,13 +10,17 @@ set BuildayVGM=0
 set BuildArkos=0
 set BuildPCMEnc=0
 :: Image
+set BuildBitmap=1
 set BuildImage=0
 set BuildCompress=0
 set BuildTile=0
+:: Misc
+set BuildZip=1
 
 :: Path
 set Tools=..\..\..\tools
 set CMSXtk=%Tools%\CMSXtk\bin
+set MSXtk=%Tools%\MSXtk\bin
 set AudioMisc=%Tools%\audio\misc
 set Dest=..\content
 
@@ -28,6 +33,7 @@ if not exist %Dest% md %Dest%
 ::-----------------------------------------------------------------------------
 :: Build Trilo data
 if %BuildTrilo%==1 (
+	echo ----------------------------------------
 	echo Building Trilo data...
 	if not exist %Dest%\trilo md %Dest%\trilo
 	if not exist %Dest%\trilo\out md %Dest%\trilo\out
@@ -40,6 +46,7 @@ if %BuildTrilo%==1 (
 ::-----------------------------------------------------------------------------
 :: Build WYZ data
 if %BuildWYZ%==1 (
+	echo ----------------------------------------
 	echo Building WYZ data...
 	if not exist %Dest%\wyz md %Dest%\wyz
 	for %%I in (wyz\*.mus) do call %AudioMisc%\wyz_merge.bat %%I %Dest%\wyz content\wyz
@@ -48,6 +55,7 @@ if %BuildWYZ%==1 (
 ::-----------------------------------------------------------------------------
 :: Build ayFX data
 if %BuildayFX%==1 (
+	echo ----------------------------------------
 	echo Building ayFX data...
 	if not exist %Dest%\ayfx md %Dest%\ayfx
 	%CMSXtk%\CMSXbin.exe ayfx\ayfx_bank.afb  -ad -ascii -o %Dest%\ayfx\ayfx_bank.h
@@ -58,6 +66,7 @@ if %BuildayFX%==1 (
 ::-----------------------------------------------------------------------------
 :: Build VGM data
 if %BuildVGM%==1 (
+	echo ----------------------------------------
 	echo Building VGM data...
 	if not exist %Dest%\vgm md %Dest%\vgm
 	for %%I in (vgm\*.vgm) do %CMSXtk%\CMSXbin.exe %%I -t g_VGM_%%~nI -ad  -o %Dest%\vgm\vgm_%%~nI.h
@@ -66,6 +75,7 @@ if %BuildVGM%==1 (
 ::-----------------------------------------------------------------------------
 :: Build ayVGM data
 if %BuildayVGM%==1 (
+	echo ----------------------------------------
 	echo Building ayVGM data...
 	if not exist %Dest%\ayvgm md %Dest%\ayvgm
 	for %%I in (vgm\*.vgm) do %CMSXtk%\CMSXzip.exe %%I -t g_ayVGM_%%~nI -ad -ayVGM -freq both -o %Dest%\ayvgm\ayvgm_%%~nI.h
@@ -74,6 +84,7 @@ if %BuildayVGM%==1 (
 ::-----------------------------------------------------------------------------
 :: Build Arkos data
 if %BuildArkos%==1 (
+	echo ----------------------------------------
 	echo Building Arkos data...
 	if not exist %Dest%\arkos md %Dest%\arkos
 	for %%I in (arkos\*.akg) do %CMSXtk%\CMSXbin.exe %%I -t g_AKG_%%~nI -ad -o %Dest%\arkos\akg_%%~nI.h
@@ -85,6 +96,7 @@ if %BuildArkos%==1 (
 ::-----------------------------------------------------------------------------
 :: Build pcmenc data
 if %BuildPCMEnc%==1 (
+	echo ----------------------------------------
 	echo Building PCM-encoder data...
 	if not exist %Dest%\pcm md %Dest%\pcm
 	::---- 8 KHz
@@ -110,8 +122,31 @@ if %BuildPCMEnc%==1 (
 ::=============================================================================
 
 ::-----------------------------------------------------------------------------
+:: Build bitmap data
+if %BuildBitmap%==1 (
+	echo ----------------------------------------
+	echo Building bitmap data...
+	%CMSXtk%\CMSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format c -out %Dest%\img\data_sc5_msx1.h  -pal msx1
+	%CMSXtk%\CMSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format c -out %Dest%\img\data_sc5_cust.h  -pal custom
+	%CMSXtk%\CMSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format c -out %Dest%\img\data_sc5_pal24.h -pal custom --pal24
+	%CMSXtk%\CMSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 8 --bload -format c -out %Dest%\img\data_sc8.h
+
+	%CMSXtk%\CMSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format bin -out %Dest%\img\data_msx1.sc5  -pal msx1
+	%CMSXtk%\CMSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format bin -out %Dest%\img\data_cust.sc5  -pal custom
+	%CMSXtk%\CMSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format bin -out %Dest%\img\data_pal24.sc5 -pal custom --pal24
+	%CMSXtk%\CMSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 8 --bload -format bin -out %Dest%\img\data.sc8
+
+	%CMSXtk%\CMSXimg.exe img\image00.png -pos 0 0 -size 128 128 -bpc 4 -format bin -out %Dest%\img\data00_sc5.bin -pal msx1
+	%CMSXtk%\CMSXimg.exe img\image00.png -pos 0 0 -size 128 128 -bpc 8 -format bin -out %Dest%\img\data00_sc8.bin
+
+	%CMSXtk%\CMSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 4 -format bin -out %Dest%\img\data10_sc5.bin -pal msx1
+	%CMSXtk%\CMSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 8 -format bin -out %Dest%\img\data10_sc8.bin
+)
+
+::-----------------------------------------------------------------------------
 :: Build image data
 if %BuildImage%==1 (
+	echo ----------------------------------------
 	echo Building image data...
 	%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_bmp_8b.h     -pos 16 16  -size 16 16 -num 6 1  -name g_DataBmp8b    -trans 0x8468a1 -bpc 8
 	%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_bmp_4b.h     -pos 16 16  -size 16 16 -num 6 1  -name g_DataBmp4b    -trans 0x8468a1 -bpc 4 -pal msx1
@@ -131,6 +166,7 @@ if %BuildImage%==1 (
 ::-----------------------------------------------------------------------------
 :: Build compressed image data
 if %BuildCompress%==1 (
+	echo ----------------------------------------
 	echo Building compress data...
 	if not exist %Dest%\8b md %Dest%\8b
 	%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\8b\data_bmp_8b_no.h    -pos 16 0 -size 16 16 -num 1 1 -name g_DataBmp8b_no    -trans 0x8468a1 -bpc 8
@@ -181,11 +217,42 @@ if %BuildCompress%==1 (
 ::-----------------------------------------------------------------------------
 :: Build tiles data
 if %BuildTile%==1 (
+	echo ----------------------------------------
 	echo Building tiles data...
 	if not exist %Dest%\tile md %Dest%\tile
 	%CMSXtk%\CMSXimg.exe img\city.png -out %Dest%\tile\data_tile_gm2.h -mode gm2 -name g_DataTileGM2 -pos 0 256 -size 192  144 -offset 0
 	%CMSXtk%\CMSXimg.exe img\city.png -out %Dest%\tile\data_map_gm2.h  -mode gm2 -name g_DataMapGM2  -pos 0 320 -size 1024 192 -offset 0
 	REM %CMSXtk%\CMSXimg.exe img\city.png -out %Dest%\tile\data_tile_gm1.h -mode gm1 -name g_DataTileGM1 -pos 0 160 -size 192 144 -offset 0
+)
+
+::=============================================================================
+:: MISC
+::=============================================================================
+
+::-----------------------------------------------------------------------------
+:: Generate Zip data
+if %BuildZip%==1 (
+	echo ----------------------------------------
+	echo Building Zip data...
+	if not exist %Dest%\zip md %Dest%\zip
+
+	echo ---- No compression ----
+	copy %Dest%\img\data10_sc5.bin %Dest%\zip\data10.bin
+
+	echo ---- RLEp compression ----
+	%MSXtk%\MSXzip.exe %Dest%\img\data10_sc5.bin -bin -rlep -def auto -incdef -o %Dest%\zip\data10.rlep
+
+	echo ---- ZX0 compression ----
+	%Tools%\compress\ZX0\zx0.exe -f %Dest%\img\data10_sc5.bin %Dest%\zip\data10.zx0
+
+	echo ---- Bitbuster compression ----
+	copy %Dest%\img\data10_sc5.bin %Tools%\compress\Bitbuster\temp.bin
+	set PrevCD=!cd!
+	cd %Tools%\compress\Bitbuster
+	pack.exe temp.bin
+	cd !PrevCD!
+	copy %Tools%\compress\Bitbuster\temp.bin.pck %Dest%\zip\data10.pck
+	del /Q %Tools%\compress\Bitbuster\temp.*
 )
 
 pause
