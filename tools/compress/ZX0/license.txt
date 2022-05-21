@@ -1,0 +1,5 @@
+The ZX0 data compression format and algorithm was designed and implemented by Einar Saukas. Special thanks to introspec/spke for several suggestions and improvements, and together with uniabis for providing the "Fast" decompressor. Also special thanks to Urusergi for additional ideas and improvements.
+
+The optimal C compressor is available under the "BSD-3" license. In practice, this is relevant only if you want to modify its source code and/or incorporate the compressor within your own products. Otherwise, if you just execute it to compress files, you can simply ignore these conditions.
+
+The decompressors can be used freely within your own programs (either for the ZX Spectrum or any other platform), even for commercial releases. The only condition is that you must indicate somehow in your documentation that you have used ZX0.
