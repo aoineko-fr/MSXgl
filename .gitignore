@@ -58,3 +58,4 @@ out
 
 /tools/CMSXtk/src
 /tools/CMSXtk/*.sln
+*.noi

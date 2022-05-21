@@ -253,6 +253,9 @@ if %BuildZip%==1 (
 	cd !PrevCD!
 	copy %Tools%\compress\Bitbuster\temp.bin.pck %Dest%\zip\data10.pck
 	del /Q %Tools%\compress\Bitbuster\temp.*
+
+	echo ---- Pletter compression ----
+	%Tools%\compress\Pletter\pletter.exe %Dest%\img\data10_sc5.bin %Dest%\zip\data10.pl5
 )
 
 pause
