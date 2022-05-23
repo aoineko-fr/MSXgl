@@ -1175,13 +1175,23 @@ u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0)
 #if (MSX_VERSION >= MSX_2P)
 
 //-----------------------------------------------------------------------------
-// Set YJK mode for MSX2+
+// Set YJK mode [2+/TR]
 void VDP_SetYJK(u8 mode)
 {
 	u8 reg = g_VDP_REGSAV[25];
 	reg &= ~VDP_YJK_YAE;
 	reg |= mode;
 	VDP_RegWriteBak(25, reg);
+}
+
+//-----------------------------------------------------------------------------
+// Set the horizontal rendeing offset (in pixel) [2+/TR]
+void VDP_SetHorizontalOffset(u16 offset)
+{
+	u8 reg = offset & 0x07;
+	VDP_RegWrite(27, reg);
+	reg = offset >> 3;
+	VDP_RegWrite(26, reg);
 }
 
 #endif
@@ -1414,19 +1424,18 @@ void VDP_SetMode(const u8 mode)
 		break;
 #endif
 		
-// #if (VDP_USE_MODE_G5)
-// 	// case VDP_MODE_SCREEN9:
-// 	case VDP_MODE_SCREEN9_40:	VDP_SetModeGraphic5();
-// 		// @todo Further setting needed
-// 		break;
-// #endif // VDP_USE_MODE_G5
-// 	
-// #if (VDP_USE_MODE_G4)
-// 	case VDP_MODE_SCREEN9_80:
-// 		VDP_SetModeGraphic4();
-// 		// @todo Further setting needed
-// 		break;
-// #endif // VDP_USE_MODE_G4
+#if (VDP_USE_MODE_G5)
+	// case VDP_MODE_SCREEN9:
+	case VDP_MODE_SCREEN9_80:	VDP_SetModeGraphic5();
+		// @todo Further setting needed?
+		break;
+#endif // VDP_USE_MODE_G5
+	
+#if (VDP_USE_MODE_G4)
+	case VDP_MODE_SCREEN9_40:	VDP_SetModeGraphic4();
+		// @todo Further setting needed?
+		break;
+#endif // VDP_USE_MODE_G4
 
 #endif // (MSX_VERSION >= MSX_2)
 

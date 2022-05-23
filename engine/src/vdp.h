@@ -517,12 +517,22 @@ void VDP_SetPageAlternance(bool enable);
 
 #if (MSX_VERSION >= MSX_2P)
 
-#define VDP_YJK_OFF				0
-#define VDP_YJK_ON				R25_YJK
-#define VDP_YJK_YAE				(R25_YJK|R25_YAE)
+// YJK modes
+enum VDP_YJK
+{
+	VDP_YJK_OFF				= 0,					// Use classic 8-bits RGB mode
+	VDP_YJK_ON				= R25_YJK,				// Use YJK mode (5-bits for lightness)
+	VDP_YJK_YAE				= (R25_YJK|R25_YAE),	// Use YJK mode (4-bits for lightness) + 16 colors palette
+};
+
 // Function: VDP_SetYJK
-// Set YJK mode for MSX2+
+// Set YJK mode [2+/TR].
+// See VDP_YJK enum.
 void VDP_SetYJK(u8 mode);
+
+// Function: VDP_SetHorizontalOffset
+// Set the horizontal rendeing offset (in pixel) [2+/TR]
+void VDP_SetHorizontalOffset(u16 offset)
 
 #endif
 
