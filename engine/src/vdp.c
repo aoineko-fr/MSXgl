@@ -1167,37 +1167,6 @@ u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0)
 
 //=============================================================================
 //
-//  █▀▄▀█ █▀ ▀▄▀   ▀█  ▄    █▀▀ █ █ █▄ █ █▀▀ ▀█▀ █ █▀█ █▄ █ █▀
-//  █ ▀ █ ▄█ █ █   █▄ ▀█▀   █▀  █▄█ █ ▀█ █▄▄  █  █ █▄█ █ ▀█ ▄█
-//
-//=============================================================================
-
-#if (MSX_VERSION >= MSX_2P)
-
-//-----------------------------------------------------------------------------
-// Set YJK mode [2+/TR]
-void VDP_SetYJK(u8 mode)
-{
-	u8 reg = g_VDP_REGSAV[25];
-	reg &= ~VDP_YJK_YAE;
-	reg |= mode;
-	VDP_RegWriteBak(25, reg);
-}
-
-//-----------------------------------------------------------------------------
-// Set the horizontal rendeing offset (in pixel) [2+/TR]
-void VDP_SetHorizontalOffset(u16 offset)
-{
-	u8 reg = offset & 0x07;
-	VDP_RegWrite(27, reg);
-	reg = offset >> 3;
-	VDP_RegWrite(26, reg);
-}
-
-#endif
-
-//=============================================================================
-//
 //  █ █ █▀▄ █▀█   █▀▀ █▀█ █▀▄▀█ █▀▄▀█ ▄▀█ █▄ █ █▀▄ █▀
 //  ▀▄▀ █▄▀ █▀▀   █▄▄ █▄█ █ ▀ █ █ ▀ █ █▀█ █ ▀█ █▄▀ ▄█
 //
@@ -1298,9 +1267,28 @@ void VPD_CommandWriteLoop(const u8* addr) __FASTCALL
 
 #if (MSX_VERSION >= MSX_2P)
 
+//-----------------------------------------------------------------------------
+// Set YJK mode [2+/TR]
+void VDP_SetYJK(u8 mode)
+{
+	u8 reg = g_VDP_REGSAV[25];
+	reg &= ~VDP_YJK_YAE;
+	reg |= mode;
+	VDP_RegWriteBak(25, reg);
+}
 
+//-----------------------------------------------------------------------------
+// Set the horizontal rendeing offset (in pixel) [2+/TR]
+void VDP_SetHorizontalOffset(u16 offset)
+{
+	u8 reg = offset & 0x07;
+	VDP_RegWrite(27, reg);
+	reg = offset >> 3;
+	VDP_RegWrite(26, reg);
+}
 
-#endif // (MSX_VERSION >= MSX_2P)
+#endif
+
 
 //=============================================================================
 //
@@ -1678,6 +1666,11 @@ void VDP_SetLayoutTable(VADDR addr)
 			break;
 		case VDP_MODE_GRAPHIC6:
 		case VDP_MODE_GRAPHIC7:
+		#if (MSX_VERSION >= MSX_2P)
+		case VDP_MODE_SCREEN10:
+		case VDP_MODE_SCREEN11:
+		case VDP_MODE_SCREEN12:
+		#endif
 			reg >>= 1;
 		case VDP_MODE_GRAPHIC4:
 		case VDP_MODE_GRAPHIC5:
@@ -1797,6 +1790,11 @@ void VDP_SetSpriteAttributeTable(VADDR addr)
 		case VDP_MODE_GRAPHIC5:
 		case VDP_MODE_GRAPHIC6:
 		case VDP_MODE_GRAPHIC7:
+		#if (MSX_VERSION >= MSX_2P)
+		case VDP_MODE_SCREEN10:
+		case VDP_MODE_SCREEN11:
+		case VDP_MODE_SCREEN12:
+		#endif
 			reg |= 0b111;
 			break;
 		};

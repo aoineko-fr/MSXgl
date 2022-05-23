@@ -532,7 +532,7 @@ void VDP_SetYJK(u8 mode);
 
 // Function: VDP_SetHorizontalOffset
 // Set the horizontal rendeing offset (in pixel) [2+/TR]
-void VDP_SetHorizontalOffset(u16 offset)
+void VDP_SetHorizontalOffset(u16 offset);
 
 #endif
 

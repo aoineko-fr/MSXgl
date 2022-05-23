@@ -35,12 +35,15 @@ struct ImageEntry
 // Images table
 const struct ImageEntry g_Images[] =
 {
-	{ "IMAGE01 SC5", "Screen 5", VDP_MODE_SCREEN5 },
-	{ "IMAGE01 SC8", "Screen 8", VDP_MODE_SCREEN8 },
-	{ "IMAGE04 SC5", "Screen 5", VDP_MODE_SCREEN5 },
-	{ "IMAGE04 SC8", "Screen 8", VDP_MODE_SCREEN8 },
-	{ "PALETTE SC5", "Screen 5", VDP_MODE_SCREEN5 },
-	{ "PALETTE SC8", "Screen 8", VDP_MODE_SCREEN8 },
+	{ "IMAGE01 SC5", "Screen 5",  VDP_MODE_SCREEN5 },
+	{ "IMAGE01 SC8", "Screen 8",  VDP_MODE_SCREEN8 },
+	{ "IMAGE01 S12", "Screen 12", VDP_MODE_SCREEN12 },
+	{ "IMAGE04 SC5", "Screen 5",  VDP_MODE_SCREEN5 },
+	{ "IMAGE04 SC8", "Screen 8",  VDP_MODE_SCREEN8 },
+	{ "IMAGE04 S12", "Screen 12", VDP_MODE_SCREEN12 },
+	{ "PALETTE SC5", "Screen 5",  VDP_MODE_SCREEN5 },
+	{ "PALETTE SC8", "Screen 8",  VDP_MODE_SCREEN8 },
+	{ "PALETTE S12", "Screen 12", VDP_MODE_SCREEN12 },
 };
 
 //=============================================================================
@@ -143,25 +146,64 @@ StartProgram:
 	DOS_StringOutput("+--------------------+\n\r$");
 	DOS_StringOutput("| MSXgl - DOS Sample |\n\r$");
 	DOS_StringOutput("+--------------------+\n\r$");
+	u8 vdp = VDP_GetVersion();
+	switch(vdp)
+	{
+	case VDP_VERSION_TMS9918A:
+		DOS_StringOutput("VDP: MSX1\n\r$");
+		break;
+	case VDP_VERSION_V9938:
+		DOS_StringOutput("VDP: MSX2\n\r$");
+		break;
+	case VDP_VERSION_V9958:
+		DOS_StringOutput("VDP: MSX2+\n\r$");
+		break;
+	default:
+		DOS_StringOutput("VDP: Unknow\n\r$");
+	}
+	
 	DOS_StringOutput("Which screen mode?\n\r$");
-	DOS_StringOutput(" (can be: 5, 8)\n\r$");
+	DOS_StringOutput(" (can be: 5, 8, c)\n\r$");
 
 	// Setup screen mode
 	u8 scrMode;
 	i8 scrChr = DOS_CharInput();
 	DOS_Beep();
 	DOS_Return();
+	const c8* wildcard;
 	switch(scrChr)
 	{
 	case '5':
 		DOS_StringOutput("Screen mode 5 selected\n\r\n\r$");
 		DOS_StringOutput("Searching for *.SC5 files...\n\r$");
 		scrMode = VDP_MODE_SCREEN5;
+		wildcard = "????????SC5";
 		break;
 	case '8':
+		if(vdp < VDP_VERSION_V9938)
+		{
+			DOS_StringOutput("Error: Screen 8 need MSX2/2+ VDP!\n\r$");
+			DOS_StringOutput("Press a key...\n\r$");
+			DOS_CharInput();
+			goto StartProgram;		
+		}
 		DOS_StringOutput("Screen mode 8 selected\n\r\n\r$");
 		DOS_StringOutput("Searching for *.SC8 files...\n\r$");
 		scrMode = VDP_MODE_SCREEN8;
+		wildcard = "????????SC8";
+		break;
+	case 'c':
+		if(vdp < VDP_VERSION_V9958)
+		{
+			DOS_StringOutput("Error: Screen 12 need MSX2+ VDP!\n\r$");
+			DOS_StringOutput("Press a key...\n\r$");
+			DOS_CharInput();
+			goto StartProgram;		
+		}
+		DOS_StringOutput("Screen mode 12 selected\n\r\n\r$");
+		DOS_StringOutput("Searching for *.S12 files...\n\r$");
+		scrMode = VDP_MODE_SCREEN12;
+		wildcard = "????????S12";
 		break;
 	default:
 		DOS_StringOutput("Error: Unsupported screen mode!\n\r$");
@@ -173,8 +215,7 @@ StartProgram:
 
 	// Search for compatible images
 	Mem_Set(0, &g_File, sizeof(FCB));
-	Mem_Copy("????????SC?", &g_File.Name, 11);
-	g_File.Name[10] = scrChr;
+	Mem_Copy(wildcard, &g_File.Name, 11);
 	g_FileNum = 0;
 	if(DOS_FindFirstFile(&g_File) == DOS_NO_ERROR)
 	{
