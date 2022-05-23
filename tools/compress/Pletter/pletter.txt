@@ -1,0 +1,57 @@
+ Pletter v0.5c1 - XL2S Entertainment 2008
+-==============---==================------
+
+Pletter is a PC based compressor with an MSX based decompressor.
+ 
+ What has changed
+-================-
+
+version 0.5c1
+- Now also with working pletter.exe.
+
+version 0.5c
+- The size of the data can be saved in the file.
+- Version 0.5c uses a smaller maximum look back buffer size. This means the new unpacker cannot unpack all files packed with version 0.5b; old 0.5 unpackers can unpack 0.5c files though. Unless you let Pletter store the filesize in the file.
+
+version 0.5a
+- The size of the lookbackbuffer is stored in the compressed data.
+
+ How to compress
+-===============-
+The compressor only works on PC (or any other system that is able to get the source compiled):
+pletter [-s] <source file> [[offset [length]] [<destination file>]]
+
+The sourcefile is the file to compress. When the destination file is omitted, it will be constructed the following way: sourcefilename+.plet5
+
+So: pletter xl2slogo.sc2
+Will (hopefully ;) result in a file called: xl2slogo.sc2.plet5
+
+It is possible to compress a part of a file by specifying the start and, optionally, the length:
+
+pletter fun.sc5 7
+will skip the bin header and result in a file called fun.sc5.plet5.
+
+The –s option makes Pletter save the length of the original data at the beginning of the file. If you use this option, you have to modify the unpack routine.
+
+ How to decompress
+-=================-
+- Include unpack.asm in your sourcefile.
+- Include the compressed data in your sourcefile.
+- Call unpack with in HL a pointer to the compressed data, and in DE the destination.
+
+Example:
+
+ <some code>
+
+  ld hl,data
+  ld de,8000h
+  call unpack
+
+  <more code>
+
+  include unpack.asm  ; include the unpacker
+data
+  incbin data.gfx.plet5  ; the data
+
+
+If you used to option to include the length of the uncompressed data in the file, you should modify the unpack routine to skip it, or skip it yourself by using ld hl,data+2, or even just incbin "data.gfx.plet5",2.

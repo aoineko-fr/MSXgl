@@ -515,6 +515,17 @@ void VDP_SetInterlace(bool enable);
 // Enable automatic page switch on even/odd frames
 void VDP_SetPageAlternance(bool enable);
 
+#if (MSX_VERSION >= MSX_2P)
+
+#define VDP_YJK_OFF				0
+#define VDP_YJK_ON				R25_YJK
+#define VDP_YJK_YAE				(R25_YJK|R25_YAE)
+// Function: VDP_SetYJK
+// Set YJK mode for MSX2+
+void VDP_SetYJK(u8 mode);
+
+#endif
+
 //-----------------------------------------------------------------------------
 // Group: Helper
 //-----------------------------------------------------------------------------

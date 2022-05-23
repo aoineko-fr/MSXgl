@@ -80,7 +80,7 @@ void VDP_SetModeGraphic7();
 // VDP Registers
 
 u8 g_VDP_REGSAV[28];
-u8 g_VDP_STASAV[10];
+// u8 g_VDP_STASAV[10];
 
 struct VDP_Data    g_VDP_Data;
 
@@ -1167,6 +1167,27 @@ u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0)
 
 //=============================================================================
 //
+//  █▀▄▀█ █▀ ▀▄▀   ▀█  ▄    █▀▀ █ █ █▄ █ █▀▀ ▀█▀ █ █▀█ █▄ █ █▀
+//  █ ▀ █ ▄█ █ █   █▄ ▀█▀   █▀  █▄█ █ ▀█ █▄▄  █  █ █▄█ █ ▀█ ▄█
+//
+//=============================================================================
+
+#if (MSX_VERSION >= MSX_2P)
+
+//-----------------------------------------------------------------------------
+// Set YJK mode for MSX2+
+void VDP_SetYJK(u8 mode)
+{
+	u8 reg = g_VDP_REGSAV[25];
+	reg &= ~VDP_YJK_YAE;
+	reg |= mode;
+	VDP_RegWriteBak(25, reg);
+}
+
+#endif
+
+//=============================================================================
+//
 //  █ █ █▀▄ █▀█   █▀▀ █▀█ █▀▄▀█ █▀▄▀█ ▄▀█ █▄ █ █▀▄ █▀
 //  ▀▄▀ █▄▀ █▀▀   █▄▄ █▄█ █ ▀ █ █ ▀ █ █▀█ █ ▀█ █▄▀ ▄█
 //
@@ -1310,7 +1331,7 @@ __asm
 __endasm;
 #endif
 
-	g_VDP_STASAV[0] = g_STATFL;
+	// g_VDP_STASAV[0] = g_STATFL;
 
 	#if (VDP_AUTO_INIT)
 	g_VDPInitilized = true;
@@ -1385,7 +1406,12 @@ void VDP_SetMode(const u8 mode)
 		
 #if (VDP_USE_MODE_G7)
 	// case VDP_MODE_SCREEN8:
-	case VDP_MODE_GRAPHIC7:		VDP_SetModeGraphic7(); break;
+	case VDP_MODE_GRAPHIC7:		
+		VDP_SetModeGraphic7();
+		#if (MSX_VERSION >= MSX_2P)
+		VDP_SetYJK(VDP_YJK_OFF);
+		#endif
+		break;
 #endif
 		
 // #if (VDP_USE_MODE_G5)
@@ -1406,28 +1432,21 @@ void VDP_SetMode(const u8 mode)
 
 //.............................................................................
 // MSX 2+
-#if (MSX_VERSION >= MSX_2P)
-
-#if (VDP_USE_MODE_G7)
+#if ((MSX_VERSION >= MSX_2P) && (VDP_USE_MODE_G7))
 	case VDP_MODE_SCREEN10:
-		VDP_SetModeGraphic7();
-		// @todo Further setting needed
-		break;
-
 	case VDP_MODE_SCREEN11:
 		VDP_SetModeGraphic7();
-		// @todo Further setting needed
+		VDP_SetYJK(VDP_YJK_YAE);
 		break;
 
 	case VDP_MODE_SCREEN12:
 		VDP_SetModeGraphic7();
-		// @todo Further setting needed
+		VDP_SetYJK(VDP_YJK_ON);
 		break;
-#endif // VDP_USE_MODE_G7
-
-#endif // (MSX_VERSION >= MSX_2P)
+#endif // ((MSX_VERSION >= MSX_2P) && (VDP_USE_MODE_G7))
 	}
 
+//.............................................................................
 // Default VDP setting
 	VDP_EnableDisplay(true);
 	VDP_EnableVBlank(true);

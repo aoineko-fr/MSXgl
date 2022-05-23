@@ -337,6 +337,13 @@
 //  	│	│	└────────────────── YAE must set with the YJK bit to get the screen 10/11 mode instead of screen 8. (0 by default)
 //  	│	└────────────────────── VDS should always be to 0 because it determines the function of the VDP pin 8 which clocks the Z80A to 3.579545 MHz. If this bit is set the pin 8 becomes a VDS output.
 //  	└────────────────────────── CMD enables the VDP commands for screens 0 to 4 when 1. Coordinates work like in SCREEN 8. This bit is reseted when the screen mode is changed. (0 by default)
+#define R25_SP2						(0b00000001)
+#define R25_MAK						(0b00000010)
+#define R25_WTE						(0b00000100)
+#define R25_YJK						(0b00001000)
+#define R25_YAE						(0b00010000)
+#define R25_VDS						(0b00100000)
+#define R25_CMD						(0b01000000)
 
 //-----------------------------------------------------------------------------
 // R#26
