@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("vra",["Enumeration"],[["VRAM_SIZE",,[[,,,,0,"File:vdp.h:VRAM_SIZE"]]]]);

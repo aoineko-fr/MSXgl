@@ -273,7 +273,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 //
-i8 DOS2_Open(char *, ui8) __sdcccall(0)
+i8 DOS2_Open(const char* a, u8 b) __sdcccall(0)
 {
 __asm
 	push iy
@@ -289,7 +289,7 @@ __asm
 	ld c,#0x43
 	call BDOS
 	// check error
-	ld (_last_error),a
+	ld (_g_DOS_LastError),a
 	add a,#0
 	jp z,_open_ok
 	ld l,#-1
@@ -304,7 +304,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 //
-i8 DOS2_Create(char *, u8, u8) __sdcccall(0)
+i8 DOS2_Create(const char* a, u8 b, u8 c) __sdcccall(0)
 {
 __asm
 	push iy
@@ -322,7 +322,7 @@ __asm
 	ld c,#0x44
 	call BDOS
 	// check error
-	ld (_last_error),a
+	ld (_g_DOS_LastError),a
 	add a,#0
 	jp z,_creat_ok
 	ld l,#-1
@@ -337,7 +337,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 //
-i8 DOS2_Close(i8) __sdcccall(0)
+i8 DOS2_Close(i8 a) __sdcccall(0)
 {
 __asm
 	push iy
@@ -350,7 +350,7 @@ __asm
 	ld c,#0x45
 	call BDOS
 	// return
-	ld (_last_error),a
+	ld (_g_DOS_LastError),a
 	ld l,a
 
 	pop iy
@@ -359,7 +359,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 //
-i8 DOS2_Duplicate(i8) __sdcccall(0)
+i8 DOS2_Duplicate(i8 a) __sdcccall(0)
 {
 __asm
 	push iy
@@ -372,7 +372,7 @@ __asm
 	ld c,#0x47
 	call BDOS
 	// return
-	ld (_last_error),a
+	ld (_g_DOS_LastError),a
 	add a,#0
 	jp z,_dup_ok
 	ld l,#-1
@@ -387,7 +387,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 //
-i16 DOS2_Read(i8, void *, i16) __sdcccall(0)
+i16 DOS2_Read(i8 a, void* b, i16 c) __sdcccall(0)
 {
 __asm
 	push iy
@@ -406,7 +406,7 @@ __asm
 	ld c,#0x48
 	call BDOS
 	// return
-	ld (_last_error),a
+	ld (_g_DOS_LastError),a
 	add a,#0
 	jp z,_read_end
 	ld h,#-1
@@ -419,7 +419,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 //
-i16 DOS2_Write(i8, void *, i16) __sdcccall(0)
+i16 DOS2_Write(i8 a, void* b, i16 c) __sdcccall(0)
 {
 __asm
 	push iy
@@ -438,7 +438,7 @@ __asm
 	ld c,#0x49
 	call BDOS
 	// return
-	ld (_last_error),a
+	ld (_g_DOS_LastError),a
 	add a,#0
 	jp z,_write_end
 	ld h,#-1
@@ -451,7 +451,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 //
-u32 DOS2_LSeek(i8, u32, u8) __sdcccall(0)
+u32 DOS2_LSeek(i8 a, u32 b, u8 c) __sdcccall(0)
 {
 __asm
 	push iy
@@ -471,7 +471,7 @@ __asm
 	ld c,#0x4A
 	call BDOS
 	// return
-	ld (_last_error),a
+	ld (_g_DOS_LastError),a
 	add a,#0
 	jp z,_lseek_end
 	ld h,#-1
@@ -484,7 +484,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 //
-void DOS2_Exit(i8) __sdcccall(0)
+void DOS2_Exit(i8 a) __sdcccall(0)
 {
 __asm
 	push iy

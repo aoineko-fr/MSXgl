@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("bit",["File","Macro","Function"],[["bitbuster",,[[,,,,0,"File:compress/bitbuster1_3.asm:bitbuster"]]],["BITBUSTER_OPTIMIZE_SPEED",,[[,,,,1,"File:compress/bitbuster1_3.asm:BITBUSTER_OPTIMIZE_SPEED"]]],["Bitbuster_Unpack",,[[,,,,2,"File:compress/bitbuster.h:Bitbuster_Unpack"]]]]);

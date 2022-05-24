@@ -80,7 +80,6 @@ void VDP_SetModeGraphic7();
 // VDP Registers
 
 u8 g_VDP_REGSAV[28];
-// u8 g_VDP_STASAV[10];
 
 struct VDP_Data    g_VDP_Data;
 
@@ -125,8 +124,12 @@ bool g_VDPInitilized = false;		// Address of the Sprite Color Table
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Set screen mode flag
-void VDP_SetModeFlag(u8 flag) // 111 00
+// Set screen mode flag [MSX1/2/2+/TR]
+// VRAM tables address must be set to fit the new screen mode
+//
+// Parameters:
+//   flag - Screen binary flag
+void VDP_SetModeFlag(u8 flag)
 {
 	// VDP register #1
 	u8 reg1 = g_VDP_REGSAV[1];
@@ -228,10 +231,12 @@ void VDP_ClearVRAM()
 #if ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
 
 //-----------------------------------------------------------------------------
-// Write data from RAM to VRAM (16KB VRAM)
-// @param		src			Source data address in RAM
-// @param		dest		Destiation address in VRAM (14bits address form 16KB VRAM)
-// @param		count		Nomber of byte to copy in VRAM
+// Write data from RAM to VRAM [MSX1/2/2+/TR]
+//
+// Parameters:
+//   src   - Source data address in RAM
+//   dest  - Destiation address in VRAM (14bits address for 16KB VRAM)
+//   count - Nomber of byte to copy in VRAM
 void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 {
 	src;   // IY+0
@@ -307,10 +312,12 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 }
 
 //-----------------------------------------------------------------------------
-// Fill VRAM area with a given value
-// @param		value		Byte value to copy in VRAM
-// @param		dest		Destiation address in VRAM (14 bits address form 16 KB VRAM)
-// @param		count		Nomber of byte to copy in VRAM
+// Fill VRAM area with a given value [MSX1/2/2+/TR]
+//
+// Parameters:
+//   value	- Byte value to copy in VRAM
+//   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
+//   count	- Nomber of byte to copy in VRAM
 void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __sdcccall(0)
 {
 	value; // IY+0
@@ -355,10 +362,12 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __sdcccall(0)
 }
 
 //-----------------------------------------------------------------------------
-// Read data from VRAM to RAM
-// @param		src			Source address in VRAM (14bits address form 16KB VRAM)
-// @param		dst			Desitation data address in RAM
-// @param		count		Nomber of byte to copy from VRAM
+// Read data from VRAM to RAM [MSX1/2/2+/TR]
+//
+// Parameters:
+//   src	- Source address in VRAM (14bits address form 16KB VRAM)
+//   dst	- Desitation data address in RAM
+//   count	- Nomber of byte to copy from VRAM
 void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
 {
 	src;   // IY+0
@@ -434,7 +443,13 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
 }
 
 //-----------------------------------------------------------------------------
-// Read a value from VRAM
+// Read a value from VRAM [MSX1/2/2+/TR]
+//
+// Parameters:
+//   dest	- Desitation address in VRAM (14bits address form 16KB VRAM)
+//
+// Return:
+//   Value read in VRAM
 u8 VDP_Peek_16K(u16 dest)
 {
 	dest; // HL
@@ -468,7 +483,11 @@ u8 VDP_Peek_16K(u16 dest)
 }
 
 //-----------------------------------------------------------------------------
-// Write a value to VRAM
+// Write a value to VRAM [MSX1/2/2+/TR]
+//
+// Parameters:
+//   val	- Value to write in VRAM
+//   dest	- Desitation address in VRAM (14bits address form 16KB VRAM)
 void VDP_Poke_16K(u8 val, u16 dest)
 {
 	val;  // A
@@ -688,7 +707,9 @@ void VDP_SetModeGraphic7()
 
 //-----------------------------------------------------------------------------
 // Read a given status register then reset status register to default (0) [MSX2/2+/TR]
-// @param		stat		Status register index (0-9)
+//
+// Parameters:
+//   stat - Status register number (0-9)
 u8 VDP_ReadStatus(u8 stat) __FASTCALL
 {
 	stat;
@@ -734,8 +755,10 @@ void VDP_SetFrequency(u8 freq)
 }
 
 //-----------------------------------------------------------------------------
-// Enable/disable horizontal-blank interruption [MSX2/2+/TR]
-// @param		enable		True to enable, false do disable
+// Enable/disable horizontal interruption [MSX2/2+/TR]
+//
+// Parameters:
+//   enable - True to enable, false do disable
 void VDP_EnableHBlank(bool enable)
 {
 	u8 reg = g_VDP_REGSAV[0];
@@ -743,22 +766,6 @@ void VDP_EnableHBlank(bool enable)
 	if(enable)
 		reg |= R00_IE1;
 	VDP_RegWriteBak(0, reg);
-}
-
-//-----------------------------------------------------------------------------
-// Set the horizontal-blank interruption line (in pixel) [MSX2/2+/TR]
-// @param		line		Line number where the interruption will occure
-void VDP_SetHBlankLine(u8 line)
-{
-	VDP_RegWrite(19, line);
-}
-
-//-----------------------------------------------------------------------------
-// Set the vertical rendeing offset (in pixel) [MSX2/2+/TR]
-// @param		offset		Number of lines of offset from the "normal" top of the screen
-void VDP_SetVerticalOffset(u8 offset)
-{
-	VDP_RegWrite(23, offset);
 }
 
 //-----------------------------------------------------------------------------
@@ -777,9 +784,8 @@ void VDP_SetAdjustOffset(u8 offset)
 // 						Format : [0:5|green:3|0|red:3|0|blue:3]
 void VDP_SetPalette(const u8* pal) __FASTCALL
 {
-	pal;
+	pal; // HL
 	__asm
-//		ld		hl, pal				// FastCall
 		ld		a, #1
 		di  //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a
@@ -899,11 +905,13 @@ void VDP_SetPageAlternance(bool enable)
 #if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
 
 //-----------------------------------------------------------------------------
-// Write data from RAM to VRAM
-// @param		src			Source data address in RAM
-// @param		destLow		Destiation address in VRAM (16 LSB of 17-bits VRAM address)
-// @param		destHigh	Destiation address in VRAM (1 MSB of 17-bits VRAM address)
-// @param		count		Nomber of byte to copy in VRAM
+// Write data from RAM to VRAM [MSX2/2+/TR]
+//
+// Parameters:
+//   src		- Source data address in RAM
+//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
+//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
+//   count		- Nomber of byte to copy in VRAM
 void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count) __sdcccall(0)
 {
 	src;      // iy+5 iy+4
@@ -960,11 +968,13 @@ void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count) __sd
 }
 
 //-----------------------------------------------------------------------------
-// Fill VRAM area with a given value
-// @param		value		Byte value to copy in VRAM
-// @param		destLow		Destiation address in VRAM (16 LSB of 17-bits VRAM address)
-// @param		destHigh	Destiation address in VRAM (1 MSB of 17-bits VRAM address)
-// @param		count		Nomber of byte to copy in VRAM
+// Fill VRAM area with a given value [MSX2/2+/TR]
+//
+// Parameters:
+//   value		- Byte value to copy in VRAM
+//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
+//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
+//   count		- Nomber of byte to copy in VRAM
 void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall(0)
 {
 	value;		// iy+4
@@ -1014,11 +1024,11 @@ void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall
 }
 
 //-----------------------------------------------------------------------------
-// Read data from VRAM to RAM
-// @param		srcLow		Source address in VRAM (16 LSB of 17-bits VRAM address)
-// @param		srcHigh		Source address in VRAM (1 MSB of 17-bits VRAM address)
-// @param		dst			Desitation data address in RAM
-// @param		count		Nomber of byte to copy from VRAM
+// Read data from VRAM to RAM [MSX2/2+/TR]
+//   srcLow		- Source address in VRAM (16 LSB of 17-bits VRAM address)
+//   srcHigh	- Source address in VRAM (1 MSB of 17-bits VRAM address)
+//   dest		- Desitation data address in RAM
+//   count		- Nomber of byte to copy from VRAM
 void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0)
 {
 	srcLow, srcHigh, dest, count;
@@ -1072,7 +1082,12 @@ void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0
 }
 
 //-----------------------------------------------------------------------------
-// Write a value to VRAM
+// Write a value to VRAM [MSX2/2+/TR]
+//
+// Parameters:
+//   val		- Value to write in VRAM
+//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
+//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
 void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh) __sdcccall(0)
 {
 	val;      // IY+0
@@ -1117,7 +1132,14 @@ void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh) __sdcccall(0)
 }
 
 //-----------------------------------------------------------------------------
-// Read a value from VRAM
+// Read a value from VRAM [MSX2/2+/TR]
+//
+// Parameters:
+//   srcLow		- Source address in VRAM (16 LSB of 17-bits VRAM address)
+//   srcHigh	- Source address in VRAM (1 MSB of 17-bits VRAM address)
+//
+// Return:
+//   Value read in VRAM
 u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0)
 {
 	srcLow;  // IY+0
@@ -1268,7 +1290,7 @@ void VPD_CommandWriteLoop(const u8* addr) __FASTCALL
 #if (MSX_VERSION >= MSX_2P)
 
 //-----------------------------------------------------------------------------
-// Set YJK mode [2+/TR]
+// Set YJK mode [MSX2+/TR]
 void VDP_SetYJK(u8 mode)
 {
 	u8 reg = g_VDP_REGSAV[25];
@@ -1278,12 +1300,12 @@ void VDP_SetYJK(u8 mode)
 }
 
 //-----------------------------------------------------------------------------
-// Set the horizontal rendeing offset (in pixel) [2+/TR]
+// Set the horizontal rendeing offset (in pixel) [MSX2+/TR]
 void VDP_SetHorizontalOffset(u16 offset)
 {
-	u8 reg = offset & 0x07;
+	u8 reg = (8 - (offset & 0xFF)) & 0x07;
 	VDP_RegWrite(27, reg);
-	reg = offset >> 3;
+	reg = (offset + 7 ) >> 3;
 	VDP_RegWrite(26, reg);
 }
 
@@ -1298,7 +1320,9 @@ void VDP_SetHorizontalOffset(u16 offset)
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// Initialize VDP module
+// Initialize VDP module [MSX1/2/2+/TR]
+// Retreive BIOS initiale value.
+// This function is called automatically when VDP_SetMode() is called if the macro VDP_AUTO_INIT equals 1.
 void VDP_Initialize()
 {
 __asm
@@ -1329,8 +1353,6 @@ __asm
 __endasm;
 #endif
 
-	// g_VDP_STASAV[0] = g_STATFL;
-
 	#if (VDP_AUTO_INIT)
 	g_VDPInitilized = true;
 	#endif
@@ -1338,8 +1360,10 @@ __endasm;
 
 
 //-----------------------------------------------------------------------------
-// Set the current screen mode
-// @param 		mode		The new screen mode to set (@see VDP_MODE enum)
+// Set screen mode [MSX1/2/2+/TR]
+//
+// Parameters:
+//   mode - The new screen mode to set (see <VDP_MODE> enumeration)
 void VDP_SetMode(const u8 mode)
 {
 	#if (VDP_AUTO_INIT)
@@ -1536,7 +1560,11 @@ u8 VDP_GetVersion() __naked
 }
 
 //-----------------------------------------------------------------------------
-// Set register value
+// Set register value [MSX1/2/2+/TR]
+//
+// Parameters:
+//   reg   - Register number
+//   value - Value to set
 void VDP_RegWrite(u8 reg, u8 value)
 {
 	reg;	// A
@@ -1555,7 +1583,11 @@ void VDP_RegWrite(u8 reg, u8 value)
 }
 
 //-----------------------------------------------------------------------------
-// Set register value after backuping previous
+// Set register value after backuping previous value [MSX1/2/2+/TR]
+//
+// Parameters:
+//   reg   - Register number
+//   value - Value to set
 void VDP_RegWriteBak(u8 reg, u8 value)
 {
 	reg;	// A
@@ -1602,7 +1634,7 @@ void VDP_RegWriteBak(u8 reg, u8 value)
 	ASM_REG_WRITE(_reg, _val)
 
 //-----------------------------------------------------------------------------
-// Read default S#0 register
+// Read default S#0 register [MSX1/2/2+/TR]
 u8 VDP_ReadDefaultStatus()
 {
 	__asm
@@ -1612,7 +1644,7 @@ u8 VDP_ReadDefaultStatus()
 }
 
 //-----------------------------------------------------------------------------
-// Enable/disable vertical interruption
+// Enable/disable vertical interruption [MSX1/2/2+/TR]
 void VDP_EnableVBlank(bool enable)
 {
 	u8 reg = g_VDP_REGSAV[1];
@@ -1623,7 +1655,7 @@ void VDP_EnableVBlank(bool enable)
 }
 
 //-----------------------------------------------------------------------------
-// Enable/disable screen display
+// Enable/disable screen display [MSX1/2/2+/TR]
 void VDP_EnableDisplay(bool enable)
 {
 	u8 reg = g_VDP_REGSAV[1];
@@ -1641,13 +1673,6 @@ void VDP_SetPage(u8 page)
 	reg &= 0x9F;
 	reg |= page << 5;
 	VDP_RegWriteBak(2, reg);
-}
-
-//-----------------------------------------------------------------------------
-// Set text and border default color
-void VDP_SetColor(u8 color)
-{
-	VDP_RegWrite(7, color);
 }
 
 //-----------------------------------------------------------------------------
@@ -1760,7 +1785,7 @@ void VDP_EnableSprite(u8 enable)
 #endif
 
 //-----------------------------------------------------------------------------
-// Set sprite parameters
+// Set sprite parameters [MSX1/2/2+/TR]
 void VDP_SetSpriteFlag(u8 flag)
 {
 	u8 reg = g_VDP_REGSAV[1];

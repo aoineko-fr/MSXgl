@@ -19,6 +19,12 @@
 #include "vdp_reg.h"
 #include "bios_var.h"
 
+//=============================================================================
+// DEFINES
+//=============================================================================
+
+#define VDP_UNDOCUMENTED 1
+
 // @todo Handle VRAM read/write access timing
 //
 // Minimum VRAM access timings in 3.58 MHz Z80 cycles
@@ -52,7 +58,7 @@
 // Structure used to store VDP module data
 struct VDP_Data
 {
-	u8  Mode;		// Current screen mode (@see VDP_MODE)
+	u8  Mode;		// Current screen mode (see <VDP_MODE>)
 	u8  BPC : 4;	// Bits per color of the current mode (can be 1, 2, 4 or 8)
 	u8  Width : 1;	// Width of the current screen (0: 256 px, 1: 512 px)
 	u8  Height : 1;	// Height of the current screen (0: 192 px, 1: 212 px)
@@ -72,16 +78,16 @@ struct VDP_Command
 	u8  CMD; // 46
 };
 
-// Structure to store a sprite attribute. @see function VDP_SetSpriteAttribute
+// Structure to store a sprite attribute. see function <VDP_SetSprite>
 struct VDP_Sprite
 {
-    u8 Y;			//< Y coordinate on screen (all lower priority sprite will be disable if equal to 216 or 0xD0)
-    u8 X;			//< X coordinate of the sprite
-    u8 Pattern;		//< Pattern index
-    u8 Color;		//< Color index (Sprite Mode 1 only)
-    // u8 Color   : 4;	//< Color index (Sprite Mode 1 only)
-    // u8 _unused : 3;	//< (unused 3 bits)
-    // u8 EC      : 1;	//< Early clock ; used to offset sprite by  32  dots  to  the  left  (Sprite Mode 1 only)
+    u8 Y;			// Y coordinate on screen (all lower priority sprite will be disable if equal to 216 or 0xD0)
+    u8 X;			// X coordinate of the sprite
+    u8 Pattern;		// Pattern index
+    u8 Color;		// Color index (Sprite Mode 1 only)
+    // u8 Color   : 4;	// Color index (Sprite Mode 1 only)
+    // u8 _unused : 3;	// (unused 3 bits)
+    // u8 EC      : 1;	// Early clock ; used to offset sprite by  32  dots  to  the  left  (Sprite Mode 1 only)
 };
 
 //-----------------------------------------------------------------------------
@@ -89,7 +95,6 @@ struct VDP_Sprite
 //-----------------------------------------------------------------------------
 
 extern u8 g_VDP_REGSAV[28];
-extern u8 g_VDP_STASAV[10];
 
 extern struct VDP_Data    g_VDP_Data;
 
@@ -152,32 +157,41 @@ extern u16 g_SpriteColorLow;		//< Address of the Sprite Color Table
 	#define USY				i8
 #endif
 
-
 #define VRAM16b(a)			(u16)((u32)(a >> 4))
 #define VRAM17b(a)			(u16)((u32)(a >> 1))
 #define Addr20bTo16b(a)		(u16)((u32)(a >> 4))	//< Convert 20-bits (V)RAM address into 16-bits with bit shifting
 #define Addr17bTo16b(a)		(u16)((u32)(a >> 1))	//< Convert 17-bits (V)RAM address into 16-bits with bit shifting
 
 #define REGSAV(a)			#(_g_VDP_REGSAV+a)
-#define STASAV(a)			#(_g_VDP_STASAV+a)
 
+// Enum: VDP_MODE
 // VDP display modes
 enum VDP_MODE
 {
+	//.........................................................................
 	// VDP modes
-	VDP_MODE_TEXT1 = 0,		// 00001	40 characters per line of text, one colour for each characte
-	VDP_MODE_MULTICOLOR,	// 00010	pseudo-graphic, one character divided into four block
-	VDP_MODE_GRAPHIC1,		// 00000	32 characters per one line of text, the COLOURed character available
-	VDP_MODE_GRAPHIC2,		// 00100	256 x 192, the colour is specififed for each 8 dots
-#if (MSX_VERSION >= MSX_2)
-	VDP_MODE_TEXT2,			// 01001	80 characters per line of text, character blinkable selection
-	VDP_MODE_GRAPHIC3,		// 01000	GRAPHIC 2 which can use sprite mode 2
-	VDP_MODE_GRAPHIC4,		// 01100	256 x 212; 16 colours are available for each dot
-	VDP_MODE_GRAPHIC5,		// 10000	512 x 212; 4 colours are available for each dot
-	VDP_MODE_GRAPHIC6,		// 10100	512 x 212; 16 colours are available for each dot
-	VDP_MODE_GRAPHIC7,		// 11100	256 x 212; 256 colours are available for each dot
+	VDP_MODE_MSX1        = 0,				// TMS 9918A video modes
+	VDP_MODE_TEXT1       = VDP_MODE_MSX1,	// 00 001	TEXT	40 characters per line of text, one colour for each characte
+	VDP_MODE_MULTICOLOR,					// 00 010	TILES	pseudo-graphic, one character divided into four block
+	VDP_MODE_GRAPHIC1,						// 00 000	TILES	32 characters per one line of text, the COLOURed character available
+	VDP_MODE_GRAPHIC2,						// 00 100	TILES	256 x 192, the colour is specififed for each 8 dots
+#if (VDP_UNDOCUMENTED)
+	VDP_MODE_UNDOC, 						// Undocumented video modes. Only available on TMS 9918A
+	VDP_MODE_UNDOC_0_2   = VDP_MODE_UNDOC,	// 00 101	
+	VDP_MODE_UNDOC_1_2,						// 00 100	
+	VDP_MODE_UNDOC_3_2,						// 00 110	
 #endif
-	// BASIC screens
+#if (MSX_VERSION >= MSX_2)
+	VDP_MODE_MSX2,							// V9938 video modes
+	VDP_MODE_TEXT2       = VDP_MODE_MSX2,	// 01 001	TEXT	80 characters per line of text, character blinkable selection
+	VDP_MODE_GRAPHIC3,						// 01 000	TILES	GRAPHIC 2 which can use sprite mode 2
+	VDP_MODE_GRAPHIC4,						// 01 100	BITMAP	256 x 212; 16 colours are available for each dot
+	VDP_MODE_GRAPHIC5,						// 10 000	BITMAP	512 x 212; 4 colours are available for each dot
+	VDP_MODE_GRAPHIC6,						// 10 100	BITMAP	512 x 212; 16 colours are available for each dot
+	VDP_MODE_GRAPHIC7,						// 11 100	BITMAP	256 x 212; 256 colours are available for each dot
+#endif
+	//.........................................................................
+	// BASIC screen modes
 	VDP_MODE_SCREEN0     = VDP_MODE_TEXT1,
 	VDP_MODE_SCREEN0_W40 = VDP_MODE_SCREEN0,
 	VDP_MODE_SCREEN1     = VDP_MODE_GRAPHIC1,
@@ -191,21 +205,20 @@ enum VDP_MODE
 	VDP_MODE_SCREEN7     = VDP_MODE_GRAPHIC6,
 	VDP_MODE_SCREEN8     = VDP_MODE_GRAPHIC7,
 	VDP_MODE_SCREEN9,
-	VDP_MODE_SCREEN9_40 = VDP_MODE_SCREEN9,
+	VDP_MODE_SCREEN9_40  = VDP_MODE_SCREEN9,
 	VDP_MODE_SCREEN9_80,
 #endif
 #if (MSX_VERSION >= MSX_2P)
-	VDP_MODE_SCREEN10,
+	VDP_MODE_MSX2P,							// V9958 video modes
+	VDP_MODE_SCREEN10 = VDP_MODE_MSX2P,
 	VDP_MODE_SCREEN11,
 	VDP_MODE_SCREEN12,
 #endif
-	VDP_MODE_UNDOC, // Undocumented screen mode. Only available on TMS 9918A
-	VDP_MODE_UNDOC_02 = VDP_MODE_UNDOC,	// 00101	
-	VDP_MODE_UNDOC_12,					// 00100	
-	VDP_MODE_UNDOC_32,					// 00110	
+	//.........................................................................
 	VDP_MODE_MAX,
 };
 
+// Enum: VDP_VERSION
 // VDP version enumaration
 enum VDP_VERSION
 {
@@ -214,6 +227,8 @@ enum VDP_VERSION
 	VDP_VERSION_V9958,			// MSX2+/Turbo-R VDP
 };
 
+// Enum: VRAM_SIZE
+// VRAM size enumaration
 enum VRAM_SIZE
 {
 	VRAM_16K	= 0b00,
@@ -222,6 +237,7 @@ enum VRAM_SIZE
 	VRAM_192K	= 0b11,	
 };
 
+// Get VRAM size macro
 #define GET_VRAM_SIZE()	((g_MODE >> 1) & 0x3)
 
 //-----------------------------------------------------------------------------
@@ -286,7 +302,7 @@ enum VRAM_SIZE
 #define VDP_G6_ADDR_SAT		0xFA00 // Sprite Attribute Table
 #define VDP_G6_ADDR_SPT		0xF000 // Sprite Pattern Table
 
-// Screen 8
+// Screen 8, 10, 11 & 12
 #define VDP_G7_MODE			0b11100
 #define VDP_G7_ADDR_NT		0x0000 // Name Table
 #define VDP_G7_ADDR_SAT		0xFA00 // Sprite Attribute Table
@@ -294,50 +310,57 @@ enum VRAM_SIZE
 
 // Screen 9 (Korean)
 
-// Screen 10
-
-// Screen 11
-
-// Screen 12
+//=============================================================================
+// PROTOTYPES
+//=============================================================================
 
 //-----------------------------------------------------------------------------
-// MSX 1 FUNCTIONS
+// Group: Helper
 //-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// MSX 2 FUNCTIONS
-//-----------------------------------------------------------------------------
+// Function: VDP_Initialize
+// Initialize VDP module [MSX1/2/2+/TR]
+// Retreive BIOS initiale value.
+// This function is called automatically when <VDP_SetMode> is called if the macro VDP_AUTO_INIT equals 1.
+void VDP_Initialize();
 
-//-----------------------------------------------------------------------------
-// MSX 2+ FUNCTIONS
-//-----------------------------------------------------------------------------
+// Function: VDP_GetVersion
+// Get VDP version [MSX1/2/2+/TR]
+//
+// Return:
+//   VDP identifier (see <VDP_VERSION>).
+u8 VDP_GetVersion() __naked;
 
-//-----------------------------------------------------------------------------
-// COMMON FUNCTIONS
-//-----------------------------------------------------------------------------
+// Function: VDP_ClearVRAM
+// Clear the VRAM content [MSX1/2/2+/TR]
+void VDP_ClearVRAM();
 
 //-----------------------------------------------------------------------------
 // Group: Screen mode
 //-----------------------------------------------------------------------------
 
-// Function: VDP_Initialize
-// Initialize VDP module
-void VDP_Initialize();
-
 // Function: VDP_SetMode
-// Set screen mode. @see VDP_MODE
+// Set screen mode [MSX1/2/2+/TR]
+//
+// Parameters:
+//   mode - The new screen mode to set (see <VDP_MODE> enumeration)
 void VDP_SetMode(const u8 mode);
 
 // Function: VDP_GetMode
-// Get screen mode
+// Get current screen mode [MSX1/2/2+/TR]
+//
+// Return:
+//   Current screen mode
 inline u8 VDP_GetMode() { return g_VDP_Data.Mode; }
 
-// Function: VDP_SetModeFlag
-// Set screen mode flag (VRAM tables address must be set to fit the new screen mode)
-void VDP_SetModeFlag(u8 flag);
-
 // Function: VDP_IsBitmapMode
-// Tell if the given screen mode is a bitmap mode (pattern/text mode otherwise)
+// Tell if the given screen mode is a bitmap mode (pattern/text mode otherwise) [MSX1/2/2+/TR]
+//
+// Parameters:
+//   mode - VDP mode to set (see <VDP_MODE> enumeration)
+//
+// Return:
+//   TRUE if the given screen mode is a bitmap mode, FALSE otherwise.
 inline bool VDP_IsBitmapMode(const u8 mode)
 {
 #if (MSX_VERSION == MSX_1)
@@ -348,175 +371,301 @@ inline bool VDP_IsBitmapMode(const u8 mode)
 }
 
 // Function: VDP_IsPatternMode
-// Tell if the given screen mode is a pattern/text mode (bitmap mode otherwise)
+// Tell if the given screen mode is a pattern/text mode (bitmap mode otherwise) [MSX1/2/2+/TR]
+//
+// Parameters:
+//   mode - VDP mode to set (see <VDP_MODE> enumeration)
+//
+// Return:
+//   TRUE if the given screen mode is a pattern/text mode, FALSE otherwise.
 inline bool VDP_IsPatternMode(const u8 mode) { return !VDP_IsBitmapMode(mode); }
+
+// Function: VDP_SetModeFlag
+// Set screen mode flag [MSX1/2/2+/TR]
+// VRAM tables address must be set to fit the new screen mode
+//
+// Parameters:
+//   flag - Screen binary flag
+void VDP_SetModeFlag(u8 flag);
 
 //-----------------------------------------------------------------------------
 // Group: Direct access
 //-----------------------------------------------------------------------------
 
 // Function: VDP_RegWrite
-// Set register value
+// Set register value [MSX1/2/2+/TR]
+//
+// Parameters:
+//   reg   - Register number
+//   value - Value to set
 void VDP_RegWrite(u8 reg, u8 value);
 
 // Function: VDP_RegWriteBak
-// Set register value after backuping previous
+// Set register value after backuping previous value [MSX1/2/2+/TR]
+//
+// Parameters:
+//   reg   - Register number
+//   value - Value to set
 void VDP_RegWriteBak(u8 reg, u8 value);
 
 // Function: VDP_ReadDefaultStatus
-// Read default S#0 register
+// Read default S#0 register [MSX1/2/2+/TR]
+//
+// Return:
+//   Status register #0 value
 u8 VDP_ReadDefaultStatus();
 
 // Function: VDP_ReadStatus
-// Read a given status register then reset status register to default (0)
+// Read a given status register then reset status register to default (0) [MSX2/2+/TR]
+//
+// Parameters:
+//   stat - Status register number (0-9)
+//
+// Return:
+//   The given status register value
 u8 VDP_ReadStatus(u8 stat) __FASTCALL;
 
 #if ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
 
 // Function: VDP_WriteVRAM_16K
-// Write data from RAM to VRAM
+// Write data from RAM to VRAM [MSX1/2/2+/TR]
+//
+// Parameters:
+//   src   - Source data address in RAM
+//   dest  - Destiation address in VRAM (14bits address for 16KB VRAM)
+//   count - Number of byte to copy in VRAM
 void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0);
 
 // Function: VDP_FillVRAM_16K
-// Fill VRAM area with a given value
+// Fill VRAM area with a given value [MSX1/2/2+/TR]
+//
+// Parameters:
+//   value	- Byte value to copy in VRAM
+//   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
+//   count	- Number of byte to copy in VRAM
 void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __sdcccall(0);
 
 // Function: VDP_ReadVRAM_16K
-// Read data from VRAM to RAM
+// Read data from VRAM to RAM [MSX1/2/2+/TR]
+//
+// Parameters:
+//   src	- Source address in VRAM (14bits address form 16KB VRAM)
+//   dest	- Desitation data address in RAM
+//   count	- Number of byte to copy from VRAM
 void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0);
 
 // Function: VDP_Poke_16K
-// Write a value to VRAM
+// Write a value to VRAM [MSX1/2/2+/TR]
+//
+// Parameters:
+//   val	- Value to write in VRAM
+//   dest	- Desitation address in VRAM (14bits address form 16KB VRAM)
 void VDP_Poke_16K(u8 val, u16 dest);
 
 // Function: VDP_Peek_16K
-// Read a value from VRAM
-u8 VDP_Peek_16K(u16 dest);
+// Read a value from VRAM [MSX1/2/2+/TR]
+//
+// Parameters:
+//   src	- Source address in VRAM (14bits address form 16KB VRAM)
+//
+// Return:
+//   Value read in VRAM
+u8 VDP_Peek_16K(u16 src);
 
 #endif // (VDP_USE_VRAM16K)
 
+// Set generic VRAM access function
 #if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_14)
 
 	#define VDP_WriteVRAM(src, destLow, destHigh, count)	VDP_WriteVRAM_16K(src, destLow, count)
 	#define VDP_FillVRAM(value, destLow, destHigh, count)	VDP_FillVRAM_16K(value, destLow, count)
 	#define VDP_ReadVRAM(srcLow, srcHigh, dest, count)		VDP_ReadVRAM_16K(srcLow, dest, count)
-
 	#define VDP_Poke(val, destLow, destHigh)				VDP_Poke_16K(val, destLow)
 	#define VDP_Peek(srcLow, srcHigh)						VDP_Peek_16K(srcLow)
 
 #else // (MSX_VERSION >= MSX_2)
 
 	// Function: VDP_WriteVRAM_128K
-	// Write data from RAM to VRAM
+	// Write data from RAM to VRAM [MSX2/2+/TR]
+	//
+	// Parameters:
+	//   src		- Source data address in RAM
+	//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
+	//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
+	//   count		- Nomber of byte to copy in VRAM
 	void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count) __sdcccall(0);
 
 	// Function: VDP_FillVRAM_128K
-	// Fill VRAM area with a given value
+	// Fill VRAM area with a given value [MSX2/2+/TR]
+	//
+	// Parameters:
+	//   value		- Byte value to copy in VRAM
+	//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
+	//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
+	//   count		- Nomber of byte to copy in VRAM
 	void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall(0);
 
 	// Function: VDP_ReadVRAM_128K
-	// Read data from VRAM to RAM
+	// Read data from VRAM to RAM [MSX2/2+/TR]
+	//
+	// Parameters:
+	//   srcLow		- Source address in VRAM (16 LSB of 17-bits VRAM address)
+	//   srcHigh	- Source address in VRAM (1 MSB of 17-bits VRAM address)
+	//   dest		- Desitation data address in RAM
+	//   count		- Nomber of byte to copy from VRAM
 	void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0);
 
 	// Function: VDP_Poke_128K
-	// Write a value to VRAM
+	// Write a value to VRAM [MSX2/2+/TR]
+	//
+	// Parameters:
+	//   val		- Value to write in VRAM
+	//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
+	//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
 	void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh) __sdcccall(0);
 
 	// Function: VDP_Peek_128K
-	// Read a value from VRAM
+	// Read a value from VRAM [MSX2/2+/TR]
+	//
+	// Parameters:
+	//   srcLow		- Source address in VRAM (16 LSB of 17-bits VRAM address)
+	//   srcHigh	- Source address in VRAM (1 MSB of 17-bits VRAM address)
+	//
+	// Return:
+	//   Value read in VRAM
 	u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0);
 
-	#define VDP_WriteVRAM(src, destLow, destHigh, count)	VDP_WriteVRAM_128K(src, destLow, destHigh, count)
-	#define VDP_FillVRAM(value, destLow, destHigh, count)	VDP_FillVRAM_128K(value, destLow, destHigh, count)
-	#define VDP_ReadVRAM(srcLow, srcHigh, dest, count)		VDP_ReadVRAM_128K(srcLow, srcHigh, dest, count)
-
-	#define VDP_Poke(val, destLow, destHigh)				VDP_Poke_128K(val, destLow, destHigh)
-	#define VDP_Peek(srcLow, srcHigh)						VDP_Peek_128K(srcLow, srcHigh)
+	#define VDP_WriteVRAM									VDP_WriteVRAM_128K
+	#define VDP_FillVRAM									VDP_FillVRAM_128K
+	#define VDP_ReadVRAM									VDP_ReadVRAM_128K
+	#define VDP_Poke										VDP_Poke_128K
+	#define VDP_Peek										VDP_Peek_128K
 
 #endif
 
 //-----------------------------------------------------------------------------
-// Group: Setup
+// Group: Display setup
 //-----------------------------------------------------------------------------
 
+// Function: VDP_EnableDisplay
+// Enable/disable screen display (register 1) [MSX1/2/2+/TR]
+//
+// Parameters:
+//   enable - True to enable, false do disable
+void VDP_EnableDisplay(bool enable);
+
+// Function: VDP_EnableVBlank
+// Enable/disable vertical interruption (register 1) [MSX1/2/2+/TR]
+//
+// Parameters:
+//   enable - True to enable, false do disable
+void VDP_EnableVBlank(bool enable);
+
 // Function: VDP_EnableHBlank
-// Enable/disable horizontal interruption [MSX2/2+/TR]
+// Enable/disable horizontal interruption (register 0) [MSX2/2+/TR]
+//
+// Parameters:
+//   enable - True to enable, false do disable
 void VDP_EnableHBlank(bool enable);
 
 // Function: VDP_SetHBlankLine
-// Set the horizontal-blank interruption line [MSX2/2+/TR]
-void VDP_SetHBlankLine(u8 line);
+// Set the horizontal-blank interruption line (register 19) [MSX2/2+/TR]
+//
+// Parameters:
+//   line - Line number where the interruption will occure
+inline void VDP_SetHBlankLine(u8 line) { VDP_RegWrite(19, line); }
 
 // Function: VDP_SetVerticalOffset
-// Set the vertical rendeing offset (in pixel) [MSX2/2+/TR]
-void VDP_SetVerticalOffset(u8 offset);
+// Set the vertical rendering offset (register 23) [MSX2/2+/TR]
+//
+// Parameters:
+//   offset - Number of lines of offset from the top of the screen
+inline void VDP_SetVerticalOffset(u8 offset) { VDP_RegWrite(23, offset); }
 
 // Function: VDP_SetAdjustOffset
-// Adjustment of the display location on the screen [MSX2/2+/TR]
+// Adjustment of the display location on the screen (register 18) [MSX2/2+/TR]
+//
+// Parameters:
+//   offset - Screen display position offset (MSB 4-bits: vertical offset, LSB 4-bits: horizontal offset)
 void VDP_SetAdjustOffset(u8 offset);
 
-// Function: VDP_EnableVBlank
-// Enable/disable vertical interruption
-void VDP_EnableVBlank(bool enable);
-
-// Function: VDP_EnableDisplay
-// Enable/disable screen display
-void VDP_EnableDisplay(bool enable);
-
 // Function: VDP_SetGrayScale
-// Enable/disable grayscale
+//
+// Parameters:
+//   enable - True to enable, false do disable
+// Enable/disable grayscale (register 8) [MSX2/2+/TR]
 void VDP_SetGrayScale(bool enable);
 
-#define VDP_FREQ_50HZ			R09_NT		//< Frequency at 50 Hz
-#define VDP_FREQ_60HZ			0			//< Frequency at 60 Hz
+// Enum: VDP_FREQ
+// VDP frequency flags
+enum VDP_FREQ
+{
+	VDP_FREQ_50HZ = R09_NT,		// Frequency at 50 Hz
+	VDP_FREQ_60HZ = 0,			// Frequency at 60 Hz
+};
 // Function: VDP_SetFrequency
-// Change VDP frequency
+// Change VDP frequency (register 9) [MSX2/2+/TR]
+//
+// Parameters:
+//   lines - Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)
 void VDP_SetFrequency(u8 freq);
 
-// Function: VDP_SetPage
-// Set current VRAM page
-void VDP_SetPage(u8 page);
+// Enum: VDP_LINE
+// VDP line flags
+enum VDP_LINE
+{
+	VDP_LINE_192 = 0,			// 192 lines mode
+	VDP_LINE_212 = R09_LN,		// 212 lines mode
+};
+// Function: VDP_SetLineCount
+// Set line count for the current screen mode (register 9) [MSX1/2/2+/TR]
+//
+// Parameters:
+//   lines - Can be VDP_LINE_192 or VDP_LINE_212
+void VDP_SetLineCount(u8 lines);
 
-// Function: VDP_SetLayoutTable
-// Set layout table VRAM address
-void VDP_SetLayoutTable(VADDR addr);
+// Function: VDP_SetPageAlternance
+// Enable automatic page switch on even/odd frames [MSX2/2+/TR]
+//
+// Parameters:
+//   enable - True to enable, false do disable
+void VDP_SetPageAlternance(bool enable);
 
-// Function: VDP_SetColorTable
-// Set color table VRAM address
-void VDP_SetColorTable(VADDR addr);
-
-// Function: VDP_SetPatternTable
-// Set pattern table VRAM address
-void VDP_SetPatternTable(VADDR addr);
+// Function: VDP_SetInterlace
+// Enable or disable interlace mode  [MSX2/2+/TR]
+// Needs <VDP_SetPageAlternance> to be set to TRUE and <VDP_SetPage> to a odd value.
+//
+// Parameters:
+//   enable - True to enable, false do disable
+void VDP_SetInterlace(bool enable);
 
 // Function: VDP_SetColor
-// Set text and border default color (format: [TXT:4|BG:4])
-void VDP_SetColor(u8 color);
+// Set text and border default color (register 7) [MSX1/2/2+/TR]
+//
+// Parameters:
+//   color - Defaut color (Format: [TXT:4|BG:4])
+inline void VDP_SetColor(u8 color) { VDP_RegWrite(7, color); }
 
 // Function: VDP_SetPalette
-// Set a new palette [red|blue][0|green]
+// Set a new color palette from index 1 to 15 [MSX2/2+/TR]
+//
+// Parameters:
+//   pal - Address of the palette in RAM (table of 15 * 2 bytes)
+//         Format: [0:5|green:3|0|red:3|0|blue:3]
 void VDP_SetPalette(const u8* pal) __FASTCALL;
 
 // Function: VDP_SetPaletteEntry
-// Set palette entry color
+// Set a given color entry in the palette [MSX2/2+/TR]
+//
+// Parameters:
+//   index - Index of the palette entry (0-15)
+//   color - 16 bits color value (@see RGB16 macro)
+//           Format: [0:5|green:3|0|red:3|0|blue:3]
 void VDP_SetPaletteEntry(u8 index, u16 color);
-
-#define VDP_LINE_192			0			//< 192 lines mode
-#define VDP_LINE_212			R09_LN		//< 212 lines mode
-// Function: VDP_SetLineCount
-// Set line count for the current screen mode
-void VDP_SetLineCount(u8 lines);
-
-// Function: VDP_SetInterlace
-// Enable or disable interlace mode
-void VDP_SetInterlace(bool enable);
-
-// Function: VDP_SetPageAlternance
-// Enable automatic page switch on even/odd frames
-void VDP_SetPageAlternance(bool enable);
 
 #if (MSX_VERSION >= MSX_2P)
 
+// Enum: VDP_YJK
 // YJK modes
 enum VDP_YJK
 {
@@ -526,27 +675,53 @@ enum VDP_YJK
 };
 
 // Function: VDP_SetYJK
-// Set YJK mode [2+/TR].
-// See VDP_YJK enum.
+// Set YJK mode [MSX2+/TR].
+// See <VDP_YJK> enum.
+//
+// Parameters:
+//   mode - YJK mode (can be VDP_YJK_OFF, VDP_YJK_ON or VDP_YJK_YAE)
 void VDP_SetYJK(u8 mode);
 
 // Function: VDP_SetHorizontalOffset
-// Set the horizontal rendeing offset (in pixel) [2+/TR]
+// Set the horizontal rendeing offset [MSX2+/TR]
+//
+// Parameters:
+//   offset - Screen horizontal offset (9-bits value in pixel)
 void VDP_SetHorizontalOffset(u16 offset);
 
 #endif
 
 //-----------------------------------------------------------------------------
-// Group: Helper
+// Group: VRAM tables address
 //-----------------------------------------------------------------------------
 
-// Function: VDP_GetVersion
-// Get VDP version
-u8 VDP_GetVersion() __naked;
+// Function: VDP_SetPage
+// Set current VRAM page [MSX2/2+/TR]
+void VDP_SetPage(u8 page);
 
-// Function: VDP_ClearVRAM
-// Clear the VRAM content
-void VDP_ClearVRAM();
+// Function: VDP_SetLayoutTable
+// Set layout table VRAM address [MSX1/2/2+/TR]
+void VDP_SetLayoutTable(VADDR addr);
+
+// Function: VDP_SetColorTable
+// Set color table VRAM address [MSX1/2/2+/TR]
+void VDP_SetColorTable(VADDR addr);
+
+// Function: VDP_SetPatternTable
+// Set pattern table VRAM address [MSX1/2/2+/TR]
+void VDP_SetPatternTable(VADDR addr);
+
+#if (VDP_USE_SPRITE)
+
+// Function: VDP_SetSpriteAttributeTable
+// Set sprite attribute table address [MSX1/2/2+/TR]
+void VDP_SetSpriteAttributeTable(VADDR addr);
+
+// Function: VDP_SetSpritePatternTable
+// Set sprite pattern table address [MSX1/2/2+/TR]
+void VDP_SetSpritePatternTable(VADDR addr);
+
+#endif
 
 //-----------------------------------------------------------------------------
 // Group: Sprite
@@ -572,14 +747,6 @@ inline void VDP_DisableSprite() { VDP_EnableSprite(false); }
 // Function: VDP_SetSpriteFlag
 // Set sprite parameters
 void VDP_SetSpriteFlag(u8 flag);
-
-// Function: VDP_SetSpriteAttributeTable
-// Set sprite attribute table address
-void VDP_SetSpriteAttributeTable(VADDR addr);
-
-// Function: VDP_SetSpritePatternTable
-// Set sprite pattern table address
-void VDP_SetSpritePatternTable(VADDR addr);
 
 // Function: VDP_SetSpriteTables
 // Set sprite table address (bit#16 to bit#1)

@@ -276,10 +276,10 @@ i8 DOS_FindNextFile();
 #define  SEEK_END			2
 
 //
-i8 DOS2_Open(char *, ui8) __sdcccall(0);
+i8 DOS2_Open(char *, u8) __sdcccall(0);
 
 //
-i8 DOS2_Create(char *, u8, u8); __sdcccall(0)
+i8 DOS2_Create(char *, u8, u8) __sdcccall(0);
 
 //
 i8 DOS2_Close(i8) __sdcccall(0);
