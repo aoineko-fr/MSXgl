@@ -9,6 +9,11 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+// Core
+#define true						TRUE	
+#define false						FALSE	
+#define null						NULL	
+
 // VDP module
 #define VDP_HideSpriteFrom			VDP_DisableSpritesFrom
 

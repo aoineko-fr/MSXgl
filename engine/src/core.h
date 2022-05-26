@@ -32,49 +32,50 @@
 //-----------------------------------------------------------------------------
 // Compilation switch
 //-----------------------------------------------------------------------------
-#pragma disable_warning	59		///< remove "function must return value" warning
-#pragma disable_warning	85		///< remove "unreferenced function argument" warning
-#pragma disable_warning	218 	///< remove "z80instructionSize() failed to parse line node, assuming 999 bytes" info
-
+#pragma disable_warning	59		// Remove "function must return value" warning
+#pragma disable_warning	85		// Remove "unreferenced function argument" warning
+#pragma disable_warning	110		// Remove "conditional flow changed by optimizer: so said EVELYN the modified DOG" warning
+#pragma disable_warning	126		// Remove "unreachable code" warning
+#pragma disable_warning	218 	// Remove "z80instructionSize() failed to parse line node, assuming 999 bytes" info
 //-----------------------------------------------------------------------------
 // Basic types
 //-----------------------------------------------------------------------------
 
 // Boolean
-typedef unsigned char		bool; 	///< 8 bits boolean type
-#define true				1		///< Value for "true" boolean
-#define false				0		///< Value for "false" boolean
+typedef unsigned char		bool; 	// 8 bits boolean type
+#define TRUE				1		// Value for "true" boolean
+#define FALSE				0		// Value for "false" boolean
 #define TOGGLE(a)			a = 1 - a
 
 // Integer	
-typedef signed char			i8;		///< 8 bits signed integer type
-typedef unsigned char		u8;		///< 8 bits unsigned integer type
-typedef signed short		i16;	///< 16 bits signed integer type
-typedef unsigned short		u16;	///< 16 bits unsigned integer type
-typedef signed long			i32;	///< 32 bits signed integer type
-typedef unsigned long		u32;	///< 32 bits unsigned integer type
-typedef signed long long	i64;	///< 64 bits signed integer type
-typedef unsigned long long	u64;	///< 64 bits unsigned integer type
+typedef signed char			i8;		// 8 bits signed integer type
+typedef unsigned char		u8;		// 8 bits unsigned integer type
+typedef signed short		i16;	// 16 bits signed integer type
+typedef unsigned short		u16;	// 16 bits unsigned integer type
+typedef signed long			i32;	// 32 bits signed integer type
+typedef unsigned long		u32;	// 32 bits unsigned integer type
+typedef signed long long	i64;	// 64 bits signed integer type
+typedef unsigned long long	u64;	// 64 bits unsigned integer type
 	
 // Float	
-typedef float				f32;	///< 32 bits float type (IEEE 754)
+typedef float				f32;	// 32 bits float type (IEEE 754)
 	
 // Character	
-typedef unsigned char		c8;		///< 8 bits character type
-typedef unsigned short		c16;	///< 16 bits character type
+typedef unsigned char		c8;		// 8 bits character type
+typedef unsigned short		c16;	// 16 bits character type
 	
 // Pointer	
-typedef void*				ptr;	///< Pointer type
-#define null				0		///< Pointer "null" value
+typedef void*				ptr;	// Pointer type
+#define NULL				0		// Pointer "null" value
 
 // Functions
-typedef void (*callback)(void);	///< Callback default signature
+typedef void (*callback)(void);		// Callback default signature
 
 //-----------------------------------------------------------------------------
 // Helper macros
 //-----------------------------------------------------------------------------
 
-/// Get the number of elements of a static initialized structure
+// Get the number of elements of a static initialized structure
 #define numberof(tab)		sizeof(tab) / sizeof(tab[0])
 	
 #define loop(a, b)			for(u8 a = 0; a < b; ++a)
@@ -145,9 +146,9 @@ typedef void (*callback)(void);	///< Callback default signature
 #define BIT_14				0x4000
 #define BIT_15				0x8000	// 16 bits MSB
 
-#define BIT_SET(val, bit)	val |=  (1 << bit)  	///< Macro to set a given bit in an integer
-#define BIT_CLR(val, bit)	val &= ~(1 << bit)  	///< Macro to clear a given bit in an integer
-#define BIT_ISSET(val, bit)	(val & (1 << bit) != 0)	///< Macro to tell if a given bit is set or not
+#define BIT_SET(val, bit)	val |=  (1 << bit)  	// Macro to set a given bit in an integer
+#define BIT_CLR(val, bit)	val &= ~(1 << bit)  	// Macro to clear a given bit in an integer
+#define BIT_ISSET(val, bit)	(val & (1 << bit) != 0)	// Macro to tell if a given bit is set or not
 
 //-----------------------------------------------------------------------------
 

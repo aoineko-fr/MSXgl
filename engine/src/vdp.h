@@ -570,14 +570,14 @@ u8 VDP_Peek_16K(u16 src);
 //
 // Parameters:
 //   enable - True to enable, false do disable
-void VDP_EnableDisplay(bool enable);
+inline void VDP_EnableDisplay(bool enable) { VDP_RegWriteBakMask(1, (u8)~R01_BL, enable ? R01_BL : 0); }
 
 // Function: VDP_EnableVBlank
 // Enable/disable vertical interruption (register 1). [MSX1/2/2+/TR]
 //
 // Parameters:
 //   enable - True to enable, false do disable
-void VDP_EnableVBlank(bool enable);
+inline void VDP_EnableVBlank(bool enable) { VDP_RegWriteBakMask(1, (u8)~R01_IE0, enable ? R01_IE0 : 0); }
 
 // Function: VDP_SetColor
 // Set text and border default color (register 7). [MSX1/2/2+/TR]
@@ -595,7 +595,7 @@ inline void VDP_SetColor(u8 color) { VDP_RegWrite(7, color); }
 //
 // Parameters:
 //   enable - True to enable, false do disable
-void VDP_EnableHBlank(bool enable);
+inline void VDP_EnableHBlank(bool enable) { VDP_RegWriteBakMask(0, (u8)~R00_IE1, enable ? R00_IE1 : 0); }
 
 // Function: VDP_SetHBlankLine
 // Set the horizontal-blank interruption line (register 19). [MSX2/2+/TR]
@@ -623,7 +623,7 @@ void VDP_SetAdjustOffset(u8 offset);
 // Parameters:
 //   enable - True to enable, false do disable
 // Enable/disable grayscale (register 8). [MSX2/2+/TR]
-void VDP_SetGrayScale(bool enable);
+inline void VDP_SetGrayScale(bool enable) { VDP_RegWriteBakMask(8, (u8)~R08_BW, enable ? R08_BW : 0); }
 
 // Enum: VDP_FREQ
 // VDP frequency flags
@@ -637,7 +637,7 @@ enum VDP_FREQ
 //
 // Parameters:
 //   lines - Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)
-void VDP_SetFrequency(u8 freq);
+inline void VDP_SetFrequency(u8 freq) { VDP_RegWriteBakMask(9, (u8)~R09_NT, freq); }
 
 // Enum: VDP_LINE
 // VDP line flags
@@ -651,14 +651,14 @@ enum VDP_LINE
 //
 // Parameters:
 //   lines - Can be VDP_LINE_192 or VDP_LINE_212
-void VDP_SetLineCount(u8 lines);
+inline void VDP_SetLineCount(u8 lines) { VDP_RegWriteBakMask(9, (u8)~R09_LN, lines); }
 
 // Function: VDP_SetPageAlternance
 // Enable automatic page switch on even/odd frames. [MSX2/2+/TR]
 //
 // Parameters:
 //   enable - True to enable, false do disable
-void VDP_SetPageAlternance(bool enable);
+inline void VDP_SetPageAlternance(bool enable) { VDP_RegWriteBakMask(9, (u8)~R09_EO, enable ? R09_EO : 0); }
 
 // Function: VDP_SetInterlace
 // Enable or disable interlace mode. [MSX2/2+/TR]
@@ -666,7 +666,7 @@ void VDP_SetPageAlternance(bool enable);
 //
 // Parameters:
 //   enable - True to enable, false do disable
-void VDP_SetInterlace(bool enable);
+inline void VDP_SetInterlace(bool enable) { VDP_RegWriteBakMask(9, (u8)~R09_IL, enable ? R09_IL : 0); }
 
 // Enum: VDP_FRAME
 // VDP render modes
@@ -681,7 +681,7 @@ enum VDP_FRAME
 //
 // Parameters:
 //   mode - Can be VDP_FRAME_STATIC, VDP_FRAME_ALTERNANCE or VDP_FRAME_INTERLACE
-void VDP_SetFrameRender(u8 mode);
+inline void VDP_SetFrameRender(u8 mode) { VDP_RegWriteBakMask(9, (u8)~(R09_EO|R09_IL), mode); }
 
 // Function: VDP_SetPalette
 // Set a new color palette from index 1 to 15. [MSX2/2+/TR]
@@ -732,7 +732,21 @@ enum VDP_YJK
 //
 // Parameters:
 //   mode - YJK mode (can be VDP_YJK_OFF, VDP_YJK_ON or VDP_YJK_YAE)
-void VDP_SetYJK(u8 mode);
+inline void VDP_SetYJK(u8 mode) { VDP_RegWriteBakMask(25, (u8)~VDP_YJK_YAE, mode); }
+
+// Function: VDP_ExpendCommand
+// Enables the VDP commands for screens 0 to 4 (register 25). [MSX2+/TR]
+//
+// Parameters:
+//   enable - True to enable, false do disable
+inline void VDP_ExpendCommand(u8 enable) { VDP_RegWriteBakMask(25, (u8)~R25_CMD, enable ? R25_CMD : 0); }
+
+// Function: VDP_EnableMask
+// Allows to hide the first 8 vertical lines at left of screen (register 25). [MSX2+/TR]
+//
+// Parameters:
+//   enable - True to enable, false do disable
+inline void VDP_EnableMask(u8 enable) { VDP_RegWriteBakMask(25, (u8)~R25_MAK, enable ? R25_MAK : 0); }
 
 // Function: VDP_SetHorizontalOffset
 // Set the horizontal rendeing offset. [MSX2+/TR]
@@ -740,6 +754,15 @@ void VDP_SetYJK(u8 mode);
 // Parameters:
 //   offset - Screen horizontal offset (9-bits value in pixel)
 void VDP_SetHorizontalOffset(u16 offset);
+
+#define VDP_HSCROLL_SINGLE		0		// Scroll within a single screen page
+#define VDP_HSCROLL_DOUBLE		R25_SP2 // Scroll between two screen pages
+// Function: VDP_SetHorizontalMode
+// Set horizontal scrolling to occurs on a single page or two pages (register 25). [MSX2+/TR]
+//
+// Parameters:
+//   mode - Can be VDP_HSCROLL_SINGLE or VDP_HSCROLL_DOUBLE
+inline void VDP_SetHorizontalMode(u8 mode) { VDP_RegWriteBakMask(25, (u8)~R25_SP2, mode); }
 
 #endif
 
@@ -809,7 +832,7 @@ void VDP_SetPage(u8 page);
 //
 // Parameters:
 //   enable - True to enable, false do disable
-void VDP_EnableSprite(u8 enable);
+inline void VDP_EnableSprite(u8 enable) { VDP_RegWriteBakMask(8, (u8)~R08_SPD, !enable ? R08_SPD : 0); }
 
 // Function: VDP_DisableSprite
 // Disable sprite rendering (see <VDP_EnableSprite>). [MSX1/2/2+/TR]
@@ -823,7 +846,7 @@ inline void VDP_DisableSprite() { VDP_EnableSprite(false); }
 #define VDP_SPRITE_SCALE_2		R01_MAG		//> Double the size of the sprite (1 dot = 2 px)
 // Function: VDP_SetSpriteFlag
 // Set sprite rendering parameters. [MSX1/2/2+/TR]
-void VDP_SetSpriteFlag(u8 flag);
+inline void VDP_SetSpriteFlag(u8 flag) { VDP_RegWriteBakMask(1, (u8)~(R01_ST|R01_MAG), flag); }
 
 // Function: VDP_SetSpriteTables
 // Set sprite tables address. [MSX1/2/2+/TR]

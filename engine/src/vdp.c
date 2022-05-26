@@ -732,46 +732,6 @@ u8 VDP_ReadStatus(u8 stat) __FASTCALL
 }
 
 //-----------------------------------------------------------------------------
-// Enable/disable grayscale [MSX2/2+/TR]
-// @param		enable		True to enable, false do disable
-void VDP_SetGrayScale(bool enable)
-{
-	VDP_RegWriteBakMask(8, (u8)~R08_BW, enable ? R08_BW : 0);
-	// u8 reg = g_VDP_REGSAV[8];
-	// reg &= ~R08_BW;
-	// if(enable)
-		// reg |= R08_BW;
-	// VDP_RegWriteBak(8, reg);
-}
-
-//-----------------------------------------------------------------------------
-// Change VDP frequency (50/60 Hz) [MSX2/2+/TR]
-// @param		freq		Can be VDP_FREQ_50HZ or VDP_FREQ_60HZ
-void VDP_SetFrequency(u8 freq)
-{
-	VDP_RegWriteBakMask(9, (u8)~R09_NT, freq);
-	// u8 reg = g_VDP_REGSAV[9];
-	// reg &= ~R09_NT;
-	// reg |= freq;
-	// VDP_RegWriteBak(9, reg);
-}
-
-//-----------------------------------------------------------------------------
-// Enable/disable horizontal interruption [MSX2/2+/TR]
-//
-// Parameters:
-//   enable - True to enable, false do disable
-void VDP_EnableHBlank(bool enable)
-{
-	VDP_RegWriteBakMask(0, (u8)~R00_IE1, enable ? R00_IE1 : 0);
-	// u8 reg = g_VDP_REGSAV[0];
-	// reg &= ~R00_IE1;
-	// if(enable)
-		// reg |= R00_IE1;
-	// VDP_RegWriteBak(0, reg);
-}
-
-//-----------------------------------------------------------------------------
 // Adjustment of the display location on the screen [MSX2/2+/TR]
 void VDP_SetAdjustOffset(u8 offset)
 {
@@ -862,56 +822,6 @@ void VDP_SetPaletteEntry(u8 index, u16 color)
 	g_VDP_RegPort = VDP_REG(16);
 	g_VDP_PalPort = color & 0x00FF;
 	g_VDP_PalPort = color >> 8;
-}
-
-//-----------------------------------------------------------------------------
-// Set line count for the current screen mode [MSX2/2+/TR]
-// @param		lines		Can be VDP_LINE_192 or VDP_LINE_212
-void VDP_SetLineCount(u8 lines)
-{
-	VDP_RegWriteBakMask(9, (u8)~R09_LN, lines);
-	// u8 reg = g_VDP_REGSAV[9];
-	// reg &= ~R09_LN;
-	// reg |= lines;
-	// VDP_RegWriteBak(9, reg);
-}
-
-//-----------------------------------------------------------------------------
-// Enable or disable interlace mode [MSX2/2+/TR]
-// @param		enable		True to enable, false do disable
-void VDP_SetInterlace(bool enable)
-{
-	VDP_RegWriteBakMask(9, (u8)~R09_IL, enable ? R09_IL : 0);
-	// u8 reg = g_VDP_REGSAV[9];
-	// reg &= ~R09_IL;
-	// if(enable)
-		// reg |= R09_IL;
-	// VDP_RegWriteBak(9, reg);
-}
-
-//-----------------------------------------------------------------------------
-// Enable automatic page switch on even/odd frames [MSX2/2+/TR]
-// @param		enable		True to enable, false do disable
-void VDP_SetPageAlternance(bool enable)
-{
-	VDP_RegWriteBakMask(9, (u8)~R09_EO, enable ? R09_EO : 0);
-	// u8 reg = g_VDP_REGSAV[9];
-	// reg &= ~R09_EO;
-	// if(enable)
-		// reg |= R09_EO;
-	// VDP_RegWriteBak(9, reg);
-}
-
-//-----------------------------------------------------------------------------
-// Enable automatic page switch on even/odd frames [MSX2/2+/TR]
-// @param		enable		True to enable, false do disable
-void VDP_SetFrameRender(u8 mode)
-{
-	VDP_RegWriteBakMask(9, (u8)~VDP_FRAME_INTERLACE, mode);
-	// u8 reg = g_VDP_REGSAV[9];
-	// reg &= ~VDP_FRAME_INTERLACE;
-	// reg |= mode;
-	// VDP_RegWriteBak(9, reg);
 }
 
 //-----------------------------------------------------------------------------
@@ -1308,17 +1218,6 @@ void VPD_CommandWriteLoop(const u8* addr) __FASTCALL
 #if (MSX_VERSION >= MSX_2P)
 
 //-----------------------------------------------------------------------------
-// Set YJK mode [MSX2+/TR]
-void VDP_SetYJK(u8 mode)
-{
-	VDP_RegWriteBakMask(25, (u8)~VDP_YJK_YAE, mode);
-	// u8 reg = g_VDP_REGSAV[25];
-	// reg &= ~VDP_YJK_YAE;
-	// reg |= mode;
-	// VDP_RegWriteBak(25, reg);
-}
-
-//-----------------------------------------------------------------------------
 // Set the horizontal rendeing offset (in pixel) [MSX2+/TR]
 void VDP_SetHorizontalOffset(u16 offset)
 {
@@ -1678,30 +1577,6 @@ u8 VDP_ReadDefaultStatus()
 }
 
 //-----------------------------------------------------------------------------
-// Enable/disable vertical interruption [MSX1/2/2+/TR]
-void VDP_EnableVBlank(bool enable)
-{
-	VDP_RegWriteBakMask(1, (u8)~R01_IE0, enable ? R01_IE0 : 0);
-	// u8 reg = g_VDP_REGSAV[1];
-	// reg &= ~R01_IE0;
-	// if(enable)
-		// reg |= R01_IE0;	
-	// VDP_RegWriteBak(1, reg);
-}
-
-//-----------------------------------------------------------------------------
-// Enable/disable screen display [MSX1/2/2+/TR]
-void VDP_EnableDisplay(bool enable)
-{
-	VDP_RegWriteBakMask(1, (u8)~R01_BL, enable ? R01_BL : 0);
-	// u8 reg = g_VDP_REGSAV[1];
-	// reg &= ~R01_BL;
-	// if(enable)
-		// reg |= R01_BL;	
-	// VDP_RegWriteBak(1, reg);
-}
-
-//-----------------------------------------------------------------------------
 // Set current VRAM page
 void VDP_SetPage(u8 page)
 {
@@ -1810,34 +1685,6 @@ void VDP_SetPatternTable(VADDR addr)
 //
 //-----------------------------------------------------------------------------
 #if (VDP_USE_SPRITE)
-
-#if (MSX_VERSION >= MSX_2)
-//-----------------------------------------------------------------------------
-// Enable/disable sprite rendering
-void VDP_EnableSprite(u8 enable)
-{
-	VDP_RegWriteBakMask(8, (u8)~R08_SPD, !enable ? R08_SPD : 0);
-	// u8 reg = g_VDP_REGSAV[8];
-	// reg &= ~R08_SPD;
-	// if(!enable)
-		// reg |= R08_SPD;
-	// VDP_RegWriteBak(8, reg);
-}
-#endif
-
-//-----------------------------------------------------------------------------
-// Set sprite parameters [MSX1/2/2+/TR]
-void VDP_SetSpriteFlag(u8 flag)
-{
-	VDP_RegWriteBakMask(1, (u8)~(R01_ST|R01_MAG), flag);
-	// u8 reg = g_VDP_REGSAV[1];
-	// reg &= ~(R01_ST | R01_MAG);
-	// if(flag & R01_ST)
-		// reg |= R01_ST;
-	// if(flag & R01_MAG)
-		// reg |= R01_MAG;
-	// VDP_RegWriteBak(1, reg);
-}
 
 //-----------------------------------------------------------------------------
 // Set sprite attribute table address
