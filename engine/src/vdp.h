@@ -6,9 +6,12 @@
 //  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 //─────────────────────────────────────────────────────────────────────────────
 // Features to manage the VDP
+// Support MSX1 (TMS9918A), MSX2 (V9938) and MSX2+ (V9958)
 //
 // References:
+// - Texas Instruments VDP Programmer’s Guide
 // - V9938 Technical Data Book Programmer's Guide
+// - Yamaha V9958 MSX-VIDEO Application Manual
 // - https://www.msx.org/wiki/Category:VDP_Registers
 // - http://map.grauw.nl/articles/
 //─────────────────────────────────────────────────────────────────────────────
@@ -23,7 +26,10 @@
 // DEFINES
 //=============================================================================
 
-#define VDP_UNDOCUMENTED 1
+#define VDP_USE_UNDOCUMENTED		1
+#define VDP_USE_VALIDATOR			1
+#define VDP_USE_DEFAULT_PALETTE		0
+#define VDP_USE_MSX1_PALETTE		0
 
 // @todo Handle VRAM read/write access timing
 //
@@ -175,7 +181,7 @@ enum VDP_MODE
 	VDP_MODE_MULTICOLOR,					// 00 010	TILES	pseudo-graphic, one character divided into four block
 	VDP_MODE_GRAPHIC1,						// 00 000	TILES	32 characters per one line of text, the COLOURed character available
 	VDP_MODE_GRAPHIC2,						// 00 100	TILES	256 x 192, the colour is specififed for each 8 dots
-#if (VDP_UNDOCUMENTED)
+#if (VDP_USE_UNDOCUMENTED)
 	VDP_MODE_UNDOC, 						// Undocumented video modes. Only available on TMS 9918A
 	VDP_MODE_UNDOC_0_2   = VDP_MODE_UNDOC,	// 00 101	
 	VDP_MODE_UNDOC_1_2,						// 00 100	
@@ -319,20 +325,20 @@ enum VRAM_SIZE
 //-----------------------------------------------------------------------------
 
 // Function: VDP_Initialize
-// Initialize VDP module [MSX1/2/2+/TR]
+// Initialize VDP module. [MSX1/2/2+/TR]
 // Retreive BIOS initiale value.
 // This function is called automatically when <VDP_SetMode> is called if the macro VDP_AUTO_INIT equals 1.
 void VDP_Initialize();
 
 // Function: VDP_GetVersion
-// Get VDP version [MSX1/2/2+/TR]
+// Get VDP version. [MSX1/2/2+/TR]
 //
 // Return:
 //   VDP identifier (see <VDP_VERSION>).
 u8 VDP_GetVersion() __naked;
 
 // Function: VDP_ClearVRAM
-// Clear the VRAM content [MSX1/2/2+/TR]
+// Clear the VRAM content. [MSX1/2/2+/TR]
 void VDP_ClearVRAM();
 
 //-----------------------------------------------------------------------------
@@ -340,21 +346,21 @@ void VDP_ClearVRAM();
 //-----------------------------------------------------------------------------
 
 // Function: VDP_SetMode
-// Set screen mode [MSX1/2/2+/TR]
+// Set screen mode. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   mode - The new screen mode to set (see <VDP_MODE> enumeration)
 void VDP_SetMode(const u8 mode);
 
 // Function: VDP_GetMode
-// Get current screen mode [MSX1/2/2+/TR]
+// Get current screen mode. [MSX1/2/2+/TR]
 //
 // Return:
 //   Current screen mode
 inline u8 VDP_GetMode() { return g_VDP_Data.Mode; }
 
 // Function: VDP_IsBitmapMode
-// Tell if the given screen mode is a bitmap mode (pattern/text mode otherwise) [MSX1/2/2+/TR]
+// Tell if the given screen mode is a bitmap mode (pattern/text mode otherwise). [MSX1/2/2+/TR]
 //
 // Parameters:
 //   mode - VDP mode to set (see <VDP_MODE> enumeration)
@@ -371,7 +377,7 @@ inline bool VDP_IsBitmapMode(const u8 mode)
 }
 
 // Function: VDP_IsPatternMode
-// Tell if the given screen mode is a pattern/text mode (bitmap mode otherwise) [MSX1/2/2+/TR]
+// Tell if the given screen mode is a pattern/text mode (bitmap mode otherwise). [MSX1/2/2+/TR]
 //
 // Parameters:
 //   mode - VDP mode to set (see <VDP_MODE> enumeration)
@@ -381,7 +387,7 @@ inline bool VDP_IsBitmapMode(const u8 mode)
 inline bool VDP_IsPatternMode(const u8 mode) { return !VDP_IsBitmapMode(mode); }
 
 // Function: VDP_SetModeFlag
-// Set screen mode flag [MSX1/2/2+/TR]
+// Set screen mode flag. [MSX1/2/2+/TR]
 // VRAM tables address must be set to fit the new screen mode
 //
 // Parameters:
@@ -393,7 +399,7 @@ void VDP_SetModeFlag(u8 flag);
 //-----------------------------------------------------------------------------
 
 // Function: VDP_RegWrite
-// Set register value [MSX1/2/2+/TR]
+// Set register value. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   reg   - Register number
@@ -401,22 +407,31 @@ void VDP_SetModeFlag(u8 flag);
 void VDP_RegWrite(u8 reg, u8 value);
 
 // Function: VDP_RegWriteBak
-// Set register value after backuping previous value [MSX1/2/2+/TR]
+// Set register value after backuping previous value. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   reg   - Register number
 //   value - Value to set
 void VDP_RegWriteBak(u8 reg, u8 value);
 
+// Function: VDP_RegWriteBakMask
+// Set register value after backuping previous value using mask. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   reg  - Register number
+//   mask - Previous value reset mask
+//   flag - Value to set
+void VDP_RegWriteBakMask(u8 idx, u8 mask, u8 value);
+
 // Function: VDP_ReadDefaultStatus
-// Read default S#0 register [MSX1/2/2+/TR]
+// Read default S#0 register. [MSX1/2/2+/TR]
 //
 // Return:
 //   Status register #0 value
 u8 VDP_ReadDefaultStatus();
 
 // Function: VDP_ReadStatus
-// Read a given status register then reset status register to default (0) [MSX2/2+/TR]
+// Read a given status register then reset status register to default (0). [MSX2/2+/TR]
 //
 // Parameters:
 //   stat - Status register number (0-9)
@@ -428,7 +443,7 @@ u8 VDP_ReadStatus(u8 stat) __FASTCALL;
 #if ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
 
 // Function: VDP_WriteVRAM_16K
-// Write data from RAM to VRAM [MSX1/2/2+/TR]
+// Write data from RAM to VRAM. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   src   - Source data address in RAM
@@ -437,7 +452,7 @@ u8 VDP_ReadStatus(u8 stat) __FASTCALL;
 void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0);
 
 // Function: VDP_FillVRAM_16K
-// Fill VRAM area with a given value [MSX1/2/2+/TR]
+// Fill VRAM area with a given value. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   value	- Byte value to copy in VRAM
@@ -446,7 +461,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0);
 void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __sdcccall(0);
 
 // Function: VDP_ReadVRAM_16K
-// Read data from VRAM to RAM [MSX1/2/2+/TR]
+// Read data from VRAM to RAM. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   src	- Source address in VRAM (14bits address form 16KB VRAM)
@@ -455,7 +470,7 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __sdcccall(0);
 void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0);
 
 // Function: VDP_Poke_16K
-// Write a value to VRAM [MSX1/2/2+/TR]
+// Write a value to VRAM. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   val	- Value to write in VRAM
@@ -463,7 +478,7 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0);
 void VDP_Poke_16K(u8 val, u16 dest);
 
 // Function: VDP_Peek_16K
-// Read a value from VRAM [MSX1/2/2+/TR]
+// Read a value from VRAM. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   src	- Source address in VRAM (14bits address form 16KB VRAM)
@@ -486,7 +501,7 @@ u8 VDP_Peek_16K(u16 src);
 #else // (MSX_VERSION >= MSX_2)
 
 	// Function: VDP_WriteVRAM_128K
-	// Write data from RAM to VRAM [MSX2/2+/TR]
+	// Write data from RAM to VRAM. [MSX2/2+/TR]
 	//
 	// Parameters:
 	//   src		- Source data address in RAM
@@ -496,7 +511,7 @@ u8 VDP_Peek_16K(u16 src);
 	void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count) __sdcccall(0);
 
 	// Function: VDP_FillVRAM_128K
-	// Fill VRAM area with a given value [MSX2/2+/TR]
+	// Fill VRAM area with a given value. [MSX2/2+/TR]
 	//
 	// Parameters:
 	//   value		- Byte value to copy in VRAM
@@ -506,7 +521,7 @@ u8 VDP_Peek_16K(u16 src);
 	void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall(0);
 
 	// Function: VDP_ReadVRAM_128K
-	// Read data from VRAM to RAM [MSX2/2+/TR]
+	// Read data from VRAM to RAM. [MSX2/2+/TR]
 	//
 	// Parameters:
 	//   srcLow		- Source address in VRAM (16 LSB of 17-bits VRAM address)
@@ -516,7 +531,7 @@ u8 VDP_Peek_16K(u16 src);
 	void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0);
 
 	// Function: VDP_Poke_128K
-	// Write a value to VRAM [MSX2/2+/TR]
+	// Write a value to VRAM. [MSX2/2+/TR]
 	//
 	// Parameters:
 	//   val		- Value to write in VRAM
@@ -525,7 +540,7 @@ u8 VDP_Peek_16K(u16 src);
 	void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh) __sdcccall(0);
 
 	// Function: VDP_Peek_128K
-	// Read a value from VRAM [MSX2/2+/TR]
+	// Read a value from VRAM. [MSX2/2+/TR]
 	//
 	// Parameters:
 	//   srcLow		- Source address in VRAM (16 LSB of 17-bits VRAM address)
@@ -547,43 +562,57 @@ u8 VDP_Peek_16K(u16 src);
 // Group: Display setup
 //-----------------------------------------------------------------------------
 
+//.............................................................................
+// MSX1
+
 // Function: VDP_EnableDisplay
-// Enable/disable screen display (register 1) [MSX1/2/2+/TR]
+// Enable/disable screen display (register 1). [MSX1/2/2+/TR]
 //
 // Parameters:
 //   enable - True to enable, false do disable
 void VDP_EnableDisplay(bool enable);
 
 // Function: VDP_EnableVBlank
-// Enable/disable vertical interruption (register 1) [MSX1/2/2+/TR]
+// Enable/disable vertical interruption (register 1). [MSX1/2/2+/TR]
 //
 // Parameters:
 //   enable - True to enable, false do disable
 void VDP_EnableVBlank(bool enable);
 
+// Function: VDP_SetColor
+// Set text and border default color (register 7). [MSX1/2/2+/TR]
+//
+// Parameters:
+//   color - Defaut color (Format: [TXT:4|BG:4])
+inline void VDP_SetColor(u8 color) { VDP_RegWrite(7, color); }
+
+//.............................................................................
+// MSX2
+#if (MSX_VERSION >= MSX_2)
+
 // Function: VDP_EnableHBlank
-// Enable/disable horizontal interruption (register 0) [MSX2/2+/TR]
+// Enable/disable horizontal interruption (register 0). [MSX2/2+/TR]
 //
 // Parameters:
 //   enable - True to enable, false do disable
 void VDP_EnableHBlank(bool enable);
 
 // Function: VDP_SetHBlankLine
-// Set the horizontal-blank interruption line (register 19) [MSX2/2+/TR]
+// Set the horizontal-blank interruption line (register 19). [MSX2/2+/TR]
 //
 // Parameters:
 //   line - Line number where the interruption will occure
 inline void VDP_SetHBlankLine(u8 line) { VDP_RegWrite(19, line); }
 
 // Function: VDP_SetVerticalOffset
-// Set the vertical rendering offset (register 23) [MSX2/2+/TR]
+// Set the vertical rendering offset (register 23). [MSX2/2+/TR]
 //
 // Parameters:
 //   offset - Number of lines of offset from the top of the screen
 inline void VDP_SetVerticalOffset(u8 offset) { VDP_RegWrite(23, offset); }
 
 // Function: VDP_SetAdjustOffset
-// Adjustment of the display location on the screen (register 18) [MSX2/2+/TR]
+// Adjustment of the display location on the screen (register 18). [MSX2/2+/TR]
 //
 // Parameters:
 //   offset - Screen display position offset (MSB 4-bits: vertical offset, LSB 4-bits: horizontal offset)
@@ -593,7 +622,7 @@ void VDP_SetAdjustOffset(u8 offset);
 //
 // Parameters:
 //   enable - True to enable, false do disable
-// Enable/disable grayscale (register 8) [MSX2/2+/TR]
+// Enable/disable grayscale (register 8). [MSX2/2+/TR]
 void VDP_SetGrayScale(bool enable);
 
 // Enum: VDP_FREQ
@@ -604,7 +633,7 @@ enum VDP_FREQ
 	VDP_FREQ_60HZ = 0,			// Frequency at 60 Hz
 };
 // Function: VDP_SetFrequency
-// Change VDP frequency (register 9) [MSX2/2+/TR]
+// Change VDP frequency (register 9). [MSX2/2+/TR]
 //
 // Parameters:
 //   lines - Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)
@@ -618,36 +647,44 @@ enum VDP_LINE
 	VDP_LINE_212 = R09_LN,		// 212 lines mode
 };
 // Function: VDP_SetLineCount
-// Set line count for the current screen mode (register 9) [MSX1/2/2+/TR]
+// Set line count for the current screen mode (register 9). [MSX2/2+/TR]
 //
 // Parameters:
 //   lines - Can be VDP_LINE_192 or VDP_LINE_212
 void VDP_SetLineCount(u8 lines);
 
 // Function: VDP_SetPageAlternance
-// Enable automatic page switch on even/odd frames [MSX2/2+/TR]
+// Enable automatic page switch on even/odd frames. [MSX2/2+/TR]
 //
 // Parameters:
 //   enable - True to enable, false do disable
 void VDP_SetPageAlternance(bool enable);
 
 // Function: VDP_SetInterlace
-// Enable or disable interlace mode  [MSX2/2+/TR]
+// Enable or disable interlace mode. [MSX2/2+/TR]
 // Needs <VDP_SetPageAlternance> to be set to TRUE and <VDP_SetPage> to a odd value.
 //
 // Parameters:
 //   enable - True to enable, false do disable
 void VDP_SetInterlace(bool enable);
 
-// Function: VDP_SetColor
-// Set text and border default color (register 7) [MSX1/2/2+/TR]
+// Enum: VDP_FRAME
+// VDP render modes
+enum VDP_FRAME
+{
+	VDP_FRAME_STATIC     = 0,               // Render always the same frame
+	VDP_FRAME_ALTERNANCE = R09_EO,          // Render 2 frames in alternace
+	VDP_FRAME_INTERLACE  = (R09_EO|R09_IL), // Render 2 frames at the same time interlaced
+};
+// Function: VDP_SetFrameRender
+// Set the frame render mode. [MSX2/2+/TR]
 //
 // Parameters:
-//   color - Defaut color (Format: [TXT:4|BG:4])
-inline void VDP_SetColor(u8 color) { VDP_RegWrite(7, color); }
+//   mode - Can be VDP_FRAME_STATIC, VDP_FRAME_ALTERNANCE or VDP_FRAME_INTERLACE
+void VDP_SetFrameRender(u8 mode);
 
 // Function: VDP_SetPalette
-// Set a new color palette from index 1 to 15 [MSX2/2+/TR]
+// Set a new color palette from index 1 to 15. [MSX2/2+/TR]
 //
 // Parameters:
 //   pal - Address of the palette in RAM (table of 15 * 2 bytes)
@@ -655,7 +692,7 @@ inline void VDP_SetColor(u8 color) { VDP_RegWrite(7, color); }
 void VDP_SetPalette(const u8* pal) __FASTCALL;
 
 // Function: VDP_SetPaletteEntry
-// Set a given color entry in the palette [MSX2/2+/TR]
+// Set a given color entry in the palette. [MSX2/2+/TR]
 //
 // Parameters:
 //   index - Index of the palette entry (0-15)
@@ -663,6 +700,22 @@ void VDP_SetPalette(const u8* pal) __FASTCALL;
 //           Format: [0:5|green:3|0|red:3|0|blue:3]
 void VDP_SetPaletteEntry(u8 index, u16 color);
 
+#if (VDP_USE_DEFAULT_PALETTE)
+// Function: VDP_SetDefaultPalette
+// Reset the default MSX2 palette. [MSX2/2+/TR]
+void VDP_SetDefaultPalette();
+#endif
+
+#if (VDP_USE_MSX1_PALETTE)
+// Function: VDP_SetMSX1Palette
+// Reset the default MSX1 palette. [MSX2/2+/TR]
+void VDP_SetMSX1Palette();
+#endif
+
+#endif
+
+//.............................................................................
+// MSX2+
 #if (MSX_VERSION >= MSX_2P)
 
 // Enum: VDP_YJK
@@ -673,9 +726,8 @@ enum VDP_YJK
 	VDP_YJK_ON				= R25_YJK,				// Use YJK mode (5-bits for lightness)
 	VDP_YJK_YAE				= (R25_YJK|R25_YAE),	// Use YJK mode (4-bits for lightness) + 16 colors palette
 };
-
 // Function: VDP_SetYJK
-// Set YJK mode [MSX2+/TR].
+// Set YJK mode. [MSX2+/TR].
 // See <VDP_YJK> enum.
 //
 // Parameters:
@@ -683,7 +735,7 @@ enum VDP_YJK
 void VDP_SetYJK(u8 mode);
 
 // Function: VDP_SetHorizontalOffset
-// Set the horizontal rendeing offset [MSX2+/TR]
+// Set the horizontal rendeing offset. [MSX2+/TR]
 //
 // Parameters:
 //   offset - Screen horizontal offset (9-bits value in pixel)
@@ -695,31 +747,53 @@ void VDP_SetHorizontalOffset(u16 offset);
 // Group: VRAM tables address
 //-----------------------------------------------------------------------------
 
-// Function: VDP_SetPage
-// Set current VRAM page [MSX2/2+/TR]
-void VDP_SetPage(u8 page);
-
 // Function: VDP_SetLayoutTable
-// Set layout table VRAM address [MSX1/2/2+/TR]
+// Set layout table VRAM address. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   addr - VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)
 void VDP_SetLayoutTable(VADDR addr);
 
 // Function: VDP_SetColorTable
-// Set color table VRAM address [MSX1/2/2+/TR]
+// Set color table VRAM address. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   addr - VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)
 void VDP_SetColorTable(VADDR addr);
 
 // Function: VDP_SetPatternTable
-// Set pattern table VRAM address [MSX1/2/2+/TR]
+// Set pattern table VRAM address. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   addr - VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)
 void VDP_SetPatternTable(VADDR addr);
 
 #if (VDP_USE_SPRITE)
 
 // Function: VDP_SetSpriteAttributeTable
-// Set sprite attribute table address [MSX1/2/2+/TR]
+// Set sprite attribute table address. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   addr - VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)
 void VDP_SetSpriteAttributeTable(VADDR addr);
 
 // Function: VDP_SetSpritePatternTable
-// Set sprite pattern table address [MSX1/2/2+/TR]
+// Set sprite pattern table address. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   addr - VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)
 void VDP_SetSpritePatternTable(VADDR addr);
+
+#endif
+
+#if (MSX_VERSION >= MSX_2)
+
+// Function: VDP_SetPage
+// Set current VRAM page. [MSX2/2+/TR]
+//
+// Parameters:
+//   page - Page number to set
+void VDP_SetPage(u8 page);
 
 #endif
 
@@ -731,11 +805,14 @@ void VDP_SetSpritePatternTable(VADDR addr);
 #if (MSX_VERSION >= MSX_2)
 
 // Function: VDP_EnableSprite
-// Enable/disable sprite rendering
+// Enable/disable sprite rendering (register 8). [MSX2/2+/TR]
+//
+// Parameters:
+//   enable - True to enable, false do disable
 void VDP_EnableSprite(u8 enable);
 
 // Function: VDP_DisableSprite
-// Disable sprite rendering
+// Disable sprite rendering (see <VDP_EnableSprite>). [MSX1/2/2+/TR]
 inline void VDP_DisableSprite() { VDP_EnableSprite(false); }
 
 #endif // (MSX_VERSION >= MSX_2)
@@ -745,85 +822,165 @@ inline void VDP_DisableSprite() { VDP_EnableSprite(false); }
 #define VDP_SPRITE_SCALE_1		0			//> Normal size of the sprite (1 dot = 1 px)
 #define VDP_SPRITE_SCALE_2		R01_MAG		//> Double the size of the sprite (1 dot = 2 px)
 // Function: VDP_SetSpriteFlag
-// Set sprite parameters
+// Set sprite rendering parameters. [MSX1/2/2+/TR]
 void VDP_SetSpriteFlag(u8 flag);
 
 // Function: VDP_SetSpriteTables
-// Set sprite table address (bit#16 to bit#1)
-void VDP_SetSpriteTables(VADDR patternAddr, VADDR attribAddr);
+// Set sprite tables address. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   pattern - Sprite pattern table address
+//   attrib	 - Sprite attribute table address
+inline void VDP_SetSpriteTables(VADDR patAddr, VADDR attAddr) { VDP_SetSpritePatternTable(patAddr); VDP_SetSpriteAttributeTable(attAddr); }
 
 // Function: VDP_LoadSpritePattern
-// Load pattern data into VRAM
+// Load sprite pattern data into VRAM. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   addr  - Source address for sprite patterns
+//   index - Index of the first VRAM sprite pattern to copy to
+//   count - Number of patterns to copy
 void VDP_LoadSpritePattern(const u8* addr, u8 index, u8 count);
 
-#define VDP_SPRITE_EC			0x80		//> Early clock ; used to offset sprite by 32 dots to the left
-#define VDP_SPRITE_CC			0x40		//> Sprite priority control
-#define VDP_SPRITE_IC			0x20		//> Line collision detection
+#define VDP_SPRITE_EC			0x80		// Early clock ; used to offset sprite by 32 dots to the left
+#define VDP_SPRITE_CC			0x40		// Sprite priority control
+#define VDP_SPRITE_IC			0x20		// Line collision detection
 // Function: VDP_SetSpriteSM1
-// Set sprite attribute for Sprite Mode 1 (MSX1)
+// Set sprite attribute for Sprite Mode 1. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table
+//   x     - Initial X screen coordinate
+//   y     - Initial Y screen coordinate
+//   shape - Sprite pattern index
+//   color - Sprite color (LSB 4-bits) + optional EC flag (see <VDP_SPRITE_EC>)
 void VDP_SetSpriteSM1(u8 index, u8 x, u8 y, u8 shape, u8 color);
 
 #if (MSX_VERSION >= MSX_2)
+	
 // Function: VDP_SetSprite
-// Set sprite attribute for Sprite Mode 2
+// Set sprite attribute for Sprite Mode 2. [MSX2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table
+//   x     - Initial X screen coordinate
+//   y     - Initial Y screen coordinate
+//   shape - Sprite pattern index
 void VDP_SetSprite(u8 index, u8 x, u8 y, u8 shape);
 
 // Function: VDP_SetSpriteExMultiColor
-// Set sprite attribute for Sprite Mode 2 and fill color table with color data
+// Set sprite attribute for Sprite Mode 2 and fill color table with color data. [MSX2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table
+//   x     - Initial X screen coordinate
+//   y     - Initial Y screen coordinate
+//   shape - Sprite pattern index
+//   ram   - Address to a 8 bytes buffer that determine the sprite colors (1 byte = 1 line)
 void VDP_SetSpriteExMultiColor(u8 index, u8 x, u8 y, u8 shape, const u8* ram);
 
 // Function: VDP_SetSpriteExUniColor
-// Set sprite attribute for Sprite Mode 2 and fill color table with unique color
+// Set sprite attribute for Sprite Mode 2 and fill color table with unique color. [MSX2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table
+//   x     - Initial X screen coordinate
+//   y     - Initial Y screen coordinate
+//   shape - Sprite pattern index
+//   color - Sprite color (LSB 4-bits) + optional EC, CC & IC flags 
+//           (this color is used for the all 8 lines of the sprite)
 void VDP_SetSpriteExUniColor(u8 index, u8 x, u8 y, u8 shape, u8 color);
+
 #endif // (MSX_VERSION >= MSX_2)
 
 // Function: VDP_SetSpritePosition
-// Update sprite position
+// Update sprite position. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table
+//   x     - Initial X screen coordinate
+//   y     - Initial Y screen coordinate
 void VDP_SetSpritePosition(u8 index, u8 x, u8 y);
 
 // Function: VDP_SetSpritePositionX
-// Update sprite position X
+// Update sprite position X. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table
+//   x     - Initial X screen coordinate
 void VDP_SetSpritePositionX(u8 index, u8 x);
 
 // Function: VDP_SetSpritePositionY
-// Update sprite position Y
+// Update sprite position Y. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table
+//   y     - Initial Y screen coordinate
 void VDP_SetSpritePositionY(u8 index, u8 y);
 
 // Function: VDP_SetSpritePattern
-// Update sprite pattern
+// Update sprite pattern. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table
+//   shape - Sprite pattern index
 void VDP_SetSpritePattern(u8 index, u8 shape);
 
 // Function: VDP_SetSpriteColorSM1
-// Update sprite pattern (Sprite Mode 1)
+// Update sprite pattern (Sprite Mode 1). [MSX1/2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table
+//   color - Sprite color (LSB 4-bits) + optional EC flag (see <VDP_SPRITE_EC>)
 void VDP_SetSpriteColorSM1(u8 index, u8 color);
 
 #if (MSX_VERSION >= MSX_2)
+	
 // Function: VDP_SetSpriteUniColor
-// Update sprite color (Uni-color)
+// Update sprite color (Uni-color). [MSX2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table
+//   color - Sprite color (LSB 4-bits) + optional EC, CC & IC flags 
+//           (this color is used for the all 8 lines of the sprite)
 void VDP_SetSpriteUniColor(u8 index, u8 color);
 
 // Function: VDP_SetSpriteMultiColor
-// Update sprite color (Multi-color)
+// Update sprite color (Multi-color). [MSX2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table
+//   ram   - Address to a 8 bytes buffer that determine the sprite colors (1 byte = 1 line)
 void VDP_SetSpriteMultiColor(u8 index, const u8* ram);
 
 // Function: VDP_SetSpriteData
-// Set sprite data for Sprite Mode 2
+// Set sprite data for Sprite Mode 2. [MSX2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table
+//   data  - Address to a 3 bytes data buffer including sprite position and shape
 void VDP_SetSpriteData(u8 index, const u8* data);
+
 #endif // (MSX_VERSION >= MSX_2)
 
 #define VDP_SPRITE_DISABLE_SM1	208			// This sprite and all lower priority sprites will be disabled (Sprite Mode 1)
 #define VDP_SPRITE_DISABLE_SM2	216			// This sprite and all lower priority sprites will be disabled (Sprite Mode 2)
 #define VDP_SPRITE_HIDE			213			// 
 // Function: VDP_DisableSpritesFrom
-// Disable all sprites from a given index
+// Disable all sprites from a given index. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   index - Disable sprite rendering starting from this sprite index
 void VDP_DisableSpritesFrom(u8 index);
 
 // Function: VDP_HideSprite
-// Hide a given sprite (don't disable following sprites)
+// Hide a given sprite (don't disable following sprites). [MSX1/2/2+/TR]
+//
+// Parameters:
+//   index - Index of the sprite to hide
 inline void VDP_HideSprite(u8 index) { VDP_SetSpritePositionY(index, VDP_SPRITE_HIDE); }
 
 #endif // (VDP_USE_SPRITE)
-
 
 //-----------------------------------------------------------------------------
 // Group: GM2
@@ -832,23 +989,51 @@ inline void VDP_HideSprite(u8 index) { VDP_SetSpritePositionY(index, VDP_SPRITE_
 #if (VDP_USE_MODE_G2 || VDP_USE_MODE_G3)
 
 // Function: VDP_FillScreen_GM2
-// Fill the full screen with a given pattern value
+// Fill the full screen with a given pattern value. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   value - Pattern index to fill
+//           In G2/G3 modes, the same index can define different pattern in the 3 vertical sections
 void VDP_FillScreen_GM2(u8 value);
 
 // Function: VDP_LoadPattern_GM2
-// Load patterns in all 3 screen sections
+// Load patterns in all 3 screen sections. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   src    - Address of data buffer to copy to VRAM
+//   count  - Number of pattern to copy
+//   offset - Pattern index from which to copy data 
 void VDP_LoadPattern_GM2(const u8* src, u8 count, u8 offset);
 
 // Function: VDP_LoadColor_GM2
-// Load colors in all 3 screen sections
+// Load colors in all 3 screen sections. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   src    - Address of data buffer to copy to VRAM
+//   count  - Number of pattern to copy
+//   offset - Pattern index from which to copy data 
 void VDP_LoadColor_GM2(const u8* src, u8 count, u8 offset);
 
 // Function: VDP_WriteLayout_GM2
-// Copy patterns to a rectangle
+// Copy patterns layout to a given rectangle. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   src    - Address of data buffer to copy to VRAM
+//   dx     - Destination starting X position 
+//   dy     - Destination starting Y position 
+//   dx     - Destination width
+//   dy     - Destination height
 void VDP_WriteLayout_GM2(const u8* src, u8 dx, u8 dy, u8 nx, u8 ny);
 
 // Function: VDP_FillLayout_GM2
-// Fill a rectangle with a given value
+// Fill a rectangle with a given value. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   value - Pattern index to fill
+//   dx    - Destination starting X position 
+//   dy    - Destination starting Y position 
+//   dx    - Destination width
+//   dy    - Destination height
 void VDP_FillLayout_GM2(u8 value, u8 dx, u8 dy, u8 nx, u8 ny);
 
 #endif
@@ -857,26 +1042,32 @@ void VDP_FillLayout_GM2(u8 value, u8 dx, u8 dy, u8 nx, u8 ny);
 // Group: Command
 // VDP commands wrapper functions
 //-----------------------------------------------------------------------------
-#if (VDP_USE_COMMAND)
+#if ((MSX_VERSION >= MSX_2) && (VDP_USE_COMMAND))
 
 // Function: VDP_CommandWait
-// Wait for previous VDP command to be finished
+// Wait for previous VDP command to be finished. [MSX2/2+/TR]
 void VDP_CommandWait();
 
 // Function: VPD_CommandSetupR32
-// Send VDP command (form registres 32 to 46)
+// Send VDP command (form registres 32 to 46). [MSX2/2+/TR]
 void VPD_CommandSetupR32();
 
 // Function: VPD_CommandSetupR36
-// Send VDP command (form registres 36 to 46)
+// Send VDP command (form registres 36 to 46). [MSX2/2+/TR]
 void VPD_CommandSetupR36();
 
 // Function: VPD_CommandWriteLoop
-// Write to VRAM command loop
+// Write to VRAM command loop. [MSX2/2+/TR]
+//
+// Parameters:
+//   addr - Address of the source buffer
 void VPD_CommandWriteLoop(const u8* addr) __FASTCALL;
 
 // Function: VPD_CommandReadLoop
-// Read to VRAM command loop
+// Read to VRAM command loop. [MSX2/2+/TR]
+//
+// Parameters:
+//   addr - Address of the destination buffer (in RAM)
 void VPD_CommandReadLoop(u8* addr) __FASTCALL;
 
 //-----------------------------------------------------------------------------
@@ -885,36 +1076,34 @@ void VPD_CommandReadLoop(u8* addr) __FASTCALL;
 
 #include "vdp.inl"
 
-// DATA
-// inline u8 VDP_GetMode();
-
 // VDP COMMANDS
+
 // inline void VDP_CommandHMMC(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny); // High speed move CPU to VRAM.
 // inline void VDP_CommandYMMM(u16 sy, u16 dx, u16 dy, u16 ny, u8 dir); // High speed move VRAM to VRAM, Y coordinate only.
-// inline void VDP_CommandHMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny); // High speed move VRAM to VRAM
-// inline void VDP_CommandHMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 col); // High speed move VDP to VRAM
-// inline void VDP_CommandLMMC(); // Logical move CPU to VRAM
-// inline void VDP_CommandLMCM(); // Logical move VRAM to CPU
-// inline void VDP_CommandLMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 op); // Logical move VRAM to VRAM
-// inline void VDP_CommandLMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 op); // Logical move VDP to VRAM
-// inline void VDP_CommandLINE(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 arg, u8 op); // Draw straight line in VRAM
-// inline void VDP_CommandSRCH(u16 sx, u16 sy, u8 col, u8 arg); // Search for the specific color in VRAM to the right or left of the starting point
-// inline void VDP_CommandPSET(u16 dx, u16 dy, u8 col, u8 op); // Draw a dot in VRAM 
-// inline u8   VDP_CommandPOINT(u16 sx, u16 sy); // Read the color of the specified dot located in VRAM 
-// inline void VDP_CommandSTOP(); // Abort current command
+// inline void VDP_CommandHMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny); // High speed move VRAM to VRAM.
+// inline void VDP_CommandHMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 col); // High speed move VDP to VRAM.
+// inline void VDP_CommandLMMC(); // Logical move CPU to VRAM.
+// inline void VDP_CommandLMCM(); // Logical move VRAM to CPU.
+// inline void VDP_CommandLMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 op); // Logical move VRAM to VRAM.
+// inline void VDP_CommandLMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 op); // Logical move VDP to VRAM.
+// inline void VDP_CommandLINE(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 arg, u8 op); // Draw straight line in VRAM.
+// inline void VDP_CommandSRCH(u16 sx, u16 sy, u8 col, u8 arg); // Search for the specific color in VRAM to the right or left of the starting point.
+// inline void VDP_CommandPSET(u16 dx, u16 dy, u8 col, u8 op); // Draw a dot in VRAM.
+// inline u8   VDP_CommandPOINT(u16 sx, u16 sy); // Read the color of the specified dot located in VRAM.
+// inline void VDP_CommandSTOP(); // Abort current command.
 
-#define VDP_CopyRAMtoVRAM			VDP_CommandHMMC		//< High speed move CPU to VRAM
-#define VDP_YMoveVRAM				VDP_CommandYMMM		//< High speed move VRAM to VRAM, Y coordinate only
-#define VDP_MoveVRAM				VDP_CommandHMMM		//< High speed move VRAM to VRAM
-//#define VDP_FillVRAM				VDP_CommandHMMV		//< High speed move VDP to VRAM
-#define VDP_LogicalCopyRAMtoVRAM	VDP_CommandLMMC		//< Logical move CPU to VRAM
-#define VDP_LogicalYMoveVRAM		VDP_CommandLMCM		//< Logical move VRAM to CPU
-#define VDP_LogicalMoveVRAM			VDP_CommandLMMM		//< Logical move VRAM to VRAM
-#define VDP_LogicalFillVRAM			VDP_CommandLMMV		//< Logical move VDP to VRAM
-#define VDP_DrawLine				VDP_CommandLINE		//< Draw straight line in VRAM
-#define VDP_SearchColor				VDP_CommandSRCH		//< Search for the specific color in VRAM to the right or left of the starting point
-#define VDP_DrawPoint				VDP_CommandPSET		//< Draw a dot in VRAM 
-#define VDP_ReadPoint				VDP_CommandPOINT	//< Read the color of the specified dot located in VRAM 
-#define VDP_AbortCommand			VDP_CommandSTOP		//< Abort current command
+#define VDP_CopyRAMtoVRAM			VDP_CommandHMMC		// High speed move CPU to VRAM
+#define VDP_YMoveVRAM				VDP_CommandYMMM		// High speed move VRAM to VRAM, Y coordinate only
+#define VDP_MoveVRAM				VDP_CommandHMMM		// High speed move VRAM to VRAM
+//#define VDP_FillVRAM				VDP_CommandHMMV		// High speed move VDP to VRAM
+#define VDP_LogicalCopyRAMtoVRAM	VDP_CommandLMMC		// Logical move CPU to VRAM
+#define VDP_LogicalYMoveVRAM		VDP_CommandLMCM		// Logical move VRAM to CPU
+#define VDP_LogicalMoveVRAM			VDP_CommandLMMM		// Logical move VRAM to VRAM
+#define VDP_LogicalFillVRAM			VDP_CommandLMMV		// Logical move VDP to VRAM
+#define VDP_DrawLine				VDP_CommandLINE		// Draw straight line in VRAM
+#define VDP_SearchColor				VDP_CommandSRCH		// Search for the specific color in VRAM to the right or left of the starting point
+#define VDP_DrawPoint				VDP_CommandPSET		// Draw a dot in VRAM 
+#define VDP_ReadPoint				VDP_CommandPOINT	// Read the color of the specified dot located in VRAM 
+#define VDP_AbortCommand			VDP_CommandSTOP		// Abort current command
 
-#endif // (VDP_USE_COMMAND)
+#endif // ((MSX_VERSION >= MSX_2) && (VDP_USE_COMMAND))

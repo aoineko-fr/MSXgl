@@ -20,7 +20,14 @@
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandHMMC
-// High speed move CPU to VRAM.
+// High speed move CPU to VRAM. [MSX2/2+/TR]
+//
+// Parameters:
+//   addr - Address of the source data
+//   dx   - X coordinate of the destination area
+//   dy   - Y coordinate of the destination area
+//   nx   - Width of the destinatio area
+//   ny   - Height of the destination area
 inline void VDP_CommandHMMC(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny)
 {
 	g_VDP_Command.DX = dx;
@@ -36,13 +43,13 @@ inline void VDP_CommandHMMC(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny)
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandYMMM
-// High speed move VRAM to VRAM, Y coordinate only.
+// High speed move VRAM to VRAM, Y coordinate only. [MSX2/2+/TR]
 //
 // Parameters:
 //   sy - Y coordinate of the source area
 //   dx - X coordinate of the destination area
 //   dy - Y coordinate of the destination area
-//   ny - Y size of the area to move
+//   ny - Height of the area to move
 //   dir - Direction of the move (from the destination)
 inline void VDP_CommandYMMM(u16 sy, u16 dx, u16 dy, u16 ny, u8 dir)
 {
@@ -57,7 +64,15 @@ inline void VDP_CommandYMMM(u16 sy, u16 dx, u16 dy, u16 ny, u8 dir)
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandHMMM
-// High speed move VRAM to VRAM
+// High speed move VRAM to VRAM. [MSX2/2+/TR]
+//
+// Parameters:
+//   sx   - X coordinate of the source area
+//   sy   - Y coordinate of the source area
+//   dx   - X coordinate of the destination area
+//   dy   - Y coordinate of the destination area
+//   nx   - Width of the area
+//   ny   - Height of the area
 inline void VDP_CommandHMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny)
 {
 	g_VDP_Command.SX = sx;
@@ -73,7 +88,14 @@ inline void VDP_CommandHMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny)
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandHMMV
-// High speed move VDP to VRAM
+// High speed move VDP to VRAM. [MSX2/2+/TR]
+//
+// Parameters:
+//   dx   - X coordinate of the destination area
+//   dy   - Y coordinate of the destination area
+//   nx   - Width of the area
+//   ny   - Height of the area
+//   col  - Color data
 inline void VDP_CommandHMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 col)
 {
 	g_VDP_Command.DX = dx; 
@@ -88,7 +110,15 @@ inline void VDP_CommandHMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 col)
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandLMMC
-// Logical move CPU to VRAM
+// Logical move CPU to VRAM. [MSX2/2+/TR]
+//
+// Parameters:
+//   addr - Address of the source data
+//   dx   - X coordinate of the destination area
+//   dy   - Y coordinate of the destination area
+//   nx   - Width of the area
+//   ny   - Height of the area
+//   op   - Color blend operation
 inline void VDP_CommandLMMC(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny, u8 op)
 {
 	g_VDP_Command.DX = dx;
@@ -104,14 +134,23 @@ inline void VDP_CommandLMMC(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny, u8 o
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandLMCM
-// Logical move VRAM to CPU (not fonctional)
+// Logical move VRAM to CPU (not fonctional). [MSX2/2+/TR]
 inline void VDP_CommandLMCM()
 {
 }
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandLMMM
-// Logical move VRAM to VRAM
+// Logical move VRAM to VRAM. [MSX2/2+/TR]
+//
+// Parameters:
+//   sx   - X coordinate of the source area
+//   sy   - Y coordinate of the source area
+//   dx   - X coordinate of the destination area
+//   dy   - Y coordinate of the destination area
+//   nx   - Width of the area
+//   ny   - Height of the area
+//   op   - Color blend operation
 inline void VDP_CommandLMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 op)
 {
 	g_VDP_Command.SX = sx;
@@ -127,7 +166,15 @@ inline void VDP_CommandLMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 o
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandLMMV
-// Logical move VDP to VRAM
+// Logical move VDP to VRAM. [MSX2/2+/TR]
+//
+// Parameters:
+//   dx   - X coordinate of the destination area
+//   dy   - Y coordinate of the destination area
+//   nx   - Width of the area
+//   ny   - Height of the area
+//   col  - Color data
+//   op   - Color blend operation
 inline void VDP_CommandLMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 op)
 {
 	g_VDP_Command.DX = dx; 
@@ -142,7 +189,16 @@ inline void VDP_CommandLMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 op)
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandLINE
-// Draw straight line in VRAM
+// Draw straight line in VRAM. [MSX2/2+/TR]
+//
+// Parameters:
+//   dx   - X coordinate of the destination area
+//   dy   - Y coordinate of the destination area
+//   nx   - Width of the area
+//   ny   - Height of the area
+//   col  - Color data
+//   arg  - Command argument
+//   op   - Color blend operation
 inline void VDP_CommandLINE(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 arg, u8 op)
 {
 	g_VDP_Command.DX = dx;
@@ -157,7 +213,13 @@ inline void VDP_CommandLINE(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 arg, u8 o
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandSRCH
-// Search for the specific color in VRAM to the right or left of the starting point (not fonctional)
+// Search for the specific color in VRAM to the right or left of the starting point (not fonctional). [MSX2/2+/TR]
+//
+// Parameters:
+//   sx   - X coordinate of the source area
+//   sy   - Y coordinate of the source area
+//   col  - Color data
+//   arg  - Command argument
 inline void VDP_CommandSRCH(u16 sx, u16 sy, u8 col, u8 arg)
 {
 	g_VDP_Command.SX = sx;
@@ -170,7 +232,13 @@ inline void VDP_CommandSRCH(u16 sx, u16 sy, u8 col, u8 arg)
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandPSET
-// Draw a dot in VRAM 
+// Draw a dot in VRAM. [MSX2/2+/TR]
+//
+// Parameters:
+//   dx   - X coordinate of the destination area
+//   dy   - Y coordinate of the destination area
+//   col  - Color data
+//   op   - Color blend operation
 inline void VDP_CommandPSET(u16 dx, u16 dy, u8 col, u8 op)
 {
 	g_VDP_Command.DX = dx;
@@ -183,7 +251,11 @@ inline void VDP_CommandPSET(u16 dx, u16 dy, u8 col, u8 op)
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandPOINT
-// Read the color of the specified dot located in VRAM 
+// Read the color of the specified dot located in VRAM. [MSX2/2+/TR]
+//
+// Parameters:
+//   sx   - X coordinate of the source area
+//   sy   - Y coordinate of the source area
 inline u8 VDP_CommandPOINT(u16 sx, u16 sy)
 {
 	g_VDP_Command.SX = sx;
@@ -196,7 +268,7 @@ inline u8 VDP_CommandPOINT(u16 sx, u16 sy)
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandSTOP
-// Abort current command
+// Abort the current command. [MSX2/2+/TR]
 inline void VDP_CommandSTOP()
 {
 	VDP_RegWrite(46, VDP_CMD_STOP);

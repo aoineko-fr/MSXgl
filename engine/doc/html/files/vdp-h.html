@@ -167,8 +167,8 @@
  <div class="CBody"><p>Read a value from VRAM [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">srcLow<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Source address in VRAM (16 LSB of 17-bits VRAM address)</p></td></tr><tr><td class="CDLEntry">srcHigh<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Source address in VRAM (1 MSB of 17-bits VRAM address)</p></td></tr></table><div class="CHeading">Return</div><p>Value read in VRAM</p></div>
 </div>
 
-<a name="Setup"></a><a name="Topic94"></a><div class="CTopic TGroup LC">
- <div class="CTitle">Setup</div>
+<a name="Display_setup"></a><a name="Topic52"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Display setup</div>
 </div>
 
 <a name="VDP_EnableDisplay"></a><a name="Topic539"></a><div class="CTopic TFunction LC">
@@ -183,21 +183,27 @@
  <div class="CBody"><p>Enable/disable vertical interruption (register 1) [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>True to enable, false do disable</p></td></tr></table></div>
 </div>
 
+<a name="VDP_SetColor"></a><a name="Topic53"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetColor</div>
+ <div id="NDPrototype53" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set text and border default color (register 7) [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Defaut color (Format: [TXT:4|BG:4])</p></td></tr></table></div>
+</div>
+
 <a name="VDP_EnableHBlank"></a><a name="Topic541"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_EnableHBlank</div>
  <div id="NDPrototype541" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_EnableHBlank(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Enable/disable horizontal interruption (register 0) [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>True to enable, false do disable</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetHBlankLine"></a><a name="Topic542"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetHBlankLine"></a><a name="Topic54"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetHBlankLine</div>
- <div id="NDPrototype542" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetHBlankLine(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">line</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype54" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetHBlankLine(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">line</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the horizontal-blank interruption line (register 19) [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">line<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Line number where the interruption will occure</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetVerticalOffset"></a><a name="Topic543"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetVerticalOffset"></a><a name="Topic55"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetVerticalOffset</div>
- <div id="NDPrototype543" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetVerticalOffset(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype55" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetVerticalOffset(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the vertical rendering offset (register 23) [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">offset<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Number of lines of offset from the top of the screen</p></td></tr></table></div>
 </div>
 
@@ -207,52 +213,56 @@
  <div class="CBody"><p>Adjustment of the display location on the screen (register 18) [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">offset<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Screen display position offset (MSB 4-bits: vertical offset, LSB 4-bits: horizontal offset)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetGrayScale"></a><a name="Topic545"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetGrayScale"></a><a name="Topic56"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetGrayScale</div>
- <div id="NDPrototype545" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetGrayScale(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable/disable grayscale (register 8) [MSX2/2+/TR]</p></div>
+ <div id="NDPrototype56" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetGrayScale(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>True to enable, false do disable Enable/disable grayscale (register 8) [MSX2/2+/TR]</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetFrequency"></a><a name="Topic546"></a><div class="CTopic TFunction LC">
+<a name="VDP_FREQ"></a><a name="Topic57"></a><div class="CTopic TEnumeration LC">
+ <div class="CTitle">VDP_FREQ</div>
+ <div class="CBody"><p>VDP frequency flags</p></div>
+</div>
+
+<a name="VDP_SetFrequency"></a><a name="Topic58"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetFrequency</div>
- <div id="NDPrototype546" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetFrequency(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">freq</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Change VDP frequency (50/60 Hz; register 9) [MSX2/2+/TR]</p></div>
+ <div id="NDPrototype58" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetFrequency(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">freq</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Change VDP frequency (register 9) [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">lines</td><td class="CDLDefinition"><p>Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetColor"></a><a name="Topic547"></a><div class="CTopic TFunction LC">
- <div class="CTitle">VDP_SetColor</div>
- <div id="NDPrototype547" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set text and border default color (format: [TXT:4|BG:4]; register 7)&nbsp; [MSX1/2/2+/TR]</p></div>
+<a name="VDP_LINE"></a><a name="Topic59"></a><div class="CTopic TEnumeration LC">
+ <div class="CTitle">VDP_LINE</div>
+ <div class="CBody"><p>VDP line flags</p></div>
 </div>
 
-<a name="VDP_SetPalette"></a><a name="Topic108"></a><div class="CTopic TFunction LC">
- <div class="CTitle">VDP_SetPalette</div>
- <div id="NDPrototype108" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPalette(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">pal</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
- <div class="CBody"><p>Set a new palette [red|blue][0|green]</p></div>
-</div>
-
-<a name="VDP_SetPaletteEntry"></a><a name="Topic109"></a><div class="CTopic TFunction LC">
- <div class="CTitle">VDP_SetPaletteEntry</div>
- <div id="NDPrototype109" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPaletteEntry(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set palette entry color</p></div>
-</div>
-
-<a name="VDP_SetLineCount"></a><a name="Topic110"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetLineCount"></a><a name="Topic60"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetLineCount</div>
- <div id="NDPrototype110" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetLineCount(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">lines</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set line count for the current screen mode</p></div>
+ <div id="NDPrototype60" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetLineCount(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">lines</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set line count for the current screen mode (register 9) [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">lines<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Can be VDP_LINE_192 or VDP_LINE_212</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetInterlace"></a><a name="Topic111"></a><div class="CTopic TFunction LC">
- <div class="CTitle">VDP_SetInterlace</div>
- <div id="NDPrototype111" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetInterlace(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable or disable interlace mode</p></div>
-</div>
-
-<a name="VDP_SetPageAlternance"></a><a name="Topic112"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetPageAlternance"></a><a name="Topic61"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetPageAlternance</div>
- <div id="NDPrototype112" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPageAlternance(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable automatic page switch on even/odd frames</p></div>
+ <div id="NDPrototype61" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPageAlternance(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable automatic page switch on even/odd frames [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>True to enable, false do disable</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetInterlace"></a><a name="Topic62"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetInterlace</div>
+ <div id="NDPrototype62" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetInterlace(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable or disable interlace mode&nbsp; [MSX2/2+/TR] Needs <a href="../index.html#File:vdp.h:VDP_SetPageAlternance" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,61);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >VDP_SetPageAlternance</a> to be set to TRUE and <a href="../index.html#File:vdp.h:VDP_SetPage" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,552);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >VDP_SetPage</a> to a odd value.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>True to enable, false do disable</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetPalette"></a><a name="Topic63"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetPalette</div>
+ <div id="NDPrototype63" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPalette(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">pal</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
+ <div class="CBody"><p>Set a new color palette from index 1 to 15 [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">pal<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of the palette in RAM (table of 15 * 2 bytes) Format: [0:5|green:3|0|red:3|0|blue:3]</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetPaletteEntry"></a><a name="Topic64"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetPaletteEntry</div>
+ <div id="NDPrototype64" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPaletteEntry(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set a given color entry in the palette [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Index of the palette entry (0-15)</p></td></tr><tr><td class="CDLEntry">color<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>16 bits color value (@see RGB16 macro) Format: [0:5|green:3|0|red:3|0|blue:3]</p></td></tr></table></div>
 </div>
 
 <a name="VDP_YJK"></a><a name="Topic113"></a><div class="CTopic TEnumeration LC">
@@ -260,174 +270,174 @@
  <div class="CBody"><p>YJK modes</p></div>
 </div>
 
-<a name="VDP_SetYJK"></a><a name="Topic114"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetYJK"></a><a name="Topic102"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetYJK</div>
- <div id="NDPrototype114" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetYJK(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set YJK mode [MSX2+/TR].&nbsp; See <a href="../index.html#File:vdp.h:VDP_YJK" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,113);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >VDP_YJK</a> enum.</p></div>
+ <div id="NDPrototype102" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetYJK(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set YJK mode [MSX2+/TR].&nbsp; See <a href="../index.html#File:vdp.h:VDP_YJK" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,113);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >VDP_YJK</a> enum.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>YJK mode (can be VDP_YJK_OFF, VDP_YJK_ON or VDP_YJK_YAE)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetHorizontalOffset"></a><a name="Topic115"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetHorizontalOffset"></a><a name="Topic107"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetHorizontalOffset</div>
- <div id="NDPrototype115" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetHorizontalOffset(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set the horizontal rendeing offset (in pixel) [MSX2+/TR]</p></div>
+ <div id="NDPrototype107" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetHorizontalOffset(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the horizontal rendeing offset [MSX2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">offset<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Screen horizontal offset (9-bits value in pixel)</p></td></tr></table></div>
 </div>
 
-<a name="Table_VRAM_address"></a><a name="Topic82"></a><div class="CTopic TGroup LC">
- <div class="CTitle">Table VRAM address</div>
+<a name="VRAM_tables_address"></a><a name="Topic117"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">VRAM tables address</div>
 </div>
 
-<a name="VDP_SetPage"></a><a name="Topic103"></a><div class="CTopic TFunction LC">
- <div class="CTitle">VDP_SetPage</div>
- <div id="NDPrototype103" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPage(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set current VRAM page</p></div>
-</div>
-
-<a name="VDP_SetLayoutTable"></a><a name="Topic104"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetLayoutTable"></a><a name="Topic118"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetLayoutTable</div>
- <div id="NDPrototype104" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetLayoutTable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set layout table VRAM address</p></div>
+ <div id="NDPrototype118" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetLayoutTable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set layout table VRAM address [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">VADDR</div></td><td class="CDLDefinition"><p>VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetColorTable"></a><a name="Topic105"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetColorTable"></a><a name="Topic548"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetColorTable</div>
- <div id="NDPrototype105" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetColorTable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set color table VRAM address</p></div>
+ <div id="NDPrototype548" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetColorTable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set color table VRAM address [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">VADDR</div></td><td class="CDLDefinition"><p>VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetPatternTable"></a><a name="Topic106"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetPatternTable"></a><a name="Topic549"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetPatternTable</div>
- <div id="NDPrototype106" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPatternTable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set pattern table VRAM address</p></div>
+ <div id="NDPrototype549" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPatternTable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set pattern table VRAM address [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">VADDR</div></td><td class="CDLDefinition"><p>VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpriteAttributeTable"></a><a name="Topic124"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpriteAttributeTable"></a><a name="Topic550"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpriteAttributeTable</div>
- <div id="NDPrototype124" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteAttributeTable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set sprite attribute table address</p></div>
+ <div id="NDPrototype550" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteAttributeTable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set sprite attribute table address [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">VADDR</div></td><td class="CDLDefinition"><p>VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpritePatternTable"></a><a name="Topic125"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpritePatternTable"></a><a name="Topic551"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpritePatternTable</div>
- <div id="NDPrototype125" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpritePatternTable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set sprite pattern table address</p></div>
+ <div id="NDPrototype551" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpritePatternTable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set sprite pattern table address [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">VADDR</div></td><td class="CDLDefinition"><p>VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetPage"></a><a name="Topic552"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetPage</div>
+ <div id="NDPrototype552" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPage(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set current VRAM page [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">page<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Page number to set</p></td></tr></table></div>
 </div>
 
 <a name="Sprite"></a><a name="Topic119"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Sprite</div>
 </div>
 
-<a name="VDP_EnableSprite"></a><a name="Topic120"></a><div class="CTopic TFunction LC">
+<a name="VDP_EnableSprite"></a><a name="Topic553"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_EnableSprite</div>
- <div id="NDPrototype120" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_EnableSprite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable/disable sprite rendering</p></div>
+ <div id="NDPrototype553" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_EnableSprite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable/disable sprite rendering (register 8) [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>True to enable, false do disable</p></td></tr></table></div>
 </div>
 
-<a name="VDP_DisableSprite"></a><a name="Topic121"></a><div class="CTopic TFunction LC">
+<a name="VDP_DisableSprite"></a><a name="Topic554"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_DisableSprite</div>
- <div id="NDPrototype121" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_DisableSprite()</div></div>
- <div class="CBody"><p>Disable sprite rendering</p></div>
+ <div id="NDPrototype554" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_DisableSprite()</div></div>
+ <div class="CBody"><p>Disable sprite rendering (see <a href="../index.html#File:vdp.h:VDP_EnableSprite" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,553);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >VDP_EnableSprite</a>) [MSX1/2/2+/TR]</p></div>
 </div>
 
-<a name="VDP_SetSpriteFlag"></a><a name="Topic123"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpriteFlag"></a><a name="Topic555"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpriteFlag</div>
- <div id="NDPrototype123" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteFlag(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flag</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set sprite parameters</p></div>
+ <div id="NDPrototype555" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteFlag(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flag</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set sprite rendering parameters [MSX1/2/2+/TR]</p></div>
 </div>
 
-<a name="VDP_SetSpriteTables"></a><a name="Topic126"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpriteTables"></a><a name="Topic556"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpriteTables</div>
- <div id="NDPrototype126" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteTables(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">patternAddr,</td></tr><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">attribAddr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set sprite table address (bit#16 to bit#1)</p></div>
+ <div id="NDPrototype556" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetSpriteTables(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">patternAddr,</td></tr><tr><td class="PType first">VADDR&nbsp;</td><td class="PName last">attribAddr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set sprite tables address [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">pattern</td><td class="CDLDefinition"><p>Sprite pattern table address</p></td></tr><tr><td class="CDLEntry">attrib</td><td class="CDLDefinition"><p>Sprite attribute table address</p></td></tr></table></div>
 </div>
 
-<a name="VDP_LoadSpritePattern"></a><a name="Topic127"></a><div class="CTopic TFunction LC">
+<a name="VDP_LoadSpritePattern"></a><a name="Topic557"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_LoadSpritePattern</div>
- <div id="NDPrototype127" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_LoadSpritePattern(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Load pattern data into VRAM</p></div>
+ <div id="NDPrototype557" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_LoadSpritePattern(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Load sprite pattern data into VRAM [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Source address for sprite patterns</p></td></tr><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Index of the first VRAM sprite pattern to copy to</p></td></tr><tr><td class="CDLEntry">count<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Number of patterns to copy</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpriteSM1"></a><a name="Topic128"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpriteSM1"></a><a name="Topic558"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpriteSM1</div>
- <div id="NDPrototype128" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteSM1(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">shape,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set sprite attribute for Sprite Mode 1 (MSX1)</p></div>
+ <div id="NDPrototype558" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteSM1(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">shape,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set sprite attribute for Sprite Mode 1 [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite index in the attribute table</p></td></tr><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Initial X screen coordinate</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Initial Y screen coordinate</p></td></tr><tr><td class="CDLEntry">shape<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite pattern index</p></td></tr><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite color (LSB 4-bits) + optional EC flag (see &lt;VDP_SPRITE_EC&gt;)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSprite"></a><a name="Topic129"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSprite"></a><a name="Topic559"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSprite</div>
- <div id="NDPrototype129" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSprite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">shape</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set sprite attribute for Sprite Mode 2</p></div>
+ <div id="NDPrototype559" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSprite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">shape</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set sprite attribute for Sprite Mode 2 [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite index in the attribute table</p></td></tr><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Initial X screen coordinate</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Initial Y screen coordinate</p></td></tr><tr><td class="CDLEntry">shape<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite pattern index</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpriteExMultiColor"></a><a name="Topic130"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpriteExMultiColor"></a><a name="Topic560"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpriteExMultiColor</div>
- <div id="NDPrototype130" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteExMultiColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">shape,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">ram</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set sprite attribute for Sprite Mode 2 and fill color table with color data</p></div>
+ <div id="NDPrototype560" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteExMultiColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">shape,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">ram</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set sprite attribute for Sprite Mode 2 and fill color table with color data [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite index in the attribute table</p></td></tr><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Initial X screen coordinate</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Initial Y screen coordinate</p></td></tr><tr><td class="CDLEntry">shape<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite pattern index</p></td></tr><tr><td class="CDLEntry">ram<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address to a 8 bytes buffer that determine the sprite colors (1 byte = 1 line)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpriteExUniColor"></a><a name="Topic131"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpriteExUniColor"></a><a name="Topic561"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpriteExUniColor</div>
- <div id="NDPrototype131" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteExUniColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">shape,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set sprite attribute for Sprite Mode 2 and fill color table with unique color</p></div>
+ <div id="NDPrototype561" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteExUniColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">shape,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set sprite attribute for Sprite Mode 2 and fill color table with unique color [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite index in the attribute table</p></td></tr><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Initial X screen coordinate</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Initial Y screen coordinate</p></td></tr><tr><td class="CDLEntry">shape<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite pattern index</p></td></tr><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite color (LSB 4-bits) + optional EC, CC &amp; IC flags (this color is used for the all 8 lines of the sprite)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpritePosition"></a><a name="Topic132"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpritePosition"></a><a name="Topic562"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpritePosition</div>
- <div id="NDPrototype132" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpritePosition(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Update sprite position</p></div>
+ <div id="NDPrototype562" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpritePosition(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Update sprite position [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite index in the attribute table</p></td></tr><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Initial X screen coordinate</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Initial Y screen coordinate</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpritePositionX"></a><a name="Topic133"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpritePositionX"></a><a name="Topic563"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpritePositionX</div>
- <div id="NDPrototype133" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpritePositionX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Update sprite position X</p></div>
+ <div id="NDPrototype563" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpritePositionX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Update sprite position X [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite index in the attribute table</p></td></tr><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Initial X screen coordinate</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpritePositionY"></a><a name="Topic134"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpritePositionY"></a><a name="Topic564"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpritePositionY</div>
- <div id="NDPrototype134" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpritePositionY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Update sprite position Y</p></div>
+ <div id="NDPrototype564" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpritePositionY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Update sprite position Y [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite index in the attribute table</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Initial Y screen coordinate</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpritePattern"></a><a name="Topic460"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpritePattern"></a><a name="Topic565"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpritePattern</div>
- <div id="NDPrototype460" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpritePattern(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">shape</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Update sprite pattern</p></div>
+ <div id="NDPrototype565" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpritePattern(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">shape</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Update sprite pattern [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite index in the attribute table</p></td></tr><tr><td class="CDLEntry">shape<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite pattern index</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpriteColorSM1"></a><a name="Topic461"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpriteColorSM1"></a><a name="Topic566"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpriteColorSM1</div>
- <div id="NDPrototype461" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteColorSM1(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Update sprite pattern (Sprite Mode 1)</p></div>
+ <div id="NDPrototype566" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteColorSM1(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Update sprite pattern (Sprite Mode 1) [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite index in the attribute table</p></td></tr><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite color (LSB 4-bits) + optional EC flag (see &lt;VDP_SPRITE_EC&gt;)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpriteUniColor"></a><a name="Topic476"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpriteUniColor"></a><a name="Topic567"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpriteUniColor</div>
- <div id="NDPrototype476" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteUniColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Update sprite color (Uni-color)</p></div>
+ <div id="NDPrototype567" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteUniColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Update sprite color (Uni-color) [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite index in the attribute table</p></td></tr><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite color (LSB 4-bits) + optional EC, CC &amp; IC flags (this color is used for the all 8 lines of the sprite)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpriteMultiColor"></a><a name="Topic477"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpriteMultiColor"></a><a name="Topic568"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpriteMultiColor</div>
- <div id="NDPrototype477" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteMultiColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">ram</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Update sprite color (Multi-color)</p></div>
+ <div id="NDPrototype568" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteMultiColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">ram</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Update sprite color (Multi-color) [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite index in the attribute table</p></td></tr><tr><td class="CDLEntry">ram<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address to a 8 bytes buffer that determine the sprite colors (1 byte = 1 line)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetSpriteData"></a><a name="Topic478"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetSpriteData"></a><a name="Topic569"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetSpriteData</div>
- <div id="NDPrototype478" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteData(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set sprite data for Sprite Mode 2</p></div>
+ <div id="NDPrototype569" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetSpriteData(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">index,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set sprite data for Sprite Mode 2 [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite index in the attribute table</p></td></tr><tr><td class="CDLEntry">data<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address to a 3 bytes data buffer including sprite position and shape</p></td></tr></table></div>
 </div>
 
-<a name="VDP_DisableSpritesFrom"></a><a name="Topic479"></a><div class="CTopic TFunction LC">
+<a name="VDP_DisableSpritesFrom"></a><a name="Topic570"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_DisableSpritesFrom</div>
- <div id="NDPrototype479" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_DisableSpritesFrom(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Disable all sprites from a given index</p></div>
+ <div id="NDPrototype570" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_DisableSpritesFrom(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Disable all sprites from a given index [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Disable sprite rendering starting from this sprite index</p></td></tr></table></div>
 </div>
 
-<a name="VDP_HideSprite"></a><a name="Topic480"></a><div class="CTopic TFunction LC">
+<a name="VDP_HideSprite"></a><a name="Topic571"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_HideSprite</div>
- <div id="NDPrototype480" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_HideSprite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Hide a given sprite (don't disable following sprites)</p></div>
+ <div id="NDPrototype571" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_HideSprite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Hide a given sprite (don't disable following sprites) [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Index of the sprite to hide</p></td></tr></table></div>
 </div>
 
 <a name="GM2"></a><a name="Topic481"></a><div class="CTopic TGroup LC">
@@ -435,34 +445,34 @@
  <div class="CBody"><p>Graph mode 2 &amp; 3 specific functions</p></div>
 </div>
 
-<a name="VDP_FillScreen_GM2"></a><a name="Topic510"></a><div class="CTopic TFunction LC">
+<a name="VDP_FillScreen_GM2"></a><a name="Topic572"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_FillScreen_GM2</div>
- <div id="NDPrototype510" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_FillScreen_GM2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Fill the full screen with a given pattern value</p></div>
+ <div id="NDPrototype572" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_FillScreen_GM2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Fill the full screen with a given pattern value [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">value<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Pattern index to fill In G2/G3 modes, the same index can define different pattern in the 3 vertical sections</p></td></tr></table></div>
 </div>
 
-<a name="VDP_LoadPattern_GM2"></a><a name="Topic511"></a><div class="CTopic TFunction LC">
+<a name="VDP_LoadPattern_GM2"></a><a name="Topic573"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_LoadPattern_GM2</div>
- <div id="NDPrototype511" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_LoadPattern_GM2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">count,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Load patterns in all 3 screen sections</p></div>
+ <div id="NDPrototype573" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_LoadPattern_GM2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">count,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Load patterns in all 3 screen sections [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">src<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of data buffer to copy to VRAM</p></td></tr><tr><td class="CDLEntry">count<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Number of pattern to copy</p></td></tr><tr><td class="CDLEntry">offset<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Pattern index from which to copy data</p></td></tr></table></div>
 </div>
 
-<a name="VDP_LoadColor_GM2"></a><a name="Topic523"></a><div class="CTopic TFunction LC">
+<a name="VDP_LoadColor_GM2"></a><a name="Topic574"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_LoadColor_GM2</div>
- <div id="NDPrototype523" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_LoadColor_GM2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">count,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Load colors in all 3 screen sections</p></div>
+ <div id="NDPrototype574" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_LoadColor_GM2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">count,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Load colors in all 3 screen sections [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">src<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of data buffer to copy to VRAM</p></td></tr><tr><td class="CDLEntry">count<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Number of pattern to copy</p></td></tr><tr><td class="CDLEntry">offset<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Pattern index from which to copy data</p></td></tr></table></div>
 </div>
 
-<a name="VDP_WriteLayout_GM2"></a><a name="Topic524"></a><div class="CTopic TFunction LC">
+<a name="VDP_WriteLayout_GM2"></a><a name="Topic575"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_WriteLayout_GM2</div>
- <div id="NDPrototype524" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_WriteLayout_GM2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">ny</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Copy patterns to a rectangle</p></div>
+ <div id="NDPrototype575" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_WriteLayout_GM2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">ny</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Copy patterns layout to a given rectangle [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">src<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of data buffer to copy to VRAM</p></td></tr><tr><td class="CDLEntry">dx<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Destination starting X position</p></td></tr><tr><td class="CDLEntry">dy<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Destination starting Y position</p></td></tr><tr><td class="CDLEntry">dx<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Destination width</p></td></tr><tr><td class="CDLEntry">dy<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Destination height</p></td></tr></table></div>
 </div>
 
-<a name="VDP_FillLayout_GM2"></a><a name="Topic525"></a><div class="CTopic TFunction LC">
+<a name="VDP_FillLayout_GM2"></a><a name="Topic576"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_FillLayout_GM2</div>
- <div id="NDPrototype525" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_FillLayout_GM2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">ny</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Fill a rectangle with a given value</p></div>
+ <div id="NDPrototype576" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_FillLayout_GM2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">ny</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Fill a rectangle with a given value [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">value<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Pattern index to fill</p></td></tr><tr><td class="CDLEntry">dx<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Destination starting X position</p></td></tr><tr><td class="CDLEntry">dy<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Destination starting Y position</p></td></tr><tr><td class="CDLEntry">dx<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Destination width</p></td></tr><tr><td class="CDLEntry">dy<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Destination height</p></td></tr></table></div>
 </div>
 
 <a name="Command"></a><a name="Topic526"></a><div class="CTopic TGroup LC">
@@ -470,34 +480,34 @@
  <div class="CBody"><p>VDP commands wrapper functions</p></div>
 </div>
 
-<a name="VDP_CommandWait"></a><a name="Topic527"></a><div class="CTopic TFunction LC">
+<a name="VDP_CommandWait"></a><a name="Topic577"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_CommandWait</div>
- <div id="NDPrototype527" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VDP_CommandWait()</div></div>
- <div class="CBody"><p>Wait for previous VDP command to be finished</p></div>
+ <div id="NDPrototype577" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VDP_CommandWait()</div></div>
+ <div class="CBody"><p>Wait for previous VDP command to be finished [MSX2/2+/TR]</p></div>
 </div>
 
-<a name="VPD_CommandSetupR32"></a><a name="Topic528"></a><div class="CTopic TFunction LC">
+<a name="VPD_CommandSetupR32"></a><a name="Topic578"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VPD_CommandSetupR32</div>
- <div id="NDPrototype528" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VPD_CommandSetupR32()</div></div>
- <div class="CBody"><p>Send VDP command (form registres 32 to 46)</p></div>
+ <div id="NDPrototype578" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VPD_CommandSetupR32()</div></div>
+ <div class="CBody"><p>Send VDP command (form registres 32 to 46) [MSX2/2+/TR]</p></div>
 </div>
 
-<a name="VPD_CommandSetupR36"></a><a name="Topic529"></a><div class="CTopic TFunction LC">
+<a name="VPD_CommandSetupR36"></a><a name="Topic579"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VPD_CommandSetupR36</div>
- <div id="NDPrototype529" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VPD_CommandSetupR36()</div></div>
- <div class="CBody"><p>Send VDP command (form registres 36 to 46)</p></div>
+ <div id="NDPrototype579" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VPD_CommandSetupR36()</div></div>
+ <div class="CBody"><p>Send VDP command (form registres 36 to 46) [MSX2/2+/TR]</p></div>
 </div>
 
-<a name="VPD_CommandWriteLoop"></a><a name="Topic530"></a><div class="CTopic TFunction LC">
+<a name="VPD_CommandWriteLoop"></a><a name="Topic580"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VPD_CommandWriteLoop</div>
- <div id="NDPrototype530" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VPD_CommandWriteLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
- <div class="CBody"><p>Write to VRAM command loop</p></div>
+ <div id="NDPrototype580" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VPD_CommandWriteLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
+ <div class="CBody"><p>Write to VRAM command loop [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of the source buffer</p></td></tr></table></div>
 </div>
 
-<a name="VPD_CommandReadLoop"></a><a name="Topic613"></a><div class="CTopic TFunction LC last">
+<a name="VPD_CommandReadLoop"></a><a name="Topic581"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">VPD_CommandReadLoop</div>
- <div id="NDPrototype613" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VPD_CommandReadLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
- <div class="CBody"><p>Read to VRAM command loop</p></div>
+ <div id="NDPrototype581" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VPD_CommandReadLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
+ <div class="CBody"><p>Read to VRAM command loop [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Address of the destination buffer (in RAM)</p></td></tr></table></div>
 </div>
 
 </body></html>

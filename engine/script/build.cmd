@@ -6,7 +6,7 @@
 ::-----------------------------------------------------------------------------
 @echo off
 "%__APPDIR__%chcp.com" 65001 > nul
-title <nul & title MSXgl Build Tool – %ProjName% – %Target%
+title <nul & title MSXgl Build Tool – %ProjName% – %Target% – MSX %Machine%
 
 setlocal EnableDelayedExpansion
 

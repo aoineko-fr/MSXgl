@@ -245,7 +245,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 
 	__asm
 
-	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
+	#if ((VDP_USE_VALIDATOR) && (MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
 		xor		a
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
@@ -326,7 +326,7 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __sdcccall(0)
 
 	__asm
 
-	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
+	#if ((VDP_USE_VALIDATOR) && (MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
 		xor		a
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
@@ -376,7 +376,7 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
 
 	__asm
 
-	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
+	#if ((VDP_USE_VALIDATOR) && (MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
 		xor		a
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
@@ -456,7 +456,7 @@ u8 VDP_Peek_16K(u16 dest)
 
 	__asm
 
-	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
+	#if ((VDP_USE_VALIDATOR) && (MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
 		// Reset R#14
 		xor		a
 		out		(P_VDP_REG), a
@@ -496,7 +496,7 @@ void VDP_Poke_16K(u8 val, u16 dest)
 	__asm
 		ld		b, a					// Backup A register
 
-	#if ((MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
+	#if ((VDP_USE_VALIDATOR) && (MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
 		// Reset R#14
 		xor		a
 		out		(P_VDP_REG), a
@@ -736,11 +736,12 @@ u8 VDP_ReadStatus(u8 stat) __FASTCALL
 // @param		enable		True to enable, false do disable
 void VDP_SetGrayScale(bool enable)
 {
-	u8 reg = g_VDP_REGSAV[8];
-	reg &= ~R08_BW;
-	if(enable)
-		reg |= R08_BW;
-	VDP_RegWriteBak(8, reg);
+	VDP_RegWriteBakMask(8, (u8)~R08_BW, enable ? R08_BW : 0);
+	// u8 reg = g_VDP_REGSAV[8];
+	// reg &= ~R08_BW;
+	// if(enable)
+		// reg |= R08_BW;
+	// VDP_RegWriteBak(8, reg);
 }
 
 //-----------------------------------------------------------------------------
@@ -748,10 +749,11 @@ void VDP_SetGrayScale(bool enable)
 // @param		freq		Can be VDP_FREQ_50HZ or VDP_FREQ_60HZ
 void VDP_SetFrequency(u8 freq)
 {
-	u8 reg = g_VDP_REGSAV[9];
-	reg &= ~R09_NT;
-	reg |= freq;
-	VDP_RegWriteBak(9, reg);
+	VDP_RegWriteBakMask(9, (u8)~R09_NT, freq);
+	// u8 reg = g_VDP_REGSAV[9];
+	// reg &= ~R09_NT;
+	// reg |= freq;
+	// VDP_RegWriteBak(9, reg);
 }
 
 //-----------------------------------------------------------------------------
@@ -761,11 +763,12 @@ void VDP_SetFrequency(u8 freq)
 //   enable - True to enable, false do disable
 void VDP_EnableHBlank(bool enable)
 {
-	u8 reg = g_VDP_REGSAV[0];
-	reg &= ~R00_IE1;
-	if(enable)
-		reg |= R00_IE1;
-	VDP_RegWriteBak(0, reg);
+	VDP_RegWriteBakMask(0, (u8)~R00_IE1, enable ? R00_IE1 : 0);
+	// u8 reg = g_VDP_REGSAV[0];
+	// reg &= ~R00_IE1;
+	// if(enable)
+		// reg |= R00_IE1;
+	// VDP_RegWriteBak(0, reg);
 }
 
 //-----------------------------------------------------------------------------
@@ -799,7 +802,7 @@ void VDP_SetPalette(const u8* pal) __FASTCALL
 	__endasm;
 }
 
-#if (USE_DEFAULT_PALETTE)
+#if (VDP_USE_DEFAULT_PALETTE)
 const u16 VDP_DefaulPalette[15] = {
 	RGB16(0, 0, 0),
 	RGB16(1, 6, 1),
@@ -821,10 +824,10 @@ void VDP_SetDefaultPalette()
 {
 	VDP_SetPalette((u8*)VDP_DefaulPalette);
 }
-#endif // USE_DEFAULT_PALETTE
+#endif // VDP_USE_DEFAULT_PALETTE
 
 
-#if (USE_MSX1_PALETTE)
+#if (VDP_USE_MSX1_PALETTE)
 const u16 VDP_MSX1Palette[15] = {
 	RGB16(0, 0, 0),
 	RGB16(1, 5, 1),
@@ -846,7 +849,7 @@ void VDP_SetMSX1Palette()
 {
 	VDP_SetPalette((u8*)VDP_MSX1Palette);
 }
-#endif // USE_MSX1_PALETTE
+#endif // VDP_USE_MSX1_PALETTE
 
 //-----------------------------------------------------------------------------
 // Set a given color entry in the palette [MSX2/2+/TR]
@@ -866,10 +869,11 @@ void VDP_SetPaletteEntry(u8 index, u16 color)
 // @param		lines		Can be VDP_LINE_192 or VDP_LINE_212
 void VDP_SetLineCount(u8 lines)
 {
-	u8 reg = g_VDP_REGSAV[9];
-	reg &= ~R09_LN;
-	reg |= lines;
-	VDP_RegWriteBak(9, reg);
+	VDP_RegWriteBakMask(9, (u8)~R09_LN, lines);
+	// u8 reg = g_VDP_REGSAV[9];
+	// reg &= ~R09_LN;
+	// reg |= lines;
+	// VDP_RegWriteBak(9, reg);
 }
 
 //-----------------------------------------------------------------------------
@@ -877,11 +881,12 @@ void VDP_SetLineCount(u8 lines)
 // @param		enable		True to enable, false do disable
 void VDP_SetInterlace(bool enable)
 {
-	u8 reg = g_VDP_REGSAV[9];
-	reg &= ~R09_IL;
-	if(enable)
-		reg |= R09_IL;
-	VDP_RegWriteBak(9, reg);
+	VDP_RegWriteBakMask(9, (u8)~R09_IL, enable ? R09_IL : 0);
+	// u8 reg = g_VDP_REGSAV[9];
+	// reg &= ~R09_IL;
+	// if(enable)
+		// reg |= R09_IL;
+	// VDP_RegWriteBak(9, reg);
 }
 
 //-----------------------------------------------------------------------------
@@ -889,11 +894,24 @@ void VDP_SetInterlace(bool enable)
 // @param		enable		True to enable, false do disable
 void VDP_SetPageAlternance(bool enable)
 {
-	u8 reg = g_VDP_REGSAV[9];
-	reg &= ~R09_EO;
-	if(enable)
-		reg |= R09_EO;
-	VDP_RegWriteBak(9, reg);
+	VDP_RegWriteBakMask(9, (u8)~R09_EO, enable ? R09_EO : 0);
+	// u8 reg = g_VDP_REGSAV[9];
+	// reg &= ~R09_EO;
+	// if(enable)
+		// reg |= R09_EO;
+	// VDP_RegWriteBak(9, reg);
+}
+
+//-----------------------------------------------------------------------------
+// Enable automatic page switch on even/odd frames [MSX2/2+/TR]
+// @param		enable		True to enable, false do disable
+void VDP_SetFrameRender(u8 mode)
+{
+	VDP_RegWriteBakMask(9, (u8)~VDP_FRAME_INTERLACE, mode);
+	// u8 reg = g_VDP_REGSAV[9];
+	// reg &= ~VDP_FRAME_INTERLACE;
+	// reg |= mode;
+	// VDP_RegWriteBak(9, reg);
 }
 
 //-----------------------------------------------------------------------------
@@ -1293,10 +1311,11 @@ void VPD_CommandWriteLoop(const u8* addr) __FASTCALL
 // Set YJK mode [MSX2+/TR]
 void VDP_SetYJK(u8 mode)
 {
-	u8 reg = g_VDP_REGSAV[25];
-	reg &= ~VDP_YJK_YAE;
-	reg |= mode;
-	VDP_RegWriteBak(25, reg);
+	VDP_RegWriteBakMask(25, (u8)~VDP_YJK_YAE, mode);
+	// u8 reg = g_VDP_REGSAV[25];
+	// reg &= ~VDP_YJK_YAE;
+	// reg |= mode;
+	// VDP_RegWriteBak(25, reg);
 }
 
 //-----------------------------------------------------------------------------
@@ -1612,6 +1631,21 @@ void VDP_RegWriteBak(u8 reg, u8 value)
 }
 
 //-----------------------------------------------------------------------------
+// Set masked register value after backuping previous value. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   reg  - Register number
+//   mask - Previous value reset mask
+//   flag - Value to set
+void VDP_RegWriteBakMask(u8 reg, u8 mask, u8 flag)
+{
+	u8 value = g_VDP_REGSAV[reg];
+	value &= mask;
+	value |= flag;
+	VDP_RegWriteBak(reg, value);
+}
+
+//-----------------------------------------------------------------------------
 // Fast write to VDP register
 // @todo out-out timing is 25 cc, less than worse case on MSX1 for G1 et G2!
 #define ASM_REG_WRITE(_reg, _val)					\
@@ -1647,22 +1681,24 @@ u8 VDP_ReadDefaultStatus()
 // Enable/disable vertical interruption [MSX1/2/2+/TR]
 void VDP_EnableVBlank(bool enable)
 {
-	u8 reg = g_VDP_REGSAV[1];
-	reg &= ~R01_IE0;
-	if(enable)
-		reg |= R01_IE0;	
-	VDP_RegWriteBak(1, reg);
+	VDP_RegWriteBakMask(1, (u8)~R01_IE0, enable ? R01_IE0 : 0);
+	// u8 reg = g_VDP_REGSAV[1];
+	// reg &= ~R01_IE0;
+	// if(enable)
+		// reg |= R01_IE0;	
+	// VDP_RegWriteBak(1, reg);
 }
 
 //-----------------------------------------------------------------------------
 // Enable/disable screen display [MSX1/2/2+/TR]
 void VDP_EnableDisplay(bool enable)
 {
-	u8 reg = g_VDP_REGSAV[1];
-	reg &= ~R01_BL;
-	if(enable)
-		reg |= R01_BL;	
-	VDP_RegWriteBak(1, reg);
+	VDP_RegWriteBakMask(1, (u8)~R01_BL, enable ? R01_BL : 0);
+	// u8 reg = g_VDP_REGSAV[1];
+	// reg &= ~R01_BL;
+	// if(enable)
+		// reg |= R01_BL;	
+	// VDP_RegWriteBak(1, reg);
 }
 
 //-----------------------------------------------------------------------------
@@ -1683,7 +1719,7 @@ void VDP_SetLayoutTable(VADDR addr)
 
 	u8 reg;
 	reg = (u8)(addr >> 10);
-	#if (MSX_VERSION >= MSX_2)
+	#if ((VDP_USE_VALIDATOR) && (MSX_VERSION >= MSX_2))
 		switch(g_VDP_Data.Mode)
 		{
 		case VDP_MODE_TEXT2:
@@ -1718,6 +1754,7 @@ void VDP_SetColorTable(VADDR addr)
 	
 	u8 reg;
 	reg = (u8)(addr >> 6);
+	#if (VDP_USE_VALIDATOR)
 	switch(g_VDP_Data.Mode)
 	{
 	#if (MSX_VERSION >= MSX_2)
@@ -1730,6 +1767,7 @@ void VDP_SetColorTable(VADDR addr)
 		reg |= 0b1111111;
 		break;
 	};	
+	#endif // (VDP_USE_VALIDATOR)
 	VDP_RegWrite(3, reg);
 
 	#if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
@@ -1748,6 +1786,7 @@ void VDP_SetPatternTable(VADDR addr)
 
 	u8 reg;
 	reg = (u8)(addr >> 11);
+	#if (VDP_USE_VALIDATOR)
 	switch(g_VDP_Data.Mode)
 	{
 	#if (MSX_VERSION >= MSX_2)
@@ -1755,7 +1794,8 @@ void VDP_SetPatternTable(VADDR addr)
 	#endif
 	case VDP_MODE_GRAPHIC2:
 		reg |= 0b11;
-	};	
+	};
+	#endif // (VDP_USE_VALIDATOR)
 	VDP_RegWrite(4, reg);
 	
 	#if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
@@ -1776,11 +1816,12 @@ void VDP_SetPatternTable(VADDR addr)
 // Enable/disable sprite rendering
 void VDP_EnableSprite(u8 enable)
 {
-	u8 reg = g_VDP_REGSAV[8];
-	reg &= ~R08_SPD;
-	if(!enable)
-		reg |= R08_SPD;
-	VDP_RegWriteBak(8, reg);
+	VDP_RegWriteBakMask(8, (u8)~R08_SPD, !enable ? R08_SPD : 0);
+	// u8 reg = g_VDP_REGSAV[8];
+	// reg &= ~R08_SPD;
+	// if(!enable)
+		// reg |= R08_SPD;
+	// VDP_RegWriteBak(8, reg);
 }
 #endif
 
@@ -1788,13 +1829,14 @@ void VDP_EnableSprite(u8 enable)
 // Set sprite parameters [MSX1/2/2+/TR]
 void VDP_SetSpriteFlag(u8 flag)
 {
-	u8 reg = g_VDP_REGSAV[1];
-	reg &= ~(R01_ST | R01_MAG);
-	if(flag & R01_ST)
-		reg |= R01_ST;
-	if(flag & R01_MAG)
-		reg |= R01_MAG;
-	VDP_RegWriteBak(1, reg);
+	VDP_RegWriteBakMask(1, (u8)~(R01_ST|R01_MAG), flag);
+	// u8 reg = g_VDP_REGSAV[1];
+	// reg &= ~(R01_ST | R01_MAG);
+	// if(flag & R01_ST)
+		// reg |= R01_ST;
+	// if(flag & R01_MAG)
+		// reg |= R01_MAG;
+	// VDP_RegWriteBak(1, reg);
 }
 
 //-----------------------------------------------------------------------------
@@ -1807,7 +1849,7 @@ void VDP_SetSpriteAttributeTable(VADDR addr)
 	
 	u8 reg;
 	reg = (u8)(addr >> 7);
-	#if (MSX_VERSION >= MSX_2)
+	#if ((VDP_USE_VALIDATOR) && (MSX_VERSION >= MSX_2))
 		switch(g_VDP_Data.Mode)
 		{
 		case VDP_MODE_GRAPHIC3:
@@ -1854,16 +1896,6 @@ void VDP_SetSpritePatternTable(VADDR addr)
 	u8 reg = (u8)(addr >> 11);
 	VDP_RegWrite(6, reg);
 
-}
-
-//-----------------------------------------------------------------------------
-// Set sprite table address (bit#16 to bit#1)
-// @param		pattern		1-bit right shifted VRAM address (bit#16 to bit#1)
-// @param		attrib		1-bit right shifted VRAM address (bit#16 to bit#1)
-void VDP_SetSpriteTables(VADDR pattern, VADDR attrib)
-{
-	VDP_SetSpritePatternTable(pattern);
-	VDP_SetSpriteAttributeTable(attrib);
 }
 
 //-----------------------------------------------------------------------------
