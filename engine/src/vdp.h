@@ -26,11 +26,6 @@
 // DEFINES
 //=============================================================================
 
-#define VDP_USE_UNDOCUMENTED		1
-#define VDP_USE_VALIDATOR			1
-#define VDP_USE_DEFAULT_PALETTE		0
-#define VDP_USE_MSX1_PALETTE		0
-
 // @todo Handle VRAM read/write access timing
 //
 // Minimum VRAM access timings in 3.58 MHz Z80 cycles

@@ -106,6 +106,36 @@
 	#define VDP_INIT_50HZ				VDP_INIT_ON
 #endif
 
+// VDP_USE_UNDOCUMENTED
+#ifndef VDP_USE_UNDOCUMENTED
+	#warning VDP_USE_UNDOCUMENTED is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define VDP_USE_UNDOCUMENTED		1
+#endif
+
+// VDP_USE_VALIDATOR
+#ifndef VDP_USE_VALIDATOR
+	#warning VDP_USE_VALIDATOR is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define VDP_USE_VALIDATOR			1
+#endif
+
+// VDP_USE_DEFAULT_PALETTE
+#ifndef VDP_USE_DEFAULT_PALETTE
+	#warning VDP_USE_DEFAULT_PALETTE is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define VDP_USE_DEFAULT_PALETTE		0
+#endif
+
+// VDP_USE_MSX1_PALETTE
+#ifndef VDP_USE_MSX1_PALETTE
+	#warning VDP_USE_MSX1_PALETTE is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define VDP_USE_MSX1_PALETTE		0
+#endif
+
+// VDP_USE_DEFAULT_SETTINGS
+#ifndef VDP_USE_DEFAULT_SETTINGS
+	#warning VDP_USE_DEFAULT_SETTINGS is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define VDP_USE_DEFAULT_SETTINGS	1
+#endif
+
 //-----------------------------------------------------------------------------
 // DRAW MODULE
 //-----------------------------------------------------------------------------

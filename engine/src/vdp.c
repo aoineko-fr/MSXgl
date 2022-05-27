@@ -1387,6 +1387,7 @@ void VDP_SetMode(const u8 mode)
 
 //.............................................................................
 // Default VDP setting
+#if (VDP_USE_DEFAULT_SETTINGS)
 	VDP_EnableDisplay(true);
 	VDP_EnableVBlank(true);
 #if (MSX_VERSION >= MSX_2)
@@ -1403,7 +1404,8 @@ void VDP_SetMode(const u8 mode)
 		VDP_SetLineCount(VDP_LINE_212);
 	VDP_SetInterlace(false);
 	VDP_SetPageAlternance(false);
-#endif
+#endif // (MSX_VERSION >= MSX_2)
+#endif // (VDP_USE_DEFAULT_SETTINGS)
 }
 
 //-----------------------------------------------------------------------------
