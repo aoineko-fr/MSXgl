@@ -1576,15 +1576,18 @@ u8 VDP_ReadDefaultStatus()
 	__endasm;
 }
 
+#if ((VDP_USE_MODE_G4 || VDP_USE_MODE_G5 || VDP_USE_MODE_G6 || VDP_USE_MODE_G7))
+
 //-----------------------------------------------------------------------------
 // Set current VRAM page
 void VDP_SetPage(u8 page)
 {
-	u8 reg = g_VDP_REGSAV[2];
-	reg &= 0x9F;
-	reg |= page << 5;
+	u8 reg = page << 5;
+	reg |= 0b11111;
 	VDP_RegWriteBak(2, reg);
 }
+
+#endif // ((VDP_USE_MODE_G4 || VDP_USE_MODE_G5 || VDP_USE_MODE_G6 || VDP_USE_MODE_G7))
 
 //-----------------------------------------------------------------------------
 // Set layout table VRAM address
