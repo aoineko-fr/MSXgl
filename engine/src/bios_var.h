@@ -118,7 +118,7 @@ u16 __at(M_MLTPAT) g_MLTPAT;
 // Cursor and function Key Parameters
 
 #define M_CLIKSW	0xF3DB	// 1	Key click switch. (0 = Disabled / 1 = Enabled)
-const u8 __at(M_CLIKSW) g_CLIKSW;
+u8 __at(M_CLIKSW) g_CLIKSW;
 
 #define M_CSRY	0xF3DC	// 1	Current row-position of the cursor
 u8 __at(M_CSRY) g_CSRY;

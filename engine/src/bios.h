@@ -62,3 +62,10 @@ void Bios_Reboot();
 // Parameters:
 //   ret - Return value (for MSX-DOS environment)
 void Bios_Exit(u8 ret) __FASTCALL;
+
+// Function: Bios_SetKeyClick
+// Enable or disable key click
+//
+// Parameters:
+//   ret - TRUE to enable and FALSE to disable
+inline void Bios_SetKeyClick(bool enable) { g_CLIKSW = enable; }

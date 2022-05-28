@@ -57,6 +57,7 @@ void main()
 	Bios_ChangeMode(0);
 	Bios_ChangeWidth(40);
 	Bios_ChangeColor(COLOR_LIGHT_GREEN, COLOR_BLACK, COLOR_GRAY);
+	Bios_SetKeyClick(FALSE);
 	
 	Bios_PrintTextAt(0, 0, "MSXgl  BIOS SAMPLE");
 	Bios_PrintTextAt(0, 1, "----------------------------------------");
