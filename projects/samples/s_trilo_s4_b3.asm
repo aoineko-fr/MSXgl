@@ -8,4 +8,4 @@
 
 	.area _SEG4
 _tmu_kv2_puzz::
-	.include "content/trilo/tmu_kv2-puzz.asm"
+	.include "content/trilo/tmu_kv2puzz.asm"
