@@ -94,20 +94,24 @@ struct VDP_Sprite  g_VDP_Sprite;
 u16 g_ScreenLayoutLow;		// Address of the Name Table
 u16 g_ScreenColorLow;		// Address of the Color Table
 u16 g_ScreenPatternLow;		// Address of the Pattern Table
+#if (VDP_USE_SPRITE)
 u16 g_SpriteAtributeLow;	// Address of the Sprite Attribute Table
 u16 g_SpritePatternLow;		// Address of the Sprite Pattern Table
 u16 g_SpriteColorLow;		// Address of the Sprite Color Table
+#endif
 #if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
 u8  g_ScreenLayoutHigh;		// Address of the Name Table
 u8  g_ScreenColorHigh;		// Address of the Color Table
 u8  g_ScreenPatternHigh;	// Address of the Pattern Table
+#if (VDP_USE_SPRITE)
 u8  g_SpriteAtributeHigh;	// Address of the Sprite Attribute Table
 u8  g_SpritePatternHigh;	// Address of the Sprite Pattern Table
 u8  g_SpriteColorHigh;		// Address of the Sprite Color Table
 #endif
+#endif
 
 #if (VDP_AUTO_INIT)
-bool g_VDPInitilized = false;		// Address of the Sprite Color Table
+bool g_VDPInitilized = false;	// Flag to check if VDP module initialization already occurs
 #endif
 
 //=============================================================================
@@ -175,8 +179,10 @@ void VDP_SetModeMultiColor()
 	VDP_SetModeFlag(VDP_MC_MODE);
 	VDP_SetLayoutTable(VDP_MC_ADDR_NT);
 	VDP_SetPatternTable(VDP_MC_ADDR_PT);
+	#if (VDP_USE_SPRITE)
 	VDP_SetSpriteAttributeTable(VDP_MC_ADDR_SAT);
 	VDP_SetSpritePatternTable(VDP_MC_ADDR_SPT);
+	#endif
 }
 #endif // VDP_USE_MODE_MC
 
@@ -189,8 +195,10 @@ void VDP_SetModeGraphic1()
 	VDP_SetLayoutTable(VDP_G1_ADDR_NT);
 	VDP_SetColorTable(VDP_G1_ADDR_CT);
 	VDP_SetPatternTable(VDP_G1_ADDR_PT);
+	#if (VDP_USE_SPRITE)
 	VDP_SetSpriteAttributeTable(VDP_G1_ADDR_SAT);
 	VDP_SetSpritePatternTable(VDP_G1_ADDR_SPT);
+	#endif
 }
 #endif // VDP_USE_MODE_G1
 
@@ -203,8 +211,10 @@ void VDP_SetModeGraphic2()
 	VDP_SetLayoutTable(VDP_G2_ADDR_NT);
 	VDP_SetColorTable(VDP_G2_ADDR_CT);
 	VDP_SetPatternTable(VDP_G2_ADDR_PT);
+	#if (VDP_USE_SPRITE)
 	VDP_SetSpriteAttributeTable(VDP_G2_ADDR_SAT);
 	VDP_SetSpritePatternTable(VDP_G2_ADDR_SPT);
+	#endif
 }
 #endif // VDP_USE_MODE_G2
 
@@ -646,8 +656,10 @@ void VDP_SetModeGraphic3()
 	VDP_SetLayoutTable(VDP_G3_ADDR_NT);
 	VDP_SetColorTable(VDP_G3_ADDR_CT);
 	VDP_SetPatternTable(VDP_G3_ADDR_PT);
+	#if (VDP_USE_SPRITE)
 	VDP_SetSpriteAttributeTable(VDP_G3_ADDR_SAT);
 	VDP_SetSpritePatternTable(VDP_G3_ADDR_SPT);
+	#endif
 }
 #endif // VDP_USE_MODE_G3
 
@@ -658,8 +670,10 @@ void VDP_SetModeGraphic4()
 {
 	VDP_SetModeFlag(VDP_G4_MODE);
 	VDP_SetLayoutTable(VDP_G4_ADDR_NT);
+	#if (VDP_USE_SPRITE)
 	VDP_SetSpriteAttributeTable(VDP_G4_ADDR_SAT);
 	VDP_SetSpritePatternTable(VDP_G4_ADDR_SPT);
+	#endif
 }
 #endif // VDP_USE_MODE_G4
 
@@ -670,8 +684,10 @@ void VDP_SetModeGraphic5()
 {
 	VDP_SetModeFlag(VDP_G5_MODE);
 	VDP_SetLayoutTable(VDP_G5_ADDR_NT);
+	#if (VDP_USE_SPRITE)
 	VDP_SetSpriteAttributeTable(VDP_G5_ADDR_SAT);
 	VDP_SetSpritePatternTable(VDP_G5_ADDR_SPT);
+	#endif
 }
 #endif // VDP_USE_MODE_G5
 
@@ -682,8 +698,10 @@ void VDP_SetModeGraphic6()
 {
 	VDP_SetModeFlag(VDP_G6_MODE);
 	VDP_SetLayoutTable(VDP_G6_ADDR_NT);
+	#if (VDP_USE_SPRITE)
 	VDP_SetSpriteAttributeTable(VDP_G6_ADDR_SAT);
 	VDP_SetSpritePatternTable(VDP_G6_ADDR_SPT);
+	#endif
 }
 #endif // VDP_USE_MODE_G6
 
@@ -694,8 +712,10 @@ void VDP_SetModeGraphic7()
 {
 	VDP_SetModeFlag(VDP_G7_MODE);
 	VDP_SetLayoutTable(VDP_G7_ADDR_NT);
+	#if (VDP_USE_SPRITE)
 	VDP_SetSpriteAttributeTable(VDP_G7_ADDR_SAT);
 	VDP_SetSpritePatternTable(VDP_G7_ADDR_SPT);
+	#endif
 }
 #endif // VDP_USE_MODE_G7
 
@@ -1399,7 +1419,11 @@ void VDP_SetMode(const u8 mode)
 		u8 freq = (g_ROMVersion.VSF) ? VDP_FREQ_50HZ : VDP_FREQ_60HZ;
 		VDP_SetFrequency(freq);
 	#endif
-	VDP_EnableSprite(true);
+	#if (VDP_USE_SPRITE)
+		VDP_EnableSprite(true);
+	#else
+		VDP_DisableSprite();
+	#endif
 	if(VDP_IsBitmapMode(mode)) // Activate 212 lines for bitmap mode
 		VDP_SetLineCount(VDP_LINE_212);
 	VDP_SetInterlace(false);

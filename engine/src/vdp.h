@@ -110,17 +110,21 @@ extern struct VDP_Sprite  g_VDP_Sprite;
 extern u16 g_ScreenLayoutLow;		//< Address of the Pattern Layout Table (Name)
 extern u16 g_ScreenColorLow;		//< Address of the Color Table
 extern u16 g_ScreenPatternLow;		//< Address of the Pattern Generator Table
+#if (VDP_USE_SPRITE)
 extern u16 g_SpriteAtributeLow;		//< Address of the Sprite Attribute Table
 extern u16 g_SpritePatternLow;		//< Address of the Sprite Pattern Generator Table
 extern u16 g_SpriteColorLow;		//< Address of the Sprite Color Table
+#endif // (VDP_USE_SPRITE)
 #if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
-	extern u8 g_ScreenLayoutHigh;	//< Address of the Pattern Layout Table (Name)
-	extern u8 g_ScreenColorHigh;	//< Address of the Color Table
-	extern u8 g_ScreenPatternHigh;	//< Address of the Pattern Generator Table
-	extern u8 g_SpriteAtributeHigh;	//< Address of the Sprite Attribute Table
-	extern u8 g_SpritePatternHigh;	//< Address of the Sprite Pattern Generator Table
-	extern u8 g_SpriteColorHigh;	//< Address of the Sprite Color Table
-#endif
+extern u8 g_ScreenLayoutHigh;	//< Address of the Pattern Layout Table (Name)
+extern u8 g_ScreenColorHigh;	//< Address of the Color Table
+extern u8 g_ScreenPatternHigh;	//< Address of the Pattern Generator Table
+#if (VDP_USE_SPRITE)
+extern u8 g_SpriteAtributeHigh;	//< Address of the Sprite Attribute Table
+extern u8 g_SpritePatternHigh;	//< Address of the Sprite Pattern Generator Table
+extern u8 g_SpriteColorHigh;	//< Address of the Sprite Color Table
+#endif // (VDP_USE_SPRITE)
+#endif // (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
 
 //-----------------------------------------------------------------------------
 // DEFINES
@@ -585,6 +589,17 @@ inline void VDP_SetColor(u8 color) { VDP_RegWrite(7, color); }
 // MSX2
 #if (MSX_VERSION >= MSX_2)
 
+// Function: VDP_EnableSprite
+// Enable/disable sprite rendering (register 8). [MSX2/2+/TR]
+//
+// Parameters:
+//   enable - True to enable, false do disable
+inline void VDP_EnableSprite(u8 enable) { VDP_RegWriteBakMask(8, (u8)~R08_SPD, !enable ? R08_SPD : 0); }
+
+// Function: VDP_DisableSprite
+// Disable sprite rendering (see <VDP_EnableSprite>). [MSX1/2/2+/TR]
+inline void VDP_DisableSprite() { VDP_EnableSprite(false); }
+
 // Function: VDP_EnableHBlank
 // Enable/disable horizontal interruption (register 0). [MSX2/2+/TR]
 //
@@ -819,21 +834,6 @@ void VDP_SetPage(u8 page);
 // Group: Sprite
 //-----------------------------------------------------------------------------
 #if (VDP_USE_SPRITE)
-
-#if (MSX_VERSION >= MSX_2)
-
-// Function: VDP_EnableSprite
-// Enable/disable sprite rendering (register 8). [MSX2/2+/TR]
-//
-// Parameters:
-//   enable - True to enable, false do disable
-inline void VDP_EnableSprite(u8 enable) { VDP_RegWriteBakMask(8, (u8)~R08_SPD, !enable ? R08_SPD : 0); }
-
-// Function: VDP_DisableSprite
-// Disable sprite rendering (see <VDP_EnableSprite>). [MSX1/2/2+/TR]
-inline void VDP_DisableSprite() { VDP_EnableSprite(false); }
-
-#endif // (MSX_VERSION >= MSX_2)
 
 #define VDP_SPRITE_SIZE_8		0			//< Use 8x8 sprite size
 #define VDP_SPRITE_SIZE_16		R01_ST		//< Use 16x16 sprite size

@@ -13,6 +13,6 @@
 
 #include "core.h"
 
-// Function: ZX0_Unpack
+// Function: ZX0_UnpackToRAM
 // Unpack ZX0 compressed data to a RAM buffer
-void ZX0_Unpack(const void* source, void* dest);
+void ZX0_UnpackToRAM(const void* source, void* dest);

@@ -11,6 +11,6 @@
 
 #include "core.h"
 
-// Function: Bitbuster_Unpack
+// Function: Bitbuster_UnpackToRAM
 // Unpack Bitbuster compressed data to a RAM buffer
-void Bitbuster_Unpack(const void* source, void* dest);
+void Bitbuster_UnpackToRAM(const void* source, void* dest);

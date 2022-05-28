@@ -13,7 +13,7 @@
 
 //-----------------------------------------------------------------------------
 // Unpack ZX0 compressed data to a RAM buffer
-void ZX0_Unpack(const void* source, void* dest)
+void ZX0_UnpackToRAM(const void* source, void* dest)
 {
 	source;	// HL
 	dest;	// DE

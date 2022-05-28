@@ -23,3 +23,8 @@
 // Input Module
 #define JOY_INPUT_DIR_UP_RIGTH		JOY_INPUT_DIR_UP_RIGHT
 #define JOY_INPUT_DIR_DOWN_RIGTH	JOY_INPUT_DIR_DOWN_RIGHT
+
+// Compress Module
+#define ZX0_Unpack					ZX0_UnpackToRAM
+#define Pletter_Unpack				Pletter_UnpackToRAM
+#define Bitbuster_Unpack			Bitbuster_UnpackToRAM

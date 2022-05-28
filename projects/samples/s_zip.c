@@ -129,7 +129,7 @@ u16 LoadXZ0(const c8* filename)
 	g_Compression = 100 - (size / 82);
 
 	u16 time = g_JIFFY;
-	ZX0_Unpack(g_LoadBuffer, g_UnpackBuffer);
+	ZX0_UnpackToRAM(g_LoadBuffer, g_UnpackBuffer);
 	return g_JIFFY - time;
 }
 
@@ -141,7 +141,7 @@ u16 LoadBitbuster(const c8* filename)
 	g_Compression = 100 - (size / 82);
 
 	u16 time = g_JIFFY;
-	Bitbuster_Unpack(g_LoadBuffer, g_UnpackBuffer);
+	Bitbuster_UnpackToRAM(g_LoadBuffer, g_UnpackBuffer);
 	return g_JIFFY - time;
 }
 
@@ -153,7 +153,7 @@ u16 LoadPletter(const c8* filename)
 	g_Compression = 100 - (size / 82);
 
 	u16 time = g_JIFFY;
-	Pletter_Unpack(g_LoadBuffer, g_UnpackBuffer);
+	Pletter_UnpackToRAM(g_LoadBuffer, g_UnpackBuffer);
 	return g_JIFFY - time;
 }
 

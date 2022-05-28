@@ -16,7 +16,7 @@
 #define LENGTHINDATA 0
 
 // Unpack Pletter compressed data to a RAM buffer
-void Pletter_Unpack(const void* source, void* dest) __naked
+void Pletter_UnpackToRAM(const void* source, void* dest) __naked
 {
 	source;	// HL
 	dest;	// DE

@@ -11,7 +11,7 @@
 
 //-----------------------------------------------------------------------------
 // Unpack Bitbuster compressed data to a RAM buffer
-void Bitbuster_Unpack(const void* source, void* dest)
+void Bitbuster_UnpackToRAM(const void* source, void* dest)
 {
 	source;	// HL
 	dest;	// DE

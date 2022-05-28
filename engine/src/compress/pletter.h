@@ -17,6 +17,6 @@
 
 #define LENGTHINDATA 0
 
-// Function: Pletter_Unpack
+// Function: Pletter_UnpackToRAM
 // Unpack Pletter compressed data to a RAM buffer
-void Pletter_Unpack(const void* source, void* dest);
+void Pletter_UnpackToRAM(const void* source, void* dest);
