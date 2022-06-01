@@ -70,3 +70,15 @@
 // a << 7
 #define LShift_7	rrca			\
 					and a, #0x80
+
+//-----------------------------------------------------------------------------
+// Undocumented Z80 instruction
+
+#define ld_______ixl_e		.db 0xDD, 0x6B
+#define ld_______ixh_e		.db 0xDD, 0x63
+
+#define ld_______b_iyh		.db 0xFD, 0x44
+#define ld_______c_iyl		.db 0xFD, 0x4D
+
+#define ld_______iyh_b		.db 0xFD, 0x60
+#define ld_______iyl_c		.db 0xFD, 0x69

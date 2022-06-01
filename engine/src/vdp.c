@@ -1426,6 +1426,8 @@ void VDP_SetMode(const u8 mode)
 	#endif
 	if(VDP_IsBitmapMode(mode)) // Activate 212 lines for bitmap mode
 		VDP_SetLineCount(VDP_LINE_212);
+	else
+		VDP_SetLineCount(VDP_LINE_192);
 	VDP_SetInterlace(false);
 	VDP_SetPageAlternance(false);
 #endif // (MSX_VERSION >= MSX_2)

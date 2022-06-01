@@ -10,7 +10,7 @@ set BuildayVGM=0
 set BuildArkos=0
 set BuildPCMEnc=0
 :: Image
-set BuildBitmap=1
+set BuildBitmap=0
 set BuildImage=0
 set BuildCompress=0
 set BuildTile=0
@@ -38,8 +38,10 @@ if %BuildTrilo%==1 (
 	if not exist %Dest%\trilo md %Dest%\trilo
 	if not exist %Dest%\trilo\out md %Dest%\trilo\out
 	for %%I in (trilo\*.tmu) do (
+		echo ---- Compiling TMU file %%~nI...
 		%AudioMisc%\tmucompile.exe %%I %Dest%\trilo\out\tmu_%%~nI.asm
 		%Tools%\audio\misc\rxrepl -f %Dest%\trilo\out\tmu_%%~nI.asm -o %Dest%\trilo\tmu_%%~nI.asm -s "\." -r "" -s "\$" -r "0x" -s "db" -r ".db" -s "dw" -r ".dw" -s "waveform_" -r "%%~nI_waveform_" -s "instrument_" -r "%%~nI_instrument_" -s "track_" -r "%%~nI_track_" -s "restart" -r "%%~nI_restart" -s "customvoice_" -r "%%~nI_customvoice_" -s "drummacro_" -r "%%~nI_drummacro_" 
+		echo.
 	)
 )
 
@@ -253,6 +255,9 @@ if %BuildZip%==1 (
 	cd !PrevCD!
 	copy %Tools%\compress\Bitbuster\temp.bin.pck %Dest%\zip\data10.pck
 	del /Q %Tools%\compress\Bitbuster\temp.*
+
+	echo ---- Bitbuster 2 compression ----
+	%Tools%\compress\Bitbuster\BitBuster2.exe %Dest%\img\data10_sc5.bin -o %Dest%\zip\data10.bb2
 
 	echo ---- Pletter compression ----
 	%Tools%\compress\Pletter\pletter.exe %Dest%\img\data10_sc5.bin %Dest%\zip\data10.pl5

@@ -13,6 +13,7 @@
 #include "dos.h"
 #include "compress/zx0.h"
 #include "compress/bitbuster.h"
+#include "compress/bitbuster2.h"
 #include "compress/pletter.h"
 
 //=============================================================================
@@ -43,6 +44,7 @@ u16 LoadRaw(const c8* filename);
 u16 LoadRLEp(const c8* filename);
 u16 LoadXZ0(const c8* filename);
 u16 LoadBitbuster(const c8* filename);
+u16 LoadBitbuster2(const c8* filename);
 u16 LoadPletter(const c8* filename);
 
 //=============================================================================
@@ -58,11 +60,12 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Compressor name
 const struct Entry g_Compressors[] =
 {
-	{ "Raw",       "DATA10  BIN", LoadRaw },
-	{ "RLEp",      "DATA10  RLE", LoadRLEp },
-	{ "ZX0",       "DATA10  ZX0", LoadXZ0 },
-	{ "Bitbuster", "DATA10  PCK", LoadBitbuster },
-	{ "Pletter",   "DATA10  PL5", LoadPletter },
+	{ "Raw",        "DATA10  BIN", LoadRaw },
+	{ "RLEp",       "DATA10  RLE", LoadRLEp },
+	{ "ZX0",        "DATA10  ZX0", LoadXZ0 },
+	{ "Bitbuster",  "DATA10  PCK", LoadBitbuster },
+	{ "Bitbuster2", "DATA10  BB2", LoadBitbuster2 },
+	{ "Pletter",    "DATA10  PL5", LoadPletter },
 };
 
 //
@@ -142,6 +145,18 @@ u16 LoadBitbuster(const c8* filename)
 
 	u16 time = g_JIFFY;
 	Bitbuster_UnpackToRAM(g_LoadBuffer, g_UnpackBuffer);
+	return g_JIFFY - time;
+}
+
+//-----------------------------------------------------------------------------
+//
+u16 LoadBitbuster2(const c8* filename)
+{
+	u16 size = Load(filename, g_LoadBuffer);
+	g_Compression = 100 - (size / 82);
+
+	u16 time = g_JIFFY;
+	Bitbuster2_UnpackToRAM(g_LoadBuffer, g_UnpackBuffer);
 	return g_JIFFY - time;
 }
 
