@@ -164,10 +164,13 @@ extern u8 g_SpriteColorHigh;	//< Address of the Sprite Color Table
 
 #define VRAM16b(a)			(u16)((u32)(a >> 4))
 #define VRAM17b(a)			(u16)((u32)(a >> 1))
-#define Addr20bTo16b(a)		(u16)((u32)(a >> 4))	//< Convert 20-bits (V)RAM address into 16-bits with bit shifting
-#define Addr17bTo16b(a)		(u16)((u32)(a >> 1))	//< Convert 17-bits (V)RAM address into 16-bits with bit shifting
+#define Addr20bTo16b(a)		(u16)((u32)(a >> 4))	// Convert 20-bits (V)RAM address into 16-bits with bit shifting
+#define Addr17bTo16b(a)		(u16)((u32)(a >> 1))	// Convert 17-bits (V)RAM address into 16-bits with bit shifting
 
 #define REGSAV(a)			#(_g_VDP_REGSAV+a)
+
+#define GET_ADDR_LOW(addr)	((addr) & 0xFFFF)		// Get 17-bits address the 16 LSB
+#define GET_ADDR_HIGH(addr)	((addr) >> 16)			// Get 17-bits address the 1 MSB
 
 // Enum: VDP_MODE
 // VDP display modes

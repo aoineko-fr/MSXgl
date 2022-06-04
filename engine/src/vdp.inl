@@ -24,9 +24,9 @@
 //
 // Parameters:
 //   addr - Address of the source data
-//   dx   - X coordinate of the destination area
+//   dx   - X coordinate of the destination area (must be multiple of 2 in GM4 and GM6 mode, and multiple of 4 in GM5)
 //   dy   - Y coordinate of the destination area
-//   nx   - Width of the destinatio area
+//   nx   - Width of the destinatio area (same limitation as DX)
 //   ny   - Height of the destination area
 inline void VDP_CommandHMMC(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny)
 {
@@ -47,7 +47,7 @@ inline void VDP_CommandHMMC(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny)
 //
 // Parameters:
 //   sy - Y coordinate of the source area
-//   dx - X coordinate of the destination area
+//   dx - X coordinate of the destination area (must be multiple of 2 in GM4 and GM6 mode, and multiple of 4 in GM5)
 //   dy - Y coordinate of the destination area
 //   ny - Height of the area to move
 //   dir - Direction of the move (from the destination)
@@ -67,11 +67,11 @@ inline void VDP_CommandYMMM(u16 sy, u16 dx, u16 dy, u16 ny, u8 dir)
 // High speed move VRAM to VRAM. [MSX2/2+/TR]
 //
 // Parameters:
-//   sx   - X coordinate of the source area
+//   sx   - X coordinate of the source area (must be multiple of 2 in GM4 and GM6 mode, and multiple of 4 in GM5)
 //   sy   - Y coordinate of the source area
-//   dx   - X coordinate of the destination area
+//   dx   - X coordinate of the destination area (same limitation as SX)
 //   dy   - Y coordinate of the destination area
-//   nx   - Width of the area
+//   nx   - Width of the area (same limitation as SX)
 //   ny   - Height of the area
 inline void VDP_CommandHMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny)
 {
@@ -91,9 +91,9 @@ inline void VDP_CommandHMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny)
 // High speed move VDP to VRAM. [MSX2/2+/TR]
 //
 // Parameters:
-//   dx   - X coordinate of the destination area
+//   dx   - X coordinate of the destination area (must be multiple of 2 in GM4 and GM6 mode, and multiple of 4 in GM5)
 //   dy   - Y coordinate of the destination area
-//   nx   - Width of the area
+//   nx   - Width of the area (same limitation as DX)
 //   ny   - Height of the area
 //   col  - Color data
 inline void VDP_CommandHMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 col)
