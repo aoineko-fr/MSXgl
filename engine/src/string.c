@@ -11,6 +11,14 @@
 // Table use to quick decimal-to-hexadecimal conversion
 static const c8 g_HexChar[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
+//
+enum STRINT_PAD
+{
+	STRINT_PAD_NONE = 0,
+	STRINT_PAD_ZERO,
+	STRINT_PAD_SPACE,
+};
+
 //-----------------------------------------------------------------------------
 // Group: String
 
@@ -35,9 +43,16 @@ void String_Format(c8* dest, const c8* format, ...)
 			ptr++;
 			
 			// Parse length
+			u8 pad = STRINT_PAD_NONE;
 			u8 len = 0;
-			if((*ptr >= '0') && (*ptr <= '9'))
+			if(*ptr == '0')
 			{
+				pad = STRINT_PAD_ZERO;
+				ptr++;
+			}
+			else if((*ptr >= '1') && (*ptr <= '9'))
+			{
+				pad = STRINT_PAD_SPACE;
 				len = *ptr - '0';
 				ptr++;
 			}
@@ -52,21 +67,32 @@ void String_Format(c8* dest, const c8* format, ...)
 			if((*ptr == 'i') || (*ptr == 'd'))
 			{
 				i16 val = (i16)va_arg(args, i16);
+				// Sign
 				if(val < 0)
 				{	
 					*dest++ = '-';
 					val = -val;
 				}
-				
+				// Build number string
 				c8 str[8];
 				c8* ptr = str;
 				*ptr = 0;
+				u8 digit = 1;
 				while(val >= 10)
 				{
 					*++ptr = '0' + (val % 10);
 					val /= 10;
+					digit++;
 				}
 				*++ptr = '0' + val;
+				// Padding
+				if(len > digit)
+				{
+					c8 padChr = (pad == STRINT_PAD_ZERO) ? '0' : ' ';
+					for(u8 i = 0; i < len - digit; ++i)
+						*dest++ = padChr;
+				}
+				// Copy digit string
 				while(*ptr != 0)
 					*dest++ = *ptr--;
 			}
