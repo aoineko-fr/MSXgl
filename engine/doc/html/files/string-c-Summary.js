@@ -1,1 +1,1 @@
-﻿NDFramePage.OnPageTitleLoaded("File:string.c","string.c");NDSummary.OnSummaryLoaded("File:string.c",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[473,0,1,"String","String"],[475,0,0,"String_Format","String_Format"]]);
+﻿NDFramePage.OnPageTitleLoaded("File:string.c","string.c");NDSummary.OnSummaryLoaded("File:string.c",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[245,0,1,"String","String"],[246,0,0,"String_Format","String_Format"]]);
