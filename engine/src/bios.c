@@ -135,7 +135,6 @@ u8 Bios_InterSlotRead(u8 slot, u16 addr)
 	__asm
 		ld		l, e
 		ld		h, d
-
 		call	R_RDSLT
 	__endasm;
 }
@@ -173,6 +172,7 @@ void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value)
 	value; // (SP+4)
 
 	__asm
+		push	iy
 		ld		iy, #4
 		add		iy, sp
 
@@ -180,6 +180,7 @@ void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value)
 		ld		h, d
 		ld		e, 0(iy)	
 		call	R_WRSLT
+		pop		iy
 	__endasm;
 }
 

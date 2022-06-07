@@ -14,6 +14,7 @@
 //     https://www.msx.org/wiki/MSX-MUSIC_programming
 //─────────────────────────────────────────────────────────────────────────────
 #include "msx-music.h"
+#include "bios.h"
 #include "system.h"
 #include "system_port.h"
 
