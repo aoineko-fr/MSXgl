@@ -13,12 +13,6 @@
  <div class="CBody"><p>Helper inline functions</p></div>
 </div>
 
-<a name="Call"></a><a name="Topic197"></a><div class="CTopic TFunction LC">
- <div class="CTitle">Call</div>
- <div id="NDPrototype197" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Call(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Direct call a routine at a given address (generate ASM code: &quot;call XXXX&quot;)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to call</p></td></tr></table></div>
-</div>
-
 <a name="EnableInterrupt"></a><a name="Topic198"></a><div class="CTopic TFunction LC">
  <div class="CTitle">EnableInterrupt</div>
  <div id="NDPrototype198" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> EnableInterrupt()</div></div>
@@ -35,6 +29,30 @@
  <div class="CTitle">Halt</div>
  <div id="NDPrototype200" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Halt()</div></div>
  <div class="CBody"><p>Disable interruption</p></div>
+</div>
+
+<a name="Call"></a><a name="Topic474"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Call</div>
+ <div id="NDPrototype474" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Call(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Direct call a routine at a given address (generate ASM code: &quot;call XXXX&quot;)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to call</p></td></tr></table></div>
+</div>
+
+<a name="CallA"></a><a name="Topic475"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">CallA</div>
+ <div id="NDPrototype475" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> CallA(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">a</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Direct call a routine at a given address with a 8-bits parameter in register A (generate ASM code: &quot;call XXXX&quot;)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to call</p></td></tr><tr><td class="CDLEntry">a<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Function parameter to put in register A</p></td></tr></table></div>
+</div>
+
+<a name="CallL"></a><a name="Topic476"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">CallL</div>
+ <div id="NDPrototype476" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> CallL(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">l</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Direct call a routine at a given address with a 8-bits parameter in register L (generate ASM code: &quot;call XXXX&quot;)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to call</p></td></tr><tr><td class="CDLEntry">l<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Function parameter to put in register L</p></td></tr></table></div>
+</div>
+
+<a name="CallHL"></a><a name="Topic481"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">CallHL</div>
+ <div id="NDPrototype481" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> CallHL(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">hl</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Direct call a routine at a given address with a 16-bits parameter in register HL (generate ASM code: &quot;call XXXX&quot;)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to call</p></td></tr><tr><td class="CDLEntry">val</td><td class="CDLDefinition"><p>Function parameter to put in register HL</p></td></tr></table></div>
 </div>
 
 <a name="Slot"></a><a name="Topic201"></a><div class="CTopic TGroup LC">

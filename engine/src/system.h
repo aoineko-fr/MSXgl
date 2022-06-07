@@ -12,9 +12,10 @@
 //=============================================================================
 
 #include "core.h"
-#include "bios.h"
+// #include "bios.h"
 #include "system_port.h"
 #include "asm.h"
+#include "bios_var.h"
 
 //=============================================================================
 // DEFINES
@@ -26,32 +27,31 @@
 // │   ││└┴─ Primary slot number (00-11)
 // │   └┴─── Secondary slot number (00-11)
 // └──────── Expanded slot (0 = no, 1 = yes)
+
+// Primary slots
 #define SLOT_0			(0x00)
 #define SLOT_1			(0x01)
 #define SLOT_2			(0x02)
 #define SLOT_3			(0x03)
 
 #define SLOT_EXP		(1 << 7)
-
-#define SLOT_0_0		(SLOT_0 | (0x00 << 2) | SLOT_EXP)
-#define SLOT_0_1		(SLOT_0 | (0x01 << 2) | SLOT_EXP)
-#define SLOT_0_2		(SLOT_0 | (0x02 << 2) | SLOT_EXP)
-#define SLOT_0_3		(SLOT_0 | (0x03 << 2) | SLOT_EXP)
-		
-#define SLOT_1_0		(SLOT_1 | (0x00 << 2) | SLOT_EXP)
-#define SLOT_1_1		(SLOT_1 | (0x01 << 2) | SLOT_EXP)
-#define SLOT_1_2		(SLOT_1 | (0x02 << 2) | SLOT_EXP)
-#define SLOT_1_3		(SLOT_1 | (0x03 << 2) | SLOT_EXP)
-		
-#define SLOT_2_0		(SLOT_2 | (0x00 << 2) | SLOT_EXP)
-#define SLOT_2_1		(SLOT_2 | (0x01 << 2) | SLOT_EXP)
-#define SLOT_2_2		(SLOT_2 | (0x02 << 2) | SLOT_EXP)
-#define SLOT_2_3		(SLOT_2 | (0x03 << 2) | SLOT_EXP)
-		
-#define SLOT_3_0		(SLOT_3 | (0x00 << 2) | SLOT_EXP)
-#define SLOT_3_1		(SLOT_3 | (0x01 << 2) | SLOT_EXP)
-#define SLOT_3_2		(SLOT_3 | (0x02 << 2) | SLOT_EXP)
-#define SLOT_3_3		(SLOT_3 | (0x03 << 2) | SLOT_EXP)
+// Expanded slots		Primary   Secondary       Expand
+#define SLOT_0_0		(SLOT_0 | (SLOT_0 << 2) | SLOT_EXP)
+#define SLOT_0_1		(SLOT_0 | (SLOT_1 << 2) | SLOT_EXP)
+#define SLOT_0_2		(SLOT_0 | (SLOT_2 << 2) | SLOT_EXP)
+#define SLOT_0_3		(SLOT_0 | (SLOT_3 << 2) | SLOT_EXP)
+#define SLOT_1_0		(SLOT_1 | (SLOT_0 << 2) | SLOT_EXP)
+#define SLOT_1_1		(SLOT_1 | (SLOT_1 << 2) | SLOT_EXP)
+#define SLOT_1_2		(SLOT_1 | (SLOT_2 << 2) | SLOT_EXP)
+#define SLOT_1_3		(SLOT_1 | (SLOT_3 << 2) | SLOT_EXP)
+#define SLOT_2_0		(SLOT_2 | (SLOT_0 << 2) | SLOT_EXP)
+#define SLOT_2_1		(SLOT_2 | (SLOT_1 << 2) | SLOT_EXP)
+#define SLOT_2_2		(SLOT_2 | (SLOT_2 << 2) | SLOT_EXP)
+#define SLOT_2_3		(SLOT_2 | (SLOT_3 << 2) | SLOT_EXP)
+#define SLOT_3_0		(SLOT_3 | (SLOT_0 << 2) | SLOT_EXP)
+#define SLOT_3_1		(SLOT_3 | (SLOT_1 << 2) | SLOT_EXP)
+#define SLOT_3_2		(SLOT_3 | (SLOT_2 << 2) | SLOT_EXP)
+#define SLOT_3_3		(SLOT_3 | (SLOT_3 << 2) | SLOT_EXP)
 
 #define SLOT(p)			(0x03 & (p))
 #define SLOTEX(p, s)	((0x03 & (p)) | ((0x03 & (s)) << 2) | SLOT_EXP)
@@ -78,13 +78,6 @@ extern u16 g_LastAddr;
 // Group: Helper
 // Helper inline functions
 
-// Function: Call
-// Direct call a routine at a given address (generate ASM code: "call XXXX")
-//
-// Parameters:
-//   addr - Address to call
-inline void Call(u16 addr) { ((void(*)(void))(addr))(); }
-
 // Function: EnableInterrupt
 // Enable interruption
 inline void EnableInterrupt() { __asm__("ei"); }
@@ -96,6 +89,38 @@ inline void DisableInterrupt() { __asm__("di"); }
 // Function: Halt
 // Disable interruption
 inline void Halt() { __asm__("halt"); }
+
+// Function: Call
+// Direct call a routine at a given address (generate ASM code: "call XXXX")
+//
+// Parameters:
+//   addr - Address to call
+inline u8 Call(u16 addr) { ((void(*)(void))addr)(); }
+
+// Function: CallA
+// Direct call a routine at a given address with a 8-bits parameter in register A (generate ASM code: "call XXXX")
+//
+// Parameters:
+//   addr - Address to call
+//   a    - Function parameter to put in register A
+inline void CallA(u16 addr, u8 a) { ((void(*)(u8))addr)(a); }
+
+typedef void (*calll_t)(u8) __FASTCALL;
+// Function: CallL
+// Direct call a routine at a given address with a 8-bits parameter in register L (generate ASM code: "call XXXX")
+//
+// Parameters:
+//   addr - Address to call
+//   l    - Function parameter to put in register L
+inline void CallL(u16 addr, u8 l) { ((calll_t)addr)(l); }
+
+// Function: CallHL
+// Direct call a routine at a given address with a 16-bits parameter in register HL (generate ASM code: "call XXXX")
+//
+// Parameters:
+//   addr - Address to call
+//   val  - Function parameter to put in register HL
+inline void CallHL(u16 addr, u16 hl) { ((void(*)(u16))addr)(hl); }
 
 //-----------------------------------------------------------------------------
 // Group: Slot

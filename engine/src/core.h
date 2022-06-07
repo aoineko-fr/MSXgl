@@ -12,7 +12,7 @@
 // Library version
 #define VERSION_MAJOR			(u16)0		// 4-bits (0-15)
 #define VERSION_MINOR			(u16)4		// 6-bits (0-63)
-#define VERSION_PATCH			(u16)0		// 6-bits (0-63)
+#define VERSION_PATCH			(u16)1		// 6-bits (0-63)
 #define VERSION(a, b, c)		((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT			VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)		
 
@@ -25,7 +25,7 @@
 
 // Library configuration
 #include "config_option.h"		// Configuration options
-#include "msxgl_config.h"		// Application configuration
+#include "msxgl_config.h"		// Application configuration (must exist in the project folder)
 #include "config_default.h"		// Default configuration
 #include "config_validate.h"	// Configuration parameters validation
 
@@ -46,6 +46,8 @@ typedef unsigned char		bool; 	// 8 bits boolean type
 #define TRUE				1		// Value for "true" boolean
 #define FALSE				0		// Value for "false" boolean
 #define TOGGLE(a)			a = 1 - a
+#define IS_TRUE(a)			((a) != 0)
+#define IS_FALSE(a)			((a) == 0)
 
 // Integer	
 typedef signed char			i8;		// 8 bits signed integer type

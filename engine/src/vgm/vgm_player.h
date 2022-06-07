@@ -99,11 +99,11 @@ bool VGM_Play(const void* addr, bool loop);
 // Stop music playback
 void VGM_Stop();
 
-// Function: ayVGM_SetFrequency50Hz
+// Function: VGM_SetFrequency50Hz
 // Change frequency to 50 Hz
 inline bool VGM_SetFrequency50Hz() { g_VGM_State |= VGM_STATE_50HZ; g_VGM_WaitFrame = VGM_WAIT_50HZ; }
 
-// Function: ayVGM_SetFrequency60Hz
+// Function: VGM_SetFrequency60Hz
 // Change frequency to 60 Hz
 inline bool VGM_SetFrequency60Hz() { g_VGM_State &= ~VGM_STATE_50HZ; g_VGM_WaitFrame = VGM_WAIT_60HZ; }
 
