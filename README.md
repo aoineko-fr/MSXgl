@@ -34,7 +34,7 @@ The MSXgl Build Tool allows in 1 click to create a final program for a **large n
 * **BASIC** binary program.
 
 The library supports the following devices:
-* VDP (TMS9918 and V9938),
+* VDP (TMS9918, V9938 and V9958),
 * PSG (AY-3-8910), MSX-Music, MSX-Audio, Konami SCC,
 * Keyboard/Joystick, ROM mapper, slot manager, and Real Time Clock (RP-5C01).
 
