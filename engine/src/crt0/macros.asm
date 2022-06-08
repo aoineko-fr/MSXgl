@@ -32,7 +32,7 @@
 .macro INIT_P1_TO_P2
 
 	crt0_p1_to_p2:
-		; Set pages #1 & #3 primary slot equal to page #1
+		; Set pages #1 & #3 primary slot equal to page #1 one
 		in		a, (PPI_A)				; A=[P3|P2|P1|P0] Get primary slots info 
 		ld		d, a					; D=[P3|P2|P1|P0] Backup original primary slots info
 		and		a, #0b00001100			; A=[00|00|P1|00] Mask all pages slots but P1 
@@ -50,7 +50,7 @@
 		out		(PPI_A), a				;                 Set primary slots info
 		ld		e, a					; E=[P1|P1|P1|P0] Backup new primary slots
 
-		; Set page #2 seconday slot equal to page #1
+		; Set page #2 seconday slot equal to page #1 one
 		ld		a, (SLTSL)				; A=[~3|~2|~1|~0] Read secondary slots register of selected primary slot
 		cpl								; A=[S3|S2|S1|S0] Reverses the bits
 		ld		b, a					; B=[S3|S2|S1|S0] Backup secondary slot
@@ -81,9 +81,9 @@
 .macro INIT_P1_TO_P02
 
 	crt0_p1_to_p02:
-		; Set all pages primary slot equal to page #1
+		; Set all pages primary slot equal to page #1 one
 		in		a, (PPI_A)				; A=[P3|P2|P1|P0] Get primary slots info
-		ld		d, a					; B=[P3|P2|P1|P0] Backup full slots info
+		ld		d, a					; D=[P3|P2|P1|P0] Backup full slots info
 		and		a, #0b00001100			; A=[00|00|P1|00] Mask all pages slots but P1 
 		ld		c, a					; C=[00|00|P1|00] Backup P1
 		rrca							;                 A>>1
@@ -98,7 +98,7 @@
 		out		(PPI_A), a				;                 Set primary slots info
 		ld		e, a					; E=[P1|P1|P1|P1] Backup new slots
 
-		; Set page #0 and 2 at the same secondary slot than page #1
+		; Set page #0 and 2 at the same secondary slot than page #1 one
 		ld		a, (SLTSL)				; A=[~3|~2|~1|~0] Read secondary slots register of selected primary slot
 		cpl								; A=[S3|S2|S1|S0] Reverses the bits
 		ld		b, a					; B=[S3|S2|S1|S0] Backup secondary slot
@@ -128,6 +128,35 @@
 .endm
 
 ;------------------------------------------------------------------------------
+; Set page #0 at the same slot than the page #3 (replace Main-ROM by RAM)
+; /!\ Need 64 KB of RAM
+;------------------------------------------------------------------------------
+.macro INIT_P3_TO_P0
+
+	crt0_p3_to_p0:
+		; Set pages #0 primary slot equal to page #3 one
+		in		a, (PPI_A)				; A=[P3|P2|P1|P0] Get primary slots info 
+		and		a, #0b11111100			; A=[P3|P2|P1|00] Mask P0 slot 
+		ld		b, a					; B=[P3|P2|P1|00] Backup
+		and		a, #0b11000000			; A=[P3|00|00|00] Mask all pages slots but P3 
+		rlca							;                 A<<1
+		rlca							; A=[00|00|00|P3] A<<1
+		or		a, b					; A=[P3|P2|P1|P3] Merge
+		out		(PPI_A), a				;                 Set primary slots info
+
+		; Set page #0 seconday slot equal to page #3 one
+		ld		a, (SLTSL)				; A=[~3|~2|~1|~0] Read secondary slots register of selected primary slot
+		cpl								; A=[S3|S2|S1|S0] Reverses the bits
+		and		a, #0b11111100			; A=[S3|S2|S1|00] Mask S0 slot 
+		ld		b, a					; B=[S3|S2|S1|00] Backup
+		and		a, #0b11000000			; A=[S3|00|00|00] Mask all pages slots but S3 
+		rlca							;                 A<<1
+		rlca							; A=[00|00|00|S3] A<<1
+		or		a, b					; A=[S3|S2|S1|S3] Merge
+		ld		(SLTSL), a				;                 Set secondary slot info
+.endm
+
+;------------------------------------------------------------------------------
 ; Install BDOS
 ;------------------------------------------------------------------------------
 .macro INSTALL_BDOS
@@ -154,6 +183,74 @@
 		ld		(H_STKE), a
 	.endif
 .endm
+
+;------------------------------------------------------------------------------
+; Install ISR in RAM
+; (needs 64 KB of RAM in Page #3's slot)
+;------------------------------------------------------------------------------
+.macro INSTALL_RAM_ISR
+	.if ROM_RAMISR
+		.globl	_VDP_InterruptHandler
+
+		di
+		jp		crt0_interrupt_end
+		
+	_VDP_InterruptHandler::
+		ret
+
+	crt0_interrupt_start::
+		; Skip interruptions that do not come from the VDP.
+		push	af
+		in		a, (VDP_S)
+		and		a
+		jr		nz, crt0_interrupt_skip
+		; Backup registers
+		push	hl
+		push	de
+		push	bc
+		exx
+		ex		af, af'
+		push	af
+		push	hl
+		push	de
+		push	bc
+		push	iy
+		push	ix
+		; Call VDP interruption handler
+		call    _VDP_InterruptHandler
+		; Restore registers
+		pop		ix
+		pop		iy
+		pop		bc
+		pop		de
+		pop		hl
+		pop		af
+		ex		af, af'
+		exx
+		pop		bc
+		pop		de
+		pop		hl
+		; Restore registers
+	crt0_interrupt_skip:
+		pop		af
+		ei
+		reti
+	crt0_interrupt_end:
+
+	; Switch page 0 to RAM
+		INIT_P3_TO_P0
+
+	; Copy ISR to RAM
+		ld		bc, #crt0_interrupt_end-crt0_interrupt_start
+		ld		hl, #crt0_interrupt_start
+		ld		de, #0x0038
+		ldir
+		
+		ei
+
+	.endif
+.endm
+
 
 ;------------------------------------------------------------------------------
 ; Add banked call trampoline

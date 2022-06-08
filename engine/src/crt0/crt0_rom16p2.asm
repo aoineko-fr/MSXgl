@@ -49,6 +49,9 @@ crt0_init:
 	ld		hl, #s__HEAP
 	ld		(#_g_HeapStartAddress), hl
 
+	; Install ISR in RAM
+	INSTALL_RAM_ISR
+
 	; Initialize globals
 	INIT_GLOBALS
 

@@ -44,14 +44,17 @@ crt0_init:
 	di
 	; Set stack address at the top of free memory
 	ld		sp, (HIMEM)
-	
+
 	; Initialize heap address
 	ld		hl, #s__HEAP
 	ld		(#_g_HeapStartAddress), hl
 
 	; Set Page 2 slot equal to Page 1 slot
 	INIT_P1_TO_P2
-		
+
+	; Install ISR in RAM
+	INSTALL_RAM_ISR
+
 	; Initialize globals
 	INIT_GLOBALS
 	

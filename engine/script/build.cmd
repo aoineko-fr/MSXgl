@@ -96,8 +96,9 @@ if defined Mapper (
 	echo ROM_MAPPER=%Mapper%		>> %OutDir%\crt0_config.asm
 	echo ADDR_BOOT=0x%StartAddr%	>> %OutDir%\crt0_config.asm
 )
-if %InstallBDOS%==1 ( echo ROM_BDOS=1  >> %OutDir%\crt0_config.asm )
-if %BankedCall%==1  ( echo ROM_BCALL=1 >> %OutDir%\crt0_config.asm )
+if %InstallBDOS%==1  ( echo ROM_BDOS=1   >> %OutDir%\crt0_config.asm )
+if %BankedCall%==1   ( echo ROM_BCALL=1  >> %OutDir%\crt0_config.asm )
+if %IntallRAMISR%==1 ( echo ROM_RAMISR=1 >> %OutDir%\crt0_config.asm )
 
 ::=============================================================================
 :: GENERATE MODULES LIST

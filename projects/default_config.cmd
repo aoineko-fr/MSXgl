@@ -21,11 +21,11 @@ set ToolsDir=%ProjDir%\..\..\tools
 ::*****************************************************************************
 :: TOOLS SETTINGS
 ::*****************************************************************************
-set Compiler=%ToolsDir%\sdcc\bin\sdcc.exe
-set Assembler=%ToolsDir%\sdcc\bin\sdasz80.exe
-set Linker=%ToolsDir%\sdcc\bin\sdcc.exe
+set SDCC=%ToolsDir%\sdcc
+set Compiler=%SDCC%\bin\sdcc.exe
+set Assembler=%SDCC%\bin\sdasz80.exe
+set Linker=%SDCC%\bin\sdcc.exe
 set Hex2Bin=%ToolsDir%\MSXtk\bin\MSXhex.exe
-REM set Hex2Bin=%ToolsDir%\\build\Hex2bin\Hex2bin.exe
 set FillFile=%ToolsDir%\build\MakeROM\fillfile.exe
 set MSXDOS=%ToolsDir%\build\MSXDOS
 set DskTool=%ToolsDir%\build\DskTool\dsktool.exe
@@ -84,7 +84,9 @@ set Target=
 set ROMSize=
 :: Install BDOS driver for ROM program? (0=false, 1=true)
 set InstallBDOS=0
-:: Use banked call (and trampoline functions)
+:: Set RAM in slot 0 and install ISR there (0=false, 1=true)
+set IntallRAMISR=0
+:: Use banked call and trampoline functions (0=false, 1=true)
 set BankedCall=0
 :: Overwrite RAM starting address
 set ForceRamAddr=

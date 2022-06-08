@@ -46,14 +46,14 @@ crt0_init:
 	di
 	; Set stack address at the top of free memory
 	ld		sp, (HIMEM)
-	
+
 	; Initialize heap address
 	ld		hl, #s__HEAP
 	ld		(#_g_HeapStartAddress), hl
 
 	; Set Page 2 slot equal to Page 1 slot
 	INIT_P1_TO_P2
-	
+
 	; Initialize globals
 	INIT_GLOBALS
 
@@ -62,7 +62,7 @@ crt0_start:
 	ei
 	call	_main
 	rst		0
-	
+
 ;------------------------------------------------------------------------------
 ; Ordering of segments for the linker
 

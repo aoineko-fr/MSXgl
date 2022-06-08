@@ -56,6 +56,9 @@ crt0_init:
 	; Initialize ROM mapper segment
 	INIT_MAPPER
 
+	; Install ISR in RAM
+	INSTALL_RAM_ISR
+
 	; Initialize globals
 	INIT_GLOBALS
 
