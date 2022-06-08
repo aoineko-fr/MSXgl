@@ -85,7 +85,7 @@ set ROMSize=
 :: Install BDOS driver for ROM program? (0=false, 1=true)
 set InstallBDOS=0
 :: Set RAM in slot 0 and install ISR there (0=false, 1=true)
-set IntallRAMISR=0
+set InstallRAMISR=0
 :: Use banked call and trampoline functions (0=false, 1=true)
 set BankedCall=0
 :: Overwrite RAM starting address

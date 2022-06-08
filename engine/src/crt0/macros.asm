@@ -194,9 +194,6 @@
 
 		di
 		jp		crt0_interrupt_end
-		
-	_VDP_InterruptHandler::
-		ret
 
 	crt0_interrupt_start::
 		; Skip interruptions that do not come from the VDP.
