@@ -145,6 +145,7 @@ void InitScreen()
 	VDP_SetMode(src->Mode);
 	VDP_SetColor(src->Background);
 	VDP_EnableSprite(false);
+	VDP_EnableVBlank(true);
 	
 	//-------------------------------------------------------------------------
 	// Initialize background
@@ -222,7 +223,7 @@ void DisplaySprite()
 
 //-----------------------------------------------------------------------------
 // H_TIMI interrupt hook
-void VBlankHook()
+void VDP_InterruptHandler()
 {
 	g_VBlank = 1;
 }
@@ -274,7 +275,7 @@ void main()
 	}
 
 	// Init	
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
+	// Bios_SetHookCallback(H_TIMI, VBlankHook);
 	g_SrcModeIndex = 3;
 
 	SX = 64;
@@ -338,6 +339,6 @@ void main()
 			bContinue = false;
 	}
 
-	Bios_ClearHook(H_TIMI);
-	Bios_Exit(0);
+	// Bios_ClearHook(H_TIMI);
+	// Bios_Exit(0);
 }

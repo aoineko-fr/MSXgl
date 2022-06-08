@@ -199,8 +199,8 @@
 		; Skip interruptions that do not come from the VDP.
 		push	af
 		in		a, (VDP_S)
-		and		a
-		jr		nz, crt0_interrupt_skip
+		rlca
+		jr		nc, crt0_interrupt_skip
 		; Backup registers
 		push	hl
 		push	de
