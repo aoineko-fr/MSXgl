@@ -67,12 +67,12 @@ if not exist "%Hex2Bin%" (
 )
 
 :: ROM specific tools
-if /I %Ext%==rom (
-	if not exist "%FillFile%" (
-		echo %RED%Error: Invalid path to FillFile [%FillFile%]%RESET%
-		exit /B 60
-	)
-)
+REM if /I %Ext%==rom (
+	REM if not exist "%FillFile%" (
+		REM echo %RED%Error: Invalid path to FillFile [%FillFile%]%RESET%
+		REM exit /B 60
+	REM )
+REM )
 
 :: BASIC/MSX-DOS specific tools
 if /I not %Ext%==rom (
@@ -86,7 +86,7 @@ if /I not %Ext%==rom (
 if /I %Ext%==com (
 	if not exist "%MSXDOS%" (
 		echo %YELLOW%Warning: Invalid path to MSX-DOS system files [%MSXDOS%]%RESET%
-		echo Program will not be testable with emualtor
+		echo Program will not be testable with emulator
 	)
 )
 
@@ -94,11 +94,15 @@ if /I %Ext%==com (
 if %DoRun%==1 (
 	if not exist "%Emulator%" (
 		echo %YELLOW%Warning: Invalid path to Emulator [%Emulator%]%RESET%
+		echo Disactivate DoRun option
+		set DoRun=0 
 	)
 
 	if %EmulDebug%==1 (
 		if not exist "%Debugger%" (
 			echo %YELLOW%Warning: Invalid path to Debugger [%Debugger%]%RESET%
+			echo Disactivate EmulDebug option
+			set EmulDebug=0
 		)
 	)
 )
