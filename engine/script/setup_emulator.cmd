@@ -8,6 +8,11 @@
 
 for %%I in ("%Emulator%") do (set EmulatorName=%%~nI)
 
+if "%EmulatorName%"=="" (
+	echo %YELLOW%No emulator configured
+	exit /B 0
+)
+
 echo %BLUE%Starting %EmulatorName% emulator...%RESET%
 
 echo EmulMachine=%EmulMachine%
