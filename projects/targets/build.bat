@@ -107,23 +107,23 @@ set Verbose=0
 ::*****************************************************************************
 
 :: Emulator options: 0 or 1
-set EmulMachine=1
-set Emul60Hz=0
-set EmulFullScreen=0
-set EmulMute=0
-set EmulDebug=0
+REM set EmulMachine=1
+REM set Emul60Hz=0
+REM set EmulFullScreen=0
+REM set EmulMute=0
+REM set EmulDebug=0
 :: Emulator extra parameters to be add to command-line
-set EmulExtraParam=
+REM set EmulExtraParam=
 
 ::*****************************************************************************
 :: BUILD STEPS
 ::*****************************************************************************
-set DoClean=0
-set DoCompile=1
-set DoMake=1
-set DoPackage=1
-set DoDeploy=1
-set DoRun=0
+REM set DoClean=0
+REM set DoCompile=1
+REM set DoMake=1
+REM set DoPackage=1
+REM set DoDeploy=1
+REM set DoRun=0
 
 ::*****************************************************************************
 :: START BUILD

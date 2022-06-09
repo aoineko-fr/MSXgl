@@ -63,12 +63,12 @@ set Verbose=0
 ::*****************************************************************************
 :: BUILD STEPS
 ::*****************************************************************************
-set DoClean=0
-set DoCompile=1
-set DoMake=1
-set DoPackage=1
-set DoDeploy=1
-set DoRun=0
+REM set DoClean=0
+REM set DoCompile=1
+REM set DoMake=1
+REM set DoPackage=1
+REM set DoDeploy=1
+REM set DoRun=0
 
 ::*****************************************************************************
 :: START BUILD
