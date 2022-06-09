@@ -67,6 +67,21 @@ inline u8 String_Length(const c8* str)
 		ret++;		
 	return ret;
 }
+
+//-----------------------------------------------------------------------------
+// Function: String_Copy
+// Copy a source string to a destination buffer
+//
+// Parameters:
+//   dst - Destination string (buffer must be large enough to fit the source string size)
+//   src - Source string
+inline void String_Copy(c8* dst, const c8* src)
+{
+	while(*src)
+		*dst++ = *src++;
+	*dst = '\0';
+}
+
 //-----------------------------------------------------------------------------
 // Function: String_Format
 // Build a zero-terminated string
