@@ -5,7 +5,7 @@
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘          ▀▀
 //  by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
 //  available on GitHub (https://github.com/aoineko-fr/MSXgl/tree/main/tools/MSXtk)
-//  under CC-BY-AS free license (https://creativecommons.org/licenses/by-sa/2.0/)
+//  under CC-BY-SA free license (https://creativecommons.org/licenses/by-sa/2.0/)
 //─────────────────────────────────────────────────────────────────────────────
 
 // std
@@ -78,7 +78,7 @@ void PrintHelp()
 	printf("Usage: cmsxzip <inputfile> [options]\n");
 	printf("Base options:\n");
 	printf(" -o output      Filename of the output file (default: use input filename with .h/.asm/.bin extension)\n");
-	printf(" -t mane        Data table name (default: use input filename)\n");
+	printf(" -t name        Data table name (default: use input filename)\n");
 	printf(" -c             C data format (default)\n");
 	printf(" -asm           Assembler data format\n");
 	printf(" -bin           Binary data format\n");
@@ -113,7 +113,7 @@ int main(int argc, const char* argv[])
 	// Error check
 	if (argc < 2)
 	{
-		printf("Error: No enough parameters!\n");
+		printf("Error: Not enough parameters!\n");
 		PrintHelp();
 		return 0;
 	}
@@ -228,7 +228,7 @@ int main(int argc, const char* argv[])
 	ltime[strlen(ltime) - 1] = 0; // remove final '\n'
 	exp->AddComment(MSX::Format("File generated on %s", ltime));
 	// Source
-	exp->AddComment(MSX::Format("Soure file: %s (%d bytes)", g_InputFile.Filename.c_str(), g_InputFile.Data.size()));
+	exp->AddComment(MSX::Format("Source file: %s (%d bytes)", g_InputFile.Filename.c_str(), g_InputFile.Data.size()));
 
 	switch (g_Compressor)
 	{

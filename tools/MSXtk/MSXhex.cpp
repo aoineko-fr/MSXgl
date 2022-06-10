@@ -5,7 +5,7 @@
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
 //  available on GitHub (https://github.com/aoineko-fr/MSXgl/tree/main/tools/MSXtk)
-//  under CC-BY-AS free license (https://creativecommons.org/licenses/by-sa/2.0/)
+//  under CC-BY-SA free license (https://creativecommons.org/licenses/by-sa/2.0/)
 //─────────────────────────────────────────────────────────────────────────────
 
 // std
@@ -169,7 +169,7 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 	// Check starting address
 	if (addr < g_StartAddress)
 	{
-		printf("Error: Try to write value bellow start address! (Start=%08lXh Addr=%08lXh)\n", g_StartAddress, addr);
+		printf("Error: Try to write value below start address! (Start=%08lXh Addr=%08lXh)\n", g_StartAddress, addr);
 		return false;
 	}
 
@@ -407,7 +407,7 @@ int main(int argc, const char* argv[])
 	// Error check
 	if (argc < 2)
 	{
-		//printf("Error: No enough parameters!\n");
+		//printf("Error: Not enough parameters!\n");
 		PrintHelp();
 		return 0;
 	}
