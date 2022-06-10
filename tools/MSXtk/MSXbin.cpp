@@ -1,11 +1,11 @@
-﻿// ____________________________
+// ____________________________
 // ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄   ▄  
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄  ▄  ██▀▄ 
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ██ ██ █ 
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
 //  available on GitHub (https://github.com/aoineko-fr/MSXgl/tree/main/tools/MSXtk)
-//  under CC-BY-AS free license (https://creativecommons.org/licenses/by-sa/2.0/)
+//  under CC-BY-SA free license (https://creativecommons.org/licenses/by-sa/2.0/)
 //─────────────────────────────────────────────────────────────────────────────
 
 // std
@@ -477,7 +477,7 @@ void PrintHelp()
 	printf("Usage: msxbin <inputfile> [options]\n");
 	printf("Options:\n");
 	printf("  -o output     Filename of the output file (default: use input filename with .h/.asm extension)\n");
-	printf("  -t mane       Data table name (default: use input filename)\n");
+	printf("  -t name       Data table name (default: use input filename)\n");
 	printf("  -8b           8-bits data size (default)\n");
 	printf("  -16b          16-bits data size\n");
 	printf("  -32b          32-bits data size\n");
@@ -497,7 +497,7 @@ void PrintHelp()
 	printf("  -pt3			Extract PT3 header information and add it as comment (default: false)\n");
 	printf("  -at X         Data starting address (can be decimal or hexadecimal starting with '0x')\n");
 	printf("  -def			Add define before data structure (only for C language. default: false)\n");
-	printf("  -nodeco       Dont display header decoration (default: false)\n");
+	printf("  -nodeco       Don't display header decoration (default: false)\n");
 	printf("  -h            Display this help\n");
 }
 

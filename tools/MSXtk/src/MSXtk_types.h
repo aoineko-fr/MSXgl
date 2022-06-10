@@ -1,4 +1,4 @@
-﻿//_____________________________________________________________________________
+//_____________________________________________________________________________
 //   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄   ▄▄▄▄           ▄▄         ▄▄ ▄ ▄  ▄▄
 //  ██ ▀ ██▀█ ▀█▄  ▀█▄▀    ██  ▄█▀▄ ▄█▀▄ ██   ██▀   ██▄▀ ▄  ██▀
 //  ▀█▄▀ ██ █ ▄▄█▀ ██ █    ██  ▀█▄▀ ▀█▄▀ ▀█▄ ▄██    ██ █ ██ ▀█▄
@@ -6,7 +6,7 @@
 //
 // by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
 // available on GitHub (https://github.com/aoineko-fr/CMSXtk)
-// under CC-BY-AS license (https://creativecommons.org/licenses/by-sa/2.0/)
+// under CC-BY-SA license (https://creativecommons.org/licenses/by-sa/2.0/)
 //_____________________________________________________________________________
 #pragma once
 

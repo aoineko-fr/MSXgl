@@ -5,7 +5,7 @@
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
 //  available on GitHub (https://github.com/aoineko-fr/MSXgl/tree/main/tools/MSXtk)
-//  under CC-BY-AS free license (https://creativecommons.org/licenses/by-sa/2.0/)
+//  under CC-BY-SA free license (https://creativecommons.org/licenses/by-sa/2.0/)
 //─────────────────────────────────────────────────────────────────────────────
 
 // std
@@ -402,7 +402,7 @@ int main(int argc, const c8* argv[])
 	Exporter->AddComment(u8"  ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██ █ ▀▄██ ▀█▄▄ ██ █                                  ");
 	Exporter->AddComment("_____________________________________________________________________________");
 	Exporter->AddComment(MSX::Format(" MSXmath %s by Guillaume \"Aoineko\" Blanchard", VERSION));
-	Exporter->AddComment(" under CC-BY-AS free license");
+	Exporter->AddComment(" under CC-BY-SA free license");
 	Exporter->AddComment("");
 	Exporter->AddComment(" Generated: %s %s " __DATE__ " " __TIME__);
 	Exporter->AddComment(MSX::Format(" Parameters: Entries=%d, Bytes=%d (%i-bits), Shift=%d (Q%i.%i)", Number, Bytes, Bytes * 8, Shift, Bytes * 8 - Shift, Shift));
@@ -550,7 +550,7 @@ int main(int argc, const c8* argv[])
 		}
 		//else
 		//{
-		//	printf("\n/* Error: Unknow table type \'%s\'! */\n", argv[argIndex]);
+		//	printf("\n/* Error: Unknown table type \'%s\'! */\n", argv[argIndex]);
 		//}
 	}
 
