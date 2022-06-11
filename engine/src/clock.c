@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ ▀ ██  ▄█▀▄ ▄█▀▀ ██▄▀ 
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▄▀ ▀█▄ ▀█▄▀ ▀█▄▄ ██ █ 
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Real-time clock module (RP-5C01)
 //

@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │   ██  ██▀▄ ██▀▄ ██ █ ██▀
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄██▄ ██ █ ██▀  ▀█▄█ ▀█▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘            ▀▀  
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // User input handler using direct access to ports
 //─────────────────────────────────────────────────────────────────────────────
@@ -21,7 +21,7 @@
 const IPM_Config g_DefaultConfig =
 {
 	// DeviceSupport
-	{	true,	true,	true,	true },
+	{	TRUE,	TRUE,	TRUE,	TRUE },
 	// Timer
 	0x10, 0x04,
 	// Keyboard set
@@ -210,7 +210,7 @@ u8 CheckDoubleClickHold(u8 dev, u8 input)
 
 //-----------------------------------------------------------------------------
 // Initialize input manager
-// Inupts:		config		The manager configuration (null: default config will be used)
+// Inupts:		config		The manager configuration (NULL: default config will be used)
 void IPM_Initialize(IPM_Config* config)
 {
 	for(u8 dev = 0; dev < IPM_DEVICE_MAX; ++dev)
@@ -232,7 +232,7 @@ void IPM_Initialize(IPM_Config* config)
 	g_IPM.Checker[IPM_EVENT_DOUBLE_CLICK]      = CheckDoubleClick;
 	g_IPM.Checker[IPM_EVENT_DOUBLE_CLICK_HOLD] = CheckDoubleClickHold;
 	
-	if(config == null)
+	if(config == NULL)
 		config = (IPM_Config*)&g_DefaultConfig;
 		
 	Mem_Copy(config, &g_IPM.Config, sizeof(g_IPM.Config));
@@ -342,7 +342,7 @@ void IPM_Update()
 		IPM_Event* entry = &g_IPM.Events[i];
 		
 		IPM_cb cb = entry->Callback;
-		if(cb == null)
+		if(cb == NULL)
 			continue;
 
 		if(entry->Device < IPM_DEVICE_MAX)
@@ -437,9 +437,9 @@ bool IPM_RegisterEvent(u8 dev, u8 input, u8 event, IPM_cb cb)
 		g_IPM.Events[i].Input = input;
 		g_IPM.Events[i].Event = event;
 		g_IPM.Events[i].Callback = cb;
-		return true;
+		return TRUE;
 	}
-	return false;
+	return FALSE;
 }
 
 //-----------------------------------------------------------------------------

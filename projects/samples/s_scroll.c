@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  Multi-directionnal scrolling sample
 //
 // Scrolling parameters (source data format, output window and used fetaures) 
@@ -139,9 +139,9 @@ void main()
 	// Setup video
 	VDP_SetColor(0xF0);
 	VDP_ClearVRAM();
-	VDP_EnableVBlank(true);
+	VDP_EnableVBlank(TRUE);
 	#if ((SCROLL_ADJUST) && (SCROLL_ADJUST_SPLIT))
-	VDP_EnableHBlank(true);
+	VDP_EnableHBlank(TRUE);
 	Bios_SetHookCallback(H_KEYI, InterruptHook);
 	#endif
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
@@ -166,7 +166,7 @@ void main()
 	Scroll_SetOffsetV(16);
 
 	// Initialize sprite
-	// VDP_EnableSprite(true);
+	// VDP_EnableSprite(TRUE);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 | VDP_SPRITE_SCALE_2);
 	VDP_LoadSpritePattern(g_DataSprtLayer, 32, 13*4*4);
 	SET_SPRITE(sprt+0, 70, 130, 32, COLOR_BLACK);

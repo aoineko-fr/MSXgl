@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██▄▀ ▄  ██▀▄ ██▀ 
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ██   ██ ██ █ ▀█▄ 
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 #include "core.h"
@@ -56,7 +56,7 @@ enum PRINT_MODE
 #endif
 
 #define PRINT_TAB_SIZE		24
-#define PRINT_DEFAULT_FONT	null
+#define PRINT_DEFAULT_FONT	NULL
 
 // Functions
 typedef void (*print_drawchar)(u8); //< Draw char callback signature

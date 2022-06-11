@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 #include "lvgm_player.h"
 #include "bios_mainrom.h"
@@ -46,7 +46,7 @@ bool LVGM_Play(const void* addr, bool loop)
 	g_LVGM_Header = (const struct LVGM_Header*)(addr);
 	for(u8 i = 0; i < 4; i++)
 		if(g_LVGM_Header->Ident[i] != g_LVGM_Ident[i])
-			return false;
+			return FALSE;
 
 	g_LVGM_State = 0;
 	if(!(g_LVGM_Header->Flag & LVGM_FLAG_60HZ) || ((g_LVGM_Header->Flag & LVGM_FLAG_50HZ) && (g_ROMVersion.VSF)))
@@ -57,7 +57,7 @@ bool LVGM_Play(const void* addr, bool loop)
 	g_LVGM_Pointer = (const u8*)(g_LVGM_Header) + sizeof(struct LVGM_Header);
 	g_LVGM_Wait = 0;
 	LVGM_Resume();
-	return true;
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------

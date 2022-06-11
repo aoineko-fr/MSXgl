@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ █ ▀█▄▀  ▄█▀
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▀█  ██  ██▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // WYZ player module
 //
@@ -71,14 +71,14 @@ void WYZ_Resume();
 // Change loop mode
 //
 // Parameters:
-//   loop - false = 0, true = 1
+//   loop - FALSE = 0, TRUE = 1
 void WYZ_SetLoop(u8 loop);
 
 // Function: WYZ_IsFinished
 // Indicates whether the song has finished playing
 //
 // Returns:
-//   true if finished
+//   TRUE if finished
 bool WYZ_IsFinished();
 
 // Function: WYZ_PlayFX

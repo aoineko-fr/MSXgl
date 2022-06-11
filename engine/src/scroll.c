@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄█▀▀ ██▄▀ ▄█▀▄ ██  ██  
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀█▄▄ ██   ▀█▄▀ ▀█▄ ▀█▄ 
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 #include "scroll.h"
 #include "color.h"
@@ -69,7 +69,7 @@ u8 Scroll_Initialize(u16 map)
 	
 	#if ((SCROLL_HORIZONTAL) && (SCROLL_MASK))
 	// Initialize mask sprites
-	VDP_EnableSprite(true);
+	VDP_EnableSprite(TRUE);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 | VDP_SPRITE_SCALE_2);
 	VDP_FillVRAM(0xFF, g_SpritePatternLow + (SCROLL_MASK_PATTERN * 4), g_SpritePatternHigh, 8 * 4);
 	sprtId = SCROLL_MASK_ID;

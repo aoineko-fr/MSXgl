@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ █ ██ █ ██▄▀
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▀  ██▄▀ ██  
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Features to manage the VDP
 //
@@ -33,6 +33,13 @@
 #define F_VDP_READ			0x00 // bit 6: read/write access (0=read)
 
 #define VDP_REG(_r)			(F_VDP_REG | _r)
+
+#if (VDP_USE_16X16_SPRITE)
+#define VDP_SPRITE_COLORS	16
+#else
+#define VDP_SPRITE_COLORS	8
+#endif
+
 
 //-----------------------------------------------------------------------------
 // PROTOTYPES
@@ -111,7 +118,7 @@ u8  g_SpriteColorHigh;		// Address of the Sprite Color Table
 #endif
 
 #if (VDP_AUTO_INIT)
-bool g_VDPInitilized = false;	// Flag to check if VDP module initialization already occurs
+bool g_VDPInitilized = FALSE;	// Flag to check if VDP module initialization already occurs
 #endif
 
 //=============================================================================
@@ -1292,7 +1299,7 @@ __endasm;
 #endif
 
 	#if (VDP_AUTO_INIT)
-	g_VDPInitilized = true;
+	g_VDPInitilized = TRUE;
 	#endif
 }
 
@@ -1408,8 +1415,8 @@ void VDP_SetMode(const u8 mode)
 //.............................................................................
 // Default VDP setting
 #if (VDP_USE_DEFAULT_SETTINGS)
-	VDP_EnableDisplay(true);
-	VDP_EnableVBlank(true);
+	VDP_EnableDisplay(TRUE);
+	VDP_EnableVBlank(TRUE);
 #if (MSX_VERSION >= MSX_2)
 	#if (VDP_INIT_50HZ == VDP_INIT_ON)
 		VDP_SetFrequency(VDP_FREQ_50HZ);
@@ -1420,7 +1427,7 @@ void VDP_SetMode(const u8 mode)
 		VDP_SetFrequency(freq);
 	#endif
 	#if (VDP_USE_SPRITE)
-		VDP_EnableSprite(true);
+		VDP_EnableSprite(TRUE);
 	#else
 		VDP_DisableSprite();
 	#endif
@@ -1428,8 +1435,8 @@ void VDP_SetMode(const u8 mode)
 		VDP_SetLineCount(VDP_LINE_212);
 	else
 		VDP_SetLineCount(VDP_LINE_192);
-	VDP_SetInterlace(false);
-	VDP_SetPageAlternance(false);
+	VDP_SetInterlace(FALSE);
+	VDP_SetPageAlternance(FALSE);
 #endif // (MSX_VERSION >= MSX_2)
 #endif // (VDP_USE_DEFAULT_SETTINGS)
 }
@@ -1819,7 +1826,7 @@ void VDP_SetSpriteExMultiColor(u8 index, u8 x, u8 y, u8 shape, const u8* ram)
 {
 	u16 col = g_SpriteColorLow;
 	col += (index * 16);
-	VDP_WriteVRAM(ram, col, g_SpriteColorHigh, 16);
+	VDP_WriteVRAM(ram, col, g_SpriteColorHigh, VDP_SPRITE_COLORS);
 
 	g_VDP_Sprite.X = x;				// Y coordinate on screen (all lower priority sprite will be disable if equal to 216 or 0xD0)
 	g_VDP_Sprite.Y = y;				// X coordinate of the sprite
@@ -1835,7 +1842,7 @@ void VDP_SetSpriteExUniColor(u8 index, u8 x, u8 y, u8 shape, u8 color)
 {
 	u16 col = g_SpriteColorLow;
 	col += (index * 16);
-	VDP_FillVRAM(color, col, g_SpriteColorHigh, 16);
+	VDP_FillVRAM(color, col, g_SpriteColorHigh, VDP_SPRITE_COLORS);
 
 	g_VDP_Sprite.X = x;				// Y coordinate on screen (all lower priority sprite will be disable if equal to 216 or 0xD0)
 	g_VDP_Sprite.Y = y;				// X coordinate of the sprite
@@ -1901,7 +1908,7 @@ void VDP_SetSpriteUniColor(u8 index, u8 color)
 {
 	u16 col = g_SpriteColorLow;
 	col += (index * 16);
-	VDP_FillVRAM(color, col, g_SpriteColorHigh, 16);
+	VDP_FillVRAM(color, col, g_SpriteColorHigh, VDP_SPRITE_COLORS);
 }
 
 //-----------------------------------------------------------------------------
@@ -1910,7 +1917,7 @@ void VDP_SetSpriteMultiColor(u8 index, const u8* ram)
 {
 	u16 col = g_SpriteColorLow;
 	col += (index * 16);
-	VDP_WriteVRAM(ram, col, g_SpriteColorHigh, 16);	
+	VDP_WriteVRAM(ram, col, g_SpriteColorHigh, VDP_SPRITE_COLORS);	
 }
 
 //-----------------------------------------------------------------------------
@@ -1934,7 +1941,6 @@ void VDP_DisableSpritesFrom(u8 index)
 	#endif
 	VDP_SetSpritePositionY(index, y);
 }
-
 
 /*
 //-----------------------------------------------------------------------------

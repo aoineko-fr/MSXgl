@@ -1,8 +1,8 @@
-// ____________________________________________________________________________
-// ██▀█▀██▀▀▀█▀▀███   ▄▄▄                ▄▄       
-// █  ▄ █  ███  ███  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███ 
-// █  █ █▄ ▀ █  ▀▀█  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄ 
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀─────────────────▀▀─────────────────────────────────────────
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  VDP command sample
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -113,10 +113,10 @@ const u8 g_CursorForm[] =
 // Screen mode settings
 const struct ScreenSetting g_Settings[] =
 { //  Name              Mode              Width BPC Txt   BG    Red   White Gray  Black Font                Data         DataLMMC     Palette 
-	{ MSX_GL6 " VDP COMMAND SAMPLE (S5/G4)",	VDP_MODE_SCREEN5, 256,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample6, g_DataBmp4b, g_LMMC4b,    null }, // 0
-	{ MSX_GL8 " VDP COMMAND SAMPLE (S6/G5)",	VDP_MODE_SCREEN6, 512,	2,	0xFF, 0xAA, 0x55, 0xFF, 0xAA, 0x55, g_Font_MGL_Sample8, g_DataBmp2b, g_LMMC2b,    null }, // 1
-	{ MSX_GL8 " VDP COMMAND SAMPLE (S7/G6)",	VDP_MODE_SCREEN7, 512,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample8, g_DataBmp4b, g_LMMC4b,    null }, // 2
-	{ MSX_GL6 " VDP COMMAND SAMPLE (S8/G7)",	VDP_MODE_SCREEN8, 256,	8,	0xFF, 0x47, 0x1C, 0xFF, 0x6D, 0x00, g_Font_MGL_Sample6, g_DataBmp8b, g_DataBmp8b, null }, // 3
+	{ MSX_GL6 " VDP COMMAND SAMPLE (S5/G4)",	VDP_MODE_SCREEN5, 256,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample6, g_DataBmp4b, g_LMMC4b,    NULL }, // 0
+	{ MSX_GL8 " VDP COMMAND SAMPLE (S6/G5)",	VDP_MODE_SCREEN6, 512,	2,	0xFF, 0xAA, 0x55, 0xFF, 0xAA, 0x55, g_Font_MGL_Sample8, g_DataBmp2b, g_LMMC2b,    NULL }, // 1
+	{ MSX_GL8 " VDP COMMAND SAMPLE (S7/G6)",	VDP_MODE_SCREEN7, 512,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample8, g_DataBmp4b, g_LMMC4b,    NULL }, // 2
+	{ MSX_GL6 " VDP COMMAND SAMPLE (S8/G7)",	VDP_MODE_SCREEN8, 256,	8,	0xFF, 0x47, 0x1C, 0xFF, 0x6D, 0x00, g_Font_MGL_Sample6, g_DataBmp8b, g_DataBmp8b, NULL }, // 3
 };
 
 // Character animation
@@ -275,7 +275,7 @@ void DisplayPage()
 	Print_DrawText("\x81\x82\x80:Chg mode  Space+\x81\x82\x80:Move cursor");
 
 	// Init sprite
-	VDP_EnableSprite(true);
+	VDP_EnableSprite(TRUE);
 	VDP_SetSpritePatternTable(0x0E000);
 	VDP_SetSpriteAttributeTable(0x0EA00);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
@@ -340,8 +340,8 @@ void main()
 	SY = 32;
 	DisplayPage();
 
-	bool bContinue = true;
-	bool bEditing = false;
+	bool bContinue = TRUE;
+	bool bEditing = FALSE;
 	while(bContinue)
 	{
 		const struct ScreenSetting* src = &g_Settings[g_SrcModeIndex];
@@ -352,7 +352,7 @@ void main()
 		u8 row = Keyboard_Read(KEY_ROW(KEY_DOWN));
 		if((row & KEY_FLAG(KEY_SPACE)) == 0)
 		{
-			bEditing = true;
+			bEditing = TRUE;
 			if((row & KEY_FLAG(KEY_UP)) == 0)
 			{
 				if(SY > 0)
@@ -397,11 +397,11 @@ void main()
 			if (bEditing)
 			{
 				DisplayPage();			
-				bEditing = false;
+				bEditing = FALSE;
 			}
 			
 			if(Keyboard_IsKeyPressed(KEY_ESC))
-				bContinue = false;
+				bContinue = FALSE;
 		}
 		
 		if(bEditing)

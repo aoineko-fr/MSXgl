@@ -36,10 +36,10 @@
  <div class="CBody"><p>Resume song playback</p></div>
 </div>
 
-<a name="PT3_SetLoop"></a><a name="Topic67"></a><div class="CTopic TFunction LC">
+<a name="PT3_SetLoop"></a><a name="Topic86"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PT3_SetLoop</div>
- <div id="NDPrototype67" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> PT3_SetLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">loop</td></tr></table></td><td class="PAfterParameters">) __z88dk_fastcall</td></tr></table></div></div>
- <div class="CBody"><p>Change state of playback loop</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">loop<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>Either loop or not (true: do loop; false: don't loop)</p></td></tr></table></div>
+ <div id="NDPrototype86" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> PT3_SetLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">loop</td></tr></table></td><td class="PAfterParameters">) __z88dk_fastcall</td></tr></table></div></div>
+ <div class="CBody"><p>Change state of playback loop</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">loop<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>Either loop or not (TRUE: do loop; FALSE: don't loop)</p></td></tr></table></div>
 </div>
 
 <a name="PT3_Silence"></a><a name="Topic68"></a><div class="CTopic TFunction LC">
@@ -70,16 +70,16 @@
  <div class="CBody"><p>Set notes table</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">nt<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Address of the note table to use</p></td></tr></table></div>
 </div>
 
-<a name="PT3_GetLoop"></a><a name="Topic73"></a><div class="CTopic TFunction LC">
+<a name="PT3_GetLoop"></a><a name="Topic87"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PT3_GetLoop</div>
- <div id="NDPrototype73" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> PT3_GetLoop()</div></div>
- <div class="CBody"><p>Check if loop flag is set</p><div class="CHeading">Returns</div><p>True (1) if loop flag is set, false (0) otherwise</p></div>
+ <div id="NDPrototype87" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> PT3_GetLoop()</div></div>
+ <div class="CBody"><p>Check if loop flag is set</p><div class="CHeading">Returns</div><p>True (1) if loop flag is set, FALSE (0) otherwise</p></div>
 </div>
 
-<a name="PT3_IsPlaying"></a><a name="Topic74"></a><div class="CTopic TFunction LC">
+<a name="PT3_IsPlaying"></a><a name="Topic483"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PT3_IsPlaying</div>
- <div id="NDPrototype74" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> PT3_IsPlaying()</div></div>
- <div class="CBody"><p>Check if playback flag is set</p><div class="CHeading">Returns</div><p>True (1) if playback flag is set, false (0) otherwise</p></div>
+ <div id="NDPrototype483" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> PT3_IsPlaying()</div></div>
+ <div class="CBody"><p>Check if playback flag is set</p><div class="CHeading">Returns</div><p>True (1) if playback flag is set, FALSE (0) otherwise</p></div>
 </div>
 
 <a name="PT3_Play"></a><a name="Topic75"></a><div class="CTopic TFunction LC">
@@ -116,10 +116,10 @@
  <div class="CBody"><p>Get the current pattern number</p><div class="CHeading">Returns</div><p>Pattern number between 0 and max</p></div>
 </div>
 
-<a name="PT3_Mute"></a><a name="Topic81"></a><div class="CTopic TFunction LC">
+<a name="PT3_Mute"></a><a name="Topic484"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PT3_Mute</div>
- <div id="NDPrototype81" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PT3_Mute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chan,</td></tr><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">mute</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Mute a given channel</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">chan<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The channel number (0: channel A, 1: channel B, 2: channel C)</p></td></tr><tr><td class="CDLEntry">mute<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>Mute (true) or un-mute (false) the given channel</p></td></tr></table></div>
+ <div id="NDPrototype484" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PT3_Mute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chan,</td></tr><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">mute</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Mute a given channel</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">chan<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The channel number (0: channel A, 1: channel B, 2: channel C)</p></td></tr><tr><td class="CDLEntry">mute<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>Mute (TRUE) or un-mute (FALSE) the given channel</p></td></tr></table></div>
 </div>
 
 <a name="PT3_SetFinishCB"></a><a name="Topic82"></a><div class="CTopic TFunction LC last">

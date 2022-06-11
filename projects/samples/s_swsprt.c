@@ -1,8 +1,8 @@
-// ____________________________________________________________________________
-// ██▀█▀██▀▀▀█▀▀███   ▄▄▄                ▄▄       
-// █  ▄ █  ███  ███  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███ 
-// █  █ █▄ ▀ █  ▀▀█  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄ 
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀─────────────────▀▀─────────────────────────────────────────
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  VDP command sample
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -77,10 +77,10 @@ u8 g_LMMC4b_2[32*16*6];
 // Screen mode settings
 const struct ScreenSetting g_Settings[] =
 { //  Name                                       Mode             Width BPC Txt   BG    Red   White Gray  Black Font                Data         DataLMMC     Palette 
-	{ MSX_GL6 " SOFTWARE SPRITE SAMPLE (S5/G4)", VDP_MODE_SCREEN5, 256,	4,	0xFF, 0xCC, 0x22, 0x33, 0x11, 0x11, g_Font_MGL_Sample6, g_DataBmp4b, g_LMMC4b,    null }, // 0
-	{ MSX_GL8 " SOFTWARE SPRITE SAMPLE (S6/G5)", VDP_MODE_SCREEN6, 512,	2,	0xFF, 0x00, 0x55, 0xAA, 0xAA, 0x55, g_Font_MGL_Sample8, g_DataBmp2b, g_LMMC2b_2,  null }, // 1
-	{ MSX_GL8 " SOFTWARE SPRITE SAMPLE (S7/G6)", VDP_MODE_SCREEN7, 512,	4,	0xFF, 0xCC, 0x22, 0x33, 0x11, 0x11, g_Font_MGL_Sample8, g_DataBmp4b, g_LMMC4b_2,  null }, // 2
-	{ MSX_GL6 " SOFTWARE SPRITE SAMPLE (S8/G7)", VDP_MODE_SCREEN8, 256,	8,	0xFF, COLOR8_DARKGREEN, COLOR8_GREEN, COLOR8_LIGHTGREEN, 0x6D, 0x00, g_Font_MGL_Sample6, g_DataBmp8b, g_DataBmp8b, null }, // 3
+	{ MSX_GL6 " SOFTWARE SPRITE SAMPLE (S5/G4)", VDP_MODE_SCREEN5, 256,	4,	0xFF, 0xCC, 0x22, 0x33, 0x11, 0x11, g_Font_MGL_Sample6, g_DataBmp4b, g_LMMC4b,    NULL }, // 0
+	{ MSX_GL8 " SOFTWARE SPRITE SAMPLE (S6/G5)", VDP_MODE_SCREEN6, 512,	2,	0xFF, 0x00, 0x55, 0xAA, 0xAA, 0x55, g_Font_MGL_Sample8, g_DataBmp2b, g_LMMC2b_2,  NULL }, // 1
+	{ MSX_GL8 " SOFTWARE SPRITE SAMPLE (S7/G6)", VDP_MODE_SCREEN7, 512,	4,	0xFF, 0xCC, 0x22, 0x33, 0x11, 0x11, g_Font_MGL_Sample8, g_DataBmp4b, g_LMMC4b_2,  NULL }, // 2
+	{ MSX_GL6 " SOFTWARE SPRITE SAMPLE (S8/G7)", VDP_MODE_SCREEN8, 256,	8,	0xFF, COLOR8_DARKGREEN, COLOR8_GREEN, COLOR8_LIGHTGREEN, 0x6D, 0x00, g_Font_MGL_Sample6, g_DataBmp8b, g_DataBmp8b, NULL }, // 3
 };
 
 // Character animation
@@ -144,8 +144,7 @@ void InitScreen()
 	// Initialize VDP	
 	VDP_SetMode(src->Mode);
 	VDP_SetColor(src->Background);
-	VDP_EnableSprite(false);
-	VDP_EnableVBlank(true);
+	VDP_EnableSprite(FALSE);
 	
 	//-------------------------------------------------------------------------
 	// Initialize background
@@ -282,7 +281,7 @@ void main()
 	SY = 64;
 	InitScreen();
 
-	bool bContinue = true;
+	bool bContinue = TRUE;
 	while(bContinue)
 	{
 		WaitVBlank();
@@ -301,13 +300,13 @@ void main()
 				g_SrcModeIndex = 0;
 			InitScreen();
 		}
-		g_bMoving = false;
+		g_bMoving = FALSE;
 		if((row & KEY_FLAG(KEY_LEFT)) == 0)
 		{
 			if(SX > 2)
 			{
 				SX--;
-				g_bMoving = true;
+				g_bMoving = TRUE;
 			}
 		}
 		else if((row & KEY_FLAG(KEY_RIGHT)) == 0)
@@ -315,7 +314,7 @@ void main()
 			if(SX < 256-16-2)
 			{
 				SX++;
-				g_bMoving = true;
+				g_bMoving = TRUE;
 			}
 		}
 		if((row & KEY_FLAG(KEY_UP)) == 0)
@@ -323,7 +322,7 @@ void main()
 			if(SY > 2)
 			{
 				SY--;
-				g_bMoving = true;
+				g_bMoving = TRUE;
 			}
 		}
 		else if((row & KEY_FLAG(KEY_DOWN)) == 0)
@@ -331,12 +330,12 @@ void main()
 			if(SY < HEIGHT-16-2)
 			{
 				SY++;
-				g_bMoving = true;
+				g_bMoving = TRUE;
 			}
 		}
 
 		if(Keyboard_IsKeyPressed(KEY_ESC))
-			bContinue = false;
+			bContinue = FALSE;
 	}
 
 	// Bios_ClearHook(H_TIMI);

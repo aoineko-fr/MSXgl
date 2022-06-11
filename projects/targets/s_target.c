@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 
@@ -614,7 +614,7 @@ void main()
 {
 	// Initialize
 	VDP_SetMode(VDP_MODE_SCREEN0);
-	VDP_EnableVBlank(true);
+	VDP_EnableVBlank(TRUE);
 	Print_SetTextFont(g_Font_MGL_Sample6, 1);
 
 	SwitchPage();

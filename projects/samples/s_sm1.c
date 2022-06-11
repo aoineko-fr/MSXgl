@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  Sprite mode 1 sample
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -233,10 +233,10 @@ void main()
 	UpdateCount(SPRITE_8_NUM);
 
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
-	VDP_EnableVBlank(true);
+	VDP_EnableVBlank(TRUE);
 
 	u8 prevRow6 = 0xFF, prevRow7 = 0xFF, prevRow8 = 0xFF;
-	bool bContinue = true;
+	bool bContinue = TRUE;
 	while(bContinue)
 	{
 		// VDP_SetColor(COLOR_LIGHT_BLUE);
@@ -310,7 +310,7 @@ void main()
 			UpdateMove(1 - g_Move);
 		}
 		if(IS_KEY_PRESSED(prevRow7, KEY_ESC))
-			bContinue = false;
+			bContinue = FALSE;
 		prevRow7 = row7;		
 
 		u8 row8 = Keyboard_Read(8);

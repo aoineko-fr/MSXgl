@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ █ ██ █ ██▄▀
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▀  ██▄▀ ██  
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Features to manage the VDP
 // Support MSX1 (TMS9918A), MSX2 (V9938) and MSX2+ (V9958)
@@ -107,22 +107,22 @@ extern struct VDP_Command g_VDP_Command;
 extern struct VDP_Sprite  g_VDP_Sprite;
 #endif
 
-extern u16 g_ScreenLayoutLow;		//< Address of the Pattern Layout Table (Name)
-extern u16 g_ScreenColorLow;		//< Address of the Color Table
-extern u16 g_ScreenPatternLow;		//< Address of the Pattern Generator Table
+extern u16 g_ScreenLayoutLow;		// Address of the Pattern Layout Table (Name)
+extern u16 g_ScreenColorLow;		// Address of the Color Table
+extern u16 g_ScreenPatternLow;		// Address of the Pattern Generator Table
 #if (VDP_USE_SPRITE)
-extern u16 g_SpriteAtributeLow;		//< Address of the Sprite Attribute Table
-extern u16 g_SpritePatternLow;		//< Address of the Sprite Pattern Generator Table
-extern u16 g_SpriteColorLow;		//< Address of the Sprite Color Table
+extern u16 g_SpriteAtributeLow;		// Address of the Sprite Attribute Table
+extern u16 g_SpritePatternLow;		// Address of the Sprite Pattern Generator Table
+extern u16 g_SpriteColorLow;		// Address of the Sprite Color Table
 #endif // (VDP_USE_SPRITE)
 #if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
-extern u8 g_ScreenLayoutHigh;	//< Address of the Pattern Layout Table (Name)
-extern u8 g_ScreenColorHigh;	//< Address of the Color Table
-extern u8 g_ScreenPatternHigh;	//< Address of the Pattern Generator Table
+extern u8 g_ScreenLayoutHigh;		// Address of the Pattern Layout Table (Name)
+extern u8 g_ScreenColorHigh;		// Address of the Color Table
+extern u8 g_ScreenPatternHigh;		// Address of the Pattern Generator Table
 #if (VDP_USE_SPRITE)
-extern u8 g_SpriteAtributeHigh;	//< Address of the Sprite Attribute Table
-extern u8 g_SpritePatternHigh;	//< Address of the Sprite Pattern Generator Table
-extern u8 g_SpriteColorHigh;	//< Address of the Sprite Color Table
+extern u8 g_SpriteAtributeHigh;		// Address of the Sprite Attribute Table
+extern u8 g_SpritePatternHigh;		// Address of the Sprite Pattern Generator Table
+extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 #endif // (VDP_USE_SPRITE)
 #endif // (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
 
@@ -131,13 +131,15 @@ extern u8 g_SpriteColorHigh;	//< Address of the Sprite Color Table
 //-----------------------------------------------------------------------------
 
 #if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_14)
-	#define VADDR			u16
-	#define VADDR_Lo(a)		(a)
-	#define VADDR_Hi(a)		0
+	#define VADDR				u16
+	#define VADDR_LO(a)			(a)
+	#define VADDR_HI(a)			0
+	#define VADDR_GET(lo, hi)	(lo)
 #else // if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
-	#define VADDR			u32
-	#define VADDR_Lo(a)		(u16)(a)
-	#define VADDR_Hi(a)		(u16)(a >> 16)
+	#define VADDR				u32
+	#define VADDR_LO(a)			(u16)(a)
+	#define VADDR_HI(a)			(u16)(a >> 16)
+	#define VADDR_GET(lo, hi)	((u32)(lo) | ((u32)hi << 16))
 #endif
 
 #if (VDP_UNIT == VDP_UNIT_U16)
@@ -372,7 +374,7 @@ inline u8 VDP_GetMode() { return g_VDP_Data.Mode; }
 inline bool VDP_IsBitmapMode(const u8 mode)
 {
 #if (MSX_VERSION == MSX_1)
-	return false;
+	return FALSE;
 #else
 	return mode >= VDP_MODE_GRAPHIC4;
 #endif
@@ -571,14 +573,14 @@ u8 VDP_Peek_16K(u16 src);
 // Enable/disable screen display (register 1). [MSX1/2/2+/TR]
 //
 // Parameters:
-//   enable - True to enable, false do disable
+//   enable - True to enable, FALSE do disable
 inline void VDP_EnableDisplay(bool enable) { VDP_RegWriteBakMask(1, (u8)~R01_BL, enable ? R01_BL : 0); }
 
 // Function: VDP_EnableVBlank
 // Enable/disable vertical interruption (register 1). [MSX1/2/2+/TR]
 //
 // Parameters:
-//   enable - True to enable, false do disable
+//   enable - True to enable, FALSE do disable
 inline void VDP_EnableVBlank(bool enable) { VDP_RegWriteBakMask(1, (u8)~R01_IE0, enable ? R01_IE0 : 0); }
 
 // Function: VDP_SetColor
@@ -596,18 +598,18 @@ inline void VDP_SetColor(u8 color) { VDP_RegWrite(7, color); }
 // Enable/disable sprite rendering (register 8). [MSX2/2+/TR]
 //
 // Parameters:
-//   enable - True to enable, false do disable
+//   enable - True to enable, FALSE do disable
 inline void VDP_EnableSprite(u8 enable) { VDP_RegWriteBakMask(8, (u8)~R08_SPD, !enable ? R08_SPD : 0); }
 
 // Function: VDP_DisableSprite
 // Disable sprite rendering (see <VDP_EnableSprite>). [MSX1/2/2+/TR]
-inline void VDP_DisableSprite() { VDP_EnableSprite(false); }
+inline void VDP_DisableSprite() { VDP_EnableSprite(FALSE); }
 
 // Function: VDP_EnableHBlank
 // Enable/disable horizontal interruption (register 0). [MSX2/2+/TR]
 //
 // Parameters:
-//   enable - True to enable, false do disable
+//   enable - True to enable, FALSE do disable
 inline void VDP_EnableHBlank(bool enable) { VDP_RegWriteBakMask(0, (u8)~R00_IE1, enable ? R00_IE1 : 0); }
 
 // Function: VDP_SetHBlankLine
@@ -634,7 +636,7 @@ void VDP_SetAdjustOffset(u8 offset);
 // Function: VDP_SetGrayScale
 //
 // Parameters:
-//   enable - True to enable, false do disable
+//   enable - True to enable, FALSE do disable
 // Enable/disable grayscale (register 8). [MSX2/2+/TR]
 inline void VDP_SetGrayScale(bool enable) { VDP_RegWriteBakMask(8, (u8)~R08_BW, enable ? R08_BW : 0); }
 
@@ -670,7 +672,7 @@ inline void VDP_SetLineCount(u8 lines) { VDP_RegWriteBakMask(9, (u8)~R09_LN, lin
 // Enable automatic page switch on even/odd frames. [MSX2/2+/TR]
 //
 // Parameters:
-//   enable - True to enable, false do disable
+//   enable - True to enable, FALSE do disable
 inline void VDP_SetPageAlternance(bool enable) { VDP_RegWriteBakMask(9, (u8)~R09_EO, enable ? R09_EO : 0); }
 
 // Function: VDP_SetInterlace
@@ -678,7 +680,7 @@ inline void VDP_SetPageAlternance(bool enable) { VDP_RegWriteBakMask(9, (u8)~R09
 // Needs <VDP_SetPageAlternance> to be set to TRUE and <VDP_SetPage> to a odd value.
 //
 // Parameters:
-//   enable - True to enable, false do disable
+//   enable - True to enable, FALSE do disable
 inline void VDP_SetInterlace(bool enable) { VDP_RegWriteBakMask(9, (u8)~R09_IL, enable ? R09_IL : 0); }
 
 // Enum: VDP_FRAME
@@ -751,14 +753,14 @@ inline void VDP_SetYJK(u8 mode) { VDP_RegWriteBakMask(25, (u8)~VDP_YJK_YAE, mode
 // Enables the VDP commands for screens 0 to 4 (register 25). [MSX2+/TR]
 //
 // Parameters:
-//   enable - True to enable, false do disable
+//   enable - True to enable, FALSE do disable
 inline void VDP_ExpendCommand(u8 enable) { VDP_RegWriteBakMask(25, (u8)~R25_CMD, enable ? R25_CMD : 0); }
 
 // Function: VDP_EnableMask
 // Allows to hide the first 8 vertical lines at left of screen (register 25). [MSX2+/TR]
 //
 // Parameters:
-//   enable - True to enable, false do disable
+//   enable - True to enable, FALSE do disable
 inline void VDP_EnableMask(u8 enable) { VDP_RegWriteBakMask(25, (u8)~R25_MAK, enable ? R25_MAK : 0); }
 
 // Function: VDP_SetHorizontalOffset
@@ -822,6 +824,52 @@ void VDP_SetSpritePatternTable(VADDR addr);
 
 #endif
 
+// Function: VDP_GetLayoutTable
+// Get address of the Pattern Layout Table (Name)
+//
+// Return:
+//   VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)
+inline VADDR VDP_GetLayoutTable() { return VADDR_GET(g_ScreenLayoutLow, g_ScreenLayoutHigh); }
+
+// Function: VDP_GetColorTable
+// Get address of the Color Table
+//
+// Return:
+//   VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)
+inline VADDR VDP_GetColorTable() { return VADDR_GET(g_ScreenColorLow, g_ScreenColorHigh); }
+
+// Function: VDP_GetPatternTable
+// Get address of the Pattern Generator Table
+//
+// Return:
+//   VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)
+inline VADDR VDP_GetPatternTable() { return VADDR_GET(g_ScreenPatternLow, g_ScreenPatternHigh); }
+
+#if (VDP_USE_SPRITE)
+
+// Function: VDP_GetSpriteAttributeTable
+// Get address of the Sprite Attribute Table
+//
+// Return:
+//   VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)
+inline VADDR VDP_GetSpriteAttributeTable() { return VADDR_GET(g_SpriteAtributeLow, g_SpriteAtributeHigh); }
+
+// Function: VDP_GetSpritePatternTable
+// Get address of the Sprite Pattern Generator Table
+//
+// Return:
+//   VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)
+inline VADDR VDP_GetSpritePatternTable() { return VADDR_GET(g_SpritePatternLow, g_SpritePatternHigh); }
+
+// Function: VDP_GetSpriteColorTable
+// Get address of the Sprite Color Table
+//
+// Return:
+//   VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)
+inline VADDR VDP_GetSpriteColorTable() { return VADDR_GET(g_SpriteColorLow, g_SpriteColorHigh); }
+
+#endif
+
 #if (MSX_VERSION >= MSX_2)
 
 // Function: VDP_SetPage
@@ -838,12 +886,21 @@ void VDP_SetPage(u8 page);
 //-----------------------------------------------------------------------------
 #if (VDP_USE_SPRITE)
 
-#define VDP_SPRITE_SIZE_8		0			//< Use 8x8 sprite size
-#define VDP_SPRITE_SIZE_16		R01_ST		//< Use 16x16 sprite size
-#define VDP_SPRITE_SCALE_1		0			//> Normal size of the sprite (1 dot = 1 px)
-#define VDP_SPRITE_SCALE_2		R01_MAG		//> Double the size of the sprite (1 dot = 2 px)
+#define VDP_SPRITE_SIZE_8		0			// Use 8x8 sprite size
+#if (VDP_USE_16X16_SPRITE)
+#define VDP_SPRITE_SIZE_16		R01_ST		// Use 16x16 sprite size
+#endif
+#define VDP_SPRITE_SCALE_1		0			// Normal size of the sprite (1 dot = 1 px)
+#define VDP_SPRITE_SCALE_2		R01_MAG		// Double the size of the sprite (1 dot = 2 px)
 // Function: VDP_SetSpriteFlag
 // Set sprite rendering parameters. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   flag - Srptie flag to be set. Can be a combinations of:
+//          VDP_SPRITE_SIZE_8 (Use 8x8 sprite size)
+//          VDP_SPRITE_SIZE_16 (Use 16x16 sprite size)
+//          VDP_SPRITE_SCALE_1 (Normal size of the sprite; 1 dot = 1 px)
+//          VDP_SPRITE_SCALE_2 (Double the size of the sprite; 1 dot = 2 px)
 inline void VDP_SetSpriteFlag(u8 flag) { VDP_RegWriteBakMask(1, (u8)~(R01_ST|R01_MAG), flag); }
 
 // Function: VDP_SetSpriteTables
@@ -859,8 +916,8 @@ inline void VDP_SetSpriteTables(VADDR patAddr, VADDR attAddr) { VDP_SetSpritePat
 //
 // Parameters:
 //   addr  - Source address for sprite patterns
-//   index - Index of the first VRAM sprite pattern to copy to
-//   count - Number of patterns to copy
+//   index - Index of the first VRAM sprite pattern to copy to.
+//   count - Number of patterns to copy (1 per sprite shape in 8x8 mode, and 4 in 16x16 mode.
 void VDP_LoadSpritePattern(const u8* addr, u8 index, u8 count);
 
 #define VDP_SPRITE_EC			0x80		// Early clock ; used to offset sprite by 32 dots to the left
@@ -873,8 +930,8 @@ void VDP_LoadSpritePattern(const u8* addr, u8 index, u8 count);
 //   index - Sprite index in the attribute table
 //   x     - Initial X screen coordinate
 //   y     - Initial Y screen coordinate
-//   shape - Sprite pattern index
-//   color - Sprite color (LSB 4-bits) + optional EC flag (see <VDP_SPRITE_EC>)
+//   shape - Sprite pattern index (in 16x16 mode, only multiple of 4 can be used)
+//   color - Sprite color (LSB 4-bits) + optional EC flag (VDP_SPRITE_EC)
 void VDP_SetSpriteSM1(u8 index, u8 x, u8 y, u8 shape, u8 color);
 
 #if (MSX_VERSION >= MSX_2)
@@ -886,7 +943,7 @@ void VDP_SetSpriteSM1(u8 index, u8 x, u8 y, u8 shape, u8 color);
 //   index - Sprite index in the attribute table
 //   x     - Initial X screen coordinate
 //   y     - Initial Y screen coordinate
-//   shape - Sprite pattern index
+//   shape - Sprite pattern index (in 16x16 mode, only multiple of 4 can be used)
 void VDP_SetSprite(u8 index, u8 x, u8 y, u8 shape);
 
 // Function: VDP_SetSpriteExMultiColor
@@ -896,8 +953,9 @@ void VDP_SetSprite(u8 index, u8 x, u8 y, u8 shape);
 //   index - Sprite index in the attribute table
 //   x     - Initial X screen coordinate
 //   y     - Initial Y screen coordinate
-//   shape - Sprite pattern index
-//   ram   - Address to a 8 bytes buffer that determine the sprite colors (1 byte = 1 line)
+//   shape - Sprite pattern index (in 16x16 mode, only multiple of 4 can be used)
+//   ram   - Address to a 16 bytes buffer that determine the sprite colors (1 byte = 1 line).
+//           With this function, you must provide a 16 bytes buffer even for 8x8 size mode.
 void VDP_SetSpriteExMultiColor(u8 index, u8 x, u8 y, u8 shape, const u8* ram);
 
 // Function: VDP_SetSpriteExUniColor
@@ -907,9 +965,9 @@ void VDP_SetSpriteExMultiColor(u8 index, u8 x, u8 y, u8 shape, const u8* ram);
 //   index - Sprite index in the attribute table
 //   x     - Initial X screen coordinate
 //   y     - Initial Y screen coordinate
-//   shape - Sprite pattern index
+//   shape - Sprite pattern index (in 16x16 mode, only multiple of 4 can be used)
 //   color - Sprite color (LSB 4-bits) + optional EC, CC & IC flags 
-//           (this color is used for the all 8 lines of the sprite)
+//           (this color is used for the all 8/16 lines of the sprite)
 void VDP_SetSpriteExUniColor(u8 index, u8 x, u8 y, u8 shape, u8 color);
 
 #endif // (MSX_VERSION >= MSX_2)
@@ -944,7 +1002,7 @@ void VDP_SetSpritePositionY(u8 index, u8 y);
 //
 // Parameters:
 //   index - Sprite index in the attribute table
-//   shape - Sprite pattern index
+//   shape - Sprite pattern index (in 16x16 mode, only multiple of 4 can be used)
 void VDP_SetSpritePattern(u8 index, u8 shape);
 
 // Function: VDP_SetSpriteColorSM1
@@ -971,7 +1029,8 @@ void VDP_SetSpriteUniColor(u8 index, u8 color);
 //
 // Parameters:
 //   index - Sprite index in the attribute table
-//   ram   - Address to a 8 bytes buffer that determine the sprite colors (1 byte = 1 line)
+//   ram   - Address to a 16 bytes buffer that determine the sprite colors (1 byte = 1 line).
+//           With this function, you must provide a 16 bytes buffer even for 8x8 size mode.
 void VDP_SetSpriteMultiColor(u8 index, const u8* ram);
 
 // Function: VDP_SetSpriteData
@@ -984,9 +1043,9 @@ void VDP_SetSpriteData(u8 index, const u8* data);
 
 #endif // (MSX_VERSION >= MSX_2)
 
-#define VDP_SPRITE_DISABLE_SM1	208			// This sprite and all lower priority sprites will be disabled (Sprite Mode 1)
-#define VDP_SPRITE_DISABLE_SM2	216			// This sprite and all lower priority sprites will be disabled (Sprite Mode 2)
-#define VDP_SPRITE_HIDE			213			// 
+#define VDP_SPRITE_DISABLE_SM1	208			// This sprite and all lower priority sprites will be disabled (Sprite Mode 1).
+#define VDP_SPRITE_DISABLE_SM2	216			// This sprite and all lower priority sprites will be disabled (Sprite Mode 2).
+#define VDP_SPRITE_HIDE			213			// Coordinate to hide sprite in any screen mode (work on both MSX 1 and 2).
 // Function: VDP_DisableSpritesFrom
 // Disable all sprites from a given index. [MSX1/2/2+/TR]
 //

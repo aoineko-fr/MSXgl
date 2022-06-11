@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██▄▀ ▄  ██▀▄ ██▀ 
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ██   ██ ██ █ ▀█▄ 
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 #include "core.h"
 #include "bios_mainrom.h"
@@ -159,10 +159,10 @@ bool Print_Initialize()
 	Print_SetColor(0xF, 0x0);
 	Print_SetPosition(0, 0);
 	#if (PRINT_USE_FX_SHADOW)
-		Print_EnableShadow(false);
+		Print_EnableShadow(FALSE);
 	#endif
 	#if (PRINT_USE_FX_OUTLINE)
-		Print_EnableOutline(false);
+		Print_EnableOutline(FALSE);
 	#endif
 
 	switch(VDP_GetMode()) // Screen mode specific initialization
@@ -229,12 +229,12 @@ bool Print_Initialize()
 	#endif
 	default:
 		// Screen mode not (yet) supported!
-		return false;
+		return FALSE;
 	}
 	
 	// g_PrintData.PatternsPerLine = g_PrintData.ScreenWidth / PRINT_W(g_PrintData.UnitX);
 
-	return true;
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -317,10 +317,10 @@ void Print_SetMode(u8 mode)
 
 //-----------------------------------------------------------------------------
 /// Set the current font
-/// @param		font		Pointer to font data to use (null=use Main-ROM font)
+/// @param		font		Pointer to font data to use (NULL=use Main-ROM font)
 void Print_SetFont(const u8* font)
 {
-	if(font == null) // Use Bios font (if any)
+	if(font == NULL) // Use Bios font (if any)
 		Print_SetFontEx(8, 8, 6, 8, 1, 255, (const u8*)g_CGTABL + 8);
 	else
 		Print_SetFontEx(font[0] >> 4, font[0] & 0x0F, font[1] >> 4, font[1] & 0x0F, font[2], font[3], font+4);
@@ -566,7 +566,7 @@ void Print_ValidatePattern(u8* chr, const c8** patterns)
 #if (PRINT_USE_BITMAP)
 //-----------------------------------------------------------------------------
 /// Initialize print module. Must be called after VDP_SetMode()
-/// @param		font		Pointer to font data to use (null=use Main-ROM font)
+/// @param		font		Pointer to font data to use (NULL=use Main-ROM font)
 bool Print_SetBitmapFont(const u8* font)
 {
 	Print_SetFont(font);
@@ -869,7 +869,7 @@ void Print_SetTextFont(const u8* fontData, u8 offset)
 	g_PrintData.PatternOffset = offset;
 
 	// Initialize font attributes
-	if(fontData == null) // Use Bios font (if any)
+	if(fontData == NULL) // Use Bios font (if any)
 		Print_SetFontEx(8, 8, 1, 1, 1, 255, (const u8*)g_CGTABL + 8); // @todo Should be [1, 255] to include all characters
 	else
 		Print_SetFontEx(8, 8, 1, 1, fontData[2], fontData[3], fontData+4);
@@ -880,7 +880,7 @@ void Print_SetTextFont(const u8* fontData, u8 offset)
 	const u8* src = g_PrintData.FontPatterns;
 	u16 dst = (u16)g_ScreenPatternLow + (offset * 8);
 	#if (PRINT_USE_VALIDATOR)
-		if(fontData != null)
+		if(fontData != NULL)
 			CopyNo8HeightFontData(src, dst, fontData[0] & 0x0F);
 		else
 	#endif
@@ -897,14 +897,14 @@ void Print_SetTextFont(const u8* fontData, u8 offset)
 	#if (VDP_USE_MODE_G2 || VDP_USE_MODE_G3)
 		dst += 256 * 8;
 		#if (PRINT_USE_VALIDATOR)
-			if(fontData != null)
+			if(fontData != NULL)
 				CopyNo8HeightFontData(src, dst, fontData[0] & 0x0F);
 			else
 		#endif
 			VDP_WriteVRAM(src, dst, 0, g_PrintData.CharCount * 8);
 		dst += 256 * 8;
 		#if (PRINT_USE_VALIDATOR)
-			if(fontData != null)
+			if(fontData != NULL)
 				CopyNo8HeightFontData(src, dst, fontData[0] & 0x0F);
 			else
 		#endif
@@ -1129,7 +1129,7 @@ void Print_DrawCharX(c8 chr, u8 num)
 
 //-----------------------------------------------------------------------------
 /// Print a character string
-/// @param		chr			String to draw (must be null-terminated)
+/// @param		chr			String to draw (must be NULL-terminated)
 void Print_DrawText(const c8* str)
 {
 	while(*str != 0)

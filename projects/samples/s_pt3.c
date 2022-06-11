@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  PT3 replayer sample
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -77,8 +77,8 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 u8   g_CurrentSong = 0;
 u8   g_VBlank = 0;
 u8   g_Frame = 0;
-bool g_Loop = false;
-bool g_Mute[3] = { false, false, false };
+bool g_Loop = FALSE;
+bool g_Mute[3] = { FALSE, FALSE, FALSE };
 
 //=============================================================================
 // HELPER FUNCTIONS
@@ -289,11 +289,11 @@ void main()
 	// INIT SCREEN
 
 	VDP_SetMode(VDP_MODE_SCREEN5);
-	VDP_EnableSprite(false);
+	VDP_EnableSprite(FALSE);
 	VDP_SetColor(0x4);
 	VDP_CommandHMMV(0, 0, 256, 212, 0x44);
 
-	Print_SetBitmapFont(null);
+	Print_SetBitmapFont(NULL);
 	Print_SetFont(g_Font_MGL_Sample6);
 	Print_SetMode(PRINT_MODE_BITMAP_TRANS);
 	Print_SetColor(0xF, 0);
@@ -339,11 +339,11 @@ void main()
 
 	PT3_Init();
 	PT3_SetNoteTable(PT3_NT2);
-	PT3_SetLoop(true);
+	PT3_SetLoop(TRUE);
 	//PT3_SetFinishCB(Stop);
 
 	SetSong(1);
-	Loop(true);
+	Loop(TRUE);
 	Play();
 
 	Bios_SetHookCallback(H_TIMI, VBlankHook);

@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  VGM format sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
@@ -110,8 +110,8 @@ const u8 g_ColorBlink[4] = { COLOR_LIGHT_RED, COLOR_MEDIUM_RED, COLOR_DARK_RED, 
 
 u8   g_CurrentMusic = 0;
 u8   g_CurrentButton;
-bool g_Freq50Hz = false;
-bool g_DoLoop = true;
+bool g_Freq50Hz = FALSE;
+bool g_DoLoop = TRUE;
 
 
 //=============================================================================
@@ -198,7 +198,7 @@ void main()
 	// Initialize screen
 	VDP_SetMode(VDP_MODE_SCREEN1);
 	VDP_ClearVRAM();
-	VDP_EnableVBlank(true);
+	VDP_EnableVBlank(TRUE);
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font

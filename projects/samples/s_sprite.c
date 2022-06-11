@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  Sprite mode 2 sample
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -188,7 +188,7 @@ void main()
 	VDP_CommandWait();
 	
 	// Setup sprite
-	VDP_EnableSprite(true);
+	VDP_EnableSprite(TRUE);
 	VDP_SetSpritePatternTable(0x17000);
 	VDP_SetSpriteAttributeTable(0x17A00);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 /*+ VDP_SPRITE_SCALE_2*/);
@@ -287,11 +287,11 @@ void main()
 	g_Phase = 0;
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 	VDP_SetHBlankLine(SPRITE_2X_LINE);
-	VDP_EnableHBlank(true);
+	VDP_EnableHBlank(TRUE);
 	Bios_SetHookCallback(H_KEYI, InterruptHook);
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
 	
-	bool bContinue = true;
+	bool bContinue = TRUE;
 	while(bContinue)
 	{
 		// VDP_SetColor(COLOR_LIGHT_BLUE);
@@ -340,7 +340,7 @@ void main()
 		VDP_SetSpriteMultiColor(SPRITE_16OR_1ST + 4, ColorTab + ((g_Frame >> 2) & 0x07));
 		
 		if(Keyboard_IsKeyPressed(KEY_ESC))
-			bContinue = false;
+			bContinue = FALSE;
 	}
 
 	Bios_ClearHook(H_TIMI);

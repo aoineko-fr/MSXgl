@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ ▀ ▄█▀▄ ██▀▄ ██ ▀ ▄  ▄▀██ 
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▄▀ ▀█▄▀ ██ █ ██▀  ██  ▀██ 
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                          ▀▀  
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
@@ -43,8 +43,8 @@
 
 // Boolean
 typedef unsigned char		bool; 	// 8 bits boolean type
-#define TRUE				1		// Value for "true" boolean
-#define FALSE				0		// Value for "false" boolean
+#define TRUE				1		// Value for "TRUE" boolean
+#define FALSE				0		// Value for "FALSE" boolean
 #define TOGGLE(a)			a = 1 - a
 #define IS_TRUE(a)			((a) != 0)
 #define IS_FALSE(a)			((a) == 0)
@@ -68,7 +68,7 @@ typedef unsigned short		c16;	// 16 bits character type
 	
 // Pointer	
 typedef void*				ptr;	// Pointer type
-#define NULL				0		// Pointer "null" value
+#define NULL				0		// Pointer "NULL" value
 
 // Functions
 typedef void (*callback)(void);		// Callback default signature

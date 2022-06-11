@@ -75,8 +75,8 @@ void main()
 	Bios_PrintTextAt(0, 21, "----------------------------------------");
 	Bios_PrintTextAt(0, 23, "<||> Move     [space] Jump");
 
-	bool bContinue = true;
-	bool bJump = false;
+	bool bContinue = TRUE;
+	bool bJump = FALSE;
 	u8 jumpFrame = 0;
 	u8 line = 0xFF;
 	i8 x = 0, y = 20, prevX, prevY;
@@ -86,7 +86,7 @@ void main()
 		prevY = y;
 
 		if(Bios_IsKeyPressed(KEY_DEL))
-			bContinue = false;
+			bContinue = FALSE;
 		if(Bios_IsKeyPressed(KEY_RIGHT))
 			x++;
 		else if(Bios_IsKeyPressed(KEY_LEFT))
@@ -96,12 +96,12 @@ void main()
 		{
 			y += g_Jump[jumpFrame++ / 2];
 			if(jumpFrame >= numberof(g_Jump) * 2)
-				bJump = false;
+				bJump = FALSE;
 		}
 		else if(Bios_IsKeyPressed(KEY_SPACE))
 		{
 			Bios_Beep();
-			bJump = true;
+			bJump = TRUE;
 			jumpFrame = 0;
 		}
 		

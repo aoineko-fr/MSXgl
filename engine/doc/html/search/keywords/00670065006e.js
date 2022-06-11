@@ -1,1 +1,0 @@
-﻿NDSearch.OnPrefixDataLoaded("gen",["Function"],[["Generates",,[[,"Generates beep",,,0,"File:bios.h:Generates_beep"]]]]);

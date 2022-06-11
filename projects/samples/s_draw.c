@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  Draw functiosn sample
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -62,10 +62,10 @@ struct DrawData
 // Screen mode settings
 const struct ScreenSetting g_Settings[] =
 { //  Name              Mode              Width BPC Txt   BG    Red   White Gray  Black Font              Data  DataLMMC Palette 
-	{ "Screen 5 (G4)",	VDP_MODE_SCREEN5, 256,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample6, null, null, null, MSX_GL6 }, // 0
-	{ "Screen 6 (G5)",	VDP_MODE_SCREEN6, 512,	2,	0xFF, 0xAA, 0x55, 0xFF, 0xAA, 0x55, g_Font_MGL_Sample8, null, null, null, MSX_GL8 }, // 1
-	{ "Screen 7 (G6)",	VDP_MODE_SCREEN7, 512,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample8, null, null, null, MSX_GL8 }, // 2
-	{ "Screen 8 (G7)",	VDP_MODE_SCREEN8, 256,	8,	0xFF, 0x47, 0x1C, 0xFF, 0x6D, 0x00, g_Font_MGL_Sample6, null, null, null, MSX_GL6 }, // 3
+	{ "Screen 5 (G4)",	VDP_MODE_SCREEN5, 256,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample6, NULL, NULL, NULL, MSX_GL6 }, // 0
+	{ "Screen 6 (G5)",	VDP_MODE_SCREEN6, 512,	2,	0xFF, 0xAA, 0x55, 0xFF, 0xAA, 0x55, g_Font_MGL_Sample8, NULL, NULL, NULL, MSX_GL8 }, // 1
+	{ "Screen 7 (G6)",	VDP_MODE_SCREEN7, 512,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample8, NULL, NULL, NULL, MSX_GL8 }, // 2
+	{ "Screen 8 (G7)",	VDP_MODE_SCREEN8, 256,	8,	0xFF, 0x47, 0x1C, 0xFF, 0x6D, 0x00, g_Font_MGL_Sample6, NULL, NULL, NULL, MSX_GL6 }, // 3
 };
 
 // Character animation
@@ -142,7 +142,7 @@ void DisplayPage()
 	VDP_SetPaletteEntry(2, RGB16(1, 1, 4));
 	VDP_SetPaletteEntry(3, RGB16(2, 2, 7));
 
-	VDP_EnableSprite(false);
+	VDP_EnableSprite(FALSE);
 
 	Print_SetBitmapFont(src->Font);
 	Print_SetColor(src->Text, src->Background);
@@ -227,7 +227,7 @@ void main()
 	g_SrcModeIndex = 3;
 	DisplayPage();
 
-	bool bContinue = true;
+	bool bContinue = TRUE;
 	while(bContinue)
 	{
 		const struct ScreenSetting* src = &g_Settings[g_SrcModeIndex];
@@ -254,7 +254,7 @@ void main()
 		}
 		
 		if(Keyboard_IsKeyPressed(KEY_ESC))
-			bContinue = false;
+			bContinue = FALSE;
 
 		WaitVBlank();
 	}

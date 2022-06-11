@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▀█ ▀█▄  ▀█▄▀ ▄▄ ██▀█ ██ █  ██▀ ▄  ▄█▀▀
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██ █ ▄▄█▀ ██ █    ██ █ ▀█▄█ ▄██  ██ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // MSX-Music (YM2413) handler module
 //
@@ -56,10 +56,10 @@ bool MSXMusic_CheckInternal(u8 slotId)
 	while(*ptr != 0)
 	{
 		if(*ptr != Bios_InterSlotRead(slotId, dest++))
-			return false;
+			return FALSE;
 		ptr++;
 	}
-	return true;
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -71,10 +71,10 @@ bool MSXMusic_CheckExternal(u8 slotId)
 	while(*ptr != 0)
 	{
 		if(*ptr != Bios_InterSlotRead(slotId, dest++))
-			return false;
+			return FALSE;
 		ptr++;
 	}
-	return true;
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------

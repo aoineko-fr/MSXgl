@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // SDCC Vortex Tracker II PT3 player for MSX
 // 
@@ -202,7 +202,7 @@ void PT3_Resume();
 // Change state of playback loop
 //
 // Parameters:
-//   loop		- Either loop or not (true: do loop; false: don't loop)
+//   loop		- Either loop or not (TRUE: do loop; FALSE: don't loop)
 void PT3_SetLoop(bool loop) __z88dk_fastcall; 
 
 // Function: PT3_Silence
@@ -231,7 +231,7 @@ inline void PT3_SetNoteTable(const void* nt) { PT3_NoteTable = nt; }
 // Check if loop flag is set
 //
 // Returns:
-//   True (1) if loop flag is set, false (0) otherwise
+//   True (1) if loop flag is set, FALSE (0) otherwise
 inline bool PT3_GetLoop()
 {
 	return (PT3_State & PT3_STATE_LOOP);
@@ -241,7 +241,7 @@ inline bool PT3_GetLoop()
 // Check if playback flag is set
 //
 // Returns:
-//	 True (1) if playback flag is set, false (0) otherwise
+//	 True (1) if playback flag is set, FALSE (0) otherwise
 inline bool PT3_IsPlaying()
 {
 	return (PT3_State & PT3_STATE_PLAY);
@@ -320,7 +320,7 @@ inline u8 PT3_GetPattern()
 //
 // Parameters:
 //	 chan		- The channel number (0: channel A, 1: channel B, 2: channel C)
-//	 mute		- Mute (true) or un-mute (false) the given channel
+//	 mute		- Mute (TRUE) or un-mute (FALSE) the given channel
 inline void PT3_Mute(u8 chan, bool mute)
 {
 	if(mute)

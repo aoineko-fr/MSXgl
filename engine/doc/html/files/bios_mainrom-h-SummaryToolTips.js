@@ -1,1 +1,0 @@
-﻿NDSummary.OnToolTipsLoaded("File:bios_mainrom.h",{});

@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Deprecated symbols for backward compatibility
 //─────────────────────────────────────────────────────────────────────────────
@@ -16,6 +16,8 @@
 
 // VDP module
 #define VDP_HideSpriteFrom			VDP_DisableSpritesFrom
+#define VADDR_Lo					VADDR_LO
+#define VADDR_Hi                    VADDR_HI
 
 // Compress module
 #define UnpackRLEpToRAM				RLEp_UnpackToRAM

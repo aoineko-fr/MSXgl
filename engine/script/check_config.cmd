@@ -1,9 +1,10 @@
-::██▀▀█▀▀███▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█
-::██  ▀  ██   ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █
-::█  ▄ ▄  ▀▀▀   █▀  ▄  ▀█ ▀▄█ █▄ █
-::█▄▄█▄█▄▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
-:: by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
-::-----------------------------------------------------------------------------
+:: ____________________________
+:: ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄       ▄  ▄▄    ▄▄   ▄▄▄▄           ▄▄ 
+:: ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██ █ ▄  ██   ▄██    ██  ▄█▀▄ ▄█▀▄ ██ 
+:: █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ▀█▄█ ██ ▀█▄ ▀▄██    ██  ▀█▄▀ ▀█▄▀ ▀█▄
+:: ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
+::  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
+::─────────────────────────────────────────────────────────────────────────────
 @echo off
 
 ::***************************************************************************
@@ -65,14 +66,6 @@ if not exist "%Hex2Bin%" (
 	echo %RED%Error: Invalid path to Hex2Bin [%Hex2Bin%]%RESET%
 	exit /B 50
 )
-
-:: ROM specific tools
-REM if /I %Ext%==rom (
-	REM if not exist "%FillFile%" (
-		REM echo %RED%Error: Invalid path to FillFile [%FillFile%]%RESET%
-		REM exit /B 60
-	REM )
-REM )
 
 :: BASIC/MSX-DOS specific tools
 if /I not %Ext%==rom (

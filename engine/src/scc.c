@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ██ ▀ ██ ▀
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀█▄▀ ▀█▄▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // PSG handler module
 //
@@ -55,7 +55,7 @@ bool SCC_CheckSlotID(u8 slotId)
 	if(Bios_InterSlotRead(slotId, 0x8000) != val) // Is RAM?
 	{
 		Bios_InterSlotWrite(slotId, 0x8000, val); // backup RAM value
-		return false;
+		return FALSE;
 	}
 
 	// Select SCC
@@ -67,10 +67,10 @@ bool SCC_CheckSlotID(u8 slotId)
 	if(Bios_InterSlotRead(slotId, 0x9800) != val) // Is SCC RAM?
 	{
 		Bios_InterSlotWrite(slotId, 0x9800, val); // backup SCC RAM value
-		return true;
+		return TRUE;
 	}
 
-	return false;
+	return FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -284,13 +284,13 @@ bool SCC_Initialize()
 	#if (SCC_SLOT_MODE == SCC_SLOT_AUTO)
 		g_SCC_SlotId = SCC_AutoDetect();
 		if(g_SCC_SlotId == SLOT_NOTFOUND)
-			return false;
+			return FALSE;
 	#elif (SCC_SLOT_MODE == SCC_SLOT_USER)
 		g_SCC_SlotId = SLOT_2; // Non-expanded secondary slot cartridge 
 	#endif
 	
 	SCC_Select();
-	return true;
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------

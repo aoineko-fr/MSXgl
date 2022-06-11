@@ -8,8 +8,8 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic486"></a><div class="CTopic TGroup LC first">
- <div class="CTitle">Functions</div>
+<a name="Helper"></a><a name="Topic155"></a><div class="CTopic TGroup LC first">
+ <div class="CTitle">Helper</div>
 </div>
 
 <a name="Bios_Exit"></a><a name="Topic477"></a><div class="CTopic TFunction LC">
@@ -22,6 +22,10 @@
  <div class="CTitle">Bios_SetKeyClick</div>
  <div id="NDPrototype478" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetKeyClick(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Enable or disable key click</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">ret</td><td class="CDLDefinition"><p>TRUE to enable and FALSE to disable</p></td></tr></table></div>
+</div>
+
+<a name="Main-ROM-Core"></a><a name="Topic156"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Main-ROM - Core</div>
 </div>
 
 <a name="Bios_Startup"></a><a name="Topic479"></a><div class="CTopic TFunction LC">
@@ -54,17 +58,17 @@
  <div class="CBody"><p>Switches indicated slot at indicated page on perpetual. Wrapper for ENASLT routine.</p></div>
 </div>
 
-<a name="Macros"></a><a name="Topic489"></a><div class="CTopic TGroup LC">
- <div class="CTitle">Macros</div>
-</div>
-
 <a name="BIOS_CALLF"></a><a name="Topic490"></a><div class="CTopic TMacro LC">
  <div class="CTitle">BIOS_CALLF</div>
  <div class="CBody"><p>Executes an interslot call. Wrapper for CALLF routine.</p></div>
 </div>
 
-<a name="Functions(2)"></a><a name="Topic491"></a><div class="CTopic TGroup LC">
- <div class="CTitle">Functions</div>
+<a name="Main-ROM-Init"></a><a name="Topic177"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Main-ROM - Init</div>
+</div>
+
+<a name="Main-ROM-VDP"></a><a name="Topic180"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Main-ROM - VDP</div>
 </div>
 
 <a name="Bios_DisableScreen"></a><a name="Topic492"></a><div class="CTopic TFunction LC">
@@ -241,6 +245,10 @@
  <div class="CBody"><p>Displays a character on the graphic screen. Wrapper for GRPPRT routine.</p></div>
 </div>
 
+<a name="Main-ROM-PSG"></a><a name="Topic239"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Main-ROM - PSG</div>
+</div>
+
 <a name="Bios_InitPSG"></a><a name="Topic521"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InitPSG</div>
  <div id="NDPrototype521" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_InitPSG()</div></div>
@@ -265,6 +273,10 @@
  <div class="CBody"><p>Tests whether the PLAY statement is being executed as a background task. Wrapper for STRTMS routine.</p></div>
 </div>
 
+<a name="Main-ROM-Console"></a><a name="Topic240"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Main-ROM - Console</div>
+</div>
+
 <a name="Bios_GetCharacter"></a><a name="Topic525"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GetCharacter</div>
  <div id="NDPrototype525" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Bios_GetCharacter()</div></div>
@@ -277,13 +289,15 @@
  <div class="CBody"><p>Displays one character. Wrapper for CHPUT routine.</p></div>
 </div>
 
-<a name="Generates_beep"></a><a name="Topic527"></a><div class="CTopic TFunction LC">
- <div class="CTitle">Generates beep</div>
+<a name="Bios_Beep"></a><a name="Topic136"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Bios_Beep</div>
+ <div id="NDPrototype136" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_Beep()</div></div>
  <div class="CBody"><p>Generates beep. Wrapper for BEEP routine.</p></div>
 </div>
 
-<a name="Bios_ClearScreen_beep"></a><a name="Topic528"></a><div class="CTopic TFunction LC">
- <div class="CTitle">Bios_ClearScreen beep</div>
+<a name="Bios_ClearScreen"></a><a name="Topic146"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Bios_ClearScreen</div>
+ <div id="NDPrototype146" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Bios_ClearScreen()</div></div>
  <div class="CBody"><p>Clears the screen. Wrapper for CLS routine.</p></div>
 </div>
 
@@ -291,6 +305,10 @@
  <div class="CTitle">Bios_SetCursorPosition</div>
  <div id="NDPrototype529" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_SetCursorPosition(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">X,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">Y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Moves cursor to the specified position. Wrapper for POSIT routine.</p></div>
+</div>
+
+<a name="Main-ROM-Controller"></a><a name="Topic486"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Main-ROM - Controller</div>
 </div>
 
 <a name="Bios_GetJoystickDirection"></a><a name="Topic530"></a><div class="CTopic TFunction LC">
@@ -305,6 +323,10 @@
  <div class="CBody"><p>Returns current trigger status. Wrapper for GTTRIG routine.</p></div>
 </div>
 
+<a name="Main-ROM-Misc"></a><a name="Topic489"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Main-ROM - Misc</div>
+</div>
+
 <a name="Bios_GetKeyboardMatrix"></a><a name="Topic532"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GetKeyboardMatrix</div>
  <div id="NDPrototype532" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Bios_GetKeyboardMatrix(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">line</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
@@ -315,6 +337,18 @@
  <div class="CTitle">Bios_IsKeyPressed</div>
  <div id="NDPrototype533" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Bios_IsKeyPressed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">key</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Check if the given key is pressed</p></div>
+</div>
+
+<a name="Main-ROM-MSX2"></a><a name="Topic491"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Main-ROM - MSX2</div>
+</div>
+
+<a name="Main-ROM-MSX2+"></a><a name="Topic527"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Main-ROM - MSX2+</div>
+</div>
+
+<a name="Main-ROM-MSX_turbo_R"></a><a name="Topic528"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Main-ROM - MSX turbo R</div>
 </div>
 
 <a name="Bios_SetCPUMode"></a><a name="Topic534"></a><div class="CTopic TFunction LC">

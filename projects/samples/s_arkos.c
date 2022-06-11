@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  PCM-Encoder sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
@@ -88,7 +88,7 @@ const struct MusicEntry g_MusicEntryAKM[] =
 const struct PlayerEntry g_PlayerEntry[] =
 {
 	{ "AKG (generic)",    AKG_Init, AKG_Decode, AKG_Stop, g_MusicEntryAKG },
-	{ "AKY (fast)",       AKY_Init, AKY_Decode, null,     g_MusicEntryAKY },
+	{ "AKY (fast)",       AKY_Init, AKY_Decode, NULL,     g_MusicEntryAKY },
 	{ "AKM (minimalist)", AKM_Init, AKM_Decode, AKM_Stop, g_MusicEntryAKM },
 };
 
@@ -99,7 +99,7 @@ const struct PlayerEntry g_PlayerEntry[] =
 const struct PlayerEntry* g_CurrentPlayer;
 u8   g_PlayerIdx = 0;
 u8   g_MusicIdx = 0;
-bool g_Freq50Hz = false;
+bool g_Freq50Hz = FALSE;
 
 // V-blank synchronization flag
 u8 g_VBlank = 0;
@@ -173,7 +173,7 @@ void main()
 {
 	VDP_SetMode(VDP_MODE_SCREEN0); // Initialize screen mode 0 (text)
 	VDP_ClearVRAM();
-	VDP_EnableVBlank(true);
+	VDP_EnableVBlank(TRUE);
 	VDP_SetColor(0xF4);
 
 	// Header
@@ -204,7 +204,7 @@ void main()
 	Print_SetPosition(0, 23);
 	Print_DrawText("\x8D:Music  \x83:Pause  \x82:Player  Home:Freq");
 
-	VDP_EnableVBlank(true);
+	VDP_EnableVBlank(TRUE);
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
 
 	u8 prevRow8 = 0xFF;
@@ -250,7 +250,7 @@ void main()
 		// Stop music playback
 		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
-			if(g_CurrentPlayer->Stop != null)
+			if(g_CurrentPlayer->Stop != NULL)
 				g_CurrentPlayer->Stop();
 		}
 		// Change frequency

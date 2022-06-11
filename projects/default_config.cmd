@@ -1,8 +1,8 @@
-::██▀▀█▀▀███▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█
-::██  ▀  ██   ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █
-::█  ▄ ▄  ▀▀▀   █▀  ▄  ▀█ ▀▄█ █▄ █
-::█▄▄█▄█▄▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
-:: by Guillaume 'Aoineko' Blanchard under CC BY-AS license
+:: ██▀▀█▀▀███▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█
+:: ██  ▀  ██   ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █
+:: █  ▄ ▄  ▀▀▀   █▀  ▄  ▀█ ▀▄█ █▄ █
+:: █▄▄█▄█▄▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
+::  by Guillaume 'Aoineko' Blanchard under CC BY-AS license
 @echo off
 
 ::─────────────────────────────────────────────────────────────────────────────
@@ -21,12 +21,11 @@ set ToolsDir=%ProjDir%\..\..\tools
 ::*****************************************************************************
 :: TOOLS SETTINGS
 ::*****************************************************************************
-set SDCC=%ToolsDir%\sdcc
-set Compiler=%SDCC%\bin\sdcc.exe
-set Assembler=%SDCC%\bin\sdasz80.exe
-set Linker=%SDCC%\bin\sdcc.exe
+set Compiler=%ToolsDir%\sdcc\bin\sdcc.exe
+set Assembler=%ToolsDir%\sdcc\bin\sdasz80.exe
+set Linker=%ToolsDir%\sdcc\bin\sdcc.exe
+set MakeLib=%ToolsDir%\sdcc\bin\sdar.exe
 set Hex2Bin=%ToolsDir%\MSXtk\bin\MSXhex.exe
-set FillFile=%ToolsDir%\build\MakeROM\fillfile.exe
 set MSXDOS=%ToolsDir%\build\MSXDOS
 set DskTool=%ToolsDir%\build\DskTool\dsktool.exe
 set Emulator=
@@ -93,6 +92,8 @@ set ForceRamAddr=
 :: Data to copy to disk
 set DiskFiles=
 
+:: Use static MSXgl library
+set BuildLibrary=0
 :: Set debug flag
 set Debug=0
 :: Assembler code optimizer

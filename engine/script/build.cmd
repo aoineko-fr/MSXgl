@@ -1,9 +1,10 @@
-::██▀▀█▀▀███▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█
-::██  ▀  ██   ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █
-::█  ▄ ▄  ▀▀▀   █▀  ▄  ▀█ ▀▄█ █▄ █
-::█▄▄█▄█▄▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
-:: by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
-::-----------------------------------------------------------------------------
+:: ____________________________
+:: ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄       ▄  ▄▄    ▄▄   ▄▄▄▄           ▄▄ 
+:: ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██ █ ▄  ██   ▄██    ██  ▄█▀▄ ▄█▀▄ ██ 
+:: █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ▀█▄█ ██ ▀█▄ ▀▄██    ██  ▀█▄▀ ▀█▄▀ ▀█▄
+:: ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
+::  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
+::─────────────────────────────────────────────────────────────────────────────
 @echo off
 "%__APPDIR__%chcp.com" 65001 > nul
 title <nul & title MSXgl Build Tool – %ProjName% – %Target% – MSX %Machine%
@@ -106,7 +107,13 @@ if %InstallRAMISR%==1 ( echo ROM_RAMISR=1 >> %OutDir%\crt0_config.asm )
 
 :: Add crt0 source to build list (it must be the first in the list)
 set SrcList=%LibDir%\src\crt0\%Crt0%.asm
-set LibList=%OutDir%\%Crt0%.rel 
+set RelList=%OutDir%\%Crt0%.rel
+
+:: 
+REM if %BuildLibrary%==1 (
+	REM set RelList=
+	REM set LibList=%OutDir%\%Crt0%.rel
+REM )
 
 :: Add project sources to build list
 for %%G in (%ProjModules%) do (
@@ -115,7 +122,7 @@ for %%G in (%ProjModules%) do (
 		exit /B 100
 	)
 	set SrcList=!SrcList!,%%G.c
-	set LibList=!LibList! %OutDir%\%%~nG.rel
+	set RelList=!RelList! %OutDir%\%%~nG.rel
 )
 
 :: Add modules sources to build list
@@ -126,7 +133,11 @@ for %%G in (%LibModules%) do (
 		exit /B 110
 	)
 	set SrcList=!SrcList!,%LibDir%\src\%%G.c
-	set LibList=!LibList! %OutDir%\%%~nG.rel
+	REM if %BuildLibrary%==1 (
+		REM set LibList=!LibList! %OutDir%\%%~nG.rel
+	REM ) else (
+		set RelList=!RelList! %OutDir%\%%~nG.rel
+	REM )
 )
 
 :: Additional source files to build
@@ -137,7 +148,7 @@ for %%G in (%AddSources%) do (
 		exit /B 120
 	)
 	set SrcList=!SrcList!,%%G
-	set LibList=!LibList! %OutDir%\%%~nG.rel
+	set RelList=!RelList! %OutDir%\%%~nG.rel
 )
 :NoAddSources
 
@@ -152,6 +163,17 @@ if defined ForceRamAddr (
 ::=============================================================================
 call %LibDir%\script\compile_all.cmd
 if errorlevel 1 goto :Error
+
+::=============================================================================
+:: BUILD STATIC LIBRARY
+::=============================================================================
+REM if not %BuildLibrary%==1 goto NoBuildLib
+
+REM echo Generating msxgl.lib using SDAR...
+REM %MakeLib% -rc %OutDir%\msxgl.lib %LibList%
+REM if errorlevel 1 goto :Error
+
+REM :NoBuildLib
 
 ::=============================================================================
 :: COMPILE MAPPER SEGMENT
@@ -171,7 +193,7 @@ for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
 				echo Segment found: %ProjSegments%_s%%I_b0.%%K ^(addr: !hex!%Bank0Addr%^)
 				set MapperBanks=!MapperBanks! -Wl-b_SEG%%I^=0x!hex!%Bank0Addr%
 				call %LibDir%\script\compile.cmd %ProjSegments%_s%%I_b0.%%K %SegSize% %%I
-				set LibList=!LibList! %OutDir%\%ProjSegments%_s%%I_b0.rel
+				set RelList=!RelList! %OutDir%\%ProjSegments%_s%%I_b0.rel
 			)
 		)
 		if not %Bank1Addr%==0 (
@@ -179,7 +201,7 @@ for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
 				echo Segment found: %ProjSegments%_s%%I_b1.%%K ^(addr: !hex!%Bank1Addr%^)
 				set MapperBanks=!MapperBanks! -Wl-b_SEG%%I^=0x!hex!%Bank1Addr%
 				call %LibDir%\script\compile.cmd %ProjSegments%_s%%I_b1.%%K %SegSize% %%I
-				set LibList=!LibList! %OutDir%\%ProjSegments%_s%%I_b1.rel
+				set RelList=!RelList! %OutDir%\%ProjSegments%_s%%I_b1.rel
 			)
 		)
 		if not %Bank2Addr%==0 (
@@ -187,7 +209,7 @@ for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
 				echo Segment found: %ProjSegments%_s%%I_b2.%%K ^(addr: !hex!%Bank2Addr%^)
 				set MapperBanks=!MapperBanks! -Wl-b_SEG%%I^=0x!hex!%Bank2Addr%
 				call %LibDir%\script\compile.cmd %ProjSegments%_s%%I_b2.%%K %SegSize% %%I
-				set LibList=!LibList! %OutDir%\%ProjSegments%_s%%I_b2.rel
+				set RelList=!RelList! %OutDir%\%ProjSegments%_s%%I_b2.rel
 			)
 		)
 		if not %Bank3Addr%==0 (
@@ -195,7 +217,7 @@ for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
 				echo Segment found: %ProjSegments%_s%%I_b3.%%K ^(addr: !hex!%Bank3Addr%^)
 				set MapperBanks=!MapperBanks! -Wl-b_SEG%%I^=0x!hex!%Bank3Addr%
 				call %LibDir%\script\compile.cmd %ProjSegments%_s%%I_b3.%%K %SegSize% %%I
-				set LibList=!LibList! %OutDir%\%ProjSegments%_s%%I_b3.rel
+				set RelList=!RelList! %OutDir%\%ProjSegments%_s%%I_b3.rel
 			)
 		)
 	)
@@ -223,7 +245,9 @@ if %Optim%==Speed ( set LinkOpt=%LinkOpt% --opt-code-speed )
 if %Optim%==Size ( set LinkOpt=%LinkOpt% --opt-code-size )
 if %Debug%==1 ( set LinkOpt=%LinkOpt% --debug )
 
-set SDCCParam=-mz80 --vc --no-std-crt0 --code-loc 0x%CodeAddr% --data-loc 0x%RamAddr% %LinkOpt% %MapperBanks% %LibList% -o %OutDir%\
+REM if %BuildLibrary%==1 ( set LinkOpt=%LinkOpt% %OutDir%\msxgl.lib )
+
+set SDCCParam=-mz80 --vc --no-std-crt0 --code-loc 0x%CodeAddr% --data-loc 0x%RamAddr% %LinkOpt% %MapperBanks% %RelList% -o %OutDir%\
 echo SDCC %SDCCParam%
 %Linker% %SDCCParam%
 if errorlevel 1 goto :Error

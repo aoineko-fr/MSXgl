@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  VGM format sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
@@ -162,7 +162,7 @@ void SetMusic(u8 idx)
 {
 	g_CurrentMusic = idx;
 
-	bool ok = LVGM_Play(g_MusicEntry[idx].Data, true);
+	bool ok = LVGM_Play(g_MusicEntry[idx].Data, TRUE);
 	
 	Print_SetPosition(0, 2);
 	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
@@ -248,7 +248,7 @@ void main()
 	// Initialize screen
 	VDP_SetMode(VDP_MODE_SCREEN1);
 	VDP_ClearVRAM();
-	VDP_EnableVBlank(true);
+	VDP_EnableVBlank(TRUE);
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font

@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  Joystick sample program
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
@@ -77,10 +77,10 @@ void main()
 	// Initialize screen
 	VDP_SetMode(VDP_MODE_SCREEN0);
 	VDP_ClearVRAM();
-	VDP_EnableVBlank(true);
+	VDP_EnableVBlank(TRUE);
 
 	// Initialize Input manager
-	IPM_Initialize(null);
+	IPM_Initialize(NULL);
 	IPM_SetTimer(4, 6);
 	IPM_RegisterEvent(IPM_DEVICE_JOYSTICK_1, IPM_INPUT_ANY, IPM_EVENT_CLICK, JoystickEvent);
 	IPM_RegisterEvent(IPM_DEVICE_JOYSTICK_1, IPM_INPUT_ANY, IPM_EVENT_HOLD, JoystickEvent);

@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // SDCC Vortex Tracker II PT3 player for MSX
 // 
@@ -293,7 +293,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 /// Change state of playback loop
-/// @param		loop		Either loop or not (true: do loop; false: don't loop)
+/// @param		loop		Either loop or not (TRUE: do loop; FALSE: don't loop)
 void PT3_SetLoop(u8 loop) __z88dk_fastcall
 {
 loop;

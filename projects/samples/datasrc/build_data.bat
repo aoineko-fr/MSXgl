@@ -2,7 +2,7 @@
 setlocal EnableDelayedExpansion
 
 :: Audio
-set BuildTrilo=0
+set BuildTrilo=1
 set BuildWYZ=0
 set BuildayFX=0
 set BuildVGM=0
@@ -15,7 +15,7 @@ set BuildImage=0
 set BuildCompress=0
 set BuildTile=0
 :: Misc
-set BuildZip=1
+set BuildZip=0
 
 :: Path
 set Tools=..\..\..\tools
@@ -39,7 +39,7 @@ if %BuildTrilo%==1 (
 	if not exist %Dest%\trilo\out md %Dest%\trilo\out
 	for %%I in (trilo\*.tmu) do (
 		echo ---- Compiling TMU file %%~nI...
-		%AudioMisc%\tmucompile.exe %%I %Dest%\trilo\out\tmu_%%~nI.asm
+		%Tools%\audio\trilo\tmucompile.exe %%I %Dest%\trilo\out\tmu_%%~nI.asm
 		%Tools%\audio\misc\rxrepl -f %Dest%\trilo\out\tmu_%%~nI.asm -o %Dest%\trilo\tmu_%%~nI.asm -s "\." -r "" -s "\$" -r "0x" -s "db" -r ".db" -s "dw" -r ".dw" -s "waveform_" -r "%%~nI_waveform_" -s "instrument_" -r "%%~nI_instrument_" -s "track_" -r "%%~nI_track_" -s "restart" -r "%%~nI_restart" -s "customvoice_" -r "%%~nI_customvoice_" -s "drummacro_" -r "%%~nI_drummacro_" 
 		echo.
 	)

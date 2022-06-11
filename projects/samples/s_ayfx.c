@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  ayFX replayer sample
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -90,8 +90,8 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
 u8   g_VBlank = 0;
 u8   g_Frame = 0;
-bool g_Loop = false;
-bool g_Mute[3] = { false, false, false };
+bool g_Loop = FALSE;
+bool g_Mute[3] = { FALSE, FALSE, FALSE };
 u8   g_BankFXNum = 0;
 u8   g_FileFXNum = 0;
 
@@ -337,11 +337,11 @@ void main()
 	// INIT SCREEN
 
 	VDP_SetMode(VDP_MODE_SCREEN5);
-	VDP_EnableSprite(false);
+	VDP_EnableSprite(FALSE);
 	VDP_SetColor(0x4);
 	VDP_CommandHMMV(0, 0, 256, 212, 0x44);
 
-	Print_SetBitmapFont(null);
+	Print_SetBitmapFont(NULL);
 	Print_SetFont(g_Font_MGL_Sample6);
 	Print_SetMode(PRINT_MODE_BITMAP_TRANS);
 	Print_SetColor(0xF, 0);
@@ -353,7 +353,7 @@ void main()
 
 	PT3_Init();
 	PT3_SetNoteTable(PT3_NT2);
-	PT3_SetLoop(true);
+	PT3_SetLoop(TRUE);
 	PT3_InitSong(g_Beg_nsum);
 
 	// INIT ayFX
@@ -382,7 +382,7 @@ void main()
 	Print_SetPosition(PT3_PLY_X+41, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_NEXT);	// Next
 	
-	LoopMusic(true);
+	LoopMusic(TRUE);
 	PauseMusic();
 
 	// Help
@@ -423,9 +423,9 @@ void main()
 	Print_DrawText("Chan. C\n");
 
 	// Output
-	MuteMusic(PSG_CHANNEL_A, false);
-	MuteMusic(PSG_CHANNEL_B, false);
-	MuteMusic(PSG_CHANNEL_C, false);
+	MuteMusic(PSG_CHANNEL_A, FALSE);
+	MuteMusic(PSG_CHANNEL_B, FALSE);
+	MuteMusic(PSG_CHANNEL_C, FALSE);
 
 	// Help
 	PrintHelp((u8)(PSG_Y+8*2), "123:Mute");

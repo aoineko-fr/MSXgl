@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ ▀ ▄█▀▄ ██▀▄ ██ ▀ ▄  ▄▀██ 
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▄▀ ▀█▄▀ ██ █ ██▀  ██  ▀██ 
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                          ▀▀  
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Default defines configuration
 //─────────────────────────────────────────────────────────────────────────────
@@ -134,6 +134,12 @@
 #ifndef VDP_USE_DEFAULT_SETTINGS
 	#warning VDP_USE_DEFAULT_SETTINGS is not defined in "msxgl_config.h"! Default value will be used: 1
 	#define VDP_USE_DEFAULT_SETTINGS	1
+#endif
+
+// VDP_USE_16X16_SPRITE
+#ifndef VDP_USE_16X16_SPRITE
+	#warning VDP_USE_16X16_SPRITE is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define VDP_USE_16X16_SPRITE		1
 #endif
 
 //-----------------------------------------------------------------------------

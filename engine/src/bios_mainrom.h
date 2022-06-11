@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀  ██  ██ █ ▀█▄  
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ▄██▄ ▀█▄▀ ▄▄█▀ 
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // BIOS Main-ROM routines handler 
 //
@@ -287,8 +287,6 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 //=============================================================================
 // MSX 2+
 //=============================================================================
-
-// Group: MSX2+
 #if (MSX_VERSION >= MSX_2P)
 
 #define R_RDRES		0x017A // Read value of I/O port #F4
@@ -299,8 +297,6 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 //=============================================================================
 // MSX turbo R
 //=============================================================================
-
-// Group: MSX turbo R
 #if (MSX_VERSION == MSX_TR)
 
 #define R_CHGCPU	0x0180 // Changes CPU mode

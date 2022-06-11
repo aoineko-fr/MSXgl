@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // VGM replayer
 //  https://vgmrips.net/wiki/VGM_Specification
@@ -51,7 +51,7 @@ bool VGM_Play(const void* addr, bool loop)
 	g_VGM_Header = (struct VGM_Header*)addr;
 
 	if(g_VGM_Header->Ident != VGM_IDENT)
-		return false;
+		return FALSE;
 	
 	g_VGM_State = VGM_STATE_PLAY;
 	if(loop)
@@ -69,7 +69,7 @@ bool VGM_Play(const void* addr, bool loop)
 	else
 		VGM_SetFrequency60Hz();
 
-	return true;
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------

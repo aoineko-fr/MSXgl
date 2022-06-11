@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  Real-time clock module sample
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -109,10 +109,10 @@ const struct UIEntry g_UIEntries[24] =
 	{ 64,  64, 0, SetTonePeriod },  { 128,  64, 1, SetTonePeriod },  { 192,  64, 2, SetTonePeriod },
 	{ 64,  72, 0, SetToneVolume },  { 128,  72, 1, SetToneVolume },  { 192,  72, 2, SetToneVolume },
 	{ 64,  88, 0, SetEnvEnable },   { 128,  88, 1, SetEnvEnable },   { 192,  88, 2, SetEnvEnable },
-	{ 64,  96, 0, SetEnvPeriod },   { 128,  96, 1, null },           { 192,  96, 2, null },
-	{ 64, 104, 0, SetEnvShape  },   { 128, 104, 1, null },           { 192, 104, 2, null },
+	{ 64,  96, 0, SetEnvPeriod },   { 128,  96, 1, NULL },           { 192,  96, 2, NULL },
+	{ 64, 104, 0, SetEnvShape  },   { 128, 104, 1, NULL },           { 192, 104, 2, NULL },
 	{ 64, 120, 0, SetNoiseEnable }, { 128, 120, 1, SetNoiseEnable }, { 192, 120, 2, SetNoiseEnable },
-	{ 64, 128, 0, SetNoisePeriod }, { 128, 128, 1, null },           { 192, 128, 2, null },
+	{ 64, 128, 0, SetNoisePeriod }, { 128, 128, 1, NULL },           { 192, 128, 2, NULL },
 };
 
 //=============================================================================
@@ -329,7 +329,7 @@ void main()
 {
 	VDP_SetMode(VDP_MODE_SCREEN1); // Initialize screen mode 1 (G1)
 	VDP_ClearVRAM();
-	VDP_EnableVBlank(true);
+	VDP_EnableVBlank(TRUE);
 
 	Print_SetTextFont(g_Font_MGL_Sample8, 0); // Initialize font
 	VDP_FillVRAM_16K(0, g_ScreenPatternLow, 8);

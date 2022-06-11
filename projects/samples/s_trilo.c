@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  VGM format sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
@@ -53,10 +53,10 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
-	{ "kv2-puzz", null, 1 },
-	{ "nem3airb", null, 2 },
-	{ "nem3-st1", null, 3 },
-	{ "triplets", null, 4 },
+	{ "kv2-puzz", NULL, 1 },
+	{ "nem3airb", NULL, 2 },
+	{ "nem3-st1", NULL, 3 },
+	{ "triplets", NULL, 4 },
 };
 
 // Player button list
@@ -100,7 +100,7 @@ void SetMusic(u8 idx)
 {
 	g_CurrentMusic = idx;
 
-	// bool ok = ayVGM_Play(g_MusicEntry[idx].Data, true);
+	// bool ok = ayVGM_Play(g_MusicEntry[idx].Data, TRUE);
 	
 	Print_SetPosition(0, 2);
 	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
@@ -173,7 +173,7 @@ void main()
 	// Initialize screen
 	VDP_SetMode(VDP_MODE_SCREEN1);
 	VDP_ClearVRAM();
-	VDP_EnableVBlank(true);
+	VDP_EnableVBlank(TRUE);
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font

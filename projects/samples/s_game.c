@@ -58,32 +58,32 @@ const Game_Sprite g_SpriteLayers[] =
 // Idle animation frames
 const Game_Frame g_FramesIdle[] =
 {
-	{ 6*16,	48,	null },
-	{ 7*16,	24,	null },
+	{ 6*16,	48,	NULL },
+	{ 7*16,	24,	NULL },
 };
 
 // Move animation frames
 const Game_Frame g_FramesMove[] =
 {
-	{ 0*16,	4,	null },
-	{ 1*16,	4,	null },
-	{ 2*16,	4,	null },
-	{ 3*16,	4,	null },
-	{ 4*16,	4,	null },
-	{ 5*16,	4,	null },
+	{ 0*16,	4,	NULL },
+	{ 1*16,	4,	NULL },
+	{ 2*16,	4,	NULL },
+	{ 3*16,	4,	NULL },
+	{ 4*16,	4,	NULL },
+	{ 5*16,	4,	NULL },
 };
 
 // Jump animation frames
 const Game_Frame g_FramesJump[] =
 {
-	{ 3*16,	4,	null },
-	{ 8*16,	4,	null },
+	{ 3*16,	4,	NULL },
+	{ 8*16,	4,	NULL },
 };
 
 // Fall animation frames
 const Game_Frame g_FramesFall[] =
 {
-	{ 9*16,	4,	null },
+	{ 9*16,	4,	NULL },
 };
 
 // Actions id
@@ -98,10 +98,10 @@ enum ANIM_ACTION_ID
 // List of all player actions
 const Game_Action g_AnimActions[] =
 { //  Frames        Number                  Loop? Interrupt?
-	{ g_FramesIdle, numberof(g_FramesIdle), true, true },
-	{ g_FramesMove, numberof(g_FramesMove), true, true },
-	{ g_FramesJump, numberof(g_FramesJump), true, true },
-	{ g_FramesFall, numberof(g_FramesFall), true, true },
+	{ g_FramesIdle, numberof(g_FramesIdle), TRUE, TRUE },
+	{ g_FramesMove, numberof(g_FramesMove), TRUE, TRUE },
+	{ g_FramesJump, numberof(g_FramesJump), TRUE, TRUE },
+	{ g_FramesFall, numberof(g_FramesFall), TRUE, TRUE },
 };
 
 //=============================================================================
@@ -110,9 +110,9 @@ const Game_Action g_AnimActions[] =
 
 Game_Pawn g_PlayerPawn;
 
-bool g_bFlicker = true;
-bool g_bMoving = false;
-bool g_bJumping = false;
+bool g_bFlicker = TRUE;
+bool g_bMoving = FALSE;
+bool g_bJumping = FALSE;
 i8   g_VelocityY;
 u8   g_PrevRow8 = 0xFF;
 i8   g_DX = 0;
@@ -135,7 +135,7 @@ void PhysicsEvent(u8 event, u8 tile)
 		break;
 	
 	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
-		g_bJumping = false;
+		g_bJumping = FALSE;
 		break;
 	
 	case PAWN_PHYSICS_COL_UP: // Handle upward collisions
@@ -145,7 +145,7 @@ void PhysicsEvent(u8 event, u8 tile)
 	case PAWN_PHYSICS_FALL: // Handle falling
 		if(!g_bJumping)
 		{
-			g_bJumping = true;
+			g_bJumping = TRUE;
 			g_VelocityY = 0;
 		}
 		break;
@@ -157,7 +157,7 @@ bool PhysicsCollision(u8 tile)
 {
 	// return (tile < 8) || (tile >= 32);
 	return (tile < 8);
-	// return false;
+	// return FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -196,7 +196,7 @@ void DrawLevel()
 bool State_Initialize()
 {
 	// Initialize display
-	VDP_EnableDisplay(false);
+	VDP_EnableDisplay(FALSE);
 	VDP_SetColor(COLOR_BLACK);
 	
 	// Initialize pattern
@@ -232,10 +232,10 @@ bool State_Initialize()
 	// Initialize layout
 	DrawLevel();
 
-	VDP_EnableDisplay(true);
+	VDP_EnableDisplay(TRUE);
 
 	Game_SetState(State_Game);
-	return false; // Frame finished
+	return FALSE; // Frame finished
 }
 
 //-----------------------------------------------------------------------------
@@ -286,15 +286,15 @@ bool State_Game()
 	if(IS_KEY_PRESSED(row8, KEY_RIGHT))
 	{
 		g_DX++;
-		g_bMoving = true;
+		g_bMoving = TRUE;
 	}
 	else if(IS_KEY_PRESSED(row8, KEY_LEFT))
 	{
 		g_DX--;
-		g_bMoving = true;
+		g_bMoving = TRUE;
 	}
 	else
-		g_bMoving = false;
+		g_bMoving = FALSE;
 	
 	if(g_bJumping)
 	{
@@ -307,7 +307,7 @@ bool State_Game()
 	}
 	else if(IS_KEY_PRESSED(row8, KEY_SPACE) || IS_KEY_PRESSED(row8, KEY_UP))
 	{
-		g_bJumping = true;
+		g_bJumping = TRUE;
 		g_VelocityY = FORCE;
 	}
 
@@ -320,14 +320,14 @@ bool State_Game()
 		Game_Exit();
 
 		
-	return true; // Frame finished
+	return TRUE; // Frame finished
 }
 
 //-----------------------------------------------------------------------------
 //
 bool State_Pause()
 {
-	return true; // Frame finished
+	return TRUE; // Frame finished
 }
 
 //=============================================================================

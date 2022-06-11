@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██   ▄▀██ ▄█▄█ ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▄█ ▀▄██ ██ █ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Game state handler
 //─────────────────────────────────────────────────────────────────────────────
@@ -23,7 +23,7 @@ void Game_Initialize(u8 screenMode)
 {
 	VDP_SetMode(screenMode);
 	#if (GAME_USE_VSYNC)
-		VDP_EnableVBlank(true);
+		VDP_EnableVBlank(TRUE);
 		Bios_SetHookCallback(H_TIMI, Game_VSyncHook);
 	#endif
 }
@@ -60,7 +60,7 @@ void Game_Release()
 //-----------------------------------------------------------------------------
 // RAM DATA
 
-bool g_GameExit = false;
+bool g_GameExit = FALSE;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -79,7 +79,7 @@ void Game_MainLoop(u8 screenMode)
 // Game exit
 void Game_Exit()
 {
-	g_GameExit = true;
+	g_GameExit = TRUE;
 }
 
 #endif // (GAME_USE_LOOP)
@@ -94,8 +94,8 @@ void Game_Exit()
 //-----------------------------------------------------------------------------
 // RAM DATA
 
-State g_GameState = null;
-State g_GamePrevState = null;
+State g_GameState = NULL;
+State g_GamePrevState = NULL;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -122,8 +122,8 @@ void Game_RestoreState()
 // Check state transition and update current state
 void Game_UpdateState()
 {
-	bool bFrameFinish = false;
-	while((g_GameState != null) && !bFrameFinish)
+	bool bFrameFinish = FALSE;
+	while((g_GameState != NULL) && !bFrameFinish)
 	{
 		bFrameFinish = g_GameState();
 	}	
@@ -144,7 +144,7 @@ void Game_DefaultVSyncCB();
 //-----------------------------------------------------------------------------
 // RAM DATA
 
-bool     g_GameVSync = false;
+bool     g_GameVSync = FALSE;
 u8       g_GameFrame = 0;
 callback g_GameVSyncCB = Game_DefaultVSyncCB;
 
@@ -166,7 +166,7 @@ void Game_SetVSyncCallback(callback cb)
 // Vertical-synchronization hook handler
 void Game_VSyncHook()
 {
-	g_GameVSync = true;
+	g_GameVSync = TRUE;
 	g_GameVSyncCB();
 }
 
@@ -174,8 +174,8 @@ void Game_VSyncHook()
 // Wait for vertical-synchronization 
 void Game_WaitVSync()
 {
-	while(g_GameVSync == false) {}
-	g_GameVSync = false;
+	while(g_GameVSync == FALSE) {}
+	g_GameVSync = FALSE;
 	g_GameFrame++;
 }
 

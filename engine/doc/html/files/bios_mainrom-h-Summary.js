@@ -1,1 +1,0 @@
-﻿NDFramePage.OnPageTitleLoaded("File:bios_mainrom.h","bios_mainrom.h");NDSummary.OnSummaryLoaded("File:bios_mainrom.h",[["C/C++","C"]],[["Groups","Group"]],[[539,0,0,"MSX2+","MSX2+"],[540,0,0,"MSX turbo R","MSX_turbo_R"]]);

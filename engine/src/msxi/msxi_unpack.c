@@ -17,17 +17,17 @@
 /// Search for color replacement. Replacement table must be in the format : { num, c1_from, c1_to, c2_from, c2_to, ... }
 bool SearchColorReplacement(const u8* clrReplace, u8* color)
 {
-	if((clrReplace == null) || (clrReplace[0] == 0))
-		return false;
+	if((clrReplace == NULL) || (clrReplace[0] == 0))
+		return FALSE;
 	for(u8 i = 0; i < clrReplace[0]; ++i)
 	{
 		if(*color == clrReplace[i * 2 + 1])
 		{
 			*color = clrReplace[i * 2 + 2];
-			return true;
+			return TRUE;
 		}
 	}
-	return false;
+	return FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -64,7 +64,7 @@ void MSXi_UnpackToVRAM_Crop16_4_4(void* src, u16 destX, u16 destY, u8 sizeX, u8 
 			++ptr;
 			for(u8 y = minY; y <= maxY; ++y)
 			{
-				if(clrReplace != null)
+				if(clrReplace != NULL)
 				{
 					u8* buffer = Mem_HeapAlloc(len);
 					Mem_Copy(ptr, buffer, len);
@@ -137,7 +137,7 @@ void MSXi_UnpackToVRAM_CropLine16_4_4(void* src, u16 destX, u16 destY, u8 sizeX,
 				u8 len = (maxX - minX + 1);
 				len /= 2;
 				++ptr;
-				if(clrReplace != null)
+				if(clrReplace != NULL)
 				{
 					u8* buffer = Mem_HeapAlloc(len);
 					Mem_Copy(ptr, buffer, len);

@@ -1,8 +1,8 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │   ▄▄▄                ▄▄      
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘                 ▀▀
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  Print text sample
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -82,7 +82,7 @@ const c8* g_SpriteText = "SPRITE!";
 // Font entries table
 const struct FontEntry g_Fonts[] =
 {
-	{ "Main-ROM [6*8]",			null },
+	{ "Main-ROM [6*8]",			NULL },
 	{ "C-MSX Standard 0 [6*8]",	g_Font_MGL_Std0 },
 	{ "C-MSX Symbol 1 [8*8]",	g_Font_MGL_Symbol1 },	
 #if (TARGET_TYPE != TYPE_BIN) // No enough free RAM in Basic to load all fonts
@@ -108,7 +108,7 @@ const struct FontEntry g_Fonts[] =
 const struct ModeEntry g_Modes[] =
 {
 	{ "G4", VDP_MODE_GRAPHIC4, g_Font_MGL_Std0, 0xF, 0x0, 0xE, 0xB, { 3, 2, 12, 2, 3, 2, 12, 2, 3, 2, 12, 2 }, { 3, 2, 12, 2, 3, 2, 12, 2, 3, 2, 12, 2 } },
-	{ "G5", VDP_MODE_GRAPHIC5, null,             0x3, 0x0, 0x2, 0x2, { 3, 3,  2, 2, 3, 3,  2, 2, 3, 3,  2, 2 }, { 15, 15, 10, 10, 15, 15, 10, 10, 15, 15, 10, 10 } },
+	{ "G5", VDP_MODE_GRAPHIC5, NULL,             0x3, 0x0, 0x2, 0x2, { 3, 3,  2, 2, 3, 3,  2, 2, 3, 3,  2, 2 }, { 15, 15, 10, 10, 15, 15, 10, 10, 15, 15, 10, 10 } },
 	{ "G6", VDP_MODE_GRAPHIC6, g_Font_MGL_Std0, 0xF, 0x0, 0xE, 0xB, { 3, 2, 12, 2, 3, 2, 12, 2, 3, 2, 12, 2 }, { 3, 2, 12, 2, 3, 2, 12, 2, 3, 2, 12, 2 } },
 	{ "G7",	VDP_MODE_GRAPHIC7, g_Font_MGL_Std0, COLOR8_WHITE, COLOR8_BLACK, RGB8(4,4,2), RGB8(6,6,2), 
 		{ COLOR8_DEFAULT3, COLOR8_DEFAULT2, COLOR8_DEFAULT12, COLOR8_DEFAULT2, 
@@ -138,7 +138,7 @@ void PrintHeader()
 {
 	VDP_SetMode(g_Modes[g_ModeIndex].Mode);
 	VDP_SetColor(g_Modes[g_ModeIndex].ColorBG);
-	VDP_EnableSprite(false);
+	VDP_EnableSprite(FALSE);
 	VDP_SetSpriteTables(0x1C000, 0x1CA00);
 
 	Print_Initialize();
@@ -253,9 +253,9 @@ void PrintEffect()
 	Print_SetColor(g_Modes[g_ModeIndex].ColorText, g_Modes[g_ModeIndex].ColorBG);
 	Print_DrawText("Shadow: ");
 #if (PRINT_USE_FX_SHADOW)
-	Print_SetShadow(true, 1, 1, g_Modes[g_ModeIndex].ColorGray);
+	Print_SetShadow(TRUE, 1, 1, g_Modes[g_ModeIndex].ColorGray);
 	Print_DrawText(g_SampleTextShort);
-	Print_EnableShadow(false);
+	Print_EnableShadow(FALSE);
 #else
 	Print_DrawText("Disabled! (see config)");
 #endif
@@ -267,9 +267,9 @@ void PrintEffect()
 	Print_SetColor(g_Modes[g_ModeIndex].ColorText, g_Modes[g_ModeIndex].ColorBG);
 	Print_DrawText("Outline: ");
 #if (PRINT_USE_FX_OUTLINE)
-	Print_SetOutline(true, g_Modes[g_ModeIndex].ColorGray);
+	Print_SetOutline(TRUE, g_Modes[g_ModeIndex].ColorGray);
 	Print_DrawText(g_SampleTextShort);
-	Print_EnableOutline(false);
+	Print_EnableOutline(FALSE);
 #else
 	Print_DrawText("Disabled! (see config)");
 #endif
@@ -298,7 +298,7 @@ void PrintEffect()
 
 	Print_DrawText("Sprite: ");
 #if (PRINT_USE_SPRITE)
-	VDP_EnableSprite(true);
+	VDP_EnableSprite(TRUE);
 	VDP_SetSpriteTables(0x1C000, 0x1CA00);
 	VDP_SetSpriteFlag(VDP_SPRITE_SCALE_2);
 
@@ -372,11 +372,11 @@ void main()
 	cb();
 
 	u8 count = 0;
-	bool bContinue = true;
+	bool bContinue = TRUE;
 	while(bContinue)
 	{
 		if(Keyboard_IsKeyPressed(KEY_ESC))
-			bContinue = false;
+			bContinue = FALSE;
 
 		u8 row = Keyboard_Read(KEY_ROW(KEY_F1));
 		

@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀  ██  ██ █ ▀█▄  
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ▄██▄ ▀█▄▀ ▄▄█▀ 
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // BIOS Sub-ROM routines handler 
 //
@@ -154,7 +154,7 @@ const u16 __at(S_STRSRC) g_STRSRC;
 //-----------------------------------------------------------------------------
 // CLRSPR (00F5h)
 #define S_CLRSPR	0x00F5
-// Function 	Initialises all sprites. The sprite pattern is set to null, sprite number to sprite plane number, and sprite colour to the foreground colour. The vertical location of the sprite is set to 217.
+// Function 	Initialises all sprites. The sprite pattern is set to NULL, sprite number to sprite plane number, and sprite colour to the foreground colour. The vertical location of the sprite is set to 217.
 // Input:		SCRMOD (FCAFh) for the screen mode
 // Output: 		none
 // Registers: 	all

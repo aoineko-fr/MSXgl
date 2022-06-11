@@ -1,1 +1,0 @@
-﻿NDSearch.OnPrefixDataLoaded("bee",["Function"],[["beep",,[[,"Bios_ClearScreen beep",,,0,"File:bios.h:Bios_ClearScreen_beep"],[,"Generates beep",,,0,"File:bios.h:Generates_beep"]]]]);
