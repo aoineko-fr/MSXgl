@@ -37,11 +37,12 @@ const u8 g_ChrAnim[] = { '-', '/', '|', '\\' };
 /// Program entry point
 void main()
 {
-	VDP_SetMode(VDP_MODE_SCREEN0);
+	VDP_SetMode(VDP_MODE_SCREEN5);
+	VDP_SetColor(COLOR_BLACK);
 	VDP_EnableVBlank(TRUE);
 	VDP_ClearVRAM();
 
-	Print_SetTextFont(g_Font_MGL_Sample6, 1);
+	Print_SetBitmapFont(g_Font_MGL_Sample6);
 	Print_SetColor(COLOR_WHITE, COLOR_BLACK);
 	Print_SetPosition(0, 0);
 	Print_DrawText(MSX_GL" The MSX Game Library");
@@ -49,9 +50,9 @@ void main()
 	u8 count = 0;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
-		Print_SetPosition(39, 0);
+		Halt(); // Wait V-Blank
+		Print_SetPosition(255-8, 0);
 		Print_DrawChar(g_ChrAnim[count++ % 4]);
-		Halt();
 	}
 
 	Bios_Exit(0);
