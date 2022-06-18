@@ -257,6 +257,14 @@ inline void Bios_GraphPrintChar(u8 chr) { ((void(*)(u8))R_GRPPRT)(chr); }
 // Displays a character on the graphic screen. Wrapper for GRPPRT routine.
 void Bios_GraphPrintCharEx(u8 chr, u16 x, u8 y, u8 color, u8 op);
 
+// Function: Bios_IsSpriteCollision
+// Returns FALSE if no collision occured during the previous frame, otherwise returns S00_C.
+inline bool Bios_IsSpriteCollision() { return g_STATFL & S00_C; }
+
+// Function: Bios_IsSpriteOverScan
+// Returns FALSE if no over-scane occured during the previous frame (more than 4/8 sprites on the same line), otherwise returns S00_5S.
+inline bool Bios_IsSpriteOverScan() { return g_STATFL & S00_5S; }
+
 #endif // BIOS_USE_VDP
 
 //=============================================================================
