@@ -87,10 +87,10 @@ struct BasicROMVersion
 const struct BasicROMVersion __at(R_BASRVN) g_ROMVersion;
 
 #define R_MSXVER	0x002D // MSX version number
-// 0 = MSX 1
-// 1 = MSX 2
-// 2 = MSX 2+
-// 3 = MSX turbo R
+#define MSXVER_1	0 // MSX 1
+#define MSXVER_2	1 // MSX 2
+#define MSXVER_2P	2 // MSX 2+
+#define MSXVER_TR	3 // MSX turbo R
 const u8 __at(R_MSXVER) g_MSXVER;
 
 #define R_MSXMID	0x002E // Bit 0: if 1 then MSX-MIDI is present internally (MSX turbo R only)

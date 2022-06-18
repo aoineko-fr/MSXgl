@@ -17,6 +17,7 @@
 
 #include "core.h"
 #include "system.h"
+#include "vdp_reg.h"
 
 // R_xxxx	Data/routines in Main-ROM
 // S_xxxx	Data/routines in Sub-ROM
@@ -61,6 +62,16 @@ void Bios_Exit(u8 ret) __FASTCALL;
 // Parameters:
 //   ret - TRUE to enable and FALSE to disable
 inline void Bios_SetKeyClick(bool enable) { g_CLIKSW = enable; }
+
+// Function: Bios_GetMSXVersion
+// Get MSX generation version
+//
+// Return:
+// - MSXVER_1 (0) for MSX 1.
+// - MSXVER_2 (1) for MSX 2.
+// - MSXVER_2P (2) for MSX 2+.
+// - MSXVER_TR (3) for MSX turbo R.
+inline u8 Bios_GetMSXVersion() { return g_MSXVER; }
 
 //#############################################################################
 //  █▀▄▀█ ▄▀█ █ █▄ █ ▄▄ █▀█ █▀█ █▀▄▀█
@@ -259,11 +270,18 @@ void Bios_GraphPrintCharEx(u8 chr, u16 x, u8 y, u8 color, u8 op);
 
 // Function: Bios_IsSpriteCollision
 // Returns FALSE if no collision occured during the previous frame, otherwise returns S00_C.
+// This function use value of VDP status register S#0 that BIOS backup in RAM (STATFL). 
 inline bool Bios_IsSpriteCollision() { return g_STATFL & S00_C; }
 
 // Function: Bios_IsSpriteOverScan
-// Returns FALSE if no over-scane occured during the previous frame (more than 4/8 sprites on the same line), otherwise returns S00_5S.
+// Returns FALSE if no over-scan occured during the previous frame (more than 4/8 sprites on the same line), otherwise returns S00_5S.
+// This function use value of VDP status register S#0 that BIOS backup in RAM (STATFL). 
 inline bool Bios_IsSpriteOverScan() { return g_STATFL & S00_5S; }
+
+// Function: Bios_GetSpriteOverScanId
+// Returns index of the over-scaned sprite (5th/8th sprite on line). Value is in 0-31 range.
+// This function use value of VDP status register S#0 that BIOS backup in RAM (STATFL). 
+inline u8 Bios_GetSpriteOverScanId() { return S00_GET_SN(g_STATFL); }
 
 #endif // BIOS_USE_VDP
 

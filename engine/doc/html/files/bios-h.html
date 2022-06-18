@@ -24,6 +24,12 @@
  <div class="CBody"><p>Enable or disable key click</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">ret</td><td class="CDLDefinition"><p>TRUE to enable and FALSE to disable</p></td></tr></table></div>
 </div>
 
+<a name="Bios_GetMSXVersion"></a><a name="Topic539"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Bios_GetMSXVersion</div>
+ <div id="NDPrototype539" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Bios_GetMSXVersion()</div></div>
+ <div class="CBody"><p>Get MSX generation version</p><div class="CHeading">Return</div><ul><li><p>MSXVER_1 (0) for MSX 1.</p></li><li><p>MSXVER_2 (1) for MSX 2.</p></li><li><p>MSXVER_2P (2) for MSX 2+.</p></li><li><p>MSXVER_TR (3) for MSX turbo R.</p></li></ul></div>
+</div>
+
 <a name="Main-ROM-Core"></a><a name="Topic156"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Main-ROM - Core</div>
 </div>
@@ -243,6 +249,24 @@
  <div class="CTitle">Bios_GraphPrintCharEx</div>
  <div id="NDPrototype520" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_GraphPrintCharEx(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">op</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Displays a character on the graphic screen. Wrapper for GRPPRT routine.</p></div>
+</div>
+
+<a name="Bios_IsSpriteCollision"></a><a name="Topic540"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Bios_IsSpriteCollision</div>
+ <div id="NDPrototype540" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Bios_IsSpriteCollision()</div></div>
+ <div class="CBody"><p>Returns FALSE if no collision occured during the previous frame, otherwise returns S00_C.&nbsp; This function use value of VDP status register S#0 that BIOS backup in RAM (STATFL).</p></div>
+</div>
+
+<a name="Bios_IsSpriteOverScan"></a><a name="Topic547"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Bios_IsSpriteOverScan</div>
+ <div id="NDPrototype547" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Bios_IsSpriteOverScan()</div></div>
+ <div class="CBody"><p>Returns FALSE if no over-scan occured during the previous frame (more than 4/8 sprites on the same line), otherwise returns S00_5S.&nbsp; This function use value of VDP status register S#0 that BIOS backup in RAM (STATFL).</p></div>
+</div>
+
+<a name="Bios_GetSpriteOverScanId"></a><a name="Topic550"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Bios_GetSpriteOverScanId</div>
+ <div id="NDPrototype550" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Bios_GetSpriteOverScanId()</div></div>
+ <div class="CBody"><p>Returns index of the over-scaned sprite (5th/8th sprite on line). Value is in 0-31 range.&nbsp; This function use value of VDP status register S#0 that BIOS backup in RAM (STATFL).</p></div>
 </div>
 
 <a name="Main-ROM-PSG"></a><a name="Topic239"></a><div class="CTopic TGroup LC">
