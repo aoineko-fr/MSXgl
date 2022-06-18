@@ -12,6 +12,7 @@
 ::*****************************************************************************
 :: DIRECTORIES SETTINGS
 ::*****************************************************************************
+
 set ProjDir=.
 REM set ProjDir=%~d1%~p1
 set OutDir=%ProjDir%\out
@@ -21,6 +22,7 @@ set ToolsDir=%ProjDir%\..\..\tools
 ::*****************************************************************************
 :: TOOLS SETTINGS
 ::*****************************************************************************
+
 set Compiler=%ToolsDir%\sdcc\bin\sdcc.exe
 set Assembler=%ToolsDir%\sdcc\bin\sdasz80.exe
 set Linker=%ToolsDir%\sdcc\bin\sdcc.exe
@@ -28,7 +30,7 @@ set MakeLib=%ToolsDir%\sdcc\bin\sdar.exe
 set Hex2Bin=%ToolsDir%\MSXtk\bin\MSXhex.exe
 set MSXDOS=%ToolsDir%\build\MSXDOS
 set DskTool=%ToolsDir%\build\DskTool\dsktool.exe
-set Emulator=
+REM set Emulator=
 REM set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
 REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
 REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
@@ -51,7 +53,7 @@ set LibModules=system,bios,vdp,print,input,memory
 :: Additional sources
 set AddSources=
 
-:: MSX version:
+:: MSX machine version:
 :: - 1		MSX 1
 :: - 2		MSX 2
 :: - 12		MSX 1 or 2 (dual support)
@@ -60,7 +62,7 @@ set AddSources=
 :: - TR		MSX Turbo-R
 :: - 3		MSX 3 (reserved)
 set Machine=1
-:: Target:
+:: Program media target:
 :: - BIN			.bin	BASIC binary program (8000h~)
 :: - ROM_8K			.rom	8KB ROM in page 1 (4000h ~ 5FFFh)
 :: - ROM_8K_P2		.rom	8KB ROM in page 2 (8000h ~ 9FFFh)
@@ -78,29 +80,34 @@ set Machine=1
 :: - DOS1			.com	MSX-DOS 1 program (0100h~) No direct acces to Main-ROM
 :: - DOS2			.com	MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
 :: - DOS2_ARG		.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
-set Target=
+set Target=ROM_32K
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
+
 :: Install BDOS driver for ROM program? (0=false, 1=true)
 set InstallBDOS=0
 :: Set RAM in slot 0 and install ISR there (0=false, 1=true)
 set InstallRAMISR=0
 :: Use banked call and trampoline functions (0=false, 1=true)
 set BankedCall=0
-:: Overwrite RAM starting address
+:: Overwrite RAM starting address (e.g. 0xE0000 for 8K RAM machine)
 set ForceRamAddr=
-:: Data to copy to disk
+:: Data to copy to disk (comma separated list)
 set DiskFiles=
 
-:: Use static MSXgl library
+::*******************************************************************************
+:: MAKE SETTINGS
+::*******************************************************************************
+
+:: Use static MSXgl library (0=false, 1=true)
 set BuildLibrary=0
-:: Set debug flag
+:: Set debug flag (0=false, 1=true)
 set Debug=0
 :: Assembler code optimizer
 :: - None
 :: - PeepHole	SDCC otpimizer
 :: - MDL		MDL z80 otpimizer
-set AsmOptim=PeepHole
+set AsmOptim=None
 :: Optim:
 :: - Default
 :: - Speed
@@ -108,13 +115,13 @@ set AsmOptim=PeepHole
 set Optim=Speed
 :: Additionnal compilation flag
 set CompileOpt=
-:: Skip file if compile data is newer than the source 
+:: Skip file if compile data is newer than the (0=false, 1=true)
 set CompileSkipOld=0
-:: Verbose mode: 0 or 1
+:: Compile verbose mode (0=false, 1=true)
 set Verbose=0
 
 ::*******************************************************************************
-:: EMULATOR SETING
+:: EMULATOR SETINGS
 ::*******************************************************************************
 
 :: Emulator options: 0 or 1
@@ -126,12 +133,13 @@ set EmulDebug=0
 set EmulSCC=0
 set EmulMSXMusic=0
 set EmulMSXAudio=0
-:: Emulator extra parameters to be add to command-line
+:: Emulator extra parameters to be add to command-line (emulator sotfware specific)
 set EmulExtraParam=
 
 ::*******************************************************************************
 :: BUILD STEPS
 ::*******************************************************************************
+
 set DoClean=0
 set DoCompile=1
 set DoMake=1

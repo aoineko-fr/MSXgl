@@ -32,46 +32,8 @@ _g_FirstAddr::
 
 	.org	0x0038
 
-_interrupt_start::
-
-	push	af
-
-	in		a, (VDP_S)
-	and		a
-	jp		p, _interrupt_end
-
-	push	hl
-	push	de
-	push	bc
-	exx
-	ex		af, af'
-	push	af
-	push	hl
-	push	de
-	push	bc
-	push	iy
-	push	ix
-
-	call    _VDP_InterruptHandler
-
-	pop		ix
-	pop		iy
-	pop		bc
-	pop		de
-	pop		hl
-	pop		af
-	ex		af, af'
-	exx
-	pop		bc
-	pop		de
-	pop		hl
-	
-_interrupt_end:		
-	pop		af
-
-	ei
-	reti
-
+	; ISR
+	ISR_VBLANK
 
 ;------------------------------------------------------------------------------
 .area	_CODE

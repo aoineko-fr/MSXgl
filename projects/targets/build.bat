@@ -13,36 +13,12 @@
 call ..\default_config.cmd %0
 
 ::*****************************************************************************
-:: PROJECT SELECTION
-::*****************************************************************************
-set DoPause=0
-set Input=%~n1
-
-:CheckInput
-if not [%Input%]==[] goto :FoundInput
-cls
-set DoPause=1
-echo No valide target selected...
-echo Available targets:
-set Formats=BIN,DOS1,DOS2,ROM_8K,ROM_8K_P2,ROM_16K,ROM_16K_P2,ROM_32K,ROM_48K,ROM_48K_ISR,ROM_64K,ROM_64K_ISR,ROM_ASCII8,ROM_ASCII16,ROM_KONAMI,ROM_KONAMI_SCC
-for %%G in (%Formats%) do echo - %%G
-set /p Name=Enter a target: 
-for %%I in ("%Name%") do (set Input=%%~nI)
-goto :CheckInput
-
-:FoundInput
-::*****************************************************************************
 :: PROJECT SETTINGS
 ::*****************************************************************************
 
 :: Project name (will be use for output filename)
 set ProjName=s_target
-if not "%2" == "" (
-	set ProjName=%ProjName%_%2
-)
-if not "%3" == "" (
-	set ProjName=%ProjName%_%3K
-)
+if not "%2" == "" set ProjName=%ProjName%_%2
 
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=s_target
@@ -79,18 +55,20 @@ set Machine=1
 :: - DOS1			.com	MSX-DOS 1 program (0100h~) No direct acces to Main-ROM
 :: - DOS2			.com	MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
 :: - DOS2_ARG		.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
-set Target=%Input%
+set Target=%1
 :: Mapper size
-set ROMSize=%3
+if not "%3" == "" set ROMSize=%3
 :: Install BDOS driver for ROM program? (0=false, 1=true)
-set InstallBDOS=1
+if "%4" == "BDOS" set InstallBDOS=1
+:: Set RAM in slot 0 and install ISR there (0=false, 1=true)
+if "%4" == "RAMISR" set InstallRAMISR=1
 :: Use banked call and add trampoline functions (0=false, 1=true)
 set BankedCall=1
 :: Overwrite RAM starting address
 set ForceRamAddr=
 
 :: Set debug flag (0=false, 1=true)
-set Debug=1
+set Debug=0
 :: Optim:
 :: - Default
 :: - Speed
@@ -130,5 +108,3 @@ set DoRun=0
 :: START BUILD
 ::*****************************************************************************
 call %LibDir%\script\build.cmd
-
-if %DoPause%==1 pause

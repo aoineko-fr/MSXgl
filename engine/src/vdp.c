@@ -737,12 +737,10 @@ void VDP_SetModeGraphic7()
 //
 // Parameters:
 //   stat - Status register number (0-9)
-u8 VDP_ReadStatus(u8 stat) __FASTCALL
+u8 VDP_ReadStatus(u8 stat)
 {
-	stat;
+	stat; // A
 	__asm
-//		ld		l, stat					// FastCall
-		ld		a, l
 		di //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a
 		ld		a, #VDP_REG(15)

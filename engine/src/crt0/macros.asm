@@ -185,16 +185,9 @@
 .endm
 
 ;------------------------------------------------------------------------------
-; Install ISR in RAM
-; (needs 64 KB of RAM in Page #3's slot)
+; V-Blank ISR
 ;------------------------------------------------------------------------------
-.macro INSTALL_RAM_ISR
-	.if ROM_RAMISR
-		.globl	_VDP_InterruptHandler
-
-		di
-		jp		crt0_interrupt_end
-
+.macro ISR_VBLANK
 	crt0_interrupt_start::
 		; Skip interruptions that do not come from the VDP.
 		push	af
@@ -214,7 +207,7 @@
 		push	iy
 		push	ix
 		; Call VDP interruption handler
-		call    _VDP_InterruptHandler
+		call	_VDP_InterruptHandler
 		; Restore registers
 		pop		ix
 		pop		iy
@@ -231,8 +224,67 @@
 	crt0_interrupt_skip:
 		pop		af
 		ei
-		reti
+		ret
 	crt0_interrupt_end:
+.endm
+
+;------------------------------------------------------------------------------
+; V-Blank & H-Blank ISR
+;------------------------------------------------------------------------------
+.macro ISR_HBLANK
+	crt0_interrupt_start::
+		; Skip interruptions that do not come from the VDP.
+		push	af
+		in		a, (VDP_S)
+		rlca
+		jr		nc, crt0_interrupt_skip
+		; Backup registers
+		push	hl
+		push	de
+		push	bc
+		exx
+		ex		af, af'
+		push	af
+		push	hl
+		push	de
+		push	bc
+		push	iy
+		push	ix
+		; Call VDP interruption handler
+		call	_VDP_InterruptHandler
+		; Restore registers
+		pop		ix
+		pop		iy
+		pop		bc
+		pop		de
+		pop		hl
+		pop		af
+		ex		af, af'
+		exx
+		pop		bc
+		pop		de
+		pop		hl
+		; Restore registers
+	crt0_interrupt_skip:
+		pop		af
+		ei
+		ret
+	crt0_interrupt_end:
+.endm
+
+;------------------------------------------------------------------------------
+; Install ISR in RAM
+; (needs 64 KB of RAM in Page #3's slot)
+;------------------------------------------------------------------------------
+.macro INSTALL_RAM_ISR
+	.if ROM_RAMISR
+		.globl	_VDP_InterruptHandler
+
+		di
+		jp		crt0_interrupt_end
+
+	; ISR
+		ISR_VBLANK
 
 	; Switch page 0 to RAM
 		INIT_P3_TO_P0

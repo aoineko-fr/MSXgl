@@ -130,8 +130,8 @@
 #define PRINT_USE_GRAPH				1	// Allow use of character lines and boxes
 #define PRINT_USE_VALIDATOR			1	// Add validator character code
 #define PRINT_USE_UNIT				0	// Display integer type (h: hexadecimal, b: binary)
-#define PRINT_USE_FORMAT			1
-#define PRINT_USE_32B				1
+#define PRINT_USE_FORMAT			1	// Add printf type function
+#define PRINT_USE_32B				1	// Allow to print 32-bits integers
 #define PRINT_SKIP_SPACE			1	// Skill space character
 #define PRINT_COLOR_NUM				12	// 1 color per line
 // - PRINT_WIDTH_1
@@ -154,12 +154,30 @@
 #define GAME_USE_VSYNC				1
 #define GAME_USE_LOOP				1
 
+// Game state setting
+#define GAME_USE_STATE				1
+#define GAME_USE_STATE_TRANSITION	1
+#define GAME_USE_VSYNC				1
+#define GAME_USE_LOOP				1
+
 // GamePawn setting
 #define GAMEPAWN_USE_PHYSICS		1
+// Collision position options
+// - GAMEPAWN_COL_0
+// - GAMEPAWN_COL_25
+// - GAMEPAWN_COL_50
+// - GAMEPAWN_COL_75
+// - GAMEPAWN_COL_100
 #define GAMEPAWN_COL_DOWN			(GAMEPAWN_COL_25|GAMEPAWN_COL_75)
 #define GAMEPAWN_COL_UP				GAMEPAWN_COL_50
 #define GAMEPAWN_COL_RIGHT			GAMEPAWN_COL_50
 #define GAMEPAWN_COL_LEFT			GAMEPAWN_COL_50
+// Border collision options
+// - GAMEPAWN_BORDER_NONE
+// - GAMEPAWN_BORDER_DOWN
+// - GAMEPAWN_BORDER_UP
+// - GAMEPAWN_BORDER_RIGHT
+// - GAMEPAWN_BORDER_LEFT
 #define GAMEPAWN_BORDER_EVENT		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_RIGHT|GAMEPAWN_BORDER_LEFT)
 #define GAMEPAWN_BORDER_BLOCK		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_RIGHT|GAMEPAWN_BORDER_LEFT)
 #define GAMEPAWN_BORDER_MIN_Y		0
@@ -291,5 +309,5 @@
 // - DEBUG_OPENMSX_G .............. Grauw profile script for OpenMSX
 // - DEBUG_OPENMSX_S .............. Salutte profile script for OpenMSX
 // - DEBUG_EMULICIOUS ............. Profile script for Emulicious
-#define DEBUG_TOOL					DEBUG_EMULICIOUS
+#define DEBUG_TOOL					DEBUG_DISABLE
 #define PROFILE_LEVEL				10 

@@ -10,8 +10,6 @@
 @echo off
 
 setlocal EnableDelayedExpansion
-	
-set Mappers=ROM_ASCII8,ROM_ASCII16,ROM_KONAMI,ROM_KONAMI_SCC
 
 ::-----------------------------------------------------------------------------
 :: BASIC and MSX-DOS
@@ -32,25 +30,36 @@ for %%G in (%Formats%) do (
 ::-----------------------------------------------------------------------------
 :: ASCII-8 mapped ROM
 for %%G in (64,128,256,512,1024,2048) do (
-	call build ROM_ASCII8 ROM_ASCII8 %%G
+	call build ROM_ASCII8 ROM_ASCII8_%%GK %%G
 )
 
 ::-----------------------------------------------------------------------------
 :: ASCII-16 mapped ROM
 for %%G in (64,128,256,512,1024,2048,4096) do (
-	call build ROM_ASCII16 ROM_ASCII16 %%G
+	call build ROM_ASCII16 ROM_ASCII16_%%GK %%G
 )
 
 ::-----------------------------------------------------------------------------
 :: Konami mapped ROM
 for %%G in (64,128,256,512,1024,2048) do (
-	call build ROM_KONAMI ROM_KONAMI %%G
+	call build ROM_KONAMI ROM_KONAMI_%%GK %%G
 )
 
 ::-----------------------------------------------------------------------------
 :: Konami-SCC mapped ROM
 for %%G in (64,128,256,512,1024,2048) do (
-	call build ROM_KONAMI_SCC ROM_KONAMI_SCC %%G
+	call build ROM_KONAMI_SCC ROM_KONAMI_SCC_%%GK %%G
 )
-	
+
+::-----------------------------------------------------------------------------
+:: BDOS
+call build ROM_32K ROM_32K_BDOS 0 BDOS
+
+::-----------------------------------------------------------------------------
+:: RAM ISR
+call build ROM_32K ROM_32K_RAMISR 0 RAMISR
+call build ROM_ASCII8 ROM_ASCII8_128K_RAMISR 128 RAMISR
+
+
+
 :EOF

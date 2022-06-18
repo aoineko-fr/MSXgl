@@ -143,36 +143,46 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 #endif
 
 #if (VDP_UNIT == VDP_UNIT_U16)
-	#define UX				u16
-	#define USX				i16
-	#define UY				u16
-	#define USY				i16
+	#define UX					u16
+	#define USX					i16
+	#define UY					u16
+	#define USY					i16
 #elif (VDP_UNIT == VDP_UNIT_X16)
-	#define UX				u16
-	#define USX				i16
-	#define UY				u8
-	#define USY				i8
+	#define UX					u16
+	#define USX					i16
+	#define UY					u8
+	#define USY					i8
 #elif (VDP_UNIT == VDP_UNIT_Y16)
-	#define UX				u8
-	#define USX				i8
-	#define UY				u16
-	#define USY				i16
+	#define UX					u8
+	#define USX					i8
+	#define UY					u16
+	#define USY					i16
 #else // if (VDP_UNIT == VDP_UNIT_U8)
-	#define UX				u8
-	#define USX				i8
-	#define UY				u8
-	#define USY				i8
+	#define UX					u8
+	#define USX					i8
+	#define UY					u8
+	#define USY					i8
 #endif
 
-#define VRAM16b(a)			(u16)((u32)(a >> 4))
-#define VRAM17b(a)			(u16)((u32)(a >> 1))
-#define Addr20bTo16b(a)		(u16)((u32)(a >> 4))	// Convert 20-bits (V)RAM address into 16-bits with bit shifting
-#define Addr17bTo16b(a)		(u16)((u32)(a >> 1))	// Convert 17-bits (V)RAM address into 16-bits with bit shifting
+#define VRAM16b(a)				(u16)((u32)(a >> 4))
+#define VRAM17b(a)				(u16)((u32)(a >> 1))
+#define Addr20bTo16b(a)			(u16)((u32)(a >> 4))	// Convert 20-bits (V)RAM address into 16-bits with bit shifting
+#define Addr17bTo16b(a)			(u16)((u32)(a >> 1))	// Convert 17-bits (V)RAM address into 16-bits with bit shifting
 
-#define REGSAV(a)			#(_g_VDP_REGSAV+a)
+#define REGSAV(a)				#(_g_VDP_REGSAV+a)
 
-#define GET_ADDR_LOW(addr)	((addr) & 0xFFFF)		// Get 17-bits address the 16 LSB
-#define GET_ADDR_HIGH(addr)	((addr) >> 16)			// Get 17-bits address the 1 MSB
+#define GET_ADDR_LOW(addr)		((addr) & 0xFFFF)		// Get 17-bits address the 16 LSB
+#define GET_ADDR_HIGH(addr)		((addr) >> 16)			// Get 17-bits address the 1 MSB
+
+// Convert VRAM address into 2D coordinate for VDP commands
+#define ADDR_TO_X				ADDR_TO_8B_X
+#define ADDR_TO_2B_X(addr)		((addr) / 64)
+#define ADDR_TO_4B_X(addr)		((addr) / 128)
+#define ADDR_TO_8B_X(addr)		((addr) / 256)
+#define ADDR_TO_Y				ADDR_TO_8B_Y
+#define ADDR_TO_2B_Y(addr)		((addr) % 64)
+#define ADDR_TO_4B_Y(addr)		((addr) % 128)
+#define ADDR_TO_8B_Y(addr)		((addr) % 256)
 
 // Enum: VDP_MODE
 // VDP display modes
@@ -220,7 +230,7 @@ enum VDP_MODE
 #endif
 #if (MSX_VERSION >= MSX_2P)
 	VDP_MODE_MSX2P,							// V9958 video modes
-	VDP_MODE_SCREEN10 = VDP_MODE_MSX2P,
+	VDP_MODE_SCREEN10    = VDP_MODE_MSX2P,
 	VDP_MODE_SCREEN11,
 	VDP_MODE_SCREEN12,
 #endif
@@ -248,7 +258,7 @@ enum VRAM_SIZE
 };
 
 // Get VRAM size macro
-#define GET_VRAM_SIZE()	((g_MODE >> 1) & 0x3)
+#define GET_VRAM_SIZE()		((g_MODE >> 1) & 0x3)
 
 //-----------------------------------------------------------------------------
 // Default Screen Mode tables VRAM address
@@ -442,7 +452,7 @@ u8 VDP_ReadDefaultStatus();
 //
 // Return:
 //   The given status register value
-u8 VDP_ReadStatus(u8 stat) __FASTCALL;
+u8 VDP_ReadStatus(u8 stat);
 
 #if ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
 
