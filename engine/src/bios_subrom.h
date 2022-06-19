@@ -32,7 +32,7 @@ const u16 __at(S_STRSRC) g_STRSRC;
 
 //-----------------------------------------------------------------------------
 // GRPRT (0089h)
-#define S_GRPRT	0x0089
+#define S_GRPRT		0x0089
 // Function 	One character output to the graphic screen (active only in screen modes 5 to 8)
 // Input:		A for the character code
 // Output:		none
@@ -201,7 +201,7 @@ const u16 __at(S_STRSRC) g_STRSRC;
  
 //-----------------------------------------------------------------------------
 // RDVRM (010Dh)
-#define S_RDVRM	0x010D
+#define S_RDVRM		0x010D
 // Function 	Reads the contents of VRAM
 // Input:		HL for VRAM address (0 TO FFFFh) to be read
 // Output:		A for the value which was read

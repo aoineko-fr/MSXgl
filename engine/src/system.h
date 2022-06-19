@@ -69,6 +69,14 @@ extern u16 g_FirstAddr;
 extern u16 g_HeaderAddr;
 extern u16 g_LastAddr;
 
+//-----------------------------------------------------------------------------
+// Macro to change a given bank segment
+#if (ROM_MAPPER > ROM_PLAIN)
+	extern u8* g_Bank0Segment;
+	#define SET_BANK_SEGMENT(b, s)	{ (*(unsigned char*)(ADDR_BANK_##b) = (s)); (*(unsigned char*)(g_Bank0Segment + b) = (s)); }
+	#define GET_BANK_SEGMENT(b)	    (*(unsigned char*)(g_Bank0Segment + b))
+#endif
+
 
 //=============================================================================
 // FONCTION

@@ -1,8 +1,10 @@
-;______________________________________________________________________________
-;   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄                                                        
-;  ██ ▀ ██▀█ ▀█▄  ▀█▄▀                                                        
-;  ▀█▄▀ ██ █ ▄▄█▀ ██ █                                                        
-;______________________________________________________________________________
+; ____________________________
+; ██▀███▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄       ▄▄   ▄▄ 
+; ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ ▀ ██▄▀ ██▀ █ ██
+; █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▄▀ ██   ▀█▄ ▀▄█▀
+; ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
+;  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
+;──────────────────────────────────────────────────────────────────────────────
 .module	crt0
 
 ;==============================================================================
@@ -334,11 +336,16 @@
 .ifeq ROM_MAPPER-ROM_PLAIN
 	.macro INIT_MAPPER
 	.endm
+
+	.macro ALLOC_MAPPER
+	.endm
 .endif
+
 ;------------------------------------------------------------------------------
 ; ROM_ASCII8
 ;------------------------------------------------------------------------------
 .ifeq ROM_MAPPER-ROM_ASCII8
+
 	BANK0_ADDR = #0x6000
 	BANK1_ADDR = #0x6800
 	BANK2_ADDR = #0x7000
@@ -347,59 +354,101 @@
 	.macro INIT_MAPPER
 		xor		a
 		ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
+		ld		(_g_Bank0Segment), a
 		inc		a
 		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
+		ld		(_g_Bank1Segment), a
 		inc		a
 		ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
-		.if ROM_BCALL
-		ld		(_g_CurrentSegment), a
-		.endif
+		ld		(_g_Bank2Segment), a
 		inc		a
 		ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
-
+		ld		(_g_Bank3Segment), a
 	.endm
+
+	.macro ALLOC_MAPPER
+		_g_Bank0Segment::
+			.ds 1
+		_g_Bank1Segment::
+			.ds 1
+		_g_CurrentSegment::
+		_g_Bank2Segment::
+			.ds 1
+		_g_Bank3Segment::
+			.ds 1
+	.endm
+
 .endif
+
 ;------------------------------------------------------------------------------
 ; ROM_ASCII16
 ;------------------------------------------------------------------------------
 .ifeq ROM_MAPPER-ROM_ASCII16
+
 	BANK0_ADDR = #0x6000
 	BANK1_ADDR = #0x77FF
 
 	.macro INIT_MAPPER
 		xor		a
 		ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
+		ld		(_g_Bank0Segment), a
 		inc		a
 		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
-		.if ROM_BCALL
-		ld		(_g_CurrentSegment), a
-		.endif
+		ld		(_g_Bank1Segment), a
 	.endm
+
+	.macro ALLOC_MAPPER
+		_g_Bank0Segment::
+			.ds 1
+		_g_CurrentSegment::
+		_g_Bank1Segment::
+			.ds 1
+	.endm
+
 .endif
+
 ;------------------------------------------------------------------------------
 ; ROM_KONAMI
 ;------------------------------------------------------------------------------
 .ifeq ROM_MAPPER-ROM_KONAMI
+
 	BANK1_ADDR = #0x6000
 	BANK2_ADDR = #0x8000
 	BANK3_ADDR = #0xA000
 
 	.macro INIT_MAPPER
-		ld		a, #1
+		xor		a
+		ld		(_g_Bank0Segment), a
+		inc		a
 		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
+		ld		(_g_Bank1Segment), a
 		inc		a
 		ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
-		.if ROM_BCALL
-		ld		(_g_CurrentSegment), a
-		.endif
+		ld		(_g_Bank2Segment), a
 		inc		a
 		ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
+		ld		(_g_Bank3Segment), a
 	.endm
+
+	.macro ALLOC_MAPPER
+		_g_Bank0Segment::
+			.ds 1
+		_g_Bank1Segment::
+			.ds 1
+		_g_CurrentSegment::
+		_g_Bank2Segment::
+			.ds 1
+		_g_Bank3Segment::
+			.ds 1
+	.endm
+
 .endif
+
 ;------------------------------------------------------------------------------
 ; ROM_KONAMI_SCC
 ;------------------------------------------------------------------------------
 .ifeq ROM_MAPPER-ROM_KONAMI_SCC
+
 	BANK0_ADDR = #0x5000
 	BANK1_ADDR = #0x7000
 	BANK2_ADDR = #0x9000
@@ -408,14 +457,28 @@
 	.macro INIT_MAPPER
 		xor		a
 		ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
+		ld		(_g_Bank0Segment), a
 		inc		a
 		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
+		ld		(_g_Bank1Segment), a
 		inc		a
 		ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
-		.if ROM_BCALL
-		ld		(_g_CurrentSegment), a
-		.endif
+		ld		(_g_Bank2Segment), a
 		inc		a
 		ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
+		ld		(_g_Bank3Segment), a
 	.endm
+
+	.macro ALLOC_MAPPER
+		_g_Bank0Segment::
+			.ds 1
+		_g_Bank1Segment::
+			.ds 1
+		_g_CurrentSegment::
+		_g_Bank2Segment::
+			.ds 1
+		_g_Bank3Segment::
+			.ds 1
+	.endm
+
 .endif

@@ -89,8 +89,29 @@ void AsmData()
 {
 	__asm
 
-_tmu_kv2puzz::
-	.include "content/trilo/tmu_kv2puzz.asm"
+// _tmu_kv2puzz::
+	// .include "content/trilo/tmu_kv2puzz.asm"
+
+	_tmu_kv2puzz:
+		#include "content/trilo/tmu_nem3airb.asm"
+		; .include "scc_player/music/tmu_kv2puzz.asm"
+		; .include "scc_player/music/tmu_nem3airb.asm"
+		; .include "scc_player/music/tmu_nem3sel.asm"
+		; .include "scc_player/music/tmu_nem3st1.asm"
+		; .include "scc_player/music/tmu_triplets.asm"
+		; .include "scc_player/music/tmu_YYACTION.asm"		; crash
+		; .include "scc_player/music/tmu_YYBOSS.asm"
+		; .include "scc_player/music/tmu_YYCREDIT.asm"
+		; .include "scc_player/music/tmu_YYGAME.asm"
+		; .include "scc_player/music/tmu_YYGMOVR.asm"		; ???
+		; .include "scc_player/music/tmu_YYINTRO.asm"
+		; .include "scc_player/music/tmu_YYLVLCLR.asm"
+		; .include "scc_player/music/tmu_YYMISION.asm"
+		; .include "scc_player/music/tmu_YYMULTI.asm"
+		; .include "scc_player/music/tmu_YYSCORE.asm"
+		; .include "scc_player/music/tmu_YYTALK.asm"
+		; .include "scc_player/music/tmu_YYTITLE.asm"
+		; .include "scc_player/music/tmu_YYVICTRY.asm"
 
 	__endasm;
 }
@@ -207,7 +228,7 @@ void main()
 	// Sprite
 	
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8 + VDP_SPRITE_SCALE_1);
-	VDP_LoadSpritePattern(g_Font_MGL_Sample8 + 4, 0, g_Font_MGL_Sample8[3] - g_Font_MGL_Sample8[2]);
+	// VDP_LoadSpritePattern(g_Font_MGL_Sample8 + 4, 0, g_Font_MGL_Sample8[3] - g_Font_MGL_Sample8[2]);
 
 	SetCursor(4);
 

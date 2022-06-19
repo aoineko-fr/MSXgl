@@ -89,10 +89,7 @@ _g_LastAddr::
 _g_HeapStartAddress::
 	.ds 2
 
-.if ROM_BCALL
-_g_CurrentSegment::
-	.ds 1
-.endif
+	ALLOC_MAPPER
 
 .area	_INITIALIZED
 .area	_BSEG

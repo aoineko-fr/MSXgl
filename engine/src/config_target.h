@@ -46,12 +46,6 @@
 #endif
 
 //-----------------------------------------------------------------------------
-// Macro to change a given bank segment
-#if (ROM_MAPPER > ROM_PLAIN)
-	#define SET_BANK_SEGMENT(b, s)	(*(unsigned char*)(ADDR_BANK_##b) = (s))
-#endif
-
-//-----------------------------------------------------------------------------
 // Segment counts
 
 #if (ROM_SIZE == ROM_64K)
