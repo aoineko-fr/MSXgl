@@ -12,7 +12,7 @@
 // Library version
 #define VERSION_MAJOR			(u16)0		// 4-bits (0-15)
 #define VERSION_MINOR			(u16)4		// 6-bits (0-63)
-#define VERSION_PATCH			(u16)1		// 6-bits (0-63)
+#define VERSION_PATCH			(u16)2		// 6-bits (0-63)
 #define VERSION(a, b, c)		((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT			VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)		
 
@@ -127,7 +127,6 @@ typedef void (*callback)(void);		// Callback default signature
 // - 8 + 16 bits			A + DE
 // - 16 + 16 bits			HL + DE
 
-
 //-----------------------------------------------------------------------------
 // Bits handling
 //-----------------------------------------------------------------------------
@@ -151,6 +150,18 @@ typedef void (*callback)(void);		// Callback default signature
 #define BIT_SET(val, bit)	val |=  (1 << bit)  	// Macro to set a given bit in an integer
 #define BIT_CLR(val, bit)	val &= ~(1 << bit)  	// Macro to clear a given bit in an integer
 #define BIT_ISSET(val, bit)	(val & (1 << bit) != 0)	// Macro to tell if a given bit is set or not
+
+//-----------------------------------------------------------------------------
+// Misc.
+//-----------------------------------------------------------------------------
+
+// Macro to include assembler code into C source file
+#define INCLUDE_ASM(label, path) DummyASM_##label() { \
+	__asm                                             \
+		_##label::                                    \
+		.include path                                 \
+	__endasm; }                                       \
+	extern u16 label
 
 //-----------------------------------------------------------------------------
 

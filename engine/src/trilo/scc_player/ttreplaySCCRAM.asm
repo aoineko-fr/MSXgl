@@ -99,7 +99,10 @@ replay_previous_note:	.ds 1			; previous note played
 replay_mainvol:			.ds 2			; the volume correction.
 
 ;replay_vib_table:		.ds 2			; pointer to the vibrato table
-replay_tonetable:		.ds 2			; ToneTable (affected by transpose);
+;// MSXgl - Start
+; replay_tonetable:		.ds 2			; ToneTable (affected by transpose);
+replay_tonetable		= _g_TriloSCC_ToneTable
+;// MSXgl - End
 
 replay_morph_active:	.ds 1			; flag to indicate morphing is active
 ;replay_morph_update:	.ds 1			; flag to indicate a new waveform is ready

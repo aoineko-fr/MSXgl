@@ -10,7 +10,7 @@
 ; Initialise the sfx player. Sets initial priorities, volume
 ; balancce and initial SCC waveform.
 ;
-;===========================================================	
+;===========================================================
 ttsfx_init::
 	ld		a, #15
 	call	ttsfx_scc_balance
@@ -22,6 +22,17 @@ ttsfx_init::
 	ld		(sfx_PRIORITY), a
 	ret
 
+
+; ;===========================================================
+; ; ---	ttsfx_load
+; ;
+; ; in: [HL] Bank binary data
+; ;===========================================================
+; ttsfx_load::
+	; ;// MSXgl - Start
+	; ld		(sfx_BANK), hl
+	; ;// MSXgl - End
+	; ret
 
 ;===========================================================
 ; ---	ttsfx_scc_balance
@@ -79,7 +90,11 @@ ttsfx_start::
 	ld		(sfx_STATUS), a		; 2 chnnels playing
 
 
-	ld		de, #sfxbank+1		; Start of SFX offset list
+	;// MSXgl - Start
+	;// ld		de, #sfxbank+1		; Start of SFX offset list
+	ld		de, (sfx_BANK)
+	inc		de
+	;// MSXgl - End
 	ld		l, b
 	ld		h, #0
 	add		hl, hl		; offset is 2 sfx (PSG+SCC)
@@ -205,19 +220,16 @@ _ayVOLUME.skip:
 	and		#0x0f					; mask only ay volume
 	ld		(PSG_regVOLC), a		; Diretly update the TT register value
 
-
-
 _ayMIXER:
 	;--- Set Mixer
 	ld		a, b
 	ld		(PSG_regMIXER), a		; Directly write the TT register value
 
-
-
 _ttsfx_scc_play:
 	ld		a, (sfx_STATUS)	; a:=Current sfx_PSG stream priority
 	and		#0b00000010		; SCC active?
 	ret		z
+
 
 _ttsfx_scc_play.scc_play:
 	; --- Extract control byte from stream ---
@@ -226,7 +238,6 @@ _ttsfx_scc_play.scc_play:
 	ld		a, (SCC_regMIXER)
 	ld		b, a				; b = mixer 
 	inc		hl				; Increment pointer
-
 
 _sccCHECK_NT:
 	; --- Check if there's new tone on stream ---
@@ -238,7 +249,6 @@ _sccCHECK_NT:
 	ld		d, (hl)			; d:=higher byte of new tone
 	inc		hl				; Increment pointer
 	ld		(sfx_SCC_TONE), de		; sfx_SCC tone updated
-
 
 _sccCHECK_NW:	
 	; --- Check if there's the end of the sfx ---
@@ -277,18 +287,18 @@ _sccSETPOINTER:	; --- Update sfx_SCC pointer ---
 _sccVOLUME:
 	; --- Extract and set volume if tone is enabled ---
 	bit		4, c						; If tone is off...
-	ret		nz						; end
+	ret		nz							; end
 
 	set		0, b						; enable sound chan1
 	ld		a, c						; a:=Control byte
 	and		#0x0F						; lower nibble
 	; --- Fix the volume using TT Volume Table ---
-	ld		hl, (sfx_SCC_BALANCE)	; hl:=Pointer to relative volume table
+	ld		hl, (sfx_SCC_BALANCE)		; hl:=Pointer to relative volume table
 	ld		e, a						; e:=a (sfx_SCC volume)
 	ld		d, #0						; d:=0
-	add		hl, de					; hl:=hl+de (hl points to the relative volume of this frame
-	ld		a, (hl)					; a:=sfx_SCC relative volume
-	rra							; SCC relative volume is in the higher 4 bits
+	add		hl, de						; hl:=hl+de (hl points to the relative volume of this frame
+	ld		a, (hl)						; a:=sfx_SCC relative volume
+	rra									; SCC relative volume is in the higher 4 bits
 	rra
 	rra
 	rra

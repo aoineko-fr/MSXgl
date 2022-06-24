@@ -66,11 +66,6 @@
 // DEFINES
 //-----------------------------------------------------------------------------
 
-#define PT3_SKIP_HEADER		1
-#define PT3_AUTOPLAY		0
-#define PT3_EXTRA			1
-#define PT3_USE_CALLBACK	0
-
 //ChannelsVars
 //struc	CHNPRM
 //reset group

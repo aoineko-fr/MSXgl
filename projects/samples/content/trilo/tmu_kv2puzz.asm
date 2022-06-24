@@ -43,8 +43,6 @@ kv2puzz_restart:
 	.dw kv2puzz_track_192, kv2puzz_track_193, kv2puzz_track_010, kv2puzz_track_010, kv2puzz_track_164, kv2puzz_track_197, kv2puzz_track_198, kv2puzz_track_199	; Step:031 Pattern:024
 	.dw 0x0000, kv2puzz_restart				; End of sequence delimiter + kv2puzz_restart address
 
-; [ Custom FM voices ]
-kv2puzz_customvoice_start:
 
 ; [ SCC Waveforms ]
 kv2puzz_waveform_start:
@@ -59,9 +57,6 @@ kv2puzz_waveform_start:
 	.db 0x00, 0x19, 0x31, 0x47, 0x5a, 0x6a, 0x75, 0x7d, 0x7f, 0x7d, 0x75, 0x6a, 0x5a, 0x47, 0x31, 0x19, 0x00, 0xe7, 0xcf, 0xb9, 0xa6, 0x96, 0x8b, 0x83, 0x80, 0x83, 0x8b, 0x96, 0xa6, 0xb9, 0xcf, 0xe7				; Waveform:21
 	.db 0x90, 0x88, 0x90, 0x9c, 0xb0, 0xc0, 0xe0, 0x26, 0x70, 0x7c, 0x70, 0x56, 0x40, 0x20, 0x10, 0xfc, 0xe0, 0xfc, 0x10, 0xfc, 0x40, 0x54, 0x72, 0x7f, 0x70, 0x26, 0xe0, 0xc0, 0xb0, 0x9c, 0x90, 0x88				; Waveform:30
 	.db 0x00, 0x4e, 0x62, 0x6d, 0x75, 0x7a, 0x7d, 0x7e, 0x7f, 0x7e, 0x7d, 0x7a, 0x75, 0x6d, 0x62, 0x4e, 0x00, 0xb1, 0x9d, 0x92, 0x8a, 0x85, 0x82, 0x81, 0x80, 0x81, 0x82, 0x85, 0x8a, 0x92, 0x9d, 0xb1				; Waveform:31
-
-; [ FM Drum macros]
-kv2puzz_drummacro_start:
 
 ; [ Instruments]
 kv2puzz_instrument_start:
@@ -599,88 +594,89 @@ kv2puzz_instrument_16:					; CONT
 ; [ Song track data ]
 kv2puzz_track_000:
 	.db 0x37			;Note G-5
-	.db 0x6e			;Volume 13
-	.db 0x75			;Instrument 4
+	.db 0x6f			;Volume 13
+	.db 0x76			;Instrument 4
 	.db 0xd1			;Wait 18
 	.db 0x29			;Note F-4
-	.db 0x6e			;Volume 13
-	.db 0x73			;Instrument 2
+	.db 0x6f			;Volume 13
+	.db 0x74			;Instrument 2
 	.db 0xcb			;Wait 12
 	.db 0x29			;Note F-4
-	.db 0x6e			;Volume 13
+	.db 0x6f			;Volume 13
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_001:
 	.db 0x10			;Note E-2
-	.db 0x6e			;Volume 13
-	.db 0x74			;Instrument 3
-	.db 0x9b			;CMD End 
+	.db 0x6f			;Volume 13
+	.db 0x75			;Instrument 3
+	.db 0x9c			;CMD End 
 	.db 0xd1			;Wait 18
 	.db 0x13			;Note G-2
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_002:
-	.db 0x70			;Volume 15
-	.db 0x71			;Instrument 0
+	.db 0x71			;Volume 15
+	.db 0x72			;Instrument 0
 	.db 0xe3			;Wait 36
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_004:
 	.db 0x10			;Note E-2
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
 	.db 0xcf			;Wait 16
 	.db 0x10			;Note E-2
-	.db 0x78			;Instrument 7
+	.db 0x79			;Instrument 7
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
-	.db 0x79			;Instrument 8
+	.db 0x7a			;Instrument 8
 	.db 0xcf			;Wait 16
 	.db 0x13			;Note G-2
-	.db 0x78			;Instrument 7
+	.db 0x79			;Instrument 7
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_005:
 	.db 0x2f			;Note B-4
-	.db 0x6e			;Volume 13
-	.db 0x7c			;Instrument 11
+	.db 0x6f			;Volume 13
+	.db 0x7d			;Instrument 11
 	.db 0xc5			;Wait 6
-	.db 0x94,0x78			;CMD Vibrato
+	.db 0x95,0x78			;CMD Vibrato
 	.db 0xdd			;Wait 30
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_006:
 	.db 0x34			;Note E-5
-	.db 0x70			;Volume 15
-	.db 0x7b			;Instrument 10
+	.db 0x71			;Volume 15
+	.db 0x7c			;Instrument 10
 	.db 0xc5			;Wait 6
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xdd			;Wait 30
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_007:
 	.db 0x60			;Release 96
 	.db 0xc5			;Wait 6
 	.db 0x34			;Note E-5
-	.db 0x6a			;Volume 9
-	.db 0x7b			;Instrument 10
-	.db 0xa1,0x0a			;CMD Track detune
+	.db 0x6b			;Volume 9
+	.db 0x7c			;Instrument 10
+	.db 0xa2,0x0a			;CMD Track detune
 					;Wait Repeat 6
-	.db 0x94,0x26			;CMD Vibrato
+	.db 0x95,0x26			;CMD Vibrato
 	.db 0xd7			;Wait 24
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_008:
 	.db 0x37			;Note G-5
-	.db 0x6e			;Volume 13
-	.db 0x75			;Instrument 4
+	.db 0x6f			;Volume 13
+	.db 0x76			;Instrument 4
 	.db 0xd1			;Wait 18
 	.db 0x29			;Note F-4
-	.db 0x73			;Instrument 2
+	.db 0x74			;Instrument 2
 	.db 0xcb			;Wait 12
 	.db 0x29			;Note F-4
+	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_009:
 	.db 0x12			;Note F#2
-	.db 0x6e			;Volume 13
-	.db 0x74			;Instrument 3
+	.db 0x6f			;Volume 13
+	.db 0x75			;Instrument 3
 	.db 0xd1			;Wait 18
 	.db 0x17			;Note B-2
 	.db 0xd1			;Wait 18
@@ -690,136 +686,136 @@ kv2puzz_track_010:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_012:
 	.db 0x12			;Note F#2
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
 	.db 0xcf			;Wait 16
 	.db 0x11			;Note F-2
-	.db 0x78			;Instrument 7
+	.db 0x79			;Instrument 7
 	.db 0xc1			;Wait 2
 	.db 0x17			;Note B-2
-	.db 0x79			;Instrument 8
+	.db 0x7a			;Instrument 8
 	.db 0xcf			;Wait 16
 	.db 0x17			;Note B-2
-	.db 0x78			;Instrument 7
+	.db 0x79			;Instrument 7
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_017:
 	.db 0x16			;Note A#2
-	.db 0x74			;Instrument 3
+	.db 0x75			;Instrument 3
 	.db 0xe3			;Wait 36
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_020:
 	.db 0x16			;Note A#2
-	.db 0x79			;Instrument 8
+	.db 0x7a			;Instrument 8
 	.db 0xe1			;Wait 34
 	.db 0x16			;Note A#2
-	.db 0x78			;Instrument 7
+	.db 0x79			;Instrument 7
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_021:
 	.db 0x2e			;Note A#4
-	.db 0x6e			;Volume 13
-	.db 0x7c			;Instrument 11
-	.db 0x9b			;CMD End 
+	.db 0x6f			;Volume 13
+	.db 0x7d			;Instrument 11
+	.db 0x9c			;CMD End 
 	.db 0xc5			;Wait 6
-	.db 0x94,0x57			;CMD Vibrato
+	.db 0x95,0x57			;CMD Vibrato
 	.db 0xdd			;Wait 30
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_022:
 	.db 0x37			;Note G-5
-	.db 0x70			;Volume 15
-	.db 0x7b			;Instrument 10
-	.db 0x9b			;CMD End 
+	.db 0x71			;Volume 15
+	.db 0x7c			;Instrument 10
+	.db 0x9c			;CMD End 
 	.db 0xc5			;Wait 6
-	.db 0x94,0x26			;CMD Vibrato
+	.db 0x95,0x26			;CMD Vibrato
 	.db 0xdd			;Wait 30
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_023:
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xc5			;Wait 6
 	.db 0x37			;Note G-5
-	.db 0x6a			;Volume 9
-	.db 0x7b			;Instrument 10
-	.db 0x9b			;CMD End 
+	.db 0x6b			;Volume 9
+	.db 0x7c			;Instrument 10
+	.db 0x9c			;CMD End 
 					;Wait Repeat 6
-	.db 0x94,0x26			;CMD Vibrato
+	.db 0x95,0x26			;CMD Vibrato
 	.db 0xd7			;Wait 24
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_024:
 	.db 0x37			;Note G-5
-	.db 0x6e			;Volume 13
-	.db 0x75			;Instrument 4
+	.db 0x6f			;Volume 13
+	.db 0x76			;Instrument 4
 	.db 0xd1			;Wait 18
 	.db 0x29			;Note F-4
-	.db 0x6d			;Volume 12
-	.db 0x73			;Instrument 2
+	.db 0x6e			;Volume 12
+	.db 0x74			;Instrument 2
 	.db 0xc8			;Wait 9
 	.db 0x29			;Note F-4
-	.db 0x6d			;Volume 12
+	.db 0x6e			;Volume 12
 	.db 0xc8			;Wait 9
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_025:
 	.db 0x17			;Note B-2
-	.db 0x74			;Instrument 3
+	.db 0x75			;Instrument 3
 	.db 0xc5			;Wait 6
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 	.db 0xc1			;Wait 2
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 	.db 0xc9			;Wait 10
 	.db 0x24			;Note C-4
-	.db 0x69			;Volume 8
-	.db 0x77			;Instrument 6
-	.db 0xa1,0x00			;CMD Track detune
+	.db 0x6a			;Volume 8
+	.db 0x78			;Instrument 6
+	.db 0xa2,0x00			;CMD Track detune
 	.db 0xcc			;Wait 13
 	.db 0x23			;Note B-3
 	.db 0xc4			;Wait 5
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_028:
 	.db 0x17			;Note B-2
-	.db 0x70			;Volume 15
-	.db 0x79			;Instrument 8
+	.db 0x71			;Volume 15
+	.db 0x7a			;Instrument 8
 	.db 0xc5			;Wait 6
-	.db 0x6f			;Volume 14
+	.db 0x70			;Volume 14
 	.db 0xc1			;Wait 2
-	.db 0x6e			;Volume 13
+	.db 0x6f			;Volume 13
 					;Wait Repeat 2
-	.db 0x6d			;Volume 12
+	.db 0x6e			;Volume 12
 	.db 0xc7			;Wait 8
 	.db 0x13			;Note G-2
-	.db 0x6d			;Volume 12
-	.db 0x7a			;Instrument 9
+	.db 0x6e			;Volume 12
+	.db 0x7b			;Instrument 9
 	.db 0xc8			;Wait 9
 	.db 0x12			;Note F#2
 	.db 0xc8			;Wait 9
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_029:
 	.db 0x2f			;Note B-4
-	.db 0x6e			;Volume 13
-	.db 0x7c			;Instrument 11
-	.db 0x9b			;CMD End 
+	.db 0x6f			;Volume 13
+	.db 0x7d			;Instrument 11
+	.db 0x9c			;CMD End 
 	.db 0xc5			;Wait 6
-	.db 0x66			;Volume 5
+	.db 0x67			;Volume 5
 	.db 0xcb			;Wait 12
 	.db 0x24			;Note C-4
-	.db 0x69			;Volume 8
-	.db 0x7f			;Instrument 14
-	.db 0xa9,0x08			; SCC Set Waveform 2
+	.db 0x6a			;Volume 8
+	.db 0x80			;Instrument 14
+	.db 0xaa,0x08			; SCC Set Waveform 2
 	.db 0xc8			;Wait 9
 	.db 0x23			;Note B-3
 	.db 0xc8			;Wait 9
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_030:
 	.db 0x36			;Note F#5
-	.db 0x70			;Volume 15
-	.db 0x7b			;Instrument 10
-	.db 0x9b			;CMD End 
+	.db 0x71			;Volume 15
+	.db 0x7c			;Instrument 10
+	.db 0x9c			;CMD End 
 	.db 0xc5			;Wait 6
-	.db 0x66			;Volume 5
+	.db 0x67			;Volume 5
 	.db 0xcb			;Wait 12
 	.db 0x28			;Note E-4
-	.db 0x69			;Volume 8
-	.db 0x7f			;Instrument 14
-	.db 0xa9,0x30			; SCC Set Waveform 15
+	.db 0x6a			;Volume 8
+	.db 0x80			;Instrument 14
+	.db 0xaa,0x30			; SCC Set Waveform 15
 	.db 0xc8			;Wait 9
 	.db 0x27			;Note D#4
 	.db 0xc8			;Wait 9
@@ -827,34 +823,34 @@ kv2puzz_track_030:
 kv2puzz_track_031:
 	.db 0xc5			;Wait 6
 	.db 0x36			;Note F#5
-	.db 0x65			;Volume 4
-	.db 0x81			;Instrument 16
-	.db 0x9b			;CMD End 
+	.db 0x66			;Volume 4
+	.db 0x82			;Instrument 16
+	.db 0x9c			;CMD End 
 	.db 0xcb			;Wait 12
 	.db 0x28			;Note E-4
-	.db 0x67			;Volume 6
-	.db 0xa1,0x02			;CMD Track detune
+	.db 0x68			;Volume 6
+	.db 0xa2,0x02			;CMD Track detune
 	.db 0xcc			;Wait 13
 	.db 0x27			;Note D#4
 	.db 0xc4			;Wait 5
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_032:
 	.db 0x29			;Note F-4
-	.db 0x6d			;Volume 12
-	.db 0x73			;Instrument 2
+	.db 0x6e			;Volume 12
+	.db 0x74			;Instrument 2
 	.db 0xc8			;Wait 9
 	.db 0x29			;Note F-4
 	.db 0xc8			;Wait 9
 	.db 0x29			;Note F-4
-	.db 0x6e			;Volume 13
+	.db 0x6f			;Volume 13
 					;Wait Repeat 9
 	.db 0x29			;Note F-4
 					;Wait Repeat 9
 	.db 0x29			;Note F-4
 	.db 0xc8			;Wait 9
 	.db 0x21			;Note A-3
-	.db 0x6f			;Volume 14
-	.db 0x72			;Instrument 1
+	.db 0x70			;Volume 14
+	.db 0x73			;Instrument 1
 					;Wait Repeat 9
 	.db 0x21			;Note A-3
 	.db 0xc8			;Wait 9
@@ -862,23 +858,23 @@ kv2puzz_track_032:
 kv2puzz_track_033:
 	.db 0xc3			;Wait 4
 	.db 0x28			;Note E-4
-	.db 0x6a			;Volume 9
-	.db 0x77			;Instrument 6
+	.db 0x6b			;Volume 9
+	.db 0x78			;Instrument 6
 	.db 0xc8			;Wait 9
 	.db 0x27			;Note D#4
 	.db 0xc8			;Wait 9
 	.db 0x2d			;Note A-4
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 9
 	.db 0x2c			;Note G#4
 	.db 0xc8			;Wait 9
 	.db 0x30			;Note C-5
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 					;Wait Repeat 9
 	.db 0x2f			;Note B-4
 	.db 0xc8			;Wait 9
 	.db 0x34			;Note E-5
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 	.db 0xc4			;Wait 5
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_034:
@@ -886,34 +882,40 @@ kv2puzz_track_034:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_036:
 	.db 0x17			;Note B-2
-	.db 0x7a			;Instrument 9
+	.db 0x7b			;Instrument 9
 	.db 0xc8			;Wait 9
 	.db 0x16			;Note A#2
+	.db 0x7b			;Instrument 9
 					;Wait Repeat 9
 	.db 0x1c			;Note E-3
+	.db 0x7b			;Instrument 9
 					;Wait Repeat 9
 	.db 0x1b			;Note D#3
+	.db 0x7b			;Instrument 9
 					;Wait Repeat 9
 	.db 0x1f			;Note G-3
+	.db 0x7b			;Instrument 9
 					;Wait Repeat 9
 	.db 0x1e			;Note F#3
+	.db 0x7b			;Instrument 9
 					;Wait Repeat 9
 	.db 0x23			;Note B-3
+	.db 0x7b			;Instrument 9
 	.db 0xc8			;Wait 9
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_037:
 	.db 0x28			;Note E-4
-	.db 0x7f			;Instrument 14
+	.db 0x80			;Instrument 14
 	.db 0xc8			;Wait 9
 	.db 0x27			;Note D#4
 	.db 0xc8			;Wait 9
 	.db 0x2d			;Note A-4
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 					;Wait Repeat 9
 	.db 0x2c			;Note G#4
 	.db 0xc8			;Wait 9
 	.db 0x30			;Note C-5
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 9
 	.db 0x2f			;Note B-4
 					;Wait Repeat 9
@@ -922,18 +924,20 @@ kv2puzz_track_037:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_038:
 	.db 0x2b			;Note G-4
-	.db 0x7f			;Instrument 14
-	.db 0xa9,0x30			; SCC Set Waveform 15
+	.db 0x80			;Instrument 14
+	.db 0xaa,0x30			; SCC Set Waveform 15
 	.db 0xc8			;Wait 9
 	.db 0x2a			;Note F#4
+	.db 0x80			;Instrument 14
 	.db 0xc8			;Wait 9
 	.db 0x30			;Note C-5
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
+	.db 0x80			;Instrument 14
 					;Wait Repeat 9
 	.db 0x2f			;Note B-4
 	.db 0xc8			;Wait 9
 	.db 0x34			;Note E-5
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 9
 	.db 0x33			;Note D#5
 					;Wait Repeat 9
@@ -959,592 +963,597 @@ kv2puzz_track_039:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_040:
 	.db 0x37			;Note G-5
-	.db 0x6e			;Volume 13
-	.db 0x75			;Instrument 4
+	.db 0x6f			;Volume 13
+	.db 0x76			;Instrument 4
 	.db 0xd7			;Wait 24
 	.db 0x29			;Note F-4
-	.db 0x73			;Instrument 2
+	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0x37			;Note G-5
-	.db 0x75			;Instrument 4
+	.db 0x76			;Instrument 4
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_041:
 	.db 0x18			;Note C-3
-	.db 0x6d			;Volume 12
-	.db 0x74			;Instrument 3
-	.db 0xa1,0x04			;CMD Track detune
+	.db 0x6e			;Volume 12
+	.db 0x75			;Instrument 3
+	.db 0xa2,0x04			;CMD Track detune
 	.db 0xe3			;Wait 36
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_044:
 	.db 0x18			;Note C-3
-	.db 0x79			;Instrument 8
+	.db 0x7a			;Instrument 8
 	.db 0xe1			;Wait 34
 	.db 0x18			;Note C-3
-	.db 0x78			;Instrument 7
+	.db 0x79			;Instrument 7
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_045:
 	.db 0x39			;Note A-5
-	.db 0x6e			;Volume 13
-	.db 0x7c			;Instrument 11
+	.db 0x6f			;Volume 13
+	.db 0x7d			;Instrument 11
 	.db 0xc5			;Wait 6
-	.db 0x94,0x37			;CMD Vibrato
+	.db 0x95,0x37			;CMD Vibrato
 	.db 0xdc			;Wait 29
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_046:
 	.db 0x3c			;Note C-6
-	.db 0x6e			;Volume 13
-	.db 0x7b			;Instrument 10
+	.db 0x6f			;Volume 13
+	.db 0x7c			;Instrument 10
 	.db 0xc5			;Wait 6
-	.db 0x94,0x26			;CMD Vibrato
+	.db 0x95,0x26			;CMD Vibrato
 	.db 0xdc			;Wait 29
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_047:
 	.db 0x36			;Note F#5
-	.db 0x6d			;Volume 12
-	.db 0x7b			;Instrument 10
+	.db 0x6e			;Volume 12
+	.db 0x7c			;Instrument 10
 	.db 0xc5			;Wait 6
-	.db 0x94,0x16			;CMD Vibrato
+	.db 0x95,0x16			;CMD Vibrato
 	.db 0xdc			;Wait 29
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_048:
 	.db 0x21			;Note A-3
-	.db 0x6f			;Volume 14
-	.db 0x72			;Instrument 1
+	.db 0x70			;Volume 14
+	.db 0x73			;Instrument 1
 	.db 0xd1			;Wait 18
 	.db 0x29			;Note F-4
-	.db 0x6d			;Volume 12
-	.db 0x73			;Instrument 2
+	.db 0x6e			;Volume 12
+	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0x1f			;Note G-3
-	.db 0x6c			;Volume 11
-	.db 0x76			;Instrument 5
+	.db 0x6d			;Volume 11
+	.db 0x77			;Instrument 5
 					;Wait Repeat 6
 	.db 0x1f			;Note G-3
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_049:
 	.db 0x17			;Note B-2
-	.db 0x6d			;Volume 12
-	.db 0x74			;Instrument 3
-	.db 0xa1,0x04			;CMD Track detune
+	.db 0x6e			;Volume 12
+	.db 0x75			;Instrument 3
+	.db 0xa2,0x04			;CMD Track detune
 	.db 0xc7			;Wait 8
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 	.db 0xc0			;Wait 1
-	.db 0x92,0x20			;CMD Portamento down
+	.db 0x93,0x20			;CMD Portamento down
 					;Wait Repeat 1
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 					;Wait Repeat 1
-	.db 0x69			;Volume 8
+	.db 0x6a			;Volume 8
 					;Wait Repeat 1
-	.db 0x68			;Volume 7
+	.db 0x69			;Volume 7
 	.db 0xd7			;Wait 24
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_052:
 	.db 0x17			;Note B-2
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
 	.db 0xc8			;Wait 9
-	.db 0x92,0x20			;CMD Portamento down
+	.db 0x93,0x20			;CMD Portamento down
 	.db 0xc1			;Wait 2
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 	.db 0xc0			;Wait 1
-	.db 0x69			;Volume 8
+	.db 0x6a			;Volume 8
 	.db 0xc5			;Wait 6
 	.db 0x60			;Release 96
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_053:
 	.db 0x36			;Note F#5
-	.db 0x6e			;Volume 13
-	.db 0x7c			;Instrument 11
+	.db 0x6f			;Volume 13
+	.db 0x7d			;Instrument 11
 	.db 0xc8			;Wait 9
 	.db 0x35			;Note F-5
-	.db 0x67			;Volume 6
-	.db 0x81			;Instrument 16
-	.db 0xa9,0x40			; SCC Set Waveform 21
+	.db 0x68			;Volume 6
+	.db 0x82			;Instrument 16
+	.db 0xaa,0x40			; SCC Set Waveform 21
 	.db 0xc1			;Wait 2
 	.db 0x34			;Note E-5
-	.db 0x66			;Volume 5
+	.db 0x67			;Volume 5
 	.db 0xc0			;Wait 1
 	.db 0x33			;Note D#5
-	.db 0x65			;Volume 4
+	.db 0x66			;Volume 4
 					;Wait Repeat 1
 	.db 0x32			;Note D-5
-	.db 0x64			;Volume 3
+	.db 0x65			;Volume 3
 					;Wait Repeat 1
 	.db 0x31			;Note C#5
-	.db 0x63			;Volume 2
+	.db 0x64			;Volume 2
 					;Wait Repeat 1
 	.db 0x30			;Note C-5
-	.db 0x62			;Volume 1
+	.db 0x63			;Volume 1
 	.db 0xc1			;Wait 2
 	.db 0x60			;Release 96
 	.db 0xd2			;Wait 19
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_054:
 	.db 0x3b			;Note B-5
-	.db 0x68			;Volume 7
-	.db 0x7b			;Instrument 10
+	.db 0x69			;Volume 7
+	.db 0x7c			;Instrument 10
 	.db 0xc8			;Wait 9
 	.db 0x3a			;Note A#5
-	.db 0x64			;Volume 3
-	.db 0x81			;Instrument 16
-	.db 0xa9,0x50			; SCC Set Waveform 31
+	.db 0x65			;Volume 3
+	.db 0x82			;Instrument 16
+	.db 0xaa,0x50			; SCC Set Waveform 31
 	.db 0xc1			;Wait 2
 	.db 0x39			;Note A-5
 	.db 0xc0			;Wait 1
 	.db 0x38			;Note G#5
-	.db 0x63			;Volume 2
+	.db 0x64			;Volume 2
 					;Wait Repeat 1
 	.db 0x37			;Note G-5
 					;Wait Repeat 1
 	.db 0x36			;Note F#5
 	.db 0xc0			;Wait 1
 	.db 0x35			;Note F-5
-	.db 0x62			;Volume 1
+	.db 0x63			;Volume 1
 	.db 0xc1			;Wait 2
 	.db 0x60			;Release 96
 	.db 0xd2			;Wait 19
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_055:
 	.db 0x3b			;Note B-5
-	.db 0x68			;Volume 7
-	.db 0x7b			;Instrument 10
-	.db 0xa1,0x08			;CMD Track detune
+	.db 0x69			;Volume 7
+	.db 0x7c			;Instrument 10
+	.db 0xa2,0x08			;CMD Track detune
 	.db 0xc8			;Wait 9
 	.db 0x3a			;Note A#5
-	.db 0x64			;Volume 3
-	.db 0x81			;Instrument 16
-	.db 0xa9,0x50			; SCC Set Waveform 31
+	.db 0x65			;Volume 3
+	.db 0x82			;Instrument 16
+	.db 0xaa,0x50			; SCC Set Waveform 31
 	.db 0xc1			;Wait 2
 	.db 0x39			;Note A-5
 	.db 0xc0			;Wait 1
 	.db 0x38			;Note G#5
-	.db 0x63			;Volume 2
+	.db 0x64			;Volume 2
 					;Wait Repeat 1
 	.db 0x37			;Note G-5
 					;Wait Repeat 1
 	.db 0x36			;Note F#5
 	.db 0xc0			;Wait 1
 	.db 0x35			;Note F-5
-	.db 0x62			;Volume 1
+	.db 0x63			;Volume 1
 	.db 0xc1			;Wait 2
 	.db 0x60			;Release 96
 	.db 0xd2			;Wait 19
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_056:
 	.db 0x37			;Note G-5
-	.db 0x6d			;Volume 12
-	.db 0x75			;Instrument 4
+	.db 0x6e			;Volume 12
+	.db 0x76			;Instrument 4
 	.db 0xd7			;Wait 24
 	.db 0x29			;Note F-4
-	.db 0x6d			;Volume 12
-	.db 0x73			;Instrument 2
+	.db 0x6e			;Volume 12
+	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0x37			;Note G-5
-	.db 0x6d			;Volume 12
-	.db 0x75			;Instrument 4
+	.db 0x6e			;Volume 12
+	.db 0x76			;Instrument 4
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_057:
 	.db 0x16			;Note A#2
-	.db 0x6d			;Volume 12
-	.db 0x74			;Instrument 3
-	.db 0xa1,0x04			;CMD Track detune
+	.db 0x6e			;Volume 12
+	.db 0x75			;Instrument 3
+	.db 0xa2,0x04			;CMD Track detune
 	.db 0xe3			;Wait 36
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_060:
 	.db 0x16			;Note A#2
-	.db 0x79			;Instrument 8
+	.db 0x7a			;Instrument 8
 	.db 0xe1			;Wait 34
 	.db 0x16			;Note A#2
-	.db 0x70			;Volume 15
-	.db 0x78			;Instrument 7
+	.db 0x71			;Volume 15
+	.db 0x79			;Instrument 7
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_061:
 	.db 0x34			;Note E-5
-	.db 0x6e			;Volume 13
-	.db 0x7b			;Instrument 10
+	.db 0x6f			;Volume 13
+	.db 0x7c			;Instrument 10
 	.db 0xc5			;Wait 6
-	.db 0x94,0x37			;CMD Vibrato
+	.db 0x95,0x37			;CMD Vibrato
 	.db 0xdc			;Wait 29
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_062:
 	.db 0x3a			;Note A#5
-	.db 0x6e			;Volume 13
-	.db 0x7b			;Instrument 10
+	.db 0x6f			;Volume 13
+	.db 0x7c			;Instrument 10
 	.db 0xc5			;Wait 6
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xdc			;Wait 29
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_063:
 	.db 0x37			;Note G-5
-	.db 0x6d			;Volume 12
-	.db 0x7b			;Instrument 10
-	.db 0xa1,0x00			;CMD Track detune
+	.db 0x6e			;Volume 12
+	.db 0x7c			;Instrument 10
+	.db 0xa2,0x00			;CMD Track detune
 	.db 0xc5			;Wait 6
-	.db 0x94,0x16			;CMD Vibrato
+	.db 0x95,0x16			;CMD Vibrato
 	.db 0xdc			;Wait 29
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_064:
 	.db 0x21			;Note A-3
-	.db 0x6f			;Volume 14
-	.db 0x72			;Instrument 1
+	.db 0x70			;Volume 14
+	.db 0x73			;Instrument 1
 	.db 0xd1			;Wait 18
 	.db 0x29			;Note F-4
-	.db 0x6d			;Volume 12
-	.db 0x73			;Instrument 2
+	.db 0x6e			;Volume 12
+	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0x29			;Note F-4
-	.db 0x6d			;Volume 12
+	.db 0x6e			;Volume 12
 					;Wait Repeat 6
 	.db 0x1f			;Note G-3
-	.db 0x6c			;Volume 11
-	.db 0x76			;Instrument 5
+	.db 0x6d			;Volume 11
+	.db 0x77			;Instrument 5
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_065:
 	.db 0x17			;Note B-2
-	.db 0x6d			;Volume 12
-	.db 0x74			;Instrument 3
-	.db 0xa1,0x04			;CMD Track detune
+	.db 0x6e			;Volume 12
+	.db 0x75			;Instrument 3
+	.db 0xa2,0x04			;CMD Track detune
 	.db 0xc4			;Wait 5
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 	.db 0xc0			;Wait 1
-	.db 0x92,0x30			;CMD Portamento down
+	.db 0x93,0x30			;CMD Portamento down
 					;Wait Repeat 1
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 	.db 0xc1			;Wait 2
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 					;Wait Repeat 2
-	.db 0x69			;Volume 8
+	.db 0x6a			;Volume 8
 	.db 0xc0			;Wait 1
-	.db 0x68			;Volume 7
+	.db 0x69			;Volume 7
 	.db 0xd7			;Wait 24
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_068:
 	.db 0x17			;Note B-2
-	.db 0x70			;Volume 15
-	.db 0x79			;Instrument 8
+	.db 0x71			;Volume 15
+	.db 0x7a			;Instrument 8
 	.db 0xc4			;Wait 5
-	.db 0x6f			;Volume 14
+	.db 0x70			;Volume 14
 	.db 0xc0			;Wait 1
-	.db 0x92,0x30			;CMD Portamento down
+	.db 0x93,0x30			;CMD Portamento down
 					;Wait Repeat 1
-	.db 0x6e			;Volume 13
+	.db 0x6f			;Volume 13
 	.db 0xc1			;Wait 2
-	.db 0x6d			;Volume 12
+	.db 0x6e			;Volume 12
 					;Wait Repeat 2
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 	.db 0xc0			;Wait 1
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 	.db 0xc5			;Wait 6
 	.db 0x60			;Release 96
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_073:
 	.db 0x18			;Note C-3
-	.db 0x6e			;Volume 13
-	.db 0x74			;Instrument 3
-	.db 0x9b			;CMD End 
+	.db 0x6f			;Volume 13
+	.db 0x75			;Instrument 3
+	.db 0x9c			;CMD End 
 	.db 0xe3			;Wait 36
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_076:
 	.db 0x18			;Note C-3
-	.db 0x70			;Volume 15
-	.db 0x79			;Instrument 8
+	.db 0x71			;Volume 15
+	.db 0x7a			;Instrument 8
 	.db 0xe3			;Wait 36
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_077:
 	.db 0x38			;Note G#5
-	.db 0x6d			;Volume 12
-	.db 0x7b			;Instrument 10
-	.db 0x9b			;CMD End 
+	.db 0x6e			;Volume 12
+	.db 0x7c			;Instrument 10
+	.db 0x9c			;CMD End 
 	.db 0xc2			;Wait 3
-	.db 0x94,0x57			;CMD Vibrato
+	.db 0x95,0x57			;CMD Vibrato
 	.db 0xc8			;Wait 9
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 	.db 0xc5			;Wait 6
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 6
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 					;Wait Repeat 6
-	.db 0x69			;Volume 8
+	.db 0x6a			;Volume 8
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_078:
 	.db 0x3c			;Note C-6
-	.db 0x6d			;Volume 12
-	.db 0x7b			;Instrument 10
-	.db 0x9b			;CMD End 
+	.db 0x6e			;Volume 12
+	.db 0x7c			;Instrument 10
+	.db 0x9c			;CMD End 
 	.db 0xc2			;Wait 3
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xc8			;Wait 9
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 	.db 0xc5			;Wait 6
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 6
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 					;Wait Repeat 6
-	.db 0x69			;Volume 8
+	.db 0x6a			;Volume 8
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_079:
 	.db 0x3c			;Note C-6
-	.db 0x69			;Volume 8
-	.db 0x7b			;Instrument 10
-	.db 0xa1,0x08			;CMD Track detune
+	.db 0x6a			;Volume 8
+	.db 0x7c			;Instrument 10
+	.db 0xa2,0x08			;CMD Track detune
 	.db 0xc2			;Wait 3
-	.db 0x94,0x16			;CMD Vibrato
+	.db 0x95,0x16			;CMD Vibrato
 					;Wait Repeat 3
-	.db 0x67			;Volume 6
+	.db 0x68			;Volume 6
 	.db 0xc5			;Wait 6
-	.db 0x66			;Volume 5
+	.db 0x67			;Volume 5
 					;Wait Repeat 6
-	.db 0x65			;Volume 4
+	.db 0x66			;Volume 4
 	.db 0xd0			;Wait 17
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_080:
 	.db 0x37			;Note G-5
-	.db 0x6e			;Volume 13
-	.db 0x75			;Instrument 4
+	.db 0x6f			;Volume 13
+	.db 0x76			;Instrument 4
 	.db 0xd1			;Wait 18
 	.db 0x29			;Note F-4
-	.db 0x73			;Instrument 2
+	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0x29			;Note F-4
+	.db 0x74			;Instrument 2
 					;Wait Repeat 6
 	.db 0x29			;Note F-4
+	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_081:
 	.db 0x17			;Note B-2
-	.db 0x74			;Instrument 3
+	.db 0x75			;Instrument 3
 	.db 0xe3			;Wait 36
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_084:
 	.db 0x17			;Note B-2
-	.db 0x70			;Volume 15
-	.db 0x79			;Instrument 8
+	.db 0x71			;Volume 15
+	.db 0x7a			;Instrument 8
 	.db 0xe3			;Wait 36
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_085:
 	.db 0x37			;Note G-5
-	.db 0x6d			;Volume 12
-	.db 0x7b			;Instrument 10
-	.db 0x9b			;CMD End 
+	.db 0x6e			;Volume 12
+	.db 0x7c			;Instrument 10
+	.db 0x9c			;CMD End 
 	.db 0xc2			;Wait 3
-	.db 0x94,0x57			;CMD Vibrato
+	.db 0x95,0x57			;CMD Vibrato
 	.db 0xc8			;Wait 9
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 	.db 0xc5			;Wait 6
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 6
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 					;Wait Repeat 6
-	.db 0x69			;Volume 8
+	.db 0x6a			;Volume 8
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_086:
 	.db 0x3b			;Note B-5
-	.db 0x6d			;Volume 12
-	.db 0x7b			;Instrument 10
-	.db 0x9b			;CMD End 
+	.db 0x6e			;Volume 12
+	.db 0x7c			;Instrument 10
+	.db 0x9c			;CMD End 
 	.db 0xc2			;Wait 3
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xc8			;Wait 9
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 	.db 0xc5			;Wait 6
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 6
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 					;Wait Repeat 6
-	.db 0x69			;Volume 8
+	.db 0x6a			;Volume 8
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_087:
 	.db 0xc3			;Wait 4
 	.db 0x3b			;Note B-5
-	.db 0x68			;Volume 7
-	.db 0x7b			;Instrument 10
-	.db 0xa1,0x08			;CMD Track detune
+	.db 0x69			;Volume 7
+	.db 0x7c			;Instrument 10
+	.db 0xa2,0x08			;CMD Track detune
 	.db 0xc2			;Wait 3
-	.db 0x94,0x16			;CMD Vibrato
+	.db 0x95,0x16			;CMD Vibrato
 					;Wait Repeat 3
-	.db 0x67			;Volume 6
+	.db 0x68			;Volume 6
 	.db 0xc5			;Wait 6
-	.db 0x66			;Volume 5
+	.db 0x67			;Volume 5
 					;Wait Repeat 6
-	.db 0x65			;Volume 4
+	.db 0x66			;Volume 4
 	.db 0xcd			;Wait 14
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_092:
 	.db 0x16			;Note A#2
-	.db 0x70			;Volume 15
-	.db 0x79			;Instrument 8
+	.db 0x71			;Volume 15
+	.db 0x7a			;Instrument 8
 	.db 0xe3			;Wait 36
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_093:
 	.db 0x36			;Note F#5
-	.db 0x6d			;Volume 12
-	.db 0x7b			;Instrument 10
-	.db 0x9b			;CMD End 
+	.db 0x6e			;Volume 12
+	.db 0x7c			;Instrument 10
+	.db 0x9c			;CMD End 
 	.db 0xc2			;Wait 3
-	.db 0x94,0x57			;CMD Vibrato
+	.db 0x95,0x57			;CMD Vibrato
 	.db 0xc8			;Wait 9
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 	.db 0xc5			;Wait 6
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 6
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 					;Wait Repeat 6
-	.db 0x69			;Volume 8
+	.db 0x6a			;Volume 8
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_094:
 	.db 0x3a			;Note A#5
-	.db 0x6d			;Volume 12
-	.db 0x7b			;Instrument 10
-	.db 0x9b			;CMD End 
+	.db 0x6e			;Volume 12
+	.db 0x7c			;Instrument 10
+	.db 0x9c			;CMD End 
 	.db 0xc2			;Wait 3
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xc8			;Wait 9
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 	.db 0xc5			;Wait 6
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 6
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 					;Wait Repeat 6
-	.db 0x69			;Volume 8
+	.db 0x6a			;Volume 8
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_095:
 	.db 0xc3			;Wait 4
 	.db 0x3a			;Note A#5
-	.db 0x68			;Volume 7
-	.db 0x7b			;Instrument 10
-	.db 0xa1,0x08			;CMD Track detune
+	.db 0x69			;Volume 7
+	.db 0x7c			;Instrument 10
+	.db 0xa2,0x08			;CMD Track detune
 	.db 0xc2			;Wait 3
-	.db 0x94,0x16			;CMD Vibrato
+	.db 0x95,0x16			;CMD Vibrato
 					;Wait Repeat 3
-	.db 0x67			;Volume 6
+	.db 0x68			;Volume 6
 	.db 0xc5			;Wait 6
-	.db 0x66			;Volume 5
+	.db 0x67			;Volume 5
 					;Wait Repeat 6
-	.db 0x65			;Volume 4
+	.db 0x66			;Volume 4
 	.db 0xcd			;Wait 14
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_096:
 	.db 0x37			;Note G-5
-	.db 0x6e			;Volume 13
-	.db 0x75			;Instrument 4
+	.db 0x6f			;Volume 13
+	.db 0x76			;Instrument 4
 	.db 0xd1			;Wait 18
 	.db 0x29			;Note F-4
-	.db 0x73			;Instrument 2
+	.db 0x74			;Instrument 2
 	.db 0xc3			;Wait 4
 	.db 0x29			;Note F-4
-	.db 0x9a,0x02			;CMD Note delay
+	.db 0x74			;Instrument 2
+	.db 0x9b,0x02			;CMD Note delay
 	.db 0xc4			;Wait 5
 	.db 0x29			;Note F-4
+	.db 0x74			;Instrument 2
 	.db 0xc3			;Wait 4
 	.db 0x29			;Note F-4
-	.db 0x9a,0x02			;CMD Note delay
+	.db 0x74			;Instrument 2
+	.db 0x9b,0x02			;CMD Note delay
 	.db 0xc4			;Wait 5
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_101:
 	.db 0x37			;Note G-5
-	.db 0x6d			;Volume 12
-	.db 0x7b			;Instrument 10
-	.db 0x9b			;CMD End 
+	.db 0x6e			;Volume 12
+	.db 0x7c			;Instrument 10
+	.db 0x9c			;CMD End 
 	.db 0xc2			;Wait 3
-	.db 0x94,0x57			;CMD Vibrato
+	.db 0x95,0x57			;CMD Vibrato
 	.db 0xc8			;Wait 9
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 	.db 0xc5			;Wait 6
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 6
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 					;Wait Repeat 6
-	.db 0x69			;Volume 8
+	.db 0x6a			;Volume 8
 	.db 0xc4			;Wait 5
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_102:
 	.db 0x3b			;Note B-5
-	.db 0x6d			;Volume 12
-	.db 0x7b			;Instrument 10
-	.db 0x9b			;CMD End 
+	.db 0x6e			;Volume 12
+	.db 0x7c			;Instrument 10
+	.db 0x9c			;CMD End 
 	.db 0xc2			;Wait 3
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xc8			;Wait 9
-	.db 0x6c			;Volume 11
+	.db 0x6d			;Volume 11
 	.db 0xc5			;Wait 6
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 6
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 					;Wait Repeat 6
-	.db 0x69			;Volume 8
+	.db 0x6a			;Volume 8
 	.db 0xc4			;Wait 5
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_103:
 	.db 0xc3			;Wait 4
 	.db 0x3b			;Note B-5
-	.db 0x68			;Volume 7
-	.db 0x7b			;Instrument 10
-	.db 0xa1,0x08			;CMD Track detune
+	.db 0x69			;Volume 7
+	.db 0x7c			;Instrument 10
+	.db 0xa2,0x08			;CMD Track detune
 	.db 0xc2			;Wait 3
-	.db 0x94,0x16			;CMD Vibrato
+	.db 0x95,0x16			;CMD Vibrato
 					;Wait Repeat 3
-	.db 0x67			;Volume 6
+	.db 0x68			;Volume 6
 	.db 0xc5			;Wait 6
-	.db 0x66			;Volume 5
+	.db 0x67			;Volume 5
 					;Wait Repeat 6
-	.db 0x65			;Volume 4
+	.db 0x66			;Volume 4
 	.db 0xcc			;Wait 13
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_104:
 	.db 0x29			;Note F-4
-	.db 0x6e			;Volume 13
-	.db 0x73			;Instrument 2
+	.db 0x6f			;Volume 13
+	.db 0x74			;Instrument 2
 	.db 0xc3			;Wait 4
 	.db 0x29			;Note F-4
-	.db 0x9a,0x02			;CMD Note delay
+	.db 0x9b,0x02			;CMD Note delay
 	.db 0xc4			;Wait 5
 	.db 0x29			;Note F-4
 	.db 0xc3			;Wait 4
 	.db 0x29			;Note F-4
-	.db 0x9a,0x02			;CMD Note delay
+	.db 0x9b,0x02			;CMD Note delay
 	.db 0xc4			;Wait 5
 	.db 0x29			;Note F-4
 	.db 0xc3			;Wait 4
 	.db 0x29			;Note F-4
-	.db 0x9a,0x02			;CMD Note delay
+	.db 0x9b,0x02			;CMD Note delay
 	.db 0xc4			;Wait 5
 	.db 0x29			;Note F-4
 	.db 0xc3			;Wait 4
 	.db 0x29			;Note F-4
-	.db 0x9a,0x02			;CMD Note delay
+	.db 0x9b,0x02			;CMD Note delay
 	.db 0xc4			;Wait 5
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_105:
 	.db 0x24			;Note C-4
-	.db 0x6b			;Volume 10
-	.db 0x77			;Instrument 6
+	.db 0x6c			;Volume 10
+	.db 0x78			;Instrument 6
 	.db 0xc8			;Wait 9
 	.db 0x23			;Note B-3
 					;Wait Repeat 9
@@ -1555,20 +1564,23 @@ kv2puzz_track_105:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_108:
 	.db 0x18			;Note C-3
-	.db 0x79			;Instrument 8
+	.db 0x7a			;Instrument 8
 	.db 0xc8			;Wait 9
 	.db 0x17			;Note B-2
+	.db 0x7a			;Instrument 8
 					;Wait Repeat 9
 	.db 0x16			;Note A#2
+	.db 0x7a			;Instrument 8
 					;Wait Repeat 9
 	.db 0x17			;Note B-2
+	.db 0x7a			;Instrument 8
 	.db 0xc8			;Wait 9
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_109:
 	.db 0x2d			;Note A-4
-	.db 0x6d			;Volume 12
-	.db 0x80			;Instrument 15
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x6e			;Volume 12
+	.db 0x81			;Instrument 15
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xc8			;Wait 9
 	.db 0x2a			;Note F#4
 					;Wait Repeat 9
@@ -1579,9 +1591,9 @@ kv2puzz_track_109:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_110:
 	.db 0x30			;Note C-5
-	.db 0x6d			;Volume 12
-	.db 0x7f			;Instrument 14
-	.db 0xa9,0x08			; SCC Set Waveform 2
+	.db 0x6e			;Volume 12
+	.db 0x80			;Instrument 14
+	.db 0xaa,0x08			; SCC Set Waveform 2
 	.db 0xc8			;Wait 9
 	.db 0x2f			;Note B-4
 					;Wait Repeat 9
@@ -1592,9 +1604,9 @@ kv2puzz_track_110:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_111:
 	.db 0x30			;Note C-5
-	.db 0x67			;Volume 6
-	.db 0x80			;Instrument 15
-	.db 0xa1,0x09			;CMD Track detune
+	.db 0x68			;Volume 6
+	.db 0x81			;Instrument 15
+	.db 0xa2,0x09			;CMD Track detune
 	.db 0xcc			;Wait 13
 	.db 0x2f			;Note B-4
 	.db 0xc8			;Wait 9
@@ -1615,9 +1627,9 @@ kv2puzz_track_117:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_118:
 	.db 0x30			;Note C-5
-	.db 0x6b			;Volume 10
-	.db 0x7f			;Instrument 14
-	.db 0xa9,0x08			; SCC Set Waveform 2
+	.db 0x6c			;Volume 10
+	.db 0x80			;Instrument 14
+	.db 0xaa,0x08			; SCC Set Waveform 2
 	.db 0xc8			;Wait 9
 	.db 0x2f			;Note B-4
 					;Wait Repeat 9
@@ -1639,8 +1651,8 @@ kv2puzz_track_119:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_121:
 	.db 0x24			;Note C-4
-	.db 0x6b			;Volume 10
-	.db 0x77			;Instrument 6
+	.db 0x6c			;Volume 10
+	.db 0x78			;Instrument 6
 	.db 0xc8			;Wait 9
 	.db 0x23			;Note B-3
 					;Wait Repeat 9
@@ -1653,16 +1665,19 @@ kv2puzz_track_121:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_124:
 	.db 0x18			;Note C-3
-	.db 0x79			;Instrument 8
+	.db 0x7a			;Instrument 8
 	.db 0xc8			;Wait 9
 	.db 0x17			;Note B-2
+	.db 0x7a			;Instrument 8
 					;Wait Repeat 9
 	.db 0x18			;Note C-3
+	.db 0x7a			;Instrument 8
 					;Wait Repeat 9
 	.db 0x17			;Note B-2
+	.db 0x7a			;Instrument 8
 	.db 0xc6			;Wait 7
 	.db 0x17			;Note B-2
-	.db 0x78			;Instrument 7
+	.db 0x79			;Instrument 7
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_125:
@@ -1677,9 +1692,9 @@ kv2puzz_track_125:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_126:
 	.db 0x30			;Note C-5
-	.db 0x6b			;Volume 10
-	.db 0x7f			;Instrument 14
-	.db 0xa9,0x08			; SCC Set Waveform 2
+	.db 0x6c			;Volume 10
+	.db 0x80			;Instrument 14
+	.db 0xaa,0x08			; SCC Set Waveform 2
 	.db 0xc8			;Wait 9
 	.db 0x2f			;Note B-4
 					;Wait Repeat 9
@@ -1701,29 +1716,29 @@ kv2puzz_track_127:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_129:
 	.db 0x22			;Note A#3
-	.db 0x6c			;Volume 11
-	.db 0x77			;Instrument 6
+	.db 0x6d			;Volume 11
+	.db 0x78			;Instrument 6
 	.db 0xe3			;Wait 36
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_132:
 	.db 0x16			;Note A#2
-	.db 0x70			;Volume 15
-	.db 0x79			;Instrument 8
+	.db 0x71			;Volume 15
+	.db 0x7a			;Instrument 8
 	.db 0xe1			;Wait 34
 	.db 0x16			;Note A#2
-	.db 0x78			;Instrument 7
+	.db 0x79			;Instrument 7
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_133:
 	.db 0x29			;Note F-4
-	.db 0x80			;Instrument 15
+	.db 0x81			;Instrument 15
 	.db 0xc3			;Wait 4
-	.db 0x94,0x67			;CMD Vibrato
+	.db 0x95,0x67			;CMD Vibrato
 	.db 0xcd			;Wait 14
 	.db 0x28			;Note E-4
-	.db 0x70			;Volume 15
-	.db 0x7e			;Instrument 13
-	.db 0x9b			;CMD End 
+	.db 0x71			;Volume 15
+	.db 0x7f			;Instrument 13
+	.db 0x9c			;CMD End 
 	.db 0xc5			;Wait 6
 	.db 0x2b			;Note G-4
 					;Wait Repeat 6
@@ -1732,20 +1747,20 @@ kv2puzz_track_133:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_134:
 	.db 0x2e			;Note A#4
-	.db 0x6c			;Volume 11
-	.db 0x7f			;Instrument 14
-	.db 0xa9,0x08			; SCC Set Waveform 2
+	.db 0x6d			;Volume 11
+	.db 0x80			;Instrument 14
+	.db 0xaa,0x08			; SCC Set Waveform 2
 	.db 0xc2			;Wait 3
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xc8			;Wait 9
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 	.db 0xc5			;Wait 6
-	.db 0x6a			;Volume 9
+	.db 0x6b			;Volume 9
 					;Wait Repeat 6
-	.db 0x69			;Volume 8
+	.db 0x6a			;Volume 8
 					;Wait Repeat 6
 	.db 0x2d			;Note A-4
-	.db 0x68			;Volume 7
+	.db 0x69			;Volume 7
 	.db 0xc0			;Wait 1
 	.db 0x2c			;Note G#4
 					;Wait Repeat 1
@@ -1760,11 +1775,11 @@ kv2puzz_track_134:
 kv2puzz_track_135:
 	.db 0xc3			;Wait 4
 	.db 0x2e			;Note A#4
-	.db 0x68			;Volume 7
-	.db 0x80			;Instrument 15
-	.db 0xa9,0x08			; SCC Set Waveform 2
+	.db 0x69			;Volume 7
+	.db 0x81			;Instrument 15
+	.db 0xaa,0x08			; SCC Set Waveform 2
 	.db 0xc2			;Wait 3
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xd6			;Wait 23
 	.db 0x2d			;Note A-4
 	.db 0xc0			;Wait 1
@@ -1780,73 +1795,78 @@ kv2puzz_track_135:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_136:
 	.db 0x37			;Note G-5
-	.db 0x6e			;Volume 13
-	.db 0x75			;Instrument 4
+	.db 0x6f			;Volume 13
+	.db 0x76			;Instrument 4
 	.db 0xd1			;Wait 18
 	.db 0x21			;Note A-3
-	.db 0x6f			;Volume 14
-	.db 0x72			;Instrument 1
+	.db 0x70			;Volume 14
+	.db 0x73			;Instrument 1
 	.db 0xcb			;Wait 12
 	.db 0x29			;Note F-4
-	.db 0x6e			;Volume 13
-	.db 0x73			;Instrument 2
+	.db 0x6f			;Volume 13
+	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_137:
 	.db 0x2e			;Note A#4
-	.db 0x6c			;Volume 11
-	.db 0x7d			;Instrument 12
-	.db 0xa1,0x01			;CMD Track detune
+	.db 0x6d			;Volume 11
+	.db 0x7e			;Instrument 12
+	.db 0xa2,0x01			;CMD Track detune
 	.db 0xc3			;Wait 4
 	.db 0x2f			;Note B-4
 	.db 0xc7			;Wait 8
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xcd			;Wait 14
 	.db 0x2d			;Note A-4
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xc5			;Wait 6
 	.db 0x2b			;Note G-4
 	.db 0xc3			;Wait 4
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_140:
 	.db 0x10			;Note E-2
-	.db 0x79			;Instrument 8
+	.db 0x7a			;Instrument 8
 	.db 0xcb			;Wait 12
 	.db 0x10			;Note E-2
+	.db 0x7a			;Instrument 8
 	.db 0xc5			;Wait 6
 	.db 0x12			;Note F#2
+	.db 0x7a			;Instrument 8
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_141:
 	.db 0x2e			;Note A#4
-	.db 0x7e			;Instrument 13
+	.db 0x7f			;Instrument 13
 	.db 0xc1			;Wait 2
 	.db 0x2f			;Note B-4
+	.db 0x7f			;Instrument 13
 	.db 0xd5			;Wait 22
 	.db 0x2d			;Note A-4
+	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0x2b			;Note G-4
+	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_142:
 	.db 0x60			;Release 96
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xcb			;Wait 12
 	.db 0x26			;Note D-4
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
-	.db 0xa9,0x18			; SCC Set Waveform 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
+	.db 0xaa,0x18			; SCC Set Waveform 8
 	.db 0xc5			;Wait 6
 	.db 0x60			;Release 96
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_143:
 	.db 0x60			;Release 96
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xcb			;Wait 12
 	.db 0x1f			;Note G-3
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
 	.db 0xc5			;Wait 6
 	.db 0x60			;Release 96
 	.db 0xd1			;Wait 18
@@ -1855,122 +1875,127 @@ kv2puzz_track_145:
 	.db 0xc1			;Wait 2
 	.db 0x2d			;Note A-4
 	.db 0xc7			;Wait 8
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xcf			;Wait 16
 	.db 0x2b			;Note G-4
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xc5			;Wait 6
 	.db 0x2a			;Note F#4
 	.db 0xc3			;Wait 4
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_148:
 	.db 0x13			;Note G-2
-	.db 0x79			;Instrument 8
+	.db 0x7a			;Instrument 8
 	.db 0xd1			;Wait 18
 	.db 0x10			;Note E-2
+	.db 0x7a			;Instrument 8
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_149:
 	.db 0x2d			;Note A-4
-	.db 0x7e			;Instrument 13
+	.db 0x7f			;Instrument 13
 	.db 0xd7			;Wait 24
 	.db 0x2b			;Note G-4
+	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0x2a			;Note F#4
+	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_150:
 	.db 0x26			;Note D-4
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
-	.db 0xa9,0x18			; SCC Set Waveform 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
+	.db 0xaa,0x18			; SCC Set Waveform 8
 	.db 0xc2			;Wait 3
-	.db 0x94,0x65			;CMD Vibrato
+	.db 0x95,0x65			;CMD Vibrato
 	.db 0xda			;Wait 27
-	.db 0x68			;Volume 7
+	.db 0x69			;Volume 7
 	.db 0xc2			;Wait 3
-	.db 0x66			;Volume 5
+	.db 0x67			;Volume 5
 	.db 0xc0			;Wait 1
-	.db 0x64			;Volume 3
+	.db 0x65			;Volume 3
 					;Wait Repeat 1
-	.db 0x63			;Volume 2
+	.db 0x64			;Volume 2
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_151:
 	.db 0x1f			;Note G-3
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
 	.db 0xc2			;Wait 3
-	.db 0x94,0x65			;CMD Vibrato
+	.db 0x95,0x65			;CMD Vibrato
 	.db 0xda			;Wait 27
-	.db 0x68			;Volume 7
+	.db 0x69			;Volume 7
 	.db 0xc2			;Wait 3
-	.db 0x66			;Volume 5
+	.db 0x67			;Volume 5
 	.db 0xc0			;Wait 1
-	.db 0x64			;Volume 3
+	.db 0x65			;Volume 3
 					;Wait Repeat 1
-	.db 0x63			;Volume 2
+	.db 0x64			;Volume 2
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_152:
 	.db 0x29			;Note F-4
-	.db 0x6e			;Volume 13
-	.db 0x73			;Instrument 2
+	.db 0x6f			;Volume 13
+	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0x37			;Note G-5
-	.db 0x75			;Instrument 4
+	.db 0x76			;Instrument 4
 	.db 0xcb			;Wait 12
 	.db 0x21			;Note A-3
-	.db 0x6f			;Volume 14
-	.db 0x72			;Instrument 1
+	.db 0x70			;Volume 14
+	.db 0x73			;Instrument 1
 					;Wait Repeat 12
 	.db 0x29			;Note F-4
-	.db 0x6e			;Volume 13
-	.db 0x73			;Instrument 2
+	.db 0x6f			;Volume 13
+	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_153:
 	.db 0xc1			;Wait 2
 	.db 0x2b			;Note G-4
 	.db 0xc6			;Wait 7
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xc4			;Wait 5
 	.db 0x2b			;Note G-4
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xc6			;Wait 7
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xc4			;Wait 5
 	.db 0x28			;Note E-4
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xc5			;Wait 6
 	.db 0x26			;Note D-4
 	.db 0xc3			;Wait 4
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_156:
 	.db 0x15			;Note A-2
-	.db 0x79			;Instrument 8
+	.db 0x7a			;Instrument 8
 	.db 0xcb			;Wait 12
 	.db 0x15			;Note A-2
+	.db 0x7a			;Instrument 8
 	.db 0xc5			;Wait 6
 	.db 0x17			;Note B-2
+	.db 0x7a			;Instrument 8
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_157:
 	.db 0x2b			;Note G-4
-	.db 0x7e			;Instrument 13
+	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
-	.db 0x6f			;Volume 14
-	.db 0x9b			;CMD End 
+	.db 0x70			;Volume 14
+	.db 0x9c			;CMD End 
 	.db 0xc0			;Wait 1
-	.db 0x6e			;Volume 13
+	.db 0x6f			;Volume 13
 					;Wait Repeat 1
-	.db 0x6d			;Volume 12
+	.db 0x6e			;Volume 12
 					;Wait Repeat 1
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 1
 	.db 0x60			;Release 96
 	.db 0xc1			;Wait 2
 	.db 0x2b			;Note G-4
-	.db 0x70			;Volume 15
-	.db 0x7e			;Instrument 13
+	.db 0x71			;Volume 15
+	.db 0x7f			;Instrument 13
 	.db 0xcb			;Wait 12
 	.db 0x28			;Note E-4
 	.db 0xc5			;Wait 6
@@ -1979,57 +2004,57 @@ kv2puzz_track_157:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_158:
 	.db 0x60			;Release 96
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xcb			;Wait 12
 	.db 0x25			;Note C#4
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
-	.db 0xa9,0x18			; SCC Set Waveform 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
+	.db 0xaa,0x18			; SCC Set Waveform 8
 	.db 0xc5			;Wait 6
 	.db 0x60			;Release 96
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_159:
 	.db 0x60			;Release 96
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xcb			;Wait 12
 	.db 0x21			;Note A-3
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
 	.db 0xc5			;Wait 6
 	.db 0x60			;Release 96
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_160:
 	.db 0x37			;Note G-5
-	.db 0x6e			;Volume 13
-	.db 0x75			;Instrument 4
+	.db 0x6f			;Volume 13
+	.db 0x76			;Instrument 4
 	.db 0xd1			;Wait 18
 	.db 0x21			;Note A-3
-	.db 0x6f			;Volume 14
-	.db 0x72			;Instrument 1
+	.db 0x70			;Volume 14
+	.db 0x73			;Instrument 1
 	.db 0xc3			;Wait 4
 	.db 0x29			;Note F-4
-	.db 0x6e			;Volume 13
-	.db 0x73			;Instrument 2
-	.db 0x9a,0x02			;CMD Note delay
+	.db 0x6f			;Volume 13
+	.db 0x74			;Instrument 2
+	.db 0x9b,0x02			;CMD Note delay
 	.db 0xc4			;Wait 5
 	.db 0x29			;Note F-4
-	.db 0x6e			;Volume 13
+	.db 0x6f			;Volume 13
 	.db 0xc3			;Wait 4
 	.db 0x29			;Note F-4
-	.db 0x6e			;Volume 13
-	.db 0x9a,0x02			;CMD Note delay
+	.db 0x6f			;Volume 13
+	.db 0x9b,0x02			;CMD Note delay
 	.db 0xc4			;Wait 5
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_161:
 	.db 0xc1			;Wait 2
 	.db 0x28			;Note E-4
 	.db 0xc7			;Wait 8
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xc9			;Wait 10
 	.db 0x28			;Note E-4
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xc5			;Wait 6
 	.db 0x2b			;Note G-4
 					;Wait Repeat 6
@@ -2038,133 +2063,140 @@ kv2puzz_track_161:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_164:
 	.db 0x15			;Note A-2
-	.db 0x79			;Instrument 8
+	.db 0x7a			;Instrument 8
 	.db 0xd1			;Wait 18
 	.db 0x12			;Note F#2
+	.db 0x7a			;Instrument 8
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_165:
 	.db 0x28			;Note E-4
-	.db 0x7e			;Instrument 13
+	.db 0x7f			;Instrument 13
 	.db 0xd1			;Wait 18
 	.db 0x28			;Note E-4
+	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0x2b			;Note G-4
+	.db 0x7f			;Instrument 13
 					;Wait Repeat 6
 	.db 0x2d			;Note A-4
+	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_166:
 	.db 0x25			;Note C#4
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
-	.db 0xa9,0x18			; SCC Set Waveform 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
+	.db 0xaa,0x18			; SCC Set Waveform 8
 	.db 0xc2			;Wait 3
-	.db 0x94,0x65			;CMD Vibrato
+	.db 0x95,0x65			;CMD Vibrato
 	.db 0xda			;Wait 27
-	.db 0x68			;Volume 7
+	.db 0x69			;Volume 7
 	.db 0xc2			;Wait 3
-	.db 0x66			;Volume 5
+	.db 0x67			;Volume 5
 	.db 0xc0			;Wait 1
-	.db 0x64			;Volume 3
+	.db 0x65			;Volume 3
 					;Wait Repeat 1
-	.db 0x63			;Volume 2
+	.db 0x64			;Volume 2
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_167:
 	.db 0x21			;Note A-3
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
 	.db 0xc2			;Wait 3
-	.db 0x94,0x65			;CMD Vibrato
+	.db 0x95,0x65			;CMD Vibrato
 	.db 0xda			;Wait 27
-	.db 0x68			;Volume 7
+	.db 0x69			;Volume 7
 	.db 0xc2			;Wait 3
-	.db 0x66			;Volume 5
+	.db 0x67			;Volume 5
 	.db 0xc0			;Wait 1
-	.db 0x64			;Volume 3
+	.db 0x65			;Volume 3
 					;Wait Repeat 1
-	.db 0x63			;Volume 2
+	.db 0x64			;Volume 2
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_169:
 	.db 0x2e			;Note A#4
-	.db 0x6c			;Volume 11
-	.db 0x7d			;Instrument 12
-	.db 0xa1,0x01			;CMD Track detune
+	.db 0x6d			;Volume 11
+	.db 0x7e			;Instrument 12
+	.db 0xa2,0x01			;CMD Track detune
 	.db 0xc3			;Wait 4
 	.db 0x2f			;Note B-4
 	.db 0xc5			;Wait 6
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xcf			;Wait 16
 	.db 0x2d			;Note A-4
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xc5			;Wait 6
 	.db 0x2b			;Note G-4
 	.db 0xc3			;Wait 4
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_173:
 	.db 0x2e			;Note A#4
-	.db 0x7e			;Instrument 13
+	.db 0x7f			;Instrument 13
 	.db 0xc2			;Wait 3
 	.db 0x2f			;Note B-4
+	.db 0x7f			;Instrument 13
 	.db 0xd4			;Wait 21
 	.db 0x2d			;Note A-4
+	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0x2b			;Note G-4
+	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_184:
 	.db 0x29			;Note F-4
-	.db 0x6e			;Volume 13
-	.db 0x73			;Instrument 2
+	.db 0x6f			;Volume 13
+	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0x37			;Note G-5
-	.db 0x6e			;Volume 13
-	.db 0x75			;Instrument 4
+	.db 0x6f			;Volume 13
+	.db 0x76			;Instrument 4
 	.db 0xcb			;Wait 12
 	.db 0x21			;Note A-3
-	.db 0x6f			;Volume 14
-	.db 0x72			;Instrument 1
+	.db 0x70			;Volume 14
+	.db 0x73			;Instrument 1
 					;Wait Repeat 12
 	.db 0x29			;Note F-4
-	.db 0x6e			;Volume 13
-	.db 0x73			;Instrument 2
+	.db 0x6f			;Volume 13
+	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_185:
 	.db 0xc1			;Wait 2
 	.db 0x28			;Note E-4
 	.db 0xc6			;Wait 7
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xc4			;Wait 5
 	.db 0x28			;Note E-4
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xc6			;Wait 7
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xc4			;Wait 5
 	.db 0x28			;Note E-4
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xc5			;Wait 6
 	.db 0x26			;Note D-4
 	.db 0xc3			;Wait 4
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_189:
 	.db 0x28			;Note E-4
-	.db 0x7e			;Instrument 13
+	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
-	.db 0x6f			;Volume 14
-	.db 0x9b			;CMD End 
+	.db 0x70			;Volume 14
+	.db 0x9c			;CMD End 
 	.db 0xc0			;Wait 1
-	.db 0x6e			;Volume 13
+	.db 0x6f			;Volume 13
 					;Wait Repeat 1
-	.db 0x6d			;Volume 12
+	.db 0x6e			;Volume 12
 					;Wait Repeat 1
-	.db 0x6b			;Volume 10
+	.db 0x6c			;Volume 10
 					;Wait Repeat 1
 	.db 0x60			;Release 96
 	.db 0xc1			;Wait 2
 	.db 0x28			;Note E-4
-	.db 0x70			;Volume 15
-	.db 0x7e			;Instrument 13
+	.db 0x71			;Volume 15
+	.db 0x7f			;Instrument 13
 	.db 0xcb			;Wait 12
 	.db 0x28			;Note E-4
 	.db 0xc5			;Wait 6
@@ -2173,59 +2205,59 @@ kv2puzz_track_189:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_192:
 	.db 0x37			;Note G-5
-	.db 0x6e			;Volume 13
-	.db 0x75			;Instrument 4
+	.db 0x6f			;Volume 13
+	.db 0x76			;Instrument 4
 	.db 0xd1			;Wait 18
 	.db 0x21			;Note A-3
-	.db 0x6f			;Volume 14
-	.db 0x72			;Instrument 1
+	.db 0x70			;Volume 14
+	.db 0x73			;Instrument 1
 	.db 0xc8			;Wait 9
 	.db 0x37			;Note G-5
-	.db 0x6e			;Volume 13
-	.db 0x75			;Instrument 4
+	.db 0x6f			;Volume 13
+	.db 0x76			;Instrument 4
 	.db 0xc8			;Wait 9
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_193:
 	.db 0xc1			;Wait 2
 	.db 0x28			;Note E-4
-	.db 0x7d			;Instrument 12
+	.db 0x7e			;Instrument 12
 	.db 0xc7			;Wait 8
-	.db 0x94,0x36			;CMD Vibrato
+	.db 0x95,0x36			;CMD Vibrato
 	.db 0xd9			;Wait 26
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_197:
 	.db 0x28			;Note E-4
-	.db 0x7e			;Instrument 13
+	.db 0x7f			;Instrument 13
 	.db 0xe2			;Wait 35
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_198:
 	.db 0x25			;Note C#4
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
-	.db 0xa9,0x18			; SCC Set Waveform 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
+	.db 0xaa,0x18			; SCC Set Waveform 8
 	.db 0xc2			;Wait 3
-	.db 0x94,0x65			;CMD Vibrato
+	.db 0x95,0x65			;CMD Vibrato
 	.db 0xda			;Wait 27
-	.db 0x68			;Volume 7
+	.db 0x69			;Volume 7
 	.db 0xc4			;Wait 5
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_199:
 	.db 0x21			;Note A-3
-	.db 0x6e			;Volume 13
-	.db 0x79			;Instrument 8
+	.db 0x6f			;Volume 13
+	.db 0x7a			;Instrument 8
 	.db 0xc2			;Wait 3
-	.db 0x94,0x65			;CMD Vibrato
+	.db 0x95,0x65			;CMD Vibrato
 	.db 0xda			;Wait 27
-	.db 0x68			;Volume 7
+	.db 0x69			;Volume 7
 	.db 0xc4			;Wait 5
-	.db 0x9b			;CMD End 
+	.db 0x9c			;CMD End 
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_200:
 	.db 0x21			;Note A-3
-	.db 0x6f			;Volume 14
-	.db 0x72			;Instrument 1
+	.db 0x70			;Volume 14
+	.db 0x73			;Instrument 1
 	.db 0xc8			;Wait 9
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_201:
@@ -2233,7 +2265,7 @@ kv2puzz_track_201:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_204:
 	.db 0x22			;Note A#3
-	.db 0x7a			;Instrument 9
+	.db 0x7b			;Instrument 9
 	.db 0xc8			;Wait 9
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_205:
@@ -2242,13 +2274,13 @@ kv2puzz_track_205:
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_206:
 	.db 0x36			;Note F#5
-	.db 0x7f			;Instrument 14
+	.db 0x80			;Instrument 14
 	.db 0xc8			;Wait 9
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_207:
 	.db 0xc3			;Wait 4
 	.db 0x36			;Note F#5
-	.db 0x81			;Instrument 16
+	.db 0x82			;Instrument 16
 	.db 0xc4			;Wait 5
 	.db 0xbf			;[End-Of-Track]
 

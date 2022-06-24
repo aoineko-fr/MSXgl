@@ -163,6 +163,7 @@ _getnewbalancebase:
 ;===========================================================	
 replay_equalization::
 
+	;// MSXgl - Start
 ; .ifdef MSX2
 	; and		a
 	; jp		z, replay_equalization.off
@@ -172,6 +173,7 @@ replay_equalization::
 	; xor		#0b00000010
 ; replay_equalization.off:
 ; .endif
+	;// MSXgl - End
 	ld		(equalization_freq), a
 	ret
 
@@ -199,8 +201,10 @@ replay_loadsong::
 	ld		(replay_speed_subtimer), a
 	
 	;--- Set tonetable here as SCC and PSG share same tonetable
-	ld		hl, #TRACK_ToneTable_PSG			; Set the PSG note table
-	ld		(replay_tonetable), hl	
+	;// MSXgl - Start
+	; ld		hl, #TRACK_ToneTable_PSG			; Set the PSG note table
+	; ld		(replay_tonetable), hl	
+	;// MSXgl - End
 
 	;--- Erase channel data	in RAM
 	ld		bc, #TRACK_REC_SIZE*8-1
@@ -893,7 +897,7 @@ _replay_decode_vol:
 	add		a
 	add		a
 
-	;--- Set new base	volume (high byte) but keep relative offset (low byte)
+	;--- Set new base volume (high byte) but keep relative offset (low byte)
 	ld		e, a
 	ld		a, TRACK_Volume(ix)
 	and		#0x0F
@@ -2170,8 +2174,10 @@ _ptAY_loop:
 ;--------------
 ; S C C 
 ;--------------
-	ld		a, #0x3F				; enable SCC
-	ld		(0x9000), a
+	;// MSXgl - Start
+	; ld		a, #0x3F				; enable SCC
+	; ld		(0x9000), a
+	;// MSXgl - End
 
 	;--- Set the waveforms
 	ld		a, (TRACK_Chan4+17+TRACK_Flags)
@@ -2272,7 +2278,6 @@ scc_reg_update.skip:
 	dec		c
 	jp		m, scc_reg_update.loop
 
-
 	;--- Update changed SCC registers.
 ;//	ld hl, oldregs				
 ;//	ld de, SCC_registers
@@ -2293,11 +2298,6 @@ scc_reg_update.skip:
 ;//	dec a
 ;//	jr nz, .loop
 ; .endif
-
-	;// MSXgl - Start
-	ld		a, (_g_Bank2Segment)	; disable SCC
-	ld		(0x9000), a
-	;// MSXgl - End
 
 	ret
 
@@ -2340,7 +2340,10 @@ _write_SCC_wave.sfxwave:
 	add		hl, hl
 	add		hl, hl
 		
-	ld		bc, #SFX_WAVEBASE
+	;// MSXgl - Start
+	;// ld		bc, #SFX_WAVEBASE
+	ld		bc, (sfx_WAVETABLE)
+	;// MSXgl - End
 	add		hl, bc
 	jp		copy_wave_fast
 ; .endif

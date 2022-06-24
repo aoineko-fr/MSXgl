@@ -252,6 +252,12 @@
 // PCM-Encoder supported frequency (more than 1 value allowed)
 #define PCMENC_FREQ					PCMENC_8K | PCMENC_11K | PCMENC_22K | PCMENC_44K
 
+// PT3 options
+#define PT3_SKIP_HEADER				1
+#define PT3_AUTOPLAY				0
+#define PT3_EXTRA					1
+#define PT3_USE_CALLBACK			0
+
 //-----------------------------------------------------------------------------
 // MSXi MODULE
 //-----------------------------------------------------------------------------

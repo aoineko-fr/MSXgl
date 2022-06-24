@@ -34,15 +34,19 @@ if not exist %Dest% md %Dest%
 :: Build Trilo data
 if %BuildTrilo%==1 (
 	echo ----------------------------------------
-	echo Building Trilo data...
+	echo Building Trilo music data...
 	if not exist %Dest%\trilo md %Dest%\trilo
 	if not exist %Dest%\trilo\out md %Dest%\trilo\out
 	for %%I in (trilo\*.tmu) do (
 		echo ---- Compiling TMU file %%~nI...
 		%Tools%\audio\trilo\tmucompile.exe %%I %Dest%\trilo\out\tmu_%%~nI.asm
-		%Tools%\audio\misc\rxrepl -f %Dest%\trilo\out\tmu_%%~nI.asm -o %Dest%\trilo\tmu_%%~nI.asm -s "\." -r "" -s "\$" -r "0x" -s "db" -r ".db" -s "dw" -r ".dw" -s "waveform_" -r "%%~nI_waveform_" -s "instrument_" -r "%%~nI_instrument_" -s "track_" -r "%%~nI_track_" -s "restart" -r "%%~nI_restart" -s "customvoice_" -r "%%~nI_customvoice_" -s "drummacro_" -r "%%~nI_drummacro_" 
+		%Tools%\audio\misc\rxrepl -f %Dest%\trilo\out\tmu_%%~nI.asm -o %Dest%\trilo\tmu_%%~nI.asm -s "\." -r "" -s "\$" -r "0x" -s "db" -r ".db" -s "0x.db" -r "0xdb" -s "dw" -r ".dw" -s "waveform_" -r "%%~nI_waveform_" -s "instrument_" -r "%%~nI_instrument_" -s "track_" -r "%%~nI_track_" -s "restart" -r "%%~nI_restart" -s "customvoice_" -r "%%~nI_customvoice_" -s "drummacro_" -r "%%~nI_drummacro_" 
 		echo.
 	)
+	
+	echo Building Trilo SFX data...
+	%CMSXtk%\CMSXbin.exe trilo\SFX_TEST.afb -ad -o %Dest%\trilo\SFX_TEST.h
+	copy trilo\SFX_TEST_WT.asm %Dest%\trilo\SFX_TEST_WT.asm
 )
 
 ::-----------------------------------------------------------------------------

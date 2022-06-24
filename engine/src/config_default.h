@@ -338,6 +338,34 @@
 #endif
 
 //-----------------------------------------------------------------------------
+// PT3 MODULE
+//-----------------------------------------------------------------------------
+
+// PT3_SKIP_HEADER
+#ifndef PT3_SKIP_HEADER
+	#warning PT3_SKIP_HEADER is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define PT3_SKIP_HEADER				1
+#endif
+
+// PT3_AUTOPLAY
+#ifndef PT3_AUTOPLAY
+	#warning PT3_AUTOPLAY is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define PT3_AUTOPLAY				0
+#endif
+
+// PT3_EXTRA
+#ifndef PT3_EXTRA
+	#warning PT3_EXTRA is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define PT3_EXTRA					1
+#endif
+
+// PT3_USE_CALLBACK
+#ifndef PT3_USE_CALLBACK
+	#warning PT3_USE_CALLBACK is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define PT3_USE_CALLBACK			0
+#endif
+
+//-----------------------------------------------------------------------------
 // MISC
 //-----------------------------------------------------------------------------
 

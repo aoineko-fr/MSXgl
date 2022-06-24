@@ -17,4 +17,8 @@ sfx_SCC_TONE:	    	.ds 2			; Current tone of the sfx_SCC stream
 ;sfx_SCC_VOLUME:		.ds 1			; Current volume of the sfx_SCC stream
 sfx_SCC_BALANCE:		.ds 2			; Pointer to the volume table
 
+;// MSXgl - Start
+sfx_BANK				= _g_TriloSFX_Bank ; Pointer to bank data
+sfx_WAVETABLE			= _g_TriloSFX_WaveTable ; Pointer to wave-table data
+;// MSXgl - End
 
