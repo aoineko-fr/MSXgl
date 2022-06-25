@@ -19,9 +19,10 @@
 // MEMORY DATA
 //=============================================================================
 
-u16 g_TriloSCC_ToneTable;
-u16 g_TriloSFX_Bank;
-u16 g_TriloSFX_WaveTable;
+void* g_TriloSCC_ToneTable;
+void* g_TriloSFX_Bank;
+void* g_TriloSFX_WaveTable;
+u8    g_TriloSCC_Freq;
 
 //=============================================================================
 // FUNCTIONS
@@ -32,6 +33,10 @@ u16 g_TriloSFX_WaveTable;
 void TriloSCC_Dummy()
 {
 	__asm
+	SFXPLAY_ENABLED		= 1 // Enable the SFX functionality.
+	TREMOLO_OFF			= 0 // Removes tremolo code making the replayer a little bit faster.
+	TAIL_ON				= 0 // Limit minimal volume to 1.
+
 	.area _DATA
 	replay_ram_start::
 		#include "scc_player/ttreplaySCCRAM.asm"
@@ -46,7 +51,7 @@ void TriloSCC_Dummy()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Initialize replayer data. Only call this on start-up.
 void TriloSCC_Initialize()
 {
 	__asm
@@ -74,7 +79,7 @@ void TriloSCC_Initialize()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Stop/Restart music playback.
 void TriloSCC_Pause()
 {
 	__asm
@@ -90,7 +95,7 @@ void TriloSCC_Pause()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Fade out the music. Once the sound is silence the replayer is paused.
 void TriloSCC_FadeOut(u8 speed)
 {
 	speed; // A
@@ -108,7 +113,8 @@ void TriloSCC_FadeOut(u8 speed)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Set the main volume for the SCC chip.
+// This enables for setting the balance between SCC and PSG as some MSX models default balance differs.
 void TriloSCC_SetBalanceSCC(u8 vol)
 {
 	vol; // A
@@ -127,7 +133,8 @@ void TriloSCC_SetBalanceSCC(u8 vol)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Set the main volume for the PSG chip.
+// This enables for setting the balance between SCC and PSG as some MSX models default balance differs.
 void TriloSCC_SetBalancePSG(u8 vol)
 {
 	vol; // A
@@ -146,26 +153,8 @@ void TriloSCC_SetBalancePSG(u8 vol)
 }
 
 //-----------------------------------------------------------------------------
-//
-void TriloSCC_Equalization(bool enable)
-{
-	enable; // A
-	__asm
-		push	ix
-
-		// ---	replay_equalization
-		// Enables or disables the speed equalization. 
-		// This to enable same speed playback on 50 and 60Hz. 
-		// in: [A] setting of the equalization (0 = off, other values = on) 
-		call	replay_equalization
-
-		pop		ix
-	__endasm;
-}
-
-//-----------------------------------------------------------------------------
-//
-void TriloSCC_LoadSong(u16 addr)
+// Initialize a music for playback.
+void TriloSCC_LoadMusic(const void* addr)
 {
 	addr; // HL
 	__asm
@@ -181,7 +170,7 @@ void TriloSCC_LoadSong(u16 addr)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Set mixer values to silent.
 void TriloSCC_Silent()
 {
 	__asm
@@ -195,7 +184,7 @@ void TriloSCC_Silent()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Decode music data and process instruments and effects.
 void TriloSCC_Update()
 {
 	__asm
@@ -218,7 +207,7 @@ void TriloSCC_Update()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Output the data to the CHIP registers
 void TriloSCC_Apply()
 {
 	__asm
@@ -228,7 +217,7 @@ void TriloSCC_Apply()
 		ld		(0x9000), a
 
 		// ---replay_route
-		// Output the data	to the CHIP	registers
+		// Output the data to the CHIP registers
 		call	replay_route
 
 		ld		a, (_g_Bank2Segment)	// disable SCC
@@ -240,7 +229,7 @@ void TriloSCC_Apply()
 
 
 //-----------------------------------------------------------------------------
-//
+// Initialise the sfx player. Sets initial priorities, volume balancce and initial SCC waveform.
 void TriloSFX_Initialize()
 {
 	__asm
@@ -254,7 +243,7 @@ void TriloSFX_Initialize()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Set the main SFX volume for the SCC chip.
 void TriloSFX_SetBalanceSCC(u8 vol)
 {
 	vol; // A
@@ -270,7 +259,7 @@ void TriloSFX_SetBalanceSCC(u8 vol)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Set the main SFXvolume for the PSG chip.
 void TriloSFX_SetBalancePSG(u8 vol)
 {
 	vol; // A
@@ -286,7 +275,7 @@ void TriloSFX_SetBalancePSG(u8 vol)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Start a new SFX.
 void TriloSFX_Play(u8 sfx, u8 prio)
 {
 	sfx; // A
@@ -304,7 +293,7 @@ void TriloSFX_Play(u8 sfx, u8 prio)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Decode SFX streams.
 void TriloSFX_Update()
 {
 	__asm

@@ -80,15 +80,14 @@ ttsfx_start::
 
 	;--- Test priority
 	ld		a, (sfx_PRIORITY)		; a:=Current sfx_SCC stream priority
-	cp		c				; If new sfx_SCC stream priority is higher than currently one...
-	ret		c				; ...we don't start the new sfx_SCC stream	
+	cp		c						; If new sfx_SCC stream priority is higher than currently one...
+	ret		c						; ...we don t start the new sfx_SCC stream
 
 	;--- Set priority
-	ld		a, c				; a:=New priority
+	ld		a, c					; a:=New priority
 	ld		(sfx_PRIORITY), a		; new priority saved in RAM
 	ld		a, #0b00000011
-	ld		(sfx_STATUS), a		; 2 chnnels playing
-
+	ld		(sfx_STATUS), a			; 2 chnnels playing
 
 	;// MSXgl - Start
 	;// ld		de, #sfxbank+1		; Start of SFX offset list
@@ -97,8 +96,8 @@ ttsfx_start::
 	;// MSXgl - End
 	ld		l, b
 	ld		h, #0
-	add		hl, hl		; offset is 2 sfx (PSG+SCC)
-	add		hl, hl		; x2 to get item offset in bank
+	add		hl, hl					; offset is 2 sfx (PSG+SCC)
+	add		hl, hl					; x2 to get item offset in bank
 	add		hl, de
 	ld		a, b
 	add		a						; offset is 2 sfx (PSG+SCC)
@@ -113,14 +112,14 @@ ttsfx_start.skip:
 	ld		b, (hl)
 ;//	inc		hl
 	push	hl						; store for second sfx
-	add		hl, bc						; Pointer to the first sfx
+	add		hl, bc					; Pointer to the first sfx
 	ld		(sfx_PSG_POINTER), hl
 	pop		hl
 	inc		hl
 	ld		c, (hl)
 	inc		hl
 	ld		b, (hl)
-	add		hl, bc						; Pointer to the second sfx
+	add		hl, bc					; Pointer to the second sfx
 	ld		(sfx_SCC_POINTER), hl
 	ret
 
@@ -153,7 +152,7 @@ ttsfx_play.psg_play:
 	inc		hl				; Increment pointer
 
 _ayCHECK_NT:
-	; --- Check if there's new tone on stream ---
+	; --- Check if there s new tone on stream ---
 	bit		5, c				; If bit 5 c is off...
 	jp		z, _ayCHECK_NN		; ...jump to _ayCHECK_NN (no new tone)
 	; --- Extract new tone from stream ---
@@ -164,13 +163,13 @@ _ayCHECK_NT:
 	ld		(sfx_PSG_TONE), de		; sfx_PSG tone updated
 
 _ayCHECK_NN:	
-	; --- Check if there's new noise on stream ---
+	; --- Check if there s new noise on stream ---
 	bit		6, c				; if bit 6 c is off...
 	jp		z, _aySETPOINTER		; ...jump to _aySETPOINTER (no new noise)
 	; --- Extract new noise from stream ---
 	ld		a, (hl)			; a:=New noise
 	inc		hl				; Increment pointer
-	cp		#0x20				; If it's an illegal value of noise (used to mark end of stream)...
+	cp		#0x20				; If it s an illegal value of noise (used to mark end of stream)...
 	jp		z, _ayEND
 _ayNOISE:
 	ld		(sfx_PSG_NOISE), a		; sfx_PSG noise updated
@@ -240,7 +239,7 @@ _ttsfx_scc_play.scc_play:
 	inc		hl				; Increment pointer
 
 _sccCHECK_NT:
-	; --- Check if there's new tone on stream ---
+	; --- Check if there s new tone on stream ---
 	bit		5, c				; If bit 5 c is off...
 	jp		z, _sccCHECK_NW		; ...jump to _sccCHECK_NN (no new tone)
 	; --- Extract new tone from stream ---
@@ -251,7 +250,7 @@ _sccCHECK_NT:
 	ld		(sfx_SCC_TONE), de		; sfx_SCC tone updated
 
 _sccCHECK_NW:	
-	; --- Check if there's the end of the sfx ---
+	; --- Check if there s the end of the sfx ---
 	bit		6, c				; if bit 6 c is off...
 	jp		z, _sccSETPOINTER		; ...jump to _sccSETPOINTER (no end)
 	; --- Extract new waveform from stream ---

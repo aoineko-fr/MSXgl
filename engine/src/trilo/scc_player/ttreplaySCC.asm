@@ -161,9 +161,8 @@ _getnewbalancebase:
 ;
 ; in: [A] setting of the equalization (0 = off, other values = on) 
 ;===========================================================	
-replay_equalization::
-
-	;// MSXgl - Start
+;// MSXgl - Start
+; replay_equalization::
 ; .ifdef MSX2
 	; and		a
 	; jp		z, replay_equalization.off
@@ -173,9 +172,9 @@ replay_equalization::
 	; xor		#0b00000010
 ; replay_equalization.off:
 ; .endif
-	;// MSXgl - End
-	ld		(equalization_freq), a
-	ret
+	; ld		(equalization_freq), a
+	; ret
+;// MSXgl - End
 
 
 ;===========================================================
@@ -1741,14 +1740,14 @@ macro_vol_sub.nolimit:
 _macro_set_volume:
 	or		TRACK_Volume(ix)
 
-; .ifdef tremolo_OFF
-; .else	
+.if TREMOLO_OFF
+.else	
 	ld 		b, TRACK_cmd_VolumeAdd(ix)
 	sub		a, b
 	jp 		nc, _macro_set_volume.skip2
 	add		a, b
  	and		#0x0f
-; .endif
+.endif
 _macro_set_volume.skip2:
 	;--- apply main volume balance
 	ld		bc, (replay_mainvol)
@@ -1966,8 +1965,8 @@ process_cmd3_stop:
 
 
 process_cmd8_tremolo:
-; .ifdef tremolo_OFF
-; .else	
+.if TREMOLO_OFF
+.else	
 	;=================================
 	;
 	; tremolo	
@@ -1993,7 +1992,7 @@ process_cmd8_tremolo.skip:
 	add		a
 	add		a
 	ld		TRACK_cmd_VolumeAdd(ix), a
-; .endif
+.endif
 	jp		process_commandEND
 
 
@@ -2314,10 +2313,10 @@ _write_SCC_wave:
 	;---- 000000SR	-> S = sfx waveform, R = RAM waveform
 	bit		0, a
 	jp		z, _write_SCC_wave.normalwave
-; .ifdef	SFXPLAY_ENABLED
+.if SFXPLAY_ENABLED
 	bit		1, a
 	jp		nz, _write_SCC_wave.sfxwave
-; .endif
+.endif
 _write_SCC_wave.ramwave:
 	dec		hl		; reset the special flag in the wave form number
 	and		#0xFE
@@ -2332,7 +2331,7 @@ _write_SCC_wave.ramwave:
 _write_SCC_wave.skip:
 	jp		copy_wave_fast
 
-; .ifdef SFXPLAY_ENABLED
+.if SFXPLAY_ENABLED
 _write_SCC_wave.sfxwave:
 	and		#0b11111000
 	ld		l, a
@@ -2346,7 +2345,7 @@ _write_SCC_wave.sfxwave:
 	;// MSXgl - End
 	add		hl, bc
 	jp		copy_wave_fast
-; .endif
+.endif
 
 _write_SCC_wave.normalwave:
 	ld		l, a

@@ -114,7 +114,10 @@ replay_morph_buffer:	.ds 64			; interleaved buffer with morphed waveform and mor
 replay_morph_waveform:	.ds 1 			; waveform we are morphing to.
 ;replay_envelope_shape:	.ds 1			; current envelope shape
 
-equalization_freq:		.ds 1	; vdp type for correct playback on 60hz 0=50Hx, >0=60Hz
+;// MSXgl - Start
+;// equalization_freq:		.ds 1	; vdp type for correct playback on 60hz 0=50Hx, >0=60Hz
+equalization_freq		= _g_TriloSCC_Freq
+;// MSXgl - End
 equalization_cnt:		.ds 1	; counter for correct playback on 60hz
 equalization_flag:		.ds 1	; flag indicating if only instruments need to be processed.
 
@@ -127,16 +130,16 @@ TRACK_Chan6:			.ds TRACK_REC_SIZE
 TRACK_Chan7:			.ds TRACK_REC_SIZE
 TRACK_Chan8:			.ds TRACK_REC_SIZE
 
-; .ifdef SFXPLAY_ENABLED
+.if SFXPLAY_ENABLED
 
 ;--- AY SPECIFIC
 PSG_registers:			.ds 0 
 PSG_regToneA:			.ds 2	; Tone A freq low (8bit)
-						; Tone A freq high (4bit)
+								; Tone A freq high (4bit)
 PSG_regToneB:			.ds 2	; Tone B freq low
-						; Tone B freq high
+								; Tone B freq high
 PSG_regToneC:			.ds 2	; Tone C freq low
-						; Tone C freq high
+								; Tone C freq high
 PSG_regNOISE:			.ds 1	; Noise freq (5bit)
 PSG_regMIXER:			.ds 1	;0x38	;x3f	; Mixer control (1 = off, 0 = on)
 PSG_regVOLA:			.ds 1	; Chan A volume
@@ -145,29 +148,29 @@ PSG_regVOLC:			.ds 1	; Chan C volume
 PSG_regEnvL:			.ds 1	; Volume Env Freq low (8bit)	
 PSG_regEnvH:			.ds 1	; Volume Env Freq high (4bit)
 PSG_regEnvShape:		.ds 1	; Volume Env Shape (4bit)
-replay_noise:			.ds 1 ; replayer_noise
+replay_noise:			.ds 1	; replayer_noise
 
-; .else
+.else
 
-; ;--- AY SPECIFIC
-; PSG_registers:			.ds 0 
-; PSG_regToneA:			.ds 2	; Tone A freq low (8bit)
-						; ; Tone A freq high (4bit)
-; PSG_regToneB:			.ds 2	; Tone B freq low
-						; ; Tone B freq high
-; PSG_regToneC:			.ds 2	; Tone C freq low
-						; ; Tone C freq high
-; replay_noise:
-; PSG_regNOISE:			.ds 1	; Noise freq (5bit)
-; PSG_regMIXER:			.ds 1	;0x38	;x3f	; Mixer control (1 = off, 0 = on)
-; PSG_regVOLA:			.ds 1	; Chan A volume
-; PSG_regVOLB:			.ds 1	; Chan B volume
-; PSG_regVOLC:			.ds 1	; Chan C volume
-; PSG_regEnvL:			.ds 1	; Volume Env Freq low (8bit)	
-; PSG_regEnvH:			.ds 1	; Volume Env Freq high (4bit)
-; PSG_regEnvShape:		.ds 1	; Volume Env Shape (4bit)
+;--- AY SPECIFIC
+PSG_registers:			.ds 0 
+PSG_regToneA:			.ds 2	; Tone A freq low (8bit)
+								; Tone A freq high (4bit)
+PSG_regToneB:			.ds 2	; Tone B freq low
+								; Tone B freq high
+PSG_regToneC:			.ds 2	; Tone C freq low
+								; Tone C freq high
+replay_noise:
+PSG_regNOISE:			.ds 1	; Noise freq (5bit)
+PSG_regMIXER:			.ds 1	;0x38	;x3f	; Mixer control (1 = off, 0 = on)
+PSG_regVOLA:			.ds 1	; Chan A volume
+PSG_regVOLB:			.ds 1	; Chan B volume
+PSG_regVOLC:			.ds 1	; Chan C volume
+PSG_regEnvL:			.ds 1	; Volume Env Freq low (8bit)	
+PSG_regEnvH:			.ds 1	; Volume Env Freq high (4bit)
+PSG_regEnvShape:		.ds 1	; Volume Env Shape (4bit)
 
-; .endif
+.endif
 
 
 ;--- SCC SPECIFIC
@@ -178,15 +181,15 @@ _0x9840:				.ds 32
 _0x9860:				.ds 32
 SCC_registers:			.ds 0
 SCC_regToneA:			.ds 2	; Tone A freq low (8bit)
-						; Tone A freq high (4bit)
+								; Tone A freq high (4bit)
 SCC_regToneB:			.ds 2	; Tone B freq low
-						; Tone B freq high
+								; Tone B freq high
 SCC_regToneC:			.ds 2	; Tone C freq low
-						; Tone C freq high
+								; Tone C freq high
 SCC_regToneD:			.ds 2	; Tone D freq low
-						; Tone D freq high
+								; Tone D freq high
 SCC_regToneE:			.ds 2	; Tone E freq low
-						; Tone E freq high
+								; Tone E freq high
 SCC_regVOLA:			.ds 1	; Chan A volume
 SCC_regVOLB:			.ds 1	; Chan B volume
 SCC_regVOLC:			.ds 1	; Chan C volume
