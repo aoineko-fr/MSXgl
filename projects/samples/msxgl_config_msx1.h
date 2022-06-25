@@ -258,6 +258,11 @@
 #define PT3_EXTRA					1
 #define PT3_USE_CALLBACK			0
 
+// TriloTracker options
+#define TRILO_USE_SFXPLAY			1
+#define TRILO_USE_TREMOLO			1
+#define TRILO_USE_TAIL				0
+
 //-----------------------------------------------------------------------------
 // MSXi MODULE
 //-----------------------------------------------------------------------------

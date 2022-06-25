@@ -19,10 +19,10 @@
 // MEMORY DATA
 //=============================================================================
 
-void* g_TriloSCC_ToneTable;
-void* g_TriloSFX_Bank;
-void* g_TriloSFX_WaveTable;
-u8    g_TriloSCC_Freq;
+const void* g_TriloSCC_ToneTable;
+const void* g_TriloSFX_Bank;
+const void* g_TriloSFX_WaveTable;
+u8 g_TriloSCC_Freq;
 
 //=============================================================================
 // FUNCTIONS
@@ -33,9 +33,24 @@ u8    g_TriloSCC_Freq;
 void TriloSCC_Dummy()
 {
 	__asm
+
+	#ifdef TRILO_USE_SFXPLAY
 	SFXPLAY_ENABLED		= 1 // Enable the SFX functionality.
+	#else
+	SFXPLAY_ENABLED		= 0 // Enable the SFX functionality.
+	#endif
+
+	#ifdef TRILO_USE_TREMOLO
 	TREMOLO_OFF			= 0 // Removes tremolo code making the replayer a little bit faster.
+	#else
+	TREMOLO_OFF			= 1 // Removes tremolo code making the replayer a little bit faster.
+	#endif
+
+	#ifdef TRILO_USE_TAIL
+	TAIL_ON				= 1 // Limit minimal volume to 1.
+	#else
 	TAIL_ON				= 0 // Limit minimal volume to 1.
+	#endif
 
 	.area _DATA
 	replay_ram_start::

@@ -16,10 +16,10 @@
 // DEFINES
 //=============================================================================
 
-extern void* g_TriloSCC_ToneTable;
-extern void* g_TriloSFX_Bank;
-extern void* g_TriloSFX_WaveTable;
-extern u8    g_TriloSCC_Freq;
+extern const void* g_TriloSCC_ToneTable;
+extern const void* g_TriloSFX_Bank;
+extern const void* g_TriloSFX_WaveTable;
+extern u8 g_TriloSCC_Freq;
 
 //=============================================================================
 // FUNCTIONS

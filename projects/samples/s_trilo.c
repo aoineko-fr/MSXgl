@@ -24,8 +24,6 @@ struct MusicEntry
 	const c8*   Author;
 };
 
-extern u16 PSG_A445_Konami;
-
 // Segment 4 data
 extern void sfx_wavetable;
 extern u8* g_SFX_TEST;
@@ -121,10 +119,8 @@ void main()
 	Print_DrawText("MSXgl - TRILO TRACKER SAMPLE");
 	Print_DrawLineH(0, 1, 40);
 
-	Print_SetPosition(30, 20);
-	Print_DrawText("Main-ROM");
-	Print_SetPosition(30, 21);
-	Print_DrawFormat("- Freq: %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
+	Print_SetPosition(0, 20);
+	Print_DrawFormat("Main-ROM Freq: %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
 
 	// Initialize TriloSCC
 	TriloSCC_Initialize();
@@ -139,7 +135,7 @@ void main()
 	// Footer
 	Print_DrawLineH(0, 22, 40);
 	Print_SetPosition(0, 23);
-	Print_DrawText("<>:Music");
+	Print_DrawText("<|>:Music  [Del]:Pause  [Space]:SFX");
 
 	u8 prevRow8 = 0xFF;
 	u8 count = 0;
@@ -155,11 +151,11 @@ void main()
 
 		Print_SetPosition(39, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
-		
+
 		// Handle input
 		u8 row8 = Keyboard_Read(8);
 
-		// Change button
+		// Change music
 		if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
 		{
 			if(g_CurrentMusic < numberof(g_MusicEntry) - 1)
@@ -170,11 +166,16 @@ void main()
 			if(g_CurrentMusic > 0)
 				SetMusic(g_CurrentMusic - 1);
 		}
-		// Activate button
+		// Pause/resume music
+		if(IS_KEY_PRESSED(row8, KEY_DEL) && !IS_KEY_PRESSED(prevRow8, KEY_DEL))
+		{
+			TriloSCC_Pause();
+		}
+		// Play SFX
 		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
 			TriloSFX_Play(sfx++, 0);
-			if(sfx >= TriloSFX_GetNumber())
+			if(sfx >= 2/*TriloSFX_GetNumber()*/)
 				sfx = 0;
 		}
 

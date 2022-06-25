@@ -366,6 +366,28 @@
 #endif
 
 //-----------------------------------------------------------------------------
+// TRILO MODULE
+//-----------------------------------------------------------------------------
+
+// TRILO_USE_SFXPLAY
+#ifndef TRILO_USE_SFXPLAY
+	#warning TRILO_USE_SFXPLAY is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define TRILO_USE_SFXPLAY			1
+#endif
+
+// TRILO_USE_TREMOLO
+#ifndef TRILO_USE_TREMOLO
+	#warning TRILO_USE_TREMOLO is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define TRILO_USE_TREMOLO			1
+#endif
+
+// TRILO_USE_TAIL
+#ifndef TRILO_USE_TAIL
+	#warning TRILO_USE_TAIL is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define TRILO_USE_TAIL				0
+#endif
+
+//-----------------------------------------------------------------------------
 // MISC
 //-----------------------------------------------------------------------------
 
