@@ -34,47 +34,29 @@
 .macro INIT_P1_TO_P2
 
 	crt0_p1_to_p2:
-		; Set pages #1 & #3 primary slot equal to page #1 one
-		in		a, (PPI_A)				; A=[P3|P2|P1|P0] Get primary slots info 
-		ld		d, a					; D=[P3|P2|P1|P0] Backup original primary slots info
-		and		a, #0b00001100			; A=[00|00|P1|00] Mask all pages slots but P1 
-		ld		c, a					; C=[00|00|P1|00] Backup
-		add		a, a					;                 A<<1
-		add		a, a					; A=[00|P1|00|00] A<<1
-		or		a, c					; A=[00|P1|P1|00] Merge P1 in P2
-		add		a, a					;                 A<<1
-		add		a, a					; A=[P1|P1|00|00] A<<1
-		or		a, c					; A=[P1|P1|P1|00] Merge P1 in P2 & P3
-		ld		c, a					; C=[P1|P1|P1|00] Backup
-		ld		a, d					; A=[P3|P2|P1|P0] Restore primary slots info 
-		and		a, #0b00000011			; A=[00|00|00|P0] Mask all pages slots but P0 
-		or		a, c					; A=[P1|P1|P1|P0] Merge original P0 with P1 in all other pages
-		out		(PPI_A), a				;                 Set primary slots info
-		ld		e, a					; E=[P1|P1|P1|P0] Backup new primary slots
-
-		; Set page #2 seconday slot equal to page #1 one
-		ld		a, (SLTSL)				; A=[~3|~2|~1|~0] Read secondary slots register of selected primary slot
-		cpl								; A=[S3|S2|S1|S0] Reverses the bits
-		ld		b, a					; B=[S3|S2|S1|S0] Backup secondary slot
-		and		a, #0b00001100			; A=[00|00|S1|00] Mask all pages slots but P1 
-		ld		c, a					; C=[00|00|S1|00] Backup P1
-		add		a, a					;                 P1<<1
-		add		a, a					; A=[00|S1|00|00] P1<<1
-		or		a, c					; A=[00|S1|S1|00] Merge P1 in P2
-		ld		c, a					; C=[00|S1|S1|00]
-		ld		a, b					; A=[S3|S2|S1|S0] Restore primary slots info 
-		and		a, #0b11000011			; A=[S3|00|00|S0] Mask all pages slots but P0 
-		or		a, c					; A=[S3|S1|S1|S0] Merge original S0 and S3 with S1 in other pages
-		ld		(SLTSL), a				;                 Set secondary slot info
-
-		; Restore initial page #3 primary slot
-		ld		a, d					; A=[P3|P2|P1|P0] Restore initiale primary slots
-		and		a, #0b11000011			; A=[P3|00|00|P0] Keep pages #0 and #3 slot
-		ld		c, a					; B=[P3|00|00|P0] Backup
-		ld		a, e					; A=[P1|P1|P1|P0] Restore new promary slots
-		and		a, #0b00111100			; A=[00|P1|P1|00] Keep pages #1 and #2 slot
-		or		a, c					; A=[P3|P1|P1|P0] Merge
-		out		(PPI_A), a
+		in		a, (PPI_A)				; A=[P3|P2|P1|P0] Get primary slots info
+		rrca
+		rrca							; A=[P0|P3|P2|P1]
+		and		a, #0b00000011			; A=[00|00|00|P1] Save Page 1 primary slot
+		ld		c, a					; C=[00|00|00|P1]
+		ld		hl, #EXPTBL				; HL=&EXPTBL
+		add		a, l
+		ld		l, a
+		ld		a, (hl)					; A=EXPTBL[P1]    See if the slot is expanded or not
+		and		a, #0x80				; A=[X|000|00|00]
+		jr		z, crt0_p1_to_p2.skip
+		or		a, c					; A=[X|000|00|P1] Set MSB if so
+		ld		c, a					; C=[X|000|00|P1] Save it to [C]
+		inc		l						;                 Point to primary slot's SLTTBL entry
+		inc		l
+		inc		l
+		inc		l
+		ld		a, (hl)					; A=SLTTBL[P1]    Get what is currently output to expansion slot register
+		and		a, #0b00001100			; A=[00|00|S1|00]
+	crt0_p1_to_p2.skip:
+		or		c						; A=[X|000|S1|P1] Finally form slot address
+		ld		h, #0x80				; H=Page 2
+		call	ENASLT					;                 Enable page 1's slot in page 2
 .endm
 
 ;------------------------------------------------------------------------------

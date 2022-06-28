@@ -28,9 +28,11 @@ PPI_A				= #0xA8
 VDP_S				= #0x99
 
 ;------------------------------------------------------------------------------
-; Main-ROM variables
+; Main-ROM routines & variables
+ENASLT				= #0x0024
 ROMVER				= #0x002B
 MSXVER				= #0x002D
+RSLREG				= #0x0138
 
 ;------------------------------------------------------------------------------
 ; RAM work area variables
