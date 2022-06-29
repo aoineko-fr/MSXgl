@@ -1,7 +1,7 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄       ▄       ▄▄  
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██▄▀ ▄  ██▀▄ ██▀ 
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ██   ██ ██ █ ▀█▄ 
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄       ▄       ▄▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██▄▀ ▄  ██▀▄ ██▀
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ██   ██ ██ █ ▀█▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
@@ -33,6 +33,7 @@ enum PRINT_MODE
 #if (PRINT_USE_TEXT)
 	PRINT_MODE_TEXT			= 4,	//< Draw characters as pattern names (text mode)
 #endif
+	PRINT_MODE_MAX,
 };
 
 // Handle fixed of variables character width

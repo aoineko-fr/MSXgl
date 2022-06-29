@@ -12,7 +12,7 @@
 // Library version
 #define VERSION_MAJOR			(u16)0		// 4-bits (0-15)
 #define VERSION_MINOR			(u16)4		// 6-bits (0-63)
-#define VERSION_PATCH			(u16)2		// 6-bits (0-63)
+#define VERSION_PATCH			(u16)3		// 6-bits (0-63)
 #define VERSION(a, b, c)		((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT			VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)		
 
@@ -64,7 +64,7 @@ typedef float				f32;	// 32 bits float type (IEEE 754)
 	
 // Character	
 typedef unsigned char		c8;		// 8 bits character type
-typedef unsigned short		c16;	// 16 bits character type
+typedef unsigned short		c16;	// 16 bits character type (UTF-16, JIS, etc.)
 	
 // Pointer	
 typedef void*				ptr;	// Pointer type
