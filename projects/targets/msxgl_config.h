@@ -85,12 +85,12 @@
 #define VDP_USE_SPRITE				1	// Use sprite handling functions
 #define VDP_USE_COMMAND				1	// Use VDP commands wrapper functions
 #define VDP_AUTO_INIT				1	// Call VDP_Initialize() at the first call to VDP_SetMode()
-#define VDP_USE_UNDOCUMENTED		1
-#define VDP_USE_VALIDATOR			1
-#define VDP_USE_DEFAULT_PALETTE		0
-#define VDP_USE_MSX1_PALETTE		0
-#define VDP_USE_DEFAULT_SETTINGS	1
-#define VDP_USE_16X16_SPRITE		1
+#define VDP_USE_UNDOCUMENTED		1	// Allow the use of undocumented screen mode (WIP)
+#define VDP_USE_VALIDATOR			1	// Let the engine fix some invalid input (highly recommended)
+#define VDP_USE_DEFAULT_PALETTE		0	// Add data for default MSX 2 palette
+#define VDP_USE_MSX1_PALETTE		0	// Add data for default MSX 1 palette
+#define VDP_USE_DEFAULT_SETTINGS	1	// Auto-initialization of common VDP feature
+#define VDP_USE_16X16_SPRITE		1	// Use 16x16 sprites mode
 
 // Initial screen mode setting
 // - VDP_INIT_OFF ................. Force option to be disable
