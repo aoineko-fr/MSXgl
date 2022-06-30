@@ -1,5 +1,5 @@
 ; ____________________________
-; ██▀███▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄       ▄▄   ▄▄ 
+; ██▀███▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄       ▄▄   ▄▄
 ; ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ ▀ ██▄▀ ██▀ █ ██
 ; █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▄▀ ██   ▀█▄ ▀▄█▀
 ; ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
@@ -26,9 +26,10 @@
 ; I/O ports
 PPI_A				= #0xA8
 VDP_S				= #0x99
+VDP_A				= #0x99
 
 ;------------------------------------------------------------------------------
-; Main-ROM routines & variables
+; Main-ROM routines
 ENASLT				= #0x0024
 ROMVER				= #0x002B
 MSXVER				= #0x002D
@@ -55,3 +56,4 @@ ROM_MAPPER			= ROM_PLAIN
 ROM_BDOS			= 0				; Install BDOS
 ROM_BCALL			= 0				; Add banked call trampoline
 ROM_RAMISR			= 0				; Install ISR in RAM
+ROM_ISR_HBLANK		= 0				; Use ISR with H-Blank support

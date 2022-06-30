@@ -78,6 +78,19 @@ struct VDP_Command
 	u8  ARG; // 45
 	u8  CMD; // 46
 };
+#define VDP_Command32 VDP_Command
+
+// Structure used to store register data for VDP command
+struct VDP_Command36
+{
+	u16 DX;  // 36-37
+	u16 DY;  // 38-39
+	u16 NX;  // 40-41
+	u16 NY;  // 42-43
+	u8  CLR; // 44
+	u8  ARG; // 45
+	u8  CMD; // 46
+};
 
 // Structure to store a sprite attribute. see function <VDP_SetSprite>
 struct VDP_Sprite
@@ -95,16 +108,17 @@ struct VDP_Sprite
 // EXTERNALS
 //-----------------------------------------------------------------------------
 
-extern u8 g_VDP_REGSAV[28];
 
-extern struct VDP_Data    g_VDP_Data;
+extern u8                 g_VDP_REGSAV[28]; // VDP register backup buffer
+
+extern struct VDP_Data    g_VDP_Data; // VDP configuration structure
 
 #if (VDP_USE_COMMAND)
-extern struct VDP_Command g_VDP_Command;
+extern struct VDP_Command g_VDP_Command; // VDP command buffer structure
 #endif
 
 #if (VDP_USE_SPRITE)
-extern struct VDP_Sprite  g_VDP_Sprite;
+extern struct VDP_Sprite  g_VDP_Sprite; // Sprite data buffer
 #endif
 
 extern u16 g_ScreenLayoutLow;		// Address of the Pattern Layout Table (Name)

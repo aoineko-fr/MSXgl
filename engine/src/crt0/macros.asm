@@ -43,8 +43,7 @@
 		add		a, l
 		ld		l, a
 		ld		a, (hl)					; A=EXPTBL[P1]    See if the slot is expanded or not
-		and		a, #0x80				; A=[X|000|00|00]
-		jr		z, crt0_p1_to_p2.skip
+		and		a, #0x80				; A=[X|000|00|00] Keep only expansion flag
 		or		a, c					; A=[X|000|00|P1] Set MSB if so
 		ld		c, a					; C=[X|000|00|P1] Save it to [C]
 		inc		l						;                 Point to primary slot's SLTTBL entry
@@ -53,7 +52,6 @@
 		inc		l
 		ld		a, (hl)					; A=SLTTBL[P1]    Get what is currently output to expansion slot register
 		and		a, #0b00001100			; A=[00|00|S1|00]
-	crt0_p1_to_p2.skip:
 		or		c						; A=[X|000|S1|P1] Finally form slot address
 		ld		h, #0x80				; H=Page 2
 		call	ENASLT					;                 Enable page 1's slot in page 2
@@ -217,12 +215,8 @@
 ;------------------------------------------------------------------------------
 .macro ISR_HBLANK
 	crt0_interrupt_start::
-		; Skip interruptions that do not come from the VDP.
-		push	af
-		in		a, (VDP_S)
-		rlca
-		jr		nc, crt0_interrupt_skip
 		; Backup registers
+		push	af
 		push	hl
 		push	de
 		push	bc
@@ -234,8 +228,30 @@
 		push	bc
 		push	iy
 		push	ix
-		; Call VDP interruption handler
-		call	_VDP_InterruptHandler
+
+		; Check V-Blank
+		in		a, (VDP_S)					; Get S#0 value
+		rlca
+		jr		nc, crt0_isr_no_vblank
+		call	_VDP_InterruptHandler 		; Call VDP interruption handler
+	crt0_isr_no_vblank:
+
+		; Check H-Blank
+		ld		a, #1
+		out		(VDP_A), a
+		ld		a, #(0x80 + 15)
+		out		(VDP_A), a
+		in		a, (VDP_S)
+		rrca								;  Call H-Blank if bit #0 of S#1 is set 
+		jp		nc, crt0_isr_no_hblank
+		call	_VDP_HBlankHandler			; call to C function HBlankHook() 
+	crt0_isr_no_hblank:
+		; Reset R#15 to S#0
+		xor		a
+		out		(VDP_A), a
+		ld		a, #(0x80 + 15)
+		out		(VDP_A),a
+
 		; Restore registers
 		pop		ix
 		pop		iy
@@ -248,8 +264,6 @@
 		pop		bc
 		pop		de
 		pop		hl
-		; Restore registers
-	crt0_interrupt_skip:
 		pop		af
 		ei
 		ret
@@ -262,13 +276,19 @@
 ;------------------------------------------------------------------------------
 .macro INSTALL_RAM_ISR
 	.if ROM_RAMISR
-		.globl	_VDP_InterruptHandler
 
 		di
 		jp		crt0_interrupt_end
 
 	; ISR
-		ISR_VBLANK
+		.if ROM_ISR_HBLANK
+			.globl	_VDP_InterruptHandler
+			.globl	_VDP_HBlankHandler
+			ISR_HBLANK
+		.else
+			.globl	_VDP_InterruptHandler
+			ISR_VBLANK
+		.endif
 
 	; Switch page 0 to RAM
 		INIT_P3_TO_P0
@@ -278,7 +298,7 @@
 		ld		hl, #crt0_interrupt_start
 		ld		de, #0x0038
 		ldir
-		
+
 		ei
 
 	.endif

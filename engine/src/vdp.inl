@@ -273,3 +273,21 @@ inline void VDP_CommandSTOP()
 {
 	VDP_RegWrite(46, VDP_CMD_STOP);
 }
+
+//-----------------------------------------------------------------------------
+// Function: VDP_CommandCustomR32
+// Set a command from a given buffer starting mapped from VDP register R32 (15 bytes buffer)
+/*inline void VDP_CommandCustomR32(struct VDP_Command* data)
+{
+    Mem_Copy((u8*)data, (u8*)g_VDP_Command, 15);
+    VPD_CommandSetupR32();
+}*/
+
+//-----------------------------------------------------------------------------
+// Function: VDP_CommandCustomR36
+// Set a command from a given buffer starting mapped from VDP register R36 (11 bytes buffer)
+/*inline void VDP_CommandCustomR36(struct VDP_Command36* data)
+{
+    Mem_Copy((u8*)data, (u8*)g_VDP_Command+4, 11);
+    VPD_CommandSetupR36();
+}*/
