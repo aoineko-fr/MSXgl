@@ -56,4 +56,4 @@ ROM_MAPPER			= ROM_PLAIN
 ROM_BDOS			= 0				; Install BDOS
 ROM_BCALL			= 0				; Add banked call trampoline
 ROM_RAMISR			= 0				; Install ISR in RAM
-ROM_ISR_HBLANK		= 0				; Use ISR with H-Blank support
+ROM_HBLANK			= 0				; Use ISR with H-Blank support

@@ -281,7 +281,7 @@
 		jp		crt0_interrupt_end
 
 	; ISR
-		.if ROM_ISR_HBLANK
+		.if ROM_HBLANK
 			.globl	_VDP_InterruptHandler
 			.globl	_VDP_HBlankHandler
 			ISR_HBLANK

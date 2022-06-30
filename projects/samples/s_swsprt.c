@@ -90,25 +90,6 @@ const u8 chrAnim[] = { '|', '\\', '-', '/' };
 // HELPER FUNCTIONS
 //=============================================================================
 
-// const c8* GetOpName(u8 op)
-// {
-	// u8 val = GET_OP(op);
-	// switch(val)
-	// {
-		// case VDP_OP_IMP:	return "IMP";	
-		// case VDP_OP_AND:	return "AND";	
-		// case VDP_OP_OR:		return "OR";	
-		// case VDP_OP_XOR:	return "XOR";	
-		// case VDP_OP_NOT:	return "NOT";	
-		// case VDP_OP_TIMP:	return "TIMP";	
-		// case VDP_OP_TAND:	return "TAND";	
-		// case VDP_OP_TOR:	return "TOR";	
-		// case VDP_OP_TXOR:	return "TXOR";	
-		// case VDP_OP_TNOT:	return "TNOT";	
-	// }
-	// return "???";
-// }
-
 //-----------------------------------------------------------------------------
 //
 void BackupBackground()
@@ -140,12 +121,15 @@ void InitScreen()
 	u8 scale = 8 / src->BPC;
 	u8 pixelWidth = src->Width / 256;
 	u8 sprtWidth = pixelWidth * 16;
-	
+
 	// Initialize VDP	
 	VDP_SetMode(src->Mode);
 	VDP_SetColor(src->Background);
 	VDP_EnableSprite(FALSE);
-	
+
+	// VDP_EnableHBlank(TRUE);
+	// VDP_SetHBlankLine(212/2);
+
 	//-------------------------------------------------------------------------
 	// Initialize background
 	if(src->BPC == 2)
@@ -180,17 +164,17 @@ void InitScreen()
 	{
 		VDP_CommandLMMC(src->DataLMMC + i * (16 * 16 * pixelWidth), i * sprtWidth, HEIGHT, sprtWidth, 16, VDP_OP_TIMP);
 	}
-	
+
 	//-------------------------------------------------------------------------
 	// Initialize font
 	Print_SetBitmapFont(src->Font);
 	Print_SetColor(src->Text, src->Background);
-	
+
 	// Display header
 	Print_SetPosition(0, 2);
 	Print_DrawText(src->Name);
 	Draw_LineH(0, src->Width - 1, 12, src->Text, 0);
-	
+
 	// Display footer
 	Print_SetPosition(0, 204);
 	Print_DrawText("\x81\x82\x80:Move \x83:Change mode");
@@ -221,7 +205,14 @@ void DisplaySprite()
 }
 
 //-----------------------------------------------------------------------------
-// H_TIMI interrupt hook
+// HBlank interrupt
+void VDP_HBlankHandler()
+{
+	// VDP_SetColor(g_Frame);
+}
+
+//-----------------------------------------------------------------------------
+// VBlank interrupt
 void VDP_InterruptHandler()
 {
 	g_VBlank = 1;
@@ -234,6 +225,7 @@ void WaitVBlank()
 	while(g_VBlank == 0) {}
 	g_VBlank = 0;
 	g_Frame++;
+	// VDP_SetColor(0);
 }
 
 //=============================================================================
@@ -273,8 +265,7 @@ void main()
 		g_LMMC2b_2[2*i+1] = c & 0x03;
 	}
 
-	// Init	
-	// Bios_SetHookCallback(H_TIMI, VBlankHook);
+	// Init
 	g_SrcModeIndex = 3;
 
 	SX = 64;
@@ -337,7 +328,4 @@ void main()
 		if(Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;
 	}
-
-	// Bios_ClearHook(H_TIMI);
-	// Bios_Exit(0);
 }
