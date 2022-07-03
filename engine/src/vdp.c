@@ -612,7 +612,7 @@ void VDP_Poke_16K(u8 val, u16 dest)
 	ei				\
 	outi
 
-// Fast incremental write to VDP register with backup to RAM
+// Fast incremental write to VDP register with backup to RAM.
 #define ASM_REG_WRITE_INC_BK(_addr, _reg, _count)	\
 	__asm											\
 		ld		hl, #(_##_addr)						\
@@ -622,7 +622,7 @@ void VDP_Poke_16K(u8 val, u16 dest)
 	__endasm;										\
 	ASM_REG_WRITE_INC(_addr, _reg, _count)
 
-// Fast incremental write to VDP register
+// Fast incremental write to VDP register. Address in a label.
 #define ASM_REG_WRITE_INC(_addr, _reg, _count)		\
 	__asm											\
 		ld		a, #(_reg)							\
@@ -632,6 +632,20 @@ void VDP_Poke_16K(u8 val, u16 dest)
 		ei											\
 		out		(P_VDP_ADDR), a						\
 		ld		hl, #(_##_addr)						\
+		ld		c, #P_VDP_IREG						\
+		di											\
+		OUTI(_count) ; 'ei' included				\
+	__endasm
+
+// Fast incremental write to VDP register. Address in HL register.
+#define ASM_REG_WRITE_INC_HL(_reg, _count)			\
+	__asm											\
+		ld		a, #(_reg)							\
+		di											\
+		out		(P_VDP_ADDR), a						\
+		ld		a, #VDP_REG(17)						\
+		ei											\
+		out		(P_VDP_ADDR), a						\
 		ld		c, #P_VDP_IREG						\
 		di											\
 		OUTI(_count) ; 'ei' included				\
@@ -1232,6 +1246,28 @@ void VPD_CommandWriteLoop(const u8* addr) __FASTCALL
 }
 
 #endif // ((VDP_USE_COMMAND) && (MSX_VERSION >= MSX_2))
+
+#if ((MSX_VERSION >= MSX_2) && (VDP_USE_CUSTOM_CMD))
+
+//-----------------------------------------------------------------------------
+// Send VDP custom command through buffer (form registres 32 to 46). [MSX2/2+/TR]
+void VDP_CommandCustomR32(const struct VDP_Command* data)
+{
+	data; // HL
+	VDP_CommandWait(); // don't modify HL
+	ASM_REG_WRITE_INC_HL(32, 15);
+}
+
+//-----------------------------------------------------------------------------
+// Send VDP custom command through buffer (form registres 36 to 46). [MSX2/2+/TR]
+void VDP_CommandCustomR36(const struct VDP_Command36* data)
+{
+	data; // HL
+	VDP_CommandWait(); // don't modify HL
+	ASM_REG_WRITE_INC_HL(36, 11);
+}
+
+#endif
 
 //=============================================================================
 //

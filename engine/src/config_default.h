@@ -94,6 +94,12 @@
 	#define VDP_USE_COMMAND				1
 #endif
 
+// VDP_USE_CUSTOM_CMD
+#ifndef VDP_USE_CUSTOM_CMD
+	#warning VDP_USE_CUSTOM_CMD is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define VDP_USE_CUSTOM_CMD			0
+#endif
+
 // VDP_AUTO_INIT
 #ifndef VDP_AUTO_INIT
 	#warning VDP_AUTO_INIT is not defined in "msxgl_config.h"! Default value will be used: 1

@@ -181,7 +181,7 @@ void main()
 	Print_SetPosition(0, 0);
 	Print_DrawText(MSX_GL " ARKOS SAMPLE");
 	Print_DrawLineH(0, 1, 40);
-	
+
 	Print_SetPosition(0, 3);
 	Print_DrawText("Player: ");
 	for(u8 i = 0; i < numberof(g_PlayerEntry) ; i++)
@@ -218,7 +218,7 @@ void main()
 			g_CurrentPlayer->Decode();
 			VDP_SetColor(0xF4);
 		}
-		
+
 		Print_SetPosition(39, 0);
 		u8 chr = count++ & 0x03;
 		Print_DrawChar(g_ChrAnim[chr]);

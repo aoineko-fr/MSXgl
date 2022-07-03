@@ -1146,11 +1146,15 @@ void VDP_FillLayout_GM2(u8 value, u8 dx, u8 dy, u8 nx, u8 ny);
 // Group: Command
 // VDP commands wrapper functions
 //-----------------------------------------------------------------------------
-#if ((MSX_VERSION >= MSX_2) && (VDP_USE_COMMAND))
+#if ((MSX_VERSION >= MSX_2) && ((VDP_USE_COMMAND) || (VDP_USE_CUSTOM_CMD)))
 
 // Function: VDP_CommandWait
 // Wait for previous VDP command to be finished. [MSX2/2+/TR]
 void VDP_CommandWait();
+
+#endif
+
+#if ((MSX_VERSION >= MSX_2) && (VDP_USE_COMMAND))
 
 // Function: VPD_CommandSetupR32
 // Send VDP command (form registres 32 to 46). [MSX2/2+/TR]
@@ -1211,3 +1215,15 @@ void VPD_CommandReadLoop(u8* addr) __FASTCALL;
 #define VDP_AbortCommand			VDP_CommandSTOP		// Abort current command
 
 #endif // ((MSX_VERSION >= MSX_2) && (VDP_USE_COMMAND))
+
+#if ((MSX_VERSION >= MSX_2) && (VDP_USE_CUSTOM_CMD))
+
+// Function: VDP_CommandCustomR32
+// Send VDP custom command through buffer (form registres 32 to 46). [MSX2/2+/TR]
+void VDP_CommandCustomR32(const struct VDP_Command* data);
+
+// Function: VDP_CommandCustomR36
+// Send VDP custom command through buffer (form registres 36 to 46). [MSX2/2+/TR]
+void VDP_CommandCustomR36(const struct VDP_Command36* data);
+
+#endif

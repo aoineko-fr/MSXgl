@@ -84,6 +84,7 @@
 #define VDP_USE_VRAM16K				1	// Use 16K VRAM access functions on MSX2
 #define VDP_USE_SPRITE				1	// Use sprite handling functions
 #define VDP_USE_COMMAND				1	// Use VDP commands wrapper functions
+#define VDP_USE_CUSTOM_CMD			0	// Use custom VDP commands through data buffer
 #define VDP_AUTO_INIT				1	// Call VDP_Initialize() at the first call to VDP_SetMode()
 #define VDP_USE_UNDOCUMENTED		1	// Allow the use of undocumented screen mode (WIP)
 #define VDP_USE_VALIDATOR			1	// Let the engine fix some invalid input (highly recommended)
