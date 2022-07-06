@@ -8,6 +8,9 @@
 #pragma once
 #include "core.h"
 
+#define MEM_USE_VALIDATOR		0
+#define MEM_USE_FASTCOPY		1
+
 // Function: Mem_GetStackAddress
 // Get the current address of the stack top (lower address)
 u16 Mem_GetStackAddress();
@@ -42,6 +45,17 @@ void Mem_HeapFree(u16 size);
 //   dst - Destination address
 //   size - The size of data to copy
 void Mem_Copy(const void* src, void* dest, u16 size);
+
+#if (MEM_USE_FASTCOPY)
+// Function: Mem_FastCopy
+// Fast copy a memory block from a source address to a destination
+//
+// Parameters:
+//   src - Source address
+//   dst - Destination address
+//   size - The size of data to copy
+void Mem_FastCopy(const void* src, void* dest, u16 size);
+#endif
 
 // Function: Mem_Set
 // Fill a memory block with a given value

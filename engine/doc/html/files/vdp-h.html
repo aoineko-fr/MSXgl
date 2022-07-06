@@ -587,10 +587,22 @@
  <div class="CBody"><p>Write to VRAM command loop. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of the source buffer</p></td></tr></table></div>
 </div>
 
-<a name="VPD_CommandReadLoop"></a><a name="Topic195"></a><div class="CTopic TFunction LC last">
+<a name="VPD_CommandReadLoop"></a><a name="Topic195"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VPD_CommandReadLoop</div>
  <div id="NDPrototype195" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VPD_CommandReadLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
  <div class="CBody"><p>Read to VRAM command loop. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Address of the destination buffer (in RAM)</p></td></tr></table></div>
+</div>
+
+<a name="VDP_CommandCustomR32"></a><a name="Topic574"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_CommandCustomR32</div>
+ <div id="NDPrototype574" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_CommandCustomR32(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const struct</span>&nbsp;</td><td class="PType">VDP_Command*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Send VDP custom command through buffer (form registres 32 to 46). [MSX2/2+/TR]</p></div>
+</div>
+
+<a name="VDP_CommandCustomR36"></a><a name="Topic575"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">VDP_CommandCustomR36</div>
+ <div id="NDPrototype575" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_CommandCustomR36(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const struct</span>&nbsp;</td><td class="PType">VDP_Command36*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Send VDP custom command through buffer (form registres 36 to 46). [MSX2/2+/TR]</p></div>
 </div>
 
 </body></html>
