@@ -12,52 +12,58 @@
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="Mem_GetStackAddress"></a><a name="Topic342"></a><div class="CTopic TFunction LC">
+<a name="Mem_GetStackAddress"></a><a name="Topic577"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_GetStackAddress</div>
- <div id="NDPrototype342" class="NDPrototype"><div class="PSection PPlainSection">u16 Mem_GetStackAddress()</div></div>
- <div class="CBody"><p>Get the current address of the stack top (lower address)</p></div>
+ <div id="NDPrototype577" class="NDPrototype"><div class="PSection PPlainSection">u16 Mem_GetStackAddress()</div></div>
+ <div class="CBody"><p>Get the current address of the stack top (lower address).</p></div>
 </div>
 
-<a name="Mem_GetHeapAddress"></a><a name="Topic343"></a><div class="CTopic TFunction LC">
+<a name="Mem_GetHeapAddress"></a><a name="Topic578"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_GetHeapAddress</div>
- <div id="NDPrototype343" class="NDPrototype"><div class="PSection PPlainSection">u16 Mem_GetHeapAddress()</div></div>
- <div class="CBody"><p>Get the current address of the heap top (higher addresse)</p></div>
+ <div id="NDPrototype578" class="NDPrototype"><div class="PSection PPlainSection">u16 Mem_GetHeapAddress()</div></div>
+ <div class="CBody"><p>Get the current address of the heap top (higher addresse).</p></div>
 </div>
 
-<a name="Mem_GetHeapSize"></a><a name="Topic344"></a><div class="CTopic TFunction LC">
+<a name="Mem_GetHeapSize"></a><a name="Topic579"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_GetHeapSize</div>
- <div id="NDPrototype344" class="NDPrototype"><div class="PSection PPlainSection">u16 Mem_GetHeapSize()</div></div>
- <div class="CBody"><p>Get the amount of free space in the heap</p></div>
+ <div id="NDPrototype579" class="NDPrototype"><div class="PSection PPlainSection">u16 Mem_GetHeapSize()</div></div>
+ <div class="CBody"><p>Get the amount of free space in the heap.</p></div>
 </div>
 
-<a name="Mem_HeapAlloc"></a><a name="Topic345"></a><div class="CTopic TFunction LC">
+<a name="Mem_HeapAlloc"></a><a name="Topic580"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_HeapAlloc</div>
- <div id="NDPrototype345" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span>* Mem_HeapAlloc(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Alloc a part of the heap</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to allocate</p></td></tr></table></div>
+ <div id="NDPrototype580" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span>* Mem_HeapAlloc(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Alloc a part of the heap.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to allocate</p></td></tr></table></div>
 </div>
 
-<a name="Mem_HeapFree"></a><a name="Topic346"></a><div class="CTopic TFunction LC">
+<a name="Mem_HeapFree"></a><a name="Topic581"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_HeapFree</div>
- <div id="NDPrototype346" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_HeapFree(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Free the last allocated area of the heap</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to allocate</p></td></tr></table></div>
+ <div id="NDPrototype581" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_HeapFree(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Free the last allocated area of the heap.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to allocate</p></td></tr></table></div>
 </div>
 
-<a name="Mem_Copy"></a><a name="Topic347"></a><div class="CTopic TFunction LC">
+<a name="Mem_Copy"></a><a name="Topic582"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_Copy</div>
- <div id="NDPrototype347" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_Copy(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Copy a memory block from a source address to an other</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">src<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Source address</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to copy</p></td></tr></table></div>
+ <div id="NDPrototype582" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_Copy(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Copy a memory block from a source address to an other (minimal size of 1 byte).</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">src<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Source address</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to copy</p></td></tr></table></div>
 </div>
 
-<a name="Mem_FastCopy"></a><a name="Topic576"></a><div class="CTopic TFunction LC">
+<a name="Mem_FastCopy"></a><a name="Topic583"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_FastCopy</div>
- <div id="NDPrototype576" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_FastCopy(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Fast copy a memory block from a source address to a destination</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">src<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Source address</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to copy</p></td></tr></table></div>
+ <div id="NDPrototype583" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_FastCopy(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Fast copy a memory block from a source address to a destination.&nbsp; Use 16 unrolled-LDI loop.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">src<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Source address</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to copy</p></td></tr></table></div>
 </div>
 
-<a name="Mem_Set"></a><a name="Topic348"></a><div class="CTopic TFunction LC last">
+<a name="Mem_Set"></a><a name="Topic584"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_Set</div>
- <div id="NDPrototype348" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_Set(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Fill a memory block with a given value</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to fill</p></td></tr></table></div>
+ <div id="NDPrototype584" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_Set(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Fill a memory block with a given value (minimal size of 2 bytes).</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to fill</p></td></tr></table></div>
+</div>
+
+<a name="Mem_FastSet"></a><a name="Topic585"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">Mem_FastSet</div>
+ <div id="NDPrototype585" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_FastSet(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Fast fill a memory block with a given value (minimal size of 2 bytes).&nbsp; Use 16 unrolled-LDI loop.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to fill</p></td></tr></table></div>
 </div>
 
 </body></html>

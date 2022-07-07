@@ -109,9 +109,17 @@
 #define INPUT_USE_KEYBOARD			1
 #define INPUT_USE_MANAGER			0
 // Key update handler
-#define INPUT_KB_UPDATE				0 // Add function to update all keyboard rows at once
-#define INPUT_KB_UPDATE_MIN			0 // First row to update
-#define INPUT_KB_UPDATE_MAX			8 // Last row to update (10 for numerical-pad, 8 otherwise)
+#define INPUT_KB_UPDATE				0	// Add function to update all keyboard rows at once
+#define INPUT_KB_UPDATE_MIN			0	// First row to update
+#define INPUT_KB_UPDATE_MAX			8	// Last row to update (10 for numerical-pad, 8 otherwise)
+
+//-----------------------------------------------------------------------------
+// MEMORY MODULE
+//-----------------------------------------------------------------------------
+
+#define MEM_USE_VALIDATOR			0	// Activate validator to handle invalide input value
+#define MEM_USE_FASTCOPY			0	// Add support for fast-copy function (using unrolled-LDI loop)
+#define MEM_USE_FASTSET				0	// Add support for fast-set function (using unrolled-LDI loop)
 
 //-----------------------------------------------------------------------------
 // DRAW MODULE
