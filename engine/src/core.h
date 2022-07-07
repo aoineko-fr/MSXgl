@@ -12,7 +12,7 @@
 // Library version
 #define VERSION_MAJOR			(u16)0		// 4-bits (0-15)
 #define VERSION_MINOR			(u16)4		// 6-bits (0-63)
-#define VERSION_PATCH			(u16)1		// 6-bits (0-63)
+#define VERSION_PATCH			(u16)2		// 6-bits (0-63)
 #define VERSION(a, b, c)		((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT			VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)		
 
@@ -110,8 +110,10 @@ typedef void (*callback)(void);		// Callback default signature
 #define FC8816(a, b, c)		(u32)(((u32)(a) << 24) + ((u32)(b) << 16) + (c))					// D, E, HL
 #define FC8888(a, b, c, d)	(u32)(((u32)(a) << 24) + ((u32)(b) << 16) + ((u16)(c) << 8) + (d))	// D, E, H, L
 
+#define __CALLEE			__z88dk_callee
+
 //-----------------------------------------------------------------------------
-// SDCCCall 0 (__sdcccall(0))
+// SDCCCall (__sdcccall(x))
 //-----------------------------------------------------------------------------
 #define __SDCCCALL0			__sdcccall(0)
 #define __SDCCCALL1			__sdcccall(1)
