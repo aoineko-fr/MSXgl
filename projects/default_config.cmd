@@ -102,8 +102,8 @@ set DiskFiles=
 :: MAKE SETTINGS
 ::*******************************************************************************
 
-:: Use static MSXgl library (0=false, 1=true)
-set BuildLibrary=0
+:: Generate MSXgl library (0=false, 1=true)
+set BuildLibrary=1
 :: Set debug flag (0=false, 1=true)
 set Debug=0
 :: Assembler code optimizer
@@ -122,6 +122,8 @@ set CompileOpt=
 set CompileSkipOld=0
 :: Compile verbose mode (0=false, 1=true)
 set Verbose=0
+:: Additionnal link flag
+set LinkOpt=
 
 ::*******************************************************************************
 :: EMULATOR SETINGS

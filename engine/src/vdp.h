@@ -60,8 +60,8 @@
 struct VDP_Data
 {
 	u8  Mode;		// Current screen mode (see <VDP_MODE>)
-	u8  BPC : 4;	// Bits per color of the current mode (can be 1, 2, 4 or 8)
-	u8  Width : 1;	// Width of the current screen (0: 256 px, 1: 512 px)
+	u8  BPC    : 4;	// Bits per color of the current mode (can be 1, 2, 4 or 8)
+	u8  Width  : 1;	// Width of the current screen (0: 256 px, 1: 512 px)
 	u8  Height : 1;	// Height of the current screen (0: 192 px, 1: 212 px)
 };
 
@@ -486,7 +486,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0);
 //   value	- Byte value to copy in VRAM
 //   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
 //   count	- Number of byte to copy in VRAM
-void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __sdcccall(0);
+void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count);
 
 // Function: VDP_ReadVRAM_16K
 // Read data from VRAM to RAM. [MSX1/2/2+/TR]

@@ -78,32 +78,32 @@
 
 // VDP_USE_VRAM16K
 #ifndef VDP_USE_VRAM16K
-	#warning VDP_USE_VRAM16K is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define VDP_USE_VRAM16K				1
+	#warning VDP_USE_VRAM16K is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define VDP_USE_VRAM16K				TRUE
 #endif
 
 // VDP_USE_SPRITE
 #ifndef VDP_USE_SPRITE
-	#warning VDP_USE_SPRITE is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define VDP_USE_SPRITE				1
+	#warning VDP_USE_SPRITE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define VDP_USE_SPRITE				TRUE
 #endif
 
 // VDP_USE_COMMAND
 #ifndef VDP_USE_COMMAND
-	#warning VDP_USE_COMMAND is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define VDP_USE_COMMAND				1
+	#warning VDP_USE_COMMAND is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define VDP_USE_COMMAND				TRUE
 #endif
 
 // VDP_USE_CUSTOM_CMD
 #ifndef VDP_USE_CUSTOM_CMD
-	#warning VDP_USE_CUSTOM_CMD is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define VDP_USE_CUSTOM_CMD			0
+	#warning VDP_USE_CUSTOM_CMD is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define VDP_USE_CUSTOM_CMD			FALSE
 #endif
 
 // VDP_AUTO_INIT
 #ifndef VDP_AUTO_INIT
-	#warning VDP_AUTO_INIT is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define VDP_AUTO_INIT				1
+	#warning VDP_AUTO_INIT is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define VDP_AUTO_INIT				TRUE
 #endif
 
 // VDP_INIT_50HZ
@@ -114,38 +114,38 @@
 
 // VDP_USE_UNDOCUMENTED
 #ifndef VDP_USE_UNDOCUMENTED
-	#warning VDP_USE_UNDOCUMENTED is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define VDP_USE_UNDOCUMENTED		1
+	#warning VDP_USE_UNDOCUMENTED is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define VDP_USE_UNDOCUMENTED		TRUE
 #endif
 
 // VDP_USE_VALIDATOR
 #ifndef VDP_USE_VALIDATOR
-	#warning VDP_USE_VALIDATOR is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define VDP_USE_VALIDATOR			1
+	#warning VDP_USE_VALIDATOR is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define VDP_USE_VALIDATOR			TRUE
 #endif
 
 // VDP_USE_DEFAULT_PALETTE
 #ifndef VDP_USE_DEFAULT_PALETTE
-	#warning VDP_USE_DEFAULT_PALETTE is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define VDP_USE_DEFAULT_PALETTE		0
+	#warning VDP_USE_DEFAULT_PALETTE is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define VDP_USE_DEFAULT_PALETTE		FALSE
 #endif
 
 // VDP_USE_MSX1_PALETTE
 #ifndef VDP_USE_MSX1_PALETTE
-	#warning VDP_USE_MSX1_PALETTE is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define VDP_USE_MSX1_PALETTE		0
+	#warning VDP_USE_MSX1_PALETTE is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define VDP_USE_MSX1_PALETTE		FALSE
 #endif
 
 // VDP_USE_DEFAULT_SETTINGS
 #ifndef VDP_USE_DEFAULT_SETTINGS
-	#warning VDP_USE_DEFAULT_SETTINGS is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define VDP_USE_DEFAULT_SETTINGS	1
+	#warning VDP_USE_DEFAULT_SETTINGS is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define VDP_USE_DEFAULT_SETTINGS	TRUE
 #endif
 
 // VDP_USE_16X16_SPRITE
 #ifndef VDP_USE_16X16_SPRITE
-	#warning VDP_USE_16X16_SPRITE is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define VDP_USE_16X16_SPRITE		1
+	#warning VDP_USE_16X16_SPRITE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define VDP_USE_16X16_SPRITE		TRUE
 #endif
 
 //-----------------------------------------------------------------------------
@@ -154,20 +154,20 @@
 
 // MEM_USE_VALIDATOR
 #ifndef MEM_USE_VALIDATOR
-	#warning MEM_USE_VALIDATOR is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define MEM_USE_VALIDATOR		0
+	#warning MEM_USE_VALIDATOR is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define MEM_USE_VALIDATOR		FALSE
 #endif
 
 // MEM_USE_FASTCOPY
 #ifndef MEM_USE_FASTCOPY
-	#warning MEM_USE_FASTCOPY is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define MEM_USE_FASTCOPY		0
+	#warning MEM_USE_FASTCOPY is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define MEM_USE_FASTCOPY		FALSE
 #endif
 
 // MEM_USE_FASTSET
 #ifndef MEM_USE_FASTSET
-	#warning MEM_USE_FASTSET is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define MEM_USE_FASTSET			0
+	#warning MEM_USE_FASTSET is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define MEM_USE_FASTSET			FALSE
 #endif
 
 //-----------------------------------------------------------------------------
@@ -180,33 +180,33 @@
 
 // PRINT_USE_VALIDATOR
 #ifndef PRINT_USE_VALIDATOR
-	#warning PRINT_USE_VALIDATOR is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define PRINT_USE_VALIDATOR			0
+	#warning PRINT_USE_VALIDATOR is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PRINT_USE_VALIDATOR			FALSE
 #endif
 // PRINT_USE_VRAM
 #ifndef PRINT_USE_VRAM
-	#warning PRINT_USE_VRAM is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define PRINT_USE_VRAM				0
+	#warning PRINT_USE_VRAM is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PRINT_USE_VRAM				FALSE
 #endif
 // PRINT_USE_SPRITE
 #ifndef PRINT_USE_SPRITE
-	#warning PRINT_USE_SPRITE is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define PRINT_USE_SPRITE			0
+	#warning PRINT_USE_SPRITE is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PRINT_USE_SPRITE			FALSE
 #endif
 // PRINT_USE_FX_SHADOW
 #ifndef PRINT_USE_FX_SHADOW
-	#warning PRINT_USE_FX_SHADOW is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define PRINT_USE_FX_SHADOW			0
+	#warning PRINT_USE_FX_SHADOW is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PRINT_USE_FX_SHADOW			FALSE
 #endif
 // PRINT_USE_FX_OUTLINE
 #ifndef PRINT_USE_FX_OUTLINE
-	#warning PRINT_USE_FX_OUTLINE is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define PRINT_USE_FX_OUTLINE		0
+	#warning PRINT_USE_FX_OUTLINE is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PRINT_USE_FX_OUTLINE		FALSE
 #endif
 // PRINT_USE_UNIT
 #ifndef PRINT_USE_UNIT
-	#warning PRINT_USE_UNIT is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define PRINT_USE_UNIT				0
+	#warning PRINT_USE_UNIT is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PRINT_USE_UNIT				FALSE
 #endif
 // PRINT_WIDTH
 #ifndef PRINT_WIDTH
@@ -225,23 +225,23 @@
 #endif
 // PRINT_SKIP_SPACE
 #ifndef PRINT_SKIP_SPACE
-	#warning PRINT_SKIP_SPACE is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define PRINT_SKIP_SPACE			0
+	#warning PRINT_SKIP_SPACE is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PRINT_SKIP_SPACE			FALSE
 #endif
 // PRINT_USE_GRAPH
 #ifndef PRINT_USE_GRAPH
-	#warning PRINT_USE_GRAPH is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define PRINT_USE_GRAPH				1
+	#warning PRINT_USE_GRAPH is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define PRINT_USE_GRAPH				TRUE
 #endif
 // PRINT_USE_FORMAT
 #ifndef PRINT_USE_FORMAT
-	#warning PRINT_USE_FORMAT is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define PRINT_USE_FORMAT			1
+	#warning PRINT_USE_FORMAT is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define PRINT_USE_FORMAT			TRUE
 #endif
 // PRINT_USE_32B
 #ifndef PRINT_USE_32B
-	#warning PRINT_USE_32B is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define PRINT_USE_32B				0
+	#warning PRINT_USE_32B is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PRINT_USE_32B				FALSE
 #endif
 
 //-----------------------------------------------------------------------------
@@ -250,33 +250,27 @@
 
 // GAME_USE_STATE
 #ifndef GAME_USE_STATE
-	#warning GAME_USE_STATE is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define GAME_USE_STATE				1
-#endif
-
-// GAME_USE_STATE_TRANSITION
-#ifndef GAME_USE_STATE_TRANSITION
-	#warning GAME_USE_STATE_TRANSITION is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define GAME_USE_STATE_TRANSITION	1
+	#warning GAME_USE_STATE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define GAME_USE_STATE				TRUE
 #endif
 
 // GAME_USE_VSYNC
 #ifndef GAME_USE_VSYNC
-	#warning GAME_USE_VSYNC is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define GAME_USE_VSYNC				1
+	#warning GAME_USE_VSYNC is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define GAME_USE_VSYNC				TRUE
 #endif
 
 // GAME_USE_LOOP
 #ifndef GAME_USE_LOOP
-	#warning GAME_USE_LOOP is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define GAME_USE_LOOP				1
+	#warning GAME_USE_LOOP is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define GAME_USE_LOOP				TRUE
 #endif
 
 
 // GAMEPAWN_USE_PHYSICS
 #ifndef GAMEPAWN_USE_PHYSICS
-	#warning GAMEPAWN_USE_PHYSICS is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define GAMEPAWN_USE_PHYSICS		0
+	#warning GAMEPAWN_USE_PHYSICS is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define GAMEPAWN_USE_PHYSICS		FALSE
 #endif
 
 // GAMEPAWN_BORDER_EVENT
@@ -334,8 +328,8 @@
 
 // STRING_USE_INT32
 #ifndef STRING_USE_INT32
-	#warning STRING_USE_INT32 is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define STRING_USE_INT32			0
+	#warning STRING_USE_INT32 is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define STRING_USE_INT32			FALSE
 #endif
 
 //-----------------------------------------------------------------------------
@@ -370,26 +364,20 @@
 
 // PT3_SKIP_HEADER
 #ifndef PT3_SKIP_HEADER
-	#warning PT3_SKIP_HEADER is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define PT3_SKIP_HEADER				1
+	#warning PT3_SKIP_HEADER is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define PT3_SKIP_HEADER				TRUE
 #endif
 
 // PT3_AUTOPLAY
 #ifndef PT3_AUTOPLAY
-	#warning PT3_AUTOPLAY is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define PT3_AUTOPLAY				0
+	#warning PT3_AUTOPLAY is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PT3_AUTOPLAY				FALSE
 #endif
 
 // PT3_EXTRA
 #ifndef PT3_EXTRA
-	#warning PT3_EXTRA is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define PT3_EXTRA					1
-#endif
-
-// PT3_USE_CALLBACK
-#ifndef PT3_USE_CALLBACK
-	#warning PT3_USE_CALLBACK is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define PT3_USE_CALLBACK			0
+	#warning PT3_EXTRA is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define PT3_EXTRA					TRUE
 #endif
 
 //-----------------------------------------------------------------------------
@@ -398,20 +386,20 @@
 
 // TRILO_USE_SFXPLAY
 #ifndef TRILO_USE_SFXPLAY
-	#warning TRILO_USE_SFXPLAY is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define TRILO_USE_SFXPLAY			1
+	#warning TRILO_USE_SFXPLAY is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define TRILO_USE_SFXPLAY			TRUE
 #endif
 
 // TRILO_USE_TREMOLO
 #ifndef TRILO_USE_TREMOLO
-	#warning TRILO_USE_TREMOLO is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define TRILO_USE_TREMOLO			1
+	#warning TRILO_USE_TREMOLO is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define TRILO_USE_TREMOLO			TRUE
 #endif
 
 // TRILO_USE_TAIL
 #ifndef TRILO_USE_TAIL
-	#warning TRILO_USE_TAIL is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define TRILO_USE_TAIL				0
+	#warning TRILO_USE_TAIL is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define TRILO_USE_TAIL				FALSE
 #endif
 
 //-----------------------------------------------------------------------------

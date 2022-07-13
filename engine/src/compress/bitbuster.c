@@ -27,7 +27,7 @@ __asm
 	ld		a, (hl)					// Get 8 bits from bitstream
 	inc		hl						// Increase source data address
 
-	rla          	           		// (bit 0 will be set!!!!)
+	rla								// (bit 0 will be set!!!!)
 YM:
 .endm
 
@@ -86,7 +86,7 @@ output_match1:
 // length returned in HL
 	exx								// To second register set!
 	ld		h, d
-	ld		l, e             		// Initial length to 1
+	ld		l, e					// Initial length to 1
 	ld		b, e					// Bitcount to 1
 	
 // determine number of bits used to encode value

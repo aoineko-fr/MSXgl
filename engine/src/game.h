@@ -72,7 +72,7 @@ void Game_Exit();
 // DFINES
 
 // Functions
-typedef bool (*State)(void);	//< Callback default signature
+typedef bool (*State)(void);	// Callback default signature
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS

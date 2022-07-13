@@ -335,46 +335,52 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 //   value	- Byte value to copy in VRAM
 //   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
 //   count	- Nomber of byte to copy in VRAM
-void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __sdcccall(0)
+void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __naked
 {
-	value; // IY+0
-	dest;  // IY+1
-	count; // IY+3
+	value; // A
+	dest;  // DE
+	count; // SP+2
 
 	__asm
+		ld		c, a					// backup value
 
-	#if ((VDP_USE_VALIDATOR) && (MSX_VERSION > MSX_1) && !(MSX_VERSION == MSX_12))
+	#if ((VDP_USE_VALIDATOR) && (MSX_VERSION != MSX_1) && (MSX_VERSION != MSX_12))
+		// Reset R#14 value
 		xor		a
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
 		out		(P_VDP_REG), a
 	#endif
 
-		ld		iy, #2
-		add		iy, sp
-		// Setup address register
-		ld		a, 1(iy)
+		// Setup destination address (LSB)
+		ld		a, e
 		di //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = (dest & 0x00FF);
-		ld		a, 2(iy)
-		and		a, #0x3F
-		add		a, #F_VDP_WRIT
-		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
-		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT;
-		// while(count--) DataPort = value;
-		ld		e, 3(iy)				// count
-		ld		d, 4(iy)
-		ld		a, 0(iy)				// value
-		// fast 16-bits loop
-		ld		b, e					// number of loops is in DE
-		dec		de						// calculate DB value (destroys B, D and E)
-		inc		d
-	fll16_loop_start:
-		out		(P_VDP_DATA), a			// fill
-		djnz	fll16_loop_start
-		dec		d
-		jp		nz, fll16_loop_start
 
+		// Setup destination address (MSB)
+		ld		a, d
+		and		a, #0x3F				// reset 2 MSB bits
+		or		a, #F_VDP_WRIT			// add write flag
+		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT;
+
+		// Retreive loop parameters
+		pop		iy						// get return address 
+		pop		de						// get loop count
+		ld		a, c					// retreive value
+
+		// Setup fast 16-bits loop
+		ld		b, e					// calculate DB value... B is count LSB 
+		dec		de
+		inc		d						// D is count's MSB + 1 except when LSB is equal 0 (in this case D equal count's MSB)
+	fll16_loop_start:
+		// fast 16-bits loop
+		out		(P_VDP_DATA), a			// fill VRAM							14 cc
+		djnz	fll16_loop_start		// Iner 8-bits loop						14/9 cc
+		dec		d
+		jp		nz, fll16_loop_start	// Outer 8-bits loop
+		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+		jp		(iy)
 	__endasm;
 }
 

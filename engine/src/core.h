@@ -7,36 +7,16 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
-#include "deprecated.h"
-
 // Library version
 #define VERSION_MAJOR			(u16)0		// 4-bits (0-15)
 #define VERSION_MINOR			(u16)4		// 6-bits (0-63)
-#define VERSION_PATCH			(u16)2		// 6-bits (0-63)
+#define VERSION_PATCH			(u16)3		// 6-bits (0-63)
 #define VERSION(a, b, c)		((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT			VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)		
 
 // SDCC version
 #define SDCC_VERSION_CURRENT	VERSION(__SDCC_VERSION_MAJOR, __SDCC_VERSION_MINOR, __SDCC_VERSION_PATCH)		
 
-//-----------------------------------------------------------------------------
-// Includes
-//-----------------------------------------------------------------------------
-
-// Library configuration
-#include "config_option.h"		// Configuration options
-#include "msxgl_config.h"		// Application configuration (must exist in the project folder)
-#include "config_default.h"		// Default configuration
-#include "config_validate.h"	// Configuration parameters validation
-
-//-----------------------------------------------------------------------------
-// Compilation switch
-//-----------------------------------------------------------------------------
-#pragma disable_warning	59		// Remove "function must return value" warning
-#pragma disable_warning	85		// Remove "unreferenced function argument" warning
-#pragma disable_warning	110		// Remove "conditional flow changed by optimizer: so said EVELYN the modified DOG" warning
-#pragma disable_warning	126		// Remove "unreachable code" warning
-#pragma disable_warning	218 	// Remove "z80instructionSize() failed to parse line node, assuming 999 bytes" info
 //-----------------------------------------------------------------------------
 // Basic types
 //-----------------------------------------------------------------------------
@@ -72,6 +52,27 @@ typedef void*				ptr;	// Pointer type
 
 // Functions
 typedef void (*callback)(void);		// Callback default signature
+
+//-----------------------------------------------------------------------------
+// Includes
+//-----------------------------------------------------------------------------
+
+#include "deprecated.h"
+
+// Library configuration
+#include "config_option.h"		// Configuration options
+#include "msxgl_config.h"		// Application configuration (must exist in the project folder)
+#include "config_default.h"		// Default configuration
+#include "config_validate.h"	// Configuration parameters validation
+
+//-----------------------------------------------------------------------------
+// Compilation switch
+//-----------------------------------------------------------------------------
+#pragma disable_warning	59		// Remove "function must return value" warning
+#pragma disable_warning	85		// Remove "unreferenced function argument" warning
+#pragma disable_warning	110		// Remove "conditional flow changed by optimizer: so said EVELYN the modified DOG" warning
+#pragma disable_warning	126		// Remove "unreachable code" warning
+#pragma disable_warning	218 	// Remove "z80instructionSize() failed to parse line node, assuming 999 bytes" info
 
 //-----------------------------------------------------------------------------
 // Helper macros

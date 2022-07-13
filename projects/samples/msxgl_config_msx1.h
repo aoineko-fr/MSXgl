@@ -47,11 +47,11 @@
 #define BIOS_CALL_DISKROM			BIOS_CALL_INTERSLOT
 
 // MAIN-Bios module setting
-#define BIOS_USE_MAINROM			1	// Allow use of Main-ROM routines
-#define BIOS_USE_VDP				1	// Give access to Main-ROM routines related to VDP
-#define BIOS_USE_PSG				1	// Give access to Main-ROM routines related to PSG
-#define BIOS_USE_SUBROM				1	// Allow use of Sub-ROM routines (MSX 2/2+/turbo R)
-#define BIOS_USE_DISKROM			1	// Allow use of Disk-ROM routines
+#define BIOS_USE_MAINROM			TRUE	// Allow use of Main-ROM routines
+#define BIOS_USE_VDP				TRUE	// Give access to Main-ROM routines related to VDP
+#define BIOS_USE_PSG				TRUE	// Give access to Main-ROM routines related to PSG
+#define BIOS_USE_SUBROM				TRUE	// Allow use of Sub-ROM routines (MSX 2/2+/turbo R)
+#define BIOS_USE_DISKROM			TRUE	// Allow use of Disk-ROM routines
 
 //-----------------------------------------------------------------------------
 // VDP MODULE
@@ -70,28 +70,28 @@
 #define VDP_UNIT					VDP_UNIT_U8
 
 // VDP screen modes (additionnal limitations come from the selected MSX_VERSION)
-#define VDP_USE_MODE_T1				1	// MSX1		Screen 0 Width 40
-#define VDP_USE_MODE_MC				1	// MSX1		Screen 3
-#define VDP_USE_MODE_G1				1	// MSX1		Screen 1
-#define VDP_USE_MODE_G2				1	// MSX1		Screen 2
-#define VDP_USE_MODE_T2				0	// MSX2		Screen 0 Width 80
-#define VDP_USE_MODE_G3				0	// MSX2		Screen 4
-#define VDP_USE_MODE_G4				0	// MSX2		Screen 5
-#define VDP_USE_MODE_G5				0	// MSX2		Screen 6
-#define VDP_USE_MODE_G6				0	// MSX2		Screen 7
-#define VDP_USE_MODE_G7				0	// MSX2/2+	Screen 8, 10, 11 & 12
+#define VDP_USE_MODE_T1				TRUE	// MSX1		Screen 0 Width 40
+#define VDP_USE_MODE_MC				TRUE	// MSX1		Screen 3
+#define VDP_USE_MODE_G1				TRUE	// MSX1		Screen 1
+#define VDP_USE_MODE_G2				TRUE	// MSX1		Screen 2
+#define VDP_USE_MODE_T2				FALSE	// MSX2		Screen 0 Width 80
+#define VDP_USE_MODE_G3				FALSE	// MSX2		Screen 4
+#define VDP_USE_MODE_G4				FALSE	// MSX2		Screen 5
+#define VDP_USE_MODE_G5				FALSE	// MSX2		Screen 6
+#define VDP_USE_MODE_G6				FALSE	// MSX2		Screen 7
+#define VDP_USE_MODE_G7				FALSE	// MSX2/2+	Screen 8, 10, 11 & 12
 
-#define VDP_USE_VRAM16K				1	// Use 16K VRAM access functions on MSX2
-#define VDP_USE_SPRITE				1	// Use sprite handling functions
-#define VDP_USE_COMMAND				1	// Use VDP commands wrapper functions
-#define VDP_USE_CUSTOM_CMD			0	// Use custom VDP commands through data buffer
-#define VDP_AUTO_INIT				1	// Call VDP_Initialize() at the first call to VDP_SetMode()
-#define VDP_USE_UNDOCUMENTED		1	// Allow the use of undocumented screen mode (WIP)
-#define VDP_USE_VALIDATOR			1	// Let the engine fix some invalid input (highly recommended)
-#define VDP_USE_DEFAULT_PALETTE		0	// Add data for default MSX 2 palette
-#define VDP_USE_MSX1_PALETTE		0	// Add data for default MSX 1 palette
-#define VDP_USE_DEFAULT_SETTINGS	1	// Auto-initialization of common VDP feature
-#define VDP_USE_16X16_SPRITE		1	// Use 16x16 sprites mode
+#define VDP_USE_VRAM16K				TRUE	// Use 16K VRAM access functions on MSX2
+#define VDP_USE_SPRITE				TRUE	// Use sprite handling functions
+#define VDP_USE_COMMAND				TRUE	// Use VDP commands wrapper functions
+#define VDP_USE_CUSTOM_CMD			FALSE	// Use custom VDP commands through data buffer
+#define VDP_AUTO_INIT				TRUE	// Call VDP_Initialize() at the first call to VDP_SetMode()
+#define VDP_USE_UNDOCUMENTED		TRUE	// Allow the use of undocumented screen mode (WIP)
+#define VDP_USE_VALIDATOR			TRUE	// Let the engine fix some invalid input (highly recommended)
+#define VDP_USE_DEFAULT_PALETTE		FALSE	// Add data for default MSX 2 palette
+#define VDP_USE_MSX1_PALETTE		FALSE	// Add data for default MSX 1 palette
+#define VDP_USE_DEFAULT_SETTINGS	TRUE	// Auto-initialization of common VDP feature
+#define VDP_USE_16X16_SPRITE		TRUE	// Use 16x16 sprites mode
 
 // Initial screen mode setting
 // - VDP_INIT_OFF ................. Force option to be disable
@@ -105,21 +105,21 @@
 //-----------------------------------------------------------------------------
 
 // Input module setting
-#define INPUT_USE_JOYSTICK			1
-#define INPUT_USE_KEYBOARD			1
-#define INPUT_USE_MANAGER			1
+#define INPUT_USE_JOYSTICK			TRUE	// Add functions to handle joystick using I/O port
+#define INPUT_USE_KEYBOARD			TRUE	// Add functions to handle keyboard using I/O port
+#define INPUT_USE_MANAGER			TRUE	// Add input manager (IPM) with advanced input features
 // Key update handler
-#define INPUT_KB_UPDATE				0	// Add function to update all keyboard rows at once
-#define INPUT_KB_UPDATE_MIN			0	// First row to update
-#define INPUT_KB_UPDATE_MAX			8	// Last row to update (10 for numerical-pad, 8 otherwise)
+#define INPUT_KB_UPDATE				FALSE	// Add function to update all keyboard rows at once
+#define INPUT_KB_UPDATE_MIN			0		// First row to update
+#define INPUT_KB_UPDATE_MAX			8		// Last row to update (10 for numerical-pad, 8 otherwise)
 
 //-----------------------------------------------------------------------------
 // MEMORY MODULE
 //-----------------------------------------------------------------------------
 
-#define MEM_USE_VALIDATOR			0	// Activate validator to handle invalide input value
-#define MEM_USE_FASTCOPY			0	// Add support for fast-copy function (using unrolled-LDI loop)
-#define MEM_USE_FASTSET				0	// Add support for fast-set function (using unrolled-LDI loop)
+#define MEM_USE_VALIDATOR			FALSE	// Activate validator to handle invalide input value
+#define MEM_USE_FASTCOPY			FALSE	// Add support for fast-copy function (using unrolled-LDI loop)
+#define MEM_USE_FASTSET				FALSE	// Add support for fast-set function (using unrolled-LDI loop)
 
 //-----------------------------------------------------------------------------
 // DRAW MODULE
@@ -130,27 +130,29 @@
 //-----------------------------------------------------------------------------
 
 // Print module setting
-#define PRINT_USE_TEXT				1	// Allow use of Text font (T1-T2, G1-G3)
-#define PRINT_USE_BITMAP			0	// Allow use of Bitmap font (G4-G7)
-#define PRINT_USE_VRAM				0	// Allow use of VRAM stored font (G4-G7)
-#define PRINT_USE_SPRITE			0	// Allow use of Sprite font (G3-G7)
-#define PRINT_USE_FX_SHADOW			0	// [Bitmap] Allow use of text shadow
-#define PRINT_USE_FX_OUTLINE		0	// [Bitmap] Allow use of text outline
-#define PRINT_USE_GRAPH				1	// Allow use of character lines and boxes
-#define PRINT_USE_VALIDATOR			1	// Add validator character code
-#define PRINT_USE_UNIT				0	// Display integer type (h: hexadecimal, b: binary)
-#define PRINT_USE_FORMAT			1	// Add printf type function
-#define PRINT_USE_32B				1	// Allow to print 32-bits integers
-#define PRINT_SKIP_SPACE			0	// Skill space character
-#define PRINT_COLOR_NUM				12	// 1 color per line
-// - PRINT_WIDTH_1
+#define PRINT_USE_TEXT				TRUE	// Allow use of Text font (T1-T2, G1-G3)
+#define PRINT_USE_BITMAP			FALSE	// Allow use of Bitmap font (G4-G7)
+#define PRINT_USE_VRAM				FALSE	// Allow use of VRAM stored font (G4-G7)
+#define PRINT_USE_SPRITE			FALSE	// Allow use of Sprite font (G3-G7)
+#define PRINT_USE_FX_SHADOW			FALSE	// [Bitmap] Allow use of text shadow
+#define PRINT_USE_FX_OUTLINE		FALSE	// [Bitmap] Allow use of text outline
+#define PRINT_USE_GRAPH				TRUE	// Allow use of character lines and boxes
+#define PRINT_USE_VALIDATOR			TRUE	// Add validator character code
+#define PRINT_USE_UNIT				FALSE	// Display integer type (h: hexadecimal, b: binary)
+#define PRINT_USE_FORMAT			TRUE	// Add printf type function
+#define PRINT_USE_32B				TRUE	// Allow to print 32-bits integers
+#define PRINT_SKIP_SPACE			FALSE	// Skill space character
+#define PRINT_COLOR_NUM				12		// 1 color per line
+// Character width
+// - PRINT_WIDTH_1 (text mode)
 // - PRINT_WIDTH_6
 // - PRINT_WIDTH_8
-// - PRINT_WIDTH_X
+// - PRINT_WIDTH_X (variable)
 #define PRINT_WIDTH					PRINT_WIDTH_1
-// - PRINT_HEIGHT_1
+// Character height
+// - PRINT_HEIGHT_1 (text mode)
 // - PRINT_HEIGHT_8
-// - PRINT_HEIGHT_X
+// - PRINT_HEIGHT_X (variable)
 #define PRINT_HEIGHT				PRINT_HEIGHT_1
 
 //-----------------------------------------------------------------------------
@@ -158,14 +160,17 @@
 //-----------------------------------------------------------------------------
 
 // Game state setting
-#define GAME_USE_STATE				1
-#define GAME_USE_STATE_TRANSITION	1
-#define GAME_USE_VSYNC				1
-#define GAME_USE_LOOP				1
+#define GAME_USE_STATE				TRUE	// Add state machine features
+#define GAME_USE_VSYNC				TRUE	// Add vertical synchronization features
+#define GAME_USE_LOOP				TRUE	// Add game main loop with call to v-synch and state
+
+//-----------------------------------------------------------------------------
+// GAME PAWN MODULE
+//-----------------------------------------------------------------------------
 
 // GamePawn setting
-#define GAMEPAWN_USE_PHYSICS		1
-// Collision position options
+#define GAMEPAWN_USE_PHYSICS		TRUE	// Add physics and collision features
+// Collision position options for each pawn's side
 // - GAMEPAWN_COL_0
 // - GAMEPAWN_COL_25
 // - GAMEPAWN_COL_50
@@ -175,7 +180,7 @@
 #define GAMEPAWN_COL_UP				GAMEPAWN_COL_50
 #define GAMEPAWN_COL_RIGHT			GAMEPAWN_COL_50
 #define GAMEPAWN_COL_LEFT			GAMEPAWN_COL_50
-// Border collision options
+// Options to determine which border collide or trigger events
 // - GAMEPAWN_BORDER_NONE
 // - GAMEPAWN_BORDER_DOWN
 // - GAMEPAWN_BORDER_UP
@@ -183,6 +188,7 @@
 // - GAMEPAWN_BORDER_LEFT
 #define GAMEPAWN_BORDER_EVENT		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_RIGHT)
 #define GAMEPAWN_BORDER_BLOCK		(GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_LEFT)
+// Top/bottom border position (in pixel)
 #define GAMEPAWN_BORDER_MIN_Y		0
 #define GAMEPAWN_BORDER_MAX_Y		191
 
@@ -190,36 +196,36 @@
 // STRING MODULE
 //-----------------------------------------------------------------------------
 
-#define STRING_USE_INT32			1
+#define STRING_USE_INT32			TRUE	// Add support for 32-bits integer
 
 //-----------------------------------------------------------------------------
 // SCROLL MODULE 
 //-----------------------------------------------------------------------------
 
 // Allow horizontal and/or vertical scrolling
-#define SCROLL_HORIZONTAL			1
-#define SCROLL_VERTICAL				1
+#define SCROLL_HORIZONTAL			TRUE	// Activate horizontal scrolling
+#define SCROLL_VERTICAL				TRUE	// Activate vertical scrolling
 // Source data info
-#define SCROLL_SRC_X				64
-#define SCROLL_SRC_Y				0
-#define SCROLL_SRC_W				128
-#define SCROLL_SRC_H				24
+#define SCROLL_SRC_X				64		// Start X coordinate of the source data
+#define SCROLL_SRC_Y				0		// Start Y coordinate of the source data
+#define SCROLL_SRC_W				128		// Width of the source data
+#define SCROLL_SRC_H				24		// Height of the source data
 // Destination data info
-#define SCROLL_DST_X				0
-#define SCROLL_DST_Y				2
-#define SCROLL_DST_W				32
-#define SCROLL_DST_H				20
-#define SCROLL_SCREEN_W				32
+#define SCROLL_DST_X				0		// Destination x coordinate (in layout table)
+#define SCROLL_DST_Y				2		// Destination y coordinate (in layout table)
+#define SCROLL_DST_W				32		// Destination width
+#define SCROLL_DST_H				20		// Destination height
+#define SCROLL_SCREEN_W				32		// Screen width in tile number
 // Allow scroll data looping (only for horizontal scrolling)
-#define SCROLL_WRAP					1
+#define SCROLL_WRAP					TRUE
 // Use screen position adjust register (allow per-pixel scrolling) [MSX2]
-#define SCROLL_ADJUST				(MSX_VERSION >= MSX_2)
-#define SCROLL_ADJUST_SPLIT			(MSX_VERSION >= MSX_2)
+#define SCROLL_ADJUST				FALSE	// Global ajustement
+#define SCROLL_ADJUST_SPLIT			FALSE	// Destination windows ajustement using screen split
 // Use sprite mask (allow smooth per-pixel scrolling) [MSX2]
-#define SCROLL_MASK					(MSX_VERSION >= MSX_2)
-#define SCROLL_MASK_ID				0
-#define SCROLL_MASK_COLOR			COLOR_BLACK
-#define SCROLL_MASK_PATTERN			0
+#define SCROLL_MASK					FALSE	// Use sprite to mask
+#define SCROLL_MASK_ID				0		// First sprite ID to use
+#define SCROLL_MASK_COLOR			COLOR_BLACK // Must be the same than border color
+#define SCROLL_MASK_PATTERN			0		// Sprite pattern to use
 
 //-----------------------------------------------------------------------------
 // AUDIO 
@@ -233,19 +239,19 @@
 // - PSG_DIRECT ................... Function set directly the PSG registers
 // - PSG_INDIRECT ................. Function set a buffer (Apply() function must be call once a frame)
 #define PSG_ACCESS					PSG_INDIRECT
-#define PSG_USE_NOTES				1
-#define PSG_USE_EXTRA				1
-#define PSG_USE_RESUME				1
+#define PSG_USE_NOTES				FALSE	// Add notes table to convert note to tone
+#define PSG_USE_EXTRA				TRUE	// Add helper functions to handle PSG settings
+#define PSG_USE_RESUME				TRUE	// Add function to allow playback pause and resume
 
 // MSX-Music options
-#define MSXAUDIO_USE_RESUME			1
+#define MSXAUDIO_USE_RESUME			TRUE	// Add function to allow playback pause and resume
 
 // MSX-Audio options
-#define MSXMUSIC_USE_RESUME			1
+#define MSXMUSIC_USE_RESUME			TRUE	// Add function to allow playback pause and resume
 
 // SCC options
-#define SCC_USE_EXTA				1
-#define SCC_USE_RESUME				1
+#define SCC_USE_EXTA				TRUE	// Add helper functions to handle PSG settings
+#define SCC_USE_RESUME				TRUE	// Add function to allow playback pause and resume
 // - SCC_SLOT_DIRECT .............. Program on a SCC cartridge
 // - SCC_SLOT_FIXED	............... Fixed slot-id (non-expanded second cartridge slot)
 // - SCC_SLOT_USER ................ Defined by the user
@@ -253,40 +259,24 @@
 #define SCC_SLOT_MODE				SCC_SLOT_AUTO
 
 // VGM supported chip
-#define VGM_USE_PSG					1
-#define VGM_USE_MSXMUSIC			1
-#define VGM_USE_MSXAUDIO			1
-#define VGM_USE_SCC					1
+#define VGM_USE_PSG					TRUE	// Allow PSG data parsing and audio output
+#define VGM_USE_MSXMUSIC			TRUE	// Allow MSX-Music data parsing and audio output
+#define VGM_USE_MSXAUDIO			TRUE	// Allow MSX-Audio data parsing and audio output
+#define VGM_USE_SCC					TRUE	// Allow SCC data parsing and audio output
 
 // PCM-Encoder supported frequency (more than 1 value allowed)
+// - PCMENC_NONE, PCMENC_8K, PCMENC_11K, PCMENC_22K and PCMENC_44K
 #define PCMENC_FREQ					PCMENC_8K | PCMENC_11K | PCMENC_22K | PCMENC_44K
 
 // PT3 options
-#define PT3_SKIP_HEADER				1
-#define PT3_AUTOPLAY				0
-#define PT3_EXTRA					1
-#define PT3_USE_CALLBACK			0
+#define PT3_SKIP_HEADER				TRUE	// Don't use PT3 data header (first 100 bytes must be truncated)
+#define PT3_AUTOPLAY				TRUE	// Play music automatically
+#define PT3_EXTRA					TRUE	// Add helper functions
 
 // TriloTracker options
-#define TRILO_USE_SFXPLAY			1
-#define TRILO_USE_TREMOLO			1
-#define TRILO_USE_TAIL				0
-
-//-----------------------------------------------------------------------------
-// MSXi MODULE
-//-----------------------------------------------------------------------------
-
-// MSXi compressor support
-#define MSXi_USE_COMP_NONE			1
-#define MSXi_USE_COMP_CROP16		1
-#define MSXi_USE_COMP_CROP32		1
-#define MSXi_USE_COMP_CROP256		1
-#define MSXi_USE_COMP_CROPLINE16	1
-#define MSXi_USE_COMP_CROPLINE32	1
-#define MSXi_USE_COMP_CROPLINE256	1
-#define MSXi_USE_COMP_RLE0			1
-#define MSXi_USE_COMP_RLE4			1
-#define MSXi_USE_COMP_RLE8			1
+#define TRILO_USE_SFXPLAY			TRUE	// Add SFX playback through Trilo SCC player (ayFX + SCC format)
+#define TRILO_USE_TREMOLO			TRUE	// Add support for tremolo effect (little bit expensive)
+#define TRILO_USE_TAIL				FALSE	// Add tail to prevent volume to fall to zero
 
 //-----------------------------------------------------------------------------
 // MATH MODULE
@@ -310,9 +300,25 @@
 //-----------------------------------------------------------------------------
 
 // RLEp compression
-#define COMPRESS_USE_RLEP			1
-#define COMPRESS_USE_RLEP_DEFAULT	1
-#define COMPRESS_USE_RLEP_FIXSIZE	0
+#define COMPRESS_USE_RLEP			TRUE	// Use RLEp unpacker
+#define COMPRESS_USE_RLEP_DEFAULT	TRUE	// Data include the default value (0 otherwise)
+#define COMPRESS_USE_RLEP_FIXSIZE	FALSE	// Gize the data size as function input (loop up to terminator otherwise)
+
+//-----------------------------------------------------------------------------
+// MSXi MODULE
+//-----------------------------------------------------------------------------
+
+// MSXi compressor support
+#define MSXi_USE_COMP_NONE			TRUE
+#define MSXi_USE_COMP_CROP16		TRUE
+#define MSXi_USE_COMP_CROP32		TRUE
+#define MSXi_USE_COMP_CROP256		TRUE
+#define MSXi_USE_COMP_CROPLINE16	TRUE
+#define MSXi_USE_COMP_CROPLINE32	TRUE
+#define MSXi_USE_COMP_CROPLINE256	TRUE
+#define MSXi_USE_COMP_RLE0			TRUE
+#define MSXi_USE_COMP_RLE4			TRUE
+#define MSXi_USE_COMP_RLE8			TRUE
 
 //-----------------------------------------------------------------------------
 // MISC

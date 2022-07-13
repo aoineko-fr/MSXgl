@@ -50,7 +50,7 @@ call %LibDir%\script\check_config.cmd
 if errorlevel 1 goto :Error
 
 ::_____________________________________________________________________________
-::   ▄▄  ▄▄                
+::   ▄▄  ▄▄
 ::  ██ ▀ ██  ▄███ ▄▀██ ██▀▄
 ::  ▀█▄▀ ▀█▄ ▀█▄▄ ▀▄██ ██ █
 ::_____________________________________________________________________________
@@ -74,7 +74,7 @@ if exist %ProjDir%\emul (
 :NoClean
 
 ::_____________________________________________________________________________
-::   ▄▄                 ▄  ▄▄ 
+::   ▄▄                 ▄  ▄▄
 ::  ██ ▀ ▄█▀▄ ▄█▄█ ██▀▄ ▄  ██  ▄███
 ::  ▀█▄▀ ▀█▄▀ ██ █ ██▀  ██ ▀█▄ ▀█▄▄
 ::_________________▀▀__________________________________________________________
@@ -112,13 +112,8 @@ if %InstallRAMISR%==HBLANK (
 
 :: Add crt0 source to build list (it must be the first in the list)
 set SrcList=%LibDir%\src\crt0\%Crt0%.asm
-set RelList=%OutDir%\%Crt0%.rel
-
-:: 
-REM if %BuildLibrary%==1 (
-	REM set RelList=
-	REM set LibList=%OutDir%\%Crt0%.rel
-REM )
+set RelList=
+set LibList=
 
 :: Add project sources to build list
 for %%G in (%ProjModules%) do (
@@ -131,6 +126,7 @@ for %%G in (%ProjModules%) do (
 )
 
 :: Add modules sources to build list
+if not %BuildLibrary%==1 goto NoCompileLib
 echo » Modules: %LibModules%
 for %%G in (%LibModules%) do (
 	if not exist "%LibDir%\src\%%G.c" (
@@ -138,12 +134,9 @@ for %%G in (%LibModules%) do (
 		exit /B 110
 	)
 	set SrcList=!SrcList!,%LibDir%\src\%%G.c
-	REM if %BuildLibrary%==1 (
-		REM set LibList=!LibList! %OutDir%\%%~nG.rel
-	REM ) else (
-		set RelList=!RelList! %OutDir%\%%~nG.rel
-	REM )
+	set LibList=!LibList! %OutDir%\%%~nG.rel
 )
+:NoCompileLib
 
 :: Additional source files to build
 if not defined AddSources goto NoAddSources
@@ -168,17 +161,6 @@ if defined ForceRamAddr (
 ::=============================================================================
 call %LibDir%\script\compile_all.cmd
 if errorlevel 1 goto :Error
-
-::=============================================================================
-:: BUILD STATIC LIBRARY
-::=============================================================================
-REM if not %BuildLibrary%==1 goto NoBuildLib
-
-REM echo Generating msxgl.lib using SDAR...
-REM %MakeLib% -rc %OutDir%\msxgl.lib %LibList%
-REM if errorlevel 1 goto :Error
-
-REM :NoBuildLib
 
 ::=============================================================================
 :: COMPILE MAPPER SEGMENT
@@ -232,7 +214,7 @@ for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
 :NoCompile
 
 ::_____________________________________________________________________________
-::  ▄▄   ▄       ▄▄   
+::  ▄▄   ▄       ▄▄
 ::  ██   ▄  ██▀▄ ██▄▀
 ::  ██▄▄ ██ ██ █ ██ █
 ::_____________________________________________________________________________
@@ -242,6 +224,25 @@ echo.
 echo ┌───────────────────────────────────────────────────────────────────────────┐
 echo │ LINK                                                                      │
 echo └───────────────────────────────────────────────────────────────────────────┘
+
+::=============================================================================
+:: Generate Library
+::=============================================================================
+if not %BuildLibrary%==1 goto NoBuildLib
+
+echo %BLUE%Generate msxgl.lib...%RESET%
+
+set SDARParam=-rc %OutDir%\msxgl.lib %LibList%
+echo SDAR %SDARParam%
+%MakeLib% %SDARParam%
+if errorlevel 1 goto :Error
+echo %GREEN%Succeed%RESET%
+
+:NoBuildLib
+
+::=============================================================================
+:: Link Program
+::=============================================================================
 echo %BLUE%Making %ProjName% using SDCC...%RESET%
 
 %Linker% --version
@@ -250,9 +251,7 @@ if %Optim%==Speed ( set LinkOpt=%LinkOpt% --opt-code-speed )
 if %Optim%==Size ( set LinkOpt=%LinkOpt% --opt-code-size )
 if %Debug%==1 ( set LinkOpt=%LinkOpt% --debug )
 
-REM if %BuildLibrary%==1 ( set LinkOpt=%LinkOpt% %OutDir%\msxgl.lib )
-
-set SDCCParam=-mz80 --vc --no-std-crt0 --code-loc 0x%CodeAddr% --data-loc 0x%RamAddr% %LinkOpt% %MapperBanks% %RelList% -o %OutDir%\
+set SDCCParam=-mz80 --vc --no-std-crt0 --code-loc 0x%CodeAddr% --data-loc 0x%RamAddr% %LinkOpt% %MapperBanks% %OutDir%\%Crt0%.rel %OutDir%\msxgl.lib %RelList% -o %OutDir%\%ProjName%.ihx
 echo SDCC %SDCCParam%
 %Linker% %SDCCParam%
 if errorlevel 1 goto :Error
@@ -261,7 +260,7 @@ echo %GREEN%Succeed%RESET%
 :NoMake
 
 ::_____________________________________________________________________________
-::  ▄▄▄            ▄▄                 
+::  ▄▄▄            ▄▄
 ::  ██▄▀ ▄▀██ ▄█▀▀ ██▄▀ ▄▀██ ▄▀██ ▄███
 ::  ██   ▀▄██ ▀█▄▄ ██ █ ▀▄██  ▀██ ▀█▄▄
 ::____________________________▀▀_______________________________________________
@@ -278,9 +277,9 @@ echo %BLUE%Packaging binary...%RESET%
 ::=============================================================================
 
 if %MapperSize%==0 (
-	set H2BParam=%OutDir%\%Crt0%.ihx -e %Ext% -s 0x%StartAddr% -l %FillSize%
+	set H2BParam=%OutDir%\%ProjName%.ihx -e %Ext% -s 0x%StartAddr% -l %FillSize%
 ) else (	
-	set H2BParam=%OutDir%\%Crt0%.ihx -e %Ext% -s 0x%StartAddr% -l %MapperSize% -b %SegSize%
+	set H2BParam=%OutDir%\%ProjName%.ihx -e %Ext% -s 0x%StartAddr% -l %MapperSize% -b %SegSize%
 )
 
 echo HEX2BIN %H2BParam%
@@ -291,7 +290,7 @@ echo %GREEN%Succeed%RESET%
 :NoPackage
 
 ::_____________________________________________________________________________
-::  ▄▄▄            ▄▄           
+::  ▄▄▄            ▄▄
 ::  ██ █ ▄███ ██▀▄ ██  ▄█▀▄ █ ██
 ::  ██▄▀ ▀█▄▄ ██▀  ▀█▄ ▀█▄▀  ▀██
 ::____________▀▀_____________▀▀________________________________________________
@@ -332,22 +331,22 @@ for %%J in ("%DskTool%") do set DskToolName=%%~nJ%%~xJ
 
 ::-----------------------------------------------------------------------------
 if /I %Ext%==rom (
-	echo Copy %OutDir%\%Crt0%.%Ext% to emul\rom\%ProjName%.%Ext%
-	copy /Y %OutDir%\%Crt0%.%Ext% %ProjDir%\emul\rom\%ProjName%.%Ext%
+	echo Copy %OutDir%\%ProjName%.%Ext% to emul\rom\%ProjName%.%Ext%
+	copy /Y %OutDir%\%ProjName%.%Ext% %ProjDir%\emul\rom\%ProjName%.%Ext%
 	if errorlevel 1 goto :Error
 
 	if %Debug%==1 (
 		echo Copy symbols files to destination directory
-		if exist %OutDir%\%Crt0%.map ( copy /Y %OutDir%\%Crt0%.map %ProjDir%\emul\rom\%ProjName%.map )
-		if exist %OutDir%\%Crt0%.noi ( copy /Y %OutDir%\%Crt0%.noi %ProjDir%\emul\rom\%ProjName%.noi )
+		if exist %OutDir%\%ProjName%.map ( copy /Y %OutDir%\%ProjName%.map %ProjDir%\emul\rom\%ProjName%.map )
+		if exist %OutDir%\%ProjName%.noi ( copy /Y %OutDir%\%ProjName%.noi %ProjDir%\emul\rom\%ProjName%.noi )
 	)
 )
 
 ::-----------------------------------------------------------------------------
 if /I %Ext%==bin (
 	::---- Copy program file ----
-	echo -- Copy %OutDir%\%Crt0%.%Ext% to emul\bin\%ProjName%.%Ext%
-	copy /Y %OutDir%\%Crt0%.%Ext% %ProjDir%\emul\bin\%ProjName%.%Ext%
+	echo -- Copy %OutDir%\%ProjName%.%Ext% to emul\bin\%ProjName%.%Ext%
+	copy /Y %OutDir%\%ProjName%.%Ext% %ProjDir%\emul\bin\%ProjName%.%Ext%
 	if errorlevel 1 goto :Error
 	::---- Copy data files ----
 	if defined DiskFiles (
@@ -400,8 +399,8 @@ if /I %Ext%==bin (
 ::-----------------------------------------------------------------------------
 if /I %Ext%==com (
 	::---- Copy program file ----
-	echo Copy %OutDir%\%Crt0%.%Ext% to emul\dos%DOS%\%ProjName%.%Ext%
-	copy /Y %OutDir%\%Crt0%.%Ext% %ProjDir%\emul\dos%DOS%\%ProjName%.%Ext%
+	echo Copy %OutDir%\%ProjName%.%Ext% to emul\dos%DOS%\%ProjName%.%Ext%
+	copy /Y %OutDir%\%ProjName%.%Ext% %ProjDir%\emul\dos%DOS%\%ProjName%.%Ext%
 	if errorlevel 1 goto :Error
 	::---- Copy data files ----
 	if defined DiskFiles (
@@ -462,7 +461,7 @@ echo %GREEN%Succeed%RESET%
 :NoDeploy
 
 ::_____________________________________________________________________________
-::  ▄▄▄           
+::  ▄▄▄
 ::  ██▄▀ ██ █ ██▀▄
 ::  ██ █ ▀█▄█ ██ █
 ::_____________________________________________________________________________
@@ -494,7 +493,7 @@ exit /B 666
 
 
 ::_____________________________________________________________________________
-::   ▄▄▄      ▄       ▄▄ 
+::   ▄▄▄      ▄       ▄▄
 ::  ▀█▄  ██▄▀ ▄  ██▀▄ ██▀
 ::  ▄▄█▀ ██   ██ ██▀  ▀█▄
 ::_______________▀▀____________________________________________________________

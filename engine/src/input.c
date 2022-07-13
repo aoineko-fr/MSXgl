@@ -169,7 +169,7 @@ u8 Keyboard_IsKeyPressed(u8 key)
 // Complete input manager
 //
 //-----------------------------------------------------------------------------
-#if INPUT_USE_MANAGER
+#if (INPUT_USE_MANAGER)
 
 IPM_Data g_IPM;
 
