@@ -142,38 +142,27 @@ u8 Math_Mod10_16b(u16 val) __FASTCALL
 
 //-----------------------------------------------------------------------------
 /// 8-bits fast bits flip 
-// Inputs:		L		8-bits value
-// Outputs:		L		Bits flipped value
+// Inputs:		A		8-bits value
+// Outputs:		A		Bits flipped value
 // Author:		John Metcalf (http://www.retroprogramming.com/2014/01/fast-z80-bit-reversal.html)
-u8 Math_Flip(u8 val) __FASTCALL
+u8 Math_Flip(u8 val)
 {
-	val;
+	val; // A
 	__asm
-//		ld		l, val		// fast call
-		ld		a, l		// a = 76543210
-#if 0	// Methode 2: 8 bytes / 206 cycles
-		ld		b, #8
-		ld		l, a
-	FlipLoop:
-		rl		l
-		rra
-		djnz FlipLoop
-#else	// Methode 2: 17 bytes / 66 cycles
+		ld		b, a		// a = 76543210
 		rlca
 		rlca				// a = 54321076
-		xor		l
+		xor		b
 		and		#0xAA
-		xor		l			// a = 56341270
-		ld		l, a
+		xor		b			// a = 56341270
+		ld		b, a
 		rlca
 		rlca
 		rlca				// a = 41270563
-		rrc 	l			// l = 05634127
-		xor 	l
+		rrc 	b			// b = 05634127
+		xor 	b
 		and 	#0x66
-		xor 	l			// a = 01234567
-#endif
-		ld		l, a
+		xor 	b			// a = 01234567
 	__endasm;
 }
 

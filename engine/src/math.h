@@ -117,7 +117,7 @@ u8 Math_Mod10_16b(u16 val) __FASTCALL;
 
 // Function: Math_Flip
 // Bits flip routine
-u8 Math_Flip(u8 val) __FASTCALL;
+u8 Math_Flip(u8 val);
 
 // Function: Math_Flip_16b
 // Bits flip routine
