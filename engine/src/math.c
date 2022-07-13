@@ -149,6 +149,8 @@ u8 Math_Flip(u8 val)
 {
 	val; // A
 	__asm
+		// reverse bits in A
+		// 17 bytes / 66 cycles
 		ld		b, a		// a = 76543210
 		rlca
 		rlca				// a = 54321076
@@ -176,9 +178,8 @@ u16 Math_Flip_16b(u16 val) __FASTCALL
 	// b = Math_Flip(b);
 	// return (b << 8) + a;
 	
-	val;
+	val; // HL
 	__asm
-//		ld		hl, val		// fast call
 		ld		a, h
 		call	_Math_Flip	// flip high bits
 		ld		b, a
