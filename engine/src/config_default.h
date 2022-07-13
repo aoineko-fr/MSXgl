@@ -149,6 +149,28 @@
 #endif
 
 //-----------------------------------------------------------------------------
+// MEMORY MODULE
+//-----------------------------------------------------------------------------
+
+// MEM_USE_VALIDATOR
+#ifndef MEM_USE_VALIDATOR
+	#warning MEM_USE_VALIDATOR is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define MEM_USE_VALIDATOR		0
+#endif
+
+// MEM_USE_FASTCOPY
+#ifndef MEM_USE_FASTCOPY
+	#warning MEM_USE_FASTCOPY is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define MEM_USE_FASTCOPY		0
+#endif
+
+// MEM_USE_FASTSET
+#ifndef MEM_USE_FASTSET
+	#warning MEM_USE_FASTSET is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define MEM_USE_FASTSET			0
+#endif
+
+//-----------------------------------------------------------------------------
 // DRAW MODULE
 //-----------------------------------------------------------------------------
 
@@ -221,7 +243,6 @@
 	#warning PRINT_USE_32B is not defined in "msxgl_config.h"! Default value will be used: 1
 	#define PRINT_USE_32B				0
 #endif
-
 
 //-----------------------------------------------------------------------------
 // GAME MODULE
