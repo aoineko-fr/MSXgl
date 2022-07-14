@@ -384,6 +384,110 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __naked
 	__endasm;
 }
 
+#if (VDP_USE_FASTFILL)
+//-----------------------------------------------------------------------------
+// Fill VRAM area with a given value [MSX1/2/2+/TR]
+//
+// Parameters:
+//   value	- Byte value to copy in VRAM
+//   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
+//   count	- Nomber of byte to copy in VRAM
+void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count) __naked
+{
+	value; // A
+	dest;  // DE
+	count; // SP+2
+
+	__asm
+		ld		l, a						// backup fill value
+
+	#if ((VDP_USE_VALIDATOR) && (MSX_VERSION != MSX_1) && (MSX_VERSION != MSX_12))
+		// Reset R#14 value
+		xor		a
+		out		(P_VDP_REG), a
+		ld		a, #VDP_REG(14)
+		out		(P_VDP_REG), a
+	#endif
+
+		// Setup destination address (LSB)
+		ld		a, e						// destination VRAM address LSB
+		di //~~~~~~~~~~~~~~~~~~~~~~~~~~
+		out		(P_VDP_ADDR), a				// RegPort = (dest & 0x00FF);
+
+		// Setup destination address (MSB)
+		ld		a, d						// destination VRAM address MSB
+		and		a, #0x3F					// reset 2 MSB bits
+		or		a, #F_VDP_WRIT				// add write flag
+		out		(P_VDP_ADDR), a				// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT;
+
+		// Get parameters
+		pop		iy							// 16 cc	Get return address
+		pop		de							// 11 cc	Get fill count
+		ld		h, e						//  5 cc	Backup count LSB
+
+		// Shift Right 4 (56 T-Cycles, 14 bytes)
+		ld		a, e						//  5 cc
+		srl		d							// 10 cc
+		rra									//  5 cc
+		srl		d							// 10 cc
+		rra									//  5 cc
+		srl		d							// 10 cc
+		rra									//  5 cc
+		srl		d							// 10 cc
+		rra									//  5 cc
+		ld		e, a						//  5 cc	DE >> 4
+
+		// Setup 16-bits fast loop
+		ld		b, e						//  5 cc	Calculate DB value... B is count LSB 
+		dec		de							//  7 cc
+		inc		d							//  5 cc	D is count's MSB + 1 except when LSB is equal 0 (in this case D equal count's MSB)
+
+		ld		a, h						//  5 cc	Retrieve count LSB
+		and		#0x0F						//  8 cc
+		jr		z, fastfill16_jump			// 13/8 cc
+
+	fastfill16_setup:
+		// Setup fast LDIR loop
+		xor		a							//  5 cc
+		sub		h							//  5 cc
+		and		#15							//  8 cc
+		add		a							//  5 cc
+
+		exx									//  5 cc
+		add		a, #fastfill16_loop 		//  8 cc	Keep Carry
+		ld		l, a						//  5 cc
+		ld		a, #0						//  8 cc
+		adc		a, #fastfill16_loop >> 8	//  8 cc	Use Carry
+		ld		h, a						//  5 cc
+		push	hl							// 12 cc
+		exx									//  5 cc
+
+		ld		a, l						//  5 cc	Retreive fill value
+		inc		b							//  5 cc
+
+		ret									// 11 cc	Jump to "fastfill16_loop + 15 - count:LSB"
+
+	fastfill16_jump:
+		ld		a, l						//  5 cc	Retreive fill value
+
+	fastfill16_loop:
+		// fast 16-bits loop
+		.rept 16
+		out		(P_VDP_DATA), a				// 14 cc	Fill VRAM
+		.endm
+		djnz	fastfill16_loop				// 14/9 cc	Inner 8-bits loop
+
+		dec		d							//  5 cc
+		jp		nz, fastfill16_loop			// 11 cc	Outer 8-bits loop
+
+	fastfill16_end:
+		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
+		jp		(iy)						// 10 cc
+
+	__endasm;
+}
+#endif // (VDP_USE_FASTFILL)
+
 //-----------------------------------------------------------------------------
 // Read data from VRAM to RAM [MSX1/2/2+/TR]
 //
@@ -757,10 +861,11 @@ void VDP_SetModeGraphic7()
 //
 // Parameters:
 //   stat - Status register number (0-9)
-u8 VDP_ReadStatus(u8 stat)
+u8 VDP_ReadStatus(u8 stat) __FASTCALL
 {
-	stat; // A
+	stat; // L
 	__asm
+		ld		a, l
 		di //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a
 		ld		a, #VDP_REG(15)

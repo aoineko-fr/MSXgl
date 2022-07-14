@@ -6,12 +6,6 @@
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Quick math functions
-//
-// References:
-// - http://map.grauw.nl/sources/external/z80bits.html#4
-// - http://z80-heaven.wikidot.com/math
-// - http://z80-heaven.wikidot.com/advanced-math
-// - https://wikiti.brandonw.net/index.php?title=Category:Z80_Routines:Math
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 #include "core.h"
@@ -109,7 +103,7 @@ i16 Math_Div10_16b(i16 val) __FASTCALL;
 
 // Function: Math_Mod10
 // 8-bits fast modulo-10 
-u8 Math_Mod10(u8 val) __FASTCALL;
+u8 Math_Mod10(u8 val);
 
 // Function: Math_Mod10_16b
 // 16-bits fast modulo-10 

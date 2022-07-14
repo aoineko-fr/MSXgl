@@ -466,7 +466,7 @@ u8 VDP_ReadDefaultStatus();
 //
 // Return:
 //   The given status register value
-u8 VDP_ReadStatus(u8 stat);
+u8 VDP_ReadStatus(u8 stat) __FASTCALL;
 
 #if ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
 
@@ -481,12 +481,25 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0);
 
 // Function: VDP_FillVRAM_16K
 // Fill VRAM area with a given value. [MSX1/2/2+/TR]
+// Use fast 16-bits loop (28 cc)
 //
 // Parameters:
 //   value	- Byte value to copy in VRAM
 //   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
 //   count	- Number of byte to copy in VRAM
 void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count);
+
+#if (VDP_USE_FASTFILL)
+// Function: VDP_FastFillVRAM_16K
+// Fill VRAM area with a given value [MSX1/2/2+/TR]
+// Use ultra fast 16-bits using 16 unrolled out loop (~14,9 cc)
+//
+// Parameters:
+//   value	- Byte value to copy in VRAM
+//   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
+//   count	- Nomber of byte to copy in VRAM
+void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count);
+#endif
 
 // Function: VDP_ReadVRAM_16K
 // Read data from VRAM to RAM. [MSX1/2/2+/TR]

@@ -12,6 +12,7 @@
 // - http://z80-heaven.wikidot.com/math
 // - http://z80-heaven.wikidot.com/advanced-math
 // - https://wikiti.brandonw.net/index.php?title=Category:Z80_Routines:Math
+// - https://www.chilliant.com/z80shift.html
 //─────────────────────────────────────────────────────────────────────────────
 #include "core.h"
 #include "math.h"
@@ -76,12 +77,10 @@ i16 Math_Div10_16b(i16 val) __FASTCALL
 // Outputs:		A	HL mod 10
 //				Z	Flag is set if divisible by 10
 // 20 bytes, 83 cycles
-u8 Math_Mod10(u8 val) __FASTCALL
+u8 Math_Mod10(u8 val)
 {
-	val;
+	val; // A
 	__asm
-//		ld		l, val		// fast call
-		ld		a, l		// add bytes
 		ld		h, a		// add nibbles
 		rrca
 		rrca
@@ -98,7 +97,6 @@ u8 Math_Mod10(u8 val) __FASTCALL
 		add		a, l
 		daa
 		and		#0x0F
-		ld		l, a
 	__endasm;
 }
 
