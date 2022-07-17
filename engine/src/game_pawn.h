@@ -99,26 +99,26 @@ enum PAWN_PHYSICS_STATE
 // Pawn structure
 typedef struct
 {
-	const Game_Sprite* SpriteList; // List of sprite layers
-	u8                 SpriteNum;  // Number of sprite layers
-	u8                 SpriteID;   // Sprite ID of the first layer (0~31)
-	const Game_Action* ActionList; // List of actions
-	u8                 PositionX;  // Pawn screen position
-	u8                 PositionY;
-	u8                 ActionId;   // Current action id
-	u8                 AnimFrame;  // Current animation frame id
-	u8			       AnimStep;   // Current step into the animation
-	u8			       AnimTimer;  // Animation timer (into the current step)
-	u8			       Update;     // Pawn update flags
-	u8                 Counter;    // Global update counter
+	const Game_Sprite*	SpriteList;		// List of sprite layers
+	u8					SpriteNum;		// Number of sprite layers
+	u8					SpriteID;		// Sprite ID of the first layer (0~31)
+	const Game_Action*	ActionList;		// List of actions
+	u8					PositionX;		// Pawn screen position
+	u8					PositionY;
+	u8					ActionId;		// Current action id
+	u8					AnimFrame;		// Current animation frame id
+	u8					AnimStep;		// Current step into the animation
+	u8					AnimTimer;		// Animation timer (into the current step)
+	u8					Update;			// Pawn update flags
+	u8					Counter;		// Global update counter
 #if (GAMEPAWN_USE_PHYSICS)
-	i8                 MoveX;      // Pawn movement offset
-	i8                 MoveY;
-	u8                 BoundX;     // Pawn collision bound
-	u8                 BoundY;
-	u8                 PhysicsState;
-	Game_PhysicsCB     PhysicsCB;
-	Game_CollisionCB   CollisionCB;
+	i8					MoveX;			// Pawn movement offset
+	i8					MoveY;
+	u8					BoundX;			// Pawn collision bound
+	u8					BoundY;
+	u8					PhysicsState;
+	Game_PhysicsCB		PhysicsCB;
+	Game_CollisionCB	CollisionCB;
 #endif
 } Game_Pawn;
 
@@ -164,6 +164,12 @@ void GamePawn_InitializePhysics(Game_Pawn* pawn, Game_PhysicsCB pcb, Game_Collis
 
 // Function: GamePawn_GetPhysicsState
 // Get pawn physics state
+//
+// Parameters:
+//   pawn - Pointer to pawn structure
+//
+// Return:
+//   Pawn's physics state
 inline u8 GamePawn_GetPhysicsState(Game_Pawn* pawn) { return pawn->PhysicsState; }
 
 #endif

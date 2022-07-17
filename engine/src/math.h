@@ -95,26 +95,62 @@ typedef struct
 
 // Function: Math_Div10
 // 8-bits fast 10 times division 
+//
+// Parameters:
+//   val - Value to divide by 10
+//
+// Return:
+//   val / 10
 i8 Math_Div10(i8 val) __FASTCALL;
 
 // Function: Math_Div10_16b
 // 16-bits fast 10 times division 
+//
+// Parameters:
+//   val - Value to divide by 10
+//
+// Return:
+//   val / 10
 i16 Math_Div10_16b(i16 val) __FASTCALL;
 
 // Function: Math_Mod10
 // 8-bits fast modulo-10 
+//
+// Parameters:
+//   val - Value to module by 10
+//
+// Return:
+//   val % 10
 u8 Math_Mod10(u8 val);
 
 // Function: Math_Mod10_16b
 // 16-bits fast modulo-10 
+//
+// Parameters:
+//   val - Value to module by 10
+//
+// Return:
+//   val % 10
 u8 Math_Mod10_16b(u16 val) __FASTCALL;
 
 // Function: Math_Flip
 // Bits flip routine
+//
+// Parameters:
+//   val - Value to flip
+//
+// Return:
+//   Bits flipped value
 u8 Math_Flip(u8 val);
 
 // Function: Math_Flip_16b
 // Bits flip routine
+//
+// Parameters:
+//   val - Value to flip
+//
+// Return:
+//   Bits flipped value
 u16 Math_Flip_16b(u16 val) __FASTCALL;
 
 //-----------------------------------------------------------------------------
@@ -148,12 +184,39 @@ u16 Math_Flip_16b(u16 val) __FASTCALL;
 
 // Function: Math_SetRandomSeed8
 // Initialize random generator seed
+//
+// Parameters:
+//   seed - Initial seed value for the generator
 void Math_SetRandomSeed8(u8 seed);
 
 // Function: Math_GetRandom8
 // Generates 8-bit pseudorandom numbers
+//
+// Return:
+//   A pseudorandom value between 0 and 255.
+//   (Maximum value is 127 for RANDOM_8_REGISTER and RANDOM_8_RACC methods)
 u8 Math_GetRandom8();
 
+// Function: Math_GetRandomMax8
+// Generates 8-bit pseudorandom numbers between 0 and max-1 value.
+//
+// Parameters:
+//   max - Maximum value of the pseudorandom number (not included in the range).
+//
+// Return:
+//   A pseudorandom value between 0 and max-1.
+inline u8 Math_GetRandomMax8(u8 max) { return Math_GetRandom8() % max; }
+
+// Function: Math_GetRandomRange8
+// Generates 8-bit pseudorandom numbers between min and max-1 value.
+//
+// Parameters:
+//   min - Minimum value of the pseudorandom number.
+//   max - Maximum value of the pseudorandom number (not included in the range).
+//
+// Return:
+//   A pseudorandom value between min and max-1.
+inline u8 Math_GetRandomRange8(u8 min, u8 max) { return min + Math_GetRandom8() % (max - min); }
 #endif
 
 
@@ -182,10 +245,37 @@ u8 Math_GetRandom8();
 
 // Function: Math_SetRandomSeed16
 // Initialize random generator seed
+//
+// Parameters:
+//   seed - Initial seed value for the generator
 void Math_SetRandomSeed16(u16 seed);
 
 // Function: Math_GetRandom16
 // Generates 16-bit pseudorandom numbers
+//
+// Return:
+//   A pseudorandom value between 0 and 65535.
 u16 Math_GetRandom16() __FASTCALL;
+
+// Function: Math_GetRandomMax16
+// Generates 16-bit pseudorandom numbers between 0 and max-1 value.
+//
+// Parameters:
+//   max - Maximum value of the pseudorandom number (not included in the range).
+//
+// Return:
+//   A pseudorandom value between 0 and max-1.
+inline u16 Math_GetRandomMax16(u16 max) { return Math_GetRandom16() % max; }
+
+// Function: Math_GetRandomRange16
+// Generates 16-bit pseudorandom numbers between min and max-1 value.
+//
+// Parameters:
+//   min - Minimum value of the pseudorandom number.
+//   max - Maximum value of the pseudorandom number (not included in the range).
+//
+// Return:
+//   A pseudorandom value between min and max-1.
+inline u16 Math_GetRandomRange16(u16 min, u16 max) { return min + Math_GetRandom16() % (max - min); }
 
 #endif

@@ -25,9 +25,8 @@
 /// 8-bits fast 10 times division 
 i8 Math_Div10(i8 val) __FASTCALL
 {
-	val;
+	val; // L
 	__asm
-//		ld		l, val		// fast call
 		ld		d, #0
 		ld		h, d
 		add		hl, hl
@@ -44,9 +43,8 @@ i8 Math_Div10(i8 val) __FASTCALL
 /// 16-bits fast 10 times division 
 i16 Math_Div10_16b(i16 val) __FASTCALL
 {
-	val;
+	val; // HL
 	__asm
-//		ld		hl, val		// fast call
 		ld		bc, #0x0D0A
 		xor		a
 		add		hl, hl
@@ -108,9 +106,8 @@ u8 Math_Mod10(u8 val)
 // 24 bytes,  98cc
 u8 Math_Mod10_16b(u16 val) __FASTCALL
 {
-	val;
+	val; // HL
 	__asm
-//		ld		hl, val		// fast call
 		ld		a, h		// add bytes
 		add		a, l
 		adc		a, #0		// n mod 255 (+1)
@@ -208,7 +205,7 @@ u8 Math_GetRandom8()
 {
 	__asm
 		ld		a, r
-	__endasm;	
+	__endasm;
 }
 
 
@@ -241,7 +238,7 @@ u8 Math_GetRandom8()
 		xor		b
 		ld		(_g_RandomSeed8), a
 	#endif
-	__endasm;	
+	__endasm;
 }
 
 
@@ -263,27 +260,26 @@ u8 Math_GetRandom8()
 {
 	__asm
 	#if(0)
-		ld      hl, (_g_RandomSeed8)
-		ld      a, r
-		ld      d, a
-		ld      e, (hl)
-		add     hl, de
-		add     a, l
-		xor     h
-		ld      (_g_RandomSeed8), hl
-	#else // Alternative version  (better distribution but a little bit slower)
-		ld      hl, (_g_RandomSeed8)
-		ld      a, r
-		ld      d, a
-		ld      e, a
-		add     hl, de
-		xor     l
-		add     a
-		xor     h
-		ld      l, a
-		ld      (_g_RandomSeed8), hl
+		ld		hl, (_g_RandomSeed8)
+		ld		a, r
+		ld		d, a
+		ld		e, (hl)
+		add		hl, de
+		add		a, l
+		xor		h
+		ld		(_g_RandomSeed8), hl
+	#else // Alternative version (better distribution but a little bit slower)
+		ld		hl, (_g_RandomSeed8)
+		ld		a, r
+		ld		d, a
+		ld		e, a
+		add		hl, de
+		xor		l
+		add		a
+		xor		h
+		ld		l, a
+		ld		(_g_RandomSeed8), hl
 	#endif
-
 	__endasm;
 }
 
@@ -309,9 +305,8 @@ u8 Math_GetRandom8()
 		ld		l, a				// Put seed in L
 		ld		a, r
 		ld		h, a				// Put R register in H (R is 7-bits counter so upper address is 0x7Fxx
-		ld      (_g_RandomSeed8), a
+		ld		(_g_RandomSeed8), a
 		ld		a, (hl)				// Get byte at HL random address
-
 	__endasm;
 }
 
@@ -349,7 +344,13 @@ u16 g_RandomSeed16 = 1;
 
 //-----------------------------------------------------------------------------
 /// Initialize random generator seed
-void Math_SetRandomSeed16(u16 seed) { g_RandomSeed16 = seed | 0x0001; }
+void Math_SetRandomSeed16(u16 seed)
+{
+	if(seed)
+		g_RandomSeed16 = seed;
+	else
+		g_RandomSeed16 = 0x7FFF;
+}
 
 //-----------------------------------------------------------------------------
 /// Generates 16-bit pseudorandom numbers
