@@ -135,9 +135,12 @@ set Emul60Hz=0
 set EmulFullScreen=0
 set EmulMute=0
 set EmulDebug=0
+:: Emulator extensions: 0 or 1
 set EmulSCC=0
 set EmulMSXMusic=0
 set EmulMSXAudio=0
+set EmulPSG2=0
+set EmulV9990=0
 :: Emulator extra parameters to be add to command-line (emulator sotfware specific)
 set EmulExtraParam=
 

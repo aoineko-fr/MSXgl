@@ -4,4 +4,5 @@
 :: PROJECT OVERWRITE
 ::*****************************************************************************
 set Machine=1
-SET LibModules=%LibModules%,v9990
+set LibModules=%LibModules%,v9990
+set EmulV9990=1

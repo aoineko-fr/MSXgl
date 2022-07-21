@@ -10,14 +10,18 @@
 for %%I in ("%Emulator%") do (set EmulatorName=%%~nI)
 
 echo %BLUE%Starting %EmulatorName% emulator...%RESET%
-
 echo EmulMachine=%EmulMachine%
 echo Emul60Hz=%Emul60Hz%
 echo EmulFullScreen=%EmulFullScreen%
 echo EmulMute=%EmulMute%
 echo EmulDebug=%EmulDebug%
+echo EmulSCC=%EmulSCC%
+echo EmulMSXMusic=%EmulMSXMusic%
+echo EmulMSXAudio=%EmulMSXAudio%
+echo EmulPSG2=%EmulPSG2%
+echo EmulV9990=%EmulV9990%
 
-set  EmulatorArgs=%EmulExtraParam%
+set EmulatorArgs=%EmulExtraParam%
 
 ::*****************************************************************************
 :: OpenMSX
@@ -61,6 +65,19 @@ if /I %EmulatorName%==openmsx (
 	if %EmulFullScreen%==1 ( set EmulatorArgs=!EmulatorArgs! -command "set fullscreen on" )
 	if %EmulMute%==1       ( set EmulatorArgs=!EmulatorArgs! -command "set mute on" )
 
+	::---- Handle extension ----
+	set /a "EmulExtCount=0"
+	if /I %Ext%==rom     ( set /a "EmulExtCount+=1" )
+	if /I %Ext%==com     ( set /a "EmulExtCount+=1" )
+	if %EmulSCC%==1      ( set /a "EmulExtCount+=1" )
+	if %EmulMSXMusic%==1 ( set /a "EmulExtCount+=1" )
+	if %EmulMSXAudio%==1 ( set /a "EmulExtCount+=1" )
+	if %EmulPSG2%==1     ( set /a "EmulExtCount+=1" )
+	if %EmulV9990%==1    ( set /a "EmulExtCount+=1" )
+	if !EmulExtCount! GEQ 3 ( set EmulatorArgs=!EmulatorArgs! -exta slotexpander )
+	if !EmulExtCount! GEQ 6 ( set EmulatorArgs=!EmulatorArgs! -extb slotexpander )
+	echo Note: !EmulExtCount! extension found
+
 	::---- Add launch program ----
 	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! -diska %ProjDir%\emul\bin )
 	if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! -cart %ProjDir%\emul\rom\%ProjName%.rom )
@@ -74,7 +91,13 @@ if /I %EmulatorName%==openmsx (
 	REM if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! -ext ide -hda %ProjDir%\emul\dsk\%ProjName%.dsk )
 	REM if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! -cart %ProjDir%\emul\rom\%ProjName%.rom )
 	REM if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! -ext ide -hda %ProjDir%\emul\dsk\%ProjName%.dsk -ext msxdos2 )
-	
+
+	if %EmulSCC%==1      ( set EmulatorArgs=!EmulatorArgs! -ext scc )
+	if %EmulMSXMusic%==1 ( set EmulatorArgs=!EmulatorArgs! -ext fmpac )
+	if %EmulMSXAudio%==1 ( set EmulatorArgs=!EmulatorArgs! -ext audio )
+	if %EmulPSG2%==1     ( set EmulatorArgs=!EmulatorArgs! -ext 2nd_PSG )
+	if %EmulV9990%==1    ( set EmulatorArgs=!EmulatorArgs! -ext gfx9000 )
+
 	::---- Start emulator ----
 	if %EmulDebug%==1 ( start /b %Debugger% )	
 )
