@@ -1,9 +1,9 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█		   │
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
-//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
+//	by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Deprecated symbols for backward compatibility
 //─────────────────────────────────────────────────────────────────────────────
@@ -17,7 +17,7 @@
 // VDP module
 #define VDP_HideSpriteFrom			VDP_DisableSpritesFrom
 #define VADDR_Lo					VADDR_LO
-#define VADDR_Hi                    VADDR_HI
+#define VADDR_Hi					VADDR_HI
 
 // Compress module
 #define UnpackRLEpToRAM				RLEp_UnpackToRAM
@@ -35,3 +35,16 @@
 #define Bios_InterSlotCallF			BIOS_CALLF
 #define Bios_Reboot					Bios_Startup
 #define Bios_MainCall				Call
+
+// Math module
+#define Abs8						ABS8
+#define Abs16						ABS16
+#define Abs32						ABS32
+#define Invert						INVERT
+#define Merge44						MERGE44
+#define Merge88						MERGE88
+#define ModuloPow2					MOD_POW2
+#define Clamp8						CLAMP8
+#define Clamp16						CLAMP16
+#define Max							MAX
+#define Min							MIN

@@ -339,6 +339,7 @@ if /I %Ext%==rom (
 		echo Copy symbols files to destination directory
 		if exist %OutDir%\%ProjName%.map ( copy /Y %OutDir%\%ProjName%.map %ProjDir%\emul\rom\%ProjName%.map )
 		if exist %OutDir%\%ProjName%.noi ( copy /Y %OutDir%\%ProjName%.noi %ProjDir%\emul\rom\%ProjName%.noi )
+		if exist %OutDir%\%ProjName%.cdb ( copy /Y %OutDir%\%ProjName%.cdb %ProjDir%\emul\rom\%ProjName%.cdb )
 	)
 )
 

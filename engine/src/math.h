@@ -52,41 +52,41 @@ typedef struct
 
 // Macro: Abs8
 // Get absolute value of a signed 8-bits integer
-#define Abs8(i)				(((u8)(i) & 0x80) ? ~((u8)(i) - 1) : (i))
+#define ABS8(i)				(((u8)(i) & 0x80) ? ~((u8)(i) - 1) : (i))
 // Macro: Abs16
 // Get absolute value of a signed 16-bits integer
-#define Abs16(i)			(((u16)(i) & 0x8000) ? ~((u16)(i) - 1) : (i))
+#define ABS16(i)			(((u16)(i) & 0x8000) ? ~((u16)(i) - 1) : (i))
 // Macro: Abs32
 // Get absolute value of a signed 32-bits integer
-#define Abs32(i)			(((u32)(i) & 0x80000000) ? ~((u32)(i) - 1) : (i))
+#define ABS32(i)			(((u32)(i) & 0x80000000) ? ~((u32)(i) - 1) : (i))
 
 // Macro: Invert
 // Invert sign of a signed integer
-#define Invert(a)			((^a)++)
+#define INVERT(a)			((^a)++)
 
 // Macro: Merge44
 // Merge two 4 bits value into a 8 bits integer
-#define Merge44(a, b)		(u8)(((a) & 0x0F) << 4 | ((b) & 0x0F))
+#define MERGE44(a, b)		(u8)(((a) & 0x0F) << 4 | ((b) & 0x0F))
 // Macro: Merge88
 // Merge two 8 bits value into a 16 bits integer
-#define Merge88(a, b)		(u16)((u8)(a) << 8 | (u8)(b))
+#define MERGE88(a, b)		(u16)((u8)(a) << 8 | (u8)(b))
 // Macro: ModuloPow2
-// Get the power-of-2 modulo of a integer (ie. "ModuloPow2(100, 32)")
-#define ModuloPow2(a, b)	((a) & ((b) - 1))
+// Get the power-of-2 modulo of a integer (ie. "MOD_POW2(100, 32)")
+#define MOD_POW2(a, b)		((a) & ((b) - 1))
 
 // Macro: Clamp8
 // Clamp a 8-bits value into a interval 
-#define Clamp8(a, b, c)		((i8)(a) < (i8)(b)) ? (b) : ((i8)(a) > (i8)(c)) ? (c) : (a)
+#define CLAMP8(a, b, c)		((i8)(a) < (i8)(b)) ? (b) : ((i8)(a) > (i8)(c)) ? (c) : (a)
 // Macro: Clamp16
 // Clamp a 16-bits value into a interval 
-#define Clamp16(a, b, c)	((i16)(a) < (i16)(b)) ? (b) : ((i16)(a) > (i16)(c)) ? (c) : (a)
+#define CLAMP16(a, b, c)	((i16)(a) < (i16)(b)) ? (b) : ((i16)(a) > (i16)(c)) ? (c) : (a)
 
 // Macro: Max
 // Find highest value
-#define Max(a, b)			((a) > (b)) ? (a) : (b)
+#define MAX(a, b)			((a) > (b)) ? (a) : (b)
 // Macro: Min
 // Find lowest value
-#define Min(a, b)			((a) > (b)) ? (b) : (a)
+#define MIN(a, b)			((a) > (b)) ? (b) : (a)
 
 //-----------------------------------------------------------------------------
 // Group: Quick math
