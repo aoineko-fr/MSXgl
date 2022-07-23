@@ -180,6 +180,7 @@ for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
 				echo Segment found: %ProjSegments%_s%%I_b0.%%K ^(addr: !hex!%Bank0Addr%^)
 				set MapperBanks=!MapperBanks! -Wl-b_SEG%%I^=0x!hex!%Bank0Addr%
 				call %LibDir%\script\compile.cmd %ProjSegments%_s%%I_b0.%%K %SegSize% %%I
+				if errorlevel 1 goto :Error
 				set RelList=!RelList! %OutDir%\%ProjSegments%_s%%I_b0.rel
 			)
 		)
@@ -188,6 +189,7 @@ for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
 				echo Segment found: %ProjSegments%_s%%I_b1.%%K ^(addr: !hex!%Bank1Addr%^)
 				set MapperBanks=!MapperBanks! -Wl-b_SEG%%I^=0x!hex!%Bank1Addr%
 				call %LibDir%\script\compile.cmd %ProjSegments%_s%%I_b1.%%K %SegSize% %%I
+				if errorlevel 1 goto :Error
 				set RelList=!RelList! %OutDir%\%ProjSegments%_s%%I_b1.rel
 			)
 		)
@@ -196,6 +198,7 @@ for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
 				echo Segment found: %ProjSegments%_s%%I_b2.%%K ^(addr: !hex!%Bank2Addr%^)
 				set MapperBanks=!MapperBanks! -Wl-b_SEG%%I^=0x!hex!%Bank2Addr%
 				call %LibDir%\script\compile.cmd %ProjSegments%_s%%I_b2.%%K %SegSize% %%I
+				if errorlevel 1 goto :Error
 				set RelList=!RelList! %OutDir%\%ProjSegments%_s%%I_b2.rel
 			)
 		)
@@ -204,6 +207,7 @@ for /L %%I in (%FirstSeg%,1,%LastSeg%) do (
 				echo Segment found: %ProjSegments%_s%%I_b3.%%K ^(addr: !hex!%Bank3Addr%^)
 				set MapperBanks=!MapperBanks! -Wl-b_SEG%%I^=0x!hex!%Bank3Addr%
 				call %LibDir%\script\compile.cmd %ProjSegments%_s%%I_b3.%%K %SegSize% %%I
+				if errorlevel 1 goto :Error
 				set RelList=!RelList! %OutDir%\%ProjSegments%_s%%I_b3.rel
 			)
 		)
