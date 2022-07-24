@@ -41,15 +41,28 @@ struct ScreenSetting
 	const u16* Palette;
 };
 
+void DisplayPageMain();
+void DisplayPageHMMC();
+void DisplayPageHMMM();
+void DisplayPageLMMC();
+
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
 // Screen mode setting index
+u8 g_CmdModeIndex;
 u8 g_SrcModeIndex;
 u8 g_VBlank = 0;
 u8 g_Frame = 0;
+
 u16 SX, SY;
+const struct ScreenSetting* src;
+u8* buffer;
+u16 blockWidth;
+u16 blockBytes;
+u16 lineBytes;
+u8  scale;
 
 // Memory buffer to unpack compressed data
 u8 g_LMMC2b[16*16];
@@ -122,6 +135,15 @@ const struct ScreenSetting g_Settings[] =
 // Character animation
 const u8 chrAnim[] = { '|', '\\', '-', '/' };
 
+//
+const callback g_Page[] = {
+	DisplayPageMain,
+	DisplayPageHMMC,
+	DisplayPageHMMM,
+	DisplayPageLMMC,
+};
+
+
 //=============================================================================
 // HELPER FUNCTIONS
 //=============================================================================
@@ -130,32 +152,59 @@ const u8 chrAnim[] = { '|', '\\', '-', '/' };
 //
 void DisplayPage()
 {
-	const struct ScreenSetting* src = &g_Settings[g_SrcModeIndex];
-	
-	u8* buffer = Mem_HeapAlloc(256);
-	u16 blockWidth = src->Width / 16;
-	u16 blockBytes = 16 / 8 * src->BPC;
-	u16 lineBytes = src->Width / 8 * src->BPC;
-	u16 X, Y;
-	u8 scale = 8 / src->BPC;
-	
+	src = &g_Settings[g_SrcModeIndex];
+	buffer = Mem_HeapAlloc(256);
+	blockWidth = src->Width / 16;
+	blockBytes = 16 / 8 * src->BPC;
+	lineBytes = src->Width / 8 * src->BPC;
+	scale = 8 / src->BPC;
+
 	//-------------------------------------------------------------------------
 	// Init
-	
 	VDP_SetMode(src->Mode);
 	VDP_SetColor(src->Background);
 	VDP_CommandHMMV(0, 0, src->Width, 212, src->Background);
-	
+	VDP_EnableDisplay(FALSE);
+
 	VDP_SetPaletteEntry(1, RGB16(0, 0, 0));
 	VDP_SetPaletteEntry(2, RGB16(1, 1, 4));
 	VDP_SetPaletteEntry(3, RGB16(2, 2, 7));
 
 	Print_SetBitmapFont(src->Font);
 	Print_SetColor(src->Text, src->Background);
-	
+
+	//-------------------------------------------------------------------------
+	// Header
 	Print_SetPosition(4, 2);
 	Print_DrawText(src->Name);
-	Draw_LineH(0, src->Width - 1, 12, src->Text, 0);
+	Draw_LineH(0, src->Width - 1, 8+4, src->Text, 0);
+
+	//-------------------------------------------------------------------------
+	g_Page[g_CmdModeIndex]();
+
+	//-------------------------------------------------------------------------
+	// Footer
+	Draw_LineH(0, src->Width - 1, 200-4, src->Text, 0);
+	Print_SetPosition(4, 200);
+	Print_DrawText("\x82:Mode  \x81\x80:Cmd  \x83+\x81\x82\x80:Cursor");
+
+	// Init sprite
+	VDP_EnableSprite(TRUE);
+	VDP_SetSpritePatternTable(0x0E000);
+	VDP_SetSpriteAttributeTable(0x0EA00);
+	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
+	// Load and setup sprite
+	VDP_LoadSpritePattern(g_CursorForm, 0, 4);
+	VDP_SetSpriteExUniColor(0, SX, SY, 0, 0xF);
+	VDP_HideSpriteFrom(1);
+	VDP_EnableDisplay(TRUE);
+}
+
+//-----------------------------------------------------------------------------
+//
+void DisplayPageMain()
+{
+	u16 X, Y;
 
 	//-------------------------------------------------------------------------
 	// WriteVRAM(src, destLow, destHigh, count) - Write data from RAM to VRAM
@@ -270,19 +319,84 @@ void DisplayPage()
 	Print_DrawText("POINT(I)");
 	u8 clr = VDP_CommandPOINT(SX, SY);
 	VDP_CommandLMMV(X, Y + 8, blockWidth, 16, clr, VDP_OP_IMP);
+}
 
-	Print_SetPosition(4, 200);
-	Print_DrawText("\x81\x82\x80:Chg mode  Space+\x81\x82\x80:Move cursor");
+//-----------------------------------------------------------------------------
+//
+void DisplayPageHMMC()
+{
+	Print_SetPosition(0, 24);
+	Print_DrawText("HMMC");
+	VDP_CommandHMMC(src->Data, 0,  40, 16, 16);
 
-	// Init sprite
-	VDP_EnableSprite(TRUE);
-	VDP_SetSpritePatternTable(0x0E000);
-	VDP_SetSpriteAttributeTable(0x0EA00);
-	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
-	// Load and setup sprite	
-	VDP_LoadSpritePattern(g_CursorForm, 0, 4);
-	VDP_SetSpriteExUniColor(0, SX, SY, 0, 0xF);
-	VDP_HideSpriteFrom(1);
+	VDP_CommandHMMC(src->Data, src->Width-1-15, 16+17*0, 16, 16);
+	VDP_CommandHMMC(src->Data, src->Width-1-14, 16+17*1, 16, 16);
+	VDP_CommandHMMC(src->Data, src->Width-1-8,  16+17*2, 16, 16);
+	VDP_CommandHMMC(src->Data, src->Width-1-7,  16+17*3, 16, 16);
+	VDP_CommandHMMC(src->Data, src->Width-1,    16+17*4, 16, 16);
+
+	VDP_CommandHMMC_Arg(src->Data, 0+15, 100+17*0, 16, 16, VDP_ARG_DIX_LEFT);
+	VDP_CommandHMMC_Arg(src->Data, 0+14, 100+17*1, 16, 16, VDP_ARG_DIX_LEFT);
+	VDP_CommandHMMC_Arg(src->Data, 0+8,  100+17*2, 16, 16, VDP_ARG_DIX_LEFT);
+	VDP_CommandHMMC_Arg(src->Data, 0+7,  100+17*3, 16, 16, VDP_ARG_DIX_LEFT);
+	VDP_CommandHMMC_Arg(src->Data, 0,    100+17*4, 16, 16, VDP_ARG_DIX_LEFT);
+
+	VDP_CommandHMMC_Arg(src->Data, src->Width/2+1, 100+1, 16, 16, 0);
+	VDP_CommandHMMC_Arg(src->Data, src->Width/2-1, 100+1, 16, 16, VDP_ARG_DIX_LEFT);
+	VDP_CommandHMMC_Arg(src->Data, src->Width/2+1, 100-1, 16, 16, VDP_ARG_DIY_UP);
+	VDP_CommandHMMC_Arg(src->Data, src->Width/2-1, 100-1, 16, 16, VDP_ARG_DIX_LEFT+VDP_ARG_DIY_UP);
+}
+
+//-----------------------------------------------------------------------------
+//
+void DisplayPageHMMM()
+{
+	Print_SetPosition(0, 24);
+	Print_DrawText("HMMM");
+	VDP_CommandHMMC(src->Data, 0,  40, 16, 16);
+
+	VDP_CommandHMMM(0, 40, src->Width-1-15, 16+17*0, 16, 16);
+	VDP_CommandHMMM(0, 40, src->Width-1-14, 16+17*1, 16, 16);
+	VDP_CommandHMMM(0, 40, src->Width-1-8,  16+17*2, 16, 16);
+	VDP_CommandHMMM(0, 40, src->Width-1-7,  16+17*3, 16, 16);
+	VDP_CommandHMMM(0, 40, src->Width-1,    16+17*4, 16, 16);
+
+	VDP_CommandHMMM_Arg(15, 40, 0+15, 100+17*0, 16, 16, VDP_ARG_DIX_LEFT);
+	VDP_CommandHMMM_Arg(15, 40, 0+14, 100+17*1, 16, 16, VDP_ARG_DIX_LEFT);
+	VDP_CommandHMMM_Arg(15, 40, 0+8,  100+17*2, 16, 16, VDP_ARG_DIX_LEFT);
+	VDP_CommandHMMM_Arg(15, 40, 0+7,  100+17*3, 16, 16, VDP_ARG_DIX_LEFT);
+	VDP_CommandHMMM_Arg(15, 40, 0,    100+17*4, 16, 16, VDP_ARG_DIX_LEFT);
+
+	VDP_CommandHMMM_Arg(0,  40,    src->Width/2+1, 100+1, 16, 16, 0);
+	VDP_CommandHMMM_Arg(15, 40,    src->Width/2-1, 100+1, 16, 16, VDP_ARG_DIX_LEFT);
+	VDP_CommandHMMM_Arg(0,  40+15, src->Width/2+1, 100-1, 16, 16, VDP_ARG_DIY_UP);
+	VDP_CommandHMMM_Arg(15, 40+15, src->Width/2-1, 100-1, 16, 16, VDP_ARG_DIX_LEFT+VDP_ARG_DIY_UP);
+}
+
+//-----------------------------------------------------------------------------
+//
+void DisplayPageLMMC()
+{
+	Print_SetPosition(0, 24);
+	Print_DrawText("LMMC");
+	VDP_CommandLMMC(src->DataLMMC, 0,  40, 16, 16, VDP_OP_TIMP);
+
+	VDP_CommandLMMC(src->DataLMMC, src->Width-1-15, 16+17*0, 16, 16, VDP_OP_TIMP);
+	VDP_CommandLMMC(src->DataLMMC, src->Width-1-14, 16+17*1, 16, 16, VDP_OP_TIMP);
+	VDP_CommandLMMC(src->DataLMMC, src->Width-1-8,  16+17*2, 16, 16, VDP_OP_TIMP);
+	VDP_CommandLMMC(src->DataLMMC, src->Width-1-7,  16+17*3, 16, 16, VDP_OP_TIMP);
+	VDP_CommandLMMC(src->DataLMMC, src->Width-1,    16+17*4, 16, 16, VDP_OP_TIMP);
+
+	VDP_CommandLMMC_Arg(src->DataLMMC, 0+15, 100+17*0, 16, 16, VDP_OP_TIMP, VDP_ARG_DIX_LEFT);
+	VDP_CommandLMMC_Arg(src->DataLMMC, 0+14, 100+17*1, 16, 16, VDP_OP_TIMP, VDP_ARG_DIX_LEFT);
+	VDP_CommandLMMC_Arg(src->DataLMMC, 0+8,  100+17*2, 16, 16, VDP_OP_TIMP, VDP_ARG_DIX_LEFT);
+	VDP_CommandLMMC_Arg(src->DataLMMC, 0+7,  100+17*3, 16, 16, VDP_OP_TIMP, VDP_ARG_DIX_LEFT);
+	VDP_CommandLMMC_Arg(src->DataLMMC, 0,    100+17*4, 16, 16, VDP_OP_TIMP, VDP_ARG_DIX_LEFT);
+
+	VDP_CommandLMMC_Arg(src->DataLMMC, src->Width/2+1, 100+1, 16, 16, VDP_OP_TIMP, 0);
+	VDP_CommandLMMC_Arg(src->DataLMMC, src->Width/2-1, 100+1, 16, 16, VDP_OP_TIMP, VDP_ARG_DIX_LEFT);
+	VDP_CommandLMMC_Arg(src->DataLMMC, src->Width/2+1, 100-1, 16, 16, VDP_OP_TIMP, VDP_ARG_DIY_UP);
+	VDP_CommandLMMC_Arg(src->DataLMMC, src->Width/2-1, 100-1, 16, 16, VDP_OP_TIMP, VDP_ARG_DIX_LEFT+VDP_ARG_DIY_UP);
 }
 
 //-----------------------------------------------------------------------------
@@ -336,6 +450,7 @@ void main()
 	// Init	
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
 	g_SrcModeIndex = 3;
+	g_CmdModeIndex = 0;
 	SX = 8;
 	SY = 32;
 	DisplayPage();
@@ -352,6 +467,7 @@ void main()
 		u8 row = Keyboard_Read(KEY_ROW(KEY_DOWN));
 		if((row & KEY_FLAG(KEY_SPACE)) == 0)
 		{
+			// Move cursor
 			bEditing = TRUE;
 			if((row & KEY_FLAG(KEY_UP)) == 0)
 			{
@@ -377,7 +493,8 @@ void main()
 		}
 		else
 		{
-			if(((row & KEY_FLAG(KEY_UP)) == 0) || ((row & KEY_FLAG(KEY_LEFT)) == 0))
+			// Change screen mode
+			if((row & KEY_FLAG(KEY_UP)) == 0)
 			{
 				if(g_SrcModeIndex > 0)
 					g_SrcModeIndex--;
@@ -385,7 +502,7 @@ void main()
 					g_SrcModeIndex = numberof(g_Settings) - 1;
 				DisplayPage();
 			}
-			else if(((row & KEY_FLAG(KEY_DOWN)) == 0) || ((row & KEY_FLAG(KEY_RIGHT)) == 0))
+			else if((row & KEY_FLAG(KEY_DOWN)) == 0)
 			{
 				if(g_SrcModeIndex < numberof(g_Settings) - 1)
 					g_SrcModeIndex++;
@@ -394,9 +511,27 @@ void main()
 				DisplayPage();
 			}
 
+			// Change page
+			if((row & KEY_FLAG(KEY_LEFT)) == 0)
+			{
+				if(g_CmdModeIndex > 0)
+					g_CmdModeIndex--;
+				else
+					g_CmdModeIndex = numberof(g_Page) - 1;
+				DisplayPage();
+			}
+			else if((row & KEY_FLAG(KEY_RIGHT)) == 0)
+			{
+				if(g_CmdModeIndex < numberof(g_Page) - 1)
+					g_CmdModeIndex++;
+				else
+					g_CmdModeIndex = 0;
+				DisplayPage();
+			}
+
 			if (bEditing)
 			{
-				DisplayPage();			
+				DisplayPage();
 				bEditing = FALSE;
 			}
 			

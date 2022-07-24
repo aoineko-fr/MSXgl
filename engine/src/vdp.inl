@@ -19,6 +19,22 @@
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
+// Function: VDP_CommandHMMC_Arg
+// High speed move CPU to VRAM. [MSX2/2+/TR]
+inline void VDP_CommandHMMC_Arg(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny, u8 arg)
+{
+	g_VDP_Command.DX = dx;
+	g_VDP_Command.DY = dy;
+	g_VDP_Command.NX = nx;
+	g_VDP_Command.NY = ny;
+	g_VDP_Command.CLR = *addr;
+	g_VDP_Command.ARG = arg; 
+	g_VDP_Command.CMD = VDP_CMD_HMMC;
+	VPD_CommandSetupR36();
+	VPD_CommandWriteLoop(addr);
+}
+
+//-----------------------------------------------------------------------------
 // Function: VDP_CommandHMMC
 // High speed move CPU to VRAM. [MSX2/2+/TR]
 //
@@ -30,15 +46,7 @@
 //   ny   - Height of the destination area
 inline void VDP_CommandHMMC(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny)
 {
-	g_VDP_Command.DX = dx;
-	g_VDP_Command.DY = dy;
-	g_VDP_Command.NX = nx;
-	g_VDP_Command.NY = ny;
-	g_VDP_Command.CLR = *addr;
-	g_VDP_Command.ARG = 0; 
-	g_VDP_Command.CMD = VDP_CMD_HMMC;
-	VPD_CommandSetupR36();
-	VPD_CommandWriteLoop(addr);
+	VDP_CommandHMMC_Arg(addr, dx, dy, nx, ny, 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -63,6 +71,22 @@ inline void VDP_CommandYMMM(u16 sy, u16 dx, u16 dy, u16 ny, u8 dir)
 }
 
 //-----------------------------------------------------------------------------
+// Function: VDP_CommandHMMM_Arg
+// High speed move VRAM to VRAM. [MSX2/2+/TR]
+inline void VDP_CommandHMMM_Arg(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 arg)
+{
+	g_VDP_Command.SX = sx;
+	g_VDP_Command.SY = sy;
+	g_VDP_Command.DX = dx;
+	g_VDP_Command.DY = dy;
+	g_VDP_Command.NX = nx;
+	g_VDP_Command.NY = ny;
+	g_VDP_Command.ARG = arg; 
+	g_VDP_Command.CMD = VDP_CMD_HMMM;
+	VPD_CommandSetupR32();
+}
+
+//-----------------------------------------------------------------------------
 // Function: VDP_CommandHMMM
 // High speed move VRAM to VRAM. [MSX2/2+/TR]
 //
@@ -75,15 +99,22 @@ inline void VDP_CommandYMMM(u16 sy, u16 dx, u16 dy, u16 ny, u8 dir)
 //   ny   - Height of the area
 inline void VDP_CommandHMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny)
 {
-	g_VDP_Command.SX = sx;
-	g_VDP_Command.SY = sy;
-	g_VDP_Command.DX = dx;
-	g_VDP_Command.DY = dy;
-	g_VDP_Command.NX = nx;
-	g_VDP_Command.NY = ny;
-	g_VDP_Command.ARG = 0; 
-	g_VDP_Command.CMD = VDP_CMD_HMMM;
-	VPD_CommandSetupR32();
+	VDP_CommandHMMM_Arg(sx, sy, dx, dy, nx, ny, 0);
+}
+
+//-----------------------------------------------------------------------------
+// Function: VDP_CommandHMMV_Arg
+// High speed move VDP to VRAM. [MSX2/2+/TR]
+inline void VDP_CommandHMMV_Arg(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 arg)
+{
+	g_VDP_Command.DX = dx; 
+	g_VDP_Command.DY = dy; 
+	g_VDP_Command.NX = nx; 
+	g_VDP_Command.NY = ny; 
+	g_VDP_Command.CLR = col; 
+	g_VDP_Command.ARG = arg; 
+	g_VDP_Command.CMD = VDP_CMD_HMMV;
+	VPD_CommandSetupR36();
 }
 
 //-----------------------------------------------------------------------------
@@ -98,14 +129,23 @@ inline void VDP_CommandHMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny)
 //   col  - Color data
 inline void VDP_CommandHMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 col)
 {
-	g_VDP_Command.DX = dx; 
-	g_VDP_Command.DY = dy; 
-	g_VDP_Command.NX = nx; 
-	g_VDP_Command.NY = ny; 
-	g_VDP_Command.CLR = col; 
-	g_VDP_Command.ARG = 0; 
-	g_VDP_Command.CMD = VDP_CMD_HMMV;
+	VDP_CommandHMMV_Arg(dx, dy, nx, ny, col, 0);
+}
+
+//-----------------------------------------------------------------------------
+// Function: VDP_CommandLMMC_Arg
+// Logical move CPU to VRAM. [MSX2/2+/TR]
+inline void VDP_CommandLMMC_Arg(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny, u8 op, u8 arg)
+{
+	g_VDP_Command.DX = dx;
+	g_VDP_Command.DY = dy;
+	g_VDP_Command.NX = nx;
+	g_VDP_Command.NY = ny;
+	g_VDP_Command.CLR = *addr;
+	g_VDP_Command.ARG = arg; 
+	g_VDP_Command.CMD = VDP_CMD_LMMC + op;
 	VPD_CommandSetupR36();
+	VPD_CommandWriteLoop(addr);
 }
 
 //-----------------------------------------------------------------------------
@@ -121,15 +161,7 @@ inline void VDP_CommandHMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 col)
 //   op   - Color blend operation
 inline void VDP_CommandLMMC(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny, u8 op)
 {
-	g_VDP_Command.DX = dx;
-	g_VDP_Command.DY = dy;
-	g_VDP_Command.NX = nx;
-	g_VDP_Command.NY = ny;
-	g_VDP_Command.CLR = *addr;
-	g_VDP_Command.ARG = 0; 
-	g_VDP_Command.CMD = VDP_CMD_LMMC + op;
-	VPD_CommandSetupR36();
-	VPD_CommandWriteLoop(addr);
+	VDP_CommandLMMC_Arg(addr, dx, dy, nx, ny, op, 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -137,6 +169,22 @@ inline void VDP_CommandLMMC(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny, u8 o
 // Logical move VRAM to CPU (not fonctional). [MSX2/2+/TR]
 inline void VDP_CommandLMCM()
 {
+}
+
+//-----------------------------------------------------------------------------
+// Function: VDP_CommandLMMM_Arg
+// Logical move VRAM to VRAM. [MSX2/2+/TR]
+inline void VDP_CommandLMMM_Arg(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 op, u8 arg)
+{
+	g_VDP_Command.SX = sx;
+	g_VDP_Command.SY = sy;
+	g_VDP_Command.DX = dx;
+	g_VDP_Command.DY = dy;
+	g_VDP_Command.NX = nx;
+	g_VDP_Command.NY = ny;
+	g_VDP_Command.ARG = arg; 
+	g_VDP_Command.CMD = VDP_CMD_LMMM + op;
+	VPD_CommandSetupR32();
 }
 
 //-----------------------------------------------------------------------------
@@ -153,15 +201,22 @@ inline void VDP_CommandLMCM()
 //   op   - Color blend operation
 inline void VDP_CommandLMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 op)
 {
-	g_VDP_Command.SX = sx;
-	g_VDP_Command.SY = sy;
-	g_VDP_Command.DX = dx;
-	g_VDP_Command.DY = dy;
-	g_VDP_Command.NX = nx;
-	g_VDP_Command.NY = ny;
-	g_VDP_Command.ARG = 0; 
-	g_VDP_Command.CMD = VDP_CMD_LMMM + op;
-	VPD_CommandSetupR32();
+	VDP_CommandLMMM_Arg(sx, sy, dx, dy, nx, ny, op, 0);
+}
+
+//-----------------------------------------------------------------------------
+// Function: VDP_CommandLMMV_Arg
+// Logical move VDP to VRAM. [MSX2/2+/TR]
+inline void VDP_CommandLMMV_Arg(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 op, u8 arg)
+{
+	g_VDP_Command.DX = dx; 
+	g_VDP_Command.DY = dy; 
+	g_VDP_Command.NX = nx; 
+	g_VDP_Command.NY = ny; 
+	g_VDP_Command.CLR = col; 
+	g_VDP_Command.ARG = arg; 
+	g_VDP_Command.CMD = VDP_CMD_LMMV + op;
+	VPD_CommandSetupR36();
 }
 
 //-----------------------------------------------------------------------------
@@ -177,14 +232,7 @@ inline void VDP_CommandLMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 o
 //   op   - Color blend operation
 inline void VDP_CommandLMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 op)
 {
-	g_VDP_Command.DX = dx; 
-	g_VDP_Command.DY = dy; 
-	g_VDP_Command.NX = nx; 
-	g_VDP_Command.NY = ny; 
-	g_VDP_Command.CLR = col; 
-	g_VDP_Command.ARG = 0; 
-	g_VDP_Command.CMD = VDP_CMD_LMMV + op;
-	VPD_CommandSetupR36();
+	VDP_CommandLMMV_Arg(dx, dy, nx, ny, col, op, 0);
 }
 
 //-----------------------------------------------------------------------------

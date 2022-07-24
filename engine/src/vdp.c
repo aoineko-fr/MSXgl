@@ -2081,7 +2081,7 @@ void VDP_DisableSpritesFrom(u8 index)
 {
 	u8 y = VDP_SPRITE_DISABLE_SM1;
 	#if (MSX_VERSION >= MSX_2)
-		if(g_VDP_Data.Mode >= VDP_MODE_TEXT2) // MSX2 modes
+		if(g_VDP_Data.Mode >= VDP_MODE_MSX2) // MSX2 modes
 			y = VDP_SPRITE_DISABLE_SM2;
 	#endif
 	VDP_SetSpritePositionY(index, y);
