@@ -124,6 +124,8 @@ set CompileSkipOld=0
 set Verbose=0
 :: Additionnal link flag
 set LinkOpt=
+:: Update build version header file
+set BuildVersion=0
 
 ::*******************************************************************************
 :: EMULATOR SETINGS

@@ -106,6 +106,20 @@ if %InstallRAMISR%==HBLANK (
 	echo ROM_HBLANK=1 >> %OutDir%\crt0_config.asm
 )
 
+:: Update build version header file
+if not %BuildVersion%==1 goto NoBuildVersion
+
+set Version=0
+if exist "version.h" (
+	for /F "tokens=3" %%I in (version.h) do set Version=%%I
+)
+set /A Version="Version+1"
+
+echo #define BUILD_VERSION %Version% > version.h
+echo Updated build version in "version.h". New value: %Version%
+
+:NoBuildVersion
+
 ::=============================================================================
 :: GENERATE MODULES LIST
 ::=============================================================================
