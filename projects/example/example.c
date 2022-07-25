@@ -14,6 +14,7 @@
 #include "game_pawn.h"
 #include "math.h"
 #include "debug.h"
+#include "string.h"
 #include "version.h"
 
 //=============================================================================
@@ -29,6 +30,7 @@
 bool State_Initialize();
 bool State_Game();
 bool State_Pause();
+void UpdateScore();
 
 //
 struct Character
@@ -68,9 +70,9 @@ enum INPUT_ACTION
 // Pawn sprite layers
 const Game_Sprite g_SpriteLayers[] =
 {
-	{ 0, 0, 0,  COLOR_BLACK, PAWN_SPRITE_EVEN },
-	{ 0, 0, 12, COLOR_BLACK, PAWN_SPRITE_ODD },
-	{ 0, 0, 8,  COLOR_LIGHT_RED, 0 },
+	{ 0, 0, 0, 0,  COLOR_BLACK, PAWN_SPRITE_EVEN },
+	{ 0, 0, 0, 12, COLOR_BLACK, PAWN_SPRITE_ODD },
+	{ 4, 0, 0, 8,  COLOR_LIGHT_RED, 0 },
 };
 
 // Idle animation frames
@@ -122,6 +124,14 @@ const Game_Action g_AnimActions[] =
 //.............................................................................
 // Player 2 data
 
+// Pawn sprite layers
+const Game_Sprite g_SpriteLayers2[] =
+{
+	{ 1, 0, 0, 0,  COLOR_BLACK, PAWN_SPRITE_EVEN },
+	{ 1, 0, 0, 12, COLOR_BLACK, PAWN_SPRITE_ODD },
+	{ 5, 0, 0, 8,  COLOR_LIGHT_RED, 0 },
+};
+
 // Idle animation frames
 const Game_Frame g_FramesIdle2[] =
 {
@@ -165,8 +175,8 @@ const Game_Action g_AnimActions2[] =
 // Pawn sprite layers
 const Game_Sprite g_BallLayers[] =
 {
-	{ 0, 0, 4,  COLOR_DARK_RED, 0 },
-	{ 0, 0, 0,  COLOR_MEDIUM_RED, 0 },
+	{ 2, 0, 0, 4,  COLOR_DARK_RED, 0 },
+	{ 3, 0, 0, 0,  COLOR_MEDIUM_RED, 0 },
 };
 
 // Idle animation frames
@@ -210,10 +220,13 @@ bool g_bFlicker = TRUE;
 u8   g_PrevRow3 = 0xFF;
 u8   g_PrevRow8 = 0xFF;
 
+c8 g_StrBuffer[16];
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
+//-----------------------------------------------------------------------------
 // Physics callback
 void PhysicsEventPlayer1(u8 event, u8 tile)
 {
@@ -233,6 +246,7 @@ void PhysicsEventPlayer1(u8 event, u8 tile)
 	};
 }
 
+//-----------------------------------------------------------------------------
 // Physics callback
 void PhysicsEventPlayer2(u8 event, u8 tile)
 {
@@ -252,6 +266,7 @@ void PhysicsEventPlayer2(u8 event, u8 tile)
 	};
 }
 
+//-----------------------------------------------------------------------------
 // Physics callback
 void PhysicsEventBall(u8 event, u8 tile)
 {
@@ -260,6 +275,28 @@ void PhysicsEventBall(u8 event, u8 tile)
 	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
 		g_Ball.VelocityY = -g_Ball.VelocityY;
 		GamePawn_SetAction(&g_Ball.Pawn, ACTION_BALL_BUMP);
+		if(g_Ball.Pawn.PositionY > 128)
+		{
+			if(g_Ball.Pawn.PositionX < 128) // Player 1 score a point!
+			{
+				if(g_Player1.Score < 99)
+					g_Player1.Score++;
+				UpdateScore();
+			}
+			else // Player 2 score a point!
+			{
+				if(g_Player2.Score < 99)
+					g_Player2.Score++;
+				UpdateScore();
+			}
+		}
+		break;
+
+	case PAWN_PHYSICS_COL_RIGHT: // Handle net
+	case PAWN_PHYSICS_COL_LEFT:
+	case PAWN_PHYSICS_BORDER_RIGHT: // Handle border
+	case PAWN_PHYSICS_BORDER_LEFT:
+		g_Ball.DX = -g_Ball.DX;
 		break;
 
 	case PAWN_PHYSICS_FALL: // Handle falling
@@ -272,11 +309,20 @@ void PhysicsEventBall(u8 event, u8 tile)
 	};
 }
 
-
+//-----------------------------------------------------------------------------
 // Collision callback
 bool PhysicsCollision(u8 tile)
 {
 	return (tile < 8);
+}
+
+//-----------------------------------------------------------------------------
+//
+void UpdateScore()
+{
+	String_Format(g_StrBuffer, "%02i-%02i", g_Player2.Score, g_Player1.Score);
+	Print_SetPosition(16, 0);
+	Print_DrawText(g_StrBuffer);
 }
 
 //-----------------------------------------------------------------------------
@@ -309,8 +355,12 @@ void InitPlayer(struct Character* ply, u8 id)
 	ply->Score = 0;
 
 	Game_Pawn* pawn = &ply->Pawn;
-	GamePawn_Initialize(pawn, g_SpriteLayers, numberof(g_SpriteLayers), (id == 0) ? 0 : 3, (id == 0) ? g_AnimActions : g_AnimActions2);
-	GamePawn_SetPosition(pawn, (id == 0) ? 255 - 16 - 16 : 120/*16*/, 100/*128*/);
+	if(id == 0)
+		GamePawn_Initialize(pawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
+	else
+		GamePawn_Initialize(pawn, g_SpriteLayers2, numberof(g_SpriteLayers2), 0, g_AnimActions2);
+
+	GamePawn_SetPosition(pawn, (id == 0) ? 255 - 16 - 16 : 16, 128);
 	GamePawn_InitializePhysics(pawn, (id == 0) ? PhysicsEventPlayer1 : PhysicsEventPlayer2, PhysicsCollision, 16, 16);
 }
 
@@ -361,7 +411,7 @@ void UpdatePlayer(struct Character* ply)
 	GamePawn_SetAction(pawn, act);
 	GamePawn_SetMovement(pawn, ply->DX, ply->DY);
 	GamePawn_Update(pawn);
-	GamePawn_Draw(pawn);
+	// GamePawn_Draw(pawn);
 }
 
 //-----------------------------------------------------------------------------
@@ -370,7 +420,7 @@ void InitBall()
 {
 	Game_Pawn* pawn = &g_Ball.Pawn;
 	GamePawn_Initialize(pawn, g_BallLayers, numberof(g_BallLayers), 6, g_BallActions);
-	GamePawn_SetPosition(pawn, 64, 128);
+	GamePawn_SetPosition(pawn, 150, 128);
 	GamePawn_InitializePhysics(pawn, PhysicsEventBall, PhysicsCollision, 16, 16);
 	GamePawn_SetAction(pawn, ACTION_BALL_IDLE);
 }
@@ -380,24 +430,42 @@ void InitBall()
 void UpdateBall()
 {
 	// Update movement
-	g_Ball.DX = 0;
+	// g_Ball.DX = 0;
 	g_Ball.DY = 0;
 	
-	if(g_Ball.bInAir) // Jump/fall
+	// Jump/fall
+	g_Ball.DY -= g_Ball.VelocityY / 4;
+	g_Ball.VelocityY -= GRAVITY;
+	if(g_Ball.VelocityY < -FORCE)
+		g_Ball.VelocityY = -FORCE;
+
+	// Test player collision
+	Game_Pawn* ballPawn = &g_Ball.Pawn;
+	struct Character* ply;
+	if(ballPawn->PositionX > 128 - 8)
+		ply = &g_Player1;
+	else
+		ply = &g_Player2;
+
+	// Compute distance
+	Game_Pawn* plyPawn = &ply->Pawn;
+	i8 dx = ballPawn->PositionX - plyPawn->PositionX;
+	i8 dy = ballPawn->PositionY - plyPawn->PositionY;
+
+	u16 sqrtDist = (dx*dx) + (dy*dy);
+	if(sqrtDist < 16*16)
 	{
-		g_Ball.DY -= g_Ball.VelocityY / 4;
-		g_Ball.VelocityY -= GRAVITY;
-		if(g_Ball.VelocityY < -FORCE)
-			g_Ball.VelocityY = -FORCE;
+		g_Ball.VelocityY = FORCE;
+		if(ply->bInAir)
+			g_Ball.VelocityY += ply->VelocityY;
+		g_Ball.DX = dx / 4;
 	}
 
 	// Update player animation & physics
-	Game_Pawn* pawn = &g_Ball.Pawn;
-	GamePawn_SetMovement(pawn, g_Ball.DX, g_Ball.DY);
-	GamePawn_Update(pawn);
-	GamePawn_Draw(pawn);
+	GamePawn_SetMovement(ballPawn, g_Ball.DX, g_Ball.DY);
+	GamePawn_Update(ballPawn);
+	// GamePawn_Draw(ballPawn);
 }
-
 //-----------------------------------------------------------------------------
 // Load pattern data into VRAM
 void VDP_LoadSpritePattern16_VSym(const u8* src, u8 index, u8 count)
@@ -443,15 +511,15 @@ bool State_Initialize()
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
-	//                    Source data              SprtID  Num
+	//                           Source data              SprtID  Num
 	VDP_LoadSpritePattern16_VSym(g_DataSprtLayer+8*4*4*1, 4*4*0,  4*4*2);
 	VDP_LoadSpritePattern16_VSym(g_DataSprtLayer+8*4*4*4, 4*4*2,  4*4*3);
 	VDP_LoadSpritePattern16_VSym(g_DataSprtLayer+8*4*4*8, 4*4*5,  4*4*2);
-
+	//                    Source data              SprtID  Num
 	VDP_LoadSpritePattern(g_DataSprtLayer+8*4*4*1, 4*4*7,  4*4*2);
 	VDP_LoadSpritePattern(g_DataSprtLayer+8*4*4*4, 4*4*9,  4*4*3);
 	VDP_LoadSpritePattern(g_DataSprtLayer+8*4*4*8, 4*4*12, 4*4*2);
-
+	//                    Source data              SprtID  Num
 	VDP_LoadSpritePattern(g_DataSprtBall,          4*4*14, 4*2*3);
 	// VDP_SetSpriteSM1(6, 0, 208, 0, 0); // hide
 
@@ -477,12 +545,17 @@ bool State_Initialize()
 //
 bool State_Game()
 {
+	GamePawn_Draw(&g_Ball.Pawn);
+	GamePawn_Draw(&g_Player1.Pawn);
+	GamePawn_Draw(&g_Player2.Pawn);
+
+	// Background horizon blink
+	if(g_bFlicker)
+		VDP_FillVRAM(g_GameFrame & 1 ? 9 : 10, g_ScreenLayoutLow + (HORIZON+2) * 32, 0, 32);
+
 	UpdatePlayer(&g_Player1);
 	UpdatePlayer(&g_Player2);
 	UpdateBall();
-
-	// Background horizon blink
-	VDP_FillVRAM(g_GameFrame & 1 ? 9 : 10, g_ScreenLayoutLow + (HORIZON+2) * 32, 0, 32);
 
 	// Update input
 	u8 row3 = Keyboard_Read(3);
@@ -504,7 +577,7 @@ bool State_Game()
 	if(IS_KEY_PRESSED(row3, KEY_F))
 		g_Player2.Input |= INPUT_JUMP;
 
-	if(IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(g_PrevRow8, KEY_HOME))
+	if(IS_KEY_PRESSED(row3, KEY_I) && !IS_KEY_PRESSED(g_PrevRow3, KEY_I))
 		g_bFlicker = 1 - g_bFlicker;
 
 	g_PrevRow3 = row3;

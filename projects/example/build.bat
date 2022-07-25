@@ -31,7 +31,7 @@ set ProjName=example
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=%ProjName%
 :: List of modules to link
-SET LibModules=system,bios,vdp,print,input,memory,game,game_pawn,math
+SET LibModules=system,bios,vdp,print,input,memory,game,game_pawn,math,string
 
 :: MSX machine version:
 :: - 1		MSX 1
