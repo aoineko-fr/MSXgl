@@ -98,7 +98,7 @@ inline void EnableInterrupt() { __asm__("ei"); }
 inline void DisableInterrupt() { __asm__("di"); }
 
 // Function: Halt
-// Disable interruption
+// Pause the CPU until a new interruption occured
 inline void Halt() { __asm__("halt"); }
 
 // Function: Call
