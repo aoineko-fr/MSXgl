@@ -331,6 +331,18 @@
 	#define GAMEPAWN_COL_LEFT			GAMEPAWN_COL_50
 #endif
 
+// GAMEPAWN_BOUND_X
+#ifndef GAMEPAWN_BOUND_X
+	#warning GAMEPAWN_BOUND_X is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_BOUND_CUSTOM
+	#define GAMEPAWN_BOUND_X			GAMEPAWN_BOUND_CUSTOM
+#endif
+
+// GAMEPAWN_BOUND_Y
+#ifndef GAMEPAWN_BOUND_Y
+	#warning GAMEPAWN_BOUND_Y is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_BOUND_CUSTOM
+	#define GAMEPAWN_BOUND_Y			GAMEPAWN_BOUND_CUSTOM
+#endif
+
 //-----------------------------------------------------------------------------
 // STRING MODULE
 //-----------------------------------------------------------------------------

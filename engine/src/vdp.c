@@ -600,14 +600,14 @@ u8 VDP_Peek_16K(u16 dest)
 		ld		a, h
 		and		a, #0x3F				// F_VDP_READ
 		out		(P_VDP_ADDR), a			// 12cc		AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_READ
-		
+
 		// Wait for VDP to be ready
 		#if (((MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12)) && ((VDP_USE_MODE_G1) || (VDP_USE_MODE_G2))) // MSX1 G1&G2 mode have 29cc wait
 		add		hl, hl					// 12cc		For 29cc wait
 		#elif (((MSX_VERSION != MSX_1) && (MSX_VERSION != MSX_12)) && ((VDP_USE_MODE_T1) || (VDP_USE_MODE_T2))) // MSX2 T1&T2 mode have 20cc wait
 		nop								//  5cc		For 20cc wait
 		#endif
-		
+
 		// Read data
 		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~	//  5cc
 		in		a, (P_VDP_DATA)			// 12cc		value = DataPort
@@ -1210,12 +1210,12 @@ void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh) __sdcccall(0)
 		ld		a, 2(iy)
 		and		a, #0x3F
 		add		a, #F_VDP_WRIT
-		out		(P_VDP_ADDR), a			// AddrPort = ((destLow >> 8) & 0x3F) + F_VDP_WRIT;
+		out		(P_VDP_ADDR), a			// 12cc		AddrPort = ((destLow >> 8) & 0x3F) + F_VDP_WRIT;
 		
 		// Write data
-		ld		a, 0(iy)
-		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
-		out		(P_VDP_DATA), a			// DataPort = val
+		ld		a, 0(iy)				// 21cc
+		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~	//  5cc
+		out		(P_VDP_DATA), a			// 12cc		DataPort = val
 
 	__endasm;
 }
@@ -1261,11 +1261,16 @@ u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0)
 		ld		a, 1(iy)
 		and		a, #0x3F
 		add		a, #F_VDP_WRIT
-		out		(P_VDP_ADDR), a			// AddrPort = ((destLow >> 8) & 0x3F) + F_VDP_WRIT;
-		
-		// Read data 	
-		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~
-		in		a, (P_VDP_DATA)			// value = DataPort
+		out		(P_VDP_ADDR), a			// 12cc		AddrPort = ((destLow >> 8) & 0x3F) + F_VDP_WRIT;
+
+		// Wait for VDP to be ready
+		#if (((MSX_VERSION != MSX_1) && (MSX_VERSION != MSX_12)) && ((VDP_USE_MODE_T1) || (VDP_USE_MODE_T2))) // MSX2 T1&T2 mode have 20cc wait
+		nop								//  5cc		For 20cc wait
+		#endif
+
+		// Read data
+		ei //~~~~~~~~~~~~~~~~~~~~~~~~~~	//  5cc
+		in		a, (P_VDP_DATA)			// 12cc		value = DataPort
 		ld		l, a
 
 	__endasm;

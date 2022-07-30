@@ -119,13 +119,29 @@ typedef struct
 #if (GAMEPAWN_USE_PHYSICS)
 	i8					MoveX;			// Pawn movement offset
 	i8					MoveY;
+#if (GAMEPAWN_BOUND_X == GAMEPAWN_BOUND_CUSTOM)
 	u8					BoundX;			// Pawn collision bound
+#endif
+#if (GAMEPAWN_BOUND_Y == GAMEPAWN_BOUND_CUSTOM)
 	u8					BoundY;
+#endif
 	u8					PhysicsState;
 	Game_PhysicsCB		PhysicsCB;
 	Game_CollisionCB	CollisionCB;
 #endif
 } Game_Pawn;
+
+#if (GAMEPAWN_BOUND_X == GAMEPAWN_BOUND_CUSTOM)
+	#define GET_BOUND_X		g_Pawn->BoundX
+#else
+	#define GET_BOUND_X		GAMEPAWN_BOUND_X
+#endif
+
+#if (GAMEPAWN_BOUND_Y == GAMEPAWN_BOUND_CUSTOM)
+	#define GET_BOUND_Y		g_Pawn->BoundY
+#else
+	#define GET_BOUND_Y		GAMEPAWN_BOUND_Y
+#endif
 
 //=============================================================================
 // FUNCTIONS

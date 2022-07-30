@@ -1,5 +1,5 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
@@ -171,6 +171,9 @@
 // GamePawn setting
 #define GAMEPAWN_ID_PER_LAYER		TRUE	// Set sprite ID for each layer (otherwise set per pawn)
 #define GAMEPAWN_USE_PHYSICS		TRUE	// Add physics and collision features
+// Pawn's bound (can be fixed for all pawn, or setable for each one)
+#define GAMEPAWN_BOUND_X			16
+#define GAMEPAWN_BOUND_Y			16
 // Collision position options for each pawn's side
 // - GAMEPAWN_COL_0
 // - GAMEPAWN_COL_25

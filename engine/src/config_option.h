@@ -269,6 +269,8 @@
 #define GAMEPAWN_COL_2P_MIDDLE		(GAMEPAWN_COL_25|GAMEPAWN_COL_75)
 #define GAMEPAWN_COL_2P_CORNER		(GAMEPAWN_COL_0|GAMEPAWN_COL_100)
 
+#define GAMEPAWN_BOUND_CUSTOM		0xFF // Use variable bound value for each pawn
+
 //-----------------------------------------------------------------------------
 // MISC
 //-----------------------------------------------------------------------------

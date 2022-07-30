@@ -171,6 +171,9 @@
 // GamePawn setting
 #define GAMEPAWN_ID_PER_LAYER		FALSE	// Set sprite ID for each layer (otherwise set per pawn)
 #define GAMEPAWN_USE_PHYSICS		FALSE	// Add physics and collision features
+// Pawn's bound (can be fixed for all pawn, or setable for each one)
+#define GAMEPAWN_BOUND_X			GAMEPAWN_BOUND_CUSTOM
+#define GAMEPAWN_BOUND_Y			GAMEPAWN_BOUND_CUSTOM
 // Collision position options for each pawn's side
 // - GAMEPAWN_COL_0
 // - GAMEPAWN_COL_25
