@@ -189,8 +189,8 @@ const Game_Frame g_BallIdle[] =
 const Game_Frame g_BallBump[] =
 {
 	{ 1*8+224,	1,	NULL },
-	{ 2*8+224,	7,	NULL },
-	{ 1*8+224,	4,	NULL },
+	{ 2*8+224,	5,	NULL },
+	{ 1*8+224,	2,	NULL },
 };
 
 // Actions id
@@ -232,7 +232,8 @@ void PhysicsEventPlayer1(u8 event, u8 tile)
 {
 	switch(event)
 	{
-	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
+	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
+	case PAWN_PHYSICS_COL_DOWN:
 		g_Player1.bInAir = FALSE;
 		break;
 
@@ -252,7 +253,8 @@ void PhysicsEventPlayer2(u8 event, u8 tile)
 {
 	switch(event)
 	{
-	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
+	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
+	case PAWN_PHYSICS_COL_DOWN:
 		g_Player2.bInAir = FALSE;
 		break;
 
@@ -272,7 +274,8 @@ void PhysicsEventBall(u8 event, u8 tile)
 {
 	switch(event)
 	{
-	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
+	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
+	case PAWN_PHYSICS_COL_DOWN:
 		g_Ball.VelocityY = -g_Ball.VelocityY;
 		GamePawn_SetAction(&g_Ball.Pawn, ACTION_BALL_BUMP);
 		if(g_Ball.Pawn.PositionY > 128)
@@ -349,19 +352,21 @@ void DrawLevel()
 //
 void InitPlayer(struct Character* ply, u8 id)
 {
-	ply->bMoving = FALSE;
-	ply->bInAir = FALSE;
-	ply->VelocityY = 0;
-	ply->Score = 0;
+	Mem_Set(0, ply, sizeof(struct Character));
 
 	Game_Pawn* pawn = &ply->Pawn;
 	if(id == 0)
+	{
 		GamePawn_Initialize(pawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
+		GamePawn_SetPosition(pawn, 255 - 16 - 16, 128);
+		GamePawn_InitializePhysics(pawn, PhysicsEventPlayer1, PhysicsCollision, 16, 16);
+	}
 	else
+	{
 		GamePawn_Initialize(pawn, g_SpriteLayers2, numberof(g_SpriteLayers2), 0, g_AnimActions2);
-
-	GamePawn_SetPosition(pawn, (id == 0) ? 255 - 16 - 16 : 16, 128);
-	GamePawn_InitializePhysics(pawn, (id == 0) ? PhysicsEventPlayer1 : PhysicsEventPlayer2, PhysicsCollision, 16, 16);
+		GamePawn_SetPosition(pawn, 16, 128);
+		GamePawn_InitializePhysics(pawn, PhysicsEventPlayer2, PhysicsCollision, 16, 16);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -411,13 +416,14 @@ void UpdatePlayer(struct Character* ply)
 	GamePawn_SetAction(pawn, act);
 	GamePawn_SetMovement(pawn, ply->DX, ply->DY);
 	GamePawn_Update(pawn);
-	// GamePawn_Draw(pawn);
 }
 
 //-----------------------------------------------------------------------------
 //
 void InitBall()
 {
+	Mem_Set(0, &g_Ball, sizeof(struct Character));
+
 	Game_Pawn* pawn = &g_Ball.Pawn;
 	GamePawn_Initialize(pawn, g_BallLayers, numberof(g_BallLayers), 6, g_BallActions);
 	GamePawn_SetPosition(pawn, 150, 128);
@@ -459,12 +465,12 @@ void UpdateBall()
 		if(ply->bInAir)
 			g_Ball.VelocityY += ply->VelocityY;
 		g_Ball.DX = dx / 4;
+		GamePawn_SetAction(ballPawn, ACTION_BALL_BUMP);
 	}
 
 	// Update player animation & physics
 	GamePawn_SetMovement(ballPawn, g_Ball.DX, g_Ball.DY);
 	GamePawn_Update(ballPawn);
-	// GamePawn_Draw(ballPawn);
 }
 //-----------------------------------------------------------------------------
 // Load pattern data into VRAM
@@ -545,17 +551,24 @@ bool State_Initialize()
 //
 bool State_Game()
 {
+// VDP_SetColor(COLOR_MEDIUM_RED);
 	GamePawn_Draw(&g_Ball.Pawn);
+// VDP_SetColor(COLOR_LIGHT_BLUE);
 	GamePawn_Draw(&g_Player1.Pawn);
+// VDP_SetColor(COLOR_MEDIUM_GREEN);
 	GamePawn_Draw(&g_Player2.Pawn);
 
 	// Background horizon blink
 	if(g_bFlicker)
 		VDP_FillVRAM(g_GameFrame & 1 ? 9 : 10, g_ScreenLayoutLow + (HORIZON+2) * 32, 0, 32);
 
+// VDP_SetColor(COLOR_MAGENTA);
 	UpdatePlayer(&g_Player1);
+// VDP_SetColor(COLOR_CYAN);
 	UpdatePlayer(&g_Player2);
+// VDP_SetColor(COLOR_LIGHT_YELLOW);
 	UpdateBall();
+// VDP_SetColor(COLOR_BLACK);
 
 	// Update input
 	u8 row3 = Keyboard_Read(3);

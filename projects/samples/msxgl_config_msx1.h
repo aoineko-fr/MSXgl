@@ -169,6 +169,7 @@
 //-----------------------------------------------------------------------------
 
 // GamePawn setting
+#define GAMEPAWN_ID_PER_LAYER		FALSE	// Set sprite ID for each layer (otherwise set per pawn)
 #define GAMEPAWN_USE_PHYSICS		TRUE	// Add physics and collision features
 // Collision position options for each pawn's side
 // - GAMEPAWN_COL_0
@@ -329,5 +330,5 @@
 // - DEBUG_OPENMSX_G .............. Grauw profile script for OpenMSX
 // - DEBUG_OPENMSX_S .............. Salutte profile script for OpenMSX
 // - DEBUG_EMULICIOUS ............. Profile script for Emulicious
-#define DEBUG_TOOL					DEBUG_DISABLE
+#define DEBUG_TOOL					DEBUG_EMULICIOUS
 #define PROFILE_LEVEL				10 

@@ -4,7 +4,7 @@
 //   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▀ ██ ██ █
 // _____________________________________________________________________________
 // CMSXbin 1.2.0 by Guillaume "Aoineko" Blanchard (2021) under CC BY-SA free license
-// File generated on Fri Jun 24 00:18:40 2022
+// File generated on Fri Jul 15 00:45:17 2022
 // Soure file: trilo\SFX_TEST.afb
 const unsigned char g_SFX_TEST[] = {
 	0x08, 0x0F, 0x00, 0x4C, 0x00, 0x7A, 0x00, 0xA7, 0x00, 0xE4, 0x00, 0x53, 0x01, 0xC0, 0x01, 0xEA, //      0

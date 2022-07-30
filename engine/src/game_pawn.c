@@ -15,9 +15,12 @@
 // MEMORY DATA
 //=============================================================================
 
+// RAM buffer to send data to VRAM
 static u8 g_Game_DrawY;
 static u8 g_Game_DrawX;
 static u8 g_Game_DrawPattern;
+
+// Static pointer for compilation optimization
 static Game_Pawn* g_Pawn;
 static const Game_Sprite* g_Sprite;
 
@@ -34,21 +37,30 @@ void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNu
 	Mem_Set(0x00, g_Pawn, sizeof(Game_Pawn));
 	g_Pawn->SpriteList = sprtList;
 	g_Pawn->SpriteNum = sprtNum;
+	#if !(GAMEPAWN_ID_PER_LAYER)
 	g_Pawn->SpriteID = sprtID;
+	#endif
 	g_Pawn->ActionList = actList;
 
 	// Initialize pawn action
 	GamePawn_SetAction(g_Pawn, 0);
 
 	// Initialize pawn sprite color
+	#if !(GAMEPAWN_ID_PER_LAYER)
 	u8 sprtIdx = sprtID;
+	#endif
 	g_Sprite = sprtList;
 	loop(i, g_Pawn->SpriteNum)
 	{
+		#if (GAMEPAWN_ID_PER_LAYER)
+		u8 sprtIdx = g_Sprite->SpriteID;
+		#endif
 		VDP_SetSpriteColorSM1(sprtIdx, g_Sprite->Color);
 
+		#if !(GAMEPAWN_ID_PER_LAYER)
 		if((g_Sprite->Flag & PAWN_SPRITE_ODD) == 0)
 			sprtIdx++;
+		#endif
 
 		g_Sprite++;
 	}
@@ -386,9 +398,15 @@ void GamePawn_Draw(Game_Pawn* pawn)
 		return;
 
 	g_Sprite = g_Pawn->SpriteList;
+	#if !(GAMEPAWN_ID_PER_LAYER)
 	u16 dest = g_SpriteAtributeLow + (g_Pawn->SpriteID * 4);
+	#endif
 	loop(i, g_Pawn->SpriteNum)
-	{	
+	{
+		#if (GAMEPAWN_ID_PER_LAYER)
+		u16 dest = g_SpriteAtributeLow + (g_Sprite->SpriteID * 4);
+		#endif
+
 		if(g_Sprite->Flag & PAWN_SPRITE_EVEN) // Skip odd frames
 		{
 			if((g_Pawn->Counter & 1) != 0)
@@ -404,7 +422,7 @@ void GamePawn_Draw(Game_Pawn* pawn)
 				g_Pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
 
-		g_Game_DrawY = g_Pawn->PositionY + g_Sprite->OffsetY;
+		g_Game_DrawY = g_Pawn->PositionY + g_Sprite->OffsetY - 1; // Decrement Y to fit screen coordinate
 		g_Game_DrawX = g_Pawn->PositionX + g_Sprite->OffsetX;
 		u8 size = 2;
 
@@ -415,7 +433,9 @@ void GamePawn_Draw(Game_Pawn* pawn)
 		}
 
 		VDP_WriteVRAM((u8*)&g_Game_DrawY, dest, g_SpriteAtributeHigh, size);
+		#if !(GAMEPAWN_ID_PER_LAYER)
 		dest += 4;
+		#endif
 
 	SkipDrawing:
 		g_Sprite++;

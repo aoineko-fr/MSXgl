@@ -3,8 +3,8 @@
 //   ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▄  ▄█▄█ ▄▀██
 //   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██ ██ █  ▀██
 // _______________________________▀▀____________________________________________
-// Data generated using CMSXimg 1.14.4 on Sat May 21 23:59:51 2022
-// by Guillaume "Aoineko" Blanchard (2021) under CC BY-SA free license
+// Data generated using CMSXimg 1.14.5 on Fri Jul 15 00:45:42 2022
+// by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Generation parameters:
 //  - Input file:     img\image01.png
 //  - Mode:           Bitmap

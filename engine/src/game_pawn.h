@@ -18,18 +18,18 @@
 // Animation frame structure (one pose of the pawn)
 typedef struct
 {
-	u8			       Id;       // Animation frame data index (0-255)
-	u8			       Duration; // Frame duration (in frame number)
-	callback	       Event;    // Event to execute at this frame
+	u8					Id;       // Animation frame data index (0-255)
+	u8					Duration; // Frame duration (in frame number)
+	callback			Event;    // Event to execute at this frame
 } Game_Frame;
 
 // Animation action structure
 typedef struct
 {
-	const Game_Frame*  FrameList;     // Animation frames data
-	u8			       FrameNum;      // Animation frames data count
-	u8			       Loop      : 1; // Is action looping?
-	u8			       Interrupt : 1; // Is action interruptable?
+	const Game_Frame*	FrameList;     // Animation frames data
+	u8					FrameNum;      // Animation frames data count
+	u8					Loop      : 1; // Is action looping?
+	u8					Interrupt : 1; // Is action interruptable?
 } Game_Action;
 
 
@@ -44,11 +44,14 @@ enum PAWN_SPRITE_FLAG
 // Pawn structure
 typedef struct
 {
-	i8                 OffsetX;      // Layer position offset...
-	i8                 OffsetY;      // ...can be positive or negative
-	u8                 DataOffset;   // Data index offset
-	u8                 Color;        // Sprite color
-	u8                 Flag;         // Sprite flag
+#if (GAMEPAWN_ID_PER_LAYER)
+	u8					SpriteID;     // Sprite ID
+#endif
+	i8					OffsetX;      // Layer position offset...
+	i8					OffsetY;      // ...can be positive or negative
+	u8					DataOffset;   // Data index offset
+	u8					Color;        // Sprite color
+	u8					Flag;         // Sprite flag
 } Game_Sprite;
 
 // Pawn update flags
@@ -101,7 +104,9 @@ typedef struct
 {
 	const Game_Sprite*	SpriteList;		// List of sprite layers
 	u8					SpriteNum;		// Number of sprite layers
+#if !(GAMEPAWN_ID_PER_LAYER)
 	u8					SpriteID;		// Sprite ID of the first layer (0~31)
+#endif
 	const Game_Action*	ActionList;		// List of actions
 	u8					PositionX;		// Pawn screen position
 	u8					PositionY;

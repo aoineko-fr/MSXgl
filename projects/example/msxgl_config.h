@@ -169,6 +169,7 @@
 //-----------------------------------------------------------------------------
 
 // GamePawn setting
+#define GAMEPAWN_ID_PER_LAYER		TRUE	// Set sprite ID for each layer (otherwise set per pawn)
 #define GAMEPAWN_USE_PHYSICS		TRUE	// Add physics and collision features
 // Collision position options for each pawn's side
 // - GAMEPAWN_COL_0
@@ -187,10 +188,10 @@
 // - GAMEPAWN_BORDER_RIGHT
 // - GAMEPAWN_BORDER_LEFT
 #define GAMEPAWN_BORDER_EVENT		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_LEFT|GAMEPAWN_BORDER_RIGHT)
-#define GAMEPAWN_BORDER_BLOCK		(GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_LEFT|GAMEPAWN_BORDER_RIGHT)
+#define GAMEPAWN_BORDER_BLOCK		(GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_LEFT|GAMEPAWN_BORDER_RIGHT)
 // Top/bottom border position (in pixel)
 #define GAMEPAWN_BORDER_MIN_Y		0
-#define GAMEPAWN_BORDER_MAX_Y		191
+#define GAMEPAWN_BORDER_MAX_Y		184
 
 //-----------------------------------------------------------------------------
 // STRING MODULE

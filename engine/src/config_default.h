@@ -266,6 +266,15 @@
 	#define GAME_USE_LOOP				TRUE
 #endif
 
+//-----------------------------------------------------------------------------
+// GAME PAWN MODULE
+//-----------------------------------------------------------------------------
+
+// GAMEPAWN_ID_PER_LAYER
+#ifndef GAMEPAWN_ID_PER_LAYER
+	#warning GAMEPAWN_ID_PER_LAYER is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define GAMEPAWN_ID_PER_LAYER		FALSE
+#endif
 
 // GAMEPAWN_USE_PHYSICS
 #ifndef GAMEPAWN_USE_PHYSICS
