@@ -79,6 +79,8 @@
 	// Macro from gbdk-2020 (see https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/include/gb/emu_debug.h)
 	#define EMU_MACRONAME(A)		EMU_MACRONAME1(A)
 	#define EMU_MACRONAME1(A)		EMULOG##A
+
+	#define EMU_MESSAGE(message_text) EMU_MESSAGE1(EMU_MACRONAME(__LINE__), message_text)
 	#define EMU_MESSAGE1(name, message_text)					\
 	__asm														\
 		.macro name msg_t, ?llbl								\
@@ -91,6 +93,7 @@
 		.endm													\
 		name ^/message_text/									\
 	__endasm
+
 	#define EMU_MESSAGE_SUFFIX(message_text, message_suffix) EMU_MESSAGE3(EMU_MACRONAME(__LINE__), message_text, message_suffix)
 	#define EMU_MESSAGE3(name, message_text, message_suffix)	\
 	__asm														\
@@ -106,9 +109,29 @@
 		name ^/message_text/, ^/message_suffix/					\
 	__endasm
 
+	#ifndef DEBUG_MSG_ADDR
+	#define DEBUG_MSG_ADDR			0xF931
+	#endif
+
+	#define EMU_MESSAGE_ADDR(msg) EMU_MESSAGE4(EMU_MACRONAME(__LINE__), msg)
+	#define EMU_MESSAGE4(macroName, msg)						\
+	String_Copy((c8*)DEBUG_MSG_ADDR, msg);						\
+	__asm														\
+		.macro macroName ?llbl									\
+			ld		d, d										\
+			jr		llbl										\
+			.dw		0x6464										\
+			.dw		0x0001										\
+			.dw		DEBUG_MSG_ADDR								\
+			.dw		0x0000										\
+		llbl:													\
+		.endm													\
+		macroName												\
+	__endasm
+
 	#define DEBUG_BREAK()			__asm__("ld b, b")
 	#define DEBUG_ASSERT(a)			if(!(a)) DEBUG_BREAK()
-	#define DEBUG_LOG(msg)			EMU_MESSAGE1(EMU_MACRONAME(__LINE__), msg)
+	#define DEBUG_LOG(msg)			EMU_MESSAGE_ADDR(msg)
 
 	#define PROFILE_SECTION_START(id, level) if (level < PROFILE_LEVEL) { EMU_MESSAGE_SUFFIX(#id, ":S%ZEROCLKS%"); }
 	#define PROFILE_SECTION_END(id, level)   if (level < PROFILE_LEVEL) { EMU_MESSAGE_SUFFIX(#id, ":E=%-18+LASTCLKS%"); }	
