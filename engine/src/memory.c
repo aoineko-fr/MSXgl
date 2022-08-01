@@ -7,32 +7,15 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "memory.h"
 
-extern u16 g_HeapStartAddress;
+//=============================================================================
+// MEMORY DATA
+//=============================================================================
+
 u16 g_StackAddress;
 
-//-----------------------------------------------------------------------------
-// Get the current address of the stack top (lower address)
-u16 Mem_GetStackAddress()
-{
-	__asm
-		ld		(_g_StackAddress), sp
-		ld		de, (_g_StackAddress)
-	__endasm;
-}
-
-//-----------------------------------------------------------------------------
-// Get the current address of the heap top (higher addresse)
-u16 Mem_GetHeapAddress()
-{
-	return g_HeapStartAddress;
-}
-
-//-----------------------------------------------------------------------------
-// Get the amount of free space in the heap
-u16 Mem_GetHeapSize()
-{ 
-	return Mem_GetStackAddress() - Mem_GetHeapAddress();
-}
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
 
 //-----------------------------------------------------------------------------
 // Allocate a part of the heap

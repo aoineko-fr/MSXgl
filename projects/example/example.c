@@ -21,18 +21,31 @@
 // DEFINES
 //=============================================================================
 
+// Unit conversion (Pixel <> Q10.6)
+#define UNIT_TO_PX(a)				(u8)((a) / 64)
+#define PX_TO_UNIT(a)				(i16)((a) * 64)
+
 #define FORCE		20
 #define GRAVITY		1
 #define GROUND		192
 #define HORIZON		11
 
-// Prototype
-bool State_Initialize();
-bool State_Game();
-bool State_Pause();
-void UpdateScore();
-
 //
+enum INPUT_ACTION
+{
+	INPUT_RIGHT = 0b00000001,
+	INPUT_LEFT  = 0b00000010,
+	INPUT_JUMP  = 0b00000100,
+};
+
+// 16-bits vector structure
+typedef struct
+{
+	i16			x;	
+	i16			y;	
+} Vector16;
+
+// Gameplay character stricture
 struct Character
 {
 	bool bMoving;
@@ -43,15 +56,15 @@ struct Character
 	u8   Input;
 	u8   Score;
 	Game_Pawn Pawn;
+	Vector16 Position;
+	Vector16 Velocity;
 };
 
-//
-enum INPUT_ACTION
-{
-	INPUT_RIGHT = 0b00000001,
-	INPUT_LEFT  = 0b00000010,
-	INPUT_JUMP  = 0b00000100,
-};
+// Prototypes
+bool State_Initialize();
+bool State_Game();
+bool State_Pause();
+void UpdateScore();
 
 //=============================================================================
 // READ-ONLY DATA
@@ -276,22 +289,23 @@ void PhysicsEventBall(u8 event, u8 tile)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
 	case PAWN_PHYSICS_COL_DOWN:
-		g_Ball.VelocityY = -g_Ball.VelocityY;
-		GamePawn_SetAction(&g_Ball.Pawn, ACTION_BALL_BUMP);
-		if(g_Ball.Pawn.PositionY > 128)
-		{
-			if(g_Ball.Pawn.PositionX < 128) // Player 1 score a point!
-			{
-				if(g_Player1.Score < 99)
-					g_Player1.Score++;
-			}
-			else // Player 2 score a point!
-			{
-				if(g_Player2.Score < 99)
-					g_Player2.Score++;
-			}
-			UpdateScore();
-		}
+		g_Ball.Velocity.y *= -1; // Reverse  
+		// g_Ball.VelocityY = -g_Ball.VelocityY;
+		// GamePawn_SetAction(&g_Ball.Pawn, ACTION_BALL_BUMP);
+		// if(g_Ball.Pawn.PositionY > 128)
+		// {
+			// if(g_Ball.Pawn.PositionX < 128) // Player 1 score a point!
+			// {
+				// if(g_Player1.Score < 99)
+					// g_Player1.Score++;
+			// }
+			// else // Player 2 score a point!
+			// {
+				// if(g_Player2.Score < 99)
+					// g_Player2.Score++;
+			// }
+			// UpdateScore();
+		// }
 		break;
 
 	case PAWN_PHYSICS_COL_RIGHT: // Handle net
@@ -359,12 +373,16 @@ void InitPlayer(struct Character* ply, u8 id)
 		GamePawn_Initialize(pawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
 		GamePawn_SetPosition(pawn, 255 - 16 - 16, 128);
 		GamePawn_InitializePhysics(pawn, PhysicsEventPlayer1, PhysicsCollision, 16, 16);
+		ply->Position.x = PX_TO_UNIT(255 - 16 - 16);
+		ply->Position.y = PX_TO_UNIT(128);
 	}
 	else
 	{
 		GamePawn_Initialize(pawn, g_SpriteLayers2, numberof(g_SpriteLayers2), 0, g_AnimActions2);
 		GamePawn_SetPosition(pawn, 16, 128);
 		GamePawn_InitializePhysics(pawn, PhysicsEventPlayer2, PhysicsCollision, 16, 16);
+		ply->Position.x = PX_TO_UNIT(16);
+		ply->Position.y = PX_TO_UNIT(128);
 	}
 }
 
@@ -428,12 +446,29 @@ void InitBall()
 	GamePawn_SetPosition(pawn, 150, 128);
 	GamePawn_InitializePhysics(pawn, PhysicsEventBall, PhysicsCollision, 16, 16);
 	GamePawn_SetAction(pawn, ACTION_BALL_IDLE);
+
+	g_Ball.Position.x = PX_TO_UNIT(150);
+	g_Ball.Position.y = PX_TO_UNIT(128);
 }
 
 //-----------------------------------------------------------------------------
 //
 void UpdateBall()
 {
+	// Update physics
+	g_Ball.Velocity.y += PX_TO_UNIT(GRAVITY);
+	if(g_Ball.Velocity.y > PX_TO_UNIT(FORCE))
+		g_Ball.Velocity.y = PX_TO_UNIT(FORCE);
+
+	g_Ball.Position.x += g_Ball.Velocity.x;
+	g_Ball.Position.y += g_Ball.Velocity.y;
+
+	// Update player animation & physics
+	Game_Pawn* ballPawn = &g_Ball.Pawn;
+	GamePawn_SetTargetPosition(ballPawn, UNIT_TO_PX(g_Ball.Position.x), UNIT_TO_PX(g_Ball.Position.y));
+	GamePawn_Update(ballPawn);
+
+	/*
 	// Update movement
 	// g_Ball.DX = 0;
 	g_Ball.DY = 0;
@@ -469,7 +504,7 @@ void UpdateBall()
 
 	// Update player animation & physics
 	GamePawn_SetMovement(ballPawn, g_Ball.DX, g_Ball.DY);
-	GamePawn_Update(ballPawn);
+	GamePawn_Update(ballPawn);*/
 }
 //-----------------------------------------------------------------------------
 // Load pattern data into VRAM

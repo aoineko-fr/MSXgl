@@ -8,23 +8,52 @@
 #pragma once
 #include "core.h"
 
+//=============================================================================
+// DEFINES
+//=============================================================================
+
+// Current heap top address
+extern u16 g_HeapStartAddress;
+
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
+
 // Function: Mem_GetStackAddress
 // Get the current address of the stack top (lower address).
-u16 Mem_GetStackAddress();
+//
+// Return:
+//   Current stack bottom address
+inline u16 Mem_GetStackAddress()
+{
+	__asm
+		ld		(_g_StackAddress), sp
+		ld		de, (_g_StackAddress)
+	__endasm;
+}
 
 // Function: Mem_GetHeapAddress
 // Get the current address of the heap top (higher addresse).
-u16 Mem_GetHeapAddress();
+//
+// Return:
+//   Current heap top address
+inline u16 Mem_GetHeapAddress() { return g_HeapStartAddress; }
 
 // Function: Mem_GetHeapSize
 // Get the amount of free space in the heap.
-u16 Mem_GetHeapSize();
+//
+// Return:
+//   Get the current size of the heap (between heap top address and stack bottom one)
+inline u16 Mem_GetHeapSize() { return Mem_GetStackAddress() - Mem_GetHeapAddress(); }
 
 // Function: Mem_HeapAlloc
 // Alloc a part of the heap.
 //
 // Parameters:
 //   size - The size of data to allocate
+//
+// Return:
+//   Pointer to allocated heap chunk
 void* Mem_HeapAlloc(u16 size);
 
 // Function: Mem_HeapFree
