@@ -60,9 +60,9 @@ enum INPUT_ACTION
 // Fonts
 #include "font\font_carwar.h"
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "..\samples\content\data_sprt_layer.h"
-#include "..\samples\content\data_sprt_ball.h"
-#include "..\samples\content\data_bg.h"
+#include "content\data_sprt_layer.h"
+#include "content\data_sprt_ball.h"
+#include "content\data_bg.h"
 
 //.............................................................................
 // Player 1 data
@@ -284,14 +284,13 @@ void PhysicsEventBall(u8 event, u8 tile)
 			{
 				if(g_Player1.Score < 99)
 					g_Player1.Score++;
-				UpdateScore();
 			}
 			else // Player 2 score a point!
 			{
 				if(g_Player2.Score < 99)
 					g_Player2.Score++;
-				UpdateScore();
 			}
+			UpdateScore();
 		}
 		break;
 
@@ -551,24 +550,24 @@ bool State_Initialize()
 //
 bool State_Game()
 {
-VDP_SetColor(COLOR_MEDIUM_RED);
+// VDP_SetColor(COLOR_MEDIUM_RED);
 	GamePawn_Draw(&g_Ball.Pawn);
-VDP_SetColor(COLOR_LIGHT_BLUE);
+// VDP_SetColor(COLOR_LIGHT_BLUE);
 	GamePawn_Draw(&g_Player1.Pawn);
-VDP_SetColor(COLOR_MEDIUM_GREEN);
+// VDP_SetColor(COLOR_MEDIUM_GREEN);
 	GamePawn_Draw(&g_Player2.Pawn);
 
 	// Background horizon blink
 	if(g_bFlicker)
 		VDP_FillVRAM(g_GameFrame & 1 ? 9 : 10, g_ScreenLayoutLow + (HORIZON+2) * 32, 0, 32);
 
-VDP_SetColor(COLOR_MAGENTA);
+// VDP_SetColor(COLOR_MAGENTA);
 	UpdatePlayer(&g_Player1);
-VDP_SetColor(COLOR_CYAN);
+// VDP_SetColor(COLOR_CYAN);
 	UpdatePlayer(&g_Player2);
-VDP_SetColor(COLOR_LIGHT_YELLOW);
+// VDP_SetColor(COLOR_LIGHT_YELLOW);
 	UpdateBall();
-VDP_SetColor(COLOR_BLACK);
+// VDP_SetColor(COLOR_BLACK);
 
 	// Update input
 	u8 row3 = Keyboard_Read(3);
