@@ -99,7 +99,14 @@ if /I %EmulatorName%==openmsx (
 	if %EmulV9990%==1    ( set EmulatorArgs=!EmulatorArgs! -ext gfx9000 )
 
 	::---- Start emulator ----
-	if %EmulDebug%==1 ( start /b %Debugger% )	
+	if %EmulDebug%==1 (
+		set EmulatorArgs=!EmulatorArgs! -ext debugdevice
+		if exist "%Debugger%" ( 
+			start /b %Debugger%
+		) else (
+			echo %YELLOW%Warning: Invalid path to Debugger [%Debugger%]%RESET%
+		)
+	)
 )
 
 ::*****************************************************************************

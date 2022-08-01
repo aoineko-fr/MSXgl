@@ -269,12 +269,15 @@
 #define GAMEPAWN_COL_2P_MIDDLE		(GAMEPAWN_COL_25|GAMEPAWN_COL_75)
 #define GAMEPAWN_COL_2P_CORNER		(GAMEPAWN_COL_0|GAMEPAWN_COL_100)
 
+#define GAMEPAWN_BOUND_CUSTOM		0xFF // Use variable bound value for each pawn
+
 //-----------------------------------------------------------------------------
 // MISC
 //-----------------------------------------------------------------------------
 
 // DEBUG_TOOL
-#define DEBUG_DISABLE				0 // No profiler
-#define DEBUG_OPENMSX_G				1 // Grauw profile script for OpenMSX
-#define DEBUG_OPENMSX_S				2 // Salutte profile script for OpenMSX
-#define DEBUG_EMULICIOUS			3 // Profile script for Emulicious
+#define DEBUG_DISABLE				0  // No support for debug/profile tool
+#define DEBUG_OPENMSX				10 // Support for OpenMSX default debugger (no profiler)
+#define DEBUG_OPENMSX_G				11 // Grauw profile script for OpenMSX
+#define DEBUG_OPENMSX_S				12 // Salutte profile script for OpenMSX
+#define DEBUG_EMULICIOUS			20 // Support for Emulicious debugger/profiler

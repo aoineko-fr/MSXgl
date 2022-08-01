@@ -40,6 +40,12 @@ extern struct V9_Address g_V9_Address;
 bool V9_Detect();
 
 //
+void V9_SetMode(u8 mode);
+
+//
+void V9_ClearVRAM();
+
+//
 void V9_SetRegister(u8 reg, u8 val);
 
 //
@@ -54,16 +60,16 @@ u8 V9_GetRegister(u8 reg);
 //-----------------------------------------------------------------------------
 // P#0 - VRAM data port - Read/write
 //-----------------------------------------------------------------------------
-#define V9_P0						0x60
-#define V9_PORT_VRAM				V9_P0
-__sfr __at(V9_P0)					g_V9_VRAMPort;
+#define V9_P00						0x60
+#define V9_PORT_VRAM				V9_P00
+__sfr __at(V9_P00)					g_V9_VRAMPort;
 
 //-----------------------------------------------------------------------------
 // P#1 - Palette data port - Read/write
 //-----------------------------------------------------------------------------
-#define V9_P1						0x61
-#define V9_PORT_PALETTE				V9_P1
-__sfr __at(V9_P1)					g_V9_PalettePort;
+#define V9_P01						0x61
+#define V9_PORT_PALETTE				V9_P01
+__sfr __at(V9_P01)					g_V9_PalettePort;
 
 // V9990 color trilet structure
 struct V9_ColorTriplet
@@ -82,16 +88,16 @@ struct V9_ColorTriplet
 //-----------------------------------------------------------------------------
 // P#2 - Command data port - Read/write
 //-----------------------------------------------------------------------------
-#define V9_P2						0x62
-#define V9_PORT_CMD_DATA			V9_P2
-__sfr __at(V9_P2)					g_V9_CmdDataPort;
+#define V9_P02						0x62
+#define V9_PORT_CMD_DATA			V9_P02
+__sfr __at(V9_P02)					g_V9_CmdDataPort;
 
 //-----------------------------------------------------------------------------
 // P#3 - Register data port - Read/write
 //-----------------------------------------------------------------------------
-#define V9_P3						0x63
-#define V9_PORT_REG_DATA			V9_P3
-__sfr __at(V9_P3)					g_V9_RegDataPort;
+#define V9_P03						0x63
+#define V9_PORT_REG_DATA			V9_P03
+__sfr __at(V9_P03)					g_V9_RegDataPort;
 
 //-----------------------------------------------------------------------------
 // P#4 - Register select port - Write Only
@@ -101,9 +107,12 @@ __sfr __at(V9_P3)					g_V9_RegDataPort;
 //	│	│	└───┴───┴───┴───┴───┴── Register number (0-63)
 //	│	└────────────────────────── Read increment inhibit (disable register automatic increment on read access)
 //	└────────────────────────────── Write increment inhibit (disable register automatic increment on write access)
-#define V9_P4						0x64
-#define V9_PORT_REG_SELECT			V9_P4
-__sfr __at(V9_P4)					g_V9_RegSelectPort;
+#define V9_P04						0x64
+#define V9_PORT_REG_SELECT			V9_P04
+__sfr __at(V9_P04)					g_V9_RegSelectPort;
+
+#define V9_P04_RII					0b01000000
+#define V9_P04_WII					0b10000000
 
 // V9990 register select structure
 struct V9_RegisterSelect
@@ -125,9 +134,17 @@ struct V9_RegisterSelect
 //	│	│	└────────────────────── Horizontal non-display period
 //	│	└────────────────────────── Vertical non-display period. It is set when the drawing of VRAM content has stopped.
 //	└────────────────────────────── Command data transfer ready. It is reset through P#2 access.
-#define V9_P5						0x65
-#define V9_PORT_STATUS				V9_P5
-__sfr __at(V9_P5)					g_V9_SatusPort;
+#define V9_P05						0x65
+#define V9_PORT_STATUS				V9_P05
+__sfr __at(V9_P05)					g_V9_SatusPort;
+
+#define V9_P05_CE					0b00000001
+#define V9_P05_E0					0b00000010
+#define V9_P05_MCS					0b00000100
+#define V9_P05_BD					0b00010000
+#define V9_P05_HR					0b00100000
+#define V9_P05_VR					0b01000000
+#define V9_P05_TR					0b10000000
 
 // V9990 status structure
 struct V9_Status
@@ -150,9 +167,13 @@ struct V9_Status
 //						│	│	└── Vertical display period completion flag
 //						│	└────── Display position flag
 //						└────────── Command completion flag
-#define V9_P6						0x66
-#define V9_PORT_INT_FLAG			V9_P6
-__sfr __at(V9_P6)					g_V9_IntFlagPort;
+#define V9_P06						0x66
+#define V9_PORT_INT_FLAG			V9_P06
+__sfr __at(V9_P06)					g_V9_IntFlagPort;
+
+#define V9_P06_VI					0b00000001
+#define V9_P06_HI					0b00000010
+#define V9_P06_CE					0b00000100
 
 // V9990 interrupt flag structure
 struct V9_InterruptFlag
@@ -172,9 +193,15 @@ struct V9_InterruptFlag
 //							│		 1: MCKIN terminal
 //							│		 0: XTAL1 terminal
 //							└────── Writing "1" will set all ports except this one in "power ON reset" state. "0" should be written to cancel it.
-#define V9_P7						0x67
-#define V9_PORT_SYS_CTRL			V9_P7
-__sfr __at(V9_P7)					g_V9_SysCtrlPort;
+#define V9_P07						0x67
+#define V9_PORT_SYS_CTRL			V9_P07
+__sfr __at(V9_P07)					g_V9_SysCtrlPort;
+
+#define V9_P07_MCS					0b00000001
+#define V9_P07_SRS					0b00000010
+
+#define V9_P07_MCKIN				0b00000001
+#define V9_P07_XTAL1				0b00000000
 
 // V9990 system control structure
 struct V9_SystemControl
@@ -187,20 +214,20 @@ struct V9_SystemControl
 //-----------------------------------------------------------------------------
 // P#8 - Primary standard Kanji ROM address port - Write Only
 //-----------------------------------------------------------------------------
-#define V9_P8						0x68	// not used in Gfx9000
-#define V9_PORT_KANJI_ADDR_L		V9_P8
-__sfr __at(V9_P8)					g_V9_KanjiAddrLPort;
+#define V9_P08						0x68	// not used in Gfx9000
+#define V9_PORT_KANJI_ADDR_L		V9_P08
+__sfr __at(V9_P08)					g_V9_KanjiAddrLPort;
 
 //-----------------------------------------------------------------------------
 // P#9 - Primary standard Kanji ROM port - Read/write
 //-----------------------------------------------------------------------------
-#define V9_P9						0x69	// not used in Gfx9000
+#define V9_P09						0x69	// not used in Gfx9000
 // Write: Primary standard Kanji ROM address port
-#define V9_PORT_KANJI_ADDR_H		V9_P9
-__sfr __at(V9_P9)					g_V9_KanjiAddrHPort;
+#define V9_PORT_KANJI_ADDR_H		V9_P09
+__sfr __at(V9_P09)					g_V9_KanjiAddrHPort;
 // Read: Primary standard Kanji ROM data port
-#define V9_PORT_KANJI_DATA			V9_P9
-__sfr __at(V9_P9)					g_V9_KanjiDataPort;
+#define V9_PORT_KANJI_DATA			V9_P09
+__sfr __at(V9_P09)					g_V9_KanjiDataPort;
 
 //-----------------------------------------------------------------------------
 // Port 6Ah & 6Bh - Secondary standard Kanji ROM address port - Write Only
@@ -236,6 +263,13 @@ __sfr __at(V9_P11)					g_V9_Kanji2DataPort;
 #define V9_P15						0x6F	// Gfx9000 and Video9000
 #define V9_PORT_OUTPUT_CTRL			V9_P15
 __sfr __at(V9_P15)					g_V9_OutputCtrPort;
+
+#define V9_P15_YM					0b00000001
+#define V9_P15_MIX					0b00000010
+#define V9_P15_TRN					0b00001000
+#define V9_P15_GEN					0b00010000
+#define V9_P15_S2					0b00100000
+#define V9_P15_S1					0b01000000
 
 // V9990 superimpose control structure
 struct V9_SuperimposeControl
@@ -321,6 +355,7 @@ struct V9_SuperimposeControl
 //									 1: P2 mode
 //									 2: Bit map mode (Bl-6)
 //									 3: Stand-by mode (non-display, no VRAM refresh, kanji ROM readable)
+#define V9_R06						6
 #define V9_REG_SCREEN_MODE0			6
 
 #define V9_R06_BPP_2				0b00000000	// 4 colors per pixel
@@ -339,14 +374,14 @@ struct V9_SuperimposeControl
 		
 #define V9_R06_MODE_P1				0b00000000	// P1 mode
 #define V9_R06_MODE_P2				0b01000000	// P2 mode
-#define V9_R06_MODE_Bitmap			0b10000000	// Bitmap mode (Bl-6)
-#define V9_R06_MODE_Standby			0b11000000	// Stand-by mode (non-display, no VRAM refresh, kanji ROM readable)
+#define V9_R06_MODE_BITMAP			0b10000000	// Bitmap mode (Bl-6)
+#define V9_R06_MODE_STANDBY			0b11000000	// Stand-by mode (non-display, no VRAM refresh, kanji ROM readable)
 
 //-----------------------------------------------------------------------------
 // R#7 - Screen mode 1 register - Read/write
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0
-//	0	C25	SM1	SM1	PAL	EO	IL	HSCN
+//	0	C25	SM1	SM	PAL	EO	IL	HSCN
 //		│	│	│	│	│	│	└── Selection of horizontal high scan mode (1: B5 and B6 modes; 0: other modes)
 //		│	│	│	│	│	└────── Activate interlace mode (invalid when in B5 and B6 modes)
 //		│	│	│	│	└────────── Selection of vertical resolution during interlace (invalid when in B5 and B6 modes). 1: Twice the vertical resolution during non-interlace; 0: Same as during non-interlace.
@@ -354,28 +389,33 @@ struct V9_SuperimposeControl
 //		│	│	└────────────────── Selection of horizontal frequency (invalid when in B5 and B6 modes). 1: 1H: fsc/227.5 (the sub-carrier phase is inverted for each line.); 0: 1H: fsc/228
 //		│	└────────────────────── Selection of total number of vertical lines during non-interlace, NTSC. 1: 263 lines (In combination with SM, the sub-carrier phase is inverted for each frame.); 0: 262 lines
 //		└────────────────────────── Selection of 640X480 mode, valid when HSCN is "1". 1: B6 mode; 0: other modes
+#define V9_R07						7
 #define V9_REG_SCREEN_MODE1			7
 
+#define V9_R07_HSCN					0b00000001
 #define V9_R07_HIGHSCAN_OFF			0b00000000
 #define V9_R07_HIGHSCAN_ON			0b00000001
 
+#define V9_R07_IL					0b00000010
 #define V9_R07_INTERLACE_OFF		0b00000000
 #define V9_R07_INTERLACE_ON			0b00000010
 
+#define V9_R07_EO					0b00000100
 #define V9_R07_VRES_OFF				0b00000000
 #define V9_R07_VRES_ON				0b00000100
 
+#define V9_R07_PAL					0b00001000
 #define V9_R07_NTSC					0b00000000
-#define V9_R07_PAL					0b00010000
 
-// #define V9_R07_				0b00000000
-// #define V9_R07_				0b00100000
+#define V9_R07_SM					0b00010000
 
+#define V9_R07_SM1					0b00100000
 #define V9_R07_LINE_262				0b00000000
 #define V9_R07_LINE_263				0b00100000
 
-// #define V9_R07_				0b00000000
-// #define V9_R07_				0b01000000
+#define V9_R07_C25					0b01000000
+#define V9_R07_480					0b01000000
+#define V9_R07_400					0b00000000
 
 //-----------------------------------------------------------------------------
 // R#8 - Control register - Read/write
@@ -611,12 +651,51 @@ struct V9_SuperimposeControl
 #define V9_REG_OPCODE				52	// W
 
 
+//=============================================================================
+//
+// SCREEN MODE
+//
+//=============================================================================
+
+// Screen modes
+enum V9_SCREEN_MODE
+{
+	V9_MODE_P1, // Pattern mode 0 256x212
+	V9_MODE_P2, // Pattern mode 1 512x212
+	V9_MODE_B0, // Bitmap mode 1 192x240 (Undocumented v9990 mode)
+	V9_MODE_B1, // Bitmap mode 1 256x212
+	V9_MODE_B2, // Bitmap mode 2 384x240
+	V9_MODE_B3, // Bitmap mode 3 512x212
+	V9_MODE_B4, // Bitmap mode 4 768x240
+	V9_MODE_B5, // Bitmap mode 5 640x400 (VGA)
+	V9_MODE_B6, // Bitmap mode 6 640x480 (VGA)
+	V9_MODE_B7, // Bitmap mode 7 1024x212 (Undocumented v9990 mode)
+};
+
+// Color modes
+enum V9_COLOR_MODE
+{	//                 R#6  R#13
+	//                 CLRM PLTM YAE
+	// 2 bits per pixel
+	V9_COLOR_BP2,	// 0    0    0	Color palette (4 colors out of 32768 colors)
+	// 4 bits per pixel
+	V9_COLOR_BP4,	// 1    0    0	Color palette (16 colors out of 32768 colors)
+	V9_COLOR_PP,	// 				Display type when the display mode is P1 or P2
+	// 8 bits per pixel
+	V9_COLOR_BP6,	// 2    0    0	Color palette (64 colors out of 32768 colors)
+	V9_COLOR_BD8,	// 2    1    0	Direct RGB [G:3|R:3|B:2] (256 colors)
+	V9_COLOR_BYJK,	// 2    2    0	YJK Decoder (19268 colors)
+	V9_COLOR_BYJKP,	// 2    2    1	YJK Decoder + Color palette (12599 colors + 16 colors out of 32768 colors)
+	V9_COLOR_BYUV,	// 2    3    0	YUV Decoder (19268 colors)
+	V9_COLOR_BYUVP,	// 2    3    1	YUV Decoder + Color palette (12599 colors + 16 colors out of 32768 colors)
+	// 16 bits per pixel
+	V9_COLOR_BD16,	// 3    0    0	Direct RGB [YS|G:5|R:2][R:3|B:5] (32768 colors)
+};
+
+#define V9_R06_COLOR_MASK			0b00000011
+#define V9_R13_COLOR_MASK			0b11100000
 
 
-
-
-
-		
 		// ifndef G9K_DISABLE_DIRECT_EXPORT
 // ;----------------------------------------------------------------------------;
 // ; General Functions overview                                                 ;
@@ -815,17 +894,6 @@ struct V9_SuperimposeControl
 // G9K_STATUS_MSC          EQU     4
 // G9K_STATUS_EO           EQU     2
 // G9K_STATUS_CE           EQU     1
-
-// ; Mode select defines for SetScreenMode
-// G9K_MODE_P1		EQU	0	; Pattern mode 0 256 212
-// G9K_MODE_P2		EQU	1	; Pattern mode 1 512 212
-// G9K_MODE_B1		EQU	2	; Bitmap mode 1 256 212
-// G9K_MODE_B2		EQU	3	; Bitmap mode 2 384 240
-// G9K_MODE_B3		EQU	4	; Bitmap mode 3 512 212
-// G9K_MODE_B4		EQU	5	; Bitmap mode 4 768 240
-// G9K_MODE_B5		EQU	6	; Bitmap mode 5 640 400 (VGA)
-// G9K_MODE_B6		EQU	7	; Bitmap mode 6 640 480 (VGA)
-// G9K_MODE_B7		EQU	8	; Bitmap mode 7 1024 212 (Undocumented v9990 mode)
 
 // ; Fixed VRAM addresses
 // G9K_SCRA_PAT_NAME_TABLE EQU     07C000h

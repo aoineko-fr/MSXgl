@@ -90,14 +90,6 @@ if %DoRun%==1 (
 		echo Disactivate DoRun option
 		set DoRun=0 
 	)
-
-	if %EmulDebug%==1 (
-		if not exist "%Debugger%" (
-			echo %YELLOW%Warning: Invalid path to Debugger [%Debugger%]%RESET%
-			echo Disactivate EmulDebug option
-			set EmulDebug=0
-		)
-	)
 )
 
 ::***************************************************************************

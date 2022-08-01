@@ -2,7 +2,7 @@
 setlocal EnableDelayedExpansion
 
 :: Audio
-set BuildTrilo=1
+set BuildTrilo=0
 set BuildWYZ=0
 set BuildayFX=0
 set BuildVGM=0
@@ -11,7 +11,7 @@ set BuildArkos=0
 set BuildPCMEnc=0
 :: Image
 set BuildBitmap=0
-set BuildImage=0
+set BuildImage=1
 set BuildCompress=0
 set BuildTile=0
 :: Misc
@@ -166,6 +166,9 @@ if %BuildImage%==1 (
 		-l i16 0 0 1 1 0xFDF5F1 0xB8D8D1 0x759DA9 ^
 		-l i16 0 0 1 1 0xEB8A06 0xBE5340 ^
 		-l i16 0 0 1 1 0x1B141E 0x759DA9 0xB8D8D1 0xBE5340
+	%CMSXtk%\CMSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_ball.h -pos 192 160 -size 16 16 -num 3 1 -name g_DataSprtBall -mode sprt ^
+		-l i16 0 0 1 1 0xCCC35E 0xDED087 ^
+		-l i16 0 0 1 1 0xCCC35E
 	%CMSXtk%\CMSXimg.exe img\data.png -out %Dest%\data_bg.h -pos 128 160 -size 8 8 -num 8 3 -name g_DataBackground -mode sprt -l i8 0 0 1 1 0xFFFFFF
 )
 

@@ -38,9 +38,23 @@ u8 V9_GetPort(u8 port)
 	port;	// A
 	__asm
 	v9_get_port:
-		add		#V9_P0
+		// add		#V9_P00
 		ld		c, a				// Select port
 		in		a, (c)				// Get value
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+//
+u8 V9_SetPort(u8 port, u8 value)
+{
+	port;	// A
+	value;	// L
+	__asm
+	v9_set_port:
+		// add		#V9_P00
+		ld		c, a				// Select port
+		out		(c), l				// Set value
 	__endasm;
 }
 
@@ -62,11 +76,15 @@ void DisplayMSX()
 	Print_SetPosition(0, 3);
 	Print_DrawText(str);
 
+	V9_SetMode(V9_MODE_B1);
+	V9_SetRegister(8, 0x82);
+	V9_ClearVRAM();
+
 	Print_SetPosition(0, 5);
 	Print_DrawText("Ports:\n\n 0-7\n 8-F");
 	for(u8 i = 0; i < 16; ++i)
 	{
-		u8 val = V9_GetPort(i);
+		u8 val = V9_GetPort(V9_P00 + i);
 		u8 x = 9 + (i % 8) * 3;
 		u8 y = 7 + (i / 8);
 		Print_SetPosition(x, y);
@@ -95,8 +113,11 @@ void main()
 {
 	DisplayMSX();
 
+	u8 clr = 0;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
+		V9_SetRegister(15, clr++);
+
 		if(Keyboard_IsKeyPressed(KEY_R))
 			DisplayMSX();
 	}

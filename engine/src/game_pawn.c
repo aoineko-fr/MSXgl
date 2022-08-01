@@ -15,9 +15,12 @@
 // MEMORY DATA
 //=============================================================================
 
+// RAM buffer to send data to VRAM
 static u8 g_Game_DrawY;
 static u8 g_Game_DrawX;
 static u8 g_Game_DrawPattern;
+
+// Static pointer for compilation optimization
 static Game_Pawn* g_Pawn;
 static const Game_Sprite* g_Sprite;
 
@@ -34,21 +37,30 @@ void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNu
 	Mem_Set(0x00, g_Pawn, sizeof(Game_Pawn));
 	g_Pawn->SpriteList = sprtList;
 	g_Pawn->SpriteNum = sprtNum;
+	#if !(GAMEPAWN_ID_PER_LAYER)
 	g_Pawn->SpriteID = sprtID;
+	#endif
 	g_Pawn->ActionList = actList;
 
 	// Initialize pawn action
 	GamePawn_SetAction(g_Pawn, 0);
 
 	// Initialize pawn sprite color
+	#if !(GAMEPAWN_ID_PER_LAYER)
 	u8 sprtIdx = sprtID;
+	#endif
 	g_Sprite = sprtList;
 	loop(i, g_Pawn->SpriteNum)
 	{
+		#if (GAMEPAWN_ID_PER_LAYER)
+		u8 sprtIdx = g_Sprite->SpriteID;
+		#endif
 		VDP_SetSpriteColorSM1(sprtIdx, g_Sprite->Color);
 
+		#if !(GAMEPAWN_ID_PER_LAYER)
 		if((g_Sprite->Flag & PAWN_SPRITE_ODD) == 0)
 			sprtIdx++;
+		#endif
 
 		g_Sprite++;
 	}
@@ -132,19 +144,19 @@ void GamePawn_Update(Game_Pawn* pawn)
 		if(g_Pawn->MoveY > 0)
 		{
 			#if ((GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_DOWN) || (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_DOWN))
-			if(targetY + g_Pawn->BoundY >= GAMEPAWN_BORDER_MAX_Y)
+			if(targetY + GET_BOUND_Y >= GAMEPAWN_BORDER_MAX_Y)
 			{
 				#if (GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_DOWN)
 					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_DOWN, 0);
 				#endif
 				#if (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_DOWN)
-					targetY = GAMEPAWN_BORDER_MAX_Y - g_Pawn->BoundY;
+					targetY = GAMEPAWN_BORDER_MAX_Y - GET_BOUND_Y;
 				#endif
 			}
 			else
 			#endif
 			{
-				u8 cellY = (targetY + g_Pawn->BoundY) / 8;
+				u8 cellY = (targetY + GET_BOUND_Y) / 8;
 				u8 cellX, lastCell = 0xFF;
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_0)
 					cellX = (targetX) / 8;
@@ -155,13 +167,13 @@ void GamePawn_Update(Game_Pawn* pawn)
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (cellY * 8) - g_Pawn->BoundY;
+							targetY = (cellY * 8) - GET_BOUND_Y;
 							goto skipVertival;
 						}
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_25)
-					cellX = (targetX + (g_Pawn->BoundX / 4)) / 8;
+					cellX = (targetX + (GET_BOUND_X / 4)) / 8;
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
@@ -169,13 +181,13 @@ void GamePawn_Update(Game_Pawn* pawn)
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (cellY * 8) - g_Pawn->BoundY;
+							targetY = (cellY * 8) - GET_BOUND_Y;
 							goto skipVertival;
 						}
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_50)
-					cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
+					cellX = (targetX + (GET_BOUND_X / 2)) / 8;
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
@@ -183,13 +195,13 @@ void GamePawn_Update(Game_Pawn* pawn)
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (cellY * 8) - g_Pawn->BoundY;
+							targetY = (cellY * 8) - GET_BOUND_Y;
 							goto skipVertival;
 						}
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_75)
-					cellX = (targetX + g_Pawn->BoundX - (g_Pawn->BoundX / 4)) / 8;
+					cellX = (targetX + GET_BOUND_X - (GET_BOUND_X / 4)) / 8;
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
@@ -197,13 +209,13 @@ void GamePawn_Update(Game_Pawn* pawn)
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (cellY * 8) - g_Pawn->BoundY;
+							targetY = (cellY * 8) - GET_BOUND_Y;
 							goto skipVertival;
 						}
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_100)
-					cellX = (targetX + g_Pawn->BoundX - 1) / 8;
+					cellX = (targetX + GET_BOUND_X - 1) / 8;
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
@@ -211,7 +223,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (cellY * 8) - g_Pawn->BoundY;
+							targetY = (cellY * 8) - GET_BOUND_Y;
 							goto skipVertival;
 						}
 					}
@@ -239,7 +251,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 			else
 			#endif
 			{
-				u8 cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
+				u8 cellX = (targetX + (GET_BOUND_X / 2)) / 8;
 				u8 cellY = (targetY) / 8;
 				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 				if(g_Pawn->CollisionCB(tile))
@@ -254,11 +266,11 @@ void GamePawn_Update(Game_Pawn* pawn)
 		else // if(g_Pawn->MoveY == 0)
 		{
 			#if (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_DOWN)
-			if(targetY + g_Pawn->BoundY < GAMEPAWN_BORDER_MAX_Y)
+			if(targetY + GET_BOUND_Y < GAMEPAWN_BORDER_MAX_Y)
 			#endif
 			{
 				u8 tile;
-				u8 cellY = (targetY + g_Pawn->BoundY) / 8;
+				u8 cellY = (targetY + GET_BOUND_Y) / 8;
 				u8 cellX, lastCell = 0xFF;
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_0)
 					cellX = (targetX) / 8;
@@ -271,7 +283,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_25)
-					cellX = (targetX + (g_Pawn->BoundX / 4)) / 8;
+					cellX = (targetX + (GET_BOUND_X / 4)) / 8;
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
@@ -281,7 +293,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_50)
-					cellX = (targetX + (g_Pawn->BoundX / 2)) / 8;
+					cellX = (targetX + (GET_BOUND_X / 2)) / 8;
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
@@ -291,7 +303,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_75)
-					cellX = (targetX + g_Pawn->BoundX - (g_Pawn->BoundX / 4)) / 8;
+					cellX = (targetX + GET_BOUND_X - (GET_BOUND_X / 4)) / 8;
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
@@ -301,7 +313,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_100)
-					cellX = (targetX + g_Pawn->BoundX - 1) / 8;
+					cellX = (targetX + GET_BOUND_X - 1) / 8;
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
@@ -319,25 +331,25 @@ skipVertival:
 		if(g_Pawn->MoveX > 0)
 		{
 			#if ((GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_RIGHT) || (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_RIGHT))
-			if((u8)(targetX + g_Pawn->BoundX) < g_Pawn->PositionX)
+			if((u8)(targetX + GET_BOUND_X) < g_Pawn->PositionX)
 			{
 				#if (GAMEPAWN_BORDER_EVENT & GAMEPAWN_BORDER_RIGHT)
 					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_RIGHT, 0);
 				#endif
 				#if (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_RIGHT)
-					targetX = 0 - g_Pawn->BoundX;
+					targetX = 0 - GET_BOUND_X;
 				#endif
 			}
 			else
 			#endif
 			{
-				u8 cellX = (targetX + g_Pawn->BoundX) / 8;
-				u8 cellY = (targetY + (g_Pawn->BoundY / 2)) / 8;
+				u8 cellX = (targetX + GET_BOUND_X) / 8;
+				u8 cellY = (targetY + (GET_BOUND_Y / 2)) / 8;
 				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 				if(g_Pawn->CollisionCB(tile))
 				{
 					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT, tile);
-					targetX = (cellX * 8) - g_Pawn->BoundX;
+					targetX = (cellX * 8) - GET_BOUND_X;
 				}
 			}
 		}
@@ -359,7 +371,7 @@ skipVertival:
 			#endif
 			{
 				u8 cellX = (targetX) / 8;
-				u8 cellY = (targetY + (g_Pawn->BoundY / 2)) / 8;
+				u8 cellY = (targetY + (GET_BOUND_Y / 2)) / 8;
 				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
 				if(g_Pawn->CollisionCB(tile))
 				{
@@ -386,9 +398,15 @@ void GamePawn_Draw(Game_Pawn* pawn)
 		return;
 
 	g_Sprite = g_Pawn->SpriteList;
+	#if !(GAMEPAWN_ID_PER_LAYER)
 	u16 dest = g_SpriteAtributeLow + (g_Pawn->SpriteID * 4);
+	#endif
 	loop(i, g_Pawn->SpriteNum)
-	{	
+	{
+		#if (GAMEPAWN_ID_PER_LAYER)
+		u16 dest = g_SpriteAtributeLow + (g_Sprite->SpriteID * 4);
+		#endif
+
 		if(g_Sprite->Flag & PAWN_SPRITE_EVEN) // Skip odd frames
 		{
 			if((g_Pawn->Counter & 1) != 0)
@@ -404,7 +422,7 @@ void GamePawn_Draw(Game_Pawn* pawn)
 				g_Pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
 
-		g_Game_DrawY = g_Pawn->PositionY + g_Sprite->OffsetY;
+		g_Game_DrawY = g_Pawn->PositionY + g_Sprite->OffsetY - 1; // Decrement Y to fit screen coordinate
 		g_Game_DrawX = g_Pawn->PositionX + g_Sprite->OffsetX;
 		u8 size = 2;
 
@@ -415,7 +433,9 @@ void GamePawn_Draw(Game_Pawn* pawn)
 		}
 
 		VDP_WriteVRAM((u8*)&g_Game_DrawY, dest, g_SpriteAtributeHigh, size);
+		#if !(GAMEPAWN_ID_PER_LAYER)
 		dest += 4;
+		#endif
 
 	SkipDrawing:
 		g_Sprite++;
@@ -437,10 +457,14 @@ void GamePawn_SetMovement(Game_Pawn* pawn, i8 dx, i8 dy)
 //-----------------------------------------------------------------------------
 // Set pawn physics callback
 void GamePawn_InitializePhysics(Game_Pawn* pawn, Game_PhysicsCB pcb, Game_CollisionCB ccb, u8 boundX, u8 boundY)
-{ 
+{
 	pawn->PhysicsCB = pcb; 
 	pawn->CollisionCB = ccb;
+	#if (GAMEPAWN_BOUND_X == GAMEPAWN_BOUND_CUSTOM)
 	pawn->BoundX = boundX;
+	#endif
+	#if (GAMEPAWN_BOUND_Y == GAMEPAWN_BOUND_CUSTOM)
 	pawn->BoundY = boundY;
+	#endif
 }
 #endif

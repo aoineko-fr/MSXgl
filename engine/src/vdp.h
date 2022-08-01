@@ -29,10 +29,11 @@
 // @todo Handle VRAM read/write access timing
 //
 // Minimum VRAM access timings in 3.58 MHz Z80 cycles
+// from http://map.grauw.nl/articles/vdp_tut.php#vramtiming
 //
 // Screen	VDP		MSX1	MSX2/2+
 // mode		mode	cycles	cycles
-//---------------------------------
+//-------------------------------------
 // 0,W40	T1		12		20
 // 0,W80	T2				20
 // 1		G1		29		15
@@ -51,6 +52,19 @@
 // OutiToVram:  ; 29 T-States (18 + 11)
 //     outi
 //     jp nz, OutiToVram
+
+// VDP access timing into instructions
+//
+// Instruction				TS		I/O
+//-------------------------------------
+// in a,(n) / out (n),a		12		9|3
+// in a,(c) / out (c),a		14		11|3
+// outi / outd				18		15|3
+// ini / ind				18		12|6
+// otir / otdr				23		15|8
+// 							18		15|3
+// inir / indr				23		12|11
+//							18		12|6
 
 //-----------------------------------------------------------------------------
 // STRUCTURES

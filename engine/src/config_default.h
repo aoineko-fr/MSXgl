@@ -266,6 +266,15 @@
 	#define GAME_USE_LOOP				TRUE
 #endif
 
+//-----------------------------------------------------------------------------
+// GAME PAWN MODULE
+//-----------------------------------------------------------------------------
+
+// GAMEPAWN_ID_PER_LAYER
+#ifndef GAMEPAWN_ID_PER_LAYER
+	#warning GAMEPAWN_ID_PER_LAYER is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define GAMEPAWN_ID_PER_LAYER		FALSE
+#endif
 
 // GAMEPAWN_USE_PHYSICS
 #ifndef GAMEPAWN_USE_PHYSICS
@@ -320,6 +329,18 @@
 #ifndef GAMEPAWN_COL_LEFT
 	#warning GAMEPAWN_COL_LEFT is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
 	#define GAMEPAWN_COL_LEFT			GAMEPAWN_COL_50
+#endif
+
+// GAMEPAWN_BOUND_X
+#ifndef GAMEPAWN_BOUND_X
+	#warning GAMEPAWN_BOUND_X is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_BOUND_CUSTOM
+	#define GAMEPAWN_BOUND_X			GAMEPAWN_BOUND_CUSTOM
+#endif
+
+// GAMEPAWN_BOUND_Y
+#ifndef GAMEPAWN_BOUND_Y
+	#warning GAMEPAWN_BOUND_Y is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_BOUND_CUSTOM
+	#define GAMEPAWN_BOUND_Y			GAMEPAWN_BOUND_CUSTOM
 #endif
 
 //-----------------------------------------------------------------------------
