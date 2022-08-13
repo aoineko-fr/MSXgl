@@ -200,7 +200,15 @@
 // STRING MODULE
 //-----------------------------------------------------------------------------
 
-#define STRING_USE_INT32			FALSE	// Add support for 32-bits integer
+// Support for integer to ASCII string converter functions
+#define STRING_USE_FROM_INT8		TRUE	// Signed 8-bits integer to string
+#define STRING_USE_FROM_UINT8		TRUE	// Unsigned 8-bits integer to string
+#define STRING_USE_FROM_INT16		TRUE	// Signed 16-bits integer to string
+#define STRING_USE_FROM_UINT16		TRUE	// Unsigned 16-bits integer to string
+
+// Support for sprintf style formating function
+#define STRING_USE_FORMAT			TRUE
+#define STRING_USE_INT32			TRUE	// Add support for 32-bits integer
 
 //-----------------------------------------------------------------------------
 // SCROLL MODULE 

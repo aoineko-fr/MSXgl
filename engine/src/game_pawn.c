@@ -403,10 +403,6 @@ void GamePawn_Draw(Game_Pawn* pawn)
 	#endif
 	loop(i, g_Pawn->SpriteNum)
 	{
-		#if (GAMEPAWN_ID_PER_LAYER)
-		u16 dest = g_SpriteAtributeLow + (g_Sprite->SpriteID * 4);
-		#endif
-
 		if(g_Sprite->Flag & PAWN_SPRITE_EVEN) // Skip odd frames
 		{
 			if((g_Pawn->Counter & 1) != 0)
@@ -432,13 +428,17 @@ void GamePawn_Draw(Game_Pawn* pawn)
 			size++;
 		}
 
+		#if (GAMEPAWN_ID_PER_LAYER)
+		u16 dest = g_SpriteAtributeLow + (g_Sprite->SpriteID * 4);
+		#endif
 		VDP_WriteVRAM((u8*)&g_Game_DrawY, dest, g_SpriteAtributeHigh, size);
 		#if !(GAMEPAWN_ID_PER_LAYER)
 		dest += 4;
 		#endif
 
 	SkipDrawing:
-		g_Sprite++;
+		//g_Sprite++;
+		g_Sprite = (const Game_Sprite*)((u8*)g_Sprite + sizeof(Game_Sprite));
 	}
 	g_Pawn->Update = 0;
 }

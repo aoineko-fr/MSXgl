@@ -347,10 +347,40 @@
 // STRING MODULE
 //-----------------------------------------------------------------------------
 
+// STRING_USE_FORMAT
+#ifndef STRING_USE_FORMAT
+	#warning STRING_USE_FORMAT is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define STRING_USE_FORMAT			TRUE
+#endif
+
 // STRING_USE_INT32
 #ifndef STRING_USE_INT32
 	#warning STRING_USE_INT32 is not defined in "msxgl_config.h"! Default value will be used: FALSE
 	#define STRING_USE_INT32			FALSE
+#endif
+
+// STRING_USE_FROM_INT8
+#ifndef STRING_USE_FROM_INT8
+	#warning STRING_USE_FROM_INT8 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define STRING_USE_FROM_INT8		TRUE
+#endif
+
+// STRING_USE_FROM_UINT8
+#ifndef STRING_USE_FROM_UINT8
+	#warning STRING_USE_FROM_UINT8 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define STRING_USE_FROM_UINT8		TRUE
+#endif
+
+// STRING_USE_FROM_INT16
+#ifndef STRING_USE_FROM_INT16
+	#warning STRING_USE_FROM_INT16 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define STRING_USE_FROM_INT16		TRUE
+#endif
+
+// STRING_USE_FROM_UINT16
+#ifndef STRING_USE_FROM_UINT16
+	#warning STRING_USE_FROM_UINT16 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define STRING_USE_FROM_UINT16		TRUE
 #endif
 
 //-----------------------------------------------------------------------------

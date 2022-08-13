@@ -12,28 +12,28 @@
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="Mem_GetStackAddress"></a><a name="Topic577"></a><div class="CTopic TFunction LC">
+<a name="Mem_GetStackAddress"></a><a name="Topic591"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_GetStackAddress</div>
- <div id="NDPrototype577" class="NDPrototype"><div class="PSection PPlainSection">u16 Mem_GetStackAddress()</div></div>
- <div class="CBody"><p>Get the current address of the stack top (lower address).</p></div>
+ <div id="NDPrototype591" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 Mem_GetStackAddress()</div></div>
+ <div class="CBody"><p>Get the current address of the stack top (lower address).</p><div class="CHeading">Return</div><p>Current stack bottom address</p></div>
 </div>
 
-<a name="Mem_GetHeapAddress"></a><a name="Topic578"></a><div class="CTopic TFunction LC">
+<a name="Mem_GetHeapAddress"></a><a name="Topic592"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_GetHeapAddress</div>
- <div id="NDPrototype578" class="NDPrototype"><div class="PSection PPlainSection">u16 Mem_GetHeapAddress()</div></div>
- <div class="CBody"><p>Get the current address of the heap top (higher addresse).</p></div>
+ <div id="NDPrototype592" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 Mem_GetHeapAddress()</div></div>
+ <div class="CBody"><p>Get the current address of the heap top (higher addresse).</p><div class="CHeading">Return</div><p>Current heap top address</p></div>
 </div>
 
-<a name="Mem_GetHeapSize"></a><a name="Topic579"></a><div class="CTopic TFunction LC">
+<a name="Mem_GetHeapSize"></a><a name="Topic593"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_GetHeapSize</div>
- <div id="NDPrototype579" class="NDPrototype"><div class="PSection PPlainSection">u16 Mem_GetHeapSize()</div></div>
- <div class="CBody"><p>Get the amount of free space in the heap.</p></div>
+ <div id="NDPrototype593" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 Mem_GetHeapSize()</div></div>
+ <div class="CBody"><p>Get the amount of free space in the heap.</p><div class="CHeading">Return</div><p>Get the current size of the heap (between heap top address and stack bottom one)</p></div>
 </div>
 
-<a name="Mem_HeapAlloc"></a><a name="Topic580"></a><div class="CTopic TFunction LC">
+<a name="Mem_HeapAlloc"></a><a name="Topic594"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_HeapAlloc</div>
- <div id="NDPrototype580" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span>* Mem_HeapAlloc(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Alloc a part of the heap.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to allocate</p></td></tr></table></div>
+ <div id="NDPrototype594" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span>* Mem_HeapAlloc(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Alloc a part of the heap.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to allocate</p></td></tr></table><div class="CHeading">Return</div><p>Pointer to allocated heap chunk</p></div>
 </div>
 
 <a name="Mem_HeapFree"></a><a name="Topic581"></a><div class="CTopic TFunction LC">

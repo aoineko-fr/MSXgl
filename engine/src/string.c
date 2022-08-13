@@ -8,8 +8,10 @@
 #include "core.h"
 #include "string.h"
 
+#if (STRING_USE_FORMAT)
 // Table use to quick decimal-to-hexadecimal conversion
 static const c8 g_HexChar[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+#endif
 
 //
 enum STRINT_PAD
@@ -19,11 +21,95 @@ enum STRINT_PAD
 	STRINT_PAD_SPACE,
 };
 
+#if (STRING_USE_FROM_UINT8)
 //-----------------------------------------------------------------------------
-// Group: String
+// Create a zero-terminated string from a 8-bits unsigned integer
+void String_FromUInt8ZT(u8 value, c8* string)
+{
+__asm
+	call	_String_FromUInt8
+	xor		a
+	ld		(de), a
+__endasm;
+}
 
 //-----------------------------------------------------------------------------
-// Function: String_Format
+// Create a string from a 8-bits unsigned integer (string is not zero-terminated)
+void String_FromUInt8(u8 value, c8* string)
+{
+__asm
+DispA:
+	ld		c, #-100
+	call	Na1
+	ld		c, #-10
+	call	Na1
+	ld		c, #-1
+Na1:
+	ld		b, #'0'-1
+Na2:
+	inc		b
+	add		a, c
+	jr		c, Na2
+	sub		c		// works as add 100/10/1
+
+	ex		af, af'		; '
+	ld		a, b
+	ld		(de), a
+	inc		de
+	ex		af, af'		; '
+	ret
+__endasm;
+
+}
+#endif // (STRING_USE_FROM_UINT8)
+
+
+#if (STRING_USE_FROM_UINT16)
+//-----------------------------------------------------------------------------
+// Create a zero-terminated string from a 16-bits unsigned integer
+void String_FromUInt16ZT(u16 value, c8* string)
+{
+__asm
+	call	_String_FromUInt16
+	xor		a
+	ld		(de), a
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Create a string from a 16-bits unsigned integer (string is not zero-terminated)
+void String_FromUInt16(u16 value, c8* string)
+{
+__asm
+Num2Dec:
+	ld		bc, #-10000
+	call	Num1
+	ld		bc, #-1000
+	call	Num1
+	ld		bc, #-100
+	call	Num1
+	ld		c, #-10
+	call	Num1
+	ld		c, b
+
+Num1:
+	ld		a, #'0'-1
+Num2:	
+	inc		a
+	add		hl, bc
+	jr		c, Num2
+	sbc		hl, bc
+
+	ld		(de), a
+	inc		de
+	ret
+__endasm;
+}
+#endif // (STRING_USE_FROM_UINT16)
+
+
+#if (STRING_USE_FORMAT)
+//-----------------------------------------------------------------------------
 // Build a zero-terminated string
 //
 // Parameters:
@@ -196,3 +282,4 @@ void String_Format(c8* dest, const c8* format, ...)
 
 	va_end(args);
 }
+#endif // (STRING_USE_FORMAT)

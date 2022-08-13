@@ -46,6 +46,30 @@
  <div class="CBody"><p>Copy a source string to a destination buffer</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">dst<div class="CDLParameterType">c8*</div></td><td class="CDLDefinition"><p>Destination string (buffer must be large enough to fit the source string size)</p></td></tr><tr><td class="CDLEntry">src<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Source string</p></td></tr></table></div>
 </div>
 
+<a name="String_FromUInt8ZT"></a><a name="Topic200"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">String_FromUInt8ZT</div>
+ <div id="NDPrototype200" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> String_FromUInt8ZT(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">c8*&nbsp;</td><td class="PName last">string</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Create a zero-terminated string from a 8-bits unsigned integer String buffer must be at least 4 bytes length (will be padded with '0')</p></div>
+</div>
+
+<a name="String_FromUInt8"></a><a name="Topic246"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">String_FromUInt8</div>
+ <div id="NDPrototype246" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> String_FromUInt8(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">c8*&nbsp;</td><td class="PName last">string</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Create a string from a 8-bits unsigned integer (string is not zero-terminated) String buffer must be at least 3 bytes length (will be padded with '0') Original version derived from Galandros work (<a href="https://wikiti.brandonw.net/index.php?title=Z80_Routines:Other:DispA" target="_top">https://&#8203;wikiti&#8203;.brandonw&#8203;.net&#8203;/index&#8203;.php&#8203;?title=Z80_Routines:Other:DispA</a>)</p></div>
+</div>
+
+<a name="String_FromUInt16ZT"></a><a name="Topic587"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">String_FromUInt16ZT</div>
+ <div id="NDPrototype587" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> String_FromUInt16ZT(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">c8*&nbsp;</td><td class="PName last">string</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Create a zero-terminated string from a 16-bits unsigned integer String buffer must be at least 6 bytes length (will be padded with '0')</p></div>
+</div>
+
+<a name="String_FromUInt16"></a><a name="Topic590"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">String_FromUInt16</div>
+ <div id="NDPrototype590" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> String_FromUInt16(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">c8*&nbsp;</td><td class="PName last">string</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Create a string from a 16-bits unsigned integer (string is not zero-terminated) String buffer must be at least 5 bytes length (will be padded with '0') Original version by Milos &quot;baze&quot; Bazelides (<a href="http://map.grauw.nl/sources/external/z80bits.html#5.1" target="_top">http://&#8203;map&#8203;.grauw&#8203;.nl&#8203;/sources&#8203;/external&#8203;/z80bits&#8203;.html&#8203;#5&#8203;.1</a>)</p></div>
+</div>
+
 <a name="String_Format"></a><a name="Topic220"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">String_Format</div>
  <div id="NDPrototype220" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> String_Format(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">c8*&nbsp;</td><td></td><td class="PName last">dest,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td></td><td class="PName last">format,</td></tr><tr><td class="first"></td><td></td><td class="PSymbols">...</td><td class="last"></td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
