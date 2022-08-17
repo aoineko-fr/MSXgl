@@ -9,14 +9,23 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
-//-----------------------------------------------------------------------------
+// Handle interruptions disabling
+#if (INPUT_USE_ISR_PROTECTION)
+	#define INPUT_DI				di
+	#define INPUT_EI				ei
+#else
+	#define INPUT_DI
+	#define INPUT_EI
+#endif
+
+//=============================================================================
 // Group: Joystick
 // Direct access to joystick
-//-----------------------------------------------------------------------------
-#if (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER)
+//=============================================================================
+#if (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER || INPUT_USE_DETECT)
 
-#define JOY_PORT_1					0
-#define JOY_PORT_2					(1 << 6)
+#define JOY_PORT_1					0b00000011
+#define JOY_PORT_2					0b01001100
 
 #define JOY_INPUT_DIR_NONE			0
 #define JOY_INPUT_DIR_UP			(1 << 0)
@@ -79,10 +88,101 @@ inline u8 Joystick_GetTrigger(u8 port, u8 trigger)
 }
 #endif // (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER)
 
-//-----------------------------------------------------------------------------
+
+//=============================================================================
+// Group: Detect
+// General purpose ports device detection
+//=============================================================================
+#if (INPUT_USE_DETECT)
+
+// Value returned the device in the idle state (allows to detect approximately the connected device)
+enum INPUT_TYPE
+{
+	INPUT_TYPE_UNPLUGGED			= 0x3F,
+	INPUT_TYPE_JOYSTICK				= INPUT_TYPE_UNPLUGGED,
+	INPUT_TYPE_MOUSE				= 0x30,
+	INPUT_TYPE_TRACKBALL			= 0x38,
+	INPUT_TYPE_PADDLE				= 0x3E, // Arkanoid Vaus Paddle or MSX-Paddle
+	// Unvalidated types
+	INPUT_TYPE_TOUCHPAD				= 0x39, // Can also be 3D or 3B
+	INPUT_TYPE_LIGHTGUN				= 0x2F, // Can also be 20 or 3F
+	INPUT_TYPE_MUSIC_PAD			= 0x3C, // Yamaha MMP-01 music pad
+	INPUT_TYPE_IBM_ADAPTER			= 0x3A, // IBM-PC DA15 joystick adapter
+	INPUT_TYPE_ATARI_ADAPTER		= 0x36, // Atari dual-paddle adapter
+};
+
+#define INPUT_PORT_1				JOY_PORT_1
+#define INPUT_PORT_2				JOY_PORT_2
+
+// Function: Input_Detect
+// Detect device plugged in General purpose ports
+inline u8 Input_Detect(u8 port) { return Joystick_Read(port) & 0x3F; }
+
+#endif
+
+//=============================================================================
+// Group: Mouse
+// Direct access to mouse
+//=============================================================================
+#if (INPUT_USE_MOUSE)
+
+#define MOUSE_PORT_1				0b00010011
+#define MOUSE_PORT_2				0b01101100
+
+#define MOUSE_NOTFOUND				0xFF
+
+#define MOUSE_BOUTON_1				0b00010000
+#define MOUSE_BOUTON_2				0b00100000
+#define MOUSE_BOUTON_LEFT			MOUSE_BOUTON_1
+#define MOUSE_BOUTON_RIGHT			MOUSE_BOUTON_2
+
+// Mouse sensitivity enumeration
+enum MOUSE_SPEED
+{
+	MOUSE_SPEED_LOWEST  = 16, // [-8:7]
+	MOUSE_SPEED_LOW     = 8,  // [-16:15]
+	MOUSE_SPEED_MEDIUM  = 4,  // [-32:31]
+	MOUSE_SPEED_HIGH    = 2,  // [-64:63]
+	MOUSE_SPEED_HIGHEST = 1,  // [-127:127]
+	MOUSE_SPEED_DEFAULT = MOUSE_SPEED_MEDIUM,
+};
+
+// Mouse state structure (don't change parameter order
+typedef struct
+{
+	u8			Buttons;
+	i8			dX;
+	i8			dY;
+	u8			PrevButtons;
+} Mouse_State;
+
+// Function: Mouse_Read
+void Mouse_Read(u8 port, Mouse_State* data);
+
+// Function: Mouse_GetOffsetX
+inline i8 Mouse_GetOffsetX(Mouse_State* data) { return -data->dX; }
+
+// Function: Mouse_GetOffsetY
+inline i8 Mouse_GetOffsetY(Mouse_State* data) { return -data->dY; }
+
+// Function: Mouse_GetAdjustedOffsetX
+inline i8 Mouse_GetAdjustedOffsetX(Mouse_State* data, u8 spd) { return -data->dX / spd; }
+
+// Function: Mouse_GetAdjustedOffsetY
+inline i8 Mouse_GetAdjustedOffsetY(Mouse_State* data, u8 spd) { return -data->dY / spd; }
+
+// Function: Mouse_IsButtonPress
+inline bool Mouse_IsButtonPress(Mouse_State* data, u8 btn) { return (data->Buttons & btn) == 0; }
+
+// Function: Mouse_IsButtonClick
+inline bool Mouse_IsButtonClick(Mouse_State* data, u8 btn) { return ((data->Buttons & btn) == 0) && ((data->PrevButtons & btn) != 0); }
+
+#endif // (INPUT_USE_MOUSE)
+
+//=============================================================================
 // Group: Keyboard
 // Direct access to keyboard
-//-----------------------------------------------------------------------------
+//=============================================================================
 #if (INPUT_USE_KEYBOARD || INPUT_USE_MANAGER)
 
 #define MAKE_KEY(r, b)		((b << 4) | r)
@@ -225,10 +325,10 @@ bool Keyboard_IsKeyPressed(u8 key);
 
 #endif // (INPUT_USE_KEYBOARD || INPUT_USE_MANAGER)
 
-//-----------------------------------------------------------------------------
+//=============================================================================
 // Group: Input Manager
 // Advanced input manager
-//-----------------------------------------------------------------------------
+//=============================================================================
 #if (INPUT_USE_MANAGER)
 
 // Device ID
@@ -370,26 +470,4 @@ inline u8 IPM_GetInputTimer(u8 joy, u8 in);
 const c8* IPM_GetEventName(u8 ev);
 
 #endif // INPUT_USE_MANAGER
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

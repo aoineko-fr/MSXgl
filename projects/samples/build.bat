@@ -105,11 +105,8 @@ set BankedCall=0
 set ForceRamAddr=
 
 :: Set debug flag (0=false, 1=true)
-set Debug=0
-:: Optim:
-:: - Default
-:: - Speed
-:: - Size
+set Debug=1
+:: Code optimization (Default, Speed or Size)
 set Optim=Speed
 :: Additionnal compilation flag
 set CompileOpt=
@@ -129,6 +126,9 @@ set EmulDebug=0
 set EmulSCC=0
 set EmulMSXMusic=0
 set EmulMSXAudio=0
+:: Plug device to emulator general purpose port: Joystick, Mouse, Keyboard (fake joystick)
+set EmulPortA=
+set EmulPortB=
 :: Emulator extra parameters to be add to command-line
 set EmulExtraParam=
 

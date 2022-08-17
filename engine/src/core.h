@@ -95,9 +95,10 @@ typedef void (*callback)(void);		// Callback default signature
 //-----------------------------------------------------------------------------
 // Fastcall (__z88dk_fastcall)
 //-----------------------------------------------------------------------------
-// - 8 bits values are passed in L
-// - 16 bits values in HL
-// - 32 bits values in DEHL
+// Parameter/return register:
+// - 8 bits 				L
+// - 16 bits				HL
+// - 32 bits				DE-HL
 #define __FASTCALL			__z88dk_fastcall
 // For 8 bits parameter
 #define FC8(a)				(u8)(a)					// L
@@ -118,17 +119,17 @@ typedef void (*callback)(void);		// Callback default signature
 //-----------------------------------------------------------------------------
 #define __SDCCCALL0			__sdcccall(0)
 #define __SDCCCALL1			__sdcccall(1)
-// Return value:
-// - 8 bits					A
-// - 16 bits				DE
-// - 32 bits				HL-DE
-// Parameters value:
+// Parameters register:
 // - 8 bits					A
 // - 16 bits				HL
 // - 32 bits				HL-DE
 // - 8 + 8 bits				A + L
 // - 8 + 16 bits			A + DE
 // - 16 + 16 bits			HL + DE
+// Return register:
+// - 8 bits					A
+// - 16 bits				DE
+// - 32 bits				HL-DE
 
 //-----------------------------------------------------------------------------
 // Bits handling

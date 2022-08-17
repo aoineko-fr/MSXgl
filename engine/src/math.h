@@ -62,7 +62,7 @@ typedef struct
 
 // Macro: Invert
 // Invert sign of a signed integer
-#define INVERT(a)			((^a)++)
+#define INVERT(a)			((^(a))++)
 
 // Macro: Merge44
 // Merge two 4 bits value into a 8 bits integer
@@ -152,6 +152,26 @@ u8 Math_Flip(u8 val);
 // Return:
 //   Bits flipped value
 u16 Math_Flip_16b(u16 val) __FASTCALL;
+
+// Function: Math_SignedDiv2
+// Divide a signed 8-bits integer by 2 using shift
+i8 Math_SignedDiv2(i8 val);
+
+// Function: Math_SignedDiv4
+// Divide a signed 8-bits integer by 4 using shift
+i8 Math_SignedDiv4(i8 val);
+
+// Function: Math_SignedDiv8
+// Divide a signed 8-bits integer by 8 using shift
+i8 Math_SignedDiv8(i8 val);
+
+// Function: Math_SignedDiv16
+// Divide a signed 8-bits integer by 16 using shift
+i8 Math_SignedDiv16(i8 val);
+
+// Function: Math_SignedDiv32
+// Divide a signed 8-bits integer by 32 using shift
+i8 Math_SignedDiv32(i8 val);
 
 //-----------------------------------------------------------------------------
 // Group: Random

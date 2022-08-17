@@ -143,6 +143,9 @@ set EmulMSXMusic=0
 set EmulMSXAudio=0
 set EmulPSG2=0
 set EmulV9990=0
+:: Emulator port: joystick, mouse, keyboard (fake joystick)
+set EmulPortA=
+set EmulPortB=
 :: Emulator extra parameters to be add to command-line (emulator sotfware specific)
 set EmulExtraParam=
 

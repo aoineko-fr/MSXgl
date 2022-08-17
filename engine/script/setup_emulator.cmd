@@ -92,11 +92,20 @@ if /I %EmulatorName%==openmsx (
 	REM if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! -cart %ProjDir%\emul\rom\%ProjName%.rom )
 	REM if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! -ext ide -hda %ProjDir%\emul\dsk\%ProjName%.dsk -ext msxdos2 )
 
+	::---- Emulator extensions ----
 	if %EmulSCC%==1      ( set EmulatorArgs=!EmulatorArgs! -ext scc )
 	if %EmulMSXMusic%==1 ( set EmulatorArgs=!EmulatorArgs! -ext fmpac )
 	if %EmulMSXAudio%==1 ( set EmulatorArgs=!EmulatorArgs! -ext audio )
 	if %EmulPSG2%==1     ( set EmulatorArgs=!EmulatorArgs! -ext 2nd_PSG )
 	if %EmulV9990%==1    ( set EmulatorArgs=!EmulatorArgs! -ext gfx9000 )
+
+	::---- Emulator conenctors ----
+	if /I "%EmulPortA%"=="Joystick" ( set EmulatorArgs=!EmulatorArgs! -command "plug joyporta joystick1" )
+	if /I "%EmulPortA%"=="Keyboard" ( set EmulatorArgs=!EmulatorArgs! -command "plug joyporta keyjoystick1" )
+	if /I "%EmulPortA%"=="Mouse"    ( set EmulatorArgs=!EmulatorArgs! -command "plug joyporta mouse" )
+	if /I "%EmulPortB%"=="Joystick" ( set EmulatorArgs=!EmulatorArgs! -command "plug joyportb joystick1" )
+	if /I "%EmulPortB%"=="Keyboard" ( set EmulatorArgs=!EmulatorArgs! -command "plug joyportb keyjoystick2" )
+	if /I "%EmulPortB%"=="Mouse"    ( set EmulatorArgs=!EmulatorArgs! -command "plug joyportb mouse" )
 
 	::---- Start emulator ----
 	if %EmulDebug%==1 (

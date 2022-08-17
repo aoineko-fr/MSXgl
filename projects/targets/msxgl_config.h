@@ -107,6 +107,9 @@
 // Input module setting
 #define INPUT_USE_JOYSTICK			FALSE	// Add functions to handle joystick using I/O port
 #define INPUT_USE_KEYBOARD			TRUE	// Add functions to handle keyboard using I/O port
+#define INPUT_USE_MOUSE				FALSE	// Add support for Mouse handling functions
+#define INPUT_USE_DETECT			FALSE	// Add feature to detect device plugged in General purpose ports
+#define INPUT_USE_ISR_PROTECTION	FALSE	// Disable interruptions while access PSG registers (needed if you use BIOS or access PSG in your own ISR)
 #define INPUT_USE_MANAGER			FALSE	// Add input manager (IPM) with advanced input features
 // Key update handler
 #define INPUT_KB_UPDATE				FALSE	// Add function to update all keyboard rows at once

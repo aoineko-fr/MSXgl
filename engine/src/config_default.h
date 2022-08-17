@@ -152,6 +152,53 @@
 // MEMORY MODULE
 //-----------------------------------------------------------------------------
 
+#ifndef INPUT_USE_JOYSTICK // Add functions to handle joystick using I/O port
+	#warning INPUT_USE_JOYSTICK is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define INPUT_USE_JOYSTICK		TRUE
+#endif
+
+#ifndef INPUT_USE_KEYBOARD // Add functions to handle keyboard using I/O port
+	#warning INPUT_USE_KEYBOARD is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define INPUT_USE_KEYBOARD		TRUE
+#endif
+
+#ifndef INPUT_USE_MOUSE // Add support for Mouse handling functions
+	#warning INPUT_USE_MOUSE is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define INPUT_USE_MOUSE			FALSE
+#endif
+
+#ifndef INPUT_USE_DETECT // Add feature to detect device plugged in General purpose ports
+	#warning INPUT_USE_DETECT is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define INPUT_USE_DETECT		FALSE
+#endif
+
+#ifndef INPUT_USE_ISR_PROTECTION // Disable interruptions while access PSG registers (needed if you use BIOS or access PSG in your own ISR)
+	#warning INPUT_USE_ISR_PROTECTION is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define INPUT_USE_ISR_PROTECTION	TRUE
+#endif
+
+#ifndef INPUT_USE_MANAGER // Add input manager (IPM) with advanced input features
+	#warning INPUT_USE_MANAGER is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define INPUT_USE_MANAGER		FALSE
+#endif
+
+#ifndef INPUT_KB_UPDATE // Add function to update all keyboard rows at once
+	#warning INPUT_KB_UPDATE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define INPUT_KB_UPDATE		FALSE
+#endif
+
+#ifndef INPUT_KB_UPDATE // First row to update
+	#define INPUT_KB_UPDATE_MIN		0
+#endif
+
+#ifndef INPUT_KB_UPDATE // Last row to update (10 for numerical-pad, 8 otherwise)
+	#define INPUT_KB_UPDATE_MAX		8
+#endif
+
+//-----------------------------------------------------------------------------
+// MEMORY MODULE
+//-----------------------------------------------------------------------------
+
 // MEM_USE_VALIDATOR
 #ifndef MEM_USE_VALIDATOR
 	#warning MEM_USE_VALIDATOR is not defined in "msxgl_config.h"! Default value will be used: FALSE

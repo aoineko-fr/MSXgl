@@ -22,7 +22,7 @@
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-/// 8-bits fast 10 times division 
+// 8-bits fast 10 times division 
 i8 Math_Div10(i8 val) __FASTCALL
 {
 	val; // L
@@ -40,7 +40,7 @@ i8 Math_Div10(i8 val) __FASTCALL
 }
 
 //-----------------------------------------------------------------------------
-/// 16-bits fast 10 times division 
+// 16-bits fast 10 times division 
 i16 Math_Div10_16b(i16 val) __FASTCALL
 {
 	val; // HL
@@ -70,7 +70,7 @@ i16 Math_Div10_16b(i16 val) __FASTCALL
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-/// 18-bits fast modulo-10 
+// 18-bits fast modulo-10 
 // Inputs:		A	8-bit unsigned integer
 // Outputs:		A	HL mod 10
 //				Z	Flag is set if divisible by 10
@@ -99,7 +99,7 @@ u8 Math_Mod10(u8 val)
 }
 
 //-----------------------------------------------------------------------------
-/// 16-bits fast modulo-10 
+// 16-bits fast modulo-10 
 // Inputs:		HL	16-bit unsigned integer
 // Outputs:		A	HL mod 10
 //				Z	Flag is set if divisible by 10
@@ -136,7 +136,7 @@ u8 Math_Mod10_16b(u16 val) __FASTCALL
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-/// 8-bits fast bits flip 
+// 8-bits fast bits flip 
 // Inputs:		A		8-bits value
 // Outputs:		A		Bits flipped value
 // Author:		John Metcalf (http://www.retroprogramming.com/2014/01/fast-z80-bit-reversal.html)
@@ -164,7 +164,7 @@ u8 Math_Flip(u8 val)
 }
 
 //-----------------------------------------------------------------------------
-/// 16-bits bits flip 
+// 16-bits bits flip 
 u16 Math_Flip_16b(u16 val) __FASTCALL
 {
 	// register u8 a = val >> 8;
@@ -185,6 +185,34 @@ u16 Math_Flip_16b(u16 val) __FASTCALL
 	__endasm;
 }
 
+//-----------------------------------------------------------------------------
+// SIGNED DIVISION
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Divide a signed 8-bits integer by 2, 4, 8, 16, 32 or 64 using right shift
+void Math_SignedDiv_ASM() __naked
+{
+	__asm
+	_Math_SignedDiv64::
+		sra		a
+	_Math_SignedDiv32::
+		sra		a
+	_Math_SignedDiv16::
+		sra		a
+	_Math_SignedDiv8::
+		sra		a
+	_Math_SignedDiv4::
+		sra		a
+	_Math_SignedDiv2::
+		sra		a
+		ret		p					// return if positive
+		inc		a					// overwise, add 1 to get proper negative value
+		ret
+	__endasm;
+}
+
+
 //=============================================================================
 // RANDOM
 //=============================================================================
@@ -196,11 +224,11 @@ u16 Math_Flip_16b(u16 val) __FASTCALL
 #if (RANDOM_8_METHOD == RANDOM_8_REGISTER)
 
 //-----------------------------------------------------------------------------
-/// Initialize random generator seed
+// Initialize random generator seed
 void Math_SetRandomSeed8(u8 seed) {}
 
 //-----------------------------------------------------------------------------
-/// Generates 8-bit pseudorandom numbers
+// Generates 8-bit pseudorandom numbers
 u8 Math_GetRandom8()
 {
 	__asm
@@ -217,11 +245,11 @@ u8 Math_GetRandom8()
 u8 g_RandomSeed8 = 0;
 
 //-----------------------------------------------------------------------------
-/// Initialize random generator seed
+// Initialize random generator seed
 void Math_SetRandomSeed8(u8 seed) { g_RandomSeed8 = seed; }
 
 //-----------------------------------------------------------------------------
-/// Generates 8-bit pseudorandom numbers
+// Generates 8-bit pseudorandom numbers
 u8 Math_GetRandom8()
 {
 	__asm
@@ -250,11 +278,11 @@ u8 Math_GetRandom8()
 u16 g_RandomSeed8 = 1;
 
 //-----------------------------------------------------------------------------
-/// Initialize random generator seed
+// Initialize random generator seed
 void Math_SetRandomSeed8(u8 seed) { g_RandomSeed8 = (u16)seed; }
 
 //-----------------------------------------------------------------------------
-/// Generates 8-bit pseudorandom numbers
+// Generates 8-bit pseudorandom numbers
 // Ion Random by Joe Wingbermuehle (https://wikiti.brandonw.net/index.php?title=Z80_Routines:Math:Random)
 u8 Math_GetRandom8()
 {
@@ -292,11 +320,11 @@ u8 Math_GetRandom8()
 u8 g_RandomSeed8 = 0;
 
 //-----------------------------------------------------------------------------
-/// Initialize random generator seed
+// Initialize random generator seed
 void Math_SetRandomSeed8(u8 seed) { g_RandomSeed8 = seed; }
 
 //-----------------------------------------------------------------------------
-/// Generates 8-bit pseudorandom numbers
+// Generates 8-bit pseudorandom numbers
 // Peek value from address
 u8 Math_GetRandom8()
 {
@@ -321,11 +349,11 @@ u8 Math_GetRandom8()
 u16 g_RandomSeed16 = 0;
 
 //-----------------------------------------------------------------------------
-/// Initialize random generator seed
+// Initialize random generator seed
 void Math_SetRandomSeed16(u16 seed) { g_RandomSeed16 = seed; }
 
 //-----------------------------------------------------------------------------
-/// Generates 16-bit pseudorandom numbers with a period of 65535
+// Generates 16-bit pseudorandom numbers with a period of 65535
 // Linear congruential generator
 u16 Math_GetRandom16() __FASTCALL
 {
@@ -343,7 +371,7 @@ u16 Math_GetRandom16() __FASTCALL
 u16 g_RandomSeed16 = 1;
 
 //-----------------------------------------------------------------------------
-/// Initialize random generator seed
+// Initialize random generator seed
 void Math_SetRandomSeed16(u16 seed)
 {
 	if(seed)
@@ -353,7 +381,7 @@ void Math_SetRandomSeed16(u16 seed)
 }
 
 //-----------------------------------------------------------------------------
-/// Generates 16-bit pseudorandom numbers
+// Generates 16-bit pseudorandom numbers
 // 16-bit xorshift pseudorandom number generator by John Metcalf (https://wikiti.brandonw.net/index.php?title=Z80_Routines:Math:Random)
 // Outputs:		HL	Pseudorandom number
 // Using the xor-shift method:
@@ -401,7 +429,7 @@ u16 g_RandomSeed16_1 = 1;
 u16 g_RandomSeed16_2 = 2;
 
 //-----------------------------------------------------------------------------
-/// Initialize random generator seed
+// Initialize random generator seed
 void Math_SetRandomSeed16(u16 seed)
 {
 	g_RandomSeed16_1 = seed;
@@ -409,7 +437,7 @@ void Math_SetRandomSeed16(u16 seed)
 }
 
 //-----------------------------------------------------------------------------
-/// Generates 16-bit pseudorandom numbers with a period of 65535
+// Generates 16-bit pseudorandom numbers with a period of 65535
 // Combined LFSR/LCG (16-bit seeds) (https://wikiti.brandonw.net/index.php?title=Z80_Routines:Math:Random)
 // Inputs:		(seed1) contains a 16-bit seed value
 //				(seed2) contains a NON-ZERO 16-bit seed value
