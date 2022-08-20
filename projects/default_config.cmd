@@ -1,8 +1,10 @@
-:: ██▀▀█▀▀███▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█
-:: ██  ▀  ██   ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █
-:: █  ▄ ▄  ▀▀▀   █▀  ▄  ▀█ ▀▄█ █▄ █
-:: █▄▄█▄█▄▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█
-::  by Guillaume 'Aoineko' Blanchard under CC BY-AS license
+:: ____________________________
+:: ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄       ▄  ▄▄    ▄▄   ▄▄▄▄           ▄▄
+:: ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██ █ ▄  ██   ▄██    ██  ▄█▀▄ ▄█▀▄ ██
+:: █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ▀█▄█ ██ ▀█▄ ▀▄██    ██  ▀█▄▀ ▀█▄▀ ▀█▄
+:: ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
+::  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
+::─────────────────────────────────────────────────────────────────────────────
 @echo off
 
 ::─────────────────────────────────────────────────────────────────────────────
@@ -30,7 +32,7 @@ set MakeLib=%ToolsDir%\sdcc\bin\sdar.exe
 set Hex2Bin=%ToolsDir%\MSXtk\bin\MSXhex.exe
 set MSXDOS=%ToolsDir%\build\MSXDOS
 set DskTool=%ToolsDir%\build\DskTool\dsktool.exe
-REM set Emulator=
+set Emulator=
 REM set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
 REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
 REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
@@ -48,6 +50,8 @@ REM set Debugger=%ToolsDir%\OpenMSX\Debugger\openmsx-debugger.exe
 set ProjName=
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=
+:: Project segments base name
+set ProjSegments=
 :: List of library modules to build
 set LibModules=system,bios,vdp,print,input,memory
 :: Additional sources
@@ -102,7 +106,7 @@ set DiskFiles=
 :: MAKE SETTINGS
 ::*******************************************************************************
 
-:: Generate MSXgl library (0=false, 1=true)
+:: Generate MSXgl static library (0=false, 1=true)
 set BuildLibrary=1
 :: Set debug flag (0=false, 1=true)
 set Debug=0

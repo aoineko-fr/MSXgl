@@ -153,17 +153,10 @@ void VDP_SetModeFlag(u8 flag)
 
 	// VDP register #0
 	u8 reg0 = g_VDP_REGSAV[0];
-#if (MSX_VERSION == MSX_1) // TMS 9918
-	reg0 &= 0b11111101;
-	flag >>= 1;
-	flag &= 0b00000010;
-	reg0 |= flag;
-#else // V9938/V9958
 	reg0 &= 0b11110001;
 	flag >>= 1;
 	flag &= 0b00001110;
 	reg0 |= flag;
-#endif
 	VDP_RegWriteBak(0, reg0);
 }
 
@@ -263,6 +256,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 	__asm
 
 		#if ((VDP_USE_VALIDATOR) && (MSX_VERSION != MSX_1) && (MSX_VERSION != MSX_12))
+		// Reset VRAM address bit 14 to 16 (in R#14)
 		xor		a
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
@@ -345,7 +339,7 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __naked
 		ld		c, a					// backup value
 
 		#if ((VDP_USE_VALIDATOR) && (MSX_VERSION != MSX_1) && (MSX_VERSION != MSX_12))
-		// Reset R#14 value
+		// Reset VRAM address bit 14 to 16 (in R#14)
 		xor		a
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
@@ -402,7 +396,7 @@ void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count) __naked
 		ld		l, a						// backup fill value
 
 		#if ((VDP_USE_VALIDATOR) && (MSX_VERSION != MSX_1) && (MSX_VERSION != MSX_12))
-		// Reset R#14 value
+		// Reset VRAM address bit 14 to 16 (in R#14)
 		xor		a
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
@@ -504,6 +498,7 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
 	__asm
 
 		#if ((VDP_USE_VALIDATOR) && (MSX_VERSION != MSX_1) && (MSX_VERSION != MSX_12))
+		// Reset VRAM address bit 14 to 16 (in R#14)
 		xor		a
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
@@ -584,7 +579,7 @@ u8 VDP_Peek_16K(u16 dest)
 	__asm
 
 		#if ((VDP_USE_VALIDATOR) && (MSX_VERSION != MSX_1) && (MSX_VERSION != MSX_12))
-		// Reset R#14
+		// Reset VRAM address bit 14 to 16 (in R#14)
 		xor		a
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
@@ -630,7 +625,7 @@ void VDP_Poke_16K(u8 val, u16 dest)
 		ld		b, a					// Backup A register
 
 		#if ((VDP_USE_VALIDATOR) && (MSX_VERSION != MSX_1) && (MSX_VERSION != MSX_12))
-		// Reset R#14
+		// Reset VRAM address bit 14 to 16 (in R#14)
 		xor		a
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)

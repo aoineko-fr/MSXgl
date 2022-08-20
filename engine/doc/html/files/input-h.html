@@ -31,6 +31,57 @@
  <div class="CBody"><p>Get current trigger status of the given joystick (0: released; 1: pressed)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_PORT_1 or JOY_PORT_2</p></td></tr><tr><td class="CDLEntry">trigger<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B</p></td></tr></table></div>
 </div>
 
+<a name="Detect"></a><a name="Topic596"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Detect</div>
+ <div class="CBody"><p>General purpose ports device detection</p></div>
+</div>
+
+<a name="Input_Detect"></a><a name="Topic597"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Input_Detect</div>
+ <div id="NDPrototype597" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Input_Detect(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Detect device plugged in General purpose ports</p></div>
+</div>
+
+<a name="Mouse"></a><a name="Topic598"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Mouse</div>
+ <div class="CBody"><p>Direct access to mouse</p></div>
+</div>
+
+<a name="Mouse_Read"></a><a name="Topic599"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mouse_Read</div>
+ <div id="NDPrototype599" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mouse_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="Mouse_GetOffsetX"></a><a name="Topic600"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mouse_GetOffsetX</div>
+ <div id="NDPrototype600" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> i8 Mouse_GetOffsetX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="Mouse_GetOffsetY"></a><a name="Topic601"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mouse_GetOffsetY</div>
+ <div id="NDPrototype601" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> i8 Mouse_GetOffsetY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="Mouse_GetAdjustedOffsetX"></a><a name="Topic602"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mouse_GetAdjustedOffsetX</div>
+ <div id="NDPrototype602" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> i8 Mouse_GetAdjustedOffsetX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">spd</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="Mouse_GetAdjustedOffsetY"></a><a name="Topic603"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mouse_GetAdjustedOffsetY</div>
+ <div id="NDPrototype603" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> i8 Mouse_GetAdjustedOffsetY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">spd</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="Mouse_IsButtonPress"></a><a name="Topic604"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mouse_IsButtonPress</div>
+ <div id="NDPrototype604" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Mouse_IsButtonPress(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">btn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="Mouse_IsButtonClick"></a><a name="Topic605"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mouse_IsButtonClick</div>
+ <div id="NDPrototype605" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Mouse_IsButtonClick(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">btn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
 <a name="Keyboard"></a><a name="Topic384"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Keyboard</div>
  <div class="CBody"><p>Direct access to keyboard</p></div>
