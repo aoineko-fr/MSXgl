@@ -92,6 +92,13 @@
 #define VDP_USE_MSX1_PALETTE		FALSE	// Add data for default MSX 1 palette
 #define VDP_USE_DEFAULT_SETTINGS	TRUE	// Auto-initialization of common VDP feature
 #define VDP_USE_16X16_SPRITE		TRUE	// Use 16x16 sprites mode
+#define VDP_USE_RESTORE_S0			TRUE	// Do restore of status register pointer to S#0 (needed onlt for default BIOS ISR)
+
+// ISR protection while modifiying VDP registers
+// - VDP_ISR_SAFE_NONE ............ No ISR protection (for program not using VDP interruption)
+// - VDP_ISR_SAFE_DEFAULT ......... Protect only VDP register pair writing (default behavior; ISR can read/write registers but VRAM ones)
+// - VDP_ISR_SAFE_ALL ............. Protect all VDP writing process
+#define VDP_ISR_SAFE_MODE			VDP_ISR_SAFE_DEFAULT
 
 // Initial screen mode setting
 // - VDP_INIT_OFF ................. Force option to be disable

@@ -184,11 +184,11 @@
 // VDP MODULE
 //-----------------------------------------------------------------------------
 
-// VDP_VRAM
+// VDP_VRAM options
 #define VDP_VRAM_ADDR_14			0 // Use 14-bits 16K VRAM addressing for MSX 1 (u16)
 #define VDP_VRAM_ADDR_17			1 // Use 17-bits 128K VRAM addressing for MSX 2/2+/Turbo-R (u32)
 
-// VDP_UNIT
+// VDP_UNIT options
 #define VDP_UNIT_U8					0 // X and Y use 8-bits values
 #define VDP_UNIT_X16				1 // X use 16-bits and Y use 8-bits values
 #define VDP_UNIT_Y16				2 // X use 8-bits and Y use 16-bits values
@@ -199,6 +199,11 @@
 #define VDP_INIT_ON					0b01 // Force option to be enable
 #define VDP_INIT_AUTO				0b10 // Determining the best value for the context
 #define VDP_INIT_DEFAULT			0b11 // Keep default value
+
+// VDP_ISR_SAFE_MODE options
+#define VDP_ISR_SAFE_NONE			0 // No ISR protection (for program not using VDP interruption)
+#define VDP_ISR_SAFE_DEFAULT		1 // Protect only VDP register pair writing (default behavior; ISR can read/write registers but VRAM ones)
+#define VDP_ISR_SAFE_ALL			2 // Protect all VDP writing process
 
 //-----------------------------------------------------------------------------
 // DRAW MODULE

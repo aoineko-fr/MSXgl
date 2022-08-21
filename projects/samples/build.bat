@@ -24,7 +24,7 @@ cls
 set Pause=1
 echo No valide sample selected...
 echo Available samples:
-for /R .\ %%G in (*.c) do call :DisplayFilter %%~nG
+for %%G in (*.c) do call :DisplayFilter %%~nG
 set /p Name=Enter a sample: 
 for %%I in ("%Name%") do (set Input=%%~nI)
 goto :CheckInput
@@ -67,6 +67,8 @@ set ProjModules=%ProjName%
 set ProjSegments=%ProjName%
 :: List of library modules to build
 set LibModules=system,bios,vdp,print,input,memory,math,draw
+:: Additional sources
+set AddSources=
 
 :: MSX version:
 :: - 1		MSX 1
@@ -97,13 +99,27 @@ set Target=ROM_32K
 if not "%2"=="" set Target=%2
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
+
 :: Install BDOS driver for ROM program? (0=false, 1=true)
 set InstallBDOS=0
-:: Use banked call (and trampoline functions)
+:: Set RAM in slot 0 and install ISR there
+:: - 0				Don't install
+:: - 1 | VBLANK		Add ISR that support V-blank interruption
+:: - HBLANK			Add ISR that support V-blank and H-blank interruption
+set InstallRAMISR=0
+:: Use banked call and trampoline functions (0=false, 1=true)
 set BankedCall=0
-:: Overwrite RAM starting address
+:: Overwrite RAM starting address (e.g. 0xE0000 for 8K RAM machine)
 set ForceRamAddr=
+:: Data to copy to disk (comma separated list)
+set DiskFiles=
 
+::*******************************************************************************
+:: MAKE SETTINGS
+::*******************************************************************************
+
+:: Generate MSXgl static library (0=false, 1=true)
+set BuildLibrary=1
 :: Set debug flag (0=false, 1=true)
 set Debug=1
 :: Code optimization (Default, Speed or Size)
@@ -116,6 +132,10 @@ set CompileSkipOld=0
 set Verbose=0
 :: Additionnal link flag
 set LinkOpt=
+
+::*******************************************************************************
+:: EMULATOR SETINGS
+::*******************************************************************************
 
 :: Emulator options (0=false, 1=true)
 set EmulMachine=0

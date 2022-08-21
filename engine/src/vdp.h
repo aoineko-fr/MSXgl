@@ -66,30 +66,6 @@
 // inir / indr				23		12|11
 //							18		12|6
 
-#define VDP_ISR_SAFE_NONE			0 // No ISR protection (for ISR that don't modify VDP registers)
-#define VDP_ISR_SAFE_DEFAULT		1 // Protect only VDP register pair writing (for ISR that don't modify address registers)
-#define VDP_ISR_SAFE_ALL			2 // Protect all VDP writing process
-
-#define VDP_ISR_SAFE_MODE			VDP_ISR_SAFE_DEFAULT
-
-// Handle interruptions disabling
-#if (VDP_ISR_SAFE_MODE == VDP_ISR_SAFE_ALL)
-	#define VDP_ALL_DI				di
-	#define VDP_ALL_EI				ei
-	#define VDP_DEF_DI
-	#define VDP_DEF_EI
-#elif (VDP_ISR_SAFE_MODE == VDP_ISR_SAFE_REG)
-	#define VDP_ALL_DI
-	#define VDP_ALL_EI
-	#define VDP_DEF_DI				di
-	#define VDP_DEF_EI				ei
-#else // (VDP_ISR_SAFE_MODE == VDP_ISR_SAFE_NONE)
-	#define VDP_ALL_DI
-	#define VDP_ALL_EI
-	#define VDP_DEF_DI
-	#define VDP_DEF_EI
-#endif
-
 //-----------------------------------------------------------------------------
 // STRUCTURES
 //-----------------------------------------------------------------------------
@@ -504,7 +480,7 @@ u8 VDP_ReadDefaultStatus();
 //
 // Return:
 //   The given status register value
-u8 VDP_ReadStatus(u8 stat) __FASTCALL;
+u8 VDP_ReadStatus(u8 stat);
 
 #if ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
 

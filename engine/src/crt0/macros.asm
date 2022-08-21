@@ -173,6 +173,13 @@
 	crt0_interrupt_start::
 		; Skip interruptions that do not come from the VDP.
 		push	af
+	.if ISR_SET_S0
+		; Reset R#15 to S#0
+		xor		a
+		out		(VDP_A), a
+		ld		a, #(0x80 + 15)
+		out		(VDP_A),a
+	.endif
 		in		a, (VDP_S)
 		rlca
 		jr		nc, crt0_interrupt_skip
@@ -229,6 +236,13 @@
 		push	iy
 		push	ix
 
+	.if ISR_SET_S0
+		; Reset R#15 to S#0
+		xor		a
+		out		(VDP_A), a
+		ld		a, #(0x80 + 15)
+		out		(VDP_A),a
+	.endif
 		; Check V-Blank
 		in		a, (VDP_S)					; Get S#0 value
 		rlca
@@ -246,11 +260,6 @@
 		jp		nc, crt0_isr_no_hblank
 		call	_VDP_HBlankHandler			; call to C function HBlankHook() 
 	crt0_isr_no_hblank:
-		; Reset R#15 to S#0
-		xor		a
-		out		(VDP_A), a
-		ld		a, #(0x80 + 15)
-		out		(VDP_A),a
 
 		; Restore registers
 		pop		ix
