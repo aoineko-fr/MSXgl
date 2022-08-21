@@ -29,6 +29,7 @@
 #define GRAVITY		1
 #define GROUND		192
 #define HORIZON		11
+#define NET_H		7
 
 //
 enum INPUT_ACTION
@@ -289,7 +290,8 @@ void PhysicsEventBall(u8 event, u8 tile)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
 	case PAWN_PHYSICS_COL_DOWN:
-		g_Ball.Velocity.y *= -1; // Reverse  
+		// g_Ball.Velocity.y *= -1; // Reverse  
+		g_Ball.VelocityY *= -1;
 		// g_Ball.VelocityY = -g_Ball.VelocityY;
 		// GamePawn_SetAction(&g_Ball.Pawn, ACTION_BALL_BUMP);
 		// if(g_Ball.Pawn.PositionY > 128)
@@ -353,9 +355,9 @@ void DrawLevel()
 	VDP_FillVRAM(1, g_ScreenLayoutLow + 23 * 32, 0, 32);
 
 	// "Net"
-	loop(i, 7)
+	loop(i, NET_H)
 	{
-		u16 addr = g_ScreenLayoutLow + 15 + (i + (23 - 7)) * 32;
+		u16 addr = g_ScreenLayoutLow + 15 + (i + (23 - NET_H)) * 32;
 		VDP_Poke_16K((i == 0) ? 0 : 5, addr++);
 		VDP_Poke_16K((i == 0) ? 2 : 6, addr);
 	}
@@ -455,6 +457,7 @@ void InitBall()
 //
 void UpdateBall()
 {
+	/*
 	// Update physics
 	g_Ball.Velocity.y += PX_TO_UNIT(GRAVITY);
 	if(g_Ball.Velocity.y > PX_TO_UNIT(FORCE))
@@ -466,9 +469,8 @@ void UpdateBall()
 	// Update player animation & physics
 	Game_Pawn* ballPawn = &g_Ball.Pawn;
 	GamePawn_SetTargetPosition(ballPawn, UNIT_TO_PX(g_Ball.Position.x), UNIT_TO_PX(g_Ball.Position.y));
-	GamePawn_Update(ballPawn);
+	GamePawn_Update(ballPawn);*/
 
-	/*
 	// Update movement
 	// g_Ball.DX = 0;
 	g_Ball.DY = 0;
@@ -499,12 +501,23 @@ void UpdateBall()
 		if(ply->bInAir)
 			g_Ball.VelocityY += ply->VelocityY;
 		g_Ball.DX = dx / 4;
+
+		g_Ball.VelocityY = FORCE;
+
+		// g_Ball.DX = dx / 3;
+		// g_Ball.VelocityY = 10 + 16 - ABS8(dx);
+		// if(ply->bInAir)
+			// g_Ball.VelocityY += ply->VelocityY;
+
 		GamePawn_SetAction(ballPawn, ACTION_BALL_BUMP);
+
+		// Print_SetPosition(0, 2);
+		// Print_DrawFormat("%i..\n%i..", dx, dy);
 	}
 
 	// Update player animation & physics
 	GamePawn_SetMovement(ballPawn, g_Ball.DX, g_Ball.DY);
-	GamePawn_Update(ballPawn);*/
+	GamePawn_Update(ballPawn);
 }
 //-----------------------------------------------------------------------------
 // Load pattern data into VRAM

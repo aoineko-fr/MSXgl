@@ -92,6 +92,13 @@
 #define VDP_USE_MSX1_PALETTE		FALSE	// Add data for default MSX 1 palette
 #define VDP_USE_DEFAULT_SETTINGS	TRUE	// Auto-initialization of common VDP feature
 #define VDP_USE_16X16_SPRITE		TRUE	// Use 16x16 sprites mode
+#define VDP_USE_RESTORE_S0			TRUE	// Do restore of status register pointer to S#0 (needed onlt for default BIOS ISR)
+
+// ISR protection while modifiying VDP registers
+// - VDP_ISR_SAFE_NONE ............ No ISR protection (for program not using VDP interruption)
+// - VDP_ISR_SAFE_DEFAULT ......... Protect only VDP register pair writing (default behavior; ISR can read/write registers but VRAM ones)
+// - VDP_ISR_SAFE_ALL ............. Protect all VDP writing process
+#define VDP_ISR_SAFE_MODE			VDP_ISR_SAFE_DEFAULT
 
 // Initial screen mode setting
 // - VDP_INIT_OFF ................. Force option to be disable
@@ -107,6 +114,9 @@
 // Input module setting
 #define INPUT_USE_JOYSTICK			TRUE	// Add functions to handle joystick using I/O port
 #define INPUT_USE_KEYBOARD			TRUE	// Add functions to handle keyboard using I/O port
+#define INPUT_USE_MOUSE				FALSE	// Add support for Mouse handling functions
+#define INPUT_USE_DETECT			FALSE	// Add feature to detect device plugged in General purpose ports
+#define INPUT_USE_ISR_PROTECTION	TRUE	// Disable interruptions while access PSG registers (needed if you use BIOS or access PSG in your own ISR)
 #define INPUT_USE_MANAGER			FALSE	// Add input manager (IPM) with advanced input features
 // Key update handler
 #define INPUT_KB_UPDATE				FALSE	// Add function to update all keyboard rows at once
@@ -200,6 +210,14 @@
 // STRING MODULE
 //-----------------------------------------------------------------------------
 
+// Support for integer to ASCII string converter functions
+#define STRING_USE_FROM_INT8		TRUE	// Signed 8-bits integer to string
+#define STRING_USE_FROM_UINT8		TRUE	// Unsigned 8-bits integer to string
+#define STRING_USE_FROM_INT16		TRUE	// Signed 16-bits integer to string
+#define STRING_USE_FROM_UINT16		TRUE	// Unsigned 16-bits integer to string
+
+// Support for sprintf style formating function
+#define STRING_USE_FORMAT			TRUE
 #define STRING_USE_INT32			TRUE	// Add support for 32-bits integer
 
 //-----------------------------------------------------------------------------

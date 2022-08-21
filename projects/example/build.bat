@@ -1,5 +1,5 @@
 :: ____________________________
-:: ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+:: ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄
 :: ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 :: █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 :: ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
@@ -15,12 +15,13 @@ call ..\default_config.cmd %0
 ::*****************************************************************************
 :: TOOLS SETTINGS
 ::*****************************************************************************
-set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
-REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
+REM set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
+set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
 REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
 REM set Emulator=%ToolsDir%\MEISEI\meisei.exe
 REM set Emulator=%ToolsDir%\fMSX\fMSX.exe
 REM set Emulator=%ToolsDir%\RuMSX\MSX.exe
+REM set Debugger=%ToolsDir%\OpenMSX\Debugger\openmsx-debugger.exe
 
 ::*****************************************************************************
 :: PROJECT SETTINGS
@@ -31,7 +32,7 @@ set ProjName=example
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=%ProjName%
 :: List of modules to link
-SET LibModules=system,bios,vdp,print,input,memory,game,game_pawn,math,string
+set LibModules=system,bios,vdp,print,input,memory,game,game_pawn,math,string
 
 :: MSX machine version:
 :: - 1		MSX 1
@@ -82,7 +83,7 @@ REM set DiskFiles=
 :: Use static MSXgl library (0=false, 1=true)
 REM set BuildLibrary=0
 :: Set debug flag (0=false, 1=true)
-REM set Debug=0
+set Debug=1
 :: Assembler code optimizer
 :: - None
 :: - PeepHole	SDCC otpimizer
@@ -96,7 +97,7 @@ REM set Optim=Speed
 :: Additionnal compilation flag
 REM set CompileOpt=
 :: Skip file if compile data is newer than the (0=false, 1=true)
-set CompileSkipOld=1
+set CompileSkipOld=0
 :: Compile verbose mode (0=false, 1=true)
 REM set Verbose=0
 :: Update build version header file
@@ -111,13 +112,16 @@ set EmulMachine=0
 REM set Emul60Hz=0
 REM set EmulFullScreen=0
 REM set EmulMute=0
-REM set EmulDebug=0
+set EmulDebug=1
 :: Emulator extensions: 0 or 1
 REM set EmulSCC=0
 REM set EmulMSXMusic=0
 REM set EmulMSXAudio=0
 REM set EmulPSG2=0
 REM set EmulV9990=0
+:: Emulator port: joystick, mouse, keyboard (fake joystick)
+REM set EmulPortA=
+REM set EmulPortB=
 :: Emulator extra parameters to be add to command-line (emulator sotfware specific)
 REM set EmulExtraParam=
 
