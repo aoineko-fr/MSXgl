@@ -48,7 +48,7 @@ goto :CheckInput
 ::*****************************************************************************
 :: TOOLS SETTINGS
 ::*****************************************************************************
-REM set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
+set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
 REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
 REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
 REM set Emulator=%ToolsDir%\MEISEI\meisei.exe
@@ -163,7 +163,7 @@ set DoCompile=1
 set DoMake=1
 set DoPackage=1
 set DoDeploy=1
-set DoRun=0
+set DoRun=1
 
 ::*****************************************************************************
 :: START BUILD

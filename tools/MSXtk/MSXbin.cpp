@@ -331,13 +331,13 @@ i32 Export()
 	if (g_Decoration)
 	{
 		AddComment(strData, u8"_____________________________________________________________________________");
-		AddComment(strData, u8"   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄▄   ▄");
-		AddComment(strData, u8"  ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ██▄  ▄  ██▀▄");
-		AddComment(strData, u8"  ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▀ ██ ██ █");
+		AddComment(strData, u8"   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄▄   ▄");
+		AddComment(strData, u8"  ██▀█ ▀█▄  ▀█▄▀ ██▄  ▄  ██▀▄");
+		AddComment(strData, u8"  ██ █ ▄▄█▀ ██ █ ██▄▀ ██ ██ █");
 		AddComment(strData, u8"_____________________________________________________________________________");
 	}
 	// License
-	AddComment(strData, StringFormat("MSXbin %s by Guillaume \"Aoineko\" Blanchard (2021) under CC BY-SA free license", VERSION));
+	AddComment(strData, StringFormat("MSXbin %s by Guillaume \"Aoineko\" Blanchard (2022) under CC BY-SA free license", VERSION));
 	// Date
 	std::time_t result = std::time(nullptr);
 	char* ltime = std::asctime(std::localtime(&result));

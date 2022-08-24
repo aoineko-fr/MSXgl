@@ -37,6 +37,7 @@
 #define JOY_INPUT_DIR_DOWN_RIGHT	(JOY_INPUT_DIR_DOWN + JOY_INPUT_DIR_RIGHT)
 #define JOY_INPUT_DIR_DOWN_LEFT		(JOY_INPUT_DIR_DOWN + JOY_INPUT_DIR_LEFT)
 #define JOY_INPUT_DIR_MASK			0x0F
+#define JOY_INPUT_DIR_UNCHANGED		0xFF
 #define JOY_INPUT_TRIGGER_A			(1 << 4)
 #define JOY_INPUT_TRIGGER_B			(1 << 5)
 
@@ -91,7 +92,7 @@ void Joystick_Update();
 // : JOY_INPUT_DIR_RIGHT
 inline u8 Joystick_GetDirection(u8 port) { return g_JoyStats[port >> 6] & JOY_INPUT_DIR_MASK; }
 
-// Function: Joystick_GetDirectionPushed
+// Function: Joystick_GetDirectionChange
 // Get current direction of the given joystick if different from previous one
 // Only available if INPUT_JOY_UPDATE is TRUE.
 //
@@ -105,12 +106,13 @@ inline u8 Joystick_GetDirection(u8 port) { return g_JoyStats[port >> 6] & JOY_IN
 // : JOY_INPUT_DIR_DOWN
 // : JOY_INPUT_DIR_LEFT
 // : JOY_INPUT_DIR_RIGHT
-inline u8 Joystick_GetDirectionPushed(u8 port)
+// : JOY_INPUT_DIR_UNCHANGED
+inline u8 Joystick_GetDirectionChange(u8 port)
 {
 	u8 in = g_JoyStats[port >> 6]  & JOY_INPUT_DIR_MASK;
 	u8 prev = g_JoyStatsPrev[port >> 6]  & JOY_INPUT_DIR_MASK;
 	if(in == prev)
-		in = JOY_INPUT_DIR_NONE;
+		in = JOY_INPUT_DIR_UNCHANGED;
 	return in;
 }
 
