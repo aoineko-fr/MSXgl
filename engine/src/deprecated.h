@@ -48,3 +48,6 @@
 #define Clamp16						CLAMP16
 #define Max							MAX
 #define Min							MIN
+
+// Input module
+#define Joystick_GetTrigger			Joystick_IsButtonPressed

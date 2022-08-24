@@ -73,16 +73,33 @@ u8 Joystick_Read(u8 port) __FASTCALL
 	__endasm;
 }
 
+#if (INPUT_JOY_UPDATE)
+
+u8 g_JoyStats[2] = { 0x3F, 0x3F };
+u8 g_JoyStatsPrev[2] = { 0x3F, 0x3F };
+
+//-----------------------------------------------------------------------------
+// Update both joystick stats at once and store the result
+void Joystick_Update()
+{
+	g_JoyStatsPrev[0] = g_JoyStats[0];
+	g_JoyStats[0] = ~Joystick_Read(JOY_PORT_1);
+	g_JoyStatsPrev[1] = g_JoyStats[1];
+	g_JoyStats[1] = ~Joystick_Read(JOY_PORT_2);
+}
+
+#else // !(INPUT_JOY_UPDATE)
+
 //-----------------------------------------------------------------------------
 // Get current direction of the given joystick
 // Input  : JOY_PORT_1 or JOY_PORT_2
-u8 Joystick_GetDirection(u8 port) __FASTCALL
+/*u8 Joystick_GetDirection(u8 port) __FASTCALL
 {
 	u8 in = Joystick_Read(port);
 	in = ~in;
 	in &= JOY_INPUT_DIR_MASK;
 	return in;
-}
+}*/
 
 //-----------------------------------------------------------------------------
 // Get current trigger status of the given joystick (0: released; 1: pressed)
@@ -93,6 +110,8 @@ u8 Joystick_GetDirection(u8 port) __FASTCALL
 	u8 in = Joystick_Read(port);
 	return ((in & trigger) == 0);
 }*/
+
+#endif // (INPUT_JOY_UPDATE)
 
 #endif // (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER)
 
@@ -251,7 +270,7 @@ u8 Keyboard_Read(u8 row) __FASTCALL
 #if (INPUT_KB_UPDATE)
 //-----------------------------------------------------------------------------
 // Update all keyboard rows at once
-bool Keyboard_Update()
+void Keyboard_Update()
 {
 	for(u8 i = INPUT_KB_UPDATE_MIN; i <= INPUT_KB_UPDATE_MAX; ++i)	
 	{

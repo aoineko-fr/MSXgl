@@ -92,7 +92,7 @@ void main()
 
 	// Draw static text
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL "  JOYSTICK SAMPLE");
+	Print_DrawText(MSX_GL " JOYSTICK SAMPLE");
 	Print_SetPosition(0, 1);
 	Print_DrawCharX(0x17, 40);
 
@@ -153,6 +153,9 @@ void main()
 	{
 		Halt();
 		count++;
+		#if (INPUT_JOY_UPDATE)
+		Joystick_Update();
+		#endif
 
 		Print_SetPosition(39, 0);
 		Print_DrawChar(0xB0 + ((count) & 0x07));
@@ -173,10 +176,10 @@ void main()
 			Print_DrawChar(' ');
 			// Trigger A
 			Print_SetPosition(12 + (21 * joy), 8);
-			Print_DrawInt(Joystick_GetTrigger((joy == 0) ? JOY_PORT_1 : JOY_PORT_2, JOY_INPUT_TRIGGER_A));
+			Print_DrawInt(Joystick_IsButtonPressed((joy == 0) ? JOY_PORT_1 : JOY_PORT_2, JOY_INPUT_TRIGGER_A));
 			// Trigger B
 			Print_SetPosition(12 + (21 * joy), 9);
-			Print_DrawInt(Joystick_GetTrigger((joy == 0) ? JOY_PORT_1 : JOY_PORT_2, JOY_INPUT_TRIGGER_B));
+			Print_DrawInt(Joystick_IsButtonPressed((joy == 0) ? JOY_PORT_1 : JOY_PORT_2, JOY_INPUT_TRIGGER_B));
 
 			// Joystick
 			Print_SetPosition(16 + (21 * joy), 7);

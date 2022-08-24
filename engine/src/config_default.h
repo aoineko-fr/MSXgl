@@ -190,12 +190,17 @@
 #endif
 
 #ifndef INPUT_USE_MANAGER // Add input manager (IPM) with advanced input features
-	#warning INPUT_USE_MANAGER is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#warning INPUT_USE_MANAGER is not defined in "msxgl_config.h"! Default value will be used: FALSE
 	#define INPUT_USE_MANAGER			FALSE
 #endif
 
+#ifndef INPUT_JOY_UPDATE // Add function to update all joystick states at once
+	#warning INPUT_JOY_UPDATE is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define INPUT_JOY_UPDATE			FALSE
+#endif
+
 #ifndef INPUT_KB_UPDATE // Add function to update all keyboard rows at once
-	#warning INPUT_KB_UPDATE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#warning INPUT_KB_UPDATE is not defined in "msxgl_config.h"! Default value will be used: FALSE
 	#define INPUT_KB_UPDATE				FALSE
 #endif
 

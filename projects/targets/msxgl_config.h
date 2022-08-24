@@ -118,6 +118,7 @@
 #define INPUT_USE_DETECT			FALSE	// Add feature to detect device plugged in General purpose ports
 #define INPUT_USE_ISR_PROTECTION	FALSE	// Disable interruptions while access PSG registers (needed if you use BIOS or access PSG in your own ISR)
 #define INPUT_USE_MANAGER			FALSE	// Add input manager (IPM) with advanced input features
+#define INPUT_JOY_UPDATE			FALSE	// Add function to update all joystick states at once
 // Key update handler
 #define INPUT_KB_UPDATE				FALSE	// Add function to update all keyboard rows at once
 #define INPUT_KB_UPDATE_MIN			0		// First row to update

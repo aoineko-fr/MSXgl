@@ -43,6 +43,10 @@
 #define IS_JOY_PRESSED(stat, input) ((stat & input) == 0)
 #define IS_JOY_RELEASED(stat, input) ((stat & input) != 0)
 
+#define JOY_GET_DIR(in)				(~(in) & JOY_INPUT_DIR_MASK))
+#define JOY_GET_TRIG1(in)			(((in) & JOY_INPUT_TRIGGER_A) == 0)
+#define JOY_GET_TRIG2(in)			(((in) & JOY_INPUT_TRIGGER_B) == 0)
+
 // Function: Joystick_Read
 // Get the current joystick information
 //
@@ -60,8 +64,20 @@
 // :   └────── Trigger B
 u8 Joystick_Read(u8 port) __FASTCALL;
 
+#if (INPUT_JOY_UPDATE)
+
+extern u8 g_JoyStats[2];
+extern u8 g_JoyStatsPrev[2];
+
+// Function: Joystick_Update
+// Update both joystick stats at once and store the result
+// Only available when INPUT_JOY_UPDATE is TRUE
+void Joystick_Update();
+
 // Function: Joystick_GetDirection
 // Get current direction of the given joystick
+// If INPUT_JOY_UPDATE is TRUE, this function use data retreived by Joystick_Update().
+// Otherwise, this function read I/O data.
 //
 // Parameters:
 //   port - JOY_PORT_1 or JOY_PORT_2
@@ -73,19 +89,79 @@ u8 Joystick_Read(u8 port) __FASTCALL;
 // : JOY_INPUT_DIR_DOWN
 // : JOY_INPUT_DIR_LEFT
 // : JOY_INPUT_DIR_RIGHT
-u8 Joystick_GetDirection(u8 port) __FASTCALL;
+inline u8 Joystick_GetDirection(u8 port) { return g_JoyStats[port >> 6] & JOY_INPUT_DIR_MASK; }
 
-// Function: Joystick_GetTrigger
-// Get current trigger status of the given joystick (0: released; 1: pressed)
+// Function: Joystick_GetDirectionPushed
+// Get current direction of the given joystick if different from previous one
+// Only available if INPUT_JOY_UPDATE is TRUE.
+//
+// Parameters:
+//   port - JOY_PORT_1 or JOY_PORT_2
+//
+// Returns:
+//   One or two of those defines:
+// : JOY_INPUT_DIR_NONE
+// : JOY_INPUT_DIR_UP
+// : JOY_INPUT_DIR_DOWN
+// : JOY_INPUT_DIR_LEFT
+// : JOY_INPUT_DIR_RIGHT
+inline u8 Joystick_GetDirectionPushed(u8 port)
+{
+	u8 in = g_JoyStats[port >> 6]  & JOY_INPUT_DIR_MASK;
+	u8 prev = g_JoyStatsPrev[port >> 6]  & JOY_INPUT_DIR_MASK;
+	if(in == prev)
+		in = JOY_INPUT_DIR_NONE;
+	return in;
+}
+
+// Function: Joystick_IsButtonPressed
+// Get current trigger status of the given joystick
+// If INPUT_JOY_UPDATE is TRUE, this function use data retreived by Joystick_Update().
+// Otherwise, this function read I/O data.
 //
 // Parameters:
 //   port - JOY_PORT_1 or JOY_PORT_2
 //   trigger - JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B
-inline u8 Joystick_GetTrigger(u8 port, u8 trigger)
+//
+// Return:
+//   TRUE is given button is pressed
+inline bool Joystick_IsButtonPressed(u8 port, u8 trigger) { return ((g_JoyStats[port >> 6] & trigger) != 0); }
+
+// Function: Joystick_IsButtonPushed
+// Get current trigger status of the given joystick
+// Only available if INPUT_JOY_UPDATE is TRUE.
+//
+// Parameters:
+//   port - JOY_PORT_1 or JOY_PORT_2
+//   trigger - JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B
+//
+// Return:
+//   TRUE is given button is pressed
+inline bool Joystick_IsButtonPushed(u8 port, u8 trigger)
+{
+	u8 in = g_JoyStats[port >> 6];
+	u8 prev = g_JoyStatsPrev[port >> 6];
+	return ((in & trigger) != 0) && ((prev & trigger) == 0);
+}
+
+#else // (!INPUT_JOY_UPDATE)
+
+// Get current direction of the given joystick
+inline u8 Joystick_GetDirection(u8 port)
+{
+	u8 in = ~Joystick_Read(port);
+	return (in & JOY_INPUT_DIR_MASK);
+}
+
+// Get current trigger status of the given joystick (0: released; 1: pressed)
+inline bool Joystick_IsButtonPressed(u8 port, u8 trigger)
 {
 	u8 in = Joystick_Read(port);
 	return ((in & trigger) == 0);
 }
+
+#endif // (INPUT_JOY_UPDATE)
+
 #endif // (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER)
 
 
@@ -193,132 +269,153 @@ inline bool Mouse_IsButtonClick(Mouse_State* data, u8 btn) { return ((data->Butt
 #define IS_KEY_PRESSED(row, key) ((row & KEY_FLAG(key)) == 0)
 #define IS_KEY_RELEASED(row, key) ((row & KEY_FLAG(key)) != 0)
 
-// Row #0 keys
-#define KEY_0			MAKE_KEY(0, 0)
-#define KEY_1			MAKE_KEY(0, 1)
-#define KEY_2			MAKE_KEY(0, 2)
-#define KEY_3			MAKE_KEY(0, 3)
-#define KEY_4			MAKE_KEY(0, 4)
-#define KEY_5			MAKE_KEY(0, 5)
-#define KEY_6			MAKE_KEY(0, 6)
-#define KEY_7			MAKE_KEY(0, 7)
-// Row #1 keys
-#define KEY_8			MAKE_KEY(1, 0)
-#define KEY_9			MAKE_KEY(1, 1)
-#define KEY_1_2			MAKE_KEY(1, 2) // Undefined ?
-#define KEY_1_3			MAKE_KEY(1, 3) // Undefined ?
-#define KEY_1_4			MAKE_KEY(1, 4) // Undefined ?
-#define KEY_1_5			MAKE_KEY(1, 5) // Undefined ?
-#define KEY_1_6			MAKE_KEY(1, 6) // Undefined ?
-#define KEY_1_7			MAKE_KEY(1, 7) // Undefined ?
-// Row #2 keys
-#define KEY_2_0			MAKE_KEY(2, 0) // Undefined ?
-#define KEY_2_1			MAKE_KEY(2, 1) // Undefined ?
-#define KEY_2_2			MAKE_KEY(2, 2) // Undefined ?
-#define KEY_2_3			MAKE_KEY(2, 3) // Undefined ?
-#define KEY_2_4			MAKE_KEY(2, 4) // Undefined ?
-#define KEY_2_5			MAKE_KEY(2, 5) // Undefined ?
-#define KEY_A			MAKE_KEY(2, 6)
-#define KEY_B			MAKE_KEY(2, 7)
-// Row #3 keys
-#define KEY_C			MAKE_KEY(3, 0)
-#define KEY_D			MAKE_KEY(3, 1)
-#define KEY_E			MAKE_KEY(3, 2)
-#define KEY_F			MAKE_KEY(3, 3)
-#define KEY_G			MAKE_KEY(3, 4)
-#define KEY_H			MAKE_KEY(3, 5)
-#define KEY_I			MAKE_KEY(3, 6)
-#define KEY_J			MAKE_KEY(3, 7)
-// Row #4 keys
-#define KEY_K			MAKE_KEY(4, 0)
-#define KEY_L			MAKE_KEY(4, 1)
-#define KEY_M			MAKE_KEY(4, 2)
-#define KEY_N			MAKE_KEY(4, 3)
-#define KEY_O			MAKE_KEY(4, 4)
-#define KEY_P			MAKE_KEY(4, 5)
-#define KEY_Q			MAKE_KEY(4, 6)
-#define KEY_R			MAKE_KEY(4, 7)
-// Row #5 keys
-#define KEY_S			MAKE_KEY(5, 0)
-#define KEY_T			MAKE_KEY(5, 1)
-#define KEY_U			MAKE_KEY(5, 2)
-#define KEY_V			MAKE_KEY(5, 3)
-#define KEY_W			MAKE_KEY(5, 4)
-#define KEY_X			MAKE_KEY(5, 5)
-#define KEY_Y			MAKE_KEY(5, 6)
-#define KEY_Z			MAKE_KEY(5, 7)
-// Row #6 keys
-#define KEY_SHIFT		MAKE_KEY(6, 0)
-#define KEY_CTRL		MAKE_KEY(6, 1)
-#define KEY_GRAPH		MAKE_KEY(6, 2)
-#define KEY_CAPS		MAKE_KEY(6, 3)
-#define KEY_CODE		MAKE_KEY(6, 4)
-#define KEY_F1			MAKE_KEY(6, 5)
-#define KEY_F2			MAKE_KEY(6, 6)
-#define KEY_F3			MAKE_KEY(6, 7)
-// Row #7 keys
-#define KEY_F4			MAKE_KEY(7, 0)
-#define KEY_F5			MAKE_KEY(7, 1)
-#define KEY_ESC			MAKE_KEY(7, 2)
-#define KEY_TAB			MAKE_KEY(7, 3)
-#define KEY_STOP		MAKE_KEY(7, 4)
-#define KEY_BS			MAKE_KEY(7, 5)
-#define KEY_SELECT		MAKE_KEY(7, 6)
-#define KEY_RET			MAKE_KEY(7, 7)
-// Row #8 keys
-#define KEY_SPACE		MAKE_KEY(8, 0)
-#define KEY_HOME		MAKE_KEY(8, 1)
-#define KEY_INS			MAKE_KEY(8, 2)
-#define KEY_DEL			MAKE_KEY(8, 3)
-#define KEY_LEFT		MAKE_KEY(8, 4)
-#define KEY_UP			MAKE_KEY(8, 5)
-#define KEY_DOWN		MAKE_KEY(8, 6)
-#define KEY_RIGHT		MAKE_KEY(8, 7)
-// Row #9 keys
-#define KEY_NUM_MUL		MAKE_KEY(9, 0)
-#define KEY_NUM_ADD		MAKE_KEY(9, 1)
-#define KEY_NUM_DIV		MAKE_KEY(9, 2)
-#define KEY_NUM_0		MAKE_KEY(9, 3)
-#define KEY_NUM_1		MAKE_KEY(9, 4)
-#define KEY_NUM_2		MAKE_KEY(9, 5)
-#define KEY_NUM_3		MAKE_KEY(9, 6)
-#define KEY_NUM_4		MAKE_KEY(9, 7)
-// Row #10 keys
-#define KEY_NUM_5		MAKE_KEY(10, 0)
-#define KEY_NUM_6		MAKE_KEY(10, 1)
-#define KEY_NUM_7		MAKE_KEY(10, 2)
-#define KEY_NUM_8		MAKE_KEY(10, 3)
-#define KEY_NUM_9		MAKE_KEY(10, 4)
-#define KEY_NUM_MIN		MAKE_KEY(10, 5)
-#define KEY_NUM_COM		MAKE_KEY(10, 6)
-#define KEY_NUM_DOT		MAKE_KEY(10, 7)
+// Function: KEY_ID
+// Value coding a given physical key combining row number and key index in that row
+// Can be KEY_1, KEY_SPACE, KEY_A, KEY_F1, etc.
+enum KEY_ID
+{
+	// Row #0 keys
+	KEY_0		= MAKE_KEY(0, 0),
+	KEY_1		= MAKE_KEY(0, 1),
+	KEY_2		= MAKE_KEY(0, 2),
+	KEY_3		= MAKE_KEY(0, 3),
+	KEY_4		= MAKE_KEY(0, 4),
+	KEY_5		= MAKE_KEY(0, 5),
+	KEY_6		= MAKE_KEY(0, 6),
+	KEY_7		= MAKE_KEY(0, 7),
+	// Row #1 keys
+	KEY_8		= MAKE_KEY(1, 0),
+	KEY_9		= MAKE_KEY(1, 1),
+	KEY_1_2		= MAKE_KEY(1, 2), // Undefined ?
+	KEY_1_3		= MAKE_KEY(1, 3), // Undefined ?
+	KEY_1_4		= MAKE_KEY(1, 4), // Undefined ?
+	KEY_1_5		= MAKE_KEY(1, 5), // Undefined ?
+	KEY_1_6		= MAKE_KEY(1, 6), // Undefined ?
+	KEY_1_7		= MAKE_KEY(1, 7), // Undefined ?
+	// Row #2 keys                   
+	KEY_2_0		= MAKE_KEY(2, 0), // Undefined ?
+	KEY_2_1		= MAKE_KEY(2, 1), // Undefined ?
+	KEY_2_2		= MAKE_KEY(2, 2), // Undefined ?
+	KEY_2_3		= MAKE_KEY(2, 3), // Undefined ?
+	KEY_2_4		= MAKE_KEY(2, 4), // Undefined ?
+	KEY_2_5		= MAKE_KEY(2, 5), // Undefined ?
+	KEY_A		= MAKE_KEY(2, 6),
+	KEY_B		= MAKE_KEY(2, 7),
+	// Row #3 keys
+	KEY_C		= MAKE_KEY(3, 0),
+	KEY_D		= MAKE_KEY(3, 1),
+	KEY_E		= MAKE_KEY(3, 2),
+	KEY_F		= MAKE_KEY(3, 3),
+	KEY_G		= MAKE_KEY(3, 4),
+	KEY_H		= MAKE_KEY(3, 5),
+	KEY_I		= MAKE_KEY(3, 6),
+	KEY_J		= MAKE_KEY(3, 7),
+	// Row #4 keys
+	KEY_K		= MAKE_KEY(4, 0),
+	KEY_L		= MAKE_KEY(4, 1),
+	KEY_M		= MAKE_KEY(4, 2),
+	KEY_N		= MAKE_KEY(4, 3),
+	KEY_O		= MAKE_KEY(4, 4),
+	KEY_P		= MAKE_KEY(4, 5),
+	KEY_Q		= MAKE_KEY(4, 6),
+	KEY_R		= MAKE_KEY(4, 7),
+	// Row #5 keys
+	KEY_S		= MAKE_KEY(5, 0),
+	KEY_T		= MAKE_KEY(5, 1),
+	KEY_U		= MAKE_KEY(5, 2),
+	KEY_V		= MAKE_KEY(5, 3),
+	KEY_W		= MAKE_KEY(5, 4),
+	KEY_X		= MAKE_KEY(5, 5),
+	KEY_Y		= MAKE_KEY(5, 6),
+	KEY_Z		= MAKE_KEY(5, 7),
+	// Row #6 keys
+	KEY_SHIFT	= MAKE_KEY(6, 0),
+	KEY_CTRL	= MAKE_KEY(6, 1),
+	KEY_GRAPH	= MAKE_KEY(6, 2),
+	KEY_CAPS	= MAKE_KEY(6, 3),
+	KEY_CODE	= MAKE_KEY(6, 4),
+	KEY_F1		= MAKE_KEY(6, 5),
+	KEY_F2		= MAKE_KEY(6, 6),
+	KEY_F3		= MAKE_KEY(6, 7),
+	// Row #7 keys
+	KEY_F4		= MAKE_KEY(7, 0),
+	KEY_F5		= MAKE_KEY(7, 1),
+	KEY_ESC		= MAKE_KEY(7, 2),
+	KEY_TAB		= MAKE_KEY(7, 3),
+	KEY_STOP	= MAKE_KEY(7, 4),
+	KEY_BS		= MAKE_KEY(7, 5),
+	KEY_SELECT	= MAKE_KEY(7, 6),
+	KEY_RET		= MAKE_KEY(7, 7),
+	// Row #8 keys
+	KEY_SPACE	= MAKE_KEY(8, 0),
+	KEY_HOME	= MAKE_KEY(8, 1),
+	KEY_INS		= MAKE_KEY(8, 2),
+	KEY_DEL		= MAKE_KEY(8, 3),
+	KEY_LEFT	= MAKE_KEY(8, 4),
+	KEY_UP		= MAKE_KEY(8, 5),
+	KEY_DOWN	= MAKE_KEY(8, 6),
+	KEY_RIGHT	= MAKE_KEY(8, 7),
+	// Row #9 keys
+	KEY_NUM_MUL	= MAKE_KEY(9, 0),
+	KEY_NUM_ADD	= MAKE_KEY(9, 1),
+	KEY_NUM_DIV	= MAKE_KEY(9, 2),
+	KEY_NUM_0	= MAKE_KEY(9, 3),
+	KEY_NUM_1	= MAKE_KEY(9, 4),
+	KEY_NUM_2	= MAKE_KEY(9, 5),
+	KEY_NUM_3	= MAKE_KEY(9, 6),
+	KEY_NUM_4	= MAKE_KEY(9, 7),
+	// Row #10 keys
+	KEY_NUM_5	= MAKE_KEY(10, 0),
+	KEY_NUM_6	= MAKE_KEY(10, 1),
+	KEY_NUM_7	= MAKE_KEY(10, 2),
+	KEY_NUM_8	= MAKE_KEY(10, 3),
+	KEY_NUM_9	= MAKE_KEY(10, 4),
+	KEY_NUM_MIN	= MAKE_KEY(10, 5),
+	KEY_NUM_COM	= MAKE_KEY(10, 6),
+	KEY_NUM_DOT	= MAKE_KEY(10, 7),
+};
 
 // Function: Keyboard_Read
 // Read keyboard matrix row
 //
 // Parameters:
 //   row - The row to read (0-10)
+//
+// Return:
+//   8-bits value where each bit to 0 represents the pressed keys
 u8 Keyboard_Read(u8 row) __FASTCALL;
 
 #if (INPUT_KB_UPDATE)
 // Function: Keyboard_Update
 // Update all keyboard rows at once
-bool Keyboard_Update();
+// Only available when INPUT_KB_UPDATE is TRUE
+void Keyboard_Update();
 
 // Function: Keyboard_IsKeyPressed
-// Check if a given key is pressed
+// When INPUT_KB_UPDATE is TRUE, this function use data retreived by Keyboard_Update() function
+// Otherwise, the function read the key's row before checking the key.
+//
+// Parameters:
+//   key - The key ID to check
+//
+// Return:
+//   TRUE if key is pressed
 bool Keyboard_IsKeyPressed(u8 key);
 
 // Function: Keyboard_IsKeyPushed
 // Check if a given key is just pushed
+// Only available when INPUT_KB_UPDATE is TRUE
+//
+// Parameters:
+//   key - The key ID to check
+//
+// Return:
+//   TRUE is the key was pushed this frame
 bool Keyboard_IsKeyPushed(u8 key);
 
 #else
 
 // Check if a given key is pressed
-//
-// Parameters:
-//   key - The key ID to check
 bool Keyboard_IsKeyPressed(u8 key);
 
 #endif // (INPUT_KB_UPDATE)
