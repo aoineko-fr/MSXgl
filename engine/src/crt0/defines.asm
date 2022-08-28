@@ -57,4 +57,4 @@ ROM_BDOS			= 0				; Install BDOS
 ROM_BCALL			= 0				; Add banked call trampoline
 ROM_RAMISR			= 0				; Install ISR in RAM
 ROM_HBLANK			= 0				; Use ISR with H-Blank support
-ISR_SET_S0			= 1				; Reset statut register to S#0 in ISR
+ISR_SET_S0			= 0				; Reset statut register to S#0 in ISR

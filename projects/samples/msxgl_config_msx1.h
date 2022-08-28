@@ -352,5 +352,5 @@
 // - DEBUG_OPENMSX_G .............. Grauw profile script for OpenMSX
 // - DEBUG_OPENMSX_S .............. Salutte profile script for OpenMSX
 // - DEBUG_EMULICIOUS ............. Profile script for Emulicious
-#define DEBUG_TOOL					DEBUG_EMULICIOUS
+#define DEBUG_TOOL					DEBUG_DISABLE
 #define PROFILE_LEVEL				10 

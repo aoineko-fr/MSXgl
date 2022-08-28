@@ -105,8 +105,12 @@ if %InstallRAMISR%==HBLANK (
 	echo ROM_RAMISR=1 >> %OutDir%\crt0_config.asm
 	echo ROM_HBLANK=1 >> %OutDir%\crt0_config.asm
 )
+if /I not %Machine%==1     ( echo ISR_SET_S0=1 >> %OutDir%\crt0_config.asm )
 
-:: Update build version header file
+::=============================================================================
+:: UPDATE BUILD VERSION HEADER FILE
+::=============================================================================
+
 if not %BuildVersion%==1 goto NoBuildVersion
 
 set Version=0

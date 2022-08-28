@@ -20,6 +20,8 @@
 // No support for debug/profile tool
 #if (DEBUG_TOOL == DEBUG_DISABLE)
 
+	#define DEBUG_INIT()
+
 	#define DEBUG_BREAK()
 	#define DEBUG_ASSERT(a)
 	#define DEBUG_LOG(msg)
@@ -35,6 +37,8 @@
 //-----------------------------------------------------------------------------
 // OpenMSX default debugger (no profiler)
 #if ((DEBUG_TOOL == DEBUG_OPENMSX) || (DEBUG_TOOL == DEBUG_OPENMSX_G) || (DEBUG_TOOL == DEBUG_OPENMSX_S))
+
+	#define DEBUG_INIT()
 
 	//-----------------------------------------------------------------------------
 	// Port 0x2E - Mode Set Register
@@ -138,6 +142,21 @@
 		.endm													\
 		macroName												\
 	__endasm
+
+	inline void Debug_Initialize()
+	{
+		// Fix assertion for un-initialized VDP buffer
+		u8* ptr = (u8*)&g_VDP_Command;
+		for(u8 i = 0; i < sizeof(g_VDP_Command); ++i)
+			*(ptr++) = 0;
+		
+		// Fix assertion for BIOS-initialized key buffer
+		#if (INPUT_KB_UPDATE)
+		for(u8 i = INPUT_KB_UPDATE_MIN; i <= INPUT_KB_UPDATE_MAX; ++i)	
+			((u8*)g_NEWKEY)[i] = 0xFF;
+		#endif
+	}
+	#define DEBUG_INIT()			Debug_Initialize()
 
 	#define DEBUG_BREAK()			__asm__("ld b, b")
 	#define DEBUG_ASSERT(a)			if(!(a)) DEBUG_BREAK()

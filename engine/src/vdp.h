@@ -1209,7 +1209,7 @@ void VPD_CommandReadLoop(u8* addr) __FASTCALL;
 // INLINE FUNCTIONS
 //-----------------------------------------------------------------------------
 
-#include "vdp.inl"
+#include "vdp_inl.h"
 
 // VDP COMMANDS
 

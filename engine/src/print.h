@@ -303,4 +303,4 @@ void Print_DrawBox(u8 x, u8 y, u8 width, u8 height);
 // inline void Print_Tab(); // Print tabulation
 // inline void Print_Return(); // Print return
 // inline void Print_DrawTextAt(u8 x, u8 y, const c8* string); // Print a character string
-#include "print.inl"
+#include "print_inl.h"
