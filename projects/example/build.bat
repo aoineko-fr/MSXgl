@@ -15,8 +15,8 @@ call ..\default_config.cmd %0
 ::*****************************************************************************
 :: TOOLS SETTINGS
 ::*****************************************************************************
-REM set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
-set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
+set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
+REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
 REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
 REM set Emulator=%ToolsDir%\MEISEI\meisei.exe
 REM set Emulator=%ToolsDir%\fMSX\fMSX.exe

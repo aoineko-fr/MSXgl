@@ -25,11 +25,11 @@
 #define UNIT_TO_PX(a)				(u8)((a) / 64)
 #define PX_TO_UNIT(a)				(i16)((a) * 64)
 
-#define FORCE		20
-#define GRAVITY		1
-#define GROUND		192
-#define HORIZON		11
-#define NET_H		7
+#define FORCE						20
+#define GRAVITY						1
+#define GROUND						192
+#define HORIZON						11
+#define NET_H						7
 
 //
 enum INPUT_ACTION
@@ -42,23 +42,23 @@ enum INPUT_ACTION
 // 16-bits vector structure
 typedef struct
 {
-	i16			x;	
-	i16			y;	
+	i16			x;
+	i16			y;
 } Vector16;
 
 // Gameplay character stricture
 struct Character
 {
-	bool bMoving;
-	bool bInAir;
-	i8   VelocityY;
-	i8   DX;
-	i8   DY;
-	u8   Input;
-	u8   Score;
-	Game_Pawn Pawn;
-	Vector16 Position;
-	Vector16 Velocity;
+	bool		bMoving;
+	bool		bInAir;
+	i8			VelocityY;
+	i8			DX;
+	i8			DY;
+	u8			Input;
+	u8			Score;
+	Game_Pawn	Pawn;
+	Vector16	Position;
+	Vector16	Velocity;
 };
 
 // Prototypes
@@ -290,10 +290,8 @@ void PhysicsEventBall(u8 event, u8 tile)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
 	case PAWN_PHYSICS_COL_DOWN:
-		// g_Ball.Velocity.y *= -1; // Reverse  
-		g_Ball.VelocityY *= -1;
-		// g_Ball.VelocityY = -g_Ball.VelocityY;
-		// GamePawn_SetAction(&g_Ball.Pawn, ACTION_BALL_BUMP);
+		g_Ball.VelocityY *= -1; // Reverse
+		GamePawn_SetAction(&g_Ball.Pawn, ACTION_BALL_BUMP);
 		// if(g_Ball.Pawn.PositionY > 128)
 		// {
 			// if(g_Ball.Pawn.PositionX < 128) // Player 1 score a point!
@@ -500,7 +498,7 @@ void UpdateBall()
 		g_Ball.VelocityY = FORCE;
 		if(ply->bInAir)
 			g_Ball.VelocityY += ply->VelocityY;
-		g_Ball.DX = dx / 4;
+		g_Ball.DX = dx / 4; // Math_SignedDiv4
 
 		g_Ball.VelocityY = FORCE;
 
@@ -511,8 +509,8 @@ void UpdateBall()
 
 		GamePawn_SetAction(ballPawn, ACTION_BALL_BUMP);
 
-		// Print_SetPosition(0, 2);
-		// Print_DrawFormat("%i..\n%i..", dx, dy);
+		Print_SetPosition(0, 2);
+		Print_DrawFormat("%i..\n%i..", dx, dy);
 	}
 
 	// Update player animation & physics
