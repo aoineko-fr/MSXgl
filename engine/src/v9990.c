@@ -11,8 +11,7 @@
 #include "v9990.h"
 
 //
-struct V9_Address g_V9_Address;
-
+// R#06, R#07, Port#07
 const u8 g_V9_ModeConfig[] = 
 {
 	// Pattern mode 1      (P1)
@@ -68,22 +67,11 @@ const u8 g_V9_ModeConfig[] =
 
 //-----------------------------------------------------------------------------
 //
-inline u8 V9_GetPort(u8 port)
-{
-	port;	// A
-	__asm
-	v9_get_port:
-		ld		c, a				// Select port
-		in		a, (c)				// Get value
-	__endasm;
-}
-
-//-----------------------------------------------------------------------------
-//
-inline void V9_SetPort(u8 port, u8 value)
+void V9_SetPort(u8 port, u8 value)
 {
 	port;	// A
 	value;	// L
+
 	__asm
 	v9_set_port:
 		ld		c, a				// Select port
@@ -93,10 +81,24 @@ inline void V9_SetPort(u8 port, u8 value)
 
 //-----------------------------------------------------------------------------
 //
+u8 V9_GetPort(u8 port)
+{
+	port;	// A
+
+	__asm
+	v9_get_port:
+		ld		c, a				// Select port
+		in		a, (c)				// Get value
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+//
 void V9_SetRegister(u8 reg, u8 val)
 {
 	reg;	// A
 	val;	// L
+
 	__asm
 	v9_set_reg:
 		out		(V9_P04), a				// Select register
@@ -110,16 +112,13 @@ void V9_SetRegister(u8 reg, u8 val)
 u8 V9_GetRegister(u8 reg)
 {
 	reg;	// A
+
 	__asm
 	v9_get_reg:
 		out		(V9_P04), a				// Select register
 		in		a, (V9_P03)				// Get value
 	__endasm;
 }
-
-
-
-
 
 //-----------------------------------------------------------------------------
 //
@@ -145,17 +144,19 @@ bool V9_Detect()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Set screen mode
 void V9_SetMode(u8 mode)
 {
-	u8* ptr = g_V9_ModeConfig + (mode * 3);
-	V9_SetRegister(V9_R06, *ptr++);
-	V9_SetRegister(V9_R07, *ptr++);
+	const u8* ptr = g_V9_ModeConfig + (mode * 3);
+	V9_SetRegister(6, *ptr++);
+	V9_SetRegister(7, *ptr++);
 	V9_SetPort(V9_P07, *ptr);
+
+	V9_SetRegister(8, V9_R08_DISP_ON | 0x02); // Enable display
 }
 
 //-----------------------------------------------------------------------------
-//
+// Clean the whole VRAM (512 KB)
 void V9_ClearVRAM()
 {
 	__asm
@@ -165,154 +166,118 @@ void V9_ClearVRAM()
 		out		(V9_P03), a			// R#0 = 0
 		out		(V9_P03), a			// R#1 = 0
 		out		(V9_P03), a			// R#2 = 0
-		
-		// Setup 64K loop
+
+		// Setup 512 KB loop (256x256x8)
 		ld		b, a
 		ld		d, a
-		ld		c, #V9_P00
-		
+		ld		e, #8
+
 		// Loop
 	v9_clear_loop:
-		out		(c), b
+		out		(V9_P00), a
 		djnz	v9_clear_loop
 		dec		d
+		jp		nz, v9_clear_loop
+		dec		e
 		jp		nz, v9_clear_loop
 	__endasm;
 }
 
-
-/*
-
 //-----------------------------------------------------------------------------
 //
-void V9_SetWriteAddress(struct V9_Address* addr)
+void V9_SetWriteAddress(u32 addr)
 {
-	addr; // HL
+	addr;		// HL:DE
 	__asm
 	v9_set_write_addr:					//-cc-
-		xor		a						//  5	
-		out		(V9_P04), a				// 12	Select R#0 (with write increment)
-		ld		c, #V9_P03				//  8	
-		outi							// 18	R#0 (lower address)
-		outi							// 18	R#1 (center address)
-		outi							// 18	R#2 (upper address)
-	__endasm;							//-total: 79 cc
-}
-
-/*void V9_SetWriteAddress(u8 up, u16 low)
-{
-	up;		// A
-	low;	// DE
-	__asm
-	v9_set_write_addr:						//-cc-
-		ld		b, a					//  5
 		xor		a						//  5
 		out		(V9_P04), a				// 12	Select R#0 (with write increment)
 		ld		c, #V9_P03				//  8
-		out		(c), d					// 14	R#0 (lower address)
-		out		(c), e					// 14	R#1 (center address)
-		out		(c), b					// 14	R#2 (upper address)
-	__endasm;							//-total: 72 cc
-}/
+		out		(c), e					// 14	R#0 (lower address)
+		out		(c), d					// 14	R#1 (center address)
+		out		(c), l					// 14	R#2 (upper address)
+	__endasm;							//-total: 67 cc
+}
 
 //-----------------------------------------------------------------------------
 //
-void V9_FillVRAM(u8 value, struct V9_Address* dest, u16 count) __naked
+void V9_SetReadAddress(u32 addr)
+{
+	addr;		// HL:DE
+	__asm
+	v9_set_read_addr:					//-cc-
+		ld		a, #3					//  8
+		out		(V9_P04), a				// 12	Select R#3 (with read increment)
+		ld		c, #V9_P03				//  8
+		out		(c), e					// 14	R#3 (lower address)
+		out		(c), d					// 14	R#4 (center address)
+		out		(c), l					// 14	R#5 (upper address)
+	__endasm;							//-total: 70 cc
+}
+
+
+//-----------------------------------------------------------------------------
+//
+void V9_FillVRAM_NoSet(u8 value, u16 count)
 {
 	value;	// A
-	dest;	// DE
-	count;	// SP+2
+	count;	// DE
+
 	__asm
-	// Setup destination address
-	v9_fill_addr:
-		ld		h, d					// DE -> HL
-		ld		l, e
-		ld		b, a					// Backup value
-		xor		a
-		out		(V9_P04), a				// Select R#0 (with write increment)
-		ld		c, #V9_P03
-		outi							// Set R#0 (lower address)
-		outi							// Set R#1 (center address)
-		outi							// Set R#2 (upper address)
 	// Setup fast 16-bits loop
 	v9_fill_setup:
-		ld		a, b					// Retreive value
-		pop		iy
-		pop		de						// Get counter
-		ld		b, e					// Compute DB value... B is count LSB 
-		dec		de
-		inc		d						// D is count's MSB + 1 except when LSB is equal 0 (in this case D equal count's MSB)
+		ld		b, e					// Number of loops is in DE
+		dec		de						// Calculate DB value (destroys B, D and E)
+		inc		d
 	// Fast 16-bits loop
 	v9_fill_loop:
 		out		(V9_P00), a				// Fill VRAM
 		djnz	v9_fill_loop			// Iner 8-bits loop
 		dec		d
-		jr		nz, v9_fill_loop		// Outer 8-bits loop
-		
-		jp		(iy)
-__endasm;
+		jp		nz, v9_fill_loop		// Outer 8-bits loop
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
 //
-void V9_WriteVRAM(u8* src, struct V9_Address* dest, u16 count) __naked
+void V9_WriteVRAM_NoSet(const u8* src, u16 count)
 {
-	src;	// HL -> DE
-	dest;	// DE -> HL
-	count;	// SP+2
+	src;	// HL
+	count;	// DE
+
 	__asm
-	// Setup destination address
-	v9_write_addr:
-		ex		de, hl
-		xor		a
-		out		(V9_P04), a				// Select R#0 (with write increment)
-		ld		c, #V9_P03
-		outi							// Set R#0 (lower address)
-		outi							// Set R#1 (center address)
-		outi							// Set R#2 (upper address)
 	// Setup fast 16-bits loop
 	v9_write_setup:
-		ld		a, b					// Retreive value
-		pop		iy
-		pop		de						// Get counter
-		ld		b, e					// Compute DB value... B is count LSB 
-		dec		de
-		inc		d						// D is count's MSB + 1 except when LSB is equal 0 (in this case D equal count's MSB)
+		ld		b, e					// Number of loops is in DE
+		dec		de						// Calculate DB value (destroys B, D and E)
+		inc		d
 		ld		c, #V9_P00
 	// Fast 16-bits loop
 	v9_write_loop:
-		outi							// Write to VRAM
-		jr		nz, v9_write_loop		// Iner 8-bits loop
+		otir							// Write to VRAM (iner 8-bits loop)
 		dec		d
-		jr		nz, v9_write_loop		// Outer 8-bits loop
-		
-		jp		(iy)
-__endasm;
+		jp		nz, v9_write_loop		// Outer 8-bits loop
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
 //
-void V9_SetReadAddress(struct V9_Address* addr)
+void V9_ReadVRAM_NoSet(const u8* dest, u16 count)
 {
-	addr; // HL
-__asm
-set_read_addr:
-	ld		#V9_REG(3)				// Select R#3 (with write increment)
-	out		(V9_P04), a
-	ld		c, #V9_P03
-	outi							// R#0 (lower address)
-	outi							// R#1 (center address)
-	outi							// R#2 (upper address)
-__endasm;
+	dest;	// HL
+	count;	// DE
+
+	__asm
+	// Setup fast 16-bits loop
+	v9_read_setup:
+		ld		b, e					// Number of loops is in DE
+		dec		de						// Calculate DB value (destroys B, D and E)
+		inc		d
+		ld		c, #V9_P00
+	// Fast 16-bits loop
+	v9_read_loop:
+		inir							// Read from VRAM (iner 8-bits loop)
+		dec		d
+		jp		nz, v9_read_loop		// Outer 8-bits loop
+	__endasm;
 }
-
-
-//-----------------------------------------------------------------------------
-//
-void V9_ReadVRAM(struct V9_Address* src, u8* dest, u16 count)
-{
-	src;	// HL
-	dest;	// DE
-	count;	// SP+2
-	// V9_SetWriteAddress(dest);
-}*/

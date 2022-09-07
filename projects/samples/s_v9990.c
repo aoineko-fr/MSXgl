@@ -22,6 +22,15 @@
 // Fonts
 #include "font\font_mgl_sample6.h"
 
+// Sprite
+#include "content\v9990\data_v9_chr.h"
+
+// Tiles
+#include "content\v9990\data_v9_bg.h"
+
+// Animation characters
+const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
+
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
@@ -33,38 +42,8 @@
 
 //-----------------------------------------------------------------------------
 //
-u8 V9_GetPort(u8 port)
-{
-	port;	// A
-	__asm
-	v9_get_port:
-		// add		#V9_P00
-		ld		c, a				// Select port
-		in		a, (c)				// Get value
-	__endasm;
-}
-
-//-----------------------------------------------------------------------------
-//
-u8 V9_SetPort(u8 port, u8 value)
-{
-	port;	// A
-	value;	// L
-	__asm
-	v9_set_port:
-		// add		#V9_P00
-		ld		c, a				// Select port
-		out		(c), l				// Set value
-	__endasm;
-}
-
-//-----------------------------------------------------------------------------
-//
 void DisplayMSX()
 {
-	VDP_SetMode(VDP_MODE_SCREEN0); // Initialize screen mode 0 (text)
-	VDP_ClearVRAM();
-
 	Print_SetTextFont(g_Font_MGL_Sample6, 1); // Initialize font
 	Print_SetColor(0xF, 0x0);
 	Print_DrawText(MSX_GL " V9990 SAMPLE");
@@ -75,10 +54,6 @@ void DisplayMSX()
 		str = "V9990 found!";
 	Print_SetPosition(0, 3);
 	Print_DrawText(str);
-
-	V9_SetMode(V9_MODE_B1);
-	V9_SetRegister(8, 0x82);
-	V9_ClearVRAM();
 
 	Print_SetPosition(0, 5);
 	Print_DrawText("Ports:\n\n 0-7\n 8-F");
@@ -104,21 +79,54 @@ void DisplayMSX()
 
 	Print_DrawLineH(0, 22, 40);
 	Print_SetPosition(0, 23);
-	Print_DrawText("R:Refresh");
+	Print_DrawText("R:Refresh C:Color");
+
 }
 
 //-----------------------------------------------------------------------------
 // Program entry point
 void main()
 {
+	VDP_SetMode(VDP_MODE_SCREEN0); // Initialize screen mode 0 (text)
+	VDP_EnableVBlank(TRUE);
+	VDP_ClearVRAM();
+
 	DisplayMSX();
 
+	V9_SetMode(V9_MODE_P1);
+	// V9_SetRegister(9, 0/*V9_R08_IEV_ON*/);
+	V9_ClearVRAM();
+
+	// V9_P1_PGT_A		0x00000	// Pattern Generator Table (Layer A). 8160 patterns max
+	// V9_P1_SGT		0x00000	// Sprite Generator Table  
+	// V9_P1_SPAT		0x3FE00	// Sprite Attribute Table
+	// V9_P1_PGT_B		0x40000	// Pattern Generator Table (Layer B). 7680 patterns max
+	// V9_P1_PNT_A		0x7C000	// Pattern Name Table (Layer A)
+	// V9_P1_PNT_B		0x7E000	// Pattern Name Table (Layer B)
+
+	V9_WriteVRAM(V9_P1_PGT_A, g_DataV9BG, sizeof(g_DataV9BG));
+	// V9_WriteVRAM(V9_P1_PGT_B, g_DataV9BG, sizeof(g_DataV9BG));
+
+	for(u16 i = 0; i < 32*27; i++)
+	{
+		V9_FillVRAM(V9_P1_PNT_A + (i * 2), i & 0xFF, 1);
+		// V9_FillVRAM(V9_P1_PNT_B + (i * 2), i & 0xFF, 1);
+	}
+
+	u8 count = 0;
 	u8 clr = 0;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
-		V9_SetRegister(15, clr++);
+		Halt();
+		Print_SetPosition(39, 0);
+		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
+
+		// V9_SetPort(6, 0x07);
+		// 
 
 		if(Keyboard_IsKeyPressed(KEY_R))
 			DisplayMSX();
+		if(Keyboard_IsKeyPressed(KEY_C))
+			V9_SetRegister(15, clr++);
 	}
 }

@@ -684,6 +684,14 @@ inline void VDP_SetVerticalOffset(u8 offset) { VDP_RegWrite(23, offset); }
 //   offset - Screen display position offset (MSB 4-bits: vertical offset, LSB 4-bits: horizontal offset)
 void VDP_SetAdjustOffset(u8 offset);
 
+// Function: VDP_SetAdjustOffsetXY
+// Adjustment of the display location on the screen (register 18). [MSX2/2+/TR]
+//
+// Parameters:
+//   x - Horizontal screen display position offset [-7:+8]
+//   y - Vertical screen display position offset [-7:+8]
+inline void VDP_SetAdjustOffsetXY(i8 x, i8 y) { VDP_SetAdjustOffset(((-x) & 0x0F) | (((-y) & 0x0F) << 4)); }
+
 // Function: VDP_SetGrayScale
 //
 // Parameters:

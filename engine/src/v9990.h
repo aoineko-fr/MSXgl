@@ -36,6 +36,26 @@ extern struct V9_Address g_V9_Address;
 // FUNCTIONS
 //=============================================================================
 
+//-----------------------------------------------------------------------------
+// Core
+//-----------------------------------------------------------------------------
+
+//
+void V9_SetPort(u8 port, u8 value);
+
+//
+u8 V9_GetPort(u8 port);
+
+//
+void V9_SetRegister(u8 reg, u8 val);
+
+//
+u8 V9_GetRegister(u8 reg);
+
+//-----------------------------------------------------------------------------
+// Helper
+//-----------------------------------------------------------------------------
+
 //
 bool V9_Detect();
 
@@ -45,11 +65,34 @@ void V9_SetMode(u8 mode);
 //
 void V9_ClearVRAM();
 
-//
-void V9_SetRegister(u8 reg, u8 val);
+//-----------------------------------------------------------------------------
+// VRAM access
+//-----------------------------------------------------------------------------
 
 //
-u8 V9_GetRegister(u8 reg);
+void V9_SetWriteAddress(u32 addr);
+
+//
+void V9_SetReadAddress(u32 addr);
+
+//
+void V9_FillVRAM_NoSet(u8 value, u16 count);
+
+//
+void V9_WriteVRAM_NoSet(const u8* src, u16 count);
+
+//
+void V9_ReadVRAM_NoSet(const u8* dest, u16 count);
+
+//
+inline void V9_FillVRAM(u32 addr, u8 value, u16 count) { V9_SetWriteAddress(addr); V9_FillVRAM_NoSet(value, count); }
+
+//
+inline void V9_WriteVRAM(u32 addr, const u8* src, u16 count) { V9_SetWriteAddress(addr); V9_WriteVRAM_NoSet(src, count); }
+
+//
+inline void V9_ReadVRAM(u32 addr, const u8* dest, u16 count) { V9_SetReadAddress(addr); V9_ReadVRAM_NoSet(dest, count); }
+
 
 //=============================================================================
 //
@@ -431,7 +474,23 @@ struct V9_SuperimposeControl
 //	│	│	└────────────────────── YS signal output enable. 1: YS signal is output; 0: YS signal is not output. (YS terminal constantly remains as low level.)
 //	│	└────────────────────────── Sprite (cursor) disable
 //	└────────────────────────────── Screen display enable. 1: Display appears on screen according to the VRAM content.; 0: Back drop color is displayed all over the screen.
+#define V9_R08						8
 #define V9_REG_CTRL					8
+
+#define V9_R08_VWM_ON				0b00001000
+#define V9_R08_VWM_OFF				0
+
+#define V9_R08_VWTE_ON				0b00010000
+#define V9_R08_VWTE_OFF				0
+
+#define V9_R08_YSE_ON				0b00100000
+#define V9_R08_YSE_OFF				0
+
+#define V9_R08_SPD_ON				0b01000000
+#define V9_R08_SPD_OFF				0
+
+#define V9_R08_DISP_ON				0b10000000
+#define V9_R08_DISP_OFF				0
 
 //-----------------------------------------------------------------------------
 // R#9 - Interrupt enable register - Read/write
@@ -447,7 +506,17 @@ struct V9_SuperimposeControl
 //						└────────── Command end interrupt enable control
 //									 0: INT0 terminal does not change according to CE flag.
 //									 1: INT0 terminal becomes low level when CE flag of P#6 is "1".
+#define V9_R09						9
 #define V9_REG_INT_ENABLE			9
+
+#define V9_R08_IEV_ON				0b00000001 // Interrupt enable during vertical retrace line interval
+#define V9_R08_IEV_OFF				0
+
+#define V9_R08_IEH_ON				0b00000010 // Display position interrupt enable (Interrupt position is specified with Interrupt Line, Interrupt X and IEHM.)
+#define V9_R08_IEH_OFF				0
+
+#define V9_R08_IECE_ON				0b00000100 // Command end interrupt enable control
+#define V9_R08_IECE_OFF				0
 
 //-----------------------------------------------------------------------------
 // R#10 - Line interrupt register (lower part) - Read/write
@@ -694,6 +763,25 @@ enum V9_COLOR_MODE
 
 #define V9_R06_COLOR_MASK			0b00000011
 #define V9_R13_COLOR_MASK			0b11100000
+
+// P1 mode VRAM layout
+#define V9_P1_PGT_A					0x00000	// Pattern Generator Table (Layer A). 8160 patterns max
+#define V9_P1_SGT					0x00000	// Sprite Generator Table  
+#define V9_P1_SPAT					0x3FE00	// Sprite Attribute Table
+#define V9_P1_PGT_B					0x40000	// Pattern Generator Table (Layer B). 7680 patterns max
+#define V9_P1_PNT_A					0x7C000	// Pattern Name Table (Layer A)
+#define V9_P1_PNT_B					0x7E000	// Pattern Name Table (Layer B)
+
+// P2 mode VRAM layout
+#define V9_P2_PGT					0x00000 // Pattern Generator Table. 15360 patterns max
+#define V9_P2_SGT					0x00000	// Sprite Generator Table
+#define V9_P2_SPAT					0x7BE00 // Sprite Attribute Table
+#define V9_P2_PNT					0x7C000 // Pattern Name Table
+
+// Bitmap mode VRAM layout
+#define V9_BMP_PGT					0x00000 // Pattern Generator Table (bitmap data)
+#define V9_BMP_CUR					0x7FE00	// Cursor area (512 bytes)
+
 
 
 		// ifndef G9K_DISABLE_DIRECT_EXPORT

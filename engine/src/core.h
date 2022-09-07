@@ -10,7 +10,7 @@
 // Library version
 #define VERSION_MAJOR			(u16)0		// 4-bits (0-15)
 #define VERSION_MINOR			(u16)5		// 6-bits (0-63)
-#define VERSION_PATCH			(u16)1		// 6-bits (0-63)
+#define VERSION_PATCH			(u16)2		// 6-bits (0-63)
 #define VERSION(a, b, c)		((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT			VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)		
 
@@ -98,7 +98,7 @@ typedef void (*callback)(void);		// Callback default signature
 // Parameter/return register:
 // - 8 bits 				L
 // - 16 bits				HL
-// - 32 bits				DE-HL
+// - 32 bits				DE:HL
 #define __FASTCALL			__z88dk_fastcall
 // For 8 bits parameter
 #define FC8(a)				(u8)(a)					// L
@@ -106,7 +106,7 @@ typedef void (*callback)(void);		// Callback default signature
 #define FC16(a)				(u16)(a)				// HL
 #define FC88(a, b)			(u16)((a << 8) + (b))	// H, L
 // For 32 bits parameters
-#define FC32(a)				(u32)(a)															// DEHL
+#define FC32(a)				(u32)(a)															// DE:HL
 #define FC1616(a, b)		(u32)(((u32)(a) << 16) + (b))										// DE, HL
 #define FC1688(a, b, c)		(u32)(((u32)(a) << 16) + ((u16)(b) << 8) + (c))						// DE, H, L
 #define FC8816(a, b, c)		(u32)(((u32)(a) << 24) + ((u32)(b) << 16) + (c))					// D, E, HL
@@ -122,14 +122,15 @@ typedef void (*callback)(void);		// Callback default signature
 // Parameters register:
 // - 8 bits					A
 // - 16 bits				HL
-// - 32 bits				HL-DE
+// - 32 bits				HL:DE
 // - 8 + 8 bits				A + L
 // - 8 + 16 bits			A + DE
 // - 16 + 16 bits			HL + DE
+//
 // Return register:
 // - 8 bits					A
 // - 16 bits				DE
-// - 32 bits				HL-DE
+// - 32 bits				HL:DE
 
 //-----------------------------------------------------------------------------
 // Bits handling

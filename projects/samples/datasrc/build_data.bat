@@ -11,9 +11,10 @@ set BuildArkos=0
 set BuildPCMEnc=0
 :: Image
 set BuildBitmap=0
-set BuildImage=1
+set BuildImage=0
 set BuildCompress=0
 set BuildTile=0
+set BuildV9990=1
 :: Misc
 set BuildZip=0
 
@@ -233,6 +234,19 @@ if %BuildTile%==1 (
 	%CMSXtk%\CMSXimg.exe img\city.png -out %Dest%\tile\data_map_gm2.h  -mode gm2 -name g_DataMapGM2  -pos 0 320 -size 1024 192 -offset 0
 	REM %CMSXtk%\CMSXimg.exe img\city.png -out %Dest%\tile\data_tile_gm1.h -mode gm1 -name g_DataTileGM1 -pos 0 160 -size 192 144 -offset 0
 )
+
+::-----------------------------------------------------------------------------
+:: Build V9990 data
+if %BuildV9990%==1 (
+	echo ----------------------------------------
+	echo Building V9990 data...
+	if not exist %Dest%\v9990 md %Dest%\v9990
+	%CMSXtk%\CMSXimg.exe img\data.png    -copy gk.txt -out %Dest%\v9990\data_v9_chr.h -pos 0 128 -size 256 16 -num 1 1 -name g_DataV9Chr -trans 0xFF00FF -bpc 4 -pal custom --pal24
+	%CMSXtk%\CMSXimg.exe img\data_bg.png -copy gk.txt -out %Dest%\v9990\data_v9_bg.h  -pos 0 0   -size 256 48 -num 1 1 -name g_DataV9BG  -trans 0xFF00FF -bpc 4 -pal custom --pal24
+)
+
+
+
 
 ::=============================================================================
 :: MISC
