@@ -94,6 +94,46 @@ inline void V9_WriteVRAM(u32 addr, const u8* src, u16 count) { V9_SetWriteAddres
 inline void V9_ReadVRAM(u32 addr, const u8* dest, u16 count) { V9_SetReadAddress(addr); V9_ReadVRAM_NoSet(dest, count); }
 
 
+//
+struct V9_Color
+{
+	u16 B  : 5;
+	u16 R  : 5;
+	u16 G  : 5;
+	u16 Ys : 1;
+};
+
+//
+#define V9_RGB(r, g, b)		(u16)(((u16)((g) & 0x1F) << 10) + (((r) & 0x1F) << 5) + ((b) & 0x1F))
+#define V9_RGBYs(r, g, b, ys)		(u16)((((ys) & 0x01) << 15) + ((u16)((g) & 0x1F) << 10) + (((r) & 0x1F) << 5) + ((b) & 0x1F))
+
+// Function: V9_SetPaletteEntry
+// Set the color of a given palette entry.
+//
+// Parameters:
+//   index - Index of the palette entry (0-63)
+//   color - 16 bits color value
+//           Format: [Ys:1|green:5|red:5|blue:5]
+void V9_SetPaletteEntry(u8 index, u16 color);
+
+// Function: V9_SetPalette
+// Set the colors of a given palette entries.
+//
+// Parameters:
+//   first - Index of the first entry to set (0-63)
+//   num   - Numer of entries to set (1-64)
+//   table - 16 bits color table
+//           Format: [Ys:1|green:5|red:5|blue:5]
+void V9_SetPalette(u8 first, u8 num, const u16* table);
+
+// Function: V9_SetPaletteAll
+// Set the colors of all the palette 64 entries.
+//
+// Parameters:
+//   table - 16 bits color table
+//           Format: [Ys:1|green:5|red:5|blue:5]
+inline void V9_SetPaletteAll(const u16* table) { V9_SetPalette(0, 64, table); }
+
 //=============================================================================
 //
 // I/O PORTS

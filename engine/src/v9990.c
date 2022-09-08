@@ -281,3 +281,94 @@ void V9_ReadVRAM_NoSet(const u8* dest, u16 count)
 		jp		nz, v9_read_loop		// Outer 8-bits loop
 	__endasm;
 }
+
+//-----------------------------------------------------------------------------
+// Set the color of a given palette entry.
+void V9_SetPaletteEntry(u8 index, u16 color)
+{
+	index; // A
+	color; // DE
+	       // D: [Ys|G|G|G|G|G|R|R] E: [R|R|R|B|B|B|B|B]
+
+	__asm
+		// Select R#14 (palette pointer register)
+		ld		c, #V9_P04
+		ld		b, #14
+		out		(c), b
+		// Select palette index
+		sla		a
+		sla		a
+		out		(V9_P03), a
+
+	v9_set_pal_entry:
+		// Send R + Ys data
+		ld		a, d
+		and		#0b00000011
+		rlca
+		rlca
+		rlca
+		ld		b, a
+
+		ld		a, e
+		and		#0b11100000
+		rlca
+		rlca
+		rlca
+		or		b
+
+		bit		7, d
+		jr		z, v9_set_pal_no_ys
+		set		7, a
+	v9_set_pal_no_ys:
+		out		(V9_P01), a
+
+		// Send G data
+		ld		a, d
+		and		#0b01111100
+		rrca
+		rrca
+		out		(V9_P01), a
+
+		// Send B data
+		ld		a, e
+		and		#0b00011111
+		out		(V9_P01), a
+
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Set the colors of a given palette entries.
+void V9_SetPalette(u8 first, u8 num, const u16* table)
+{
+	first; // A
+	num;   // L
+	table; // SP+2
+
+	__asm
+		// Select R#14 (palette pointer register)
+		ld		c, #V9_P04
+		ld		b, #14
+		out		(c), b
+		// Select first palette index
+		sla		a
+		sla		a
+		out		(V9_P03), a
+
+		// Loop through all palette entries
+		ld		b, l
+		pop		iy						// get return address 
+		pop		hl						// get data table address
+	v9_set_pal_loop:
+		// Set DE value and call 
+		ld		e, (hl)
+		inc		hl
+		ld		d, (hl)
+		push	bc
+		call	v9_set_pal_entry
+		pop		bc
+		djnz	v9_set_pal_loop
+
+		jp		(iy)
+	__endasm;
+}
