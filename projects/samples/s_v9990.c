@@ -31,25 +31,6 @@
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
-const u16 g_Palette[] = 
-{
-	V9_RGB( 0,  0,  0), // Black
-	V9_RGB(16, 16, 16), // Gray
-	V9_RGB(31, 31, 31), // White
-
-	V9_RGB(16,  0,  0), // Red dark
-	V9_RGB(31,  0,  0), // Red med
-	V9_RGB(31, 16, 16), // Red light
-
-	V9_RGB( 0, 16,  0), // Green dark
-	V9_RGB( 0, 31,  0), // Green med
-	V9_RGB(16, 31, 16), // Green light
-
-	V9_RGB( 0,  0, 16), // Blue dark
-	V9_RGB( 0,  0, 31), // Blue med
-	V9_RGB(16, 16, 31), // Blue light
-};
-
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
@@ -113,10 +94,12 @@ void main()
 	DisplayMSX();
 
 	V9_SetMode(V9_MODE_P1);
-	// V9_SetRegister(9, 0/*V9_R08_IEV_ON*/);
+	// V9_SetBPP(V9_R06_BPP_4);
+	V9_SetSpriteEnable(FALSE);
+
 	V9_ClearVRAM();
-	
-	V9_SetPalette(0, numberof(g_Palette), g_Palette);
+
+	V9_SetPalette(1, numberof(g_DataV9BG_palette), g_DataV9BG_palette);
 
 	// V9_P1_PGT_A		0x00000	// Pattern Generator Table (Layer A). 8160 patterns max
 	// V9_P1_SGT		0x00000	// Sprite Generator Table  
@@ -126,12 +109,13 @@ void main()
 	// V9_P1_PNT_B		0x7E000	// Pattern Name Table (Layer B)
 
 	V9_WriteVRAM(V9_P1_PGT_A, g_DataV9BG, sizeof(g_DataV9BG));
-	// V9_WriteVRAM(V9_P1_PGT_B, g_DataV9BG, sizeof(g_DataV9BG));
 
 	for(u16 i = 0; i < 32*27; i++)
 	{
-		V9_FillVRAM(V9_P1_PNT_A + (i * 2), i & 0xFF, 1);
-		// V9_FillVRAM(V9_P1_PNT_B + (i * 2), i & 0xFF, 1);
+		u16 addr = (((i / 32) * 64) + (i % 32)) * 2;
+		V9_Poke(V9_P1_PNT_A + addr, (u8)(i & 0xFF));
+		addr++;
+		V9_Poke(V9_P1_PNT_A + addr, (u8)(i >> 8));
 	}
 
 	u8 count = 0;

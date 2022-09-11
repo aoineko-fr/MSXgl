@@ -9,6 +9,7 @@
 // - 
 //─────────────────────────────────────────────────────────────────────────────
 #include "v9990.h"
+#include "v9990_reg.h"
 
 //
 // R#06, R#07, Port#07
@@ -218,7 +219,26 @@ void V9_SetReadAddress(u32 addr)
 
 //-----------------------------------------------------------------------------
 //
-void V9_FillVRAM_NoSet(u8 value, u16 count)
+u8 V9_Peek_CurrentAddr()
+{
+	__asm
+		in		a, (V9_P00)
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+//
+void V9_Poke_CurrentAddr(u8 val)
+{
+	val;		// A
+	__asm
+		out		(V9_P00), a
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+//
+void V9_FillVRAM_CurrentAddr(u8 value, u16 count)
 {
 	value;	// A
 	count;	// DE
@@ -240,7 +260,7 @@ void V9_FillVRAM_NoSet(u8 value, u16 count)
 
 //-----------------------------------------------------------------------------
 //
-void V9_WriteVRAM_NoSet(const u8* src, u16 count)
+void V9_WriteVRAM_CurrentAddr(const u8* src, u16 count)
 {
 	src;	// HL
 	count;	// DE
@@ -262,7 +282,7 @@ void V9_WriteVRAM_NoSet(const u8* src, u16 count)
 
 //-----------------------------------------------------------------------------
 //
-void V9_ReadVRAM_NoSet(const u8* dest, u16 count)
+void V9_ReadVRAM_CurrentAddr(const u8* dest, u16 count)
 {
 	dest;	// HL
 	count;	// DE
@@ -282,6 +302,8 @@ void V9_ReadVRAM_NoSet(const u8* dest, u16 count)
 	__endasm;
 }
 
+#if ((V9_PALETTE_MODE == V9_PALETTE_GBR_16) || (V9_PALETTE_MODE == V9_PALETTE_YSGBR_16))
+
 //-----------------------------------------------------------------------------
 // Set the color of a given palette entry.
 void V9_SetPaletteEntry(u8 index, u16 color)
@@ -295,7 +317,8 @@ void V9_SetPaletteEntry(u8 index, u16 color)
 		ld		c, #V9_P04
 		ld		b, #14
 		out		(c), b
-		// Select palette index
+
+		// Set palette pointer to right index's red channel [index:6|00]
 		sla		a
 		sla		a
 		out		(V9_P03), a
@@ -316,10 +339,12 @@ void V9_SetPaletteEntry(u8 index, u16 color)
 		rlca
 		or		b
 
+#if (V9_PALETTE_MODE == V9_PALETTE_YSGBR_16)
 		bit		7, d
 		jr		z, v9_set_pal_no_ys
 		set		7, a
 	v9_set_pal_no_ys:
+#endif
 		out		(V9_P01), a
 
 		// Send G data
@@ -333,42 +358,44 @@ void V9_SetPaletteEntry(u8 index, u16 color)
 		ld		a, e
 		and		#0b00011111
 		out		(V9_P01), a
-
 	__endasm;
 }
 
+#elif (V9_PALETTE_MODE == V9_PALETTE_RGB_24)
+
 //-----------------------------------------------------------------------------
-// Set the colors of a given palette entries.
-void V9_SetPalette(u8 first, u8 num, const u16* table)
+// Set the color of a given palette entry.
+void V9_SetPaletteEntry(u8 index, const u8* color)
 {
-	first; // A
-	num;   // L
-	table; // SP+2
+	index; // A
+	color; // DE [R][G][B]
 
 	__asm
 		// Select R#14 (palette pointer register)
 		ld		c, #V9_P04
 		ld		b, #14
 		out		(c), b
-		// Select first palette index
+
+		// Set palette pointer to right index's red channel [index:6|00]
 		sla		a
 		sla		a
 		out		(V9_P03), a
 
-		// Loop through all palette entries
-		ld		b, l
-		pop		iy						// get return address 
-		pop		hl						// get data table address
-	v9_set_pal_loop:
-		// Set DE value and call 
-		ld		e, (hl)
-		inc		hl
-		ld		d, (hl)
-		push	bc
-		call	v9_set_pal_entry
-		pop		bc
-		djnz	v9_set_pal_loop
+	v9_set_pal_entry:
+		// Send R + Ys data
+		ld		a, (de)
+		out		(V9_P01), a
 
-		jp		(iy)
+		// Send G data
+		inc		de
+		ld		a, (de)
+		out		(V9_P01), a
+
+		// Send B data
+		inc		de
+		ld		a, (de)
+		out		(V9_P01), a
 	__endasm;
 }
+
+#endif
