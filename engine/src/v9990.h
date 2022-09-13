@@ -112,19 +112,19 @@ enum V9_COLOR_MODE
 
 // Function: V9_SetPort
 // Set port value
-void V9_SetPort(u8 port, u8 value);
+void V9_SetPort(u8 port, u8 value) __PRESERVES(b, d, e, h, iyl, iyh);
 
 // Function: V9_GetPort
 // Get port value
-u8 V9_GetPort(u8 port);
+u8 V9_GetPort(u8 port) __PRESERVES(b, d, e, h, l, iyl, iyh);
 
 // Function: V9_SetRegister
 // Set register value
-void V9_SetRegister(u8 reg, u8 val);
+void V9_SetRegister(u8 reg, u8 val) __PRESERVES(b, c, d, e, h, iyl, iyh);
 
 // Function: V9_GetRegister
 // Get register value
-u8 V9_GetRegister(u8 reg);
+u8 V9_GetRegister(u8 reg) __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: 
 //
@@ -162,17 +162,29 @@ inline void V9_SetDisplayEnable(bool enable) { V9_SetFlag(8, V9_R08_DISP_ON, ena
 //
 inline void V9_SetSpriteEnable(bool enable) { V9_SetFlag(8, V9_R08_SPD_OFF, enable ? 0 : V9_R08_SPD_OFF); }
 
+// Function: V9_SetScrollingX
+//
+void V9_SetScrollingX(u16 x);
+
+// Function: V9_SetScrollingY
+//
+void V9_SetScrollingY(u16 y);
+
+// Function: V9_SetScrolling
+//
+inline void V9_SetScrolling(u16 x, u16 y) { V9_SetScrollingX(x);  V9_SetScrollingY(y); }
+
 //-----------------------------------------------------------------------------
 // Group: VRAM access
 //-----------------------------------------------------------------------------
 
 // Function: V9_SetWriteAddress
 // Initialize VRAM address for writing
-void V9_SetWriteAddress(u32 addr);
+void V9_SetWriteAddress(u32 addr) __PRESERVES(b, iyl, iyh);
 
 // Function: V9_SetReadAddress
 // Initialize VRAM address for reading
-void V9_SetReadAddress(u32 addr);
+void V9_SetReadAddress(u32 addr) __PRESERVES(b, iyl, iyh);
 
 // Function: V9_FillVRAM_CurrentAddr
 // 
@@ -188,11 +200,11 @@ void V9_ReadVRAM_CurrentAddr(const u8* dest, u16 count);
 
 // Function: V9_Poke_CurrentAddr
 //
-void V9_Poke_CurrentAddr(u8 val);
+void V9_Poke_CurrentAddr(u8 val) __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: V9_Peek_CurrentAddr
 //
-u8 V9_Peek_CurrentAddr();
+u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: V9_FillVRAM
 //

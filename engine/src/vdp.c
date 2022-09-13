@@ -600,7 +600,7 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
 //
 // Return:
 //   Value read in VRAM
-u8 VDP_Peek_16K(u16 dest)
+u8 VDP_Peek_16K(u16 dest) __PRESERVES(b, c, d, e, iyl, iyh)
 {
 	dest; // HL
 
@@ -644,7 +644,7 @@ u8 VDP_Peek_16K(u16 dest)
 // Parameters:
 //   val	- Value to write in VRAM
 //   dest	- Desitation address in VRAM (14bits address form 16KB VRAM)
-void VDP_Poke_16K(u8 val, u16 dest)
+void VDP_Poke_16K(u8 val, u16 dest) __PRESERVES(c, h, l, iyl, iyh)
 {
 	val;  // A
 	dest; // DE
@@ -895,7 +895,7 @@ void VDP_SetModeGraphic7()
 //
 // Parameters:
 //   stat - Status register number (0-9)
-u8 VDP_ReadStatus(u8 stat)
+u8 VDP_ReadStatus(u8 stat) __PRESERVES(b, c, d, e, h, iyl, iyh)
 {
 	stat; // A
 	__asm
@@ -938,7 +938,7 @@ void VDP_SetAdjustOffset(u8 offset)
 // Set a new color palette from index 1 to 15 [MSX2/2+/TR]
 // @param		pal			Address of the palette in RAM (table of 15 * 2 bytes)
 // 						Format : [0:5|green:3|0|red:3|0|blue:3]
-void VDP_SetPalette(const u8* pal) __FASTCALL
+void VDP_SetPalette(const u8* pal) __FASTCALL __PRESERVES(d, e, iyl, iyh)
 {
 	pal; // HL
 	__asm
@@ -1329,7 +1329,7 @@ u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0)
 
 //-----------------------------------------------------------------------------
 // Wait for previous VDP command to be finished
-void VDP_CommandWait()
+void VDP_CommandWait() __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
 	__asm
 	wait_vdp_ready:
@@ -1383,7 +1383,7 @@ void VPD_CommandSetupR36()
 // Write to VRAM command loop
 // @param		addr		The address in RAM from where read data to be copied in VRAM
 // 						(First byte of data was sent in the command execution)
-void VPD_CommandWriteLoop(const u8* addr) __FASTCALL
+void VPD_CommandWriteLoop(const u8* addr) __FASTCALL __PRESERVES(b, d, e, iyl, iyh)
 {
 	addr; // HL
 	
@@ -1731,7 +1731,7 @@ u8 VDP_GetVersion() __naked
 // Parameters:
 //   reg   - Register number
 //   value - Value to set
-void VDP_RegWrite(u8 reg, u8 value)
+void VDP_RegWrite(u8 reg, u8 value) __PRESERVES(b, c, d, e, iyl, iyh)
 {
 	reg;	// A
 	value;	// L
@@ -1754,7 +1754,7 @@ void VDP_RegWrite(u8 reg, u8 value)
 // Parameters:
 //   reg   - Register number
 //   value - Value to set
-void VDP_RegWriteBak(u8 reg, u8 value)
+void VDP_RegWriteBak(u8 reg, u8 value) __PRESERVES(d, e, iyl, iyh)
 {
 	reg;	// A
 	value;	// L

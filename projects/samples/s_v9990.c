@@ -97,7 +97,7 @@ void main()
 	// V9_SetBPP(V9_R06_BPP_4);
 	V9_SetSpriteEnable(FALSE);
 
-	V9_ClearVRAM();
+	// V9_ClearVRAM();
 
 	V9_SetPalette(1, numberof(g_DataV9BG_palette), g_DataV9BG_palette);
 
@@ -109,6 +109,7 @@ void main()
 	// V9_P1_PNT_B		0x7E000	// Pattern Name Table (Layer B)
 
 	V9_WriteVRAM(V9_P1_PGT_A, g_DataV9BG, sizeof(g_DataV9BG));
+	V9_WriteVRAM(V9_P1_PGT_B, g_DataV9BG, sizeof(g_DataV9BG));
 
 	for(u16 i = 0; i < 32*27; i++)
 	{
@@ -117,6 +118,14 @@ void main()
 		addr++;
 		V9_Poke(V9_P1_PNT_A + addr, (u8)(i >> 8));
 	}
+
+	// u16 addr = 0;
+	// for(u16 i = 0; i < 64*64; i++)
+	// {
+		// V9_Poke(V9_P1_PNT_B + addr++, 0);
+		// V9_Poke(V9_P1_PNT_B + addr++, 0);
+	// }
+	V9_FillVRAM(V9_P1_PNT_B, 0, 64*64*2);
 
 	u8 count = 0;
 	u8 clr = 0;
@@ -132,6 +141,6 @@ void main()
 		if(Keyboard_IsKeyPressed(KEY_R))
 			DisplayMSX();
 		if(Keyboard_IsKeyPressed(KEY_C))
-			V9_SetRegister(15, clr++);
+			V9_SetRegister(15, clr++ & 0xF);
 	}
 }

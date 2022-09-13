@@ -68,7 +68,7 @@ const u8 g_V9_ModeConfig[] =
 
 //-----------------------------------------------------------------------------
 //
-void V9_SetPort(u8 port, u8 value)
+void V9_SetPort(u8 port, u8 value) __PRESERVES(b, d, e, h, iyl, iyh)
 {
 	port;	// A
 	value;	// L
@@ -82,7 +82,7 @@ void V9_SetPort(u8 port, u8 value)
 
 //-----------------------------------------------------------------------------
 //
-u8 V9_GetPort(u8 port)
+u8 V9_GetPort(u8 port) __PRESERVES(b, d, e, h, l, iyl, iyh)
 {
 	port;	// A
 
@@ -95,7 +95,7 @@ u8 V9_GetPort(u8 port)
 
 //-----------------------------------------------------------------------------
 //
-void V9_SetRegister(u8 reg, u8 val)
+void V9_SetRegister(u8 reg, u8 val) __PRESERVES(b, c, d, e, h, iyl, iyh)
 {
 	reg;	// A
 	val;	// L
@@ -110,7 +110,7 @@ void V9_SetRegister(u8 reg, u8 val)
 
 //-----------------------------------------------------------------------------
 //
-u8 V9_GetRegister(u8 reg)
+u8 V9_GetRegister(u8 reg) __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
 	reg;	// A
 
@@ -157,6 +157,30 @@ void V9_SetMode(u8 mode)
 }
 
 //-----------------------------------------------------------------------------
+//
+void V9_SetScrollingY(u16 y)
+{
+	// Set R#17
+	V9_SetRegister(17, y & 0xFF);
+
+	// Set R#18
+	u8 a = (y >> 8) & 0x1F;
+	u8 b = V9_GetRegister(18) & 0xE0;
+	V9_SetRegister(18, a | b);
+}
+
+//-----------------------------------------------------------------------------
+//
+void V9_SetScrollingX(u16 x)
+{
+	// Set R#19
+	V9_SetRegister(19, x & 0x07);
+
+	// Set R#20
+	V9_SetRegister(20, (x >> 3) & 0xFF);
+}
+
+//-----------------------------------------------------------------------------
 // Clean the whole VRAM (512 KB)
 void V9_ClearVRAM()
 {
@@ -186,7 +210,7 @@ void V9_ClearVRAM()
 
 //-----------------------------------------------------------------------------
 //
-void V9_SetWriteAddress(u32 addr)
+void V9_SetWriteAddress(u32 addr) __PRESERVES(b, iyl, iyh)
 {
 	addr;		// HL:DE
 	__asm
@@ -202,7 +226,7 @@ void V9_SetWriteAddress(u32 addr)
 
 //-----------------------------------------------------------------------------
 //
-void V9_SetReadAddress(u32 addr)
+void V9_SetReadAddress(u32 addr) __PRESERVES(b, iyl, iyh)
 {
 	addr;		// HL:DE
 	__asm
@@ -216,10 +240,9 @@ void V9_SetReadAddress(u32 addr)
 	__endasm;							//-total: 70 cc
 }
 
-
 //-----------------------------------------------------------------------------
 //
-u8 V9_Peek_CurrentAddr()
+u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
 	__asm
 		in		a, (V9_P00)
@@ -228,7 +251,7 @@ u8 V9_Peek_CurrentAddr()
 
 //-----------------------------------------------------------------------------
 //
-void V9_Poke_CurrentAddr(u8 val)
+void V9_Poke_CurrentAddr(u8 val) __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
 	val;		// A
 	__asm

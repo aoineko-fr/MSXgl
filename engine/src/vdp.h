@@ -446,7 +446,7 @@ void VDP_SetModeFlag(u8 flag);
 // Parameters:
 //   reg   - Register number
 //   value - Value to set
-void VDP_RegWrite(u8 reg, u8 value);
+void VDP_RegWrite(u8 reg, u8 value) __PRESERVES(b, c, d, e, iyl, iyh);
 
 // Function: VDP_RegWriteBak
 // Set register value after backuping previous value. [MSX1/2/2+/TR]
@@ -454,7 +454,7 @@ void VDP_RegWrite(u8 reg, u8 value);
 // Parameters:
 //   reg   - Register number
 //   value - Value to set
-void VDP_RegWriteBak(u8 reg, u8 value);
+void VDP_RegWriteBak(u8 reg, u8 value) __PRESERVES(d, e, iyl, iyh);
 
 // Function: VDP_RegWriteBakMask
 // Set register value after backuping previous value using mask. [MSX1/2/2+/TR]
@@ -480,7 +480,7 @@ u8 VDP_ReadDefaultStatus();
 //
 // Return:
 //   The given status register value
-u8 VDP_ReadStatus(u8 stat);
+u8 VDP_ReadStatus(u8 stat) __PRESERVES(b, c, d, e, h, iyl, iyh);
 
 #if ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
 
@@ -530,7 +530,7 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0);
 // Parameters:
 //   val	- Value to write in VRAM
 //   dest	- Desitation address in VRAM (14bits address form 16KB VRAM)
-void VDP_Poke_16K(u8 val, u16 dest);
+void VDP_Poke_16K(u8 val, u16 dest) __PRESERVES(c, h, l, iyl, iyh);
 
 // Function: VDP_Peek_16K
 // Read a value from VRAM. [MSX1/2/2+/TR]
@@ -540,7 +540,7 @@ void VDP_Poke_16K(u8 val, u16 dest);
 //
 // Return:
 //   Value read in VRAM
-u8 VDP_Peek_16K(u16 src);
+u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 
 #endif // (VDP_USE_VRAM16K)
 
@@ -763,7 +763,7 @@ inline void VDP_SetFrameRender(u8 mode) { VDP_RegWriteBakMask(9, (u8)~(R09_EO|R0
 // Parameters:
 //   pal - Address of the palette in RAM (table of 15 * 2 bytes)
 //         Format: [0:5|green:3|0|red:3|0|blue:3]
-void VDP_SetPalette(const u8* pal) __FASTCALL;
+void VDP_SetPalette(const u8* pal) __FASTCALL __PRESERVES(d, e, iyl, iyh);
 
 // Function: VDP_SetPaletteEntry
 // Set a given color entry in the palette. [MSX2/2+/TR]
@@ -1185,7 +1185,7 @@ void VDP_FillLayout_GM2(u8 value, u8 dx, u8 dy, u8 nx, u8 ny);
 
 // Function: VDP_CommandWait
 // Wait for previous VDP command to be finished. [MSX2/2+/TR]
-void VDP_CommandWait();
+void VDP_CommandWait() __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 #endif
 
@@ -1204,7 +1204,7 @@ void VPD_CommandSetupR36();
 //
 // Parameters:
 //   addr - Address of the source buffer
-void VPD_CommandWriteLoop(const u8* addr) __FASTCALL;
+void VPD_CommandWriteLoop(const u8* addr) __FASTCALL __PRESERVES(b, d, e, iyl, iyh);
 
 // Function: VPD_CommandReadLoop
 // Read to VRAM command loop. [MSX2/2+/TR]

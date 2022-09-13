@@ -121,7 +121,7 @@ set DiskFiles=
 :: Generate MSXgl static library (0=false, 1=true)
 set BuildLibrary=1
 :: Set debug flag (0=false, 1=true)
-set Debug=1
+set Debug=0
 :: Code optimization (Default, Speed or Size)
 set Optim=Speed
 :: Additionnal compilation flag
