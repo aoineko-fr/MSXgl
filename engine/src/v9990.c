@@ -181,6 +181,31 @@ void V9_SetScrollingX(u16 x)
 }
 
 //-----------------------------------------------------------------------------
+//
+void V9_SetScrollingBY(u16 y)
+{
+	// Set R#21
+	V9_SetRegister(21, y & 0xFF);
+
+	// Set R#22
+	u8 a = (y >> 8) & 0x01;
+	u8 b = V9_GetRegister(18) & 0xFE;
+	V9_SetRegister(22, a | b);
+}
+
+//-----------------------------------------------------------------------------
+//
+void V9_SetScrollingBX(u16 x)
+{
+	// Set R#23
+	V9_SetRegister(23, x & 0x07);
+
+	// Set R#24
+	V9_SetRegister(24, (x >> 3) & 0xFF);
+}
+
+
+//-----------------------------------------------------------------------------
 // Clean the whole VRAM (512 KB)
 void V9_ClearVRAM()
 {

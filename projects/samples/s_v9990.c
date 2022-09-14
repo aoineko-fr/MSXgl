@@ -97,7 +97,7 @@ void main()
 	// V9_SetBPP(V9_R06_BPP_4);
 	V9_SetSpriteEnable(FALSE);
 
-	// V9_ClearVRAM();
+	V9_ClearVRAM();
 
 	V9_SetPalette(1, numberof(g_DataV9BG_palette), g_DataV9BG_palette);
 
@@ -111,7 +111,7 @@ void main()
 	V9_WriteVRAM(V9_P1_PGT_A, g_DataV9BG, sizeof(g_DataV9BG));
 	V9_WriteVRAM(V9_P1_PGT_B, g_DataV9BG, sizeof(g_DataV9BG));
 
-	for(u16 i = 0; i < 32*27; i++)
+	for(u16 i = 0; i < 32*6; i++)
 	{
 		u16 addr = (((i / 32) * 64) + (i % 32)) * 2;
 		V9_Poke(V9_P1_PNT_A + addr, (u8)(i & 0xFF));
@@ -119,21 +119,18 @@ void main()
 		V9_Poke(V9_P1_PNT_A + addr, (u8)(i >> 8));
 	}
 
-	// u16 addr = 0;
-	// for(u16 i = 0; i < 64*64; i++)
-	// {
-		// V9_Poke(V9_P1_PNT_B + addr++, 0);
-		// V9_Poke(V9_P1_PNT_B + addr++, 0);
-	// }
 	V9_FillVRAM(V9_P1_PNT_B, 0, 64*64*2);
 
-	u8 count = 0;
+	u16 count = 0;
 	u8 clr = 0;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 		Print_SetPosition(39, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
+
+		V9_SetScrollingX(count);
+		V9_SetScrollingBY(count);
 
 		// V9_SetPort(6, 0x07);
 		// 

@@ -174,6 +174,18 @@ void V9_SetScrollingY(u16 y);
 //
 inline void V9_SetScrolling(u16 x, u16 y) { V9_SetScrollingX(x);  V9_SetScrollingY(y); }
 
+// Function: V9_SetScrollingBX
+//
+void V9_SetScrollingBX(u16 x);
+
+// Function: V9_SetScrollingBY
+//
+void V9_SetScrollingBY(u16 y);
+
+// Function: V9_SetScrollingB
+//
+inline void V9_SetScrollingB(u16 x, u16 y) { V9_SetScrollingBX(x);  V9_SetScrollingBY(y); }
+
 //-----------------------------------------------------------------------------
 // Group: VRAM access
 //-----------------------------------------------------------------------------
