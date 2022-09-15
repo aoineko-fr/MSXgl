@@ -93,13 +93,17 @@ void main()
 
 	DisplayMSX();
 
-	V9_SetMode(V9_MODE_P1);
+	// V9_SetMode(V9_MODE_B1);
 	// V9_SetBPP(V9_R06_BPP_4);
-	V9_SetSpriteEnable(FALSE);
+
+	V9_SetMode(V9_MODE_P1);
+	V9_SetSpriteEnable(TRUE);
+	V9_SetSpritePatternAddr(V9_P1_SGT_08000);
 
 	V9_ClearVRAM();
 
-	V9_SetPalette(1, numberof(g_DataV9BG_palette), g_DataV9BG_palette);
+	V9_SetPalette(1,  numberof(g_DataV9BG_palette), g_DataV9BG_palette);
+	V9_SetPalette(17, numberof(g_DataV9Chr_palette), g_DataV9Chr_palette);
 
 	// V9_P1_PGT_A		0x00000	// Pattern Generator Table (Layer A). 8160 patterns max
 	// V9_P1_SGT		0x00000	// Sprite Generator Table  
@@ -111,12 +115,26 @@ void main()
 	V9_WriteVRAM(V9_P1_PGT_A, g_DataV9BG, sizeof(g_DataV9BG));
 	V9_WriteVRAM(V9_P1_PGT_B, g_DataV9BG, sizeof(g_DataV9BG));
 
+	V9_WriteVRAM(0x08000, g_DataV9Chr, sizeof(g_DataV9Chr));
+
 	for(u16 i = 0; i < 32*6; i++)
 	{
 		u16 addr = (((i / 32) * 64) + (i % 32)) * 2;
 		V9_Poke(V9_P1_PNT_A + addr, (u8)(i & 0xFF));
 		addr++;
 		V9_Poke(V9_P1_PNT_A + addr, (u8)(i >> 8));
+	}
+
+	struct V9_Sprite attr;
+	for(u16 i = 0; i < 125; i++)
+	{
+		attr.Y = (i / 13) * 20;
+		attr.Pattern = 0;//i % 13;
+		attr.X = (i % 13) * 20;
+		attr.P = 0;
+		attr.D = 0;
+		attr.SC = 1;
+		V9_SetSpriteP1(i, &attr);
 	}
 
 	V9_FillVRAM(V9_P1_PNT_B, 0, 64*64*2);
@@ -131,6 +149,10 @@ void main()
 
 		V9_SetScrollingX(count);
 		V9_SetScrollingBY(count);
+
+		u8 frame = (count >> 1) % 6;
+		for(u16 i = 0; i < 125; i++)
+			V9_SetSpritePatternP1(i, frame);
 
 		// V9_SetPort(6, 0x07);
 		// 

@@ -83,15 +83,15 @@
  <div class="CTitle">Direct access</div>
 </div>
 
-<a name="VDP_RegWrite"></a><a name="Topic115"></a><div class="CTopic TFunction LC">
+<a name="VDP_RegWrite"></a><a name="Topic607"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_RegWrite</div>
- <div id="NDPrototype115" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_RegWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype607" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_RegWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, iyl, iyh)</td></tr></table></div></div>
  <div class="CBody"><p>Set register value. [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">reg<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Register number</p></td></tr><tr><td class="CDLEntry">value<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to set</p></td></tr></table></div>
 </div>
 
-<a name="VDP_RegWriteBak"></a><a name="Topic116"></a><div class="CTopic TFunction LC">
+<a name="VDP_RegWriteBak"></a><a name="Topic608"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_RegWriteBak</div>
- <div id="NDPrototype116" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_RegWriteBak(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype608" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_RegWriteBak(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(d, e, iyl, iyh)</td></tr></table></div></div>
  <div class="CBody"><p>Set register value after backuping previous value. [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">reg<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Register number</p></td></tr><tr><td class="CDLEntry">value<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to set</p></td></tr></table></div>
 </div>
 
@@ -107,9 +107,9 @@
  <div class="CBody"><p>Read default S#0 register. [MSX1/2/2+/TR]</p><div class="CHeading">Return</div><p>Status register #0 value</p></div>
 </div>
 
-<a name="VDP_ReadStatus"></a><a name="Topic386"></a><div class="CTopic TFunction LC">
+<a name="VDP_ReadStatus"></a><a name="Topic609"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_ReadStatus</div>
- <div id="NDPrototype386" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 VDP_ReadStatus(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">stat</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype609" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 VDP_ReadStatus(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">stat</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, h, iyl, iyh)</td></tr></table></div></div>
  <div class="CBody"><p>Read a given status register then reset status register to default (0). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stat<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Status register number (0-9)</p></td></tr></table><div class="CHeading">Return</div><p>The given status register value</p></div>
 </div>
 
@@ -137,15 +137,15 @@
  <div class="CBody"><p>Read data from VRAM to RAM. [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">src<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Source address in VRAM (14bits address form 16KB VRAM)</p></td></tr><tr><td class="CDLEntry">dest<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Desitation data address in RAM</p></td></tr><tr><td class="CDLEntry">count<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Number of byte to copy from VRAM</p></td></tr></table></div>
 </div>
 
-<a name="VDP_Poke_16K"></a><a name="Topic123"></a><div class="CTopic TFunction LC">
+<a name="VDP_Poke_16K"></a><a name="Topic610"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_Poke_16K</div>
- <div id="NDPrototype123" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_Poke_16K(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dest</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype610" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_Poke_16K(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dest</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(c, h, l, iyl, iyh)</td></tr></table></div></div>
  <div class="CBody"><p>Write a value to VRAM. [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write in VRAM</p></td></tr><tr><td class="CDLEntry">dest<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Desitation address in VRAM (14bits address form 16KB VRAM)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_Peek_16K"></a><a name="Topic124"></a><div class="CTopic TFunction LC">
+<a name="VDP_Peek_16K"></a><a name="Topic626"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_Peek_16K</div>
- <div id="NDPrototype124" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 VDP_Peek_16K(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">src</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype626" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 VDP_Peek_16K(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">src</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, iyl, iyh)</td></tr></table></div></div>
  <div class="CBody"><p>Read a value from VRAM. [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">src<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Source address in VRAM (14bits address form 16KB VRAM)</p></td></tr></table><div class="CHeading">Return</div><p>Value read in VRAM</p></div>
 </div>
 
@@ -294,9 +294,9 @@
  <div class="CBody"><p>Set the frame render mode. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Can be VDP_FRAME_STATIC, VDP_FRAME_ALTERNANCE or VDP_FRAME_INTERLACE</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetPalette"></a><a name="Topic149"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetPalette"></a><a name="Topic627"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetPalette</div>
- <div id="NDPrototype149" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPalette(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">pal</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
+ <div id="NDPrototype627" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPalette(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">pal</td></tr></table></td><td class="PAfterParameters">) __FASTCALL __PRESERVES(d, e, iyl, iyh)</td></tr></table></div></div>
  <div class="CBody"><p>Set a new color palette from index 1 to 15. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">pal<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of the palette in RAM (table of 15 * 2 bytes) Format: [0:5|green:3|0|red:3|0|blue:3]</p></td></tr></table></div>
 </div>
 
@@ -575,9 +575,9 @@
  <div class="CBody"><p>VDP commands wrapper functions</p></div>
 </div>
 
-<a name="VDP_CommandWait"></a><a name="Topic191"></a><div class="CTopic TFunction LC">
+<a name="VDP_CommandWait"></a><a name="Topic628"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_CommandWait</div>
- <div id="NDPrototype191" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VDP_CommandWait()</div></div>
+ <div id="NDPrototype628" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VDP_CommandWait() __PRESERVES(b, c, d, e, h, l, iyl, iyh)</div></div>
  <div class="CBody"><p>Wait for previous VDP command to be finished. [MSX2/2+/TR]</p></div>
 </div>
 
@@ -593,9 +593,9 @@
  <div class="CBody"><p>Send VDP command (form registres 36 to 46). [MSX2/2+/TR]</p></div>
 </div>
 
-<a name="VPD_CommandWriteLoop"></a><a name="Topic194"></a><div class="CTopic TFunction LC">
+<a name="VPD_CommandWriteLoop"></a><a name="Topic629"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VPD_CommandWriteLoop</div>
- <div id="NDPrototype194" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VPD_CommandWriteLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
+ <div id="NDPrototype629" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VPD_CommandWriteLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __FASTCALL __PRESERVES(b, d, e, iyl, iyh)</td></tr></table></div></div>
  <div class="CBody"><p>Write to VRAM command loop. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of the source buffer</p></td></tr></table></div>
 </div>
 

@@ -557,9 +557,37 @@ struct V9_SuperimposeControl
 #define V9_REG_SCROLL_HIGH_X_B		24	// R/W
 
 //-----------------------------------------------------------------------------
-// R# -  - 
+// R#25 - Sprite generator table base address - Read/write
 //-----------------------------------------------------------------------------
-#define V9_REG_PAT_GEN_TABLE   		25	// R/W
+#define V9_REG_SRTP_GEN_TABLE		25	// R/W
+
+#define V9_P1_SGT_00000				0x00
+#define V9_P1_SGT_08000				0x02
+#define V9_P1_SGT_10000				0x04
+#define V9_P1_SGT_18000				0x06
+#define V9_P1_SGT_20000				0x08
+#define V9_P1_SGT_28000				0x0A
+#define V9_P1_SGT_30000				0x0C
+#define V9_P1_SGT_38000				0x0E
+
+#define V9_P2_SGT_00000				0x00
+#define V9_P2_SGT_08000				0x01
+#define V9_P2_SGT_10000				0x02
+#define V9_P2_SGT_18000				0x03
+#define V9_P2_SGT_20000				0x04
+#define V9_P2_SGT_28000				0x05
+#define V9_P2_SGT_30000				0x06
+#define V9_P2_SGT_38000				0x07
+#define V9_P2_SGT_40000				0x08
+#define V9_P2_SGT_48000				0x09
+#define V9_P2_SGT_50000				0x0A
+#define V9_P2_SGT_58000				0x0B
+#define V9_P2_SGT_60000				0x0C
+#define V9_P2_SGT_68000				0x0D
+#define V9_P2_SGT_70000				0x0E
+#define V9_P2_SGT_78000				0x0F
+
+
 
 //-----------------------------------------------------------------------------
 // R# -  - 
