@@ -143,14 +143,15 @@ void main()
 	u8 clr = 0;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
-		Halt();
+		if(!V9_IsVBlank()) {}
+
 		Print_SetPosition(39, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 
 		V9_SetScrollingX(count);
 		V9_SetScrollingBY(count);
 
-		u8 frame = (count >> 1) % 6;
+		u8 frame = (count >> 2) % 6;
 		for(u16 i = 0; i < 125; i++)
 			V9_SetSpritePatternP1(i, frame);
 

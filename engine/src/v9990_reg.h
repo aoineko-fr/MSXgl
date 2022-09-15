@@ -455,6 +455,8 @@ struct V9_SuperimposeControl
 //									 1: Every line (value of Interrupt Line is ignored)
 #define V9_REG_INT_V_LINE_HI		11
 
+#define V9_R09_EVERYLINE			0x80 // Selection of vertical position for display position interrupt
+
 //-----------------------------------------------------------------------------
 // R#12 - X interrupt register - Read/write
 //-----------------------------------------------------------------------------

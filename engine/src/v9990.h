@@ -131,62 +131,6 @@ u8 V9_GetRegister(u8 reg) __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 inline void V9_SetFlag(u8 reg, u8 mask, u8 flag) { V9_SetRegister(reg, V9_GetRegister(reg) & (~mask) | flag); }
 
 //-----------------------------------------------------------------------------
-// Group: Setting
-//-----------------------------------------------------------------------------
-
-// Function: V9_SetMode
-// Set the current screen mode
-void V9_SetMode(u8 mode);
-
-// Function: V9_SetBPP
-// Set bit number per pixel
-inline void V9_SetBPP(u8 bpp) { V9_SetRegister(6, V9_GetRegister(6) & (~V9_R06_BPP_MASK) | bpp); }
-
-// Function: V9_GetBPP
-// Get bit number per pixel
-inline u8 V9_GetBPP() { return V9_GetRegister(6) & (~V9_R06_BPP_MASK); }
-
-// Function: V9_SetImageSpaceWidth
-// Set number of pixels in X direction of image space
-inline void V9_SetImageSpaceWidth(u8 width) { V9_SetRegister(6, V9_GetRegister(6) & (~V9_R06_WIDH_MASK) | width); }
-
-// Function: V9_GetImageSpaceWidth
-// Get number of pixels in X direction of image space
-inline u8 V9_GetImageSpaceWidth() { return V9_GetRegister(6) & (~V9_R06_WIDH_MASK); }
-
-// Function: 
-//
-inline void V9_SetDisplayEnable(bool enable) { V9_SetFlag(8, V9_R08_DISP_ON, enable ? V9_R08_DISP_ON : 0); }
-
-// Function: 
-//
-inline void V9_SetSpriteEnable(bool enable) { V9_SetFlag(8, V9_R08_SPD_OFF, enable ? 0 : V9_R08_SPD_OFF); }
-
-// Function: V9_SetScrollingX
-//
-void V9_SetScrollingX(u16 x);
-
-// Function: V9_SetScrollingY
-//
-void V9_SetScrollingY(u16 y);
-
-// Function: V9_SetScrolling
-//
-inline void V9_SetScrolling(u16 x, u16 y) { V9_SetScrollingX(x);  V9_SetScrollingY(y); }
-
-// Function: V9_SetScrollingBX
-//
-void V9_SetScrollingBX(u16 x);
-
-// Function: V9_SetScrollingBY
-//
-void V9_SetScrollingBY(u16 y);
-
-// Function: V9_SetScrollingB
-//
-inline void V9_SetScrollingB(u16 x, u16 y) { V9_SetScrollingBX(x);  V9_SetScrollingBY(y); }
-
-//-----------------------------------------------------------------------------
 // Group: VRAM access
 //-----------------------------------------------------------------------------
 
@@ -239,8 +183,123 @@ inline void V9_Poke(u32 addr, u8 val) { V9_SetWriteAddress(addr); V9_Poke_Curren
 inline u8 V9_Peek(u32 addr) { V9_SetWriteAddress(addr); return V9_Peek_CurrentAddr(); }
 
 //-----------------------------------------------------------------------------
+// Group: Setting
+//-----------------------------------------------------------------------------
+
+// Function: V9_SetMode
+// Set the current screen mode
+void V9_SetMode(u8 mode);
+
+// Function: V9_SetBPP
+// Set bit number per pixel
+inline void V9_SetBPP(u8 bpp) { V9_SetRegister(6, V9_GetRegister(6) & (~V9_R06_BPP_MASK) | bpp); }
+
+// Function: V9_GetBPP
+// Get bit number per pixel
+inline u8 V9_GetBPP() { return V9_GetRegister(6) & (~V9_R06_BPP_MASK); }
+
+// Function: V9_SetImageSpaceWidth
+// Set number of pixels in X direction of image space
+inline void V9_SetImageSpaceWidth(u8 width) { V9_SetRegister(6, V9_GetRegister(6) & (~V9_R06_WIDH_MASK) | width); }
+
+// Function: V9_GetImageSpaceWidth
+// Get number of pixels in X direction of image space
+inline u8 V9_GetImageSpaceWidth() { return V9_GetRegister(6) & (~V9_R06_WIDH_MASK); }
+
+// Function: V9_SetDisplayEnable
+//
+inline void V9_SetDisplayEnable(bool enable) { V9_SetFlag(8, V9_R08_DISP_ON, enable ? V9_R08_DISP_ON : 0); }
+
+// Function: V9_SetBackgroundColor
+// Set background color
+inline void V9_SetBackgroundColor(u8 color) { V9_SetRegister(15, color); }
+
+// Function: V9_SetAdjustOffset
+// Adjustment of the display location on the screen (register 18). [MSX2/2+/TR]
+//
+// Parameters:
+//   offset - Screen display position offset (MSB 4-bits: vertical offset, LSB 4-bits: horizontal offset)
+inline void V9_SetAdjustOffset(u8 offset) { V9_SetRegister(16, offset); }
+
+// Function: V9_SetAdjustOffsetXY
+// Adjustment of the display location on the screen (register 18). [MSX2/2+/TR]
+//
+// Parameters:
+//   x - Horizontal screen display position offset [-7:+8]
+//   y - Vertical screen display position offset [-7:+8]
+inline void V9_SetAdjustOffsetXY(i8 x, i8 y) { V9_SetAdjustOffset(((-x) & 0x0F) | (((-y) & 0x0F) << 4)); }
+
+// Function: V9_SetLayerPriority
+// Set layer priority for P1 mode
+inline void V9_SetLayerPriority(u8 x, u8 y) { V9_SetRegister(27, (y << 2) + x); }
+
+// Function: V9_SetCursorPalette
+// Set cursor sprite palette offset
+inline void V9_SetCursorPalette(u8 offset) { V9_SetRegister(28, offset); }
+
+//-----------------------------------------------------------------------------
+// Group: Interrupt
+//-----------------------------------------------------------------------------
+
+// Function: V9_SetInterrupt
+// Set interruption flags
+inline void V9_SetInterrupt(u8 flags) { V9_SetRegister(9, flags); }
+
+// Function: V9_SetVBlankInterrupt
+// Set vertical blank interruption 
+inline void V9_SetVBlankInterrupt(bool enable) { V9_SetFlag(9, V9_R08_IEV_ON, enable ? V9_R08_IEV_ON : 0); }
+
+// Function: V9_SetHBlankInterrupt
+// Set horizontal blank interruption 
+inline void V9_SetHBlankInterrupt(bool enable) { V9_SetFlag(9, V9_R08_IEH_ON, enable ? V9_R08_IEH_ON : 0); }
+
+// Function: V9_SetCmdEndInterrupt
+// Set command end interruption 
+inline void V9_SetCmdEndInterrupt(bool enable) { V9_SetFlag(9, V9_R08_IECE_ON, enable ? V9_R08_IECE_ON : 0); }
+
+// Function: V9_SetInterruptLine
+// Specification of vertical position where display position interrupt occurs (Specified by means of line No. with the display start line as "0".)
+inline void V9_SetInterruptLine(u16 line, bool every) { V9_SetRegister(10, line & 0xFF); V9_SetRegister(11, (every) ? (line >> 8) | V9_R09_EVERYLINE : line >> 8); }
+
+// Function: V9_SetInterruptX
+// Specification of horizontal position where display position interrupt occurs (Specified by unit of 64 master clock with the display start position as "0".)
+inline void V9_SetInterruptX(u8 x) { V9_SetRegister(12, x); }
+
+//-----------------------------------------------------------------------------
+// Group: Scrolling
+//-----------------------------------------------------------------------------
+
+// Function: V9_SetScrollingX
+//
+void V9_SetScrollingX(u16 x);
+
+// Function: V9_SetScrollingY
+//
+void V9_SetScrollingY(u16 y);
+
+// Function: V9_SetScrolling
+//
+inline void V9_SetScrolling(u16 x, u16 y) { V9_SetScrollingX(x);  V9_SetScrollingY(y); }
+
+// Function: V9_SetScrollingBX
+//
+void V9_SetScrollingBX(u16 x);
+
+// Function: V9_SetScrollingBY
+//
+void V9_SetScrollingBY(u16 y);
+
+// Function: V9_SetScrollingB
+//
+inline void V9_SetScrollingB(u16 x, u16 y) { V9_SetScrollingBX(x);  V9_SetScrollingBY(y); }
+
+//-----------------------------------------------------------------------------
 // Group: Sprite
 //-----------------------------------------------------------------------------
+
+// Function: V9_SetSpriteEnable
+//
+inline void V9_SetSpriteEnable(bool enable) { V9_SetFlag(8, V9_R08_SPD_OFF, enable ? 0 : V9_R08_SPD_OFF); }
 
 // Function: V9_SetSpritePatternAddr
 // Set sprite patterns VRAM address
@@ -266,6 +325,10 @@ inline void V9_SetSpriteP1(u8 id, const struct V9_Sprite* attr) { V9_WriteVRAM(V
 // Set sprite pattern for P1 mode
 inline void V9_SetSpritePatternP1(u8 id, u8 pat) { V9_Poke(V9_P1_SPAT + 4 * id + 1, pat); }
 
+// Function: V9_SetSpritePositionP1
+// Set sprite position for P1 mode
+inline void V9_SetSpritePositionP1(u8 id, u8 x, u8 y) { V9_Poke(V9_P1_SPAT + (4 * id), y); V9_Poke(V9_P1_SPAT + (4 * id) + 2, x); }
+
 // Function: V9_SetSpriteP2
 // Set sprite attribute for P2 mode
 inline void V9_SetSpriteP2(u8 id, const struct V9_Sprite* attr) { V9_WriteVRAM(V9_P2_SPAT + 4 * id, (const u8*)attr, 4); }
@@ -273,6 +336,10 @@ inline void V9_SetSpriteP2(u8 id, const struct V9_Sprite* attr) { V9_WriteVRAM(V
 // Function: V9_SetSpritePatternP2
 // Set sprite pattern for P2 mode
 inline void V9_SetSpritePatternP2(u8 id, u8 pat) { V9_Poke(V9_P2_SPAT + 4 * id + 1, pat); }
+
+// Function: V9_SetSpritePositionP2
+// Set sprite position for P2 mode
+inline void V9_SetSpritePositionP2(u8 id, u8 x, u8 y) { V9_Poke(V9_P2_SPAT + (4 * id), y); V9_Poke(V9_P2_SPAT + (4 * id) + 2, x); }
 
 //-----------------------------------------------------------------------------
 // Group: Palette
@@ -296,7 +363,7 @@ struct V9_Color
 //   index - Index of the palette entry (0-63)
 //   color - 16 bits color value
 //           Format: [Ys:1|green:5|red:5|blue:5]
-void V9_SetPaletteEntry(u8 index, u16 color);
+void V9_SetPaletteEntry(u8 index, u16 color) __PRESERVES(h, l, iyl, iyh);
 
 // Function: V9_SetPalette
 // Set the colors of a given palette entries.
@@ -340,3 +407,19 @@ bool V9_Detect();
 // Function: V9_ClearVRAM
 // Clear the whole 512 KB of VRAM with zero
 void V9_ClearVRAM();
+
+// Function: V9_GetStatus
+// Get status port value
+inline u8 V9_GetStatus() { return V9_GetPort(5); }
+
+// Function: V9_IsCmdDataReady
+// Check if command data transfer ready
+inline bool V9_IsCmdDataReady() { return V9_GetStatus() & V9_P05_TR; }
+
+// Function: V9_IsVBlank
+// Is vertical non-display period
+inline bool V9_IsVBlank() { return V9_GetStatus() & V9_P05_VR; }
+
+// Function: V9_IsHBlank
+// Is horizontal non-display period
+inline bool V9_IsHBlank() { return V9_GetStatus() & V9_P05_HR; }

@@ -413,7 +413,7 @@ void V9_SetPaletteEntry(u8 index, u16 color)
 
 //-----------------------------------------------------------------------------
 // Set the color of a given palette entry.
-void V9_SetPaletteEntry(u8 index, const u8* color)
+void V9_SetPaletteEntry(u8 index, const u8* color) __PRESERVES(h, l, iyl, iyh)
 {
 	index; // A
 	color; // DE [R][G][B]
