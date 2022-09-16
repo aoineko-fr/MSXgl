@@ -294,6 +294,34 @@ void V9_SetScrollingBY(u16 y);
 inline void V9_SetScrollingB(u16 x, u16 y) { V9_SetScrollingBX(x);  V9_SetScrollingBY(y); }
 
 //-----------------------------------------------------------------------------
+// Group: Cursor
+//-----------------------------------------------------------------------------
+
+// Function: V9_SetCursorAttribute
+//
+inline void V9_SetCursorAttribute(u8 id, u16 x, u16 y, u8 color)
+{
+	V9_Poke(0x7FE00 + id * 8, y & 0xFF);
+	V9_Poke(0x7FE02 + id * 8, y >> 8);
+	V9_Poke(0x7FE04 + id * 8, x & 0xFF);
+	V9_Poke(0x7FE06 + id * 8, ((x >> 8) & 0x3) + (color << 6));
+}
+
+#define V9_CURSOR_DISABLE			0b00010000
+
+// Function: V9_SetCursorEnable
+//
+inline void V9_SetCursorEnable(u8 id, bool enable)
+{
+	u8 val = V9_Peek(0x7FE06 + id * 8) & ~V9_CURSOR_DISABLE;
+	V9_Poke(0x7FE06 + id * 8, (enable) ? val : val | V9_CURSOR_DISABLE);
+}
+
+// Function: V9_SetCursorPattern
+//
+inline void V9_SetCursorPattern(u8 id, const u8* data) { V9_WriteVRAM(0x7FF00 + id * 0x80, data, 128); }
+
+//-----------------------------------------------------------------------------
 // Group: Sprite
 //-----------------------------------------------------------------------------
 
