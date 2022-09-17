@@ -233,10 +233,6 @@ inline void V9_SetAdjustOffsetXY(i8 x, i8 y) { V9_SetAdjustOffset(((-x) & 0x0F) 
 // Set layer priority for P1 mode
 inline void V9_SetLayerPriority(u8 x, u8 y) { V9_SetRegister(27, (y << 2) + x); }
 
-// Function: V9_SetCursorPalette
-// Set cursor sprite palette offset
-inline void V9_SetCursorPalette(u8 offset) { V9_SetRegister(28, offset); }
-
 //-----------------------------------------------------------------------------
 // Group: Interrupt
 //-----------------------------------------------------------------------------
@@ -321,6 +317,10 @@ inline void V9_SetCursorEnable(u8 id, bool enable)
 //
 inline void V9_SetCursorPattern(u8 id, const u8* data) { V9_WriteVRAM(0x7FF00 + id * 0x80, data, 128); }
 
+// Function: V9_SetCursorPalette
+// Set cursor palette offset
+inline void V9_SetCursorPalette(u8 offset) { V9_SetRegister(28, offset); }
+
 //-----------------------------------------------------------------------------
 // Group: Sprite
 //-----------------------------------------------------------------------------
@@ -332,6 +332,10 @@ inline void V9_SetSpriteEnable(bool enable) { V9_SetFlag(8, V9_R08_SPD_OFF, enab
 // Function: V9_SetSpritePatternAddr
 // Set sprite patterns VRAM address
 inline void V9_SetSpritePatternAddr(u8 addr) { V9_SetRegister(25, addr); }
+
+// Function: V9_SetSpritePalette
+// Set sprite palette offset
+inline void V9_SetSpritePalette(u8 offset) { V9_SetRegister(28, offset); }
 
 //
 struct V9_Sprite
@@ -423,6 +427,146 @@ inline void V9_SetPalette(u8 first, u8 num, const u8* table) { for(u8 i = 0; i <
 inline void V9_SetPaletteAll(const u8* table) { V9_SetPalette(0, 64, table); }
 
 #endif
+
+//-----------------------------------------------------------------------------
+// Group: Command helper
+//-----------------------------------------------------------------------------
+
+// Function: V9_SetCommandSX
+//
+inline void V9_SetCommandSX(u16 sx) { V9_SetRegister(32, sx & 0xFF); V9_SetRegister(33, sx >> 8); }
+
+// Function: V9_SetCommandSY
+//
+inline void V9_SetCommandSY(u16 sy) { V9_SetRegister(34, sy & 0xFF); V9_SetRegister(35, sy >> 8); }
+
+// Function: V9_SetCommandSA
+//
+inline void V9_SetCommandSA(u32 sa) { V9_SetRegister(32, sa & 0xFF); V9_SetRegister(34, (sa >> 8) & 0xFF); V9_SetRegister(35, (sa >> 16) & 0xFF); }
+
+// Function: V9_SetCommandDX
+//
+inline void V9_SetCommandDX(u16 dx) { V9_SetRegister(36, dx & 0xFF); V9_SetRegister(37, dx >> 8); }
+
+// Function: V9_SetCommandDY
+//
+inline void V9_SetCommandDY(u16 dy) { V9_SetRegister(38, dy & 0xFF); V9_SetRegister(39, dy >> 8); }
+
+// Function: V9_SetCommandDA
+//
+inline void V9_SetCommandDA(u32 da) { V9_SetRegister(36, da & 0xFF); V9_SetRegister(38, (da >> 8) & 0xFF); V9_SetRegister(39, (da >> 16) & 0xFF); }
+
+// Function: V9_SetCommandNX
+//
+inline void V9_SetCommandNX(u16 nx) { V9_SetRegister(40, nx & 0xFF); V9_SetRegister(41, nx >> 8); }
+
+// Function: V9_SetCommandNY
+//
+inline void V9_SetCommandNY(u16 ny) { V9_SetRegister(42, ny & 0xFF); V9_SetRegister(43, ny >> 8); }
+
+// Function: V9_SetCommandMJ
+//
+inline void V9_SetCommandMJ(u16 mj) { V9_SetRegister(40, mj & 0xFF); V9_SetRegister(41, mj >> 8); }
+
+// Function: V9_SetCommandMI
+//
+inline void V9_SetCommandMI(u16 mi) { V9_SetRegister(42, mi & 0xFF); V9_SetRegister(43, mi >> 8); }
+
+// Function: V9_SetCommandNA
+//
+inline void V9_SetCommandNA(u32 na) { V9_SetRegister(40, na & 0xFF); V9_SetRegister(42, (na >> 8) & 0xFF); V9_SetRegister(43, (na >> 16) & 0xFF); }
+
+// Function: V9_SetCommandArgument
+//
+inline void V9_SetCommandArgument(u8 arg) { V9_SetRegister(44, arg); }
+
+// Function: V9_SetCommandLogicalOp
+//
+inline void V9_SetCommandLogicalOp(u8 lop) { V9_SetRegister(45, lop); }
+
+// Function: V9_SetCommandWriteMask
+//
+inline void V9_SetCommandWriteMask(u16 wm) { V9_SetRegister(46, wm & 0xFF); V9_SetRegister(47, wm >> 8); }
+
+// Function: V9_SetCommandFC
+//
+inline void V9_SetCommandFC(u16 fc) { V9_SetRegister(48, fc & 0xFF); V9_SetRegister(49, fc >> 8); }
+
+// Function: V9_SetCommandBC
+//
+inline void V9_SetCommandBC(u16 bc) { V9_SetRegister(50, bc & 0xFF); V9_SetRegister(51, bc >> 8); }
+
+// Function: V9_ExecCommand
+//
+inline void V9_ExecCommand(u8 op) { V9_SetRegister(52, op); }
+
+// Function: GetCommandBX
+//
+inline u16 GetCommandBX() { return V9_GetRegister(53) + (V9_GetRegister(54) << 8); }
+
+//-----------------------------------------------------------------------------
+// Group: Command
+//-----------------------------------------------------------------------------
+
+// Function: V9_CommandSTOP
+// Command being executed is stopped.
+inline void V9_CommandSTOP() { V9_ExecCommand(V9_CMD_STOP); }
+
+// Function: V9_CommandLMMC
+// Data is transferred from CPU to VRAM rectangle area.
+inline void V9_CommandLMMC(const u8* src, u16 dx, u16 dy, u16 nx, u16 ny, u8 arg) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_ExecCommand(V9_CMD_LMMC); }
+
+// Function: V9_CommandLMMV
+// VRAM rectangle area is painted out.
+inline void V9_CommandLMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 arg, u16 fc) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_SetCommandFC(fc); V9_ExecCommand(V9_CMD_LMMV); }
+
+// Function: V9_CommandLMCM
+// VRAM rectangle area data is transferred to CPU.
+inline void V9_CommandLMCM(u16 sx, u16 sy, u16 nx, u16 ny, u8 arg, u8* dest) { V9_SetCommandSX(sx); V9_SetCommandSY(sy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_ExecCommand(V9_CMD_LMCM); }
+
+// Function: V9_CommandLMMM
+// Rectangle area data is transferred from VRAM to VRAM.
+inline void V9_CommandLMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 arg) { V9_SetCommandSX(sx); V9_SetCommandSY(sy); V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_ExecCommand(V9_CMD_LMMM); }
+
+// Function: V9_CommandCMMC
+// CPU character data is color-developed and transferred to VRAM rectangle area.
+inline void V9_CommandCMMC(u16 dx, u16 dy, u16 nx, u16 ny, u8 arg, u16 fc, u16 bc) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_SetCommandFC(fc); V9_SetCommandBC(bc); V9_ExecCommand(V9_CMD_CMMC); }
+
+// Function: V9_CommandCMMM
+// VRAM character data is color-developed and transferred to VRAM rectangle area.
+inline void V9_CommandCMMM(u32 sa, u16 dx, u16 dy, u16 nx, u16 ny, u8 arg, u16 fc, u16 bc) { V9_SetCommandSA(sa); V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_SetCommandFC(fc); V9_SetCommandBC(bc); V9_ExecCommand(V9_CMD_CMMM); }
+
+// Function: V9_CommandBMXL
+// Data on VRAM linear address is transferred to VRAM rectangle area.
+inline void V9_CommandBMXL(u32 sa, u16 dx, u16 dy, u16 nx, u16 ny, u8 arg) { V9_SetCommandSA(sa); V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_ExecCommand(V9_CMD_BMXL); }
+
+// Function: V9_CommandBMLX
+// VRAM rectangle area data is transferred onto VRAM linear address.
+inline void V9_CommandBMLX(u16 sx, u16 sy, u32 da, u16 nx, u16 ny, u8 arg) { V9_SetCommandSX(sx); V9_SetCommandSY(sy); V9_SetCommandDA(da); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_ExecCommand(V9_CMD_BMLX); }
+
+// Function: V9_CommandBMLL
+// Data on VRAM linear address is transferred onto VRAM linear address.
+inline void V9_CommandBMLL(u32 sa, u32 da, u32 na, u8 arg) { V9_SetCommandSA(sa); V9_SetCommandDA(da); V9_SetCommandNA(na); V9_SetCommandArgument(arg); V9_ExecCommand(V9_CMD_BMLL); }
+
+// Function: V9_CommandLINE
+// Straight line is drawn on X/Y-coordinates.
+inline void V9_CommandLINE(u16 dx, u16 dy, u16 mj, u16 mi, u8 arg, u16 fc) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandMJ(mj); V9_SetCommandMI(mi); V9_SetCommandArgument(arg); V9_SetCommandFC(fc); V9_ExecCommand(V9_CMD_LINE); }
+
+// Function: V9_CommandSEARCH
+// Border color coordinates on X/Y space are detected.
+inline void V9_CommandSEARCH(u16 sx, u16 sy, u8 arg, u16 fc) { V9_SetCommandSX(sx); V9_SetCommandSY(sy); V9_SetCommandArgument(arg); V9_SetCommandFC(fc); V9_ExecCommand(V9_CMD_SEARCH); }
+
+// Function: V9_CommandPOINT
+// Color code of specified point on X/Y-coordinates is read out.
+inline void V9_CommandPOINT(u16 sx, u16 sy) { V9_SetCommandSX(sx); V9_SetCommandSY(sy); V9_ExecCommand(V9_CMD_POINT); }
+
+// Function: V9_CommandPSET
+// Drawing is executed at drawing point on X/Y-coordinates.
+inline void V9_CommandPSET(u16 dx, u16 dy, u16 fc, u8 shift) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandFC(fc); V9_ExecCommand(V9_CMD_PSET | shift); }
+
+// Function: V9_CommandADVANCE
+// Drawing point on X/Y-coordinates is shifted.
+inline void V9_CommandADVANCE(u16 dx, u16 dy, u8 shift) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_ExecCommand(V9_CMD_ADVANCE | shift); }
 
 //-----------------------------------------------------------------------------
 // Group: Helper

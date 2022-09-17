@@ -165,12 +165,6 @@
  <div class="CBody"><p>Set layer priority for P1 mode</p></div>
 </div>
 
-<a name="V9_SetCursorPalette"></a><a name="Topic191"></a><div class="CTopic TFunction LC">
- <div class="CTitle">V9_SetCursorPalette</div>
- <div id="NDPrototype191" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCursorPalette(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set cursor sprite palette offset</p></div>
-</div>
-
 <a name="Interrupt"></a><a name="Topic194"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Interrupt</div>
 </div>
@@ -264,6 +258,12 @@
  <div id="NDPrototype671" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCursorPattern(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">id,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
 </div>
 
+<a name="V9_SetCursorPalette"></a><a name="Topic634"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCursorPalette</div>
+ <div id="NDPrototype634" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCursorPalette(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set cursor palette offset</p></div>
+</div>
+
 <a name="Sprite"></a><a name="Topic656"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Sprite</div>
 </div>
@@ -277,6 +277,12 @@
  <div class="CTitle">V9_SetSpritePatternAddr</div>
  <div id="NDPrototype657" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetSpritePatternAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set sprite patterns VRAM address</p></div>
+</div>
+
+<a name="V9_SetSpritePalette"></a><a name="Topic680"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetSpritePalette</div>
+ <div id="NDPrototype680" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetSpritePalette(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set sprite palette offset</p></div>
 </div>
 
 <a name="V9_SetSpriteP1"></a><a name="Topic658"></a><div class="CTopic TFunction LC">
@@ -335,6 +341,194 @@
  <div class="CTitle">V9_SetPaletteAll</div>
  <div id="NDPrototype636" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetPaletteAll(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u16*&nbsp;</td><td class="PName last">table</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the colors of all the palette 64 entries.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">table<div class="CDLParameterType"><span class="SHKeyword">const</span> u16*</div></td><td class="CDLDefinition"><p>16 bits color table Format: [Ys:1|green:5|red:5|blue:5]</p></td></tr></table></div>
+</div>
+
+<a name="Command_helper"></a><a name="Topic681"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Command helper</div>
+</div>
+
+<a name="V9_SetCommandSX"></a><a name="Topic682"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandSX</div>
+ <div id="NDPrototype682" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandSX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sx</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandSY"></a><a name="Topic683"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandSY</div>
+ <div id="NDPrototype683" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandSY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sy</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandSA"></a><a name="Topic684"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandSA</div>
+ <div id="NDPrototype684" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandSA(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">sa</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandDX"></a><a name="Topic685"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandDX</div>
+ <div id="NDPrototype685" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandDX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dx</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandDY"></a><a name="Topic686"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandDY</div>
+ <div id="NDPrototype686" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandDY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dy</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandDA"></a><a name="Topic687"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandDA</div>
+ <div id="NDPrototype687" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandDA(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">da</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandNX"></a><a name="Topic688"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandNX</div>
+ <div id="NDPrototype688" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandNX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">nx</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandNY"></a><a name="Topic689"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandNY</div>
+ <div id="NDPrototype689" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandNY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ny</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandMJ"></a><a name="Topic690"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandMJ</div>
+ <div id="NDPrototype690" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandMJ(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">mj</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandMI"></a><a name="Topic691"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandMI</div>
+ <div id="NDPrototype691" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandMI(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">mi</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandNA"></a><a name="Topic692"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandNA</div>
+ <div id="NDPrototype692" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandNA(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">na</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandArgument"></a><a name="Topic693"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandArgument</div>
+ <div id="NDPrototype693" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandArgument(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">arg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandLogicalOp"></a><a name="Topic694"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandLogicalOp</div>
+ <div id="NDPrototype694" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandLogicalOp(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">lop</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandWriteMask"></a><a name="Topic695"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandWriteMask</div>
+ <div id="NDPrototype695" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandWriteMask(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">wm</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandFC"></a><a name="Topic696"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandFC</div>
+ <div id="NDPrototype696" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandFC(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">fc</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_SetCommandBC"></a><a name="Topic697"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCommandBC</div>
+ <div id="NDPrototype697" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCommandBC(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">bc</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_ExecCommand"></a><a name="Topic698"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_ExecCommand</div>
+ <div id="NDPrototype698" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_ExecCommand(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">op</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="GetCommandBX"></a><a name="Topic699"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">GetCommandBX</div>
+ <div id="NDPrototype699" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 GetCommandBX()</div></div>
+</div>
+
+<a name="Command"></a><a name="Topic700"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Command</div>
+</div>
+
+<a name="V9_CommandSTOP"></a><a name="Topic701"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandSTOP</div>
+ <div id="NDPrototype701" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandSTOP()</div></div>
+ <div class="CBody"><p>Command being executed is stopped.</p></div>
+</div>
+
+<a name="V9_CommandLMMC"></a><a name="Topic702"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandLMMC</div>
+ <div id="NDPrototype702" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandLMMC(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">ny,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">arg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Data is transferred from CPU to VRAM rectangle area.</p></div>
+</div>
+
+<a name="V9_CommandLMMV"></a><a name="Topic703"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandLMMV</div>
+ <div id="NDPrototype703" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandLMMV(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ny,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">arg,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">fc</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>VRAM rectangle area is painted out.</p></div>
+</div>
+
+<a name="V9_CommandLMCM"></a><a name="Topic704"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandLMCM</div>
+ <div id="NDPrototype704" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandLMCM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sy,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ny,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">arg,</td></tr><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">dest</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>VRAM rectangle area data is transferred to CPU.</p></div>
+</div>
+
+<a name="V9_CommandLMMM"></a><a name="Topic705"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandLMMM</div>
+ <div id="NDPrototype705" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandLMMM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sy,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ny,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">arg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Rectangle area data is transferred from VRAM to VRAM.</p></div>
+</div>
+
+<a name="V9_CommandCMMC"></a><a name="Topic706"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandCMMC</div>
+ <div id="NDPrototype706" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandCMMC(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ny,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">arg,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">fc,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">bc</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>CPU character data is color-developed and transferred to VRAM rectangle area.</p></div>
+</div>
+
+<a name="V9_CommandCMMM"></a><a name="Topic707"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandCMMM</div>
+ <div id="NDPrototype707" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandCMMM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">sa,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ny,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">arg,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">fc,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">bc</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>VRAM character data is color-developed and transferred to VRAM rectangle area.</p></div>
+</div>
+
+<a name="V9_CommandBMXL"></a><a name="Topic708"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandBMXL</div>
+ <div id="NDPrototype708" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandBMXL(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">sa,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ny,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">arg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Data on VRAM linear address is transferred to VRAM rectangle area.</p></div>
+</div>
+
+<a name="V9_CommandBMLX"></a><a name="Topic709"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandBMLX</div>
+ <div id="NDPrototype709" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandBMLX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sy,</td></tr><tr><td class="PType first">u32&nbsp;</td><td class="PName last">da,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ny,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">arg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>VRAM rectangle area data is transferred onto VRAM linear address.</p></div>
+</div>
+
+<a name="V9_CommandBMLL"></a><a name="Topic710"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandBMLL</div>
+ <div id="NDPrototype710" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandBMLL(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">sa,</td></tr><tr><td class="PType first">u32&nbsp;</td><td class="PName last">da,</td></tr><tr><td class="PType first">u32&nbsp;</td><td class="PName last">na,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">arg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Data on VRAM linear address is transferred onto VRAM linear address.</p></div>
+</div>
+
+<a name="V9_CommandLINE"></a><a name="Topic711"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandLINE</div>
+ <div id="NDPrototype711" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandLINE(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">mj,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">mi,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">arg,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">fc</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Straight line is drawn on X/Y-coordinates.</p></div>
+</div>
+
+<a name="V9_CommandSEARCH"></a><a name="Topic712"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandSEARCH</div>
+ <div id="NDPrototype712" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandSEARCH(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sy,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">arg,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">fc</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Border color coordinates on X/Y space are detected.</p></div>
+</div>
+
+<a name="V9_CommandPOINT"></a><a name="Topic713"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandPOINT</div>
+ <div id="NDPrototype713" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandPOINT(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sy</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Color code of specified point on X/Y-coordinates is read out.</p></div>
+</div>
+
+<a name="V9_CommandPSET"></a><a name="Topic714"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandPSET</div>
+ <div id="NDPrototype714" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandPSET(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">fc,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">shift</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Drawing is executed at drawing point on X/Y-coordinates.</p></div>
+</div>
+
+<a name="V9_CommandADVANCE"></a><a name="Topic715"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CommandADVANCE</div>
+ <div id="NDPrototype715" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandADVANCE(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">shift</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Drawing point on X/Y-coordinates is shifted.</p></div>
 </div>
 
 <a name="Helper"></a><a name="Topic616"></a><div class="CTopic TGroup LC">
