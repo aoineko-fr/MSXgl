@@ -267,6 +267,11 @@
 	#warning PRINT_USE_FX_OUTLINE is not defined in "msxgl_config.h"! Default value will be used: FALSE
 	#define PRINT_USE_FX_OUTLINE		FALSE
 #endif
+// PRINT_USE_2_PASS_FX
+#ifndef PRINT_USE_2_PASS_FX
+	#warning PRINT_USE_2_PASS_FX is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PRINT_USE_2_PASS_FX		FALSE
+#endif
 // PRINT_USE_UNIT
 #ifndef PRINT_USE_UNIT
 	#warning PRINT_USE_UNIT is not defined in "msxgl_config.h"! Default value will be used: FALSE

@@ -56,14 +56,18 @@ enum PRINT_MODE
 	#define PRINT_H(a) a
 #endif
 
-#define PRINT_TAB_SIZE		24
-#define PRINT_DEFAULT_FONT	NULL
+#define PRINT_TAB_SIZE				24
+#define PRINT_DEFAULT_FONT			NULL
 
 // Functions
 typedef void (*print_drawchar)(u8); //< Draw char callback signature
 typedef void (*print_loadfont)(VADDR); //< Font load callback signature
 
 extern struct Print_Data g_PrintData;
+
+#define PRINT_FX_SHADOW				0b00000001
+#define PRINT_FX_OUTLINE			0b00000010
+#define PRINT_FX_ONLY				0b10000000
 
 //-----------------------------------------------------------------------------
 // STRUCTURES
@@ -110,14 +114,15 @@ struct Print_Data
 	// Text mode
 	u8 PatternOffset;
 #endif
+#if ((PRINT_USE_FX_SHADOW) || (PRINT_USE_FX_OUTLINE))
+	u8 FX;
+#endif
 #if (PRINT_USE_FX_SHADOW)
-	u8 Shadow			: 1;	//< Is shadow render active
 	u8 ShadowOffsetX	: 3;	//< Shadow X offset (0:7 => -3:+4)
 	u8 ShadowOffsetY	: 3;	//< Shadow Y offset (0:7 => -3:+4)
 	u8 ShadowColor;				//< Shadow color
 #endif
 #if (PRINT_USE_FX_OUTLINE)
-	u8 Outline			: 1;	//< Is shadow render active
 	u8 OutlineColor;			//< Shadow color
 #endif
 	u8 Buffer[16];				//< Mode specifique buffer (used to pre-compute color combinations)
@@ -129,96 +134,62 @@ struct Print_Data
 //-----------------------------------------------------------------------------
 
 // Function: Print_Initialize
-// Initialize print module. Must be called after VDP_SetMode()
+// Initialize print module.
+// Must be called after VDP_SetMode().
 bool Print_Initialize();
 
 // Function: Print_SetMode
-// Change current print mode
+// Change current print mode.
 void Print_SetMode(u8 src);
 
 // Function: Print_SetFont
-// Set the current font (and set mode to RAM)
+// Set the current font (and set mode to RAM).
 void Print_SetFont(const u8* font);
 
 #if (PRINT_USE_BITMAP)
 // Function: Print_SetBitmapFont
-// Initialize print module and set a font in RAM
+// Initialize print module and set a font in RAM.
+// This function requires PRINT_USE_BITMAP to be set to TRUE.
 bool Print_SetBitmapFont(const u8* font);
 #endif
 
 #if (PRINT_USE_VRAM)
 // Function: Print_SetVRAMFont
-// Set the current font and upload data to VRAM 
+// Set the current font and upload data to VRAM .
+// This function requires PRINT_USE_VRAM to be set to TRUE.
 void Print_SetVRAMFont(const u8* font, UY y, u8 color);
 #endif
 
 #if (PRINT_USE_TEXT)
 // Function: Print_SetTextFont
-// Initialize print module and set a font in RAM
+// Initialize print module and set a font in RAM.
+// This function requires PRINT_USE_TEXT to be set to TRUE.
 void Print_SetTextFont(const u8* font, u8 offset);
 #endif
 
 #if (PRINT_USE_SPRITE)
 // Function: Print_SetSpriteFont
-// Set the current font and upload to Sprite Pattern Table
+// Set the current font and upload to Sprite Pattern Table.
+// This function requires PRINT_USE_SPRITE to be set to TRUE.
 void Print_SetSpriteFont(const u8* font, u8 patIdx, u8 sprtIdx);
 
 // Function: Print_GetSpritePattern
-// Get pattern index of the 1st sprite character
+// Get pattern index of the 1st sprite character.
+// This function requires PRINT_USE_SPRITE to be set to TRUE.
 inline u8 Print_GetSpritePattern() { return g_PrintData.SpritePattern; }
 
 // Function: Print_GetSpriteID
-// Get the next sprite index
+// Get the next sprite index.
+// This function requires PRINT_USE_SPRITE to be set to TRUE.
 inline u8 Print_GetSpriteID() { return g_PrintData.SpriteID; }
 
 // Function: Print_SetSpriteID
-// Set the next sprite index
+// Set the next sprite index.
+// This function requires PRINT_USE_SPRITE to be set to TRUE.
 inline void Print_SetSpriteID(u8 id) { g_PrintData.SpriteID = id; }
 
 #endif
 
-//-----------------------------------------------------------------------------
-// Group: Setting
-//
-//-----------------------------------------------------------------------------
-
-// Function: Print_Clear
-// Clear screen
-void Print_Clear();
-
-// Function: Print_Backspace
-// Clear X character back from current cursor position
-void Print_Backspace(u8 num);
-
-// Function: Print_SetColor
-// Set the draw color
-void Print_SetColor(u8 text, u8 bg);
-
-#if (PRINT_COLOR_NUM > 1)
-// Function: Print_SetColorShade
-// Set color shade
-void Print_SetColorShade(const u8* shade);
-#endif
-
-#if (PRINT_USE_FX_SHADOW)	
-// Function: Print_SetShadow
-// Set shadow effect
-void Print_SetShadow(bool enable, i8 offsetX, i8 offsetY, u8 color);
-
-// Function: Print_EnableShadow
-// Activate/desactivate shadow effect
-void Print_EnableShadow(bool enable);
-#endif
-
-#if (PRINT_USE_FX_OUTLINE)	
-// Function: Print_SetOutline
-// Set shadow effect
-void Print_SetOutline(bool enable, u8 color);
-
-// Function: Print_EnableOutline
-// Activate/desactivate shadow effect
-void Print_EnableOutline(bool enable);
-#endif
 
 //-----------------------------------------------------------------------------
 // Group: Draw
@@ -252,24 +223,118 @@ void Print_DrawBin8(u8 value);
 #if (PRINT_USE_32B)
 // Function: Print_DrawHex32
 // Print a 32-bits hexadecimal value
+// This function requires PRINT_USE_32B to be set to TRUE.
 void Print_DrawHex32(u32 value);
 
 // Function: Print_DrawInt
-// Print a 16/32-bits signed decimal value (depends on PRINT_USE_32B flag)
+// Print a 32-bits signed decimal value.
+// This function requires PRINT_USE_32B to be set to TRUE.
 void Print_DrawInt(i32 value);
-
 #else
-// Print a 16-bits signed decimal value
+// Function: Print_DrawInt
+// Print a 16-bits signed decimal value.
+// This function requires PRINT_USE_32B to be set to FALSE.
 void Print_DrawInt(i16 value);
+#endif
 
+//.............................................................................
+// Format
+//.............................................................................
+#if (PRINT_USE_FORMAT)
+// Function: Print_DrawFormat
+// Print a formated string with a variable number of parameters.
+// This function requires PRINT_USE_FORMAT to be set to TRUE.
+void Print_DrawFormat(const c8* format, ...);
 #endif
 
 //-----------------------------------------------------------------------------
-#if (PRINT_USE_FORMAT)
-// Function: Print_DrawFormat
-// Print a formated string with a variable number of parameters
-void Print_DrawFormat(const c8* format, ...);
+// Group: Helper
+//
+//-----------------------------------------------------------------------------
+
+// Function: Print_Clear
+// Clear screen
+void Print_Clear();
+
+// Function: Print_Backspace
+// Clear X character back from current cursor position
+void Print_Backspace(u8 num);
+
+//-----------------------------------------------------------------------------
+// Group: FX
+//
+//-----------------------------------------------------------------------------
+
+//.............................................................................
+// Color
+//.............................................................................
+
+// Function: Print_SetColor
+// Set the draw color
+void Print_SetColor(u8 text, u8 bg);
+
+#if (PRINT_COLOR_NUM > 1)
+// Function: Print_SetColorShade
+// Set color shade
+// This function requires PRINT_COLOR_NUM to be set to reater than 1 value.
+void Print_SetColorShade(const u8* shade);
 #endif
+
+//.............................................................................
+// Shadow
+//.............................................................................
+
+#if (PRINT_USE_FX_SHADOW)
+// Function: Print_SetShadow
+// Set shadow effect
+// This function requires PRINT_USE_FX_SHADOW to be set to TRUE.
+void Print_SetShadow(bool enable, i8 offsetX, i8 offsetY, u8 color);
+
+// Function: Print_EnableShadow
+// Activate/desactivate shadow effect
+// This function requires PRINT_USE_FX_SHADOW to be set to TRUE.
+void Print_EnableShadow(bool enable);
+
+#if (PRINT_USE_2_PASS_FX)
+// Function: Print_DrawTextShadow
+// Print a character string using shadow FX.
+// This function requires PRINT_USE_2_PASS_FX and PRINT_USE_FX_SHADOW to be set to TRUE.
+//
+// Parameters:
+//   string  - Pointer to the null-terminated string to display
+//   offsetX - Shadow position offset (X coordinate)
+//   offsetY - Shadow position offset (X coordinate)
+//   color   - Shadow color
+void Print_DrawTextShadow(const c8* string, i8 offsetX, i8 offsetY, u8 color);
+#endif // (PRINT_USE_2_PASS_FX)
+#endif // (PRINT_USE_FX_SHADOW)
+
+//.............................................................................
+// Outline
+//.............................................................................
+
+#if (PRINT_USE_FX_OUTLINE)
+// Function: Print_SetOutline
+// Set shadow effect
+// This function requires PRINT_USE_FX_OUTLINE to be set to TRUE.
+void Print_SetOutline(bool enable, u8 color);
+
+// Function: Print_EnableOutline
+// Activate/desactivate shadow effect
+// This function requires PRINT_USE_FX_OUTLINE to be set to TRUE.
+void Print_EnableOutline(bool enable);
+
+#if (PRINT_USE_2_PASS_FX)
+// Function: Print_DrawTextShadow
+// Print a character string using outline FX.
+// This function requires PRINT_USE_2_PASS_FX and PRINT_USE_FX_OUTLINE to be set to TRUE.
+//
+// Parameters:
+//   string  - Pointer to the null-terminated string to display
+//   color   - Outline color
+void Print_DrawTextOutline(const c8* string, u8 color);
+#endif // (PRINT_USE_2_PASS_FX)
+#endif // (PRINT_USE_FX_OUTLINE)
 
 //-----------------------------------------------------------------------------
 // Group: Graph
@@ -279,14 +344,17 @@ void Print_DrawFormat(const c8* format, ...);
 
 // Function: Print_DrawLineH
 // Draw an horizontal line using characters
+// This function requires PRINT_USE_GRAPH to be set to TRUE.
 void Print_DrawLineH(u8 x, u8 y, u8 len);
 
 // Function: Print_DrawLineV
 // Draw a vertical line using characters
+// This function requires PRINT_USE_GRAPH to be set to TRUE.
 void Print_DrawLineV(u8 x, u8 y, u8 len);
 
 // Function: Print_DrawBox
 // Draw a box using characters
+// This function requires PRINT_USE_GRAPH to be set to TRUE.
 void Print_DrawBox(u8 x, u8 y, u8 width, u8 height);
 
 #endif // (PRINT_USE_GRAPH)

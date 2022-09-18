@@ -147,6 +147,7 @@
 #define PRINT_USE_SPRITE			TRUE	// Allow use of Sprite font (G3-G7)
 #define PRINT_USE_FX_SHADOW			TRUE	// [Bitmap] Allow use of text shadow
 #define PRINT_USE_FX_OUTLINE		TRUE	// [Bitmap] Allow use of text outline
+#define PRINT_USE_2_PASS_FX			FALSE	// [Bitmap] Allow use 2-pass FX render to prevent character overlap
 #define PRINT_USE_GRAPH				TRUE	// Allow use of character lines and boxes
 #define PRINT_USE_VALIDATOR			TRUE	// Add validator character code
 #define PRINT_USE_UNIT				FALSE	// Display integer type (h: hexadecimal, b: binary)

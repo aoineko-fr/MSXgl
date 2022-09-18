@@ -253,9 +253,13 @@ void PrintEffect()
 	Print_SetColor(g_Modes[g_ModeIndex].ColorText, g_Modes[g_ModeIndex].ColorBG);
 	Print_DrawText("Shadow: ");
 #if (PRINT_USE_FX_SHADOW)
+	#if (PRINT_USE_2_PASS_FX)
+	Print_DrawTextShadow(g_SampleTextShort, 1, 1, g_Modes[g_ModeIndex].ColorGray);
+	#else
 	Print_SetShadow(TRUE, 1, 1, g_Modes[g_ModeIndex].ColorGray);
 	Print_DrawText(g_SampleTextShort);
 	Print_EnableShadow(FALSE);
+	#endif
 #else
 	Print_DrawText("Disabled! (see config)");
 #endif
@@ -267,9 +271,13 @@ void PrintEffect()
 	Print_SetColor(g_Modes[g_ModeIndex].ColorText, g_Modes[g_ModeIndex].ColorBG);
 	Print_DrawText("Outline: ");
 #if (PRINT_USE_FX_OUTLINE)
+	#if (PRINT_USE_2_PASS_FX)
+	Print_DrawTextOutline(g_SampleTextShort, g_Modes[g_ModeIndex].ColorGray);
+	#else
 	Print_SetOutline(TRUE, g_Modes[g_ModeIndex].ColorGray);
 	Print_DrawText(g_SampleTextShort);
 	Print_EnableOutline(FALSE);
+	#endif
 #else
 	Print_DrawText("Disabled! (see config)");
 #endif
