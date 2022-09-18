@@ -146,6 +146,10 @@ void V9_SetReadAddress(u32 addr) __PRESERVES(b, iyl, iyh);
 // 
 void V9_FillVRAM_CurrentAddr(u8 value, u16 count);
 
+// Function: V9_FillVRAM16_CurrentAddr
+// 
+void V9_FillVRAM16_CurrentAddr(u16 value, u16 count);
+
 // Function: V9_WriteVRAM_CurrentAddr
 //
 void V9_WriteVRAM_CurrentAddr(const u8* src, u16 count);
@@ -158,13 +162,25 @@ void V9_ReadVRAM_CurrentAddr(const u8* dest, u16 count);
 //
 void V9_Poke_CurrentAddr(u8 val) __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
+// Function: V9_Poke16_CurrentAddr
+//
+void V9_Poke16_CurrentAddr(u16 val) __PRESERVES(b, c, d, e, iyl, iyh);
+
 // Function: V9_Peek_CurrentAddr
 //
 u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
+// Function: V9_Peek16_CurrentAddr
+//
+u8 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh);
+
 // Function: V9_FillVRAM
 //
 inline void V9_FillVRAM(u32 addr, u8 value, u16 count) { V9_SetWriteAddress(addr); V9_FillVRAM_CurrentAddr(value, count); }
+
+// Function: V9_FillVRAM16
+//
+inline void V9_FillVRAM16(u32 addr, u16 value, u16 count) { V9_SetWriteAddress(addr); V9_FillVRAM16_CurrentAddr(value, count); }
 
 // Function: V9_WriteVRAM
 //
@@ -178,9 +194,17 @@ inline void V9_ReadVRAM(u32 addr, const u8* dest, u16 count) { V9_SetReadAddress
 //
 inline void V9_Poke(u32 addr, u8 val) { V9_SetWriteAddress(addr); V9_Poke_CurrentAddr(val); }
 
+// Function: V9_Poke16
+//
+inline void V9_Poke16(u32 addr, u16 val) { V9_SetWriteAddress(addr); V9_Poke16_CurrentAddr(val); }
+
 // Function: V9_Peek
 //
 inline u8 V9_Peek(u32 addr) { V9_SetWriteAddress(addr); return V9_Peek_CurrentAddr(); }
+
+// Function: V9_Peek16
+//
+inline u16 V9_Peek16(u32 addr) { V9_SetWriteAddress(addr); return V9_Peek16_CurrentAddr(); }
 
 //-----------------------------------------------------------------------------
 // Group: Setting
@@ -344,8 +368,8 @@ struct V9_Sprite
 	u8		Pattern;	// Sprite Pattern Number (Pattern Offset is specified in R#25 SGBA)
 	u16		X  : 10;	// Sprite X-coordinate
 	u16		_1 : 2;
-	u16		P  : 1;		// Sprite is in front of the front layer when P=0, sprite is behind the front layer when P=1.
 	u16		D  : 1;		// Sprite is disabled when D=1
+	u16		P  : 1;		// Sprite is in front of the front layer when P=0, sprite is behind the front layer when P=1.
 	u16		SC : 2;		// Palette offset for sprite colors
 };
 
@@ -595,3 +619,15 @@ inline bool V9_IsVBlank() { return V9_GetStatus() & V9_P05_VR; }
 // Function: V9_IsHBlank
 // Is horizontal non-display period
 inline bool V9_IsHBlank() { return V9_GetStatus() & V9_P05_HR; }
+
+// Function: V9_CellAddrP1A
+//
+inline u32 V9_CellAddrP1A(u8 x, u8 y) { return V9_P1_PNT_A + (((64 * y) + x) * 2); }
+
+// Function: V9_CellAddrP1B
+//
+inline u32 V9_CellAddrP1B(u8 x, u8 y) { return V9_P1_PNT_B + (((64 * y) + x) * 2); }
+
+// Function: V9_CellAddrP2
+//
+inline u32 V9_CellAddrP2(u8 x, u8 y) { return V9_P2_PNT + (((128 * y) + x) * 2); }

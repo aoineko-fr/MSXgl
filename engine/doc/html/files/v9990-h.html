@@ -57,6 +57,11 @@
  <div id="NDPrototype649" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_FillVRAM_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
 </div>
 
+<a name="V9_FillVRAM16_CurrentAddr"></a><a name="Topic278"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_FillVRAM16_CurrentAddr</div>
+ <div id="NDPrototype278" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_FillVRAM16_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
 <a name="V9_WriteVRAM_CurrentAddr"></a><a name="Topic650"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_WriteVRAM_CurrentAddr</div>
  <div id="NDPrototype650" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_WriteVRAM_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
@@ -72,14 +77,29 @@
  <div id="NDPrototype652" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_Poke_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, h, l, iyl, iyh)</td></tr></table></div></div>
 </div>
 
+<a name="V9_Poke16_CurrentAddr"></a><a name="Topic279"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_Poke16_CurrentAddr</div>
+ <div id="NDPrototype279" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_Poke16_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, iyl, iyh)</td></tr></table></div></div>
+</div>
+
 <a name="V9_Peek_CurrentAddr"></a><a name="Topic653"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_Peek_CurrentAddr</div>
  <div id="NDPrototype653" class="NDPrototype"><div class="PSection PPlainSection">u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh)</div></div>
 </div>
 
+<a name="V9_Peek16_CurrentAddr"></a><a name="Topic280"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_Peek16_CurrentAddr</div>
+ <div id="NDPrototype280" class="NDPrototype"><div class="PSection PPlainSection">u8 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh)</div></div>
+</div>
+
 <a name="V9_FillVRAM"></a><a name="Topic631"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_FillVRAM</div>
  <div id="NDPrototype631" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_FillVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_FillVRAM16"></a><a name="Topic281"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_FillVRAM16</div>
+ <div id="NDPrototype281" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_FillVRAM16(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
 </div>
 
 <a name="V9_WriteVRAM"></a><a name="Topic632"></a><div class="CTopic TFunction LC">
@@ -97,9 +117,19 @@
  <div id="NDPrototype654" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_Poke(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
 </div>
 
+<a name="V9_Poke16"></a><a name="Topic282"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_Poke16</div>
+ <div id="NDPrototype282" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_Poke16(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
 <a name="V9_Peek"></a><a name="Topic655"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_Peek</div>
  <div id="NDPrototype655" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 V9_Peek(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_Peek16"></a><a name="Topic283"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_Peek16</div>
+ <div id="NDPrototype283" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 V9_Peek16(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
 </div>
 
 <a name="Setting"></a><a name="Topic619"></a><div class="CTopic TGroup LC">
@@ -565,10 +595,25 @@
  <div class="CBody"><p>Is vertical non-display period</p></div>
 </div>
 
-<a name="V9_IsHBlank"></a><a name="Topic679"></a><div class="CTopic TFunction LC last">
+<a name="V9_IsHBlank"></a><a name="Topic679"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_IsHBlank</div>
  <div id="NDPrototype679" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsHBlank()</div></div>
  <div class="CBody"><p>Is horizontal non-display period</p></div>
+</div>
+
+<a name="V9_CellAddrP1A"></a><a name="Topic284"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CellAddrP1A</div>
+ <div id="NDPrototype284" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 V9_CellAddrP1A(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_CellAddrP1B"></a><a name="Topic285"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_CellAddrP1B</div>
+ <div id="NDPrototype285" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 V9_CellAddrP1B(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_CellAddrP2"></a><a name="Topic286"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">V9_CellAddrP2</div>
+ <div id="NDPrototype286" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 V9_CellAddrP2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
 </div>
 
 </body></html>

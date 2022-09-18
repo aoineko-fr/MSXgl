@@ -7,6 +7,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "v9990.h"
+#include "math.h"
 
 //=============================================================================
 // DEFINES
@@ -14,6 +15,43 @@
 
 // Library's logo
 #define MSX_GL "\x01\x02\x03\x04\x05\x06"
+
+//
+struct ScreenMode
+{
+	const c8* Name;
+	callback  Init;
+	callback  Tick;
+	u8        BPP;
+};
+
+// Function prototype
+void InitP1();
+void InitP2();
+void InitB0();
+void InitB1();
+void InitB2();
+void InitB3();
+void InitB4();
+void InitB5();
+void InitB6();
+void InitB7();
+void TickP1();
+void TickP2();
+void TickB0();
+void TickB1();
+void TickB2();
+void TickB3();
+void TickB4();
+void TickB5();
+void TickB6();
+void TickB7();
+
+// Bits per pixel
+#define BPP_2						0x02
+#define BPP_4						0x04
+#define BPP_8						0x08
+#define BPP_16						0x10
 
 //=============================================================================
 // READ-ONLY DATA
@@ -31,14 +69,318 @@
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
+// Screen mode configuration
+const struct ScreenMode g_ScreenMode[] =
+{
+	{ "P1", InitP1, TickP1, BPP_4 },
+	{ "P2", InitP2, TickP2, BPP_4 },
+	{ "B0", InitB0, TickB0, BPP_2|BPP_4|BPP_8|BPP_16 },
+	{ "B1", InitB1, TickB1, BPP_2|BPP_4|BPP_8|BPP_16 },
+	{ "B2", InitB2, TickB2, BPP_2|BPP_4|BPP_8|BPP_16 },
+	{ "B3", InitB3, TickB3, BPP_2|BPP_4|BPP_8|BPP_16 },
+	{ "B4", InitB4, TickB4, BPP_2|BPP_4 },
+	{ "B5", InitB5, TickB5, BPP_2|BPP_4 },
+	{ "B6", InitB6, TickB6, BPP_2|BPP_4 },
+	{ "B7", InitB7, TickB7, BPP_2|BPP_4 },
+};
+
+// Black color
+const u8 g_Black[] = { 0, 0, 0 };
+
+
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
+u8  g_CurrentMode = 0;
+u8  g_CurrentBPP = BPP_4;
+u16 g_Frame = 0;
 
 //=============================================================================
-// MAIN LOOP
+// CODE
 //=============================================================================
+
+//-----------------------------------------------------------------------------
+// P1
+//-----------------------------------------------------------------------------
+
+#define P1_GROUND_Y		20
+#define P1_HORIZON_Y	14
+
+//
+void InitP1()
+{
+	V9_SetMode(V9_MODE_P1);
+	V9_SetSpriteEnable(TRUE);
+
+	// Pattern generator table
+	V9_WriteVRAM(V9_P1_PGT_A, g_DataV9BG, sizeof(g_DataV9BG));
+	V9_WriteVRAM(V9_P1_PGT_B, g_DataV9BG, sizeof(g_DataV9BG));
+
+	// Pattern name table
+	V9_FillVRAM16(V9_P1_PNT_A, 0, 64*64); // Init layer A
+	for(u8 i = 0; i < 8; i++) // Draw ground
+	{
+		u8 x = i * 8;
+		u8 y = Math_GetRandom8() % 8 + 10;
+		for(u8 j = y; j < 20; j++)
+		{
+			u8 cell;
+			if(j == y)
+				cell = 32;
+			else if(((j - y) & 1))
+				cell = 64;
+			else
+				cell = 96;
+
+			u32 addr = V9_CellAddrP1A(x, j);
+			V9_Poke16(addr += 2, cell++);
+			V9_Poke16(addr += 2, cell++);
+			V9_Poke16(addr += 2, cell++);
+			V9_Poke16(addr += 2, cell++);
+		}
+	}
+	for(u16 i = 0; i < 64; i++) // Draw horizon
+	{
+		for(u8 j = 20; j < 27; j++)
+		{
+			u8 cell;
+			if(j == 20)
+				cell = 33;
+			else
+				cell = (j & 1) ? 65 : 97;
+			V9_Poke16(V9_CellAddrP1A(0, j) + i*2, cell + i%2);
+		}
+	}
+
+	V9_FillVRAM16(V9_P1_PNT_B, 160, 64*64); // Init layer B
+	for(u16 i = 0; i < 64; i++) // Draw horizon
+		V9_Poke16(V9_CellAddrP1B(0, P1_HORIZON_Y) + i*2, 128 + i%4);
+	V9_FillVRAM16(V9_P1_PNT_B, 135, 64*P1_HORIZON_Y); // Draw sky
+	for(u8 i = 0; i < 6; i++) // Draw cloud
+	{
+		u8 x = Math_GetRandom8() % 8 + (i * 10);
+		u8 y = Math_GetRandom8() % 8 + 1;
+		u32 addr = V9_CellAddrP1B(x, y);
+		V9_Poke16(addr, 132); addr += 2;
+		V9_Poke16(addr, 133); addr += 2;
+		V9_Poke16(addr, 134); addr += 2;
+		V9_Poke16(addr, 135);
+		addr = V9_CellAddrP1B(x, y +1);
+		V9_Poke16(addr, 164); addr += 2;
+		V9_Poke16(addr, 165); addr += 2;
+		V9_Poke16(addr, 166); addr += 2;
+		V9_Poke16(addr, 167);
+	}
+	for(u8 i = 0; i < 6; i++) // Draw cloud
+	{
+		u8 x = Math_GetRandom8() % 8 + (i * 10);
+		u8 y = Math_GetRandom8() % 4 + 9;
+		u32 addr = V9_CellAddrP1B(x, y);
+		V9_Poke16(addr, 136); addr += 2;
+		V9_Poke16(addr, 137);
+		addr = V9_CellAddrP1B(x, y +1);
+		V9_Poke16(addr, 168); addr += 2;
+		V9_Poke16(addr, 169);
+	}
+
+	// Sprite pattern generator table
+	V9_SetSpritePatternAddr(V9_P1_SGT_08000);
+	V9_WriteVRAM(0x08000, g_DataV9Chr, sizeof(g_DataV9Chr));
+
+	// Sprite attribute table
+	struct V9_Sprite attr;
+	for(u16 i = 0; i < 125; i++)
+	{
+		attr.Y = (i / 13) * 20 + 8;
+		attr.Pattern = 0;
+		attr.X = (i % 13) * 20;
+		attr.P = 0;
+		attr.D = 0;
+		attr.SC = 1;
+		V9_SetSpriteP1(i, &attr);
+	}
+}
+
+//
+void TickP1()
+{
+	V9_SetScrollingX(g_Frame);
+	V9_SetScrollingBX(g_Frame >> 1);
+
+	u8 frame = (g_Frame >> 2) % 6;
+	for(u16 i = 0; i < 125; i++)
+		V9_SetSpritePatternP1(i, frame);
+
+	g_Frame++;
+}
+
+//-----------------------------------------------------------------------------
+// P2
+//-----------------------------------------------------------------------------
+
+//
+void InitP2()
+{
+	V9_SetMode(V9_MODE_P2);
+	V9_SetSpriteEnable(TRUE);
+
+	// Pattern generator table
+	V9_WriteVRAM(V9_P2_PGT, g_DataV9BG, sizeof(g_DataV9BG));
+
+	// Pattern name table
+	V9_FillVRAM(V9_P2_PNT, 0, 128*64*2);
+	for(u16 i = 0; i < 32*6; i++)
+	{
+		u16 addr = (((i / 32) * 128) + (i % 32)) * 2;
+		V9_Poke(V9_P2_PNT + addr, (u8)(i & 0xFF));
+		addr++;
+		V9_Poke(V9_P2_PNT + addr, (u8)(i >> 8));
+	}
+
+	// Sprite pattern generator table
+	V9_SetSpritePatternAddr(V9_P2_SGT_08000);
+	V9_WriteVRAM(0x08000, g_DataV9Chr, sizeof(g_DataV9Chr));
+
+	// Sprite attribute table
+	struct V9_Sprite attr;
+	for(u16 i = 0; i < 125; i++)
+	{
+		attr.Y = (i / 13) * 20;
+		attr.Pattern = 0;
+		attr.X = (i % 13) * 20;
+		attr.P = 0;
+		attr.D = 0;
+		attr.SC = 1;
+		V9_SetSpriteP2(i, &attr);
+	}
+}
+
+//
+void TickP2()
+{
+	V9_SetScrollingX(g_Frame);
+
+	u8 frame = (g_Frame >> 2) % 6;
+	for(u16 i = 0; i < 125; i++)
+		V9_SetSpritePatternP2(i, frame);
+
+	g_Frame++;
+}
+
+//-----------------------------------------------------------------------------
+// B0
+//-----------------------------------------------------------------------------
+
+//
+void InitB0()
+{
+}
+
+//
+void TickB0()
+{
+}
+
+//-----------------------------------------------------------------------------
+// B1
+//-----------------------------------------------------------------------------
+
+//
+void InitB1()
+{
+	V9_SetMode(V9_MODE_B1);
+	V9_SetBPP(V9_R06_BPP_4);
+}
+
+//
+void TickB1()
+{
+}
+
+//-----------------------------------------------------------------------------
+// B2
+//-----------------------------------------------------------------------------
+
+//
+void InitB2()
+{
+}
+
+//
+void TickB2()
+{
+}
+
+//-----------------------------------------------------------------------------
+// B3
+//-----------------------------------------------------------------------------
+
+//
+void InitB3()
+{
+}
+
+//
+void TickB3()
+{
+}
+
+//-----------------------------------------------------------------------------
+// B4
+//-----------------------------------------------------------------------------
+
+//
+void InitB4()
+{
+}
+
+//
+void TickB4()
+{
+}
+
+//-----------------------------------------------------------------------------
+// B5
+//-----------------------------------------------------------------------------
+
+//
+void InitB5()
+{
+}
+
+//
+void TickB5()
+{
+}
+
+//-----------------------------------------------------------------------------
+// B6
+//-----------------------------------------------------------------------------
+
+//
+void InitB6()
+{
+}
+
+//
+void TickB6()
+{
+}
+
+//-----------------------------------------------------------------------------
+// B7
+//-----------------------------------------------------------------------------
+
+//
+void InitB7()
+{
+}
+
+//
+void TickB7()
+{
+}
 
 //-----------------------------------------------------------------------------
 //
@@ -93,51 +435,11 @@ void main()
 
 	DisplayMSX();
 
-	// V9_SetMode(V9_MODE_B1);
-	// V9_SetBPP(V9_R06_BPP_4);
-
-	V9_SetMode(V9_MODE_P1);
-	V9_SetSpriteEnable(TRUE);
-	V9_SetSpritePatternAddr(V9_P1_SGT_08000);
-
-	V9_ClearVRAM();
-
+	V9_SetPaletteEntry(0, g_Black);
 	V9_SetPalette(1,  numberof(g_DataV9BG_palette), g_DataV9BG_palette);
 	V9_SetPalette(17, numberof(g_DataV9Chr_palette), g_DataV9Chr_palette);
 
-	// V9_P1_PGT_A		0x00000	// Pattern Generator Table (Layer A). 8160 patterns max
-	// V9_P1_SGT		0x00000	// Sprite Generator Table  
-	// V9_P1_SPAT		0x3FE00	// Sprite Attribute Table
-	// V9_P1_PGT_B		0x40000	// Pattern Generator Table (Layer B). 7680 patterns max
-	// V9_P1_PNT_A		0x7C000	// Pattern Name Table (Layer A)
-	// V9_P1_PNT_B		0x7E000	// Pattern Name Table (Layer B)
-
-	V9_WriteVRAM(V9_P1_PGT_A, g_DataV9BG, sizeof(g_DataV9BG));
-	V9_WriteVRAM(V9_P1_PGT_B, g_DataV9BG, sizeof(g_DataV9BG));
-
-	V9_WriteVRAM(0x08000, g_DataV9Chr, sizeof(g_DataV9Chr));
-
-	for(u16 i = 0; i < 32*6; i++)
-	{
-		u16 addr = (((i / 32) * 64) + (i % 32)) * 2;
-		V9_Poke(V9_P1_PNT_A + addr, (u8)(i & 0xFF));
-		addr++;
-		V9_Poke(V9_P1_PNT_A + addr, (u8)(i >> 8));
-	}
-
-	struct V9_Sprite attr;
-	for(u16 i = 0; i < 125; i++)
-	{
-		attr.Y = (i / 13) * 20;
-		attr.Pattern = 0;//i % 13;
-		attr.X = (i % 13) * 20;
-		attr.P = 0;
-		attr.D = 0;
-		attr.SC = 1;
-		V9_SetSpriteP1(i, &attr);
-	}
-
-	V9_FillVRAM(V9_P1_PNT_B, 0, 64*64*2);
+	g_ScreenMode[g_CurrentMode].Init();
 
 	u16 count = 0;
 	u8 clr = 0;
@@ -145,15 +447,10 @@ void main()
 	{
 		if(!V9_IsVBlank()) {}
 
+		g_ScreenMode[g_CurrentMode].Tick();
+
 		Print_SetPosition(39, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
-
-		V9_SetScrollingX(count);
-		V9_SetScrollingBY(count);
-
-		u8 frame = (count >> 2) % 6;
-		for(u16 i = 0; i < 125; i++)
-			V9_SetSpritePatternP1(i, frame);
 
 		// V9_SetPort(6, 0x07);
 		// 

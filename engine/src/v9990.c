@@ -276,11 +276,36 @@ u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 
 //-----------------------------------------------------------------------------
 //
+u8 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh)
+{
+	__asm
+		in		a, (V9_P00)
+		ld		a, e
+		in		a, (V9_P00)
+		ld		a, d
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+//
 void V9_Poke_CurrentAddr(u8 val) __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
 	val;		// A
 	__asm
 		out		(V9_P00), a
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+//
+void V9_Poke16_CurrentAddr(u16 val) __PRESERVES(b, c, d, e, iyl, iyh)
+{
+	val;		// HL
+	__asm
+		ld		a, l
+		out		(V9_P00), a				// Fill VRAM
+		ld		a, h
+		out		(V9_P00), a				// Fill VRAM
 	__endasm;
 }
 
@@ -303,6 +328,31 @@ void V9_FillVRAM_CurrentAddr(u8 value, u16 count)
 		djnz	v9_fill_loop			// Iner 8-bits loop
 		dec		d
 		jp		nz, v9_fill_loop		// Outer 8-bits loop
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+//
+void V9_FillVRAM16_CurrentAddr(u16 value, u16 count)
+{
+	value;	// HL
+	count;	// DE
+
+	__asm
+	// Setup fast 16-bits loop
+	v9_fill16_setup:
+		ld		b, e					// Number of loops is in DE
+		dec		de						// Calculate DB value (destroys B, D and E)
+		inc		d
+	// Fast 16-bits loop
+	v9_fill16_loop:
+		ld		a, l
+		out		(V9_P00), a				// Fill VRAM
+		ld		a, h
+		out		(V9_P00), a				// Fill VRAM
+		djnz	v9_fill16_loop			// Iner 8-bits loop
+		dec		d
+		jp		nz, v9_fill16_loop		// Outer 8-bits loop
 	__endasm;
 }
 
