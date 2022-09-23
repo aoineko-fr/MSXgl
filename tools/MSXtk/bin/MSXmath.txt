@@ -1,0 +1,25 @@
+CMSXmath (v1.6.0) - Math Table Generator
+Usage: CMSXmath [options] [tables]
+Options:
+  -o      X        Name of the output file
+  -num   <X>       Entries Number (Precision. Default=128)
+  -shift <X>       Shift value (Fixed-point position. Default=4)
+  -bytes <X>       Bytes Number (1: 8bits, 2: 16 bits. Default=2)
+  -prefix X        Table name prefix (0: Disable. Default=g_)
+  -format X        Output file format (C or ASM. Default=C)
+  -at     X        Data starting address (can be decimal or hexadecimal starting with '0x')
+  -help            Display this help
+Tables:
+  sin              Sinus table [0:Pi*2]
+  cos              Cosinus table [0:Pi*2]
+  tan              Tangente table [-Pi/2:Pi/2]
+  asin             Arc-sinus table [-1:1]
+  acos             Arc-cosinus table [-1:1]
+  atan             Arc-tangente table [-num:num]
+  sq               Square table [0:1]
+  sqrt             Square-root table [0:num]
+  pow  A           Power of A [0:num]
+  proj W H         3d projection tables (W/H: screen width/height)
+  rot              Rotation vector table
+  equa A B C D E   Equation of type y=A+B*(C+x*D)^E
+  map  A B         Map [0:num[ values to [A:B] space
