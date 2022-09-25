@@ -34,12 +34,14 @@ DMMDEV	EQU	4300H+65
 
 ;	JP	GTNTAP		;GetDAT
 ;	JP	CKNTAP		;Check
+
 ;======================================
 ; Data Area
 RESULT:	DEFB	0	;Connect Flag
 MAX:	DEFB	0	;Max Player
 ID1:	DEFB	0	;ID(Port1)
 ID2:	DEFB	0	;ID(Port2)
+
 ;======================================
 ; Get 4 Players Inkey
 ;[E]	None
@@ -49,6 +51,7 @@ GET10P:
 	CALL	GETALL
 	LD	HL,NTPTBL
 	RET
+
 ;======================================
 DEVINI:
 	LD	A,(002DH)
@@ -59,15 +62,20 @@ DEVINI:
 DEVIN1:
 	LD	HL,NTPTBL
 	LD	B,10
-DEVIN0:	LD	(HL),255
+DEVIN0:
+	LD	(HL),255
 	INC	HL
 	DJNZ	DEVIN0
 	JP	CKNTAP
+
 ;==================
-DEVMOU:	LD	HL,0000
+DEVMOU:
+	LD	HL,0000
 	RET
+
 ;==================
-DEVSTK:	CALL	GETALL
+DEVSTK:
+	CALL	GETALL
 	LD	C,0F0H
 	CALL	SRCH
 	RET	Z
@@ -78,9 +86,12 @@ DEVSTK:	CALL	GETALL
 	LD	A,(HL)
 	RET
 
-STKTBL:	DEFB	0,7,3,0,1,8,2,1,5,6,4,5,0,7,3,0
+STKTBL:
+	DEFB	0,7,3,0,1,8,2,1,5,6,4,5,0,7,3,0
+
 ;================
-DEVTRG:	CALL	GETALL
+DEVTRG:
+	CALL	GETALL
 	LD	C,3FH
 	CALL	SRCH
 	RET	Z
@@ -89,15 +100,18 @@ DEVTRG:	CALL	GETALL
 	RET	NC
 	INC	A
 	RET
+
 ;======================================
 ; Search a First Input
 ;[E]	C:Mask
 ;[R]	A=Inkey Condition
 ;	Z on=Nobody Input
 
-SRCH:	LD	HL,NTPTBL
+SRCH:
+	LD	HL,NTPTBL
 	LD	B,10
-SRCH0:	LD	A,(HL)
+SRCH0:
+	LD	A,(HL)
 	OR	C
 	INC	A
 	JR	NZ,SRCH1
@@ -107,17 +121,20 @@ SRCH0:	LD	A,(HL)
 	LD	(DMMDEV),A
 	XOR	A
 	RET
-SRCH1:	LD	A,10
+SRCH1:
+	LD	A,10
 	SUB	B
 	LD	(DMMDEV),A
 	LD	A,(HL)
 	RET
+
 ;======================================
 ; Get All Device
 ;[E]	None
 ;[R]	(NTPTBL,10)=Result
 
-GETALL:	LD	HL,MATTBL
+GETALL:
+	LD	HL,MATTBL
 	CALL	GETKEY
 	LD	A,B
 	LD	(NTPTBL),A
@@ -125,15 +142,19 @@ GETALL:	LD	HL,MATTBL
 	LD	HL,NTPTBL+1
 	LD	(HL),B
 	INC	HL
-SWGETA:	JP	GTNTAP
+SWGETA:
+	JP	GTNTAP
+
 ;======================================
 ; Get Key Matrix
 ;[E]	HL:MATTBL
 ;[R]	B:Inkey Condition
 
-GETKEY:	LD	D,0FBH
+GETKEY:
+	LD	D,0FBH
 	LD	BC,01FFH
-GETKE0:	LD	E,(HL)
+GETKE0:
+	LD	E,(HL)
 	INC	HL
 	LD	A,(DE)
 	AND	(HL)
@@ -142,6 +163,7 @@ GETKE0:	LD	E,(HL)
 	RL	B
 	JR	NC,GETKE0
 	RET
+
 ;======================================
 ; Get Inkey
 ;[E]	hl :Pointer to NTAP Table
@@ -173,29 +195,32 @@ GTNTA0:
 	CALL	GTNTAP
 	POP	AF
 	JP	0180H
+
 ;======================================
 GETJOY:
 	PUSH	AF
 ; Select Port1/Port2
 	LD	A,15
-	OUT	(0A0H),A
-	IN	A,(0A2H)
+	OUT	(0xA0),A
+	IN	A,(0xA2)
 	AND	D
 	OR	E
-	OUT	(0A1H),A
+	OUT	(0xA1),A
 ; Get Key Status
 	LD	A,14
-	OUT	(0A0H),A
-	IN	A,(0A2H)
+	OUT	(0xA0),A
+	IN	A,(0xA2)
 ; Write Status to (HL)
 	LD	E,0FFH
 	BIT	5,A
 	JR	NZ,GETJO0
 	RES	2,E		;Trig 2
-GETJO0:	BIT	4,A
+GETJO0:
+	BIT	4,A
 	JR	NZ,GETJO1
 	RES	3,E		;Trig 1
-GETJO1:	RRA
+GETJO1:
+	RRA
 	RL	E
 	RRA
 	RL	E
@@ -208,6 +233,7 @@ GETJO1:	RRA
 
 	POP	AF
 	RET
+
 ;======================================
 ; NTAP Access
 GETNIN:
@@ -215,32 +241,32 @@ GETNIN:
 	PUSH	HL
 ; Select Port and 8pin=H,6pin=L
 	LD	A,15
-	OUT	(0A0H),A
-	IN	A,(0A2H)
+	OUT	(0xA0),A
+	IN	A,(0xA2)
 	AND	D
 	OR	E
-	OUT	(0A1H),A
+	OUT	(0xA1),A
 ; 6pin=H (4021 Data Read)
 	OR	05H
-	OUT	(0A1H),A
+	OUT	(0xA1),A
 ; 6pin=L (4021 Transfer Mode)
 	AND	0FAH
-	OUT	(0A1H),A
+	OUT	(0xA1),A
 ;/// Get Key Status //////
 	LD	B,8
 GETNI0:
 ; Send me Data
 	LD	A,15
-	OUT	(0A0H),A
-	IN	A,(0A2H)
+	OUT	(0xA0),A
+	IN	A,(0xA2)
 	OR	030H
-	OUT	(0A1H),A	;8=H
+	OUT	(0xA1),A	;8=H
 	AND	0CFH
-	OUT	(0A1H),A	;8=L
+	OUT	(0xA1),A	;8=L
 
 	LD	A,14
-	OUT	(0A0H),A
-	IN	A,(0A2H)	;Read
+	OUT	(0xA0),A
+	IN	A,(0xA2)	;Read
 	RRA
 	RL	 H		;Joy1
 	RRA
@@ -265,12 +291,13 @@ GETNI0:
 	LD	DE,0FF3FH
 	CALL	PORSEL
 ;	LD	A,15
-;	OUT	(0A0H),A
-;	IN	A,(0A2H)
+;	OUT	(0xA0),A
+;	IN	A,(0xA2)
 ;	OR	3FH
-;	OUT	(0A1H),A
+;	OUT	(0xA1),A
 	POP	AF
 	RET
+
 ;======================================
 ; Connection Check
 ;[E]	None
@@ -283,7 +310,8 @@ GETNI0:
 ;	+1 ID(Port1),0-15	(Dummy)
 ;	+2 ID(Port2),NotAP=255	(Dummy)
 
-CKNTAP:	DI
+CKNTAP:
+	DI
 	LD	B,0	; b=Max Player
 	LD	DE,0BF00H
 	CALL	CHECK	; Port1 Check
@@ -314,27 +342,29 @@ CKNTAP:	DI
 	JP	PORSEL
 ;	EI
 ;	RET
+
 ;======================================
 ; Connection Check Sub.
-CHECK:	CALL	PORSEL
+CHECK:
+	CALL	PORSEL
 	INC	B
 	AND	0C0H
-	OUT	(0A1H),A	; 678=L
+	OUT	(0xA1),A	; 678=L
 	EX	AF,AF'
 	LD	A,14
-	OUT	(0A0H),A
-	IN	A,(0A2H)
+	OUT	(0xA0),A
+	IN	A,(0xA2)
 	AND	20H		; 7=H ?
 	RET	Z
 
 	LD	A,15
-	OUT	(0A0H),A
+	OUT	(0xA0),A
 	EX	AF,AF'
 	OR	030H
-	OUT	(0A1H),A	; 8=H
+	OUT	(0xA1),A	; 8=H
 	LD	A,14
-	OUT	(0A0H),A
-	IN	A,(0A2H)
+	OUT	(0xA0),A
+	IN	A,(0xA2)
 	AND	20H		; 7=L ?
 	JR	NZ,CHECK1
 
@@ -344,59 +374,67 @@ CHECK:	CALL	PORSEL
 	INC	B
 	RET
 ; No NTAP
-CHECK1:	XOR	A
+CHECK1:
+	XOR	A
 	RET
+
 ;======================================
 ; Get ID
-;GETID:	PUSH	AF
+;GETID:
+;	PUSH	AF
 ; 6=H 8=H
 ;	CALL	PORSEL
 ; 6=H 4021 Data Load
 ;	OR	05H
-;	OUT	(0A1H),A
+;	OUT	(0xA1),A
 ; 6=L 4021 Transfer Mode
 ;	AND	0FAH
-;	OUT	(0A1H),A
+;	OUT	(0xA1),A
 ;
 ;	LD	B,9
 ;/// Waste 8 Data and Get 9th Data ////
-;GETID0:	LD	A,15
-;	OUT	(0A0H),A
-;	IN	A,(0A2H)
+;GETID0:
+;	LD	A,15
+;	OUT	(0xA0),A
+;	IN	A,(0xA2)
 ; 8=H
 ;	OR	30H
-;	OUT	(0A1H),A
+;	OUT	(0xA1),A
 ; 8=L (Send me Data)
 ;	AND	0CFH
-;	OUT	(0A1H),A
+;	OUT	(0xA1),A
 ; Data Read
 ;	LD	A,14
-;	OUT	(0A0H),A
-;	IN	A,(0A2H)
+;	OUT	(0xA0),A
+;	IN	A,(0xA2)
 ;	DJNZ	GETID0
 ;////////////////////////////////////
 ;	AND	0FH
 ;	LD	H,A
 ; Restore Port (6,7,8=H)
 ;	LD	A,15
-;	OUT	(0A0H),A
-;	IN	A,(0A2H)
+;	OUT	(0xA0),A
+;	IN	A,(0xA2)
 ;	OR	03FH
-;	OUT	(0A1H),A
+;	OUT	(0xA1),A
 ;
 ;	POP	AF
 ;	RET
+
 ;======================================
 ; Sub Routine
-PORSEL:	LD	A,15
-	OUT	(0A0H),A
-	IN	A,(0A2H)
+PORSEL:
+	LD	A,15
+	OUT	(0xA0),A
+	IN	A,(0xA2)
 	AND	D
 	OR	E
-	OUT	(0A1H),A
+	OUT	(0xA1),A
 	RET
+
 ;======================================
-MATTBL:	DEFB	0EEH,0FFH, 0EEH,0FFH, 0EEH,0FFH, 0EEH,0FFH	;A B x x
+MATTBL:
+	DEFB	0EEH,0FFH, 0EEH,0FFH, 0EEH,0FFH, 0EEH,0FFH	;A B x x
 	DEFB	0+0E5H,02H, 0+0E5H,08H, 0+0E5H,10H, 0+0E5H,04H	;U D L R
 
 	DEFB	0EEH,0FFH, 0EEH,0FFH, 0EEH,0FFH, 0EEH,0FFH	;A B x x
