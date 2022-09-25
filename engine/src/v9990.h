@@ -18,10 +18,12 @@
 // DEFINES
 //=============================================================================
 
-#define V9_PALETTE_YSGBR_16			0
-#define V9_PALETTE_GBR_16			1
-#define V9_PALETTE_RGB_24			2
+#define V9_INT_PROTECT				1
 
+// Palette input data format
+#define V9_PALETTE_YSGBR_16			0	// [Ys|G|G|G|G|G|R|R] [R|R|R|B|B|B|B|B]
+#define V9_PALETTE_GBR_16			1	// [0|G|G|G|G|G|R|R] [R|R|R|B|B|B|B|B]
+#define V9_PALETTE_RGB_24			2	// [0|0|0|R|R|R|R|R] [0|0|0|G|G|G|G|G] [0|0|0|B|B|B|B|B]
 
 // Palette data format (can be YsGRB 16-bits or RGB 24-bits)
 #define V9_PALETTE_MODE				V9_PALETTE_RGB_24
@@ -126,8 +128,9 @@ void V9_SetRegister(u8 reg, u8 val) __PRESERVES(b, c, d, e, h, iyl, iyh);
 // Get register value
 u8 V9_GetRegister(u8 reg) __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
-// Function: 
-//
+// Function: V9_SetFlag
+// Helper function to change some bits in a given register
+// The function a register value, mask the given bits, add the new value, than set the register
 inline void V9_SetFlag(u8 reg, u8 mask, u8 flag) { V9_SetRegister(reg, V9_GetRegister(reg) & (~mask) | flag); }
 
 //-----------------------------------------------------------------------------
@@ -258,12 +261,48 @@ inline void V9_SetAdjustOffsetXY(i8 x, i8 y) { V9_SetAdjustOffset(((-x) & 0x0F) 
 inline void V9_SetLayerPriority(u8 x, u8 y) { V9_SetRegister(27, (y << 2) + x); }
 
 //-----------------------------------------------------------------------------
+// Group: Status
+//-----------------------------------------------------------------------------
+
+// Function: V9_GetStatus
+// Get status port value
+inline u8 V9_GetStatus() { return V9_GetPort(5); }
+
+// Function: V9_IsVBlank
+// Is vertical non-display period
+inline bool V9_IsVBlank() { return V9_GetStatus() & V9_P05_VR; }
+
+// Function: V9_IsHBlank
+// Is horizontal non-display period
+inline bool V9_IsHBlank() { return V9_GetStatus() & V9_P05_HR; }
+
+// Function: V9_IsCmdDataReady
+// Check if command data transfer ready
+inline bool V9_IsCmdDataReady() { return V9_GetStatus() & V9_P05_TR; }
+
+// Function: V9_IsCmdRunning
+// Check if a command is in process
+inline bool V9_IsCmdRunning() { return V9_GetStatus() & V9_P05_CE; }
+
+// Function: V9_IsSecondField
+// Check if render is in the second field period during interlace
+inline bool V9_IsSecondField() { return V9_GetStatus() & V9_P05_E0; }
+
+//-----------------------------------------------------------------------------
 // Group: Interrupt
 //-----------------------------------------------------------------------------
+
+#define V9_INT_VBLANK				V9_P06_VI
+#define V9_INT_HBLANK				V9_P06_HI
+#define V9_INT_CMDEND				V9_P06_CE
 
 // Function: V9_SetInterrupt
 // Set interruption flags
 inline void V9_SetInterrupt(u8 flags) { V9_SetRegister(9, flags); }
+
+// Function: V9_DisableInterrupt
+// Disable interruption
+inline void V9_DisableInterrupt() { V9_SetRegister(9, 0); }
 
 // Function: V9_SetVBlankInterrupt
 // Set vertical blank interruption 
@@ -279,7 +318,11 @@ inline void V9_SetCmdEndInterrupt(bool enable) { V9_SetFlag(9, V9_R08_IECE_ON, e
 
 // Function: V9_SetInterruptLine
 // Specification of vertical position where display position interrupt occurs (Specified by means of line No. with the display start line as "0".)
-inline void V9_SetInterruptLine(u16 line, bool every) { V9_SetRegister(10, line & 0xFF); V9_SetRegister(11, (every) ? (line >> 8) | V9_R09_EVERYLINE : line >> 8); }
+inline void V9_SetInterruptLine(u16 line) { V9_SetRegister(10, line & 0xFF); V9_SetRegister(11, line >> 8); }
+
+// Function: V9_SetInterruptEveryLine
+// Set line interrupt on every line
+inline void V9_SetInterruptEveryLine() { V9_SetRegister(11, V9_R09_EVERYLINE); }
 
 // Function: V9_SetInterruptX
 // Specification of horizontal position where display position interrupt occurs (Specified by unit of 64 master clock with the display start position as "0".)
@@ -452,6 +495,10 @@ inline void V9_SetPaletteAll(const u8* table) { V9_SetPalette(0, 64, table); }
 
 #endif
 
+// Function: V9_SetLayerPalette
+// Set the P1 and P2 layers palette offset
+inline void V9_SetLayerPalette(u8 a, u8 b) { V9_SetFlag(13, V9_R13_PLTO_MASK, ((b & 0x3) << 2) + (a & 0x3)); }
+
 //-----------------------------------------------------------------------------
 // Group: Command helper
 //-----------------------------------------------------------------------------
@@ -603,22 +650,6 @@ bool V9_Detect();
 // Function: V9_ClearVRAM
 // Clear the whole 512 KB of VRAM with zero
 void V9_ClearVRAM();
-
-// Function: V9_GetStatus
-// Get status port value
-inline u8 V9_GetStatus() { return V9_GetPort(5); }
-
-// Function: V9_IsCmdDataReady
-// Check if command data transfer ready
-inline bool V9_IsCmdDataReady() { return V9_GetStatus() & V9_P05_TR; }
-
-// Function: V9_IsVBlank
-// Is vertical non-display period
-inline bool V9_IsVBlank() { return V9_GetStatus() & V9_P05_VR; }
-
-// Function: V9_IsHBlank
-// Is horizontal non-display period
-inline bool V9_IsHBlank() { return V9_GetStatus() & V9_P05_HR; }
 
 // Function: V9_CellAddrP1A
 //

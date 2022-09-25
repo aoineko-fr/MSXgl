@@ -57,7 +57,7 @@ u8 Joystick_Read(u8 port) __FASTCALL
 {
 	port; // L
 	__asm
-		ld		a, #PSG_REG_IO_PORT_B	// Register 15
+		ld		a, #PSG_REG_IO_PORT_B	// R#15
 		INPUT_DI
 		out		(P_PSG_REGS), a			// Select port B
 		in		a, (P_PSG_STAT)			// Read port B value
@@ -65,7 +65,7 @@ u8 Joystick_Read(u8 port) __FASTCALL
 		or		a, l					// Select witch joystick connector is connected to PSG Port A
 		out		(P_PSG_DATA), a			// Write port B value
 
-		ld		a, #PSG_REG_IO_PORT_A	// Register 15
+		ld		a, #PSG_REG_IO_PORT_A	// R#14
 		out		(P_PSG_REGS), a			// Select port A
 		INPUT_EI
 		in		a, (P_PSG_STAT)			// Read port A value

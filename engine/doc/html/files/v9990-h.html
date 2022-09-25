@@ -36,6 +36,12 @@
  <div class="CBody"><p>Get register value</p></div>
 </div>
 
+<a name="V9_SetFlag"></a><a name="Topic118"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetFlag</div>
+ <div id="NDPrototype118" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetFlag(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mask,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flag</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Helper function to change some bits in a given register The function a register value, mask the given bits, add the new value, than set the register</p></div>
+</div>
+
 <a name="VRAM_access"></a><a name="Topic625"></a><div class="CTopic TGroup LC">
  <div class="CTitle">VRAM access</div>
 </div>
@@ -195,6 +201,46 @@
  <div class="CBody"><p>Set layer priority for P1 mode</p></div>
 </div>
 
+<a name="Status"></a><a name="Topic306"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Status</div>
+</div>
+
+<a name="V9_GetStatus"></a><a name="Topic676"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_GetStatus</div>
+ <div id="NDPrototype676" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 V9_GetStatus()</div></div>
+ <div class="CBody"><p>Get status port value</p></div>
+</div>
+
+<a name="V9_IsVBlank"></a><a name="Topic678"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_IsVBlank</div>
+ <div id="NDPrototype678" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsVBlank()</div></div>
+ <div class="CBody"><p>Is vertical non-display period</p></div>
+</div>
+
+<a name="V9_IsHBlank"></a><a name="Topic679"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_IsHBlank</div>
+ <div id="NDPrototype679" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsHBlank()</div></div>
+ <div class="CBody"><p>Is horizontal non-display period</p></div>
+</div>
+
+<a name="V9_IsCmdDataReady"></a><a name="Topic677"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_IsCmdDataReady</div>
+ <div id="NDPrototype677" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsCmdDataReady()</div></div>
+ <div class="CBody"><p>Check if command data transfer ready</p></div>
+</div>
+
+<a name="V9_IsCmdRunning"></a><a name="Topic308"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_IsCmdRunning</div>
+ <div id="NDPrototype308" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsCmdRunning()</div></div>
+ <div class="CBody"><p>Check if a command is in process</p></div>
+</div>
+
+<a name="V9_IsSecondField"></a><a name="Topic309"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_IsSecondField</div>
+ <div id="NDPrototype309" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsSecondField()</div></div>
+ <div class="CBody"><p>Check if render is in the second field period during interlace</p></div>
+</div>
+
 <a name="Interrupt"></a><a name="Topic194"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Interrupt</div>
 </div>
@@ -203,6 +249,12 @@
  <div class="CTitle">V9_SetInterrupt</div>
  <div id="NDPrototype386" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetInterrupt(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flags</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set interruption flags</p></div>
+</div>
+
+<a name="V9_DisableInterrupt"></a><a name="Topic310"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_DisableInterrupt</div>
+ <div id="NDPrototype310" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_DisableInterrupt()</div></div>
+ <div class="CBody"><p>Disable interruption</p></div>
 </div>
 
 <a name="V9_SetVBlankInterrupt"></a><a name="Topic630"></a><div class="CTopic TFunction LC">
@@ -223,10 +275,16 @@
  <div class="CBody"><p>Set command end interruption</p></div>
 </div>
 
-<a name="V9_SetInterruptLine"></a><a name="Topic665"></a><div class="CTopic TFunction LC">
+<a name="V9_SetInterruptLine"></a><a name="Topic741"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetInterruptLine</div>
- <div id="NDPrototype665" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetInterruptLine(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">line,</td></tr><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">every</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype741" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetInterruptLine(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">line</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Specification of vertical position where display position interrupt occurs (Specified by means of line No. with the display start line as &quot;0&quot;.)</p></div>
+</div>
+
+<a name="V9_SetInterruptEveryLine"></a><a name="Topic742"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetInterruptEveryLine</div>
+ <div id="NDPrototype742" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetInterruptEveryLine()</div></div>
+ <div class="CBody"><p>Set line interrupt on every line</p></div>
 </div>
 
 <a name="V9_SetInterruptX"></a><a name="Topic666"></a><div class="CTopic TFunction LC">
@@ -371,6 +429,12 @@
  <div class="CTitle">V9_SetPaletteAll</div>
  <div id="NDPrototype636" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetPaletteAll(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u16*&nbsp;</td><td class="PName last">table</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the colors of all the palette 64 entries.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">table<div class="CDLParameterType"><span class="SHKeyword">const</span> u16*</div></td><td class="CDLDefinition"><p>16 bits color table Format: [Ys:1|green:5|red:5|blue:5]</p></td></tr></table></div>
+</div>
+
+<a name="V9_SetLayerPalette"></a><a name="Topic743"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetLayerPalette</div>
+ <div id="NDPrototype743" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetLayerPalette(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">a,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">b</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the P1 and P2 layers palette offset</p></div>
 </div>
 
 <a name="Command_helper"></a><a name="Topic681"></a><div class="CTopic TGroup LC">
@@ -575,30 +639,6 @@
  <div class="CTitle">V9_ClearVRAM</div>
  <div id="NDPrototype618" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> V9_ClearVRAM()</div></div>
  <div class="CBody"><p>Clear the whole 512 KB of VRAM with zero</p></div>
-</div>
-
-<a name="V9_GetStatus"></a><a name="Topic676"></a><div class="CTopic TFunction LC">
- <div class="CTitle">V9_GetStatus</div>
- <div id="NDPrototype676" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 V9_GetStatus()</div></div>
- <div class="CBody"><p>Get status port value</p></div>
-</div>
-
-<a name="V9_IsCmdDataReady"></a><a name="Topic677"></a><div class="CTopic TFunction LC">
- <div class="CTitle">V9_IsCmdDataReady</div>
- <div id="NDPrototype677" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsCmdDataReady()</div></div>
- <div class="CBody"><p>Check if command data transfer ready</p></div>
-</div>
-
-<a name="V9_IsVBlank"></a><a name="Topic678"></a><div class="CTopic TFunction LC">
- <div class="CTitle">V9_IsVBlank</div>
- <div id="NDPrototype678" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsVBlank()</div></div>
- <div class="CBody"><p>Is vertical non-display period</p></div>
-</div>
-
-<a name="V9_IsHBlank"></a><a name="Topic679"></a><div class="CTopic TFunction LC">
- <div class="CTitle">V9_IsHBlank</div>
- <div id="NDPrototype679" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsHBlank()</div></div>
- <div class="CBody"><p>Is horizontal non-display period</p></div>
 </div>
 
 <a name="V9_CellAddrP1A"></a><a name="Topic284"></a><div class="CTopic TFunction LC">

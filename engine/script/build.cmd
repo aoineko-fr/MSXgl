@@ -100,11 +100,8 @@ if defined Mapper (
 if %InstallBDOS%==1        ( echo ROM_BDOS=1   >> %OutDir%\crt0_config.asm )
 if %BankedCall%==1         ( echo ROM_BCALL=1  >> %OutDir%\crt0_config.asm )
 if %InstallRAMISR%==1      ( echo ROM_RAMISR=1 >> %OutDir%\crt0_config.asm )
-if %InstallRAMISR%==VBLANK ( echo ROM_RAMISR=1 >> %OutDir%\crt0_config.asm )
-if %InstallRAMISR%==HBLANK (
-	echo ROM_RAMISR=1 >> %OutDir%\crt0_config.asm
-	echo ROM_HBLANK=1 >> %OutDir%\crt0_config.asm
-)
+if /I %CustomISR%==VHBLANK ( echo ROM_ISR=ISR_VHBLANK >> %OutDir%\crt0_config.asm )
+if /I %CustomISR%==V9990   ( echo ROM_ISR=ISR_V9990   >> %OutDir%\crt0_config.asm )
 if /I not %Machine%==1     ( echo ISR_SET_S0=1 >> %OutDir%\crt0_config.asm )
 
 ::=============================================================================
@@ -269,8 +266,8 @@ echo %BLUE%Making %ProjName% using SDCC...%RESET%
 
 %Linker% --version
 
-if %Optim%==Speed ( set LinkOpt=%LinkOpt% --opt-code-speed )
-if %Optim%==Size ( set LinkOpt=%LinkOpt% --opt-code-size )
+if /I %Optim%==Speed ( set LinkOpt=%LinkOpt% --opt-code-speed )
+if /I %Optim%==Size ( set LinkOpt=%LinkOpt% --opt-code-size )
 if %Debug%==1 ( set LinkOpt=%LinkOpt% --debug )
 
 set SDCCParam=-mz80 --vc --no-std-crt0 --code-loc 0x%CodeAddr% --data-loc 0x%RamAddr% %LinkOpt% %MapperBanks% %OutDir%\%Crt0%.rel %OutDir%\msxgl.lib %RelList% -o %OutDir%\%ProjName%.ihx

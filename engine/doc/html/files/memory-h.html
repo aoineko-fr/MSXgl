@@ -60,10 +60,30 @@
  <div class="CBody"><p>Fill a memory block with a given value (minimal size of 2 bytes).</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to fill</p></td></tr></table></div>
 </div>
 
-<a name="Mem_FastSet"></a><a name="Topic585"></a><div class="CTopic TFunction LC last">
+<a name="Mem_FastSet"></a><a name="Topic585"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_FastSet</div>
  <div id="NDPrototype585" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_FastSet(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Fast fill a memory block with a given value (minimal size of 2 bytes).&nbsp; Use 16 unrolled-LDI loop.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to fill</p></td></tr></table></div>
+</div>
+
+<a name="Mem_ChunkInitialize"></a><a name="Topic294"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mem_ChunkInitialize</div>
+ <div id="NDPrototype294" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_ChunkInitialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">base,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="Mem_ChunkAlloc"></a><a name="Topic295"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mem_ChunkAlloc</div>
+ <div id="NDPrototype295" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span>* Mem_ChunkAlloc(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="Mem_ChunkFree"></a><a name="Topic296"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mem_ChunkFree</div>
+ <div id="NDPrototype296" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_ChunkFree(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">ptr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="Mem_GetChunkSize"></a><a name="Topic304"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">Mem_GetChunkSize</div>
+ <div id="NDPrototype304" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 Mem_GetChunkSize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">ptr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
 </div>
 
 </body></html>

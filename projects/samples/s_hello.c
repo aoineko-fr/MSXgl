@@ -6,7 +6,6 @@
 //  Hello world sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
-#include "string.h"
 
 //-----------------------------------------------------------------------------
 // Program entry point
@@ -16,7 +15,7 @@ void main()
 	VDP_ClearVRAM();
 
 	Print_SetTextFont(PRINT_DEFAULT_FONT, 1); // Initialize font (use BIOS font)
-	Print_DrawText("Hello MSX world!\n");
+	Print_DrawText("Hello MSX world!");
 
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{

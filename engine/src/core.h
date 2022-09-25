@@ -93,7 +93,7 @@ typedef void (*callback)(void);		// Callback default signature
 #define PEEKW(addr)			(*(u16*)(addr))
 
 //-----------------------------------------------------------------------------
-// Fastcall (__z88dk_fastcall)
+// Fastcall
 //-----------------------------------------------------------------------------
 // Parameter/return register:
 // - 8 bits 				L
@@ -115,7 +115,7 @@ typedef void (*callback)(void);		// Callback default signature
 #define __CALLEE			__z88dk_callee
 
 //-----------------------------------------------------------------------------
-// SDCCCall (__sdcccall(x))
+// SDCCCall
 //-----------------------------------------------------------------------------
 #define __SDCCCALL0			__sdcccall(0)
 #define __SDCCCALL1			__sdcccall(1)

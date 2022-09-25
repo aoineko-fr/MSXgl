@@ -470,7 +470,7 @@ void VDP_RegWriteBakMask(u8 idx, u8 mask, u8 value);
 //
 // Return:
 //   Status register #0 value
-u8 VDP_ReadDefaultStatus();
+u8 VDP_ReadDefaultStatus() __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: VDP_ReadStatus
 // Read a given status register then reset status register to default (0). [MSX2/2+/TR]

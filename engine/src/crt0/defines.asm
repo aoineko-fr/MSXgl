@@ -27,6 +27,7 @@
 PPI_A				= #0xA8
 VDP_S				= #0x99
 VDP_A				= #0x99
+V9_P06				= #0x66
 
 ;------------------------------------------------------------------------------
 ; Main-ROM routines
@@ -50,11 +51,17 @@ ROM_KONAMI			= 3
 ROM_KONAMI_SCC		= 4
 
 ;------------------------------------------------------------------------------
+; ISR
+ISR_VBLANK			= 0				; V-blank handler
+ISR_VHBLANK			= 1				; V-blank and h-blank handler (V9938 or V9958)
+ISR_V9990			= 2				; v-blank, h-blank and command end handler (V9990)
+
+;------------------------------------------------------------------------------
 ; Default values
 ADDR_BOOT			= 0x4000
 ROM_MAPPER			= ROM_PLAIN
 ROM_BDOS			= 0				; Install BDOS
 ROM_BCALL			= 0				; Add banked call trampoline
+ROM_ISR				= ISR_VBLANK
 ROM_RAMISR			= 0				; Install ISR in RAM
-ROM_HBLANK			= 0				; Use ISR with H-Blank support
 ISR_SET_S0			= 0				; Reset statut register to S#0 in ISR

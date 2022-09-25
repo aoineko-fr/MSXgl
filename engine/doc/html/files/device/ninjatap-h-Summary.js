@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:device/ninjatap.h","ninjatap.h");NDSummary.OnSummaryLoaded("File:device/ninjatap.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[287,0,1,"Functions","Functions"],[288,0,0,"NTap_Check","NTap_Check"],[292,0,0,"NTap_Update","NTap_Update"],[293,0,0,"NTap_Get","NTap_Get"]]);

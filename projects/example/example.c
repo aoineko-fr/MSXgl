@@ -22,8 +22,12 @@
 //=============================================================================
 
 // Unit conversion (Pixel <> Q10.6)
-#define UNIT_TO_PX(a)				(u8)((a) / 64)
-#define PX_TO_UNIT(a)				(i16)((a) * 64)
+#define Q10_6_TO_PX(a)				(u8)((a) / 64)
+#define PX_TO_Q10_6(a)				(i16)((a) * 64)
+
+// Unit conversion (Pixel <> Q2.6)
+#define Q2_6_TO_PX(a)				(u8)((a) / 64)
+#define PX_TO_Q2_6(a)				(i8)((a) * 64)
 
 #define FORCE						20
 #define GRAVITY						1
@@ -38,6 +42,13 @@ enum INPUT_ACTION
 	INPUT_LEFT  = 0b00000010,
 	INPUT_JUMP  = 0b00000100,
 };
+
+// 8-bits vector structure
+typedef struct
+{
+	i8			x;
+	i8			y;
+} Vector8;
 
 // 16-bits vector structure
 typedef struct
@@ -81,17 +92,30 @@ void UpdateScore();
 //.............................................................................
 // Player 1 data
 
-// Pawn sprite layers
+// Player's sprite layers
+// This character is made by 3 layers (3 sprites) but the first two are special: One is only visible on even frames while the second only on odd frames.
+// So, on the 3 layers, only two are visible at a given frame. The blinking of the first two black layers is done to create shaded colors.
+// The counterpart is the flickering effect. The character white color comes from the background and is not in a sprite.
 const Game_Sprite g_SpriteLayers[] =
 {
-	{ 0, 0, 0, 0,  COLOR_BLACK, PAWN_SPRITE_EVEN },
-	{ 0, 0, 0, 12, COLOR_BLACK, PAWN_SPRITE_ODD },
+//	  Sprite ID
+//    |  X offset from pawn's position
+//    |  |  Y offset
+//    |  |  |  Pattern offset from current animation key
+//    |  |  |  |   Layer's color
+//    |  |  |  |   |                Layer option
+	{ 0, 0, 0, 0,  COLOR_BLACK,     PAWN_SPRITE_EVEN }, // Only visible on even frame number
+	{ 0, 0, 0, 12, COLOR_BLACK,     PAWN_SPRITE_ODD }, // Only visible on odd frame number
 	{ 4, 0, 0, 8,  COLOR_LIGHT_RED, 0 },
 };
 
 // Idle animation frames
+// Each line describes an animation key
 const Game_Frame g_FramesIdle[] =
 {
+//	  Pattern offset of this animation key in the sprite data
+//    |     Animation key duration (in frame number)
+//    |     |   Event to trigger during this animation key (function pointer)
 	{ 4*16,	64,	NULL },
 	{ 2*16,	24,	NULL },
 };
@@ -199,7 +223,7 @@ const Game_Frame g_BallIdle[] =
 	{ 0*8+224,	4,	NULL },
 };
 
-// Idle animation frames
+// Bump animation frames
 const Game_Frame g_BallBump[] =
 {
 	{ 1*8+224,	1,	NULL },
@@ -214,7 +238,7 @@ enum ANIM_ACTION_BALL_ID
 	ACTION_BALL_BUMP,
 };
 
-// List of all player actions
+// List of all ball actions
 const Game_Action g_BallActions[] =
 { //  Frames      Number                Loop?  Interrupt?
 	{ g_BallIdle, numberof(g_BallIdle), TRUE,  TRUE },
@@ -373,16 +397,16 @@ void InitPlayer(struct Character* ply, u8 id)
 		GamePawn_Initialize(pawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
 		GamePawn_SetPosition(pawn, 255 - 16 - 16, 128);
 		GamePawn_InitializePhysics(pawn, PhysicsEventPlayer1, PhysicsCollision, 16, 16);
-		ply->Position.x = PX_TO_UNIT(255 - 16 - 16);
-		ply->Position.y = PX_TO_UNIT(128);
+		ply->Position.x = PX_TO_Q10_6(255 - 16 - 16);
+		ply->Position.y = PX_TO_Q10_6(128);
 	}
 	else
 	{
 		GamePawn_Initialize(pawn, g_SpriteLayers2, numberof(g_SpriteLayers2), 0, g_AnimActions2);
 		GamePawn_SetPosition(pawn, 16, 128);
 		GamePawn_InitializePhysics(pawn, PhysicsEventPlayer2, PhysicsCollision, 16, 16);
-		ply->Position.x = PX_TO_UNIT(16);
-		ply->Position.y = PX_TO_UNIT(128);
+		ply->Position.x = PX_TO_Q10_6(16);
+		ply->Position.y = PX_TO_Q10_6(128);
 	}
 }
 
@@ -447,8 +471,8 @@ void InitBall()
 	GamePawn_InitializePhysics(pawn, PhysicsEventBall, PhysicsCollision, 16, 16);
 	GamePawn_SetAction(pawn, ACTION_BALL_IDLE);
 
-	g_Ball.Position.x = PX_TO_UNIT(150);
-	g_Ball.Position.y = PX_TO_UNIT(128);
+	g_Ball.Position.x = PX_TO_Q10_6(150);
+	g_Ball.Position.y = PX_TO_Q10_6(128);
 }
 
 //-----------------------------------------------------------------------------
@@ -457,16 +481,16 @@ void UpdateBall()
 {
 	/*
 	// Update physics
-	g_Ball.Velocity.y += PX_TO_UNIT(GRAVITY);
-	if(g_Ball.Velocity.y > PX_TO_UNIT(FORCE))
-		g_Ball.Velocity.y = PX_TO_UNIT(FORCE);
+	g_Ball.Velocity.y += PX_TO_Q10_6(GRAVITY);
+	if(g_Ball.Velocity.y > PX_TO_Q10_6(FORCE))
+		g_Ball.Velocity.y = PX_TO_Q10_6(FORCE);
 
 	g_Ball.Position.x += g_Ball.Velocity.x;
 	g_Ball.Position.y += g_Ball.Velocity.y;
 
 	// Update player animation & physics
 	Game_Pawn* ballPawn = &g_Ball.Pawn;
-	GamePawn_SetTargetPosition(ballPawn, UNIT_TO_PX(g_Ball.Position.x), UNIT_TO_PX(g_Ball.Position.y));
+	GamePawn_SetTargetPosition(ballPawn, Q10_6_TO_PX(g_Ball.Position.x), Q10_6_TO_PX(g_Ball.Position.y));
 	GamePawn_Update(ballPawn);*/
 
 	// Update movement

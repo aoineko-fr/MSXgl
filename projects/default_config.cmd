@@ -48,12 +48,16 @@ REM set Debugger=%ToolsDir%\OpenMSX\Debugger\openmsx-debugger.exe
 
 :: Project name (will be use for output filename)
 set ProjName=
+
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=
-:: Project segments base name
+
+:: Project segments base name (use ProjName if not defined)
 set ProjSegments=
+
 :: List of library modules to build
 set LibModules=system,bios,vdp,print,input,memory
+
 :: Additional sources
 set AddSources=
 
@@ -66,6 +70,7 @@ set AddSources=
 :: - TR		MSX Turbo-R
 :: - 3		MSX 3 (reserved)
 set Machine=1
+
 :: Program media target:
 :: - BIN			.bin	BASIC binary program (8000h~)
 :: - ROM_8K			.rom	8KB ROM in page 1 (4000h ~ 5FFFh)
@@ -85,20 +90,28 @@ set Machine=1
 :: - DOS2			.com	MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
 :: - DOS2_ARG		.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 set Target=ROM_32K
+
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
 
 :: Install BDOS driver for ROM program? (0=false, 1=true)
 set InstallBDOS=0
-:: Set RAM in slot 0 and install ISR there
-:: - 0				Don't install
-:: - 1 | VBLANK		Add ISR that support V-blank interruption
-:: - HBLANK			Add ISR that support V-blank and H-blank interruption
+
+:: Set RAM in slot 0 and install ISR there (0=false, 1=true)
 set InstallRAMISR=0
+
+:: Type of custom ISR (for RAM or ROM)
+:: - VBLANK		V-blank handler
+:: - VHBLANK	V-blank and h-blank handler (V9938 or V9958)
+:: - V9990		v-blank, h-blank and command end handler (V9990)
+set CustomISR=VBLANK
+
 :: Use banked call and trampoline functions (0=false, 1=true)
 set BankedCall=0
+
 :: Overwrite RAM starting address (e.g. 0xE0000 for 8K RAM machine)
 set ForceRamAddr=
+
 :: Data to copy to disk (comma separated list)
 set DiskFiles=
 
@@ -108,26 +121,34 @@ set DiskFiles=
 
 :: Generate MSXgl static library (0=false, 1=true)
 set BuildLibrary=1
+
 :: Set debug flag (0=false, 1=true)
 set Debug=0
+
 :: Assembler code optimizer
 :: - None
 :: - PeepHole	SDCC otpimizer
 :: - MDL		MDL z80 otpimizer
 set AsmOptim=None
+
 :: Optim:
 :: - Default
 :: - Speed
 :: - Size
 set Optim=Speed
+
 :: Additionnal compilation flag
 set CompileOpt=
+
 :: Skip file if compile data is newer than the (0=false, 1=true)
 set CompileSkipOld=0
+
 :: Compile verbose mode (0=false, 1=true)
 set Verbose=0
+
 :: Additionnal link flag
 set LinkOpt=
+
 :: Update build version header file
 set BuildVersion=0
 
@@ -141,15 +162,18 @@ set Emul60Hz=0
 set EmulFullScreen=0
 set EmulMute=0
 set EmulDebug=0
+
 :: Emulator extensions: 0 or 1
 set EmulSCC=0
 set EmulMSXMusic=0
 set EmulMSXAudio=0
 set EmulPSG2=0
 set EmulV9990=0
+
 :: Emulator port: joystick, mouse, keyboard (fake joystick)
 set EmulPortA=
 set EmulPortB=
+
 :: Emulator extra parameters to be add to command-line (emulator sotfware specific)
 set EmulExtraParam=
 

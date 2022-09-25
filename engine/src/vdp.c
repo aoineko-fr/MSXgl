@@ -1816,11 +1816,10 @@ void VDP_RegWriteBakMask(u8 reg, u8 mask, u8 flag)
 
 //-----------------------------------------------------------------------------
 // Read default S#0 register [MSX1/2/2+/TR]
-u8 VDP_ReadDefaultStatus()
+u8 VDP_ReadDefaultStatus() __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
 	__asm
 		in		a, (P_VDP_STAT)
-		ld		l, a
 	__endasm;
 }
 

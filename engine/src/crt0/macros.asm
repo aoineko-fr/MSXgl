@@ -167,14 +167,19 @@
 .endm
 
 ;------------------------------------------------------------------------------
-; V-Blank ISR
+; Interrupt Service Routine
 ;------------------------------------------------------------------------------
-.macro ISR_VBLANK
+
+;..............................................................................
+; V-Blank ISR
+.ifeq ROM_ISR-ISR_VBLANK
+.macro INCLUDE_ISR
+		.globl	_VDP_InterruptHandler
 	crt0_interrupt_start::
-		; Skip interruptions that do not come from the VDP.
+	; Skip interruptions that do not come from the VDP.
 		push	af
 	.if ISR_SET_S0
-		; Reset R#15 to S#0
+	; Reset R#15 to S#0
 		xor		a
 		out		(VDP_A), a
 		ld		a, #(0x80 + 15)
@@ -183,7 +188,7 @@
 		in		a, (VDP_S)
 		rlca
 		jr		nc, crt0_interrupt_skip
-		; Backup registers
+	; Backup registers
 		push	hl
 		push	de
 		push	bc
@@ -195,9 +200,9 @@
 		push	bc
 		push	iy
 		push	ix
-		; Call VDP interruption handler
+	; Call VDP interruption handler
 		call	_VDP_InterruptHandler
-		; Restore registers
+	; Restore registers
 		pop		ix
 		pop		iy
 		pop		bc
@@ -209,20 +214,24 @@
 		pop		bc
 		pop		de
 		pop		hl
-		; Restore registers
+	; Restore registers
 	crt0_interrupt_skip:
 		pop		af
 		ei
-		ret
+		reti
 	crt0_interrupt_end:
 .endm
+.endif
 
-;------------------------------------------------------------------------------
+;..............................................................................
 ; V-Blank & H-Blank ISR
-;------------------------------------------------------------------------------
-.macro ISR_HBLANK
+.ifeq ROM_ISR-ISR_VHBLANK
+.macro INCLUDE_ISR
+		.globl	_VDP_InterruptHandler
+		.globl	_VDP_HBlankHandler
+
 	crt0_interrupt_start::
-		; Backup registers
+	; Backup registers
 		push	af
 		push	hl
 		push	de
@@ -237,31 +246,25 @@
 		push	ix
 
 	.if ISR_SET_S0
-		; Reset R#15 to S#0
+	; Reset R#15 to S#0
 		xor		a
 		out		(VDP_A), a
 		ld		a, #(0x80 + 15)
 		out		(VDP_A),a
 	.endif
-		; Check V-Blank
+	; Check V-Blank
 		in		a, (VDP_S)					; Get S#0 value
 		rlca
-		jr		nc, crt0_isr_no_vblank
-		call	_VDP_InterruptHandler 		; Call VDP interruption handler
-	crt0_isr_no_vblank:
-
-		; Check H-Blank
+		call	c, _VDP_InterruptHandler 	; Call VDP interruption handler
+	; Check H-Blank
 		ld		a, #1
 		out		(VDP_A), a
 		ld		a, #(0x80 + 15)
 		out		(VDP_A), a
 		in		a, (VDP_S)
-		rrca								;  Call H-Blank if bit #0 of S#1 is set 
-		jp		nc, crt0_isr_no_hblank
-		call	_VDP_HBlankHandler			; call to C function HBlankHook() 
-	crt0_isr_no_hblank:
-
-		; Restore registers
+		rrca								; Call H-Blank if bit #0 of S#1 is set 
+		call	c, _VDP_HBlankHandler		; call to C function HBlankHook() 
+	; Restore registers
 		pop		ix
 		pop		iy
 		pop		bc
@@ -275,9 +278,69 @@
 		pop		hl
 		pop		af
 		ei
-		ret
+		reti
 	crt0_interrupt_end:
 .endm
+.endif
+
+;..............................................................................
+; V9990 ISR
+.ifeq ROM_ISR-ISR_V9990
+.macro INCLUDE_ISR
+		.globl	_V9_InterruptVBlank
+		.globl	_V9_InterruptHBlank
+		.globl	_V9_InterruptCommand
+
+	crt0_interrupt_start::
+	; Skip interruptions that do not come from the VDP.
+		push	af
+		in		a, (V9_P06)
+		or		a
+		jr		z, crt0_interrupt_skip ; Quick skip (before full register backup)
+	; Backup registers
+		push	hl
+		push	de
+		push	bc
+		exx
+		ex		af, af'
+		push	af
+		push	hl
+		push	de
+		push	bc
+		push	iy
+		push	ix
+	; Call VDP interruption handler
+		in		a, (V9_P06)			; Get P#6 again (quicker than push/pop the value)
+		out		(V9_P06), a			; Reset interrupt bits
+	; V-Blank interruption
+		rra
+		call	c, _V9_InterruptVBlank
+	; H-Blank interruption
+		rra
+		call	c, _V9_InterruptHBlank
+	; Command end interruption
+		rra
+		call	c, _V9_InterruptCommand
+	; Restore registers
+		pop		ix
+		pop		iy
+		pop		bc
+		pop		de
+		pop		hl
+		pop		af
+		ex		af, af'
+		exx
+		pop		bc
+		pop		de
+		pop		hl
+	; Restore registers
+	crt0_interrupt_skip:
+		pop		af
+		ei
+		reti
+	crt0_interrupt_end:
+.endm
+.endif
 
 ;------------------------------------------------------------------------------
 ; Install ISR in RAM
@@ -290,14 +353,7 @@
 		jp		crt0_interrupt_end
 
 	; ISR
-		.if ROM_HBLANK
-			.globl	_VDP_InterruptHandler
-			.globl	_VDP_HBlankHandler
-			ISR_HBLANK
-		.else
-			.globl	_VDP_InterruptHandler
-			ISR_VBLANK
-		.endif
+		INCLUDE_ISR
 
 	; Switch page 0 to RAM
 		INIT_P3_TO_P0

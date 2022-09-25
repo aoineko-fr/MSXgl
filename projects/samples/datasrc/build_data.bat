@@ -241,8 +241,9 @@ if %BuildV9990%==1 (
 	echo ----------------------------------------
 	echo Building V9990 data...
 	if not exist %Dest%\v9990 md %Dest%\v9990
-	%CMSXtk%\CMSXimg.exe img\data.png    -copy gk.txt -out %Dest%\v9990\data_v9_chr.h -pos 0 128 -size 256 16 -num 1 1 -name g_DataV9Chr -trans 0xFF00FF -bpc 4 -pal custom --pal24
-	%CMSXtk%\CMSXimg.exe img\data_bg.png -copy gk.txt -out %Dest%\v9990\data_v9_bg.h  -pos 0 0   -size 256 48 -num 1 1 -name g_DataV9BG  -trans 0xFF00FF -bpc 4 -pal custom --pal24
+	%CMSXtk%\CMSXimg.exe img\data.png    -copy gk.txt -out %Dest%\v9990\data_v9_chr.h  -pos 0 128 -size 256 16 -num 1 1 -name g_DataV9Chr  -trans 0xFF00FF -bpc 4 -pal custom --pal24
+	%CMSXtk%\CMSXimg.exe img\data_bg.png -copy gk.txt -out %Dest%\v9990\data_v9_bg.h   -pos 0 0   -size 256 48 -num 1 1 -name g_DataV9BG   -trans 0xFF00FF -bpc 4 -pal custom --pal24
+	%CMSXtk%\CMSXimg.exe img\font16.png  -copy gk.txt -out %Dest%\v9990\data_v9_font.h -pos 0 8   -size 256 24 -num 1 1 -name g_DataV9Font -trans 0xFF00FF -bpc 4 -pal custom --pal24
 )
 
 

@@ -15,6 +15,17 @@
 // Current heap top address
 extern u16 g_HeapStartAddress;
 
+#define MEM_USE_CHUNK_ALLOC			TRUE
+
+#if (MEM_USE_CHUNK_ALLOC)
+// 
+struct MemChunkHeader
+{
+	u16 Size;
+	struct MemChunkHeader* Next;
+};
+#endif
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -104,3 +115,23 @@ void Mem_Set(u8 val, void* dest, u16 size);
 //   size - The size of data to fill
 void Mem_FastSet(u8 val, void* dest, u16 size);
 #endif
+
+#if (MEM_USE_CHUNK_ALLOC)
+
+// Function: Mem_ChunkInitialize
+// 
+void Mem_ChunkInitialize(void* base, u16 size);
+
+// Function: Mem_ChunkAlloc
+// 
+void* Mem_ChunkAlloc(u16 size);
+
+// Function: Mem_ChunkFree
+// 
+void Mem_ChunkFree(void* ptr);
+
+// Function: Mem_GetChunkSize
+// 
+inline u16 Mem_GetChunkSize(void* ptr) { struct MemChunkHeader* chunk = (struct MemChunkHeader*)(ptr - sizeof(struct MemChunkHeader)); return chunk->Size; }
+
+#endif // (MEM_USE_CHUNK_ALLOC)

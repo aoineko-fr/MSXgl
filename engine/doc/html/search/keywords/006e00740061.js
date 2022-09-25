@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("nta",["Function"],[["NTap_Check",,[[,,,,0,"File:device/ninjatap.h:NTap_Check"]]],["NTap_Get",,[[,,,,0,"File:device/ninjatap.h:NTap_Get"]]],["NTap_Update",,[[,,,,0,"File:device/ninjatap.h:NTap_Update"]]]]);

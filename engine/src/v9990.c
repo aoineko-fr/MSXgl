@@ -11,6 +11,15 @@
 #include "v9990.h"
 #include "v9990_reg.h"
 
+#if (V9_INT_PROTECT)
+	#define V9_DI					di
+	#define V9_EI					ei
+#else
+	#define V9_DI
+	#define V9_EI
+#endif
+
+
 //
 // R#06, R#07, Port#07
 const u8 g_V9_ModeConfig[] = 
@@ -102,8 +111,10 @@ void V9_SetRegister(u8 reg, u8 val) __PRESERVES(b, c, d, e, h, iyl, iyh)
 
 	__asm
 	v9_set_reg:
+		V9_DI
 		out		(V9_P04), a				// Select register
 		ld		a, l
+		V9_EI
 		out		(V9_P03), a				// Set value
 	__endasm;
 }
@@ -116,7 +127,9 @@ u8 V9_GetRegister(u8 reg) __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 
 	__asm
 	v9_get_reg:
+		V9_DI
 		out		(V9_P04), a				// Select register
+		V9_EI
 		in		a, (V9_P03)				// Get value
 	__endasm;
 }
@@ -128,6 +141,7 @@ bool V9_Detect()
 	__asm
 	v9_detect:
 		ld		a, #V9_REG(15) + V9_RII + V9_WII
+		V9_DI
 		out		(V9_P04), a				// Select R#15
 
 		in		a, (V9_P03)				// Read value
@@ -141,6 +155,7 @@ bool V9_Detect()
 		ld		c, #V9_P03
 		out		(c), b					// Restore value
 	v9_notfound:						// Return A=0x00
+		V9_EI
 	__endasm;
 }
 
@@ -210,6 +225,7 @@ void V9_SetScrollingBX(u16 x)
 void V9_ClearVRAM()
 {
 	__asm
+		V9_DI
 		// Select address 0
 		xor		a
 		out		(V9_P04), a			// Select R#0
@@ -230,6 +246,8 @@ void V9_ClearVRAM()
 		jp		nz, v9_clear_loop
 		dec		e
 		jp		nz, v9_clear_loop
+
+		V9_EI
 	__endasm;
 }
 
@@ -241,6 +259,7 @@ void V9_SetWriteAddress(u32 addr) __PRESERVES(b, iyl, iyh)
 	__asm
 	v9_set_write_addr:					//-cc-
 		xor		a						//  5
+		V9_DI
 		out		(V9_P04), a				// 12	Select R#0 (with write increment)
 		ld		c, #V9_P03				//  8
 		out		(c), e					// 14	R#0 (lower address)
@@ -257,6 +276,7 @@ void V9_SetReadAddress(u32 addr) __PRESERVES(b, iyl, iyh)
 	__asm
 	v9_set_read_addr:					//-cc-
 		ld		a, #3					//  8
+		V9_DI
 		out		(V9_P04), a				// 12	Select R#3 (with read increment)
 		ld		c, #V9_P03				//  8
 		out		(c), e					// 14	R#3 (lower address)
@@ -270,6 +290,7 @@ void V9_SetReadAddress(u32 addr) __PRESERVES(b, iyl, iyh)
 u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
 	__asm
+		V9_EI
 		in		a, (V9_P00)
 	__endasm;
 }
@@ -281,6 +302,7 @@ u8 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh)
 	__asm
 		in		a, (V9_P00)
 		ld		a, e
+		V9_EI
 		in		a, (V9_P00)
 		ld		a, d
 	__endasm;
@@ -292,6 +314,7 @@ void V9_Poke_CurrentAddr(u8 val) __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
 	val;		// A
 	__asm
+		V9_EI
 		out		(V9_P00), a
 	__endasm;
 }
@@ -305,6 +328,7 @@ void V9_Poke16_CurrentAddr(u16 val) __PRESERVES(b, c, d, e, iyl, iyh)
 		ld		a, l
 		out		(V9_P00), a				// Fill VRAM
 		ld		a, h
+		V9_EI
 		out		(V9_P00), a				// Fill VRAM
 	__endasm;
 }
@@ -328,6 +352,8 @@ void V9_FillVRAM_CurrentAddr(u8 value, u16 count)
 		djnz	v9_fill_loop			// Iner 8-bits loop
 		dec		d
 		jp		nz, v9_fill_loop		// Outer 8-bits loop
+
+		V9_EI
 	__endasm;
 }
 
@@ -353,6 +379,8 @@ void V9_FillVRAM16_CurrentAddr(u16 value, u16 count)
 		djnz	v9_fill16_loop			// Iner 8-bits loop
 		dec		d
 		jp		nz, v9_fill16_loop		// Outer 8-bits loop
+
+		V9_EI
 	__endasm;
 }
 
@@ -375,6 +403,8 @@ void V9_WriteVRAM_CurrentAddr(const u8* src, u16 count)
 		otir							// Write to VRAM (iner 8-bits loop)
 		dec		d
 		jp		nz, v9_write_loop		// Outer 8-bits loop
+
+		V9_EI
 	__endasm;
 }
 
@@ -397,6 +427,8 @@ void V9_ReadVRAM_CurrentAddr(const u8* dest, u16 count)
 		inir							// Read from VRAM (iner 8-bits loop)
 		dec		d
 		jp		nz, v9_read_loop		// Outer 8-bits loop
+
+		V9_EI
 	__endasm;
 }
 
@@ -414,6 +446,7 @@ void V9_SetPaletteEntry(u8 index, u16 color)
 		// Select R#14 (palette pointer register)
 		ld		c, #V9_P04
 		ld		b, #14
+		V9_DI
 		out		(c), b
 
 		// Set palette pointer to right index's red channel [index:6|00]
@@ -455,6 +488,7 @@ void V9_SetPaletteEntry(u8 index, u16 color)
 		// Send B data
 		ld		a, e
 		and		#0b00011111
+		V9_EI
 		out		(V9_P01), a
 	__endasm;
 }
@@ -472,6 +506,7 @@ void V9_SetPaletteEntry(u8 index, const u8* color) __PRESERVES(h, l, iyl, iyh)
 		// Select R#14 (palette pointer register)
 		ld		c, #V9_P04
 		ld		b, #14
+		V9_DI
 		out		(c), b
 
 		// Set palette pointer to right index's red channel [index:6|00]
@@ -492,6 +527,7 @@ void V9_SetPaletteEntry(u8 index, const u8* color) __PRESERVES(h, l, iyl, iyh)
 		// Send B data
 		inc		de
 		ld		a, (de)
+		V9_EI
 		out		(V9_P01), a
 	__endasm;
 }

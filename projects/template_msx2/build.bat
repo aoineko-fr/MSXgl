@@ -58,6 +58,11 @@ set ROMSize=
 REM set InstallBDOS=0
 :: Set RAM in slot 0 and install ISR there (0=false, 1=true)
 REM set InstallRAMISR=0
+:: Type of custom ISR (for RAM or ROM)
+:: - VBLANK		V-blank handler
+:: - VHBLANK	V-blank and h-blank handler (V9938 or V9958)
+:: - V9990		v-blank, h-blank and command end handler (V9990)
+REM set CustomISR=VBLANK
 :: Use banked call and trampoline functions (0=false, 1=true)
 REM set BankedCall=0
 :: Overwrite RAM starting address (e.g. 0xE0000 for 8K RAM machine)

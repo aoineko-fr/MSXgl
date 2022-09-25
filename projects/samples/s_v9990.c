@@ -13,10 +13,12 @@
 // DEFINES
 //=============================================================================
 
+#define CUSTOM_ISR					1
+
 // Library's logo
 #define MSX_GL "\x01\x02\x03\x04\x05\x06"
 
-//
+// Screen mode structure
 struct ScreenMode
 {
 	const c8* Name;
@@ -26,26 +28,16 @@ struct ScreenMode
 };
 
 // Function prototype
-void InitP1();
-void InitP2();
-void InitB0();
-void InitB1();
-void InitB2();
-void InitB3();
-void InitB4();
-void InitB5();
-void InitB6();
-void InitB7();
-void TickP1();
-void TickP2();
-void TickB0();
-void TickB1();
-void TickB2();
-void TickB3();
-void TickB4();
-void TickB5();
-void TickB6();
-void TickB7();
+void InitP1(); void TickP1();
+void InitP2(); void TickP2();
+void InitB0(); void TickB0();
+void InitB1(); void TickB1();
+void InitB2(); void TickB2();
+void InitB3(); void TickB3();
+void InitB4(); void TickB4();
+void InitB5(); void TickB5();
+void InitB6(); void TickB6();
+void InitB7(); void TickB7();
 
 // Bits per pixel
 #define BPP_2						0x02
@@ -57,8 +49,11 @@ void TickB7();
 // READ-ONLY DATA
 //=============================================================================
 
-// Fonts
+// 1-bit font (VDP)
 #include "font\font_mgl_sample6.h"
+
+// 4-bits font (V9990)
+#include "content\v9990\data_v9_font.h"
 
 // Sprite
 #include "content\v9990\data_v9_chr.h"
@@ -107,19 +102,30 @@ u16 g_Frame = 0;
 #define P1_GROUND_Y		20
 #define P1_HORIZON_Y	14
 
+void V9_Print(u32 addr, const c8* str)
+{
+	while(*str != 0)
+		V9_Poke16(addr += 2, 256 + *(str++) - ' ');
+}
+
 //
 void InitP1()
 {
 	V9_SetMode(V9_MODE_P1);
 	V9_SetSpriteEnable(TRUE);
+	V9_SetLayerPalette(2, 0);
+
+	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
+	V9_SetInterruptLine(71);
 
 	// Pattern generator table
 	V9_WriteVRAM(V9_P1_PGT_A, g_DataV9BG, sizeof(g_DataV9BG));
+	V9_WriteVRAM(V9_P1_PGT_A + 0x02000, g_DataV9Font, sizeof(g_DataV9Font));
 	V9_WriteVRAM(V9_P1_PGT_B, g_DataV9BG, sizeof(g_DataV9BG));
 
 	// Pattern name table
 	V9_FillVRAM16(V9_P1_PNT_A, 0, 64*64); // Init layer A
-	for(u8 i = 0; i < 8; i++) // Draw ground
+	for(u8 i = 0; i < 8; i++) // Draw plateform
 	{
 		u8 x = i * 8;
 		u8 y = Math_GetRandom8() % 8 + 10;
@@ -140,7 +146,7 @@ void InitP1()
 			V9_Poke16(addr += 2, cell++);
 		}
 	}
-	for(u16 i = 0; i < 64; i++) // Draw horizon
+	for(u16 i = 0; i < 64; i++) // Draw ground
 	{
 		for(u8 j = 20; j < 27; j++)
 		{
@@ -152,15 +158,16 @@ void InitP1()
 			V9_Poke16(V9_CellAddrP1A(0, j) + i*2, cell + i%2);
 		}
 	}
+	V9_Print(V9_P1_PNT_A, "MSXgl V9990 Sample - P1 Mode");
 
 	V9_FillVRAM16(V9_P1_PNT_B, 160, 64*64); // Init layer B
 	for(u16 i = 0; i < 64; i++) // Draw horizon
 		V9_Poke16(V9_CellAddrP1B(0, P1_HORIZON_Y) + i*2, 128 + i%4);
 	V9_FillVRAM16(V9_P1_PNT_B, 135, 64*P1_HORIZON_Y); // Draw sky
-	for(u8 i = 0; i < 6; i++) // Draw cloud
+	for(u8 i = 0; i < 6; i++) // Draw big cloud
 	{
 		u8 x = Math_GetRandom8() % 8 + (i * 10);
-		u8 y = Math_GetRandom8() % 8 + 1;
+		u8 y = Math_GetRandom8() % 8;
 		u32 addr = V9_CellAddrP1B(x, y);
 		V9_Poke16(addr, 132); addr += 2;
 		V9_Poke16(addr, 133); addr += 2;
@@ -172,7 +179,7 @@ void InitP1()
 		V9_Poke16(addr, 166); addr += 2;
 		V9_Poke16(addr, 167);
 	}
-	for(u8 i = 0; i < 6; i++) // Draw cloud
+	for(u8 i = 0; i < 6; i++) // Draw small cloud
 	{
 		u8 x = Math_GetRandom8() % 8 + (i * 10);
 		u8 y = Math_GetRandom8() % 4 + 9;
@@ -192,7 +199,7 @@ void InitP1()
 	struct V9_Sprite attr;
 	for(u16 i = 0; i < 125; i++)
 	{
-		attr.Y = (i / 13) * 20 + 8;
+		attr.Y = (i / 13) * 20 + 12;
 		attr.Pattern = 0;
 		attr.X = (i % 13) * 20;
 		attr.P = 0;
@@ -205,7 +212,8 @@ void InitP1()
 //
 void TickP1()
 {
-	V9_SetScrollingX(g_Frame);
+	V9_SetLayerPalette(2, 0);
+	V9_SetScrollingX(0);
 	V9_SetScrollingBX(g_Frame >> 1);
 
 	u8 frame = (g_Frame >> 2) % 6;
@@ -425,35 +433,98 @@ void DisplayMSX()
 
 }
 
+bool g_VSynch = FALSE;
+
+#if (CUSTOM_ISR == 0)
+//-----------------------------------------------------------------------------
+//
+void InterruptHook()
+{
+	__asm
+		// Flush VDP interruption signal
+		in		a, (P_VDP_STAT)
+
+		// Call VDP interruption handler
+		in		a, (V9_P06)
+		out		(V9_P06), a
+		// V-Blank interruption
+		rra
+		call	c, _V9_InterruptVBlank
+		// H-Blank interruption
+		rra
+		call	c, _V9_InterruptHBlank
+		// Command end interruption
+		rra
+		call	c, _V9_InterruptCommand
+	__endasm;
+}
+#endif
+
+//-----------------------------------------------------------------------------
+//
+void V9_InterruptVBlank()
+{
+	g_VSynch = TRUE;
+}
+
+//-----------------------------------------------------------------------------
+//
+void V9_InterruptHBlank()
+{
+	V9_SetLayerPalette(0, 0);
+	V9_SetScrollingX(g_Frame >> 0);
+	V9_SetScrollingBX(g_Frame >> 2);
+}
+
+//-----------------------------------------------------------------------------
+//
+void V9_InterruptCommand()
+{
+}
+
+//-----------------------------------------------------------------------------
+//
+void VDP_InterruptVBlank()
+{
+}
+
 //-----------------------------------------------------------------------------
 // Program entry point
 void main()
 {
 	VDP_SetMode(VDP_MODE_SCREEN0); // Initialize screen mode 0 (text)
-	VDP_EnableVBlank(TRUE);
+	VDP_EnableVBlank(FALSE);
 	VDP_ClearVRAM();
 
 	DisplayMSX();
 
 	V9_SetPaletteEntry(0, g_Black);
-	V9_SetPalette(1,  numberof(g_DataV9BG_palette), g_DataV9BG_palette);
-	V9_SetPalette(17, numberof(g_DataV9Chr_palette), g_DataV9Chr_palette);
+	V9_SetPalette(1,  15, g_DataV9BG_palette);
+	V9_SetPaletteEntry(16, g_Black);
+	V9_SetPalette(17, 15, g_DataV9Chr_palette);
+	V9_SetPaletteEntry(32, g_Black);
+	V9_SetPalette(33, 15, g_DataV9Font_palette);
 
 	g_ScreenMode[g_CurrentMode].Init();
+	#if (CUSTOM_ISR == 0)
+		Bios_SetHookDirectCallback(H_KEYI, InterruptHook);
+		Bios_ClearHook(H_TIMI);
+	#endif
 
 	u16 count = 0;
 	u8 clr = 0;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
-		if(!V9_IsVBlank()) {}
+		V9_SetRegister(15, 2);
+		// if(!V9_IsVBlank()) {}
+		while(g_VSynch == FALSE) {}
+		V9_SetRegister(15, 1);
+		g_VSynch = FALSE;
 
 		g_ScreenMode[g_CurrentMode].Tick();
 
 		Print_SetPosition(39, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
-
-		// V9_SetPort(6, 0x07);
-		// 
 
 		if(Keyboard_IsKeyPressed(KEY_R))
 			DisplayMSX();

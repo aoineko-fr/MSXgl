@@ -102,11 +102,13 @@ set ROMSize=
 
 :: Install BDOS driver for ROM program? (0=false, 1=true)
 set InstallBDOS=0
-:: Set RAM in slot 0 and install ISR there
-:: - 0				Don't install
-:: - 1 | VBLANK		Add ISR that support V-blank interruption
-:: - HBLANK			Add ISR that support V-blank and H-blank interruption
+:: Set RAM in slot 0 and install ISR there (0=false, 1=true)
 set InstallRAMISR=0
+:: Type of custom ISR (for RAM or ROM)
+:: - VBLANK		V-blank handler
+:: - VHBLANK	V-blank and h-blank handler (V9938 or V9958)
+:: - V9990		v-blank, h-blank and command end handler (V9990)
+set CustomISR=VBLANK
 :: Use banked call and trampoline functions (0=false, 1=true)
 set BankedCall=0
 :: Overwrite RAM starting address (e.g. 0xE0000 for 8K RAM machine)
