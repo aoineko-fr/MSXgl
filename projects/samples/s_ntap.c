@@ -70,7 +70,7 @@ void main()
 	Print_DrawLineH(0, 1, 32);
 
 	Print_SetPosition(3, 7);
-	Print_DrawText("AB  \x88\x89\x8A\x8B");
+	Print_DrawText("AB  \x88\x89\x8B\x8A");
 	Print_DrawLineH(0, 8, 12);
 
 	// Footer
