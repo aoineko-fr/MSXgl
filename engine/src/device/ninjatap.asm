@@ -164,28 +164,30 @@
 	; JR	NC,GETKE0
 	; RET
 
-; ;======================================
-; ; Get Inkey
-; ;[E]	hl :Pointer to NTAP Table
-; ;[R]	None
-; ;[M]	af,bc,de,hl
-; ;ofset +0 (A)(B)( )( )(U)(D)(L)(R)
+;======================================
+; Get Inkey
+;[E]	hl :Pointer to NTAP Table
+;[R]	None
+;[M]	af,bc,de,hl
+;ofset +0 (A)(B)( )( )(U)(D)(L)(R)
 
-; GTNTAP:
-	; DI
-	; LD	A,(RESULT)
-	; RRCA			;Port 1
-	; LD	DE,0AF20H
-	; CALL	NC,GETJOY
-	; LD	DE,0BA3AH
-	; CALL	C,GETNIN
-	; RRCA			;Port 2
-	; LD	DE,09F50H
-	; CALL	NC,GETJOY
-	; LD	DE,0FA7AH
-	; CALL	C,GETNIN
-	; EI
-	; RET
+GTNTAP:
+	di
+	; ld		A,(RESULT)
+	ld		a, (_g_NTap_Info) ; 
+	rrca			;Port 1
+	ld		de, #0xAF20
+	call	nc, GETJOY
+	ld		de, #0xBA3A
+	call	c, GETNIN
+	rrca			;Port 2
+	ld		de, #0x9F50
+	call	nc, GETJOY
+	ld		de, #0xFA7A
+	call	c, GETNIN
+	ei
+	ret
+
 ; ; For Turbo R
 ; GTNTA0:
 	; CALL	0183H
@@ -196,107 +198,107 @@
 	; POP	AF
 	; JP	0180H
 
-; ;======================================
-; GETJOY:
-	; PUSH	AF
-; ; Select Port1/Port2
-	; LD	A,15
-	; OUT	(0xA0),A
-	; IN	A,(0xA2)
-	; AND	D
-	; OR	E
-	; OUT	(0xA1),A
-; ; Get Key Status
-	; LD	A,14
-	; OUT	(0xA0),A
-	; IN	A,(0xA2)
-; ; Write Status to (HL)
-	; LD	E,0FFH
-	; BIT	5,A
-	; JR	NZ,GETJO0
-	; RES	2,E		;Trig 2
-; GETJO0:
-	; BIT	4,A
-	; JR	NZ,GETJO1
-	; RES	3,E		;Trig 1
-; GETJO1:
-	; RRA
-	; RL	E
-	; RRA
-	; RL	E
-	; RRA
-	; RL	E
-	; RRA
-	; RL	E		;Lever
-	; LD	(HL),E
-	; INC	HL
+;======================================
+GETJOY:
+	push	af
+; Select Port1/Port2
+	ld		a, #15
+	out		(0xA0), a
+	in		a, (0xA2)
+	and		d
+	or		e
+	out		(0xA1), a
+; Get key Status
+	ld		a, #14
+	out		(0xA0), A
+	in		a, (0xA2)
+; Write Status to (HL)
+	ld		e, #0xFF
+	bit		5, a
+	jr		nz, GETJO0
+	res		2, e		;Trig 2
+GETJO0:
+	bit		4, a
+	jr		nz, GETJO1
+	res		3, e		;Trig 1
+GETJO1:
+	rra
+	rl		e
+	rra
+	rl		e
+	rra
+	rl		e
+	rra
+	rl		e		;lever
+	ld		(hl),e
+	inc		hl
 
-	; POP	AF
-	; RET
+	pop		af
+	ret
 
-; ;======================================
-; ; NTAP Access
-; GETNIN:
-	; PUSH	AF
-	; PUSH	HL
-; ; Select Port and 8pin=H,6pin=L
-	; LD	A,15
-	; OUT	(0xA0),A
-	; IN	A,(0xA2)
-	; AND	D
-	; OR	E
-	; OUT	(0xA1),A
-; ; 6pin=H (4021 Data Read)
-	; OR	05H
-	; OUT	(0xA1),A
-; ; 6pin=L (4021 Transfer Mode)
-	; AND	0FAH
-	; OUT	(0xA1),A
-; ;/// Get Key Status //////
-	; LD	B,8
-; GETNI0:
-; ; Send me Data
-	; LD	A,15
-	; OUT	(0xA0),A
-	; IN	A,(0xA2)
-	; OR	030H
-	; OUT	(0xA1),A	;8=H
-	; AND	0CFH
-	; OUT	(0xA1),A	;8=L
+;======================================
+; NTAP Access
+GETNIN:
+	push	af
+	push	hl
+; select port and 8pin=h,6pin=L
+	ld		a, #15
+	out		(0xa0), a
+	in		a, (0xa2)
+	and		d
+	or		e
+	out		(0xA1), a
+; 6pin=h (4021 data read)
+	or		#0x05
+	out		(0xA1), a
+; 6pin=l (4021 transfer mode)
+	and		#0xFA
+	out		(0xA1), a
+;/// get key status //////
+	ld		b, #8
+GETNI0:
+; Send me Data
+	ld		a, #15
+	out		(0xA0), a
+	in		a, (0xA2)
+	or		#0x30
+	out		(0xA1),a	;8=h
+	and		#0xCF
+	out		(0xA1),a	;8=l
 
-	; LD	A,14
-	; OUT	(0xA0),A
-	; IN	A,(0xA2)	;Read
-	; RRA
-	; RL	 H		;Joy1
-	; RRA
-	; RL	 E		;Joy2
-	; RRA
-	; RL	 D		;Joy3
-	; RRA
-	; RL	 C		;Joy4
-	; DJNZ	GETNI0
-; ;/////////////////////////
-	; LD	A,H
-	; POP	HL
-	; LD	(HL),A		;Joy1
-	; INC	HL
-	; LD	(HL),E		;Joy2
-	; INC	HL
-	; LD	(HL),D		;Joy3
-	; INC	HL
-	; LD	(HL),C		;Joy4
-	; INC	HL
-; ; Restore Port (6,7,8=H)
-	; LD	DE,0FF3FH
-	; CALL	PORSEL
-; ;	LD	A,15
-; ;	OUT	(0xA0),A
-; ;	IN	A,(0xA2)
-; ;	OR	3FH
-; ;	OUT	(0xA1),A
-	; POP	AF
-	; RET
+	ld		a, #14
+	out		(0xA0), a
+	in		a, (0xA2)	;read
+	rra
+	rl		h		;joy1
+	rra
+	rl		e		;joy2
+	rra
+	rl		d		;joy3
+	rra
+	rl		c		;joy4
+	djnz	GETNI0
+;/////////////////////////
+	ld		a,h
+	pop		hl
+	ld		(hl),a		;joy1
+	inc		hl
+	ld		(hl),e		;joy2
+	inc		hl
+	ld		(hl),d		;joy3
+	inc		hl
+	ld		(hl),c		;joy4
+	INC		HL
+; Restore Port (6,7,8=H)
+	ld		de, #0xFF3F
+	call	PORSEL
+;	LD	A,15
+;	OUT	(0xA0),A
+;	IN	A,(0xA2)
+;	OR	3FH
+;	OUT	(0xA1),A
+	pop		af
+	ret
 
 ;======================================
 ; Connection Check
@@ -323,7 +325,7 @@ CKNTAP:
 ; Result Save
 	ld		c, a
 	; ld		(RESULT), bc
-	ld		(_g_NTap_Result), bc
+	ld		(_g_NTap_Info), bc
 ; Port1 ID Check
 ;	LD		H,0FFH
 ;	RRCA

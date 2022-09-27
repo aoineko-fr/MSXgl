@@ -47,7 +47,23 @@ void main()
 	Print_DrawText("Players: ");
 	Print_DrawInt(ntap);
 
+	Print_SetPosition(0, 5);
+	for(u8 i = 0; i < 8; ++i)
+	{
+		Print_DrawFormat("P%i: ", i + 1);
+		if(i >= ntap)
+			Print_DrawText("--");
+		Print_Return();
+	}
+
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
+		NTap_Update();
+		for(u8 i = 0; i < ntap; ++i)
+		{
+			Print_SetPosition(4, 5 + i);
+			Print_DrawBin8(NTap_Get(i));
+		}
+
 	}
 }
