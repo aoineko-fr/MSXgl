@@ -92,7 +92,7 @@ void main()
 		for(u8 i = 0; i < ntap; ++i)
 		{
 			Print_SetPosition(3, 9 + i);
-			Print_DrawBin8(NTap_Get(i));
+			Print_DrawBin8(NTap_GetData(i));
 		}
 
 		if(Keyboard_IsKeyPressed(KEY_R))

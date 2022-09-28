@@ -210,7 +210,7 @@ GETJOY:
 	out		(0xA1), a
 ; Get key Status
 	ld		a, #14
-	out		(0xA0), A
+	out		(0xA0), a
 	in		a, (0xA2)
 ; Write Status to (HL)
 	ld		e, #0xFF

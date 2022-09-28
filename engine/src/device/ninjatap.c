@@ -34,13 +34,16 @@ void NTap_Dummy()
 
 u8 g_NTap_Info[3];
 u8 g_NTap_Data[8];
+#if (NTAP_USE_PREVIOUS)
+u8 g_NTap_Prev[8];
+#endif
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// 
+// Check the presence of Ninja Tap in the joystick ports.
 u8 NTap_Check()
 {
 	__asm
@@ -50,9 +53,14 @@ u8 NTap_Check()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Update the status of all joysticks whether they are connected to a Ninja Tap or directly to the port.
 void NTap_Update()
 {
+	#if (NTAP_USE_PREVIOUS)
+	loop(i, 8)
+		g_NTap_Prev[i] = g_NTap_Data[i];
+	#endif
+
 	__asm
 		ld			hl, #_g_NTap_Data
 		call		GTNTAP
