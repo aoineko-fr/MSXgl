@@ -190,13 +190,13 @@ void DisplaySprite()
 	u8 pixelWidth = src->Width / 256;
 	u8 sprtWidth = pixelWidth * 16;
 
-	// Restore
+	// Restore background at the previous place
 	VDP_CommandHMMM(0, HEIGHT + 16, SX0 * pixelWidth - 2, SY0, sprtWidth + 4, 16);
 
-	// Backup
+	// Backup background at the new place
 	VDP_CommandHMMM(SX * pixelWidth - 2, SY, 0, HEIGHT + 16, sprtWidth + 4, 16);
 
-	// Draw
+	// Draw the sprite
 	u8 frame = g_bMoving ? ((g_Frame / 4) % 6) : 4;
 	VDP_CommandLMMM(sprtWidth * frame, HEIGHT, SX * pixelWidth, SY, sprtWidth, 16, VDP_OP_TIMP);
 

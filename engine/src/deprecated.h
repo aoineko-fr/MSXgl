@@ -25,6 +25,7 @@
 // Input module
 #define JOY_INPUT_DIR_UP_RIGTH		JOY_INPUT_DIR_UP_RIGHT
 #define JOY_INPUT_DIR_DOWN_RIGTH	JOY_INPUT_DIR_DOWN_RIGHT
+#define Joystick_GetTrigger			Joystick_IsButtonPressed
 
 // Compress module
 #define ZX0_Unpack					ZX0_UnpackToRAM
@@ -49,5 +50,8 @@
 #define Max							MAX
 #define Min							MIN
 
-// Input module
-#define Joystick_GetTrigger			Joystick_IsButtonPressed
+// Memory module
+#define Mem_ChunkInitialize			Mem_DynamicInitialize
+#define Mem_ChunkAlloc				Mem_DynamicAlloc
+#define Mem_ChunkFree				Mem_DynamicFree
+#define Mem_GetChunkSize			Mem_GetDynamicSize

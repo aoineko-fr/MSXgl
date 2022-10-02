@@ -354,11 +354,13 @@ if /I %Ext%==rom (
 	copy /Y %OutDir%\%ProjName%.%Ext% %ProjDir%\emul\rom\%ProjName%.%Ext%
 	if errorlevel 1 goto :Error
 
-	if %Debug%==1 (
+	if %DebugSymbols%==1 (
 		echo Copy symbols files to destination directory
 		if exist %OutDir%\%ProjName%.map ( copy /Y %OutDir%\%ProjName%.map %ProjDir%\emul\rom\%ProjName%.map )
 		if exist %OutDir%\%ProjName%.noi ( copy /Y %OutDir%\%ProjName%.noi %ProjDir%\emul\rom\%ProjName%.noi )
-		if exist %OutDir%\%ProjName%.cdb ( copy /Y %OutDir%\%ProjName%.cdb %ProjDir%\emul\rom\%ProjName%.cdb )
+		if %Debug%==1 (
+			if exist %OutDir%\%ProjName%.cdb ( copy /Y %OutDir%\%ProjName%.cdb %ProjDir%\emul\rom\%ProjName%.cdb )
+		)
 	)
 )
 

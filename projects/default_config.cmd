@@ -122,8 +122,11 @@ set DiskFiles=
 :: Generate MSXgl static library (0=false, 1=true)
 set BuildLibrary=1
 
-:: Set debug flag (0=false, 1=true)
+:: Generate debug data (0=false, 1=true)
 set Debug=0
+
+:: Move debug symbols do binary folder (0=false, 1=true)
+set DebugSymbols=0
 
 :: Assembler code optimizer
 :: - None

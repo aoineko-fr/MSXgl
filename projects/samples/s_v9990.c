@@ -13,7 +13,7 @@
 // DEFINES
 //=============================================================================
 
-#define CUSTOM_ISR					1
+#define CUSTOM_ISR					0
 
 // Library's logo
 #define MSX_GL "\x01\x02\x03\x04\x05\x06"
@@ -87,7 +87,7 @@ const u8 g_Black[] = { 0, 0, 0 };
 // MEMORY DATA
 //=============================================================================
 
-u8  g_CurrentMode = 0;
+u8  g_CurrentMode = 1;
 u8  g_CurrentBPP = BPP_4;
 u16 g_Frame = 0;
 
@@ -105,27 +105,28 @@ u16 g_Frame = 0;
 void V9_Print(u32 addr, const c8* str)
 {
 	while(*str != 0)
-		V9_Poke16(addr += 2, 256 + *(str++) - ' ');
+		V9_Poke16(addr += 2, 512 + *(str++) - ' ');
 }
 
 //
 void InitP1()
 {
+	V9_ClearVRAM();
 	V9_SetMode(V9_MODE_P1);
 	V9_SetSpriteEnable(TRUE);
-	V9_SetLayerPalette(2, 0);
+	// V9_SetLayerPalette(2, 0);
 
 	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
 	V9_SetInterruptLine(71);
 
 	// Pattern generator table
 	V9_WriteVRAM(V9_P1_PGT_A, g_DataV9BG, sizeof(g_DataV9BG));
-	V9_WriteVRAM(V9_P1_PGT_A + 0x02000, g_DataV9Font, sizeof(g_DataV9Font));
+	V9_WriteVRAM(V9_P1_PGT_A + 0x04000, g_DataV9Font, sizeof(g_DataV9Font));
 	V9_WriteVRAM(V9_P1_PGT_B, g_DataV9BG, sizeof(g_DataV9BG));
 
 	// Pattern name table
 	V9_FillVRAM16(V9_P1_PNT_A, 0, 64*64); // Init layer A
-	for(u8 i = 0; i < 8; i++) // Draw plateform
+	for(u8 i = 0; i < 8; ++i) // Draw plateform
 	{
 		u8 x = i * 8;
 		u8 y = Math_GetRandom8() % 8 + 10;
@@ -146,7 +147,7 @@ void InitP1()
 			V9_Poke16(addr += 2, cell++);
 		}
 	}
-	for(u16 i = 0; i < 64; i++) // Draw ground
+	for(u16 i = 0; i < 64; ++i) // Draw ground
 	{
 		for(u8 j = 20; j < 27; j++)
 		{
@@ -161,10 +162,10 @@ void InitP1()
 	V9_Print(V9_P1_PNT_A, "MSXgl V9990 Sample - P1 Mode");
 
 	V9_FillVRAM16(V9_P1_PNT_B, 160, 64*64); // Init layer B
-	for(u16 i = 0; i < 64; i++) // Draw horizon
+	for(u16 i = 0; i < 64; ++i) // Draw horizon
 		V9_Poke16(V9_CellAddrP1B(0, P1_HORIZON_Y) + i*2, 128 + i%4);
 	V9_FillVRAM16(V9_P1_PNT_B, 135, 64*P1_HORIZON_Y); // Draw sky
-	for(u8 i = 0; i < 6; i++) // Draw big cloud
+	for(u8 i = 0; i < 6; ++i) // Draw big cloud
 	{
 		u8 x = Math_GetRandom8() % 8 + (i * 10);
 		u8 y = Math_GetRandom8() % 8;
@@ -179,7 +180,7 @@ void InitP1()
 		V9_Poke16(addr, 166); addr += 2;
 		V9_Poke16(addr, 167);
 	}
-	for(u8 i = 0; i < 6; i++) // Draw small cloud
+	for(u8 i = 0; i < 6; ++i) // Draw small cloud
 	{
 		u8 x = Math_GetRandom8() % 8 + (i * 10);
 		u8 y = Math_GetRandom8() % 4 + 9;
@@ -197,7 +198,7 @@ void InitP1()
 
 	// Sprite attribute table
 	struct V9_Sprite attr;
-	for(u16 i = 0; i < 125; i++)
+	for(u16 i = 0; i < 125; ++i)
 	{
 		attr.Y = (i / 13) * 20 + 12;
 		attr.Pattern = 0;
@@ -217,7 +218,7 @@ void TickP1()
 	V9_SetScrollingBX(g_Frame >> 1);
 
 	u8 frame = (g_Frame >> 2) % 6;
-	for(u16 i = 0; i < 125; i++)
+	for(u16 i = 0; i < 125; ++i)
 		V9_SetSpritePatternP1(i, frame);
 
 	g_Frame++;
@@ -230,48 +231,62 @@ void TickP1()
 //
 void InitP2()
 {
+	V9_ClearVRAM();
 	V9_SetMode(V9_MODE_P2);
-	V9_SetSpriteEnable(TRUE);
+	V9_SetSpriteEnable(FALSE);
+	V9_SetLayerPalette(0, 0);
+
+	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
+	V9_SetInterruptLine(8);
 
 	// Pattern generator table
-	V9_WriteVRAM(V9_P2_PGT, g_DataV9BG, sizeof(g_DataV9BG));
+	for(u8 i = 0; i < 48; ++i)
+		V9_WriteVRAM(V9_P2_PGT + (256 * i), g_DataV9BG + (128 * i), 128);
+	for(u8 i = 0; i < 8; ++i)
+	{
+		V9_WriteVRAM(V9_P2_PGT + 0x04000 + (256 * i),           g_DataV9Font + (1024 * 0) + (128 * i), 128);
+		V9_WriteVRAM(V9_P2_PGT + 0x04000 + (256 * i) + 128,     g_DataV9Font + (1024 * 1) + (128 * i), 128);
+		V9_WriteVRAM(V9_P2_PGT + 0x04000 + (256 * i) + 256 * 8, g_DataV9Font + (1024 * 2) + (128 * i), 128);
+	}
 
 	// Pattern name table
 	V9_FillVRAM(V9_P2_PNT, 0, 128*64*2);
-	for(u16 i = 0; i < 32*6; i++)
+	for(u16 i = 0; i < 64*27; ++i)
 	{
-		u16 addr = (((i / 32) * 128) + (i % 32)) * 2;
-		V9_Poke(V9_P2_PNT + addr, (u8)(i & 0xFF));
-		addr++;
-		V9_Poke(V9_P2_PNT + addr, (u8)(i >> 8));
+		u16 addr = (((i / 64) * 128) + (i % 64)) * 2;
+		V9_Poke16(V9_P2_PNT + addr, i);
+		addr += 2;
 	}
+	// V9_Print(V9_P2_PNT, "MSXgl V9990 Sample - P2 Mode");
 
 	// Sprite pattern generator table
 	V9_SetSpritePatternAddr(V9_P2_SGT_08000);
-	V9_WriteVRAM(0x08000, g_DataV9Chr, sizeof(g_DataV9Chr));
+	for(u8 i = 0; i < 16; ++i)
+		V9_WriteVRAM(V9_P2_PGT + 0x08000 + (256 * i), g_DataV9Chr + (128 * i), 128);
 
 	// Sprite attribute table
-	struct V9_Sprite attr;
-	for(u16 i = 0; i < 125; i++)
+	/*struct V9_Sprite attr;
+	for(u8 i = 0; i < 125; ++i)
 	{
-		attr.Y = (i / 13) * 20;
+		attr.Y = 255;//(i / 13) * 20;
 		attr.Pattern = 0;
-		attr.X = (i % 13) * 20;
+		attr.X = 255;//(i % 13) * 20;
 		attr.P = 0;
 		attr.D = 0;
 		attr.SC = 1;
 		V9_SetSpriteP2(i, &attr);
-	}
+	}*/
 }
 
 //
 void TickP2()
 {
+	// V9_SetLayerPalette(2, 0);
 	V9_SetScrollingX(g_Frame);
 
-	u8 frame = (g_Frame >> 2) % 6;
-	for(u16 i = 0; i < 125; i++)
-		V9_SetSpritePatternP2(i, frame);
+	// u8 frame = (g_Frame >> 2) % 6;
+	// for(u16 i = 0; i < 125; ++i)
+		// V9_SetSpritePatternP2(i, frame);
 
 	g_Frame++;
 }
@@ -297,8 +312,8 @@ void TickB0()
 //
 void InitB1()
 {
-	V9_SetMode(V9_MODE_B1);
-	V9_SetBPP(V9_R06_BPP_4);
+	// V9_SetMode(V9_MODE_B1);
+	// V9_SetBPP(V9_R06_BPP_4);
 }
 
 //
@@ -505,20 +520,21 @@ void main()
 	V9_SetPaletteEntry(32, g_Black);
 	V9_SetPalette(33, 15, g_DataV9Font_palette);
 
-	g_ScreenMode[g_CurrentMode].Init();
 	#if (CUSTOM_ISR == 0)
 		Bios_SetHookDirectCallback(H_KEYI, InterruptHook);
 		Bios_ClearHook(H_TIMI);
 	#endif
+	g_ScreenMode[g_CurrentMode].Init();
+	V9_SetRegister(15, 1);
 
 	u16 count = 0;
 	u8 clr = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while(1)
 	{
-		V9_SetRegister(15, 2);
+		// V9_SetRegister(15, 2);
 		// if(!V9_IsVBlank()) {}
 		while(g_VSynch == FALSE) {}
-		V9_SetRegister(15, 1);
+		// V9_SetRegister(15, 1);
 		g_VSynch = FALSE;
 
 		g_ScreenMode[g_CurrentMode].Tick();
@@ -528,7 +544,33 @@ void main()
 
 		if(Keyboard_IsKeyPressed(KEY_R))
 			DisplayMSX();
-		if(Keyboard_IsKeyPressed(KEY_C))
-			V9_SetRegister(15, clr++ & 0xF);
+
+		u8 row8 = Keyboard_Read(8);
+		// Update horizontal scrolling offset
+		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+		{
+			if(g_CurrentMode < numberof(g_ScreenMode) - 1)
+			{
+				g_CurrentMode++;
+				g_ScreenMode[g_CurrentMode].Init();
+			}
+		}
+		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
+		{
+			if(g_CurrentMode > 0)
+			{
+				g_CurrentMode--;
+				g_ScreenMode[g_CurrentMode].Init();
+			}
+		}
+		// Update vertical scrolling offset
+		if(IS_KEY_PRESSED(row8, KEY_DOWN))
+		{
+			
+		}
+		else if(IS_KEY_PRESSED(row8, KEY_UP))
+		{
+			
+		}
 	}
 }

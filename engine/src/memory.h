@@ -15,9 +15,9 @@
 // Current heap top address
 extern u16 g_HeapStartAddress;
 
-#define MEM_USE_CHUNK_ALLOC			TRUE
+#define MEM_USE_DYNAMIC				TRUE
 
-#if (MEM_USE_CHUNK_ALLOC)
+#if (MEM_USE_DYNAMIC)
 // 
 struct MemChunkHeader
 {
@@ -116,22 +116,22 @@ void Mem_Set(u8 val, void* dest, u16 size);
 void Mem_FastSet(u8 val, void* dest, u16 size);
 #endif
 
-#if (MEM_USE_CHUNK_ALLOC)
+#if (MEM_USE_DYNAMIC)
 
-// Function: Mem_ChunkInitialize
+// Function: Mem_DynamicInitialize
 // 
-void Mem_ChunkInitialize(void* base, u16 size);
+void Mem_DynamicInitialize(void* base, u16 size);
 
-// Function: Mem_ChunkAlloc
+// Function: Mem_DynamicAlloc
 // 
-void* Mem_ChunkAlloc(u16 size);
+void* Mem_DynamicAlloc(u16 size);
 
-// Function: Mem_ChunkFree
+// Function: Mem_DynamicFree
 // 
-void Mem_ChunkFree(void* ptr);
+void Mem_DynamicFree(void* ptr);
 
-// Function: Mem_GetChunkSize
+// Function: Mem_GetDynamicSize
 // 
-inline u16 Mem_GetChunkSize(void* ptr) { struct MemChunkHeader* chunk = (struct MemChunkHeader*)(ptr - sizeof(struct MemChunkHeader)); return chunk->Size; }
+inline u16 Mem_GetDynamicSize(void* ptr) { struct MemChunkHeader* chunk = (struct MemChunkHeader*)((u16)ptr - sizeof(struct MemChunkHeader)); return chunk->Size; }
 
-#endif // (MEM_USE_CHUNK_ALLOC)
+#endif // (MEM_USE_DYNAMIC)

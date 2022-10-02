@@ -191,7 +191,7 @@ void Mem_FastSet(u8 val, void* dest, u16 size) __naked
 }
 #endif // MEM_USE_FASTSET
 
-#if (MEM_USE_CHUNK_ALLOC)
+#if (MEM_USE_DYNAMIC)
 
 //=============================================================================
 // DYNAMIC MEMORY ALLOCATOR
@@ -203,7 +203,7 @@ struct MemChunkHeader* g_MemChunkRoot = NULL;
 
 //-----------------------------------------------------------------------------
 // 
-void Mem_ChunkInitialize(void* base, u16 size)
+void Mem_DynamicInitialize(void* base, u16 size)
 {
 	g_MemChunkRoot = (struct MemChunkHeader*)base;
 	g_MemChunkRoot->Size = (size - sizeof(struct MemChunkHeader)) | MEM_CHUNK_FREE;
@@ -212,7 +212,7 @@ void Mem_ChunkInitialize(void* base, u16 size)
 
 //-----------------------------------------------------------------------------
 // 
-void* Mem_ChunkAlloc(u16 size)
+void* Mem_DynamicAlloc(u16 size)
 {
 	struct MemChunkHeader* chunk = g_MemChunkRoot;
 	while(chunk)
@@ -224,7 +224,7 @@ void* Mem_ChunkAlloc(u16 size)
 			if(chunkSize == size) // Re-use chunk
 			{
 				chunk->Size &= ~MEM_CHUNK_FREE;
-				return chunk + sizeof(struct MemChunkHeader);
+				return (void*)((u16)chunk + sizeof(struct MemChunkHeader));
 			}
 			u16 needSize = size + sizeof(struct MemChunkHeader);
 			if(chunkSize > needSize) // Create new sub-chunk
@@ -236,7 +236,7 @@ void* Mem_ChunkAlloc(u16 size)
 				chunk->Size = size; // Allocated sub-chunk
 				chunk->Next = newChunk;
 
-				return chunk + sizeof(struct MemChunkHeader);
+				return (void*)((u16)chunk + sizeof(struct MemChunkHeader));
 			}
 		}
 		chunk = chunk->Next;
@@ -246,7 +246,7 @@ void* Mem_ChunkAlloc(u16 size)
 
 //-----------------------------------------------------------------------------
 // 
-void Mem_ChunkMerge()
+void Mem_DynamicMerge()
 {
 	struct MemChunkHeader* chunk = g_MemChunkRoot;
 	while(chunk)
@@ -263,11 +263,11 @@ void Mem_ChunkMerge()
 
 //-----------------------------------------------------------------------------
 // 
-void Mem_ChunkFree(void* ptr)
+void Mem_DynamicFree(void* ptr)
 {
-	struct MemChunkHeader* chunk = (struct MemChunkHeader*)(ptr - 2);
+	struct MemChunkHeader* chunk = (struct MemChunkHeader*)((u16)ptr - sizeof(struct MemChunkHeader));
 	chunk->Size |= MEM_CHUNK_FREE;
-	Mem_ChunkMerge();
+	Mem_DynamicMerge();
 }
 
-#endif // (MEM_USE_CHUNK_ALLOC)
+#endif // (MEM_USE_DYNAMIC)
