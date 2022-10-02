@@ -234,6 +234,12 @@
 	#define MEM_USE_FASTSET			FALSE
 #endif
 
+// MEM_USE_DYNAMIC
+#ifndef MEM_USE_DYNAMIC
+	#warning MEM_USE_DYNAMIC is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define MEM_USE_DYNAMIC			FALSE
+#endif
+
 //-----------------------------------------------------------------------------
 // DRAW MODULE
 //-----------------------------------------------------------------------------

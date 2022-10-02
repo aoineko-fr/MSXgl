@@ -15,10 +15,8 @@
 // Current heap top address
 extern u16 g_HeapStartAddress;
 
-#define MEM_USE_DYNAMIC				TRUE
-
 #if (MEM_USE_DYNAMIC)
-// 
+// Dynamic memro chunk structure
 struct MemChunkHeader
 {
 	u16 Size;
@@ -104,9 +102,9 @@ void Mem_FastCopy(const void* src, void* dest, u16 size);
 //   size - The size of data to fill
 void Mem_Set(u8 val, void* dest, u16 size);
 
-#if (MEM_USE_FASTCOPY)
+#if (MEM_USE_FASTSET)
 // Function: Mem_FastSet
-// Fast fill a memory block with a given value (minimal size of 2 bytes).
+// Fast fill a memory chunk with a given value (minimal size of 2 bytes).
 // Use 16 unrolled-LDI loop.
 //
 // Parameters:
@@ -117,21 +115,48 @@ void Mem_FastSet(u8 val, void* dest, u16 size);
 #endif
 
 #if (MEM_USE_DYNAMIC)
-
 // Function: Mem_DynamicInitialize
-// 
+// Allocates a static memory chunk which can then be used to allocate chunks dynimically.
+// Memory chunk can be in any pages but:
+// - The memory space have to be continuous from a Z80 perspective.
+// - You have to ensure that all memory segments are selected in their proper place when allocating or releasing memory.
+//
+// Parameters:
+//   base - Base address of the dynamic allocator memory buffer
+//   size - Size of the dynamic allocator buffer (4 bytes chunk headers will consume some of this space)
 void Mem_DynamicInitialize(void* base, u16 size);
 
+// Function: Mem_DynamicInitializeHeap
+// Allocates a static memory chunk in the heap which can then be used to allocate chunks dynimically.
+//
+// Parameters:
+//   size - Size of the dynamic allocator buffer (4 bytes chunk headers will consume some of this space)
+inline void Mem_DynamicInitializeHeap(u16 size) { Mem_DynamicInitialize(Mem_HeapAlloc(size), size); }
+
 // Function: Mem_DynamicAlloc
-// 
+// Allocate a memory chunk from the dynamic memory buffer
+//
+// Parameters:
+//   size - Size of the memory chunk to allocate
+//
+// Return:
+//   Address of the allocated memory chunk (or NULL if no enough continuous space have been found)
 void* Mem_DynamicAlloc(u16 size);
 
 // Function: Mem_DynamicFree
-// 
+// Free a memory chunk from the dynamic memory buffer
+//
+// Parameters:
+//   ptr - Address of the allocated memory chunk
 void Mem_DynamicFree(void* ptr);
 
 // Function: Mem_GetDynamicSize
-// 
+// Get the size of a dynamically allocated memory chunk
+//
+// Parameters:
+//   ptr - Address of the allocated memory chunk
+//
+// Return:
+//   Size of the allocated memory chunk
 inline u16 Mem_GetDynamicSize(void* ptr) { struct MemChunkHeader* chunk = (struct MemChunkHeader*)((u16)ptr - sizeof(struct MemChunkHeader)); return chunk->Size; }
-
-#endif // (MEM_USE_DYNAMIC)
+#endif

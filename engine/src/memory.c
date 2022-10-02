@@ -196,13 +196,15 @@ void Mem_FastSet(u8 val, void* dest, u16 size) __naked
 //=============================================================================
 // DYNAMIC MEMORY ALLOCATOR
 //=============================================================================
+
+// Dynamic memory chunk flag
 #define MEM_CHUNK_FREE				0x8000
 
-// 
+// Dynamic memory chunk root
 struct MemChunkHeader* g_MemChunkRoot = NULL;
 
 //-----------------------------------------------------------------------------
-// 
+// Allocates a static memory block which can then be used to allocate chunks dynimically.
 void Mem_DynamicInitialize(void* base, u16 size)
 {
 	g_MemChunkRoot = (struct MemChunkHeader*)base;
@@ -211,9 +213,14 @@ void Mem_DynamicInitialize(void* base, u16 size)
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Allocate a memory chunk from the dynamic memory buffer
 void* Mem_DynamicAlloc(u16 size)
 {
+	#if (MEM_USE_VALIDATOR)
+	if(size == 0)
+		return NULL;
+	#endif
+
 	struct MemChunkHeader* chunk = g_MemChunkRoot;
 	while(chunk)
 	{
@@ -245,7 +252,7 @@ void* Mem_DynamicAlloc(u16 size)
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Merge contiguous empty memory blocks
 void Mem_DynamicMerge()
 {
 	struct MemChunkHeader* chunk = g_MemChunkRoot;
@@ -262,7 +269,7 @@ void Mem_DynamicMerge()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Free a memory chunk from the dynamic memory buffer
 void Mem_DynamicFree(void* ptr)
 {
 	struct MemChunkHeader* chunk = (struct MemChunkHeader*)((u16)ptr - sizeof(struct MemChunkHeader));

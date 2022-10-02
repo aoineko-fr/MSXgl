@@ -280,7 +280,7 @@ void DisplayHeader()
 {
 	Print_Clear();
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL "  SYSTEM INFORMATION");
+	Print_DrawText(MSX_GL " SYSTEM INFORMATION");
 	Print_DrawLineH(0, 1, 40);
 }
 
@@ -289,7 +289,7 @@ void DisplayHeader()
 void DisplayFooter()
 {
 	Print_SetPosition(0, 23);
-	Print_DrawText("F1:Info F2:Slot ESC:Exit");
+	Print_DrawText("F1:Info F2:Slot F3:Mem ESC:Exit");
 }
 
 //-----------------------------------------------------------------------------
@@ -506,10 +506,43 @@ void DisplaySlots()
 			}
 		}
 	}
-	
+
 	DisplayFooter();
 }
 
+//-----------------------------------------------------------------------------
+//
+void DisplayMem()
+{
+	DisplayHeader();
+
+	Print_SetPosition(0, 3);
+	
+	// Memory
+	Print_DrawText("Memory\n");
+	Print_DrawFormat("- Heap:    %x\n", Mem_GetHeapAddress());
+	Print_DrawFormat("- Stack:   %x\n", Mem_GetStackAddress());
+	Print_DrawFormat("- Free:    %iB\n", Mem_GetHeapSize());
+
+	// Static allocator
+	Print_DrawText("\nDynamic\n");
+	Mem_DynamicInitializeHeap(1024);
+	Print_DrawFormat("- Init 1024 bytes from heap\n");
+	void* p1 = Mem_DynamicAlloc(100);
+	Print_DrawFormat("- Alloc 100 bytes: p1=%x (%i)\n", p1, Mem_GetDynamicSize(p1));
+	void* p2 = Mem_DynamicAlloc(500);
+	Print_DrawFormat("- Alloc 500 bytes: p2=%x (%i)\n", p2, Mem_GetDynamicSize(p2));
+	Mem_DynamicFree(p1);
+	Print_DrawFormat("- Free p1\n");
+	void* p3 = Mem_DynamicAlloc(101);
+	Print_DrawFormat("- Alloc 101 bytes: p3=%x (%i)\n", p3,Mem_GetDynamicSize(p3));
+	void* p4 = Mem_DynamicAlloc(100);
+	Print_DrawFormat("- Alloc 100 bytes: p4=%x (%i)\n", p4,Mem_GetDynamicSize(p4));
+	void* p5 = Mem_DynamicAlloc(500);
+	Print_DrawFormat("- Alloc 500 bytes: p5=%x (%i)\n", p5,Mem_GetDynamicSize(p5));
+
+	DisplayFooter();
+}
 
 
 //=============================================================================
@@ -534,6 +567,12 @@ void main()
 	u8 count = 0;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
+		Halt();
+		// EnableInterrupt();
+
+		Print_SetPosition(39, 0);
+		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
+
 		u8 row = Keyboard_Read(KEY_ROW(KEY_F1));
 		if(IS_KEY_PRESSED(row, KEY_F1))
 		{
@@ -545,13 +584,11 @@ void main()
 			cb = DisplaySlots;
 			cb();
 		}
-
-
-		Print_SetPosition(39, 0);
-		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
-
-		EnableInterrupt();
-		// Halt();
+		else if(IS_KEY_PRESSED(row, KEY_F3))
+		{
+			cb = DisplayMem;
+			cb();
+		}
 	}
 
 	Bios_Exit(0);

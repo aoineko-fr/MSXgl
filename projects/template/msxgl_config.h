@@ -131,6 +131,7 @@
 #define MEM_USE_VALIDATOR			FALSE	// Activate validator to handle invalide input value
 #define MEM_USE_FASTCOPY			FALSE	// Add support for fast-copy function (using unrolled-LDI loop)
 #define MEM_USE_FASTSET				FALSE	// Add support for fast-set function (using unrolled-LDI loop)
+#define MEM_USE_DYNAMIC				FALSE	// Add support for malloc style dynamic allocator
 
 //-----------------------------------------------------------------------------
 // DRAW MODULE
