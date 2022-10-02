@@ -21,7 +21,7 @@ void Seg4Func2(u8 x, u8 y)
 //
 void Seg4Func1(u8 id) __banked
 {
-	Seg4Func2(0, 11 + id);
+	Seg4Func2(0, 12 + id);
 	if(id == 0)
 		Print_DrawText(Seg4Data1);
 	else

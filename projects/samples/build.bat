@@ -61,12 +61,16 @@ REM set Emulator=%ToolsDir%\RuMSX\MSX.exe
 
 :: Project name (will be use for output filename)
 set ProjName=%Input%
+
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=%ProjName%
+
 :: Project segments base name
 set ProjSegments=%ProjName%
+
 :: List of library modules to build
 set LibModules=system,bios,vdp,print,input,memory,math,draw
+
 :: Additional sources
 set AddSources=
 
@@ -77,6 +81,7 @@ set AddSources=
 :: - TR		MSX TurboR
 :: - 12		MSX 1 or 2
 set Machine=2
+
 :: Target:
 :: - BIN			.bin	BASIC binary program (8000h~)
 :: - ROM_8K			.rom	8KB ROM in page 1 (4000h ~ 5FFFh)
@@ -97,22 +102,28 @@ set Machine=2
 :: - DOS2_ARG		.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 set Target=ROM_32K
 if not "%2"=="" set Target=%2
+
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
 
 :: Install BDOS driver for ROM program? (0=false, 1=true)
 set InstallBDOS=0
+
 :: Set RAM in slot 0 and install ISR there (0=false, 1=true)
 set InstallRAMISR=0
+
 :: Type of custom ISR (for RAM or ROM)
 :: - VBLANK		V-blank handler
 :: - VHBLANK	V-blank and h-blank handler (V9938 or V9958)
 :: - V9990		v-blank, h-blank and command end handler (V9990)
 set CustomISR=VBLANK
+
 :: Use banked call and trampoline functions (0=false, 1=true)
 set BankedCall=0
+
 :: Overwrite RAM starting address (e.g. 0xE0000 for 8K RAM machine)
 set ForceRamAddr=
+
 :: Data to copy to disk (comma separated list)
 set DiskFiles=
 
@@ -122,16 +133,25 @@ set DiskFiles=
 
 :: Generate MSXgl static library (0=false, 1=true)
 set BuildLibrary=1
+
 :: Set debug flag (0=false, 1=true)
 set Debug=0
+
+:: Move debug symbols do binary folder (0=false, 1=true)
+set DebugSymbols=1
+
 :: Code optimization (Default, Speed or Size)
 set Optim=Speed
+
 :: Additionnal compilation flag
 set CompileOpt=
+
 :: Skip file if compile data is newer than the source (0=false, 1=true)
 set CompileSkipOld=0
+
 :: Verbose mode (0=false, 1=true)
 set Verbose=0
+
 :: Additionnal link flag
 set LinkOpt=
 
@@ -148,9 +168,11 @@ set EmulDebug=0
 set EmulSCC=0
 set EmulMSXMusic=0
 set EmulMSXAudio=0
+
 :: Plug device to emulator general purpose port: Joystick, Mouse, Keyboard (fake joystick)
 set EmulPortA=
 set EmulPortB=
+
 :: Emulator extra parameters to be add to command-line
 set EmulExtraParam=
 

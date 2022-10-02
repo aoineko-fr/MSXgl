@@ -1,5 +1,5 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
@@ -27,6 +27,9 @@ void Seg4Func1(u8 id) __banked;
 // Fonts
 #include "font\font_mgl_sample6.h"
 
+// Animation characters
+const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -49,8 +52,13 @@ void main()
 	Print_DrawLineH(0, 1, 40);
 
 	Print_SetPosition(0, 3);
+	Print_DrawFormat("Banks segment: 0->%i 1->%i 2->%i 3->%i\n\n", GET_BANK_SEGMENT(0), GET_BANK_SEGMENT(1), GET_BANK_SEGMENT(2), GET_BANK_SEGMENT(3));
 	Print_DrawText("Switch bank 3 to segment 5\n\n");
 	SET_BANK_SEGMENT(3, 5); // Make segment #5 visible through bank #3
+	Print_DrawFormat("Banks segment: 0->%i 1->%i 2->%i 3->%i\n\n", GET_BANK_SEGMENT(0), GET_BANK_SEGMENT(1), GET_BANK_SEGMENT(2), GET_BANK_SEGMENT(3));
+	u8 seg = GET_BANK_SEGMENT(3);
+	SET_BANK_SEGMENT(3, seg);
+
 	// New bank setting:
 	//   Bank 0 => Segment 0
 	//   Bank 1 => Segment 1
@@ -58,10 +66,10 @@ void main()
 	//   Bank 3 => Segment 5 (content of s_mapper_s5_b3.asm)
 	Print_DrawText(&Seg5AsmData);
 	
-	Print_SetPosition(0, 7);
+	Print_Return();
 	Print_DrawCharX('.', 40);
 	
-	Print_SetPosition(0, 9);
+	Print_Return();
 	Print_DrawText("Call banked function (bank 2 seg 4)\n");
 	Seg4Func1(0); // Bank 2 => Segment 4 (content of s_mapper_s4_b2.c)
 	Seg4Func1(1); // Bank 2 => Segment 4 (content of s_mapper_s4_b2.c)
@@ -72,7 +80,16 @@ void main()
 	//   Bank 2 => Segment 2
 	//   Bank 3 => Segment 5 (content of s_mapper_s5_b3.asm)
 
-	while(1)
+	Print_Return();
+	Print_Return();
+	Print_DrawFormat("Banks segment: 0->%i 1->%i 2->%i 3->%i\n\n", GET_BANK_SEGMENT(0), GET_BANK_SEGMENT(1), GET_BANK_SEGMENT(2), GET_BANK_SEGMENT(3));
+
+	u8 count = 0;
+	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
+		Halt();
+
+		Print_SetPosition(39, 0);
+		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 	}
 }
