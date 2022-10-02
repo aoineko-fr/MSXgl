@@ -114,7 +114,6 @@ void InitP1()
 	V9_ClearVRAM();
 	V9_SetMode(V9_MODE_P1);
 	V9_SetSpriteEnable(TRUE);
-	// V9_SetLayerPalette(2, 0);
 
 	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
 	V9_SetInterruptLine(71);
@@ -126,6 +125,7 @@ void InitP1()
 
 	// Pattern name table
 	V9_FillVRAM16(V9_P1_PNT_A, 0, 64*64); // Init layer A
+	V9_Print(V9_P1_PNT_A, "MSXgl V9990 Sample - P1 Mode");
 	for(u8 i = 0; i < 8; ++i) // Draw plateform
 	{
 		u8 x = i * 8;
@@ -159,9 +159,8 @@ void InitP1()
 			V9_Poke16(V9_CellAddrP1A(0, j) + i*2, cell + i%2);
 		}
 	}
-	V9_Print(V9_P1_PNT_A, "MSXgl V9990 Sample - P1 Mode");
 
-	V9_FillVRAM16(V9_P1_PNT_B, 160, 64*64); // Init layer B
+	V9_FillVRAM16(V9_P1_PNT_B, 160, 64*27); // Init layer B
 	for(u16 i = 0; i < 64; ++i) // Draw horizon
 		V9_Poke16(V9_CellAddrP1B(0, P1_HORIZON_Y) + i*2, 128 + i%4);
 	V9_FillVRAM16(V9_P1_PNT_B, 135, 64*P1_HORIZON_Y); // Draw sky
@@ -228,36 +227,107 @@ void TickP1()
 // P2
 //-----------------------------------------------------------------------------
 
+void V9_WriteVRAM_256to512(u32 addr, const u8* src, u8 line)
+{
+	for(u8 i = 0; i < line; ++i)
+	{
+		u8 line = i % 8;
+		u8 row = i / 2 / 8 * 8;
+		u8 odd = (i / 8) & 1;
+		V9_WriteVRAM(addr + (256 * (row + line)) + (128 * odd),  src + (128 * i), 128);
+	}
+}
+
 //
 void InitP2()
 {
 	V9_ClearVRAM();
 	V9_SetMode(V9_MODE_P2);
-	V9_SetSpriteEnable(FALSE);
-	V9_SetLayerPalette(0, 0);
+	V9_SetSpriteEnable(TRUE);
 
 	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
-	V9_SetInterruptLine(8);
+	V9_SetInterruptLine(6);
 
 	// Pattern generator table
-	for(u8 i = 0; i < 48; ++i)
-		V9_WriteVRAM(V9_P2_PGT + (256 * i), g_DataV9BG + (128 * i), 128);
-	for(u8 i = 0; i < 8; ++i)
-	{
-		V9_WriteVRAM(V9_P2_PGT + 0x04000 + (256 * i),           g_DataV9Font + (1024 * 0) + (128 * i), 128);
-		V9_WriteVRAM(V9_P2_PGT + 0x04000 + (256 * i) + 128,     g_DataV9Font + (1024 * 1) + (128 * i), 128);
-		V9_WriteVRAM(V9_P2_PGT + 0x04000 + (256 * i) + 256 * 8, g_DataV9Font + (1024 * 2) + (128 * i), 128);
-	}
+	V9_WriteVRAM_256to512(V9_P2_PGT + 0x00000, g_DataV9BG, 48);
+	V9_WriteVRAM_256to512(V9_P2_PGT + 0x04000, g_DataV9Font, 24);
 
 	// Pattern name table
-	V9_FillVRAM(V9_P2_PNT, 0, 128*64*2);
-	for(u16 i = 0; i < 64*27; ++i)
+	// for(u16 i = 0; i < 64*27; ++i)
+	// {
+		// u16 addr = (((i / 64) * 128) + (i % 64)) * 2;
+		// V9_Poke16(V9_P2_PNT + addr, i);
+		// addr += 2;
+	// }
+	V9_FillVRAM16(V9_P2_PNT, 0, 128*2);
+	V9_Print(V9_P2_PNT, "MSXgl V9990 Sample - P2 Mode"); // Draw title
+	V9_FillVRAM16(V9_P2_PNT + 512, 135, 128*P1_HORIZON_Y); // Draw sky
+	for(u16 i = 0; i < 128; ++i) // Draw horizon
+		V9_Poke16(V9_CellAddrP2(0, P1_HORIZON_Y) + i*2, 128 + i%4);
+	V9_FillVRAM16(V9_CellAddrP2(0, P1_HORIZON_Y+1), 160, (27-P1_HORIZON_Y)*128); // Draw sea
+	for(u8 i = 0; i < 12; ++i) // Draw big cloud
 	{
-		u16 addr = (((i / 64) * 128) + (i % 64)) * 2;
-		V9_Poke16(V9_P2_PNT + addr, i);
-		addr += 2;
+		u8 x = Math_GetRandom8() % 8 + (i * 10);
+		u8 y = Math_GetRandom8() % 4 + 4;
+		u32 addr = V9_CellAddrP2(x, y);
+		V9_Poke16(addr, 132); addr += 2;
+		V9_Poke16(addr, 133); addr += 2;
+		V9_Poke16(addr, 134); addr += 2;
+		V9_Poke16(addr, 135);
+		addr = V9_CellAddrP2(x, y +1);
+		V9_Poke16(addr, 164); addr += 2;
+		V9_Poke16(addr, 165); addr += 2;
+		V9_Poke16(addr, 166); addr += 2;
+		V9_Poke16(addr, 167);
 	}
-	// V9_Print(V9_P2_PNT, "MSXgl V9990 Sample - P2 Mode");
+	for(u8 i = 0; i < 12; ++i) // Draw small cloud
+	{
+		u8 x = Math_GetRandom8() % 8 + (i * 10);
+		u8 y = Math_GetRandom8() % 4 + 9;
+		u32 addr = V9_CellAddrP2(x, y);
+		V9_Poke16(addr, 136); addr += 2;
+		V9_Poke16(addr, 137);
+		addr = V9_CellAddrP2(x, y +1);
+		V9_Poke16(addr, 168); addr += 2;
+		V9_Poke16(addr, 169);
+	}
+	for(u8 i = 0; i < 8; ++i) // Draw plateform
+	{
+		u8 x = i * 16;
+		u8 y = Math_GetRandom8() % 8 + 10;
+		for(u8 j = y; j < 20; j++)
+		{
+			u8 cell;
+			if(j == y)
+				cell = 32;
+			else if(((j - y) & 1))
+				cell = 64;
+			else
+				cell = 96;
+
+			u32 addr = V9_CellAddrP2(x, j);
+			V9_Poke16(addr += 2, cell++);
+			V9_Poke16(addr += 2, cell++);
+			V9_Poke16(addr += 2, cell++); cell -= 2;
+			V9_Poke16(addr += 2, cell++);
+			V9_Poke16(addr += 2, cell++); cell -= 2;
+			V9_Poke16(addr += 2, cell++);
+			V9_Poke16(addr += 2, cell++);
+			V9_Poke16(addr += 2, cell++);
+		}
+	}
+	for(u16 i = 0; i < 128; ++i) // Draw ground
+	{
+		for(u8 j = 20; j < 27; j++)
+		{
+			u8 cell;
+			if(j == 20)
+				cell = 33;
+			else
+				cell = (j & 1) ? 65 : 97;
+			V9_Poke16(V9_CellAddrP2(0, j) + i*2, cell + i%2);
+		}
+	}
 
 	// Sprite pattern generator table
 	V9_SetSpritePatternAddr(V9_P2_SGT_08000);
@@ -265,28 +335,28 @@ void InitP2()
 		V9_WriteVRAM(V9_P2_PGT + 0x08000 + (256 * i), g_DataV9Chr + (128 * i), 128);
 
 	// Sprite attribute table
-	/*struct V9_Sprite attr;
+	struct V9_Sprite attr;
 	for(u8 i = 0; i < 125; ++i)
 	{
-		attr.Y = 255;//(i / 13) * 20;
+		attr.Y = (i / 13) * 20 + 12;
 		attr.Pattern = 0;
-		attr.X = 255;//(i % 13) * 20;
+		attr.X = (i % 13) * 40 + 8;
 		attr.P = 0;
 		attr.D = 0;
 		attr.SC = 1;
 		V9_SetSpriteP2(i, &attr);
-	}*/
+	}
 }
 
 //
 void TickP2()
 {
-	// V9_SetLayerPalette(2, 0);
-	V9_SetScrollingX(g_Frame);
+	V9_SetLayerPalette(2, 2);
+	V9_SetScrollingX(0);
 
-	// u8 frame = (g_Frame >> 2) % 6;
-	// for(u16 i = 0; i < 125; ++i)
-		// V9_SetSpritePatternP2(i, frame);
+	u8 frame = (g_Frame >> 2) % 6;
+	for(u16 i = 0; i < 125; ++i)
+		V9_SetSpritePatternP2(i, frame);
 
 	g_Frame++;
 }
@@ -532,7 +602,6 @@ void main()
 	while(1)
 	{
 		// V9_SetRegister(15, 2);
-		// if(!V9_IsVBlank()) {}
 		while(g_VSynch == FALSE) {}
 		// V9_SetRegister(15, 1);
 		g_VSynch = FALSE;
