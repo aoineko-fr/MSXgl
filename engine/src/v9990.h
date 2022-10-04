@@ -114,23 +114,49 @@ enum V9_COLOR_MODE
 
 // Function: V9_SetPort
 // Set port value
+//
+// Parameters:
+//   port - Port address (V9990 is plug to ports 60h~6Fh)
+//   value - Value to write to the port
 void V9_SetPort(u8 port, u8 value) __PRESERVES(b, d, e, h, iyl, iyh);
 
 // Function: V9_GetPort
 // Get port value
+//
+// Parameters:
+//   port - Port address (V9990 is plug to ports 60h~6Fh)
+//
+// Return:
+//   Value read from the givem port
 u8 V9_GetPort(u8 port) __PRESERVES(b, d, e, h, l, iyl, iyh);
 
 // Function: V9_SetRegister
 // Set register value
+// This function as no effect if register is read-only
+//
+// Parameters:
+//   reg - V9990 register number
+//   val - Value to write to the register
 void V9_SetRegister(u8 reg, u8 val) __PRESERVES(b, c, d, e, h, iyl, iyh);
 
 // Function: V9_GetRegister
 // Get register value
+//
+// Parameters:
+//   reg - V9990 register number
+//
+// Return:
+//   Value read from the register (FFh is returned if register is write only)
 u8 V9_GetRegister(u8 reg) __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: V9_SetFlag
 // Helper function to change some bits in a given register
-// The function a register value, mask the given bits, add the new value, than set the register
+// The function get a register value, apply a mask, 'or' the new value, than set the register
+//
+// Parameters:
+//   reg - V9990 register number
+//   mask - Bits to be cleared
+//   flag - Bits to be set
 inline void V9_SetFlag(u8 reg, u8 mask, u8 flag) { V9_SetRegister(reg, V9_GetRegister(reg) & (~mask) | flag); }
 
 //-----------------------------------------------------------------------------
@@ -139,74 +165,148 @@ inline void V9_SetFlag(u8 reg, u8 mask, u8 flag) { V9_SetRegister(reg, V9_GetReg
 
 // Function: V9_SetWriteAddress
 // Initialize VRAM address for writing
+//
+// Parameters:
+//   addr - Address to be setup for write access
 void V9_SetWriteAddress(u32 addr) __PRESERVES(b, iyl, iyh);
 
 // Function: V9_SetReadAddress
 // Initialize VRAM address for reading
+//
+// Parameters:
+//   addr - Address to be setup for read access
 void V9_SetReadAddress(u32 addr) __PRESERVES(b, iyl, iyh);
 
 // Function: V9_FillVRAM_CurrentAddr
-// 
+// Fill VRAM with 8-bits value from the previously setup write VRAM address
+//
+// Parameters:
+//   value - 8-bits value to be set
+//   count - Size of the filled space in VRAM
 void V9_FillVRAM_CurrentAddr(u8 value, u16 count);
 
 // Function: V9_FillVRAM16_CurrentAddr
-// 
+// Fill VRAM with 16-bits value from the previously setup write VRAM address
+//
+// Parameters:
+//   value - 16-bits value to be set
+//   count - Size of the filled space in VRAM (size in bytes is 'count * 2')
 void V9_FillVRAM16_CurrentAddr(u16 value, u16 count);
 
 // Function: V9_WriteVRAM_CurrentAddr
+// Copy data from RAM buffer to the previously setup write VRAM address
 //
+// Parameters:
+//   src - Pointer to the source data buffer to be copied in VRAM
+//   count - Size of the data to be copied in VRAM
 void V9_WriteVRAM_CurrentAddr(const u8* src, u16 count);
 
 // Function: V9_ReadVRAM_CurrentAddr
+// Copy data from the previously setup read VRAM address to a RAM buffer
 //
+// Parameters:
+//   dst - Pointer to the destination data buffer
+//   count - Size of the data to be copied in VRAM
 void V9_ReadVRAM_CurrentAddr(const u8* dest, u16 count);
 
 // Function: V9_Poke_CurrentAddr
+// Write a 8-bits value to the previously setup write VRAM address
 //
+// Parameters:
+//   val - The value to be write
 void V9_Poke_CurrentAddr(u8 val) __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: V9_Poke16_CurrentAddr
+// Write a 16-bits value to the previously setup write VRAM address
 //
+// Parameters:
+//   val - The value to be write
 void V9_Poke16_CurrentAddr(u16 val) __PRESERVES(b, c, d, e, iyl, iyh);
 
 // Function: V9_Peek_CurrentAddr
+// Read a 8-bits value from the previously setup write VRAM address
 //
+// Return:
+//   The value at the given address
 u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: V9_Peek16_CurrentAddr
+// Read a 16-bits value from the previously setup write VRAM address
 //
+// Return:
+//   The value at the given address
 u8 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh);
 
 // Function: V9_FillVRAM
+// Fill VRAM with 8-bits value start to a given VRAM address
 //
+// Parameters:
+//   addr - Destinaton VRAM address
+//   value - 8-bits value to be set
+//   count - Size of the filled space in VRAM
 inline void V9_FillVRAM(u32 addr, u8 value, u16 count) { V9_SetWriteAddress(addr); V9_FillVRAM_CurrentAddr(value, count); }
 
 // Function: V9_FillVRAM16
+// Fill VRAM with 16-bits value start to the given VRAM address
 //
+// Parameters:
+//   addr - Destination VRAM address
+//   value - 16-bits value to be set
+//   count - Size of the filled space in VRAM (size in bytes is 'count * 2')
 inline void V9_FillVRAM16(u32 addr, u16 value, u16 count) { V9_SetWriteAddress(addr); V9_FillVRAM16_CurrentAddr(value, count); }
 
 // Function: V9_WriteVRAM
+// Copy data from a RAM buffer to the given VRAM address
 //
+// Parameters:
+//   addr - Destination VRAM address
+//   src - Pointer to the source data buffer to be copied in VRAM
+//   count - Size of the data to be copied in VRAM
 inline void V9_WriteVRAM(u32 addr, const u8* src, u16 count) { V9_SetWriteAddress(addr); V9_WriteVRAM_CurrentAddr(src, count); }
 
 // Function: V9_ReadVRAM
+// Copy data from a given VRAM address to a RAM buffer
 //
+// Parameters:
+//   dst - Source VRAM address
+//   dst - Pointer to the destination data buffer
+//   count - Size of the data to be copied in VRAM
 inline void V9_ReadVRAM(u32 addr, const u8* dest, u16 count) { V9_SetReadAddress(addr); V9_ReadVRAM_CurrentAddr(dest, count); }
 
 // Function: V9_Poke
+// Write a 8-bits value to the given VRAM address
 //
+// Parameters:
+//   addr - Destination VRAM address
+//   val - The value to be write
 inline void V9_Poke(u32 addr, u8 val) { V9_SetWriteAddress(addr); V9_Poke_CurrentAddr(val); }
 
 // Function: V9_Poke16
+// Write a 16-bits value to the given VRAM address
 //
+// Parameters:
+//   addr - Destination VRAM address
+//   val - The value to be write
 inline void V9_Poke16(u32 addr, u16 val) { V9_SetWriteAddress(addr); V9_Poke16_CurrentAddr(val); }
 
 // Function: V9_Peek
+// Read a 8-bits value from at the given VRAM address
 //
+// Parameters:
+//   addr - Source VRAM address
+//
+// Return:
+//   The value at the given address
 inline u8 V9_Peek(u32 addr) { V9_SetWriteAddress(addr); return V9_Peek_CurrentAddr(); }
 
 // Function: V9_Peek16
+// Read a 16-bits value from at the given VRAM address
 //
+// Parameters:
+//   addr - Source VRAM address
+//
+// Return:
+//   The value at the given address
 inline u16 V9_Peek16(u32 addr) { V9_SetWriteAddress(addr); return V9_Peek16_CurrentAddr(); }
 
 //-----------------------------------------------------------------------------
@@ -215,41 +315,69 @@ inline u16 V9_Peek16(u32 addr) { V9_SetWriteAddress(addr); return V9_Peek16_Curr
 
 // Function: V9_SetMode
 // Set the current screen mode
+//
+// Parameters:
+//   mode - Screen mode ID (see <V9_SCREEN_MODE>)
 void V9_SetMode(u8 mode);
 
 // Function: V9_SetBPP
 // Set bit number per pixel
+//
+// Parameters:
+//   bpp - New bits per pixel to set. Can be: V9_R06_BPP_2, V9_R06_BPP_4, V9_R06_BPP_8 or V9_R06_BPP_16
 inline void V9_SetBPP(u8 bpp) { V9_SetRegister(6, V9_GetRegister(6) & (~V9_R06_BPP_MASK) | bpp); }
 
 // Function: V9_GetBPP
 // Get bit number per pixel
+//
+// Return:
+//   Current bits per pixel. Can be: V9_R06_BPP_2, V9_R06_BPP_4, V9_R06_BPP_8 or V9_R06_BPP_16
 inline u8 V9_GetBPP() { return V9_GetRegister(6) & (~V9_R06_BPP_MASK); }
 
 // Function: V9_SetImageSpaceWidth
 // Set number of pixels in X direction of image space
+//
+// Parameters:
+//   width - New image space width to set. Can be: V9_R06_WIDH_256, V9_R06_WIDH_512, V9_R06_WIDH_1024 or V9_R06_WIDH_2048
 inline void V9_SetImageSpaceWidth(u8 width) { V9_SetRegister(6, V9_GetRegister(6) & (~V9_R06_WIDH_MASK) | width); }
 
 // Function: V9_GetImageSpaceWidth
 // Get number of pixels in X direction of image space
+//
+// Return:
+//   Current image space width. Can be: V9_R06_WIDH_256, V9_R06_WIDH_512, V9_R06_WIDH_1024 or V9_R06_WIDH_2048
 inline u8 V9_GetImageSpaceWidth() { return V9_GetRegister(6) & (~V9_R06_WIDH_MASK); }
 
 // Function: V9_SetDisplayEnable
+// Enalbe or disable the screen display
 //
+// Parameters:
+//   enable - TRUE to enable or FALSE to disable
 inline void V9_SetDisplayEnable(bool enable) { V9_SetFlag(8, V9_R08_DISP_ON, enable ? V9_R08_DISP_ON : 0); }
 
 // Function: V9_SetBackgroundColor
 // Set background color
+//
+// Parameters:
+//   color - New background color
 inline void V9_SetBackgroundColor(u8 color) { V9_SetRegister(15, color); }
 
+// Function: V9_GetBackgroundColor
+// Get background color
+//
+// Return:
+//   Current background color
+inline u8 V9_GetBackgroundColor() { return V9_GetRegister(15); }
+
 // Function: V9_SetAdjustOffset
-// Adjustment of the display location on the screen (register 18). [MSX2/2+/TR]
+// Adjustment of the display location on the screen
 //
 // Parameters:
 //   offset - Screen display position offset (MSB 4-bits: vertical offset, LSB 4-bits: horizontal offset)
 inline void V9_SetAdjustOffset(u8 offset) { V9_SetRegister(16, offset); }
 
 // Function: V9_SetAdjustOffsetXY
-// Adjustment of the display location on the screen (register 18). [MSX2/2+/TR]
+// Adjustment of the display location on the screen
 //
 // Parameters:
 //   x - Horizontal screen display position offset [-7:+8]
@@ -258,6 +386,10 @@ inline void V9_SetAdjustOffsetXY(i8 x, i8 y) { V9_SetAdjustOffset(((-x) & 0x0F) 
 
 // Function: V9_SetLayerPriority
 // Set layer priority for P1 mode
+//
+// Parameters:
+//   x - X coordinate where priority apply (2-bits value x 64 pixel)
+//   y - Y coordinate where priority apply (2-bits value x 64 pixel)
 inline void V9_SetLayerPriority(u8 x, u8 y) { V9_SetRegister(27, (y << 2) + x); }
 
 //-----------------------------------------------------------------------------
@@ -266,26 +398,44 @@ inline void V9_SetLayerPriority(u8 x, u8 y) { V9_SetRegister(27, (y << 2) + x); 
 
 // Function: V9_GetStatus
 // Get status port value
+//
+// Return:
+//   Value of the status port (include various flags about frame rendering events)
 inline u8 V9_GetStatus() { return V9_GetPort(5); }
 
 // Function: V9_IsVBlank
 // Is vertical non-display period
+//
+// Return:
+//   FALSE if not in vertical non-display period
 inline bool V9_IsVBlank() { return V9_GetStatus() & V9_P05_VR; }
 
 // Function: V9_IsHBlank
 // Is horizontal non-display period
+//
+// Return:
+//   FALSE if not in horizontal non-display period
 inline bool V9_IsHBlank() { return V9_GetStatus() & V9_P05_HR; }
 
 // Function: V9_IsCmdDataReady
 // Check if command data transfer ready
+//
+// Return:
+//   FALSE if command data transfer not ready
 inline bool V9_IsCmdDataReady() { return V9_GetStatus() & V9_P05_TR; }
 
 // Function: V9_IsCmdRunning
 // Check if a command is in process
+//
+// Return:
+//   FALSE if command not being executed
 inline bool V9_IsCmdRunning() { return V9_GetStatus() & V9_P05_CE; }
 
 // Function: V9_IsSecondField
 // Check if render is in the second field period during interlace
+//
+// Return:
+//   FALSE if not in the second field period during interlace
 inline bool V9_IsSecondField() { return V9_GetStatus() & V9_P05_E0; }
 
 //-----------------------------------------------------------------------------
@@ -298,26 +448,41 @@ inline bool V9_IsSecondField() { return V9_GetStatus() & V9_P05_E0; }
 
 // Function: V9_SetInterrupt
 // Set interruption flags
+//
+// Parameters:
+//   flags - Can be a combination of V9_INT_VBLANK, V9_INT_HBLANK or V9_INT_CMDEND
 inline void V9_SetInterrupt(u8 flags) { V9_SetRegister(9, flags); }
 
 // Function: V9_DisableInterrupt
-// Disable interruption
+// Disable all interruptions
 inline void V9_DisableInterrupt() { V9_SetRegister(9, 0); }
 
 // Function: V9_SetVBlankInterrupt
 // Set vertical blank interruption 
+//
+// Parameters:
+//   enable - TRUE to enable or FALSE to disable
 inline void V9_SetVBlankInterrupt(bool enable) { V9_SetFlag(9, V9_R08_IEV_ON, enable ? V9_R08_IEV_ON : 0); }
 
 // Function: V9_SetHBlankInterrupt
 // Set horizontal blank interruption 
+//
+// Parameters:
+//   enable - TRUE to enable or FALSE to disable
 inline void V9_SetHBlankInterrupt(bool enable) { V9_SetFlag(9, V9_R08_IEH_ON, enable ? V9_R08_IEH_ON : 0); }
 
 // Function: V9_SetCmdEndInterrupt
 // Set command end interruption 
+//
+// Parameters:
+//   enable - TRUE to enable or FALSE to disable
 inline void V9_SetCmdEndInterrupt(bool enable) { V9_SetFlag(9, V9_R08_IECE_ON, enable ? V9_R08_IECE_ON : 0); }
 
 // Function: V9_SetInterruptLine
-// Specification of vertical position where display position interrupt occurs (Specified by means of line No. with the display start line as "0".)
+// Specification of vertical position where display position interrupt occurs
+//
+// Parameters:
+//   line - Line where h-blank interruption will occur (Specified by means of line No. with the display start line as "0")
 inline void V9_SetInterruptLine(u16 line) { V9_SetRegister(10, line & 0xFF); V9_SetRegister(11, line >> 8); }
 
 // Function: V9_SetInterruptEveryLine
@@ -325,7 +490,10 @@ inline void V9_SetInterruptLine(u16 line) { V9_SetRegister(10, line & 0xFF); V9_
 inline void V9_SetInterruptEveryLine() { V9_SetRegister(11, V9_R09_EVERYLINE); }
 
 // Function: V9_SetInterruptX
-// Specification of horizontal position where display position interrupt occurs (Specified by unit of 64 master clock with the display start position as "0".)
+// Specification of horizontal position where display position interrupt occurs
+//
+// Parameters:
+//   x - Horizontal position where h-blank interruption will occur (Specified by unit of 64 master clock with the display start position as "0")
 inline void V9_SetInterruptX(u8 x) { V9_SetRegister(12, x); }
 
 //-----------------------------------------------------------------------------
@@ -333,27 +501,47 @@ inline void V9_SetInterruptX(u8 x) { V9_SetRegister(12, x); }
 //-----------------------------------------------------------------------------
 
 // Function: V9_SetScrollingX
+// Set horizontal scrolling value
 //
+// Parameters:
+//   x - Scrolling value (between 0 and image space width-1)
 void V9_SetScrollingX(u16 x);
 
 // Function: V9_SetScrollingY
+// Set vertical scrolling value
 //
+// Parameters:
+//   y - Scrolling value (between 0 and image space height-1)
 void V9_SetScrollingY(u16 y);
 
 // Function: V9_SetScrolling
+// Set horizontal and vertical scrolling values
 //
+// Parameters:
+//   x - Scrolling value (between 0 and image space width-1)
+//   y - Scrolling value (between 0 and image space height-1)
 inline void V9_SetScrolling(u16 x, u16 y) { V9_SetScrollingX(x);  V9_SetScrollingY(y); }
 
 // Function: V9_SetScrollingBX
+// Set horizontal scrolling value for layer B (P1 mode only)
 //
+// Parameters:
+//   x - Scrolling value (between 0 and image space width-1)
 void V9_SetScrollingBX(u16 x);
 
 // Function: V9_SetScrollingBY
+// Set vertical scrolling value for layer B (P1 mode only)
 //
+// Parameters:
+//   y - Scrolling value (between 0 and image space height-1)
 void V9_SetScrollingBY(u16 y);
 
 // Function: V9_SetScrollingB
+// Set horizontal and vertical scrolling values for layer B (P1 mode only)
 //
+// Parameters:
+//   x - Scrolling value (between 0 and image space width-1)
+//   y - Scrolling value (between 0 and image space height-1)
 inline void V9_SetScrollingB(u16 x, u16 y) { V9_SetScrollingBX(x);  V9_SetScrollingBY(y); }
 
 //-----------------------------------------------------------------------------
