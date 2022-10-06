@@ -32,6 +32,18 @@ extern u8 g_NTap_Prev[8];
 #define NTAP_A						0b01000000
 #define NTAP_B						0b10000000
 
+#define NTAP_NUM_MASK				0b00001111
+#define NTAP_PORT1_MASK				0b00110000
+#define NTAP_PORT2_MASK				0b11000000
+
+#define NTAP_PORT1					0b00010000
+#define NTAP_PORT2					0b01000000
+
+#define NTAP_TYPE_NONE				0
+#define NTAP_TYPE_NINJA				1
+#define NTAP_TYPE_SHINOBI			2
+#define NTAP_TYPE_UNKNOW			3
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -40,10 +52,7 @@ extern u8 g_NTap_Prev[8];
 // Check the presence of Ninja Tap in the joystick ports.
 //
 // Return:
-//   Number of usable joysticks
-//   - 2: No Ninja Tap detected (only 1 joystick in each port)
-//   - 5: 1 Ninja Tap detected (4 joysticks on Ninja Tap and 1 in the other port)
-//   - 8: 2 Ninja Tap detected (4 joysticks on each Ninja Tap)
+//   Ninja Tap information. See <NTap_GetInfo>
 u8 NTap_Check();
 
 // Function: NTap_GetInfo
@@ -51,8 +60,20 @@ u8 NTap_Check();
 // <NTap_Check> function must be called first.
 //
 // Return:
+//   Number of usable joysticks and types. See <NTap_Check>.
+//   > 7	6	5	4	3	2	1	0
+//   > │	│	│	│	└───┴───┴───┴── Nomber of joystick port available (2, 5 or 8)
+//   > │	│	└───┴────────────────── Tap type pluged in port 1 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)
+//   > └────┴────────────────────────── Tap type pluged in port 2 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)
+u8 NTap_GetInfo();
+
+// Function: NTap_GetPortNum
+// Get total number of joystick port.
+// <NTap_Check> function must be called first.
+//
+// Return:
 //   Number of usable joysticks. See <NTap_Check>.
-inline u8 NTap_GetInfo() { return g_NTap_Info[1]; }
+inline u8 NTap_GetPortNum() { return NTap_GetInfo() & NTAP_NUM_MASK; }
 
 // Function: NTap_Update
 // Update the status of all joysticks whether they are connected to a Ninja Tap or directly to the port.

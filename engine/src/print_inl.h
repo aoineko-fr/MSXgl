@@ -51,7 +51,7 @@ inline void Print_SelectTextFont(const u8* font, u8 offset)
 inline void Print_SetPosition(UX x, UY y)
 {
 	g_PrintData.CursorX = x;
-	g_PrintData.CursorY = y;	
+	g_PrintData.CursorY = y;
 }
 
 //-----------------------------------------------------------------------------
@@ -60,7 +60,7 @@ inline void Print_SetPosition(UX x, UY y)
 inline void Print_SetCharSize(u8 x, u8 y)
 {
 	g_PrintData.UnitX = x;
-	g_PrintData.UnitY = y;	
+	g_PrintData.UnitY = y;
 }
 
 //-----------------------------------------------------------------------------
@@ -108,9 +108,22 @@ inline const struct Print_Data* Print_GetFontInfo()
 
 //-----------------------------------------------------------------------------
 // Function: Print_DrawTextAt
-// Print a character string
+// Draw text at a given position on screen
 inline void Print_DrawTextAt(u8 x, u8 y, const c8* string)
 {
 	Print_SetPosition(x, y);
 	Print_DrawText(string);
 }
+
+//-----------------------------------------------------------------------------
+// Function: Print_DrawTextAtV()
+// Draw a vertical text at a given position on screen
+inline void Print_DrawTextAtV(u8 x, u8 y, const c8* str)
+{
+	while(*str)
+	{
+		Print_SetPosition(x, y++);
+		Print_DrawChar(*str++);
+	}
+}
+

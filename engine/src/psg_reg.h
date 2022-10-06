@@ -20,8 +20,8 @@
 //-----------------------------------------------------------------------------
 // R#0    Tone Generator Control - Fine Tune Register - Channel A
 //-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0 	
+//	7	6	5	4	3	2	1	0
+//	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0
 //	└───┴───┴───┴───┴───┴───┴───┴── Channel A Frequency, LSB (fine tune)
 #define PSG_REG_TONE_A		0
 #define PSG_REG_TONEF_A		0
@@ -29,16 +29,16 @@
 //-----------------------------------------------------------------------------
 // R#1    Tone Generator Control - Coarse Tune Register - Channel A
 //-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	x   x   x   x   TPB TPA TP9 TP8 	
+//	7	6	5	4	3	2	1	0
+//	x   x   x   x   TPB TPA TP9 TP8
 //	                └───┴───┴───┴── Channel A Frequency, MSB (coarse tune)
 #define PSG_REG_TONEC_A		1
 
 //-----------------------------------------------------------------------------
 // R#2    Tone Generator Control - Fine Tune Register - Channel B
 //-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0 	
+//	7	6	5	4	3	2	1	0
+//	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0
 //	└───┴───┴───┴───┴───┴───┴───┴── Channel B Frequency, LSB (fine tune)
 #define PSG_REG_TONE_B		2
 #define PSG_REG_TONEF_B		2
@@ -46,16 +46,16 @@
 //-----------------------------------------------------------------------------
 // R#3    Tone Generator Control - Coarse Tune Register - Channel B
 //-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	x   x   x   x   TPB TPA TP9 TP8 	
+//	7	6	5	4	3	2	1	0
+//	x   x   x   x   TPB TPA TP9 TP8
 //	                └───┴───┴───┴── Channel B Frequency, MSB (coarse tune)
 #define PSG_REG_TONEC_B		3
 
 //-----------------------------------------------------------------------------
 // R#4    Tone Generator Control - Fine Tune Register - Channel C
 //-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0 	
+//	7	6	5	4	3	2	1	0
+//	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0
 //	└───┴───┴───┴───┴───┴───┴───┴── Channel C Frequency, LSB (fine tune)
 #define PSG_REG_TONE_C		4
 #define PSG_REG_TONEF_C		4

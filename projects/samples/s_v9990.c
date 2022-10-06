@@ -87,7 +87,7 @@ const u8 g_Black[] = { 0, 0, 0 };
 // MEMORY DATA
 //=============================================================================
 
-u8  g_CurrentMode = 1;
+u8  g_CurrentMode = 0;
 u8  g_CurrentBPP = BPP_4;
 u16 g_Frame = 0;
 

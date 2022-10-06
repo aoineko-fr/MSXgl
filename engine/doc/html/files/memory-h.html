@@ -60,30 +60,40 @@
  <div class="CBody"><p>Fill a memory block with a given value (minimal size of 2 bytes).</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to fill</p></td></tr></table></div>
 </div>
 
-<a name="Mem_FastSet"></a><a name="Topic585"></a><div class="CTopic TFunction LC">
+<a name="Mem_FastSet"></a><a name="Topic115"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_FastSet</div>
- <div id="NDPrototype585" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_FastSet(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Fast fill a memory block with a given value (minimal size of 2 bytes).&nbsp; Use 16 unrolled-LDI loop.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to fill</p></td></tr></table></div>
+ <div id="NDPrototype115" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_FastSet(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Fast fill a memory chunk with a given value (minimal size of 2 bytes).&nbsp; Use 16 unrolled-LDI loop.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to fill</p></td></tr></table></div>
 </div>
 
-<a name="Mem_ChunkInitialize"></a><a name="Topic294"></a><div class="CTopic TFunction LC">
- <div class="CTitle">Mem_ChunkInitialize</div>
- <div id="NDPrototype294" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_ChunkInitialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">base,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="Mem_DynamicInitialize"></a><a name="Topic116"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mem_DynamicInitialize</div>
+ <div id="NDPrototype116" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_DynamicInitialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">base,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Allocates a static memory chunk which can then be used to allocate chunks dynimically.&nbsp; Memory chunk can be in any pages but: - The memory space have to be continuous from a Z80 perspective.&nbsp; - You have to ensure that all memory segments are selected in their proper place when allocating or releasing memory.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">base<div class="CDLParameterType"><span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Base address of the dynamic allocator memory buffer</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the dynamic allocator buffer (4 bytes chunk headers will consume some of this space)</p></td></tr></table></div>
 </div>
 
-<a name="Mem_ChunkAlloc"></a><a name="Topic295"></a><div class="CTopic TFunction LC">
- <div class="CTitle">Mem_ChunkAlloc</div>
- <div id="NDPrototype295" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span>* Mem_ChunkAlloc(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="Mem_DynamicInitializeHeap"></a><a name="Topic118"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mem_DynamicInitializeHeap</div>
+ <div id="NDPrototype118" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Mem_DynamicInitializeHeap(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Allocates a static memory chunk in the heap which can then be used to allocate chunks dynimically.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the dynamic allocator buffer (4 bytes chunk headers will consume some of this space)</p></td></tr></table></div>
 </div>
 
-<a name="Mem_ChunkFree"></a><a name="Topic296"></a><div class="CTopic TFunction LC">
- <div class="CTitle">Mem_ChunkFree</div>
- <div id="NDPrototype296" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_ChunkFree(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">ptr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="Mem_DynamicAlloc"></a><a name="Topic123"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mem_DynamicAlloc</div>
+ <div id="NDPrototype123" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span>* Mem_DynamicAlloc(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Allocate a memory chunk from the dynamic memory buffer</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the memory chunk to allocate</p></td></tr></table><div class="CHeading">Return</div><p>Address of the allocated memory chunk (or NULL if no enough continuous space have been found)</p></div>
 </div>
 
-<a name="Mem_GetChunkSize"></a><a name="Topic304"></a><div class="CTopic TFunction LC last">
- <div class="CTitle">Mem_GetChunkSize</div>
- <div id="NDPrototype304" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 Mem_GetChunkSize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">ptr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="Mem_DynamicFree"></a><a name="Topic124"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Mem_DynamicFree</div>
+ <div id="NDPrototype124" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_DynamicFree(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">ptr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Free a memory chunk from the dynamic memory buffer</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">ptr<div class="CDLParameterType"><span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Address of the allocated memory chunk</p></td></tr></table></div>
+</div>
+
+<a name="Mem_GetDynamicSize"></a><a name="Topic149"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">Mem_GetDynamicSize</div>
+ <div id="NDPrototype149" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 Mem_GetDynamicSize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">ptr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get the size of a dynamically allocated memory chunk</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">ptr<div class="CDLParameterType"><span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Address of the allocated memory chunk</p></td></tr></table><div class="CHeading">Return</div><p>Size of the allocated memory chunk</p></div>
 </div>
 
 </body></html>

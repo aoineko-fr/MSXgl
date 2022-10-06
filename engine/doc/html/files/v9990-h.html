@@ -12,273 +12,296 @@
  <div class="CTitle">Core</div>
 </div>
 
-<a name="V9_SetPort"></a><a name="Topic637"></a><div class="CTopic TFunction LC">
+<a name="V9_SetPort"></a><a name="Topic745"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetPort</div>
- <div id="NDPrototype637" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetPort(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, d, e, h, iyl, iyh)</td></tr></table></div></div>
- <div class="CBody"><p>Set port value</p></div>
+ <div id="NDPrototype745" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetPort(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, d, e, h, iyl, iyh)</td></tr></table></div></div>
+ <div class="CBody"><p>Set port value</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Port address (V9990 is plug to ports 60h~6Fh)</p></td></tr><tr><td class="CDLEntry">value<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write to the port</p></td></tr></table></div>
 </div>
 
-<a name="V9_GetPort"></a><a name="Topic638"></a><div class="CTopic TFunction LC">
+<a name="V9_GetPort"></a><a name="Topic746"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_GetPort</div>
- <div id="NDPrototype638" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 V9_GetPort(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, d, e, h, l, iyl, iyh)</td></tr></table></div></div>
- <div class="CBody"><p>Get port value</p></div>
+ <div id="NDPrototype746" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 V9_GetPort(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, d, e, h, l, iyl, iyh)</td></tr></table></div></div>
+ <div class="CBody"><p>Get port value</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Port address (V9990 is plug to ports 60h~6Fh)</p></td></tr></table><div class="CHeading">Return</div><p>Value read from the givem port</p></div>
 </div>
 
-<a name="V9_SetRegister"></a><a name="Topic639"></a><div class="CTopic TFunction LC">
+<a name="V9_SetRegister"></a><a name="Topic747"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetRegister</div>
- <div id="NDPrototype639" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetRegister(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, h, iyl, iyh)</td></tr></table></div></div>
- <div class="CBody"><p>Set register value</p></div>
+ <div id="NDPrototype747" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetRegister(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, h, iyl, iyh)</td></tr></table></div></div>
+ <div class="CBody"><p>Set register value This function as no effect if register is read-only</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">reg<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>V9990 register number</p></td></tr><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write to the register</p></td></tr></table></div>
 </div>
 
-<a name="V9_GetRegister"></a><a name="Topic640"></a><div class="CTopic TFunction LC">
+<a name="V9_GetRegister"></a><a name="Topic748"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_GetRegister</div>
- <div id="NDPrototype640" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 V9_GetRegister(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, h, l, iyl, iyh)</td></tr></table></div></div>
- <div class="CBody"><p>Get register value</p></div>
+ <div id="NDPrototype748" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 V9_GetRegister(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, h, l, iyl, iyh)</td></tr></table></div></div>
+ <div class="CBody"><p>Get register value</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">reg<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>V9990 register number</p></td></tr></table><div class="CHeading">Return</div><p>Value read from the register (FFh is returned if register is write only)</p></div>
 </div>
 
-<a name="V9_SetFlag"></a><a name="Topic118"></a><div class="CTopic TFunction LC">
+<a name="V9_SetFlag"></a><a name="Topic749"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetFlag</div>
- <div id="NDPrototype118" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetFlag(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mask,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flag</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Helper function to change some bits in a given register The function a register value, mask the given bits, add the new value, than set the register</p></div>
+ <div id="NDPrototype749" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetFlag(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mask,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flag</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Helper function to change some bits in a given register The function get a register value, apply a mask, 'or' the new value, than set the register</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">reg<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>V9990 register number</p></td></tr><tr><td class="CDLEntry">mask<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Bits to be cleared</p></td></tr><tr><td class="CDLEntry">flag<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Bits to be set</p></td></tr></table></div>
 </div>
 
 <a name="VRAM_access"></a><a name="Topic625"></a><div class="CTopic TGroup LC">
  <div class="CTitle">VRAM access</div>
 </div>
 
-<a name="V9_SetWriteAddress"></a><a name="Topic647"></a><div class="CTopic TFunction LC">
+<a name="V9_SetWriteAddress"></a><a name="Topic750"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetWriteAddress</div>
- <div id="NDPrototype647" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetWriteAddress(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, iyl, iyh)</td></tr></table></div></div>
- <div class="CBody"><p>Initialize VRAM address for writing</p></div>
+ <div id="NDPrototype750" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetWriteAddress(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, iyl, iyh)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize VRAM address for writing</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u32</div></td><td class="CDLDefinition"><p>Address to be setup for write access</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetReadAddress"></a><a name="Topic648"></a><div class="CTopic TFunction LC">
+<a name="V9_SetReadAddress"></a><a name="Topic751"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetReadAddress</div>
- <div id="NDPrototype648" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetReadAddress(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, iyl, iyh)</td></tr></table></div></div>
- <div class="CBody"><p>Initialize VRAM address for reading</p></div>
+ <div id="NDPrototype751" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetReadAddress(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, iyl, iyh)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize VRAM address for reading</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u32</div></td><td class="CDLDefinition"><p>Address to be setup for read access</p></td></tr></table></div>
 </div>
 
-<a name="V9_FillVRAM_CurrentAddr"></a><a name="Topic649"></a><div class="CTopic TFunction LC">
+<a name="V9_FillVRAM_CurrentAddr"></a><a name="Topic752"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_FillVRAM_CurrentAddr</div>
- <div id="NDPrototype649" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_FillVRAM_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype752" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_FillVRAM_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Fill VRAM with 8-bits value from the previously setup write VRAM address</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">value<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>8-bits value to be set</p></td></tr><tr><td class="CDLEntry">count<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the filled space in VRAM</p></td></tr></table></div>
 </div>
 
-<a name="V9_FillVRAM16_CurrentAddr"></a><a name="Topic278"></a><div class="CTopic TFunction LC">
+<a name="V9_FillVRAM16_CurrentAddr"></a><a name="Topic753"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_FillVRAM16_CurrentAddr</div>
- <div id="NDPrototype278" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_FillVRAM16_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype753" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_FillVRAM16_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Fill VRAM with 16-bits value from the previously setup write VRAM address</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">value<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>16-bits value to be set</p></td></tr><tr><td class="CDLEntry">count<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the filled space in VRAM (size in bytes is 'count * 2')</p></td></tr></table></div>
 </div>
 
-<a name="V9_WriteVRAM_CurrentAddr"></a><a name="Topic650"></a><div class="CTopic TFunction LC">
+<a name="V9_WriteVRAM_CurrentAddr"></a><a name="Topic754"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_WriteVRAM_CurrentAddr</div>
- <div id="NDPrototype650" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_WriteVRAM_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype754" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_WriteVRAM_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Copy data from RAM buffer to the previously setup write VRAM address</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">src<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Pointer to the source data buffer to be copied in VRAM</p></td></tr><tr><td class="CDLEntry">count<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the data to be copied in VRAM</p></td></tr></table></div>
 </div>
 
-<a name="V9_ReadVRAM_CurrentAddr"></a><a name="Topic651"></a><div class="CTopic TFunction LC">
+<a name="V9_ReadVRAM_CurrentAddr"></a><a name="Topic755"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_ReadVRAM_CurrentAddr</div>
- <div id="NDPrototype651" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_ReadVRAM_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype755" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_ReadVRAM_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Copy data from the previously setup read VRAM address to a RAM buffer</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Pointer to the destination data buffer</p></td></tr><tr><td class="CDLEntry">count<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the data to be copied in VRAM</p></td></tr></table></div>
 </div>
 
-<a name="V9_Poke_CurrentAddr"></a><a name="Topic652"></a><div class="CTopic TFunction LC">
+<a name="V9_Poke_CurrentAddr"></a><a name="Topic756"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_Poke_CurrentAddr</div>
- <div id="NDPrototype652" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_Poke_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, h, l, iyl, iyh)</td></tr></table></div></div>
+ <div id="NDPrototype756" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_Poke_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, h, l, iyl, iyh)</td></tr></table></div></div>
+ <div class="CBody"><p>Write a 8-bits value to the previously setup write VRAM address</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The value to be write</p></td></tr></table></div>
 </div>
 
-<a name="V9_Poke16_CurrentAddr"></a><a name="Topic279"></a><div class="CTopic TFunction LC">
+<a name="V9_Poke16_CurrentAddr"></a><a name="Topic757"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_Poke16_CurrentAddr</div>
- <div id="NDPrototype279" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_Poke16_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, iyl, iyh)</td></tr></table></div></div>
+ <div id="NDPrototype757" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_Poke16_CurrentAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, iyl, iyh)</td></tr></table></div></div>
+ <div class="CBody"><p>Write a 16-bits value to the previously setup write VRAM address</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">val<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The value to be write</p></td></tr></table></div>
 </div>
 
-<a name="V9_Peek_CurrentAddr"></a><a name="Topic653"></a><div class="CTopic TFunction LC">
+<a name="V9_Peek_CurrentAddr"></a><a name="Topic758"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_Peek_CurrentAddr</div>
- <div id="NDPrototype653" class="NDPrototype"><div class="PSection PPlainSection">u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh)</div></div>
+ <div id="NDPrototype758" class="NDPrototype"><div class="PSection PPlainSection">u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh)</div></div>
+ <div class="CBody"><p>Read a 8-bits value from the previously setup write VRAM address</p><div class="CHeading">Return</div><p>The value at the given address</p></div>
 </div>
 
-<a name="V9_Peek16_CurrentAddr"></a><a name="Topic280"></a><div class="CTopic TFunction LC">
+<a name="V9_Peek16_CurrentAddr"></a><a name="Topic759"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_Peek16_CurrentAddr</div>
- <div id="NDPrototype280" class="NDPrototype"><div class="PSection PPlainSection">u8 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh)</div></div>
+ <div id="NDPrototype759" class="NDPrototype"><div class="PSection PPlainSection">u8 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh)</div></div>
+ <div class="CBody"><p>Read a 16-bits value from the previously setup write VRAM address</p><div class="CHeading">Return</div><p>The value at the given address</p></div>
 </div>
 
-<a name="V9_FillVRAM"></a><a name="Topic631"></a><div class="CTopic TFunction LC">
+<a name="V9_FillVRAM"></a><a name="Topic760"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_FillVRAM</div>
- <div id="NDPrototype631" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_FillVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype760" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_FillVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Fill VRAM with 8-bits value start to a given VRAM address</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u32</div></td><td class="CDLDefinition"><p>Destinaton VRAM address</p></td></tr><tr><td class="CDLEntry">value<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>8-bits value to be set</p></td></tr><tr><td class="CDLEntry">count<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the filled space in VRAM</p></td></tr></table></div>
 </div>
 
-<a name="V9_FillVRAM16"></a><a name="Topic281"></a><div class="CTopic TFunction LC">
+<a name="V9_FillVRAM16"></a><a name="Topic761"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_FillVRAM16</div>
- <div id="NDPrototype281" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_FillVRAM16(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype761" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_FillVRAM16(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">value,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Fill VRAM with 16-bits value start to the given VRAM address</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u32</div></td><td class="CDLDefinition"><p>Destination VRAM address</p></td></tr><tr><td class="CDLEntry">value<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>16-bits value to be set</p></td></tr><tr><td class="CDLEntry">count<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the filled space in VRAM (size in bytes is 'count * 2')</p></td></tr></table></div>
 </div>
 
-<a name="V9_WriteVRAM"></a><a name="Topic632"></a><div class="CTopic TFunction LC">
+<a name="V9_WriteVRAM"></a><a name="Topic762"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_WriteVRAM</div>
- <div id="NDPrototype632" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_WriteVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype762" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_WriteVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Copy data from a RAM buffer to the given VRAM address</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u32</div></td><td class="CDLDefinition"><p>Destination VRAM address</p></td></tr><tr><td class="CDLEntry">src<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Pointer to the source data buffer to be copied in VRAM</p></td></tr><tr><td class="CDLEntry">count<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the data to be copied in VRAM</p></td></tr></table></div>
 </div>
 
-<a name="V9_ReadVRAM"></a><a name="Topic633"></a><div class="CTopic TFunction LC">
+<a name="V9_ReadVRAM"></a><a name="Topic763"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_ReadVRAM</div>
- <div id="NDPrototype633" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_ReadVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype763" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_ReadVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">count</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Copy data from a given VRAM address to a RAM buffer</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Source VRAM address</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Pointer to the destination data buffer</p></td></tr><tr><td class="CDLEntry">count<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the data to be copied in VRAM</p></td></tr></table></div>
 </div>
 
-<a name="V9_Poke"></a><a name="Topic654"></a><div class="CTopic TFunction LC">
+<a name="V9_Poke"></a><a name="Topic764"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_Poke</div>
- <div id="NDPrototype654" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_Poke(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype764" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_Poke(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Write a 8-bits value to the given VRAM address</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u32</div></td><td class="CDLDefinition"><p>Destination VRAM address</p></td></tr><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The value to be write</p></td></tr></table></div>
 </div>
 
-<a name="V9_Poke16"></a><a name="Topic282"></a><div class="CTopic TFunction LC">
+<a name="V9_Poke16"></a><a name="Topic765"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_Poke16</div>
- <div id="NDPrototype282" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_Poke16(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype765" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_Poke16(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Write a 16-bits value to the given VRAM address</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u32</div></td><td class="CDLDefinition"><p>Destination VRAM address</p></td></tr><tr><td class="CDLEntry">val<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The value to be write</p></td></tr></table></div>
 </div>
 
-<a name="V9_Peek"></a><a name="Topic655"></a><div class="CTopic TFunction LC">
+<a name="V9_Peek"></a><a name="Topic766"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_Peek</div>
- <div id="NDPrototype655" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 V9_Peek(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype766" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 V9_Peek(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Read a 8-bits value from at the given VRAM address</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u32</div></td><td class="CDLDefinition"><p>Source VRAM address</p></td></tr></table><div class="CHeading">Return</div><p>The value at the given address</p></div>
 </div>
 
-<a name="V9_Peek16"></a><a name="Topic283"></a><div class="CTopic TFunction LC">
+<a name="V9_Peek16"></a><a name="Topic767"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_Peek16</div>
- <div id="NDPrototype283" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 V9_Peek16(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype767" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 V9_Peek16(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u32&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Read a 16-bits value from at the given VRAM address</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u32</div></td><td class="CDLDefinition"><p>Source VRAM address</p></td></tr></table><div class="CHeading">Return</div><p>The value at the given address</p></div>
 </div>
 
 <a name="Setting"></a><a name="Topic619"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Setting</div>
 </div>
 
-<a name="V9_SetMode"></a><a name="Topic620"></a><div class="CTopic TFunction LC">
+<a name="V9_SetMode"></a><a name="Topic768"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetMode</div>
- <div id="NDPrototype620" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set the current screen mode</p></div>
+ <div id="NDPrototype768" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the current screen mode</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Screen mode ID (see &lt;V9_SCREEN_MODE&gt;)</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetBPP"></a><a name="Topic621"></a><div class="CTopic TFunction LC">
+<a name="V9_SetBPP"></a><a name="Topic769"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetBPP</div>
- <div id="NDPrototype621" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetBPP(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bpp</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set bit number per pixel</p></div>
+ <div id="NDPrototype769" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetBPP(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bpp</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set bit number per pixel</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">bpp<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>New bits per pixel to set. Can be: V9_R06_BPP_2, V9_R06_BPP_4, V9_R06_BPP_8 or V9_R06_BPP_16</p></td></tr></table></div>
 </div>
 
-<a name="V9_GetBPP"></a><a name="Topic622"></a><div class="CTopic TFunction LC">
+<a name="V9_GetBPP"></a><a name="Topic770"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_GetBPP</div>
- <div id="NDPrototype622" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 V9_GetBPP()</div></div>
- <div class="CBody"><p>Get bit number per pixel</p></div>
+ <div id="NDPrototype770" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 V9_GetBPP()</div></div>
+ <div class="CBody"><p>Get bit number per pixel</p><div class="CHeading">Return</div><p>Current bits per pixel. Can be: V9_R06_BPP_2, V9_R06_BPP_4, V9_R06_BPP_8 or V9_R06_BPP_16</p></div>
 </div>
 
-<a name="V9_SetImageSpaceWidth"></a><a name="Topic623"></a><div class="CTopic TFunction LC">
+<a name="V9_SetImageSpaceWidth"></a><a name="Topic771"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetImageSpaceWidth</div>
- <div id="NDPrototype623" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetImageSpaceWidth(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">width</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set number of pixels in X direction of image space</p></div>
+ <div id="NDPrototype771" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetImageSpaceWidth(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">width</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set number of pixels in X direction of image space</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">width<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>New image space width to set. Can be: V9_R06_WIDH_256, V9_R06_WIDH_512, V9_R06_WIDH_1024 or V9_R06_WIDH_2048</p></td></tr></table></div>
 </div>
 
-<a name="V9_GetImageSpaceWidth"></a><a name="Topic624"></a><div class="CTopic TFunction LC">
+<a name="V9_GetImageSpaceWidth"></a><a name="Topic772"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_GetImageSpaceWidth</div>
- <div id="NDPrototype624" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 V9_GetImageSpaceWidth()</div></div>
- <div class="CBody"><p>Get number of pixels in X direction of image space</p></div>
+ <div id="NDPrototype772" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 V9_GetImageSpaceWidth()</div></div>
+ <div class="CBody"><p>Get number of pixels in X direction of image space</p><div class="CHeading">Return</div><p>Current image space width. Can be: V9_R06_WIDH_256, V9_R06_WIDH_512, V9_R06_WIDH_1024 or V9_R06_WIDH_2048</p></div>
 </div>
 
-<a name="V9_SetDisplayEnable"></a><a name="Topic115"></a><div class="CTopic TFunction LC">
+<a name="V9_SetDisplayEnable"></a><a name="Topic773"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetDisplayEnable</div>
- <div id="NDPrototype115" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetDisplayEnable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype773" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetDisplayEnable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enalbe or disable the screen display</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable or FALSE to disable</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetBackgroundColor"></a><a name="Topic116"></a><div class="CTopic TFunction LC">
+<a name="V9_SetBackgroundColor"></a><a name="Topic774"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetBackgroundColor</div>
- <div id="NDPrototype116" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetBackgroundColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set background color</p></div>
+ <div id="NDPrototype774" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetBackgroundColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set background color</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>New background color</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetAdjustOffset"></a><a name="Topic123"></a><div class="CTopic TFunction LC">
+<a name="V9_GetBackgroundColor"></a><a name="Topic775"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_GetBackgroundColor</div>
+ <div id="NDPrototype775" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 V9_GetBackgroundColor()</div></div>
+ <div class="CBody"><p>Get background color</p><div class="CHeading">Return</div><p>Current background color</p></div>
+</div>
+
+<a name="V9_SetAdjustOffset"></a><a name="Topic776"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetAdjustOffset</div>
- <div id="NDPrototype123" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetAdjustOffset(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Adjustment of the display location on the screen (register 18). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">offset<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Screen display position offset (MSB 4-bits: vertical offset, LSB 4-bits: horizontal offset)</p></td></tr></table></div>
+ <div id="NDPrototype776" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetAdjustOffset(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Adjustment of the display location on the screen</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">offset<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Screen display position offset (MSB 4-bits: vertical offset, LSB 4-bits: horizontal offset)</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetAdjustOffsetXY"></a><a name="Topic124"></a><div class="CTopic TFunction LC">
+<a name="V9_SetAdjustOffsetXY"></a><a name="Topic777"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetAdjustOffsetXY</div>
- <div id="NDPrototype124" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetAdjustOffsetXY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">i8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">i8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Adjustment of the display location on the screen (register 18). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>Horizontal screen display position offset [-7:+8]</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>Vertical screen display position offset [-7:+8]</p></td></tr></table></div>
+ <div id="NDPrototype777" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetAdjustOffsetXY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">i8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">i8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Adjustment of the display location on the screen</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>Horizontal screen display position offset [-7:+8]</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>Vertical screen display position offset [-7:+8]</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetLayerPriority"></a><a name="Topic149"></a><div class="CTopic TFunction LC">
+<a name="V9_SetLayerPriority"></a><a name="Topic778"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetLayerPriority</div>
- <div id="NDPrototype149" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetLayerPriority(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set layer priority for P1 mode</p></div>
+ <div id="NDPrototype778" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetLayerPriority(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set layer priority for P1 mode</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>X coordinate where priority apply (2-bits value x 64 pixel)</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Y coordinate where priority apply (2-bits value x 64 pixel)</p></td></tr></table></div>
 </div>
 
 <a name="Status"></a><a name="Topic306"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Status</div>
 </div>
 
-<a name="V9_GetStatus"></a><a name="Topic676"></a><div class="CTopic TFunction LC">
+<a name="V9_GetStatus"></a><a name="Topic779"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_GetStatus</div>
- <div id="NDPrototype676" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 V9_GetStatus()</div></div>
- <div class="CBody"><p>Get status port value</p></div>
+ <div id="NDPrototype779" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 V9_GetStatus()</div></div>
+ <div class="CBody"><p>Get status port value</p><div class="CHeading">Return</div><p>Value of the status port (include various flags about frame rendering events)</p></div>
 </div>
 
-<a name="V9_IsVBlank"></a><a name="Topic678"></a><div class="CTopic TFunction LC">
+<a name="V9_IsVBlank"></a><a name="Topic780"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_IsVBlank</div>
- <div id="NDPrototype678" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsVBlank()</div></div>
- <div class="CBody"><p>Is vertical non-display period</p></div>
+ <div id="NDPrototype780" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsVBlank()</div></div>
+ <div class="CBody"><p>Is vertical non-display period</p><div class="CHeading">Return</div><p>FALSE if not in vertical non-display period</p></div>
 </div>
 
-<a name="V9_IsHBlank"></a><a name="Topic679"></a><div class="CTopic TFunction LC">
+<a name="V9_IsHBlank"></a><a name="Topic781"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_IsHBlank</div>
- <div id="NDPrototype679" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsHBlank()</div></div>
- <div class="CBody"><p>Is horizontal non-display period</p></div>
+ <div id="NDPrototype781" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsHBlank()</div></div>
+ <div class="CBody"><p>Is horizontal non-display period</p><div class="CHeading">Return</div><p>FALSE if not in horizontal non-display period</p></div>
 </div>
 
-<a name="V9_IsCmdDataReady"></a><a name="Topic677"></a><div class="CTopic TFunction LC">
+<a name="V9_IsCmdDataReady"></a><a name="Topic782"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_IsCmdDataReady</div>
- <div id="NDPrototype677" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsCmdDataReady()</div></div>
- <div class="CBody"><p>Check if command data transfer ready</p></div>
+ <div id="NDPrototype782" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsCmdDataReady()</div></div>
+ <div class="CBody"><p>Check if command data transfer ready</p><div class="CHeading">Return</div><p>FALSE if command data transfer not ready</p></div>
 </div>
 
-<a name="V9_IsCmdRunning"></a><a name="Topic308"></a><div class="CTopic TFunction LC">
+<a name="V9_IsCmdRunning"></a><a name="Topic783"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_IsCmdRunning</div>
- <div id="NDPrototype308" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsCmdRunning()</div></div>
- <div class="CBody"><p>Check if a command is in process</p></div>
+ <div id="NDPrototype783" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsCmdRunning()</div></div>
+ <div class="CBody"><p>Check if a command is in process</p><div class="CHeading">Return</div><p>FALSE if command not being executed</p></div>
 </div>
 
-<a name="V9_IsSecondField"></a><a name="Topic309"></a><div class="CTopic TFunction LC">
+<a name="V9_IsSecondField"></a><a name="Topic784"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_IsSecondField</div>
- <div id="NDPrototype309" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsSecondField()</div></div>
- <div class="CBody"><p>Check if render is in the second field period during interlace</p></div>
+ <div id="NDPrototype784" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsSecondField()</div></div>
+ <div class="CBody"><p>Check if render is in the second field period during interlace</p><div class="CHeading">Return</div><p>FALSE if not in the second field period during interlace</p></div>
 </div>
 
 <a name="Interrupt"></a><a name="Topic194"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Interrupt</div>
 </div>
 
-<a name="V9_SetInterrupt"></a><a name="Topic386"></a><div class="CTopic TFunction LC">
+<a name="V9_SetInterrupt"></a><a name="Topic785"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetInterrupt</div>
- <div id="NDPrototype386" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetInterrupt(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flags</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set interruption flags</p></div>
+ <div id="NDPrototype785" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetInterrupt(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flags</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set interruption flags</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">flags<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Can be a combination of V9_INT_VBLANK, V9_INT_HBLANK or V9_INT_CMDEND</p></td></tr></table></div>
 </div>
 
-<a name="V9_DisableInterrupt"></a><a name="Topic310"></a><div class="CTopic TFunction LC">
+<a name="V9_DisableInterrupt"></a><a name="Topic786"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_DisableInterrupt</div>
- <div id="NDPrototype310" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_DisableInterrupt()</div></div>
- <div class="CBody"><p>Disable interruption</p></div>
+ <div id="NDPrototype786" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_DisableInterrupt()</div></div>
+ <div class="CBody"><p>Disable all interruptions</p></div>
 </div>
 
-<a name="V9_SetVBlankInterrupt"></a><a name="Topic630"></a><div class="CTopic TFunction LC">
+<a name="V9_SetVBlankInterrupt"></a><a name="Topic787"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetVBlankInterrupt</div>
- <div id="NDPrototype630" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetVBlankInterrupt(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set vertical blank interruption</p></div>
+ <div id="NDPrototype787" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetVBlankInterrupt(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set vertical blank interruption</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable or FALSE to disable</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetHBlankInterrupt"></a><a name="Topic663"></a><div class="CTopic TFunction LC">
+<a name="V9_SetHBlankInterrupt"></a><a name="Topic788"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetHBlankInterrupt</div>
- <div id="NDPrototype663" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetHBlankInterrupt(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set horizontal blank interruption</p></div>
+ <div id="NDPrototype788" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetHBlankInterrupt(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set horizontal blank interruption</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable or FALSE to disable</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetCmdEndInterrupt"></a><a name="Topic664"></a><div class="CTopic TFunction LC">
+<a name="V9_SetCmdEndInterrupt"></a><a name="Topic789"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetCmdEndInterrupt</div>
- <div id="NDPrototype664" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCmdEndInterrupt(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set command end interruption</p></div>
+ <div id="NDPrototype789" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCmdEndInterrupt(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set command end interruption</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable or FALSE to disable</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetInterruptLine"></a><a name="Topic741"></a><div class="CTopic TFunction LC">
+<a name="V9_SetInterruptLine"></a><a name="Topic790"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetInterruptLine</div>
- <div id="NDPrototype741" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetInterruptLine(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">line</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Specification of vertical position where display position interrupt occurs (Specified by means of line No. with the display start line as &quot;0&quot;.)</p></div>
+ <div id="NDPrototype790" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetInterruptLine(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">line</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Specification of vertical position where display position interrupt occurs</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">line<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Line where h-blank interruption will occur (Specified by means of line No. with the display start line as &quot;0&quot;)</p></td></tr></table></div>
 </div>
 
 <a name="V9_SetInterruptEveryLine"></a><a name="Topic742"></a><div class="CTopic TFunction LC">
@@ -287,44 +310,50 @@
  <div class="CBody"><p>Set line interrupt on every line</p></div>
 </div>
 
-<a name="V9_SetInterruptX"></a><a name="Topic666"></a><div class="CTopic TFunction LC">
+<a name="V9_SetInterruptX"></a><a name="Topic791"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetInterruptX</div>
- <div id="NDPrototype666" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetInterruptX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Specification of horizontal position where display position interrupt occurs (Specified by unit of 64 master clock with the display start position as &quot;0&quot;.)</p></div>
+ <div id="NDPrototype791" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetInterruptX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Specification of horizontal position where display position interrupt occurs</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Horizontal position where h-blank interruption will occur (Specified by unit of 64 master clock with the display start position as &quot;0&quot;)</p></td></tr></table></div>
 </div>
 
 <a name="Scrolling"></a><a name="Topic667"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Scrolling</div>
 </div>
 
-<a name="V9_SetScrollingX"></a><a name="Topic641"></a><div class="CTopic TFunction LC">
+<a name="V9_SetScrollingX"></a><a name="Topic792"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetScrollingX</div>
- <div id="NDPrototype641" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetScrollingX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">x</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype792" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetScrollingX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">x</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set horizontal scrolling value</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Scrolling value (between 0 and image space width-1)</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetScrollingY"></a><a name="Topic642"></a><div class="CTopic TFunction LC">
+<a name="V9_SetScrollingY"></a><a name="Topic793"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetScrollingY</div>
- <div id="NDPrototype642" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetScrollingY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype793" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetScrollingY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set vertical scrolling value</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">y<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Scrolling value (between 0 and image space height-1)</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetScrolling"></a><a name="Topic643"></a><div class="CTopic TFunction LC">
+<a name="V9_SetScrolling"></a><a name="Topic794"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetScrolling</div>
- <div id="NDPrototype643" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetScrolling(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype794" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetScrolling(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set horizontal and vertical scrolling values</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Scrolling value (between 0 and image space width-1)</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Scrolling value (between 0 and image space height-1)</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetScrollingBX"></a><a name="Topic644"></a><div class="CTopic TFunction LC">
+<a name="V9_SetScrollingBX"></a><a name="Topic795"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetScrollingBX</div>
- <div id="NDPrototype644" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetScrollingBX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">x</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype795" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetScrollingBX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">x</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set horizontal scrolling value for layer B (P1 mode only)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Scrolling value (between 0 and image space width-1)</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetScrollingBY"></a><a name="Topic645"></a><div class="CTopic TFunction LC">
+<a name="V9_SetScrollingBY"></a><a name="Topic796"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetScrollingBY</div>
- <div id="NDPrototype645" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetScrollingBY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype796" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetScrollingBY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set vertical scrolling value for layer B (P1 mode only)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">y<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Scrolling value (between 0 and image space height-1)</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetScrollingB"></a><a name="Topic646"></a><div class="CTopic TFunction LC">
+<a name="V9_SetScrollingB"></a><a name="Topic797"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetScrollingB</div>
- <div id="NDPrototype646" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetScrollingB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype797" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetScrollingB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set horizontal and vertical scrolling values for layer B (P1 mode only)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Scrolling value (between 0 and image space width-1)</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Scrolling value (between 0 and image space height-1)</p></td></tr></table></div>
 </div>
 
 <a name="Cursor"></a><a name="Topic668"></a><div class="CTopic TGroup LC">

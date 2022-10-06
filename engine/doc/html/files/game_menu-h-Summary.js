@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:game_menu.h","game_menu.h");NDSummary.OnSummaryLoaded("File:game_menu.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[665,0,1,"Functions","Functions"],[744,0,0,"Menu_SetCallback","Menu_SetCallback"]]);

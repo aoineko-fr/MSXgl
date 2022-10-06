@@ -12,19 +12,52 @@
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="NTap_Check"></a><a name="Topic288"></a><div class="CTopic TFunction LC">
+<a name="NTap_Check"></a><a name="Topic293"></a><div class="CTopic TFunction LC">
  <div class="CTitle">NTap_Check</div>
- <div id="NDPrototype288" class="NDPrototype"><div class="PSection PPlainSection">u8 NTap_Check()</div></div>
+ <div id="NDPrototype293" class="NDPrototype"><div class="PSection PPlainSection">u8 NTap_Check()</div></div>
+ <div class="CBody"><p>Check the presence of Ninja Tap in the joystick ports.</p><div class="CHeading">Return</div><p>Ninja Tap information. See <a href="../../index.html#File:device/ninjatap.h:NTap_GetInfo" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,295);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_GetInfo</a></p></div>
 </div>
 
-<a name="NTap_Update"></a><a name="Topic292"></a><div class="CTopic TFunction LC">
+<a name="NTap_GetInfo"></a><a name="Topic295"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">NTap_GetInfo</div>
+ <div id="NDPrototype295" class="NDPrototype"><div class="PSection PPlainSection">u8 NTap_GetInfo()</div></div>
+ <div class="CBody"><p>Get Ninja Tap information.&nbsp; <a href="../../index.html#File:device/ninjatap.h:NTap_Check" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,293);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_Check</a> function must be called first.</p><div class="CHeading">Return</div><p>Number of usable joysticks and types. See <a href="../../index.html#File:device/ninjatap.h:NTap_Check" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,293);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_Check</a>.</p><pre class="CText">7    6   5   4   3   2   1   0<br />│    │   │   │   └───┴───┴───┴── Nomber of joystick port available (2, 5 or 8)<br />│    │   └───┴────────────────── Tap type pluged in port 1 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)<br />└────┴────────────────────────── Tap type pluged in port 2 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)</pre></div>
+</div>
+
+<a name="NTap_GetPortNum"></a><a name="Topic296"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">NTap_GetPortNum</div>
+ <div id="NDPrototype296" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 NTap_GetPortNum()</div></div>
+ <div class="CBody"><p>Get total number of joystick port.&nbsp; <a href="../../index.html#File:device/ninjatap.h:NTap_Check" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,293);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_Check</a> function must be called first.</p><div class="CHeading">Return</div><p>Number of usable joysticks. See <a href="../../index.html#File:device/ninjatap.h:NTap_Check" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,293);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_Check</a>.</p></div>
+</div>
+
+<a name="NTap_Update"></a><a name="Topic280"></a><div class="CTopic TFunction LC">
  <div class="CTitle">NTap_Update</div>
- <div id="NDPrototype292" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> NTap_Update()</div></div>
+ <div id="NDPrototype280" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> NTap_Update()</div></div>
+ <div class="CBody"><p>Update the status of all joysticks whether they are connected to a Ninja Tap or directly to the port.</p></div>
 </div>
 
-<a name="NTap_Get"></a><a name="Topic293"></a><div class="CTopic TFunction LC last">
- <div class="CTitle">NTap_Get</div>
- <div id="NDPrototype293" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 NTap_Get(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">ply</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="NTap_GetData"></a><a name="Topic281"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">NTap_GetData</div>
+ <div id="NDPrototype281" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 NTap_GetData(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">idx</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get the data of a given joystick according to its index.&nbsp; <a href="../../index.html#File:device/ninjatap.h:NTap_Update" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,280);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_Update</a> function must be called first.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">idx<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Joystick port index.&nbsp; For example, if the Ninja Tap is connected to port B, the first entry (index 0) will be the joystick connected directly to port A, while the next (index 1) will be the joystick connected to the first port of the Ninja Tap.</p></td></tr></table><div class="CHeading">Return</div><p>State of the joystick. Bit set to 0 are triggered.</p><pre class="CText">7    6   5   4   3   2   1   0<br />│    │   │   │   │   │   │   └── Right direction<br />│    │   │   │   │   │   └────── Left direction<br />│    │   │   │   │   └────────── Down direction<br />│    │   │   │   └────────────── Up direction<br />│    │   │   └────────────────── Start bouton (for NES pad)<br />│    │   └────────────────────── Select bouton (for NES pad)<br />│    └────────────────────────── A bouton<br />└─────────────────────────────── B bouton</pre></div>
+</div>
+
+<a name="NTap_IsPressed"></a><a name="Topic282"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">NTap_IsPressed</div>
+ <div id="NDPrototype282" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 NTap_IsPressed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">idx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">btn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Check if the given bouton is pressed on the given joystick index <a href="../../index.html#File:device/ninjatap.h:NTap_Update" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,280);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_Update</a> function must be called first.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">idx<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Joystick port index.</p></td></tr><tr><td class="CDLEntry">btn<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Bouton value.&nbsp; Can be one of &lt;NTAP_RIGHT&gt;, &lt;NTAP_LEFT&gt;, &lt;NTAP_DOWN&gt;, &lt;NTAP_UP&gt;, &lt;NTAP_START&gt;, &lt;NTAP_SELECT&gt;, &lt;NTAP_A&gt; or &lt;NTAP_B&gt;.</p></td></tr></table><div class="CHeading">Return</div><p>TRUE if button is currently pressed, FALSE otherwise.</p></div>
+</div>
+
+<a name="NTap_IsPushed"></a><a name="Topic283"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">NTap_IsPushed</div>
+ <div id="NDPrototype283" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 NTap_IsPushed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">idx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">btn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Check if the given bouton has just been pushed on the given joystick index <a href="../../index.html#File:device/ninjatap.h:NTap_Update" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,280);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_Update</a> function must be called first.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">idx<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Joystick port index.</p></td></tr><tr><td class="CDLEntry">btn<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Bouton value. See <a href="../../index.html#File:device/ninjatap.h:NTap_IsPressed" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,282);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_IsPressed</a>.</p></td></tr></table><div class="CHeading">Return</div><p>TRUE if button has just been pushed this frame, FALSE otherwise.</p></div>
+</div>
+
+<a name="NTap_IsReleased"></a><a name="Topic294"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">NTap_IsReleased</div>
+ <div id="NDPrototype294" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 NTap_IsReleased(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">idx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">btn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Check if the given bouton has just been released on the given joystick index <a href="../../index.html#File:device/ninjatap.h:NTap_Update" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,280);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_Update</a> function must be called first.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">idx<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Joystick port index.</p></td></tr><tr><td class="CDLEntry">btn<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Bouton value. See <a href="../../index.html#File:device/ninjatap.h:NTap_IsPressed" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,282);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_IsPressed</a>.</p></td></tr></table><div class="CHeading">Return</div><p>TRUE if button has just been released this frame, FALSE otherwise.</p></div>
 </div>
 
 </body></html>

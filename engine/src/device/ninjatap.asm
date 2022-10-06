@@ -364,10 +364,10 @@ CHECK:
 	out		(0xA0), a
 	ex		af, af'		;'
 	or		#0x30
-	out		(0xA1), A	; 8=H
-	ld		A, #14
-	out		(0xA0), A
-	in		A, (0xA2)
+	out		(0xA1), a	; 8=H
+	ld		a, #14
+	out		(0xA0), a
+	in		a, (0xA2)
 	and		#0x20		; 7=L ?
 	jr		nz, CHECK1
 
