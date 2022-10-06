@@ -1194,12 +1194,11 @@ void Print_DrawText(const c8* str)
 // @param		value		Value to print
 void Print_DrawBin8(u8 value)
 {
+	u8 flag = 1 << 7;
 	for(u8 i = 0; i < 8; ++i)
 	{
-		if(value & (1 << (7 - i)))
-			Print_DrawChar('1');
-		else
-			Print_DrawChar('0');
+		Print_DrawChar((value & flag) ? '1' : '0');
+		flag >>= 1;
 	}
 	#if (PRINT_USE_UNIT)
 		Print_DrawChar('b');

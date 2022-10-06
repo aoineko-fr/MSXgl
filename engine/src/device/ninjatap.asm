@@ -174,7 +174,7 @@
 GTNTAP:
 	di
 	; ld		A,(RESULT)
-	ld		a, (_g_NTap_Info) ; 
+	ld		a, (_g_NTap_Buffer) ; 
 	rrca			;Port 1
 	ld		de, #0xAF20
 	call	nc, GETJOY
@@ -325,7 +325,7 @@ CKNTAP:
 ; Result Save
 	ld		c, a
 	; ld		(RESULT), bc
-	ld		(_g_NTap_Info), bc
+	ld		(_g_NTap_Buffer), bc
 ; Port1 ID Check
 ;	LD		H,0FFH
 ;	RRCA

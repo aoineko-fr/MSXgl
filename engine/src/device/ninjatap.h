@@ -17,7 +17,8 @@
 
 #define NTAP_USE_PREVIOUS			0
 
-extern u8 g_NTap_Info[3];
+extern u8 g_NTap_Info;
+extern u8 g_NTap_Buffer[2];
 extern u8 g_NTap_Data[8];
 #if (NTAP_USE_PREVIOUS)
 extern u8 g_NTap_Prev[8];
@@ -55,6 +56,10 @@ extern u8 g_NTap_Prev[8];
 //   Ninja Tap information. See <NTap_GetInfo>
 u8 NTap_Check();
 
+u8 NTap_CheckCustom();
+
+u8 NTap_CheckShinobi();
+
 // Function: NTap_GetInfo
 // Get Ninja Tap information.
 // <NTap_Check> function must be called first.
@@ -65,7 +70,7 @@ u8 NTap_Check();
 //   > │	│	│	│	└───┴───┴───┴── Nomber of joystick port available (2, 5 or 8)
 //   > │	│	└───┴────────────────── Tap type pluged in port 1 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)
 //   > └────┴────────────────────────── Tap type pluged in port 2 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)
-u8 NTap_GetInfo();
+inline u8 NTap_GetInfo() { return g_NTap_Info; }
 
 // Function: NTap_GetPortNum
 // Get total number of joystick port.

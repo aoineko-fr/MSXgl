@@ -26,6 +26,84 @@ void NTap_Dummy()
 	__asm
 		#include "ninjatap.asm"
 
+	//======================================
+	// Connection Check
+	//[E]	None
+	//[R]	(NTAP Info)
+	//[M]	af,bc,de,hl,ix
+
+	//NTAP Info
+	//ofset	-1 Result(Internal Work)
+	//	+0 Max Player
+	//	+1 ID(Port1),0-15	(Dummy)
+	//	+2 ID(Port2),NotAP=255	(Dummy)
+
+	CKNTAP3::
+		di
+		ld		b, #0	// b=Max Player
+		ld		de, #0xBF00
+		call	CHECK3	// Port1 Check
+		ld		c, a
+		ld		e, #0x40
+		call	CHECK3	// Port2 Check
+		rlca
+		or		c
+	// Result Save
+		ld		c, a
+		ld		(_g_NTap_Buffer), bc
+	// Restore Port (6,7,8=H)
+		ld		de, #0xFF3F
+		jp		PORSEL3
+
+	//======================================
+	// Connection Check Sub.
+	CHECK3:
+		call	PORSEL3
+		inc		b
+		and		#0xC0
+		out		(0xA1), a	// 678=L
+		ex		af, af'		;'
+		ld		a, #14
+		out		(0xA0), a
+		in		a, (0xA2)
+		and		#0x20		// 7=H ?
+		ret		z
+
+		ld		a, #15
+		out		(0xA0), a
+		ex		af, af'		;'
+		or		#0x30
+		out		(0xA1), a	// 8=H
+		ld		a, #14
+		out		(0xA0), a
+		in		a, (0xA2)
+		and		#0x20		// 7=L ?
+		jr		nz, CHECK13
+
+		inc		a
+		inc		b
+		inc		b
+		inc		b
+		ret
+
+	// No NTAP
+	CHECK13:
+		xor		a
+		ret
+
+	//======================================
+	// Sub Routine
+	// [E]	D: Mask, E: Flags
+	PORSEL3:
+		ld		a, #15
+		out		(0xA0), a
+		in		a, (0xA2)
+		and		d
+		or		e
+		out		(0xA1), a
+		ret
+
+
 	CHECKPLYRS::
 	// Return the number of players connected
 	// [E] None
@@ -130,7 +208,8 @@ void NTap_Dummy()
 // MEMORY DATA
 //=============================================================================
 
-u8 g_NTap_Info[3];
+u8 g_NTap_Info;
+u8 g_NTap_Buffer[2];
 u8 g_NTap_Data[8];
 #if (NTAP_USE_PREVIOUS)
 u8 g_NTap_Prev[8];
@@ -141,36 +220,93 @@ u8 g_NTap_Prev[8];
 //=============================================================================
 
 //-----------------------------------------------------------------------------
+//
+void NTap_BufferToInfo()
+{
+	g_NTap_Info = g_NTap_Buffer[1];
+	if(g_NTap_Buffer[0] & 1)
+		g_NTap_Info |= NTAP_TYPE_NINJA << 4;
+	if(g_NTap_Buffer[0] & 2)
+		g_NTap_Info |= NTAP_TYPE_NINJA << 6;
+}
+
+
+//-----------------------------------------------------------------------------
 // Check the presence of Ninja Tap in the joystick ports.
 u8 NTap_Check()
 {
 	__asm
 		call	CKNTAP
 	__endasm;
-	return NTap_GetInfo();
+
+	NTap_BufferToInfo();
+	return g_NTap_Info;
+}
+
+//-----------------------------------------------------------------------------
+// Check the presence of Ninja Tap in the joystick ports.
+u8 NTap_CheckCustom()
+{
+	__asm
+		call	CKNTAP3
+	__endasm;
+
+	NTap_BufferToInfo();
+	return g_NTap_Info;
 }
 
 //-----------------------------------------------------------------------------
 // Check the presence of Ninja Tap in the joystick ports. Danjovic version.
-u8 NTap_Check2()
+u8 NTap_CheckShinobi()
 {
 	__asm
 		call	CHECKPLYRS
+		ld		a, c
+		ld		(_g_NTap_Buffer+0), a
 		ld		a, b
-		ld		(_g_NTap_Info+1), a
+		ld		(_g_NTap_Buffer+1), a
 	__endasm;
-}
 
-//-----------------------------------------------------------------------------
-// Get Ninja Tap information.
-u8 NTap_GetInfo()
-{
-	u8 ret = g_NTap_Info[1];
-	if(g_NTap_Info[0] & 1)
-		ret |= 0x10;
-	if(g_NTap_Info[0] & 2)
-		ret |= 0x40;
-	return ret;
+	g_NTap_Info = g_NTap_Buffer[1];
+
+	u8 tmp = 0;
+	u8 check = g_NTap_Buffer[0];
+	// Port B
+	switch(check & 0x03)
+	{
+	case 0x00:
+		tmp |= 0x02;
+		g_NTap_Info |= NTAP_TYPE_SHINOBI << 6;
+		break;
+	case 0x01:
+		tmp |= 0x02;
+		g_NTap_Info |= NTAP_TYPE_NINJA << 6;
+		break;
+	case 0x02:
+		tmp |= 0x02;
+		g_NTap_Info |= NTAP_TYPE_UNKNOW << 6;
+		break;
+	}
+	// Port A
+	check >>= 2;
+	switch(check & 0x03)
+	{
+	case 0x00:
+		tmp |= 0x01;
+		g_NTap_Info |= NTAP_TYPE_SHINOBI << 4;
+		break;
+	case 0x01:
+		tmp |= 0x01;
+		g_NTap_Info |= NTAP_TYPE_NINJA << 4;
+		break;
+	case 0x02:
+		tmp |= 0x01;
+		g_NTap_Info |= NTAP_TYPE_UNKNOW << 4;
+		break;
+	}
+	g_NTap_Buffer[0] = tmp;
+
+	return g_NTap_Info;
 }
 
 //-----------------------------------------------------------------------------
