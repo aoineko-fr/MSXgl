@@ -41,9 +41,9 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 //
 struct NtapDriver g_Drivers[] =
 {
-	{ "DM-System2", NTap_Check },
+	{ "DM-System2", NTap_CheckNT },
 	{ "MSXgl     ", NTap_CheckCustom },
-	{ "Shinobi   ", NTap_CheckShinobi },
+	{ "Shinobi   ", NTap_CheckST },
 };
 
 
@@ -58,7 +58,7 @@ u8 g_Info;
 u8 g_JoyNum;
 
 //
-i8 g_DriverIdx = 0;
+i8 g_DriverIdx = 2;
 
 //=============================================================================
 // CODE

@@ -49,16 +49,16 @@ extern u8 g_NTap_Prev[8];
 // FUNCTIONS
 //=============================================================================
 
+u8 NTap_CheckNT();		// Original DM-System 2 driver
+u8 NTap_CheckCustom();	// Modified version of DM-System 2 driver
+u8 NTap_CheckST();		// Shinobi Tap driver
+
 // Function: NTap_Check
 // Check the presence of Ninja Tap in the joystick ports.
 //
 // Return:
 //   Ninja Tap information. See <NTap_GetInfo>
-u8 NTap_Check();
-
-u8 NTap_CheckCustom();
-
-u8 NTap_CheckShinobi();
+inline u8 NTap_Check() { return NTap_CheckNT(); }
 
 // Function: NTap_GetInfo
 // Get Ninja Tap information.
