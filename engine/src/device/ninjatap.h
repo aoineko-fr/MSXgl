@@ -15,7 +15,9 @@
 // DEFINES
 //=============================================================================
 
-#define NTAP_USE_PREVIOUS			0
+#define NTAP_DRIVER_MSXGL			(1 << 0) // MSXgl custom driver (based on DM-System2 one)
+#define NTAP_DRIVER_GIGAMIX			(1 << 1) // Original Gigamix's DM-System2 driver
+#define NTAP_DRIVER_SHINOBI			(1 << 2) // Shinobi Tap driver by Danjovic
 
 extern u8 g_NTap_Info;
 extern u8 g_NTap_Buffer[2];
@@ -49,8 +51,8 @@ extern u8 g_NTap_Prev[8];
 // FUNCTIONS
 //=============================================================================
 
-u8 NTap_CheckNT();		// Original DM-System 2 driver
-u8 NTap_CheckCustom();	// Modified version of DM-System 2 driver
+u8 NTap_CheckMGL();		// Modified version of DM-System 2 driver
+u8 NTap_CheckDM();		// Original DM-System 2 driver
 u8 NTap_CheckST();		// Shinobi Tap driver
 
 // Function: NTap_Check
@@ -58,7 +60,16 @@ u8 NTap_CheckST();		// Shinobi Tap driver
 //
 // Return:
 //   Ninja Tap information. See <NTap_GetInfo>
-inline u8 NTap_Check() { return NTap_CheckNT(); }
+inline u8 NTap_Check()
+{
+	#if (NTAP_DRIVER & NTAP_DRIVER_MSXGL)
+		return NTap_CheckMGL();
+	#elif (NTAP_DRIVER & NTAP_DRIVER_GIGAMIX)
+		return NTap_CheckDM();
+	#elif (NTAP_DRIVER & NTAP_DRIVER_SHINOBI)
+		return NTap_CheckST();
+	#endif
+}
 
 // Function: NTap_GetInfo
 // Get Ninja Tap information.

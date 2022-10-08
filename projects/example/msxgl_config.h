@@ -345,7 +345,18 @@
 #define MSXi_USE_COMP_RLE8			TRUE
 
 //-----------------------------------------------------------------------------
-// MISC
+// NINJATAP MODULE
+//-----------------------------------------------------------------------------
+
+// Supported driver(s)
+// - NTAP_DRIVER_MSXGL ............ MSXgl custom driver (based on DM-System2 one)
+// - NTAP_DRIVER_GIGAMIX .......... Original Gigamix's DM-System2 driver
+// - NTAP_DRIVER_SHINOBI .......... Shinobi Tap driver by Danjovic
+#define NTAP_DRIVER					NTAP_DRIVER_MSXGL | NTAP_DRIVER_GIGAMIX | NTAP_DRIVER_SHINOBI
+#define NTAP_USE_PREVIOUS			TRUE	// Backup previous data to allow push/release detection
+
+//-----------------------------------------------------------------------------
+// DEBUG
 //-----------------------------------------------------------------------------
 
 // Profiler method

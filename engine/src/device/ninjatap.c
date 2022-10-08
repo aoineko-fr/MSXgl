@@ -11,9 +11,33 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "ninjatap.h"
 
+#define NTAP_USE_PATCH				FALSE
+
 //=============================================================================
-// DEFINES
+// OPTIONS VALIDATION
 //=============================================================================
+
+// NTAP_DRIVER
+#ifndef NTAP_DRIVER
+	#warning NTAP_DRIVER is not defined in "msxgl_config.h"! Default value will be used: NTAP_DRIVER_MSXGL
+	#define NTAP_DRIVER				NTAP_DRIVER_MSXGL
+#endif
+#if ((NTAP_DRIVER & 0x07) == 0)
+	#warning Invalide value for NTAP_DRIVER! Default value will be used: NTAP_DRIVER_MSXGL
+	#define NTAP_DRIVER				NTAP_DRIVER_MSXGL
+#endif
+
+// NTAP_USE_PATCH
+#ifndef NTAP_USE_PATCH
+	#warning NTAP_USE_PATCH is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define NTAP_USE_PATCH			FALSE
+#endif
+
+// NTAP_USE_PREVIOUS
+#ifndef NTAP_USE_PREVIOUS
+	#warning NTAP_USE_PREVIOUS is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define NTAP_USE_PREVIOUS		TRUE
+#endif
 
 //=============================================================================
 // READ-ONLY DATA
@@ -24,9 +48,16 @@
 void NTap_Dummy()
 {
 	__asm
-		#include "ninjatap.asm"
-		#include "ninjatap_st.asm"
 
+	#if (NTAP_DRIVER & NTAP_DRIVER_GIGAMIX)
+		#include "ninjatap.asm"
+	#endif
+
+	#if (NTAP_DRIVER & NTAP_DRIVER_SHINOBI)
+		#include "ninjatap_st.asm"
+	#endif
+
+	#if (NTAP_DRIVER & NTAP_DRIVER_MSXGL)
 	//======================================
 	// Connection Check
 	//[E]	None
@@ -39,14 +70,22 @@ void NTap_Dummy()
 	//	+1 ID(Port1),0-15	(Dummy)
 	//	+2 ID(Port2),NotAP=255	(Dummy)
 
-	CKNTAP3::
+	MGL_CKNTAP::
 		di
 		ld		b, #0	// b=Max Player
+#if (NTAP_USE_PATCH)
+		ld		de, #0xBF0A
+#else
 		ld		de, #0xBF00
-		call	CHECK3	// Port1 Check
+#endif
+		call	MGL_CHECK	// Port1 Check
 		ld		c, a
+#if (NTAP_USE_PATCH)
+		ld		e, #0x4A
+#else
 		ld		e, #0x40
-		call	CHECK3	// Port2 Check
+#endif
+		call	MGL_CHECK	// Port2 Check
 		rlca
 		or		c
 	// Result Save
@@ -54,14 +93,18 @@ void NTap_Dummy()
 		ld		(_g_NTap_Buffer), bc
 	// Restore Port (6,7,8=H)
 		ld		de, #0xFF3F
-		jp		PORSEL3
+		jp		MGL_PORSEL
 
 	//======================================
 	// Connection Check Sub.
-	CHECK3:
-		call	PORSEL3
+	MGL_CHECK:
+		call	MGL_PORSEL
 		inc		b
+#if (NTAP_USE_PATCH)
+		and		#0xCA
+#else
 		and		#0xC0
+#endif
 		out		(0xA1), a	// 678=L
 		ex		af, af'		;'
 		ld		a, #14
@@ -79,7 +122,7 @@ void NTap_Dummy()
 		out		(0xA0), a
 		in		a, (0xA2)
 		and		#0x20		// 7=L ?
-		jr		nz, CHECK13
+		jr		nz, MGL_CHECK1
 
 		inc		a
 		inc		b
@@ -88,14 +131,14 @@ void NTap_Dummy()
 		ret
 
 	// No NTAP
-	CHECK13:
+	MGL_CHECK1:
 		xor		a
 		ret
 
 	//======================================
 	// Sub Routine
 	// [E]	D: Mask, E: Flags
-	PORSEL3:
+	MGL_PORSEL:
 		ld		a, #15
 		out		(0xA0), a
 		in		a, (0xA2)
@@ -103,6 +146,7 @@ void NTap_Dummy()
 		or		e
 		out		(0xA1), a
 		ret
+	#endif
 
 	__endasm;
 }
@@ -133,10 +177,24 @@ void NTap_BufferToInfo()
 		g_NTap_Info |= NTAP_TYPE_NINJA << 6;
 }
 
-
+#if (NTAP_DRIVER & NTAP_DRIVER_MSXGL)
 //-----------------------------------------------------------------------------
 // Check the presence of Ninja Tap in the joystick ports.
-u8 NTap_CheckNT()
+u8 NTap_CheckMGL()
+{
+	__asm
+		call	MGL_CKNTAP
+	__endasm;
+
+	NTap_BufferToInfo();
+	return g_NTap_Info;
+}
+#endif
+
+#if (NTAP_DRIVER & NTAP_DRIVER_GIGAMIX)
+//-----------------------------------------------------------------------------
+// Check the presence of Ninja Tap in the joystick ports.
+u8 NTap_CheckDM()
 {
 	__asm
 		call	CKNTAP
@@ -145,19 +203,9 @@ u8 NTap_CheckNT()
 	NTap_BufferToInfo();
 	return g_NTap_Info;
 }
+#endif
 
-//-----------------------------------------------------------------------------
-// Check the presence of Ninja Tap in the joystick ports.
-u8 NTap_CheckCustom()
-{
-	__asm
-		call	CKNTAP3
-	__endasm;
-
-	NTap_BufferToInfo();
-	return g_NTap_Info;
-}
-
+#if (NTAP_DRIVER & NTAP_DRIVER_SHINOBI)
 //-----------------------------------------------------------------------------
 // Check the presence of Ninja Tap in the joystick ports. Danjovic version.
 u8 NTap_CheckST()
@@ -178,6 +226,7 @@ u8 NTap_CheckST()
 
 	return g_NTap_Info;
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Update the status of all joysticks whether they are connected to a Ninja Tap or directly to the port.

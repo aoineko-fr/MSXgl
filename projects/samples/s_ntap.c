@@ -41,8 +41,8 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 //
 struct NtapDriver g_Drivers[] =
 {
-	{ "DM-System2", NTap_CheckNT },
-	{ "MSXgl     ", NTap_CheckCustom },
+	{ "DM-System2", NTap_CheckDM },
+	{ "MSXgl     ", NTap_CheckMGL },
 	{ "Shinobi   ", NTap_CheckST },
 };
 
