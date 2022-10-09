@@ -65,6 +65,17 @@ i8 g_DriverIdx = 2;
 //=============================================================================
 
 //-----------------------------------------------------------------------------
+//
+void Print_DrawVersion(u16 ver)
+{
+	Print_DrawInt(ver >> 12);
+	Print_DrawChar('.');
+	Print_DrawInt((ver >> 6) & 0x3F);
+	Print_DrawChar('.');
+	Print_DrawInt(ver & 0x3F);
+}
+
+//-----------------------------------------------------------------------------
 // 
 const c8* NTapType(u8 type)
 {
@@ -75,8 +86,6 @@ const c8* NTapType(u8 type)
 	}
 	return "Unknow";
 }
-
-
 
 //-----------------------------------------------------------------------------
 // 
@@ -93,7 +102,7 @@ void NTapScan()
 	Print_DrawLineH(0, 1, 32);
 
 	Print_SetPosition(3, TAB_Y);
-	Print_DrawText("AB\x07\x07\x88\x89\x8B\x8A");
+	Print_DrawText("ABSR\x88\x89\x8B\x8A");
 	Print_DrawLineH(0, TAB_Y+1, 12);
 
 	// Body
@@ -129,7 +138,8 @@ void NTapScan()
 	// Footer
 	Print_DrawLineH(0, 22, 32);
 	Print_SetPosition(0, 23);
-	Print_DrawText("R:Rescan D:Driver");
+	Print_DrawText("R:Rescan D:Driver        ");
+	Print_DrawVersion(VERSION_CURRENT);
 }
 
 //-----------------------------------------------------------------------------

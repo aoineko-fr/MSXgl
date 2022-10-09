@@ -82,12 +82,11 @@ const struct ScreenMode g_ScreenMode[] =
 // Black color
 const u8 g_Black[] = { 0, 0, 0 };
 
-
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
-u8  g_CurrentMode = 0;
+u8  g_CurrentMode = 2;
 u8  g_CurrentBPP = BPP_4;
 u16 g_Frame = 0;
 
@@ -111,7 +110,7 @@ void V9_Print(u32 addr, const c8* str)
 //
 void InitP1()
 {
-	V9_ClearVRAM();
+	// V9_ClearVRAM();
 	V9_SetMode(V9_MODE_P1);
 	V9_SetSpriteEnable(TRUE);
 
@@ -241,7 +240,7 @@ void V9_WriteVRAM_256to512(u32 addr, const u8* src, u8 line)
 //
 void InitP2()
 {
-	V9_ClearVRAM();
+	// V9_ClearVRAM();
 	V9_SetMode(V9_MODE_P2);
 	V9_SetSpriteEnable(TRUE);
 
@@ -366,13 +365,52 @@ void TickP2()
 //-----------------------------------------------------------------------------
 
 //
+void InitBitmap(u8 mode)
+{
+	V9_FillVRAM(0, 0, 512*512);
+	// V9_ClearVRAM();
+	V9_SetMode(mode);
+	V9_SetBPP(V9_R06_BPP_4);
+	V9_SetImageSpaceWidth(V9_R06_WIDH_1024);
+
+	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
+	V9_SetInterruptLine(8);
+
+	V9_SetLayerPalette(0, 0);
+	V9_SetScrollingX(0);
+
+	for(u8 i = 0; i < 48; ++i)
+		V9_WriteVRAM((u32)(0 + (512 * (0 + i))), g_DataV9BG + (128 * i), 128);
+
+	for(u8 i = 0; i < 24; ++i)
+		V9_WriteVRAM((u32)(0 + (512 * (48 + i))), g_DataV9Font + (128 * i), 128);
+
+	for(u8 i = 0; i < 16; ++i)
+		V9_WriteVRAM((u32)(0 + (512 * (96 + i))), g_DataV9BG + (128 * i), 128);
+
+	// V9_SetCommandWriteMask(0xFFFF);
+	// V9_CommandLMMV(0, 0, 1024, 256, V9_R45_LOP_SET, 0);
+}
+
+//
+void TickBitmap()
+{
+	V9_SetLayerPalette(2, 2);
+	V9_SetScrollingX(0);
+
+	g_Frame++;
+}
+
+//
 void InitB0()
 {
+	InitBitmap(V9_MODE_B0);
 }
 
 //
 void TickB0()
 {
+	TickBitmap();
 }
 
 //-----------------------------------------------------------------------------
@@ -382,13 +420,13 @@ void TickB0()
 //
 void InitB1()
 {
-	// V9_SetMode(V9_MODE_B1);
-	// V9_SetBPP(V9_R06_BPP_4);
+	InitBitmap(V9_MODE_B1);
 }
 
 //
 void TickB1()
 {
+	TickBitmap();
 }
 
 //-----------------------------------------------------------------------------
@@ -398,11 +436,13 @@ void TickB1()
 //
 void InitB2()
 {
+	InitBitmap(V9_MODE_B2);
 }
 
 //
 void TickB2()
 {
+	TickBitmap();
 }
 
 //-----------------------------------------------------------------------------
@@ -412,11 +452,13 @@ void TickB2()
 //
 void InitB3()
 {
+	InitBitmap(V9_MODE_B3);
 }
 
 //
 void TickB3()
 {
+	TickBitmap();
 }
 
 //-----------------------------------------------------------------------------
@@ -426,11 +468,13 @@ void TickB3()
 //
 void InitB4()
 {
+	InitBitmap(V9_MODE_B4);
 }
 
 //
 void TickB4()
 {
+	TickBitmap();
 }
 
 //-----------------------------------------------------------------------------
@@ -440,11 +484,13 @@ void TickB4()
 //
 void InitB5()
 {
+	InitBitmap(V9_MODE_B5);
 }
 
 //
 void TickB5()
 {
+	TickBitmap();
 }
 
 //-----------------------------------------------------------------------------
@@ -454,11 +500,13 @@ void TickB5()
 //
 void InitB6()
 {
+	InitBitmap(V9_MODE_B6);
 }
 
 //
 void TickB6()
 {
+	TickBitmap();
 }
 
 //-----------------------------------------------------------------------------
@@ -468,12 +516,18 @@ void TickB6()
 //
 void InitB7()
 {
+	InitBitmap(V9_MODE_B7);
 }
 
 //
 void TickB7()
 {
+	TickBitmap();
 }
+
+//-----------------------------------------------------------------------------
+// Helper function
+//-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 //
@@ -556,9 +610,9 @@ void V9_InterruptVBlank()
 //
 void V9_InterruptHBlank()
 {
-	V9_SetLayerPalette(0, 0);
-	V9_SetScrollingX(g_Frame >> 0);
-	V9_SetScrollingBX(g_Frame >> 2);
+	// V9_SetLayerPalette(0, 0);
+	// V9_SetScrollingX(g_Frame >> 0);
+	// V9_SetScrollingBX(g_Frame >> 2);
 }
 
 //-----------------------------------------------------------------------------
