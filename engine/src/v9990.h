@@ -139,6 +139,15 @@ u8 V9_GetPort(u8 port) __PRESERVES(b, d, e, h, l, iyl, iyh);
 //   val - Value to write to the register
 void V9_SetRegister(u8 reg, u8 val) __PRESERVES(b, c, d, e, h, iyl, iyh);
 
+// Function: V9_SetRegister16
+// Set register value
+// This function as no effect if register is read-only
+//
+// Parameters:
+//   reg - V9990 register number (LSB will be write to this register and MSB to the next)
+//   val - 16-bits value to write to the registers
+void V9_SetRegister16(u8 reg, u16 val) __PRESERVES(b, h, l, iyl, iyh);
+
 // Function: V9_GetRegister
 // Get register value
 //
@@ -401,7 +410,7 @@ inline void V9_SetLayerPriority(u8 x, u8 y) { V9_SetRegister(27, (y << 2) + x); 
 //
 // Return:
 //   Value of the status port (include various flags about frame rendering events)
-inline u8 V9_GetStatus() { return V9_GetPort(5); }
+inline u8 V9_GetStatus() { return V9_GetPort(V9_P05); }
 
 // Function: V9_IsVBlank
 // Is vertical non-display period
@@ -428,8 +437,15 @@ inline bool V9_IsCmdDataReady() { return V9_GetStatus() & V9_P05_TR; }
 // Check if a command is in process
 //
 // Return:
-//   FALSE if command not being executed
+//   TRUE if command still running
 inline bool V9_IsCmdRunning() { return V9_GetStatus() & V9_P05_CE; }
+
+// Function: V9_IsCmdComplete
+// Check if a no command is in process
+//
+// Return:
+//   TRUE if command finished
+inline bool V9_IsCmdComplete() { return !V9_IsCmdRunning(); }
 
 // Function: V9_IsSecondField
 // Check if render is in the second field period during interlace
@@ -483,7 +499,7 @@ inline void V9_SetCmdEndInterrupt(bool enable) { V9_SetFlag(9, V9_R08_IECE_ON, e
 //
 // Parameters:
 //   line - Line where h-blank interruption will occur (Specified by means of line No. with the display start line as "0")
-inline void V9_SetInterruptLine(u16 line) { V9_SetRegister(10, line & 0xFF); V9_SetRegister(11, line >> 8); }
+inline void V9_SetInterruptLine(u16 line) { V9_SetRegister16(10, line); }
 
 // Function: V9_SetInterruptEveryLine
 // Set line interrupt on every line
@@ -693,11 +709,11 @@ inline void V9_SetLayerPalette(u8 a, u8 b) { V9_SetFlag(13, V9_R13_PLTO_MASK, ((
 
 // Function: V9_SetCommandSX
 //
-inline void V9_SetCommandSX(u16 sx) { V9_SetRegister(32, sx & 0xFF); V9_SetRegister(33, sx >> 8); }
+inline void V9_SetCommandSX(u16 sx) { V9_SetRegister16(32, sx); }
 
 // Function: V9_SetCommandSY
 //
-inline void V9_SetCommandSY(u16 sy) { V9_SetRegister(34, sy & 0xFF); V9_SetRegister(35, sy >> 8); }
+inline void V9_SetCommandSY(u16 sy) { V9_SetRegister16(34, sy); }
 
 // Function: V9_SetCommandSA
 //
@@ -705,11 +721,11 @@ inline void V9_SetCommandSA(u32 sa) { V9_SetRegister(32, sa & 0xFF); V9_SetRegis
 
 // Function: V9_SetCommandDX
 //
-inline void V9_SetCommandDX(u16 dx) { V9_SetRegister(36, dx & 0xFF); V9_SetRegister(37, dx >> 8); }
+inline void V9_SetCommandDX(u16 dx) { V9_SetRegister16(36, dx); }
 
 // Function: V9_SetCommandDY
 //
-inline void V9_SetCommandDY(u16 dy) { V9_SetRegister(38, dy & 0xFF); V9_SetRegister(39, dy >> 8); }
+inline void V9_SetCommandDY(u16 dy) { V9_SetRegister16(38, dy); }
 
 // Function: V9_SetCommandDA
 //
@@ -717,19 +733,19 @@ inline void V9_SetCommandDA(u32 da) { V9_SetRegister(36, da & 0xFF); V9_SetRegis
 
 // Function: V9_SetCommandNX
 //
-inline void V9_SetCommandNX(u16 nx) { V9_SetRegister(40, nx & 0xFF); V9_SetRegister(41, nx >> 8); }
+inline void V9_SetCommandNX(u16 nx) { V9_SetRegister16(40, nx); }
 
 // Function: V9_SetCommandNY
 //
-inline void V9_SetCommandNY(u16 ny) { V9_SetRegister(42, ny & 0xFF); V9_SetRegister(43, ny >> 8); }
+inline void V9_SetCommandNY(u16 ny) { V9_SetRegister16(42, ny); }
 
 // Function: V9_SetCommandMJ
 //
-inline void V9_SetCommandMJ(u16 mj) { V9_SetRegister(40, mj & 0xFF); V9_SetRegister(41, mj >> 8); }
+inline void V9_SetCommandMJ(u16 mj) { V9_SetRegister16(40, mj); }
 
 // Function: V9_SetCommandMI
 //
-inline void V9_SetCommandMI(u16 mi) { V9_SetRegister(42, mi & 0xFF); V9_SetRegister(43, mi >> 8); }
+inline void V9_SetCommandMI(u16 mi) { V9_SetRegister16(42, mi); }
 
 // Function: V9_SetCommandNA
 //
@@ -745,15 +761,15 @@ inline void V9_SetCommandLogicalOp(u8 lop) { V9_SetRegister(45, lop); }
 
 // Function: V9_SetCommandWriteMask
 //
-inline void V9_SetCommandWriteMask(u16 wm) { V9_SetRegister(46, wm & 0xFF); V9_SetRegister(47, wm >> 8); }
+inline void V9_SetCommandWriteMask(u16 wm) { V9_SetRegister16(46, wm); }
 
 // Function: V9_SetCommandFC
 //
-inline void V9_SetCommandFC(u16 fc) { V9_SetRegister(48, fc & 0xFF); V9_SetRegister(49, fc >> 8); }
+inline void V9_SetCommandFC(u16 fc) { V9_SetRegister16(48, fc); }
 
 // Function: V9_SetCommandBC
 //
-inline void V9_SetCommandBC(u16 bc) { V9_SetRegister(50, bc & 0xFF); V9_SetRegister(51, bc >> 8); }
+inline void V9_SetCommandBC(u16 bc) { V9_SetRegister16(50, bc); }
 
 // Function: V9_ExecCommand
 //
@@ -850,3 +866,7 @@ inline u32 V9_CellAddrP1B(u8 x, u8 y) { return V9_P1_PNT_B + (((64 * y) + x) * 2
 // Function: V9_CellAddrP2
 //
 inline u32 V9_CellAddrP2(u8 x, u8 y) { return V9_P2_PNT + (((128 * y) + x) * 2); }
+
+// Function: V9_WaitCmdEnd
+// Wait for current command completion
+inline void V9_WaitCmdEnd() { while(V9_IsCmdRunning()) {} }

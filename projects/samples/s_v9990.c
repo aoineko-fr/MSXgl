@@ -22,22 +22,16 @@
 struct ScreenMode
 {
 	const c8* Name;
+	u8        Mode;
 	callback  Init;
 	callback  Tick;
 	u8        BPP;
 };
 
 // Function prototype
-void InitP1(); void TickP1();
-void InitP2(); void TickP2();
-void InitB0(); void TickB0();
-void InitB1(); void TickB1();
-void InitB2(); void TickB2();
-void InitB3(); void TickB3();
-void InitB4(); void TickB4();
-void InitB5(); void TickB5();
-void InitB6(); void TickB6();
-void InitB7(); void TickB7();
+void InitP1();  void TickP1();
+void InitP2();  void TickP2();
+void InitBmp(); void TickBmp();
 
 // Bits per pixel
 #define BPP_2						0x02
@@ -67,26 +61,26 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Screen mode configuration
 const struct ScreenMode g_ScreenMode[] =
 {
-	{ "P1", InitP1, TickP1, BPP_4 },
-	{ "P2", InitP2, TickP2, BPP_4 },
-	{ "B0", InitB0, TickB0, BPP_2|BPP_4|BPP_8|BPP_16 },
-	{ "B1", InitB1, TickB1, BPP_2|BPP_4|BPP_8|BPP_16 },
-	{ "B2", InitB2, TickB2, BPP_2|BPP_4|BPP_8|BPP_16 },
-	{ "B3", InitB3, TickB3, BPP_2|BPP_4|BPP_8|BPP_16 },
-	{ "B4", InitB4, TickB4, BPP_2|BPP_4 },
-	{ "B5", InitB5, TickB5, BPP_2|BPP_4 },
-	{ "B6", InitB6, TickB6, BPP_2|BPP_4 },
-	{ "B7", InitB7, TickB7, BPP_2|BPP_4 },
+	{ "P1", V9_MODE_P1, InitP1,  TickP1,  BPP_4 },
+	{ "P2", V9_MODE_P2, InitP2,  TickP2,  BPP_4 },
+	{ "B0", V9_MODE_B0, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16 },
+	{ "B1", V9_MODE_B1, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16 },
+	{ "B2", V9_MODE_B2, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16 },
+	{ "B3", V9_MODE_B3, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16 },
+	{ "B4", V9_MODE_B4, InitBmp, TickBmp, BPP_2|BPP_4 },
+	{ "B5", V9_MODE_B5, InitBmp, TickBmp, BPP_2|BPP_4 },
+	{ "B6", V9_MODE_B6, InitBmp, TickBmp, BPP_2|BPP_4 },
+	{ "B7", V9_MODE_B7, InitBmp, TickBmp, BPP_2|BPP_4 },
 };
 
 // Black color
-const u8 g_Black[] = { 0, 0, 0 };
+const u8 g_ColorBlack[] = { 0, 0, 0 };
 
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
-u8  g_CurrentMode = 2;
+u8  g_CurrentMode = 3;
 u8  g_CurrentBPP = BPP_4;
 u16 g_Frame = 0;
 
@@ -113,6 +107,7 @@ void InitP1()
 	// V9_ClearVRAM();
 	V9_SetMode(V9_MODE_P1);
 	V9_SetSpriteEnable(TRUE);
+	V9_SetBackgroundColor(6);
 
 	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
 	V9_SetInterruptLine(71);
@@ -166,7 +161,7 @@ void InitP1()
 	for(u8 i = 0; i < 6; ++i) // Draw big cloud
 	{
 		u8 x = Math_GetRandom8() % 8 + (i * 10);
-		u8 y = Math_GetRandom8() % 8;
+		u8 y = (i == 0) ? 0 : Math_GetRandom8() % 8;
 		u32 addr = V9_CellAddrP1B(x, y);
 		V9_Poke16(addr, 132); addr += 2;
 		V9_Poke16(addr, 133); addr += 2;
@@ -243,6 +238,7 @@ void InitP2()
 	// V9_ClearVRAM();
 	V9_SetMode(V9_MODE_P2);
 	V9_SetSpriteEnable(TRUE);
+	V9_SetBackgroundColor(6);
 
 	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
 	V9_SetInterruptLine(6);
@@ -361,168 +357,62 @@ void TickP2()
 }
 
 //-----------------------------------------------------------------------------
-// B0
+// Bitmap
 //-----------------------------------------------------------------------------
 
 //
-void InitBitmap(u8 mode)
+void InitBmp()
 {
-	V9_FillVRAM(0, 0, 512*512);
 	// V9_ClearVRAM();
-	V9_SetMode(mode);
+	V9_SetMode(g_ScreenMode[g_CurrentMode].Mode);
 	V9_SetBPP(V9_R06_BPP_4);
 	V9_SetImageSpaceWidth(V9_R06_WIDH_1024);
+	V9_SetBackgroundColor(6);
 
-	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
-	V9_SetInterruptLine(8);
+	V9_SetInterrupt(V9_INT_VBLANK);
+	// V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
+	// V9_SetInterruptLine(8);
 
 	V9_SetLayerPalette(0, 0);
 	V9_SetScrollingX(0);
 
 	for(u8 i = 0; i < 48; ++i)
-		V9_WriteVRAM((u32)(0 + (512 * (0 + i))), g_DataV9BG + (128 * i), 128);
+		V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(512 + 0 + i))), g_DataV9BG + (128 * i), 128);
 
 	for(u8 i = 0; i < 24; ++i)
-		V9_WriteVRAM((u32)(0 + (512 * (48 + i))), g_DataV9Font + (128 * i), 128);
+		V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(512 + 48 + i))), g_DataV9Font + (128 * i), 128);
 
 	for(u8 i = 0; i < 16; ++i)
-		V9_WriteVRAM((u32)(0 + (512 * (96 + i))), g_DataV9BG + (128 * i), 128);
+		V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(512 + 72 + i))), g_DataV9Chr + (128 * i), 128);
 
-	// V9_SetCommandWriteMask(0xFFFF);
-	// V9_CommandLMMV(0, 0, 1024, 256, V9_R45_LOP_SET, 0);
+	V9_SetCommandLogicalOp(V9_R45_LOP_SET);
+	V9_SetCommandWriteMask(0xFFFF);
+	V9_WaitCmdEnd();
+	V9_CommandLMMV(0, 0, 1024, 256, 0, 0x0000);
+	for(u8 i = 0; i < 64; ++i)
+	{
+		V9_WaitCmdEnd();
+		V9_CommandLMMM(8, 512 + 8, 16 * i, 160, 16, 24, 0);
+		for(u8 j = 0; j < 4; ++j)
+		{
+			V9_WaitCmdEnd();
+			V9_CommandLMMM(8, 512 + 16, 16 * i, 160+24+16*j, 16, 16, 0);
+		}
+	}
 }
 
 //
-void TickBitmap()
+void TickBmp()
 {
-	V9_SetLayerPalette(2, 2);
+	// V9_SetLayerPalette(2, 2);
 	V9_SetScrollingX(0);
 
+	if(Keyboard_IsKeyPressed(KEY_H))
+		V9_SetScrollingY(512);
+	else
+		V9_SetScrollingY(0);
+
 	g_Frame++;
-}
-
-//
-void InitB0()
-{
-	InitBitmap(V9_MODE_B0);
-}
-
-//
-void TickB0()
-{
-	TickBitmap();
-}
-
-//-----------------------------------------------------------------------------
-// B1
-//-----------------------------------------------------------------------------
-
-//
-void InitB1()
-{
-	InitBitmap(V9_MODE_B1);
-}
-
-//
-void TickB1()
-{
-	TickBitmap();
-}
-
-//-----------------------------------------------------------------------------
-// B2
-//-----------------------------------------------------------------------------
-
-//
-void InitB2()
-{
-	InitBitmap(V9_MODE_B2);
-}
-
-//
-void TickB2()
-{
-	TickBitmap();
-}
-
-//-----------------------------------------------------------------------------
-// B3
-//-----------------------------------------------------------------------------
-
-//
-void InitB3()
-{
-	InitBitmap(V9_MODE_B3);
-}
-
-//
-void TickB3()
-{
-	TickBitmap();
-}
-
-//-----------------------------------------------------------------------------
-// B4
-//-----------------------------------------------------------------------------
-
-//
-void InitB4()
-{
-	InitBitmap(V9_MODE_B4);
-}
-
-//
-void TickB4()
-{
-	TickBitmap();
-}
-
-//-----------------------------------------------------------------------------
-// B5
-//-----------------------------------------------------------------------------
-
-//
-void InitB5()
-{
-	InitBitmap(V9_MODE_B5);
-}
-
-//
-void TickB5()
-{
-	TickBitmap();
-}
-
-//-----------------------------------------------------------------------------
-// B6
-//-----------------------------------------------------------------------------
-
-//
-void InitB6()
-{
-	InitBitmap(V9_MODE_B6);
-}
-
-//
-void TickB6()
-{
-	TickBitmap();
-}
-
-//-----------------------------------------------------------------------------
-// B7
-//-----------------------------------------------------------------------------
-
-//
-void InitB7()
-{
-	InitBitmap(V9_MODE_B7);
-}
-
-//
-void TickB7()
-{
-	TickBitmap();
 }
 
 //-----------------------------------------------------------------------------
@@ -610,9 +500,9 @@ void V9_InterruptVBlank()
 //
 void V9_InterruptHBlank()
 {
-	// V9_SetLayerPalette(0, 0);
-	// V9_SetScrollingX(g_Frame >> 0);
-	// V9_SetScrollingBX(g_Frame >> 2);
+	V9_SetLayerPalette(0, 0);
+	V9_SetScrollingX(g_Frame >> 0);
+	V9_SetScrollingBX(g_Frame >> 2);
 }
 
 //-----------------------------------------------------------------------------
@@ -637,11 +527,13 @@ void main()
 
 	DisplayMSX();
 
-	V9_SetPaletteEntry(0, g_Black);
+	V9_SetPaletteEntry(0, g_ColorBlack);
 	V9_SetPalette(1,  15, g_DataV9BG_palette);
-	V9_SetPaletteEntry(16, g_Black);
+
+	V9_SetPaletteEntry(16, g_ColorBlack);
 	V9_SetPalette(17, 15, g_DataV9Chr_palette);
-	V9_SetPaletteEntry(32, g_Black);
+
+	V9_SetPaletteEntry(32, g_ColorBlack);
 	V9_SetPalette(33, 15, g_DataV9Font_palette);
 
 	#if (CUSTOM_ISR == 0)

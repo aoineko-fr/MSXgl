@@ -121,6 +121,25 @@ void V9_SetRegister(u8 reg, u8 val) __PRESERVES(b, c, d, e, h, iyl, iyh)
 
 //-----------------------------------------------------------------------------
 //
+void V9_SetRegister16(u8 reg, u16 val) __PRESERVES(b, h, l, iyl, iyh)
+{
+	reg;	// A
+	val;	// DE
+
+	__asm
+	v9_set_reg16:
+		V9_DI
+		out		(V9_P04), a				// Select register
+		ld		a, l
+		V9_EI
+		ld		c, #V9_P03
+		out		(c), e					// Set LSB value
+		out		(c), d					// Set MSB value
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+//
 u8 V9_GetRegister(u8 reg) __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
 	reg;	// A
