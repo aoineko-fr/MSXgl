@@ -11,7 +11,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "ninjatap.h"
 
-#define NTAP_USE_PATCH				FALSE
+#define NTAP_USE_PATCH				TRUE
 
 //=============================================================================
 // OPTIONS VALIDATION
@@ -25,12 +25,6 @@
 #if ((NTAP_DRIVER & 0x07) == 0)
 	#warning Invalide value for NTAP_DRIVER! Default value will be used: NTAP_DRIVER_MSXGL
 	#define NTAP_DRIVER				NTAP_DRIVER_MSXGL
-#endif
-
-// NTAP_USE_PATCH
-#ifndef NTAP_USE_PATCH
-	#warning NTAP_USE_PATCH is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define NTAP_USE_PATCH			FALSE
 #endif
 
 // NTAP_USE_PREVIOUS
