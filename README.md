@@ -1,6 +1,6 @@
 # MSXgl
 
-**MSXGL is a Game Library wrote in C and targeting MSX computers.**
+**MSXgl is a Game Library wrote in C and targeting MSX computers.**
 
 The goal of this library is to offer to C programmers, the **whole set of functionalities to create a game** with high performances.
 EvenEven if a C program can never be as efficient as a program written entirely in assembler, the goal is to try to get as close as possible.
