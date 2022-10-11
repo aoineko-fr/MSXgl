@@ -29,8 +29,21 @@ if /I %Target%==BIN (
 	set CodeAddr=8007
 	set RamAddr=0
 	set FillSize=0
-	
+
 	echo » Target: BASIC binary program ^(8000h~^)
+	exit /B 0
+)
+::---------------------------------------------------------------------------
+if /I %Target%==BIN_USR (
+
+	set Ext=bin
+	set Crt0=crt0_basic_usr
+	set StartAddr=C000
+	set CodeAddr=C000
+	set RamAddr=0
+	set FillSize=0
+
+	echo » Target: BASIC USR binary driver ^(C000h~^)
 	exit /B 0
 )
 

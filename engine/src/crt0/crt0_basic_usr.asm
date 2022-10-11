@@ -5,12 +5,9 @@
 ; ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 ;  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 ;──────────────────────────────────────────────────────────────────────────────
-; crt0 header for Basic program
+; crt0 header for Basic USR binary driver
 ;──────────────────────────────────────────────────────────────────────────────
-; Based on work from 'Konamiman' (1/2018)
-;  https://github.com/Konamiman/MSX/blob/master/SRC/SDCC/crt0_msxbasic.asm
-;
-; Code address: 0x8007 (right after the header)
+; Code address: 0xC000 (at the start address)
 ; Data address: 0      (right after code)
 ;──────────────────────────────────────────────────────────────────────────────
 .module crt0
@@ -23,30 +20,30 @@ HIMEM = #0xFC4A
 ;------------------------------------------------------------------------------
 ; BASIC binary header
 .area _HEADER (ABS)
-	.org    0x8000
+	.org    0xC000
 
 _g_FirstAddr::
 _g_HeaderAddr::
-	; Binary program header
-	.db 	0xFE		; ID byte
-	.dw 	crt0_init	; Start address
-	.dw		crt0_end	; End address
-	.dw 	crt0_init	; Execution address
+	; ; Binary program header
+	; .db 	0xFE		; ID byte
+	; .dw 	crt0_init	; Start address
+	; .dw		crt0_end	; End address
+	; .dw 	crt0_init	; Execution address
 
 ;------------------------------------------------------------------------------
 .area	_HOME
 .area	_CODE
 crt0_init:
-	di
-	; Set stack address at the top of free memory
-	ld		sp, (HIMEM)
+	; di
+	; ; Set stack address at the top of free memory
+	; ld		sp, (HIMEM)
 
-	; Initialize globals and jump to main()
-	INIT_GLOBALS
+	; ; Initialize globals and jump to main()
+	; INIT_GLOBALS
 
 crt0_start:
 	; start main() function
-	ei
+	; ei
 	jp		_main
 
 ;------------------------------------------------------------------------------

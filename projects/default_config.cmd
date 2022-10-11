@@ -73,6 +73,7 @@ set Machine=1
 
 :: Program media target:
 :: - BIN			.bin	BASIC binary program (8000h~)
+:: - BIN_USR		.bin	BASIC USR binary driver (C000h~)
 :: - ROM_8K			.rom	8KB ROM in page 1 (4000h ~ 5FFFh)
 :: - ROM_8K_P2		.rom	8KB ROM in page 2 (8000h ~ 9FFFh)
 :: - ROM_16K		.rom	16KB ROM in page 1 (4000h ~ 7FFFh)

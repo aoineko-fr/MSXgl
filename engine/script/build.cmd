@@ -379,8 +379,14 @@ if /I %Ext%==bin (
 	)
 	::---- Generate autoexec ----
 	echo -- Create emul\bin\autoexec.bas
-	echo 10 print"Loading..." > %ProjDir%\emul\bin\autoexec.bas
-	echo 20 bload"%ProjName:~0,8%.%Ext%",r >> %ProjDir%\emul\bin\autoexec.bas
+	if /I %Target%==BIN (
+		echo 10 PRINT"Loading..." > %ProjDir%\emul\bin\autoexec.bas
+		echo 20 BLOAD"%ProjName:~0,8%.%Ext%",r >> %ProjDir%\emul\bin\autoexec.bas
+	) else (
+		echo 10 PRINT"Loading..." > %ProjDir%\emul\bin\autoexec.bas
+		echo 20 DEF USR=^&HC000 >> %ProjDir%\emul\bin\autoexec.bas
+		echo 30 BLOAD"%ProjName:~0,8%.%Ext%" >> %ProjDir%\emul\bin\autoexec.bas
+	)
 	::---- Generate DSK file ----
 	if exist %DskTool% (
 	
