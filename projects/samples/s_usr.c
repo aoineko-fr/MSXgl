@@ -7,18 +7,11 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "device\ninjatap.h"
+#include "basic_usr.h"
 
 //=============================================================================
 // DEFINES
 //=============================================================================
-
-enum BASIC_TYPE
-{
-	BASIC_TYPE_INT    = 2, // 2-byte integer type
-	BASIC_TYPE_STRING = 3, // String type
-	BASIC_TYPE_FLOAT  = 4, // Single precision real type
-	BASIC_TYPE_DOUBLE = 8, // Double precision real type
-};
 
 //=============================================================================
 // READ-ONLY DATA
@@ -44,43 +37,39 @@ void Bios_PrintText(const c8* str)
 // Program entry point
 void main()
 {
-	Bios_PrintText("Hello world!");
-	// VDP_SetMode(VDP_MODE_SCREEN1); // Initialize screen mode 0 (text)
-	// VDP_SetColor(0xF0);
-	// VDP_ClearVRAM();
+	if(Basic_GetType() != BASIC_TYPE_INT)
+	{
+		Basic_SetByte(-1);
+		return;
+	}
 
-	// Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
-	// Print_SetColor(0xF, 0x0);
+	u8 ret = 0;
+	i8 val = Basic_GetByte();
+	switch(val)
+	{
+	case 0:
+		// Bios_PrintText("Ntap:Init");
+		ret = NTap_GetInfo();
+		break;
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+		// Bios_PrintText("Ntap:Read");
+		ret = NTap_GetData(val);
+		break;
+	case -1:
+		// Bios_PrintText("Ntap:Update");
+		NTap_Update();
+		ret = 1;
+		break;
+	default:
+		// Bios_PrintText("Ntap:Unknow");
+	}
 
-	// NTapScan();
-	// NTap_Check();
-
-	// u8 count = 0;
-	// while(!Keyboard_IsKeyPressed(KEY_ESC))
-	// {
-		// // VDP_SetColor(0xF4);
-		// Halt();
-		// // VDP_SetColor(0xF0);
-
-		// Print_SetPosition(31, 0);
-		// Print_DrawChar(g_ChrAnim[count++ & 0x03]);
-
-		// NTap_Update();
-		// for(u8 i = 0; i < g_JoyNum; ++i)
-		// {
-			// Print_SetPosition(3, TAB_Y+2 + i);
-			// Print_DrawBin8(NTap_GetData(i));
-		// }
-
-		// if(Keyboard_IsKeyPressed(KEY_R))
-			// NTapScan();
-
-		// if(Keyboard_IsKeyPressed(KEY_D))
-		// {
-			// g_DriverIdx++;
-			// if(g_DriverIdx >= numberof(g_Drivers))
-				// g_DriverIdx = 0;
-			// NTapScan();
-		// }
-	// }
+	Basic_SetByte(ret);
 }

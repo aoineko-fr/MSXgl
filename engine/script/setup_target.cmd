@@ -9,7 +9,9 @@
 
 set MapperSize=0
 set DOS=0
+
 if not defined ROMSize set ROMSize=128
+if not defined USRAddr set USRAddr=C000
 
 if /I %Target%==DOS     set Target=DOS1
 if /I %Target%==DOS_ARG set Target=DOS2_ARG
@@ -38,8 +40,10 @@ if /I %Target%==BIN_USR (
 
 	set Ext=bin
 	set Crt0=crt0_basic_usr
+	REM set StartAddr=%USRAddr%
+	REM set CodeAddr=%USRAddr:~0,3%7
 	set StartAddr=C000
-	set CodeAddr=C000
+	set CodeAddr=C007
 	set RamAddr=0
 	set FillSize=0
 

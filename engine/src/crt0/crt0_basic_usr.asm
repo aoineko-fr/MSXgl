@@ -7,7 +7,7 @@
 ;──────────────────────────────────────────────────────────────────────────────
 ; crt0 header for Basic USR binary driver
 ;──────────────────────────────────────────────────────────────────────────────
-; Code address: 0xC000 (at the start address)
+; Code address: 0xC007 (right after the header)
 ; Data address: 0      (right after code)
 ;──────────────────────────────────────────────────────────────────────────────
 .module crt0
@@ -24,11 +24,11 @@ HIMEM = #0xFC4A
 
 _g_FirstAddr::
 _g_HeaderAddr::
-	; ; Binary program header
-	; .db 	0xFE		; ID byte
-	; .dw 	crt0_init	; Start address
-	; .dw		crt0_end	; End address
-	; .dw 	crt0_init	; Execution address
+	; Binary program header
+	.db 	0xFE		; ID byte
+	.dw 	crt0_init	; Start address
+	.dw		crt0_end	; End address
+	.dw 	crt0_init	; Execution address
 
 ;------------------------------------------------------------------------------
 .area	_HOME

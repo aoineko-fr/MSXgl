@@ -383,8 +383,8 @@ if /I %Ext%==bin (
 		echo 10 PRINT"Loading..." > %ProjDir%\emul\bin\autoexec.bas
 		echo 20 BLOAD"%ProjName:~0,8%.%Ext%",r >> %ProjDir%\emul\bin\autoexec.bas
 	) else (
-		echo 10 PRINT"Loading..." > %ProjDir%\emul\bin\autoexec.bas
-		echo 20 DEF USR=^&HC000 >> %ProjDir%\emul\bin\autoexec.bas
+		echo 10 PRINT"Loading USR..." > %ProjDir%\emul\bin\autoexec.bas
+		echo 20 DEF USR=^&HC007 >> %ProjDir%\emul\bin\autoexec.bas
 		echo 30 BLOAD"%ProjName:~0,8%.%Ext%" >> %ProjDir%\emul\bin\autoexec.bas
 	)
 	::---- Generate DSK file ----
