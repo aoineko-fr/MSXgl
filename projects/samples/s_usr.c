@@ -43,7 +43,7 @@ void main()
 		return;
 	}
 
-	i8 ret = -1;
+	u8 ret = 0;
 	i8 val = Basic_GetByte();
 	switch(val)
 	{
@@ -65,7 +65,7 @@ void main()
 	case -1:
 		// Bios_PrintText("Ntap:Update");
 		NTap_Update();
-		ret = 0;
+		ret = 1;
 		break;
 	default:
 		// Bios_PrintText("Ntap:Unknow");

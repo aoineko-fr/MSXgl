@@ -30,6 +30,12 @@
  <div class="CBody"><p>Set register value This function as no effect if register is read-only</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">reg<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>V9990 register number</p></td></tr><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write to the register</p></td></tr></table></div>
 </div>
 
+<a name="V9_SetRegister16"></a><a name="Topic623"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetRegister16</div>
+ <div id="NDPrototype623" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetRegister16(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">val</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, h, l, iyl, iyh)</td></tr></table></div></div>
+ <div class="CBody"><p>Set register value This function as no effect if register is read-only</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">reg<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>V9990 register number (LSB will be write to this register and MSB to the next)</p></td></tr><tr><td class="CDLEntry">val<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>16-bits value to write to the registers</p></td></tr></table></div>
+</div>
+
 <a name="V9_GetRegister"></a><a name="Topic748"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_GetRegister</div>
  <div id="NDPrototype748" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 V9_GetRegister(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg</td></tr></table></td><td class="PAfterParameters">) __PRESERVES(b, c, d, e, h, l, iyl, iyh)</td></tr></table></div></div>
@@ -252,10 +258,16 @@
  <div class="CBody"><p>Check if command data transfer ready</p><div class="CHeading">Return</div><p>FALSE if command data transfer not ready</p></div>
 </div>
 
-<a name="V9_IsCmdRunning"></a><a name="Topic783"></a><div class="CTopic TFunction LC">
+<a name="V9_IsCmdRunning"></a><a name="Topic624"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_IsCmdRunning</div>
- <div id="NDPrototype783" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsCmdRunning()</div></div>
- <div class="CBody"><p>Check if a command is in process</p><div class="CHeading">Return</div><p>FALSE if command not being executed</p></div>
+ <div id="NDPrototype624" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsCmdRunning()</div></div>
+ <div class="CBody"><p>Check if a command is in process</p><div class="CHeading">Return</div><p>TRUE if command still running</p></div>
+</div>
+
+<a name="V9_IsCmdComplete"></a><a name="Topic630"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_IsCmdComplete</div>
+ <div id="NDPrototype630" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> V9_IsCmdComplete()</div></div>
+ <div class="CBody"><p>Check if a no command is in process</p><div class="CHeading">Return</div><p>TRUE if command finished</p></div>
 </div>
 
 <a name="V9_IsSecondField"></a><a name="Topic784"></a><div class="CTopic TFunction LC">
@@ -680,9 +692,15 @@
  <div id="NDPrototype285" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 V9_CellAddrP1B(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
 </div>
 
-<a name="V9_CellAddrP2"></a><a name="Topic286"></a><div class="CTopic TFunction LC last">
+<a name="V9_CellAddrP2"></a><a name="Topic286"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_CellAddrP2</div>
  <div id="NDPrototype286" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 V9_CellAddrP2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="V9_WaitCmdEnd"></a><a name="Topic631"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">V9_WaitCmdEnd</div>
+ <div id="NDPrototype631" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_WaitCmdEnd()</div></div>
+ <div class="CBody"><p>Wait for current command completion</p></div>
 </div>
 
 </body></html>

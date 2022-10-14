@@ -2196,13 +2196,6 @@ void VDP_SendSpriteAttribute(u8 index) __FASTCALL
 #if (VDP_USE_MODE_G2 || VDP_USE_MODE_G3)
 
 //-----------------------------------------------------------------------------
-// Fill the full screen with a given pattern value
-void VDP_FillScreen_GM2(u8 value)
-{
-	VDP_FillVRAM(value, g_ScreenLayoutLow, g_ScreenLayoutHigh, 32*24);
-}
-
-//-----------------------------------------------------------------------------
 // Load patterns in all 3 screen sections
 void VDP_LoadPattern_GM2(const u8* src, u8 count, u8 offset)
 {

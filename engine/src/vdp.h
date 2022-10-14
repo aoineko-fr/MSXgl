@@ -1133,7 +1133,11 @@ inline void VDP_HideSprite(u8 index) { VDP_SetSpritePositionY(index, VDP_SPRITE_
 // Parameters:
 //   value - Pattern index to fill
 //           In G2/G3 modes, the same index can define different pattern in the 3 vertical sections
-void VDP_FillScreen_GM2(u8 value);
+inline void VDP_FillScreen_GM2(u8 value) { VDP_FillVRAM(value, g_ScreenLayoutLow, g_ScreenLayoutHigh, 32*24); }
+
+// Function: VDP_Poke_GM2
+// Set a GM cell value from x/y coordinate
+inline void VDP_Poke_GM2(u8 x, u8 y, u8 value) { VDP_Poke(value, g_ScreenLayoutLow + (y * 32) + x, g_ScreenLayoutHigh); }
 
 // Function: VDP_LoadPattern_GM2
 // Load patterns in all 3 screen sections. [MSX1/2/2+/TR]
