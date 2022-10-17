@@ -43,7 +43,7 @@ void main()
 		return;
 	}
 
-	u8 ret = 0;
+	i16 ret = 0;
 	i8 val = Basic_GetByte();
 	switch(val)
 	{
@@ -60,7 +60,7 @@ void main()
 	case 7:
 	case 8:
 		// Bios_PrintText("Ntap:Read");
-		ret = ~NTap_GetData(val-1);
+		ret = (i16)(u8)~NTap_GetData(val-1);
 		break;
 	case -1:
 		// Bios_PrintText("Ntap:Update");
@@ -71,5 +71,5 @@ void main()
 		// Bios_PrintText("Ntap:Unknow");
 	}
 
-	Basic_SetByte(ret);
+	Basic_SetWord(ret);
 }

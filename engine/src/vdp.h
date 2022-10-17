@@ -1139,6 +1139,10 @@ inline void VDP_FillScreen_GM2(u8 value) { VDP_FillVRAM(value, g_ScreenLayoutLow
 // Set a GM cell value from x/y coordinate
 inline void VDP_Poke_GM2(u8 x, u8 y, u8 value) { VDP_Poke(value, g_ScreenLayoutLow + (y * 32) + x, g_ScreenLayoutHigh); }
 
+// Function: VDP_Peek_GM2
+// Get a GM cell value from x/y coordinate
+inline u8 VDP_Peek_GM2(u8 x, u8 y) { return VDP_Peek(g_ScreenLayoutLow + (y * 32) + x, g_ScreenLayoutHigh); }
+
 // Function: VDP_LoadPattern_GM2
 // Load patterns in all 3 screen sections. [MSX1/2/2+/TR]
 //
