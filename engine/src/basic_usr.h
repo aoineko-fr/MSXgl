@@ -40,7 +40,7 @@ enum BASIC_TYPE
 #define BASIC_SET_BYTE(val)			(*(i16*)(M_DAC+2) = (i16)(val))
 #define BASIC_SET_WORD(val)			(*(i16*)(M_DAC+2) = (i16)(val))
 #define BASIC_SET_FLOAT(val)		(*(f32*)(M_DAC) = (f32)(val))
-#define BASIC_SET_STRING(val)		(*(const c8**)(M_DAC) = (const c8*)(val))
+#define BASIC_SET_STRING(val, len)	(*(u8*)(M_DAC) = (u8)(len)); (*(const c8**)(M_DAC+1) = (const c8*)(val))
 
 //=============================================================================
 // FUNCTIONS
@@ -94,4 +94,4 @@ inline void Basic_SetFloat(u32 val) { BASIC_SET_FLOAT(val); }
 
 // Function: Basic_SetString
 // 
-inline void Basic_SetString(const c8* val) { BASIC_SET_STRING(val); }
+inline void Basic_SetString(const c8* val, u8 len) { BASIC_SET_STRING(val, len); }

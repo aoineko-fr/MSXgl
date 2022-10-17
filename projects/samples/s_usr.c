@@ -60,7 +60,7 @@ void main()
 	case 7:
 	case 8:
 		// Bios_PrintText("Ntap:Read");
-		ret = NTap_GetData(val);
+		ret = ~NTap_GetData(val-1);
 		break;
 	case -1:
 		// Bios_PrintText("Ntap:Update");
