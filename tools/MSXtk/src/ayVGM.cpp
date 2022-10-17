@@ -121,7 +121,7 @@ bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
 {
 	g_VGM_Header = (const VGM_Header*)&data[0];
 
-	if (g_VGM_Header->Ident != VGM_IDENT)
+	if (((uint32_t) g_VGM_Header->Ident) != ((const uint32_t) VGM_IDENT))
 		return false;
 
 	g_VGM_Pointer = (const u8*)&g_VGM_Header->Data_offset;

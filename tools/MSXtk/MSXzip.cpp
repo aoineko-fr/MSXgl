@@ -234,11 +234,17 @@ int main(int argc, const char* argv[])
 	{
 	case COMPRESS_RLEP: 
 		exp->AddComment("Compressor: RLEp");
-		ExportRLEp(exp, g_InputFile.Data);
+		if (ExportRLEp(exp, g_InputFile.Data) != true) {
+			printf("Error: VGM header expected, but not found!\n");
+			return 0;
+		}
 		break;
 	case COMPRESS_AYVGM:
 		exp->AddComment("Compressor: ayVGM");
-		ExportAyVGM(exp, g_InputFile.Data);
+		if (ExportAyVGM(exp, g_InputFile.Data) != true) {
+			printf("Error: VGM header expected, but not found!\n");
+			return 0;
+		}
 		break;
 	default:
 	case COMPRESS_NONE: 
