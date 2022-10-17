@@ -121,8 +121,11 @@ bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
 {
 	g_VGM_Header = (const VGM_Header*)&data[0];
 
-	if (g_VGM_Header->Ident != VGM_IDENT)
+	if ((u32)g_VGM_Header->Ident != (u32)VGM_IDENT)
+	{
+		printf("Error: VGM header expected, but not found!\n");
 		return false;
+	}
 
 	g_VGM_Pointer = (const u8*)&g_VGM_Header->Data_offset;
 	g_VGM_Pointer += g_VGM_Header->Data_offset;
@@ -158,7 +161,7 @@ bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
 		flag |= AYVGM_FLAG_SCCI;
 	else if (g_VGM_Header->K051649_clock)
 		flag |= AYVGM_FLAG_SCC;
-	
+
 	exp->StartLine();
 	exp->AddByte(flag);
 	exp->EndLine("Flag");
@@ -324,7 +327,7 @@ bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
 					if ((prevChunk.Ident != *g_VGM_Pointer) || (reg != prevChunk.Register + 1))
 						Flush(exp);
 				}
-					
+
 				VGM_Chunk chunk;
 				chunk.Ident = *g_VGM_Pointer;
 				chunk.Register = reg;

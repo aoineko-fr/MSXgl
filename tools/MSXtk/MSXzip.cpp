@@ -28,7 +28,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "1.1.1";
+const char* VERSION = "1.1.2";
 
 /// Data format enum
 enum OUTPUT_FORMAT
@@ -188,7 +188,7 @@ int main(int argc, const char* argv[])
 			if(!(((g_TableName[i] >= 'a') && (g_TableName[i] <= 'z')) || ((g_TableName[i] >= 'A') && (g_TableName[i] <= 'Z')) || ((g_TableName[i] >= '0') && (g_TableName[i] <= '9'))))
 				g_TableName[i] = '_';
 	}
-		
+
 	if (g_OutputFile.empty())
 	{
 		g_OutputFile = MSX::File::RemoveExt(g_InputFile.Filename);
@@ -234,11 +234,13 @@ int main(int argc, const char* argv[])
 	{
 	case COMPRESS_RLEP: 
 		exp->AddComment("Compressor: RLEp");
-		ExportRLEp(exp, g_InputFile.Data);
+		if(!ExportRLEp(exp, g_InputFile.Data))
+			return 1;
 		break;
 	case COMPRESS_AYVGM:
 		exp->AddComment("Compressor: ayVGM");
-		ExportAyVGM(exp, g_InputFile.Data);
+		if(!ExportAyVGM(exp, g_InputFile.Data))
+			return 1;
 		break;
 	default:
 	case COMPRESS_NONE: 
@@ -250,6 +252,6 @@ int main(int argc, const char* argv[])
 	exp->AddComment(MSX::Format("Total size: %i bytes", exp->GetTotalSize()));
 
 	exp->Export(g_OutputFile);
-		
+
 	return 0;
 }
