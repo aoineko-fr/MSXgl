@@ -53,26 +53,32 @@ enum BASIC_TYPE
 
 // Function: Basic_GetType
 // Get Basic variable type
+// This is the value sent by Basic's USR() function.
 inline u8 Basic_GetType() { return BASIC_GET_TYPE(); }
 
 // Function: Basic_GetByte
 // Get Basic variable as 8-bits interger
+// This is the value sent by Basic's USR() function.
 inline i8 Basic_GetByte() { return BASIC_GET_BYTE(); }
 
 // Function: Basic_GetWord
 // Get Basic variable as 16-bits interger
+// This is the value sent by Basic's USR() function.
 inline i16 Basic_GetWord() { return BASIC_GET_WORD(); }
 
 // Function: Basic_GetFloat
 // Get Basic variable as 32-bits float number
+// This is the value sent by Basic's USR() function.
 inline f32 Basic_GetFloat() { return BASIC_GET_FLOAT(); }
 
 // Function: Basic_GetString
 // Get Basic variable as string pointer
+// This is the value sent by Basic's USR() function.
 inline const c8* Basic_GetString() { return BASIC_GET_STRING(); }
 
 // Function: Basic_GetStringLength
 // Get Basic string variable length
+// This is the value sent by Basic's USR() function.
 inline u8 Basic_GetStringLength() { return BASIC_GET_STRING_SIZE(); }
 
 //-----------------------------------------------------------------------------
@@ -81,17 +87,33 @@ inline u8 Basic_GetStringLength() { return BASIC_GET_STRING_SIZE(); }
 //-----------------------------------------------------------------------------
 
 // Function: Basic_SetByte
-// 
+// Set Basic variable as 8-bits interger
+// This is the value returned by Basic's USR() function.
+//
+// Parameters:
+//   val - Value to be send to Basic
 inline void Basic_SetByte(i8 val) { BASIC_SET_BYTE(val); }
 
 // Function: Basic_SetWord
-// 
+// Set Basic variable as 16-bits interger
+// This is the value returned by Basic's USR() function.
+//
+// Parameters:
+//   val - Value to be send to Basic
 inline void Basic_SetWord(i16 val) { BASIC_SET_WORD(val); }
 
 // Function: Basic_SetFloat
-// 
-inline void Basic_SetFloat(u32 val) { BASIC_SET_FLOAT(val); }
+// Set Basic variable as 32-bits float number
+// This is the value returned by Basic's USR() function.
+//
+// Parameters:
+//   val - Value to be send to Basic
+inline void Basic_SetFloat(f32 val) { BASIC_SET_FLOAT(val); }
 
 // Function: Basic_SetString
-// 
+// Set Basic variable as string pointer
+// This is the value returned by Basic's USR() function.
+//
+// Parameters:
+//   val - Value to be send to Basic
 inline void Basic_SetString(const c8* val, u8 len) { BASIC_SET_STRING(val, len); }
