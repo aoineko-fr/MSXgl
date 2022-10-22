@@ -87,27 +87,33 @@ inline u8 Bios_GetMSXVersion() { return g_MSXVER; }
 //-----------------------------------------------------------------------------
 
 // Function: Bios_Startup
-// Tests RAM and sets RAM slot for the system. Wrapper for CHKRAM routine.
+// Tests RAM and sets RAM slot for the system.
+// Wrapper for CHKRAM routine.
 inline void Bios_Startup() { Call(R_CHKRAM); }
 
 // Function: Bios_InterSlotRead
-// Reads the value of an address in another slot. Wrapper for RDSLT routine.
+// Reads the value of an address in another slot.
+// Wrapper for RDSLT routine.
 u8 Bios_InterSlotRead(u8 slot, u16 addr);
 
 // Function: Bios_InterSlotWrite
-// Writes a value to an address in another slot. Wrapper for WRSLT routine.
+// Writes a value to an address in another slot.
+// Wrapper for WRSLT routine.
 void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value);
 
 // Function: Bios_InterSlotCall
-// Executes inter-slot call. Wrapper for CALSLT routine.
+// Executes inter-slot call.
+// Wrapper for CALSLT routine.
 void Bios_InterSlotCall(u8 slot, u16 addr);
 
 // Function: Bios_SwitchSlot
-// Switches indicated slot at indicated page on perpetual. Wrapper for ENASLT routine.
+// Switches indicated slot at indicated page on perpetual.
+// Wrapper for ENASLT routine.
 void Bios_SwitchSlot(u8 page, u8 slot);
 
 // Macro: BIOS_CALLF
-// Executes an interslot call. Wrapper for CALLF routine.
+// Executes an interslot call.
+// Wrapper for CALLF routine.
 #define BIOS_CALLF(slot, addr) \
 	__asm                      \
 		rst		R_CALLF        \
