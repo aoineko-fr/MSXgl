@@ -93,7 +93,10 @@
 //-----------------------------------------------------------------------------
 // Target names
 #if (TARGET == TARGET_BIN)
-	#define TARGET_NAME "BASIC binary"
+	#define TARGET_NAME "BASIC binary program"
+
+#elif (TARGET == TARGET_BIN_USR)
+	#define TARGET_NAME "BASIC USR driver"
 
 #elif (TARGET == TARGET_DOS1)
 	#define TARGET_NAME "MSX-DOS 1"
@@ -117,40 +120,40 @@
 	#define TARGET_NAME "16K ROM in page 2"
 
 #elif (TARGET == TARGET_ROM_32K_P0)
-	#define TARGET_NAME "32K ROM in page 01"
+	#define TARGET_NAME "32K ROM in pages 0-1"
 
 #elif (TARGET == TARGET_ROM_32K_P0_ISR)
-	#define TARGET_NAME "32K ROM in page 01 with ISR"
+	#define TARGET_NAME "32K ROM in pages 0-1 with ISR"
 
 #elif (TARGET == TARGET_ROM_32K_P1)
-	#define TARGET_NAME "32K ROM in pages 12 @4000h"
+	#define TARGET_NAME "32K ROM in pages 1-2 @4000h"
 
 #elif (TARGET == TARGET_ROM_32K_P1_B2)
-	#define TARGET_NAME "32K ROM in pages 12 @8000h"
+	#define TARGET_NAME "32K ROM in pages 1-2 @8000h"
 
 #elif (TARGET == TARGET_ROM_48K_B1)
-	#define TARGET_NAME "48K ROM @4000h"
+	#define TARGET_NAME "48K ROM in pages 0-2 @4000h"
 
 #elif (TARGET == TARGET_ROM_48K_B1_ISR)
-	#define TARGET_NAME "48K ROM @4000h with ISR"
+	#define TARGET_NAME "48K ROM in pages 0-2 @4000h with ISR"
 
 #elif (TARGET == TARGET_ROM_48K_B2)
-	#define TARGET_NAME "48K ROM @8000h"
+	#define TARGET_NAME "48K ROM in pages 0-2 @8000h"
 
 #elif (TARGET == TARGET_ROM_48K_B2_ISR)
-	#define TARGET_NAME "48K ROM @8000h with ISR"
+	#define TARGET_NAME "48K ROM in pages 0-2 @8000h with ISR"
 
 #elif (TARGET == TARGET_ROM_64K_B1)
-	#define TARGET_NAME "ROM_64K_B1"
+	#define TARGET_NAME "64K ROM in pages 0-3 @4000"
 
 #elif (TARGET == TARGET_ROM_64K_B1_ISR)
-	#define TARGET_NAME "ROM_64K_B1_ISR"
+	#define TARGET_NAME "64K ROM in pages 0-3 @4000 with ISR"
 
 #elif (TARGET == TARGET_ROM_64K_B2)
-	#define TARGET_NAME "ROM_64K_B2"
+	#define TARGET_NAME "64K ROM in pages 0-3 @8000"
 
 #elif (TARGET == TARGET_ROM_64K_B2_ISR)
-	#define TARGET_NAME "ROM_64K_B2_ISR"
+	#define TARGET_NAME "64K ROM in pages 0-3 @8000 with ISR"
 
 #elif (TARGET == TARGET_ROM_ASCII8_64K)
 	#define TARGET_NAME "64K ASCII-8 ROM"

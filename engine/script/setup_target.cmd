@@ -17,6 +17,7 @@ if /I %Target%==DOS     set Target=DOS1
 if /I %Target%==DOS_ARG set Target=DOS2_ARG
 if /I %Target%==ROM     set Target=ROM_32K
 if /I %Target%==BAS     set Target=BIN
+if /I %Target%==USR     set Target=BIN_USR
 
 ::***************************************************************************
 ::* BASIC                                                                   *
@@ -28,7 +29,7 @@ if /I %Target%==BIN (
 	set Ext=bin
 	set Crt0=crt0_basic
 	set StartAddr=8000
-	set CodeAddr=8007
+	set CodeAddr=8000
 	set RamAddr=0
 	set FillSize=0
 
@@ -40,10 +41,10 @@ if /I %Target%==BIN_USR (
 
 	set Ext=bin
 	set Crt0=crt0_basic_usr
-	REM set StartAddr=%USRAddr%
-	REM set CodeAddr=%USRAddr:~0,3%7
-	set StartAddr=C000
-	set CodeAddr=C007
+	set StartAddr=%USRAddr%
+	set CodeAddr=%USRAddr%
+	REM set StartAddr=C000
+	REM set CodeAddr=C000
 	set RamAddr=0
 	set FillSize=0
 
@@ -61,7 +62,7 @@ if /I %Target%==ROM_8K (
 	set Ext=rom
 	set Crt0=crt0_rom16
 	set StartAddr=4000
-	set CodeAddr=4010
+	set CodeAddr=4000
 	set RamAddr=8000
 	set /A FillSize=8*1024
 
@@ -72,9 +73,9 @@ if /I %Target%==ROM_8K (
 if /I %Target%==ROM_8K_P2 (
 
 	set Ext=rom
-	set Crt0=crt0_rom16p2
+	set Crt0=crt0_rom16
 	set StartAddr=8000
-	set CodeAddr=8010
+	set CodeAddr=8000
 	set RamAddr=C000
 	set /A FillSize=8*1024
 
@@ -87,7 +88,7 @@ if /I %Target%==ROM_16K (
 	set Ext=rom
 	set Crt0=crt0_rom16
 	set StartAddr=4000
-	set CodeAddr=4010
+	set CodeAddr=4000
 	set RamAddr=8000
 	set /A FillSize=16*1024
 
@@ -98,9 +99,9 @@ if /I %Target%==ROM_16K (
 if /I %Target%==ROM_16K_P2 (
 
 	set Ext=rom
-	set Crt0=crt0_rom16p2
+	set Crt0=crt0_rom16
 	set StartAddr=8000
-	set CodeAddr=8010
+	set CodeAddr=8000
 	set RamAddr=C000
 	set /A FillSize=16*1024
 
@@ -113,7 +114,7 @@ if /I %Target%==ROM_32K (
 	set Ext=rom
 	set Crt0=crt0_rom32
 	set StartAddr=4000
-	set CodeAddr=4010
+	set CodeAddr=4000
 	set RamAddr=C000
 	set /A FillSize=32*1024
 
@@ -185,7 +186,7 @@ if /I %Target%==ROM_ASCII8 (
 	set Ext=rom
 	set Crt0=crt0_rom_mapper
 	set StartAddr=4000
-	set CodeAddr=4010
+	set CodeAddr=4000
 	set RamAddr=C000
 	set /A FillSize=32*1024
 	set /A MapperSize=%ROMSize%*1024
@@ -206,7 +207,7 @@ if /I %Target%==ROM_ASCII16 (
 	set Ext=rom
 	set Crt0=crt0_rom_mapper
 	set StartAddr=4000
-	set CodeAddr=4010
+	set CodeAddr=4000
 	set RamAddr=C000
 	set /A FillSize=32*1024
 	set /A MapperSize=%ROMSize%*1024
@@ -227,7 +228,7 @@ if /I %Target%==ROM_KONAMI (
 	set Ext=rom
 	set Crt0=crt0_rom_mapper
 	set StartAddr=4000
-	set CodeAddr=4010
+	set CodeAddr=4000
 	set RamAddr=C000
 	set /A FillSize=32*1024
 	set /A MapperSize=%ROMSize%*1024
@@ -248,7 +249,7 @@ if /I %Target%==ROM_KONAMI_SCC (
 	set Ext=rom
 	set Crt0=crt0_rom_mapper
 	set StartAddr=4000
-	set CodeAddr=4010
+	set CodeAddr=4000
 	set RamAddr=C000
 	set /A FillSize=32*1024
 	set /A MapperSize=%ROMSize%*1024

@@ -7,7 +7,7 @@
 ;──────────────────────────────────────────────────────────────────────────────
 ; crt0 header for Basic USR binary driver
 ;──────────────────────────────────────────────────────────────────────────────
-; Code address: 0xC007 (right after the header)
+; Code address: User defined
 ; Data address: 0      (right after code)
 ;──────────────────────────────────────────────────────────────────────────────
 .module crt0
@@ -15,12 +15,16 @@
 .include "defines.asm"
 .include "macros.asm"
 
-HIMEM = #0xFC4A
+;==============================================================================
+; RAM
+;==============================================================================
+	.area	_HEADER (ABS)
+	.org	START_ADDR
 
 ;------------------------------------------------------------------------------
-; BASIC binary header
-.area _HEADER (ABS)
-	.org    0xC000
+; Header
+	.area	_HOME
+	.area	_CODE
 
 _g_FirstAddr::
 _g_HeaderAddr::
@@ -31,8 +35,7 @@ _g_HeaderAddr::
 	.dw 	crt0_init	; Execution address
 
 ;------------------------------------------------------------------------------
-.area	_HOME
-.area	_CODE
+; Initialization code
 crt0_init:
 	; di
 	; ; Set stack address at the top of free memory
@@ -48,18 +51,21 @@ crt0_start:
 
 ;------------------------------------------------------------------------------
 ; Ordering other segments for the linker
-.area	_RODATA
-.area	_INITIALIZER
-.area   _GSINIT
-.area   _GSFINAL
+	.area	_RODATA
+	.area	_INITIALIZER
+	.area   _GSINIT
+	.area   _GSFINAL
 _g_LastAddr::
-.area	_DATA
+
+	.area	_DATA
 _g_HeapStartAddress::
 	.dw		s__HEAP
 
-.area	_INITIALIZED
-.area	_BSEG
-.area   _BSS
-.area   _HEAP
+;------------------------------------------------------------------------------
+; Ordering other segments for the linker
+	.area	_INITIALIZED
+	.area	_BSEG
+	.area   _BSS
+	.area   _HEAP
 
 crt0_end:

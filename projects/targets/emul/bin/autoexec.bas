@@ -1,2 +1,3 @@
-10 PRINT"Loading..." 
-20 BLOAD"s_target.bin",r 
+10 PRINT"Loading USR..." 
+20 DEF USR=&HC007 
+30 BLOAD"s_target.bin" 

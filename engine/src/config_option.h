@@ -64,24 +64,29 @@
 #define ROM_3072K					11
 #define ROM_4096K					12
 
-#define ROM_ISR						(1<<12)	
-#define ROM_MIRROR					(1<<13)	
+#define ROM_ISR						(1<<12)
+#define ROM_MIRROR					(1<<13)
 
 // ROM target type define
 //	15	14	13	12	11	10	9	8	7	6	5	4	3	2	1	0
-//	0	1	MIR	ISR	M3	M2	M1	M0	S3	S2	S1	S0	P1	P0	B1	B0	
-//  		│	│	│	│	│	│	│	│	│	│	│	│	└───┴── ROM boot page (address of 'AB' header)
-//  		│	│	│	│	│	│	│	│	│	│	└───┴────────── ROM starting page (first address of the ROM ; can be different from booting page)
-//  		│	│	│	│	│	│	└───┴───┴───┴────────────────── ROM size
+//	0	1	MIR	ISR	M3	M2	M1	M0	S3	S2	S1	S0	P1	P0	B1	B0
+//			│	│	│	│	│	│	│	│	│	│	│	│	└───┴── ROM boot page (address of 'AB' header)
+//			│	│	│	│	│	│	│	│	│	│	└───┴────────── ROM starting page (first address of the ROM ; can be different from booting page)
+//			│	│	│	│	│	│	└───┴───┴───┴────────────────── ROM size
 //			│	│	└───┴───┴───┴────────────────────────────────── ROM Mapper Type
 //			│	└────────────────────────────────────────────────── Use custom Interrupt Service Routine (place custom code in page 0)
 //			└────────────────────────────────────────────────────── Mirrored ROM
 #define MAKE_ROM(m, s, p, b)		((TYPE_ROM << 14) | ((m) << 8) | ((s) << 4) | ((p) << 2) | (b))
+
+// Basic target type define
 #define MAKE_BASIC(x)				((TYPE_BIN << 14) | (x))
+
+// DOS target type define
 #define MAKE_DOS(x)					((TYPE_DOS << 14) | (x))
 
 // -- BASIC program
 #define TARGET_BIN			  		MAKE_BASIC(0) // BASIC binary program (8000h~)
+#define TARGET_BIN_USR		  		MAKE_BASIC(1) // BASIC USR driver (C000h~)
 // -- DOS program
 #define TARGET_DOS1					MAKE_DOS(DOS_1) // MSX-DOS 1 program (0100h~). No direct acces to Main-ROM
 #define TARGET_DOS2					MAKE_DOS(DOS_2) // MSX-DOS 2 program (0100h~). No direct acces to Main-ROM

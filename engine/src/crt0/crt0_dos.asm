@@ -1,5 +1,5 @@
 ; ____________________________
-; ██▀███▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄       ▄▄   ▄▄ 
+; ██▀███▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄       ▄▄   ▄▄
 ; ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ ▀ ██▄▀ ██▀ █ ██
 ; █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▄▀ ██   ▀█▄ ▀▄█▀
 ; ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
@@ -18,19 +18,22 @@
 .include "defines.asm"
 .include "macros.asm"
 
-HIMEM = #0xFC4A
 DOS_TPA = 0x0006
 
-;------------------------------------------------------------------------------
-.area	_HEADER (ABS)
+;==============================================================================
+; RAM
+;==============================================================================
+	.area	_HEADER (ABS)
 	.org	0x0100 ; MSX-DOS .com program start address
+
+	.area	_HOME
+	.area	_CODE
 
 _g_FirstAddr::
 _g_HeaderAddr::
 
 ;------------------------------------------------------------------------------
-.area	_CODE
-
+; Initialization code
 crt0_init:
 	di
 	; Set stack address at the top of free memory
@@ -52,19 +55,19 @@ crt0_start:
 
 ;------------------------------------------------------------------------------
 ; Ordering of segments for the linker
-
-.area	_HOME
-.area	_CODE
-.area	_RODATA
-.area	_INITIALIZER 
-.area   _GSINIT
-.area   _GSFINAL
+	.area	_RODATA
+	.area	_INITIALIZER 
+	.area   _GSINIT
+	.area   _GSFINAL
 _g_LastAddr::
-.area	_DATA
+
+	.area	_DATA
 _g_HeapStartAddress::
 	.dw		s__HEAP
 
-.area	_INITIALIZED
-.area	_BSEG
-.area   _BSS
-.area   _HEAP
+;------------------------------------------------------------------------------
+; Ordering of segments for the linker
+	.area	_INITIALIZED
+	.area	_BSEG
+	.area   _BSS
+	.area   _HEAP

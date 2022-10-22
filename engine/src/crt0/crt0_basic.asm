@@ -10,7 +10,7 @@
 ; Based on work from 'Konamiman' (1/2018)
 ;  https://github.com/Konamiman/MSX/blob/master/SRC/SDCC/crt0_msxbasic.asm
 ;
-; Code address: 0x8007 (right after the header)
+; Code address: 0x8000
 ; Data address: 0      (right after code)
 ;──────────────────────────────────────────────────────────────────────────────
 .module crt0
@@ -18,12 +18,16 @@
 .include "defines.asm"
 .include "macros.asm"
 
-HIMEM = #0xFC4A
+;==============================================================================
+; RAM
+;==============================================================================
+	.area	_HEADER (ABS)
+	.org	0x8000
 
 ;------------------------------------------------------------------------------
-; BASIC binary header
-.area _HEADER (ABS)
-	.org    0x8000
+; Header
+	.area	_HOME
+	.area	_CODE
 
 _g_FirstAddr::
 _g_HeaderAddr::
@@ -34,8 +38,7 @@ _g_HeaderAddr::
 	.dw 	crt0_init	; Execution address
 
 ;------------------------------------------------------------------------------
-.area	_HOME
-.area	_CODE
+; Initialization code
 crt0_init:
 	di
 	; Set stack address at the top of free memory
@@ -51,18 +54,21 @@ crt0_start:
 
 ;------------------------------------------------------------------------------
 ; Ordering other segments for the linker
-.area	_RODATA
-.area	_INITIALIZER
-.area   _GSINIT
-.area   _GSFINAL
+	.area	_RODATA
+	.area	_INITIALIZER
+	.area   _GSINIT
+	.area   _GSFINAL
 _g_LastAddr::
-.area	_DATA
+
+	.area	_DATA
 _g_HeapStartAddress::
 	.dw		s__HEAP
 
-.area	_INITIALIZED
-.area	_BSEG
-.area   _BSS
-.area   _HEAP
+;------------------------------------------------------------------------------
+; Ordering other segments for the linker
+	.area	_INITIALIZED
+	.area	_BSEG
+	.area   _BSS
+	.area   _HEAP
 
 crt0_end:
