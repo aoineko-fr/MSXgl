@@ -52,9 +52,9 @@ ROM_KONAMI_SCC		= 4
 
 ;------------------------------------------------------------------------------
 ; ISR
-ISR_VBLANK			= 0				; V-blank handler
-ISR_VHBLANK			= 1				; V-blank and h-blank handler (V9938 or V9958)
-ISR_V9990			= 2				; v-blank, h-blank and command end handler (V9990)
+ISR_VBLANK			= 0				; V-blank handler (V9938 or V9958)
+ISR_VHBLANK			= 1				; V-blank and h-blank handler (V9958)
+ISR_V9990			= 2				; V-blank, h-blank and command end handler (V9990)
 
 ;------------------------------------------------------------------------------
 ; Default values
@@ -65,3 +65,6 @@ ROM_BCALL			= 0				; Add banked call trampoline
 ROM_ISR				= ISR_VBLANK
 ROM_RAMISR			= 0				; Install ISR in RAM
 ISR_SET_S0			= 0				; Reset statut register to S#0 in ISR
+ROM_SIGN			= 0
+ROM_SIGN_CP			= "GL"			; Company's identifier
+ROM_SIGN_ID			= 0x0000		; Program's identifier

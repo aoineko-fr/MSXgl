@@ -1,2 +1,2 @@
-10 print"Loading..." 
-20 bload"s_target.bin",r 
+10 PRINT"Loading..." 
+20 BLOAD"s_target.bin",r 
