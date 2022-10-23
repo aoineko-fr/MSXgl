@@ -215,11 +215,10 @@ int main(int argc, const char* argv[])
 	}
 
 	// Deco
-	exp->AddComment(u8"_____________________________________________________________________________");
-	exp->AddComment(u8"   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄      ▄      ");
-	exp->AddComment(u8"  ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▀▀██ ▄  ██▀▄");
-	exp->AddComment(u8"  ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ ");
-	exp->AddComment(u8"______________________________▀▀  ___________________________________________");
+	exp->AddComment(u8"██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█      ▄      ");
+	exp->AddComment(u8"██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄");
+	exp->AddComment(u8"█  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀ ");
+	exp->AddComment(u8"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀  ");
 	// License
 	exp->AddComment(MSX::Format("MSXzip %s by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license", VERSION));
 	// Date

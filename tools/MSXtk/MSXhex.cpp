@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.3";
+const char* VERSION = "0.1.4";
 
 #define BUFFER_SIZE 1024
 
@@ -169,7 +169,7 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 	// Check starting address
 	if (addr < g_StartAddress)
 	{
-		printf("Error: Try to write value below start address! (Start=%08lXh Addr=%08lXh)\n", g_StartAddress, addr);
+		printf("Error: Try to write value below start address! (Start=%08Xh Addr=%08Xh)\n", g_StartAddress, addr);
 		return false;
 	}
 
@@ -198,7 +198,7 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 	// Check max size
 	if ((g_DataSize != 0) && (offsetEnd > g_DataSize - 1))
 	{
-		printf("Error: Try to write value outside defined data length! (Max=%08lXh Destination=%08lXh)\n", g_DataSize - 1, offsetEnd);
+		printf("Error: Try to write value outside defined data length! (Max=%08Xh Destination=%08Xh)\n", g_DataSize - 1, offsetEnd);
 		return false;
 	}
 
@@ -215,7 +215,7 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 	{
 		if (g_BinCheck[offset])
 		{
-			printf("Error: Writing address overwrite at offset %08lXh!\n", offset);
+			printf("Error: Writing address overwrite at offset %08Xh!\n", offset);
 			return false;
 		}
 
@@ -275,7 +275,7 @@ int ParseHex(std::string inFile)
 	// Display header
 	printf("MSXhex %s - Convert Intel HEX file to binary\n", VERSION);
 	if (g_Verbose)
-		printf(" Start=%08lXh Size=%08lXh Bank=%08lXh Pad=%02Xh\n", g_StartAddress, g_DataSize, g_BankSize, g_Padding);
+		printf(" Start=%08Xh Size=%08Xh Bank=%08Xh Pad=%02Xh\n", g_StartAddress, g_DataSize, g_BankSize, g_Padding);
 
 	// Read binary file
 	FILE* file = fopen(inFile.c_str(), "rb");
@@ -326,7 +326,7 @@ int ParseHex(std::string inFile)
 				sum += rec.Data[i];
 			if (sum != 0)
 			{
-				printf("Error: Record[%li] checksum error!\n", index);
+				printf("Error: Record[%i] checksum error!\n", index);
 				return 1;
 			}
 		}
@@ -341,8 +341,9 @@ int ParseHex(std::string inFile)
 		{
 		case Type_Data:
 			if (g_Log)
-				printf("Log: Record[%li] Addr=%08lXh Size=%i\n", index, addr, rec.Count);
-			WriteBytes(addr, rec.Data);
+				printf("Log: Record[%i] Addr=%08Xh Size=%i\n", index, addr, rec.Count);
+			if (!WriteBytes(addr, rec.Data))
+				return 1;
 			break;
 		case Type_EndOfFile:
 			free(binData);

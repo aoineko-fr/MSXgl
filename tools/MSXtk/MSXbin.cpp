@@ -330,11 +330,10 @@ i32 Export()
 	// Deco
 	if (g_Decoration)
 	{
-		AddComment(strData, u8"_____________________________________________________________________________");
-		AddComment(strData, u8"   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄▄   ▄");
-		AddComment(strData, u8"  ██▀█ ▀█▄  ▀█▄▀ ██▄  ▄  ██▀▄");
-		AddComment(strData, u8"  ██ █ ▄▄█▀ ██ █ ██▄▀ ██ ██ █");
-		AddComment(strData, u8"_____________________________________________________________________________");
+		AddComment(strData, u8"██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█ ▄▄   ▄      ");
+		AddComment(strData, u8"██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄");
+		AddComment(strData, u8"█  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █");
+		AddComment(strData, u8"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀             ");
 	}
 	// License
 	AddComment(strData, StringFormat("MSXbin %s by Guillaume \"Aoineko\" Blanchard (2022) under CC BY-SA free license", VERSION));
@@ -438,9 +437,9 @@ i32 Export()
 				if (g_Address != ADDR_NONE)
 				{
 					if (g_ASCII && (g_Size == DATA_SIZE_8B))
-						sprintf(strBuf, (g_Address == ADDR_HEXA) ? "%08lX | %s" : "%6ld | %s", offset, strLine);
+						sprintf(strBuf, (g_Address == ADDR_HEXA) ? "%08X | %s" : "%6d | %s", offset, strLine);
 					else
-						sprintf(strBuf, (g_Address == ADDR_HEXA) ? "%08lX" : "%6ld", offset);
+						sprintf(strBuf, (g_Address == ADDR_HEXA) ? "%08X" : "%6d", offset);
 
 					strcpy(strLine, strBuf);
 					offset = total;
@@ -560,7 +559,7 @@ int main(int argc, const char* argv[])
 		{
 			g_AddStartAddr = true;
 			i++;
-			sscanf(argv[i], "%li", &g_StartAddr);
+			sscanf(argv[i], "%i", &g_StartAddr);
 		}
 		// Data language
 		else if (MSX::StrEqual(argv[i], "-c"))
