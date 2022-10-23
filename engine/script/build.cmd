@@ -101,6 +101,12 @@ if %InstallRAMISR%==1      ( echo ROM_RAMISR=1 >> %OutDir%\crt0_config.asm )
 if /I %CustomISR%==VHBLANK ( echo ROM_ISR=ISR_VHBLANK >> %OutDir%\crt0_config.asm )
 if /I %CustomISR%==V9990   ( echo ROM_ISR=ISR_V9990 >> %OutDir%\crt0_config.asm )
 if /I not %Machine%==1     ( echo ISR_SET_S0=1 >> %OutDir%\crt0_config.asm )
+if %AppSignature%==1 (
+	echo APP_SIGN=1 >> %OutDir%\crt0_config.asm
+	echo APP_SIGN_NAME=%AppCompany% >> %OutDir%\crt0_config.asm
+	echo APP_SIGN_ID=%AppID% >> %OutDir%\crt0_config.asm
+	if defined AppExtra ( echo APP_SIGN_EXTRA=%AppExtra% >> %OutDir%\crt0_config.asm )
+)
 
 ::=============================================================================
 :: UPDATE BUILD VERSION HEADER FILE

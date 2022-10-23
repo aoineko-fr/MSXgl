@@ -26,10 +26,13 @@
 		.dw		0x0000
 		.dw		0x0000
 
-	.if ROM_SIGN
-		.dw		ROM_SIGN_CP
-		.dw		ROM_SIGN_ID
+	.if APP_SIGN
+		.dw		APP_SIGN_NAME
+		.dw		APP_SIGN_ID
 	.endif
+	; .ifdef APP_SIGN_EXTRA
+		; .db		APP_SIGN_EXTRA
+	; .endif
 
 .endm
 
@@ -44,10 +47,13 @@
 		.dw		endAddr		; End address
 		.dw 	startAddr	; Execution address
 
-	.if ROM_SIGN
-		.dw		ROM_SIGN_CP
-		.dw		ROM_SIGN_ID
+	.if APP_SIGN
+		.dw		APP_SIGN_NAME
+		.dw		APP_SIGN_ID
 	.endif
+	; .ifdef APP_SIGN_EXTRA
+		; .db		APP_SIGN_EXTRA
+	; .endif
 
 .endm
 

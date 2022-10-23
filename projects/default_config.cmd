@@ -116,6 +116,18 @@ set ForceRamAddr=
 :: Data to copy to disk (comma separated list)
 set DiskFiles=
 
+:: Add application signature to binary data (0=false, 1=true)
+set AppSignature=0
+
+:: Application company
+set AppCompany="GL"
+
+:: Application ID (0~65535)
+set AppID=0
+
+:: Application extra data (comma-separated bytes starting with data size)
+REM set AppExtra=
+
 ::*******************************************************************************
 :: MAKE SETTINGS
 ::*******************************************************************************

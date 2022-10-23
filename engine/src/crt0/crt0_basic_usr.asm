@@ -29,10 +29,7 @@
 _g_FirstAddr::
 _g_HeaderAddr::
 	; Binary program header
-	.db 	0xFE		; ID byte
-	.dw 	crt0_init	; Start address
-	.dw		crt0_end	; End address
-	.dw 	crt0_init	; Execution address
+	BASIC_HEADER crt0_init, crt0_end
 
 ;------------------------------------------------------------------------------
 ; Initialization code
