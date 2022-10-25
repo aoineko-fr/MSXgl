@@ -1,7 +1,7 @@
-@ECHO off
+@echo off
 
-rem ***************************************************************************
-rem * PROJECT OVERWRITE                                                       *
-rem ***************************************************************************
-SET Machine=1
-SET LibModules=pcm\pcmenc,system,bios,vdp,print,input,memory
+::*****************************************************************************
+:: PROJECT OVERWRITE
+::*****************************************************************************
+set Machine=1
+set LibModules=pcm\pcmenc,system,bios,vdp,print,input,memory

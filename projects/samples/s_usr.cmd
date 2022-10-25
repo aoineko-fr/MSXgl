@@ -17,4 +17,4 @@ set LibModules=device\ninjatap,bios
 set EmulPortA=NinjaTap
 
 :: Data to copy to disk
-set DiskFiles=s_usr.bas
+set DiskFiles=content\misc\ntap_usr.bas
