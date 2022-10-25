@@ -331,6 +331,9 @@ echo %BLUE%Deploying %Target%...%RESET%
 if not exist "%ProjDir%\emul" ( md %ProjDir%\emul )
 if /I %Ext%==rom (
 	if not exist "%ProjDir%\emul\rom" ( md %ProjDir%\emul\rom )
+	if %InstallBDOS%==1 (
+		if not exist "%ProjDir%\emul\dsk\tmp" ( md %ProjDir%\emul\dsk\tmp )
+	)
 )
 if /I %Ext%==bin (
 	if not exist "%ProjDir%\emul\bin" ( md %ProjDir%\emul\bin )
@@ -354,16 +357,28 @@ for %%J in ("%DskTool%") do set DskToolName=%%~nJ%%~xJ
 
 ::-----------------------------------------------------------------------------
 if /I %Ext%==rom (
+	::---- Copy program file ----
 	echo Copy %OutDir%\%ProjName%.%Ext% to emul\rom\%ProjName%.%Ext%
 	copy /Y %OutDir%\%ProjName%.%Ext% %ProjDir%\emul\rom\%ProjName%.%Ext%
 	if errorlevel 1 goto :Error
 
+	::---- Copy symbols files ----
 	if %DebugSymbols%==1 (
 		echo Copy symbols files to destination directory
 		if exist %OutDir%\%ProjName%.map ( copy /Y %OutDir%\%ProjName%.map %ProjDir%\emul\rom\%ProjName%.map )
 		if exist %OutDir%\%ProjName%.noi ( copy /Y %OutDir%\%ProjName%.noi %ProjDir%\emul\rom\%ProjName%.noi )
 		if %Debug%==1 (
 			if exist %OutDir%\%ProjName%.cdb ( copy /Y %OutDir%\%ProjName%.cdb %ProjDir%\emul\rom\%ProjName%.cdb )
+		)
+	)
+
+	::---- Copy data files ----
+	if %InstallBDOS%==1 (
+		if defined DiskFiles (
+			echo -- Copy data files to disk ^(%DiskFiles%^)
+			for %%G in (%DiskFiles%) do (
+				copy /Y %%G %ProjDir%\emul\dsk\tmp\%%~nG%%~xG
+			)
 		)
 	)
 )
@@ -374,6 +389,7 @@ if /I %Ext%==bin (
 	echo -- Copy %OutDir%\%ProjName%.%Ext% to emul\bin\%ProjName%.%Ext%
 	copy /Y %OutDir%\%ProjName%.%Ext% %ProjDir%\emul\bin\%ProjName%.%Ext%
 	if errorlevel 1 goto :Error
+
 	::---- Copy data files ----
 	if defined DiskFiles (
 		echo -- Copy data files to disk ^(%DiskFiles%^)
@@ -381,6 +397,7 @@ if /I %Ext%==bin (
 			copy /Y %%G %ProjDir%\emul\bin\%%~nG%%~xG
 		)
 	)
+
 	::---- Generate autoexec ----
 	echo -- Create emul\bin\autoexec.bas
 	if /I %Target%==BIN (
@@ -391,6 +408,7 @@ if /I %Ext%==bin (
 		echo 20 DEF USR=^&HC007 >> %ProjDir%\emul\bin\autoexec.bas
 		echo 30 BLOAD"%ProjName:~0,8%.%Ext%" >> %ProjDir%\emul\bin\autoexec.bas
 	)
+
 	::---- Generate DSK file ----
 	if exist %DskTool% (
 	
@@ -434,6 +452,7 @@ if /I %Ext%==com (
 	echo Copy %OutDir%\%ProjName%.%Ext% to emul\dos%DOS%\%ProjName%.%Ext%
 	copy /Y %OutDir%\%ProjName%.%Ext% %ProjDir%\emul\dos%DOS%\%ProjName%.%Ext%
 	if errorlevel 1 goto :Error
+
 	::---- Copy data files ----
 	if defined DiskFiles (
 		echo -- Copy data files to disk ^(%DiskFiles%^)
@@ -441,6 +460,7 @@ if /I %Ext%==com (
 			copy /Y %%G %ProjDir%\emul\dos%DOS%\%%~nG%%~xG
 		)
 	)
+
 	::---- Generate autoexec ----
 	echo Create emul\dos%DOS%\autoexec.bat
 	echo REM > %ProjDir%\emul\dos%DOS%\autoexec.bat
@@ -453,6 +473,7 @@ if /I %Ext%==com (
 		echo REM Loading... >> %ProjDir%\emul\dos%DOS%\autoexec.bat
 	)
 	echo %ProjName% >> %ProjDir%\emul\dos%DOS%\autoexec.bat
+
 	::---- Generate DSK file ----
 	if exist %DskTool% (
 

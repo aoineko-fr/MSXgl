@@ -174,12 +174,13 @@ void main()
 	SET_SPRITE(sprt+2, 70, 130, 40, COLOR_LIGHT_RED);
 	VDP_DisableSpritesFrom(sprt+3);
 
+	u8 frame = 0;
 	u8 prevRow8 = 0xFF;
 	while(1)
 	{
 		// Wait for v-synch
 		WaitVBlank();
-		
+
 		// Update scrolling rendering
 		Scroll_Update();
 
@@ -187,6 +188,8 @@ void main()
 		VDP_SetSpritePositionX(sprt+0, 70 + sprtOffset);
 		VDP_SetSpritePositionX(sprt+1, 70 + sprtOffset);
 		VDP_SetSpritePositionX(sprt+2, 70 + sprtOffset);
+
+		u8 shape = 6;
 
 		u8 row8 = Keyboard_Read(8);
 		// Update scrolling speed
@@ -212,10 +215,12 @@ void main()
 		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
 			Scroll_SetOffsetH(g_ScrollSpeed);
+			shape = (frame >> 2) % 6;
 		}
 		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
 			Scroll_SetOffsetH(-g_ScrollSpeed);
+			shape = (frame >> 2) % 6;
 		}
 		// Update vertical scrolling offset
 		if(IS_KEY_PRESSED(row8, KEY_DOWN))
@@ -227,5 +232,11 @@ void main()
 			Scroll_SetOffsetV(-g_ScrollSpeed);
 		}
 		prevRow8 = row8;
+
+		VDP_SetSpritePattern(sprt+0, 32 + shape * 16);
+		VDP_SetSpritePattern(sprt+1, 36 + shape * 16);
+		VDP_SetSpritePattern(sprt+2, 40 + shape * 16);
+
+		frame++;
 	}
 }

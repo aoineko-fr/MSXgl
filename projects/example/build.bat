@@ -15,6 +15,7 @@ call ..\default_config.cmd %0
 ::*****************************************************************************
 :: TOOLS SETTINGS
 ::*****************************************************************************
+
 set Emulator=%ToolsDir%\OpenMSX\openmsx.exe
 REM set Emulator=%ToolsDir%\Emulicious\Emulicious.exe
 REM set Emulator=%ToolsDir%\BlueMSX\blueMSX.exe
@@ -29,8 +30,10 @@ REM set Debugger=%ToolsDir%\OpenMSX\Debugger\openmsx-debugger.exe
 
 :: Project name (will be use for output filename)
 set ProjName=example
+
 :: Project modules to build (use ProjName if not defined)
 set ProjModules=%ProjName%
+
 :: List of modules to link
 set LibModules=system,bios,vdp,print,input,memory,game,game_pawn,math,string
 
@@ -43,6 +46,7 @@ set LibModules=system,bios,vdp,print,input,memory,game,game_pawn,math,string
 :: - TR		MSX Turbo-R
 :: - 3		MSX 3 (reserved)
 set Machine=1
+
 :: Program media target:
 :: - BIN			.bin	BASIC binary program (8000h~)
 :: - ROM_8K			.rom	8KB ROM in page 1 (4000h ~ 5FFFh)
@@ -62,19 +66,33 @@ set Machine=1
 :: - DOS2			.com	MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
 :: - DOS2_ARG		.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 set Target=ROM_32K
+
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
 
 :: Install BDOS driver for ROM program? (0=false, 1=true)
 REM set InstallBDOS=0
+
 :: Set RAM in slot 0 and install ISR there (0=false, 1=true)
 REM set InstallRAMISR=0
+
 :: Use banked call and trampoline functions (0=false, 1=true)
 REM set BankedCall=0
+
 :: Overwrite RAM starting address (e.g. 0xE0000 for 8K RAM machine)
 REM set ForceRamAddr=
+
 :: Data to copy to disk (comma separated list)
 REM set DiskFiles=
+
+:: Add application signature to binary data (0=false, 1=true)
+set AppSignature=1
+
+:: Application company
+set AppCompany="PP"
+
+:: Application ID (0~65535)
+set AppID="EX"
 
 ::*******************************************************************************
 :: MAKE SETTINGS
@@ -82,24 +100,31 @@ REM set DiskFiles=
 
 :: Use static MSXgl library (0=false, 1=true)
 REM set BuildLibrary=0
+
 :: Set debug flag (0=false, 1=true)
 set Debug=1
+
 :: Assembler code optimizer
 :: - None
 :: - PeepHole	SDCC otpimizer
 :: - MDL		MDL z80 otpimizer
 REM set AsmOptim=None
+
 :: Optim:
 :: - Default
 :: - Speed
 :: - Size
 REM set Optim=Speed
+
 :: Additionnal compilation flag
 REM set CompileOpt=
+
 :: Skip file if compile data is newer than the (0=false, 1=true)
 set CompileSkipOld=0
+
 :: Compile verbose mode (0=false, 1=true)
 REM set Verbose=0
+
 :: Update build version header file
 set BuildVersion=1
 

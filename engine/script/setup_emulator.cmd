@@ -80,7 +80,10 @@ if /I %EmulatorName%==openmsx (
 
 	::---- Add launch program ----
 	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! -diska %ProjDir%\emul\bin )
-	if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! -cart %ProjDir%\emul\rom\%ProjName%.rom )
+	if /I %Ext%==rom ( 
+		set EmulatorArgs=!EmulatorArgs! -cart %ProjDir%\emul\rom\%ProjName%.rom 
+		if %InstallBDOS%==1 ( set EmulatorArgs=!EmulatorArgs! -ext msxdos2 -diska %ProjDir%\emul\dsk\tmp )
+	)
 	if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! -ext msxdos2 -diska %ProjDir%\emul\dos%DOS%)
 	REM if /I %Target%==DOS1 ( 
 		REM set EmulatorArgs=!EmulatorArgs! -exta slotexpander -ext Panasonic_FS-FD1A -ext ram64k -diska %ProjDir%\emul\dos%DOS%

@@ -11,4 +11,7 @@ set Machine=2
 set LibModules=scroll,%LibModules%
 
 :: Install BDOS driver for ROM program? (0=false, 1=true)
-set InstallBDOS=1
+REM set InstallBDOS=1
+
+:: Data to copy to disk
+REM set DiskFiles=content\misc\ntap_usr.bas

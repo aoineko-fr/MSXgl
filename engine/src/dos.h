@@ -35,7 +35,7 @@
 #define BDOS						0x0005
 #define DOS_TPA						0x0006
 #else
-#define BDOS						0xF37D	
+#define BDOS						0xF37D
 #endif
 
 #define	DOS_FUNC_TERM0				0x00 // System reset

@@ -252,7 +252,7 @@ void main()
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8 + VDP_SPRITE_SCALE_1);
 	VDP_LoadSpritePattern(g_Font_MGL_Sample8 + 4, 0, g_Font_MGL_Sample8[3] - g_Font_MGL_Sample8[2]);
 	VDP_SetSpriteExUniColor(0, 2, MENU_Y - 1, '\x80', COLOR_WHITE);
-	VDP_DisableSpritesFrom(0);
+	VDP_DisableSpritesFrom(1);
 
 	DisplayPage();
 	
