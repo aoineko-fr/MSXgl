@@ -50,7 +50,7 @@ void Print_DrawSlot(u8 slot)
 // 
 void DisplayInfo()
 {
-	Print_SetPosition(0, 4);
+	Print_SetPosition(0, 3);
 	Print_DrawText("Slot: ");
 	u8 slot = ONET_Initialize();
 	if(slot == 0xFF)

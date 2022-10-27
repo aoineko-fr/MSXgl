@@ -42,6 +42,10 @@ u8 ONET_Initialize() __naked
 
 		call	SRCHOBSO
 
+		ld		a, (_g_ONET_Slot)
+		cp		#0xFF
+		ret		z
+
 		// Select the ROM page 0 by using WRSLT (see Section 3.3):
 		ld		a, (_g_ONET_Slot)
 		ld		e, #0xC0
