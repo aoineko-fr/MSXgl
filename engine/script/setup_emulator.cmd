@@ -203,9 +203,9 @@ if /I %EmulatorName%==bluemsx (
 	if %EmulMute%==1       ( echo %YELLOW%Warning: EmulMute can't be use with BlueMSX%RESET% )
 
 	::---- Add launch program ----
-	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! /diskA %ProjDir%\emul\dsk\%ProjName%.dsk )
-	if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! /rom1 %ProjDir%\emul\rom\%ProjName%.rom )
-	if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! /diskA %ProjDir%\emul\dsk\%ProjName%.dsk )
+	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! /diskA %FullProjDir%\emul\dsk\%ProjName%.dsk )
+	if /I %Ext%==rom ( set EmulatorArgs=!EmulatorArgs! /rom1 %FullProjDir%\emul\rom\%ProjName%.rom )
+	if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! /diskA %FullProjDir%\emul\dsk\%ProjName%.dsk )
 )
 
 ::*****************************************************************************

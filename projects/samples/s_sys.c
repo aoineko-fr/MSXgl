@@ -554,10 +554,10 @@ void DisplayMem()
 void main()
 {
 	g_VDP = VDP_GetVersion();
-	
+
 	VDP_SetMode(VDP_MODE_SCREEN0);
 	VDP_FillVRAM_16K(0, 0x0000, 0x4000); // Clear VRAM
-	
+
 	Print_SetTextFont(g_Font_MGL_Sample6, 1);
 	Print_SetColor(0xF, 0x0);
 

@@ -16,7 +16,7 @@
 ::*****************************************************************************
 
 set ProjDir=.
-REM set ProjDir=%~d1%~p1
+set FullProjDir=%~d1%~p1
 set OutDir=%ProjDir%\out
 set LibDir=%ProjDir%\..\..\engine
 set ToolsDir=%ProjDir%\..\..\tools
