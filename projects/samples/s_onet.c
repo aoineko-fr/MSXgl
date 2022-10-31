@@ -119,6 +119,7 @@ u8   g_Server[6];
 u8   g_Frame;
 u8   g_State;
 u8   g_PlayerNum;
+u8   g_Slot;
 struct Player g_Player[32];
 
 //=============================================================================
@@ -290,29 +291,29 @@ void DisplaySniffer()
 	DisplayFoot();
 
 	Print_SetPosition(0, 3);
-	Print_DrawText("Slot:  ");
-	u8 slot = ONET_Initialize();
-	if(slot == 0xFF)
+	Print_DrawText("Slot   :");
+	g_Slot = ONET_Initialize();
+	if(g_Slot == 0xFF)
 	{
 		Print_DrawText("Not found!");
 		return;
 	}
-	Print_DrawSlot(slot);
-	Print_DrawFormat("\nBIOS:  %s", ONET_HasBIOS() ? "Yes" : "No");
-	Print_DrawFormat("\nVer.:  %i.%i.%i", g_ONET_Version[0], g_ONET_Version[1], g_ONET_Version[2]);
-	Print_DrawFormat("\nMAC:   ");
+	Print_DrawSlot(g_Slot);
+	Print_DrawFormat("\nBIOS   :%s", ONET_HasBIOS() ? "Yes" : "No");
+	Print_DrawFormat("\nVer.   :%i.%i.%i", g_ONET_Version[0], g_ONET_Version[1], g_ONET_Version[2]);
+	Print_DrawText(  "\nMAC    :");
 	Print_DrawMAC(g_ONET_MAC);
-	Print_DrawFormat("\nConn.: %s", ONET_GetStatus() ? "Yes" : "No");
-	Print_DrawFormat("\nActive:%s", ONET_IsActivate() ? "Yes" : "No");
+	Print_DrawFormat("\nConn.  :%s", ONET_GetStatus() ? "Yes" : "No");
+	Print_DrawFormat("\nActive :%s", ONET_IsActivate() ? "Yes" : "No");
 
 	u8 rec = ONET_GetReceptConfig();
-	Print_DrawFormat("\nRecept:%2xh Sm%s BC%s MC%s All%s", rec,
+	Print_DrawFormat("\nRecept :%2xh Sm%s BC%s MC%s All%s", rec,
 		(rec & ONET_RECEPT_SMALL) ? "\x0C" : "\x0B",
 		(rec & ONET_RECEPT_BROADCAST) ? "\x0C" : "\x0B",
 		(rec & ONET_RECEPT_MULTICAST) ? "\x0C" : "\x0B",
 		(rec & ONET_RECEPT_ALL) ? "\x0C" : "\x0B");
 
-	Print_DrawText("\nPacket:");
+	Print_DrawText("\nPacket :");
 }
 
 //-----------------------------------------------------------------------------
@@ -326,9 +327,9 @@ void UpdateSniffer()
 
 	if(!g_Pending)
 	{
-		Erase(7, 10, 32-7);
+		Erase(8, 10, 32-8);
 		bool bInf = ONET_GetPacketInfo(&info);
-		Print_SetPosition(7, 10);
+		Print_SetPosition(8, 10);
 		if(bInf)
 		{
 			Print_DrawFormat("Yes S=%i H=%4x %s", info.Size, info.Head, GetEtherTypeName(info.Head));
@@ -350,9 +351,9 @@ void UpdateSniffer()
 				Erase(0, 11, 32*11);
 				Print_SetPosition(0, 11);
 				Print_DrawCharX(0x1C, 32);
-				Print_DrawFormat("\nSize:  %i", *(i16*)g_Buffer);
-				Print_DrawText("\nDest.: "); Print_DrawMAC(g_Buffer + 2);
-				Print_DrawText("\nSource:"); Print_DrawMAC(g_Buffer + 8);
+				Print_DrawFormat("\nSize    %i bytes", *(i16*)g_Buffer);
+				Print_DrawText("\nDest.   "); Print_DrawMAC(g_Buffer + 2);
+				Print_DrawText("\nSource  "); Print_DrawMAC(g_Buffer + 8);
 				u8* buf;
 				if(info.Head > 1500)
 				{
@@ -360,15 +361,25 @@ void UpdateSniffer()
 				}
 				else
 				{
-					Print_DrawFormat("\nLength:%i", *(i16*)(g_Buffer + 14));
+					Print_DrawFormat("\nLength  %i", *(i16*)(g_Buffer + 14));
 					buf = g_Buffer + 22;
 				}
-				Print_DrawFormat("\nType:  %2x%2x", buf[0], buf[1]);
+				Print_DrawFormat("\nType    %2x%2x (%s)", buf[0], buf[1], GetEtherTypeName(Math_Swap(*(u16*)buf)));
+
 				buf += 2;
-				Print_DrawText("\nData:  ");
-				u16 size = MIN(info.Size, 16*4);
+				Print_DrawText("\nRaw     ");
+				u16 size = MIN(info.Size, 8*6);
 				for(u8 i = 0; i < size; ++i)
+				{
+					if((i > 0) && ((i % 8) == 0))
+					{
+						g_PrintData.CursorX = 8;
+						g_PrintData.CursorY++;
+					}
 					Print_DrawHex8(*buf++);
+					if((i % 8) != 7)
+						g_PrintData.CursorX++;
+				}
 				g_Pending = FALSE;
 				DisplayFoot();
 			}
@@ -432,7 +443,7 @@ void SendBroadcast(u8 msg, const u8* data, u16 size)
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Pseudo game FSM
 void UpdateGame()
 {
 	switch(g_State)
@@ -440,8 +451,10 @@ void UpdateGame()
 	case STATE_MENU_INIT:
 		Erase(0, 2, 20*32);
 		Print_SetPosition(0, 3);
-		Print_DrawText("State: Menu\n");
-		Print_DrawText("\n1. Host");
+		Print_DrawText("State: Menu");
+		Print_DrawText("\nMAC:   ");
+		Print_DrawMAC(g_ONET_MAC);
+		Print_DrawText("\n\n1. Host");
 		Print_DrawText("\n2. Join");
 		InitPlayer();
 		g_State = STATE_MENU;
@@ -456,7 +469,11 @@ void UpdateGame()
 	case STATE_HOSTING_INIT:
 		Erase(0, 2, 20*32);
 		Print_SetPosition(0, 3);
-		Print_DrawText("State: Hosting");
+		Print_DrawText("State:  Hosting");
+		Print_DrawText("\nLocal:  ");
+		Print_DrawMAC(g_ONET_MAC);
+		Print_DrawText("\nServer: ");
+		Print_DrawMAC(g_ONET_MAC);
 		g_PlayerNum = 1;
 		g_State = STATE_HOSTING;
 		break;
@@ -465,6 +482,8 @@ void UpdateGame()
 		Erase(0, 2, 20*32);
 		Print_SetPosition(0, 3);
 		Print_DrawText("State: Browsing");
+		Print_DrawText("\nMAC:   ");
+		Print_DrawMAC(g_ONET_MAC);
 		break;
 
 	case STATE_BROWSE:
@@ -565,13 +584,13 @@ void main()
 		Halt();
 
 		Print_SetPosition(31, 0);
-		Print_DrawChar(g_ChrAnim[g_Frame++ & 0x03]);
+		Print_DrawChar(g_ChrAnim[g_Frame & 0x03]);
 
 		g_ModeTab[g_Mode].Update();
 
 		if(Keyboard_IsKeyPressed(KEY_F1))
 		{
-			if(!bPressed)
+			if((!bPressed) && (g_Slot != 0xFF))
 			{
 				g_Mode = 1 - g_Mode;
 				g_ModeTab[g_Mode].Display();
@@ -582,8 +601,8 @@ void main()
 			bPressed = FALSE;
 
 		if(Keyboard_IsKeyPressed(KEY_R))
-		{
 			g_ModeTab[g_Mode].Display();
-		}
+
+		g_Frame++;
 	}
 }

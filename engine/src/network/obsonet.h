@@ -156,7 +156,7 @@ bool ONET_GetPacket(u8* addr);
 
 // Function: ONET_DiscardPacket
 // Discard the oldest captured incoming packet
-inline void ONET_DiscardPacket() { ONET_GetPacket(0); }
+void ONET_DiscardPacket();
 
 // Function: ONET_SendPacketSync
 // Sends a packet to the network (Synchronous execution)

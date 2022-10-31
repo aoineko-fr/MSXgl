@@ -531,13 +531,28 @@ bool ONET_GetPacket(u8* addr)
 	__asm
 		push	ix
 		ld		ix, #ONET_FUNC_GET_PACKET
+		push	hl
 		inc		hl
 		inc		hl
 		call	ObsoNET_BIOSCall
-		dec		hl
-		dec		hl
+		pop		hl
 		ld		(hl), c
+		inc		hl
 		ld		(hl), b
+		dec		a					// Invert boolean A value
+		pop		ix
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Discard the oldest captured incoming packet
+void ONET_DiscardPacket()
+{
+	__asm
+		push	ix
+		ld		ix, #ONET_FUNC_GET_PACKET
+		ld		hl, #0
+		call	ObsoNET_BIOSCall
 		dec		a					// Invert boolean A value
 		pop		ix
 	__endasm;
