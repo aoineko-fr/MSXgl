@@ -44,8 +44,8 @@ _g_HeaderAddr::
 ;------------------------------------------------------------------------------
 ; Initialization code
 crt0_init:
-	; Install BDOS driver (if ROM_BDOS is 1)
-	INSTALL_BDOS
+	; Delay startup using STKE hook (if ROM_DELAY is 1)
+	DELAY_BOOT
 
 	di
 	; Set stack address at the top of free memory

@@ -42,8 +42,8 @@ if not %MapperSize%==0 (
 	)
 )
 
-if not defined InstallBDOS ( set InstallBDOS=0 )
-if not defined BankedCall  ( set BankedCall=0 )
+if not defined ROMDelayBoot ( set ROMDelayBoot=0 )
+if not defined BankedCall   ( set BankedCall=0 )
 
 ::***************************************************************************
 :: CHECK TOOLS PATH

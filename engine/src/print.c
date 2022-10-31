@@ -1140,6 +1140,7 @@ void Print_Backspace(u8 num)
 		#endif
 	}
 }
+
 //-----------------------------------------------------------------------------
 // Print a single character
 // @param		chr			The character to draw

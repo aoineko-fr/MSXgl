@@ -94,7 +94,29 @@ typedef void (*callback)(void);				// Callback default signature
 #define PEEKW(addr)					(*(u16*)(addr))
 
 //-----------------------------------------------------------------------------
-// Fastcall
+// SDCC calling convention 0
+//-----------------------------------------------------------------------------
+#define __SDCCCALL0					__sdcccall(0)
+
+//-----------------------------------------------------------------------------
+// SDCC calling convention 1
+//-----------------------------------------------------------------------------
+#define __SDCCCALL1					__sdcccall(1)
+// Parameters register:
+// - 8 bits					A
+// - 16 bits				HL
+// - 32 bits				HL:DE
+// - 8 + 8 bits				A + L
+// - 8 + 16 bits			A + DE
+// - 16 + 16 bits			HL + DE
+//
+// Return register:
+// - 8 bits					A
+// - 16 bits				DE
+// - 32 bits				HL:DE
+
+//-----------------------------------------------------------------------------
+// z88dk fastcall calling convention
 //-----------------------------------------------------------------------------
 // Parameter/return register:
 // - 8 bits 				L
@@ -114,24 +136,6 @@ typedef void (*callback)(void);				// Callback default signature
 #define FC8888(a, b, c, d)			(u32)(((u32)(a) << 24) + ((u32)(b) << 16) + ((u16)(c) << 8) + (d))	// D, E, H, L
 
 #define __CALLEE					__z88dk_callee
-
-//-----------------------------------------------------------------------------
-// SDCCCall
-//-----------------------------------------------------------------------------
-#define __SDCCCALL0					__sdcccall(0)
-#define __SDCCCALL1					__sdcccall(1)
-// Parameters register:
-// - 8 bits					A
-// - 16 bits				HL
-// - 32 bits				HL:DE
-// - 8 + 8 bits				A + L
-// - 8 + 16 bits			A + DE
-// - 16 + 16 bits			HL + DE
-//
-// Return register:
-// - 8 bits					A
-// - 16 bits				DE
-// - 32 bits				HL:DE
 
 //-----------------------------------------------------------------------------
 // Preserves registers

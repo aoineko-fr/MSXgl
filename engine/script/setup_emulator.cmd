@@ -82,7 +82,7 @@ if /I %EmulatorName%==openmsx (
 	if /I %Ext%==bin ( set EmulatorArgs=!EmulatorArgs! -diska %ProjDir%\emul\bin )
 	if /I %Ext%==rom ( 
 		set EmulatorArgs=!EmulatorArgs! -cart %ProjDir%\emul\rom\%ProjName%.rom 
-		if %InstallBDOS%==1 ( set EmulatorArgs=!EmulatorArgs! -ext msxdos2 -diska %ProjDir%\emul\dsk\tmp )
+		if %ROMDelayBoot%==1 ( set EmulatorArgs=!EmulatorArgs! -ext msxdos2 -diska %ProjDir%\emul\dsk\tmp )
 	)
 	if /I %Ext%==com ( set EmulatorArgs=!EmulatorArgs! -ext msxdos2 -diska %ProjDir%\emul\dos%DOS%)
 	REM if /I %Target%==DOS1 ( 

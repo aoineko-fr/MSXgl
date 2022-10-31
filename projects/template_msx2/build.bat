@@ -55,7 +55,7 @@ set Target=ROM_32K
 set ROMSize=
 
 :: Install BDOS driver for ROM program? (0=false, 1=true)
-REM set InstallBDOS=0
+REM set ROMDelayBoot=0
 :: Set RAM in slot 0 and install ISR there (0=false, 1=true)
 REM set InstallRAMISR=0
 :: Type of custom ISR (for RAM or ROM)

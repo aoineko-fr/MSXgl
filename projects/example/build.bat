@@ -70,8 +70,8 @@ set Target=ROM_32K
 :: ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
 set ROMSize=
 
-:: Install BDOS driver for ROM program? (0=false, 1=true)
-REM set InstallBDOS=0
+:: Postpone the ROM startup to let the other ROMs initialize (BDOS for example) (0=false, 1=true)
+REM set ROMDelayBoot=0
 
 :: Set RAM in slot 0 and install ISR there (0=false, 1=true)
 REM set InstallRAMISR=0

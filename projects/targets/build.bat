@@ -59,7 +59,7 @@ set Target=%1
 :: Mapper size
 if not "%3" == "" set ROMSize=%3
 :: Install BDOS driver for ROM program? (0=false, 1=true)
-if "%4" == "BDOS" set InstallBDOS=1
+if "%4" == "BDOS" set ROMDelayBoot=1
 :: Set RAM in slot 0 and install ISR there (0=false, 1=true)
 if "%4" == "RAMISR" set InstallRAMISR=1
 :: Type of custom ISR (for RAM or ROM)

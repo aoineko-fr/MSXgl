@@ -189,10 +189,10 @@
 .endm
 
 ;------------------------------------------------------------------------------
-; Install BDOS
+; Delay boot using STKE hook
 ;------------------------------------------------------------------------------
-.macro INSTALL_BDOS
-	.if ROM_BDOS
+.macro DELAY_BOOT
+	.if ROM_DELAY
 	; Setup the hook H.STKE to run the ROM with disk support
 	crt0_bdos_install:
 		ld		a, c					; Get the ROM slot number

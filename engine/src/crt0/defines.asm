@@ -61,7 +61,7 @@ ISR_V9990		= 2				; V-blank, h-blank and command end handler (V9990)
 ; Default values
 START_ADDR		= 0x4000
 ROM_MAPPER		= ROM_PLAIN
-ROM_BDOS		= 0				; Install BDOS
+ROM_DELAY		= 0				; Install BDOS
 ROM_BCALL		= 0				; Add banked call trampoline
 ROM_ISR			= ISR_VBLANK
 ROM_RAMISR		= 0				; Install ISR in RAM

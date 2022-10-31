@@ -153,6 +153,10 @@ u8 Math_Flip(u8 val);
 //   Bits flipped value
 u16 Math_Flip_16b(u16 val) __FASTCALL;
 
+// Function: Math_Swap
+// Swap MSB and LSB bytes
+u16 Math_Swap(u16 val);
+
 // Function: Math_SignedDiv2
 // Divide a signed 8-bits integer by 2 using shift
 i8 Math_SignedDiv2(i8 val);
