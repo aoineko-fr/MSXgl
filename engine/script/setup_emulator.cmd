@@ -139,7 +139,14 @@ if /I %EmulatorName%==emulicious (
 	)
 
 	::---- Add launch options ----
-	if %EmulMachine%==1    ( echo %YELLOW%Warning: EmulMachine can't be use with Emulicious%RESET% )
+	if %EmulMachine%==1 (
+		if /I %Machine%==1	( set EmulatorArgs=!EmulatorArgs! -set MSXModel=0 )
+		if /I %Machine%==2	( set EmulatorArgs=!EmulatorArgs! -set MSXModel=1 )
+		if /I %Machine%==2P	( echo %YELLOW%Warning: EmulMachine MSX2+ can't be use with Emulicious%RESET% )
+		if /I %Machine%==TR	( echo %YELLOW%Warning: EmulMachine MSX turbo R can't be use with Emulicious%RESET% )
+		if /I %Machine%==12	( set EmulatorArgs=!EmulatorArgs! -set MSXModel=0 )
+	)
+
 	if %Emul60Hz%==1       ( 
 		set EmulatorArgs=!EmulatorArgs! -set MSXPAL=false 
 	) else (
