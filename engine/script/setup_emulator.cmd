@@ -146,7 +146,6 @@ if /I %EmulatorName%==emulicious (
 		if /I %Machine%==TR	( echo %YELLOW%Warning: EmulMachine MSX turbo R can't be use with Emulicious%RESET% )
 		if /I %Machine%==12	( set EmulatorArgs=!EmulatorArgs! -set MSXModel=0 )
 	)
-
 	if %Emul60Hz%==1       ( 
 		set EmulatorArgs=!EmulatorArgs! -set MSXPAL=false 
 	) else (
