@@ -110,7 +110,7 @@ if /I %EmulatorName%==openmsx (
 	if /I "%EmulPortB%"=="Joystick" ( set EmulatorArgs=!EmulatorArgs! -command "plug joyportb joystick1" )
 	if /I "%EmulPortB%"=="Keyboard" ( set EmulatorArgs=!EmulatorArgs! -command "plug joyportb keyjoystick2" )
 	if /I "%EmulPortB%"=="Mouse"    ( set EmulatorArgs=!EmulatorArgs! -command "plug joyportb mouse" )
-	if /I "%EmulPortB%"=="NinjaTap" ( set EmulatorArgs=!EmulatorArgs! -command "plug joyporta ninjatap" -command "plug ninjatap_port_1 keyjoystick1" )
+	if /I "%EmulPortB%"=="NinjaTap" ( set EmulatorArgs=!EmulatorArgs! -command "plug joyportb ninjatap" -command "plug ninjatap_port_1 keyjoystick1" )
 
 	::---- Start emulator ----
 	if %EmulDebug%==1 (

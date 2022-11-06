@@ -28,7 +28,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "1.1.2";
+const char* VERSION = "1.3.0";
 
 /// Data format enum
 enum OUTPUT_FORMAT
@@ -215,10 +215,10 @@ int main(int argc, const char* argv[])
 	}
 
 	// Deco
-	exp->AddComment(u8"██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█      ▄      ");
+	exp->AddComment(u8"██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█      ▄");
 	exp->AddComment(u8"██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄");
-	exp->AddComment(u8"█  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀ ");
-	exp->AddComment(u8"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀  ");
+	exp->AddComment(u8"█  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀");
+	exp->AddComment(u8"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀");
 	// License
 	exp->AddComment(MSX::Format("MSXzip %s by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license", VERSION));
 	// Date

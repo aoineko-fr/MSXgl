@@ -48,12 +48,12 @@ struct ScreenSetting
 //=============================================================================
 
 // Screen mode setting index
-u8 g_SrcModeIndex;
-u8 g_VBlank = 0;
-u8 g_Frame = 0;
-u16 SX0, SY0;
-u16 SX, SY;
-u8 g_Operator = 0xFF; // default
+u8   g_SrcModeIndex;
+u8   g_VBlank = 0;
+u8   g_Frame = 0;
+u16  SX0, SY0;
+u16  SX, SY;
+u8   g_Operator = 0xFF; // default
 bool g_bMoving;
 
 // Memory buffer to unpack compressed data

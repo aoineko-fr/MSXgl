@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------
 // DEFINES
 
-const char* VERSION = "1.3.1";
+const char* VERSION = "1.4.0";
 
 #define BUFFER_SIZE 1024
 
@@ -330,10 +330,10 @@ i32 Export()
 	// Deco
 	if (g_Decoration)
 	{
-		AddComment(strData, u8"██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█ ▄▄   ▄      ");
+		AddComment(strData, u8"██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█ ▄▄   ▄");
 		AddComment(strData, u8"██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄");
 		AddComment(strData, u8"█  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █");
-		AddComment(strData, u8"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀             ");
+		AddComment(strData, u8"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀");
 	}
 	// License
 	AddComment(strData, StringFormat("MSXbin %s by Guillaume \"Aoineko\" Blanchard (2022) under CC BY-SA free license", VERSION));

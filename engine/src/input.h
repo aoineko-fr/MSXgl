@@ -40,6 +40,8 @@
 #define JOY_INPUT_DIR_UNCHANGED		0xFF
 #define JOY_INPUT_TRIGGER_A			(1 << 4)
 #define JOY_INPUT_TRIGGER_B			(1 << 5)
+#define JOY_INPUT_TRIGGER_RUN		(JOY_INPUT_DIR_RIGHT + JOY_INPUT_DIR_LEFT) // FM-Town input method
+#define JOY_INPUT_TRIGGER_SELECT	(JOY_INPUT_DIR_UP + JOY_INPUT_DIR_DOWN) // FM-Town input method
 
 #define IS_JOY_PRESSED(stat, input) ((stat & input) == 0)
 #define IS_JOY_RELEASED(stat, input) ((stat & input) != 0)
@@ -47,6 +49,10 @@
 #define JOY_GET_DIR(in)				(~(in) & JOY_INPUT_DIR_MASK))
 #define JOY_GET_TRIG1(in)			(((in) & JOY_INPUT_TRIGGER_A) == 0)
 #define JOY_GET_TRIG2(in)			(((in) & JOY_INPUT_TRIGGER_B) == 0)
+#define JOY_GET_A(in)				(((in) & JOY_INPUT_TRIGGER_A) == 0)
+#define JOY_GET_B(in)				(((in) & JOY_INPUT_TRIGGER_B) == 0)
+#define JOY_GET_RUN(in)				(((in) & JOY_INPUT_TRIGGER_RUN) == 0)
+#define JOY_GET_SELECT(in)			(((in) & JOY_INPUT_TRIGGER_SELECT) == 0)
 
 // Function: Joystick_Read
 // Get the current joystick information

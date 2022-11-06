@@ -34,6 +34,9 @@ extern u8 g_NTap_Prev[8];
 #define NTAP_SELECT					0b00100000
 #define NTAP_A						0b01000000
 #define NTAP_B						0b10000000
+// FM-Town triggers
+#define NTAP_FMT_RUN				(NTAP_RIGHT + NTAP_LEFT) 
+#define NTAP_FMT_SELECT				(NTAP_UP + NTAP_DOWN)
 
 #define NTAP_NUM_MASK				0b00001111
 #define NTAP_PORT1_MASK				0b00110000

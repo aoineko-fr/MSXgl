@@ -1,5 +1,5 @@
-CMSXimg (v1.14.5)
-Usage: CMSXimg <filename> [options]
+MSXimg (v1.15.0)
+Usage: MSXimg <filename> [options]
 
 Options:
    inputFile       Inuput file name. Can be 8/16/24/32 bits image
