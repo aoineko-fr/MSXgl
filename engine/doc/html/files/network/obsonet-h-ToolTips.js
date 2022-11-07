@@ -1,0 +1,1 @@
+﻿NDContentPage.OnToolTipsLoaded({647:"<div class=\"NDToolTip TFunction LC\"><div id=\"NDPrototype647\" class=\"NDPrototype\"><div class=\"PSection PPlainSection\"><span class=\"SHKeyword\">inline const</span> u8* ONET_GetPhysicalAddr()</div></div><div class=\"TTSummary\">Obtains the ObsoNET physical address</div></div>"});

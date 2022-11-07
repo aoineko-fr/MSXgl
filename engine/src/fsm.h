@@ -51,7 +51,7 @@ inline FSM_State* FSM_GetState() { return g_CurrentState; }
 // Should not be called from Begin/End callbacks
 inline void FSM_SetPrevious() { FSM_SetState(g_PrevState); g_PrevState = NULL; }
 
-// Function: FSM_GetPreviousState
+// Function: FSM_GetPrevious
 // Get previous state
 //
 // Return:
