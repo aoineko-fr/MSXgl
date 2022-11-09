@@ -39,7 +39,7 @@ _g_HeaderAddr::
 crt0_init:
 	di
 	; Set stack address at the top of free memory
-	ld		sp, (HIMEM)
+	; ld		sp, (HIMEM)
 
 	; Initialize globals and jump to main()
 	INIT_GLOBALS

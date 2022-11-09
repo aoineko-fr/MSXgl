@@ -37,7 +37,7 @@ _g_HeaderAddr::
 crt0_init:
 	di
 	; Set stack address at the top of free memory
-	ld		sp, (DOS_TPA)
+	; ld		sp, (DOS_TPA)
 	
 	; Initialize globals
 	INIT_GLOBALS
