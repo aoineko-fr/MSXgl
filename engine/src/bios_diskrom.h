@@ -12,6 +12,7 @@
 // - http://map.grauw.nl/resources/msxbios.php
 // - http://www.kameli.net/lt/bdos1var.txt
 //─────────────────────────────────────────────────────────────────────────────
+#pragma once
 
 //=============================================================================
 // DiskROM RAM Variables

@@ -15,6 +15,7 @@
 //          http://www.cpcwiki.eu/index.php/WYZTracker
 // Desc:    Adaptation of the WYZ music player for programming in C with the SDCC compiler                                        
 //─────────────────────────────────────────────────────────────────────────────
+#pragma once
 
 //-----------------------------------------------------------------------------
 // INCLUDES

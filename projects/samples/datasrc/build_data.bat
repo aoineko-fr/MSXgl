@@ -6,7 +6,7 @@ set BuildTrilo=0
 set BuildWYZ=0
 set BuildayFX=0
 set BuildVGM=0
-set BuildayVGM=1
+set BuildayVGM=0
 set BuildArkos=0
 set BuildPCMEnc=0
 :: Image
@@ -14,7 +14,7 @@ set BuildBitmap=0
 set BuildImage=0
 set BuildCompress=0
 set BuildTile=0
-set BuildV9990=0
+set BuildV9990=1
 :: Misc
 set BuildZip=0
 

@@ -1,7 +1,7 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄       ▄       ▄▄  
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██▄▀ ▄  ██▀▄ ██▀ 
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ██   ██ ██ █ ▀█▄ 
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄       ▄       ▄▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██▄▀ ▄  ██▀▄ ██▀
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ██   ██ ██ █ ▀█▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
@@ -116,7 +116,7 @@ inline void Print_DrawTextAt(u8 x, u8 y, const c8* string)
 }
 
 //-----------------------------------------------------------------------------
-// Function: Print_DrawTextAtV()
+// Function: Print_DrawTextAtV
 // Draw a vertical text at a given position on screen
 inline void Print_DrawTextAtV(u8 x, u8 y, const c8* str)
 {
@@ -127,3 +127,38 @@ inline void Print_DrawTextAtV(u8 x, u8 y, const c8* str)
 	}
 }
 
+//-----------------------------------------------------------------------------
+// Function: Print_DrawCharAt()
+// Print a single character at a given position.
+inline void Print_DrawCharAt(u8 x, u8 y, c8 chr)
+{
+	Print_SetPosition(x, y);
+	Print_DrawChar(chr);
+}
+
+//-----------------------------------------------------------------------------
+// Function: Print_DrawCharXAt
+// Print the same character many times at a given position.
+inline void Print_DrawCharXAt(u8 x, u8 y, c8 chr, u8 len)
+{
+	Print_SetPosition(x, y);
+	Print_DrawCharX(chr, len);
+}
+
+//-----------------------------------------------------------------------------
+// Function: Print_DrawCharYAt
+// Print the same character many times at a given position.
+inline void Print_DrawCharYAt(u8 x, u8 y, c8 chr, u8 len)
+{
+	for(u8 i = 0; i < len; ++i)
+		Print_DrawCharAt(x, y++, chr);
+}
+
+//-----------------------------------------------------------------------------
+// Function: Print_DrawIntAt()
+// Print a 16-bits signed decimal value at a given position.
+inline void Print_DrawIntAt(u8 x, u8 y, i16 val)
+{
+	Print_SetPosition(x, y);
+	Print_DrawInt(val);
+}

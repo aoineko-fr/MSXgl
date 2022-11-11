@@ -12,6 +12,7 @@
 //  - https://www.msx.org/wiki/Ricoh_RP-5C01
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
+
 #include "core.h"
 #include "system_port.h"
 
