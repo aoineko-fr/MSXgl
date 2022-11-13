@@ -27,6 +27,7 @@ typedef struct
 //
 extern FSM_State* g_CurrentState;
 extern FSM_State* g_PrevState;
+extern FSM_State* g_NextState;
 
 //=============================================================================
 // FUNCTIONS
@@ -61,4 +62,12 @@ inline FSM_State* FSM_GetPrevious() { return g_PrevState; }
 
 // Function: FSM_Update
 // Update the current state
-inline void FSM_Update() { g_CurrentState->Update(); }
+void FSM_Update();
+
+// Function: FSM_IsPending
+// Is a new state is pending
+inline bool FSM_IsPending() { return g_NextState != NULL; }
+
+// Function: FSM_GetPending
+// Get the pending state
+inline FSM_State* FSM_GetPending() { return g_NextState; }
