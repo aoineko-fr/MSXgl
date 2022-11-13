@@ -268,13 +268,30 @@ void Menu_Update()
 			if((input & MENU_INPUT_TRIGGER) || (input & MENU_INPUT_RIGHT))
 			{
 				i8* data = (i8*)pCurItem->Action;
-				(*data)++;
+				if(pCurItem->Value != NULL)
+				{
+					MenuItemMinMax* param = (MenuItemMinMax*)pCurItem->Value;
+					if((*data) + param->Step > param->Max)
+						(*data) = param->Max;
+					else
+						(*data) += param->Step;
+				}
+				else
+					(*data)++;
 				Menu_DisplayItem(g_MenuItem);
 			}
 			else if(input & MENU_INPUT_LEFT)
 			{
 				i8* data = (i8*)pCurItem->Action;
-				if((*data) > pCurItem->Value)
+				if(pCurItem->Value != NULL)
+				{
+					MenuItemMinMax* param = (MenuItemMinMax*)pCurItem->Value;
+					if((*data) < param->Min + param->Step)
+						(*data) = param->Min;
+					else
+						(*data) -= param->Step;
+				}
+				else
 					(*data)--;
 				Menu_DisplayItem(g_MenuItem);
 			}

@@ -44,7 +44,7 @@
 #define MENU_ITEM_ALIGN				MENU_ITEM_ALIGN_LEFT
 #define MENU_ITEM_ALIGN_GOTO		MENU_ITEM_ALIGN_LEFT
 
-#define MENU_VALUE_X				12
+#define MENU_VALUE_X				13
 
 // Menu item types
 enum MENU_ITEM_TYPE
@@ -132,8 +132,16 @@ typedef struct
 	const c8* Text;
 	u8        Type;
 	void*     Action;
-	i8        Value;
+	i16       Value;
 } MenuItem;
+
+// Menu item strcture
+typedef struct
+{
+	i8        Min;
+	i8        Max;
+	i8        Step;
+} MenuItemMinMax;
 
 // Menu strcture
 typedef struct
