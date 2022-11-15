@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("men",["Function"],[["Menu_SetCallback",,[[,,,,0,"File:game_menu.h:Menu_SetCallback"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("men",["Function"],[["Menu_DrawPage",,[[,,,,0,"File:game_menu.h:Menu_DrawPage"]]],["Menu_Initialize",,[[,,,,0,"File:game_menu.h:Menu_Initialize"]]],["Menu_SetDrawCallback",,[[,,,,0,"File:game_menu.h:Menu_SetDrawCallback"]]],["Menu_SetInputCallback",,[[,,,,0,"File:game_menu.h:Menu_SetInputCallback"]]],["Menu_Update",,[[,,,,0,"File:game_menu.h:Menu_Update"]]]]);

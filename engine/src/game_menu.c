@@ -76,7 +76,7 @@ void Menu_DefaultDrawCB(u8 x, u8 y, u8 type, const void* text)
 //.............................................................................
 
 //-----------------------------------------------------------------------------
-//
+// Initialize a menu
 void Menu_Initialize(const Menu* menus)
 {
 	g_MenuTable = menus;
@@ -92,7 +92,7 @@ void Menu_Initialize(const Menu* menus)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Display a item in the current page
 void Menu_DisplayItem(u8 item)
 {
 	MenuItem* pCurItem = &g_MenuPage->Items[item];
@@ -194,7 +194,7 @@ void Menu_DisplayItem(u8 item)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Draw a given page by its page number
 void Menu_DrawPage(u8 page)
 {
 	// Initialize menu
@@ -223,7 +223,7 @@ void Menu_DrawPage(u8 page)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update the menu handler
 void Menu_Update()
 {
 	u8 input = Menu_DefaultInputCB();

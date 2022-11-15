@@ -11,52 +11,114 @@
 
 #include "core.h"
 
-//-----------------------------------------------------------------------------
+//=============================================================================
+// OPTIONS VALIDATION
+//=============================================================================
+
+// 
+#define MENU_CURSOR_MODE_NONE		0 // No cursor
+#define MENU_CURSOR_MODE_CHAR		1 // Character cursor
+#define MENU_CURSOR_MODE_SPRT		2 // Sprite cursor
+
+// MENU_USE_DEFAULT_CALLBACK
+#ifndef MENU_USE_DEFAULT_CALLBACK
+	#warning MENU_USE_DEFAULT_CALLBACK is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define MENU_USE_DEFAULT_CALLBACK	TRUE
+#endif
+
+// MENU_SCREEN_WIDTH
+#ifndef MENU_SCREEN_WIDTH
+	#warning MENU_SCREEN_WIDTH is not defined in "msxgl_config.h"! Default value will be used: 32
+	#define MENU_SCREEN_WIDTH		32
+#endif
+
+// MENU_CLEAR
+#ifndef MENU_CLEAR
+	#warning MENU_CLEAR is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define MENU_CLEAR				0
+#endif
+
+// MENU_POS_X
+#ifndef MENU_POS_X
+	#warning MENU_POS_X is not defined in "msxgl_config.h"! Default value will be used: 4
+	#define MENU_POS_X				4
+#endif
+
+// MENU_POS_Y
+#ifndef MENU_POS_Y
+	#warning MENU_POS_Y is not defined in "msxgl_config.h"! Default value will be used: 11
+	#define MENU_POS_Y				11
+#endif
+
+// MENU_WIDTH
+#ifndef MENU_WIDTH
+	#warning MENU_WIDTH is not defined in "msxgl_config.h"! Default value will be used: 24
+	#define MENU_WIDTH				24
+#endif
+
+// MENU_HEIGHT
+#ifndef MENU_HEIGHT
+	#warning MENU_HEIGHT is not defined in "msxgl_config.h"! Default value will be used: 8
+	#define MENU_HEIGHT				8
+#endif
+
+// MENU_CURSOR_MODE
+#ifndef MENU_CURSOR_MODE
+	#warning MENU_CURSOR_MODE is not defined in "msxgl_config.h"! Default value will be used: MENU_CURSOR_MODE_CHAR
+	#define MENU_CURSOR_MODE		MENU_CURSOR_MODE_CHAR
+#endif
+
+// MENU_CURSOR_OFFSET
+#ifndef MENU_CURSOR_OFFSET
+	#warning MENU_CURSOR_OFFSET is not defined in "msxgl_config.h"! Default value will be used: -1
+	#define MENU_CURSOR_OFFSET		(-1)
+#endif
+
+// MENU_ITEM_X
+#ifndef MENU_ITEM_X
+	#warning MENU_ITEM_X is not defined in "msxgl_config.h"! Default value will be used: 6
+	#define MENU_ITEM_X				6
+#endif
+
+// MENU_ITEM_X_GOTO
+#ifndef MENU_ITEM_X_GOTO
+	#warning MENU_ITEM_X_GOTO is not defined in "msxgl_config.h"! Default value will be used: MENU_ITEM_X
+	#define MENU_ITEM_X_GOTO		MENU_ITEM_X
+#endif
+
+// MENU_ITEM_ALIGN
+#ifndef MENU_ITEM_ALIGN
+	#warning MENU_ITEM_ALIGN is not defined in "msxgl_config.h"! Default value will be used: MENU_ITEM_ALIGN_LEFT
+	#define MENU_ITEM_ALIGN			MENU_ITEM_ALIGN_LEFT
+#endif
+
+// MENU_ITEM_ALIGN_GOTO
+#ifndef MENU_ITEM_ALIGN_GOTO
+	#warning MENU_ITEM_ALIGN_GOTO is not defined in "msxgl_config.h"! Default value will be used: MENU_ITEM_ALIGN
+	#define MENU_ITEM_ALIGN_GOTO	MENU_ITEM_ALIGN
+#endif
+
+// MENU_VALUE_X
+#ifndef MENU_VALUE_X
+	#warning MENU_VALUE_X is not defined in "msxgl_config.h"! Default value will be used: 13
+	#define MENU_VALUE_X			13
+#endif
+
+//=============================================================================
 // DEFINES
-//-----------------------------------------------------------------------------
-
-#define MENU_USE_DEFAULT_CALLBACK	TRUE
-
-// Menu layout
-#define MENU_SCREEN_WIDTH			32
-
-#define MENU_CLEAR					0
-
-#define MENU_CHAR_CURSOR			'@'
-#define MENU_CHAR_TRUE				'O'
-#define MENU_CHAR_FALSE				'X'
-#define MENU_CHAR_LEFT				'<'
-#define MENU_CHAR_RIGHT				'>'
-
-#define MENU_POS_X					4
-#define MENU_POS_Y					11
-#define MENU_WIDTH					24
-#define MENU_HEIGHT					8
-
-#define MENU_CURSOR_MODE_NONE		0
-#define MENU_CURSOR_MODE_CHAR		1
-#define MENU_CURSOR_MODE_SPRT		2
-#define MENU_CURSOR_MODE			MENU_CURSOR_MODE_CHAR
-#define MENU_CURSOR_OFFSET			(-1)
-
-#define MENU_ITEM_X					6
-#define MENU_ITEM_X_GOTO			6
-#define MENU_ITEM_ALIGN				MENU_ITEM_ALIGN_LEFT
-#define MENU_ITEM_ALIGN_GOTO		MENU_ITEM_ALIGN_LEFT
-
-#define MENU_VALUE_X				13
+//=============================================================================
 
 // Menu item types
 enum MENU_ITEM_TYPE
 {
-	MENU_ITEM_ACTION =				0, // Execute callback function defined in Action
-	MENU_ITEM_GOTO,					   // Change page to the one defined in Value
+	MENU_ITEM_ACTION =				0,	// Execute callback function defined in Action
+	MENU_ITEM_GOTO,						// Change page to the one defined in Value
 //------------------------------------
-	MENU_ITEM_INT,					   // Handle pointer to 8-bits integer defined in Action
-	MENU_ITEM_BOOL,					   // Handle pointer to boolean defined in Action
+	MENU_ITEM_INT,						// Handle pointer to 8-bits integer defined in Action
+	MENU_ITEM_BOOL,						// Handle pointer to boolean defined in Action
 //------------------------------------
-	MENU_ITEM_EMPTY,				   // Empty entry
-	MENU_ITEM_TEXT,					   // Handle pointer to zero-terminated string
+	MENU_ITEM_EMPTY,					// Empty entry
+	MENU_ITEM_TEXT,						// Handle pointer to zero-terminated string
 	MENU_ITEM_UPDATE,
 //------------------------------------
 	MENU_ITEM_MASK =				0x0F,
@@ -163,7 +225,7 @@ extern Menu_DrawCB		g_MenuDrawCB;
 //=============================================================================
 
 // Function: Menu_Initialize
-//
+// Initialize a menu
 // Must be called first (will reset or set default callback)
 void Menu_Initialize(const Menu* menus);
 
@@ -182,9 +244,12 @@ inline void Menu_SetInputCallback(Menu_InputCB cb) { g_MenuInputCB = cb; }
 inline void Menu_SetDrawCallback(Menu_DrawCB cb) { g_MenuDrawCB = cb; }
 
 // Function: Menu_DrawPage
+// Draw a given page by its page number
 //
+// Parameters:
+//   cb - Callback function address
 void Menu_DrawPage(u8 page);
 
 // Function: Menu_Update
-//
+// Update the menu handler
 void Menu_Update();

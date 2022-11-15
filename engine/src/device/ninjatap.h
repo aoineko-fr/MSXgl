@@ -14,12 +14,33 @@
 #include "core.h"
 
 //=============================================================================
-// DEFINES
+// OPTIONS VALIDATION
 //=============================================================================
 
 #define NTAP_DRIVER_MSXGL			(1 << 0) // MSXgl custom driver (based on DM-System2 one)
 #define NTAP_DRIVER_GIGAMIX			(1 << 1) // Original Gigamix's DM-System2 driver
 #define NTAP_DRIVER_SHINOBI			(1 << 2) // Shinobi Tap driver by Danjovic
+
+// NTAP_DRIVER
+#ifndef NTAP_DRIVER
+	#warning NTAP_DRIVER is not defined in "msxgl_config.h"! Default value will be used: NTAP_DRIVER_MSXGL
+	#define NTAP_DRIVER				NTAP_DRIVER_MSXGL
+#endif
+#if ((NTAP_DRIVER & 0x07) == 0)
+	#warning Invalid value for NTAP_DRIVER! Default value will be used: NTAP_DRIVER_MSXGL
+	#undef  NTAP_DRIVER
+	#define NTAP_DRIVER				NTAP_DRIVER_MSXGL
+#endif
+
+// NTAP_USE_PREVIOUS
+#ifndef NTAP_USE_PREVIOUS
+	#warning NTAP_USE_PREVIOUS is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define NTAP_USE_PREVIOUS		TRUE
+#endif
+
+//=============================================================================
+// DEFINES
+//=============================================================================
 
 extern u8 g_NTap_Info;
 extern u8 g_NTap_Buffer[2];
