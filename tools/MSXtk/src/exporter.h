@@ -78,7 +78,8 @@ struct ExportParameters
 	i32 palOffset;				///< Index offset of the palette
 	bool pal24;					///< Use 24-bits palette (v9990)
 	MSXi_Compressor comp;		///< Compressor to use (@see MSXi_Compressor)
-	MSX::DataFormat format;	///< Data format to use for text export (@see MSX_DataFormat)
+	MSX::DataFormat format;		///< Data format to use for text export (@see MSX::DataFormat)
+	MSX::AsmSyntax syntax;		///< Assember syntax (@see MSX::AsmSyntax)
 	bool bSkipEmpty;			///< Skip empty block (be aware this option change the block index)
 	DitheringMethod dither;		///< The dithering method to use (only for 1-bit BPC)
 	bool bAddCopy;				///< Add copyright information from file
@@ -125,6 +126,7 @@ struct ExportParameters
 		pal24 = FALSE;
 		comp = COMPRESS_None;
 		format = MSX::DATAFORMAT_Hexa;
+		syntax = MSX::ASMSYNTAX_sdasz80;
 		bSkipEmpty = FALSE;
 		dither = DITHER_None;
 		bAddCopy = FALSE;
@@ -187,6 +189,7 @@ public:
 	virtual void WriteTableEnd(std::string comment) = 0;
 
 	virtual const c8* GetNumberFormat(u8 bytes = 1) = 0;
+	virtual const c8* GetDataFormat(u8 bytes = 1) = 0;
 
 	virtual u32 GetTotalBytes() { return TotalBytes; }
 	virtual bool Export() = 0;
@@ -280,6 +283,25 @@ public:
 	{
 		return MSX::GetDataFormat(eFormat, bytes);
 	}
+
+	virtual const c8* GetDataFormat(u8 bytes = 1)
+	{
+		switch (bytes)
+		{
+		case 1:
+			if (Param->syntax == MSX::ASMSYNTAX_sdasz80)
+				return ".db";
+			else
+				return "db";
+		case 2:
+			if (Param->syntax == MSX::ASMSYNTAX_sdasz80)
+				return ".dw";
+			else
+				return "dw";
+		};
+		return NULL;
+	}
+
 
 	virtual bool Export()
 	{
@@ -479,7 +501,7 @@ public:
 	virtual void Write4BytesLine(u8 a, u8 b, u8 c, u8 d, std::string comment)
 	{
 		sprintf_s(strFormat, BUFFER_SIZE, 
-			"\t.db %s %s %s %s ; %s\n", GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), comment.c_str());
+			"\t%s %s, %s, %s, %s, ; %s\n", GetDataFormat(1), GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), comment.c_str());
 		sprintf_s(strData, BUFFER_SIZE, strFormat, a, b, c, d);
 		outData += strData;
 		TotalBytes += 4;
@@ -488,7 +510,7 @@ public:
 	virtual void Write2BytesLine(u8 a, u8 b, std::string comment)
 	{
 		sprintf_s(strFormat, BUFFER_SIZE, 
-			"\t.db %s %s ; %s\n", GetNumberFormat(), GetNumberFormat(), comment.c_str());
+			"\t%s %s, %s, ; %s\n", GetDataFormat(1), GetNumberFormat(), GetNumberFormat(), comment.c_str());
 		sprintf_s(strData, BUFFER_SIZE, strFormat, a, b);
 		outData += strData;
 		TotalBytes += 2;
@@ -497,7 +519,7 @@ public:
 	virtual void Write1ByteLine(u8 a, std::string comment)
 	{
 		sprintf_s(strFormat, BUFFER_SIZE, 
-			"\t.db %s ; %s\n", GetNumberFormat(), comment.c_str());
+			"\t%s %s, ; %s\n", GetDataFormat(1), GetNumberFormat(), comment.c_str());
 		sprintf_s(strData, BUFFER_SIZE, strFormat, a);
 		outData += strData;
 		TotalBytes += 1;
@@ -506,7 +528,7 @@ public:
 	virtual void Write1WordLine(u16 a, std::string comment)
 	{
 		sprintf_s(strFormat, BUFFER_SIZE,
-			"\t.dw %s ; %s\n", GetNumberFormat(2), comment.c_str());
+			"\t%s %s, ; %s\n", GetDataFormat(2), GetNumberFormat(2), comment.c_str());
 		sprintf_s(strData, BUFFER_SIZE, strFormat, a);
 		outData += strData;
 		TotalBytes += 2;
@@ -515,7 +537,7 @@ public:
 	virtual void Write2WordsLine(u16 a, u16 b, std::string comment)
 	{
 		sprintf_s(strFormat, BUFFER_SIZE,
-			"\t.dw %s %s ; %s\n", GetNumberFormat(), GetNumberFormat(), comment.c_str());
+			"\t%s %s, %s, ; %s\n", GetDataFormat(2), GetNumberFormat(), GetNumberFormat(), comment.c_str());
 		sprintf_s(strData, BUFFER_SIZE, strFormat, a, b);
 		outData += strData;
 		TotalBytes += 4;
@@ -523,12 +545,14 @@ public:
 
 	virtual void WriteLineBegin()
 	{ 
-		outData += "\t.db ";
+		outData += "\t";
+		outData += GetDataFormat(1);
+		outData += " ";
 	}
 
 	virtual void Write1ByteData(u8 data)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE, "%s ", GetNumberFormat());
+		sprintf_s(strFormat, BUFFER_SIZE, "%s, ", GetNumberFormat());
 		sprintf_s(strData, BUFFER_SIZE, strFormat, data);
 		outData += strData;
 		TotalBytes += 1;
@@ -536,7 +560,7 @@ public:
 
 	virtual void Write8BitsData(u8 data)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE, "%s ", GetNumberFormat());
+		sprintf_s(strFormat, BUFFER_SIZE, "%s, ", GetNumberFormat());
 		sprintf_s(strData, BUFFER_SIZE, strFormat, data);
 		outData += strData;
 		TotalBytes += 1;
@@ -621,6 +645,7 @@ public:
 	virtual void WriteTableEnd(std::string comment) {}
 
 	virtual const c8* GetNumberFormat(u8 bytes = 1) { return NULL; }
+	virtual const c8* GetDataFormat(u8 bytes = 1) { return NULL; }
 
 	virtual bool Export()
 	{
@@ -660,6 +685,7 @@ public:
 	virtual void WriteLineEnd() {}
 	virtual void WriteTableEnd(std::string comment) {}
 	virtual const c8* GetNumberFormat(u8 bytes = 1) { return NULL; }
+	virtual const c8* GetDataFormat(u8 bytes = 1) { return NULL; }
 	virtual bool Export() { return TRUE; }
 };
 

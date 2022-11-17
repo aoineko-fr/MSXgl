@@ -38,6 +38,15 @@ enum DataFormat
 	DATAFORMAT_BinaryASM,			// 00000000b, 11010010b, 1111111111111111b
 };
 
+/// Assembler syntax
+enum AsmSyntax
+{
+	ASMSYNTAX_sdasz80,				// SDCC assembler (default)
+	ASMSYNTAX_tniASM,				// tniASM assembler
+	ASMSYNTAX_asMSX,				// asMSX assembler
+	ASMSYNTAX_Sjasm,				// Sjasm assembler
+};
+
 /// 
 enum DataSeparator
 {

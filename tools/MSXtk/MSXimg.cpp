@@ -142,6 +142,11 @@ void PrintHelp()
 	printf("      hexa$        Hexadecimal data ($FF; asm only)\n");
 	printf("      hexa#        Hexadecimal data (#FF; asm only)\n");
 	printf("      bin          Binary data (11001100b; asm only)\n");
+	printf("   -asm ?           Assembler format for data\n");
+	printf("      sdasz80      SDCC assembler (default)\n");
+	printf("      tniasm       tniASM assembler\n");
+	printf("      asmsx        asMSX assembler\n");
+	printf("      sjasm        Sjasm assembler\n");
 	printf("   -skip           Skip empty sprites (default: false)\n");
 	printf("   -idx            Add images index table (default: false)\n");
 	printf("   -copy (file)    Add copyright information from text file\n");
@@ -372,6 +377,18 @@ int main(int argc, const char* argv[])
 				param.format = MSX::DATAFORMAT_BinaryC;
 			else if (MSX::StrEqual(argv[i], "binB"))
 				param.format = MSX::DATAFORMAT_BinaryASM;
+		}
+		else if (MSX::StrEqual(argv[i], "-asm")) // Text data format
+		{
+			i++;
+			if (MSX::StrEqual(argv[i], "sdasz80"))
+				param.syntax = MSX::ASMSYNTAX_sdasz80;
+			else if (MSX::StrEqual(argv[i], "tniasm"))
+				param.syntax = MSX::ASMSYNTAX_tniASM;
+			else if (MSX::StrEqual(argv[i], "asmsx"))
+				param.syntax = MSX::ASMSYNTAX_asMSX;
+			else if (MSX::StrEqual(argv[i], "sjasm"))
+				param.syntax = MSX::ASMSYNTAX_Sjasm;
 		}
 		else if (MSX::StrEqual(argv[i], "-mode")) // Exporter mode
 		{

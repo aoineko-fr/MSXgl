@@ -1,4 +1,4 @@
-MSXimg (v1.15.0)
+MSXimg (v1.15.1)
 Usage: MSXimg <filename> [options]
 
 Options:
@@ -73,6 +73,11 @@ Options:
       hexa$        Hexadecimal data ($FF; asm only)
       hexa#        Hexadecimal data (#FF; asm only)
       bin          Binary data (11001100b; asm only)
+   -asm ?           Assembler format for data
+      sdasz80      SDCC assembler (default)
+      tniasm       tniASM assembler
+      asmsx        asMSX assembler
+      sjasm        Sjasm assembler
    -skip           Skip empty sprites (default: false)
    -idx            Add images index table (default: false)
    -copy (file)    Add copyright information from text file
