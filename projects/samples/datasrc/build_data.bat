@@ -14,9 +14,9 @@ set BuildBitmap=0
 set BuildImage=0
 set BuildCompress=0
 set BuildTile=0
-set BuildV9990=1
+set BuildV9990=0
 :: Misc
-set BuildZip=0
+set BuildZip=1
 
 :: Path
 set Tools=..\..\..\tools
@@ -260,28 +260,36 @@ if %BuildZip%==1 (
 	if not exist %Dest%\zip md %Dest%\zip
 
 	echo ---- No compression ----
-	copy %Dest%\img\data10_sc5.bin %Dest%\zip\data10.bin
+	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 4 -format bin -out %Dest%\zip\data10.bin -pal msx1
+	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 -format bin -out %Dest%\zip\data01.bin
 
 	echo ---- RLEp compression ----
-	%MSXtk%\MSXzip.exe %Dest%\img\data10_sc5.bin -bin -rlep -def auto -incdef -o %Dest%\zip\data10.rlep
+	%MSXtk%\MSXzip.exe %Dest%\zip\data10.bin -bin -rlep -def auto -incdef -o %Dest%\zip\data10.rlep
+	%MSXtk%\MSXzip.exe %Dest%\zip\data01.bin -bin -rlep -def auto -incdef -o %Dest%\zip\data01.rlep
 
 	echo ---- ZX0 compression ----
-	%Tools%\compress\ZX0\zx0.exe -f %Dest%\img\data10_sc5.bin %Dest%\zip\data10.zx0
+	%Tools%\compress\ZX0\zx0.exe -f %Dest%\zip\data10.bin %Dest%\zip\data10.zx0
+	%Tools%\compress\ZX0\zx0.exe -f %Dest%\zip\data01.bin %Dest%\zip\data01.zx0
 
 	echo ---- Bitbuster compression ----
-	copy %Dest%\img\data10_sc5.bin %Tools%\compress\Bitbuster\temp.bin
+	copy %Dest%\zip\data10.bin %Tools%\compress\Bitbuster\data10.tmp
+	copy %Dest%\zip\data01.bin %Tools%\compress\Bitbuster\data01.tmp
 	set PrevCD=!cd!
 	cd %Tools%\compress\Bitbuster
-	pack.exe temp.bin
+	pack.exe data10.tmp
+	pack.exe data01.tmp
 	cd !PrevCD!
-	copy %Tools%\compress\Bitbuster\temp.bin.pck %Dest%\zip\data10.pck
-	del /Q %Tools%\compress\Bitbuster\temp.*
+	copy %Tools%\compress\Bitbuster\data10.tmp.pck %Dest%\zip\data10.pck
+	copy %Tools%\compress\Bitbuster\data01.tmp.pck %Dest%\zip\data01.pck
+	del /Q %Tools%\compress\Bitbuster\*.tmp
 
 	echo ---- Bitbuster 2 compression ----
-	%Tools%\compress\Bitbuster\BitBuster2.exe %Dest%\img\data10_sc5.bin -o %Dest%\zip\data10.bb2
+	%Tools%\compress\Bitbuster\BitBuster2.exe %Dest%\zip\data10.bin -o %Dest%\zip\data10.bb2
+	%Tools%\compress\Bitbuster\BitBuster2.exe %Dest%\zip\data01.bin -o %Dest%\zip\data01.bb2
 
 	echo ---- Pletter compression ----
-	%Tools%\compress\Pletter\pletter.exe %Dest%\img\data10_sc5.bin %Dest%\zip\data10.pl5
+	%Tools%\compress\Pletter\pletter.exe %Dest%\zip\data10.bin %Dest%\zip\data10.pl5
+	%Tools%\compress\Pletter\pletter.exe %Dest%\zip\data01.bin %Dest%\zip\data01.pl5
 )
 
 pause

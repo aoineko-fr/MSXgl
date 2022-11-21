@@ -1195,7 +1195,7 @@ void Print_DrawText(const c8* str)
 // @param		value		Value to print
 void Print_DrawBin8(u8 value)
 {
-	u8 flag = 1 << 7;
+	u8 flag = (u8)(1 << 7);
 	for(u8 i = 0; i < 8; ++i)
 	{
 		Print_DrawChar((value & flag) ? '1' : '0');

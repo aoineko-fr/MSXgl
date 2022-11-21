@@ -179,6 +179,14 @@ typedef void (*callback)(void);				// Callback default signature
 	__endasm; }                                       \
 	extern u16 label
 
+// Macro to include binary data into C source file
+#define INCLUDE_BIN(label, path) DummyASM_##label() { \
+	__asm                                             \
+		_##label::                                    \
+		.inbin path                                   \
+	__endasm; }                                       \
+	extern u16 label
+
 // Macro to create a name by concatenating two part
 #define MACRO_MERGE(a, b)			a##b
 

@@ -8,6 +8,7 @@
 // Bitbuster v1.2 - (c) 2002-2003  Team Bomba
 //─────────────────────────────────────────────────────────────────────────────
 #include "bitbuster.h"
+#include "system_port.h"
 
 //-----------------------------------------------------------------------------
 // Unpack Bitbuster compressed data to a RAM buffer
@@ -40,7 +41,7 @@ depack:
 	inc		hl
 
 	ld		a, #128
-	
+
 	exx
 	ld		de, #1
 	exx
@@ -139,4 +140,168 @@ get_gamma_value_end:
 
 	jp		depack_loop
 __endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Unpack Bitbuster compressed data directly to VRAM
+// Only first 16 KB of VRAM can be use as destination (0000-3FFF)
+void Bitbuster_UnpackToVRAM(const void* source, u16 dest)
+{
+	source;	// HL
+	dest;	// DE
+
+__asm
+//-----------------------------------------------------------
+// BitBuster v1.2 VRAM Depacker v1.1 - 16Kb version
+//  by  Metalion (22-02-2008, 16:54)
+//  https://msx.org/forum/development/msx-development/bitbuster-depack-vram?page=7
+// HL = RAM/ROM source
+// DE = VRAM destination
+//-----------------------------------------------------------
+	di
+
+// VRAM address setup
+	ld		a, e
+	out		(P_VDP_1), a
+	ld		a, d
+	or		#0x40
+	out		(P_VDP_1), a
+
+// Skips 4 bytes data header
+	inc		hl
+	inc		hl
+	inc		hl
+	inc		hl
+
+// Initialization
+	ld		a, #128
+	exx
+	ld		de, #1
+	exx
+
+// Main depack loop
+v_Depack_loop:
+	add		a, a
+	jp		nz, nxt0
+	ld		a, (hl)
+	inc		hl
+	rla
+nxt0:
+	jp		c, v_Compressed
+	ld		c, #P_VDP_0
+	outi
+	inc		de
+	jp		v_Depack_loop
+
+// Compressed data
+v_Compressed:
+	ld		c, (hl)
+	inc		hl
+v_Match:
+	ld		b, #0
+	bit		7, c
+	jr		z, v_Match1
+	add		a, a
+	jp		nz, nxt1
+	ld		a, (hl)
+	inc		hl
+	rla
+nxt1:
+	rl		b
+	add		a, a
+	jp		nz, nxt2
+	ld		a, (hl)
+	inc		hl
+	rla
+nxt2:
+	rl		b
+	add		a, a
+	jp		nz, nxt3
+	ld		a, (hl)
+	inc		hl
+	rla
+nxt3:
+	rl		b
+	add		a, a
+	jp		nz, nxt4
+	ld		a, (hl)
+	inc		hl
+	rla
+nxt4:
+	jp		c, v_Match1
+	res		7, c
+v_Match1:
+	inc		bc
+	exx
+	ld		h, d
+	ld		l, e
+	ld		b, e
+v_Gamma_size:
+	exx
+	add		a, a
+	jp		nz, nxt5
+	ld		a, (hl)
+	inc		hl
+	rla
+nxt5:
+	exx
+	jp		nc, v_Gamma_size_end
+	inc		b
+	jp		v_Gamma_size
+v_Gamma_bits:
+	exx
+	add		a, a
+	jp		nz, nxt6
+	ld		a, (hl)
+	inc		hl
+	rla
+nxt6:
+	exx
+	adc		hl, hl
+v_Gamma_size_end:
+	djnz	v_Gamma_bits
+v_Gamma_end:
+	inc		hl
+	exx
+	jp		c, v_Depack_out
+	push	hl
+	exx
+	push	hl
+	exx
+	ld		h, d
+	ld		l, e
+	sbc		hl, bc
+	pop		bc
+	push	af
+loop:
+	ld		a, l
+	out		(P_VDP_1), a
+	ld		a, h
+	nop								// VDP timing
+	out		(P_VDP_1), a
+	nop								// VDP timing
+	in		a, (P_VDP_0)
+	ex		af, af'					;'
+	ld		a, e
+	nop								// VDP timing
+	out		(P_VDP_1), a
+	ld		a, d
+	or		#0x40
+	out		(P_VDP_1), a
+	ex		af, af'					;'
+	nop 							// VDP timing
+	out		(P_VDP_0), a
+	inc		de
+	cpi
+	jp		pe, loop
+	pop		af
+	pop		hl
+	jp		v_Depack_loop
+
+// Depacker exit
+v_Depack_out:
+	ei
+	ret
+__endasm;
+
 }

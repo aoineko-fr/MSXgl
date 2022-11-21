@@ -9,9 +9,12 @@
 // Copyright (c) 2002-2003 Team Bomba under MIT License
 //─────────────────────────────────────────────────────────────────────────────
 #include "pletter.h"
+#include "asm.h"
+#include "system_port.h"
 
 #define LENGTHINDATA 0
 
+//-----------------------------------------------------------------------------
 // Unpack Pletter compressed data to a RAM buffer
 // call unpack with hl pointing to some pletter5 data, and de pointing to the destination.
 // changes all registers
@@ -49,12 +52,10 @@ unpack:
 	ld		hl, #modes
 	add		hl, de
 	ld		e, (hl)
-	// ld		ixl, e
-	.db 0xDD, 0x6B
+	ld______ixl_e
 	inc		hl
 	ld		e, (hl)
-	// ld		ixh, e
-	.db 0xDD, 0x63
+	ld______ixh_e
 	ld		e, #1
 	exx
 	ld		iy, #loop
@@ -163,6 +164,197 @@ modes:
 	.dw		mode4
 	.dw		mode5
 	.dw		mode6
+
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Unpack Pletter compressed data directly to VRAM
+// Only first 16 KB of VRAM can be use as destination (0000-3FFF)
+void Pletter_UnpackToVRAM(const void* source, u16 dest)
+{
+	source;	// HL
+	dest;	// DE
+
+__asm
+//-----------------------------------------------------------
+// Pletter v0.5b VRAM Depacker v1.1 - 16Kb version
+//  by  Metalion (22-02-2008, 16:54)
+//  https://msx.org/forum/development/msx-development/bitbuster-depack-vram?page=7
+// HL = RAM/ROM source
+// DE = VRAM destination
+//-----------------------------------------------------------
+	di
+	push	ix
+
+// VRAM address setup
+	ld		a, e
+	out		(P_VDP_1), a
+	ld		a, d
+	or		#0x40
+	out		(P_VDP_1), a
+
+// Initialization
+	ld		a, (hl)
+	inc		hl
+	exx
+	ld		de, #0
+	add		a, a
+	inc		a
+	rl		e
+	add		a, a
+	rl		e
+	add		a, a
+	rl		e
+	rl		e
+	ld		hl, #v_modes
+	add		hl, de
+	ld		e, (hl)
+	ld______ixl_e
+	inc		hl
+	ld		e, (hl)
+	ld______ixh_e
+	ld		e, #1
+	exx
+	ld		iy, #v_loop
+
+// Main depack loop
+v_literal:
+	ld		c, #P_VDP_0
+	outi
+	inc		de
+v_loop:
+	add		a, a
+	call	z, getbit
+	jr		nc, v_literal
+
+// Compressed data
+	exx
+	ld		h, d
+	ld		l, e
+v_getlen:
+	add		a, a
+	call	z, getbitexx
+	jr		nc, v_lenok
+v_lus:
+	add		a, a
+	call	z, getbitexx
+	adc		hl, hl
+	ret		c
+	add		a, a
+	call	z, getbitexx
+	jr		nc, v_lenok
+	add		a, a
+	call	z, getbitexx
+	adc		hl, hl
+	jp		c, v_Depack_out
+	add		a, a
+	call	z, getbitexx
+	jp		c, v_lus
+v_lenok:
+	inc		hl
+	exx
+	ld		c, (hl)
+	inc		hl
+	ld		b, #0
+	bit		7, c
+	jp		z, v_offsok
+	jp		(ix)
+
+v_mode7:
+	add		a, a
+	call	z, getbit
+	rl		b
+v_mode6:
+	add		a, a
+	call	z, getbit
+	rl		b
+v_mode5:
+	add		a, a
+	call	z, getbit
+	rl		b
+v_mode4:
+	add		a, a
+	call	z, getbit
+	rl		b
+v_mode3:
+	add		a, a
+	call	z, getbit
+	rl		b
+v_mode2:
+	add		a, a
+	call	z, getbit
+	rl		b
+	add		a, a
+	call	z, getbit
+	jr		nc, v_offsok
+	or		a
+	inc		b
+	res		7, c
+v_offsok:
+	inc		bc
+	push	hl
+	exx
+	push	hl
+	exx
+	ld		l, e
+	ld		h, d
+	sbc		hl, bc
+	pop		bc
+	push	af
+v_offsok_loop:
+	ld		a, l
+	out		(P_VDP_1), a
+	ld		a, h
+	nop						// VDP timing
+	out		(P_VDP_1),a
+	nop						// VDP timing
+	in		a, (P_VDP_0)
+	ex		af, af'			; '
+	ld		a, e
+	nop						// VDP timing
+	out		(P_VDP_1), a
+	ld		a, d
+	or		#0x40
+	out		(P_VDP_1), a
+	ex		af, af'			;'
+	nop						// VDP timing
+	out		(P_VDP_0), a
+	inc		de
+	cpi
+	jp		pe, v_offsok_loop
+	pop		af
+	pop		hl
+	jp		(iy)
+
+// getbit:
+	// ld		a, (hl)
+	// inc		hl
+	// rla
+	// ret
+
+// getbitexx:
+	// exx
+	// ld		a, (hl)
+	// inc		hl
+	// exx
+	// rla
+	// ret
+
+// Depacker exit
+v_Depack_out:
+	pop		ix
+	ei
+	ret
+
+v_modes:
+	.dw		v_offsok
+	.dw		v_mode2
+	.dw		v_mode3
+	.dw		v_mode4
+	.dw		v_mode5
+	.dw		v_mode6
+	.dw		v_mode7
 
 __endasm;
 }
