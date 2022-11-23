@@ -11,28 +11,6 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "ninjatap.h"
 
-#define NTAP_USE_PATCH				TRUE
-
-//=============================================================================
-// OPTIONS VALIDATION
-//=============================================================================
-
-// NTAP_DRIVER
-#ifndef NTAP_DRIVER
-	#warning NTAP_DRIVER is not defined in "msxgl_config.h"! Default value will be used: NTAP_DRIVER_MSXGL
-	#define NTAP_DRIVER				NTAP_DRIVER_MSXGL
-#endif
-#if ((NTAP_DRIVER & 0x07) == 0)
-	#warning Invalide value for NTAP_DRIVER! Default value will be used: NTAP_DRIVER_MSXGL
-	#define NTAP_DRIVER				NTAP_DRIVER_MSXGL
-#endif
-
-// NTAP_USE_PREVIOUS
-#ifndef NTAP_USE_PREVIOUS
-	#warning NTAP_USE_PREVIOUS is not defined in "msxgl_config.h"! Default value will be used: TRUE
-	#define NTAP_USE_PREVIOUS		TRUE
-#endif
-
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -67,18 +45,10 @@ void NTap_Dummy()
 	MGL_CKNTAP::
 		di
 		ld		b, #0	// b=Max Player
-#if (NTAP_USE_PATCH)
 		ld		de, #0xBF0A
-#else
-		ld		de, #0xBF00
-#endif
 		call	MGL_CHECK	// Port1 Check
 		ld		c, a
-#if (NTAP_USE_PATCH)
 		ld		e, #0x4A
-#else
-		ld		e, #0x40
-#endif
 		call	MGL_CHECK	// Port2 Check
 		rlca
 		or		c
@@ -94,11 +64,7 @@ void NTap_Dummy()
 	MGL_CHECK:
 		call	MGL_PORSEL
 		inc		b
-#if (NTAP_USE_PATCH)
 		and		#0xCA
-#else
-		and		#0xC0
-#endif
 		out		(0xA1), a	// 678=L
 		ex		af, af'		;'
 		ld		a, #14

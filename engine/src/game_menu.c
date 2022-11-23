@@ -1,15 +1,20 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄           
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██   ▄▀██ ▄█▄█ ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▄█ ▀▄██ ██ █ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Game menu handler
 //─────────────────────────────────────────────────────────────────────────────
 #include "game_menu.h"
 #include "vdp.h"
+#include "string.h"
+
+#if (MENU_USE_DEFAULT_CALLBACK)
 #include "print.h"
+#include "input.h"
+#endif
 
 //=============================================================================
 // READ-ONLY DATA
@@ -22,7 +27,12 @@
 const Menu*		g_MenuTable;
 const Menu*		g_MenuPage;
 u8				g_MenuItem;
-Menu_InputCB	g_MenuCB[MENU_CALLBACK_MAX];
+Menu_InputCB	g_MenuInputCB;
+Menu_DrawCB		g_MenuDrawCB;
+
+#if (MENU_USE_DEFAULT_CALLBACK)
+u8				g_MenuInputPrev;
+#endif
 
 //=============================================================================
 // FUNCTIONS
@@ -30,198 +40,283 @@ Menu_InputCB	g_MenuCB[MENU_CALLBACK_MAX];
 
 #pragma disable_warning	244		// remove "pointer types incompatible" warning
 
+
+//.............................................................................
+// DEFAULT CALLBACK
+//.............................................................................
+#if (MENU_USE_DEFAULT_CALLBACK)
+
 //-----------------------------------------------------------------------------
 //
-void Menu_DisplayItem(u8 item)
+u8 Menu_DefaultInputCB()
 {
-	// Clean buttom-third
-	u16 dst = g_ScreenLayoutLow + ((MENU_ITEMS_Y + item) * MENU_SCREEN_WIDTH);
-	VDP_FillVRAM_16K(0, dst, MENU_SCREEN_WIDTH);
-	
-	// Draw item
-	if(item < g_MenuPage->itemNum)
-	{
-		MenuEntry* pCurEntry = &g_MenuPage->items[item];
-		// if(g_MenuItem == item)
-			// Print_SelectTextFont(g_DataFont, OFFSET_TITLE_FONT_ALT);
-		// else
-			// Print_SelectTextFont(g_DataFont, OFFSET_TITLE_FONT_DEF);
-			
-		u8 x;
-		if((pCurEntry->type & MENU_ITEM_GOTO) != 0)
-			x = MENU_ITEMS_X_GOTO;
-		else
-			x = MENU_ITEMS_X;
-		 
-		u8 y = MENU_ITEMS_Y;
-		
-		if(pCurEntry->type == MENU_ITEM_TEXT)
-			x += pCurEntry->value;
-			
-		Print_SetPosition(x, y + item);
-		Print_DrawText(pCurEntry->text);
+	u8 new = 0;
+	if(Keyboard_IsKeyPressed(KEY_UP))    new |= MENU_INPUT_UP;
+	if(Keyboard_IsKeyPressed(KEY_DOWN))  new |= MENU_INPUT_DOWN;
+	if(Keyboard_IsKeyPressed(KEY_LEFT))  new |= MENU_INPUT_LEFT;
+	if(Keyboard_IsKeyPressed(KEY_RIGHT)) new |= MENU_INPUT_RIGHT;
+	if(Keyboard_IsKeyPressed(KEY_SPACE)) new |= MENU_INPUT_TRIGGER;
 
-		Print_SetPosition(x + 9, y + item);
+	u8 ret = (new & g_MenuInputPrev) ^ new;
+	g_MenuInputPrev = new;
 
-		if(pCurEntry->type == MENU_ITEM_ACTION)
-		{
-			Menu_ActionCB cb = (Menu_ActionCB)pCurEntry->action;
-			const c8* str = cb(MENU_ACTION_GET, pCurEntry->value);
-			if(str)
-			{
-				if(g_MenuItem == item)
-					Print_DrawChar('<');
-				else
-					Print_Space();
-				Print_DrawText(str);
-				if(g_MenuItem == item)
-					Print_DrawChar('>');
-			}
-		}
-		else if(pCurEntry->type == MENU_ITEM_INT)
-		{
-			i8* data = (u8*)pCurEntry->action;
-			if(g_MenuItem == item)
-				Print_DrawChar('<');
-			else
-				Print_Space();
-			Print_DrawInt(*data);
-			if(g_MenuItem == item)
-				Print_DrawChar('>');
-		}
-		else if(pCurEntry->type == MENU_ITEM_BOOL)
-		{
-			u8* data = (u8*)pCurEntry->action;
-			if(g_MenuItem == item)
-				Print_DrawChar('<');
-			else
-				Print_Space();
-			Print_DrawChar(*data ? '/' : '\\');
-			if(g_MenuItem == item)
-				Print_DrawChar('>');
-		}
-	}
+	return ret;
 }
 
 //-----------------------------------------------------------------------------
 //
-void Menu_Display(u8 page)
+void Menu_DefaultDrawCB(u8 x, u8 y, u8 type, const void* text)
+{
+}
+
+#endif
+
+//.............................................................................
+// CORE FEATURE
+//.............................................................................
+
+//-----------------------------------------------------------------------------
+// Initialize a menu
+void Menu_Initialize(const Menu* menus)
+{
+	g_MenuTable = menus;
+
+	#if (MENU_USE_DEFAULT_CALLBACK)
+	g_MenuInputPrev = 0xFF;
+	g_MenuInputCB = Menu_DefaultInputCB;
+	g_MenuDrawCB = Menu_DefaultDrawCB;
+	#else
+	g_MenuInputCB = NULL;
+	g_MenuDrawCB = NULL;
+	#endif
+}
+
+//-----------------------------------------------------------------------------
+// Display a item in the current page
+void Menu_DisplayItem(u8 item)
+{
+	MenuItem* pCurItem = &g_MenuPage->Items[item];
+	u8 type = pCurItem->Type & MENU_ITEM_MASK;
+	if(type == MENU_ITEM_EMPTY)
+		return;
+
+	// Get base Y coordinate
+	u8 y = MENU_POS_Y + item;
+	//  Clear line
+	u16 dst = g_ScreenLayoutLow + MENU_POS_X + (y * MENU_SCREEN_WIDTH);
+	VDP_FillVRAM(MENU_CLEAR, dst, g_ScreenLayoutHigh, MENU_WIDTH);
+
+	// Get base X coordinate
+	u8 x;
+	if(type == MENU_ITEM_GOTO)
+		x = MENU_ITEM_X_GOTO;
+	else
+		x = MENU_ITEM_X;
+	if(type == MENU_ITEM_TEXT)
+		x += pCurItem->Value;
+	// Get align flag
+	u8 align = pCurItem->Type & MENU_ITEM_ALIGN_MASK;
+	if(align == MENU_ITEM_ALIGN_DEFAULT)
+	{
+		if(type == MENU_ITEM_GOTO)
+			align = MENU_ITEM_ALIGN_GOTO;
+		else
+			align = MENU_ITEM_ALIGN;
+	}
+	// Adjust X coordinate
+	if(align != MENU_ITEM_ALIGN_LEFT)
+	{
+		u8 len = String_Length(pCurItem->Text);
+		if(align == MENU_ITEM_ALIGN_LEFT)
+			x -= len;
+		else // if(align == MENU_ITEM_ALIGN_CENTER)
+			x -= len / 2;
+	}
+
+	// Draw cursor
+	#if (MENU_CURSOR_MODE == MENU_CURSOR_MODE_CHAR)
+	if(g_MenuItem == item)
+	{
+		Print_SetPosition(x + MENU_CURSOR_OFFSET, y);
+		Print_DrawChar(MENU_CHAR_CURSOR);
+	}
+	#endif
+
+	// Draw item label
+	Print_SetPosition(x, y);
+	Print_DrawText(pCurItem->Text);
+
+	// Draw item value
+	Print_SetPosition(MENU_VALUE_X, y);
+	switch(type)
+	{
+		case MENU_ITEM_ACTION:
+		{
+			Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
+			const c8* str = cb(MENU_ACTION_GET, pCurItem->Value);
+			if(str)
+			{
+				if(g_MenuItem == item)
+					Print_DrawChar(MENU_CHAR_LEFT);
+				else
+					Print_Space();
+				Print_DrawText(str);
+				if(g_MenuItem == item)
+					Print_DrawChar(MENU_CHAR_RIGHT);
+			}
+			break;
+		}
+		case MENU_ITEM_INT:
+		{
+			i8* data = (i8*)pCurItem->Action;
+			if(g_MenuItem == item)
+				Print_DrawChar(MENU_CHAR_LEFT);
+			else
+				Print_Space();
+			Print_DrawInt(*data);
+			if(g_MenuItem == item)
+				Print_DrawChar(MENU_CHAR_RIGHT);
+			break;
+		}
+		case MENU_ITEM_BOOL:
+		{
+			u8* data = (u8*)pCurItem->Action;
+			if(g_MenuItem == item)
+				Print_DrawChar(MENU_CHAR_LEFT);
+			else
+				Print_Space();
+			Print_DrawChar(*data ? MENU_CHAR_TRUE : MENU_CHAR_FALSE);
+			if(g_MenuItem == item)
+				Print_DrawChar(MENU_CHAR_RIGHT);
+			break;
+		}
+	};
+}
+
+//-----------------------------------------------------------------------------
+// Draw a given page by its page number
+void Menu_DrawPage(u8 page)
 {
 	// Initialize menu
 	g_MenuPage = &g_MenuTable[page];
 	g_MenuItem = 0;
-	while(g_MenuItem < g_MenuPage->itemNum)
+	while(g_MenuItem < g_MenuPage->ItemNum)
 	{
-		if(g_MenuPage->items[g_MenuItem].type >= MENU_ITEM_ACTION)
+		if(g_MenuPage->Items[g_MenuItem].Type < MENU_ITEM_EMPTY)
 			break;
 		g_MenuItem++;
 	}
-	
+
+	// Clear
+	u16 dst = g_ScreenLayoutLow + MENU_POS_X + (MENU_POS_Y * MENU_SCREEN_WIDTH);
+	for(u8 i = MENU_POS_Y; i < MENU_POS_Y + MENU_HEIGHT; ++i)
+	{
+		VDP_FillVRAM(MENU_CLEAR, dst, g_ScreenLayoutHigh, MENU_WIDTH);
+		dst += MENU_SCREEN_WIDTH;
+	}
+
 	// Display menu items
-	for(u8 item = 0; item < MENU_ITEMS_H; ++item)
+	for(u8 item = 0; item < g_MenuPage->ItemNum; ++item)
 	{
 		Menu_DisplayItem(item);
 	}
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update the menu handler
 void Menu_Update()
 {
-	// Handle activation
-	MenuEntry* pCurEntry = &g_MenuPage->items[g_MenuItem];
-	if(g_MenuCB[MENU_CALLBACK_TRIGGER] && g_MenuCB[MENU_CALLBACK_TRIGGER]())
+	u8 input = Menu_DefaultInputCB();
+	MenuItem* pCurItem = &g_MenuPage->Items[g_MenuItem];
+	u8 type = pCurItem->Type & MENU_ITEM_MASK;
+
+	switch(type)
 	{
-		// ayFX_PlayBank(14, 0);
-		if(pCurEntry->type == MENU_ITEM_ACTION)
+		case MENU_ITEM_ACTION:
 		{
-			Menu_ActionCB cb = (Menu_ActionCB)pCurEntry->action;
-			cb(MENU_ACTION_SET, pCurEntry->value);
+			if(input & MENU_INPUT_TRIGGER)
+			{
+				Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
+				cb(MENU_ACTION_SET, pCurItem->Value);
+				Menu_DisplayItem(g_MenuItem);
+			}
+			else if(input & MENU_INPUT_LEFT)
+			{
+				Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
+				cb(MENU_ACTION_DEC, pCurItem->Value);
+				Menu_DisplayItem(g_MenuItem);
+			}
+			else if(input & MENU_INPUT_RIGHT)
+			{
+				Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
+				cb(MENU_ACTION_INC, pCurItem->Value);
+				Menu_DisplayItem(g_MenuItem);
+			}
+			break;
 		}
-		else if(pCurEntry->type == MENU_ITEM_INT)
+		case MENU_ITEM_GOTO:
 		{
-			i8* data = (u8*)pCurEntry->action;
-			*data++;
+			if((input & MENU_INPUT_TRIGGER) || (input & MENU_INPUT_RIGHT) || (input & MENU_INPUT_LEFT))
+			{
+				Menu_DrawPage(pCurItem->Value);
+				return;
+			}
+			break;
 		}
-		else if(pCurEntry->type == MENU_ITEM_BOOL)
+		case MENU_ITEM_INT:
 		{
-			u8* data = (u8*)pCurEntry->action;
-			*data = 1 - *data;
+			if((input & MENU_INPUT_TRIGGER) || (input & MENU_INPUT_RIGHT))
+			{
+				i8* data = (i8*)pCurItem->Action;
+				if(pCurItem->Value != NULL)
+				{
+					MenuItemMinMax* param = (MenuItemMinMax*)pCurItem->Value;
+					if((*data) + param->Step > param->Max)
+						(*data) = param->Max;
+					else
+						(*data) += param->Step;
+				}
+				else
+					(*data)++;
+				Menu_DisplayItem(g_MenuItem);
+			}
+			else if(input & MENU_INPUT_LEFT)
+			{
+				i8* data = (i8*)pCurItem->Action;
+				if(pCurItem->Value != NULL)
+				{
+					MenuItemMinMax* param = (MenuItemMinMax*)pCurItem->Value;
+					if((*data) < param->Min + param->Step)
+						(*data) = param->Min;
+					else
+						(*data) -= param->Step;
+				}
+				else
+					(*data)--;
+				Menu_DisplayItem(g_MenuItem);
+			}
+			break;
 		}
-		Menu_DisplayItem(g_MenuItem);
-		if((pCurEntry->type & MENU_ITEM_GOTO) != 0)
+		case MENU_ITEM_BOOL:
 		{
-			Menu_Display(pCurEntry->type & 0x7F);
+			if((input & MENU_INPUT_TRIGGER) || (input & MENU_INPUT_RIGHT) || (input & MENU_INPUT_LEFT))
+			{
+				u8* data = (u8*)pCurItem->Action;
+				*data = 1 - *data;
+				Menu_DisplayItem(g_MenuItem);
+			}
+			break;
 		}
-		return;
 	}
 
-	// Handle change value
-	if(g_MenuCB[MENU_CALLBACK_RIGHT] && g_MenuCB[MENU_CALLBACK_RIGHT]())
-	{
-		if(pCurEntry->type == MENU_ITEM_ACTION)
-		{
-			Menu_ActionCB cb = (Menu_ActionCB)pCurEntry->action;
-			cb(MENU_ACTION_INC, pCurEntry->value);
-		}
-		else if(pCurEntry->type == MENU_ITEM_INT)
-		{
-			i8* data = (u8*)pCurEntry->action;
-			*data++;
-		}
-		else if(pCurEntry->type == MENU_ITEM_BOOL)
-		{
-			u8* data = (u8*)pCurEntry->action;
-			*data = 1 - *data;
-		}
-		Menu_DisplayItem(g_MenuItem);
-		// ayFX_PlayBank(14, 0);
-	}
-	else if(g_MenuCB[MENU_CALLBACK_LEFT] && g_MenuCB[MENU_CALLBACK_LEFT]())
-	{
-		if(pCurEntry->type == MENU_ITEM_ACTION)
-		{
-			Menu_ActionCB cb = (Menu_ActionCB)pCurEntry->action;
-			cb(MENU_ACTION_DEC, pCurEntry->value);
-		}
-		else if(pCurEntry->type == MENU_ITEM_INT)
-		{
-			i8* data = (u8*)pCurEntry->action;
-			*data--;
-		}
-		else if(pCurEntry->type == MENU_ITEM_BOOL)
-		{
-			u8* data = (u8*)pCurEntry->action;
-			*data = 1 - *data;
-		}
-		Menu_DisplayItem(g_MenuItem);
-		// ayFX_PlayBank(14, 0);
-	}
-	
 	// Handle navigation
-	if(g_MenuCB[MENU_CALLBACK_UP] && g_MenuCB[MENU_CALLBACK_UP]())
+	if(input & MENU_INPUT_UP)
 	{
 		u8 i = g_MenuItem;
 		while(i > 0)
 		{
 			i--;
-			if(g_MenuPage->items[i].type >= MENU_ITEM_ACTION)
-			{
-				u8 prev = g_MenuItem;
-				g_MenuItem = i;
-				Menu_DisplayItem(prev);
-				Menu_DisplayItem(g_MenuItem);
-				break;
-			}
-		}			
-	}
-	else if((g_MenuCB[MENU_CALLBACK_DOWN] && g_MenuCB[MENU_CALLBACK_DOWN]()))
-	{
-		u8 i = g_MenuItem;
-		while(i < g_MenuPage->itemNum-1)
-		{
-			i++;
-			if(g_MenuPage->items[i].type >= MENU_ITEM_ACTION)
+			if(g_MenuPage->Items[i].Type < MENU_ITEM_EMPTY)
 			{
 				u8 prev = g_MenuItem;
 				g_MenuItem = i;
@@ -231,23 +326,35 @@ void Menu_Update()
 			}
 		}
 	}
-	
-	// Update menu items
-	/*if((g_GameFrame & 0x07) == 0) // 8th frame
+	else if(input & MENU_INPUT_DOWN)
 	{
-		Print_SelectTextFont(g_DataFont, OFFSET_TITLE_FONT_DEF);
-		for(u8 item = 0; item < g_MenuPage->itemNum; ++item)
+		u8 i = g_MenuItem;
+		while(i < g_MenuPage->ItemNum-1)
 		{
-			MenuEntry* pCurEntry = &g_MenuPage->items[item];
-			if(pCurEntry->type == MENU_ITEM_UPDATE)
+			i++;
+			if(g_MenuPage->Items[i].Type < MENU_ITEM_EMPTY)
 			{
-				Menu_ActionCB cb = (Menu_ActionCB)pCurEntry->action;
-				const c8* str = cb(MENU_ACTION_GET, pCurEntry->value);
-				u8 x = MENU_ITEMS_X;
-				x += pCurEntry->value;			
-				Print_SetPosition(x, MENU_ITEMS_Y + item);
-				Print_DrawText(str);
+				u8 prev = g_MenuItem;
+				g_MenuItem = i;
+				Menu_DisplayItem(prev);
+				Menu_DisplayItem(g_MenuItem);
+				break;
 			}
+		}
+	}
+
+	// Update menu items
+	/*for(u8 item = 0; item < g_MenuPage->ItemNum; ++item)
+	{
+		MenuItem* pCurItem = &g_MenuPage->Items[item];
+		if(type == MENU_ITEM_UPDATE)
+		{
+			Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
+			const c8* str = cb(MENU_ACTION_GET, pCurItem->Value);
+			u8 x = MENU_ITEM_POS_X + pCurItem->Value;
+			u8 y = MENU_POS_Y + item;
+			Print_SetPosition(x, y);
+			Print_DrawText(str);
 		}
 	}*/
 }

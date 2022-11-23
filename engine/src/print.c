@@ -1,7 +1,7 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄       ▄       ▄▄  
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██▄▀ ▄  ██▀▄ ██▀ 
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ██   ██ ██ █ ▀█▄ 
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄       ▄       ▄▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██▄▀ ▄  ██▀▄ ██▀
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ██   ██ ██ █ ▀█▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
@@ -928,7 +928,7 @@ void DrawChar_Layout(u8 chr)
 	#endif
 	u8 shape = chr - g_PrintData.CharFirst + g_PrintData.PatternOffset;
 	u16 dst = (u16)g_ScreenLayoutLow + (g_PrintData.CursorY * g_PrintData.ScreenWidth) + g_PrintData.CursorX;
-	VDP_FillVRAM(shape, dst, 0, 1);
+	VDP_Poke(shape, dst, g_ScreenLayoutHigh);
 }
 
 #endif
@@ -1195,7 +1195,7 @@ void Print_DrawText(const c8* str)
 // @param		value		Value to print
 void Print_DrawBin8(u8 value)
 {
-	u8 flag = 1 << 7;
+	u8 flag = (u8)(1 << 7);
 	for(u8 i = 0; i < 8; ++i)
 	{
 		Print_DrawChar((value & flag) ? '1' : '0');

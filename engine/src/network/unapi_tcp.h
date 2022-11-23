@@ -21,6 +21,7 @@
 	   to the respective implementation. Note that structures must be different for each connection-implementation as they
 	   are socket-specific. Any UNAPI-related routine will return integer error code
 */
+#pragma once
 
 // TCP/IP UNAPI management
 extern	int	tcpip_enumerate(void);			// performs checking for installed implementation and gets calling information for 4 of them, returns number of implementations (max 4). Resets active_implementation to 0

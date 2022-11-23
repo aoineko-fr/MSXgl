@@ -9,8 +9,8 @@
 
 // Library version
 #define VERSION_MAJOR				(u16)0		// 4-bits (0-15)
-#define VERSION_MINOR				(u16)5		// 6-bits (0-63)
-#define VERSION_PATCH				(u16)19		// 6-bits (0-63)
+#define VERSION_MINOR				(u16)6		// 6-bits (0-63)
+#define VERSION_PATCH				(u16)0		// 6-bits (0-63)
 #define VERSION(a, b, c)			((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT				VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 
@@ -176,6 +176,14 @@ typedef void (*callback)(void);				// Callback default signature
 	__asm                                             \
 		_##label::                                    \
 		.include path                                 \
+	__endasm; }                                       \
+	extern u16 label
+
+// Macro to include binary data into C source file
+#define INCLUDE_BIN(label, path) DummyASM_##label() { \
+	__asm                                             \
+		_##label::                                    \
+		.inbin path                                   \
 	__endasm; }                                       \
 	extern u16 label
 

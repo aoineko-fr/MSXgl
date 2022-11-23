@@ -198,7 +198,7 @@ void LoadAndUnpack(u8 id)
 	Print_SetPosition(0, 128);
 	Print_DrawText("Time:");
 	Print_DrawInt(time);
-	Print_SetPosition(0, 128+8);
+	Print_SetPosition(0, (u8)(128+8));
 	Print_DrawText("Ratio:");
 	Print_DrawInt(g_Compression);
 	Print_DrawText("%");
@@ -226,10 +226,10 @@ void DisplayPage()
 		Print_DrawText(g_Compressors[i].Name);
 	}
 
-	Draw_Box(IMAGE_X - 2, IMAGE_Y - 2, IMAGE_X + IMAGE_W + 1, IMAGE_Y + IMAGE_H + 1, 0x0F, 0);
+	Draw_Box(IMAGE_X - 2, IMAGE_Y - 2, (u8)(IMAGE_X + IMAGE_W + 1), (u8)(IMAGE_Y + IMAGE_H + 1), 0x0F, 0);
 
-	Draw_LineH(0, 255, 212-8-4, 0x0F, 0);
-	Print_SetPosition(0, 212-8);
+	Draw_LineH(0, 255, (u8)(212-8-4), 0x0F, 0);
+	Print_SetPosition(0, (u8)(212-8));
 	Print_DrawText("\x82:Select \x83:Load");
 }
 

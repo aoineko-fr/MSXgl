@@ -49,7 +49,7 @@ crt0_init:
 
 	di
 	; Set stack address at the top of free memory
-	; ld		sp, (HIMEM)
+	ld		sp, (HIMEM)
 
 	; Initialize heap address
 	ld		hl, #s__HEAP
