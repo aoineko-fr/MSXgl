@@ -701,7 +701,7 @@ inline void V9_SetPaletteAll(const u8* table) { V9_SetPalette(0, 64, table); }
 
 // Function: V9_SetLayerPalette
 // Set the P1 and P2 layers palette offset
-inline void V9_SetLayerPalette(u8 a, u8 b) { V9_SetFlag(13, V9_R13_PLTO_MASK, ((b & 0x3) << 2) + (a & 0x3)); }
+inline void V9_SetLayerPalette(u8 a, u8 b) { V9_SetRegister(13, ((b & 0x3) << 2) + (a & 0x3)); }
 
 //-----------------------------------------------------------------------------
 // Group: Command helper
