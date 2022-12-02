@@ -15,6 +15,15 @@
 
 namespace MSX {
 
+/// Format of the data
+enum FileFormat : u8
+{
+	FILEFORMAT_Auto,				// Auto-detection
+	FILEFORMAT_C,					// C header file (text)
+	FILEFORMAT_Asm,					// Assembler header file (text)
+	FILEFORMAT_Bin,					// Binary data file
+};
+	
 /// File structure
 struct FileData
 {
@@ -80,6 +89,30 @@ public:
 
 		return str.substr(lastpos + 1);
 	}
+
+	//----------------------------------------------------------------------------
+	/// Check if filename contains the given extension
+	static bool HaveExt(const std::string& str, const std::string& ext)
+	{
+		return str.find(ext) != std::string::npos;
+	}
+
+	//----------------------------------------------------------------------------
+	/// Check if filename contains the given extension
+	static FileFormat GetFormat(const std::string& filename)
+	{
+		if(HaveExt(filename, ".h") || HaveExt(filename, ".inc"))
+			return MSX::FILEFORMAT_C;
+
+		if (HaveExt(filename, ".s") || HaveExt(filename, ".asm"))
+			return MSX::FILEFORMAT_Asm;
+
+		if (HaveExt(filename, ".bin") || HaveExt(filename, ".raw"))
+			return MSX::FILEFORMAT_Bin;
+
+		return FILEFORMAT_Auto;
+	}
+
 };
 
 } // namespace MSX

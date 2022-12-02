@@ -10,21 +10,30 @@
 //_____________________________________________________________________________
 #pragma once
 
+// std
+#include <stdlib.h>
+
 namespace MSX {
 
-/// Format of the data
-enum FileFormat
+const u32 ADDRESS_INVALID = 0xFFFFFFFF;
+
+/// Assembler syntax
+enum AsmSyntax : u8
 {
-	FILEFORMAT_Auto,				// Auto-detection
-	FILEFORMAT_C,					// C header file (text)
-	FILEFORMAT_Asm,					// Assembler header file (text)
-	FILEFORMAT_Bin,					// Binary data file
+	ASMSYNTAX_sdasz80,				// SDCC assembler (default)
+	ASMSYNTAX_tniASM,				// tniASM assembler
+	ASMSYNTAX_asMSX,				// asMSX assembler
+	ASMSYNTAX_Sjasm,				// Sjasm assembler
+	ASMSYNTAX_Default				= ASMSYNTAX_sdasz80,
 };
 
 /// Format of the data
-enum DataFormat
+enum DataFormat : u8
 {
-	DATAFORMAT_Decimal,				// 0, 210, 65535
+	DATAFORMAT_Decimal,				// Default decimal type (unsigned)
+	DATAFORMAT_DecimalSigned,		// 0, -46, -1
+	DATAFORMAT_DecimalUnsigned,		// 0, 210, 65535
+
 	DATAFORMAT_Hexa,				// Default hexadecimal type (C format)
 	DATAFORMAT_HexaC,				// 0x00, 0xD2, 0xFFFF
 	DATAFORMAT_HexaASM,				// 00h, 0D2h, 0FFFFh
@@ -33,88 +42,62 @@ enum DataFormat
 	DATAFORMAT_HexaAnd,				// &00, &D2, &FFFF
 	DATAFORMAT_HexaSharp,			// #00, #D2, #FFFF
 	DATAFORMAT_HexaRaw,				// 00, D2, FFFF
+	
 	DATAFORMAT_Binary,				// Default binary type (C format)
 	DATAFORMAT_BinaryC,				// 0b00000000, 0b11010010, 0b1111111111111111
 	DATAFORMAT_BinaryASM,			// 00000000b, 11010010b, 1111111111111111b
-};
 
-/// Assembler syntax
-enum AsmSyntax
-{
-	ASMSYNTAX_sdasz80,				// SDCC assembler (default)
-	ASMSYNTAX_tniASM,				// tniASM assembler
-	ASMSYNTAX_asMSX,				// asMSX assembler
-	ASMSYNTAX_Sjasm,				// Sjasm assembler
+	DATAFORMAT_Float,				// IEEE 754 floating number
 };
 
 /// 
-enum DataSeparator
+enum DataSeparator : u8
 {
-	SEPARATOR_Comma,				// 0x00, 0xD2, 0xFF
+	SEPARATOR_Comma,				// 0x00, 0xD2, 0xFF (default)
 	SEPARATOR_Space,				// 0x00 0xD2 0xFF
 };
 
-/// 
-enum DataType
-{
-	DATATYPE_U8,					// 8-bits unsigned interger
-	DATATYPE_U16,					// 16-bits unsigned interger
-	DATATYPE_U32,					// 32-bits unsigned interger
-	DATATYPE_U64,					// 64-bits unsigned interger
-	DATATYPE_S8,					// 8-bits signed interger
-	DATATYPE_S16,					// 16-bits signed interger
-	DATATYPE_S32,					// 32-bits signed interger
-	DATATYPE_S64,					// 64-bits signed interger
-	DATATYPE_F32,					// 32-bits floating-point
-	DATATYPE_F64,					// 64-bits floating-point
-};
-
 /// Size of the data in bytes number
-enum DataSize
+enum DataSize : u8
 {
-	DATASIZE_8bits = 1,
+	DATASIZE_8bits  = 1,
 	DATASIZE_16bits = 2,
 	DATASIZE_32bits = 4,
 	DATASIZE_64bits = 8,
+	// Alias
+	DATASIZE_Byte  = DATASIZE_8bits,
+	DATASIZE_Word  = DATASIZE_16bits,
+	DATASIZE_DWord = DATASIZE_32bits,
+	DATASIZE_QWord = DATASIZE_64bits,
 };
 
-/// Return the data type size in bytes number
-inline u32 GetDataSize(DataType type)
-{
-	switch (type)
-	{
-	case DATATYPE_U8:
-	case DATATYPE_S8:
-		return 1;
-
-	case DATATYPE_U16:
-	case DATATYPE_S16:
-		return 2;
-
-	case DATATYPE_U32:
-	case DATATYPE_S32:
-	case DATATYPE_F32:
-		return 4;
-
-	case DATATYPE_U64:
-	case DATATYPE_S64:
-	case DATATYPE_F64:
-		return 8;
-	}
-	return 0;
-}
-
 /// 
-inline const c8* GetDataFormat(DataFormat format, u32 size = 1)
+inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 {
 	if (size == DATASIZE_64bits)
-		format = DATAFORMAT_Decimal;
+		return "%d";
 
 	switch (format)
 	{
 	default:
+	case DATAFORMAT_Float:
 	case DATAFORMAT_Decimal:
-		return "%d";
+	case DATAFORMAT_DecimalUnsigned:
+		switch (size)
+		{
+		default:
+		case DATASIZE_8bits:	return "%3u";
+		case DATASIZE_16bits:	return "%5u";
+		case DATASIZE_32bits:	return "%u";
+		}
+	case DATAFORMAT_DecimalSigned:
+		switch (size)
+		{
+		default:
+		case DATASIZE_8bits:	return "%d";
+		case DATASIZE_16bits:	return "%d";
+		case DATASIZE_32bits:	return "%d";
+		}
 
 	case DATAFORMAT_Hexa:
 	case DATAFORMAT_HexaC:
@@ -175,31 +158,91 @@ inline const c8* GetDataFormat(DataFormat format, u32 size = 1)
 		case DATASIZE_32bits:	return "%08X";
 		}
 
-
 	case DATAFORMAT_Binary:
 	case DATAFORMAT_BinaryC:
 	case DATAFORMAT_BinaryASM:
 		return "%u";
 	}
+	return NULL;
 }
 
 /// 
-inline const c8* GetCTableType(DataType type)
+inline const c8* GetCTable(DataFormat format, u8 size = DATASIZE_8bits)
 {
-	switch(type)
+	switch (format)
 	{
 	default:
-	case DATATYPE_U8:  return "const unsigned char";
-	case DATATYPE_U16: return "const unsigned short";
-	case DATATYPE_U32: return "const unsigned long";
-	case DATATYPE_U64: return "const unsigned _int64";
-	case DATATYPE_S8:  return "const signed char";
-	case DATATYPE_S16: return "const signed short";
-	case DATATYPE_S32: return "const signed long";
-	case DATATYPE_S64: return "const signed _int64";
-	case DATATYPE_F32: return "const float";
-	case DATATYPE_F64: return "const double";
+	case DATAFORMAT_Decimal:
+	case DATAFORMAT_DecimalUnsigned:
+	case DATAFORMAT_Hexa:
+	case DATAFORMAT_HexaC:
+	case DATAFORMAT_HexaASM:
+	case DATAFORMAT_HexaPascal:
+	case DATAFORMAT_HexaBasic:
+	case DATAFORMAT_HexaAnd:
+	case DATAFORMAT_HexaSharp:
+	case DATAFORMAT_HexaRaw:
+	case DATAFORMAT_Binary:
+	case DATAFORMAT_BinaryC:
+	case DATAFORMAT_BinaryASM:
+		switch (size)
+		{
+		default:
+		case DATASIZE_8bits:	return "const unsigned char";
+		case DATASIZE_16bits:	return "const unsigned short";
+		case DATASIZE_32bits:	return "const unsigned long";
+		case DATASIZE_64bits:	return "const unsigned long long";
+		}
+	case DATAFORMAT_DecimalSigned:
+		switch (size)
+		{
+		default:
+		case DATASIZE_8bits:	return "const signed char";
+		case DATASIZE_16bits:	return "const signed short";
+		case DATASIZE_32bits:	return "const signed long";
+		case DATASIZE_64bits:	return "const signed long long";
+		}
+
+	case DATAFORMAT_Float:
+		switch (size)
+		{
+		default:
+		case DATASIZE_8bits:	return "const unsigned char";
+		case DATASIZE_16bits:	return "const unsigned short";
+		case DATASIZE_32bits:	return "const float";
+		case DATASIZE_64bits:	return "const double";
+		}
 	}
+	return NULL;
  }
+
+///
+inline const c8* GetAsmDirective(u8 size, u8 syntax)
+{
+	switch (syntax)
+	{
+	case ASMSYNTAX_sdasz80:
+		switch (size)
+		{
+		default:
+		case DATASIZE_8bits:	return ".db";
+		case DATASIZE_16bits:	return ".dw";
+		case DATASIZE_32bits:	return ".quad";
+		};
+	default:
+	case ASMSYNTAX_tniASM:
+	case ASMSYNTAX_asMSX:
+	case ASMSYNTAX_Sjasm:
+		switch (size)
+		{
+		default:
+		case DATASIZE_8bits:	return "db";
+		case DATASIZE_16bits:	return "dw";
+		case DATASIZE_32bits:	return "dd";
+		};
+	};
+
+	return NULL;
+}
 
 } // namespace MSX
