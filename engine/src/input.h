@@ -276,6 +276,7 @@ inline bool Mouse_IsButtonClick(Mouse_State* data, u8 btn) { return ((data->Butt
 
 #define IS_KEY_PRESSED(row, key)  ((row & KEY_FLAG(key)) == 0)
 #define IS_KEY_RELEASED(row, key) ((row & KEY_FLAG(key)) != 0)
+#define IS_KEY_PUSHED(row, prev, key)  (((row & KEY_FLAG(key)) == 0) && ((prev & KEY_FLAG(key)) != 0))
 
 // Function: KEY_ID
 // Value coding a given physical key combining row number and key index in that row

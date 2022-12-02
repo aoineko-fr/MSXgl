@@ -188,6 +188,7 @@ void V9_SetMode(u8 mode)
 	V9_SetPort(V9_P07, *ptr);
 
 	V9_SetRegister(8, V9_R08_DISP_ON | 0x02); // Enable display
+	V9_SetRegister(13, 0x00); // Reset color mode
 }
 
 //-----------------------------------------------------------------------------
