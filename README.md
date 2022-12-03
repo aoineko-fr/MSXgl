@@ -34,14 +34,16 @@ The MSXgl Build Tool allows in 1 click to create a final program for a **large n
 * **BASIC** binary program.
 
 The library supports the following devices:
-* VDP (TMS9918, V9938 and V9958),
+* VDP (TMS9918, V9938 and V9958) and V9990,
 * PSG (AY-3-8910), MSX-Music, MSX-Audio, Konami SCC,
-* Keyboard/Joystick, ROM mapper, slot manager, and Real Time Clock (RP-5C01).
+* Keyboard, Joystick, Mouse and Ninja Tap (4 joysticks adaptator),
+* ROM mapper, slot manager, and Real Time Clock (RP-5C01).
 
 Here are also the supported audio formats:
-* PT3 (Vortex Tracker II)
-* WYZ (WYZTracker)
-* AKG, AKY and AKM (Arkos Tracker 2)
+* Arkos Tracker 2 (AKG, AKY and AKM)
+* Trilo Tracker SCC
+* Vortex Tracker II (PT3)
+* WYZ Tracker (WYZ)
 * ayFX
 * VGM (for all supported audio chip)
 * lVGM (a light-VGM format for PSG)
