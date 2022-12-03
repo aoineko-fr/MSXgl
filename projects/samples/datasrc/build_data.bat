@@ -9,6 +9,7 @@ set BuildVGM=0
 set BuildayVGM=0
 set BuildArkos=0
 set BuildPCMEnc=0
+set BuildPCMPlay=1
 :: Image
 set BuildBitmap=0
 set BuildImage=0
@@ -16,7 +17,7 @@ set BuildCompress=0
 set BuildTile=0
 set BuildV9990=0
 :: Misc
-set BuildZip=1
+set BuildZip=0
 
 :: Path
 set Tools=..\..\..\tools
@@ -121,6 +122,14 @@ if %BuildPCMEnc%==1 (
 	for %%I in (pcm\*.wav) do %Tools%\audio\pcmenc\pcmenc.exe -p 1 -rto 3 -dt1 73 -dt2 84 -dt3 87 %%I
 	move pcm\*.bin pcm\44K
 	for %%I in (pcm\44K\*.bin) do %MSXtk%\MSXbin.exe %%I -t g_%%I_44K -ad -o %Dest%\pcm\pcm_44k_%%~nI.h
+)
+
+::-----------------------------------------------------------------------------
+:: Build pcmplay data
+if %BuildPCMPlay%==1 (
+	echo ----------------------------------------
+	echo Building PCMPlayer data...
+	for %%I in (pcm\pcmplay\*.pcm) do %MSXtk%\MSXbin.exe %%I  -o %Dest%\pcm\pp_%%~nI.h
 )
 
 ::=============================================================================

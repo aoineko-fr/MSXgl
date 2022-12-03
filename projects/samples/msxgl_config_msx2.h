@@ -321,6 +321,11 @@
 // - PCMENC_NONE, PCMENC_8K, PCMENC_11K, PCMENC_22K and PCMENC_44K
 #define PCMENC_FREQ					PCMENC_8K | PCMENC_11K | PCMENC_22K | PCMENC_44K
 
+// PCMPlay
+// - PCMPLAY_8K or PCMPLAY_11K
+#define PCMPLAY_FREQ				PCMPLAY_8K
+#define PCMPLAY_USE_RESTORE			FALSE
+
 // PT3 options
 #define PT3_SKIP_HEADER				TRUE	// Don't use PT3 data header (first 100 bytes must be truncated)
 #define PT3_AUTOPLAY				TRUE	// Play music automatically
