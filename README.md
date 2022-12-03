@@ -40,13 +40,13 @@ The library supports the following devices:
 * ROM mapper, slot manager, and Real Time Clock (RP-5C01).
 
 Here are also the supported audio formats:
+* Arkos Tracker 2 (AKG, AKY and AKM)
+* Trilo Tracker SCC
 * Vortex Tracker II (PT3)
 * WYZ Tracker (WYZ)
-* Arkos Tracker 2 (AKG, AKY and AKM)
 * ayFX
 * VGM (for all supported audio chip)
 * lVGM (a light-VGM format for PSG)
-* Trilo Tracker SCC
 * PCM-Encoder (aka. _Crystal clean PCM 8bit samples on the poor PSG_)
 
 Many thanks to the members of the [MSX Ressource Center](https://www.msx.org) and [MSX Village](https://msxvillage.fr) who have been very helpful.
