@@ -55,3 +55,5 @@ The library is distribute under Creative Commons BY-SA license. Tools or sources
 Documentation:
 * Code documentation: /engine/doc/html/  (WIP)
 * Library documentation: https://aoineko.org/msxgl (WIP)
+
+If you have any question, feel free to join the [MSXgl Discord server](https://discord.gg/pMeadGfv8E).
