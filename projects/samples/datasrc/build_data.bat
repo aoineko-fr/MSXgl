@@ -2,14 +2,14 @@
 setlocal EnableDelayedExpansion
 
 :: Audio
+set BuildArkos=1
 set BuildTrilo=0
 set BuildWYZ=0
 set BuildayFX=0
 set BuildVGM=0
 set BuildayVGM=0
-set BuildArkos=0
 set BuildPCMEnc=0
-set BuildPCMPlay=1
+set BuildPCMPlay=0
 :: Image
 set BuildBitmap=0
 set BuildImage=0
@@ -24,12 +24,26 @@ set Tools=..\..\..\tools
 set MSXtk=%Tools%\MSXtk\bin
 set AudioMisc=%Tools%\audio\misc
 set Dest=..\content
+set FullPath=%~d0%~p0
 
 if not exist %Dest% md %Dest%
 
 ::=============================================================================
 :: AUDIO
 ::=============================================================================
+
+::-----------------------------------------------------------------------------
+:: Build Arkos data
+if %BuildArkos%==1 (
+	echo ----------------------------------------
+	echo Building Arkos data...
+	if not exist %Dest%\arkos md %Dest%\arkos
+	for %%I in (arkos\*.akg) do ( echo %%I & %MSXtk%\MSXbin.exe %%I -t g_AKG_%%~nI -ad -o %Dest%\arkos\akg_%%~nI.h )
+	for %%I in (arkos\*.akm) do ( echo %%I & %MSXtk%\MSXbin.exe %%I -t g_AKM_%%~nI -ad -o %Dest%\arkos\akm_%%~nI.h )
+	for %%I in (arkos\*.aky) do ( echo %%I & %MSXtk%\MSXbin.exe %%I -t g_AKY_%%~nI -ad -o %Dest%\arkos\aky_%%~nI.h )
+	for %%I in (arkos\*.akl) do ( echo %%I & %MSXtk%\MSXbin.exe %%I -t g_AKL_%%~nI -ad -o %Dest%\arkos\akl_%%~nI.h )
+	for %%I in (arkos\*.asm) do ( echo %%I & %Tools%\audio\misc\rxrepl.exe -f %%I -o %Dest%\arkos\akg_%%~nI.asm -s "db \"AT20\"" -r "db 65, 84, 50, 48 ; AT20" -s "db" -r ".db" -s "dw" -r ".dw" -s "^[A-Za-z0-9_]+" -r "\0:" )
+)
 
 ::-----------------------------------------------------------------------------
 :: Build Trilo data
@@ -86,18 +100,6 @@ if %BuildayVGM%==1 (
 	echo Building ayVGM data...
 	if not exist %Dest%\ayvgm md %Dest%\ayvgm
 	for %%I in (vgm\*.vgm) do %MSXtk%\MSXzip.exe %%I -t g_ayVGM_%%~nI -ad -ayVGM -freq both -o %Dest%\ayvgm\ayvgm_%%~nI.h
-)
-
-::-----------------------------------------------------------------------------
-:: Build Arkos data
-if %BuildArkos%==1 (
-	echo ----------------------------------------
-	echo Building Arkos data...
-	if not exist %Dest%\arkos md %Dest%\arkos
-	for %%I in (arkos\*.akg) do %MSXtk%\MSXbin.exe %%I -t g_AKG_%%~nI -ad -o %Dest%\arkos\akg_%%~nI.h
-	for %%I in (arkos\*.akm) do %MSXtk%\MSXbin.exe %%I -t g_AKM_%%~nI -ad -o %Dest%\arkos\akm_%%~nI.h
-	for %%I in (arkos\*.aky) do %MSXtk%\MSXbin.exe %%I -t g_AKY_%%~nI -ad -o %Dest%\arkos\aky_%%~nI.h
-	for %%I in (arkos\*.akl) do %MSXtk%\MSXbin.exe %%I -t g_AKL_%%~nI -ad -o %Dest%\arkos\akl_%%~nI.h
 )
 
 ::-----------------------------------------------------------------------------

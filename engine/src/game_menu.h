@@ -26,6 +26,12 @@
 	#define MENU_USE_DEFAULT_CALLBACK	TRUE
 #endif
 
+// MENU_USE_DYNAMIC_STATE
+#ifndef MENU_USE_DYNAMIC_STATE
+	#warning MENU_USE_DYNAMIC_STATE is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define MENU_USE_DYNAMIC_STATE	FALSE
+#endif
+
 // MENU_SCREEN_WIDTH
 #ifndef MENU_SCREEN_WIDTH
 	#warning MENU_SCREEN_WIDTH is not defined in "msxgl_config.h"! Default value will be used: 32
@@ -117,10 +123,11 @@ enum MENU_ITEM_TYPE
 	MENU_ITEM_INT,						// Handle pointer to 8-bits integer defined in Action
 	MENU_ITEM_BOOL,						// Handle pointer to boolean defined in Action
 //------------------------------------
-	MENU_ITEM_EMPTY,					// Empty entry
 	MENU_ITEM_TEXT,						// Handle pointer to zero-terminated string
+	MENU_ITEM_EMPTY,					// Empty entry
 	MENU_ITEM_UPDATE,
 //------------------------------------
+	MENU_ITEM_MAX,
 	MENU_ITEM_MASK =				0x0F,
 //------------------------------------
 	MENU_ITEM_ALIGN_DEFAULT =		0x00,
@@ -131,7 +138,6 @@ enum MENU_ITEM_TYPE
 //------------------------------------
 	MENU_ITEM_DISABLE =				0x80, // Item is disabled
 //------------------------------------
-	MENU_ITEM_MAX,
 };
 
 // Menu item actions
@@ -141,6 +147,7 @@ enum MENU_ACTION
 	MENU_ACTION_GET,
 	MENU_ACTION_INC,
 	MENU_ACTION_DEC,
+	MENU_ACTION_UPDATE,
 //------------------------------------
 	MENU_ACTION_MAX,
 };
@@ -211,6 +218,9 @@ typedef struct
 	const c8* Title;
 	MenuItem* Items;
 	u8        ItemNum;
+#if (MENU_USE_DYNAMIC_STATE)
+	u8*       DynStates;			// Dynamic state overwrite
+#endif
 } Menu;
 
 // Table of the menu pages.
