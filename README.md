@@ -3,7 +3,7 @@
 **MSXgl is a Game Library wrote in C and targeting MSX computers.**
 
 The goal of this library is to offer to C programmers, the **whole set of functionalities to create a game** with high performances.
-EvenEven if a C program can never be as efficient as a program written entirely in assembler, the goal is to try to get as close as possible.
+Even if a C program can never be as efficient as a program written entirely in assembler, the goal is to try to get as close as possible.
 
 To achieve this goal, the **library is dynamically compiled** to allow the user to configure the functionalities to best suit his needs.
 Also, the most expensive features are written in assembler.
@@ -55,3 +55,5 @@ The library is distribute under Creative Commons BY-SA license. Tools or sources
 Documentation:
 * Code documentation: /engine/doc/html/  (WIP)
 * Library documentation: https://aoineko.org/msxgl (WIP)
+
+If you have any question, feel free to join the [MSXgl Discord server](https://discord.gg/pMeadGfv8E).
