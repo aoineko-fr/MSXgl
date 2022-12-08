@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "inc", "inc", "{8DED7E11-AF9
 		src\MSXtk_data.h = src\MSXtk_data.h
 		src\MSXtk_export.h = src\MSXtk_export.h
 		src\MSXtk_file.h = src\MSXtk_file.h
+		src\MSXtk_helper.h = src\MSXtk_helper.h
 		src\MSXtk_string.h = src\MSXtk_string.h
 		src\MSXtk_types.h = src\MSXtk_types.h
 		src\RLEp.h = src\RLEp.h

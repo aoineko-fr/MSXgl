@@ -516,43 +516,45 @@ void Print_SetColorShade(const u8* shade)
 //-----------------------------------------------------------------------------
 // Validate character. Try to convert invalid letter to their upper/lower case conterpart or use default invalid character
 // @param		chr			Address of the character to check
-void Print_ValidateChar(u8* chr)
+u8 Print_ValidateChar(u8 chr)
 {
-	if((*chr < g_PrintData.CharFirst) || (*chr > g_PrintData.CharLast))
+	if((chr < g_PrintData.CharFirst) || (chr > g_PrintData.CharLast))
 	{
-		if((*chr >= 'a') && (*chr <= 'z') && (g_PrintData.CharFirst <= 'A') && (g_PrintData.CharLast >= 'Z')) // try to remap to upper case letter
+		if((chr >= 'a') && (chr <= 'z') && (g_PrintData.CharFirst <= 'A') && (g_PrintData.CharLast >= 'Z')) // try to remap to upper case letter
 		{
-			*chr = *chr - 'a' + 'A';
+			chr = chr - 'a' + 'A';
 		}
-		else if((*chr >= 'A') && (*chr <= 'Z') && (g_PrintData.CharFirst <= 'a') && (g_PrintData.CharLast >= 'z')) // try to remap to lower case letter
+		else if((chr >= 'A') && (chr <= 'Z') && (g_PrintData.CharFirst <= 'a') && (g_PrintData.CharLast >= 'z')) // try to remap to lower case letter
 		{
-			*chr = *chr - 'A' + 'a';
+			chr = chr - 'A' + 'a';
 		}
 		else
-			*chr = g_PrintData.CharFirst;
+			chr = g_PrintData.CharFirst;
 	}
+	return chr;
 }
 //-----------------------------------------------------------------------------
 // Validate character. Try to convert invalid letter to their upper/lower case conterpart or use default invalid character
 // @param		chr			Address of the character to check
 // @param		patterns	Address of the font data to check
-void Print_ValidatePattern(u8* chr, const c8** patterns)
+u8 Print_ValidatePattern(u8 chr, const c8** patterns)
 {
-	if((*chr < g_PrintData.CharFirst) || (*chr > g_PrintData.CharLast))
+	if((chr < g_PrintData.CharFirst) || (chr > g_PrintData.CharLast))
 	{
-		if((*chr >= 'a') && (*chr <= 'z') && (g_PrintData.CharFirst <= 'A') && (g_PrintData.CharLast >= 'Z')) // try to remap to upper case letter
+		if((chr >= 'a') && (chr <= 'z') && (g_PrintData.CharFirst <= 'A') && (g_PrintData.CharLast >= 'Z')) // try to remap to upper case letter
 		{
-			*chr = *chr - 'a' + 'A';
-			*patterns = g_PrintData.FontPatterns + g_PrintData.PatternY * (*chr - g_PrintData.CharFirst);
+			chr = chr - 'a' + 'A';
+			*patterns = g_PrintData.FontPatterns + g_PrintData.PatternY * (chr - g_PrintData.CharFirst);
 		}
-		else if((*chr >= 'A') && (*chr <= 'Z') && (g_PrintData.CharFirst <= 'a') && (g_PrintData.CharLast >= 'z')) // try to remap to lower case letter
+		else if((chr >= 'A') && (chr <= 'Z') && (g_PrintData.CharFirst <= 'a') && (g_PrintData.CharLast >= 'z')) // try to remap to lower case letter
 		{
-			*chr = *chr - 'A' + 'a';
-			*patterns = g_PrintData.FontPatterns + g_PrintData.PatternY * (*chr - g_PrintData.CharFirst);
+			chr = chr - 'A' + 'a';
+			*patterns = g_PrintData.FontPatterns + g_PrintData.PatternY * (chr - g_PrintData.CharFirst);
 		}
 		else
 			*patterns = g_PrintInvalid;
 	}
+	return chr;
 }
 #endif // PRINT_USE_VALIDATOR
 
@@ -582,7 +584,7 @@ void DrawChar_8B(u8 chr)
 {
 	const u8* patterns = g_PrintData.FontAddr + chr * PRINT_H(g_PrintData.PatternY); // Get character patterns' base address
 	#if (PRINT_USE_VALIDATOR)
-		Print_ValidatePattern(&chr, &patterns);
+		chr = Print_ValidatePattern(chr, &patterns);
 	#endif
 	u16* l = (u16*)g_HeapStartAddress;
 	for(u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
@@ -611,7 +613,7 @@ void DrawChar_4B(u8 chr)
 {
 	const u8* patterns = g_PrintData.FontAddr + chr * PRINT_H(g_PrintData.PatternY); // Get character patterns' base address
 	#if (PRINT_USE_VALIDATOR)
-		Print_ValidatePattern(&chr, &patterns);
+		chr = Print_ValidatePattern(chr, &patterns);
 	#endif
 	u8* l = (u8*)g_HeapStartAddress;
 	for(u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
@@ -640,7 +642,7 @@ void DrawChar_2B(u8 chr)
 {
 	const u8* patterns = g_PrintData.FontAddr + chr * PRINT_H(g_PrintData.PatternY); // Get character patterns' base address
 	#if (PRINT_USE_VALIDATOR)
-		Print_ValidatePattern(&chr, &patterns);
+		chr = Print_ValidatePattern(chr, &patterns);
 	#endif
 	u8* l = (u8*)g_HeapStartAddress;
 	for(u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
@@ -663,7 +665,7 @@ void DrawChar_Trans(u8 chr)
 {
 	const u8* patterns = g_PrintData.FontAddr + chr * PRINT_H(g_PrintData.PatternY); // Get character patterns' base address
 	#if (PRINT_USE_VALIDATOR)
-		Print_ValidatePattern(&chr, &patterns);
+		chr = Print_ValidatePattern(chr, &patterns);
 	#endif
 	#if (PRINT_USE_FX_SHADOW)
 		if(g_PrintData.FX & PRINT_FX_SHADOW)
@@ -798,7 +800,7 @@ void Print_SetVRAMFont(const u8* font, UY y, u8 color)
 void DrawChar_VRAM256(u8 chr)
 {
 	#if (PRINT_USE_VALIDATOR)
-		Print_ValidateChar(&chr);
+		chr = Print_ValidateChar(chr);
 	#endif
 	u8 idx = chr - g_PrintData.CharFirst;
 	#if (PRINT_WIDTH == PRINT_WIDTH_6)
@@ -823,7 +825,7 @@ void DrawChar_VRAM256(u8 chr)
 void DrawChar_VRAM512(u8 chr)
 {
 	#if (PRINT_USE_VALIDATOR)
-		Print_ValidateChar(&chr);
+		chr = Print_ValidateChar(chr);
 	#endif
 	u8 idx = chr - g_PrintData.CharFirst;
 	#if (PRINT_WIDTH == PRINT_WIDTH_6)
@@ -924,7 +926,7 @@ void Print_SetTextFont(const u8* fontData, u8 offset)
 void DrawChar_Layout(u8 chr)
 {
 	#if (PRINT_USE_VALIDATOR)
-		Print_ValidateChar(&chr);
+		chr = Print_ValidateChar(chr);
 	#endif
 	u8 shape = chr - g_PrintData.CharFirst + g_PrintData.PatternOffset;
 	u16 dst = (u16)g_ScreenLayoutLow + (g_PrintData.CursorY * g_PrintData.ScreenWidth) + g_PrintData.CursorX;

@@ -104,10 +104,11 @@ void V9_Print(u32 addr, const c8* str)
 //
 void InitP1()
 {
-	// V9_ClearVRAM();
+	// Initialize screen mode
 	V9_SetMode(V9_MODE_P1);
-	V9_SetSpriteEnable(TRUE);
 	V9_SetBackgroundColor(6);
+	V9_SetDisplayEnable(FALSE);
+	V9_SetSpriteEnable(TRUE);
 
 	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
 	V9_SetInterruptLine(71);
@@ -201,6 +202,7 @@ void InitP1()
 		attr.SC = 1;
 		V9_SetSpriteP1(i, &attr);
 	}
+	V9_SetDisplayEnable(TRUE);
 }
 
 //
@@ -235,10 +237,11 @@ void V9_WriteVRAM_256to512(u32 addr, const u8* src, u8 line)
 //
 void InitP2()
 {
-	// V9_ClearVRAM();
+	// Initialize screen mode
 	V9_SetMode(V9_MODE_P2);
-	V9_SetSpriteEnable(TRUE);
 	V9_SetBackgroundColor(6);
+	V9_SetDisplayEnable(FALSE);
+	V9_SetSpriteEnable(TRUE);
 
 	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
 	V9_SetInterruptLine(6);
@@ -341,6 +344,7 @@ void InitP2()
 		attr.SC = 1;
 		V9_SetSpriteP2(i, &attr);
 	}
+	V9_SetDisplayEnable(TRUE);
 }
 
 //
@@ -363,11 +367,12 @@ void TickP2()
 //
 void InitBmp()
 {
-	// V9_ClearVRAM();
+	// Initialize screen mode
 	V9_SetMode(g_ScreenMode[g_CurrentMode].Mode);
+	V9_SetBackgroundColor(6);
+	V9_SetDisplayEnable(FALSE);
 	V9_SetBPP(V9_R06_BPP_4);
 	V9_SetImageSpaceWidth(V9_R06_WIDH_1024);
-	V9_SetBackgroundColor(6);
 
 	V9_SetInterrupt(V9_INT_VBLANK);
 	// V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
@@ -388,7 +393,7 @@ void InitBmp()
 	V9_SetCommandLogicalOp(V9_R45_LOP_SET);
 	V9_SetCommandWriteMask(0xFFFF);
 	V9_WaitCmdEnd();
-	V9_CommandLMMV(0, 0, 1024, 256, 0, 0x0000);
+	V9_CommandLMMV(0, 0, 1024, 256, 0, 0x6666);
 	for(u8 i = 0; i < 64; ++i)
 	{
 		V9_WaitCmdEnd();
@@ -399,16 +404,25 @@ void InitBmp()
 			V9_CommandLMMM(8, 512 + 16, 16 * i, 160+24+16*j, 16, 16, 0);
 		}
 	}
+
+	// Cursor
+	V9_SetCursorEnable(0, FALSE);
+	V9_SetCursorEnable(1, FALSE);
+
+	V9_SetDisplayEnable(TRUE);
 }
 
 //
 void TickBmp()
 {
 	// V9_SetLayerPalette(2, 2);
-	V9_SetScrollingX(0);
+	V9_SetScrollingX(g_Frame >> 0);
 
 	if(Keyboard_IsKeyPressed(KEY_H))
+	{
+		V9_SetScrollingX(0);
 		V9_SetScrollingY(512);
+	}
 	else
 		V9_SetScrollingY(0);
 
@@ -541,7 +555,6 @@ void main()
 		Bios_ClearHook(H_TIMI);
 	#endif
 	g_ScreenMode[g_CurrentMode].Init();
-	V9_SetRegister(15, 1);
 
 	u16 count = 0;
 	u8 clr = 0;

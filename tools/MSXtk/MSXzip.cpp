@@ -28,16 +28,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "1.3.0";
-
-/// Data format enum
-enum OUTPUT_FORMAT
-{
-	OUTPUT_FORMAT_AUTO,	///< Determine the format according to the extensio of the output file
-	OUTPUT_FORMAT_C,	///< C language text format
-	OUTPUT_FORMAT_ASM,	///< Assembleur language text format
-	OUTPUT_FORMAT_BIN,	///< Binary data format
-};
+const char* VERSION = "1.3.1";
 
 /// Compressor enum
 enum COMPRESSOR
@@ -54,7 +45,7 @@ enum COMPRESSOR
 MSX::FileData			g_InputFile;
 std::string				g_OutputFile;
 std::string				g_TableName;
-OUTPUT_FORMAT			g_Format = OUTPUT_FORMAT_C;
+MSX::FileFormat			g_Format = MSX::FILEFORMAT_C;
 COMPRESSOR				g_Compressor = COMPRESS_NONE;
 
 // RLEp options
@@ -77,7 +68,7 @@ void PrintHelp()
 	printf("MSXzip %s - Convert binary to text file\n", VERSION);
 	printf("Usage: cmsxzip <inputfile> [options]\n");
 	printf("Base options:\n");
-	printf(" -o output      Filename of the output file (default: use input filename with .h/.asm/.bin extension)\n");
+	printf(" -o filename    Filename of the output file (default: use input filename with .h/.asm/.bin extension)\n");
 	printf(" -t name        Data table name (default: use input filename)\n");
 	printf(" -c             C data format (default)\n");
 	printf(" -asm           Assembler data format\n");
@@ -98,8 +89,8 @@ void PrintHelp()
 // MAIN
 //=============================================================================
 
-//const char* ARGV[] = { "", "testcases/lvl5.dat.dts", "-c", "-rlep", "-def", "0", "-inczero" };
-//const char* ARGV[] = { "", "testcases/scc_quarth_02.vgm", "-c", "-ayVGM", "-freq", "50" };
+//const char* ARGV[] = { "", "../testcases/lvl5.dat.dts", "-c", "-rlep", "-def", "0", "-inczero" };
+//const char* ARGV[] = { "", "../testcases/psg_goemon07.vgm", "-asm", "-ayVGM", "-freq", "50" };
 //#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
@@ -137,11 +128,11 @@ int main(int argc, const char* argv[])
 			g_TableName = argv[++i];		
 		// Data format
 		else if (MSX::StrEqual(argv[i], "-c"))
-			g_Format = OUTPUT_FORMAT_C;
+			g_Format = MSX::FILEFORMAT_C;
 		else if (MSX::StrEqual(argv[i], "-asm"))
-			g_Format = OUTPUT_FORMAT_ASM;
+			g_Format = MSX::FILEFORMAT_Asm;
 		else if (MSX::StrEqual(argv[i], "-bin"))
-			g_Format = OUTPUT_FORMAT_BIN;
+			g_Format = MSX::FILEFORMAT_Bin;
 		// Compressor
 		else if (MSX::StrEqual(argv[i], "-no"))
 			g_Compressor = COMPRESS_NONE;
@@ -195,9 +186,9 @@ int main(int argc, const char* argv[])
 		switch (g_Format)
 		{
 		default:
-		case OUTPUT_FORMAT_C:   g_OutputFile += ".h";   break;
-		case OUTPUT_FORMAT_ASM: g_OutputFile += ".asm"; break;
-		case OUTPUT_FORMAT_BIN: g_OutputFile += ".bin"; break;
+		case MSX::FILEFORMAT_C:   g_OutputFile += ".h";   break;
+		case MSX::FILEFORMAT_Asm: g_OutputFile += ".asm"; break;
+		case MSX::FILEFORMAT_Bin: g_OutputFile += ".bin"; break;
 		}
 	}
 
@@ -209,9 +200,9 @@ int main(int argc, const char* argv[])
 	switch (g_Format)
 	{
 	default:
-	case OUTPUT_FORMAT_C:	exp = new MSX::ExporterC;   break;
-	case OUTPUT_FORMAT_ASM: exp = new MSX::ExporterBin; break;
-	case OUTPUT_FORMAT_BIN: exp = new MSX::ExporterBin; break;
+	case MSX::FILEFORMAT_C:	  exp = new MSX::ExporterC;   break;
+	case MSX::FILEFORMAT_Asm: exp = new MSX::ExporterAsm; break;
+	case MSX::FILEFORMAT_Bin: exp = new MSX::ExporterBin; break;
 	}
 
 	// Deco
@@ -251,6 +242,8 @@ int main(int argc, const char* argv[])
 	exp->AddComment(MSX::Format("Total size: %i bytes", exp->GetTotalSize()));
 
 	exp->Export(g_OutputFile);
+
+	delete exp;
 
 	return 0;
 }

@@ -15,3 +15,4 @@
 #include "MSXtk_data.h"
 #include "MSXtk_export.h"
 #include "MSXtk_file.h"
+#include "MSXtk_helper.h"

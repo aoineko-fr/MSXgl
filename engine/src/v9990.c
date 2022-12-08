@@ -72,7 +72,7 @@ const u8 g_V9_ModeConfig[] =
 	// Bitmap 1024 * 212   (B7) (undocumented mode)
 	V9_R06_MODE_BITMAP + V9_R06_CLOCK_1 + V9_R06_WIDH_1024 + V9_R06_BPP_4,
 	0,
-	V9_P07_XTAL1,
+	(u8)(V9_P07_XTAL1),
 };
 
 //-----------------------------------------------------------------------------
@@ -188,6 +188,7 @@ void V9_SetMode(u8 mode)
 	V9_SetPort(V9_P07, *ptr);
 
 	V9_SetRegister(8, V9_R08_DISP_ON | 0x02); // Enable display
+	V9_SetRegister(13, 0x00); // Reset color mode
 }
 
 //-----------------------------------------------------------------------------

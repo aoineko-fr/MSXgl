@@ -18,7 +18,6 @@
 // MSX Tool Kit
 #include "MSXtk.h"
 
-
 //-----------------------------------------------------------------------------
 // D E F I N E S
 
@@ -31,14 +30,7 @@ const f64 PIdiv2 = 0.5f * PI;
 //#define BUFFER_SIZE 1024
 
 // Operator functions
-f64 ComputeSinus(f64 x);
-f64 ComputeCosinus(f64 x);
-f64 ComputeTangent(f64 x);
-f64 ComputeArcSinus(f64 x);
-f64 ComputeArcCosinus(f64 x);
-f64 ComputeArcTangent(f64 x);
 f64 ComputeSquare(f64 x);
-f64 ComputeSquareRoot(f64 x);
 f64 ComputeMap(f64 x);
 f64 ComputePower(f64 x);
 
@@ -62,16 +54,11 @@ struct Operation
 i16					Number = 128;					
 // Bytes per number (default: 16-bits)
 u8					Bytes = 2;
-MSX::DataType		DataType = MSX::DATATYPE_U16;
-// Data format
-MSX::DataFormat	DataFormat = MSX::DATAFORMAT_HexaC;
+MSX::DataSize		DataSize = MSX::DATASIZE_16bits;
 // Number shift for fixed-point number (X * (1 << shift))
 u8					Shift = 0;
 // Prefix of the data table
 const c8*			Prefix = "g_";			
-// Data table starting address
-bool				bUseStartAddr = false;
-u32					StartAddr = 0;
 // Constants used in some formula
 f64					A = 0;					
 f64					B = 0;
@@ -83,37 +70,50 @@ i16					Width = 256;
 i16					Height = 212;
 // Output file format
 MSX::ExporterInterface* Exporter = NULL;
-MSX::FileFormat	Format = MSX::FILEFORMAT_C;
+MSX::FileFormat		OutputFormat = MSX::FILEFORMAT_C;
 std::string         OutputFile;
+
+enum OPERATOR
+{
+	OP_SINUS = 0,
+	OP_COSINUS,
+	OP_TANGENT,
+	OP_ARCSIN,
+	OP_ARCCOS,
+	OP_ARCTAN,
+	OP_SQUARE,
+	OP_SQUAREROOT,
+	OP_MAP,
+	OP_POWER,
+	OP_EXP,
+	OP_LOG,
+	OP_LOG10,
+};
 
 // Operator list
 const Operation OpTable[] =
 {
-	//        op      name          range         min:max        inc    sign   func
-	/* 0 */ { "sin",  "Sinus",      "0:Pi*2",     0, PI_2,       false, false, ComputeSinus },
-	/* 1 */ { "cos",  "Cosinus",    "0:Pi*2",     0, PI_2,       false, false, ComputeCosinus },
-	/* 2 */ { "tan",  "Tangent",    "-Pi/2:Pi/2", -PI/2, PI_2/2, true,  false, ComputeTangent },
-	/* 3 */ { "asin", "ArcSinus",   "-1:1",       -1, 1,         true,  false, ComputeArcSinus },
-	/* 4 */ { "acos", "ArcCosinus", "-1:1",       -1, 1,         true,  false, ComputeArcCosinus },
-	/* 5 */ { "atan", "ArcTangent", "0:N",        0, 0,          true,  false, ComputeArcTangent },
-	/* 6 */ { "sq",   "Square",     "0:1",        0, 1,          true,  false, ComputeSquare },
-	/* 7 */ { "sqrt", "SquareRoot", "0:N",        0, 0,          false, false, ComputeSquareRoot },
-	/* 8 */ { "map",  "Map",        "0:N",        0, 0,          false, false, ComputeMap },
-	/* 9 */ { "pow",  "Power",      "0:N",        0, 0,          false, false, ComputePower },
+	//         op       name           range         min:max        inc    sign   func
+	/*  0 */ { "sin",   "Sinus",       "0:Pi*2",     0, PI_2,       false, false, sin },
+	/*  1 */ { "cos",   "Cosinus",     "0:Pi*2",     0, PI_2,       false, false, cos },
+	/*  2 */ { "tan",   "Tangent",     "-Pi/2:Pi/2", -PI/2, PI_2/2, true,  false, tan },
+	/*  3 */ { "asin",  "ArcSinus",    "-1:1",       -1, 1,         true,  false, asin },
+	/*  4 */ { "acos",  "ArcCosinus",  "-1:1",       -1, 1,         true,  false, acos },
+	/*  5 */ { "atan",  "ArcTangent",  "0:N",        0, 0,          true,  false, atan },
+	/*  6 */ { "sq",    "Square",      "0:1",        0, 1,          true,  false, ComputeSquare },
+	/*  7 */ { "sqrt",  "SquareRoot",  "0:N",        0, 0,          false, false, sqrt },
+	/*  8 */ { "map",   "Map",         "0:N",        0, 0,          false, false, ComputeMap },
+	/*  9 */ { "pow",   "Power",       "0:N",        0, 0,          false, false, ComputePower },
+	/* 10 */ { "exp",   "Exponential", "0:N",        0, 0,          false, false, exp },
+	/* 11 */ { "log",   "Log",         "0:N",        0, 0,          false, false, log },
+	/* 12 */ { "log10", "Log10",       "0:N",        0, 0,          false, false, log10 },
 };
 
 //-----------------------------------------------------------------------------
 // U T I L I T Y   F U N C T I O N S
 
 // Simple opetation functions
-f64 ComputeSinus(f64 x)      { return sin(x); }
-f64 ComputeCosinus(f64 x)    { return cos(x); }
-f64 ComputeTangent(f64 x)    { return tan(x); }
-f64 ComputeArcSinus(f64 x)   { return asin(x); }
-f64 ComputeArcCosinus(f64 x) { return acos(x); }
-f64 ComputeArcTangent(f64 x) { return atan(x); }
 f64 ComputeSquare(f64 x)     { return pow(x, 2); }
-f64 ComputeSquareRoot(f64 x) { return sqrt(x); }
 f64 ComputeMap(f64 x)        { return (x / (Number - 1)) * (B - A) + A; }
 f64 ComputePower(f64 x)      { return pow(x, A); }
 
@@ -157,103 +157,33 @@ void PrintTable(i32 op)
 	}
 
 	// Add table
-	Exporter->AddComment("");
-	Exporter->StartSection(
-		MSX::Format("%s%s%d", Prefix, OpTable[op].name, Number, maxNumber),
-		MSX::Format("%s table. Range [%s%s\n", OpTable[op].name, OpTable[op].range, OpTable[op].inc_range ? "]" : "["));
+	Exporter->AddReturn();
+	Exporter->AddComment(MSX::Format(" %s table. Range [%s%s", OpTable[op].name, OpTable[op].range, OpTable[op].inc_range ? "]" : "["));
+	Exporter->StartSection(MSX::Format("%s%s%d", Prefix, OpTable[op].name, Number), DataSize);
 
 	// Table content
-	/*for (i32 i = 0; i < maxNumber; i++)
+	for (i32 i = 0; i < Number; i++)
 	{
 		if ((i % 8 == 0))
-			printf("\t");
+			Exporter->StartLine();
 
-		f64 x = (f64)i * (maxRange - minRange) / (f64)Number + minRange;
+		f64 x = (f64)i * (maxRange - minRange) / (f64)maxNumber + minRange;
 		x = OpTable[op].func(x);
 		x *= multi;
+		x = round(x);
 
-
-		sprintf(tmpStr, "%s, ", MSX::GetDataFormat(MSX::DATAFORMAT_Hexa, Bytes));
-		if (Bytes == 1)
-			printf(tmpStr, 0xFF & (i32)x);
-		else if (Bytes == 2)
-			printf(tmpStr, 0xFFFF & (i32)x);
-		else
-			printf(tmpStr, (i32)x);
-
-		StartAddr += Bytes;
+		switch (DataSize)
+		{
+		case MSX::DATASIZE_8bits:  Exporter->AddByte(0xFF & (u32)x); break;
+		case MSX::DATASIZE_16bits: Exporter->AddWord(0xFFFF & (u32)x); break;
+		case MSX::DATASIZE_32bits: Exporter->AddDouble((u32)x); break;
+		}
 
 		if ((i % 8 == 7) || (i == maxNumber - 1)) // 8th column or last
-			printf("\n");
-	}*/
-
-
-
-/*
-	// Print table header
-	if (Format == MSX::FILEFORMAT_C)
-	{
-		printf("\n// %s table. Range [%s%s\n", OpTable[op].name, OpTable[op].range, OpTable[op].inc_range ? "]" : "[");
-		if (bUseStartAddr)
-			printf("__at(0x%X) ", StartAddr);
-		printf("const %s %s %s%s%d[%d] =\n{\n", OpTable[op].need_sign ? "signed" : "unsigned", (Bytes == 1) ? "char" : "short", Prefix, OpTable[op].name, Number, maxNumber);
-
-		// Print table content
-		for (i32 i = 0; i < maxNumber; i++)
-		{
-			if ((i % 8 == 0))
-				printf("\t");
-
-			f64 x = (f64)i * (maxRange - minRange) / (f64)Number + minRange;
-			x = OpTable[op].func(x);
-			x *= multi;
-
-			
-			sprintf(tmpStr, "%s, ", MSX::GetDataFormat(MSX::DATAFORMAT_Hexa, Bytes));
-			if (Bytes == 1)
-				printf(tmpStr, 0xFF & (i32)x);
-			else if (Bytes == 2)
-				printf(tmpStr, 0xFFFF & (i32)x);
-			else
-				printf(tmpStr, (i32)x);
-
-			StartAddr += Bytes;
-
-			if ((i % 8 == 7) || (i == maxNumber - 1)) // 8th column or last
-				printf("\n");
-		}
-		printf("};\n");
+			Exporter->EndLine();
 	}
-	else if (Format == MSX::FILEFORMAT_Asm)
-	{
-		printf("\n; %s table. Range [%s%s\n", OpTable[op].name, OpTable[op].range, OpTable[op].inc_range ? "]" : "[");
-		printf("%s%s%d:\n", Prefix, OpTable[op].name, Number);
 
-		// Print table content
-		for (i32 i = 0; i < maxNumber; i++)
-		{
-			if ((i % 8 == 0))
-				printf("\t.%s ", (Bytes == 1) ? "db" : "dw");
-
-			f64 x = (f64)i * (maxRange - minRange) / (f64)Number + minRange;
-			x = OpTable[op].func(x);
-			x *= multi;
-
-			sprintf(tmpStr, "%s ", MSX::GetDataFormat(MSX::DATAFORMAT_Hexa, Bytes));
-			printf(tmpStr, (i32)x);
-			//if (Bytes == 1)
-			//	printf("0x%02X", 0xFF & (i32)x);
-			//else
-			//	printf("0x%04X", 0xFFFF & (i32)x);
-
-			if ((i % 8 == 7) || (i == maxNumber - 1)) // 8th column or last
-				printf("\n");
-			else
-				printf(", ");
-		}
-		printf("\n");
-	}
-*/
+	Exporter->EndSection();
 }
 
 // 
@@ -284,16 +214,20 @@ f64 ComputeAngle(f64 x, f64 y)
 // Display help information
 void Help()
 {
-	printf("MSXmath (v%s) - Math Table Generator\n", VERSION);
+	printf("MSXmath %s - Math Table Generator\n", VERSION);
 	printf("Usage: MSXmath [options] [tables]\n");
 	printf("Options:\n");
-	printf("  -o      X        Name of the output file\n");
-	printf("  -num   <X>       Entries Number (Precision. Default=128)\n");
-	printf("  -shift <X>       Shift value (Fixed-point position. Default=4)\n");
-	printf("  -bytes <X>       Bytes Number (1: 8bits, 2: 16 bits. Default=2)\n");
-	printf("  -prefix X        Table name prefix (0: Disable. Default=g_)\n");
-	printf("  -format X        Output file format (C or ASM. Default=C)\n");
-	printf("  -at     X        Data starting address (can be decimal or hexadecimal starting with '0x')\n");
+	printf("  -o <filename>    Filename of the output file (default: use input filename with .h/.asm/.bin extension)\n");
+	printf("  -num   <N>       Entries Number (Precision. Default=128)\n");
+	printf("  -shift <S>       Shift value (Fixed-point position. Default=4)\n");
+	printf("  -bytes <B>       Bytes Number (1: 8bits, 2: 16 bits, 4: 32 bits. Default=2)\n");
+	printf("  -prefix <str>    Table name prefix (0: Disable. Default=g_)\n");
+	printf("  -format ?        Output file format\n");
+	printf("    auto           Auto-detected using output file extension (default)\n");
+	printf("    c              C header file format\n");
+	printf("    asm            Assembler file format\n");
+	printf("    bin            Raw binary data file\n");
+	printf("  -at     X        Data base address\n");
 	printf("  -help            Display this help\n");
 	printf("Tables:\n");
 	printf("  sin              Sinus table [0:Pi*2]\n");
@@ -305,22 +239,28 @@ void Help()
 	printf("  sq               Square table [0:1]\n");
 	printf("  sqrt             Square-root table [0:num]\n");
 	printf("  pow  A           Power of A [0:num]\n");
+	printf("  exp              Exponential\n");
+	printf("  log              Natural logarithm (to the base e)\n");
+	printf("  log10            Common logarithm (to the base 10)\n");
 	printf("  proj W H         3d projection tables (W/H: screen width/height)\n");
 	printf("  rot              Rotation vector table\n");
 	printf("  equa A B C D E   Equation of type y=A+B*(C+x*D)^E\n");
 	printf("  map  A B         Map [0:num[ values to [A:B] space\n");
+	printf("Note: All number can be decimal or hexadecimal starting with '0x', '$' or '#'.\n");
 }
 
 //const c8* ARGV[] = { "", "-num", "512", "-Bytes", "2",  "-Shift", "6","equa", "0", "1", "1", "-0.001953125", "1.5" };
 //const c8* ARGV[] = { "", "-num", "16", "-Bytes", "1",  "-Shift", "0","map", "0", "100" };
-//#define DEBUG_ARGS
+const c8* ARGV[] = { "", "-o", "../testcases/sin.h", "-Shift", "12", "sin", "cos", "tan", "sq", "sqrt", "exp" };
+#define DEBUG_ARGS
+
 
 //-----------------------------------------------------------------------------
 // M A I N   L  O O P 
 int main(int argc, const c8* argv[])
 {
 #ifdef DEBUG_ARGS
-	argc = sizeof(ARGV) / sizeof(ARGV[0]); 
+	argc = numberof(ARGV); 
 	argv = ARGV;
 #endif
 
@@ -331,6 +271,11 @@ int main(int argc, const c8* argv[])
 		Help();
 		return 0;
 	}
+
+	MSX::ExportConfig conf;
+	conf.Format = MSX::DATAFORMAT_Hexa;
+	conf.Asm = MSX::ASMSYNTAX_Default;
+	conf.Address = MSX::ADDRESS_INVALID;
 
 	// Set paramters
 	for(i32 argIndex = 1; argIndex < argc; argIndex++)
@@ -347,21 +292,21 @@ int main(int argc, const c8* argv[])
 		}
 		else if(MSX::StrEqual(argv[argIndex], "-num"))
 		{
-			Number = atoi(argv[++argIndex]);
+			Number = MSX::StringToInt(argv[++argIndex]);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "-shift"))
 		{
-			Shift = atoi(argv[++argIndex]);
+			Shift = MSX::StringToInt(argv[++argIndex]);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "-bytes"))
 		{
-			Bytes = atoi(argv[++argIndex]);
+			Bytes = MSX::StringToInt(argv[++argIndex]);
 			switch (Bytes)
 			{
-			case 1: DataType = MSX::DATATYPE_U8; break;
-			case 2: DataType = MSX::DATATYPE_U16; break;
-			case 4: DataType = MSX::DATATYPE_U32; break;
-			case 8: DataType = MSX::DATATYPE_U64; break;
+			case 1: DataSize = MSX::DATASIZE_8bits;  break;
+			case 2: DataSize = MSX::DATASIZE_16bits; break;
+			case 4: DataSize = MSX::DATASIZE_32bits; break;
+			case 8: DataSize = MSX::DATASIZE_64bits; break;
 			}
 		}
 		else if (MSX::StrEqual(argv[argIndex], "-prefix"))
@@ -373,81 +318,87 @@ int main(int argc, const c8* argv[])
 		else if (MSX::StrEqual(argv[argIndex], "-format"))
 		{
 			const c8* format = argv[++argIndex];
-			if (MSX::StrEqual(format, "C"))
-				Format = MSX::FILEFORMAT_C;
-			else if (MSX::StrEqual(format, "ASM"))
-				Format = MSX::FILEFORMAT_Asm;
+			if (MSX::StrEqual(format, "c"))
+				OutputFormat = MSX::FILEFORMAT_C;
+			else if (MSX::StrEqual(format, "asm"))
+				OutputFormat = MSX::FILEFORMAT_Asm;
 		}
 		else if (MSX::StrEqual(argv[argIndex], "-at")) // Starting address
 		{
-			bUseStartAddr = true;
-			sscanf_s(argv[++argIndex], "%i", &StartAddr);
+			conf.Address = MSX::StringToInt(argv[++argIndex]);
 		}
 	}
 
-	MSX::ExporterConfig conf;
-	conf.Format = DataFormat;
-	conf.Type = DataType;
-	if(bUseStartAddr)
-		conf.Address = StartAddr;
-	if (Format == MSX::FILEFORMAT_C)
-		Exporter = new MSX::ExporterC(conf);
-	/*else
-		Exporter = new MSX::ExporterASM(DATA_HexaC);*/
+	if (OutputFormat == MSX::FILEFORMAT_Auto)
+		OutputFormat = MSX::File::GetFormat(OutputFile);
+
+	switch (OutputFormat)
+	{
+	case MSX::FILEFORMAT_C:		Exporter = new MSX::ExporterC(conf);	break;
+	case MSX::FILEFORMAT_Asm:	Exporter = new MSX::ExporterAsm(conf);	break;
+	case MSX::FILEFORMAT_Bin:	Exporter = new MSX::ExporterBin(conf);	break;
+	default:
+		return -1;
+	}
 
 	// Add header
-	Exporter->AddComment("_____________________________________________________________________________");
-	Exporter->AddComment(u8"   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄           ▄▄   ▄▄                                    ");
-	Exporter->AddComment(u8"  ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▄█▄█ ▄▀██ ██▀  ██▄                                   ");
-	Exporter->AddComment(u8"  ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██ █ ▀▄██ ▀█▄▄ ██ █                                  ");
-	Exporter->AddComment("_____________________________________________________________________________");
+	Exporter->AddComment(u8"  ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█            ▄▄   ▄▄");
+	Exporter->AddComment(u8"  ██  ▀  █▄  ▀██▄ ▀ ▄█  ▄█▄█ ▄▀██ ██▀  ██▄");
+	Exporter->AddComment(u8"  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █");
+	Exporter->AddComment(u8"  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀");
+	Exporter->AddComment(u8"─────────────────────────────────────────────────────────────────────────────");
 	Exporter->AddComment(MSX::Format(" MSXmath %s by Guillaume \"Aoineko\" Blanchard", VERSION));
 	Exporter->AddComment(" under CC-BY-SA free license");
 	Exporter->AddComment("");
 	Exporter->AddComment(" Generated: %s %s " __DATE__ " " __TIME__);
 	Exporter->AddComment(MSX::Format(" Parameters: Entries=%d, Bytes=%d (%i-bits), Shift=%d (Q%i.%i)", Number, Bytes, Bytes * 8, Shift, Bytes * 8 - Shift, Shift));
-	Exporter->AddComment("_____________________________________________________________________________");
-
+	Exporter->AddComment(u8"─────────────────────────────────────────────────────────────────────────────");
+	
 	// Create tables
 	for(i32 argIndex = 1; argIndex < argc; argIndex++)
 	{
 		if(MSX::StrEqual(argv[argIndex], "sin")) // Sinus
 		{
-			PrintTable(0);
+			PrintTable(OP_SINUS);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "cos")) // Cosinus
 		{
-			PrintTable(1);
+			PrintTable(OP_COSINUS);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "tan")) // Tangent
 		{
-			PrintTable(2);
+			PrintTable(OP_TANGENT);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "asin")) // Arc-sinus
 		{
-			PrintTable(3);
+			PrintTable(OP_ARCSIN);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "acos")) // Arc-cosinus
 		{
-			PrintTable(4);
+			PrintTable(OP_ARCCOS);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "atan")) // Arc-tangent
 		{
-			PrintTable(5);
+			PrintTable(OP_ARCTAN);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "sq")) // Square
 		{
-			PrintTable(6);
+			PrintTable(OP_SQUARE);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "sqrt")) // Square-root
 		{
-			PrintTable(7);
+			PrintTable(OP_SQUAREROOT);
+		}
+		else if (MSX::StrEqual(argv[argIndex], "pow")) // Power: x^A
+		{
+			PrintTable(OP_POWER);
+			A = atof(argv[++argIndex]);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "map")) // Equation of type y=A+B*(C+x*D)^E
 		{
 			A = atof(argv[++argIndex]);
 			B = atof(argv[++argIndex]);
-			PrintTable(8);
+			PrintTable(OP_MAP);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "proj")) // X/Y 3d projection according to Z value
 		{
@@ -556,5 +507,8 @@ int main(int argc, const c8* argv[])
 
 	Exporter->Export(OutputFile);
 
-	return Exporter->GetTotalSize() + StartAddr;
+	u32 retAddr = Exporter->GetTotalSize();
+	if (conf.Address != MSX::ADDRESS_INVALID)
+		retAddr += conf.Address;
+	return retAddr;
 }

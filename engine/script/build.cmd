@@ -421,7 +421,7 @@ if /I %Ext%==bin (
 		copy /Y %ProjDir%\emul\bin\%ProjName%.%Ext% %DskToolPath%
 		if defined DiskFiles (
 			for %%G in (%DiskFiles%) do (
-				copy /Y %%G %ProjDir%\emul\bin\%%~nG%%~xG
+				copy /Y %ProjDir%\emul\bin\%%~nG%%~xG %DskToolPath%
 			)
 		)
 

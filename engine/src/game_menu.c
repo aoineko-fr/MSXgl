@@ -97,7 +97,7 @@ void Menu_DisplayItem(u8 item)
 {
 	MenuItem* pCurItem = &g_MenuPage->Items[item];
 	u8 type = pCurItem->Type & MENU_ITEM_MASK;
-	if(type == MENU_ITEM_EMPTY)
+	if(type >= MENU_ITEM_EMPTY)
 		return;
 
 	// Get base Y coordinate
@@ -202,7 +202,7 @@ void Menu_DrawPage(u8 page)
 	g_MenuItem = 0;
 	while(g_MenuItem < g_MenuPage->ItemNum)
 	{
-		if(g_MenuPage->Items[g_MenuItem].Type < MENU_ITEM_EMPTY)
+		if(g_MenuPage->Items[g_MenuItem].Type < MENU_ITEM_TEXT)
 			break;
 		g_MenuItem++;
 	}
@@ -226,10 +226,31 @@ void Menu_DrawPage(u8 page)
 // Update the menu handler
 void Menu_Update()
 {
+	// Update menu items
+	for(u8 item = 0; item < g_MenuPage->ItemNum; ++item)
+	{
+		MenuItem* pCurItem = &g_MenuPage->Items[item];
+		if(pCurItem->Type == MENU_ITEM_UPDATE)
+		{
+			Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
+			const c8* str = cb(MENU_ACTION_UPDATE, pCurItem->Value);
+			if(str)
+			{
+				u8 y = MENU_POS_Y + item;
+				// Clear line
+				u16 dst = g_ScreenLayoutLow + MENU_POS_X + (y * MENU_SCREEN_WIDTH);
+				VDP_FillVRAM(MENU_CLEAR, dst, g_ScreenLayoutHigh, MENU_WIDTH);
+				// Update draw
+				Print_SetPosition(MENU_ITEM_X, y);
+				Print_DrawText(str);
+			}
+		}
+	}
+
+	// Handle input
 	u8 input = Menu_DefaultInputCB();
 	MenuItem* pCurItem = &g_MenuPage->Items[g_MenuItem];
 	u8 type = pCurItem->Type & MENU_ITEM_MASK;
-
 	switch(type)
 	{
 		case MENU_ITEM_ACTION:
@@ -316,7 +337,7 @@ void Menu_Update()
 		while(i > 0)
 		{
 			i--;
-			if(g_MenuPage->Items[i].Type < MENU_ITEM_EMPTY)
+			if(g_MenuPage->Items[i].Type < MENU_ITEM_TEXT)
 			{
 				u8 prev = g_MenuItem;
 				g_MenuItem = i;
@@ -332,7 +353,7 @@ void Menu_Update()
 		while(i < g_MenuPage->ItemNum-1)
 		{
 			i++;
-			if(g_MenuPage->Items[i].Type < MENU_ITEM_EMPTY)
+			if(g_MenuPage->Items[i].Type < MENU_ITEM_TEXT)
 			{
 				u8 prev = g_MenuItem;
 				g_MenuItem = i;
@@ -342,19 +363,4 @@ void Menu_Update()
 			}
 		}
 	}
-
-	// Update menu items
-	/*for(u8 item = 0; item < g_MenuPage->ItemNum; ++item)
-	{
-		MenuItem* pCurItem = &g_MenuPage->Items[item];
-		if(type == MENU_ITEM_UPDATE)
-		{
-			Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
-			const c8* str = cb(MENU_ACTION_GET, pCurItem->Value);
-			u8 x = MENU_ITEM_POS_X + pCurItem->Value;
-			u8 y = MENU_POS_Y + item;
-			Print_SetPosition(x, y);
-			Print_DrawText(str);
-		}
-	}*/
 }
