@@ -20,13 +20,13 @@
 
 //-----------------------------------------------------------------------------
 // MSX_VERSION options
-#define MSX_1						0 // MSX 1
-#define MSX_2						1 // MSX 2
-#define MSX_12						2 // MSX 1 or 2 (dual support)
-#define MSX_2K						3 // Korean MSX 2 (SC9 support)
-#define MSX_2P						4 // MSX 2+
-#define MSX_TR						5 // MSX Turbo-R
-#define MSX_3						6 // MSX 3 (reserved)
+#define MSX_1						0  // MSX 1
+#define MSX_2						10 // MSX 2
+#define MSX_12						11 // MSX 1 or 2 (dual support)
+#define MSX_2K						12 // Korean MSX 2 (SC9 support)
+#define MSX_2P						20 // MSX 2+
+#define MSX_TR						30 // MSX Turbo-R
+#define MSX_3						40 // MSX 3 (reserved)
 
 //-----------------------------------------------------------------------------
 // TARGET_TYPE options

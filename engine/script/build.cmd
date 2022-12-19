@@ -100,7 +100,7 @@ if %BankedCall%==1         ( echo ROM_BCALL=1 >> %OutDir%\crt0_config.asm )
 if %InstallRAMISR%==1      ( echo ROM_RAMISR=1 >> %OutDir%\crt0_config.asm )
 if /I %CustomISR%==VHBLANK ( echo ROM_ISR=ISR_VHBLANK >> %OutDir%\crt0_config.asm )
 if /I %CustomISR%==V9990   ( echo ROM_ISR=ISR_V9990 >> %OutDir%\crt0_config.asm )
-if /I not %Machine%==1     ( echo ISR_SET_S0=1 >> %OutDir%\crt0_config.asm )
+REM if /I not %Machine%==1     ( echo ISR_SET_S0=1 >> %OutDir%\crt0_config.asm )
 if %AppSignature%==1 (
 	echo APP_SIGN=1 >> %OutDir%\crt0_config.asm
 	echo APP_SIGN_NAME=%AppCompany% >> %OutDir%\crt0_config.asm

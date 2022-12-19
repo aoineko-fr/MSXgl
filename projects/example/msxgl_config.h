@@ -1,5 +1,5 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
@@ -131,6 +131,7 @@
 #define MEM_USE_VALIDATOR			FALSE	// Activate validator to handle invalide input value
 #define MEM_USE_FASTCOPY			FALSE	// Add support for fast-copy function (using unrolled-LDI loop)
 #define MEM_USE_FASTSET				FALSE	// Add support for fast-set function (using unrolled-LDI loop)
+#define MEM_USE_DYNAMIC				TRUE	// Add support for malloc style dynamic allocator
 
 //-----------------------------------------------------------------------------
 // DRAW MODULE
@@ -320,6 +321,11 @@
 // - PCMENC_NONE, PCMENC_8K, PCMENC_11K, PCMENC_22K and PCMENC_44K
 #define PCMENC_FREQ					PCMENC_8K | PCMENC_11K | PCMENC_22K | PCMENC_44K
 
+// PCMPlay
+// - PCMPLAY_8K or PCMPLAY_11K
+#define PCMPLAY_FREQ				PCMPLAY_8K
+#define PCMPLAY_USE_RESTORE			FALSE
+
 // PT3 options
 #define PT3_SKIP_HEADER				TRUE	// Don't use PT3 data header (first 100 bytes must be truncated)
 #define PT3_AUTOPLAY				TRUE	// Play music automatically
@@ -388,10 +394,9 @@
 //-----------------------------------------------------------------------------
 
 // Profiler method
-// - DEBUG_DISABLE ................ No support for debug/profile tool
-// - DEBUG_OPENMSX ................ Support for OpenMSX default debugger (no profiler)
+// - DEBUG_DISABLE ................ No profiler
 // - DEBUG_OPENMSX_G .............. Grauw profile script for OpenMSX
 // - DEBUG_OPENMSX_S .............. Salutte profile script for OpenMSX
-// - DEBUG_EMULICIOUS ............. Support for Emulicious debugger/profiler
+// - DEBUG_EMULICIOUS ............. Profile script for Emulicious
 #define DEBUG_TOOL					DEBUG_DISABLE
 #define PROFILE_LEVEL				10 
