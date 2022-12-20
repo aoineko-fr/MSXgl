@@ -251,8 +251,8 @@ void Help()
 
 //const c8* ARGV[] = { "", "-num", "512", "-Bytes", "2",  "-Shift", "6","equa", "0", "1", "1", "-0.001953125", "1.5" };
 //const c8* ARGV[] = { "", "-num", "16", "-Bytes", "1",  "-Shift", "0","map", "0", "100" };
-const c8* ARGV[] = { "", "-o", "../testcases/sin.h", "-Shift", "12", "sin", "cos", "tan", "sq", "sqrt", "exp" };
-#define DEBUG_ARGS
+//const c8* ARGV[] = { "", "-o", "../testcases/sin.h", "-Shift", "12", "sin", "cos", "tan", "sq", "sqrt", "exp" };
+//#define DEBUG_ARGS
 
 
 //-----------------------------------------------------------------------------
@@ -341,16 +341,21 @@ int main(int argc, const c8* argv[])
 		return -1;
 	}
 
+	// Date
+	std::time_t result = std::time(nullptr);
+	char* ltime = std::asctime(std::localtime(&result));
+	ltime[strlen(ltime) - 1] = 0; // remove final '\n'
+
 	// Add header
-	Exporter->AddComment(u8"  ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█            ▄▄   ▄▄");
-	Exporter->AddComment(u8"  ██  ▀  █▄  ▀██▄ ▀ ▄█  ▄█▄█ ▄▀██ ██▀  ██▄");
-	Exporter->AddComment(u8"  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █");
-	Exporter->AddComment(u8"  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀");
+	Exporter->AddComment(u8" ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█            ▄▄   ▄▄");
+	Exporter->AddComment(u8" ██  ▀  █▄  ▀██▄ ▀ ▄█  ▄█▄█ ▄▀██ ██▀  ██▄");
+	Exporter->AddComment(u8" █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █");
+	Exporter->AddComment(u8" ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀");
 	Exporter->AddComment(u8"─────────────────────────────────────────────────────────────────────────────");
 	Exporter->AddComment(MSX::Format(" MSXmath %s by Guillaume \"Aoineko\" Blanchard", VERSION));
 	Exporter->AddComment(" under CC-BY-SA free license");
 	Exporter->AddComment("");
-	Exporter->AddComment(" Generated: %s %s " __DATE__ " " __TIME__);
+	Exporter->AddComment(MSX::Format(" Generated: %s", ltime));
 	Exporter->AddComment(MSX::Format(" Parameters: Entries=%d, Bytes=%d (%i-bits), Shift=%d (Q%i.%i)", Number, Bytes, Bytes * 8, Shift, Bytes * 8 - Shift, Shift));
 	Exporter->AddComment(u8"─────────────────────────────────────────────────────────────────────────────");
 	
@@ -389,16 +394,28 @@ int main(int argc, const c8* argv[])
 		{
 			PrintTable(OP_SQUAREROOT);
 		}
-		else if (MSX::StrEqual(argv[argIndex], "pow")) // Power: x^A
-		{
-			PrintTable(OP_POWER);
-			A = atof(argv[++argIndex]);
-		}
-		else if (MSX::StrEqual(argv[argIndex], "map")) // Equation of type y=A+B*(C+x*D)^E
+		else if (MSX::StrEqual(argv[argIndex], "map")) // Mapping
 		{
 			A = atof(argv[++argIndex]);
 			B = atof(argv[++argIndex]);
 			PrintTable(OP_MAP);
+		}
+		else if (MSX::StrEqual(argv[argIndex], "pow")) // Power: x^A
+		{
+			A = atof(argv[++argIndex]);
+			PrintTable(OP_POWER);
+		}
+		else if (MSX::StrEqual(argv[argIndex], "exp")) // Exponential
+		{
+			PrintTable(OP_EXP);
+		}
+		else if (MSX::StrEqual(argv[argIndex], "log")) // Natural logarithm (to the base e)
+		{
+			PrintTable(OP_LOG);
+		}
+		else if (MSX::StrEqual(argv[argIndex], "log10")) // Common logarithm (to the base 10)
+		{
+			PrintTable(OP_LOG10);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "proj")) // X/Y 3d projection according to Z value
 		{
