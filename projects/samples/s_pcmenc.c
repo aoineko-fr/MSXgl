@@ -6,7 +6,7 @@
 //  PCM-Encoder sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
-#include "pcm\pcmenc.h"
+#include "pcm/pcmenc.h"
 
 //=============================================================================
 // DEFINES
@@ -20,13 +20,13 @@
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample6.h"
+#include "font/font_mgl_sample6.h"
 
 // PCM-Encoder data
-// #include "content\pcm\pcm_8k_hello.h"
-// #include "content\pcm\pcm_11k_hello.h"
-// #include "content\pcm\pcm_22k_hello.h"
-#include "content\pcm\pcm_44k_hello.h"
+// #include "content/pcm/pcm_8k_hello.h"
+// #include "content/pcm/pcm_11k_hello.h"
+// #include "content/pcm/pcm_22k_hello.h"
+#include "content/pcm/pcm_44k_hello.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };

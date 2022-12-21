@@ -74,7 +74,7 @@ void SetNoisePeriod(u8 chan, u8 action);
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample8.h"
 
 //
 const u8 g_ShapesId[16] = { 0, 0, 0, 0,	1, 1, 1, 1,	2, 0, 3, 4,	5, 6, 7, 1 };

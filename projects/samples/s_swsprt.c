@@ -66,13 +66,13 @@ u8 g_LMMC4b_2[32*16*6];
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample6.h"
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample6.h"
+#include "font/font_mgl_sample8.h"
 
 // Bitmaps by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "content\data_bmp_2b.h"
-#include "content\data_bmp_4b.h"
-#include "content\data_bmp_8b.h"
+#include "content/data_bmp_2b.h"
+#include "content/data_bmp_4b.h"
+#include "content/data_bmp_8b.h"
 
 // Screen mode settings
 const struct ScreenSetting g_Settings[] =

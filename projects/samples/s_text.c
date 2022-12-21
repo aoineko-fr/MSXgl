@@ -34,13 +34,13 @@ struct ModeData
 //=============================================================================
 
 // Fonts data
-#include "font\font_mgl_std0.h"
-#include "font\font_mgl_std1.h"
-#include "font\font_mgl_std2.h"
-#include "font\font_mgl_std3.h"
-#include "font\font_mgl_mini2.h"
-#include "font\font_mgl_sample6.h"
-#include "font\font_tsm9900.h"
+#include "font/font_mgl_std0.h"
+#include "font/font_mgl_std1.h"
+#include "font/font_mgl_std2.h"
+#include "font/font_mgl_std3.h"
+#include "font/font_mgl_mini2.h"
+#include "font/font_mgl_sample6.h"
+#include "font/font_tsm9900.h"
 
 // Font list
 const struct FontData g_Fonts[] = 

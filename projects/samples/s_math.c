@@ -53,13 +53,13 @@ struct CurveEntry
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample6.h"
+#include "font/font_mgl_sample6.h"
 
 // Sinus & cosinus table
-#include "mathtable\mt_trigo_64.inc"
-#include "mathtable\mt_trigo_ext_64.inc"
-#include "mathtable\mt_sq_256.inc"
-#include "mathtable\mt_sqrt_256.inc"
+#include "mathtable/mt_trigo_64.inc"
+#include "mathtable/mt_trigo_ext_64.inc"
+#include "mathtable/mt_sq_256.inc"
+#include "mathtable/mt_sqrt_256.inc"
 
 // Character animation
 const u8 chrAnim[] = { '|', '\\', '-', '/' };

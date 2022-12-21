@@ -7,7 +7,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "psg.h"
-#include "wyz\wyz_player.h"
+#include "wyz/wyz_player.h"
 
 //=============================================================================
 // DEFINES
@@ -74,7 +74,7 @@ extern u16 quezesto_Freq;
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample8.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };

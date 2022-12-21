@@ -56,8 +56,8 @@ struct DrawData
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample6.h"
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample6.h"
+#include "font/font_mgl_sample8.h"
 
 // Screen mode settings
 const struct ScreenSetting g_Settings[] =

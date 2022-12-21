@@ -52,7 +52,7 @@ u16 LoadPletter(const c8* filename);
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample8.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };

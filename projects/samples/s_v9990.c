@@ -44,16 +44,16 @@ void InitBmp(); void TickBmp();
 //=============================================================================
 
 // 1-bit font (VDP)
-#include "font\font_mgl_sample6.h"
+#include "font/font_mgl_sample6.h"
 
 // 4-bits font (V9990)
-#include "content\v9990\data_v9_font.h"
+#include "content/v9990/data_v9_font.h"
 
 // Sprite
-#include "content\v9990\data_v9_chr.h"
+#include "content/v9990/data_v9_chr.h"
 
 // Tiles
-#include "content\v9990\data_v9_bg.h"
+#include "content/v9990/data_v9_bg.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };

@@ -30,7 +30,7 @@ struct ImageEntry
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample6.h"
+#include "font/font_mgl_sample6.h"
 
 // Images table
 const struct ImageEntry g_Images[] =

@@ -24,10 +24,10 @@
 //=============================================================================
 
 // Font
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample8.h"
 
 // Cursors
-#include "cursor\cur_mgl1.h"
+#include "cursor/cur_mgl1.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };

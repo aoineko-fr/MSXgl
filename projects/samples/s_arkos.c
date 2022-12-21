@@ -6,9 +6,9 @@
 //  PCM-Encoder sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
-#include "arkos\akg_player.h"
-#include "arkos\akm_player.h"
-#include "arkos\aky_player.h"
+#include "arkos/akg_player.h"
+#include "arkos/akm_player.h"
+#include "arkos/aky_player.h"
 
 //=============================================================================
 // DEFINES
@@ -57,7 +57,7 @@ extern const u8* g_AKY_Sarkboteur;
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample6.h"
+#include "font/font_mgl_sample6.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };

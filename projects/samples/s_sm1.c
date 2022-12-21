@@ -46,8 +46,8 @@ struct Vector
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample8.h"
-#include "font\font_mgl_symbol1.h"
+#include "font/font_mgl_sample8.h"
+#include "font/font_mgl_symbol1.h"
 
 // Sprite movement
 const struct Vector s_DirMove[] = 

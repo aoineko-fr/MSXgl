@@ -6,4 +6,4 @@
 //  All targets sample
 //─────────────────────────────────────────────────────────────────────────────
 
-#include "content\arkos\akg_HocusPocus.h"
+#include "content/arkos/akg_HocusPocus.h"

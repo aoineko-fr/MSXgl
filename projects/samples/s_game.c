@@ -36,12 +36,12 @@ bool State_Pause();
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample8.h"
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "content\data_sprt_layer.h"
-#include "content\data_bg.h"
+#include "content/data_sprt_layer.h"
+#include "content/data_bg.h"
 // Sinus & cosinus table
-#include "mathtable\mt_trigo_64.inc"
+#include "mathtable/mt_trigo_64.inc"
 
 // Character animation data
 const c8 g_ChrAnim[] = { '|', '\\', '-', '/' };

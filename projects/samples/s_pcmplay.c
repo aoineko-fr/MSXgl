@@ -32,7 +32,7 @@
 #endif
 
 // Fonts
-#include "font\font_mgl_sample6.h"
+#include "font/font_mgl_sample6.h"
 
 // Character animation data
 const c8 g_ChrAnim[] = { '|', '\\', '-', '/' };

@@ -6,7 +6,7 @@
 //  Ninja Tap sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
-#include "device\ninjatap.h"
+#include "device/ninjatap.h"
 
 //=============================================================================
 // DEFINES
@@ -33,7 +33,7 @@ struct NtapDriver
 //=============================================================================
 
 // Font
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample8.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };

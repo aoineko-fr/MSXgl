@@ -30,12 +30,12 @@
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample8.h"
 // Tiles
-#include "content\tile\data_tile_gm2.h"
-#include "content\tile\data_map_gm2.h"
+#include "content/tile/data_tile_gm2.h"
+#include "content/tile/data_map_gm2.h"
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "content\data_sprt_layer.h"
+#include "content/data_sprt_layer.h"
 
 //=============================================================================
 // MEMORY DATA

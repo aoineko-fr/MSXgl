@@ -27,7 +27,7 @@ typedef struct
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample6.h"
+#include "font/font_mgl_sample6.h"
 
 // Keys entries table
 const KeyEntry keys[] =

@@ -6,7 +6,7 @@
 //  Ninja Tap sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
-#include "device\ninjatap.h"
+#include "device/ninjatap.h"
 #include "basic_usr.h"
 
 //=============================================================================

@@ -44,7 +44,7 @@
 //=============================================================================
 
 // Fonts data
-#include "font\font_mgl_sample6.h"
+#include "font/font_mgl_sample6.h"
 
 // Data in bank 2 & 3
 #if (ROM_MAPPER != ROM_PLAIN)

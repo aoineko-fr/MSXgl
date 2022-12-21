@@ -33,11 +33,11 @@
 //=============================================================================
 
 // Trigonometric tables
-#include "mathtable\mt_trigo_360.inc"
+#include "mathtable/mt_trigo_360.inc"
 
 // Fonts
-#include "font\font_mgl_sample6.h"
-#include "font\font_mgl_digit2.h"
+#include "font/font_mgl_sample6.h"
+#include "font/font_mgl_digit2.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };

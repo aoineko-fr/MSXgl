@@ -74,8 +74,8 @@ u8 g_LMMC4b[16*16];
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample6.h"
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample6.h"
+#include "font/font_mgl_sample8.h"
 
 // Cursor
 const u8 g_CursorForm[] = 
@@ -119,9 +119,9 @@ const u8 g_CursorForm[] =
 };
 
 // Bitmaps by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "content\data_bmp_2b.h"
-#include "content\data_bmp_4b.h"
-#include "content\data_bmp_8b.h"
+#include "content/data_bmp_2b.h"
+#include "content/data_bmp_4b.h"
+#include "content/data_bmp_8b.h"
 
 // Screen mode settings
 const struct ScreenSetting g_Settings[] =

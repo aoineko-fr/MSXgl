@@ -6,7 +6,7 @@
 //  VGM format sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
-#include "trilo\trilo_scc_player.h"
+#include "trilo/trilo_scc_player.h"
 
 //=============================================================================
 // DEFINES

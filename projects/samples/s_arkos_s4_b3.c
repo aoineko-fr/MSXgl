@@ -6,4 +6,4 @@
 //  All targets sample
 //─────────────────────────────────────────────────────────────────────────────
 
-#include "content\arkos\akg_jinj_med.h"
+#include "content/arkos/akg_jinj_med.h"

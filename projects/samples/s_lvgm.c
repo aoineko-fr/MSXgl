@@ -7,7 +7,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "psg.h"
-#include "lvgm\lvgm_player.h"
+#include "lvgm/lvgm_player.h"
 
 //=============================================================================
 // DEFINES
@@ -47,16 +47,16 @@ void ButtonLoop();
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample8.h"
 
 // Music
-#include "content\ayvgm\ayvgm_psg_ds4_03.h"
-#include "content\ayvgm\ayvgm_psg_goemon07.h"
-// #include "content\ayvgm\ayvgm_psg_penguin_12.h"
-#include "content\ayvgm\ayvgm_psg_metalgear_05.h"
-#include "content\ayvgm\ayvgm_psg_honotori_09.h"
-// #include "content\ayvgm\ayvgm_scc_quarth_02.h"
-// #include "content\ayvgm\ayvgm_scc_f1spirit_01.h"
+#include "content/ayvgm/ayvgm_psg_ds4_03.h"
+#include "content/ayvgm/ayvgm_psg_goemon07.h"
+// #include "content/ayvgm/ayvgm_psg_penguin_12.h"
+#include "content/ayvgm/ayvgm_psg_metalgear_05.h"
+#include "content/ayvgm/ayvgm_psg_honotori_09.h"
+// #include "content/ayvgm/ayvgm_scc_quarth_02.h"
+// #include "content/ayvgm/ayvgm_scc_f1spirit_01.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };

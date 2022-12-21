@@ -7,7 +7,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "psg.h"
-#include "vgm\vgm_player.h"
+#include "vgm/vgm_player.h"
 #if (VGM_USE_SCC)
 	#include "scc.h"
 #endif
@@ -69,7 +69,7 @@ extern const c8* g_VGM_ma_proyakyu_10;
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample8.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
