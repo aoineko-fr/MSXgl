@@ -93,7 +93,7 @@ AppID = "EX";
 //*******************************************************************************
 
 // Use static MSXgl library (0 = false, 1 = true)
-// BuildLibrary = 0
+// BuildLibrary = false;
 
 // debug flag (0 = false, 1 = true)
 // Debug = false;

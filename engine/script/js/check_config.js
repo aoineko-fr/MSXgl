@@ -46,6 +46,14 @@ if ((MapperSize != 0) && (!ProjSegments)) {
 	ProjSegments = ProjName;
 }
 
+// Project segments base name
+if(!BuildLibrary && !fs.existsSync(`${OutDir}msxgl.lib`))
+{
+	util.print(`BuildLibrary is false but ${OutDir}msxgl.lib not found!`, PrintWarning);
+	util.print("BuildLibrary will be activated");
+	BuildLibrary = true;
+}
+
 //***************************************************************************
 // CHECK TOOLS PATH
 //***************************************************************************
@@ -77,7 +85,7 @@ if(!fs.existsSync(Hex2Bin)) {
 // BASIC/MSX-DOS specific tools
 if (Ext != "rom") {
 	if (!fs.existsSync(DskTool)) {
-		util.print(`Invalid path to DskTool ${DskTool}`, PrintWarning);
+		util.print(`Invalid path to DskTool ${DskTool}!`, PrintWarning);
 		util.print("Only programs in ROM format will be testable with most emulators");
 	}
 }
@@ -85,7 +93,7 @@ if (Ext != "rom") {
 // MSX-DOS specific tools
 if (Ext == "com") {
 	if (!fs.existsSync(MSXDOS)) {
-		util.print(`Invalid path to MSX-DOS system files ${MSXDOS}`, PrintWarning);
+		util.print(`Invalid path to MSX-DOS system files ${MSXDOS}!`, PrintWarning);
 		util.print("Program will not be testable with emulator");
 	}
 }
@@ -93,7 +101,7 @@ if (Ext == "com") {
 // Emulator specific tools
 if (DoRun) {
 	if (!fs.existsSync(Emulator)) {
-		util.print(`Invalid path to Emulator ${Emulator}`, PrintWarning);
+		util.print(`Invalid path to Emulator ${Emulator}!`, PrintWarning);
 		util.print("Disactivate DoRun option");
 		DoRun = false; 
 	}

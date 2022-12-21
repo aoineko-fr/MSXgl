@@ -28,6 +28,8 @@ const compiler = require("./compiler.js");
 require("./setup_global.js"); 
 
 //-- Default configuration
+if (!fs.existsSync(`${RootDir}projects/default_config.js`))
+	util.copyFile(`${RootDir}engine/script/js/default_config_${process.platform}.js`, `${RootDir}projects/default_config.js`);
 require(`${RootDir}projects/default_config.js`);
 
 //-- Project specific overwrite
@@ -55,7 +57,7 @@ if (!fs.existsSync(OutDir))
 if (!LogFileName)
 	LogFileName = `log_${util.getDateTag()}.txt`;
 if (fs.existsSync(`${OutDir}${LogFileName}`))
-	fs.unlinkSync(`${OutDir}${LogFileName}`);
+	util.delFile(`${OutDir}${LogFileName}`);
 
 //-- Display information
 process.title = `MSXgl Build Tool – ${ProjName} – ${Target} – MSX ${Machine}`;
@@ -74,7 +76,7 @@ util.print("║   ██▄▀ ▀█▄█ ██ ▀█▄ ▀▄██    █
 util.print("║                                                                           ║", PrintBG);
 util.print("╚═══════════════════════════════════════════════════════════════════════════╝", PrintBG);
 
-util.print("MSXgl Build Tool using Node.js " + process.version + " (" + process.platform + ")\n");
+util.print(`MSXgl Build Tool using Node.js ${process.version} (${process.platform})\n`);
 
 if (LogFile)
 	util.print(`Log to file: ${LogFileName}`, PrintDetail);
@@ -180,7 +182,6 @@ if (DoCompile)
 			const data = fs.readFileSync("./version.h");
 			Version = data.slice(22).toString();
 		}
-
 		Version++;
 		fs.writeFileSync("./version.h", `#define BUILD_VERSION ${Version}`);
 
@@ -300,7 +301,6 @@ if (DoCompile)
 //-- end if (DoCompile)
 }
 
-
 //_____________________________________________________________________________
 //  ▄▄   ▄       ▄▄
 //  ██   ▄  ██▀▄ ██▄▀
@@ -341,7 +341,6 @@ if (DoMake)
 	util.print("Succeed", PrintSucced);
 }
 
-
 //_____________________________________________________________________________
 //  ▄▄▄            ▄▄
 //  ██▄▀ ▄▀██ ▄█▀▀ ██▄▀ ▄▀██ ▄▀██ ▄███
@@ -365,7 +364,6 @@ if (DoPackage)
 	util.execSync(`${Hex2Bin} ${H2BParam}`);
 	util.print("Succeed", PrintSucced);
 }
-
 
 //_____________________________________________________________________________
 //  ▄▄▄            ▄▄
@@ -412,6 +410,8 @@ if (DoDeploy)
 
 	let DskToolPath = path.parse(DskTool).dir + '/';
 	let DskToolName = path.parse(DskTool).base;
+	if (process.platform == "linux")
+		DskToolName = `./${DskToolName}`;
 	let projNameShort = ProjName.substring(0, 8);
 
 	//-------------------------------------------------------------------------
@@ -486,45 +486,30 @@ if (DoDeploy)
 		//---- Generate DSK file ----
 		if (fs.existsSync(DskTool))
 		{
-			/*util.print("Generating DSK file...", PrintHighlight);
-		
-			// util.print("-- Temporary copy files to DskTool directory");
-			// copy /Y %ProjDir%/emul/bin/autoexec.bas %DskToolPath%
-			// copy /Y %ProjDir%/emul/bin/%ProjName%.%Ext% %DskToolPath%
-			// if defined DiskFiles (
-				// for %%G in (%DiskFiles%) do (
-					// copy /Y %ProjDir%/emul/bin/%%~nG%%~xG %DskToolPath%
-				// )
-			// )
-
-			// set FilesList=autoexec.bas %ProjName%.%Ext%
-			// if defined DiskFiles (
-				// for %%G in (%DiskFiles%) do (
-					// set FilesList=!FilesList! %%~nG%%~xG
-				// )
-			// )
+			util.print("Generating DSK file...", PrintHighlight);
 
 			let filesList = [ "autoexec.bas", `${ProjName}.${Ext}` ];
 			if (DiskFiles)
 				for (let i = 0; i < DiskFiles.length; i++)
 					filesList.push(DiskFiles[i]);
-				
+			
 			util.print("-- Temporary copy files to DskTool directory");
 			for (let i = 0; i < filesList.length; i++)
-				util.copyFile(`${ProjDir}emul/dos${DOS}/${filesList[i]}`, `${DskToolPath}${filesList[i]}`);
+				util.copyFile(`${ProjDir}emul/bin/${filesList[i]}`, `${DskToolPath}${filesList[i]}`);
 
 			util.print("-- Generate .DSK file");
-			util.print(`${DskToolName} a temp.dsk ${FilesList}`);
 			let curDir = process.cwd();
 			process.chdir(DskToolPath);
 			util.execSync(`${DskToolName} a temp.dsk ` + filesList.join(" "));
 			process.chdir(curDir);
-			
+
 			util.print(`-- Copy DSK file to ${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`);
 			util.copyFile(`${DskToolPath}temp.dsk`, `${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`);
 
 			util.print("-- Clean temporary files");
-			del /Q %DskToolPath%/autoexec.bas %DskToolPath%/%ProjName%.%Ext% %DskToolPath%/temp.dsk*/
+			util.delFile(`${DskToolPath}temp.dsk`);
+			for (let i = 0; i < filesList.length; i++)
+				util.delFile(`${DskToolPath}${filesList[i]}`);
 		}
 	}
 
@@ -562,7 +547,9 @@ if (DoDeploy)
 		}
 		dosTxt += `${ProjName}\r\n`;
 
+		util.print("----------------------------------------", PrintDetail);
 		util.print(dosTxt, PrintDetail);
+		util.print("----------------------------------------", PrintDetail);
 		fs.writeFileSync(`${ProjDir}emul/dos${DOS}/autoexec.bat`, dosTxt);
 		util.print("Succeed", PrintSucced);
 
@@ -591,7 +578,6 @@ if (DoDeploy)
 				util.copyFile(`${ProjDir}emul/dos${DOS}/${filesList[i]}`, `${DskToolPath}${filesList[i]}`);
 
 			util.print("-- Generate .DSK file");
-			util.print(`${DskToolName} a temp.dsk ${filesList}`);
 			let curDir = process.cwd();
 			process.chdir(DskToolPath);
 			util.execSync(`${DskToolName} a temp.dsk ` + filesList.join(" "));
@@ -601,9 +587,9 @@ if (DoDeploy)
 			util.copyFile(`${DskToolPath}temp.dsk`, `${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`);
 
 			util.print("-- Clean temporary files");
-			fs.unlinkSync(`${DskToolPath}temp.dsk`);
+			util.delFile(`${DskToolPath}temp.dsk`);
 			for (let i = 0; i < filesList.length; i++)
-				fs.unlinkSync(`${DskToolPath}${filesList[i]}`);
+				util.delFile(`${DskToolPath}${filesList[i]}`);
 		}
 	}
 

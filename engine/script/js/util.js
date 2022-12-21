@@ -40,23 +40,23 @@ module.exports.waitKey = function ()
 // Default print function
 module.exports.print = function (string, flag = PrintNote)
 {
-
 	if((flag == PrintDetail) && (!Verbose))
 		return;
 
-	if(LogFile)
+	if(LogFile && fs.existsSync(OutDir))
 		fs.appendFileSync(`${OutDir}${LogFileName}`, `${string}\n`);
 
 	if(LogStdout)
 	{
-		switch(flag) {
-			case PrintError:		string = ColorRed + "Error: " + string + ColorReset; break;
-			case PrintWarning:		string = ColorYellow + "Warning: " + string + ColorReset; break;
-			case PrintSucced:		string = ColorGreen + string + ColorReset; break;
-			case PrintHighlight:	string = ColorBlue + string + ColorReset; break;
-			case PrintNote:			break;
-			case PrintDetail:		string = ColorGray + string + ColorReset; break;
-			case PrintBG:			string = ColorBG + string + ColorReset; break;
+		switch(flag)
+		{
+			case PrintError:     string = ColorRed + "Error: " + string + ColorReset; break;
+			case PrintWarning:   string = ColorYellow + "Warning: " + string + ColorReset; break;
+			case PrintSucced:    string = ColorGreen + string + ColorReset; break;
+			case PrintHighlight: string = ColorBlue + string + ColorReset; break;
+			case PrintNote:      break;
+			case PrintDetail:    string = ColorGray + string + ColorReset; break;
+			case PrintBG:        string = ColorBG + string + ColorReset; break;
 		}
 		console.log(string);
 	}
@@ -65,11 +65,11 @@ module.exports.print = function (string, flag = PrintNote)
 // Get date as a tag
 module.exports.getDateTag = function ()
 {
-	const date = new Date();
-	const year = date.getFullYear();
-	const month = ("0" + (date.getMonth() + 1)).slice(-2);
-	const day = ("0" + date.getDate()).slice(-2);
-	const hour = ("0" + date.getHours()).slice(-2);
+	const date   = new Date();
+	const year   = date.getFullYear();
+	const month  = ("0" + (date.getMonth() + 1)).slice(-2);
+	const day    = ("0" + date.getDate()).slice(-2);
+	const hour   = ("0" + date.getHours()).slice(-2);
 	const minute = ("0" + date.getMinutes()).slice(-2);
 	const second = ("0" + date.getSeconds()).slice(-2);
 	return `${year}${month}${day}_${hour}${minute}${second}`;
@@ -78,25 +78,28 @@ module.exports.getDateTag = function ()
 // Get date as a string
 module.exports.getDateString = function ()
 {
-	const date = new Date();
-	const year = date.getFullYear();
-	const month = ("0" + (date.getMonth() + 1)).slice(-2);
-	const day = ("0" + date.getDate()).slice(-2);
-	const hour = ("0" + date.getHours()).slice(-2);
+	const date   = new Date();
+	const year   = date.getFullYear();
+	const month  = ("0" + (date.getMonth() + 1)).slice(-2);
+	const day    = ("0" + date.getDate()).slice(-2);
+	const hour   = ("0" + date.getHours()).slice(-2);
 	const minute = ("0" + date.getMinutes()).slice(-2);
 	const second = ("0" + date.getSeconds()).slice(-2);
 	return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
 // Execute command
-module.exports.exec = function (cmd) {
+module.exports.exec = function (cmd)
+{
 	module.exports.print(`Start: ${cmd}`, PrintDetail);
 	cp.exec(cmd, (error, stdout, stderr) => {
-		if (error) {
+		if (error)
+		{
 			console.log(error.message);
 			return;
 		}
-		if (stderr) {
+		if (stderr)
+		{
 			console.log(stderr);
 			return;
 		}
@@ -109,9 +112,12 @@ module.exports.execSync = function (cmd)
 {
 	module.exports.print(`Execute: ${cmd}`, PrintDetail);
 	let exitCode = 0;
-	try {
+	try
+	{
 		cp.execSync(cmd, {stdio: 'inherit'});
-	} catch (error) {
+	}
+	catch (error)
+	{
 		exitCode = error.status;
 		console.log(error.message);
 		// module.exports.print(error.message, PrintError);
@@ -141,4 +147,11 @@ module.exports.copyFile = function (src, dst)
 		// module.exports.print(error.message, PrintError);
 	}
 	return exitCode;
+}
+
+// 
+module.exports.delFile = function (src)
+{
+	module.exports.print(`Del ${src}`, PrintDetail);
+	fs.unlinkSync(src);
 }

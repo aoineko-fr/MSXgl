@@ -22,21 +22,21 @@ OutDir = `${ProjDir}out/`;
 // TOOLS SETTINGS
 //*****************************************************************************
 
-Compiler = `${ToolsDir}sdcc/bin/sdcc.exe`;
+Compiler  = `${ToolsDir}sdcc/bin/sdcc.exe`;
 Assembler = `${ToolsDir}sdcc/bin/sdasz80.exe`;
-Linker = `${ToolsDir}sdcc/bin/sdcc.exe`;
-MakeLib = `${ToolsDir}sdcc/bin/sdar.exe`;
-Hex2Bin = `${ToolsDir}MSXtk/bin/MSXhex.exe`;
-MSXDOS = `${ToolsDir}build/MSXDOS/`;
-DskTool = `${ToolsDir}build/DskTool/dsktool.exe`;
-Emulator =
+Linker    = `${ToolsDir}sdcc/bin/sdcc.exe`;
+MakeLib   = `${ToolsDir}sdcc/bin/sdar.exe`;
+Hex2Bin   = `${ToolsDir}MSXtk/bin/MSXhex.exe`;
+MSXDOS    = `${ToolsDir}build/MSXDOS/`;
+DskTool   = `${ToolsDir}build/DskTool/dsktool.exe`;
+Emulator  =
 // Emulator = `${ToolsDir}OpenMSX/openmsx.exe`;
 // Emulator = `${ToolsDir}Emulicious/Emulicious.exe`;
 // Emulator = `${ToolsDir}BlueMSX/blueMSX.exe`;
 // Emulator = `${ToolsDir}MEISEI/meisei.exe`;
 // Emulator = `${ToolsDir}fMSX/fMSX.exe`;
 // Emulator = `${ToolsDir}RuMSX/MSX.exe`;
-Debugger =
+Debugger  =
 // Debugger = `${ToolsDir}OpenMSX/Debugger/openmsx-debugger.exe`;
 
 
