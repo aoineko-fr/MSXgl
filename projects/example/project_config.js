@@ -96,7 +96,7 @@ AppID = "EX";
 // BuildLibrary = 0
 
 // debug flag (0 = false, 1 = true)
-Debug = true;
+// Debug = false;
 
 // Assembler code optimizer
 // - None
@@ -117,7 +117,7 @@ Debug = true;
 CompileSkipOld = false;
 
 // Compile verbose mode (0 = false, 1 = true)
-// Verbose = 0
+Verbose = 1
 
 // Update build version header file
 BuildVersion = true;

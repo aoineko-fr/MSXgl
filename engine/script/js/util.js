@@ -75,8 +75,21 @@ module.exports.getDateTag = function ()
 	return `${year}${month}${day}_${hour}${minute}${second}`;
 }
 
+// Get date as a string
+module.exports.getDateString = function ()
+{
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = ("0" + (date.getMonth() + 1)).slice(-2);
+	const day = ("0" + date.getDate()).slice(-2);
+	const hour = ("0" + date.getHours()).slice(-2);
+	const minute = ("0" + date.getMinutes()).slice(-2);
+	const second = ("0" + date.getSeconds()).slice(-2);
+	return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+}
+
 // Execute command
-/*module.exports.exec = function (cmd) {
+module.exports.exec = function (cmd) {
 	module.exports.print(`Start: ${cmd}`, PrintDetail);
 	cp.exec(cmd, (error, stdout, stderr) => {
 		if (error) {
@@ -89,7 +102,7 @@ module.exports.getDateTag = function ()
 		}
 		console.log(stdout);
 	});
-}*/
+}
 
 // Execute command and wait for completion
 module.exports.execSync = function (cmd)
@@ -101,6 +114,7 @@ module.exports.execSync = function (cmd)
 	} catch (error) {
 		exitCode = error.status;
 		console.log(error.message);
+		// module.exports.print(error.message, PrintError);
 	}
 	module.exports.print(`Exit code: ${exitCode}`, PrintDetail);
 	return exitCode;
@@ -112,7 +126,19 @@ module.exports.synch = function ()
 }
 
 // 
-/*module.exports.copyFile = function (srcFile, dstPath)
+module.exports.copyFile = function (src, dst)
 {
-	fs.copyFileSync(srcFile, dstPath + '/' + path.parse(srcFile).base);
-}*/
+	module.exports.print(`Copy ${src} to ${dst}`, PrintDetail);
+	let exitCode = 0;
+	try
+	{
+		fs.copyFileSync(src, dst);
+	}
+	catch (error)
+	{
+		exitCode = error.status;
+		console.log(error.message);
+		// module.exports.print(error.message, PrintError);
+	}
+	return exitCode;
+}

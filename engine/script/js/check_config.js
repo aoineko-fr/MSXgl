@@ -50,20 +50,23 @@ if ((MapperSize != 0) && (!ProjSegments)) {
 // CHECK TOOLS PATH
 //***************************************************************************
 
-// Check binary tools
-if(!fs.existsSync(Compiler)) {
-	util.print(`Invalid path to C Compiler ${Compiler}`, PrintError);
-	process.exit(30);
-}
+if(process.platform == "win32")
+{
+	// Check binary tools
+	if(!fs.existsSync(Compiler)) {
+		util.print(`Invalid path to C Compiler ${Compiler}`, PrintError);
+		process.exit(30);
+	}
 
-if(!fs.existsSync(Assembler)) {
-	util.print(`Invalid path to Assembler ${Assembler}`, PrintError);
-	process.exit(35);
-}
+	if(!fs.existsSync(Assembler)) {
+		util.print(`Invalid path to Assembler ${Assembler}`, PrintError);
+		process.exit(35);
+	}
 
-if(!fs.existsSync(Linker)) {
-	util.print(`Invalid path to Linker ${Linker}`, PrintError);
-	process.exit(40);
+	if(!fs.existsSync(Linker)) {
+		util.print(`Invalid path to Linker ${Linker}`, PrintError);
+		process.exit(40);
+	}
 }
 
 if(!fs.existsSync(Hex2Bin)) {

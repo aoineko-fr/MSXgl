@@ -83,11 +83,11 @@ void UpdateScore();
 //=============================================================================
 
 // Fonts
-#include "font\font_carwar.h"
+#include "font/font_carwar.h"
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "content\data_sprt_layer.h"
-#include "content\data_sprt_ball.h"
-#include "content\data_bg.h"
+#include "content/data_sprt_layer.h"
+#include "content/data_sprt_ball.h"
+#include "content/data_bg.h"
 
 //.............................................................................
 // Player 1 data

@@ -95,7 +95,7 @@ if (EmulatorName == "openmsx") {
 	util.print(`${EmulExtCount} extension found`);
 
 	//---- Add launch program ----
-	if (Ext == "bin") { EmulatorArgs += ` -diska ${ProjDir}}emul/bin`; }
+	if (Ext == "bin") { EmulatorArgs += ` -diska ${ProjDir}emul/bin`; }
 	if (Ext == "rom") { 
 		EmulatorArgs += ` -cart ${ProjDir}emul/rom/${ProjName}.rom`;
 		if (ROMDelayBoot) { EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dsk/tmp`; }
