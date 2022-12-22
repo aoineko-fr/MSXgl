@@ -1,4 +1,4 @@
-MSXhex 0.1.3 - Convert Intel HEX file to binary
+MSXhex 0.1.4 - Convert Intel HEX file to binary
 --------------------------------------------------------------------------------
 Usage: msxhex <inputfile> [options]
 

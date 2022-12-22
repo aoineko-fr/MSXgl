@@ -29,28 +29,28 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -72,23 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\</OutDir>
-    <IntDir>..\out\</IntDir>
+    <OutDir>..\out\</OutDir>
+    <IntDir>$(OutDir)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\</OutDir>
-    <IntDir>..\out\</IntDir>
+    <OutDir>..\out\</OutDir>
+    <IntDir>$(OutDir)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\</OutDir>
-    <IntDir>..\out\</IntDir>
+    <OutDir>..\out\</OutDir>
+    <IntDir>$(OutDir)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\</OutDir>
-    <IntDir>..\out\</IntDir>
+    <OutDir>..\out\</OutDir>
+    <IntDir>$(OutDir)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -98,6 +98,8 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,6 +113,11 @@
     <Bscmake>
       <OutputFile>$(IntermediateOutputPath)$(TargetName).bsc</OutputFile>
     </Bscmake>
+    <PostBuildEvent>
+      <Message>Copy generated program</Message>
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
+$(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -122,6 +129,8 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,6 +146,11 @@
     <Bscmake>
       <OutputFile>$(IntermediateOutputPath)$(TargetName).bsc</OutputFile>
     </Bscmake>
+    <PostBuildEvent>
+      <Message>Copy generated program</Message>
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
+$(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -146,6 +160,8 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,6 +175,11 @@
     <Bscmake>
       <OutputFile>$(IntermediateOutputPath)$(TargetName).bsc</OutputFile>
     </Bscmake>
+    <PostBuildEvent>
+      <Message>Copy generated program</Message>
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
+$(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -170,6 +191,8 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -185,9 +208,14 @@
     <Bscmake>
       <OutputFile>$(IntermediateOutputPath)$(TargetName).bsc</OutputFile>
     </Bscmake>
+    <PostBuildEvent>
+      <Message>Copy generated program</Message>
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
+$(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\MSXhex.cpp" />
+    <ClCompile Include="..\src\MSXhex.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

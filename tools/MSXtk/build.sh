@@ -5,16 +5,20 @@
 
 echo ----------------------------------------------------------------------
 echo Building MSXbin...
-g++ -o ./bin/MSXbin_linux -Isrc -Wall MSXbin.cpp 
+g++ -o ./out/MSXbin -Isrc -Wall src/MSXbin.cpp 
+cp out/MSXbin bin/MSXbin
 
 echo ----------------------------------------------------------------------
 echo Building MSXzip...
-g++ -o ./bin/MSXzip_linux -Isrc -Wall MSXzip.cpp src/ayVGM.cpp src/RLEp.cpp
+g++ -o ./out/MSXzip -Isrc -Wall src/MSXzip.cpp src/ayVGM.cpp src/RLEp.cpp
+cp out/MSXzip bin/MSXzip
 
 # echo ----------------------------------------------------------------------
 # echo Building MSXmath...
-# g++ -o bin\MSXmath_linux -Isrc -Wall MSXmath.cpp
+# g++ -o out/MSXmath -Isrc -Wall src/MSXmath.cpp
+# cp out/MSXmath bin/MSXmath
 
 echo ----------------------------------------------------------------------
 echo Building MSXhex...
-g++ -o ./bin/MSXhex_linux -Isrc -Wall MSXhex.cpp
+g++ -o ./out/MSXhex -Isrc -Wall src/MSXhex.cpp
+cp out/MSXhex bin/MSXhex

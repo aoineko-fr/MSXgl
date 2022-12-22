@@ -72,23 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\</OutDir>
-    <IntDir>..\out\</IntDir>
+    <OutDir>..\out\</OutDir>
+    <IntDir>$(OutDir)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\</OutDir>
-    <IntDir>..\out\</IntDir>
+    <OutDir>..\out\</OutDir>
+    <IntDir>$(OutDir)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\</OutDir>
-    <IntDir>..\out\</IntDir>
+    <OutDir>..\out\</OutDir>
+    <IntDir>$(OutDir)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\</OutDir>
-    <IntDir>..\out\</IntDir>
+    <OutDir>..\out\</OutDir>
+    <IntDir>$(OutDir)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -98,11 +98,18 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Message>Copy generated program</Message>
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
+$(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -114,6 +121,8 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,6 +130,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Message>Copy generated program</Message>
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
+$(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -130,11 +144,18 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Message>Copy generated program</Message>
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
+$(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -146,6 +167,8 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,9 +176,14 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Message>Copy generated program</Message>
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
+$(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\MSXmath.cpp" />
+    <ClCompile Include="..\src\MSXmath.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

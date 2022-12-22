@@ -23,7 +23,6 @@
     <ProjectGuid>{4426BECC-99D0-4DFE-9342-4E1486270C78}</ProjectGuid>
     <RootNamespace>MSXimg</RootNamespace>
     <ProjectName>MSXimg</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -68,22 +67,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)..\out\$(Configuration)\</OutDir>
+    <OutDir>..\out\</OutDir>
     <IntDir>$(OutDir)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)..\out\$(Configuration)\</OutDir>
+    <OutDir>..\out\</OutDir>
     <IntDir>$(OutDir)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)..\out\$(Configuration)\</OutDir>
+    <OutDir>..\out\</OutDir>
     <IntDir>$(OutDir)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)..\out\$(Configuration)\</OutDir>
+    <OutDir>..\out\</OutDir>
     <IntDir>$(OutDir)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -106,7 +105,7 @@
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(ProjectDir)..\bin\$(TargetName)$(TargetExt)
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
 $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
     </PostBuildEvent>
     <PostBuildEvent>
@@ -133,7 +132,7 @@ $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetN
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(ProjectDir)..\bin\$(TargetName)$(TargetExt)
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
 $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
     </PostBuildEvent>
     <PostBuildEvent>
@@ -164,7 +163,7 @@ $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetN
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(ProjectDir)..\bin\$(TargetName)$(TargetExt)
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
 $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
     </PostBuildEvent>
     <PostBuildEvent>
@@ -195,7 +194,7 @@ $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetN
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(ProjectDir)..\bin\$(TargetName)$(TargetExt)
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
 $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
     </PostBuildEvent>
     <PostBuildEvent>
@@ -203,7 +202,7 @@ $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetN
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\MSXimg.cpp" />
+    <ClCompile Include="..\src\MSXimg.cpp" />
     <ClCompile Include="..\src\color.cpp" />
     <ClCompile Include="..\src\exporter.cpp" />
     <ClCompile Include="..\src\image.cpp" />
