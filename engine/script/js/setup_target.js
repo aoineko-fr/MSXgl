@@ -6,26 +6,19 @@
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 
-MapperSize = 0;
-DOS = 0;
-
-if (!ROMSize) ROMSize = 128;
-if (!USRAddr) USRAddr = 0xC000;
-if (!Target) 	Target = "ROM_32K";
-
 // Configure alias
-if (Target == "DOS")     Target = "DOS1";
-if (Target == "DOS_ARG") Target = "DOS2_ARG";
-if (Target == "ROM")     Target = "ROM_32K";
-if (Target == "BAS")     Target = "BIN";
-if (Target == "USR")     Target = "BIN_USR";
+if (Target === "DOS")     Target = "DOS1";
+if (Target === "DOS_ARG") Target = "DOS2_ARG";
+if (Target === "ROM")     Target = "ROM_32K";
+if (Target === "BAS")     Target = "BIN";
+if (Target === "USR")     Target = "BIN_USR";
 
 //*****************************************************************************
 // BASIC
 //*****************************************************************************
 
 //-----------------------------------------------------------------------------
-if (Target == "BIN")
+if (Target === "BIN")
 {
 	Ext = "bin";
 	Crt0 = "crt0_basic";
@@ -37,7 +30,7 @@ if (Target == "BIN")
 	TargetDesc = "BASIC binary program (8000h~)";
 }
 //-----------------------------------------------------------------------------
-else if (Target == "BIN_USR")
+else if (Target === "BIN_USR")
 {
 	Ext = "bin";
 	Crt0 = "crt0_basic_usr";
@@ -54,7 +47,7 @@ else if (Target == "BIN_USR")
 //*****************************************************************************
 
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_8K")
+else if (Target === "ROM_8K")
 {
 	Ext = "rom";
 	Crt0 = "crt0_rom16";
@@ -66,7 +59,7 @@ else if (Target == "ROM_8K")
 	TargetDesc = "8KB ROM in page 1 (4000h ~ 5FFFh)";
 }
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_8K_P2")
+else if (Target === "ROM_8K_P2")
 {
 	Ext = "rom";
 	Crt0 = "crt0_rom16";
@@ -78,7 +71,7 @@ else if (Target == "ROM_8K_P2")
 	TargetDesc = "8KB ROM in page 2 (8000h ~ 9FFFh)";
 }
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_16K")
+else if (Target === "ROM_16K")
 {
 	Ext = "rom";
 	Crt0 = "crt0_rom16";
@@ -90,7 +83,7 @@ else if (Target == "ROM_16K")
 	TargetDesc = "16KB ROM in page 1 (4000h ~ 7FFFh)";
 }
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_16K_P2")
+else if (Target === "ROM_16K_P2")
 {
 	Ext = "rom";
 	Crt0 = "crt0_rom16";
@@ -102,7 +95,7 @@ else if (Target == "ROM_16K_P2")
 	TargetDesc = "16KB ROM in page 2 (8000h ~ BFFFh)";
 }
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_32K")
+else if (Target === "ROM_32K")
 {
 	Ext = "rom";
 	Crt0 = "crt0_rom32";
@@ -114,7 +107,7 @@ else if (Target == "ROM_32K")
 	TargetDesc = "32KB ROM in page 1&2 (4000h ~ BFFFh)";
 }
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_48K")
+else if (Target === "ROM_48K")
 {
 	Ext = "rom";
 	Crt0 = "crt0_rom48";
@@ -126,7 +119,7 @@ else if (Target == "ROM_48K")
 	TargetDesc = "48KB ROM in page 0-2 (0000h ~ BFFFh)";
 }
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_48K_ISR")
+else if (Target === "ROM_48K_ISR")
 {
 	Ext = "rom"
 	Crt0 = "crt0_rom48_isr";
@@ -138,7 +131,7 @@ else if (Target == "ROM_48K_ISR")
 	TargetDesc = "48KB ROM in page 0-2 (0000h ~ BFFFh) with ISR replacement";
 }
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_64K")
+else if (Target === "ROM_64K")
 {
 	Ext = "rom";
 	Crt0 = "crt0_rom48";
@@ -150,7 +143,7 @@ else if (Target == "ROM_64K")
 	TargetDesc = "64KB ROM in page 0-3 (0000h ~ FFFFh)";
 }
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_64K_ISR")
+else if (Target === "ROM_64K_ISR")
 {
 	Ext = "rom";
 	Crt0 = "crt0_rom48_isr";
@@ -167,7 +160,7 @@ else if (Target == "ROM_64K_ISR")
 //*****************************************************************************
 
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_ASCII8")
+else if (Target === "ROM_ASCII8")
 {
 	Mapper = "ROM_ASCII8";
 	Target = `ROM_ASCII8_${ROMSize}K`;
@@ -187,7 +180,7 @@ else if (Target == "ROM_ASCII8")
 	TargetDesc = `${ROMSize}KB ROM using ASCII-8 mapper (starting at 4000h)`;
 }
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_ASCII16")
+else if (Target === "ROM_ASCII16")
 {
 	Mapper = "ROM_ASCII16";
 	Target = `ROM_ASCII16_${ROMSize}K`;
@@ -207,7 +200,7 @@ else if (Target == "ROM_ASCII16")
 	TargetDesc = `${ROMSize}KB ROM using ASCII-16 mapper (starting at 4000h)`;
 }
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_KONAMI")
+else if (Target === "ROM_KONAMI")
 {
 	Mapper = "ROM_KONAMI";
 	Target = `ROM_KONAMI_${ROMSize}K`;
@@ -227,7 +220,7 @@ else if (Target == "ROM_KONAMI")
 	TargetDesc = `${ROMSize}KB ROM using KONAMI mapper (starting at 4000h)`;
 }
 //-----------------------------------------------------------------------------
-else if (Target == "ROM_KONAMI_SCC")
+else if (Target === "ROM_KONAMI_SCC")
 {
 	Mapper = "ROM_KONAMI_SCC";
 	Target = `ROM_KONAMI_SCC_${ROMSize}K`;
@@ -252,7 +245,7 @@ else if (Target == "ROM_KONAMI_SCC")
 //*****************************************************************************
 
 //-----------------------------------------------------------------------------
-else if (Target == "DOS1")
+else if (Target === "DOS1")
 {
 	DOS = 1;
 	Ext = "com";
@@ -265,7 +258,7 @@ else if (Target == "DOS1")
 	TargetDesc = "MSX-DOS 1 program (starting at 0100h)";
 }
 //-----------------------------------------------------------------------------
-else if (Target == "DOS2")
+else if (Target === "DOS2")
 {
 	DOS = 2;
 	Ext = "com";
@@ -278,7 +271,7 @@ else if (Target == "DOS2")
 	TargetDesc = "MSX-DOS 2 program (starting at 0100h)";
 }
 //-----------------------------------------------------------------------------
-else if (Target == "DOS2_ARG")
+else if (Target === "DOS2_ARG")
 {
 	DOS = 2;
 	Ext = "com";

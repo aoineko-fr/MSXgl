@@ -34,25 +34,13 @@ global.PrintDetail    = 5;
 global.PrintBG        = 6;
 
 //*****************************************************************************
-// BUILD TOOL OPTION
+// TEMPORARY VARIABLES
 //*****************************************************************************
 
-// Compile verbose mode (true or false)
-global.Verbose = false;
-
-// Compile verbose mode (true or false)
-global.LogStdout = true;
-
-// Compile verbose mode (true or false)
-global.LogFile = true;
-global.LogFileName = "";
-
-//*****************************************************************************
-// TARGET CONFIG
-//*****************************************************************************
+//-----------------------------------------------------------------------------
+// Initilized in setup_target.js
 
 // Default values
-global.Target = "";
 global.TargetDesc = "";
 global.Ext = "";
 global.Crt0 = "";
@@ -61,8 +49,6 @@ global.CodeAddr = 0;
 global.RamAddr = 0;
 
 // ROM values
-// global.ROMSize;
-global.FillSize;
 // Mapped ROM
 global.Mapper = "";
 global.MapperSize = 0;
@@ -72,211 +58,293 @@ global.Bank1Addr = 0;
 global.Bank2Addr = 0;
 global.Bank3Addr = 0;
 
-// DOS values
-global.USRAddr = 0;
-
 // Basic values
 global.DOS = 0;
 
 // Build files list
-global.SrcList = [];
-global.RelList = [];
-global.LibList = [];
+global.SrcList;
+global.RelList;
+global.LibList;
 
-global.MapperBanks = [];
+global.MapperBanks;
+
+// Emulator parameters
+global.EmulatorArgs = "";
 
 //─────────────────────────────────────────────────────────────────────────────
 // Build Tool default configuration
 //─────────────────────────────────────────────────────────────────────────────
 
+//*******************************************************************************
+// BUILD STEPS
+//*******************************************************************************
+
+//-- Clear all intermediate files and exit (boolean)
+global.DoClean = false;
+
+//-- Compile all the project and engine source code (boolean). Generate all REL files
+global.DoCompile = true;
+
+//-- Link all the project and engine source code (boolean). Merge all REL into one IHX file
+global.DoMake = true;
+
+//-- Generate final binary file (boolean). Binarize the IHX file
+global.DoPackage = true;
+
+//-- Gathering of all files necessary for the program to work (boolean). Depends on the type of target
+global.DoDeploy = true;
+
+//-- Start the program automatically at the end of the build (boolean)
+global.DoRun = true;
+
 //*****************************************************************************
 // DIRECTORIES SETTINGS
 //*****************************************************************************
 
-// Build files list
+//-- Project directory (string)
 global.ProjDir = process.cwd() + "/";
+
+//-- Intermediate files directory (string)
 global.OutDir = `${ProjDir}out/`;
 
-// Library directory
+//-- MSXgl root directory (string)
 global.RootDir = path.normalize(`${__dirname}/../../../`);
-global.LibDir = `${RootDir}engine/`;
-global.ToolsDir = `${RootDir}tools/`;
 
+//-- Library directory (string)
+global.LibDir = `${RootDir}engine/`;
+
+//-- Tools directory (string)
+global.ToolsDir = `${RootDir}tools/`;
 
 //*****************************************************************************
 // TOOLS SETTINGS
 //*****************************************************************************
 
-global.Compiler = `${ToolsDir}sdcc\bin\sdcc.exe`;
-global.Assembler = `${ToolsDir}sdcc\bin\sdasz80.exe`;
-global.Linker = `${ToolsDir}sdcc\bin\sdcc.exe`;
-global.MakeLib = `${ToolsDir}sdcc\bin\sdar.exe`;
-global.Hex2Bin = `${ToolsDir}MSXtk\bin\MSXhex.exe`;
-global.MSXDOS = `${ToolsDir}build\MSXDOS`;
-global.DskTool = `${ToolsDir}build\DskTool\dsktool.exe`;
-global.Emulator;
-global.Debugger;
+//-- Path to the C compile program (string)
+global.Compiler = `${ToolsDir}sdcc/bin/sdcc`;
 
+//-- Path to the assembler program (string)
+global.Assembler = `${ToolsDir}sdcc/bin/sdasz80`;
+
+//-- Path to the linker program (string)
+global.Linker = `${ToolsDir}sdcc/bin/sdcc`;
+
+//-- Path to the program to generate lib file (string)
+global.MakeLib = `${ToolsDir}sdcc/bin/sdar`;
+
+//-- Path to IHX to binary convertor (string)
+global.Hex2Bin = `${ToolsDir}MSXtk/bin/MSXhex`;
+
+//-- Path to the MSX-DOS files (string)
+global.MSXDOS = `${ToolsDir}build/MSXDOS`;
+
+//-- Path to the tool to generate DSK file (string)
+global.DskTool = `${ToolsDir}build/DskTool/dsktool`;
+
+//-- Path to the emulator to launch the project (string)
+global.Emulator;
+
+//-- Path to the debugger to test the project (string)
+global.Debugger;
 
 //*****************************************************************************
 // PROJECT SETTINGS
 //*****************************************************************************
 
-// Project name (will be use for output filename)
+//-- Project name (string). Will be use for output filename
 global.ProjName = "";
 
-// Project modules to build (use ProjName if not defined)
+//-- List of project modules to build (array). If empty, ProjName will be added
 global.ProjModules = [];
 
-// Project segments base name (use ProjName if not defined)
+//-- Project segments base name (string). ProjName will be used if not defined
 global.ProjSegments = "";
 
-// List of library modules to build
-global.LibModules= [ "system", "bios", "vdp", "print", "input", "memory" ];
+//-- List of library modules to build (array)
+global.LibModules = [];
 
-// Additional sources
+//-- Additional sources to be compiled and linked with the project (array)
 global.AddSources = [];
 
-// MSX machine version:
-// - 1		MSX 1
-// - 2		MSX 2
-// - 12		MSX 1 or 2 (dual support)
-// - 2K		Korean MSX 2 (SC9 support)
-// - 2P		MSX 2+
-// - TR		MSX Turbo-R
-// - 3		MSX 3 (reserved)
+//-- Target MSX machine version (string)
+//   - 1        MSX 1
+//   - 2        MSX 2
+//   - 12       MSX 1 or 2 (dual support)
+//   - 2K       Korean MSX 2 (SC9 support)
+//   - 2P       MSX 2+
+//   - TR       MSX turbo R
+//   - 3        MSX 3 (reserved)
 global.Machine = "1";
 
-// Program media target:
-// - BIN			.bin	BASIC binary program (8000h~)
-// - BIN_USR		.bin	BASIC USR binary driver (C000h~)
-// - ROM_8K			.rom	8KB ROM in page 1 (4000h ~ 5FFFh)
-// - ROM_8K_P2		.rom	8KB ROM in page 2 (8000h ~ 9FFFh)
-// - ROM_16K		.rom	16KB ROM in page 1 (4000h ~ 7FFFh)
-// - ROM_16K_P2		.rom	16KB ROM in page 2 (8000h ~ BFFFh)
-// - ROM_32K		.rom	32KB ROM in page 1-2 (4000h ~ BFFFh)
-// - ROM_48K		.rom	48KB ROM in page 0-2 (0000h ~ BFFFh). Pages 1-2 visible at start
-// - ROM_48K_ISR	.rom	48KB ROM in page 0-2 (0000h ~ BFFFh). Pages 0-2 visible at start
-// - ROM_64K		.rom	64KB ROM in page 0-3 (0000h ~ FFFFh). Pages 1-2 visible at start
-// - ROM_64K_ISR	.rom	64KB ROM in page 0-3 (0000h ~ FFFFh). Pages 0-2 visible at start
-// - ROM_ASCII8		.rom	128KB ROM using ASCII-8 mapper
-// - ROM_ASCII16	.rom	128KB ROM using ASCII-16 mapper
-// - ROM_KONAMI		.rom	128KB ROM using Konami mapper (8KB segments)
-// - ROM_KONAMI_SCC	.rom	128KB ROM using Konami SCC mapper (8KB segments)
-// - DOS1			.com	MSX-DOS 1 program (0100h~) No direct acces to Main-ROM
-// - DOS2			.com	MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
-// - DOS2_ARG		.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
+//-- Target program format (string)
+//   - BIN              .bin    BASIC binary program (8000h~)
+//   - BIN_USR          .bin    BASIC USR binary driver (C000h~)
+//   - ROM_8K           .rom    8KB ROM in page 1 (4000h ~ 5FFFh)
+//   - ROM_8K_P2        .rom    8KB ROM in page 2 (8000h ~ 9FFFh)
+//   - ROM_16K          .rom    16KB ROM in page 1 (4000h ~ 7FFFh)
+//   - ROM_16K_P2       .rom    16KB ROM in page 2 (8000h ~ BFFFh)
+//   - ROM_32K          .rom    32KB ROM in page 1-2 (4000h ~ BFFFh)
+//   - ROM_48K          .rom    48KB ROM in page 0-2 (0000h ~ BFFFh). Pages 1-2 visible at start
+//   - ROM_48K_ISR      .rom    48KB ROM in page 0-2 (0000h ~ BFFFh). Pages 0-2 visible at start
+//   - ROM_64K          .rom    64KB ROM in page 0-3 (0000h ~ FFFFh). Pages 1-2 visible at start
+//   - ROM_64K_ISR      .rom    64KB ROM in page 0-3 (0000h ~ FFFFh). Pages 0-2 visible at start
+//   - ROM_ASCII8       .rom    128KB ROM using ASCII-8 mapper
+//   - ROM_ASCII16      .rom    128KB ROM using ASCII-16 mapper
+//   - ROM_KONAMI       .rom    128KB ROM using Konami mapper (8KB segments)
+//   - ROM_KONAMI_SCC   .rom    128KB ROM using Konami SCC mapper (8KB segments)
+//   - DOS1             .com    MSX-DOS 1 program (0100h~) No direct acces to Main-ROM
+//   - DOS2             .com    MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
+//   - DOS2_ARG         .com    [WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 global.Target = "ROM_32K";
 
-// ROM mapper total size in KB (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
-global.ROMSize = 0;
+//-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)
+global.ROMSize = 128;
 
-// Postpone the ROM startup to let the other ROMs initialize (BDOS for example) (true or false)
+//-- Postpone the ROM startup to let the other ROMs initialize like Disk controller or Network cartridge (boolean)
 global.ROMDelayBoot = false;
 
-// global.RAM in slot 0 and install ISR there (true or false)
+//-- Select RAM in slot 0 and install ISR there (boolean). For MSX with at least 64 KB of RAM
 global.InstallRAMISR = false;
 
-// Type of custom ISR (for RAM or ROM)
-// - VBLANK		V-blank handler
-// - VHBLANK	V-blank and h-blank handler (V9938 or V9958)
-// - V9990		v-blank, h-blank and command end handler (V9990)
+//-- Type of custom ISR to install (string). ISR is install in RAM or ROM depending on Target and InstallRAMISR parameters
+//   - VBLANK     V-blank handler
+//   - VHBLANK    V-blank and h-blank handler (V9938 or V9958)
+//   - V9990      v-blank, h-blank and command end handler (V9990)
 global.CustomISR = "VBLANK";
 
-// Use banked call and trampoline functions (true or false)
+//-- Use automatic banked call and trampoline functions (boolean). For mapped ROM
 global.BankedCall = false;
 
-// Overwrite RAM starting address (e.g. 0xE0000 for 8K RAM machine)
-global.ForceRamAddr = false;
+//-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
+global.ForceRamAddr = 0;
 
-// Data to copy to disk (comma separated list)
+// --List of data files to copy to disk (array)
 global.DiskFiles = [];
 
-// Add application signature to binary data (true or false)
+//-- BASIC USR driver default address (number)
+global.USRAddr = 0xC000;
+
+//*******************************************************************************
+// SIGNATURE SETTINGS
+//*******************************************************************************
+
+//-- Add application signature to binary data (boolean)
 global.AppSignature = false;
 
-// Application company
+//-- Application company (*). Can be 2 character string or 16-bits integer (0~65535)
 global.AppCompany = "GL";
 
-// Application ID (0~65535)
+//-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
 global.AppID = 0;
 
-// Application extra data (comma-separated bytes starting with data size)
-global.AppExtra = "";
-
+//-- Application extra data (array). Comma-separated bytes starting with data size
+global.AppExtra = [];
 
 //*******************************************************************************
 // MAKE SETTINGS
 //*******************************************************************************
 
-// Generate MSXgl static library (true or false)
+//-- Force to generate MSXgl static library even if 'msxgl.lib' already exist (boolean)
 global.BuildLibrary = true;
 
-// Generate debug data (true or false)
+//-- Prepare program for debug (boolean)
 global.Debug = false;
 
-// Move debug symbols do binary folder (true or false)
+//-- Move debug symbols to deployement folder (boolean)
 global.DebugSymbols = false;
 
-// Assembler code optimizer
-// - None
-// - PeepHole	SDCC otpimizer
-// - MDL		MDL z80 otpimizer
+//-- Assembler code optimizer (string)
+//   - None
+//   - Peep       SDCC peep hole otpimizer
+//   - MDL        MDL z80 otpimizer
 global.AsmOptim = "None";
 
-// Optim:
-// - Default
-// - Speed
-// - Size
+//-- Code optimization priority (string)
+//   - Default
+//   - Speed
+//   - Size
 global.Optim = "Speed";
 
-// Additionnal compilation flag
+//-- Additionnal compilation options (string)
 global.CompileOpt = "";
 
-// Skip file if compile data is newer than the (true or false)
+//-- Skip file if compile data (REL) is newer than the source code (boolean)
 global.CompileSkipOld = false;
 
-// Additionnal link flag
+	//-- Additionnal link options (string)
 global.LinkOpt = "";
 
-// Update build version header file
+//-- Automatic increment of build version in a header file (boolean)
 global.BuildVersion = false;
 
+//*****************************************************************************
+// BUILD TOOL OPTION
+//*****************************************************************************
+
+//-- Activate verbose mode and get more build information (boolean)
+global.Verbose = false;
+
+//-- Output build information to the standard console (boolean)
+global.LogStdout = true;
+
+//-- Output build information to a log file (boolean)
+global.LogFile = false;
+
+//-- Name of the log file (string)
+global.LogFileName = "";
 
 //*******************************************************************************
 // EMULATOR SETINGS
 //*******************************************************************************
 
-// Emulator options (true or false):
+//-------------------------------------------------------------------------------
+// General options
+
+//-- Force the MSX version of the emulated machine (boolean)
 global.EmulMachine = true;
+
+//-- Force the emulated machine to be at 60 Hz (boolean)
 global.Emul60Hz = false;
+
+//-- Force the emulator to start in fullscreen mode (boolean)
 global.EmulFullScreen = false;
+
+//-- Disable emulator sound (boolean)
 global.EmulMute = false;
+
+//-- Start emulator debugger with program launch (boolean)
 global.EmulDebug = false;
 
-// Emulator extensions (true or false):
+//-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific
+global.EmulExtraParam = "";
+
+//-------------------------------------------------------------------------------
+// Extension options
+
+//-- Add SCC extension (boolean)
 global.EmulSCC = false;
+
+//-- Add MSX-Music extension (boolean)
 global.EmulMSXMusic = false;
+
+//-- Add MSX-Audio extension (boolean)
 global.EmulMSXAudio = false;
+
+//-- Add second PSG extension (boolean)
 global.EmulPSG2 = false;
+
+//-- Add V9990 video-chip extension (boolean)
 global.EmulV9990 = false;
 
-// Emulator port: joystick, mouse, keyboard (fake joystick)
+//-------------------------------------------------------------------------------
+// Input options
+
+//-- Plug a virtual device into the joystick port A (string)
+//   - Joystick
+//   - Keyboard         Fake joystick
+//   - Mouse
+//   - NinjaTap
 global.EmulPortA = "";
+
+//-- Plug a virtual device into the joystick port B (string)
 global.EmulPortB = "";
-
-// Emulator extra parameters to be add to command-line (emulator sotfware specific)
-global.EmulExtraParam = "";
-global.EmulatorArgs = "";
-
-//*******************************************************************************
-// BUILD STEPS
-//*******************************************************************************
-
-// Build steps (true or false):
-global.DoClean   = false;
-global.DoCompile = true;
-global.DoMake    = true;
-global.DoPackage = true;
-global.DoDeploy  = true;
-global.DoRun     = true;

@@ -17,37 +17,41 @@ const util = require("./util.js");
 //***************************************************************************
 
 // Check MSX version
-switch(Machine) {
+switch(Machine)
+{
 	case "1":  util.print("» Machine: MSX 1"); break;
 	case "12": util.print("» Machine: MSX 1&2"); break;
 	case "2":  util.print("» Machine: MSX 2"); break;
 	case "2P": util.print("» Machine: MSX 2+"); break;
 	case "TR": util.print("» Machine: MSX turbo R"); break;
 	default:
-		util.print("Unknow MSX Version", PrintError);
+		util.print(`Unsupported MSX Version '${Machine}'`, PrintError);
 		process.exit(10);
 }
 
 // Check project name
-if (!ProjName) {
+if (!ProjName)
+{
 	util.print(`Invalid project name ${ProjName}`, PrintError);
 	process.exit(20);
 }
 
 // Check project modules
-if (!ProjModules) {
+if (!ProjModules)
+{
 	util.print(`ProjModules not defined. Adding '${ProjName}' to build list`, PrintDetail);
 	ProjModules = ProjName;
 }
 
 // Project segments base name
-if ((MapperSize != 0) && (!ProjSegments)) {
+if ((MapperSize !== 0) && (!ProjSegments))
+{
 	util.print(`ProjSegments not defined. Using '${ProjName}'`, PrintDetail);
 	ProjSegments = ProjName;
 }
 
 // Project segments base name
-if(!BuildLibrary && !fs.existsSync(`${OutDir}msxgl.lib`))
+if (!BuildLibrary && !fs.existsSync(`${OutDir}msxgl.lib`))
 {
 	util.print(`BuildLibrary is false but ${OutDir}msxgl.lib not found!`, PrintWarning);
 	util.print("BuildLibrary will be activated");
@@ -58,49 +62,59 @@ if(!BuildLibrary && !fs.existsSync(`${OutDir}msxgl.lib`))
 // CHECK TOOLS PATH
 //***************************************************************************
 
-if(process.platform == "win32")
+if (process.platform === "win32")
 {
 	// Check binary tools
-	if(!fs.existsSync(Compiler)) {
+	if (!fs.existsSync(Compiler))
+	{
 		util.print(`Invalid path to C Compiler ${Compiler}`, PrintError);
 		process.exit(30);
 	}
 
-	if(!fs.existsSync(Assembler)) {
+	if (!fs.existsSync(Assembler))
+	{
 		util.print(`Invalid path to Assembler ${Assembler}`, PrintError);
 		process.exit(35);
 	}
 
-	if(!fs.existsSync(Linker)) {
+	if (!fs.existsSync(Linker))
+	{
 		util.print(`Invalid path to Linker ${Linker}`, PrintError);
 		process.exit(40);
 	}
 }
 
-if(!fs.existsSync(Hex2Bin)) {
+if (!fs.existsSync(Hex2Bin))
+{
 	util.print(`Invalid path to Packager ${Hex2Bin}`, PrintError);
 	process.exit(50);
 }
 
 // BASIC/MSX-DOS specific tools
-if (Ext != "rom") {
-	if (!fs.existsSync(DskTool)) {
+if (Ext !== "rom")
+{
+	if (!fs.existsSync(DskTool))
+	{
 		util.print(`Invalid path to DskTool ${DskTool}!`, PrintWarning);
 		util.print("Only programs in ROM format will be testable with most emulators");
 	}
 }
 
 // MSX-DOS specific tools
-if (Ext == "com") {
-	if (!fs.existsSync(MSXDOS)) {
+if (Ext === "com")
+{
+	if (!fs.existsSync(MSXDOS))
+	{
 		util.print(`Invalid path to MSX-DOS system files ${MSXDOS}!`, PrintWarning);
 		util.print("Program will not be testable with emulator");
 	}
 }
 
 // Emulator specific tools
-if (DoRun) {
-	if (!fs.existsSync(Emulator)) {
+if (DoRun)
+{
+	if (!fs.existsSync(Emulator))
+	{
 		util.print(`Invalid path to Emulator ${Emulator}!`, PrintWarning);
 		util.print("Disactivate DoRun option");
 		DoRun = false; 

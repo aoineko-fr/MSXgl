@@ -22,6 +22,10 @@ set CYAN=[96m
 set BG=[44m
 
 cls
+echo %RED%THE BATCH VERSION OF THE BUILD TOOL IS DEPRECATED%RESET%
+echo %RED%PLEASE USE THE NODE.JS VERSION INSTEAD%RESET%
+echo More information at https://aoineko.org/msxgl/index.php?title=Batch_to_JS_conversion_guide
+echo.
 echo %BG%
 echo ╔═══════════════════════════════════════════════════════════════════════════╗
 echo ║                                                                           ║

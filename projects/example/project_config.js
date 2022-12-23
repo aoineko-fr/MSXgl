@@ -114,7 +114,7 @@ AppID = "EX";
 // CompileOpt = 
 
 // Skip file if compile data is newer than the (0 = false, 1 = true)
-CompileSkipOld = false;
+// CompileSkipOld = false;
 
 // Compile verbose mode (0 = false, 1 = true)
 Verbose = 1

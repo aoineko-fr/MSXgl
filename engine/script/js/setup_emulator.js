@@ -17,15 +17,17 @@ const util = require("./util.js");
 // INITIALIZATION
 //-----------------------------------------------------------------------------
 
-EmulatorName = path.parse(Emulator).name;
+EmulatorName = path.parse(Emulator).name.toUpperCase();
 util.print(`Starting ${EmulatorName} emulator...`, PrintHighlight);
 
-util.print("Emulator options:", PrintDetail);
+util.print("Emulator configuration:", PrintDetail);
 util.print(`- EmulMachine: ${EmulMachine}`, PrintDetail);
 util.print(`- Emul60Hz: ${Emul60Hz}`, PrintDetail);
 util.print(`- EmulFullScreen: ${EmulFullScreen}`, PrintDetail);
 util.print(`- EmulMute: ${EmulMute}`, PrintDetail);
 util.print(`- EmulDebug: ${EmulDebug}`, PrintDetail);
+util.print(`- EmulExtraParam: ${EmulExtraParam}`, PrintDetail);
+util.print("Emulator extensions:", PrintDetail);
 util.print(`- EmulSCC: ${EmulSCC}`, PrintDetail);
 util.print(`- EmulMSXMusic: ${EmulMSXMusic}`, PrintDetail);
 util.print(`- EmulMSXAudio: ${EmulMSXAudio}`, PrintDetail);
@@ -33,44 +35,43 @@ util.print(`- EmulPSG2: ${EmulPSG2}`, PrintDetail);
 util.print(`- EmulV9990: ${EmulV9990}`, PrintDetail);
 util.print(`- EmulPortA: ${EmulPortA}`, PrintDetail);
 util.print(`- EmulPortB: ${EmulPortB}`, PrintDetail);
-util.print(`- EmulExtraParam: ${EmulExtraParam}`, PrintDetail);
 
 EmulatorArgs = EmulExtraParam;
 
-if (EmulatorName == "msxw") { EmulatorName = "msx"; }
+if (EmulatorName === "MSXW") { EmulatorName = "MSX"; }
 
 //*****************************************************************************
 // OpenMSX
 //*****************************************************************************
 // Doc: https://openmsx.org/manual/commands.html
-if (EmulatorName == "openmsx") {
+if (EmulatorName === "OPENMSX") {
 
 	util.print("You can only change frequency by setting the machine");
 
 	//---- Add launch options ----
 	if (EmulMachine) {
-		if (Machine == "1") {
+		if (Machine === "1") {
 			if (Emul60Hz) {
 				EmulatorArgs += " -machine C-BIOS_MSX1_JP";
 			} else {
 				EmulatorArgs += " -machine C-BIOS_MSX1_EU";
 			}
-		} else if (Machine == "2") {
+		} else if (Machine === "2") {
 			if (Emul60Hz) {
 				EmulatorArgs += " -machine C-BIOS_MSX2_JP";
 			} else {
 				EmulatorArgs += " -machine C-BIOS_MSX2_EU";
 			}
-		} else if (Machine == "2P") {
+		} else if (Machine === "2P") {
 			if (Emul60Hz) {
 				EmulatorArgs += " -machine C-BIOS_MSX2+_JP";
 			} else {
 				EmulatorArgs += " -machine C-BIOS_MSX2+_EU";
 			}
-		} else if (Machine == "TR") {
+		} else if (Machine === "TR") {
 			util.print("No MSX turbo R default machine in OpenMSX!", PrintError);
 			process.exit(500);
-		} else if (Machine == "12") {
+		} else if (Machine === "12") {
 			if (Emul60Hz) {
 				EmulatorArgs += " -machine C-BIOS_MSX1_JP";
 			} else {
@@ -83,8 +84,8 @@ if (EmulatorName == "openmsx") {
 
 	//---- Handle extension ----
 	let EmulExtCount = 0;
-	if (Ext == "rom") { EmulExtCount++; }
-	if (Ext == "com") { EmulExtCount++; }
+	if (Ext === "rom") { EmulExtCount++; }
+	if (Ext === "com") { EmulExtCount++; }
 	if (EmulSCC)      { EmulExtCount++; }
 	if (EmulMSXMusic) { EmulExtCount++; }
 	if (EmulMSXAudio) { EmulExtCount++; }
@@ -95,21 +96,21 @@ if (EmulatorName == "openmsx") {
 	util.print(`${EmulExtCount} extension found`);
 
 	//---- Add launch program ----
-	if (Ext == "bin") { EmulatorArgs += ` -diska ${ProjDir}emul/bin`; }
-	if (Ext == "rom") { 
+	if (Ext === "bin") { EmulatorArgs += ` -diska ${ProjDir}emul/bin`; }
+	if (Ext === "rom") { 
 		EmulatorArgs += ` -cart ${ProjDir}emul/rom/${ProjName}.rom`;
 		if (ROMDelayBoot) { EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dsk/tmp`; }
 	}
-	if (Ext == "com") { EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dos${DOS}`; }
-	// if (Target == "DOS1" {
+	if (Ext === "com") { EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dos${DOS}`; }
+	// if (Target === "DOS1" {
 		// EmulatorArgs += ` -exta slotexpander -ext Panasonic_FS-FD1A -ext ram64k -diska ${ProjDir}emul/dos${DOS}`;
 	// } else {
-		// if (Ext == "com") { EmulatorArgs += ` -exta slotexpander -ext Panasonic_FS-FD1A -ext msxdos2 -ext ram512k -diska ${ProjDir}emul/dos${DOS}`; }
+		// if (Ext === "com") { EmulatorArgs += ` -exta slotexpander -ext Panasonic_FS-FD1A -ext msxdos2 -ext ram512k -diska ${ProjDir}emul/dos${DOS}`; }
 	// }
-	// if (Ext == "com") { EmulatorArgs += ` -diska ${ProjDir}emul/dos${DOS} -ext msxdos2`; }
-	// if (Ext == "bin") { EmulatorArgs += ` -ext ide -hda ${ProjDir}emul/dsk/${ProjName}.dsk`; }
-	// if (Ext == "rom") { EmulatorArgs += ` -cart ${ProjDir}emul/rom/${ProjName}.rom`; }
-	// if (Ext == "com") { EmulatorArgs += ` -ext ide -hda ${ProjDir}emul/dsk/${ProjName}.dsk -ext msxdos2`; }
+	// if (Ext === "com") { EmulatorArgs += ` -diska ${ProjDir}emul/dos${DOS} -ext msxdos2`; }
+	// if (Ext === "bin") { EmulatorArgs += ` -ext ide -hda ${ProjDir}emul/dsk/${ProjName}.dsk`; }
+	// if (Ext === "rom") { EmulatorArgs += ` -cart ${ProjDir}emul/rom/${ProjName}.rom`; }
+	// if (Ext === "com") { EmulatorArgs += ` -ext ide -hda ${ProjDir}emul/dsk/${ProjName}.dsk -ext msxdos2`; }
 
 	//---- Emulator extensions ----
 	if (EmulSCC)      { EmulatorArgs += " -ext scc"; }
@@ -119,14 +120,14 @@ if (EmulatorName == "openmsx") {
 	if (EmulV9990)    { EmulatorArgs += " -ext gfx9000"; }
 
 	//---- Emulator conenctors ----
-	if (EmulPortA == "Joystick") { EmulatorArgs += ' -command "plug joyporta joystick1"'; }
-	if (EmulPortA == "Keyboard") { EmulatorArgs += ' -command "plug joyporta keyjoystick1"'; }
-	if (EmulPortA == "Mouse")    { EmulatorArgs += ' -command "plug joyporta mouse"'; }
-	if (EmulPortA == "NinjaTap") { EmulatorArgs += ' -command "plug joyporta ninjatap" -command "plug ninjatap_port_1 keyjoystick1"'; }
-	if (EmulPortB == "Joystick") { EmulatorArgs += ' -command "plug joyportb joystick1"'; }
-	if (EmulPortB == "Keyboard") { EmulatorArgs += ' -command "plug joyportb keyjoystick2"'; }
-	if (EmulPortB == "Mouse")    { EmulatorArgs += ' -command "plug joyportb mouse"'; }
-	if (EmulPortB == "NinjaTap") { EmulatorArgs += ' -command "plug joyportb ninjatap" -command "plug ninjatap_port_1 keyjoystick1"'; }
+	if (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -command "plug joyporta joystick1"'; }
+	if (EmulPortA === "KEYBOARD") { EmulatorArgs += ' -command "plug joyporta keyjoystick1"'; }
+	if (EmulPortA === "MOUSE")    { EmulatorArgs += ' -command "plug joyporta mouse"'; }
+	if (EmulPortA === "NINJATAP") { EmulatorArgs += ' -command "plug joyporta ninjatap" -command "plug ninjatap_port_1 keyjoystick1"'; }
+	if (EmulPortB === "JOYSTICK") { EmulatorArgs += ' -command "plug joyportb joystick1"'; }
+	if (EmulPortB === "KEYBOARD") { EmulatorArgs += ' -command "plug joyportb keyjoystick2"'; }
+	if (EmulPortB === "MOUSE")    { EmulatorArgs += ' -command "plug joyportb mouse"'; }
+	if (EmulPortB === "NINJATAP") { EmulatorArgs += ' -command "plug joyportb ninjatap" -command "plug ninjatap_port_1 keyjoystick1"'; }
 
 	//---- Start emulator ----
 	if (EmulDebug) {
@@ -143,7 +144,7 @@ if (EmulatorName == "openmsx") {
 // Emulicious
 //*****************************************************************************
 // See ReadMe.txt and Emulicious.ini
-else if (EmulatorName == "emulicious") {
+else if (EmulatorName === "EMULICIOUS") {
 
 	EmulatorArgs += " -set System=MSX";
 
@@ -171,7 +172,7 @@ else if (EmulatorName == "emulicious") {
 	if (EmulMute)       { EmulatorArgs += " -muted"; }
 
 	//---- Add launch program ----
-	if (Ext == "rom") {
+	if (Ext === "rom") {
 		EmulatorArgs += ` ${ProjDir}emul/rom/${ProjName}.rom`;
 	} else {
 		util.print("Emulicious only support ROM format", PrintError);
@@ -183,37 +184,37 @@ else if (EmulatorName == "emulicious") {
 // BlueMSX
 //*****************************************************************************
 // Doc: http://www.msxblue.com/manual/commandlineargs_c.htm
-else if (EmulatorName == "bluemsx") {
+else if (EmulatorName === "BLUEMSX") {
 
 	//---- Add launch options ----
 	if (EmulMachine) {
-		if (Machine == "1") {
+		if (Machine === "1") {
 			if (Emul60Hz) {
 				EmulatorArgs += ' /machine "MSX - Japanese"';
 			} else {
 				EmulatorArgs += ' /machine "MSX"';
 			}
-		} else if (Machine == "2") {
+		} else if (Machine === "2") {
 			if (Emul60Hz) {
 				EmulatorArgs += ' /machine "MSX2 - Japanese"';
 			} else {
 				EmulatorArgs += ' /machine "MSX2"';
 			}
-		} else if (Machine == "2P") {
+		} else if (Machine === "2P") {
 			if (Emul60Hz) {
 				EmulatorArgs += ' /machine "MSX2+"';
 			} else {
 				EmulatorArgs += ' /machine "MSX2+ - C-BIOS"';
 				util.print("50Hz MSX2+ is C-BIOS based with BlueMSX");
 			}
-		} else if (Machine == "TR") {
+		} else if (Machine === "TR") {
 			if (Emul60Hz) {
 				EmulatorArgs += ' /machine "MSXturboR"';
 			} else {
 				EmulatorArgs += ' /machine "MSXturboR"';
 				util.print("MSXturboR is only 60Hz with BlueMSX", PrintWarning);
 			}
-		} else if (Machine == "12") {
+		} else if (Machine === "12") {
 			if (Emul60Hz) {
 				EmulatorArgs += ' /machine "MSX"';
 			} else {
@@ -225,30 +226,30 @@ else if (EmulatorName == "bluemsx") {
 	if (EmulMute)       { util.print("EmulMute can't be use with BlueMSX", PrintWarning); }
 
 	//---- Add launch program ----
-	if (Ext == "bin") { EmulatorArgs += ` /diskA ${FullProjDir}/emul/dsk/${ProjName}.dsk`; }
-	if (Ext == "rom") { EmulatorArgs += ` /rom1 ${FullProjDir}/emul/rom/${ProjName}.rom`; }
-	if (Ext == "com") { EmulatorArgs += ` /diskA ${FullProjDir}/emul/dsk/${ProjName}.dsk`; }
+	if (Ext === "bin") { EmulatorArgs += ` /diskA ${FullProjDir}/emul/dsk/${ProjName}.dsk`; }
+	if (Ext === "rom") { EmulatorArgs += ` /rom1 ${FullProjDir}/emul/rom/${ProjName}.rom`; }
+	if (Ext === "com") { EmulatorArgs += ` /diskA ${FullProjDir}/emul/dsk/${ProjName}.dsk`; }
 }
 
 //*****************************************************************************
 // fMSX
 //*****************************************************************************
 // Doc: https://fms.komkon.org/fMSX/fMSX.html#LABI
-else if (EmulatorName == "fmsx") {
+else if (EmulatorName === "FMSX") {
 	util.print("Command line parameters are only fonctionnal since fMSX 6.0");
 
 	//---- Add launch options ----
 	if (EmulMachine) {
-		if (Machine == "1") {
+		if (Machine === "1") {
 			EmulatorArgs += " -msx1";
-		} else if (Machine == "2") {
+		} else if (Machine === "2") {
 			EmulatorArgs += " -msx2";
-		} else if (Machine == "2P") {
+		} else if (Machine === "2P") {
 			EmulatorArgs += " -msx2+";
-		} else if (Machine == "TR") {
+		} else if (Machine === "TR") {
 			util.print("No MSX turbo R support in fMSX", PrintError);
 			process.exit(510);
-		} else if (Machine == "12") {
+		} else if (Machine === "12") {
 			EmulatorArgs += " -msx1";
 		}
 	}
@@ -261,15 +262,15 @@ else if (EmulatorName == "fmsx") {
 	if (EmulMute)       { EmulatorArgs += " -nosound"; }
 
 	//---- Add launch program ----
-	if (Ext == "bin") { EmulatorArgs += ` -diska ${ProjDir}/emul/dsk/${ProjName}.dsk` }
-	if (Ext == "rom") { EmulatorArgs += ` ${ProjDir}/emul/rom/${ProjName}.rom` }
-	if (Ext == "com") { EmulatorArgs += ` -diska ${ProjDir}/emul/dsk/${ProjName}.dsk` }
+	if (Ext === "bin") { EmulatorArgs += ` -diska ${ProjDir}/emul/dsk/${ProjName}.dsk` }
+	if (Ext === "rom") { EmulatorArgs += ` ${ProjDir}/emul/rom/${ProjName}.rom` }
+	if (Ext === "com") { EmulatorArgs += ` -diska ${ProjDir}/emul/dsk/${ProjName}.dsk` }
 }
 
 //*****************************************************************************
 // Mesei
 //*****************************************************************************
-else if (EmulatorName == "meisei") {
+else if (EmulatorName === "MEISEI") {
 	//---- Add launch options ----
 	if (EmulMachine)    { util.print("EmulMachine can't be use with Mesei", PrintWarning); }
 	if (Emul60Hz)       { util.print("Emul60Hz can't be use with Mesei", PrintWarning); }
@@ -277,7 +278,7 @@ else if (EmulatorName == "meisei") {
 	if (EmulMute)       { util.print("EmulMute can't be use with Mesei", PrintWarning); }
 
 	//---- Add launch program ----
-	if (Ext == "rom") { 
+	if (Ext === "rom") { 
 		EmulatorArgs += ` ${ProjDir}/emul/rom/${ProjName}.rom`;
 	} else {
 		util.print("Mesei only support ROM format", PrintError);
@@ -289,7 +290,7 @@ else if (EmulatorName == "meisei") {
 // RuMSX
 //*****************************************************************************
 
-else if (EmulatorName == "msx") {
+else if (EmulatorName === "MSX") {
 	//---- Add launch options ----
 	if (EmulMachine)    { util.print("EmulMachine can't be use with RuMSX", PrintWarning); }
 	if (Emul60Hz)       { util.print("Emul60Hz can't be use with RuMSX", PrintWarning); }
@@ -297,9 +298,9 @@ else if (EmulatorName == "msx") {
 	if (EmulMute)       { EmulatorArgs += " -NoSoundOut"; }
 
 	//---- Add launch program ----
-	if (Ext == "bin") { EmulatorArgs += ` -dirAsDisk -disk ${ProjDir}/emul/bin`; }
-	if (Ext == "rom") { EmulatorArgs += ` -rom ${ProjDir}/emul/rom/${ProjName}.rom`; }
-	if (Ext == "com") { EmulatorArgs += ` -dirAsDisk -disk ${ProjDir}/emul/dos${DOS}`; }
+	if (Ext === "bin") { EmulatorArgs += ` -dirAsDisk -disk ${ProjDir}/emul/bin`; }
+	if (Ext === "rom") { EmulatorArgs += ` -rom ${ProjDir}/emul/rom/${ProjName}.rom`; }
+	if (Ext === "com") { EmulatorArgs += ` -dirAsDisk -disk ${ProjDir}/emul/dos${DOS}`; }
 }
 
 //*****************************************************************************
