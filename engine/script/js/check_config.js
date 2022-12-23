@@ -37,10 +37,10 @@ if (!ProjName)
 }
 
 // Check project modules
-if (!ProjModules)
+if (!ProjModules.length)
 {
 	util.print(`ProjModules not defined. Adding '${ProjName}' to build list`, PrintDetail);
-	ProjModules = ProjName;
+	ProjModules.push(ProjName);
 }
 
 // Project segments base name
