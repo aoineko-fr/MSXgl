@@ -1,2 +1,2 @@
 clear
-node ../../engine/script/js/build.js $1
+../../tools/build/Node/node ../../engine/script/js/build.js $1

@@ -10,13 +10,13 @@
 // TOOLS SETTINGS
 //*****************************************************************************
 
-Emulator = `${ToolsDir}OpenMSX/openmsx.exe`;
-// Emulator = `${ToolsDir}Emulicious/Emulicious.exe`;
-// Emulator = `${ToolsDir}BlueMSX/blueMSX.exe`;
-// Emulator = `${ToolsDir}MEISEI/meisei.exe`;
-// Emulator = `${ToolsDir}fMSX/fMSX.exe`;
-// Emulator = `${ToolsDir}RuMSX/MSX.exe`;
-// Debugger = `${ToolsDir}OpenMSX/Debugger/openmsx-debugger.exe`;
+Emulator = `${ToolsDir}OpenMSX/openmsx`;
+// Emulator = `${ToolsDir}Emulicious/Emulicious`;
+// Emulator = `${ToolsDir}BlueMSX/blueMSX`;
+// Emulator = `${ToolsDir}MEISEI/meisei`;
+// Emulator = `${ToolsDir}fMSX/fMSX`;
+// Emulator = `${ToolsDir}RuMSX/MSX`;
+// Debugger = `${ToolsDir}OpenMSX/Debugger/openmsx-debugger`;
 
 //*****************************************************************************
 // PROJECT SETTINGS

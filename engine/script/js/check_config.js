@@ -62,29 +62,26 @@ if (!BuildLibrary && !fs.existsSync(`${OutDir}msxgl.lib`))
 // CHECK TOOLS PATH
 //***************************************************************************
 
-if (process.platform === "win32")
+// Check binary tools
+if (!fs.existsSync(Compiler) && ( (process.platform === "win32") && !fs.existsSync(`${Compiler}.exe`)))
 {
-	// Check binary tools
-	if (!fs.existsSync(Compiler))
-	{
-		util.print(`Invalid path to C Compiler ${Compiler}`, PrintError);
-		process.exit(30);
-	}
-
-	if (!fs.existsSync(Assembler))
-	{
-		util.print(`Invalid path to Assembler ${Assembler}`, PrintError);
-		process.exit(35);
-	}
-
-	if (!fs.existsSync(Linker))
-	{
-		util.print(`Invalid path to Linker ${Linker}`, PrintError);
-		process.exit(40);
-	}
+	util.print(`Invalid path to C Compiler ${Compiler}`, PrintError);
+	process.exit(30);
 }
 
-if (!fs.existsSync(Hex2Bin))
+if (!fs.existsSync(Assembler) && ( (process.platform === "win32") && !fs.existsSync(`${Assembler}.exe`)))
+{
+	util.print(`Invalid path to Assembler ${Assembler}`, PrintError);
+	process.exit(35);
+}
+
+if (!fs.existsSync(Linker) && ( (process.platform === "win32") && !fs.existsSync(`${Linker}.exe`)))
+{
+	util.print(`Invalid path to Linker ${Linker}`, PrintError);
+	process.exit(40);
+}
+
+if (!fs.existsSync(Hex2Bin) && ( (process.platform === "win32") && !fs.existsSync(`${Hex2Bin}.exe`)))
 {
 	util.print(`Invalid path to Packager ${Hex2Bin}`, PrintError);
 	process.exit(50);
@@ -113,7 +110,7 @@ if (Ext === "com")
 // Emulator specific tools
 if (DoRun)
 {
-	if (!fs.existsSync(Emulator))
+	if (!fs.existsSync(Emulator) && ( (process.platform === "win32") && !fs.existsSync(`${Emulator}.exe`)))
 	{
 		util.print(`Invalid path to Emulator ${Emulator}!`, PrintWarning);
 		util.print("Disactivate DoRun option");

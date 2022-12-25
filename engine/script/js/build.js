@@ -37,8 +37,65 @@ require(`${ProjDir}project_config.js`);
 
 //-- Setup command line overwrite parameters
 const CommandArgs = process.argv.slice(2);
-if (CommandArgs[0])
-	Target = CommandArgs[0]; // Target overwrite
+for (let i=0; i < CommandArgs.length; i++)
+{
+	const arg = CommandArgs[i].toLowerCase();
+	if(arg.startsWith("target="))
+	{
+		let val = CommandArgs[i].substring(7);
+		if (val)
+		{
+			Target = val;
+			util.print(`Command line overwrite => Target=${Target}`, PrintDetail);
+		}
+	}
+	else if(arg.startsWith("machine="))
+	{
+		let val = CommandArgs[i].substring(7);
+		if (val)
+		{
+			Machine = val;
+			util.print(`Command line overwrite => Machine=${Machine}`, PrintDetail);
+		}
+	}
+	else if(arg.startsWith("projname="))
+	{
+		let val = CommandArgs[i].substring(9);
+		if (val)
+		{
+			ProjName = val;
+			ProjModules = [ ProjName ];
+			ProjSegments = ProjName;
+			util.print(`Command line overwrite => ProjName=${ProjName}`, PrintDetail);
+		}
+	}
+	else if(arg.startsWith("romsize="))
+	{
+		ROMSize = parseInt(CommandArgs[i].substring(7))
+		util.print(`Command line overwrite => ROMSize=${ROMSize}`, PrintDetail);
+	}
+	else if(arg === "delay")
+	{
+		ROMDelayBoot = true;
+		util.print(`Command line overwrite => ROMDelayBoot=${ROMDelayBoot}`, PrintDetail);
+	}
+	else if(arg === "ramisr")
+	{
+		InstallRAMISR = true;
+		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
+	}
+	else
+	{
+		util.print(`Unknow command line overwrite '${arg}'`, PrintWarning);
+	}
+}
+
+//-- Sub-project specific overwrite
+if (fs.existsSync(`${ProjDir}${ProjName}.js`))
+{
+	util.print(`Sub-project configuration found '${ProjDir}${ProjName}.js'`, PrintDetail);
+	require(`${ProjDir}${ProjName}.js`);
+}
 
 //-- Validate enum
 Machine   = Machine.toUpperCase();
@@ -56,7 +113,7 @@ require("./setup_target.js");
 // DISPLAY INFO
 //=============================================================================
 
-console.clear();
+// console.clear();
 
 //-- Create out directory
 if (!fs.existsSync(OutDir))
@@ -296,7 +353,7 @@ if (DoCompile)
 						{
 							let bankHex = util.getHex(bankAddr);
 							util.print(`Segment found: ${segName}.${segExtList[e]} (addr: ${hex}${bankHex})`);
-							compiler.compile(`${segName}.${segExtList[e]}`, SegSize, s);
+							compiler.compile(`${ProjDir}${segName}.${segExtList[e]}`, SegSize, s);
 							MapperBanks += `-Wl-b_SEG${s}=0x${hex}${bankHex} `;
 							RelList.push(`${OutDir}${segName}.rel`);
 						}
@@ -512,7 +569,7 @@ if (DoDeploy)
 
 			let filesList = [ "autoexec.bas", `${ProjName}.${Ext}` ];
 			for (let i = 0; i < DiskFiles.length; i++)
-				filesList.push(DiskFiles[i]);
+				filesList.push(path.parse(DiskFiles[i]).base);
 			
 			util.print("-- Temporary copy files to DskTool directory");
 			for (let i = 0; i < filesList.length; i++)
@@ -596,7 +653,7 @@ if (DoDeploy)
 				filesList.push("MSXDOS2.SYS");
 			}
 			for (let i = 0; i < DiskFiles.length; i++)
-				filesList.push(DiskFiles[i]);
+				filesList.push(path.parse(DiskFiles[i]).base);
 
 			util.print("-- Temporary copy files to DskTool directory");
 			for (let i = 0; i < filesList.length; i++)

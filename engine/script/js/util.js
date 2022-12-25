@@ -92,19 +92,20 @@ module.exports.getDateString = function ()
 module.exports.exec = function (cmd)
 {
 	module.exports.print(`Start: ${cmd}`, PrintDetail);
-	cp.exec(cmd, (error, stdout, stderr) => {
-		if (error)
-		{
-			console.log(error.message);
-			return;
-		}
-		if (stderr)
-		{
-			console.log(stderr);
-			return;
-		}
-		console.log(stdout);
-	});
+	let exitCode = 0;
+	try
+	{
+		// cp.spawn(cmd, [], { detached: true });
+		cp.execSync(cmd);
+	}
+	catch (error)
+	{
+		exitCode = error.status;
+		console.log(error.message);
+		// module.exports.print(error.message, PrintError);
+	}
+	module.exports.print(`Exit code: ${exitCode}`, PrintDetail);
+	return exitCode;
 }
 
 // Execute command and wait for completion

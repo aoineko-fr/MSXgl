@@ -43,7 +43,7 @@ extern void tmu_ULTITEST;
 //=============================================================================
 
 // Fonts
-// #include "font\font_mgl_sample8.h"
+// #include "font/font_mgl_sample8.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
