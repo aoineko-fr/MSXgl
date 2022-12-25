@@ -1,3 +1,5 @@
-10 PRINT"Loading USR..." 
-20 DEF USR=&HC007 
-30 BLOAD"s_target.bin" 
+10 CLS : KEY OFF
+20 PRINT"Loading USR..."
+30 DEF USR=&HC007
+40 BLOAD"s_target.bin"
+50 PRINT"USR(0) routine insalled"
