@@ -64,15 +64,19 @@ for (let i=0; i < CommandArgs.length; i++)
 		if (val)
 		{
 			ProjName = val;
-			ProjModules = [ ProjName ];
-			ProjSegments = ProjName;
+			// ProjModules = [ ProjName ];
+			// ProjSegments = ProjName;
 			util.print(`Command line overwrite => ProjName=${ProjName}`, PrintDetail);
 		}
 	}
 	else if(arg.startsWith("romsize="))
 	{
-		ROMSize = parseInt(CommandArgs[i].substring(7))
-		util.print(`Command line overwrite => ROMSize=${ROMSize}`, PrintDetail);
+		let val = CommandArgs[i].substring(8);
+		if (val)
+		{
+			ROMSize = parseInt(val);
+			util.print(`Command line overwrite => ROMSize=${ROMSize}`, PrintDetail);
+		}
 	}
 	else if(arg === "delay")
 	{

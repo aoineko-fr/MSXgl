@@ -144,4 +144,4 @@ DoCompile = true;
 DoMake    = true;
 DoPackage = true;
 DoDeploy  = true;
-DoRun     = true;
+DoRun     = false;
