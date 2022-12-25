@@ -9,3 +9,8 @@
 
 # Denote all files that are truly binary and should not be modified.
 #* binary
+
+# Exclude some directories from Source package
+emul export-ignore
+Node export-ignore
+sdcc export-ignore
