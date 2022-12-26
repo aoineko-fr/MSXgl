@@ -120,7 +120,7 @@ BankedCall = 0;
 //-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
 ForceRamAddr = 0;
 
-// --List of data files to copy to disk (array)
+//-- List of data files to copy to disk (array)
 DiskFiles = [];
 
 //-- BASIC USR driver default address (number)

@@ -29,7 +29,7 @@ require("./setup_global.js");
 
 //-- Default configuration
 if (!fs.existsSync(`${RootDir}projects/default_config.js`))
-	util.copyFile(`${RootDir}engine/script/js/default_config_${process.platform}.js`, `${RootDir}projects/default_config.js`);
+	util.copyFile(`${RootDir}engine/script/js/default_config.js`, `${RootDir}projects/default_config.js`);
 require(`${RootDir}projects/default_config.js`);
 
 //-- Project specific overwrite

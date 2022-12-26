@@ -132,11 +132,10 @@ if (EmulatorName === "OPENMSX") {
 	//---- Start emulator ----
 	if (EmulDebug) {
 		EmulatorArgs += " -ext debugdevice";
-		if (fs.existsSync(Debugger)) {
+		if (fs.existsSync(Debugger) || ( (process.platform === "win32") && fs.existsSync(`${Debugger}.exe`)))
 			util.execSync(`start /b ${Debugger}`);
-		} else {
+		else
 			util.print(`Invalid path to Debugger (${Debugger})`, PrintWarning);
-		}
 	}
 }
 
