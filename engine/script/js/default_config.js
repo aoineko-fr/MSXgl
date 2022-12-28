@@ -39,14 +39,14 @@ Hex2Bin   = `${ToolsDir}MSXtk/bin/MSXhex`;			//-- Path to IHX to binary converto
 MSXDOS    = `${ToolsDir}build/MSXDOS/`;				//-- Path to the MSX-DOS files (string)
 DskTool   = `${ToolsDir}build/DskTool/dsktool`;		//-- Path to the tool to generate DSK file (string)
 Emulator  = "";										//-- Path to the emulator to launch the project (string)
-// Emulator  = `${ToolsDir}OpenMSX/openmsx`;
+// Emulator  = `${ToolsDir}openMSX/openmsx`;
 // Emulator  = `${ToolsDir}Emulicious/Emulicious`;
 // Emulator  = `${ToolsDir}BlueMSX/blueMSX`;
 // Emulator  = `${ToolsDir}MEISEI/meisei`;
 // Emulator  = `${ToolsDir}fMSX/fMSX`;
 // Emulator  = `${ToolsDir}RuMSX/MSX`;
 Debugger  = "";										//-- Path to the debugger to test the project (string)
-// Debugger  = `${ToolsDir}OpenMSX/Debugger/openmsx-debugger`;
+// Debugger  = `${ToolsDir}openMSX/Debugger/openmsx-debugger`;
 
 
 //*****************************************************************************

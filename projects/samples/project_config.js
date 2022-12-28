@@ -9,7 +9,7 @@
 //*****************************************************************************
 // TOOLS SETTINGS
 //*****************************************************************************
-Emulator = `${ToolsDir}OpenMSX/openmsx`
+// Emulator = `${ToolsDir}openMSX/openmsx`
 // Emulator = `${ToolsDir}Emulicious/Emulicious`
 // Emulator = `${ToolsDir}BlueMSX/blueMSX`
 // Emulator = `${ToolsDir}MEISEI/meisei`
