@@ -1,6 +1,12 @@
 //*****************************************************************************
-// PROJECT OVERWRITE
+// PROJECT CONFIG OVERWRITE
 //*****************************************************************************
+
+//-- Target MSX machine version (string)
 Machine = "1";
-LibModules = [ ...LibModules, "device/ninjatap" ];
+
+//-- List of library modules to build (array)
+LibModules = [ "device/ninjatap", ...LibModules ];
+
+//-- Plug a virtual device into the joystick port A (string)
 EmulPortA = "NinjaTap";

@@ -1,5 +1,5 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄▄                ▄▄ 
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄▄                ▄▄
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │   ██  ██▀▄ ██▀▄ ██ █ ██▀
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄██▄ ██ █ ██▀  ▀█▄█ ▀█▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘            ▀▀  
@@ -22,7 +22,7 @@
 // Group: Joystick
 // Direct access to joystick
 //=============================================================================
-#if (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER || INPUT_USE_DETECT)
+#if (INPUT_USE_JOYSTICK || INPUT_USE_DETECT)
 
 #define JOY_PORT_1					0b00000011
 #define JOY_PORT_2					0b01001100
@@ -170,7 +170,7 @@ inline bool Joystick_IsButtonPressed(u8 port, u8 trigger)
 
 #endif // (INPUT_JOY_UPDATE)
 
-#endif // (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER)
+#endif // (INPUT_USE_JOYSTICK || INPUT_USE_DETECT)
 
 
 //=============================================================================
@@ -267,7 +267,7 @@ inline bool Mouse_IsButtonClick(Mouse_State* data, u8 btn) { return ((data->Butt
 // Group: Keyboard
 // Direct access to keyboard
 //=============================================================================
-#if (INPUT_USE_KEYBOARD || INPUT_USE_MANAGER)
+#if (INPUT_USE_KEYBOARD)
 
 #define MAKE_KEY(r, b)		((b << 4) | r)
 #define KEY_ROW(key)		(key & 0x0F)
@@ -429,151 +429,4 @@ bool Keyboard_IsKeyPressed(u8 key);
 
 #endif // (INPUT_KB_UPDATE)
 
-#endif // (INPUT_USE_KEYBOARD || INPUT_USE_MANAGER)
-
-//=============================================================================
-// Group: Input Manager
-// Advanced input manager
-//=============================================================================
-#if (INPUT_USE_MANAGER)
-
-// Device ID
-enum IPM_DEVICE
-{
-	IPM_DEVICE_JOYSTICK_1 = 0,
-	IPM_DEVICE_JOYSTICK_2,
-	IPM_DEVICE_KEYBOARD_1,
-	IPM_DEVICE_KEYBOARD_2,
-	//---------------------------------
-	IPM_DEVICE_MAX,
-	IPM_DEVICE_ANY,
-};
-
-// Device input ID
-enum IPM_INPUT
-{
-	IPM_INPUT_STICK = 0,
-	IPM_INPUT_BUTTON_A,
-	IPM_INPUT_BUTTON_B,
-	//---------------------------------
-	IPM_INPUT_MAX,
-	IPM_INPUT_ANY,
-};
-
-// Device event ID
-enum IPM_EVENT
-{
-	IPM_EVENT_CLICK = 0,
-	IPM_EVENT_HOLD,
-	IPM_EVENT_DOUBLE_CLICK,	
-	IPM_EVENT_DOUBLE_CLICK_HOLD,
-	IPM_EVENT_RELEASE,
-	//---------------------------------
-	IPM_EVENT_MAX,
-	IPM_EVENT_ANY,
-	IPM_EVENT_NONE,
-};
-
-// State flag
-#define IPM_STATE_OFF			0x00
-#define IPM_STATE_PRESS			0x01
-#define IPM_STATE_ON			0x02
-#define IPM_STATE_RELEASE		0x03
-#define IPM_STATE_PRESSMASK		0x03
-#define IPM_STATE_HOLD			0x10
-#define IPM_STATE_HOLDING		0x20
-#define IPM_STATE_HOLDMASK		0x30
-#define IPM_STATE_DOUBLE		0x80
-
-#define IPM_EVENT_TAB_SIZE		16
-
-typedef void (*IPM_cb)(u8 joy, u8 in, u8 evt);
-typedef u8 (*IPM_check)(u8 joy, u8 in);
-
-typedef struct
-{
-	u8			Device;
-	u8			Input;
-	u8			Event;
-	IPM_cb		Callback;
-} IPM_Event;
-
-typedef struct
-{
-	u8			CurrentStatus;
-	u8			PreviousStatus;
-	u8			State[IPM_INPUT_MAX];
-	u8			Timer[IPM_INPUT_MAX];
-} IPM_Process;	
-
-typedef struct
-{
-	u8			Up;
-	u8			Right;
-	u8			Down;
-	u8			Left;
-	u8			TriggerA;
-	u8			TriggerB;
-} IPM_KeySet;	
-
-typedef struct
-{
-	u8			DeviceSupport[IPM_DEVICE_MAX];
-	u8			HoldTimer;
-	u8			DoubleClickTimer;
-	IPM_KeySet	KeySet[2];
-} IPM_Config;	
-
-typedef struct
-{
-	IPM_Process	Process[IPM_DEVICE_MAX];
-	IPM_Event	Events[IPM_EVENT_TAB_SIZE];
-	u8			EventsNum;
-	IPM_check	Checker[IPM_EVENT_MAX];
-	IPM_Config  Config;
-} IPM_Data;
-
-extern IPM_Data g_IPM;
-
-// Function: IPM_Initialize
-// Initialize input manager
-void IPM_Initialize(IPM_Config* config);
-
-// Function: IPM_SetTimer
-// Initialize input manager
-inline void IPM_SetTimer(u8 doubleClk, u8 hold)
-{
-	g_IPM.Config.DoubleClickTimer = doubleClk;
-	g_IPM.Config.HoldTimer = hold;
-}
-
-// Function: IPM_Update
-// Update device manager
-void IPM_Update();
-
-// Function: IPM_RegisterEvent
-// Register a callback to a given device manager's event
-bool IPM_RegisterEvent(u8 joy, u8 input, u8 event, IPM_cb cb);
-
-// Function: IPM_GetStatus
-// Get current device status
-inline u8 IPM_GetStatus(u8 joy);
-
-// Function: IPM_GetStickDirection
-// Get current direction of the given device
-inline u8 IPM_GetStickDirection(u8 joy);
-
-// Function: IPM_GetInputState
-// Get current device state
-inline u8 IPM_GetInputState(u8 joy, u8 in);
-
-// Function: IPM_GetInputTimer
-// Get current device state timer
-inline u8 IPM_GetInputTimer(u8 joy, u8 in);
-
-// Function: IPM_GetEventName
-// Get event name
-const c8* IPM_GetEventName(u8 ev);
-
-#endif // INPUT_USE_MANAGER
-
+#endif // (INPUT_USE_KEYBOARD)

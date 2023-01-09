@@ -61,6 +61,7 @@
 #define SLOT_SEC(s)		(((s) >> 2 ) & 0x03)
 
 #define SLOT_NOTFOUND 	0xFF
+#define SLOT_INVALID 	0xFF
 
 typedef bool (*CheckSlotCallback)(u8);
 

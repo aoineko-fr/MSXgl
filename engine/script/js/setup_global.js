@@ -136,7 +136,7 @@ global.MakeLib = `${ToolsDir}sdcc/bin/sdar`;
 global.Hex2Bin = `${ToolsDir}MSXtk/bin/MSXhex`;
 
 //-- Path to the MSX-DOS files (string)
-global.MSXDOS = `${ToolsDir}build/MSXDOS`;
+global.MSXDOS = `${ToolsDir}build/DOS`;
 
 //-- Path to the tool to generate DSK file (string)
 global.DskTool = `${ToolsDir}build/DskTool/dsktool`;
@@ -194,7 +194,6 @@ global.Machine = "1";
 //   - ROM_KONAMI_SCC   .rom    128KB ROM using Konami SCC mapper (8KB segments)
 //   - DOS1             .com    MSX-DOS 1 program (0100h~) No direct acces to Main-ROM
 //   - DOS2             .com    MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
-//   - DOS2_ARG         .com    [WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 global.Target = "ROM_32K";
 
 //-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)

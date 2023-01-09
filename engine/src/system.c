@@ -32,6 +32,8 @@ u8 Sys_GetPageSlot(u8 page)
 // Set a slot in a given page
 void Sys_SetPageSlot(u8 page, u8 slotId)
 {
+	page;
+	slotId;
 	// WORK IN PROGERSS...
 	
 	/*// static const u8 mask00[4] = { 0b00000000, 0b00000000, 0b00000000, 0b00000000 };

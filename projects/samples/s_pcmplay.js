@@ -1,5 +1,9 @@
 //*****************************************************************************
-// PROJECT OVERWRITE
+// PROJECT CONFIG OVERWRITE
 //*****************************************************************************
+
+//-- Target MSX machine version (string)
 Machine = "1";
-LibModules = [ ...LibModules, "pcm/pcmplay" ];
+
+//-- List of library modules to build (array)
+LibModules = [ "pcm/pcmplay", ...LibModules ];

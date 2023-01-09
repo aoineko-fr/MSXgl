@@ -36,7 +36,7 @@ Assembler = `${ToolsDir}sdcc/bin/sdasz80`;			//-- Path to the assembler program 
 Linker    = `${ToolsDir}sdcc/bin/sdcc`;				//-- Path to the linker program (string)
 MakeLib   = `${ToolsDir}sdcc/bin/sdar`;				//-- Path to the program to generate lib file (string)
 Hex2Bin   = `${ToolsDir}MSXtk/bin/MSXhex`;			//-- Path to IHX to binary convertor (string)
-MSXDOS    = `${ToolsDir}build/MSXDOS/`;				//-- Path to the MSX-DOS files (string)
+MSXDOS    = `${ToolsDir}build/DOS/`;				//-- Path to the MSX-DOS files (string)
 DskTool   = `${ToolsDir}build/DskTool/dsktool`;		//-- Path to the tool to generate DSK file (string)
 Emulator  = "";										//-- Path to the emulator to launch the project (string)
 // Emulator  = `${ToolsDir}openMSX/openmsx`;
@@ -96,7 +96,6 @@ Machine = "1";
 //   - ROM_KONAMI_SCC   .rom    128KB ROM using Konami SCC mapper (8KB segments)
 //   - DOS1             .com    MSX-DOS 1 program (0100h~) No direct acces to Main-ROM
 //   - DOS2             .com    MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
-//   - DOS2_ARG         .com    [WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 Target = "ROM_32K";
 
 //-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)

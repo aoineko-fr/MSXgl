@@ -1,6 +1,9 @@
 //*****************************************************************************
-// PROJECT OVERWRITE
+// PROJECT CONFIG OVERWRITE
 //*****************************************************************************
+
+//-- Target MSX machine version (string)
 Machine = "1";
-// Emulator port: joystick, mouse, keyboard (fake joystick)
+
+//-- Plug a virtual device into the joystick port A (string)
 EmulPortA = "mouse";

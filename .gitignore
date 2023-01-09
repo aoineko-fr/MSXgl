@@ -62,3 +62,4 @@ out
 /tools/CMSXtk/*.sln
 *.noi
 test
+/tools/MSXtk/proj/*.user

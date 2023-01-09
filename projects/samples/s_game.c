@@ -127,6 +127,7 @@ u16  g_Level = 0;
 // Physics callback
 void PhysicsEvent(u8 event, u8 tile)
 {
+	tile;
 	switch(event)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN:
@@ -340,4 +341,6 @@ void main()
 {
 	Game_SetState(State_Initialize);
 	Game_MainLoop(VDP_MODE_GRAPHIC1);
+
+	Bios_Exit(0);
 }

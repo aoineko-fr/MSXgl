@@ -67,6 +67,10 @@ u8 Menu_DefaultInputCB()
 //
 void Menu_DefaultDrawCB(u8 x, u8 y, u8 type, const void* text)
 {
+	x;
+	y;
+	type;
+	text;
 }
 
 #endif

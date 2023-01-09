@@ -356,7 +356,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 //   value	- Byte value to copy in VRAM
 //   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
 //   count	- Nomber of byte to copy in VRAM
-void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __naked
+void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __naked // Stack: 4 bytes
 {
 	value; // A
 	dest;  // DE
@@ -414,7 +414,7 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __naked
 //   value	- Byte value to copy in VRAM
 //   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
 //   count	- Nomber of byte to copy in VRAM
-void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count) __naked
+void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count) __naked // Stack: 4 bytes
 {
 	value; // A
 	dest;  // DE

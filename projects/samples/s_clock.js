@@ -1,4 +1,6 @@
 //*****************************************************************************
-// PROJECT OVERWRITE
+// PROJECT CONFIG OVERWRITE
 //*****************************************************************************
-LibModules = [ ...LibModules, "clock" ];
+
+//-- List of library modules to build (array)
+LibModules = [ "clock", ...LibModules ];

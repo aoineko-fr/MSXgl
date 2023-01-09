@@ -186,6 +186,22 @@ u16 Math_Flip_16b(u16 val) __FASTCALL
 }
 
 //-----------------------------------------------------------------------------
+// Get the negative (additive inverse) of a 16-bit register
+i16 Math_Negative(i16 val) __FASTCALL
+{
+	val; // HL
+	__asm
+		xor		a
+		sub		l
+		ld		l, a
+		sbc		a, a
+		sub		h
+		ld		h, a
+	__endasm;
+}
+
+
+//-----------------------------------------------------------------------------
 // Swap MSB and LSB bytes
 u16 Math_Swap(u16 val)
 {

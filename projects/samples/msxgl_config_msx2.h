@@ -117,7 +117,6 @@
 #define INPUT_USE_MOUSE				TRUE	// Add support for Mouse handling functions
 #define INPUT_USE_DETECT			TRUE	// Add feature to detect device plugged in General purpose ports
 #define INPUT_USE_ISR_PROTECTION	TRUE	// Disable interruptions while access PSG registers (needed if you use BIOS or access PSG in your own ISR)
-#define INPUT_USE_MANAGER			TRUE	// Add input manager (IPM) with advanced input features
 #define INPUT_JOY_UPDATE			FALSE	// Add function to update all joystick states at once
 // Key update handler
 #define INPUT_KB_UPDATE				FALSE	// Add function to update all keyboard rows at once

@@ -70,7 +70,7 @@
 		ld		bc, #l__INITIALIZER
 		ld		a, b
 		or		a, c
-		jp		z, crt0_skip_globals	
+		jp		z, crt0_skip_globals
 		ld		de, #s__INITIALIZED
 		ld		hl, #s__INITIALIZER
 		ldir

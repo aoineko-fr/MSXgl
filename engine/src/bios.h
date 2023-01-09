@@ -54,7 +54,7 @@
 //
 // Parameters:
 //   ret - Return value (for MSX-DOS environment)
-void Bios_Exit(u8 ret) __FASTCALL;
+void Bios_Exit(u8 ret);
 
 // Function: Bios_SetKeyClick
 // Enable or disable key click

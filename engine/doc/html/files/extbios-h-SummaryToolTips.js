@@ -1,0 +1,1 @@
+﻿NDSummary.OnToolTipsLoaded("File:extbios.h",{820:"<div class=\"NDToolTip TFunction LC\"><div id=\"NDPrototype820\" class=\"NDPrototype\"><div class=\"PSection PPlainSection\"><span class=\"SHKeyword\">inline bool</span> ExtBIOS_Check()</div></div><div class=\"TTSummary\">Check id extended BIOS is installed</div></div>"});

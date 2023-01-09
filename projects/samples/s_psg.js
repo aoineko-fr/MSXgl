@@ -1,5 +1,9 @@
 //*****************************************************************************
-// PROJECT OVERWRITE
+// PROJECT CONFIG OVERWRITE
 //*****************************************************************************
+
+//-- Target MSX machine version (string)
 Machine = "1";
-LibModules = [ ...LibModules, "psg" ];
+
+//-- List of library modules to build (array)
+LibModules = [ "psg", ...LibModules ];

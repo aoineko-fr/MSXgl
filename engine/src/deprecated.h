@@ -55,3 +55,16 @@
 #define Mem_ChunkAlloc				Mem_DynamicAlloc
 #define Mem_ChunkFree				Mem_DynamicFree
 #define Mem_GetChunkSize			Mem_GetDynamicSize
+
+// MSX-DOS module
+#define DOS_NO_ERROR				DOS_ERR_NONE
+#define FCB							DOS_FCB
+#define DOS2_Open					DOS_FOpen
+#define DOS2_Create					DOS_FCreate
+#define DOS2_Close					DOS_FClose
+#define DOS2_Duplicate				DOS_FDuplicate
+#define DOS2_Read					DOS_FRead
+#define DOS2_Write					DOS_FWrite
+#define DOS2_LSeek					DOS_FSeek
+#define DOS2_Exit					DOS_Exit
+

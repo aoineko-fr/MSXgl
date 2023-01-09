@@ -35,11 +35,11 @@ void Mem_HeapFree(u16 size)
 
 //-----------------------------------------------------------------------------
 // Copy a memory block from a source address to an other
-void Mem_Copy(const void* src, void* dest, u16 size) __naked
+void Mem_Copy(const void* src, void* dest, u16 size) __NAKED // Stack: 4 bytes
 {
 	src;	// HL
 	dest;	// DE
-	size;	// SP+2
+	size;	// SP[2]
 	__asm
 		// Get parameters
 		pop		iy							// 16 cc (return address)
@@ -61,11 +61,11 @@ void Mem_Copy(const void* src, void* dest, u16 size) __naked
 //-----------------------------------------------------------------------------
 // Fast copy a memory block from a source address to a destination
 // This function use a unrolled LDI loop (18,75% faster ; break-even at 6 loops for multiple of 16 size or at 31 loops otherwise)
-void Mem_FastCopy(const void* src, void* dest, u16 size) __naked
+void Mem_FastCopy(const void* src, void* dest, u16 size) __NAKED // Stack: 4 bytes
 {
 	src;	// HL
 	dest;	// DE
-	size;	// SP+2
+	size;	// SP[2]
 	__asm
 		// Get parameters
 		pop		iy							// 16 cc (return address)
@@ -106,11 +106,11 @@ void Mem_FastCopy(const void* src, void* dest, u16 size) __naked
 
 //-----------------------------------------------------------------------------
 // Fill a memory block with a given value (minimal size: 2)
-void Mem_Set(u8 val, void* dest, u16 size) __naked
+void Mem_Set(u8 val, void* dest, u16 size) __NAKED // Stack: 4 bytes
 {
 	val;	// A
 	dest;	// DE
-	size;	// SP+2
+	size;	// SP[2]
 	__asm
 		push	de
 		pop		hl
@@ -139,11 +139,11 @@ void Mem_Set(u8 val, void* dest, u16 size) __naked
 #if (MEM_USE_FASTSET)
 //-----------------------------------------------------------------------------
 // Fast fill a memory block with a given value (minimal size of 2 bytes).
-void Mem_FastSet(u8 val, void* dest, u16 size) __naked
+void Mem_FastSet(u8 val, void* dest, u16 size) __NAKED // Stack: 4 bytes
 {
 	val;	// A
 	dest;	// DE
-	size;	// SP+2
+	size;	// SP[2]
 	__asm
 		push	de
 		pop		hl

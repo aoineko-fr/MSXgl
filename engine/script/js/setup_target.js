@@ -8,7 +8,6 @@
 
 // Configure alias
 if (Target === "DOS")     Target = "DOS1";
-if (Target === "DOS_ARG") Target = "DOS2_ARG";
 if (Target === "ROM")     Target = "ROM_32K";
 if (Target === "BAS")     Target = "BIN";
 if (Target === "USR")     Target = "BIN_USR";
@@ -269,19 +268,6 @@ else if (Target === "DOS2")
 	FillSize = 0;
 
 	TargetDesc = "MSX-DOS 2 program (starting at 0100h)";
-}
-//-----------------------------------------------------------------------------
-else if (Target === "DOS2_ARG")
-{
-	DOS = 2;
-	Ext = "com";
-	Crt0 = "crt0_dosarg";
-	StartAddr = 0x0100;
-	CodeAddr = 0x0180;
-	RamAddr = 0;
-	FillSize = 0;
-
-	TargetDesc = "MSX-DOS 2 program with command line arguments (starting at 0100h)";
 }
 
 //-----------------------------------------------------------------------------

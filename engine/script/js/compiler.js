@@ -66,13 +66,15 @@ module.exports.compile = function (file, size, seg)
 		let SDCCParam = `-c -mz80 --vc -DTARGET=TARGET_${Target} -DMSX_VERSION=MSX_${Machine} -I${ProjDir} -I${LibDir}src -I${LibDir}content ${AddOpt} ${file} -o ${OutDir}`;
 
 		util.print(`Compiling ${file} using SDCC C compiler...`, PrintHighlight);
-
 		let err = util.execSync(`${Compiler} ${SDCCParam}`);
 		if(err)
 		{
 			util.print(`Compile error! Code: ${err}`, PrintError);
 			process.exit(310);
 		}
+
+		// Generate dependencies list
+		// err = util.execSync(`${Compiler} -M ${SDCCParam} > ${OutDir}${path.parse(file).name}.dep`);
 
 		util.print(`Succeed`, PrintSucced);
 	}

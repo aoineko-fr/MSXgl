@@ -129,69 +129,10 @@
  <div class="CBody"><p>When INPUT_KB_UPDATE is TRUE, this function use data retreived by Keyboard_Update() function Otherwise, the function read the key's row before checking the key.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">key<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The key ID to check</p></td></tr></table><div class="CHeading">Return</div><p>TRUE if key is pressed</p></div>
 </div>
 
-<a name="Keyboard_IsKeyPushed"></a><a name="Topic615"></a><div class="CTopic TFunction LC">
+<a name="Keyboard_IsKeyPushed"></a><a name="Topic615"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">Keyboard_IsKeyPushed</div>
  <div id="NDPrototype615" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> Keyboard_IsKeyPushed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">key</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Check if a given key is just pushed Only available when INPUT_KB_UPDATE is TRUE</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">key<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The key ID to check</p></td></tr></table><div class="CHeading">Return</div><p>TRUE is the key was pushed this frame</p></div>
-</div>
-
-<a name="Input_Manager"></a><a name="Topic389"></a><div class="CTopic TGroup LC">
- <div class="CTitle">Input Manager</div>
- <div class="CBody"><p>Advanced input manager</p></div>
-</div>
-
-<a name="IPM_Initialize"></a><a name="Topic390"></a><div class="CTopic TFunction LC">
- <div class="CTitle">IPM_Initialize</div>
- <div id="NDPrototype390" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> IPM_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">IPM_Config*&nbsp;</td><td class="PName last">config</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Initialize input manager</p></div>
-</div>
-
-<a name="IPM_SetTimer"></a><a name="Topic391"></a><div class="CTopic TFunction LC">
- <div class="CTitle">IPM_SetTimer</div>
- <div id="NDPrototype391" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> IPM_SetTimer(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">doubleClk,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">hold</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Initialize input manager</p></div>
-</div>
-
-<a name="IPM_Update"></a><a name="Topic392"></a><div class="CTopic TFunction LC">
- <div class="CTitle">IPM_Update</div>
- <div id="NDPrototype392" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> IPM_Update()</div></div>
- <div class="CBody"><p>Update device manager</p></div>
-</div>
-
-<a name="IPM_RegisterEvent"></a><a name="Topic393"></a><div class="CTopic TFunction LC">
- <div class="CTitle">IPM_RegisterEvent</div>
- <div id="NDPrototype393" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> IPM_RegisterEvent(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">joy,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">input,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">event,</td></tr><tr><td class="PType first">IPM_cb&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Register a callback to a given device manager's event</p></div>
-</div>
-
-<a name="IPM_GetStatus"></a><a name="Topic394"></a><div class="CTopic TFunction LC">
- <div class="CTitle">IPM_GetStatus</div>
- <div id="NDPrototype394" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 IPM_GetStatus(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">joy</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get current device status</p></div>
-</div>
-
-<a name="IPM_GetStickDirection"></a><a name="Topic395"></a><div class="CTopic TFunction LC">
- <div class="CTitle">IPM_GetStickDirection</div>
- <div id="NDPrototype395" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 IPM_GetStickDirection(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">joy</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get current direction of the given device</p></div>
-</div>
-
-<a name="IPM_GetInputState"></a><a name="Topic396"></a><div class="CTopic TFunction LC">
- <div class="CTitle">IPM_GetInputState</div>
- <div id="NDPrototype396" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 IPM_GetInputState(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">joy,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">in</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get current device state</p></div>
-</div>
-
-<a name="IPM_GetInputTimer"></a><a name="Topic397"></a><div class="CTopic TFunction LC">
- <div class="CTitle">IPM_GetInputTimer</div>
- <div id="NDPrototype397" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 IPM_GetInputTimer(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">joy,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">in</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get current device state timer</p></div>
-</div>
-
-<a name="IPM_GetEventName"></a><a name="Topic398"></a><div class="CTopic TFunction LC last">
- <div class="CTitle">IPM_GetEventName</div>
- <div id="NDPrototype398" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">const</span> c8* IPM_GetEventName(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">ev</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get event name</p></div>
 </div>
 
 </body></html>

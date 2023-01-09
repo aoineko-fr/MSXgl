@@ -14,6 +14,7 @@
 // - Pratique du MSX 2
 //─────────────────────────────────────────────────────────────────────────────
 #include "bios.h"
+#include "dos.h"
 
 //-----------------------------------------------------------------------------
 //  █ █ █▀▀ █   █▀█ █▀▀ █▀█
@@ -23,16 +24,16 @@
 //-----------------------------------------------------------------------------
 // Handle clean transition to Basic or MSX-DOS environment
 // For MSX-DOS, return value is in L
-void Bios_Exit(u8 ret) __FASTCALL
+void Bios_Exit(u8 ret)
 {
+	ret;	// A
 #if (TARGET_TYPE == TYPE_DOS)
 
 	__asm
 	#if BIOS_USE_VDP
-		push	ix
-		push	hl
-		// Set Screen mode to 5...
-		ld		a, #5
+		push	af
+		// Set Screen mode to 2...
+		ld		a, #2
 		ld		ix, #R_CHGMOD
 		ld		iy, (M_EXPTBL-1)
 		call	R_CALSLT
@@ -40,33 +41,36 @@ void Bios_Exit(u8 ret) __FASTCALL
 		ld		ix, #R_TOTEXT
 		ld		iy, (M_EXPTBL-1)
 		call	R_CALSLT
-		ei
-		// Set return value to L
-		pop		hl
-		pop		ix
+		pop		af
 	#endif
+		ld		b, a
+		ld		c, #DOS_FUNC_TERM
+		call	BDOS
+		ld		c, #DOS_FUNC_TERM0
+		jp		BDOS
 	__endasm;
 
 #elif (TARGET_TYPE == TYPE_BIN)
 	
 	__asm
 	#if BIOS_USE_VDP
-		// Set Screen mode to 5...
-		ld		a, #5
+		// Set Screen mode to 2...
+		ld		a, #2
 		call	R_CHGMOD
 		// ... to be able to call TOTEXT routine
 		call	R_TOTEXT
 	#endif
 		// 
-		push	ix
-		ld		ix, #0x409B
+		ld		ix, #0x409B // address of "warm boot" BASIC interpreter
+		// this routine is called to reset the stack if basic is externally stopped and then restarted.
 		call	R_CALBAS
-		pop		ix
 	__endasm;
 
 #else // if (TARGET_TYPE == TYPE_ROM)
 
-	// Do nothing
+	__asm
+		call	0x0000				// Soft reset
+	__endasm;
 
 #endif
 }

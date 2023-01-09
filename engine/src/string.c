@@ -26,6 +26,8 @@ enum STRINT_PAD
 // Create a zero-terminated string from a 8-bits unsigned integer
 void String_FromUInt8ZT(u8 value, c8* string)
 {
+	value;	// A
+	string;	// DE
 __asm
 	call	_String_FromUInt8
 	xor		a
@@ -37,6 +39,8 @@ __endasm;
 // Create a string from a 8-bits unsigned integer (string is not zero-terminated)
 void String_FromUInt8(u8 value, c8* string)
 {
+	value;	// A
+	string; // DE
 __asm
 DispA:
 	ld		c, #-100
@@ -69,6 +73,8 @@ __endasm;
 // Create a zero-terminated string from a 16-bits unsigned integer
 void String_FromUInt16ZT(u16 value, c8* string)
 {
+	value;	// HL
+	string;	// DE
 __asm
 	call	_String_FromUInt16
 	xor		a
@@ -80,6 +86,8 @@ __endasm;
 // Create a string from a 16-bits unsigned integer (string is not zero-terminated)
 void String_FromUInt16(u16 value, c8* string)
 {
+	value;	// HL
+	string;	// DE
 __asm
 Num2Dec:
 	ld		bc, #-10000

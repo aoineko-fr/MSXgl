@@ -70,7 +70,6 @@ typedef void (*callback)(void);				// Callback default signature
 // Compilation switch
 //-----------------------------------------------------------------------------
 #pragma disable_warning	59		// Remove "function must return value" warning
-#pragma disable_warning	85		// Remove "unreferenced function argument" warning
 #pragma disable_warning	110		// Remove "conditional flow changed by optimizer: so said EVELYN the modified DOG" warning
 #pragma disable_warning	126		// Remove "unreachable code" warning
 #pragma disable_warning	218 	// Remove "z80instructionSize() failed to parse line node, assuming 999 bytes" info
@@ -96,24 +95,27 @@ typedef void (*callback)(void);				// Callback default signature
 //-----------------------------------------------------------------------------
 // SDCC calling convention 0
 //-----------------------------------------------------------------------------
+// Old SDCC calling convention
+// All parameters are pass through the call stack
 #define __SDCCCALL0					__sdcccall(0)
 
 //-----------------------------------------------------------------------------
 // SDCC calling convention 1
 //-----------------------------------------------------------------------------
-#define __SDCCCALL1					__sdcccall(1)
+// New SDCC calling convention
 // Parameters register:
 // - 8 bits					A
 // - 16 bits				HL
 // - 32 bits				HL:DE
-// - 8 + 8 bits				A + L
-// - 8 + 16 bits			A + DE
-// - 16 + 16 bits			HL + DE
+// - 8 + 8 bits				A, L
+// - 8 + 16 bits			A, DE
+// - 16 + 16 bits			HL, DE
 //
 // Return register:
 // - 8 bits					A
 // - 16 bits				DE
 // - 32 bits				HL:DE
+#define __SDCCCALL1					__sdcccall(1)
 
 //-----------------------------------------------------------------------------
 // z88dk fastcall calling convention
@@ -135,11 +137,22 @@ typedef void (*callback)(void);				// Callback default signature
 #define FC8816(a, b, c)				(u32)(((u32)(a) << 24) + ((u32)(b) << 16) + (c))					// D, E, HL
 #define FC8888(a, b, c, d)			(u32)(((u32)(a) << 24) + ((u32)(b) << 16) + ((u16)(c) << 8) + (d))	// D, E, H, L
 
+//-----------------------------------------------------------------------------
+// Misc. directives
+//-----------------------------------------------------------------------------
+
+// Tells the compiler not to add the function footer.
+// This concerns mainly the return statement (ret), but also the stack adjustment code
+// (by default, for all functions that return void or a value of 16 bits or less).
+#define __NAKED						__naked
+
+// Tells the compiler that the call stack adjustment is done by the called function and not the caller.
+// This is already the default behavior for functions that return void or a value of 16 bits or less, 
+// but not for those that return a value of 32 bits.
 #define __CALLEE					__z88dk_callee
 
-//-----------------------------------------------------------------------------
-// Preserves registers
-//-----------------------------------------------------------------------------
+// Tells the compiler which registers are not used in the function to prevent
+// the calling code from saving them unnecessarily before the call.
 #define __PRESERVES					__preserves_regs
 // __PRESERVES(a, f, b, c, d, e, h, l, iyl, iyh)
 

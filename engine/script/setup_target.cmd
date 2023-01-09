@@ -14,7 +14,6 @@ if not defined ROMSize set ROMSize=128
 if not defined USRAddr set USRAddr=C000
 
 if /I %Target%==DOS     set Target=DOS1
-if /I %Target%==DOS_ARG set Target=DOS2_ARG
 if /I %Target%==ROM     set Target=ROM_32K
 if /I %Target%==BAS     set Target=BIN
 if /I %Target%==USR     set Target=BIN_USR
@@ -293,20 +292,6 @@ if /I %Target%==DOS2 (
 	set FillSize=0
 
 	echo » Target: MSX-DOS 2 program ^(starting at 0100h^)
-	exit /B 0
-)
-::---------------------------------------------------------------------------
-if /I %Target%==DOS2_ARG (
-
-	set DOS=2
-	set Ext=com
-	set Crt0=crt0_dosarg
-	set StartAddr=0100
-	set CodeAddr=0180
-	set RamAddr=0
-	set FillSize=0
-
-	echo » Target: MSX-DOS 2 program with command line arguments ^(starting at 0100h^)
 	exit /B 0
 )
 

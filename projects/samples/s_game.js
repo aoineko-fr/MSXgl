@@ -1,5 +1,10 @@
 //*****************************************************************************
-// PROJECT OVERWRITE
+// PROJECT CONFIG OVERWRITE
 //*****************************************************************************
-LibModules = [ ...LibModules, "game", "game_pawn" ];
+
+//-- Target MSX machine version (string)
 Machine = "1";
+
+//-- List of library modules to build (array)
+LibModules = [ "game", "game_pawn", ...LibModules ];
+

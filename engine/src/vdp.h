@@ -412,6 +412,7 @@ inline u8 VDP_GetMode() { return g_VDP_Data.Mode; }
 inline bool VDP_IsBitmapMode(const u8 mode)
 {
 #if (MSX_VERSION == MSX_1)
+	mode;
 	return FALSE;
 #else
 	return mode >= VDP_MODE_GRAPHIC4;

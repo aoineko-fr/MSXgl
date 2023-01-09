@@ -1,18 +1,18 @@
 //*****************************************************************************
-// PROJECT OVERWRITE
+// PROJECT CONFIG OVERWRITE
 //*****************************************************************************
 
-// MSX machine version
+//-- Target MSX machine version (string)
 Machine = "1";
 
-// Program media target
+//-- Target program format (string)
 Target = "BIN_USR";
 
-// List of library modules to build
+//-- List of library modules to build (array)
 LibModules = [ "device/ninjatap", "bios" ];
 
-// Emulator port: joystick, mouse, keyboard (fake joystick)
+//-- Plug a virtual device into the joystick port A (string)
 EmulPortA = "NinjaTap";
 
-// Data to copy to disk
+//-- List of data files to copy to disk (array)
 DiskFiles = [ "content/misc/ntap_usr.bas" ];
