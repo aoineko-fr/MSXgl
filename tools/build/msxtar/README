@@ -1,0 +1,65 @@
+README for msxtar
+If you want to quickly run the tool, read the HOW-TO
+See the end of file for copying conditions.
+
+* Introduction
+
+`msxtar' saves many files together into a single diskimage , and can
+retrieve and update individual files from the image.  It includes FAT16
+support, the ability to access IDE-HD image partitions, automatic disk
+compression/decompression.
+
+msxtar generic options and descriptions are derived from GNU tar.
+
+See file `COPYING' for copying conditions.
+See file `INSTALL' for compilation and installation instructions.
+See file `NEWS' for a list of major changes in the current release.
+See file `THANKS' for a list of contributors.
+
+** gzip and bzip2.
+
+msxtar uses the gzip and bzip2 programs to read and write compressed
+archives.  If you don't have these programs already, you need to
+install them.  Their sources can be found at:
+
+ftp://ftp.gnu.org/gnu/gzip/
+http://sourceware.cygnus.com/bzip2/
+
+
+* Bug reporting.
+
+Send bug reports to <dhran@pi.be>.  A bug report should contain
+an adequate description of the problem, your input, what you expected,
+what you got, and why this is wrong.  Diffs are welcome, but they only
+describe a solution, from which the problem might be uneasy to infer.
+If needed, submit actual data files with your report.  Small data files
+are preferred.  Big files may sometimes be necessary, but do not send them
+to the report address; rather take special arrangement with the maintainer.
+
+Your feedback will help us to make a better and more portable package.
+Consider documentation errors as bugs, and report them as such.  If you
+develop anything pertaining to `msxtar' or have suggestions, let us know
+and share your findings by writing to <dhran@pi.be>.
+
+
+* Copying
+
+	Copyright (C) 2004 David Heremans
+
+	This file is part of msxtar.
+
+	msxtar is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2, or (at your option)
+	any later version.
+
+	msxtar is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with tar; see the file COPYING.  If not, write to
+	the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+	Boston, MA 02111-1307, USA.
+

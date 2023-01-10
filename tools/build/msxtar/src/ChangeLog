@@ -1,0 +1,55 @@
+$Id$
+
+2005-12-07 BouKiCHi
+	* Improved to get file's status correctly.
+	* Using common routines to get timestamp.
+	* Improved file listing to display more infomation.
+
+2005-12-05 BouKiCHi
+    * fixed number of entries in 1 sector to be calculated.
+	* supported backslash in filename of arguments for DOS users.
+	* improved to erase last charactor if it's a kind of slash.
+
+
+2005-12-04 BouKiCHi
+	* added a recognizing T98Image HDD image.
+	* fixed msxtar breaks up IDE image.
+	* improved some routines to compile on MinGW.
+	* improved ".." in sub directory to point to root properly.
+	* improved to ignore if first charactor in filename is '.'.
+
+2004-07-26 David Heremans <david.heremans@gnu-linux.net>
+	* Extract commands can now extract a list of single
+	  files/subdirs as listed on the command line
+	  Current implementation is rather restricted in its handling
+	  of preceding './' or '/' directory paths
+	  it doesn't (correctly) work if you specify them.
+	  and using '\' instead of '/' is not handled correctly neither 
+	  for the moment
+
+2004-07-15 David Heremans <david.heremans@gnu-linux.net>
+	* Introduced '--bootsector' option
+
+2004-07-14 David Heremans <david.heremans@gnu-linux.net>
+	* Introduced extra '--debug' option for personal purposes :-)
+	* Fixed a bug for files greater then one cluster
+	  This bug was introduced when adding update support
+
+2004-07-13 David Heremans <david.heremans@gnu-linux.net>
+	* Added the HOW-TO file
+	* Added a minimal Makefile
+
+2004-07-12 David Heremans <david.heremans@gnu-linux.net>
+	* Added update support for files
+	* Also build checks to verify if a subdir already exists
+
+2004-07-08 David Heremans <david.heremans@gnu-linux.net>
+	* Corrected a limitation in getNextSector
+	* Added partition support for update,list and extract commands
+
+2004-07-06 David Heremans <david.heremans@gnu-linux.net>
+	* Initial CVS commit. Only size=single,double and ide work,
+	  still possible to create twice the same filename in a directory
+	  during am image creation, no partition support yet...
+	  But good enough for 'normal' usage :-)
+
