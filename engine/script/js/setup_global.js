@@ -223,6 +223,9 @@ global.DiskFiles = [];
 //-- BASIC USR driver default address (number)
 global.USRAddr = 0xC000;
 
+//-- Parse MSX-DOS command-line arguments
+global.DOSParseArg = true;
+
 //*******************************************************************************
 // SIGNATURE SETTINGS
 //*******************************************************************************

@@ -219,6 +219,7 @@ if (DoCompile)
 	if (InstallRAMISR)           conf += "ROM_RAMISR=1\n";
 	if (CustomISR === "VHBLANK") conf += "ROM_ISR=ISR_VHBLANK\n";
 	if (CustomISR === "V9990")   conf += "ROM_ISR=ISR_V9990\n";
+	if (DOSParseArg)             conf += "DOS_PARSEARG=1\n";
 	// if (Machine != "1")          conf += "ISR_SET_S0=1\n";
 	if (AppSignature)
 	{

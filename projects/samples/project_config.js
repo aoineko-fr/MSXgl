@@ -106,6 +106,9 @@ CustomISR = "VBLANK";
 //-- BASIC USR driver default address (number)
 // USRAddr = 0xC000;
 
+//-- Parse MSX-DOS command-line arguments
+DOSParseArg = true;
+
 //*******************************************************************************
 // MAKE SETTINGS
 //*******************************************************************************

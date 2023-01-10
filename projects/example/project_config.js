@@ -106,6 +106,9 @@ Target = "ROM_32K";
 //-- BASIC USR driver default address (number)
 // USRAddr = 0xC000;
 
+//-- Parse MSX-DOS command-line arguments
+// DOSParseArg = false;
+
 //*******************************************************************************
 // SIGNATURE SETTINGS
 //*******************************************************************************
