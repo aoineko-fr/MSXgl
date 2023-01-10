@@ -139,7 +139,7 @@ global.Hex2Bin = `${ToolsDir}MSXtk/bin/MSXhex`;
 global.MSXDOS = `${ToolsDir}build/DOS`;
 
 //-- Path to the tool to generate DSK file (string)
-global.DskTool = `${ToolsDir}build/DskTool/dsktool`;
+global.DskTool = `${ToolsDir}build/msxtar/msxtar`;
 
 //-- Path to the emulator to launch the project (string)
 global.Emulator;
