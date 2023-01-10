@@ -73,14 +73,14 @@ void LoadImage(u8 srcMode, u8 imgIdx)
 	// Open File
 	Mem_Set(0, &g_File, sizeof(FCB));
 	Mem_Copy(g_FileList[imgIdx], &g_File.Name, 11);
-	DOS_Open(&g_File);
+	DOS_OpenFCB(&g_File);
 	
 	// Read file and copy content into VRAM
 	u16 dst = 0;
 	for (u16 i = 0; i < g_File.Size; i+=128)
 	{
 		DOS_SetTransferAddr(g_StrBuffer);
-		DOS_SequentialRead(&g_File);
+		DOS_SequentialReadFCB(&g_File);
 		
 		const u8* src;
 		u8 size;
@@ -98,7 +98,7 @@ void LoadImage(u8 srcMode, u8 imgIdx)
 		VDP_WriteVRAM_128K(src, dst, 0, size);
 		dst += size;
 	}
-	DOS_Close(&g_File);
+	DOS_CloseFCB(&g_File);
 
 	// Initialize font
 	Print_SetBitmapFont(g_Font_MGL_Sample6);
@@ -257,10 +257,10 @@ StartProgram:
 	Mem_Set(0, &g_File, sizeof(FCB));
 	Mem_Copy(wildcard, &g_File.Name, 11);
 	g_FileNum = 0;
-	if(DOS_FindFirstFile(&g_File) == DOS_SUCCESS)
+	if(DOS_FindFirstFileFCB(&g_File) == DOS_SUCCESS)
 	{
 		AddFile();
-		while(DOS_FindNextFile() == DOS_SUCCESS)
+		while(DOS_FindNextFileFCB() == DOS_SUCCESS)
 			AddFile();
 	}
 	DOS_Close(&g_File);

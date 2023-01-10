@@ -10,12 +10,12 @@
 // BUILD STEPS
 //*******************************************************************************
 
-DoClean   = false;	//-- Clear all intermediate files and exit (boolean)
-DoCompile = true;	//-- Compile all the project and engine source code (boolean). Generate all REL files
-DoMake    = true;	//-- Link all the project and engine source code (boolean). Merge all REL into one IHX file
-DoPackage = true;	//-- Generate final binary file (boolean). Binarize the IHX file
-DoDeploy  = true;	//-- Gathering of all files necessary for the program to work (boolean). Depends on the type of target
-DoRun     = false;	//-- Start the program automatically at the end of the build (boolean)
+// DoClean   = false;	//-- Clear all intermediate files and exit (boolean)
+// DoCompile = true;	//-- Compile all the project and engine source code (boolean). Generate all REL files
+// DoMake    = true;	//-- Link all the project and engine source code (boolean). Merge all REL into one IHX file
+// DoPackage = true;	//-- Generate final binary file (boolean). Binarize the IHX file
+// DoDeploy  = true;	//-- Gathering of all files necessary for the program to work (boolean). Depends on the type of target
+// DoRun     = true;	//-- Start the program automatically at the end of the build (boolean)
 
 //*****************************************************************************
 // TOOLS SETTINGS

@@ -67,4 +67,13 @@
 #define DOS2_Write					DOS_FWrite
 #define DOS2_LSeek					DOS_FSeek
 #define DOS2_Exit					DOS_Exit
-
+#define DOS_Open					DOS_OpenFCB
+#define DOS_GetSize					DOS_GetSizeFCB
+#define DOS_Create					DOS_CreateFCB
+#define DOS_Close					DOS_CloseFCB
+#define DOS_SequentialRead			DOS_SequentialReadFCB
+#define DOS_SequentialWrite			DOS_SequentialWriteFCB
+#define DOS_RandomBlockRead			DOS_RandomBlockReadFCB
+#define DOS_RandomBlockWrite		DOS_RandomBlockWriteFCB
+#define DOS_FindFirstFile			DOS_FindFirstFileFCB
+#define DOS_FindNextFile			DOS_FindNextFileFCB

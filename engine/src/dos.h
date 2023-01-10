@@ -1,9 +1,9 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄   ▄▄   ▄▄▄
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█		   │  ▄▄▄	▄▄	 ▄▄▄
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ █ ██ █ ▀█▄
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ▀█▄▀ ▄▄█▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
-//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
+//	by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // MSX-DOS routines handler 
 //
@@ -17,7 +17,33 @@
 
 #include "core.h"
 
-#define DOS_USE_UTILITIES TRUE
+//=============================================================================
+// OPTIONS VALIDATION
+//=============================================================================
+
+// DOS_USE_FCB
+#ifndef DOS_USE_FCB
+	#warning DOS_USE_FCB is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define DOS_USE_FCB				TRUE
+#endif
+
+// DOS_USE_HANDLE
+#ifndef DOS_USE_HANDLE
+	#warning DOS_USE_HANDLE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define DOS_USE_HANDLE			TRUE
+#endif
+
+// DOS_USE_UTILITIES
+#ifndef DOS_USE_UTILITIES
+	#warning DOS_USE_UTILITIES is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define DOS_USE_UTILITIES		TRUE
+#endif
+
+// DOS_USE_VALIDATOR
+#ifndef DOS_USE_VALIDATOR
+	#warning DOS_USE_VALIDATOR is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define DOS_USE_VALIDATOR		TRUE
+#endif
 
 //=============================================================================
 // DEFINES
@@ -73,16 +99,16 @@
 #define	DOS_FUNC_CURDRV				0x19 // Get default drive name
 #define	DOS_FUNC_SETDTA				0x1A // Set DMA address
 #define	DOS_FUNC_ALLOC				0x1B // Get disk information
-									     // 0x1C-0x20 no function
+										 // 0x1C-0x20 no function
 #define	DOS_FUNC_RDRND				0x21 // Write random file
 #define	DOS_FUNC_WRRND				0x22 // Read random file
 #define	DOS_FUNC_FSIZE				0x23 // Get file size
 #define	DOS_FUNC_SETRND				0x24 // Set random record field
-									     // 0x25 no function
+										 // 0x25 no function
 #define	DOS_FUNC_WRBLK				0x26 // Write random block
 #define	DOS_FUNC_RDBLK				0x27 // Read random block
 #define	DOS_FUNC_WRZER				0x28 // Write random file (00H is set to unused portion)
-									     // 0x29 no function
+										 // 0x29 no function
 #define	DOS_FUNC_GDATE				0x2A // Get date
 #define	DOS_FUNC_SDATE				0x2B // Set date
 #define	DOS_FUNC_GTIME				0x2C // Get time
@@ -93,7 +119,7 @@
 
 // MSX-DOS 2 routines
 #define DOS_FUNC_DPARM				0x31 // Get disk parameters
-									     // 0x1C-0x20 no function
+										 // 0x1C-0x20 no function
 #define DOS_FUNC_FFIRST				0x40 // Find first entry
 #define DOS_FUNC_FNEXT				0x41 // Find next entry
 #define DOS_FUNC_FNEW				0x42 // Find new entry
@@ -201,7 +227,7 @@
 #define DOS_ERR_ELONG				0xBF // Environment string too long - Environment item name or value string is either longer than the maximum allowed length of 255, or is too long for the user's buffer.
 #define DOS_ERR_IDATE				0xBE // Invalid date - Date parameters passed to "set date" are invalid.
 #define DOS_ERR_ITIME				0xBD // Invalid time - Time parameters passed to "set time" are invalid.
-#define DOS_ERR_RAMDX 				0xBC // RAM disk (drive H:) already exists - Returned from the "ramdisk" function if trying to create a RAM disk when one already exists.
+#define DOS_ERR_RAMDX				0xBC // RAM disk (drive H:) already exists - Returned from the "ramdisk" function if trying to create a RAM disk when one already exists.
 #define DOS_ERR _NRAMD				0xBB // RAM disk does not exist - Attempt to delete the RAM disk when it does not currently exist. A function which tries to access a non-existent RAM disk will get a .IDRV error.
 #define DOS_ERR_HDEAD				0xBA // File handle has been deleted - The file associate with a file handle has been deleted so the file handle can no longer be used.
 #define DOS_ERR_EOL					0xB9 // - Internal error should never occur.
@@ -244,6 +270,7 @@
 #define DOS_VER_NONE				0
 #define DOS_VER_1					1
 #define DOS_VER_2					2
+#define DOS_VER_NEXTOR				3
 
 // Special control characters
 #define CTRL_BEEP					0x07 // Produces a simple 'beep' PSG sound
@@ -286,14 +313,14 @@
 enum DOS_DRIVE
 {
 	DOS_DRIVE_DEFAULT = 0x00,
-	DOS_DRIVE_A       = 0x01,
-	DOS_DRIVE_B       = 0x02,
-	DOS_DRIVE_C       = 0x03,
-	DOS_DRIVE_D       = 0x04,
-	DOS_DRIVE_E       = 0x05,
-	DOS_DRIVE_F       = 0x06,
-	DOS_DRIVE_G       = 0x07,
-	DOS_DRIVE_H       = 0x08,
+	DOS_DRIVE_A		  = 0x01,
+	DOS_DRIVE_B		  = 0x02,
+	DOS_DRIVE_C		  = 0x03,
+	DOS_DRIVE_D		  = 0x04,
+	DOS_DRIVE_E		  = 0x05,
+	DOS_DRIVE_F		  = 0x06,
+	DOS_DRIVE_G		  = 0x07,
+	DOS_DRIVE_H		  = 0x08,
 };
 
 // Get driver number from letter
@@ -303,57 +330,74 @@ enum DOS_DRIVE
 enum DOS_DEVICE
 {
 	// Disk devices
-	DOS_DEVICE_DRIVE_A   = 0x40,
-	DOS_DEVICE_DRIVE_B   = 0x41,
-	DOS_DEVICE_DRIVE_C   = 0x42,
-	DOS_DEVICE_DRIVE_D   = 0x43,
-	DOS_DEVICE_DRIVE_E   = 0x44,
-	DOS_DEVICE_DRIVE_F   = 0x45,
-	DOS_DEVICE_DRIVE_G   = 0x46,
-	DOS_DEVICE_DRIVE_H   = 0x47,
+	DOS_DEVICE_DRIVE_A	 = 0x40,
+	DOS_DEVICE_DRIVE_B	 = 0x41,
+	DOS_DEVICE_DRIVE_C	 = 0x42,
+	DOS_DEVICE_DRIVE_D	 = 0x43,
+	DOS_DEVICE_DRIVE_E	 = 0x44,
+	DOS_DEVICE_DRIVE_F	 = 0x45,
+	DOS_DEVICE_DRIVE_G	 = 0x46,
+	DOS_DEVICE_DRIVE_H	 = 0x47,
 	// Special devices
-	DOS_DEVICE_PRINTER   = 0xFB,
-	DOS_DEVICE_LIST      = 0xFC,
-	DOS_DEVICE_NULL      = 0xFC,
+	DOS_DEVICE_PRINTER	 = 0xFB,
+	DOS_DEVICE_LIST		 = 0xFC,
+	DOS_DEVICE_NULL		 = 0xFC,
 	DOS_DEVICE_AUXILIARY = 0xFE,
-	DOS_DEVICE_CONSOLE   = 0xFF,
+	DOS_DEVICE_CONSOLE	 = 0xFF,
 };
+
+// C-style alias to manage file through handle
+#define DOS_FOpen					DOS_OpenHandle
+#define DOS_FCreate					DOS_CreateHandle
+#define DOS_FClose					DOS_CloseHandle
+#define DOS_FEnsure					DOS_EnsureHandle
+#define DOS_FDuplicate				DOS_DuplicateHandle
+#define DOS_FRead					DOS_ReadHandle
+#define DOS_FWrite					DOS_WriteHandle
+#define DOS_FSeek					DOS_SeekHandle
+#define DOS_FDelete					DOS_DeleteHandle
+#define DOS_FRename					DOS_RenameHandle
+#define DOS_FMove					DOS_MoveHandle
+#define DOS_FSetAttribute			DOS_SetAttributeHandle
+#define DOS_FGetAttribute			DOS_GetAttributeHandle
 
 // File Control Block structure
 typedef struct
 {
-	u8  Drive;			// Drive number containing the file. (0 for Default drive, 1 for A, 2 for B, ..., 8 for H)
-	c8  Name[11];		// Filename (format: 8.3)
+	u8	Drive;			// Drive number containing the file. (0 for Default drive, 1 for A, 2 for B, ..., 8 for H)
+	c8	Name[11];		// Filename (format: 8.3)
 	u16 CurrentBlock;	// Number of blocks from the top of the file to the current block
 	u16 RecordSize;	
 	u32 Size;
 	u16 Date;			// The two bytes format for DATE are [YYYYYYYM|MMMDDDDD].
 	u16 Time;
-	u8  DeviceID;
-	u8  Directory;
+	u8	DeviceID;
+	u8	Directory;
 	u16 TopCluster;		// Top cluster number of the file
 	u16 LastCluster;	// Last cluster number accessed
 	u16 RelativeLoc;	// Relative location from top cluster of the file
-	u8  CurrentRecord;
+	u8	CurrentRecord;
 	u32 RandomRecord;	// Record order from the top of the file
 } DOS_FCB;
 
 // File info block
 typedef struct
 {
-	u8  Ident;						//      0 - Always 0FFh
-	u8  Filename[13];				//  1..13 - Filename as an ASCIIZ string
-	u8  Attribute;					//     14 - File attributes byte
+	u8	Ident;						//		0 - Always 0FFh
+	u8	Filename[13];				//	1..13 - Filename as an ASCIIZ string
+	u8	Attribute;					//	   14 - File attributes byte
 	u16 Time;						// 15..16 - Time of last modification
 	u16 Date;						// 17..18 - Date of last modification
 	u16 Cluster;					// 19..20 - Start cluster
 	u32 Size;						// 21..24 - File size
-	u8  Drive;						//     25 - Logical drive
-	u8  Reserved[38];				// 26..63 - Internal information, must not be modified
+	u8	Drive;						//	   25 - Logical drive
+	u8	Reserved[38];				// 26..63 - Internal information, must not be modified
 } DOS_FIB;
 
+#if (DOS_USE_VALIDATOR)
 // Backup of the last error value
 extern u8 g_DOS_LastError;
+#endif
 
 // Backup of the last file info block
 extern DOS_FIB g_DOS_LastFIB;
@@ -374,40 +418,45 @@ typedef struct
 typedef struct
 {
 	u16 Year;
-	u8  Month;
-	u8  Date;
-	u8  Day;
-	u8  Hour;
-	u8  Minute;
-	u8  Second;
+	u8	Month;
+	u8	Date;
+	u8	Day;
+	u8	Hour;
+	u8	Minute;
+	u8	Second;
 } DOS_Time;
 
 // MSX-DOS 2 disk parameters structure
 typedef struct
 {
-	u8  DriveNum;					// Physical drive number (1=A: etc)
+	u8	DriveNum;					// Physical drive number (1=A: etc)
 	u16 SectorSize;					// Sector size (always 512 currently)
-	u8  ClusterSectors;				// Sectors per cluster (non-zero power of 2)
+	u8	ClusterSectors;				// Sectors per cluster (non-zero power of 2)
 	u16 ReservedSectors;			// Number of reserved sectors (usually 1)
-	u8  FATNum;						// Number of copies of the FAT (usually 2)
+	u8	FATNum;						// Number of copies of the FAT (usually 2)
 	u16 RootNum;					// Number of root directory entries
 	u16 LogicalSectors;				// Total number of logical sectors
-	u8  Media;						// Media descriptor byte
-	u8  FATSectors;					// Number of sectors per FAT
+	u8	Media;						// Media descriptor byte
+	u8	FATSectors;					// Number of sectors per FAT
 	u16 RootSector;					// First root directory sector number
 	u16 DataSector;					// First data sector number
 	u16 MaxClusters;				// Maximum cluster number
-	u8  DirtyFlag;					// Dirty disk flag
+	u8	DirtyFlag;					// Dirty disk flag
 	u32 VolumeID;					// Volume id. (-1 => no volume id.)
-	u8  Reserved[8];				// Reserved (currently always zero)
+	u8	Reserved[8];				// Reserved (currently always zero)
 } DOS_DiskParam;
+
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// Goup: Console IO
+// MSX-DOS 1 FUNCTIONS
+//-----------------------------------------------------------------------------
+
+//.............................................................................
+// Goup: MSX-DOS 1 Core
 
 // Function: DOS_Call
 // Call a BDOS function
@@ -416,6 +465,9 @@ void DOS_Call(u8 func);
 // Function: DOS_Exit0
 // Exit program and return to DOS
 void DOS_Exit0();
+
+//.............................................................................
+// Goup: MSX-DOS 1 Console IO
 
 // Function: DOS_CharacterOutput
 // Output character
@@ -441,109 +493,132 @@ inline void DOS_ClearScreen() { DOS_CharOutput(CTRL_CLS); }
 // Carriage return
 inline void DOS_Return() { DOS_StringOutput("\n\r$"); }
 
-//-----------------------------------------------------------------------------
-// Goup: File Handling
+//.............................................................................
+// Goup: MSX-DOS 1 File Handling
+#if (DOS_USE_FCB)
 
 // Function: DOS_SetTransferAddr
 // Set transfer address
-i8 DOS_SetTransferAddr(void* data);
+void DOS_SetTransferAddr(void* data);
 
-// Function: DOS_Open
+// Function: DOS_OpenFCB
 // Open file
-i8 DOS_Open(DOS_FCB* stream);
+i8 DOS_OpenFCB(DOS_FCB* stream);
 
-// Function: DOS_GetFileSize
+// Function: DOS_GetSizeFCB
 // Get the size of an opened file
-inline u32 DOS_GetSize(DOS_FCB* stream) { return stream->Size; }
+inline u32 DOS_GetSizeFCB(DOS_FCB* stream) { return stream->Size; }
 
-// Function: DOS_Create
+// Function: DOS_CreateFCB
 // Create file
-i8 DOS_Create(DOS_FCB* stream);
+i8 DOS_CreateFCB(DOS_FCB* stream);
 
-// Function: DOS_Close
+// Function: DOS_CloseFCB
 // Close file
-i8 DOS_Close(DOS_FCB* stream);
+i8 DOS_CloseFCB(DOS_FCB* stream);
 
-// Function: DOS_SequentialRead
+// Function: DOS_SequentialReadFCB
 // Sequential read
-i8 DOS_SequentialRead(DOS_FCB* stream);
+i8 DOS_SequentialReadFCB(DOS_FCB* stream);
 
-// Function: DOS_SequentialWrite
+// Function: DOS_SequentialWriteFCB
 // Sequential write
-i8 DOS_SequentialWrite(DOS_FCB* stream);
+i8 DOS_SequentialWriteFCB(DOS_FCB* stream);
 
-// Function: DOS_RandomBlockRead
+// Function: DOS_RandomBlockReadFCB
 // Random block read
-u16 DOS_RandomBlockRead(DOS_FCB* stream, u16 records);
+u16 DOS_RandomBlockReadFCB(DOS_FCB* stream, u16 records);
 
-// Function: DOS_RandomBlockWrite
+// Function: DOS_RandomBlockWriteFCB
 // Random block write
-u16 DOS_RandomBlockWrite(DOS_FCB* stream, u16 records);
+u16 DOS_RandomBlockWriteFCB(DOS_FCB* stream, u16 records);
 
-// Function: DOS_FindFirstFile
+// Function: DOS_FindFirstFileFCB
 // Search the first file matched with wildcard
-i8 DOS_FindFirstFile(DOS_FCB* stream);
+i8 DOS_FindFirstFileFCB(DOS_FCB* stream);
 
-// Function: DOS_FindNextFile
+// Function: DOS_FindNextFileFCB
 // Search the second and after the second file matched wildcard
-i8 DOS_FindNextFile();
+i8 DOS_FindNextFileFCB();
+
+#endif // (DOS_USE_FCB)
 
 //-----------------------------------------------------------------------------
-// Goup: MSX-DOS 2
+// MSX-DOS 2 FUNCTIONS
+//-----------------------------------------------------------------------------
 #if (TARGET == TARGET_DOS2)
+
+//.............................................................................
+// Goup: MSX-DOS 2 File Handling
+#if (DOS_USE_HANDLE)
+
+// Function: DOS_OpenHandle
+// Open file handle
+u8 DOS_OpenHandle(const c8* path, u8 mode);
+
+// Function: DOS_CreateHandle
+// Create file handle
+u8 DOS_CreateHandle(const c8* path, u8 mode, u8 attr);
+
+// Function: DOS_CloseHandle
+// Close file handle
+u8 DOS_CloseHandle(u8 file);
+
+// Function: DOS_EnsureHandle
+// Ensure file handle
+u8 DOS_EnsureHandle(u8 file);
+
+// Function: DOS_DuplicateHandle
+// Duplicate file handle
+u8 DOS_DuplicateHandle(u8 file);
+
+// Function: DOS_ReadHandle
+// Read from file handle
+u16 DOS_ReadHandle(u8 file, void* buffer, u16 size);
+
+// Function: DOS_WriteHandle
+// Write to file handle
+u16 DOS_WriteHandle(u8 file, const void* buffer, u16 size);
+
+// Function: DOS_FeekHandle
+// Move file handle pointer
+u32 DOS_SeekHandle(u8 file, u32 offset, u8 mode) __CALLEE;
+
+// Function: DOS_DeleteHandle
+// Delete file or subdirectory
+u8 DOS_DeleteHandle(u8 file);
+
+// Function: DOS_RenameHandle
+// Rename file or subdirectory
+u8 DOS_RenameHandle(u8 file, const c8* newPath);
+
+// Function: DOS_MoveHandle
+// Move the file associated with the specified file handle to the directory specified by the new path string.
+// A file handle cannot be moved if there are any other separately opened file handles for this file (".FOPEN" error),
+// although it can be moved if there are copies of this file handle, and in this case the copies will also be moved.
+// Moving a file handle will not alter the file pointer but it will do an implicit "ensure" operation.
+u8 DOS_MoveHandle(u8 file, const c8* newPath);
+
+// Function: DOS_SetAttributeHandle
+// Set the attributes byte of the file associated with the specified file handle.
+// A file handle cannot have its attributes changed (although they can be read) if there are any other separately opened file handles for this file (".FOPEN" error).
+// The file pointer will not be altered but an implicit "ensure" operation will be done.
+u8 DOS_SetAttributeHandle(u8 file, u8 attr);
+
+// Function: DOS_GetAttributeHandle
+// Get the attributes byte of the file associated with the specified file handle.
+// A file handle cannot have its attributes changed (although they can be read) if there are any other separately opened file handles for this file (".FOPEN" error).
+// The file pointer will not be altered but an implicit "ensure" operation will be done.
+u8 DOS_GetAttributeHandle(u8 file);
+
+#endif // (DOS_USE_HANDLE)
+
+//.............................................................................
+// Goup: MSX-DOS 2 Core
 
 // Function: DOS_GetDiskParam
 // Get disk parameters
 u8 DOS_GetDiskParam(u8 drv, DOS_DiskParam* param);
-
-//.............................................................................
-// File search
-
-// Function: DOS_GetDiskParam
-// Find first entry
-DOS_FIB* DOS_FindFirstEntry(const c8* filename, u8 attr);
-
-// Function: DOS_FindNextEntry
-// Find next entry
-DOS_FIB* DOS_FindNextEntry();
-
-//.............................................................................
-// File handling
-
-// Function: DOS_FOpen
-// Open file handle
-u8 DOS_FOpen(const c8* path, u8 mode);
-
-// Function: DOS_FCreate
-// Create file handle
-u8 DOS_FCreate(const c8* path, u8 mode, u8 attr);
-
-// Function: DOS_FClose
-// Close file handle
-u8 DOS_FClose(u8 file);
-
-// Function: DOS_FEnsure
-// Ensure file handle
-u8 DOS_FEnsure(u8 file);
-
-// Function: DOS_FDuplicate
-// Duplicate file handle
-u8 DOS_FDuplicate(u8 file);
-
-// Function: DOS_FRead
-// Read from file handle
-u16 DOS_FRead(u8 file, void* buffer, u16 size);
-
-// Function: DOS_FWrite
-// Write to file handle
-u16 DOS_FWrite(u8 file, const void* buffer, u16 size);
-
-// Function: DOS_FSeek
-// Move file handle pointer
-u32 DOS_FSeek(u8 file, u32 offset, u8 mode) __CALLEE;
-
-//.............................................................................
-// Misc.
 
 // Function: DOS_Exit
 // Terminate with error code
@@ -553,9 +628,23 @@ void DOS_Exit(u8 err);
 // Explain error code
 void DOS_Explain(u8 err, c8* str);
 
+#if (DOS_USE_VALIDATOR)
 // Function: DOS_GetLastError
 // Get last error code
 inline u8 DOS_GetLastError() { return g_DOS_LastError; }
+#endif // (DOS_USE_VALIDATOR)
+
+//.............................................................................
+// Goup: MSX-DOS 2 Utilities
+#if (DOS_USE_UTILITIES)
+
+// Function: DOS_GetDiskParam
+// Find first entry
+DOS_FIB* DOS_FindFirstEntry(const c8* filename, u8 attr);
+
+// Function: DOS_FindNextEntry
+// Find next entry
+DOS_FIB* DOS_FindNextEntry();
 
 // Function: DOS_GetLastFileInfo
 // Get last file info
@@ -585,8 +674,6 @@ inline u8 DOS_GetFileMinute(const DOS_FIB* fib) { return (fib->Time & 0x07FF) >>
 // Get last error code
 inline u8 DOS_GetFileSecond(const DOS_FIB* fib) { return (fib->Time & 0x1F) << 1; }
 
-#if (DOS_USE_UTILITIES)
-
 // Function: DOS_Delete
 // Delete file or subdirectory
 u8 DOS_Delete(const c8* path);
@@ -599,12 +686,21 @@ u8 DOS_Rename(const c8* path, const c8* newPath);
 // Move file or subdirectory
 u8 DOS_Move(const c8* path, const c8* newPath);
 
+// Function: DOS_SetAttribute
+// Set file attributes
+u8 DOS_SetAttribute(const c8* path, u8 attr);
+
+// Function: DOS_GetAttribute
+// Get file attributes
+u8 DOS_GetAttribute(const c8* path);
 
 #endif // (DOS_USE_UTILITIES)
 
 #endif // (TARGET == TARGET_DOS2)
 
+//.............................................................................
+// Goup: Misc
+
 // Function: DOS_GetVersion
 // Get MSX-DOS version number
 u8 DOS_GetVersion(DOS_Version* ver);
-
