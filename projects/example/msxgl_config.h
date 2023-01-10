@@ -133,12 +133,13 @@
 #define MEM_USE_DYNAMIC				TRUE	// Add support for malloc style dynamic allocator
 
 //-----------------------------------------------------------------------------
-// DOS MODULE
+// MSX-DOS MODULE
 //-----------------------------------------------------------------------------
 
 #define DOS_USE_FCB					TRUE	// Add support for file managment features through FCB structure
 #define DOS_USE_HANDLE				TRUE	// Add support for file managment features through file handle
 #define DOS_USE_UTILITIES			TRUE	// Add support for file managment features through filename
+#define DOS_USE_VALIDATOR			TRUE	// Add support for last error backup and return value validation
 
 //-----------------------------------------------------------------------------
 // DRAW MODULE

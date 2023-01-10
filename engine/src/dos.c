@@ -112,7 +112,7 @@ __endasm;
 //  The unopened FCB must contain a drive which may be zero to indicate the current drive and a filename and extension which may be ambiguous.
 //  The current directory of the specified drive will be searched for a matching file and if found it will be opened.
 //  Matching entries which are sub-directories or system files will be ignored, and if the filename is ambiguous then the first suitable matching entry will be opened.
-i8 DOS_OpenFCB(FCB* stream)
+u8 DOS_OpenFCB(FCB* stream)
 {
 	stream;	// HL
 __asm
@@ -131,7 +131,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Create file
-i8 DOS_CreateFCB(FCB* stream)
+u8 DOS_CreateFCB(FCB* stream)
 {
 	stream;	// HL
 __asm
@@ -150,7 +150,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Close file
-i8 DOS_CloseFCB(FCB* stream)
+u8 DOS_CloseFCB(FCB* stream)
 {
 	stream;	// HL
 __asm
@@ -169,7 +169,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Sequential read
-i8 DOS_SequentialReadFCB(FCB* stream)
+u8 DOS_SequentialReadFCB(FCB* stream)
 {
 	stream;	// HL
 __asm
@@ -188,7 +188,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Sequential write
-i8 DOS_SequentialWriteFCB(FCB* stream)
+u8 DOS_SequentialWriteFCB(FCB* stream)
 {
 	stream;	// HL
 __asm
@@ -197,6 +197,26 @@ __asm
 	ex		de, hl
 	// Sequential write
 	ld		c, #DOS_FUNC_WRSEQ
+	call	BDOS
+#if (DOS_USE_VALIDATOR)
+	ld		(_g_DOS_LastError), a
+#endif
+	pop		ix
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Random block write
+u8 DOS_RandomBlockWriteFCB(FCB* stream, u16 records)
+{
+	stream;		// HL
+	records;	// DE
+__asm
+	push	ix
+	// FCB pointer
+	ex		de, hl
+	// Write random block
+	ld		c, #DOS_FUNC_WRBLK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
@@ -227,29 +247,8 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-// Random block write
-u16 DOS_RandomBlockWriteFCB(FCB* stream, u16 records)
-{
-	stream;		// HL
-	records;	// DE
-__asm
-	push	ix
-	// FCB pointer
-	ex		de, hl
-	// Write random block
-	ld		c, #DOS_FUNC_WRBLK
-	call	BDOS
-#if (DOS_USE_VALIDATOR)
-	ld		(_g_DOS_LastError), a
-#endif
-	ex		de, hl	// DE becomes actual number of records written
-	pop		ix
-__endasm;
-}
-
-//-----------------------------------------------------------------------------
 // Search the first file matched with wildcard
-i8 DOS_FindFirstFileFCB(FCB* stream)
+u8 DOS_FindFirstFileFCB(FCB* stream)
 {
 	stream; // HL
 __asm
@@ -267,7 +266,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Search the second and after the second file matched wildcard
-i8 DOS_FindNextFileFCB()
+u8 DOS_FindNextFileFCB()
 {
 __asm
 	push	ix
@@ -702,12 +701,12 @@ __asm
 	// check error
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
+#endif
 	or		a
 	jp		z, findnxt_ok
 	ld		e, #0
 	ld		d, e
 	jp		findnxt_end
-#endif
 findnxt_ok:
 	ld		de, #_g_DOS_LastFIB
 findnxt_end:

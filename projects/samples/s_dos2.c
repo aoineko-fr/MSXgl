@@ -170,6 +170,7 @@ void WaitKeyPress()
 	DOS_CharInput();
 }
 
+#if (DOS_USE_VALIDATOR)
 //-----------------------------------------------------------------------------
 // 
 void DisplayLastError()
@@ -180,6 +181,7 @@ void DisplayLastError()
 	WaitKeyPress();
 	Bios_Exit(0);
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // 
@@ -210,18 +212,22 @@ void DisplayFile()
 	Print_SetPosition(0, 16);
 	Print_DrawText("\x07""Searching for '*.sc5'... ");
 	DOS_FIB* fib = DOS_FindFirstEntry("*.SC5", 0);
+#if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
 	if(err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
 	}
+#endif
 	Print_DrawText("OK\n");
-	while(err == DOS_ERR_NONE)
+	while(fib)
 	{
 		Print_DrawFormat(" Found: %s\n", fib->Filename);
 		fib = DOS_FindNextEntry();
+#if (DOS_USE_VALIDATOR)
 		err = DOS_GetLastError();
+#endif
 	}
 
 	WaitKeyPress();
@@ -235,44 +241,52 @@ void DisplayFile()
 	Print_SetPosition(0, 16);
 	Print_DrawText("\x07""Opening 'image01.sc5'... ");
 	u8 file = DOS_FOpen("IMAGE01.SC5", O_RDONLY);
+#if (DOS_USE_VALIDATOR)
 	if(file == 0xFF)
 	{
 		DisplayLastError();
 		return;
 	}
+#endif
 	Print_DrawFormat("OK (%d)\n", file);
 
 	// Seek
 	Print_DrawText("\x07""Seeking 7 bytes (skip header)... ");
 	u32 seek = DOS_FSeek(file, 7, SEEK_SET);
+#if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
 	if(err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
 	}
+#endif
 	Print_DrawText("OK\n");
 
 	// Seek
 	Print_DrawText("\x07""Seeking 2 KB (16 lines)... ");
 	seek = DOS_FSeek(file, 2048, SEEK_CUR);
+#if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
 	if(err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
 	}
+#endif
 	Print_DrawText("OK\n");
 
 	// Read
 	Print_DrawText("\x07""Reading 4 KB (32 lines)... ");
 	u16 read = DOS_FRead(file, g_FileBuffer, 4096);
+#if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
 	if(err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
 	}
+#endif
 	Print_DrawText("OK\n");
 	VDP_WriteVRAM_128K(g_FileBuffer, 128 * g_PrintData.CursorY, 0, 4096);
 
@@ -280,17 +294,20 @@ void DisplayFile()
 	g_PrintData.CursorY += 32;
 	Print_DrawText("\x07""Closing 'image01.sc5'... ");
 	err = DOS_FClose(file);
+#if (DOS_USE_VALIDATOR)
 	if(err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
 	}
+#endif
 	Print_DrawText("OK\n");
 
 	// Create folder
 	Print_Return();
 	Print_DrawText("\x07""Creating 'tmp' directory... ");
 	file = DOS_FCreate("tmp", O_RDWR, ATTR_FOLDER);
+#if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
 	if(err == DOS_ERR_NONE)
 		Print_DrawText("OK\n");
@@ -301,48 +318,57 @@ void DisplayFile()
 		DisplayLastError();
 		return;
 	}
+#endif
 
 	// Create file
 	Print_DrawText("\x07""Creating 'tmp\\a.bin' file... ");
 	file = DOS_FCreate("tmp\\a.bin", O_RDWR, 0);
+#if (DOS_USE_VALIDATOR)
 	if(file == 0xFF)
 	{
 		DisplayLastError();
 		return;
 	}
+#endif
 	Print_DrawFormat("OK (%d)\n", file);
 
 	// Write
 	Print_DrawText("\x07""Writing 4 KB (32 lines)... ");
 	u16 write = DOS_FWrite(file, g_FileBuffer, 4096);
+#if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
 	if(err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
 	}
+#endif
 	Print_DrawText("OK\n");
 
 	// Seek
 	Print_DrawText("\x07""Rewinding file... ");
 	seek = DOS_FSeek(file, 0, SEEK_SET);
+#if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
 	if(err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
 	}
+#endif
 	Print_DrawText("OK\n");
 
 	// Read
 	Print_DrawText("\x07""Reading 4 KB (32 lines)... ");
 	read = DOS_FRead(file, g_FileBuffer, 4096);
+#if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
 	if(err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
 	}
+#endif
 	Print_DrawText("OK\n");
 	VDP_WriteVRAM_128K(g_FileBuffer, 128 * g_PrintData.CursorY, 0, 4096);
 
@@ -350,11 +376,13 @@ void DisplayFile()
 	g_PrintData.CursorY += 32;
 	Print_DrawText("\x07""Closing 'tmp\\a.bin'... ");
 	err = DOS_FClose(file);
+#if (DOS_USE_VALIDATOR)
 	if(err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
 	}
+#endif
 	Print_DrawText("OK\n");
 
 	WaitKeyPress();

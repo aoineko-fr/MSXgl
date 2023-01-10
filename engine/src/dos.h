@@ -503,7 +503,7 @@ void DOS_SetTransferAddr(void* data);
 
 // Function: DOS_OpenFCB
 // Open file
-i8 DOS_OpenFCB(DOS_FCB* stream);
+u8 DOS_OpenFCB(DOS_FCB* stream);
 
 // Function: DOS_GetSizeFCB
 // Get the size of an opened file
@@ -511,35 +511,35 @@ inline u32 DOS_GetSizeFCB(DOS_FCB* stream) { return stream->Size; }
 
 // Function: DOS_CreateFCB
 // Create file
-i8 DOS_CreateFCB(DOS_FCB* stream);
+u8 DOS_CreateFCB(DOS_FCB* stream);
 
 // Function: DOS_CloseFCB
 // Close file
-i8 DOS_CloseFCB(DOS_FCB* stream);
+u8 DOS_CloseFCB(DOS_FCB* stream);
 
 // Function: DOS_SequentialReadFCB
 // Sequential read
-i8 DOS_SequentialReadFCB(DOS_FCB* stream);
+u8 DOS_SequentialReadFCB(DOS_FCB* stream);
 
 // Function: DOS_SequentialWriteFCB
 // Sequential write
-i8 DOS_SequentialWriteFCB(DOS_FCB* stream);
+u8 DOS_SequentialWriteFCB(DOS_FCB* stream);
+
+// Function: DOS_RandomBlockWriteFCB
+// Random block write
+u8 DOS_RandomBlockWriteFCB(DOS_FCB* stream, u16 records);
 
 // Function: DOS_RandomBlockReadFCB
 // Random block read
 u16 DOS_RandomBlockReadFCB(DOS_FCB* stream, u16 records);
 
-// Function: DOS_RandomBlockWriteFCB
-// Random block write
-u16 DOS_RandomBlockWriteFCB(DOS_FCB* stream, u16 records);
-
 // Function: DOS_FindFirstFileFCB
 // Search the first file matched with wildcard
-i8 DOS_FindFirstFileFCB(DOS_FCB* stream);
+u8 DOS_FindFirstFileFCB(DOS_FCB* stream);
 
 // Function: DOS_FindNextFileFCB
 // Search the second and after the second file matched wildcard
-i8 DOS_FindNextFileFCB();
+u8 DOS_FindNextFileFCB();
 
 #endif // (DOS_USE_FCB)
 

@@ -148,7 +148,7 @@ DebugSymbols = true;
 //*****************************************************************************
 
 //-- Activate verbose mode and get more build information (boolean)
-Verbose = true;
+// Verbose = true;
 
 //-- Output build information to the standard console (boolean)
 // LogStdout = true;

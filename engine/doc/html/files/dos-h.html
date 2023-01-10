@@ -58,134 +58,153 @@
  <div class="CBody"><p>Carriage return</p></div>
 </div>
 
-<a name="DOS_SetTransferAddr"></a><a name="Topic424"></a><div class="CTopic TFunction LC">
+<a name="DOS_SetTransferAddr"></a><a name="Topic390"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_SetTransferAddr</div>
- <div id="NDPrototype424" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">i8 DOS_SetTransferAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype390" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_SetTransferAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set transfer address</p></div>
 </div>
 
-<a name="DOS_Open"></a><a name="Topic847"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_Open</div>
- <div id="NDPrototype847" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">i8 DOS_Open(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="DOS_OpenFCB"></a><a name="Topic391"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_OpenFCB</div>
+ <div id="NDPrototype391" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_OpenFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Open file</p></div>
 </div>
 
-<a name="DOS_GetFileSize"></a><a name="Topic426"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_GetFileSize</div>
+<a name="DOS_GetSizeFCB"></a><a name="Topic392"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetSizeFCB</div>
+ <div id="NDPrototype392" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetSizeFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get the size of an opened file</p></div>
 </div>
 
-<a name="DOS_Create"></a><a name="Topic848"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_Create</div>
- <div id="NDPrototype848" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">i8 DOS_Create(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="DOS_CreateFCB"></a><a name="Topic393"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_CreateFCB</div>
+ <div id="NDPrototype393" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CreateFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Create file</p></div>
 </div>
 
-<a name="DOS_Close"></a><a name="Topic849"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_Close</div>
- <div id="NDPrototype849" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">i8 DOS_Close(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="DOS_CloseFCB"></a><a name="Topic394"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_CloseFCB</div>
+ <div id="NDPrototype394" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CloseFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Close file</p></div>
 </div>
 
-<a name="DOS_SequentialRead"></a><a name="Topic850"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_SequentialRead</div>
- <div id="NDPrototype850" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">i8 DOS_SequentialRead(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="DOS_SequentialReadFCB"></a><a name="Topic395"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_SequentialReadFCB</div>
+ <div id="NDPrototype395" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SequentialReadFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Sequential read</p></div>
 </div>
 
-<a name="DOS_SequentialWrite"></a><a name="Topic851"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_SequentialWrite</div>
- <div id="NDPrototype851" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">i8 DOS_SequentialWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="DOS_SequentialWriteFCB"></a><a name="Topic396"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_SequentialWriteFCB</div>
+ <div id="NDPrototype396" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SequentialWriteFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Sequential write</p></div>
 </div>
 
-<a name="DOS_RandomBlockRead"></a><a name="Topic852"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_RandomBlockRead</div>
- <div id="NDPrototype852" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_RandomBlockRead(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">records</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Random block read</p></div>
-</div>
-
-<a name="DOS_RandomBlockWrite"></a><a name="Topic853"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_RandomBlockWrite</div>
- <div id="NDPrototype853" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_RandomBlockWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">records</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="DOS_RandomBlockWriteFCB"></a><a name="Topic397"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_RandomBlockWriteFCB</div>
+ <div id="NDPrototype397" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_RandomBlockWriteFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">records</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Random block write</p></div>
 </div>
 
-<a name="DOS_FindFirstFile"></a><a name="Topic854"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_FindFirstFile</div>
- <div id="NDPrototype854" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">i8 DOS_FindFirstFile(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="DOS_RandomBlockReadFCB"></a><a name="Topic398"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_RandomBlockReadFCB</div>
+ <div id="NDPrototype398" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_RandomBlockReadFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">records</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Random block read</p></div>
+</div>
+
+<a name="DOS_FindFirstFileFCB"></a><a name="Topic420"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_FindFirstFileFCB</div>
+ <div id="NDPrototype420" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_FindFirstFileFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Search the first file matched with wildcard</p></div>
 </div>
 
-<a name="DOS_FindNextFile"></a><a name="Topic434"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_FindNextFile</div>
- <div id="NDPrototype434" class="NDPrototype"><div class="PSection PPlainSection">i8 DOS_FindNextFile()</div></div>
+<a name="DOS_FindNextFileFCB"></a><a name="Topic425"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_FindNextFileFCB</div>
+ <div id="NDPrototype425" class="NDPrototype"><div class="PSection PPlainSection">u8 DOS_FindNextFileFCB()</div></div>
  <div class="CBody"><p>Search the second and after the second file matched wildcard</p></div>
+</div>
+
+<a name="DOS_OpenHandle"></a><a name="Topic427"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_OpenHandle</div>
+ <div id="NDPrototype427" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_OpenHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Open file handle</p></div>
+</div>
+
+<a name="DOS_CreateHandle"></a><a name="Topic428"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_CreateHandle</div>
+ <div id="NDPrototype428" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CreateHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">mode,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Create file handle</p></div>
+</div>
+
+<a name="DOS_CloseHandle"></a><a name="Topic429"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_CloseHandle</div>
+ <div id="NDPrototype429" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CloseHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Close file handle</p></div>
+</div>
+
+<a name="DOS_EnsureHandle"></a><a name="Topic430"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_EnsureHandle</div>
+ <div id="NDPrototype430" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_EnsureHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Ensure file handle</p></div>
+</div>
+
+<a name="DOS_DuplicateHandle"></a><a name="Topic431"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_DuplicateHandle</div>
+ <div id="NDPrototype431" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_DuplicateHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Duplicate file handle</p></div>
+</div>
+
+<a name="DOS_ReadHandle"></a><a name="Topic432"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_ReadHandle</div>
+ <div id="NDPrototype432" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_ReadHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">buffer,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Read from file handle</p></div>
+</div>
+
+<a name="DOS_WriteHandle"></a><a name="Topic433"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_WriteHandle</div>
+ <div id="NDPrototype433" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_WriteHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">buffer,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Write to file handle</p></div>
+</div>
+
+<a name="DOS_FeekHandle"></a><a name="Topic477"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_FeekHandle</div>
+ <div class="CBody"><p>Move file handle pointer</p></div>
+</div>
+
+<a name="DOS_DeleteHandle"></a><a name="Topic880"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_DeleteHandle</div>
+ <div id="NDPrototype880" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_DeleteHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Delete file or subdirectory</p></div>
+</div>
+
+<a name="DOS_RenameHandle"></a><a name="Topic881"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_RenameHandle</div>
+ <div id="NDPrototype881" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_RenameHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Rename file or subdirectory</p></div>
+</div>
+
+<a name="DOS_MoveHandle"></a><a name="Topic882"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_MoveHandle</div>
+ <div id="NDPrototype882" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_MoveHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Move the file associated with the specified file handle to the directory specified by the new path string.&nbsp; A file handle cannot be moved if there are any other separately opened file handles for this file (&quot;.FOPEN&quot; error), although it can be moved if there are copies of this file handle, and in this case the copies will also be moved.&nbsp; Moving a file handle will not alter the file pointer but it will do an implicit &quot;ensure&quot; operation.</p></div>
+</div>
+
+<a name="DOS_SetAttributeHandle"></a><a name="Topic883"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_SetAttributeHandle</div>
+ <div id="NDPrototype883" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SetAttributeHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the attributes byte of the file associated with the specified file handle.&nbsp; A file handle cannot have its attributes changed (although they can be read) if there are any other separately opened file handles for this file (&quot;.FOPEN&quot; error).&nbsp; The file pointer will not be altered but an implicit &quot;ensure&quot; operation will be done.</p></div>
+</div>
+
+<a name="DOS_GetAttributeHandle"></a><a name="Topic884"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetAttributeHandle</div>
+ <div id="NDPrototype884" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetAttributeHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get the attributes byte of the file associated with the specified file handle.&nbsp; A file handle cannot have its attributes changed (although they can be read) if there are any other separately opened file handles for this file (&quot;.FOPEN&quot; error).&nbsp; The file pointer will not be altered but an implicit &quot;ensure&quot; operation will be done.</p></div>
 </div>
 
 <a name="DOS_GetDiskParam"></a><a name="Topic855"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetDiskParam</div>
  <div id="NDPrototype855" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetDiskParam(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">drv,</td></tr><tr><td class="PType first">DOS_DiskParam*&nbsp;</td><td class="PName last">param</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get disk parameters</p></div>
-</div>
-
-<a name="DOS_GetDiskParam(2)"></a><a name="Topic856"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_GetDiskParam</div>
- <div class="CBody"><p>Find first entry</p></div>
-</div>
-
-<a name="DOS_FindNextEntry"></a><a name="Topic857"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_FindNextEntry</div>
- <div id="NDPrototype857" class="NDPrototype"><div class="PSection PPlainSection">DOS_FIB* DOS_FindNextEntry()</div></div>
- <div class="CBody"><p>Find next entry</p></div>
-</div>
-
-<a name="DOS_FOpen"></a><a name="Topic858"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_FOpen</div>
- <div id="NDPrototype858" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_FOpen(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Open file handle</p></div>
-</div>
-
-<a name="DOS_FCreate"></a><a name="Topic859"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_FCreate</div>
- <div id="NDPrototype859" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_FCreate(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">mode,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Create file handle</p></div>
-</div>
-
-<a name="DOS_FClose"></a><a name="Topic860"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_FClose</div>
- <div id="NDPrototype860" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_FClose(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Close file handle</p></div>
-</div>
-
-<a name="DOS_FEnsure"></a><a name="Topic861"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_FEnsure</div>
- <div id="NDPrototype861" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_FEnsure(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Ensure file handle</p></div>
-</div>
-
-<a name="DOS_FDuplicate"></a><a name="Topic862"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_FDuplicate</div>
- <div id="NDPrototype862" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_FDuplicate(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Duplicate file handle</p></div>
-</div>
-
-<a name="DOS_FRead"></a><a name="Topic863"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_FRead</div>
- <div id="NDPrototype863" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_FRead(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">buffer,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Read from file handle</p></div>
-</div>
-
-<a name="DOS_FWrite"></a><a name="Topic864"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_FWrite</div>
- <div id="NDPrototype864" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_FWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">buffer,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Write to file handle</p></div>
-</div>
-
-<a name="DOS_FSeek"></a><a name="Topic865"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_FSeek</div>
- <div id="NDPrototype865" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u32 DOS_FSeek(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PType first">u32&nbsp;</td><td class="PName last">offset,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">) __CALLEE</td></tr></table></div></div>
- <div class="CBody"><p>Move file handle pointer</p></div>
 </div>
 
 <a name="DOS_Exit"></a><a name="Topic866"></a><div class="CTopic TFunction LC">
@@ -203,6 +222,17 @@
  <div class="CTitle">DOS_GetLastError</div>
  <div id="NDPrototype868" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 DOS_GetLastError()</div></div>
  <div class="CBody"><p>Get last error code</p></div>
+</div>
+
+<a name="DOS_GetDiskParam(2)"></a><a name="Topic856"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetDiskParam</div>
+ <div class="CBody"><p>Find first entry</p></div>
+</div>
+
+<a name="DOS_FindNextEntry"></a><a name="Topic857"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_FindNextEntry</div>
+ <div id="NDPrototype857" class="NDPrototype"><div class="PSection PPlainSection">DOS_FIB* DOS_FindNextEntry()</div></div>
+ <div class="CBody"><p>Find next entry</p></div>
 </div>
 
 <a name="DOS_GetLastFileInfo"></a><a name="Topic869"></a><div class="CTopic TFunction LC">
@@ -263,6 +293,18 @@
  <div class="CTitle">DOS_Move</div>
  <div id="NDPrototype878" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Move(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Move file or subdirectory</p></div>
+</div>
+
+<a name="DOS_SetAttribute"></a><a name="Topic885"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_SetAttribute</div>
+ <div id="NDPrototype885" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SetAttribute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set file attributes</p></div>
+</div>
+
+<a name="DOS_GetAttribute"></a><a name="Topic886"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetAttribute</div>
+ <div id="NDPrototype886" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetAttribute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get file attributes</p></div>
 </div>
 
 <a name="DOS_GetVersion"></a><a name="Topic879"></a><div class="CTopic TFunction LC last">
