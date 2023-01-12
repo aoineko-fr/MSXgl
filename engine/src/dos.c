@@ -49,6 +49,19 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
+// Input character
+c8 DOS_CharInput()
+{
+__asm
+	push	ix
+	ld		c, #DOS_FUNC_CONIN
+	call	BDOS
+	pop		ix
+	// return value in A
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
 // Output character
 void DOS_CharOutput(c8 chr)
 {
@@ -59,19 +72,6 @@ __asm
 	ld		c, #DOS_FUNC_CONOUT
 	call	BDOS
 	pop		ix
-__endasm;
-}
-
-//-----------------------------------------------------------------------------
-// Input character
-c8 DOS_CharInput()
-{
-__asm
-	push	ix
-	ld		c, #DOS_FUNC_CONIN
-	call	BDOS
-	pop		ix
-	// return value in A
 __endasm;
 }
 

@@ -305,9 +305,9 @@
 #define ATTR_DEVICE					0x80 // This is set to indicate that the FIB refers to a character device (eg. "CON") rather than a disk file. All of the other attributes bits are ignored.
 
 // MSX-DOS 2 Seek whence
-#define SEEK_SET					0
-#define SEEK_CUR					1
-#define SEEK_END					2
+#define SEEK_SET					0 // Relative to the beginning of the file
+#define SEEK_CUR					1 // Relative to the current position
+#define SEEK_END					2 // Relative to the end of the file
 
 // Drive number
 enum DOS_DRIVE
@@ -456,7 +456,7 @@ typedef struct
 //-----------------------------------------------------------------------------
 
 //.............................................................................
-// Goup: MSX-DOS 1 Core
+// Group: MSX-DOS 1 Core
 
 // Function: DOS_Call
 // Call a BDOS function
@@ -464,28 +464,51 @@ void DOS_Call(u8 func);
 
 // Function: DOS_Exit0
 // Exit program and return to DOS
+// When this is called in MSX-DOS, the system is reset by jumping to 0000H.
+// When MSX DISK-BASIC call this, it is “warm started”.
+// That is, it returns to BASIC command level without destroying programs currently loaded.
+// With MSX-DOS 2, this function terminates program with a zero return code.
 void DOS_Exit0();
 
 //.............................................................................
-// Goup: MSX-DOS 1 Console IO
-
-// Function: DOS_CharacterOutput
-// Output character
-void DOS_CharOutput(c8 chr);
+// Group: MSX-DOS 1 Console IO
 
 // Function: DOS_CharInput
 // Input character
+// A character will be read from the standard input (file handle 0 - usually the keyboard) and echoed to the standard output (file handle 1 - usually the screen).
+// If no character is ready then this function will wait for one.
+// Various control characters, as specified for the "console status" function (function 0Bh), will be trapped by this function for various control purposes.
+// If one of these characters is detected then it will be processed and this function will wait for another character.
+// Thus these characters will never be returned to the user by this function.
+//
+// Return:
+//   Character from keyboard
 c8 DOS_CharInput();
+
+// Function: DOS_CharOutput
+// Output character
+// The character passed in register E is written to the standard output (file handle 1 - usually the screen).
+// If printer echo is enabled then the character is also written to the printer.
+// Various control codes and escape sequences are interpreted as screen control codes.
+// A list of these is included in the "Program Interface Specification", they are a sub-set of the standard VT-52 control codes.
+// TABs will be expanded to every eighth column.
+//
+// Parameters:
+//   chr - Character to be output
+void DOS_CharOutput(c8 chr);
 
 // Function: DOS_StringOutput
 // The characters of the string will be output. The string is terminated by "$" (ASCII 24h).
+//
+// Parameters:
+//   str - Address of string
 void DOS_StringOutput(const c8* str);
 
 // Function: DOS_Beep
 // Play bip sound
 inline void DOS_Beep() { DOS_CharOutput(CTRL_BEEP); }
 
-// Function: DOS_CharacterOutput
+// Function: DOS_ClearScreen
 // Clear console screen
 inline void DOS_ClearScreen() { DOS_CharOutput(CTRL_CLS); }
 
@@ -494,51 +517,122 @@ inline void DOS_ClearScreen() { DOS_CharOutput(CTRL_CLS); }
 inline void DOS_Return() { DOS_StringOutput("\n\r$"); }
 
 //.............................................................................
-// Goup: MSX-DOS 1 File Handling
+// Group: MSX-DOS 1 File Handling
 #if (DOS_USE_FCB)
 
 // Function: DOS_SetTransferAddr
 // Set transfer address
+// This function simply records the address passed in DE as the disk transfer address.
+// This address will be used for all subsequent FCB read and write calls, for "search for first" and "search for next" calls to store the directory entry, and for absolute read and write calls.
+// It is not used by the new MSX-DOS read and write functions. The address is set back to 80h by a DISK RESET call.
+//
+// Parameters:
+//   data - Required Disk Transfer Address
 void DOS_SetTransferAddr(void* data);
 
 // Function: DOS_OpenFCB
 // Open file
+// The unopened FCB must contain a drive which may be zero to indicate the current drive and a filename and extension which may be ambiguous.
+// The current directory of the specified drive will be searched for a matching file and if found it will be opened.
+// Matching entries which are sub-directories or system files will be ignored, and if the filename is ambiguous then the first suitable matching entry will be opened.
+//
+// Parameters:
+//   stream - Pointer to unopened FCB
+//
+// Return:
+//   Error code (DOS_ERR_NONE if succeed)
 u8 DOS_OpenFCB(DOS_FCB* stream);
 
 // Function: DOS_GetSizeFCB
 // Get the size of an opened file
+//
+// Parameters:
+//   stream - Pointer to unopened FCB
+//
+// Return:
+//   File size
 inline u32 DOS_GetSizeFCB(DOS_FCB* stream) { return stream->Size; }
-
-// Function: DOS_CreateFCB
-// Create file
-u8 DOS_CreateFCB(DOS_FCB* stream);
 
 // Function: DOS_CloseFCB
 // Close file
+//
+// Parameters:
+//   stream - Pointer to unopened FCB
+//
+// Return:
+//   Error code (DOS_ERR_NONE if succeed)
+//
+// Return:
+//   Error code (DOS_ERR_NONE if succeed)
 u8 DOS_CloseFCB(DOS_FCB* stream);
+
+// Function: DOS_CreateFCB
+// Create file
+//
+// Parameters:
+//   stream - Pointer to unopened FCB
+//
+// Return:
+//   Error code (DOS_ERR_NONE if succeed)
+u8 DOS_CreateFCB(DOS_FCB* stream);
 
 // Function: DOS_SequentialReadFCB
 // Sequential read
+//
+// Parameters:
+//   stream - Pointer to unopened FCB
+//
+// Return:
+//   Error code (DOS_ERR_NONE if succeed)
 u8 DOS_SequentialReadFCB(DOS_FCB* stream);
 
 // Function: DOS_SequentialWriteFCB
 // Sequential write
+//
+// Parameters:
+//   stream - Pointer to unopened FCB
+//
+// Return:
+//   Error code (DOS_ERR_NONE if succeed)
 u8 DOS_SequentialWriteFCB(DOS_FCB* stream);
 
 // Function: DOS_RandomBlockWriteFCB
 // Random block write
+//
+// Parameters:
+//   stream - Pointer to unopened FCB
+//   records - Number of records to write
+//
+// Return:
+//   Error code (DOS_ERR_NONE if succeed)
 u8 DOS_RandomBlockWriteFCB(DOS_FCB* stream, u16 records);
 
 // Function: DOS_RandomBlockReadFCB
 // Random block read
+//
+// Parameters:
+//   stream - Pointer to unopened FCB
+//   records - Number of records to write
+//
+// Return:
+//   Number of records actually read
 u16 DOS_RandomBlockReadFCB(DOS_FCB* stream, u16 records);
 
 // Function: DOS_FindFirstFileFCB
 // Search the first file matched with wildcard
+//
+// Parameters:
+//   stream - Pointer to unopened FCB
+//
+// Return:
+//   Error code (DOS_ERR_NONE if succeed)
 u8 DOS_FindFirstFileFCB(DOS_FCB* stream);
 
 // Function: DOS_FindNextFileFCB
 // Search the second and after the second file matched wildcard
+//
+// Return:
+//   Error code (DOS_ERR_NONE if succeed)
 u8 DOS_FindNextFileFCB();
 
 #endif // (DOS_USE_FCB)
@@ -549,47 +643,127 @@ u8 DOS_FindNextFileFCB();
 #if (TARGET == TARGET_DOS2)
 
 //.............................................................................
-// Goup: MSX-DOS 2 File Handling
+// Group: MSX-DOS 2 File Handling
 #if (DOS_USE_HANDLE)
 
 // Function: DOS_OpenHandle
 // Open file handle
+//
+// Parameters:
+//   path - Drive/path/file ASCIIZ string
+//   mode - Open mode
+// > O_RDONLY     Open file for reading only
+// > O_WRONLY     Open file for writing only
+// > O_RDWR       Open file for reading and writing
+// > O_INHERIT
+//
+// Return:
+//   New file handle
 u8 DOS_OpenHandle(const c8* path, u8 mode);
 
 // Function: DOS_CreateHandle
 // Create file handle
+//
+// Parameters:
+//   path - Drive/path/file ASCIIZ string
+//   mode - Open mode
+// > O_RDONLY     Open file for reading only
+// > O_WRONLY     Open file for writing only
+// > O_RDWR       Open file for reading and writing
+// > O_INHERIT
+//   attr - Required attributes
+//
+// Return:
+//   New file handle
 u8 DOS_CreateHandle(const c8* path, u8 mode, u8 attr);
 
 // Function: DOS_CloseHandle
 // Close file handle
+//
+// Parameters:
+//   file - File handle
+//
+// Return:
+//   Error code
 u8 DOS_CloseHandle(u8 file);
 
 // Function: DOS_EnsureHandle
 // Ensure file handle
+//
+// Parameters:
+//   file - File handle
+//
+// Return:
+//   Error code
 u8 DOS_EnsureHandle(u8 file);
 
 // Function: DOS_DuplicateHandle
 // Duplicate file handle
+//
+// Parameters:
+//   file - File handle
+//
+// Return:
+//   Error code
 u8 DOS_DuplicateHandle(u8 file);
 
 // Function: DOS_ReadHandle
 // Read from file handle
+//
+// Parameters:
+//   file - File handle
+//   buffer - Buffer address
+//   size - Number of bytes to read
+//
+// Return:
+//   Number of bytes actually read
 u16 DOS_ReadHandle(u8 file, void* buffer, u16 size);
 
 // Function: DOS_WriteHandle
 // Write to file handle
+//
+// Parameters:
+//   file - File handle
+//   buffer - Buffer address
+//   size - Number of bytes to read
+//
+// Return:
+//   Number of bytes actually written
 u16 DOS_WriteHandle(u8 file, const void* buffer, u16 size);
 
-// Function: DOS_FeekHandle
+// Function: DOS_SeekHandle
 // Move file handle pointer
+//
+// Parameters:
+//   file - File handle
+//   offset - Signed offset
+//   mode - Method code
+// > SEEK_SET     Relative to the beginning of the file
+// > SEEK_CUR     Relative to the current position
+// > SEEK_END     Relative to the end of the file
+//
+// Return:
+//   New file pointer
 u32 DOS_SeekHandle(u8 file, u32 offset, u8 mode) __CALLEE;
 
 // Function: DOS_DeleteHandle
 // Delete file or subdirectory
+//
+// Parameters:
+//   file - File handle
+//
+// Return:
+//   Error code
 u8 DOS_DeleteHandle(u8 file);
 
 // Function: DOS_RenameHandle
 // Rename file or subdirectory
+//
+// Parameters:
+//   file - File handle
+//
+// Return:
+//   Error code
 u8 DOS_RenameHandle(u8 file, const c8* newPath);
 
 // Function: DOS_MoveHandle
@@ -597,24 +771,42 @@ u8 DOS_RenameHandle(u8 file, const c8* newPath);
 // A file handle cannot be moved if there are any other separately opened file handles for this file (".FOPEN" error),
 // although it can be moved if there are copies of this file handle, and in this case the copies will also be moved.
 // Moving a file handle will not alter the file pointer but it will do an implicit "ensure" operation.
+//
+// Parameters:
+//   file - File handle
+//
+// Return:
+//   Error code
 u8 DOS_MoveHandle(u8 file, const c8* newPath);
 
 // Function: DOS_SetAttributeHandle
 // Set the attributes byte of the file associated with the specified file handle.
 // A file handle cannot have its attributes changed (although they can be read) if there are any other separately opened file handles for this file (".FOPEN" error).
 // The file pointer will not be altered but an implicit "ensure" operation will be done.
+//
+// Parameters:
+//   file - File handle
+//
+// Return:
+//   Error code
 u8 DOS_SetAttributeHandle(u8 file, u8 attr);
 
 // Function: DOS_GetAttributeHandle
 // Get the attributes byte of the file associated with the specified file handle.
 // A file handle cannot have its attributes changed (although they can be read) if there are any other separately opened file handles for this file (".FOPEN" error).
 // The file pointer will not be altered but an implicit "ensure" operation will be done.
+//
+// Parameters:
+//   file - File handle
+//
+// Return:
+//   Error code
 u8 DOS_GetAttributeHandle(u8 file);
 
 #endif // (DOS_USE_HANDLE)
 
 //.............................................................................
-// Goup: MSX-DOS 2 Core
+// Group: MSX-DOS 2 Core
 
 // Function: DOS_GetDiskParam
 // Get disk parameters
@@ -624,7 +816,7 @@ u8 DOS_GetDiskParam(u8 drv, DOS_DiskParam* param);
 // Terminate with error code
 void DOS_Exit(u8 err);
 
-// Function: DOS2_Explain
+// Function: DOS_Explain
 // Explain error code
 void DOS_Explain(u8 err, c8* str);
 
@@ -635,10 +827,10 @@ inline u8 DOS_GetLastError() { return g_DOS_LastError; }
 #endif // (DOS_USE_VALIDATOR)
 
 //.............................................................................
-// Goup: MSX-DOS 2 Utilities
+// Group: MSX-DOS 2 Utilities
 #if (DOS_USE_UTILITIES)
 
-// Function: DOS_GetDiskParam
+// Function: DOS_FindFirstEntry
 // Find first entry
 DOS_FIB* DOS_FindFirstEntry(const c8* filename, u8 attr);
 
@@ -652,26 +844,62 @@ inline DOS_FIB* DOS_GetLastFileInfo() { return &g_DOS_LastFIB; }
 
 // Function: DOS_GetFileYear
 // Get last error code
+//
+// Parameters:
+//   fib - Pointer to File Info Block structure
+//
+// Return:
+//   Year (from 1980)
 inline u16 DOS_GetFileYear(const DOS_FIB* fib) { return 1980 + (fib->Date >> 9); }
 
 // Function: DOS_GetFileMonth
 // Get last error code
+//
+// Parameters:
+//   fib - Pointer to File Info Block structure
+//
+// Return:
+//   Month number
 inline u8 DOS_GetFileMonth(const DOS_FIB* fib) { return (fib->Date & 0x01FF) >> 5; }
 
 // Function: DOS_GetFileDay
 // Get last error code
+//
+// Parameters:
+//   fib - Pointer to File Info Block structure
+//
+// Return:
+//   Day number
 inline u8 DOS_GetFileDay(const DOS_FIB* fib) { return fib->Date & 0x1F; }
 
 // Function: DOS_GetFileHour
 // Get last error code
+//
+// Parameters:
+//   fib - Pointer to File Info Block structure
+//
+// Return:
+//   Hours
 inline u8 DOS_GetFileHour(const DOS_FIB* fib) { return fib->Time >> 11; }
 
 // Function: DOS_GetFileMinute
 // Get last error code
+//
+// Parameters:
+//   fib - Pointer to File Info Block structure
+//
+// Return:
+//   Minutes
 inline u8 DOS_GetFileMinute(const DOS_FIB* fib) { return (fib->Time & 0x07FF) >> 5; }
 
 // Function: DOS_GetFileSecond
 // Get last error code
+//
+// Parameters:
+//   fib - Pointer to File Info Block structure
+//
+// Return:
+//   Seconds
 inline u8 DOS_GetFileSecond(const DOS_FIB* fib) { return (fib->Time & 0x1F) << 1; }
 
 // Function: DOS_Delete
@@ -699,7 +927,7 @@ u8 DOS_GetAttribute(const c8* path);
 #endif // (TARGET == TARGET_DOS2)
 
 //.............................................................................
-// Goup: Misc
+// Group: Misc
 
 // Function: DOS_GetVersion
 // Get MSX-DOS version number
