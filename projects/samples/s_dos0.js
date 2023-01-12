@@ -6,16 +6,10 @@
 Machine = "2";
 
 //-- Target program format (string)
-Target = "DOS2";
-
-//-- Parse MSX-DOS command-line arguments
-DOSParseArg = true;
+Target = "DOS0";
 
 //-- List of library modules to build (array)
-LibModules = [ "dos", "dos_mapper", "string", ...LibModules];
+LibModules = [ "dos", "string", ...LibModules ];
 
 //-- List of data files to copy to disk (array)
-DiskFiles = [ "content/img/IMAGE01.SC5", "content/img/IMAGE04.SC5", "content/img/PALETTE.SC5" ];
-
-//-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific
-EmulExtraParam = "-ext ram1mb";
+DiskFiles = [ "content/img/IMAGE01.SC8", "content/img/IMAGE04.SC8", "content/img/PALETTE.SC8" ];

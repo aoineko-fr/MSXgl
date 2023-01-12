@@ -38,9 +38,10 @@
 // TARGET options
 
 // DOS options
-#define DOS_1						0 // MSX-DOS 1
-#define DOS_2						2 // MSX-DOS 2
-#define DOS_2_ARGS					3 // MSX-DOS 2 with command-line arguments
+#define DOS_0						0 // Disk boot program
+#define DOS_1						1 // MSX-DOS 1 program
+#define DOS_2						2 // MSX-DOS 2 program
+#define DOS_3						3 // NEXTOR program
 
 // ROM_MAPPER options (0-15)
 #define ROM_PLAIN					0
@@ -88,9 +89,11 @@
 #define TARGET_BIN			  		MAKE_BASIC(0) // BASIC binary program (8000h~)
 #define TARGET_BIN_USR		  		MAKE_BASIC(1) // BASIC USR driver (C000h~)
 // -- DOS program
+#define TARGET_DOS0					MAKE_DOS(DOS_0) // Disk boot program (0100h~). Access to BDOS functions through F37Dh
 #define TARGET_DOS1					MAKE_DOS(DOS_1) // MSX-DOS 1 program (0100h~). No direct acces to Main-ROM
 #define TARGET_DOS2					MAKE_DOS(DOS_2) // MSX-DOS 2 program (0100h~). No direct acces to Main-ROM
-#define TARGET_DOS2_ARG				MAKE_DOS(DOS_2_ARGS) // MSX-DOS 2 program (using command line arguments ; 0100h~). No direct acces to Main-ROM
+#define TARGET_DOS3					MAKE_DOS(DOS_3) // NEXTOR program (0100h~). No direct acces to Main-ROM
+#define TARGET_NEXTOR				TARGET_DOS3
 #define TARGET_DOS					TARGET_DOS1
 // -- Plain ROM 8KB
 #define TARGET_ROM_8K_P0			MAKE_ROM(ROM_PLAIN, ROM_8K, 0, 0) + ROM_ISR + ROM_MIRROR // 8KB ROM in page 0 boot at 0000h (detected at 4000h by mirroring). With ISR replacement

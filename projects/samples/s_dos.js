@@ -8,6 +8,9 @@ Machine = "2P";
 //-- Target program format (string)
 Target = "DOS1";
 
+//-- Parse MSX-DOS command-line arguments
+DOSParseArg = true;
+
 //-- List of library modules to build (array)
 LibModules = [ "dos", "string", ...LibModules];
 

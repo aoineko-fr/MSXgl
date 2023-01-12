@@ -59,11 +59,11 @@
 
 // Start BASIC from DOS : https://www.msx.org/wiki/Disk-ROM_BIOS#4022H
 
-#if (TARGET_TYPE == TYPE_DOS)
+#if ((TARGET_TYPE == TYPE_DOS) && ((TARGET != TARGET_DOS0)))
 	#define BDOS					0x0005
 	#define DOS_TPA					0x0006
 #else
-	#define BDOS					0xF37D
+	#define BDOS					M_BDOS
 #endif
 
 //-----------------------------------------------------------------------------
@@ -403,7 +403,7 @@ extern u8 g_DOS_LastError;
 extern DOS_FIB g_DOS_LastFIB;
 
 // TPA (Transient Program Area) upper address
-#if (TARGET_TYPE == TYPE_DOS)
+#if ((TARGET_TYPE == TYPE_DOS) && ((TARGET != TARGET_DOS0)))
 __at(DOS_TPA) u16 DOS_TPAUpperAddr;
 #endif
 

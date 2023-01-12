@@ -11,6 +11,7 @@ if (Target === "DOS")     Target = "DOS1";
 if (Target === "ROM")     Target = "ROM_32K";
 if (Target === "BAS")     Target = "BIN";
 if (Target === "USR")     Target = "BIN_USR";
+if (Target === "BOOT")    Target = "DOS0";
 
 //*****************************************************************************
 // BASIC
@@ -23,7 +24,7 @@ if (Target === "BIN")
 	Crt0 = "crt0_basic";
 	StartAddr = 0x8000;
 	CodeAddr = 0x8000;
-	RamAddr = 0;
+	RamAddr = 0; // Right after the code
 	FillSize = 0;
 
 	TargetDesc = "BASIC binary program (8000h~)";
@@ -35,7 +36,7 @@ else if (Target === "BIN_USR")
 	Crt0 = "crt0_basic_usr";
 	StartAddr = USRAddr;
 	CodeAddr = USRAddr;
-	RamAddr = 0;
+	RamAddr = 0; // Right after the code
 	FillSize = 0;
 
 	TargetDesc = "BASIC USR binary driver (C000h~)";
@@ -244,6 +245,19 @@ else if (Target === "ROM_KONAMI_SCC")
 //*****************************************************************************
 
 //-----------------------------------------------------------------------------
+else if (Target === "DOS0")
+{
+	DOS = 0;
+	Ext = "com";
+	Crt0 = "crt0_dos";
+	StartAddr = 0x0100;
+	CodeAddr = 0x0100;
+	RamAddr = 0; // Right after the code
+	FillSize = 0;
+
+	TargetDesc = "Direct disk program using MSX-DOS 1 boot sector (starting at 0100h)";
+}
+//-----------------------------------------------------------------------------
 else if (Target === "DOS1")
 {
 	DOS = 1;
@@ -251,7 +265,7 @@ else if (Target === "DOS1")
 	Crt0 = "crt0_dos";
 	StartAddr = 0x0100;
 	CodeAddr = 0x0100;
-	RamAddr = 0;
+	RamAddr = 0; // Right after the code
 	FillSize = 0;
 
 	TargetDesc = "MSX-DOS 1 program (starting at 0100h)";
@@ -264,7 +278,7 @@ else if (Target === "DOS2")
 	Crt0 = "crt0_dos";
 	StartAddr = 0x0100;
 	CodeAddr = 0x0100;
-	RamAddr = 0;
+	RamAddr = 0; // Right after the code
 	FillSize = 0;
 
 	TargetDesc = "MSX-DOS 2 program (starting at 0100h)";

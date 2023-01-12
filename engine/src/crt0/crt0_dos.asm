@@ -22,6 +22,7 @@ DOS_TPA   = 0x0006
 DOS_TERM0 = 0x00
 DOS_TERM  = 0x62
 BDOS      = 0x0005
+SETRAM    = 0xF36B
 
 ;==============================================================================
 ; RAM
@@ -38,6 +39,8 @@ _g_HeaderAddr::
 ;------------------------------------------------------------------------------
 ; Initialization code
 crt0_init:
+	call	SETRAM
+
 	di
 	; Set stack address at the top of free memory
 	; ld		sp, (DOS_TPA)

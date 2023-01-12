@@ -107,7 +107,7 @@ CustomISR = "VBLANK";
 // USRAddr = 0xC000;
 
 //-- Parse MSX-DOS command-line arguments
-DOSParseArg = true;
+// DOSParseArg = true;
 
 //*******************************************************************************
 // MAKE SETTINGS

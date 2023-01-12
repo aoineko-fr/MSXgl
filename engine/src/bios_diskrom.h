@@ -18,6 +18,9 @@
 // DiskROM RAM Variables
 //=============================================================================
 
+// Current drive
+#define M_DRIVE		0xF2E1
+
 // Two pairs of limits for the first bytes of Shift-JIS characters
 #define M_KANJTABLE	0xF30F
 const u16 __at(M_KANJTABLE) g_KANJTABLE[2];
@@ -46,9 +49,24 @@ const u8 __at(M_RAMAD2) g_RAMAD2;
 #define M_RAMAD3	0xF344
 const u8 __at(M_RAMAD3) g_RAMAD3;
 
+// Total number of drivies
+#define M_NMBDRV	0xF347
+
 // Main DiskROM slot address
 #define M_MASTER	0xF348
 const u8 __at(M_MASTER) g_MASTER;
+
+// List of DRIVE PARAMETERS BLOCK
+#define M_DPBLST	0xF355
+
+// Set DISK-BASIC ROM
+#define M_SETROM	0xF368
+
+// Set system RAM configuration
+#define M_SETRAM	0xF36B
+
+// Inter slot move
+#define M_SLTMOV	0xF36E
 
 // F37D BDOS: DEFS 2 ; MSX-Disk BIOS Function Call.
 #define M_BDOS		0xF37D
