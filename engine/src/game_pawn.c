@@ -32,6 +32,7 @@ static const Game_Sprite* g_Sprite;
 // Initialize game pawn
 void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNum, u8 sprtID, const Game_Action* actList)
 {
+	sprtID;
 	g_Pawn = pawn;
 	// Initialize pawn structure
 	Mem_Set(0x00, g_Pawn, sizeof(Game_Pawn));
@@ -458,6 +459,8 @@ void GamePawn_SetMovement(Game_Pawn* pawn, i8 dx, i8 dy)
 // Set pawn physics callback
 void GamePawn_InitializePhysics(Game_Pawn* pawn, Game_PhysicsCB pcb, Game_CollisionCB ccb, u8 boundX, u8 boundY)
 {
+	boundX;
+	boundY;
 	pawn->PhysicsCB = pcb; 
 	pawn->CollisionCB = ccb;
 	#if (GAMEPAWN_BOUND_X == GAMEPAWN_BOUND_CUSTOM)

@@ -52,7 +52,7 @@ module.exports.print = function (string, flag = PrintNote)
 		{
 			case PrintError:     string = ColorRed + "Error: " + string + ColorReset; break;
 			case PrintWarning:   string = ColorYellow + "Warning: " + string + ColorReset; break;
-			case PrintSucced:    string = ColorGreen + string + ColorReset; break;
+			case PrintSuccess:   string = ColorGreen + string + ColorReset; break;
 			case PrintHighlight: string = ColorBlue + string + ColorReset; break;
 			case PrintNote:      break;
 			case PrintDetail:    string = ColorGray + string + ColorReset; break;

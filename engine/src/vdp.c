@@ -1529,6 +1529,10 @@ void VDP_SetMode(const u8 mode)
 		VDP_Initialize();
 	#endif
 
+	#if (MSX_VERSION >= MSX_2P)
+	VDP_RegWriteBak(25, 0);
+	#endif
+
 	g_VDP_Data.Mode = mode;
 	switch(mode)
 	{

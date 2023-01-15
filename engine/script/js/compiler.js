@@ -76,7 +76,7 @@ module.exports.compile = function (file, size, seg)
 		// Generate dependencies list
 		// err = util.execSync(`${Compiler} -M ${SDCCParam} > ${OutDir}${path.parse(file).name}.dep`);
 
-		util.print(`Succeed`, PrintSucced);
+		util.print(`Success`, PrintSuccess);
 	}
 	//*************************************************************************
 	//* COMPILE ASSEMBLER SOURCE
@@ -98,7 +98,7 @@ module.exports.compile = function (file, size, seg)
 		fs.renameSync(`${filePath}${fileName}.lst`, `${OutDir}${fileName}.lst`)
 		fs.renameSync(`${filePath}${fileName}.sym`, `${OutDir}${fileName}.sym`)
 
-		util.print(`Succeed`, PrintSucced);
+		util.print(`Success`, PrintSuccess);
 	}
 	else
 	{

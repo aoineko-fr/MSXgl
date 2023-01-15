@@ -27,7 +27,7 @@ global.ColorBG      = "[44m";
 //-- Print flag
 global.PrintError     = 0;
 global.PrintWarning   = 1;
-global.PrintSucced    = 2;
+global.PrintSuccess   = 2;
 global.PrintHighlight = 3;
 global.PrintNote      = 4;
 global.PrintDetail    = 5;

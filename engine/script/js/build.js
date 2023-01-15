@@ -254,7 +254,7 @@ if (DoCompile)
 			Version = data.slice(22).toString();
 		}
 		Version++;
-		fs.writeFileSync("./version.h", `#define BUILD_VERSION ${Version}`);
+		fs.writeFileSync("./version.h", `#define BUILD_VERSION ${Version}\r\n`);
 
 		util.print(`New build version: ${Version}`);
 	}
@@ -400,7 +400,7 @@ if (DoMake)
 			util.print(`Lib generation error! Code: ${err}`, PrintError);
 			process.exit(1);
 		}
-		util.print("Succeed", PrintSucced);
+		util.print("Success", PrintSuccess);
 	}
 
 	//=========================================================================
@@ -420,7 +420,7 @@ if (DoMake)
 		util.print(`Link error! Code: ${err}`, PrintError);
 		process.exit(1);
 	}
-	util.print("Succeed", PrintSucced);
+	util.print("Success", PrintSuccess);
 }
 
 //_____________________________________________________________________________
@@ -449,7 +449,7 @@ if (DoPackage)
 		util.print(`Package error! Code: ${err}`, PrintError);
 		process.exit(1);
 	}
-	util.print("Succeed", PrintSucced);
+	util.print("Success", PrintSuccess);
 }
 
 //_____________________________________________________________________________
@@ -568,7 +568,7 @@ if (DoDeploy)
 		util.print(basTxt, PrintDetail);
 		util.print("----------------------------------------", PrintDetail);
 		fs.writeFileSync(`${ProjDir}emul/bin/autoexec.bas`, basTxt);
-		util.print("Succeed", PrintSucced);
+		util.print("Success", PrintSuccess);
 
 		//---- Generate DSK file ----
 		if (fs.existsSync(DskTool))
@@ -645,7 +645,7 @@ if (DoDeploy)
 			util.print(dosTxt, PrintDetail);
 			util.print("----------------------------------------", PrintDetail);
 			fs.writeFileSync(`${ProjDir}emul/dos${DOS}/autoexec.bat`, dosTxt);
-			util.print("Succeed", PrintSucced);
+			util.print("Success", PrintSuccess);
 
 			//---- Generate DSK file ----
 			if (fs.existsSync(DskTool))
@@ -739,7 +739,7 @@ if (DoDeploy)
 		}
 	}
 
-	util.print("Succeed", PrintSucced);
+	util.print("Success", PrintSuccess);
 }
 
 //_____________________________________________________________________________

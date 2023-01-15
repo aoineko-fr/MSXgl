@@ -268,6 +268,7 @@ c8 g_StrBuffer[16];
 // Physics callback
 void PhysicsEventPlayer1(u8 event, u8 tile)
 {
+	tile;
 	switch(event)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
@@ -289,6 +290,7 @@ void PhysicsEventPlayer1(u8 event, u8 tile)
 // Physics callback
 void PhysicsEventPlayer2(u8 event, u8 tile)
 {
+	tile;
 	switch(event)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
@@ -310,6 +312,7 @@ void PhysicsEventPlayer2(u8 event, u8 tile)
 // Physics callback
 void PhysicsEventBall(u8 event, u8 tile)
 {
+	tile;
 	switch(event)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
