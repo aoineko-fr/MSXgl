@@ -77,6 +77,9 @@ extern u16 g_DOS_JumpTable;
 // FUNCTIONS
 //=============================================================================
 
+//.............................................................................
+// Group: Core
+
 // Function: DOSMapper_Init
 // Initialize DOS extended BIOS
 bool DOSMapper_Init();
@@ -84,6 +87,9 @@ bool DOSMapper_Init();
 // Function: DOSMapper_GetVarTable
 // Get Memory Mappers variable table
 inline DOS_VarTable* DOSMapper_GetVarTable() { return g_DOS_VarTable; }
+
+//.............................................................................
+// Group: Allocation
 
 // Function: DOSMapper_Alloc
 // Allocate a segment
@@ -96,6 +102,9 @@ bool DOSMapper_Free(u8 seg, u8 slot);
 // Function: DOSMapper_FreeStruct
 // Free a segment
 inline bool DOSMapper_FreeStruct(DOS_Segment* seg) { return DOSMapper_Free(seg->Number, seg->Slot); }
+
+//.............................................................................
+// Group: Page handling
 
 // Function: DOSMapper_SetPage
 // Select a segment on the corresponding memory page at the specified address

@@ -29,6 +29,9 @@ struct MemChunkHeader
 // FUNCTIONS
 //=============================================================================
 
+//.............................................................................
+// Group: Heap handling
+
 // Function: Mem_GetStackAddress
 // Get the current address of the stack top (lower address).
 //
@@ -73,6 +76,9 @@ void* Mem_HeapAlloc(u16 size);
 //   size - The size of data to allocate
 void Mem_HeapFree(u16 size);
 
+//.............................................................................
+// Group: Memory content modification
+
 // Function: Mem_Copy
 // Copy a memory block from a source address to an other (minimal size of 1 byte).
 //
@@ -115,6 +121,8 @@ void Mem_Set(u8 val, void* dest, u16 size);
 void Mem_FastSet(u8 val, void* dest, u16 size);
 #endif
 
+//.............................................................................
+// Group: Dynamic allocator
 #if (MEM_USE_DYNAMIC)
 // Function: Mem_DynamicInitialize
 // Allocates a static memory chunk which can then be used to allocate chunks dynimically.

@@ -8,8 +8,8 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic341"></a><div class="CTopic TGroup LC first">
- <div class="CTitle">Functions</div>
+<a name="Heap_handling"></a><a name="Topic821"></a><div class="CTopic TGroup LC first">
+ <div class="CTitle">Heap handling</div>
 </div>
 
 <a name="Mem_GetStackAddress"></a><a name="Topic591"></a><div class="CTopic TFunction LC">
@@ -42,6 +42,10 @@
  <div class="CBody"><p>Free the last allocated area of the heap.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to allocate</p></td></tr></table></div>
 </div>
 
+<a name="Memory_content_modification"></a><a name="Topic870"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Memory content modification</div>
+</div>
+
 <a name="Mem_Copy"></a><a name="Topic582"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mem_Copy</div>
  <div id="NDPrototype582" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_Copy(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
@@ -64,6 +68,10 @@
  <div class="CTitle">Mem_FastSet</div>
  <div id="NDPrototype115" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mem_FastSet(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">val,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">dest,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Fast fill a memory chunk with a given value (minimal size of 2 bytes).&nbsp; Use 16 unrolled-LDI loop.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">val<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write</p></td></tr><tr><td class="CDLEntry">dst</td><td class="CDLDefinition"><p>Destination address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>The size of data to fill</p></td></tr></table></div>
+</div>
+
+<a name="Dynamic_allocator"></a><a name="Topic871"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Dynamic allocator</div>
 </div>
 
 <a name="Mem_DynamicInitialize"></a><a name="Topic116"></a><div class="CTopic TFunction LC">
