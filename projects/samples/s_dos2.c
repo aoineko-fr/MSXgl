@@ -589,6 +589,8 @@ DisplayMenu:
 			bool ok = DOSMapper_Alloc(DOS_ALLOC_USER, DOS_SEGSLOT_PRIM, &g_LastSeg);
 			String_Format(g_StrBuffer, "- %s: Allocate user segment from primary slot [slot:%s, seg:%d]", ok ? "Succed" : "Error", FormatSlot(g_LastSeg.Slot), g_LastSeg.Number);
 			Log(g_StrBuffer);
+			for(u8 i = 0; i < 4; ++i)
+				DOSMapper_WriteByte(g_LastSeg.Number, i, i);
 			UpdateExtBIOS();
 		}
 
@@ -631,7 +633,10 @@ DisplayMenu:
 		if(KEY_FLAG(KEY_5) & keys)
 		{
 			DOSMapper_SetPage2(++g_Page2Seg);
-			String_Format(g_StrBuffer, "- Switch page 2 to segment %d. 8000h:[%2x %2x %2x %2x %2x %2x %2x %2x]", g_Page2Seg, PEEK(0x8000), PEEK(0x8001), PEEK(0x8002), PEEK(0x8003), PEEK(0x8004), PEEK(0x8005), PEEK(0x8006), PEEK(0x8007));
+			u8 tab[8];
+			for(u8 i = 0; i < 8; ++i)
+				tab[i] = DOSMapper_ReadByte(g_Page2Seg, i);
+			String_Format(g_StrBuffer, "- Switch page 2 to segment %d. 8000h:[%2x %2x %2x %2x %2x %2x %2x %2x]", g_Page2Seg, tab[0], tab[1], tab[2], tab[3], tab[4], tab[5], tab[6], tab[7]);
 			Log(g_StrBuffer);
 			UpdateExtBIOS();
 		}
@@ -640,7 +645,10 @@ DisplayMenu:
 		if(KEY_FLAG(KEY_6) & keys)
 		{
 			DOSMapper_SetPage2(--g_Page2Seg);
-			String_Format(g_StrBuffer, "- Switch page 2 to segment %d. 8000h:[%2x %2x %2x %2x %2x %2x %2x %2x]", g_Page2Seg, PEEK(0x8000), PEEK(0x8001), PEEK(0x8002), PEEK(0x8003), PEEK(0x8004), PEEK(0x8005), PEEK(0x8006), PEEK(0x8007));
+			u8 tab[8];
+			for(u8 i = 0; i < 8; ++i)
+				tab[i] = DOSMapper_ReadByte(g_Page2Seg, i);
+			String_Format(g_StrBuffer, "- Switch page 2 to segment %d. 8000h:[%2x %2x %2x %2x %2x %2x %2x %2x]", g_Page2Seg, tab[0], tab[1], tab[2], tab[3], tab[4], tab[5], tab[6], tab[7]);
 			Log(g_StrBuffer);
 			UpdateExtBIOS();
 		}
