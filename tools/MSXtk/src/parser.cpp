@@ -798,18 +798,21 @@ u8 GetChunkId(std::vector<Chunk>& list, const Chunk& chunk, ExportParameters* pa
 }
 
 ///
-void ValidateChunk(Chunk& chunk)
+void ExportTable(ExportParameters* param, ExporterInterface* exp, const std::vector<u8>& data, u32 modX)
 {
-	for (u8 i = 0; i < 8; i++)
+	u32 i = 0;
+	for (; i < data.size(); )
 	{
-		u8 c0 = chunk.Color[i] & 0xF;
-		u8 c1 = (chunk.Color[i] >> 4) & 0xF;
-		if (c1 < c0)
-		{
-			chunk.Color[i] = (c0 << 4) + c1;
-			chunk.Pattern[i] = ~chunk.Pattern[i];
-		}
+		if (i % modX == 0)
+			exp->WriteLineBegin();
+
+		exp->Write1ByteData(data[i++]);
+
+		if (i % modX == 0)
+			exp->WriteLineEnd();
 	}
+	if (i % modX != 0)
+		exp->WriteLineEnd();
 }
 
 ///
@@ -919,14 +922,6 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 	{
 		Layer* layer = &param->layers[l];
 
-		//-------------------------------------------------------------------------
-		// NAMES TABLE
-
-		if(param->layers.size() == 1) // Default
-			exp->WriteTableBegin(TABLE_U8, param->tabName + "_Names", "Names Table");
-		else
-			exp->WriteTableBegin(TABLE_U8, MSX::Format("%sL%i_Names", param->tabName.c_str(), l), "Names Table");
-
 		u32 numX = layer->numX / 8;
 		u32 numY = layer->numY / 8;
 
@@ -934,8 +929,6 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 		std::vector<u8> layoutBytes;
 		for (u32 ny = 0; ny < numY; ny++)
 		{
-			if (!param->bGM2CompressNames || param->comp != COMPRESS_RLEp)
-				exp->WriteLineBegin();
 			for (u32 nx = 0; nx < numX; nx++)
 			{
 				Chunk chunk;
@@ -975,25 +968,31 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 
 				u8 patIdx = GetChunkId(chunkList, chunk, param);
 				layoutBytes.push_back(patIdx + param->offset);
-				if (!param->bGM2CompressNames || param->comp != COMPRESS_RLEp)
-					exp->Write1ByteData(patIdx + param->offset);
 			}
-			if (!param->bGM2CompressNames || param->comp != COMPRESS_RLEp)
-				exp->WriteLineEnd();
 		}
 
-		if (param->bGM2CompressNames && param->comp == COMPRESS_RLEp)
-			ExportRLEp(param, exp, layoutBytes);
+		//-------------------------------------------------------------------------
+		// LAYOUT TABLE
 
-		exp->WriteTableEnd("");
+		if (!param->bGM2Unique)
+		{
+			if (param->layers.size() == 1) // Default
+				exp->WriteTableBegin(TABLE_U8, param->tabName + "_Names", "Names Table");
+			else
+				exp->WriteTableBegin(TABLE_U8, MSX::Format("%sL%i_Names", param->tabName.c_str(), l), "Names Table");
+
+			if (param->bGM2CompressNames && param->comp == COMPRESS_RLEp)
+				ExportRLEp(param, exp, layoutBytes);
+			else
+				ExportTable(param, exp, layoutBytes, numX);
+
+			exp->WriteTableEnd("");
+		}
 	}
 	i32 namesSize = exp->GetTotalBytes();
 	exp->WriteCommentLine(MSX::Format("Names size: %i Bytes", namesSize));
 
 	delete bits;
-
-	//for (i32 i = 0; i < (i32)chunkList.size(); i++)
-	//	ValidateChunk(chunkList[i]);
 
 	//-------------------------------------------------------------------------
 	// PATTERNS TABLE
@@ -1151,7 +1150,7 @@ bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 	if (param->layers.size() == 0)
 	{
 		Layer l;
-		l.size16 = false;
+		l.size16 = ((param->sizeX == 16) && (param->sizeY == 16));
 		l.include = false;
 		l.posX = 0;
 		l.posY = 0;
