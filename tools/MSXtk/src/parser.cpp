@@ -1154,8 +1154,9 @@ bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 		l.include = false;
 		l.posX = 0;
 		l.posY = 0;
-		l.numX = (param->sizeX + 7) / 8;
-		l.numY = (param->sizeY + 7) / 8;
+		i32 sprtSize = l.size16 ? 16 : 8;
+		l.numX = (param->sizeX + sprtSize - 1) / sprtSize;
+		l.numY = (param->sizeY + sprtSize - 1) / sprtSize;
 		l.colors.push_back(param->transColor);
 		param->layers.push_back(l);
 	}
