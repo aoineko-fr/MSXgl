@@ -87,15 +87,27 @@ inline DOS_VarTable* DOSMapper_GetVarTable() { return g_DOS_VarTable; }
 
 // Function: DOSMapper_Alloc
 // Allocate a segment
+// Implement ALL_SEG extenpended BIOS routine
 bool DOSMapper_Alloc(u8 type, u8 slot, DOS_Segment* seg);
 
 // Function: DOSMapper_Free
 // Free a segment
+// Implement FRE_SEG extenpended BIOS routine
 bool DOSMapper_Free(u8 seg, u8 slot);
 
 // Function: DOSMapper_FreeStruct
 // Free a segment
 inline bool DOSMapper_FreeStruct(DOS_Segment* seg) { return DOSMapper_Free(seg->Number, seg->Slot); }
+
+// Function: DOSMapper_ReadByte
+// Read byte from given address
+// Implement RD_SEG extenpended BIOS routine
+u8 DOSMapper_ReadByte(u8 seg, u16 addr);
+
+// Function: DOSMapper_WriteByte
+// Write byte to given address
+// Implement WR_SEG extenpended BIOS routine
+void DOSMapper_WriteByte(u8 seg, u16 addr, u8 val);
 
 // Function: DOSMapper_SetPage
 // Select a segment on the corresponding memory page at the specified address

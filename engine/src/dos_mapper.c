@@ -71,7 +71,7 @@ bool DOSMapper_Alloc(u8 type, u8 slot, DOS_Segment* seg) // Stack: 4 bytes
 {
 	type;	// A
 	slot;	// L
-	seg;	// SP+2
+	seg;	// SP[2:3]
 __asm
 	push	ix						// Backup the frame pointer
 	ld		b, l
@@ -115,6 +115,41 @@ __asm
 	pop		ix						// Restore the frame pointer
 __endasm;
 	// return A
+}
+
+//-----------------------------------------------------------------------------
+// Read byte from given address
+u8 DOSMapper_ReadByte(u8 seg, u16 addr) // preserve BC, IX
+{
+	seg;	// A
+	addr;	// DE
+__asm
+	ex		de, hl					// Address in HL
+	ld		iy, (_g_DOS_JumpTable)
+	ld		de, #DOS_RD_SEG
+	add		iy, de
+	call	___sdcc_call_iy			// Call RD_SEG
+__endasm;
+	// return A
+}
+
+//-----------------------------------------------------------------------------
+// Write byte to given address
+void DOSMapper_WriteByte(u8 seg, u16 addr, u8 val)
+{
+	seg;	// A
+	addr;	// DE
+	val;	// SP[2:3]
+__asm
+	ex		de, hl					// Address in HL
+	ld		iy, #2
+	add		iy, sp
+	ld		e, 0(iy)				// Val in E
+	ld		iy, (_g_DOS_JumpTable)
+	ld		bc, #DOS_WR_SEG
+	add		iy, bc
+	call	___sdcc_call_iy			// Call ALL_SEG
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
