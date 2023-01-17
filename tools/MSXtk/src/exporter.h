@@ -77,7 +77,7 @@ struct ExportParameters
 	i32 palCount;				///< Number of colors in the palette
 	i32 palOffset;				///< Index offset of the palette
 	bool pal24;					///< Use 24-bits palette (v9990)
-	MSXi_Compressor comp;		///< Compressor to use (@see MSXi_Compressor)
+	MSX::Compressor comp;		///< Compressor to use (@see MSX::Compressor)
 	MSX::DataFormat format;		///< Data format to use for text export (@see MSX::DataFormat)
 	MSX::AsmSyntax syntax;		///< Assember syntax (@see MSX::AsmSyntax)
 	bool bSkipEmpty;			///< Skip empty block (be aware this option change the block index)
@@ -124,7 +124,7 @@ struct ExportParameters
 		palCount = -1;
 		palOffset = 1;
 		pal24 = FALSE;
-		comp = COMPRESS_None;
+		comp = MSX::COMPRESS_None;
 		format = MSX::DATAFORMAT_Hexa;
 		syntax = MSX::ASMSYNTAX_sdasz80;
 		bSkipEmpty = FALSE;
@@ -150,7 +150,7 @@ struct ExportParameters
 };
 
 // Get the short/long name of a given compressor
-const char* GetCompressorName(MSXi_Compressor comp, bool bShort = FALSE);
+const char* GetCompressorName(MSX::Compressor comp, bool bShort = FALSE);
 
 //
 const char* GetModeName(MSXi_Mode mode);
@@ -159,7 +159,7 @@ const char* GetModeName(MSXi_Mode mode);
 std::string GetTableCText(TableFormat format, std::string name);
 
 // Check if a compressor if compatible with given import parameters
-bool IsCompressorCompatible(MSXi_Compressor comp, const ExportParameters& param);
+bool IsCompressorCompatible(MSX::Compressor comp, const ExportParameters& param);
 
 /**
  * Exporter interface

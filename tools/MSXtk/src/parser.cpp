@@ -246,13 +246,13 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 			// RLE compression
 			//
 			//-----------------------------------------------------------------
-			if (param->comp & COMPRESS_RLE_Mask)
+			if (param->comp & MSX::COMPRESS_RLE_Mask)
 			{
 				i32 maxLength;
 				switch (param->comp)
 				{
-				case COMPRESS_RLE0: maxLength = 0x7F; break;
-				case COMPRESS_RLE4: maxLength = 0x0F; break;
+				case MSX::COMPRESS_RLE0: maxLength = 0x7F; break;
+				case MSX::COMPRESS_RLE4: maxLength = 0x0F; break;
 				default:            maxLength = 0xFF; // COMPRESS_RLE8
 				}
 
@@ -265,7 +265,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 						i32 pixel = param->posX + i + (nx * (param->sizeX + param->gapX)) + ((param->posY + j + (ny * (param->sizeY + param->gapY))) * imageX);
 						u32 rgb = 0xFFFFFF & ((u32*)bits)[pixel];
 
-						if (param->comp == COMPRESS_RLE0) // Transparency color Run-length encoding
+						if (param->comp == MSX::COMPRESS_RLE0) // Transparency color Run-length encoding
 						{
 							if ((hashTable.size() != 0) && (rgb == transRGB) && (hashTable.back().color == transRGB) && (hashTable.back().length < maxLength))
 							{
@@ -285,7 +285,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 								hashTable.push_back(hash);
 							}
 						}
-						else if ((param->comp == COMPRESS_RLE4) || (param->comp == COMPRESS_RLE8)) // Full color Run-length encoding
+						else if ((param->comp == MSX::COMPRESS_RLE4) || (param->comp == MSX::COMPRESS_RLE8)) // Full color Run-length encoding
 						{
 							if ((hashTable.size() != 0) && (rgb == hashTable.back().color) && (hashTable.back().length < maxLength))
 							{
@@ -306,7 +306,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 				for (u32 k = 0; k < hashTable.size(); k++)
 				{
 					exp->WriteLineBegin();
-					if (param->comp == COMPRESS_RLE0) // Transparency color Run-length encoding
+					if (param->comp == MSX::COMPRESS_RLE0) // Transparency color Run-length encoding
 					{
 						if (hashTable[k].color == transRGB)
 						{
@@ -347,7 +347,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							}
 						}
 					}
-					else if (param->comp == COMPRESS_RLE4) // Full color 4bits Run-length encoding
+					else if (param->comp == MSX::COMPRESS_RLE4) // Full color 4bits Run-length encoding
 					{
 						if (param->bpc == 4) // 4-bits index color palette
 						{
@@ -361,7 +361,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							exp->Write1ByteData(byte);
 						}
 					}
-					else if (param->comp == COMPRESS_RLE8) // Full color 8bits Run-length encoding
+					else if (param->comp == MSX::COMPRESS_RLE8) // Full color 8bits Run-length encoding
 					{
 						if (param->bpc == 4) // 4-bits index color palette
 						{
@@ -400,7 +400,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 				{
 					// Compute bound for crop compression and count non transparent pixels
 					i32 count = 0;
-					if (param->comp & COMPRESS_Crop_Mask)
+					if (param->comp & MSX::COMPRESS_Crop_Mask)
 					{
 						minX = param->sizeX;
 						maxX = 0;
@@ -415,7 +415,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							u32 rgb = 0xFFFFFF & ((u32*)bits)[pixel];
 							if (rgb != transRGB)
 							{
-								if (param->comp & COMPRESS_Crop_Mask)
+								if (param->comp & MSX::COMPRESS_Crop_Mask)
 								{
 									if (i < minX)
 										minX = i;
@@ -439,12 +439,12 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							sprtAddr[nx + (ny * param->numX)] = MSXi_NO_ENTRY;
 							continue;
 						}
-						else if (param->comp & COMPRESS_Crop_Mask)
+						else if (param->comp & MSX::COMPRESS_Crop_Mask)
 							minX = maxX = minY = maxY = 0;
 					}
 
 					// Sprite header
-					if ((param->comp & COMPRESS_Crop_Mask))
+					if ((param->comp & MSX::COMPRESS_Crop_Mask))
 					{
 						if (param->bpc == 1) // 1-bit black & white
 						{
@@ -462,7 +462,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							maxX |= 0x01;	 // Round up 2
 						}
 
-						if (param->comp == COMPRESS_Crop16)
+						if (param->comp == MSX::COMPRESS_Crop16)
 						{
 							minX &= 0x0F;	// Clamp to 4-bits (0-15)
 							maxX &= 0x0F;	// Clamp to 4-bits (0-15)
@@ -470,13 +470,13 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							maxY &= 0x0F;	// Clamp to 4-bits (0-15)
 							exp->Write2BytesLine(u8((minX << 4) + maxX), u8(((minY) << 4) + maxY), "[minX:4|maxX:4] [minY:4|maxY:4]");
 						}
-						else if (param->comp == COMPRESS_CropLine16)
+						else if (param->comp == MSX::COMPRESS_CropLine16)
 						{
 							minY &= 0x0F;	// Clamp to 4-bits (0-15)
 							maxY &= 0x0F;	// Clamp to 4-bits (0-15)
 							exp->Write1ByteLine(u8((minY << 4) + maxY), "[minY:4|maxY:4]");
 						}
-						else if (param->comp == COMPRESS_Crop32)
+						else if (param->comp == MSX::COMPRESS_Crop32)
 						{
 							minX &= 0x07;	// Clamp to 3-bits (0-7)
 							maxX &= 0x1F;	// Clamp to 5-bits (0-31)
@@ -484,17 +484,17 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							maxY &= 0x1F;	// Clamp to 5-bits (0-31)
 							exp->Write2BytesLine(u8((minX << 5) + maxX), u8(((minY) << 5) + maxY), "[minX:3|maxX:5] [minY:3|maxY:5]");
 						}
-						else if (param->comp == COMPRESS_CropLine32)
+						else if (param->comp == MSX::COMPRESS_CropLine32)
 						{
 							minY &= 0x07;	// Clamp to 3-bits (0-7)
 							maxY &= 0x1F;	// Clamp to 5-bits (0-31)
 							exp->Write1ByteLine(u8(((minY) << 5) + maxY), "[minY:3|maxY:5]");
 						}
-						else if (param->comp == COMPRESS_Crop256)
+						else if (param->comp == MSX::COMPRESS_Crop256)
 						{
 							exp->Write4BytesLine(u8(minX), u8(maxX), u8(minY), u8(maxY), "[minX] [maxX] [minY] [maxY]");
 						}
-						else if (param->comp == COMPRESS_CropLine256)
+						else if (param->comp == MSX::COMPRESS_CropLine256)
 						{
 							exp->Write2BytesLine(u8(minY), u8(maxY), "[minY] [maxY]");
 						}
@@ -507,7 +507,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 					if ((j >= minY) && (j <= maxY))
 					{
 						// for line-crop, we need to recompute minX&maxX for each line
-						if (param->comp & COMPRESS_CropLine_Mask)
+						if (param->comp & MSX::COMPRESS_CropLine_Mask)
 						{
 							minX = param->sizeX;
 							maxX = 0;
@@ -540,19 +540,19 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							}
 
 							// Add row range info
-							if (param->comp == COMPRESS_CropLine16)
+							if (param->comp == MSX::COMPRESS_CropLine16)
 							{
 								minX &= 0x0F;	// Clamp to 4-bits (0-15)
 								maxX &= 0x0F;	// Clamp to 4-bits (0-15)
 								exp->Write1ByteLine(u8((minX << 4) + maxX), "[minX:4|maxX:4]");
 							}
-							else if (param->comp == COMPRESS_CropLine32)
+							else if (param->comp == MSX::COMPRESS_CropLine32)
 							{
 								minX &= 0x07;	// Clamp to 3-bits (0-7)
 								maxX &= 0x1F;	// Clamp to 5-bits (0-31)
 								exp->Write1ByteLine(u8(((minX) << 5) + maxX), "[minX:3|maxX:5]");
 							}
-							else if (param->comp == COMPRESS_CropLine256)
+							else if (param->comp == MSX::COMPRESS_CropLine256)
 							{
 								exp->Write2BytesLine(u8(minX), u8(maxX), "[minX] [maxX]");
 							}
@@ -815,6 +815,18 @@ void ExportTable(ExportParameters* param, ExporterInterface* exp, const std::vec
 		exp->WriteLineEnd();
 }
 
+namespace Pletter { void Export(const std::vector<u8>& in, std::vector<u8>& out); }
+
+///
+void ExportPletter(ExportParameters* param, ExporterInterface* exp, const std::vector<u8>& data)
+{
+	std::vector<u8> out;
+
+	Pletter::Export(data, out);
+
+	ExportTable(param, exp, out, 16);
+}
+	
 ///
 void ExportRLEp(ExportParameters* param, ExporterInterface* exp, const std::vector<u8>& data)
 {
@@ -981,8 +993,10 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 			else
 				exp->WriteTableBegin(TABLE_U8, MSX::Format("%sL%i_Names", param->tabName.c_str(), l), "Names Table");
 
-			if (param->bGM2CompressNames && param->comp == COMPRESS_RLEp)
+			if (param->bGM2CompressNames && param->comp == MSX::COMPRESS_RLEp)
 				ExportRLEp(param, exp, layoutBytes);
+			else if (param->bGM2CompressNames && param->comp == MSX::COMPRESS_Pletter)
+				ExportPletter(param, exp, layoutBytes);
 			else
 				ExportTable(param, exp, layoutBytes, numX);
 
@@ -998,13 +1012,19 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 	// PATTERNS TABLE
 
 	exp->WriteTableBegin(TABLE_U8, param->tabName + "_Patterns", "Patterns Table");
-	if (param->comp == COMPRESS_RLEp)
+	if (param->comp != MSX::COMPRESS_None)
 	{
+		// Build data
 		std::vector<u8> bytes;
 		for (i32 i = 0; i < (i32)chunkList.size(); i++)
 			for (i32 j = 0; j < 8; j++)
 				bytes.push_back(chunkList[i].Pattern[j]);
-		ExportRLEp(param, exp, bytes);
+
+		// Compress
+		if (param->comp == MSX::COMPRESS_RLEp)
+			ExportRLEp(param, exp, bytes);
+		else if (param->comp == MSX::COMPRESS_Pletter)
+			ExportPletter(param, exp, bytes);
 	}
 	else
 	{
@@ -1027,13 +1047,19 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 	// COLORS TABLE
 
 	exp->WriteTableBegin(TABLE_U8, param->tabName + "_Colors", "Colors Table");
-	if (param->comp == COMPRESS_RLEp)
+	if (param->comp != MSX::COMPRESS_None)
 	{
+		// Build data
 		std::vector<u8> bytes;
 		for (i32 i = 0; i < (i32)chunkList.size(); i++)
 			for (i32 j = 0; j < 8; j++)
 				bytes.push_back(chunkList[i].Color[j]);
-		ExportRLEp(param, exp, bytes);
+
+		// Compress
+		if (param->comp == MSX::COMPRESS_RLEp)
+			ExportRLEp(param, exp, bytes);
+		else if (param->comp == MSX::COMPRESS_Pletter)
+			ExportPletter(param, exp, bytes);
 	}
 	else
 	{
@@ -1085,7 +1111,7 @@ i32 ColorToBinary(Layer& layer, u32 c24)
 /// Export a 8x8 sprite data (1-bit per point)
 void ExportSpriteData(ExportParameters* param, ExporterInterface* exp, Layer& layer, i32 sid, i32 x, i32 y, BYTE* bits, i32 imageX, i32 imageY, std::vector<u8> &rawData)
 {
-	if (param->comp != COMPRESS_RLEp)
+	if (param->comp != MSX::COMPRESS_RLEp)
 	{
 		exp->WriteSpriteHeader(sid);
 	}
@@ -1106,7 +1132,7 @@ void ExportSpriteData(ExportParameters* param, ExporterInterface* exp, Layer& la
 				}
 			}
 		}
-		if (param->comp == COMPRESS_RLEp)
+		if (param->comp == MSX::COMPRESS_RLEp)
 		{
 			rawData.push_back(byte);
 		}
@@ -1174,14 +1200,14 @@ bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 	{
 		for (i32 nx = 0; nx < param->numX; nx++)
 		{
-			if (param->comp != COMPRESS_RLEp)
+			if (param->comp != MSX::COMPRESS_RLEp)
 				exp->WriteCommentLine(MSX::Format("======== Frame[%i]", nx + ny * param->numX));
 
 			for (i32 l = 0; l < (i32)param->layers.size(); l++)
 			{
 				Layer& layer = param->layers[l];
 
-				if (param->comp != COMPRESS_RLEp)
+				if (param->comp != MSX::COMPRESS_RLEp)
 					exp->WriteCommentLine(MSX::Format("---- Layer[%i] (%s %i,%i %i,%i %s %i)", l, layer.size16 ? "16x16" : "8x8", layer.posX, layer.posY, layer.numX, layer.numY, layer.include ? "inc" : "dec", layer.colors.size()));
 
 				for (u32 j = 0; j < layer.numY; j++)
@@ -1214,7 +1240,7 @@ bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 		}
 	}
 
-	if (param->comp == COMPRESS_RLEp)
+	if (param->comp == MSX::COMPRESS_RLEp)
 	{
 		ExportRLEp(param, exp, rawData);
 	}

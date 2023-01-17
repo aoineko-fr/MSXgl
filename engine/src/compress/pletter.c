@@ -1,8 +1,8 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄  ▄▄       ▄▄  ▄▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██  ▄███ ██▀ ██▀ ▄███ ██▄▀
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ▀█▄ ▀█▄▄ ▀█▄ ▀█▄ ▀█▄▄ ██
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Pletter v0.5c - XL2S Entertainment 2008
@@ -12,14 +12,11 @@
 #include "asm.h"
 #include "system_port.h"
 
-#define LENGTHINDATA 0
-
 //-----------------------------------------------------------------------------
 // Unpack Pletter compressed data to a RAM buffer
 // call unpack with hl pointing to some pletter5 data, and de pointing to the destination.
 // changes all registers
-// define lengthindata when the original size is written in the pletter data
-// define LENGTHINDATA
+// Set PLETTER_LENGTHINDATA to TRUE when the original size is written in the pletter data
 void Pletter_UnpackToRAM(const void* source, void* dest) __naked
 {
 	source;	// HL
@@ -32,7 +29,7 @@ __asm
 	ret
 
 unpack:
-#if (LENGTHINDATA)
+#if (PLETTER_LENGTHINDATA)
 	inc		hl
 	inc		hl
 #endif

@@ -1,8 +1,8 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄  ▄▄       ▄▄  ▄▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██  ▄███ ██▀ ██▀ ▄███ ██▄▀
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██   ▀█▄ ▀█▄▄ ▀█▄ ▀█▄ ▀█▄▄ ██
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Pletter v0.5c - XL2S Entertainment 2008
@@ -12,7 +12,7 @@
 
 #include "core.h"
 
-#define LENGTHINDATA 0
+#define PLETTER_LENGTHINDATA	FALSE
 
 // Function: Pletter_UnpackToRAM
 // Unpack Pletter compressed data to a RAM buffer

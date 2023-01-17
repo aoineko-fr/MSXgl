@@ -71,6 +71,36 @@ enum DataSize : u8
 	DATASIZE_QWord = DATASIZE_64bits,
 };
 
+/// Compression mode
+enum Compressor : u16
+{
+	COMPRESS_None          = 0x0000,     ///< No compression
+
+	// Crop compression
+	COMPRESS_Crop16        = 0x0001, ///< Crop sprite to keep only the non-transparent area (max size 16x16)
+	COMPRESS_Crop32        = 0x0002, ///< Crop sprite to keep only the non-transparent area (max size 32x32)
+	COMPRESS_Crop256       = 0x0003, ///< Crop sprite to keep only the non-transparent area (max size 256x256)
+	COMPRESS_CropLine_Mask = 0x0008, // Bits mask
+	COMPRESS_CropLine16    = COMPRESS_Crop16 | COMPRESS_CropLine_Mask,  ///< Crop each sprite line (max size 16x16)
+	COMPRESS_CropLine32    = COMPRESS_Crop32 | COMPRESS_CropLine_Mask,  ///< Crop each sprite line (max size 32x32)
+	COMPRESS_CropLine256   = COMPRESS_Crop256 | COMPRESS_CropLine_Mask, ///< Crop each sprite line (max size 256x256)
+	COMPRESS_Crop_Mask     = 0x000F, // Bits mask
+
+	// RLE compression
+	COMPRESS_RLE0          = 0x0010, ///< Run-length encoding of transparent blocs (7-bits for block length)
+	COMPRESS_RLE4          = 0x0020, ///< Run-length encoding for all colors (4-bits for block length)
+	COMPRESS_RLE8          = 0x0030, ///< Run-length encoding for all colors (8-bits for block length)
+	COMPRESS_RLEp          = 0x0040, ///< Pattern based run-length encoding (6-bits for block length)
+	COMPRESS_RLE_Mask      = 0x00F0, // Bits mask
+
+	// 3rd party compressor
+	COMPRESS_Pletter       = 0x0100, ///< Pletter v0.5c1 by XL2S Entertainment
+	COMPRESS_Bitbuster     = 0x0200, ///< Bitbuster v1.2 by Team Bomba
+	COMPRESS_Bitbuster2    = 0x0300, ///< Bitbuster v2 by Arjan Bakker
+	COMPRESS_ZX0           = 0x0400, ///< ZX0 by Einar Saukas & Urusergi
+	//COMPRESS_Ext_Mask      = 0xFF00, // Bits mask
+};
+
 /// 
 inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 {

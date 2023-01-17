@@ -306,31 +306,33 @@ int main(int argc, const char* argv[])
 		{
 			i++;
 			if (MSX::StrEqual(argv[i], "crop16"))
-				param.comp = COMPRESS_Crop16;
+				param.comp = MSX::COMPRESS_Crop16;
 			else if (MSX::StrEqual(argv[i], "cropline16"))
-				param.comp = COMPRESS_CropLine16;
+				param.comp = MSX::COMPRESS_CropLine16;
 			else if (MSX::StrEqual(argv[i], "crop32"))
-				param.comp = COMPRESS_Crop32;
+				param.comp = MSX::COMPRESS_Crop32;
 			else if (MSX::StrEqual(argv[i], "cropline32"))
-				param.comp = COMPRESS_CropLine32;
+				param.comp = MSX::COMPRESS_CropLine32;
 			else if (MSX::StrEqual(argv[i], "crop256"))
-				param.comp = COMPRESS_Crop256;
+				param.comp = MSX::COMPRESS_Crop256;
 			else if (MSX::StrEqual(argv[i], "cropline256"))
-				param.comp = COMPRESS_CropLine256;
+				param.comp = MSX::COMPRESS_CropLine256;
 			else if (MSX::StrEqual(argv[i], "rle0"))
-				param.comp = COMPRESS_RLE0;
+				param.comp = MSX::COMPRESS_RLE0;
 			else if (MSX::StrEqual(argv[i], "rle4"))
-				param.comp = COMPRESS_RLE4;
+				param.comp = MSX::COMPRESS_RLE4;
 			else if (MSX::StrEqual(argv[i], "rle8"))
-				param.comp = COMPRESS_RLE8;
+				param.comp = MSX::COMPRESS_RLE8;
 			else if (MSX::StrEqual(argv[i], "rlep"))
-				param.comp = COMPRESS_RLEp;
+				param.comp = MSX::COMPRESS_RLEp;
+			else if (MSX::StrEqual(argv[i], "pletter"))
+				param.comp = MSX::COMPRESS_Pletter;
 			else if (MSX::StrEqual(argv[i], "auto"))
 				bAutoCompress = true;
 			else if (MSX::StrEqual(argv[i], "best"))
 				bBestCompress = true;
 			else
-				param.comp = COMPRESS_None;
+				param.comp = MSX::COMPRESS_None;
 		}
 		else if (MSX::StrEqual(argv[i], "-dither")) // Dithering method
 		{
@@ -530,7 +532,7 @@ int main(int argc, const char* argv[])
 	// Determine a valid compression method according to input parameters
 	if (bAutoCompress)
 	{
-		param.comp = COMPRESS_None;
+		param.comp = MSX::COMPRESS_None;
 		if ((param.sizeX != 0) && (param.sizeY != 0))
 		{
 			if (param.bUseTrans)
@@ -538,26 +540,26 @@ int main(int argc, const char* argv[])
 				if ((param.bpc == 1) || (param.bpc == 2))
 				{
 					if ((param.sizeX <= 16) && (param.sizeY <= 16))
-						param.comp = COMPRESS_Crop16;
+						param.comp = MSX::COMPRESS_Crop16;
 					else if ((param.sizeX <= 32) && (param.sizeY <= 32))
-						param.comp = COMPRESS_Crop32;
+						param.comp = MSX::COMPRESS_Crop32;
 					else if ((param.sizeX <= 256) && (param.sizeY <= 256))
-						param.comp = COMPRESS_Crop256;
+						param.comp = MSX::COMPRESS_Crop256;
 				}
 				else // bpc == 4 or 8
 				{
 					if ((param.sizeX <= 16) && (param.sizeY <= 16))
-						param.comp = COMPRESS_CropLine16;
+						param.comp = MSX::COMPRESS_CropLine16;
 					else if ((param.sizeX <= 32) && (param.sizeY <= 32))
-						param.comp = COMPRESS_CropLine32;
+						param.comp = MSX::COMPRESS_CropLine32;
 					else if ((param.sizeX <= 256) && (param.sizeY <= 256))
-						param.comp = COMPRESS_CropLine256;
+						param.comp = MSX::COMPRESS_CropLine256;
 				}
 			}
 			else
 			{
 				if (param.bpc == 4)
-					param.comp = COMPRESS_RLE4;
+					param.comp = MSX::COMPRESS_RLE4;
 			}
 		}
 		printf("Auto compress: %s method selected\n", GetCompressorName(param.comp));
@@ -568,22 +570,22 @@ int main(int argc, const char* argv[])
 	if (bBestCompress)
 	{
 		printf("Start benchmark to find the best compressor\n");
-		static const MSXi_Compressor compTable[] =
+		static const MSX::Compressor compTable[] =
 		{
-			COMPRESS_None,
-			COMPRESS_Crop16,
-			COMPRESS_CropLine16,
-			COMPRESS_Crop32,
-			COMPRESS_CropLine32,
-			COMPRESS_Crop256,
-			COMPRESS_CropLine256,
-			COMPRESS_RLE0,
-			COMPRESS_RLE4,
-			COMPRESS_RLE8
+			MSX::COMPRESS_None,
+			MSX::COMPRESS_Crop16,
+			MSX::COMPRESS_CropLine16,
+			MSX::COMPRESS_Crop32,
+			MSX::COMPRESS_CropLine32,
+			MSX::COMPRESS_Crop256,
+			MSX::COMPRESS_CropLine256,
+			MSX::COMPRESS_RLE0,
+			MSX::COMPRESS_RLE4,
+			MSX::COMPRESS_RLE8
 		};
 
 		u32 bestSize = 0;
-		MSXi_Compressor bestComp = COMPRESS_None;
+		MSX::Compressor bestComp = MSX::COMPRESS_None;
 
 		for (i32 i = 0; i < numberof(compTable); i++)
 		{
@@ -674,25 +676,25 @@ int main(int argc, const char* argv[])
 	{
 		printf("Warning: sizeX or sizeY is 0. The whole image will be exported.\n");
 	}
-	if (!param.bUseTrans && (param.comp & COMPRESS_Crop_Mask))
+	if (!param.bUseTrans && (param.comp & MSX::COMPRESS_Crop_Mask))
 	{
 		printf("Warning: Crop compressor can't be use without transparency color. Crop compressor removed.\n");
-		param.comp = COMPRESS_None;
+		param.comp = MSX::COMPRESS_None;
 	}
-	if (!param.bUseTrans && (param.comp == COMPRESS_RLE0))
+	if (!param.bUseTrans && (param.comp == MSX::COMPRESS_RLE0))
 	{
 		printf("Warning: RLE0 compressor can't be use without transparency color. RLE0 compressor removed.\n");
-		param.comp = COMPRESS_None;
+		param.comp = MSX::COMPRESS_None;
 	}
-	if (((param.bpc == 1) || (param.bpc == 2)) && (param.comp & COMPRESS_RLE_Mask))
+	if (((param.bpc == 1) || (param.bpc == 2)) && (param.comp & MSX::COMPRESS_RLE_Mask))
 	{
 		printf("Warning: RLE compressor can be use only with 4 and 8-bits color format. RLE compressor removed.\n");
-		param.comp = COMPRESS_None;
+		param.comp = MSX::COMPRESS_None;
 	}
-	if ((param.bpc == 8) && (param.comp == COMPRESS_RLE4))
+	if ((param.bpc == 8) && (param.comp == MSX::COMPRESS_RLE4))
 	{
 		printf("Warning: RLE4 compressor have no advantage with 8-bits color format. RLE8 compressor will be use instead.\n");
-		param.comp = COMPRESS_RLE8;
+		param.comp = MSX::COMPRESS_RLE8;
 	}
 	if (!param.bUseTrans && param.bSkipEmpty)
 	{
