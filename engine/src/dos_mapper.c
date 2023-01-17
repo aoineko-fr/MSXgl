@@ -129,6 +129,7 @@ __asm
 	ld		de, #DOS_RD_SEG
 	add		iy, de
 	call	___sdcc_call_iy			// Call RD_SEG
+	ei
 __endasm;
 	// return A
 }
@@ -149,6 +150,7 @@ __asm
 	ld		bc, #DOS_WR_SEG
 	add		iy, bc
 	call	___sdcc_call_iy			// Call ALL_SEG
+	ei
 __endasm;
 }
 
