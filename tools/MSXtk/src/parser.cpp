@@ -650,7 +650,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 	sprintf_s(strData, BUFFER_SIZE, "Total size : % i bytes", exp->GetTotalBytes());
 	exp->WriteTableEnd(strData);
 
-	delete bits;
+	delete[] bits;
 
 	//-------------------------------------------------------------------------
 	// INDEX TABLE
@@ -992,7 +992,7 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 	i32 namesSize = exp->GetTotalBytes();
 	exp->WriteCommentLine(MSX::Format("Names size: %i Bytes", namesSize));
 
-	delete bits;
+	delete[] bits;
 
 	//-------------------------------------------------------------------------
 	// PATTERNS TABLE
@@ -1220,9 +1220,9 @@ bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 	}
 
 	i32 namesSize = exp->GetTotalBytes();
-	exp->WriteTableEnd(MSX::Format("Names size: %i Bytes", namesSize));
+	exp->WriteTableEnd(MSX::Format("Patterns size: %i Bytes", namesSize));
 
-	delete bits;
+	delete[] bits;
 
 	//-------------------------------------------------------------------------
 	// Write file

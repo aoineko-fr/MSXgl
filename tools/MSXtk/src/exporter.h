@@ -59,7 +59,7 @@ struct ExportParameters
 	std::string inFile;			///< Input filename
 	std::string outFile;		///< Output filename
 	std::string tabName;		///< Data table name
-	MSXi_Mode mode;			///< Exporter mode
+	MSXi_Mode mode;				///< Exporter mode
 	i32 posX;					///< Start X position for data extracting
 	i32 posY;					///< Start Y position for data extracting
 	i32 sizeX;					///< Width of data block
