@@ -125,6 +125,7 @@ void PrintHelp()
 	printf("      rlep         Pattern based run-length encoding (6-bits for block length)\n");
 	printf("      auto         Determine a good compression method according to parameters\n");
 	printf("      best         Search for best compressor according to input parameters (smallest data)\n");
+	printf("      pletter      Pletter v0.5c1 by XL2S Entertainment\n");
 	printf("   -dither ?       Dithering method (for 1-bit color only)\n");
 	printf("      none         No dithering (default)\n");
 	printf("      floyd        Floyd & Steinberg error diffusion algorithm\n");
@@ -142,11 +143,11 @@ void PrintHelp()
 	printf("      hexa$        Hexadecimal data ($FF; asm only)\n");
 	printf("      hexa#        Hexadecimal data (#FF; asm only)\n");
 	printf("      bin          Binary data (11001100b; asm only)\n");
-	printf("   -asm ?           Assembler format for data\n");
-	printf("      sdasz80      SDCC assembler (default)\n");
-	printf("      tniasm       tniASM assembler\n");
-	printf("      asmsx        asMSX assembler\n");
-	printf("      sjasm        Sjasm assembler\n");
+	printf("   -asm ?          Assembler number format\n");
+	printf("      sdasz80      SDCC format (default)\n");
+	printf("      tniasm       tniASM format\n");
+	printf("      asmsx        asMSX format\n");
+	printf("      sjasm        Sjasm format\n");
 	printf("   -skip           Skip empty sprites (default: false)\n");
 	printf("   -idx            Add images index table (default: false)\n");
 	printf("   -copy (file)    Add copyright information from text file\n");

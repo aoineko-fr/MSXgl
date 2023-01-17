@@ -1,4 +1,4 @@
-MSXimg (v1.15.2)
+MSXimg (v1.16.0)
 Usage: MSXimg <filename> [options]
 
 Options:
@@ -56,6 +56,7 @@ Options:
       rlep         Pattern based run-length encoding (6-bits for block length)
       auto         Determine a good compression method according to parameters
       best         Search for best compressor according to input parameters (smallest data)
+      pletter      Pletter v0.5c1 by XL2S Entertainment
    -dither ?       Dithering method (for 1-bit color only)
       none         No dithering (default)
       floyd        Floyd & Steinberg error diffusion algorithm
@@ -73,11 +74,11 @@ Options:
       hexa$        Hexadecimal data ($FF; asm only)
       hexa#        Hexadecimal data (#FF; asm only)
       bin          Binary data (11001100b; asm only)
-   -asm ?           Assembler format for data
-      sdasz80      SDCC assembler (default)
-      tniasm       tniASM assembler
-      asmsx        asMSX assembler
-      sjasm        Sjasm assembler
+   -asm ?          Assembler number format
+      sdasz80      SDCC format (default)
+      tniasm       tniASM format
+      asmsx        asMSX format
+      sjasm        Sjasm format
    -skip           Skip empty sprites (default: false)
    -idx            Add images index table (default: false)
    -copy (file)    Add copyright information from text file

@@ -1111,7 +1111,7 @@ i32 ColorToBinary(Layer& layer, u32 c24)
 /// Export a 8x8 sprite data (1-bit per point)
 void ExportSpriteData(ExportParameters* param, ExporterInterface* exp, Layer& layer, i32 sid, i32 x, i32 y, BYTE* bits, i32 imageX, i32 imageY, std::vector<u8> &rawData)
 {
-	if (param->comp != MSX::COMPRESS_RLEp)
+	if (param->comp == MSX::COMPRESS_None)
 	{
 		exp->WriteSpriteHeader(sid);
 	}
@@ -1132,15 +1132,15 @@ void ExportSpriteData(ExportParameters* param, ExporterInterface* exp, Layer& la
 				}
 			}
 		}
-		if (param->comp == MSX::COMPRESS_RLEp)
-		{
-			rawData.push_back(byte);
-		}
-		else
+		if (param->comp == MSX::COMPRESS_None)
 		{
 			exp->WriteLineBegin();
 			exp->Write8BitsData(byte);
 			exp->WriteLineEnd();
+		}
+		else
+		{
+			rawData.push_back(byte);
 		}
 	}
 }
@@ -1240,10 +1240,11 @@ bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 		}
 	}
 
+	// Export compressed data
 	if (param->comp == MSX::COMPRESS_RLEp)
-	{
 		ExportRLEp(param, exp, rawData);
-	}
+	else if (param->comp == MSX::COMPRESS_Pletter)
+		ExportPletter(param, exp, rawData);
 
 	i32 namesSize = exp->GetTotalBytes();
 	exp->WriteTableEnd(MSX::Format("Patterns size: %i Bytes", namesSize));
