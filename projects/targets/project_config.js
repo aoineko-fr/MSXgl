@@ -47,7 +47,6 @@ Machine = "1";
 //   - ROM_KONAMI_SCC	.rom	128KB ROM using Konami SCC mapper (8KB segments)
 //   - DOS1				.com	MSX-DOS 1 program (0100h~) No direct acces to Main-ROM
 //   - DOS2				.com	MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
-//   - DOS2_ARG			.com	[WIP] MSX-DOS 2 program (using command line arguments ; 0100h~) No direct acces to Main-ROM. 
 Target = "ROM_32K";
 
 //-- Mapper size
