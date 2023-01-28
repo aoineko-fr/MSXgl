@@ -16,3 +16,6 @@ LibModules = [ "v9990", ...LibModules];
 
 //-- Add V9990 video-chip extension (boolean)
 EmulV9990 = true;
+
+//-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
+AppID = "V9";

@@ -1,13 +1,13 @@
-// _____________________________________________________________________________
-//    ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄
-//   ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▄  ▄█▄█ ▄▀██
-//   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██ ██ █  ▀██
-// _______________________________▀▀____________________________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█ ▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
+// █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
+// Data generated using MSXimg 1.16.1 on Sun Jan 22 19:33:12 2023
+// by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
+// ─────────────────────────────────────────────────────────────────────────────
 // Source image author: GrafxKid (https://opengameart.org/content/super-random-sprites)
 // License: CC-BY
-// _____________________________________________________________________________
-// Data generated using CMSXimg 1.14.5 on Sat Jul 30 23:05:55 2022
-// by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
+// ─────────────────────────────────────────────────────────────────────────────
 // Generation parameters:
 //  - Input file:     datasrc\img.png
 //  - Mode:           Sprite
@@ -247,4 +247,4 @@ const unsigned char g_DataSprtBall[] =
 	0xFE, /* #######. */ 
 	0xF8, /* #####... */ 
 };
-// Names size: 192 Bytes
+// Patterns size: 192 Bytes

@@ -19,3 +19,6 @@ DiskFiles = [ "content/img/IMAGE01.SC5", "content/img/IMAGE04.SC5", "content/img
 
 //-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific
 EmulExtraParam = "-ext ram1mb";
+
+//-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
+AppID = "D2";

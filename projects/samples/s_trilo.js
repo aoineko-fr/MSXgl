@@ -13,3 +13,6 @@ ROMSize = 128;
 
 //-- List of library modules to build (array)
 LibModules = [ "trilo/trilo_scc_player", "system", "vdp", "print", "input", "memory" ];
+
+//-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
+AppID = "TT";

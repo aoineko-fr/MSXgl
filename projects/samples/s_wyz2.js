@@ -13,3 +13,6 @@ AddSources = [ "content/wyz/Nayade.asm", "content/wyz/RA_PSG.asm", "content/wyz/
 
 //-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific
 EmulExtraParam = "-exta slotexpander -ext MegaFlashROM_SCC+_SD";
+
+//-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
+AppID = "W2";

@@ -16,3 +16,6 @@ ROMSize = 128;
 
 //-- Use automatic banked call and trampoline functions (boolean). For mapped ROM
 BankedCall = true;
+
+//-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
+AppID = "MP";

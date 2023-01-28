@@ -36,6 +36,17 @@ SETRAM    = 0xF36B
 _g_FirstAddr::
 _g_HeaderAddr::
 
+.if APP_SIGN
+	jr		crt0_init
+_g_AppSignature::
+	.dw		APP_SIGN_NAME
+	.dw		APP_SIGN_ID
+
+.endif
+; .ifdef APP_SIGN_EXTRA
+	; .db		APP_SIGN_EXTRA
+; .endif
+
 ;------------------------------------------------------------------------------
 ; Initialization code
 crt0_init:

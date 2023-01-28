@@ -59,6 +59,7 @@ module.exports.compile = function (file, size, seg)
 		if (size !== undefined)	AddOpt += ` --code-size ${size}`;
 		if (seg !== undefined)	AddOpt += ` --codeseg SEG${seg}`;
 		if (Debug)				AddOpt += " --debug";
+		if (AppSignature)		AddOpt += " -DAPPSIGN";
 
 		// set AddOpt=!AddOpt! --max-allocs-per-node 100000
 		// set AddOpt=!AddOpt! --constseg RODATA

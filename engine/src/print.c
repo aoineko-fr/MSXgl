@@ -71,7 +71,7 @@ extern u16 g_HeapStartAddress;
 struct Print_Data g_PrintData;
 
 // Table use to quick decimal-to-hexadecimal conversion
-static const c8 g_HexChar[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+const c8 g_HexChar[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 #if (PRINT_USE_VALIDATOR)
 // Character use by character validator to show invalid character

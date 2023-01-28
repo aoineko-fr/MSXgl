@@ -57,7 +57,7 @@ u16 RLEp_UnpackToRAM(const u8* src, u8* dst RLEP_FIXSIZE_PARAM)
 				dst[i] = src[i & 0x1];
 			src += 2;
 		}
-		else // type == 3 // Chcunk of uncompressed data
+		else // type == 3 // Chunk of uncompressed data
 		{
 			Mem_Copy(src, dst, count);
 			src += count;

@@ -13,3 +13,6 @@ LibModules = [ "dos", "compress", "compress/bitbuster", "compress/bitbuster2", "
 
 //-- List of data files to copy to disk (array)
 DiskFiles = [ "content/zip/data10.bin", "content/zip/data10.rlep", "content/zip/data10.zx0", "content/zip/data10.pck", "content/zip/data10.bb2", "content/zip/data10.pl5" ];
+
+//-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
+AppID = "ZP";

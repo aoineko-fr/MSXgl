@@ -27,6 +27,7 @@
 		.dw		0x0000
 
 	.if APP_SIGN
+	_g_AppSignature::
 		.dw		APP_SIGN_NAME
 		.dw		APP_SIGN_ID
 	.endif
@@ -48,6 +49,7 @@
 		.dw 	startAddr	; Execution address
 
 	.if APP_SIGN
+	_g_AppSignature::
 		.dw		APP_SIGN_NAME
 		.dw		APP_SIGN_ID
 	.endif

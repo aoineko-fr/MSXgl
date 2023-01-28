@@ -109,6 +109,22 @@ CustomISR = "VBLANK";
 // DOSParseArg = true;
 
 //*******************************************************************************
+// SIGNATURE SETTINGS
+//*******************************************************************************
+
+//-- Add application signature to binary data (boolean)
+AppSignature = true;
+
+//-- Application company (*). Can be 2 character string or 16-bits integer (0~65535)
+AppCompany = "GL";
+
+//-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
+AppID = "SP";
+
+//-- Application extra data (array). Comma-separated bytes starting with data size
+// AppExtra = [];
+
+//*******************************************************************************
 // MAKE SETTINGS
 //*******************************************************************************
 

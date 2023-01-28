@@ -16,3 +16,6 @@ EmulPortA = "NinjaTap";
 
 //-- List of data files to copy to disk (array)
 DiskFiles = [ "content/misc/ntap_usr.bas" ];
+
+//-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
+AppID = "US";

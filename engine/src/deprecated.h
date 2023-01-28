@@ -77,3 +77,19 @@
 #define DOS_RandomBlockWrite		DOS_RandomBlockWriteFCB
 #define DOS_FindFirstFile			DOS_FindFirstFileFCB
 #define DOS_FindNextFile			DOS_FindNextFileFCB
+
+// Clock module
+#define Clock_Initialize			RTC_Initialize
+#define Clock_SetMode				RTC_SetMode
+#define Clock_GetSecond				RTC_GetSecond
+#define Clock_GetMinute				RTC_GetMinute
+#define Clock_GetHour				RTC_GetHour
+#define Clock_GetDayOfWeek			RTC_GetDayOfWeek
+#define Clock_GetDay				RTC_GetDay
+#define Clock_GetMonth				RTC_GetMonth
+#define Clock_GetYear				RTC_GetYear
+#define Clock_Read					RTC_Read
+#define Clock_Write					RTC_Write
+#define Clock_GetDayOfWeekString	RTC_GetDayOfWeekString
+#define Clock_GetMonthString		RTC_GetMonthString
+#define Clock_GetYear4				RTC_GetYear4
