@@ -53,7 +53,7 @@ Many thanks to the members of the [MSX Ressource Center](https://www.msx.org) an
 The library is distribute under Creative Commons BY-SA license. Tools or sources from other authors could use other free license.
 
 Documentation:
-* Code documentation: /engine/doc/html/  (WIP)
-* Library documentation: https://aoineko.org/msxgl (WIP)
+* Code documentation: /engine/doc/html/ or https://aoineko.org/msxgl-doc
+* Library documentation: https://aoineko.org/msxgl
 
 If you have any question, feel free to join the [MSXgl Discord server](https://discord.gg/pMeadGfv8E).
