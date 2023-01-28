@@ -205,7 +205,7 @@ void DisplayClock()
 	Draw_LineH(0, 255, 12, 0xF, 0);
 
 	Print_SetPosition(0, 204);
-	Print_DrawText("F1: DataSave");
+	Print_DrawText("F1:Data Save");
 
 	// Initialize the RTC module
 	RTC_Initialize();
@@ -413,8 +413,8 @@ void DisplaySaveData()
 	Print_DrawText("CMOS: ");
 	DrawID(cmos);
 
-	Print_SetPosition(0, 212);
-	Print_DrawText("F1: Clock");
+	Print_SetPosition(0, 204);
+	Print_DrawText("F1:Clock  \x83:Save  \x84:Signed  \x85:Erase all");
 
 	g_Update = UpdateSaveData;
 }
