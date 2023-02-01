@@ -152,7 +152,7 @@ u8 Math_Flip(u8 val) __PRESERVES(c, d, e, h, l, iyl, iyh);
 //
 // Return:
 //   Bits flipped value
-u16 Math_Flip_16b(u16 val) __FASTCALL __PRESERVES(c, d, e, iyl, iyh);
+u16 Math_Flip_16b(u16 val) __PRESERVES(c, iyl, iyh);
 
 // Function: Math_Negative
 // Get the negative (additive inverse) of a 16-bit register
@@ -181,6 +181,18 @@ i8 Math_SignedDiv16(i8 val) __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 // Function: Math_SignedDiv32
 // Divide a signed 8-bits integer by 32 using shift
 i8 Math_SignedDiv32(i8 val) __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh);
+
+// Function: Math_Abs
+// Get absolute value of a signed 8-bits integer
+inline u8 Math_Abs(i8 val) { return (((u8)(val) & 0x80) ? ~((u8)(val) - 1) : (val)); }
+
+// Function: Math_Abs_16b
+// Get absolute value of a signed 16-bits integer
+inline u16 Math_Abs_16b(i16 val) { return (((u16)(val) & 0x8000) ? ~((u16)(val) - 1) : (val)); }
+
+// Function: Math_Abs_32b
+// Get absolute value of a signed 32-bits integer
+inline u32 Math_Abs_32b(i32 val) { return (((u32)(val) & 0x80000000) ? ~((u32)(val) - 1) : (val)); }
 
 //-----------------------------------------------------------------------------
 // Group: Random

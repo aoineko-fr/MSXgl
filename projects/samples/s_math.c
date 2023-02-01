@@ -249,55 +249,53 @@ void DisplayFunc()
 	u16 rnd16, val16;
 
 	// 8-bits
-	Math_SetRandomSeed8(0);
 	rnd8 = Math_GetRandom8();
-	Print_DrawFormat("A=Random8():  %i (%2x)\n", rnd8, rnd8);
+	Print_DrawFormat("A=Random8():  %i [%8b]\n", rnd8, rnd8);
 
 	val8 = Math_Div10(rnd8);
-	Print_DrawFormat("Div10(A):     %i (%2x)\n", val8, val8);
+	Print_DrawFormat("Div10(A):     %i\n", val8);
 
 	val8 = Math_Mod10(rnd8);
-	Print_DrawFormat("Mod10(A):     %i (%2x)\n", val8, val8);
+	Print_DrawFormat("Mod10(A):     %i\n", val8);
 
 	val8 = Math_Flip(rnd8);
-	Print_DrawFormat("Flip(A):      %i (%2x)\n", val8, val8);
+	Print_DrawFormat("Flip(A):      %i [%8b]\n", val8, val8);
 
 	val8 = Math_SignedDiv2(rnd8);
-	Print_DrawFormat("Div2(A):      %i (%2x)\n", val8, val8);
+	Print_DrawFormat("Div2(A):      %i\n", val8);
 
 	val8 = Math_SignedDiv4(rnd8);
-	Print_DrawFormat("Div4(A):      %i (%2x)\n", val8, val8);
+	Print_DrawFormat("Div4(A):      %i\n", val8);
 
 	val8 = Math_SignedDiv8(rnd8);
-	Print_DrawFormat("Div8(A):      %i (%2x)\n", val8, val8);
+	Print_DrawFormat("Div8(A):      %i\n", val8);
 
 	val8 = Math_SignedDiv16(rnd8);
-	Print_DrawFormat("Div16(A):     %i (%2x)\n", val8, val8);
+	Print_DrawFormat("Div16(A):     %i\n", val8);
 
 	val8 = Math_SignedDiv32(rnd8);
-	Print_DrawFormat("Div32(A):     %i (%2x)\n", val8, val8);
+	Print_DrawFormat("Div32(A):     %i\n", val8);
 
 	// 16-bits
 	Print_Return();
 
-	Math_SetRandomSeed16(0);
 	rnd16 = Math_GetRandom16();
-	Print_DrawFormat("B=Random16(): %i (%4x)\n", rnd16, rnd16);
+	Print_DrawFormat("B=Random16(): %i [%b]\n", rnd16, rnd16);
 
 	val16 = Math_Div10_16b(rnd16);
-	Print_DrawFormat("Div10_16b(B): %i (%4x)\n", val16, val16);
+	Print_DrawFormat("Div10_16b(B): %i\n", val16);
 
 	val16 = Math_Mod10_16b(rnd16);
-	Print_DrawFormat("Mod10_16b(B): %i (%4x)\n", val16, val16);
+	Print_DrawFormat("Mod10_16b(B): %i\n", val16);
 
 	val16 = Math_Flip_16b(rnd16);
-	Print_DrawFormat("Flip_16b(B):  %i (%4x)\n", val16, val16);
+	Print_DrawFormat("Flip_16b(B):  %i [%b]\n", val16, val16);
 
 	val16 = Math_Negative(rnd16);
-	Print_DrawFormat("Negative(B):  %i (%4x)\n", val16, val16);
+	Print_DrawFormat("Negative(B):  %i\n", val16);
 
 	val16 = Math_Swap(rnd16);
-	Print_DrawFormat("Swap(B):      %i (%4x)\n", val16, val16);
+	Print_DrawFormat("Swap(B):      %i [%b]\n", val16, val16);
 
 	DisplayFooter();
 }

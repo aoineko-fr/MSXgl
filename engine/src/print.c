@@ -1329,6 +1329,21 @@ void Print_DrawFormat(const c8* format, ...)
 					Print_DrawChar(g_HexChar[(val >> 4) & 0x000F]);
 				Print_DrawChar(g_HexChar[val & 0x000F]);
 			}
+			else if(*ptr == 'b')
+			{
+				if(len == 0)
+					len = 16;
+				u16 val = (u16)va_arg(args, u16);
+				u16 bit = 1 << (len - 1);
+				while(bit)
+				{
+					if(val & bit)
+						Print_DrawChar('1');
+					else
+						Print_DrawChar('0');
+					bit >>= 1;
+				}
+			}
 		#if (PRINT_USE_32B)
 			else if((*ptr == 'I') || (*ptr == 'D'))
 			{
@@ -1361,6 +1376,21 @@ void Print_DrawFormat(const c8* format, ...)
 				if(len > 1)
 					Print_DrawChar(g_HexChar[(val >> 4) & 0xF]);
 				Print_DrawChar(g_HexChar[val & 0xF]);
+			}
+			else if(*ptr == 'B')
+			{
+				if(len == 0)
+					len = 16;
+				u32 val = (u32)va_arg(args, u32);
+				u32 bit = 1 << (len - 1);
+				while(bit)
+				{
+					if(val & bit)
+						Print_DrawChar('1');
+					else
+						Print_DrawChar('0');
+					bit >>= 1;
+				}
 			}
 		#endif
 			else if(*ptr == 'c')

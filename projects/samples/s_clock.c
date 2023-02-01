@@ -79,6 +79,16 @@ const c8* g_Month[] =
 	"December",
 };
 
+// Valid bits table
+u8 g_ValidBits[4][13] =
+{
+	//  0    1    2    3    4    5    6    7    8    9    10   11   12
+	{ 0xF, 0x7, 0xF, 0x7, 0xF, 0x3, 0x7, 0xF, 0x3, 0xF, 0x1, 0xF, 0xF, },
+	{ 0x0, 0x0, 0xF, 0x7, 0xF, 0x3, 0x7, 0xF, 0x3, 0x0, 0x3, 0x3, 0x0, },
+	{ 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, },
+	{ 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, },
+};
+
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
@@ -315,8 +325,13 @@ void DisplaySaveData()
 	Print_DrawText(MSX_GL " RTC Sample - Save");
 	Draw_LineH(0, 255, 12, 0xF, 0);
 
+	RTC_SetMode(RTC_MODE_BLOCK_3);
+	u8 type = RTC_Read(0);
+
+	// 
 	for(u8 b = 0; b < 4; ++b)
 	{
+		Print_SetColor(0xFF, 0x11);
 		Print_SetPosition(22 + b * 56, 20);
 		Print_DrawFormat("Block#%i", b);
 		RTC_SetMode(b);
@@ -329,38 +344,44 @@ void DisplaySaveData()
 				Print_DrawInt(r);
 			}
 
+			u8 col = 0xFF;
 			u8 v = RTC_Read(r);
 			if((b == 3) && (r == 0))
 			{
 				if((v == RTC_DATA_SAVE) || (v == RTC_DATA_SIGNSAVE))
-					Print_SetColor(0x33, 0x11);
+					col = 0x33;
 				else
-					Print_SetColor(0x99, 0x11);
+					col = 0x99;
 			}
-			else if(b == 3)
-				Print_SetColor(0x55, 0x11);
-			if((b == 2) && (r == 0))
+			else if((b == 3) && ((type == RTC_DATA_SAVE) || (type == RTC_DATA_SIGNSAVE)))
+				col = 0x55;
+			else if((b == 2) && (r == 0))
 			{
 				if(v == RTC_INIT_DONE)
-					Print_SetColor(0x33, 0x11);
+					col = 0x33;
 				else
-					Print_SetColor(0x99, 0x11);
+					col = 0x99;
 			}
-			else if((b == 1) && (r >= 2) && (r <= 8))
-				Print_SetColor(0xBB, 0x11);
+			else if((b == 1) && (r >= 2) && (r <= 8) && (type == RTC_DATA_SIGNSAVE))
+				col = 0xBB;
 
+			Print_SetColor(col, 0x11);
 			Print_SetPosition(24 + b * 56, 32 + r * 8);
 			Print_DrawChar(g_HexChar[v]);
 			Print_Space();
-			Print_DrawChar((v & 0x8) ? '1' : '0');
-			Print_DrawChar((v & 0x4) ? '1' : '0');
-			Print_DrawChar((v & 0x2) ? '1' : '0');
-			Print_DrawChar((v & 0x1) ? '1' : '0');
+			u8 bit = 8;
+			for(u8 i = 0; i < 4; ++i)
+			{
+				if(g_ValidBits[b][r] & bit)
+					Print_SetColor(col, 0x11);
+				else
+					Print_SetColor(0xEE, 0x11);
+				Print_DrawChar((v & bit) ? '1' : '0');
+				bit >>= 1;
+			}
 		}
 	}
 
-	RTC_SetMode(RTC_MODE_BLOCK_3);
-	u8 type = RTC_Read(0);
 	const c8* typeStr;
 	switch(type)
 	{

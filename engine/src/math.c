@@ -29,6 +29,7 @@ i8 Math_Div10(i8 val) __FASTCALL __PRESERVES(a, b, c, iyl, iyh)
 	__asm
 		ld		d, #0
 		ld		h, d
+		ld		e, l
 		add		hl, hl
 		add		hl, de
 		add		hl, hl
@@ -36,7 +37,7 @@ i8 Math_Div10(i8 val) __FASTCALL __PRESERVES(a, b, c, iyl, iyh)
 		add		hl, de
 		add		hl, hl
 		ld		l, h
-	__endasm;
+	 __endasm;
 }
 
 //-----------------------------------------------------------------------------
@@ -165,23 +166,16 @@ u8 Math_Flip(u8 val) __PRESERVES(c, d, e, h, l, iyl, iyh)
 
 //-----------------------------------------------------------------------------
 // 16-bits bits flip 
-u16 Math_Flip_16b(u16 val) __FASTCALL __PRESERVES(c, d, e, iyl, iyh)
+u16 Math_Flip_16b(u16 val) __PRESERVES(c, iyl, iyh)
 {
-	// register u8 a = val >> 8;
-	// register u8 b = val & 0x00FF;
-	// a = Math_Flip(a);
-	// b = Math_Flip(b);
-	// return (b << 8) + a;
-	
 	val; // HL
 	__asm
 		ld		a, h
 		call	_Math_Flip	// flip high bits
-		ld		b, a
+		ld		e, a
 		ld		a, l
 		call	_Math_Flip	// flip low bits
-		ld		h, a		// flip high/low
-		ld		l, b
+		ld		d, a		// flip high/low
 	__endasm;
 }
 
