@@ -10,7 +10,7 @@
 // Library version
 #define VERSION_MAJOR				(u16)0		// 4-bits (0-15)
 #define VERSION_MINOR				(u16)8		// 6-bits (0-63)
-#define VERSION_PATCH				(u16)1		// 6-bits (0-63)
+#define VERSION_PATCH				(u16)2		// 6-bits (0-63)
 #define VERSION(a, b, c)			((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT				VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 
@@ -102,7 +102,7 @@ typedef void (*callback)(void);				// Callback default signature
 //-----------------------------------------------------------------------------
 // SDCC calling convention 1
 //-----------------------------------------------------------------------------
-// New SDCC calling convention
+// New SDCC calling convention (default)
 // Parameters register:
 // - 8 bits					A
 // - 16 bits				HL

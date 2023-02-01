@@ -102,7 +102,7 @@ typedef struct
 //
 // Return:
 //   val / 10
-i8 Math_Div10(i8 val) __FASTCALL;
+i8 Math_Div10(i8 val) __FASTCALL __PRESERVES(a, b, c, iyl, iyh);
 
 // Function: Math_Div10_16b
 // 16-bits fast 10 times division 
@@ -112,7 +112,7 @@ i8 Math_Div10(i8 val) __FASTCALL;
 //
 // Return:
 //   val / 10
-i16 Math_Div10_16b(i16 val) __FASTCALL;
+i16 Math_Div10_16b(i16 val) __FASTCALL __PRESERVES(b, d, e, iyl, iyh);
 
 // Function: Math_Mod10
 // 8-bits fast modulo-10 
@@ -122,7 +122,7 @@ i16 Math_Div10_16b(i16 val) __FASTCALL;
 //
 // Return:
 //   val % 10
-u8 Math_Mod10(u8 val);
+u8 Math_Mod10(u8 val) __PRESERVES(b, c, d, e, iyl, iyh);
 
 // Function: Math_Mod10_16b
 // 16-bits fast modulo-10 
@@ -132,7 +132,7 @@ u8 Math_Mod10(u8 val);
 //
 // Return:
 //   val % 10
-u8 Math_Mod10_16b(u16 val) __FASTCALL;
+u8 Math_Mod10_16b(u16 val) __FASTCALL __PRESERVES(b, c, d, e, iyl, iyh);
 
 // Function: Math_Flip
 // Bits flip routine
@@ -142,7 +142,7 @@ u8 Math_Mod10_16b(u16 val) __FASTCALL;
 //
 // Return:
 //   Bits flipped value
-u8 Math_Flip(u8 val);
+u8 Math_Flip(u8 val) __PRESERVES(c, d, e, h, l, iyl, iyh);
 
 // Function: Math_Flip_16b
 // Bits flip routine
@@ -152,35 +152,35 @@ u8 Math_Flip(u8 val);
 //
 // Return:
 //   Bits flipped value
-u16 Math_Flip_16b(u16 val) __FASTCALL;
+u16 Math_Flip_16b(u16 val) __FASTCALL __PRESERVES(c, d, e, iyl, iyh);
 
 // Function: Math_Negative
 // Get the negative (additive inverse) of a 16-bit register
-i16 Math_Negative(i16 val) __FASTCALL;
+i16 Math_Negative(i16 val) __FASTCALL __PRESERVES(b, c, d, e, iyl, iyh);
 
 // Function: Math_Swap
 // Swap MSB and LSB bytes
-u16 Math_Swap(u16 val);
+u16 Math_Swap(u16 val) __PRESERVES(a, b, c, iyl, iyh);
 
 // Function: Math_SignedDiv2
 // Divide a signed 8-bits integer by 2 using shift
-i8 Math_SignedDiv2(i8 val);
+i8 Math_SignedDiv2(i8 val) __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_SignedDiv4
 // Divide a signed 8-bits integer by 4 using shift
-i8 Math_SignedDiv4(i8 val);
+i8 Math_SignedDiv4(i8 val) __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_SignedDiv8
 // Divide a signed 8-bits integer by 8 using shift
-i8 Math_SignedDiv8(i8 val);
+i8 Math_SignedDiv8(i8 val) __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_SignedDiv16
 // Divide a signed 8-bits integer by 16 using shift
-i8 Math_SignedDiv16(i8 val);
+i8 Math_SignedDiv16(i8 val) __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_SignedDiv32
 // Divide a signed 8-bits integer by 32 using shift
-i8 Math_SignedDiv32(i8 val);
+i8 Math_SignedDiv32(i8 val) __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 //-----------------------------------------------------------------------------
 // Group: Random

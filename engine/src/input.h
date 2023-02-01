@@ -69,7 +69,7 @@
 // :   ││└──── Right
 // :   │└───── Trigger A
 // :   └────── Trigger B
-u8 Joystick_Read(u8 port) __FASTCALL;
+u8 Joystick_Read(u8 port) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh);
 
 #if (INPUT_JOY_UPDATE)
 
@@ -392,7 +392,7 @@ enum KEY_ID
 //
 // Return:
 //   8-bits value where each bit to 0 represents the pressed keys
-u8 Keyboard_Read(u8 row) __FASTCALL;
+u8 Keyboard_Read(u8 row) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh);
 
 #if (INPUT_KB_UPDATE)
 // Function: Keyboard_Update

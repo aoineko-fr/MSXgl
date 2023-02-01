@@ -37,7 +37,7 @@
 //            ││└──── Right
 //            │└───── Trigger A
 //            └────── Trigger B
-u8 Joystick_Read(u8 port) __FASTCALL
+u8 Joystick_Read(u8 port) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)
 {
 	port; // L
 	__asm
@@ -236,11 +236,9 @@ void Mouse_Read(u8 port, Mouse_State* data) __naked
 
 //-----------------------------------------------------------------------------
 // Read keyboard matrix row
-u8 Keyboard_Read(u8 row) __FASTCALL
+u8 Keyboard_Read(u8 row) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)
 {
-	row;
-	// FastCall
-	//	ld		l, key
+	row; // L
 	__asm
 		in		a, (P_PPI_C)
 		and		#0xF0			// only change bits 0-3

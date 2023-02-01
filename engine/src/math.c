@@ -23,7 +23,7 @@
 
 //-----------------------------------------------------------------------------
 // 8-bits fast 10 times division 
-i8 Math_Div10(i8 val) __FASTCALL
+i8 Math_Div10(i8 val) __FASTCALL __PRESERVES(a, b, c, iyl, iyh)
 {
 	val; // L
 	__asm
@@ -41,7 +41,7 @@ i8 Math_Div10(i8 val) __FASTCALL
 
 //-----------------------------------------------------------------------------
 // 16-bits fast 10 times division 
-i16 Math_Div10_16b(i16 val) __FASTCALL
+i16 Math_Div10_16b(i16 val) __FASTCALL __PRESERVES(b, d, e, iyl, iyh)
 {
 	val; // HL
 	__asm
@@ -75,7 +75,7 @@ i16 Math_Div10_16b(i16 val) __FASTCALL
 // Outputs:		A	HL mod 10
 //				Z	Flag is set if divisible by 10
 // 20 bytes, 83 cycles
-u8 Math_Mod10(u8 val)
+u8 Math_Mod10(u8 val) __PRESERVES(b, c, d, e, iyl, iyh)
 {
 	val; // A
 	__asm
@@ -104,7 +104,7 @@ u8 Math_Mod10(u8 val)
 // Outputs:		A	HL mod 10
 //				Z	Flag is set if divisible by 10
 // 24 bytes,  98cc
-u8 Math_Mod10_16b(u16 val) __FASTCALL
+u8 Math_Mod10_16b(u16 val) __FASTCALL __PRESERVES(b, c, d, e, iyl, iyh)
 {
 	val; // HL
 	__asm
@@ -140,7 +140,7 @@ u8 Math_Mod10_16b(u16 val) __FASTCALL
 // Inputs:		A		8-bits value
 // Outputs:		A		Bits flipped value
 // Author:		John Metcalf (http://www.retroprogramming.com/2014/01/fast-z80-bit-reversal.html)
-u8 Math_Flip(u8 val)
+u8 Math_Flip(u8 val) __PRESERVES(c, d, e, h, l, iyl, iyh)
 {
 	val; // A
 	__asm
@@ -165,7 +165,7 @@ u8 Math_Flip(u8 val)
 
 //-----------------------------------------------------------------------------
 // 16-bits bits flip 
-u16 Math_Flip_16b(u16 val) __FASTCALL
+u16 Math_Flip_16b(u16 val) __FASTCALL __PRESERVES(c, d, e, iyl, iyh)
 {
 	// register u8 a = val >> 8;
 	// register u8 b = val & 0x00FF;
@@ -187,7 +187,7 @@ u16 Math_Flip_16b(u16 val) __FASTCALL
 
 //-----------------------------------------------------------------------------
 // Get the negative (additive inverse) of a 16-bit register
-i16 Math_Negative(i16 val) __FASTCALL
+i16 Math_Negative(i16 val) __FASTCALL __PRESERVES(b, c, d, e, iyl, iyh)
 {
 	val; // HL
 	__asm
@@ -200,10 +200,9 @@ i16 Math_Negative(i16 val) __FASTCALL
 	__endasm;
 }
 
-
 //-----------------------------------------------------------------------------
 // Swap MSB and LSB bytes
-u16 Math_Swap(u16 val)
+u16 Math_Swap(u16 val) __PRESERVES(a, b, c, iyl, iyh)
 {
 	val; // HL
 	__asm
@@ -218,8 +217,9 @@ u16 Math_Swap(u16 val)
 
 //-----------------------------------------------------------------------------
 // Divide a signed 8-bits integer by 2, 4, 8, 16, 32 or 64 using right shift
-void Math_SignedDiv_ASM() __naked
+void Math_SignedDiv_ASM() __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
+	// val; // A
 	__asm
 	_Math_SignedDiv64::
 		sra		a

@@ -119,6 +119,7 @@ void DisplayHeader(const c8* title)
 	// Setup print
 	Print_SetBitmapFont(g_Font_MGL_Sample6);
 	Print_SetColor(COLOR_WHITE, COLOR_DARK_BLUE);
+	Print_Clear();
 	Print_SetPosition(0, 2);
 	Print_DrawText("\x1\x2\x3\x4\x5\x6   MATH SAMPLE - ");
 	Print_DrawText(title);
@@ -133,7 +134,7 @@ void DisplayFooter()
 	Draw_LineH(0, 255, 199, COLOR_WHITE, 0);
 	Print_SetColor(COLOR_WHITE, COLOR_DARK_BLUE);
 	Print_SetPosition(0, 203);
-	Print_DrawText("F1:Rnd8 F2:Rnd16 F3:Curve");
+	Print_DrawText("F1:Rnd8 F2:Rnd16 F3:Curve F4:Func");
 }
 
 //-----------------------------------------------------------------------------
@@ -189,7 +190,7 @@ void DisplayRandom16()
 void DisplayRandom8()
 {
 	DisplayHeader("Random 8b");
-	
+
 	Print_SetPosition(0, 20);
 	Print_DrawText("Method: ");
 	Print_DrawText(RANDOM_8_NAME);
@@ -228,11 +229,76 @@ void DisplayRandom8()
 		};
 		
 	}
-	
+
 	Print_SetPosition(0, 184);
 	Print_DrawText("t=");
 	Print_DrawInt(g_Frame - startFrame);	
-	
+
+	DisplayFooter();
+}
+
+//-----------------------------------------------------------------------------
+// Diplay 
+void DisplayFunc()
+{
+	DisplayHeader("Function");
+
+	Print_SetPosition(0, 20);
+
+	u8 rnd8, val8;
+	u16 rnd16, val16;
+
+	// 8-bits
+	Math_SetRandomSeed8(0);
+	rnd8 = Math_GetRandom8();
+	Print_DrawFormat("A=Random8():  %i (%2x)\n", rnd8, rnd8);
+
+	val8 = Math_Div10(rnd8);
+	Print_DrawFormat("Div10(A):     %i (%2x)\n", val8, val8);
+
+	val8 = Math_Mod10(rnd8);
+	Print_DrawFormat("Mod10(A):     %i (%2x)\n", val8, val8);
+
+	val8 = Math_Flip(rnd8);
+	Print_DrawFormat("Flip(A):      %i (%2x)\n", val8, val8);
+
+	val8 = Math_SignedDiv2(rnd8);
+	Print_DrawFormat("Div2(A):      %i (%2x)\n", val8, val8);
+
+	val8 = Math_SignedDiv4(rnd8);
+	Print_DrawFormat("Div4(A):      %i (%2x)\n", val8, val8);
+
+	val8 = Math_SignedDiv8(rnd8);
+	Print_DrawFormat("Div8(A):      %i (%2x)\n", val8, val8);
+
+	val8 = Math_SignedDiv16(rnd8);
+	Print_DrawFormat("Div16(A):     %i (%2x)\n", val8, val8);
+
+	val8 = Math_SignedDiv32(rnd8);
+	Print_DrawFormat("Div32(A):     %i (%2x)\n", val8, val8);
+
+	// 16-bits
+	Print_Return();
+
+	Math_SetRandomSeed16(0);
+	rnd16 = Math_GetRandom16();
+	Print_DrawFormat("B=Random16(): %i (%4x)\n", rnd16, rnd16);
+
+	val16 = Math_Div10_16b(rnd16);
+	Print_DrawFormat("Div10_16b(B): %i (%4x)\n", val16, val16);
+
+	val16 = Math_Mod10_16b(rnd16);
+	Print_DrawFormat("Mod10_16b(B): %i (%4x)\n", val16, val16);
+
+	val16 = Math_Flip_16b(rnd16);
+	Print_DrawFormat("Flip_16b(B):  %i (%4x)\n", val16, val16);
+
+	val16 = Math_Negative(rnd16);
+	Print_DrawFormat("Negative(B):  %i (%4x)\n", val16, val16);
+
+	val16 = Math_Swap(rnd16);
+	Print_DrawFormat("Swap(B):      %i (%4x)\n", val16, val16);
+
 	DisplayFooter();
 }
 
@@ -339,22 +405,25 @@ void main()
 		else if(IS_KEY_PRESSED(row6, KEY_F3))
 			DisplayCurve();
 
+		u8 row7 = Keyboard_Read(7);
+		if(IS_KEY_PRESSED(row7, KEY_F4))
+			DisplayFunc();
+
 		u8 row8 = Keyboard_Read(8);
 		if(IS_KEY_PRESSED(row8, KEY_UP) || IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
 			g_CurveIdx--;
 			if(g_CurveIdx < 0)
 				g_CurveIdx = numberof(g_Curves) - 1;
-			DisplayCurve();			
+			DisplayCurve();
 		}
 		else if(IS_KEY_PRESSED(row8, KEY_DOWN) || IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
 			g_CurveIdx++;
 			if(g_CurveIdx >= numberof(g_Curves))
 				g_CurveIdx = 0;
-			DisplayCurve();			
+			DisplayCurve();
 		}
-		
 
 		if(Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;
