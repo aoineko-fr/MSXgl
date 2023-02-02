@@ -134,7 +134,7 @@ void DisplayFooter()
 	Draw_LineH(0, 255, 199, COLOR_WHITE, 0);
 	Print_SetColor(COLOR_WHITE, COLOR_DARK_BLUE);
 	Print_SetPosition(0, 203);
-	Print_DrawText("F1:Rnd8 F2:Rnd16 F3:Curve F4:Func");
+	Print_DrawText("F1:Rnd8  F2:Rnd16  F3:Curve  F4:Func");
 }
 
 //-----------------------------------------------------------------------------
@@ -147,7 +147,7 @@ void DisplayRandom16()
 	Print_DrawText("Method: ");
 	Print_DrawText(RANDOM_16_NAME);
 
-	Draw_Box(GRAPH_X - 1, GRAPH_Y, GRAPH_X + 128, GRAPH_Y + 128 + 1, COLOR_WHITE, 0);
+	Draw_Box(GRAPH_X - 1, GRAPH_Y, (u8)(GRAPH_X + 128), (u8)(GRAPH_Y + 128 + 1), COLOR_WHITE, 0);
 
 	Print_SetColor(COLOR_LIGHT_BLUE, COLOR_DARK_BLUE);
 	Print_SetPosition(158, GRAPH_Y);
@@ -195,7 +195,7 @@ void DisplayRandom8()
 	Print_DrawText("Method: ");
 	Print_DrawText(RANDOM_8_NAME);
 
-	Draw_Box(GRAPH_X - 1, GRAPH_Y, GRAPH_X + 128, GRAPH_Y + 128 + 1, COLOR_WHITE, 0);
+	Draw_Box(GRAPH_X - 1, GRAPH_Y, (u8)(GRAPH_X + 128), (u8)(GRAPH_Y + 128 + 1), COLOR_WHITE, 0);
 
 	Print_SetColor(COLOR_LIGHT_BLUE, COLOR_DARK_BLUE);
 	Print_SetPosition(158, GRAPH_Y);
@@ -245,11 +245,11 @@ void DisplayFunc()
 
 	Print_SetPosition(0, 20);
 
-	u8 rnd8, val8;
-	u16 rnd16, val16;
+	i16 rnd8, val8;
+	i16 rnd16, val16;
 
 	// 8-bits
-	rnd8 = Math_GetRandom8();
+	rnd8 = (i16)Math_GetRandom8();
 	Print_DrawFormat("A=Random8():  %i [%8b]\n", rnd8, rnd8);
 
 	val8 = Math_Div10(rnd8);
@@ -260,6 +260,9 @@ void DisplayFunc()
 
 	val8 = Math_Flip(rnd8);
 	Print_DrawFormat("Flip(A):      %i [%8b]\n", val8, val8);
+
+	val8 = Math_Negative(rnd8);
+	Print_DrawFormat("Negative(B):  %i\n", val8);
 
 	val8 = Math_SignedDiv2(rnd8);
 	Print_DrawFormat("Div2(A):      %i\n", val8);
@@ -291,8 +294,8 @@ void DisplayFunc()
 	val16 = Math_Flip_16b(rnd16);
 	Print_DrawFormat("Flip_16b(B):  %i [%b]\n", val16, val16);
 
-	val16 = Math_Negative(rnd16);
-	Print_DrawFormat("Negative(B):  %i\n", val16);
+	val16 = Math_Negative16(rnd16);
+	Print_DrawFormat("Negative16(B):%i\n", val16);
 
 	val16 = Math_Swap(rnd16);
 	Print_DrawFormat("Swap(B):      %i [%b]\n", val16, val16);

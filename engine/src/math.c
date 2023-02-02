@@ -181,7 +181,7 @@ u16 Math_Flip_16b(u16 val) __PRESERVES(c, iyl, iyh)
 
 //-----------------------------------------------------------------------------
 // Get the negative (additive inverse) of a 16-bit register
-i16 Math_Negative(i16 val) __FASTCALL __PRESERVES(b, c, d, e, iyl, iyh)
+i16 Math_Negative16(i16 val) __FASTCALL __PRESERVES(b, c, d, e, iyl, iyh)
 {
 	val; // HL
 	__asm

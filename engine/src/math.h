@@ -155,8 +155,12 @@ u8 Math_Flip(u8 val) __PRESERVES(c, d, e, h, l, iyl, iyh);
 u16 Math_Flip_16b(u16 val) __PRESERVES(c, iyl, iyh);
 
 // Function: Math_Negative
+// Get the negative (additive inverse) of a 8-bit register
+inline i8 Math_Negative(i8 val) { return -val; }
+
+// Function: Math_Negative16
 // Get the negative (additive inverse) of a 16-bit register
-i16 Math_Negative(i16 val) __FASTCALL __PRESERVES(b, c, d, e, iyl, iyh);
+i16 Math_Negative16(i16 val) __FASTCALL __PRESERVES(b, c, d, e, iyl, iyh);
 
 // Function: Math_Swap
 // Swap MSB and LSB bytes

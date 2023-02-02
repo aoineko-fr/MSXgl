@@ -54,7 +54,7 @@ inline void MemMap_SetPage3(u8 seg) { seg; /* A */ __asm__("out (P_MEM_P3), a");
 
 // Function: MemMap_Initialize
 // Initialize memory mapper
-inline void MemMap_Initialize()
+inline void MemMap_Initialize() __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
 	__asm
 		xor		a
