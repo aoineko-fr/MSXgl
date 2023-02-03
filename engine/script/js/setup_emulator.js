@@ -2,7 +2,7 @@
 // ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄       ▄  ▄▄    ▄▄   ▄▄▄▄           ▄▄ 
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██ █ ▄  ██   ▄██    ██  ▄█▀▄ ▄█▀▄ ██ 
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ▀█▄█ ██ ▀█▄ ▀▄██    ██  ▀█▄▀ ▀█▄▀ ▀█▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -101,7 +101,13 @@ if (EmulatorName === "OPENMSX") {
 		EmulatorArgs += ` -cart ${ProjDir}emul/rom/${ProjName}.rom`;
 		if (ROMDelayBoot) { EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dsk/tmp`; }
 	}
-	if (Ext === "com") { EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dos${DOS}`; }
+	if (Ext === "com")
+	{ 
+		if (Target === "DOS0")
+			EmulatorArgs += ` -diska ${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`;
+		else
+			EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dos${DOS}`;
+	}
 	// if (Target === "DOS1" {
 		// EmulatorArgs += ` -exta slotexpander -ext Panasonic_FS-FD1A -ext ram64k -diska ${ProjDir}emul/dos${DOS}`;
 	// } else {

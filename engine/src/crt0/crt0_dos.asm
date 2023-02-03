@@ -55,9 +55,19 @@ crt0_init:
 	di
 	; Set stack address at the top of free memory
 	; ld		sp, (DOS_TPA)
-	
+
 	; Initialize globals
 	INIT_GLOBALS
+
+	.if DOS_ISR
+		ld		a, #0xC3				; JP
+		ld		(0x0038), a
+		ld		hl, #crt0_interrupt_start
+		ld		(0x0039), hl
+		jp		crt0_install_isr
+		INCLUDE_ISR
+	crt0_install_isr:
+	.endif
 
 	.if DOS_PARSEARG
 		;--- Step 2: Build the parameter pointers table on 0x100,

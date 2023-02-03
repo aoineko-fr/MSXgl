@@ -2,7 +2,7 @@
 // ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄       ▄  ▄▄    ▄▄   ▄▄▄▄           ▄▄
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██ █ ▄  ██   ▄██    ██  ▄█▀▄ ▄█▀▄ ██
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ▀█▄█ ██ ▀█▄ ▀▄██    ██  ▀█▄▀ ▀█▄▀ ▀█▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -220,6 +220,7 @@ if (DoCompile)
 	if (CustomISR === "VHBLANK") conf += "ROM_ISR=ISR_VHBLANK\n";
 	if (CustomISR === "V9990")   conf += "ROM_ISR=ISR_V9990\n";
 	if (DOSParseArg)             conf += "DOS_PARSEARG=1\n";
+	if (Target === "DOS0")       conf += "DOS_ISR=1\n";
 	// if (Machine != "1")          conf += "ISR_SET_S0=1\n";
 	if (AppSignature)
 	{
@@ -694,7 +695,7 @@ if (DoDeploy)
 		{
 			//---- Copy program file ----
 			util.print(`Copy DOS binary to emul/dos${DOS}/`);
-			util.copyFile(`${OutDir}${ProjName}.${Ext}`, `${ProjDir}emul/dos${DOS}/MSXDOS.SYS`);
+			util.copyFile(`${OutDir}${ProjName}.${Ext}`, `${ProjDir}emul/dos${DOS}/BOOTDISK.COM`);
 
 			//---- Copy data files ----
 			if (DiskFiles.length)
@@ -709,7 +710,7 @@ if (DoDeploy)
 			{
 				util.print("Generating DSK file...", PrintHighlight);
 
-				let filesList = [ "MSXDOS.SYS" ];
+				let filesList = [ "BOOTDISK.COM" ];
 				for (let i = 0; i < DiskFiles.length; i++)
 					filesList.push(path.parse(DiskFiles[i]).base);
 
@@ -720,7 +721,7 @@ if (DoDeploy)
 				util.print("-- Generate .DSK file");
 				let curDir = process.cwd();
 				process.chdir(DskToolPath);
-				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos1 --verbose ` + filesList.join(" "));
+				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos0 --verbose ` + filesList.join(" "));
 				if(err)
 				{
 					util.print(`DSK generation error! Code: ${err}`, PrintError);

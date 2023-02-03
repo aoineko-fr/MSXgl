@@ -2,7 +2,7 @@
 // ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄       ▄  ▄▄    ▄▄   ▄▄▄▄           ▄▄
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ██ █ ▄  ██   ▄██    ██  ▄█▀▄ ▄█▀▄ ██
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ▀█▄█ ██ ▀█▄ ▀▄██    ██  ▀█▄▀ ▀█▄▀ ▀█▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -255,7 +255,7 @@ else if (Target === "DOS0")
 	RamAddr = 0; // Right after the code
 	FillSize = 0;
 
-	TargetDesc = "Direct disk program using MSX-DOS 1 boot sector (starting at 0100h)";
+	TargetDesc = "Direct disk program using custom boot sector (starting at 0100h)";
 }
 //-----------------------------------------------------------------------------
 else if (Target === "DOS1")

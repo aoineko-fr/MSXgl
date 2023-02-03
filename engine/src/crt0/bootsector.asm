@@ -9,6 +9,7 @@
 ;──────────────────────────────────────────────────────────────────────────────
 .module boot
 
+SETRAM	= 0xF36B
 BDOS	= 0xF37D
 _DIRIO	= 0x06
 _DIRIN	= 0x07
@@ -69,6 +70,8 @@ boot_start: ; 0xC01E
 	ret		nc
 	ld		sp, #0xF51F         ; Set callstack address
 
+	call	SETRAM				; Set RAM in page 1
+
 	ld		de, #fcb
 	ld		c, #_FOPEN          ; Open file (FCB)
 	call	BDOS                ; Open MSXDOS.SYS
@@ -82,7 +85,7 @@ boot_start: ; 0xC01E
 	ld		hl, #0x0001
 	ld		(fcb_record), hl    ; Record size
 
-	ld		hl, #0x3F00         ; Number of records to read (16128 bytes! Max size?)
+	ld		hl, #0xC000         ; Number of records to read (48 KB)
 	ld		de, #fcb            ; Pointer to opened FCB
 	ld		c, #_RDBLK          ; Random block read (FCB)
 	call	BDOS
