@@ -289,6 +289,17 @@
 #define GAMEPAWN_BOUND_CUSTOM		0xFF // Use variable bound value for each pawn
 
 //-----------------------------------------------------------------------------
+// COMPRESS MODULE
+//-----------------------------------------------------------------------------
+
+#define PLETTER_DI_NONE				0 // Don't disable interruption
+#define PLETTER_DI_FULL				1 // Disable interruption during the whole function
+#define PLETTER_DI_LOOP				2 // Disable interruption during VRAM write loop
+
+#define PLETTER_WRITE_SAFE			0 // Safe VRAM write speed
+#define PLETTER_WRITE_QUICK			1 // No wait beetween write
+
+//-----------------------------------------------------------------------------
 // MISC
 //-----------------------------------------------------------------------------
 

@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
-//  PCM-Encoder sample
+//  Arkos Tracker II sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "arkos/akg_player.h"
@@ -26,15 +26,24 @@ struct MusicEntry
 };
 
 // Init function callback
-typedef void (*cbInit)(const void*, u16);
+typedef void (*cbInit)(const void*, u8);
+// Init SFX function callback
+typedef u8 (*cbInitSFX)(const void*);
+// Play SFX function callback
+typedef void (*cbPlaySFX)(u8, u8, u8);
+// Stop SFX function callback
+typedef void (*cbStopSFX)(u8);
 
 // Player entry
 struct PlayerEntry
 {
 	const c8* Name;
-	cbInit    Init;
 	callback  Decode;
+	cbInit    Init;
 	callback  Stop;
+	cbInitSFX InitSFX;
+	cbPlaySFX PlaySFX;
+	cbStopSFX StopSFX;
 	const struct MusicEntry* Musics;
 };
 
@@ -59,27 +68,30 @@ extern const u8* g_AKY_Sarkboteur;
 // Fonts
 #include "font/font_mgl_sample6.h"
 
+// SFX
+#include "content/arkos/akx_effects.h"
+
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
 // Music list
 const struct MusicEntry g_MusicEntryAKG[] =
 {
-	{ "Cancion Nueva                        ", g_AKG_jinj_med,     4 },
+	{ "Cancion Nueva (by ?)                 ", g_AKG_jinj_med,     4 },
 	{ "Hocus Pocus (by Targhan)             ", g_AKG_HocusPocus,   5 },
 	{ "Just add cream (by Excellence in Art)", g_AKG_Justaddcream, 6 },
 	{ "Sarkboteur (by Rob Hubbard)          ", g_AKG_Sarkboteur,   7 },
 };
 const struct MusicEntry g_MusicEntryAKY[] =
 {
-	{ "Cancion Nueva                        ", g_AKY_jinj_med,     12 },
+	{ "Cancion Nueva (by ?)                 ", g_AKY_jinj_med,     12 },
 	{ "A Harmless Grenade (by Targhan)      ", g_AKY_AHarmlessGrenade, 13 },
 	{ "Just add cream (by Excellence in Art)", g_AKY_Justaddcream, 14 },
 	{ "Sarkboteur (by Rob Hubbard)          ", g_AKY_Sarkboteur,   15 },
 };
 const struct MusicEntry g_MusicEntryAKM[] =
 {
-	{ "Cancion Nueva                        ", g_AKM_jinj_med,     8 },
+	{ "Cancion Nueva (by ?)                 ", g_AKM_jinj_med,     8 },
 	{ "Hocus Pocus (by Targhan)             ", g_AKM_HocusPocus,   9 },
 	{ "Just add cream (by Excellence in Art)", g_AKM_Justaddcream, 10 },
 	{ "Sarkboteur (by Rob Hubbard)          ", g_AKM_Sarkboteur,   11 },
@@ -87,18 +99,19 @@ const struct MusicEntry g_MusicEntryAKM[] =
 
 const struct PlayerEntry g_PlayerEntry[] =
 {
-	{ "AKG (generic)",    AKG_Init, AKG_Decode, AKG_Stop, g_MusicEntryAKG },
-	{ "AKY (fast)",       AKY_Init, AKY_Decode, NULL,     g_MusicEntryAKY },
-	{ "AKM (minimalist)", AKM_Init, AKM_Decode, AKM_Stop, g_MusicEntryAKM },
+	{ "AKG (generic)",    AKG_Decode, AKG_Init, AKG_Stop, AKG_InitSFX, AKG_PlaySFX, AKG_StopSFX, g_MusicEntryAKG },
+	{ "AKY (fast)",       AKY_Decode, AKY_Init, NULL,     NULL,        NULL,        NULL,        g_MusicEntryAKY },
+	{ "AKM (minimalist)", AKM_Decode, AKM_Init, AKM_Stop, AKM_InitSFX, AKM_PlaySFX, AKM_StopSFX, g_MusicEntryAKM },
 };
 
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
-const struct PlayerEntry* g_CurrentPlayer;
+const struct PlayerEntry* g_CurrentPlayer = NULL;
 u8   g_PlayerIdx = 0;
 u8   g_MusicIdx = 0;
+u8   g_SFXIdx = 0;
 bool g_Freq50Hz = FALSE;
 
 // V-blank synchronization flag
@@ -128,11 +141,22 @@ void WaitVBlank()
 void SetMusic(u8 idx)
 {
 	g_MusicIdx = idx;
-	
+	g_SFXIdx = 0;
+
 	const struct MusicEntry* mus = &g_PlayerEntry[g_PlayerIdx].Musics[idx];
+
+	u8 sfxNum = 0;
+	if(g_CurrentPlayer->InitSFX)
+	{
+		Mem_Copy(g_AKX_effects, (void*)0xE000, sizeof(g_AKX_effects));
+		sfxNum = g_CurrentPlayer->InitSFX((const void*)0xE000);
+	}
 
 	Print_SetPosition(0, 10);
 	Print_DrawFormat("Music [%i/%i]:\n\n  %s", idx + 1, numberof(g_MusicEntryAKG), mus->Name);
+
+	Print_SetPosition(0, 14);
+	Print_DrawFormat("SFX [%i/%i]", sfxNum ? g_SFXIdx + 1 : 0, sfxNum);
 
 	SET_BANK_SEGMENT(3, mus->Segment);
 
@@ -143,15 +167,25 @@ void SetMusic(u8 idx)
 //
 void SetPlayer(u8 idx)
 {
+	// Stop previous
+	if(g_CurrentPlayer)
+	{
+		if(g_CurrentPlayer->Stop)
+			g_CurrentPlayer->Stop();
+
+		// if(g_CurrentPlayer->StopSFX)
+			// g_CurrentPlayer->StopSFX(0);
+	}
+
 	g_PlayerIdx = idx;
 	g_CurrentPlayer = &g_PlayerEntry[idx];
 
 	for(u8 i = 0; i < numberof(g_PlayerEntry) ; i++)
 	{
 		Print_SetPosition(0, i + 5);
-		Print_DrawChar((i == idx) ? '\x8A' : ' ');		
+		Print_DrawChar((i == idx) ? '\x8A' : ' ');
 	}
-	
+
 	SetMusic(g_MusicIdx);
 }
 
@@ -202,7 +236,7 @@ void main()
 	// Footer
 	Print_DrawLineH(0, 22, 40);
 	Print_SetPosition(0, 23);
-	Print_DrawText("\x8D:Music  \x83:Pause  \x82:Player  Home:Freq");
+	Print_DrawText("\x82:Player  \x8D:Music  \x83:Stop  Home:Freq");
 
 	VDP_EnableVBlank(TRUE);
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
@@ -250,8 +284,14 @@ void main()
 		// Stop music playback
 		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
-			if(g_CurrentPlayer->Stop != NULL)
+			if(g_CurrentPlayer->Stop)
 				g_CurrentPlayer->Stop();
+		}
+		// Stop music playback
+		if(IS_KEY_PRESSED(row8, KEY_DEL) && !IS_KEY_PRESSED(prevRow8, KEY_DEL))
+		{
+			if(g_CurrentPlayer->PlaySFX)
+				g_CurrentPlayer->PlaySFX(0, 0, 0);
 		}
 		// Change frequency
 		if(IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(prevRow8, KEY_HOME))

@@ -74,7 +74,7 @@ void LoadImage(u8 srcMode, u8 imgIdx)
 	Mem_Set(0, &g_File, sizeof(FCB));
 	Mem_Copy(g_FileList[imgIdx], &g_File.Name, 11);
 	DOS_OpenFCB(&g_File);
-	
+
 	// Read file and copy content into VRAM
 	u16 dst = 0;
 	for (u16 i = 0; i < g_File.Size; i+=128)
@@ -103,12 +103,12 @@ void LoadImage(u8 srcMode, u8 imgIdx)
 	// Initialize font
 	Print_SetBitmapFont(g_Font_MGL_Sample6);
 
-	// Diplay header	
+	// Diplay header
 	Print_SetColor(0xFF, 0x00);
 	Print_SetPosition(0, 0);
 	Print_DrawFormat(MSX_GL "DOS SAMPLE (Screen Mode %s)", srcMode == VDP_MODE_SCREEN5 ? "5" : "8");
-	
-	// Diplay footer	
+
+	// Diplay footer
 	Print_SetColor(0xEE, 0x00);
 	Print_SetPosition(0, (u8)(212-9));
 	Print_DrawText("Esc:Exit");
@@ -120,9 +120,9 @@ void AddFile()
 {
 	if(g_FileNum >= 10)
 		return;
-	
+
 	Mem_Copy(((c8*)0x0081), g_FileList[g_FileNum], 11);
-	
+
 	((c8*)0x0081)[11] = '$';
 	DOS_CharOutput('0' + g_FileNum);
 	DOS_StringOutput(": $");

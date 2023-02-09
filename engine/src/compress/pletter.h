@@ -12,8 +12,6 @@
 
 #include "core.h"
 
-#define PLETTER_LENGTHINDATA	FALSE
-
 // Function: Pletter_UnpackToRAM
 // Unpack Pletter compressed data to a RAM buffer
 void Pletter_UnpackToRAM(const void* source, void* dest);

@@ -12,6 +12,57 @@
 #include "asm.h"
 #include "system_port.h"
 
+//=============================================================================
+// OPTIONS VALIDATION
+//=============================================================================
+
+// PLETTER_LENGTHINDATA
+#ifndef PLETTER_LENGTHINDATA
+	#warning PLETTER_LENGTHINDATA is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define PLETTER_LENGTHINDATA	FALSE
+#endif
+
+// PLETTER_DI_MODE
+#ifndef PLETTER_DI_MODE
+	#warning PLETTER_DI_MODE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define PLETTER_DI_MODE			PLETTER_DI_LOOP
+#endif
+
+// PLETTER_WRITE_MODE
+#ifndef PLETTER_WRITE_MODE
+	#warning PLETTER_WRITE_MODE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define PLETTER_WRITE_MODE		PLETTER_WRITE_SAFE
+#endif
+
+// Disable interruption mode
+#if (PLETTER_DI_MODE == PLETTER_DI_NONE)
+	#define DI_FULL
+	#define EI_FULL
+	#define DI_LOOP
+	#define EI_LOOP
+#elif (PLETTER_DI_MODE == PLETTER_DI_FULL)
+	#define DI_FULL		di
+	#define EI_FULL		ei
+	#define DI_LOOP
+	#define EI_LOOP
+#elif (PLETTER_DI_MODE == PLETTER_DI_LOOP)
+	#define DI_FULL
+	#define EI_FULL
+	#define DI_LOOP		di
+	#define EI_LOOP		ei
+#endif
+
+// VRAM write timing mode
+#if (PLETTER_WRITE_MODE == PLETTER_WRITE_SAFE)
+	#define WRITE_NOP	nop
+#elif (PLETTER_WRITE_MODE == PLETTER_WRITE_QUICK)
+	#define WRITE_NOP
+#endif
+
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
+
 //-----------------------------------------------------------------------------
 // Unpack Pletter compressed data to a RAM buffer
 // call unpack with hl pointing to some pletter5 data, and de pointing to the destination.
@@ -181,7 +232,7 @@ __asm
 // HL = RAM/ROM source
 // DE = VRAM destination
 //-----------------------------------------------------------
-	di
+	DI_FULL
 	push	ix
 
 // VRAM address setup
@@ -301,21 +352,23 @@ v_offsok:
 	push	af
 v_offsok_loop:
 	ld		a, l
+	DI_LOOP
 	out		(P_VDP_1), a
 	ld		a, h
-	nop						// VDP timing
+	WRITE_NOP				// VDP timing
 	out		(P_VDP_1),a
-	nop						// VDP timing
+	WRITE_NOP				// VDP timing
 	in		a, (P_VDP_0)
 	ex		af, af'			; '
 	ld		a, e
-	nop						// VDP timing
+	WRITE_NOP				// VDP timing
 	out		(P_VDP_1), a
 	ld		a, d
 	or		#0x40
 	out		(P_VDP_1), a
 	ex		af, af'			;'
-	nop						// VDP timing
+	WRITE_NOP				// VDP timing
+	EI_LOOP
 	out		(P_VDP_0), a
 	inc		de
 	cpi
@@ -341,7 +394,7 @@ v_offsok_loop:
 // Depacker exit
 v_Depack_out:
 	pop		ix
-	ei
+	EI_LOOP
 	ret
 
 v_modes:

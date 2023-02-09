@@ -22,23 +22,28 @@ void AKY_Dummy()
 }
 
 //-----------------------------------------------------------------------------
-//
-void AKY_Init(const void* data, u16 sng)
+// Initialize music and start playback
+void AKY_Init(const void* data, u8 sng) __NAKED
 {
-	data; // HL
-	sng;  // DE
-	__asm	
-		ld			a, e // convert C parameter
-		push		ix
-		// Initialize a music. HL=music address, A=subsong index (>=0)
-		call		_PLY_AKY_INIT
-		pop			ix
-
+	data;	// HL
+	sng;	// SP[2]
+	__asm
+		pop		bc					// Retreive return address
+		dec		sp					// Adjust Stack-pointer
+		pop		af					// Retreive sng in A
+		push	bc
+		// Initializes the player.
+		// IN:    HL = music address.
+		//        A = subsong index (>=0).
+		push	ix
+		call	_PLY_AKY_INIT
+		pop		ix
+		ret
 	__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
+// Stop music playback
 /*void AKY_Stop()
 {
 	__asm
@@ -49,7 +54,7 @@ void AKY_Init(const void* data, u16 sng)
 }*/
 
 //-----------------------------------------------------------------------------
-//
+// Decode a music frame and update the PSG
 void AKY_Decode()
 {
 	__asm

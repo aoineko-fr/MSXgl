@@ -19,4 +19,3 @@ PLY_AKG_ROM_Buffer = #F000
 		
 ; Include replayer
 include "playerAkg/sources/PlayerAkg.asm"
-; include "playerAkg/sources/PlayerAkg_SoundEffects.asm"

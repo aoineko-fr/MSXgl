@@ -42,6 +42,7 @@ if %BuildArkos%==1 (
 	for %%I in (arkos\*.akm) do ( echo %%I & %MSXtk%\MSXbin.exe %%I -t g_AKM_%%~nI -ad -o %Dest%\arkos\akm_%%~nI.h )
 	for %%I in (arkos\*.aky) do ( echo %%I & %MSXtk%\MSXbin.exe %%I -t g_AKY_%%~nI -ad -o %Dest%\arkos\aky_%%~nI.h )
 	for %%I in (arkos\*.akl) do ( echo %%I & %MSXtk%\MSXbin.exe %%I -t g_AKL_%%~nI -ad -o %Dest%\arkos\akl_%%~nI.h )
+	for %%I in (arkos\*.akx) do ( echo %%I & %MSXtk%\MSXbin.exe %%I -t g_AKX_%%~nI -ad -o %Dest%\arkos\akx_%%~nI.h )
 	for %%I in (arkos\*.asm) do ( echo %%I & %Tools%\audio\misc\rxrepl.exe -f %%I -o %Dest%\arkos\akg_%%~nI.asm -s "db \"AT20\"" -r "db 65, 84, 50, 48 ; AT20" -s "db" -r ".db" -s "dw" -r ".dw" -s "^[A-Za-z0-9_]+" -r "\0:" )
 )
 

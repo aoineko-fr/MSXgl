@@ -13,9 +13,9 @@
  <div class="CBody"><p>Direct access to joystick</p></div>
 </div>
 
-<a name="Joystick_Read"></a><a name="Topic381"></a><div class="CTopic TFunction LC">
+<a name="Joystick_Read"></a><a name="Topic344"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Joystick_Read</div>
- <div id="NDPrototype381" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Joystick_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
+ <div id="NDPrototype344" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Joystick_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)</td></tr></table></div></div>
  <div class="CBody"><p>Get the current joystick information</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_PORT_1 or JOY_PORT_2</p></td></tr></table><div class="CHeading">Returns</div><p>Joystick state (bit=0: pressed)</p><pre class="CText">xxBARLDU<br />  │││││└─ Up<br />  ││││└── Down<br />  │││└─── Left<br />  ││└──── Right<br />  │└───── Trigger A<br />  └────── Trigger B</pre></div>
 </div>
 
@@ -111,9 +111,9 @@
  <div class="CBody"><p>Value coding a given physical key combining row number and key index in that row Can be KEY_1, KEY_SPACE, KEY_A, KEY_F1, etc.</p></div>
 </div>
 
-<a name="Keyboard_Read"></a><a name="Topic612"></a><div class="CTopic TFunction LC">
+<a name="Keyboard_Read"></a><a name="Topic345"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Keyboard_Read</div>
- <div id="NDPrototype612" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Keyboard_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">row</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
+ <div id="NDPrototype345" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Keyboard_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">row</td></tr></table></td><td class="PAfterParameters">) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)</td></tr></table></div></div>
  <div class="CBody"><p>Read keyboard matrix row</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">row<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The row to read (0-10)</p></td></tr></table><div class="CHeading">Return</div><p>8-bits value where each bit to 0 represents the pressed keys</p></div>
 </div>
 

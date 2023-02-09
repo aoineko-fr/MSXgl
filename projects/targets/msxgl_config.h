@@ -365,6 +365,18 @@
 #define COMPRESS_USE_RLEP_DEFAULT	FALSE	// Data include the default value (0 otherwise)
 #define COMPRESS_USE_RLEP_FIXSIZE	FALSE	// Gize the data size as function input (loop up to terminator otherwise)
 
+// Pletter compression
+#define PLETTER_LENGTHINDATA		FALSE	// Is length included in data (first 2 bytes)
+// Disable interruption mode
+// - PLETTER_DI_NONE .............. Don't disable interruption
+// - PLETTER_DI_FULL .............. Disable interruption during the whole function
+// - PLETTER_DI_LOOP .............. Disable interruption during VRAM write loop
+#define PLETTER_DI_MODE				PLETTER_DI_LOOP
+// VRAM write timing mode
+// - PLETTER_WRITE_SAFE ........... Safe VRAM write speed (include nop between write)
+// - PLETTER_WRITE_QUICK .......... No wait beetween write
+#define PLETTER_WRITE_MODE			PLETTER_WRITE_SAFE
+
 //-----------------------------------------------------------------------------
 // MSXi MODULE
 //-----------------------------------------------------------------------------

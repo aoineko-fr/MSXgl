@@ -18,7 +18,7 @@
 // Paramaters:
 //   data	- Pointer to the music data
 //   num	- Music number
-void AKY_Init(const void* data, u16 num);
+void AKY_Init(const void* data, u8 num);
 
 // Function: AKY_Stop
 // Stop music playback
