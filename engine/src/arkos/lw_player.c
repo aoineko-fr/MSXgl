@@ -13,6 +13,7 @@
 #include "lw_player.h"
 
 bool g_AKL_Playing = FALSE;
+bool g_AKL_EndOfSong;
 
 //-----------------------------------------------------------------------------
 //
@@ -23,10 +24,9 @@ void AKL_Dummy()
 	__endasm;
 }
 
-
 //-----------------------------------------------------------------------------
 // Initialize music and start playback
-u8 AKL_Init(const void* data, u8 sng) __NAKED
+void AKL_Init(const void* data, u8 sng) __NAKED
 {
 	data;	// HL
 	sng;	// SP[2]
@@ -43,8 +43,6 @@ u8 AKL_Init(const void* data, u8 sng) __NAKED
 		pop		ix
 		ld		a, #TRUE
 		ld		(_g_AKL_Playing), a
-		ld		a, (hl)				// Inchanged by Arkos routine
-		srl		a
 		ret
 	__endasm;
 }
@@ -65,16 +63,19 @@ void AKL_Stop()
 
 //-----------------------------------------------------------------------------
 // Decode a music frame and update the PSG
-void AKL_Decode()
+bool AKL_Decode()
 {
 	__asm
 		ld		a, (_g_AKL_Playing)
 		or		a
 		ret		z
+		xor		a
+		ld		(_g_AKL_EndOfSong), a
 		// Plays one frame of the subsong.
 		push	ix
 		call	_PLY_LW_PLAY
 		pop		ix
+		ld		a, (_g_AKG_EndOfSong)
 	__endasm;
 }
 
@@ -84,18 +85,18 @@ void AKL_Decode()
 //
 // Paramaters:
 //   data	- Address to the sound effects data.
-void AKL_InitSFX(const void* data)
+u8 AKL_InitSFX(const void* data)
 {
 	data;	// HL
 	__asm
 		// Initializes the sound effects. It MUST be called at any times before a first sound effect is triggered.
 		// It doesn't matter whether the song is playing or not, or if it has been initialized or not.
 		// IN:    HL = Address to the sound effects data.
-		push	ix
 		call	_PLY_LW_INITSOUNDEFFECTS
-		pop		ix
 		ld		a, #TRUE
 		ld		(_g_AKL_Playing), a
+		ld		a, (hl)				// Inchanged by Arkos routine
+		srl		a
 	__endasm;
 }
 
@@ -118,6 +119,7 @@ void AKL_PlaySFX(u8 sfx, u8 chan, u8 vol) __NAKED
 		pop		bc					// Retreive vol in B
 		ld		c, l
 		push	de
+		inc		a
 		// Plays a sound effect. If a previous one was already playing on the same channel, it is replaced.
 		// This does not actually plays the sound effect, but programs its playing.
 		// The music player, when called, will call the PLY_LW_PlaySoundEffectsStream method below.

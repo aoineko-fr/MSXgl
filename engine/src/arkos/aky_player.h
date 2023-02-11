@@ -26,4 +26,4 @@ void AKY_Init(const void* data, u8 num);
 
 // Function: AKY_Decode
 // Decode a music frame and update the PSG
-void AKY_Decode();
+bool AKY_Decode();

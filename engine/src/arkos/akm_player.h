@@ -33,7 +33,7 @@ void AKM_Stop();
 
 // Function: AKM_Decode
 // Decode a music frame and update the PSG
-void AKM_Decode();
+bool AKM_Decode();
 
 // Function: AKM_InitSFX
 // Initializes the sound effects. It MUST be called at any times before a first sound effect is triggered.

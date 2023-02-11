@@ -13,6 +13,7 @@
 #include "akm_player.h"
 
 bool g_AKM_Playing = FALSE;
+bool g_AKM_EndOfSong;
 
 //-----------------------------------------------------------------------------
 //
@@ -22,7 +23,6 @@ void AKM_Dummy()
 		#include "akm_player.asm"
 	__endasm;
 }
-
 
 //-----------------------------------------------------------------------------
 // Initialize music and start playback
@@ -63,16 +63,19 @@ void AKM_Stop()
 
 //-----------------------------------------------------------------------------
 // Decode a music frame and update the PSG
-void AKM_Decode()
+bool AKM_Decode()
 {
 	__asm
 		ld		a, (_g_AKM_Playing)
 		or		a
 		ret		z
+		xor		a
+		ld		(_g_AKM_EndOfSong), a
 		// Plays one frame of the subsong.
 		push	ix
 		call	_PLY_AKM_PLAY
 		pop		ix
+		ld		a, (_g_AKM_EndOfSong)
 	__endasm;
 }
 
@@ -118,6 +121,7 @@ void AKM_PlaySFX(u8 sfx, u8 chan, u8 vol) __NAKED
 		pop		bc					// Retreive vol in B
 		ld		c, l
 		push	de
+		inc		a
 		// Plays a sound effect. If a previous one was already playing on the same channel, it is replaced.
 		// This does not actually plays the sound effect, but programs its playing.
 		// The music player, when called, will call the PLY_AKM_PlaySoundEffectsStream method below.

@@ -12,6 +12,8 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "aky_player.h"
 
+bool g_AKY_EndOfSong;
+
 //-----------------------------------------------------------------------------
 //
 void AKY_Dummy()
@@ -55,11 +57,15 @@ void AKY_Init(const void* data, u8 sng) __NAKED
 
 //-----------------------------------------------------------------------------
 // Decode a music frame and update the PSG
-void AKY_Decode()
+bool AKY_Decode()
 {
 	__asm
-		push		ix
-		call		_PLY_AKY_PLAY
-		pop			ix
+		xor		a
+		ld		(_g_AKY_EndOfSong), a
+		// Plays one frame of the subsong
+		push	ix
+		call	_PLY_AKY_PLAY
+		pop		ix
+		ld		a, (_g_AKY_EndOfSong)
 	__endasm;
 }

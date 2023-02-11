@@ -27,6 +27,8 @@ struct MusicEntry
 
 // Init function callback
 typedef void (*cbInit)(const void*, u8);
+// Play function callback
+typedef bool (*cbPlay)();
 // Init SFX function callback
 typedef u8 (*cbInitSFX)(const void*);
 // Play SFX function callback
@@ -38,7 +40,7 @@ typedef void (*cbStopSFX)(u8);
 struct PlayerEntry
 {
 	const c8* Name;
-	callback  Decode;
+	cbPlay    Decode;
 	cbInit    Init;
 	callback  Stop;
 	cbInitSFX InitSFX;

@@ -13,6 +13,7 @@
 #include "akg_player.h"
 
 bool g_AKG_Playing = FALSE;
+bool g_AKG_EndOfSong;
 
 //-----------------------------------------------------------------------------
 //
@@ -62,16 +63,19 @@ void AKG_Stop()
 
 //-----------------------------------------------------------------------------
 // Decode a music frame and update the PSG
-void AKG_Decode()
+bool AKG_Decode()
 {
 	__asm
 		ld		a, (_g_AKG_Playing)
 		or		a
 		ret		z
+		xor		a
+		ld		(_g_AKG_EndOfSong), a
 		// Plays one frame of the subsong.
 		push	ix
 		call	_PLY_AKG_PLAY
 		pop		ix
+		ld		a, (_g_AKG_EndOfSong)
 	__endasm;
 }
 

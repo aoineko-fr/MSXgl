@@ -33,7 +33,7 @@ void AKG_Stop();
 
 // Function: AKG_Decode
 // Decode a music frame and update the PSG
-void AKG_Decode();
+bool AKG_Decode();
 
 // Function: AKG_InitSFX
 // Initializes the sound effects. It MUST be called at any times before a first sound effect is triggered.
