@@ -192,7 +192,8 @@ void PrintHelp()
 //	"-l", "gm2", "112", "104",  "72", "16",
 //	"-l", "gm2", "184", "104",  "72", "16", };
 //const char* ARGV[] = { "", "testcases/menu.png", "-out", "select.h", "-mode", "gm2", "-name", "g_DataSelect", "-pos", "0", "0", "-size", "256", "96" };
-//#define DEBUG_ARGS
+const char* ARGV[] = { "", "../testcases/poc2.png", "-out", "../testcases/room5.h", "-mode", "gm1", "-name", "g_DataRoom0", "-pos", "0", "0", "-size", "256", "192" };
+#define DEBUG_ARGS
 
 /** Main entry point
 	Usage: MSXimg inFile -pos x y -size x y -num x y -out outFile -palette [16|256]

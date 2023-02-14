@@ -846,22 +846,69 @@ void Create16ColorsPalette(const char* filename)
 struct ChunkGM1
 {
 	u8 Pattern[8];
-	u8 Color;
+	u8 Color0;
+	u8 Color1 = 0xFF;
 };
 
 ///
-u8 GetChunkGM1Id(std::vector<ChunkGM1>& list, const ChunkGM1& chunk, ExportParameters* param)
+struct GroupGM1
 {
-	if (list.size() >= 256)
+	u8 Index;
+	u8 Color;
+	std::vector<ChunkGM1> Chunks;
+};
+
+
+///
+u8 GetChunkGM1Id(std::vector<GroupGM1>& group, ChunkGM1& chunk, ExportParameters* param)
+{
+	// Force color0 to be smaller than color1
+	if ((chunk.Color1 != 0xFF) && (chunk.Color1 < chunk.Color0))
 	{
-		printf("Error: Image have more than 256 unique patterns!\n");
+		u8 tmp = chunk.Color1;
+		chunk.Color1 = chunk.Color0;
+		chunk.Color0 = tmp;
+		for (i32 i = 0; i < 8; i++)
+			chunk.Pattern[i] = ~chunk.Pattern[i];
+	}
+	// Search for existing chunk index
+	for (u8 i = 0; i < group.size(); i++)
+	{
+		for (u8 j = 0; j < group[i].Chunks.size(); j++)
+		{
+			if (memcmp(&group[i].Chunks[j], &chunk, sizeof(ChunkGM1)) == 0)
+				return (i * 32) + j;
+		}
+	}
+	// Check for matching color group
+	for (u8 i = 0; i < group.size(); i++)
+	{
+		if (group[i].Chunks.size() == 8) // Is group full?
+			continue;
+		if (chunk.Color1 == 0xFF)
+		{
+			if (chunk.Color0 != (group[i].Color & 0x0F))
+				continue;
+		}
+		else
+		{
+			u8 col = chunk.Color0 + (chunk.Color1 << 4);
+			if (col != group[i].Color)
+				continue;
+		}
+	}
+
+
+
+	// Check for free group
+	if (group.size() >= 32)
+	{
+		printf("Error: Image have more than 32 color groups!\n");
 		exit(1);
 	}
-	for (u8 i = 0; i < list.size(); i++)
-	{
-		if (memcmp(&list[i], &chunk, sizeof(ChunkGM1)) == 0)
-			return i;
-	}
+
+
+
 	list.push_back(chunk);
 	return (u8)(list.size() - 1);
 }
@@ -956,17 +1003,13 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 						else if (c4 == colors[1])
 							pattern |= 1 << (7 - i);
 						else
-							printf("Warning: More than 2 colors on a 8 pixels line (%i, %i)\n", layer->posX + i + (nx * 8), layer->posY + j + (ny * 8));
-
-						chunk.Pattern[j] = pattern;
+							printf("Warning: More than 2 colors on a 8x8 pixels square (%i, %i)\n", layer->posX + i + (nx * 8), layer->posY + j + (ny * 8));
 					}
+					chunk.Pattern[j] = pattern;
 				}
 
-				if (colors.size() == 1)
-					colors.push_back(colors[0]);
-
-				chunk.Color = (colors[1] << 4) + colors[0];
-
+				chunk.Color0 = colors[0];
+				chunk.Color1 = (colors.size() == 2) ? colors[1] : 0xFF;
 				u8 patIdx = GetChunkGM1Id(chunkList, chunk, param);
 				layoutBytes.push_back(patIdx + param->offset);
 			}
