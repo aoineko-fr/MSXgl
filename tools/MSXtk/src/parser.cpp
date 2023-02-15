@@ -1245,8 +1245,16 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 					if (colors.size() == 1)
 						colors.push_back(colors[0]);
 
-					chunk.Pattern[j] = pattern;
-					chunk.Color[j] = (colors[1] << 4) + colors[0];
+					if (colors[0] > colors[1])
+					{
+						chunk.Pattern[j] = ~pattern;
+						chunk.Color[j] = (colors[0] << 4) + colors[1];
+					}
+					else
+					{
+						chunk.Pattern[j] = pattern;
+						chunk.Color[j] = (colors[1] << 4) + colors[0];
+					}
 				}
 
 				u8 patIdx = GetChunkId(chunkList, chunk, param);
