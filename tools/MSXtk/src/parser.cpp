@@ -15,6 +15,7 @@
 #include <string.h>
 #include <string>
 #include <vector>
+#include <assert.h>
 // FreeImage
 #include "FreeImage.h"
 // MSXi
@@ -842,81 +843,140 @@ void Create16ColorsPalette(const char* filename)
 // EXPORT GRAPHIC 1
 //-----------------------------------------------------------------------------
 
+namespace GM1 {
+
 ///
-struct ChunkGM1
+struct Chunk
 {
-	u8 Pattern[8];
 	u8 Color0;
 	u8 Color1 = 0xFF;
+	u8 Pattern[8];
+
+	bool IsPlain() { return Color1 == 0xFF;  }
+
+	void InvertPattern()
+	{
+		for (i32 i = 0; i < 8; i++)
+			Pattern[i] = ~Pattern[i];
+	}
+
+	void Invert()
+	{
+		assert(!IsPlain());
+		u8 tmp = Color1;
+		Color1 = Color0;
+		Color0 = tmp;
+		InvertPattern();
+	}
 };
 
 ///
-struct GroupGM1
+struct Group
 {
-	u8 Index;
-	u8 Color;
-	std::vector<ChunkGM1> Chunks;
+	u8 Color0;
+	u8 Color1 = 0xFF;
+	std::vector<Chunk> Chunks;
+
+	bool IsPlain() { return Color1 == 0xFF; }
 };
 
-
 ///
-u8 GetChunkGM1Id(std::vector<GroupGM1>& group, ChunkGM1& chunk, ExportParameters* param)
+u8 GetChunkId(std::vector<Group>& group, Chunk& chunk, ExportParameters* param)
 {
 	// Force color0 to be smaller than color1
-	if ((chunk.Color1 != 0xFF) && (chunk.Color1 < chunk.Color0))
-	{
-		u8 tmp = chunk.Color1;
-		chunk.Color1 = chunk.Color0;
-		chunk.Color0 = tmp;
-		for (i32 i = 0; i < 8; i++)
-			chunk.Pattern[i] = ~chunk.Pattern[i];
-	}
+	if (chunk.Color0 > chunk.Color1)
+		chunk.Invert();
+
 	// Search for existing chunk index
 	for (u8 i = 0; i < group.size(); i++)
 	{
 		for (u8 j = 0; j < group[i].Chunks.size(); j++)
 		{
-			if (memcmp(&group[i].Chunks[j], &chunk, sizeof(ChunkGM1)) == 0)
-				return (i * 32) + j;
+			if(chunk.IsPlain() && group[i].Chunks[j].IsPlain() && (chunk.Color0 == group[i].Chunks[j].Color0)) // Don't check pattern
+				return (i * 8) + j;
+
+			if (memcmp(&group[i].Chunks[j], &chunk, sizeof(Chunk)) == 0)
+				return (i * 8) + j;
 		}
 	}
+
 	// Check for matching color group
 	for (u8 i = 0; i < group.size(); i++)
 	{
 		if (group[i].Chunks.size() == 8) // Is group full?
 			continue;
-		if (chunk.Color1 == 0xFF)
+
+		if (!chunk.IsPlain() && !group[i].IsPlain()) // Chunk and group not plain
 		{
-			if (chunk.Color0 != (group[i].Color & 0x0F))
-				continue;
+			if ((chunk.Color0 == group[i].Color0) && (chunk.Color1 == group[i].Color1))
+			{
+				group[i].Chunks.push_back(chunk);
+				return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+			}
 		}
-		else
+		else if (chunk.IsPlain() && group[i].IsPlain()) // Chunk and group plain
 		{
-			u8 col = chunk.Color0 + (chunk.Color1 << 4);
-			if (col != group[i].Color)
-				continue;
+			assert(chunk.Color0 != group[i].Color0);
+			assert(group[i].Chunks.size() == 1);
+			chunk.InvertPattern();
+			group[i].Color1 = chunk.Color0;
+			group[i].Chunks.push_back(chunk);
+			return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+		}
+		else if (!chunk.IsPlain() && group[i].IsPlain()) // Chunk not plain and group plain
+		{
+			assert(group[i].Chunks.size() == 1);
+			if (chunk.Color0 == group[i].Color0)
+			{
+				group[i].Color1 = chunk.Color1;
+				group[i].Chunks.push_back(chunk);
+				return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+			}
+			else if (chunk.Color1 == group[i].Color0)
+			{
+				group[i].Chunks[0].InvertPattern();
+				group[i].Color0 = chunk.Color0;
+				group[i].Color1 = chunk.Color1;
+				group[i].Chunks.push_back(chunk);
+				return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+			}
+		}
+		else if (chunk.IsPlain() && !group[i].IsPlain())
+		{
+			if (chunk.Color0 == group[i].Color0)
+			{
+				group[i].Chunks.push_back(chunk);
+				return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+			}
+			else if (chunk.Color0 == group[i].Color1)
+			{
+				chunk.InvertPattern();
+				group[i].Chunks.push_back(chunk);
+				return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+			}
 		}
 	}
-
-
 
 	// Check for free group
 	if (group.size() >= 32)
 	{
-		printf("Error: Image have more than 32 color groups!\n");
+		printf("Error: image have more than 32 color groups!\n");
 		exit(1);
 	}
 
-
-
-	list.push_back(chunk);
-	return (u8)(list.size() - 1);
+	// Create new group
+	Group grp;
+	grp.Color0 = chunk.Color0;
+	grp.Color1 = chunk.Color1;
+	grp.Chunks.push_back(chunk);
+	group.push_back(grp);
+	return static_cast<u8>((group.size() - 1) * 8);
 }
 
 /***/
-bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
+bool Export(ExportParameters* param, ExporterInterface* exp)
 {
-	std::vector<ChunkGM1> chunkList;
+	std::vector<Group> chunkList;
 	FIBITMAP* dib, * dib32;
 
 	//-------------------------------------------------------------------------
@@ -977,14 +1037,14 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 		{
 			for (u32 nx = 0; nx < numX; nx++)
 			{
-				ChunkGM1 chunk;
+				Chunk chunk;
 
 				// Generate chunk
 				std::vector<u8> colors;
-				for (i32 j = 0; j < 8; j++)
+				for (i32 j = 0; j < 8; j++) // Y
 				{
 					u8 pattern = 0;
-					for (i32 i = 0; i < 8; i++)
+					for (i32 i = 0; i < 8; i++) // X
 					{
 						i32 idx = layer->posX + i + (nx * 8) + ((layer->posY + j + (ny * 8)) * imageX);
 						u32 c24 = 0xFFFFFF & ((u32*)bits)[idx];
@@ -1010,7 +1070,7 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 
 				chunk.Color0 = colors[0];
 				chunk.Color1 = (colors.size() == 2) ? colors[1] : 0xFF;
-				u8 patIdx = GetChunkGM1Id(chunkList, chunk, param);
+				u8 patIdx = GetChunkId(chunkList, chunk, param);
 				layoutBytes.push_back(patIdx + param->offset);
 			}
 		}
@@ -1049,8 +1109,19 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 		// Build data
 		std::vector<u8> bytes;
 		for (i32 i = 0; i < (i32)chunkList.size(); i++)
+		{
 			for (i32 j = 0; j < 8; j++)
-				bytes.push_back(chunkList[i].Pattern[j]);
+			{
+				if ((i == chunkList.size() - 1) && (j >= chunkList[i].Chunks.size())) // skip last empty chunk
+					continue;
+
+				for (i32 k = 0; k < 8; k++)
+					if (j < chunkList[i].Chunks.size())
+						bytes.push_back(chunkList[i].Chunks[j].Pattern[k]);
+					else
+						bytes.push_back(0);
+			}
+		}
 
 		// Compress
 		if (param->comp == MSX::COMPRESS_RLEp)
@@ -1060,15 +1131,24 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 	}
 	else
 	{
-		for (i32 i = 0; i < (i32)chunkList.size(); i++)
+		for (i32 i = 0; i < (i32)chunkList.size(); i++) // group
 		{
-			// Print sprite header
-			exp->WriteSpriteHeader(i + param->offset);
-			for (i32 j = 0; j < 8; j++)
+			for (i32 j = 0; j < 8; j++) // chunk
 			{
-				exp->WriteLineBegin();
-				exp->Write8BitsData(chunkList[i].Pattern[j]);
-				exp->WriteLineEnd();
+				if ((i == chunkList.size() - 1) && (j >= chunkList[i].Chunks.size()))
+					continue;
+
+				// Print sprite header
+				exp->WriteSpriteHeader(i * 8 + j + param->offset);
+				for (i32 k = 0; k < 8; k++) // line
+				{
+					exp->WriteLineBegin();
+					if (j < chunkList[i].Chunks.size())
+						exp->Write8BitsData(chunkList[i].Chunks[j].Pattern[k]);
+					else
+						exp->Write8BitsData(0x55);
+					exp->WriteLineEnd();
+				}
 			}
 		}
 	}
@@ -1078,39 +1158,19 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 	//-------------------------------------------------------------------------
 	// COLORS TABLE
 
-	/*exp->WriteTableBegin(TABLE_U8, param->tabName + "_Colors", "Colors Table");
-	if (param->comp != MSX::COMPRESS_None)
+	exp->WriteTableBegin(TABLE_U8, param->tabName + "_Colors", "Colors Table");
+	for (i32 i = 0; i < (i32)chunkList.size(); i++)
 	{
-		// Build data
-		std::vector<u8> bytes;
-		for (i32 i = 0; i < (i32)chunkList.size(); i++)
-			for (i32 j = 0; j < 8; j++)
-				bytes.push_back(chunkList[i].Color[j]);
-
-		// Compress
-		if (param->comp == MSX::COMPRESS_RLEp)
-			ExportRLEp(param, exp, bytes);
-		else if (param->comp == MSX::COMPRESS_Pletter)
-			ExportPletter(param, exp, bytes);
-	}
-	else
-	{
-		for (i32 i = 0; i < (i32)chunkList.size(); i++)
-		{
-			// Print sprite header
-			exp->WriteSpriteHeader(i + param->offset);
-			exp->WriteLineBegin();
-			for (i32 j = 0; j < 8; j++)
-			{
-				exp->Write1ByteData(chunkList[i].Color[j]);
-			}
-			exp->WriteLineEnd();
-		}
+		// Print sprite header
+		exp->WriteSpriteHeader(i);
+		exp->WriteLineBegin();
+		exp->Write1ByteData(chunkList[i].Color0 + (chunkList[i].Color1 << 4));
+		exp->WriteLineEnd();
 	}
 	i32 colorsSize = exp->GetTotalBytes() - namesSize - patternsSize;
 	exp->WriteTableEnd(MSX::Format("Colors size: %i Bytes", colorsSize));
 	exp->WriteLineEnd();
-	exp->WriteCommentLine(MSX::Format("Total size: %i Bytes", exp->GetTotalBytes()));*/
+	exp->WriteCommentLine(MSX::Format("Total size: %i Bytes", exp->GetTotalBytes()));
 
 	//-------------------------------------------------------------------------
 	// Write file
@@ -1118,6 +1178,8 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 
 	return bSaved;
 }
+
+}; // namespace GM1
 
 //-----------------------------------------------------------------------------
 // EXPORT GRAPHIC 2
@@ -1548,7 +1610,7 @@ bool ParseImage(ExportParameters* param, ExporterInterface* exp)
 	{
 	default:
 	case MODE_Bitmap:	return ExportBitmap(param, exp);
-	case MODE_GM1:		return ExportGM1(param, exp);
+	case MODE_GM1:		return GM1::Export(param, exp);
 	case MODE_GM2:		return ExportGM2(param, exp);
 	case MODE_Sprite:	return ExportSprite(param, exp);
 	};

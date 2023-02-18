@@ -296,7 +296,7 @@ $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetN
     <ClCompile Include="..\src\exporter.cpp" />
     <ClCompile Include="..\src\image.cpp" />
     <ClCompile Include="..\src\parser.cpp" />
-    <ClCompile Include="..\src\Plettter.cpp" />
+    <ClCompile Include="..\src\Pletter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Freeimage\FreeImage.h" />
