@@ -110,6 +110,10 @@
 	#define MENU_VALUE_X			13
 #endif
 
+#define MENU_MAX_ITEM 20
+
+extern u8 g_MenuFlags[MENU_MAX_ITEM];
+
 //=============================================================================
 // DEFINES
 //=============================================================================
@@ -140,6 +144,16 @@ enum MENU_ITEM_TYPE
 //------------------------------------
 };
 
+#if (MENU_USE_DYNAMIC_STATE)
+// Menu item flags
+enum MENU_ITEM_FLAG
+{
+	MENU_FLAG_DIRTY =				0b00000001,
+	MENU_FLAG_DISABLE =				0b00000010,
+	MENU_FLAG_HIDE =				0b00000100,
+};
+#endif
+
 // Menu item actions
 enum MENU_ACTION
 {
@@ -150,6 +164,7 @@ enum MENU_ACTION
 	MENU_ACTION_UPDATE,
 //------------------------------------
 	MENU_ACTION_MAX,
+	MENU_ACTION_INVALID = 0xFF,
 };
 
 // Menu item layut
@@ -218,9 +233,6 @@ typedef struct
 	const c8* Title;
 	MenuItem* Items;
 	u8        ItemNum;
-#if (MENU_USE_DYNAMIC_STATE)
-	u8*       DynStates;			// Dynamic state overwrite
-#endif
 } Menu;
 
 // Table of the menu pages.
@@ -263,3 +275,13 @@ void Menu_DrawPage(u8 page);
 // Function: Menu_Update
 // Update the menu handler
 void Menu_Update();
+
+#if (MENU_USE_DYNAMIC_STATE)
+// Function: Menu_SetDynamicFlag
+// 
+inline void Menu_SetDynamicFlag(u8 item, u8 flag) { g_MenuFlags[item] = flag; }
+
+// Function: Menu_GetDynamicFlag
+// 
+inline u8 Menu_GetDynamicFlag(u8 item) { return g_MenuFlags[item]; }
+#endif

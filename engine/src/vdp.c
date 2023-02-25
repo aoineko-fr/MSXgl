@@ -128,7 +128,7 @@ u16 g_ScreenLayoutLow;		// Address of the Name Table
 u16 g_ScreenColorLow;		// Address of the Color Table
 u16 g_ScreenPatternLow;		// Address of the Pattern Table
 #if (VDP_USE_SPRITE)
-u16 g_SpriteAtributeLow;	// Address of the Sprite Attribute Table
+u16 g_SpriteAttributeLow;	// Address of the Sprite Attribute Table
 u16 g_SpritePatternLow;		// Address of the Sprite Pattern Table
 u16 g_SpriteColorLow;		// Address of the Sprite Color Table
 #endif
@@ -1946,7 +1946,7 @@ void VDP_SetPatternTable(VADDR addr)
 //							Address must be a multiple of 80h for MSX1 screen modes and  multiple of 200h for MSX2 ones.
 void VDP_SetSpriteAttributeTable(VADDR addr)
 {
-	g_SpriteAtributeLow = (u16)addr;
+	g_SpriteAttributeLow = (u16)addr;
 	
 	u8 reg;
 	reg = (u8)(addr >> 7);
@@ -2017,7 +2017,7 @@ void VDP_SetSpriteSM1(u8 index, u8 x, u8 y, u8 shape, u8 color)
     g_VDP_Sprite.Pattern = shape;	// Pattern index
     g_VDP_Sprite.Color = color;		// Color index (Sprite Mode 1 only) + Early clock
 
-	u16 low = g_SpriteAtributeLow;
+	u16 low = g_SpriteAttributeLow;
 	low += (index * 4);
 	VDP_WriteVRAM((u8*)&g_VDP_Sprite, low, g_SpriteAtributeHigh, 4);
 }
@@ -2030,7 +2030,7 @@ void VDP_SetSprite(u8 index, u8 x, u8 y, u8 shape)
     g_VDP_Sprite.X = x;				// X coordinate of the sprite
     g_VDP_Sprite.Pattern = shape;	// Pattern index
 
-	u16 low = g_SpriteAtributeLow;
+	u16 low = g_SpriteAttributeLow;
 	low += (index * 4);
 	VDP_WriteVRAM((u8*)&g_VDP_Sprite, low, g_SpriteAtributeHigh, 3);
 }
@@ -2047,7 +2047,7 @@ void VDP_SetSpriteExMultiColor(u8 index, u8 x, u8 y, u8 shape, const u8* ram)
 	g_VDP_Sprite.X = x;				// Y coordinate on screen (all lower priority sprite will be disable if equal to 216 or 0xD0)
 	g_VDP_Sprite.Y = y;				// X coordinate of the sprite
 	g_VDP_Sprite.Pattern = shape;	// Pattern index
-	u16 attr = g_SpriteAtributeLow;
+	u16 attr = g_SpriteAttributeLow;
 	attr += (index * 4);
 	VDP_WriteVRAM((u8*)&g_VDP_Sprite, attr, g_SpriteAtributeHigh, 3);
 }
@@ -2063,7 +2063,7 @@ void VDP_SetSpriteExUniColor(u8 index, u8 x, u8 y, u8 shape, u8 color)
 	g_VDP_Sprite.X = x;				// Y coordinate on screen (all lower priority sprite will be disable if equal to 216 or 0xD0)
 	g_VDP_Sprite.Y = y;				// X coordinate of the sprite
 	g_VDP_Sprite.Pattern = shape;	// Pattern index
-	u16 attr = g_SpriteAtributeLow;
+	u16 attr = g_SpriteAttributeLow;
 	attr += (index * 4);
 	VDP_WriteVRAM((u8*)&g_VDP_Sprite, attr, g_SpriteAtributeHigh, 3);
 }
@@ -2076,7 +2076,7 @@ void VDP_SetSpritePosition(u8 index, u8 x, u8 y)
 	g_VDP_Sprite.Y = y;				// Y coordinate on screen (all lower priority sprite will be disable if equal to 216 or 0xD0)
     g_VDP_Sprite.X = x;				// X coordinate of the sprite
 
-	u16 low = g_SpriteAtributeLow;
+	u16 low = g_SpriteAttributeLow;
 	low += (index * 4);
 	VDP_WriteVRAM((u8*)&g_VDP_Sprite, low, g_SpriteAtributeHigh, 2);
 }
@@ -2085,7 +2085,7 @@ void VDP_SetSpritePosition(u8 index, u8 x, u8 y)
 // Update sprite position X
 void VDP_SetSpritePositionX(u8 index, u8 x)
 {
-	u16 low = g_SpriteAtributeLow;
+	u16 low = g_SpriteAttributeLow;
 	low += (index * 4);
 	VDP_Poke(x, ++low, g_SpriteAtributeHigh);
 }
@@ -2094,7 +2094,7 @@ void VDP_SetSpritePositionX(u8 index, u8 x)
 // Update sprite position Y
 void VDP_SetSpritePositionY(u8 index, u8 y)
 {
-	u16 low = g_SpriteAtributeLow;
+	u16 low = g_SpriteAttributeLow;
 	low += (index * 4);
 	VDP_Poke(y, low, g_SpriteAtributeHigh);
 }
@@ -2103,7 +2103,7 @@ void VDP_SetSpritePositionY(u8 index, u8 y)
 // Update sprite pattern
 void VDP_SetSpritePattern(u8 index, u8 shape)
 {
-	u16 low = g_SpriteAtributeLow + 2;
+	u16 low = g_SpriteAttributeLow + 2;
 	low += (index * 4);
 	VDP_Poke(shape, low, g_SpriteAtributeHigh);
 }
@@ -2112,7 +2112,7 @@ void VDP_SetSpritePattern(u8 index, u8 shape)
 // Update sprite pattern (Shader mode 1)
 void VDP_SetSpriteColorSM1(u8 index, u8 color)
 {
-	u16 low = g_SpriteAtributeLow + 3;
+	u16 low = g_SpriteAttributeLow + 3;
 	low += (index * 4);
 	VDP_Poke(color, low, g_SpriteAtributeHigh);
 }
@@ -2140,7 +2140,7 @@ void VDP_SetSpriteMultiColor(u8 index, const u8* ram)
 //
 void VDP_SetSpriteData(u8 index, const u8* data)
 {
-	u16 low = g_SpriteAtributeLow;
+	u16 low = g_SpriteAttributeLow;
 	low += (index * 4);
 	VDP_WriteVRAM(data, low, g_SpriteAtributeHigh, 3);
 }

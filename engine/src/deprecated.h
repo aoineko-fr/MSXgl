@@ -18,6 +18,7 @@
 #define VDP_HideSpriteFrom			VDP_DisableSpritesFrom
 #define VADDR_Lo					VADDR_LO
 #define VADDR_Hi					VADDR_HI
+#define g_SpriteAtributeLow			g_SpriteAttributeLow
 
 // Compress module
 #define UnpackRLEpToRAM				RLEp_UnpackToRAM

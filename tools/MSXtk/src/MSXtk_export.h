@@ -257,7 +257,6 @@ public:
 	}
 };
 
-
 //---------------------------------------------------------------------------------
 /**
  * Assembler language exporter
@@ -265,11 +264,11 @@ public:
 class ExporterAsm : public ExporterText
 {
 	u8 CurrentSectionSize;
-	u8 LineCount;
+	u16 DataCount;
 
 public:
-	ExporterAsm() : ExporterText(), CurrentSectionSize(DATASIZE_8bits), LineCount(0) {}
-	ExporterAsm(ExportConfig& cfg) : ExporterText(cfg), CurrentSectionSize(DATASIZE_8bits), LineCount(0) {}
+	ExporterAsm() : ExporterText(), CurrentSectionSize(DATASIZE_8bits), DataCount(0) {}
+	ExporterAsm(ExportConfig& cfg) : ExporterText(cfg), CurrentSectionSize(DATASIZE_8bits), DataCount(0) {}
 
 	virtual void AddReturn() { outData += "\n"; }
 	virtual void AddComment(std::string comment = "") { outData += MSX::Format(";%s\n", comment.c_str()); }
@@ -290,34 +289,34 @@ public:
 	virtual void StartLine()
 	{
 		outData += MSX::Format("\t%s ", MSX::GetAsmDirective(CurrentSectionSize, Config.Asm));
-		LineCount = 0;
+		DataCount = 0;
 	}
 	virtual void AddByte(u8 data)
 	{
-		if (LineCount > 0)
+		if (DataCount > 0)
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_8bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
 		TotalBytes += 1;
-		LineCount++;
+		DataCount++;
 	}
 	virtual void AddWord(u16 data)
 	{
-		if (LineCount > 0)
+		if (DataCount > 0)
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_16bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
 		TotalBytes += 2;
-		LineCount++;
+		DataCount++;
 	}
 	virtual void AddDouble(u32 data)
 	{
-		if (LineCount > 0)
+		if (DataCount > 0)
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_32bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
 		TotalBytes += 4;
-		LineCount++;
+		DataCount++;
 	}
 	virtual void EndLine(std::string comment = "")
 	{
@@ -326,5 +325,75 @@ public:
 		outData += "\n";
 	}
 };
+
+//---------------------------------------------------------------------------------
+/**
+ * Assembler language exporter
+ */
+class ExporterBASIC : public ExporterText
+{
+	u16 CurrentSectionSize;
+	u16 DataCount;
+	u16 LineNumber;
+
+public:
+	ExporterBASIC() : ExporterText(), CurrentSectionSize(DATASIZE_8bits), DataCount(0), LineNumber(1000) {}
+	ExporterBASIC(ExportConfig& cfg) : ExporterText(cfg), CurrentSectionSize(DATASIZE_8bits), DataCount(0), LineNumber(1000) {}
+
+	virtual void AddReturn() { outData += "\n"; }
+	virtual void AddComment(std::string comment = "") { outData += MSX::Format("%i '%s\n", LineNumber++, comment.c_str()); }
+
+	virtual void StartSection(std::string name, u8 size = DATASIZE_8bits, std::string comment = "")
+	{
+		CurrentSectionSize = size;
+		outData += MSX::Format("%i '%s", LineNumber++, name.c_str());
+		if (!comment.empty())
+			outData += MSX::Format(" - %s", comment.c_str());
+		outData += MSX::Format("\n");
+	}
+	virtual void EndSection(std::string comment = "")
+	{
+		outData += MSX::Format("\n");
+	}
+
+	virtual void StartLine()
+	{
+		outData += MSX::Format("%i ");
+		DataCount = 0;
+	}
+	virtual void AddByte(u8 data)
+	{
+		if (DataCount > 0)
+			outData += std::string(", ");
+		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_8bits);
+		outData += MSX::Format(Dataformat.c_str(), data);
+		TotalBytes += 1;
+		DataCount++;
+	}
+	virtual void AddWord(u16 data)
+	{
+		if (DataCount > 0)
+			outData += std::string(", ");
+		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_16bits);
+		outData += MSX::Format(Dataformat.c_str(), data);
+		TotalBytes += 2;
+		DataCount++;
+	}
+	virtual void AddDouble(u32 data)
+	{
+		if (DataCount > 0)
+			outData += std::string(", ");
+		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_32bits);
+		outData += MSX::Format(Dataformat.c_str(), data);
+		TotalBytes += 4;
+		DataCount++;
+	}
+	virtual void EndLine(std::string comment = "")
+	{
+		if (!comment.empty())
+			outData += MSX::Format(" '%s", comment.c_str());
+		outData += "\n";
+	}
+}; 
 
 } // namespace MSX

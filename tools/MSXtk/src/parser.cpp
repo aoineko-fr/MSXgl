@@ -1541,14 +1541,14 @@ bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 	{
 		for (i32 nx = 0; nx < param->numX; nx++)
 		{
-			if (param->comp != MSX::COMPRESS_RLEp)
+			if (param->comp == MSX::COMPRESS_None)
 				exp->WriteCommentLine(MSX::Format("======== Frame[%i]", nx + ny * param->numX));
 
 			for (i32 l = 0; l < (i32)param->layers.size(); l++)
 			{
 				Layer& layer = param->layers[l];
 
-				if (param->comp != MSX::COMPRESS_RLEp)
+				if (param->comp == MSX::COMPRESS_None)
 					exp->WriteCommentLine(MSX::Format("---- Layer[%i] (%s %i,%i %i,%i %s %i)", l, layer.size16 ? "16x16" : "8x8", layer.posX, layer.posY, layer.numX, layer.numY, layer.include ? "inc" : "dec", layer.colors.size()));
 
 				for (u32 j = 0; j < layer.numY; j++)

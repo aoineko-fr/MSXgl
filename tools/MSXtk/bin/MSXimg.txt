@@ -1,4 +1,4 @@
-MSXimg (v1.16.1)
+MSXimg (v1.16.3)
 Usage: MSXimg <filename> [options]
 
 Options:
@@ -9,6 +9,7 @@ Options:
       auto         Auto-detected using output file extension (default)
       c            C header file output
       asm          Assembler header file output
+      bas          BASIC listing file output
       bin          Raw binary data image
    -name name      Name of the table to generate
    -mode ?         Exporter mode

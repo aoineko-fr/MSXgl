@@ -403,10 +403,8 @@ PLY_AKG_READLINKER:
     ld sp, hl
     pop hl
 ; MSXgl - Start
-	push	af
 	ld		a, #1
 	ld		(_g_AKG_EndOfSong), a
-	pop		af
 ; MSXgl - End
 PLY_AKG_READLINKER_NOLOOP:
 	ld (PLY_AKG_CHANNEL1_PTTRACK), hl

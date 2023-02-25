@@ -30,6 +30,10 @@ u8				g_MenuItem;
 Menu_InputCB	g_MenuInputCB;
 Menu_DrawCB		g_MenuDrawCB;
 
+#if (MENU_USE_DYNAMIC_STATE)
+u8				g_MenuFlags[MENU_MAX_ITEM];			// Dynamic flag
+#endif
+
 #if (MENU_USE_DEFAULT_CALLBACK)
 u8				g_MenuInputPrev;
 #endif
@@ -252,36 +256,31 @@ void Menu_Update()
 	}
 
 	// Handle input
-	u8 input = Menu_DefaultInputCB();
+	u8 input = g_MenuInputCB();
 	MenuItem* pCurItem = &g_MenuPage->Items[g_MenuItem];
 	u8 type = pCurItem->Type & MENU_ITEM_MASK;
 	switch(type)
 	{
 		case MENU_ITEM_ACTION:
 		{
+			u8 act = MENU_ACTION_INVALID;
 			if(input & MENU_INPUT_TRIGGER)
-			{
-				Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
-				cb(MENU_ACTION_SET, pCurItem->Value);
-				Menu_DisplayItem(g_MenuItem);
-			}
+				act = MENU_ACTION_SET;
 			else if(input & MENU_INPUT_LEFT)
-			{
-				Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
-				cb(MENU_ACTION_DEC, pCurItem->Value);
-				Menu_DisplayItem(g_MenuItem);
-			}
+				act = MENU_ACTION_DEC;
 			else if(input & MENU_INPUT_RIGHT)
+				act = MENU_ACTION_INC;
+			if(act != MENU_ACTION_INVALID)
 			{
 				Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
-				cb(MENU_ACTION_INC, pCurItem->Value);
+				cb(act, pCurItem->Value);
 				Menu_DisplayItem(g_MenuItem);
 			}
 			break;
 		}
 		case MENU_ITEM_GOTO:
 		{
-			if((input & MENU_INPUT_TRIGGER) || (input & MENU_INPUT_RIGHT) || (input & MENU_INPUT_LEFT))
+			if(input & (MENU_INPUT_TRIGGER | MENU_INPUT_RIGHT| MENU_INPUT_LEFT))
 			{
 				Menu_DrawPage(pCurItem->Value);
 				return;
@@ -290,7 +289,7 @@ void Menu_Update()
 		}
 		case MENU_ITEM_INT:
 		{
-			if((input & MENU_INPUT_TRIGGER) || (input & MENU_INPUT_RIGHT))
+			if(input & (MENU_INPUT_TRIGGER | MENU_INPUT_RIGHT))
 			{
 				i8* data = (i8*)pCurItem->Action;
 				if(pCurItem->Value != NULL)
@@ -324,7 +323,7 @@ void Menu_Update()
 		}
 		case MENU_ITEM_BOOL:
 		{
-			if((input & MENU_INPUT_TRIGGER) || (input & MENU_INPUT_RIGHT) || (input & MENU_INPUT_LEFT))
+			if(input & (MENU_INPUT_TRIGGER | MENU_INPUT_RIGHT | MENU_INPUT_LEFT))
 			{
 				u8* data = (u8*)pCurItem->Action;
 				*data = 1 - *data;

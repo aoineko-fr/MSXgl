@@ -139,7 +139,7 @@ extern u16 g_ScreenLayoutLow;		// Address of the Pattern Layout Table (Name)
 extern u16 g_ScreenColorLow;		// Address of the Color Table
 extern u16 g_ScreenPatternLow;		// Address of the Pattern Generator Table
 #if (VDP_USE_SPRITE)
-extern u16 g_SpriteAtributeLow;		// Address of the Sprite Attribute Table
+extern u16 g_SpriteAttributeLow;	// Address of the Sprite Attribute Table
 extern u16 g_SpritePatternLow;		// Address of the Sprite Pattern Generator Table
 extern u16 g_SpriteColorLow;		// Address of the Sprite Color Table
 #endif // (VDP_USE_SPRITE)
@@ -912,7 +912,7 @@ inline VADDR VDP_GetPatternTable() { return VADDR_GET(g_ScreenPatternLow, g_Scre
 //
 // Return:
 //   VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)
-inline VADDR VDP_GetSpriteAttributeTable() { return VADDR_GET(g_SpriteAtributeLow, g_SpriteAtributeHigh); }
+inline VADDR VDP_GetSpriteAttributeTable() { return VADDR_GET(g_SpriteAttributeLow, g_SpriteAtributeHigh); }
 
 // Function: VDP_GetSpritePatternTable
 // Get address of the Sprite Pattern Generator Table

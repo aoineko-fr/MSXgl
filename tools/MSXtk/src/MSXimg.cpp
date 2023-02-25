@@ -78,6 +78,7 @@ void PrintHelp()
 	printf("      auto         Auto-detected using output file extension (default)\n");
 	printf("      c            C header file output\n");
 	printf("      asm          Assembler header file output\n");
+	printf("      bas          BASIC listing file output\n");
 	printf("      bin          Raw binary data image\n");
 	printf("   -name name      Name of the table to generate\n");
 	printf("   -mode ?         Exporter mode\n");
@@ -193,6 +194,7 @@ void PrintHelp()
 //	"-l", "gm2", "184", "104",  "72", "16", };
 //const char* ARGV[] = { "", "testcases/menu.png", "-out", "select.h", "-mode", "gm2", "-name", "g_DataSelect", "-pos", "0", "0", "-size", "256", "96" };
 //const char* ARGV[] = { "", "../testcases/poc2.png", "-out", "../testcases/room5.h", "-mode", "gm1", "-name", "g_DataRoom0", "-pos", "0", "0", "-size", "256", "192" };
+//const char* ARGV[] = { "", "../testcases/poc2.png", "-out", "../testcases/room5.bas", "-format", "bas", "-data", "hexaraw", "-mode", "gm1", "-name", "g_DataRoom0", "-pos", "0", "0", "-size", "256", "192" };
 //#define DEBUG_ARGS
 
 /** Main entry point
@@ -243,6 +245,8 @@ int main(int argc, const char* argv[])
 				outFormat = MSX::FILEFORMAT_C;
 			else if (MSX::StrEqual(argv[i], "asm"))
 				outFormat = MSX::FILEFORMAT_Asm;
+			else if (MSX::StrEqual(argv[i], "bas"))
+				outFormat = MSX::FILEFORMAT_BASIC;
 			else if (MSX::StrEqual(argv[i], "bin"))
 				outFormat = MSX::FILEFORMAT_Bin;
 		}
@@ -375,6 +379,8 @@ int main(int argc, const char* argv[])
 				param.format = MSX::DATAFORMAT_HexaAnd;
 			else if (MSX::StrEqual(argv[i], "hexa#"))
 				param.format = MSX::DATAFORMAT_HexaSharp;
+			else if (MSX::StrEqual(argv[i], "hexaraw"))
+				param.format = MSX::DATAFORMAT_HexaRaw;
 			else if(MSX::StrEqual(argv[i], "bin"))
 				param.format = MSX::DATAFORMAT_Binary;
 			else if (MSX::StrEqual(argv[i], "bin0b"))
@@ -642,6 +648,9 @@ int main(int argc, const char* argv[])
 		case MSX::FILEFORMAT_Asm:
 			param.outFile = RemoveExt(param.inFile) + ".asm";
 			break;
+		case MSX::FILEFORMAT_BASIC:
+			param.outFile = RemoveExt(param.inFile) + ".bas";
+			break;
 		case MSX::FILEFORMAT_Bin:
 			param.outFile = RemoveExt(param.inFile) + ".bin";
 			break;
@@ -724,23 +733,26 @@ int main(int argc, const char* argv[])
 	// Convert
 	if((param.inFile != "") && (param.outFile != ""))
 	{
+		ExporterInterface* exp = NULL;
 		if((outFormat == MSX::FILEFORMAT_C) || ((outFormat == MSX::FILEFORMAT_Auto) && (HaveExt(param.outFile, ".h") || HaveExt(param.outFile, ".inc"))))
 		{
-			ExporterInterface* exp = new ExporterC(param.format, &param);
-			bSucceed = ParseImage(&param, exp);
-			size = exp->GetTotalBytes();
-			delete exp;
+			exp = new ExporterC(param.format, &param);
 		}
 		else if((outFormat == MSX::FILEFORMAT_Asm) || ((outFormat == MSX::FILEFORMAT_Auto) && (HaveExt(param.outFile, ".s") || HaveExt(param.outFile, ".asm"))))
 		{
-			ExporterInterface* exp = new ExporterASM(param.format, &param);
-			bSucceed = ParseImage(&param, exp);
-			size = exp->GetTotalBytes();
-			delete exp;
+			exp = new ExporterASM(param.format, &param);
+		}
+		else if ((outFormat == MSX::FILEFORMAT_BASIC) || ((outFormat == MSX::FILEFORMAT_Auto) && (HaveExt(param.outFile, ".bas") || HaveExt(param.outFile, ".lst"))))
+		{
+			exp = new ExporterBASIC(param.format, &param);
 		}
 		else if((outFormat == MSX::FILEFORMAT_Bin) || ((outFormat == MSX::FILEFORMAT_Auto) && (HaveExt(param.outFile, ".bin") || HaveExt(param.outFile, ".raw"))))
 		{
-			ExporterInterface* exp = new ExporterBin(param.format, &param);
+			exp = new ExporterBin(param.format, &param);
+		}
+
+		if (exp)
+		{
 			bSucceed = ParseImage(&param, exp);
 			size = exp->GetTotalBytes();
 			delete exp;

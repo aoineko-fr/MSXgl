@@ -21,6 +21,7 @@ enum FileFormat : u8
 	FILEFORMAT_Auto,				// Auto-detection
 	FILEFORMAT_C,					// C header file (text)
 	FILEFORMAT_Asm,					// Assembler header file (text)
+	FILEFORMAT_BASIC,				// BASIC listing file (text)
 	FILEFORMAT_Bin,					// Binary data file
 };
 	
