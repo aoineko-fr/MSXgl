@@ -136,6 +136,45 @@ void Mem_Set(u8 val, void* dest, u16 size) __NAKED // Stack: 4 bytes
 	__endasm;
 }
 
+//-----------------------------------------------------------------------------
+// Fill a memory block with a given 16-bits value (minimal size of 2 bytes).
+void Mem_Set_16b(u16 val, void* dest, u16 size)
+{
+	val;	// HL
+	dest;	// DE
+	size;	// SP[2]
+	__asm
+		push	de
+		ex		de, hl
+		ld		(hl), d
+		inc		hl
+		ld		(hl), e
+		inc		hl
+		ex		de, hl
+		pop		hl
+		// Get parameters
+		pop		iy							// 16 cc (return address)
+		pop		bc							// 11 cc (retreive size)
+#if 0//(MEM_USE_VALIDATOR)
+		// Skip if size < 2
+		ld		a, b
+		or		a, c
+		jp		z, mem_fill16_end
+		dec		bc
+		jp		z, mem_fill16_end
+		dec		bc
+		jp		z, mem_fill16_end
+#else
+		dec		bc
+		dec		bc
+#endif
+		// Do fill
+		ldir								// 23/18 cc
+	mem_fill16_end:
+		jp		(iy)						// 10 cc
+	__endasm;
+}
+
 #if (MEM_USE_FASTSET)
 //-----------------------------------------------------------------------------
 // Fast fill a memory block with a given value (minimal size of 2 bytes).

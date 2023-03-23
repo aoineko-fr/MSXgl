@@ -201,6 +201,18 @@ enum MENU_DRAW_CALLBACK
 	MENU_DRAW_MAX,
 };
 
+// Menu event callback
+enum MENU_EVENT_CALLBACK
+{
+	MENU_EVENT_UP = 0,
+	MENU_EVENT_DOWN,
+	MENU_EVENT_SET,
+	MENU_EVENT_INC,
+	MENU_EVENT_DEC,
+//------------------------------------
+	MENU_EVENT_MAX,
+};
+
 // Action callback signature
 typedef const c8* (*Menu_ActionCB)(u8, i8);
 
@@ -209,6 +221,9 @@ typedef u8 (*Menu_InputCB)();
 
 // Draw callback signature
 typedef void (*Menu_DrawCB)(u8, u8, u8, const void*);
+
+// Event callback signature
+typedef void (*Menu_EventCB)(u8);
 
 // Menu item strcture
 typedef struct
@@ -233,6 +248,7 @@ typedef struct
 	const c8* Title;
 	MenuItem* Items;
 	u8        ItemNum;
+	callback  Callback;
 } Menu;
 
 // Table of the menu pages.
@@ -241,6 +257,7 @@ extern const Menu*		g_MenuPage;
 extern u8				g_MenuItem;
 extern Menu_InputCB		g_MenuInputCB;
 extern Menu_DrawCB		g_MenuDrawCB;
+extern Menu_EventCB		g_MenuEventCB;
 
 //=============================================================================
 // FUNCTIONS
@@ -264,6 +281,13 @@ inline void Menu_SetInputCallback(Menu_InputCB cb) { g_MenuInputCB = cb; }
 // Parameters:
 //   cb - Callback function address
 inline void Menu_SetDrawCallback(Menu_DrawCB cb) { g_MenuDrawCB = cb; }
+
+// Function: Menu_SetEventCallback
+// Set the callback function to be called when event occurs
+//
+// Parameters:
+//   cb - Callback function address
+inline void Menu_SetEventCallback(Menu_EventCB cb) { g_MenuEventCB = cb; }
 
 // Function: Menu_DrawPage
 // Draw a given page by its page number

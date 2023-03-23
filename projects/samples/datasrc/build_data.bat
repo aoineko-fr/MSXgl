@@ -2,14 +2,14 @@
 setlocal EnableDelayedExpansion
 
 :: Audio
-set BuildArkos=1
+set BuildArkos=0
 set BuildTrilo=0
 set BuildWYZ=0
 set BuildayFX=0
 set BuildVGM=0
 set BuildayVGM=0
 set BuildPCMEnc=0
-set BuildPCMPlay=0
+set BuildPCMPlay=1
 :: Image
 set BuildBitmap=0
 set BuildImage=0

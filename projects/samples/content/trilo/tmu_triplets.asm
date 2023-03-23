@@ -1085,7 +1085,6 @@ triplets_track_021:
 	.db 0x78			;Instrument 6
 	.db 0xc7			;Wait 8
 	.db 0x14			;Note G#2
-	.db 0x78			;Instrument 6
 	.db 0xc7			;Wait 8
 	.db 0xbf			;[End-Of-Track]
 triplets_track_022:

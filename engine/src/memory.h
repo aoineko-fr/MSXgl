@@ -88,6 +88,15 @@ void Mem_HeapFree(u16 size);
 //   size - The size of data to copy
 void Mem_Copy(const void* src, void* dest, u16 size);
 
+// Function: Mem_Copy_16b
+// Copy a 16-bits memory block from a source address to an other (minimal size of 1 word / 2 byte).
+//
+// Parameters:
+//   src - Source address
+//   dst - Destination address
+//   size - The size of data to copy
+inline void Mem_Copy_16b(const void* src, void* dest, u16 size) { Mem_Copy(src, dest, size * 2); }
+
 #if (MEM_USE_FASTCOPY)
 // Function: Mem_FastCopy
 // Fast copy a memory block from a source address to a destination.
@@ -98,16 +107,35 @@ void Mem_Copy(const void* src, void* dest, u16 size);
 //   dst - Destination address
 //   size - The size of data to copy
 void Mem_FastCopy(const void* src, void* dest, u16 size);
+
+// Function: Mem_FastCopy_16b
+// Fast copy a 16-bits memory block from a source address to a destination.
+// Use 16 unrolled-LDI loop.
+//
+// Parameters:
+//   src - Source address
+//   dst - Destination address
+//   size - The size of data to copy
+inline void Mem_FastCopy_16b(const void* src, void* dest, u16 size) { Mem_FastCopy(src, dest, size * 2); }
 #endif
 
 // Function: Mem_Set
-// Fill a memory block with a given value (minimal size of 2 bytes).
+// Fill a memory block with a given 8-bits value (minimal size of 2 bytes).
 //
 // Parameters:
 //   val - Value to write
 //   dst - Destination address
 //   size - The size of data to fill
 void Mem_Set(u8 val, void* dest, u16 size);
+
+// Function: Mem_Set_16b
+// Fill a memory block with a given 16-bits value (minimal size of 2 bytes).
+//
+// Parameters:
+//   val - Value to write
+//   dst - Destination address
+//   size - The size of data to fill
+void Mem_Set_16b(u16 val, void* dest, u16 size);
 
 #if (MEM_USE_FASTSET)
 // Function: Mem_FastSet

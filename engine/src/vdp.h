@@ -29,7 +29,7 @@
 // @todo Handle VRAM read/write access timing
 //
 // Minimum VRAM access timings in 3.58 MHz Z80 cycles
-// from http://map.grauw.nl/articles/vdp_tut.php#vramtiming
+// from https://map.grauw.nl/articles/vdp_tut.php#vramtiming
 //
 // Screen	VDP		MSX1	MSX2/2+
 // mode		mode	cycles	cycles

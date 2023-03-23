@@ -70,6 +70,7 @@ callback ayFX_Finish = ayFX_Mute;
 /// @param		bank		Pointer to the ayFX bank
 void ayFX_InitBank(void* bank) __FASTCALL
 {
+	bank;	// HL
 	__asm
 		// --- INPUT: HL -> pointer to the ayFX bank ---
 		ld		(_ayFX_Bank), hl	// Current ayFX bank
@@ -90,6 +91,7 @@ void ayFX_InitBank(void* bank) __FASTCALL
 /// @return				Error number (if any) @see AYFX_ERROR
 u8 ayFX_PlayBankFC(u16 snd_prio) __FASTCALL __naked
 {
+	snd_prio;	// HL
 	__asm
 		// Fastcall init
 		ld		a, l
@@ -176,12 +178,11 @@ u8 ayFX_PlayBankFC(u16 snd_prio) __FASTCALL __naked
 /// @param		file	Pointer to AFX file data
 u8 ayFX_Play(void* data) __FASTCALL
 {
+	data; // HL
 	__asm
-
 		ld		(_ayFX_Pointer), hl	// 
 		xor		a					// 
 		ld		(_ayFX_Priority), a	// 
-	
 	__endasm;
 }
 

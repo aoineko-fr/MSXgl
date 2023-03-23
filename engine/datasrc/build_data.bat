@@ -77,6 +77,7 @@ if %BuildFont%==1 (
 	%MSXimg% font\font_carwar.png        -out ..\content\font\font_carwar.h        -pos 0 0   -size 8 8  -gap 0 0  -num 16 4  -trans 0xDA48B6  -bpc 1  -name g_Font_Carwar        -copy          -skip  -font 8 8 ! _
 	REM %MSXimg% -in font\font_darkrose.png	-out font_darkrose.h    -pos 0 16 -size 8 8  -gap 0 0 -num 16 6  -trans 0x000000 -bpc 1 -name g_Font_Darkrose		-skip -font 8 8 ! ~
 	REM %MSXimg% -in font\oxygene.png			-out font_oxygene.h     -pos 0 16 -size 8 8  -gap 0 0 -num 16 6  -trans 0x000000 -bpc 1 -name g_Font_Oxygene		-skip -font 8 8 ! _
+	%MSXimg% font\font_room5.png         -out ..\content\font\font_room5.h         -pos 0 16  -size 8 8  -gap 0 0  -num 16 4  -trans 0x000000  -bpc 1  -name g_Font_Room5         -copy msxgl.txt -skip -font 8 8 ! _
 
 	REM -------- SSYTEM FONTS --------
 	%MSXimg% font\font_tsm9900.png       -out ..\content\font\font_tsm9900.h       -pos 0 16  -size 8 8  -gap 0 0  -num 16 6  -trans 0x000000  -bpc 1  -name g_Font_TMS9900       -copy          -skip  -font 6 8 ! ~

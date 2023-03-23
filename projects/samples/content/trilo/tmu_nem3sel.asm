@@ -420,7 +420,6 @@ nem3sel_track_000:
 	.db 0xa6,0x00			;CMD Envelope multiplier low
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc5			;Wait 6
 	.db 0x13			;Note G-2
 	.db 0x6e			;Volume 12
@@ -455,10 +454,8 @@ nem3sel_track_000:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc5			;Wait 6
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
 	.db 0x6e			;Volume 12
@@ -723,7 +720,6 @@ nem3sel_track_008:
 	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc5			;Wait 6
 	.db 0x13			;Note G-2
 	.db 0x6e			;Volume 12
@@ -849,10 +845,8 @@ nem3sel_track_011:
 	.db 0x78			;Instrument 6
 	.db 0xdf			;Wait 32
 	.db 0x09			;Note A-1
-	.db 0x78			;Instrument 6
 	.db 0xcf			;Wait 16
 	.db 0x08			;Note G#1
-	.db 0x78			;Instrument 6
 	.db 0xcf			;Wait 16
 	.db 0xbf			;[End-Of-Track]
 nem3sel_track_012:
@@ -1273,7 +1267,6 @@ nem3sel_track_024:
 	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc5			;Wait 6
 	.db 0x13			;Note G-2
 	.db 0x6e			;Volume 12
@@ -1403,10 +1396,8 @@ nem3sel_track_027:
 	.db 0x78			;Instrument 6
 	.db 0xdf			;Wait 32
 	.db 0x0f			;Note D#2
-	.db 0x78			;Instrument 6
 	.db 0xcf			;Wait 16
 	.db 0x0e			;Note D-2
-	.db 0x78			;Instrument 6
 	.db 0xcf			;Wait 16
 	.db 0xbf			;[End-Of-Track]
 nem3sel_track_028:

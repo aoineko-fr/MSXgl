@@ -24,7 +24,7 @@ nem3airb_restart:
 	.dw nem3airb_track_096, nem3airb_track_097, nem3airb_track_018, nem3airb_track_018, nem3airb_track_100, nem3airb_track_101, nem3airb_track_102, nem3airb_track_103	; Step:012 Pattern:012
 	.dw nem3airb_track_104, nem3airb_track_105, nem3airb_track_018, nem3airb_track_018, nem3airb_track_100, nem3airb_track_109, nem3airb_track_110, nem3airb_track_111	; Step:013 Pattern:013
 	.dw nem3airb_track_096, nem3airb_track_113, nem3airb_track_018, nem3airb_track_018, nem3airb_track_100, nem3airb_track_117, nem3airb_track_102, nem3airb_track_103	; Step:014 Pattern:014
-	.dw nem3airb_track_104, nem3airb_track_105, nem3airb_track_018, nem3airb_track_018, nem3airb_track_100, nem3airb_track_125, nem3airb_track_126, nem3airb_track_127	; Step:015 Pattern:015
+	.dw nem3airb_track_104, nem3airb_track_105, nem3airb_track_018, nem3airb_track_018, nem3airb_track_100, nem3airb_track_109, nem3airb_track_126, nem3airb_track_127	; Step:015 Pattern:015
 	.dw nem3airb_track_096, nem3airb_track_129, nem3airb_track_018, nem3airb_track_018, nem3airb_track_132, nem3airb_track_133, nem3airb_track_134, nem3airb_track_135	; Step:016 Pattern:016
 	.dw nem3airb_track_136, nem3airb_track_137, nem3airb_track_018, nem3airb_track_018, nem3airb_track_140, nem3airb_track_141, nem3airb_track_142, nem3airb_track_143	; Step:017 Pattern:017
 	.dw nem3airb_track_144, nem3airb_track_145, nem3airb_track_018, nem3airb_track_018, nem3airb_track_148, nem3airb_track_149, nem3airb_track_150, nem3airb_track_151	; Step:018 Pattern:018
@@ -1351,10 +1351,8 @@ nem3airb_track_055:
 	.db 0x82			;Instrument 16
 	.db 0xc7			;Wait 8
 	.db 0x32			;Note D-5
-	.db 0x82			;Instrument 16
 					;Wait Repeat 8
 	.db 0x34			;Note E-5
-	.db 0x82			;Instrument 16
 	.db 0xc7			;Wait 8
 	.db 0xbf			;[End-Of-Track]
 nem3airb_track_056:
@@ -1362,7 +1360,6 @@ nem3airb_track_056:
 	.db 0x72			;Instrument 0
 	.db 0xc3			;Wait 4
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc3			;Wait 4
 	.db 0x21			;Note A-3
 	.db 0x70			;Volume 14
@@ -1390,7 +1387,6 @@ nem3airb_track_056:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 4
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc3			;Wait 4
 	.db 0x21			;Note A-3
 	.db 0x70			;Volume 14
@@ -1702,49 +1698,34 @@ nem3airb_track_077:
 	.db 0x80			;Instrument 14
 	.db 0xc3			;Wait 4
 	.db 0x1c			;Note E-3
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x1f			;Note G-3
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x24			;Note C-4
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x28			;Note E-4
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x2b			;Note G-4
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x30			;Note C-5
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x34			;Note E-5
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x37			;Note G-5
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x34			;Note E-5
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x30			;Note C-5
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x2b			;Note G-4
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x28			;Note E-4
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x24			;Note C-4
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x1f			;Note G-3
-	.db 0x80			;Instrument 14
 					;Wait Repeat 4
 	.db 0x1c			;Note E-3
-	.db 0x80			;Instrument 14
 	.db 0xc3			;Wait 4
 	.db 0xbf			;[End-Of-Track]
 nem3airb_track_078:
@@ -1777,7 +1758,6 @@ nem3airb_track_080:
 	.db 0x72			;Instrument 0
 	.db 0xc3			;Wait 4
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc3			;Wait 4
 	.db 0x21			;Note A-3
 	.db 0x70			;Volume 14
@@ -1791,7 +1771,6 @@ nem3airb_track_080:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 4
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc3			;Wait 4
 	.db 0x21			;Note A-3
 	.db 0x70			;Volume 14
@@ -1939,16 +1918,13 @@ nem3airb_track_086:
 	.db 0x81			;Instrument 15
 	.db 0xcb			;Wait 12
 	.db 0x30			;Note C-5
-	.db 0x81			;Instrument 15
 	.db 0xc7			;Wait 8
 	.db 0x95,0x44			;CMD Vibrato
 	.db 0xcb			;Wait 12
 	.db 0x30			;Note C-5
-	.db 0x81			;Instrument 15
 	.db 0x9c			;CMD End 
 	.db 0xc7			;Wait 8
 	.db 0x32			;Note D-5
-	.db 0x81			;Instrument 15
 	.db 0xc7			;Wait 8
 	.db 0xbf			;[End-Of-Track]
 nem3airb_track_087:
@@ -1988,7 +1964,6 @@ nem3airb_track_088:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 4
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc3			;Wait 4
 	.db 0x21			;Note A-3
 	.db 0x70			;Volume 14
@@ -2093,7 +2068,6 @@ nem3airb_track_093:
 	.db 0xaa,0x30			; SCC Set Waveform 17
 	.db 0xc3			;Wait 4
 	.db 0x2b			;Note G-4
-	.db 0x7b			;Instrument 9
 	.db 0xc3			;Wait 4
 	.db 0x2b			;Note G-4
 	.db 0x7a			;Instrument 8
@@ -2118,7 +2092,6 @@ nem3airb_track_094:
 	.db 0xaa,0x50			; SCC Set Waveform 25
 	.db 0xc3			;Wait 4
 	.db 0x34			;Note E-5
-	.db 0x7b			;Instrument 9
 	.db 0xc3			;Wait 4
 	.db 0x32			;Note D-5
 	.db 0x7a			;Instrument 8
@@ -2140,8 +2113,7 @@ nem3airb_track_095:
 	.db 0x9c			;CMD End 
 	.db 0xc3			;Wait 4
 	.db 0x30			;Note C-5
-	.db 0x7b			;Instrument 9
-					;Wait Repeat 4
+	.db 0xc3			;Wait 4
 	.db 0x2f			;Note B-4
 	.db 0x7a			;Instrument 8
 	.db 0xcb			;Wait 12
@@ -2525,10 +2497,8 @@ nem3airb_track_109:
 	.db 0x7d			;Instrument 11
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x18			;Note C-3
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x1d			;Note F-3
 					;Wait Repeat 2
@@ -2555,15 +2525,12 @@ nem3airb_track_109:
 	.db 0x41			;Note F-6
 					;Wait Repeat 2
 	.db 0x3c			;Note C-6
-	.db 0xc1			;Wait 2
+					;Wait Repeat 2
 	.db 0x13			;Note G-2
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x18			;Note C-3
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x1a			;Note D-3
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x1f			;Note G-3
 					;Wait Repeat 2
@@ -2582,18 +2549,14 @@ nem3airb_track_109:
 	.db 0x3c			;Note C-6
 					;Wait Repeat 2
 	.db 0x3e			;Note D-6
-	.db 0xc1			;Wait 2
+					;Wait Repeat 2
 	.db 0x43			;Note G-6
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x3e			;Note D-6
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x3c			;Note C-6
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x37			;Note G-5
-	.db 0x7d			;Instrument 11
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 nem3airb_track_110:
@@ -2764,73 +2727,6 @@ nem3airb_track_117:
 	.db 0x41			;Note F-6
 					;Wait Repeat 2
 	.db 0x3e			;Note D-6
-	.db 0xc1			;Wait 2
-	.db 0xbf			;[End-Of-Track]
-nem3airb_track_125:
-	.db 0x11			;Note F-2
-	.db 0x7d			;Instrument 11
-	.db 0xc1			;Wait 2
-	.db 0x13			;Note G-2
-					;Wait Repeat 2
-	.db 0x18			;Note C-3
-					;Wait Repeat 2
-	.db 0x1d			;Note F-3
-					;Wait Repeat 2
-	.db 0x1f			;Note G-3
-					;Wait Repeat 2
-	.db 0x24			;Note C-4
-					;Wait Repeat 2
-	.db 0x29			;Note F-4
-					;Wait Repeat 2
-	.db 0x2b			;Note G-4
-					;Wait Repeat 2
-	.db 0x30			;Note C-5
-					;Wait Repeat 2
-	.db 0x35			;Note F-5
-					;Wait Repeat 2
-	.db 0x37			;Note G-5
-					;Wait Repeat 2
-	.db 0x3c			;Note C-6
-					;Wait Repeat 2
-	.db 0x41			;Note F-6
-					;Wait Repeat 2
-	.db 0x43			;Note G-6
-					;Wait Repeat 2
-	.db 0x41			;Note F-6
-					;Wait Repeat 2
-	.db 0x3c			;Note C-6
-					;Wait Repeat 2
-	.db 0x13			;Note G-2
-					;Wait Repeat 2
-	.db 0x18			;Note C-3
-					;Wait Repeat 2
-	.db 0x1a			;Note D-3
-					;Wait Repeat 2
-	.db 0x1f			;Note G-3
-					;Wait Repeat 2
-	.db 0x24			;Note C-4
-					;Wait Repeat 2
-	.db 0x26			;Note D-4
-					;Wait Repeat 2
-	.db 0x2b			;Note G-4
-					;Wait Repeat 2
-	.db 0x30			;Note C-5
-					;Wait Repeat 2
-	.db 0x32			;Note D-5
-					;Wait Repeat 2
-	.db 0x37			;Note G-5
-					;Wait Repeat 2
-	.db 0x3c			;Note C-6
-					;Wait Repeat 2
-	.db 0x3e			;Note D-6
-					;Wait Repeat 2
-	.db 0x43			;Note G-6
-					;Wait Repeat 2
-	.db 0x3e			;Note D-6
-					;Wait Repeat 2
-	.db 0x3c			;Note C-6
-					;Wait Repeat 2
-	.db 0x37			;Note G-5
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 nem3airb_track_126:
@@ -3066,7 +2962,6 @@ nem3airb_track_136:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 4
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc3			;Wait 4
 	.db 0x21			;Note A-3
 	.db 0x70			;Volume 14
@@ -3076,7 +2971,6 @@ nem3airb_track_136:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 4
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc3			;Wait 4
 	.db 0x21			;Note A-3
 	.db 0x70			;Volume 14
@@ -3203,10 +3097,8 @@ nem3airb_track_141:
 	.db 0x7d			;Instrument 11
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x16			;Note A#2
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x1b			;Note D#3
 					;Wait Repeat 2
@@ -3217,78 +3109,54 @@ nem3airb_track_141:
 	.db 0x27			;Note D#4
 					;Wait Repeat 2
 	.db 0x2b			;Note G-4
-	.db 0xc1			;Wait 2
+					;Wait Repeat 2
 	.db 0x1d			;Note F-3
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x21			;Note A-3
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x24			;Note C-4
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x2d			;Note A-4
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x30			;Note C-5
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x35			;Note F-5
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x39			;Note A-5
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x3c			;Note C-6
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x41			;Note F-6
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x45			;Note A-6
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x41			;Note F-6
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x3c			;Note C-6
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x39			;Note A-5
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x35			;Note F-5
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x30			;Note C-5
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x2d			;Note A-4
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x24			;Note C-4
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x21			;Note A-3
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x1d			;Note F-3
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x18			;Note C-3
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x15			;Note A-2
-	.db 0x7d			;Instrument 11
 					;Wait Repeat 2
 	.db 0x11			;Note F-2
-	.db 0x7d			;Instrument 11
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 nem3airb_track_142:
@@ -3299,7 +3167,6 @@ nem3airb_track_142:
 	.db 0x95,0x25			;CMD Vibrato
 	.db 0xc8			;Wait 9
 	.db 0x30			;Note C-5
-	.db 0x83			;Instrument 17
 	.db 0x9c			;CMD End 
 	.db 0xc2			;Wait 3
 	.db 0x95,0x25			;CMD Vibrato
@@ -3312,7 +3179,6 @@ nem3airb_track_143:
 	.db 0x95,0x25			;CMD Vibrato
 	.db 0xc8			;Wait 9
 	.db 0x2d			;Note A-4
-	.db 0x83			;Instrument 17
 	.db 0x9c			;CMD End 
 	.db 0xc2			;Wait 3
 	.db 0x95,0x25			;CMD Vibrato
@@ -3327,7 +3193,6 @@ nem3airb_track_144:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 4
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc3			;Wait 4
 	.db 0x21			;Note A-3
 	.db 0x70			;Volume 14
@@ -3337,7 +3202,6 @@ nem3airb_track_144:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 4
 	.db 0x13			;Note G-2
-	.db 0x72			;Instrument 0
 	.db 0xc3			;Wait 4
 	.db 0x21			;Note A-3
 	.db 0x70			;Volume 14
@@ -3443,7 +3307,6 @@ nem3airb_track_148:
 	.db 0x7b			;Instrument 9
 	.db 0xcb			;Wait 12
 	.db 0x15			;Note A-2
-	.db 0x7b			;Instrument 9
 	.db 0xf3			;Wait 52
 	.db 0xbf			;[End-Of-Track]
 nem3airb_track_149:
@@ -3515,7 +3378,6 @@ nem3airb_track_150:
 	.db 0x95,0x25			;CMD Vibrato
 	.db 0xc8			;Wait 9
 	.db 0x32			;Note D-5
-	.db 0x83			;Instrument 17
 	.db 0x9c			;CMD End 
 	.db 0xc2			;Wait 3
 	.db 0x95,0x25			;CMD Vibrato
@@ -3537,7 +3399,6 @@ nem3airb_track_151:
 	.db 0x95,0x25			;CMD Vibrato
 	.db 0xc8			;Wait 9
 	.db 0x2f			;Note B-4
-	.db 0x83			;Instrument 17
 	.db 0x9c			;CMD End 
 	.db 0xc2			;Wait 3
 	.db 0x95,0x25			;CMD Vibrato

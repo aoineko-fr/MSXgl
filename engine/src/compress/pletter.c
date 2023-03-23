@@ -59,6 +59,7 @@
 	#define WRITE_NOP
 #endif
 
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -357,6 +358,7 @@ v_offsok_loop:
 	ld		a, h
 	WRITE_NOP				// VDP timing
 	out		(P_VDP_1),a
+	WRITE_NOP				// VDP timing
 	WRITE_NOP				// VDP timing
 	in		a, (P_VDP_0)
 	ex		af, af'			; '

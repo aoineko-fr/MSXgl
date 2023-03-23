@@ -29,6 +29,7 @@ const Menu*		g_MenuPage;
 u8				g_MenuItem;
 Menu_InputCB	g_MenuInputCB;
 Menu_DrawCB		g_MenuDrawCB;
+Menu_EventCB	g_MenuEventCB;
 
 #if (MENU_USE_DYNAMIC_STATE)
 u8				g_MenuFlags[MENU_MAX_ITEM];			// Dynamic flag
@@ -207,6 +208,10 @@ void Menu_DrawPage(u8 page)
 {
 	// Initialize menu
 	g_MenuPage = &g_MenuTable[page];
+
+	if(g_MenuPage->Callback)
+		g_MenuPage->Callback();
+
 	g_MenuItem = 0;
 	while(g_MenuItem < g_MenuPage->ItemNum)
 	{
@@ -249,7 +254,7 @@ void Menu_Update()
 				u16 dst = g_ScreenLayoutLow + MENU_POS_X + (y * MENU_SCREEN_WIDTH);
 				VDP_FillVRAM(MENU_CLEAR, dst, g_ScreenLayoutHigh, MENU_WIDTH);
 				// Update draw
-				Print_SetPosition(MENU_ITEM_X, y);
+				Print_SetPosition(MENU_ITEM_X + pCurItem->Value, y);
 				Print_DrawText(str);
 			}
 		}
@@ -264,17 +269,28 @@ void Menu_Update()
 		case MENU_ITEM_ACTION:
 		{
 			u8 act = MENU_ACTION_INVALID;
+			u8 event = 0xFF;
 			if(input & MENU_INPUT_TRIGGER)
+			{
 				act = MENU_ACTION_SET;
+				event = MENU_EVENT_SET;
+			}
 			else if(input & MENU_INPUT_LEFT)
+			{
 				act = MENU_ACTION_DEC;
+				event = MENU_EVENT_DEC;
+			}
 			else if(input & MENU_INPUT_RIGHT)
+			{
 				act = MENU_ACTION_INC;
+				event = MENU_EVENT_INC;
+			}
 			if(act != MENU_ACTION_INVALID)
 			{
 				Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
 				cb(act, pCurItem->Value);
 				Menu_DisplayItem(g_MenuItem);
+				g_MenuEventCB(event);
 			}
 			break;
 		}
@@ -283,6 +299,7 @@ void Menu_Update()
 			if(input & (MENU_INPUT_TRIGGER | MENU_INPUT_RIGHT| MENU_INPUT_LEFT))
 			{
 				Menu_DrawPage(pCurItem->Value);
+				g_MenuEventCB(MENU_EVENT_SET);
 				return;
 			}
 			break;
@@ -303,6 +320,7 @@ void Menu_Update()
 				else
 					(*data)++;
 				Menu_DisplayItem(g_MenuItem);
+				g_MenuEventCB(MENU_EVENT_INC);
 			}
 			else if(input & MENU_INPUT_LEFT)
 			{
@@ -318,6 +336,7 @@ void Menu_Update()
 				else
 					(*data)--;
 				Menu_DisplayItem(g_MenuItem);
+				g_MenuEventCB(MENU_EVENT_DEC);
 			}
 			break;
 		}
@@ -328,6 +347,7 @@ void Menu_Update()
 				u8* data = (u8*)pCurItem->Action;
 				*data = 1 - *data;
 				Menu_DisplayItem(g_MenuItem);
+				g_MenuEventCB(MENU_EVENT_SET);
 			}
 			break;
 		}
@@ -346,6 +366,7 @@ void Menu_Update()
 				g_MenuItem = i;
 				Menu_DisplayItem(prev);
 				Menu_DisplayItem(g_MenuItem);
+				g_MenuEventCB(MENU_EVENT_UP);
 				break;
 			}
 		}
@@ -362,6 +383,7 @@ void Menu_Update()
 				g_MenuItem = i;
 				Menu_DisplayItem(prev);
 				Menu_DisplayItem(g_MenuItem);
+				g_MenuEventCB(MENU_EVENT_DOWN);
 				break;
 			}
 		}

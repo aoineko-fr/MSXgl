@@ -670,7 +670,6 @@ kv2puzz_track_008:
 	.db 0x74			;Instrument 2
 	.db 0xcb			;Wait 12
 	.db 0x29			;Note F-4
-	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_009:
@@ -885,22 +884,16 @@ kv2puzz_track_036:
 	.db 0x7b			;Instrument 9
 	.db 0xc8			;Wait 9
 	.db 0x16			;Note A#2
-	.db 0x7b			;Instrument 9
 					;Wait Repeat 9
 	.db 0x1c			;Note E-3
-	.db 0x7b			;Instrument 9
 					;Wait Repeat 9
 	.db 0x1b			;Note D#3
-	.db 0x7b			;Instrument 9
 					;Wait Repeat 9
 	.db 0x1f			;Note G-3
-	.db 0x7b			;Instrument 9
 					;Wait Repeat 9
 	.db 0x1e			;Note F#3
-	.db 0x7b			;Instrument 9
 					;Wait Repeat 9
 	.db 0x23			;Note B-3
-	.db 0x7b			;Instrument 9
 	.db 0xc8			;Wait 9
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_037:
@@ -928,11 +921,9 @@ kv2puzz_track_038:
 	.db 0xaa,0x30			; SCC Set Waveform 15
 	.db 0xc8			;Wait 9
 	.db 0x2a			;Note F#4
-	.db 0x80			;Instrument 14
 	.db 0xc8			;Wait 9
 	.db 0x30			;Note C-5
 	.db 0x6b			;Volume 9
-	.db 0x80			;Instrument 14
 					;Wait Repeat 9
 	.db 0x2f			;Note B-4
 	.db 0xc8			;Wait 9
@@ -1330,10 +1321,8 @@ kv2puzz_track_080:
 	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0x29			;Note F-4
-	.db 0x74			;Instrument 2
 					;Wait Repeat 6
 	.db 0x29			;Note F-4
-	.db 0x74			;Instrument 2
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_081:
@@ -1462,14 +1451,11 @@ kv2puzz_track_096:
 	.db 0x74			;Instrument 2
 	.db 0xc3			;Wait 4
 	.db 0x29			;Note F-4
-	.db 0x74			;Instrument 2
 	.db 0x9b,0x02			;CMD Note delay
 	.db 0xc4			;Wait 5
 	.db 0x29			;Note F-4
-	.db 0x74			;Instrument 2
 	.db 0xc3			;Wait 4
 	.db 0x29			;Note F-4
-	.db 0x74			;Instrument 2
 	.db 0x9b,0x02			;CMD Note delay
 	.db 0xc4			;Wait 5
 	.db 0xbf			;[End-Of-Track]
@@ -1567,13 +1553,10 @@ kv2puzz_track_108:
 	.db 0x7a			;Instrument 8
 	.db 0xc8			;Wait 9
 	.db 0x17			;Note B-2
-	.db 0x7a			;Instrument 8
 					;Wait Repeat 9
 	.db 0x16			;Note A#2
-	.db 0x7a			;Instrument 8
 					;Wait Repeat 9
 	.db 0x17			;Note B-2
-	.db 0x7a			;Instrument 8
 	.db 0xc8			;Wait 9
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_109:
@@ -1668,13 +1651,10 @@ kv2puzz_track_124:
 	.db 0x7a			;Instrument 8
 	.db 0xc8			;Wait 9
 	.db 0x17			;Note B-2
-	.db 0x7a			;Instrument 8
 					;Wait Repeat 9
 	.db 0x18			;Note C-3
-	.db 0x7a			;Instrument 8
 					;Wait Repeat 9
 	.db 0x17			;Note B-2
-	.db 0x7a			;Instrument 8
 	.db 0xc6			;Wait 7
 	.db 0x17			;Note B-2
 	.db 0x79			;Instrument 7
@@ -1828,10 +1808,8 @@ kv2puzz_track_140:
 	.db 0x7a			;Instrument 8
 	.db 0xcb			;Wait 12
 	.db 0x10			;Note E-2
-	.db 0x7a			;Instrument 8
 	.db 0xc5			;Wait 6
 	.db 0x12			;Note F#2
-	.db 0x7a			;Instrument 8
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_141:
@@ -1839,13 +1817,10 @@ kv2puzz_track_141:
 	.db 0x7f			;Instrument 13
 	.db 0xc1			;Wait 2
 	.db 0x2f			;Note B-4
-	.db 0x7f			;Instrument 13
 	.db 0xd5			;Wait 22
 	.db 0x2d			;Note A-4
-	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0x2b			;Note G-4
-	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_142:
@@ -1888,7 +1863,6 @@ kv2puzz_track_148:
 	.db 0x7a			;Instrument 8
 	.db 0xd1			;Wait 18
 	.db 0x10			;Note E-2
-	.db 0x7a			;Instrument 8
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_149:
@@ -1896,10 +1870,8 @@ kv2puzz_track_149:
 	.db 0x7f			;Instrument 13
 	.db 0xd7			;Wait 24
 	.db 0x2b			;Note G-4
-	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0x2a			;Note F#4
-	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_150:
@@ -1972,10 +1944,8 @@ kv2puzz_track_156:
 	.db 0x7a			;Instrument 8
 	.db 0xcb			;Wait 12
 	.db 0x15			;Note A-2
-	.db 0x7a			;Instrument 8
 	.db 0xc5			;Wait 6
 	.db 0x17			;Note B-2
-	.db 0x7a			;Instrument 8
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_157:
@@ -2066,7 +2036,6 @@ kv2puzz_track_164:
 	.db 0x7a			;Instrument 8
 	.db 0xd1			;Wait 18
 	.db 0x12			;Note F#2
-	.db 0x7a			;Instrument 8
 	.db 0xd1			;Wait 18
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_165:
@@ -2074,13 +2043,10 @@ kv2puzz_track_165:
 	.db 0x7f			;Instrument 13
 	.db 0xd1			;Wait 18
 	.db 0x28			;Note E-4
-	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0x2b			;Note G-4
-	.db 0x7f			;Instrument 13
 					;Wait Repeat 6
 	.db 0x2d			;Note A-4
-	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_166:
@@ -2135,13 +2101,10 @@ kv2puzz_track_173:
 	.db 0x7f			;Instrument 13
 	.db 0xc2			;Wait 3
 	.db 0x2f			;Note B-4
-	.db 0x7f			;Instrument 13
 	.db 0xd4			;Wait 21
 	.db 0x2d			;Note A-4
-	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0x2b			;Note G-4
-	.db 0x7f			;Instrument 13
 	.db 0xc5			;Wait 6
 	.db 0xbf			;[End-Of-Track]
 kv2puzz_track_184:

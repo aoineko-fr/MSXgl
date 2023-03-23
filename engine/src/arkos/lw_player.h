@@ -10,9 +10,19 @@
 // Arkos Tracker and the Z80 players are coded and designed by Julien Névo a.k.a Targhan/Arkos.
 //  https://www.julien-nevo.com/arkostracker/index.php/credits/
 //─────────────────────────────────────────────────────────────────────────────
+#pragma once
+
 #include "core.h"
 
+//=============================================================================
+// DEFINES
+//=============================================================================
+
 extern bool g_AKL_Playing;
+
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
 
 // Function: AKL_IsPlaying
 // Initialize music and start playback

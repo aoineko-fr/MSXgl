@@ -76,7 +76,7 @@ u16 g_PSG_A445_Konami[] =
 // MEMORY DATA
 //=============================================================================
 
-u8 g_CurrentMusic = 0;
+u8 g_CurrentMusic;
 
 //=============================================================================
 // HELPER FUNCTIONS
@@ -129,8 +129,10 @@ void main()
 	SetMusic(0);
 
 	// Initialize TriloSFX
+	#if (TRILO_USE_SFXPLAY)
 	TriloSFX_Initialize();
 	TriloSFX_SetBank(&g_SFX_TEST, &sfx_wavetable);
+	#endif
 
 	// Footer
 	Print_DrawLineH(0, 22, 40);
@@ -146,7 +148,9 @@ void main()
 		VDP_SetColor(0xF5);
 		TriloSCC_Apply();
 		TriloSCC_Update();
+		#if (TRILO_USE_SFXPLAY)
 		TriloSFX_Update();
+		#endif
 		VDP_SetColor(0xF4);
 
 		Print_SetPosition(39, 0);
@@ -172,12 +176,14 @@ void main()
 			TriloSCC_Pause();
 		}
 		// Play SFX
+		#if (TRILO_USE_SFXPLAY)
 		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
 			TriloSFX_Play(sfx++, 0);
 			if(sfx >= 2/*TriloSFX_GetNumber()*/)
 				sfx = 0;
 		}
+		#endif
 
 		prevRow8 = row8;
 	}
