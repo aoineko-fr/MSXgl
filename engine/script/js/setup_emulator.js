@@ -84,8 +84,8 @@ if (EmulatorName === "OPENMSX") {
 
 	//---- Handle extension ----
 	let EmulExtCount = 0;
-	if (Ext === "rom") { EmulExtCount++; }
-	if (Ext === "com") { EmulExtCount++; }
+	if (Ext === "rom") { EmulExtCount++; } // Application cartridge
+	if (Ext === "com") { EmulExtCount++; } // MSX-DOS cartridge
 	if (EmulSCC)      { EmulExtCount++; }
 	if (EmulMSXMusic) { EmulExtCount++; }
 	if (EmulMSXAudio) { EmulExtCount++; }

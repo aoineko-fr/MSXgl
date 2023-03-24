@@ -29,7 +29,7 @@
 _g_FirstAddr::
 _g_HeaderAddr::
 	; Binary program header
-	BASIC_HEADER crt0_init, crt0_end
+	BASIC_HEADER
 
 ;------------------------------------------------------------------------------
 ; Initialization code

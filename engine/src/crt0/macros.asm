@@ -40,14 +40,15 @@
 ;------------------------------------------------------------------------------
 ; Basic Header
 ;------------------------------------------------------------------------------
-.macro BASIC_HEADER startAddr, endAddr
+.macro BASIC_HEADER endAddr
 
 	crt0_basic_header:
-		.db 	0xFE		; ID byte
-		.dw 	startAddr	; Start address
-		.dw		endAddr		; End address
-		.dw 	startAddr	; Execution address
+		.db 	0xFE				; ID byte
+		.dw 	crt0_basic_start	; Start address
+		.dw		crt0_end			; End address
+		.dw 	crt0_basic_exec		; Execution address
 
+	crt0_basic_start:
 	.if APP_SIGN
 	_g_AppSignature::
 		.dw		APP_SIGN_NAME
@@ -56,6 +57,7 @@
 	; .ifdef APP_SIGN_EXTRA
 		; .db		APP_SIGN_EXTRA
 	; .endif
+	crt0_basic_exec:
 
 .endm
 

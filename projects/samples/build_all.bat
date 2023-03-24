@@ -10,6 +10,11 @@ setlocal EnableDelayedExpansion
 
 for %%G in (*.c) do call :BuildFilter %%~nG %1
 
+call build s_game BIN
+REM call build s_game DOS0
+call build s_game DOS1
+call build s_game DOS2
+
 exit /b 0
 
 :BuildFilter
