@@ -112,6 +112,18 @@ void String_FromUInt16(u16 value, c8* string);
 // Function: String_Format
 // Build a zero-terminated string
 //
+//> Data format: %[0]<padding><type>
+//> Type:      i      16 bits signed integer
+//>            d      (same)
+//>            I      32 bits signed integer (need STRING_USE_INT32 flag)
+//>            D      (same)
+//>            x      16 bits hexadecimal
+//>            X      32 bits hexadecimal (need STRING_USE_INT32 flag)
+//>            c      8 bits character
+//>            s      Zero-terminated string
+//> Padding:   Padding for integer and hexadecimal
+//>            [0]    Padding with 0 (otherwise padding with space)
+//
 // Parameters:
 //   dest - Destination string buffer (must big enough to contain the whole string)
 //   format - Formating string

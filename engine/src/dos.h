@@ -364,20 +364,20 @@ enum DOS_DEVICE
 // File Control Block structure
 typedef struct
 {
-	u8	Drive;			// Drive number containing the file. (0 for Default drive, 1 for A, 2 for B, ..., 8 for H)
-	c8	Name[11];		// Filename (format: 8.3)
-	u16 CurrentBlock;	// Number of blocks from the top of the file to the current block
+	u8	Drive;						// Drive number containing the file. (0 for Default drive, 1 for A, 2 for B, ..., 8 for H)
+	c8	Name[11];					// Filename (format: 8.3)
+	u16 CurrentBlock;				// Number of blocks from the top of the file to the current block
 	u16 RecordSize;	
 	u32 Size;
-	u16 Date;			// The two bytes format for DATE are [YYYYYYYM|MMMDDDDD].
+	u16 Date;						// The two bytes format for DATE are [YYYYYYYM|MMMDDDDD].
 	u16 Time;
 	u8	DeviceID;
 	u8	Directory;
-	u16 TopCluster;		// Top cluster number of the file
-	u16 LastCluster;	// Last cluster number accessed
-	u16 RelativeLoc;	// Relative location from top cluster of the file
+	u16 TopCluster;					// Top cluster number of the file
+	u16 LastCluster;				// Last cluster number accessed
+	u16 RelativeLoc;				// Relative location from top cluster of the file
 	u8	CurrentRecord;
-	u32 RandomRecord;	// Record order from the top of the file
+	u32 RandomRecord;				// Record order from the top of the file
 } DOS_FCB;
 
 // File info block
