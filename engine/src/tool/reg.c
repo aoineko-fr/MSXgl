@@ -22,8 +22,10 @@ struct Registers g_Registers;
 // Call BDOS function after setting registers from g_Registers data structure
 void Registers_CallBDOS()
 {
+	__asm__("push ix");
 	Registers_Apply();
 	Call(BDOS);
 	Registers_Store();
+	__asm__("pop ix");
 }
 

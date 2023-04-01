@@ -76,6 +76,8 @@ void Registers_CallBDOS();
 // Macro: REGISTERS_CALL
 // Set registers from <Registers_Data> data structure, call the given address, then get register back to the <Registers_Data>
 #define REGISTERS_CALL(addr)	\
+	__asm__("push ix");			\
 	Registers_Apply();			\
 	Call(addr);					\
-	Registers_Store();
+	Registers_Store();			\
+	__asm__("pop ix");

@@ -10,6 +10,7 @@
 #include "dos.h"
 #include "memory.h"
 #include "string.h"
+#include "tool/reg.h"
 
 //=============================================================================
 // DEFINES
@@ -289,7 +290,9 @@ StartProgram:
 	}
 
 	// Load and display image
-	DOS_Beep();
+	Registers_Data()->BC = DOS_FUNC_CONOUT;
+	Registers_Data()->DE = CTRL_BEEP;
+	Registers_CallBDOS();
 	DOS_StringOutput("Loading image...\n\r$");
 	LoadImage(scrMode, imgIdx);
 
