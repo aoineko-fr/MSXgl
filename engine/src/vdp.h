@@ -1184,6 +1184,20 @@ void VDP_WriteLayout_GM2(const u8* src, u8 dx, u8 dy, u8 nx, u8 ny);
 //   dy    - Destination height
 void VDP_FillLayout_GM2(u8 value, u8 dx, u8 dy, u8 nx, u8 ny);
 
+// Function: VDP_GetColorTable_GM2
+// Get address of the Color Table of the given GM2 tilset bank (0-2)
+//
+// Return:
+//   VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)
+inline VADDR VDP_GetColorTable_GM2(u8 bank) { return VDP_GetColorTable() + (bank * 2048); }
+
+// Function: VDP_GetPatternTable_GM2
+// Get address of the Pattern Generator Table of the given GM2 tilset bank (0-2)
+//
+// Return:
+//   VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)
+inline VADDR VDP_GetPatternTable_GM2(u8 bank) { return VDP_GetPatternTable() + (bank * 2048); }
+
 #endif
 
 //-----------------------------------------------------------------------------
