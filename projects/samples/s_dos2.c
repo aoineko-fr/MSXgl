@@ -208,8 +208,61 @@ void DisplayFile()
 	Print_SetColor(0xFF, 0x44);
 	DisplayHeader();
 
-	// Search
+	// Change current directory
 	Print_SetPosition(0, 16);
+	const DOS_Time* time = DOS_GetTime();
+	String_Format(g_StrBuffer, "\x07""Time... %02d/%02d/%02d %02d:%02d:%02d\n", time->Year, time->Month, time->Date, time->Hour, time->Minute, time->Second);
+	Print_DrawText(g_StrBuffer);
+
+	// Change current directory
+	String_Format(g_StrBuffer, "%02d%02d%02d%\0", time->Hour, time->Minute, time->Second);
+	Print_DrawFormat("\x07""Create %s directory... ", g_StrBuffer);
+	DOS_FCreate(g_StrBuffer, O_RDWR, ATTR_FOLDER);
+#if (DOS_USE_VALIDATOR)
+	err = DOS_GetLastError();
+	if(err == DOS_ERR_NONE)
+		Print_DrawText("OK\n");
+	else if(err = DOS_ERR_DIRX)
+		Print_DrawText(" Warning\n Directory already exists\n");
+	else
+	{
+		DisplayLastError();
+		return;
+	}
+#else
+	Print_DrawText("OK\n");
+#endif
+
+	Print_DrawFormat("\x07""Change current directory to %s... ", g_StrBuffer);
+	DOS_ChangeDirectory(g_StrBuffer);
+#if (DOS_USE_VALIDATOR)
+	err = DOS_GetLastError();
+	if(err != DOS_ERR_NONE)
+	{
+		DisplayLastError();
+		return;
+	}
+#endif
+	Print_DrawText("OK\n");
+
+	Print_DrawText("\x07""Get current directory... ");
+	DOS_GetDirectory(DOS_DRIVE_DEFAULT, g_FileBuffer);
+#if (DOS_USE_VALIDATOR)
+	err = DOS_GetLastError();
+	if(err != DOS_ERR_NONE)
+	{
+		DisplayLastError();
+		return;
+	}
+#endif
+	Print_DrawText("OK\n");
+	Print_DrawFormat(" Current directory: %s\n", g_FileBuffer);
+
+	Print_DrawText("\x07""Go back to parent (\"..\") directory ... ");
+	DOS_ChangeDirectory("..");
+	Print_DrawText("OK\n");
+
+	// Search
 	Print_DrawText("\x07""Searching for '*.sc5'... ");
 	DOS_FIB* fib = DOS_FindFirstEntry("*.SC5", 0);
 #if (DOS_USE_VALIDATOR)
@@ -318,6 +371,8 @@ void DisplayFile()
 		DisplayLastError();
 		return;
 	}
+#else
+	Print_DrawText("OK\n");
 #endif
 
 	// Create file

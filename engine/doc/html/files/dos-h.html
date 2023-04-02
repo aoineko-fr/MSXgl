@@ -302,34 +302,58 @@
  <div class="CBody"><p>Get last error code</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">fib<div class="CDLParameterType"><span class="SHKeyword">const</span> DOS_FIB*</div></td><td class="CDLDefinition"><p>Pointer to File Info Block structure</p></td></tr></table><div class="CHeading">Return</div><p>Seconds</p></div>
 </div>
 
-<a name="DOS_Delete"></a><a name="Topic876"></a><div class="CTopic TFunction LC">
+<a name="DOS_Delete"></a><a name="Topic391"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Delete</div>
- <div id="NDPrototype876" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Delete(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Delete file or subdirectory</p></div>
+ <div id="NDPrototype391" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Delete(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Delete file or subdirectory</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string or fileinfo block pointer</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_Rename"></a><a name="Topic877"></a><div class="CTopic TFunction LC">
+<a name="DOS_Rename"></a><a name="Topic392"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Rename</div>
- <div id="NDPrototype877" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Rename(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Rename file or subdirectory</p></div>
+ <div id="NDPrototype392" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Rename(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Rename file or subdirectory</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string or fileinfo block pointer</p></td></tr><tr><td class="CDLEntry">newPath<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>New filename ASCIIZ string</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_Move"></a><a name="Topic878"></a><div class="CTopic TFunction LC">
+<a name="DOS_Move"></a><a name="Topic595"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Move</div>
- <div id="NDPrototype878" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Move(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Move file or subdirectory</p></div>
+ <div id="NDPrototype595" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Move(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Move file or subdirectory</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string or fileinfo block pointer</p></td></tr><tr><td class="CDLEntry">newPath<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>New filename ASCIIZ string</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_SetAttribute"></a><a name="Topic879"></a><div class="CTopic TFunction LC">
+<a name="DOS_SetAttribute"></a><a name="Topic612"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_SetAttribute</div>
- <div id="NDPrototype879" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SetAttribute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set file attributes</p></div>
+ <div id="NDPrototype612" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SetAttribute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set file attributes</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string or fileinfo block pointer</p></td></tr><tr><td class="CDLEntry">attr<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>New attributes byte</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_GetAttribute"></a><a name="Topic885"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetAttribute"></a><a name="Topic930"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetAttribute</div>
- <div id="NDPrototype885" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetAttribute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get file attributes</p></div>
+ <div id="NDPrototype930" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetAttribute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get file attributes</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string or fileinfo block pointer</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
+</div>
+
+<a name="DOS_GetDirectory"></a><a name="Topic931"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetDirectory</div>
+ <div id="NDPrototype931" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetDirectory(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">drive,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get current directory</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">drive<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Drive number</p></td></tr><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Pointer to 64 byte buffer (Filled in with current path after call)</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
+</div>
+
+<a name="DOS_GetCurrentDiskDirectory"></a><a name="Topic932"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetCurrentDiskDirectory</div>
+ <div id="NDPrototype932" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetCurrentDiskDirectory(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get directory in the current drive</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Pointer to 64 byte buffer (Filled in with current path after call)</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
+</div>
+
+<a name="DOS_ChangeDirectory"></a><a name="Topic933"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_ChangeDirectory</div>
+ <div id="NDPrototype933" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_ChangeDirectory(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Change current directory</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
+</div>
+
+<a name="DOS_GetTime"></a><a name="Topic934"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetTime</div>
+ <div id="NDPrototype934" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">const</span> DOS_Time* DOS_GetTime()</div></div>
+ <div class="CBody"><p>Get current date and time</p></div>
 </div>
 
 <a name="Misc"></a><a name="Topic886"></a><div class="CTopic TGroup LC">

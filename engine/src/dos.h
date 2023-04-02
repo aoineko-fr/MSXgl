@@ -417,13 +417,13 @@ typedef struct
 // MSX-DOS 2 time structure
 typedef struct
 {
-	u16 Year;
-	u8	Month;
-	u8	Date;
-	u8	Day;
-	u8	Hour;
-	u8	Minute;
-	u8	Second;
+	u16 Year;						// +0 (note: order is important for fast update)
+	u8	Date;						// +2
+	u8	Month;						// +3
+	u8	Day;						// +4
+	u8	Minute;						// +5
+	u8	Hour;						// +6
+	u8	Second;						// +7
 } DOS_Time;
 
 // MSX-DOS 2 disk parameters structure
@@ -904,23 +904,91 @@ inline u8 DOS_GetFileSecond(const DOS_FIB* fib) { return (fib->Time & 0x1F) << 1
 
 // Function: DOS_Delete
 // Delete file or subdirectory
+//
+// Parameters:
+//   path - Drive/path/file ASCIIZ string or fileinfo block pointer
+//
+// Return:
+//   Error code
 u8 DOS_Delete(const c8* path);
 
 // Function: DOS_Rename
 // Rename file or subdirectory
+//
+// Parameters:
+//   path - Drive/path/file ASCIIZ string or fileinfo block pointer
+//   newPath - New filename ASCIIZ string
+//
+// Return:
+//   Error code
 u8 DOS_Rename(const c8* path, const c8* newPath);
 
 // Function: DOS_Move
 // Move file or subdirectory
+//
+// Parameters:
+//   path - Drive/path/file ASCIIZ string or fileinfo block pointer
+//   newPath - New filename ASCIIZ string
+//
+// Return:
+//   Error code
 u8 DOS_Move(const c8* path, const c8* newPath);
 
 // Function: DOS_SetAttribute
 // Set file attributes
+//
+// Parameters:
+//   path - Drive/path/file ASCIIZ string or fileinfo block pointer
+//   attr - New attributes byte
+//
+// Return:
+//   Error code
 u8 DOS_SetAttribute(const c8* path, u8 attr);
 
 // Function: DOS_GetAttribute
 // Get file attributes
+//
+// Parameters:
+//   path - Drive/path/file ASCIIZ string or fileinfo block pointer
+//
+// Return:
+//   Error code
 u8 DOS_GetAttribute(const c8* path);
+
+// Function: DOS_GetDirectory
+// Get current directory
+//
+// Parameters:
+//   drive - Drive number
+//   path - Pointer to 64 byte buffer (Filled in with current path after call)
+//
+// Return:
+//   Error code
+u8 DOS_GetDirectory(u8 drive, const c8* path);
+
+// Function: DOS_GetCurrentDiskDirectory
+// Get directory in the current drive
+//
+// Parameters:
+//   path - Pointer to 64 byte buffer (Filled in with current path after call)
+//
+// Return:
+//   Error code
+inline u8 DOS_GetCurrentDiskDirectory(const c8* path) { return DOS_GetDirectory(DOS_DRIVE_DEFAULT, path); }
+
+// Function: DOS_ChangeDirectory
+// Change current directory
+//
+// Parameters:
+//   path - Drive/path/file ASCIIZ string
+//
+// Return:
+//   Error code
+u8 DOS_ChangeDirectory(const c8* path);
+
+// Function: DOS_GetTime
+// Get current date and time
+const DOS_Time* DOS_GetTime();
 
 #endif // (DOS_USE_UTILITIES)
 

@@ -16,10 +16,16 @@
 #if (DOS_USE_VALIDATOR)
 // Backup of the last error value
 u8 g_DOS_LastError;
-#endif // (DOS_USE_VALIDATOR)
+#endif
 
+#if (DOS_USE_UTILITIES)
 // Backup of the last file info block
 DOS_FIB g_DOS_LastFIB;
+
+// Current time
+DOS_Time g_DOS_Time;
+#endif
+
 
 //=============================================================================
 // MSX-DOS 1 FUNCTIONS
@@ -819,6 +825,59 @@ getattr_ok:
 	ld		a, l
 __endasm;
 	// return A
+}
+
+//-----------------------------------------------------------------------------
+// Get current directory
+u8 DOS_GetDirectory(u8 drive, const c8* path)
+{
+	drive;	// A
+	path;	// DE
+__asm
+	ld		b, a
+	ld		c, #DOS_FUNC_GETCD
+	call	BDOS
+#if (DOS_USE_VALIDATOR)
+	ld		(_g_DOS_LastError), a	// Store last error code
+#endif
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Change current directory
+u8 DOS_ChangeDirectory(const c8* path)
+{
+	path;	// HL
+__asm
+	ex		de, hl
+	ld		c, #DOS_FUNC_CHDIR
+	call	BDOS
+#if (DOS_USE_VALIDATOR)
+	ld		(_g_DOS_LastError), a	// Store last error code
+#endif
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Get current date and time
+const DOS_Time* DOS_GetTime()
+{
+__asm
+	// Get date
+	ld		c, #DOS_FUNC_GDATE
+	call	BDOS
+	ld		(#_g_DOS_Time+0), hl
+	ld		(#_g_DOS_Time+2), de
+	ld		(#_g_DOS_Time+4), a
+	// Get time
+	ld		c, #DOS_FUNC_GTIME
+	call	BDOS
+	ld		(#_g_DOS_Time+5), hl
+	ld		a, d
+	ld		(#_g_DOS_Time+7), a
+	// return
+	ld		de, #_g_DOS_Time
+__endasm;
 }
 
 #endif // (DOS_USE_UTILITIES)
