@@ -25,6 +25,7 @@
 #define MSX_12						11 // MSX 1 or 2 (dual support)
 #define MSX_2K						12 // Korean MSX 2 (SC9 support)
 #define MSX_2P						20 // MSX 2+
+#define MSX_12P						21 // MSX 1, 2 or 2+ (multi support)
 #define MSX_TR						30 // MSX turbo R
 #define MSX_3						40 // MSX 3 (reserved)
 

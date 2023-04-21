@@ -162,6 +162,8 @@ else if (Target === "ROM_64K_ISR")
 //-----------------------------------------------------------------------------
 else if (Target === "ROM_ASCII8")
 {
+	if(!ROMMainSegments)
+		ROMMainSegments = 4;
 	Mapper = "ROM_ASCII8";
 	Target = `ROM_ASCII8_${ROMSize}K`;
 	Ext = "rom";
@@ -169,9 +171,9 @@ else if (Target === "ROM_ASCII8")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	FillSize = 32*1024;
 	MapperSize = ROMSize*1024;
 	SegSize = 8*1024;
+	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x4000;
 	Bank1Addr = 0x6000;
 	Bank2Addr = 0x8000;
@@ -182,6 +184,8 @@ else if (Target === "ROM_ASCII8")
 //-----------------------------------------------------------------------------
 else if (Target === "ROM_ASCII16")
 {
+	if(!ROMMainSegments)
+		ROMMainSegments = 2;
 	Mapper = "ROM_ASCII16";
 	Target = `ROM_ASCII16_${ROMSize}K`;
 	Ext = "rom";
@@ -189,9 +193,9 @@ else if (Target === "ROM_ASCII16")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	FillSize = 32*1024;
 	MapperSize = ROMSize*1024;
 	SegSize = 16*1024;
+	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x4000;
 	Bank1Addr = 0x8000;
 	Bank2Addr = 0;
@@ -202,6 +206,8 @@ else if (Target === "ROM_ASCII16")
 //-----------------------------------------------------------------------------
 else if (Target === "ROM_KONAMI")
 {
+	if(!ROMMainSegments)
+		ROMMainSegments = 4;
 	Mapper = "ROM_KONAMI";
 	Target = `ROM_KONAMI_${ROMSize}K`;
 	Ext = "rom";
@@ -209,9 +215,9 @@ else if (Target === "ROM_KONAMI")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	FillSize = 32*1024;
 	MapperSize = ROMSize*1024;
 	SegSize = 8*1024;
+	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0;
 	Bank1Addr = 0x6000;
 	Bank2Addr = 0x8000;
@@ -222,6 +228,8 @@ else if (Target === "ROM_KONAMI")
 //-----------------------------------------------------------------------------
 else if (Target === "ROM_KONAMI_SCC")
 {
+	if(!ROMMainSegments)
+		ROMMainSegments = 4;
 	Mapper = "ROM_KONAMI_SCC";
 	Target = `ROM_KONAMI_SCC_${ROMSize}K`;
 	Ext = "rom";
@@ -229,9 +237,9 @@ else if (Target === "ROM_KONAMI_SCC")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	FillSize = 32*1024;
 	MapperSize = ROMSize*1024;
 	SegSize = 8*1024;
+	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x4000;
 	Bank1Addr = 0x6000;
 	Bank2Addr = 0x8000;

@@ -582,6 +582,18 @@
  <div class="CBody"><p>Fill a rectangle with a given value. [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">value<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Pattern index to fill</p></td></tr><tr><td class="CDLEntry">dx<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Destination starting X position</p></td></tr><tr><td class="CDLEntry">dy<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Destination starting Y position</p></td></tr><tr><td class="CDLEntry">dx<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Destination width</p></td></tr><tr><td class="CDLEntry">dy<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Destination height</p></td></tr></table></div>
 </div>
 
+<a name="VDP_GetColorTable_GM2"></a><a name="Topic876"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_GetColorTable_GM2</div>
+ <div id="NDPrototype876" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> VADDR VDP_GetColorTable_GM2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bank</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get address of the Color Table of the given GM2 tilset bank (0-2)</p><div class="CHeading">Return</div><p>VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)</p></div>
+</div>
+
+<a name="VDP_GetPatternTable_GM2"></a><a name="Topic877"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_GetPatternTable_GM2</div>
+ <div id="NDPrototype877" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> VADDR VDP_GetPatternTable_GM2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bank</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get address of the Pattern Generator Table of the given GM2 tilset bank (0-2)</p><div class="CHeading">Return</div><p>VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)</p></div>
+</div>
+
 <a name="Command"></a><a name="Topic190"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Command</div>
  <div class="CBody"><p>VDP commands wrapper functions</p></div>

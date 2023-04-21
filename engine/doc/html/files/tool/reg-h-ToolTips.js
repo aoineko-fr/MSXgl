@@ -1,0 +1,1 @@
+﻿NDContentPage.OnToolTipsLoaded({818:"<div class=\"NDToolTip TFunction LC\"><div id=\"NDPrototype818\" class=\"NDPrototype\"><div class=\"PSection PPlainSection\"><span class=\"SHKeyword\">inline struct</span> Registers* Registers_Data()</div></div><div class=\"TTSummary\">Get z80 register data structure</div></div>"});

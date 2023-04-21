@@ -1139,6 +1139,7 @@ void Print_Backspace(u8 num)
 		#if (PRINT_USE_TEXT)
 			u16 dst = g_ScreenLayoutLow + (g_PrintData.CursorY * g_PrintData.ScreenWidth) + g_PrintData.CursorX - num;
 			VDP_FillVRAM(0, dst, g_ScreenLayoutHigh, num);
+			g_PrintData.CursorX -= num;
 		#endif
 	}
 }
@@ -1395,13 +1396,17 @@ void Print_DrawFormat(const c8* format, ...)
 		#endif
 			else if(*ptr == 'c')
 			{
-				c8 val = (c8)va_arg(args, c8);
+				c8 val = (c8)va_arg(args, u16);
 				Print_DrawChar(val);
 			}
 			else if(*ptr == 's')
 			{
 				const c8* val = (const c8*)va_arg(args, const c8*);
 				Print_DrawText(val);
+			}
+			else if(*ptr == '%')
+			{
+				Print_DrawChar('%');
 			}
 		}
 		// Parse special character

@@ -37,7 +37,7 @@ require(`${ProjDir}project_config.js`);
 
 //-- Setup command line overwrite parameters
 const CommandArgs = process.argv.slice(2);
-for (let i=0; i < CommandArgs.length; i++)
+for (let i = 0; i < CommandArgs.length; i++)
 {
 	const arg = CommandArgs[i].toLowerCase();
 	if(arg.startsWith("target="))
@@ -268,27 +268,37 @@ if (DoCompile)
 	SrcList = [ `${LibDir}src/crt0/${Crt0}.asm` ];
 	RelList = [];
 	LibList = [];
+	const codeExtList = [ "c", "s", "asm" ];
 
 	// Add project sources to build list
-	for (let i=0; i < ProjModules.length; i++)
+	for (let i = 0; i < ProjModules.length; i++)
 	{
-		if (!fs.existsSync(`./${ProjModules[i]}.c`))
+		let bFound = false;
+
+		for (let e = 0; e < codeExtList.length; e++)
+		{
+			if (fs.existsSync(`./${ProjModules[i]}.${codeExtList[e]}`))
+			{
+				SrcList.push(`./${ProjModules[i]}.${codeExtList[e]}`);
+				let fileName = path.parse(ProjModules[i]).name;
+				RelList.push(`${OutDir}${fileName}.rel`);
+				bFound = true;
+				break;
+			}
+		}
+
+		if(!bFound)
 		{
 			util.print(`Source file ${ProjModules[i]}.c not found!`, PrintError);
 			process.exit(100);
 		}
-
-		SrcList.push(`./${ProjModules[i]}.c`);
-
-		let fileName = path.parse(ProjModules[i]).name;
-		RelList.push(`${OutDir}${fileName}.rel`);
 	}
 
 	// Add modules sources to build list
 	if (BuildLibrary)
 	{
 		util.print(`» MSXgl Modules: ${LibModules}`);
-		for (let i=0; i < LibModules.length; i++)
+		for (let i = 0; i < LibModules.length; i++)
 		{
 			if (!fs.existsSync(`${LibDir}src/${LibModules[i]}.c`)) {
 				util.print(`Module ${LibModules[i]}.c not found!`, PrintError);
@@ -303,7 +313,7 @@ if (DoCompile)
 	}
 
 	// Additional source files to build
-	for (let i=0; i < AddSources.length; i++)
+	for (let i = 0; i < AddSources.length; i++)
 	{
 		if (!fs.existsSync(`./${AddSources[i]}`))
 		{

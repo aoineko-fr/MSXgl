@@ -212,6 +212,13 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 #define ADDR_TO_4B_Y(addr)		((addr) % 128)
 #define ADDR_TO_8B_Y(addr)		((addr) % 256)
 
+#define F_VDP_REG				0x80 // VDP register write port (bit 7=1 in second write)
+#define F_VDP_VRAM				0x00 // VRAM address register (bit 7=0 in second write)
+#define F_VDP_WRIT				0x40 // bit 6: read/write access (1=write)
+#define F_VDP_READ				0x00 // bit 6: read/write access (0=read)
+
+#define VDP_REG(_r)				(F_VDP_REG | _r)
+
 // Enum: VDP_MODE
 // VDP display modes
 enum VDP_MODE
@@ -483,7 +490,7 @@ u8 VDP_ReadDefaultStatus() __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 //   The given status register value
 u8 VDP_ReadStatus(u8 stat) __PRESERVES(b, c, d, e, h, iyl, iyh);
 
-#if ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12))
+#if ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12) || (MSX_VERSION == MSX_12P))
 
 // Function: VDP_WriteVRAM_16K
 // Write data from RAM to VRAM. [MSX1/2/2+/TR]
@@ -711,8 +718,15 @@ enum VDP_FREQ
 // Change VDP frequency (register 9). [MSX2/2+/TR]
 //
 // Parameters:
-//   lines - Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)
+//   freq - Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)
 inline void VDP_SetFrequency(u8 freq) { VDP_RegWriteBakMask(9, (u8)~R09_NT, freq); }
+
+// Function: VDP_SetFrequency
+// Change VDP frequency (register 9). [MSX2/2+/TR]
+//
+// Return:
+//   Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)
+inline u8 VDP_GetFrequency() { return g_VDP_REGSAV[9] & R09_NT; }
 
 // Enum: VDP_LINE
 // VDP line flags

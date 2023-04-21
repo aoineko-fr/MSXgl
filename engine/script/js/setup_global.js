@@ -199,6 +199,9 @@ global.Target = "ROM_32K";
 //-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)
 global.ROMSize = 128;
 
+//-- Number of segments in the main program of a mapped-ROM (number). 0 means 'number of segments to fill 32 KB of ROM'
+global.ROMMainSegments = 0;
+
 //-- Postpone the ROM startup to let the other ROMs initialize like Disk controller or Network cartridge (boolean)
 global.ROMDelayBoot = false;
 
