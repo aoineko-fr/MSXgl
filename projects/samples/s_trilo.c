@@ -55,8 +55,8 @@ const struct MusicEntry g_MusicEntry[] =
 	{ 5, &tmu_nem3airb, "NEM3- Air Battle",                 "Konami (Arr by Gryzor87)" },
 	{ 5, &tmu_nem3sel,  "NEM3- Weapon Select",              "Konami (Arr by Gryzor87)" },
 	{ 4, &tmu_nem3st1,  "NEM3- Stage 1",                    "Konami (Arr by Gryzor87)" },
-	{ 6, &tmu_triplets, "TT -TRIPLETS-B50-BASSDRUM",        "Gryzor87 (c)2021" },
-	{ 6, &tmu_ULTITEST, "TT Vs Replayer ULTIMATE  TESTv12", "Gryzor87 (c)2021" },
+	{ 3, &tmu_triplets, "TT -TRIPLETS-B50-BASSDRUM",        "Gryzor87 (c)2021" },
+	{ 3, &tmu_ULTITEST, "TT Vs Replayer ULTIMATE  TESTv12", "Gryzor87 (c)2021" },
 };
 
 //
