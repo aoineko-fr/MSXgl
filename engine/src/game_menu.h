@@ -26,12 +26,6 @@
 	#define MENU_USE_DEFAULT_CALLBACK	TRUE
 #endif
 
-// MENU_USE_DYNAMIC_STATE
-#ifndef MENU_USE_DYNAMIC_STATE
-	#warning MENU_USE_DYNAMIC_STATE is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define MENU_USE_DYNAMIC_STATE	FALSE
-#endif
-
 // MENU_SCREEN_WIDTH
 #ifndef MENU_SCREEN_WIDTH
 	#warning MENU_SCREEN_WIDTH is not defined in "msxgl_config.h"! Default value will be used: 32
@@ -144,16 +138,6 @@ enum MENU_ITEM_TYPE
 //------------------------------------
 };
 
-#if (MENU_USE_DYNAMIC_STATE)
-// Menu item flags
-enum MENU_ITEM_FLAG
-{
-	MENU_FLAG_DIRTY =				0b00000001,
-	MENU_FLAG_DISABLE =				0b00000010,
-	MENU_FLAG_HIDE =				0b00000100,
-};
-#endif
-
 // Menu item actions
 enum MENU_ACTION
 {
@@ -213,6 +197,9 @@ enum MENU_EVENT_CALLBACK
 	MENU_EVENT_MAX,
 };
 
+// Menu item actions
+#define MENU_FLAG_DIRTY				0x01
+
 // Action callback signature
 typedef const c8* (*Menu_ActionCB)(u8, i8);
 
@@ -258,6 +245,7 @@ extern u8				g_MenuItem;
 extern Menu_InputCB		g_MenuInputCB;
 extern Menu_DrawCB		g_MenuDrawCB;
 extern Menu_EventCB		g_MenuEventCB;
+extern u8				g_MenuFlag;
 
 //=============================================================================
 // FUNCTIONS
@@ -289,6 +277,10 @@ inline void Menu_SetDrawCallback(Menu_DrawCB cb) { g_MenuDrawCB = cb; }
 //   cb - Callback function address
 inline void Menu_SetEventCallback(Menu_EventCB cb) { g_MenuEventCB = cb; }
 
+// Function: Menu_SetDirty
+// Set flag to force a whole menu redraw
+inline void Menu_SetDirty() { g_MenuFlag |= MENU_FLAG_DIRTY; }
+
 // Function: Menu_DrawPage
 // Draw a given page by its page number
 //
@@ -299,13 +291,3 @@ void Menu_DrawPage(u8 page);
 // Function: Menu_Update
 // Update the menu handler
 void Menu_Update();
-
-#if (MENU_USE_DYNAMIC_STATE)
-// Function: Menu_SetDynamicFlag
-// 
-inline void Menu_SetDynamicFlag(u8 item, u8 flag) { g_MenuFlags[item] = flag; }
-
-// Function: Menu_GetDynamicFlag
-// 
-inline u8 Menu_GetDynamicFlag(u8 item) { return g_MenuFlags[item]; }
-#endif

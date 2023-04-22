@@ -30,10 +30,8 @@ u8				g_MenuItem;
 Menu_InputCB	g_MenuInputCB;
 Menu_DrawCB		g_MenuDrawCB;
 Menu_EventCB	g_MenuEventCB;
-
-#if (MENU_USE_DYNAMIC_STATE)
-u8				g_MenuFlags[MENU_MAX_ITEM];			// Dynamic flag
-#endif
+u8				g_MenuPageIdx;
+u8				g_MenuFlag;
 
 #if (MENU_USE_DEFAULT_CALLBACK)
 u8				g_MenuInputPrev;
@@ -78,6 +76,13 @@ void Menu_DefaultDrawCB(u8 x, u8 y, u8 type, const void* text)
 	text;
 }
 
+//-----------------------------------------------------------------------------
+//
+void Menu_DefaultEventCB(u8 event)
+{
+	event;
+}
+
 #endif
 
 //.............................................................................
@@ -89,14 +94,16 @@ void Menu_DefaultDrawCB(u8 x, u8 y, u8 type, const void* text)
 void Menu_Initialize(const Menu* menus)
 {
 	g_MenuTable = menus;
-
+	g_MenuFlag = 0;
 	#if (MENU_USE_DEFAULT_CALLBACK)
 	g_MenuInputPrev = 0xFF;
 	g_MenuInputCB = Menu_DefaultInputCB;
 	g_MenuDrawCB = Menu_DefaultDrawCB;
+	g_MenuEventCB = Menu_DefaultEventCB;
 	#else
 	g_MenuInputCB = NULL;
 	g_MenuDrawCB = NULL;
+	g_MenuEventCB = NULL;
 	#endif
 }
 
@@ -207,6 +214,7 @@ void Menu_DisplayItem(u8 item)
 void Menu_DrawPage(u8 page)
 {
 	// Initialize menu
+	g_MenuPageIdx = page;
 	g_MenuPage = &g_MenuTable[page];
 
 	if(g_MenuPage->Callback)
@@ -239,6 +247,13 @@ void Menu_DrawPage(u8 page)
 // Update the menu handler
 void Menu_Update()
 {
+	// Check dirty flag
+	if(g_MenuFlag & MENU_FLAG_DIRTY)
+	{
+		Menu_DrawPage(g_MenuPageIdx);
+		g_MenuFlag &= ~MENU_FLAG_DIRTY; // Remove 'dirty' flag
+	}
+
 	// Update menu items
 	for(u8 item = 0; item < g_MenuPage->ItemNum; ++item)
 	{
