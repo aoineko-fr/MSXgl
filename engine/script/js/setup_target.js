@@ -55,7 +55,9 @@ else if (Target === "ROM_8K")
 	CodeAddr = 0x4000;
 	RamAddr = 0x8000;
 	FillSize = 8*1024;
-
+	ROMFirstPage = 1;
+	ROMLastPage = 1;
+	
 	TargetDesc = "8KB ROM in page 1 (4000h ~ 5FFFh)";
 }
 //-----------------------------------------------------------------------------
@@ -67,6 +69,8 @@ else if (Target === "ROM_8K_P2")
 	CodeAddr = 0x8000;
 	RamAddr = 0xC000;
 	FillSize = 8*1024;
+	ROMFirstPage = 2;
+	ROMLastPage = 2;
 
 	TargetDesc = "8KB ROM in page 2 (8000h ~ 9FFFh)";
 }
@@ -79,6 +83,8 @@ else if (Target === "ROM_16K")
 	CodeAddr = 0x4000;
 	RamAddr = 0x8000;
 	FillSize = 16*1024;
+	ROMFirstPage = 1;
+	ROMLastPage = 1;
 
 	TargetDesc = "16KB ROM in page 1 (4000h ~ 7FFFh)";
 }
@@ -91,6 +97,8 @@ else if (Target === "ROM_16K_P2")
 	CodeAddr = 0x8000;
 	RamAddr = 0xC000;
 	FillSize = 16*1024;
+	ROMFirstPage = 2;
+	ROMLastPage = 2;
 
 	TargetDesc = "16KB ROM in page 2 (8000h ~ BFFFh)";
 }
@@ -103,6 +111,8 @@ else if (Target === "ROM_32K")
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
 	FillSize = 32*1024;
+	ROMFirstPage = 1;
+	ROMLastPage = 2;
 
 	TargetDesc = "32KB ROM in page 1&2 (4000h ~ BFFFh)";
 }
@@ -115,6 +125,8 @@ else if (Target === "ROM_48K")
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
 	FillSize = 48*1024;
+	ROMFirstPage = 0;
+	ROMLastPage = 2;
 
 	TargetDesc = "48KB ROM in page 0-2 (0000h ~ BFFFh)";
 }
@@ -127,6 +139,9 @@ else if (Target === "ROM_48K_ISR")
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
 	FillSize = 48*1024;
+	ROMFirstPage = 0;
+	ROMLastPage = 2;
+	ROMWithISR = true;
 
 	TargetDesc = "48KB ROM in page 0-2 (0000h ~ BFFFh) with ISR replacement";
 }
@@ -139,6 +154,8 @@ else if (Target === "ROM_64K")
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
 	FillSize = 64*1024;
+	ROMFirstPage = 0;
+	ROMLastPage = 3;
 
 	TargetDesc = "64KB ROM in page 0-3 (0000h ~ FFFFh)";
 }
@@ -151,6 +168,9 @@ else if (Target === "ROM_64K_ISR")
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
 	FillSize = 64*1024;
+	ROMFirstPage = 0;
+	ROMLastPage = 3;
+	ROMWithISR = true;
 
 	TargetDesc = "64KB ROM in page 0-3 (0000h ~ FFFFh) with ISR replacement";
 }

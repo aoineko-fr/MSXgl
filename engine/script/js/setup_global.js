@@ -49,6 +49,10 @@ global.CodeAddr = 0;
 global.RamAddr = 0;
 
 // ROM values
+global.ROMFirstPage = 0;
+global.ROMLastPage = 0;
+global.ROMWithISR = false;
+
 // Mapped ROM
 global.Mapper = "";
 global.MapperSize = 0;

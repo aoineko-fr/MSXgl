@@ -57,7 +57,7 @@ module.exports.compile = function (file, size, seg)
 		if (Optim === "SPEED")	AddOpt += " --opt-code-speed";
 		if (Optim === "SIZE")	AddOpt += " --opt-code-size";
 		if (size !== undefined)	AddOpt += ` --code-size ${size}`;
-		if (seg !== undefined)	AddOpt += ` --codeseg SEG${seg}`;
+		if (seg !== undefined)	AddOpt += ` --codeseg ${seg}`;
 		if (Debug)				AddOpt += " --debug";
 		if (AppSignature)		AddOpt += " -DAPPSIGN";
 

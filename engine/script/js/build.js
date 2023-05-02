@@ -346,7 +346,7 @@ if (DoCompile)
 	// COMPILE MAPPER SEGMENT
 	//=========================================================================
 	MapperBanks = "";
-	if (MapperSize)
+	if ((Ext === "rom") && (MapperSize))
 	{
 		let FirstSeg = FillSize / SegSize;
 		let LastSeg = (MapperSize / SegSize) - 1;
@@ -369,7 +369,7 @@ if (DoCompile)
 						{
 							let bankHex = util.getHex(bankAddr);
 							util.print(`Segment found: ${segName}.${segExtList[e]} (addr: ${hex}${bankHex})`);
-							compiler.compile(`${ProjDir}${segName}.${segExtList[e]}`, SegSize, s);
+							compiler.compile(`${ProjDir}${segName}.${segExtList[e]}`, SegSize, `SEG${s}`);
 							MapperBanks += `-Wl-b_SEG${s}=0x${hex}${bankHex} `;
 							RelList.push(`${OutDir}${segName}.rel`);
 						}
@@ -377,6 +377,43 @@ if (DoCompile)
 				}
 			}
 		}
+	}
+
+	//=========================================================================
+	// COMPILE PLAIN ROM PAGES CODE
+	//=========================================================================
+	else if (Ext === "rom")
+	{
+		const segExtList = [ "c", "s", "asm" ];
+		let pageFound = 0;
+
+		util.print(`Search for ROM's pages specific code (from ${ROMFirstPage} to ${ROMLastPage})`, PrintHighlight);
+		for (let p = ROMFirstPage; p < ROMLastPage; p++) // Parse all ROM's pages
+		{
+			let pageName = `${ProjName}_p${p}`;
+			let startAddr;
+			switch(p)
+			{
+			case 0: startAddr = (ROMWithISR) ? "0x0100" : "0x0000"; break;
+			case 1: startAddr = "0x4000"; break;
+			case 2: startAddr = "0x8000"; break;
+			case 3: startAddr = "0xC000"; break;
+			}
+
+			for (let e = 0; e < segExtList.length; e++) // Parse all supported extension
+			{
+				if (fs.existsSync(`${pageName}.${segExtList[e]}`))
+				{
+					util.print(`Page ${p} found: ${pageName}.${segExtList[e]} (address:${startAddr})`);
+					compiler.compile(`${ProjDir}${pageName}.${segExtList[e]}`, 16 * 1024, `PAGE${p}`);
+					MapperBanks += `-Wl-b_PAGE${p}=${startAddr} `;
+					RelList.push(`${OutDir}${pageName}.rel`);
+					pageFound++;
+				}
+			}
+		}
+		if(!pageFound)
+			util.print("No pages code found", PrintDetail);
 	}
 //-- end if (DoCompile)
 }
