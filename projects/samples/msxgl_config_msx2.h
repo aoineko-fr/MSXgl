@@ -410,6 +410,14 @@
 #define NTAP_USE_PREVIOUS			TRUE	// Backup previous data to allow push/release detection
 
 //-----------------------------------------------------------------------------
+// PAC MODULE
+//-----------------------------------------------------------------------------
+
+#define PAC_USE_SIGNATURE			TRUE	// Handle application signature to validate saved data
+#define PAC_USE_VALIDATOR			TRUE	// Add code to validate input parameters 
+#define PAC_DEVICE_MAX				4		// Maximum number of supported PAC devices
+
+//-----------------------------------------------------------------------------
 // DEBUG
 //-----------------------------------------------------------------------------
 
