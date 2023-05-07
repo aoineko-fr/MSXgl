@@ -216,7 +216,7 @@ bool State_Initialize()
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 	VDP_LoadSpritePattern(g_DataSprtLayer, 0, 13*4*4);	
-	VDP_SetSpriteSM1(3, 0, 208, 0, 0); // hide
+	VDP_DisableSpritesFrom(3);
 
 	// Init player pawn
 	GamePawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);

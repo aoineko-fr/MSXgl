@@ -12,6 +12,16 @@
 #include "core.h"
 
 //=============================================================================
+// OPTIONS VALIDATION
+//=============================================================================
+
+// GAMEPAWN_FORCE_SM1
+#ifndef GAMEPAWN_FORCE_SM1
+	#warning GAMEPAWN_FORCE_SM1 is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define GAMEPAWN_FORCE_SM1				FALSE
+#endif
+
+//=============================================================================
 // DEFINES
 //=============================================================================
 
