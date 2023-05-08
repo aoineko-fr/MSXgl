@@ -1008,8 +1008,6 @@ void VDP_LoadSpritePattern(const u8* addr, u8 index, u8 count);
 //   color - Sprite color (LSB 4-bits) + optional EC flag (VDP_SPRITE_EC)
 void VDP_SetSpriteSM1(u8 index, u8 x, u8 y, u8 shape, u8 color);
 
-#if (MSX_VERSION >= MSX_2)
-	
 // Function: VDP_SetSprite
 // Set sprite attribute for Sprite Mode 2. [MSX2/2+/TR]
 //
@@ -1020,6 +1018,8 @@ void VDP_SetSpriteSM1(u8 index, u8 x, u8 y, u8 shape, u8 color);
 //   shape - Sprite pattern index (in 16x16 mode, only multiple of 4 can be used)
 void VDP_SetSprite(u8 index, u8 x, u8 y, u8 shape);
 
+#if (MSX_VERSION >= MSX_2)
+	
 // Function: VDP_SetSpriteExMultiColor
 // Set sprite attribute for Sprite Mode 2 and fill color table with color data. [MSX2/2+/TR]
 //

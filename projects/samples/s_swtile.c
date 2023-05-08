@@ -17,7 +17,7 @@
 // DEFINES
 //=============================================================================
 
-#define OOO			255
+#define OOO			0
 
 //=============================================================================
 // READ-ONLY DATA
@@ -46,17 +46,27 @@ const u8 g_TileMap[] =
 	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 
 	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 
 	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 
-	 OOO, OOO,  28,  29, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO,  28,  29, OOO, OOO, OOO, 
-	 OOO,  59,  60,  61,  62, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO,  32,  33,  34,  35, OOO, OOO, OOO, OOO, OOO, OOO,  59,  60,  61,  62, OOO, OOO, 
-	  90,  91,  92,  93,  94,  95, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO,  96,  97,  98,  99, OOO, OOO, OOO, OOO, OOO,  90,  91,  92,  93,  94,  95, OOO, 
-	 122, 123, 124, 125, 126, 127,  32,  33,  34,  35, OOO, OOO, OOO, OOO, OOO, OOO,  64,  65,  66,  67, OOO, OOO, OOO, OOO, OOO, 122, 123, 124, 125, 126, 127, OOO, 
-	 154, 155, 156, 157, 158, 159,  96,  97,  98,  99, OOO, OOO, OOO, OOO, OOO, OOO,  96,  97,  98,  99, OOO, OOO, OOO, OOO, OOO, 154, 155, 156, 157, 158, 159, OOO, 
-	 OOO, OOO, 188, 189, OOO, OOO,  64,  65,  66,  67, OOO, OOO, OOO, OOO, OOO, OOO,  64,  65,  66,  67, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 188, 189, OOO, OOO, OOO, 
+	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO,  28,  29, OOO, OOO, OOO, 
+	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO,  32,  33,  34,  35, OOO, OOO, OOO, OOO, OOO, OOO,  59,  60,  61,  62, OOO, OOO, 
+	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO,  96,  97,  98,  99, OOO, OOO, OOO, OOO, OOO,  90,  91,  92,  93,  94,  95, OOO, 
+	 OOO, OOO, OOO, OOO, OOO, OOO,  32,  33,  34,  35, OOO, OOO, OOO, OOO, OOO, OOO,  64,  65,  66,  67, OOO, OOO, OOO, OOO, OOO, 122, 123, 124, 125, 126, 127, OOO, 
+	 OOO, OOO, OOO, OOO, OOO, OOO,  96,  97,  98,  99, OOO, OOO, OOO, OOO, OOO, OOO,  96,  97,  98,  99, OOO, OOO, OOO, OOO, OOO, 154, 155, 156, 157, 158, 159, OOO, 
+	 OOO, OOO, OOO, OOO, OOO, OOO,  64,  65,  66,  67, OOO, OOO, OOO, OOO, OOO, OOO,  64,  65,  66,  67, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 188, 189, OOO, OOO, OOO, 
 	  33,  34,  33,  34,  33,  34,   8,  97,  98,  69,  33,  34,  33,  34,  33,  34,   8,  97,  98,  69,  33,  34,  33,  34,  33,  34,  33,  34,  33,  34,  33,  34, 
 	  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65, 
 	  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97, 
 	  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65,  66,  65, 
 	  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97,  98,  97, 
+};
+
+const u8 g_TreeTileMap[] =
+{
+	 OOO, OOO,  28,  29, OOO, OOO,
+	 OOO,  59,  60,  61,  62, OOO,
+	  90,  91,  92,  93,  94,  95,
+	 122, 123, 124, 125, 126, 127,
+	 154, 155, 156, 157, 158, 159,
+	 OOO, OOO, 188, 189, OOO, OOO,
 };
 
 // Pawn sprite layers
@@ -189,7 +199,11 @@ void main()
 	Tile_SetDrawPage(0);
 	Tile_SelectBank(0);
 	Tile_FillScreen(6);
-	Tile_DrawScreen(g_TileMap);
+	Tile_DrawMapChunk( 0, 15, g_TreeTileMap, 6, 6); // Draw tree tilemap
+	Tile_DrawMapChunk( 3, 15, g_TreeTileMap, 6, 6);
+	Tile_DrawMapChunk(11, 15, g_TreeTileMap, 6, 6);
+	Tile_DrawScreen(g_TileMap); // Draw the whole screen tilemap
+	Tile_DrawBlock(10, 8, 4, 4, 4, 2); // Draw a cloud (4x2 tiles)
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
