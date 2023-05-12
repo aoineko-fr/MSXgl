@@ -84,6 +84,9 @@ void VDP_SetModeText2();
 // Set screen mode to Graphic 3
 void VDP_SetModeGraphic3();
 
+// Set screen mode to Graphic 3 mirrored
+void VDP_SetModeGraphic3_Mirrored();
+
 // Set screen mode to Graphic 4
 void VDP_SetModeGraphic4();
 
@@ -820,6 +823,22 @@ void VDP_SetModeGraphic3()
 	#endif
 }
 #endif // VDP_USE_MODE_G3
+
+#if (VDP_USE_MODE_G3_MIRROR)
+//-----------------------------------------------------------------------------
+// Initialize Graphic 3 screen mode.
+void VDP_SetModeGraphic3_Mirrored()
+{
+	VDP_SetModeFlag(VDP_G3_MODE);
+	VDP_SetLayoutTable(VDP_G3_ADDR_NT);
+	VDP_SetColorTable(VDP_G3_ADDR_CT);
+	VDP_SetPatternTable(VDP_G3_ADDR_PT);
+	#if (VDP_USE_SPRITE)
+	VDP_SetSpriteAttributeTable(VDP_G3_ADDR_SAT);
+	VDP_SetSpritePatternTable(VDP_G3_ADDR_SPT);
+	#endif
+}
+#endif // VDP_USE_MODE_G3_MIRROR
 
 #if (VDP_USE_MODE_G4)
 //-----------------------------------------------------------------------------
@@ -1566,6 +1585,10 @@ void VDP_SetMode(const u8 mode)
 	case VDP_MODE_GRAPHIC3:		VDP_SetModeGraphic3(); break;
 #endif
 	
+#if (VDP_USE_MODE_G3_MIRROR)
+	case VDP_MODE_GRAPHIC3_MIRROR: VDP_SetModeGraphic3_Mirrored(); break;
+#endif
+	
 #if (VDP_USE_MODE_G4)
 	// case VDP_MODE_SCREEN5:
 	case VDP_MODE_GRAPHIC4:		VDP_SetModeGraphic4(); break;
@@ -1883,6 +1906,11 @@ void VDP_SetColorTable(VADDR addr)
 	case VDP_MODE_TEXT2:
 		reg |= 0b111;
 		break;
+	#if (VDP_USE_MODE_G3_MIRROR)
+	case VDP_MODE_GRAPHIC3_MIRROR:
+		reg |= 0b0011111;
+		break;
+	#endif
 	case VDP_MODE_GRAPHIC3:
 	#endif
 	case VDP_MODE_GRAPHIC2:
@@ -1951,6 +1979,9 @@ void VDP_SetSpriteAttributeTable(VADDR addr)
 		case VDP_MODE_GRAPHIC5:
 		case VDP_MODE_GRAPHIC6:
 		case VDP_MODE_GRAPHIC7:
+		#if (VDP_USE_MODE_G3_MIRROR)
+		case VDP_MODE_GRAPHIC3_MIRROR:
+		#endif
 		#if (MSX_VERSION >= MSX_2P)
 		case VDP_MODE_SCREEN10:
 		case VDP_MODE_SCREEN11:

@@ -262,6 +262,10 @@ enum VDP_MODE
 	VDP_MODE_SCREEN9,
 	VDP_MODE_SCREEN9_40  = VDP_MODE_SCREEN9,
 	VDP_MODE_SCREEN9_80,
+#if (VDP_USE_UNDOCUMENTED)
+	VDP_MODE_GRAPHIC3_MIRROR,				// GRAPHIC 3 with the 1st strip's pattern/color table mirrored into all others 
+	VDP_MODE_GRAPHIC3_4X = VDP_MODE_GRAPHIC3_MIRROR,
+#endif
 #endif
 #if (MSX_VERSION >= MSX_2P)
 	VDP_MODE_MSX2P,							// V9958 video modes
