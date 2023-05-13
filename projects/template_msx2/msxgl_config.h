@@ -76,7 +76,6 @@
 #define VDP_USE_MODE_G2				TRUE	// MSX1		Screen 2
 #define VDP_USE_MODE_T2				TRUE	// MSX2		Screen 0 Width 80
 #define VDP_USE_MODE_G3				TRUE	// MSX2		Screen 4
-#define VDP_USE_MODE_G3_MIRROR		FALSE	// MSX2		Screen 4 mirrored
 #define VDP_USE_MODE_G4				TRUE	// MSX2		Screen 5
 #define VDP_USE_MODE_G5				TRUE	// MSX2		Screen 6
 #define VDP_USE_MODE_G6				TRUE	// MSX2		Screen 7

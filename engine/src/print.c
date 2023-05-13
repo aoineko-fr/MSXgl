@@ -196,6 +196,11 @@ bool Print_Initialize()
 			break;
 	#endif
 	#if (VDP_USE_MODE_G3)
+		#if (VDP_USE_UNDOCUMENTED)
+		case VDP_MODE_GRAPHIC3_MIRROR_0:
+		case VDP_MODE_GRAPHIC3_MIRROR_01:
+		case VDP_MODE_GRAPHIC3_MIRROR_02:
+		#endif
 		case VDP_MODE_GRAPHIC3:		// GRAPHIC 2 which can use sprite mode 2
 			Print_SetTabSize(3);
 			g_PrintData.ScreenWidth = 32;

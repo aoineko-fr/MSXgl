@@ -17,25 +17,32 @@
 // DEFINES
 //=============================================================================
 
+// Library's logo
+#define MSX_GL		"\x02\x03\x04\x05"
+
 #define OOO			0
 
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
 
+// V9990 4-bits background data
 #include "content/v9990/data_v9_bg.h"
 
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
 #include "content/data_sprt_layer.h"
 
+// Fonts
+#include "font/font_mgl_sample8.h"
+
 // Sample level tiles map
 const u8 g_TileMap[] =
 {
-	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 136, 137, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 
-	 OOO, OOO, OOO, 132, 133, 134, 135, OOO, OOO, OOO, OOO, OOO, OOO, 168, 169, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 
+	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 
+	 OOO, OOO, OOO, 132, 133, 134, 135, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 
 	 OOO, OOO, OOO, 164, 165, 166, 167, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 132, 133, 134, 135, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 
-	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 164, 165, 166, 167, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 
-	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 136, 137, OOO, 
+	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 136, 137, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 164, 165, 166, 167, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 
+	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 168, 169, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 136, 137, OOO, 
 	 OOO, OOO, OOO, OOO, OOO, OOO, 136, 137, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 168, 169, OOO, 
 	 OOO, OOO, OOO, OOO, OOO, OOO, 168, 169, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 136, 137, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 
 	 OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 168, 169, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, OOO, 
@@ -204,6 +211,13 @@ void main()
 	Tile_DrawMapChunk(11, 15, g_TreeTileMap, 6, 6);
 	Tile_DrawScreen(g_TileMap); // Draw the whole screen tilemap
 	Tile_DrawBlock(10, 8, 4, 4, 4, 2); // Draw a cloud (4x2 tiles)
+
+	// Draw title
+	Print_SetBitmapFont(g_Font_MGL_Sample8);
+	Print_SetColor(0x11, 0x66);
+	Print_SetPosition(0, 0);
+	Print_DrawText(MSX_GL " Software Tile Sample");
+
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);

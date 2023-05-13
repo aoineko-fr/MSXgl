@@ -230,12 +230,6 @@ enum VDP_MODE
 	VDP_MODE_MULTICOLOR,					// 00 010	TILES	pseudo-graphic, one character divided into four block
 	VDP_MODE_GRAPHIC1,						// 00 000	TILES	32 characters per one line of text, the COLOURed character available
 	VDP_MODE_GRAPHIC2,						// 00 100	TILES	256 x 192, the colour is specififed for each 8 dots
-#if (VDP_USE_UNDOCUMENTED)
-	VDP_MODE_UNDOC, 						// Undocumented video modes. Only available on TMS 9918A
-	VDP_MODE_UNDOC_0_2   = VDP_MODE_UNDOC,	// 00 101	
-	VDP_MODE_UNDOC_1_2,						// 00 100	
-	VDP_MODE_UNDOC_3_2,						// 00 110	
-#endif
 #if (MSX_VERSION >= MSX_2)
 	VDP_MODE_MSX2,							// V9938 video modes
 	VDP_MODE_TEXT2       = VDP_MODE_MSX2,	// 01 001	TEXT	80 characters per line of text, character blinkable selection
@@ -262,16 +256,26 @@ enum VDP_MODE
 	VDP_MODE_SCREEN9,
 	VDP_MODE_SCREEN9_40  = VDP_MODE_SCREEN9,
 	VDP_MODE_SCREEN9_80,
-#if (VDP_USE_UNDOCUMENTED)
-	VDP_MODE_GRAPHIC3_MIRROR,				// GRAPHIC 3 with the 1st strip's pattern/color table mirrored into all others 
-	VDP_MODE_GRAPHIC3_4X = VDP_MODE_GRAPHIC3_MIRROR,
-#endif
 #endif
 #if (MSX_VERSION >= MSX_2P)
 	VDP_MODE_MSX2P,							// V9958 video modes
 	VDP_MODE_SCREEN10    = VDP_MODE_MSX2P,
 	VDP_MODE_SCREEN11,
 	VDP_MODE_SCREEN12,
+#endif
+	//.........................................................................
+	// Undocumented screen modes
+#if (VDP_USE_UNDOCUMENTED)
+	VDP_MODE_UNDOC, 						// Undocumented video modes. Only available on TMS 9918A
+	VDP_MODE_UNDOC_0_2   = VDP_MODE_UNDOC,	// 00 101	
+	VDP_MODE_UNDOC_1_2,						// 00 100	
+	VDP_MODE_UNDOC_3_2,						// 00 110	
+#if (MSX_VERSION >= MSX_2)					// GRAPHIC 3 with mirrored bank      Strip | 0 1 2 3 | 
+	VDP_MODE_GRAPHIC3_MIRROR_0,				// Bank 0 on all strips                    | 0 0 0 0 |
+	VDP_MODE_GRAPHIC3_MIRROR_01,			// Bank 0 and 1 alternated                 | 0 1 0 1 |
+	VDP_MODE_GRAPHIC3_MIRROR_02,			// Bank 0 twice then bank 2 twice          | 0 0 2 2 |
+	VDP_MODE_GRAPHIC3_MIRROR = VDP_MODE_GRAPHIC3_MIRROR_0,
+#endif
 #endif
 	//.........................................................................
 	VDP_MODE_MAX,
