@@ -1,99 +1,103 @@
-MSXimg (v1.16.3)
+MSXimg (v1.16.5)
 Usage: MSXimg <filename> [options]
 
 Options:
-   inputFile       Inuput file name. Can be 8/16/24/32 bits image
-                   Supported format: BMP, JPEG, PCX, PNG, TGA, PSD, GIF, etc.
-   -out outFile    Output file name
-   -format ?       Output format
-      auto         Auto-detected using output file extension (default)
-      c            C header file output
-      asm          Assembler header file output
-      bas          BASIC listing file output
-      bin          Raw binary data image
-   -name name      Name of the table to generate
-   -mode ?         Exporter mode
-      bmp          Export image as bitmap (default)
-      gm1          Generate all tables for Graphic mode 1 (Screen 1)
-      gm2          Generate all tables for Graphic mode 2 or 3 (Screen 2 or 4)
-      sprt         Export 16x16 sprites with specific block ordering
-   -pos x y        Start position in the input image
-   -size x y       Width/height of a block to export (if 0, use image size)
-   -gap x y        Gap between blocks in pixels
-   -num x y        Number of block to export (columns/rows number)
-   -l ? sx sy nx ny col1 (col2, col3, ...)
-                   Layer including the given color(s) (coordinate are relative to each expoted block)
-      i8           8x8 sprites layer with only provided colors
-      i16          16x16 sprites layer with only provided colors
-      e8           8x8 sprites layer with all colors but the provided ones
-      e16          16x16 sprites layer with all colors but the provided ones
-                   sx/sy is layer start position in pixel in a block
-                   nx/ny is layer size in sprite count (1 equal 8 or 16 according to sprite size)
-                   Colors are in RGB 24 bits format (0xFFFFFF)
-   -trans color    Transparency color (in RGB 24 bits format : 0xFFFFFF)
-   -opacity color  Opacity color (in RGB 24 bits format : 0xFFFFFF). All other colors are considered transparent
-   -bpc ?	       Number of bits per color for the output image (support 1, 4 and 8-bits)
-      1	           1-bit black & white (0: tranparency or black, 1: other colors)
-      2	           2-bit index in 4 colors palette
-      4	           4-bits index in 16 colors palette
-      8	           8 bits RGB 256 colors (format: [G:3|R:3|B2]; default)
-   -pal            Palette to use for 16 colors mode
-      msx1         Use default MSX1 palette
-      custom       Generate a custom palette and add it to the output file
-   --palcount n    Number of color in the custom palette to create (default: 15)
-   --paloff n      Index offset of the palette (default: 1)
-   --pal24	       Use 24-bits palette (for v9990; default: false)
-   -compress ?
-      none         No compression (default)
-      crop16       Crop image to non transparent area (4-bits, max size 16x16)
-      cropline16   Crop image to non transparent area (4-bits per line, max size 16x16)
-      crop32       Crop image to non transparent area (5-bits, max size 32x32)
-      cropline32   Crop image to non transparent area (5-bits per line, max size 32x32)
-      crop256      Crop image to non transparent area (8-bits, max size 256x256)
-      cropline256  Crop image to non transparent area (8-bits per line, max size 256x256)
-      rle0         Run-length encoding of transparent blocs (7-bits for block length)
-      rle4         Run-length encoding for all colors (4-bits for block length)
-      rle8         Run-length encoding for all colors (8-bits for block length)
-      rlep         Pattern based run-length encoding (6-bits for block length)
-      auto         Determine a good compression method according to parameters
-      best         Search for best compressor according to input parameters (smallest data)
-      pletter      Pletter v0.5c1 by XL2S Entertainment
-   -dither ?       Dithering method (for 1-bit color only)
-      none         No dithering (default)
-      floyd        Floyd & Steinberg error diffusion algorithm
-      bayer4       Bayer ordered dispersed dot dithering (order 2 – 4x4 - dithering matrix)
-      bayer8       Bayer ordered dispersed dot dithering (order 3 – 8x8 - dithering matrix)
-      bayer16      Bayer ordered dispersed dot dithering (order 4 – 16x16 dithering matrix)
-      cluster6     Ordered clustered dot dithering (order 3 - 6x6 matrix)
-      cluster8     Ordered clustered dot dithering (order 4 - 8x8 matrix)
-      cluster16    Ordered clustered dot dithering (order 8 - 16x16 matrix)
-   -data ?         Text format for numbers
-      dec          Decimal data (c & asm)
-      hexa         Default hexadecimal data (depend on langage; default)
-      hexa0x       Hexadecimal data (0xFF; c & asm)
-      hexaH        Hexadecimal data (0FFh; asm only)
-      hexa$        Hexadecimal data ($FF; asm only)
-      hexa#        Hexadecimal data (#FF; asm only)
-      bin          Binary data (11001100b; asm only)
-   -asm ?          Assembler number format
-      sdasz80      SDCC format (default)
-      tniasm       tniASM format
-      asmsx        asMSX format
-      sjasm        Sjasm format
-   -skip           Skip empty sprites (default: false)
-   -idx            Add images index table (default: false)
-   -copy (file)    Add copyright information from text file
-                   If file name is empty, search for <inputFile>.txt
-   -head           Add a header table contening input parameters (default: false)
-   -font x y f l   Add font header (default: false)
-                   x/y: Font width/heigt in pixels
-                   f/l: ASCII code of the first/last character to export
-                        Can be character (like: &) or hexadecimal value (0xFF format)
-   -offset x       Offset of layout index for GM1 et GM2 mode (default: 0)
-   -at x           Data starting address (can be decimal or hexadecimal starting with '0x')
-   -def            Add defines for each table
-   -notitle        Remove the ASCII-art title in top of exported text file
-   --gm2compnames  GM2 mode: Compress names/layout table (default: false)
-   --gm2unique     GM2 mode: Export all unique tiles (default: false)
-   --bload         Add header for BLOAD image (default: false)
-   -help           Display this help
+ inputFile        Inuput file name. Can be 8/16/24/32 bits image
+                  Supported format: BMP, JPEG, PCX, PNG, TGA, PSD, GIF, etc.
+ -out outFile     Output file name
+ -format ?        Output format
+    auto          Auto-detected using output file extension (default)
+    c             C header file output
+    asm           Assembler header file output
+    bas           BASIC listing file output
+    bin           Raw binary data image
+ -name name       Name of the table to generate
+ -mode ?          Exporter mode
+    bmp           Export image as bitmap (default)
+    gm1           Generate all tables for Graphic mode 1 (Screen 1)
+    gm2           Generate all tables for Graphic mode 2 or 3 (Screen 2 or 4)
+    sprt          Export 16x16 sprites with specific block ordering
+ -pos x y         Start position in the input image
+ -size x y        Width/height of a block to export (if 0, use image size)
+ -gap x y         Gap between blocks in pixels
+ -num x y         Number of block to export (columns/rows number)
+ -l ? sx sy nx ny col1 (col2, col3, ...)
+                  Layer including the given color(s) (coordinate are relative to each expoted block)
+    i8            8x8 sprites layer with only provided colors
+    i16           16x16 sprites layer with only provided colors
+    e8            8x8 sprites layer with all colors but the provided ones
+    e16           16x16 sprites layer with all colors but the provided ones
+                  sx/sy is layer start position in pixel in a block
+                  nx/ny is layer size in sprite count (1 equal 8 or 16 according to sprite size)
+                  Colors are in RGB 24 bits format (0xFFFFFF)
+ -trans color     Transparency color (in RGB 24 bits format : 0xFFFFFF)
+ -opacity color   Opacity color (in RGB 24 bits format : 0xFFFFFF). All other colors are considered transparent
+ -bpc ?           Number of bits per color for the output image (support 1, 4 and 8-bits)
+    1	           1-bit black & white (0: tranparency or black, 1: other colors)
+    2	           2-bit index in 4 colors palette
+    4	           4-bits index in 16 colors palette
+    8	           8 bits RGB 256 colors (format: [G:3|R:3|B2]; default)
+ -pal             Palette to use for 16 colors mode
+    msx1          Use default MSX1 palette
+    custom        Generate a custom palette and add it to the output file
+ --palcount n     Number of color in the custom palette to create (default: 15)
+ --paloff n       Index offset of the palette (default: 1)
+ --pal24          Use 24-bits palette (for v9990; default: false)
+ -compress ?
+    none          No compression (default)
+    crop16        Crop image to non transparent area (4-bits, max size 16x16)
+    cropline16    Crop image to non transparent area (4-bits per line, max size 16x16)
+    crop32        Crop image to non transparent area (5-bits, max size 32x32)
+    cropline32    Crop image to non transparent area (5-bits per line, max size 32x32)
+    crop256       Crop image to non transparent area (8-bits, max size 256x256)
+    cropline256   Crop image to non transparent area (8-bits per line, max size 256x256)
+    rle0          Run-length encoding of transparent blocs (7-bits for block length)
+    rle4          Run-length encoding for all colors (4-bits for block length)
+    rle8          Run-length encoding for all colors (8-bits for block length)
+    rlep          Pattern based run-length encoding (6-bits for block length)
+    auto          Determine a good compression method according to parameters
+    best          Search for best compressor according to input parameters (smallest data)
+    pletter       Pletter v0.5c1 by XL2S Entertainment
+ -dither ?        Dithering method (for 1-bit color only)
+    none          No dithering (default)
+    floyd         Floyd & Steinberg error diffusion algorithm
+    bayer4        Bayer ordered dispersed dot dithering (order 2 – 4x4 - dithering matrix)
+    bayer8        Bayer ordered dispersed dot dithering (order 3 – 8x8 - dithering matrix)
+    bayer16       Bayer ordered dispersed dot dithering (order 4 – 16x16 dithering matrix)
+    cluster6      Ordered clustered dot dithering (order 3 - 6x6 matrix)
+    cluster8      Ordered clustered dot dithering (order 4 - 8x8 matrix)
+    cluster16     Ordered clustered dot dithering (order 8 - 16x16 matrix)
+ -data ?          Text format for numbers
+    dec           Decimal data (c & asm)
+    hexa          Default hexadecimal data (depend on langage; default)
+    hexa0x        Hexadecimal data (0xFF; c & asm)
+    hexaH         Hexadecimal data (0FFh; asm only)
+    hexa$         Hexadecimal data ($FF; asm only)
+    hexa#         Hexadecimal data (#FF; asm only)
+    bin           Binary data (11001100b; asm only)
+ -asm ?           Assembler number format
+    sdasz80       SDCC format (default)
+    tniasm        tniASM format
+    asmsx         asMSX format
+    sjasm         Sjasm format
+ -skip            Skip empty sprites (default: false)
+ -idx             Add images index table (default: false)
+ -copy (file)     Add copyright information from text file
+                  If file name is empty, search for <inputFile>.txt
+ -head            Add a header table contening input parameters (default: false)
+ -font x y f l    Add font header (default: false)
+                  x/y: Font width/heigt in pixels
+                  f/l: ASCII code of the first/last character to export
+                  Can be character (like: &) or hexadecimal value (0xFF format)
+ -offset x        Offset of layout index for GM1 et GM2 mode (default: 0)
+ -at x            Data starting address (can be decimal or hexadecimal starting with '0x')
+ -def             Add defines for each table
+ -notitle         Remove the ASCII-art title in top of exported text file
+ --bload          Add header for BLOAD image (default: false)
+ -help            Display this help
+GM1 & GM2 specific options:
+ --tilesComp      Compress also names/layout table (default: false)
+ --tilesUnique    Export all tiles as unique (default: false)
+ --noTilesName    Exclude name table (default: false)
+ --noTilesPattern Exclude pattern table (default: false)
+ --noTilesColor   Exclude color table (default: false)

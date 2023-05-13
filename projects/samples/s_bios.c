@@ -57,6 +57,25 @@ i8 Clamp(i8 val, i8 min, i8 max)
 	return val;
 }
 
+void Bios_ChangeColor2(u8 text, u8 back, u8 border, u8 mode)
+{
+	text;   // A
+	back;   // L
+	border; // (SP+4)
+	__asm
+		ld		iy, #4
+		add		iy, sp
+
+		ld  	(M_FORCLR), a
+		ld  	a, l
+		ld  	(M_BAKCLR), a
+		ld  	a, 0(iy)
+		ld  	(M_BDRCLR), a
+		ld  	a, 1(iy)
+		call	R_CHGCLR
+	__endasm;
+}
+
 //=============================================================================
 // MAIN LOOP
 //=============================================================================
@@ -65,14 +84,14 @@ i8 Clamp(i8 val, i8 min, i8 max)
 // Program entry point
 void main()
 {
-	Bios_ChangeMode(0);
-	Bios_ChangeWidth(40);
-	Bios_ChangeColor(COLOR_LIGHT_GREEN, COLOR_BLACK, COLOR_GRAY);
+	Bios_ChangeMode(1);
+	Bios_ChangeWidth(32);
+	Bios_ChangeColor2(COLOR_LIGHT_GREEN, COLOR_BLACK, COLOR_GRAY, 0);
 	Bios_SetKeyClick(FALSE);
 	
 	Bios_PrintTextAt(0, 0,  "MSXgl - BIOS SAMPLE");
-	Bios_PrintTextAt(0, 1,  "----------------------------------------");
-	Bios_PrintTextAt(0, 21, "----------------------------------------");
+	Bios_PrintTextAt(0, 1,  "--------------------------------");
+	Bios_PrintTextAt(0, 21, "--------------------------------");
 	Bios_PrintTextAt(0, 23, "<||> Move     [space] Jump");
 
 	bool bContinue = TRUE;

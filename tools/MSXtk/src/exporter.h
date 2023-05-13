@@ -97,8 +97,11 @@ struct ExportParameters
 	bool bDefine;				///< Add define block for C file that allow to add directive to table definition (to place data at a given address for e.g.)
 	bool bTitle;				///< Display ASCII-art title on top of exported text file
 	std::vector<Layer> layers;	///< Block layers
-	bool bGM2CompressNames;		///< GM2 mode: Compress names/layout table
-	bool bGM2Unique;			///< GM2 mode: Export all unique tiles
+	bool bTilesCompressNames;		///< GM2 mode: Compress names/layout table
+	bool bTilesUnique;			///< GM2 mode: Export all unique tiles
+	bool bTilesName;		///< GM2 mode: Include name table
+	bool bTilesPattern;	///< GM2 mode: Include pattern table
+	bool bTilesColor;		///< GM2 mode: Include color table
 	bool bBLOAD;				///< Add header for BLOAD image
 
 	ExportParameters()
@@ -143,8 +146,11 @@ struct ExportParameters
 		bStartAddr = FALSE;
 		startAddr = 0;
 		bTitle = TRUE;
-		bGM2CompressNames = FALSE;
-		bGM2Unique = FALSE;
+		bTilesCompressNames = FALSE;
+		bTilesUnique = FALSE;
+		bTilesName = TRUE;
+		bTilesPattern = TRUE;
+		bTilesColor = TRUE;
 		bBLOAD = FALSE;
 	}
 };
@@ -156,7 +162,7 @@ const char* GetCompressorName(MSX::Compressor comp, bool bShort = FALSE);
 const char* GetModeName(MSXi_Mode mode);
 
 // Get table format C text
-std::string GetTableCText(TableFormat format, std::string name);
+std::string GetTableCText(TableFormat format, std::string name, s32 addr = -1);
 
 // Check if a compressor if compatible with given import parameters
 bool IsCompressorCompatible(MSX::Compressor comp, const ExportParameters& param);
@@ -333,9 +339,9 @@ public:
 			sprintf_s(strData, BUFFER_SIZE,
 				"\n"
 				"// %s\n"
-				"__at(0x%X) %s =\n"
+				"%s =\n"
 				"{\n",
-				comment.c_str(), Param->startAddr + GetTotalBytes(), GetTableCText(format, name).c_str());
+				comment.c_str(), GetTableCText(format, name, Param->startAddr + GetTotalBytes()).c_str());
 		}
 		else if (Param->bDefine)
 		{

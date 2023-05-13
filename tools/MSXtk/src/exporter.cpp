@@ -49,16 +49,23 @@ const char* GetModeName(MSXi_Mode mode)
 }
 
 //
-std::string GetTableCText(TableFormat format, std::string name)
+std::string GetTableCText(TableFormat format, std::string name, s32 addr)
 {
+	if(format == TABLE_Header)
+		return "const struct MSXi_Header " + name;
+
+	std::string ret = "";
 	switch (format)
 	{
-	case TABLE_U8: return "const unsigned char " + name + "[]";
-	case TABLE_U16: return "const unsigned short " + name + "[]";
-	case TABLE_U32: return "const unsigned long " + name + "[]";
-	case TABLE_Header: return "const struct MSXi_Header " + name;
+	case TABLE_U8:	ret = "const unsigned char "; break;
+	case TABLE_U16: ret = "const unsigned short "; break;
+	case TABLE_U32: ret = "const unsigned long "; break;
 	}
-	return "Unknow";
+
+	if (addr >= 0)
+		ret += MSX::Format("__at(0x%4X) ", addr);
+	ret += name + "[]";
+	return ret;
 }
 
 bool IsCompressorCompatible(MSX::Compressor comp, const ExportParameters& param)

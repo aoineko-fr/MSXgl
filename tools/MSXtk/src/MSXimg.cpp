@@ -71,101 +71,105 @@ void PrintHelp()
 	printf("Usage: MSXimg <filename> [options]\n");
 	printf("\n");
 	printf("Options:\n");
-	printf("   inputFile       Inuput file name. Can be 8/16/24/32 bits image\n");
-	printf("                   Supported format: BMP, JPEG, PCX, PNG, TGA, PSD, GIF, etc.\n");
-	printf("   -out outFile    Output file name\n");
-	printf("   -format ?       Output format\n");
-	printf("      auto         Auto-detected using output file extension (default)\n");
-	printf("      c            C header file output\n");
-	printf("      asm          Assembler header file output\n");
-	printf("      bas          BASIC listing file output\n");
-	printf("      bin          Raw binary data image\n");
-	printf("   -name name      Name of the table to generate\n");
-	printf("   -mode ?         Exporter mode\n");
-	printf("      bmp          Export image as bitmap (default)\n");
-	printf("      gm1          Generate all tables for Graphic mode 1 (Screen 1)\n");
-	printf("      gm2          Generate all tables for Graphic mode 2 or 3 (Screen 2 or 4)\n");
-	printf("      sprt         Export 16x16 sprites with specific block ordering\n");
-	printf("   -pos x y        Start position in the input image\n");
-	printf("   -size x y       Width/height of a block to export (if 0, use image size)\n");
-	printf("   -gap x y        Gap between blocks in pixels\n");
-	printf("   -num x y        Number of block to export (columns/rows number)\n");
-	printf("   -l ? sx sy nx ny col1 (col2, col3, ...)\n");
-	printf("                   Layer including the given color(s) (coordinate are relative to each expoted block)\n");
-	printf("      i8           8x8 sprites layer with only provided colors\n");
-	printf("      i16          16x16 sprites layer with only provided colors\n");
-	printf("      e8           8x8 sprites layer with all colors but the provided ones\n");
-	printf("      e16          16x16 sprites layer with all colors but the provided ones\n");
-	printf("                   sx/sy is layer start position in pixel in a block\n");
-	printf("                   nx/ny is layer size in sprite count (1 equal 8 or 16 according to sprite size)\n");
-	printf("                   Colors are in RGB 24 bits format (0xFFFFFF)\n");
-	printf("   -trans color    Transparency color (in RGB 24 bits format : 0xFFFFFF)\n");
-	printf("   -opacity color  Opacity color (in RGB 24 bits format : 0xFFFFFF). All other colors are considered transparent\n");
-	printf("   -bpc ?	       Number of bits per color for the output image (support 1, 4 and 8-bits)\n");
-	printf("      1	           1-bit black & white (0: tranparency or black, 1: other colors)\n");
-	printf("      2	           2-bit index in 4 colors palette\n");
-	printf("      4	           4-bits index in 16 colors palette\n");
-	printf("      8	           8 bits RGB 256 colors (format: [G:3|R:3|B2]; default)\n");
-	printf("   -pal            Palette to use for 16 colors mode\n");
-	printf("      msx1         Use default MSX1 palette\n");
-	printf("      custom       Generate a custom palette and add it to the output file\n");
-	printf("   --palcount n    Number of color in the custom palette to create (default: 15)\n");
-	printf("   --paloff n      Index offset of the palette (default: 1)\n");
-	printf("   --pal24	       Use 24-bits palette (for v9990; default: false)\n");
-	printf("   -compress ?\n");
-	printf("      none         No compression (default)\n");
-	printf("      crop16       Crop image to non transparent area (4-bits, max size 16x16)\n");
-	printf("      cropline16   Crop image to non transparent area (4-bits per line, max size 16x16)\n");
-	printf("      crop32       Crop image to non transparent area (5-bits, max size 32x32)\n");
-	printf("      cropline32   Crop image to non transparent area (5-bits per line, max size 32x32)\n");
-	printf("      crop256      Crop image to non transparent area (8-bits, max size 256x256)\n");
-	printf("      cropline256  Crop image to non transparent area (8-bits per line, max size 256x256)\n");
-	printf("      rle0         Run-length encoding of transparent blocs (7-bits for block length)\n");
-	printf("      rle4         Run-length encoding for all colors (4-bits for block length)\n");
-	printf("      rle8         Run-length encoding for all colors (8-bits for block length)\n");
-	printf("      rlep         Pattern based run-length encoding (6-bits for block length)\n");
-	printf("      auto         Determine a good compression method according to parameters\n");
-	printf("      best         Search for best compressor according to input parameters (smallest data)\n");
-	printf("      pletter      Pletter v0.5c1 by XL2S Entertainment\n");
-	printf("   -dither ?       Dithering method (for 1-bit color only)\n");
-	printf("      none         No dithering (default)\n");
-	printf("      floyd        Floyd & Steinberg error diffusion algorithm\n");
-	printf("      bayer4       Bayer ordered dispersed dot dithering (order 2 – 4x4 - dithering matrix)\n");
-	printf("      bayer8       Bayer ordered dispersed dot dithering (order 3 – 8x8 - dithering matrix)\n");
-	printf("      bayer16      Bayer ordered dispersed dot dithering (order 4 – 16x16 dithering matrix)\n");
-	printf("      cluster6     Ordered clustered dot dithering (order 3 - 6x6 matrix)\n");
-	printf("      cluster8     Ordered clustered dot dithering (order 4 - 8x8 matrix)\n");
-	printf("      cluster16    Ordered clustered dot dithering (order 8 - 16x16 matrix)\n");
-	printf("   -data ?         Text format for numbers\n");
-	printf("      dec          Decimal data (c & asm)\n");
-	printf("      hexa         Default hexadecimal data (depend on langage; default)\n");
-	printf("      hexa0x       Hexadecimal data (0xFF; c & asm)\n");
-	printf("      hexaH        Hexadecimal data (0FFh; asm only)\n");
-	printf("      hexa$        Hexadecimal data ($FF; asm only)\n");
-	printf("      hexa#        Hexadecimal data (#FF; asm only)\n");
-	printf("      bin          Binary data (11001100b; asm only)\n");
-	printf("   -asm ?          Assembler number format\n");
-	printf("      sdasz80      SDCC format (default)\n");
-	printf("      tniasm       tniASM format\n");
-	printf("      asmsx        asMSX format\n");
-	printf("      sjasm        Sjasm format\n");
-	printf("   -skip           Skip empty sprites (default: false)\n");
-	printf("   -idx            Add images index table (default: false)\n");
-	printf("   -copy (file)    Add copyright information from text file\n");
-	printf("                   If file name is empty, search for <inputFile>.txt\n");
-	printf("   -head           Add a header table contening input parameters (default: false)\n");
-	printf("   -font x y f l   Add font header (default: false)\n");
-	printf("                   x/y: Font width/heigt in pixels\n");
-	printf("                   f/l: ASCII code of the first/last character to export\n");
-	printf("                        Can be character (like: &) or hexadecimal value (0xFF format)\n");
-	printf("   -offset x       Offset of layout index for GM1 et GM2 mode (default: 0)\n");
-	printf("   -at x           Data starting address (can be decimal or hexadecimal starting with '0x')\n");
-	printf("   -def            Add defines for each table\n");
-	printf("   -notitle        Remove the ASCII-art title in top of exported text file\n");
-	printf("   --gm2compnames  GM2 mode: Compress names/layout table (default: false)\n");
-	printf("   --gm2unique     GM2 mode: Export all unique tiles (default: false)\n");
-	printf("   --bload         Add header for BLOAD image (default: false)\n");
-	printf("   -help           Display this help\n");
+	printf(" inputFile        Inuput file name. Can be 8/16/24/32 bits image\n");
+	printf("                  Supported format: BMP, JPEG, PCX, PNG, TGA, PSD, GIF, etc.\n");
+	printf(" -out outFile     Output file name\n");
+	printf(" -format ?        Output format\n");
+	printf("    auto          Auto-detected using output file extension (default)\n");
+	printf("    c             C header file output\n");
+	printf("    asm           Assembler header file output\n");
+	printf("    bas           BASIC listing file output\n");
+	printf("    bin           Raw binary data image\n");
+	printf(" -name name       Name of the table to generate\n");
+	printf(" -mode ?          Exporter mode\n");
+	printf("    bmp           Export image as bitmap (default)\n");
+	printf("    gm1           Generate all tables for Graphic mode 1 (Screen 1)\n");
+	printf("    gm2           Generate all tables for Graphic mode 2 or 3 (Screen 2 or 4)\n");
+	printf("    sprt          Export 16x16 sprites with specific block ordering\n");
+	printf(" -pos x y         Start position in the input image\n");
+	printf(" -size x y        Width/height of a block to export (if 0, use image size)\n");
+	printf(" -gap x y         Gap between blocks in pixels\n");
+	printf(" -num x y         Number of block to export (columns/rows number)\n");
+	printf(" -l ? sx sy nx ny col1 (col2, col3, ...)\n");
+	printf("                  Layer including the given color(s) (coordinate are relative to each expoted block)\n");
+	printf("    i8            8x8 sprites layer with only provided colors\n");
+	printf("    i16           16x16 sprites layer with only provided colors\n");
+	printf("    e8            8x8 sprites layer with all colors but the provided ones\n");
+	printf("    e16           16x16 sprites layer with all colors but the provided ones\n");
+	printf("                  sx/sy is layer start position in pixel in a block\n");
+	printf("                  nx/ny is layer size in sprite count (1 equal 8 or 16 according to sprite size)\n");
+	printf("                  Colors are in RGB 24 bits format (0xFFFFFF)\n");
+	printf(" -trans color     Transparency color (in RGB 24 bits format : 0xFFFFFF)\n");
+	printf(" -opacity color   Opacity color (in RGB 24 bits format : 0xFFFFFF). All other colors are considered transparent\n");
+	printf(" -bpc ?           Number of bits per color for the output image (support 1, 4 and 8-bits)\n");
+	printf("    1	           1-bit black & white (0: tranparency or black, 1: other colors)\n");
+	printf("    2	           2-bit index in 4 colors palette\n");
+	printf("    4	           4-bits index in 16 colors palette\n");
+	printf("    8	           8 bits RGB 256 colors (format: [G:3|R:3|B2]; default)\n");
+	printf(" -pal             Palette to use for 16 colors mode\n");
+	printf("    msx1          Use default MSX1 palette\n");
+	printf("    custom        Generate a custom palette and add it to the output file\n");
+	printf(" --palcount n     Number of color in the custom palette to create (default: 15)\n");
+	printf(" --paloff n       Index offset of the palette (default: 1)\n");
+	printf(" --pal24          Use 24-bits palette (for v9990; default: false)\n");
+	printf(" -compress ?\n");
+	printf("    none          No compression (default)\n");
+	printf("    crop16        Crop image to non transparent area (4-bits, max size 16x16)\n");
+	printf("    cropline16    Crop image to non transparent area (4-bits per line, max size 16x16)\n");
+	printf("    crop32        Crop image to non transparent area (5-bits, max size 32x32)\n");
+	printf("    cropline32    Crop image to non transparent area (5-bits per line, max size 32x32)\n");
+	printf("    crop256       Crop image to non transparent area (8-bits, max size 256x256)\n");
+	printf("    cropline256   Crop image to non transparent area (8-bits per line, max size 256x256)\n");
+	printf("    rle0          Run-length encoding of transparent blocs (7-bits for block length)\n");
+	printf("    rle4          Run-length encoding for all colors (4-bits for block length)\n");
+	printf("    rle8          Run-length encoding for all colors (8-bits for block length)\n");
+	printf("    rlep          Pattern based run-length encoding (6-bits for block length)\n");
+	printf("    auto          Determine a good compression method according to parameters\n");
+	printf("    best          Search for best compressor according to input parameters (smallest data)\n");
+	printf("    pletter       Pletter v0.5c1 by XL2S Entertainment\n");
+	printf(" -dither ?        Dithering method (for 1-bit color only)\n");
+	printf("    none          No dithering (default)\n");
+	printf("    floyd         Floyd & Steinberg error diffusion algorithm\n");
+	printf("    bayer4        Bayer ordered dispersed dot dithering (order 2 – 4x4 - dithering matrix)\n");
+	printf("    bayer8        Bayer ordered dispersed dot dithering (order 3 – 8x8 - dithering matrix)\n");
+	printf("    bayer16       Bayer ordered dispersed dot dithering (order 4 – 16x16 dithering matrix)\n");
+	printf("    cluster6      Ordered clustered dot dithering (order 3 - 6x6 matrix)\n");
+	printf("    cluster8      Ordered clustered dot dithering (order 4 - 8x8 matrix)\n");
+	printf("    cluster16     Ordered clustered dot dithering (order 8 - 16x16 matrix)\n");
+	printf(" -data ?          Text format for numbers\n");
+	printf("    dec           Decimal data (c & asm)\n");
+	printf("    hexa          Default hexadecimal data (depend on langage; default)\n");
+	printf("    hexa0x        Hexadecimal data (0xFF; c & asm)\n");
+	printf("    hexaH         Hexadecimal data (0FFh; asm only)\n");
+	printf("    hexa$         Hexadecimal data ($FF; asm only)\n");
+	printf("    hexa#         Hexadecimal data (#FF; asm only)\n");
+	printf("    bin           Binary data (11001100b; asm only)\n");
+	printf(" -asm ?           Assembler number format\n");
+	printf("    sdasz80       SDCC format (default)\n");
+	printf("    tniasm        tniASM format\n");
+	printf("    asmsx         asMSX format\n");
+	printf("    sjasm         Sjasm format\n");
+	printf(" -skip            Skip empty sprites (default: false)\n");
+	printf(" -idx             Add images index table (default: false)\n");
+	printf(" -copy (file)     Add copyright information from text file\n");
+	printf("                  If file name is empty, search for <inputFile>.txt\n");
+	printf(" -head            Add a header table contening input parameters (default: false)\n");
+	printf(" -font x y f l    Add font header (default: false)\n");
+	printf("                  x/y: Font width/heigt in pixels\n");
+	printf("                  f/l: ASCII code of the first/last character to export\n");
+	printf("                  Can be character (like: &) or hexadecimal value (0xFF format)\n");
+	printf(" -offset x        Offset of layout index for GM1 et GM2 mode (default: 0)\n");
+	printf(" -at x            Data starting address (can be decimal or hexadecimal starting with '0x')\n");
+	printf(" -def             Add defines for each table\n");
+	printf(" -notitle         Remove the ASCII-art title in top of exported text file\n");
+	printf(" --bload          Add header for BLOAD image (default: false)\n");
+	printf(" -help            Display this help\n");
+	printf("GM1 & GM2 specific options:\n");
+	printf(" --tilesComp      Compress also names/layout table (default: false)\n");
+	printf(" --tilesUnique    Export all tiles as unique (default: false)\n");
+	printf(" --noTilesName    Exclude name table (default: false)\n");
+	printf(" --noTilesPattern Exclude pattern table (default: false)\n");
+	printf(" --noTilesColor   Exclude color table (default: false)\n");
 }
 
 // Debug
@@ -193,7 +197,7 @@ void PrintHelp()
 //	"-l", "gm2", "112", "104",  "72", "16",
 //	"-l", "gm2", "184", "104",  "72", "16", };
 //const char* ARGV[] = { "", "testcases/menu.png", "-out", "select.h", "-mode", "gm2", "-name", "g_DataSelect", "-pos", "0", "0", "-size", "256", "96" };
-//const char* ARGV[] = { "", "../testcases/poc2.png", "-out", "../testcases/room5.h", "-mode", "gm1", "-name", "g_DataRoom0", "-pos", "0", "0", "-size", "256", "192" };
+//const char* ARGV[] = { "", "../testcases/poc2.png", "-out", "../testcases/room5.h", "-mode", "gm1", "--noTilesName", "", "-name", "g_DataRoom0", "-pos", "0", "0", "-size", "256", "192" };
 //const char* ARGV[] = { "", "../testcases/poc2.png", "-out", "../testcases/room5.bas", "-format", "bas", "-data", "hexaraw", "-mode", "gm1", "-name", "g_DataRoom0", "-pos", "0", "0", "-size", "256", "192" };
 //#define DEBUG_ARGS
 
@@ -513,17 +517,30 @@ int main(int argc, const char* argv[])
 			}
 			param.layers.push_back(l);
 		}
-		else if (MSX::StrEqual(argv[i], "--gm2compnames")) // GM2 names compression
-		{
-			param.bGM2CompressNames = true;
-		}
-		else if (MSX::StrEqual(argv[i], "--gm2unique")) // GM2 names compression
-		{
-			param.bGM2Unique = true;
-		}
 		else if (MSX::StrEqual(argv[i], "--bload")) // Add header for BLOAD image
 		{
 			param.bBLOAD = true;
+		}
+		else if ((MSX::StrEqual(argv[i], "--tilesComp")) || (MSX::StrEqual(argv[i], "--gm2compnames"))) // GM2 names compression
+		{
+			param.bTilesCompressNames = true;
+		}
+		else if ((MSX::StrEqual(argv[i], "--tilesUnique")) || (MSX::StrEqual(argv[i], "--gm2unique"))) // GM2 names compression
+		{
+			param.bTilesUnique = true;
+			param.bTilesName = false;
+		}
+		else if (MSX::StrEqual(argv[i], "--noTilesName")) // GM2 include name table
+		{
+			param.bTilesName = false;
+		}
+		else if (MSX::StrEqual(argv[i], "--noTilesPattern")) // GM2 include pattern table
+		{
+			param.bTilesPattern = false;
+		}
+		else if (MSX::StrEqual(argv[i], "--noTilesColor")) // GM2 include color table
+		{
+			param.bTilesColor = false;
 		}
 	}
 

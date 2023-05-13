@@ -843,10 +843,8 @@ void Create16ColorsPalette(const char* filename)
 // EXPORT GRAPHIC 1
 //-----------------------------------------------------------------------------
 
-namespace GM1 {
-
 ///
-struct Chunk
+struct ChunkGM1
 {
 	u8 Color0;
 	u8 Color1 = 0xFF;
@@ -871,32 +869,35 @@ struct Chunk
 };
 
 ///
-struct Group
+struct GroupGM1
 {
 	u8 Color0;
 	u8 Color1 = 0xFF;
-	std::vector<Chunk> Chunks;
+	std::vector<ChunkGM1> Chunks;
 
 	bool IsPlain() { return Color1 == 0xFF; }
 };
 
 ///
-u8 GetChunkId(std::vector<Group>& group, Chunk& chunk, ExportParameters* param)
+u8 GetChunkIdGM1(std::vector<GroupGM1>& group, ChunkGM1& chunk, ExportParameters* param)
 {
 	// Force color0 to be smaller than color1
 	if (chunk.Color0 > chunk.Color1)
 		chunk.Invert();
 
 	// Search for existing chunk index
-	for (u8 i = 0; i < group.size(); i++)
+	if (!param->bTilesUnique)
 	{
-		for (u8 j = 0; j < group[i].Chunks.size(); j++)
+		for (u8 i = 0; i < group.size(); i++)
 		{
-			if(chunk.IsPlain() && group[i].Chunks[j].IsPlain() && (chunk.Color0 == group[i].Chunks[j].Color0)) // Don't check pattern
-				return (i * 8) + j;
+			for (u8 j = 0; j < group[i].Chunks.size(); j++)
+			{
+				if (chunk.IsPlain() && group[i].Chunks[j].IsPlain() && (chunk.Color0 == group[i].Chunks[j].Color0)) // Don't check pattern
+					return (i * 8) + j;
 
-			if (memcmp(&group[i].Chunks[j], &chunk, sizeof(Chunk)) == 0)
-				return (i * 8) + j;
+				if (memcmp(&group[i].Chunks[j], &chunk, sizeof(ChunkGM1)) == 0)
+					return (i * 8) + j;
+			}
 		}
 	}
 
@@ -965,7 +966,7 @@ u8 GetChunkId(std::vector<Group>& group, Chunk& chunk, ExportParameters* param)
 	}
 
 	// Create new group
-	Group grp;
+	GroupGM1 grp;
 	grp.Color0 = chunk.Color0;
 	grp.Color1 = chunk.Color1;
 	grp.Chunks.push_back(chunk);
@@ -974,9 +975,9 @@ u8 GetChunkId(std::vector<Group>& group, Chunk& chunk, ExportParameters* param)
 }
 
 /***/
-bool Export(ExportParameters* param, ExporterInterface* exp)
+bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 {
-	std::vector<Group> chunkList;
+	std::vector<GroupGM1> chunkList;
 	FIBITMAP* dib, * dib32;
 
 	//-------------------------------------------------------------------------
@@ -1021,6 +1022,9 @@ bool Export(ExportParameters* param, ExporterInterface* exp)
 		param->layers.insert(param->layers.begin(), l);
 	}
 
+	//if (param->bTilesUnique)
+	//	param->bTilesName = false;
+
 	// File header
 	exp->WriteHeader();
 
@@ -1037,7 +1041,7 @@ bool Export(ExportParameters* param, ExporterInterface* exp)
 		{
 			for (u32 nx = 0; nx < numX; nx++)
 			{
-				Chunk chunk;
+				ChunkGM1 chunk;
 
 				// Generate chunk
 				std::vector<u8> colors;
@@ -1070,7 +1074,7 @@ bool Export(ExportParameters* param, ExporterInterface* exp)
 
 				chunk.Color0 = colors[0];
 				chunk.Color1 = (colors.size() == 2) ? colors[1] : 0xFF;
-				u8 patIdx = GetChunkId(chunkList, chunk, param);
+				u8 patIdx = GetChunkIdGM1(chunkList, chunk, param);
 				layoutBytes.push_back(patIdx + param->offset);
 			}
 		}
@@ -1078,16 +1082,16 @@ bool Export(ExportParameters* param, ExporterInterface* exp)
 		//-------------------------------------------------------------------------
 		// LAYOUT TABLE
 
-		if (!param->bGM2Unique)
+		if (param->bTilesName)
 		{
 			if (param->layers.size() == 1) // Default
 				exp->WriteTableBegin(TABLE_U8, param->tabName + "_Names", "Names Table");
 			else
 				exp->WriteTableBegin(TABLE_U8, MSX::Format("%sL%i_Names", param->tabName.c_str(), l), "Names Table");
 
-			if (param->bGM2CompressNames && param->comp == MSX::COMPRESS_RLEp)
+			if (param->bTilesCompressNames && param->comp == MSX::COMPRESS_RLEp)
 				ExportRLEp(param, exp, layoutBytes);
-			else if (param->bGM2CompressNames && param->comp == MSX::COMPRESS_Pletter)
+			else if (param->bTilesCompressNames && param->comp == MSX::COMPRESS_Pletter)
 				ExportPletter(param, exp, layoutBytes);
 			else
 				ExportTable(param, exp, layoutBytes, numX);
@@ -1103,74 +1107,81 @@ bool Export(ExportParameters* param, ExporterInterface* exp)
 	//-------------------------------------------------------------------------
 	// PATTERNS TABLE
 
-	exp->WriteTableBegin(TABLE_U8, param->tabName + "_Patterns", "Patterns Table");
-	if (param->comp != MSX::COMPRESS_None)
+	i32 patternsSize = 0;
+	if (param->bTilesPattern)
 	{
-		// Build data
-		std::vector<u8> bytes;
-		for (i32 i = 0; i < (i32)chunkList.size(); i++)
+		exp->WriteTableBegin(TABLE_U8, param->tabName + "_Patterns", "Patterns Table");
+		if (param->comp != MSX::COMPRESS_None)
 		{
-			for (i32 j = 0; j < 8; j++)
+			// Build data
+			std::vector<u8> bytes;
+			for (i32 i = 0; i < (i32)chunkList.size(); i++)
 			{
-				if ((i == chunkList.size() - 1) && (j >= chunkList[i].Chunks.size())) // skip last empty chunk
-					continue;
-
-				for (i32 k = 0; k < 8; k++)
-					if (j < chunkList[i].Chunks.size())
-						bytes.push_back(chunkList[i].Chunks[j].Pattern[k]);
-					else
-						bytes.push_back(0);
-			}
-		}
-
-		// Compress
-		if (param->comp == MSX::COMPRESS_RLEp)
-			ExportRLEp(param, exp, bytes);
-		else if (param->comp == MSX::COMPRESS_Pletter)
-			ExportPletter(param, exp, bytes);
-	}
-	else
-	{
-		for (i32 i = 0; i < (i32)chunkList.size(); i++) // group
-		{
-			for (i32 j = 0; j < 8; j++) // chunk
-			{
-				if ((i == chunkList.size() - 1) && (j >= chunkList[i].Chunks.size()))
-					continue;
-
-				// Print sprite header
-				exp->WriteSpriteHeader(i * 8 + j + param->offset);
-				for (i32 k = 0; k < 8; k++) // line
+				for (i32 j = 0; j < 8; j++)
 				{
-					exp->WriteLineBegin();
-					if (j < chunkList[i].Chunks.size())
-						exp->Write8BitsData(chunkList[i].Chunks[j].Pattern[k]);
-					else
-						exp->Write8BitsData(0x55);
-					exp->WriteLineEnd();
+					if ((i == chunkList.size() - 1) && (j >= chunkList[i].Chunks.size())) // skip last empty chunk
+						continue;
+
+					for (i32 k = 0; k < 8; k++)
+						if (j < chunkList[i].Chunks.size())
+							bytes.push_back(chunkList[i].Chunks[j].Pattern[k]);
+						else
+							bytes.push_back(0);
+				}
+			}
+
+			// Compress
+			if (param->comp == MSX::COMPRESS_RLEp)
+				ExportRLEp(param, exp, bytes);
+			else if (param->comp == MSX::COMPRESS_Pletter)
+				ExportPletter(param, exp, bytes);
+		}
+		else
+		{
+			for (i32 i = 0; i < (i32)chunkList.size(); i++) // group
+			{
+				for (i32 j = 0; j < 8; j++) // chunk
+				{
+					if ((i == chunkList.size() - 1) && (j >= chunkList[i].Chunks.size()))
+						continue;
+
+					// Print sprite header
+					exp->WriteSpriteHeader(i * 8 + j + param->offset);
+					for (i32 k = 0; k < 8; k++) // line
+					{
+						exp->WriteLineBegin();
+						if (j < chunkList[i].Chunks.size())
+							exp->Write8BitsData(chunkList[i].Chunks[j].Pattern[k]);
+						else
+							exp->Write8BitsData(0x55);
+						exp->WriteLineEnd();
+					}
 				}
 			}
 		}
+		patternsSize = exp->GetTotalBytes() - namesSize;
+		exp->WriteTableEnd(MSX::Format("Patterns size: %i Bytes", patternsSize));
 	}
-	i32 patternsSize = exp->GetTotalBytes() - namesSize;
-	exp->WriteTableEnd(MSX::Format("Patterns size: %i Bytes", patternsSize));
 
 	//-------------------------------------------------------------------------
 	// COLORS TABLE
 
-	exp->WriteTableBegin(TABLE_U8, param->tabName + "_Colors", "Colors Table");
-	for (i32 i = 0; i < (i32)chunkList.size(); i++)
+	if (param->bTilesColor)
 	{
-		// Print sprite header
-		exp->WriteSpriteHeader(i);
-		exp->WriteLineBegin();
-		exp->Write1ByteData(chunkList[i].Color0 + (chunkList[i].Color1 << 4));
+		exp->WriteTableBegin(TABLE_U8, param->tabName + "_Colors", "Colors Table");
+		for (i32 i = 0; i < (i32)chunkList.size(); i++)
+		{
+			// Print sprite header
+			exp->WriteSpriteHeader(i);
+			exp->WriteLineBegin();
+			exp->Write1ByteData(chunkList[i].Color0 + (chunkList[i].Color1 << 4));
+			exp->WriteLineEnd();
+		}
+		i32 colorsSize = exp->GetTotalBytes() - namesSize - patternsSize;
+		exp->WriteTableEnd(MSX::Format("Colors size: %i Bytes", colorsSize));
 		exp->WriteLineEnd();
+		exp->WriteCommentLine(MSX::Format("Total size: %i Bytes", exp->GetTotalBytes()));
 	}
-	i32 colorsSize = exp->GetTotalBytes() - namesSize - patternsSize;
-	exp->WriteTableEnd(MSX::Format("Colors size: %i Bytes", colorsSize));
-	exp->WriteLineEnd();
-	exp->WriteCommentLine(MSX::Format("Total size: %i Bytes", exp->GetTotalBytes()));
 
 	//-------------------------------------------------------------------------
 	// Write file
@@ -1178,8 +1189,6 @@ bool Export(ExportParameters* param, ExporterInterface* exp)
 
 	return bSaved;
 }
-
-}; // namespace GM1
 
 //-----------------------------------------------------------------------------
 // EXPORT GRAPHIC 2
@@ -1193,9 +1202,9 @@ struct ChunkGM2
 };
 
 ///
-u8 GetChunkId(std::vector<ChunkGM2>& list, const ChunkGM2& chunk, ExportParameters* param)
+u8 GetChunkIdGM2(std::vector<ChunkGM2>& list, const ChunkGM2& chunk, ExportParameters* param)
 {
-	if (!param->bGM2Unique)
+	if (!param->bTilesUnique)
 	{
 		if (list.size() >= 256)
 		{
@@ -1260,6 +1269,9 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 		param->layers.insert(param->layers.begin(), l);
 	}
 
+	//if (param->bTilesUnique)
+	//	param->bTilesName = false;
+
 	// File header
 	exp->WriteHeader();
 
@@ -1319,7 +1331,7 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 					}
 				}
 
-				u8 patIdx = GetChunkId(chunkList, chunk, param);
+				u8 patIdx = GetChunkIdGM2(chunkList, chunk, param);
 				layoutBytes.push_back(patIdx + param->offset);
 			}
 		}
@@ -1327,16 +1339,16 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 		//-------------------------------------------------------------------------
 		// LAYOUT TABLE
 
-		if (!param->bGM2Unique)
+		if (param->bTilesName)
 		{
 			if (param->layers.size() == 1) // Default
 				exp->WriteTableBegin(TABLE_U8, param->tabName + "_Names", "Names Table");
 			else
 				exp->WriteTableBegin(TABLE_U8, MSX::Format("%sL%i_Names", param->tabName.c_str(), l), "Names Table");
 
-			if (param->bGM2CompressNames && param->comp == MSX::COMPRESS_RLEp)
+			if (param->bTilesCompressNames && param->comp == MSX::COMPRESS_RLEp)
 				ExportRLEp(param, exp, layoutBytes);
-			else if (param->bGM2CompressNames && param->comp == MSX::COMPRESS_Pletter)
+			else if (param->bTilesCompressNames && param->comp == MSX::COMPRESS_Pletter)
 				ExportPletter(param, exp, layoutBytes);
 			else
 				ExportTable(param, exp, layoutBytes, numX);
@@ -1352,74 +1364,81 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 	//-------------------------------------------------------------------------
 	// PATTERNS TABLE
 
-	exp->WriteTableBegin(TABLE_U8, param->tabName + "_Patterns", "Patterns Table");
-	if (param->comp != MSX::COMPRESS_None)
+	i32 patternsSize = 0;
+	if (param->bTilesPattern)
 	{
-		// Build data
-		std::vector<u8> bytes;
-		for (i32 i = 0; i < (i32)chunkList.size(); i++)
-			for (i32 j = 0; j < 8; j++)
-				bytes.push_back(chunkList[i].Pattern[j]);
-
-		// Compress
-		if (param->comp == MSX::COMPRESS_RLEp)
-			ExportRLEp(param, exp, bytes);
-		else if (param->comp == MSX::COMPRESS_Pletter)
-			ExportPletter(param, exp, bytes);
-	}
-	else
-	{
-		for (i32 i = 0; i < (i32)chunkList.size(); i++)
+		exp->WriteTableBegin(TABLE_U8, param->tabName + "_Patterns", "Patterns Table");
+		if (param->comp != MSX::COMPRESS_None)
 		{
-			// Print sprite header
-			exp->WriteSpriteHeader(i + param->offset);
-			for (i32 j = 0; j < 8; j++)
+			// Build data
+			std::vector<u8> bytes;
+			for (i32 i = 0; i < (i32)chunkList.size(); i++)
+				for (i32 j = 0; j < 8; j++)
+					bytes.push_back(chunkList[i].Pattern[j]);
+
+			// Compress
+			if (param->comp == MSX::COMPRESS_RLEp)
+				ExportRLEp(param, exp, bytes);
+			else if (param->comp == MSX::COMPRESS_Pletter)
+				ExportPletter(param, exp, bytes);
+		}
+		else
+		{
+			for (i32 i = 0; i < (i32)chunkList.size(); i++)
 			{
-				exp->WriteLineBegin();
-				exp->Write8BitsData(chunkList[i].Pattern[j]);
-				exp->WriteLineEnd();
+				// Print sprite header
+				exp->WriteSpriteHeader(i + param->offset);
+				for (i32 j = 0; j < 8; j++)
+				{
+					exp->WriteLineBegin();
+					exp->Write8BitsData(chunkList[i].Pattern[j]);
+					exp->WriteLineEnd();
+				}
 			}
 		}
+		patternsSize = exp->GetTotalBytes() - namesSize;
+		exp->WriteTableEnd(MSX::Format("Patterns size: %i Bytes", patternsSize));
 	}
-	i32 patternsSize = exp->GetTotalBytes() - namesSize;
-	exp->WriteTableEnd(MSX::Format("Patterns size: %i Bytes", patternsSize));
 
 	//-------------------------------------------------------------------------
 	// COLORS TABLE
 
-	exp->WriteTableBegin(TABLE_U8, param->tabName + "_Colors", "Colors Table");
-	if (param->comp != MSX::COMPRESS_None)
+	if (param->bTilesColor)
 	{
-		// Build data
-		std::vector<u8> bytes;
-		for (i32 i = 0; i < (i32)chunkList.size(); i++)
-			for (i32 j = 0; j < 8; j++)
-				bytes.push_back(chunkList[i].Color[j]);
-
-		// Compress
-		if (param->comp == MSX::COMPRESS_RLEp)
-			ExportRLEp(param, exp, bytes);
-		else if (param->comp == MSX::COMPRESS_Pletter)
-			ExportPletter(param, exp, bytes);
-	}
-	else
-	{
-		for (i32 i = 0; i < (i32)chunkList.size(); i++)
+		exp->WriteTableBegin(TABLE_U8, param->tabName + "_Colors", "Colors Table");
+		if (param->comp != MSX::COMPRESS_None)
 		{
-			// Print sprite header
-			exp->WriteSpriteHeader(i + param->offset);
-			exp->WriteLineBegin();
-			for (i32 j = 0; j < 8; j++)
-			{
-				exp->Write1ByteData(chunkList[i].Color[j]);
-			}
-			exp->WriteLineEnd();
+			// Build data
+			std::vector<u8> bytes;
+			for (i32 i = 0; i < (i32)chunkList.size(); i++)
+				for (i32 j = 0; j < 8; j++)
+					bytes.push_back(chunkList[i].Color[j]);
+
+			// Compress
+			if (param->comp == MSX::COMPRESS_RLEp)
+				ExportRLEp(param, exp, bytes);
+			else if (param->comp == MSX::COMPRESS_Pletter)
+				ExportPletter(param, exp, bytes);
 		}
+		else
+		{
+			for (i32 i = 0; i < (i32)chunkList.size(); i++)
+			{
+				// Print sprite header
+				exp->WriteSpriteHeader(i + param->offset);
+				exp->WriteLineBegin();
+				for (i32 j = 0; j < 8; j++)
+				{
+					exp->Write1ByteData(chunkList[i].Color[j]);
+				}
+				exp->WriteLineEnd();
+			}
+		}
+		i32 colorsSize = exp->GetTotalBytes() - namesSize - patternsSize;
+		exp->WriteTableEnd(MSX::Format("Colors size: %i Bytes", colorsSize));
+		exp->WriteLineEnd();
+		exp->WriteCommentLine(MSX::Format("Total size: %i Bytes", exp->GetTotalBytes()));
 	}
-	i32 colorsSize = exp->GetTotalBytes() - namesSize - patternsSize;
-	exp->WriteTableEnd(MSX::Format("Colors size: %i Bytes", colorsSize));
-	exp->WriteLineEnd();
-	exp->WriteCommentLine(MSX::Format("Total size: %i Bytes", exp->GetTotalBytes()));
 
 	//-------------------------------------------------------------------------
 	// Write file
@@ -1610,7 +1629,7 @@ bool ParseImage(ExportParameters* param, ExporterInterface* exp)
 	{
 	default:
 	case MODE_Bitmap:	return ExportBitmap(param, exp);
-	case MODE_GM1:		return GM1::Export(param, exp);
+	case MODE_GM1:		return ExportGM1(param, exp);
 	case MODE_GM2:		return ExportGM2(param, exp);
 	case MODE_Sprite:	return ExportSprite(param, exp);
 	};

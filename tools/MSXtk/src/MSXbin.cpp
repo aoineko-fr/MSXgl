@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------
 // DEFINES
 
-const char* VERSION = "1.4.0";
+const char* VERSION = "1.4.1";
 
 #define BUFFER_SIZE 1024
 
@@ -206,17 +206,16 @@ void StartTable(std::string& data, const std::string& name)
 				"D_%s ",
 				name.c_str(), name.c_str(), name.c_str());
 		}
-		if (g_AddStartAddr)
-		{
-			data += StringFormat("__at(0x%X) ", g_StartAddr);
-		}
 		switch (g_Size)
 		{
 		default:
-		case DATA_SIZE_8B:	data += "const unsigned char " +  name + "[] = {"; break;
-		case DATA_SIZE_16B:	data += "const unsigned short " + name + "[] = {"; break;
-		case DATA_SIZE_32B: data += "const unsigned long " +  name + "[] = {"; break;
+		case DATA_SIZE_8B:	data += "const unsigned char "; break;
+		case DATA_SIZE_16B:	data += "const unsigned short "; break;
+		case DATA_SIZE_32B: data += "const unsigned long "; break;
 		};
+		if (g_AddStartAddr)
+			data += StringFormat("__at(0x%X) ", g_StartAddr);
+		data += name + "[] = {";
 		break;
 	case DATA_LANG_ASM:
 		if (g_AddStartAddr)
