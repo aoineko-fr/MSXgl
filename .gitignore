@@ -63,3 +63,6 @@ out
 *.noi
 test
 /tools/MSXtk/proj/*.user
+/projects/screen3rot
+/projects/ls
+/projects/Tetpuz
