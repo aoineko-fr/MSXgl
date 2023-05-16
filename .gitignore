@@ -1,7 +1,11 @@
 .vs
+.vscode
 out
+test
+testcases
 *.xcf
 *.map
+*.noi
 
 /engine/doc/Natural Docs
 /engine/doc/NaturalDocs_Config/Working Data
@@ -25,6 +29,9 @@ out
 /projects/Scroller
 /projects/WhatSprite
 /projects/popeye
+/projects/screen3rot
+/projects/ls
+/projects/Tetpuz
 /projects/samples/datasrc/pcm
 /projects/samples/datasrc/pt3
 /projects/samples/datasrc/vgm
@@ -54,15 +61,6 @@ out
 /tools/fMSX
 /tools/MEISEI
 /tools/OpenMSX
-/tools/OpenMSX_1_16
-/tools/OpenMSX_1_17
+/tools/openMSX_18
 /tools/RuMSX
-
-/tools/CMSXtk/src
-/tools/CMSXtk/*.sln
-*.noi
-test
 /tools/MSXtk/proj/*.user
-/projects/screen3rot
-/projects/ls
-/projects/Tetpuz
