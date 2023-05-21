@@ -321,10 +321,10 @@ u8 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh)
 {
 	__asm
 		in		a, (V9_P00)
-		ld		a, e
+		ld		e, a
 		V9_EI
 		in		a, (V9_P00)
-		ld		a, d
+		ld		d, a
 	__endasm;
 }
 

@@ -244,7 +244,7 @@ u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 //
 // Return:
 //   The value at the given address
-u8 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh);
+u16 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh);
 
 // Function: V9_FillVRAM
 // Fill VRAM with 8-bits value start to a given VRAM address
