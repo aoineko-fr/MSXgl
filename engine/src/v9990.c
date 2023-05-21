@@ -317,7 +317,7 @@ u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 
 //-----------------------------------------------------------------------------
 //
-u8 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh)
+u16 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh)
 {
 	__asm
 		in		a, (V9_P00)
