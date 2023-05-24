@@ -317,7 +317,12 @@
 		out		(VDP_A), a
 		in		a, (VDP_S)
 		rrca								; Call H-Blank if bit #0 of S#1 is set 
-		call	c, _VDP_HBlankHandler		; call to C function HBlankHook() 
+		call	c, _VDP_HBlankHandler		; call to C function HBlankHook()
+
+		xor		a
+		out		(VDP_A), a
+		ld		a, #(0x80 + 15)
+		out		(VDP_A),a
 	; Restore registers
 		pop		ix
 		pop		iy

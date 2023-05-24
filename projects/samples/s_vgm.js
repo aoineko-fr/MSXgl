@@ -20,7 +20,6 @@ EmulSCC = true;
 //-- Add MSX-Music extension (boolean)
 EmulMSXMusic = true;
 
-
 //-- Add MSX-Audio extension (boolean)
 EmulMSXAudio = true;
 

@@ -27,7 +27,7 @@
 //=============================================================================
 
 // V9990 4-bits background data
-#include "content/v9990/data_v9_bg.h"
+#include "content/tile/data_bg_4b.h"
 
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
 #include "content/data_sprt_layer.h"
@@ -191,16 +191,10 @@ void main()
 	Tile_FillBank(1, 7);
 	Tile_FillBank(2, 8);
 	Tile_FillBank(3, 9);
-	Tile_LoadBank(0, g_DataV9BG, sizeof(g_DataV9BG) / TILE_CELL_BYTES);
-	Tile_LoadBank(2, g_DataV9BG, sizeof(g_DataV9BG) / TILE_CELL_BYTES);
-	for(u8 i = 0; i < 15; ++i) // Convert V9990 palette (15 bits) to MSX2 palette (9 bits)
-	{
-		u8 R = g_DataV9BG_palette[i * 3 + 0] >> 2;
-		u8 G = g_DataV9BG_palette[i * 3 + 1] >> 2;
-		u8 B = g_DataV9BG_palette[i * 3 + 2] >> 2;
-		u16 color = B | (R << 4) | (G << 8);
-		VDP_SetPaletteEntry(i + 1, color);
-	}
+	Tile_LoadBank(0, g_DataBG4b, sizeof(g_DataBG4b) / TILE_CELL_BYTES);
+	Tile_LoadBank(2, g_DataBG4b, sizeof(g_DataBG4b) / TILE_CELL_BYTES);
+	for(u8 i = 0; i < 15; ++i)
+		VDP_SetPaletteEntry(i + 1, *(u16*)&g_DataBG4b_palette[i*2]);
 
 	// Draw level
 	Tile_SetDrawPage(0);
