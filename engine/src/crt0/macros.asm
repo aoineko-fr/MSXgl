@@ -232,8 +232,8 @@
 	crt0_interrupt_start::
 	; Skip interruptions that do not come from the VDP.
 		push	af
-	.if ISR_SET_S0
 	; Reset R#15 to S#0
+	.if ISR_SET_S0
 		xor		a
 		out		(VDP_A), a
 		ld		a, #(0x80 + 15)
@@ -298,9 +298,8 @@
 		push	bc
 		push	iy
 		push	ix
-
-	.if ISR_SET_S0
 	; Reset R#15 to S#0
+	.if ISR_SET_S0
 		xor		a
 		out		(VDP_A), a
 		ld		a, #(0x80 + 15)
@@ -318,7 +317,7 @@
 		in		a, (VDP_S)
 		rrca								; Call H-Blank if bit #0 of S#1 is set 
 		call	c, _VDP_HBlankHandler		; call to C function HBlankHook()
-
+	; Reset R#15 to S#0
 		xor		a
 		out		(VDP_A), a
 		ld		a, #(0x80 + 15)

@@ -1661,7 +1661,7 @@ void VDP_SetMode(const u8 mode)
 // Get VDP version
 //	@return					0: TMS9918A, 1: V9938, 2: V9958, x: VDP ID
 // @note Code by Grauw (http://map.grauw.nl/sources/vdp_detection.php)
-u8 VDP_GetVersion() __naked
+u8 VDP_GetVersion() __NAKED
 {
 	__asm
 	// Detect VDP version
@@ -1672,7 +1672,7 @@ u8 VDP_GetVersion() __naked
 		call	VDP_IsTMS9918A			// use a different way to detect TMS9918A
 		ret		z
 		ld		a, #1					// select s#1
-		VDP_DI
+		VDP_DI //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a
 		ld		a, #VDP_REG(15)
 		out		(P_VDP_ADDR), a
@@ -1683,7 +1683,7 @@ u8 VDP_GetVersion() __naked
 		xor		a						// select s#0 as required by BIOS
 		out		(P_VDP_ADDR), a
 		ld		a, #VDP_REG(15)
-		VDP_EI
+		VDP_EI //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a
 		ex		af, af'					; '
 		ret		nz						// return VDP ID for V9958 or higher
@@ -1700,8 +1700,13 @@ u8 VDP_GetVersion() __naked
 	//
 	// f <- z: TMS9918A, nz: V99X8
 	VDP_IsTMS9918A:
+		xor 	a						// reset s#0
+		VDP_DI //~~~~~~~~~~~~~~~~~~~~~~~~~~
+		out 	(P_VDP_REG), a
+		ld  	a, #VDP_REG(15)
+		out 	(P_VDP_REG), a
+
 		in		a, (P_VDP_ADDR)			// read s#0, make sure interrupt flag is reset
-		VDP_DI
 	VDP_IsTMS9918A_Wait:
 		in		a,(P_VDP_ADDR)			// read s#0
 		and		a						// wait until interrupt flag is set
@@ -1719,7 +1724,7 @@ u8 VDP_GetVersion() __naked
 		ld		a, (0xF3E6)
 		out		(P_VDP_ADDR), a			// restore r#7 if it mirrored (small flash visible)
 		ld		a, #VDP_REG(7)
-		VDP_EI
+		VDP_EI //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a
 		ex		af, af'					; '
 		and		#0b01000000				// check if bit 6 was 0 (s#0 5S) or 1 (s#2 VR)
