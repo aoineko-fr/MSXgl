@@ -19,7 +19,7 @@
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
 
-#if (MSX_VERSION == MSX_1)
+#if (MSX_VERSION & MSX_1)
 	#define SET_SPRITE		VDP_SetSpriteSM1
 #else
 	#define SET_SPRITE		VDP_SetSpriteExUniColor
@@ -125,7 +125,7 @@ void WaitVBlank()
 void main()
 {
 	// Initialize video
-	#if (MSX_VERSION >= MSX_2)
+	#if !(MSX_VERSION & MSX_1)
 	VDP_SetMode(VDP_MODE_GRAPHIC3); // Screen mode 4 (G3)
 	#else
 	VDP_SetMode(VDP_MODE_GRAPHIC2); // Screen mode 2 (G2)

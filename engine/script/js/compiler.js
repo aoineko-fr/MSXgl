@@ -54,6 +54,7 @@ module.exports.compile = function (file, size, seg)
 	if (fileExt == ".c")
 	{
 		let AddOpt = CompileOpt;
+		// if (Verbose)			AddOpt += " --verbose";
 		if (Optim === "SPEED")	AddOpt += " --opt-code-speed";
 		if (Optim === "SIZE")	AddOpt += " --opt-code-size";
 		if (size !== undefined)	AddOpt += ` --code-size ${size}`;

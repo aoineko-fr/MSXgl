@@ -173,9 +173,12 @@ global.AddSources = [];
 //-- Target MSX machine version (string)
 //   - 1        MSX 1
 //   - 2        MSX 2
-//   - 12       MSX 1 or 2 (dual support)
+//   - 12       MSX 1 and 2 (multi support)
 //   - 2K       Korean MSX 2 (SC9 support)
 //   - 2P       MSX 2+
+//   - 22P      MSX 2 and 2+ (multi support)
+//   - 122P     MSX 1, 2 and 2+ (multi support)
+//   - 0        MSX 0
 //   - TR       MSX turbo R
 //   - 3        MSX 3 (reserved)
 global.Machine = "1";
@@ -338,6 +341,9 @@ global.EmulMSXMusic = false;
 
 //-- Add MSX-Audio extension (boolean)
 global.EmulMSXAudio = false;
+
+//-- Add OPL4 extension (boolean)
+global.EmulOPL4 = false;
 
 //-- Add second PSG extension (boolean)
 global.EmulPSG2 = false;

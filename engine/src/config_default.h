@@ -22,7 +22,7 @@
 // TARGET
 #if !defined(TARGET)
 	#warning TARGET is not defined in "msxgl_config.h"! Default value will be used: TARGET_ROM32
-	#define TARGET						TARGET_ROM32
+	#define TARGET						TARGET_ROM_32K
 #endif
 
 // TARGET_TYPE

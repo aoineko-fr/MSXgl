@@ -411,13 +411,13 @@ void DisplayInfo()
 	Print_DrawVersion(VERSION_CURRENT);
 	Print_DrawTextAt(X, Y++, "- SDCC:     ");
 	Print_DrawVersion(SDCC_VERSION_CURRENT);
-	#if (MSX_VERSION == MSX_1)
+	#if (MSX_VERSION & MSX_1)
 	Print_DrawTextAt(X, Y++, "- Target:   MSX 1");
-	#elif (MSX_VERSION == MSX_2)         
+	#elif (MSX_VERSION & MSX_2)         
 	Print_DrawTextAt(X, Y++, "- Target:   MSX 2");
-	#elif (MSX_VERSION == MSX_2P)        
+	#elif (MSX_VERSION & MSX_2P)        
 	Print_DrawTextAt(X, Y++, "- Target:   MSX 2+");
-	#elif (MSX_VERSION == MSX_TR)        
+	#elif (MSX_VERSION & MSX_TR)        
 	Print_DrawTextAt(X, Y++, "- Target:   MSX TR");
 	#endif
 

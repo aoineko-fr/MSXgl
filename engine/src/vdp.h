@@ -35,10 +35,10 @@
 // mode		mode	cycles	cycles
 //-------------------------------------
 // 0,W40	T1		12		20
-// 0,W80	T2				20
 // 1		G1		29		15
 // 2		G2		29		15
-// 3		MC		13		15
+// 3		MC		29		15
+// 0,W80	T2				20
 // 4		G3				15
 // 5		G4				15
 // 6		G5				15
@@ -498,7 +498,7 @@ u8 VDP_ReadDefaultStatus() __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 //   The given status register value
 u8 VDP_ReadStatus(u8 stat) __PRESERVES(b, c, d, e, h, iyl, iyh);
 
-#if ((VDP_USE_VRAM16K) || (MSX_VERSION == MSX_1) || (MSX_VERSION == MSX_12) || (MSX_VERSION == MSX_12P))
+#if ((VDP_USE_VRAM16K) || (MSX_VERSION & MSX_1))
 
 // Function: VDP_WriteVRAM_16K
 // Write data from RAM to VRAM. [MSX1/2/2+/TR]

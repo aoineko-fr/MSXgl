@@ -10,6 +10,27 @@
 #include "bitbuster.h"
 #include "system_port.h"
 
+//=============================================================================
+// OPTIONS VALIDATION
+//=============================================================================
+
+// BITBUSTER_WRITE_MODE
+#ifndef BITBUSTER_WRITE_MODE
+	#warning BITBUSTER_WRITE_MODE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define BITBUSTER_WRITE_MODE	BITBUSTER_WRITE_SAFE
+#endif
+
+// VRAM write timing mode
+#if (BITBUSTER_WRITE_MODE == BITBUSTER_WRITE_SAFE)
+	#define WRITE_NOP	nop
+#elif (BITBUSTER_WRITE_MODE == BITBUSTER_WRITE_QUICK)
+	#define WRITE_NOP
+#endif
+
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
+
 //-----------------------------------------------------------------------------
 // Unpack Bitbuster compressed data to a RAM buffer
 void Bitbuster_UnpackToRAM(const void* source, void* dest)
@@ -275,22 +296,22 @@ v_Gamma_end:
 	push	af
 loop:
 	ld		a, l
-	out		(P_VDP_1), a
-	ld		a, h
-	nop								// VDP timing
-	out		(P_VDP_1), a
-	nop								// VDP timing
-	in		a, (P_VDP_0)
-	ex		af, af'					;'
-	ld		a, e
-	nop								// VDP timing
-	out		(P_VDP_1), a
-	ld		a, d
-	or		#0x40
-	out		(P_VDP_1), a
-	ex		af, af'					;'
-	nop 							// VDP timing
-	out		(P_VDP_0), a
+	out		(P_VDP_1), a			// 12 cc ~~~~~~~~~~
+	ld		a, h					//  5 cc
+	WRITE_NOP						//  5 cc
+	out		(P_VDP_1), a			// 12 cc ~~~~~~~~~~
+	WRITE_NOP						//  5 cc
+	WRITE_NOP						//  5 cc
+	in		a, (P_VDP_0)			// 12 cc ~~~~~~~~~~
+	ex		af, af' ;'				//  5 cc
+	ld		a, e					//  5 cc
+	out		(P_VDP_1), a			// 12 cc ~~~~~~~~~~
+	ld		a, d					//  5 cc
+	or		#0x40					//  5 cc
+	out		(P_VDP_1), a			// 12 cc ~~~~~~~~~~
+	ex		af, af' ;'				//  5 cc
+	WRITE_NOP						//  5 cc
+	out		(P_VDP_0), a			// 12 cc ~~~~~~~~~~
 	inc		de
 	cpi
 	jp		pe, loop

@@ -1157,7 +1157,7 @@ void Print_DrawChar(u8 chr)
 	#if (PRINT_USE_VALIDATOR)
 		if(g_PrintData.CursorX + PRINT_W(g_PrintData.UnitX) > g_PrintData.ScreenWidth) // Handle automatic new-line when 
 			Print_Return();
-		#if (MSX_VERSION > MSX_1)
+		#if (MSX_VERSION >= MSX_2)
 			VDP_CommandWait();
 		#endif
 	#endif

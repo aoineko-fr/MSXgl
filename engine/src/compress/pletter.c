@@ -59,7 +59,6 @@
 	#define WRITE_NOP
 #endif
 
-
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -354,24 +353,23 @@ v_offsok:
 v_offsok_loop:
 	ld		a, l
 	DI_LOOP
-	out		(P_VDP_1), a
-	ld		a, h
-	WRITE_NOP				// VDP timing
-	out		(P_VDP_1),a
-	WRITE_NOP				// VDP timing
-	WRITE_NOP				// VDP timing
-	in		a, (P_VDP_0)
-	ex		af, af'			; '
-	ld		a, e
-	WRITE_NOP				// VDP timing
-	out		(P_VDP_1), a
-	ld		a, d
-	or		#0x40
-	out		(P_VDP_1), a
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
+	ld		a, h			//  5 cc
+	WRITE_NOP				//  5 cc
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
+	WRITE_NOP				//  5 cc
+	WRITE_NOP				//  5 cc
+	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~
+	ex		af, af' ;'		//  5 cc
+	ld		a, e			//  5 cc
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
+	ld		a, d			//  5 cc
+	or		#0x40			//  8 cc
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
 	ex		af, af'			;'
 	WRITE_NOP				// VDP timing
 	EI_LOOP
-	out		(P_VDP_0), a
+	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~
 	inc		de
 	cpi
 	jp		pe, v_offsok_loop
