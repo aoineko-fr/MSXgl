@@ -19,6 +19,12 @@
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
 
+struct SpriteData
+{
+	u8 X;
+	u8 Y;
+};
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -31,16 +37,93 @@
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
 #include "content/data_sprt_layer.h"
 
-const u8 g_Cloud1[] = { 1, 2, 3, 4, 5 };
-const u8 g_Cloud2[] = { 6, 7 };
+const u8 g_BallColor[8] = { COLOR_WHITE, COLOR_LIGHT_GREEN, COLOR_LIGHT_RED, COLOR_LIGHT_YELLOW, COLOR_LIGHT_BLUE, COLOR_MEDIUM_GREEN, COLOR_MEDIUM_RED, COLOR_MAGENTA };
+
+const u8 g_DataSprtBall[] =
+{
+// ======== Frame[0]
+// ---- Layer[0] (16x16 0,0 1,1 inc 2)
+// Sprite[0] (offset:0)
+	0x07, /* .....### */ 
+	0x1F, /* ...##### */ 
+	0x3F, /* ..###### */ 
+	0x7F, /* .####### */ 
+	0x7F, /* .####### */ 
+	0xFF, /* ######## */ 
+	0xFF, /* ######## */ 
+	0xFF, /* ######## */ 
+// Sprite[1] (offset:8)
+	0xFF, /* ######## */ 
+	0xFF, /* ######## */ 
+	0xFF, /* ######## */ 
+	0x7F, /* .####### */ 
+	0x7F, /* .####### */ 
+	0x3F, /* ..###### */ 
+	0x1F, /* ...##### */ 
+	0x07, /* .....### */ 
+// Sprite[2] (offset:16)
+	0xE0, /* ###..... */ 
+	0xF8, /* #####... */ 
+	0xFC, /* ######.. */ 
+	0xFE, /* #######. */ 
+	0xFE, /* #######. */ 
+	0xFF, /* ######## */ 
+	0xFF, /* ######## */ 
+	0xFF, /* ######## */ 
+// Sprite[3] (offset:24)
+	0xFF, /* ######## */ 
+	0xFF, /* ######## */ 
+	0xFF, /* ######## */ 
+	0xFE, /* #######. */ 
+	0xFE, /* #######. */ 
+	0xFC, /* ######.. */ 
+	0xF8, /* #####... */ 
+	0xE0, /* ###..... */ 
+};
+
+//
+const u16 g_SATAddr[] = { 0x1E00, 0x4200 };
 
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
+struct SpriteData g_SpriteData[29*2];
+
+// Screen mode setting index
+u8 g_VBlank = 0;
+u8 g_Frame = 0;
+
 //=============================================================================
 // HELPER FUNCTIONS
 //=============================================================================
+
+//-----------------------------------------------------------------------------
+//
+void VDP_InterruptHandler() // VBlank
+{
+	g_VBlank = 1;
+}
+
+//-----------------------------------------------------------------------------
+// Wait for V-Blank period
+void WaitVBlank()
+{
+	while(g_VBlank == 0) {}
+	g_VBlank = 0;
+	g_Frame++;
+	VDP_SetSpriteAttributeTable(g_SATAddr[0]);
+	VDP_SetColor(COLOR_DARK_BLUE);
+}
+
+
+//-----------------------------------------------------------------------------
+//
+void VDP_HBlankHandler()
+{
+	VDP_SetSpriteAttributeTable(g_SATAddr[1]);
+	VDP_SetColor(COLOR_LIGHT_BLUE);
+}
 
 //=============================================================================
 // MAIN LOOP
@@ -54,10 +137,12 @@ void main()
 
 	// Initialize video
 	VDP_SetMode(VDP_MODE_GRAPHIC3_MIRROR); // Screen mode 4 (G3) with mirrored pattern/color table
-	VDP_EnableVBlank(TRUE);
 	VDP_SetLineCount(VDP_LINE_212);
 	VDP_SetColor(0xF5);
 	VDP_ClearVRAM();
+	// Interruption
+	VDP_EnableVBlank(TRUE);
+	VDP_EnableHBlank(TRUE);
 
 	// Generate tiles data
 	//-- Bank 0
@@ -98,23 +183,62 @@ void main()
 	u8 X = 100, Y = 100;
 	VDP_EnableSprite(TRUE);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
+	VDP_LoadSpritePattern(g_DataSprtBall, 0, 4);
 	VDP_LoadSpritePattern(g_DataSprtLayer, 32, 13*4*4);
-	VDP_SetSpriteExUniColor(0, X, Y, 32, COLOR_BLACK);
-	VDP_SetSpriteExUniColor(1, X, Y, 36, COLOR_WHITE);
-	VDP_SetSpriteExUniColor(2, X, Y, 40, COLOR_LIGHT_RED);
-	VDP_DisableSpritesFrom(3);
 
-	u8 frame = 0;
+	loop(s, 2)
+	{
+		g_SpriteAtributeLow = g_SATAddr[s];
+		g_SpriteAtributeHigh = 0;
+
+		VDP_SetSpriteExUniColor(0, X, Y, 32, COLOR_BLACK);
+		VDP_SetSpriteExUniColor(1, X, Y, 36, COLOR_WHITE);
+		VDP_SetSpriteExUniColor(2, X, Y, 40, COLOR_LIGHT_RED);
+
+		for(u8 i = 3; i < 32; ++i)
+		{
+			u8 idx = i - 3;
+			if(s)
+				idx += 29;
+			struct SpriteData* sprt = &g_SpriteData[idx];
+			sprt->X = Math_GetRandom8();
+			sprt->Y = Math_GetRandom8() % (106 - 16);
+			if(s)
+				sprt->Y += 106;
+			VDP_SetSpriteExUniColor(i, sprt->X, sprt->Y, 0, g_BallColor[(sprt->X + sprt->Y) % 8]);
+		}
+	}
+
 	u8 shape = 6;
 	u8 prevRow8 = 0xFF;
 	while(1)
 	{
 		// Wait for v-synch
-		Halt();
-		VDP_SetVerticalOffset(frame);
-		VDP_SetSprite(0, X, Y + frame, 32 + shape * 16);
-		VDP_SetSprite(1, X, Y + frame, 36 + shape * 16);
-		VDP_SetSprite(2, X, Y + frame, 40 + shape * 16);
+		WaitVBlank();
+		VDP_SetHBlankLine(106 + g_Frame);
+		VDP_SetVerticalOffset(g_Frame);
+
+		loop(s, 2)
+		{
+			// Update SAT address
+			g_SpriteAtributeLow = g_SATAddr[s];
+			g_SpriteAtributeHigh = 0;
+
+			// Update player sprites
+			VDP_SetSprite(0, X, Y + g_Frame, 32 + shape * 16);
+			VDP_SetSprite(1, X, Y + g_Frame, 36 + shape * 16);
+			VDP_SetSprite(2, X, Y + g_Frame, 40 + shape * 16);
+
+			// Update balloon sprites
+			for(u8 i = 3; i < 32; ++i)
+			{
+				u8 idx = i - 3;
+				if(s)
+					idx += 29;
+				struct SpriteData* sprt = &g_SpriteData[idx];
+				VDP_SetSpritePositionY(i, sprt->Y + g_Frame);
+			}
+		}
 
 		u8 row0 = Keyboard_Read(0);
 		if(IS_KEY_PRESSED(row0, KEY_1))
@@ -132,25 +256,23 @@ void main()
 		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
 			X++;
-			shape = (frame >> 2) % 6;
+			shape = (g_Frame >> 2) % 6;
 		}
 		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
 			X--;
-			shape = (frame >> 2) % 6;
+			shape = (g_Frame >> 2) % 6;
 		}
 		if(IS_KEY_PRESSED(row8, KEY_DOWN))
 		{
 			Y++;
-			shape = (frame >> 2) % 6;
+			shape = (g_Frame >> 2) % 6;
 		}
 		else if(IS_KEY_PRESSED(row8, KEY_UP))
 		{
 			Y--;
-			shape = (frame >> 2) % 6;
+			shape = (g_Frame >> 2) % 6;
 		}
 		prevRow8 = row8;
-
-		frame++;
 	}
 }
