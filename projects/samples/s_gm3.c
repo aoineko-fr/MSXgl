@@ -19,6 +19,8 @@
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
 
+#define SPLIT_LINE (106 - 6)
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -134,9 +136,6 @@ void main()
 	VDP_SetLineCount(VDP_LINE_212);
 	VDP_SetColor(0xF5);
 	VDP_ClearVRAM();
-	// Interruption
-	VDP_EnableVBlank(TRUE);
-	VDP_EnableHBlank(TRUE);
 
 	// Generate tiles data
 	//-- Bank 0
@@ -177,6 +176,7 @@ void main()
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 	VDP_LoadSpritePattern(g_DataSprtBall, 0, 4);
 	VDP_LoadSpritePattern(g_DataSprtLayer, 8*4, 13*4*4);
+	
 	loop(s, 2)
 	{
 		g_SpriteAtributeLow = g_SATAddr[s];
@@ -200,13 +200,17 @@ void main()
 		}
 	}
 
+	// Interruption
+	VDP_EnableVBlank(TRUE);
+	VDP_EnableHBlank(TRUE);
+
 	u8 shape = 6;
 	u8 prevRow8 = 0xFF;
 	while(1)
 	{
 		// Wait for v-synch
 		WaitVBlank();
-		VDP_SetHBlankLine(106 + g_Frame);
+		VDP_SetHBlankLine(SPLIT_LINE + g_Frame);
 		VDP_SetVerticalOffset(g_Frame);
 
 		loop(s, 2)
