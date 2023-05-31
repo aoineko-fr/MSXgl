@@ -19,7 +19,7 @@
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
 
-#define SPLIT_LINE (106 - 6)
+#define SPLIT_LINE (106 - 5)
 
 //=============================================================================
 // READ-ONLY DATA
