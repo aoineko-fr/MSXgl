@@ -19,12 +19,6 @@
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
 
-struct SpriteData
-{
-	u8 X;
-	u8 Y;
-};
-
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -88,7 +82,7 @@ const u16 g_SATAddr[] = { 0x1E00, 0x4200 };
 // MEMORY DATA
 //=============================================================================
 
-struct SpriteData g_SpriteData[29*2];
+struct VDP_Sprite g_SpriteData[29*2];
 
 // Screen mode setting index
 u8 g_VBlank = 0;
@@ -157,7 +151,6 @@ void main()
 	bankAddr += 256 * 8;
 	VDP_WriteVRAM_16K(g_Font_MGL_Sample8 + 4 + 8 * 156, g_ScreenPatternLow + 8 + bankAddr, 8);
 	VDP_FillVRAM_16K(0x96, g_ScreenColorLow + bankAddr, 256 * 8);
-
 	// Generate layout
 	u16 addr = g_ScreenLayoutLow;
 	for(u16 i = 0; i < 1024; ++i)
@@ -173,7 +166,6 @@ void main()
 	Print_Initialize();
 	Print_SetMode(PRINT_MODE_TEXT);
 	VDP_WriteVRAM(g_PrintData.FontPatterns, g_ScreenPatternLow + (32 * 8), 0, g_PrintData.CharCount * 8); // Load data to VRAM
-
 	// Print header
 	Print_DrawTextAt(0, 0, "MSXgl - GM3 Sample");
 	Print_DrawTextAt(0, 1, " [1]:Mirror 0    [2]:Mirror 01");
@@ -184,12 +176,13 @@ void main()
 	VDP_EnableSprite(TRUE);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 	VDP_LoadSpritePattern(g_DataSprtBall, 0, 4);
-	VDP_LoadSpritePattern(g_DataSprtLayer, 32, 13*4*4);
-
+	VDP_LoadSpritePattern(g_DataSprtLayer, 8*4, 13*4*4);
 	loop(s, 2)
 	{
 		g_SpriteAtributeLow = g_SATAddr[s];
 		g_SpriteAtributeHigh = 0;
+		g_SpriteColorLow = g_SpriteAtributeLow - 0x200;
+		g_SpriteColorHigh = 0;
 
 		VDP_SetSpriteExUniColor(0, X, Y, 32, COLOR_BLACK);
 		VDP_SetSpriteExUniColor(1, X, Y, 36, COLOR_WHITE);
@@ -197,15 +190,13 @@ void main()
 
 		for(u8 i = 3; i < 32; ++i)
 		{
-			u8 idx = i - 3;
-			if(s)
-				idx += 29;
-			struct SpriteData* sprt = &g_SpriteData[idx];
+			u8 idx = i - 3 + (s * 29);
+			struct VDP_Sprite* sprt = &g_SpriteData[idx];
 			sprt->X = Math_GetRandom8();
-			sprt->Y = Math_GetRandom8() % (106 - 16);
-			if(s)
-				sprt->Y += 106;
-			VDP_SetSpriteExUniColor(i, sprt->X, sprt->Y, 0, g_BallColor[(sprt->X + sprt->Y) % 8]);
+			sprt->Y = Math_GetRandom8() % (106 - 16) + (s * 106);
+			sprt->Pattern = 0;
+			sprt->Color = g_BallColor[Math_GetRandom8() % 8];
+			VDP_SetSpriteExUniColor(i, sprt->X, sprt->Y, sprt->Pattern, sprt->Color);
 		}
 	}
 
@@ -223,6 +214,8 @@ void main()
 			// Update SAT address
 			g_SpriteAtributeLow = g_SATAddr[s];
 			g_SpriteAtributeHigh = 0;
+			g_SpriteColorLow = g_SpriteAtributeLow - 0x200;
+			g_SpriteColorHigh = 0;
 
 			// Update player sprites
 			VDP_SetSprite(0, X, Y + g_Frame, 32 + shape * 16);
@@ -235,7 +228,7 @@ void main()
 				u8 idx = i - 3;
 				if(s)
 					idx += 29;
-				struct SpriteData* sprt = &g_SpriteData[idx];
+				struct VDP_Sprite* sprt = &g_SpriteData[idx];
 				VDP_SetSpritePositionY(i, sprt->Y + g_Frame);
 			}
 		}

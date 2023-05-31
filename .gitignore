@@ -64,3 +64,4 @@ testcases
 /tools/openMSX_18
 /tools/RuMSX
 /tools/MSXtk/proj/*.user
+projects/default_config.js
