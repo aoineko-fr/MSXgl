@@ -193,7 +193,7 @@ void main()
 			u8 idx = i - 3 + (s * 29);
 			struct VDP_Sprite* sprt = &g_SpriteData[idx];
 			sprt->X = Math_GetRandom8();
-			sprt->Y = Math_GetRandom8() % (106 - 16) + (s * 106);
+			sprt->Y = (106 - 16) * (i - 3) / 29 /*Math_GetRandom8() % (106 - 16)*/ + (s * 106);
 			sprt->Pattern = 0;
 			sprt->Color = g_BallColor[Math_GetRandom8() % 8];
 			VDP_SetSpriteExUniColor(i, sprt->X, sprt->Y, sprt->Pattern, sprt->Color);
@@ -222,9 +222,12 @@ void main()
 			g_SpriteColorHigh = 0;
 
 			// Update player sprites
-			VDP_SetSprite(0, X, Y + g_Frame, 32 + shape * 16);
-			VDP_SetSprite(1, X, Y + g_Frame, 36 + shape * 16);
-			VDP_SetSprite(2, X, Y + g_Frame, 40 + shape * 16);
+			u8 y = Y + g_Frame;
+			if(y == 216)
+				y++;
+			VDP_SetSprite(0, X, y, 32 + shape * 16);
+			VDP_SetSprite(1, X, y, 36 + shape * 16);
+			VDP_SetSprite(2, X, y, 40 + shape * 16);
 
 			// Update balloon sprites
 			for(u8 i = 3; i < 32; ++i)
@@ -233,7 +236,10 @@ void main()
 				if(s)
 					idx += 29;
 				struct VDP_Sprite* sprt = &g_SpriteData[idx];
-				VDP_SetSpritePositionY(i, sprt->Y + g_Frame);
+				u8 y = sprt->Y + g_Frame;
+				if(y == 216)
+					y++;
+				VDP_SetSpritePositionY(i, y);
 			}
 		}
 
