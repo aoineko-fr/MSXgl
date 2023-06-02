@@ -40,7 +40,7 @@ u8 g_PAC_Current;
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-//
+// Read data using interslot code
 void PAC_ReadInterSlot(u8 slot, u16 addr, u8* data, u16 size)
 {
 	for(u16 i = 0; i < size; ++i)
@@ -49,7 +49,7 @@ void PAC_ReadInterSlot(u8 slot, u16 addr, u8* data, u16 size)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Write data using interslot code
 void PAC_WriteInterSlot(u8 slot, u16 addr, const u8* data, u16 size)
 {
 	for(u16 i = 0; i < size; ++i)
@@ -58,7 +58,7 @@ void PAC_WriteInterSlot(u8 slot, u16 addr, const u8* data, u16 size)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Check SRAM in the given slot
 void PAC_CheckSlot(u8 slot)
 {
 	if(g_PAC_Num >= PAC_DEVICE_MAX)
@@ -89,7 +89,7 @@ void PAC_CheckSlot(u8 slot)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Search for PAC compatile SRAM
 bool PAC_Search()
 {
 	// Initialize
@@ -116,7 +116,7 @@ bool PAC_Search()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Initialize PAC module
 bool PAC_Initialize()
 {
 	if(!PAC_Search())
@@ -129,7 +129,7 @@ bool PAC_Initialize()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Activate or disactive the current PAC device
 void PAC_Activate(bool bEnable)
 {
 	if(bEnable)
@@ -145,7 +145,7 @@ void PAC_Activate(bool bEnable)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Write data to the current PAC device in the given page
 void PAC_Write(u8 page, const u8* data, u16 size)
 {
 	#if (PAC_USE_VALIDATOR)
@@ -168,7 +168,7 @@ void PAC_Write(u8 page, const u8* data, u16 size)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Read data from the current PAC device in the given page
 void PAC_Read(u8 page, u8* data, u16 size)
 {
 	#if (PAC_USE_VALIDATOR)
@@ -189,7 +189,7 @@ void PAC_Read(u8 page, u8* data, u16 size)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Format the given page in the current PAC device
 void PAC_Format(u8 page)
 {
 	#if (PAC_USE_VALIDATOR)
@@ -209,7 +209,7 @@ void PAC_Format(u8 page)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Check the stat of the given page in the current PAC device
 u8 PAC_Check(u8 page)
 {
 	#if (PAC_USE_VALIDATOR)
@@ -244,12 +244,6 @@ u8 PAC_Check(u8 page)
 
 	return PAC_CHECK_EMPTY;
 }
-
-
-
-
-
-
 
 /*void PAC_Search()
 {
