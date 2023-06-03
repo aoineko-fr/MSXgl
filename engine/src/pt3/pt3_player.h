@@ -181,9 +181,9 @@ void PT3_Init();
 // Function: PT3_InitSong
 // Initialize a given song to make it ready to playback
 //
-// Parameters: PT3_InitSong
+// Parameters:
 //   songAddr	- Start address of the data. If PT3_SKIP_HEADER is set, this address must be header address + 100 (if the data are not troncated)
-void PT3_InitSong(const void* songADDR) __z88dk_fastcall;
+void PT3_InitSong(const void* songADDR);
 
 // Function: PT3_Pause
 // Pause song playback
@@ -198,7 +198,7 @@ void PT3_Resume();
 //
 // Parameters:
 //   loop		- Either loop or not (TRUE: do loop; FALSE: don't loop)
-void PT3_SetLoop(bool loop) __z88dk_fastcall; 
+void PT3_SetLoop(bool loop); 
 
 // Function: PT3_Silence
 // Silence the PSG
@@ -210,7 +210,7 @@ void PT3_Decode();
 
 // Function: PT3_UpdatePSG
 // Send data to PSG registers
-// @note					Must be executed on each V-Blank interruption
+// Must be executed on each V-Blank interruption
 void PT3_UpdatePSG();
 
 // Group: Inline
@@ -226,28 +226,19 @@ inline void PT3_SetNoteTable(const void* nt) { PT3_NoteTable = nt; }
 // Check if loop flag is set
 //
 // Returns:
-//   True (1) if loop flag is set, FALSE (0) otherwise
-inline bool PT3_GetLoop()
-{
-	return (PT3_State & PT3_STATE_LOOP);
-}
+//   FALSE if loop flag is not set
+inline bool PT3_GetLoop() { return (PT3_State & PT3_STATE_LOOP); }
 
 // Function: PT3_IsPlaying
 // Check if playback flag is set
 //
 // Returns:
-//	 True (1) if playback flag is set, FALSE (0) otherwise
-inline bool PT3_IsPlaying()
-{
-	return (PT3_State & PT3_STATE_PLAY);
-}
+//	 FALSE if playback flag is not set
+inline bool PT3_IsPlaying() { return (PT3_State & PT3_STATE_PLAY); }
 
 // Function: PT3_Play
 // Play the current music
-inline void PT3_Play()
-{
-	PT3_Resume();
-}
+inline void PT3_Play() { PT3_Resume(); }
 
 // Function: PT3_GetVolume
 // Get the current amplitude of a given channel
@@ -259,12 +250,9 @@ inline void PT3_Play()
 //   Volume in bits #0 to #3 and envelope seting in bit #4
 // :	7	6	5	4	3	2	1	0	
 // :	x	x	x	M	L3	L2	L1	L0 	
-// :  			│	└───┴───┴───┴── Channel A Amplitude (volume)
-// :			└────────────────── Volume controlled by Envelope enable/disable
-inline u8 PT3_GetVolume(u8 chan)
-{
-	return PT3_Regs[PSG_REG_AMP_A + chan] & 0x0F;
-}
+// :  				│	└───┴───┴───┴── Channel A Amplitude (volume)
+// :				└────────────────── Volume controlled by Envelope enable/disable
+inline u8 PT3_GetVolume(u8 chan) { return PT3_Regs[PSG_REG_AMP_A + chan] & 0x0F; }
 
 // Function: PT3_GetFrequency
 // Get the current frequency of a given channel
@@ -276,10 +264,7 @@ inline u8 PT3_GetVolume(u8 chan)
 //   12-bits tone period (1 to 4095).
 //   Frequency = 111,861 Hz / Period.
 //   Reange from 111,861 Hz (divide by 1) down to 27.3 Hz (divide by 4095)
-inline u16 PT3_GetFrequency(u8 chan)
-{
-	return *(u16*)&PT3_Regs[PSG_REG_TONE_A + chan * 2];
-}
+inline u16 PT3_GetFrequency(u8 chan) { return *(u16*)&PT3_Regs[PSG_REG_TONE_A + chan * 2]; }
 
 // Function: PT3_GetPSGRegister
 // Get a given PSG register value
@@ -289,10 +274,7 @@ inline u16 PT3_GetFrequency(u8 chan)
 //
 // Returns:
 //   Value of the given register in the PT3 buffer
-inline u8 PT3_GetPSGRegister(u8 reg)
-{
-	return PT3_Regs[reg];
-}
+inline u8 PT3_GetPSGRegister(u8 reg) { return PT3_Regs[reg]; }
 
 #if (PT3_EXTRA)
 	
@@ -304,10 +286,7 @@ inline u8 PT3_GetPSGRegister(u8 reg)
 //
 // Returns:
 //   Pattern number between 0 and max
-inline u8 PT3_GetPattern()
-{
-	return PT3_CrPsPtr - PT3_SrtCrPsPtr;
-}
+inline u8 PT3_GetPattern() { return PT3_CrPsPtr - PT3_SrtCrPsPtr; }
 
 //-----------------------------------------------------------------------------
 // Function: PT3_Mute
@@ -327,10 +306,10 @@ inline void PT3_Mute(u8 chan, bool mute)
 //-----------------------------------------------------------------------------
 // Function: PT3_SetFinishCB
 // Set the function to be call when the music ended
-inline u8 PT3_SetFinishCB(callback cb)
-{
-	PT3_Finish = cb; 
-}
+//
+// Parameters:
+//	 cb		- Function to be called when music ends
+inline void PT3_SetFinishCB(callback cb) { PT3_Finish = cb;  }
 
 #endif // (PT3_EXTRA)
 

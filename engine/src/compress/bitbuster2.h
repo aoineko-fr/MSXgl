@@ -13,4 +13,8 @@
 
 // Function: Bitbuster2_UnpackToRAM
 // Unpack Bitbuster 2 compressed data to a RAM buffer
+//
+// Paramaters:
+//   source	- Address of the source data.
+//   dest	- Address of unpack destination in RAM.
 void Bitbuster2_UnpackToRAM(const void* source, void* dest);

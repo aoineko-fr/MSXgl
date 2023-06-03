@@ -182,11 +182,10 @@ __endasm;
 /// Initialize a given song to make it ready to playback
 /// @param		songAddr	Start address of the data
 ///							If PT3_SKIP_HEADER is set, this address must be header address + 100 (if the data are not troncated)
-void PT3_InitSong(const void* songAddr) __z88dk_fastcall
+void PT3_InitSong(const void* songAddr)
 {
-	songAddr;
+	songAddr; // HL
 __asm
-									// HL = songAddr
 #if (PT3_SKIP_HEADER)
 	ld		DE, #-100
 	add		HL, DE
@@ -294,12 +293,11 @@ __endasm;
 //-----------------------------------------------------------------------------
 /// Change state of playback loop
 /// @param		loop		Either loop or not (TRUE: do loop; FALSE: don't loop)
-void PT3_SetLoop(u8 loop) __z88dk_fastcall
+void PT3_SetLoop(u8 loop)
 {
-loop;
+	loop; // A
 __asm
 
-	ld		A, L					// Fastcall parameter
 	ld		HL, #_PT3_State
 	or		A
 	jr		NZ, LoopON

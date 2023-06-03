@@ -98,6 +98,10 @@ extern u8        g_VGM_State;
 
 // Function: VGM_Play
 // Start music playback
+//
+// Parameters:
+//   addr - Address of source data
+//   loop - If set to TRUE, playback restart when end is reached 
 bool VGM_Play(const void* addr, bool loop);
 
 // Function: VGM_Stop
@@ -106,14 +110,17 @@ void VGM_Stop();
 
 // Function: VGM_SetFrequency50Hz
 // Change frequency to 50 Hz
-inline bool VGM_SetFrequency50Hz() { g_VGM_State |= VGM_STATE_50HZ; g_VGM_WaitFrame = VGM_WAIT_50HZ; }
+inline void VGM_SetFrequency50Hz() { g_VGM_State |= VGM_STATE_50HZ; g_VGM_WaitFrame = VGM_WAIT_50HZ; }
 
 // Function: VGM_SetFrequency60Hz
 // Change frequency to 60 Hz
-inline bool VGM_SetFrequency60Hz() { g_VGM_State &= ~VGM_STATE_50HZ; g_VGM_WaitFrame = VGM_WAIT_60HZ; }
+inline void VGM_SetFrequency60Hz() { g_VGM_State &= ~VGM_STATE_50HZ; g_VGM_WaitFrame = VGM_WAIT_60HZ; }
 
 // Function: VGM_IsPlaying
 // Check if music playing
+//
+// Return:
+//   FALSE if music is not playing
 inline bool VGM_IsPlaying() { return g_VGM_State & VGM_STATE_PLAY; }
 
 // Function: VGM_Resume
@@ -130,16 +137,28 @@ void VGM_Decode();
 
 // Function: VGM_ContainsPSG
 // Check if initialized song contains PSG data
+//
+// Return:
+//   FALSE if music dont contains PSG data
 inline bool VGM_ContainsPSG() { return (g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock; }
 
 // Function: VGM_ContainsMSXMusic
 // Check if initialized song contains MSX-Music data
+//
+// Return:
+//   FALSE if music dont contains MSX-Music data
 inline bool VGM_ContainsMSXMusic() { return g_VGM_Header->YM2413_clock; }
 
 // Function: VGM_ContainsMSXAudio
 // Check if initialized song contains MSX-Audio data
+//
+// Return:
+//   FALSE if music dont contains MSX-Audio data
 inline bool VGM_ContainsMSXAudio() { return (g_VGM_Header->Version >= 0x0151) && g_VGM_Header->Y8950_clock; }
 
 // Function: VGM_ContainsSCC
 // Check if initialized song contains SCC data
+//
+// Return:
+//   FALSE if music dont contains SCC data
 inline bool VGM_ContainsSCC() { return (g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock; }

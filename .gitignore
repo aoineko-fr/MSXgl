@@ -6,6 +6,7 @@ testcases
 *.xcf
 *.map
 *.noi
+/projects/default_config.js
 
 /engine/doc/Natural Docs
 /engine/doc/NaturalDocs_Config/Working Data
@@ -32,6 +33,7 @@ testcases
 /projects/screen3rot
 /projects/ls
 /projects/Tetpuz
+/projects/Koneko
 /projects/samples/datasrc/pcm
 /projects/samples/datasrc/pt3
 /projects/samples/datasrc/vgm
@@ -64,4 +66,3 @@ testcases
 /tools/openMSX_18
 /tools/RuMSX
 /tools/MSXtk/proj/*.user
-projects/default_config.js

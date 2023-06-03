@@ -36,6 +36,7 @@
 #define AYFX_USE_RELATIVE 0
 #define AYFX_USE_CALLBACK 1
 
+// ayFX modes
 enum AYFX_MODE
 {
 	AYFX_MODE_FIXED   = 0,	// All sounds are played in the same channel
@@ -73,7 +74,7 @@ extern callback ayFX_Finish; // Finish callback
 //
 // Paramaters:
 //   bank	- Pointer to the ayFX bank data
-void ayFX_InitBank(void* bank) __FASTCALL;
+void ayFX_InitBank(void* bank);
 
 // Function: ayFX_PlayBank
 // Play a ayFX sound
@@ -81,17 +82,17 @@ void ayFX_InitBank(void* bank) __FASTCALL;
 // Paramaters:
 //   id		- Sound index in the bank
 //   prio	- Priority of the sound (0-15). 0 is the highest priority.
+//
 // Returns:
-//   Error number (if any) @see AYFX_ERROR
-#define ayFX_PlayBank(id, prio) ayFX_PlayBankFC(FC88(prio, id))
-u8 ayFX_PlayBankFC(u16 id_prio) __FASTCALL;
+//   Error number (if any). See <AYFX_ERROR>.
+u8 ayFX_PlayBank(u8 id, u8 prio);
 
 // Function: ayFX_Play
 // Play a SFX directly from data pointer
 //
 // Paramaters:
 //   file	- Pointer to AFX file data
-u8 ayFX_Play(void* data) __FASTCALL;
+void ayFX_Play(void* data);
 
 // Function: ayFX_Stop
 // Stop the sound playback
@@ -107,20 +108,35 @@ void ayFX_Update();
 
 // Function: ayFX_SetMode
 // Set channel mode
+//
+// Paramaters:
+//   mode	- Playback mode. See <AYFX_MODE>.
 inline void ayFX_SetMode(u8 mode) { ayFX_Mode = mode; }
 
 // Function: ayFX_SetChannel
 // Set the channel to use for sound playback
+//
+// Paramaters:
+//   chan	- Channel number for sound playback.
 inline void ayFX_SetChannel(u8 chan) { ayFX_Channel = 3 - chan; }
 
 // Function: ayFX_GetChannel
 // Get the channel used for sound playback
+//
+// Return:
+//   Channel numberused for sound playback.
 inline u8 ayFX_GetChannel() { return 3 - ayFX_Channel; }
 
 // Function: ayFX_GetBankNumber
 // Get number of sound in the bank
+//
+// Return:
+//   Number of sound in the bank
 inline u8 ayFX_GetBankNumber() { return *(u8*)ayFX_Bank; }
 
 // Function: ayFX_SetFinishCB
 // Set the function to be call when a sound ended
-inline u8 ayFX_SetFinishCB(callback cb) { ayFX_Finish = cb; }
+//
+// Paramaters:
+//   cb	- Function pointer to be called when sound end
+inline void ayFX_SetFinishCB(callback cb) { ayFX_Finish = cb; }

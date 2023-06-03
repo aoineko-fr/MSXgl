@@ -27,7 +27,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "bitbuster2.h"
 
-// File: bitbuster
+// File bitbuster
 //
 //	The bitbuster module gives you depack support for data packed
 //	using the bitbuster algorithm.

@@ -1,1 +1,0 @@
-﻿NDSummary.OnToolTipsLoaded("File:compress/bitbuster2.c",{51:"<div class=\"NDToolTip TFile LC\"><div class=\"TTSummary\">The bitbuster module gives you depack support for data packed using the bitbuster algorithm.</div></div>"});

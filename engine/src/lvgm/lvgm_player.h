@@ -60,6 +60,10 @@ extern const u8  g_LVGM_Ident[4];
 
 // Function: LVGM_Play
 // Start music playback
+//
+// Paramaters:
+//   addr	- Address of source data
+//   loop	- Is music looping?
 bool LVGM_Play(const void* addr, bool loop);
 
 // Function: LVGM_Stop
@@ -68,14 +72,23 @@ void LVGM_Stop();
 
 // Function: LVGM_SetFrequency50Hz
 // Change frequency to 50 Hz
+//
+// Return:
+//   FALSE if music frequency is not 50 Hz
 inline bool LVGM_SetFrequency50Hz() { g_LVGM_State |= LVGM_STATE_50HZ; }
 
 // Function: LVGM_SetFrequency60Hz
 // Change frequency to 60 Hz
+//
+// Return:
+//   FALSE if music frequency is not 60 Hz
 inline bool LVGM_SetFrequency60Hz() { g_LVGM_State &= ~LVGM_STATE_50HZ; }
 
 // Function: LVGM_IsPlaying
 // Check if music playing
+//
+// Return:
+//   FALSE if music is not playing
 inline bool LVGM_IsPlaying() { return g_LVGM_State & LVGM_STATE_PLAY; }
 
 // Function: LVGM_Resume

@@ -20,17 +20,17 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "ayfx_player.h"
 
-/// ayFX mode
+// ayFX mode
 u8  ayFX_Mode = AYFX_MODE_FIXED;
 //	x	x	x	x	x	x	PS	FS
 //	7	6	5	4	3	2	1	0	
 //							│	└── Channel frame-switch mode (inc channel at each update)
 //							└────── Channel play-switch mode (inc channel at each play)
 
-/// Current ayFX Bank
+// Current ayFX Bank
 u16 ayFX_Bank;
 
-/// Current ayFX stream priotity
+// Current ayFX stream priotity
 u8  ayFX_Priority = 0xFF;
 //	M	x	x	x	P3	P2	P1	P0
 //	7	6	5	4	3	2	1	0	
@@ -57,8 +57,8 @@ u8  ayFX_Channel = 3 - PSG_CHANNEL_C;
 u16 ayFX_VT;
 #endif
 
-/// Finish callback
-/// @note Can be:	ayFX_Stop to only stop the sound playback
+// Finish callback
+// @note Can be:	ayFX_Stop to only stop the sound playback
 ///					ayFX_Mute to stop the sound playback and mute the ayFX current channel
 ///					Any custom callback from application (must handle playback termination and mute as needed)
 callback ayFX_Finish = ayFX_Mute;
@@ -66,9 +66,9 @@ callback ayFX_Finish = ayFX_Mute;
 #define AYREGS _PT3_Regs
 
 //-----------------------------------------------------------------------------
-/// Setup the ayFX replayer
-/// @param		bank		Pointer to the ayFX bank
-void ayFX_InitBank(void* bank) __FASTCALL
+// Setup the ayFX replayer
+// @param		bank		Pointer to the ayFX bank
+void ayFX_InitBank(void* bank)
 {
 	bank;	// HL
 	__asm
@@ -85,22 +85,21 @@ void ayFX_InitBank(void* bank) __FASTCALL
 }	
 
 //-----------------------------------------------------------------------------
-/// Play a ayFX sound
-/// @param		id		Sound index in the bank
-/// @param		prio	Priority of the sound (0-15). 0 is the highest priority.
-/// @return				Error number (if any) @see AYFX_ERROR
-u8 ayFX_PlayBankFC(u16 snd_prio) __FASTCALL __naked
+// Play a ayFX sound
+// @param		id		Sound index in the bank
+// @param		prio	Priority of the sound (0-15). 0 is the highest priority.
+// @return				Error number (if any) @see AYFX_ERROR
+u8 ayFX_PlayBank(u8 id, u8 prio) __NAKED
 {
-	snd_prio;	// HL
+	id;		// A
+	prio;	// L 
 	__asm
-		// Fastcall init
-		ld		a, l
-		ld		c, h
+		ld		c, l
 		// --- INPUT: L -> sound to be played ---
 		// ---        H -> sound priority     ---
-		push	bc					// Store bc in stack
-		push	de					// Store de in stack
-		push	hl					// Store hl in stack
+		// push	bc					// Store bc in stack
+		// push	de					// Store de in stack
+		// push	hl					// Store hl in stack
 		// --- Check if the index is in the bank ---
 		ld		b, a				// b:=a (new ayFX stream index)
 		ld		hl, (_ayFX_Bank)	// Current ayFX BANK
@@ -157,10 +156,10 @@ u8 ayFX_PlayBankFC(u16 snd_prio) __FASTCALL __naked
 		ld		(_ayFX_Pointer), hl	// Pointer saved in RAM
 		xor		a					// a:=0 (no errors)
 	INIT_END:
-		pop		hl					// Retrieve hl from stack
-		pop		de					// Retrieve de from stack
-		pop		bc					// Retrieve bc from stack
-		ld		l, a				// Set return value
+		// pop		hl					// Retrieve hl from stack
+		// pop		de					// Retrieve de from stack
+		// pop		bc					// Retrieve bc from stack
+		// ld		l, a				// Set return value
 		ret							// Return
 
 	#if (AYFX_RELATIVE)
@@ -174,9 +173,9 @@ u8 ayFX_PlayBankFC(u16 snd_prio) __FASTCALL __naked
 }
 
 //-----------------------------------------------------------------------------
-/// Play a SFX directly from data pointer
-/// @param		file	Pointer to AFX file data
-u8 ayFX_Play(void* data) __FASTCALL
+// Play a SFX directly from data pointer
+// @param		file	Pointer to AFX file data
+void ayFX_Play(void* data)
 {
 	data; // HL
 	__asm
@@ -187,7 +186,7 @@ u8 ayFX_Play(void* data) __FASTCALL
 }
 
 //-----------------------------------------------------------------------------
-/// Play a frame of an ayFX stream
+// Play a frame of an ayFX stream
 void ayFX_Update()
 {
 	__asm
@@ -324,7 +323,7 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-/// Stop the sound playback and mute the channel
+// Stop the sound playback and mute the channel
 void ayFX_Mute()
 {
 	__asm
@@ -354,7 +353,7 @@ void ayFX_Mute()
 }
 
 //-----------------------------------------------------------------------------
-/// Stop the sound playback
+// Stop the sound playback
 void ayFX_Stop()
 {
 	__asm

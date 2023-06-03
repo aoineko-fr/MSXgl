@@ -14,4 +14,8 @@
 // Function: PCM_Play
 // Play a PCM sound at 8 or 11 KHz (synchronously).
 // PCMPLAY_FREQ define must be PCMPLAY_8K or PCMPLAY_11K.
+//
+// Paramaters:
+//   addr	- Address of source data
+//   size	- Size of source data
 void PCM_Play(void* addr, u16 size);

@@ -15,4 +15,8 @@
 
 // Function: ZX0_UnpackToRAM
 // Unpack ZX0 compressed data to a RAM buffer
+//
+// Paramaters:
+//   source	- Address of the source data.
+//   dest	- Address of unpack destination in RAM.
 void ZX0_UnpackToRAM(const void* source, void* dest);
