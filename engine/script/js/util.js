@@ -88,6 +88,16 @@ module.exports.getDateString = function ()
 	return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
+// Get time in millisconds as a string
+module.exports.getTimeString = function (elapsTime)
+{
+	const millis = ('0000' + Math.floor(elapsTime) % 1000).slice(-4);
+	const secs = ('00' + Math.floor(elapsTime / 1000) % 60).slice(-2);
+	const mins = ('00' + Math.floor(elapsTime / 1000 / 60) % 60).slice(-2);
+	const hours = ('00' + Math.floor(elapsTime / 1000 / 60 / 60)).slice(-2);
+	return `${hours}:${mins}:${secs}.${millis}`;
+}
+
 // Execute command
 module.exports.exec = function (cmd)
 {

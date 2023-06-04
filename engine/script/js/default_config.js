@@ -82,6 +82,11 @@ AddSources = [];
 Machine = "1";
 
 //-- Target program format (string)
+//   - BIN              .bin    BASIC binary program (starting at 8000h)
+//   - BIN_USR          .bin    BASIC USR binary driver (starting at C000h)
+//   - DOS1             .com    MSX-DOS 1 program (starting at 0100h)
+//   - DOS2             .com    MSX-DOS 2 program (starting at 0100h)
+//   - DOS0             .com    Direct program boot from disk (starting at 0100h)
 //   - ROM_8K           .rom    8 KB ROM in page 1 (4000h ~ 5FFFh)
 //   - ROM_8K_P2        .rom    8 KB ROM in page 2 (8000h ~ 9FFFh)
 //   - ROM_16K          .rom    16 KB ROM in page 1 (4000h ~ 7FFFh)
@@ -91,15 +96,10 @@ Machine = "1";
 //   - ROM_48K_ISR      .rom    48 KB ROM in page 0-2 (0000h ~ BFFFh) with ISR replacement
 //   - ROM_64K          .rom    64 KB ROM in page 0-3 (0000h ~ FFFFh)
 //   - ROM_64K_ISR      .rom    64 KB ROM in page 0-3 (0000h ~ FFFFh) with ISR replacement
-//   - ROM_ASCII8       .rom    ASCII-8: 8KB segments for a total of 64 KB to 2 MB
-//   - ROM_ASCII16      .rom    ASCII-16: 16KB segments for a total of 64 KB to 4 MB
+//   - ROM_ASCII8       .rom    ASCII-8: 8 KB segments for a total of 64 KB to 2 MB
+//   - ROM_ASCII16      .rom    ASCII-16: 16 KB segments for a total of 64 KB to 4 MB
 //   - ROM_KONAMI       .rom    Konami MegaROM (aka Konami4): 8 KB segments for a total of 64 KB to 2 MB
 //   - ROM_KONAMI_SCC   .rom    Konami MegaROM SCC (aka Konami5): 8 KB segments for a total of 64 KB to 2 MB
-//   - DOS1             .com    MSX-DOS 1 program (starting at 0100h)
-//   - DOS2             .com    MSX-DOS 2 program (starting at 0100h)
-//   - DOS0             .com    Direct program boot from disk (starting at 0100h)
-//   - BIN              .bin    BASIC binary program (starting at 8000h)
-//   - BIN_USR          .bin    BASIC USR binary driver (starting at C000h)
 Target = "ROM_32K";
 
 //-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)
@@ -172,6 +172,14 @@ AsmOptim = "None";
 //   - Speed
 //   - Size
 Optim = "Speed";
+
+//-- Code optimization priority (string/integer)
+//   - Fast			    2000
+//   - Default		    3000
+//   - Optimized	   50000
+//   - Ultra		  200000
+//   - Insane		10000000
+CompileComplexity = "Default";
 
 //-- Additionnal compilation options (string)
 CompileOpt = "";

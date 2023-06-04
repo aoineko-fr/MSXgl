@@ -24,6 +24,9 @@ const compiler = require("./compiler.js");
 // BUILD INITIALIZATION
 //=============================================================================
 
+//-- Start timer
+const buildStartTime = Date.now();
+
 //-- Setup global variables
 require("./setup_global.js"); 
 
@@ -109,6 +112,8 @@ AsmOptim  = AsmOptim.toUpperCase();
 Optim     = Optim.toUpperCase();
 EmulPortA = EmulPortA.toUpperCase();
 EmulPortB = EmulPortB.toUpperCase();
+if(util.isString(CompileComplexity))
+	CompileComplexity = CompileComplexity.toUpperCase();
 
 //-- Target specific initialization
 require("./setup_target.js");
@@ -200,6 +205,9 @@ if (DoClean)
 //_________________▀▀__________________________________________________________
 if (DoCompile)
 {
+	//-- Start timer
+	const compileStartTime = Date.now();
+
 	util.print("");
 	util.print("┌───────────────────────────────────────────────────────────────────────────┐");
 	util.print("│ COMPILE                                                                   │");
@@ -415,7 +423,10 @@ if (DoCompile)
 		if(!pageFound)
 			util.print("No pages code found", PrintDetail);
 	}
-//-- end if (DoCompile)
+
+	//-- Display step duration
+	const compileElapsTime = Date.now() - compileStartTime;
+	util.print('Compile duration: ' + util.getTimeString(compileElapsTime), PrintDetail);
 }
 
 //_____________________________________________________________________________
@@ -425,6 +436,9 @@ if (DoCompile)
 //_____________________________________________________________________________
 if (DoMake)
 {
+	//-- Start timer
+	const linkStartTime = Date.now();
+
 	util.print("");
 	util.print("┌───────────────────────────────────────────────────────────────────────────┐");
 	util.print("│ LINK                                                                      │");
@@ -469,6 +483,10 @@ if (DoMake)
 		process.exit(1);
 	}
 	util.print("Success", PrintSuccess);
+
+	//-- Display step duration
+	const linkElapsTime = Date.now() - linkStartTime;
+	util.print('Link duration: ' + util.getTimeString(linkElapsTime), PrintDetail);
 }
 
 //_____________________________________________________________________________
@@ -478,6 +496,9 @@ if (DoMake)
 //____________________________▀▀_______________________________________________
 if (DoPackage)
 {
+	//-- Start timer
+	const packStartTime = Date.now();
+
 	util.print("");
 	util.print("┌───────────────────────────────────────────────────────────────────────────┐");
 	util.print("│ PACKAGE                                                                   │");
@@ -498,6 +519,10 @@ if (DoPackage)
 		process.exit(1);
 	}
 	util.print("Success", PrintSuccess);
+
+	//-- Display step duration
+	const packElapsTime = Date.now() - packStartTime;
+	util.print('\nPackage duration: ' + util.getTimeString(packElapsTime), PrintDetail);
 }
 
 //_____________________________________________________________________________
@@ -507,6 +532,9 @@ if (DoPackage)
 //____________▀▀_____________▀▀________________________________________________
 if (DoDeploy)
 {
+	//-- Start timer
+	const deployStartTime = Date.now();
+
 	util.print("");
 	util.print("┌───────────────────────────────────────────────────────────────────────────┐");
 	util.print("│ DEPLOY                                                                    │");
@@ -788,7 +816,15 @@ if (DoDeploy)
 	}
 
 	util.print("Success", PrintSuccess);
+
+	//-- Display step duration
+	const deployElapsTime = Date.now() - deployStartTime;
+	util.print('Deploy duration: ' + util.getTimeString(deployElapsTime), PrintDetail);
 }
+
+//-- Build duration
+const buildElapsTime = Date.now() - buildStartTime;
+util.print('\nTotal build time: ' + util.getTimeString(buildElapsTime), PrintDetail);
 
 //_____________________________________________________________________________
 //  ▄▄▄

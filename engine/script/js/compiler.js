@@ -61,8 +61,17 @@ module.exports.compile = function (file, size, seg)
 		if (seg !== undefined)	AddOpt += ` --codeseg ${seg}`;
 		if (Debug)				AddOpt += " --debug";
 		if (AppSignature)		AddOpt += " -DAPPSIGN";
-
-		// set AddOpt=!AddOpt! --max-allocs-per-node 100000
+		let MaxAllocs = 3000;
+		switch (CompileComplexity)
+		{
+			case "FAST":		MaxAllocs = 2000; break;
+			case "DEFAULT":		MaxAllocs = 3000; break;
+			case "OPTIMIZED":	MaxAllocs = 50000; break;
+			case "ULTRA":		MaxAllocs = 200000; break;
+			case "INSANE":		MaxAllocs = 10000000; break;
+			default:			MaxAllocs = CompileComplexity; break;
+		}
+		AddOpt += ` --max-allocs-per-node ${MaxAllocs}`;
 		// set AddOpt=!AddOpt! --constseg RODATA
 
 		let SDCCParam = `-c -mz80 --vc -DTARGET=TARGET_${Target} -DMSX_VERSION=MSX_${Machine} -I${ProjDir} -I${LibDir}src -I${LibDir}content ${AddOpt} ${file} -o ${OutDir}`;
