@@ -71,7 +71,8 @@ module.exports.compile = function (file, size, seg)
 			case "INSANE":		MaxAllocs = 10000000; break;
 			default:			MaxAllocs = CompileComplexity; break;
 		}
-		AddOpt += ` --max-allocs-per-node ${MaxAllocs}`;
+		if(MaxAllocs != 3000) // skip default value
+			AddOpt += ` --max-allocs-per-node ${MaxAllocs}`;
 		// set AddOpt=!AddOpt! --constseg RODATA
 
 		let SDCCParam = `-c -mz80 --vc -DTARGET=TARGET_${Target} -DMSX_VERSION=MSX_${Machine} -I${ProjDir} -I${LibDir}src -I${LibDir}content ${AddOpt} ${file} -o ${OutDir}`;
