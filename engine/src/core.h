@@ -10,7 +10,7 @@
 // Library version
 #define VERSION_MAJOR				(u16)0		// 4-bits (0-15)
 #define VERSION_MINOR				(u16)9		// 6-bits (0-63)
-#define VERSION_PATCH				(u16)3		// 6-bits (0-63)
+#define VERSION_PATCH				(u16)4		// 6-bits (0-63)
 #define VERSION(a, b, c)			((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT				VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 
@@ -25,7 +25,7 @@
 typedef unsigned char				bool;	// 8 bits boolean type
 #define TRUE						1		// Value for "TRUE" boolean
 #define FALSE						0		// Value for "FALSE" boolean
-#define TOGGLE(a)					(a) = TRUE - (a)
+#define TOGGLE(a)					(a) = !(a)
 #define IS_TRUE(a)					((a) != 0)
 #define IS_FALSE(a)					((a) == 0)
 

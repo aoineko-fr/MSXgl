@@ -608,7 +608,7 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	//   val		- Value to write in VRAM
 	//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
 	//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
-	void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh) __sdcccall(0);
+	void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh);
 
 	// Function: VDP_Peek_128K
 	// Read a value from VRAM. [MSX2/2+/TR]
@@ -619,7 +619,7 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	//
 	// Return:
 	//   Value read in VRAM
-	u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0);
+	u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh);
 
 	#define VDP_WriteVRAM									VDP_WriteVRAM_128K
 	#define VDP_FillVRAM									VDP_FillVRAM_128K

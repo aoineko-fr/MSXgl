@@ -71,7 +71,7 @@ module.exports.compile = function (file, size, seg)
 			case "INSANE":		MaxAllocs = 10000000; break;
 			default:			MaxAllocs = CompileComplexity; break;
 		}
-		if(MaxAllocs != 3000) // skip default value
+		if(MaxAllocs != 3000) // skip default value 
 			AddOpt += ` --max-allocs-per-node ${MaxAllocs}`;
 		// set AddOpt=!AddOpt! --constseg RODATA
 
@@ -117,24 +117,4 @@ module.exports.compile = function (file, size, seg)
 		util.print(`Invalid file format '${fileExt}'!`, PrintError);
 		process.exit(300);
 	}
-/*
-	//*****************************************************************************
-	// FINISH
-	//*****************************************************************************
-
-	:Succeed
-
-	echo %GREEN%Succeed%RESET%
-	exit /B 0
-
-	:Skip
-
-	echo %YELLOW%Skip compiling %fileName%%fileExt%%RESET% (outdated source)
-	exit /B 0
-
-	:Error
-
-	echo %RED%Error: Compile failed with error number %errorlevel%%RESET%
-	exit /B 1
-*/
 }

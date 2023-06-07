@@ -176,7 +176,7 @@ void main()
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 	VDP_LoadSpritePattern(g_DataSprtBall, 0, 4);
 	VDP_LoadSpritePattern(g_DataSprtLayer, 8*4, 13*4*4);
-	
+
 	loop(s, 2)
 	{
 		g_SpriteAtributeLow = g_SATAddr[s];

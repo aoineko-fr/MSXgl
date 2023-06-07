@@ -1216,22 +1216,23 @@ void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0
 //   val		- Value to write in VRAM
 //   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
 //   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
-void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh) __sdcccall(0)
+void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh)
 {
-	val;      // IY+0
-	destLow;  // IY+1
-	destHigh; // IY+3
-
+	val;      // A
+	destLow;  // DE
+	destHigh; // IY+0
 	__asm
+		ld		b, a
+
 		ld		iy, #2
 		add		iy, sp
 
-		// Set destination address bits 14~16 to R#14 
-		ld		a, 3(iy)
+		// Set destination address bits 14~16 to R#14
+		ld		a, 0(iy)
 		add		a, a
 		add		a, a
 		ld		c, a
-		ld		a, 2(iy)
+		ld		a, d
 		rlca
 		rlca
 		and		a, #0x03
@@ -1242,17 +1243,17 @@ void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh) __sdcccall(0)
 		out		(P_VDP_REG), a			// RegPort = VDP_REG(14);
 
 		// Set destination address bits 0~7 to port #1
-		ld		a, 1(iy)
+		ld		a, e
 		out		(P_VDP_ADDR), a			// AddrPort = (destLow & 0x00FF);
 
 		// Set destination address bits 8~13 to port #1
-		ld		a, 2(iy)
+		ld		a, d
 		and		a, #0x3F
 		add		a, #F_VDP_WRIT
 		out		(P_VDP_ADDR), a			// 12cc		AddrPort = ((destLow >> 8) & 0x3F) + F_VDP_WRIT;
 
 		// Write data
-		ld		a, 0(iy)				// 21cc
+		ld		a, b					// 21cc
 		VDP_EI //~~~~~~~~~~~~~~~~~~~~~~ //  5cc
 		out		(P_VDP_DATA), a			// 12cc		DataPort = val
 
@@ -1268,21 +1269,20 @@ void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh) __sdcccall(0)
 //
 // Return:
 //   Value read in VRAM
-u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0)
+u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh)
 {
-	srcLow;  // IY+0
-	srcHigh; // IY+2
-
+	srcLow;		// HL
+	srcHigh;	// IY+0
 	__asm
 		ld		iy, #2
 		add		iy, sp
 
-		// Set destination address bits 14~16 to R#14 
-		ld		a, 2(iy)
+		// Set destination address bits 14~16 to R#14
+		ld		a, 0(iy)
 		add		a, a
 		add		a, a
 		ld		c, a
-		ld		a, 1(iy)
+		ld		a, h
 		rlca
 		rlca
 		and		a, #0x03
@@ -1293,14 +1293,13 @@ u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0)
 		out		(P_VDP_REG), a			// RegPort = VDP_REG(14);
 
 		// Set destination address bits 0~7 to port #1
-		ld		a, 0(iy)
-		out		(P_VDP_ADDR), a			// AddrPort = (destLow & 0x00FF);
+		ld		a, l
+		out		(P_VDP_ADDR), a			// AddrPort = (srcLow & 0x00FF)
 
 		// Set destination address bits 8~13 to port #1
-		ld		a, 1(iy)
-		and		a, #0x3F
-		add		a, #F_VDP_WRIT
-		out		(P_VDP_ADDR), a			// 12cc		AddrPort = ((destLow >> 8) & 0x3F) + F_VDP_WRIT;
+		ld		a, h
+		and		a, #0x3F				// F_VDP_READ
+		out		(P_VDP_ADDR), a			// 12cc		AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_READ
 
 		// Wait for VDP to be ready
 	#if ((VDP_USE_MODE_T1) || (VDP_USE_MODE_T2)) // MSX2 T1&T2 mode have 20cc wait
@@ -1310,7 +1309,6 @@ u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __sdcccall(0)
 		// Read data
 		VDP_EI //~~~~~~~~~~~~~~~~~~~~~~ //  5cc
 		in		a, (P_VDP_DATA)			// 12cc		value = DataPort
-		ld		l, a
 
 	__endasm;
 }
