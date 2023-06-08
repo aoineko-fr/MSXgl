@@ -507,7 +507,7 @@ u8 VDP_ReadStatus(u8 stat) __PRESERVES(b, c, d, e, h, iyl, iyh);
 //   src   - Source data address in RAM
 //   dest  - Destiation address in VRAM (14bits address for 16KB VRAM)
 //   count - Number of byte to copy in VRAM
-void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0);
+void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count);
 
 // Function: VDP_FillVRAM_16K
 // Fill VRAM area with a given value. [MSX1/2/2+/TR]
@@ -538,7 +538,7 @@ void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count);
 //   src	- Source address in VRAM (14bits address form 16KB VRAM)
 //   dest	- Desitation data address in RAM
 //   count	- Number of byte to copy from VRAM
-void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0);
+void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count);
 
 // Function: VDP_Poke_16K
 // Write a value to VRAM. [MSX1/2/2+/TR]
@@ -579,7 +579,7 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
 	//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
 	//   count		- Nomber of byte to copy in VRAM
-	void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count) __sdcccall(0);
+	void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count);
 
 	// Function: VDP_FillVRAM_128K
 	// Fill VRAM area with a given value. [MSX2/2+/TR]
@@ -589,7 +589,7 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
 	//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
 	//   count		- Nomber of byte to copy in VRAM
-	void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall(0);
+	void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count);
 
 	// Function: VDP_ReadVRAM_128K
 	// Read data from VRAM to RAM. [MSX2/2+/TR]
@@ -599,7 +599,7 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	//   srcHigh	- Source address in VRAM (1 MSB of 17-bits VRAM address)
 	//   dest		- Desitation data address in RAM
 	//   count		- Nomber of byte to copy from VRAM
-	void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0);
+	void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count);
 
 	// Function: VDP_Poke_128K
 	// Write a value to VRAM. [MSX2/2+/TR]

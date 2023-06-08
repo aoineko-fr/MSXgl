@@ -271,11 +271,11 @@ void VDP_ClearVRAM()
 //   src   - Source data address in RAM
 //   dest  - Destiation address in VRAM (14bits address for 16KB VRAM)
 //   count - Nomber of byte to copy in VRAM
-void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
+void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count)
 {
-	src;   // IY+0
-	dest;  // IY+2
-	count; // IY+4
+	src;   // HL
+	dest;  // DE
+	count; // SP+2 => IY+0
 
 	__asm
 
@@ -290,10 +290,10 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 		ld		iy, #2
 		add		iy, sp
 		// Setup address register 
-		ld		a, 2(iy)
+		ld		a, e
 		VDP_DI //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = (dest & 0xFF)
-		ld		a, 3(iy)
+		ld		a, d
 		and		a, #0x3F
 		add		a, #F_VDP_WRIT
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -302,10 +302,8 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 	#if ((MSX_VERSION & MSX_1) && (VDP_USE_MODE_G1 || VDP_USE_MODE_G2 || VDP_USE_MODE_MC)) // Worst case 29 cc (use 30 cc loop with "outi + jp nz")
 
 		// Setup fast 16-bits loop
-		ld		l, 0(iy)				// source address
-		ld		h, 1(iy)
-		ld		e, 4(iy)				// count
-		ld		d, 5(iy)
+		ld		e, 0(iy)				// count
+		ld		d, 1(iy)
 		ld		c, #P_VDP_DATA	
 		ld		b, e					// number of loops is in DE
 		dec		de						// calculate DB value (destroys B, D and E)
@@ -320,18 +318,16 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count) __sdcccall(0)
 	#else // Worst case 20 cc (use 23 cc loop with "otir")
 
 		// while(count--) DataPort = *src++;
-		ld		l, 0(iy)				// source address
-		ld		h, 1(iy)
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
-		ld		a, 4(iy)				// count LSB
+		ld		a, 0(iy)				// count LSB
 		cp		a, #0
 		jp		z, wrt16_loop_init		// skip LSB
 		ld		b, a					// send (count & 0x00FF) bytes
 		otir
 		// Handle count MSB
 	wrt16_loop_init:
-		ld		a, 5(iy)				// count MSB
+		ld		a, 1(iy)				// count MSB
 	wrt16_loop_start:
 		cp		a, #0
 		jp		z, wrt16_loop_end		// finished
@@ -519,11 +515,11 @@ void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count) __NAKED // Stack: 4 byt
 //   src	- Source address in VRAM (14bits address form 16KB VRAM)
 //   dst	- Desitation data address in RAM
 //   count	- Nomber of byte to copy from VRAM
-void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
+void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count)
 {
-	src;   // IY+0
-	dest;  // IY+2
-	count; // IY+4
+	src;   // HL
+	dest;  // DE
+	count; // SP+2 => IY+0
 
 	__asm
 
@@ -538,10 +534,10 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
 		ld		iy, #2
 		add		iy, sp
 		// Setup address register 	
-		ld		a, 0(iy)
+		ld		a, l
 		VDP_DI //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = (srcLow & 0x00FF)
-		ld		a, 1(iy)
+		ld		a, h
 		and		a, #0x3F
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_READ
@@ -549,10 +545,9 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
 	#if ((MSX_VERSION & MSX_1) && (VDP_USE_MODE_G1 || VDP_USE_MODE_G2 || VDP_USE_MODE_MC)) // Worst case 29 cc (use 29 cc loop)
 
 		// Setup fast 16-bits loop
-		ld		l, 2(iy)				// source address
-		ld		h, 3(iy)
-		ld		e, 4(iy)				// count
-		ld		d, 5(iy)
+		ex		de, hl
+		ld		e, 0(iy)				// count
+		ld		d, 1(iy)
 		ld		c, #P_VDP_DATA	
 		ld		b, e					// number of loops is in DE
 		dec		de						// calculate DB value (destroys B, D and E)
@@ -567,18 +562,17 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count) __sdcccall(0)
 	#else // Worst case 20 cc (use 23 cc loop)
 
 		// while(count--) *src++ = DataPort;
-		ld		l, 2(iy)				// source address
-		ld		h, 3(iy)
+		ex		de, hl
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
-		ld		a, 4(iy)				// count LSB
+		ld		a, 0(iy)				// count LSB
 		cp		a, #0
 		jp		z, rd16_loop_init		// skip LSB
 		ld		b, a					// retreive (count & 0x00FF) bytes
 		inir							// 										23 cc
 		// Handle count MSB		
 	rd16_loop_init:
-		ld		a, 5(iy)				// count MSB
+		ld		a, 1(iy)				// count MSB
 	rd16_loop_start:
 		cp		a, #0
 		jp		z, rd16_loop_end		// finished
@@ -703,52 +697,6 @@ void VDP_Poke_16K(u8 val, u16 dest) __PRESERVES(c, h, l, iyl, iyh)
 // HELPER FUNCTIONS
 //
 //-----------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------------
-// Incremental VDP registers writing
-// @param	src		Address of the data to be write into the registers
-// @param	count	Number of registers to be write
-// @param	reg		First register to be write (will be automaticaly incremented at each write)
-/*void VDP_RegIncWrite(const u8* src, u8 count, u8 reg) __sdcccall(0)
-{
-	src, count, reg;
-	
-	__asm
-		ld		iy, #2
-		add		iy, sp
-
-		// Backup VDP registers
-		//ld		de, #(_g_VDP_REGSAV + 0) // first reg
-		ld		hl, #_g_VDP_REGSAV
-		ld		b, #0
-		ld		c, 3(iy)				// first register
-		add		hl, bc
-		ld		d, h
-		ld		e, l
-
-		ld		b, #0
-		ld		c, 2(iy)				// size
-		ld		l, 0(iy)				// source address
-		ld		h, 1(iy)
-		ldir
-
-		// Setup incremental VDP port writing
-		ld		a, 3(iy)				// first register
-		VDP_DI //~~~~~~~~~~~~~~~~~~~~~~~~~~
-		out		(P_VDP_ADDR), a
-		ld		a, #VDP_REG(17)
-		VDP_EI //~~~~~~~~~~~~~~~~~~~~~~~~~~
-		out		(P_VDP_ADDR), a
-
-		// Do incremental VDP port writing
-		ld		b, 2(iy)				// size
-		ld		c, #P_VDP_IREG
-		ld		l, 0(iy)				// source address
-		ld		h, 1(iy)
-		otir
-
-	__endasm;
-}*/
 
 // N times outi 
 #define OUTI(_n)	\
@@ -900,6 +848,7 @@ void VDP_SetModeGraphic7()
 u8 VDP_ReadStatus(u8 stat) __PRESERVES(b, c, d, e, h, iyl, iyh)
 {
 	stat; // A
+
 	__asm
 	#if (VDP_USE_RESTORE_S0)
 		VDP_DI //~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -943,6 +892,7 @@ void VDP_SetAdjustOffset(u8 offset)
 void VDP_SetPalette(const u8* pal) __FASTCALL __PRESERVES(d, e, iyl, iyh)
 {
 	pal; // HL
+
 	__asm
 		ld		a, #1
 		VDP_DI  //~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1036,21 +986,22 @@ void VDP_SetPaletteEntry(u8 index, u16 color)
 //   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
 //   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
 //   count		- Nomber of byte to copy in VRAM
-void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count) __sdcccall(0)
+void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count)
 {
-	src;      // iy+5 iy+4
-	destLow;  // iy+7 iy+6
-	destHigh; // iy+8
-	count;    // iy+10 iy+9
+	src;      // HL
+	destLow;  // DE
+	destHigh; // SP+2 => IY+0
+	count;    // SP+3 => IY+1
+
 	__asm
 		ld		iy, #2
 		add		iy, sp
 		// Setup address register 
-		ld		a, 4(iy)
+		ld		a, 0(iy)
 		add		a, a
 		add		a, a
 		ld		c, a
-		ld		a, 3(iy)
+		ld		a, d
 		rlca
 		rlca
 		and		a, #0x03
@@ -1059,26 +1010,24 @@ void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count) __sd
 		out		(P_VDP_ADDR), a			// RegPort = (page << 2) + (dest >> 14)
 		ld		a, #VDP_REG(14)
 		out		(P_VDP_REG), a			// RegPort = VDP_REG(14)
-		ld		a, 2(iy)
+		ld		a, e
 		out		(P_VDP_ADDR), a			// RegPort = (dest & 0xFF)
-		ld		a, 3(iy)
+		ld		a, d
 		and		a, #0x3f
 		add		a, #F_VDP_WRIT
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT
 		// while(count--) DataPort = *src++;
-		ld		l, 0(iy)				// source address
-		ld		h, 1(iy)
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
-		ld		a, 5(iy)				// count LSB
+		ld		a, 1(iy)				// count LSB
 		cp		a, #0
 		jp		z, wrt_loop_init		// skip LSB
 		ld		b, a					// send (count & 0x00FF) bytes
 		otir
 		// Handle count MSB
 	wrt_loop_init:
-		ld		a, 6(iy)				// count MSB
+		ld		a, 2(iy)				// count MSB
 	wrt_loop_start:
 		cp		a, #0
 		jp		z, wrt_loop_end			// finished
@@ -1100,22 +1049,23 @@ void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count) __sd
 //   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
 //   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
 //   count		- Nomber of byte to copy in VRAM
-void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall(0)
+void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count)
 {
-	value;		// iy+4
-	destLow;	// iy+6 iy+5
-	destHigh;	// iy+7
-	count;		// iy+9 iy+8
+	value;		// A => B
+	destLow;	// DE
+	destHigh;	// SP+2 => IY+0
+	count;		// SP+3 => IY+1
 
 	__asm
+		ld		b, a					// Backup input value 
 		ld		iy, #2
 		add		iy, sp
 		// Setup address register 
-		ld		a, 3(iy)
+		ld		a, 0(iy)
 		add		a, a
 		add		a, a
 		ld		c, a
-		ld		a, 2(iy)
+		ld		a, d
 		rlca
 		rlca
 		and		a, #0x03
@@ -1124,24 +1074,24 @@ void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall
 		out		(P_VDP_ADDR), a			// RegPort = (page << 2) + (dest >> 14);
 		ld		a, #VDP_REG(14)
 		out		(P_VDP_ADDR), a			// RegPort = VDP_REG(14);
-		ld		a, 1(iy)
+		ld		a, e
 		out		(P_VDP_ADDR), a			// RegPort = (dest & 0x00FF);
-		ld		a, 2(iy)
+		ld		a, d
 		and		a, #0x3F
 		add		a, #F_VDP_WRIT
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT;
 		// while(count--) DataPort = value;
-		ld		e, 4(iy)				// count
-		ld		d, 5(iy)
-		ld		a, 0(iy)				// value
+		ld		e, 1(iy)				// count
+		ld		d, 2(iy)
+		ld		a, b					// value
 		// fast 16-bits loop
 		ld		b, e					// number of loops is in DE
 		dec		de						// calculate DB value (destroys B, D and E)
 		inc		d
 	fll_loop_start:
-		out		(P_VDP_DATA), a			// fill
-		djnz	fll_loop_start
+		out		(P_VDP_DATA), a			// fill			12cc
+		djnz	fll_loop_start			//				14cc
 		dec		d
 		jp		nz, fll_loop_start
 
@@ -1156,18 +1106,22 @@ void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count) __sdcccall
 //   srcHigh	- Source address in VRAM (1 MSB of 17-bits VRAM address)
 //   dest		- Desitation data address in RAM
 //   count		- Nomber of byte to copy from VRAM
-void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0)
+void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count)
 {
-	srcLow, srcHigh, dest, count;
+	srcLow;		// HL
+	srcHigh;	// SP+2 => IY+0
+	dest;		// SP+3 => IY+1
+	count;		// SP+5 => IY+3
+
 	__asm
 		ld		iy, #2
 		add		iy, sp
 		// Setup address register 	
-		ld		a, 2(iy)
+		ld		a, 0(iy)
 		add		a, a
 		add		a, a
 		ld		c, a
-		ld		a, 1(iy)
+		ld		a, h
 		rlca
 		rlca
 		and		a, #0x03
@@ -1176,26 +1130,26 @@ void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count) __sdcccall(0
 		out		(P_VDP_ADDR), a			// AddrPort = (srcHigh << 2) + (srcLow >> 14)
 		ld		a, #VDP_REG(14)
 		out		(P_VDP_REG), a			// RegPort  = (u8)(VDP_REG(14))
-		ld		a, 0(iy)
+		ld		a, l
 		out		(P_VDP_ADDR), a			// AddrPort = (srcLow & 0xFF)
-		ld		a, 1(iy)
+		ld		a, h
 		and		a, #0x3f
 		// add		a, #F_VDP_READ
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_READ
 		// while(count--) *src++ = DataPort;
-		ld		l, 3(iy)				// source address
-		ld		h, 4(iy)
+		ld		l, 1(iy)				// source address
+		ld		h, 2(iy)
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
-		ld		a, 5(iy)				// count LSB
+		ld		a, 3(iy)				// count LSB
 		cp		a, #0
 		jp		z, rd_loop_init			// skip LSB
 		ld		b, a					// retreive (count & 0x00FF) bytes
 		inir		
 		// Handle count MSB		
 	rd_loop_init:
-		ld		a, 6(iy)				// count MSB
+		ld		a, 4(iy)				// count MSB
 	rd_loop_start:
 		cp		a, #0
 		jp		z, rd_loop_end			// finished
@@ -1220,7 +1174,8 @@ void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh)
 {
 	val;      // A
 	destLow;  // DE
-	destHigh; // IY+0
+	destHigh; // SP+2 => IY+0
+
 	__asm
 		ld		b, a
 
@@ -1272,7 +1227,8 @@ void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh)
 u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh)
 {
 	srcLow;		// HL
-	srcHigh;	// IY+0
+	srcHigh;	// SP+2 => IY+0
+
 	__asm
 		ld		iy, #2
 		add		iy, sp
