@@ -49,7 +49,7 @@ Machine = "1";
 //   - DOS2				.com	MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
 Target = "ROM_32K";
 
-//-- Mapper size
+//-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)
 // ROMSize = 128;
 
 //-- Install BDOS driver for ROM program? (0 = false, 1 = true)

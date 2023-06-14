@@ -66,11 +66,8 @@ Machine = "2";
 //   - DOS2             .com    MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
 Target = "ROM_32K";
 
-//-- ROM mapper size (from 64 to 4096). Must be a multiple of 8 or 16 depending on the mapper type
-// ROMSize = 0;
-
 //-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)
-// ROMSize = 0;
+// ROMSize = 128;
 
 //-- Postpone the ROM startup to let the other ROMs initialize like Disk controller or Network cartridge (boolean)
 // ROMDelayBoot = false;
