@@ -184,7 +184,7 @@ void DisplayPage()
 
 	//-------------------------------------------------------------------------
 	// Footer
-	Draw_LineH(0, src->Width - 1, 200-4, src->Text, 0);
+	Draw_LineH(0, src->Width - 1, (u8)(200-4), src->Text, 0);
 	Print_SetPosition(4, 200);
 	Print_DrawText("\x82:Mode  \x81\x80:Cmd  \x83+\x81\x82\x80:Cursor");
 

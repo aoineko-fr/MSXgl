@@ -1815,7 +1815,7 @@ void VDP_SetLayoutTable(VADDR addr)
 
 	u8 reg;
 	reg = (u8)(addr >> 10);
-	#if ((VDP_USE_VALIDATOR) && (MSX_VERSION >= MSX_2))
+	#if (MSX_VERSION >= MSX_2)
 		switch(g_VDP_Data.Mode)
 		{
 		case VDP_MODE_TEXT2:
@@ -1850,7 +1850,6 @@ void VDP_SetColorTable(VADDR addr)
 	
 	u8 reg;
 	reg = (u8)(addr >> 6);
-	#if (VDP_USE_VALIDATOR)
 	switch(g_VDP_Data.Mode)
 	{
 	#if (MSX_VERSION >= MSX_2)
@@ -1874,7 +1873,6 @@ void VDP_SetColorTable(VADDR addr)
 		reg |= 0b1111111;
 		break;
 	};	
-	#endif // (VDP_USE_VALIDATOR)
 	VDP_RegWrite(3, reg);
 
 	#if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
@@ -1893,7 +1891,6 @@ void VDP_SetPatternTable(VADDR addr)
 
 	u8 reg;
 	reg = (u8)(addr >> 11);
-	#if (VDP_USE_VALIDATOR)
 	switch(g_VDP_Data.Mode)
 	{
 	#if (MSX_VERSION >= MSX_2)
@@ -1910,7 +1907,6 @@ void VDP_SetPatternTable(VADDR addr)
 	case VDP_MODE_GRAPHIC2:
 		reg |= 0b11;
 	};
-	#endif // (VDP_USE_VALIDATOR)
 	VDP_RegWrite(4, reg);
 	
 	#if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
@@ -1936,7 +1932,7 @@ void VDP_SetSpriteAttributeTable(VADDR addr)
 	
 	u8 reg;
 	reg = (u8)(addr >> 7);
-	#if ((VDP_USE_VALIDATOR) && (MSX_VERSION >= MSX_2))
+	#if (MSX_VERSION >= MSX_2)
 		switch(g_VDP_Data.Mode)
 		{
 		case VDP_MODE_GRAPHIC3:

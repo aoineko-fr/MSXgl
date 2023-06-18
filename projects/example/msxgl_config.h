@@ -97,7 +97,7 @@
 #define VDP_USE_CUSTOM_CMD			FALSE	// Use custom VDP commands through data buffer
 #define VDP_AUTO_INIT				TRUE	// Call VDP_Initialize() at the first call to VDP_SetMode()
 #define VDP_USE_UNDOCUMENTED		TRUE	// Allow the use of undocumented screen mode (WIP)
-#define VDP_USE_VALIDATOR			TRUE	// Let the engine fix some invalid input (highly recommended)
+#define VDP_USE_VALIDATOR			TRUE	// Handle some option specific for each VDP mode (highly recommended)
 #define VDP_USE_DEFAULT_PALETTE		FALSE	// Add data for default MSX 2 palette
 #define VDP_USE_MSX1_PALETTE		FALSE	// Add data for default MSX 1 palette
 #define VDP_USE_DEFAULT_SETTINGS	TRUE	// Auto-initialization of common VDP feature

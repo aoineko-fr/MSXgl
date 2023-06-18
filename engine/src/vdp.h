@@ -163,11 +163,15 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 	#define VADDR_LO(a)			(a)
 	#define VADDR_HI(a)			0
 	#define VADDR_GET(lo, hi)	(lo)
+	#define VADDR_14_CODE(a)	a
+	#define VADDR_17_CODE(a)
 #else // if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
 	#define VADDR				u32
 	#define VADDR_LO(a)			(u16)(a)
 	#define VADDR_HI(a)			(u16)(a >> 16)
 	#define VADDR_GET(lo, hi)	((u32)(lo) | ((u32)hi << 16))
+	#define VADDR_14_CODE(a)
+	#define VADDR_17_CODE(a)	a
 #endif
 
 #if (VDP_UNIT == VDP_UNIT_U16)
@@ -874,6 +878,10 @@ inline void VDP_SetHorizontalMode(u8 mode) { VDP_RegWriteBakMask(25, (u8)~R25_SP
 //   addr - VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)
 void VDP_SetLayoutTable(VADDR addr);
 
+// Function: VDP_SetLayoutTableEx
+// Set layout table VRAM address. [MSX1/2/2+/TR]
+inline void VDP_SetLayoutTableEx(VADDR addr, u8 r2) { g_ScreenLayoutLow = (u16)addr; VDP_RegWrite(2, r2); VADDR_17_CODE(g_ScreenLayoutHigh = addr >> 16;) }
+
 // Function: VDP_SetColorTable
 // Set color table VRAM address. [MSX1/2/2+/TR]
 //
@@ -881,12 +889,20 @@ void VDP_SetLayoutTable(VADDR addr);
 //   addr - VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)
 void VDP_SetColorTable(VADDR addr);
 
+// Function: VDP_SetColorTableEx
+// Set color table VRAM address. [MSX1/2/2+/TR]
+inline void VDP_SetColorTableEx(VADDR addr, u8 r3, u8 r10) { g_ScreenColorLow = (u16)addr; VDP_RegWrite(3, r3); VADDR_14_CODE(r10;) VADDR_17_CODE(VDP_RegWrite(10, r10); g_ScreenColorHigh = addr >> 16;) }
+
 // Function: VDP_SetPatternTable
 // Set pattern table VRAM address. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   addr - VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)
 void VDP_SetPatternTable(VADDR addr);
+
+// Function: VDP_SetPatternTableEx
+// Set pattern table VRAM address. [MSX1/2/2+/TR]
+inline void VDP_SetPatternTableEx(VADDR addr, u8 r4) { g_ScreenPatternLow = (u16)addr; VDP_RegWrite(4, r4); VADDR_17_CODE(g_ScreenPatternHigh = addr >> 16;) }
 
 #if (VDP_USE_SPRITE)
 
@@ -897,12 +913,20 @@ void VDP_SetPatternTable(VADDR addr);
 //   addr - VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)
 void VDP_SetSpriteAttributeTable(VADDR addr);
 
+// Function: VDP_SetSpriteAttributeTableEx
+// Set sprite attribute table address. [MSX1/2/2+/TR]
+inline void VDP_SetSpriteAttributeTableEx(VADDR addr, u8 r5, u8 r11) { g_SpriteAttributeLow = (u16)addr; VDP_RegWrite(5, r5); VADDR_14_CODE(r11;) VADDR_17_CODE(VDP_RegWrite(11, r11); g_SpriteAtributeHigh = addr >> 16;) addr -= 0x200; g_SpriteColorLow = (u16)addr; VADDR_17_CODE(g_SpriteColorHigh = addr >> 16;) }
+
 // Function: VDP_SetSpritePatternTable
 // Set sprite pattern table address. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   addr - VRAM address where to put the table (u16 for 14-bits address and u32 for 17-bits)
 void VDP_SetSpritePatternTable(VADDR addr);
+
+// Function: VDP_SetSpritePatternTableEx
+// Set sprite pattern table address. [MSX1/2/2+/TR]
+inline void VDP_SetSpritePatternTableEx(VADDR addr, u8 r6) { g_SpritePatternLow  = (u16)addr; VDP_RegWrite(6, r6); VADDR_17_CODE(g_SpritePatternHigh = addr >> 16;) }
 
 #endif
 
