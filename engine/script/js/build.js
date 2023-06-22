@@ -356,7 +356,7 @@ if (DoCompile)
 	MapperBanks = "";
 	if ((Ext === "rom") && (MapperSize))
 	{
-		let FirstSeg = FillSize / SegSize;
+		let FirstSeg = 1;
 		let LastSeg = (MapperSize / SegSize) - 1;
 		const segExtList = [ "c", "s", "asm" ];
 		const bankAddrList = [ Bank0Addr, Bank1Addr, Bank2Addr, Bank3Addr ];
