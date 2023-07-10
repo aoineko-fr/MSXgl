@@ -29,12 +29,13 @@ u8  g_Tile_DrawPage = 0;
 
 //-----------------------------------------------------------------------------
 // Load data to the given bank (in the selected page ; see <Tile_SetBankPage>).
-void Tile_LoadBank(u8 bank, const u8* data, u16 size)
+void Tile_LoadBankEx(u8 bank, const u8* data, u16 offset, u16 num)
 {
 	u32 addr = g_Tile_BankPage * TILE_PAGE_SIZE;
 	addr += bank * 256 * TILE_CELL_BYTES;
+	addr += offset;
 
-	VDP_WriteVRAM_128K(data, (u16)addr, addr >> 16, size * TILE_CELL_BYTES);
+	VDP_WriteVRAM_128K(data, (u16)addr, addr >> 16, num * TILE_CELL_BYTES);
 }
 
 //-----------------------------------------------------------------------------
