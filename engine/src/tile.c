@@ -32,8 +32,7 @@ u8  g_Tile_DrawPage = 0;
 void Tile_LoadBankEx(u8 bank, const u8* data, u16 offset, u16 num)
 {
 	u32 addr = g_Tile_BankPage * TILE_PAGE_SIZE;
-	addr += bank * 256 * TILE_CELL_BYTES;
-	addr += offset;
+	addr += ((bank * 256) + offset) * TILE_CELL_BYTES;
 
 	VDP_WriteVRAM_128K(data, (u16)addr, addr >> 16, num * TILE_CELL_BYTES);
 }
