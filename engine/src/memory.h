@@ -85,7 +85,7 @@ void Mem_HeapFree(u16 size);
 // Parameters:
 //   src - Source address
 //   dst - Destination address
-//   size - The size of data to copy
+//   size - The size of data to copy. Note: A size of 0 mean 65536
 void Mem_Copy(const void* src, void* dest, u16 size);
 
 // Function: Mem_Copy_16b
@@ -94,7 +94,7 @@ void Mem_Copy(const void* src, void* dest, u16 size);
 // Parameters:
 //   src - Source address
 //   dst - Destination address
-//   size - The size of data to copy
+//   size - The size of 16-bits data to copy. Note: size can be 1 to 32767. 0 mean 32768
 inline void Mem_Copy_16b(const void* src, void* dest, u16 size) { Mem_Copy(src, dest, size * 2); }
 
 #if (MEM_USE_FASTCOPY)
@@ -105,7 +105,7 @@ inline void Mem_Copy_16b(const void* src, void* dest, u16 size) { Mem_Copy(src, 
 // Parameters:
 //   src - Source address
 //   dst - Destination address
-//   size - The size of data to copy
+//   size - The size of data to copy. Note: A size of 0 mean 65536
 void Mem_FastCopy(const void* src, void* dest, u16 size);
 
 // Function: Mem_FastCopy_16b
@@ -115,7 +115,7 @@ void Mem_FastCopy(const void* src, void* dest, u16 size);
 // Parameters:
 //   src - Source address
 //   dst - Destination address
-//   size - The size of data to copy
+//   size - The size of data to copy. Note: size can be 1 to 32767. 0 mean 32768
 inline void Mem_FastCopy_16b(const void* src, void* dest, u16 size) { Mem_FastCopy(src, dest, size * 2); }
 #endif
 
@@ -125,7 +125,7 @@ inline void Mem_FastCopy_16b(const void* src, void* dest, u16 size) { Mem_FastCo
 // Parameters:
 //   val - Value to write
 //   dst - Destination address
-//   size - The size of data to fill
+//   size - The size of data to fill. Note: A size of 0 mean 65536
 void Mem_Set(u8 val, void* dest, u16 size);
 
 // Function: Mem_Set_16b
@@ -134,7 +134,7 @@ void Mem_Set(u8 val, void* dest, u16 size);
 // Parameters:
 //   val - Value to write
 //   dst - Destination address
-//   size - The size of data to fill
+//   size - The size of data to fill. Note: size can be 1 to 32767. 0 mean 32768
 void Mem_Set_16b(u16 val, void* dest, u16 size);
 
 #if (MEM_USE_FASTSET)
@@ -145,7 +145,7 @@ void Mem_Set_16b(u16 val, void* dest, u16 size);
 // Parameters:
 //   val - Value to write
 //   dst - Destination address
-//   size - The size of data to fill
+//   size - The size of data to fill. Note: A size of 0 mean 65536
 void Mem_FastSet(u8 val, void* dest, u16 size);
 #endif
 
@@ -174,7 +174,7 @@ inline void Mem_DynamicInitializeHeap(u16 size) { Mem_DynamicInitialize(Mem_Heap
 // Allocate a memory chunk from the dynamic memory buffer
 //
 // Parameters:
-//   size - Size of the memory chunk to allocate
+//   size - Size of the memory chunk to allocate. Note: Even if you can allocate 0 sized chunk, this is useless
 //
 // Return:
 //   Address of the allocated memory chunk (or NULL if no enough continuous space have been found)
