@@ -55,7 +55,7 @@ PLY_AKM_DATA_OFFSETTRACKPITCHINTEGER:
 	ld a, (de)
     inc de
 PLY_AKM_DATA_OFFSETTRACKPITCHDECIMAL:
-	ex af, af'
+	ex af, af';'
 PLY_AKM_DATA_OFFSETTRACKPITCHSPEED:
 	ld a, b
 PLY_AKM_DATA_OFFSETISARPEGGIOTABLEUSED = .+1
@@ -86,7 +86,7 @@ PLY_AKM_DATA_OFFSETCURRENTPITCHTABLEVALUE:
     inc hl
     ld (hl), #0x0
     inc hl
-    ex af, af'
+    ex af, af';'
     ld (hl), a
     ret 
 _PLY_AKM_STOPSOUNDEFFECTFROMCHANNEL::

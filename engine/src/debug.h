@@ -12,7 +12,6 @@
 //  - https://github.com/MartinezTorres/openMSX_profiler
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
-#pragma sdcc_hash +
 
 #include "core.h"
 
@@ -73,18 +72,18 @@
 // Grauw profile script for OpenMSX emulator
 #if (DEBUG_TOOL == DEBUG_OPENMSX_G)
 
-	#define P_PROFILE_SECTION		#0x2C
-	#define P_PROFILE_FRAME			#0x2D
+	#define P_PROFILE_SECTION		HASH(0x2C)
+	#define P_PROFILE_FRAME			HASH(0x2D)
 
 	#define PROFILE_SECTION_START(id, level) if (level < PROFILE_LEVEL) {	\
 		__asm																\
-			ld		a, #(id)												\
+			ld		a, HASH(id)												\
 			in		a,(P_PROFILE_SECTION)									\
 		__endasm; }
 																			
 	#define PROFILE_SECTION_END(id, level) if (level < PROFILE_LEVEL) {		\
 		__asm																\
-			ld		a, #(id)												\
+			ld		a, HASH(id)												\
 			out		(P_PROFILE_SECTION), a									\
 		__endasm; }
 																			
@@ -104,8 +103,8 @@
 #if (DEBUG_TOOL == DEBUG_OPENMSX_S)
 
 	// https://github.com/MartinezTorres/OpenMSX_profiler
-	#define P_PROFILE_START			#0x2C
-	#define P_PROFILE_END			#0x2D
+	#define P_PROFILE_START			HASH(0x2C)
+	#define P_PROFILE_END			HASH(0x2D)
 
 	__sfr __at 0x2C g_PortStartProfile;
 	__sfr __at 0x2D g_PortEndProfile;

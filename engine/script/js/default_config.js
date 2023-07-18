@@ -86,6 +86,7 @@ Machine = "1";
 //   - BIN_USR          .bin    BASIC USR binary driver (starting at C000h)
 //   - DOS1             .com    MSX-DOS 1 program (starting at 0100h)
 //   - DOS2             .com    MSX-DOS 2 program (starting at 0100h)
+//   - DOS2_MAPPER      .com    MSX-DOS 2 launcher to RAM mapper (launcher starting at 0100h, program at 4000h)
 //   - DOS0             .com    Direct program boot from disk (starting at 0100h)
 //   - ROM_8K           .rom    8 KB ROM in page 1 (4000h ~ 5FFFh)
 //   - ROM_8K_P2        .rom    8 KB ROM in page 2 (8000h ~ 9FFFh)

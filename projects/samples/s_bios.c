@@ -62,6 +62,7 @@ void Bios_ChangeColor2(u8 text, u8 back, u8 border, u8 mode)
 	text;   // A
 	back;   // L
 	border; // (SP+4)
+	mode;   // (SP+5)
 	__asm
 		ld		iy, #4
 		add		iy, sp

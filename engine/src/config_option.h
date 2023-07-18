@@ -70,6 +70,7 @@
 
 #define ROM_ISR						(1<<12)
 #define ROM_MIRROR					(1<<13)
+#define RAM_MAPPER					(1<<13)
 
 // ROM target type define
 //	15	14	13	12	11	10	9	8	7	6	5	4	3	2	1	0
@@ -95,6 +96,7 @@
 #define TARGET_DOS0					MAKE_DOS(DOS_0) // Disk boot program (0100h~). Access to BDOS functions through F37Dh
 #define TARGET_DOS1					MAKE_DOS(DOS_1) // MSX-DOS 1 program (0100h~). No direct acces to Main-ROM
 #define TARGET_DOS2					MAKE_DOS(DOS_2) // MSX-DOS 2 program (0100h~). No direct acces to Main-ROM
+#define TARGET_DOS2_MAPPER			MAKE_DOS(DOS_2) + RAM_MAPPER // MSX-DOS 2 launcher to RAM mapper
 #define TARGET_DOS3					MAKE_DOS(DOS_3) // NEXTOR program (0100h~). No direct acces to Main-ROM
 #define TARGET_NEXTOR				TARGET_DOS3
 #define TARGET_DOS					TARGET_DOS1

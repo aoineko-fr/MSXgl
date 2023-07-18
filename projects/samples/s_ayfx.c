@@ -417,7 +417,7 @@ void main()
 
 	Print_SetPosition(0, PSG_Y);
 	Print_DrawText(" PSG\n\n");		
-	Draw_LineH(0, 255, PSG_Y+10, 0x5, 0);
+	Draw_LineH(0, 255, (u8)(PSG_Y + 10), 0x5, 0);
 	Print_DrawText("Chan. A\n");		
 	Print_DrawText("Chan. B\n");
 	Print_DrawText("Chan. C\n");

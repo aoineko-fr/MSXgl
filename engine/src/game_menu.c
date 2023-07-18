@@ -11,10 +11,10 @@
 #include "vdp.h"
 #include "string.h"
 
-#if (MENU_USE_DEFAULT_CALLBACK)
+// #if (MENU_USE_DEFAULT_CALLBACK)
 #include "print.h"
 #include "input.h"
-#endif
+// #endif
 
 //=============================================================================
 // READ-ONLY DATA

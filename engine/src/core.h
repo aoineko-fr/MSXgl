@@ -10,7 +10,7 @@
 // Library version
 #define VERSION_MAJOR				(u16)0		// 4-bits (0-15)
 #define VERSION_MINOR				(u16)9		// 6-bits (0-63)
-#define VERSION_PATCH				(u16)7		// 6-bits (0-63)
+#define VERSION_PATCH				(u16)8		// 6-bits (0-63)
 #define VERSION(a, b, c)			((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT				VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 
@@ -73,6 +73,7 @@ typedef void (*callback)(void);				// Callback default signature
 #pragma disable_warning	110		// Remove "conditional flow changed by optimizer: so said EVELYN the modified DOG" warning
 #pragma disable_warning	126		// Remove "unreachable code" warning
 #pragma disable_warning	218 	// Remove "z80instructionSize() failed to parse line node, assuming 999 bytes" info
+#pragma disable_warning	283 	// Remove "function declarator with no prototype" warning
 
 //-----------------------------------------------------------------------------
 // Helper macros
@@ -204,6 +205,9 @@ typedef void (*callback)(void);				// Callback default signature
 
 // Macro to create a name by concatenating two part
 #define MACRO_MERGE(a, b)			a##b
+
+// Macro to overcome # in macro error with SDCC 4.3.0 
+#define HASH #
 
 //-----------------------------------------------------------------------------
 // SDCC defines

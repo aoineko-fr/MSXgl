@@ -274,7 +274,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 			if(targetY + GET_BOUND_Y < GAMEPAWN_BORDER_MAX_Y)
 			#endif
 			{
-				u8 tile;
+				u8 tile = 0;
 				u8 cellY = (targetY + GET_BOUND_Y) / 8;
 				u8 cellX, lastCell = 0xFF;
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_0)

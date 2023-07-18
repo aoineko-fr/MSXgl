@@ -640,7 +640,7 @@ u8 DOS_FindNextFileFCB();
 //-----------------------------------------------------------------------------
 // MSX-DOS 2 FUNCTIONS
 //-----------------------------------------------------------------------------
-#if (TARGET == TARGET_DOS2)
+#if ((TARGET == TARGET_DOS2) || (TARGET == TARGET_DOS2_MAPPER))
 
 //.............................................................................
 // Group: MSX-DOS 2 File Handling
@@ -992,7 +992,7 @@ const DOS_Time* DOS_GetTime();
 
 #endif // (DOS_USE_UTILITIES)
 
-#endif // (TARGET == TARGET_DOS2)
+#endif // ((TARGET == TARGET_DOS2) || (TARGET == TARGET_DOS2_MAPPER))
 
 //.............................................................................
 // Group: Misc

@@ -26,13 +26,11 @@
 //-----------------------------------------------------------------------------
 
 // VDP Registers Flags
-
 #if (VDP_USE_16X16_SPRITE)
 #define VDP_SPRITE_COLORS	16
 #else
 #define VDP_SPRITE_COLORS	8
 #endif
-
 
 // Handle interruptions disabling
 #if (VDP_ISR_SAFE_MODE == VDP_ISR_SAFE_ALL)
@@ -706,12 +704,34 @@ void VDP_Poke_16K(u8 val, u16 dest) __PRESERVES(c, h, l, iyl, iyh)
 	VDP_EI			\
 	outi
 
+//-----------------------------------------------------------------------------
+// Fast write to VDP register
+// @todo out-out timing is 25 cc, less than worse case on MSX1 for G1 et G2!
+#define ASM_REG_WRITE(_reg, _val)					\
+	__asm											\
+		ld		a, _val								\
+		VDP_DI										\
+		out		(P_VDP_ADDR), a						\
+		ld		a, HASH(VDP_REG(_reg))				\
+		VDP_EI										\
+		out		(P_VDP_ADDR), a						\
+	__endasm
+
+//-----------------------------------------------------------------------------
+// Fast write to VDP register with backup to RAM
+#define ASM_REG_WRITE_BK(_reg, _val)				\
+	__asm											\
+		ld		a, _val								\
+		ld		(_g_VDP_REGSAV + 7), a				\
+	__endasm;										\
+	ASM_REG_WRITE(_reg, _val)
+
 // Fast incremental write to VDP register with backup to RAM.
 #define ASM_REG_WRITE_INC_BK(_addr, _reg, _count)	\
 	__asm											\
-		ld		hl, #(_##_addr)						\
-		ld		de, #(_g_VDP_REGSAV + _reg)			\
-		ld		bc, #(_count)						\
+		ld		hl, HASH(_##_addr)					\
+		ld		de, HASH(_g_VDP_REGSAV + _reg)		\
+		ld		bc, HASH(_count)					\
 		ldir										\
 	__endasm;										\
 	ASM_REG_WRITE_INC(_addr, _reg, _count)
@@ -719,14 +739,14 @@ void VDP_Poke_16K(u8 val, u16 dest) __PRESERVES(c, h, l, iyl, iyh)
 // Fast incremental write to VDP register. Address in a label.
 #define ASM_REG_WRITE_INC(_addr, _reg, _count)		\
 	__asm											\
-		ld		a, #(_reg)							\
+		ld		a, HASH(_reg)						\
 		VDP_DI										\
 		out		(P_VDP_ADDR), a						\
-		ld		a, #VDP_REG(17)						\
+		ld		a, HASH(VDP_REG(17))				\
 		VDP_EI_DEF									\
 		out		(P_VDP_ADDR), a						\
-		ld		hl, #(_##_addr)						\
-		ld		c, #P_VDP_IREG						\
+		ld		hl, HASH(_##_addr)					\
+		ld		c, HASH(P_VDP_IREG)					\
 		VDP_DI_DEF									\
 		OUTI(_count) ; 'ei' included				\
 	__endasm
@@ -734,13 +754,13 @@ void VDP_Poke_16K(u8 val, u16 dest) __PRESERVES(c, h, l, iyl, iyh)
 // Fast incremental write to VDP register. Address in HL register.
 #define ASM_REG_WRITE_INC_HL(_reg, _count)			\
 	__asm											\
-		ld		a, #(_reg)							\
+		ld		a, HASH(_reg)						\
 		VDP_DI										\
 		out		(P_VDP_ADDR), a						\
-		ld		a, #VDP_REG(17)						\
+		ld		a, HASH(VDP_REG(17))				\
 		VDP_EI_DEF									\
 		out		(P_VDP_ADDR), a						\
-		ld		c, #P_VDP_IREG						\
+		ld		c, HASH(P_VDP_IREG)					\
 		VDP_DI_DEF									\
 		OUTI(_count) ; 'ei' included				\
 	__endasm
@@ -1762,28 +1782,6 @@ void VDP_RegWriteBakMask(u8 reg, u8 mask, u8 flag)
 	value |= flag;
 	VDP_RegWriteBak(reg, value);
 }
-
-//-----------------------------------------------------------------------------
-// Fast write to VDP register
-// @todo out-out timing is 25 cc, less than worse case on MSX1 for G1 et G2!
-#define ASM_REG_WRITE(_reg, _val)					\
-	__asm											\
-		ld		a, _val								\
-		VDP_DI										\
-		out		(P_VDP_ADDR), a						\
-		ld		a, #VDP_REG(_reg)					\
-		VDP_EI										\
-		out		(P_VDP_ADDR), a						\
-	__endasm
-
-//-----------------------------------------------------------------------------
-// Fast write to VDP register with backup to RAM
-#define ASM_REG_WRITE_BK(_reg, _val)				\
-	__asm											\
-		ld		a, _val								\
-		ld		(_g_VDP_REGSAV + 7), a				\
-	__endasm;										\
-	ASM_REG_WRITE(_reg, _val)
 
 //-----------------------------------------------------------------------------
 // Read default S#0 register [MSX1/2/2+/TR]

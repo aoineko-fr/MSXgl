@@ -290,7 +290,7 @@ __endasm;
 //=============================================================================
 // MSX-DOS 2 FUNCTIONS
 //=============================================================================
-#if (TARGET == TARGET_DOS2)
+#if ((TARGET == TARGET_DOS2) || (TARGET == TARGET_DOS2_MAPPER))
 
 #if (DOS_USE_HANDLE)
 
@@ -882,7 +882,7 @@ __endasm;
 
 #endif // (DOS_USE_UTILITIES)
 
-#endif // (TARGET == TARGET_DOS2)
+#endif // ((TARGET == TARGET_DOS2) || (TARGET == TARGET_DOS2_MAPPER))
 
 //-----------------------------------------------------------------------------
 // Get MSX-DOS version number
@@ -903,7 +903,7 @@ __asm
 	pop		ix
 	or		a
 	ret		nz
-#if (TARGET == TARGET_DOS2)
+#if ((TARGET == TARGET_DOS2) || (TARGET == TARGET_DOS2_MAPPER))
 	ld		(hl), c
 	inc		hl
 	ld		(hl), b

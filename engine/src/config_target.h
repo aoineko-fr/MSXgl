@@ -104,8 +104,11 @@
 #elif (TARGET == TARGET_DOS2)
 	#define TARGET_NAME "MSX-DOS 2"
 
-#elif (TARGET == TARGET_DOS2_ARG)
-	#define TARGET_NAME "MSX-DOS 2 with arguments"
+#elif (TARGET == TARGET_DOS2_MAPPER)
+	#define TARGET_NAME "MSX-DOS 2 with RAM mapper"
+
+#elif (TARGET == TARGET_DOS3)
+	#define TARGET_NAME "NEXTOR"
 
 #elif (TARGET == TARGET_ROM_8K_P1)
 	#define TARGET_NAME "8K ROM in page 1"

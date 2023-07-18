@@ -395,6 +395,15 @@ enum KEY_ID
 u8 Keyboard_Read(u8 row) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh);
 
 #if (INPUT_KB_UPDATE)
+
+// Buffer to store current frame keys state
+extern u8* g_InputBufferNew;
+// Buffer to store previous frame keys state
+extern u8* g_InputBufferOld;
+
+// Function: Keyboard_SetBuffer
+inline void Keyboard_SetBuffer(u8* new, u8* old) { g_InputBufferNew = new; g_InputBufferOld = old; }
+
 // Function: Keyboard_Update
 // Update all keyboard rows at once
 // Only available when INPUT_KB_UPDATE is TRUE

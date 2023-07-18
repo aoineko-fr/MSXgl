@@ -39,11 +39,37 @@ require(`${RootDir}projects/default_config.js`);
 require(`${ProjDir}project_config.js`);
 
 //-- Setup command line overwrite parameters
-const CommandArgs = process.argv.slice(2);
+let CommandArgs = process.argv.slice(2);
 for (let i = 0; i < CommandArgs.length; i++)
 {
 	const arg = CommandArgs[i].toLowerCase();
-	if(arg.startsWith("target="))
+	if(arg.startsWith("projname="))
+	{
+		let val = CommandArgs[i].substring(9);
+		if (val)
+		{
+			ProjName = val;
+			util.print(`Command line overwrite => ProjName=${ProjName}`, PrintDetail);
+		}
+	}
+}
+
+//-- Sub-project specific overwrite
+if (fs.existsSync(`${ProjDir}${ProjName}.js`))
+{
+	util.print(`Sub-project configuration found '${ProjDir}${ProjName}.js'`, PrintDetail);
+	require(`${ProjDir}${ProjName}.js`);
+}
+
+//-- Setup command line overwrite parameters
+CommandArgs = process.argv.slice(2);
+for (let i = 0; i < CommandArgs.length; i++)
+{
+	const arg = CommandArgs[i].toLowerCase();
+	if(arg.startsWith("projname="))
+	{
+	}
+	else if(arg.startsWith("target="))
 	{
 		let val = CommandArgs[i].substring(7);
 		if (val)
@@ -59,17 +85,6 @@ for (let i = 0; i < CommandArgs.length; i++)
 		{
 			Machine = val;
 			util.print(`Command line overwrite => Machine=${Machine}`, PrintDetail);
-		}
-	}
-	else if(arg.startsWith("projname="))
-	{
-		let val = CommandArgs[i].substring(9);
-		if (val)
-		{
-			ProjName = val;
-			// ProjModules = [ ProjName ];
-			// ProjSegments = ProjName;
-			util.print(`Command line overwrite => ProjName=${ProjName}`, PrintDetail);
 		}
 	}
 	else if(arg.startsWith("romsize="))
@@ -95,13 +110,6 @@ for (let i = 0; i < CommandArgs.length; i++)
 	{
 		util.print(`Unknow command line overwrite '${arg}'`, PrintWarning);
 	}
-}
-
-//-- Sub-project specific overwrite
-if (fs.existsSync(`${ProjDir}${ProjName}.js`))
-{
-	util.print(`Sub-project configuration found '${ProjDir}${ProjName}.js'`, PrintDetail);
-	require(`${ProjDir}${ProjName}.js`);
 }
 
 //-- Validate enum
@@ -167,6 +175,8 @@ util.print(`- OutDir: ${OutDir}`, PrintDetail);
 util.print(`- RootDir: ${RootDir}`, PrintDetail);
 util.print(`- LibDir: ${LibDir}`, PrintDetail);
 util.print(`- ToolsDir: ${ToolsDir}`, PrintDetail);
+
+process.env.path += `;${ToolsDir}sdcc/bin`; // Hotfix for SDCC 4.3.0 path error for CC1
 
 //_____________________________________________________________________________
 //   ▄▄  ▄▄
@@ -372,12 +382,13 @@ if (DoCompile)
 					let bankAddr = bankAddrList[b];
 					if (bankAddr)
 					{
-						let segName = `${ProjSegments}_s${s}_b${b}`;
-						if (fs.existsSync(`${segName}.${segExtList[e]}`))
+						let segPath = `${ProjSegments}_s${s}_b${b}`;
+						let segName = path.parse(segPath).name;
+						if (fs.existsSync(`${segPath}.${segExtList[e]}`))
 						{
 							let bankHex = util.getHex(bankAddr);
-							util.print(`Segment found: ${segName}.${segExtList[e]} (addr: ${hex}${bankHex})`);
-							compiler.compile(`${ProjDir}${segName}.${segExtList[e]}`, SegSize, `SEG${s}`);
+							util.print(`Segment found: ${segPath}.${segExtList[e]} (addr: ${hex}${bankHex})`);
+							compiler.compile(`${ProjDir}${segPath}.${segExtList[e]}`, SegSize, `SEG${s}`);
 							MapperBanks += `-Wl-b_SEG${s}=0x${hex}${bankHex} `;
 							RelList.push(`${OutDir}${segName}.rel`);
 						}
@@ -512,12 +523,15 @@ if (DoPackage)
 		H2BParam = `${OutDir}${ProjName}.ihx -e ${Ext} -s 0x${util.getHex(StartAddr)} -l ${MapperSize} -b ${SegSize}`;
 	else
 		H2BParam = `${OutDir}${ProjName}.ihx -e ${Ext} -s 0x${util.getHex(StartAddr)} -l ${FillSize}`;
+	if (Target === "DOS2_MAPPER")
+		H2BParam += " -split";
 	let err = util.execSync(`${Hex2Bin} ${H2BParam}`);
 	if(err)
 	{
 		util.print(`Package error! Code: ${err}`, PrintError);
 		process.exit(1);
 	}
+	
 	util.print("Success", PrintSuccess);
 
 	//-- Display step duration

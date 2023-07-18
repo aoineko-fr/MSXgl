@@ -42,7 +42,7 @@ PLY_AKG_OPCODE_ADD_HL_BC_LSB:
     ld d, (hl)
     ld a, (de)
     inc de
-    ex af, af'
+    ex af, af';'
     ld a, b
     ld hl, #PLY_AKG_CHANNEL1_SOUNDEFFECTDATA
     ld b, #0x0
@@ -59,7 +59,7 @@ PLY_AKG_OPCODE_INC_HL:
     inc hl
     ld (hl), #0x0
     inc hl
-    ex af, af'
+    ex af, af';'
     ld (hl), a
 PLY_AKG_OPCODE_DEC_HL:
 	ret 
@@ -851,11 +851,11 @@ PLY_AKG_CHANNEL1_PITCHNOCARRY:
     ld (PLY_AKG_CHANNEL1_GLIDE_SAVEHL), hl
     ld c, l
     ld b, h
-    ex af, af'
+    ex af, af';'
     ld a, (PLY_AKG_CHANNEL1_TRACKNOTE)
     add a, a
     ld l, a
-    ex af, af'
+    ex af, af';'
     ld h, #0x0
     ld sp, #PLY_AKG_PERIODTABLE
     add hl, sp
@@ -987,11 +987,11 @@ PLY_AKG_CHANNEL2_PITCHNOCARRY:
     ld (PLY_AKG_CHANNEL2_GLIDE_SAVEHL), hl
     ld c, l
     ld b, h
-    ex af, af'
+    ex af, af';'
     ld a, (PLY_AKG_CHANNEL2_TRACKNOTE)
     add a, a
     ld l, a
-    ex af, af'
+    ex af, af';'
     ld h, #0x0
     ld sp, #PLY_AKG_PERIODTABLE
     add hl, sp
@@ -1123,11 +1123,11 @@ PLY_AKG_CHANNEL3_PITCHNOCARRY:
     ld (PLY_AKG_CHANNEL3_GLIDE_SAVEHL), hl
     ld c, l
     ld b, h
-    ex af, af'
+    ex af, af';'
     ld a, (PLY_AKG_CHANNEL3_TRACKNOTE)
     add a, a
     ld l, a
-    ex af, af'
+    ex af, af';'
     ld h, #0x0
     ld sp, #PLY_AKG_PERIODTABLE
     add hl, sp

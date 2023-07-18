@@ -311,6 +311,27 @@ else if (Target === "DOS2")
 
 	TargetDesc = "MSX-DOS 2 program (starting at 0100h)";
 }
+//-----------------------------------------------------------------------------
+else if (Target === "DOS2_MAPPER")
+{
+	if(!ROMMainSegments)
+		ROMMainSegments = 2;
+	Mapper = "ROM_ASCII16";
+	Ext = "rom";
+	Crt0 = "crt0_rom_mapper";
+	StartAddr = 0x4000;
+	CodeAddr = 0x4000;
+	RamAddr = 0xC000;
+	MapperSize = ROMSize*1024;
+	SegSize = 16*1024;
+	FillSize = ROMMainSegments * SegSize;
+	Bank0Addr = 0x4000;
+	Bank1Addr = 0x8000;
+	Bank2Addr = 0;
+	Bank3Addr = 0;
+
+	TargetDesc = "MSX-DOS 2 launcher to RAM mapper (program starting at 4000h)";
+}
 
 //-----------------------------------------------------------------------------
 else

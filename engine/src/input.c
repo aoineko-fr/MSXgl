@@ -250,14 +250,20 @@ u8 Keyboard_Read(u8 row) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)
 }
 
 #if (INPUT_KB_UPDATE)
+
+// Buffer to store current frame keys state
+u8* g_InputBufferNew = (u8*)g_NEWKEY;
+// Buffer to store previous frame keys state
+u8* g_InputBufferOld = (u8*)g_OLDKEY;
+
 //-----------------------------------------------------------------------------
 // Update all keyboard rows at once
 void Keyboard_Update()
 {
 	for(u8 i = INPUT_KB_UPDATE_MIN; i <= INPUT_KB_UPDATE_MAX; ++i)	
 	{
-		((u8*)g_OLDKEY)[i] = g_NEWKEY[i];
-		((u8*)g_NEWKEY)[i] = Keyboard_Read(i);
+		g_InputBufferOld[i] = g_InputBufferNew[i];
+		g_InputBufferNew[i] = Keyboard_Read(i);
 	}
 }
 
@@ -265,7 +271,7 @@ void Keyboard_Update()
 // Check if a given key is pressed
 bool Keyboard_IsKeyPressed(u8 key)
 {
-	return (g_NEWKEY[KEY_ROW(key)] & (1 << KEY_IDX(key))) == 0;
+	return (g_InputBufferNew[KEY_ROW(key)] & (1 << KEY_IDX(key))) == 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -273,8 +279,8 @@ bool Keyboard_IsKeyPressed(u8 key)
 bool Keyboard_IsKeyPushed(u8 key)
 {
 	u8 flag = 1 << KEY_IDX(key);
-	u8 newKey = (g_NEWKEY[KEY_ROW(key)] & flag) == 0;
-	u8 oldKey = (g_OLDKEY[KEY_ROW(key)] & flag) == 0;
+	u8 newKey = (g_InputBufferNew[KEY_ROW(key)] & flag) == 0;
+	u8 oldKey = (g_InputBufferOld[KEY_ROW(key)] & flag) == 0;
 	return newKey && !oldKey;
 }
 

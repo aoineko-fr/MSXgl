@@ -128,7 +128,6 @@ void DisplayPage()
 	u16 blockWidth = 16 * 256 / src->Width;
 	u16 blockBytes = 16 / 8 * src->BPC;
 	u16 lineBytes = src->Width / 8 * src->BPC;
-	u16 X, Y;
 	u8 scale = 8 / src->BPC;
 	
 	//-------------------------------------------------------------------------

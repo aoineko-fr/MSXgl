@@ -15,7 +15,7 @@
 // DoMake    = true;	//-- Link all the project and engine source code (boolean). Merge all REL into one IHX file
 // DoPackage = true;	//-- Generate final binary file (boolean). Binarize the IHX file
 // DoDeploy  = true;	//-- Gathering of all files necessary for the program to work (boolean). Depends on the type of target
-// DoRun     = true;	//-- Start the program automatically at the end of the build (boolean)
+// DoRun     = false;	//-- Start the program automatically at the end of the build (boolean)
 
 //*****************************************************************************
 // TOOLS SETTINGS
@@ -34,13 +34,13 @@
 //*****************************************************************************
 
 //-- Project name (string). Will be use for output filename
-// ProjName = %Input%
+// ProjName = "";
 
 //-- List of project modules to build (array). If empty, ProjName will be added
-// ProjModules = %ProjName%
+// ProjModules = ProjName;
 
 //-- Project segments base name (string). ProjName will be used if not defined
-// ProjSegments = %ProjName%
+// ProjSegments = ProjName;
 
 //-- List of library modules to build (array)
 LibModules = [ "system", "bios", "vdp", "print", "input", "memory", "math", "draw" ];

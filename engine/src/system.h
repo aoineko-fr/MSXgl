@@ -79,6 +79,9 @@ extern u16 g_LastAddr;
 	extern u8 g_Bank3Segment;
 	#define SET_BANK_SEGMENT(b, s)	{ (*(u8*)(ADDR_BANK_##b) = (s)); (g_Bank##b##Segment = (s)); }
 	#define GET_BANK_SEGMENT(b)	    (g_Bank##b##Segment)
+#elif (TARGET == TARGET_DOS2_MAPPER)
+	#define SET_BANK_SEGMENT(b, s)	DOSMapper_SetPage(b + 1, s)
+	#define GET_BANK_SEGMENT(b)		DOSMapper_GetPage(b + 1)
 #endif
 
 

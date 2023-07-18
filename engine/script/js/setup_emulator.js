@@ -177,6 +177,14 @@ else if (EmulatorName === "EMULICIOUS") {
 	if (EmulFullScreen) { EmulatorArgs += " -fullscreen"; }
 	if (EmulMute)       { EmulatorArgs += " -muted"; }
 
+	//---- Emulator extensions ----
+	if (EmulSCC)      { EmulatorArgs += " -set MSXSCCCartridgeEnabled=true"; }
+	// if (EmulMSXMusic) {}
+	// if (EmulMSXAudio) {}
+	// if (EmulOPL4)     {}
+	// if (EmulPSG2)     {}
+	// if (EmulV9990)    {}
+
 	//---- Add launch program ----
 	if (Ext === "rom") {
 		EmulatorArgs += ` ${ProjDir}emul/rom/${ProjName}.rom`;
