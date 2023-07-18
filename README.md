@@ -1,4 +1,4 @@
-<img width="100%" src="[https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_text.jpg" title="MSXgl" />
+<img width="100%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_text.jpg" title="MSXgl" />
 
 **MSXgl is a Game Library wrote in C and targeting MSX computers.**
 
