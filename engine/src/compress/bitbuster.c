@@ -9,6 +9,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "bitbuster.h"
 #include "system_port.h"
+#include "vdp.h"
 
 //=============================================================================
 // OPTIONS VALIDATION
@@ -180,6 +181,14 @@ __asm
 // DE = VRAM destination
 //-----------------------------------------------------------
 	di
+
+#if ((VDP_USE_VALIDATOR) && !(MSX_VERSION & MSX_1))
+	// Reset VRAM address bit 14 to 16 (in R#14)
+	xor		a
+	out		(P_VDP_REG), a
+	ld		a, #VDP_REG(14)
+	out		(P_VDP_REG), a
+#endif
 
 // VRAM address setup
 	ld		a, e

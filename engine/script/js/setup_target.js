@@ -12,6 +12,8 @@ if (Target === "ROM")     Target = "ROM_32K";
 if (Target === "BAS")     Target = "BIN";
 if (Target === "USR")     Target = "BIN_USR";
 if (Target === "BOOT")    Target = "DOS0";
+if (Target === "ROM_K4")  Target = "ROM_KONAMI";
+if (Target === "ROM_K5")  Target = "ROM_KONAMI_SCC";
 
 //*****************************************************************************
 // BASIC
