@@ -2,22 +2,22 @@
 setlocal EnableDelayedExpansion
 
 :: Audio
-set BuildArkos=1
-set BuildTrilo=1
-set BuildWYZ=1
-set BuildayFX=1
-set BuildVGM=1
-set BuildayVGM=1
-set BuildPCMEnc=1
-set BuildPCMPlay=1
+set BuildArkos=0
+set BuildTrilo=0
+set BuildWYZ=0
+set BuildayFX=0
+set BuildVGM=0
+set BuildayVGM=0
+set BuildPCMEnc=0
+set BuildPCMPlay=0
 :: Image
-set BuildBitmap=1
+set BuildBitmap=0
 set BuildImage=1
-set BuildCompress=1
-set BuildTile=1
-set BuildV9990=1
+set BuildCompress=0
+set BuildTile=0
+set BuildV9990=0
 :: Misc
-set BuildZip=1
+set BuildZip=0
 
 :: Path
 set Tools=..\..\..\tools
@@ -174,14 +174,14 @@ if %BuildImage%==1 (
 	%MSXtk%\MSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_16or.h  -pos 128 80 -size 8 8   -num 12 4 -name g_DataSprt16or -trans 0xFF00FF -bpc 1
 	%MSXtk%\MSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_16il.h  -pos 0 160  -size 8 8   -num 12 8 -name g_DataSprt16il -trans 0xFF00FF -bpc 1
 	%MSXtk%\MSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_layer.h -pos 0 128  -size 16 16 -num 13 1 -name g_DataSprtLayer -mode sprt ^
-		-l i16 0 0 1 1 0x1B141E ^
-		-l i16 0 0 1 1 0xFDF5F1 0xB8D8D1 0x759DA9 ^
-		-l i16 0 0 1 1 0xEB8A06 0xBE5340 ^
-		-l i16 0 0 1 1 0x1B141E 0x759DA9 0xB8D8D1 0xBE5340
+		-l i16 0 0 1 1 0x311433 ^
+		-l i16 0 0 1 1 0xFDF3F1 0xBAD6D2 0x7A9CAB ^
+		-l i16 0 0 1 1 0xEB8929 0xC0524B ^
+		-l i16 0 0 1 1 0x311433 0xBAD6D2 0x7A9CAB 0xC0524B
 	%MSXtk%\MSXimg.exe img\data.png -copy gk.txt -out %Dest%\data_sprt_ball.h -pos 192 160 -size 16 16 -num 3 1 -name g_DataSprtBall -mode sprt ^
 		-l i16 0 0 1 1 0xCCC35E 0xDED087 ^
 		-l i16 0 0 1 1 0xCCC35E
-	%MSXtk%\MSXimg.exe img\data.png -out %Dest%\data_bg.h -pos 128 160 -size 8 8 -num 8 3 -name g_DataBackground -mode sprt -l i8 0 0 1 1 0xFFFFFF
+	%MSXtk%\MSXimg.exe img\data.png -out %Dest%\data_bg.h -pos 128 160 -size 8 8 -num 8 3 -name g_DataBackground -mode sprt -l i8 0 0 1 1 0xFFFDFF
 )
 
 ::-----------------------------------------------------------------------------
