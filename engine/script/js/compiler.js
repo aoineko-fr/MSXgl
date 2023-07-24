@@ -60,6 +60,7 @@ module.exports.compile = function (file, size, seg)
 		if (size !== undefined)	AddOpt += ` --code-size ${size}`;
 		if (seg !== undefined)	AddOpt += ` --codeseg ${seg}`;
 		if (Debug)				AddOpt += " --debug";
+		if (AllowUndocumented)	AddOpt += " --allow-undocumented-instructions";
 		if (AppSignature)		AddOpt += " -DAPPSIGN";
 		let MaxAllocs = 3000;
 		switch (CompileComplexity)

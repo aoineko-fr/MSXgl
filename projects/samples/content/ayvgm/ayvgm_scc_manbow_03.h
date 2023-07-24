@@ -1,13 +1,12 @@
-// _____________________________________________________________________________
-//    ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄      ▄      
-//   ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▀▀██ ▄  ██▀▄
-//   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ 
-// ______________________________▀▀  ___________________________________________
-// CMSXzip 1.0.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sun Mar 20 11:10:34 2022
-// Soure file: vgm\scc_manbow_03.vgm (116880 bytes)
-// Compressor: ayVGM
-const u8 g_ayVGM_scc_manbow_03[] = {
+//██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█      ▄
+//██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
+//█  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
+//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
+//MSXzip 1.3.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+//File generated on Mon Jul 24 23:08:30 2023
+//Source file: vgm\scc_manbow_03.vgm (116880 bytes)
+//Compressor: ayVGM
+const unsigned char g_ayVGM_scc_manbow_03[] = {
 	0x61, 0x79, 0x4D, 0x20, // Ident
 	0x17, // Flag
 	0xF0, 0x00, // SCC 0x80: nn
@@ -24636,4 +24635,4 @@ const u8 g_ayVGM_scc_manbow_03[] = {
 	0x16, // R#1: 1n
 	0xFE, 0x39, 0x01, // End of music with loop
 };
-// Total size: 42323 bytes
+//Total size: 42323 bytes

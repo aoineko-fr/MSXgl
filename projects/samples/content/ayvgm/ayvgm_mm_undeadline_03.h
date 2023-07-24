@@ -1,13 +1,12 @@
-// _____________________________________________________________________________
-//    ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄      ▄      
-//   ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▀▀██ ▄  ██▀▄
-//   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ 
-// ______________________________▀▀  ___________________________________________
-// CMSXzip 1.0.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sun Mar 20 11:10:33 2022
-// Soure file: vgm\mm_undeadline_03.vgm (6103 bytes)
-// Compressor: ayVGM
-const u8 g_ayVGM_mm_undeadline_03[] = {
+//██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█      ▄
+//██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
+//█  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
+//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
+//MSXzip 1.3.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+//File generated on Mon Jul 24 23:08:30 2023
+//Source file: vgm\mm_undeadline_03.vgm (6103 bytes)
+//Compressor: ayVGM
+const unsigned char g_ayVGM_mm_undeadline_03[] = {
 	0x61, 0x79, 0x4D, 0x20, // Ident
 	0x17, // Flag
 	0xE0, // Wait60: En
@@ -452,4 +451,4 @@ const u8 g_ayVGM_mm_undeadline_03[] = {
 	0xE0, // Wait60: En
 	0xFE, 0x05, 0x00, // End of music with loop
 };
-// Total size: 448 bytes
+//Total size: 448 bytes

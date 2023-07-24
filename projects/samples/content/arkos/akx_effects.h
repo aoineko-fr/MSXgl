@@ -3,7 +3,7 @@
 // â–ˆ  â–ˆ â–ˆ  â–€â–€  â–„â–ˆ  â–ˆ  â–ˆ â–ˆâ–ˆâ–„â–€ â–ˆâ–ˆ â–ˆâ–ˆ â–ˆ
 // â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 // MSXbin 1.4.0 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Wed Feb  8 01:17:31 2023
+// File generated on Mon Jul 24 23:08:19 2023
 // Soure file: arkos\effects.akx
 const unsigned char g_AKX_effects[] = {
 	0x0A, 0xE0, 0x1C, 0xE0, 0x42, 0xE0, 0x81, 0xE0, 0x97, 0xE0, 0x00, 0xBD, 0x01, 0x5F, 0x00, 0xBD, //      0

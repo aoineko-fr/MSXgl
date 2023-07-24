@@ -266,6 +266,9 @@ global.Debug = false;
 //-- Move debug symbols to deployement folder (boolean)
 global.DebugSymbols = false;
 
+//-- Allow compiler to generate undocumented Z80 instructions (boolean)
+global.AllowUndocumented = false;
+
 //-- Assembler code optimizer (string)
 //   - None
 //   - Peep       SDCC peep hole otpimizer

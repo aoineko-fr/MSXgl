@@ -789,7 +789,8 @@ inline void V9_CommandSTOP() { V9_ExecCommand(V9_CMD_STOP); }
 
 // Function: V9_CommandLMMC
 // Data is transferred from CPU to VRAM rectangle area.
-inline void V9_CommandLMMC(const u8* src, u16 dx, u16 dy, u16 nx, u16 ny, u8 arg) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_ExecCommand(V9_CMD_LMMC); }
+// Note: Infinished function; don't use it.
+// inline void V9_CommandLMMC(const u8* src, u16 dx, u16 dy, u16 nx, u16 ny, u8 arg) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_ExecCommand(V9_CMD_LMMC); }
 
 // Function: V9_CommandLMMV
 // VRAM rectangle area is painted out.
@@ -797,7 +798,8 @@ inline void V9_CommandLMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 arg, u16 fc) { V9_
 
 // Function: V9_CommandLMCM
 // VRAM rectangle area data is transferred to CPU.
-inline void V9_CommandLMCM(u16 sx, u16 sy, u16 nx, u16 ny, u8 arg, u8* dest) { V9_SetCommandSX(sx); V9_SetCommandSY(sy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_ExecCommand(V9_CMD_LMCM); }
+// Note: Infinished function; don't use it.
+// inline void V9_CommandLMCM(u16 sx, u16 sy, u16 nx, u16 ny, u8 arg, u8* dest) { V9_SetCommandSX(sx); V9_SetCommandSY(sy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_ExecCommand(V9_CMD_LMCM); }
 
 // Function: V9_CommandLMMM
 // Rectangle area data is transferred from VRAM to VRAM.

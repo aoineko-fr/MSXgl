@@ -1,13 +1,12 @@
-// _____________________________________________________________________________
-//    ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄      ▄      
-//   ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▀▀██ ▄  ██▀▄
-//   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ 
-// ______________________________▀▀  ___________________________________________
-// CMSXzip 1.0.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sun Mar 20 11:10:34 2022
-// Soure file: vgm\scc_f1spirit_04.vgm (69352 bytes)
-// Compressor: ayVGM
-const u8 g_ayVGM_scc_f1spirit_04[] = {
+//██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█      ▄
+//██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
+//█  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
+//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
+//MSXzip 1.3.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+//File generated on Mon Jul 24 23:08:30 2023
+//Source file: vgm\scc_f1spirit_04.vgm (69352 bytes)
+//Compressor: ayVGM
+const unsigned char g_ayVGM_scc_f1spirit_04[] = {
 	0x61, 0x79, 0x4D, 0x20, // Ident
 	0x17, // Flag
 	0x17, // R#1: 1n
@@ -18766,4 +18765,4 @@ const u8 g_ayVGM_scc_f1spirit_04[] = {
 	0xF8, 0x3D, // SCC 0x88: nn
 	0xFE, 0xEE, 0x0E, // End of music with loop
 };
-// Total size: 28007 bytes
+//Total size: 28007 bytes

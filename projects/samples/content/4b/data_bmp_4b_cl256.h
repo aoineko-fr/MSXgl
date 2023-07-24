@@ -1,20 +1,20 @@
-// _____________________________________________________________________________
-//    ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄
-//   ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▄  ▄█▄█ ▄▀██
-//   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██ ██ █  ▀██
-// _______________________________▀▀____________________________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█ ▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
+// █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
+// Data generated using MSXimg 1.16.6 on Mon Jul 24 23:08:33 2023
+// by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
+// ─────────────────────────────────────────────────────────────────────────────
 // Source image author: GrafxKid (https://opengameart.org/content/super-random-sprites)
 // License: CC-BY
-// _____________________________________________________________________________
-// Data generated using CMSXimg 1.12.0 on Sun Mar 20 11:14:18 2022
-// by Guillaume "Aoineko" Blanchard (2021) under CC BY-SA free license
+// ─────────────────────────────────────────────────────────────────────────────
 // Generation parameters:
 //  - Input file:     img\data.png
 //  - Mode:           Bitmap
 //  - Start position: 16, 0
 //  - Sprite size:    16, 16 (gap: 0, 0)
 //  - Sprite count:   1, 1
-//  - Color count:    16 (Transparent: #8468A1)
+//  - Color count:    16 (Transparent: #FF00FF)
 //  - Compressor:     CropLine256 (8-bits per line, max 256x256)
 //  - Skip empty:     FALSE
 

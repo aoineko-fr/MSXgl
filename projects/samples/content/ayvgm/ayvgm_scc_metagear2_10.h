@@ -1,13 +1,12 @@
-// _____________________________________________________________________________
-//    ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄      ▄      
-//   ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▀▀██ ▄  ██▀▄
-//   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ 
-// ______________________________▀▀  ___________________________________________
-// CMSXzip 1.0.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sun Mar 20 11:10:34 2022
-// Soure file: vgm\scc_metagear2_10.vgm (184999 bytes)
-// Compressor: ayVGM
-const u8 g_ayVGM_scc_metagear2_10[] = {
+//██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█      ▄
+//██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
+//█  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
+//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
+//MSXzip 1.3.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+//File generated on Mon Jul 24 23:08:30 2023
+//Source file: vgm\scc_metagear2_10.vgm (184999 bytes)
+//Compressor: ayVGM
+const unsigned char g_ayVGM_scc_metagear2_10[] = {
 	0x61, 0x79, 0x4D, 0x20, // Ident
 	0x17, // Flag
 	0x00, 0x00, // R#0: 00 nn
@@ -21758,4 +21757,4 @@ const u8 g_ayVGM_scc_metagear2_10[] = {
 	0xF8, 0x3F, // SCC 0x88: nn
 	0xFE, 0xE7, 0x01, // End of music with loop
 };
-// Total size: 57197 bytes
+//Total size: 57197 bytes

@@ -1,13 +1,12 @@
-// _____________________________________________________________________________
-//    ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄      ▄      
-//   ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▀▀██ ▄  ██▀▄
-//   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ 
-// ______________________________▀▀  ___________________________________________
-// CMSXzip 1.0.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sun Mar 20 11:10:33 2022
-// Soure file: vgm\ma_proyakyu_10.vgm (14175 bytes)
-// Compressor: ayVGM
-const u8 g_ayVGM_ma_proyakyu_10[] = {
+//██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█      ▄
+//██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
+//█  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
+//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
+//MSXzip 1.3.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+//File generated on Mon Jul 24 23:08:30 2023
+//Source file: vgm\ma_proyakyu_10.vgm (14175 bytes)
+//Compressor: ayVGM
+const unsigned char g_ayVGM_ma_proyakyu_10[] = {
 	0x61, 0x79, 0x4D, 0x20, // Ident
 	0x13, // Flag
 	0x00, 0x5C, // R#0: 00 nn
@@ -1889,4 +1888,4 @@ const u8 g_ayVGM_ma_proyakyu_10[] = {
 	0xE6, // Wait60: En
 	0xFF, // End of music
 };
-// Total size: 1912 bytes
+//Total size: 1912 bytes

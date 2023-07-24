@@ -3,7 +3,7 @@
 // â–ˆ  â–ˆ â–ˆ  â–€â–€  â–„â–ˆ  â–ˆ  â–ˆ â–ˆâ–ˆâ–„â–€ â–ˆâ–ˆ â–ˆâ–ˆ â–ˆ
 // â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 // MSXbin 1.4.0 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sun Feb 12 16:47:42 2023
+// File generated on Mon Jul 24 23:08:26 2023
 // Soure file: trilo\SFX_TEST.afb
 const unsigned char g_SFX_TEST[] = {
 	0x08, 0x0F, 0x00, 0x4C, 0x00, 0x7A, 0x00, 0xA7, 0x00, 0xE4, 0x00, 0x53, 0x01, 0xC0, 0x01, 0xEA, //      0

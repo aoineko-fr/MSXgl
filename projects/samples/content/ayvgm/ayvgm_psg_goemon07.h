@@ -1,13 +1,12 @@
-// _____________________________________________________________________________
-//    ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄      ▄      
-//   ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▀▀██ ▄  ██▀▄
-//   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██▄▄ ██ ██▀ 
-// ______________________________▀▀  ___________________________________________
-// CMSXzip 1.0.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sun Mar 20 11:10:33 2022
-// Soure file: vgm\psg_goemon07.vgm (11676 bytes)
-// Compressor: ayVGM
-const u8 g_ayVGM_psg_goemon07[] = {
+//██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█      ▄
+//██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
+//█  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
+//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
+//MSXzip 1.3.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+//File generated on Mon Jul 24 23:08:30 2023
+//Source file: vgm\psg_goemon07.vgm (11676 bytes)
+//Compressor: ayVGM
+const unsigned char g_ayVGM_psg_goemon07[] = {
 	0x61, 0x79, 0x4D, 0x20, // Ident
 	0x17, // Flag
 	0x07, 0x00, // R#7: 07 nn
@@ -4330,4 +4329,4 @@ const u8 g_ayVGM_psg_goemon07[] = {
 	0x6A, // R#8: 6n
 	0xFE, 0xD3, 0x00, // End of music with loop
 };
-// Total size: 4869 bytes
+//Total size: 4869 bytes
