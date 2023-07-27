@@ -538,6 +538,10 @@ void UpdateBall()
 
 		Print_SetPosition(0, 2);
 		Print_DrawFormat("%i..\n%i..", dx, dy);
+
+		DEBUG_LOGNUM("DX", dx);
+		DEBUG_LOGNUM("DY", dy);
+		DEBUG_BREAK();
 	}
 
 	// Update player animation & physics
@@ -619,29 +623,32 @@ bool State_Initialize()
 	return FALSE; // Frame finished
 }
 
+#define S_DRAW		0
+#define S_UPDATE	1
+#define S_INPUT		2
+
 //-----------------------------------------------------------------------------
 //
 bool State_Game()
 {
-// VDP_SetColor(COLOR_MEDIUM_RED);
-	GamePawn_Draw(&g_Ball.Pawn);
-// VDP_SetColor(COLOR_LIGHT_BLUE);
-	GamePawn_Draw(&g_Player1.Pawn);
-// VDP_SetColor(COLOR_MEDIUM_GREEN);
-	GamePawn_Draw(&g_Player2.Pawn);
+	PROFILE_FRAME_START();
 
+	PROFILE_SECTION_START(S_DRAW, 100);
+	GamePawn_Draw(&g_Ball.Pawn);
+	GamePawn_Draw(&g_Player1.Pawn);
+	GamePawn_Draw(&g_Player2.Pawn);
 	// Background horizon blink
 	if(g_bFlicker)
-		VDP_FillVRAM(g_GameFrame & 1 ? 9 : 10, g_ScreenLayoutLow + (HORIZON+2) * 32, 0, 32);
+		VDP_FillVRAM(g_GameFrame & 1 ? 9 : 10, g_ScreenLayoutLow + (HORIZON + 2) * 32, 0, 32);
+	PROFILE_SECTION_END(S_DRAW, 100);
 
-// VDP_SetColor(COLOR_MAGENTA);
+	PROFILE_SECTION_START(S_UPDATE, 100);
 	UpdatePlayer(&g_Player1);
-// VDP_SetColor(COLOR_CYAN);
 	UpdatePlayer(&g_Player2);
-// VDP_SetColor(COLOR_LIGHT_YELLOW);
 	UpdateBall();
-// VDP_SetColor(COLOR_BLACK);
+	PROFILE_SECTION_END(S_UPDATE, 100);
 
+	PROFILE_SECTION_START(S_INPUT, 100);
 	// Update input
 	u8 row3 = Keyboard_Read(3);
 	u8 row8 = Keyboard_Read(8);
@@ -670,7 +677,9 @@ bool State_Game()
 
 	if(Keyboard_IsKeyPressed(KEY_ESC))
 		Game_Exit();
+	PROFILE_SECTION_END(S_INPUT, 100);
 
+	PROFILE_FRAME_END();
 		
 	return TRUE; // Frame finished
 }
@@ -690,6 +699,12 @@ bool State_Pause()
 // Programme entry point
 void main()
 {
+	DEBUG_INIT();
+	DEBUG_LOG("Start debug session!");
+	DEBUG_LOG("Let it go...");
+
 	Game_SetState(State_Initialize);
 	Game_MainLoop(VDP_MODE_GRAPHIC1);
+
+	DEBUG_LOG("End debug session!");
 }

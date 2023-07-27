@@ -309,8 +309,11 @@
 //-----------------------------------------------------------------------------
 
 // DEBUG_TOOL
-#define DEBUG_DISABLE				0  // No support for debug/profile tool
-#define DEBUG_OPENMSX				10 // Support for OpenMSX default debugger (no profiler)
-#define DEBUG_OPENMSX_G				11 // Grauw profile script for OpenMSX
-#define DEBUG_OPENMSX_S				12 // Salutte profile script for OpenMSX
-#define DEBUG_EMULICIOUS			20 // Support for Emulicious debugger/profiler
+#define DEBUG_DISABLE				0x00 // No support for debug/profile tool
+#define DEBUG_OPENMSX				0x10 // Support for openMSX default debugger (no profiler)
+#define DEBUG_OPENMSX_G				0x11 // Grauw profile script for openMSX
+#define DEBUG_OPENMSX_S				0x12 // Salutte profile script for openMSX
+#define DEBUG_OPENMSX_P				0x13 // PVM debug script for openMSX
+#define DEBUG_EMULICIOUS			0x20 // Support for Emulicious debugger/profiler
+
+#define DEBUG_EMULATOR(tool)		(tool & 0xF0)

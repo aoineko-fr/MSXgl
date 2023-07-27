@@ -448,8 +448,10 @@
 
 // Profiler method
 // - DEBUG_DISABLE ................ No profiler
-// - DEBUG_OPENMSX_G .............. Grauw profile script for OpenMSX
-// - DEBUG_OPENMSX_S .............. Salutte profile script for OpenMSX
+// - DEBUG_OPENMSX ................ Support for openMSX default debugger (no profiler)
+// - DEBUG_OPENMSX_G .............. Grauw profile script for openMSX
+// - DEBUG_OPENMSX_S .............. Salutte profile script for openMSX
+// - DEBUG_OPENMSX_P .............. PVM debug script for openMSX (no profiler)
 // - DEBUG_EMULICIOUS ............. Profile script for Emulicious
 #define DEBUG_TOOL					DEBUG_DISABLE
 #define PROFILE_LEVEL				10 

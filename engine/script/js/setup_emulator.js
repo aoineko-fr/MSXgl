@@ -133,8 +133,9 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulPortB === "NINJATAP") { EmulatorArgs += ' -command "plug joyportb ninjatap" -command "plug ninjatap_port_1 keyjoystick1"'; }
 
 	//---- Start emulator ----
+	EmulatorArgs += " -ext debugdevice";
+	// EmulatorArgs += ` -script ${ToolsDir}script/openMSX/XXXX.tcl`;
 	if (EmulDebug) {
-		EmulatorArgs += " -ext debugdevice";
 		if (fs.existsSync(Debugger) || ( (process.platform === "win32") && fs.existsSync(`${Debugger}.exe`)))
 			util.execSync(`start /b ${Debugger}`);
 		else
