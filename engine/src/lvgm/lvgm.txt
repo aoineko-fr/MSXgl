@@ -4,8 +4,9 @@
 	nn nn		"LVGM"            Light-VGM identifier
 	nn			Options
 				7 6 5 4 3 2 1 0
-				│ │ │ │     │ └── Frequency (0: 60 Hz, 1: 50 Hz)
-				│ │ │ │     └──── Loop data included
+				│ │ │ │   │ │ └── Frequency (0: 60 Hz, 1: 50 Hz)
+				│ │ │ │   │ └──── Loop data included
+				│ │ │ │   └────── Devices list
 				└─┴─┴─┴────────── File format version (0)
 	nn			Devices
 				7 6 5 4 3 2 1 0
@@ -36,12 +37,14 @@
 	F5				Start of secondary PSG chunk
 	F7				Start of Moonsound chunk
 
-	FD nn rr vv[]	Copy nn bytes (0~255) from register #rr
+	FC nn rr vv[]	Copy nn bytes (0~255) from register #rr                   [could be 19~274]
+
+	FD          	End of data segment
 
 	FE nn nn    	End of song with loop
 	FF          	End of song (without loop)
 ..............................................................................
-					Not used: F6, F8~FC
+					Not used: F6, F8~FB
 
 
 ==============================================================================
