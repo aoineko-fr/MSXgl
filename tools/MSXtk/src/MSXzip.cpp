@@ -22,20 +22,20 @@
 // MSXtk
 #include "MSXtk.h"
 #include "RLEp.h"
-#include "ayVGM.h"
+#include "lVGM.h"
 
 //=============================================================================
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "1.3.1";
+const char* VERSION = "1.4.0";
 
 /// Compressor enum
 enum COMPRESSOR
 {
 	COMPRESS_NONE,
-	COMPRESS_RLEP,  // RLEp compressor
-	COMPRESS_AYVGM, // ayVGM compressor for VGM format
+	COMPRESS_RLEP, // RLEp compressor
+	COMPRESS_LVGM, // lVGM compressor for VGM format
 };
 
 //=============================================================================
@@ -53,9 +53,6 @@ u8						g_RLEp_DefaultValue = 0;
 bool					g_RLEp_DefaultValueAuto = false;
 bool					g_RLEp_IncludeDefaultValue = false;
 bool					g_RLEp_IncludeZeroTerminator = false;
-
-// ayVGM options
-AYVGM_FREQ				g_ayVGM_Frequency = AYVGM_FREQ_50HZ;
 
 //=============================================================================
 // FUNCTIONS
@@ -80,9 +77,10 @@ void PrintHelp()
 	printf(" -def auto|X    Default value for type 0 chunk (default: 0)\n");
 	printf(" -incdef        Include default value (as first data)\n");
 	printf(" -inczero       Include 0 terminator (as last data)\n");
-	printf("ayVGM options:\n");
-	printf(" -ayVGM         VGM to ayVGM convertor\n");
-	printf(" -freq both|X   Synchronization frequency: 50/60 (Hz) or both (default: 50)\n");
+	printf("lVGM options:\n");
+	printf(" -lVGM          VGM to lVGM convertor\n");
+	printf(" -freq X        Synchronization frequency (50 or 60 Hz)\n");
+	printf(" -nohead        Don't include header\n");
 }
 
 //=============================================================================
@@ -90,8 +88,12 @@ void PrintHelp()
 //=============================================================================
 
 //const char* ARGV[] = { "", "../testcases/lvl5.dat.dts", "-c", "-rlep", "-def", "0", "-inczero" };
-//const char* ARGV[] = { "", "../testcases/psg_goemon07.vgm", "-asm", "-ayVGM", "-freq", "50" };
-//#define DEBUG_ARGS
+const char* ARGV[] = { "", "../testcases/psg_goemon07.vgm", "-c", "-lVGM", "-freq", "50" };
+//const char* ARGV[] = { "", "../testcases/scc_f1spirit_01.vgm", "-c", "-lVGM", "-freq", "60" };
+//const char* ARGV[] = { "", "../testcases/mm_undeadline_03.vgm", "-c", "-lVGM", "-freq", "50" };
+//const char* ARGV[] = { "", "../testcases/mm_ff_03.vgm", "-c", "-lVGM", "-freq", "60" };
+//const char* ARGV[] = { "", "../testcases/ma_xevious_01.vgm", "-c", "-lVGM", "-freq", "50" };
+#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
 // MAIN LOOP 
@@ -110,6 +112,10 @@ int main(int argc, const char* argv[])
 	}
 
 	g_InputFile.Filename = argv[1];
+
+	// lVGM options
+	g_lVGM_Frequency = LVGM_FREQ_50HZ;
+	g_lVGM_AddHeader = true;
 
 	// Parse command line parameters
 	for (i32 i = 2; i < argc; ++i)
@@ -138,8 +144,8 @@ int main(int argc, const char* argv[])
 			g_Compressor = COMPRESS_NONE;
 		else if (MSX::StrEqual(argv[i], "-rlep"))
 			g_Compressor = COMPRESS_RLEP;
-		else if (MSX::StrEqual(argv[i], "-ayVGM"))
-			g_Compressor = COMPRESS_AYVGM;
+		else if (MSX::StrEqual(argv[i], "-lVGM") || MSX::StrEqual(argv[i], "-ayVGM"))
+			g_Compressor = COMPRESS_LVGM;
 		// RLEp options
 		else if (MSX::StrEqual(argv[i], "-def"))
 		{ 
@@ -158,17 +164,19 @@ int main(int argc, const char* argv[])
 			g_RLEp_IncludeDefaultValue = true;
 		else if (MSX::StrEqual(argv[i], "-inczero"))
 			g_RLEp_IncludeZeroTerminator = true;
-		// ayVGM options
+		// lVGM options
 		else if (MSX::StrEqual(argv[i], "-freq"))
 		{
 			i++;
-			if (MSX::StrEqual(argv[i], "both"))
-				g_ayVGM_Frequency = AYVGM_FREQ_BOTH;
-			else if (MSX::StrEqual(argv[i], "50"))
-				g_ayVGM_Frequency = AYVGM_FREQ_50HZ;
+			if (MSX::StrEqual(argv[i], "50"))
+				g_lVGM_Frequency = LVGM_FREQ_50HZ;
 			else if (MSX::StrEqual(argv[i], "60"))
-				g_ayVGM_Frequency = AYVGM_FREQ_60HZ;
+				g_lVGM_Frequency = LVGM_FREQ_60HZ;
 		}
+		else if (MSX::StrEqual(argv[i], "-nohead"))
+		{
+			g_lVGM_AddHeader = false;
+		}		
 	}
 
 	// Validate parameters
@@ -227,9 +235,9 @@ int main(int argc, const char* argv[])
 		if(!ExportRLEp(exp, g_InputFile.Data))
 			return 1;
 		break;
-	case COMPRESS_AYVGM:
-		exp->AddComment("Compressor: ayVGM");
-		if(!ExportAyVGM(exp, g_InputFile.Data))
+	case COMPRESS_LVGM:
+		exp->AddComment("Compressor: lVGM");
+		if(!ExportlVGM(g_TableName, exp, g_InputFile.Data))
 			return 1;
 		break;
 	default:

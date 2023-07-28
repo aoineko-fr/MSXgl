@@ -310,7 +310,7 @@ $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetN
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\MSXzip.cpp" />
-    <ClCompile Include="..\src\ayVGM.cpp" />
+    <ClCompile Include="..\src\lVGM.cpp" />
     <ClCompile Include="..\src\RLEp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

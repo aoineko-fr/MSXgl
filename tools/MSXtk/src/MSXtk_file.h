@@ -63,6 +63,27 @@ public:
 	}
 
 	//----------------------------------------------------------------------------
+	/// Read binary file
+	static bool Save(FileData& file)
+	{
+		// Open binary file
+		file.Interface = fopen(file.Filename.c_str(), "wb");
+		if (file.Interface == NULL)
+		{
+			printf("Error: Fail to open output file %s\n", file.Filename.c_str());
+			return false;
+		}
+		// Write data
+		if (fwrite(file.Data.data(), sizeof(u8), file.Data.size(), file.Interface) != file.Data.size())
+		{
+			printf("Error: Fail to write %i bytes to file %s\n", (int)file.Data.size(), file.Filename.c_str());
+			return false;
+		}
+		fclose(file.Interface);
+		return true;
+	}
+
+	//----------------------------------------------------------------------------
 	/// Remove the filename extension (if any)
 	static std::string RemoveExt(const std::string& str)
 	{

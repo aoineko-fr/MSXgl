@@ -20,70 +20,51 @@
 
 // MSXtk
 #include "MSXtk.h"
-#include "ayVGM.h"
+#include "VGM.h"
+#include "lVGM.h"
 
 //=============================================================================
 // DEFINES
 //=============================================================================
 
-#define VGM_IDENT *(u32*)"Vgm "
-
-#define VGM_WAIT_60HZ	735 // 60 Hz
-#define VGM_WAIT_50HZ	882 // 50 Hz
-
-extern std::string		g_TableName;
-
-// VGM header file data structure
-struct VGM_Header
+enum LVGM_CHUNK_TYPE
 {
-	u32 Ident;				u32 EoF_offset;			u32 Version;			u32 SN76489_clock;
-	u32 YM2413_clock;		u32 GD3_offset;			u32 Total_samples;		u32 Loop_offset;
-	u32 Loop_samples;		u32 Rate;				u16 SN_FB;
-	u8  SNW;
-	u8  SF;					u32 YM2612_clock;
-	u32 YM2151_clock;		u32 Data_offset;		u32 Sega_PCM_clock;		u32 SPCM_Interface;
-	u32 RF5C68_clock;		u32 YM2203_clock;		u32 YM2608_clock;		u32 YM2610B_clock;
-	u32 YM3812_clock;		u32 YM3526_clock;		u32 Y8950_clock;		u32 YMF262_clock;
-	u32 YMF278B_clock;		u32 YMF271_clock;		u32 YMZ280B_clock;		u32 RF5C164_clock;
-	u32 PWM_clock;			u32 AY8910_clock;		u8  AYT;
-	u8  AY_Flags[3];		u8  VM;
-	u8  dummy7D;
-	u8  LB;
-	u8  LM;
-	u32 GB_DMG_clock;		u32 NES_APU_clock;		u32 MultiPCM_clock;		u32 uPD7759_clock;
-	u32 OKIM6258_clock;		u8  OF;
-	u8  KF;
-	u8  CF;
-	u8  dummy97;			u32 OKIM6295_clock;		u32 K051649_clock;
-	u32 K054539_clock;		u32 HuC6280_clock;		u32 C140_clock;			u32 K053260_clock;
-	u32 Pokey_clock;		u32 QSound_clock;		u32 SCSP_clock;			u32 Extra_Hdr_ofs;
-	u32 WonderSwan_clock;	u32 VSU_clock;			u32 SAA1099_clock;		u32 ES5503_clock;
-	u32 ES5506_clock;		u16 ES_chns;
-	u8  CD;
-	u8  dummyD7;			u32 X1_010_clock;		u32 C352_clock;
-	u32 GA20_clock;			u32 dummyE4;			u32 dummyE8;			u32 dummyEC;
-	u32 dummyF0;			u32 dummyF4;			u32 dummyF8;			u32 dummyFC;
+	LVGM_CHUNK_REG,
+	LVGM_CHUNK_FRAME,
+	LVGM_CHUNK_LOOP,
+	LVGM_CHUNK_END,
 };
 
-// ayVGM options
-extern AYVGM_FREQ g_ayVGM_Frequency;
-
 //
-struct VGM_Chunk {
-	u8 Ident;
+struct lVGM_Chunk
+{
+	u8 Type;
+	u8 Chip;
 	u8 Register;
 	u8 Value;
+};
+
+//
+struct lVGM_Seq
+{
+	u8 FirstReg;
+	u8 Count;
+	std::vector<u8> Values;
 };
 
 //=============================================================================
 // VARIABLES
 //=============================================================================
 
+// lVGM options
+LVGM_FREQ   g_lVGM_Frequency;
+bool        g_lVGM_AddHeader;
+//
 const VGM_Header* g_VGM_Header;
-const u8* g_VGM_Pointer;
-const u8* g_VGM_Loop;
-u16       g_VGM_Wait;
-std::vector<VGM_Chunk> g_Chunk;
+const u8*   g_VGM_Pointer;
+const u8*   g_VGM_Loop;
+u16         g_VGM_Wait;
+std::vector<lVGM_Chunk> g_Chunk;
 
 //=============================================================================
 // FUNCTIONS
@@ -98,12 +79,12 @@ void Flush(MSX::ExporterInterface* exp)
 
 	if (g_Chunk.size() == 1)
 	{
-		const VGM_Chunk& chunk = g_Chunk.back();
+		const lVGM_Chunk& chunk = g_Chunk.back();
 		exp->AddByteList(std::vector<u8>{ 0xF3, chunk.Register, chunk.Value}, "SCC 0x00+aa: nn");
 	}
 	else
 	{
-		const VGM_Chunk& chunk = g_Chunk.front();
+		const lVGM_Chunk& chunk = g_Chunk.front();
 		exp->AddByteList(std::vector<u8>{ 0xF5, chunk.Register, (u8)g_Chunk.size() }, "SCC nn[bb] -> (0x00 + aa)[bb]");
 		exp->StartLine();
 		for(u32 i = 0; i < g_Chunk.size(); i++)
@@ -114,10 +95,39 @@ void Flush(MSX::ExporterInterface* exp)
 	g_Chunk.resize(0);
 }
 
+//-----------------------------------------------------------------------------
+// Counting sequential registers 
+u8 CountSequence(u8 cmd, const u8* data, lVGM_Seq& seq)
+{
+	seq.Count = 0;
+	seq.FirstReg = 0;
+	while (data[0] == cmd)
+	{
+		u8 reg = data[1];
+		u8 val = data[2];
+		if (!seq.Count)
+		{
+			seq.Count = 1;
+			seq.FirstReg = reg;
+			seq.Values.push_back(val);
+		}
+		else if (reg == seq.FirstReg + seq.Count)
+		{
+			seq.Count++;
+			seq.Values.push_back(val);
+		}
+		else
+			break;
+
+		data += 3;
+	}
+
+	return seq.Count;
+}
 
 //-----------------------------------------------------------------------------
 //
-bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
+bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector<u8>& data)
 {
 	g_VGM_Header = (const VGM_Header*)&data[0];
 
@@ -143,28 +153,79 @@ bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
 	u16 lastAddr = 0;
 	u16 loopAddr = 0;
 
-	exp->StartSection(g_TableName);
+	// Check all supported chips
+	u8 chips = 0;
+	u8 devices = 0;
+	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock)
+	{
+		devices |= LVGM_DEV_PSG;
+		chips++;
+	}
+	if ((g_VGM_Header->Version >= 0x0000) && g_VGM_Header->YM2413_clock)
+	{
+		devices |= LVGM_DEV_MSXMUSIC;
+		chips++;
+	}
+	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->Y8950_clock)
+	{
+		devices |= LVGM_DEV_MSXAUDIO;
+		chips++;
+	}
+	if ((g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock && (g_VGM_Header->K051649_clock & (1 << 31)))
+	{
+		devices |= LVGM_DEV_SCCI;
+		chips++;
+	}
+	else if ((g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock)
+	{
+		devices |= LVGM_DEV_SCC;
+		chips++;
+	}
+	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock && (g_VGM_Header->AY8910_clock & (1 << 30)))
+	{
+		devices |= LVGM_DEV_PSG2;
+		chips++;
+	}
+	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YMF278B_clock)
+	{
+		devices |= LVGM_DEV_OPL4;
+		chips++;
+	}
+	bool multiChip = (chips > 1);
+	u8 curChip = 0xFF;
+
+	// Start export
+	exp->StartSection(name);
 
 	// Add header
-	// -- Ident --
-	exp->AddByteList(std::vector<u8>{ 'a', 'y', 'M', ' ' }, "Ident");
-	// -- Setting --
-	u8 flag = 0;
-	if ((g_ayVGM_Frequency == AYVGM_FREQ_50HZ) || (g_ayVGM_Frequency == AYVGM_FREQ_BOTH))
-		flag |= AYVGM_FLAG_50HZ;
-	if ((g_ayVGM_Frequency == AYVGM_FREQ_60HZ) || (g_ayVGM_Frequency == AYVGM_FREQ_BOTH))
-		flag |= AYVGM_FLAG_60HZ;
-	if (g_VGM_Header->Loop_offset)
-		flag |= AYVGM_FLAG_LOOP;
-	// Extension
-	if (g_VGM_Header->K051649_clock && (g_VGM_Header->K051649_clock & (1 << 31)))
-		flag |= AYVGM_FLAG_SCCI;
-	else if (g_VGM_Header->K051649_clock)
-		flag |= AYVGM_FLAG_SCC;
+	if (g_lVGM_AddHeader)
+	{
+		// -- Ident --
+		exp->AddByteList(std::vector<u8>{ 'l', 'V', 'G', 'M' }, "Ident");
 
-	exp->StartLine();
-	exp->AddByte(flag);
-	exp->EndLine("Flag");
+		// -- Setting --
+		u8 flag = 0;
+		if (g_lVGM_Frequency == LVGM_FREQ_50HZ)
+			flag |= LVGM_OPTION_50HZ;
+		if (g_lVGM_Frequency == LVGM_FREQ_60HZ)
+			flag |= LVGM_OPTION_60HZ;
+		if (g_VGM_Header->Loop_offset)
+			flag |= LVGM_OPTION_LOOP;
+		if (devices != LVGM_DEV_PSG)
+			flag |= LVGM_OPTION_DEVICE;
+		flag |= (LVGM_VERSION << 4);
+		exp->StartLine();
+		exp->AddByte(flag);
+		exp->EndLine("Options");
+
+		// -- Devices --
+		if (devices != LVGM_DEV_PSG)
+		{
+			exp->StartLine();
+			exp->AddByte(devices);
+			exp->EndLine("Devices");
+		}
+	}
 
 	u16 count50 = 0;
 	u16 count60 = 0;
@@ -173,6 +234,17 @@ bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
 		//-----------------------------------------------------------------------------
 		if (*g_VGM_Pointer == 0xA0) // AY8910, write value dd to register aa
 		{
+			if (multiChip && (curChip != LVGM_DEV_PSG))
+			{
+				curChip = LVGM_DEV_PSG;
+				exp->StartLine();
+				exp->AddByte(0xF0);
+				exp->EndLine("Devices");
+			}
+
+			lVGM_Seq seq;
+			u8 count = CountSequence(*g_VGM_Pointer, g_VGM_Pointer, seq);
+
 			lastAddr = (u16)exp->GetTotalSize();
 			u8 reg = g_VGM_Pointer[1];
 			u8 val = g_VGM_Pointer[2];
@@ -203,7 +275,7 @@ bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
 				exp->AddByteList(std::vector<u8>{ (u8)(0x30 + (val & 0x0F)) }, "R#5: 3n");
 				break;
 			case 6: // Register #6
-				if(val <= 0x0F)
+				if (val <= 0x0F)
 				{
 					Flush(exp);
 					exp->AddByteList(std::vector<u8>{ (u8)(0x40 + (val & 0x0F)) }, "R#6: 4n");
@@ -323,13 +395,13 @@ bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
 
 				if (g_Chunk.size() > 0)
 				{
-					const VGM_Chunk& prevChunk = g_Chunk.back();
-					if ((prevChunk.Ident != *g_VGM_Pointer) || (reg != prevChunk.Register + 1))
+					const lVGM_Chunk& prevChunk = g_Chunk.back();
+					if ((prevChunk.Chip != *g_VGM_Pointer) || (reg != prevChunk.Register + 1))
 						Flush(exp);
 				}
 
-				VGM_Chunk chunk;
-				chunk.Ident = *g_VGM_Pointer;
+				lVGM_Chunk chunk;
+				chunk.Chip = *g_VGM_Pointer;
 				chunk.Register = reg;
 				chunk.Value = val;
 				g_Chunk.push_back(chunk);
@@ -340,19 +412,20 @@ bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
 		}
 		else if (*g_VGM_Pointer == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
-			count50 += *(u16*)(g_VGM_Pointer + 1);
-			count60 += *(u16*)(g_VGM_Pointer + 1);
+			u16 n = *(u16*)(g_VGM_Pointer + 1);
+			count50 += n;
+			count60 += n;
 			g_VGM_Pointer += 2;
 		}
 		else if (*g_VGM_Pointer == 0x62) // Wait 735 samples (60th of a second), a shortcut for 0x61 0xdf 0x02
 		{
-			count50 += 735;
-			count60 += 735;
+			count50 += VGM_WAIT_60HZ;
+			count60 += VGM_WAIT_60HZ;
 		}
 		else if (*g_VGM_Pointer == 0x63) // Wait 882 samples (50th of a second), a shortcut for 0x61 0x72 0x03
 		{
-			count50 += 882;
-			count60 += 882;
+			count50 += VGM_WAIT_50HZ;
+			count60 += VGM_WAIT_50HZ;
 		}
 		else if (*g_VGM_Pointer == 0x66) // End of sound data
 		{
@@ -382,9 +455,9 @@ bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
 		{
 			loopAddr = lastAddr;
 		}
-		
+
 		// Check for end of 50 Hz frame
-		if ((g_ayVGM_Frequency == AYVGM_FREQ_50HZ) || (g_ayVGM_Frequency == AYVGM_FREQ_BOTH))
+		if (g_lVGM_Frequency == LVGM_FREQ_50HZ)
 		{
 			if (count50 >= VGM_WAIT_50HZ)
 			{
@@ -392,15 +465,15 @@ bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
 				lastAddr = (u16)exp->GetTotalSize();
 				u16 val = count50 / VGM_WAIT_50HZ;
 				u16 pack = val / 16;
-				for(u32 i = 0; i < pack; i++)
-					exp->AddByteList(std::vector<u8>{ 0xDF }, "Wait50: Dn");
-				exp->AddByteList(std::vector<u8>{ (u8)(0xD0 + ((val - 1) & 0x0F)) }, "Wait50: Dn");
+				for (u32 i = 0; i < pack; i++)
+					exp->AddByteList(std::vector<u8>{ 0xDF }, "Wait: Dn");
+				exp->AddByteList(std::vector<u8>{ (u8)(0xD0 + ((val - 1) & 0x0F)) }, "Wait: Dn");
 				count50 %= VGM_WAIT_50HZ;
 			}
 		}
 
 		// Check for end of 60 Hz frame
-		if ((g_ayVGM_Frequency == AYVGM_FREQ_60HZ) || (g_ayVGM_Frequency == AYVGM_FREQ_BOTH))
+		if (g_lVGM_Frequency == LVGM_FREQ_60HZ)
 		{
 			if (count60 >= VGM_WAIT_60HZ)
 			{
@@ -409,8 +482,8 @@ bool ExportAyVGM(MSX::ExporterInterface* exp, const std::vector<u8>& data)
 				u16 val = count60 / VGM_WAIT_60HZ;
 				u16 pack = val / 16;
 				for (u32 i = 0; i < pack; i++)
-					exp->AddByteList(std::vector<u8>{ 0xEF }, "Wait60: En");
-				exp->AddByteList(std::vector<u8>{ (u8)(0xE0 + ((val - 1) & 0x0F)) }, "Wait60: En");
+					exp->AddByteList(std::vector<u8>{ 0xDF }, "Wait: Dn");
+				exp->AddByteList(std::vector<u8>{ (u8)(0xD0 + ((val - 1) & 0x0F)) }, "Wait: Dn");
 				count60 %= VGM_WAIT_60HZ;
 			}
 		}

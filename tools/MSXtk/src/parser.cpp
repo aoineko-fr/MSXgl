@@ -876,6 +876,64 @@ struct GroupGM1
 	std::vector<ChunkGM1> Chunks;
 
 	bool IsPlain() { return Color1 == 0xFF; }
+
+	bool Insert(ChunkGM1& chunk)
+	{
+		if (Chunks.size() >= 8)
+			return false;
+
+		if (!chunk.IsPlain() && !IsPlain()) // Chunk and group not plain
+		{
+			if ((chunk.Color0 != Color0) || (chunk.Color1 != Color1))
+				return false;
+		}
+		else if (chunk.IsPlain() && IsPlain()) // Chunk and group plain
+		{
+			if (chunk.Color0 != Color0)
+			{
+				if (chunk.Color0 > Color0)
+				{
+					Color1 = chunk.Color0;
+					chunk.InvertPattern();
+				}
+				else
+				{
+					Color1 = Color0;
+					Color0 = chunk.Color0;
+					for (u8 i = 0; i < Chunks.size(); i++)
+						Chunks[i].InvertPattern();
+				}
+			}
+		}
+		else if (!chunk.IsPlain() && IsPlain()) // Chunk not plain and group plain
+		{
+			if (chunk.Color0 == Color0)
+			{
+				Color1 = chunk.Color1;
+			}
+			else if (chunk.Color1 == Color0)
+			{
+				Color0 = chunk.Color0;
+				Color1 = chunk.Color1;
+				for (u8 i = 0; i < Chunks.size(); i++)
+					Chunks[i].InvertPattern();
+			}
+			else
+				return false;
+		}
+		else if (chunk.IsPlain() && !IsPlain()) // Chunk plain and group not plain
+		{
+			if (chunk.Color0 == Color1)
+			{
+				chunk.InvertPattern();
+			}
+			else if (chunk.Color0 != Color0)
+				return false;
+		}
+
+		Chunks.push_back(chunk);
+		return true;
+	}
 };
 
 ///
@@ -886,7 +944,20 @@ u8 GetChunkIdGM1(std::vector<GroupGM1>& group, ChunkGM1& chunk, ExportParameters
 		chunk.Invert();
 
 	// Search for existing chunk index
-	if (!param->bTilesUnique)
+	if (param->bTilesUnique && group.size())
+	{
+		GroupGM1& grp = group.back();
+		if (grp.Chunks.size() < 8)
+		{
+			if (!grp.Insert(chunk))
+			{
+				printf("Error: Invalid chunk colors for group %d!\n", (int)(group.size() - 1));
+				exit(1);
+			}
+			return static_cast<u8>(((group.size() - 1) * 8) + grp.Chunks.size() - 1);
+		}
+	}
+	else
 	{
 		for (u8 i = 0; i < group.size(); i++)
 		{
@@ -899,61 +970,61 @@ u8 GetChunkIdGM1(std::vector<GroupGM1>& group, ChunkGM1& chunk, ExportParameters
 					return (i * 8) + j;
 			}
 		}
-	}
 
-	// Check for matching color group
-	for (u8 i = 0; i < group.size(); i++)
-	{
-		if (group[i].Chunks.size() == 8) // Is group full?
-			continue;
+		// Check for matching color group
+		for (u8 i = 0; i < group.size(); i++)
+		{
+			if (group[i].Chunks.size() == 8) // Is group full?
+				continue;
 
-		if (!chunk.IsPlain() && !group[i].IsPlain()) // Chunk and group not plain
-		{
-			if ((chunk.Color0 == group[i].Color0) && (chunk.Color1 == group[i].Color1))
+			if (!chunk.IsPlain() && !group[i].IsPlain()) // Chunk and group not plain
 			{
-				group[i].Chunks.push_back(chunk);
-				return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+				if ((chunk.Color0 == group[i].Color0) && (chunk.Color1 == group[i].Color1))
+				{
+					group[i].Chunks.push_back(chunk);
+					return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+				}
 			}
-		}
-		else if (chunk.IsPlain() && group[i].IsPlain()) // Chunk and group plain
-		{
-			assert(chunk.Color0 != group[i].Color0);
-			assert(group[i].Chunks.size() == 1);
-			chunk.InvertPattern();
-			group[i].Color1 = chunk.Color0;
-			group[i].Chunks.push_back(chunk);
-			return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
-		}
-		else if (!chunk.IsPlain() && group[i].IsPlain()) // Chunk not plain and group plain
-		{
-			assert(group[i].Chunks.size() == 1);
-			if (chunk.Color0 == group[i].Color0)
+			else if (chunk.IsPlain() && group[i].IsPlain()) // Chunk and group plain
 			{
-				group[i].Color1 = chunk.Color1;
-				group[i].Chunks.push_back(chunk);
-				return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
-			}
-			else if (chunk.Color1 == group[i].Color0)
-			{
-				group[i].Chunks[0].InvertPattern();
-				group[i].Color0 = chunk.Color0;
-				group[i].Color1 = chunk.Color1;
-				group[i].Chunks.push_back(chunk);
-				return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
-			}
-		}
-		else if (chunk.IsPlain() && !group[i].IsPlain())
-		{
-			if (chunk.Color0 == group[i].Color0)
-			{
-				group[i].Chunks.push_back(chunk);
-				return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
-			}
-			else if (chunk.Color0 == group[i].Color1)
-			{
+				assert(chunk.Color0 != group[i].Color0);
+				assert(group[i].Chunks.size() == 1);
 				chunk.InvertPattern();
+				group[i].Color1 = chunk.Color0;
 				group[i].Chunks.push_back(chunk);
 				return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+			}
+			else if (!chunk.IsPlain() && group[i].IsPlain()) // Chunk not plain and group plain
+			{
+				assert(group[i].Chunks.size() == 1);
+				if (chunk.Color0 == group[i].Color0)
+				{
+					group[i].Color1 = chunk.Color1;
+					group[i].Chunks.push_back(chunk);
+					return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+				}
+				else if (chunk.Color1 == group[i].Color0)
+				{
+					group[i].Chunks[0].InvertPattern();
+					group[i].Color0 = chunk.Color0;
+					group[i].Color1 = chunk.Color1;
+					group[i].Chunks.push_back(chunk);
+					return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+				}
+			}
+			else if (chunk.IsPlain() && !group[i].IsPlain())
+			{
+				if (chunk.Color0 == group[i].Color0)
+				{
+					group[i].Chunks.push_back(chunk);
+					return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+				}
+				else if (chunk.Color0 == group[i].Color1)
+				{
+					chunk.InvertPattern();
+					group[i].Chunks.push_back(chunk);
+					return static_cast<u8>((i * 8) + group[i].Chunks.size() - 1);
+				}
 			}
 		}
 	}
@@ -961,7 +1032,7 @@ u8 GetChunkIdGM1(std::vector<GroupGM1>& group, ChunkGM1& chunk, ExportParameters
 	// Check for free group
 	if (group.size() >= 32)
 	{
-		printf("Error: image have more than 32 color groups!\n");
+		printf("Error: Image need more than 32 color groups!\n");
 		exit(1);
 	}
 
