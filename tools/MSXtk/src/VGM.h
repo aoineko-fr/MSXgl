@@ -22,6 +22,40 @@
 #define VGM_WAIT_60HZ	735 // 60 Hz
 #define VGM_WAIT_50HZ	882 // 50 Hz
 
+// VGM commands
+enum VGM_COMMAND
+{
+	// Chips
+	VGM_CMD_AY8910    = 0xA0, // aa dd	  | PSG/AY8910, write value dd to register aa
+	VGM_CMD_YM2413    = 0x51, // aa dd	  | MSX-MUSIC/YM2413/OPLL, write value dd to register aa
+	VGM_CMD_Y8950     = 0x5C, // aa dd	  | MSX-AUDIO/Y8950/OPL1, write value dd to register aa
+	VGM_CMD_SCC       = 0xD2, // pp aa dd | SCC/SCC+/K051649/K052539, port pp, write value dd to register aa
+	VGM_CMD_YMF278    = 0xD0, // pp aa dd | MOONSOUND/YMF278B/OPL4, port pp, write value dd to register aa
+	// Waits
+	VGM_CMD_WAIT_16B  = 0x61, // nn nn	  | Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds).Longer pauses than this are represented by multiple wait commands.
+	VGM_CMD_WAIT_60HZ = 0x62, // wait 735 samples(60th of a second), a shortcut for 0x61 0xdf 0x02
+	VGM_CMD_WAIT_50HZ = 0x63, // wait 882 samples(50th of a second), a shortcut for 0x61 0x72 0x03
+	VGM_CMD_WAIT_4B   = 0x7F, // wait n+1 samples, n can range from 0 to 15.
+	VGM_CMD_WAIT_1    = 0x70,
+	VGM_CMD_WAIT_2    = 0x71,
+	VGM_CMD_WAIT_3    = 0x72,
+	VGM_CMD_WAIT_4    = 0x73,
+	VGM_CMD_WAIT_5    = 0x74,
+	VGM_CMD_WAIT_6    = 0x75,
+	VGM_CMD_WAIT_7    = 0x76,
+	VGM_CMD_WAIT_8    = 0x77,
+	VGM_CMD_WAIT_9    = 0x78,
+	VGM_CMD_WAIT_10   = 0x79,
+	VGM_CMD_WAIT_11   = 0x7A,
+	VGM_CMD_WAIT_12   = 0x7B,
+	VGM_CMD_WAIT_13   = 0x7C,
+	VGM_CMD_WAIT_14   = 0x7D,
+	VGM_CMD_WAIT_15   = 0x7E,
+	VGM_CMD_WAIT_16   = 0x7F,
+	// Special
+	VGM_CMD_END       = 0x66, // end of sound data
+};
+
 // VGM header file data structure
 struct VGM_Header
 {

@@ -58,6 +58,24 @@ public:
 	virtual void AddDouble(u32 data) = 0;
 	virtual void EndLine(std::string comment = "") = 0;
 
+	virtual void AddByteLine(u8 data, std::string comment = "")
+	{
+		StartLine();
+		AddByte(data);
+		EndLine(comment);
+	}
+	virtual void AddWordLine(u16 data, std::string comment = "")
+	{
+		StartLine();
+		AddWord(data);
+		EndLine(comment);
+	}
+	virtual void AddDoubleLine(u32 data, std::string comment = "")
+	{
+		StartLine();
+		AddDouble(data);
+		EndLine(comment);
+	}
 	virtual void AddByteList(std::vector<u8> data, std::string comment = "")
 	{
 		StartLine();
@@ -214,7 +232,7 @@ public:
 	ExporterC(ExportConfig& cfg) : ExporterText(cfg) {}
 
 	virtual void AddReturn() { outData += "\n"; }
-	virtual void AddComment(std::string comment = "") { outData += MSX::Format("//%s\n", comment.c_str()); }
+	virtual void AddComment(std::string comment = "") { outData += MSX::Format("// %s\n", comment.c_str()); }
 
 	virtual void StartSection(std::string name, u8 size = DATASIZE_8bits, std::string comment = "")
 	{

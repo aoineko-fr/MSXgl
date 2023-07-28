@@ -52,6 +52,15 @@ struct lVGM_Seq
 	std::vector<u8> Values;
 };
 
+//
+struct lVGM_Detect
+{
+	u8          ChipNum;
+	std::string ChipDesc;
+	u8          Devices;
+	bool        bMultiChip;
+};
+
 //=============================================================================
 // VARIABLES
 //=============================================================================
@@ -127,6 +136,63 @@ u8 CountSequence(u8 cmd, const u8* data, lVGM_Seq& seq)
 
 //-----------------------------------------------------------------------------
 //
+bool DetectDevices(lVGM_Detect& detect)
+{
+	detect.ChipDesc = "";
+	detect.ChipNum = 0;
+	detect.Devices = 0;
+
+	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock)
+	{
+		detect.Devices |= LVGM_DEV_PSG;
+		detect.ChipNum++;
+		detect.ChipDesc += " PSG";
+	}
+	if ((g_VGM_Header->Version >= 0x0000) && g_VGM_Header->YM2413_clock)
+	{
+		detect.Devices |= LVGM_DEV_MSXMUSIC;
+		detect.ChipNum++;
+		detect.ChipDesc += " MSX-MUSIC";
+	}
+	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->Y8950_clock)
+	{
+		detect.Devices |= LVGM_DEV_MSXAUDIO;
+		detect.ChipNum++;
+		detect.ChipDesc += " MSX-AUDIO";
+	}
+	if ((g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock && (g_VGM_Header->K051649_clock & (1 << 31)))
+	{
+		detect.Devices |= LVGM_DEV_SCCI;
+		detect.ChipNum++;
+		detect.ChipDesc += " SCC+";
+	}
+	else if ((g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock)
+	{
+		detect.Devices |= LVGM_DEV_SCC;
+		detect.ChipNum++;
+		detect.ChipDesc += " SCC";
+	}
+	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock && (g_VGM_Header->AY8910_clock & (1 << 30)))
+	{
+		detect.Devices |= LVGM_DEV_PSG2;
+		detect.ChipNum++;
+		detect.ChipDesc += " PSGx2";
+	}
+	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YMF278B_clock)
+	{
+		detect.Devices |= LVGM_DEV_OPL4;
+		detect.ChipNum++;
+		detect.ChipDesc += " OPL4";
+	}
+
+	detect.bMultiChip = (detect.ChipNum > 1);
+
+	return detect.ChipNum > 0;
+}
+
+
+//-----------------------------------------------------------------------------
+//
 bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector<u8>& data)
 {
 	g_VGM_Header = (const VGM_Header*)&data[0];
@@ -150,53 +216,22 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 
 	g_VGM_Wait = 0;
 
-	u16 lastAddr = 0;
-	u16 loopAddr = 0;
-
 	// Check all supported chips
-	u8 chips = 0;
-	u8 devices = 0;
-	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock)
+	lVGM_Detect detect;
+	if(!DetectDevices(detect))
 	{
-		devices |= LVGM_DEV_PSG;
-		chips++;
+		printf("Error: No supported sound chip detected!\n");
+		return false;
 	}
-	if ((g_VGM_Header->Version >= 0x0000) && g_VGM_Header->YM2413_clock)
-	{
-		devices |= LVGM_DEV_MSXMUSIC;
-		chips++;
-	}
-	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->Y8950_clock)
-	{
-		devices |= LVGM_DEV_MSXAUDIO;
-		chips++;
-	}
-	if ((g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock && (g_VGM_Header->K051649_clock & (1 << 31)))
-	{
-		devices |= LVGM_DEV_SCCI;
-		chips++;
-	}
-	else if ((g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock)
-	{
-		devices |= LVGM_DEV_SCC;
-		chips++;
-	}
-	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock && (g_VGM_Header->AY8910_clock & (1 << 30)))
-	{
-		devices |= LVGM_DEV_PSG2;
-		chips++;
-	}
-	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YMF278B_clock)
-	{
-		devices |= LVGM_DEV_OPL4;
-		chips++;
-	}
-	bool multiChip = (chips > 1);
-	u8 curChip = 0xFF;
 
+	// File info
+	exp->AddComment(MSX::Format("VGM version: %01x.%02x (chips:%s)", (g_VGM_Header->Version >> 8) & 0xF, g_VGM_Header->Version & 0x3, detect.ChipDesc.c_str()));
+
+	//............................................................................
 	// Start export
 	exp->StartSection(name);
 
+	//............................................................................
 	// Add header
 	if (g_lVGM_AddHeader)
 	{
@@ -211,35 +246,35 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			flag |= LVGM_OPTION_60HZ;
 		if (g_VGM_Header->Loop_offset)
 			flag |= LVGM_OPTION_LOOP;
-		if (devices != LVGM_DEV_PSG)
+		if (detect.Devices != LVGM_DEV_PSG)
 			flag |= LVGM_OPTION_DEVICE;
 		flag |= (LVGM_VERSION << 4);
-		exp->StartLine();
-		exp->AddByte(flag);
-		exp->EndLine("Options");
+		exp->AddByteLine(flag, "Options");
 
 		// -- Devices --
-		if (devices != LVGM_DEV_PSG)
+		if (detect.Devices != LVGM_DEV_PSG)
 		{
-			exp->StartLine();
-			exp->AddByte(devices);
-			exp->EndLine("Devices");
+			exp->AddByteLine(detect.Devices, "Devices");
 		}
 	}
 
+	u8 curChip = LVGM_DEV_PSG;
+	u16 lastAddr = 0;
+	u16 loopAddr = 0;
 	u16 count50 = 0;
 	u16 count60 = 0;
+
+	//............................................................................
+	// Parse data
 	while (1)
 	{
 		//-----------------------------------------------------------------------------
 		if (*g_VGM_Pointer == 0xA0) // AY8910, write value dd to register aa
 		{
-			if (multiChip && (curChip != LVGM_DEV_PSG))
+			if (curChip != LVGM_DEV_PSG)
 			{
 				curChip = LVGM_DEV_PSG;
-				exp->StartLine();
-				exp->AddByte(0xF0);
-				exp->EndLine("Devices");
+				exp->AddByteLine(0xF0, "Devices");
 			}
 
 			lVGM_Seq seq;

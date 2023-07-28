@@ -1,14 +1,14 @@
 ==============================================================================
  HEADER  (4 bytes)
 ==============================================================================
-	nn nn		"LVGM"            Light-VGM identifier
+	nn nn		"lVGM"            Light-VGM identifier
 	nn			Options
 				7 6 5 4 3 2 1 0
 				│ │ │ │   │ │ └── Frequency (0: 60 Hz, 1: 50 Hz)
 				│ │ │ │   │ └──── Loop data included
 				│ │ │ │   └────── Devices list
 				└─┴─┴─┴────────── File format version (0)
-	nn			Devices
+	(nn)		Devices (only present if Options's bit #2 is set)
 				7 6 5 4 3 2 1 0
 				│   │ │ │ │ │ └── Include PSG data (AY-3-8910)
 				│   │ │ │ │ └──── Include MSX-MUSIC data (YM2413/OPLL)
@@ -27,7 +27,7 @@
 ------------------------------------------------------------------------------
 	Dn				Wait n+1 cycles (1~16)
 ..............................................................................
-	En rr vv[]		Copy n+3 bytes (3~18) from register #rr
+	En rr vv[]		Copy n+3 bytes (3~18) start from register #rr
 ..............................................................................
 	F0				Start of PSG chunk (default when not defined)
 	F1				Start of MSX-MUSIC chunk
@@ -37,14 +37,15 @@
 	F5				Start of secondary PSG chunk
 	F7				Start of Moonsound chunk
 
-	FC nn rr vv[]	Copy nn bytes (0~255) from register #rr                   [could be 19~274]
+	FD nn rr vv[]	Copy nn+1 bytes (1~256) start from register #rr
 
-	FD          	End of data segment
+	FE nn			Optional special markers
+	   00          	Loop position
+	   01         	End of data segment
 
-	FE nn nn    	End of song with loop
-	FF          	End of song (without loop)
+	FF          	End of song
 ..............................................................................
-					Not used: F6, F8~FB
+					Not used: F6, F8~FC
 
 
 ==============================================================================

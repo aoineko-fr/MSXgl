@@ -182,11 +182,6 @@ void VGM_Decode()
 			}
 			g_VGM_Pointer += 2;
 		}
-		else if(*g_VGM_Pointer == 0x5C) // Y8950, write value dd to register aa
-		{
-			MSXAudio_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
-			g_VGM_Pointer += 2;
-		}
 		#endif
 		else if(*g_VGM_Pointer == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
