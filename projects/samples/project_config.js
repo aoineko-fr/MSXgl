@@ -137,6 +137,9 @@ AppID = "SP";
 //-- Move debug symbols to deployement folder (boolean)
 DebugSymbols = true;
 
+//-- Allow compiler to generate undocumented Z80 instructions (boolean)
+// AllowUndocumented = false;
+
 //-- Assembler code optimizer (string)
 //   - None
 //   - Peep       SDCC peep hole otpimizer

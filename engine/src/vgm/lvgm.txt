@@ -2,12 +2,14 @@
  HEADER  (4 bytes)
 ==============================================================================
 	nn nn		"lVGM"            Light-VGM identifier
+
 	nn			Options
 				7 6 5 4 3 2 1 0
 				│ │ │ │   │ │ └── Frequency (0: 60 Hz, 1: 50 Hz)
 				│ │ │ │   │ └──── Loop data included
 				│ │ │ │   └────── Devices list
 				└─┴─┴─┴────────── File format version (0)
+
 	(nn)		Devices (only present if Options's bit #2 is set)
 				7 6 5 4 3 2 1 0
 				│   │ │ │ │ │ └── Include PSG data (AY-3-8910)
@@ -20,14 +22,12 @@
 
 
 ==============================================================================
- COMMON DATA  (D0~FF)
+ COMMON DATA  (E0~FF)
 ==============================================================================
 
 	Opcode			Action
 ------------------------------------------------------------------------------
-	Dn				Wait n+1 cycles (1~16)
-..............................................................................
-	En rr vv[]		Copy n+3 bytes (3~18) start from register #rr
+	En				Wait n+1 cycles (1~16)
 ..............................................................................
 	F0				Start of PSG chunk (default when not defined)
 	F1				Start of MSX-MUSIC chunk
@@ -37,77 +37,76 @@
 	F5				Start of secondary PSG chunk
 	F7				Start of Moonsound chunk
 
-	FD nn rr vv[]	Copy nn+1 bytes (1~256) start from register #rr
+	FD nn			Optional markers
+	   00			End of data segment
 
-	FE nn			Optional special markers
-	   00          	Loop position
-	   01         	End of data segment
-
-	FF          	End of song
+	FE				Loop position
+	FF				End of song
 ..............................................................................
 					Not used: F6, F8~FC
 
 
 ==============================================================================
- PSG DATA  (00~CF)
+ PSG DATA  (00~DF)
 ==============================================================================
 
 	Opcode			Action
 ------------------------------------------------------------------------------
- Tone Period
-------------------------------------------------------------------------------
-	00 nn			R#0	= nn
-	1n				R#1	= n
-	02 nn			R#2	= nn
-	2n				R#3	= n
-	04 nn			R#4	= nn
-	3n				R#5	= n
-------------------------------------------------------------------------------
- Noise Period
-------------------------------------------------------------------------------
-	4n				R#6	= n
-	5n				R#6	= n | 0x10
-------------------------------------------------------------------------------
- Mixer
-------------------------------------------------------------------------------
-	07 nn			R#7	= nn
-------------------------------------------------------------------------------
- Tone Amplitude
-------------------------------------------------------------------------------
-	6n				R#8 = n	
-	7n				R#8 = n | 0x10
-	8n				R#9 = n
-	9n				R#9 = n | 0x10
-	An				R#A = n
-	Bn				R#A = n | 0x10
-------------------------------------------------------------------------------
- Envelope Period
-------------------------------------------------------------------------------
-	0B nn			R#11 = nn
-	0C nn			R#12 = nn
-------------------------------------------------------------------------------
- Envelope Shape
-------------------------------------------------------------------------------
-	Cn				R#13 = n
+ 	00 nn			Tone Period (R#0 = nn)
+	1n				Tone Period (R#1 = n)
+	02 nn			Tone Period (R#2 = nn)
+	2n				Tone Period (R#3 = n)
+	04 nn			Tone Period (R#4 = nn)
+	3n				Tone Period (R#5 = n)
+
+	4n				Noise Period (R#6 = n)
+	9n				Noise Period (R#6 = n | 0x10)
+
+	07 nn			Mixer (R#7 = nn)
+
+	5n				Tone Amplitude (R#8 = n)
+	An				Tone Amplitude (R#8 = n | 0x10)
+	6n				Tone Amplitude (R#9 = n)
+	Bn				Tone Amplitude (R#9 = n | 0x10)
+	7n				Tone Amplitude (R#10 = n)
+	Cn				Tone Amplitude (R#10 = n | 0x10)
+
+	0B nn			Envelope Period (R#11 = nn)
+	0C nn			Envelope Period (R#12 = nn)
+
+	8n				Envelope Shape (R#13 = n)
+..............................................................................
+	Dn				Zeroed register (R#n = 0)
 ..............................................................................
 					Not used: 01, 03, 05, 06, 08, 09, 0A, 0D~0F
 
 
 ==============================================================================
- MSX-MUSIC DATA  (00~CF)
+ MSX-MUSIC DATA  (00~DF)
 ==============================================================================
 
 	Opcode			Action
 ------------------------------------------------------------------------------
-	rr nn			Register #rr (00~38) set to nn
-
-	40 nn[8]		User Tone (copy 8 bytes from R#0)
-	50 nn[9]		F-Number  (copy 9 bytes from R#10)
-	60 nn[9]		Setting   (copy 9 bytes from R#20)
-	70 nn[9]		Inst/col  (copy 9 bytes from R#30)
+	rr nn			Register #rr (0~38h) set to nn
+	rr|0x80			Register #rr (80~B8h) set to 0
 ..............................................................................
-					Not used: 08~0D, 19~1F, 29~2F, 39~3F, 41~4F, 
-					 51~5F, 61~6F, 71~CF
+	40 nn[8]		User Tone (copy 8 bytes from R#0)
+	50 nn			User Tone (fill 8 bytes from R#0)
+
+	41 nn[9]		F-Number  (copy 9 bytes from R#10)
+	51 nn			F-Number  (fill 9 bytes from R#10)
+
+	42 nn[9]		Setting   (copy 9 bytes from R#20)
+	52 nn			Setting   (fill 9 bytes from R#20)
+
+	43 nn[9]		Inst/col  (copy 9 bytes from R#30)
+	53 nn			Inst/col  (fill 9 bytes from R#30)
+..............................................................................
+	6n rr vv		Set n+3 bytes (3~18) start from register #rr
+	7n rr vv[]		Copy n+3 bytes (3~18) start from register #rr
+..............................................................................
+					Not used: 08~0D, 19~1F, 29~2F, 39~3F, 44~4F, 
+					 54~5F, 88~8D, 99~9F, A9~AF, B9~DF
 
 
 ==============================================================================

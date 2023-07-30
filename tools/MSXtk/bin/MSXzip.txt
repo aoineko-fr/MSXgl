@@ -1,5 +1,5 @@
 Error: Not enough parameters!
-MSXzip 1.3.1 - Convert binary to text file
+MSXzip 1.4.0 - Convert binary to text file
 Usage: cmsxzip <inputfile> [options]
 Base options:
  -o filename    Filename of the output file (default: use input filename with .h/.asm/.bin extension)
@@ -14,6 +14,7 @@ RLEp options:
  -def auto|X    Default value for type 0 chunk (default: 0)
  -incdef        Include default value (as first data)
  -inczero       Include 0 terminator (as last data)
-ayVGM options:
- -ayVGM         VGM to ayVGM convertor
- -freq both|X   Synchronization frequency: 50/60 (Hz) or both (default: 50)
+lVGM options:
+ -lVGM          VGM to lVGM convertor
+ -freq 50|60    Synchronization frequency (default: 60 Hz)
+ -nohead        Don't include header

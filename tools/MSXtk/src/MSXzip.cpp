@@ -79,7 +79,7 @@ void PrintHelp()
 	printf(" -inczero       Include 0 terminator (as last data)\n");
 	printf("lVGM options:\n");
 	printf(" -lVGM          VGM to lVGM convertor\n");
-	printf(" -freq X        Synchronization frequency (50 or 60 Hz)\n");
+	printf(" -freq 50|60    Synchronization frequency (default: 60 Hz)\n");
 	printf(" -nohead        Don't include header\n");
 }
 
@@ -87,13 +87,15 @@ void PrintHelp()
 // MAIN
 //=============================================================================
 
-//const char* ARGV[] = { "", "../testcases/lvl5.dat.dts", "-c", "-rlep", "-def", "0", "-inczero" };
-const char* ARGV[] = { "", "../testcases/psg_goemon07.vgm", "-c", "-lVGM", "-freq", "50" };
-//const char* ARGV[] = { "", "../testcases/scc_f1spirit_01.vgm", "-c", "-lVGM", "-freq", "60" };
+//const char* ARGV[] = { "", "../testcases/psg_metalgear_05.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/psg_goemon07.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/psg_honotori_09.vgm", "-c", "-lVGM" };
+const char* ARGV[] = { "", "../testcases/mm_ff_03.vgm", "-c", "-lVGM", "-freq", "60" };
 //const char* ARGV[] = { "", "../testcases/mm_undeadline_03.vgm", "-c", "-lVGM", "-freq", "50" };
-//const char* ARGV[] = { "", "../testcases/mm_ff_03.vgm", "-c", "-lVGM", "-freq", "60" };
 //const char* ARGV[] = { "", "../testcases/ma_xevious_01.vgm", "-c", "-lVGM", "-freq", "50" };
-#define DEBUG_ARGS
+//const char* ARGV[] = { "", "../testcases/scc_f1spirit_01.vgm", "-c", "-lVGM", "-freq", "60" };
+//const char* ARGV[] = { "", "../testcases/lvl5.dat.dts", "-c", "-rlep", "-def", "0", "-inczero" };
+//#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
 // MAIN LOOP 
@@ -114,7 +116,7 @@ int main(int argc, const char* argv[])
 	g_InputFile.Filename = argv[1];
 
 	// lVGM options
-	g_lVGM_Frequency = LVGM_FREQ_50HZ;
+	g_lVGM_Frequency = LVGM_FREQ_60HZ;
 	g_lVGM_AddHeader = true;
 
 	// Parse command line parameters

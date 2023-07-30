@@ -5,8 +5,11 @@
 //-- Target MSX machine version (string)
 Machine = "1";
 
+//-- Program media target:
+Target = "ROM_48K_ISR";
+
 //-- List of library modules to build (array)
-LibModules = [ "psg", "scc", "msx-music", "msx-audio", "lvgm/lvgm_player", "system", "bios", "vdp", "print", "input", "memory" ];
+LibModules = [ "psg", "scc", "msx-music", "msx-audio", "vgm/lvgm_player", "system", "bios", "vdp", "print", "input", "memory" ];
 
 //-- Add SCC extension (boolean)
 EmulSCC = true;

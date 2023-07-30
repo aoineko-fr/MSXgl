@@ -7,7 +7,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "psg.h"
-#include "lvgm/lvgm_player.h"
+#include "vgm/lvgm_player.h"
 
 //=============================================================================
 // DEFINES
@@ -50,13 +50,13 @@ void ButtonLoop();
 #include "font/font_mgl_sample8.h"
 
 // Music
-#include "content/ayvgm/ayvgm_psg_ds4_03.h"
-#include "content/ayvgm/ayvgm_psg_goemon07.h"
-// #include "content/ayvgm/ayvgm_psg_penguin_12.h"
-#include "content/ayvgm/ayvgm_psg_metalgear_05.h"
-#include "content/ayvgm/ayvgm_psg_honotori_09.h"
-// #include "content/ayvgm/ayvgm_scc_quarth_02.h"
-// #include "content/ayvgm/ayvgm_scc_f1spirit_01.h"
+#include "content/lvgm/lvgm_psg_ds4_03.h"
+#include "content/lvgm/lvgm_psg_goemon07.h"
+#include "content/lvgm/lvgm_psg_metalgear_05.h"
+#include "content/lvgm/lvgm_psg_honotori_09.h"
+
+extern const unsigned char g_lVGM_mm_ff_03[];
+extern const unsigned char g_lVGM_mm_undeadline_03[];
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
@@ -64,13 +64,12 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
-	{ "Dragon Slayer 4  ", g_ayVGM_psg_ds4_03, 0 },
-	{ "Gambare Goemon   ", g_ayVGM_psg_goemon07, 0 },
-	// { "Penguin Adventure", g_ayVGM_psg_penguin_12, 0 },
-	{ "Metal Gear       ", g_ayVGM_psg_metalgear_05, 0 },
-	{ "Hi no Tori       ", g_ayVGM_psg_honotori_09, 0 },
-	// { "Quarth (SCC)     ", g_ayVGM_scc_quarth_02, 0 },
-	// { "F1-Spirit (SCC)  ", g_ayVGM_scc_f1spirit_01, 0 },
+	{ "Dragon Slayer 4     ", g_lVGM_psg_ds4_03, 0 },
+	{ "Gambare Goemon      ", g_lVGM_psg_goemon07, 0 },
+	{ "Metal Gear          ", g_lVGM_psg_metalgear_05, 0 },
+	{ "Hi no Tori          ", g_lVGM_psg_honotori_09, 0 },
+	{ "Final Fantasy (OPLL)", g_lVGM_mm_ff_03, 0 },
+	{ "Undeadline (OPLL)   ", g_lVGM_mm_undeadline_03, 0 },
 };
 
 // Player button list
@@ -169,10 +168,25 @@ void SetMusic(u8 idx)
 
 	Print_SetPosition(0, 4);
 	Print_DrawText("Data:\n");
-	Print_DrawFormat("\x07" "Ident     %c\n", ok ? '\x0C' : '\x0B');
-	Print_DrawFormat("\x07" "50Hz mark %c\n", (g_LVGM_Header->Flag & LVGM_FLAG_50HZ) ? '\x0C' : '\x0B');
-	Print_DrawFormat("\x07" "60Hz mark %c\n", (g_LVGM_Header->Flag & LVGM_FLAG_60HZ) ? '\x0C' : '\x0B');
-	Print_DrawFormat("\x07" "Loop      %c\n", (g_LVGM_Header->Flag & LVGM_FLAG_LOOP) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Ident   %c\n", ok ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Freq    %i Hz\n", (g_LVGM_Header->Option & LVGM_OPTION_50HZ) ? 50 : 60);
+	Print_DrawFormat("\x07" "Loop    %c\n", (g_LVGM_Header->Option & LVGM_OPTION_LOOP) ? '\x0C' : '\x0B');
+	Print_DrawCharX(' ', 32);
+	Print_SetPosition(0, 8);
+	Print_DrawFormat("\x07" "Chips   %c", (g_LVGM_Header->Option & LVGM_OPTION_DEVICE) ? '\x0C' : '\x0B');
+	if (g_LVGM_Header->Option & LVGM_OPTION_DEVICE)
+	{
+		if(g_LVGM_Header->Device & LVGM_CHIP_PSG)
+			Print_DrawText(" PSG");
+		if(g_LVGM_Header->Device & LVGM_CHIP_OPLL)
+			Print_DrawText(" OPLL");
+		if(g_LVGM_Header->Device & LVGM_CHIP_OPL1)
+			Print_DrawText(" OPL1");
+		if(g_LVGM_Header->Device & LVGM_CHIP_SCC)
+			Print_DrawText(" SCC");
+	}
+	else
+		Print_DrawText(" PSG");
 
 	UpdatePlayer();
 }
@@ -205,7 +219,7 @@ void ButtonStop()
 //
 void ButtonPrev()
 {
-	if(g_CurrentMusic > 0)
+	if (g_CurrentMusic > 0)
 		SetMusic(g_CurrentMusic - 1);
 }
 
@@ -213,7 +227,7 @@ void ButtonPrev()
 //
 void ButtonNext()
 {
-	if(g_CurrentMusic < numberof(g_MusicEntry) - 1)
+	if (g_CurrentMusic < numberof(g_MusicEntry) - 1)
 		SetMusic(g_CurrentMusic + 1);
 }
 
@@ -221,7 +235,7 @@ void ButtonNext()
 //
 void ButtonLoop()
 {
-	if(g_LVGM_State & LVGM_STATE_LOOP)
+	if (g_LVGM_State & LVGM_STATE_LOOP)
 		g_LVGM_State &= ~LVGM_STATE_LOOP;
 	else
 		g_LVGM_State |= LVGM_STATE_LOOP;
@@ -236,6 +250,11 @@ void SetCursor(u8 id)
 	VDP_SetSpriteSM1(0, 8 + 16*g_CurrentButton, 128-1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
 }
 
+//-----------------------------------------------------------------------------
+//
+void VDP_InterruptHandler()
+{
+}
 
 //=============================================================================
 // MAIN LOOP
@@ -308,24 +327,24 @@ VDP_SetColor(0xF0);
 		u8 row8 = Keyboard_Read(8);
 
 		// Change button
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
+		if (IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
 		{
 			SetCursor(g_CurrentButton + 1);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
+		else if (IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
 		{
 			SetCursor(g_CurrentButton - 1);
 		}
 		// Activate button
-		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		if (IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
 			g_ButtonEntry[g_CurrentButton].Func();
 		}
 		// Change frequency
-		if((IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
+		if ((IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
 		 || (IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN)))
 		{
-			if(g_LVGM_State & LVGM_STATE_50HZ)
+			if (g_LVGM_State & LVGM_STATE_50HZ)
 				g_LVGM_State &= ~LVGM_STATE_50HZ;
 			else
 				g_LVGM_State |= LVGM_STATE_50HZ;

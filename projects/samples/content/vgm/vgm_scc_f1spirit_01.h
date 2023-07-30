@@ -3,7 +3,7 @@
 // â–ˆ  â–ˆ â–ˆ  â–€â–€  â–„â–ˆ  â–ˆ  â–ˆ â–ˆâ–ˆâ–„â–€ â–ˆâ–ˆ â–ˆâ–ˆ â–ˆ
 // â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 // MSXbin 1.4.0 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Mon Jul 24 23:08:30 2023
+// File generated on Mon Jul 31 00:36:07 2023
 // Soure file: vgm\scc_f1spirit_01.vgm
 const unsigned char g_VGM_scc_f1spirit_01[] = {
 	0x56, 0x67, 0x6D, 0x20, 0xC8, 0x36, 0x00, 0x00, 0x61, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //      0

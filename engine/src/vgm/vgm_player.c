@@ -10,15 +10,12 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "vgm_player.h"
 #include "bios_mainrom.h"
-
 #if (VGM_USE_SCC)
 #include "scc.h"
 #endif
-
 #if (VGM_USE_MSXMUSIC)
 #include "msx-music.h"
 #endif
-
 #if (VGM_USE_MSXAUDIO)
 #include "msx-audio.h"
 #endif
