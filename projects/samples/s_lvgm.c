@@ -51,12 +51,14 @@ void ButtonLoop();
 
 // Music
 #include "content/lvgm/lvgm_psg_ds4_03.h"
-#include "content/lvgm/lvgm_psg_goemon07.h"
+#include "content/lvgm/lvgm_psg_goemon_07.h"
 #include "content/lvgm/lvgm_psg_metalgear_05.h"
 #include "content/lvgm/lvgm_psg_honotori_09.h"
+#include "content/lvgm/lvgm_psg_penguin_05.h"
 
 extern const unsigned char g_lVGM_mm_ff_03[];
 extern const unsigned char g_lVGM_mm_undeadline_03[];
+extern const unsigned char g_lVGM_mm_psycho_03[];
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
@@ -65,11 +67,13 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 const struct MusicEntry g_MusicEntry[] =
 {
 	{ "Dragon Slayer 4     ", g_lVGM_psg_ds4_03, 0 },
-	{ "Gambare Goemon      ", g_lVGM_psg_goemon07, 0 },
+	{ "Gambare Goemon      ", g_lVGM_psg_goemon_07, 0 },
 	{ "Metal Gear          ", g_lVGM_psg_metalgear_05, 0 },
 	{ "Hi no Tori          ", g_lVGM_psg_honotori_09, 0 },
+	{ "Penguin Adventure   ", g_lVGM_psg_penguin_05, 0 },
 	{ "Final Fantasy (OPLL)", g_lVGM_mm_ff_03, 0 },
 	{ "Undeadline (OPLL)   ", g_lVGM_mm_undeadline_03, 0 },
+	{ "Psycho World (OPLL) ", g_lVGM_mm_psycho_03, 0 },
 };
 
 // Player button list

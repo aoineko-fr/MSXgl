@@ -100,7 +100,10 @@ if %BuildlVGM%==1 (
 	echo ----------------------------------------
 	echo Building lVGM data...
 	if not exist %Dest%\lvgm md %Dest%\lvgm
-	for %%I in (vgm\*.vgm) do %MSXtk%\MSXzip.exe %%I -t g_lVGM_%%~nI -ad -lVGM -freq 60 -o %Dest%\lvgm\lvgm_%%~nI.h
+	for %%I in (vgm\*.vgm) do (
+		REM echo Converting %%I...
+		%MSXtk%\MSXzip.exe %%I -t g_lVGM_%%~nI -ad -lVGM -freq 60 -o %Dest%\lvgm\lvgm_%%~nI.h
+	)
 )
 
 ::-----------------------------------------------------------------------------

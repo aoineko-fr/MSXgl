@@ -8,3 +8,4 @@
 
 #include "content/lvgm/lvgm_mm_ff_03.h"
 #include "content/lvgm/lvgm_mm_undeadline_03.h"
+#include "content/lvgm/lvgm_mm_psycho_03.h"

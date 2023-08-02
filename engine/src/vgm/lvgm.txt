@@ -60,25 +60,25 @@
 	3n				Tone Period (R#5 = n)
 
 	4n				Noise Period (R#6 = n)
-	9n				Noise Period (R#6 = n | 0x10)
+	5n				Noise Period (R#6 = n | 0x10)
 
 	07 nn			Mixer (R#7 = nn)
 
-	5n				Tone Amplitude (R#8 = n)
-	An				Tone Amplitude (R#8 = n | 0x10)
-	6n				Tone Amplitude (R#9 = n)
-	Bn				Tone Amplitude (R#9 = n | 0x10)
-	7n				Tone Amplitude (R#10 = n)
-	Cn				Tone Amplitude (R#10 = n | 0x10)
+	6n				Tone Amplitude (R#8 = n)
+	7n				Tone Amplitude (R#8 = n | 0x10)
+	8n				Tone Amplitude (R#9 = n)
+	9n				Tone Amplitude (R#9 = n | 0x10)
+	An				Tone Amplitude (R#10 = n)
+	Bn				Tone Amplitude (R#10 = n | 0x10)
 
 	0B nn			Envelope Period (R#11 = nn)
 	0C nn			Envelope Period (R#12 = nn)
 
-	8n				Envelope Shape (R#13 = n)
+	Cn				Envelope Shape (R#13 = n)
 ..............................................................................
 	Dn				Zeroed register (R#n = 0)
 ..............................................................................
-					Not used: 01, 03, 05, 06, 08, 09, 0A, 0D~0F
+					Not used: 01, 03, 05, 06, 08, 09, 0A, 0D~0F, DE~DF
 
 
 ==============================================================================
@@ -87,8 +87,8 @@
 
 	Opcode			Action
 ------------------------------------------------------------------------------
-	rr nn			Register #rr (0~38h) set to nn
-	rr|0x80			Register #rr (80~B8h) set to 0
+	rr nn			Register #rr (00~38) set to nn
+	rr|80			Register #rr (80~B8) set to 0
 ..............................................................................
 	40 nn[8]		User Tone (copy 8 bytes from R#0)
 	50 nn			User Tone (fill 8 bytes from R#0)
@@ -102,11 +102,20 @@
 	43 nn[9]		Inst/col  (copy 9 bytes from R#30)
 	53 nn			Inst/col  (fill 9 bytes from R#30)
 ..............................................................................
+	44 nn[3]		Rhythm F-Number (copy 3 bytes from R#16)
+	54 nn			Rhythm F-Number (fill 3 bytes from R#16)
+
+	45 nn[3]		Rhythm Setting  (copy 3 bytes from R#26)
+	55 nn			Rhythm Setting  (fill 3 bytes from R#26)
+
+	46 nn[3]		Rhythm Inst/col (copy 3 bytes from R#36)
+	56 nn			Rhythm Inst/col (fill 3 bytes from R#36)
+..............................................................................
 	6n rr vv		Set n+3 bytes (3~18) start from register #rr
 	7n rr vv[]		Copy n+3 bytes (3~18) start from register #rr
 ..............................................................................
-					Not used: 08~0D, 19~1F, 29~2F, 39~3F, 44~4F, 
-					 54~5F, 88~8D, 99~9F, A9~AF, B9~DF
+					Not used: 08~0D, 19~1F, 29~2F, 39~3F, 47~4F, 
+					 57~5F, 88~8D, 99~9F, A9~AF, B9~DF
 
 
 ==============================================================================

@@ -81,6 +81,7 @@ void PrintHelp()
 	printf(" -lVGM          VGM to lVGM convertor\n");
 	printf(" -freq 50|60    Synchronization frequency (default: 60 Hz)\n");
 	printf(" -nohead        Don't include header\n");
+	printf(" -clean			Clean order and duplication\n");
 }
 
 //=============================================================================
@@ -90,12 +91,19 @@ void PrintHelp()
 //const char* ARGV[] = { "", "../testcases/psg_metalgear_05.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/psg_goemon07.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/psg_honotori_09.vgm", "-c", "-lVGM" };
-const char* ARGV[] = { "", "../testcases/mm_ff_03.vgm", "-c", "-lVGM", "-freq", "60" };
-//const char* ARGV[] = { "", "../testcases/mm_undeadline_03.vgm", "-c", "-lVGM", "-freq", "50" };
-//const char* ARGV[] = { "", "../testcases/ma_xevious_01.vgm", "-c", "-lVGM", "-freq", "50" };
+//const char* ARGV[] = { "", "../testcases/mm_ff_03.vgm", "-c", "-lVGM", "-freq", "60" };
+const char* ARGV[] = { "", "../testcases/mm_undeadline_03.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/mm_psycho_03.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/mm_laydock2_01.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/mm_greatestdriver_01.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/mm_feedback_03.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/mm_f1spirit3d_01.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/mm_deva_08.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/mm_columns_03.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/scc_f1spirit_01.vgm", "-c", "-lVGM", "-freq", "60" };
+//const char* ARGV[] = { "", "../testcases/ma_xevious_01.vgm", "-c", "-lVGM", "-freq", "50" };
 //const char* ARGV[] = { "", "../testcases/lvl5.dat.dts", "-c", "-rlep", "-def", "0", "-inczero" };
-//#define DEBUG_ARGS
+#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
 // MAIN LOOP 
@@ -118,6 +126,7 @@ int main(int argc, const char* argv[])
 	// lVGM options
 	g_lVGM_Frequency = LVGM_FREQ_60HZ;
 	g_lVGM_AddHeader = true;
+	g_lVGM_CleanData = false;
 
 	// Parse command line parameters
 	for (i32 i = 2; i < argc; ++i)
@@ -178,7 +187,11 @@ int main(int argc, const char* argv[])
 		else if (MSX::StrEqual(argv[i], "-nohead"))
 		{
 			g_lVGM_AddHeader = false;
-		}		
+		}
+		else if (MSX::StrEqual(argv[i], "-clean"))
+		{
+			g_lVGM_CleanData = false;
+		}
 	}
 
 	// Validate parameters

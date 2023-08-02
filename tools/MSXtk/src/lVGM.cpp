@@ -193,28 +193,28 @@ void ExportPSG(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& c
 		if (val <= 0x0F)
 			exp->AddByteLine((u8)(0x40 + (val & 0x0F)), "R#6: 4n");
 		else
-			exp->AddByteLine((u8)(0x90 + (val & 0x0F)), "R#6: 9n | 0x10");
+			exp->AddByteLine((u8)(0x50 + (val & 0x0F)), "R#6: 5n | 0x10");
 		break;
 	case 7: // Register #7
 		exp->AddByteList(std::vector<u8>{ 0x07, val }, "R#7: 07 nn");
 		break;
 	case 8: // Register #8
 		if (val <= 0x0F)
-			exp->AddByteLine((u8)(0x50 + (val & 0x0F)), "R#8: 5n");
+			exp->AddByteLine((u8)(0x60 + (val & 0x0F)), "R#8: 6n");
 		else
-			exp->AddByteLine((u8)(0xA0 + (val & 0x0F)), "R#8: An | 0x10");
+			exp->AddByteLine((u8)(0x70 + (val & 0x0F)), "R#8: 7n | 0x10");
 		break;
 	case 9: // Register #9
 		if (val <= 0x0F)
-			exp->AddByteLine((u8)(0x60 + (val & 0x0F)), "R#9: 6n");
+			exp->AddByteLine((u8)(0x80 + (val & 0x0F)), "R#9: 8n");
 		else
-			exp->AddByteLine((u8)(0xB0 + (val & 0x0F)), "R#9: Bn | 0x10");
+			exp->AddByteLine((u8)(0x90 + (val & 0x0F)), "R#9: 9n | 0x10");
 		break;
 	case 10: // Register #10
 		if (val <= 0x0F)
-			exp->AddByteLine((u8)(0x70 + (val & 0x0F)), "R#10: 7n");
+			exp->AddByteLine((u8)(0xA0 + (val & 0x0F)), "R#10: An");
 		else
-			exp->AddByteLine((u8)(0xC0 + (val & 0x0F)), "R#10: Cn | 0x10");
+			exp->AddByteLine((u8)(0xB0 + (val & 0x0F)), "R#10: Bn | 0x10");
 		break;
 	case 11: // Register #11
 		exp->AddByteList(std::vector<u8>{ 0x0B, val }, "R#11: 0B nn");
@@ -223,7 +223,7 @@ void ExportPSG(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& c
 		exp->AddByteList(std::vector<u8>{ 0x0C, val }, "R#12: 0C nn");
 		break;
 	case 13: // Register #13
-		exp->AddByteLine((u8)(0x80 + (val & 0x0F)), "R#13: 8n");
+		exp->AddByteLine((u8)(0xC0 + (val & 0x0F)), "R#13: Cn");
 		break;
 	};
 }
@@ -288,6 +288,15 @@ void ExportOPLL(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 		chunk += seqLen - 1;
 		return;
 	}
+	else if ((reg == 0x16) && (seqLen == 3))
+	{
+		if (bUnique)
+			exp->AddByteList(std::vector<u8>{ 0x54, val }, "54 nn => R#16~18");
+		else
+			AddSequence(exp, chunk, seqLen, 0x44, "44 nn[3] => R#16~18");
+		chunk += seqLen - 1;
+		return;
+	}
 	else if ((reg == 0x20) && (seqLen == 9))
 	{
 		if (bUnique)
@@ -297,12 +306,30 @@ void ExportOPLL(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 		chunk += seqLen - 1;
 		return;
 	}
+	else if ((reg == 0x26) && (seqLen == 3))
+	{
+		if (bUnique)
+			exp->AddByteList(std::vector<u8>{ 0x55, val }, "55 nn => R#26~28");
+		else
+			AddSequence(exp, chunk, seqLen, 0x45, "45 nn[3] => R#26~28");
+		chunk += seqLen - 1;
+		return;
+	}
 	else if ((reg == 0x30) && (seqLen == 9))
 	{
 		if (bUnique)
 			exp->AddByteList(std::vector<u8>{ 0x53, val }, "53 nn => R#30~38");
 		else
 			AddSequence(exp, chunk, seqLen, 0x43, "43 nn[9] => R#30~38");
+		chunk += seqLen - 1;
+		return;
+	}
+	else if ((reg == 0x36) && (seqLen == 3))
+	{
+		if (bUnique)
+			exp->AddByteList(std::vector<u8>{ 0x56, val }, "56 nn => R#36~38");
+		else
+			AddSequence(exp, chunk, seqLen, 0x46, "46 nn[3] => R#36~38");
 		chunk += seqLen - 1;
 		return;
 	}
@@ -359,6 +386,22 @@ void ExportOPL4(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 	}
 
 	exp->AddByteList(std::vector<u8>{ chunk->Port, chunk->Register, (u8)chunk->Value }, "");
+}
+
+
+//-----------------------------------------------------------------------------
+//
+void CleanData(std::vector<lVGM_Chunk>& chunkList)
+{
+	std::vector<lVGM_Chunk> workList;
+	auto chunk = chunkList.begin();
+
+
+
+	for (auto chunk = chunkList.begin(); chunk != chunkList.end(); ++chunk)
+	{
+
+	}
 }
 
 
@@ -537,6 +580,11 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			exp->AddByteLine(detect.Devices, MSX::Format("Devices (chips:%s)", detect.ChipDesc.c_str()));
 
 		exp->AddComment("---- Data ----");
+	}
+
+	if (g_lVGM_CleanData)
+	{
+		CleanData(chunkList);
 	}
 
 	// Write data

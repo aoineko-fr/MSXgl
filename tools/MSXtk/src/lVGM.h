@@ -64,6 +64,7 @@ enum LVGM_CHIP
 // lVGM options
 extern LVGM_FREQ   g_lVGM_Frequency;
 extern bool        g_lVGM_AddHeader;
+extern bool		   g_lVGM_CleanData;
 
 //=============================================================================
 // FUNCTIONS
