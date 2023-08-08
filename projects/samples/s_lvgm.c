@@ -7,6 +7,8 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "vgm/lvgm_player.h"
+#include "dos.h"
+#include "memory.h"
 #include "psg.h"
 #if (USE_LVGM_SCC)
 #include "scc.h"
@@ -32,8 +34,7 @@
 struct MusicEntry
 {
 	const c8* Name;
-	const u8* Data;
-	u8        Segment;
+	const c8* File;
 };
 
 // Player button entry
@@ -58,31 +59,24 @@ void ButtonLoop();
 // Fonts
 #include "font/font_mgl_sample8.h"
 
-extern const unsigned char g_lVGM_psg_ds4_03[];
-extern const unsigned char g_lVGM_psg_goemon_07[];
-extern const unsigned char g_lVGM_psg_metalgear_05[];
-extern const unsigned char g_lVGM_psg_honotori_09[];
-extern const unsigned char g_lVGM_psg_penguin_05[];
-extern const unsigned char g_lVGM_mm_ff_03[];
-extern const unsigned char g_lVGM_mm_undeadline_03[];
-extern const unsigned char g_lVGM_scc_f1spirit_01[];
-extern const unsigned char g_lVGM_scc_quarth_02[];
-
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
-	{ "Dragon Slayer 4     ", g_lVGM_psg_ds4_03, 2 },
-	{ "Gambare Goemon      ", g_lVGM_psg_goemon_07, 2 },
-	{ "Metal Gear          ", g_lVGM_psg_metalgear_05, 2 },
-	{ "Hi no Tori          ", g_lVGM_psg_honotori_09, 2 },
-	{ "Penguin Adventure   ", g_lVGM_psg_penguin_05, 4 },
-	{ "Final Fantasy (OPLL)", g_lVGM_mm_ff_03, 3 },
-	{ "Undeadline (OPLL)   ", g_lVGM_mm_undeadline_03, 3 },
-	{ "F1 Spirit (SCC)     ", g_lVGM_scc_f1spirit_01, 3 },
-	{ "Quartz (SCC)        ", g_lVGM_scc_quarth_02, 4 },
+	{ "Dragon Slayer 4",      "ds4.lvm" },	
+	{ "Maze of Galious",      "galious.lvm" },
+	{ "Gambare Goemon",       "goemon.lvm" },
+	{ "Metal Gear",           "mg.lvm" },
+	{ "Hi no Tori",           "honotori.lvm" },
+	{ "Penguin Adventure",    "penguin.lvm" },
+	{ "Yurei Kun",            "yureikun.lvm" },
+	{ "Final Fantasy (OPLL)", "ff.lvm" },
+	{ "Feedback (OPLL)",      "feedback.lvm" },
+	{ "Undeadline (OPLL)",    "undeadli.lvm" },
+	{ "F1 Spirit (SCC)",      "f1spirit.lvm" },
+	{ "Salamander (SCC)",     "salamand.lvm" },
 };
 
 // Player button list
@@ -173,10 +167,45 @@ void UpdatePlayer()
 void SetMusic(u8 idx)
 {
 	g_CurrentMusic = idx;
+	LVGM_Stop();
+	LVGM_Decode();
+	#if (PSG_ACCESS == PSG_INDIRECT)
+	PSG_Apply();
+	#endif
 
-	SET_BANK_SEGMENT(1, g_MusicEntry[idx].Segment);
-	bool ok = LVGM_Play(g_MusicEntry[idx].Data, TRUE);
+	//.........................................................................
+	// Load file
+	u8 err;
+	Print_SetPosition(0, 2);
+	Print_DrawCharX(' ', 32);
+	Print_SetPosition(0, 2);
+	Print_DrawFormat("Load \"%s\"...", g_MusicEntry[idx].File);
+	// open
+	u8 file = DOS_FOpen(g_MusicEntry[idx].File, O_RDONLY);
+	if(file == 0xFF)
+		return;
+	// get size
+	u32 size = DOS_FSeek(file, 0, SEEK_END);
+	err = DOS_GetLastError();
+	if(err != DOS_ERR_NONE)
+		return;
+	// rewind
+	DOS_FSeek(file, 0, SEEK_SET);
+	// load
+	DOS_FRead(file, (void*)Mem_GetHeapAddress(), size);
+	err = DOS_GetLastError();
+	if(err != DOS_ERR_NONE)
+		return;
+	Print_DrawText(" OK!");
+
+	//.........................................................................
+	// Start playback
+	bool ok = LVGM_Play((const void*)Mem_GetHeapAddress(), TRUE);
 	
+	//.........................................................................
+	// Display music info
+	Print_SetPosition(0, 2);
+	Print_DrawCharX(' ', 32);
 	Print_SetPosition(0, 2);
 	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
 

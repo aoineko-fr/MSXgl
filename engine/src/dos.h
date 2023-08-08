@@ -744,7 +744,7 @@ u16 DOS_WriteHandle(u8 file, const void* buffer, u16 size);
 //
 // Return:
 //   New file pointer
-u32 DOS_SeekHandle(u8 file, u32 offset, u8 mode) __CALLEE;
+u32 DOS_SeekHandle(u8 file, i32 offset, u8 mode) __CALLEE;
 
 // Function: DOS_DeleteHandle
 // Delete file or subdirectory

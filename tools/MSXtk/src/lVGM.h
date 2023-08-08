@@ -61,10 +61,18 @@ enum LVGM_CHIP
 	LVGM_CHIP_OPL4      = LVGM_CHIP_MOONSOUND,
 };
 
+//
+enum LVGM_SIMPLIFY
+{
+	LVGM_SIMPLIFY_NONE,
+	LVGM_SIMPLIFY_ORDER,     // Reorder register write
+	LVGM_SIMPLIFY_DUPLICATE, // Reorder and clean duplicate register write in the same frame (keep only the last write)
+};
+
 // lVGM options
-extern LVGM_FREQ   g_lVGM_Frequency;
-extern bool        g_lVGM_AddHeader;
-extern bool		   g_lVGM_CleanData;
+extern LVGM_FREQ     g_lVGM_Frequency;
+extern bool          g_lVGM_AddHeader;
+extern LVGM_SIMPLIFY g_lVGM_Simplify;
 
 //=============================================================================
 // FUNCTIONS

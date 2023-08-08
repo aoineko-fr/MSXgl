@@ -18,6 +18,7 @@
 #include <fstream>
 #include <cstdarg>
 #include <cassert>
+#include <map>
 
 // MSXtk
 #include "MSXtk.h"
@@ -28,6 +29,7 @@
 // DEFINES
 //=============================================================================
 
+//
 enum LVGM_CHUNK_TYPE
 {
 	LVGM_CHUNK_REG,
@@ -79,8 +81,10 @@ u16                     g_VGM_Wait;
 // lVGM options
 LVGM_FREQ               g_lVGM_Frequency;
 bool                    g_lVGM_AddHeader;
+LVGM_SIMPLIFY           g_lVGM_Simplify;
+
+// Global variables
 u8                      g_lVGM_CurChip;
-//std::vector<lVGM_Chunk> g_Chunk;
 
 //=============================================================================
 // FUNCTIONS
@@ -143,6 +147,27 @@ u16 CountIncSequence(std::vector<lVGM_Chunk>::iterator& chunk, bool& bUnique)
 		regCnt++;
 	}
 	return seqLen;
+}
+
+//-----------------------------------------------------------------------------
+//
+void AddSequence(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk, u16 count, u8 code, std::string comment = "", bool addReg = false)
+{
+	exp->StartLine();
+	exp->AddByte(code);
+
+	if (addReg)
+	{
+		exp->AddByte(chunk->Register);
+	}
+
+	auto it = chunk;
+	for (u16 i = 0; i < count; i++)
+	{
+		exp->AddByte((u8)it->Value);
+		it = std::next(it);
+	}
+	exp->EndLine(comment);
 }
 
 //-----------------------------------------------------------------------------
@@ -226,28 +251,6 @@ void ExportPSG(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& c
 		exp->AddByteLine((u8)(0xC0 + (val & 0x0F)), "R#13: Cn");
 		break;
 	};
-}
-
-//-----------------------------------------------------------------------------
-//
-void AddSequence(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk, u16 count, u8 code, std::string comment)
-{
-	exp->StartLine();
-	exp->AddByte(code);
-
-	// hack for OPLL 7n code
-	if ((chunk->Type == LVGM_CHUNK_REG) && (chunk->Chip == LVGM_CHIP_OPLL) && ((code & 0xF0) == 0x70))
-	{
-		exp->AddByte(chunk->Register);
-	}
-
-	auto it = chunk;
-	for (u16 i = 0; i < count; i++)
-	{
-		exp->AddByte((u8)it->Value);
-		it = std::next(it);
-	}
-	exp->EndLine(comment);
 }
 
 //-----------------------------------------------------------------------------
@@ -336,9 +339,9 @@ void ExportOPLL(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 	else if ((seqLen >= 3) && (seqLen <= 7))
 	{
 		if (bUnique)
-			exp->AddByteList(std::vector<u8>{ (u8)(0x60 + seqLen - 3), val }, "6n rr vv => R#rr~");
+			exp->AddByteList(std::vector<u8>{ (u8)(0x60 + seqLen - 3), reg, val }, "6n rr vv => R#rr~");
 		else
-			AddSequence(exp, chunk, seqLen, (u8)(0x70 + seqLen - 3), "7n rr vv[] => R#rr~");
+			AddSequence(exp, chunk, seqLen, (u8)(0x70 + seqLen - 3), "7n rr vv[] => R#rr~", true);
 		chunk += seqLen - 1;
 		return;
 	}
@@ -366,14 +369,88 @@ void ExportOPL1(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 //
 void ExportSCC(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
 {
+	assert(chunk->Type == LVGM_CHUNK_REG);
+	assert(chunk->Chip == LVGM_CHIP_SCC);
+
+	// Check chip section
 	if (g_lVGM_CurChip != LVGM_CHIP_SCC)
 	{
 		g_lVGM_CurChip = LVGM_CHIP_SCC;
 		exp->AddByteLine(0xF3, "---- Start SCC section");
 	}
 
+	u8 reg = chunk->Register;
+	u8 val = (u8)chunk->Value;
+
+	// Check for sequence
+	bool bUnique;
+	u16 seqLen = CountIncSequence(chunk, bUnique);
+	if ((reg == 0x00) && (seqLen >= 32))
+	{
+		if (bUnique)
+			exp->AddByteList(std::vector<u8>{ 0xB8, val }, "B8 nn => 9800h~");
+		else
+			AddSequence(exp, chunk, 32, 0xB0, "B0 nn[32] => 9800h~");
+		chunk += 31;
+		return;
+	}
+	else if ((reg == 0x20) && (seqLen >= 32))
+	{
+		if (bUnique)
+			exp->AddByteList(std::vector<u8>{ 0xB9, val }, "B9 nn => 9820h~");
+		else
+			AddSequence(exp, chunk, 32, 0xB1, "B1 nn[32] => 9820h~");
+		chunk += 31;
+		return;
+	}
+	else if ((reg == 0x40) && (seqLen >= 32))
+	{
+		if (bUnique)
+			exp->AddByteList(std::vector<u8>{ 0xBA, val }, "BA nn => 9840h~");
+		else
+			AddSequence(exp, chunk, 32, 0xB2, "B2 nn[32] => 9840h~");
+		chunk += 31;
+		return;
+	}
+	else if ((reg == 0x60) && (seqLen >= 32))
+	{
+		if (bUnique)
+			exp->AddByteList(std::vector<u8>{ 0xBB, val }, "BB nn => 9860h~");
+		else
+			AddSequence(exp, chunk, 32, 0xB3, "B3 nn[32] => 9860h~");
+		chunk += 31;
+		return;
+	}
+	else if ((reg == 0x80) && (seqLen >= 32))
+	{
+		printf("Warning: Channel 5's waveform data found in SCC set! (SCC+ only feature)\n");
+	}
+	else if ((seqLen >= 3) && (seqLen <= 18))
+	{
+		if (bUnique)
+			exp->AddByteList(std::vector<u8>{ (u8)(0xC0 + seqLen - 3), reg, val }, "Cn rr vv => R#rr~");
+		else
+			AddSequence(exp, chunk, seqLen, (u8)(0xD0 + seqLen - 3), "Dn rr vv[] => R#rr~", true);
+		chunk += seqLen - 1;
+		return;
+	}
+
+	exp->AddByteList(std::vector<u8>{ reg, (u8)chunk->Value }, "#rr = nn");
+}
+
+//-----------------------------------------------------------------------------
+//
+void ExportSCCI(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
+{
+	if (g_lVGM_CurChip != LVGM_CHIP_SCCI)
+	{
+		g_lVGM_CurChip = LVGM_CHIP_SCCI;
+		exp->AddByteLine(0xF7, "---- Start SCC+ section");
+	}
+
 	exp->AddByteList(std::vector<u8>{ chunk->Port, chunk->Register, (u8)chunk->Value }, "");
 }
+
 
 //-----------------------------------------------------------------------------
 //
@@ -391,17 +468,48 @@ void ExportOPL4(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 
 //-----------------------------------------------------------------------------
 //
-void CleanData(std::vector<lVGM_Chunk>& chunkList)
+void Simplify(std::vector<lVGM_Chunk>& chunkList)
 {
 	std::vector<lVGM_Chunk> workList;
-	auto chunk = chunkList.begin();
+	std::map<u32, lVGM_Chunk> workMap;
 
-
-
-	for (auto chunk = chunkList.begin(); chunk != chunkList.end(); ++chunk)
+	u32 count = 0;
+	for (const auto& chunk : chunkList)
 	{
-
+		switch (chunk.Type)
+		{
+		case LVGM_CHUNK_REG:
+			if (g_lVGM_Simplify == LVGM_SIMPLIFY_ORDER)
+			{
+				u32 id = (chunk.Port << 24) + (chunk.Register << 16) + (count++ & 0xFFFF);
+				workMap[id] = chunk;
+			}
+			else //if (g_lVGM_Simplify == LVGM_SIMPLIFY_DUPLICATE)
+			{
+				u32 id = ((u8)chunk.Chip << 16) + (chunk.Port << 8) + chunk.Register;
+				workMap.insert_or_assign(id, chunk);
+			}
+			//else
+			//	workList.push_back(chunk);
+			break;
+		case LVGM_CHUNK_LOOP:
+			workList.push_back(chunk);
+			break;
+		case LVGM_CHUNK_FRAME:
+		case LVGM_CHUNK_END:
+			if (workMap.size())
+			{
+				for (const auto& pair : workMap)
+					workList.push_back(pair.second);
+				workMap.clear();
+				count = 0;
+			}
+			workList.push_back(chunk);
+			break;
+		}
 	}
+
+	chunkList = workList;
 }
 
 
@@ -457,52 +565,81 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 		{
 			u8 reg = g_VGM_Pointer[1];
 			u8 val = g_VGM_Pointer[2];
+			g_VGM_Pointer += 2;
 
 			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_PSG, 0, reg, val));
-
-			g_VGM_Pointer += 2;
 		}
 		//-----------------------------------------------------------------------------
 		else if (*g_VGM_Pointer == VGM_CMD_YM2413) // MSX-MUSIC/YM2413/OPLL, write value dd to register aa
 		{
 			u8 reg = g_VGM_Pointer[1];
 			u8 val = g_VGM_Pointer[2];
+			g_VGM_Pointer += 2;
 
 			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPLL, 0, reg, val));
-
-			g_VGM_Pointer += 2;
 		}
 		//-----------------------------------------------------------------------------
 		else if (*g_VGM_Pointer == VGM_CMD_Y8950) // MSX-AUDIO/Y8950/OPL1, write value dd to register aa
 		{
 			u8 reg = g_VGM_Pointer[1];
 			u8 val = g_VGM_Pointer[2];
+			g_VGM_Pointer += 2;
 
 			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL1, 0, reg, val));
-
-			g_VGM_Pointer += 2;
 		}
 		//-----------------------------------------------------------------------------
-		else if (*g_VGM_Pointer == VGM_CMD_SCC) // SCC/SCC+/K051649/K052539, port pp, write value dd to register aa
+		else if (*g_VGM_Pointer == VGM_CMD_SCC) // SCC/K051649 or SCC+/K052539, port pp, write value dd to register aa
 		{
-			u8 prt = g_VGM_Pointer[1];
-			u8 reg = g_VGM_Pointer[2];
-			u8 val = g_VGM_Pointer[3];
+			u8 val  = g_VGM_Pointer[3];
 
-			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_SCC, prt, reg, val));
-
+			// Generate register number
+			u8 reg = 0;
+			switch (g_VGM_Pointer[1])
+			{
+			case 0:	reg = 0x00;	break; // 0x00 - waveform
+			case 1:	reg = 0x80;	break; // 0x01 - frequency
+			case 2:	reg = 0x8A;	break; // 0x02 - volume
+			case 3:	reg = 0x8F;	break; // 0x03 - key on/off
+			case 4:	reg = 0xA0;	break; // 0x04 - waveform (0x00 used to do SCC access, 0x04 SCC+)
+			case 5:	reg = 0xE0;	break; // 0x05 - test register
+			}
+			reg += g_VGM_Pointer[2];
 			g_VGM_Pointer += 3;
+
+			if (detect.Devices & LVGM_CHIP_SCCI) // SCC+
+			{
+				// Check for mirrored register
+				if ((reg >= 0xB0) && (reg <= 0xBF))
+					reg -= 0x10;
+
+				// Skip 'no function' and 'test register' access
+				if (reg >= 0xC0)
+					break;
+
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_SCCI, 0, reg, val));
+			}
+			else // SCC
+			{
+				// Check for mirrored register
+				if ((reg >= 0x90) && (reg <= 0x9F))
+					reg -= 0x10;
+
+				// Skip 'no function' and 'test register' access
+				if (reg >= 0xA0)
+					break;
+
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_SCC, 0, reg, val));
+			}
 		}
 		//-----------------------------------------------------------------------------
 		else if (*g_VGM_Pointer == VGM_CMD_YMF278) // MOONSOUND/YMF278B/OPL4, port pp, write value dd to register aa
 		{
-			u8 prt = g_VGM_Pointer[1];
-			u8 reg = g_VGM_Pointer[2];
-			u8 val = g_VGM_Pointer[3];
-
-			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL4, prt, reg, val));
-
+			u8 port = g_VGM_Pointer[1];
+			u8 reg  = g_VGM_Pointer[2];
+			u8 val  = g_VGM_Pointer[3];
 			g_VGM_Pointer += 3;
+
+			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL4, port, reg, val));
 		}
 		//-----------------------------------------------------------------------------
 		else if (*g_VGM_Pointer == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
@@ -582,9 +719,9 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 		exp->AddComment("---- Data ----");
 	}
 
-	if (g_lVGM_CleanData)
+	if (g_lVGM_Simplify != LVGM_SIMPLIFY_NONE)
 	{
-		CleanData(chunkList);
+		Simplify(chunkList);
 	}
 
 	// Write data
@@ -606,6 +743,9 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 				break;
 			case LVGM_CHIP_SCC:
 				ExportSCC(exp, chunk);
+				break;
+			case LVGM_CHIP_SCCI:
+				ExportSCCI(exp, chunk);
 				break;
 			case LVGM_CHIP_OPL4:
 				ExportOPL4(exp, chunk);

@@ -74,14 +74,15 @@ void PrintHelp()
 	printf(" -h             Display this help\n");
 	printf("RLEp options:\n");
 	printf(" -rlep          RLEp compression\n");
-	printf(" -def auto|X    Default value for type 0 chunk (default: 0)\n");
-	printf(" -incdef        Include default value (as first data)\n");
-	printf(" -inczero       Include 0 terminator (as last data)\n");
+	printf(" --def auto|X   Default value for type 0 chunk (default: 0)\n");
+	printf(" --incdef       Include default value (as first data)\n");
+	printf(" --inczero      Include 0 terminator (as last data)\n");
 	printf("lVGM options:\n");
 	printf(" -lVGM          VGM to lVGM convertor\n");
-	printf(" -freq 50|60    Synchronization frequency (default: 60 Hz)\n");
-	printf(" -nohead        Don't include header\n");
-	printf(" -clean			Clean order and duplication\n");
+	printf(" --freq 50|60   Synchronization frequency (default: 60 Hz)\n");
+	printf(" --nohead       Don't include header\n");
+	printf(" --reorder      Reorder register writes\n");
+	printf(" --simplify		Reorder register writes and remove duplicate\n");
 }
 
 //=============================================================================
@@ -92,7 +93,7 @@ void PrintHelp()
 //const char* ARGV[] = { "", "../testcases/psg_goemon07.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/psg_honotori_09.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/mm_ff_03.vgm", "-c", "-lVGM", "-freq", "60" };
-const char* ARGV[] = { "", "../testcases/mm_undeadline_03.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/mm_undeadline_03.vgm", "-c", "-lVGM", "--simplify" };
 //const char* ARGV[] = { "", "../testcases/mm_psycho_03.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/mm_laydock2_01.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/mm_greatestdriver_01.vgm", "-c", "-lVGM" };
@@ -100,10 +101,10 @@ const char* ARGV[] = { "", "../testcases/mm_undeadline_03.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/mm_f1spirit3d_01.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/mm_deva_08.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/mm_columns_03.vgm", "-c", "-lVGM" };
-//const char* ARGV[] = { "", "../testcases/scc_f1spirit_01.vgm", "-c", "-lVGM", "-freq", "60" };
-//const char* ARGV[] = { "", "../testcases/ma_xevious_01.vgm", "-c", "-lVGM", "-freq", "50" };
-//const char* ARGV[] = { "", "../testcases/lvl5.dat.dts", "-c", "-rlep", "-def", "0", "-inczero" };
-#define DEBUG_ARGS
+//const char* ARGV[] = { "", "../testcases/scc_f1spirit_01.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/ma_xevious_01.vgm", "-c", "-lVGM", "--freq", "50" };
+//const char* ARGV[] = { "", "../testcases/lvl5.dat.dts", "-c", "-rlep", "--def", "0", "--inczero" };
+//#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
 // MAIN LOOP 
@@ -126,7 +127,7 @@ int main(int argc, const char* argv[])
 	// lVGM options
 	g_lVGM_Frequency = LVGM_FREQ_60HZ;
 	g_lVGM_AddHeader = true;
-	g_lVGM_CleanData = false;
+	g_lVGM_Simplify = LVGM_SIMPLIFY_NONE;
 
 	// Parse command line parameters
 	for (i32 i = 2; i < argc; ++i)
@@ -137,6 +138,7 @@ int main(int argc, const char* argv[])
 			PrintHelp();
 			return 0;
 		}
+		//.....................................................................
 		// Output filename
 		else if (MSX::StrEqual(argv[i], "-o"))
 			g_OutputFile = argv[++i];
@@ -157,8 +159,9 @@ int main(int argc, const char* argv[])
 			g_Compressor = COMPRESS_RLEP;
 		else if (MSX::StrEqual(argv[i], "-lVGM") || MSX::StrEqual(argv[i], "-ayVGM"))
 			g_Compressor = COMPRESS_LVGM;
+		//.....................................................................
 		// RLEp options
-		else if (MSX::StrEqual(argv[i], "-def"))
+		else if (MSX::StrEqual(argv[i], "--def") || MSX::StrEqual(argv[i], "-def"))
 		{ 
 			i++;
 			if (MSX::StrEqual(argv[i], "auto"))
@@ -171,12 +174,13 @@ int main(int argc, const char* argv[])
 				g_RLEp_DefaultValueAuto = false;
 			}
 		}
-		else if (MSX::StrEqual(argv[i], "-incdef"))
+		else if (MSX::StrEqual(argv[i], "--incdef") || MSX::StrEqual(argv[i], "-incdef"))
 			g_RLEp_IncludeDefaultValue = true;
-		else if (MSX::StrEqual(argv[i], "-inczero"))
+		else if (MSX::StrEqual(argv[i], "--inczero") || MSX::StrEqual(argv[i], "-inczero"))
 			g_RLEp_IncludeZeroTerminator = true;
+		//.....................................................................
 		// lVGM options
-		else if (MSX::StrEqual(argv[i], "-freq"))
+		else if (MSX::StrEqual(argv[i], "--freq") || MSX::StrEqual(argv[i], "-freq"))
 		{
 			i++;
 			if (MSX::StrEqual(argv[i], "50"))
@@ -184,13 +188,17 @@ int main(int argc, const char* argv[])
 			else if (MSX::StrEqual(argv[i], "60"))
 				g_lVGM_Frequency = LVGM_FREQ_60HZ;
 		}
-		else if (MSX::StrEqual(argv[i], "-nohead"))
+		else if (MSX::StrEqual(argv[i], "--nohead"))
 		{
 			g_lVGM_AddHeader = false;
 		}
-		else if (MSX::StrEqual(argv[i], "-clean"))
+		else if (MSX::StrEqual(argv[i], "--reorder"))
 		{
-			g_lVGM_CleanData = false;
+			g_lVGM_Simplify = LVGM_SIMPLIFY_ORDER;
+		}
+		else if (MSX::StrEqual(argv[i], "--simplify"))
+		{
+			g_lVGM_Simplify = LVGM_SIMPLIFY_DUPLICATE;
 		}
 	}
 

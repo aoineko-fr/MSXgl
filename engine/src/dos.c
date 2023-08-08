@@ -479,7 +479,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Move file handle pointer
-u32 DOS_SeekHandle(u8 file, u32 offset, u8 mode) __CALLEE __NAKED // Stack: 7 bytes
+u32 DOS_SeekHandle(u8 file, i32 offset, u8 mode) __CALLEE __NAKED // Stack: 7 bytes
 {
 	file;	// A
 	offset;	// SP[2:5]
@@ -498,6 +498,7 @@ __asm
 	ld		c, #DOS_FUNC_SEEK		// DOS routine
 	call	BDOS
 	// return
+	ex		de, hl					// DE:HL => HL:DE
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 	or		a
