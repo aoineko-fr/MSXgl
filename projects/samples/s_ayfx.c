@@ -248,7 +248,7 @@ void StopMusic()
 
 //-----------------------------------------------------------------------------
 // Set the current music loop flag
-void LoopMusic(bool enable) __FASTCALL
+void LoopMusic(bool enable)
 {
 	PT3_SetLoop(enable);
 	g_Loop = enable;
@@ -277,7 +277,7 @@ void MuteMusic(u8 chan, bool bMute)
 
 //-----------------------------------------------------------------------------
 //
-void PlayFileSFX(u8 id) __FASTCALL
+void PlayFileSFX(u8 id)
 {
 	ayFX_Play(g_SFXFiles[id].Raw);
 
@@ -289,9 +289,9 @@ void PlayFileSFX(u8 id) __FASTCALL
 
 //-----------------------------------------------------------------------------
 // 
-void PlayBankSFX(u8 id) __FASTCALL
+void PlayBankSFX(u8 id, u8 prio)
 {
-	ayFX_PlayBank(id, 0);
+	ayFX_PlayBank(id, prio);
 
 	Print_SetFont(g_Font_MGL_Sample6);
 	VDP_CommandHMMV(64, AYFX_Y+8*3, 7*6, 8, 0x44);
@@ -303,7 +303,7 @@ void PlayBankSFX(u8 id) __FASTCALL
 
 //-----------------------------------------------------------------------------
 // 
-void ChannelSFX(u8 chan) __FASTCALL
+void ChannelSFX(u8 chan)
 {
 	ayFX_Mute();
 	ayFX_SetChannel(chan);
@@ -408,7 +408,7 @@ void main()
 	PrintHelp(AYFX_Y+8*4, "Home:File SFX");
 
 	ChannelSFX(PSG_CHANNEL_A);
-	PlayBankSFX(0);
+	PlayBankSFX(0, 0);
 
 
 	//-----------------------------------------------------------------------------
@@ -473,7 +473,7 @@ void main()
 			g_BankFXNum++;
 			if(g_BankFXNum >= ayFX_GetBankNumber())
 				g_BankFXNum = 0;
-			PlayBankSFX(g_BankFXNum);
+			PlayBankSFX(g_BankFXNum, 0);
 		}
 		else if((IS_KEY_PRESSED(row8, KEY_LEFT)) && (IS_KEY_RELEASED(prevRow8, KEY_LEFT))) // Previous SFX
 		{
@@ -481,7 +481,7 @@ void main()
 				g_BankFXNum--;
 			else
 				g_BankFXNum = ayFX_GetBankNumber() - 1;
-			PlayBankSFX(g_BankFXNum);
+			PlayBankSFX(g_BankFXNum, 15);
 		}
 
 		if((IS_KEY_PRESSED(row8, KEY_UP)) && (IS_KEY_RELEASED(prevRow8, KEY_UP))) // Next Channel
@@ -525,7 +525,7 @@ void main()
 		
 		prevRow8 = row8;
 
-		// Read keyboard matrix row #0		
+		// Read keyboard matrix row #0
 		u8 row0 = g_NEWKEY[KEY_ROW(KEY_0)];
 		if((IS_KEY_PRESSED(row0, KEY_1)) && (IS_KEY_RELEASED(prevRow0, KEY_1))) // Mute channel A
 		{

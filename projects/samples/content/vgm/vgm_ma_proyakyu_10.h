@@ -3,7 +3,7 @@
 // â–ˆ  â–ˆ â–ˆ  â–€â–€  â–„â–ˆ  â–ˆ  â–ˆ â–ˆâ–ˆâ–„â–€ â–ˆâ–ˆ â–ˆâ–ˆ â–ˆ
 // â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 // MSXbin 1.4.0 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Tue Aug  1 16:04:02 2023
+// File generated on Sat Aug  5 23:51:58 2023
 // Soure file: vgm\ma_proyakyu_10.vgm
 const unsigned char g_VGM_ma_proyakyu_10[] = {
 	0x56, 0x67, 0x6D, 0x20, 0x5B, 0x37, 0x00, 0x00, 0x51, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //      0

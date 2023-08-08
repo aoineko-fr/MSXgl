@@ -6,8 +6,17 @@
 //  VGM format sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
-#include "psg.h"
 #include "vgm/lvgm_player.h"
+#include "psg.h"
+#if (USE_LVGM_SCC)
+#include "scc.h"
+#endif
+#if (USE_LVGM_MSXMUSIC)
+#include "msx-music.h"
+#endif
+#if (USE_LVGM_MSXAUDIO)
+#include "msx-audio.h"
+#endif
 
 //=============================================================================
 // DEFINES
@@ -49,16 +58,15 @@ void ButtonLoop();
 // Fonts
 #include "font/font_mgl_sample8.h"
 
-// Music
-#include "content/lvgm/lvgm_psg_ds4_03.h"
-#include "content/lvgm/lvgm_psg_goemon_07.h"
-#include "content/lvgm/lvgm_psg_metalgear_05.h"
-#include "content/lvgm/lvgm_psg_honotori_09.h"
-#include "content/lvgm/lvgm_psg_penguin_05.h"
-
+extern const unsigned char g_lVGM_psg_ds4_03[];
+extern const unsigned char g_lVGM_psg_goemon_07[];
+extern const unsigned char g_lVGM_psg_metalgear_05[];
+extern const unsigned char g_lVGM_psg_honotori_09[];
+extern const unsigned char g_lVGM_psg_penguin_05[];
 extern const unsigned char g_lVGM_mm_ff_03[];
 extern const unsigned char g_lVGM_mm_undeadline_03[];
-extern const unsigned char g_lVGM_mm_psycho_03[];
+extern const unsigned char g_lVGM_scc_f1spirit_01[];
+extern const unsigned char g_lVGM_scc_quarth_02[];
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
@@ -66,14 +74,15 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
-	{ "Dragon Slayer 4     ", g_lVGM_psg_ds4_03, 0 },
-	{ "Gambare Goemon      ", g_lVGM_psg_goemon_07, 0 },
-	{ "Metal Gear          ", g_lVGM_psg_metalgear_05, 0 },
-	{ "Hi no Tori          ", g_lVGM_psg_honotori_09, 0 },
-	{ "Penguin Adventure   ", g_lVGM_psg_penguin_05, 0 },
-	{ "Final Fantasy (OPLL)", g_lVGM_mm_ff_03, 0 },
-	{ "Undeadline (OPLL)   ", g_lVGM_mm_undeadline_03, 0 },
-	{ "Psycho World (OPLL) ", g_lVGM_mm_psycho_03, 0 },
+	{ "Dragon Slayer 4     ", g_lVGM_psg_ds4_03, 2 },
+	{ "Gambare Goemon      ", g_lVGM_psg_goemon_07, 2 },
+	{ "Metal Gear          ", g_lVGM_psg_metalgear_05, 2 },
+	{ "Hi no Tori          ", g_lVGM_psg_honotori_09, 2 },
+	{ "Penguin Adventure   ", g_lVGM_psg_penguin_05, 4 },
+	{ "Final Fantasy (OPLL)", g_lVGM_mm_ff_03, 3 },
+	{ "Undeadline (OPLL)   ", g_lVGM_mm_undeadline_03, 3 },
+	{ "F1 Spirit (SCC)     ", g_lVGM_scc_f1spirit_01, 3 },
+	{ "Quartz (SCC)        ", g_lVGM_scc_quarth_02, 4 },
 };
 
 // Player button list
@@ -165,6 +174,7 @@ void SetMusic(u8 idx)
 {
 	g_CurrentMusic = idx;
 
+	SET_BANK_SEGMENT(1, g_MusicEntry[idx].Segment);
 	bool ok = LVGM_Play(g_MusicEntry[idx].Data, TRUE);
 	
 	Print_SetPosition(0, 2);
@@ -256,6 +266,23 @@ void SetCursor(u8 id)
 
 //-----------------------------------------------------------------------------
 //
+void Print_DrawSlot(u8 slot)
+{
+	if(slot == 0xFF)
+	{
+		Print_DrawText("No!");
+		return;
+	}
+	Print_DrawInt(Sys_SlotGetPrimary(slot));
+	if(Sys_SlotIsExpended(slot))
+	{
+		Print_DrawChar('-');
+		Print_DrawInt(Sys_SlotGetSecondary(slot));
+	}
+}
+
+//-----------------------------------------------------------------------------
+//
 void VDP_InterruptHandler()
 {
 }
@@ -273,6 +300,16 @@ void main()
 	VDP_ClearVRAM();
 	VDP_EnableVBlank(TRUE);
 
+	#if (USE_LVGM_SCC)
+	SCC_Initialize();
+	#endif
+	#if (USE_LVGM_MSXMUSIC)
+	MSXMusic_Initialize();
+	#endif
+	#if (USE_LVGM_MSXAUDIO)
+	MSXAudio_Initialize();
+	#endif
+
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
 	Print_DrawText(MSX_GL " LVGM Sample");
@@ -282,6 +319,25 @@ void main()
 	Print_DrawText("Main-ROM:");
 	Print_SetPosition(20, 11);
 	Print_DrawFormat("\x07" "Freq  %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
+
+	u8 Y = 17;
+	Print_SetPosition(20, Y++);
+	Print_DrawText("Slots: ");
+	#if (USE_LVGM_MSXMUSIC)
+	Print_SetPosition(20, Y++);
+	Print_DrawText("\x07" "YM2413: ");
+	Print_DrawSlot(g_MSXMusic_SlotId);
+	#endif
+	#if (USE_LVGM_MSXAUDIO)
+	Print_SetPosition(20, Y++);
+	Print_DrawText("\x07" "Y8950:  ");
+	Print_DrawChar(MSXAudio_Detect() ? '\x0C' : '\x0B');
+	#endif
+	#if (USE_LVGM_SCC)
+	Print_SetPosition(20, Y++);
+	Print_DrawText("\x07" "SCC:    ");
+	Print_DrawSlot(SCC_SLOT);
+	#endif
 
 	// Decode VGM header
 	SetMusic(0);
@@ -320,8 +376,7 @@ VDP_SetColor(0xF6);
 VDP_SetColor(0xF0);
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
-		DrawVGM(g_LVGM_Pointer, 1);
-
+		// DrawVGM(g_LVGM_Pointer, 1);
 
 		Print_SetPosition(31, 0);
 		u8 chr = count++ & 0x03;

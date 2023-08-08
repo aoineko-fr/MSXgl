@@ -5,8 +5,14 @@
 //-- Target MSX machine version (string)
 Machine = "1";
 
-//-- Program media target:
-Target = "ROM_48K_ISR";
+//-- Target program format (string)
+Target = "ROM_ASCII16";
+
+//-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)
+ROMSize = 128;
+
+//-- Project segments base name (string). ProjName will be used if not defined
+// ProjSegments = "segment/s_vgm";
 
 //-- List of library modules to build (array)
 LibModules = [ "psg", "scc", "msx-music", "msx-audio", "vgm/lvgm_player", "system", "bios", "vdp", "print", "input", "memory" ];

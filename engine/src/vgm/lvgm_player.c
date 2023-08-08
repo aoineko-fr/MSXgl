@@ -15,6 +15,22 @@
 // Functions
 typedef void (*lVGM_Decode)(void); // Callback default signature
 
+// Special operator
+enum LVGM_OP
+{
+	LVGM_OP_PSG			= 0xF0, // Start of PSG chunk (default when not defined)
+	LVGM_OP_OPLL		= 0xF1, // Start of MSX-MUSIC chunk
+	LVGM_OP_OPL1		= 0xF2, // Start of MSX-AUDIO chunk
+	LVGM_OP_SCC			= 0xF3, // Start of SCC chunk
+	LVGM_OP_SCCI		= 0xF4, // Start of SCC+ chunk
+	LVGM_OP_PSG2		= 0xF5, // Start of secondary PSG chunk
+	LVGM_OP_OPL4		= 0xF7, // Start of Moonsound chunk
+	LVGM_OP_MARK		= 0xFD, // Optional markers
+	LVGM_OP_LOOP		= 0xFE, // Loop position
+	LVGM_OP_END			= 0xFF, // End of song
+};
+
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -94,45 +110,57 @@ const u8 g_lVGM_OPLL_Reg[] = { 0x00, 0x10, 0x20, 0x30, 0x16, 0x26, 0x36 };
 void LVGM_DecodeOPLL()
 {
 	u8 op = *g_LVGM_Pointer;
-	if(op & 0x80) // Register #rr (80~B8h) set to 0
+	switch(op >> 4)
 	{
-		MSXMusic_SetRegister(op & 0x7F, 0);
-	}
-	else if(op < 0x40) // Register #rr (00~38h) set to nn
-	{
-		MSXMusic_SetRegister(op, *++g_LVGM_Pointer);
-	}
-	else if(op < 0x50) // 4x nn[] | Copy Y bytes from R#x0
-	{
-		u8 id = op & 0x0F;
-		u8 cnt = g_lVGM_OPLL_Cnt[id];
-		u8 reg = g_lVGM_OPLL_Reg[id];
-		loop(i, cnt)
-			MSXMusic_SetRegister(reg++, *++g_LVGM_Pointer);
-	}
-	else if(op < 0x60) // 5x nn | fill Y bytes from R#x0
-	{
-		u8 id = op & 0x0F;
-		u8 cnt = g_lVGM_OPLL_Cnt[id];
-		u8 reg = g_lVGM_OPLL_Reg[id];
-		u8 val = *++g_LVGM_Pointer;
-		loop(i, cnt)
-			MSXMusic_SetRegister(reg++, val);
-	}
-	else if(op < 0x70) // 6n rr vv | Set n+3 bytes (3~18) start from register #rr
-	{
-		u8 cnt = (*g_LVGM_Pointer & 0x0F) + 3;
-		u8 reg = *++g_LVGM_Pointer;
-		u8 val = *++g_LVGM_Pointer;
-		loop(i, cnt)
-			MSXMusic_SetRegister(reg++, val);
-	}
-	else
-	{
-		u8 cnt = (*g_LVGM_Pointer & 0x0F) + 3;
-		u8 reg = *++g_LVGM_Pointer;
-		loop(i, cnt)
-			MSXMusic_SetRegister(reg++, *++g_LVGM_Pointer);
+		case 0x0: // Register #rr (00~38h) set to nn
+		case 0x1:
+		case 0x2:
+		case 0x3:
+			MSXMusic_SetRegister(op, *++g_LVGM_Pointer);
+			break;
+
+		case 0x4: // 4x nn[] | Copy Y bytes from R#x0
+		{
+			u8 id = op & 0x0F;
+			u8 cnt = g_lVGM_OPLL_Cnt[id];
+			u8 reg = g_lVGM_OPLL_Reg[id];
+			loop(i, cnt)
+				MSXMusic_SetRegister(reg++, *++g_LVGM_Pointer);
+			break;
+		}
+		case 0x5: // 5x nn | fill Y bytes from R#x0
+		{
+			u8 id = op & 0x0F;
+			u8 cnt = g_lVGM_OPLL_Cnt[id];
+			u8 reg = g_lVGM_OPLL_Reg[id];
+			u8 val = *++g_LVGM_Pointer;
+			loop(i, cnt)
+				MSXMusic_SetRegister(reg++, val);
+			break;
+		}
+		case 0x6: // 6n rr vv | Set n+3 bytes (3~18) start from register #rr
+		{
+			u8 cnt = (*g_LVGM_Pointer & 0x0F) + 3;
+			u8 reg = *++g_LVGM_Pointer;
+			u8 val = *++g_LVGM_Pointer;
+			loop(i, cnt)
+				MSXMusic_SetRegister(reg++, val);
+			break;
+		}
+		case 0x7: // 6n rr vv | Set n+3 bytes (3~18) start from register #rr
+		{
+			u8 cnt = (*g_LVGM_Pointer & 0x0F) + 3;
+			u8 reg = *++g_LVGM_Pointer;
+			loop(i, cnt)
+				MSXMusic_SetRegister(reg++, *++g_LVGM_Pointer);
+			break;
+		}
+		case 0x8: // Register #rr (80~B8h) set to 0
+		case 0x9:
+		case 0xA:
+		case 0xB:
+			MSXMusic_SetRegister(op & 0x7F, 0);
+			break;
 	}
 }
 #endif
@@ -146,9 +174,69 @@ void LVGM_DecodeOPL1()
 #endif
 
 #if (USE_LVGM_SCC)
+// SCC lookup table           0     1     2     3     4
+const u8 g_lVGM_SCC_Reg[] = { 0x00, 0x20, 0x40, 0x60, 0x80 };
+
 //-----------------------------------------------------------------------------
 //
 void  LVGM_DecodeSCC()
+{
+	u8 op = *g_LVGM_Pointer;
+	if(op < 0xB0) // rr nn | Register #rr (00~AF) set to nn
+	{
+		SCC_SetRegister(op, *++g_LVGM_Pointer);
+	}
+	else if(op < 0xB8) // Bx | Waveform
+	{
+		u8 reg = g_lVGM_SCC_Reg[op & 0x07];
+		loop(i, 32)
+			SCC_SetRegister(reg++, *++g_LVGM_Pointer);
+	}
+	else if(op < 0xC0) // Bx | Waveform
+	{
+		u8 reg = g_lVGM_SCC_Reg[op & 0x07];
+		u8 val = *++g_LVGM_Pointer;
+		loop(i, 32)
+			SCC_SetRegister(reg++, val);
+	}
+	else if(op < 0xD0) // Cn rr vv | Set n+3 bytes (3~18) start from register #rr
+	{
+		u8 cnt = (op & 0x0F) + 3;
+		u8 reg = *++g_LVGM_Pointer;
+		u8 val = *++g_LVGM_Pointer;
+		loop(i, cnt)
+			SCC_SetRegister(reg++, val);
+	}
+	else if(op < 0xE0) // Dn rr vv[] | Copy n+3 bytes (3~18) start from register #rr
+	{
+		u8 cnt = (op & 0x0F) + 3;
+		u8 reg = *++g_LVGM_Pointer;
+		loop(i, cnt)
+			SCC_SetRegister(reg++, *++g_LVGM_Pointer);
+	}
+}
+#endif
+
+#if (USE_LVGM_SCCI)
+//-----------------------------------------------------------------------------
+//
+void  LVGM_DecodeSCCI()
+{
+}
+#endif
+
+#if (USE_LVGM_PSG2)
+//-----------------------------------------------------------------------------
+//
+void  LVGM_DecodePSG2()
+{
+}
+#endif
+
+#if (USE_LVGM_OPL4)
+//-----------------------------------------------------------------------------
+//
+void  LVGM_DecodeOPL4()
 {
 }
 #endif
@@ -248,38 +336,63 @@ void LVGM_Decode()
 			switch(*g_LVGM_Pointer)
 			{
 			#if (USE_LVGM_PSG)
-			case 0xF0: // PSG / AY-3-8910
+			case LVGM_OP_PSG: // PSG / AY-3-8910
 				g_LVGM_CurChip = LVGM_CHIP_PSG;
 				g_LVGM_Decode = LVGM_DecodePSG;
 				break;
 			#endif
 
 			#if (USE_LVGM_MSXMUSIC)
-			case 0xF1: // MSX-MUSIC / YM2413 / OPLL
+			case LVGM_OP_OPLL: // MSX-MUSIC / YM2413 / OPLL
 				g_LVGM_CurChip = LVGM_CHIP_OPLL;
 				g_LVGM_Decode = LVGM_DecodeOPLL;
 				break;
 			#endif
 
 			#if (USE_LVGM_MSXAUDIO)
-			case 0xF2: // MSX-AUDIO / Y8950 / OPL1 + ADPCM
+			case LVGM_OP_OPL1: // MSX-AUDIO / Y8950 / OPL1 + ADPCM
 				g_LVGM_CurChip = LVGM_CHIP_OPL1;
 				g_LVGM_Decode = LVGM_DecodeOPL1;
 				break;
 			#endif
 
 			#if (USE_LVGM_SCC)
-			case 0xF3: // SCC / K051649
+			case LVGM_OP_SCC: // SCC / K051649
 				g_LVGM_CurChip = LVGM_CHIP_SCC;
 				g_LVGM_Decode = LVGM_DecodeSCC;
 				break;
 			#endif
 
-			case 0xFE: // Loop position
+			#if (USE_LVGM_SCCI)
+			case LVGM_OP_SCCI: // SCC+ / K052539
+				g_LVGM_CurChip = LVGM_CHIP_SCCI;
+				g_LVGM_Decode = LVGM_DecodeSCCI;
+				break;
+			#endif
+
+			#if (USE_LVGM_PSG2)
+			case LVGM_OP_PSG2: // 2nd PSG
+				g_LVGM_CurChip = LVGM_CHIP_PSG2;
+				g_LVGM_Decode = LVGM_DecodePSG2;
+				break;
+			#endif
+
+			#if (USE_LVGM_OPL4)
+			case LVGM_OP_OPL4: // MOONBLASTER / YMF278
+				g_LVGM_CurChip = LVGM_CHIP_OPL4;
+				g_LVGM_Decode = LVGM_DecodeOPL4;
+				break;
+			#endif
+
+			case LVGM_OP_MARK:
+				g_LVGM_Pointer++;
+				break;
+
+			case LVGM_OP_LOOP: // Loop position
 				g_LVGM_LoopAddr = g_LVGM_Pointer + 1;
 				break;
 
-			case 0xFF: // End of song
+			case LVGM_OP_END: // End of song
 				if(g_LVGM_State & LVGM_STATE_LOOP) // handle loop
 				{
 					g_LVGM_Pointer = g_LVGM_LoopAddr;

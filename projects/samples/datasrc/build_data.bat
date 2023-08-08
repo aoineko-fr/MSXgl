@@ -6,7 +6,7 @@ set BuildArkos=0
 set BuildTrilo=0
 set BuildWYZ=0
 set BuildayFX=0
-set BuildVGM=1
+set BuildVGM=0
 set BuildlVGM=1
 set BuildPCMEnc=0
 set BuildPCMPlay=0
@@ -91,7 +91,10 @@ if %BuildVGM%==1 (
 	echo ----------------------------------------
 	echo Building VGM data...
 	if not exist %Dest%\vgm md %Dest%\vgm
-	for %%I in (vgm\*.vgm) do %MSXtk%\MSXbin.exe %%I -t g_VGM_%%~nI -ad -o %Dest%\vgm\vgm_%%~nI.h
+	for %%I in (vgm\*.vgm) do (
+		echo Converting %%I...
+		%MSXtk%\MSXbin.exe %%I -t g_VGM_%%~nI -ad -o %Dest%\vgm\vgm_%%~nI.h
+	)
 )
 
 ::-----------------------------------------------------------------------------
@@ -101,8 +104,9 @@ if %BuildlVGM%==1 (
 	echo Building lVGM data...
 	if not exist %Dest%\lvgm md %Dest%\lvgm
 	for %%I in (vgm\*.vgm) do (
-		REM echo Converting %%I...
-		%MSXtk%\MSXzip.exe %%I -t g_lVGM_%%~nI -ad -lVGM -freq 60 -o %Dest%\lvgm\lvgm_%%~nI.h
+		echo Converting %%I...
+		%MSXtk%\MSXzip.exe %%I -t g_lVGM_%%~nI -ad -lVGM --freq 60 -c   -o %Dest%\lvgm\lvgm_%%~nI.h
+		%MSXtk%\MSXzip.exe %%I -t g_lVGM_%%~nI -ad -lVGM --freq 60 -bin -o %Dest%\lvgm\lvgm_%%~nI.bin
 	)
 )
 

@@ -55,7 +55,7 @@ void ButtonLoop();
 
 // Segment data
 extern const c8* g_VGM_psg_ds4_03;
-extern const c8* g_VGM_psg_goemon07;
+extern const c8* g_VGM_psg_goemon_07;
 extern const c8* g_VGM_psg_metalgear_05;
 extern const c8* g_VGM_psg_honotori_09;
 extern const c8* g_VGM_scc_f1spirit_01;
@@ -78,7 +78,7 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 const struct MusicEntry g_MusicEntry[] =
 {
 	{ "Dragon Slayer 4    ", g_VGM_psg_ds4_03,       2 },
-	{ "Gambare Goemon     ", g_VGM_psg_goemon07,     3 },
+	{ "Gambare Goemon     ", g_VGM_psg_goemon_07,    3 },
 	{ "Metal Gear         ", g_VGM_psg_metalgear_05, 5 },
 	{ "Hi no Tori         ", g_VGM_psg_honotori_09,  6 },
 	{ "F1 Spirit (SCC)    ", g_VGM_scc_f1spirit_01,  7 },

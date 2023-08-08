@@ -119,7 +119,7 @@
 
 
 ==============================================================================
- MSX-AUDIO DATA  (00~CF)
+ MSX-AUDIO DATA  (00~DF)
 ==============================================================================
 
 	Opcode			Action
@@ -142,17 +142,25 @@
 
 
 ==============================================================================
- SCC/SCC+ DATA  (00~CF)
+ SCC/SCC+ DATA  (00~DF)
 ==============================================================================
 
-	Opcode			Action
+	Opcode			Action                                  SCC    SCC+
 ------------------------------------------------------------------------------
-	rr nn			Register #rr (00h~C0h) set to nn
+	rr nn			Register #rr (00~AF) set to nn
 
-	90 nn[32]		Copy 32 bytes to channel 1 waveform (9800h)
-	92 nn[32]		Copy 32 bytes to channel 2 waveform (9820h)
-	94 nn[32]		Copy 32 bytes to channel 3 waveform (9840h)
-	96 nn[32]		Copy 32 bytes to channel 4 waveform (9860h)
-	98 nn[32]		Copy 32 bytes to channel 5 waveform (98A0h) (SCC+ only)
+	B0 nn[32]		Copy 32 bytes to channel 1 waveform     9800   B800
+	B1 nn[32]		Copy 32 bytes to channel 2 waveform     9820   B820
+	B2 nn[32]		Copy 32 bytes to channel 3 waveform     9840   B840
+	B3 nn[32]		Copy 32 bytes to channel 4 waveform     9860   B860
+	B4 nn[32]		Copy 32 bytes to channel 5 waveform            B880
+	B8 nn			Set 32 bytes to channel 1 waveform      9800   B800
+	B9 nn			Set 32 bytes to channel 2 waveform      9820   B820
+	BA nn			Set 32 bytes to channel 3 waveform      9840   B840
+	BB nn			Set 32 bytes to channel 4 waveform      9860   B860
+	BC nn			Set 32 bytes to channel 5 waveform             B880
 ..............................................................................
-					Not used: 91, 93, 95, 97, 99~9F, C1~CF
+	Cn rr vv		Set n+3 bytes (3~18) start from register #rr
+	Dn rr vv[]		Copy n+3 bytes (3~18) start from register #rr
+..............................................................................
+					Not used: B5-B7, BD-BF

@@ -12,7 +12,10 @@
 #define USE_LVGM_PSG			TRUE
 #define USE_LVGM_MSXMUSIC		TRUE
 #define USE_LVGM_MSXAUDIO		FALSE
-#define USE_LVGM_SCC			FALSE
+#define USE_LVGM_SCC			TRUE
+#define USE_LVGM_SCCI			FALSE
+#define USE_LVGM_PSG2			FALSE
+#define USE_LVGM_OPL4			FALSE
 
 #if (USE_LVGM_PSG)
 #include "psg.h"
