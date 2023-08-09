@@ -12,9 +12,6 @@
 // DEFINES
 //=============================================================================
 
-// Functions
-typedef void (*lVGM_Decode)(void); // Callback default signature
-
 // Special operator
 enum LVGM_OP
 {
@@ -25,11 +22,16 @@ enum LVGM_OP
 	LVGM_OP_SCCI		= 0xF4, // Start of SCC+ chunk
 	LVGM_OP_PSG2		= 0xF5, // Start of secondary PSG chunk
 	LVGM_OP_OPL4		= 0xF7, // Start of Moonsound chunk
-	LVGM_OP_MARK		= 0xFD, // Optional markers
+	LVGM_OP_NOTIFY		= 0xFD, // Optional markers
 	LVGM_OP_LOOP		= 0xFE, // Loop position
 	LVGM_OP_END			= 0xFF, // End of song
 };
 
+// Default callback prototype
+bool LVGM_Defaultcallback(u8 id);
+
+// Decode function signature
+typedef void (*LVGM_DecodeCB)(void); // Callback default signature
 
 //=============================================================================
 // READ-ONLY DATA
@@ -51,7 +53,10 @@ const u8*                 g_LVGM_LoopAddr;
 u8                        g_LVGM_Wait;
 u8                        g_LVGM_State;
 u8                        g_LVGM_CurChip;
-lVGM_Decode               g_LVGM_Decode;
+LVGM_DecodeCB             g_LVGM_Decode;
+#if (USE_LVGM_NOTIFY)
+LVGM_NotifyCB             g_LVGM_Callback = LVGM_Defaultcallback;
+#endif
 
 //=============================================================================
 // FUNCTIONS
@@ -384,8 +389,13 @@ void LVGM_Decode()
 				break;
 			#endif
 
-			case LVGM_OP_MARK:
-				g_LVGM_Pointer++;
+			case LVGM_OP_NOTIFY:
+			#if (USE_LVGM_NOTIFY)
+				if(g_LVGM_Callback(*++g_LVGM_Pointer))
+					continue;
+			#else
+				g_LVGM_Pointer++; // Skip notification
+			#endif
 				break;
 
 			case LVGM_OP_LOOP: // Loop position
@@ -409,6 +419,10 @@ void LVGM_Decode()
 	}
 }
 
+#if (USE_LVGM_NOTIFY)
+// Default dummy callback handler
+bool LVGM_Defaultcallback(u8 id) { return TRUE; }
+#endif
 
 #if (0)
 	switch(*g_LVGM_Pointer)

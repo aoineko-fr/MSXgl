@@ -17,6 +17,8 @@
 #define USE_LVGM_PSG2			FALSE
 #define USE_LVGM_OPL4			FALSE
 
+#define USE_LVGM_NOTIFY			TRUE
+
 #if (USE_LVGM_PSG)
 #include "psg.h"
 #endif
@@ -92,6 +94,9 @@ struct LVGM_Header
 	u8	Device;     // see <LVGM_CHIP>
 };
 
+// Notification callback signature
+typedef bool (*LVGM_NotifyCB)(u8);
+
 //=============================================================================
 // VARIABLES
 //=============================================================================
@@ -153,3 +158,11 @@ void LVGM_Pause();
 // Function: LVGM_Decode
 // Decode a frame of music
 void LVGM_Decode();
+
+#if (USE_LVGM_NOTIFY)
+extern LVGM_NotifyCB g_LVGM_Callback;
+
+// Function: LVGM_SetNotifyCallback
+// Set the function to be called when a notification is triggered
+inline void LVGM_SetNotifyCallback(LVGM_NotifyCB cb) { g_LVGM_Callback = cb; }
+#endif

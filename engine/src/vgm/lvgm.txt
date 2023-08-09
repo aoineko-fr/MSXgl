@@ -38,7 +38,7 @@
 	F7				Start of Moonsound chunk
 
 	FD nn			Optional markers
-	   00			End of data segment
+	   00			End of data segment notification
 
 	FE				Loop position
 	FF				End of song
