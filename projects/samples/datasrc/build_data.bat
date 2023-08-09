@@ -105,8 +105,8 @@ if %BuildlVGM%==1 (
 	if not exist %Dest%\lvgm md %Dest%\lvgm
 	for %%I in (vgm\*.vgm) do (
 		echo Converting %%I...
-		%MSXtk%\MSXzip.exe %%I -t g_lVGM_%%~nI -ad -lVGM --freq 60 -c   -o %Dest%\lvgm\lvgm_%%~nI.h
-		%MSXtk%\MSXzip.exe %%I -t g_lVGM_%%~nI -ad -lVGM --freq 60 -bin -o %Dest%\lvgm\lvgm_%%~nI.bin
+		%MSXtk%\MSXzip.exe %%I -t g_lVGM_%%~nI -ad -lVGM --split 16K --freq 60 -c   -o %Dest%\lvgm\lvgm_%%~nI.h
+		%MSXtk%\MSXzip.exe %%I -t g_lVGM_%%~nI -ad -lVGM --split 16K --freq 60 -bin -o %Dest%\lvgm\lvgm_%%~nI.bin
 	)
 
 	copy /Y %Dest%\lvgm\lvgm_psg_ds4_03.bin        %Dest%\lvgm\ds4.lvm
@@ -117,11 +117,12 @@ if %BuildlVGM%==1 (
 	copy /Y %Dest%\lvgm\lvgm_psg_penguin_05.bin    %Dest%\lvgm\penguin.lvm
 	copy /Y %Dest%\lvgm\lvgm_psg_yureikun_02.bin   %Dest%\lvgm\yureikun.lvm
 	copy /Y %Dest%\lvgm\lvgm_mm_ff_03.bin          %Dest%\lvgm\ff.lvm
-	copy /Y %Dest%\lvgm\lvgm_mm_feedback_03.bin    %Dest%\lvgm\feedback.lvm
+	copy /Y %Dest%\lvgm\lvgm_mm_laydock2_01.bin    %Dest%\lvgm\laydock2.lvm
 	copy /Y %Dest%\lvgm\lvgm_mm_undeadline_03.bin  %Dest%\lvgm\undeadli.lvm
 	copy /Y %Dest%\lvgm\lvgm_scc_f1spirit_01.bin   %Dest%\lvgm\f1spirit.lvm
 	copy /Y %Dest%\lvgm\lvgm_scc_salamander_02.bin %Dest%\lvgm\salamand.lvm
 	copy /Y %Dest%\lvgm\lvgm_scc_manbow_03.bin     %Dest%\lvgm\manbow.lvm
+	copy /Y %Dest%\lvgm\lvgm_scc_metagear2_10.bin  %Dest%\lvgm\mg2.lvm
 )
 
 ::-----------------------------------------------------------------------------

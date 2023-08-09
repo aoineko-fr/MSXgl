@@ -73,6 +73,7 @@ enum LVGM_SIMPLIFY
 extern LVGM_FREQ     g_lVGM_Frequency;
 extern bool          g_lVGM_AddHeader;
 extern LVGM_SIMPLIFY g_lVGM_Simplify;
+extern u32           g_lVGM_Split;
 
 //=============================================================================
 // FUNCTIONS

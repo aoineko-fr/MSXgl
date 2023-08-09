@@ -11,10 +11,17 @@ Base options:
  -h             Display this help
 RLEp options:
  -rlep          RLEp compression
- -def auto|X    Default value for type 0 chunk (default: 0)
- -incdef        Include default value (as first data)
- -inczero       Include 0 terminator (as last data)
+ --def auto|X   Default value for type 0 chunk (default: 0)
+ --incdef       Include default value (as first data)
+ --inczero      Include 0 terminator (as last data)
 lVGM options:
  -lVGM          VGM to lVGM convertor
- -freq 50|60    Synchronization frequency (default: 60 Hz)
- -nohead        Don't include header
+ --freq 50|60   Synchronization frequency (default: 60 Hz)
+ --nohead       Don't include header
+ --reorder      Reorder register writes
+ --simplify     Reorder register writes and remove duplicate
+ --split X      Split data in X bytes chunk
+
+ All integers can be decimal or hexadecimal starting with '0x'.
+ One of the following named values can also be used:
+  1K, 2K, 4K, 8K, 16K, 24K, 32K, 48K, 64K, 128K, 256K, 512K, 1M, 2M, 4M

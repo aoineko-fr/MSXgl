@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
 // MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Tue Aug  8 23:18:00 2023
+// File generated on Thu Aug 10 01:11:42 2023
 // Source file: vgm\mm_laydock2_01.vgm (92461 bytes)
 // Compressor: lVGM
 // VGM version: 1.00 (chips:OPLL)
@@ -9686,6 +9686,8 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x0E, 0x3F, // rr: nn
 	0xE3, // -------- Wait: Dn
 	0x25, 0x09, // rr: nn
+	0xFD, 0x00, // ======== End of data segment
+	0x00, // Padding
 	0x15, 0xCC, // rr: nn
 	0x25, 0x19, // rr: nn
 	0x20, 0x03, // rr: nn
@@ -19430,6 +19432,8 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x20, 0x03, // rr: nn
 	0x10, 0x58, // rr: nn
 	0x20, 0x13, // rr: nn
+	0xFD, 0x00, // ======== End of data segment
+	0x00, // Padding
 	0x15, 0x58, // rr: nn
 	0xE0, // -------- Wait: Dn
 	0x0E, 0x2E, // rr: nn
@@ -24870,4 +24874,4 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x14, 0x47, // rr: nn
 	0xFF, // End marker
 };
-// Total size: 41996 bytes
+// Total size: 42002 bytes

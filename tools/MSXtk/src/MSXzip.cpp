@@ -18,6 +18,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdarg>
+#include <map>
 
 // MSXtk
 #include "MSXtk.h"
@@ -28,7 +29,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "1.4.0";
+const char* VERSION = "1.4.1";
 
 /// Compressor enum
 enum COMPRESSOR
@@ -54,9 +55,45 @@ bool					g_RLEp_DefaultValueAuto = false;
 bool					g_RLEp_IncludeDefaultValue = false;
 bool					g_RLEp_IncludeZeroTerminator = false;
 
+// Named value
+const std::map<const c8*, u32> g_NamedValue = {
+	{ "1K",   1024 * 1 },
+	{ "2K",   1024 * 2 },
+	{ "4K",   1024 * 4 },
+	{ "8K",   1024 * 8 },
+	{ "16K",  1024 * 16 },
+	{ "24K",  1024 * 24 },
+	{ "32K",  1024 * 32 },
+	{ "48K",  1024 * 48 },
+	{ "64K",  1024 * 64 },
+	{ "128K", 1024 * 128 },
+	{ "256K", 1024 * 256 },
+	{ "512K", 1024 * 512 },
+	{ "1M",   1024 * 1024 * 1 },
+	{ "2M",   1024 * 1024 * 2 },
+	{ "4M",   1024 * 1024 * 4 },
+};
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
+
+//-----------------------------------------------------------------------------
+// 
+u32 GetValue(std::string name)
+{
+	// Named value
+	for (auto it : g_NamedValue)
+		if (MSX::StrEqual(name.c_str(), it.first))
+			return it.second;
+
+	// Hexadecimal
+	if ((name[0] == '0') && (name[1] == 'x'))
+		return strtol(name.c_str(), NULL, 16);
+
+	// Decimal
+	return atoi(name.c_str());
+}
 
 //-----------------------------------------------------------------------------
 /// Display help information
@@ -82,7 +119,18 @@ void PrintHelp()
 	printf(" --freq 50|60   Synchronization frequency (default: 60 Hz)\n");
 	printf(" --nohead       Don't include header\n");
 	printf(" --reorder      Reorder register writes\n");
-	printf(" --simplify		Reorder register writes and remove duplicate\n");
+	printf(" --simplify     Reorder register writes and remove duplicate\n");
+	printf(" --split X      Split data in X bytes chunk\n");
+	printf("\n");
+	printf(" All integers can be decimal or hexadecimal starting with '0x'.\n");
+	printf(" One of the following named values can also be used:\n  ");
+	for (auto it = g_NamedValue.begin(); it != g_NamedValue.end(); ++it)
+	{
+		printf("%s", it->first);
+		if (std::next(it) != g_NamedValue.end())
+			printf(", ");
+	}
+	printf("\n");
 }
 
 //=============================================================================
@@ -95,13 +143,14 @@ void PrintHelp()
 //const char* ARGV[] = { "", "../testcases/mm_ff_03.vgm", "-c", "-lVGM", "-freq", "60" };
 //const char* ARGV[] = { "", "../testcases/mm_undeadline_03.vgm", "-c", "-lVGM", "--simplify" };
 //const char* ARGV[] = { "", "../testcases/mm_psycho_03.vgm", "-c", "-lVGM" };
-//const char* ARGV[] = { "", "../testcases/mm_laydock2_01.vgm", "-c", "-lVGM" };
-//const char* ARGV[] = { "", "../testcases/mm_greatestdriver_01.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/mm_laydock2_01.vgm", "-c", "-lVGM", "--split", "16K" };
+//const char* ARGV[] = { "", "../testcases/mm_greatestdriver_01.vgm", "-c", "-lVGM", "--split", "16K" };
 //const char* ARGV[] = { "", "../testcases/mm_feedback_03.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/mm_f1spirit3d_01.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/mm_deva_08.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/mm_columns_03.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/scc_f1spirit_01.vgm", "-c", "-lVGM" };
+//const char* ARGV[] = { "", "../testcases/scc_nemesis2_03.vgm", "-c", "-lVGM", "--split", "16K" };
 //const char* ARGV[] = { "", "../testcases/ma_xevious_01.vgm", "-c", "-lVGM", "--freq", "50" };
 //const char* ARGV[] = { "", "../testcases/lvl5.dat.dts", "-c", "-rlep", "--def", "0", "--inczero" };
 //#define DEBUG_ARGS
@@ -128,6 +177,7 @@ int main(int argc, const char* argv[])
 	g_lVGM_Frequency = LVGM_FREQ_60HZ;
 	g_lVGM_AddHeader = true;
 	g_lVGM_Simplify = LVGM_SIMPLIFY_NONE;
+	g_lVGM_Split = 0;
 
 	// Parse command line parameters
 	for (i32 i = 2; i < argc; ++i)
@@ -170,7 +220,7 @@ int main(int argc, const char* argv[])
 			}
 			else
 			{
-				g_RLEp_DefaultValue = atoi(argv[i]);
+				g_RLEp_DefaultValue = GetValue(argv[i]);
 				g_RLEp_DefaultValueAuto = false;
 			}
 		}
@@ -199,6 +249,11 @@ int main(int argc, const char* argv[])
 		else if (MSX::StrEqual(argv[i], "--simplify"))
 		{
 			g_lVGM_Simplify = LVGM_SIMPLIFY_DUPLICATE;
+		}
+		else if (MSX::StrEqual(argv[i], "--split"))
+		{
+			i++;
+			g_lVGM_Split = GetValue(argv[i]);
 		}
 	}
 

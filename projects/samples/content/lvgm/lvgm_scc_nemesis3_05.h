@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
 // MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Tue Aug  8 23:18:01 2023
+// File generated on Thu Aug 10 01:11:43 2023
 // Source file: vgm\scc_nemesis3_05.vgm (56442 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -9371,6 +9371,7 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x02, 0xD4, // R#2: 02 nn
 	0xF3, // ---- Start SCC section
+	0xFD, 0x00, // ======== End of data segment
 	0x86, 0xD4, // #rr = nn
 	0x88, 0x08, // #rr = nn
 	0x8B, 0x04, // #rr = nn
@@ -12158,4 +12159,4 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xD1, 0x8B, 0x0D, 0x07, 0x0A, 0x0A, // Dn rr vv[] => R#rr~
 	0xFF, // End marker
 };
-// Total size: 21435 bytes
+// Total size: 21437 bytes

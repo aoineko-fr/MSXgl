@@ -8,6 +8,7 @@
 #include "msxgl.h"
 #include "vgm/lvgm_player.h"
 #include "dos.h"
+#include "dos_mapper.h"
 #include "memory.h"
 #include "psg.h"
 #if (USE_LVGM_SCC)
@@ -73,10 +74,12 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Penguin Adventure",    "penguin.lvm" },
 	{ "Yurei Kun",            "yureikun.lvm" },
 	{ "Final Fantasy (OPLL)", "ff.lvm" },
-	{ "Feedback (OPLL)",      "feedback.lvm" },
+	{ "Laydock 2 (OPLL)",     "laydock2.lvm" },
 	{ "Undeadline (OPLL)",    "undeadli.lvm" },
 	{ "F1 Spirit (SCC)",      "f1spirit.lvm" },
 	{ "Salamander (SCC)",     "salamand.lvm" },
+	{ "Space Manbow (SCC)",   "manbow.lvm" },
+	{ "Metal Gear 2 (SCC)",   "mg2.lvm" },
 };
 
 // Player button list
@@ -100,6 +103,10 @@ const u8 g_ColorBlink[4] = { COLOR_LIGHT_RED, COLOR_MEDIUM_RED, COLOR_DARK_RED, 
 u8 g_CurrentMusic = 0;
 u8 g_CurrentButton;
 
+// Last segment
+DOS_Segment g_SegList[4];
+u8 g_SegIdx;
+u8 g_SegLoop;
 
 //=============================================================================
 // HELPER FUNCTIONS
@@ -107,48 +114,10 @@ u8 g_CurrentButton;
 
 //-----------------------------------------------------------------------------
 //
-void DrawVGM(const u8* ptr, u8 len)
+void DrawVGM(const u8* ptr)
 {
-	Print_SetPosition(25, 2);
-	Print_DrawFormat("%4x", ptr);
-	Print_SetPosition(25, 3);
-	Print_DrawText("------");
-	for(u8 i = 0; i < len; ++i)
-	{
-		Print_SetPosition(25, 4 + i);
-		
-		u8 op = *ptr >> 4;
-		u8 val = *ptr & 0x0F;
-		switch(op)
-		{
-		case 0x0:
-			ptr++;
-			Print_DrawFormat("R#%1x=%2x", val, *ptr);
-			break;
-		case 0x5:
-		case 0x7:
-		case 0x9:
-		case 0xB:
-			val |= 0x10;
-		case 0x1:
-		case 0x2:
-		case 0x3:
-		case 0x4:
-		case 0x6:
-		case 0x8:
-		case 0xA:
-		case 0xC:
-			Print_DrawFormat("R#%1x=%2x", g_LVGM_RegTable[--op], val);
-			break;
-		case 0xD:
-		case 0xE:
-			Print_DrawFormat("W=%1x...", 1 + val);
-			break;
-		case 0xF:
-			Print_DrawText("END!!!");
-		}
-		ptr++;
-	}
+	Print_SetPosition(32-7, 2);
+	Print_DrawFormat("%i %4x", g_SegIdx, ptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -164,6 +133,30 @@ void UpdatePlayer()
 
 //-----------------------------------------------------------------------------
 //
+bool MusicNotification(u8 id)
+{
+	switch(id)
+	{
+	case 0: // End of data segment
+		g_SegIdx++;
+		DOSMapper_SetPage2(g_SegList[g_SegIdx].Number); // Select the next segment 
+		LVGM_SetPointer((const u8*)0x8000); // Set playback address to the start of the next segment
+		return FALSE;
+
+	case 0xFE: // Reach loop marker
+		g_SegLoop = g_SegIdx; // Backup the segment that contain the loop marker
+		break;
+	
+	case 0xFF: // Jump to loop marker
+		g_SegIdx = g_SegLoop; // Restore the segment that contain the loop marker
+		DOSMapper_SetPage2(g_SegList[g_SegIdx].Number);
+	}
+
+	return TRUE;
+}
+
+//-----------------------------------------------------------------------------
+//
 void SetMusic(u8 idx)
 {
 	g_CurrentMusic = idx;
@@ -172,6 +165,12 @@ void SetMusic(u8 idx)
 	#if (PSG_ACCESS == PSG_INDIRECT)
 	PSG_Apply();
 	#endif
+
+	//.........................................................................
+	// Init mapper
+	g_SegIdx = 0;
+	g_SegLoop = 0;
+	DOSMapper_SetPage2(g_SegList[g_SegIdx].Number);
 
 	//.........................................................................
 	// Load file
@@ -192,7 +191,16 @@ void SetMusic(u8 idx)
 	// rewind
 	DOS_FSeek(file, 0, SEEK_SET);
 	// load
-	DOS_FRead(file, (void*)Mem_GetHeapAddress(), size);
+	while(size > 16 * 1024)
+	{
+		DOS_FRead(file, (void*)0x8000, 16 * 1024);
+		err = DOS_GetLastError();
+		if(err != DOS_ERR_NONE)
+			return;
+		size -= 16 * 1024;
+		DOSMapper_SetPage2(g_SegList[++g_SegIdx].Number);
+	}
+	DOS_FRead(file, (void*)0x8000, size);
 	err = DOS_GetLastError();
 	if(err != DOS_ERR_NONE)
 		return;
@@ -200,7 +208,9 @@ void SetMusic(u8 idx)
 
 	//.........................................................................
 	// Start playback
-	bool ok = LVGM_Play((const void*)Mem_GetHeapAddress(), TRUE);
+	g_SegIdx = 0;
+	DOSMapper_SetPage2(g_SegList[g_SegIdx].Number);
+	bool ok = LVGM_Play((const void*)0x8000, TRUE);
 	
 	//.........................................................................
 	// Display music info
@@ -324,10 +334,28 @@ void VDP_InterruptHandler()
 // Program entry point
 void main()
 {
+	// Initialize and alloc memory segment
+	if(!DOSMapper_Init())
+	{
+		DOS_StringOutput("Error: Unable to init mapper\n$");
+		DOS_Exit(1);
+	}
+	loop(i, 4)
+	{
+		if(!DOSMapper_Alloc(DOS_ALLOC_USER, DOS_SEGSLOT_PRIM, &g_SegList[i]))
+		{
+			DOS_StringOutput("Error: Can't allocate 4 segments of 16 KB\n$");
+			DOS_Exit(1);
+		}
+	}
+
 	// Initialize screen
 	VDP_SetMode(VDP_MODE_SCREEN1);
 	VDP_ClearVRAM();
 	VDP_EnableVBlank(TRUE);
+
+	// Initialize audio chip
+	LVGM_SetNotifyCallback(MusicNotification);
 
 	#if (USE_LVGM_SCC)
 	SCC_Initialize();
@@ -405,7 +433,7 @@ VDP_SetColor(0xF6);
 VDP_SetColor(0xF0);
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
-		// DrawVGM(g_LVGM_Pointer, 1);
+		DrawVGM(g_LVGM_Pointer);
 
 		Print_SetPosition(31, 0);
 		u8 chr = count++ & 0x03;
@@ -438,6 +466,9 @@ VDP_SetColor(0xF0);
 				g_LVGM_State |= LVGM_STATE_50HZ;
 			UpdatePlayer();
 		}
+		// Exit
+		if (IS_KEY_PRESSED(row8, KEY_ESC))
+			DOS_Exit(0);
 		
 		prevRow8 = row8;
 	}

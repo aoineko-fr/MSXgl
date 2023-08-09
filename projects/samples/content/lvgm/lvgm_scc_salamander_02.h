@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
 // MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Tue Aug  8 23:18:01 2023
+// File generated on Thu Aug 10 01:11:43 2023
 // Source file: vgm\scc_salamander_02.vgm (67298 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -10262,6 +10262,7 @@ const unsigned char g_lVGM_scc_salamander_02[] = {
 	0xF0, // ---- Start PSG section
 	0x87, // R#9: 8n
 	0xF3, // ---- Start SCC section
+	0xFD, 0x00, // ======== End of data segment
 	0xD1, 0x8B, 0x09, 0x05, 0x07, 0x03, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
@@ -16323,4 +16324,4 @@ const unsigned char g_lVGM_scc_salamander_02[] = {
 	0x83, 0x05, // #rr = nn
 	0xFF, // End marker
 };
-// Total size: 25716 bytes
+// Total size: 25718 bytes

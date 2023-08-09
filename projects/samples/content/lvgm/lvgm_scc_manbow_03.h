@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
 // MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Tue Aug  8 23:18:01 2023
+// File generated on Thu Aug 10 01:11:42 2023
 // Source file: vgm\scc_manbow_03.vgm (116880 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -8802,6 +8802,8 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF3, // ---- Start SCC section
 	0xD0, 0x8B, 0x05, 0x05, 0x0D, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Dn
+	0xFD, 0x00, // ======== End of data segment
+	0x00, // Padding
 	0xD0, 0x8B, 0x04, 0x04, 0x0E, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Dn
 	0xD0, 0x8B, 0x03, 0x03, 0x0D, // Dn rr vv[] => R#rr~
@@ -18162,6 +18164,7 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x84, // R#9: 8n
 	0xF3, // ---- Start SCC section
 	0xD1, 0x8B, 0x08, 0x02, 0x02, 0x02, // Dn rr vv[] => R#rr~
+	0xFD, 0x00, // ======== End of data segment
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x68, // R#8: 6n
@@ -24600,4 +24603,4 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x16, // R#1: 1n
 	0xFF, // End marker
 };
-// Total size: 42813 bytes
+// Total size: 42818 bytes

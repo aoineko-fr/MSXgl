@@ -582,10 +582,9 @@
  <div class="CBody"><p>Command being executed is stopped.</p></div>
 </div>
 
-<a name="V9_CommandLMMC"></a><a name="Topic702"></a><div class="CTopic TFunction LC">
+<a name="V9_CommandLMMC"></a><a name="Topic977"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_CommandLMMC</div>
- <div id="NDPrototype702" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandLMMC(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">src,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">dx,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">dy,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">ny,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">arg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Data is transferred from CPU to VRAM rectangle area.</p></div>
+ <div class="CBody"><p>Data is transferred from CPU to VRAM rectangle area.&nbsp; Note: Infinished function; don't use it.&nbsp; inline void V9_CommandLMMC(const u8* src, u16 dx, u16 dy, u16 nx, u16 ny, u8 arg) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_ExecCommand(V9_CMD_LMMC); }</p></div>
 </div>
 
 <a name="V9_CommandLMMV"></a><a name="Topic703"></a><div class="CTopic TFunction LC">
@@ -594,10 +593,9 @@
  <div class="CBody"><p>VRAM rectangle area is painted out.</p></div>
 </div>
 
-<a name="V9_CommandLMCM"></a><a name="Topic704"></a><div class="CTopic TFunction LC">
+<a name="V9_CommandLMCM"></a><a name="Topic978"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_CommandLMCM</div>
- <div id="NDPrototype704" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_CommandLMCM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sy,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">nx,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ny,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">arg,</td></tr><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">dest</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>VRAM rectangle area data is transferred to CPU.</p></div>
+ <div class="CBody"><p>VRAM rectangle area data is transferred to CPU.&nbsp; Note: Infinished function; don't use it.&nbsp; inline void V9_CommandLMCM(u16 sx, u16 sy, u16 nx, u16 ny, u8 arg, u8* dest) { V9_SetCommandSX(sx); V9_SetCommandSY(sy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_ExecCommand(V9_CMD_LMCM); }</p></div>
 </div>
 
 <a name="V9_CommandLMMM"></a><a name="Topic705"></a><div class="CTopic TFunction LC">

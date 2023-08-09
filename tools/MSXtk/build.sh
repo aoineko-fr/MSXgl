@@ -10,7 +10,7 @@ cp out/MSXbin bin/MSXbin
 
 echo ----------------------------------------------------------------------
 echo Building MSXzip...
-g++ -std=c++17 -o ./out/MSXzip -Isrc -Wall src/MSXzip.cpp src/ayVGM.cpp src/RLEp.cpp
+g++ -std=c++17 -o ./out/MSXzip -Isrc -Wall src/MSXzip.cpp src/lVGM.cpp src/RLEp.cpp
 cp out/MSXzip bin/MSXzip
 
 # echo ----------------------------------------------------------------------

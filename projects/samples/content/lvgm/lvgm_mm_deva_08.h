@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
 // MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Tue Aug  8 23:18:00 2023
+// File generated on Thu Aug 10 01:11:41 2023
 // Source file: vgm\mm_deva_08.vgm (84303 bytes)
 // Compressor: lVGM
 // VGM version: 1.00 (chips:OPLL)
@@ -9191,6 +9191,8 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0xE0, // -------- Wait: Dn
 	0x10, 0x05, // rr: nn
 	0x11, 0x03, // rr: nn
+	0xFD, 0x00, // ======== End of data segment
+	0x00, // Padding
 	0x14, 0x05, // rr: nn
 	0x15, 0x03, // rr: nn
 	0xE0, // -------- Wait: Dn
@@ -18202,6 +18204,8 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0x21, 0x0B, // rr: nn
 	0x21, 0x1B, // rr: nn
 	0x22, 0x04, // rr: nn
+	0xFD, 0x00, // ======== End of data segment
+	0x00, // Padding
 	0x22, 0x14, // rr: nn
 	0x23, 0x04, // rr: nn
 	0x23, 0x14, // rr: nn
@@ -22396,4 +22400,4 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0xE6, // -------- Wait: Dn
 	0xFF, // End marker
 };
-// Total size: 40566 bytes
+// Total size: 40572 bytes

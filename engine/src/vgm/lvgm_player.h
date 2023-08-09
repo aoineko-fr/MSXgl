@@ -86,6 +86,29 @@ enum LVGM_STATE
 	LVGM_STATE_PLAY = 0b10000000,
 };
 
+// Special operator
+enum LVGM_OP
+{
+	LVGM_OP_PSG			= 0xF0, // Start of PSG chunk (default when not defined)
+	LVGM_OP_OPLL		= 0xF1, // Start of MSX-MUSIC chunk
+	LVGM_OP_OPL1		= 0xF2, // Start of MSX-AUDIO chunk
+	LVGM_OP_SCC			= 0xF3, // Start of SCC chunk
+	LVGM_OP_SCCI		= 0xF4, // Start of SCC+ chunk
+	LVGM_OP_PSG2		= 0xF5, // Start of secondary PSG chunk
+	LVGM_OP_OPL4		= 0xF7, // Start of Moonsound chunk
+	LVGM_OP_NOTIFY		= 0xFD, // Optional markers
+	LVGM_OP_LOOP		= 0xFE, // Loop position
+	LVGM_OP_END			= 0xFF, // End of song
+};
+
+// Special operator
+enum LVGM_NOTIFY
+{
+	LVGM_NOTIFY_SEG_END		= 0x00, // End of data segment
+	LVGM_NOTIFY_LOOP_MARK	= 0xFE, // Reach loop marker
+	LVGM_NOTIFY_LOOP_JUMP	= 0xFF, // Jump to loop marker
+};
+
 // LVGM header structure
 struct LVGM_Header
 {
@@ -109,6 +132,10 @@ extern u8        g_LVGM_State;
 extern const u8  g_LVGM_RegTable[13];
 extern const u8  g_LVGM_Ident[4];
 extern u8        g_LVGM_CurChip;
+
+#if (USE_LVGM_NOTIFY)
+extern LVGM_NotifyCB g_LVGM_Callback;
+#endif
 
 //=============================================================================
 // FUNCTIONS
@@ -159,10 +186,13 @@ void LVGM_Pause();
 // Decode a frame of music
 void LVGM_Decode();
 
-#if (USE_LVGM_NOTIFY)
-extern LVGM_NotifyCB g_LVGM_Callback;
+// Function: LVGM_Decode
+// Decode a frame of music
+inline void LVGM_SetPointer(const u8* ptr) { g_LVGM_Pointer = ptr; }
 
+#if (USE_LVGM_NOTIFY)
 // Function: LVGM_SetNotifyCallback
 // Set the function to be called when a notification is triggered
 inline void LVGM_SetNotifyCallback(LVGM_NotifyCB cb) { g_LVGM_Callback = cb; }
 #endif
+
