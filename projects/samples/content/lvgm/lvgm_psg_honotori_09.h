@@ -2,8 +2,8 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Aug 10 01:11:42 2023
+// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// File generated on Thu Aug 10 23:53:39 2023
 // Source file: vgm\psg_honotori_09.vgm (14842 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG)
@@ -11,14 +11,15 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 // ---- Header ----
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
 	0x02, // Options (freq:60Hz loop:1 dev:0)
+	0xBE, // More common byte
 // ---- Data ----
-	0xD7, // R#n: Dn
+	0x07, 0x00, // R#7: 07 nn
 	0xFE, // Loop marker
-	0xD1, // R#n: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0x10, // R#1: 1n
+	0xD0, // R#n: Dn
 	0x07, 0x08, // R#7: 07 nn
 	0x6B, // R#8: 6n
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x02, 0xBF, // R#2: 02 nn
 	0x07, 0x18, // R#7: 07 nn
 	0x8A, // R#9: 8n
@@ -96,7 +97,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
 	0x02, 0xBF, // R#2: 02 nn
 	0x8A, // R#9: 8n
@@ -107,7 +108,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA8, // R#10: An
 	0xEC, // -------- Wait: Dn
 	0x00, 0xBD, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0xA6, // R#10: An
@@ -116,7 +117,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x02, 0xBF, // R#2: 02 nn
 	0xE1, // -------- Wait: Dn
 	0xAA, // R#10: An
@@ -124,7 +125,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x00, 0xBD, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0xA7, // R#10: An
@@ -133,13 +134,13 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x02, 0xBF, // R#2: 02 nn
 	0xE3, // -------- Wait: Dn
 	0x00, 0xBD, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0xE3, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x02, 0xBF, // R#2: 02 nn
 	0xE1, // -------- Wait: Dn
 	0xAA, // R#10: An
@@ -147,7 +148,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x00, 0xBD, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0xA7, // R#10: An
@@ -156,7 +157,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x02, 0xBF, // R#2: 02 nn
 	0xE2, // -------- Wait: Dn
 	0x69, // R#8: 6n
@@ -164,7 +165,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0xBD, // R#0: 00 nn
 	0x68, // R#8: 6n
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x87, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -206,10 +207,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD1, // R#n: Dn
+	0x10, // R#1: 1n
 	0x00, 0xE4, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x02, 0xE5, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x33, // R#5: 3n
@@ -248,7 +249,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
 	0x02, 0xBF, // R#2: 02 nn
 	0x8A, // R#9: 8n
@@ -293,7 +294,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x02, 0x8F, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x35, // R#5: 3n
-	0xD4, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6A, // R#8: 6n
@@ -524,12 +525,12 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
 	0x02, 0xBF, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x35, // R#5: 3n
-	0xD4, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6A, // R#8: 6n
@@ -719,7 +720,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x02, 0x40, // R#2: 02 nn
 	0x8A, // R#9: 8n
@@ -745,7 +746,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD1, // R#n: Dn
+	0x10, // R#1: 1n
 	0x00, 0xF0, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x02, 0x1C, // R#2: 02 nn
@@ -799,10 +800,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD1, // R#n: Dn
+	0x10, // R#1: 1n
 	0x00, 0xB4, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x02, 0xF0, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x04, 0xA0, // R#4: 04 nn
@@ -910,7 +911,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0xD4, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6A, // R#8: 6n
@@ -1079,10 +1080,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD0, // R#n: Dn
-	0xD8, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
+	0x60, // R#8: 6n
 	0x02, 0x01, // R#2: 02 nn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x66, // R#8: 6n
@@ -1102,11 +1103,11 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x81, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x61, // R#8: 6n
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
 	0x02, 0xE5, // R#2: 02 nn
 	0x8A, // R#9: 8n
@@ -1125,10 +1126,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA6, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD0, // R#n: Dn
-	0xD8, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
+	0x60, // R#8: 6n
 	0x02, 0x01, // R#2: 02 nn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x66, // R#8: 6n
@@ -1150,10 +1151,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x61, // R#8: 6n
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x00, 0x8E, // R#0: 00 nn
@@ -1175,7 +1176,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x00, 0x8D, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0xA8, // R#10: An
@@ -1191,7 +1192,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA8, // R#10: An
 	0xE2, // -------- Wait: Dn
 	0x00, 0x8D, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0xE1, // -------- Wait: Dn
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -1213,7 +1214,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x00, 0x8D, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x33, // R#5: 3n
 	0x04, 0x90, // R#4: 04 nn
 	0xAC, // R#10: An
@@ -1237,7 +1238,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xAB, // R#10: An
 	0xE2, // -------- Wait: Dn
 	0x00, 0x8D, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0xA9, // R#10: An
@@ -1264,7 +1265,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x00, 0x8D, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x34, // R#5: 3n
 	0x04, 0x70, // R#4: 04 nn
 	0xAC, // R#10: An
@@ -1292,7 +1293,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x02, 0xA1, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x35, // R#5: 3n
-	0xD4, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6A, // R#8: 6n
@@ -1325,7 +1326,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x67, // R#8: 6n
 	0x86, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
 	0x02, 0xBF, // R#2: 02 nn
 	0x8A, // R#9: 8n
@@ -1347,10 +1348,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD0, // R#n: Dn
-	0xD8, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
+	0x60, // R#8: 6n
 	0x02, 0x01, // R#2: 02 nn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0xA9, // R#10: An
 	0x66, // R#8: 6n
@@ -1370,9 +1371,9 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x81, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x61, // R#8: 6n
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x00, 0xAA, // R#0: 00 nn
 	0x6B, // R#8: 6n
@@ -1486,7 +1487,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x00, 0xD6, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x21, // R#3: 2n
-	0xD2, // R#n: Dn
+	0x02, 0x00, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x33, // R#5: 3n
 	0x04, 0x90, // R#4: 04 nn
@@ -1510,9 +1511,9 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x02, 0xE4, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x32, // R#5: 3n
@@ -1570,7 +1571,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x02, 0x54, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x35, // R#5: 3n
-	0xD4, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6A, // R#8: 6n
@@ -1591,10 +1592,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD1, // R#n: Dn
+	0x10, // R#1: 1n
 	0x00, 0xD6, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0xD2, // R#n: Dn
+	0x02, 0x00, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x04, 0x50, // R#4: 04 nn
 	0xAC, // R#10: An
@@ -1614,7 +1615,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0xAA, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x02, 0xD6, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0xE0, // -------- Wait: Dn
@@ -1740,7 +1741,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x8A, // R#9: 8n
 	0x35, // R#5: 3n
 	0x04, 0xF0, // R#4: 04 nn
@@ -1791,7 +1792,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x8E, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x8A, // R#9: 8n
 	0x34, // R#5: 3n
 	0x04, 0x70, // R#4: 04 nn
@@ -2023,7 +2024,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x68, // R#8: 6n
 	0x02, 0x1B, // R#2: 02 nn
 	0x88, // R#9: 8n
-	0xD4, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
 	0xAD, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0xAC, // R#10: An
@@ -2344,7 +2345,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x98, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x8A, // R#9: 8n
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -2475,7 +2476,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x98, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x8A, // R#9: 8n
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -2519,7 +2520,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA6, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
 	0x02, 0xE4, // R#2: 02 nn
 	0x8A, // R#9: 8n
@@ -2541,7 +2542,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0xAB, // R#10: An
 	0xE2, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x02, 0xE4, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0xAA, // R#10: An
@@ -2556,7 +2557,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x02, 0xE3, // R#2: 02 nn
 	0xAB, // R#10: An
 	0xE4, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x02, 0xE4, // R#2: 02 nn
 	0xE4, // -------- Wait: Dn
 	0x00, 0xBD, // R#0: 00 nn
@@ -2570,7 +2571,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x02, 0xE4, // R#2: 02 nn
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -2592,7 +2593,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
 	0x02, 0xE4, // R#2: 02 nn
 	0x8A, // R#9: 8n
@@ -2621,7 +2622,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x02, 0xF0, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x35, // R#5: 3n
-	0xD4, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6A, // R#8: 6n
@@ -2642,7 +2643,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
 	0x02, 0xE4, // R#2: 02 nn
 	0x8A, // R#9: 8n
@@ -2685,7 +2686,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
 	0x02, 0xE4, // R#2: 02 nn
 	0x8A, // R#9: 8n
@@ -2732,7 +2733,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0xA0, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x8A, // R#9: 8n
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -2763,7 +2764,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xAA, // R#10: An
 	0xE6, // -------- Wait: Dn
 	0x00, 0xA0, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0xE4, // -------- Wait: Dn
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -2782,7 +2783,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x00, 0xA0, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0xA7, // R#10: An
@@ -2806,7 +2807,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xAB, // R#10: An
 	0xE2, // -------- Wait: Dn
 	0x00, 0xA0, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0xA9, // R#10: An
@@ -2833,7 +2834,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x00, 0xA0, // R#0: 00 nn
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0xE2, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
@@ -2888,10 +2889,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0xA0, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x8A, // R#9: 8n
 	0x35, // R#5: 3n
-	0xD4, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
 	0xE0, // -------- Wait: Dn
 	0xAC, // R#10: An
 	0x6A, // R#8: 6n
@@ -2939,7 +2940,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x8A, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x34, // R#5: 3n
-	0xD4, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
 	0xAC, // R#10: An
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
@@ -3020,7 +3021,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x00, 0xCA, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x21, // R#3: 2n
-	0xD2, // R#n: Dn
+	0x02, 0x00, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x6A, // R#8: 6n
@@ -3040,7 +3041,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x72, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x02, 0x98, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x33, // R#5: 3n
@@ -3377,7 +3378,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x98, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x8A, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x6A, // R#8: 6n
@@ -3476,7 +3477,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x98, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0x02, 0xBE, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x8A, // R#9: 8n
 	0x04, 0x90, // R#4: 04 nn
 	0xAC, // R#10: An
@@ -3507,7 +3508,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
 	0x02, 0xE4, // R#2: 02 nn
 	0x8A, // R#9: 8n
@@ -3559,7 +3560,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x35, // R#5: 3n
-	0xD4, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0xAB, // R#10: An
@@ -3601,9 +3602,9 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x02, 0xF0, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x04, 0xC0, // R#4: 04 nn
@@ -3665,10 +3666,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD0, // R#n: Dn
-	0xD8, // R#n: Dn
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
+	0x60, // R#8: 6n
+	0x02, 0x00, // R#2: 02 nn
+	0x80, // R#9: 8n
 	0x31, // R#5: 3n
 	0x04, 0xE0, // R#4: 04 nn
 	0xAA, // R#10: An
@@ -3690,10 +3691,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x81, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x61, // R#8: 6n
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x00, 0xF0, // R#0: 00 nn
@@ -3720,11 +3721,11 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD0, // R#n: Dn
-	0xD8, // R#n: Dn
-	0xD3, // R#n: Dn
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
+	0x60, // R#8: 6n
+	0x20, // R#3: 2n
+	0x02, 0x00, // R#2: 02 nn
+	0x80, // R#9: 8n
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x66, // R#8: 6n
@@ -3744,11 +3745,11 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x81, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x61, // R#8: 6n
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
 	0x02, 0xF0, // R#2: 02 nn
 	0x8A, // R#9: 8n
@@ -3782,7 +3783,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0xAB, // R#10: An
 	0xE2, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x02, 0xF0, // R#2: 02 nn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -3798,7 +3799,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x02, 0xEF, // R#2: 02 nn
 	0xA8, // R#10: An
 	0xE4, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x02, 0xF0, // R#2: 02 nn
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -3813,7 +3814,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x00, 0xBD, // R#0: 00 nn
 	0x02, 0xEF, // R#2: 02 nn
 	0xE4, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x02, 0xF0, // R#2: 02 nn
 	0xE4, // -------- Wait: Dn
 	0x00, 0xBD, // R#0: 00 nn
@@ -3830,7 +3831,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x02, 0xF0, // R#2: 02 nn
 	0xE1, // -------- Wait: Dn
 	0xAA, // R#10: An
@@ -3844,12 +3845,12 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x35, // R#5: 3n
-	0xD4, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0xAB, // R#10: An
 	0xE2, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x02, 0xF0, // R#2: 02 nn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -3873,7 +3874,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x88, // R#9: 8n
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0x00, 0xBE, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x68, // R#8: 6n
 	0x02, 0xF0, // R#2: 02 nn
 	0x87, // R#9: 8n
@@ -3888,7 +3889,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x02, 0xCA, // R#2: 02 nn
 	0x8A, // R#9: 8n
 	0x34, // R#5: 3n
-	0xD4, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6A, // R#8: 6n
@@ -3953,10 +3954,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD0, // R#n: Dn
-	0xD8, // R#n: Dn
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
+	0x60, // R#8: 6n
+	0x02, 0x00, // R#2: 02 nn
+	0x80, // R#9: 8n
 	0x32, // R#5: 3n
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -3979,10 +3980,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x61, // R#8: 6n
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x11, // R#1: 1n
@@ -4006,11 +4007,11 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x67, // R#8: 6n
 	0x86, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0xD1, // R#n: Dn
-	0xD8, // R#n: Dn
-	0xD3, // R#n: Dn
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
+	0x10, // R#1: 1n
+	0x60, // R#8: 6n
+	0x20, // R#3: 2n
+	0x02, 0x00, // R#2: 02 nn
+	0x80, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x66, // R#8: 6n
 	0x85, // R#9: 8n
@@ -4028,9 +4029,9 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x81, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x61, // R#8: 6n
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x00, 0xAA, // R#0: 00 nn
 	0x6B, // R#8: 6n
@@ -4123,10 +4124,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x86, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD0, // R#n: Dn
-	0xD8, // R#n: Dn
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
+	0x60, // R#8: 6n
+	0x02, 0x00, // R#2: 02 nn
+	0x80, // R#9: 8n
 	0x32, // R#5: 3n
 	0x04, 0x18, // R#4: 04 nn
 	0xAC, // R#10: An
@@ -4150,10 +4151,10 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x61, // R#8: 6n
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x11, // R#1: 1n
@@ -4179,12 +4180,12 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x67, // R#8: 6n
 	0x86, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0xD1, // R#n: Dn
-	0xD0, // R#n: Dn
-	0xD8, // R#n: Dn
-	0xD3, // R#n: Dn
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
+	0x10, // R#1: 1n
+	0x00, 0x00, // R#0: 00 nn
+	0x60, // R#8: 6n
+	0x20, // R#3: 2n
+	0x02, 0x00, // R#2: 02 nn
+	0x80, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x66, // R#8: 6n
 	0x85, // R#9: 8n
@@ -4202,9 +4203,9 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0x81, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x61, // R#8: 6n
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x00, 0xB4, // R#0: 00 nn
 	0x6B, // R#8: 6n
@@ -4230,4 +4231,4 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Dn
 	0xFF, // End marker
 };
-// Total size: 4767 bytes
+// Total size: 4750 bytes

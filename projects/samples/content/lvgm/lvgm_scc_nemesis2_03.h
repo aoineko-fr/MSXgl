@@ -2,8 +2,8 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Aug 10 01:11:42 2023
+// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// File generated on Thu Aug 10 23:53:45 2023
 // Source file: vgm\scc_nemesis2_03.vgm (52021 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -12,6 +12,7 @@ const unsigned char g_lVGM_scc_nemesis2_03[] = {
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
 	0x06, // Options (freq:60Hz loop:1 dev:1)
 	0x09, // Devices (chips:PSG, SCC)
+	0x00, // More common byte
 // ---- Data ----
 	0xD0, // R#n: Dn
 	0xD1, // R#n: Dn
@@ -10487,8 +10488,8 @@ const unsigned char g_lVGM_scc_nemesis2_03[] = {
 	0x89, // R#9: 8n
 	0x04, 0xA0, // R#4: 04 nn
 	0x32, // R#5: 3n
-	0xAE, // R#10: An
 	0xFD, 0x00, // ======== End of data segment
+	0xAE, // R#10: An
 	0xD6, // R#n: Dn
 	0x07, 0xAB, // R#7: 07 nn
 	0xE0, // -------- Wait: Dn
@@ -12403,4 +12404,4 @@ const unsigned char g_lVGM_scc_nemesis2_03[] = {
 	0xD1, 0x8B, 0x0B, 0x0A, 0x08, 0x08, // Dn rr vv[] => R#rr~
 	0xFF, // End marker
 };
-// Total size: 19494 bytes
+// Total size: 19495 bytes

@@ -2,8 +2,8 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Aug 10 01:11:43 2023
+// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// File generated on Thu Aug 10 23:53:46 2023
 // Source file: vgm\scc_quarth_02.vgm (22215 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -12,16 +12,17 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
 	0x06, // Options (freq:60Hz loop:1 dev:1)
 	0x09, // Devices (chips:PSG, SCC)
+	0xF4, // More common byte
 // ---- Data ----
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
-	0xD2, // R#n: Dn
-	0xD3, // R#n: Dn
-	0xD9, // R#n: Dn
-	0xD4, // R#n: Dn
-	0xD5, // R#n: Dn
-	0xDA, // R#n: Dn
+	0x02, 0x00, // R#2: 02 nn
+	0x20, // R#3: 2n
+	0x80, // R#9: 8n
+	0x04, 0x00, // R#4: 04 nn
+	0x30, // R#5: 3n
+	0xA0, // R#10: An
 	0x07, 0xBE, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0xFC, // #rr = nn
@@ -94,7 +95,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x8D, 0x04, // #rr = nn
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x12, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -259,7 +260,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x8D, 0x04, // #rr = nn
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -337,7 +338,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0xB2, 0xE6, 0x09, 0x2D, 0x3B, 0x38, 0x3E, 0x57, 0x59, 0x53, 0x5B, 0x6B, 0x5E, 0x40, 0x2D, 0x2B, 0x15, 0xFC, 0xE8, 0xE8, 0xC8, 0x96, 0xAA, 0xD2, 0xE6, 0xF6, 0x16, 0x40, 0x52, 0x55, 0x3C, 0x2E, 0x00, // B2 nn[32] => 9840h~
 	0x8F, 0x1E, // #rr = nn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x12, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -514,7 +515,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x8D, 0x04, // #rr = nn
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -612,7 +613,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x84, 0xE0, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x12, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -794,7 +795,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x8D, 0x04, // #rr = nn
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -886,7 +887,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x84, 0xE0, // #rr = nn
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x12, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -1070,15 +1071,15 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0xF0, // ---- Start PSG section
 	0x07, 0xBC, // R#7: 07 nn
 	0xE0, // -------- Wait: Dn
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
 	0x02, 0x96, // R#2: 02 nn
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x86, // R#9: 8n
-	0xD4, // R#n: Dn
-	0xD5, // R#n: Dn
-	0xDA, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
+	0x30, // R#5: 3n
+	0xA0, // R#10: An
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xFC, 0x00, 0xC8, // Dn rr vv[] => R#rr~
 	0x86, 0x7E, // #rr = nn
@@ -1149,7 +1150,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x8D, 0x04, // #rr = nn
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x12, // R#1: 1n
 	0x67, // R#8: 6n
 	0xE0, // -------- Wait: Dn
@@ -1302,7 +1303,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x8D, 0x04, // #rr = nn
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -1376,7 +1377,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x8F, 0x1E, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x12, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -1553,7 +1554,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x82, 0x1C, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -1650,7 +1651,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x84, 0xE8, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x12, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -1837,7 +1838,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x82, 0x14, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -1926,7 +1927,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x84, 0xD8, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x12, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -2004,7 +2005,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0xF0, // ---- Start PSG section
 	0x65, // R#8: 6n
 	0x02, 0xBE, // R#2: 02 nn
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x87, // R#9: 8n
 	0xF3, // ---- Start SCC section
 	0x84, 0xD8, // #rr = nn
@@ -2121,7 +2122,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x8D, 0x05, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
 	0x02, 0xAA, // R#2: 02 nn
@@ -2204,7 +2205,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x8D, 0x04, // #rr = nn
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x12, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -2355,7 +2356,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x8D, 0x04, // #rr = nn
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -2429,7 +2430,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x8F, 0x1E, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x12, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -2606,7 +2607,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x82, 0x1C, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -2703,7 +2704,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x84, 0xE8, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x12, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -2890,7 +2891,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x82, 0x14, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -2981,7 +2982,7 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x84, 0xD8, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x00, 0xF4, // R#0: 00 nn
+	0xD0, // R#n: Dn
 	0x12, // R#1: 1n
 	0x67, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -3168,4 +3169,4 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0xE0, // -------- Wait: Dn
 	0xFF, // End marker
 };
-// Total size: 7146 bytes
+// Total size: 7126 bytes

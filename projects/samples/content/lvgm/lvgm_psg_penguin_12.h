@@ -2,8 +2,8 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Aug 10 01:11:42 2023
+// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// File generated on Thu Aug 10 23:53:41 2023
 // Source file: vgm\psg_penguin_12.vgm (13858 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG)
@@ -11,6 +11,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 // ---- Header ----
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
 	0x02, // Options (freq:60Hz loop:1 dev:0)
+	0x00, // More common byte
 // ---- Data ----
 	0xD7, // R#n: Dn
 	0x11, // R#1: 1n
@@ -4049,4 +4050,4 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x02, 0xF8, // R#2: 02 nn
 	0xFF, // End marker
 };
-// Total size: 4422 bytes
+// Total size: 4423 bytes

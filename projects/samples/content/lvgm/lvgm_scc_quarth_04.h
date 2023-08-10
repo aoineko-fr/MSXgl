@@ -2,8 +2,8 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Aug 10 01:11:43 2023
+// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// File generated on Thu Aug 10 23:53:47 2023
 // Source file: vgm\scc_quarth_04.vgm (70934 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -12,6 +12,7 @@ const unsigned char g_lVGM_scc_quarth_04[] = {
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
 	0x06, // Options (freq:60Hz loop:1 dev:1)
 	0x09, // Devices (chips:PSG, SCC)
+	0x00, // More common byte
 // ---- Data ----
 	0x00, 0x01, // R#0: 00 nn
 	0xFE, // Loop marker
@@ -10572,7 +10573,6 @@ const unsigned char g_lVGM_scc_quarth_04[] = {
 	0x8F, 0x1E, // #rr = nn
 	0x8F, 0x00, // #rr = nn
 	0xFD, 0x00, // ======== End of data segment
-	0x00, // Padding
 	0x00, // Padding
 	0xB2, 0xD4, 0xFD, 0x29, 0x33, 0x1E, 0x1C, 0x3D, 0x3F, 0x31, 0x41, 0x63, 0x56, 0x2A, 0x19, 0x27, 0x11, 0xF8, 0xF0, 0x06, 0xE6, 0xA6, 0xB2, 0xDE, 0xEA, 0xEE, 0x0E, 0x40, 0x48, 0x35, 0x22, 0x22, 0xE6, // B2 nn[32] => 9840h~
 	0x8F, 0x1E, // #rr = nn

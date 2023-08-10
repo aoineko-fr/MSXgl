@@ -2,8 +2,8 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Aug 10 01:11:42 2023
+// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// File generated on Thu Aug 10 23:53:42 2023
 // Source file: vgm\psg_usas_03.vgm (13161 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG)
@@ -11,9 +11,10 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 // ---- Header ----
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
 	0x02, // Options (freq:60Hz loop:1 dev:0)
+	0x75, // More common byte
 // ---- Data ----
-	0xD7, // R#n: Dn
-	0xD8, // R#n: Dn
+	0x07, 0x00, // R#7: 07 nn
+	0x60, // R#8: 6n
 	0x02, 0x57, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
@@ -33,7 +34,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
@@ -45,8 +46,8 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x00, 0xFF, // R#0: 00 nn
 	0x1F, // R#1: 1n
 	0xE3, // -------- Wait: Dn
-	0xD0, // R#n: Dn
-	0xD1, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
+	0x10, // R#1: 1n
 	0x8A, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x89, // R#9: 8n
@@ -95,7 +96,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x00, 0xBE, // R#0: 00 nn
-	0xD1, // R#n: Dn
+	0x10, // R#1: 1n
 	0x6C, // R#8: 6n
 	0x02, 0x57, // R#2: 02 nn
 	0x23, // R#3: 2n
@@ -108,7 +109,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x8E, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xE0, // -------- Wait: Dn
@@ -226,7 +227,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
@@ -265,7 +266,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x00, 0xBD, // R#0: 00 nn
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x40, // R#4: 04 nn
@@ -292,7 +293,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xDA, // R#n: Dn
+	0xA0, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -303,7 +304,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x8C, // R#9: 8n
@@ -339,7 +340,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xD6, // R#4: 04 nn
-	0xD5, // R#n: Dn
+	0x30, // R#5: 3n
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
@@ -356,7 +357,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x1E, // R#4: 04 nn
@@ -547,24 +548,24 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0xC6, // R#4: 04 nn
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x30, // R#7: 07 nn
-	0xD8, // R#n: Dn
-	0xD6, // R#n: Dn
-	0xD0, // R#n: Dn
+	0x60, // R#8: 6n
+	0x40, // R#6: 4n
+	0x00, 0x00, // R#0: 00 nn
 	0x1A, // R#1: 1n
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x31, // R#7: 07 nn
-	0xD8, // R#n: Dn
-	0xD1, // R#n: Dn
+	0x60, // R#8: 6n
+	0x10, // R#1: 1n
 	0x69, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xE2, // -------- Wait: Dn
@@ -577,24 +578,24 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x8D, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x4A, // R#6: 4n
 	0x00, 0x06, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x07, 0x38, // R#7: 07 nn
-	0xD8, // R#n: Dn
-	0xD0, // R#n: Dn
+	0x60, // R#8: 6n
+	0x00, 0x00, // R#0: 00 nn
 	0x12, // R#1: 1n
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x07, 0x31, // R#7: 07 nn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x50, // R#6: 5n | 0x10
 	0x00, 0x06, // R#0: 00 nn
-	0xD1, // R#n: Dn
+	0x10, // R#1: 1n
 	0x67, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xE0, // -------- Wait: Dn
@@ -606,30 +607,30 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x04, 0xC6, // R#4: 04 nn
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x4A, // R#6: 4n
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x38, // R#7: 07 nn
-	0xD8, // R#n: Dn
-	0xD0, // R#n: Dn
+	0x60, // R#8: 6n
+	0x00, 0x00, // R#0: 00 nn
 	0x12, // R#1: 1n
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x07, 0x31, // R#7: 07 nn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x50, // R#6: 5n | 0x10
 	0x00, 0x06, // R#0: 00 nn
-	0xD1, // R#n: Dn
+	0x10, // R#1: 1n
 	0x67, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x02, 0x57, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
@@ -646,7 +647,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
@@ -712,7 +713,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x8E, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xE0, // -------- Wait: Dn
@@ -830,7 +831,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
@@ -869,7 +870,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x00, 0xBD, // R#0: 00 nn
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x40, // R#4: 04 nn
@@ -896,7 +897,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xDA, // R#n: Dn
+	0xA0, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -907,7 +908,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x8C, // R#9: 8n
@@ -943,7 +944,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xD6, // R#4: 04 nn
-	0xD5, // R#n: Dn
+	0x30, // R#5: 3n
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
@@ -960,7 +961,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x1E, // R#4: 04 nn
@@ -998,7 +999,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xD6, // R#4: 04 nn
-	0xD5, // R#n: Dn
+	0x30, // R#5: 3n
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
@@ -1132,7 +1133,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x3B, // R#4: 04 nn
@@ -1140,17 +1141,17 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x30, // R#7: 07 nn
-	0xD8, // R#n: Dn
-	0xD6, // R#n: Dn
-	0xD0, // R#n: Dn
+	0x60, // R#8: 6n
+	0x40, // R#6: 4n
+	0x00, 0x00, // R#0: 00 nn
 	0x1A, // R#1: 1n
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x31, // R#7: 07 nn
-	0xD8, // R#n: Dn
-	0xD1, // R#n: Dn
+	0x60, // R#8: 6n
+	0x10, // R#1: 1n
 	0x69, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA8, // R#10: An
@@ -1168,7 +1169,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x4A, // R#6: 4n
 	0x00, 0x06, // R#0: 00 nn
 	0x6B, // R#8: 6n
@@ -1176,18 +1177,18 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x38, // R#7: 07 nn
-	0xD8, // R#n: Dn
-	0xD0, // R#n: Dn
+	0x60, // R#8: 6n
+	0x00, 0x00, // R#0: 00 nn
 	0x12, // R#1: 1n
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x31, // R#7: 07 nn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x50, // R#6: 5n | 0x10
 	0x00, 0x06, // R#0: 00 nn
-	0xD1, // R#n: Dn
+	0x10, // R#1: 1n
 	0x67, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA7, // R#10: An
@@ -1198,25 +1199,25 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x4A, // R#6: 4n
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x38, // R#7: 07 nn
-	0xD8, // R#n: Dn
-	0xD0, // R#n: Dn
+	0x60, // R#8: 6n
+	0x00, 0x00, // R#0: 00 nn
 	0x12, // R#1: 1n
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x31, // R#7: 07 nn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x50, // R#6: 5n | 0x10
 	0x00, 0x06, // R#0: 00 nn
-	0xD1, // R#n: Dn
+	0x10, // R#1: 1n
 	0x67, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA7, // R#10: An
@@ -1232,7 +1233,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x04, 0x80, // R#4: 04 nn
-	0xD5, // R#n: Dn
+	0x30, // R#5: 3n
 	0xAC, // R#10: An
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
@@ -1358,7 +1359,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x00, 0x54, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xE0, // -------- Wait: Dn
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x6B, // R#4: 04 nn
@@ -1419,7 +1420,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x8A, // R#9: 8n
 	0xE6, // -------- Wait: Dn
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xE0, // -------- Wait: Dn
@@ -1451,7 +1452,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x04, 0x72, // R#4: 04 nn
 	0xE3, // -------- Wait: Dn
 	0x00, 0x5E, // R#0: 00 nn
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x71, // R#4: 04 nn
@@ -1488,7 +1489,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x5F, // R#0: 00 nn
 	0x69, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
@@ -1702,7 +1703,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x1D, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x7E, // R#4: 04 nn
@@ -1722,7 +1723,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x00, 0xFE, // R#0: 00 nn
-	0xD1, // R#n: Dn
+	0x10, // R#1: 1n
 	0x6C, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
@@ -1786,7 +1787,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x00, 0x1D, // R#0: 00 nn
 	0x11, // R#1: 1n
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x7E, // R#4: 04 nn
@@ -1827,13 +1828,13 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x00, 0x6A, // R#0: 00 nn
-	0xD1, // R#n: Dn
+	0x10, // R#1: 1n
 	0x6C, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x80, // R#4: 04 nn
-	0xD5, // R#n: Dn
+	0x30, // R#5: 3n
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
@@ -1959,7 +1960,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x54, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x6B, // R#4: 04 nn
@@ -2020,7 +2021,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x8A, // R#9: 8n
 	0xE6, // -------- Wait: Dn
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xE0, // -------- Wait: Dn
@@ -2052,7 +2053,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x04, 0x72, // R#4: 04 nn
 	0xE3, // -------- Wait: Dn
 	0x00, 0x5E, // R#0: 00 nn
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x71, // R#4: 04 nn
@@ -2089,7 +2090,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x5F, // R#0: 00 nn
 	0x69, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
@@ -2341,17 +2342,17 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x30, // R#7: 07 nn
-	0xD8, // R#n: Dn
-	0xD6, // R#n: Dn
-	0xD0, // R#n: Dn
+	0x60, // R#8: 6n
+	0x40, // R#6: 4n
+	0x00, 0x00, // R#0: 00 nn
 	0x1A, // R#1: 1n
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x31, // R#7: 07 nn
-	0xD8, // R#n: Dn
-	0xD1, // R#n: Dn
+	0x60, // R#8: 6n
+	0x10, // R#1: 1n
 	0x69, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xE0, // -------- Wait: Dn
@@ -2364,14 +2365,14 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x30, // R#7: 07 nn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x1A, // R#1: 1n
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x31, // R#7: 07 nn
-	0xD8, // R#n: Dn
-	0xD1, // R#n: Dn
+	0x60, // R#8: 6n
+	0x10, // R#1: 1n
 	0x69, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0xAA, // R#10: An
@@ -2410,47 +2411,47 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x68, // R#8: 6n
 	0x07, 0x2A, // R#7: 07 nn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0x4A, // R#6: 4n
 	0x02, 0x06, // R#2: 02 nn
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x8B, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x07, 0x38, // R#7: 07 nn
-	0xD9, // R#n: Dn
-	0xD2, // R#n: Dn
+	0x80, // R#9: 8n
+	0x02, 0x00, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8B, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x07, 0x2A, // R#7: 07 nn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0x50, // R#6: 5n | 0x10
 	0x02, 0x06, // R#2: 02 nn
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x87, // R#9: 8n
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x04, 0xE3, // R#4: 04 nn
-	0xD5, // R#n: Dn
+	0x30, // R#5: 3n
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0x4A, // R#6: 4n
 	0x8B, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x07, 0x38, // R#7: 07 nn
-	0xD9, // R#n: Dn
-	0xD2, // R#n: Dn
+	0x80, // R#9: 8n
+	0x02, 0x00, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8B, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x07, 0x2A, // R#7: 07 nn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0x50, // R#6: 5n | 0x10
 	0x02, 0x06, // R#2: 02 nn
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x87, // R#9: 8n
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -2458,7 +2459,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x47, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x07, 0x38, // R#7: 07 nn
@@ -2489,29 +2490,29 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x04, 0xE3, // R#4: 04 nn
-	0xD5, // R#n: Dn
+	0x30, // R#5: 3n
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x68, // R#8: 6n
 	0x07, 0x2A, // R#7: 07 nn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0x4A, // R#6: 4n
 	0x02, 0x06, // R#2: 02 nn
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x8B, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x07, 0x38, // R#7: 07 nn
-	0xD9, // R#n: Dn
-	0xD2, // R#n: Dn
+	0x80, // R#9: 8n
+	0x02, 0x00, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x2A, // R#7: 07 nn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0x50, // R#6: 5n | 0x10
 	0x02, 0x06, // R#2: 02 nn
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x87, // R#9: 8n
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
@@ -2520,33 +2521,33 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x04, 0xAA, // R#4: 04 nn
 	0xAC, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0x4A, // R#6: 4n
 	0x8B, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x07, 0x38, // R#7: 07 nn
-	0xD9, // R#n: Dn
-	0xD2, // R#n: Dn
+	0x80, // R#9: 8n
+	0x02, 0x00, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x2A, // R#7: 07 nn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0x50, // R#6: 5n | 0x10
 	0x02, 0x06, // R#2: 02 nn
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x87, // R#9: 8n
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x07, 0x38, // R#7: 07 nn
-	0xDA, // R#n: Dn
+	0xA0, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x8C, // R#9: 8n
 	0xE0, // -------- Wait: Dn
@@ -2653,7 +2654,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xA9, // R#10: An
@@ -2755,7 +2756,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xE0, // -------- Wait: Dn
@@ -2775,7 +2776,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x6C, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x04, 0xFF, // R#4: 04 nn
-	0xD5, // R#n: Dn
+	0x30, // R#5: 3n
 	0xAC, // R#10: An
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
@@ -2887,7 +2888,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0xD5, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
@@ -2913,7 +2914,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x04, 0xFF, // R#4: 04 nn
-	0xD5, // R#n: Dn
+	0x30, // R#5: 3n
 	0xAB, // R#10: An
 	0xE2, // -------- Wait: Dn
 	0xAA, // R#10: An
@@ -2946,7 +2947,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x04, 0xFF, // R#4: 04 nn
-	0xD5, // R#n: Dn
+	0x30, // R#5: 3n
 	0xAB, // R#10: An
 	0xE2, // -------- Wait: Dn
 	0xAA, // R#10: An
@@ -3095,7 +3096,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xE3, // R#4: 04 nn
-	0xD5, // R#n: Dn
+	0x30, // R#5: 3n
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
@@ -3140,7 +3141,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x04, 0xE3, // R#4: 04 nn
-	0xD5, // R#n: Dn
+	0x30, // R#5: 3n
 	0xAB, // R#10: An
 	0xE1, // -------- Wait: Dn
 	0x6A, // R#8: 6n
@@ -3153,7 +3154,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x8E, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0xAA, // R#4: 04 nn
@@ -3185,11 +3186,11 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x68, // R#8: 6n
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xDA, // R#n: Dn
+	0xA0, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x8C, // R#9: 8n
 	0xE0, // -------- Wait: Dn
@@ -3296,7 +3297,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xA9, // R#10: An
@@ -3397,7 +3398,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
@@ -3502,7 +3503,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x00, 0x71, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8E, // R#9: 8n
 	0x04, 0x8F, // R#4: 04 nn
@@ -3668,25 +3669,25 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Dn
-	0xD8, // R#n: Dn
-	0xDA, // R#n: Dn
+	0x60, // R#8: 6n
+	0xA0, // R#10: An
 	0xE0, // -------- Wait: Dn
 	0x07, 0x2A, // R#7: 07 nn
-	0xD9, // R#n: Dn
-	0xD6, // R#n: Dn
-	0xD2, // R#n: Dn
-	0xD3, // R#n: Dn
+	0x80, // R#9: 8n
+	0x40, // R#6: 4n
+	0x02, 0x00, // R#2: 02 nn
+	0x20, // R#3: 2n
 	0x8A, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xE8, // -------- Wait: Dn
 	0x07, 0x28, // R#7: 07 nn
 	0x2A, // R#3: 2n
 	0x8B, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x07, 0x2A, // R#7: 07 nn
-	0xD9, // R#n: Dn
-	0xD3, // R#n: Dn
+	0x80, // R#9: 8n
+	0x20, // R#3: 2n
 	0x89, // R#9: 8n
 	0xE1, // -------- Wait: Dn
 	0x00, 0xFB, // R#0: 00 nn
@@ -3698,43 +3699,43 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x87, // R#9: 8n
 	0x04, 0xA7, // R#4: 04 nn
 	0xE2, // -------- Wait: Dn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0x4A, // R#6: 4n
 	0x02, 0x06, // R#2: 02 nn
 	0x8B, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x00, 0xFB, // R#0: 00 nn
 	0x07, 0x38, // R#7: 07 nn
-	0xD9, // R#n: Dn
-	0xD2, // R#n: Dn
+	0x80, // R#9: 8n
+	0x02, 0x00, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8B, // R#9: 8n
 	0x04, 0xA6, // R#4: 04 nn
 	0xE0, // -------- Wait: Dn
 	0x07, 0x2A, // R#7: 07 nn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0x50, // R#6: 5n | 0x10
 	0x02, 0x06, // R#2: 02 nn
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x87, // R#9: 8n
 	0xE2, // -------- Wait: Dn
 	0x00, 0xFC, // R#0: 00 nn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0x4A, // R#6: 4n
 	0x8B, // R#9: 8n
 	0x04, 0xA7, // R#4: 04 nn
 	0xE0, // -------- Wait: Dn
 	0x07, 0x38, // R#7: 07 nn
-	0xD9, // R#n: Dn
-	0xD2, // R#n: Dn
+	0x80, // R#9: 8n
+	0x02, 0x00, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8B, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x07, 0x2A, // R#7: 07 nn
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0x50, // R#6: 5n | 0x10
 	0x02, 0x06, // R#2: 02 nn
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x87, // R#9: 8n
 	0xE1, // -------- Wait: Dn
 	0x02, 0x57, // R#2: 02 nn
@@ -3755,7 +3756,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Dn
-	0x02, 0x75, // R#2: 02 nn
+	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
@@ -3772,7 +3773,7 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0x00, 0xA9, // R#0: 00 nn
-	0xD1, // R#n: Dn
+	0x10, // R#1: 1n
 	0x6C, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
@@ -3800,4 +3801,4 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Dn
 	0xFF, // End marker
 };
-// Total size: 4389 bytes
+// Total size: 4375 bytes

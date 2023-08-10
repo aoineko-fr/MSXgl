@@ -1,5 +1,5 @@
 Error: Not enough parameters!
-MSXzip 1.4.0 - Convert binary to text file
+MSXzip 1.4.1 - Convert binary to text file
 Usage: cmsxzip <inputfile> [options]
 Base options:
  -o filename    Filename of the output file (default: use input filename with .h/.asm/.bin extension)

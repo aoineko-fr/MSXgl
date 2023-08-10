@@ -2,8 +2,8 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Aug 10 01:11:42 2023
+// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// File generated on Thu Aug 10 23:53:43 2023
 // Source file: vgm\scc_f1spirit_01.vgm (14028 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -12,6 +12,7 @@ const unsigned char g_lVGM_scc_f1spirit_01[] = {
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
 	0x04, // Options (freq:60Hz loop:0 dev:1)
 	0x09, // Devices (chips:PSG, SCC)
+	0x00, // More common byte
 // ---- Data ----
 	0xF3, // ---- Start SCC section
 	0x86, 0x18, // #rr = nn
@@ -3538,4 +3539,4 @@ const unsigned char g_lVGM_scc_f1spirit_01[] = {
 	0xC0, 0x8D, 0x00, // Cn rr vv => R#rr~
 	0xFF, // End marker
 };
-// Total size: 5493 bytes
+// Total size: 5494 bytes

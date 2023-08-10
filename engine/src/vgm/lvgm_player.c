@@ -35,6 +35,8 @@ const u8  g_LVGM_Ident[4] = { 'l', 'V', 'G', 'M' };
 const struct LVGM_Header* g_LVGM_Header;
 const u8*                 g_LVGM_Pointer;
 const u8*                 g_LVGM_LoopAddr;
+u8                        g_LVGM_Devices;
+u8                        g_LVGM_PSG_Default;
 u8                        g_LVGM_Wait;
 u8                        g_LVGM_State;
 u8                        g_LVGM_CurChip;
@@ -62,10 +64,10 @@ void LVGM_DecodePSG()
 			break;
 		}
 
-		case 0xD0: // Zeroed register (R#n = 0)
+		case 0xD0: // More common byte (R#n = X)
 		{
 			u8 reg = *g_LVGM_Pointer & 0x0F;
-			PSG_SetRegister(reg, 0);
+			PSG_SetRegister(reg, g_LVGM_PSG_Default);
 			break;
 		}
 
@@ -235,21 +237,32 @@ void  LVGM_DecodeOPL4()
 // Play a LVGM data
 bool LVGM_Play(const void* addr, bool loop)
 {
+	// Check file indentification bytes
 	g_LVGM_Header = (const struct LVGM_Header*)(addr);
 	for(u8 i = 0; i < 4; i++)
 		if(g_LVGM_Header->Ident[i] != g_LVGM_Ident[i])
 			return FALSE;
 
+	// Setup state
 	g_LVGM_State = 0;
 	if(g_LVGM_Header->Option & LVGM_OPTION_50HZ)
 		g_LVGM_State |= LVGM_STATE_50HZ;
 	if(loop)
 		g_LVGM_State |= LVGM_STATE_LOOP;
 	
-	g_LVGM_Pointer = (const u8*)(g_LVGM_Header) + 2;
+	// Setup playback pointer
+	g_LVGM_Pointer = (const u8*)(addr) + 5;
 	if(g_LVGM_Header->Option & LVGM_OPTION_DEVICE)
-		g_LVGM_Pointer++;
-	
+		g_LVGM_Devices = *g_LVGM_Pointer++;
+	else
+		g_LVGM_Devices = LVGM_CHIP_PSG;
+
+	// Setup default value
+	g_LVGM_PSG_Default = 0;
+	if(g_LVGM_Devices & LVGM_CHIP_PSG)
+		g_LVGM_PSG_Default = *g_LVGM_Pointer++;
+
+	// Init variables
 	g_LVGM_LoopAddr = g_LVGM_Pointer;
 	g_LVGM_Wait = 0;
 	g_LVGM_CurChip = LVGM_CHIP_PSG;

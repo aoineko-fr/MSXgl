@@ -2,8 +2,8 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Aug 10 01:11:42 2023
+// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// File generated on Thu Aug 10 23:53:44 2023
 // Source file: vgm\scc_manbow_03.vgm (116880 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -12,6 +12,7 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
 	0x06, // Options (freq:60Hz loop:1 dev:1)
 	0x09, // Devices (chips:PSG, SCC)
+	0x00, // More common byte
 // ---- Data ----
 	0xF3, // ---- Start SCC section
 	0xC7, 0x80, 0x00, // Cn rr vv => R#rr~
@@ -8803,7 +8804,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xD0, 0x8B, 0x05, 0x05, 0x0D, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Dn
 	0xFD, 0x00, // ======== End of data segment
-	0x00, // Padding
 	0xD0, 0x8B, 0x04, 0x04, 0x0E, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Dn
 	0xD0, 0x8B, 0x03, 0x03, 0x0D, // Dn rr vv[] => R#rr~

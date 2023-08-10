@@ -2,8 +2,8 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Aug 10 01:11:42 2023
+// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// File generated on Thu Aug 10 23:53:45 2023
 // Source file: vgm\scc_metagear2_10.vgm (184999 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -12,18 +12,19 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
 	0x06, // Options (freq:60Hz loop:1 dev:1)
 	0x09, // Devices (chips:PSG, SCC)
+	0xBC, // More common byte
 // ---- Data ----
-	0xD0, // R#n: Dn
-	0xD1, // R#n: Dn
-	0xD2, // R#n: Dn
-	0xD3, // R#n: Dn
-	0xD4, // R#n: Dn
-	0xD5, // R#n: Dn
-	0xD6, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
+	0x10, // R#1: 1n
+	0x02, 0x00, // R#2: 02 nn
+	0x20, // R#3: 2n
+	0x04, 0x00, // R#4: 04 nn
+	0x30, // R#5: 3n
+	0x40, // R#6: 4n
 	0x07, 0xBF, // R#7: 07 nn
-	0xD8, // R#n: Dn
-	0xD9, // R#n: Dn
-	0xDA, // R#n: Dn
+	0x60, // R#8: 6n
+	0x80, // R#9: 8n
+	0xA0, // R#10: An
 	0x0B, 0x80, // R#11: 0B nn
 	0x0C, 0x01, // R#12: 0C nn
 	0xC8, // R#13: Cn
@@ -91,7 +92,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD3, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -118,7 +119,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0x88, 0x3F, // #rr = nn
@@ -133,16 +134,16 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8F, 0x1E, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0x00, 0xC0, // R#0: 00 nn
 	0x11, // R#1: 1n
 	0x69, // R#8: 6n
 	0x02, 0xD3, // R#2: 02 nn
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x82, // R#9: 8n
-	0xD4, // R#n: Dn
-	0xD5, // R#n: Dn
-	0xDA, // R#n: Dn
+	0x04, 0x00, // R#4: 04 nn
+	0x30, // R#5: 3n
+	0xA0, // R#10: An
 	0x44, // R#6: 4n
 	0x07, 0xB5, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
@@ -264,7 +265,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -318,7 +319,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD3, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -354,7 +355,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x8C, // #rr = nn
 	0x8C, 0x07, // #rr = nn
@@ -403,7 +404,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x8B, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -441,7 +442,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -611,7 +612,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x06, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x86, 0x40, // #rr = nn
@@ -779,7 +780,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x20, // #rr = nn
 	0x84, 0x8C, // #rr = nn
@@ -909,7 +910,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xB0, 0x03, 0x76, // Dn rr vv[] => R#rr~
 	0x86, 0x68, // #rr = nn
@@ -977,7 +978,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x64, // R#8: 6n
 	0xE1, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF0, 0x04, 0xD4, // Dn rr vv[] => R#rr~
 	0x86, 0xAC, // #rr = nn
@@ -1022,7 +1023,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD3, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -1054,7 +1055,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0x88, 0xAB, // #rr = nn
@@ -1188,7 +1189,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -1242,7 +1243,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD3, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -1278,7 +1279,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x8C, // #rr = nn
 	0x8C, 0x07, // #rr = nn
@@ -1328,7 +1329,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x8B, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -1366,7 +1367,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -1533,7 +1534,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x06, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x86, 0xAC, // #rr = nn
@@ -1699,7 +1700,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x40, 0x06, 0xB2, // Dn rr vv[] => R#rr~
 	0x86, 0xAC, // #rr = nn
@@ -1826,7 +1827,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x62, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x90, 0x05, 0x8C, // Dn rr vv[] => R#rr~
 	0x88, 0x67, // #rr = nn
@@ -1941,7 +1942,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD3, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -1972,7 +1973,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0x88, 0x3F, // #rr = nn
@@ -2104,7 +2105,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -2158,7 +2159,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD3, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -2194,7 +2195,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x8C, // #rr = nn
 	0x8C, 0x07, // #rr = nn
@@ -2243,7 +2244,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x8B, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x8B, 0x07, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -2285,7 +2286,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -2457,7 +2458,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x06, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x86, 0x40, // #rr = nn
@@ -2621,7 +2622,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x20, // #rr = nn
 	0x84, 0x8C, // #rr = nn
@@ -2754,7 +2755,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xB0, 0x03, 0x76, // Dn rr vv[] => R#rr~
 	0x86, 0x68, // #rr = nn
@@ -2824,7 +2825,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF0, 0x04, 0xD4, // Dn rr vv[] => R#rr~
 	0x86, 0xAC, // #rr = nn
@@ -2880,7 +2881,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD3, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -2911,7 +2912,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0xD0, 0x86, 0xD8, 0x00, 0xAB, // Dn rr vv[] => R#rr~
@@ -3061,7 +3062,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -3111,7 +3112,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD3, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -3144,7 +3145,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0xE0, // -------- Wait: Dn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x8C, // #rr = nn
 	0x8C, 0x07, // #rr = nn
@@ -3192,7 +3193,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x8B, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -3230,7 +3231,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -3395,7 +3396,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x06, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x86, 0xD8, // #rr = nn
@@ -3554,7 +3555,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x40, 0x06, 0xB2, // Dn rr vv[] => R#rr~
@@ -3711,7 +3712,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x90, 0x05, 0x8C, // Dn rr vv[] => R#rr~
@@ -3827,7 +3828,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xD0, 0x8B, 0x0B, 0x03, 0x0A, // Dn rr vv[] => R#rr~
 	0xF0, // ---- Start PSG section
 	0x67, // R#8: 6n
-	0xD9, // R#n: Dn
+	0x80, // R#9: 8n
 	0xE0, // -------- Wait: Dn
 	0xF3, // ---- Start SCC section
 	0x88, 0xD9, // #rr = nn
@@ -3851,7 +3852,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xBB, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0xF3, // ---- Start SCC section
 	0x88, 0xD3, // #rr = nn
@@ -3885,7 +3886,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x8C, // #rr = nn
 	0x88, 0xD3, // #rr = nn
@@ -4034,7 +4035,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xBC, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -4084,7 +4085,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xBB, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0x69, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x83, // R#9: 8n
@@ -4116,7 +4117,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x7E, // #rr = nn
 	0x8C, 0x07, // #rr = nn
@@ -4164,7 +4165,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x7D, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x88, 0x17, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -4206,7 +4207,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0x88, 0x17, // #rr = nn
@@ -4380,7 +4381,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x06, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x86, 0x1E, // #rr = nn
@@ -4549,7 +4550,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xB0, 0x03, 0x7E, // Dn rr vv[] => R#rr~
 	0x86, 0xF0, // #rr = nn
@@ -4688,7 +4689,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x50, // #rr = nn
 	0x84, 0x6A, // #rr = nn
@@ -4756,7 +4757,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x64, // R#8: 6n
 	0xE1, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x60, 0x04, 0xBC, // Dn rr vv[] => R#rr~
 	0x86, 0x7C, // #rr = nn
@@ -4801,7 +4802,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xBB, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -4830,7 +4831,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x8C, // #rr = nn
 	0x88, 0x3F, // #rr = nn
@@ -4974,7 +4975,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xBC, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -5024,7 +5025,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xBB, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -5056,7 +5057,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x7E, // #rr = nn
 	0x8C, 0x07, // #rr = nn
@@ -5105,7 +5106,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x7D, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x88, 0x77, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -5147,7 +5148,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0x88, 0x77, // #rr = nn
@@ -5320,7 +5321,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x06, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x86, 0x7E, // #rr = nn
@@ -5491,7 +5492,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x90, 0x05, 0x9E, // Dn rr vv[] => R#rr~
 	0x86, 0x7C, // #rr = nn
@@ -5632,7 +5633,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x62, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF0, 0x04, 0x7E, // Dn rr vv[] => R#rr~
 	0x88, 0x7B, // #rr = nn
@@ -5737,11 +5738,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF3, // ---- Start SCC section
 	0xD0, 0x8B, 0x09, 0x00, 0x08, // Dn rr vv[] => R#rr~
 	0x8F, 0x00, // #rr = nn
-	0xFD, 0x00, // ======== End of data segment
-	0x00, // Padding
-	0x00, // Padding
-	0x00, // Padding
-	0x00, // Padding
 	0xB1, 0x00, 0x17, 0x2B, 0x3F, 0x50, 0x6C, 0x73, 0x6F, 0x71, 0x5F, 0x57, 0x4E, 0x50, 0x3F, 0x2B, 0x17, 0x9E, 0xAC, 0xBA, 0xBA, 0xB8, 0xC6, 0xE4, 0xF2, 0x00, 0x0E, 0x2A, 0x38, 0x38, 0x46, 0x44, 0x52, // B1 nn[32] => 9820h~
 	0x8F, 0x1E, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -5754,13 +5750,15 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xBB, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
 	0x07, 0xB5, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x8C, 0x01, // #rr = nn
+	0xFD, 0x00, // ======== End of data segment
+	0x00, // Padding
 	0x8E, 0x04, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
@@ -5783,7 +5781,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x8C, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -5918,7 +5916,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xBC, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -5968,7 +5966,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xBB, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -6000,7 +5998,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x7E, // #rr = nn
 	0x8C, 0x07, // #rr = nn
@@ -6048,7 +6046,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x7D, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x88, 0x17, // #rr = nn
 	0x8B, 0x07, // #rr = nn
@@ -6090,7 +6088,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0x88, 0x17, // #rr = nn
@@ -6266,7 +6264,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x06, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x86, 0x1E, // #rr = nn
@@ -6434,7 +6432,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xB0, 0x03, 0x7E, // Dn rr vv[] => R#rr~
 	0x86, 0xF0, // #rr = nn
@@ -6575,7 +6573,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x50, // #rr = nn
 	0x84, 0x6A, // #rr = nn
@@ -6645,7 +6643,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x60, 0x04, 0xBC, // Dn rr vv[] => R#rr~
 	0x86, 0x7C, // #rr = nn
@@ -6690,7 +6688,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xBB, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -6718,7 +6716,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x8C, // #rr = nn
 	0xD1, 0x86, 0xC0, 0x00, 0x3F, 0x01, // Dn rr vv[] => R#rr~
@@ -6844,7 +6842,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xBC, // #rr = nn
 	0x88, 0xBF, // #rr = nn
@@ -6899,7 +6897,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xBB, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -6932,7 +6930,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x7E, // #rr = nn
 	0x8C, 0x07, // #rr = nn
@@ -6977,7 +6975,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x7D, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x83, // R#9: 8n
@@ -7011,7 +7009,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0x8B, 0x0E, // #rr = nn
@@ -7183,7 +7181,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x06, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x86, 0xC2, // #rr = nn
@@ -7353,7 +7351,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x90, 0x05, 0x9E, // Dn rr vv[] => R#rr~
 	0x88, 0xBB, // #rr = nn
@@ -7519,7 +7517,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF0, 0x04, 0x7E, // Dn rr vv[] => R#rr~
 	0x88, 0xBB, // #rr = nn
@@ -7727,7 +7725,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0x0F, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x86, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x13, // #rr = nn
 	0x86, 0x1C, // #rr = nn
@@ -7824,7 +7822,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x13, // #rr = nn
 	0x86, 0x0C, // #rr = nn
@@ -7909,7 +7907,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x60, // #rr = nn
 	0xD0, 0x84, 0xE8, 0x01, 0x1C, // Dn rr vv[] => R#rr~
@@ -7996,7 +7994,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0xD7, // R#2: 02 nn
 	0x21, // R#3: 2n
 	0x86, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xDB, // #rr = nn
 	0xD0, 0x86, 0xF0, 0x00, 0x1B, // Dn rr vv[] => R#rr~
@@ -8076,7 +8074,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xDB, // #rr = nn
 	0xD1, 0x86, 0x0C, 0x01, 0xEF, 0x00, // Dn rr vv[] => R#rr~
@@ -8162,7 +8160,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x20, // #rr = nn
@@ -8245,7 +8243,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xA7, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xAB, // #rr = nn
 	0x86, 0xF0, // #rr = nn
@@ -8335,7 +8333,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0x3F, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xA0, 0x06, 0xB2, // Dn rr vv[] => R#rr~
 	0x86, 0xD8, // #rr = nn
@@ -8388,7 +8386,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA3, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -8426,7 +8424,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x3F, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x88, 0xD7, // #rr = nn
@@ -8582,7 +8580,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x3F, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x86, 0xB6, // #rr = nn
@@ -8633,7 +8631,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA3, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -8673,7 +8671,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0x2F, // R#2: 02 nn
 	0xE1, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xAD, // #rr = nn
 	0x88, 0xB5, // #rr = nn
@@ -8713,7 +8711,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0x2F, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA3, // #rr = nn
@@ -8753,7 +8751,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x3F, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x8B, 0x0F, // #rr = nn
@@ -8933,7 +8931,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8B, 0x0E, // #rr = nn
 	0x8C, 0x0A, // #rr = nn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0xBD, // R#7: 07 nn
 	0xE0, // -------- Wait: Dn
@@ -9149,7 +9147,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x87, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x05, 0xE2, // Dn rr vv[] => R#rr~
 	0x86, 0xC0, // #rr = nn
@@ -9324,7 +9322,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0xE7, // R#2: 02 nn
 	0x21, // R#3: 2n
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x90, // #rr = nn
 	0x84, 0x6E, // #rr = nn
@@ -9412,7 +9410,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0x3F, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xA0, 0x06, 0xB2, // Dn rr vv[] => R#rr~
 	0x86, 0xD8, // #rr = nn
@@ -9464,7 +9462,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA3, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -9506,7 +9504,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x3F, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x88, 0xD7, // #rr = nn
@@ -9662,7 +9660,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x3F, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x86, 0x90, // #rr = nn
@@ -9714,7 +9712,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA3, // #rr = nn
 	0x88, 0xD4, // #rr = nn
@@ -9754,7 +9752,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0x2F, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xAD, // #rr = nn
 	0x88, 0x8F, // #rr = nn
@@ -9801,7 +9799,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA3, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -9843,7 +9841,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x3F, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x8B, 0x0F, // #rr = nn
@@ -10027,7 +10025,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x0A, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
@@ -10245,7 +10243,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x87, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x05, 0xE2, // Dn rr vv[] => R#rr~
 	0x86, 0xA2, // #rr = nn
@@ -10415,7 +10413,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0xE7, // R#2: 02 nn
 	0x21, // R#3: 2n
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x90, // #rr = nn
 	0x84, 0x6E, // #rr = nn
@@ -10504,7 +10502,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0x3F, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xA0, 0x06, 0xB2, // Dn rr vv[] => R#rr~
 	0x86, 0xC0, // #rr = nn
@@ -10556,7 +10554,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA3, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -10600,7 +10598,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x3F, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x88, 0xBF, // #rr = nn
@@ -10762,7 +10760,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x3F, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x86, 0xD8, // #rr = nn
@@ -10813,7 +10811,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA3, // #rr = nn
 	0x8C, 0x03, // #rr = nn
@@ -10850,7 +10848,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0x2F, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xAD, // #rr = nn
 	0x88, 0xD7, // #rr = nn
@@ -10892,7 +10890,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0x2F, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA3, // #rr = nn
 	0x8B, 0x08, // #rr = nn
@@ -10932,7 +10930,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x3F, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x8B, 0x0F, // #rr = nn
@@ -11121,7 +11119,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x0A, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
@@ -11339,7 +11337,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x87, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x05, 0xE2, // Dn rr vv[] => R#rr~
 	0x86, 0xD3, // #rr = nn
@@ -11519,7 +11517,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0xE7, // R#2: 02 nn
 	0x21, // R#3: 2n
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x90, // #rr = nn
 	0x84, 0x6E, // #rr = nn
@@ -11623,7 +11621,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0x3F, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xA0, 0x06, 0xB2, // Dn rr vv[] => R#rr~
 	0x86, 0xD3, // #rr = nn
@@ -11680,7 +11678,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA3, // #rr = nn
 	0x86, 0xD5, // #rr = nn
@@ -11728,7 +11726,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x3F, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x86, 0xD3, // #rr = nn
@@ -11777,7 +11775,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x88, 0xD5, // #rr = nn
 	0x8B, 0x0A, // #rr = nn
 	0x8C, 0x06, // #rr = nn
-	0xFD, 0x00, // ======== End of data segment
 	0x8F, 0x00, // #rr = nn
 	0xB1, 0x00, 0x17, 0x2B, 0x3F, 0x50, 0x6C, 0x73, 0x6F, 0x71, 0x5F, 0x57, 0x4E, 0x50, 0x3F, 0x2B, 0x17, 0x9E, 0xAC, 0xBA, 0xBA, 0xB8, 0xC6, 0xE4, 0xF2, 0x00, 0x0E, 0x2A, 0x38, 0x38, 0x46, 0x44, 0x52, // B1 nn[32] => 9820h~
 	0x8F, 0x1E, // #rr = nn
@@ -11813,6 +11810,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x88, 0xD2, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
+	0xFD, 0x00, // ======== End of data segment
 	0x64, // R#8: 6n
 	0x02, 0x33, // R#2: 02 nn
 	0xF3, // ---- Start SCC section
@@ -11914,7 +11912,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x3F, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x86, 0xD3, // #rr = nn
@@ -11972,7 +11970,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA3, // #rr = nn
 	0x86, 0xD5, // #rr = nn
@@ -12016,7 +12014,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0x2F, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xAD, // #rr = nn
 	0x86, 0xD3, // #rr = nn
@@ -12062,7 +12060,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0x2F, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA3, // #rr = nn
 	0x86, 0xD5, // #rr = nn
@@ -12109,7 +12107,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x3F, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xB2, // #rr = nn
 	0x86, 0xD3, // #rr = nn
@@ -12308,7 +12306,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x0A, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
@@ -12514,7 +12512,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x87, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x05, 0xE2, // Dn rr vv[] => R#rr~
 	0x86, 0xB6, // #rr = nn
@@ -12683,7 +12681,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0xE7, // R#2: 02 nn
 	0x21, // R#3: 2n
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x90, // #rr = nn
 	0x84, 0x6E, // #rr = nn
@@ -12771,7 +12769,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF0, 0x04, 0x3E, // Dn rr vv[] => R#rr~
@@ -12823,7 +12821,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x02, 0xA8, // R#2: 02 nn
@@ -12856,7 +12854,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x3E, // #rr = nn
 	0x88, 0xA0, // #rr = nn
@@ -12997,7 +12995,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x85, // #rr = nn
 	0xD0, 0x8B, 0x0F, 0x0B, 0x09, // Dn rr vv[] => R#rr~
@@ -13049,7 +13047,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x88, 0x9F, // #rr = nn
 	0x8C, 0x03, // #rr = nn
@@ -13086,7 +13084,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0xA7, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x3D, // #rr = nn
@@ -13137,7 +13135,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x02, 0xA8, // R#2: 02 nn
@@ -13171,7 +13169,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x8B, 0x0F, // #rr = nn
 	0x8C, 0x0B, // #rr = nn
@@ -13349,7 +13347,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x0A, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
@@ -13549,7 +13547,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xE7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x60, // #rr = nn
@@ -13703,7 +13701,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x73, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x20, // #rr = nn
 	0x84, 0x0A, // #rr = nn
@@ -13780,7 +13778,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xF0, // #rr = nn
 	0x84, 0x3E, // #rr = nn
@@ -13828,7 +13826,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x02, 0xA8, // R#2: 02 nn
@@ -13864,7 +13862,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x3E, // #rr = nn
 	0x88, 0xA0, // #rr = nn
@@ -13996,7 +13994,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x6B, // #rr = nn
 	0xD0, 0x8B, 0x0F, 0x0B, 0x09, // Dn rr vv[] => R#rr~
@@ -14042,7 +14040,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x88, 0x9F, // #rr = nn
 	0x8C, 0x03, // #rr = nn
@@ -14079,7 +14077,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0xA7, // R#2: 02 nn
 	0xE1, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x3D, // #rr = nn
 	0x88, 0x6C, // #rr = nn
@@ -14117,7 +14115,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0xA7, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0xF3, // ---- Start SCC section
 	0x8B, 0x08, // #rr = nn
@@ -14152,7 +14150,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x8B, 0x0F, // #rr = nn
 	0x8C, 0x0B, // #rr = nn
@@ -14326,7 +14324,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8B, 0x0E, // #rr = nn
 	0x8C, 0x0A, // #rr = nn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0xBD, // R#7: 07 nn
 	0xE0, // -------- Wait: Dn
@@ -14526,7 +14524,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xE7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x60, // #rr = nn
 	0x84, 0x66, // #rr = nn
@@ -14682,7 +14680,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x73, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x20, // #rr = nn
 	0x84, 0x0A, // #rr = nn
@@ -14761,7 +14759,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xF0, // #rr = nn
 	0x84, 0x3E, // #rr = nn
@@ -14811,7 +14809,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0x69, // R#8: 6n
 	0x02, 0xA8, // R#2: 02 nn
@@ -14845,7 +14843,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x3E, // #rr = nn
 	0x86, 0x85, // #rr = nn
@@ -14992,7 +14990,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x88, 0xA0, // #rr = nn
 	0x8B, 0x0F, // #rr = nn
@@ -15042,7 +15040,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x8C, 0x03, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -15072,7 +15070,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0xA7, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x3D, // #rr = nn
 	0x8F, 0x00, // #rr = nn
@@ -15104,7 +15102,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0xA7, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x9E, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -15144,7 +15142,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x9C, // #rr = nn
 	0x8B, 0x0F, // #rr = nn
@@ -15327,7 +15325,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x0A, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
@@ -15526,7 +15524,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xE7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x60, // #rr = nn
 	0x84, 0x66, // #rr = nn
@@ -15701,7 +15699,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x73, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x20, // #rr = nn
 	0x84, 0x0A, // #rr = nn
@@ -15794,7 +15792,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xF0, // #rr = nn
 	0x84, 0x3E, // #rr = nn
@@ -15848,7 +15846,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x9E, // #rr = nn
 	0x88, 0x9F, // #rr = nn
@@ -15893,7 +15891,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x3E, // #rr = nn
 	0x86, 0x9C, // #rr = nn
@@ -16060,7 +16058,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x9C, // #rr = nn
 	0x88, 0x9D, // #rr = nn
@@ -16114,7 +16112,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x9E, // #rr = nn
 	0x88, 0x9F, // #rr = nn
@@ -16155,7 +16153,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0xA7, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x3D, // #rr = nn
 	0x86, 0x9C, // #rr = nn
@@ -16204,7 +16202,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x9E, // #rr = nn
 	0x88, 0x9F, // #rr = nn
@@ -16250,7 +16248,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x9F, // #rr = nn
 	0x88, 0x9D, // #rr = nn
@@ -16436,7 +16434,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x0A, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD8, // R#n: Dn
+	0x60, // R#8: 6n
 	0x87, // R#9: 8n
 	0x07, 0xBD, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
@@ -16611,7 +16609,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xE7, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x60, // #rr = nn
 	0x84, 0x66, // #rr = nn
@@ -16750,7 +16748,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x73, // R#2: 02 nn
 	0x8A, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x20, // #rr = nn
 	0x84, 0x0A, // #rr = nn
@@ -16825,7 +16823,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x02, 0x63, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x17, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x0B, 0x80, // R#11: 0B nn
@@ -16869,7 +16867,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x01, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x15, // R#1: 1n
 	0x66, // R#8: 6n
 	0x88, // R#9: 8n
@@ -16925,9 +16923,9 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
-	0xD3, // R#n: Dn
+	0x20, // R#3: 2n
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xF4, // #rr = nn
@@ -17046,7 +17044,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xBA, // #rr = nn
@@ -17088,7 +17086,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0xC0, 0x8C, 0x07, // Cn rr vv => R#rr~
@@ -17121,7 +17119,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB4, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
 	0x86, 0xC4, // #rr = nn
@@ -17192,7 +17190,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xBE, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0xD4, 0x00, 0xDC, // Dn rr vv[] => R#rr~
 	0x88, 0x28, // #rr = nn
@@ -17264,7 +17262,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xDC, // #rr = nn
@@ -17305,7 +17303,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0xC0, 0x8C, 0x07, // Cn rr vv => R#rr~
@@ -17344,7 +17342,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xF4, // #rr = nn
@@ -17409,13 +17407,13 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8B, 0x03, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x17, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEE, // R#2: 02 nn
 	0x87, // R#9: 8n
 	0xC8, // R#13: Cn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
 	0x84, 0xD4, // #rr = nn
@@ -17449,7 +17447,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x01, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x15, // R#1: 1n
 	0x66, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -17502,7 +17500,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x84, // #rr = nn
 	0x8C, 0x07, // #rr = nn
@@ -17650,7 +17648,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xCF, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
 	0x86, 0xD0, // #rr = nn
@@ -17698,7 +17696,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xD7, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0x08, 0x01, 0xD8, // Dn rr vv[] => R#rr~
 	0x8C, 0x07, // #rr = nn
@@ -17741,7 +17739,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xCF, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0xD4, 0x00, 0xD0, // Dn rr vv[] => R#rr~
 	0x8C, 0x07, // #rr = nn
@@ -17825,7 +17823,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xCF, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0xD4, 0x00, 0xD0, // Dn rr vv[] => R#rr~
 	0x8C, 0x07, // #rr = nn
@@ -17923,7 +17921,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xCF, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x84, // #rr = nn
 	0x86, 0xD0, // #rr = nn
@@ -17969,7 +17967,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xD7, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0x86, 0xD8, // #rr = nn
@@ -18027,7 +18025,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xCF, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x84, // #rr = nn
 	0x86, 0xD0, // #rr = nn
@@ -18098,7 +18096,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x86, 0xD4, // #rr = nn
 	0x8C, 0x01, // #rr = nn
 	0xE0, // -------- Wait: Dn
-	0xFD, 0x00, // ======== End of data segment
 	0xF0, // ---- Start PSG section
 	0x64, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -18114,12 +18111,12 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8B, 0x03, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x17, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xCF, // R#2: 02 nn
 	0xC8, // R#13: Cn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
 	0x84, 0xD4, // #rr = nn
@@ -18152,7 +18149,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x01, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x15, // R#1: 1n
 	0x66, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -18188,6 +18185,8 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x67, // R#8: 6n
 	0x02, 0xD3, // R#2: 02 nn
 	0xF3, // ---- Start SCC section
+	0xFD, 0x00, // ======== End of data segment
+	0x00, // Padding
 	0x8C, 0x01, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
@@ -18205,7 +18204,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xF4, // #rr = nn
@@ -18327,7 +18326,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xBA, // #rr = nn
@@ -18369,7 +18368,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0xC0, 0x8C, 0x07, // Cn rr vv => R#rr~
@@ -18402,7 +18401,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB4, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
 	0x86, 0xC4, // #rr = nn
@@ -18470,7 +18469,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xBE, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0xD4, 0x00, 0xDC, // Dn rr vv[] => R#rr~
 	0x88, 0x28, // #rr = nn
@@ -18543,7 +18542,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xDC, // #rr = nn
@@ -18584,7 +18583,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0xC0, 0x8C, 0x07, // Cn rr vv => R#rr~
@@ -18624,7 +18623,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xF4, // #rr = nn
@@ -18690,13 +18689,13 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8B, 0x03, // #rr = nn
 	0xE1, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x17, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEE, // R#2: 02 nn
 	0x87, // R#9: 8n
 	0xC8, // R#13: Cn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
 	0x84, 0xD4, // #rr = nn
@@ -18730,7 +18729,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x01, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x15, // R#1: 1n
 	0x66, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -18782,7 +18781,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xA0, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x84, // #rr = nn
 	0x8C, 0x07, // #rr = nn
@@ -18928,7 +18927,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0x99, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
 	0x86, 0x9A, // #rr = nn
@@ -18975,7 +18974,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xA1, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x08, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -19020,7 +19019,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0x99, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xE0, // -------- Wait: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0xD4, 0x00, 0x9A, // Dn rr vv[] => R#rr~
@@ -19103,7 +19102,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0x99, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0xD4, 0x00, 0x9A, // Dn rr vv[] => R#rr~
 	0x8C, 0x07, // #rr = nn
@@ -19194,7 +19193,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0x99, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x84, // #rr = nn
 	0x86, 0x9A, // #rr = nn
@@ -19241,7 +19240,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x02, 0xA1, // R#2: 02 nn
 	0xE0, // -------- Wait: Dn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0x86, 0xA2, // #rr = nn
@@ -19289,7 +19288,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0x99, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x84, // #rr = nn
 	0x86, 0x9A, // #rr = nn
@@ -19375,7 +19374,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8B, 0x03, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x17, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0xC8, // R#13: Cn
@@ -19412,7 +19411,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8B, 0x0B, // #rr = nn
 	0x8C, 0x01, // #rr = nn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x15, // R#1: 1n
 	0x66, // R#8: 6n
 	0x02, 0x9D, // R#2: 02 nn
@@ -19463,7 +19462,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xF4, // #rr = nn
@@ -19580,7 +19579,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xBA, // #rr = nn
@@ -19622,7 +19621,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0xC0, 0x8C, 0x07, // Cn rr vv => R#rr~
@@ -19655,7 +19654,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB4, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
 	0x86, 0xC4, // #rr = nn
@@ -19726,7 +19725,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xBE, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0xD4, 0x00, 0xDC, // Dn rr vv[] => R#rr~
 	0x88, 0x28, // #rr = nn
@@ -19798,7 +19797,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xDC, // #rr = nn
@@ -19839,7 +19838,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0xC0, 0x8C, 0x07, // Cn rr vv => R#rr~
@@ -19877,7 +19876,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xF4, // #rr = nn
@@ -19942,13 +19941,13 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8B, 0x03, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x17, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEE, // R#2: 02 nn
 	0x87, // R#9: 8n
 	0xC8, // R#13: Cn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
 	0x84, 0xD4, // #rr = nn
@@ -19982,7 +19981,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x01, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x15, // R#1: 1n
 	0x66, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -20035,7 +20034,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x84, // #rr = nn
 	0x8C, 0x07, // #rr = nn
@@ -20183,7 +20182,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xCF, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
 	0x86, 0xD0, // #rr = nn
@@ -20231,7 +20230,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xD7, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0x08, 0x01, 0xD8, // Dn rr vv[] => R#rr~
 	0x8C, 0x07, // #rr = nn
@@ -20274,7 +20273,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xCF, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0xD4, 0x00, 0xD0, // Dn rr vv[] => R#rr~
 	0x8C, 0x07, // #rr = nn
@@ -20360,7 +20359,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xCF, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0xD4, 0x00, 0xD0, // Dn rr vv[] => R#rr~
 	0x8C, 0x07, // #rr = nn
@@ -20450,7 +20449,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xCF, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x84, // #rr = nn
 	0x86, 0xD0, // #rr = nn
@@ -20497,7 +20496,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD7, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0x86, 0xD8, // #rr = nn
@@ -20545,7 +20544,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xCF, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x84, // #rr = nn
 	0x86, 0xD0, // #rr = nn
@@ -20631,12 +20630,12 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8B, 0x03, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x17, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xCF, // R#2: 02 nn
 	0xC8, // R#13: Cn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
 	0x84, 0xD4, // #rr = nn
@@ -20669,7 +20668,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x01, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x15, // R#1: 1n
 	0x66, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -20722,7 +20721,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xF4, // #rr = nn
@@ -20844,7 +20843,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xBA, // #rr = nn
@@ -20886,7 +20885,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x65, // R#8: 6n
 	0xE0, // -------- Wait: Dn
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0xC0, 0x8C, 0x07, // Cn rr vv => R#rr~
@@ -20923,7 +20922,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xB4, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
 	0x86, 0xC4, // #rr = nn
@@ -20991,7 +20990,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xBE, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0xD4, 0x00, 0xDC, // Dn rr vv[] => R#rr~
 	0x88, 0x28, // #rr = nn
@@ -21063,7 +21062,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xDC, // #rr = nn
@@ -21104,7 +21103,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0xC0, 0x8C, 0x07, // Cn rr vv => R#rr~
@@ -21144,7 +21143,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD6, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x76, // #rr = nn
 	0x86, 0xF4, // #rr = nn
@@ -21209,13 +21208,13 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8B, 0x03, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x17, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEE, // R#2: 02 nn
 	0x87, // R#9: 8n
 	0xC8, // R#13: Cn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
 	0x84, 0xD4, // #rr = nn
@@ -21250,7 +21249,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8C, 0x01, // #rr = nn
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
-	0xD0, // R#n: Dn
+	0x00, 0x00, // R#0: 00 nn
 	0x15, // R#1: 1n
 	0x66, // R#8: 6n
 	0xF3, // ---- Start SCC section
@@ -21303,7 +21302,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xA0, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x84, // #rr = nn
 	0x8C, 0x07, // #rr = nn
@@ -21451,7 +21450,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0x99, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
 	0x86, 0x9A, // #rr = nn
@@ -21499,7 +21498,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xA1, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0x08, 0x01, 0xA2, // Dn rr vv[] => R#rr~
 	0x8C, 0x07, // #rr = nn
@@ -21542,7 +21541,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0x99, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0xD4, 0x00, 0x9A, // Dn rr vv[] => R#rr~
 	0x8C, 0x07, // #rr = nn
@@ -21626,7 +21625,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0x99, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0xD4, 0x00, 0x9A, // Dn rr vv[] => R#rr~
 	0x8C, 0x07, // #rr = nn
@@ -21716,7 +21715,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0x99, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x84, // #rr = nn
 	0x86, 0x9A, // #rr = nn
@@ -21763,7 +21762,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0xA1, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0x86, 0xA2, // #rr = nn
@@ -21811,7 +21810,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
 	0x02, 0x99, // R#2: 02 nn
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x84, // #rr = nn
 	0x86, 0x9A, // #rr = nn
@@ -21963,7 +21962,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x6B, // R#8: 6n
 	0x02, 0xD3, // R#2: 02 nn
 	0x84, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x88, 0xDA, // #rr = nn
 	0xE0, // -------- Wait: Dn
@@ -21998,10 +21997,10 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xE0, // -------- Wait: Dn
 	0xF0, // ---- Start PSG section
 	0x6B, // R#8: 6n
-	0x07, 0xBC, // R#7: 07 nn
+	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0x9E, // #rr = nn
 	0x88, 0x3F, // #rr = nn
 	0xFF, // End marker
 };
-// Total size: 57126 bytes
+// Total size: 56909 bytes

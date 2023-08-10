@@ -86,6 +86,7 @@ u32						g_lVGM_Split;
 
 // Global variables
 u8                      g_lVGM_CurChip;
+u8                      g_lVGM_Default;
 
 //=============================================================================
 // FUNCTIONS
@@ -224,9 +225,9 @@ void ExportPSG(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& c
 		AddByte(exp, 0xF0, "---- Start PSG section");
 	}
 
-	// Handle value 0 case
+	// Handle more common byte value
 	u8 val = (u8)chunk->Value;
-	if (val == 0)
+	if (val == g_lVGM_Default)
 	{
 		AddByte(exp, 0xD0 + chunk->Register, "R#n: Dn");
 		return;
@@ -592,6 +593,7 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 	// Parse data
 
 	g_lVGM_CurChip = LVGM_CHIP_PSG;
+	g_lVGM_Default = 0;
 	bool bLoop = false;
 	u32 sampleFrame = (g_lVGM_Frequency == LVGM_FREQ_60HZ) ? VGM_WAIT_60HZ : VGM_WAIT_50HZ;
 	u32 sampleCount = 0;
@@ -740,6 +742,16 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 	}
 
 	//............................................................................
+	// More common byte for PSG
+	if (detect.Devices & LVGM_CHIP_PSG)
+	{
+		using pair_type = decltype(psgValFreq)::value_type;
+		auto pr = std::max_element(std::begin(psgValFreq), std::end(psgValFreq),
+			[](const pair_type& p1, const pair_type& p2) { return p1.second < p2.second; });
+		g_lVGM_Default = pr->first;
+	}
+
+	//............................................................................
 	// Start export
 	exp->StartSection(name);
 
@@ -767,6 +779,9 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 		// -- Devices --
 		if (detect.Devices != LVGM_CHIP_PSG)
 			AddByte(exp, detect.Devices, MSX::Format("Devices (chips:%s)", detect.ChipDesc.c_str()));
+
+		if (detect.Devices & LVGM_CHIP_PSG)
+			AddByte(exp, g_lVGM_Default, "PSG - More common byte");
 
 		exp->AddComment("---- Data ----");
 	}

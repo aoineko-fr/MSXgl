@@ -132,6 +132,8 @@ extern u8        g_LVGM_State;
 extern const u8  g_LVGM_RegTable[13];
 extern const u8  g_LVGM_Ident[4];
 extern u8        g_LVGM_CurChip;
+extern u8        g_LVGM_Devices;
+extern u8        g_LVGM_PSG_Default;
 
 #if (USE_LVGM_NOTIFY)
 extern LVGM_NotifyCB g_LVGM_Callback;
@@ -186,9 +188,34 @@ void LVGM_Pause();
 // Decode a frame of music
 void LVGM_Decode();
 
-// Function: LVGM_Decode
+// Function: LVGM_SetPointer
 // Decode a frame of music
 inline void LVGM_SetPointer(const u8* ptr) { g_LVGM_Pointer = ptr; }
+
+// Function: LVGM_GetDevices
+// Get devices list
+inline u8 LVGM_GetDevices() { return g_LVGM_Devices; }
+
+// Function: LVGM_IncludePSG
+// Is music including PSG data
+inline bool LVGM_IncludePSG() { return g_LVGM_Devices & LVGM_CHIP_PSG; }
+
+// Function: LVGM_IncludeOPLL
+// Is music including OPLL/MSX-Music data
+inline bool LVGM_IncludeOPLL() { return g_LVGM_Devices & LVGM_CHIP_MSXMUSIC; }
+
+// Function: LVGM_IncludeOPL
+// Is music including OPL/MSX-Audio data
+inline bool LVGM_IncludeOPL() { return g_LVGM_Devices & LVGM_CHIP_MSXAUDIO; }
+
+// Function: LVGM_IncludeSCC
+// Is music including SCC data
+inline bool LVGM_IncludeSCC() { return g_LVGM_Devices & LVGM_CHIP_SCC; }
+
+// Function: LVGM_GetDefaultPSGValue
+// Get default PSG value
+inline u8 LVGM_GetDefaultPSGValue() { return g_LVGM_PSG_Default; }
+
 
 #if (USE_LVGM_NOTIFY)
 // Function: LVGM_SetNotifyCallback

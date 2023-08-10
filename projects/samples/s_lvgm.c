@@ -116,7 +116,7 @@ u8 g_SegLoop;
 //
 void DrawVGM(const u8* ptr)
 {
-	Print_SetPosition(32-7, 2);
+	Print_SetPosition(32-6, 4);
 	Print_DrawFormat("%i %4x", g_SegIdx, ptr);
 }
 
@@ -124,7 +124,7 @@ void DrawVGM(const u8* ptr)
 //
 void UpdatePlayer()
 {
-	Print_SetPosition(0, 10);
+	Print_SetPosition(0, 11);
 	Print_DrawText("Player:\n");
 	Print_DrawFormat("\x07" "Freq      %s\n", (g_LVGM_State & LVGM_STATE_50HZ) ? "50Hz" : "60Hz");
 	Print_DrawFormat("\x07" "DoLoop    %c\n", (g_LVGM_State & LVGM_STATE_LOOP) ? '\x0C' : '\x0B');
@@ -221,25 +221,22 @@ void SetMusic(u8 idx)
 
 	Print_SetPosition(0, 4);
 	Print_DrawText("Data:\n");
-	Print_DrawFormat("\x07" "Ident   %c\n", ok ? '\x0C' : '\x0B');
-	Print_DrawFormat("\x07" "Freq    %i Hz\n", (g_LVGM_Header->Option & LVGM_OPTION_50HZ) ? 50 : 60);
-	Print_DrawFormat("\x07" "Loop    %c\n", (g_LVGM_Header->Option & LVGM_OPTION_LOOP) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Ident     %c\n", ok ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Freq      %i Hz\n", (g_LVGM_Header->Option & LVGM_OPTION_50HZ) ? 50 : 60);
+	Print_DrawFormat("\x07" "Loop      %c\n", (g_LVGM_Header->Option & LVGM_OPTION_LOOP) ? '\x0C' : '\x0B');
 	Print_DrawCharX(' ', 32);
 	Print_SetPosition(0, 8);
-	Print_DrawFormat("\x07" "Chips   %c", (g_LVGM_Header->Option & LVGM_OPTION_DEVICE) ? '\x0C' : '\x0B');
-	if (g_LVGM_Header->Option & LVGM_OPTION_DEVICE)
-	{
-		if(g_LVGM_Header->Device & LVGM_CHIP_PSG)
-			Print_DrawText(" PSG");
-		if(g_LVGM_Header->Device & LVGM_CHIP_OPLL)
-			Print_DrawText(" OPLL");
-		if(g_LVGM_Header->Device & LVGM_CHIP_OPL1)
-			Print_DrawText(" OPL1");
-		if(g_LVGM_Header->Device & LVGM_CHIP_SCC)
-			Print_DrawText(" SCC");
-	}
-	else
+	Print_DrawFormat("\x07" "Chips     %c", (g_LVGM_Header->Option & LVGM_OPTION_DEVICE) ? '\x0C' : '\x0B');
+	if(LVGM_GetDevices() & LVGM_CHIP_PSG)
 		Print_DrawText(" PSG");
+	if(LVGM_GetDevices() & LVGM_CHIP_OPLL)
+		Print_DrawText(" OPLL");
+	if(LVGM_GetDevices() & LVGM_CHIP_OPL1)
+		Print_DrawText(" OPL1");
+	if(LVGM_GetDevices() & LVGM_CHIP_SCC)
+		Print_DrawText(" SCC");
+	Print_SetPosition(0, 9);
+	Print_DrawFormat("\x07" "Default   %c %2xh", (LVGM_GetDevices() & LVGM_CHIP_PSG) ? '\x0C' : '\x0B', LVGM_GetDefaultPSGValue());
 
 	UpdatePlayer();
 }
@@ -300,7 +297,7 @@ void ButtonLoop()
 void SetCursor(u8 id)
 {
 	g_CurrentButton = id % 6;
-	VDP_SetSpriteSM1(0, 8 + 16*g_CurrentButton, 128-1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
+	VDP_SetSpriteSM1(0, 8 + 16*g_CurrentButton, 128+8-1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
 }
 
 //-----------------------------------------------------------------------------
@@ -372,9 +369,9 @@ void main()
 	Print_DrawText(MSX_GL " LVGM Sample");
 	Print_DrawLineH(0, 1, 32);
 
-	Print_SetPosition(20, 10);
-	Print_DrawText("Main-ROM:");
 	Print_SetPosition(20, 11);
+	Print_DrawText("Main-ROM:");
+	Print_SetPosition(20, 12);
 	Print_DrawFormat("\x07" "Freq  %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
 
 	u8 Y = 17;
@@ -398,10 +395,10 @@ void main()
 
 	// Decode VGM header
 	SetMusic(0);
-	Print_DrawBox(0, 15, numberof(g_ButtonEntry) * 2 + 1, 3);
+	Print_DrawBox(0, 16, numberof(g_ButtonEntry) * 2 + 1, 3);
 	for(u8 i = 0; i < numberof(g_ButtonEntry); ++i)
 	{
-		Print_SetPosition(1 + 2 * i, 16);
+		Print_SetPosition(1 + 2 * i, 17);
 		Print_DrawChar(g_ButtonEntry[i].Char);
 		
 	}

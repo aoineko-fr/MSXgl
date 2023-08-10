@@ -7,7 +7,7 @@
 				7 6 5 4 3 2 1 0
 				│ │ │ │   │ │ └── Frequency (0: 60 Hz, 1: 50 Hz)
 				│ │ │ │   │ └──── Loop data included
-				│ │ │ │   └────── Devices list (see bellow)
+				│ │ │ │   └────── Devices (see bellow)
 				└─┴─┴─┴────────── File format version (0)
 
 	(nn)		Devices (only present if Options#2 is 1)
@@ -43,7 +43,7 @@
 
 	FD nn			Special markers
 	   00			End of data segment
-	......			Real-time notification (not incuded in data)
+	   ..			Real-time notification (not incuded in data)
 	   FE			Reach loop marker
 	   FF			Jump to loop marker
 
