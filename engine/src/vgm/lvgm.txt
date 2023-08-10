@@ -22,7 +22,7 @@
 
 	(nn)		PSG extra data (only present if Opions#2 is 0 or Devices#0 is 1)
 				7 6 5 4 3 2 1 0
-				└─┴─┴─┴─┴─┴─┴─┴── More common byte
+				└─┴─┴─┴─┴─┴─┴─┴── More common byte value
 
 
 ==============================================================================
