@@ -596,6 +596,7 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 	u32 sampleFrame = (g_lVGM_Frequency == LVGM_FREQ_60HZ) ? VGM_WAIT_60HZ : VGM_WAIT_50HZ;
 	u32 sampleCount = 0;
 	std::vector<lVGM_Chunk> chunkList;
+	std::map<u8, u16> psgValFreq;
 
 	while (1)
 	{
@@ -607,6 +608,18 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			g_VGM_Pointer += 2;
 
 			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_PSG, 0, reg, val));
+
+			switch (reg)
+			{
+			case 0:
+			case 2:
+			case 4:
+			case 7:
+			case 11:
+			case 12:
+				psgValFreq[val]++;
+				break;
+			}
 		}
 		//-----------------------------------------------------------------------------
 		else if (*g_VGM_Pointer == VGM_CMD_YM2413) // MSX-MUSIC/YM2413/OPLL, write value dd to register aa
