@@ -20,9 +20,7 @@
 				│   └──────────── Include secondary PSG data
 				└──────────────── Include Moonsound data (YMF278/OPL4)
 
-	(nn)		PSG extra data (only present if Opions#2 is 0 or Devices#0 is 1)
-				7 6 5 4 3 2 1 0
-				└─┴─┴─┴─┴─┴─┴─┴── More common byte
+	(nn)		PSG - Most common value (only present if Opions#2 is 0 or Devices#0 is 1)
 
 
 ==============================================================================
@@ -59,31 +57,31 @@
 
 	Opcode			Action
 ------------------------------------------------------------------------------
- 	00 nn			Tone Period (R#0 = nn)
-	1n				Tone Period (R#1 = n)
-	02 nn			Tone Period (R#2 = nn)
-	2n				Tone Period (R#3 = n)
-	04 nn			Tone Period (R#4 = nn)
-	3n				Tone Period (R#5 = n)
+ 	00 xx			Tone Period (R#0 = xx)
+	1x				Tone Period (R#1 = x)
+	02 xx			Tone Period (R#2 = xx)
+	2x				Tone Period (R#3 = x)
+	04 xx			Tone Period (R#4 = xx)
+	3x				Tone Period (R#5 = x)
 
-	4n				Noise Period (R#6 = n)
-	5n				Noise Period (R#6 = n | 0x10)
+	4x				Noise Period (R#6 = x)
+	5x				Noise Period (R#6 = x | 0x10)
 
-	07 nn			Mixer (R#7 = nn)
+	07 xx			Mixer (R#7 = x)
 
-	6n				Tone Amplitude (R#8 = n)
-	7n				Tone Amplitude (R#8 = n | 0x10)
-	8n				Tone Amplitude (R#9 = n)
-	9n				Tone Amplitude (R#9 = n | 0x10)
-	An				Tone Amplitude (R#10 = n)
-	Bn				Tone Amplitude (R#10 = n | 0x10)
+	6x				Tone Amplitude (R#8 = x)
+	7x				Tone Amplitude (R#8 = x | 0x10)
+	8x				Tone Amplitude (R#9 = x)
+	9x				Tone Amplitude (R#9 = x | 0x10)
+	Ax				Tone Amplitude (R#10 = x)
+	Bx				Tone Amplitude (R#10 = x | 0x10)
 
-	0B nn			Envelope Period (R#11 = nn)
-	0C nn			Envelope Period (R#12 = nn)
+	0B xx			Envelope Period (R#11 = xx)
+	0C xx			Envelope Period (R#12 = xx)
 
-	Cn				Envelope Shape (R#13 = n)
+	Cx				Envelope Shape (R#13 = x)
 ..............................................................................
-	Dn				More common byte value (R#n = X)
+	Dx				More common byte value (R#x = <Most common value>)
 ..............................................................................
 					Not used: 01, 03, 05, 06, 08, 09, 0A, 0D~0F, DE~DF
 
@@ -94,32 +92,32 @@
 
 	Opcode			Action
 ------------------------------------------------------------------------------
-	rr nn			Register #rr (00~38) set to nn
-	rr|80			Register #rr (80~B8) set to 0
+	xx yy			R#xx = yy (xx ∈ [00:38])
+	xx|80			R#xx = 0  (xx ∈ [80:B8])
 ..............................................................................
-	40 nn[8]		User Tone (copy 8 bytes from R#0)
-	50 nn			User Tone (fill 8 bytes from R#0)
+	40 xx[8]		User Tone (copy 8 bytes from R#0)
+	50 xx			User Tone (fill 8 bytes from R#0)
 
-	41 nn[9]		F-Number  (copy 9 bytes from R#10)
-	51 nn			F-Number  (fill 9 bytes from R#10)
+	41 xx[9]		F-Number  (copy 9 bytes from R#10)
+	51 xx			F-Number  (fill 9 bytes from R#10)
 
-	42 nn[9]		Setting   (copy 9 bytes from R#20)
-	52 nn			Setting   (fill 9 bytes from R#20)
+	42 xx[9]		Setting   (copy 9 bytes from R#20)
+	52 xx			Setting   (fill 9 bytes from R#20)
 
-	43 nn[9]		Inst/col  (copy 9 bytes from R#30)
-	53 nn			Inst/col  (fill 9 bytes from R#30)
+	43 xx[9]		Inst/col  (copy 9 bytes from R#30)
+	53 xx			Inst/col  (fill 9 bytes from R#30)
 ..............................................................................
-	44 nn[3]		Rhythm F-Number (copy 3 bytes from R#16)
-	54 nn			Rhythm F-Number (fill 3 bytes from R#16)
+	44 xx[3]		Rhythm F-Number (copy 3 bytes from R#16)
+	54 xx			Rhythm F-Number (fill 3 bytes from R#16)
 
-	45 nn[3]		Rhythm Setting  (copy 3 bytes from R#26)
-	55 nn			Rhythm Setting  (fill 3 bytes from R#26)
+	45 xx[3]		Rhythm Setting  (copy 3 bytes from R#26)
+	55 xx			Rhythm Setting  (fill 3 bytes from R#26)
 
-	46 nn[3]		Rhythm Inst/col (copy 3 bytes from R#36)
-	56 nn			Rhythm Inst/col (fill 3 bytes from R#36)
+	46 xx[3]		Rhythm Inst/col (copy 3 bytes from R#36)
+	56 xx			Rhythm Inst/col (fill 3 bytes from R#36)
 ..............................................................................
-	6n rr vv		Set n+3 bytes (3~18) start from register #rr
-	7n rr vv[]		Copy n+3 bytes (3~18) start from register #rr
+	6x yy zz		Set x+3 bytes (3~18) start from R#yy
+	7x yy zz[]		Copy x+3 bytes (3~18) start from R#yy
 ..............................................................................
 					Not used: 08~0D, 19~1F, 29~2F, 39~3F, 47~4F, 
 					 57~5F, 88~8D, 99~9F, A9~AF, B9~DF
@@ -131,17 +129,19 @@
 
 	Opcode			Action
 ------------------------------------------------------------------------------
-	rr nn			Register #rr (00~C8) set to nn
-
-	1F nn[8]		User Tone 1 (copy 8 bytes in 20,23,40,43,60,63,80,83)
-	2F nn[8]		User Tone 2 (copy 8 bytes in 21,24,41,44,61,64,81,84)
-	3F nn[8]		User Tone 3 (copy 8 bytes in 22,25,42,45,62,65,82,85)
-	4F nn[8]		User Tone 4 (copy 8 bytes in 28,2B,48,4B,68,6B,88,8B)
-	5F nn[8]		User Tone 5 (copy 8 bytes in 29,2C,49,4C,69,6C,89,8C)
-	6F nn[8]		User Tone 6 (copy 8 bytes in 2A,2D,4A,4D,6A,6D,8A,8D)
-	7F nn[8]		User Tone 7 (copy 8 bytes in 30,33,50,53,70,73,90,93)
-	8F nn[8]		User Tone 8 (copy 8 bytes in 31,34,51,54,71,74,91,94)
-	9F nn[8]		User Tone 9 (copy 8 bytes in 32,35,52,55,72,75,92,95)
+	xx yy			R#xx = yy (xx ∈ [00:C8])
+..............................................................................
+	1F xx[8]		User Tone 1 (copy 8 bytes in 20,23,40,43,60,63,80,83)
+	2F xx[8]		User Tone 2 (copy 8 bytes in 21,24,41,44,61,64,81,84)
+	3F xx[8]		User Tone 3 (copy 8 bytes in 22,25,42,45,62,65,82,85)
+	4F xx[8]		User Tone 4 (copy 8 bytes in 28,2B,48,4B,68,6B,88,8B)
+	5F xx[8]		User Tone 5 (copy 8 bytes in 29,2C,49,4C,69,6C,89,8C)
+	6F xx[8]		User Tone 6 (copy 8 bytes in 2A,2D,4A,4D,6A,6D,8A,8D)
+	7F xx[8]		User Tone 7 (copy 8 bytes in 30,33,50,53,70,73,90,93)
+	8F xx[8]		User Tone 8 (copy 8 bytes in 31,34,51,54,71,74,91,94)
+	9F xx[8]		User Tone 9 (copy 8 bytes in 32,35,52,55,72,75,92,95)
+..............................................................................
+	Dx yy zz[]		Copy x+3 bytes (3~18) start from R#yy
 ..............................................................................
 					Not used: 13~14, 1B~1E, 26~27, 2E, 36~3E, 46~47, 
 					 4E, 56~5E, 66~67, 6E, 76~7E, 86~87, 8E, 96~9E, 
@@ -154,20 +154,21 @@
 
 	Opcode			Action                                  SCC    SCC+
 ------------------------------------------------------------------------------
-	rr nn			Register #rr (00~AF) set to nn
-
-	B0 nn[32]		Copy 32 bytes to channel 1 waveform     9800   B800
-	B1 nn[32]		Copy 32 bytes to channel 2 waveform     9820   B820
-	B2 nn[32]		Copy 32 bytes to channel 3 waveform     9840   B840
-	B3 nn[32]		Copy 32 bytes to channel 4 waveform     9860   B860
-	B4 nn[32]		Copy 32 bytes to channel 5 waveform            B880
-	B8 nn			Set 32 bytes to channel 1 waveform      9800   B800
-	B9 nn			Set 32 bytes to channel 2 waveform      9820   B820
-	BA nn			Set 32 bytes to channel 3 waveform      9840   B840
-	BB nn			Set 32 bytes to channel 4 waveform      9860   B860
-	BC nn			Set 32 bytes to channel 5 waveform             B880
+	xx yy			R#xx = yy (xx ∈ [00:AF])                9800   B800
 ..............................................................................
-	Cn rr vv		Set n+3 bytes (3~18) start from register #rr
-	Dn rr vv[]		Copy n+3 bytes (3~18) start from register #rr
+	B0 xx[32]		Copy 32 bytes to channel 1 waveform     9800   B800
+	B1 xx[32]		Copy 32 bytes to channel 2 waveform     9820   B820
+	B2 xx[32]		Copy 32 bytes to channel 3 waveform     9840   B840
+	B3 xx[32]		Copy 32 bytes to channel 4 waveform     9860   B860
+	B4 xx[32]		Copy 32 bytes to channel 5 waveform            B880
+
+	B8 xx			Set 32 bytes to channel 1 waveform      9800   B800
+	B9 xx			Set 32 bytes to channel 2 waveform      9820   B820
+	BA xx			Set 32 bytes to channel 3 waveform      9840   B840
+	BB xx			Set 32 bytes to channel 4 waveform      9860   B860
+	BC xx			Set 32 bytes to channel 5 waveform             B880
+..............................................................................
+	Cx yy zz		Set x+3 bytes (3~18) start from R#yy
+	Dx yy zz[]		Copy x+3 bytes (3~18) start from R#yy
 ..............................................................................
 					Not used: B5-B7, BD-BF

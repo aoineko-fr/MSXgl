@@ -47,9 +47,11 @@ enum LVGM_OPTION
 	LVGM_OPTION_FORMAT = 0b11110000, // File format version (0)
 };
 
+// Macro: LVGM_GET_FREQ
 // Get frequency from option
 #define LVGM_GET_FREQ(opt) (opt & LVGM_OPTION_FREQ)
 
+// Macro: LVGM_GET_VER
 // Get format version from option
 #define LVGM_GET_VER(opt) (opt >> 4)
 
@@ -129,7 +131,6 @@ extern const struct LVGM_Header* g_LVGM_Header;
 extern const u8* g_LVGM_Pointer;
 extern u8        g_LVGM_Wait;
 extern u8        g_LVGM_State;
-extern const u8  g_LVGM_RegTable[13];
 extern const u8  g_LVGM_Ident[4];
 extern u8        g_LVGM_CurChip;
 extern u8        g_LVGM_Devices;
@@ -144,30 +145,41 @@ extern LVGM_NotifyCB g_LVGM_Callback;
 //=============================================================================
 
 // Function: LVGM_Play
-// Start music playback
+// Start music playback.
 //
 // Paramaters:
 //   addr	- Address of source data
 //   loop	- Is music looping?
+//
+// Return:
+//   TRUE if playback started correctly.
 bool LVGM_Play(const void* addr, bool loop);
 
 // Function: LVGM_Stop
-// Stop music playback
+// Stop music playback.
 void LVGM_Stop();
 
 // Function: LVGM_SetFrequency50Hz
-// Change frequency to 50 Hz
+// Change frequency to 50 Hz.
+inline void LVGM_SetFrequency50Hz() { g_LVGM_State |= LVGM_STATE_50HZ; }
+
+// Function: LVGM_IsFrequency50Hz
+// Check if frequency is 50 Hz.
 //
 // Return:
-//   FALSE if music frequency is not 50 Hz
-inline bool LVGM_SetFrequency50Hz() { g_LVGM_State |= LVGM_STATE_50HZ; }
+//   FALSE if frequency is not 50 Hz.
+inline bool LVGM_IsFrequency50Hz() { return g_LVGM_State & LVGM_STATE_50HZ; }
 
 // Function: LVGM_SetFrequency60Hz
-// Change frequency to 60 Hz
+// Change frequency to 60 Hz.
+inline void LVGM_SetFrequency60Hz() { g_LVGM_State &= ~LVGM_STATE_50HZ; }
+
+// Function: LVGM_SetFrequency60Hz
+// Check if frequency is 60 Hz.
 //
 // Return:
-//   FALSE if music frequency is not 60 Hz
-inline bool LVGM_SetFrequency60Hz() { g_LVGM_State &= ~LVGM_STATE_50HZ; }
+//   TRUE if frequency is 60 Hz.
+inline bool LVGM_IsFrequency60Hz() { return (g_LVGM_State & LVGM_STATE_50HZ) == 0; }
 
 // Function: LVGM_IsPlaying
 // Check if music playing
