@@ -1,16 +1,16 @@
 ==============================================================================
  HEADER  (4 bytes)
 ==============================================================================
-	nn nn		"lVGM"            Light-VGM identifier
+	xx[4]		"lVGM"            Light-VGM identifier
 
-	nn			Options
+	xx			Options
 				7 6 5 4 3 2 1 0
 				│ │ │ │   │ │ └── Frequency (0: 60 Hz, 1: 50 Hz)
 				│ │ │ │   │ └──── Loop data included
-				│ │ │ │   └────── Devices (see bellow)
+				│ │ │ │   └────── Devices (0: PSG only, 1: Device list incuded; see bellow)
 				└─┴─┴─┴────────── File format version (0)
 
-	(nn)		Devices (only present if Options#2 is 1)
+	(xx)		Devices (only present if Options#2 is 1)
 				7 6 5 4 3 2 1 0
 				│   │ │ │ │ │ └── Include PSG data (AY-3-8910)
 				│   │ │ │ │ └──── Include MSX-MUSIC data (YM2413/OPLL)
@@ -20,7 +20,7 @@
 				│   └──────────── Include secondary PSG data
 				└──────────────── Include Moonsound data (YMF278/OPL4)
 
-	(nn)		PSG - Most common value (only present if Opions#2 is 0 or Devices#0 is 1)
+	(xx)		PSG - Most common value (only present if Opions#2 is 0 or Devices#0 is 1)
 
 
 ==============================================================================
