@@ -94,3 +94,6 @@
 #define Clock_GetDayOfWeekString	RTC_GetDayOfWeekString
 #define Clock_GetMonthString		RTC_GetMonthString
 #define Clock_GetYear4				RTC_GetYear4
+
+// System module
+#define Sys_GetHeardAddr            Sys_GetHeaderAddr

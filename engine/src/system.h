@@ -77,7 +77,23 @@ extern u16 g_LastAddr;
 	extern u8 g_Bank1Segment;
 	extern u8 g_Bank2Segment;
 	extern u8 g_Bank3Segment;
+
+	// Macro: SET_BANK_SEGMENT
+	// Set the current segment of the given bank
+	//
+	// Parameters:
+	//   b - Bank number to set (0-3)
+	//   s - Segment to select in this bank
 	#define SET_BANK_SEGMENT(b, s)	{ (*(u8*)(ADDR_BANK_##b) = (s)); (g_Bank##b##Segment = (s)); }
+
+	// Macro: GET_BANK_SEGMENT
+	// Get the current segment of the given bank
+	//
+	// Parameters:
+	//   b - Bank number to get (0-3)
+	//
+	// Return:
+	//   Segment selected in this bank
 	#define GET_BANK_SEGMENT(b)	    (g_Bank##b##Segment)
 #elif (TARGET == TARGET_DOS2_MAPPER)
 	#define SET_BANK_SEGMENT(b, s)	DOSMapper_SetPage(b + 1, s)
@@ -107,13 +123,18 @@ inline void Halt() { __asm__("halt"); }
 
 // Function: Call
 // Direct call a routine at a given address (generate ASM code: "call XXXX")
+// No extra cost due to calling a C function.
 //
 // Parameters:
 //   addr - Address to call
+//
+// Return:
+//   Value stored in register A
 inline u8 Call(u16 addr) { ((void(*)(void))addr)(); }
 
 // Function: CallA
 // Direct call a routine at a given address with a 8-bits parameter in register A (generate ASM code: "call XXXX")
+// No extra cost due to calling a C function.
 //
 // Parameters:
 //   addr - Address to call
@@ -123,6 +144,7 @@ inline void CallA(u16 addr, u8 a) { ((void(*)(u8))addr)(a); }
 typedef void (*calll_t)(u8) __FASTCALL;
 // Function: CallL
 // Direct call a routine at a given address with a 8-bits parameter in register L (generate ASM code: "call XXXX")
+// No extra cost due to calling a C function.
 //
 // Parameters:
 //   addr - Address to call
@@ -131,6 +153,7 @@ inline void CallL(u16 addr, u8 l) { ((calll_t)addr)(l); }
 
 // Function: CallHL
 // Direct call a routine at a given address with a 16-bits parameter in register HL (generate ASM code: "call XXXX")
+// No extra cost due to calling a C function.
 //
 // Parameters:
 //   addr - Address to call
@@ -203,9 +226,9 @@ u8 Sys_CheckSlot(CheckSlotCallback cb);
 // Get first address of program binary
 inline u16 Sys_GetFirstAddr() { return (u16)&g_FirstAddr; }
 
-// Function: Sys_GetHeardAddr
+// Function: Sys_GetHeaderAddr
 // Get address of program header (if any)
-inline u16 Sys_GetHeardAddr() { return (u16)&g_HeaderAddr; }
+inline u16 Sys_GetHeaderAddr() { return (u16)&g_HeaderAddr; }
 
 // Function: Sys_GetLastAddr
 // Get last address of program binary

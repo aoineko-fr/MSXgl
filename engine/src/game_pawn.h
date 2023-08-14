@@ -108,7 +108,6 @@ enum PAWN_PHYSICS_STATE
 };
 #endif
 
-
 // Pawn structure
 typedef struct
 {
@@ -159,48 +158,92 @@ typedef struct
 // Group: Core
 
 // Function: GamePawn_Initialize
-// Initialize game pawn
+// Initialize a game pawn.
+//
+// Parameters:
+//   pawn     - Address of game pawn structure to initialize. This is he structure to be used for all other functions.
+//   sprtList - Array of all sprite leyers used to display the pawn. See <Game_Sprite> for details.
+//   sprtNum  - Size of the 'sprtList' table (in entries number).  
+//   sprtID   - First srite index to use for the pawn. The pawn will use all sprite indexes from 'sprtID' to 'sprtID + sprtNum - 1'.
+//              If <GAMEPAWN_ID_PER_LAYER> compile option is activated, this parmeter is not used as each sprit layer define it's own sprite index.
+//   actList  - Array of pawn action. Needed to use <GamePawn_SetAction> function.
 void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNum, u8 sprtID, const Game_Action* actList);
 
 // Function: GamePawn_SetPosition
-// Set game pawn position
+// Set game pawn position. Force movement even if collision is activated.
+//
+// Parameters:
+//   pawn - Address of game pawn structure to move.
+//   x    - New X coordinate (in pixels).
+//   y    - New Y coordinate (in pixels).
 void GamePawn_SetPosition(Game_Pawn* pawn, u8 x, u8 y);
 
 // Function: GamePawn_SetAction
-// Set game pawn action id
+// Set game pawn current action index.
+//
+// Parameters:
+//   pawn - Address of game pawn structure to setup.
+//   id   - New action index.
 void GamePawn_SetAction(Game_Pawn* pawn, u8 id);
 
 // Function: GamePawn_Update
-// Update animation of the game pawn
+// Update animation of the game pawn. Must be called once a frame.
+//
+// Parameters:
+//   pawn - Address of game pawn structure to update (move, collision, etc.).
 void GamePawn_Update(Game_Pawn* pawn);
 
 // Function: GamePawn_Draw
-// Update rendering of the game pawn
+// Update rendering of the game pawn. Must be called once a frame.
+//
+// Parameters:
+//   pawn - Address of game pawn structure to draw.
 void GamePawn_Draw(Game_Pawn* pawn);
 
 #if (GAMEPAWN_USE_PHYSICS)
 // Group: Physics
 
 // Function: GamePawn_SetMovement
-// Set pawn target position
+// Set pawn relative movement. Collision can prevent part of the movement. 
+// Only available if GAMEPAWN_USE_PHYSICS compile option is set to TRUE.
+//
+// Parameters:
+//   pawn - Address of game pawn structure to move.
+//   x    - New X movement (in pixels).
+//   y    - New Y movement (in pixels).
 void GamePawn_SetMovement(Game_Pawn* pawn, i8 dx, i8 dy);
 
 // Function: GamePawn_SetTargetPosition
-// Set pawn target position
+// Set pawn absolute movement. Collision can prevent part of the movement.
+// Only available if GAMEPAWN_USE_PHYSICS compile option is set to TRUE.
+//
+// Parameters:
+//   pawn - Address of game pawn structure to move.
+//   x    - New X coordinate (in pixels).
+//   y    - New Y coordinate (in pixels).
 inline void GamePawn_SetTargetPosition(Game_Pawn* pawn, u8 x, u8 y) { GamePawn_SetMovement(pawn, x - pawn->PositionX, y - pawn->PositionY); }
 
 // Function: GamePawn_SetPhysicsCallback
 // Set pawn physics callback
+// Only available if GAMEPAWN_USE_PHYSICS compile option is set to TRUE.
+//
+// Parameters:
+//   pawn   - Address of game pawn structure to initialize.
+//   pcb    - Callback function to be called when physics events occurs.
+//   ccb    - Callback function to be called when collision events occurs.
+//   boundX - Bounding box X extend (in pixels from the pawn's origin).
+//   boundY - Bounding box Y extend (in pixels from the pawn's origin).
 void GamePawn_InitializePhysics(Game_Pawn* pawn, Game_PhysicsCB pcb, Game_CollisionCB ccb, u8 boundX, u8 boundY);
 
 // Function: GamePawn_GetPhysicsState
-// Get pawn physics state
+// Get pawn physics state.
+// Only available if GAMEPAWN_USE_PHYSICS compile option is set to TRUE.
 //
 // Parameters:
-//   pawn - Pointer to pawn structure
+//   pawn - Pointer to pawn structure.
 //
 // Return:
-//   Pawn's physics state
+//   Pawn's physics state.
 inline u8 GamePawn_GetPhysicsState(Game_Pawn* pawn) { return pawn->PhysicsState; }
 
 #endif
