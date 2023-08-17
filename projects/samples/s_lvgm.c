@@ -11,13 +11,13 @@
 #include "dos_mapper.h"
 #include "memory.h"
 #include "psg.h"
-#if (USE_LVGM_SCC)
+#if (LVGM_USE_SCC)
 #include "scc.h"
 #endif
-#if (USE_LVGM_MSXMUSIC)
+#if (LVGM_USE_MSXMUSIC)
 #include "msx-music.h"
 #endif
-#if (USE_LVGM_MSXAUDIO)
+#if (LVGM_USE_MSXAUDIO)
 #include "msx-audio.h"
 #endif
 
@@ -354,13 +354,13 @@ void main()
 	// Initialize audio chip
 	LVGM_SetNotifyCallback(MusicNotification);
 
-	#if (USE_LVGM_SCC)
+	#if (LVGM_USE_SCC)
 	SCC_Initialize();
 	#endif
-	#if (USE_LVGM_MSXMUSIC)
+	#if (LVGM_USE_MSXMUSIC)
 	MSXMusic_Initialize();
 	#endif
-	#if (USE_LVGM_MSXAUDIO)
+	#if (LVGM_USE_MSXAUDIO)
 	MSXAudio_Initialize();
 	#endif
 
@@ -377,17 +377,17 @@ void main()
 	u8 Y = 17;
 	Print_SetPosition(20, Y++);
 	Print_DrawText("Slots: ");
-	#if (USE_LVGM_MSXMUSIC)
+	#if (LVGM_USE_MSXMUSIC)
 	Print_SetPosition(20, Y++);
 	Print_DrawText("\x07" "YM2413: ");
 	Print_DrawSlot(g_MSXMusic_SlotId);
 	#endif
-	#if (USE_LVGM_MSXAUDIO)
+	#if (LVGM_USE_MSXAUDIO)
 	Print_SetPosition(20, Y++);
 	Print_DrawText("\x07" "Y8950:  ");
 	Print_DrawChar(MSXAudio_Detect() ? '\x0C' : '\x0B');
 	#endif
-	#if (USE_LVGM_SCC)
+	#if (LVGM_USE_SCC)
 	Print_SetPosition(20, Y++);
 	Print_DrawText("\x07" "SCC:    ");
 	Print_DrawSlot(SCC_SLOT);

@@ -9,26 +9,26 @@
 
 #include "msxgl.h"
 
-#define USE_LVGM_PSG			TRUE
-#define USE_LVGM_MSXMUSIC		TRUE
-#define USE_LVGM_MSXAUDIO		FALSE
-#define USE_LVGM_SCC			TRUE
-#define USE_LVGM_SCCI			FALSE
-#define USE_LVGM_PSG2			FALSE
-#define USE_LVGM_OPL4			FALSE
+#define LVGM_USE_PSG			TRUE
+#define LVGM_USE_MSXMUSIC		TRUE
+#define LVGM_USE_MSXAUDIO		FALSE
+#define LVGM_USE_SCC			TRUE
+#define LVGM_USE_SCCI			FALSE
+#define LVGM_USE_PSG2			FALSE
+#define LVGM_USE_OPL4			FALSE
 
-#define USE_LVGM_NOTIFY			TRUE
+#define LVGM_USE_NOTIFY			TRUE
 
-#if (USE_LVGM_PSG)
+#if (LVGM_USE_PSG)
 #include "psg.h"
 #endif
-#if (USE_LVGM_MSXMUSIC)
+#if (LVGM_USE_MSXMUSIC)
 #include "msx-music.h"
 #endif
-#if (USE_LVGM_MSXAUDIO)
+#if (LVGM_USE_MSXAUDIO)
 #include "msx-audio.h"
 #endif
-#if (USE_LVGM_SCC)
+#if (LVGM_USE_SCC)
 #include "scc.h"
 #endif
 
@@ -136,7 +136,7 @@ extern u8        g_LVGM_CurChip;
 extern u8        g_LVGM_Devices;
 extern u8        g_LVGM_PSG_Default;
 
-#if (USE_LVGM_NOTIFY)
+#if (LVGM_USE_NOTIFY)
 extern LVGM_NotifyCB g_LVGM_Callback;
 #endif
 
@@ -229,7 +229,7 @@ inline bool LVGM_IncludeSCC() { return g_LVGM_Devices & LVGM_CHIP_SCC; }
 inline u8 LVGM_GetDefaultPSGValue() { return g_LVGM_PSG_Default; }
 
 
-#if (USE_LVGM_NOTIFY)
+#if (LVGM_USE_NOTIFY)
 // Function: LVGM_SetNotifyCallback
 // Set the function to be called when a notification is triggered
 inline void LVGM_SetNotifyCallback(LVGM_NotifyCB cb) { g_LVGM_Callback = cb; }

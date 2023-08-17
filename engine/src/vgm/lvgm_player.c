@@ -41,7 +41,7 @@ u8                        g_LVGM_Wait;
 u8                        g_LVGM_State;
 u8                        g_LVGM_CurChip;
 LVGM_DecodeCB             g_LVGM_Decode;
-#if (USE_LVGM_NOTIFY)
+#if (LVGM_USE_NOTIFY)
 LVGM_NotifyCB             g_LVGM_Callback = LVGM_Defaultcallback;
 #endif
 
@@ -49,7 +49,7 @@ LVGM_NotifyCB             g_LVGM_Callback = LVGM_Defaultcallback;
 // FUNCTIONS
 //=============================================================================
 
-#if (USE_LVGM_PSG)
+#if (LVGM_USE_PSG)
 //-----------------------------------------------------------------------------
 //
 void LVGM_DecodePSG()
@@ -92,7 +92,7 @@ void LVGM_DecodePSG()
 }
 #endif
 
-#if (USE_LVGM_MSXMUSIC)
+#if (LVGM_USE_MSXMUSIC)
 // OPLL lookup table           0     1     2     3     4     5     6
 const u8 g_lVGM_OPLL_Cnt[] = { 8,    9,    9,    9,    3,    3,    3 };
 const u8 g_lVGM_OPLL_Reg[] = { 0x00, 0x10, 0x20, 0x30, 0x16, 0x26, 0x36 };
@@ -157,7 +157,7 @@ void LVGM_DecodeOPLL()
 }
 #endif
 
-#if (USE_LVGM_MSXAUDIO)
+#if (LVGM_USE_MSXAUDIO)
 //-----------------------------------------------------------------------------
 //
 void LVGM_DecodeOPL1()
@@ -165,7 +165,7 @@ void LVGM_DecodeOPL1()
 }
 #endif
 
-#if (USE_LVGM_SCC)
+#if (LVGM_USE_SCC)
 // SCC lookup table           0     1     2     3     4
 const u8 g_lVGM_SCC_Reg[] = { 0x00, 0x20, 0x40, 0x60, 0x80 };
 
@@ -209,7 +209,7 @@ void  LVGM_DecodeSCC()
 }
 #endif
 
-#if (USE_LVGM_SCCI)
+#if (LVGM_USE_SCCI)
 //-----------------------------------------------------------------------------
 //
 void  LVGM_DecodeSCCI()
@@ -217,7 +217,7 @@ void  LVGM_DecodeSCCI()
 }
 #endif
 
-#if (USE_LVGM_PSG2)
+#if (LVGM_USE_PSG2)
 //-----------------------------------------------------------------------------
 //
 void  LVGM_DecodePSG2()
@@ -225,7 +225,7 @@ void  LVGM_DecodePSG2()
 }
 #endif
 
-#if (USE_LVGM_OPL4)
+#if (LVGM_USE_OPL4)
 //-----------------------------------------------------------------------------
 //
 void  LVGM_DecodeOPL4()
@@ -291,19 +291,19 @@ void LVGM_Pause()
 {
 	g_LVGM_State &= ~LVGM_STATE_PLAY;
 	
-	#if (USE_LVGM_PSG)
+	#if (LVGM_USE_PSG)
 	PSG_Mute();
 	#endif
 
-	#if (USE_LVGM_MSXMUSIC)
+	#if (LVGM_USE_MSXMUSIC)
 	MSXMusic_Mute();
 	#endif
 	
-	#if (USE_LVGM_MSXAUDIO)
+	#if (LVGM_USE_MSXAUDIO)
 	MSXAudio_Mute();
 	#endif
 	
-	#if (USE_LVGM_SCC)
+	#if (LVGM_USE_SCC)
 	SCC_Mute();
 	#endif
 }
@@ -338,49 +338,49 @@ void LVGM_Decode()
 		{
 			switch(*g_LVGM_Pointer)
 			{
-			#if (USE_LVGM_PSG)
+			#if (LVGM_USE_PSG)
 			case LVGM_OP_PSG: // PSG / AY-3-8910
 				g_LVGM_CurChip = LVGM_CHIP_PSG;
 				g_LVGM_Decode = LVGM_DecodePSG;
 				break;
 			#endif
 
-			#if (USE_LVGM_MSXMUSIC)
+			#if (LVGM_USE_MSXMUSIC)
 			case LVGM_OP_OPLL: // MSX-MUSIC / YM2413 / OPLL
 				g_LVGM_CurChip = LVGM_CHIP_OPLL;
 				g_LVGM_Decode = LVGM_DecodeOPLL;
 				break;
 			#endif
 
-			#if (USE_LVGM_MSXAUDIO)
+			#if (LVGM_USE_MSXAUDIO)
 			case LVGM_OP_OPL1: // MSX-AUDIO / Y8950 / OPL1 + ADPCM
 				g_LVGM_CurChip = LVGM_CHIP_OPL1;
 				g_LVGM_Decode = LVGM_DecodeOPL1;
 				break;
 			#endif
 
-			#if (USE_LVGM_SCC)
+			#if (LVGM_USE_SCC)
 			case LVGM_OP_SCC: // SCC / K051649
 				g_LVGM_CurChip = LVGM_CHIP_SCC;
 				g_LVGM_Decode = LVGM_DecodeSCC;
 				break;
 			#endif
 
-			#if (USE_LVGM_SCCI)
+			#if (LVGM_USE_SCCI)
 			case LVGM_OP_SCCI: // SCC+ / K052539
 				g_LVGM_CurChip = LVGM_CHIP_SCCI;
 				g_LVGM_Decode = LVGM_DecodeSCCI;
 				break;
 			#endif
 
-			#if (USE_LVGM_PSG2)
+			#if (LVGM_USE_PSG2)
 			case LVGM_OP_PSG2: // 2nd PSG
 				g_LVGM_CurChip = LVGM_CHIP_PSG2;
 				g_LVGM_Decode = LVGM_DecodePSG2;
 				break;
 			#endif
 
-			#if (USE_LVGM_OPL4)
+			#if (LVGM_USE_OPL4)
 			case LVGM_OP_OPL4: // MOONBLASTER / YMF278
 				g_LVGM_CurChip = LVGM_CHIP_OPL4;
 				g_LVGM_Decode = LVGM_DecodeOPL4;
@@ -388,7 +388,7 @@ void LVGM_Decode()
 			#endif
 
 			case LVGM_OP_NOTIFY:
-			#if (USE_LVGM_NOTIFY)
+			#if (LVGM_USE_NOTIFY)
 				if(g_LVGM_Callback(*++g_LVGM_Pointer))
 					continue;
 			#else
@@ -397,7 +397,7 @@ void LVGM_Decode()
 				break;
 
 			case LVGM_OP_LOOP: // Loop position
-			#if (USE_LVGM_NOTIFY)
+			#if (LVGM_USE_NOTIFY)
 				g_LVGM_Callback(0xFE);
 			#endif
 				g_LVGM_LoopAddr = g_LVGM_Pointer + 1;
@@ -406,7 +406,7 @@ void LVGM_Decode()
 			case LVGM_OP_END: // End of song
 				if(g_LVGM_State & LVGM_STATE_LOOP) // handle loop
 				{
-				#if (USE_LVGM_NOTIFY)
+				#if (LVGM_USE_NOTIFY)
 					g_LVGM_Callback(0xFF);
 				#endif
 					g_LVGM_Pointer = g_LVGM_LoopAddr;
@@ -423,7 +423,7 @@ void LVGM_Decode()
 	}
 }
 
-#if (USE_LVGM_NOTIFY)
+#if (LVGM_USE_NOTIFY)
 // Default dummy callback handler
 bool LVGM_Defaultcallback(u8 id) { id; return TRUE; }
 #endif
