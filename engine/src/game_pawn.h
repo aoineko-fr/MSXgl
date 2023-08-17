@@ -231,8 +231,8 @@ inline void GamePawn_SetTargetPosition(Game_Pawn* pawn, u8 x, u8 y) { GamePawn_S
 //   pawn   - Address of game pawn structure to initialize.
 //   pcb    - Callback function to be called when physics events occurs.
 //   ccb    - Callback function to be called when collision events occurs.
-//   boundX - Bounding box X extend (in pixels from the pawn's origin).
-//   boundY - Bounding box Y extend (in pixels from the pawn's origin).
+//   boundX - Bounding box X extend (in pixels, from the pawn's origin).
+//   boundY - Bounding box Y extend (in pixels, from the pawn's origin).
 void GamePawn_InitializePhysics(Game_Pawn* pawn, Game_PhysicsCB pcb, Game_CollisionCB ccb, u8 boundX, u8 boundY);
 
 // Function: GamePawn_GetPhysicsState

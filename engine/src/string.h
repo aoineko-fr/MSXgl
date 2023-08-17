@@ -24,6 +24,9 @@ typedef u8* va_list;
 //
 // Parameters:
 //   chr - The character to check
+//
+// Return:
+//   FALSE if the given character is not a numeric.
 inline bool Char_IsNum(c8 chr)
 {
 	return (chr >= '0') && (chr <= '9');
@@ -35,6 +38,9 @@ inline bool Char_IsNum(c8 chr)
 //
 // Parameters:
 //   chr - The character to check
+//
+// Return:
+//   FALSE if the given character is not a alphabetic.
 inline bool Char_IsAlpha(c8 chr)
 {
 	return ((chr >= 'A') && (chr <= 'Z')) || ((chr >= 'a') && (chr <= 'z'));
@@ -46,6 +52,9 @@ inline bool Char_IsAlpha(c8 chr)
 //
 // Parameters:
 //   chr - The character to check
+//
+// Return:
+//   FALSE if the given character is not a alphabetic or numeric.
 inline bool Char_IsAlphaNum(c8 chr)
 {
 	return Char_IsNum(chr) || Char_IsAlpha(chr);
@@ -60,6 +69,9 @@ inline bool Char_IsAlphaNum(c8 chr)
 //
 // Parameters:
 //   str - The string to check
+//
+// Return:
+//   String length.
 inline u8 String_Length(const c8* str)
 {
 	u8 ret = 0;
@@ -86,12 +98,20 @@ inline void String_Copy(c8* dst, const c8* src)
 // Function: String_FromUInt8ZT
 // Create a zero-terminated string from a 8-bits unsigned integer
 // String buffer must be at least 4 bytes length (will be padded with '0')
+//
+// Parameters:
+//   value  - Integer value to convert
+//   string - Destination string
 void String_FromUInt8ZT(u8 value, c8* string);
 
 // Function: String_FromUInt8
 // Create a string from a 8-bits unsigned integer (string is not zero-terminated)
 // String buffer must be at least 3 bytes length (will be padded with '0')
 // Original version derived from Galandros work (https://wikiti.brandonw.net/index.php?title=Z80_Routines:Other:DispA)
+//
+// Parameters:
+//   value  - Integer value to convert
+//   string - Destination string
 void String_FromUInt8(u8 value, c8* string);
 #endif
 
@@ -99,12 +119,20 @@ void String_FromUInt8(u8 value, c8* string);
 // Function: String_FromUInt16ZT
 // Create a zero-terminated string from a 16-bits unsigned integer
 // String buffer must be at least 6 bytes length (will be padded with '0')
+//
+// Parameters:
+//   value  - Integer value to convert
+//   string - Destination string
 void String_FromUInt16ZT(u16 value, c8* string);
 
 // Function: String_FromUInt16
 // Create a string from a 16-bits unsigned integer (string is not zero-terminated)
 // String buffer must be at least 5 bytes length (will be padded with '0')
 // Original version by Milos "baze" Bazelides (http://map.grauw.nl/sources/external/z80bits.html#5.1)
+//
+// Parameters:
+//   value  - Integer value to convert
+//   string - Destination string
 void String_FromUInt16(u16 value, c8* string);
 #endif
 
@@ -127,6 +155,6 @@ void String_FromUInt16(u16 value, c8* string);
 // Parameters:
 //   dest - Destination string buffer (must big enough to contain the whole string)
 //   format - Formating string
-//   ... - Variable number of parameter (depends on the Formating string)
+//   ... - Variable number of parameter (must match the Formating string)
 void String_Format(c8* dest, const c8* format, ...);
 #endif

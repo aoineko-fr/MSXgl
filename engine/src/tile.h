@@ -62,7 +62,7 @@
 // DEFINES
 //=============================================================================
 
-// 
+// Precomputed values
 #define TILE_PER_ROW				(TILE_SCREEN_WIDTH / TILE_WIDTH)
 #define TILE_PER_COLUMN				(TILE_SCREEN_HEIGHT / TILE_HEIGHT)
 #define TILE_CELL_BYTES				(TILE_WIDTH * TILE_HEIGHT * TILE_BPP / 8)
