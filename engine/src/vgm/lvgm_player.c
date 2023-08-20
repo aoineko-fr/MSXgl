@@ -162,6 +162,23 @@ void LVGM_DecodeOPLL()
 //
 void LVGM_DecodeOPL1()
 {
+	u8 reg = *g_LVGM_Pointer;
+	u8 val = *++g_LVGM_Pointer;
+
+	MSXAudio_SetRegister(reg, val);
+
+	// u8 op = *g_LVGM_Pointer;
+	// if((op & 0xF0) == 0xD0) // Da bb cc[a] | Copy a+3 bytes (3~18) start from R#bb
+	// {
+	// 	u8 cnt = (op & 0x0F) + 3;
+	// 	u8 reg = *++g_LVGM_Pointer;
+	// 	loop(i, cnt)
+	// 		MSXAudio_SetRegister(reg++, *++g_LVGM_Pointer);
+	// }
+	// else // R#aa = bb
+	// {
+	// 	MSXAudio_SetRegister(op, *++g_LVGM_Pointer);
+	// }
 }
 #endif
 

@@ -39,9 +39,13 @@
 	F5				Start of secondary PSG chunk
 	F7				Start of Moonsound chunk
 
-	FD nn			Special markers
+	FD nn			Special markers (trigger notification by the replayer)
 	   00			End of data segment
-	   ..			Real-time notification (not incuded in data)
+	   ..			
+	   7F
+	............... Replayer ony notification (not incuded in data)
+	   80
+	   ..			
 	   FE			Reach loop marker
 	   FF			Jump to loop marker
 
