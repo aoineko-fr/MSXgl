@@ -6,7 +6,7 @@ set BuildArkos=0
 set BuildTrilo=0
 set BuildWYZ=0
 set BuildayFX=0
-set BuildVGM=0
+set BuildVGM=1
 set BuildlVGM=1
 set BuildPCMEnc=0
 set BuildPCMPlay=0
@@ -123,6 +123,8 @@ if %BuildlVGM%==1 (
 	copy /Y %Dest%\lvgm\lvgm_scc_salamander_02.bin %Dest%\lvgm\salamand.lvm
 	copy /Y %Dest%\lvgm\lvgm_scc_manbow_03.bin     %Dest%\lvgm\manbow.lvm
 	copy /Y %Dest%\lvgm\lvgm_scc_metagear2_10.bin  %Dest%\lvgm\mg2.lvm
+	copy /Y %Dest%\lvgm\lvgm_ma_proyakyu_10.bin    %Dest%\lvgm\proyakyu.lvm
+	copy /Y %Dest%\lvgm\lvgm_ma_xevious_02.bin     %Dest%\lvgm\xevious.lvm
 )
 
 ::-----------------------------------------------------------------------------

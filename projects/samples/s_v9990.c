@@ -26,6 +26,8 @@ struct ScreenMode
 	callback  Init;
 	callback  Tick;
 	u8        BPP;
+	u16       Width;
+	u16       Height;
 };
 
 // Function prototype
@@ -56,33 +58,38 @@ void InitBmp(); void TickBmp();
 #include "content/v9990/data_v9_bg.h"
 
 // Animation characters
-const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
+const u8 g_ChrAnim[4] = { '|', '\\', '-', '/' };
+
+// Black color
+const u8 g_ColorBlack[] = { 0, 0, 0 };
+
+// Animation characters
+const u8 g_BppModes[4] = { BPP_2, BPP_4, BPP_8, BPP_16 };
 
 // Screen mode configuration
 const struct ScreenMode g_ScreenMode[] =
 {
-	{ "P1", V9_MODE_P1, InitP1,  TickP1,  BPP_4 },
-	{ "P2", V9_MODE_P2, InitP2,  TickP2,  BPP_4 },
-	{ "B0", V9_MODE_B0, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16 },
-	{ "B1", V9_MODE_B1, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16 },
-	{ "B2", V9_MODE_B2, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16 },
-	{ "B3", V9_MODE_B3, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16 },
-	{ "B4", V9_MODE_B4, InitBmp, TickBmp, BPP_2|BPP_4 },
-	{ "B5", V9_MODE_B5, InitBmp, TickBmp, BPP_2|BPP_4 },
-	{ "B6", V9_MODE_B6, InitBmp, TickBmp, BPP_2|BPP_4 },
-	{ "B7", V9_MODE_B7, InitBmp, TickBmp, BPP_2|BPP_4 },
+	{ "P1", V9_MODE_P1, InitP1,  TickP1,  BPP_4, 256, 212 },
+	{ "P2", V9_MODE_P2, InitP2,  TickP2,  BPP_4, 512, 212 },
+	{ "B0", V9_MODE_B0, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16, 0, 0 },
+	{ "B1", V9_MODE_B1, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16, 256, 212 },
+	{ "B2", V9_MODE_B2, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16, 384, 240 },
+	{ "B3", V9_MODE_B3, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16, 512, 212 },
+	{ "B4", V9_MODE_B4, InitBmp, TickBmp, BPP_2|BPP_4, 768, 240 },
+	{ "B5", V9_MODE_B5, InitBmp, TickBmp, BPP_2|BPP_4, 640, 400 },
+	{ "B6", V9_MODE_B6, InitBmp, TickBmp, BPP_2|BPP_4, 650, 480 },
+	{ "B6", V9_MODE_B6, InitBmp, TickBmp, BPP_2|BPP_4, 650, 480 },
+	{ "B7", V9_MODE_B7, InitBmp, TickBmp, BPP_2|BPP_4, 0, 0 },
 };
-
-// Black color
-const u8 g_ColorBlack[] = { 0, 0, 0 };
 
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
-u8  g_CurrentMode = 0;
-u8  g_CurrentBPP = BPP_4;
-u16 g_Frame = 0;
+u8   g_CurrentMode = 0;
+u8   g_CurrentBPP = BPP_4;
+u16  g_Frame = 0;
+bool g_Interlaced = false;
 
 //=============================================================================
 // CODE

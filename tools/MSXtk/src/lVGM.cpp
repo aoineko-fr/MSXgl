@@ -396,13 +396,33 @@ void ExportOPLL(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 //
 void ExportOPL1(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
 {
+	assert(chunk->Type == LVGM_CHUNK_REG);
+	assert(chunk->Chip == LVGM_CHIP_OPL1);
+
+	// Check chip section
 	if (g_lVGM_CurChip != LVGM_CHIP_OPL1)
 	{
 		g_lVGM_CurChip = LVGM_CHIP_OPL1;
 		AddByte(exp, 0xF2, "---- Start OPL1 section");
 	}
 
-	AddList(exp, std::vector<u8>{ chunk->Register, (u8)chunk->Value }, "");
+	u8 reg = chunk->Register;
+	u8 val = (u8)chunk->Value;
+
+	// Check for sequence
+	/*bool bUnique;
+	u16 seqLen = CountIncSequence(chunk, bUnique);
+	if ((seqLen >= 3) && (seqLen <= 18))
+	{
+		AddSequence(exp, chunk, seqLen, (u8)(0xD0 + seqLen - 3), "Dx yy zz[x] => R#yy~", true);
+		chunk += seqLen - 1;
+		return;
+	}*/
+
+	AddList(exp, std::vector<u8>{ reg, val }, "R#xx = yy");
+
+	// Yakyu		6931	6926
+	// Xevious		7712	7599
 }
 
 //-----------------------------------------------------------------------------
@@ -600,6 +620,7 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 	std::vector<lVGM_Chunk> chunkList;
 	std::map<u8, u16> psgValFreq;
 
+	// Parse input data
 	while (1)
 	{
 		//-----------------------------------------------------------------------------
@@ -609,19 +630,20 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			u8 val = g_VGM_Pointer[2];
 			g_VGM_Pointer += 2;
 
-			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_PSG, 0, reg, val));
-
 			switch (reg)
 			{
+			case 7:
+				val = (val & 0b00111111) | 0b10000000; // Validate register values
 			case 0:
 			case 2:
 			case 4:
-			case 7:
 			case 11:
 			case 12:
-				psgValFreq[val]++;
+				psgValFreq[val]++; // increment value counter
 				break;
 			}
+
+			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_PSG, 0, reg, val));
 		}
 		//-----------------------------------------------------------------------------
 		else if (*g_VGM_Pointer == VGM_CMD_YM2413) // MSX-MUSIC/YM2413/OPLL, write value dd to register aa
@@ -639,7 +661,13 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			u8 val = g_VGM_Pointer[2];
 			g_VGM_Pointer += 2;
 
-			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL1, 0, reg, val));
+			if ((reg != 0x04) && (reg != 0x18) && (reg != 0x19))
+			{
+				if (reg == 0x08)
+					val &= 0b11000100;
+
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL1, 0, reg, val));
+			}
 		}
 		//-----------------------------------------------------------------------------
 		else if (*g_VGM_Pointer == VGM_CMD_SCC) // SCC/K051649 or SCC+/K052539, port pp, write value dd to register aa
@@ -786,6 +814,7 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 		exp->AddComment("---- Data ----");
 	}
 
+	// Remove dulicate and/or reorder register write
 	if (g_lVGM_Simplify != LVGM_SIMPLIFY_NONE)
 	{
 		Simplify(chunkList);
@@ -819,17 +848,20 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 				break;
 			}
 			break;
+
 		case LVGM_CHUNK_FRAME:
 		{
 			u16 pack = chunk->Value / 16;
 			for (u32 i = 0; i < pack; i++)
-				AddList(exp, std::vector<u8>{ 0xEF }, "-------- Wait: Dn");
-			AddList(exp, std::vector<u8>{ (u8)(0xE0 + ((chunk->Value - 1) & 0x0F)) }, "-------- Wait: Dn");
-		}
+				AddList(exp, std::vector<u8>{ 0xEF }, "-------- Wait: Ex");
+			AddList(exp, std::vector<u8>{ (u8)(0xE0 + ((chunk->Value - 1) & 0x0F)) }, "-------- Wait: Ex");
 			break;
+		}
+
 		case LVGM_CHUNK_LOOP:
 			AddByte(exp, 0xFE, "Loop marker");
 			break;
+
 		case LVGM_CHUNK_END:
 			AddByte(exp, 0xFF, "End marker");
 			break;

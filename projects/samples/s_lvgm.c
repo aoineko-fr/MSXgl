@@ -80,7 +80,9 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Salamander (SCC)",     "salamand.lvm" },
 	{ "Space Manbow (SCC)",   "manbow.lvm" },
 	{ "Metal Gear 2 (SCC)",   "mg2.lvm" },
-};
+ 	{ "Pro Yakyuu (OPL1)",    "proyakyu.lvm" },
+ 	{ "Xevious (OPL1)",       "xevious.lvm" },
+ };
 
 // Player button list
 const struct ButtonEntry g_ButtonEntry[] =
@@ -271,6 +273,8 @@ void ButtonPrev()
 {
 	if (g_CurrentMusic > 0)
 		SetMusic(g_CurrentMusic - 1);
+	else
+		SetMusic(numberof(g_MusicEntry) - 1);
 }
 
 //-----------------------------------------------------------------------------
@@ -279,6 +283,8 @@ void ButtonNext()
 {
 	if (g_CurrentMusic < numberof(g_MusicEntry) - 1)
 		SetMusic(g_CurrentMusic + 1);
+	else
+		SetMusic(0);
 }
 
 //-----------------------------------------------------------------------------

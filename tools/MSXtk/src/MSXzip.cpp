@@ -137,6 +137,9 @@ void PrintHelp()
 // MAIN
 //=============================================================================
 
+//const char* ARGV[] = { "", "../testcases/ma_xevious_01.vgm", "-c", "-lVGM", "--split", "16K" };
+//const char* ARGV[] = { "", "../testcases/ma_proyakyu_10.vgm", "-c", "-lVGM", "--split", "16K" };
+
 //const char* ARGV[] = { "", "../testcases/psg_metalgear_05.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/psg_goemon07.vgm", "-c", "-lVGM" };
 //const char* ARGV[] = { "", "../testcases/psg_honotori_09.vgm", "-c", "-lVGM" };
