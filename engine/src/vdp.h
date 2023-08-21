@@ -1154,12 +1154,17 @@ void VDP_SetSpriteData(u8 index, const u8* data);
 // Function: VDP_DisableSpritesFrom
 // Disable all sprites from a given index. [MSX1/2/2+/TR]
 //
+// This function use VDP magic Y coordinate to disable the given sprite and all the following one.
+// If the given sprite Y coordinate is modified to another value, it will be active again and so, the following sprites too.
+//
 // Parameters:
 //   index - Disable sprite rendering starting from this sprite index
 void VDP_DisableSpritesFrom(u8 index);
 
 // Function: VDP_HideSprite
 // Hide a given sprite (don't disable following sprites). [MSX1/2/2+/TR]
+//
+// This function simply put the given sprite off (bellow) the screen.
 //
 // Parameters:
 //   index - Index of the sprite to hide

@@ -8,38 +8,38 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic478"></a><div class="CTopic TGroup LC first">
+<a name="Functions"></a><a name="Topic247"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="Scroll_Initialize"></a><a name="Topic479"></a><div class="CTopic TFunction LC">
+<a name="Scroll_Initialize"></a><a name="Topic200"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Scroll_Initialize</div>
- <div id="NDPrototype479" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Scroll_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">map</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Initialize scrolling module</p></div>
+ <div id="NDPrototype200" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Scroll_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">map</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize scrolling module.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">map<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address of the tilemap used to render the scrolling background.</p></td></tr></table><div class="CHeading">Return</div><p>First free sprite index (Scroll module reserve several sprites if mask option is activted).</p></div>
 </div>
 
-<a name="Scroll_SetOffsetH"></a><a name="Topic480"></a><div class="CTopic TFunction LC">
+<a name="Scroll_SetOffsetH"></a><a name="Topic215"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Scroll_SetOffsetH</div>
- <div id="NDPrototype480" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Scroll_SetOffsetH(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">i8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set scrolling horizontal offset</p></div>
+ <div id="NDPrototype215" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Scroll_SetOffsetH(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">i8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set scrolling horizontal offset</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">offset<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>Horizontal scrolling offset (in pixels)</p></td></tr></table></div>
 </div>
 
-<a name="Scroll_SetOffsetV"></a><a name="Topic481"></a><div class="CTopic TFunction LC">
+<a name="Scroll_SetOffsetV"></a><a name="Topic216"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Scroll_SetOffsetV</div>
- <div id="NDPrototype481" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Scroll_SetOffsetV(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">i8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set scrolling vertical offset</p></div>
+ <div id="NDPrototype216" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Scroll_SetOffsetV(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">i8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set scrolling vertical offset</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">offset<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>Vertical scrolling offset (in pixels)</p></td></tr></table></div>
 </div>
 
-<a name="Scroll_HBlankAdjust"></a><a name="Topic482"></a><div class="CTopic TFunction LC">
+<a name="Scroll_HBlankAdjust"></a><a name="Topic217"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Scroll_HBlankAdjust</div>
- <div id="NDPrototype482" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Scroll_HBlankAdjust(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">adjust</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Adjust screen offset</p></div>
+ <div id="NDPrototype217" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Scroll_HBlankAdjust(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">adjust</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Adjust screen offset. Function to be called in the H-Blank handler</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">adjust<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Ajust step 0: Frame start 1: Scrolling adjust 2: No more adjust</p></td></tr></table></div>
 </div>
 
-<a name="Scroll_Update"></a><a name="Topic483"></a><div class="CTopic TFunction LC last">
+<a name="Scroll_Update"></a><a name="Topic219"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">Scroll_Update</div>
- <div id="NDPrototype483" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Scroll_Update()</div></div>
- <div class="CBody"><p>Update scrolling</p></div>
+ <div id="NDPrototype219" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Scroll_Update()</div></div>
+ <div class="CBody"><p>Update scrolling module</p></div>
 </div>
 
 </body></html>

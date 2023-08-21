@@ -561,13 +561,13 @@
 <a name="VDP_DisableSpritesFrom"></a><a name="Topic182"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_DisableSpritesFrom</div>
  <div id="NDPrototype182" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_DisableSpritesFrom(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Disable all sprites from a given index. [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Disable sprite rendering starting from this sprite index</p></td></tr></table></div>
+ <div class="CBody"><p>Disable all sprites from a given index. [MSX1/2/2+/TR]</p><p>This function use VDP magic Y coordinate to disable the given sprite and all the following one.&nbsp; If the given sprite Y coordinate is modified to another value, it will be active again and so, the following sprites too.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Disable sprite rendering starting from this sprite index</p></td></tr></table></div>
 </div>
 
 <a name="VDP_HideSprite"></a><a name="Topic183"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_HideSprite</div>
  <div id="NDPrototype183" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_HideSprite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">index</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Hide a given sprite (don't disable following sprites). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Index of the sprite to hide</p></td></tr></table></div>
+ <div class="CBody"><p>Hide a given sprite (don't disable following sprites). [MSX1/2/2+/TR]</p><p>This function simply put the given sprite off (bellow) the screen.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Index of the sprite to hide</p></td></tr></table></div>
 </div>
 
 <a name="GM2"></a><a name="Topic184"></a><div class="CTopic TGroup LC">
