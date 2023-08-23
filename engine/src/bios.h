@@ -328,11 +328,15 @@ inline void Bios_PlayPSG() { Call(R_STRTMS); }
 
 // Function: Bios_GetCharacter
 // One character input (waiting). Wrapper for CHGET routine.
-inline u8 Bios_GetCharacter() { return ((u8(*)(void))R_CHGET)(); }
+inline c8 Bios_GetCharacter() { return ((u8(*)(void))R_CHGET)(); }
 
 // Function: Bios_TextPrintChar
 // Displays one character. Wrapper for CHPUT routine.
-inline void Bios_TextPrintChar(u8 chr) { ((void(*)(u8))R_CHPUT)(chr); }
+inline void Bios_TextPrintChar(c8 chr) { ((void(*)(u8))R_CHPUT)(chr); }
+
+// Function: Bios_TextPrintSting
+// Displays a null-terminated string.
+inline void Bios_TextPrintSting(const c8* str) { while(*str) Bios_TextPrintChar(*str++); }
 
 // Function: Bios_Beep
 // Generates beep. Wrapper for BEEP routine.

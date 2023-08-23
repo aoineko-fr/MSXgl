@@ -10,6 +10,7 @@
 // INCLUDES
 //=============================================================================
 #include "msxgl.h"
+#include "bios.h"
 
 //=============================================================================
 // DEFINES
@@ -181,6 +182,15 @@ void WaitVBlank()
 // Program entry point
 void main()
 {
+	Bios_SetKeyClick(FALSE);
+	if(g_MSXVER == 0)
+	{
+		Bios_ClearScreen();
+		Bios_TextPrintSting("This sample need MSX2 or above");
+		Bios_GetCharacter();
+		return;
+	}
+
 	// Setup screen
 	VDP_SetMode(VDP_MODE_SCREEN5);
 	VDP_SetColor(COLOR_DARK_BLUE);
