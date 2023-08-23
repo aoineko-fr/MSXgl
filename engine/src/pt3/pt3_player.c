@@ -392,7 +392,12 @@ __endasm;
 void PT3_Decode() __naked
 {
 __asm   
- 
+	di
+	call	decode_start
+	ei
+	ret
+
+ decode_start:
 	ld		HL, #_PT3_State							// Check bit #1 of PT3_State to know if music is playing
 	bit		0, (HL)
 	ret		Z
