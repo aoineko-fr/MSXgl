@@ -25,15 +25,16 @@ struct ScreenMode
 	u8        Mode;
 	callback  Init;
 	callback  Tick;
+	callback  Hblank;
 	u8        BPP;
 	u16       Width;
 	u16       Height;
 };
 
 // Function prototype
-void InitP1();  void TickP1();
-void InitP2();  void TickP2();
-void InitBmp(); void TickBmp();
+void InitP1();  void TickP1();  void HblankP1();
+void InitP2();  void TickP2();  void HblankP2();
+void InitBmp(); void TickBmp(); void HblankBmp();
 
 // Bits per pixel
 #define BPP_2						0x02
@@ -69,17 +70,16 @@ const u8 g_BppModes[4] = { BPP_2, BPP_4, BPP_8, BPP_16 };
 // Screen mode configuration
 const struct ScreenMode g_ScreenMode[] =
 {
-	{ "P1", V9_MODE_P1, InitP1,  TickP1,  BPP_4, 256, 212 },
-	{ "P2", V9_MODE_P2, InitP2,  TickP2,  BPP_4, 512, 212 },
-	{ "B0", V9_MODE_B0, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16, 0, 0 },
-	{ "B1", V9_MODE_B1, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16, 256, 212 },
-	{ "B2", V9_MODE_B2, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16, 384, 240 },
-	{ "B3", V9_MODE_B3, InitBmp, TickBmp, BPP_2|BPP_4|BPP_8|BPP_16, 512, 212 },
-	{ "B4", V9_MODE_B4, InitBmp, TickBmp, BPP_2|BPP_4, 768, 240 },
-	{ "B5", V9_MODE_B5, InitBmp, TickBmp, BPP_2|BPP_4, 640, 400 },
-	{ "B6", V9_MODE_B6, InitBmp, TickBmp, BPP_2|BPP_4, 650, 480 },
-	{ "B6", V9_MODE_B6, InitBmp, TickBmp, BPP_2|BPP_4, 650, 480 },
-	{ "B7", V9_MODE_B7, InitBmp, TickBmp, BPP_2|BPP_4, 0, 0 },
+	{ "P1", V9_MODE_P1, InitP1,  TickP1,  HblankP1,  BPP_4, 256, 212 },
+	{ "P2", V9_MODE_P2, InitP2,  TickP2,  HblankP2,  BPP_4, 512, 212 },
+	{ "B0", V9_MODE_B0, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4|BPP_8|BPP_16, 192, 240 },
+	{ "B1", V9_MODE_B1, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4|BPP_8|BPP_16, 256, 212 },
+	{ "B2", V9_MODE_B2, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4|BPP_8|BPP_16, 384, 240 },
+	{ "B3", V9_MODE_B3, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4|BPP_8|BPP_16, 512, 212 },
+	{ "B4", V9_MODE_B4, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 768, 240 },
+	{ "B5", V9_MODE_B5, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 640, 400 },
+	{ "B6", V9_MODE_B6, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 650, 480 },
+	{ "B7", V9_MODE_B7, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 1024, 212 },
 };
 
 //=============================================================================
@@ -90,10 +90,44 @@ u8   g_CurrentMode = 0;
 u8   g_CurrentBPP = BPP_4;
 u16  g_Frame = 0;
 bool g_Interlaced = false;
+u16  g_TextX;
+u16  g_TextY;
 
 //=============================================================================
 // CODE
 //=============================================================================
+
+void InitPalette()
+{
+	switch (g_ScreenMode[g_CurrentMode].Mode)
+	{
+	case V9_MODE_P1:
+	case V9_MODE_P2:
+	case V9_MODE_B0:
+	case V9_MODE_B1:
+	case V9_MODE_B2:
+	case V9_MODE_B3:
+		V9_SetPaletteEntry(0, g_ColorBlack);
+		V9_SetPalette(1,  15, g_DataV9BG_palette);
+		V9_SetPaletteEntry(16, g_ColorBlack);
+		V9_SetPalette(17, 15, g_DataV9Chr_palette);
+		V9_SetPaletteEntry(32, g_ColorBlack);
+		V9_SetPalette(33, 15, g_DataV9Font_palette);
+		break;
+	case V9_MODE_B4:
+	case V9_MODE_B5:
+	case V9_MODE_B6:
+	case V9_MODE_B7:
+		loop(i, 2)
+		{
+			V9_SetPaletteEntry(0 + i * 32, g_ColorBlack);
+			V9_SetPalette(1 + i * 32,  15, g_DataV9BG_palette);
+			V9_SetPaletteEntry(16 + i * 32, g_ColorBlack);
+			V9_SetPalette(17 + i * 32, 15, g_DataV9Chr_palette);
+		}
+		break;
+	}
+}
 
 //-----------------------------------------------------------------------------
 // P1
@@ -116,9 +150,10 @@ void InitP1()
 	V9_SetBackgroundColor(6);
 	V9_SetDisplayEnable(FALSE);
 	V9_SetSpriteEnable(TRUE);
-
 	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
 	V9_SetInterruptLine(71);
+
+	InitPalette();
 
 	// Pattern generator table
 	V9_WriteVRAM(V9_P1_PGT_A, g_DataV9BG, sizeof(g_DataV9BG));
@@ -132,7 +167,7 @@ void InitP1()
 	{
 		u8 x = i * 8;
 		u8 y = Math_GetRandom8() % 8 + 10;
-		for(u8 j = y; j < 20; j++)
+		for(u8 j = y; j < P1_GROUND_Y; j++)
 		{
 			u8 cell;
 			if(j == y)
@@ -151,10 +186,10 @@ void InitP1()
 	}
 	for(u16 i = 0; i < 64; ++i) // Draw ground
 	{
-		for(u8 j = 20; j < 27; j++)
+		for(u8 j = P1_GROUND_Y; j < 27; j++)
 		{
 			u8 cell;
-			if(j == 20)
+			if(j == P1_GROUND_Y)
 				cell = 33;
 			else
 				cell = (j & 1) ? 65 : 97;
@@ -215,7 +250,7 @@ void InitP1()
 //
 void TickP1()
 {
-	V9_SetLayerPalette(2, 0);
+	V9_SelectPaletteP1(2, 0);
 	V9_SetScrollingX(0);
 	V9_SetScrollingBX(g_Frame >> 1);
 
@@ -224,6 +259,14 @@ void TickP1()
 		V9_SetSpritePatternP1(i, frame);
 
 	g_Frame++;
+}
+
+//
+void HblankP1()
+{
+	V9_SelectPaletteP1(0, 0);
+	V9_SetScrollingX(g_Frame >> 0);
+	V9_SetScrollingBX(g_Frame >> 2);
 }
 
 //-----------------------------------------------------------------------------
@@ -249,9 +292,10 @@ void InitP2()
 	V9_SetBackgroundColor(6);
 	V9_SetDisplayEnable(FALSE);
 	V9_SetSpriteEnable(TRUE);
-
 	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
 	V9_SetInterruptLine(6);
+
+	InitPalette();
 
 	// Pattern generator table
 	V9_WriteVRAM_256to512(V9_P2_PGT + 0x00000, g_DataV9BG, 48);
@@ -300,7 +344,7 @@ void InitP2()
 	{
 		u8 x = i * 16;
 		u8 y = Math_GetRandom8() % 8 + 10;
-		for(u8 j = y; j < 20; j++)
+		for(u8 j = y; j < P1_GROUND_Y; j++)
 		{
 			u8 cell;
 			if(j == y)
@@ -323,10 +367,10 @@ void InitP2()
 	}
 	for(u16 i = 0; i < 128; ++i) // Draw ground
 	{
-		for(u8 j = 20; j < 27; j++)
+		for(u8 j = P1_GROUND_Y; j < 27; j++)
 		{
 			u8 cell;
-			if(j == 20)
+			if(j == P1_GROUND_Y)
 				cell = 33;
 			else
 				cell = (j & 1) ? 65 : 97;
@@ -357,7 +401,7 @@ void InitP2()
 //
 void TickP2()
 {
-	V9_SetLayerPalette(2, 2);
+	V9_SelectPaletteP2(2);
 	V9_SetScrollingX(0);
 
 	u8 frame = (g_Frame >> 2) % 6;
@@ -367,9 +411,55 @@ void TickP2()
 	g_Frame++;
 }
 
+//
+void HblankP2()
+{
+	V9_SelectPaletteP2(0);
+	V9_SetScrollingX(g_Frame >> 0);
+	V9_SetScrollingBX(g_Frame >> 2);
+}
+
 //-----------------------------------------------------------------------------
 // Bitmap
 //-----------------------------------------------------------------------------
+
+//
+void V9_SetPrintPositionBmp(u16 x, u16 y)
+{
+	g_TextX = x;
+	g_TextY = y;
+}
+
+//
+void V9_PrintBmpChar(c8 chr)
+{
+	u8 idx = chr - ' ';
+
+	V9_WaitCmdEnd();
+	V9_CommandLMMM(idx % 32 * 8, 512 + 48 + (idx / 32) * 8, g_TextX, g_TextY, 8, 8, 0);
+	g_TextX += 8;
+}
+
+//
+void V9_PrintBmpString(const c8* str)
+{
+	while(*str)
+		V9_PrintBmpChar(*str++);
+}
+
+// 
+void V9_PrintBmpStringAt(u16 x, u16 y, const c8* str)
+{
+	V9_SetPrintPositionBmp(x, y);
+	V9_PrintBmpString(str);
+}
+
+//
+void V9_DrawTileBmp(u8 x, u8 y, u8 tile)
+{
+	V9_WaitCmdEnd();
+	V9_CommandLMMM((tile % 32) * 8, 512 + (tile / 32) * 8, x * 8, y * 8, 8, 8, 0);
+}
 
 //
 void InitBmp()
@@ -380,12 +470,12 @@ void InitBmp()
 	V9_SetDisplayEnable(FALSE);
 	V9_SetBPP(V9_R06_BPP_4);
 	V9_SetImageSpaceWidth(V9_R06_WIDH_1024);
+	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
+	V9_SetInterruptLine(8);
 
-	V9_SetInterrupt(V9_INT_VBLANK);
-	// V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
-	// V9_SetInterruptLine(8);
+	InitPalette();
 
-	V9_SetLayerPalette(0, 0);
+	V9_SelectPaletteBP4(0);
 	V9_SetScrollingX(0);
 
 	for(u8 i = 0; i < 48; ++i)
@@ -397,20 +487,53 @@ void InitBmp()
 	for(u8 i = 0; i < 16; ++i)
 		V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(512 + 72 + i))), g_DataV9Chr + (128 * i), 128);
 
-	V9_SetCommandLogicalOp(V9_R45_LOP_SET);
+	V9_SetCommandLogicalOp(V9_R45_LOP_SET);//| V9_R45_TP);
 	V9_SetCommandWriteMask(0xFFFF);
 	V9_WaitCmdEnd();
 	V9_CommandLMMV(0, 0, 1024, 256, 0, 0x6666);
-	for(u8 i = 0; i < 64; ++i)
+
+	for(u16 i = 0; i < 128; ++i) // Draw ground
 	{
-		V9_WaitCmdEnd();
-		V9_CommandLMMM(8, 512 + 8, 16 * i, 160, 16, 24, 0);
-		for(u8 j = 0; j < 4; ++j)
+		for(u16 j = P1_HORIZON_Y; j < 32; j++)
 		{
-			V9_WaitCmdEnd();
-			V9_CommandLMMM(8, 512 + 16, 16 * i, 160+24+16*j, 16, 16, 0);
+			u8 cell;
+			if(j == P1_HORIZON_Y)
+				cell = 128 + i % 4;
+			else if(j < P1_GROUND_Y)
+				cell = 160;
+			else if(j == P1_GROUND_Y)
+				cell = 33 + i % 2;
+			else
+			{
+				cell = (j & 1) ? 65 : 97;
+				cell += i % 2;
+			}
+			V9_DrawTileBmp(i, j, cell);
 		}
 	}
+
+	for(u8 i = 0; i < 16; ++i) // Draw plateform
+	{
+		u16 x = i * 8;
+		u8 y = Math_GetRandom8() % 8 + 10;
+		for(u8 j = y; j < P1_GROUND_Y; j++)
+		{
+			u8 cell;
+			if(j == y)
+				cell = 32;
+			else if(((j - y) & 1))
+				cell = 64;
+			else
+				cell = 96;
+			V9_DrawTileBmp(x,     j, cell++);
+			V9_DrawTileBmp(x + 1, j, cell++);
+			V9_DrawTileBmp(x + 2, j, cell++);
+			V9_DrawTileBmp(x + 3, j, cell++);
+		}
+	}
+
+	V9_PrintBmpStringAt(4, 1, "MSXgl V9990 Sample - ");
+	V9_PrintBmpString(g_ScreenMode[g_CurrentMode].Name);
 
 	// Cursor
 	V9_SetCursorEnable(0, FALSE);
@@ -422,18 +545,30 @@ void InitBmp()
 //
 void TickBmp()
 {
-	// V9_SetLayerPalette(2, 2);
-	V9_SetScrollingX(g_Frame >> 0);
+	V9_SelectPaletteBP4(2);
+	V9_SetScrollingX(0);
 
 	if(Keyboard_IsKeyPressed(KEY_H))
 	{
+		V9_SelectPaletteBP4(0);
 		V9_SetScrollingX(0);
 		V9_SetScrollingY(512);
+		V9_SetInterrupt(V9_INT_VBLANK);
 	}
 	else
+	{
 		V9_SetScrollingY(0);
+		V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
+	}
 
 	g_Frame++;
+}
+
+//
+void HblankBmp()
+{
+	V9_SelectPaletteBP4(0);
+	V9_SetScrollingX(g_Frame >> 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -521,9 +656,7 @@ void V9_InterruptVBlank()
 //
 void V9_InterruptHBlank()
 {
-	V9_SetLayerPalette(0, 0);
-	V9_SetScrollingX(g_Frame >> 0);
-	V9_SetScrollingBX(g_Frame >> 2);
+	g_ScreenMode[g_CurrentMode].Hblank();
 }
 
 //-----------------------------------------------------------------------------
@@ -547,15 +680,6 @@ void main()
 	VDP_ClearVRAM();
 
 	DisplayMSX();
-
-	V9_SetPaletteEntry(0, g_ColorBlack);
-	V9_SetPalette(1,  15, g_DataV9BG_palette);
-
-	V9_SetPaletteEntry(16, g_ColorBlack);
-	V9_SetPalette(17, 15, g_DataV9Chr_palette);
-
-	V9_SetPaletteEntry(32, g_ColorBlack);
-	V9_SetPalette(33, 15, g_DataV9Font_palette);
 
 	#if (CUSTOM_ISR == 0)
 		Bios_SetHookDirectCallback(H_KEYI, InterruptHook);

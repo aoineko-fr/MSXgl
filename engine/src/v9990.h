@@ -699,9 +699,34 @@ inline void V9_SetPaletteAll(const u8* table) { V9_SetPalette(0, 64, table); }
 
 #endif
 
-// Function: V9_SetLayerPalette
-// Set the P1 and P2 layers palette offset
-inline void V9_SetLayerPalette(u8 a, u8 b) { V9_SetRegister(13, ((b & 0x3) << 2) + (a & 0x3)); }
+// Function: V9_SelectPaletteP1
+// Set the P1 mode palette offset
+//
+// Parameters:
+//   a - Layer A palette index (2 bits) 
+//   b - Layer B palette index (2 bits)
+inline void V9_SelectPaletteP1(u8 a, u8 b) { V9_SetRegister(13, ((b & 0x3) << 2) + (a & 0x3)); }
+
+// Function: V9_SelectPaletteP2
+// Set the P2 mode palette offset
+//
+// Parameters:
+//   a - Palette index (2 bits) 
+inline void V9_SelectPaletteP2(u8 a) { V9_SetRegister(13, ((a & 0x3) << 2) + (a & 0x3)); }
+
+// Function: V9_SelectPaletteBP2
+// Set the BP2 mode palette offset (R#13 PLTO5-2)
+//
+// Parameters:
+//   a - Palette index (4 bits) 
+inline void V9_SelectPaletteBP2(u8 a) { V9_SetRegister(13, a & 0x7); }
+
+// Function: V9_SelectPaletteBP4
+// Set the BP4 mode palette offset (R#13 PLTO5-4)
+//
+// Parameters:
+//   a - Palette index (2 bits) 
+inline void V9_SelectPaletteBP4(u8 a) { V9_SetRegister(13, (a & 0x3) << 2); }
 
 //-----------------------------------------------------------------------------
 // Group: Command helper

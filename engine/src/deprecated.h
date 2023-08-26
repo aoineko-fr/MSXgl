@@ -97,3 +97,6 @@
 
 // System module
 #define Sys_GetHeardAddr            Sys_GetHeaderAddr
+
+// V9990
+#define V9_SetLayerPalette          V9_SelectPaletteP1
