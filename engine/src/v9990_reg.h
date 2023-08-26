@@ -839,13 +839,13 @@ struct V9_SuperimposeControl
 #define V9_REG_LOP					45
 
 #define V9_R45_LOP_MASK				0b00001111
-#define V9_R45_TP					0b00010000
-
 #define V9_R45_LOP_SET				0b00001100
 #define V9_R45_LOP_NOT				0b00000011
 #define V9_R45_LOP_AND				0b00001000
 #define V9_R45_LOP_OR				0b00001110
 #define V9_R45_LOP_XOR				0b00000110
+
+#define V9_R45_TP					0b00010000
 
 //=============================================================================
 // COMMAND WRITE MASK
