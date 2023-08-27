@@ -521,11 +521,11 @@ int main(int argc, const char* argv[])
 		{
 			param.bBLOAD = true;
 		}
-		else if ((MSX::StrEqual(argv[i], "--tilesComp")) || (MSX::StrEqual(argv[i], "--gm2compnames"))) // GM2 names compression
+		else if ((MSX::StrEqual(argv[i], "--tilesComp")) || (MSX::StrEqual(argv[i], "--gm2compnames"))) // GM1/2 names compression
 		{
 			param.bTilesCompressNames = true;
 		}
-		else if ((MSX::StrEqual(argv[i], "--tilesUnique")) || (MSX::StrEqual(argv[i], "--gm2unique"))) // GM2 names compression
+		else if ((MSX::StrEqual(argv[i], "--tilesUnique")) || (MSX::StrEqual(argv[i], "--gm2unique"))) // GM1/2 full export
 		{
 			param.bTilesUnique = true;
 			param.bTilesName = false;
