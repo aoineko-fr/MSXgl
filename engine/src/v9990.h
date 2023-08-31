@@ -565,13 +565,22 @@ inline void V9_SetScrollingB(u16 x, u16 y) { V9_SetScrollingBX(x);  V9_SetScroll
 //-----------------------------------------------------------------------------
 
 // Function: V9_SetCursorAttribute
+// Set the given cursor atribute (for bitmap modes)
 //
+// Parameters:
+//   id - Cursor index (0 or 1)
+//   x - Cursor X coordinate (from 0 to 1023 regardless of the screen mode)
+//   y - Cursor Y coordinate (from 0 to 511 regardless of the screen mode)
+//   color - Cursor color (2 bits)
 inline void V9_SetCursorAttribute(u8 id, u16 x, u16 y, u8 color)
 {
-	V9_Poke(0x7FE00 + id * 8, y & 0xFF);
-	V9_Poke(0x7FE02 + id * 8, y >> 8);
-	V9_Poke(0x7FE04 + id * 8, x & 0xFF);
-	V9_Poke(0x7FE06 + id * 8, ((x >> 8) & 0x3) + (color << 6));
+	u32 addr = 0x7FE00;
+	if(id)
+		addr += 8;
+	V9_Poke(addr += 2, y & 0xFF);
+	V9_Poke(addr += 2, y >> 8);
+	V9_Poke(addr += 2, x & 0xFF);
+	V9_Poke(addr, ((x >> 8) & 0x3) + ((color & 0x3) << 6));
 }
 
 #define V9_CURSOR_DISABLE			0b00010000
