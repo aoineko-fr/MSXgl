@@ -643,14 +643,14 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 // Enable/disable screen display (register 1). [MSX1/2/2+/TR]
 //
 // Parameters:
-//   enable - True to enable, FALSE do disable
+//   enable - TRUE to enable, FALSE to disable
 inline void VDP_EnableDisplay(bool enable) { VDP_RegWriteBakMask(1, (u8)~R01_BL, enable ? R01_BL : 0); }
 
 // Function: VDP_EnableVBlank
 // Enable/disable vertical interruption (register 1). [MSX1/2/2+/TR]
 //
 // Parameters:
-//   enable - True to enable, FALSE do disable
+//   enable - TRUE to enable, FALSE to disable
 inline void VDP_EnableVBlank(bool enable) { VDP_RegWriteBakMask(1, (u8)~R01_IE0, enable ? R01_IE0 : 0); }
 
 // Function: VDP_SetColor
@@ -668,7 +668,7 @@ inline void VDP_SetColor(u8 color) { VDP_RegWrite(7, color); }
 // Enable/disable sprite rendering (register 8). [MSX2/2+/TR]
 //
 // Parameters:
-//   enable - True to enable, FALSE do disable
+//   enable - TRUE to enable, FALSE to disable
 inline void VDP_EnableSprite(u8 enable) { VDP_RegWriteBakMask(8, (u8)~R08_SPD, !enable ? R08_SPD : 0); }
 
 // Function: VDP_DisableSprite
@@ -679,7 +679,7 @@ inline void VDP_DisableSprite() { VDP_EnableSprite(FALSE); }
 // Enable/disable horizontal interruption (register 0). [MSX2/2+/TR]
 //
 // Parameters:
-//   enable - True to enable, FALSE do disable
+//   enable - TRUE to enable, FALSE to disable
 inline void VDP_EnableHBlank(bool enable) { VDP_RegWriteBakMask(0, (u8)~R00_IE1, enable ? R00_IE1 : 0); }
 
 // Function: VDP_SetHBlankLine
@@ -712,10 +712,10 @@ void VDP_SetAdjustOffset(u8 offset);
 inline void VDP_SetAdjustOffsetXY(i8 x, i8 y) { VDP_SetAdjustOffset(((-x) & 0x0F) | (((-y) & 0x0F) << 4)); }
 
 // Function: VDP_SetGrayScale
+// Enable/disable grayscale (register 8). [MSX2/2+/TR]
 //
 // Parameters:
-//   enable - True to enable, FALSE do disable
-// Enable/disable grayscale (register 8). [MSX2/2+/TR]
+//   enable - TRUE to enable, FALSE to disable
 inline void VDP_SetGrayScale(bool enable) { VDP_RegWriteBakMask(8, (u8)~R08_BW, enable ? R08_BW : 0); }
 
 // Enum: VDP_FREQ
@@ -757,7 +757,7 @@ inline void VDP_SetLineCount(u8 lines) { VDP_RegWriteBakMask(9, (u8)~R09_LN, lin
 // Enable automatic page switch on even/odd frames. [MSX2/2+/TR]
 //
 // Parameters:
-//   enable - True to enable, FALSE do disable
+//   enable - TRUE to enable, FALSE to disable
 inline void VDP_SetPageAlternance(bool enable) { VDP_RegWriteBakMask(9, (u8)~R09_EO, enable ? R09_EO : 0); }
 
 // Function: VDP_SetInterlace
@@ -765,7 +765,7 @@ inline void VDP_SetPageAlternance(bool enable) { VDP_RegWriteBakMask(9, (u8)~R09
 // Needs <VDP_SetPageAlternance> to be set to TRUE and <VDP_SetPage> to a odd value.
 //
 // Parameters:
-//   enable - True to enable, FALSE do disable
+//   enable - TRUE to enable, FALSE to disable
 inline void VDP_SetInterlace(bool enable) { VDP_RegWriteBakMask(9, (u8)~R09_IL, enable ? R09_IL : 0); }
 
 // Enum: VDP_FRAME
@@ -838,14 +838,14 @@ inline void VDP_SetYJK(u8 mode) { VDP_RegWriteBakMask(25, (u8)~VDP_YJK_YAE, mode
 // Enables the VDP commands for screens 0 to 4 (register 25). [MSX2+/TR]
 //
 // Parameters:
-//   enable - True to enable, FALSE do disable
+//   enable - TRUE to enable, FALSE to disable
 inline void VDP_ExpendCommand(u8 enable) { VDP_RegWriteBakMask(25, (u8)~R25_CMD, enable ? R25_CMD : 0); }
 
 // Function: VDP_EnableMask
 // Allows to hide the first 8 vertical lines at left of screen (register 25). [MSX2+/TR]
 //
 // Parameters:
-//   enable - True to enable, FALSE do disable
+//   enable - TRUE to enable, FALSE to disable
 inline void VDP_EnableMask(u8 enable) { VDP_RegWriteBakMask(25, (u8)~R25_MAK, enable ? R25_MAK : 0); }
 
 // Function: VDP_SetHorizontalOffset
@@ -1001,7 +1001,7 @@ void VDP_SetPage(u8 page);
 // Set sprite rendering parameters. [MSX1/2/2+/TR]
 //
 // Parameters:
-//   flag - Srptie flag to be set. Can be a combinations of:
+//   flag - Sprite flag to be set. Can be a combination of:
 //          VDP_SPRITE_SIZE_8 (Use 8x8 sprite size)
 //          VDP_SPRITE_SIZE_16 (Use 16x16 sprite size)
 //          VDP_SPRITE_SCALE_1 (Normal size of the sprite; 1 dot = 1 px)
