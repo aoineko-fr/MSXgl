@@ -553,3 +553,41 @@ void V9_SetPaletteEntry(u8 index, const u8* color) __PRESERVES(h, l, iyl, iyh)
 }
 
 #endif
+
+//-----------------------------------------------------------------------------
+// Set the given cursor atribute (for bitmap modes).
+//
+// Parameters:
+//   id - Cursor index (0 or 1).
+//   x - Cursor X coordinate (from 0 to 1023 regardless of the screen mode).
+//   y - Cursor Y coordinate (from 0 to 511 regardless of the screen mode).
+//   color - Cursor color (2 bits).
+void V9_SetCursorAttribute(u8 id, u16 x, u16 y, u8 color)
+{
+	u32 addr = 0x7FE00;
+	if(id)
+		addr += 8;
+	V9_Poke(addr += 2, y & 0xFF);
+	V9_Poke(addr += 2, y >> 8);
+	V9_Poke(addr += 2, x & 0xFF);
+	V9_Poke(addr, ((x >> 8) & 0x3) + ((color & 0x3) << 6));
+}
+
+//-----------------------------------------------------------------------------
+// Enable/disable the given cursor
+//
+// Parameters:
+//   id - Cursor index (0 or 1).
+//   enable - TRUE to enable or FALSE to disable.
+void V9_SetCursorEnable(u8 id, bool enable)
+{
+	u32 addr = 0x7FE06;
+	if(id)
+		addr += 8;
+	u8 val = V9_Peek(addr);
+	if(enable)
+		val |= V9_CURSOR_DISABLE;
+	else
+		val &= ~V9_CURSOR_DISABLE;
+	V9_Poke(addr, val);
+}
