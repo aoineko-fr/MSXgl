@@ -1021,8 +1021,8 @@ inline void VDP_SetSpriteTables(VADDR patAddr, VADDR attAddr) { VDP_SetSpritePat
 //
 // Parameters:
 //   addr  - Source address for sprite patterns
-//   index - Index of the first VRAM sprite pattern to copy to.
-//   count - Number of patterns to copy (1 per sprite shape in 8x8 mode, and 4 in 16x16 mode.
+//   index - Index of the first VRAM sprite pattern to copy to (multiply by 4 in 16x16 mode).
+//   count - Number of patterns to copy (1 per sprite shape in 8x8 mode, and 4 in 16x16 mode).
 void VDP_LoadSpritePattern(const u8* addr, u8 index, u8 count);
 
 #define VDP_SPRITE_EC			0x80		// Early clock ; used to offset sprite by 32 dots to the left
