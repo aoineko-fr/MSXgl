@@ -247,8 +247,12 @@ void DisplayPageMain()
 	Print_DrawText("Read>W");
 	for(u16 i = 0; i < 16; ++i)
 	{
-		VDP_ReadVRAM((SY + i) * lineBytes + (SX / scale), 0, buffer + (blockBytes * i), blockBytes);
-		VDP_WriteVRAM(buffer + (blockBytes * i), (Y + 8 + i) * lineBytes + (X / scale), 0, blockBytes);
+		VDP_ReadVRAM((SY + i) * lineBytes + (SX / scale), 0, buffer + (blockBytes * i), blockBytes); // Read from page 0
+		VDP_WriteVRAM(buffer + (blockBytes * i), (Y + 8 + i) * lineBytes + (X / scale), 0, blockBytes); // Write to page 0
+		// Page 1 write 
+		VDP_WriteVRAM(buffer + (blockBytes * i), (Y + 8 + i) * lineBytes + (X / scale), 1, blockBytes); // Write to page 1
+		VDP_ReadVRAM((Y + 8 + i) * lineBytes + (X / scale), 1, buffer + (blockBytes * i), blockBytes); // Read from page 1
+		VDP_WriteVRAM(buffer + (blockBytes * i), (Y + 8 + i) * lineBytes + (X / scale) + 32, 1, blockBytes); // Write to page 1
 	}
 
 	// LMMC(addr, dx, dy, nx, ny, op) - Logical move CPU to VRAM
@@ -464,27 +468,27 @@ void main()
 		Print_SetPosition(src->Width - 8, 2);
 		Print_DrawChar(chrAnim[g_Frame & 0x03]);
 
-		u8 row = Keyboard_Read(KEY_ROW(KEY_DOWN));
-		if((row & KEY_FLAG(KEY_SPACE)) == 0)
+		u8 row8 = Keyboard_Read(KEY_ROW(KEY_DOWN));
+		if((row8 & KEY_FLAG(KEY_SPACE)) == 0)
 		{
 			// Move cursor
 			bEditing = TRUE;
-			if((row & KEY_FLAG(KEY_UP)) == 0)
+			if((row8 & KEY_FLAG(KEY_UP)) == 0)
 			{
 				if(SY > 0)
 					--SY;
 			}
-			if((row & KEY_FLAG(KEY_DOWN)) == 0)
+			if((row8 & KEY_FLAG(KEY_DOWN)) == 0)
 			{
 				if(SY < 212)
 					++SY;
 			}
-			if((row & KEY_FLAG(KEY_LEFT)) == 0)
+			if((row8 & KEY_FLAG(KEY_LEFT)) == 0)
 			{
 				if(SX > 0)
 					--SX;
 			}
-			if((row & KEY_FLAG(KEY_RIGHT)) == 0)
+			if((row8 & KEY_FLAG(KEY_RIGHT)) == 0)
 			{
 				++SX;
 				if(SX >= src->Width)
@@ -494,7 +498,7 @@ void main()
 		else
 		{
 			// Change screen mode
-			if((row & KEY_FLAG(KEY_UP)) == 0)
+			if((row8 & KEY_FLAG(KEY_UP)) == 0)
 			{
 				if(g_SrcModeIndex > 0)
 					g_SrcModeIndex--;
@@ -502,7 +506,7 @@ void main()
 					g_SrcModeIndex = numberof(g_Settings) - 1;
 				DisplayPage();
 			}
-			else if((row & KEY_FLAG(KEY_DOWN)) == 0)
+			else if((row8 & KEY_FLAG(KEY_DOWN)) == 0)
 			{
 				if(g_SrcModeIndex < numberof(g_Settings) - 1)
 					g_SrcModeIndex++;
@@ -512,7 +516,7 @@ void main()
 			}
 
 			// Change page
-			if((row & KEY_FLAG(KEY_LEFT)) == 0)
+			if((row8 & KEY_FLAG(KEY_LEFT)) == 0)
 			{
 				if(g_CmdModeIndex > 0)
 					g_CmdModeIndex--;
@@ -520,7 +524,7 @@ void main()
 					g_CmdModeIndex = numberof(g_Page) - 1;
 				DisplayPage();
 			}
-			else if((row & KEY_FLAG(KEY_RIGHT)) == 0)
+			else if((row8 & KEY_FLAG(KEY_RIGHT)) == 0)
 			{
 				if(g_CmdModeIndex < numberof(g_Page) - 1)
 					g_CmdModeIndex++;
@@ -537,6 +541,16 @@ void main()
 			
 			if(Keyboard_IsKeyPressed(KEY_ESC))
 				bContinue = FALSE;
+
+			u8 row0 = Keyboard_Read(KEY_ROW(KEY_0));
+			if((row0 & KEY_FLAG(KEY_1)) == 0)
+				VDP_SetPage(1);
+			else if((row0 & KEY_FLAG(KEY_2)) == 0)
+				VDP_SetPage(2);
+			else if((row0 & KEY_FLAG(KEY_3)) == 0)
+				VDP_SetPage(3);
+			else
+				VDP_SetPage(0);
 		}
 		
 		if(bEditing)

@@ -1137,15 +1137,15 @@ void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count)
 		ld		iy, #2
 		add		iy, sp
 		// Setup address register 	
-		ld		a, 0(iy)
+		ld		a, 0(iy)				// R#14 A16 (move to bit 2)
 		add		a, a
 		add		a, a
-		ld		c, a
-		ld		a, h
+		ld		c, a					// Backup A16
+		ld		a, h					// R#14 A14-A15 (move to bit 1&0)
 		rlca
 		rlca
 		and		a, #0x03
-		add		a, c
+		add		a, c					// Merge R#14 A14-A16
 		VDP_DI //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = (srcHigh << 2) + (srcLow >> 14)
 		ld		a, #VDP_REG(14)
