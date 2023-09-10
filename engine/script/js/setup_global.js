@@ -69,6 +69,7 @@ global.DOS = 0;
 global.SrcList;
 global.RelList;
 global.LibList;
+global.MapList;
 
 global.MapperBanks;
 

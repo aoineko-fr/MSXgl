@@ -286,6 +286,7 @@ if (DoCompile)
 	SrcList = [ `${LibDir}src/crt0/${Crt0}.asm` ];
 	RelList = [];
 	LibList = [];
+	MapList = [];
 	const codeExtList = [ "c", "s", "asm" ];
 
 	// Add project sources to build list
@@ -390,7 +391,7 @@ if (DoCompile)
 							util.print(`Segment found: ${segPath}.${segExtList[e]} (addr: ${hex}${bankHex})`);
 							compiler.compile(`${ProjDir}${segPath}.${segExtList[e]}`, SegSize, `SEG${s}`);
 							MapperBanks += `-Wl-b_SEG${s}=0x${hex}${bankHex} `;
-							RelList.push(`${OutDir}${segName}.rel`);
+							MapList.push(`${OutDir}${segName}.rel`);
 						}
 					}
 				}
@@ -477,6 +478,27 @@ if (DoMake)
 	}
 
 	//=========================================================================
+	// Generate Mapper Segment Package
+	//=========================================================================
+	if (MapList.length)
+	{
+		util.print("Generate mapper.lib...", PrintHighlight);
+
+		// if (fs.existsSync(`${OutDir}mapper.lib`))
+			// util.delFile(`${OutDir}mapper.lib`);
+
+		let mapStr = MapList.join(" ");
+		let SDARParam = `-rc ${OutDir}mapper.lib ${mapStr}`
+		let err = util.execSync(`${MakeLib} ${SDARParam}`);
+		if(err)
+		{
+			util.print(`Lib generation error! Code: ${err}`, PrintError);
+			process.exit(1);
+		}
+		util.print("Success", PrintSuccess);
+	}
+
+	//=========================================================================
 	// Link Program
 	//=========================================================================
 	util.print(`Link ${ProjName} project using SDCC...`, PrintHighlight);
@@ -485,8 +507,11 @@ if (DoMake)
 	if (Optim === "SPEED") LinkOpt += " --opt-code-speed";
 	if (Optim === "SIZE")  LinkOpt += " --opt-code-size";
 	if (Debug)             LinkOpt += " --debug";
+	let mapLibStr = "";
+	if (MapList.length)
+		mapLibStr = `${OutDir}mapper.lib`;
 
-	let SDCCParam = `-mz80 --vc --no-std-crt0 -L${ToolsDir}sdcc/lib/z80 --code-loc 0x${util.getHex(CodeAddr)} --data-loc 0x${util.getHex(RamAddr)} ${LinkOpt} ${MapperBanks} ${OutDir}${Crt0}.rel ${OutDir}msxgl.lib ${RelList.join(" ")} -o ${OutDir}${ProjName}.ihx`;
+	let SDCCParam = `-mz80 --vc --no-std-crt0 -L${ToolsDir}sdcc/lib/z80 --code-loc 0x${util.getHex(CodeAddr)} --data-loc 0x${util.getHex(RamAddr)} ${LinkOpt} ${MapperBanks} ${OutDir}${Crt0}.rel ${OutDir}msxgl.lib ${mapLibStr} ${RelList.join(" ")} -o ${OutDir}${ProjName}.ihx`;
 	let err = util.execSync(`${Linker} ${SDCCParam}`);
 	if(err)
 	{
