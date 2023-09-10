@@ -170,6 +170,11 @@ void DisplayPage()
 		RandomizeData(src->Width / 2, 16);
 		Draw_LineV(g_Data.x1, g_Data.y1, g_Data.y2, g_Data.color, 0);
 	}
+	for(u8 i = 0; i < 64; ++i)
+	{
+		RandomizeData(src->Width / 2, 16);
+		Draw_Point(g_Data.x1, g_Data.y1, g_Data.color, 0);
+	}
 	// Draw boxes
 	for(u8 i = 0; i < 16; ++i)
 	{
