@@ -197,6 +197,9 @@ LinkOpt = "";
 //-- Automatic increment of build version in a header file (boolean)
 BuildVersion = false;
 
+//-- Package all segments into a lib file to reduce the number of files to link (boolean)
+PackSegments = false;
+
 //*****************************************************************************
 // BUILD TOOL OPTION
 //*****************************************************************************

@@ -10,6 +10,8 @@
 #include "core.h"
 #include "vdp.h"
 
+#if ((MSX_VERSION >= MSX_2) && (VDP_USE_COMMAND))
+
 //-----------------------------------------------------------------------------
 // DEFINES
 //-----------------------------------------------------------------------------
@@ -68,8 +70,8 @@ void Draw_Box(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op);
 // Draw a circle (pixel unit)
 //
 // Parameters:
-//   x - Source position
-//   y - Source position
+//   x - Destination position
+//   y - Destination position
 //   radius - Circle radius
 //   color - Draw color (format depends of the screen mode)
 //   op - Draw operator (VDP_OP_AND, VDP_OP_OR, ...)
@@ -79,8 +81,10 @@ void Draw_Circle(UX x, UY y, u8 radius, u8 color, u8 op);
 // Draw a point
 //
 // Parameters:
-//   x - Source position
-//   y - Source position
+//   x - Destination position
+//   y - Destination position
 //   color - Draw color (format depends of the screen mode)
 //   op - Draw operator (VDP_OP_AND, VDP_OP_OR, ...)
 inline void Draw_Point(UX x, UY y, u8 color, u8 op) { VDP_CommandPSET(x, y, color, op); }
+
+#endif // ((MSX_VERSION >= MSX_2) && (VDP_USE_COMMAND))

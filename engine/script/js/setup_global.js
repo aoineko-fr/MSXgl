@@ -296,11 +296,14 @@ global.CompileOpt = "";
 //-- Skip file if compile data (REL) is newer than the source code (boolean)
 global.CompileSkipOld = false;
 
-	//-- Additionnal link options (string)
+//-- Additionnal link options (string)
 global.LinkOpt = "";
 
 //-- Automatic increment of build version in a header file (boolean)
 global.BuildVersion = false;
+
+//-- Package all segments into a lib file to reduce the number of files to link (boolean)
+global.PackSegments = false;
 
 //*****************************************************************************
 // BUILD TOOL OPTION

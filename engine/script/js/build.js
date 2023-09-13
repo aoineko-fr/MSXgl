@@ -391,7 +391,10 @@ if (DoCompile)
 							util.print(`Segment found: ${segPath}.${segExtList[e]} (addr: ${hex}${bankHex})`);
 							compiler.compile(`${ProjDir}${segPath}.${segExtList[e]}`, SegSize, `SEG${s}`);
 							MapperBanks += `-Wl-b_SEG${s}=0x${hex}${bankHex} `;
-							MapList.push(`${OutDir}${segName}.rel`);
+							if (PackSegments)
+								MapList.push(`${OutDir}${segName}.rel`);
+							else
+								RelList.push(`${OutDir}${segName}.rel`);
 						}
 					}
 				}
@@ -480,7 +483,7 @@ if (DoMake)
 	//=========================================================================
 	// Generate Mapper Segment Package
 	//=========================================================================
-	if (MapList.length)
+	if (PackSegments && MapList.length)
 	{
 		util.print("Generate mapper.lib...", PrintHighlight);
 
@@ -508,7 +511,7 @@ if (DoMake)
 	if (Optim === "SIZE")  LinkOpt += " --opt-code-size";
 	if (Debug)             LinkOpt += " --debug";
 	let mapLibStr = "";
-	if (MapList.length)
+	if (PackSegments && MapList.length)
 		mapLibStr = `${OutDir}mapper.lib`;
 
 	let SDCCParam = `-mz80 --vc --no-std-crt0 -L${ToolsDir}sdcc/lib/z80 --code-loc 0x${util.getHex(CodeAddr)} --data-loc 0x${util.getHex(RamAddr)} ${LinkOpt} ${MapperBanks} ${OutDir}${Crt0}.rel ${OutDir}msxgl.lib ${mapLibStr} ${RelList.join(" ")} -o ${OutDir}${ProjName}.ihx`;
