@@ -262,6 +262,11 @@ void Loop(bool enable) __FASTCALL
 
 	g_Loop = enable;
 	PT3_SetLoop(enable);
+	if(enable)
+		PT3_ResetFinishCB();
+	else
+		PT3_SetFinishCB(Stop);
+
 }
 
 //-----------------------------------------------------------------------------
@@ -340,7 +345,7 @@ void main()
 	PT3_Init();
 	PT3_SetNoteTable(PT3_NT2);
 	PT3_SetLoop(TRUE);
-	//PT3_SetFinishCB(Stop);
+	PT3_SetFinishCB(Stop);
 
 	SetSong(1);
 	Loop(TRUE);

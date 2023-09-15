@@ -311,5 +311,11 @@ inline void PT3_Mute(u8 chan, bool mute)
 //	 cb		- Function to be called when music ends
 inline void PT3_SetFinishCB(callback cb) { PT3_Finish = cb;  }
 
+void EmptyCB();
+//-----------------------------------------------------------------------------
+// Function: PT3_ResetFinishCB
+// Reset the function to be call when the music ended
+inline void PT3_ResetFinishCB() { PT3_Finish = EmptyCB; }
+
 #endif // (PT3_EXTRA)
 
