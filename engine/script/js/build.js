@@ -704,7 +704,7 @@ if (DoDeploy)
 			util.print("-- Generate .DSK file");
 			let curDir = process.cwd();
 			process.chdir(DskToolPath);
-			let err = util.execSync(`${DskToolName} -cf temp.dsk --dos1 --verbose ` + filesList.join(" "));
+			let err = util.execSync(`${DskToolName} -cf temp.dsk --dos1 --verbose --size=${DiskSize} ` + filesList.join(" "));
 			if(err)
 			{
 				util.print(`DSK generation error! Code: ${err}`, PrintError);
@@ -791,7 +791,7 @@ if (DoDeploy)
 				util.print("-- Generate .DSK file");
 				let curDir = process.cwd();
 				process.chdir(DskToolPath);
-				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos${DOS} --verbose ` + filesList.join(" "));
+				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos${DOS} --verbose --size=${DiskSize} ` + filesList.join(" "));
 				if(err)
 				{
 					util.print(`DSK generation error! Code: ${err}`, PrintError);
@@ -838,7 +838,7 @@ if (DoDeploy)
 				util.print("-- Generate .DSK file");
 				let curDir = process.cwd();
 				process.chdir(DskToolPath);
-				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos0 --verbose ` + filesList.join(" "));
+				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos0 --verbose --size=${DiskSize} ` + filesList.join(" "));
 				if(err)
 				{
 					util.print(`DSK generation error! Code: ${err}`, PrintError);

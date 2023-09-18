@@ -127,6 +127,9 @@ ForceRamAddr = 0;
 //-- List of data files to copy to disk (array)
 DiskFiles = [];
 
+//-- Size of the final disk (.DSK file). Can be "360K" or "720K" (string)
+DiskSize = "720K";
+
 //-- BASIC USR driver default address (number)
 USRAddr = 0xC000;
 

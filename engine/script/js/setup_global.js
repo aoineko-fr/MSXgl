@@ -229,8 +229,11 @@ global.BankedCall = false;
 //-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
 global.ForceRamAddr = 0;
 
-// --List of data files to copy to disk (array)
+//-- List of data files to copy to disk (array)
 global.DiskFiles = [];
+
+//-- Size of the final disk (.DSK file). Can be "360K" or "720K" (string)
+global.DiskSize = "720K";
 
 //-- BASIC USR driver default address (number)
 global.USRAddr = 0xC000;
