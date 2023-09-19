@@ -113,6 +113,22 @@ void DrawPage()
 	Print_DrawText("\nFont: ");
 	Print_DrawText(g_Fonts[g_CurrentFont].name);
 
+#if (MSX_VERSION >= MSX_2)
+	if(g_Modes[g_CurrentMode].mode == VDP_MODE_TEXT2)
+	{
+		VDP_SetBlinkColor(0xB0);
+		VDP_SetInfiniteBlink();
+		VDP_CleanBlinkScreen();
+		VDP_SetBlinkLine(0);
+		VDP_SetBlinkChunkMask(0, 3, 0b11111000);
+		VDP_SetBlinkChunkMask(0, 4, 0b11111000);
+		VDP_SetBlinkChunk(0, 6);
+		VDP_SetBlinkTile(0, 8);
+		VDP_SetBlinkTile(76, 11);
+		VDP_SetBlinkLine(23);
+	}
+#endif // (MSX_VERSION >= MSX_2)
+
 	if(g_DisplayFont)
 	{
 		Print_DrawText("\n\n");

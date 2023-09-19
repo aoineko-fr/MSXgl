@@ -201,6 +201,12 @@
  <div class="CBody"><p>Set text and border default color (register 7). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Defaut color (Format: [TXT:4|BG:4])</p></td></tr></table></div>
 </div>
 
+<a name="VDP_SetColor2"></a><a name="Topic176"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetColor2</div>
+ <div id="NDPrototype176" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetColor2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set text and border default color (register 7). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">bg<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Background/border color (0~15)</p></td></tr><tr><td class="CDLEntry">text<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Text color (0~15)</p></td></tr></table></div>
+</div>
+
 <a name="VDP_EnableSprite"></a><a name="Topic617"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_EnableSprite</div>
  <div id="NDPrototype617" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableSprite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
@@ -574,6 +580,82 @@
  <div class="CTitle">VDP_HideAllSprites</div>
  <div id="NDPrototype658" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_HideAllSprites()</div></div>
  <div class="CBody"><p>Hide all sprite sprite. [MSX1/2/2+/TR]</p><p>This function simply put the sprites off (bellow) the screen.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">index</td><td class="CDLDefinition"><p>Index of the sprite to hide</p></td></tr></table></div>
+</div>
+
+<a name="Blink"></a><a name="Topic414"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Blink</div>
+ <div class="CBody"><p>Blink feature for Text 2 mode</p></div>
+</div>
+
+<a name="VDP_SetBlinkColor"></a><a name="Topic541"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetBlinkColor</div>
+ <div id="NDPrototype541" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetBlinkColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set text and border blink color (R#12). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Defaut color (Format: [TXT:4|BG:4])</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetBlinkColor2"></a><a name="Topic542"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetBlinkColor2</div>
+ <div id="NDPrototype542" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetBlinkColor2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set text and border blink color (R#12). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">bg<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Background/border color (0~15)</p></td></tr><tr><td class="CDLEntry">text<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Text color (0~15)</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetBlinkTime"></a><a name="Topic543"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetBlinkTime</div>
+ <div id="NDPrototype543" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetBlinkTime(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">time</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set blink time for the both defined colors (R#13). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">time<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Display time (Format: [EVEN:4|ODD:4])</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetBlinkTime2"></a><a name="Topic544"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetBlinkTime2</div>
+ <div id="NDPrototype544" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetBlinkTime2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">even,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">odd</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set blink time for the both defined colors (R#13). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">even<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Display time for even page (default color)</p></td></tr><tr><td class="CDLEntry">odd<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Display time for odd page (blink color)</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetBlinkTime(2)"></a><a name="Topic548"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetBlinkTime</div>
+ <div class="CBody"><p>Set blink timer to always display alternative color (R#13). [MSX2/2+/TR]</p></div>
+</div>
+
+<a name="VDP_CleanBlinkScreen"></a><a name="Topic549"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_CleanBlinkScreen</div>
+ <div id="NDPrototype549" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_CleanBlinkScreen()</div></div>
+ <div class="CBody"><p>Clean blink attribute on the whole screen. [MSX2/2+/TR]</p></div>
+</div>
+
+<a name="VDP_SetBlinkScreen"></a><a name="Topic659"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetBlinkScreen</div>
+ <div id="NDPrototype659" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetBlinkScreen()</div></div>
+ <div class="CBody"><p>Set blink attribute on the whole screen. [MSX2/2+/TR]</p></div>
+</div>
+
+<a name="VDP_SetBlinkLine"></a><a name="Topic660"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetBlinkLine</div>
+ <div id="NDPrototype660" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetBlinkLine(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set blink attribute on the given screen line. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Line number (0 to 24, or 27 if &lt;VDP_LINE_212&gt; is set)</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetBlinkChunk"></a><a name="Topic661"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetBlinkChunk</div>
+ <div id="NDPrototype661" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetBlinkChunk(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set blink attribute for a the given screen chunk. [MSX2/2+/TR] A screen 'chunk' is a block of 8 consecutive tiles starting at a x-coordinate multiple of 8 column number (0, 8, 16, etc.)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Column number (0 to 79)</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Row number (0 to 24, or 27 if &lt;VDP_LINE_212&gt; is set)</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetBlinkChunkMask"></a><a name="Topic669"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetBlinkChunkMask</div>
+ <div id="NDPrototype669" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetBlinkChunkMask(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mask</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set blink attribute mask for a the given screen chunk. [MSX2/2+/TR] A screen 'chunk' is a block of 8 consecutive tiles starting at a x-coordinate multiple of 8 column number (0, 8, 16, etc.)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Column number (0 to 79)</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Row number (0 to 24, or 27 if &lt;VDP_LINE_212&gt; is set)</p></td></tr><tr><td class="CDLEntry">mask<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Chunk mask (1 bit is equal to 1 tile; bit #0 is the left most tile)</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetBlinkChunkX"></a><a name="Topic670"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetBlinkChunkX</div>
+ <div id="NDPrototype670" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetBlinkChunkX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">num</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set blink attribute for a the given number of chunk. [MSX2/2+/TR] A screen 'chunk' is a block of 8 consecutive tiles starting at a x-coordinate multiple of 8 column number (0, 8, 16, etc.)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Column number (0 to 79)</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Row number (0 to 24, or 27 if &lt;VDP_LINE_212&gt; is set)</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetBlinkTile"></a><a name="Topic671"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetBlinkTile</div>
+ <div id="NDPrototype671" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetBlinkTile(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set blink attribute for a the given screen tile. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Column number (0 to 79)</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Row number (0 to 24, or 27 if &lt;VDP_LINE_212&gt; is set)</p></td></tr></table></div>
 </div>
 
 <a name="GM2"></a><a name="Topic184"></a><div class="CTopic TGroup LC">

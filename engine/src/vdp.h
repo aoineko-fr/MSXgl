@@ -340,6 +340,7 @@ enum VRAM_SIZE
 // Screen 0 (Width 80)
 #define VDP_T2_MODE			0b01001
 #define VDP_T2_ADDR_NT		0x0000 // Name Table
+#define VDP_T2_ADDR_CT		0x3E00 // Color Table
 #define VDP_T2_ADDR_PT		0x1000 // Pattern Table
 
 // Screen 4
@@ -659,6 +660,14 @@ inline void VDP_EnableVBlank(bool enable) { VDP_RegWriteBakMask(1, (u8)~R01_IE0,
 // Parameters:
 //   color - Defaut color (Format: [TXT:4|BG:4])
 inline void VDP_SetColor(u8 color) { VDP_RegWrite(7, color); }
+
+// Function: VDP_SetColor2
+// Set text and border default color (register 7). [MSX1/2/2+/TR]
+//
+// Parameters:
+//   bg   - Background/border color (0~15)
+//   text - Text color (0~15)
+inline void VDP_SetColor2(u8 bg, u8 text) { VDP_RegWrite(7, bg | (text << 4)); }
 
 //.............................................................................
 // MSX2
@@ -1180,6 +1189,99 @@ inline void VDP_HideSprite(u8 index) { VDP_SetSpritePositionY(index, VDP_SPRITE_
 inline void VDP_HideAllSprites() { loop(i, 32) VDP_SetSpritePositionY(i, VDP_SPRITE_HIDE); }
 
 #endif // (VDP_USE_SPRITE)
+
+//-----------------------------------------------------------------------------
+// Group: Blink
+// Blink feature for Text 2 mode
+//-----------------------------------------------------------------------------
+#if (VDP_USE_MODE_T2 && (MSX_VERSION >= MSX_2))
+
+// Function: VDP_SetBlinkColor
+// Set text and border blink color (R#12). [MSX2/2+/TR]
+//
+// Parameters:
+//   color - Defaut color (Format: [TXT:4|BG:4])
+inline void VDP_SetBlinkColor(u8 color) { VDP_RegWrite(12, color); }
+
+// Function: VDP_SetBlinkColor2
+// Set text and border blink color (R#12). [MSX2/2+/TR]
+//
+// Parameters:
+//   bg   - Background/border color (0~15)
+//   text - Text color (0~15)
+inline void VDP_SetBlinkColor2(u8 bg, u8 text) { VDP_RegWrite(12, bg | (text << 4)); }
+
+// Function: VDP_SetBlinkTime
+// Set blink time for the both defined colors (R#13). [MSX2/2+/TR]
+//
+// Parameters:
+//   time - Display time (Format: [EVEN:4|ODD:4])
+inline void VDP_SetBlinkTime(u8 time) { VDP_RegWrite(13, time); }
+
+// Function: VDP_SetBlinkTime2
+// Set blink time for the both defined colors (R#13). [MSX2/2+/TR]
+//
+// Parameters:
+//   even - Display time for even page (default color)
+//   odd  - Display time for odd page (blink color)
+inline void VDP_SetBlinkTime2(u8 even, u8 odd) { VDP_RegWrite(13, odd | (even << 4)); }
+
+// Function: VDP_SetBlinkTime
+// Set blink timer to always display alternative color (R#13). [MSX2/2+/TR]
+inline void VDP_SetInfiniteBlink() { VDP_RegWrite(13, 0x10); }
+
+// Function: VDP_CleanBlinkScreen
+// Clean blink attribute on the whole screen. [MSX2/2+/TR]
+inline void VDP_CleanBlinkScreen() { VDP_FillVRAM(0x00, g_ScreenColorLow, g_ScreenColorHigh, 8 * 27 / 8); }
+
+// Function: VDP_SetBlinkScreen
+// Set blink attribute on the whole screen. [MSX2/2+/TR]
+inline void VDP_SetBlinkScreen() { VDP_FillVRAM(0xFF, g_ScreenColorLow, g_ScreenColorHigh, 8 * 27 / 8); }
+
+// Function: VDP_SetBlinkLine
+// Set blink attribute on the given screen line. [MSX2/2+/TR]
+//
+// Parameters:
+//   y - Line number (0 to 24, or 27 if <VDP_LINE_212> is set)
+inline void VDP_SetBlinkLine(u8 y) { VDP_FillVRAM(0xFF, g_ScreenColorLow + y * 10, g_ScreenColorHigh, 10); }
+
+// Function: VDP_SetBlinkChunk
+// Set blink attribute for a the given screen chunk. [MSX2/2+/TR]
+// A screen 'chunk' is a block of 8 consecutive tiles starting at a x-coordinate multiple of 8 column number (0, 8, 16, etc.) 
+//
+// Parameters:
+//   x - Column number (0 to 79)
+//   y - Row number (0 to 24, or 27 if <VDP_LINE_212> is set)
+inline void VDP_SetBlinkChunk(u8 x, u8 y) { VDP_Poke(0xFF, g_ScreenColorLow + (y * 10) + (x / 8), g_ScreenColorHigh); }
+
+// Function: VDP_SetBlinkChunkMask
+// Set blink attribute mask for a the given screen chunk. [MSX2/2+/TR]
+// A screen 'chunk' is a block of 8 consecutive tiles starting at a x-coordinate multiple of 8 column number (0, 8, 16, etc.) 
+//
+// Parameters:
+//   x    - Column number (0 to 79)
+//   y    - Row number (0 to 24, or 27 if <VDP_LINE_212> is set)
+//   mask - Chunk mask (1 bit is equal to 1 tile; bit #0 is the left most tile)
+inline void VDP_SetBlinkChunkMask(u8 x, u8 y, u8 mask) { VDP_Poke(mask, g_ScreenColorLow + (y * 10) + (x / 8), g_ScreenColorHigh); }
+
+// Function: VDP_SetBlinkChunkX
+// Set blink attribute for a the given number of chunk. [MSX2/2+/TR]
+// A screen 'chunk' is a block of 8 consecutive tiles starting at a x-coordinate multiple of 8 column number (0, 8, 16, etc.) 
+//
+// Parameters:
+//   x - Column number (0 to 79)
+//   y - Row number (0 to 24, or 27 if <VDP_LINE_212> is set)
+inline void VDP_SetBlinkChunkX(u8 x, u8 y, u8 num) { VDP_FillVRAM(0xFF, g_ScreenColorLow + (y * 10) + (x / 8), g_ScreenColorHigh, num); }
+
+// Function: VDP_SetBlinkTile
+// Set blink attribute for a the given screen tile. [MSX2/2+/TR]
+//
+// Parameters:
+//   x - Column number (0 to 79)
+//   y - Row number (0 to 24, or 27 if <VDP_LINE_212> is set)
+void VDP_SetBlinkTile(u8 x, u8 y);
+
+#endif // (VDP_USE_MODE_T2 && (MSX_VERSION >= MSX_2))
 
 //-----------------------------------------------------------------------------
 // Group: GM2

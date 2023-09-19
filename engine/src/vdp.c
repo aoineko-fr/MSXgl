@@ -778,6 +778,7 @@ void VDP_SetModeText2()
 {
 	VDP_SetModeFlag(VDP_T2_MODE);
 	VDP_SetLayoutTable(VDP_T2_ADDR_NT);
+	VDP_SetColorTable(VDP_T2_ADDR_CT);
 	VDP_SetPatternTable(VDP_T2_ADDR_PT);
 }
 #endif // VDP_USE_MODE_T2
@@ -2175,6 +2176,35 @@ void VDP_SendSpriteAttribute(u8 index) __FASTCALL
 
 #endif // (VDP_USE_SPRITE)
 
+//=============================================================================
+//
+//   T E X T   B L I N K
+//
+//=============================================================================
+
+#if (VDP_USE_MODE_T2 && (MSX_VERSION >= MSX_2))
+
+//-----------------------------------------------------------------------------
+// Set blink attribute for a the given tile 
+void VDP_SetBlinkTile(u8 x, u8 y)
+{
+	u16 addr = g_ScreenColorLow + (y * 10) + (x / 8);
+	u8 chunk = VDP_Peek(addr, g_ScreenColorHigh);
+	switch (x % 8)
+	{
+	case 0: chunk |= 0b10000000; break;
+	case 1: chunk |= 0b01000000; break;
+	case 2: chunk |= 0b00100000; break;
+	case 3: chunk |= 0b00010000; break;
+	case 4: chunk |= 0b00001000; break;
+	case 5: chunk |= 0b00000100; break;
+	case 6: chunk |= 0b00000010; break;
+	case 7: chunk |= 0b00000001; break;
+	}
+	VDP_Poke(chunk, addr, g_ScreenColorHigh);
+}
+
+#endif // (VDP_USE_MODE_T2 && (MSX_VERSION >= MSX_2))
 
 //=============================================================================
 //
