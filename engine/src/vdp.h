@@ -1226,7 +1226,7 @@ inline void VDP_SetBlinkTime(u8 time) { VDP_RegWrite(13, time); }
 //   odd  - Display time for odd page (blink color)
 inline void VDP_SetBlinkTime2(u8 even, u8 odd) { VDP_RegWrite(13, odd | (even << 4)); }
 
-// Function: VDP_SetBlinkTime
+// Function: VDP_SetInfiniteBlink
 // Set blink timer to always display alternative color (R#13). [MSX2/2+/TR]
 inline void VDP_SetInfiniteBlink() { VDP_RegWrite(13, 0x10); }
 
@@ -1242,7 +1242,7 @@ inline void VDP_SetBlinkScreen() { VDP_FillVRAM(0xFF, g_ScreenColorLow, g_Screen
 // Set blink attribute on the given screen line. [MSX2/2+/TR]
 //
 // Parameters:
-//   y - Line number (0 to 24, or 27 if <VDP_LINE_212> is set)
+//   y - Line number (0 to 23, or 27 if <VDP_LINE_212> is set)
 inline void VDP_SetBlinkLine(u8 y) { VDP_FillVRAM(0xFF, g_ScreenColorLow + y * 10, g_ScreenColorHigh, 10); }
 
 // Function: VDP_SetBlinkChunk
@@ -1251,7 +1251,7 @@ inline void VDP_SetBlinkLine(u8 y) { VDP_FillVRAM(0xFF, g_ScreenColorLow + y * 1
 //
 // Parameters:
 //   x - Column number (0 to 79)
-//   y - Row number (0 to 24, or 27 if <VDP_LINE_212> is set)
+//   y - Row number (0 to 23, or 27 if <VDP_LINE_212> is set)
 inline void VDP_SetBlinkChunk(u8 x, u8 y) { VDP_Poke(0xFF, g_ScreenColorLow + (y * 10) + (x / 8), g_ScreenColorHigh); }
 
 // Function: VDP_SetBlinkChunkMask
@@ -1260,7 +1260,7 @@ inline void VDP_SetBlinkChunk(u8 x, u8 y) { VDP_Poke(0xFF, g_ScreenColorLow + (y
 //
 // Parameters:
 //   x    - Column number (0 to 79)
-//   y    - Row number (0 to 24, or 27 if <VDP_LINE_212> is set)
+//   y    - Row number (0 to 23, or 27 if <VDP_LINE_212> is set)
 //   mask - Chunk mask (1 bit is equal to 1 tile; bit #0 is the left most tile)
 inline void VDP_SetBlinkChunkMask(u8 x, u8 y, u8 mask) { VDP_Poke(mask, g_ScreenColorLow + (y * 10) + (x / 8), g_ScreenColorHigh); }
 
@@ -1270,7 +1270,7 @@ inline void VDP_SetBlinkChunkMask(u8 x, u8 y, u8 mask) { VDP_Poke(mask, g_Screen
 //
 // Parameters:
 //   x - Column number (0 to 79)
-//   y - Row number (0 to 24, or 27 if <VDP_LINE_212> is set)
+//   y - Row number (0 to 23, or 27 if <VDP_LINE_212> is set)
 inline void VDP_SetBlinkChunkX(u8 x, u8 y, u8 num) { VDP_FillVRAM(0xFF, g_ScreenColorLow + (y * 10) + (x / 8), g_ScreenColorHigh, num); }
 
 // Function: VDP_SetBlinkTile
@@ -1278,7 +1278,7 @@ inline void VDP_SetBlinkChunkX(u8 x, u8 y, u8 num) { VDP_FillVRAM(0xFF, g_Screen
 //
 // Parameters:
 //   x - Column number (0 to 79)
-//   y - Row number (0 to 24, or 27 if <VDP_LINE_212> is set)
+//   y - Row number (0 to 23, or 27 if <VDP_LINE_212> is set)
 void VDP_SetBlinkTile(u8 x, u8 y);
 
 #endif // (VDP_USE_MODE_T2 && (MSX_VERSION >= MSX_2))

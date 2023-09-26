@@ -184,11 +184,11 @@ void Menu_DisplayItem(u8 item)
 		}
 		case MENU_ITEM_INT:
 		{
-			i8* data = (i8*)pCurItem->Action;
 			if(g_MenuItem == item)
 				Print_DrawChar(MENU_CHAR_LEFT);
 			else
 				Print_Space();
+			i16* data = (i16*)pCurItem->Action;
 			Print_DrawInt(*data);
 			if(g_MenuItem == item)
 				Print_DrawChar(MENU_CHAR_RIGHT);
