@@ -403,7 +403,7 @@ PLY_AKG_READLINKER:
     ld sp, hl
     pop hl
 ; MSXgl - Start
-	ld		a, #1
+	ld		a, #0xFF
 	ld		(_g_AKG_EndOfSong), a
 ; MSXgl - End
 PLY_AKG_READLINKER_NOLOOP:

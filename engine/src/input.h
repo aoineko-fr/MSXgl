@@ -354,7 +354,7 @@ enum KEY_ID
 	KEY_STOP	= MAKE_KEY(7, 4),
 	KEY_BS		= MAKE_KEY(7, 5),
 	KEY_SELECT	= MAKE_KEY(7, 6),
-	KEY_RET		= MAKE_KEY(7, 7),
+	KEY_RETURN	= MAKE_KEY(7, 7),
 	// Row #8 keys
 	KEY_SPACE	= MAKE_KEY(8, 0),
 	KEY_HOME	= MAKE_KEY(8, 1),
@@ -383,6 +383,10 @@ enum KEY_ID
 	KEY_NUM_COM	= MAKE_KEY(10, 6),
 	KEY_NUM_DOT	= MAKE_KEY(10, 7),
 };
+// Key
+#define KEY_RET			KEY_RETURN
+#define KEY_ENTER		KEY_RETURN
+#define KEY_BACK		KEY_BS
 
 // Function: Keyboard_Read
 // Read keyboard matrix row

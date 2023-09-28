@@ -67,16 +67,16 @@ extern const u8* g_AKY_Sarkboteur;
 // READ-ONLY DATA
 //=============================================================================
 
-// Fonts
+// Fonts data
 #include "font/font_mgl_sample6.h"
 
-// SFX
+// SFX data
 #include "content/arkos/akx_effects.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
-// Music list
+// Music list for AKG replayer
 const struct MusicEntry g_MusicEntryAKG[] =
 {
 	{ "Cancion Nueva (by ?)                 ", g_AKG_jinj_med,     4 },
@@ -84,6 +84,8 @@ const struct MusicEntry g_MusicEntryAKG[] =
 	{ "Just add cream (by Excellence in Art)", g_AKG_Justaddcream, 6 },
 	{ "Sarkboteur (by Rob Hubbard)          ", g_AKG_Sarkboteur,   7 },
 };
+
+// Music list for AKY replayer
 const struct MusicEntry g_MusicEntryAKY[] =
 {
 	{ "Cancion Nueva (by ?)                 ", g_AKY_jinj_med,     12 },
@@ -91,6 +93,8 @@ const struct MusicEntry g_MusicEntryAKY[] =
 	{ "Just add cream (by Excellence in Art)", g_AKY_Justaddcream, 14 },
 	{ "Sarkboteur (by Rob Hubbard)          ", g_AKY_Sarkboteur,   15 },
 };
+
+// Music list for AKM replayer
 const struct MusicEntry g_MusicEntryAKM[] =
 {
 	{ "Cancion Nueva (by ?)                 ", g_AKM_jinj_med,     8 },
@@ -99,6 +103,7 @@ const struct MusicEntry g_MusicEntryAKM[] =
 	{ "Sarkboteur (by Rob Hubbard)          ", g_AKM_Sarkboteur,   11 },
 };
 
+// Replayers data
 const struct PlayerEntry g_PlayerEntry[] =
 {
 	{ "AKG (generic)",    AKG_Decode, AKG_Init, AKG_Stop, AKG_InitSFX, AKG_PlaySFX, AKG_StopSFX, g_MusicEntryAKG },
@@ -110,10 +115,22 @@ const struct PlayerEntry g_PlayerEntry[] =
 // MEMORY DATA
 //=============================================================================
 
+// Pointer to current player data 
 const struct PlayerEntry* g_CurrentPlayer = NULL;
+
+// Current player index
 u8   g_PlayerIdx = 0;
+
+// Current music index
 u8   g_MusicIdx = 0;
+
+// Current SFX index
 u8   g_SFXIdx = 0;
+
+// Number of SFX in the bank
+u8   g_SFXNum = 0;
+
+// Is current frequency 50 Hz?
 bool g_Freq50Hz = FALSE;
 
 // V-blank synchronization flag
@@ -140,6 +157,25 @@ void WaitVBlank()
 
 //-----------------------------------------------------------------------------
 //
+void DisplayFreq()
+{
+	Print_SetPosition(0, 20);
+	Print_DrawFormat("Freq: %s", (g_Freq50Hz) ? "50Hz" : "60Hz");
+}
+
+//-----------------------------------------------------------------------------
+//
+void DisplaySFX()
+{
+	Print_SetPosition(0, 14);
+	if(g_CurrentPlayer->InitSFX)
+		Print_DrawFormat("SFX: %i/%i  ", g_SFXNum ? g_SFXIdx + 1 : 0, g_SFXNum);
+	else
+		Print_DrawFormat("SFX: Unsupported", g_SFXNum ? g_SFXIdx + 1 : 0, g_SFXNum);
+}
+
+//-----------------------------------------------------------------------------
+// Set the new music to be played
 void SetMusic(u8 idx)
 {
 	g_MusicIdx = idx;
@@ -147,18 +183,16 @@ void SetMusic(u8 idx)
 
 	const struct MusicEntry* mus = &g_PlayerEntry[g_PlayerIdx].Musics[idx];
 
-	u8 sfxNum = 0;
 	if(g_CurrentPlayer->InitSFX)
 	{
 		Mem_Copy(g_AKX_effects, (void*)0xE000, sizeof(g_AKX_effects));
-		sfxNum = g_CurrentPlayer->InitSFX((const void*)0xE000);
+		g_SFXNum = g_CurrentPlayer->InitSFX((const void*)0xE000);
 	}
 
 	Print_SetPosition(0, 10);
 	Print_DrawFormat("Music [%i/%i]:\n\n  %s", idx + 1, numberof(g_MusicEntryAKG), mus->Name);
 
-	Print_SetPosition(0, 14);
-	Print_DrawFormat("SFX [%i/%i]", sfxNum ? g_SFXIdx + 1 : 0, sfxNum);
+	DisplaySFX();
 
 	SET_BANK_SEGMENT(3, mus->Segment);
 
@@ -189,14 +223,6 @@ void SetPlayer(u8 idx)
 	}
 
 	SetMusic(g_MusicIdx);
-}
-
-//-----------------------------------------------------------------------------
-//
-void DisplayFreq()
-{
-	Print_SetPosition(0, 20);
-	Print_DrawFormat("Freq: %s", (g_Freq50Hz) ? "50Hz" : "60Hz");
 }
 
 //=============================================================================
@@ -238,11 +264,12 @@ void main()
 	// Footer
 	Print_DrawLineH(0, 22, 40);
 	Print_SetPosition(0, 23);
-	Print_DrawText("\x82:Player  \x8D:Music  \x83:Stop  Home:Freq");
+	Print_DrawText("\x82:Player \x8D:Music \x83:Stop \x84:Freq \x85:SFX");
 
 	VDP_EnableVBlank(TRUE);
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
 
+	u8 prevRow7 = 0xFF;
 	u8 prevRow8 = 0xFF;
 	u8 count = 0;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
@@ -260,47 +287,55 @@ void main()
 		Print_DrawChar(g_ChrAnim[chr]);
 
 		// Handle input
+		u8 row7 = Keyboard_Read(7);
 		u8 row8 = Keyboard_Read(8);
 		// Change played music
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
+		if(IS_KEY_PUSHED(row8, prevRow8, KEY_RIGHT))
 		{
 			if(g_MusicIdx < numberof(g_MusicEntryAKG) - 1)
 				SetMusic(g_MusicIdx + 1);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
+		else if(IS_KEY_PUSHED(row8, prevRow8, KEY_LEFT))
 		{
 			if(g_MusicIdx > 0)
 				SetMusic(g_MusicIdx - 1);
 		}
 		// Change Arkos replayer
-		if(IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
+		if(IS_KEY_PUSHED(row8, prevRow8, KEY_UP))
 		{
 			if(g_PlayerIdx > 0)
 				SetPlayer(g_PlayerIdx - 1);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN))
+		else if(IS_KEY_PUSHED(row8, prevRow8, KEY_DOWN))
 		{
 			if(g_PlayerIdx < numberof(g_PlayerEntry) - 1)
 				SetPlayer(g_PlayerIdx + 1);
 		}
 		// Stop music playback
-		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		if(IS_KEY_PUSHED(row8, prevRow8, KEY_SPACE))
 		{
 			if(g_CurrentPlayer->Stop)
 				g_CurrentPlayer->Stop();
 		}
 		// Stop music playback
-		if(IS_KEY_PRESSED(row8, KEY_DEL) && !IS_KEY_PRESSED(prevRow8, KEY_DEL))
+		if(IS_KEY_PUSHED(row7, prevRow7, KEY_BACK))
 		{
 			if(g_CurrentPlayer->PlaySFX)
-				g_CurrentPlayer->PlaySFX(0, 0, 0);
+			{
+				DisplaySFX();
+				g_CurrentPlayer->PlaySFX(g_SFXIdx, ARKOS_CHANNEL_C, 0);
+				g_SFXIdx++;
+				if(g_SFXIdx >= g_SFXNum)
+					g_SFXIdx = 0;
+			}
 		}
 		// Change frequency
-		if(IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(prevRow8, KEY_HOME))
+		if(IS_KEY_PUSHED(row7, prevRow7, KEY_RETURN))
 		{
 			g_Freq50Hz = 1 - g_Freq50Hz;
 			DisplayFreq();
 		}
+		prevRow7 = row7;
 		prevRow8 = row8;
 	}
 }

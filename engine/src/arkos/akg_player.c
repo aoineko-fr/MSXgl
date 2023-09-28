@@ -42,7 +42,7 @@ void AKG_Init(const void* data, u8 sng) __NAKED
 		call	_PLY_AKG_INIT
 		pop		ix
 		ld		a, #TRUE
-		ld		(_g_AKG_Playing), a
+		ld		(_g_AKG_Playing), a	// g_AKG_Playing = TRUE;
 		ret
 	__endasm;
 }
@@ -53,7 +53,7 @@ void AKG_Stop()
 {
 	__asm
 		xor		a
-		ld		(_g_AKG_Playing), a
+		ld		(_g_AKG_Playing), a	// g_AKG_Playing = FALSE;
 		// Stops the music. This code can be removed if you don't intend to stop it!
 		push	ix
 		call	_PLY_AKG_STOP
@@ -94,7 +94,7 @@ u8 AKG_InitSFX(const void* data)
 		// IN:    HL = Address to the sound effects data.
 		call	_PLY_AKG_INITSOUNDEFFECTS
 		ld		a, #TRUE
-		ld		(_g_AKG_Playing), a
+		ld		(_g_AKG_Playing), a	// g_AKG_Playing = TRUE;
 		ld		a, (hl)				// Inchanged by Arkos routine (first byte is num*2)
 		srl		a
 	__endasm;

@@ -24,20 +24,21 @@ extern bool g_AKG_Playing;
 // FUNCTIONS
 //=============================================================================
 
-// Function: AKG_IsPlaying
-// Tell if a music is currently playing
-//
-// Return:
-//   FALSE is no music is replayed
-inline bool AKG_IsPlaying() { return g_AKG_Playing; }
-
 // Function: AKG_Init
 // Initialize a music and start playback
 //
 // Paramaters:
 //   data	- Pointer to the music data (data must be export to be replayed at this exact location)
+//            Check Arkos Tracker 2 documentation for more details: https://www.julien-nevo.com/arkostracker
 //   num	- Sub-music number if the AKG contain several musics (otherwise set to 0)
 void AKG_Init(const void* data, u8 sng);
+
+// Function: AKG_IsPlaying
+// Check if a music is currently playing
+//
+// Return:
+//   FALSE is no music is replayed
+inline bool AKG_IsPlaying() { return g_AKG_Playing; }
 
 // Function: AKG_Stop
 // Stop current music playback
@@ -45,6 +46,9 @@ void AKG_Stop();
 
 // Function: AKG_Decode
 // Decode a music frame and update the PSG (must be called once each frame)
+//
+// Return:
+//   TRUE if end of music have been reached
 bool AKG_Decode();
 
 // Function: AKG_InitSFX
