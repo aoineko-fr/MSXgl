@@ -25,23 +25,26 @@ extern bool g_AKG_Playing;
 //=============================================================================
 
 // Function: AKG_IsPlaying
-// Initialize music and start playback
+// Tell if a music is currently playing
+//
+// Return:
+//   FALSE is no music is replayed
 inline bool AKG_IsPlaying() { return g_AKG_Playing; }
 
 // Function: AKG_Init
-// Initialize music and start playback
+// Initialize a music and start playback
 //
 // Paramaters:
-//   data	- Pointer to the music data
-//   num	- Music number
+//   data	- Pointer to the music data (data must be export to be replayed at this exact location)
+//   num	- Sub-music number if the AKG contain several musics (otherwise set to 0)
 void AKG_Init(const void* data, u8 sng);
 
 // Function: AKG_Stop
-// Stop music playback
+// Stop current music playback
 void AKG_Stop();
 
 // Function: AKG_Decode
-// Decode a music frame and update the PSG
+// Decode a music frame and update the PSG (must be called once each frame)
 bool AKG_Decode();
 
 // Function: AKG_InitSFX
