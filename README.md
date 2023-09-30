@@ -50,6 +50,7 @@ Here are also the supported audio formats:
 * PCM-Encoder (aka. _Crystal clean PCM 8bit samples on the poor PSG_)
 
 Many thanks to the members of the [MSX Ressource Center](https://www.msx.org) and [MSX Village](https://msxvillage.fr) who have been very helpful.
+
 The library is distribute under Creative Commons BY-SA license. Tools or sources from other authors could use other free license.
 
 Documentation:
@@ -57,3 +58,17 @@ Documentation:
 * Library documentation: https://aoineko.org/msxgl
 
 If you have any question, feel free to join the [MSXgl Discord server](https://discord.gg/pMeadGfv8E).
+
+## Quick installation
+### macOS
+#### Dependencies
+Install NVM (Node.js version manager) and SDCC (Small Device C Compiler):
+```
+brew install nvm sdcc
+```
+#### Quarantine
+To be able to run the new binaries in the recent versions of macOS, you need to de-quarantine them:
+```
+xattr -r -d com.apple.quarantine ./MSXgl
+```
+
