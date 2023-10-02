@@ -234,3 +234,14 @@ inline u16 Sys_GetHeaderAddr() { return (u16)&g_HeaderAddr; }
 // Get last address of program binary
 inline u16 Sys_GetLastAddr()  { return (u16)&g_LastAddr; }
 
+//-----------------------------------------------------------------------------
+// Group: Misc
+// Miscellaneous helper functions
+
+// Function: Sys_PlayClickSound
+// Play the click sound
+inline void Sys_PlayClickSound() { g_PortAccessKeyboard |= 0x80; }
+
+// Function: Sys_StopClickSound
+// Stop the click sound
+inline void Sys_StopClickSound() { g_PortAccessKeyboard &= 0x7F; }

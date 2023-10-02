@@ -82,7 +82,8 @@ i32						g_ValuePerLine = 16; // 0: not limit (only 1 line)
 std::vector<SkipData>	g_Skip;
 bool					g_ASCII = false; // Display ASCII code of each line (only for 8-bits data)
 bool					g_PT3 = false;
-bool					g_Define = false;
+bool					g_AddDefine = false;
+bool					g_AddSize = false;
 ADDR_OFFSET				g_Address = ADDR_NONE;
 bool					g_Decoration = true;
 
@@ -197,7 +198,7 @@ void StartTable(std::string& data, const std::string& name)
 	{
 	default:
 	case DATA_LANG_C:
-		if (g_Define)
+		if (g_AddDefine)
 		{
 			data += StringFormat("\n"
 				"#ifndef D_%s\n"
@@ -228,12 +229,18 @@ void StartTable(std::string& data, const std::string& name)
 }
 
 //
-void EndTable(std::string& data)
+void EndTable(std::string& data, const std::string& name, u32 size)
 {
 	switch (g_Lang)
 	{
 	default:
-	case DATA_LANG_C: data += "\n};\n"; break;
+	case DATA_LANG_C:
+		data += "\n};\n";
+		if (g_AddSize)
+		{
+			data += StringFormat("#define %s_SIZE %i\n", MSX::ToUpper(name), size);
+		}
+		break;
 	case DATA_LANG_ASM: data += "\n"; break;
 	};
 }
@@ -452,7 +459,7 @@ i32 Export()
 		count++;
 	}
 
-	EndTable(strData);
+	EndTable(strData, g_TableName, total);
 	AddComment(strData, StringFormat("Total bytes: %d", total));
 
 	// Write header file
@@ -495,6 +502,7 @@ void PrintHelp()
 	printf("  -pt3			Extract PT3 header information and add it as comment (default: false)\n");
 	printf("  -at X         Data starting address (can be decimal or hexadecimal starting with '0x')\n");
 	printf("  -def			Add define before data structure (only for C language. default: false)\n");
+	printf("  -size			Add size define after data structure (only for C language. default: false)\n");
 	printf("  -nodeco       Don't display header decoration (default: false)\n");
 	printf("  -h            Display this help\n");
 }
@@ -576,7 +584,10 @@ int main(int argc, const char* argv[])
 			g_PT3 = true;
 		// Add C define 
 		else if (MSX::StrEqual(argv[i], "-def"))
-			g_Define = true;
+			g_AddDefine = true;
+		// Add size define 
+		else if (MSX::StrEqual(argv[i], "-size"))
+			g_AddSize = true;
 		// Display address
 		else if (MSX::StrEqual(argv[i], "-ad"))
 			g_Address = ADDR_DEC;
