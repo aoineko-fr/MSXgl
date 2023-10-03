@@ -121,6 +121,8 @@ global.LibDir = `${RootDir}engine/`;
 //-- Tools directory (string)
 global.ToolsDir = `${RootDir}tools/`;
 
+global.IncludeDir = `${RootDir}tools/sdcc/include/`;
+
 //*****************************************************************************
 // TOOLS SETTINGS
 //*****************************************************************************
