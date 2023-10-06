@@ -306,6 +306,32 @@ enum VRAM_SIZE
 // Get VRAM size macro
 #define GET_VRAM_SIZE()		((g_MODE >> 1) & 0x3)
 
+enum VDP_BLINK_TIME
+{
+	VDP_BLINK_TIME_0 = 0,
+	VDP_BLINK_TIME_167MS,
+	VDP_BLINK_TIME_334MS,
+	VDP_BLINK_TIME_501MS,
+	VDP_BLINK_TIME_667MS,
+	VDP_BLINK_TIME_834MS,
+	VDP_BLINK_TIME_1001MS,
+	VDP_BLINK_TIME_1168MS,
+	VDP_BLINK_TIME_1335MS,
+	VDP_BLINK_TIME_1510MS,
+	VDP_BLINK_TIME_1669MS,
+	VDP_BLINK_TIME_1836MS,
+	VDP_BLINK_TIME_2003MS,
+	VDP_BLINK_TIME_2169MS,
+	VDP_BLINK_TIME_2336MS,
+	VDP_BLINK_TIME_2503MS,
+	//.......... Alias ..........
+	VDP_BLINK_TIME_500MS  = VDP_BLINK_TIME_501MS,
+	VDP_BLINK_TIME_1000MS = VDP_BLINK_TIME_1001MS,
+	VDP_BLINK_TIME_1500MS = VDP_BLINK_TIME_1510MS,
+	VDP_BLINK_TIME_2000MS = VDP_BLINK_TIME_2003MS,
+	VDP_BLINK_TIME_2500MS = VDP_BLINK_TIME_2503MS,
+};
+
 //-----------------------------------------------------------------------------
 // Default Screen Mode tables VRAM address
 
@@ -1220,10 +1246,11 @@ inline void VDP_SetBlinkTime(u8 time) { VDP_RegWrite(13, time); }
 
 // Function: VDP_SetBlinkTime2
 // Set blink time for the both defined colors (R#13). [MSX2/2+/TR]
+// Check <VDP_BLINK_TIME> enumeration for correspondance between value and time in miliseconds
 //
 // Parameters:
-//   even - Display time for even page (default color)
-//   odd  - Display time for odd page (blink color)
+//   even - Display time for even page / default color (0~15)
+//   odd  - Display time for odd page / blink color (0~15)
 inline void VDP_SetBlinkTime2(u8 even, u8 odd) { VDP_RegWrite(13, odd | (even << 4)); }
 
 // Function: VDP_SetInfiniteBlink
