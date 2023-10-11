@@ -138,7 +138,7 @@ void main()
 	VDP_SetMode(VDP_MODE_SCREEN0); // Initialize screen mode 0 (text)
 	VDP_ClearVRAM();
 
-	Print_SetTextFont(g_Font_MGL_Sample6, 1); // Initialize font (use BIOS font)cd
+	Print_SetTextFont(g_Font_MGL_Sample6, 1); // Initialize font
 	Print_DrawText(MSX_GL " PAC SRAM sample");
 	Print_DrawLineH(0, 1, 40);
 
