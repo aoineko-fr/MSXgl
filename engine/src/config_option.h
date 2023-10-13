@@ -304,6 +304,16 @@
 #define PLETTER_WRITE_SAFE			0 // Safe VRAM write speed
 #define PLETTER_WRITE_QUICK			1 // No wait beetween write
 
+
+//-----------------------------------------------------------------------------
+// PAC MODULE
+//-----------------------------------------------------------------------------
+
+#define PAC_ACCESS_DIRECT			0 // Direct access to SRAM (must be selected in page 1)
+#define PAC_ACCESS_BIOS				1 // Access through BIOS routines
+#define PAC_ACCESS_SWITCH_BIOS		2 // Access through BIOS routines with BIOS switched in
+#define PAC_ACCESS_SYSTEM			3 // Access through MSXgl routine (no need BIOS)
+
 //-----------------------------------------------------------------------------
 // MISC
 //-----------------------------------------------------------------------------

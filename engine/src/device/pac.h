@@ -42,6 +42,12 @@
 	#define PAC_DEVICE_MAX				4
 #endif
 
+// PAC_ACCESS
+#ifndef PAC_ACCESS
+	#warning PAC_ACCESS is not defined in "msxgl_config.h"! Default value will be used: PAC_ACCESS_BIOS
+	#define PAC_ACCESS					PAC_ACCESS_BIOS
+#endif
+
 //=============================================================================
 // DEFINES
 //=============================================================================

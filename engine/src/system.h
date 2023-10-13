@@ -71,6 +71,14 @@ extern u16 g_HeaderAddr;
 extern u16 g_LastAddr;
 
 //-----------------------------------------------------------------------------
+// CRT0 defines
+
+#if ((TARGET_TYPE == TYPE_ROM) && GET_TARGET_ISR(TARGET))
+	extern u8 g_VersionROM;
+	extern u8 g_VersionMSX;
+#endif
+
+//-----------------------------------------------------------------------------
 // Macro to change a given bank's segment
 #if (ROM_MAPPER > ROM_PLAIN)
 	extern u8 g_Bank0Segment;

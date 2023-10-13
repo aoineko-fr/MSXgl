@@ -10,12 +10,50 @@
 #include "pac.h"
 #include "bios.h"
 
+#if (PAC_ACCESS == PAC_ACCESS_SWITCH_BIOS)
+#include "system.h"
+#endif
+
 //=============================================================================
 // DEFINES
 //=============================================================================
 
 #if (PAC_USE_SIGNATURE)
 extern const u32 g_AppSignature;
+#endif
+
+#if(PAC_ACCESS == PAC_ACCESS_DIRECT)
+
+	#define PAC_INTERSLOTREAD(slot, addr) PEEK(addr)
+	#define PAC_INTERSLOTWRITE(slot, addr, value) POKE(addr, value)
+
+#elif(PAC_ACCESS == PAC_ACCESS_BIOS)
+
+	#define PAC_INTERSLOTREAD(slot, addr) Bios_InterSlotRead(slot, addr)
+	#define PAC_INTERSLOTWRITE(slot, addr, value) Bios_InterSlotWrite(slot, addr, value)
+
+#elif (PAC_ACCESS == PAC_ACCESS_SWITCH_BIOS)
+
+	u8 PAC_InterSlotRead(u8 slot, u16 addr)
+	{
+		u8 cart = Sys_GetPageSlot(0);
+		Sys_SetPage0Slot(g_MNROM);
+		u8 value = Bios_InterSlotRead(slot, addr);
+		Sys_SetPage0Slot(cart);
+		return value;
+	}
+
+	void PAC_InterSlotWrite(u8 slot, u16 addr, u8 value)
+	{
+		u8 cart = Sys_GetPageSlot(0);
+		Sys_SetPage0Slot(g_MNROM);
+		Bios_InterSlotWrite(slot, addr, value);
+		Sys_SetPage0Slot(cart);
+	}
+
+	#define PAC_INTERSLOTREAD(slot, addr) PAC_InterSlotRead(slot, addr)
+	#define PAC_INTERSLOTWRITE(slot, addr, value) PAC_InterSlotWrite(slot, addr, value)
+
 #endif
 
 //=============================================================================
@@ -44,7 +82,7 @@ u8 g_PAC_Current;
 void PAC_ReadInterSlot(u8 slot, u16 addr, u8* data, u16 size)
 {
 	for(u16 i = 0; i < size; ++i)
-		*data++ = Bios_InterSlotRead(slot, addr++);
+		*data++ = PAC_INTERSLOTREAD(slot, addr++);
 	EnableInterrupt();
 }
 
@@ -53,7 +91,7 @@ void PAC_ReadInterSlot(u8 slot, u16 addr, u8* data, u16 size)
 void PAC_WriteInterSlot(u8 slot, u16 addr, const u8* data, u16 size)
 {
 	for(u16 i = 0; i < size; ++i)
-		Bios_InterSlotWrite(slot, addr++, *data++);
+		PAC_INTERSLOTWRITE(slot, addr++, *data++);
 	EnableInterrupt();
 }
 
@@ -65,27 +103,27 @@ void PAC_CheckSlot(u8 slot)
 		return;
 
 	// Backup values
-	u8 bakE = Bios_InterSlotRead(slot, 0x5FFE);
-	u8 bakF = Bios_InterSlotRead(slot, 0x5FFF);
-	u8 bakD = Bios_InterSlotRead(slot, 0x5FFD);
+	u8 bakE = PAC_INTERSLOTREAD(slot, 0x5FFE);
+	u8 bakF = PAC_INTERSLOTREAD(slot, 0x5FFF);
+	u8 bakD = PAC_INTERSLOTREAD(slot, 0x5FFD);
 
 	// Check ROM
-	Bios_InterSlotWrite(slot, 0x5FFF, 0);				// Desactivate SRAM
-	Bios_InterSlotWrite(slot, 0x5FFD, ~bakD);
-	if(Bios_InterSlotRead(slot, 0x5FFD) == bakD)
+	PAC_INTERSLOTWRITE(slot, 0x5FFF, 0);				// Desactivate SRAM
+	PAC_INTERSLOTWRITE(slot, 0x5FFD, ~bakD);
+	if(PAC_INTERSLOTREAD(slot, 0x5FFD) == bakD)
 	{
 		// Check SRAM
-		Bios_InterSlotWrite(slot, 0x5FFE, 'M');		// Activate SRAM
-		Bios_InterSlotWrite(slot, 0x5FFF, 'i');
-		Bios_InterSlotWrite(slot, 0x5FFD, ~bakD);
-		if(Bios_InterSlotRead(slot, 0x5FFD) != bakD)
+		PAC_INTERSLOTWRITE(slot, 0x5FFE, 'M');		// Activate SRAM
+		PAC_INTERSLOTWRITE(slot, 0x5FFF, 'i');
+		PAC_INTERSLOTWRITE(slot, 0x5FFD, ~bakD);
+		if(PAC_INTERSLOTREAD(slot, 0x5FFD) != bakD)
 			g_PAC_Slot[g_PAC_Num++] = slot;
 	}
 
 	// Restore values
-	Bios_InterSlotWrite(slot, 0x5FFD, bakD);
-	Bios_InterSlotWrite(slot, 0x5FFE, bakE);
-	Bios_InterSlotWrite(slot, 0x5FFF, bakF);
+	PAC_INTERSLOTWRITE(slot, 0x5FFD, bakD);
+	PAC_INTERSLOTWRITE(slot, 0x5FFE, bakE);
+	PAC_INTERSLOTWRITE(slot, 0x5FFF, bakF);
 }
 
 //-----------------------------------------------------------------------------
@@ -134,12 +172,12 @@ void PAC_Activate(bool bEnable)
 {
 	if(bEnable)
 	{
-		Bios_InterSlotWrite(g_PAC_Current, 0x5FFE, 'M'); // 0x4D
-		Bios_InterSlotWrite(g_PAC_Current, 0x5FFF, 'i'); // 0x69
+		PAC_INTERSLOTWRITE(g_PAC_Current, 0x5FFE, 'M'); // 0x4D
+		PAC_INTERSLOTWRITE(g_PAC_Current, 0x5FFF, 'i'); // 0x69
 	}
 	else
 	{
-		Bios_InterSlotWrite(g_PAC_Current, 0x5FFF, 0);
+		PAC_INTERSLOTWRITE(g_PAC_Current, 0x5FFF, 0);
 	}
 	EnableInterrupt();
 }
@@ -161,7 +199,7 @@ void PAC_Write(u8 page, const u8* data, u16 size)
 	#if (PAC_USE_SIGNATURE)
 	const u8* sign = (const u8*)&g_AppSignature;
 	for(u16 i = 0; i < 4; ++i)
-		Bios_InterSlotWrite(g_PAC_Current, addr++, *sign++);
+		PAC_INTERSLOTWRITE(g_PAC_Current, addr++, *sign++);
 	#endif
 
 	PAC_WriteInterSlot(g_PAC_Current, addr, data, size);
@@ -204,7 +242,7 @@ void PAC_Format(u8 page)
 		size -= 2;
 
 	for(u16 i = 0; i < size; ++i)
-		Bios_InterSlotWrite(g_PAC_Current, addr++, PAC_EMPTY_CHAR);
+		PAC_INTERSLOTWRITE(g_PAC_Current, addr++, PAC_EMPTY_CHAR);
 	EnableInterrupt();
 }
 
@@ -224,7 +262,7 @@ u8 PAC_Check(u8 page)
 	const u8* sign = (const u8*)&g_AppSignature;
 	for(u16 i = 0; i < 4; ++i)
 	{
-		if(Bios_InterSlotRead(g_PAC_Current, addr + i) != sign[i])
+		if(PAC_INTERSLOTREAD(g_PAC_Current, addr + i) != sign[i])
 		{
 			bSigned = FALSE;
 			break;
@@ -239,7 +277,7 @@ u8 PAC_Check(u8 page)
 		size -= 2;
 
 	for(u16 i = 0; i < size; ++i)
-		if(Bios_InterSlotRead(g_PAC_Current, addr++) != PAC_EMPTY_CHAR)
+		if(PAC_INTERSLOTREAD(g_PAC_Current, addr++) != PAC_EMPTY_CHAR)
 			return PAC_CHECK_UNDEF;
 
 	return PAC_CHECK_EMPTY;

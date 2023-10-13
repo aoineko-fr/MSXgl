@@ -441,6 +441,12 @@
 #define PAC_USE_SIGNATURE			TRUE	// Handle application signature to validate saved data
 #define PAC_USE_VALIDATOR			TRUE	// Add code to validate input parameters 
 #define PAC_DEVICE_MAX				4		// Maximum number of supported PAC devices
+// SRAM access method
+// - PAC_ACCESS_DIRECT ............ Direct access to SRAM (must be selected in page 1)
+// - PAC_ACCESS_BIOS .............. Access through BIOS routines
+// - PAC_ACCESS_SWITCH_BIOS ....... Access through BIOS routines with BIOS switched in
+// - PAC_ACCESS_SYSTEM ............ Access through MSXgl routine (no need BIOS)
+#define PAC_ACCESS					PAC_ACCESS_BIOS
 
 //-----------------------------------------------------------------------------
 // DEBUG
