@@ -423,16 +423,17 @@ u16 DOS_ReadHandle(u8 file, void* buffer, u16 size) __NAKED // Stack: 4 bytes
 	buffer;	// DE
 	size;	// SP[2:3]
 __asm
-	pop		iy						// Retreive return address
-	// handle
+	// Get file handle
 	ld		b, a
-	// buffer
+	// Get buffer address
 	//		Already in DE
-	// bytes
+	// Get bytes count
+	pop		iy						// Retreive return address
 	pop		hl
 	// call
-	ld		c, #DOS_FUNC_READ				// DOS routine
+	ld		c, #DOS_FUNC_READ		// DOS routine
 	call	BDOS
+	ex		de, hl					// Put result in DE
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 	or		a
@@ -464,6 +465,7 @@ __asm
 	// call
 	ld		c, #DOS_FUNC_WRITE		// DOS routine
 	call	BDOS
+	ex		de, hl					// Put result in DE
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 	or		a
