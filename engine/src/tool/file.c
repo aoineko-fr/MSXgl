@@ -1,4 +1,4 @@
-#include "core.h"
+#include "msxgl.h"
 #include "dos.h"
 
 //-----------------------------------------------------------------------------
@@ -11,7 +11,7 @@ bool File_Copy(const c8* src, const c8* dst)
 	if ((dFD = DOS_CreateHandle(dst, O_WRONLY, 0)) == 0)
 		return FALSE;
 
-	u8 err = 0;
+	u8 err = DOS_ERR_NONE;
 	u16 wrc = 0;
 	while (1)
 	{
@@ -23,7 +23,7 @@ bool File_Copy(const c8* src, const c8* dst)
 		}
 		u16 wr = DOS_WriteHandle(dFD, Mem_GetHeapAddress(), rd);
 
-		Print_DrawFormat("session:%d Bytes read:%d, wrote:%d\n", wrc++, rd, wr);
+		// Print_DrawFormat("session:%d Bytes read:%d, wrote:%d\n", wrc++, rd, wr);
 	}
 
 	DOS_CloseHandle(sFD);
