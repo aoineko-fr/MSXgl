@@ -978,6 +978,8 @@ void VDP_SetMSX1Palette()
 }
 #endif // VDP_USE_MSX1_PALETTE
 
+#include "system.h"
+
 //-----------------------------------------------------------------------------
 // Set a given color entry in the palette [MSX2/2+/TR]
 // @param		index		Index of the palette entry (0-15)
@@ -985,10 +987,19 @@ void VDP_SetMSX1Palette()
 //							Format : [0:5|green:3|0|red:3|0|blue:3]
 void VDP_SetPaletteEntry(u8 index, u16 color)
 {
-	g_VDP_RegPort = index;
-	g_VDP_RegPort = VDP_REG(16);
-	g_VDP_PalPort = color & 0x00FF;
-	g_VDP_PalPort = color >> 8;
+	index; // A
+	color; // DE
+	__asm
+		VDP_DI
+		out	(_g_VDP_RegPort), a
+		ld	a, #VDP_REG(16)
+		out	(_g_VDP_RegPort), a
+		ld	a, e
+		out	(_g_VDP_PalPort), a
+		ld	a, d
+		VDP_EI
+		out	(_g_VDP_PalPort), a
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
