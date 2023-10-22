@@ -767,7 +767,7 @@ enum VDP_FREQ
 //   freq - Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)
 inline void VDP_SetFrequency(u8 freq) { VDP_RegWriteBakMask(9, (u8)~R09_NT, freq); }
 
-// Function: VDP_SetFrequency
+// Function: VDP_GetFrequency
 // Change VDP frequency (register 9). [MSX2/2+/TR]
 //
 // Return:

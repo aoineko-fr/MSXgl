@@ -89,12 +89,12 @@ bool Crypt_Encode(const void* data, u8 size, c8* str)
 //
 u8 Crypt_SearchMap(u8 chr)
 {
-	u8 ret = 0xFF;
 	const c8* map = g_CryptDefaultMap;
 	loop(i, 32)
 		if (chr == *map++)
 			return i;
-	return ret;
+
+	return 0xFF;
 }
 
 //-----------------------------------------------------------------------------
