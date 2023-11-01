@@ -291,13 +291,14 @@
 #define GAMEPAWN_COL_2P_MIDDLE		(GAMEPAWN_COL_25|GAMEPAWN_COL_75)
 #define GAMEPAWN_COL_2P_CORNER		(GAMEPAWN_COL_0|GAMEPAWN_COL_100)
 
-#define GAMEPAWN_BOUND_CUSTOM		0xFF // Use variable bound value for each pawn
+#define GAMEPAWN_BOUND_CUSTOM		0x10000 // Use variable bound value for each pawn
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE
 //-----------------------------------------------------------------------------
 
-#define MENU_VARIABLE               0xFFFF
+#define MENU_VARIABLE               0x10000
+#define MENU_AUTO               	0x10001
 
 //-----------------------------------------------------------------------------
 // COMPRESS MODULE

@@ -8,50 +8,95 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic665"></a><div class="CTopic TGroup LC first">
+<a name="Types"></a><a name="Topic682"></a><div class="CTopic TGroup LC first">
+ <div class="CTitle">Types</div>
+</div>
+
+<a name="MENU_ITEM_TYPE"></a><a name="Topic479"></a><div class="CTopic TEnumeration LC">
+ <div class="CTitle">MENU_ITEM_TYPE</div>
+ <div class="CBody"><p>Menu item types</p></div>
+</div>
+
+<a name="MENU_ACTION"></a><a name="Topic665"></a><div class="CTopic TEnumeration LC">
+ <div class="CTitle">MENU_ACTION</div>
+ <div class="CBody"><p>Menu item actions</p></div>
+</div>
+
+<a name="MENU_INPUT_TYPE"></a><a name="Topic711"></a><div class="CTopic TEnumeration LC">
+ <div class="CTitle">MENU_INPUT_TYPE</div>
+ <div class="CBody"><p>Menu input value</p></div>
+</div>
+
+<a name="MENU_EVENT_CALLBACK"></a><a name="Topic712"></a><div class="CTopic TEnumeration LC">
+ <div class="CTitle">MENU_EVENT_CALLBACK</div>
+ <div class="CBody"><p>Menu event callback</p></div>
+</div>
+
+<a name="Macros"></a><a name="Topic692"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Macros</div>
+</div>
+
+<a name="MENU_FLAG_DIRTY"></a><a name="Topic713"></a><div class="CTopic TMacro LC">
+ <div class="CTitle">MENU_FLAG_DIRTY</div>
+ <div class="CBody"><p>Menu item actions</p></div>
+</div>
+
+<a name="Functions"></a><a name="Topic683"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="Menu_Initialize"></a><a name="Topic744"></a><div class="CTopic TFunction LC">
+<a name="Menu_Initialize"></a><a name="Topic684"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Menu_Initialize</div>
- <div id="NDPrototype744" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Menu_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">Menu*&nbsp;</td><td class="PName last">menus</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Initialize a menu Must be called first (will reset or set default callback)</p></div>
+ <div id="NDPrototype684" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Menu_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">Menu*&nbsp;</td><td class="PName last">menus</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize all the menu pages Must be called first (will reset or set default callback)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">menus<div class="CDLParameterType"><span class="SHKeyword">const</span> Menu*</div></td><td class="CDLDefinition"><p>Table of &lt;Menu&gt; structures that discribe all the menu pages</p></td></tr></table></div>
 </div>
 
-<a name="Menu_SetInputCallback"></a><a name="Topic805"></a><div class="CTopic TFunction LC">
+<a name="Menu_SetInputCallback"></a><a name="Topic685"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Menu_SetInputCallback</div>
- <div id="NDPrototype805" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Menu_SetInputCallback(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Menu_InputCB&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype685" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Menu_SetInputCallback(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Menu_InputCB&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the callback function to be called to handle menu input</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">cb<div class="CDLParameterType">Menu_InputCB</div></td><td class="CDLDefinition"><p>Callback function address</p></td></tr></table></div>
 </div>
 
-<a name="Menu_SetDrawCallback"></a><a name="Topic806"></a><div class="CTopic TFunction LC">
+<a name="Menu_SetDrawCallback"></a><a name="Topic691"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Menu_SetDrawCallback</div>
- <div id="NDPrototype806" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Menu_SetDrawCallback(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Menu_DrawCB&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype691" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Menu_SetDrawCallback(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Menu_DrawCB&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the callback function to be called to handle menu item drawing</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">cb<div class="CDLParameterType">Menu_DrawCB</div></td><td class="CDLDefinition"><p>Callback function address</p></td></tr></table></div>
 </div>
 
-<a name="Menu_SetEventCallback"></a><a name="Topic479"></a><div class="CTopic TFunction LC">
+<a name="Menu_SetEventCallback"></a><a name="Topic693"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Menu_SetEventCallback</div>
- <div id="NDPrototype479" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Menu_SetEventCallback(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Menu_EventCB&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype693" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Menu_SetEventCallback(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Menu_EventCB&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the callback function to be called when event occurs</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">cb<div class="CDLParameterType">Menu_EventCB</div></td><td class="CDLDefinition"><p>Callback function address</p></td></tr></table></div>
 </div>
 
-<a name="Menu_SetDirty"></a><a name="Topic949"></a><div class="CTopic TFunction LC">
+<a name="Menu_SetDirty"></a><a name="Topic694"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Menu_SetDirty</div>
- <div id="NDPrototype949" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Menu_SetDirty()</div></div>
+ <div id="NDPrototype694" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Menu_SetDirty()</div></div>
  <div class="CBody"><p>Set flag to force a whole menu redraw</p></div>
 </div>
 
-<a name="Menu_DrawPage"></a><a name="Topic809"></a><div class="CTopic TFunction LC">
+<a name="Menu_DrawPage"></a><a name="Topic695"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Menu_DrawPage</div>
- <div id="NDPrototype809" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Menu_DrawPage(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Draw a given page by its page number</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">cb</td><td class="CDLDefinition"><p>Callback function address</p></td></tr></table></div>
+ <div id="NDPrototype695" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Menu_DrawPage(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Draw a given page by its page number</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">page<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Page index to draw (index is relative to the ist passed to <a href="../index.html#File:game_menu.h:Menu_Initialize" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,684);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >Menu_Initialize</a> function)</p></td></tr></table></div>
 </div>
 
-<a name="Menu_Update"></a><a name="Topic810"></a><div class="CTopic TFunction LC last">
+<a name="Menu_Update"></a><a name="Topic696"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Menu_Update</div>
- <div id="NDPrototype810" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Menu_Update()</div></div>
+ <div id="NDPrototype696" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Menu_Update()</div></div>
  <div class="CBody"><p>Update the menu handler</p></div>
+</div>
+
+<a name="Menu_SetScreenWidth"></a><a name="Topic697"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Menu_SetScreenWidth</div>
+ <div id="NDPrototype697" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Menu_SetScreenWidth(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">width</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set menu screen with</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">width<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Screen width in screen mode's unit (tiles or pixels)</p></td></tr></table></div>
+</div>
+
+<a name="Menu_GetScreenWidth"></a><a name="Topic698"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">Menu_GetScreenWidth</div>
+ <div id="NDPrototype698" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Menu_GetScreenWidth()</div></div>
+ <div class="CBody"><p>Get menu screen with</p><p>Return: Screen width in screen mode's unit (tiles or pixels)</p></div>
 </div>
 
 </body></html>

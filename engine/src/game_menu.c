@@ -37,6 +37,13 @@ u8				g_MenuFlag;
 u8				g_MenuInputPrev;
 #endif
 
+#if (MENU_SCREEN_WIDTH == MENU_VARIABLE)
+u8				g_MenuScrWidth;
+#define MENU_GET_SCREEN_WIDTH() g_MenuScrWidth
+#else
+#define MENU_GET_SCREEN_WIDTH() MENU_SCREEN_WIDTH
+#endif
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -117,10 +124,10 @@ void Menu_DisplayItem(u8 item)
 		return;
 
 	// Get base Y coordinate
-	u8 y = MENU_POS_Y + item;
+	u8 y = MENU_ITEM_Y + item;
 	//  Clear line
-	u16 dst = g_ScreenLayoutLow + MENU_POS_X + (y * MENU_SCREEN_WIDTH);
-	VDP_FillVRAM(MENU_CLEAR, dst, g_ScreenLayoutHigh, MENU_WIDTH);
+	u16 dst = g_ScreenLayoutLow + MENU_FRAME_X + (y * MENU_GET_SCREEN_WIDTH());
+	VDP_FillVRAM(MENU_CHAR_CLEAR, dst, g_ScreenLayoutHigh, MENU_FRAME_WIDTH);
 
 	// Get base X coordinate
 	u8 x;
@@ -143,7 +150,7 @@ void Menu_DisplayItem(u8 item)
 	if(align != MENU_ITEM_ALIGN_LEFT)
 	{
 		u8 len = String_Length(pCurItem->Text);
-		if(align == MENU_ITEM_ALIGN_LEFT)
+		if(align == MENU_ITEM_ALIGN_RIGHT)
 			x -= len;
 		else // if(align == MENU_ITEM_ALIGN_CENTER)
 			x -= len / 2;
@@ -159,8 +166,7 @@ void Menu_DisplayItem(u8 item)
 	#endif
 
 	// Draw item label
-	Print_SetPosition(x, y);
-	Print_DrawText(pCurItem->Text);
+	Print_DrawTextAt(x, y, pCurItem->Text);
 
 	// Draw item value
 	Print_SetPosition(MENU_VALUE_X, y);
@@ -229,11 +235,17 @@ void Menu_DrawPage(u8 page)
 	}
 
 	// Clear
-	u16 dst = g_ScreenLayoutLow + MENU_POS_X + (MENU_POS_Y * MENU_SCREEN_WIDTH);
-	for(u8 i = MENU_POS_Y; i < MENU_POS_Y + MENU_HEIGHT; ++i)
+	u16 dst = g_ScreenLayoutLow + MENU_FRAME_X + (MENU_FRAME_Y * MENU_GET_SCREEN_WIDTH());
+	for(u8 i = MENU_FRAME_Y; i < MENU_FRAME_Y + MENU_FRAME_HEIGHT; ++i)
 	{
-		VDP_FillVRAM(MENU_CLEAR, dst, g_ScreenLayoutHigh, MENU_WIDTH);
-		dst += MENU_SCREEN_WIDTH;
+		VDP_FillVRAM(MENU_CHAR_CLEAR, dst, g_ScreenLayoutHigh, MENU_FRAME_WIDTH);
+		dst += MENU_GET_SCREEN_WIDTH();
+	}
+
+	// Title
+	if (g_MenuPage->Title)
+	{
+		Print_DrawTextAt(MENU_TITLE_X, MENU_TITLE_Y, g_MenuPage->Title);
 	}
 
 	// Display menu items
@@ -264,10 +276,10 @@ void Menu_Update()
 			const c8* str = cb(MENU_ACTION_UPDATE, pCurItem->Value);
 			if(str)
 			{
-				u8 y = MENU_POS_Y + item;
+				u8 y = MENU_FRAME_Y + item;
 				// Clear line
-				u16 dst = g_ScreenLayoutLow + MENU_POS_X + (y * MENU_SCREEN_WIDTH);
-				VDP_FillVRAM(MENU_CLEAR, dst, g_ScreenLayoutHigh, MENU_WIDTH);
+				u16 dst = g_ScreenLayoutLow + MENU_FRAME_X + (y * MENU_GET_SCREEN_WIDTH());
+				VDP_FillVRAM(MENU_CHAR_CLEAR, dst, g_ScreenLayoutHigh, MENU_FRAME_WIDTH);
 				// Update draw
 				Print_SetPosition(MENU_ITEM_X + pCurItem->Value, y);
 				Print_DrawText(str);
@@ -375,7 +387,7 @@ void Menu_Update()
 		while(i > 0)
 		{
 			i--;
-			if(g_MenuPage->Items[i].Type < MENU_ITEM_TEXT)
+			if((g_MenuPage->Items[i].Type & ~MENU_ITEM_ALIGN_MASK) < MENU_ITEM_TEXT)
 			{
 				u8 prev = g_MenuItem;
 				g_MenuItem = i;
@@ -392,7 +404,7 @@ void Menu_Update()
 		while(i < g_MenuPage->ItemNum-1)
 		{
 			i++;
-			if(g_MenuPage->Items[i].Type < MENU_ITEM_TEXT)
+			if((g_MenuPage->Items[i].Type & ~MENU_ITEM_ALIGN_MASK) < MENU_ITEM_TEXT)
 			{
 				u8 prev = g_MenuItem;
 				g_MenuItem = i;

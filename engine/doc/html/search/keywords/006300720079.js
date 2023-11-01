@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("cry",["Function"],[["Crypt_Decode",,[[,,,,0,"File:crypt.h:Crypt_Decode"]]],["Crypt_Encode",,[[,,,,0,"File:crypt.h:Crypt_Encode"]]],["Crypt_SetCode",,[[,,,,0,"File:crypt.h:Crypt_SetCode"]]],["Crypt_SetKey",,[[,,,,0,"File:crypt.h:Crypt_SetKey"]]],["Crypt_SetMap",,[[,,,,0,"File:crypt.h:Crypt_SetMap"]]]]);

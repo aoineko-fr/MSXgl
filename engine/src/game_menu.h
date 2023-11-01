@@ -32,34 +32,34 @@
 	#define MENU_SCREEN_WIDTH		32
 #endif
 
-// MENU_CLEAR
-#ifndef MENU_CLEAR
-	#warning MENU_CLEAR is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define MENU_CLEAR				0
+// MENU_CHAR_CLEAR
+#ifndef MENU_CHAR_CLEAR
+	#warning MENU_CHAR_CLEAR is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define MENU_CHAR_CLEAR			0
 #endif
 
-// MENU_POS_X
-#ifndef MENU_POS_X
-	#warning MENU_POS_X is not defined in "msxgl_config.h"! Default value will be used: 4
-	#define MENU_POS_X				4
+// MENU_FRAME_X
+#ifndef MENU_FRAME_X
+	#warning MENU_FRAME_X is not defined in "msxgl_config.h"! Default value will be used: 4
+	#define MENU_FRAME_X			4
 #endif
 
-// MENU_POS_Y
-#ifndef MENU_POS_Y
-	#warning MENU_POS_Y is not defined in "msxgl_config.h"! Default value will be used: 11
-	#define MENU_POS_Y				11
+// MENU_FRAME_Y
+#ifndef MENU_FRAME_Y
+	#warning MENU_FRAME_Y is not defined in "msxgl_config.h"! Default value will be used: 11
+	#define MENU_FRAME_Y			11
 #endif
 
-// MENU_WIDTH
-#ifndef MENU_WIDTH
-	#warning MENU_WIDTH is not defined in "msxgl_config.h"! Default value will be used: 24
-	#define MENU_WIDTH				24
+// MENU_FRAME_WIDTH
+#ifndef MENU_FRAME_WIDTH
+	#warning MENU_FRAME_WIDTH is not defined in "msxgl_config.h"! Default value will be used: 24
+	#define MENU_FRAME_WIDTH		24
 #endif
 
-// MENU_HEIGHT
-#ifndef MENU_HEIGHT
-	#warning MENU_HEIGHT is not defined in "msxgl_config.h"! Default value will be used: 8
-	#define MENU_HEIGHT				8
+// MENU_FRAME_HEIGHT
+#ifndef MENU_FRAME_HEIGHT
+	#warning MENU_FRAME_HEIGHT is not defined in "msxgl_config.h"! Default value will be used: 8
+	#define MENU_FRAME_HEIGHT		8
 #endif
 
 // MENU_CURSOR_MODE
@@ -74,10 +74,28 @@
 	#define MENU_CURSOR_OFFSET		(-1)
 #endif
 
+// MENU_TITLE_X
+#ifndef MENU_TITLE_X
+	#warning MENU_TITLE_X is not defined in "msxgl_config.h"! Default value will be used: MENU_FRAME_X
+	#define MENU_TITLE_X			MENU_FRAME_X
+#endif
+
+// MENU_TITLE_Y
+#ifndef MENU_TITLE_Y
+	#warning MENU_TITLE_Y is not defined in "msxgl_config.h"! Default value will be used: MENU_FRAME_Y
+	#define MENU_TITLE_Y			MENU_FRAME_Y
+#endif
+
 // MENU_ITEM_X
 #ifndef MENU_ITEM_X
-	#warning MENU_ITEM_X is not defined in "msxgl_config.h"! Default value will be used: 6
-	#define MENU_ITEM_X				6
+	#warning MENU_ITEM_X is not defined in "msxgl_config.h"! Default value will be used: MENU_FRAME_X
+	#define MENU_ITEM_X				MENU_FRAME_X
+#endif
+
+// MENU_ITEM_Y
+#ifndef MENU_ITEM_Y
+	#warning MENU_ITEM_Y is not defined in "msxgl_config.h"! Default value will be used: MENU_FRAME_Y
+	#define MENU_ITEM_Y				MENU_FRAME_Y
 #endif
 
 // MENU_ITEM_X_GOTO
@@ -104,14 +122,11 @@
 	#define MENU_VALUE_X			13
 #endif
 
-#define MENU_MAX_ITEM 20
-
-extern u8 g_MenuFlags[MENU_MAX_ITEM];
-
 //=============================================================================
 // DEFINES
 //=============================================================================
 
+// Enum: MENU_ITEM_TYPE
 // Menu item types
 enum MENU_ITEM_TYPE
 {
@@ -138,6 +153,7 @@ enum MENU_ITEM_TYPE
 //------------------------------------
 };
 
+// Enum: MENU_ACTION
 // Menu item actions
 enum MENU_ACTION
 {
@@ -151,16 +167,7 @@ enum MENU_ACTION
 	MENU_ACTION_INVALID = 0xFF,
 };
 
-// Menu item layut
-enum MENU_LAYOUT
-{
-	MENU_LAYOUT_LEFT = 0,
-	MENU_LAYOUT_RIGHT,
-	MENU_LAYOUT_CENTER,
-//------------------------------------
-	MENU_LAYOUT_MAX,
-};
-
+// Enum: MENU_INPUT_TYPE
 // Menu input value
 enum MENU_INPUT_TYPE
 {
@@ -185,6 +192,7 @@ enum MENU_DRAW_CALLBACK
 	MENU_DRAW_MAX,
 };
 
+// Enum: MENU_EVENT_CALLBACK
 // Menu event callback
 enum MENU_EVENT_CALLBACK
 {
@@ -197,6 +205,7 @@ enum MENU_EVENT_CALLBACK
 	MENU_EVENT_MAX,
 };
 
+// Define: MENU_FLAG_DIRTY
 // Menu item actions
 #define MENU_FLAG_DIRTY				0x01
 
@@ -212,30 +221,30 @@ typedef void (*Menu_DrawCB)(u8, u8, u8, const void*);
 // Event callback signature
 typedef void (*Menu_EventCB)(u8);
 
-// Menu item strcture
+// Menu item parameters
 typedef struct
 {
-	const c8* Text;
-	u8        Type;
-	void*     Action;
-	i16       Value;
+	const c8* Text;		// Name of the item
+	u8        Type;		// Type of the item (see <MENU_ITEM_TYPE>)
+	void*     Action;	// Action associated to the item (depends on item type)
+	i16       Value;	// Value associated to the item (depends on item type)
 } MenuItem;
 
-// Menu item strcture
+// Menu integer item min/max definition
 typedef struct
 {
-	i8        Min;
-	i8        Max;
-	i8        Step;
+	i8        Min;		// Minimal value limit
+	i8        Max;		// Maximal value limit
+	i8        Step;		// Increment/decrement step value
 } MenuItemMinMax;
 
-// Menu strcture
+// Menu parameters
 typedef struct
 {
-	const c8* Title;
-	MenuItem* Items;
-	u8        ItemNum;
-	callback  Callback;
+	const c8* Title;		// Title of the page (NULL means no title)
+	MenuItem* Items;		// List of the page's menu entries
+	u8        ItemNum;		// Number of the page's menu entries
+	callback  Callback;		// Function to be called when page is opened
 } Menu;
 
 // Table of the menu pages.
@@ -247,13 +256,20 @@ extern Menu_DrawCB		g_MenuDrawCB;
 extern Menu_EventCB		g_MenuEventCB;
 extern u8				g_MenuFlag;
 
+#if (MENU_SCREEN_WIDTH == MENU_VARIABLE)
+extern u8				g_MenuScrWidth;
+#endif
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
 // Function: Menu_Initialize
-// Initialize a menu
+// Initialize all the menu pages
 // Must be called first (will reset or set default callback)
+//
+// Parameters:
+//   menus - Table of <Menu> structures that discribe all the menu pages
 void Menu_Initialize(const Menu* menus);
 
 // Function: Menu_SetInputCallback
@@ -285,9 +301,26 @@ inline void Menu_SetDirty() { g_MenuFlag |= MENU_FLAG_DIRTY; }
 // Draw a given page by its page number
 //
 // Parameters:
-//   cb - Callback function address
+//   page - Page index to draw (index is relative to the ist passed to <Menu_Initialize> function)
 void Menu_DrawPage(u8 page);
 
 // Function: Menu_Update
 // Update the menu handler
 void Menu_Update();
+
+#if (MENU_SCREEN_WIDTH == MENU_VARIABLE)
+
+// Function: Menu_SetScreenWidth
+// Set menu screen with
+//
+// Parameters:
+//   width - Screen width in screen mode's unit (tiles or pixels)
+inline void Menu_SetScreenWidth(u8 width) { g_MenuScrWidth = width; }
+
+// Function: Menu_GetScreenWidth
+// Get menu screen with
+//
+// Return: Screen width in screen mode's unit (tiles or pixels)
+inline u8 Menu_GetScreenWidth() { return g_MenuScrWidth; }
+
+#endif

@@ -98,5 +98,12 @@
 // System module
 #define Sys_GetHeardAddr            Sys_GetHeaderAddr
 
-// V9990
+// V9990 module
 #define V9_SetLayerPalette          V9_SelectPaletteP1
+
+// Menu module
+#define MENU_CLEAR					MENU_CHAR_CLEAR
+#define MENU_POS_X					MENU_FRAME_X
+#define MENU_POS_Y					MENU_FRAME_Y
+#define MENU_WIDTH					MENU_FRAME_WIDTH
+#define MENU_HEIGHT					MENU_FRAME_HEIGHT

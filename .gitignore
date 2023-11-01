@@ -21,6 +21,7 @@ testcases
 /engine/src/arkos/serial
 /engine/src/arkos/misc
 /engine/src/obsolete
+/engine/datasrc/font/damieng
 
 /projects/gos
 /projects/FinalSmash
@@ -35,6 +36,9 @@ testcases
 /projects/Tetpuz
 /projects/Koneko
 /projects/Corrupta
+/projects/eggysmaze
+/projects/Magelan
+
 /projects/samples/datasrc/pcm
 /projects/samples/datasrc/pt3
 /projects/samples/datasrc/vgm
