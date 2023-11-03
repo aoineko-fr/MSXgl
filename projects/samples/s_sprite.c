@@ -26,7 +26,7 @@
 
 // Sprite enum
 #define SPRITE_8_1ST			(u8)0
-#define SPRITE_8_NUM			(u8)24
+#define SPRITE_8_NUM			(u8)25
 #define SPRITE_16_1ST			(u8)(SPRITE_8_1ST+SPRITE_8_NUM)
 #define SPRITE_16_NUM			(u8)2
 #define SPRITE_16OR_1ST			(u8)(SPRITE_16_1ST+SPRITE_16_NUM)
