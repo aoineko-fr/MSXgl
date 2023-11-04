@@ -40,3 +40,21 @@ void Sprite_Mask8(const u8* src, u8* dest, const u8* mask);
 
 // Mask 16x16 sprite
 void Sprite_Mask16(const u8* src, u8* dest, const u8* mask);
+
+// Rotate 90° 8x8 sprite
+void Sprite_RotateRight8(const u8* src, u8* dest);
+
+// Rotate 90° 16x16 sprite
+void Sprite_RotateRight16(const u8* src, u8* dest);
+
+// Rotate 90° 8x8 sprite
+void Sprite_RotateLeft8(const u8* src, u8* dest);
+
+// Rotate 90° 16x16 sprite
+void Sprite_RotateLeft16(const u8* src, u8* dest);
+
+// Rotate 180° 8x8 sprite
+void Sprite_RotateHalf8(const u8* src, u8* dest);
+
+// Rotate 180° 16x16 sprite
+void Sprite_RotateHalf16(const u8* src, u8* dest);
