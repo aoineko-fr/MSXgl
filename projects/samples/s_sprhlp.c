@@ -293,10 +293,13 @@ void main()
 	Print_DrawTextAt(15, 5, "\x9F\x9F");
 	Print_DrawCharXAt(0, 6, '\x9F', 32);
 
-	Print_DrawTextAt(1, 10, "Flip V");
+	Print_DrawTextAt(1, 10, "Flip H");
 	Print_DrawCharXAt(0, 12, '\x9F', 32);
 
 	Print_DrawTextAt(1, 16, "Mask");
+	Print_DrawCharXAt(0, 18, '\x9F', 32);
+
+	Print_DrawTextAt(1, 22, "Rotate");
 	Print_DrawCharXAt(0, 18, '\x9F', 32);
 
 	bool bContinue = TRUE;
@@ -341,9 +344,9 @@ void main()
 		g_PosX1--;
 		VDP_SetSpritePositionX(2, g_PosX1);
 		VDP_SetSpritePositionX(3, g_PosX1);
-		Sprite_FlipV16((const u8*)(g_PatternBuffer + pat), (u8*)0xF000);
+		Sprite_FlipH16((const u8*)(g_PatternBuffer + pat), (u8*)0xF000);
 		VDP_LoadSpritePattern((u8*)0xF000, 8, 4);
-		Sprite_FlipV16((const u8*)(g_PatternBuffer + pat + (24 * 8)), (u8*)0xF000);
+		Sprite_FlipH16((const u8*)(g_PatternBuffer + pat + (24 * 8)), (u8*)0xF000);
 		VDP_LoadSpritePattern((u8*)0xF000, 12, 4);
 
 		// Mask

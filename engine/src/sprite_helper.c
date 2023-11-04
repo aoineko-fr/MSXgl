@@ -88,8 +88,8 @@ void Sprite_CropRight16(const u8* src, u8* dest, u8 offset)
 }
 
 //-----------------------------------------------------------------------------
-// Flip 8x8 sprite horizontally
-void Sprite_FlipH8(const u8* src, u8* dest)
+// Vertical flip 8x8 sprite
+void Sprite_FlipV8(const u8* src, u8* dest)
 {
 	src += 7;
 	loop(i, 8)
@@ -97,8 +97,8 @@ void Sprite_FlipH8(const u8* src, u8* dest)
 }
 
 //-----------------------------------------------------------------------------
-// Flip 16x16 sprite horizontally
-void Sprite_FlipH16(const u8* src, u8* dest)
+// Vertical flip 16x16 sprite
+void Sprite_FlipV16(const u8* src, u8* dest)
 {
 	src += 15;
 	loop(i, 16)
@@ -134,16 +134,16 @@ u8 Sprite_Flip(u8 val) __PRESERVES(c, d, e, h, l, iyl, iyh)
 }
 
 //-----------------------------------------------------------------------------
-// Flip 8x8 sprite vertically
-void Sprite_FlipV8(const u8* src, u8* dest)
+// Horizontally flip 8x8 sprite
+void Sprite_FlipH8(const u8* src, u8* dest)
 {
 	loop(i, 8)
 		*dest++ = Sprite_Flip(*src++);
 }
 
 //-----------------------------------------------------------------------------
-// Flip 16x16 sprite vertically
-void Sprite_FlipV16(const u8* src, u8* dest)
+// Horizontally flip 16x16 sprite
+void Sprite_FlipH16(const u8* src, u8* dest)
 {
 	dest += 16;
 	loop(i, 16)
