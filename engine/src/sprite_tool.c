@@ -1,5 +1,20 @@
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄           ▄  ▄▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ██▀▄ ██▄▀ ▄  ██▀ ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ██▀  ██   ██ ▀█▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘       ▀▀
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
+//─────────────────────────────────────────────────────────────────────────────
+// Sprite tool module
+//─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
+#include "sprite_tool.h"
 
+//=============================================================================
+// READ-ONLY DATA
+//=============================================================================
+
+// Mask for left croping
 const u8 g_SpriteMaskL[8] = 
 {
 	0b01111111,
@@ -12,6 +27,7 @@ const u8 g_SpriteMaskL[8] =
 	0b00000000,
 };
 
+// Mask for right croping
 const u8 g_SpriteMaskR[8] = 
 {
 	0b11111110,
@@ -23,6 +39,23 @@ const u8 g_SpriteMaskR[8] =
 	0b10000000,
 	0b00000000,
 };
+
+// Mask for transposition
+const u8 g_SpriteBit[8] = 
+{
+	0b10000000,
+	0b01000000,
+	0b00100000,
+	0b00010000,
+	0b00001000,
+	0b00000100,
+	0b00000010,
+	0b00000001,
+};
+
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
 
 //-----------------------------------------------------------------------------
 // Crop 8x8 sprite left side
@@ -169,18 +202,6 @@ void Sprite_Mask16(const u8* src, u8* dest, const u8* mask)
 		*dest++ = *src++ & *mask++;
 }
 
-const u8 g_SpriteBit[8] = 
-{
-	0b10000000,
-	0b01000000,
-	0b00100000,
-	0b00010000,
-	0b00001000,
-	0b00000100,
-	0b00000010,
-	0b00000001,
-};
-
 //-----------------------------------------------------------------------------
 // Rotate 90° to right 8x8 sprite
 void Sprite_RotateRight8(const u8* src, u8* dest)
@@ -229,7 +250,7 @@ void Sprite_RotateLeft16(const u8* src, u8* dest)
 
 //-----------------------------------------------------------------------------
 // Rotate 180° 8x8 sprite
-void Sprite_RotateHalf8(const u8* src, u8* dest)
+void Sprite_RotateHalfTurn8(const u8* src, u8* dest)
 {
 	src += 7;
 	loop(i, 8)
@@ -238,10 +259,10 @@ void Sprite_RotateHalf8(const u8* src, u8* dest)
 
 //-----------------------------------------------------------------------------
 // Rotate 180° 16x16 sprite
-void Sprite_RotateHalf16(const u8* src, u8* dest)
+void Sprite_RotateHalfTurn16(const u8* src, u8* dest)
 {
-	Sprite_RotateHalf8(src,      dest + 24);
-	Sprite_RotateHalf8(src + 8,  dest + 16);
-	Sprite_RotateHalf8(src + 16, dest + 8);
-	Sprite_RotateHalf8(src + 24, dest);
+	Sprite_RotateHalfTurn8(src,      dest + 24);
+	Sprite_RotateHalfTurn8(src + 8,  dest + 16);
+	Sprite_RotateHalfTurn8(src + 16, dest + 8);
+	Sprite_RotateHalfTurn8(src + 24, dest);
 }

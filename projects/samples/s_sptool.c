@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
-//  Sprite mode 2 sample
+//  Sprite tool sample
 //─────────────────────────────────────────────────────────────────────────────
 
 //=============================================================================
@@ -12,7 +12,7 @@
 #include "msxgl.h"
 #include "bios.h"
 #include "memory.h"
-#include "sprite_helper.h"
+#include "sprite_tool.h"
 
 //=============================================================================
 // DEFINES
@@ -291,8 +291,8 @@ void main()
 	VDP_SetSpriteExUniColor(3, 0, 80-1, 12, VDP_SPRITE_CC + 0x01);
 	VDP_SetSpriteExUniColor(4, 0, 128-1, 16, 0x02);
 	VDP_SetSpriteExUniColor(5, 0, 128-1, 20, VDP_SPRITE_CC + 0x01);
-	VDP_SetSpriteExUniColor(6, 120, 176-1, 24, 0x02);
-	VDP_SetSpriteExUniColor(7, 120, 176-1, 28, VDP_SPRITE_CC + 0x01);
+	VDP_SetSpriteExUniColor(6, 120, (u8)(176-1), 24, 0x02);
+	VDP_SetSpriteExUniColor(7, 120, (u8)(176-1), 28, VDP_SPRITE_CC + 0x01);
 	VDP_HideSpriteFrom(8);
 	g_PosX0 = 0;
 	g_PosX1 = 0;
@@ -303,7 +303,7 @@ void main()
 		u16 idx = i * 4 * 8;
 		Sprite_RotateRight16(&g_PatternData[idx], &g_PatternDataRotRight[idx]);
 		Sprite_RotateLeft16(&g_PatternData[idx], &g_PatternDataRotLeft[idx]);
-		Sprite_RotateHalf16(&g_PatternData[idx], &g_PatternDataRotHalf[idx]);
+		Sprite_RotateHalfTurn16(&g_PatternData[idx], &g_PatternDataRotHalf[idx]);
 		Sprite_FlipH16(&g_PatternData[idx], &g_PatternDataFlip[idx]);
 	}
 
@@ -314,7 +314,7 @@ void main()
 	VDP_FillVRAM_16K(COLOR_LIGHT_BLUE << 4, g_ScreenColorLow + (32*4*8) + (1*256*8), 32*4*8);
 	VDP_FillVRAM_16K(COLOR_LIGHT_BLUE << 4, g_ScreenColorLow + (32*4*8) + (2*256*8), 32*4*8);
 
-	Print_DrawTextAt(0, 0, "\x2\x3\x4\x5 Sprite helper sample");
+	Print_DrawTextAt(0, 0, "\x2\x3\x4\x5 Sprite tool sample");
 	Print_DrawCharXAt(0, 1, '\x17', 32);
 
 	Print_DrawTextAt(1, 4, "Crop R/L");
@@ -386,7 +386,7 @@ void main()
 			VDP_FillSpritePattern(0, 16, 4);
 			VDP_FillSpritePattern(0, 20, 4);
 		}
-		else if(g_MaskAnim[frame] == 1)
+		else if(g_MaskAnim[frame] == (u8*)1)
 		{
 			VDP_LoadSpritePattern(g_PatternData + pat, 16, 4);
 			VDP_LoadSpritePattern(g_PatternData + 24 * 8 + pat, 20, 4);
