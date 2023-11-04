@@ -1,8 +1,7 @@
 #include "msxgl.h"
 
-const u8 g_SpriteMask[8] = 
+const u8 g_SpriteMaskL[8] = 
 {
-	0b11111111,
 	0b01111111,
 	0b00111111,
 	0b00011111,
@@ -10,13 +9,26 @@ const u8 g_SpriteMask[8] =
 	0b00000111,
 	0b00000011,
 	0b00000001,
+	0b00000000,
+};
+
+const u8 g_SpriteMaskR[8] = 
+{
+	0b11111110,
+	0b11111100,
+	0b11111000,
+	0b11110000,
+	0b11100000,
+	0b11000000,
+	0b10000000,
+	0b00000000,
 };
 
 //-----------------------------------------------------------------------------
 // Crop 8x8 sprite left side
 void Sprite_CropLeft8(const u8* src, u8* dest, u8 offset)
 {
-	u8 mask = g_SpriteMask[offset];
+	u8 mask = g_SpriteMaskL[offset];
 	loop(i, 8)
 		*dest++ = *src++ & mask;
 }
@@ -27,7 +39,7 @@ void Sprite_CropLeft16(const u8* src, u8* dest, u8 offset)
 {
 	if(offset < 8)
 	{
-		u8 mask = g_SpriteMask[offset];
+		u8 mask = g_SpriteMaskL[offset];
 		loop(i, 16)
 			*dest++ = *src++ & mask;
 		loop(i, 16)
@@ -37,7 +49,8 @@ void Sprite_CropLeft16(const u8* src, u8* dest, u8 offset)
 	{
 		loop(i, 16)
 			*dest++ = 0;
-		u8 mask = g_SpriteMask[offset - 8];
+		src += 16;
+		u8 mask = g_SpriteMaskL[offset - 8];
 		loop(i, 16)
 			*dest++ = *src++ & mask;
 	}
@@ -47,7 +60,7 @@ void Sprite_CropLeft16(const u8* src, u8* dest, u8 offset)
 // Crop 8x8 sprite right side
 void Sprite_CropRight8(const u8* src, u8* dest, u8 offset)
 {
-	u8 mask = ~g_SpriteMask[offset];
+	u8 mask = g_SpriteMaskR[offset];
 	loop(i, 8)
 		*dest++ = *src++ & mask;
 }
@@ -60,13 +73,13 @@ void Sprite_CropRight16(const u8* src, u8* dest, u8 offset)
 	{
 		loop(i, 16)
 			*dest++ = *src++;
-		u8 mask = ~g_SpriteMask[offset];
+		u8 mask = g_SpriteMaskR[offset];
 		loop(i, 16)
-		*dest++ = *src++ & mask;
+			*dest++ = *src++ & mask;
 	}
 	else
 	{
-		u8 mask = ~g_SpriteMask[offset - 8];
+		u8 mask = g_SpriteMaskR[offset - 8];
 		loop(i, 16)
 			*dest++ = *src++ & mask;
 		loop(i, 16)
