@@ -12,7 +12,7 @@
 #include "msxgl.h"
 #include "bios.h"
 #include "memory.h"
-#include "tool/sprite_helper.h"
+#include "sprite_helper.h"
 
 //=============================================================================
 // DEFINES
@@ -33,7 +33,160 @@
 #include "content/data_sprt_16or.h"
 
 // Character animation
-const u8 chrAnim[] = { '|', '\\', '-', '/' };
+const u8 g_CharAnim[] = { '|', '\\', '-', '/' };
+
+// 
+const u8 g_Mask1[32] = 
+{
+	0b00000111, 
+	0b00011111, 
+	0b00111111, 
+	0b01111111, 
+	0b01111111, 
+	0b11111111, 
+	0b11111111, 
+	0b11111111, 
+	0b11111111, 
+	0b11111111, 
+	0b11111111, 
+	0b01111111, 
+	0b01111111, 
+	0b00111111, 
+	0b00011111, 
+	0b00000111, 
+
+	0b11100000,
+	0b11111000,
+	0b11111100,
+	0b11111110,
+	0b11111110,
+	0b11111111,
+	0b11111111,
+	0b11111111,
+	0b11111111,
+	0b11111111,
+	0b11111111,
+	0b11111110,
+	0b11111110,
+	0b11111100,
+	0b11111000,
+	0b11100000,
+};
+
+// 
+const u8 g_Mask2[32] = 
+{
+	0b00000000,
+	0b00000000,
+	0b00000011,
+	0b00001111,
+	0b00011111,
+	0b00011111,
+	0b00111111,
+	0b00111111,
+	0b00111111,
+	0b00111111,
+	0b00011111,
+	0b00011111,
+	0b00001111,
+	0b00000011,
+	0b00000000,
+	0b00000000,
+
+	0b00000000,
+	0b00000000,
+	0b11000000,
+	0b11110000,
+	0b11111000,
+	0b11111000,
+	0b11111100,
+	0b11111100,
+	0b11111100,
+	0b11111100,
+	0b11111000,
+	0b11111000,
+	0b11110000,
+	0b11000000,
+	0b00000000,
+	0b00000000,
+};
+
+// 
+const u8 g_Mask3[32] = 
+{
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000011,
+	0b00000111,
+	0b00001111,
+	0b00001111,
+	0b00001111,
+	0b00001111,
+	0b00000111,
+	0b00000011,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b11000000,
+	0b11100000,
+	0b11110000,
+	0b11110000,
+	0b11110000,
+	0b11110000,
+	0b11100000,
+	0b11000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+};
+
+// 
+const u8 g_Mask4[32] = 
+{
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000001,
+	0b00000011,
+	0b00000011,
+	0b00000001,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b10000000,
+	0b11000000,
+	0b11000000,
+	0b10000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+};
+const u8* g_MaskAnim[] = { NULL, g_Mask1, g_Mask2, g_Mask3, g_Mask4, g_Mask3, g_Mask2, g_Mask1 };
 
 //=============================================================================
 // MEMORY DATA
@@ -46,11 +199,12 @@ u8 g_Frame = 0;
 // Sprite data
 u8 g_PatternBuffer[PATTERN_16OR_NUM * 8];
 
+// Sprite mask
+u8 g_Mask[32*2];
+
 // Sprite X position
 u8 g_PosX0;
 u8 g_PosX1;
-
-u8 g_Offset;
 
 //=============================================================================
 // HELPER FUNCTIONS
@@ -91,7 +245,7 @@ void main()
 	
 	// Setup sprite
 	VDP_EnableSprite(TRUE);
-	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 + VDP_SPRITE_SCALE_2);
+	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 
 	// Load 16x16 sprites (Pattern 96~143)
 	u8* ptr = g_PatternBuffer;
@@ -113,21 +267,37 @@ void main()
 	// Initialize 16x16 OR sprites
 	VDP_SetPaletteEntry(2, RGB16(7, 7, 7));
 	VDP_SetPaletteEntry(3, RGB16(6, 4, 1));
-	VDP_SetSpriteExUniColor(0, 0, 32, 0 * 4, 0x02);
-	VDP_SetSpriteExUniColor(1, 0, 32, 1 * 4, VDP_SPRITE_CC + 0x01);
-	VDP_SetSpriteExUniColor(2, 0, 64, 2 * 4, 0x02);
-	VDP_SetSpriteExUniColor(3, 0, 64, 3 * 4, VDP_SPRITE_CC + 0x01);
-	VDP_HideSpriteFrom(4);
+	VDP_SetSpriteExUniColor(0, 0, 32-1, 0 * 4, 0x02);
+	VDP_SetSpriteExUniColor(1, 0, 32-1, 1 * 4, VDP_SPRITE_CC + 0x01);
+	VDP_SetSpriteExUniColor(2, 0, 80-1, 2 * 4, 0x02);
+	VDP_SetSpriteExUniColor(3, 0, 80-1, 3 * 4, VDP_SPRITE_CC + 0x01);
+	VDP_SetSpriteExUniColor(4, 0, 128-1, 4 * 4, 0x02);
+	VDP_SetSpriteExUniColor(5, 0, 128-1, 5 * 4, VDP_SPRITE_CC + 0x01);
+	VDP_HideSpriteFrom(6);
 	g_PosX0 = 0;
 	g_PosX1 = 0;
 
 	// Setup print
 	Print_SetTextFont(g_Font_MGL_Sample8, 0);
 	Print_SetColor(0xF, 0x4);
+	VDP_FillVRAM_16K(COLOR_LIGHT_BLUE << 4, g_ScreenColorLow + (32*4*8) + (0*256*8), 32*4*8);
+	VDP_FillVRAM_16K(COLOR_LIGHT_BLUE << 4, g_ScreenColorLow + (32*4*8) + (1*256*8), 32*4*8);
+	VDP_FillVRAM_16K(COLOR_LIGHT_BLUE << 4, g_ScreenColorLow + (32*4*8) + (2*256*8), 32*4*8);
+
 	Print_DrawTextAt(0, 0, "\x2\x3\x4\x5 Sprite helper sample");
-	Print_DrawTextAt(1, 4, "Crop H");
-	Print_DrawTextAt(15, 4, "##");
-	Print_DrawTextAt(15, 5, "##");
+	Print_DrawCharXAt(0, 1, '\x17', 32);
+
+	Print_DrawTextAt(1, 4, "Crop R/L");
+	Print_DrawTextAt(15, 3, "\x9F\x9F");
+	Print_DrawTextAt(15, 4, "\x9F\x9F");
+	Print_DrawTextAt(15, 5, "\x9F\x9F");
+	Print_DrawCharXAt(0, 6, '\x9F', 32);
+
+	Print_DrawTextAt(1, 10, "Flip V");
+	Print_DrawCharXAt(0, 12, '\x9F', 32);
+
+	Print_DrawTextAt(1, 16, "Mask");
+	Print_DrawCharXAt(0, 18, '\x9F', 32);
 
 	bool bContinue = TRUE;
 	while(bContinue)
@@ -136,29 +306,30 @@ void main()
 		WaitVBlank();
 		VDP_SetColor(COLOR_LIGHT_BLUE);
 	
-		Print_DrawCharAt(31, 0, chrAnim[g_Frame & 0x03]);
+		Print_DrawCharAt(31, 0, g_CharAnim[g_Frame & 0x03]);
 
 		u8 frame = (g_Frame >> 2) % 6;
 		u8 pat = (frame * 8 * 4);
 
+		// Crop right/left
 		g_PosX0++;
 		VDP_SetSpritePositionX(0, g_PosX0);
 		VDP_SetSpritePositionX(1, g_PosX0);
 		if((g_PosX0 > 104) && (g_PosX0 <= 120))
 		{
 			u8 offset = g_PosX0 - 105;
-			Sprite_CropRight16(g_PatternBuffer + pat, 0xF000, offset);
-			VDP_LoadSpritePattern(0xF000, 0, 4);
-			Sprite_CropRight16(g_PatternBuffer + 24 * 8 + pat, 0xF000, offset);
-			VDP_LoadSpritePattern(0xF000, 4, 4);
+			Sprite_CropRight16((const u8*)(g_PatternBuffer + pat), (u8*)0xF000, offset);
+			VDP_LoadSpritePattern((u8*)0xF000, 0, 4);
+			Sprite_CropRight16((const u8*)(g_PatternBuffer + pat + (24 * 8)), (u8*)0xF000, offset);
+			VDP_LoadSpritePattern((u8*)0xF000, 4, 4);
 		}
-		else if((g_PosX0 > 120) && (g_PosX0 <= 136))
+		else if((g_PosX0 >= 120) && (g_PosX0 < 136))
 		{
-			u8 offset = 15 - (g_PosX0 - 121);
-			Sprite_CropLeft16(g_PatternBuffer + pat, 0xF000, offset);
-			VDP_LoadSpritePattern(0xF000, 0, 4);
-			Sprite_CropLeft16(g_PatternBuffer + 24 * 8 + pat, 0xF000, offset);
-			VDP_LoadSpritePattern(0xF000, 4, 4);
+			u8 offset = 15 - (g_PosX0 - 120);
+			Sprite_CropLeft16((const u8*)(g_PatternBuffer + pat), (u8*)0xF000, offset);
+			VDP_LoadSpritePattern((u8*)0xF000, 0, 4);
+			Sprite_CropLeft16((const u8*)(g_PatternBuffer + pat + (24 * 8)), (u8*)0xF000, offset);
+			VDP_LoadSpritePattern((u8*)0xF000, 4, 4);
 		}
 		else
 		{
@@ -166,23 +337,31 @@ void main()
 			VDP_LoadSpritePattern(g_PatternBuffer + 24 * 8 + pat, 4, 4);
 		}
 
-
-
-
-
-		// g_PosX0 = 128;
-		// if(Keyboard_IsKeyPressed(KEY_RIGHT))
-		// 	g_Offset++;
-		// if(Keyboard_IsKeyPressed(KEY_LEFT))
-		// 	g_Offset--;
-		// g_Offset %= 16;
-
-
-		g_PosX1 += 2;
+		// Flip vertical
+		g_PosX1--;
 		VDP_SetSpritePositionX(2, g_PosX1);
 		VDP_SetSpritePositionX(3, g_PosX1);
-		VDP_LoadSpritePattern(g_PatternBuffer + pat, 8, 4);
-		VDP_LoadSpritePattern(g_PatternBuffer + 24 * 8 + pat, 12, 4);
+		Sprite_FlipV16((const u8*)(g_PatternBuffer + pat), (u8*)0xF000);
+		VDP_LoadSpritePattern((u8*)0xF000, 8, 4);
+		Sprite_FlipV16((const u8*)(g_PatternBuffer + pat + (24 * 8)), (u8*)0xF000);
+		VDP_LoadSpritePattern((u8*)0xF000, 12, 4);
+
+		// Mask
+		VDP_SetSpritePositionX(4, g_PosX0);
+		VDP_SetSpritePositionX(5, g_PosX0);
+		frame = (g_Frame >> 3) % 8;
+		if(g_MaskAnim[frame])
+		{
+			Sprite_Mask16((const u8*)(g_PatternBuffer + pat), (u8*)0xF000, g_MaskAnim[frame]);
+			VDP_LoadSpritePattern((u8*)0xF000, 16, 4);
+			Sprite_Mask16((const u8*)(g_PatternBuffer + pat + (24 * 8)), (u8*)0xF000, g_MaskAnim[frame]);
+			VDP_LoadSpritePattern((u8*)0xF000, 20, 4);
+		}
+		else
+		{
+			VDP_LoadSpritePattern(g_PatternBuffer + pat, 16, 4);
+			VDP_LoadSpritePattern(g_PatternBuffer + 24 * 8 + pat, 20, 4);
+		}
 
 		if(Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;

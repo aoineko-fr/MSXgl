@@ -103,16 +103,68 @@ void Sprite_FlipH16(const u8* src, u8* dest)
 	src += 15;
 	loop(i, 16)
 		*dest++ = *src--;
+	src += 32;
+	loop(i, 16)
+		*dest++ = *src--;
+}
+
+//-----------------------------------------------------------------------------
+// Flip 8 bits value
+u8 Sprite_Flip(u8 val) __PRESERVES(c, d, e, h, l, iyl, iyh)
+{
+	val; // A
+	__asm
+		// reverse bits in A
+		// 17 bytes / 66 cycles
+		ld		b, a		// a = 76543210
+		rlca
+		rlca				// a = 54321076
+		xor		b
+		and		#0xAA
+		xor		b			// a = 56341270
+		ld		b, a
+		rlca
+		rlca
+		rlca				// a = 41270563
+		rrc 	b			// b = 05634127
+		xor 	b
+		and 	#0x66
+		xor 	b			// a = 01234567
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Flip 8x8 sprite vertically
 void Sprite_FlipV8(const u8* src, u8* dest)
 {
+	loop(i, 8)
+		*dest++ = Sprite_Flip(*src++);
 }
 
 //-----------------------------------------------------------------------------
 // Flip 16x16 sprite vertically
 void Sprite_FlipV16(const u8* src, u8* dest)
 {
+	dest += 16;
+	loop(i, 16)
+		*dest++ = Sprite_Flip(*src++);
+	dest -= 32;
+	loop(i, 16)
+		*dest++ = Sprite_Flip(*src++);
+}
+
+//-----------------------------------------------------------------------------
+// Mask 8x8 sprite
+void Sprite_Mask8(const u8* src, u8* dest, const u8* mask)
+{
+	loop(i, 8)
+		*dest++ = *src++ & *mask++;
+}
+
+//-----------------------------------------------------------------------------
+// Mask 16x16 sprite
+void Sprite_Mask16(const u8* src, u8* dest, const u8* mask)
+{
+	loop(i, 32)
+		*dest++ = *src++ & *mask++;
 }
