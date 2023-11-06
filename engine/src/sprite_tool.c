@@ -58,6 +58,10 @@ const u8 g_SpriteBit[8] =
 //=============================================================================
 
 //-----------------------------------------------------------------------------
+// Cropping
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
 // Crop 8x8 sprite left side
 void Sprite_CropLeft8(const u8* src, u8* dest, u8 offset)
 {
@@ -121,8 +125,64 @@ void Sprite_CropRight16(const u8* src, u8* dest, u8 offset)
 }
 
 //-----------------------------------------------------------------------------
+// Crop 8x8 sprite top border.
+void Sprite_CropTop8(const u8* src, u8* dest, u8 offset)
+{
+	u8 n = ++offset;
+	loop(i, n)
+		*dest++ = 0;
+	for(u8 i = n; i < 8; ++i)
+		*dest++ = *src++;
+}
+
+//-----------------------------------------------------------------------------
+// Crop 16x16 sprite top border.
+void Sprite_CropTop16(const u8* src, u8* dest, u8 offset)
+{
+	u8 n = ++offset;
+	loop(i, n)
+		*dest++ = 0;
+	for(u8 i = n; i < 16; ++i)
+		*dest++ = *src++;
+	loop(i, n)
+		*dest++ = 0;
+	for(u8 i = n; i < 16; ++i)
+		*dest++ = *src++;
+}
+
+//-----------------------------------------------------------------------------
+// Crop 8x8 sprite bottom border.
+void Sprite_CropBottom8(const u8* src, u8* dest, u8 offset)
+{
+	u8 n = 15 - offset;
+	loop(i, n)
+		*dest++ = *src++;
+	for(u8 i = n; i < 8; ++i)
+		*dest++ = 0;
+}
+
+//-----------------------------------------------------------------------------
+// Crop 16x16 sprite bottom border.
+void Sprite_CropBottom16(const u8* src, u8* dest, u8 offset)
+{
+	u8 n = 15 - offset;
+	loop(i, n)
+		*dest++ = *src++;
+	for(u8 i = n; i < 16; ++i)
+		*dest++ = 0;
+	loop(i, n)
+		*dest++ = *src++;
+	for(u8 i = n; i < 16; ++i)
+		*dest++ = 0;
+}
+
+//-----------------------------------------------------------------------------
+// Flipping
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
 // Vertical flip 8x8 sprite
-void Sprite_FlipV8(const u8* src, u8* dest)
+void Sprite_FlipVertical8(const u8* src, u8* dest)
 {
 	src += 7;
 	loop(i, 8)
@@ -131,7 +191,7 @@ void Sprite_FlipV8(const u8* src, u8* dest)
 
 //-----------------------------------------------------------------------------
 // Vertical flip 16x16 sprite
-void Sprite_FlipV16(const u8* src, u8* dest)
+void Sprite_FlipVertical16(const u8* src, u8* dest)
 {
 	src += 15;
 	loop(i, 16)
@@ -168,7 +228,7 @@ u8 Sprite_Flip(u8 val) __PRESERVES(c, d, e, h, l, iyl, iyh)
 
 //-----------------------------------------------------------------------------
 // Horizontally flip 8x8 sprite
-void Sprite_FlipH8(const u8* src, u8* dest)
+void Sprite_FlipHorizontal8(const u8* src, u8* dest)
 {
 	loop(i, 8)
 		*dest++ = Sprite_Flip(*src++);
@@ -176,7 +236,7 @@ void Sprite_FlipH8(const u8* src, u8* dest)
 
 //-----------------------------------------------------------------------------
 // Horizontally flip 16x16 sprite
-void Sprite_FlipH16(const u8* src, u8* dest)
+void Sprite_FlipHorizontal16(const u8* src, u8* dest)
 {
 	dest += 16;
 	loop(i, 16)
@@ -185,6 +245,10 @@ void Sprite_FlipH16(const u8* src, u8* dest)
 	loop(i, 16)
 		*dest++ = Sprite_Flip(*src++);
 }
+
+//-----------------------------------------------------------------------------
+// Masking
+//-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // Mask 8x8 sprite
@@ -201,6 +265,10 @@ void Sprite_Mask16(const u8* src, u8* dest, const u8* mask)
 	loop(i, 32)
 		*dest++ = *src++ & *mask++;
 }
+
+//-----------------------------------------------------------------------------
+// Rotating
+//-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // Rotate 90° to right 8x8 sprite
