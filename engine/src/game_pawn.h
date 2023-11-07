@@ -162,7 +162,7 @@ typedef struct
 //
 // Parameters:
 //   pawn     - Address of game pawn structure to initialize. This is he structure to be used for all other functions.
-//   sprtList - Array of all sprite leyers used to display the pawn. See <Game_Sprite> for details.
+//   sprtList - Array of all sprite layers used to display the pawn. See <Game_Sprite> for details.
 //   sprtNum  - Size of the 'sprtList' table (in entries number).  
 //   sprtID   - First srite index to use for the pawn. The pawn will use all sprite indexes from 'sprtID' to 'sprtID + sprtNum - 1'.
 //              If <GAMEPAWN_ID_PER_LAYER> compile option is activated, this parmeter is not used as each sprit layer define it's own sprite index.

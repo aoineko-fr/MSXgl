@@ -187,6 +187,20 @@
 #define PRINT_HEIGHT				PRINT_HEIGHT_1
 
 //-----------------------------------------------------------------------------
+// SPRITE FX MODULE
+//-----------------------------------------------------------------------------
+
+// Supported sprite size
+#define SPRITEFX_USE_8x8			TRUE	// Use 8x8 pixels effects
+#define SPRITEFX_USE_16x16			TRUE	// Use 16x16 pixels effects
+
+// Supported effect
+#define SPRITEFX_USE_CROP			TRUE	// Use cropping effect
+#define SPRITEFX_USE_FLIP			TRUE	// Use flipping effect
+#define SPRITEFX_USE_MASK			TRUE	// Use masking effect
+#define SPRITEFX_USE_ROTATE			TRUE	// Use rotating effect
+
+//-----------------------------------------------------------------------------
 // GAME MODULE
 //-----------------------------------------------------------------------------
 

@@ -12,7 +12,7 @@
 #include "msxgl.h"
 #include "bios.h"
 #include "memory.h"
-#include "sprite_tool.h"
+#include "sprite_fx.h"
 
 //=============================================================================
 // DEFINES
@@ -203,7 +203,6 @@ u8 g_Frame = 0;
 
 // Sprite data
 u8 g_PatternData[PATTERN_16OR_NUM * 8];
-u8 g_PatternDataFlip[PATTERN_16OR_NUM * 8];
 u8 g_PatternDataRotRight[PATTERN_16OR_NUM * 8];
 u8 g_PatternDataRotLeft[PATTERN_16OR_NUM * 8];
 u8 g_PatternDataRotHalf[PATTERN_16OR_NUM * 8];
@@ -301,10 +300,9 @@ void main()
 	loop(i, 6 * 2)
 	{
 		u16 idx = i * 4 * 8;
-		Sprite_RotateRight16(&g_PatternData[idx], &g_PatternDataRotRight[idx]);
-		Sprite_RotateLeft16(&g_PatternData[idx], &g_PatternDataRotLeft[idx]);
-		Sprite_RotateHalfTurn16(&g_PatternData[idx], &g_PatternDataRotHalf[idx]);
-		Sprite_FlipHorizontal16(&g_PatternData[idx], &g_PatternDataFlip[idx]);
+		SpriteFX_RotateRight16(&g_PatternData[idx], &g_PatternDataRotRight[idx]);
+		SpriteFX_RotateLeft16(&g_PatternData[idx], &g_PatternDataRotLeft[idx]);
+		SpriteFX_RotateHalfTurn16(&g_PatternData[idx], &g_PatternDataRotHalf[idx]);
 	}
 
 	// Setup print
@@ -314,7 +312,7 @@ void main()
 	VDP_FillVRAM_16K(COLOR_LIGHT_BLUE << 4, g_ScreenColorLow + (32*4*8) + (1*256*8), 32*4*8);
 	VDP_FillVRAM_16K(COLOR_LIGHT_BLUE << 4, g_ScreenColorLow + (32*4*8) + (2*256*8), 32*4*8);
 
-	Print_DrawTextAt(0, 0, "\x2\x3\x4\x5 Sprite tool sample");
+	Print_DrawTextAt(0, 0, "\x2\x3\x4\x5 Sprite FX sample");
 	Print_DrawCharXAt(0, 1, '\x17', 32);
 
 	Print_DrawTextAt(1, 4, "Crop R/L");
@@ -335,9 +333,9 @@ void main()
 	bool bContinue = TRUE;
 	while(bContinue)
 	{
-		VDP_SetColor(COLOR_DARK_BLUE);
+		// VDP_SetColor(COLOR_DARK_BLUE);
 		WaitVBlank();
-		VDP_SetColor(COLOR_LIGHT_BLUE);
+		// VDP_SetColor(COLOR_LIGHT_BLUE);
 	
 		Print_DrawCharAt(31, 0, g_CharAnim[g_Frame & 0x03]);
 
@@ -351,17 +349,17 @@ void main()
 		if((g_PosX0 > 104) && (g_PosX0 <= 120))
 		{
 			u8 offset = g_PosX0 - 105;
-			Sprite_CropRight16((const u8*)(g_PatternData + pat), g_Buffer, offset);
+			SpriteFX_CropRight16((const u8*)(g_PatternData + pat), g_Buffer, offset);
 			VDP_LoadSpritePattern(g_Buffer, 0, 4);
-			Sprite_CropRight16((const u8*)(g_PatternData + pat + (24 * 8)), g_Buffer, offset);
+			SpriteFX_CropRight16((const u8*)(g_PatternData + pat + (24 * 8)), g_Buffer, offset);
 			VDP_LoadSpritePattern(g_Buffer, 4, 4);
 		}
 		else if((g_PosX0 >= 120) && (g_PosX0 < 136))
 		{
 			u8 offset = 15 - (g_PosX0 - 120);
-			Sprite_CropLeft16((const u8*)(g_PatternData + pat), g_Buffer, offset);
+			SpriteFX_CropLeft16((const u8*)(g_PatternData + pat), g_Buffer, offset);
 			VDP_LoadSpritePattern(g_Buffer, 0, 4);
-			Sprite_CropLeft16((const u8*)(g_PatternData + pat + (24 * 8)), g_Buffer, offset);
+			SpriteFX_CropLeft16((const u8*)(g_PatternData + pat + (24 * 8)), g_Buffer, offset);
 			VDP_LoadSpritePattern(g_Buffer, 4, 4);
 		}
 		else
@@ -374,8 +372,10 @@ void main()
 		g_PosX1--;
 		VDP_SetSpritePositionX(2, g_PosX1);
 		VDP_SetSpritePositionX(3, g_PosX1);
-		VDP_LoadSpritePattern(g_PatternDataFlip + pat, 8, 4);
-		VDP_LoadSpritePattern(g_PatternDataFlip + pat + (24 * 8), 12, 4);
+		SpriteFX_FlipHorizontal16((const u8*)(g_PatternData + pat), g_Buffer);
+		VDP_LoadSpritePattern(g_Buffer, 8, 4);
+		SpriteFX_FlipHorizontal16((const u8*)(g_PatternData + pat + (24 * 8)), g_Buffer);
+		VDP_LoadSpritePattern(g_Buffer, 12, 4);
 
 		// Mask
 		VDP_SetSpritePositionX(4, g_PosX0);
@@ -393,9 +393,9 @@ void main()
 		}
 		else
 		{
-			Sprite_Mask16((const u8*)(g_PatternData + pat), g_Buffer, g_MaskAnim[frame]);
+			SpriteFX_Mask16((const u8*)(g_PatternData + pat), g_Buffer, g_MaskAnim[frame]);
 			VDP_LoadSpritePattern(g_Buffer, 16, 4);
-			Sprite_Mask16((const u8*)(g_PatternData + pat + (24 * 8)), g_Buffer, g_MaskAnim[frame]);
+			SpriteFX_Mask16((const u8*)(g_PatternData + pat + (24 * 8)), g_Buffer, g_MaskAnim[frame]);
 			VDP_LoadSpritePattern(g_Buffer, 20, 4);
 		}
 
