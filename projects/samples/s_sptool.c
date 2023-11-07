@@ -304,7 +304,7 @@ void main()
 		Sprite_RotateRight16(&g_PatternData[idx], &g_PatternDataRotRight[idx]);
 		Sprite_RotateLeft16(&g_PatternData[idx], &g_PatternDataRotLeft[idx]);
 		Sprite_RotateHalfTurn16(&g_PatternData[idx], &g_PatternDataRotHalf[idx]);
-		Sprite_FlipH16(&g_PatternData[idx], &g_PatternDataFlip[idx]);
+		Sprite_FlipHorizontal16(&g_PatternData[idx], &g_PatternDataFlip[idx]);
 	}
 
 	// Setup print
@@ -335,9 +335,9 @@ void main()
 	bool bContinue = TRUE;
 	while(bContinue)
 	{
-		// VDP_SetColor(COLOR_DARK_BLUE);
+		VDP_SetColor(COLOR_DARK_BLUE);
 		WaitVBlank();
-		// VDP_SetColor(COLOR_LIGHT_BLUE);
+		VDP_SetColor(COLOR_LIGHT_BLUE);
 	
 		Print_DrawCharAt(31, 0, g_CharAnim[g_Frame & 0x03]);
 

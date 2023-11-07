@@ -40,19 +40,6 @@ const u8 g_SpriteMaskR[8] =
 	0b00000000,
 };
 
-// Mask for transposition
-const u8 g_SpriteBit[8] = 
-{
-	0b10000000,
-	0b01000000,
-	0b00100000,
-	0b00010000,
-	0b00001000,
-	0b00000100,
-	0b00000010,
-	0b00000001,
-};
-
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -184,45 +171,53 @@ void Sprite_CropBottom16(const u8* src, u8* dest, u8 offset)
 // Vertical flip 8x8 sprite
 void Sprite_FlipVertical8(const u8* src, u8* dest)
 {
-	src += 7;
-	loop(i, 8)
-		*dest++ = *src--;
+	src;	// HL
+	dest;	// DE
+
+	__asm
+		ex		de, hl
+		ld		bc, #7
+		add		hl, bc
+		ld		b, #8
+	flipLoopV:
+		ld		a, (de)
+		ld		(hl), a
+		inc		de 
+		dec		hl
+		djnz	flipLoopV
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Vertical flip 16x16 sprite
 void Sprite_FlipVertical16(const u8* src, u8* dest)
 {
-	src += 15;
-	loop(i, 16)
-		*dest++ = *src--;
-	src += 32;
-	loop(i, 16)
-		*dest++ = *src--;
-}
+	src;	// HL
+	dest;	// DE
 
-//-----------------------------------------------------------------------------
-// Flip 8 bits value
-u8 Sprite_Flip(u8 val) __PRESERVES(c, d, e, h, l, iyl, iyh)
-{
-	val; // A
 	__asm
-		// reverse bits in A
-		// 17 bytes / 66 cycles
-		ld		b, a		// a = 76543210
-		rlca
-		rlca				// a = 54321076
-		xor		b
-		and		#0xAA
-		xor		b			// a = 56341270
-		ld		b, a
-		rlca
-		rlca
-		rlca				// a = 41270563
-		rrc 	b			// b = 05634127
-		xor 	b
-		and 	#0x66
-		xor 	b			// a = 01234567
+		ex		de, hl
+
+		ld		bc, #15
+		add		hl, bc
+		ld		b, #16
+	flipLoopV1:
+		ld		a, (de)
+		ld		(hl), a
+		inc		de 
+		dec		hl
+		djnz	flipLoopV1
+
+		ld		bc, #32
+		add		hl, bc
+		ld		b, #16
+	flipLoopV2:
+		ld		a, (de)
+		ld		(hl), a
+		inc		de 
+		dec		hl
+		djnz	flipLoopV2
+
 	__endasm;
 }
 
@@ -230,20 +225,93 @@ u8 Sprite_Flip(u8 val) __PRESERVES(c, d, e, h, l, iyl, iyh)
 // Horizontally flip 8x8 sprite
 void Sprite_FlipHorizontal8(const u8* src, u8* dest)
 {
-	loop(i, 8)
-		*dest++ = Sprite_Flip(*src++);
+	src;	// HL
+	dest;	// DE
+
+	__asm
+		ld		b, #8
+	flipLoopH:
+		ld		a, (hl)
+		// Fast byte Fliping routine by John Metcaff
+		ld		c, a		// a = 76543210
+		rlca
+		rlca				// a = 54321076
+		xor		c
+		and		#0xAA
+		xor		c			// a = 56341270
+		ld		c, a
+		rlca
+		rlca
+		rlca				// a = 41270563
+		rrc		c			// c = 05634127
+		xor		c 
+		and		#0x66 
+		xor		c			// a = 01234567
+		ld		(de), a
+		inc		hl
+		inc		de
+		djnz	flipLoopH
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Horizontally flip 16x16 sprite
 void Sprite_FlipHorizontal16(const u8* src, u8* dest)
 {
-	dest += 16;
-	loop(i, 16)
-		*dest++ = Sprite_Flip(*src++);
-	dest -= 32;
-	loop(i, 16)
-		*dest++ = Sprite_Flip(*src++);
+	src;	// HL
+	dest;	// DE
+
+	__asm
+		ld		bc, #16
+		add		hl, bc
+		ld		b, #16
+	flipLoopH1:
+		ld		a, (hl)
+		// Fast byte Fliping routine by John Metcaff
+		ld		c, a		// a = 76543210
+		rlca
+		rlca				// a = 54321076
+		xor		c
+		and		#0xAA
+		xor		c			// a = 56341270
+		ld		c, a
+		rlca
+		rlca
+		rlca				// a = 41270563
+		rrc		c			// c = 05634127
+		xor		c 
+		and		#0x66 
+		xor		c			// a = 01234567
+		ld		(de), a
+		inc		hl
+		inc		de
+		djnz	flipLoopH1
+
+		ld		bc, #-32
+		add		hl, bc
+		ld		b, #16
+	flipLoopH2:
+		ld		a, (hl)
+		// Fast byte Fliping routine by John Metcaff
+		ld		c, a		// a = 76543210
+		rlca
+		rlca				// a = 54321076
+		xor		c
+		and		#0xAA
+		xor		c			// a = 56341270
+		ld		c, a
+		rlca
+		rlca
+		rlca				// a = 41270563
+		rrc		c			// c = 05634127
+		xor		c 
+		and		#0x66 
+		xor		c			// a = 01234567
+		ld		(de), a
+		inc		hl
+		inc		de
+		djnz	flipLoopH2
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
@@ -252,18 +320,56 @@ void Sprite_FlipHorizontal16(const u8* src, u8* dest)
 
 //-----------------------------------------------------------------------------
 // Mask 8x8 sprite
-void Sprite_Mask8(const u8* src, u8* dest, const u8* mask)
+void Sprite_Mask8(const u8* src, u8* dest, const u8* mask) __NAKED
 {
-	loop(i, 8)
-		*dest++ = *src++ & *mask++;
+	src;	// HL
+	dest;	// DE
+	mask;	// SP[2] -> IY
+
+	__asm
+		pop		bc					// Return address
+		pop		iy					// Mask address
+		push	bc
+
+		ld		b, #8
+	maskLoop8:
+		ld		a, (hl)
+		and		0(iy)
+		ld		(de), a
+		inc		hl
+		inc		de 
+		inc		iy
+		djnz	maskLoop8
+
+		ret
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Mask 16x16 sprite
-void Sprite_Mask16(const u8* src, u8* dest, const u8* mask)
+void Sprite_Mask16(const u8* src, u8* dest, const u8* mask) __NAKED
 {
-	loop(i, 32)
-		*dest++ = *src++ & *mask++;
+	src;	// HL
+	dest;	// DE
+	mask;	// SP[2] -> IY
+
+	__asm
+		pop		bc					// Return address
+		pop		iy					// Mask address
+		push	bc
+
+		ld		b, #32
+	maskLoop16:
+		ld		a, (hl)
+		and		0(iy)
+		ld		(de), a
+		inc		hl
+		inc		de 
+		inc		iy
+		djnz	maskLoop16
+
+		ret
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
@@ -272,15 +378,28 @@ void Sprite_Mask16(const u8* src, u8* dest, const u8* mask)
 
 //-----------------------------------------------------------------------------
 // Rotate 90° to right 8x8 sprite
-void Sprite_RotateRight8(const u8* src, u8* dest)
+void Sprite_RotateRight8(const u8* src, u8* dest) __PRESERVES(iyl, iyh)
 {
-	loop(y, 8)
-		dest[y] = 0;
+	src;	// HL -> DE
+	dest;	// DE -> HL
 
-	loop(y, 8) // src row
-		loop(x, 8) // src collumn
-			if(src[y] & g_SpriteBit[x])
-				dest[x] |= g_SpriteBit[7 - y];
+	__asm
+		ex		de, hl
+		ld		c, #8
+	rotOuterLoopR:
+		ld		a, (de)
+		inc		de
+		push	hl
+		ld		b, #8
+	rotInnerLoopR:
+		rla
+		rr		(hl)
+		inc		hl
+		djnz	rotInnerLoopR
+		pop		hl
+		dec		c
+		jr		nz, rotOuterLoopR
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
@@ -295,15 +414,28 @@ void Sprite_RotateRight16(const u8* src, u8* dest)
 
 //-----------------------------------------------------------------------------
 // Rotate 90° to left 8x8 sprite
-void Sprite_RotateLeft8(const u8* src, u8* dest)
+void Sprite_RotateLeft8(const u8* src, u8* dest) __PRESERVES(iyl, iyh)
 {
-	loop(y, 8)
-		dest[y] = 0;
+	src;	// HL -> DE
+	dest;	// DE -> HL
 
-	loop(y, 8) // src row
-		loop(x, 8) // src collumn
-			if(src[y] & g_SpriteBit[x])
-				dest[7 - x] |= g_SpriteBit[y];
+	__asm
+		ex		de, hl
+		ld		c, #8
+	rotOuterloopL:
+		ld		a, (de)
+		inc		de
+		push	hl
+		ld		b, #8
+	rotInnerLoopL:
+		rra
+		rl		(hl)
+		inc		hl
+		djnz	rotInnerLoopL
+		pop		hl
+		dec		c
+		jr		nz, rotOuterloopL
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
@@ -318,11 +450,37 @@ void Sprite_RotateLeft16(const u8* src, u8* dest)
 
 //-----------------------------------------------------------------------------
 // Rotate 180° 8x8 sprite
-void Sprite_RotateHalfTurn8(const u8* src, u8* dest)
+void Sprite_RotateHalfTurn8(const u8* src, u8* dest) __PRESERVES(iyl, iyh)
 {
-	src += 7;
-	loop(i, 8)
-		*dest++ = Sprite_Flip(*src--);
+	src;	// HL
+	dest;	// DE
+
+	__asm
+		ld		bc, #7
+		add		hl, bc
+		ld		b, #8
+	rotLoop180:
+		ld		a, (hl)
+		// Fast byte Fliping routine by John Metcaff
+		ld		c, a		// a = 76543210
+		rlca
+		rlca				// a = 54321076
+		xor		c
+		and		#0xAA
+		xor		c			// a = 56341270
+		ld		c, a
+		rlca
+		rlca
+		rlca				// a = 41270563
+		rrc		c			// c = 05634127
+		xor		c 
+		and		#0x66 
+		xor		c			// a = 01234567
+		ld		(de), a
+		dec		hl
+		inc		de
+		djnz	rotLoop180
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
