@@ -9,6 +9,7 @@
 
 #include "core.h"
 #include "vdp.h"
+#include "string.h"
 
 //-----------------------------------------------------------------------------
 // DEFINES
@@ -431,6 +432,7 @@ inline void Print_Return()
 // > \n                        Return to new line
 //   ... - Variadic parameters
 void Print_DrawFormat(const c8* format, ...);
+
 #endif
 
 //-----------------------------------------------------------------------------

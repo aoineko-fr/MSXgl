@@ -63,7 +63,7 @@ void SpriteFX_CropLeft8(const u8* src, u8* dest, u8 offset)
 	offset;	// SP[2]
 
 	__asm
-		ld		iy, #2
+		ld		iy, #2				// Get 'offset' from the stack
 		add		iy, sp
 		ld		c, 0(iy)			// C = offset
 
@@ -98,18 +98,17 @@ void SpriteFX_CropLeft16(const u8* src, u8* dest, u8 offset)
 	offset;	// SP[2]
 
 	__asm
-		ld		iy, #2
+		ld		iy, #2				// Get 'offset' from the stack
 		add		iy, sp
 		ld		a, 0(iy)			// A = offset
-		ld		i, a
 
 	// if(offset < 8) {
 		cp		#8
-		jr		nc, greaterCropL16	
+		jp		nc, greaterCropL16	
 
 	// 	u8 mask = g_SpriteMaskL[offset];
-		ld		c, a				// C = offset
 		ld		b, #0
+		ld		c, a				// C = offset
 		ld		iy, #_g_SpriteMaskL
 		add		iy, bc
 		ld		c, 0(iy)			// C = g_SpriteMaskL[offset]
@@ -130,7 +129,7 @@ void SpriteFX_CropLeft16(const u8* src, u8* dest, u8 offset)
 		ld		bc, #16
 		ldir
 
-		jr		endCropL16
+		jp		endCropL16
 
 	// } else {
 	greaterCropL16:
@@ -140,6 +139,8 @@ void SpriteFX_CropLeft16(const u8* src, u8* dest, u8 offset)
 	// 		*dest++ = 0;
 	// 		src++;
 	// 	}
+		sub		#8
+		ld		c, a				// C = offset - 8 {computed this while A value is available}
 		xor		a
 		ld		b, #16
 	loopCropL16_2:
@@ -149,12 +150,8 @@ void SpriteFX_CropLeft16(const u8* src, u8* dest, u8 offset)
 		djnz	loopCropL16_2
 
 	// 	u8 mask = g_SpriteMaskL[offset - 8];
-		ld		a, i
-		sub		#8
-		ld		c, a				// C = offset - 8
-		ld		b, #0
 		ld		iy, #_g_SpriteMaskL
-		add		iy, bc
+		add		iy, bc				// B = 0 {from djnz}  |  C = offset - 8 {computed previously}
 		ld		c, 0(iy)			// C = g_SpriteMaskL[offset - 8]
 
 	// 	loop(i, 16)
@@ -185,7 +182,7 @@ void SpriteFX_CropRight8(const u8* src, u8* dest, u8 offset)
 	offset;	// SP[2]
 
 	__asm
-		ld		iy, #2
+		ld		iy, #2				// Get 'offset' from the stack
 		add		iy, sp
 		ld		c, 0(iy)			// C = offset
 
@@ -220,14 +217,13 @@ void SpriteFX_CropRight16(const u8* src, u8* dest, u8 offset)
 	offset;	// SP[2]
 
 	__asm
-		ld		iy, #2
+		ld		iy, #2				// Get 'offset' from the stack
 		add		iy, sp
 		ld		a, 0(iy)			// A = offset
-		ld		i, a
 
 	// if(offset < 8) {
 		cp		#8
-		jr		nc, greaterCropR16	
+		jp		nc, greaterCropR16	
 
 	// 	loop(i, 16)
 	// 		*dest++ = *src++;
@@ -236,9 +232,8 @@ void SpriteFX_CropRight16(const u8* src, u8* dest, u8 offset)
 
 	// 	u8 mask = g_SpriteMaskR[offset];
 		ld		c, a				// C = offset
-		ld		b, #0
 		ld		iy, #_g_SpriteMaskR
-		add		iy, bc
+		add		iy, bc				// B = 0 {from ldir}  |  C = offset
 		ld		c, 0(iy)			// C = g_SpriteMaskR[offset]
 
 	// 	loop(i, 16)
@@ -252,18 +247,18 @@ void SpriteFX_CropRight16(const u8* src, u8* dest, u8 offset)
 		inc		de 
 		djnz	loopCropR16_1
 
-		jr		endCropR16
+		jp		endCropR16
 
 	// } else {
 	greaterCropR16:
 
 	// 	u8 mask = g_SpriteMaskR[offset - 8];
 		sub		#8
-		ld		c, a				// C = offset
+		ld		c, a				// C = offset - 8
 		ld		b, #0
 		ld		iy, #_g_SpriteMaskR
 		add		iy, bc
-		ld		c, 0(iy)			// C = g_SpriteMaskR[offset]
+		ld		c, 0(iy)			// C = g_SpriteMaskR[offset - 8]
 
 	// 	loop(i, 16)
 	// 		*dest++ = *src++ & mask;
@@ -303,33 +298,32 @@ void SpriteFX_CropTop8(const u8* src, u8* dest, u8 offset)
 
 	__asm
 	// u8 n = ++offset;
-		ld		iy, #2
+		ld		iy, #2				// Get 'offset' from the stack
 		add		iy, sp
-		ld		a, 0(iy)
-		inc		a					// A = offset + 1
-		ld		i, a				// I = A (backup)
+		ld		c, 0(iy)
+		inc		c					// C = offset + 1
 
 	// loop(i, n)
 	// {
 	// 	*dest++ = 0;
 	// 	src++;
 	// }
-		ld		b, a				// B = offset + 1
 		xor		a
+		ld		b, c				// B = offset + 1
 	loopCropT8:
 		ld		(de), a
-		inc		de
 		inc		hl
+		inc		de
 		djnz	loopCropT8
 
 	// for(u8 i = n; i < 8; ++i)
 	// 	*dest++ = *src++;
-		ld		a, i
+		ld		a, c				// A = C = offset + 1
 		neg
-		add		a, #8				// A = 8 - I = 7 - offset
-		jr		z, skipCropT8
+		add		a, #8				// A = 8 - C = 7 - offset
+		jp		z, skipCropT8
 		ld		c, a
-		ld		b, #0
+		// B = 0 {from djnz}
 		ldir
 	skipCropT8:
 
@@ -348,11 +342,11 @@ void SpriteFX_CropTop16(const u8* src, u8* dest, u8 offset)
 
 	__asm
 	// u8 n = ++offset;
-		ld		iy, #2
+		ld		iy, #2				// Get 'offset' from the stack
 		add		iy, sp
 		ld		a, 0(iy)
 		inc		a					// A = offset + 1
-		ld		i, a				// I = A (backup)
+		ld		i, a				// I = A {backup}
 
 	// loop(i, n)
 	// {
@@ -372,9 +366,9 @@ void SpriteFX_CropTop16(const u8* src, u8* dest, u8 offset)
 		ld		a, i
 		neg
 		add		a, #16				// A = 16 - I = 15 - offset
-		jr		z, skipCropT16_1
+		jp		z, skipCropT16_1
 		ld		c, a
-		ld		b, #0
+		// B = 0 {from djnz}
 		ldir
 	skipCropT16_1:
 
@@ -397,9 +391,9 @@ void SpriteFX_CropTop16(const u8* src, u8* dest, u8 offset)
 		ld		a, i
 		neg
 		add		a, #16				// A = 16 - I = 15 - offset
-		jr		z, skipCropT16_2
+		jp		z, skipCropT16_2
 		ld		c, a
-		ld		b, #0
+		// B = 0 {from djnz}
 		ldir
 	skipCropT16_2:
 
@@ -418,12 +412,12 @@ void SpriteFX_CropBottom8(const u8* src, u8* dest, u8 offset)
 
 	__asm
 	// u8 n = 7 - offset;
-		ld		iy, #2
+		ld		iy, #2				// Get 'offset' from the stack
 		add		iy, sp
 		ld		a, 0(iy)
 		neg
 		add		#7					// A = 7 - offset
-		jr		z, skipCropB8
+		jp		z, skipCropB8
 
 	// loop(i, n)
 	// 	*dest++ = *src++;
@@ -464,7 +458,7 @@ void SpriteFX_CropBottom16(const u8* src, u8* dest, u8 offset)
 		neg
 		add		#15					// A = 15 - offset
 		ld		i, a				// I = A (backup)
-		jr		z, skipCropB16_1
+		jp		z, skipCropB16_1
 
 	// loop(i, n)
 	// 	*dest++ = *src++;
@@ -492,9 +486,9 @@ void SpriteFX_CropBottom16(const u8* src, u8* dest, u8 offset)
 	// 	*dest++ = *src++;
 		ld		a, i				// Retore A
 		or		a
-		jr		z, skipCropB16_2
+		jp		z, skipCropB16_2
 		ld		c, a
-		ld		b, #0				// Not already 0?
+		// ld		b, #0				// Should be 0
 		ldir
 
 	// for(u8 i = n; i < 16; ++i)
@@ -769,7 +763,7 @@ void SpriteFX_RotateRight8(const u8* src, u8* dest) __PRESERVES(iyl, iyh)
 		djnz	rotInnerLoopR
 		pop		hl
 		dec		c
-		jr		nz, rotOuterLoopR
+		jp		nz, rotOuterLoopR
 	__endasm;
 }
 
@@ -807,7 +801,7 @@ void SpriteFX_RotateLeft8(const u8* src, u8* dest) __PRESERVES(iyl, iyh)
 		djnz	rotInnerLoopL
 		pop		hl
 		dec		c
-		jr		nz, rotOuterloopL
+		jp		nz, rotOuterloopL
 	__endasm;
 }
 

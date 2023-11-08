@@ -333,9 +333,9 @@ void main()
 	bool bContinue = TRUE;
 	while(bContinue)
 	{
-		// VDP_SetColor(COLOR_DARK_BLUE);
+		VDP_SetColor(COLOR_DARK_BLUE);
 		WaitVBlank();
-		// VDP_SetColor(COLOR_LIGHT_BLUE);
+		VDP_SetColor(COLOR_LIGHT_BLUE);
 	
 		Print_DrawCharAt(31, 0, g_CharAnim[g_Frame & 0x03]);
 
