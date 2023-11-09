@@ -5,6 +5,12 @@
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  ayFX replayer sample
 //─────────────────────────────────────────────────────────────────────────────
+// This sample program showcase the use of the ayFX module to play sound effect.
+// The replaye support both sound banks and individual sound file.
+// See ayFX editor for more detail.
+// Note: This program showcase the use of ayFX replayer with PT3 msic replayer
+//       but ayFX can be use as stand alone. 
+//─────────────────────────────────────────────────────────────────────────────
 
 //=============================================================================
 // INCLUDES
@@ -23,8 +29,8 @@
 // Song data structure
 struct SFXData
 {
-	u8*			Raw;
-	const c8*	Name;
+	const u8*	Raw;  // Pointer to sound data
+	const c8*	Name; // Name of the sound file
 };
 
 // Player font character
@@ -44,6 +50,7 @@ struct SFXData
 #define CHR_SOUND		126
 #define CHR_MUTE		127
 
+// Player display parameters
 #define PT3_Y			(24)
 #define PT3_PLY_X		(0)
 #define PT3_PLY_Y		(PT3_Y + 36)
@@ -57,42 +64,53 @@ struct SFXData
 // READ-ONLY DATA
 //=============================================================================
 
-// Fonts
+// Fonts data
 #include "font/font_mgl_sample6.h"
 #include "font/font_mgl_symbol1.h"
 
-// Note table
+// Note table for PT3 replayer
 #include "pt3/pt3_notetable2.h"
 
 // Music
 #include "content/pt3/Beg!nsum.h"
 
-// SFX bank
+// SFX bank (sound pack)
 #include "content/ayfx/ayfx_bank.h"
 
-// SFX file
+// SFX file (individual sound)
 #include "content/ayfx/ayfx_fx017.h"
 #include "content/ayfx/ayfx_fx019.h"
 
-// ayFX files
+// ayFX files list
 const struct SFXData g_SFXFiles[] =
 {
 	{ g_ayfx_fx017, "ayfx_fx017.afx" },
 	{ g_ayfx_fx019, "ayfx_fx019.afx" },
 };
 
-// Character animation
+// Character animation (sign-of-life)
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
-u8   g_VBlank = 0;
+// Vertical synchronization flag
+bool g_VBlank = FALSE;
+
+// Frame counter
 u8   g_Frame = 0;
+
+// Is music looping?
 bool g_Loop = FALSE;
+
+// PSG mute flag for the 3 chanels 
 bool g_Mute[3] = { FALSE, FALSE, FALSE };
+
+// Index of the current sound in he bank
 u8   g_BankFXNum = 0;
+
+// Index of the individual sound data
 u8   g_FileFXNum = 0;
 
 //=============================================================================
@@ -103,20 +121,20 @@ u8   g_FileFXNum = 0;
 // H_TIMI interrupt hook
 void VBlankHook()
 {
-	g_VBlank = 1;
+	g_VBlank = TRUE;
 	g_Frame++;
 
-	PT3_Decode();
-	ayFX_Update();
-	PT3_UpdatePSG();
+	PT3_Decode(); // Update data to write to the PSG regiters from the music
+	ayFX_Update(); // Overwrite PSG registers data for the SFX
+	PT3_UpdatePSG(); // Update PSG registers
 }
 
 //-----------------------------------------------------------------------------
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
-	g_VBlank = 0;
+	while(!g_VBlank) {}
+	g_VBlank = FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -192,14 +210,14 @@ void DrawVUMeter()
 // Play/resume the current music
 void PlayMusic()
 {
+	// Resume music playback
 	PT3_Resume();
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Symbol1);
-	
 	Print_SetColor(0x9, 0);
 	Print_SetPosition(PT3_PLY_X+1, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_PLAY);
-
 	Print_SetColor(0xF, 0);
 	Print_SetPosition(PT3_PLY_X+11, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_PAUSE);
@@ -211,14 +229,14 @@ void PlayMusic()
 // Pause the current music
 void PauseMusic()
 {
+	// Pause current music playback
 	PT3_Pause();
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Symbol1);
-
 	Print_SetColor(0x9, 0);
 	Print_SetPosition(PT3_PLY_X+11, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_PAUSE);
-
 	Print_SetColor(0xF, 0);
 	Print_SetPosition(PT3_PLY_X+1, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_PLAY);
@@ -230,15 +248,15 @@ void PauseMusic()
 // Stop the current music
 void StopMusic()
 {
+	// Pause he current music playback and rewind the music
 	PT3_Pause();
 	PT3_InitSong(g_Beg_nsum);
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Symbol1);
-
 	Print_SetColor(0x9, 0);
 	Print_SetPosition(PT3_PLY_X+11, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_PAUSE);
-
 	Print_SetColor(0xF, 0);
 	Print_SetPosition(PT3_PLY_X+1, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_PLAY);
@@ -250,11 +268,12 @@ void StopMusic()
 // Set the current music loop flag
 void LoopMusic(bool enable)
 {
+	// Tell if curent music must loop or not
 	PT3_SetLoop(enable);
 	g_Loop = enable;
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Symbol1);
-
 	Print_SetColor(enable ? 0x9 : 0xF, 0);
 	Print_SetPosition(PT3_PLY_X+51, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_LOOP);
@@ -265,9 +284,11 @@ void LoopMusic(bool enable)
 // Mute one of the channels
 void MuteMusic(u8 chan, bool bMute)
 {
+	// Mute the given channel
 	PT3_Mute(chan, bMute);
-
 	g_Mute[chan] = bMute;
+
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Symbol1);
 	Print_SetColor(bMute ? 0x9 : 0xF, 0);
 	Print_SetPosition(64, PSG_Y + 8*2 + 8*chan);
@@ -276,11 +297,13 @@ void MuteMusic(u8 chan, bool bMute)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Play an individual sound data
 void PlayFileSFX(u8 id)
 {
+	// Play a SFX file
 	ayFX_Play(g_SFXFiles[id].Raw);
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Sample6);
 	VDP_CommandHMMV(64, AYFX_Y+8*4, 16*6, 8, 0x44);
 	Print_SetPosition(64, AYFX_Y+8*4);
@@ -288,26 +311,30 @@ void PlayFileSFX(u8 id)
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Play a sound froma bank
 void PlayBankSFX(u8 id, u8 prio)
 {
+	// Play the given SFX from the current bank
 	ayFX_PlayBank(id, prio);
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Sample6);
 	VDP_CommandHMMV(64, AYFX_Y+8*3, 7*6, 8, 0x44);
 	Print_SetPosition(64, AYFX_Y+8*3);
-	Print_DrawInt(id+1);
+	Print_DrawInt(id + 1);
 	Print_DrawChar('/');
 	Print_DrawInt(ayFX_GetBankNumber());
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Select the channel where SFX are replayed
 void ChannelSFX(u8 chan)
 {
+	// Mute current sound effect and set the new cannel to replay SFX
 	ayFX_Mute();
 	ayFX_SetChannel(chan);
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Sample6);
 	VDP_CommandHMMV(64, AYFX_Y+8*2, 6, 8, 0x44);
 	Print_SetPosition(64, AYFX_Y+8*2);
@@ -315,7 +342,7 @@ void ChannelSFX(u8 chan)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Print command reminder
 void PrintHelp(u8 y, const c8* str)
 {
 	u8 len = String_Length(str);
@@ -334,13 +361,13 @@ void PrintHelp(u8 y, const c8* str)
 // Program entry point
 void main()
 {
-	// INIT SCREEN
-
+	// Initialize screen mode 5 (MSX 2)
 	VDP_SetMode(VDP_MODE_SCREEN5);
 	VDP_EnableSprite(FALSE);
 	VDP_SetColor(0x4);
 	VDP_CommandHMMV(0, 0, 256, 212, 0x44);
 
+	// Initialize fonts
 	Print_SetBitmapFont(NULL);
 	Print_SetFont(g_Font_MGL_Sample6);
 	Print_SetMode(PRINT_MODE_BITMAP_TRANS);
@@ -349,8 +376,7 @@ void main()
 	Print_DrawText(MSX_GL "  ayFX SAMPLE");
 	Draw_Box(0, 0, 255, 14, 0x0F, 0);
 
-	// INIT PT3
-
+	// Iitialize PT3 music
 	PT3_Init();
 	PT3_SetNoteTable(PT3_NT2);
 	PT3_SetLoop(TRUE);
