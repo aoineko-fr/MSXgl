@@ -591,20 +591,24 @@ void SpriteFX_FlipHorizontal8(const u8* src, u8* dest)
 	flipLoopH:
 		ld		a, (hl)
 		// Fast byte Fliping routine by John Metcaff
-		ld		c, a		// a = 76543210
-		rlca
-		rlca				// a = 54321076
-		xor		c
-		and		#0xAA
-		xor		c			// a = 56341270
-		ld		c, a
-		rlca
-		rlca
-		rlca				// a = 41270563
-		rrc		c			// c = 05634127
-		xor		c 
-		and		#0x66 
-		xor		c			// a = 01234567
+		//  7  6  5  4  3  2  1  0  Bit start position
+		//  <1 <3 3> 1> <1 <3 3> 1> Direction and number of shift
+		//  0  1  2  3  4  5  6  7  Bit end position
+		//  17 bytes / 66 cycles
+		ld		c, a		// A = 76543210  |  C = 76543210
+		rlca				// A = 65432107  |  C = 76543210
+		rlca				// A = 54321076  |  C = 76543210
+		xor		c			// A = 54321076  |  C = 76543210  |  in A XOR bit to keep 5x3x1x7x don't care of others because of AND 0xAA :)
+		and		#0xAA		// A = 5_3_1_7_  |  C = 76543210  |  mask bit in A to be carryed over from C _6_4_2_0
+		xor		c			// A = 56341270  |  C = 76543210  |  restore back in A bit 5x3x1x7x and carry over _6_4_2_0
+		ld		c, a		// A = 56341270  |  C = 56341270
+		rlca				// A = 63412705  |  C = 56341270
+		rlca				// A = 34127056  |  C = 56341270
+		rlca				// A = 41270563  |  C = 56341270
+		rrc		c			// A = 41270563  |  C = 05634127
+		xor		c			// A = 41270563  |  C = 05634127  |  in A XOR bit to keep x12xx56x don't care of others because of AND 0x66 :)
+		and		#0x66 		// A = _12__56_  |  C = 05634127  |  mask bit in A to be carryed over from C 0__34__7
+		xor		c			// A = 01234567  |  C = 05634127  |  restore back in A bit x12xx56x and carry over 0__34__7
 		ld		(de), a
 		inc		hl
 		inc		de
