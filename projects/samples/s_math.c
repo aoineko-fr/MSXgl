@@ -10,6 +10,7 @@
 // INCLUDES
 //=============================================================================
 #include "msxgl.h"
+#include "tool/mem_op.h"
 
 //=============================================================================
 // DEFINES
@@ -121,7 +122,7 @@ void DisplayHeader(const c8* title)
 	Print_SetColor(COLOR_WHITE, COLOR_DARK_BLUE);
 	Print_Clear();
 	Print_SetPosition(0, 2);
-	Print_DrawText("\x1\x2\x3\x4\x5\x6   MATH SAMPLE - ");
+	Print_DrawText("\x1\x2\x3\x4\x5\x6 MATH SAMPLE - ");
 	Print_DrawText(title);
 	Draw_LineH(0, 255, 12, COLOR_WHITE, 0);
 }
@@ -134,7 +135,7 @@ void DisplayFooter()
 	Draw_LineH(0, 255, 199, COLOR_WHITE, 0);
 	Print_SetColor(COLOR_WHITE, COLOR_DARK_BLUE);
 	Print_SetPosition(0, 203);
-	Print_DrawText("F1:Rnd8  F2:Rnd16  F3:Curve  F4:Func");
+	Print_DrawText("F1:Rnd8 F2:Rnd16 F3:Curve F4:Func F5:Tab");
 }
 
 //-----------------------------------------------------------------------------
@@ -303,8 +304,47 @@ void DisplayFunc()
 	DisplayFooter();
 }
 
+u8 g_Tab[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+
 //-----------------------------------------------------------------------------
-// Diplay page footer
+// Diplay tab operation
+void DisplayTab()
+{
+	DisplayHeader("Tab Operation");
+
+	Print_SetPosition(0, 20);
+
+	Print_DrawFormat("Source:      [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_Inc(g_Tab, 8);
+	Print_DrawFormat("Increment:   [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_RShift(g_Tab, 8);
+	Print_DrawFormat("Right-Shift: [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_Inc(g_Tab, 8);
+	Print_DrawFormat("Increment:   [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_RShift(g_Tab, 8);
+	Print_DrawFormat("Right-Shift: [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_Dec(g_Tab, 8);
+	Print_DrawFormat("Decrement:   [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_LShift(g_Tab, 8);
+	Print_DrawFormat("Left-Shift:  [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_Dec(g_Tab, 8);
+	Print_DrawFormat("Decrement:   [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_LShift(g_Tab, 8);
+	Print_DrawFormat("Left-Shift:  [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	DisplayFooter();
+}
+
+//-----------------------------------------------------------------------------
+// Diplay curves
 void DisplayCurve()
 {
 	DisplayHeader("Curve");
@@ -409,6 +449,8 @@ void main()
 		u8 row7 = Keyboard_Read(7);
 		if(IS_KEY_PRESSED(row7, KEY_F4))
 			DisplayFunc();
+		if(IS_KEY_PRESSED(row7, KEY_F5))
+			DisplayTab();
 
 		u8 row8 = Keyboard_Read(8);
 		if(IS_KEY_PRESSED(row8, KEY_UP) || IS_KEY_PRESSED(row8, KEY_LEFT))

@@ -19,10 +19,10 @@
 // DEFINES
 //=============================================================================
 
-// Pattern enum
-#define PATTERN_16OR_NUM		(u8)(6*2*4)
-#define SPRITE_16OR_NUM			(u8)4
+// Pattern enums
+#define PATTERN_NUM		(u8)(6*2*4)
 
+// Function prototypes
 void Init16();
 void Update16();
 void Init8();
@@ -213,10 +213,10 @@ u8 g_VBlank = 0;
 u8 g_Frame = 0;
 
 // Sprite data
-u8 g_PatternData[PATTERN_16OR_NUM * 8];
-u8 g_PatternDataRotRight[PATTERN_16OR_NUM * 8];
-u8 g_PatternDataRotLeft[PATTERN_16OR_NUM * 8];
-u8 g_PatternDataRotHalf[PATTERN_16OR_NUM * 8];
+u8 g_PatternData[PATTERN_NUM * 8];
+u8 g_PatternDataRotRight[PATTERN_NUM * 8];
+u8 g_PatternDataRotLeft[PATTERN_NUM * 8];
+u8 g_PatternDataRotHalf[PATTERN_NUM * 8];
 
 // Sprite buffer
 u8 g_Buffer1[32];
@@ -335,15 +335,15 @@ void Init16()
 
 	Print_DrawTextAt(1, 22, "Rotate");
 
-	Print_DrawTextAt(31-7, 22, "\x83:Flip V");
-	Print_DrawTextAt(31-7, 23, "\x8D:Size");
+	Print_DrawTextAt(31-7, 22, "\x82:Flip V");
+	// Print_DrawTextAt(31-7, 23, "\x83:8x8");
 }
 
 //-----------------------------------------------------------------------------
 // Update 16x16
 void Update16()
 {
-	bool bToggle = Keyboard_IsKeyPressed(KEY_SPACE);
+	bool bToggle = Keyboard_IsKeyPressed(KEY_UP) || Keyboard_IsKeyPressed(KEY_DOWN);
 
 	u8 frame = (g_Frame >> 2) % 6;
 	u8 pat = (frame * 8 * 4);
@@ -436,8 +436,8 @@ void Update16()
 	VDP_LoadSpritePattern(g_RotAnim[rot] + pat, 24, 4);
 	VDP_LoadSpritePattern(g_RotAnim[rot] + pat + (24 * 8), 28, 4);
 
-	if(Keyboard_IsKeyPressed(KEY_RIGHT) || Keyboard_IsKeyPressed(KEY_LEFT))
-		FSM_SetState(&g_State8);
+	// if(Keyboard_IsKeyPressed(KEY_SPACE))
+	// 	FSM_SetState(&g_State8);
 }
 
 //-----------------------------------------------------------------------------
@@ -462,13 +462,15 @@ void Init8()
 
 	Print_DrawTextAt(0, 0, "\x2\x3\x4\x5 Sprite FX sample (8x8)");
 	Print_DrawCharXAt(0, 1, '\x17', 32);
+
+	Print_DrawTextAt(31-7, 23, "\x83:16x16");
 }
 
 //-----------------------------------------------------------------------------
 //
 void Update8()
 {
-	if(Keyboard_IsKeyPressed(KEY_RIGHT) || Keyboard_IsKeyPressed(KEY_LEFT))
+	if(Keyboard_IsKeyPressed(KEY_SPACE))
 		FSM_SetState(&g_State16);
 }
 
@@ -489,9 +491,9 @@ void main()
 	bool bContinue = TRUE;
 	while(bContinue)
 	{
-		VDP_SetColor(COLOR_DARK_BLUE);
+		// VDP_SetColor(COLOR_DARK_BLUE);
 		WaitVBlank();
-		VDP_SetColor(COLOR_LIGHT_BLUE);
+		// VDP_SetColor(COLOR_LIGHT_BLUE);
 
 		// Sign-of-life	
 		Print_DrawCharAt(31, 0, g_CharAnim[g_Frame & 0x03]);
