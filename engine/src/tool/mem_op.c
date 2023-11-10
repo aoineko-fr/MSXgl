@@ -89,11 +89,11 @@ void Mem_Dec(const u8* ptr, u16 size)
 		ld		b, e					// number of loops is in DE
 		dec		de						// calculate DB value (destroys B, D and E)
 		inc		d
-	memIncLoop:
+	memDecLoop:
 		dec		(hl)
 		inc		hl
-		djnz	memIncLoop
+		djnz	memDecLoop
 		dec		d
-		jp		nz, memIncLoop
+		jp		nz, memDecLoop
 	__endasm;
 }
