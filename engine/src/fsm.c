@@ -42,7 +42,7 @@ void FSM_Update()
 		if(g_CurrentState && g_CurrentState->End)
 			g_CurrentState->End();
 
-		// Swotch state
+		// Switch state
 		g_PrevState = g_CurrentState;
 		g_CurrentState = g_NextState;
 		g_NextState = NULL;

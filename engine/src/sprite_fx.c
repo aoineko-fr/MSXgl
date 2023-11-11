@@ -78,9 +78,9 @@ void SpriteFX_CropLeft8(const u8* src, u8* dest, u8 offset)
 		ld		b, #8
 	loopCropL8:
 		ld		a, (hl)
+		inc		hl
 		and		c
 		ld		(de), a
-		inc		hl
 		inc		de 
 		djnz	loopCropL8
 
@@ -118,9 +118,9 @@ void SpriteFX_CropLeft16(const u8* src, u8* dest, u8 offset)
 		ld		b, #16
 	loopCropL16_1:
 		ld		a, (hl)
+		inc		hl
 		and		c
 		ld		(de), a
-		inc		hl
 		inc		de 
 		djnz	loopCropL16_1
 
@@ -144,8 +144,8 @@ void SpriteFX_CropLeft16(const u8* src, u8* dest, u8 offset)
 		xor		a
 		ld		b, #16
 	loopCropL16_2:
-		ld		(de), a
 		inc		hl
+		ld		(de), a
 		inc		de 
 		djnz	loopCropL16_2
 
@@ -159,9 +159,9 @@ void SpriteFX_CropLeft16(const u8* src, u8* dest, u8 offset)
 		ld		b, #16
 	loopCropL16_3:
 		ld		a, (hl)
+		inc		hl
 		and		c
 		ld		(de), a
-		inc		hl
 		inc		de 
 		djnz	loopCropL16_3
 
@@ -197,9 +197,9 @@ void SpriteFX_CropRight8(const u8* src, u8* dest, u8 offset)
 		ld		b, #8
 	loopCropR8:
 		ld		a, (hl)
+		inc		hl
 		and		c
 		ld		(de), a
-		inc		hl
 		inc		de 
 		djnz	loopCropR8
 
@@ -241,9 +241,9 @@ void SpriteFX_CropRight16(const u8* src, u8* dest, u8 offset)
 		ld		b, #16
 	loopCropR16_1:
 		ld		a, (hl)
+		inc		hl
 		and		c
 		ld		(de), a
-		inc		hl
 		inc		de 
 		djnz	loopCropR16_1
 
@@ -265,9 +265,9 @@ void SpriteFX_CropRight16(const u8* src, u8* dest, u8 offset)
 		ld		b, #16
 	loopCropR16_2:
 		ld		a, (hl)
+		inc		hl
 		and		c
 		ld		(de), a
-		inc		hl
 		inc		de 
 		djnz	loopCropR16_2
 
@@ -334,7 +334,7 @@ void SpriteFX_CropTop8(const u8* src, u8* dest, u8 offset)
 #if (SPRITEFX_USE_16x16)
 //-----------------------------------------------------------------------------
 // Crop 16x16 sprite top border.
-void SpriteFX_CropTop16(const u8* src, u8* dest, u8 offset)
+void SpriteFX_CropTop16(const u8* src, u8* dest, u8 offset) // can be optimized?
 {
 	src;	// HL
 	dest;	// DE
@@ -356,9 +356,9 @@ void SpriteFX_CropTop16(const u8* src, u8* dest, u8 offset)
 		ld		b, a				// B = offset + 1
 		xor		a
 	loopCropT16_1:
+		inc		hl
 		ld		(de), a
 		inc		de
-		inc		hl
 		djnz	loopCropT16_1
 
 	// for(u8 i = n; i < 16; ++i)
@@ -381,9 +381,9 @@ void SpriteFX_CropTop16(const u8* src, u8* dest, u8 offset)
 		ld		b, a				// B = offset + 1
 		xor		a
 	loopCropT16_2:
+		inc		hl
 		ld		(de), a
 		inc		de
-		inc		hl
 		djnz	loopCropT16_2
 
 	// for(u8 i = n; i < 16; ++i)
@@ -452,7 +452,7 @@ void SpriteFX_CropBottom16(const u8* src, u8* dest, u8 offset)
 
 	__asm
 	// u8 n = 15 - offset;
-		ld		iy, #2
+		ld		iy, #2				// Get 'offset' from the stack
 		add		iy, sp
 		ld		a, 0(iy)
 		neg
@@ -477,8 +477,8 @@ void SpriteFX_CropBottom16(const u8* src, u8* dest, u8 offset)
 		ld		b, a				// B = 16 - A = offset + 1
 		xor		a
 	loopCropB16_1:
-		ld		(de), a
 		inc		hl
+		ld		(de), a
 		inc		de
 		djnz	loopCropB16_1
 
@@ -488,7 +488,7 @@ void SpriteFX_CropBottom16(const u8* src, u8* dest, u8 offset)
 		or		a
 		jp		z, skipCropB16_2
 		ld		c, a
-		// ld		b, #0				// Should be 0
+		// B = 0 {from djnz}
 		ldir
 
 	// for(u8 i = n; i < 16; ++i)
@@ -517,21 +517,20 @@ void SpriteFX_CropBottom16(const u8* src, u8* dest, u8 offset)
 #if (SPRITEFX_USE_8x8)
 //-----------------------------------------------------------------------------
 // Vertical flip 8x8 sprite
-void SpriteFX_FlipVertical8(const u8* src, u8* dest)
+void SpriteFX_FlipVertical8(const u8* src, u8* dest)__PRESERVES(iyl, iyh)
 {
 	src;	// HL
 	dest;	// DE
 
 	__asm
-		ex		de, hl
 		ld		bc, #7
 		add		hl, bc
 		ld		b, #8
 	flipLoopV:
-		ld		a, (de)
-		ld		(hl), a
-		inc		de 
+		ld		a, (hl)
 		dec		hl
+		ld		(de), a
+		inc		de 
 		djnz	flipLoopV
 	__endasm;
 }
@@ -540,32 +539,30 @@ void SpriteFX_FlipVertical8(const u8* src, u8* dest)
 #if (SPRITEFX_USE_16x16)
 //-----------------------------------------------------------------------------
 // Vertical flip 16x16 sprite
-void SpriteFX_FlipVertical16(const u8* src, u8* dest)
+void SpriteFX_FlipVertical16(const u8* src, u8* dest)__PRESERVES(iyl, iyh)
 {
 	src;	// HL
 	dest;	// DE
 
 	__asm
-		ex		de, hl
-
 		ld		bc, #15
 		add		hl, bc
 		ld		b, #16
 	flipLoopV1:
-		ld		a, (de)
-		ld		(hl), a
-		inc		de 
+		ld		a, (hl)
 		dec		hl
+		ld		(de), a
+		inc		de
 		djnz	flipLoopV1
 
-		ld		bc, #32
+		ld		c, #32				// B is 0 because of djnz
 		add		hl, bc
 		ld		b, #16
 	flipLoopV2:
-		ld		a, (de)
-		ld		(hl), a
-		inc		de 
+		ld		a, (hl)
 		dec		hl
+		ld		(de), a
+		inc		de 
 		djnz	flipLoopV2
 
 	__endasm;
@@ -575,7 +572,7 @@ void SpriteFX_FlipVertical16(const u8* src, u8* dest)
 #if (SPRITEFX_USE_8x8)
 //-----------------------------------------------------------------------------
 // Horizontally flip 8x8 sprite
-void SpriteFX_FlipHorizontal8(const u8* src, u8* dest)
+void SpriteFX_FlipHorizontal8(const u8* src, u8* dest) __PRESERVES(iyl, iyh)
 {
 	src;	// HL
 	dest;	// DE
@@ -584,6 +581,7 @@ void SpriteFX_FlipHorizontal8(const u8* src, u8* dest)
 		ld		b, #8
 	flipLoopH:
 		ld		a, (hl)
+		inc		hl
 		// Fast byte Fliping routine by John Metcaff
 		//  7  6  5  4  3  2  1  0  Bit start position
 		//  <1 <3 3> 1> <1 <3 3> 1> Direction and number of shift
@@ -599,12 +597,11 @@ void SpriteFX_FlipHorizontal8(const u8* src, u8* dest)
 		rlca				// A = 63412705  |  C = 56341270
 		rlca				// A = 34127056  |  C = 56341270
 		rlca				// A = 41270563  |  C = 56341270
-		rrc		c			// A = 41270563  |  C = 05634127
+		rrc		c			// A = 41270563  |  C = 05634127  |  rotate right C so bit 0 and 7 are at the right place for the XOR
 		xor		c			// A = 41270563  |  C = 05634127  |  in A XOR bit to keep x12xx56x don't care of others because of AND 0x66 :)
 		and		#0x66 		// A = _12__56_  |  C = 05634127  |  mask bit in A to be carryed over from C 0__34__7
 		xor		c			// A = 01234567  |  C = 05634127  |  restore back in A bit x12xx56x and carry over 0__34__7
 		ld		(de), a
-		inc		hl
 		inc		de
 		djnz	flipLoopH
 	__endasm;
@@ -614,7 +611,7 @@ void SpriteFX_FlipHorizontal8(const u8* src, u8* dest)
 #if (SPRITEFX_USE_16x16)
 //-----------------------------------------------------------------------------
 // Horizontally flip 16x16 sprite
-void SpriteFX_FlipHorizontal16(const u8* src, u8* dest)
+void SpriteFX_FlipHorizontal16(const u8* src, u8* dest) __PRESERVES(iyl, iyh)
 {
 	src;	// HL
 	dest;	// DE
@@ -625,6 +622,7 @@ void SpriteFX_FlipHorizontal16(const u8* src, u8* dest)
 		ld		b, #16
 	flipLoopH1:
 		ld		a, (hl)
+		inc		hl
 		// Fast byte Fliping routine by John Metcaff
 		ld		c, a		// a = 76543210
 		rlca
@@ -641,7 +639,6 @@ void SpriteFX_FlipHorizontal16(const u8* src, u8* dest)
 		and		#0x66 
 		xor		c			// a = 01234567
 		ld		(de), a
-		inc		hl
 		inc		de
 		djnz	flipLoopH1
 
@@ -650,6 +647,7 @@ void SpriteFX_FlipHorizontal16(const u8* src, u8* dest)
 		ld		b, #16
 	flipLoopH2:
 		ld		a, (hl)
+		inc		hl
 		// Fast byte Fliping routine by John Metcaff
 		ld		c, a		// a = 76543210
 		rlca
@@ -666,7 +664,6 @@ void SpriteFX_FlipHorizontal16(const u8* src, u8* dest)
 		and		#0x66 
 		xor		c			// a = 01234567
 		ld		(de), a
-		inc		hl
 		inc		de
 		djnz	flipLoopH2
 	__endasm;
@@ -697,11 +694,11 @@ void SpriteFX_Mask8(const u8* src, u8* dest, const u8* mask) __NAKED
 		ld		b, #8
 	maskLoop8:
 		ld		a, (hl)
-		and		0(iy)
-		ld		(de), a
 		inc		hl
-		inc		de 
+		and		0(iy)
 		inc		iy
+		ld		(de), a
+		inc		de 
 		djnz	maskLoop8
 
 		ret
@@ -834,6 +831,7 @@ void SpriteFX_RotateHalfTurn8(const u8* src, u8* dest) __PRESERVES(iyl, iyh)
 		ld		b, #8
 	rotLoop180:
 		ld		a, (hl)
+		dec		hl
 		// Fast byte Fliping routine by John Metcaff
 		ld		c, a		// a = 76543210
 		rlca
@@ -850,7 +848,6 @@ void SpriteFX_RotateHalfTurn8(const u8* src, u8* dest) __PRESERVES(iyl, iyh)
 		and		#0x66 
 		xor		c			// a = 01234567
 		ld		(de), a
-		dec		hl
 		inc		de
 		djnz	rotLoop180
 	__endasm;
