@@ -293,7 +293,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count)
 		out		(P_VDP_ADDR), a			// RegPort = (dest & 0xFF)
 		ld		a, d
 		and		a, #0x3F
-		add		a, #F_VDP_WRIT
+		or		a, #F_VDP_WRIT
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT
 
@@ -536,7 +536,7 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count)
 		VDP_DI //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = (srcLow & 0x00FF)
 		ld		a, h
-		and		a, #0x3F
+		and		a, #0x3F				// + F_VDP_READ
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_READ
 
@@ -615,7 +615,7 @@ u8 VDP_Peek_16K(u16 dest) __PRESERVES(b, c, d, e, iyl, iyh)
 
 		// Set destination address bits 8~13 to port #1
 		ld		a, h
-		and		a, #0x3F				// F_VDP_READ
+		and		a, #0x3F				// + F_VDP_READ
 		out		(P_VDP_ADDR), a			// 12cc		AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_READ
 
 		// Wait for VDP to be ready
@@ -662,7 +662,7 @@ void VDP_Poke_16K(u8 val, u16 dest) __PRESERVES(c, h, l, iyl, iyh)
 		// Set destination address bits 8~13 to port #1
 		ld		a, d
 		and		a, #0x3F
-		add		a, #F_VDP_WRIT
+		or		a, #F_VDP_WRIT
 		out		(P_VDP_ADDR), a			// 12cc		AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_WRIT
 
 		// Wait for VDP to be ready
@@ -1045,8 +1045,8 @@ void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count)
 		ld		a, e
 		out		(P_VDP_ADDR), a			// RegPort = (dest & 0xFF)
 		ld		a, d
-		and		a, #0x3f
-		add		a, #F_VDP_WRIT
+		and		a, #0x3F
+		or		a, #F_VDP_WRIT
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT
 		// while(count--) DataPort = *src++;
@@ -1110,7 +1110,7 @@ void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count)
 		out		(P_VDP_ADDR), a			// RegPort = (dest & 0x00FF);
 		ld		a, d
 		and		a, #0x3F
-		add		a, #F_VDP_WRIT
+		or		a, #F_VDP_WRIT
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT;
 		// while(count--) DataPort = value;
@@ -1165,8 +1165,7 @@ void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count)
 		ld		a, l
 		out		(P_VDP_ADDR), a			// AddrPort = (srcLow & 0xFF)
 		ld		a, h
-		and		a, #0x3f
-		// add		a, #F_VDP_READ
+		and		a, #0x3F				// + F_VDP_READ
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_READ
 		// while(count--) *src++ = DataPort;
@@ -1236,7 +1235,7 @@ void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh)
 		// Set destination address bits 8~13 to port #1
 		ld		a, d
 		and		a, #0x3F
-		add		a, #F_VDP_WRIT
+		or		a, #F_VDP_WRIT
 		out		(P_VDP_ADDR), a			// 12cc		AddrPort = ((destLow >> 8) & 0x3F) + F_VDP_WRIT;
 
 		// Write data
@@ -1286,7 +1285,7 @@ u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh)
 
 		// Set destination address bits 8~13 to port #1
 		ld		a, h
-		and		a, #0x3F				// F_VDP_READ
+		and		a, #0x3F				// + F_VDP_READ
 		out		(P_VDP_ADDR), a			// 12cc		AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_READ
 
 		// Wait for VDP to be ready

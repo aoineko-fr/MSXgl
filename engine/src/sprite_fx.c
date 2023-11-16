@@ -346,7 +346,7 @@ void SpriteFX_CropTop16(const u8* src, u8* dest, u8 offset) // can be optimized?
 		add		iy, sp
 		ld		a, 0(iy)
 		inc		a					// A = offset + 1
-		ld		i, a				// I = A {backup}
+		ld______iyl_a				// IYL = A {backup}
 
 	// loop(i, n)
 	// {
@@ -363,9 +363,9 @@ void SpriteFX_CropTop16(const u8* src, u8* dest, u8 offset) // can be optimized?
 
 	// for(u8 i = n; i < 16; ++i)
 	// 	*dest++ = *src++;
-		ld		a, i
+		ld______a_iyl
 		neg
-		add		a, #16				// A = 16 - I = 15 - offset
+		add		a, #16				// A = 16 - IYL = 15 - offset
 		jp		z, skipCropT16_1
 		ld		c, a
 		// B = 0 {from djnz}
@@ -377,7 +377,7 @@ void SpriteFX_CropTop16(const u8* src, u8* dest, u8 offset) // can be optimized?
 	// 	*dest++ = 0;
 	// 	src += n;
 	// }
-		ld		a, i				// A = offset + 1
+		ld______a_iyl				// A = offset + 1
 		ld		b, a				// B = offset + 1
 		xor		a
 	loopCropT16_2:
@@ -388,9 +388,9 @@ void SpriteFX_CropTop16(const u8* src, u8* dest, u8 offset) // can be optimized?
 
 	// for(u8 i = n; i < 16; ++i)
 	// 	*dest++ = *src++;
-		ld		a, i
+		ld______a_iyl
 		neg
-		add		a, #16				// A = 16 - I = 15 - offset
+		add		a, #16				// A = 16 - IYL = 15 - offset
 		jp		z, skipCropT16_2
 		ld		c, a
 		// B = 0 {from djnz}
@@ -457,7 +457,7 @@ void SpriteFX_CropBottom16(const u8* src, u8* dest, u8 offset)
 		ld		a, 0(iy)
 		neg
 		add		#15					// A = 15 - offset
-		ld		i, a				// I = A (backup)
+		ld______iyl_a				// IYL = A (backup)
 		jp		z, skipCropB16_1
 
 	// loop(i, n)
@@ -484,7 +484,7 @@ void SpriteFX_CropBottom16(const u8* src, u8* dest, u8 offset)
 
 	// loop(i, n)
 	// 	*dest++ = *src++;
-		ld		a, i				// Retore A
+		ld______a_iyl				// Retore A
 		or		a
 		jp		z, skipCropB16_2
 		ld		c, a

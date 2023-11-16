@@ -22,7 +22,7 @@
 void Game_Initialize(u8 screenMode)
 {
 	VDP_SetMode(screenMode);
-	#if (GAME_USE_VSYNC)
+	#if ((GAME_USE_VSYNC) && ((TARGET_TYPE != TYPE_ROM) || !(TARGET & ROM_ISR)))
 		VDP_EnableVBlank(TRUE);
 		Bios_SetHookCallback(H_TIMI, Game_VSyncHook);
 	#endif
@@ -44,7 +44,7 @@ void Game_Update()
 // Release game module
 void Game_Release()
 {
-	#if (GAME_USE_VSYNC)
+	#if ((GAME_USE_VSYNC) && ((TARGET_TYPE != TYPE_ROM) || !(TARGET & ROM_ISR)))
 		Bios_ClearHook(H_TIMI);
 	#endif
 }
@@ -139,6 +139,10 @@ void Game_UpdateState()
 //=============================================================================
 #if (GAME_USE_VSYNC)
 
+//-----------------------------------------------------------------------------
+// DEFINES
+
+// Function prototype
 void Game_DefaultVSyncCB();
 
 //-----------------------------------------------------------------------------
@@ -156,18 +160,16 @@ callback g_GameVSyncCB = Game_DefaultVSyncCB;
 void Game_DefaultVSyncCB() {}
 
 //-----------------------------------------------------------------------------
-// Set V-Sync callback
-void Game_SetVSyncCallback(callback cb)
-{
-	g_GameVSyncCB = cb;
-}
-
-//-----------------------------------------------------------------------------
 // Vertical-synchronization hook handler
+#if ((TARGET_TYPE == TYPE_ROM) && (TARGET & ROM_ISR))
+void VDP_InterruptHandler()
+#else
 void Game_VSyncHook()
+#endif
 {
-	g_GameVSync = TRUE;
+	g_GameFrame++;
 	g_GameVSyncCB();
+	g_GameVSync = TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -176,7 +178,6 @@ void Game_WaitVSync()
 {
 	while(g_GameVSync == FALSE) {}
 	g_GameVSync = FALSE;
-	g_GameFrame++;
 }
 
 #endif // (GAME_USE_VSYNC)

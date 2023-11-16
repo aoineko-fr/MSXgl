@@ -7,7 +7,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 // This sample program showcase the use of the ayFX module to play sound effect.
 // The replaye support both sound banks and individual sound file.
-// See ayFX editor for more detail.
+// See ayFX editor for more detail: https://shiru.untergrund.net/software.shtml
 // Note: This program showcase the use of ayFX replayer with PT3 msic replayer
 //       but ayFX can be use as stand alone. 
 //─────────────────────────────────────────────────────────────────────────────

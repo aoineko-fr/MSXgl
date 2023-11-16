@@ -103,9 +103,10 @@ void Game_UpdateState();
 // Group: Game V-Synch
 
 //-----------------------------------------------------------------------------
-// DATA RAM
+// DEFINES
 
 extern u8 g_GameFrame;
+extern callback g_GameVSyncCB;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -119,7 +120,14 @@ void Game_VSyncHook();
 //
 // Parameters:
 //   cb - The v-sync function to set
-void Game_SetVSyncCallback(callback cb);
+inline void Game_SetVSyncCallback(callback cb) { g_GameVSyncCB = cb; }
+
+// Function: Game_GetFrameCount
+// Get frame counter
+//
+// Return:
+//   Current frame counter (0-255).
+inline u8 Game_GetFrameCount() { return g_GameFrame; }
 
 // Function: Game_WaitVSync
 // Wait for vertical-synchronization 
