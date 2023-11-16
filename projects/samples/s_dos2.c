@@ -59,6 +59,12 @@ DOS_Segment g_LastSeg;
 // Page 2 segment number
 u8 g_Page2Seg;
 
+// Frame counter
+u8 g_Frame = 0;
+
+// Previous KB row #0 value
+u8 g_PrevRow0 = 0x00;
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -91,14 +97,21 @@ const c8* FormatSlot(u8 slot)
 }
 
 //-----------------------------------------------------------------------------
+// Display program header
+void DisplayDOSHeader()
+{
+	DOS_ClearScreen();
+	DOS_StringOutput("+--------------------------+\n\r$");
+	DOS_StringOutput("| MSXgl - MSX-DOS 2 Sample |\n\r$");
+	DOS_StringOutput("+--------------------------+\n\r$");
+}
+
+//-----------------------------------------------------------------------------
 // 
 void DisplayInfo()
 {
 	// Program header
-	DOS_ClearScreen();
-	DOS_StringOutput("+----------------------+\n\r$");
-	DOS_StringOutput("| MSXgl - DOS 2 Sample |\n\r$");
-	DOS_StringOutput("+----------------------+\n\r$");
+	DisplayDOSHeader();
 
 	// Display VDP version
 	u8 vdp = VDP_GetVersion();
@@ -446,7 +459,7 @@ void DisplayFile()
 
 //-----------------------------------------------------------------------------
 // 
-void UpdateExtBIOS()
+void ApplyExtBIOS()
 {
 	// Mapper information
 	u16 TotalNumSeg = 0;
@@ -562,7 +575,7 @@ void DisplayExtBIOS()
 
 	g_Page2Seg = DOSMapper_GetPage2();
 
-	UpdateExtBIOS();
+	ApplyExtBIOS();
 }
 
 //-----------------------------------------------------------------------------
@@ -581,6 +594,138 @@ void Log(const c8* str)
 }
 
 //-----------------------------------------------------------------------------
+// 
+void UpdateExtBIOS()
+{
+	// Print sign-of-life
+	Print_SetPosition(512-8, 0);
+	Print_DrawChar(g_ChrAnim[g_Frame >> 2 & 0x03]);
+
+	u8 row0 = ~Keyboard_Read(0);
+	u8 keys = (row0 ^ g_PrevRow0) & row0;
+	g_PrevRow0 = row0;
+
+	// Allocate user segment from primary Memory mapper's slot
+	if(KEY_FLAG(KEY_1) & keys)
+	{
+		bool ok = DOSMapper_Alloc(DOS_ALLOC_USER, DOS_SEGSLOT_PRIM, &g_LastSeg);
+		String_Format(g_StrBuffer, "- %s: Allocate user segment from primary slot [slot:%s, seg:%d]", ok ? "Succed" : "Error", FormatSlot(g_LastSeg.Slot), g_LastSeg.Number);
+		Log(g_StrBuffer);
+		for(u8 i = 0; i < 4; ++i)
+			DOSMapper_WriteByte(g_LastSeg.Number, i, i);
+		ApplyExtBIOS();
+	}
+
+	// Allocate user segment from Memory mapper's slot other than primary one
+	if(KEY_FLAG(KEY_2) & keys)
+	{
+		bool ok = DOSMapper_Alloc(DOS_ALLOC_USER, g_DOS_VarTable->Slot | DOS_SEGSLOT_OTHER, &g_LastSeg);
+		String_Format(g_StrBuffer, "- %s: Allocate user segment from not-primary slot [slot:%s, seg:%d]", ok ? "Succed" : "Error", FormatSlot(g_LastSeg.Slot), g_LastSeg.Number);
+		Log(g_StrBuffer);
+		ApplyExtBIOS();
+	}
+
+	// Allocate system segment from primary Memory mapper's slot in priority
+	if(KEY_FLAG(KEY_3) & keys)
+	{
+		bool ok = DOSMapper_Alloc(DOS_ALLOC_SYS, g_DOS_VarTable->Slot | DOS_SEGSLOT_THISFIRST, &g_LastSeg);
+		String_Format(g_StrBuffer, "- %s: Allocate system segment from primary slot in priority [slot:%s, seg:%d]", ok ? "Succed" : "Error", FormatSlot(g_LastSeg.Slot), g_LastSeg.Number);
+		Log(g_StrBuffer);
+		ApplyExtBIOS();
+	}
+
+	// Free last allocated segment
+	if(KEY_FLAG(KEY_4) & keys)
+	{
+		if(g_LastSeg.Slot == SLOT_INVALID)
+		{
+			String_Format(g_StrBuffer, "- Error: Invalid last segment");
+		}
+		else
+		{
+			bool ok = DOSMapper_Free(g_LastSeg.Number, g_LastSeg.Slot);
+			String_Format(g_StrBuffer, "- %s: Free a segment [slot:%s, seg:%d]", ok ? "Succed" : "Error", FormatSlot(g_LastSeg.Slot), g_LastSeg.Number);
+			g_LastSeg.Slot = SLOT_INVALID;
+		}
+		Log(g_StrBuffer);
+		ApplyExtBIOS();
+	}
+
+	// Set page to next segment on the primary slot
+	if(KEY_FLAG(KEY_5) & keys)
+	{
+		DOSMapper_SetPage2(++g_Page2Seg);
+		u8 tab[8];
+		for(u8 i = 0; i < 8; ++i)
+			tab[i] = DOSMapper_ReadByte(g_Page2Seg, i);
+		String_Format(g_StrBuffer, "- Switch page 2 to segment %d. 8000h:[%2x %2x %2x %2x %2x %2x %2x %2x]", g_Page2Seg, tab[0], tab[1], tab[2], tab[3], tab[4], tab[5], tab[6], tab[7]);
+		Log(g_StrBuffer);
+		ApplyExtBIOS();
+	}
+
+	// Set page to previous segment on the primary slot
+	if(KEY_FLAG(KEY_6) & keys)
+	{
+		DOSMapper_SetPage2(--g_Page2Seg);
+		u8 tab[8];
+		for(u8 i = 0; i < 8; ++i)
+			tab[i] = DOSMapper_ReadByte(g_Page2Seg, i);
+		String_Format(g_StrBuffer, "- Switch page 2 to segment %d. 8000h:[%2x %2x %2x %2x %2x %2x %2x %2x]", g_Page2Seg, tab[0], tab[1], tab[2], tab[3], tab[4], tab[5], tab[6], tab[7]);
+		Log(g_StrBuffer);
+		ApplyExtBIOS();
+	}
+}
+
+//-----------------------------------------------------------------------------
+// 
+void DisplayStdIn()
+{
+	// Program header
+	DisplayDOSHeader();
+
+	DOS_StringOutput("\n\r$");
+	DOS_StringOutput("Press keys:\n\r$");
+	DOS_StringOutput("> $");
+}
+
+//-----------------------------------------------------------------------------
+// 
+u8 DOS_StandardInput()
+{
+__asm
+	push	ix
+	ld		e, #0xFF
+	ld		c, #DOS_FUNC_DIRIO
+	call	BDOS
+	pop		ix
+__endasm;
+	// return A
+}
+
+//-----------------------------------------------------------------------------
+// 
+void DOS_StandardOutput(u8 chr)
+{
+	chr;	// A
+__asm
+	push	ix
+	ld		e, a
+	ld		c, #DOS_FUNC_DIRIO
+	call	BDOS
+	pop		ix
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// 
+void UpdateStdIn()
+{
+	u8 chr = DOS_StandardInput();
+	if(chr)
+		DOS_StandardOutput(chr);
+}
+
+//-----------------------------------------------------------------------------
 // Program entry point
 u8 main(u8 argc, const c8** argv)
 {
@@ -591,16 +736,15 @@ u8 main(u8 argc, const c8** argv)
 DisplayMenu:
 
 	// Program header
-	DOS_ClearScreen();
-	DOS_StringOutput("+----------------------+\n\r$");
-	DOS_StringOutput("| MSXgl - DOS 2 Sample |\n\r$");
-	DOS_StringOutput("+----------------------+\n\r$");
+	DisplayDOSHeader();
 
 	DOS_StringOutput(" [1] System information\n\r$");
 	DOS_StringOutput(" [2] File handling (Screen 5)\n\r$");
 	DOS_StringOutput(" [3] Memory mapper (Screen 7)\n\r$");
+	DOS_StringOutput(" [4] Standard input\n\r$");
 	DOS_StringOutput(" [Q] Quit\n\r$");
 
+	callback cbUpdate = NULL;
 	if(chr == 0)
 		chr = DOS_CharInput();
 	switch(chr)
@@ -609,104 +753,42 @@ DisplayMenu:
 		DisplayInfo();
 		chr = 0;
 		goto DisplayMenu;
-		break;
+
 	case '2':
 		DisplayFile();
-		break;
+		return;
+
 	case '3':
 		DisplayExtBIOS();
-		break; // continue to main loop
+		cbUpdate = UpdateExtBIOS;
+		break;
+
+	case '4':
+		DisplayStdIn();
+		cbUpdate = UpdateStdIn;
+		break;
+
 	case 'q':
 	case 'Q':
 		DOS_ClearScreen();
 		DOS_Exit(0);
+
 	default:
 		chr = 0;
 		goto DisplayMenu;
 	}
 
-	u8 frame = 0;
-	u8 prevRow0 = 0x00;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
+		// Naive V-Synch method
 		Halt();
 
-		Print_SetPosition(512-8, 0);
-		Print_DrawChar(g_ChrAnim[frame++ >> 2 & 0x03]);
+		// Update current page
+		if(cbUpdate)
+			cbUpdate();
 
-		u8 row0 = ~Keyboard_Read(0);
-		u8 keys = (row0 ^ prevRow0) & row0;
-		prevRow0 = row0;
-
-		// Allocate user segment from primary Memory mapper's slot
-		if(KEY_FLAG(KEY_1) & keys)
-		{
-			bool ok = DOSMapper_Alloc(DOS_ALLOC_USER, DOS_SEGSLOT_PRIM, &g_LastSeg);
-			String_Format(g_StrBuffer, "- %s: Allocate user segment from primary slot [slot:%s, seg:%d]", ok ? "Succed" : "Error", FormatSlot(g_LastSeg.Slot), g_LastSeg.Number);
-			Log(g_StrBuffer);
-			for(u8 i = 0; i < 4; ++i)
-				DOSMapper_WriteByte(g_LastSeg.Number, i, i);
-			UpdateExtBIOS();
-		}
-
-		// Allocate user segment from Memory mapper's slot other than primary one
-		if(KEY_FLAG(KEY_2) & keys)
-		{
-			bool ok = DOSMapper_Alloc(DOS_ALLOC_USER, g_DOS_VarTable->Slot | DOS_SEGSLOT_OTHER, &g_LastSeg);
-			String_Format(g_StrBuffer, "- %s: Allocate user segment from not-primary slot [slot:%s, seg:%d]", ok ? "Succed" : "Error", FormatSlot(g_LastSeg.Slot), g_LastSeg.Number);
-			Log(g_StrBuffer);
-			UpdateExtBIOS();
-		}
-
-		// Allocate system segment from primary Memory mapper's slot in priority
-		if(KEY_FLAG(KEY_3) & keys)
-		{
-			bool ok = DOSMapper_Alloc(DOS_ALLOC_SYS, g_DOS_VarTable->Slot | DOS_SEGSLOT_THISFIRST, &g_LastSeg);
-			String_Format(g_StrBuffer, "- %s: Allocate system segment from primary slot in priority [slot:%s, seg:%d]", ok ? "Succed" : "Error", FormatSlot(g_LastSeg.Slot), g_LastSeg.Number);
-			Log(g_StrBuffer);
-			UpdateExtBIOS();
-		}
-
-		// Free last allocated segment
-		if(KEY_FLAG(KEY_4) & keys)
-		{
-			if(g_LastSeg.Slot == SLOT_INVALID)
-			{
-				String_Format(g_StrBuffer, "- Error: Invalid last segment");
-			}
-			else
-			{
-				bool ok = DOSMapper_Free(g_LastSeg.Number, g_LastSeg.Slot);
-				String_Format(g_StrBuffer, "- %s: Free a segment [slot:%s, seg:%d]", ok ? "Succed" : "Error", FormatSlot(g_LastSeg.Slot), g_LastSeg.Number);
-				g_LastSeg.Slot = SLOT_INVALID;
-			}
-			Log(g_StrBuffer);
-			UpdateExtBIOS();
-		}
-
-		// Set page to next segment on the primary slot
-		if(KEY_FLAG(KEY_5) & keys)
-		{
-			DOSMapper_SetPage2(++g_Page2Seg);
-			u8 tab[8];
-			for(u8 i = 0; i < 8; ++i)
-				tab[i] = DOSMapper_ReadByte(g_Page2Seg, i);
-			String_Format(g_StrBuffer, "- Switch page 2 to segment %d. 8000h:[%2x %2x %2x %2x %2x %2x %2x %2x]", g_Page2Seg, tab[0], tab[1], tab[2], tab[3], tab[4], tab[5], tab[6], tab[7]);
-			Log(g_StrBuffer);
-			UpdateExtBIOS();
-		}
-
-		// Set page to previous segment on the primary slot
-		if(KEY_FLAG(KEY_6) & keys)
-		{
-			DOSMapper_SetPage2(--g_Page2Seg);
-			u8 tab[8];
-			for(u8 i = 0; i < 8; ++i)
-				tab[i] = DOSMapper_ReadByte(g_Page2Seg, i);
-			String_Format(g_StrBuffer, "- Switch page 2 to segment %d. 8000h:[%2x %2x %2x %2x %2x %2x %2x %2x]", g_Page2Seg, tab[0], tab[1], tab[2], tab[3], tab[4], tab[5], tab[6], tab[7]);
-			Log(g_StrBuffer);
-			UpdateExtBIOS();
-		}
+		// Increment frame counter
+		g_Frame++;
 	}
 
 	Bios_Exit(0);
