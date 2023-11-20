@@ -191,6 +191,7 @@ void V9_SetReadAddress(u32 addr) __PRESERVES(b, iyl, iyh);
 
 // Function: V9_FillVRAM_CurrentAddr
 // Fill VRAM with 8-bits value from the previously setup write VRAM address.
+// <V9_SetWriteAddress> have to be called first.
 //
 // Parameters:
 //   value - 8-bits value to be set.
@@ -199,6 +200,7 @@ void V9_FillVRAM_CurrentAddr(u8 value, u16 count);
 
 // Function: V9_FillVRAM16_CurrentAddr
 // Fill VRAM with 16-bits value from the previously setup write VRAM address.
+// <V9_SetWriteAddress> have to be called first.
 //
 // Parameters:
 //   value - 16-bits value to be set.
@@ -207,6 +209,7 @@ void V9_FillVRAM16_CurrentAddr(u16 value, u16 count);
 
 // Function: V9_WriteVRAM_CurrentAddr
 // Copy data from RAM buffer to the previously setup write VRAM address.
+// <V9_SetWriteAddress> have to be called first.
 //
 // Parameters:
 //   src - Pointer to the source data buffer to be copied in VRAM.
@@ -215,6 +218,7 @@ void V9_WriteVRAM_CurrentAddr(const u8* src, u16 count);
 
 // Function: V9_ReadVRAM_CurrentAddr
 // Copy data from the previously setup read VRAM address to a RAM buffer.
+// <V9_SetReadAddress> have to be called first.
 //
 // Parameters:
 //   dst - Pointer to the destination data buffer.
@@ -223,6 +227,7 @@ void V9_ReadVRAM_CurrentAddr(const u8* dest, u16 count);
 
 // Function: V9_Poke_CurrentAddr
 // Write a 8-bits value to the previously setup write VRAM address.
+// <V9_SetWriteAddress> have to be called first.
 //
 // Parameters:
 //   val - The value to be write.
@@ -230,6 +235,7 @@ void V9_Poke_CurrentAddr(u8 val) __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: V9_Poke16_CurrentAddr
 // Write a 16-bits value to the previously setup write VRAM address.
+// <V9_SetWriteAddress> have to be called first.
 //
 // Parameters:
 //   val - The value to be write.
@@ -237,6 +243,7 @@ void V9_Poke16_CurrentAddr(u16 val) __PRESERVES(b, c, d, e, iyl, iyh);
 
 // Function: V9_Peek_CurrentAddr
 // Read a 8-bits value from the previously setup write VRAM address.
+// <V9_SetReadAddress> have to be called first.
 //
 // Return:
 //   The value at the given address.
@@ -244,6 +251,7 @@ u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: V9_Peek16_CurrentAddr
 // Read a 16-bits value from the previously setup write VRAM address.
+// <V9_SetReadAddress> have to be called first.
 //
 // Return:
 //   The value at the given address.
@@ -309,7 +317,7 @@ inline void V9_Poke16(u32 addr, u16 val) { V9_SetWriteAddress(addr); V9_Poke16_C
 //
 // Return:
 //   The value at the given address.
-inline u8 V9_Peek(u32 addr) { V9_SetWriteAddress(addr); return V9_Peek_CurrentAddr(); }
+inline u8 V9_Peek(u32 addr) { V9_SetReadAddress(addr); return V9_Peek_CurrentAddr(); }
 
 // Function: V9_Peek16
 // Read a 16-bits value from at the given VRAM address.
@@ -319,7 +327,7 @@ inline u8 V9_Peek(u32 addr) { V9_SetWriteAddress(addr); return V9_Peek_CurrentAd
 //
 // Return:
 //   The value at the given address.
-inline u16 V9_Peek16(u32 addr) { V9_SetWriteAddress(addr); return V9_Peek16_CurrentAddr(); }
+inline u16 V9_Peek16(u32 addr) { V9_SetReadAddress(addr); return V9_Peek16_CurrentAddr(); }
 
 //-----------------------------------------------------------------------------
 // Group: Setting
