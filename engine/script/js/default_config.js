@@ -200,6 +200,15 @@ LinkOpt = "";
 //-- Automatic increment of build version in a header file (boolean)
 BuildVersion = false;
 
+//-- List files to be localized (array)
+LocFiles = [];
+
+//-- Localization output filename (string)
+LocOutput = "localization.h";
+
+//-- Localization structure name (string)
+LocStruct = "g_LocData";
+
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 PackSegments = false;
 

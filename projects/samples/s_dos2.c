@@ -689,7 +689,7 @@ void DisplayStdIn()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Get a character from standard input
 u8 DOS_StandardInput()
 {
 __asm
@@ -703,7 +703,7 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Put a character to standard output 
 void DOS_StandardOutput(u8 chr)
 {
 	chr;	// A

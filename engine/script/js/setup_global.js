@@ -305,6 +305,15 @@ global.LinkOpt = "";
 //-- Automatic increment of build version in a header file (boolean)
 global.BuildVersion = false;
 
+//-- List files to be localized (array)
+global.LocFiles = [];
+
+//-- Localization output filename (string)
+global.LocOutput = "";
+
+//-- Localization structure name (string)
+global.LocStruct = "";
+
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 global.PackSegments = false;
 

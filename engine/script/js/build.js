@@ -13,6 +13,7 @@ const path = require('path');
 //-- MSXgl JS libraries
 const util = require("./util.js"); 
 const compiler = require("./compiler.js"); 
+const localizer = require("./localizer.js"); 
 
 //_____________________________________________________________________________
 //  ▄▄▄▄      ▄  ▄▄ 
@@ -276,6 +277,15 @@ if (DoCompile)
 		fs.writeFileSync("./version.h", `#define BUILD_VERSION ${Version}\r\n`);
 
 		util.print(`New build version: ${Version}`);
+	}
+
+	//=========================================================================
+	// GENERATE LOCALIZATION FILE
+	//=========================================================================
+	if (LocFiles.length)
+	{
+		util.print(`Building '${LocOutput}' localization file...`);
+		localizer.generate(LocFiles, LocOutput, LocStruct);
 	}
 
 	//=========================================================================

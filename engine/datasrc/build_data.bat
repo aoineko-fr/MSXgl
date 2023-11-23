@@ -69,21 +69,23 @@ if %BuildFont%==1 (
 	%MSXimg% font\font_mgl_std2.png     -out ..\content\font\font_mgl_std2.h     -pos 0 16  -size 8 8  -gap 0 0  -num 16 6  -trans 0x000000  -bpc 1  -name g_Font_MGL_Std2     -copy msxgl.txt -skip  -font 6 8 ! ~
 	%MSXimg% font\font_mgl_std3.png     -out ..\content\font\font_mgl_std3.h     -pos 0 16  -size 8 7  -gap 0 1  -num 16 6  -trans 0x000000  -bpc 1  -name g_Font_MGL_Std3     -copy msxgl.txt -skip  -font 6 8 ! }
 	%MSXimg% font\font_mgl_symbol1.png  -out ..\content\font\font_mgl_symbol1.h  -pos 0 0   -size 8 8  -gap 0 0  -num 16 14 -trans 0x000000  -bpc 1  -name g_Font_MGL_Symbol1  -copy msxgl.txt        -font 8 8 0x00 0xE0
-	%MSXimg% font\font_mgl_sys1.png     -out ..\content\font\font_mgl_sys1.h     -pos 0 16  -size 8 8  -gap 0 0  -num 16 4  -trans 0x000000  -bpc 1  -name g_Font_MGL_Sys1     -copy msxgl.txt -skip  -font 8 8 ! _
+	%MSXimg% font\font_mgl_sys1.png     -out ..\content\font\font_mgl_sys1.h     -pos 0 16  -size 8 8  -gap 0 0  -num 16 4  -trans 0x000000  -bpc 1  -name g_Font_MGL_Sys1     -copy msxgl.txt -skip  -font 8 8 ! _0
 	%MSXimg% font\font_mgl_sample6.png  -out ..\content\font\font_mgl_sample6.h  -pos 0 0   -size 8 8  -gap 0 0  -num 16 12 -trans 0x000000  -bpc 1  -name g_Font_MGL_Sample6  -copy msxgl.txt        -font 6 8 0x00 0xBF
 	%MSXimg% font\font_mgl_sample8.png  -out ..\content\font\font_mgl_sample8.h  -pos 0 0   -size 8 8  -gap 0 0  -num 16 12 -trans 0x000000  -bpc 1  -name g_Font_MGL_Sample8  -copy msxgl.txt        -font 8 8 0x00 0xBF
+	%MSXimg% font\font_mgl_kana6.png    -out ..\content\font\font_mgl_kana6.h    -pos 0 0   -size 8 8  -gap 0 0  -num 16 16 -trans 0x000000  -bpc 1  -name g_Font_MGL_Kana6    -copy msxgl.txt        -font 6 8 0x00 0xFD
+	%MSXimg% font\font_mgl_kana8.png    -out ..\content\font\font_mgl_kana8.h    -pos 0 0   -size 8 8  -gap 0 0  -num 16 16 -trans 0x000000  -bpc 1  -name g_Font_MGL_Kana8    -copy msxgl.txt        -font 8 8 0x00 0xFD
 
 	REM -------- MISC FONTS --------
-	%MSXimg% font\font_carwar.png        -out ..\content\font\font_carwar.h        -pos 0 0   -size 8 8  -gap 0 0  -num 16 4  -trans 0xDA48B6  -bpc 1  -name g_Font_Carwar        -copy          -skip  -font 8 8 ! _
+	%MSXimg% font\font_carwar.png        -out ..\content\font\font_carwar.h        -pos 0 0   -size 8 8  -gap 0 0  -num 16 4  -trans 0xDA48B6  -bpc 1  -name g_Font_Carwar        -copy           -skip  -font 8 8 ! _
 	REM %MSXimg% -in font\font_darkrose.png	-out font_darkrose.h    -pos 0 16 -size 8 8  -gap 0 0 -num 16 6  -trans 0x000000 -bpc 1 -name g_Font_Darkrose		-skip -font 8 8 ! ~
 	REM %MSXimg% -in font\oxygene.png			-out font_oxygene.h     -pos 0 16 -size 8 8  -gap 0 0 -num 16 6  -trans 0x000000 -bpc 1 -name g_Font_Oxygene		-skip -font 8 8 ! _
 	%MSXimg% font\font_room5.png         -out ..\content\font\font_room5.h         -pos 0 16  -size 8 8  -gap 0 0  -num 16 4  -trans 0x000000  -bpc 1  -name g_Font_Room5         -copy msxgl.txt -skip -font 8 8 ! _
 
 	REM -------- SSYTEM FONTS --------
-	%MSXimg% font\font_tsm9900.png       -out ..\content\font\font_tsm9900.h       -pos 0 16  -size 8 8  -gap 0 0  -num 16 6  -trans 0x000000  -bpc 1  -name g_Font_TMS9900       -copy          -skip  -font 6 8 ! ~
+	%MSXimg% font\font_tsm9900.png       -out ..\content\font\font_tsm9900.h       -pos 0 16  -size 8 8  -gap 0 0  -num 16 6  -trans 0x000000  -bpc 1  -name g_Font_TMS9900       -copy           -skip  -font 6 8 ! ~
 	REM %MSXimg% -in font\IBMFont.bmp			-out font_ibm.h         -pos 0 0  -size 8 8  -gap 0 0 -num 16 16 -trans 0x040404 -bpc 1 -name g_Font_IBM			-skip -font 8 8 0x01 0xFE
-	%MSXimg% font\typo\Apple2.png        -out ..\content\font\font_apple2.h        -pos 0 0   -size 7 8  -gap 0 0  -num 32 3  -trans 0x000000  -bpc 1  -name g_Font_Apple2        -copy -skip -font 8 8 ! 0x7F
-	%MSXimg% font\typo\Atari.png         -out ..\content\font\font_atari.h         -pos 0 0   -size 8 8  -gap 0 0  -num 32 3  -trans 0x005D8E  -bpc 1  -name g_Font_Atari         -copy -skip -font 8 8 ! 0x7C
+	%MSXimg% font\typo\Apple2.png        -out ..\content\font\font_apple2.h        -pos 0 0   -size 7 8  -gap 0 0  -num 32 3  -trans 0x000000  -bpc 1  -name g_Font_Apple2        -copy           -skip -font 8 8 ! 0x7F
+	%MSXimg% font\typo\Atari.png         -out ..\content\font\font_atari.h         -pos 0 0   -size 8 8  -gap 0 0  -num 32 3  -trans 0x005D8E  -bpc 1  -name g_Font_Atari         -copy           -skip -font 8 8 ! 0x7C
 
 	REM -------- GFX FONTS --------
 	%MSXimg% font\font_gfx_future1.png   -out ..\content\font\font_gfx_future1.h   -pos 0 0   -size 8 8  -gap 0 0  -num 16 4  -trans 0x000000  -bpc 1  -name g_Font_GFX_Future1   -copy font\gfx.txt -skip  -font 8 8 ! _
