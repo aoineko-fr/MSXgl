@@ -19,6 +19,7 @@
 // DEFINES
 //=============================================================================
 
+// Physics values
 #define FORCE		24
 #define GRAVITY		1
 #define GROUND		192
@@ -26,7 +27,7 @@
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
 
-// Prototype
+// Function prototypes
 bool State_Initialize();
 bool State_Game();
 bool State_Pause();
@@ -35,31 +36,31 @@ bool State_Pause();
 // READ-ONLY DATA
 //=============================================================================
 
-// Fonts
+// Font
 #include "font/font_mgl_sample8.h"
-// Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
+// Sprites data by GrafxKid (https://opengameart.org/content/super-random-sprites)
 #include "content/data_sprt_layer.h"
 #include "content/data_bg.h"
 // Sinus & cosinus table
 #include "mathtable/mt_trigo_64.inc"
 
-// Character animation data
+// Sign-of-life character animation data
 const c8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
 // Pawn sprite layers
 const Game_Sprite g_SpriteLayers[] =
-{
-	{ 0, 0, 0,  COLOR_BLACK, PAWN_SPRITE_EVEN },
-	{ 0, 0, 12, COLOR_BLACK, PAWN_SPRITE_ODD },
-	{ 0, 0, 4,  COLOR_WHITE, 0 },
-	{ 0, 0, 8,  COLOR_LIGHT_RED, 0 },
+{//   X  Y  Pattern Color            Option
+	{ 0, 0, 0,      COLOR_BLACK,     PAWN_SPRITE_EVEN }, // Black sprite...
+	{ 0, 0, 12,     COLOR_BLACK,     PAWN_SPRITE_ODD }, // ...alternated each frame
+	{ 0, 0, 4,      COLOR_WHITE,     0 },
+	{ 0, 0, 8,      COLOR_LIGHT_RED, 0 },
 };
 
 // Idle animation frames
 const Game_Frame g_FramesIdle[] =
-{
-	{ 6*16,	48,	NULL },
-	{ 7*16,	24,	NULL },
+{ //  Pattern Frames Function
+	{ 6*16,	  48,    NULL },
+	{ 7*16,	  24,    NULL },
 };
 
 // Move animation frames
