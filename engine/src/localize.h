@@ -23,14 +23,14 @@ extern const c8** g_Loc_CurLang;
 // FUNCTIONS
 //-----------------------------------------------------------------------------
 
-// Function: 
+// Function: Loc_Initialize
 // Initialize the localization module
 void Loc_Initialize(const void* data, u8 ids);
 
-// Function: 
+// Function: Loc_SetLangage
 // Set the current langage
 inline void Loc_SetLangage(u8 langId) { g_Loc_CurLang = (const c8**)(g_Loc_DataRoot + g_Loc_TextNum * 2 * langId); }
 
-// Function: 
+// Function: Loc_GetText
 // Get a given text in the current langage
 inline const c8* Loc_GetText(u8 textId) { return g_Loc_CurLang[textId]; }

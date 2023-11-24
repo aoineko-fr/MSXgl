@@ -20,7 +20,7 @@
 //=============================================================================
 
 // Localization
-#include "s_loc_data.h"
+#include "content/loc_data.h"
 
 // Fonts
 #include "font/font_mgl_sample6.h"
@@ -64,6 +64,7 @@ void main()
 	{
 		Halt();
 
+		// Display sign-of-life
 		Print_SetPosition(39, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 	}
