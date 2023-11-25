@@ -23,7 +23,7 @@
 #include "content/loc_data.h"
 
 // Fonts
-#include "font/font_mgl_sample6.h"
+#include "font/font_mgl_kana8.h"
 
 // Sign-of-life animation
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
@@ -40,14 +40,14 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Program entry point
 void main()
 {
-	// Initialize screen mode 0 (text)
-	VDP_SetMode(VDP_MODE_SCREEN0);
+	// Initialize screen mode 1 (text)
+	VDP_SetMode(VDP_MODE_SCREEN1);
 	VDP_ClearVRAM();
 
 	// Initialize font (use BIOS font)
-	Print_SetTextFont(g_Font_MGL_Sample6, 1);
-	Print_DrawText(MSX_GL " Localization sample");
-	Print_DrawLineH(0, 1, 40);
+	Print_SetTextFont(g_Font_MGL_Kana8, 1);
+	Print_DrawText("MSXgl - Localize sample");
+	Print_DrawLineH(0, 1, 32);
 
 	// Initialize the localization module
 	Loc_Initialize(g_LocData, TEXT_MAX);
@@ -55,7 +55,7 @@ void main()
 	{
 		Loc_SetLangage(l);
 		loop(t, TEXT_MAX)
-			Print_DrawTextAt(1 + l * 12, 5 + t, Loc_GetText(t) ? Loc_GetText(t) : "--");
+			Print_DrawTextAt(l * 10, 5 + t, Loc_GetText(t) ? Loc_GetText(t) : "--");
 	}
 
 	// Main loop
@@ -65,7 +65,7 @@ void main()
 		Halt();
 
 		// Display sign-of-life
-		Print_SetPosition(39, 0);
+		Print_SetPosition(31, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 	}
 }
