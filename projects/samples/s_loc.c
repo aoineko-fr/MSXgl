@@ -51,7 +51,7 @@ const Font g_Fonts[] =
 //=============================================================================
 
 // Current language
-u8 g_CurLang = LANG_JPN;
+u8 g_CurLang = LANG_JA;
 
 // Current character font
 u8 g_CurFont = 1;
@@ -71,7 +71,7 @@ void DisplayPage()
 	VDP_ClearVRAM();
 
 	// Initialize language and font
-	Loc_SetLangage(g_CurLang);
+	Loc_SetLanguage(g_CurLang);
 	Print_SetTextFont(font->Data, font->Offset);
 
 	// Display header

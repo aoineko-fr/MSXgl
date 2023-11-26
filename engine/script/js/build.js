@@ -284,7 +284,7 @@ if (DoCompile)
 	//=========================================================================
 	if (LocFiles.length)
 	{
-		util.print(`Building '${LocOutput}' localization file...`, PrintHighlight);
+		util.print(`Generating '${LocOutput}' localization file...`, PrintHighlight);
 		localizer.generate(LocFiles, LocOutput, LocStruct, Verbose);
 	}
 
