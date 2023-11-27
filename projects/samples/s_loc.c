@@ -33,6 +33,7 @@ typedef struct
 
 // Fonts
 #include "font/font_mgl_kana8.h"
+#include "font/font_mgl_makoto.h"
 #include "font/font_ibm.h"
 
 // Sign-of-life animation
@@ -41,9 +42,10 @@ const const c8* g_ChrAnim = "-/|\\";
 // Font data
 const Font g_Fonts[] = 
 {
-	{ "BIOS",  NULL,             1, 0x17 },
-	{ "Kana8", g_Font_MGL_Kana8, 0, 0x17 },
-	{ "IBM",   g_Font_IBM,       1, 0xC4 },
+	{ "BIOS",   NULL,              1, 0x17 },
+	{ "Kana8",  g_Font_MGL_Kana8,  0, 0x17 },
+	{ "Makoto", g_Font_MGL_Makoto, 0, 0x17 },
+	{ "IBM",    g_Font_IBM,        1, 0xC4 },
 };
 
 //=============================================================================

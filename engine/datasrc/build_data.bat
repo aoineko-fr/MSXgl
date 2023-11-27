@@ -73,6 +73,7 @@ if %BuildFont%==1 (
 	%MSXimg% font\font_mgl_sample6.png  -out ..\content\font\font_mgl_sample6.h  -pos 0 0   -size 8 8  -gap 0 0  -num 16 12 -trans 0x000000  -bpc 1  -name g_Font_MGL_Sample6  -copy msxgl.txt        -font 6 8 0x00 0xBF
 	%MSXimg% font\font_mgl_sample8.png  -out ..\content\font\font_mgl_sample8.h  -pos 0 0   -size 8 8  -gap 0 0  -num 16 12 -trans 0x000000  -bpc 1  -name g_Font_MGL_Sample8  -copy msxgl.txt        -font 8 8 0x00 0xBF
 	%MSXimg% font\font_mgl_kana8.png    -out ..\content\font\font_mgl_kana8.h    -pos 0 0   -size 8 8  -gap 0 0  -num 16 16 -trans 0x000000  -bpc 1  -name g_Font_MGL_Kana8    -copy msxgl.txt        -font 8 8 0x00 0xFD
+	%MSXimg% font\font_mgl_makoto.png   -out ..\content\font\font_mgl_makoto.h   -pos 0 0   -size 8 8  -gap 0 0  -num 16 16 -trans 0x000000  -bpc 1  -name g_Font_MGL_Makoto   -copy msxgl.txt        -font 8 8 0x00 0xFD
 
 	REM -------- MISC FONTS --------
 	%MSXimg% font\font_carwar.png        -out ..\content\font\font_carwar.h        -pos 0 0   -size 8 8  -gap 0 0  -num 16 4  -trans 0xDA48B6  -bpc 1  -name g_Font_Carwar        -copy           -skip  -font 8 8 ! _
