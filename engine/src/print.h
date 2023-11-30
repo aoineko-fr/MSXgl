@@ -15,6 +15,9 @@
 // DEFINES
 //-----------------------------------------------------------------------------
 
+#define PRINT_USE_ALIGN			TRUE
+#define PRINT_USE_DIRECTION		TRUE
+
 // Character display sources
 enum PRINT_MODE
 {
@@ -67,9 +70,25 @@ typedef void (*print_loadfont)(VADDR); //< Font load callback signature
 
 extern struct Print_Data g_PrintData;
 
+// Print VFX flags
 #define PRINT_FX_SHADOW				0b00000001
 #define PRINT_FX_OUTLINE			0b00000010
 #define PRINT_FX_ONLY				0b10000000
+
+// Print direction enum
+enum PRINT_DRI
+{
+	PRINT_DIR_RIGHT = 0,			// Right to left
+	PRINT_DIR_LEFT,					// Left to right
+};
+
+// Print aligment enum
+enum PRINT_ALIGN
+{
+	PRINT_ALIGN_LEFT = 0,
+	PRINT_ALIGN_CENTER,
+	PRINT_ALIGN_RIGHT,
+};
 
 //-----------------------------------------------------------------------------
 // STRUCTURES
@@ -128,6 +147,9 @@ struct Print_Data
 	u8 OutlineColor;			//< Shadow color
 #endif
 	u8 Buffer[16];				//< Mode specifique buffer (used to pre-compute color combinations)
+#if (PRINT_USE_DIRECTION)
+	i8 Direction;				//< Shadow color
+#endif
 };
 
 //-----------------------------------------------------------------------------
@@ -455,9 +477,9 @@ void Print_Backspace(u8 num);
 // Draw text at a given position on screen.
 //
 // Parameters:
-//   x   - Position X coordinate
-//   y   - Position Y coordinate
-//   str - Null-terminated string to draw
+//   x     - Position X coordinate
+//   y     - Position Y coordinate
+//   str   - Null-terminated string to draw
 inline void Print_DrawTextAt(u8 x, u8 y, const c8* str)
 {
 	Print_SetPosition(x, y);
@@ -670,3 +692,53 @@ void Print_DrawLineV(u8 x, u8 y, u8 len);
 void Print_DrawBox(u8 x, u8 y, u8 width, u8 height);
 
 #endif // (PRINT_USE_GRAPH)
+
+
+
+#if (PRINT_USE_ALIGN)
+
+// Function: Print_DrawTextAlign
+// Print a character string
+//
+// Parameters:
+//   str   - Null-terminated string to draw
+//   align - Alignement flag: PRINT_ALIGN_LEFT, PRINT_ALIGN_CENTER, PRINT_ALIGN_RIGHT
+inline void Print_DrawTextAlign(const c8* str, u8 align)
+{
+	u8 len = String_Length(str);
+	switch(align)
+	{
+	case PRINT_ALIGN_LEFT:
+		break;
+	case PRINT_ALIGN_CENTER:
+		g_PrintData.CursorX -= (len - 1) / 2;
+		break;
+	case PRINT_ALIGN_RIGHT:
+		g_PrintData.CursorX -= len - 1;
+		break;
+	}
+	
+	Print_DrawText(str);
+}
+
+// Function: Print_DrawTextAlignAt
+// Draw text at a given position on screen.
+//
+// Parameters:
+//   x     - Position X coordinate
+//   y     - Position Y coordinate
+//   str   - Null-terminated string to draw
+//   align - Alignement flag: PRINT_ALIGN_LEFT, PRINT_ALIGN_CENTER, PRINT_ALIGN_RIGHT
+inline void Print_DrawTextAlignAt(u8 x, u8 y, const c8* str, u8 align)
+{
+	Print_SetPosition(x, y);
+	Print_DrawTextAlign(str, align);
+}
+
+#endif // (PRINT_USE_ALIGN)
+
+#if (PRINT_USE_DIRECTION)
+
+inline void Print_SetDirection(u8 dir) { g_PrintData.Direction = dir; }
+
+#endif // (PRINT_USE_ALIGN)

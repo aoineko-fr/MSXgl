@@ -70,6 +70,7 @@ void DisplayPage()
 
 	// Initialize screen mode 1 (text)
 	VDP_SetMode(VDP_MODE_SCREEN1);
+	VDP_SetColor(COLOR_MERGE(COLOR_WHITE, COLOR_BLACK));
 	VDP_ClearVRAM();
 
 	// Initialize language and font
@@ -77,7 +78,7 @@ void DisplayPage()
 	Print_SetTextFont(font->Data, font->Offset);
 
 	// Display header
-	Print_DrawTextAt(0, 0, Loc_GetText(TEXT_TITLE));
+	Print_DrawTextAlignAt(15, 0, Loc_GetText(TEXT_TITLE), PRINT_ALIGN_CENTER);
 	Print_DrawCharXAt(0, 1, font->Line, 32);
 
 	// Information
