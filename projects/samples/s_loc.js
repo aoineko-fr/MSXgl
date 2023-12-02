@@ -3,13 +3,13 @@
 //*****************************************************************************
 
 //-- Target MSX machine version (string)
-Machine = "1";
+Machine = "2";
 
 //-- List of library modules to build (array)
 LibModules = [ "localize", "vdp", "print", "input" ];
 
 //-- List files to be localized (array)
-LocFiles = [ "datasrc/loc_src2.ini", "datasrc/loc_src1.ini" ];
+LocFiles = [ /*"datasrc/loc_src2.ini",*/ "datasrc/loc_src1.ini" ];
 
 //-- Localization output filename (string)
 LocOutput = "content/loc_data.h";

@@ -1,2 +1,1 @@
-Author: ASCII Corporation
-License: All right reserved
+ASCII Corporation. All right reserved. Free to use for MSX application.

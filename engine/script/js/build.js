@@ -286,6 +286,7 @@ if (DoCompile)
 	{
 		util.print(`Generating '${LocOutput}' localization file...`, PrintHighlight);
 		localizer.generate(LocFiles, LocOutput, LocStruct, Verbose);
+		util.print("Success", PrintSuccess);
 	}
 
 	//=========================================================================

@@ -119,7 +119,7 @@ AppSignature = true;
 AppCompany = "GL";
 
 //-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
-AppID = "SP";
+AppID = "XX";
 
 //-- Application extra data (array). Comma-separated bytes starting with data size
 // AppExtra = [];
