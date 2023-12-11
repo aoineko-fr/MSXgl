@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.4";
+const char* VERSION = "0.1.5";
 
 #define BUFFER_SIZE 1024
 
@@ -118,6 +118,10 @@ std::map<const c8*, u32> g_NamedValue = {
 	{ "1M",   1024 * 1024 * 1 },
 	{ "2M",   1024 * 1024 * 2 },
 	{ "4M",   1024 * 1024 * 4 },
+	{ "8M",   1024 * 1024 * 8 },
+	{ "16M",  1024 * 1024 * 16 },
+	{ "32M",  1024 * 1024 * 32 },
+	{ "64M",  1024 * 1024 * 64 },
 };
 
 //=============================================================================
@@ -166,6 +170,10 @@ u32 GetValue(std::string name)
 // 
 bool WriteBytes(u32 addr, std::vector<u8> data)
 {
+	//static int a = 0;
+	//if (addr == 0x22000) //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	//	a++;
+
 	// Check starting address
 	if (addr < g_StartAddress)
 	{
@@ -213,9 +221,12 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 	u32 offset = offsetStart;
 	for (u8 i = 0; i < data.size(); i++)
 	{
+		//if (offset == 0x4000) //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		//	a++;
+
 		if (g_BinCheck[offset])
 		{
-			printf("Error: Writing address overwrite at offset %08Xh!\n", offset);
+			printf("Error: Data overwrite at offset %08Xh! (Address=%08Xh)\n", offset, addr);
 			return false;
 		}
 
@@ -394,7 +405,8 @@ void PrintHelp()
 	printf("\n");
 }
 
-//const char* ARGV[] = { "", "../testcases/crt0_rom_mapper.ihx", "-e", "rom", "-s", "0x4000", "-l", "256K", "-b", "16K", "-p", "0xFF" };
+//-----------------------------------------------------------------------------
+//const char* ARGV[] = { "", "../testcases/s_target_ROM_NEO8_8M.ihx", "-e", "rom", "-s", "0x0", "-l", "8M", "-b", "8K", "-p", "0xFF" };
 //#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------

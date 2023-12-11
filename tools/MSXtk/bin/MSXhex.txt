@@ -1,4 +1,4 @@
-MSXhex 0.1.4 - Convert Intel HEX file to binary
+MSXhex 0.1.5 - Convert Intel HEX file to binary
 --------------------------------------------------------------------------------
 Usage: msxhex <inputfile> [options]
 
@@ -14,4 +14,4 @@ Options:
 
  All integers can be decimal or hexadecimal starting with '0x'.
  One of the following named values can also be used:
-  1K, 2K, 4K, 8K, 16K, 24K, 32K, 48K, 64K, 128K, 256K, 512K, 1M, 2M, 4M
+  1K, 2K, 4K, 8K, 16K, 24K, 32K, 48K, 64K, 128K, 256K, 512K, 1M, 2M, 4M, 8M, 16M, 32M, 64M
