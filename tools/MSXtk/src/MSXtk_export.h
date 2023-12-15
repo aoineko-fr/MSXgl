@@ -45,6 +45,7 @@ public:
 
 	ExporterInterface() : TotalBytes(0), Config() {}
 	ExporterInterface(ExportConfig& cfg) : TotalBytes(0), Config(cfg) {}
+	virtual ~ExporterInterface() = default;
 
 	virtual void AddReturn() = 0;
 	virtual void AddComment(std::string comment = "") = 0;
