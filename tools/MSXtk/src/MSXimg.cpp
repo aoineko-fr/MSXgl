@@ -71,7 +71,7 @@ void PrintHelp()
 	printf("Usage: MSXimg <filename> [options]\n");
 	printf("\n");
 	printf("Options:\n");
-	printf(" inputFile        Inuput file name. Can be 8/16/24/32 bits image\n");
+	printf(" inputFile        Input file name. Can be 8/16/24/32 bits image\n");
 	printf("                  Supported format: BMP, JPEG, PCX, PNG, TGA, PSD, GIF, etc.\n");
 	printf(" -out outFile     Output file name\n");
 	printf(" -format ?        Output format\n");
