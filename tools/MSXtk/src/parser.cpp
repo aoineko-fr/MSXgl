@@ -9,9 +9,9 @@
 // under CC-BY-AS license (https://creativecommons.org/licenses/by-sa/2.0/)
 
 // std
+#include <algorithm>
 #include <stdlib.h>
 #include <stdio.h>
-#include <tchar.h>
 #include <string.h>
 #include <string>
 #include <vector>
@@ -270,7 +270,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 
 	if (param->bAddHeader)
 	{
-		sprintf_s(strData, BUFFER_SIZE, "%s_header", param->tabName.c_str());
+		sprintf(strData, "%s_header", param->tabName.c_str());
 		exp->WriteTableBegin(TABLE_Header, strData, "Header table");
 
 		exp->Write2WordsLine((u16)param->sizeX, (u16)param->sizeY, "Sprite size (X Y)");
@@ -294,9 +294,9 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 		exp->WriteCommentLine("Font header data");
 		exp->Write1ByteLine((u8)((8 << 4) + (param->sizeY & 0x0F)), "Data size [x|y]");
 		exp->Write1ByteLine((u8)(((param->fontX & 0x0F) << 4) + (param->fontY & 0x0F)), "Font size [x|y]");
-		sprintf_s(strData, BUFFER_SIZE, "First character ASCII code (%c)", param->fontFirst);
+		sprintf(strData, "First character ASCII code (%c)", param->fontFirst);
 		exp->Write1ByteLine((u8)param->fontFirst, strData);
-		sprintf_s(strData, BUFFER_SIZE, "Last character ASCII code (%c)", param->fontLast);
+		sprintf(strData, "Last character ASCII code (%c)", param->fontLast);
 		exp->Write1ByteLine((u8)param->fontLast, strData);
 	}
 
@@ -730,7 +730,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 			}
 		}
 	}
-	sprintf_s(strData, BUFFER_SIZE, "Total size : % i bytes", exp->GetTotalBytes());
+	sprintf(strData, "Total size : %i bytes", exp->GetTotalBytes());
 	exp->WriteTableEnd(strData);
 
 	delete[] bits;
@@ -740,7 +740,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 
 	if (param->bAddIndex)
 	{
-		sprintf_s(strData, BUFFER_SIZE, "%s_index", param->tabName.c_str());
+		sprintf(strData, "%s_index", param->tabName.c_str());
 		exp->WriteTableBegin(TABLE_U16, strData, "Images index");
 		for (i32 i = 0; i < (i32)sprtAddr.size(); i++)
 		{
@@ -754,7 +754,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 
 	if (((param->bpc == 2) || (param->bpc == 4)) && (param->palType == PALETTE_Custom))
 	{
-		sprintf_s(strData, BUFFER_SIZE, "%s_palette", param->tabName.c_str());
+		sprintf(strData, "%s_palette", param->tabName.c_str());
 		if (param->pal24)
 		{
 			exp->WriteTableBegin(TABLE_U8, strData, "Custom palette | Format: [x:3|R:5] [x:3|G:5] [x:3|B:5] (v9990)");
@@ -765,7 +765,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 				exp->Write1ByteData(color.R >> 3);
 				exp->Write1ByteData(color.G >> 3);
 				exp->Write1ByteData(color.B >> 3);
-				sprintf_s(strData, BUFFER_SIZE, "[%2i] #%06X", i, customPalette[i]);
+				sprintf(strData, "[%2i] #%06X", i, customPalette[i]);
 				exp->WriteCommentLine(strData);
 			}
 		}
@@ -777,7 +777,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 				RGB24 color(customPalette[i]);
 				u8 c1 = ((color.R >> 5) << 4) + (color.B >> 5);
 				u8 c2 = (color.G >> 5);
-				sprintf_s(strData, BUFFER_SIZE, "[%2i] #%06X", i, customPalette[i]);
+				sprintf(strData, "[%2i] #%06X", i, customPalette[i]);
 				exp->Write2BytesLine(u8(c1), u8(c2), strData);
 			}
 		}
@@ -801,7 +801,7 @@ void Create256ColorsPalette(const char* filename)
 		ColorTable[i] = RGB24(GRB8(i));
 	}
 	// Save
-	fopen_s(&file, filename, "wb");
+	file = fopen(filename, "wb");
 	fwrite(ColorTable, sizeof(ColorTable), 1, file);
 	fclose(file);
 }
@@ -834,7 +834,7 @@ void Create16ColorsPalette(const char* filename)
 		}
 	}
 	// Save
-	fopen_s(&file, filename, "wb");
+	file = fopen(filename, "wb");
 	fwrite(ColorTable, sizeof(ColorTable), 1, file);
 	fclose(file);
 }

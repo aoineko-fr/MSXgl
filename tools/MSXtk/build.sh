@@ -22,3 +22,10 @@ echo ----------------------------------------------------------------------
 echo Building MSXhex...
 g++ -std=c++17 -o ./out/MSXhex -Isrc -Wall src/MSXhex.cpp
 cp out/MSXhex bin/MSXhex
+
+
+echo ----------------------------------------------------------------------
+echo Building MSXimg...
+g++ -o out/MSXimg -Isrc -IFreeimage -Wall -std=c++17 src/MSXimg.cpp src/color.cpp src/exporter.cpp src/image.cpp src/parser.cpp src/Pletter.cpp Freeimage/libfreeimage.a
+cp out/MSXimg bin/MSXimg
+

@@ -14,7 +14,6 @@
 // std
 #include <stdlib.h>
 #include <stdio.h>
-#include <tchar.h>
 #include <string.h>
 #include <string>
 #include <vector>
@@ -47,7 +46,8 @@ std::string RemoveExt(const std::string& str)
 bool FileExists(const std::string& filename)
 {
 	FILE* file;
-	if (fopen_s(&file, filename.c_str(), "r") == 0)
+	file = fopen(filename.c_str(), "r");
+	if (file != NULL)
 	{
 		fclose(file);
 		return true;
@@ -284,12 +284,12 @@ int main(int argc, const char* argv[])
 		}
 		else if(MSX::StrEqual(argv[i], "-trans")) // Use transparency color
 		{
-			sscanf_s(argv[++i], "%i", &param.transColor);
+			sscanf(argv[++i], "%i", &param.transColor);
 			param.bUseTrans = true;
 		}
 		else if (MSX::StrEqual(argv[i], "-opacity")) // Use opacity color
 		{
-			sscanf_s(argv[++i], "%i", &param.opacityColor);
+			sscanf(argv[++i], "%i", &param.opacityColor);
 			param.bUseOpacity = true;
 		}
 		else if (MSX::StrEqual(argv[i], "-pal")) // Palette type
@@ -460,7 +460,7 @@ int main(int argc, const char* argv[])
 		{
 			param.bStartAddr = true;
 			i++;
-			sscanf_s(argv[i], "%i", &param.startAddr);
+			sscanf(argv[i], "%i", &param.startAddr);
 		}
 		else if (MSX::StrEqual(argv[i], "-def")) // Add C define
 		{
@@ -505,7 +505,7 @@ int main(int argc, const char* argv[])
 			while((i < argc - 1) && (argv[i+1][0] != '-'))
 			{
 				u32 c24;
-				sscanf_s(argv[++i], "%i", &c24);
+				sscanf(argv[++i], "%i", &c24);
 				l.colors.push_back(c24);
 			}
 			if (l.colors.size() == 0)
@@ -612,7 +612,7 @@ int main(int argc, const char* argv[])
 		u32 bestSize = 0;
 		MSX::Compressor bestComp = MSX::COMPRESS_None;
 
-		for (i32 i = 0; i < numberof(compTable); i++)
+		for (u32 i = 0; i < numberof(compTable); i++)
 		{
 			param.comp = compTable[i];
 			printf("- Check %s... ", GetCompressorName(param.comp, true));

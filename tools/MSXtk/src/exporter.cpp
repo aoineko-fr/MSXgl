@@ -51,7 +51,7 @@ const char* GetModeName(MSXi_Mode mode)
 //
 std::string GetTableCText(TableFormat format, std::string name, s32 addr)
 {
-	if(format == TABLE_Header)
+	if (format == TABLE_Header)
 		return "const struct MSXi_Header " + name;
 
 	std::string ret = "";
