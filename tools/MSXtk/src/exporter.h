@@ -228,7 +228,7 @@ public:
 		std::time_t result = std::time(nullptr);
 		char* ltime = std::asctime(std::localtime(&result));
 		ltime[strlen(ltime) - 1] = 0; // remove final '\n'
-		sprintf_s(strData, BUFFER_SIZE, "Data generated using MSXimg %s on %s", MSXi_VERSION, ltime);
+		sprintf(strData, "Data generated using MSXimg %s on %s", MSXi_VERSION, ltime);
 		WriteCommentLine(strData);
 
 		// Add author & license
@@ -312,8 +312,8 @@ public:
 	virtual bool Export()
 	{
 		// Write header file
-		FILE* file;
-		if (fopen_s(&file, Param->outFile.c_str(), "wb") != 0)
+		FILE* file = fopen(Param->outFile.c_str(), "wb");
+		if (file == NULL)
 		{
 			printf("Error: Fail to create %s\n", Param->outFile.c_str());
 			return FALSE;
@@ -336,7 +336,7 @@ public:
 	{
 		if (Param->bStartAddr)
 		{
-			sprintf_s(strData, BUFFER_SIZE,
+			sprintf(strData,
 				"\n"
 				"// %s\n"
 				"%s =\n"
@@ -345,7 +345,7 @@ public:
 		}
 		else if (Param->bDefine)
 		{
-			sprintf_s(strData, BUFFER_SIZE,
+			sprintf(strData,
 				"\n"
 				"#ifndef D_%s\n"
 				"\t#define D_%s\n"
@@ -357,7 +357,7 @@ public:
 		}
 		else
 		{
-			sprintf_s(strData, BUFFER_SIZE,
+			sprintf(strData,
 				"\n"
 				"// %s\n"
 				"%s =\n"
@@ -369,58 +369,58 @@ public:
 
 	virtual void WriteSpriteHeader(i32 number)
 	{ 
-		sprintf_s(strData, BUFFER_SIZE,
+		sprintf(strData,
 			"// Sprite[%i] (offset:%i)\n", number, TotalBytes);
 		outData += strData;
 	}
 
 	virtual void WriteCommentLine(std::string comment)
 	{
-		sprintf_s(strData, BUFFER_SIZE,	"// %s\n", comment.c_str());
+		sprintf(strData, "// %s\n", comment.c_str());
 		outData += strData;
 	}
 
 	virtual void Write4BytesLine(u8 a, u8 b, u8 c, u8 d, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE, 
+		sprintf(strFormat,
 			"\t%s, %s, %s, %s, // %s\n", GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a, b, c, d);
+		sprintf(strData, strFormat, a, b, c, d);
 		outData += strData;
 		TotalBytes += 4;
 	}
 
 	virtual void Write2BytesLine(u8 a, u8 b, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE, 
+		sprintf(strFormat,
 			"\t%s, %s, // %s\n", GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a, b);
+		sprintf(strData, strFormat, a, b);
 		outData += strData;
 		TotalBytes += 2;
 	}
 
 	virtual void Write1ByteLine(u8 a, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE, 
+		sprintf(strFormat,
 			"\t%s, // %s\n", GetNumberFormat(), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a);
+		sprintf(strData, strFormat, a);
 		outData += strData;
 		TotalBytes += 1;
 	}
 
 	virtual void Write1WordLine(u16 a, std::string comment)
 	{ 
-		sprintf_s(strFormat, BUFFER_SIZE,
+		sprintf(strFormat,
 			"\t%s, // %s\n", GetNumberFormat(2), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a);
+		sprintf(strData, strFormat, a);
 		outData += strData;
 		TotalBytes += 2;
 	}
 
 	virtual void Write2WordsLine(u16 a, u16 b, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE,
+		sprintf(strFormat,
 			"\t%s, %s, // %s\n", GetNumberFormat(2), GetNumberFormat(2), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a, b);
+		sprintf(strData, strFormat, a, b);
 		outData += strData;
 		TotalBytes += 4;
 	}
@@ -432,17 +432,17 @@ public:
 
 	virtual void Write1ByteData(u8 data)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE, "%s, ", GetNumberFormat());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, data);
+		sprintf(strFormat, "%s, ", GetNumberFormat());
+		sprintf(strData, strFormat, data);
 		outData += strData;
 		TotalBytes += 1;
 	}
 
 	virtual void Write8BitsData(u8 data)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE, 
+		sprintf(strFormat,
 			"%s, /* %%c%%c%%c%%c%%c%%c%%c%%c */ ", GetNumberFormat());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, data, 
+		sprintf(strData, strFormat, data, 
 			data & 0x80 ? '#' : '.', 
 			data & 0x40 ? '#' : '.', 
 			data & 0x20 ? '#' : '.', 
@@ -465,7 +465,7 @@ public:
 		outData += "};\n";
 		if (comment != "")
 		{
-			sprintf_s(strData, BUFFER_SIZE,
+			sprintf(strData,
 				"// %s\n", comment.c_str());
 			outData += strData;
 		}
@@ -483,7 +483,7 @@ public:
 
 	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment)
 	{
-		sprintf_s(strData, BUFFER_SIZE,
+		sprintf(strData,
 			"\n"
 			"; %s\n"
 			"%s:\n",
@@ -493,58 +493,58 @@ public:
 
 	virtual void WriteSpriteHeader(i32 number)
 	{ 
-		sprintf_s(strData, BUFFER_SIZE, 
+		sprintf(strData,
 			"; Sprite[%i] (offset:%i)\n", number, TotalBytes);
 		outData += strData;
 	}
 
 	virtual void WriteCommentLine(std::string comment)
 	{
-		sprintf_s(strData, BUFFER_SIZE, "; %s\n", comment.c_str());
+		sprintf(strData, "; %s\n", comment.c_str());
 		outData += strData;
 	}
 
 	virtual void Write4BytesLine(u8 a, u8 b, u8 c, u8 d, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE, 
+		sprintf(strFormat,
 			"\t%s %s, %s, %s, %s, ; %s\n", GetDataFormat(1), GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a, b, c, d);
+		sprintf(strData, strFormat, a, b, c, d);
 		outData += strData;
 		TotalBytes += 4;
 	}
 
 	virtual void Write2BytesLine(u8 a, u8 b, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE, 
+		sprintf(strFormat,
 			"\t%s %s, %s, ; %s\n", GetDataFormat(1), GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a, b);
+		sprintf(strData, strFormat, a, b);
 		outData += strData;
 		TotalBytes += 2;
 	}
 
 	virtual void Write1ByteLine(u8 a, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE, 
+		sprintf(strFormat,
 			"\t%s %s, ; %s\n", GetDataFormat(1), GetNumberFormat(), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a);
+		sprintf(strData, strFormat, a);
 		outData += strData;
 		TotalBytes += 1;
 	}
 
 	virtual void Write1WordLine(u16 a, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE,
+		sprintf(strFormat,
 			"\t%s %s, ; %s\n", GetDataFormat(2), GetNumberFormat(2), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a);
+		sprintf(strData, strFormat, a);
 		outData += strData;
 		TotalBytes += 2;
 	}
 
 	virtual void Write2WordsLine(u16 a, u16 b, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE,
+		sprintf(strFormat,
 			"\t%s %s, %s, ; %s\n", GetDataFormat(2), GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a, b);
+		sprintf(strData, strFormat, a, b);
 		outData += strData;
 		TotalBytes += 4;
 	}
@@ -558,16 +558,16 @@ public:
 
 	virtual void Write1ByteData(u8 data)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE, "%s, ", GetNumberFormat());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, data);
+		sprintf(strFormat, "%s, ", GetNumberFormat());
+		sprintf(strData, strFormat, data);
 		outData += strData;
 		TotalBytes += 1;
 	}
 
 	virtual void Write8BitsData(u8 data)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE, "%s, ", GetNumberFormat());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, data);
+		sprintf(strFormat, "%s, ", GetNumberFormat());
+		sprintf(strData, strFormat, data);
 		outData += strData;
 		TotalBytes += 1;
 	}
@@ -581,7 +581,7 @@ public:
 	{
 		if (comment != "")
 		{
-			sprintf_s(strData, BUFFER_SIZE,
+			sprintf(strData,
 				"; %s\n", comment.c_str());
 			outData += strData;
 		}
@@ -604,7 +604,7 @@ public:
 
 	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment)
 	{
-		sprintf_s(strData, BUFFER_SIZE,
+		sprintf(strData,
 			"\n"
 			"%i '%s:%s\n",
 			Line++, name.c_str(), comment.c_str());
@@ -613,65 +613,65 @@ public:
 
 	virtual void WriteSpriteHeader(i32 number)
 	{
-		sprintf_s(strData, BUFFER_SIZE,
+		sprintf(strData,
 			"%i 'Sprite[%i] (offset:%i)\n", Line++, number, TotalBytes);
 		outData += strData;
 	}
 
 	virtual void WriteCommentLine(std::string comment)
 	{
-		sprintf_s(strData, BUFFER_SIZE, "%i '%s\n", Line++, comment.c_str());
+		sprintf(strData, "%i '%s\n", Line++, comment.c_str());
 		outData += strData;
 	}
 
 	virtual void Write4BytesLine(u8 a, u8 b, u8 c, u8 d, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE,
+		sprintf(strFormat,
 			"%i DATA %s,%s,%s,%s '%s\n", Line++, GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a, b, c, d);
+		sprintf(strData, strFormat, a, b, c, d);
 		outData += strData;
 		TotalBytes += 4;
 	}
 
 	virtual void Write2BytesLine(u8 a, u8 b, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE,
+		sprintf(strFormat,
 			"%i DATA %s,%s '%s\n", Line++, GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a, b);
+		sprintf(strData, strFormat, a, b);
 		outData += strData;
 		TotalBytes += 2;
 	}
 
 	virtual void Write1ByteLine(u8 a, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE,
+		sprintf(strFormat,
 			"%i DATA %s '%s\n", Line++, GetNumberFormat(), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a);
+		sprintf(strData, strFormat, a);
 		outData += strData;
 		TotalBytes += 1;
 	}
 
 	virtual void Write1WordLine(u16 a, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE,
+		sprintf(strFormat,
 			"%i DATA %s '%s\n", Line++, GetNumberFormat(2), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a);
+		sprintf(strData, strFormat, a);
 		outData += strData;
 		TotalBytes += 2;
 	}
 
 	virtual void Write2WordsLine(u16 a, u16 b, std::string comment)
 	{
-		sprintf_s(strFormat, BUFFER_SIZE,
+		sprintf(strFormat,
 			"%i DATA %s,%s '%s\n", Line++, GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, a, b);
+		sprintf(strData, strFormat, a, b);
 		outData += strData;
 		TotalBytes += 4;
 	}
 
 	virtual void WriteLineBegin()
 	{
-		sprintf_s(strData, BUFFER_SIZE, "%i DATA ", Line++);
+		sprintf(strData, "%i DATA ", Line++);
 		outData += strData;
 		bLineStart = TRUE;
 	}
@@ -679,10 +679,10 @@ public:
 	virtual void Write1ByteData(u8 data)
 	{
 		if (bLineStart)
-			sprintf_s(strFormat, BUFFER_SIZE, "%s", GetNumberFormat());
+			sprintf(strFormat, "%s", GetNumberFormat());
 		else
-			sprintf_s(strFormat, BUFFER_SIZE, ",%s", GetNumberFormat());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, data);
+			sprintf(strFormat, ",%s", GetNumberFormat());
+		sprintf(strData, strFormat, data);
 		outData += strData;
 		TotalBytes += 1;
 		bLineStart = FALSE;
@@ -691,10 +691,10 @@ public:
 	virtual void Write8BitsData(u8 data)
 	{
 		if (bLineStart)
-			sprintf_s(strFormat, BUFFER_SIZE, "%s", GetNumberFormat());
+			sprintf(strFormat, "%s", GetNumberFormat());
 		else
-			sprintf_s(strFormat, BUFFER_SIZE, ",%s", GetNumberFormat());
-		sprintf_s(strData, BUFFER_SIZE, strFormat, data);
+			sprintf(strFormat, ",%s", GetNumberFormat());
+		sprintf(strData, strFormat, data);
 		outData += strData;
 		TotalBytes += 1;
 		bLineStart = FALSE;
@@ -710,7 +710,7 @@ public:
 	{
 		if (comment != "")
 		{
-			sprintf_s(strData, BUFFER_SIZE,
+			sprintf(strData,
 				"' %s\n", comment.c_str());
 			outData += strData;
 		}
@@ -786,7 +786,8 @@ public:
 	{
 		// Write header file
 		FILE* file;
-		if (fopen_s(&file, Param->outFile.c_str(), "wb") != 0)
+		file = fopen(Param->outFile.c_str(), "wb");
+		if (file == NULL)
 		{
 			printf("Error: Fail to create %s\n", Param->outFile.c_str());
 			return FALSE;
