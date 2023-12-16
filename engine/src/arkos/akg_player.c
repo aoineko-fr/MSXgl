@@ -80,8 +80,8 @@ bool AKG_Decode()
 }
 
 //-----------------------------------------------------------------------------
-// Initializes the sound effects. It MUST be called at any times before a first sound effect is triggered.
-// It doesn't matter whether the song is playing or not, or if it has been initialized or not.
+// Initialize sound effects. It MUST be called at any time before a first sound effect is triggered.
+// It doesn't matter whether a song is playing or not, or even if AKG_Init has been initialized.
 //
 // Paramaters:
 //   data	- Address to the sound effects data.
