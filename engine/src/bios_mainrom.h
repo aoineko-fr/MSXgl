@@ -117,10 +117,10 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 #define R_RDSLT		0x000C // Reads the value of an address in another slot
 #define R_CHRGTR	0x0010 // Gets the next character (or token) of the Basic-text
 #define R_WRSLT		0x0014 // Writes a value to an address in another slot
-#define R_OUTDO		0x0018 // Output to current outputchannel (printer, diskfile, etc.)
+#define R_OUTDO		0x0018 // Outputs to current outputchannel (printer, diskfile, etc.)
 #define R_CALSLT	0x001C // Executes inter-slot call
 #define R_DCOMPR	0x0020 // Compares HL with DE
-#define R_ENASLT	0x0024 // Switches indicated slot at indicated page on perpetual
+#define R_ENASLT	0x0024 // Switches to specified slot and page definitively
 #define R_GETYPR	0x0028 // Returns Type of DAC
 #define R_CALLF		0x0030 // Executes an interslot call
 #define R_KEYINT	0x0038 // Executes the timer interrupt process routine
@@ -139,16 +139,16 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 
 #define R_DISSCR	0x0041 // Inhibits the screen display
 #define R_ENASCR	0x0044 // Displays the screen
-#define R_WRTVDP	0x0047 // Write data in the VDP-register
+#define R_WRTVDP	0x0047 // Writes data in the VDP-register
 #define R_RDVRM		0x004A // Reads the content of VRAM
 #define R_WRTVRM	0x004D // Writes data in VRAM
-#define R_SETRD		0x0050 // Enable VDP to read
-#define R_SETWRT	0x0053 // Enable VDP to write
-#define R_FILVRM	0x0056 // Fill VRAM with value
-#define R_LDIRMV	0x0059 // Block transfer to memory from VRAM
-#define R_LDIRVM	0x005C // Block transfer to VRAM from memory
-#define R_CHGMOD	0x005F // Switches to given screenmode
-#define R_CHGCLR	0x0062 // Changes the screencolors
+#define R_SETRD		0x0050 // Enables VDP to read
+#define R_SETWRT	0x0053 // Enables VDP to write
+#define R_FILVRM	0x0056 // Fills VRAM with value
+#define R_LDIRMV	0x0059 // Block transfers to memory from VRAM
+#define R_LDIRVM	0x005C // Block transfers to VRAM from memory
+#define R_CHGMOD	0x005F // Switches to given screen mode
+#define R_CHGCLR	0x0062 // Changes the screen colors
 #define R_CLRSPR	0x0069 // Initialises all sprites
 #define R_INITXT	0x006C // Switches to SCREEN 0 (text screen with 40*24 characters)
 #define R_INIT32	0x006F // Switches to SCREEN 1 (text screen with 32*24 characters)
@@ -192,7 +192,7 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 #define R_CLS		0x00C3 // Clears the screen
 #define R_POSIT		0x00C6 // Moves cursor to the specified position
 #define R_FNKSB		0x00C9 // Tests whether the function key display is active (FNKFLG)
-#define R_ERAFNK	0x00CC // Erase functionkey display
+#define R_ERAFNK	0x00CC // Erases function key display
 #define R_DSPFNK	0x00CF // Displays the function keys
 #define R_TOTEXT	0x00D2 // Forces the screen to be in the text mode
 
@@ -210,7 +210,7 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 //=============================================================================
 
 #define R_TAPION	0x00E1 // Reads the header block after turning the cassette motor on
-#define R_TAPIN		0x00E4 // Read data from the tape
+#define R_TAPIN		0x00E4 // Reads data from the tape
 #define R_TAPIOF	0x00E7 // Stops reading from the tape
 #define R_TAPOON	0x00EA // Turns on the cassette motor and writes the header
 #define R_TAPOUT	0x00ED // Writes data on the tape
@@ -222,7 +222,7 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 //=============================================================================
 
 #define R_LFTQ		0x00F6 // Gives number of bytes in queue
-#define R_PUTQ		0x00F9 // Put byte in queue
+#define R_PUTQ		0x00F9 // Puts byte in queue
 
 //=============================================================================
 // Graphic routines
@@ -237,12 +237,12 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 #define R_SCALXY	0x010E // Scales X and Y coordinates
 #define R_MAPXY		0x0111 // Places cursor at current cursor address
 #define R_FETCHC	0x0114 // Gets current cursor addresses mask pattern
-#define R_STOREC	0x0117 // Record current cursor addresses mask pattern
-#define R_SETATR	0x011A // Set attribute byte
+#define R_STOREC	0x0117 // Records current cursor addresses mask pattern
+#define R_SETATR	0x011A // Sets attribute byte
 #define R_READC		0x011D // Reads attribute byte of current screen pixel
 #define R_SETC		0x0120 // Returns current screen pixel of specified attribute byte
-#define R_NSETCX	0x0123 // Set horizontal screen pixels
-#define R_GTASPC	0x0126 // Gets screen relations
+#define R_NSETCX	0x0123 // Sets horizontal screen pixels
+#define R_GTASPC	0x0126 // Gets screen aspect ratio
 #define R_PNTINI	0x0129 // Initalises the PAINT instruction
 #define R_SCANR		0x012C // Scans screen pixels to the right
 #define R_SCANL		0x012F // Scans screen pixels to the left
@@ -263,7 +263,7 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 #define R_OUTDLP	0x014D // Printer output
 #define R_GETVCP	0x0150 // Returns pointer to play queue
 #define R_GETVC2	0x0153 // Returns pointer to variable in queue number VOICEN (byte at #FB38)
-#define R_KILBUF	0x0156 // Clear keyboard buffer
+#define R_KILBUF	0x0156 // Clears keyboard buffer
 #define R_CALBAS	0x0159 // Executes inter-slot call to the routine in BASIC interpreter
 
 //=============================================================================
@@ -273,7 +273,7 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 
 #define R_SUBROM	0x015C // Calls a routine in SUB-ROM
 #define R_EXTROM	0x015F // Calls a routine in SUB-ROM. Most common way
-#define R_CHKSLZ	0x0162 // Search slots for SUB-ROM
+#define R_CHKSLZ	0x0162 // Searches slots for SUB-ROM
 #define R_CHKNEW	0x0165 // Tests screen mode
 #define R_EOL		0x0168 // Deletes to the end of the line
 #define R_BIGFIL	0x016B // Same function as FILVRM (with 16-bit VRAM-address)
@@ -289,8 +289,8 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 //=============================================================================
 #if (MSX_VERSION >= MSX_2P)
 
-#define R_RDRES		0x017A // Read value of I/O port #F4
-#define R_WRRES		0x017D // Write value to I/O port #F4
+#define R_RDRES		0x017A // Reads value of I/O port #F4
+#define R_WRRES		0x017D // Writes value to I/O port #F4
 
 #endif // (MSX_VERSION >= MSX_2P)
 
