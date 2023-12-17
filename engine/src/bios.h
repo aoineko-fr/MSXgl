@@ -107,7 +107,7 @@ void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value);
 void Bios_InterSlotCall(u8 slot, u16 addr);
 
 // Function: Bios_SwitchSlot
-// Switches indicated slot at indicated page on perpetual.
+// Switches to specified slot and page definitively.
 // Wrapper for ENASLT routine.
 void Bios_SwitchSlot(u8 page, u8 slot);
 
@@ -147,7 +147,7 @@ inline void Bios_DisableScreen() { Call(R_DISSCR); }
 inline void Bios_EnableScreen() { Call(R_ENASCR); }
 
 // Function: Bios_WriteVDP
-// Write data in the VDP-register. Wrapper for WRTVDP routine.
+// Writes data in the VDP-register. Wrapper for WRTVDP routine.
 void Bios_WriteVDP(u8 reg, u8 value);
 
 // Function: Bios_ReadVRAM
@@ -159,15 +159,15 @@ inline u8 Bios_ReadVRAM(u16 addr) { return ((u8(*)(u16))R_RDVRM)(addr); }
 void Bios_WriteVRAM(u16 addr, u8 value);
 
 // Function: Bios_SetAddressForRead
-// Enable VDP to read. Wrapper for SETRD routine.
+// Enables VDP to read. Wrapper for SETRD routine.
 inline void Bios_SetAddressForRead(u16 addr) { CallHL(R_SETRD, addr); }
 
 // Function: Bios_SetAddressForWrite
-// Enable VDP to write. Wrapper for SETWRT routine.
+// Enables VDP to write. Wrapper for SETWRT routine.
 inline void Bios_SetAddressForWrite(u16 addr) { CallHL(R_SETWRT, addr); }
 
 // Function: Bios_FillVRAM
-// Fill VRAM with value. Wrapper for FILVRM routine.
+// Fills VRAM with value. Wrapper for FILVRM routine.
 void Bios_FillVRAM(u16 addr, u16 length, u8 value);
 
 // Function: Bios_TransfertVRAMtoRAM
@@ -179,11 +179,11 @@ void Bios_TransfertVRAMtoRAM(u16 vram, u16 ram, u16 length);
 void Bios_TransfertRAMtoVRAM(u16 ram, u16 vram, u16 length);
 
 // Function: Bios_ChangeMode
-// Switches to given screenmode. Wrapper for CHGMOD routine.
+// Switches to given screen mode. Wrapper for CHGMOD routine.
 inline void Bios_ChangeMode(u8 screen) { ((void(*)(u8))R_CHGMOD)(screen); }
 
 // Function: Bios_ChangeColor
-// Changes the screencolors. Wrapper for CHGCLR routine.
+// Changes the screen colors. Wrapper for CHGCLR routine.
 void Bios_ChangeColor(u8 text, u8 back, u8 border);
 
 // Function: Bios_InitScreen0

@@ -81,11 +81,11 @@ extern u16 g_DOS_JumpTable;
 // Group: Core
 
 // Function: DOSMapper_Init
-// Initialize DOS extended BIOS
+// Initializes DOS extended BIOS
 bool DOSMapper_Init();
 
 // Function: DOSMapper_GetVarTable
-// Get Memory Mappers variable table
+// Gets Memory Mappers variable table
 //
 // Return:
 //   Pointer to DOS_VarTable structure with information about all available Memory mappers
@@ -95,7 +95,7 @@ inline DOS_VarTable* DOSMapper_GetVarTable() { return g_DOS_VarTable; }
 // Group: Allocation
 
 // Function: DOSMapper_Alloc
-// Allocate a segment.
+// Allocates a segment.
 // Implementation of extenpended BIOS's ALL_SEG routine.
 //
 // Parameters:
@@ -112,7 +112,7 @@ inline DOS_VarTable* DOSMapper_GetVarTable() { return g_DOS_VarTable; }
 bool DOSMapper_Alloc(u8 type, u8 slot, DOS_Segment* seg);
 
 // Function: DOSMapper_Free
-// Free a segment.
+// Frees a segment.
 // Implementation of extenpended BIOS's FRE_SEG routine.
 //
 // Parameters:
@@ -124,7 +124,7 @@ bool DOSMapper_Alloc(u8 type, u8 slot, DOS_Segment* seg);
 bool DOSMapper_Free(u8 seg, u8 slot);
 
 // Function: DOSMapper_FreeStruct
-// Free a segment through a structure.
+// Frees a segment through a structure.
 //
 // Parameters:
 //   seg - Segment structure (contain segment number and Memory mapper slot)
@@ -136,7 +136,7 @@ inline bool DOSMapper_FreeStruct(DOS_Segment* seg) { return DOSMapper_Free(seg->
 // Group: Page I/O
 
 // Function: DOSMapper_ReadByte
-// Read byte from given address.
+// Reads byte from given address.
 // Implementation of extenpended BIOS's RD_SEG routine.
 // /!\ Warning: The mapper RAM slot must be selected in page-2 when this routine is called.
 //
@@ -149,7 +149,7 @@ inline bool DOSMapper_FreeStruct(DOS_Segment* seg) { return DOSMapper_Free(seg->
 u8 DOSMapper_ReadByte(u8 seg, u16 addr);
 
 // Function: DOSMapper_WriteByte
-// Write byte to given address.
+// Writes byte to given address.
 // Implementation of extenpended BIOS's WR_SEG routine.
 // /!\ Warning: The mapper RAM slot must be selected in page-2 when this routine is called.
 //
@@ -163,7 +163,7 @@ void DOSMapper_WriteByte(u8 seg, u16 addr, u8 val);
 // Group: Page handling
 
 // Function: DOSMapper_SetPage
-// Select a segment on the corresponding memory page at the specified address.
+// Selects a segment on the corresponding memory page at the specified address.
 // Implementation of extenpended BIOS's PUT_PH routine.
 //
 // Parameters:
@@ -172,7 +172,7 @@ void DOSMapper_WriteByte(u8 seg, u16 addr, u8 val);
 void DOSMapper_SetPage(u8 page, u8 seg);
 
 // Function: DOSMapper_SetPage0
-// Select a segment on page 0 (0000h~3FFFh).
+// Selects a segment on page 0 (0000h~3FFFh).
 // Implementation of extenpended BIOS's PUT_P0 routine.
 //
 // Parameters:
@@ -180,7 +180,7 @@ void DOSMapper_SetPage(u8 page, u8 seg);
 void DOSMapper_SetPage0(u8 seg);
 
 // Function: DOSMapper_SetPage1
-// Select a segment on page 1 (4000h~7FFFh).
+// Selects a segment on page 1 (4000h~7FFFh).
 // Implementation of extenpended BIOS's PUT_P1 routine.
 //
 // Parameters:
@@ -188,7 +188,7 @@ void DOSMapper_SetPage0(u8 seg);
 void DOSMapper_SetPage1(u8 seg);
 
 // Function: DOSMapper_SetPage2
-// Select a segment on page 2 (8000h~BFFFh).
+// Selects a segment on page 2 (8000h~BFFFh).
 // Implementation of extenpended BIOS's PUT_P2 routine.
 //
 // Parameters:
@@ -196,7 +196,7 @@ void DOSMapper_SetPage1(u8 seg);
 void DOSMapper_SetPage2(u8 seg);
 
 // Function: DOSMapper_GetPage
-// Get the selected segment number on the corresponding memory page at the specified address.
+// Gets the selected segment number on the corresponding memory page at the specified address.
 // Implementation of extenpended BIOS's GET_PH routine.
 //
 // Parameters:
@@ -207,7 +207,7 @@ void DOSMapper_SetPage2(u8 seg);
 u8 DOSMapper_GetPage(u8 page);
 
 // Function: DOSMapper_GetPage0
-// Get the segment number on page 0 (0000h~3FFFh).
+// Gets the segment number on page 0 (0000h~3FFFh).
 // Implementation of extenpended BIOS's GET_P0 routine.
 //
 // Return:
@@ -215,7 +215,7 @@ u8 DOSMapper_GetPage(u8 page);
 u8 DOSMapper_GetPage0();
 
 // Function: DOSMapper_GetPage1
-// Get the segment number on page 1 (4000h~7FFFh).
+// Gets the segment number on page 1 (4000h~7FFFh).
 // Implementation of extenpended BIOS's GET_P1 routine.
 //
 // Return:
@@ -223,7 +223,7 @@ u8 DOSMapper_GetPage0();
 u8 DOSMapper_GetPage1();
 
 // Function: DOSMapper_GetPage2
-// Get the segment number on page 2 (8000h~BFFFh).
+// Gets the segment number on page 2 (8000h~BFFFh).
 // Implementation of extenpended BIOS's GET_P2 routine.
 //
 // Return:
@@ -231,7 +231,7 @@ u8 DOSMapper_GetPage1();
 u8 DOSMapper_GetPage2();
 
 // Function: DOSMapper_GetPage3
-// Get the segment number on page 3 (C000h~FFFFh).
+// Gets the segment number on page 3 (C000h~FFFFh).
 // Implementation of extenpended BIOS's GET_P3 routine.
 //
 // Return:

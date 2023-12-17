@@ -191,7 +191,7 @@ void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value)
 //-----------------------------------------------------------------------------
 // OUTDO
 // Address  : #0018
-// Function : Output to current output channel (printer, file, etc.)
+// Function : Outputs to current output channel (printer, file, etc.)
 // Input    : A  - PRTFIL, PRTFLG
 // Remark   : Used in basic, in ML it's pretty difficult
 
@@ -240,7 +240,7 @@ void Bios_InterSlotCall(u8 slot, u16 addr)
 //-----------------------------------------------------------------------------
 // ENASLT
 // Address  : #0024
-// Function : selects the slot corresponding to the value of A and enables the slot to be used.
+// Function : Selects the slot corresponding to the value of A and enables the slot to be used.
 //            When this routine is called, interrupts are inhibited and remain so even after execution ends.
 // Input    : A - Slot ID, see RDSLT
 //            H - Bit 6 and 7 must contain the page number (00-11)
@@ -333,7 +333,7 @@ void Bios_SwitchSlot(u8 page, u8 slot)
 //-----------------------------------------------------------------------------
 // WRTVDP
 // Address  : #0047
-// Function : Write data in the VDP-register
+// Function : Writes data in the VDP-register
 // Input    : B  - Data to write
 //            C  - Number of the register
 // Registers: AF, BC
@@ -486,7 +486,7 @@ void Bios_TransfertRAMtoVRAM(u16 ram, u16 vram, u16 length)
 // Function : Switches to given screen mode
 // Input    : A  - Screen mode
 // Registers: All
-// Remark   : Colors palette is not initialized by this routine, call the routine CHGMDP (001B5h in Sub-ROM) if you need to initialize the palette
+// Remark   : Color palette is not initialized by this routine, call the routine CHGMDP (001B5h in Sub-ROM) if you need to initialize the palette
 
 // inline void Bios_ChangeMode(u8 screen) { Call(R_CHGMOD); }
 
@@ -885,7 +885,7 @@ void Bios_WritePSG(u8 reg, u8 value)
 //-----------------------------------------------------------------------------
 // CKCNTC
 // Address  : #00BD
-// Function : Same as ISCNTC. used in Basic
+// Function : Same as ISCNTC. Used in Basic
 
 //-----------------------------------------------------------------------------
 // BEEP
@@ -937,7 +937,7 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //-----------------------------------------------------------------------------
 // ERAFNK
 // Address  : #00CC
-// Function : Erase functionkey display
+// Function : Erases the function keys
 // Registers: All
 
 //-----------------------------------------------------------------------------
@@ -1027,7 +1027,7 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //-----------------------------------------------------------------------------
 // TAPIN
 // Address  : #00E4
-// Function : Read data from the tape
+// Function : Reads data from the tape
 // Output   : A  - Read value
 //            Carry flag set if failed
 // Registers: All
@@ -1085,7 +1085,7 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //-----------------------------------------------------------------------------
 // PUTQ
 // Address  : #00F9
-// Function : Put byte in queue
+// Function : Puts byte in queue
 // Remark   : Internal use
 
 
@@ -1153,14 +1153,14 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //-----------------------------------------------------------------------------
 // STOREC
 // Address  : #0117
-// Function : Record current cursor addresses mask pattern
+// Function : Records current cursor addresses mask pattern
 // Input    : HL - Cursor address
 //            A  - Mask pattern
 
 //-----------------------------------------------------------------------------
 // SETATR
 // Address  : #011A
-// Function : Set attribute byte
+// Function : Sets attribute byte
 
 //-----------------------------------------------------------------------------
 // READC
@@ -1175,12 +1175,12 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //-----------------------------------------------------------------------------
 // NSETCX
 // Address  : #0123
-// Function : Set horizontal screen pixels
+// Function : Sets horizontal screen pixels
 
 //-----------------------------------------------------------------------------
 // GTASPC
 // Address  : #0126
-// Function : Gets screen relations
+// Function : Gets screen aspect ratio
 // Output   : DE, HL
 // Registers: DE, HL
 
@@ -1331,7 +1331,7 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //-----------------------------------------------------------------------------
 // KILBUF
 // Address  : #0156
-// Function : Clear keyboard buffer
+// Function : Clears keyboard buffer
 // Registers: HL
 
 //-----------------------------------------------------------------------------
@@ -1378,14 +1378,14 @@ __endasm
 //-----------------------------------------------------------------------------
 // CHKSLZ
 // Address  : #0162
-// Function : Search slots for SUB-ROM
+// Function : Searches slots for SUB-ROM
 // Registers: All
 
 //-----------------------------------------------------------------------------
 // CHKNEW
 // Address  : #0165
 // Function : Tests screen mode
-// Output   : Carry flag set if screenmode = 5, 6, 7 or 8 
+// Output   : Carry flag set if screen mode = 5, 6, 7 or 8 
 // Registers: AF
 
 //-----------------------------------------------------------------------------
@@ -1448,7 +1448,7 @@ __endasm
 //-----------------------------------------------------------------------------
 // RDRES
 // Address  : #017A
-// Function : Read value of I/O port #F4
+// Function : Reads value of I/O port #F4
 // Input    : None
 // Output   : A = value read
 // Registers: AF
@@ -1456,7 +1456,7 @@ __endasm
 //-----------------------------------------------------------------------------
 // WRRES
 // Address  : #017D
-// Function : Write value to I/O port #F4
+// Function : Writes value to I/O port #F4
 // Input    : A = value to write
 //            When bit 7 is reset it shows the MSX 2+ startup screen on boot,
 //            and counts and initialises the RAM.
