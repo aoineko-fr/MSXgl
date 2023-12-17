@@ -317,7 +317,7 @@ void save(pakdata* p, unsigned q)
 			if (j < 128)
 				cout << "-j<128-";
 			j -= 128;
-			s.adddata(128 | j & 127);
+			s.adddata(128 | (j & 127));
 			switch (q)
 			{
 			case 6: s.addbit(j & 4096);
