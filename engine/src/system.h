@@ -80,32 +80,62 @@ extern u16 g_LastAddr;
 
 //-----------------------------------------------------------------------------
 // Macro to change a given bank's segment
-#if (ROM_MAPPER > ROM_PLAIN)
-	extern u8 g_Bank0Segment;
-	extern u8 g_Bank1Segment;
-	extern u8 g_Bank2Segment;
-	extern u8 g_Bank3Segment;
+#if ((ROM_MAPPER == ROM_NEO8) || (ROM_MAPPER == ROM_NEO16))
+
+	// Segment value backup
+	extern u16 g_Bank0Segment;
+	extern u16 g_Bank1Segment;
+	extern u16 g_Bank2Segment;
+	extern u16 g_Bank3Segment;
+	#if (ROM_MAPPER < ROM_MAPPER_16K)
+	extern u16 g_Bank4Segment;
+	extern u16 g_Bank5Segment;
+	extern u16 g_Bank6Segment;
+	extern u16 g_Bank7Segment;
+	#endif
 
 	// Macro: SET_BANK_SEGMENT
 	// Set the current segment of the given bank
 	//
 	// Parameters:
-	//   b - Bank number to set (0-3)
+	//   b - Bank number to set (0-3). Must be an inline number (not a variable)
 	//   s - Segment to select in this bank
-	#define SET_BANK_SEGMENT(b, s)	{ (*(u8*)(ADDR_BANK_##b) = (s)); (g_Bank##b##Segment = (s)); }
+	#define SET_BANK_SEGMENT(b, s)	{ (*(u16*)(ADDR_BANK_##b) = (s)); (g_Bank##b##Segment = (s)); }
 
 	// Macro: GET_BANK_SEGMENT
 	// Get the current segment of the given bank
 	//
 	// Parameters:
-	//   b - Bank number to get (0-3)
+	//   b - Bank number to get (0-3). Must be an inline number (not a variable)
 	//
 	// Return:
 	//   Segment selected in this bank
 	#define GET_BANK_SEGMENT(b)	    (g_Bank##b##Segment)
+	
+#elif (ROM_MAPPER > ROM_PLAIN)
+
+	// Segment value backup
+	extern u8 g_Bank0Segment;
+	extern u8 g_Bank1Segment;
+	#if (ROM_MAPPER < ROM_MAPPER_16K)
+	extern u8 g_Bank2Segment;
+	extern u8 g_Bank3Segment;
+	#endif
+
+	// Set the current segment of the given bank
+	#define SET_BANK_SEGMENT(b, s)	{ (*(u8*)(ADDR_BANK_##b) = (s)); (g_Bank##b##Segment = (s)); }
+
+	// Get the current segment of the given bank
+	#define GET_BANK_SEGMENT(b)	    (g_Bank##b##Segment)
+
 #elif (TARGET == TARGET_DOS2_MAPPER)
+
+	// Set the current segment of the given bank
 	#define SET_BANK_SEGMENT(b, s)	DOSMapper_SetPage(b + 1, s)
+
+	// Get the current segment of the given bank
 	#define GET_BANK_SEGMENT(b)		DOSMapper_GetPage(b + 1)
+
 #endif
 
 

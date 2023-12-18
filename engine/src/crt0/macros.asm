@@ -26,6 +26,13 @@
 		.dw		0x0000
 		.dw		0x0000
 
+	.ifeq ROM_MAPPER-ROM_NEO8
+		.ascii	"NEOMAP08"
+	.endif
+	.ifeq ROM_MAPPER-ROM_NEO16
+		.ascii	"NEOMAP16"
+	.endif
+
 	.if APP_SIGN
 	_g_AppSignature::
 		.dw		APP_SIGN_NAME
@@ -604,6 +611,91 @@
 			.ds 1
 		_g_Bank3Segment::
 			.ds 1
+	.endm
+
+.endif
+
+;------------------------------------------------------------------------------
+; ROM_NEO8
+;------------------------------------------------------------------------------
+.ifeq ROM_MAPPER-ROM_NEO8
+
+	BANK0_ADDR = #0x5000
+	BANK1_ADDR = #0x5800
+	BANK2_ADDR = #0x6000
+	BANK3_ADDR = #0x6800
+	BANK4_ADDR = #0x7000
+	BANK5_ADDR = #0x7800
+
+	.macro INIT_MAPPER
+		xor		a
+		ld		(BANK2_ADDR), a ; Segment 0 in Bank 2
+		ld		(_g_Bank2Segment), a
+		inc		a
+		ld		(BANK3_ADDR), a ; Segment 1 in Bank 3
+		ld		(_g_Bank3Segment), a
+		inc		a
+		ld		(BANK4_ADDR), a ; Segment 2 in Bank 4
+		ld		(_g_Bank4Segment), a
+		inc		a
+		ld		(BANK5_ADDR), a ; Segment 3 in Bank 5
+		ld		(_g_Bank5Segment), a
+		inc		a
+		ld		(BANK0_ADDR), a ; Segment 4 in Bank 0
+		ld		(_g_Bank0Segment), a
+		inc		a
+		ld		(BANK1_ADDR), a ; Segment 5 in Bank 1
+		ld		(_g_Bank1Segment), a
+
+	.endm
+
+	.macro ALLOC_MAPPER
+		_g_Bank0Segment::
+			.ds 2
+		_g_Bank1Segment::
+			.ds 2
+		_g_Bank2Segment::
+			.ds 2
+		_g_Bank3Segment::
+			.ds 2
+		_g_CurrentSegment::
+		_g_Bank4Segment::
+			.ds 2
+		_g_Bank5Segment::
+			.ds 2
+	.endm
+
+.endif
+
+;------------------------------------------------------------------------------
+; ROM_NEO16
+;------------------------------------------------------------------------------
+.ifeq ROM_MAPPER-ROM_NEO16
+
+	BANK0_ADDR = #0x5000
+	BANK1_ADDR = #0x6000
+	BANK0_ADDR = #0x7000
+
+	.macro INIT_MAPPER
+		xor		a
+		ld		(BANK1_ADDR), a ; Segment 0 in Bank 1
+		ld		(_g_Bank1Segment), a
+		inc		a
+		ld		(BANK2_ADDR), a ; Segment 1 in Bank 2
+		ld		(_g_Bank2Segment), a
+		inc		a
+		ld		(BANK0_ADDR), a ; Segment 2 in Bank 0
+		ld		(_g_Bank0Segment), a
+	.endm
+
+	.macro ALLOC_MAPPER
+		_g_Bank0Segment::
+			.ds 2
+		_g_Bank1Segment::
+			.ds 2
+		_g_CurrentSegment::
+		_g_Bank2Segment::
+			.ds 2
 	.endm
 
 .endif

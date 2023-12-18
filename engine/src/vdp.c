@@ -915,66 +915,42 @@ void VDP_SetPalette(const u8* pal) __FASTCALL __PRESERVES(d, e, iyl, iyh)
 	pal; // HL
 
 	__asm
-		ld		a, #1
-		VDP_DI  //~~~~~~~~~~~~~~~~~~~~~~~~~~
+	#if (VDP_USE_PALETTE16)
+		xor		a // Start from index 0
+	#else
+		ld		a, #1 // Start from index 1
+	#endif
+		// VDP_DI  //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a
 		ld		a, #VDP_REG(16)
 		VDP_EI_DEF  //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a
 
 		ld		c, #P_VDP_PAL
-		ld		b, #30
+	#if (VDP_USE_PALETTE16)
+		ld		b, #32 // Copy 16 x 2 bytes
+	#else
+		ld		b, #30 // Copy 15 x 2 bytes
+	#endif
 		otir
 		VDP_EI_ALL  //~~~~~~~~~~~~~~~~~~~~~~~~~~
 	__endasm;
 }
 
 #if (VDP_USE_DEFAULT_PALETTE)
-const u16 VDP_DefaulPalette[15] = {
-	RGB16(0, 0, 0),
-	RGB16(1, 6, 1),
-	RGB16(3, 7, 3),
-	RGB16(1, 1, 7),
-	RGB16(2, 3, 7),
-	RGB16(5, 1, 1),
-	RGB16(2, 6, 7),
-	RGB16(7, 1, 1),
-	RGB16(7, 3, 3),
-	RGB16(6, 6, 1),
-	RGB16(6, 6, 4),
-	RGB16(1, 4, 1),
-	RGB16(6, 2, 5),
-	RGB16(5, 5, 5),
-	RGB16(7, 7, 7)
-};
+#include "palette/pal_msx2.h"
 void VDP_SetDefaultPalette()
 {
-	VDP_SetPalette((u8*)VDP_DefaulPalette);
+	VDP_SetPalette((u8*)g_PaletteMSX2);
 }
 #endif // VDP_USE_DEFAULT_PALETTE
 
 
 #if (VDP_USE_MSX1_PALETTE)
-const u16 VDP_MSX1Palette[15] = {
-	RGB16(0, 0, 0),
-	RGB16(1, 5, 1),
-	RGB16(3, 6, 3),
-	RGB16(2, 2, 6),
-	RGB16(3, 3, 7),
-	RGB16(5, 2, 2),
-	RGB16(2, 6, 7),
-	RGB16(6, 2, 2),
-	RGB16(6, 3, 3),
-	RGB16(5, 5, 2),
-	RGB16(6, 6, 3),
-	RGB16(1, 4, 1),
-	RGB16(5, 2, 5),
-	RGB16(5, 5, 5),
-	RGB16(7, 7, 7)
-};
+#include "palette/pal_msx1.h"
 void VDP_SetMSX1Palette()
 {
-	VDP_SetPalette((u8*)VDP_MSX1Palette);
+	VDP_SetPalette((u8*)g_PaletteMSX1);
 }
 #endif // VDP_USE_MSX1_PALETTE
 

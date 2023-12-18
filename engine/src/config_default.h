@@ -160,6 +160,12 @@
 	#define VDP_ISR_SAFE_MODE			VDP_ISR_SAFE_DEFAULT
 #endif
 
+// VDP_USE_PALETTE16
+#ifndef VDP_USE_PALETTE16 // Use 16 entries palette (use only 15 entries otherwise)
+	#warning VDP_USE_PALETTE16 is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define VDP_USE_PALETTE16			FALSE
+#endif
+
 //-----------------------------------------------------------------------------
 // INPUR MODULE
 //-----------------------------------------------------------------------------

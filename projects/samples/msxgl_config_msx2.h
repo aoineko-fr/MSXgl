@@ -103,6 +103,7 @@
 #define VDP_USE_DEFAULT_SETTINGS	TRUE	// Auto-initialization of common VDP feature
 #define VDP_USE_16X16_SPRITE		TRUE	// Use 16x16 sprites mode
 #define VDP_USE_RESTORE_S0			TRUE	// Do restore of status register pointer to S#0 (needed onlt for default BIOS ISR)
+#define VDP_USE_PALETTE16			TRUE	// Use 16 entries palette (use only 15 entries otherwise)
 
 // ISR protection while modifiying VDP registers
 // - VDP_ISR_SAFE_NONE ............ No ISR protection (for program not using VDP interruption)

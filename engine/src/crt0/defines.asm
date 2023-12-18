@@ -45,11 +45,16 @@ SLTSL			= #0xFFFF
 
 ;------------------------------------------------------------------------------
 ; ROM types
-ROM_PLAIN		= 0
-ROM_ASCII8		= 1
-ROM_ASCII16		= 2
-ROM_KONAMI		= 3
-ROM_KONAMI_SCC	= 4
+ROM_PLAIN		= 0 ; Plain ROM (no mapper)
+ROM_MAPPER_8K	= 2 ; Mapper 8 KB
+ROM_ASCII8		= 2 ; ASCII-8 mapper
+ROM_KONAMI		= 3 ; Konami without SCC mapper
+ROM_KONAMI_SCC	= 4 ; Konami with SCC mapper
+ROM_NEO8		= 5 ; NEO-8 mapper
+ROM_MAPPER_16K	= 8 ; Mapper 16 KB
+ROM_ASCII16		= 8 ; ASCII-16 mmaper
+ROM_NEO16		= 9 ; NEO-16 mapper
+
 
 ;------------------------------------------------------------------------------
 ; ISR types

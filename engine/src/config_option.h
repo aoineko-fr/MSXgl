@@ -47,11 +47,17 @@
 #define DOS_3						3 // NEXTOR program
 
 // ROM_MAPPER options (0-15)
-#define ROM_PLAIN					0
-#define ROM_ASCII8					1
-#define ROM_ASCII16					2
-#define ROM_KONAMI					3
-#define ROM_KONAMI_SCC				4
+#define ROM_PLAIN					0 // Plain ROM (no mapper)
+// Mapper 8 KB
+#define ROM_MAPPER_8K				2
+#define ROM_ASCII8					2 // ASCII-8 mapper
+#define ROM_KONAMI					3 // Konami without SCC mapper
+#define ROM_KONAMI_SCC				4 // Konami with SCC mapper
+#define ROM_NEO8					5 // NEO-8 mapper
+// Mapper 16 KB
+#define ROM_MAPPER_16K				8
+#define ROM_ASCII16					8 // ASCII-16 mmaper
+#define ROM_NEO16					9 // NEO-16 mapper
 
 // ROM_SIZE options (0-15)
 #define ROM_8K						0
@@ -65,8 +71,18 @@
 #define ROM_512K					8
 #define ROM_1024K					9
 #define ROM_2048K					10
-#define ROM_3072K					11
-#define ROM_4096K					12
+#define ROM_4096K					11
+#define ROM_8192K					12
+#define ROM_16384K					13
+#define ROM_32768K					14
+#define ROM_65536K					15
+#define ROM_1M						ROM_1024K
+#define ROM_2M						ROM_2048K
+#define ROM_4M						ROM_4096K
+#define ROM_8M						ROM_8192K
+#define ROM_16M						ROM_16384K
+#define ROM_32M						ROM_32768K
+#define ROM_64M						ROM_65536K
 
 #define ROM_ISR						(1<<12)
 #define ROM_MIRROR					(1<<13)
@@ -131,39 +147,56 @@
 #define TARGET_ROM_64K_B2_ISR		MAKE_ROM(ROM_PLAIN, ROM_64K, 0, 2) + ROM_ISR // 48KB ROM in pages 0-3 boot at 8000h. With ISR replacement
 #define TARGET_ROM_64K				TARGET_ROM_64K_B1
 #define TARGET_ROM_64K_ISR			TARGET_ROM_64K_B1_ISR
-// -- ASCII 8 ROM
-#define TARGET_ROM_ASCII8_64K		MAKE_ROM(ROM_ASCII8, ROM_64K, 1, 1) // ASCII 8KB ROM Mapper (8 segments)
-#define TARGET_ROM_ASCII8_128K		MAKE_ROM(ROM_ASCII8, ROM_128K, 1, 1) // ASCII 8KB ROM Mapper (16 segments)
-#define TARGET_ROM_ASCII8_256K		MAKE_ROM(ROM_ASCII8, ROM_256K, 1, 1) // ASCII 8KB ROM Mapper (32 segments)
-#define TARGET_ROM_ASCII8_512K		MAKE_ROM(ROM_ASCII8, ROM_512K, 1, 1) // ASCII 8KB ROM Mapper (64 segments)
+// -- ASCII-8 ROM
+#define TARGET_ROM_ASCII8_64K		MAKE_ROM(ROM_ASCII8, ROM_64K,   1, 1) // ASCII 8KB ROM Mapper (8 segments)
+#define TARGET_ROM_ASCII8_128K		MAKE_ROM(ROM_ASCII8, ROM_128K,  1, 1) // ASCII 8KB ROM Mapper (16 segments)
+#define TARGET_ROM_ASCII8_256K		MAKE_ROM(ROM_ASCII8, ROM_256K,  1, 1) // ASCII 8KB ROM Mapper (32 segments)
+#define TARGET_ROM_ASCII8_512K		MAKE_ROM(ROM_ASCII8, ROM_512K,  1, 1) // ASCII 8KB ROM Mapper (64 segments)
 #define TARGET_ROM_ASCII8_1024K		MAKE_ROM(ROM_ASCII8, ROM_1024K, 1, 1) // ASCII 8KB ROM Mapper (128 segments)
 #define TARGET_ROM_ASCII8_2048K		MAKE_ROM(ROM_ASCII8, ROM_2048K, 1, 1) // ASCII 8KB ROM Mapper (256 segments)
 #define TARGET_ROM_ASCII8			TARGET_ROM_ASCII8_128K		
-// -- ASCII 16 ROM
-#define TARGET_ROM_ASCII16_64K		MAKE_ROM(ROM_ASCII16, ROM_64K, 1, 1) // ASCII 16KB ROM Mapper (4 segments)
-#define TARGET_ROM_ASCII16_128K		MAKE_ROM(ROM_ASCII16, ROM_128K, 1, 1) // ASCII 16KB ROM Mapper (8 segments)
-#define TARGET_ROM_ASCII16_256K		MAKE_ROM(ROM_ASCII16, ROM_256K, 1, 1) // ASCII 16KB ROM Mapper (16 segments)
-#define TARGET_ROM_ASCII16_512K		MAKE_ROM(ROM_ASCII16, ROM_512K, 1, 1) // ASCII 16KB ROM Mapper (32 segments)
+// -- ASCII-16 ROM
+#define TARGET_ROM_ASCII16_64K		MAKE_ROM(ROM_ASCII16, ROM_64K,   1, 1) // ASCII 16KB ROM Mapper (4 segments)
+#define TARGET_ROM_ASCII16_128K		MAKE_ROM(ROM_ASCII16, ROM_128K,  1, 1) // ASCII 16KB ROM Mapper (8 segments)
+#define TARGET_ROM_ASCII16_256K		MAKE_ROM(ROM_ASCII16, ROM_256K,  1, 1) // ASCII 16KB ROM Mapper (16 segments)
+#define TARGET_ROM_ASCII16_512K		MAKE_ROM(ROM_ASCII16, ROM_512K,  1, 1) // ASCII 16KB ROM Mapper (32 segments)
 #define TARGET_ROM_ASCII16_1024K	MAKE_ROM(ROM_ASCII16, ROM_1024K, 1, 1) // ASCII 16KB ROM Mapper (64 segments)
 #define TARGET_ROM_ASCII16_2048K	MAKE_ROM(ROM_ASCII16, ROM_2048K, 1, 1) // ASCII 16KB ROM Mapper (128 segments)
 #define TARGET_ROM_ASCII16_4096K	MAKE_ROM(ROM_ASCII16, ROM_4096K, 1, 1) // ASCII 16KB ROM Mapper (256 segments)
 #define TARGET_ROM_ASCII16			TARGET_ROM_ASCII16_128K
 // -- Konami ROM
-#define TARGET_ROM_KONAMI_64K		MAKE_ROM(ROM_KONAMI, ROM_64K, 1, 1) // Konami 8KB ROM Mapper (8 segments)
-#define TARGET_ROM_KONAMI_128K		MAKE_ROM(ROM_KONAMI, ROM_128K, 1, 1) // Konami 8KB ROM Mapper (16 segments)
-#define TARGET_ROM_KONAMI_256K		MAKE_ROM(ROM_KONAMI, ROM_256K, 1, 1) // Konami 8KB ROM Mapper (32 segments)
-#define TARGET_ROM_KONAMI_512K		MAKE_ROM(ROM_KONAMI, ROM_512K, 1, 1) // Konami 8KB ROM Mapper (64 segments)
+#define TARGET_ROM_KONAMI_64K		MAKE_ROM(ROM_KONAMI, ROM_64K,   1, 1) // Konami 8KB ROM Mapper (8 segments)
+#define TARGET_ROM_KONAMI_128K		MAKE_ROM(ROM_KONAMI, ROM_128K,  1, 1) // Konami 8KB ROM Mapper (16 segments)
+#define TARGET_ROM_KONAMI_256K		MAKE_ROM(ROM_KONAMI, ROM_256K,  1, 1) // Konami 8KB ROM Mapper (32 segments)
+#define TARGET_ROM_KONAMI_512K		MAKE_ROM(ROM_KONAMI, ROM_512K,  1, 1) // Konami 8KB ROM Mapper (64 segments)
 #define TARGET_ROM_KONAMI_1024K		MAKE_ROM(ROM_KONAMI, ROM_1024K, 1, 1) // Konami 8KB ROM Mapper (128 segments)
 #define TARGET_ROM_KONAMI_2048K		MAKE_ROM(ROM_KONAMI, ROM_2048K, 1, 1) // Konami 8KB ROM Mapper (256 segments)
 #define TARGET_ROM_KONAMI			TARGET_ROM_KONAMI_128K
 // -- Konami ROM with SCC
-#define TARGET_ROM_KONAMI_SCC_64K	MAKE_ROM(ROM_KONAMI_SCC, ROM_64K, 1, 1) // Konami 8KB ROM Mapper (8 segments) + SCC sound chip
-#define TARGET_ROM_KONAMI_SCC_128K	MAKE_ROM(ROM_KONAMI_SCC, ROM_128K, 1, 1) // Konami 8KB ROM Mapper (16 segments) + SCC sound chip
-#define TARGET_ROM_KONAMI_SCC_256K	MAKE_ROM(ROM_KONAMI_SCC, ROM_256K, 1, 1) // Konami 8KB ROM Mapper (32 segments) + SCC sound chip
-#define TARGET_ROM_KONAMI_SCC_512K	MAKE_ROM(ROM_KONAMI_SCC, ROM_512K, 1, 1) // Konami 8KB ROM Mapper (64 segments) + SCC sound chip
+#define TARGET_ROM_KONAMI_SCC_64K	MAKE_ROM(ROM_KONAMI_SCC, ROM_64K,   1, 1) // Konami 8KB ROM Mapper (8 segments) + SCC sound chip
+#define TARGET_ROM_KONAMI_SCC_128K	MAKE_ROM(ROM_KONAMI_SCC, ROM_128K,  1, 1) // Konami 8KB ROM Mapper (16 segments) + SCC sound chip
+#define TARGET_ROM_KONAMI_SCC_256K	MAKE_ROM(ROM_KONAMI_SCC, ROM_256K,  1, 1) // Konami 8KB ROM Mapper (32 segments) + SCC sound chip
+#define TARGET_ROM_KONAMI_SCC_512K	MAKE_ROM(ROM_KONAMI_SCC, ROM_512K,  1, 1) // Konami 8KB ROM Mapper (64 segments) + SCC sound chip
 #define TARGET_ROM_KONAMI_SCC_1024K	MAKE_ROM(ROM_KONAMI_SCC, ROM_1024K, 1, 1) // Konami 8KB ROM Mapper (128 segments) + SCC sound chip
 #define TARGET_ROM_KONAMI_SCC_2048K	MAKE_ROM(ROM_KONAMI_SCC, ROM_2048K, 1, 1) // Konami 8KB ROM Mapper (256 segments) + SCC sound chip
 #define TARGET_ROM_KONAMI_SCC		TARGET_ROM_KONAMI_SCC_128K
+// -- NEO-8 ROM
+#define TARGET_ROM_NEO8_1M			MAKE_ROM(ROM_NEO8, ROM_1M,  0, 1) // NEO 8KB ROM Mapper (128 segments)
+#define TARGET_ROM_NEO8_2M			MAKE_ROM(ROM_NEO8, ROM_2M,  0, 1) // NEO 8KB ROM Mapper (256 segments)
+#define TARGET_ROM_NEO8_4M			MAKE_ROM(ROM_NEO8, ROM_4M,  0, 1) // NEO 8KB ROM Mapper (512 segments)
+#define TARGET_ROM_NEO8_8M			MAKE_ROM(ROM_NEO8, ROM_8M,  0, 1) // NEO 8KB ROM Mapper (1024 segments)
+#define TARGET_ROM_NEO8_16M			MAKE_ROM(ROM_NEO8, ROM_16M, 0, 1) // NEO 8KB ROM Mapper (2048 segments)
+#define TARGET_ROM_NEO8_32M			MAKE_ROM(ROM_NEO8, ROM_32M, 0, 1) // NEO 8KB ROM Mapper (4096 segments)
+#define TARGET_ROM_NEO8				TARGET_ROM_NEO8_8M		
+// -- NEO-16 ROM
+#define TARGET_ROM_NEO16_1M			MAKE_ROM(ROM_NEO16, ROM_1M,  0, 1) // NEO 16KB ROM Mapper (64 segments)
+#define TARGET_ROM_NEO16_2M			MAKE_ROM(ROM_NEO16, ROM_2M,  0, 1) // NEO 16KB ROM Mapper (128 segments)
+#define TARGET_ROM_NEO16_4M			MAKE_ROM(ROM_NEO16, ROM_4M,  0, 1) // NEO 16KB ROM Mapper (256 segments)
+#define TARGET_ROM_NEO16_8M			MAKE_ROM(ROM_NEO16, ROM_8M,  0, 1) // NEO 16KB ROM Mapper (512 segments)
+#define TARGET_ROM_NEO16_16M		MAKE_ROM(ROM_NEO16, ROM_16M, 0, 1) // NEO 16KB ROM Mapper (1024 segments)
+#define TARGET_ROM_NEO16_32M		MAKE_ROM(ROM_NEO16, ROM_32M, 0, 1) // NEO 16KB ROM Mapper (2048 segments)
+#define TARGET_ROM_NEO16_64M		MAKE_ROM(ROM_NEO16, ROM_64M, 0, 1) // NEO 16KB ROM Mapper (4096 segments)
+#define TARGET_ROM_NEO16			TARGET_ROM_NEO16_8M		
 
 #include "config_target.h"
 

@@ -92,17 +92,18 @@
 #define VDP_USE_MODE_G7				FALSE	// MSX2/2+	Screen 8, 10, 11 & 12
 
 #define VDP_USE_VRAM16K				TRUE	// Use 16K VRAM access functions on MSX2
-#define VDP_USE_SPRITE				TRUE	// Use sprite handling functions
-#define VDP_USE_COMMAND				TRUE	// Use VDP commands wrapper functions
+#define VDP_USE_SPRITE				FALSE	// Use sprite handling functions
+#define VDP_USE_COMMAND				FALSE	// Use VDP commands wrapper functions
 #define VDP_USE_CUSTOM_CMD			FALSE	// Use custom VDP commands through data buffer
 #define VDP_AUTO_INIT				TRUE	// Call VDP_Initialize() at the first call to VDP_SetMode()
-#define VDP_USE_UNDOCUMENTED		TRUE	// Allow the use of undocumented screen mode (WIP)
+#define VDP_USE_UNDOCUMENTED		FALSE	// Allow the use of undocumented screen mode (WIP)
 #define VDP_USE_VALIDATOR			TRUE	// Handle some option specific for each VDP mode (highly recommended)
 #define VDP_USE_DEFAULT_PALETTE		FALSE	// Add data for default MSX 2 palette
 #define VDP_USE_MSX1_PALETTE		FALSE	// Add data for default MSX 1 palette
 #define VDP_USE_DEFAULT_SETTINGS	TRUE	// Auto-initialization of common VDP feature
-#define VDP_USE_16X16_SPRITE		TRUE	// Use 16x16 sprites mode
+#define VDP_USE_16X16_SPRITE		FALSE	// Use 16x16 sprites mode
 #define VDP_USE_RESTORE_S0			TRUE	// Do restore of status register pointer to S#0 (needed onlt for default BIOS ISR)
+#define VDP_USE_PALETTE16			FALSE	// Use 16 entries palette (use only 15 entries otherwise)
 
 // ISR protection while modifiying VDP registers
 // - VDP_ISR_SAFE_NONE ............ No ISR protection (for program not using VDP interruption)
@@ -247,28 +248,31 @@
 //-----------------------------------------------------------------------------
 
 #define MENU_USE_DEFAULT_CALLBACK	TRUE	// Use default input/print callback
-#define MENU_SCREEN_WIDTH			32		// Screen width
-#define MENU_CLEAR					0		// Clear character
-#define MENU_POS_X					4		// Frame position X
-#define MENU_POS_Y					11		// Frame position Y
-#define MENU_WIDTH					24		// Frame width
-#define MENU_HEIGHT					8		// Frame height
-#define MENU_CHAR_CURSOR			'@'		// Cursor charactter
-#define MENU_CHAR_TRUE				'O'		// True charactter
-#define MENU_CHAR_FALSE				'X'		// False charactter
-#define MENU_CHAR_LEFT				'<'		// Left edit charactter
-#define MENU_CHAR_RIGHT				'>'		// Right edit charactter
+#define MENU_SCREEN_WIDTH			MENU_VARIABLE		// Screen width
+#define MENU_FRAME_X				0		// Frame position X
+#define MENU_FRAME_Y				6		// Frame position Y
+#define MENU_FRAME_WIDTH			32		// Frame width
+#define MENU_FRAME_HEIGHT			8		// Frame height
+#define MENU_CHAR_CLEAR				'\0'	// Clear character
+#define MENU_CHAR_CURSOR			'@'		// Cursor character
+#define MENU_CHAR_TRUE				'O'		// True character
+#define MENU_CHAR_FALSE				'X'		// False character
+#define MENU_CHAR_LEFT				'<'		// Left edit character
+#define MENU_CHAR_RIGHT				'>'		// Right edit character
+#define MENU_TITLE_X				4		// Title position X
+#define MENU_TITLE_Y				6		// Title position Y
+#define MENU_ITEM_X					6		// Item label X position
+#define MENU_ITEM_Y					8		// Item label X position
+#define MENU_ITEM_X_GOTO			6		// Goto type item label X position
+#define MENU_ITEM_ALIGN				MENU_ITEM_ALIGN_LEFT // Item label alignment
+#define MENU_ITEM_ALIGN_GOTO		MENU_ITEM_ALIGN_LEFT // Goto type item label alignment
+#define MENU_VALUE_X				14		// Item value X position
 // Type of cursor
 // - MENU_CURSOR_MODE_NONE			No cursor
 // - MENU_CURSOR_MODE_CHAR			Character cursor
 // - MENU_CURSOR_MODE_SPRT			Sprite cursor
 #define MENU_CURSOR_MODE			MENU_CURSOR_MODE_CHAR
-#define MENU_CURSOR_OFFSET			(-1)	// Cursor X position offset
-#define MENU_ITEM_X					6		// Item label X position
-#define MENU_ITEM_X_GOTO			6		// Goto type item label X position
-#define MENU_ITEM_ALIGN				MENU_ITEM_ALIGN_LEFT // Item label alignment
-#define MENU_ITEM_ALIGN_GOTO		MENU_ITEM_ALIGN_LEFT // Goto type item label alignment
-#define MENU_VALUE_X				13		// Item value X position
+#define MENU_CURSOR_OFFSET			(-2)	// Cursor X position offset
 
 //-----------------------------------------------------------------------------
 // STRING MODULE

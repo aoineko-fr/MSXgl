@@ -66,6 +66,18 @@ void Draw_LineV(UX x, UY y1, UY y2, u8 color, u8 op);
 //   op - Draw operator (VDP_OP_AND, VDP_OP_OR, ...)
 void Draw_Box(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op);
 
+// Function: Draw_FillBox
+// Draw a full filled box (pixel unit)
+//
+// Parameters:
+//   x1 - Source position X
+//   y1 - Source position Y
+//   x2 - Destination position X
+//   y2 - Destination position Y
+//   color - Draw color (format depends of the screen mode)
+//   op - Draw operator (VDP_OP_AND, VDP_OP_OR, ...)
+void Draw_FillBox(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op);
+
 // Function: Draw_Circle
 // Draw a circle (pixel unit)
 //

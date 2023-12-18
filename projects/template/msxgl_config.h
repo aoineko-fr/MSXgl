@@ -103,6 +103,7 @@
 #define VDP_USE_DEFAULT_SETTINGS	TRUE	// Auto-initialization of common VDP feature
 #define VDP_USE_16X16_SPRITE		TRUE	// Use 16x16 sprites mode
 #define VDP_USE_RESTORE_S0			TRUE	// Do restore of status register pointer to S#0 (needed onlt for default BIOS ISR)
+#define VDP_USE_PALETTE16			FALSE	// Use 16 entries palette (use only 15 entries otherwise)
 
 // ISR protection while modifiying VDP registers
 // - VDP_ISR_SAFE_NONE ............ No ISR protection (for program not using VDP interruption)
@@ -247,28 +248,31 @@
 //-----------------------------------------------------------------------------
 
 #define MENU_USE_DEFAULT_CALLBACK	TRUE	// Use default input/print callback
-#define MENU_SCREEN_WIDTH			32		// Screen width
-#define MENU_CLEAR					0		// Clear character
-#define MENU_POS_X					4		// Frame position X
-#define MENU_POS_Y					11		// Frame position Y
-#define MENU_WIDTH					24		// Frame width
-#define MENU_HEIGHT					8		// Frame height
-#define MENU_CHAR_CURSOR			'@'		// Cursor charactter
-#define MENU_CHAR_TRUE				'O'		// True charactter
-#define MENU_CHAR_FALSE				'X'		// False charactter
-#define MENU_CHAR_LEFT				'<'		// Left edit charactter
-#define MENU_CHAR_RIGHT				'>'		// Right edit charactter
+#define MENU_SCREEN_WIDTH			MENU_VARIABLE		// Screen width
+#define MENU_FRAME_X				0		// Frame position X
+#define MENU_FRAME_Y				6		// Frame position Y
+#define MENU_FRAME_WIDTH			32		// Frame width
+#define MENU_FRAME_HEIGHT			8		// Frame height
+#define MENU_CHAR_CLEAR				'\0'	// Clear character
+#define MENU_CHAR_CURSOR			'@'		// Cursor character
+#define MENU_CHAR_TRUE				'O'		// True character
+#define MENU_CHAR_FALSE				'X'		// False character
+#define MENU_CHAR_LEFT				'<'		// Left edit character
+#define MENU_CHAR_RIGHT				'>'		// Right edit character
+#define MENU_TITLE_X				4		// Title position X
+#define MENU_TITLE_Y				6		// Title position Y
+#define MENU_ITEM_X					6		// Item label X position
+#define MENU_ITEM_Y					8		// Item label X position
+#define MENU_ITEM_X_GOTO			6		// Goto type item label X position
+#define MENU_ITEM_ALIGN				MENU_ITEM_ALIGN_LEFT // Item label alignment
+#define MENU_ITEM_ALIGN_GOTO		MENU_ITEM_ALIGN_LEFT // Goto type item label alignment
+#define MENU_VALUE_X				14		// Item value X position
 // Type of cursor
 // - MENU_CURSOR_MODE_NONE			No cursor
 // - MENU_CURSOR_MODE_CHAR			Character cursor
 // - MENU_CURSOR_MODE_SPRT			Sprite cursor
 #define MENU_CURSOR_MODE			MENU_CURSOR_MODE_CHAR
-#define MENU_CURSOR_OFFSET			(-1)	// Cursor X position offset
-#define MENU_ITEM_X					6		// Item label X position
-#define MENU_ITEM_X_GOTO			6		// Goto type item label X position
-#define MENU_ITEM_ALIGN				MENU_ITEM_ALIGN_LEFT // Item label alignment
-#define MENU_ITEM_ALIGN_GOTO		MENU_ITEM_ALIGN_LEFT // Goto type item label alignment
-#define MENU_VALUE_X				13		// Item value X position
+#define MENU_CURSOR_OFFSET			(-2)	// Cursor X position offset
 
 //-----------------------------------------------------------------------------
 // STRING MODULE

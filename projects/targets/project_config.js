@@ -110,4 +110,4 @@ Verbose = true;
 // DoMake    = true;
 // DoPackage = true;
 // DoDeploy  = true;
-DoRun     = false;
+DoRun     = true;

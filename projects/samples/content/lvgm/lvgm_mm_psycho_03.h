@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
 // MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Aug 10 23:53:35 2023
+// File generated on Mon Dec 18 21:23:14 2023
 // Source file: vgm\mm_psycho_03.vgm (10406 bytes)
 // Compressor: lVGM
 // VGM version: 1.00 (chips:OPLL)
@@ -37,15 +37,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x10, 0xAB, // rr: nn
 	0x30, 0x73, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x13, 0xAA, // rr: nn
 	0x33, 0x74, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x38, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
@@ -54,15 +54,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x21, 0x1A, // rr: nn
 	0xA0, // rr: 0
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -73,19 +73,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xBF, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xCB, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -93,9 +93,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x14, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -103,11 +103,11 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x14, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -115,9 +115,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x14, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -128,15 +128,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x93, // rr: 0
 	0x23, 0x1B, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -144,9 +144,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x14, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x33, // rr: nn
 	0xA3, // rr: 0
@@ -157,14 +157,14 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xAB, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x13, 0xAA, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
@@ -172,15 +172,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x21, 0x1A, // rr: nn
 	0xA0, // rr: 0
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -191,19 +191,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xBF, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xCB, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -211,9 +211,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -221,11 +221,11 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -233,9 +233,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -246,15 +246,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x93, // rr: 0
 	0x23, 0x1B, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -262,9 +262,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x33, // rr: nn
 	0xA3, // rr: 0
@@ -275,14 +275,14 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xAB, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x13, 0xAA, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
@@ -290,15 +290,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x21, 0x1A, // rr: nn
 	0xA0, // rr: 0
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -309,19 +309,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xBF, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xCB, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -329,9 +329,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -339,11 +339,11 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -351,9 +351,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -364,15 +364,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x93, // rr: 0
 	0x23, 0x1B, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -380,9 +380,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -395,14 +395,14 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x13, 0xE4, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -410,9 +410,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -420,11 +420,11 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -432,9 +432,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -447,15 +447,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1B, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xCB, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -463,9 +463,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x19, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -476,23 +476,23 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1B, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xBF, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x19, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x46, 0x01, 0x44, 0x42, // 46 nn[3] => R#36~38
 	0x0E, 0x33, // rr: nn
@@ -505,14 +505,14 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xAB, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x13, 0xAA, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x38, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
@@ -521,15 +521,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x21, 0x1A, // rr: nn
 	0xA0, // rr: 0
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -540,19 +540,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xBF, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xCB, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -560,9 +560,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x14, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -570,11 +570,11 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x14, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -582,9 +582,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x14, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -595,15 +595,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x93, // rr: 0
 	0x23, 0x1B, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -611,9 +611,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x14, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x33, // rr: nn
 	0xA3, // rr: 0
@@ -624,14 +624,14 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xAB, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x13, 0xAA, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
@@ -639,15 +639,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x21, 0x1A, // rr: nn
 	0xA0, // rr: 0
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -658,19 +658,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xBF, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xCB, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -678,9 +678,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -688,11 +688,11 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -700,9 +700,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -713,15 +713,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x93, // rr: 0
 	0x23, 0x1B, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -729,9 +729,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x33, // rr: nn
 	0xA3, // rr: 0
@@ -742,14 +742,14 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xAB, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x13, 0xAA, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
@@ -757,15 +757,15 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x21, 0x1A, // rr: nn
 	0xA0, // rr: 0
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -776,19 +776,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xBF, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xCB, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -796,9 +796,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -806,11 +806,11 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -818,43 +818,43 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x21, 0x1C, // rr: nn
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x93, // rr: 0
 	0x23, 0x1B, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x33, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x12, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
@@ -863,49 +863,49 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x13, 0xE4, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
 	0x0E, 0x29, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x29, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1C, // rr: nn
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x37, 0x42, // rr: nn
 	0x0E, 0x39, // rr: nn
 	0x12, 0x01, // rr: nn
@@ -916,28 +916,28 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1B, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xCB, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x19, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x0E, 0x39, // rr: nn
@@ -947,18 +947,18 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0xA2, // rr: 0
 	0xA1, // rr: 0
 	0x21, 0x1B, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0xBF, // rr: nn
 	0x23, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -966,9 +966,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x21, 0x19, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x38, 0x42, // rr: nn
 	0x0E, 0x33, // rr: nn
@@ -985,20 +985,20 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xAB, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x14, 0xD6, // rr: nn
 	0x34, 0x23, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x38, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x14, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1007,21 +1007,21 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0x01, // rr: nn
 	0x21, 0x19, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xFF, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x14, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0xA3, // rr: 0
@@ -1034,19 +1034,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xD8, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xA9, // rr: nn
 	0x24, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x14, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1062,12 +1062,12 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x14, 0xD6, // rr: nn
 	0x24, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -1079,9 +1079,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x33, // rr: nn
 	0x12, 0x31, // rr: nn
@@ -1089,19 +1089,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0xC0, // rr: nn
 	0x21, 0x18, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xBE, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1110,21 +1110,21 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0xE5, // rr: nn
 	0x21, 0x18, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xE3, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0xA3, // rr: 0
@@ -1137,19 +1137,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x31, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0x2F, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1165,12 +1165,12 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x14, 0xBE, // rr: nn
 	0x24, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -1182,9 +1182,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x20, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x33, // rr: nn
 	0x12, 0x20, // rr: nn
@@ -1192,19 +1192,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0xAB, // rr: nn
 	0x21, 0x18, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xA9, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1213,21 +1213,21 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0xE5, // rr: nn
 	0x21, 0x18, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xE3, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0xA3, // rr: 0
@@ -1240,19 +1240,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0x1E, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1268,12 +1268,12 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x20, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x14, 0xA9, // rr: nn
 	0x24, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -1285,9 +1285,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x33, // rr: nn
 	0x12, 0x01, // rr: nn
@@ -1295,19 +1295,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0x43, // rr: nn
 	0x21, 0x17, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0x41, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1316,21 +1316,21 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0xC0, // rr: nn
 	0x21, 0x18, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xBE, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0xA3, // rr: 0
@@ -1344,19 +1344,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xE3, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1372,13 +1372,13 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0x41, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0xA3, // rr: 0
@@ -1388,9 +1388,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x46, 0x01, 0x44, 0x42, // 46 nn[3] => R#36~38
 	0x0E, 0x33, // rr: nn
@@ -1406,19 +1406,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xAB, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x14, 0xD6, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x38, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x14, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1427,21 +1427,21 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0x01, // rr: nn
 	0x21, 0x19, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xFF, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x14, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0xA3, // rr: 0
@@ -1454,19 +1454,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xD8, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xA9, // rr: nn
 	0x24, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x14, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1482,12 +1482,12 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x14, 0xD6, // rr: nn
 	0x24, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -1499,9 +1499,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x33, // rr: nn
 	0x12, 0x31, // rr: nn
@@ -1509,19 +1509,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0xC0, // rr: nn
 	0x21, 0x18, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xBE, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1530,21 +1530,21 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0xE5, // rr: nn
 	0x21, 0x18, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xE3, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0xA3, // rr: 0
@@ -1557,19 +1557,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x31, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0x2F, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1584,14 +1584,14 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x21, 0x1A, // rr: nn
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x20, 0x1B, // rr: nn
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x14, 0xBE, // rr: nn
 	0x24, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -1603,9 +1603,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x20, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x33, // rr: nn
 	0x12, 0x20, // rr: nn
@@ -1613,19 +1613,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0xAB, // rr: nn
 	0x21, 0x18, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xA9, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1634,27 +1634,27 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0xE5, // rr: nn
 	0x21, 0x18, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xE3, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0xA3, // rr: 0
 	0x13, 0xE5, // rr: nn
 	0x23, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x11, 0x20, // rr: nn
@@ -1662,25 +1662,25 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0x1E, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x22, 0x13, // rr: nn
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
 	0x0E, 0x29, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0xA3, // rr: 0
 	0x13, 0x20, // rr: nn
@@ -1692,17 +1692,17 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x20, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x14, 0xA9, // rr: nn
 	0x24, 0x1A, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA3, // rr: 0
 	0x13, 0x01, // rr: nn
 	0x23, 0x19, // rr: nn
@@ -1710,31 +1710,31 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x1B, // rr: nn
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x0E, 0x33, // rr: nn
 	0x12, 0x01, // rr: nn
 	0x22, 0x13, // rr: nn
 	0xA1, // rr: 0
 	0x11, 0x43, // rr: nn
 	0x21, 0x17, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0x41, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1743,21 +1743,21 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0xC0, // rr: nn
 	0x21, 0x18, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xBE, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x37, 0x42, // rr: nn
 	0x0E, 0x39, // rr: nn
@@ -1772,19 +1772,19 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0xE3, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x39, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x39, // rr: nn
 	0xA3, // rr: 0
@@ -1798,13 +1798,13 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xA4, // rr: 0
 	0x14, 0x41, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x39, // rr: nn
 	0xA3, // rr: 0
@@ -1814,9 +1814,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x37, 0x44, // rr: nn
 	0x38, 0x42, // rr: nn
@@ -1840,9 +1840,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x19, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x46, 0x04, 0x42, 0x44, // 46 nn[3] => R#36~38
 	0x0E, 0x29, // rr: nn
@@ -1862,9 +1862,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0xA5, // rr: 0
@@ -1883,9 +1883,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x19, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -1907,9 +1907,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1930,9 +1930,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0xA5, // rr: 0
@@ -1951,9 +1951,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -1975,9 +1975,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -1998,9 +1998,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xAB, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0xA5, // rr: 0
@@ -2019,9 +2019,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x46, 0x01, 0x44, 0x22, // 46 nn[3] => R#36~38
 	0x0E, 0x37, // rr: nn
@@ -2042,9 +2042,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x37, // rr: nn
 	0xA5, // rr: 0
@@ -2063,9 +2063,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x37, // rr: nn
 	0xA5, // rr: 0
@@ -2084,9 +2084,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x38, 0x42, // rr: nn
 	0x0E, 0x33, // rr: nn
@@ -2107,9 +2107,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x19, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x46, 0x04, 0x42, 0x44, // 46 nn[3] => R#36~38
 	0x0E, 0x29, // rr: nn
@@ -2129,9 +2129,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0xA5, // rr: 0
@@ -2150,9 +2150,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x01, // rr: nn
 	0x20, 0x19, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -2174,9 +2174,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -2197,9 +2197,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0xA5, // rr: 0
@@ -2218,9 +2218,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -2242,9 +2242,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -2265,9 +2265,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xAB, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x29, // rr: nn
 	0xA5, // rr: 0
@@ -2286,9 +2286,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x38, 0x22, // rr: nn
@@ -2310,9 +2310,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xC0, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x3F, // rr: nn
 	0xA5, // rr: 0
@@ -2331,9 +2331,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x3F, // rr: nn
 	0xA5, // rr: 0
@@ -2352,9 +2352,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x18, // rr: nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x37, 0x44, // rr: nn
 	0x38, 0x42, // rr: nn
@@ -2378,9 +2378,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x10, // rr: nn
 	0x20, 0x19, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x38, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
@@ -2391,9 +2391,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x14, 0xA9, // rr: nn
 	0x24, 0x1A, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -2405,9 +2405,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x14, 0x0E, // rr: nn
 	0x24, 0x1B, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -2419,9 +2419,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x14, 0xFF, // rr: nn
 	0x24, 0x1A, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -2441,9 +2441,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xCC, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -2458,9 +2458,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0x10, // rr: nn
 	0x21, 0x17, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -2481,9 +2481,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x10, // rr: nn
 	0x20, 0x19, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -2498,9 +2498,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0xAB, // rr: nn
 	0x21, 0x18, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x38, 0x42, // rr: nn
 	0x0E, 0x33, // rr: nn
@@ -2521,9 +2521,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x31, // rr: nn
 	0x20, 0x19, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x38, 0x44, // rr: nn
 	0x0E, 0x31, // rr: nn
@@ -2534,9 +2534,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x14, 0xBE, // rr: nn
 	0x24, 0x1A, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x04, // rr: nn
 	0x37, 0x42, // rr: nn
@@ -2548,9 +2548,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x14, 0x2F, // rr: nn
 	0x24, 0x1B, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x36, 0x01, // rr: nn
 	0x37, 0x44, // rr: nn
@@ -2562,9 +2562,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x14, 0x0E, // rr: nn
 	0x24, 0x1B, // rr: nn
 	0x22, 0x13, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x37, 0x42, // rr: nn
 	0x0E, 0x39, // rr: nn
@@ -2583,9 +2583,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0xE5, // rr: nn
 	0x20, 0x1A, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x39, // rr: nn
 	0xA5, // rr: 0
@@ -2598,9 +2598,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0x31, // rr: nn
 	0x21, 0x17, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x39, // rr: nn
 	0xA5, // rr: 0
@@ -2619,9 +2619,9 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA0, // rr: 0
 	0x10, 0x31, // rr: nn
 	0x20, 0x19, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x39, // rr: nn
 	0xA5, // rr: 0
@@ -2634,11 +2634,11 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xA1, // rr: 0
 	0x11, 0xC0, // rr: nn
 	0x21, 0x18, // rr: nn
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x39, // rr: nn
 	0xA2, // rr: 0
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xFF, // End marker
 };
 // Total size: 4229 bytes

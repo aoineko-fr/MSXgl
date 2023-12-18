@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
 // MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Aug 10 23:53:42 2023
+// File generated on Mon Dec 18 21:23:14 2023
 // Source file: vgm\psg_usas_03.vgm (13161 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG)
@@ -11,67 +11,67 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 // ---- Header ----
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
 	0x02, // Options (freq:60Hz loop:1 dev:0)
-	0x75, // More common byte
+	0x75, // PSG - More common byte
 // ---- Data ----
-	0x07, 0x00, // R#7: 07 nn
+	0x07, 0x80, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x02, 0x57, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0x07, 0x10, // R#7: 07 nn
+	0x07, 0x90, // R#7: 07 nn
 	0x04, 0xAC, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xA9, // R#10: An
-	0x07, 0x30, // R#7: 07 nn
-	0xE0, // -------- Wait: Dn
+	0x07, 0xB0, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x1F, // R#1: 1n
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x07, 0x38, // R#7: 07 nn
+	0x07, 0xB8, // R#7: 07 nn
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x04, 0xAB, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0x04, 0xAC, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x57, // R#2: 02 nn
@@ -79,22 +79,22 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x04, 0x1E, // R#4: 04 nn
 	0xA9, // R#10: An
 	0xFE, // Loop marker
-	0xE0, // -------- Wait: Dn
-	0x07, 0x38, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB8, // R#7: 07 nn
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x04, 0x1E, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAA, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x6C, // R#8: 6n
@@ -102,259 +102,259 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x23, // R#3: 2n
 	0x8A, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
-	0xE7, // -------- Wait: Dn
+	0xE7, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x04, 0x1D, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0x04, 0x1E, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
 	0x04, 0x1D, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x04, 0x1E, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x02, 0xC0, // R#2: 02 nn
 	0x8D, // R#9: 8n
 	0x04, 0x1D, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x04, 0x1E, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA8, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x04, 0xE1, // R#4: 04 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x88, // R#9: 8n
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x8D, // R#0: 00 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x02, 0xF9, // R#2: 02 nn
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8D, // R#0: 00 nn
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x04, 0xE0, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x69, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x04, 0xE1, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x04, 0x41, // R#4: 04 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x02, 0x01, // R#2: 02 nn
 	0x25, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0x04, 0x40, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x04, 0x41, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0x04, 0x40, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x04, 0x41, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x40, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x04, 0x41, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA8, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x69, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xA0, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x60, // R#8: 6n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x04, 0x40, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0x04, 0x41, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0x54, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xD6, // R#4: 04 nn
 	0x30, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
@@ -363,68 +363,68 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x04, 0x1E, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0x04, 0x1D, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x8A, // R#9: 8n
 	0x04, 0x1E, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x01, // R#2: 02 nn
@@ -432,129 +432,129 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x41, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xFD, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
 	0x8B, // R#9: 8n
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0x69, // R#8: 6n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
 	0x04, 0xFC, // R#4: 04 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0x04, 0xFD, // R#4: 04 nn
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
 	0xA7, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0xC6, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x30, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB0, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x40, // R#6: 4n
 	0x00, 0x00, // R#0: 00 nn
@@ -562,403 +562,403 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x31, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB1, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x10, // R#1: 1n
 	0x69, // R#8: 6n
 	0x8B, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x68, // R#8: 6n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x67, // R#8: 6n
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x60, // R#8: 6n
 	0x4A, // R#6: 4n
 	0x00, 0x06, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
-	0x07, 0x38, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB8, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x00, 0x00, // R#0: 00 nn
 	0x12, // R#1: 1n
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
-	0x07, 0x31, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB1, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x50, // R#6: 5n | 0x10
 	0x00, 0x06, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x67, // R#8: 6n
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
 	0x04, 0xC5, // R#4: 04 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0x04, 0xC6, // R#4: 04 nn
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x60, // R#8: 6n
 	0x4A, // R#6: 4n
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA7, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x38, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB8, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x00, 0x00, // R#0: 00 nn
 	0x12, // R#1: 1n
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
-	0x07, 0x31, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB1, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x50, // R#6: 5n | 0x10
 	0x00, 0x06, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x67, // R#8: 6n
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x60, // R#8: 6n
 	0x02, 0x57, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0xAC, // R#4: 04 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x07, 0x38, // R#7: 07 nn
+	0x07, 0xB8, // R#7: 07 nn
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x04, 0xAB, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0x04, 0xAC, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x57, // R#2: 02 nn
 	0x8D, // R#9: 8n
 	0x04, 0x1E, // R#4: 04 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
-	0xE7, // -------- Wait: Dn
+	0xE7, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x04, 0x1D, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0x04, 0x1E, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
 	0x04, 0x1D, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x04, 0x1E, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x02, 0xC0, // R#2: 02 nn
 	0x8D, // R#9: 8n
 	0x04, 0x1D, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x04, 0x1E, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA8, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x04, 0xE1, // R#4: 04 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x88, // R#9: 8n
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x8D, // R#0: 00 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x02, 0xF9, // R#2: 02 nn
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8D, // R#0: 00 nn
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x04, 0xE0, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x69, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x04, 0xE1, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x04, 0x41, // R#4: 04 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x02, 0x01, // R#2: 02 nn
 	0x25, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0x04, 0x40, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x04, 0x41, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0x04, 0x40, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x04, 0x41, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x40, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x04, 0x41, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA8, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x69, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xA0, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x60, // R#8: 6n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x04, 0x40, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0x04, 0x41, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0x54, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xD6, // R#4: 04 nn
 	0x30, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
@@ -967,180 +967,180 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x04, 0x1E, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0x04, 0x1D, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x8A, // R#9: 8n
 	0x04, 0x1E, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xD6, // R#4: 04 nn
 	0x30, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x7F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x02, 0x01, // R#2: 02 nn
 	0x25, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x7E, // R#0: 00 nn
 	0x04, 0xD5, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x7F, // R#0: 00 nn
 	0x8A, // R#9: 8n
 	0x04, 0xD6, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x7E, // R#0: 00 nn
 	0x8B, // R#9: 8n
 	0x04, 0xD5, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x7F, // R#0: 00 nn
 	0x04, 0xD6, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x7E, // R#0: 00 nn
 	0x8D, // R#9: 8n
 	0x04, 0xD5, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x7F, // R#0: 00 nn
 	0x04, 0xD6, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x7E, // R#0: 00 nn
 	0x8A, // R#9: 8n
 	0x04, 0xD5, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x7F, // R#0: 00 nn
 	0x8B, // R#9: 8n
 	0x04, 0xD6, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x7E, // R#0: 00 nn
 	0x04, 0xD5, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x7F, // R#0: 00 nn
 	0x69, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xD6, // R#4: 04 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x66, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xA6, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x3B, // R#4: 04 nn
 	0x32, // R#5: 3n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x30, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB0, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x40, // R#6: 4n
 	0x00, 0x00, // R#0: 00 nn
@@ -1148,43 +1148,43 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x31, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB1, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x10, // R#1: 1n
 	0x69, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA7, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x68, // R#8: 6n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x67, // R#8: 6n
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
 	0xA6, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x60, // R#8: 6n
 	0x4A, // R#6: 4n
 	0x00, 0x06, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x38, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB8, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x00, 0x00, // R#0: 00 nn
 	0x12, // R#1: 1n
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x31, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB1, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x50, // R#6: 5n | 0x10
 	0x00, 0x06, // R#0: 00 nn
@@ -1192,28 +1192,28 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x67, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA7, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
 	0xA6, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x60, // R#8: 6n
 	0x4A, // R#6: 4n
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x38, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB8, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x00, 0x00, // R#0: 00 nn
 	0x12, // R#1: 1n
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x31, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB1, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x50, // R#6: 5n | 0x10
 	0x00, 0x06, // R#0: 00 nn
@@ -1221,109 +1221,109 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x67, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xA7, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
 	0xA6, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x07, 0x38, // R#7: 07 nn
+	0x07, 0xB8, // R#7: 07 nn
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0x80, // R#4: 04 nn
 	0x30, // R#5: 3n
 	0xAC, // R#10: An
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x71, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0x8F, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x7F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x57, // R#2: 02 nn
 	0x8D, // R#9: 8n
 	0x04, 0xAA, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x71, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x8D, // R#9: 8n
 	0x04, 0x8F, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAC, // R#10: An
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x02, 0xFA, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
@@ -1332,33 +1332,33 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x02, 0xA6, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x69, // R#0: 00 nn
 	0x04, 0x7F, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0x80, // R#4: 04 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
@@ -1366,127 +1366,127 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xAC, // R#10: An
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAB, // R#10: An
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
 	0x69, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE8, // -------- Wait: Dn
+	0xE8, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x02, 0x8A, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5E, // R#0: 00 nn
 	0x04, 0x71, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x04, 0x72, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x02, 0x57, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5E, // R#0: 00 nn
 	0x8B, // R#9: 8n
 	0x04, 0x71, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x04, 0x72, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x5E, // R#0: 00 nn
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x71, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x04, 0x72, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x5E, // R#0: 00 nn
 	0x04, 0x71, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x02, 0xFA, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x8B, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x00, 0x5E, // R#0: 00 nn
 	0x04, 0x71, // R#4: 04 nn
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x69, // R#8: 6n
 	0xD2, // R#n: Dn
@@ -1494,15 +1494,15 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x01, // R#2: 02 nn
@@ -1510,43 +1510,43 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x80, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x71, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0x8F, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
@@ -1554,18 +1554,18 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x80, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x01, // R#2: 02 nn
@@ -1573,34 +1573,34 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x02, 0x8A, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5E, // R#0: 00 nn
 	0x04, 0x71, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x04, 0x72, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x01, // R#2: 02 nn
@@ -1608,18 +1608,18 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x80, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x71, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x57, // R#2: 02 nn
@@ -1627,18 +1627,18 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x8F, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x4D, // R#2: 02 nn
@@ -1646,32 +1646,32 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0xE3, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x88, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x04, 0xE2, // R#4: 04 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x69, // R#8: 6n
 	0x04, 0xE3, // R#4: 04 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0xA8, // R#10: An
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
 	0x11, // R#1: 1n
 	0x6C, // R#8: 6n
@@ -1679,28 +1679,28 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x04, 0xC6, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
@@ -1708,20 +1708,20 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x7E, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x6C, // R#8: 6n
@@ -1730,60 +1730,60 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x54, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x8A, // R#2: 02 nn
 	0x8D, // R#9: 8n
 	0x04, 0x2F, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x8D, // R#9: 8n
 	0x04, 0x54, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
 	0x11, // R#1: 1n
 	0x6C, // R#8: 6n
@@ -1792,20 +1792,20 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x7E, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x4D, // R#2: 02 nn
@@ -1813,20 +1813,20 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0xC6, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x6C, // R#8: 6n
@@ -1836,93 +1836,93 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x04, 0x80, // R#4: 04 nn
 	0x30, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x71, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0x8F, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x7F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x57, // R#2: 02 nn
 	0x8D, // R#9: 8n
 	0x04, 0xAA, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x71, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x8D, // R#9: 8n
 	0x04, 0x8F, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x02, 0xFA, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
@@ -1930,34 +1930,34 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x80, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x02, 0xA6, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x69, // R#0: 00 nn
 	0x04, 0x7F, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x04, 0x80, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
@@ -1965,129 +1965,129 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x6B, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xA9, // R#10: An
-	0xE8, // -------- Wait: Dn
+	0xE8, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x02, 0x8A, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5E, // R#0: 00 nn
 	0x04, 0x71, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x04, 0x72, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x02, 0x57, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5E, // R#0: 00 nn
 	0x8B, // R#9: 8n
 	0x04, 0x71, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x04, 0x72, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x5E, // R#0: 00 nn
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x71, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x04, 0x72, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x5E, // R#0: 00 nn
 	0x04, 0x71, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x02, 0xFA, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x8B, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x00, 0x5E, // R#0: 00 nn
 	0x04, 0x71, // R#4: 04 nn
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x69, // R#8: 6n
 	0xD2, // R#n: Dn
@@ -2095,15 +2095,15 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x01, // R#2: 02 nn
@@ -2111,43 +2111,43 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x80, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x71, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0x8F, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
@@ -2155,18 +2155,18 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x80, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x01, // R#2: 02 nn
@@ -2174,34 +2174,34 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x02, 0x8A, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5E, // R#0: 00 nn
 	0x04, 0x71, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x04, 0x72, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x01, // R#2: 02 nn
@@ -2209,18 +2209,18 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x80, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x57, // R#2: 02 nn
@@ -2228,84 +2228,84 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x4D, // R#2: 02 nn
 	0x25, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0x04, 0xA7, // R#4: 04 nn
 	0x32, // R#5: 3n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0x1B, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
 	0x04, 0x54, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAB, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x02, 0x35, // R#2: 02 nn
 	0x24, // R#3: 2n
@@ -2313,35 +2313,35 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x04, 0x1B, // R#4: 04 nn
 	0x32, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0xC6, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x02, 0x4D, // R#2: 02 nn
 	0x25, // R#3: 2n
 	0x8D, // R#9: 8n
 	0x04, 0x54, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x30, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB0, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x40, // R#6: 4n
 	0x00, 0x00, // R#0: 00 nn
@@ -2349,444 +2349,444 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x31, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB1, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x10, // R#1: 1n
 	0x69, // R#8: 6n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0x0E, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x30, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB0, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x1A, // R#1: 1n
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x31, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB1, // R#7: 07 nn
 	0x60, // R#8: 6n
 	0x10, // R#1: 1n
 	0x69, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x07, 0x38, // R#7: 07 nn
+	0x07, 0xB8, // R#7: 07 nn
 	0x02, 0x01, // R#2: 02 nn
 	0x8D, // R#9: 8n
 	0x04, 0xC6, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0x54, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x04, 0x0E, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
-	0x07, 0x2A, // R#7: 07 nn
+	0x07, 0xAA, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x4A, // R#6: 4n
 	0x02, 0x06, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
-	0x07, 0x38, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB8, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x02, 0x00, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
-	0x07, 0x2A, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xAA, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x50, // R#6: 5n | 0x10
 	0x02, 0x06, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0xE3, // R#4: 04 nn
 	0x30, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x80, // R#9: 8n
 	0x4A, // R#6: 4n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
-	0x07, 0x38, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB8, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x02, 0x00, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
-	0x07, 0x2A, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xAA, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x50, // R#6: 5n | 0x10
 	0x02, 0x06, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x47, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
-	0x07, 0x38, // R#7: 07 nn
+	0x07, 0xB8, // R#7: 07 nn
 	0x04, 0x54, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0x0E, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x04, 0xE3, // R#4: 04 nn
 	0x30, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
-	0x07, 0x2A, // R#7: 07 nn
+	0x07, 0xAA, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x4A, // R#6: 4n
 	0x02, 0x06, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
-	0x07, 0x38, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB8, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x02, 0x00, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x2A, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xAA, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x50, // R#6: 5n | 0x10
 	0x02, 0x06, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0xAA, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x80, // R#9: 8n
 	0x4A, // R#6: 4n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
-	0x07, 0x38, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB8, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x02, 0x00, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x2A, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xAA, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x50, // R#6: 5n | 0x10
 	0x02, 0x06, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x60, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0x07, 0x38, // R#7: 07 nn
+	0x07, 0xB8, // R#7: 07 nn
 	0xA0, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x46, // R#0: 00 nn
 	0x04, 0xA9, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x47, // R#0: 00 nn
 	0x8A, // R#9: 8n
 	0x04, 0xAA, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x7F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xD6, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xE3, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x02, 0x4D, // R#2: 02 nn
 	0x25, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8D, // R#0: 00 nn
 	0x04, 0xE2, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x04, 0xE3, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8D, // R#0: 00 nn
 	0x8B, // R#9: 8n
 	0x04, 0xE2, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x04, 0xE3, // R#4: 04 nn
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0xD6, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x88, // R#9: 8n
 	0xAB, // R#10: An
-	0xE7, // -------- Wait: Dn
+	0xE7, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xE3, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0xFF, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x88, // R#9: 8n
 	0xAB, // R#10: An
-	0xE8, // -------- Wait: Dn
+	0xE8, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x04, 0xFE, // R#4: 04 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x04, 0x54, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x02, 0xF4, // R#2: 02 nn
 	0x25, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE7, // -------- Wait: Dn
+	0xE7, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAC, // R#10: An
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0xFF, // R#4: 04 nn
 	0x30, // R#5: 3n
 	0xAC, // R#10: An
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE7, // -------- Wait: Dn
+	0xE7, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x02, 0x01, // R#2: 02 nn
 	0x25, // R#3: 2n
 	0x8D, // R#9: 8n
@@ -2795,165 +2795,165 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xAB, // R#10: An
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x04, 0xFD, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0x7E, // R#4: 04 nn
 	0xAB, // R#10: An
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0x04, 0xFD, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0x7E, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0x2F, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0x7E, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x04, 0x2F, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0xFF, // R#4: 04 nn
 	0x30, // R#5: 3n
 	0xAB, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0x04, 0x2F, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0x89, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x88, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0xFF, // R#4: 04 nn
 	0x30, // R#5: 3n
 	0xAB, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
@@ -2961,197 +2961,197 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0xBF, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0xFF, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
 	0x04, 0x1B, // R#4: 04 nn
 	0x32, // R#5: 3n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x88, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA6, // R#0: 00 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0xC6, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAB, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0x04, 0x54, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA6, // R#0: 00 nn
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0xC6, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA6, // R#0: 00 nn
 	0x89, // R#9: 8n
 	0x04, 0x1B, // R#4: 04 nn
 	0x32, // R#5: 3n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x88, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0x54, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAB, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x00, 0xA6, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0x04, 0x0E, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0x54, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x69, // R#8: 6n
 	0x02, 0x4D, // R#2: 02 nn
 	0x25, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0x0E, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xE3, // R#4: 04 nn
 	0x30, // R#5: 3n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0x04, 0x0E, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0xE3, // R#4: 04 nn
 	0x30, // R#5: 3n
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
@@ -3159,272 +3159,272 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8D, // R#9: 8n
 	0x04, 0xAA, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0x04, 0xE3, // R#4: 04 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x60, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xA0, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8D, // R#0: 00 nn
 	0x04, 0xE2, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x8A, // R#9: 8n
 	0x04, 0xE3, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x7F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xD6, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0xE3, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x02, 0x4D, // R#2: 02 nn
 	0x25, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8D, // R#0: 00 nn
 	0x04, 0xE2, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x04, 0xE3, // R#4: 04 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8D, // R#0: 00 nn
 	0x8B, // R#9: 8n
 	0x04, 0xE2, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x04, 0xE3, // R#4: 04 nn
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0x6B, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x88, // R#9: 8n
 	0xAB, // R#10: An
-	0xE7, // -------- Wait: Dn
+	0xE7, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x89, // R#9: 8n
 	0x04, 0x80, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x88, // R#9: 8n
 	0xAB, // R#10: An
-	0xE8, // -------- Wait: Dn
+	0xE8, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x69, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x04, 0x7F, // R#4: 04 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x7F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x04, 0xAA, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x02, 0xF4, // R#2: 02 nn
 	0x25, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE6, // -------- Wait: Dn
+	0xE6, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE7, // -------- Wait: Dn
+	0xE7, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x04, 0x80, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE7, // -------- Wait: Dn
+	0xE7, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x5F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x01, // R#2: 02 nn
@@ -3432,75 +3432,75 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8E, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x8E, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x6A, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8E, // R#9: 8n
 	0x04, 0x80, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE5, // -------- Wait: Dn
+	0xE5, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x8E, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8E, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x71, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xD2, // R#n: Dn
@@ -3508,46 +3508,46 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8E, // R#9: 8n
 	0x04, 0x8F, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xEA, // -------- Wait: Dn
+	0xEA, // -------- Wait: Ex
 	0x00, 0x70, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0x04, 0x8E, // R#4: 04 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8E, // R#9: 8n
 	0x04, 0xAA, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x88, // R#9: 8n
-	0xE7, // -------- Wait: Dn
+	0xE7, // -------- Wait: Ex
 	0x00, 0x8D, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x04, 0xA9, // R#4: 04 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x7F, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
@@ -3555,28 +3555,28 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x8E, // R#9: 8n
 	0x04, 0xAA, // R#4: 04 nn
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0xA8, // R#10: An
-	0xE7, // -------- Wait: Dn
+	0xE7, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
 	0x11, // R#1: 1n
 	0x6D, // R#8: 6n
@@ -3584,221 +3584,221 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x04, 0xA7, // R#4: 04 nn
 	0x32, // R#5: 3n
 	0xAD, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6D, // R#8: 6n
 	0x8E, // R#9: 8n
 	0xAD, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6D, // R#8: 6n
 	0x8E, // R#9: 8n
 	0xAD, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6D, // R#8: 6n
 	0x8E, // R#9: 8n
 	0xAD, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x8D, // R#9: 8n
 	0xAC, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE4, // -------- Wait: Dn
+	0xE4, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x60, // R#8: 6n
 	0xA0, // R#10: An
-	0xE0, // -------- Wait: Dn
-	0x07, 0x2A, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xAA, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x40, // R#6: 4n
 	0x02, 0x00, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x80, // R#9: 8n
-	0xE8, // -------- Wait: Dn
-	0x07, 0x28, // R#7: 07 nn
+	0xE8, // -------- Wait: Ex
+	0x07, 0xA8, // R#7: 07 nn
 	0x2A, // R#3: 2n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
-	0x07, 0x2A, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xAA, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x20, // R#3: 2n
 	0x89, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFB, // R#0: 00 nn
 	0x04, 0xA6, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x88, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
 	0x87, // R#9: 8n
 	0x04, 0xA7, // R#4: 04 nn
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x80, // R#9: 8n
 	0x4A, // R#6: 4n
 	0x02, 0x06, // R#2: 02 nn
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFB, // R#0: 00 nn
-	0x07, 0x38, // R#7: 07 nn
+	0x07, 0xB8, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x02, 0x00, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8B, // R#9: 8n
 	0x04, 0xA6, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
-	0x07, 0x2A, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xAA, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x50, // R#6: 5n | 0x10
 	0x02, 0x06, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
 	0x80, // R#9: 8n
 	0x4A, // R#6: 4n
 	0x8B, // R#9: 8n
 	0x04, 0xA7, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
-	0x07, 0x38, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xB8, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x02, 0x00, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Dn
-	0x07, 0x2A, // R#7: 07 nn
+	0xE0, // -------- Wait: Ex
+	0x07, 0xAA, // R#7: 07 nn
 	0x80, // R#9: 8n
 	0x50, // R#6: 5n | 0x10
 	0x02, 0x06, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x02, 0x57, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0x07, 0x38, // R#7: 07 nn
+	0x07, 0xB8, // R#7: 07 nn
 	0x04, 0xAC, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE2, // -------- Wait: Dn
+	0xE2, // -------- Wait: Ex
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xD2, // R#n: Dn
 	0x24, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFB, // R#0: 00 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
 	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x6C, // R#8: 6n
 	0x02, 0xF9, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x04, 0xAB, // R#4: 04 nn
-	0xE3, // -------- Wait: Dn
+	0xE3, // -------- Wait: Ex
 	0x8A, // R#9: 8n
 	0x04, 0xAC, // R#4: 04 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0x57, // R#2: 02 nn
 	0x8D, // R#9: 8n
 	0x04, 0x1E, // R#4: 04 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xFF, // End marker
 };
 // Total size: 4375 bytes

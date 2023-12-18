@@ -100,6 +100,13 @@ void Draw_Box(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 }
 
 //-----------------------------------------------------------------------------
+// Draw a box (pixel unit)
+void Draw_FillBox(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
+{
+	VDP_CommandLMMV(x1, y1, x2 - x1 + 1, y2 - y1 + 1, color, op);	
+}
+
+//-----------------------------------------------------------------------------
 // Draw a circle (pixel unit)
 // @author		Ibán Cereijo (https://ibancg.github.io/A-fast-circle-algorithm-for-ZX-Spectrum)
 void Draw_Circle(UX dx, UY dy, u8 radius, u8 color, u8 op)

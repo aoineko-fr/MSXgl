@@ -22,18 +22,22 @@
 	#undef  MAPPER_NUM
 	#define MAPPER_NUM	ROM_SEGMENTS
 #endif
-#if (ROM_MAPPER > ROM_PLAIN)
-	#if (ROM_MAPPER == ROM_ASCII16)
-		void PrintSegment2Data(u8 x, u8 y) __banked;
-		#define BANKED_BANK 1
-		#define BANKED_SEG 2
-		#define BANKED_CALL(x, y) PrintSegment2Data(x, y)
-	#else	
-		void PrintSegment4Data(u8 x, u8 y) __banked;
-		#define BANKED_BANK 2
-		#define BANKED_SEG 4
-		#define BANKED_CALL(x, y) PrintSegment4Data(x, y)
-	#endif
+
+#if ((ROM_MAPPER == ROM_NEO8) || (ROM_MAPPER == ROM_NEO16))
+	void PrintSegment500Data(u8 x, u8 y) __banked;
+	#define BANKED_BANK 1
+	#define BANKED_SEG 500
+	#define BANKED_CALL(x, y) PrintSegment500Data(x, y)
+#elif (ROM_MAPPER >= ROM_MAPPER_16K)
+	void PrintSegment2Data(u8 x, u8 y) __banked;
+	#define BANKED_BANK 1
+	#define BANKED_SEG 2
+	#define BANKED_CALL(x, y) PrintSegment2Data(x, y)
+#elif (ROM_MAPPER > ROM_PLAIN)
+	void PrintSegment4Data(u8 x, u8 y) __banked;
+	#define BANKED_BANK 2
+	#define BANKED_SEG 4
+	#define BANKED_CALL(x, y) PrintSegment4Data(x, y)
 #endif
 
 // Slots page
@@ -46,15 +50,13 @@
 // Fonts data
 #include "font/font_mgl_sample6.h"
 
-// Data in bank 2 & 3
-#if (ROM_MAPPER != ROM_PLAIN)
-#if (ROM_MAPPER == ROM_ASCII16)
-__at(0x8000) const c8 g_DataBank1[] = "Segment #1 (default in Bank #1)";
-#else
-__at(0x8000) const c8 g_DataBank2[] = "Segment #2 (default in Bank #2)";
-__at(0xA000) const c8 g_DataBank3[] = "Segment #3 (default in Bank #3)";
-#endif
-#endif
+// // Data in bank 2 & 3
+// #if (ROM_MAPPER == ROM_ASCII16)
+// __at(0x8000) const c8 g_DataBank1[] = "Segment #1 (default in Bank #1)";
+// #elif ((ROM_MAPPER == ROM_ASCII8) || (ROM_MAPPER == ROM_KONAMI) || (ROM_MAPPER == ROM_KONAMI_SCC))
+// __at(0x8000) const c8 g_DataBank2[] = "Segment #2 (default in Bank #2)";
+// __at(0xA000) const c8 g_DataBank3[] = "Segment #3 (default in Bank #3)";
+// #endif
 
 // Character animation data
 const c8 g_ChrAnim[] = { '|', '\\', '-', '/' };
@@ -670,7 +672,7 @@ void main()
 	}
 	
 	#if(TARGET & ROM_ISR)
-	/* BIOS not present in page 0 */
+	// BIOS not present in page 0
 	Sys_SetPage0Slot(g_EXPTBL[0]);
 	#endif
 	Bios_Exit(0);

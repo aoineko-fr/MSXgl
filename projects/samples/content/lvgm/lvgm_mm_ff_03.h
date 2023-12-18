@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
 // MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Thu Aug 10 23:53:34 2023
+// File generated on Mon Dec 18 21:23:14 2023
 // Source file: vgm\mm_ff_03.vgm (12546 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, OPLL)
@@ -12,7 +12,7 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
 	0x06, // Options (freq:60Hz loop:1 dev:1)
 	0x03, // Devices (chips:PSG, OPLL)
-	0xB8, // More common byte
+	0xB8, // PSG - More common byte
 // ---- Data ----
 	0x07, 0xBF, // R#7: 07 nn
 	0x00, 0xAA, // R#0: 00 nn
@@ -36,7 +36,7 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x12, 0xAD, // rr: nn
 	0x22, 0x06, // rr: nn
 	0x32, 0xE2, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x22, 0x16, // rr: nn
 	0xA3, // rr: 0
 	0x13, 0xAC, // rr: nn
@@ -50,22 +50,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
 	0xA5, // rr: 0
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAB, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0xFE, // Loop marker
 	0xF1, // ---- Start OPLL section
@@ -79,24 +79,24 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x35, 0xB4, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA8, // R#0: 00 nn
 	0x10, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0x53, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAC, // R#10: An
@@ -108,41 +108,41 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x34, 0xB4, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
 	0x15, 0xDA, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0x00, 0xAA, // R#0: 00 nn
 	0x69, // R#8: 6n
@@ -157,41 +157,41 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xAC, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x15, 0xAD, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
 	0x00, 0xAA, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -210,22 +210,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xD8, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -233,20 +233,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x15, 0xDA, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0x00, 0xA0, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -267,23 +267,23 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9E, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
 	0x11, 0xE5, // rr: nn
@@ -293,22 +293,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
 	0x00, 0xAA, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -327,20 +327,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x14, 0xD8, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAB, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -350,23 +350,23 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x15, 0xDA, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x07, 0xB9, // R#7: 07 nn
@@ -382,22 +382,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xAC, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -406,21 +406,21 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x15, 0xAD, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0x00, 0xD6, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -438,23 +438,23 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xD8, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -463,20 +463,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x15, 0xDA, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
 	0x00, 0xBF, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -513,24 +513,24 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -541,20 +541,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0x00, 0xBF, // R#0: 00 nn
 	0x69, // R#8: 6n
@@ -570,42 +570,42 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x14, 0xC0, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
 	0x15, 0xC2, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0x00, 0x1D, // R#0: 00 nn
 	0x11, // R#1: 1n
@@ -628,20 +628,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x1E, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -654,22 +654,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x1B, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x07, 0xB9, // R#7: 07 nn
 	0xD7, // R#n: Dn
@@ -683,40 +683,40 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x14, 0xC0, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1B, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1F, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
 	0x15, 0xC2, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x1E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1B, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
 	0x00, 0x1D, // R#0: 00 nn
 	0x6A, // R#8: 6n
@@ -733,21 +733,21 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x1F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1B, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
@@ -755,21 +755,21 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x1D, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1B, // R#0: 00 nn
 	0x04, 0x7D, // R#4: 04 nn
 	0xAC, // R#10: An
@@ -780,40 +780,40 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x14, 0xC0, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
 	0x15, 0xC2, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1B, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
 	0x00, 0x1D, // R#0: 00 nn
 	0x69, // R#8: 6n
@@ -830,43 +830,43 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x1D, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1B, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x15, 0x47, // rr: nn
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x1E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1B, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
 	0x04, 0x7D, // R#4: 04 nn
 	0xAC, // R#10: An
@@ -877,40 +877,40 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x14, 0xC0, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x1E, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
 	0x15, 0xC2, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x1B, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1C, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x1D, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x6C, // R#8: 6n
@@ -944,24 +944,24 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD8, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0A, // rr: nn
@@ -973,20 +973,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
 	0x04, 0x53, // R#4: 04 nn
 	0xAC, // R#10: An
@@ -997,41 +997,41 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x14, 0xD8, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
 	0x15, 0xDA, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
 	0x00, 0xD6, // R#0: 00 nn
 	0x69, // R#8: 6n
@@ -1046,39 +1046,39 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xAC, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x15, 0xAD, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
 	0x00, 0xD6, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -1095,45 +1095,45 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xD8, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD6, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
 	0x21, 0x1C, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x15, 0xDA, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
 	0x00, 0xBF, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -1152,21 +1152,21 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xC0, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -1177,22 +1177,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x07, 0xB9, // R#7: 07 nn
@@ -1209,22 +1209,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x14, 0xD8, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD8, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -1234,20 +1234,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x15, 0xDA, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
 	0x00, 0xE3, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -1267,23 +1267,23 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xAC, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xE5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE4, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -1294,21 +1294,21 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x15, 0xAD, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xE3, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE1, // R#0: 00 nn
 	0x00, 0xFE, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -1328,24 +1328,24 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xD8, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0A, // rr: nn
@@ -1356,21 +1356,21 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x15, 0xDA, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x00, 0xE3, // R#0: 00 nn
@@ -1409,25 +1409,25 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xE3, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE1, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0A, // rr: nn
 	0x11, 0x44, // rr: nn
@@ -1439,22 +1439,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xE4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
 	0x69, // R#8: 6n
 	0x07, 0xB9, // R#7: 07 nn
@@ -1470,18 +1470,18 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xE4, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE4, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
@@ -1489,22 +1489,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xE1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xE4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
 	0x11, // R#1: 1n
 	0x6C, // R#8: 6n
@@ -1522,22 +1522,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x06, // rr: nn
 	0x14, 0xD8, // rr: nn
 	0x24, 0x16, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x51, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x55, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0A, // rr: nn
@@ -1546,20 +1546,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x06, // rr: nn
 	0x15, 0xDA, // rr: nn
 	0x25, 0x16, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x54, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x51, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0x00, 0x53, // R#0: 00 nn
 	0x69, // R#8: 6n
@@ -1577,21 +1577,21 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x55, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x51, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
@@ -1599,21 +1599,21 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x53, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x55, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x51, // R#0: 00 nn
 	0x00, 0x53, // R#0: 00 nn
 	0x6A, // R#8: 6n
@@ -1629,40 +1629,40 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x06, // rr: nn
 	0x14, 0xF2, // rr: nn
 	0x24, 0x16, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x55, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
 	0x15, 0xF5, // rr: nn
 	0x25, 0x16, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x51, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x55, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0x04, 0xC5, // R#4: 04 nn
 	0x31, // R#5: 3n
@@ -1675,43 +1675,43 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x53, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x51, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
 	0x15, 0x47, // rr: nn
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x54, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x55, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x51, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
 	0x69, // R#8: 6n
 	0x07, 0xB9, // R#7: 07 nn
@@ -1727,18 +1727,18 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x54, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x55, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
@@ -1746,22 +1746,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x51, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x55, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x04, 0xC5, // R#4: 04 nn
 	0x31, // R#5: 3n
 	0xAC, // R#10: An
@@ -1773,20 +1773,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x51, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x55, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
@@ -1794,20 +1794,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x54, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x51, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x52, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x53, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x54, // R#0: 00 nn
 	0x00, 0xFE, // R#0: 00 nn
 	0x10, // R#1: 1n
@@ -1840,27 +1840,27 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0A, // rr: nn
@@ -1873,22 +1873,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFE, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
 	0x04, 0x40, // R#4: 04 nn
 	0xAC, // R#10: An
@@ -1899,43 +1899,43 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x14, 0xE5, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
 	0x15, 0xE7, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x00, 0xFE, // R#0: 00 nn
@@ -1951,43 +1951,43 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xAC, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x15, 0xAD, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0x00, 0xE3, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -2006,20 +2006,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xE5, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xE4, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE4, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0A, // rr: nn
@@ -2030,22 +2030,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x15, 0xE7, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xE1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xE4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x07, 0xB9, // R#7: 07 nn
@@ -2065,22 +2065,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD8, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0A, // rr: nn
@@ -2092,20 +2092,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
 	0x00, 0xD6, // R#0: 00 nn
 	0x69, // R#8: 6n
@@ -2122,42 +2122,42 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x14, 0xE5, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x06, // rr: nn
 	0x15, 0xE7, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD4, // R#0: 00 nn
 	0x00, 0xBF, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -2175,22 +2175,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xAC, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -2199,20 +2199,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x15, 0xAD, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0x00, 0xBF, // R#0: 00 nn
 	0x69, // R#8: 6n
@@ -2227,41 +2227,41 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xE5, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x15, 0xE7, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0x00, 0xAA, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -2291,22 +2291,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xAC, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAB, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -2315,22 +2315,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x15, 0xAD, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x07, 0xB9, // R#7: 07 nn
 	0xD7, // R#n: Dn
@@ -2344,20 +2344,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x09, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
@@ -2365,21 +2365,21 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x09, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x19, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0x00, 0xA0, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -2397,23 +2397,23 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xC0, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA1, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9F, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -2422,20 +2422,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x15, 0xC2, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA0, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9E, // R#0: 00 nn
 	0x00, 0xA0, // R#0: 00 nn
 	0x69, // R#8: 6n
@@ -2452,20 +2452,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x09, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA1, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
@@ -2473,20 +2473,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x09, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x19, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA1, // R#0: 00 nn
 	0x00, 0x8F, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -2520,25 +2520,25 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xB6, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x8F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8D, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
 	0x11, 0x01, // rr: nn
@@ -2548,22 +2548,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x15, 0xB7, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x90, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x91, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x90, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8F, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8D, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8F, // R#0: 00 nn
 	0x69, // R#8: 6n
 	0x07, 0xB9, // R#7: 07 nn
@@ -2579,18 +2579,18 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x09, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x90, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x91, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x90, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8F, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
@@ -2598,22 +2598,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x09, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x19, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x8D, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8F, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x90, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x91, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x90, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x8F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x07, 0xB9, // R#7: 07 nn
@@ -2631,22 +2631,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9E, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA2, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -2656,20 +2656,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x07, // rr: nn
 	0x25, 0x06, // rr: nn
 	0x25, 0x17, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9E, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x9F, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA0, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA1, // R#0: 00 nn
 	0x00, 0xAA, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -2688,23 +2688,23 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x14, 0xB6, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -2714,20 +2714,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x15, 0xB7, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
 	0x00, 0xBF, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -2760,24 +2760,24 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x09, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -2788,20 +2788,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x09, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x19, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0x00, 0xBF, // R#0: 00 nn
 	0x69, // R#8: 6n
@@ -2819,43 +2819,43 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x09, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x15, 0x03, // rr: nn
 	0x25, 0x09, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x19, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0x00, 0xFE, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -2874,23 +2874,23 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xE5, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFF, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -2901,24 +2901,24 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x15, 0xE7, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x07, 0xB9, // R#7: 07 nn
 	0xD7, // R#n: Dn
@@ -2930,41 +2930,41 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xD8, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x15, 0xDA, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x00, 0xFE, // R#0: 00 nn
 	0x6A, // R#8: 6n
@@ -2979,44 +2979,44 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xC0, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x15, 0xC2, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFE, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
 	0x00, 0xFE, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -3034,22 +3034,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x34, 0xB6, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x6A, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0A, // rr: nn
@@ -3059,22 +3059,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x35, 0xB6, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0x00, // R#0: 00 nn
 	0x11, // R#1: 1n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xFF, // R#0: 00 nn
 	0x10, // R#1: 1n
 	0x00, 0xE3, // R#0: 00 nn
@@ -3094,21 +3094,21 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x34, 0xB5, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xE3, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE1, // R#0: 00 nn
 	0x6A, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0A, // rr: nn
 	0x11, 0x44, // rr: nn
@@ -3118,22 +3118,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x35, 0xB5, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xE4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE2, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xE3, // R#0: 00 nn
 	0x00, 0xD6, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -3150,18 +3150,18 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x34, 0xB6, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD7, // R#0: 00 nn
 	0x6B, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
 	0x6A, // R#8: 6n
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0A, // rr: nn
@@ -3171,22 +3171,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x08, // rr: nn
 	0x35, 0xB6, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xD4, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD5, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD7, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xD6, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x07, 0xB9, // R#7: 07 nn
@@ -3218,24 +3218,24 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x14, 0xAC, // rr: nn
 	0x34, 0xB4, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -3245,20 +3245,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x15, 0xAD, // rr: nn
 	0x35, 0xB5, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0x00, 0xAA, // R#0: 00 nn
 	0x69, // R#8: 6n
@@ -3274,40 +3274,40 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x24, 0x0A, // rr: nn
 	0x24, 0x1A, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x25, 0x0A, // rr: nn
 	0x25, 0x1A, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
 	0x00, 0xAA, // R#0: 00 nn
 	0x68, // R#8: 6n
@@ -3324,20 +3324,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x09, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x0A, // rr: nn
@@ -3345,20 +3345,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x09, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x19, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
 	0x00, 0xAA, // R#0: 00 nn
 	0x69, // R#8: 6n
@@ -3375,43 +3375,43 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x09, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x15, 0x23, // rr: nn
 	0x25, 0x09, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x19, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAC, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAB, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0x00, 0xBF, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -3431,20 +3431,20 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x09, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x24, 0x19, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xC0, // R#0: 00 nn
 	0x6B, // R#8: 6n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
@@ -3455,22 +3455,22 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x25, 0x09, // rr: nn
 	0x25, 0x08, // rr: nn
 	0x25, 0x19, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0x07, 0xB9, // R#7: 07 nn
 	0xD7, // R#n: Dn
@@ -3482,39 +3482,39 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xE5, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x15, 0xE7, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0x00, 0xBF, // R#0: 00 nn
 	0x68, // R#8: 6n
@@ -3529,41 +3529,41 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xD8, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x15, 0xDA, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBF, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
 	0x00, 0xBF, // R#0: 00 nn
 	0x69, // R#8: 6n
@@ -3578,39 +3578,39 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x08, // rr: nn
 	0x14, 0xC0, // rr: nn
 	0x24, 0x18, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0xAB, // R#10: An
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
 	0xF1, // ---- Start OPLL section
 	0x25, 0x08, // rr: nn
 	0x15, 0xC2, // rr: nn
 	0x25, 0x18, // rr: nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBD, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xBF, // R#0: 00 nn
-	0xE1, // -------- Wait: Dn
+	0xE1, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC1, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0x00, 0xAA, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -3640,29 +3640,29 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x23, 0x06, // rr: nn
 	0x23, 0x16, // rr: nn
 	0x24, 0x08, // rr: nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x14, 0x01, // rr: nn
 	0x24, 0x07, // rr: nn
 	0x24, 0x06, // rr: nn
 	0x24, 0x17, // rr: nn
 	0xF0, // ---- Start PSG section
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA8, // R#0: 00 nn
 	0x6A, // R#8: 6n
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0xE0, // -------- Wait: Dn
+	0xE0, // -------- Wait: Ex
 	0xF1, // ---- Start OPLL section
 	0x21, 0x0C, // rr: nn
 	0xFF, // End marker

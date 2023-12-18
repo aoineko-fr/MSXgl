@@ -134,8 +134,11 @@ enum COLOR_BPC
 // Format : [00000|G:3] [0|R:3|0|B:3]
 
 // Helper macros
-#define RGB16(r, g, b)		(u16)(((u16)(g & 0x07) << 8) + ((r & 0x07) << 4) + (b & 0x07))
-#define GRB16(g, r, b)		(u16)(((u16)(g & 0x07) << 8) + ((r & 0x07) << 4) + (b & 0x07))
+#define RGB16(r, g, b)		(u16)(((u16)((g) & 0x07) << 8) + (((r) & 0x07) << 4) + ((b) & 0x07))
+#define GRB16(g, r, b)		RGB16(r, g, b)
+
+#define RGB16_From8B(r, g, b)	RGB16(((r) >> 5), ((g) >> 5), ((b) >> 5))
+#define RGB16_From32B(rgb)	RGB16_From8B(((u32)rgb >> 16) & 0xFF, ((rgb) >> 8) & 0xFF, (rgb) & 0xFF)
 
 #define COLOR16_DEFAULT_0	RGB16(0, 0, 0)
 #define COLOR16_DEFAULT_1	RGB16(0, 0, 0)

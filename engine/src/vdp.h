@@ -710,6 +710,13 @@ inline void VDP_EnableSprite(u8 enable) { VDP_RegWriteBakMask(8, (u8)~R08_SPD, !
 // Disable sprite rendering (see <VDP_EnableSprite>). [MSX1/2/2+/TR]
 inline void VDP_DisableSprite() { VDP_EnableSprite(FALSE); }
 
+// Function: VDP_EnableTransparency
+// Enable/disable color 0 transparency (register 8). [MSX2/2+/TR]
+//
+// Parameters:
+//   enable - TRUE to enable, FALSE to disable
+inline void VDP_EnableTransparency(u8 enable) { VDP_RegWriteBakMask(8, (u8)~R08_TP, !enable ? R08_TP : 0); }
+
 // Function: VDP_EnableHBlank
 // Enable/disable horizontal interruption (register 0). [MSX2/2+/TR]
 //

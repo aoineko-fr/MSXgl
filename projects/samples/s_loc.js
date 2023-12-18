@@ -3,7 +3,7 @@
 //*****************************************************************************
 
 //-- Target MSX machine version (string)
-Machine = "2";
+Machine = "1";
 
 //-- List of library modules to build (array)
 LibModules = [ "localize", "vdp", "print", "input" ];

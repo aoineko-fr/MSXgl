@@ -24,6 +24,9 @@ typedef struct
 	u8        Line;
 } Font;
 
+// Screen character size
+#define SRCSIZE 32
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -42,11 +45,11 @@ typedef struct
 const Font g_Fonts[] = 
 {
 	{ "BIOS",         NULL,               1, 0x17 }, // 0
-	{ "European MSX", g_Font_BIOS_EU,     1, 0x17 }, // 1
-	{ "Japanese MSX", g_Font_BIOS_JP2,    1, 0x17 }, // 2
-	{ "Korean MSX",   g_Font_BIOS_Hangul, 1, 0x17 }, // 3
-	{ "Cyrillic MSX", g_Font_BIOS_Cyril,  1, 0x17 }, // 4
-	{ "Arabic MSX",   g_Font_BIOS_ARB2,   1, 0x17 }, // 5
+	{ "European MSX", g_Font_BIOS_EU,     0, 0x17 }, // 1
+	{ "Japanese MSX", g_Font_BIOS_JP2,    0, 0x17 }, // 2
+	{ "Korean MSX",   g_Font_BIOS_Hangul, 0, 0x17 }, // 3
+	{ "Cyrillic MSX", g_Font_BIOS_Cyril,  0, 0x17 }, // 4
+	{ "Arabic MSX",   g_Font_BIOS_ARB2,   0, 0x17 }, // 5
 };
 
 // 
@@ -105,21 +108,35 @@ void SetLanguage(u8 lang)
 
 //-----------------------------------------------------------------------------
 // 
+void VDP_SetTileColorGM1(u8 group, u8 color)
+{
+	VDP_Poke_16K(color, VDP_GetColorTable() + group);
+}
+
+//-----------------------------------------------------------------------------
+// 
 void DisplayHeader()
 {
 	const Font* font = &g_Fonts[g_CurFont];
 
-	// Initialize screen mode 1 (text)
-	VDP_SetMode(VDP_MODE_SCREEN1);
-	VDP_SetColor(COLOR_MERGE(COLOR_WHITE, COLOR_BLACK));
+	// Initialize screen mode 1
+	VDP_SetMode(VDP_MODE_GRAPHIC1);
+	VDP_SetColor(COLOR_BLACK);
 	VDP_ClearVRAM();
 
 	// Initialize language and font
 	Print_SetTextFont(font->Data, font->Offset);
+	Print_SetColor(COLOR_WHITE, COLOR_TRANSPARENT);
+	VDP_SetTileColorGM1(2, (u8)COLOR_GRAY << 4);
+	VDP_SetTileColorGM1(3, (u8)COLOR_GRAY << 4);
+	VDP_SetTileColorGM1(4, (u8)COLOR_LIGHT_YELLOW << 4);
+	VDP_SetTileColorGM1(5, (u8)COLOR_LIGHT_YELLOW << 4);
+	VDP_SetTileColorGM1(6, (u8)COLOR_LIGHT_YELLOW << 4);
+	VDP_SetTileColorGM1(7, (u8)COLOR_LIGHT_YELLOW << 4);
 
 	// Display header
 	Print_DrawTextAt(0, 0, Loc_GetText(TEXT_TITLE));
-	Print_DrawCharXAt(0, 1, font->Line, 32);
+	Print_DrawCharXAt(0, 1, font->Line, SRCSIZE);
 }
 
 //-----------------------------------------------------------------------------
@@ -129,9 +146,9 @@ void DisplayFooter()
 	const Font* font = &g_Fonts[g_CurFont];
 
 	// Display footer
-	Print_DrawCharXAt(0, 22, font->Line, 32);
+	Print_DrawCharXAt(0, 22, font->Line, SRCSIZE);
 	Print_SetPosition(0, 23);
-	Print_DrawFormat("F1:%s F2:%s", Loc_GetText(TEXT_FONT_LABEL), Loc_GetText(TEXT_PANGRAM_LABEL));
+	Print_DrawFormat("<>:%s ^v:%s", Loc_GetText(TEXT_LANG_LABEL), Loc_GetText(TEXT_FONT_LABEL));
 }
 
 //-----------------------------------------------------------------------------
@@ -143,19 +160,22 @@ void DisplayFont()
 
 	DisplayHeader();
 
-	// Information
+	// Language information
+	Print_SetPosition(0, 2);
+	Print_DrawFormat("-%s:%s (%s)", Loc_GetText(TEXT_LANG_LABEL), Loc_GetText(TEXT_LANG_VALUE), Loc_GetText(TEXT_LANG_VALUE_EN));
+
+	// Sample text
 	Print_SetPosition(0, 3);
-	Print_DrawFormat("<>%s:%s (%s)", Loc_GetText(TEXT_LANG_LABEL), Loc_GetText(TEXT_LANG_VALUE), Loc_GetText(TEXT_LANG_VALUE_EN));
-	Print_SetPosition(0, 5);
-	Print_DrawFormat("^v%s:%s", Loc_GetText(TEXT_FONT_LABEL), font->Name);
+	Print_DrawFormat("-%s:%s\n", Loc_GetText(TEXT_PANGRAM_LABEL), Loc_GetText(TEXT_PANGRAM_VALUE));
+	Print_DrawFormat("-%s:%s", Loc_GetText(TEXT_GLYPH_LABEL), Loc_GetText(TEXT_GLYPH_VALUE));
 
 	// Display font
-	u16 addr = VDP_GetLayoutTable() + (7 * 32);
+	Print_DrawCharXAt(0, 12, font->Line, SRCSIZE);
+	Print_SetPosition(0, 13);
+	Print_DrawFormat("-%s:%s\n", Loc_GetText(TEXT_FONT_LABEL), font->Name);
+	u16 addr = VDP_GetLayoutTable() + 14 * SRCSIZE;
 	loop(i, 255)
 		VDP_Poke_16K(i, addr++);
-
-	Print_SetPosition(0, 16);
-	Print_DrawFormat("%s:%s", Loc_GetText(TEXT_PANGRAM_LABEL), Loc_GetText(TEXT_PANGRAM_VALUE));
 
 	DisplayFooter();
 }
@@ -240,7 +260,7 @@ void main()
 		Halt();
 
 		// Display sign-of-life
-		Print_SetPosition(31, 0);
+		Print_SetPosition(SRCSIZE - 1, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 
 		Update();
