@@ -18,10 +18,10 @@
  <div class="CBody"><p>Initialize a music and start playback</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data</td><td class="CDLDefinition"><p>Pointer to the music data (data must be export to be replayed at this exact location) Check Arkos Tracker 2 documentation for more details: <a href="https://www.julien-nevo.com/arkostracker" target="_top">https://&#8203;www&#8203;.julien-nevo&#8203;.com&#8203;/arkostracker</a></p></td></tr><tr><td class="CDLEntry">num</td><td class="CDLDefinition"><p>Sub-music number if the AKG contain several musics (otherwise set to 0)</p></td></tr></table></div>
 </div>
 
-<a name="AKG_IsPlaying"></a><a name="Topic661"></a><div class="CTopic TFunction LC">
+<a name="AKG_IsPlaying"></a><a name="Topic822"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKG_IsPlaying</div>
- <div id="NDPrototype661" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> AKG_IsPlaying()</div></div>
- <div class="CBody"><p>Check if a music is currently playing</p><div class="CHeading">Return</div><p>FALSE is no music is replayed</p></div>
+ <div id="NDPrototype822" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> AKG_IsPlaying()</div></div>
+ <div class="CBody"><p>Check if a music is currently playing</p><div class="CHeading">Return</div><p>FALSE if no music is playing</p></div>
 </div>
 
 <a name="AKG_Stop"></a><a name="Topic669"></a><div class="CTopic TFunction LC">
@@ -36,10 +36,10 @@
  <div class="CBody"><p>Decode a music frame and update the PSG (must be called once each frame)</p><div class="CHeading">Return</div><p>TRUE if end of music have been reached</p></div>
 </div>
 
-<a name="AKG_InitSFX"></a><a name="Topic439"></a><div class="CTopic TFunction LC">
+<a name="AKG_InitSFX"></a><a name="Topic823"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKG_InitSFX</div>
- <div id="NDPrototype439" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 AKG_InitSFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Initializes the sound effects. It MUST be called at any times before a first sound effect is triggered.&nbsp; It doesn't matter whether the song is playing or not, or if it has been initialized or not.</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data</td><td class="CDLDefinition"><p>Address to the sound effects data.</p></td></tr></table><div class="CHeading">Return</div><p>Number of SFX in the package</p></div>
+ <div id="NDPrototype823" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 AKG_InitSFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize sound effects. It MUST be called at any time before a first sound effect is triggered.&nbsp; It doesn't matter whether a song is playing or not, or even if AKG_Init has been initialized.</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data</td><td class="CDLDefinition"><p>Address to the sound effects data.</p></td></tr></table><div class="CHeading">Return</div><p>Number of SFX in the package</p></div>
 </div>
 
 <a name="AKG_PlaySFX"></a><a name="Topic440"></a><div class="CTopic TFunction LC">

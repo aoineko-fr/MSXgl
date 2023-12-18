@@ -58,10 +58,10 @@
  <div class="CBody"><p>Executes inter-slot call.&nbsp; Wrapper for CALSLT routine.</p></div>
 </div>
 
-<a name="Bios_SwitchSlot"></a><a name="Topic386"></a><div class="CTopic TFunction LC">
+<a name="Bios_SwitchSlot"></a><a name="Topic439"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SwitchSlot</div>
- <div id="NDPrototype386" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_SwitchSlot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Switches indicated slot at indicated page on perpetual.&nbsp; Wrapper for ENASLT routine.</p></div>
+ <div id="NDPrototype439" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_SwitchSlot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Switches to specified slot and page definitively.&nbsp; Wrapper for ENASLT routine.</p></div>
 </div>
 
 <a name="BIOS_CALLF"></a><a name="Topic586"></a><div class="CTopic TMacro LC">
@@ -89,10 +89,10 @@
  <div class="CBody"><p>Displays the screen. Wrapper for ENASCR routine.</p></div>
 </div>
 
-<a name="Bios_WriteVDP"></a><a name="Topic494"></a><div class="CTopic TFunction LC">
+<a name="Bios_WriteVDP"></a><a name="Topic661"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_WriteVDP</div>
- <div id="NDPrototype494" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_WriteVDP(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Write data in the VDP-register. Wrapper for WRTVDP routine.</p></div>
+ <div id="NDPrototype661" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_WriteVDP(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Writes data in the VDP-register. Wrapper for WRTVDP routine.</p></div>
 </div>
 
 <a name="Bios_ReadVRAM"></a><a name="Topic495"></a><div class="CTopic TFunction LC">
@@ -107,22 +107,22 @@
  <div class="CBody"><p>Writes data in VRAM. Wrapper for WRTVRM routine.</p></div>
 </div>
 
-<a name="Bios_SetAddressForRead"></a><a name="Topic497"></a><div class="CTopic TFunction LC">
+<a name="Bios_SetAddressForRead"></a><a name="Topic824"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SetAddressForRead</div>
- <div id="NDPrototype497" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetAddressForRead(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable VDP to read. Wrapper for SETRD routine.</p></div>
+ <div id="NDPrototype824" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetAddressForRead(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enables VDP to read. Wrapper for SETRD routine.</p></div>
 </div>
 
-<a name="Bios_SetAddressForWrite"></a><a name="Topic498"></a><div class="CTopic TFunction LC">
+<a name="Bios_SetAddressForWrite"></a><a name="Topic825"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SetAddressForWrite</div>
- <div id="NDPrototype498" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetAddressForWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable VDP to write. Wrapper for SETWRT routine.</p></div>
+ <div id="NDPrototype825" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetAddressForWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enables VDP to write. Wrapper for SETWRT routine.</p></div>
 </div>
 
-<a name="Bios_FillVRAM"></a><a name="Topic499"></a><div class="CTopic TFunction LC">
+<a name="Bios_FillVRAM"></a><a name="Topic826"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_FillVRAM</div>
- <div id="NDPrototype499" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_FillVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">length,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Fill VRAM with value. Wrapper for FILVRM routine.</p></div>
+ <div id="NDPrototype826" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_FillVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">length,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Fills VRAM with value. Wrapper for FILVRM routine.</p></div>
 </div>
 
 <a name="Bios_TransfertVRAMtoRAM"></a><a name="Topic500"></a><div class="CTopic TFunction LC">
@@ -137,16 +137,16 @@
  <div class="CBody"><p>Block transfer to VRAM from memory. Wrapper for LDIRVM routine.</p></div>
 </div>
 
-<a name="Bios_ChangeMode"></a><a name="Topic502"></a><div class="CTopic TFunction LC">
+<a name="Bios_ChangeMode"></a><a name="Topic827"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_ChangeMode</div>
- <div id="NDPrototype502" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_ChangeMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">screen</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Switches to given screenmode. Wrapper for CHGMOD routine.</p></div>
+ <div id="NDPrototype827" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_ChangeMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">screen</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Switches to given screen mode. Wrapper for CHGMOD routine.</p></div>
 </div>
 
-<a name="Bios_ChangeColor"></a><a name="Topic503"></a><div class="CTopic TFunction LC">
+<a name="Bios_ChangeColor"></a><a name="Topic828"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_ChangeColor</div>
- <div id="NDPrototype503" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_ChangeColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">back,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Changes the screencolors. Wrapper for CHGCLR routine.</p></div>
+ <div id="NDPrototype828" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_ChangeColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">back,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Changes the screen colors. Wrapper for CHGCLR routine.</p></div>
 </div>
 
 <a name="Bios_InitScreen0"></a><a name="Topic504"></a><div class="CTopic TFunction LC">
