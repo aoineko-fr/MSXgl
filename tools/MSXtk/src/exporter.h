@@ -179,6 +179,7 @@ protected:
 
 public:
 	ExporterInterface(MSX::DataFormat f, ExportParameters* p): eFormat(f), Param(p), TotalBytes(0) {}
+	virtual ~ExporterInterface() = default;
 	virtual void WriteHeader() = 0;
 	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment) = 0;
 	virtual void WriteSpriteHeader(i32 number) = 0;
