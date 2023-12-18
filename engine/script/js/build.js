@@ -381,7 +381,7 @@ if (DoCompile)
 		let FirstSeg = 1;
 		let LastSeg = (MapperSize / SegSize) - 1;
 		const segExtList = [ "c", "s", "asm" ];
-		const bankAddrList = [ Bank0Addr, Bank1Addr, Bank2Addr, Bank3Addr ];
+		const bankAddrList = [ Bank0Addr, Bank1Addr, Bank2Addr, Bank3Addr, Bank4Addr, Bank5Addr ];
 
 		util.print(`Search for extra mapper segments to compile [${FirstSeg}-${LastSeg}]...`, PrintHighlight);
 		for (let e = 0; e < segExtList.length; e++)
@@ -389,7 +389,7 @@ if (DoCompile)
 			for (let s = FirstSeg; s <= LastSeg; s++)
 			{
 				let hex = util.getHex(s);
-				for (let b = 0; b < 4; b++)
+				for (let b = 0; b < bankAddrList.length; b++)
 				{
 					let bankAddr = bankAddrList[b];
 					if (bankAddr)
@@ -425,22 +425,22 @@ if (DoCompile)
 		for (let p = ROMFirstPage; p < ROMLastPage; p++) // Parse all ROM's pages
 		{
 			let pageName = `${ProjName}_p${p}`;
-			let startAddr;
+			let pageStartAddr;
 			switch(p)
 			{
-			case 0: startAddr = (ROMWithISR) ? "0x0100" : "0x0000"; break;
-			case 1: startAddr = "0x4000"; break;
-			case 2: startAddr = "0x8000"; break;
-			case 3: startAddr = "0xC000"; break;
+			case 0: pageStartAddr = (ROMWithISR) ? "0x0100" : "0x0000"; break;
+			case 1: pageStartAddr = "0x4000"; break;
+			case 2: pageStartAddr = "0x8000"; break;
+			case 3: pageStartAddr = "0xC000"; break;
 			}
 
 			for (let e = 0; e < segExtList.length; e++) // Parse all supported extension
 			{
 				if (fs.existsSync(`${pageName}.${segExtList[e]}`))
 				{
-					util.print(`Page ${p} found: ${pageName}.${segExtList[e]} (address:${startAddr})`);
+					util.print(`Page ${p} found: ${pageName}.${segExtList[e]} (address:${pageStartAddr})`);
 					compiler.compile(`${ProjDir}${pageName}.${segExtList[e]}`, 16 * 1024, `PAGE${p}`);
-					MapperBanks += `-Wl-b_PAGE${p}=${startAddr} `;
+					MapperBanks += `-Wl-b_PAGE${p}=${pageStartAddr} `;
 					RelList.push(`${OutDir}${pageName}.rel`);
 					pageFound++;
 				}

@@ -269,6 +269,51 @@ else if (Target === "ROM_KONAMI_SCC")
 
 	TargetDesc = `${ROMSize}KB ROM using KONAMI SCC mapper (starting at 4000h)`;
 }
+//-----------------------------------------------------------------------------
+else if (Target === "ROM_NEO8")
+{
+	if(!ROMMainSegments)
+		ROMMainSegments = 4;
+	Mapper = "ROM_NEO8";
+	Target = `ROM_NEO8_${ROMSize/1024}M`;
+	Ext = "rom";
+	Crt0 = "crt0_rom_mapper";
+	StartAddr = 0x0000;
+	CodeAddr = 0x4000;
+	RamAddr = 0xC000;
+	MapperSize = ROMSize*1024;
+	SegSize = 8*1024;
+	FillSize = ROMMainSegments * SegSize;
+	Bank0Addr = 0x5000;
+	Bank1Addr = 0x5800;
+	Bank2Addr = 0x6000;
+	Bank3Addr = 0x6800;
+	Bank4Addr = 0x7000;
+	Bank5Addr = 0x7800;
+
+	TargetDesc = `${ROMSize/1024}MB ROM using NEO-8 mapper (starting at 4000h)`;
+}
+//-----------------------------------------------------------------------------
+else if (Target === "ROM_NEO16")
+{
+	if(!ROMMainSegments)
+		ROMMainSegments = 2;
+	Mapper = "ROM_NEO16";
+	Target = `ROM_NEO16_${ROMSize/1024}M`;
+	Ext = "rom";
+	Crt0 = "crt0_rom_mapper";
+	StartAddr = 0x0000;
+	CodeAddr = 0x4000;
+	RamAddr = 0xC000;
+	MapperSize = ROMSize*1024;
+	SegSize = 16*1024;
+	FillSize = ROMMainSegments * SegSize;
+	Bank0Addr = 0x5000;
+	Bank1Addr = 0x6000;
+	Bank2Addr = 0x7000;
+
+	TargetDesc = `${ROMSize/1024}MB ROM using NEO-16 mapper (starting at 4000h)`;
+}
 
 //*****************************************************************************
 // MSX-DOS

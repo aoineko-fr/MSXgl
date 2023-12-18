@@ -53,7 +53,7 @@ if ((MapperSize !== 0) && (!ProjSegments))
 	ProjSegments = ProjName;
 }
 
-// Project segments base name
+// Build library
 if (!BuildLibrary && !fs.existsSync(`${OutDir}msxgl.lib`))
 {
 	util.print(`BuildLibrary is false but ${OutDir}msxgl.lib not found!`, PrintWarning);
