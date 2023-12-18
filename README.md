@@ -2,13 +2,13 @@
 
 **MSXgl is a Game Library wrote in C and targeting MSX computers.**
 
-The goal of this library is to offer to C programmers, the **whole set of functionalities to create a game** with high performances.
-Even if a C program can never be as efficient as a program written entirely in assembler, the goal is to try to get as close as possible.
+The purpose of this library is to provide C programmers with the **whole set of functionalities to make a game** with high performance.
+Even though a C program can never be as efficient as a program written entirely in assembler, the goal is to try to get as close as possible.
 
 To achieve this goal, the **library is dynamically compiled** to allow the user to configure the functionalities to best suit his needs.
 Also, the most expensive features are written in assembler.
 
-The other goal was to create a library that could be **totally independent of the BIOS**. This makes it much easier to use the 16K of page 0.
+The other goal was to create a library that is **totally independent of the BIOS**. This makes it much easier to use the 16K of page 0.
 The library also provides interrupt handling code to create ROMs that always remain on page 0.
 
 **Many sample programs** are available to demonstrate the different features of the library.
@@ -27,8 +27,9 @@ The library also provides interrupt handling code to create ROMs that always rem
 <img width="24%" src="https://raw.githubusercontent.com/aoineko-fr/MSXgl/main/engine/doc/img/sample_math.jpg" title="Mathematics sample" />
 </div>
 
-The MSXgl Build Tool allows in 1 click to create a final program for a **large number of formats**:
-* **Plain ROM** from 8K to 64K (interrupt handler can be install in page 0),
+The MSXgl Build Tool allows you to create a final program for a **large number of formats** with just 1 click:
+
+* **Plain ROM** from 8K to 64K (interrupt handler can be installed in page 0),
 * **Mapped ROM** from 64K to 4096K (ASCII-8, ASCII-16, Konami and Konami SCC mappers),
 * **MSX-DOS** 1 or 2 binary program,
 * **BASIC** binary program.
@@ -49,8 +50,8 @@ Here are also the supported audio formats:
 * lVGM (a light-VGM format for PSG)
 * PCM-Encoder (aka. _Crystal clean PCM 8bit samples on the poor PSG_)
 
-Many thanks to the members of the [MSX Ressource Center](https://www.msx.org) and [MSX Village](https://msxvillage.fr) who have been very helpful.
-The library is distribute under Creative Commons BY-SA license. Tools or sources from other authors could use other free license.
+Many thanks to the members of the [MSX Resource Center](https://www.msx.org) and [MSX Village](https://msxvillage.fr) who have been very helpful.
+The library is distributed under the Creative Commons BY-SA license. Tools or sources from other authors may use another free license.
 
 Documentation:
 * Code documentation: /engine/doc/html/ or https://aoineko.org/msxgl-doc
