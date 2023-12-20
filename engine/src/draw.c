@@ -10,7 +10,7 @@
 #if (MSX_VERSION >= MSX_2)
 
 //-----------------------------------------------------------------------------
-// Draw a line (pixel unit)
+// Draws a line (one pixel wide)
 void Draw_Line(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 {
 	u16 dx, dy, nx, ny;
@@ -54,7 +54,7 @@ void Draw_Line(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 }
 
 //-----------------------------------------------------------------------------
-// Draw an horizontal line (pixel unit)
+// Draws a horizontal line (one pixel wide)
 void Draw_LineH(UX x1, UX x2, UY y, u8 color, u8 op)
 {
 	u16 dx, nx;
@@ -72,7 +72,7 @@ void Draw_LineH(UX x1, UX x2, UY y, u8 color, u8 op)
 }
 
 //-----------------------------------------------------------------------------
-// Draw a vertical line (pixel unit)
+// Draws a vertical line (one pixel wide)
 void Draw_LineV(UX x, UY y1, UY y2, u8 color, u8 op)
 {
 	u16 dy, ny;
@@ -90,7 +90,7 @@ void Draw_LineV(UX x, UY y1, UY y2, u8 color, u8 op)
 }
 
 //-----------------------------------------------------------------------------
-// Draw a box (pixel unit)
+// Draws a box (one pixel wide)
 void Draw_Box(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 {
 	Draw_LineH(x1, x2, y1, color, op);
@@ -100,14 +100,14 @@ void Draw_Box(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 }
 
 //-----------------------------------------------------------------------------
-// Draw a box (pixel unit)
+// Draws a fully filled box
 void Draw_FillBox(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 {
 	VDP_CommandLMMV(x1, y1, x2 - x1 + 1, y2 - y1 + 1, color, op);	
 }
 
 //-----------------------------------------------------------------------------
-// Draw a circle (pixel unit)
+// Draws a circle (one pixel wide)
 // @author		Ibán Cereijo (https://ibancg.github.io/A-fast-circle-algorithm-for-ZX-Spectrum)
 void Draw_Circle(UX dx, UY dy, u8 radius, u8 color, u8 op)
 {
