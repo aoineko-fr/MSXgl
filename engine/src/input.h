@@ -9,7 +9,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
-// Handle interruptions disabling
+// Handle interrupt disabling
 #if (INPUT_USE_ISR_PROTECTION)
 	#define INPUT_DI				di
 	#define INPUT_EI				ei
@@ -55,7 +55,7 @@
 #define JOY_GET_SELECT(in)			(((in) & JOY_INPUT_TRIGGER_SELECT) == 0)
 
 // Function: Joystick_Read
-// Get the current joystick information
+// Gets current joystick information
 //
 // Parameters:
 //   port - JOY_PORT_1 or JOY_PORT_2
@@ -77,14 +77,14 @@ extern u8 g_JoyStats[2];
 extern u8 g_JoyStatsPrev[2];
 
 // Function: Joystick_Update
-// Update both joystick stats at once and store the result
+// Updates both joystick stats at once and stores the result
 // Only available when INPUT_JOY_UPDATE is TRUE
 void Joystick_Update();
 
 // Function: Joystick_GetDirection
-// Get current direction of the given joystick
-// If INPUT_JOY_UPDATE is TRUE, this function use data retreived by Joystick_Update().
-// Otherwise, this function read I/O data.
+// Gets current direction of the given joystick
+// If INPUT_JOY_UPDATE is TRUE, this function uses data retrieved by Joystick_Update().
+// Otherwise, this function reads I/O data.
 //
 // Parameters:
 //   port - JOY_PORT_1 or JOY_PORT_2
@@ -99,7 +99,7 @@ void Joystick_Update();
 inline u8 Joystick_GetDirection(u8 port) { return g_JoyStats[port >> 6] & JOY_INPUT_DIR_MASK; }
 
 // Function: Joystick_GetDirectionChange
-// Get current direction of the given joystick if different from previous one
+// Gets current direction of the given joystick if different from previous one
 // Only available if INPUT_JOY_UPDATE is TRUE.
 //
 // Parameters:
@@ -123,28 +123,28 @@ inline u8 Joystick_GetDirectionChange(u8 port)
 }
 
 // Function: Joystick_IsButtonPressed
-// Get current trigger status of the given joystick
-// If INPUT_JOY_UPDATE is TRUE, this function use data retreived by Joystick_Update().
+// Gets current trigger status of the given joystick
+// If INPUT_JOY_UPDATE is TRUE, this function uses data retrieved by Joystick_Update().
 // Otherwise, this function read I/O data.
 //
 // Parameters:
 //   port - JOY_PORT_1 or JOY_PORT_2
 //   trigger - JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B
 //
-// Return:
-//   TRUE is given button is pressed
+// Returns:
+//   TRUE if given button is pressed
 inline bool Joystick_IsButtonPressed(u8 port, u8 trigger) { return ((g_JoyStats[port >> 6] & trigger) != 0); }
 
 // Function: Joystick_IsButtonPushed
-// Get current trigger status of the given joystick
+// Gets current trigger status of the given joystick
 // Only available if INPUT_JOY_UPDATE is TRUE.
 //
 // Parameters:
 //   port - JOY_PORT_1 or JOY_PORT_2
 //   trigger - JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B
 //
-// Return:
-//   TRUE is given button is pressed
+// Returns:
+//   TRUE if given button is pressed
 inline bool Joystick_IsButtonPushed(u8 port, u8 trigger)
 {
 	u8 in = g_JoyStats[port >> 6];
@@ -154,14 +154,14 @@ inline bool Joystick_IsButtonPushed(u8 port, u8 trigger)
 
 #else // (!INPUT_JOY_UPDATE)
 
-// Get current direction of the given joystick
+// Gets current direction of the given joystick
 inline u8 Joystick_GetDirection(u8 port)
 {
 	u8 in = ~Joystick_Read(port);
 	return (in & JOY_INPUT_DIR_MASK);
 }
 
-// Get current trigger status of the given joystick (0: released; 1: pressed)
+// Gets current trigger status of the given joystick (0: released; 1: pressed)
 inline bool Joystick_IsButtonPressed(u8 port, u8 trigger)
 {
 	u8 in = Joystick_Read(port);
@@ -175,11 +175,11 @@ inline bool Joystick_IsButtonPressed(u8 port, u8 trigger)
 
 //=============================================================================
 // Group: Detect
-// General purpose ports device detection
+// General purpose port device detection
 //=============================================================================
 #if (INPUT_USE_DETECT)
 
-// Value returned the device in the idle state (allows to detect approximately the connected device)
+// Value returned from device in idle state (allows approximate detection of the connected device)
 enum INPUT_TYPE
 {
 	INPUT_TYPE_UNPLUGGED			= 0x3F,
@@ -231,7 +231,7 @@ enum MOUSE_SPEED
 	MOUSE_SPEED_DEFAULT = MOUSE_SPEED_MEDIUM,
 };
 
-// Mouse state structure (don't change parameter order
+// Mouse state structure (don't change parameter order)
 typedef struct
 {
 	u8			Buttons;
@@ -279,7 +279,7 @@ inline bool Mouse_IsButtonClick(Mouse_State* data, u8 btn) { return ((data->Butt
 #define IS_KEY_PUSHED(row, prev, key)  (((row & KEY_FLAG(key)) == 0) && ((prev & KEY_FLAG(key)) != 0))
 
 // Function: KEY_ID
-// Value coding a given physical key combining row number and key index in that row
+// Value encoded by combining a row number with a given physical key index in that row
 // Can be KEY_1, KEY_SPACE, KEY_A, KEY_F1, etc.
 enum KEY_ID
 {
@@ -389,12 +389,12 @@ enum KEY_ID
 #define KEY_BACK		KEY_BS
 
 // Function: Keyboard_Read
-// Read keyboard matrix row
+// Reads keyboard matrix row
 //
 // Parameters:
 //   row - The row to read (0-10)
 //
-// Return:
+// Returns:
 //   8-bits value where each bit to 0 represents the pressed keys
 u8 Keyboard_Read(u8 row) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh);
 
@@ -409,30 +409,30 @@ extern u8* g_InputBufferOld;
 inline void Keyboard_SetBuffer(u8* new, u8* old) { g_InputBufferNew = new; g_InputBufferOld = old; }
 
 // Function: Keyboard_Update
-// Update all keyboard rows at once
+// Updates all keyboard rows at once
 // Only available when INPUT_KB_UPDATE is TRUE
 void Keyboard_Update();
 
 // Function: Keyboard_IsKeyPressed
-// When INPUT_KB_UPDATE is TRUE, this function use data retreived by Keyboard_Update() function
-// Otherwise, the function read the key's row before checking the key.
+// When INPUT_KB_UPDATE is TRUE, this function uses data retrieved by Keyboard_Update() function
+// Otherwise, the function reads the key's row before checking the key.
 //
 // Parameters:
 //   key - The key ID to check
 //
-// Return:
+// Returns:
 //   TRUE if key is pressed
 bool Keyboard_IsKeyPressed(u8 key);
 
 // Function: Keyboard_IsKeyPushed
-// Check if a given key is just pushed
+// Checks if a given key was just pushed
 // Only available when INPUT_KB_UPDATE is TRUE
 //
 // Parameters:
 //   key - The key ID to check
 //
-// Return:
-//   TRUE is the key was pushed this frame
+// Returns:
+//   TRUE if the key was pushed on this frame
 bool Keyboard_IsKeyPushed(u8 key);
 
 #else
