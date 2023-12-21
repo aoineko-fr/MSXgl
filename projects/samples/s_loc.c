@@ -246,7 +246,7 @@ void main()
 {
 	// Initialize the localization module
 	Loc_Initialize(g_LocData, TEXT_MAX);
-	SetLanguage(LANG_JA);
+	SetLanguage(LANG_AR);
 
 	// Render the page information
 	g_Display = DisplayFont;

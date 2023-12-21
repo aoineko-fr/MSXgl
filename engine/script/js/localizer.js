@@ -1754,7 +1754,6 @@ function isHexCode(code)
 // 
 function mapCharacter(str, mapTable)
 {
-	var leftToRight = true;
 	var prevHex = false;
 	var ret = "";
 	for(var i = 0; i < str.length; i++)
@@ -1793,10 +1792,7 @@ function mapCharacter(str, mapTable)
 				}
 			}
 		}
-		// if(leftToRight)
-			ret = ret + chr;
-		// else
-		// 	ret = chr + ret;
+		ret = ret + chr;
 	}
 
 	return ret;
@@ -1858,6 +1854,146 @@ function getLineType(str)
 		return null;
 
 	return obj;
+}
+
+// Character class
+const CharClass = {
+	RightToLeft: 0,
+	LeftToRight: 1,
+	Neutral: 2,
+	Weak: 3,
+};
+
+//-----------------------------------------------------------------------------
+// Get character class
+function getCharClass(chr)
+{
+	const charCode = chr.charCodeAt(0);
+  
+	// Check Unicode ranges for writing direction
+	if (
+		(charCode >= 0x0030 && charCode <= 0x0039)) {  // European number
+		return CharClass.Neutral;
+	} else if (
+		(charCode >= 0x0041 && charCode <= 0x005A) ||  // Latin uppercase letters
+		(charCode >= 0x0061 && charCode <= 0x007A)) {  // Latin lowercase letters
+		return CharClass.LeftToRight;
+	} else if (
+		(charCode >= 0x0600 && charCode <= 0x06FF) ||  // Arabic
+		(charCode >= 0x0750 && charCode <= 0x077F) ||  // Arabic Supplement
+		(charCode >= 0xFB50 && charCode <= 0xFDFF) ||  // Arabic Presentation Forms
+		(charCode >= 0xFE70 && charCode <= 0xFEFF)) {  // Arabic Presentation Forms-B
+		return CharClass.RightToLeft;
+	}
+	// Default to 'Not Applicable' for other characters
+	return CharClass.Weak;
+}
+
+// Arabic character forms conversion
+const ArabicCharForms = {
+	//        Isolat  Final   Medial  Initi
+	0x0627: [ 0xFE8D, 0xFE8E, 0x0000, 0x0000 ],
+	0x0628: [ 0xFE8F, 0xFE90, 0xFE92, 0xFE91 ],
+	0x062A: [ 0xFE95, 0xFE96, 0xFE98, 0xFE97 ],
+	0x062B: [ 0xFE99, 0xFE9A, 0xFE9C, 0xFE9B ],
+	0x062C: [ 0xFE9D, 0xFE9E, 0xFEA0, 0xFE9F ],
+	0x062D: [ 0xFEA1, 0xFEA2, 0xFEA4, 0xFEA3 ],
+	0x062E: [ 0xFEA5, 0xFEA6, 0xFEA8, 0xFEA7 ],
+	0x062F: [ 0xFEA9, 0xFEAA, 0x0000, 0x0000 ],
+	0x0630: [ 0xFEAB, 0xFEAC, 0x0000, 0x0000 ],
+	0x0631: [ 0xFEAD, 0xFEAE, 0x0000, 0x0000 ],
+	0x0632: [ 0xFEAF, 0xFEB0, 0x0000, 0x0000 ],
+	0x0633: [ 0xFEB1, 0xFEB2, 0xFEB4, 0xFEB3 ],
+	0x0634: [ 0xFEB5, 0xFEB6, 0xFEB8, 0xFEB7 ],
+	0x0635: [ 0xFEB9, 0xFEBA, 0xFEBC, 0xFEBB ],
+	0x0636: [ 0xFEBD, 0xFEBE, 0xFEC0, 0xFEBF ],
+	0x0637: [ 0xFEC1, 0xFEC2, 0xFEC4, 0xFEC3 ],
+	0x0638: [ 0xFEC5, 0xFEC6, 0xFEC8, 0xFEC7 ],
+	0x0639: [ 0xFEC9, 0xFECA, 0xFECC, 0xFECB ],
+	0x063A: [ 0xFECD, 0xFECE, 0xFED0, 0xFECF ],
+	0x0641: [ 0xFED1, 0xFED2, 0xFED4, 0xFED3 ],
+	0x0642: [ 0xFED5, 0xFED6, 0xFED8, 0xFED7 ],
+	0x0643: [ 0xFED9, 0xFEDA, 0xFEDC, 0xFEDB ],
+	0x0644: [ 0xFEDD, 0xFEDE, 0xFEE0, 0xFEDF ],
+	0x0645: [ 0xFEE1, 0xFEE2, 0xFEE4, 0xFEE3 ],
+	0x0646: [ 0xFEE5, 0xFEE6, 0xFEE8, 0xFEE7 ],
+	0x0647: [ 0xFEE9, 0xFEEA, 0xFEEC, 0xFEEB ],
+	0x0648: [ 0xFEED, 0xFEEE, 0x0000, 0x0000 ],
+	0x064A: [ 0xFEF1, 0xFEF2, 0xFEF4, 0xFEF3 ],
+	0x0622: [ 0xFE81, 0xFE82, 0x0000, 0x0000 ],
+	0x0629: [ 0xFE93, 0xFE94, 0x0000, 0x0000 ],
+	0x0649: [ 0xFEEF, 0xFEF0, 0x0000, 0x0000 ],
+};
+
+
+
+//-----------------------------------------------------------------------------
+// 
+function convertArabicForms(inputString)
+{
+	let outputString = "";
+
+	for (let i = 0; i < inputString.length; i++)
+	{
+		const currentChar = inputString[i];
+		const nextChar = inputString[i + 1];
+		const prevChar = inputString[i - 1];
+		const charCode = currentChar.codePointAt(0);
+
+		var form = ArabicCharForms[charCode];
+
+		// Check if the character is Arabic
+		// if (charCode >= 0x0600 && charCode <= 0x06FF)
+		if (form != null)
+		{
+			if (!nextChar && !prevChar) // Isolated form
+				outputString += String.fromCharCode(form[0]);
+			else if (!nextChar && prevChar) // End form
+				outputString += String.fromCharCode(form[1]);
+			else if (nextChar && prevChar) // Middle form
+				outputString += String.fromCharCode(form[2]);
+			else if (nextChar && !prevChar) // Start form
+				outputString += String.fromCharCode(form[3]);
+		}
+		else // Keep non-Arabic characters as they are
+			outputString += currentChar;
+	}
+	return outputString;
+}
+
+//-----------------------------------------------------------------------------
+// Convert Bi-Directionnal text to linear LTR one
+function convertArabic(str)
+{
+	str = convertArabicForms(str);
+
+	var lastDir = CharClass.RightToLeft;
+	var tempStr = "";
+	var outStr = "";
+	for(var i = 0; i < str.length; i++)
+	{
+		var chr = str[i];
+		var dir = getCharClass(chr);
+		if((dir == CharClass.LeftToRight) || (dir == CharClass.Neutral))
+		{
+			tempStr += chr;
+		}
+		else
+		{
+			if((lastDir == CharClass.LeftToRight) || (lastDir == CharClass.Neutral))
+			{
+				outStr = tempStr + outStr;
+				tempStr = "";
+			}
+			outStr = chr + outStr;
+		}
+		lastDir = dir;
+	}
+	if(tempStr != "")
+	{
+		outStr = tempStr + outStr;
+	}
+	return outStr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1958,7 +2094,7 @@ function parseLocFile(filename, locTable, langTable)
 
 						case "AR": // Arabic
 						case "ARA":
-							locTable[lang][obj.key] = mapCharacter(obj.value, MapARBtoMSX);
+							locTable[lang][obj.key] = mapCharacter(convertArabic(obj.value), MapARBtoMSX);
 							break;
 
 						case "UK":  // Ukrainian
