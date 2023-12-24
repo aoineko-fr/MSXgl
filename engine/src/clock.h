@@ -233,7 +233,7 @@ inline void RTC_Initialize() { RTC_SetMode(RTC_MODE_TIME); }
 
 #if (RTC_USE_CLOCK)
 
-// Function: RTC_Initialize
+// Function: RTC_Set24H
 // Set 12/24 hours mode
 // Need RTC_USE_CLOCK define to be set in MSXgl configuration
 //
