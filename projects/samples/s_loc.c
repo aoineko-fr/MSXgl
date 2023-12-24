@@ -39,7 +39,7 @@ typedef struct
 #include "font/font_bios_jap2.h"
 #include "font/font_bios_hangul.h"
 #include "font/font_bios_cyrillic.h"
-#include "font/font_bios_arabic2.h"
+#include "font/font_bios_arabic1.h"
 
 // Font data
 const Font g_Fonts[] = 
@@ -49,7 +49,7 @@ const Font g_Fonts[] =
 	{ "Japanese MSX", g_Font_BIOS_JP2,    0, 0x17 }, // 2
 	{ "Korean MSX",   g_Font_BIOS_Hangul, 0, 0x17 }, // 3
 	{ "Cyrillic MSX", g_Font_BIOS_Cyril,  0, 0x17 }, // 4
-	{ "Arabic MSX",   g_Font_BIOS_ARB2,   0, 0x17 }, // 5
+	{ "Arabic MSX",   g_Font_BIOS_ARB1,   0, 0x17 }, // 5
 };
 
 // 
@@ -182,6 +182,25 @@ void DisplayFont()
 
 //-----------------------------------------------------------------------------
 // 
+void DisplayARB()
+{
+	SetLanguage(LANG_AR);
+
+	DisplayHeader();
+
+	Print_DrawTextAlignAt(31,  4, Loc_GetText(TEXT_SAMPLE_1), PRINT_ALIGN_RIGHT);
+	Print_DrawTextAlignAt(31,  5, Loc_GetText(TEXT_SAMPLE_2), PRINT_ALIGN_RIGHT);
+	Print_DrawTextAlignAt(31,  6, Loc_GetText(TEXT_SAMPLE_3), PRINT_ALIGN_RIGHT);
+	Print_DrawTextAlignAt(31,  7, Loc_GetText(TEXT_SAMPLE_4), PRINT_ALIGN_RIGHT);
+	Print_DrawTextAlignAt(31,  8, Loc_GetText(TEXT_SAMPLE_5), PRINT_ALIGN_RIGHT);
+	Print_DrawTextAlignAt(31,  9, Loc_GetText(TEXT_SAMPLE_6), PRINT_ALIGN_RIGHT);
+	Print_DrawTextAlignAt(31, 10, Loc_GetText(TEXT_SAMPLE_7), PRINT_ALIGN_RIGHT);
+
+	DisplayFooter();
+}
+
+//-----------------------------------------------------------------------------
+// 
 void DisplayTrans()
 {
 	const Font* font = &g_Fonts[g_CurFont];
@@ -249,7 +268,7 @@ void main()
 	SetLanguage(LANG_AR);
 
 	// Render the page information
-	g_Display = DisplayFont;
+	g_Display = DisplayARB;//DisplayFont;
 	g_Display();
 
 	// Main loop
