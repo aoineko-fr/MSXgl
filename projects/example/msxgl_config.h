@@ -385,6 +385,16 @@
 #define TRILO_USE_TREMOLO			TRUE	// Add support for tremolo effect (little bit expensive)
 #define TRILO_USE_TAIL				FALSE	// Add tail to prevent volume to fall to zero
 
+// LVGM replayer options
+#define LVGM_USE_PSG				TRUE
+#define LVGM_USE_MSXMUSIC			TRUE
+#define LVGM_USE_MSXAUDIO			TRUE
+#define LVGM_USE_SCC				TRUE
+#define LVGM_USE_SCCI				FALSE
+#define LVGM_USE_PSG2				FALSE
+#define LVGM_USE_OPL4				FALSE
+#define LVGM_USE_NOTIFY				TRUE
+
 //-----------------------------------------------------------------------------
 // MATH MODULE
 //-----------------------------------------------------------------------------

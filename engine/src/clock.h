@@ -16,10 +16,33 @@
 #include "core.h"
 #include "system_port.h"
 
-#define RTC_USE_CLOCK				TRUE
-#define RTC_USE_CLOCK_EXTRA			TRUE
-#define RTC_USE_SAVEDATA			TRUE
-#define RTC_USE_SAVESIGNED			TRUE
+//-----------------------------------------------------------------------------
+// CHECK OPTIONS
+//-----------------------------------------------------------------------------
+
+// RTC_USE_CLOCK
+#ifndef RTC_USE_CLOCK
+	#warning RTC_USE_CLOCK is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define RTC_USE_CLOCK			TRUE
+#endif
+
+// RTC_USE_CLOCK_EXTRA
+#ifndef RTC_USE_CLOCK_EXTRA
+	#warning RTC_USE_CLOCK_EXTRA is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define RTC_USE_CLOCK_EXTRA		TRUE
+#endif
+
+// RTC_USE_SAVEDATA
+#ifndef RTC_USE_SAVEDATA
+	#warning RTC_USE_SAVEDATA is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define RTC_USE_SAVEDATA		TRUE
+#endif
+
+// RTC_USE_SAVESIGNED
+#ifndef RTC_USE_SAVESIGNED
+	#warning RTC_USE_SAVESIGNED is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define RTC_USE_SAVESIGNED		TRUE
+#endif
 
 //-----------------------------------------------------------------------------
 // RTC MODE REGISTER (0xD)
@@ -228,12 +251,11 @@ void RTC_ReadRaw(u8 reg, u8* data, u8 num);
 
 // Function: RTC_Initialize
 // Initialize the clock module
-// Need RTC_USE_CLOCK define to be set in MSXgl configuration
 inline void RTC_Initialize() { RTC_SetMode(RTC_MODE_TIME); }
 
 #if (RTC_USE_CLOCK)
 
-// Function: RTC_Initialize
+// Function: RTC_Set24H
 // Set 12/24 hours mode
 // Need RTC_USE_CLOCK define to be set in MSXgl configuration
 //

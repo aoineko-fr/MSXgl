@@ -167,7 +167,7 @@
 #endif
 
 //-----------------------------------------------------------------------------
-// INPUR MODULE
+// INPUT MODULE
 //-----------------------------------------------------------------------------
 
 #ifndef INPUT_USE_JOYSTICK // Add functions to handle joystick using I/O port
@@ -240,6 +240,37 @@
 	#warning MEM_USE_DYNAMIC is not defined in "msxgl_config.h"! Default value will be used: FALSE
 	#define MEM_USE_DYNAMIC			FALSE
 #endif
+
+//-----------------------------------------------------------------------------
+// CLOCK MODULE
+//-----------------------------------------------------------------------------
+// #ifdef CHECK_DEFAULT_CLOCK
+
+// // RTC_USE_CLOCK
+// #ifndef RTC_USE_CLOCK
+// 	#warning RTC_USE_CLOCK is not defined in "msxgl_config.h"! Default value will be used: TRUE
+// 	#define RTC_USE_CLOCK			TRUE
+// #endif
+
+// // RTC_USE_CLOCK_EXTRA
+// #ifndef RTC_USE_CLOCK_EXTRA
+// 	#warning RTC_USE_CLOCK_EXTRA is not defined in "msxgl_config.h"! Default value will be used: TRUE
+// 	#define RTC_USE_CLOCK_EXTRA		TRUE
+// #endif
+
+// // RTC_USE_SAVEDATA
+// #ifndef RTC_USE_SAVEDATA
+// 	#warning RTC_USE_SAVEDATA is not defined in "msxgl_config.h"! Default value will be used: TRUE
+// 	#define RTC_USE_SAVEDATA		TRUE
+// #endif
+
+// // RTC_USE_SAVESIGNED
+// #ifndef RTC_USE_SAVESIGNED
+// 	#warning RTC_USE_SAVESIGNED is not defined in "msxgl_config.h"! Default value will be used: TRUE
+// 	#define RTC_USE_SAVESIGNED		TRUE
+// #endif
+
+// #endif
 
 //-----------------------------------------------------------------------------
 // DRAW MODULE
