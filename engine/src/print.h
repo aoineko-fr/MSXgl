@@ -711,10 +711,10 @@ inline void Print_DrawTextAlign(const c8* str, u8 align)
 	case PRINT_ALIGN_LEFT:
 		break;
 	case PRINT_ALIGN_CENTER:
-		g_PrintData.CursorX -= ((len - 1) / 2) * g_PrintData.UnitX;
+		g_PrintData.CursorX -= ((len - 1) / 2) * PRINT_W(g_PrintData.UnitX);
 		break;
 	case PRINT_ALIGN_RIGHT:
-		g_PrintData.CursorX -= (len - 1) * g_PrintData.UnitX;
+		g_PrintData.CursorX -= (len - 1) * PRINT_W(g_PrintData.UnitX);
 		break;
 	}
 	
