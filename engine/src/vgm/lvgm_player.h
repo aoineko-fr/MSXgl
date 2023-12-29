@@ -9,15 +9,57 @@
 
 #include "msxgl.h"
 
-#define LVGM_USE_PSG			TRUE
-#define LVGM_USE_MSXMUSIC		TRUE
-#define LVGM_USE_MSXAUDIO		TRUE
-#define LVGM_USE_SCC			TRUE
-#define LVGM_USE_SCCI			FALSE
-#define LVGM_USE_PSG2			FALSE
-#define LVGM_USE_OPL4			FALSE
+//-----------------------------------------------------------------------------
+// CHECK OPTIONS
+//-----------------------------------------------------------------------------
 
-#define LVGM_USE_NOTIFY			TRUE
+// LVGM_USE_PSG
+#ifndef LVGM_USE_PSG
+	#warning LVGM_USE_PSG is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LVGM_USE_PSG			TRUE
+#endif
+
+// LVGM_USE_MSXMUSIC
+#ifndef LVGM_USE_MSXMUSIC
+	#warning LVGM_USE_MSXMUSIC is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LVGM_USE_MSXMUSIC		TRUE
+#endif
+
+// LVGM_USE_MSXAUDIO
+#ifndef LVGM_USE_MSXAUDIO
+	#warning LVGM_USE_MSXAUDIO is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LVGM_USE_MSXAUDIO		TRUE
+#endif
+
+// LVGM_USE_SCC
+#ifndef LVGM_USE_SCC
+	#warning LVGM_USE_SCC is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LVGM_USE_SCC			TRUE
+#endif
+
+// LVGM_USE_SCCI
+#ifndef LVGM_USE_SCCI
+	#warning LVGM_USE_SCCI is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LVGM_USE_SCCI			FALSE
+#endif
+
+// LVGM_USE_PSG2
+#ifndef LVGM_USE_PSG2
+	#warning LVGM_USE_PSG2 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LVGM_USE_PSG2			FALSE
+#endif
+
+// LVGM_USE_OPL4
+#ifndef LVGM_USE_OPL4
+	#warning LVGM_USE_OPL4 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LVGM_USE_OPL4			FALSE
+#endif
+
+// LVGM_USE_NOTIFY
+#ifndef LVGM_USE_NOTIFY
+	#warning LVGM_USE_NOTIFY is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LVGM_USE_NOTIFY			TRUE
+#endif
 
 #if (LVGM_USE_PSG)
 #include "psg.h"

@@ -189,11 +189,11 @@ else if (EmulatorName === "EMULICIOUS") {
 	// if (EmulV9990)    {}
 
 	//---- Add launch program ----
-	if (Ext === "rom") {
-		EmulatorArgs += ` ${ProjDir}emul/rom/${ProjName}.rom`;
-	} else {
-		util.print("Emulicious only support ROM format", PrintError);
-		process.exit(530);
+	if (Ext === "rom") { EmulatorArgs += ` ${ProjDir}emul/rom/${ProjName}.rom`; }
+	else 
+	{
+		util.print("Emulicious only support ROM format natively");
+		EmulatorArgs += ` ${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`;
 	}
 }
 
