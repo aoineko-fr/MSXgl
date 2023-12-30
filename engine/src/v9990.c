@@ -224,7 +224,7 @@ void V9_SetScrollingBY(u16 y)
 
 	// Set R#22
 	u8 a = (y >> 8) & 0x01;
-	u8 b = V9_GetRegister(18) & 0xFE;
+	u8 b = V9_GetRegister(22) & 0xFE;
 	V9_SetRegister(22, a | b);
 }
 
