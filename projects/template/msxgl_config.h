@@ -248,9 +248,12 @@
 #define GAMEPAWN_BORDER_EVENT		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_RIGHT)
 #define GAMEPAWN_BORDER_BLOCK		(GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_LEFT)
 // Top/bottom border position (in pixel)
-#define GAMEPAWN_BORDER_MIN_Y		0
-#define GAMEPAWN_BORDER_MAX_Y		191
-#define GAMEPAWN_FORCE_SM1			FALSE	// Force the use sprite mode 1 
+#define GAMEPAWN_BORDER_MIN_Y		0		// High border Y coordinade
+#define GAMEPAWN_BORDER_MAX_Y		191		// Low border Y coordinate
+#define GAMEPAWN_FORCE_SM1			FALSE	// Force the use sprite mode 1 (for MSX2) 
+#define GAMEPAWN_USE_VRAM_COL		TRUE	// Use VRAM to chech tile collision (use RAM buffer instead)
+#define GAMEPAWN_TILEMAP_WIDTH		32		// Width of the tiles map
+#define GAMEPAWN_TILEMAP_HEIGHT		24		// Height of the tiles map
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE

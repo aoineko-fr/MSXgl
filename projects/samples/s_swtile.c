@@ -22,6 +22,10 @@
 
 #define OOO			0
 
+// Physics values
+#define FORCE		20
+#define GRAVITY		1
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -145,12 +149,14 @@ u8 g_Frame = 0;
 // Player pawn data
 Game_Pawn g_PlayerPawn;
 
-//=============================================================================
-// FUNCTIONS
-//=============================================================================
-
-
-
+// Input variables
+bool g_bMoving = FALSE;
+bool g_bJumping = FALSE;
+i8   g_VelocityY;
+u8   g_LastEvent = 0;
+u8   g_PrevRow8 = 0xFF;
+i8   g_DX = 0;
+i8   g_DY = 0;
 
 //=============================================================================
 // FUNCTIONS
@@ -170,6 +176,41 @@ void WaitVBlank()
 	while(g_VBlank == 0) {}
 	g_VBlank = 0;
 	g_Frame++;
+}
+
+// Physics callback
+void PhysicsEvent(u8 event, u8 tile)
+{
+	tile;
+	switch(event)
+	{
+	case PAWN_PHYSICS_BORDER_DOWN:
+	case PAWN_PHYSICS_BORDER_RIGHT:
+		g_LastEvent = event;
+		break;
+	
+	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
+		g_bJumping = FALSE;
+		break;
+	
+	case PAWN_PHYSICS_COL_UP: // Handle upward collisions
+		g_VelocityY = 0;
+		break;
+	
+	case PAWN_PHYSICS_FALL: // Handle falling
+		if(!g_bJumping)
+		{
+			g_bJumping = TRUE;
+			g_VelocityY = 0;
+		}
+		break;
+	};
+}
+
+// Collision callback
+bool PhysicsCollision(u8 tile)
+{
+	return (((tile >= 32) && (tile <= 35)) || ((tile >= 96) && (tile <= 99)) || ((tile >= 64) && (tile <= 67)));
 }
 
 //=============================================================================
@@ -212,7 +253,6 @@ void main()
 	Print_SetPosition(0, 0);
 	Print_DrawText(MSX_GL " Software Tile Sample");
 
-
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 	VDP_LoadSpritePattern(g_DataSprtLayer, 0, 13 * 4 * 4);
@@ -220,13 +260,13 @@ void main()
 
 	// Init player pawn
 	GamePawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
+	GamePawn_SetTileMap(g_TileMap);
 	GamePawn_SetPosition(&g_PlayerPawn, 100, 100);
+	GamePawn_InitializePhysics(&g_PlayerPawn, PhysicsEvent, PhysicsCollision, 16, 16);
 
 	Bios_SetKeyClick(FALSE);
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
 	VDP_EnableVBlank(TRUE);
-
-	u8 X = 56, Y = 128;
 
 	bool bContinue = TRUE;
 	while(bContinue)
@@ -241,32 +281,49 @@ void main()
 			VDP_SetPage(2);
 		if(Keyboard_IsKeyPressed(KEY_4))
 			VDP_SetPage(3);
+	
+		g_DX = 0;
+		g_DY = 0;
+		u8 row8 = Keyboard_Read(8);
+		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+		{
+			g_DX++;
+			g_bMoving = TRUE;
+		}
+		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
+		{
+			g_DX--;
+			g_bMoving = TRUE;
+		}
+		else
+			g_bMoving = FALSE;
+		
+		if(g_bJumping)
+		{
+			g_DY -= g_VelocityY / 4;
+			
+			g_VelocityY -= GRAVITY;
+			if(g_VelocityY < -FORCE)
+				g_VelocityY = -FORCE;
 
-		bool bMove = FALSE;
-		if(Keyboard_IsKeyPressed(KEY_RIGHT))
-		{
-			X++;
-			bMove = TRUE;
 		}
-		if(Keyboard_IsKeyPressed(KEY_LEFT))
+		else if(IS_KEY_PRESSED(row8, KEY_SPACE) || IS_KEY_PRESSED(row8, KEY_UP))
 		{
-			X--;
-			bMove = TRUE;
+			g_bJumping = TRUE;
+			g_VelocityY = FORCE;
 		}
+		g_PrevRow8 = row8;
 
-		if(Keyboard_IsKeyPressed(KEY_DOWN))
-		{
-			Y++;
-			bMove = TRUE;
-		}
-		if(Keyboard_IsKeyPressed(KEY_UP))
-		{
-			Y--;
-			bMove = TRUE;
-		}
-
-		GamePawn_SetAction(&g_PlayerPawn, bMove ? ACTION_MOVE : ACTION_IDLE);
-		GamePawn_SetPosition(&g_PlayerPawn, X, Y);
+		// Update player animation & physics
+		u8 act = ACTION_IDLE;
+		if(g_bJumping && (g_VelocityY >= 0))
+			act = ACTION_JUMP;
+		else if(g_bJumping)
+			act = ACTION_FALL;
+		else if(g_bMoving)
+			act = ACTION_MOVE;
+		GamePawn_SetAction(&g_PlayerPawn, act);
+		GamePawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
 		GamePawn_Update(&g_PlayerPawn);
 		GamePawn_Draw(&g_PlayerPawn);
 	}

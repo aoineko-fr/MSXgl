@@ -26,6 +26,12 @@
  <div class="CBody"><p>Set game pawn current action index.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">pawn<div class="CDLParameterType">Game_Pawn*</div></td><td class="CDLDefinition"><p>Address of game pawn structure to setup.</p></td></tr><tr><td class="CDLEntry">id<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>New action index.</p></td></tr></table></div>
 </div>
 
+<a name="GamePawn_SetTileMap"></a><a name="Topic344"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">GamePawn_SetTileMap</div>
+ <div id="NDPrototype344" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> GamePawn_SetTileMap(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">map</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the tile map to be used for collision.&nbsp; Available only when GAMEPAWN_USE_VRAM_COL is set to FALSE.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">map<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Pointer to RAM buffer with the tile map. Size must be GAMEPAWN_SCREEN_WIDTH * GAMEPAWN_SCREEN_HEIGHT.</p></td></tr></table></div>
+</div>
+
 <a name="GamePawn_Update"></a><a name="Topic250"></a><div class="CTopic TFunction LC">
  <div class="CTitle">GamePawn_Update</div>
  <div id="NDPrototype250" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> GamePawn_Update(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Game_Pawn*&nbsp;</td><td class="PName last">pawn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>

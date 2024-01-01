@@ -24,6 +24,11 @@ static u8 g_Game_DrawPattern;
 static Game_Pawn* g_Pawn;
 static const Game_Sprite* g_Sprite;
 
+// Tile map buffer in RAM
+#if (!GAMEPAWN_USE_VRAM_COL)
+const u8* g_GamePawn_TileMap;
+#endif
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -168,7 +173,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
-						u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
@@ -182,7 +187,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
-						u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
@@ -196,7 +201,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
-						u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
@@ -210,7 +215,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
-						u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
@@ -224,7 +229,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
-						u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
@@ -258,7 +263,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 			{
 				u8 cellX = (targetX + (GET_BOUND_X / 2)) / 8;
 				u8 cellY = (targetY) / 8;
-				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+				u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
 				if(g_Pawn->CollisionCB(tile))
 				{
 					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_UP, tile);
@@ -282,7 +287,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
-						tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						tile = GAMEPAWN_GET_TILE(cellX, cellY);
 						if(g_Pawn->CollisionCB(tile))
 							goto skipVertival;
 					}
@@ -292,7 +297,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
-						tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						tile = GAMEPAWN_GET_TILE(cellX, cellY);
 						if(g_Pawn->CollisionCB(tile))
 							goto skipVertival;
 					}
@@ -302,7 +307,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
-						tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						tile = GAMEPAWN_GET_TILE(cellX, cellY);
 						if(g_Pawn->CollisionCB(tile))
 							goto skipVertival;
 					}
@@ -312,7 +317,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
-						tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						tile = GAMEPAWN_GET_TILE(cellX, cellY);
 						if(g_Pawn->CollisionCB(tile))
 							goto skipVertival;
 					}
@@ -322,7 +327,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					if(cellX != lastCell)
 					{
 						lastCell = cellX;
-						tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+						tile = GAMEPAWN_GET_TILE(cellX, cellY);
 						if(g_Pawn->CollisionCB(tile))
 							goto skipVertival;
 					}
@@ -350,7 +355,7 @@ skipVertival:
 			{
 				u8 cellX = (targetX + GET_BOUND_X) / 8;
 				u8 cellY = (targetY + (GET_BOUND_Y / 2)) / 8;
-				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+				u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
 				if(g_Pawn->CollisionCB(tile))
 				{
 					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT, tile);
@@ -377,7 +382,7 @@ skipVertival:
 			{
 				u8 cellX = (targetX) / 8;
 				u8 cellY = (targetY + (GET_BOUND_Y / 2)) / 8;
-				u8 tile = VDP_Peek_16K(g_ScreenLayoutLow + (cellY * 32) + cellX);
+				u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
 				if(g_Pawn->CollisionCB(tile))
 				{
 					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT, tile);

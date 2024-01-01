@@ -15,10 +15,100 @@
 // OPTIONS VALIDATION
 //=============================================================================
 
+// GAMEPAWN_ID_PER_LAYER
+#ifndef GAMEPAWN_ID_PER_LAYER
+	#warning GAMEPAWN_ID_PER_LAYER is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define GAMEPAWN_ID_PER_LAYER		FALSE
+#endif
+
+// GAMEPAWN_USE_PHYSICS
+#ifndef GAMEPAWN_USE_PHYSICS
+	#warning GAMEPAWN_USE_PHYSICS is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define GAMEPAWN_USE_PHYSICS		FALSE
+#endif
+
+// GAMEPAWN_BORDER_EVENT
+#ifndef GAMEPAWN_BORDER_EVENT
+	#warning GAMEPAWN_BORDER_EVENT is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define GAMEPAWN_BORDER_EVENT		0
+#endif
+
+// GAMEPAWN_BORDER_BLOCK
+#ifndef GAMEPAWN_BORDER_BLOCK
+	#warning GAMEPAWN_BORDER_BLOCK is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define GAMEPAWN_BORDER_BLOCK		0
+#endif
+
+// GAMEPAWN_BORDER_MIN_Y
+#ifndef GAMEPAWN_BORDER_MIN_Y
+	#warning GAMEPAWN_BORDER_MIN_Y is not defined in "msxgl_config.h"! Default value will be used: 0
+	#define GAMEPAWN_BORDER_MIN_Y		0
+#endif
+
+// GAMEPAWN_BORDER_MAX_Y
+#ifndef GAMEPAWN_BORDER_MAX_Y
+	#warning GAMEPAWN_BORDER_MAX_Y is not defined in "msxgl_config.h"! Default value will be used: 192
+	#define GAMEPAWN_BORDER_MAX_Y		192
+#endif
+
+// GAMEPAWN_COL_DOWN
+#ifndef GAMEPAWN_COL_DOWN
+	#warning GAMEPAWN_COL_DOWN is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
+	#define GAMEPAWN_COL_DOWN			GAMEPAWN_COL_50
+#endif
+
+// GAMEPAWN_COL_UP
+#ifndef GAMEPAWN_COL_UP
+	#warning GAMEPAWN_COL_UP is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
+	#define GAMEPAWN_COL_UP				GAMEPAWN_COL_50
+#endif
+
+// GAMEPAWN_COL_RIGHT
+#ifndef GAMEPAWN_COL_RIGHT
+	#warning GAMEPAWN_COL_RIGHT is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
+	#define GAMEPAWN_COL_RIGHT			GAMEPAWN_COL_50
+#endif
+
+// GAMEPAWN_COL_LEFT
+#ifndef GAMEPAWN_COL_LEFT
+	#warning GAMEPAWN_COL_LEFT is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
+	#define GAMEPAWN_COL_LEFT			GAMEPAWN_COL_50
+#endif
+
+// GAMEPAWN_BOUND_X
+#ifndef GAMEPAWN_BOUND_X
+	#warning GAMEPAWN_BOUND_X is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_BOUND_CUSTOM
+	#define GAMEPAWN_BOUND_X			GAMEPAWN_BOUND_CUSTOM
+#endif
+
+// GAMEPAWN_BOUND_Y
+#ifndef GAMEPAWN_BOUND_Y
+	#warning GAMEPAWN_BOUND_Y is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_BOUND_CUSTOM
+	#define GAMEPAWN_BOUND_Y			GAMEPAWN_BOUND_CUSTOM
+#endif
+
 // GAMEPAWN_FORCE_SM1
 #ifndef GAMEPAWN_FORCE_SM1
 	#warning GAMEPAWN_FORCE_SM1 is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define GAMEPAWN_FORCE_SM1				FALSE
+	#define GAMEPAWN_FORCE_SM1			FALSE
+#endif
+
+// GAMEPAWN_USE_VRAM_COL
+#ifndef GAMEPAWN_USE_VRAM_COL
+	#warning GAMEPAWN_USE_VRAM_COL is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define GAMEPAWN_USE_VRAM_COL		TRUE
+#endif
+
+// GAMEPAWN_TILEMAP_WIDTH
+#ifndef GAMEPAWN_TILEMAP_WIDTH
+	#warning GAMEPAWN_TILEMAP_WIDTH is not defined in "msxgl_config.h"! Default value will be used: 32
+	#define GAMEPAWN_TILEMAP_WIDTH		32
+#endif
+
+// GAMEPAWN_TILEMAP_HEIGHT
+#ifndef GAMEPAWN_TILEMAP_HEIGHT
+	#warning GAMEPAWN_TILEMAP_HEIGHT is not defined in "msxgl_config.h"! Default value will be used: 24
+	#define GAMEPAWN_TILEMAP_HEIGHT		24
 #endif
 
 //=============================================================================
@@ -152,6 +242,15 @@ typedef struct
 	#define GET_BOUND_Y		GAMEPAWN_BOUND_Y
 #endif
 
+// Tile map getter macro
+#if (GAMEPAWN_USE_VRAM_COL)
+	#define GAMEPAWN_GET_TILE(X, Y)	VDP_Peek(g_ScreenLayoutLow + (Y * GAMEPAWN_TILEMAP_WIDTH) + X, g_ScreenLayoutHigh)
+#else
+	#define GAMEPAWN_GET_TILE(X, Y)	g_GamePawn_TileMap[(Y * GAMEPAWN_TILEMAP_WIDTH) + X]
+	// Tile map buffer in RAM
+	extern const u8* g_GamePawn_TileMap;
+#endif
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -185,6 +284,16 @@ void GamePawn_SetPosition(Game_Pawn* pawn, u8 x, u8 y);
 //   pawn - Address of game pawn structure to setup.
 //   id   - New action index.
 void GamePawn_SetAction(Game_Pawn* pawn, u8 id);
+
+#if (!GAMEPAWN_USE_VRAM_COL)
+// Function: GamePawn_SetTileMap
+// Set the tile map to be used for collision.
+// Available only when GAMEPAWN_USE_VRAM_COL is set to FALSE.
+//
+// Parameters:
+//   map - Pointer to RAM buffer with the tile map. Size must be GAMEPAWN_SCREEN_WIDTH * GAMEPAWN_SCREEN_HEIGHT.
+inline void GamePawn_SetTileMap(const u8* map) { g_GamePawn_TileMap = map; }
+#endif
 
 // Function: GamePawn_Update
 // Update animation of the game pawn. Must be called once a frame.
