@@ -13,6 +13,20 @@
 
 #include "core.h"
 
+//-----------------------------------------------------------------------------
+// OPTIONS VALIDATION
+//-----------------------------------------------------------------------------
+
+// ZX0_MODE
+#ifndef ZX0_MODE
+	#warning ZX0_MODE is not defined in "msxgl_config.h"! Default value will be used: ZX0_MODE_STANDARD
+	#define ZX0_MODE					ZX0_MODE_STANDARD
+#endif
+
+//-----------------------------------------------------------------------------
+// FUNCTIONS
+//-----------------------------------------------------------------------------
+
 // Function: ZX0_UnpackToRAM
 // Unpack ZX0 compressed data to a RAM buffer
 //

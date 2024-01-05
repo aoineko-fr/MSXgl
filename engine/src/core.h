@@ -26,8 +26,8 @@ typedef unsigned char				bool;	// 8 bits boolean type
 #define TRUE						1		// Value for "TRUE" boolean
 #define FALSE						0		// Value for "FALSE" boolean
 #define TOGGLE(a)					(a) = !(a)
-#define IS_TRUE(a)					((a) != 0)
-#define IS_FALSE(a)					((a) == 0)
+#define IS_TRUE(a)					((a) != FALSE)
+#define IS_FALSE(a)					((a) == FALSE)
 
 // Integer
 typedef signed char					i8;		// 8 bits signed integer type

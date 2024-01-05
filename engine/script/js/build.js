@@ -392,14 +392,14 @@ if (DoCompile)
 				for (let b = 0; b < bankAddrList.length; b++)
 				{
 					let bankAddr = bankAddrList[b];
-					if (bankAddr)
+					if (bankAddr != 0xFFFF)
 					{
 						let segPath = `${ProjSegments}_s${s}_b${b}`;
 						let segName = path.parse(segPath).name;
 						if (fs.existsSync(`${segPath}.${segExtList[e]}`))
 						{
 							let bankHex = util.getHex(bankAddr);
-							util.print(`Segment found: ${segPath}.${segExtList[e]} (addr: ${hex}${bankHex})`);
+							util.print(`Segment found: ${segPath}.${segExtList[e]} (addr: ${hex}${bankHex}h)`);
 							compiler.compile(`${ProjDir}${segPath}.${segExtList[e]}`, SegSize, `SEG${s}`);
 							MapperBanks += `-Wl-b_SEG${s}=0x${hex}${bankHex} `;
 							if (PackSegments)

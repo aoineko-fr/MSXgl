@@ -19,7 +19,7 @@ module.exports.getHex = function (a, s = 4)
 {
 	if(typeof a === 'undefined')
 		return "";
-	return (a).toString(16).toUpperCase();
+	return (a).toString(16).padStart(s, '0').toUpperCase();
 }
 
 // Determine whether the given `input` is a string.

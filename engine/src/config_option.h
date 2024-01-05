@@ -344,6 +344,13 @@
 #define PLETTER_WRITE_SAFE			0 // Safe VRAM write speed
 #define PLETTER_WRITE_QUICK			1 // No wait beetween write
 
+#define BITBUSTER_WRITE_SAFE		0 // Safe VRAM write speed (include nop between write)
+#define BITBUSTER_WRITE_QUICK		1 // No wait beetween write
+
+#define ZX0_MODE_STANDARD			0 // Standard routine: 68 bytes only
+#define ZX0_MODE_TURBO				1 // Turbo routine: 126 bytes, about 21% faster
+#define ZX0_MODE_FAST				2 // Fast routine: 187 bytes, about 25% faster
+#define ZX0_MODE_MEGA				3 // Mega routine: 673 bytes, about 28% faster
 
 //-----------------------------------------------------------------------------
 // PAC MODULE

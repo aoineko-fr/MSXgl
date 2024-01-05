@@ -220,8 +220,6 @@ else if (Target === "ROM_ASCII16")
 	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x4000;
 	Bank1Addr = 0x8000;
-	Bank2Addr = 0;
-	Bank3Addr = 0;
 
 	TargetDesc = `${ROMSize}KB ROM using ASCII-16 mapper (starting at 4000h)`;
 }
@@ -240,7 +238,6 @@ else if (Target === "ROM_KONAMI")
 	MapperSize = ROMSize*1024;
 	SegSize = 8*1024;
 	FillSize = ROMMainSegments * SegSize;
-	Bank0Addr = 0;
 	Bank1Addr = 0x6000;
 	Bank2Addr = 0x8000;
 	Bank3Addr = 0xA000;
@@ -284,12 +281,12 @@ else if (Target === "ROM_NEO8")
 	MapperSize = ROMSize*1024;
 	SegSize = 8*1024;
 	FillSize = ROMMainSegments * SegSize;
-	Bank0Addr = 0x5000;
-	Bank1Addr = 0x5800;
-	Bank2Addr = 0x6000;
+	Bank0Addr = 0x0000;
+	Bank1Addr = 0x2000;
+	Bank2Addr = 0x4000;
 	Bank3Addr = 0x6800;
-	Bank4Addr = 0x7000;
-	Bank5Addr = 0x7800;
+	Bank4Addr = 0x8000;
+	Bank5Addr = 0xA000;
 
 	TargetDesc = `${ROMSize/1024}MB ROM using NEO-8 mapper (starting at 4000h)`;
 }
@@ -308,9 +305,9 @@ else if (Target === "ROM_NEO16")
 	MapperSize = ROMSize*1024;
 	SegSize = 16*1024;
 	FillSize = ROMMainSegments * SegSize;
-	Bank0Addr = 0x5000;
-	Bank1Addr = 0x6000;
-	Bank2Addr = 0x7000;
+	Bank0Addr = 0x0000;
+	Bank1Addr = 0x4000;
+	Bank2Addr = 0x8000;
 
 	TargetDesc = `${ROMSize/1024}MB ROM using NEO-16 mapper (starting at 4000h)`;
 }
@@ -374,8 +371,6 @@ else if (Target === "DOS2_MAPPER")
 	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x4000;
 	Bank1Addr = 0x8000;
-	Bank2Addr = 0;
-	Bank3Addr = 0;
 
 	TargetDesc = "MSX-DOS 2 launcher to RAM mapper (program starting at 4000h)";
 }

@@ -57,14 +57,12 @@ global.ROMWithISR = false;
 global.Mapper = "";
 global.MapperSize = 0;
 global.SegSize = 0;
-global.Bank0Addr = 0;
-global.Bank1Addr = 0;
-global.Bank2Addr = 0;
-global.Bank3Addr = 0;
-global.Bank4Addr = 0;
-global.Bank5Addr = 0;
-global.Bank6Addr = 0;
-global.Bank7Addr = 0;
+global.Bank0Addr = 0xFFFF;
+global.Bank1Addr = 0xFFFF;
+global.Bank2Addr = 0xFFFF;
+global.Bank3Addr = 0xFFFF;
+global.Bank4Addr = 0xFFFF;
+global.Bank5Addr = 0xFFFF;
 
 // Basic values
 global.DOS = 0;

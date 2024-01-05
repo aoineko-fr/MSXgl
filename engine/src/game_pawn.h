@@ -291,7 +291,7 @@ void GamePawn_SetAction(Game_Pawn* pawn, u8 id);
 // Available only when GAMEPAWN_USE_VRAM_COL is set to FALSE.
 //
 // Parameters:
-//   map - Pointer to RAM buffer with the tile map. Size must be GAMEPAWN_SCREEN_WIDTH * GAMEPAWN_SCREEN_HEIGHT.
+//   map - Pointer to RAM buffer with the tile map. Size must be GAMEPAWN_TILEMAP_WIDTH * GAMEPAWN_TILEMAP_HEIGHT.
 inline void GamePawn_SetTileMap(const u8* map) { g_GamePawn_TileMap = map; }
 #endif
 

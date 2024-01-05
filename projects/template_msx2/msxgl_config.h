@@ -445,6 +445,14 @@
 // - BITBUSTER_WRITE_QUICK ........ No wait beetween write
 #define BITBUSTER_WRITE_MODE		BITBUSTER_WRITE_SAFE
 
+// ZX0 compression
+// Unpack mode
+// - ZX0_MODE_STANDARD ............ Standard routine: 68 bytes only
+// - ZX0_MODE_TURBO ............... Turbo routine: 126 bytes, about 21% faster
+// - ZX0_MODE_FAST ................ Fast routine: 187 bytes, about 25% faster
+// - ZX0_MODE_MEGA ................ Mega routine: 673 bytes, about 28% faster
+#define ZX0_MODE					ZX0_MODE_STANDARD
+
 // MSXi compressor support
 #define MSXi_USE_COMP_NONE			TRUE
 #define MSXi_USE_COMP_CROP16		TRUE
