@@ -120,19 +120,17 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulMSXAudio) { EmulatorArgs += " -ext audio"; }
 	if (EmulOPL4)     { EmulatorArgs += " -ext moonsound"; }
 	if (EmulPSG2)     { EmulatorArgs += " -ext 2nd_PSG"; }
-	if (EmulV9990)    { EmulatorArgs += " -ext gfx9000"; }
+	if (EmulV9990)    { EmulatorArgs += ' -ext gfx9000 -command "set videosource GFX9000"'; }
 
 	//---- Emulator conenctors ----
 	if (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -command "plug joyporta joystick1"'; }
 	if (EmulPortA === "KEYBOARD") { EmulatorArgs += ' -command "plug joyporta keyjoystick1"'; }
 	if (EmulPortA === "MOUSE")    { EmulatorArgs += ' -command "plug joyporta mouse"'; }
-	// if (EmulPortA === "NINJATAP") { EmulatorArgs += ' -command "plug joyporta ninjatap" -command "plug ninjatap_port_1 keyjoystick1"'; }
 	if (EmulPortA === "NINJATAP") { EmulatorArgs += ' -command "plug joyporta ninjatap"'; }
 	if (EmulPortB === "JOYSTICK") { EmulatorArgs += ' -command "plug joyportb joystick1"'; }
 	if (EmulPortB === "KEYBOARD") { EmulatorArgs += ' -command "plug joyportb keyjoystick2"'; }
 	if (EmulPortB === "MOUSE")    { EmulatorArgs += ' -command "plug joyportb mouse"'; }
 	if (EmulPortB === "NINJATAP") { EmulatorArgs += ' -command "plug joyportb ninjatap"'; }
-	// if (EmulPortB === "NINJATAP") { EmulatorArgs += ' -command "plug joyportb ninjatap" -command "plug ninjatap_port_1 keyjoystick1"'; }
 
 	//---- Start emulator ----
 	EmulatorArgs += " -ext debugdevice";
