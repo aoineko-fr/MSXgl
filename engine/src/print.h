@@ -8,8 +8,8 @@
 #pragma once
 
 #include "core.h"
-#include "vdp.h"
 #include "string.h"
+#include "vdp.h"
 
 //-----------------------------------------------------------------------------
 // DEFINES

@@ -359,6 +359,9 @@ global.EmulMute = false;
 //-- Start emulator debugger with program launch (boolean)
 global.EmulDebug = false;
 
+//-- Start emulator in turbo mode (boolean)
+global.EmulTurbo = false;
+
 //-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific
 global.EmulExtraParam = "";
 

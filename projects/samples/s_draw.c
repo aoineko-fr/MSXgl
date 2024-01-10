@@ -264,7 +264,7 @@ void DisplayPage()
 		u16 startX = src->Width - (128 + 1);
 		u16 x = startX;
 		u16 y = PAL_POS_Y;
-		Draw_FillBox(x - 1, PAL_POS_Y - 1, (u8)(x + 128), PAL_POS_Y + 8, 0xFF, 0);
+		Draw_FillBox(x - 1, (u8)(PAL_POS_Y - 1), (u8)(x + 128), (u8)(PAL_POS_Y + 8), 0xFF, 0);
 		for(u16 j = 0; j < 4; ++j)
 		{
 			x = startX;
@@ -279,11 +279,11 @@ void DisplayPage()
 	else
 	{
 		u16 x = src->Width - (palWidth * colNum + 1);
-		Draw_FillBox(x - 1, PAL_POS_Y - 1, x + (palWidth * colNum), PAL_POS_Y + 8, 0xFF, 0);
+		Draw_FillBox(x - 1, (u8)(PAL_POS_Y - 1), x + (palWidth * colNum), (u8)(PAL_POS_Y + 8), 0xFF, 0);
 		loop(i, colNum)
 		{
 			u8 col = (src->BPC == 4) ? COLOR_MERGE2(i) : COLOR_MERGE4(i);
-			Draw_FillBox(x, PAL_POS_Y, x + palWidth - 1, PAL_POS_Y + 7, col, 0);
+			Draw_FillBox(x, PAL_POS_Y, x + palWidth - 1, (u8)(PAL_POS_Y + 7), col, 0);
 			x += palWidth;
 		}
 	}

@@ -6,11 +6,8 @@
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 #include "core.h"
-#include "bios_mainrom.h"
-#include "vdp.h"
 #include "print.h"
-#include "memory.h"
-#include "math.h"
+#include "bios_mainrom.h"
 
 //-----------------------------------------------------------------------------
 //

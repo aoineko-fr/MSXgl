@@ -10,7 +10,6 @@
 #include "core.h"
 #include "system_port.h"
 #include "input.h"
-#include "memory.h"
 #include "bios_var.h"
 
 #define PSG_REG_IO_PORT_A	14

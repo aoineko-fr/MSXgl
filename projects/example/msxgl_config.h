@@ -153,6 +153,15 @@
 #define DOS_USE_VALIDATOR			TRUE	// Add support for last error backup and return value validation
 
 //-----------------------------------------------------------------------------
+// CLOCK MODULE
+//-----------------------------------------------------------------------------
+
+#define RTC_USE_CLOCK				TRUE	// Add functions to handle date and time
+#define RTC_USE_CLOCK_EXTRA			TRUE	// Add extra date and time functions that require additional data
+#define RTC_USE_SAVEDATA			TRUE	// Add functions to read/write into the CMOS 
+#define RTC_USE_SAVESIGNED			TRUE	// Add signature handling to validate CMOS I/O
+
+//-----------------------------------------------------------------------------
 // DRAW MODULE
 //-----------------------------------------------------------------------------
 

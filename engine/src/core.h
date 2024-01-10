@@ -10,7 +10,7 @@
 // Library version
 #define VERSION_MAJOR				(u16)0		// 4-bits (0-15)
 #define VERSION_MINOR				(u16)12		// 6-bits (0-63)
-#define VERSION_PATCH				(u16)3		// 6-bits (0-63)
+#define VERSION_PATCH				(u16)5		// 6-bits (0-63)
 #define VERSION(a, b, c)			((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT				VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 
@@ -25,9 +25,10 @@
 typedef unsigned char				bool;	// 8 bits boolean type
 #define TRUE						1		// Value for "TRUE" boolean
 #define FALSE						0		// Value for "FALSE" boolean
-#define TOGGLE(a)					(a) = !(a)
-#define IS_TRUE(a)					((a) != FALSE)
-#define IS_FALSE(a)					((a) == FALSE)
+
+#define TOGGLE(a)					(a) = !(a)     // Toggle boolean value
+#define IS_TRUE(a)					((a) != FALSE) // Check if boolean is TRUE
+#define IS_FALSE(a)					((a) == FALSE) // Check if boolean is FALSE
 
 // Integer
 typedef signed char					i8;		// 8 bits signed integer type
@@ -177,9 +178,9 @@ typedef void (*callback)(void);				// Callback default signature
 #define BIT_14						0x4000
 #define BIT_15						0x8000	// 16 bits MSB
 
-#define BIT_SET(val, bit)	val |=  (1 << bit)  	// Macro to set a given bit in an integer
-#define BIT_CLR(val, bit)	val &= ~(1 << bit)  	// Macro to clear a given bit in an integer
-#define BIT_ISSET(val, bit)	(val & (1 << bit) != 0)	// Macro to tell if a given bit is set or not
+#define BIT_SET(val, bit)			val |=  (1 << bit)  	// Macro to set a given bit in an integer
+#define BIT_CLR(val, bit)			val &= ~(1 << bit)  	// Macro to clear a given bit in an integer
+#define BIT_ISSET(val, bit)			(val & (1 << bit) != 0)	// Macro to tell if a given bit is set or not
 
 //-----------------------------------------------------------------------------
 // Misc.

@@ -398,7 +398,7 @@ void InitPlayer(struct Character* ply, u8 id)
 	if(id == 0)
 	{
 		GamePawn_Initialize(pawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
-		GamePawn_SetPosition(pawn, 255 - 16 - 16, 128);
+		GamePawn_SetPosition(pawn, (u8)(255 - 16 - 16), 128);
 		GamePawn_InitializePhysics(pawn, PhysicsEventPlayer1, PhysicsCollision, 16, 16);
 		ply->Position.x = PX_TO_Q10_6(255 - 16 - 16);
 		ply->Position.y = PX_TO_Q10_6(128);

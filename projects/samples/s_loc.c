@@ -182,22 +182,22 @@ void DisplayFont()
 
 //-----------------------------------------------------------------------------
 // 
-void DisplayARB()
-{
-	SetLanguage(LANG_AR);
+// void DisplayARB()
+// {
+// 	SetLanguage(LANG_AR);
 
-	DisplayHeader();
+// 	DisplayHeader();
 
-	Print_DrawTextAlignAt(31,  4, Loc_GetText(TEXT_SAMPLE_1), PRINT_ALIGN_RIGHT);
-	Print_DrawTextAlignAt(31,  5, Loc_GetText(TEXT_SAMPLE_2), PRINT_ALIGN_RIGHT);
-	Print_DrawTextAlignAt(31,  6, Loc_GetText(TEXT_SAMPLE_3), PRINT_ALIGN_RIGHT);
-	Print_DrawTextAlignAt(31,  7, Loc_GetText(TEXT_SAMPLE_4), PRINT_ALIGN_RIGHT);
-	Print_DrawTextAlignAt(31,  8, Loc_GetText(TEXT_SAMPLE_5), PRINT_ALIGN_RIGHT);
-	Print_DrawTextAlignAt(31,  9, Loc_GetText(TEXT_SAMPLE_6), PRINT_ALIGN_RIGHT);
-	Print_DrawTextAlignAt(31, 10, Loc_GetText(TEXT_SAMPLE_7), PRINT_ALIGN_RIGHT);
+// 	Print_DrawTextAlignAt(31,  4, Loc_GetText(TEXT_SAMPLE_1), PRINT_ALIGN_RIGHT);
+// 	Print_DrawTextAlignAt(31,  5, Loc_GetText(TEXT_SAMPLE_2), PRINT_ALIGN_RIGHT);
+// 	Print_DrawTextAlignAt(31,  6, Loc_GetText(TEXT_SAMPLE_3), PRINT_ALIGN_RIGHT);
+// 	Print_DrawTextAlignAt(31,  7, Loc_GetText(TEXT_SAMPLE_4), PRINT_ALIGN_RIGHT);
+// 	Print_DrawTextAlignAt(31,  8, Loc_GetText(TEXT_SAMPLE_5), PRINT_ALIGN_RIGHT);
+// 	Print_DrawTextAlignAt(31,  9, Loc_GetText(TEXT_SAMPLE_6), PRINT_ALIGN_RIGHT);
+// 	Print_DrawTextAlignAt(31, 10, Loc_GetText(TEXT_SAMPLE_7), PRINT_ALIGN_RIGHT);
 
-	DisplayFooter();
-}
+// 	DisplayFooter();
+// }
 
 //-----------------------------------------------------------------------------
 // 
@@ -265,10 +265,11 @@ void main()
 {
 	// Initialize the localization module
 	Loc_Initialize(g_LocData, TEXT_MAX);
-	SetLanguage(LANG_AR);
+	SetLanguage(LANG_JA);
 
 	// Render the page information
-	g_Display = DisplayARB;//DisplayFont;
+	// g_Display = DisplayARB;
+	g_Display = DisplayFont;
 	g_Display();
 
 	// Main loop

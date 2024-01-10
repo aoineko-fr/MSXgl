@@ -76,6 +76,7 @@ if (EmulatorName === "OPENMSX") {
 	}
 	if (EmulFullScreen) { EmulatorArgs += ' -command "set fullscreen on"'; }
 	if (EmulMute)       { EmulatorArgs += ' -command "set mute on"'; }
+	if (EmulTurbo)		{ EmulatorArgs += ' -command "set fastforward true"'; }		
 
 	//---- Handle extension ----
 	let EmulExtCount = 0;
@@ -177,6 +178,7 @@ else if (EmulatorName === "EMULICIOUS") {
 	}
 	if (EmulFullScreen) { EmulatorArgs += " -fullscreen"; }
 	if (EmulMute)       { EmulatorArgs += " -muted"; }
+	if (EmulTurbo)		{ EmulatorArgs += " -throttle 1000"; }
 
 	//---- Emulator extensions ----
 	if (EmulSCC)      { EmulatorArgs += " -set MSXSCCCartridgeEnabled=true"; }

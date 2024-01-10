@@ -160,7 +160,7 @@ void GamePawn_Update(Game_Pawn* pawn)
 					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_DOWN, 0);
 				#endif
 				#if (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_DOWN)
-					targetY = GAMEPAWN_BORDER_MAX_Y - GET_BOUND_Y;
+					targetY = (u8)(GAMEPAWN_BORDER_MAX_Y - GET_BOUND_Y);
 				#endif
 			}
 			else
@@ -347,7 +347,7 @@ skipVertival:
 					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_RIGHT, 0);
 				#endif
 				#if (GAMEPAWN_BORDER_BLOCK & GAMEPAWN_BORDER_RIGHT)
-					targetX = 0 - GET_BOUND_X;
+					targetX = (u8)(0 - GET_BOUND_X);
 				#endif
 			}
 			else

@@ -242,6 +242,7 @@ Emul60Hz       = false;				//-- Force the emulated machine to be at 60 Hz (boole
 EmulFullScreen = false;				//-- Force the emulator to start in fullscreen mode (boolean)
 EmulMute       = false;				//-- Disable emulator sound (boolean)
 EmulDebug      = false;				//-- Start emulator debugger with program launch (boolean)
+EmulTurbo      = false;				//-- Start emulator in turbo mode (boolean)
 
 //-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific
 EmulExtraParam = "";

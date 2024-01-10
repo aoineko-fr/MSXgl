@@ -149,7 +149,7 @@ void PrintHeader()
 	Print_SetColor(g_Modes[g_ModeIndex].ColorText, g_Modes[g_ModeIndex].ColorBG);
 	Print_SetFont(g_Modes[g_ModeIndex].Font);
 	Print_SetPosition(0, 0);
-	Print_DrawText("MGL - PRINT SAMPLE (");
+	Print_DrawText("MSXgl - Print sample (");
 	Print_DrawText(g_Modes[g_ModeIndex].Name);
 	Print_DrawText(")\n");
 	Draw_LineH(0, g_PrintData.ScreenWidth - 1, 12, 0xFF, 0);
