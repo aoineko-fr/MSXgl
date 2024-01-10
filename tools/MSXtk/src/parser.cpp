@@ -1186,9 +1186,9 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 		{
 			// Build data
 			std::vector<u8> bytes;
-			for (i32 i = 0; i < (i32)chunkList.size(); i++)
+			for (u64 i = 0; i < chunkList.size(); i++)
 			{
-				for (i32 j = 0; j < 8; j++)
+				for (u64 j = 0; j < 8; j++)
 				{
 					if ((i == chunkList.size() - 1) && (j >= chunkList[i].Chunks.size())) // skip last empty chunk
 						continue;
@@ -1209,9 +1209,9 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 		}
 		else
 		{
-			for (i32 i = 0; i < (i32)chunkList.size(); i++) // group
+			for (u64 i = 0; i < chunkList.size(); i++) // group
 			{
-				for (i32 j = 0; j < 8; j++) // chunk
+				for (u64 j = 0; j < 8; j++) // chunk
 				{
 					if ((i == chunkList.size() - 1) && (j >= chunkList[i].Chunks.size()))
 						continue;

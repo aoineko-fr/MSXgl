@@ -4,13 +4,16 @@
   XL2S Entertainment
 */
 
+#ifdef _MSC_VER
 #pragma warning(disable: 4996)
+#endif
 
 #include <stdlib.h>
 #include <string>
 #include <iostream>
 #include <cstring>
 #include <vector>
+#include <climits>
 
 using namespace std;
 
@@ -182,7 +185,7 @@ void createmetadata()
 		last[inData[i] + inData[i + 1] * 256] = i;
 	}
 	unsigned r = -1, t = 0;
-	for (i = inLength - 1; i != -1; --i)
+	for (i = inLength - 1; i != UINT_MAX; --i)
 		if (inData[i] == r)
 			metaData[i].reeks = ++t;
 		else
@@ -202,7 +205,7 @@ void createmetadata()
 				metaData[i].cpos[bl] = metaData[i].cpos[bl - 1];
 				p = i - metaData[i].cpos[bl];
 			}
-			while ((p = prev[p]) != -1)
+			while ((p = prev[p]) != UINT_MAX)
 			{
 				if (i - p > maxlen[bl])
 					break;
@@ -236,7 +239,7 @@ int getlen(pakdata* p, unsigned q)
 {
 	unsigned i, j, cc, ccc, kc, kmode, kl;
 	p[inLength].cost = 0;
-	for (i = inLength - 1; i != -1; --i)
+	for (i = inLength - 1; i != UINT_MAX; --i)
 	{
 		kmode = 0;
 		kl = 0;
