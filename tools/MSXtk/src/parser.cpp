@@ -1217,7 +1217,7 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 						continue;
 
 					// Print sprite header
-					exp->WriteSpriteHeader(i * 8 + j + param->offset);
+					exp->WriteSpriteHeader((i32)(i * 8 + j + param->offset));
 					for (i32 k = 0; k < 8; k++) // line
 					{
 						exp->WriteLineBegin();

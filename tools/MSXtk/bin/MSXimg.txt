@@ -2,7 +2,7 @@ MSXimg (v1.16.5)
 Usage: MSXimg <filename> [options]
 
 Options:
- inputFile        Inuput file name. Can be 8/16/24/32 bits image
+ inputFile        Input file name. Can be 8/16/24/32 bits image
                   Supported format: BMP, JPEG, PCX, PNG, TGA, PSD, GIF, etc.
  -out outFile     Output file name
  -format ?        Output format
