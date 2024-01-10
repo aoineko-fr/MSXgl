@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.5";
+const char* VERSION = "0.1.6";
 
 #define BUFFER_SIZE 1024
 
@@ -170,10 +170,6 @@ u32 GetValue(std::string name)
 // 
 bool WriteBytes(u32 addr, std::vector<u8> data)
 {
-	//static int a = 0;
-	//if (addr == 0x22000) //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//	a++;
-
 	// Check starting address
 	if (addr < g_StartAddress)
 	{
@@ -221,9 +217,6 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 	u32 offset = offsetStart;
 	for (u8 i = 0; i < data.size(); i++)
 	{
-		//if (offset == 0x4000) //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		//	a++;
-
 		if (g_BinCheck[offset])
 		{
 			printf("Error: Data overwrite at offset %08Xh! (Address=%08Xh)\n", offset, addr);
@@ -245,12 +238,18 @@ int SaveBinary(std::string outFile)
 {
 	if (g_Verbose)
 	{
+		u32 size = 0;
 		printf("Saving %s...\n", outFile.c_str());
 		for (u16 i = 0; i < g_SegmentInfo.size(); i++)
 		{
-			if(g_SegmentInfo[i].Size > 0)
-				printf(" Seg[%03i]: Lower=%04Xh Higher=%04Xh Size=%i (Holes=%i)\n", i, g_SegmentInfo[i].Lower, g_SegmentInfo[i].Higher, g_SegmentInfo[i].Higher - g_SegmentInfo[i].Lower + 1, (g_SegmentInfo[i].Higher - g_SegmentInfo[i].Lower + 1) - g_SegmentInfo[i].Size);
+			if (g_SegmentInfo[i].Size > 0)
+			{
+				printf(" Seg[%04i]: Lower=%04Xh Higher=%04Xh Size=%i (Holes=%i)\n", i, g_SegmentInfo[i].Lower, g_SegmentInfo[i].Higher, g_SegmentInfo[i].Higher - g_SegmentInfo[i].Lower + 1, (g_SegmentInfo[i].Higher - g_SegmentInfo[i].Lower + 1) - g_SegmentInfo[i].Size);
+				size += g_SegmentInfo[i].Higher - g_SegmentInfo[i].Lower + 1;
+			}
 		}
+		if(g_SegmentInfo.size() > 1)
+			printf(" Total size: %i\n", size);
 	}
 
 	// Pad to desired size
@@ -360,12 +359,12 @@ int ParseHex(std::string inFile)
 			free(binData);
 			return SaveBinary(g_OutputFile);
 		case Type_ExtendedSegmentAddress:
-			baseAddr = ((rec.Data[0] << 8) + rec.Data[1]) << 4;
+			baseAddr = (rec.Data[0] << 12) + (rec.Data[1] << 4);
 			break;
 		case Type_StartSegmentAddress:
 			break;
 		case Type_ExtendedLinearAddress:
-			baseAddr = ((rec.Data[0] << 8) + rec.Data[1]) << 16;
+			baseAddr = (rec.Data[0] << 24) + (rec.Data[1] << 16);
 			break;
 		case Type_StartLinearAddress:
 			break;
@@ -406,7 +405,7 @@ void PrintHelp()
 }
 
 //-----------------------------------------------------------------------------
-//const char* ARGV[] = { "", "../testcases/s_target_ROM_NEO8_8M.ihx", "-e", "rom", "-s", "0x0", "-l", "8M", "-b", "8K", "-p", "0xFF" };
+//const char* ARGV[] = { "", "../testcases/s_neo8.ihx", "-e", "rom", "-s", "0x0", "-l", "8M", "-b", "8K", "-p", "0xFF" };
 //#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
