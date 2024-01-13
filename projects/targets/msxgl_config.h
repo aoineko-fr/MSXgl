@@ -33,16 +33,16 @@
 // TARGET is defined by the build tool
 
 // MSX version
-// - MSX_1 ........................ MSX 1
-// - MSX_2 ........................ MSX 2
-// - MSX_12 ....................... MSX 1 and 2 (support each)
-// - MSX_2K ....................... Korean MSX 2 (SC9 support)
-// - MSX_2P ....................... MSX 2+
-// - MSX_22P ...................... MSX 2 and 2+ (support each)
-// - MSX_122P ..................... MSX 1, 2 and 2+ (support each)
-// - MSX_0 ........................ MSX 0 (MSX 2+)
+// - MSX_1 ........................ MSX1
+// - MSX_2 ........................ MSX2
+// - MSX_12 ....................... MSX1 and 2 (support each)
+// - MSX_2K ....................... Korean MSX2 (SC9 support)
+// - MSX_2P ....................... MSX2+
+// - MSX_22P ...................... MSX2 and 2+ (support each)
+// - MSX_122P ..................... MSX1, 2 and 2+ (support each)
+// - MSX_0 ........................ MSX0 (MSX2+)
 // - MSX_TR ....................... MSX turbo R
-// - MSX_3 ........................ MSX 3
+// - MSX_3 ........................ MSX3
 // MSX_VERSION is defined by the build tool
 
 //-----------------------------------------------------------------------------
@@ -60,7 +60,7 @@
 #define BIOS_USE_MAINROM			TRUE	// Allow use of Main-ROM routines
 #define BIOS_USE_VDP				FALSE	// Give access to Main-ROM routines related to VDP
 #define BIOS_USE_PSG				FALSE	// Give access to Main-ROM routines related to PSG
-#define BIOS_USE_SUBROM				FALSE	// Allow use of Sub-ROM routines (MSX 2/2+/turbo R)
+#define BIOS_USE_SUBROM				FALSE	// Allow use of Sub-ROM routines (MSX2/2+/turbo R)
 #define BIOS_USE_DISKROM			FALSE	// Allow use of Disk-ROM routines
 
 //-----------------------------------------------------------------------------
@@ -68,8 +68,8 @@
 //-----------------------------------------------------------------------------
 
 // VRAM addressing unit
-// - VDP_VRAM_ADDR_14 ............. Use 14-bits 16K VRAM addressing for MSX 1 (u16)
-// - VDP_VRAM_ADDR_17 ............. Use 17-bits 128K VRAM addressing for MSX 2/2+/turbo R (u32)
+// - VDP_VRAM_ADDR_14 ............. Use 14-bits 16K VRAM addressing for MSX1 (u16)
+// - VDP_VRAM_ADDR_17 ............. Use 17-bits 128K VRAM addressing for MSX2/2+/turbo R (u32)
 #define VDP_VRAM_ADDR				VDP_VRAM_ADDR_14
 
 // VDP X/Y units
@@ -98,8 +98,8 @@
 #define VDP_AUTO_INIT				TRUE	// Call VDP_Initialize() at the first call to VDP_SetMode()
 #define VDP_USE_UNDOCUMENTED		FALSE	// Allow the use of undocumented screen mode (WIP)
 #define VDP_USE_VALIDATOR			TRUE	// Handle some option specific for each VDP mode (highly recommended)
-#define VDP_USE_DEFAULT_PALETTE		FALSE	// Add data for default MSX 2 palette
-#define VDP_USE_MSX1_PALETTE		FALSE	// Add data for default MSX 1 palette
+#define VDP_USE_DEFAULT_PALETTE		FALSE	// Add data for default MSX2 palette
+#define VDP_USE_MSX1_PALETTE		FALSE	// Add data for default MSX1 palette
 #define VDP_USE_DEFAULT_SETTINGS	TRUE	// Auto-initialization of common VDP feature
 #define VDP_USE_16X16_SPRITE		FALSE	// Use 16x16 sprites mode
 #define VDP_USE_RESTORE_S0			TRUE	// Do restore of status register pointer to S#0 (needed onlt for default BIOS ISR)

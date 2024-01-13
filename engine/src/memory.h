@@ -37,13 +37,7 @@ struct MemChunkHeader
 //
 // Return:
 //   Current stack bottom address
-inline u16 Mem_GetStackAddress()
-{
-	__asm
-		ld		(_g_StackAddress), sp
-		ld		de, (_g_StackAddress)
-	__endasm;
-}
+u16 Mem_GetStackAddress();
 
 // Function: Mem_GetHeapAddress
 // Get the current address of the heap top (higher addresse).

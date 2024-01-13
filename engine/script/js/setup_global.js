@@ -174,16 +174,16 @@ global.LibModules = [];
 global.AddSources = [];
 
 //-- Target MSX machine version (string)
-//   - 1        MSX 1
-//   - 2        MSX 2
-//   - 12       MSX 1 and 2 (multi support)
-//   - 2K       Korean MSX 2 (SC9 support)
-//   - 2P       MSX 2+
-//   - 22P      MSX 2 and 2+ (multi support)
-//   - 122P     MSX 1, 2 and 2+ (multi support)
-//   - 0        MSX 0
+//   - 1        MSX1
+//   - 2        MSX2
+//   - 12       MSX1 and 2 (multi support)
+//   - 2K       Korean MSX2 (SC9 support)
+//   - 2P       MSX2+
+//   - 22P      MSX2 and 2+ (multi support)
+//   - 122P     MSX1, 2 and 2+ (multi support)
+//   - 0        MSX0
 //   - TR       MSX turbo R
-//   - 3        MSX 3 (reserved)
+//   - 3        MSX3 (reserved)
 global.Machine = "1";
 
 //-- Target program format (string)

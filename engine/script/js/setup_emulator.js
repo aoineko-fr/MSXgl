@@ -178,7 +178,7 @@ else if (EmulatorName === "EMULICIOUS") {
 	}
 	if (EmulFullScreen) { EmulatorArgs += " -fullscreen"; }
 	if (EmulMute)       { EmulatorArgs += " -muted"; }
-	if (EmulTurbo)		{ EmulatorArgs += " -throttle 1000"; }
+	if (EmulTurbo)		{ EmulatorArgs += " -turbo"; }
 
 	//---- Emulator extensions ----
 	if (EmulSCC)      { EmulatorArgs += " -set MSXSCCCartridgeEnabled=true"; }

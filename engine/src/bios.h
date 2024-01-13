@@ -11,7 +11,7 @@
 // - MSX2 Technical Handbook
 // - http://map.grauw.nl/resources/msxbios.php
 // - https://www.msx.org/wiki/Main-ROM_BIOS
-// - Pratique du MSX 2
+// - Pratique du MSX2
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
@@ -67,9 +67,9 @@ inline void Bios_SetKeyClick(bool enable) { g_CLIKSW = enable; }
 // Get MSX generation version
 //
 // Return:
-// - MSXVER_1 (0) for MSX 1.
-// - MSXVER_2 (1) for MSX 2.
-// - MSXVER_2P (2) for MSX 2+.
+// - MSXVER_1 (0) for MSX1.
+// - MSXVER_2 (1) for MSX2.
+// - MSXVER_2P (2) for MSX2+.
 // - MSXVER_TR (3) for MSX turbo R.
 inline u8 Bios_GetMSXVersion() { return g_MSXVER; }
 
@@ -391,7 +391,7 @@ inline bool Bios_IsKeyPressed(u8 key) {	return (g_NEWKEY[KEY_ROW(key)] & (1 << K
 }*/
 
 //=============================================================================
-// MSX 2
+// MSX2
 //=============================================================================
 
 //-----------------------------------------------------------------------------
@@ -401,7 +401,7 @@ inline bool Bios_IsKeyPressed(u8 key) {	return (g_NEWKEY[KEY_ROW(key)] & (1 << K
 #endif // (MSX_VERSION >= MSX_2)
 
 //=============================================================================
-// MSX 2+
+// MSX2+
 //=============================================================================
 
 //-----------------------------------------------------------------------------

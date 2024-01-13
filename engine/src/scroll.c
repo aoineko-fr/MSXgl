@@ -159,7 +159,7 @@ void Scroll_HBlankAdjust(u8 adjust)
 		break;
 	case 1:
 		VDP_SetAdjustOffset(g_Scroll_Adjust);
-		VDP_SetHBlankLine((SCROLL_DST_Y + SCROLL_DST_H) * 8 - 4);
+		VDP_SetHBlankLine((u8)((SCROLL_DST_Y + SCROLL_DST_H) * 8 - 4));
 		break;
 	default:
 		VDP_SetAdjustOffset(0);

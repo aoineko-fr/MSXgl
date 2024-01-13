@@ -11,7 +11,7 @@
 // - MSX2 Technical Handbook
 // - http://map.grauw.nl/resources/msxbios.php
 // - https://www.msx.org/wiki/Main-ROM_BIOS
-// - Pratique du MSX 2
+// - Pratique du MSX2
 //─────────────────────────────────────────────────────────────────────────────
 #include "bios.h"
 #include "dos.h"
@@ -1349,7 +1349,7 @@ __endasm
 
 //=============================================================================
 //
-// MSX 2
+// MSX2
 //
 //=============================================================================
 #if (MSX_VERSION >= MSX_2)
@@ -1440,7 +1440,7 @@ __endasm
 
 //=============================================================================
 //
-// MSX 2+
+// MSX2+
 //
 //=============================================================================
 #if (MSX_VERSION >= MSX_2P)
@@ -1458,7 +1458,7 @@ __endasm
 // Address  : #017D
 // Function : Writes value to I/O port #F4
 // Input    : A = value to write
-//            When bit 7 is reset it shows the MSX 2+ startup screen on boot,
+//            When bit 7 is reset it shows the MSX2+ startup screen on boot,
 //            and counts and initialises the RAM.
 // Output   : None
 // Registers: None

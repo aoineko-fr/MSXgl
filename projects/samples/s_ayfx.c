@@ -361,7 +361,7 @@ void PrintHelp(u8 y, const c8* str)
 // Program entry point
 void main()
 {
-	// Initialize screen mode 5 (MSX 2)
+	// Initialize screen mode 5 (MSX2)
 	VDP_SetMode(VDP_MODE_SCREEN5);
 	VDP_EnableSprite(FALSE);
 	VDP_SetColor(0x4);

@@ -11,7 +11,7 @@
 // - MSX2 Technical Handbook
 // - http://map.grauw.nl/resources/msxbios.php
 // - https://www.msx.org/wiki/Main-ROM_BIOS
-// - Pratique du MSX 2
+// - Pratique du MSX2
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
@@ -87,9 +87,9 @@ struct BasicROMVersion
 const struct BasicROMVersion __at(R_BASRVN) g_ROMVersion;
 
 #define R_MSXVER	0x002D // MSX version number
-#define MSXVER_1	0 // MSX 1
-#define MSXVER_2	1 // MSX 2
-#define MSXVER_2P	2 // MSX 2+
+#define MSXVER_1	0 // MSX1
+#define MSXVER_2	1 // MSX2
+#define MSXVER_2P	2 // MSX2+
 #define MSXVER_TR	3 // MSX turbo R
 const u8 __at(R_MSXVER) g_MSXVER;
 
@@ -267,7 +267,7 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 #define R_CALBAS	0x0159 // Executes inter-slot call to the routine in BASIC interpreter
 
 //=============================================================================
-// MSX 2
+// MSX2
 //=============================================================================
 #if (MSX_VERSION >= MSX_2)
 
@@ -285,7 +285,7 @@ const u16 __at(R_CHAR_16) g_CHAR_16[2];
 #endif // (MSX_VERSION >= MSX_2)
 
 //=============================================================================
-// MSX 2+
+// MSX2+
 //=============================================================================
 #if (MSX_VERSION >= MSX_2P)
 

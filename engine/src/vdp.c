@@ -1500,7 +1500,7 @@ void VDP_SetMode(const u8 mode)
 	switch(mode)
 	{
 //.............................................................................
-// MSX 1
+// MSX1
 #if (VDP_USE_MODE_T1)
 	// case VDP_MODE_SCREEN0:
 	// case VDP_MODE_SCREEN0_W40:
@@ -1523,7 +1523,7 @@ void VDP_SetMode(const u8 mode)
 #endif
 
 //.............................................................................
-// MSX 2
+// MSX2
 #if (MSX_VERSION >= MSX_2)
 
 #if (VDP_USE_MODE_T2)
@@ -1583,7 +1583,7 @@ void VDP_SetMode(const u8 mode)
 #endif // (MSX_VERSION >= MSX_2)
 
 //.............................................................................
-// MSX 2+
+// MSX2+
 #if ((MSX_VERSION >= MSX_2P) && (VDP_USE_MODE_G7))
 	case VDP_MODE_SCREEN10:
 	case VDP_MODE_SCREEN11:

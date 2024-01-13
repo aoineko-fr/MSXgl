@@ -4,7 +4,7 @@
 #include "core.h"
 #include "color.h"
 
-// Default MSX 1 (TMS9918) palette
+// Default MSX1 (TMS9918) palette
 const u16 g_PaletteMSX1[] =
 {
 #if (VDP_USE_PALETTE16)

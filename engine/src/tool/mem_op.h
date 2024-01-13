@@ -15,14 +15,18 @@
 // FUNCTIONS
 //=============================================================================
 
-// Left-shift a memory buffer
+// Function: Mem_LShift
+// Left-shift all bytes in a memory buffer
 void Mem_LShift(const u8* ptr, u16 size);
 
-// Right-shift a memory buffer
+// Function: Mem_RShift
+// Right-shift all bytes in a memory buffer
 void Mem_RShift(const u8* ptr, u16 size);
 
-// Increment a memory buffer
+// Function: Mem_Inc
+// Increment all bytes in a memory buffer
 void Mem_Inc(const u8* ptr, u16 size);
 
-// Decrement a memory buffer
+// Function: Mem_Dec
+// Decrement all bytes in a memory buffer
 void Mem_Dec(const u8* ptr, u16 size);

@@ -117,7 +117,6 @@ void InitScreen()
 	u16 blockWidth = src->Width / 16;
 	u16 blockBytes = 16 / 8 * src->BPC;
 	u16 lineBytes = src->Width / 8 * src->BPC;
-	u16 X, Y;
 	u8 scale = 8 / src->BPC;
 	u8 pixelWidth = src->Width / 256;
 	u8 sprtWidth = pixelWidth * 16;

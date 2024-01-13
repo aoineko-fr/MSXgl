@@ -12,11 +12,11 @@
 ::***************************************************************************
 
 :: Check MSX version
-if /I %Machine%==1			( echo » Machine: MSX 1
-) else if /I %Machine%==2	( echo » Machine: MSX 2
-) else if /I %Machine%==2P	( echo » Machine: MSX 2+
+if /I %Machine%==1			( echo » Machine: MSX1
+) else if /I %Machine%==2	( echo » Machine: MSX2
+) else if /I %Machine%==2P	( echo » Machine: MSX2+
 ) else if /I %Machine%==TR	( echo » Machine: MSX turbo R
-) else if /I %Machine%==12	( echo » Machine: MSX 1/2
+) else if /I %Machine%==12	( echo » Machine: MSX1/2
 ) else (
 	echo %RED%Error: Unknow MSX Version%RESET%
 	exit /B 10

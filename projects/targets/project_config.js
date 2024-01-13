@@ -23,11 +23,11 @@ ProjSegments = ProjName;
 LibModules = [ "system", "bios", "vdp", "print", "input", "memory" ];
 
 //-- MSX version:
-//   - 1		MSX 1
-//   - 2		MSX 2
-//   - 2P		MSX 2+
+//   - 1		MSX1
+//   - 2		MSX2
+//   - 2P		MSX2+
 //   - TR		MSX TurboR
-//   - 12		MSX 1 or 2
+//   - 12		MSX1 or 2
 Machine = "1";
 
 //-- Target:

@@ -144,7 +144,7 @@ if (fs.existsSync(`${OutDir}${LogFileName}`))
 	util.delFile(`${OutDir}${LogFileName}`);
 
 //-- Display information
-process.title = `MSXgl Build Tool – ${ProjName} – ${Target} – MSX ${Machine}`;
+process.title = `MSXgl Build Tool – ${ProjName} – ${Target} – ${util.getMachineName(Machine)}`;
 
 //-- Project specific overwrite
 util.print("╔═══════════════════════════════════════════════════════════════════════════╗", PrintBG);

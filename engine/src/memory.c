@@ -20,6 +20,16 @@ u16 g_StackAddress;
 //=============================================================================
 
 //-----------------------------------------------------------------------------
+// Get the current address of the stack top (lower address).
+u16 Mem_GetStackAddress()
+{
+	__asm
+		ld		(_g_StackAddress), sp
+		ld		de, (_g_StackAddress)
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
 // Allocate a part of the heap
 void* Mem_HeapAlloc(u16 size)
 { 

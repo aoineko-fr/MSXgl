@@ -166,3 +166,20 @@ module.exports.delFile = function (src)
 	module.exports.print(`Del ${src}`, PrintDetail);
 	fs.unlinkSync(src);
 }
+
+// 
+module.exports.getMachineName = function (machine)
+{
+	switch(Machine)
+	{
+		case "1":    return "MSX1";
+		case "2":    return "MSX2";
+		case "12":   return "MSX1, 2";
+		case "2P":   return "MSX2+";
+		case "22P":  return "MSX2, 2+";
+		case "122P": return "MSX1, 2, 2+";
+		case "0":    return "MSX0 (2+)";
+		case "TR":   return "MSX turbo R";
+	}
+	return "Unssoprted";
+}

@@ -307,9 +307,9 @@ void DisplayInfo()
 	Print_DrawText("\n- Version: ");
 	switch(g_MSXVER)
 	{
-		case 0: Print_DrawText("MSX 1"); break;
-		case 1: Print_DrawText("MSX 2"); break;
-		case 2: Print_DrawText("MSX 2+"); break;
+		case 0: Print_DrawText("MSX1"); break;
+		case 1: Print_DrawText("MSX2"); break;
+		case 2: Print_DrawText("MSX2+"); break;
 		case 3: Print_DrawText("TurboR"); break;
 		default: Print_DrawText("Unknow"); break;
 	}
@@ -412,11 +412,11 @@ void DisplayInfo()
 	Print_DrawTextAt(X, Y++, "- SDCC:     ");
 	Print_DrawVersion(SDCC_VERSION_CURRENT);
 	#if (MSX_VERSION & MSX_1)
-	Print_DrawTextAt(X, Y++, "- Target:   MSX 1");
+	Print_DrawTextAt(X, Y++, "- Target:   MSX1");
 	#elif (MSX_VERSION & MSX_2)         
-	Print_DrawTextAt(X, Y++, "- Target:   MSX 2");
+	Print_DrawTextAt(X, Y++, "- Target:   MSX2");
 	#elif (MSX_VERSION & MSX_2P)        
-	Print_DrawTextAt(X, Y++, "- Target:   MSX 2+");
+	Print_DrawTextAt(X, Y++, "- Target:   MSX2+");
 	#elif (MSX_VERSION & MSX_TR)        
 	Print_DrawTextAt(X, Y++, "- Target:   MSX TR");
 	#endif
@@ -522,7 +522,7 @@ void DisplayMem()
 	Print_DrawText("Memory\n");
 	Print_DrawFormat("- Heap:    %x\n", Mem_GetHeapAddress());
 	Print_DrawFormat("- Stack:   %x\n", Mem_GetStackAddress());
-	Print_DrawFormat("- Free:    %iB\n", Mem_GetHeapSize());
+	Print_DrawFormat("- Free:    %i bytes\n", Mem_GetHeapSize());
 
 	// Static allocator
 	Print_DrawText("\nDynamic\n");

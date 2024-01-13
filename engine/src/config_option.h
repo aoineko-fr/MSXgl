@@ -20,16 +20,16 @@
 
 //-----------------------------------------------------------------------------
 // MSX_VERSION options
-#define MSX_1						0b00000001 // MSX 1
-#define MSX_2						0b00000010 // MSX 2
-#define MSX_12						(MSX_1|MSX_2) // MSX 1 and 2 (support each)
-#define MSX_2K						0b00000100 // Korean MSX 2 (SC9 support)
-#define MSX_2P						0b00001000 // MSX 2+
-#define MSX_22P						(MSX_2|MSX_2P) // MSX 2 and 2+ (support each)
-#define MSX_122P					(MSX_1|MSX_2|MSX_2P) // MSX 1, 2 and 2+ (support each)
-#define MSX_0						MSX_2P // MSX 0 (MSX 2+)
+#define MSX_1						0b00000001 // MSX1
+#define MSX_2						0b00000010 // MSX2
+#define MSX_12						(MSX_1|MSX_2) // MSX1 and 2 (support each)
+#define MSX_2K						0b00000100 // Korean MSX2 (SC9 support)
+#define MSX_2P						0b00001000 // MSX2+
+#define MSX_22P						(MSX_2|MSX_2P) // MSX2 and 2+ (support each)
+#define MSX_122P					(MSX_1|MSX_2|MSX_2P) // MSX1, 2 and 2+ (support each)
+#define MSX_0						MSX_2P // MSX0 (MSX2+)
 #define MSX_TR						0b00010000 // MSX turbo R
-#define MSX_3						0b00100000 // MSX 3
+#define MSX_3						0b00100000 // MSX3
 
 //-----------------------------------------------------------------------------
 // TARGET_TYPE options
@@ -231,8 +231,8 @@
 //-----------------------------------------------------------------------------
 
 // VDP_VRAM options
-#define VDP_VRAM_ADDR_14			0 // Use 14-bits 16K VRAM addressing for MSX 1 (u16)
-#define VDP_VRAM_ADDR_17			1 // Use 17-bits 128K VRAM addressing for MSX 2/2+/Turbo-R (u32)
+#define VDP_VRAM_ADDR_14			0 // Use 14-bits 16K VRAM addressing for MSX1 (u16)
+#define VDP_VRAM_ADDR_17			1 // Use 17-bits 128K VRAM addressing for MSX2/2+/Turbo-R (u32)
 
 // VDP_UNIT options
 #define VDP_UNIT_U8					0 // X and Y use 8-bits values

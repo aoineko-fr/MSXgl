@@ -4,7 +4,7 @@
 #include "core.h"
 #include "color.h"
 
-// Default MSX 2 (V9938) palette
+// Default MSX2 (V9938) palette
 const u16 g_PaletteMSX2[] =
 {
 #if (VDP_USE_PALETTE16)

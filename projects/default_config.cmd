@@ -62,13 +62,13 @@ set LibModules=system,bios,vdp,print,input,memory
 set AddSources=
 
 :: MSX machine version:
-:: - 1		MSX 1
-:: - 2		MSX 2
-:: - 12		MSX 1 or 2 (dual support)
-:: - 2K		Korean MSX 2 (SC9 support)
-:: - 2P		MSX 2+
+:: - 1		MSX1
+:: - 2		MSX2
+:: - 12		MSX1 or 2 (dual support)
+:: - 2K		Korean MSX2 (SC9 support)
+:: - 2P		MSX2+
 :: - TR		MSX Turbo-R
-:: - 3		MSX 3 (reserved)
+:: - 3		MSX3 (reserved)
 set Machine=1
 
 :: Program media target:

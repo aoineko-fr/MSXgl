@@ -17,20 +17,7 @@ const util = require("./util.js");
 //***************************************************************************
 
 // Check MSX version
-switch(Machine)
-{
-	case "1":    util.print("» Machine: MSX 1"); break;
-	case "2":    util.print("» Machine: MSX 2"); break;
-	case "12":   util.print("» Machine: MSX 1, 2"); break;
-	case "2P":   util.print("» Machine: MSX 2+"); break;
-	case "22P":  util.print("» Machine: MSX 2, 2+"); break;
-	case "122P": util.print("» Machine: MSX 1, 2, 2+"); break;
-	case "0":    util.print("» Machine: MSX 0 (2+)"); break;
-	case "TR":   util.print("» Machine: MSX turbo R"); break;
-	default:
-		util.print(`Unsupported MSX Version '${Machine}'`, PrintError);
-		process.exit(10);
-}
+util.print(`» Machine: ${util.getMachineName(Machine)}`);
 
 // Check project name
 if (!ProjName)

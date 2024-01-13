@@ -1192,7 +1192,7 @@ void VDP_SetSpriteData(u8 index, const u8* data);
 
 #define VDP_SPRITE_DISABLE_SM1	208			// This sprite and all lower priority sprites will be disabled (Sprite Mode 1).
 #define VDP_SPRITE_DISABLE_SM2	216			// This sprite and all lower priority sprites will be disabled (Sprite Mode 2).
-#define VDP_SPRITE_HIDE			213			// Coordinate to hide sprite in any screen mode (work on both MSX 1 and 2).
+#define VDP_SPRITE_HIDE			213			// Coordinate to hide sprite in any screen mode (work on both MSX1 and 2).
 // Function: VDP_DisableSpritesFrom
 // Disable all sprites from a given index. [MSX1/2/2+/TR]
 //

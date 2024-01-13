@@ -20,7 +20,7 @@
 	#error MSXgl need SDCC version 4.1.12 or newer!
 #endif
 
-// Check MSX 1 dependency
+// Check MSX1 dependency
 #if (MSX_VERSION == MSX_1)
 
 	// Check for MSX1 supported 64K max VRAM size

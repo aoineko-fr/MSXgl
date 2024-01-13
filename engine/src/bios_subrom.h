@@ -23,7 +23,7 @@
 #define S_SUBRID	0x0000 // String "CD", identification of MSX Sub ROM
 const u8 __at(S_SUBRID) g_SUBRID[2];
 
-#define S_STRSRC	0x0002 // Execution address for the startup screen on MSX 2, MSX 2+ or MSX turbo R. This is unofficial and undocumented
+#define S_STRSRC	0x0002 // Execution address for the startup screen on MSX2, MSX2+ or MSX turbo R. This is unofficial and undocumented
 const u16 __at(S_STRSRC) g_STRSRC;
 
 //-----------------------------------------------------------------------------
