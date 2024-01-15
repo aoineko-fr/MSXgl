@@ -16,16 +16,30 @@
 #include "psg.h"
 
 //-----------------------------------------------------------------------------
-// DEFINES
+// VALIDATE
 //-----------------------------------------------------------------------------
 
-// Options
-#define WYZ_3CH 					0
-#define WYZ_6CH 					1
+// WYZ_CHANNELS
+#if !defined(WYZ_CHANNELS)
+	#warning WYZ_CHANNELS is not defined in "msxgl_config.h"! Default value will be used: WYZ_3CH
+	#define WYZ_CHANNELS				WYZ_3CH
+#endif
 
-#define WYZ_CHANNELS				WYZ_3CH
-#define WYZ_USE_DIRECT_ACCESS		0
-#define WYZ_CHAN_BUFFER_SIZE		0x20
+// WYZ_USE_DIRECT_ACCESS
+#if !defined(WYZ_USE_DIRECT_ACCESS)
+	#warning WYZ_USE_DIRECT_ACCESS is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define WYZ_USE_DIRECT_ACCESS		FALSE
+#endif
+
+// WYZ_CHAN_BUFFER_SIZE
+#if !defined(WYZ_CHAN_BUFFER_SIZE)
+	#warning WYZ_CHAN_BUFFER_SIZE is not defined in "msxgl_config.h"! Default value will be used: 32
+	#define WYZ_CHAN_BUFFER_SIZE		32
+#endif
+
+//-----------------------------------------------------------------------------
+// DEFINES
+//-----------------------------------------------------------------------------
 
 extern u16 g_WYZ_SongTable;
 extern u16 g_WYZ_InstrumentTable;

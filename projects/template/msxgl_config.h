@@ -393,14 +393,22 @@
 #define TRILO_USE_TAIL				FALSE	// Add tail to prevent volume to fall to zero
 
 // LVGM replayer options
-#define LVGM_USE_PSG				TRUE
-#define LVGM_USE_MSXMUSIC			TRUE
-#define LVGM_USE_MSXAUDIO			TRUE
-#define LVGM_USE_SCC				TRUE
-#define LVGM_USE_SCCI				FALSE
-#define LVGM_USE_PSG2				FALSE
-#define LVGM_USE_OPL4				FALSE
-#define LVGM_USE_NOTIFY				TRUE
+#define LVGM_USE_PSG				TRUE	// Add parser for PSG data
+#define LVGM_USE_MSXMUSIC			TRUE	// Add parser for MSX-Music data
+#define LVGM_USE_MSXAUDIO			TRUE	// Add parser for MSX-Audio data
+#define LVGM_USE_SCC				TRUE	// Add parser for Konami SCC data
+#define LVGM_USE_SCCI				FALSE	// Add parser for Konami SCC+ data
+#define LVGM_USE_PSG2				FALSE	// Add parser for secondary PSG data
+#define LVGM_USE_OPL4				FALSE	// Add parser for OPL4 data
+#define LVGM_USE_NOTIFY				TRUE	// Add parser for PSG data
+
+// WYZ Tracker replayer options
+// Channels number
+// - WYZ_3CH
+// - WYZ_6CH
+#define WYZ_CHANNELS				WYZ_3CH	// Number of supported channels (can be 3 for 1 PSG or 6 for 2 PSG)
+#define WYZ_USE_DIRECT_ACCESS		FALSE	// Send data directly to PSG registers (otherwise, write in a RAM buffer)
+#define WYZ_CHAN_BUFFER_SIZE		0x20	// Size of the channel buffer
 
 //-----------------------------------------------------------------------------
 // MATH MODULE
