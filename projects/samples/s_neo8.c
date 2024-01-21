@@ -41,10 +41,15 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 void DisplayMemory(u8 x, u8 y, u16 addr)
 {
 	Print_SetPosition(x, y);
+	Print_DrawFormat("%i: ", GET_BANK_SEGMENT(5));
 	const u8* ptr = (const u8*)addr; 
+	Print_SetPosition(x + 5, y);
 	loop(i, 32)
-		Print_DrawFormat("%02x ", *ptr++);
+		Print_DrawChar(*ptr++);
 }
+
+#define TEST_SEG	5
+#define TEST_ADDR	0xA000
 
 //-----------------------------------------------------------------------------
 // Program entry point
@@ -57,14 +62,21 @@ void main()
 	Print_DrawText(MSX_GL " NEO8 mapper sample"); // Display title
 	Print_DrawLineH(0, 1, 40);
 
-	DisplayMemory(0, 3, 0xA000);
+	SET_BANK_SEGMENT(0, 4);
+	SET_BANK_SEGMENT(1, 5);
+	SET_BANK_SEGMENT(2, 0);
+	SET_BANK_SEGMENT(3, 1);
+	SET_BANK_SEGMENT(4, 2);
+	SET_BANK_SEGMENT(5, 3);
+
+	DisplayMemory(0, 3, TEST_ADDR);
 	u16 seg = GET_BANK_SEGMENT(5);
 	SET_BANK_SEGMENT(5, 500);
-	DisplayMemory(0, 4, 0xA000);
+	DisplayMemory(0, 4, TEST_ADDR);
 	SET_BANK_SEGMENT(5, 800);
-	DisplayMemory(0, 5, 0xA000);
+	DisplayMemory(0, 5, TEST_ADDR);
 	SET_BANK_SEGMENT(5, seg);
-	DisplayMemory(0, 6, 0xA000);
+	DisplayMemory(0, 6, TEST_ADDR);
 
 	// Print_SetPosition(0, 3);
 	// Print_DrawFormat("Banks segment: 0->%i 1->%i 2->%i 3->%i\n\n", GET_BANK_SEGMENT(0), GET_BANK_SEGMENT(1), GET_BANK_SEGMENT(2), GET_BANK_SEGMENT(3));

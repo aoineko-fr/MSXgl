@@ -10,7 +10,8 @@ setlocal EnableDelayedExpansion
 
 for %%G in (*.c) do call :BuildFilter %%~nG %1
 
-call build s_game BIN
+call build s_game BIN_DISK
+call build s_game BIN_TAPE
 call build s_swsprt DOS0
 call build s_game DOS1
 call build s_game DOS2

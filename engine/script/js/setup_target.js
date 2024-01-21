@@ -9,7 +9,8 @@
 // Configure alias
 if (Target === "DOS")     Target = "DOS1";
 if (Target === "ROM")     Target = "ROM_32K";
-if (Target === "BAS")     Target = "BIN";
+if (Target === "BIN")     Target = "BIN_DISK";
+if (Target === "BAS")     Target = "BIN_DISK";
 if (Target === "USR")     Target = "BIN_USR";
 if (Target === "BOOT")    Target = "DOS0";
 if (Target === "ROM_K4")  Target = "ROM_KONAMI";
@@ -20,7 +21,7 @@ if (Target === "ROM_K5")  Target = "ROM_KONAMI_SCC";
 //*****************************************************************************
 
 //-----------------------------------------------------------------------------
-if (Target === "BIN")
+if ((Target === "BIN_DISK") || (Target === "BIN_TAPE"))
 {
 	Ext = "bin";
 	Crt0 = "crt0_basic";
@@ -30,6 +31,10 @@ if (Target === "BIN")
 	FillSize = 0;
 
 	TargetDesc = "BASIC binary program (8000h~)";
+	if (Target === "BIN_TAPE")
+		TargetDesc += " on tape";
+	else
+		TargetDesc += " on disk";
 }
 //-----------------------------------------------------------------------------
 else if (Target === "BIN_USR")

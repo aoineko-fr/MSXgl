@@ -606,7 +606,10 @@ if (DoDeploy)
 	else if (Ext === "bin")
 	{
 		if (!fs.existsSync(`${ProjDir}emul/bin`)) fs.mkdirSync(`${ProjDir}emul/bin`);
-		if (!fs.existsSync(`${ProjDir}emul/dsk`)) fs.mkdirSync(`${ProjDir}emul/dsk`);
+		if (Target === "BIN_TAPE")
+			if (!fs.existsSync(`${ProjDir}emul/cas`)) fs.mkdirSync(`${ProjDir}emul/cas`);
+		else
+			if (!fs.existsSync(`${ProjDir}emul/dsk`)) fs.mkdirSync(`${ProjDir}emul/dsk`);
 	}
 	else if (Ext === "com")
 	{
@@ -681,17 +684,17 @@ if (DoDeploy)
 		//---- Generate autoexec ----
 		util.print("-- Create emul/bin/autoexec.bas");
 		let basTxt = "10 CLS : KEY OFF\r\n";
-		if (Target === "BIN")
-		{
-			basTxt += '20 PRINT"Loading BIN..."\r\n';
-			basTxt += `30 BLOAD"${projNameShort}.${Ext}",r\r\n`;
-		}
-		else
+		if (Target === "BIN_USR")
 		{
 			basTxt += '20 PRINT"Loading USR..."\r\n';
 			basTxt += '30 DEF USR=&HC007\r\n';
 			basTxt += `40 BLOAD"${projNameShort}.${Ext}"\r\n`;
 			basTxt += '50 PRINT"USR(0) routine insalled"\r\n';
+		}
+		else
+		{
+			basTxt += '20 PRINT"Loading BIN..."\r\n';
+			basTxt += `30 BLOAD"${projNameShort}.${Ext}",r\r\n`;
 		}
 		util.print("----------------------------------------", PrintDetail);
 		util.print(basTxt, PrintDetail);
@@ -699,8 +702,14 @@ if (DoDeploy)
 		fs.writeFileSync(`${ProjDir}emul/bin/autoexec.bas`, basTxt);
 		util.print("Success", PrintSuccess);
 
+		//---- Generate CAS file ----
+		if (Target === "BIN_TAPE")
+		{
+			util.print("Generating CAS file...", PrintHighlight);
+			util.createCAS(`${ProjDir}emul/bin/${ProjName}.${Ext}`, `${ProjDir}emul/cas/${ProjName}.cas`);
+		}
 		//---- Generate DSK file ----
-		if (fs.existsSync(DskTool))
+		else (fs.existsSync(DskTool))
 		{
 			util.print("Generating DSK file...", PrintHighlight);
 

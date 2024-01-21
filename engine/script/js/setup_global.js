@@ -188,6 +188,8 @@ global.Machine = "1";
 
 //-- Target program format (string)
 //   - BIN              .bin    BASIC binary program (starting at 8000h)
+//   - BIN_DISK         .bin    BASIC binary program (starting at 8000h) on disk
+//   - BIN_TAPE         .bin    BASIC binary program (starting at 8000h) on tape
 //   - BIN_USR          .bin    BASIC USR binary driver (starting at C000h)
 //   - DOS1             .com    MSX-DOS 1 program (starting at 0100h)
 //   - DOS2             .com    MSX-DOS 2 program (starting at 0100h)
@@ -224,7 +226,7 @@ global.InstallRAMISR = false;
 //-- Type of custom ISR to install (string). ISR is install in RAM or ROM depending on Target and InstallRAMISR parameters
 //   - VBLANK     V-blank handler
 //   - VHBLANK    V-blank and h-blank handler (V9938 or V9958)
-//   - V9990      v-blank, h-blank and command end handler (V9990)
+//   - V9990      V-blank, h-blank and command end handler (V9990)
 global.CustomISR = "VBLANK";
 
 //-- Use automatic banked call and trampoline functions (boolean). For mapped ROM

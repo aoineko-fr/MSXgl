@@ -9,6 +9,7 @@
 //-- Node.jd libraries
 const fs = require('fs');
 const cp = require('child_process');
+const path = require('path');
 
 //=============================================================================
 // HELPER FUNCTION
@@ -167,10 +168,43 @@ module.exports.delFile = function (src)
 	fs.unlinkSync(src);
 }
 
+// Create a CAS file from binary data
+module.exports.createCAS = function (binFile, casFile)
+{
+	// File header
+	const casHeader = [ 0x1F, 0xA6, 0xDE, 0xBA, 0xCC, 0x13, 0x7D, 0x74 ];
+	// Binary header block
+	const casBinHeader = [ 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0, 0xD0 ];
+
+	// Open output file
+	const fd = fs.openSync(casFile, 'w');
+	// Write file header
+	fs.writeSync(fd, Uint8Array.from(casHeader));
+	fs.writeSync(fd, Uint8Array.from(casBinHeader));
+	const fileName = path.parse(binFile).name;
+	let name = "";
+	for(let i = 0; i < 6; i++)
+	{
+		if(i < fileName.length)
+			name += fileName[i];
+		else
+			name += ' ';
+	}
+	fs.writeSync(fd, name);
+	// Write binary data
+	fs.writeSync(fd, Uint8Array.from(casHeader));
+	const data = fs.readFileSync(binFile);
+	const data2 = Buffer.allocUnsafe(data.length);
+	data.copy(data2, 0, 1);
+	fs.writeSync(fd, data2);
+	// Close file
+	fs.closeSync(fd);
+}
+
 // 
 module.exports.getMachineName = function (machine)
 {
-	switch(Machine)
+	switch(machine)
 	{
 		case "1":    return "MSX1";
 		case "2":    return "MSX2";
@@ -181,5 +215,5 @@ module.exports.getMachineName = function (machine)
 		case "0":    return "MSX0 (2+)";
 		case "TR":   return "MSX turbo R";
 	}
-	return "Unssoprted";
+	return "Unsupported";
 }

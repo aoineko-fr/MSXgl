@@ -93,7 +93,13 @@ if (EmulatorName === "OPENMSX") {
 	util.print(`${EmulExtCount} extension found`);
 
 	//---- Add launch program ----
-	if (Ext === "bin") { EmulatorArgs += ` -diska ${ProjDir}emul/bin`; }
+	if (Ext === "bin")
+	{
+		if (Target === "BIN_TAPE")
+			EmulatorArgs += ` -command "cassetteplayer insert ${ProjDir}emul/cas/${ProjName}.cas"`;
+		else
+			EmulatorArgs += ` -diska ${ProjDir}emul/bin`;
+	}
 	if (Ext === "rom") { 
 		EmulatorArgs += ` -cart ${ProjDir}emul/rom/${ProjName}.rom`;
 		if (ROMDelayBoot) { EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dsk/tmp`; }
@@ -193,7 +199,10 @@ else if (EmulatorName === "EMULICIOUS") {
 	else 
 	{
 		util.print("Emulicious only support ROM format natively");
-		EmulatorArgs += ` ${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`;
+		if (Target === "BIN_TAPE")
+			EmulatorArgs += ` ${ProjDir}emul/cas/${ProjName}.cas"`;
+		else
+			EmulatorArgs += ` ${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`;
 	}
 }
 
@@ -234,7 +243,13 @@ else if (EmulatorName === "FMSX") {
 	else                               { EmulatorArgs += ' -joy 0'; }
 
 	//---- Add launch program ----
-	if (Ext === "bin") { EmulatorArgs += ` -diska ${ProjDir}/emul/dsk/${ProjName}.dsk` }
+	if (Ext === "bin")
+	{
+		if (Target === "BIN_TAPE")
+			EmulatorArgs += ` -tape ${ProjDir}emul/cas/${ProjName}.cas"`;
+		else
+			EmulatorArgs += ` -diska ${ProjDir}/emul/dsk/${ProjName}.dsk`;
+	}
 	if (Ext === "rom") { EmulatorArgs += ` ${ProjDir}/emul/rom/${ProjName}.rom` }
 	if (Ext === "com") { EmulatorArgs += ` -diska ${ProjDir}/emul/dsk/${ProjName}.dsk` }
 }
@@ -279,7 +294,13 @@ else if (EmulatorName === "BLUEMSX") {
 	if (EmulMute)       { util.print("EmulMute can't be use with BlueMSX", PrintWarning); }
 
 	//---- Add launch program ----
-	if (Ext === "bin") { EmulatorArgs += ` /diskA ${ProjDir}emul/dsk/${ProjName}.dsk`; }
+	if (Ext === "bin")
+	{
+		if (Target === "BIN_TAPE")
+			EmulatorArgs += ` /cas ${ProjDir}emul/cas/${ProjName}.cas"`;
+		else
+			EmulatorArgs += ` /diskA ${ProjDir}emul/dsk/${ProjName}.dsk`;
+	}
 	if (Ext === "rom") { EmulatorArgs += ` /rom1 ${ProjDir}emul/rom/${ProjName}.rom`; }
 	if (Ext === "com") { EmulatorArgs += ` /diskA ${ProjDir}emul/dsk/${ProjName}.dsk`; }
 }

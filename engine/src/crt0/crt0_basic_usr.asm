@@ -53,6 +53,7 @@ crt0_start:
 	.area   _GSINIT
 	.area   _GSFINAL
 _g_LastAddr::
+crt0_end:
 
 	.area	_DATA
 _g_HeapStartAddress::
@@ -64,5 +65,3 @@ _g_HeapStartAddress::
 	.area	_BSEG
 	.area   _BSS
 	.area   _HEAP
-
-crt0_end:

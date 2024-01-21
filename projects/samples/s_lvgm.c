@@ -303,7 +303,7 @@ void ButtonLoop()
 void SetCursor(u8 id)
 {
 	g_CurrentButton = id % 6;
-	VDP_SetSpriteSM1(0, 8 + 16*g_CurrentButton, 128+8-1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
+	VDP_SetSpriteSM1(0, 8 + 16*g_CurrentButton, (u8)(128 + 8 - 1), g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
 }
 
 //-----------------------------------------------------------------------------
