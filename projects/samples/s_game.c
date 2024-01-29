@@ -340,9 +340,11 @@ bool State_Pause()
 // Programme entry point
 void main()
 {
+	Bios_SetKeyClick(FALSE);
+
 	Game_SetState(State_Initialize);
 	Game_MainLoop(VDP_MODE_GRAPHIC1);
-
 	Game_Release();
+
 	Bios_Exit(0);
 }

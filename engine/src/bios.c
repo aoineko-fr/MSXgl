@@ -800,6 +800,16 @@ void Bios_WritePSG(u8 reg, u8 value)
 // Function : Tests the status of the keyboard buffer
 // Output   : Zero flag set if buffer is empty, otherwise not set
 // Registers: AF
+u8 Bios_HasCharacter() __FASTCALL
+{
+	__asm
+		ld		l, #0
+		call	R_CHSNS
+		ret		z			// Return 0
+		call	R_CHGET
+		ld		l, a
+	__endasm;
+}
 
 //-----------------------------------------------------------------------------
 // CHGET

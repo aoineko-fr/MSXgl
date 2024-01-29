@@ -330,6 +330,10 @@ inline void Bios_PlayPSG() { Call(R_STRTMS); }
 // One character input (waiting). Wrapper for CHGET routine.
 inline c8 Bios_GetCharacter() { return ((u8(*)(void))R_CHGET)(); }
 
+// Function: Bios_HasCharacter
+// Get a character input (if any) or return 0.
+u8 Bios_HasCharacter() __FASTCALL;
+
 // Function: Bios_TextPrintChar
 // Displays one character. Wrapper for CHPUT routine.
 inline void Bios_TextPrintChar(c8 chr) { ((void(*)(u8))R_CHPUT)(chr); }

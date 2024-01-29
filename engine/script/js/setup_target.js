@@ -280,7 +280,7 @@ else if (Target === "ROM_NEO8")
 	Target = `ROM_NEO8_${ROMSize/1024}M`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
-	StartAddr = 0x0000;
+	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
 	MapperSize = ROMSize*1024;
@@ -304,7 +304,7 @@ else if (Target === "ROM_NEO16")
 	Target = `ROM_NEO16_${ROMSize/1024}M`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
-	StartAddr = 0x0000;
+	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
 	MapperSize = ROMSize*1024;

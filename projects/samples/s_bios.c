@@ -130,6 +130,15 @@ void main()
 		Bios_PrintTextAt(prevX, prevY, " ");
 		Bios_PrintTextAt(x, y, "#");
 
+		u8 x2 = 1;
+		u8 chr = Bios_HasCharacter();
+		while(chr)
+		{
+			Bios_SetCursorPosition(x2++, 3);
+			Bios_TextPrintChar(chr);
+			chr = Bios_HasCharacter();
+		}
+
 		Halt();
 	}
 	
