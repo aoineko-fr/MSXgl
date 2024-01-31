@@ -60,19 +60,19 @@ static void doBasicDemo(void) {
 	u8 tempBuffer[QRCODE_BUFFER_LEN_MAX];
 	bool ok;
 
-	ok = QRCode_encodeText("MSXgl", tempBuffer, qrcode, QRCODE_ECC_LOW, QRCODE_MASK_AUTO, TRUE);
+	ok = QRCode_EncodeText("MSXgl", tempBuffer, qrcode, QRCODE_ECC_LOW, QRCODE_MASK_AUTO, TRUE);
 	if (ok)
 		printQr(qrcode);
 
-	ok = QRCode_encodeText("https://aoineko.org/msxgl", tempBuffer, qrcode, QRCODE_ECC_LOW, QRCODE_MASK_AUTO, TRUE);
+	ok = QRCode_EncodeText("https://aoineko.org/msxgl", tempBuffer, qrcode, QRCODE_ECC_LOW, QRCODE_MASK_AUTO, TRUE);
 	if (ok)
 		printQr(qrcode);
 
-	ok = QRCode_encodeText("https://aoineko.org/msxgl?g=012&c=0123456789ABCDEF", tempBuffer, qrcode, QRCODE_ECC_LOW, QRCODE_MASK_AUTO, TRUE);
+	ok = QRCode_EncodeText("https://aoineko.org/msxgl?g=012&c=0123456789ABCDEF", tempBuffer, qrcode, QRCODE_ECC_LOW, QRCODE_MASK_AUTO, TRUE);
 	if (ok)
 		printQr(qrcode);
 
-	ok = QRCode_encodeText("\xE3\x81\x93\xE3\x82\x93\xE3\x81\xAB\xE3\x81\xA1wa\xE3\x80\x81"
+	ok = QRCode_EncodeText("\xE3\x81\x93\xE3\x82\x93\xE3\x81\xAB\xE3\x81\xA1wa\xE3\x80\x81"
 		                   "\xE4\xB8\x96\xE7\x95\x8C\xEF\xBC\x81\x20\xCE\xB1\xCE\xB2\xCE\xB3\xCE\xB4",
 		                   tempBuffer, qrcode, QRCODE_ECC_LOW, QRCODE_MASK_AUTO, TRUE);
 	if (ok)
@@ -85,7 +85,7 @@ static void doVarietyDemo(void) {
 	{  // Numeric mode encoding (3.33 bits per digit)
 		u8 qrcode[QRCODE_BUFFER_LEN_MAX];
 		u8 tempBuffer[QRCODE_BUFFER_LEN_MAX];
-		bool ok = QRCode_encodeText("314159265358979323846264338327950288419716939937510", tempBuffer, qrcode,
+		bool ok = QRCode_EncodeText("314159265358979323846264338327950288419716939937510", tempBuffer, qrcode,
 			QRCODE_ECC_MEDIUM, QRCODE_MASK_AUTO, TRUE);
 		if (ok)
 			printQr(qrcode);
@@ -94,7 +94,7 @@ static void doVarietyDemo(void) {
 	{  // Alphanumeric mode encoding (5.5 bits per character)
 		u8 qrcode[QRCODE_BUFFER_LEN_MAX];
 		u8 tempBuffer[QRCODE_BUFFER_LEN_MAX];
-		bool ok = QRCode_encodeText("DOLLAR-AMOUNT:$39.87 PERCENTAGE:100.00% OPERATIONS:+-*/", tempBuffer, qrcode,
+		bool ok = QRCode_EncodeText("DOLLAR-AMOUNT:$39.87 PERCENTAGE:100.00% OPERATIONS:+-*/", tempBuffer, qrcode,
 			QRCODE_ECC_HIGH, QRCODE_MASK_AUTO, TRUE);
 		if (ok)
 			printQr(qrcode);
@@ -105,7 +105,7 @@ static void doVarietyDemo(void) {
 			"\xE4\xB8\x96\xE7\x95\x8C\xEF\xBC\x81\x20\xCE\xB1\xCE\xB2\xCE\xB3\xCE\xB4";
 		u8 qrcode[QRCODE_BUFFER_LEN_MAX];
 		u8 tempBuffer[QRCODE_BUFFER_LEN_MAX];
-		bool ok = QRCode_encodeText(text, tempBuffer, qrcode,
+		bool ok = QRCode_EncodeText(text, tempBuffer, qrcode,
 			QRCODE_ECC_QUARTILE, QRCODE_MASK_AUTO, TRUE);
 		if (ok)
 			printQr(qrcode);
@@ -122,7 +122,7 @@ static void doVarietyDemo(void) {
 			"a White Rabbit with pink eyes ran close by her.";
 		u8 qrcode[QRCODE_BUFFER_LEN_MAX];
 		u8 tempBuffer[QRCODE_BUFFER_LEN_MAX];
-		bool ok = QRCode_encodeText(text, tempBuffer, qrcode,
+		bool ok = QRCode_EncodeText(text, tempBuffer, qrcode,
 			QRCODE_ECC_HIGH, QRCODE_MASK_AUTO, TRUE);
 		if (ok)
 			printQr(qrcode);
@@ -146,7 +146,7 @@ static void doSegmentDemo(void) {
 			}
 			strcat(concat, silver0);
 			strcat(concat, silver1);
-			ok = QRCode_encodeText(concat, tempBuffer, qrcode, QRCODE_ECC_LOW,
+			ok = QRCode_EncodeText(concat, tempBuffer, qrcode, QRCODE_ECC_LOW,
 				QRCODE_MASK_AUTO, TRUE);
 			if (ok)
 				printQr(qrcode);
@@ -187,7 +187,7 @@ static void doSegmentDemo(void) {
 			strcat(concat, golden0);
 			strcat(concat, golden1);
 			strcat(concat, golden2);
-			ok = QRCode_encodeText(concat, tempBuffer, qrcode, QRCODE_ECC_LOW,
+			ok = QRCode_EncodeText(concat, tempBuffer, qrcode, QRCODE_ECC_LOW,
 				QRCODE_MASK_AUTO, TRUE);
 			if (ok)
 				printQr(qrcode);
@@ -238,7 +238,7 @@ static void doSegmentDemo(void) {
 				"\xEF\xBD\x84\xEF\xBD\x85\xEF\xBD\x93\xEF"
 				"\xBD\x95\xE3\x80\x80\xCE\xBA\xCE\xB1\xEF"
 				"\xBC\x9F";
-			ok = QRCode_encodeText(madoka, tempBuffer, qrcode, QRCODE_ECC_LOW,
+			ok = QRCode_EncodeText(madoka, tempBuffer, qrcode, QRCODE_ECC_LOW,
 				QRCODE_MASK_AUTO, TRUE);
 			if (ok)
 				printQr(qrcode);
@@ -283,12 +283,12 @@ static void doMaskDemo(void) {
 		u8 tempBuffer[QRCODE_BUFFER_LEN_MAX];
 		bool ok;
 		
-		ok = QRCode_encodeText("https://www.nayuki.io/", tempBuffer, qrcode,
+		ok = QRCode_EncodeText("https://www.nayuki.io/", tempBuffer, qrcode,
 			QRCODE_ECC_HIGH, QRCODE_MASK_AUTO, TRUE);
 		if (ok)
 			printQr(qrcode);
 		
-		ok = QRCode_encodeText("https://www.nayuki.io/", tempBuffer, qrcode,
+		ok = QRCode_EncodeText("https://www.nayuki.io/", tempBuffer, qrcode,
 			QRCODE_ECC_HIGH, QRCODE_MASK_3, TRUE);
 		if (ok)
 			printQr(qrcode);
@@ -307,22 +307,22 @@ static void doMaskDemo(void) {
 		u8 tempBuffer[QRCODE_BUFFER_LEN_MAX];
 		bool ok;
 		
-		ok = QRCode_encodeText(text, tempBuffer, qrcode,
+		ok = QRCode_EncodeText(text, tempBuffer, qrcode,
 			QRCODE_ECC_MEDIUM, QRCODE_MASK_0, TRUE);
 		if (ok)
 			printQr(qrcode);
 		
-		ok = QRCode_encodeText(text, tempBuffer, qrcode,
+		ok = QRCode_EncodeText(text, tempBuffer, qrcode,
 			QRCODE_ECC_MEDIUM, QRCODE_MASK_1, TRUE);
 		if (ok)
 			printQr(qrcode);
 		
-		ok = QRCode_encodeText(text, tempBuffer, qrcode,
+		ok = QRCode_EncodeText(text, tempBuffer, qrcode,
 			QRCODE_ECC_MEDIUM, QRCODE_MASK_5, TRUE);
 		if (ok)
 			printQr(qrcode);
 		
-		ok = QRCode_encodeText(text, tempBuffer, qrcode,
+		ok = QRCode_EncodeText(text, tempBuffer, qrcode,
 			QRCODE_ECC_MEDIUM, QRCODE_MASK_7, TRUE);
 		if (ok)
 			printQr(qrcode);
@@ -335,12 +335,12 @@ static void doMaskDemo(void) {
 
 // Prints the given QR Code to the console.
 static void printQr(const u8 qrcode[]) {
-	u8 size = QRCode_getSize(qrcode);
+	u8 size = QRCode_GetSize(qrcode);
 	printf("Size: %i\n", size);
 	i16 border = 4;
 	for (i16 y = -border; y < size + border; y++) {
 		for (i16 x = -border; x < size + border; x++) {
-			char chr = QRCode_getModule(qrcode, x, y) ? 219 : ' ';
+			char chr = QRCode_GetModule(qrcode, x, y) ? 219 : ' ';
 			printf("%c%c", chr, chr);
 		}
 		fputs("\n", stdout);

@@ -23,9 +23,11 @@
 
 #pragma once
 
-//#include <stdbool.h>
-//#include <stddef.h>
-//#include <stdint.h>
+// Config
+
+#define QRCODE_VERSION_MIN   1  // The minimum version number supported in the QR Code Model 2 standard
+#define QRCODE_VERSION_MAX  40  // The maximum version number supported in the QR Code Model 2 standard
+ 
 
 #define assert(a)
 
@@ -57,6 +59,8 @@ typedef unsigned short				c16;	// 16 bits character type (UTF-16, JIS, etc.)
 
 #define INT16_MAX					0x7FFF
 
+//#define NULL						0x0000
+
 /* 
  * This library creates QR Code symbols, which is a type of two-dimension barcode.
  * Invented by Denso Wave and described in the ISO/IEC 18004 standard.
@@ -66,7 +70,7 @@ typedef unsigned short				c16;	// 16 bits character type (UTF-16, JIS, etc.)
  * from 1 to 40, all 4 error correction levels, and 4 character encoding modes.
  * 
  * Ways to create a QR Code object:
- * - High level: Take the payload data and call QRCode_encodeText() or QRCode_encodeBinary().
+ * - High level: Take the payload data and call QRCode_EncodeText() or QRCode_EncodeBinary().
  * - Low level: Custom-make the list of segments and call
  *   QRCode_encodeSegments() or QRCode_encodeSegmentsAdvanced().
  * (Note that all ways require supplying the desired error correction level and various byte buffers.)
@@ -157,8 +161,6 @@ struct QRCode_Segment
 
 /*---- Macro constants and functions ----*/
 
-#define QRCODE_VERSION_MIN   1  // The minimum version number supported in the QR Code Model 2 standard
-#define QRCODE_VERSION_MAX  40  // The maximum version number supported in the QR Code Model 2 standard
 
 // Calculates the number of bytes needed to store any QR Code up to and including the given version number,
 // as a compile-time constant. For example, 'u8 buffer[QRCODE_BUFFER_LEN_FOR_VERSION(25)];'
@@ -199,7 +201,7 @@ struct QRCode_Segment
  * - After the function returns:
  *   - Both ranges have no guarantee on which elements are initialized and what values are stored.
  *   - tempBuffer contains no useful data and should be treated as entirely uninitialized.
- *   - If successful, qrcode can be passed into QRCode_getSize() and QRCode_getModule().
+ *   - If successful, qrcode can be passed into QRCode_GetSize() and QRCode_GetModule().
  * 
  * If successful, the resulting QR Code may use numeric,
  * alphanumeric, or byte mode to encode the text.
@@ -212,7 +214,7 @@ struct QRCode_Segment
  * Please consult the QR Code specification for information on
  * data capacities per version, ECC level, and text encoding mode.
  */
-bool QRCode_encodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask, bool boostEcl);
+bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask, bool boostEcl);
 
 
 /* 
@@ -240,7 +242,7 @@ bool QRCode_encodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCO
  * - After the function returns:
  *   - Both ranges have no guarantee on which elements are initialized and what values are stored.
  *   - dataAndTemp contains no useful data and should be treated as entirely uninitialized.
- *   - If successful, qrcode can be passed into QRCode_getSize() and QRCode_getModule().
+ *   - If successful, qrcode can be passed into QRCode_GetSize() and QRCode_GetModule().
  * 
  * If successful, the resulting QR Code will use byte mode to encode the data.
  * 
@@ -250,7 +252,7 @@ bool QRCode_encodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCO
  * Please consult the QR Code specification for information on
  * data capacities per version, ECC level, and text encoding mode.
  */
-bool QRCode_encodeBinary(u8 dataAndTemp[], u16 dataLen, u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask, bool boostEcl);
+bool QRCode_EncodeBinary(u8 dataAndTemp[], u16 dataLen, u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask, bool boostEcl);
 
 
 /*---- Functions (low level) to generate QR Codes ----*/
@@ -277,14 +279,14 @@ bool QRCode_encodeBinary(u8 dataAndTemp[], u16 dataLen, u8 qrcode[], enum QRCODE
  *   - tempBuffer contains no useful data and should be treated as entirely uninitialized.
  *   - Any segment whose data buffer overlaps with tempBuffer[0 : len]
  *     must be treated as having invalid values in that array.
- *   - If successful, qrcode can be passed into QRCode_getSize() and QRCode_getModule().
+ *   - If successful, qrcode can be passed into QRCode_GetSize() and QRCode_GetModule().
  * 
  * Please consult the QR Code specification for information on
  * data capacities per version, ECC level, and text encoding mode.
  * 
  * This function allows the user to create a custom sequence of segments that switches
  * between modes (such as alphanumeric and byte) to encode text in less space.
- * This is a low-level API; the high-level API is QRCode_encodeText() and QRCode_encodeBinary().
+ * This is a low-level API; the high-level API is QRCode_EncodeText() and QRCode_EncodeBinary().
  */
 bool QRCode_encodeSegments(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, u8 tempBuffer[], u8 qrcode[]);
 
@@ -315,14 +317,14 @@ bool QRCode_encodeSegments(const struct QRCode_Segment segs[], u16 len, enum QRC
  *   - tempBuffer contains no useful data and should be treated as entirely uninitialized.
  *   - Any segment whose data buffer overlaps with tempBuffer[0 : len]
  *     must be treated as having invalid values in that array.
- *   - If successful, qrcode can be passed into QRCode_getSize() and QRCode_getModule().
+ *   - If successful, qrcode can be passed into QRCode_GetSize() and QRCode_GetModule().
  * 
  * Please consult the QR Code specification for information on
  * data capacities per version, ECC level, and text encoding mode.
  * 
  * This function allows the user to create a custom sequence of segments that switches
  * between modes (such as alphanumeric and byte) to encode text in less space.
- * This is a low-level API; the high-level API is QRCode_encodeText() and QRCode_encodeBinary().
+ * This is a low-level API; the high-level API is QRCode_EncodeText() and QRCode_EncodeBinary().
  */
 bool QRCode_encodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, enum QRCODE_MASK mask, bool boostEcl, u8 tempBuffer[], u8 qrcode[]);
 
@@ -393,7 +395,7 @@ struct QRCode_Segment QRCode_makeEci(long assignVal, u8 buf[]);
  * is related to the side length - every 'u8 qrcode[]' must have length at least
  * QRCODE_BUFFER_LEN_FOR_VERSION(version), which equals ceil(size^2 / 8 + 1).
  */
-u8 QRCode_getSize(const u8 qrcode[]);
+u8 QRCode_GetSize(const u8 qrcode[]);
 
 
 /* 
@@ -401,4 +403,4 @@ u8 QRCode_getSize(const u8 qrcode[]);
  * for light or TRUE for dark. The top left corner has the coordinates (x=0, y=0).
  * If the given coordinates are out of bounds, then FALSE (light) is returned.
  */
-bool QRCode_getModule(const u8 qrcode[], i16 x, i16 y);
+bool QRCode_GetModule(const u8 qrcode[], i16 x, i16 y);
