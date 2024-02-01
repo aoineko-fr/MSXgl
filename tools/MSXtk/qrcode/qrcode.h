@@ -23,11 +23,7 @@
 
 #pragma once
 
-// Config
-
-#define QRCODE_VERSION_MIN   1  // The minimum version number supported in the QR Code Model 2 standard
-#define QRCODE_VERSION_MAX  40  // The maximum version number supported in the QR Code Model 2 standard
- 
+// -- Fake MSXgl --
 
 #define assert(a)
 
@@ -61,7 +57,30 @@ typedef unsigned short				c16;	// 16 bits character type (UTF-16, JIS, etc.)
 
 //#define NULL						0x0000
 
-/* 
+// Config
+
+#define QRCODE_MASK_CUSTOM			0x10000
+
+#define QRCODE_VERSION_MIN			1  // The minimum version number supported in the QR Code Model 2 standard
+#define QRCODE_VERSION_MAX			40  // The maximum version number supported in the QR Code Model 2 standard
+#define QRCODE_VERSION_CUSTOM		FALSE
+#define QRCODE_USE_EXTRA			FALSE
+#define QRCODE_MASK_DEF				QRCODE_MASK_CUSTOM
+
+
+// External definition
+
+#if (QRCODE_VERSION_CUSTOM)
+extern u8 g_QRCode_VersionMin;
+extern u8 g_QRCode_VersionMax;
+#endif
+
+#if (QRCODE_MASK_DEF == QRCODE_MASK_CUSTOM)
+extern u8 g_QRCode_Mask;
+#endif
+
+
+/*
  * This library creates QR Code symbols, which is a type of two-dimension barcode.
  * Invented by Denso Wave and described in the ISO/IEC 18004 standard.
  * A QR Code structure is an immutable square grid of dark and light cells.
@@ -90,6 +109,8 @@ enum QRCODE_ECC
 	QRCODE_ECC_MEDIUM  ,  // The QR Code can tolerate about 15% erroneous codewords
 	QRCODE_ECC_QUARTILE,  // The QR Code can tolerate about 25% erroneous codewords
 	QRCODE_ECC_HIGH    ,  // The QR Code can tolerate about 30% erroneous codewords
+	// 
+	QRCODE_ECC_MAX,
 };
 
 
@@ -102,14 +123,16 @@ enum QRCODE_MASK
 	// automatically select an appropriate mask pattern
 	QRCODE_MASK_AUTO = -1,
 	// The eight actual mask patterns
-	QRCODE_MASK_0 = 0,
-	QRCODE_MASK_1,
-	QRCODE_MASK_2,
-	QRCODE_MASK_3,
-	QRCODE_MASK_4,
-	QRCODE_MASK_5,
-	QRCODE_MASK_6,
-	QRCODE_MASK_7,
+	QRCODE_MASK_0 = 0, // (i + j) % 2 = 0
+	QRCODE_MASK_1,     // i % 2 = 0
+	QRCODE_MASK_2,     // j % 3 = 0
+	QRCODE_MASK_3,     // (i + j) % 3 = 0
+	QRCODE_MASK_4,     // (i / 2 + j / 3) % 2 = 0
+	QRCODE_MASK_5,     // (i * j) % 2 + (i * j) % 3 = 0
+	QRCODE_MASK_6,     // ((i * j) % 3 + i * j) % 2 = 0
+	QRCODE_MASK_7,     // ((i * j) % 3 + i + j) % 2 = 0
+	// 
+	QRCODE_MASK_MAX,
 };
 
 
@@ -216,7 +239,6 @@ struct QRCode_Segment
  */
 bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask, bool boostEcl);
 
-
 /* 
  * Encodes the given binary data to a QR Code, returning TRUE if successful.
  * If the data is too long to fit in any version in the given range
@@ -252,8 +274,9 @@ bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCO
  * Please consult the QR Code specification for information on
  * data capacities per version, ECC level, and text encoding mode.
  */
+#if (QRCODE_USE_EXTRA)
 bool QRCode_EncodeBinary(u8 dataAndTemp[], u16 dataLen, u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask, bool boostEcl);
-
+#endif
 
 /*---- Functions (low level) to generate QR Codes ----*/
 
@@ -288,8 +311,9 @@ bool QRCode_EncodeBinary(u8 dataAndTemp[], u16 dataLen, u8 qrcode[], enum QRCODE
  * between modes (such as alphanumeric and byte) to encode text in less space.
  * This is a low-level API; the high-level API is QRCode_EncodeText() and QRCode_EncodeBinary().
  */
+#if (QRCODE_USE_EXTRA)
 bool QRCode_encodeSegments(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, u8 tempBuffer[], u8 qrcode[]);
-
+#endif
 
 /* 
  * Encodes the given segments to a QR Code, returning TRUE if successful.
@@ -363,13 +387,15 @@ u16 QRCode_calcSegmentBufferSize(enum QRCODE_MODE mode, u16 numChars);
  * byte mode. All input byte arrays are acceptable. Any text string
  * can be converted to UTF-8 bytes and encoded as a byte mode segment.
  */
-struct QRCode_Segment QRCode_makeBytes(const u8 data[], u16 len, u8 buf[]);
+#if (QRCODE_USE_EXTRA)
+void QRCode_makeBytes(const u8 data[], u16 len, u8 buf[], struct QRCode_Segment* seg);
+#endif
 
 
 /* 
  * Returns a segment representing the given string of decimal digits encoded in numeric mode.
  */
-struct QRCode_Segment QRCode_makeNumeric(const char *digits, u8 buf[]);
+void QRCode_makeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg);
 
 
 /* 
@@ -377,14 +403,16 @@ struct QRCode_Segment QRCode_makeNumeric(const char *digits, u8 buf[]);
  * The characters allowed are: 0 to 9, A to Z (uppercase only), space,
  * dollar, percent, asterisk, plus, hyphen, period, slash, colon.
  */
-struct QRCode_Segment QRCode_makeAlphanumeric(const char *text, u8 buf[]);
+void QRCode_makeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* seg);
 
 
 /* 
  * Returns a segment representing an Extended Channel Interpretation
  * (ECI) designator with the given assignment value.
  */
-struct QRCode_Segment QRCode_makeEci(long assignVal, u8 buf[]);
+#if (QRCODE_USE_EXTRA)
+void QRCode_makeEci(long assignVal, u8 buf[], struct QRCode_Segment* seg);
+#endif
 
 
 /*---- Functions to extract raw data from QR Codes ----*/
@@ -404,3 +432,13 @@ u8 QRCode_GetSize(const u8 qrcode[]);
  * If the given coordinates are out of bounds, then FALSE (light) is returned.
  */
 bool QRCode_GetModule(const u8 qrcode[], i16 x, i16 y);
+
+// Function: QRCode_GetSize
+inline u8 QRCode_GetVersion(const u8 qrcode[]) { return (QRCode_GetSize(qrcode) - 17) / 4; }
+
+#if (QRCODE_VERSION_CUSTOM)
+// Function: QRCode_SetVersion
+// Set minimum and maximum version to use for the next encoding.
+// Must be called before QRCode_Encode* functions.
+inline QRCode_SetVersion(u8 min, u8 max) { g_QRCode_VersionMin = min; g_QRCode_VersionMax = max; }
+#endif
