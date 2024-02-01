@@ -40,8 +40,10 @@
 //	#define QRCODE_MASK_CURRENT			QRCODE_MASK
 //#endif
 
-
+#if (!QRCODE_MSX)
 #define NULL						 ((void *)0)
+#endif
+
 #define LONG_MAX					2147483647L // 0x7FFFFFFF
 
 int abs(int a)

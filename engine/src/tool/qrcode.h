@@ -23,9 +23,18 @@
 
 #pragma once
 
-// -- Fake MSXgl --
+#define QRCODE_MSX					1
 
 #define assert(a)
+#define INT16_MAX					0x7FFF
+
+// -- Fake MSXgl --
+
+#if (QRCODE_MSX)
+
+#include "core.h"
+
+#else // if (!QRCODE_MSX)
 
 // Boolean
 typedef unsigned char				bool;	// 8 bits boolean type
@@ -53,18 +62,17 @@ typedef float						f32;	// 32 bits float type (IEEE 754)
 typedef unsigned char				c8;		// 8 bits character type
 typedef unsigned short				c16;	// 16 bits character type (UTF-16, JIS, etc.)
 
-#define INT16_MAX					0x7FFF
+#endif // (QRCODE_MSX)
 
-//#define NULL						0x0000
 
 // Config
 
 #define QRCODE_MASK_CUSTOM			0x10000
 
 #define QRCODE_VERSION_MIN			1  // The minimum version number supported in the QR Code Model 2 standard
-#define QRCODE_VERSION_MAX			40  // The maximum version number supported in the QR Code Model 2 standard
+#define QRCODE_VERSION_MAX			4  // The maximum version number supported in the QR Code Model 2 standard
 #define QRCODE_VERSION_CUSTOM		FALSE
-#define QRCODE_USE_EXTRA			TRUE
+#define QRCODE_USE_EXTRA			FALSE
 //#define QRCODE_MASK_DEF				QRCODE_MASK_CUSTOM
 
 

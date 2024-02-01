@@ -23,22 +23,18 @@ testcases
 /engine/src/obsolete
 /engine/datasrc/font/damieng
 
+/projects/_backup
 /projects/gos
 /projects/FinalSmash
 /projects/wizzl
 /projects/Slava
 /projects/Trojan
 /projects/Scroller
-/projects/WhatSprite
-/projects/popeye
 /projects/screen3rot
-/projects/ls
-/projects/Tetpuz
 /projects/Koneko
 /projects/Corrupta
 /projects/eggysmaze
-/projects/Magelan
-/projects/PhenixCorrupta
+/projects/Corrupta
 
 /projects/samples/datasrc/pcm
 /projects/samples/datasrc/pt3
