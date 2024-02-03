@@ -152,7 +152,7 @@ enum QRCODE_MODE
 /* 
  * A segment of character/binary/control data in a QR Code symbol.
  * The mid-level way to create a segment is to take the payload data
- * and call a factory function such as QRCode_makeNumeric().
+ * and call a factory function such as QRCode_MakeNumeric().
  * The low-level way to create a segment is to custom-make the bit buffer
  * and initialize a QRCode_Segment struct with appropriate values.
  * Even in the most favorable conditions, a QR Code can only hold 7089 characters of data.
@@ -379,7 +379,7 @@ bool QRCode_isAlphanumeric(const char *text);
  * - For ECI mode, numChars must be 0, and the worst-case number of bytes is returned.
  *   An actual ECI segment can have shorter data. For non-ECI modes, the result is exact.
  */
-u16 QRCode_calcSegmentBufferSize(enum QRCODE_MODE mode, u16 numChars);
+u16 QRCode_CalcSegmentBufferSize(enum QRCODE_MODE mode, u16 numChars);
 
 
 /* 
@@ -388,14 +388,14 @@ u16 QRCode_calcSegmentBufferSize(enum QRCODE_MODE mode, u16 numChars);
  * can be converted to UTF-8 bytes and encoded as a byte mode segment.
  */
 #if (QRCODE_USE_EXTRA)
-void QRCode_makeBytes(const u8 data[], u16 len, u8 buf[], struct QRCode_Segment* seg);
+void QRCode_MakeBytes(const u8 data[], u16 len, u8 buf[], struct QRCode_Segment* seg);
 #endif
 
 
 /* 
  * Returns a segment representing the given string of decimal digits encoded in numeric mode.
  */
-void QRCode_makeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg);
+void QRCode_MakeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg);
 
 
 /* 
@@ -403,7 +403,7 @@ void QRCode_makeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg
  * The characters allowed are: 0 to 9, A to Z (uppercase only), space,
  * dollar, percent, asterisk, plus, hyphen, period, slash, colon.
  */
-void QRCode_makeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* seg);
+void QRCode_MakeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* seg);
 
 
 /* 
@@ -411,7 +411,7 @@ void QRCode_makeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* 
  * (ECI) designator with the given assignment value.
  */
 #if (QRCODE_USE_EXTRA)
-void QRCode_makeEci(long assignVal, u8 buf[], struct QRCode_Segment* seg);
+void QRCode_MakeECI(long assignVal, u8 buf[], struct QRCode_Segment* seg);
 #endif
 
 

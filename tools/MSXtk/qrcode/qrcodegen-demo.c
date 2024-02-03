@@ -158,15 +158,15 @@ static void doVarietyDemo(void)
 //			free(concat);
 //		}
 //		{
-//			u8 *segBuf0 = malloc(QRCode_calcSegmentBufferSize(QRCODE_MODE_ALPHANUMERIC, (u16)strlen(silver0)) * sizeof(u8));
-//			u8 *segBuf1 = malloc(QRCode_calcSegmentBufferSize(QRCODE_MODE_NUMERIC, (u16)strlen(silver1)) * sizeof(u8));
+//			u8 *segBuf0 = malloc(QRCode_CalcSegmentBufferSize(QRCODE_MODE_ALPHANUMERIC, (u16)strlen(silver0)) * sizeof(u8));
+//			u8 *segBuf1 = malloc(QRCode_CalcSegmentBufferSize(QRCODE_MODE_NUMERIC, (u16)strlen(silver1)) * sizeof(u8));
 //			if (segBuf0 == NULL || segBuf1 == NULL) {
 //				perror("malloc");
 //				exit(EXIT_FAILURE);
 //			}
 //			struct QRCode_Segment segs[] = {
-//				QRCode_makeAlphanumeric(silver0, segBuf0),
-//				QRCode_makeNumeric(silver1, segBuf1),
+//				QRCode_MakeAlphanumeric(silver0, segBuf0),
+//				QRCode_MakeNumeric(silver1, segBuf1),
 //			};
 //			ok = QRCode_encodeSegments(segs, sizeof(segs) / sizeof(segs[0]), QRCODE_ECC_LOW, tempBuffer, qrcode);
 //			free(segBuf0);
@@ -206,17 +206,17 @@ static void doVarietyDemo(void)
 //			}
 //			for (u16 i = 0, len = (u16)strlen(golden0); i < len; i++)
 //				bytes[i] = (u8)golden0[i];
-//			u8 *segBuf0 = malloc(QRCode_calcSegmentBufferSize(QRCODE_MODE_BYTE, (u16)strlen(golden0)) * sizeof(u8));
-//			u8 *segBuf1 = malloc(QRCode_calcSegmentBufferSize(QRCODE_MODE_NUMERIC, (u16)strlen(golden1)) * sizeof(u8));
-//			u8 *segBuf2 = malloc(QRCode_calcSegmentBufferSize(QRCODE_MODE_ALPHANUMERIC, (u16)strlen(golden2)) * sizeof(u8));
+//			u8 *segBuf0 = malloc(QRCode_CalcSegmentBufferSize(QRCODE_MODE_BYTE, (u16)strlen(golden0)) * sizeof(u8));
+//			u8 *segBuf1 = malloc(QRCode_CalcSegmentBufferSize(QRCODE_MODE_NUMERIC, (u16)strlen(golden1)) * sizeof(u8));
+//			u8 *segBuf2 = malloc(QRCode_CalcSegmentBufferSize(QRCODE_MODE_ALPHANUMERIC, (u16)strlen(golden2)) * sizeof(u8));
 //			if (segBuf0 == NULL || segBuf1 == NULL || segBuf2 == NULL) {
 //				perror("malloc");
 //				exit(EXIT_FAILURE);
 //			}
 //			struct QRCode_Segment segs[] = {
-//				QRCode_makeBytes(bytes, (u16)strlen(golden0), segBuf0),
-//				QRCode_makeNumeric(golden1, segBuf1),
-//				QRCode_makeAlphanumeric(golden2, segBuf2),
+//				QRCode_MakeBytes(bytes, (u16)strlen(golden0), segBuf0),
+//				QRCode_MakeNumeric(golden1, segBuf1),
+//				QRCode_MakeAlphanumeric(golden2, segBuf2),
 //			};
 //			free(bytes);
 //			ok = QRCode_encodeSegments(segs, sizeof(segs) / sizeof(segs[0]), QRCODE_ECC_LOW, tempBuffer, qrcode);
@@ -258,7 +258,7 @@ static void doVarietyDemo(void)
 //				0x0000, 0x0208, 0x01FF, 0x0008,
 //			};
 //			u16 len = sizeof(kanjiChars) / sizeof(kanjiChars[0]);
-//			u8 *segBuf = calloc(QRCode_calcSegmentBufferSize(QRCODE_MODE_KANJI, len), sizeof(u8));
+//			u8 *segBuf = calloc(QRCode_CalcSegmentBufferSize(QRCODE_MODE_KANJI, len), sizeof(u8));
 //			if (segBuf == NULL) {
 //				perror("calloc");
 //				exit(EXIT_FAILURE);

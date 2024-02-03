@@ -505,6 +505,17 @@
 #define PAC_ACCESS					PAC_ACCESS_BIOS
 
 //-----------------------------------------------------------------------------
+// QR CODE MODULE
+//-----------------------------------------------------------------------------
+
+#define QRCODE_VERSION_MIN			1		// The minimum version number supported in the QR Code Model 2 standard
+#define QRCODE_VERSION_MAX			20		// The maximum version number supported in the QR Code Model 2 standard
+#define QRCODE_VERSION_CUSTOM		FALSE	// TRUE: Allow to define version using <QRCode_SetVersion>. FALSE: Use hardcoded min/max version
+#define QRCODE_USE_BYTE_ONLY		TRUE	// TRUE: Allow only BYTE mode. FALSE allow all mode including NUMERIC, ALPHANUMERIC, KANJI and ECI.
+#define QRCODE_USE_EXTRA			FALSE	// TRUE: Add extra function to generate custom data segments.
+#define QRCODE_BOOST_ECL			FALSE	// If boostEcl is TRUE, then the ECC level of the result may be higher than the ecl argument if it can be done without increasing the version. QRCODE_PARAM_CUSTOM: Allow to use <QRCode_SetBoostECL> function.
+
+//-----------------------------------------------------------------------------
 // DEBUG
 //-----------------------------------------------------------------------------
 

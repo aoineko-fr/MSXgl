@@ -1,6 +1,13 @@
+// ____________________________ 
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
+//─────────────────────────────────────────────────────────────────────────────
+// QR Code generator module
+//─────────────────────────────────────────────────────────────────────────────
 /* 
- * QR Code generator library (C)
- * 
  * Copyright (c) Project Nayuki. (MIT License)
  * https://www.nayuki.io/page/qr-code-generator-library
  * 
@@ -33,29 +40,26 @@
 	#define QRCODE_VERSION_CURRENT_MAX	QRCODE_VERSION_MAX
 #endif
 
-//#if (QRCODE_MASK_DEF == QRCODE_MASK_CUSTOM)
-//	u8 g_QRCode_Mask = QRCODE_MASK_AUTO;
-//	#define QRCODE_MASK_CURRENT			g_QRCode_Mask
-//#else
-//	#define QRCODE_MASK_CURRENT			QRCODE_MASK
-//#endif
-
-#if (!QRCODE_MSX)
-#define NULL						 ((void *)0)
+#if (QRCODE_BOOST_ECL == QRCODE_PARAM_CUSTOM)
+	bool g_QRCode_BoostECL = TRUE;
+	#define QRCODE_BOOST_ECL_CURRENT	g_QRCode_BoostECL
+#else
+	#define QRCODE_BOOST_ECL_CURRENT	QRCODE_BOOST_ECL
 #endif
 
+#define assert(a)
+#define INT16_MAX					0x7FFF
 #define LONG_MAX					2147483647L // 0x7FFFFFFF
 
-int abs(int a)
+i16 abs(i16 a)
 {
 	return  (a > 0) ? a : -a;
 }
 
-long labs(long a)
+i32 labs(i32 a)
 {
 	return  (a > 0) ? a : -a;
 }
-
 
 u16 strlen(const c8* str)
 {
@@ -143,45 +147,46 @@ void* memcpy(void* dst, const void* src, u16 num)
 // - They are completely thread-safe if the caller does not give the
 //   same writable buffer to concurrent calls to these functions.
 
-void appendBitsToBuffer(u16 val, i16 numBits, u8 buffer[], i16 *bitLen);
+void appendBitsToBuffer(u16 val, u8 numBits, u8 buffer[], i16 *bitLen);
 
-void addEccAndInterleave(u8 data[], i16 version, enum QRCODE_ECC ecl, u8 result[]);
-i16 getNumDataCodewords(i16 version, enum QRCODE_ECC ecl);
-i16 getNumRawDataModules(i16 ver);
+void addEccAndInterleave(u8 data[], u8 version, enum QRCODE_ECC ecl, u8 result[]);
+i16 getNumDataCodewords(u8 version, enum QRCODE_ECC ecl);
+i16 getNumRawDataModules(u8 version);
 
-void reedSolomonComputeDivisor(i16 degree, u8 result[]);
-void reedSolomonComputeRemainder(const u8 data[], i16 dataLen, const u8 generator[], i16 degree, u8 result[]);
+void reedSolomonComputeDivisor(i8 degree, u8 result[]);
+void reedSolomonComputeRemainder(const u8 data[], i16 dataLen, const u8 generator[], i8 degree, u8 result[]);
 u8 reedSolomonMultiply(u8 x, u8 y);
 
-void initializeFunctionModules(i16 version, u8 qrcode[]);
-static void drawLightFunctionModules(u8 qrcode[], i16 version);
+void initializeFunctionModules(u8 version, u8 qrcode[]);
+static void drawLightFunctionModules(u8 qrcode[], u8 version);
 static void drawFormatBits(enum QRCODE_ECC ecl, enum QRCODE_MASK mask, u8 qrcode[]);
-i16 getAlignmentPatternPositions(i16 version, u8 result[7]);
-static void fillRectangle(i16 left, i16 top, i16 width, i16 height, u8 qrcode[]);
+i16 getAlignmentPatternPositions(u8 version, u8 result[7]);
+static void fillRectangle(u8 left, u8 top, u8 width, u8 height, u8 qrcode[]);
 
 static void drawCodewords(const u8 data[], i16 dataLen, u8 qrcode[]);
 static void applyMask(const u8 functionModules[], u8 qrcode[], enum QRCODE_MASK mask);
-static long getPenaltyScore(const u8 qrcode[]);
-static i16 finderPenaltyCountPatterns(const i16 runHistory[7], i16 qrsize);
-static i16 finderPenaltyTerminateAndCount(bool currentRunColor, i16 currentRunLength, i16 runHistory[7], i16 qrsize);
-static void finderPenaltyAddHistory(i16 currentRunLength, i16 runHistory[7], i16 qrsize);
+static i32 getPenaltyScore(const u8 qrcode[]);
+static i16 finderPenaltyCountPatterns(const i16 runHistory[7], u8 qrsize);
+static i16 finderPenaltyTerminateAndCount(bool currentRunColor, i16 currentRunLength, i16 runHistory[7], u8 qrsize);
+static void finderPenaltyAddHistory(i16 currentRunLength, i16 runHistory[7], u8 qrsize);
 
-bool getModuleBounded(const u8 qrcode[], i16 x, i16 y);
-void setModuleBounded(u8 qrcode[], i16 x, i16 y, bool isDark);
-void setModuleUnbounded(u8 qrcode[], i16 x, i16 y, bool isDark);
-static bool getBit(i16 x, i16 i);
+void setModuleBounded(u8 qrcode[], u8 x, u8 y, bool isDark);
+void setModuleUnbounded(u8 qrcode[], u8 x, u8 y, bool isDark);
+static bool getBit(i16 x, u8 i);
 
 i16 calcSegmentBitLength(enum QRCODE_MODE mode, u16 numChars);
-i16 getTotalBits(const struct QRCode_Segment segs[], u16 len, i16 version);
-static i16 numCharCountBits(enum QRCODE_MODE mode, i16 version);
+i16 getTotalBits(const struct QRCode_Segment segs[], u16 len, u8 version);
+static i8 numCharCountBits(enum QRCODE_MODE mode, u8 version);
 
 
 
 /*---- Private tables of constants ----*/
 
+#if (!QRCODE_USE_BYTE_ONLY)
 // The set of all legal characters in alphanumeric mode, where each character
 // value maps to the index in the string. For checking text and encoding segments.
 static const char *ALPHANUMERIC_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:";
+#endif
 
 // Sentinel value for use in only some functions.
 #define LENGTH_OVERFLOW -1
@@ -197,7 +202,7 @@ const i8 ECC_CODEWORDS_PER_BLOCK[4][41] =
 	{-1, 17, 28, 22, 16, 22, 28, 26, 26, 24, 28, 24, 28, 22, 24, 24, 30, 28, 28, 26, 28, 30, 24, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},  // High
 };
 
-#define QRCode_REED_SOLOMON_DEGREE_MAX 30  // Based on the table above
+#define QRCODE_REED_SOLOMON_DEGREE_MAX 30  // Based on the table above
 
 // For generating error correction codes.
 const i8 NUM_ERROR_CORRECTION_BLOCKS[4][41] = 
@@ -221,27 +226,29 @@ static const i16 PENALTY_N4 = 10;
 /*---- High-level QR Code encoding functions ----*/
 
 // Public function - see documentation comment in header file.
-bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask, bool boostEcl)
+bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask)
 {
 	u16 textLen = (u16)strlen(text);
 	if (textLen == 0)
-		return QRCode_encodeSegmentsAdvanced(NULL, 0, ecl, mask, boostEcl, tempBuffer, qrcode);
+		return QRCode_EncodeSegmentsAdvanced(NULL, 0, ecl, mask, tempBuffer, qrcode);
 	u16 bufLen = (u16)QRCODE_BUFFER_LEN_FOR_VERSION(QRCODE_VERSION_CURRENT_MAX);
 	
 	struct QRCode_Segment seg;
-	if (QRCode_isNumeric(text))
+#if (!QRCODE_USE_BYTE_ONLY)
+	if (QRCode_IsNumeric(text))
 	{
-		if (QRCode_calcSegmentBufferSize(QRCODE_MODE_NUMERIC, textLen) > bufLen)
+		if (QRCode_CalcSegmentBufferSize(QRCODE_MODE_NUMERIC, textLen) > bufLen)
 			goto fail;
-		QRCode_makeNumeric(text, tempBuffer, &seg);
+		QRCode_MakeNumeric(text, tempBuffer, &seg);
 	}
-	else if (QRCode_isAlphanumeric(text))
+	else if (QRCode_IsAlphanumeric(text))
 	{
-		if (QRCode_calcSegmentBufferSize(QRCODE_MODE_ALPHANUMERIC, textLen) > bufLen)
+		if (QRCode_CalcSegmentBufferSize(QRCODE_MODE_ALPHANUMERIC, textLen) > bufLen)
 			goto fail;
-		QRCode_makeAlphanumeric(text, tempBuffer, &seg);
+		QRCode_MakeAlphanumeric(text, tempBuffer, &seg);
 	}
 	else
+#endif
 	{
 		if (textLen > bufLen)
 			goto fail;
@@ -254,7 +261,7 @@ bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCO
 		seg.numChars = (i16)textLen;
 		seg.data = tempBuffer;
 	}
-	return QRCode_encodeSegmentsAdvanced(&seg, 1, ecl, mask, boostEcl, tempBuffer, qrcode);
+	return QRCode_EncodeSegmentsAdvanced(&seg, 1, ecl, mask, tempBuffer, qrcode);
 	
 fail:
 	qrcode[0] = 0;  // Set size to invalid value for safety
@@ -262,9 +269,9 @@ fail:
 }
 
 
-#if (QRCODE_USE_EXTRA)
+#if (QRCODE_USE_EXTRA && !QRCODE_USE_BYTE_ONLY)
 // Public function - see documentation comment in header file.
-bool QRCode_EncodeBinary(u8 dataAndTemp[], u16 dataLen, u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask, bool boostEcl)
+bool QRCode_EncodeBinary(u8 dataAndTemp[], u16 dataLen, u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask)
 {	
 	struct QRCode_Segment seg;
 	seg.mode = QRCODE_MODE_BYTE;
@@ -276,15 +283,15 @@ bool QRCode_EncodeBinary(u8 dataAndTemp[], u16 dataLen, u8 qrcode[], enum QRCODE
 	}
 	seg.numChars = (i16)dataLen;
 	seg.data = dataAndTemp;
-	return QRCode_encodeSegmentsAdvanced(&seg, 1, ecl, mask, boostEcl, dataAndTemp, qrcode);
+	return QRCode_EncodeSegmentsAdvanced(&seg, 1, ecl, mask, dataAndTemp, qrcode);
 }
 #endif
 
 // Appends the given number of low-order bits of the given value to the given byte-based
 // bit buffer, increasing the bit length. Requires 0 <= numBits <= 16 and val < 2^numBits.
-void appendBitsToBuffer(u16 val, i16 numBits, u8 buffer[], i16 *bitLen)
+void appendBitsToBuffer(u16 val, u8 numBits, u8 buffer[], i16 *bitLen)
 {
-	assert(0 <= numBits && numBits <= 16 && (unsigned long)val >> numBits == 0);
+	assert(0 <= numBits && numBits <= 16 && (u32)val >> numBits == 0);
 	for (i16 i = numBits - 1; i >= 0; i--, (*bitLen)++)
 		buffer[*bitLen >> 3] |= ((val >> i) & 1) << (7 - (*bitLen & 7));
 }
@@ -293,23 +300,24 @@ void appendBitsToBuffer(u16 val, i16 numBits, u8 buffer[], i16 *bitLen)
 
 /*---- Low-level QR Code encoding functions ----*/
 
-#if (QRCODE_USE_EXTRA)
+#if (QRCODE_USE_EXTRA && !QRCODE_USE_BYTE_ONLY)
 // Public function - see documentation comment in header file.
-bool QRCode_encodeSegments(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, u8 tempBuffer[], u8 qrcode[])
+bool QRCode_EncodeSegments(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, u8 tempBuffer[], u8 qrcode[])
 {
-	return QRCode_encodeSegmentsAdvanced(segs, len, ecl, QRCODE_MASK_AUTO, TRUE, tempBuffer, qrcode);
+	return QRCode_EncodeSegmentsAdvanced(segs, len, ecl, QRCODE_MASK_AUTO, tempBuffer, qrcode);
 }
 #endif
 
 // Public function - see documentation comment in header file.
-bool QRCode_encodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, enum QRCODE_MASK mask, bool boostEcl, u8 tempBuffer[], u8 qrcode[])
+bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, enum QRCODE_MASK mask, u8 tempBuffer[], u8 qrcode[])
 {
 	assert(segs != NULL || len == 0);
 	assert(QRCODE_VERSION_MIN <= QRCODE_VERSION_CURRENT_MIN && QRCODE_VERSION_CURRENT_MIN <= QRCODE_VERSION_CURRENT_MAX && QRCODE_VERSION_CURRENT_MAX <= QRCODE_VERSION_MAX);
 	assert(0 <= (i16)ecl && (i16)ecl <= 3 && -1 <= (i16)mask && (i16)mask <= 7);
 	
 	// Find the minimal version number to use
-	i16 version, dataUsedBits;
+	u8 version;
+	i16 dataUsedBits;
 	for (version = QRCODE_VERSION_CURRENT_MIN; ; version++)
 	{
 		i16 dataCapacityBits = getNumDataCodewords(version, ecl) * 8;  // Number of data bits available
@@ -325,10 +333,11 @@ bool QRCode_encodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, 
 	assert(dataUsedBits != LENGTH_OVERFLOW);
 	
 	// Increase the error correction level while the data still fits in the current version number
-	for (i16 i = (i16)QRCODE_ECC_MEDIUM; i <= (i16)QRCODE_ECC_HIGH; i++)
-	{  // From low to high
-		if (boostEcl && dataUsedBits <= getNumDataCodewords(version, (enum QRCODE_ECC)i) * 8)
-			ecl = (enum QRCODE_ECC)i;
+	if(QRCODE_BOOST_ECL_CURRENT)
+	{
+		for (u8 i = (u8)QRCODE_ECC_MEDIUM; i <= (u8)QRCODE_ECC_HIGH; i++) // From low to high
+			if (dataUsedBits <= getNumDataCodewords(version, (enum QRCODE_ECC)i) * 8)
+				ecl = (enum QRCODE_ECC)i;
 	}
 	
 	// Concatenate all segments to create the data bit string
@@ -371,13 +380,13 @@ bool QRCode_encodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, 
 	// Do masking
 	if (mask == QRCODE_MASK_AUTO)
 	{  // Automatically choose best mask
-		long minPenalty = LONG_MAX;
-		for (i16 i = 0; i < 8; i++)
+		i32 minPenalty = LONG_MAX;
+		for (u8 i = 0; i < 8; i++)
 		{
 			enum QRCODE_MASK msk = (enum QRCODE_MASK)i;
 			applyMask(tempBuffer, qrcode, msk);
 			drawFormatBits(ecl, msk, qrcode);
-			long penalty = getPenaltyScore(qrcode);
+			i32 penalty = getPenaltyScore(qrcode);
 			if (penalty < minPenalty)
 			{
 				mask = msk;
@@ -400,12 +409,12 @@ bool QRCode_encodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, 
 // bytes from the blocks and stores them in the result array. data[0 : dataLen] contains
 // the input data. data[dataLen : rawCodewords] is used as a temporary work area and will
 // be clobbered by this function. The final answer is stored in result[0 : rawCodewords].
-void addEccAndInterleave(u8 data[], i16 version, enum QRCODE_ECC ecl, u8 result[])
+void addEccAndInterleave(u8 data[], u8 version, enum QRCODE_ECC ecl, u8 result[])
 {
 	// Calculate parameter numbers
 	assert(0 <= (i16)ecl && (i16)ecl < 4 && QRCODE_VERSION_MIN <= version && version <= QRCODE_VERSION_MAX);
-	i16 numBlocks = NUM_ERROR_CORRECTION_BLOCKS[(i16)ecl][version];
-	i16 blockEccLen = ECC_CODEWORDS_PER_BLOCK  [(i16)ecl][version];
+	i8 numBlocks = NUM_ERROR_CORRECTION_BLOCKS[(u8)ecl][version];
+	i8 blockEccLen = ECC_CODEWORDS_PER_BLOCK[(u8)ecl][version];
 	i16 rawCodewords = getNumRawDataModules(version) / 8;
 	i16 dataLen = getNumDataCodewords(version, ecl);
 	i16 numShortBlocks = numBlocks - rawCodewords % numBlocks;
@@ -413,10 +422,10 @@ void addEccAndInterleave(u8 data[], i16 version, enum QRCODE_ECC ecl, u8 result[
 	
 	// Split data into blocks, calculate ECC, and interleave
 	// (not concatenate) the bytes into a single sequence
-	u8 rsdiv[QRCode_REED_SOLOMON_DEGREE_MAX];
+	u8 rsdiv[QRCODE_REED_SOLOMON_DEGREE_MAX];
 	reedSolomonComputeDivisor(blockEccLen, rsdiv);
 	const u8 *dat = data;
-	for (i16 i = 0; i < numBlocks; i++)
+	for (i8 i = 0; i < numBlocks; i++)
 	{
 		i16 datLen = shortBlockDataLen + (i < numShortBlocks ? 0 : 1);
 		u8 *ecc = &data[dataLen];  // Temporary storage
@@ -436,9 +445,9 @@ void addEccAndInterleave(u8 data[], i16 version, enum QRCODE_ECC ecl, u8 result[
 
 // Returns the number of 8-bit codewords that can be used for storing data (not ECC),
 // for the given version number and error correction level. The result is in the range [9, 2956].
-i16 getNumDataCodewords(i16 version, enum QRCODE_ECC ecl)
+i16 getNumDataCodewords(u8 version, enum QRCODE_ECC ecl)
 {
-	i16 v = version, e = (i16)ecl;
+	u8 v = version, e = (u8)ecl;
 	assert(0 <= e && e < 4);
 	return getNumRawDataModules(v) / 8 - ECC_CODEWORDS_PER_BLOCK[e][v] * NUM_ERROR_CORRECTION_BLOCKS[e][v];
 }
@@ -447,8 +456,9 @@ i16 getNumDataCodewords(i16 version, enum QRCODE_ECC ecl)
 // Returns the number of data bits that can be stored in a QR Code of the given version number, after
 // all function modules are excluded. This includes remainder bits, so it might not be a multiple of 8.
 // The result is in the range [208, 29648]. This could be implemented as a 40-entry lookup table.
-i16 getNumRawDataModules(i16 ver)
+i16 getNumRawDataModules(u8 version)
 {
+	i16 ver = (i16)version;
 	assert(QRCODE_VERSION_MIN <= ver && ver <= QRCODE_VERSION_MAX);
 	i16 result = (16 * ver + 128) * ver + 64;
 	if (ver >= 2)
@@ -468,9 +478,9 @@ i16 getNumRawDataModules(i16 ver)
 
 // Computes a Reed-Solomon ECC generator polynomial for the given degree, storing in result[0 : degree].
 // This could be implemented as a lookup table over all possible parameter values, instead of as an algorithm.
-void reedSolomonComputeDivisor(i16 degree, u8 result[])
+void reedSolomonComputeDivisor(i8 degree, u8 result[])
 {
-	assert(1 <= degree && degree <= QRCode_REED_SOLOMON_DEGREE_MAX);
+	assert(1 <= degree && degree <= QRCODE_REED_SOLOMON_DEGREE_MAX);
 	// Polynomial coefficients are stored from highest to lowest power, excluding the leading term which is always 1.
 	// For example the polynomial x^3 + 255x^2 + 8x + 93 is stored as the uint8 array {255, 8, 93}.
 	memset(result, 0, (u16)degree * sizeof(result[0]));
@@ -480,10 +490,10 @@ void reedSolomonComputeDivisor(i16 degree, u8 result[])
 	// drop the highest monomial term which is always 1x^degree.
 	// Note that r = 0x02, which is a generator element of this field GF(2^8/0x11D).
 	u8 root = 1;
-	for (i16 i = 0; i < degree; i++)
+	for (i8 i = 0; i < degree; i++)
 	{
 		// Multiply the current product by (x - r^i)
-		for (i16 j = 0; j < degree; j++)
+		for (i8 j = 0; j < degree; j++)
 		{
 			result[j] = reedSolomonMultiply(result[j], root);
 			if (j + 1 < degree)
@@ -497,21 +507,21 @@ void reedSolomonComputeDivisor(i16 degree, u8 result[])
 // Computes the Reed-Solomon error correction codeword for the given data and divisor polynomials.
 // The remainder when data[0 : dataLen] is divided by divisor[0 : degree] is stored in result[0 : degree].
 // All polynomials are in big endian, and the generator has an implicit leading 1 term.
-void reedSolomonComputeRemainder(const u8 data[], i16 dataLen, const u8 generator[], i16 degree, u8 result[])
+void reedSolomonComputeRemainder(const u8 data[], i16 dataLen, const u8 generator[], i8 degree, u8 result[])
 {
-	assert(1 <= degree && degree <= QRCode_REED_SOLOMON_DEGREE_MAX);
+	assert(1 <= degree && degree <= QRCODE_REED_SOLOMON_DEGREE_MAX);
 	memset(result, 0, (u16)degree * sizeof(result[0]));
 	for (i16 i = 0; i < dataLen; i++)
 	{  // Polynomial division
 		u8 factor = data[i] ^ result[0];
 		memmove(&result[0], &result[1], (u16)(degree - 1) * sizeof(result[0]));
 		result[degree - 1] = 0;
-		for (i16 j = 0; j < degree; j++)
+		for (i8 j = 0; j < degree; j++)
 			result[j] ^= reedSolomonMultiply(generator[j], factor);
 	}
 }
 
-#undef QRCode_REED_SOLOMON_DEGREE_MAX
+#undef QRCODE_REED_SOLOMON_DEGREE_MAX
 
 
 // Returns the product of the two given field elements modulo GF(2^8/0x11D).
@@ -520,7 +530,7 @@ u8 reedSolomonMultiply(u8 x, u8 y)
 {
 	// Russian peasant multiplication
 	u8 z = 0;
-	for (i16 i = 7; i >= 0; i--) {
+	for (i8 i = 7; i >= 0; i--) {
 		z = (u8)((z << 1) ^ ((z >> 7) * 0x11D));
 		z ^= ((y >> i) & 1) * x;
 	}
@@ -533,12 +543,12 @@ u8 reedSolomonMultiply(u8 x, u8 y)
 
 // Clears the given QR Code grid with light modules for the given
 // version's size, then marks every function module as dark.
-void initializeFunctionModules(i16 version, u8 qrcode[])
+void initializeFunctionModules(u8 version, u8 qrcode[])
 {
 	// Initialize QR Code
-	i16 qrsize = version * 4 + 17;
+	u8 qrsize = version * 4 + 17;
 	memset(qrcode, 0, (u16)((qrsize * qrsize + 7) / 8 + 1) * sizeof(qrcode[0]));
-	qrcode[0] = (u8)qrsize;
+	qrcode[0] = qrsize;
 	
 	// Fill horizontal and vertical timing patterns
 	fillRectangle(6, 0, 1, qrsize, qrcode);
@@ -574,22 +584,22 @@ void initializeFunctionModules(i16 version, u8 qrcode[])
 // Draws light function modules and possibly some dark modules onto the given QR Code, without changing
 // non-function modules. This does not draw the format bits. This requires all function modules to be previously
 // marked dark (namely by initializeFunctionModules()), because this may skip redrawing dark function modules.
-static void drawLightFunctionModules(u8 qrcode[], i16 version)
+static void drawLightFunctionModules(u8 qrcode[], u8 version)
 {
 	// Draw horizontal and vertical timing patterns
 	u8 qrsize = QRCode_GetSize(qrcode);
-	for (i16 i = 7; i < qrsize - 7; i += 2)
+	for (u8 i = 7; i < qrsize - 7; i += 2)
 	{
 		setModuleBounded(qrcode, 6, i, FALSE);
 		setModuleBounded(qrcode, i, 6, FALSE);
 	}
 	
 	// Draw 3 finder patterns (all corners except bottom right; overwrites some timing modules)
-	for (i16 dy = -4; dy <= 4; dy++)
+	for (i8 dy = -4; dy <= 4; dy++)
 	{
-		for (i16 dx = -4; dx <= 4; dx++)
+		for (i8 dx = -4; dx <= 4; dx++)
 		{
-			i16 dist = abs(dx);
+			i8 dist = abs(dx);
 			if (abs(dy) > dist)
 				dist = abs(dy);
 			if (dist == 2 || dist == 4)
@@ -610,11 +620,9 @@ static void drawLightFunctionModules(u8 qrcode[], i16 version)
 		{
 			if ((i == 0 && j == 0) || (i == 0 && j == numAlign - 1) || (i == numAlign - 1 && j == 0))
 				continue;  // Don't draw on the three finder corners
-			for (i16 dy = -1; dy <= 1; dy++)
-			{
-				for (i16 dx = -1; dx <= 1; dx++)
+			for (i8 dy = -1; dy <= 1; dy++)
+				for (i8 dx = -1; dx <= 1; dx++)
 					setModuleBounded(qrcode, alignPatPos[i] + dx, alignPatPos[j] + dy, dx == 0 && dy == 0);
-			}
 		}
 	}
 	
@@ -623,17 +631,17 @@ static void drawLightFunctionModules(u8 qrcode[], i16 version)
 	{
 		// Calculate error correction code and pack bits
 		i16 rem = version;  // version is uint6, in the range [7, 40]
-		for (i16 i = 0; i < 12; i++)
+		for (u8 i = 0; i < 12; i++)
 			rem = (rem << 1) ^ ((rem >> 11) * 0x1F25);
-		long bits = (long)version << 12 | rem;  // uint18
+		i32 bits = (i32)version << 12 | rem;  // uint18
 		assert(bits >> 18 == 0);
 		
 		// Draw two copies
-		for (i16 i = 0; i < 6; i++)
+		for (u8 i = 0; i < 6; i++)
 		{
-			for (i16 j = 0; j < 3; j++)
+			for (u8 j = 0; j < 3; j++)
 			{
-				i16 k = qrsize - 11 + j;
+				u8 k = qrsize - 11 + j;
 				setModuleBounded(qrcode, k, i, (bits & 1) != 0);
 				setModuleBounded(qrcode, i, k, (bits & 1) != 0);
 				bits >>= 1;
@@ -653,25 +661,25 @@ static void drawFormatBits(enum QRCODE_ECC ecl, enum QRCODE_MASK mask, u8 qrcode
 	static const i16 table[] = {1, 0, 3, 2};
 	i16 data = table[(i16)ecl] << 3 | (i16)mask;  // errCorrLvl is uint2, mask is uint3
 	i16 rem = data;
-	for (i16 i = 0; i < 10; i++)
+	for (i8 i = 0; i < 10; i++)
 		rem = (rem << 1) ^ ((rem >> 9) * 0x537);
 	i16 bits = (data << 10 | rem) ^ 0x5412;  // uint15
 	assert(bits >> 15 == 0);
 	
 	// Draw first copy
-	for (i16 i = 0; i <= 5; i++)
+	for (u8 i = 0; i <= 5; i++)
 		setModuleBounded(qrcode, 8, i, getBit(bits, i));
 	setModuleBounded(qrcode, 8, 7, getBit(bits, 6));
 	setModuleBounded(qrcode, 8, 8, getBit(bits, 7));
 	setModuleBounded(qrcode, 7, 8, getBit(bits, 8));
-	for (i16 i = 9; i < 15; i++)
+	for (u8 i = 9; i < 15; i++)
 		setModuleBounded(qrcode, 14 - i, 8, getBit(bits, i));
 	
 	// Draw second copy
 	u8 qrsize = QRCode_GetSize(qrcode);
-	for (i16 i = 0; i < 8; i++)
+	for (u8 i = 0; i < 8; i++)
 		setModuleBounded(qrcode, qrsize - 1 - i, 8, getBit(bits, i));
-	for (i16 i = 8; i < 15; i++)
+	for (u8 i = 8; i < 15; i++)
 		setModuleBounded(qrcode, 8, qrsize - 15 + i, getBit(bits, i));
 	setModuleBounded(qrcode, 8, qrsize - 8, TRUE);  // Always dark
 }
@@ -681,13 +689,12 @@ static void drawFormatBits(enum QRCODE_ECC ecl, enum QRCODE_MASK mask, u8 qrcode
 // for this version number, returning the length of the list (in the range [0,7]).
 // Each position is in the range [0,177), and are used on both the x and y axes.
 // This could be implemented as lookup table of 40 variable-length lists of unsigned bytes.
-i16 getAlignmentPatternPositions(i16 version, u8 result[7]) 
+i16 getAlignmentPatternPositions(u8 version, u8 result[7]) 
 {
 	if (version == 1)
 		return 0;
-	i16 numAlign = version / 7 + 2;
-	i16 step = (version == 32) ? 26 :
-		(version * 4 + numAlign * 2 + 1) / (numAlign * 2 - 2) * 2;
+	u8 numAlign = version / 7 + 2;
+	i16 step = (version == 32) ? 26 : (version * 4 + numAlign * 2 + 1) / (numAlign * 2 - 2) * 2;
 	for (i16 i = numAlign - 1, pos = version * 4 + 10; i >= 1; i--, pos -= step)
 		result[i] = (u8)pos;
 	result[0] = 6;
@@ -696,13 +703,11 @@ i16 getAlignmentPatternPositions(i16 version, u8 result[7])
 
 
 // Sets every module in the range [left : left + width] * [top : top + height] to dark.
-static void fillRectangle(i16 left, i16 top, i16 width, i16 height, u8 qrcode[]) 
+static void fillRectangle(u8 left, u8 top, u8 width, u8 height, u8 qrcode[]) 
 {
-	for (i16 dy = 0; dy < height; dy++) 
-	{
-		for (i16 dx = 0; dx < width; dx++)
+	for (u8 dy = 0; dy < height; dy++)
+		for (u8 dx = 0; dx < width; dx++)
 			setModuleBounded(qrcode, left + dx, top + dy, TRUE);
-	}
 }
 
 
@@ -722,12 +727,12 @@ static void drawCodewords(const u8 data[], i16 dataLen, u8 qrcode[])
 			right = 5;
 		for (i16 vert = 0; vert < qrsize; vert++) 
 		{  // Vertical counter
-			for (i16 j = 0; j < 2; j++) 
+			for (i8 j = 0; j < 2; j++) 
 			{
 				i16 x = right - j;  // Actual x coordinate
 				bool upward = ((right + 1) & 2) == 0;
 				i16 y = upward ? qrsize - 1 - vert : vert;  // Actual y coordinate
-				if (!getModuleBounded(qrcode, x, y) && i < dataLen * 8) 
+				if (!QRCode_GetModule(qrcode, x, y) && i < dataLen * 8) 
 				{
 					bool dark = getBit(data[i >> 3], 7 - (i & 7));
 					setModuleBounded(qrcode, x, y, dark);
@@ -751,11 +756,11 @@ static void applyMask(const u8 functionModules[], u8 qrcode[], enum QRCODE_MASK 
 {
 	assert(0 <= (i16)mask && (i16)mask <= 7);  // Disallows QRCODE_MASK_AUTO
 	u8 qrsize = QRCode_GetSize(qrcode);
-	for (i16 y = 0; y < qrsize; y++) 
+	for (u8 y = 0; y < qrsize; y++) 
 	{
-		for (i16 x = 0; x < qrsize; x++) 
+		for (u8 x = 0; x < qrsize; x++) 
 		{
-			if (getModuleBounded(functionModules, x, y))
+			if (QRCode_GetModule(functionModules, x, y))
 				continue;
 			bool invert;
 			switch ((i16)mask) 
@@ -770,7 +775,7 @@ static void applyMask(const u8 functionModules[], u8 qrcode[], enum QRCODE_MASK 
 				case 7:  invert = ((x + y) % 2 + x * y % 3) % 2 == 0;  break;
 				default:  assert(FALSE);  return;
 			}
-			bool val = getModuleBounded(qrcode, x, y);
+			bool val = QRCode_GetModule(qrcode, x, y);
 			setModuleBounded(qrcode, x, y, val ^ invert);
 		}
 	}
@@ -779,20 +784,20 @@ static void applyMask(const u8 functionModules[], u8 qrcode[], enum QRCODE_MASK 
 
 // Calculates and returns the penalty score based on state of the given QR Code's current modules.
 // This is used by the automatic mask choice algorithm to find the mask pattern that yields the lowest score.
-static long getPenaltyScore(const u8 qrcode[]) 
+static i32 getPenaltyScore(const u8 qrcode[]) 
 {
 	u8 qrsize = QRCode_GetSize(qrcode);
-	long result = 0;
+	i32 result = 0;
 	
 	// Adjacent modules in row having same color, and finder-like patterns
-	for (i16 y = 0; y < qrsize; y++) 
+	for (u8 y = 0; y < qrsize; y++) 
 	{
 		bool runColor = FALSE;
 		i16 runX = 0;
 		i16 runHistory[7] = {0};
-		for (i16 x = 0; x < qrsize; x++) 
+		for (u8 x = 0; x < qrsize; x++) 
 		{
-			if (getModuleBounded(qrcode, x, y) == runColor) 
+			if (QRCode_GetModule(qrcode, x, y) == runColor) 
 			{
 				runX++;
 				if (runX == 5)
@@ -805,21 +810,21 @@ static long getPenaltyScore(const u8 qrcode[])
 				finderPenaltyAddHistory(runX, runHistory, qrsize);
 				if (!runColor)
 					result += finderPenaltyCountPatterns(runHistory, qrsize) * PENALTY_N3;
-				runColor = getModuleBounded(qrcode, x, y);
+				runColor = QRCode_GetModule(qrcode, x, y);
 				runX = 1;
 			}
 		}
 		result += finderPenaltyTerminateAndCount(runColor, runX, runHistory, qrsize) * PENALTY_N3;
 	}
 	// Adjacent modules in column having same color, and finder-like patterns
-	for (i16 x = 0; x < qrsize; x++) 
+	for (u8 x = 0; x < qrsize; x++) 
 	{
 		bool runColor = FALSE;
 		i16 runY = 0;
 		i16 runHistory[7] = {0};
-		for (i16 y = 0; y < qrsize; y++) 
+		for (u8 y = 0; y < qrsize; y++) 
 		{
-			if (getModuleBounded(qrcode, x, y) == runColor) 
+			if (QRCode_GetModule(qrcode, x, y) == runColor) 
 			{
 				runY++;
 				if (runY == 5)
@@ -832,7 +837,7 @@ static long getPenaltyScore(const u8 qrcode[])
 				finderPenaltyAddHistory(runY, runHistory, qrsize);
 				if (!runColor)
 					result += finderPenaltyCountPatterns(runHistory, qrsize) * PENALTY_N3;
-				runColor = getModuleBounded(qrcode, x, y);
+				runColor = QRCode_GetModule(qrcode, x, y);
 				runY = 1;
 			}
 		}
@@ -840,25 +845,23 @@ static long getPenaltyScore(const u8 qrcode[])
 	}
 	
 	// 2*2 blocks of modules having same color
-	for (i16 y = 0; y < qrsize - 1; y++) 
+	for (u8 y = 0; y < qrsize - 1; y++) 
 	{
-		for (i16 x = 0; x < qrsize - 1; x++) 
+		for (u8 x = 0; x < qrsize - 1; x++) 
 		{
-			bool  color = getModuleBounded(qrcode, x, y);
-			if (  color == getModuleBounded(qrcode, x + 1, y) &&
-			      color == getModuleBounded(qrcode, x, y + 1) &&
-			      color == getModuleBounded(qrcode, x + 1, y + 1))
+			bool color = QRCode_GetModule(qrcode, x, y);
+			if (color == QRCode_GetModule(qrcode, x + 1, y) && color == QRCode_GetModule(qrcode, x, y + 1) && color == QRCode_GetModule(qrcode, x + 1, y + 1))
 				result += PENALTY_N2;
 		}
 	}
 	
 	// Balance of dark and light modules
 	i16 dark = 0;
-	for (i16 y = 0; y < qrsize; y++) 
+	for (u8 y = 0; y < qrsize; y++) 
 	{
-		for (i16 x = 0; x < qrsize; x++) 
+		for (u8 x = 0; x < qrsize; x++) 
 		{
-			if (getModuleBounded(qrcode, x, y))
+			if (QRCode_GetModule(qrcode, x, y))
 				dark++;
 		}
 	}
@@ -874,20 +877,19 @@ static long getPenaltyScore(const u8 qrcode[])
 
 // Can only be called immediately after a light run is added, and
 // returns either 0, 1, or 2. A helper function for getPenaltyScore().
-static i16 finderPenaltyCountPatterns(const i16 runHistory[7], i16 qrsize) 
+static i16 finderPenaltyCountPatterns(const i16 runHistory[7], u8 qrsize) 
 {
 	i16 n = runHistory[1];
 	assert(n <= qrsize * 3);  (void)qrsize;
 	bool core = n > 0 && runHistory[2] == n && runHistory[3] == n * 3 && runHistory[4] == n && runHistory[5] == n;
 	// The maximum QR Code size is 177, hence the dark run length n <= 177.
 	// Arithmetic is promoted to i16, so n*4 will not overflow.
-	return (core && runHistory[0] >= n * 4 && runHistory[6] >= n ? 1 : 0)
-	     + (core && runHistory[6] >= n * 4 && runHistory[0] >= n ? 1 : 0);
+	return (core && runHistory[0] >= n * 4 && runHistory[6] >= n ? 1 : 0) + (core && runHistory[6] >= n * 4 && runHistory[0] >= n ? 1 : 0);
 }
 
 
 // Must be called at the end of a line (row or column) of modules. A helper function for getPenaltyScore().
-static i16 finderPenaltyTerminateAndCount(bool currentRunColor, i16 currentRunLength, i16 runHistory[7], i16 qrsize) 
+static i16 finderPenaltyTerminateAndCount(bool currentRunColor, i16 currentRunLength, i16 runHistory[7], u8 qrsize) 
 {
 	if (currentRunColor) 
 	{  // Terminate dark run
@@ -901,7 +903,7 @@ static i16 finderPenaltyTerminateAndCount(bool currentRunColor, i16 currentRunLe
 
 
 // Pushes the given value to the front and drops the last value. A helper function for getPenaltyScore().
-static void finderPenaltyAddHistory(i16 currentRunLength, i16 runHistory[7], i16 qrsize) 
+static void finderPenaltyAddHistory(i16 currentRunLength, i16 runHistory[7], u8 qrsize) 
 {
 	if (runHistory[0] == 0)
 		currentRunLength += qrsize;  // Add light border to initial run
@@ -918,35 +920,33 @@ u8 QRCode_GetSize(const u8 qrcode[])
 {
 	assert(qrcode != NULL);
 	u8 result = qrcode[0];
-	assert((QRCODE_VERSION_MIN * 4 + 17) <= result
-		&& result <= (QRCODE_VERSION_MAX * 4 + 17));
+	assert((QRCODE_VERSION_MIN * 4 + 17) <= result && result <= (QRCODE_VERSION_MAX * 4 + 17));
 	return result;
 }
 
 
-// Public function - see documentation comment in header file.
-bool QRCode_GetModule(const u8 qrcode[], i16 x, i16 y)
+// Public function - Returns the color of the module at the given coordinates, which must be in bounds.
+bool QRCode_GetModule(const u8 qrcode[], u8 x, u8 y)
 {
-	assert(qrcode != NULL);
-	i16 qrsize = qrcode[0];
-	return (0 <= x && x < qrsize && 0 <= y && y < qrsize) && getModuleBounded(qrcode, x, y);
-}
-
-
-// Returns the color of the module at the given coordinates, which must be in bounds.
-bool getModuleBounded(const u8 qrcode[], i16 x, i16 y)
-{
-	i16 qrsize = qrcode[0];
+	u8 qrsize = qrcode[0];
 	assert(21 <= qrsize && qrsize <= 177 && 0 <= x && x < qrsize && 0 <= y && y < qrsize);
 	i16 index = y * qrsize + x;
 	return getBit(qrcode[(index >> 3) + 1], index & 7);
 }
 
+// Returns the color of the module at the given coordinates, which must be in bounds.
+u8 QRCode_GetByte(const u8 qrcode[], u8 x, u8 y)
+{
+	u8 qrsize = qrcode[0];
+	assert(21 <= qrsize && qrsize <= 177 && 0 <= x && x < qrsize && 0 <= y && y < qrsize);
+	i16 index = y * qrsize + x;
+	return qrcode[(index >> 3) + 1];
+}
 
 // Sets the color of the module at the given coordinates, which must be in bounds.
-void setModuleBounded(u8 qrcode[], i16 x, i16 y, bool isDark)
+void setModuleBounded(u8 qrcode[], u8 x, u8 y, bool isDark)
 {
-	i16 qrsize = qrcode[0];
+	u8 qrsize = qrcode[0];
 	assert(21 <= qrsize && qrsize <= 177 && 0 <= x && x < qrsize && 0 <= y && y < qrsize);
 	i16 index = y * qrsize + x;
 	i16 bitIndex = index & 7;
@@ -959,9 +959,9 @@ void setModuleBounded(u8 qrcode[], i16 x, i16 y, bool isDark)
 
 
 // Sets the color of the module at the given coordinates, doing nothing if out of bounds.
-void setModuleUnbounded(u8 qrcode[], i16 x, i16 y, bool isDark) 
+void setModuleUnbounded(u8 qrcode[], u8 x, u8 y, bool isDark) 
 {
-	i16 qrsize = qrcode[0];
+	u8 qrsize = qrcode[0];
 	if (0 <= x && x < qrsize && 0 <= y && y < qrsize)
 		setModuleBounded(qrcode, x, y, isDark);
 }
@@ -987,7 +987,7 @@ void setModuleUnbounded(u8 qrcode[], i16 x, i16 y, bool isDark)
 //};
 
 // Returns TRUE iff the i'th bit of x is set to 1. Requires x >= 0 and 0 <= i <= 14.
-static bool getBit(i16 x, i16 i) 
+static bool getBit(i16 x, u8 i) 
 {
 	return ((x >> i) & 1) != 0;
 	//return (g_Bits[i] & x) != 0;
@@ -997,8 +997,9 @@ static bool getBit(i16 x, i16 i)
 
 /*---- Segment handling ----*/
 
+#if (!QRCODE_USE_BYTE_ONLY)
 // Public function - see documentation comment in header file.
-bool QRCode_isNumeric(const char *text) 
+bool QRCode_IsNumeric(const char *text) 
 {
 	assert(text != NULL);
 	for (; *text != '\0'; text++) 
@@ -1008,10 +1009,11 @@ bool QRCode_isNumeric(const char *text)
 	}
 	return TRUE;
 }
+#endif
 
-
+#if (!QRCODE_USE_BYTE_ONLY)
 // Public function - see documentation comment in header file.
-bool QRCode_isAlphanumeric(const char *text) 
+bool QRCode_IsAlphanumeric(const char *text) 
 {
 	assert(text != NULL);
 	for (; *text != '\0'; text++) 
@@ -1021,10 +1023,11 @@ bool QRCode_isAlphanumeric(const char *text)
 	}
 	return TRUE;
 }
+#endif
 
-
+#if (!QRCODE_USE_BYTE_ONLY)
 // Public function - see documentation comment in header file.
-u16 QRCode_calcSegmentBufferSize(enum QRCODE_MODE mode, u16 numChars)
+u16 QRCode_CalcSegmentBufferSize(enum QRCODE_MODE mode, u16 numChars)
 {
 	i16 temp = calcSegmentBitLength(mode, numChars);
 	if (temp == LENGTH_OVERFLOW)
@@ -1032,7 +1035,7 @@ u16 QRCode_calcSegmentBufferSize(enum QRCODE_MODE mode, u16 numChars)
 	assert(0 <= temp && temp <= INT16_MAX);
 	return ((u16)temp + 7) / 8;
 }
-
+#endif
 
 // Returns the number of data bits needed to represent a segment
 // containing the given number of characters using the given mode. Notes:
@@ -1047,7 +1050,7 @@ i16 calcSegmentBitLength(enum QRCODE_MODE mode, u16 numChars)
 	// All calculations are designed to avoid overflow on all platforms
 	if (numChars > (u16)INT16_MAX)
 		return LENGTH_OVERFLOW;
-	long result = (long)numChars;
+	i32 result = (i32)numChars;
 	if (mode == QRCODE_MODE_NUMERIC)
 		result = (result * 10 + 2) / 3;  // ceil(10/3 * n)
 	else if (mode == QRCODE_MODE_ALPHANUMERIC)
@@ -1069,9 +1072,9 @@ i16 calcSegmentBitLength(enum QRCODE_MODE mode, u16 numChars)
 	return (i16)result;
 }
 
-#if (QRCODE_USE_EXTRA)
+#if (QRCODE_USE_EXTRA && !QRCODE_USE_BYTE_ONLY)
 // Public function - see documentation comment in header file.
-void QRCode_makeBytes(const u8 data[], u16 len, u8 buf[], struct QRCode_Segment* seg)
+void QRCode_MakeBytes(const u8 data[], u16 len, u8 buf[], struct QRCode_Segment* seg)
 {
 	assert(data != NULL || len == 0);
 	seg->mode = QRCODE_MODE_BYTE;
@@ -1084,8 +1087,9 @@ void QRCode_makeBytes(const u8 data[], u16 len, u8 buf[], struct QRCode_Segment*
 }
 #endif
 
+#if (!QRCODE_USE_BYTE_ONLY)
 // Public function - see documentation comment in header file.
-void QRCode_makeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg)
+void QRCode_MakeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg)
 {
 	assert(digits != NULL);
 	u16 len = (u16)strlen(digits);
@@ -1117,10 +1121,11 @@ void QRCode_makeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg
 	assert(seg->bitLength == bitLen);
 	seg->data = buf;
 }
+#endif
 
-
+#if (!QRCODE_USE_BYTE_ONLY)
 // Public function - see documentation comment in header file.
-void QRCode_makeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* seg)
+void QRCode_MakeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* seg)
 {
 	assert(text != NULL);
 	u16 len = (u16)strlen(text);
@@ -1152,10 +1157,11 @@ void QRCode_makeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* 
 	assert(seg->bitLength == bitLen);
 	seg->data = buf;
 }
+#endif
 
-#if (QRCODE_USE_EXTRA)
 // Public function - see documentation comment in header file.
-void QRCode_makeEci(long assignVal, u8 buf[], struct QRCode_Segment* seg)
+#if (QRCODE_USE_EXTRA && !QRCODE_USE_BYTE_ONLY)
+void QRCode_MakeECI(i32 assignVal, u8 buf[], struct QRCode_Segment* seg)
 {
 	seg->mode = QRCODE_MODE_ECI;
 	seg->numChars = 0;
@@ -1188,17 +1194,17 @@ void QRCode_makeEci(long assignVal, u8 buf[], struct QRCode_Segment* seg)
 // Calculates the number of bits needed to encode the given segments at the given version.
 // Returns a non-negative number if successful. Otherwise returns LENGTH_OVERFLOW if a segment
 // has too many characters to fit its length field, or the total bits exceeds INT16_MAX.
-i16 getTotalBits(const struct QRCode_Segment segs[], u16 len, i16 version) 
+i16 getTotalBits(const struct QRCode_Segment segs[], u16 len, u8 version) 
 {
 	assert(segs != NULL || len == 0);
-	long result = 0;
+	i32 result = 0;
 	for (u16 i = 0; i < len; i++) 
 	{
 		i16 numChars  = segs[i].numChars;
 		i16 bitLength = segs[i].bitLength;
 		assert(0 <= numChars  && numChars  <= INT16_MAX);
 		assert(0 <= bitLength && bitLength <= INT16_MAX);
-		i16 ccbits = numCharCountBits(segs[i].mode, version);
+		i8 ccbits = numCharCountBits(segs[i].mode, version);
 		assert(0 <= ccbits && ccbits <= 16);
 		if (numChars >= (1L << ccbits))
 			return LENGTH_OVERFLOW;  // The segment's length doesn't fit the field's bit width
@@ -1213,18 +1219,18 @@ i16 getTotalBits(const struct QRCode_Segment segs[], u16 len, i16 version)
 
 // Returns the bit width of the character count field for a segment in the given mode
 // in a QR Code at the given version number. The result is in the range [0, 16].
-static i16 numCharCountBits(enum QRCODE_MODE mode, i16 version)
+static i8 numCharCountBits(enum QRCODE_MODE mode, u8 version)
 {
 	assert(QRCODE_VERSION_MIN <= version && version <= QRCODE_VERSION_MAX);
-	i16 i = (version + 7) / 17;
+	i8 i = (version + 7) / 17;
 	switch (mode)
 	{
-		case QRCODE_MODE_NUMERIC     : { static const i16 temp[] = {10, 12, 14}; return temp[i]; }
-		case QRCODE_MODE_ALPHANUMERIC: { static const i16 temp[] = { 9, 11, 13}; return temp[i]; }
-		case QRCODE_MODE_BYTE        : { static const i16 temp[] = { 8, 16, 16}; return temp[i]; }
-		case QRCODE_MODE_KANJI       : { static const i16 temp[] = { 8, 10, 12}; return temp[i]; }
+		case QRCODE_MODE_NUMERIC     : { static const i8 temp[] = {10, 12, 14}; return temp[i]; }
+		case QRCODE_MODE_ALPHANUMERIC: { static const i8 temp[] = { 9, 11, 13}; return temp[i]; }
+		case QRCODE_MODE_BYTE        : { static const i8 temp[] = { 8, 16, 16}; return temp[i]; }
+		case QRCODE_MODE_KANJI       : { static const i8 temp[] = { 8, 10, 12}; return temp[i]; }
 		case QRCODE_MODE_ECI         : return 0;
-		default:  assert(FALSE);  return -1;  // Dummy value
+		default                      : assert(FALSE); return -1;  // Dummy value
 	}
 }
 

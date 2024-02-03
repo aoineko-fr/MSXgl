@@ -229,15 +229,15 @@ bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCO
 	struct QRCode_Segment seg;
 	if (QRCode_isNumeric(text))
 	{
-		if (QRCode_calcSegmentBufferSize(QRCODE_MODE_NUMERIC, textLen) > bufLen)
+		if (QRCode_CalcSegmentBufferSize(QRCODE_MODE_NUMERIC, textLen) > bufLen)
 			goto fail;
-		QRCode_makeNumeric(text, tempBuffer, &seg);
+		QRCode_MakeNumeric(text, tempBuffer, &seg);
 	}
 	else if (QRCode_isAlphanumeric(text))
 	{
-		if (QRCode_calcSegmentBufferSize(QRCODE_MODE_ALPHANUMERIC, textLen) > bufLen)
+		if (QRCode_CalcSegmentBufferSize(QRCODE_MODE_ALPHANUMERIC, textLen) > bufLen)
 			goto fail;
-		QRCode_makeAlphanumeric(text, tempBuffer, &seg);
+		QRCode_MakeAlphanumeric(text, tempBuffer, &seg);
 	}
 	else
 	{
@@ -1069,7 +1069,7 @@ i16 calcSegmentBitLength(enum QRCODE_MODE mode, u16 numChars)
 
 #if (QRCODE_USE_EXTRA)
 // Public function - see documentation comment in header file.
-void QRCode_makeBytes(const u8 data[], u16 len, u8 buf[], struct QRCode_Segment* seg)
+void QRCode_MakeBytes(const u8 data[], u16 len, u8 buf[], struct QRCode_Segment* seg)
 {
 	assert(data != NULL || len == 0);
 	seg->mode = QRCODE_MODE_BYTE;
@@ -1083,7 +1083,7 @@ void QRCode_makeBytes(const u8 data[], u16 len, u8 buf[], struct QRCode_Segment*
 #endif
 
 // Public function - see documentation comment in header file.
-void QRCode_makeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg)
+void QRCode_MakeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg)
 {
 	assert(digits != NULL);
 	u16 len = (u16)strlen(digits);
@@ -1118,7 +1118,7 @@ void QRCode_makeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg
 
 
 // Public function - see documentation comment in header file.
-void QRCode_makeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* seg)
+void QRCode_MakeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* seg)
 {
 	assert(text != NULL);
 	u16 len = (u16)strlen(text);
@@ -1153,7 +1153,7 @@ void QRCode_makeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* 
 
 #if (QRCODE_USE_EXTRA)
 // Public function - see documentation comment in header file.
-void QRCode_makeEci(long assignVal, u8 buf[], struct QRCode_Segment* seg)
+void QRCode_MakeECI(long assignVal, u8 buf[], struct QRCode_Segment* seg)
 {
 	seg->mode = QRCODE_MODE_ECI;
 	seg->numChars = 0;

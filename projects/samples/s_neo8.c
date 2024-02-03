@@ -32,6 +32,9 @@ void Seg800Func1(u8 id) __banked;
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
+// Sample text
+__at(0xA000) const c8 g_SampleText[] = "Segment #3 Data";
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -62,54 +65,21 @@ void main()
 	Print_DrawText(MSX_GL " NEO8 mapper sample"); // Display title
 	Print_DrawLineH(0, 1, 40);
 
-	SET_BANK_SEGMENT(0, 4);
-	SET_BANK_SEGMENT(1, 5);
-	SET_BANK_SEGMENT(2, 0);
-	SET_BANK_SEGMENT(3, 1);
-	SET_BANK_SEGMENT(4, 2);
-	SET_BANK_SEGMENT(5, 3);
+	SET_BANK_SEGMENT(0, 4); // Bank 0 (0000-1FFF) = Segment 4
+	SET_BANK_SEGMENT(1, 5); // Bank 1 (2000-3FFF) = Segment 5
+	SET_BANK_SEGMENT(2, 0); // Bank 2 (4000-5FFF) = Segment 0
+	SET_BANK_SEGMENT(3, 1); // Bank 3 (6000-7FFF) = Segment 1
+	SET_BANK_SEGMENT(4, 2); // Bank 4 (8000-9FFF) = Segment 2
+	SET_BANK_SEGMENT(5, 3); // Bank 5 (A000-BFFF) = Segment 3
 
-	DisplayMemory(0, 3, TEST_ADDR);
-	u16 seg = GET_BANK_SEGMENT(5);
-	SET_BANK_SEGMENT(5, 500);
 	DisplayMemory(0, 4, TEST_ADDR);
-	SET_BANK_SEGMENT(5, 800);
-	DisplayMemory(0, 5, TEST_ADDR);
-	SET_BANK_SEGMENT(5, seg);
+	u16 seg = GET_BANK_SEGMENT(5); // Backup segment in bank 5
+	SET_BANK_SEGMENT(5, 500); // Set segment 500 in bank 5
 	DisplayMemory(0, 6, TEST_ADDR);
-
-	// Print_SetPosition(0, 3);
-	// Print_DrawFormat("Banks segment: 0->%i 1->%i 2->%i 3->%i\n\n", GET_BANK_SEGMENT(0), GET_BANK_SEGMENT(1), GET_BANK_SEGMENT(2), GET_BANK_SEGMENT(3));
-	// Print_DrawText("Switch bank 3 to segment 5\n\n");
-	// SET_BANK_SEGMENT(5, 500); // Make segment #5 visible through bank #3
-	// Print_DrawFormat("Banks segment: 0->%i 1->%i 2->%i 3->%i\n\n", GET_BANK_SEGMENT(0), GET_BANK_SEGMENT(1), GET_BANK_SEGMENT(2), GET_BANK_SEGMENT(3));
-	// u16 seg = GET_BANK_SEGMENT(5);
-	// SET_BANK_SEGMENT(5, seg);
-
-	// // New bank setting:
-	// //   Bank 0 => Segment 0
-	// //   Bank 1 => Segment 1
-	// //   Bank 2 => Segment 2
-	// //   Bank 3 => Segment 5 (content of s_mapper_s5_b3.asm)
-	// // Print_DrawText(&Seg5AsmData);
-	
-	// Print_Return();
-	// Print_DrawCharX('.', 40);
-	
-	// Print_Return();
-	// Print_DrawText("Call banked function (bank 2 seg 4)\n");
-	// Seg500Func1(0); // Bank 2 => Segment 4 (content of s_mapper_s4_b2.c)
-	// Seg500Func1(1); // Bank 2 => Segment 4 (content of s_mapper_s4_b2.c)
-
-	// // After banked function call, previous bank setting is restored:
-	// //   Bank 0 => Segment 0
-	// //   Bank 1 => Segment 1
-	// //   Bank 2 => Segment 2
-	// //   Bank 3 => Segment 5 (content of s_mapper_s5_b3.asm)
-
-	// Print_Return();
-	// Print_Return();
-	// Print_DrawFormat("Banks segment: 0->%i 1->%i 2->%i 3->%i\n\n", GET_BANK_SEGMENT(0), GET_BANK_SEGMENT(1), GET_BANK_SEGMENT(2), GET_BANK_SEGMENT(3));
+	SET_BANK_SEGMENT(5, 800); // Set segment 800 in bank 5
+	DisplayMemory(0, 8, TEST_ADDR);
+	SET_BANK_SEGMENT(5, seg); // Restore segment in bank 5
+	DisplayMemory(0, 10, TEST_ADDR);
 
 	u8 count = 0;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
