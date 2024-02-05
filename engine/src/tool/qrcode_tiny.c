@@ -131,8 +131,8 @@ void* memcpy(void* dst, const void* src, u16 num)
 
 void appendBitsToBuffer(u16 val, u8 numBits, u8 buffer[], i16 *bitLen);
 
-void addEccAndInterleave(u8 data[], enum QRCODE_ECC ecl, u8 result[]);
-i16 getNumDataCodewords(enum QRCODE_ECC ecl);
+void addEccAndInterleave(u8 data[], u8 result[]);
+i16 getNumDataCodewords();
 i16 getNumRawDataModules();
 
 void reedSolomonComputeDivisor(i8 degree, u8 result[]);
@@ -141,12 +141,12 @@ u8 reedSolomonMultiply(u8 x, u8 y);
 
 void initializeFunctionModules(u8 qrcode[]);
 static void drawLightFunctionModules(u8 qrcode[]);
-static void drawFormatBits(enum QRCODE_ECC ecl, enum QRCODE_MASK mask, u8 qrcode[]);
+static void drawFormatBits(u8 qrcode[]);
 i16 getAlignmentPatternPositions(u8 result[7]);
 static void fillRectangle(u8 left, u8 top, u8 width, u8 height, u8 qrcode[]);
 
 static void drawCodewords(const u8 data[], i16 dataLen, u8 qrcode[]);
-static void applyMask(const u8 functionModules[], u8 qrcode[], enum QRCODE_MASK mask);
+static void applyMask(const u8 functionModules[], u8 qrcode[]);
 static i32 getPenaltyScore(const u8 qrcode[]);
 static i16 finderPenaltyCountPatterns(const i16 runHistory[7]);
 static i16 finderPenaltyTerminateAndCount(bool currentRunColor, i16 currentRunLength, i16 runHistory[7]);
@@ -172,27 +172,37 @@ static const char *ALPHANUMERIC_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ 
 #define LENGTH_OVERFLOW -1
 
 // For generating error correction codes.
-const i8 ECC_CODEWORDS_PER_BLOCK[4][41] = 
+const i8 ECC_CODEWORDS_PER_BLOCK[41] = 
 {
-	// Version: (note that index 0 is for padding, and is set to an illegal value)
-	//0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40    Error correction level
-	{-1,  7, 10, 15, 20, 26, 18, 20, 24, 30, 18, 20, 24, 26, 30, 22, 24, 28, 30, 28, 28, 28, 28, 30, 30, 26, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},  // Low
-	{-1, 10, 16, 26, 18, 24, 16, 18, 22, 22, 26, 30, 22, 22, 24, 24, 28, 28, 26, 26, 26, 26, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28},  // Medium
-	{-1, 13, 22, 18, 26, 18, 24, 18, 22, 20, 24, 28, 26, 24, 20, 30, 24, 28, 28, 26, 30, 28, 30, 30, 30, 30, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},  // Quartile
-	{-1, 17, 28, 22, 16, 22, 28, 26, 26, 24, 28, 24, 28, 22, 24, 24, 30, 28, 28, 26, 28, 30, 24, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},  // High
+// Version: (note that index 0 is for padding, and is set to an illegal value)
+//   0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40    Error correction level
+#if (QRCODE_TINY_ECC == QRCODE_ECC_LOW)
+	-1,  7, 10, 15, 20, 26, 18, 20, 24, 30, 18, 20, 24, 26, 30, 22, 24, 28, 30, 28, 28, 28, 28, 30, 30, 26, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30  // Low
+#elif (QRCODE_TINY_ECC == QRCODE_ECC_MEDIUM)
+	-1, 10, 16, 26, 18, 24, 16, 18, 22, 22, 26, 30, 22, 22, 24, 24, 28, 28, 26, 26, 26, 26, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28  // Medium
+#elif (QRCODE_TINY_ECC == QRCODE_ECC_QUARTILE)
+	-1, 13, 22, 18, 26, 18, 24, 18, 22, 20, 24, 28, 26, 24, 20, 30, 24, 28, 28, 26, 30, 28, 30, 30, 30, 30, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30  // Quartile
+#elif (QRCODE_TINY_ECC == QRCODE_ECC_HIGH)
+	-1, 17, 28, 22, 16, 22, 28, 26, 26, 24, 28, 24, 28, 22, 24, 24, 30, 28, 28, 26, 28, 30, 24, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30  // High
+#endif
 };
 
 #define QRCODE_REED_SOLOMON_DEGREE_MAX 30  // Based on the table above
 
 // For generating error correction codes.
-const i8 NUM_ERROR_CORRECTION_BLOCKS[4][41] = 
+const i8 NUM_ERROR_CORRECTION_BLOCKS[41] = 
 {
-	// Version: (note that index 0 is for padding, and is set to an illegal value)
-	//0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40    Error correction level
-	{-1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 4,  4,  4,  4,  4,  6,  6,  6,  6,  7,  8,  8,  9,  9, 10, 12, 12, 12, 13, 14, 15, 16, 17, 18, 19, 19, 20, 21, 22, 24, 25},  // Low
-	{-1, 1, 1, 1, 2, 2, 4, 4, 4, 5, 5,  5,  8,  9,  9, 10, 10, 11, 13, 14, 16, 17, 17, 18, 20, 21, 23, 25, 26, 28, 29, 31, 33, 35, 37, 38, 40, 43, 45, 47, 49},  // Medium
-	{-1, 1, 1, 2, 2, 4, 4, 6, 6, 8, 8,  8, 10, 12, 16, 12, 17, 16, 18, 21, 20, 23, 23, 25, 27, 29, 34, 34, 35, 38, 40, 43, 45, 48, 51, 53, 56, 59, 62, 65, 68},  // Quartile
-	{-1, 1, 1, 2, 4, 4, 4, 5, 6, 8, 8, 11, 11, 16, 16, 18, 16, 19, 21, 25, 25, 25, 34, 30, 32, 35, 37, 40, 42, 45, 48, 51, 54, 57, 60, 63, 66, 70, 74, 77, 81},  // High
+// Version: (note that index 0 is for padding, and is set to an illegal value)
+//   0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40    Error correction level
+#if (QRCODE_TINY_ECC == QRCODE_ECC_LOW)
+	-1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 4,  4,  4,  4,  4,  6,  6,  6,  6,  7,  8,  8,  9,  9, 10, 12, 12, 12, 13, 14, 15, 16, 17, 18, 19, 19, 20, 21, 22, 24, 25  // Low
+#elif (QRCODE_TINY_ECC == QRCODE_ECC_MEDIUM)
+	-1, 1, 1, 1, 2, 2, 4, 4, 4, 5, 5,  5,  8,  9,  9, 10, 10, 11, 13, 14, 16, 17, 17, 18, 20, 21, 23, 25, 26, 28, 29, 31, 33, 35, 37, 38, 40, 43, 45, 47, 49  // Medium
+#elif (QRCODE_TINY_ECC == QRCODE_ECC_QUARTILE)
+	-1, 1, 1, 2, 2, 4, 4, 6, 6, 8, 8,  8, 10, 12, 16, 12, 17, 16, 18, 21, 20, 23, 23, 25, 27, 29, 34, 34, 35, 38, 40, 43, 45, 48, 51, 53, 56, 59, 62, 65, 68  // Quartile
+#elif (QRCODE_TINY_ECC == QRCODE_ECC_HIGH)
+	-1, 1, 1, 2, 4, 4, 4, 5, 6, 8, 8, 11, 11, 16, 16, 18, 16, 19, 21, 25, 25, 25, 34, 30, 32, 35, 37, 40, 42, 45, 48, 51, 54, 57, 60, 63, 66, 70, 74, 77, 81  // High
+#endif
 };
 
 // For automatic mask pattern selection.
@@ -206,27 +216,25 @@ static const i16 PENALTY_N4 = 10;
 /*---- High-level QR Code encoding functions ----*/
 
 // Public function - see documentation comment in header file.
-bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask)
+bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[])
 {
 	u16 textLen = (u16)strlen(text);
 	if (textLen == 0)
-		return QRCode_EncodeSegmentsAdvanced(NULL, 0, ecl, mask, tempBuffer, qrcode);
-	u16 bufLen = (u16)QRCODE_BUFFER_LEN_FOR_VERSION(QRCODE_TINY_VERSION);
+		return QRCode_EncodeSegmentsAdvanced(NULL, 0, tempBuffer, qrcode);
 	
 	struct QRCode_Segment seg;
 	{
-		if (textLen > bufLen)
+		if (textLen > QRCODE_BUFFER_LEN_MAX)
 			goto fail;
 		for (u16 i = 0; i < textLen; i++)
 			tempBuffer[i] = (u8)text[i];
-		seg.mode = QRCODE_MODE_BYTE;
 		seg.bitLength = calcSegmentBitLength(textLen);
 		if (seg.bitLength == LENGTH_OVERFLOW)
 			goto fail;
 		seg.numChars = (i16)textLen;
 		seg.data = tempBuffer;
 	}
-	return QRCode_EncodeSegmentsAdvanced(&seg, 1, ecl, mask, tempBuffer, qrcode);
+	return QRCode_EncodeSegmentsAdvanced(&seg, 1, tempBuffer, qrcode);
 	
 fail:
 	qrcode[0] = 0;  // Set size to invalid value for safety
@@ -244,12 +252,12 @@ void appendBitsToBuffer(u16 val, u8 numBits, u8 buffer[], i16 *bitLen)
 /*---- Low-level QR Code encoding functions ----*/
 
 // Public function - see documentation comment in header file.
-bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, enum QRCODE_MASK mask, u8 tempBuffer[], u8 qrcode[])
+bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, u8 tempBuffer[], u8 qrcode[])
 {
 	// Find the minimal version number to use
 	i16 dataUsedBits;
 	{
-		i16 dataCapacityBits = getNumDataCodewords(ecl) * 8;  // Number of data bits available
+		i16 dataCapacityBits = getNumDataCodewords() * 8;  // Number of data bits available
 		dataUsedBits = getTotalBits(segs, len);
 		if (dataUsedBits != LENGTH_OVERFLOW && dataUsedBits <= dataCapacityBits)
 		{
@@ -262,21 +270,13 @@ bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, 
 		}
 	}
 	
-	// Increase the error correction level while the data still fits in the current version number
-	if(QRCODE_BOOST_ECL)
-	{
-		for (u8 i = (u8)QRCODE_ECC_MEDIUM; i <= (u8)QRCODE_ECC_HIGH; i++) // From low to high
-			if (dataUsedBits <= getNumDataCodewords((enum QRCODE_ECC)i) * 8)
-				ecl = (enum QRCODE_ECC)i;
-	}
-	
 	// Concatenate all segments to create the data bit string
-	memset(qrcode, 0, (u16)QRCODE_BUFFER_LEN_FOR_VERSION(QRCODE_TINY_VERSION) * sizeof(QRCode_GetSize(qrcode)));
+	memset(qrcode, 0, (u16)QRCODE_BUFFER_LEN_MAX * sizeof(QRCode_GetSize(qrcode)));
 	i16 bitLen = 0;
 	for (u16 i = 0; i < len; i++)
 	{
 		const struct QRCode_Segment *seg = &segs[i];
-		appendBitsToBuffer((u16)seg->mode, 4, qrcode, &bitLen);
+		appendBitsToBuffer((u16)QRCODE_MODE_BYTE, 4, qrcode, &bitLen);
 		appendBitsToBuffer((u16)seg->numChars, numCharCountBits(), qrcode, &bitLen);
 		for (i16 j = 0; j < seg->bitLength; j++)
 		{
@@ -286,7 +286,7 @@ bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, 
 	}
 	
 	// Add terminator and pad up to a byte if applicable
-	i16 dataCapacityBits = getNumDataCodewords(ecl) * 8;
+	i16 dataCapacityBits = getNumDataCodewords() * 8;
 	i16 terminatorBits = dataCapacityBits - bitLen;
 	if (terminatorBits > 4)
 		terminatorBits = 4;
@@ -298,32 +298,15 @@ bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, 
 		appendBitsToBuffer(padByte, 8, qrcode, &bitLen);
 	
 	// Compute ECC, draw modules
-	addEccAndInterleave(qrcode, ecl, tempBuffer);
+	addEccAndInterleave(qrcode, tempBuffer);
 	initializeFunctionModules(qrcode);
 	drawCodewords(tempBuffer, getNumRawDataModules() / 8, qrcode);
 	drawLightFunctionModules(qrcode);
 	initializeFunctionModules(tempBuffer);
 	
 	// Do masking
-	if (mask == QRCODE_MASK_AUTO)
-	{  // Automatically choose best mask
-		i32 minPenalty = LONG_MAX;
-		for (u8 i = 0; i < 8; i++)
-		{
-			enum QRCODE_MASK msk = (enum QRCODE_MASK)i;
-			applyMask(tempBuffer, qrcode, msk);
-			drawFormatBits(ecl, msk, qrcode);
-			i32 penalty = getPenaltyScore(qrcode);
-			if (penalty < minPenalty)
-			{
-				mask = msk;
-				minPenalty = penalty;
-			}
-			applyMask(tempBuffer, qrcode, msk);  // Undoes the mask due to XOR
-		}
-	}
-	applyMask(tempBuffer, qrcode, mask);  // Apply the final choice of mask
-	drawFormatBits(ecl, mask, qrcode);  // Overwrite old format bits
+	applyMask(tempBuffer, qrcode);  // Apply the final choice of mask
+	drawFormatBits(qrcode);  // Overwrite old format bits
 	return TRUE;
 }
 
@@ -335,13 +318,13 @@ bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, 
 // bytes from the blocks and stores them in the result array. data[0 : dataLen] contains
 // the input data. data[dataLen : rawCodewords] is used as a temporary work area and will
 // be clobbered by this function. The final answer is stored in result[0 : rawCodewords].
-void addEccAndInterleave(u8 data[], enum QRCODE_ECC ecl, u8 result[])
+void addEccAndInterleave(u8 data[], u8 result[])
 {
 	// Calculate parameter numbers
-	i8 numBlocks = NUM_ERROR_CORRECTION_BLOCKS[(u8)ecl][QRCODE_TINY_VERSION];
-	i8 blockEccLen = ECC_CODEWORDS_PER_BLOCK[(u8)ecl][QRCODE_TINY_VERSION];
+	i8 numBlocks = NUM_ERROR_CORRECTION_BLOCKS[QRCODE_TINY_VERSION];
+	i8 blockEccLen = ECC_CODEWORDS_PER_BLOCK[QRCODE_TINY_VERSION];
 	i16 rawCodewords = getNumRawDataModules() / 8;
-	i16 dataLen = getNumDataCodewords(ecl);
+	i16 dataLen = getNumDataCodewords();
 	i16 numShortBlocks = numBlocks - rawCodewords % numBlocks;
 	i16 shortBlockDataLen = rawCodewords / numBlocks - blockEccLen;
 	
@@ -370,10 +353,9 @@ void addEccAndInterleave(u8 data[], enum QRCODE_ECC ecl, u8 result[])
 
 // Returns the number of 8-bit codewords that can be used for storing data (not ECC),
 // for the given version number and error correction level. The result is in the range [9, 2956].
-i16 getNumDataCodewords(enum QRCODE_ECC ecl)
+i16 getNumDataCodewords()
 {
-	u8 e = (u8)ecl;
-	return getNumRawDataModules() / 8 - ECC_CODEWORDS_PER_BLOCK[e][QRCODE_TINY_VERSION] * NUM_ERROR_CORRECTION_BLOCKS[e][QRCODE_TINY_VERSION];
+	return getNumRawDataModules() / 8 - ECC_CODEWORDS_PER_BLOCK[QRCODE_TINY_VERSION] * NUM_ERROR_CORRECTION_BLOCKS[QRCODE_TINY_VERSION];
 }
 
 
@@ -571,11 +553,11 @@ static void drawLightFunctionModules(u8 qrcode[])
 // Draws two copies of the format bits (with its own error correction code) based
 // on the given mask and error correction level. This always draws all modules of
 // the format bits, unlike drawLightFunctionModules() which might skip dark modules.
-static void drawFormatBits(enum QRCODE_ECC ecl, enum QRCODE_MASK mask, u8 qrcode[])
+static void drawFormatBits(u8 qrcode[])
 {
 	// Calculate error correction code and pack bits
 	static const i16 table[] = {1, 0, 3, 2};
-	i16 data = table[(i16)ecl] << 3 | (i16)mask;  // errCorrLvl is uint2, mask is uint3
+	i16 data = table[QRCODE_TINY_ECC] << 3 | (i16)QRCODE_TINY_MASK;  // errCorrLvl is uint2, mask is uint3
 	i16 rem = data;
 	for (i8 i = 0; i < 10; i++)
 		rem = (rem << 1) ^ ((rem >> 9) * 0x537);
@@ -664,7 +646,7 @@ static void drawCodewords(const u8 data[], i16 dataLen, u8 qrcode[])
 // before masking. Due to the arithmetic of XOR, calling applyMask() with
 // the same mask value a second time will undo the mask. A final well-formed
 // QR Code needs exactly one (not zero, two, etc.) mask applied.
-static void applyMask(const u8 functionModules[], u8 qrcode[], enum QRCODE_MASK mask) 
+static void applyMask(const u8 functionModules[], u8 qrcode[]) 
 {
 	for (u8 y = 0; y < QRCODE_SIZE; y++) 
 	{
@@ -673,7 +655,7 @@ static void applyMask(const u8 functionModules[], u8 qrcode[], enum QRCODE_MASK 
 			if (QRCode_GetModule(functionModules, x, y))
 				continue;
 			bool invert;
-			switch ((i16)mask) 
+			switch ((i16)QRCODE_TINY_MASK) 
 			{
 				case 0:  invert = (x + y) % 2 == 0;                    break;
 				case 1:  invert = y % 2 == 0;                          break;

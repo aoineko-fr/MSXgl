@@ -38,8 +38,6 @@
 // DEFINES
 //-----------------------------------------------------------------------------
 
-#define QRCODE_TINY_VERSION 3
-
 /*
  * This library creates QR Code symbols, which is a type of two-dimension barcode.
  * Invented by Denso Wave and described in the ISO/IEC 18004 standard.
@@ -100,6 +98,14 @@ enum QRCODE_MODE
 	QRCODE_MODE_ECI          = 0x7,
 };
 
+//-----------------------------------------------------------------------------
+// CONFIG
+//-----------------------------------------------------------------------------
+#define QRCODE_TINY_VERSION		10
+#define QRCODE_TINY_ECC			QRCODE_ECC_LOW
+#define QRCODE_TINY_MASK 		QRCODE_MASK_0
+
+
 // A segment of character/binary/control data in a QR Code symbol.
 // The mid-level way to create a segment is to take the payload data and call a factory function such as QRCode_MakeNumeric().
 // The low-level way to create a segment is to custom-make the bit buffer and initialize a QRCode_Segment struct with appropriate values.
@@ -108,9 +114,6 @@ enum QRCODE_MODE
 // Moreover, the maximum allowed bit length is 32767 because the largest QR Code (version 40) has 31329 modules.
 struct QRCode_Segment
 {
-	// The mode indicator of this segment.
-	enum QRCODE_MODE mode;
-	
 	// The length of this segment's unencoded data. Measured in characters for
 	// numeric/alphanumeric/kanji mode, bytes for byte mode, and 0 for ECI mode.
 	// Always zero or positive. Not the same as the data's bit length.
@@ -139,6 +142,7 @@ struct QRCode_Segment
 // Use this more convenient value to avoid calculating tighter memory bounds for buffers.
 #define QRCODE_BUFFER_LEN_MAX  QRCODE_BUFFER_LEN_FOR_VERSION(QRCODE_TINY_VERSION)
 
+//
 #define QRCODE_SIZE            (QRCODE_TINY_VERSION * 4 + 17)
 
 //-----------------------------------------------------------------------------
@@ -173,7 +177,7 @@ struct QRCode_Segment
 // These numbers represent the hard upper limit of the QR Code standard.
 // 
 // Please consult the QR Code specification for information on data capacities per version, ECC level, and text encoding mode.
-bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask);
+bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[]);
 
 // Function: QRCode_EncodeSegmentsAdvanced
 // Encodes the given segments to a QR Code, returning TRUE if successful.
@@ -201,7 +205,7 @@ bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCO
 // 
 // This function allows the user to create a custom sequence of segments that switches between modes (such as alphanumeric and byte) to encode text in less space.
 // This is a low-level API; the high-level API is QRCode_EncodeText() and QRCode_EncodeBinary().
-bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, enum QRCODE_MASK mask, u8 tempBuffer[], u8 qrcode[]);
+bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, u8 tempBuffer[], u8 qrcode[]);
 
 // Function: QRCode_GetSize
 // Returns the side length of the given QR Code, assuming that encoding succeeded.

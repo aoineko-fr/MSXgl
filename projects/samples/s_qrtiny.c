@@ -85,7 +85,7 @@ void main()
 	// Text data
 	Print_SetColor(0xFF, 0x11);
 	Print_DrawText("Encoding...");
-	ok = QRCode_EncodeText("MSXgl", g_Buffer, g_QR, QRCODE_ECC_LOW, QRCODE_MASK_0);
+	ok = QRCode_EncodeText("MSXgl", g_Buffer, g_QR);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
 	if(ok)
 	{
@@ -99,7 +99,7 @@ void main()
 	// Text data
 	Print_SetColor(0xFF, 0x11);
 	Print_DrawText("\nEncoding...");
-	ok = QRCode_EncodeText("https://aoineko.org/msxgl", g_Buffer, g_QR, QRCODE_ECC_LOW, QRCODE_MASK_1);
+	ok = QRCode_EncodeText("https://aoineko.org/msxgl", g_Buffer, g_QR);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
 	if(ok)
 	{
@@ -113,7 +113,7 @@ void main()
 	// Text data
 	Print_SetColor(0xFF, 0x11);
 	Print_DrawText("\nEncoding...");
-	ok = QRCode_EncodeText("https://github.com/aoineko-fr/MSXgl", g_Buffer, g_QR, QRCODE_ECC_LOW, QRCODE_MASK_2);
+	ok = QRCode_EncodeText("https://github.com/aoineko-fr/MSXgl", g_Buffer, g_QR);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
 	if(ok)
 	{
@@ -127,7 +127,7 @@ void main()
 	// Text data
 	Print_SetColor(0xFF, 0x11);
 	Print_DrawText("\nEncoding...");
-	ok = QRCode_EncodeText("Hello, MSXgl world!\nWelcome to the 8-bits party", g_Buffer, g_QR, QRCODE_ECC_LOW, QRCODE_MASK_3);
+	ok = QRCode_EncodeText("Hello, MSXgl world!\nWelcome to the 8-bits party", g_Buffer, g_QR);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
 	if(ok)
 	{
@@ -146,7 +146,7 @@ void main()
 						"2️⃣ エンジンをインストールします。";
 	Print_SetColor(0xFF, 0x11);
 	Print_DrawText("\nEncoding...");
-	ok = QRCode_EncodeText(text, g_Buffer, g_QR, QRCODE_ECC_LOW, QRCODE_MASK_4);
+	ok = QRCode_EncodeText(text, g_Buffer, g_QR);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
 	if(ok)
 	{
