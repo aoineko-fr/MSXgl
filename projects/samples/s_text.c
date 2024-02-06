@@ -83,7 +83,7 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // MEMORY DATA
 //=============================================================================
 
-u8 g_CurrentFont = 0;
+u8 g_CurrentFont = 1;
 u8 g_CurrentMode = 0;
 bool g_DisplayFont = 0;
 
