@@ -23,21 +23,41 @@
 	#define MAPPER_NUM	ROM_SEGMENTS
 #endif
 
-#if ((ROM_MAPPER == ROM_NEO8) || (ROM_MAPPER == ROM_NEO16))
-	void PrintSegment500Data(u8 x, u8 y) __banked;
-	#define BANKED_BANK 1
-	#define BANKED_SEG 500
-	#define BANKED_CALL(x, y) PrintSegment500Data(x, y)
-#elif (ROM_MAPPER >= ROM_MAPPER_16K)
-	void PrintSegment2Data(u8 x, u8 y) __banked;
-	#define BANKED_BANK 1
-	#define BANKED_SEG 2
-	#define BANKED_CALL(x, y) PrintSegment2Data(x, y)
-#elif (ROM_MAPPER > ROM_PLAIN)
-	void PrintSegment4Data(u8 x, u8 y) __banked;
-	#define BANKED_BANK 2
-	#define BANKED_SEG 4
-	#define BANKED_CALL(x, y) PrintSegment4Data(x, y)
+#if ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER == ROM_NEO8))
+	// void PrintSegment500Data(u8 x, u8 y) __banked;
+	// #define BANKED_BANK 1
+	// #define BANKED_SEG 500
+	// #define BANKED_CALL(x, y)	PrintSegment500Data(x, y)
+	#define SET_BANK(s)			SET_BANK_SEGMENT(4, s)
+	#define ROM_MAPPER_STR		"Segments in Bank #4"
+#elif ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER == ROM_NEO16))
+	// void PrintSegment500Data(u8 x, u8 y) __banked;
+	// #define BANKED_BANK 1
+	// #define BANKED_SEG 500
+	// #define BANKED_CALL(x, y) 	PrintSegment500Data(x, y)
+	#define SET_BANK(s)			SET_BANK_SEGMENT(2, s)
+	#define ROM_MAPPER_STR		"Segments in Bank #2"
+#elif ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER >= ROM_MAPPER_16K))
+	// void PrintSegment2Data(u8 x, u8 y) __banked;
+	// #define BANKED_BANK 1
+	// #define BANKED_SEG 2
+	// #define BANKED_CALL(x, y)	PrintSegment2Data(x, y)
+	#define SET_BANK(s)			SET_BANK_SEGMENT(1, s)
+	#define ROM_MAPPER_STR		"Segments in Bank #1"
+#elif ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER > ROM_PLAIN))
+	// void PrintSegment4Data(u8 x, u8 y) __banked;
+	// #define BANKED_BANK 2
+	// #define BANKED_SEG 4
+	// #define BANKED_CALL(x, y)	PrintSegment4Data(x, y)
+	#define SET_BANK(s)			SET_BANK_SEGMENT(2, s)
+	#define ROM_MAPPER_STR		"Segments in Bank #2"
+#else
+	// void PrintSegment4Data(u8 x, u8 y) __banked;
+	// #define BANKED_BANK 2
+	// #define BANKED_SEG 4
+	// #define BANKED_CALL(x, y)	PrintSegment4Data(x, y)
+	#define SET_BANK(s)
+	#define ROM_MAPPER_STR		""
 #endif
 
 // Slots page
@@ -83,10 +103,9 @@ const c8* g_SlotExBotSel	= "\x9A\x97\x9B";
 // MEMORY DATA
 //=============================================================================
 u8  g_Buffer[128];
-u8  g_PageSlot[4];
-#if (ROM_MAPPER != ROM_PLAIN)
+#if ((TARGET_TYPE == TYPE_ROM) || (ROM_MAPPER != ROM_PLAIN))
 u8  g_DisplayASCII = 0;
-u8  g_Segment = 0;
+u16 g_Segment = 0;
 u16 g_Address = BANK_ADDR;
 #endif
 u8  g_Page = 1;
@@ -95,7 +114,7 @@ u8  g_Page = 1;
 // HELPER FUNCTIONS
 //=============================================================================
 
-#if (TARGET_TYPE == TYPE_ROM)
+#if ((TARGET_TYPE == TYPE_ROM) || (TARGET == TARGET_DOS0))
 //-----------------------------------------------------------------------------
 /// ISR for 48/64K ROM
 void VDP_InterruptHandler()
@@ -285,16 +304,16 @@ const c8* GetSlotName(u8 slotId, u8 page)
 	if((slotId == g_MASTER) && (page == 1))
 		return "DSK";
 		
-	if(IsSlotPageRAM(slotId, page))
-		return "RAM";
+	// if(IsSlotPageRAM(slotId, page))
+	// 	return "RAM";
 	
-	if(page < 3)
-	{
-		u16 addr = page * 0x4000;
-		if(Bios_InterSlotRead(slotId, addr) == 'A')
-			if(Bios_InterSlotRead(slotId, ++addr) == 'B')
-				return "ROM";
-	}
+	// if(page < 3)
+	// {
+	// 	u16 addr = page * 0x4000;
+	// 	if(Bios_InterSlotRead(slotId, addr) == 'A')
+	// 		if(Bios_InterSlotRead(slotId, ++addr) == 'B')
+	// 			return "ROM";
+	// }
 		
 	return " ? ";
 }
@@ -319,10 +338,12 @@ const c8* GetROMMapper(u8 mapper)
 	switch(mapper)
 	{
 	case ROM_PLAIN:      return "Plain";
-	case ROM_ASCII8:     return "ASCII8";
-	case ROM_ASCII16:    return "ASCII16";
+	case ROM_ASCII8:     return "ASCII-8";
+	case ROM_ASCII16:    return "ASCII-16";
 	case ROM_KONAMI:     return "Konami";
 	case ROM_KONAMI_SCC: return "Konami SCC";
+	case ROM_NEO8:       return "NEO-8";
+	case ROM_NEO16:      return "NEO-16";
 	};
 	return "Unknow";
 }
@@ -335,15 +356,20 @@ const c8* GetROMSize(u8 size)
 	{
 	case ROM_8K:	return "8K";
 	case ROM_16K:	return "16K";
+	case ROM_24K:	return "24K";
 	case ROM_32K:	return "32K";
 	case ROM_48K:	return "48K";
 	case ROM_64K:	return "64K";
 	case ROM_128K:	return "128K";
 	case ROM_256K:	return "256K";
 	case ROM_512K:	return "512K";
-	case ROM_1024K:	return "1M";
-	case ROM_2048K:	return "2M";
-	case ROM_4096K:	return "4M";
+	case ROM_1M:	return "1M";
+	case ROM_2M:	return "2M";
+	case ROM_4M:	return "4M";
+	case ROM_8M:	return "8M";
+	case ROM_16M:	return "16M";
+	case ROM_32M:	return "32M";
+	case ROM_64M:	return "64M";
 	};
 	return "Unknow";
 }
@@ -355,7 +381,7 @@ void DisplayHeader()
 	// Print_Clear();
 	VDP_FillVRAM(' ' - g_PrintData.CharFirst + g_PrintData.PatternOffset, g_ScreenLayoutLow, g_ScreenLayoutHigh, 40 * 24);
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL "   Target Sample");
+	Print_DrawText(MSX_GL " Target Sample");
 	Print_DrawLineH(0, 1, 40);
 }
 
@@ -368,7 +394,7 @@ void DisplayFooter()
 	if(g_Page == 0) // Info
 	{
 		Print_DrawText("F1:Slot ");
-		#if (ROM_MAPPER != ROM_PLAIN)
+		#if ((TARGET_TYPE == TYPE_ROM) || (ROM_MAPPER != ROM_PLAIN))
 			if(g_DisplayASCII)
 				Print_DrawText("F2:Hexa ");
 			else
@@ -466,12 +492,12 @@ void DisplaySlots()
 			}
 		}
 	}
-	
+
 	DisplayFooter();
 }
 
 
-#if (ROM_MAPPER != ROM_PLAIN)
+#if ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER != ROM_PLAIN))
 
 //-----------------------------------------------------------------------------
 //
@@ -490,18 +516,17 @@ void UpdateMapper()
 
 	for(u8 i = 0; i < MAPPER_NUM; i++)
 	{
+		u16 index = g_Segment + i;
 		Print_SetPosition(2, MAPPER_Y + 2 + i);
-		Print_DrawInt(g_Segment + i);
-		if(g_Segment + i < 100)
+		Print_DrawInt(index);
+		if(index < 100)
+			Print_DrawChar(' ');
+		if(index < 1000)
 			Print_DrawChar(' ');
 
-		Print_SetPosition(6, MAPPER_Y + 2 + i);
-		#if (ROM_MAPPER == ROM_ASCII16)
-			SET_BANK_SEGMENT(1, g_Segment + i);
-		#else
-			SET_BANK_SEGMENT(2, g_Segment + i);
-		#endif
-		u8 max = g_DisplayASCII ? 33 : 11;
+		Print_SetPosition(7, MAPPER_Y + 2 + i);
+		SET_BANK(index);
+		u8 max = g_DisplayASCII ? 32 : 11;
 		for(u8 j = 0; j < max; j++)
 		{
 			u8 chr = ((const u8*)(g_Address))[j];
@@ -510,13 +535,14 @@ void UpdateMapper()
 			else
 			{
 				Print_DrawHex8(chr);
-				Print_DrawChar(' ');
+				if(j < max - 1)
+					Print_DrawChar(' ');
 			}
 		}
 		Print_Return();
 	}
 }
-#endif // (ROM_MAPPER != ROM_PLAIN)
+#endif
 
 
 //-----------------------------------------------------------------------------
@@ -527,9 +553,7 @@ void DiplayInfo()
 
 	Print_SetPosition(0, 2);
 	Print_DrawText(TARGET_NAME);
-
 	Print_DrawFormat("\nType:   %s", GetTargetType(TARGET_TYPE));
-	
 	#if (TARGET_TYPE == TYPE_ROM)
 		Print_DrawFormat("\nMapper: %s", GetROMMapper(ROM_MAPPER));
 		
@@ -538,58 +562,48 @@ void DiplayInfo()
 			Print_DrawFormat(" (%i)", ROM_SEGMENTS);
 		#endif
 	#endif
-
 	Print_DrawFormat("\nAddr:   %4x~%4x", Sys_GetFirstAddr(), Sys_GetLastAddr());
 
 	for(u8 i = 0; i < 4; i++)
 	{
-		g_PageSlot[i] = Sys_GetPageSlot(i);
+		u8 slotId = Sys_GetPageSlot(i);
 		Print_SetPosition(20, 3+i);
 		Print_DrawFormat("Page[%i]: ", i);
-		Print_Slot(g_PageSlot[i]);
-		Print_SetPosition(33, 3+i);
-		Print_DrawFormat("(%s)", GetSlotName(g_PageSlot[i], i));
+		Print_Slot(slotId);
+		// Print_SetPosition(33, 3+i);
+		// Print_DrawFormat("(%s)", GetSlotName(slotId, i));
 	}
 
-	#if (ROM_MAPPER != ROM_PLAIN)
+	#if ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER != ROM_PLAIN))
 
 		Print_SetPosition(0, MAPPER_Y);
-		#if (ROM_MAPPER == ROM_ASCII16)
-			Print_DrawText("Segments in Bank #1");
-		#else
-			Print_DrawText("Segments in Bank #2");
-		#endif
+		Print_DrawText(ROM_MAPPER_STR);
 		
 		Print_SetPosition(0, MAPPER_Y + 1);
-		Print_DrawText("\x18\x17\x17\x17\x17\x12");
-		Print_DrawCharX('\x17', 33);
+		Print_DrawText("\x18\x17\x17\x17\x17\x17\x12");
+		Print_DrawCharX('\x17', 32);
 		Print_DrawChar('\x19');
 		
 		for(u8 i = 0; i < MAPPER_NUM; i++)
 		{
 			Print_SetPosition(0, MAPPER_Y + 2 + i);
 			Print_DrawChar('\x16');
-			g_PrintData.CursorX = 5;
+			g_PrintData.CursorX = 6;
 			Print_DrawChar('\x16');
 			g_PrintData.CursorX = 39;
 			Print_DrawChar('\x16');
 		}
 
 		Print_SetPosition(0, MAPPER_Y + 2 + MAPPER_NUM);
-		Print_DrawText("\x1A\x17\x17\x17\x17\x11");
-		Print_DrawCharX('\x17', 33);
+		Print_DrawText("\x1A\x17\x17\x17\x17\x17\x11");
+		Print_DrawCharX('\x17', 32);
 		Print_DrawChar('\x1B');
 
 		UpdateMapper();
 
-		// #if (ROM_MAPPER == ROM_ASCII16)
-			// SET_BANK_SEGMENT(1, BANKED_SEG);
-		// #else
-			// SET_BANK_SEGMENT(2, BANKED_SEG);
-		// #endif		
-		Print_SetPosition(0, MAPPER_Y + 4 + MAPPER_NUM);
-		Print_DrawText("Banked call:");
-		BANKED_CALL(1, MAPPER_Y + 5 + MAPPER_NUM);
+		// Print_SetPosition(0, MAPPER_Y + 4 + MAPPER_NUM);
+		// Print_DrawText("Banked call:");
+		// BANKED_CALL(1, MAPPER_Y + 5 + MAPPER_NUM);
 
 	#endif
 
@@ -624,6 +638,8 @@ void main()
 	u8 count = 0;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
+		Halt();
+
 		Print_SetPosition(39, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 		
@@ -633,47 +649,45 @@ void main()
 
 		if(IS_KEY_PRESSED(row6, KEY_F1))
 			SwitchPage();
-		
-		#if (ROM_MAPPER != ROM_PLAIN)
-		if(g_Page == 0)
-		{
-			if(IS_KEY_PRESSED(row6, KEY_F2))
-			{
-				g_DisplayASCII = 1 - g_DisplayASCII;
-				UpdateMapper();
-			}
-			if(IS_KEY_PRESSED(row8, KEY_RIGHT))
-			{
-				g_Address++;
-				UpdateMapper();
-			}
-			if(IS_KEY_PRESSED(row8, KEY_LEFT))
-			{
-				if(g_Address > BANK_ADDR)
-					g_Address--;
-				UpdateMapper();
-			}
-			if(IS_KEY_PRESSED(row8, KEY_DOWN))
-			{
-				if(g_Segment < ROM_SEGMENTS-MAPPER_NUM)
-					g_Segment++;
-				UpdateMapper();
-			}
-			if(IS_KEY_PRESSED(row8, KEY_UP))
-			{
-				if(g_Segment > 0)
-					g_Segment--;
-				UpdateMapper();
-			}
-		}
-		#endif // (ROM_MAPPER != ROM_PLAIN)
 
-		Halt();
+		#if ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER != ROM_PLAIN))
+			if(g_Page == 0)
+			{
+				if(IS_KEY_PRESSED(row6, KEY_F2))
+				{
+					g_DisplayASCII = 1 - g_DisplayASCII;
+					UpdateMapper();
+				}
+				if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+				{
+					g_Address++;
+					UpdateMapper();
+				}
+				if(IS_KEY_PRESSED(row8, KEY_LEFT))
+				{
+					if(g_Address > BANK_ADDR)
+						g_Address--;
+					UpdateMapper();
+				}
+				if(IS_KEY_PRESSED(row8, KEY_DOWN))
+				{
+					if(g_Segment < ROM_SEGMENTS-MAPPER_NUM)
+						g_Segment++;
+					UpdateMapper();
+				}
+				if(IS_KEY_PRESSED(row8, KEY_UP))
+				{
+					if(g_Segment > 0)
+						g_Segment--;
+					UpdateMapper();
+				}
+			}
+		#endif
 	}
 	
-	#if(TARGET & ROM_ISR)
-	// BIOS not present in page 0
-	Sys_SetPage0Slot(g_EXPTBL[0]);
+	#if ((TARGET_TYPE == TYPE_ROM) || (TARGET & ROM_ISR))
+		// BIOS not present in page 0
+		Sys_SetPage0Slot(g_EXPTBL[0]);
 	#endif
 	Bios_Exit(0);
 }

@@ -81,9 +81,9 @@
 
 // VDP screen modes (additionnal limitations come from the selected MSX_VERSION)
 #define VDP_USE_MODE_T1				TRUE	// MSX1		Screen 0 Width 40
-#define VDP_USE_MODE_MC				TRUE	// MSX1		Screen 3
 #define VDP_USE_MODE_G1				TRUE	// MSX1		Screen 1
 #define VDP_USE_MODE_G2				TRUE	// MSX1		Screen 2
+#define VDP_USE_MODE_MC				TRUE	// MSX1		Screen 3
 #define VDP_USE_MODE_T2				TRUE	// MSX2		Screen 0 Width 80
 #define VDP_USE_MODE_G3				TRUE	// MSX2		Screen 4
 #define VDP_USE_MODE_G4				TRUE	// MSX2		Screen 5
@@ -280,9 +280,9 @@
 #define MENU_ITEM_ALIGN_GOTO		MENU_ITEM_ALIGN_LEFT // Goto type item label alignment
 #define MENU_VALUE_X				15		// Item value X position
 // Type of cursor
-// - MENU_CURSOR_MODE_NONE			No cursor
-// - MENU_CURSOR_MODE_CHAR			Character cursor
-// - MENU_CURSOR_MODE_SPRT			Sprite cursor
+// - MENU_CURSOR_MODE_NONE ........ No cursor
+// - MENU_CURSOR_MODE_CHAR ........ Character cursor
+// - MENU_CURSOR_MODE_SPRT ........ Sprite cursor
 #define MENU_CURSOR_MODE			MENU_CURSOR_MODE_CHAR
 #define MENU_CURSOR_OFFSET			(-2)	// Cursor X position offset
 
@@ -301,7 +301,7 @@
 #define STRING_USE_INT32			TRUE	// Add support for 32-bits integer
 
 //-----------------------------------------------------------------------------
-// SCROLL MODULE 
+// SCROLL MODULE
 //-----------------------------------------------------------------------------
 
 // Allow horizontal and/or vertical scrolling
@@ -330,7 +330,7 @@
 #define SCROLL_MASK_PATTERN			0		// Sprite pattern to use
 
 //-----------------------------------------------------------------------------
-// TILE 
+// TILE
 //-----------------------------------------------------------------------------
 
 #define TILE_WIDTH					8		// Tile width
@@ -342,7 +342,7 @@
 #define TILE_SKIP_INDEX				0		// The index tile to skip
 
 //-----------------------------------------------------------------------------
-// AUDIO 
+// AUDIO
 //-----------------------------------------------------------------------------
 
 // PSG options
@@ -433,7 +433,7 @@
 #define RANDOM_16_METHOD			RANDOM_16_XORSHIFT
 
 //-----------------------------------------------------------------------------
-// COMPRESS 
+// COMPRESS
 //-----------------------------------------------------------------------------
 
 // RLEp compression
@@ -515,14 +515,34 @@
 #define QRCODE_USE_EXTRA			FALSE	// TRUE: Add extra function to generate custom data segments.
 #define QRCODE_BOOST_ECL			FALSE	// If boostEcl is TRUE, then the ECC level of the result may be higher than the ecl argument if it can be done without increasing the version. QRCODE_PARAM_CUSTOM: Allow to use <QRCode_SetBoostECL> function.
 
+#define QRCODE_TINY_VERSION			10		// The version number supported in the QR Code Model 2 standard
+// Error correction level
+// - QRCODE_ECC_LOW ............... The QR Code can tolerate about  7% erroneous codewords
+// - QRCODE_ECC_MEDIUM ............ The QR Code can tolerate about 15% erroneous codewords
+// - QRCODE_ECC_QUARTILE .......... The QR Code can tolerate about 25% erroneous codewords
+// - QRCODE_ECC_HIGH .............. The QR Code can tolerate about 30% erroneous codewords
+#define QRCODE_TINY_ECC				QRCODE_ECC_LOW
+// Mask pattern
+// - QRCODE_MASK_0 ................ (i + j) % 2 = 0
+// - QRCODE_MASK_1 ................ i % 2 = 0
+// - QRCODE_MASK_2 ................ j % 3 = 0
+// - QRCODE_MASK_3 ................ (i + j) % 3 = 0
+// - QRCODE_MASK_4 ................ (i / 2 + j / 3) % 2 = 0
+// - QRCODE_MASK_5 ................ (i * j) % 2 + (i * j) % 3 = 0
+// - QRCODE_MASK_6 ................ ((i * j) % 3 + i * j) % 2 = 0
+// - QRCODE_MASK_7 ................ ((i * j) % 3 + i + j) % 2 = 0
+#define QRCODE_TINY_MASK 			QRCODE_MASK_0
+
 //-----------------------------------------------------------------------------
 // DEBUG
 //-----------------------------------------------------------------------------
 
 // Profiler method
 // - DEBUG_DISABLE ................ No profiler
-// - DEBUG_OPENMSX_G .............. Grauw profile script for OpenMSX
-// - DEBUG_OPENMSX_S .............. Salutte profile script for OpenMSX
+// - DEBUG_OPENMSX ................ Support for openMSX default debugger (no profiler)
+// - DEBUG_OPENMSX_G .............. Grauw profile script for openMSX
+// - DEBUG_OPENMSX_S .............. Salutte profile script for openMSX
+// - DEBUG_OPENMSX_P .............. PVM debug script for openMSX (no profiler)
 // - DEBUG_EMULICIOUS ............. Profile script for Emulicious
 #define DEBUG_TOOL					DEBUG_DISABLE
 #define PROFILE_LEVEL				10 

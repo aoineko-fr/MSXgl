@@ -18,4 +18,4 @@ ROMSize = 8192;
 BankedCall = false;
 
 //-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
-AppID = "N8";
+AppID = "NM";

@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.6";
+const char* VERSION = "0.1.7";
 
 #define BUFFER_SIZE 1024
 
@@ -53,6 +53,15 @@ struct Segment
 	Segment() : Size(0), Lower(0xFFFF), Higher(0) {}
 };
 
+// RawData structure
+struct RawData
+{
+	u32 Offset;
+	std::vector<u8> Data;
+
+	RawData() : Offset(0) {}
+};
+
 //
 enum RecordType
 {
@@ -69,19 +78,20 @@ enum RecordType
 //=============================================================================
 
 // Configuration
-std::string       g_InputFile;
-std::string       g_OutputFile;
-std::string       g_OutputExt;
-bool              g_Log = false;
-bool              g_Check = false;
-bool              g_Verbose = true;
-u32               g_StartAddress = 0;
-u32               g_DataSize = 0;
-u32               g_BankSize = 0;
-std::vector<u8>   g_BinData;
-std::vector<bool> g_BinCheck;
-u8                g_Padding = 0xFF;
+std::string          g_InputFile;
+std::string          g_OutputFile;
+std::string          g_OutputExt;
+bool                 g_Log = false;
+bool                 g_Check = false;
+bool                 g_Verbose = true;
+u32                  g_StartAddress = 0;
+u32                  g_DataSize = 0;
+u32                  g_BankSize = 0;
+std::vector<u8>      g_BinData;
+std::vector<bool>    g_BinCheck;
+u8                   g_Padding = 0xFF;
 std::vector<Segment> g_SegmentInfo;
+std::vector<RawData> g_RawData;
 
 std::map<c8, u8> g_HexaMap = {
 	{ '0', 0 },
@@ -165,10 +175,49 @@ u32 GetValue(std::string name)
 	return atoi(name.c_str());
 }
 
+//-----------------------------------------------------------------------------
+// 
+bool WriteBytesAtOffset(u32 offsetStart, const std::vector<u8>& data)
+{
+	// Get file offset
+	u32 offsetEnd = offsetStart + (u32)data.size() - 1;
+
+	// Check max size
+	if ((g_DataSize != 0) && (offsetEnd > g_DataSize - 1))
+	{
+		printf("Error: Try to write value outside defined data length! (Max=%08Xh Destination=%08Xh)\n", g_DataSize - 1, offsetEnd);
+		return false;
+	}
+
+	// Resize data if needed
+	if (offsetEnd + 1 > (u32)g_BinData.size())
+	{
+		g_BinData.resize(offsetEnd + 1, g_Padding);
+		g_BinCheck.resize(offsetEnd + 1, false);
+	}
+
+	// Write data
+	u32 offset = offsetStart;
+	for (u8 i = 0; i < data.size(); i++)
+	{
+		if (g_BinCheck[offset])
+		{
+			printf("Error: Data overwrite at offset %08Xh!\n", offset);
+			return false;
+		}
+
+		g_BinData[offset] = data[i];
+		g_BinCheck[offset] = true;
+
+		offset++;
+	}
+
+	return true;
+}
 
 //-----------------------------------------------------------------------------
 // 
-bool WriteBytes(u32 addr, std::vector<u8> data)
+bool WriteBytesAtAddress(u32 addr, const std::vector<u8>& data)
 {
 	// Check starting address
 	if (addr < g_StartAddress)
@@ -195,41 +244,7 @@ bool WriteBytes(u32 addr, std::vector<u8> data)
 	if (segAddr + data.size() - 1 > g_SegmentInfo[segNum].Higher)
 		g_SegmentInfo[segNum].Higher = segAddr + (u16)data.size() - 1;
 
-	// Get file offset
-	u32 offsetStart = addr - g_StartAddress;
-	u32 offsetEnd = offsetStart + (u32)data.size() - 1;
-
-	// Check max size
-	if ((g_DataSize != 0) && (offsetEnd > g_DataSize - 1))
-	{
-		printf("Error: Try to write value outside defined data length! (Max=%08Xh Destination=%08Xh)\n", g_DataSize - 1, offsetEnd);
-		return false;
-	}
-
-	// Resize data if needed
-	if(offsetEnd + 1 > g_BinData.size())
-	{
-		g_BinData.resize(offsetEnd + 1, g_Padding);
-		g_BinCheck.resize(offsetEnd + 1, false);
-	}
-
-	// Write data
-	u32 offset = offsetStart;
-	for (u8 i = 0; i < data.size(); i++)
-	{
-		if (g_BinCheck[offset])
-		{
-			printf("Error: Data overwrite at offset %08Xh! (Address=%08Xh)\n", offset, addr);
-			return false;
-		}
-
-		g_BinData[offset] = data[i];
-		g_BinCheck[offset] = true;
-
-		offset++;
-	}
-
-	return true;
+	return WriteBytesAtOffset(addr - g_StartAddress, data);
 }
 
 //-----------------------------------------------------------------------------
@@ -275,8 +290,40 @@ int SaveBinary(std::string outFile)
 }
 
 //-----------------------------------------------------------------------------
+//
+bool AddRawData(u32 offset, std::string inFile)
+{
+	if (g_Log)
+		printf("Log: Add file '%s' at offset %08Xh\n", inFile.c_str(), offset);
+
+	RawData raw;
+	raw.Offset = offset;
+
+	// Read binary file
+	FILE* file = fopen(inFile.c_str(), "rb");
+	if (file == NULL)
+	{
+		printf("Error: Fail to open input file %s\n", inFile.c_str());
+		return 1;
+	}
+	fseek(file, 0, SEEK_END);
+	u32 fileSize = ftell(file);
+	raw.Data.resize(fileSize);
+	fseek(file, 0, SEEK_SET);
+	if (fread(&raw.Data[0], sizeof(u8), fileSize, file) != fileSize)
+	{
+		printf("Error: Fail to read file %s\n", inFile.c_str());
+		return false;
+	}
+	fclose(file);
+
+	g_RawData.push_back(raw);
+	return true;
+}
+
+//-----------------------------------------------------------------------------
 // Load and parse Intel HEX file
-int ParseHex(std::string inFile)
+bool ParseHex(std::string inFile)
 {
 	std::string strData;
 	u8* binData;
@@ -292,7 +339,7 @@ int ParseHex(std::string inFile)
 	if (file == NULL)
 	{
 		printf("Error: Fail to open input file %s\n", inFile.c_str());
-		return 1;
+		return false;
 	}
 	fseek(file, 0, SEEK_END);
 	u32 fileSize = ftell(file);
@@ -302,7 +349,7 @@ int ParseHex(std::string inFile)
 	{
 		free(binData);
 		printf("Error: Fail to read file %s\n", inFile.c_str());
-		return 1;
+		return false;
 	}
 	fclose(file);
 
@@ -337,7 +384,7 @@ int ParseHex(std::string inFile)
 			if (sum != 0)
 			{
 				printf("Error: Record[%i] checksum error!\n", index);
-				return 1;
+				return false;
 			}
 		}
 
@@ -352,19 +399,25 @@ int ParseHex(std::string inFile)
 		case Type_Data:
 			if (g_Log)
 				printf("Log: Record[%i] Addr=%08Xh Size=%i\n", index, addr, rec.Count);
-			if (!WriteBytes(addr, rec.Data))
-				return 1;
+			if (!WriteBytesAtAddress(addr, rec.Data))
+				return false;
 			break;
 		case Type_EndOfFile:
+			if (g_Log)
+				printf("Log: End of file\n");
 			free(binData);
-			return SaveBinary(g_OutputFile);
+			return true;
 		case Type_ExtendedSegmentAddress:
 			baseAddr = (rec.Data[0] << 12) + (rec.Data[1] << 4);
+			if (g_Log)
+				printf("Log: Set base Addr=%08Xh\n", baseAddr);
 			break;
 		case Type_StartSegmentAddress:
 			break;
 		case Type_ExtendedLinearAddress:
 			baseAddr = (rec.Data[0] << 24) + (rec.Data[1] << 16);
+			if (g_Log)
+				printf("Log: Set base Addr=%08Xh\n", baseAddr);
 			break;
 		case Type_StartLinearAddress:
 			break;
@@ -373,7 +426,7 @@ int ParseHex(std::string inFile)
 		index++;
 	}
 
-	return 1;
+	return false;
 }
 
 //-----------------------------------------------------------------------------
@@ -384,14 +437,15 @@ void PrintHelp()
 	printf("--------------------------------------------------------------------------------\n");
 	printf("Usage: msxhex <inputfile> [options]\n\n");
 	printf("Options:\n");
-	printf(" -o filename    Output filename (default: use input filename with '.bin')\n");
-	printf(" -e ext         Output filename extension (can't be use with -o)\n");
-	printf(" -s addr        Starting address (default: 0)\n");
-	printf(" -l length      Total data length (default: 0, means autodetect)\n");
-	printf(" -b length      Bank size (default: 0, means don't use)\n");
-	printf(" -p value       Pading value (default: 0xFF)\n");
-	printf(" -check         Validate records\n");
-	printf(" -log           Log records\n");
+	printf(" -o filename      Output filename (default: use input filename with '.bin')\n");
+	printf(" -e ext           Output filename extension (can't be use with -o)\n");
+	printf(" -s addr          Starting address (default: 0)\n");
+	printf(" -l length        Total data length (default: 0, means autodetect)\n");
+	printf(" -b length        Bank size (default: 0, means don't use)\n");
+	printf(" -p value         Pading value (default: 0xFF)\n");
+	printf(" -r offset file   Raw data 'file' to add at a given 'offset'\n");
+	printf(" -check           Validate records\n");
+	printf(" -log             Log records\n");
 	printf("\n");
 	printf(" All integers can be decimal or hexadecimal starting with '0x'.\n");
 	printf(" One of the following named values can also be used:\n  ");
@@ -405,7 +459,7 @@ void PrintHelp()
 }
 
 //-----------------------------------------------------------------------------
-//const char* ARGV[] = { "", "../testcases/s_neo8.ihx", "-e", "rom", "-s", "0x0", "-l", "8M", "-b", "8K", "-p", "0xFF" };
+//const char* ARGV[] = { "", "D:/Dev/Private/MSX/MSXgl/projects/htd005/out/htd005.ihx", "-e", "rom", "-s", "0x4000", "-l", "131072", "-b", "8192", "-log"};
 //#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
@@ -459,6 +513,13 @@ int main(int argc, const char* argv[])
 		{
 			g_Padding = (u8)GetValue(argv[++i]);
 		}
+		// Raw data file
+		else if (MSX::StrEqual(argv[i], "-r"))
+		{
+			u32 offset = GetValue(argv[++i]);
+			std::string file = argv[++i];
+			AddRawData(offset, file);
+		}
 		// Activate record logging
 		else if (MSX::StrEqual(argv[i], "-log"))
 		{
@@ -481,5 +542,13 @@ int main(int argc, const char* argv[])
 			g_OutputFile += "." + g_OutputExt;
 	}
 
-	return ParseHex(g_InputFile);
+	if (!ParseHex(g_InputFile))
+		return 1;
+
+	for (u8 i = 0; i < g_RawData.size(); i++)
+	{
+		WriteBytesAtOffset(g_RawData[i].Offset, g_RawData[i].Data);
+	}
+
+	return SaveBinary(g_OutputFile);
 }

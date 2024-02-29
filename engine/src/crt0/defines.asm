@@ -58,9 +58,10 @@ ROM_NEO16		= 9 ; NEO-16 mapper
 
 ;------------------------------------------------------------------------------
 ; ISR types
-ISR_VBLANK		= 0				; V-blank handler (V9938 or V9958)
-ISR_VHBLANK		= 1				; V-blank and h-blank handler (V9958)
-ISR_V9990		= 2				; V-blank, h-blank and command end handler (V9990)
+ISR_NONE		= 0				; No ISR
+ISR_VBLANK		= 1				; V-blank handler (V9938 or V9958)
+ISR_VHBLANK		= 2				; V-blank and h-blank handler (V9958)
+ISR_V9990		= 3				; V-blank, h-blank and command end handler (V9990)
 
 ;------------------------------------------------------------------------------
 ; Default values

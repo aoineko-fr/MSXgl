@@ -63,7 +63,7 @@ ProjModules = [];
 ProjSegments = "";
 
 //-- List of library modules to build (array)
-LibModules= [ "system", "bios", "vdp", "print", "input", "memory" ];
+LibModules = [ "system", "bios", "vdp", "print", "input", "memory" ];
 
 //-- Additional sources to be compiled and linked with the project (array)
 AddSources = [];
@@ -113,20 +113,27 @@ ROMSize = 128;
 //-- Postpone the ROM startup to let the other ROMs initialize like Disk controller or Network cartridge (boolean)
 ROMDelayBoot = false;
 
+//-- Add a ROM signature to help flasher and emulator to detect the ROM type properly (boolean)
+AddROMSignature = false;
+
 //-- Select RAM in slot 0 and install ISR there (boolean). For MSX with at least 64 KB of RAM
 InstallRAMISR = false;
 
 //-- Type of custom ISR to install (string). ISR is install in RAM or ROM depending on Target and InstallRAMISR parameters
+//   - NONE       No ISR
 //   - VBLANK     V-blank handler
 //   - VHBLANK    V-blank and h-blank handler (V9938 or V9958)
 //   - V9990      V-blank, h-blank and command end handler (V9990)
 CustomISR = "VBLANK";
 
 //-- Use automatic banked call and trampoline functions (boolean). For mapped ROM
-BankedCall = 0;
+BankedCall = false;
 
 //-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
 ForceRamAddr = 0;
+
+//-- List of raw data files to be added to final binary (array). Each entry must be in the following format: { offset=0x0000, file="myfile.bin" }
+RawFiles = [];
 
 //-- List of data files to copy to disk (array)
 DiskFiles = [];
@@ -148,7 +155,7 @@ DOSParseArg = true;
 AppSignature = false;
 
 //-- Application company (*). Can be 2 character string or 16-bits integer (0~65535)
-AppCompany = "GL";
+AppCompany = "XX";
 
 //-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
 AppID = 0;

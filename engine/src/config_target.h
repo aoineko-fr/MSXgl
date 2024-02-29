@@ -91,11 +91,17 @@
 
 //-----------------------------------------------------------------------------
 // Target names
-#if (TARGET == TARGET_BIN)
-	#define TARGET_NAME "BASIC binary program"
+#if (TARGET == TARGET_BIN_DISK)
+	#define TARGET_NAME "BASIC binary on disk"
+
+#elif (TARGET == TARGET_BIN_TAPE)
+	#define TARGET_NAME "BASIC binary on tape"
 
 #elif (TARGET == TARGET_BIN_USR)
 	#define TARGET_NAME "BASIC USR driver"
+
+#elif (TARGET == TARGET_DOS0)
+	#define TARGET_NAME "Auto boot disk"
 
 #elif (TARGET == TARGET_DOS1)
 	#define TARGET_NAME "MSX-DOS 1"
@@ -232,6 +238,15 @@
 #elif (TARGET == TARGET_ROM_KONAMI_SCC_2048K)
 	#define TARGET_NAME "2048K Konami ROM with SCC"
 
+#elif (TARGET == TARGET_ROM_NEO8_128K)
+	#define TARGET_NAME "128K NEO-8 ROM"
+
+#elif (TARGET == TARGET_ROM_NEO8_256K)
+	#define TARGET_NAME "256K NEO-8 ROM"
+
+#elif (TARGET == TARGET_ROM_NEO8_512K)
+	#define TARGET_NAME "512K NEO-8 ROM"
+
 #elif (TARGET == TARGET_ROM_NEO8_1M)
 	#define TARGET_NAME "1M NEO-8 ROM"
 
@@ -250,6 +265,15 @@
 #elif (TARGET == TARGET_ROM_NEO8_32M)
 	#define TARGET_NAME "32M NEO-8 ROM"
 
+#elif (TARGET == TARGET_ROM_NEO16_128K)
+	#define TARGET_NAME "128K NEO-16 ROM"
+
+#elif (TARGET == TARGET_ROM_NEO16_256K)
+	#define TARGET_NAME "256K NEO-16 ROM"
+
+#elif (TARGET == TARGET_ROM_NEO16_512K)
+	#define TARGET_NAME "512K NEO-16 ROM"
+
 #elif (TARGET == TARGET_ROM_NEO16_1M)
 	#define TARGET_NAME "1M NEO-16 ROM"
 
@@ -260,7 +284,7 @@
 	#define TARGET_NAME "4M NEO-16 ROM"
 
 #elif (TARGET == TARGET_ROM_NEO16_8M)
-	#define TARGET_NAME "16M NEO-8 ROM"
+	#define TARGET_NAME "8M NEO-16 ROM"
 
 #elif (TARGET == TARGET_ROM_NEO16_16M)
 	#define TARGET_NAME "16M NEO-16 ROM"

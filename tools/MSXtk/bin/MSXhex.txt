@@ -1,16 +1,17 @@
-MSXhex 0.1.6 - Convert Intel HEX file to binary
+MSXhex 0.1.7 - Convert Intel HEX file to binary
 --------------------------------------------------------------------------------
 Usage: msxhex <inputfile> [options]
 
 Options:
- -o filename    Output filename (default: use input filename with '.bin')
- -e ext         Output filename extension (can't be use with -o)
- -s addr        Starting address (default: 0)
- -l length      Total data length (default: 0, means autodetect)
- -b length      Bank size (default: 0, means don't use)
- -p value       Pading value (default: 0xFF)
- -check         Validate records
- -log           Log records
+ -o filename      Output filename (default: use input filename with '.bin')
+ -e ext           Output filename extension (can't be use with -o)
+ -s addr          Starting address (default: 0)
+ -l length        Total data length (default: 0, means autodetect)
+ -b length        Bank size (default: 0, means don't use)
+ -p value         Pading value (default: 0xFF)
+ -r offset file   Raw data 'file' to add at a given 'offset'
+ -check           Validate records
+ -log             Log records
 
  All integers can be decimal or hexadecimal starting with '0x'.
  One of the following named values can also be used:

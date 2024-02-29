@@ -26,12 +26,7 @@
 		.dw		0x0000
 		.dw		0x0000
 
-	.ifeq ROM_MAPPER-ROM_NEO8
-		.ascii	"NEOMAP08"
-	.endif
-	.ifeq ROM_MAPPER-ROM_NEO16
-		.ascii	"NEOMAP16"
-	.endif
+		ROM_SIGN_MACRO ; empty if AddROMSignature build option is set to false
 
 	.if APP_SIGN
 	_g_AppSignature::

@@ -13,8 +13,7 @@ setlocal EnableDelayedExpansion
 
 ::-----------------------------------------------------------------------------
 :: BASIC and MSX-DOS
-set Formats=BIN,DOS1,DOS2
-set Unsupported=DOS2_ARG
+set Formats=BIN_DISK,BIN_TAPE,DOS0,DOS1,DOS2
 for %%G in (%Formats%) do (
 	call build %%G
 )
@@ -50,6 +49,18 @@ for %%G in (64,128,256,512,1024,2048) do (
 :: Konami-SCC mapped ROM
 for %%G in (64,128,256,512,1024,2048) do (
 	call build ROM_KONAMI_SCC ROM_KONAMI_SCC_%%GK %%G
+)
+
+::-----------------------------------------------------------------------------
+:: NEO-8 mapped ROM
+for %%G in (512, 1024, 2048, 4096, 8192, 16384, 32768) do (
+	call build ROM_NEO8 ROM_NEO8_%%GK %%G
+)
+
+::-----------------------------------------------------------------------------
+:: NEO-16 mapped ROM
+for %%G in (512, 1024, 2048, 4096, 8192, 16384, 32768, 65536) do (
+	call build ROM_NEO16 ROM_NEO16_%%GK %%G
 )
 
 ::-----------------------------------------------------------------------------

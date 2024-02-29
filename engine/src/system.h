@@ -86,12 +86,10 @@ extern u16 g_LastAddr;
 	extern u16 g_Bank0Segment;
 	extern u16 g_Bank1Segment;
 	extern u16 g_Bank2Segment;
+	#if (ROM_MAPPER == ROM_NEO8)
 	extern u16 g_Bank3Segment;
-	#if (ROM_MAPPER < ROM_MAPPER_16K)
 	extern u16 g_Bank4Segment;
 	extern u16 g_Bank5Segment;
-	extern u16 g_Bank6Segment;
-	extern u16 g_Bank7Segment;
 	#endif
 
 	// Macro: SET_BANK_SEGMENT
@@ -100,7 +98,9 @@ extern u16 g_LastAddr;
 	// Parameters:
 	//   b - Bank number to set (0-5, depending of the mapper). Must be an inline number (not a variable)
 	//   s - Segment to select in this bank
-	#define SET_BANK_SEGMENT(b, s)	do { (*(u16*)(ADDR_BANK_##b) = (s)); (g_Bank##b##Segment = (s)); } while (0)
+	#define SET_BANK_SEGMENT(b, s)		do { (*(u16*)(ADDR_BANK_##b) = (s)); (g_Bank##b##Segment = (s)); } while (0)
+	#define SET_BANK_SEGMENT_LOW(b, s)	do { (*(u8*)(ADDR_BANK_##b + 0) = (s)); (*(u8*)(&g_Bank##b##Segment + 0) = (s)); } while (0)
+	#define SET_BANK_SEGMENT_HIGH(b, s)	do { (*(u8*)(ADDR_BANK_##b + 1) = (s)); (*(u8*)(&g_Bank##b##Segment + 1) = (s)); } while (0)
 
 	// Macro: GET_BANK_SEGMENT
 	// Get the current segment of the given bank
@@ -110,8 +110,10 @@ extern u16 g_LastAddr;
 	//
 	// Return:
 	//   Segment selected in this bank
-	#define GET_BANK_SEGMENT(b)	    (g_Bank##b##Segment)
-	
+	#define GET_BANK_SEGMENT(b)			(g_Bank##b##Segment)
+	#define GET_BANK_SEGMENT_LOW(b)		(u8)(g_Bank##b##Segment)
+	#define GET_BANK_SEGMENT_HIGH(b)	(u8)(g_Bank##b##Segment >> 8)
+
 #elif (ROM_MAPPER > ROM_PLAIN)
 
 	// Segment value backup
@@ -123,18 +125,38 @@ extern u16 g_LastAddr;
 	#endif
 
 	// Set the current segment of the given bank
-	#define SET_BANK_SEGMENT(b, s)	do { (*(u8*)(ADDR_BANK_##b) = (s)); (g_Bank##b##Segment = (s)); } while (0)
+	#define SET_BANK_SEGMENT(b, s)		do { (*(u8*)(ADDR_BANK_##b) = (s)); (g_Bank##b##Segment = (s)); } while (0)
+	#define SET_BANK_SEGMENT_LOW(b, s)	SET_BANK_SEGMENT(b, s)
+	#define SET_BANK_SEGMENT_HIGH(b, s)
 
 	// Get the current segment of the given bank
-	#define GET_BANK_SEGMENT(b)	    (g_Bank##b##Segment)
+	#define GET_BANK_SEGMENT(b)			(g_Bank##b##Segment)
+	#define GET_BANK_SEGMENT_LOW(b)		GET_BANK_SEGMENT(b)
+	#define GET_BANK_SEGMENT_HIGH(b)	(0)
 
 #elif (TARGET == TARGET_DOS2_MAPPER)
 
 	// Set the current segment of the given bank
-	#define SET_BANK_SEGMENT(b, s)	DOSMapper_SetPage(b + 1, s)
+	#define SET_BANK_SEGMENT(b, s)		DOSMapper_SetPage(b + 1, s)
+	#define SET_BANK_SEGMENT_LOW(b, s)	SET_BANK_SEGMENT(b, s)
+	#define SET_BANK_SEGMENT_HIGH(b, s)
 
 	// Get the current segment of the given bank
-	#define GET_BANK_SEGMENT(b)		DOSMapper_GetPage(b + 1)
+	#define GET_BANK_SEGMENT(b)			DOSMapper_GetPage(b + 1)
+	#define GET_BANK_SEGMENT_LOW(b)		GET_BANK_SEGMENT(b)
+	#define GET_BANK_SEGMENT_HIGH(b)	(0)
+
+#else
+
+	// Set the current segment of the given bank
+	#define SET_BANK_SEGMENT(b, s)
+	#define SET_BANK_SEGMENT_LOW(b, s)
+	#define SET_BANK_SEGMENT_HIGH(b, s)
+
+	// Get the current segment of the given bank
+	#define GET_BANK_SEGMENT(b)
+	#define GET_BANK_SEGMENT_LOW(b)
+	#define GET_BANK_SEGMENT_HIGH(b)
 
 #endif
 

@@ -52,6 +52,7 @@ global.RamAddr = 0;
 global.ROMFirstPage = 0;
 global.ROMLastPage = 0;
 global.ROMWithISR = false;
+global.ROMSignature = "";
 
 // Mapped ROM
 global.Mapper = "";
@@ -220,6 +221,9 @@ global.ROMMainSegments = 0;
 //-- Postpone the ROM startup to let the other ROMs initialize like Disk controller or Network cartridge (boolean)
 global.ROMDelayBoot = false;
 
+//-- Add a ROM signature to help flasher and emulator to detect the ROM type properly (boolean)
+global.AddROMSignature = false;
+
 //-- Select RAM in slot 0 and install ISR there (boolean). For MSX with at least 64 KB of RAM
 global.InstallRAMISR = false;
 
@@ -234,6 +238,9 @@ global.BankedCall = false;
 
 //-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
 global.ForceRamAddr = 0;
+
+//-- List of raw data files to be added to final binary (array). Each entry must be in the following format: { offset=0x0000, file="myfile.bin" }
+global.RawFiles = [];
 
 //-- List of data files to copy to disk (array)
 global.DiskFiles = [];

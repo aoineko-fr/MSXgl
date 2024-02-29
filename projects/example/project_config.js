@@ -51,31 +51,40 @@ LibModules = [ "system", "bios", "vdp", "print", "input", "memory", "game", "gam
 //-- Target MSX machine version (string)
 //   - 1        MSX1
 //   - 2        MSX2
-//   - 12       MSX1 or 2 (dual support)
+//   - 12       MSX1 and 2 (multi support)
 //   - 2K       Korean MSX2 (SC9 support)
 //   - 2P       MSX2+
+//   - 22P      MSX2 and 2+ (multi support)
+//   - 122P     MSX1, 2 and 2+ (multi support)
+//   - 0        MSX0
 //   - TR       MSX turbo R
 //   - 3        MSX3 (reserved)
 Machine = "1";
 
 //-- Target program format (string)
-//   - BIN              .bin    BASIC binary program (8000h~)
-//   - BIN_USR          .bin    BASIC USR binary driver (C000h~)
-//   - ROM_8K           .rom    8KB ROM in page 1 (4000h ~ 5FFFh)
-//   - ROM_8K_P2        .rom    8KB ROM in page 2 (8000h ~ 9FFFh)
-//   - ROM_16K          .rom    16KB ROM in page 1 (4000h ~ 7FFFh)
-//   - ROM_16K_P2       .rom    16KB ROM in page 2 (8000h ~ BFFFh)
-//   - ROM_32K          .rom    32KB ROM in page 1-2 (4000h ~ BFFFh)
-//   - ROM_48K          .rom    48KB ROM in page 0-2 (0000h ~ BFFFh). Pages 1-2 visible at start
-//   - ROM_48K_ISR      .rom    48KB ROM in page 0-2 (0000h ~ BFFFh). Pages 0-2 visible at start
-//   - ROM_64K          .rom    64KB ROM in page 0-3 (0000h ~ FFFFh). Pages 1-2 visible at start
-//   - ROM_64K_ISR      .rom    64KB ROM in page 0-3 (0000h ~ FFFFh). Pages 0-2 visible at start
-//   - ROM_ASCII8       .rom    128KB ROM using ASCII-8 mapper
-//   - ROM_ASCII16      .rom    128KB ROM using ASCII-16 mapper
-//   - ROM_KONAMI       .rom    128KB ROM using Konami mapper (8KB segments)
-//   - ROM_KONAMI_SCC   .rom    128KB ROM using Konami SCC mapper (8KB segments)
-//   - DOS1             .com    MSX-DOS 1 program (0100h~) No direct acces to Main-ROM
-//   - DOS2             .com    MSX-DOS 2 program (0100h~) No direct acces to Main-ROM
+//   - BIN              .bin    BASIC binary program (starting at 8000h)
+//   - BIN_DISK         .bin    BASIC binary program (starting at 8000h) on disk
+//   - BIN_TAPE         .bin    BASIC binary program (starting at 8000h) on tape
+//   - BIN_USR          .bin    BASIC USR binary driver (starting at C000h)
+//   - DOS1             .com    MSX-DOS 1 program (starting at 0100h)
+//   - DOS2             .com    MSX-DOS 2 program (starting at 0100h)
+//   - DOS2_MAPPER      .com    MSX-DOS 2 launcher to RAM mapper (launcher starting at 0100h, program at 4000h)
+//   - DOS0             .com    Direct program boot from disk (starting at 0100h)
+//   - ROM_8K           .rom    8 KB ROM in page 1 (4000h ~ 5FFFh)
+//   - ROM_8K_P2        .rom    8 KB ROM in page 2 (8000h ~ 9FFFh)
+//   - ROM_16K          .rom    16 KB ROM in page 1 (4000h ~ 7FFFh)
+//   - ROM_16K_P2       .rom    16 KB ROM in page 2 (8000h ~ BFFFh)
+//   - ROM_32K          .rom    32 KB ROM in page 1&2 (4000h ~ BFFFh)
+//   - ROM_48K          .rom    48 KB ROM in page 0-2 (0000h ~ BFFFh)
+//   - ROM_48K_ISR      .rom    48 KB ROM in page 0-2 (0000h ~ BFFFh) with ISR replacement
+//   - ROM_64K          .rom    64 KB ROM in page 0-3 (0000h ~ FFFFh)
+//   - ROM_64K_ISR      .rom    64 KB ROM in page 0-3 (0000h ~ FFFFh) with ISR replacement
+//   - ROM_ASCII8       .rom    ASCII-8: 8 KB segments for a total of 64 KB to 2 MB
+//   - ROM_ASCII16      .rom    ASCII-16: 16 KB segments for a total of 64 KB to 4 MB
+//   - ROM_KONAMI       .rom    Konami MegaROM (aka Konami4): 8 KB segments for a total of 64 KB to 2 MB
+//   - ROM_KONAMI_SCC   .rom    Konami MegaROM SCC (aka Konami5): 8 KB segments for a total of 64 KB to 2 MB
+//   - ROM_NEO8         .rom    NEO-8: 8 KB segments for a total of 1 MB to 32 MB
+//   - ROM_NEO16        .rom    NEO-16: 16 KB segments for a total of 1 MB to 64 MB
 Target = "ROM_32K";
 
 //-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)
@@ -84,13 +93,17 @@ Target = "ROM_32K";
 //-- Postpone the ROM startup to let the other ROMs initialize like Disk controller or Network cartridge (boolean)
 // ROMDelayBoot = false;
 
+//-- Add a ROM signature to help flasher and emulator to detect the ROM type properly (boolean)
+AddROMSignature = true;
+
 //-- Select RAM in slot 0 and install ISR there (boolean). For MSX with at least 64 KB of RAM
 // InstallRAMISR = false;
 
 //-- Type of custom ISR to install (string). ISR is install in RAM or ROM depending on Target and InstallRAMISR parameters
+//   - NONE       No ISR
 //   - VBLANK     V-blank handler
 //   - VHBLANK    V-blank and h-blank handler (V9938 or V9958)
-//   - V9990      v-blank, h-blank and command end handler (V9990)
+//   - V9990      V-blank, h-blank and command end handler (V9990)
 // CustomISR = "VBLANK";
 
 //-- Use automatic banked call and trampoline functions (boolean). For mapped ROM
@@ -99,8 +112,10 @@ Target = "ROM_32K";
 //-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
 // ForceRamAddr = 0;
 
-// --List of data files to copy to disk (array)
+//-- List of data files to copy to disk (array)
 // DiskFiles = [];
+//-- Size of the final disk (.DSK file). Can be "360K" or "720K" (string)
+// DiskSize = "720K";
 
 //-- BASIC USR driver default address (number)
 // USRAddr = 0xC000;
@@ -137,6 +152,9 @@ Debug = true;
 //-- Move debug symbols to deployement folder (boolean)
 DebugSymbols = true;
 
+//-- Allow compiler to generate undocumented Z80 instructions (boolean)
+// AllowUndocumented = false;
+
 //-- Assembler code optimizer (string)
 //   - None
 //   - Peep       SDCC peep hole otpimizer
@@ -149,6 +167,14 @@ DebugSymbols = true;
 //   - Size
 // Optim = "Speed";
 
+//-- Code optimization priority (string/integer)
+//   - Fast			    2000
+//   - Default		    3000
+//   - Optimized	   50000
+//   - Ultra		  200000
+//   - Insane		10000000
+CompileComplexity = "Default";
+
 //-- Additionnal compilation options (string)
 // CompileOpt = "";
 
@@ -160,6 +186,18 @@ DebugSymbols = true;
 
 //-- Automatic increment of build version in a header file (boolean)
 BuildVersion = true;
+
+//-- List files to be localized (array)
+LocFiles = [];
+
+//-- Localization output filename (string)
+LocOutput = "localization.h";
+
+//-- Localization structure name (string)
+LocStruct = "g_LocData";
+
+//-- Package all segments into a lib file to reduce the number of files to link (boolean)
+PackSegments = false;
 
 //*****************************************************************************
 // BUILD TOOL OPTION
@@ -189,6 +227,7 @@ EmulMachine    = false;				//-- Force the MSX version of the emulated machine (b
 // EmulFullScreen = false;				//-- Force the emulator to start in fullscreen mode (boolean)
 // EmulMute       = false;				//-- Disable emulator sound (boolean)
 // EmulDebug      = false;				//-- Start emulator debugger with program launch (boolean)
+// EmulTurbo      = false;				//-- Start emulator in turbo mode (boolean)
 
 //-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific
 // EmulExtraParam = "";
@@ -199,6 +238,7 @@ EmulMachine    = false;				//-- Force the MSX version of the emulated machine (b
 // EmulSCC      = false;				//-- Add SCC extension (boolean)
 // EmulMSXMusic = false;				//-- Add MSX-Music extension (boolean)
 // EmulMSXAudio = false;				//-- Add MSX-Audio extension (boolean)
+// EmulOPL4     = false;				//-- Add OPL4 extension (boolean)
 // EmulPSG2     = false;				//-- Add second PSG extension (boolean)
 // EmulV9990    = false;				//-- Add V9990 video-chip extension (boolean)
 

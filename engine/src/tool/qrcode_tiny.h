@@ -35,7 +35,7 @@
 #include "core.h"
 
 //-----------------------------------------------------------------------------
-// DEFINES
+// CONFIG
 //-----------------------------------------------------------------------------
 
 /*
@@ -53,39 +53,32 @@
  * (Note that all ways require supplying the desired error correction level and various byte buffers.)
  */
 
-// Enum: QRCODE_ECC
-// The error correction level in a QR Code symbol.
-enum QRCODE_ECC
-{
-	// Must be declared in ascending order of error protection
-	// so that an internal qrcodegen function works properly
-	QRCODE_ECC_LOW = 0 ,  // The QR Code can tolerate about  7% erroneous codewords
-	QRCODE_ECC_MEDIUM  ,  // The QR Code can tolerate about 15% erroneous codewords
-	QRCODE_ECC_QUARTILE,  // The QR Code can tolerate about 25% erroneous codewords
-	QRCODE_ECC_HIGH    ,  // The QR Code can tolerate about 30% erroneous codewords
-	// 
-	QRCODE_ECC_MAX,
-};
+//-----------------------------------------------------------------------------
+// DEFINES
+//-----------------------------------------------------------------------------
 
-// Enum: QRCODE_MASK
-// The mask pattern used in a QR Code symbol.
-enum QRCODE_MASK
-{
-	// A special value to tell the QR Code encoder to
-	// automatically select an appropriate mask pattern
-	QRCODE_MASK_AUTO = -1,
-	// The eight actual mask patterns
-	QRCODE_MASK_0 = 0, // (i + j) % 2 = 0
-	QRCODE_MASK_1,     // i % 2 = 0
-	QRCODE_MASK_2,     // j % 3 = 0
-	QRCODE_MASK_3,     // (i + j) % 3 = 0
-	QRCODE_MASK_4,     // (i / 2 + j / 3) % 2 = 0
-	QRCODE_MASK_5,     // (i * j) % 2 + (i * j) % 3 = 0
-	QRCODE_MASK_6,     // ((i * j) % 3 + i * j) % 2 = 0
-	QRCODE_MASK_7,     // ((i * j) % 3 + i + j) % 2 = 0
-	// 
-	QRCODE_MASK_MAX,
-};
+
+// Define: QRCODE_TINY_SIZE
+
+#define QRCODE_TINY_SIZE		(QRCODE_TINY_VERSION * 4 + 17)
+
+// Define: QRCODE_TINY_BUFFER_LEN
+// The worst-case number of bytes needed to store one QR Code, up to and including
+// version 40. This value equals 3918, which is just under 4 kilobytes.
+// Use this more convenient value to avoid calculating tighter memory bounds for buffers.
+#define QRCODE_TINY_BUFFER_LEN 	QRCODE_TINY_SIZE * QRCODE_TINY_SIZE / 8 + 1
+
+// Define: QRCODE_TINY_ECC_NAME
+// String of error correction level
+#if (QRCODE_TINY_ECC == QRCODE_ECC_LOW)
+	#define QRCODE_TINY_ECC_NAME "LOW"
+#elif (QRCODE_TINY_ECC == QRCODE_ECC_MEDIUM)
+	#define QRCODE_TINY_ECC_NAME "MEDIUM"
+#elif (QRCODE_TINY_ECC == QRCODE_ECC_QUARTILE)
+	#define QRCODE_TINY_ECC_NAME "QUARTILE"
+#elif (QRCODE_TINY_ECC == QRCODE_ECC_HIGH)
+	#define QRCODE_TINY_ECC_NAME "HIGH"
+#endif
 
 // Enum: QRCODE_MODE
 // Describes how a segment's data bits are interpreted.
@@ -98,14 +91,6 @@ enum QRCODE_MODE
 	QRCODE_MODE_ECI          = 0x7,
 };
 
-//-----------------------------------------------------------------------------
-// CONFIG
-//-----------------------------------------------------------------------------
-#define QRCODE_TINY_VERSION		10
-#define QRCODE_TINY_ECC			QRCODE_ECC_LOW
-#define QRCODE_TINY_MASK 		QRCODE_MASK_0
-
-
 // A segment of character/binary/control data in a QR Code symbol.
 // The mid-level way to create a segment is to take the payload data and call a factory function such as QRCode_MakeNumeric().
 // The low-level way to create a segment is to custom-make the bit buffer and initialize a QRCode_Segment struct with appropriate values.
@@ -117,7 +102,7 @@ struct QRCode_Segment
 	// The length of this segment's unencoded data. Measured in characters for
 	// numeric/alphanumeric/kanji mode, bytes for byte mode, and 0 for ECI mode.
 	// Always zero or positive. Not the same as the data's bit length.
-	i16 numChars;
+	u8 numChars;
 	
 	// The data bits of this segment, packed in bitwise big endian.
 	// Can be null if the bit length is zero.
@@ -128,22 +113,6 @@ struct QRCode_Segment
 	// The character count (numChars) must agree with the mode and the bit buffer length.
 	i16 bitLength;
 };
-
-// Define: QRCODE_BUFFER_LEN_FOR_VERSION
-// Calculates the number of bytes needed to store any QR Code up to and including the given version number,
-// as a compile-time constant. For example, 'u8 buffer[QRCODE_BUFFER_LEN_FOR_VERSION(25)];'
-// can store any single QR Code from version 1 to 25 (inclusive). The result fits in an i16 (or int16).
-// Requires QRCODE_VERSION_MIN <= n <= QRCODE_VERSION_MAX.
-#define QRCODE_BUFFER_LEN_FOR_VERSION(n)  ((((n) * 4 + 17) * ((n) * 4 + 17) + 7) / 8 + 1)
-
-// Define: QRCODE_BUFFER_LEN_MAX
-// The worst-case number of bytes needed to store one QR Code, up to and including
-// version 40. This value equals 3918, which is just under 4 kilobytes.
-// Use this more convenient value to avoid calculating tighter memory bounds for buffers.
-#define QRCODE_BUFFER_LEN_MAX  QRCODE_BUFFER_LEN_FOR_VERSION(QRCODE_TINY_VERSION)
-
-//
-#define QRCODE_SIZE            (QRCODE_TINY_VERSION * 4 + 17)
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -205,7 +174,7 @@ bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[]);
 // 
 // This function allows the user to create a custom sequence of segments that switches between modes (such as alphanumeric and byte) to encode text in less space.
 // This is a low-level API; the high-level API is QRCode_EncodeText() and QRCode_EncodeBinary().
-bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, u8 tempBuffer[], u8 qrcode[]);
+bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u8 len, u8 tempBuffer[], u8 qrcode[]);
 
 // Function: QRCode_GetSize
 // Returns the side length of the given QR Code, assuming that encoding succeeded.

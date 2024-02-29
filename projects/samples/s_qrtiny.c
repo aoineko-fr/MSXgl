@@ -34,16 +34,12 @@
 // Fonts
 #include "font/font_mgl_sample6.h"
 
-// Bitmaps by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "content/data_bmp_4b.h"
-
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
-u8 g_QR[QRCODE_BUFFER_LEN_MAX];
-u8 g_Buffer[QRCODE_BUFFER_LEN_MAX];
-u8 g_LMMC4b[16*16];
+u8 g_QR[QRCODE_TINY_BUFFER_LEN];
+u8 g_Buffer[QRCODE_TINY_BUFFER_LEN];
 
 //=============================================================================
 // FUNCTIONS
@@ -64,23 +60,31 @@ void QRCode_DrawBitmap(u8 x, u8 y, const u8* qrc)
 // Program entry point
 void main()
 {
-	VDP_SetMode(VDP_MODE_SCREEN5); // Initialize screen mode 5
+	// Initialize screen mode
+	VDP_SetMode(VDP_MODE_SCREEN5);
 	VDP_SetColor(COLOR_BLACK);
 	VDP_ClearVRAM();
 
+	// Initialize font
 	Print_SetBitmapFont(g_Font_MGL_Sample6);
 	Print_SetColor(0xFF, 0x11);
 	Print_Clear();
 
+	// Display title
 	Print_SetPosition(0, 0);
 	Print_DrawText("\x1\x2\x3\x4\x5\x6 QR Code Sample");
 	Draw_LineH(0, 255, 12, 0xFF, 0);
 
+	// Display QR Code Tiny parameters
 	Print_SetPosition(0, 16);
-	Print_DrawFormat("Buf size:%i\n", QRCODE_BUFFER_LEN_MAX);
-
+	Print_DrawFormat("Version: %i\n", QRCODE_TINY_VERSION);
+	Print_DrawFormat("Size:    %i\n", QRCODE_TINY_SIZE);
+	Print_DrawFormat("Buffer:  %i\n", QRCODE_TINY_BUFFER_LEN);
+	Print_DrawFormat("ECC:     %s\n", QRCODE_TINY_ECC_NAME);
+	Print_DrawFormat("Mask:    %i\n", QRCODE_TINY_MASK);
+	
 	bool ok;
-	Print_SetPosition(0, 32);
+	Print_SetPosition(0, 72);
 
 	// Text data
 	Print_SetColor(0xFF, 0x11);
@@ -90,7 +94,6 @@ void main()
 	if(ok)
 	{
 		Print_SetColor(0xEE, 0x11);
-		Print_DrawFormat(" Version:%i, Size:%i\n", QRCode_GetVersion(g_QR), QRCode_GetSize(g_QR));
 		Print_DrawText(" Drawing...");
 		QRCode_DrawBitmap(POS_X_1, POS_Y_1, g_QR);
 		Print_DrawText("Ok\n");
@@ -104,7 +107,6 @@ void main()
 	if(ok)
 	{
 		Print_SetColor(0xEE, 0x11);
-		Print_DrawFormat(" Version:%i, Size:%i\n", QRCode_GetVersion(g_QR), QRCode_GetSize(g_QR));
 		Print_DrawText(" Drawing...");
 		QRCode_DrawBitmap(POS_X_2, POS_Y_2, g_QR);
 		Print_DrawText("Ok\n");
@@ -118,7 +120,6 @@ void main()
 	if(ok)
 	{
 		Print_SetColor(0xEE, 0x11);
-		Print_DrawFormat(" Version:%i, Size:%i\n", QRCode_GetVersion(g_QR), QRCode_GetSize(g_QR));
 		Print_DrawText(" Drawing...");
 		QRCode_DrawBitmap(POS_X_3, POS_Y_3, g_QR);
 		Print_DrawText("Ok\n");
@@ -132,18 +133,17 @@ void main()
 	if(ok)
 	{
 		Print_SetColor(0xEE, 0x11);
-		Print_DrawFormat(" Version:%i, Size:%i\n", QRCode_GetVersion(g_QR), QRCode_GetSize(g_QR));
 		Print_DrawText(" Drawing...");
 		QRCode_DrawBitmap(POS_X_4, POS_Y_4, g_QR);
 		Print_DrawText("Ok\n");
 	}
 
 	// Text data
-	const c8* text =	"MSXglのインストール方法\n"
+	const c8* text =	"MSXglのINSTALL方法\n"
 						"以下の手順に従ってください。\n"
 						"1️⃣ ディレクトリを作成する。\n"
 						"注:FILE PATHにSPACEを入れないディレクトリを使用することを推奨します。\n"
-						"2️⃣ エンジンをインストールします。";
+						"2️⃣ ENGINEをINSTALLします。";
 	Print_SetColor(0xFF, 0x11);
 	Print_DrawText("\nEncoding...");
 	ok = QRCode_EncodeText(text, g_Buffer, g_QR);
@@ -151,7 +151,6 @@ void main()
 	if(ok)
 	{
 		Print_SetColor(0xEE, 0x11);
-		Print_DrawFormat(" Version:%i, Size:%i\n", QRCode_GetVersion(g_QR), QRCode_GetSize(g_QR));
 		Print_DrawText(" Drawing...");
 		QRCode_DrawBitmap(POS_X_5, POS_Y_5, g_QR);
 		Print_DrawText("Ok\n");

@@ -65,37 +65,38 @@ extern bool g_QRCode_BoostECL;
 
 // Enum: QRCODE_ECC
 // The error correction level in a QR Code symbol.
-enum QRCODE_ECC
-{
-	// Must be declared in ascending order of error protection
-	// so that an internal qrcodegen function works properly
-	QRCODE_ECC_LOW = 0 ,  // The QR Code can tolerate about  7% erroneous codewords
-	QRCODE_ECC_MEDIUM  ,  // The QR Code can tolerate about 15% erroneous codewords
-	QRCODE_ECC_QUARTILE,  // The QR Code can tolerate about 25% erroneous codewords
-	QRCODE_ECC_HIGH    ,  // The QR Code can tolerate about 30% erroneous codewords
-	// 
-	QRCODE_ECC_MAX,
-};
+// enum QRCODE_ECC
+// {
+// 	// Must be declared in ascending order of error protection
+// 	// so that an internal qrcodegen function works properly
+// 	QRCODE_ECC_LOW = 0 ,  // The QR Code can tolerate about  7% erroneous codewords
+// 	QRCODE_ECC_MEDIUM  ,  // The QR Code can tolerate about 15% erroneous codewords
+// 	QRCODE_ECC_QUARTILE,  // The QR Code can tolerate about 25% erroneous codewords
+// 	QRCODE_ECC_HIGH    ,  // The QR Code can tolerate about 30% erroneous codewords
+// 	// 
+// 	QRCODE_ECC_MAX,
+// };
 
 // Enum: QRCODE_MASK
 // The mask pattern used in a QR Code symbol.
-enum QRCODE_MASK
-{
-	// A special value to tell the QR Code encoder to
-	// automatically select an appropriate mask pattern
-	QRCODE_MASK_AUTO = -1,
-	// The eight actual mask patterns
-	QRCODE_MASK_0 = 0, // (i + j) % 2 = 0
-	QRCODE_MASK_1,     // i % 2 = 0
-	QRCODE_MASK_2,     // j % 3 = 0
-	QRCODE_MASK_3,     // (i + j) % 3 = 0
-	QRCODE_MASK_4,     // (i / 2 + j / 3) % 2 = 0
-	QRCODE_MASK_5,     // (i * j) % 2 + (i * j) % 3 = 0
-	QRCODE_MASK_6,     // ((i * j) % 3 + i * j) % 2 = 0
-	QRCODE_MASK_7,     // ((i * j) % 3 + i + j) % 2 = 0
-	// 
-	QRCODE_MASK_MAX,
-};
+// enum QRCODE_MASK
+// {
+// 	// A special value to tell the QR Code encoder to
+// 	// automatically select an appropriate mask pattern
+// 	QRCODE_MASK_AUTO = -1,
+// 	// The eight actual mask patterns
+// 	QRCODE_MASK_0 = 0, // (i + j) % 2 = 0
+// 	QRCODE_MASK_1,     // i % 2 = 0
+// 	QRCODE_MASK_2,     // j % 3 = 0
+// 	QRCODE_MASK_3,     // (i + j) % 3 = 0
+// 	QRCODE_MASK_4,     // (i / 2 + j / 3) % 2 = 0
+// 	QRCODE_MASK_5,     // (i * j) % 2 + (i * j) % 3 = 0
+// 	QRCODE_MASK_6,     // ((i * j) % 3 + i * j) % 2 = 0
+// 	QRCODE_MASK_7,     // ((i * j) % 3 + i + j) % 2 = 0
+// 	// 
+// 	QRCODE_MASK_MAX,
+// };
+#define QRCODE_MASK_AUTO	-1
 
 // Enum: QRCODE_MODE
 // Describes how a segment's data bits are interpreted.

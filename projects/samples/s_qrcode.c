@@ -173,8 +173,8 @@ void main()
 			c = 13;
 		g_LMMC4b[i] = c;
 	}
-	VDP_CommandHMMV(150 + 40 - 2, 104 + 40 - 2, 16 + 4, 16 + 4, 0x44);
-	VDP_CommandLMMC(g_LMMC4b, 150 + 40, 104 + 40, 16, 16, VDP_OP_TIMP);
+	VDP_CommandHMMV(150 + 40 - 2, 104 + 40 - 2, 16 + 4, 16 + 4, 0xFF);
+	VDP_CommandLMMC_Arg(g_LMMC4b, 150 + 40 + 15, 104 + 40, 16, 16, VDP_OP_TIMP, VDP_ARG_DIX_LEFT);
 
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{

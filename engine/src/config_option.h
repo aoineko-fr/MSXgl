@@ -106,8 +106,9 @@
 #define MAKE_DOS(x)					((TYPE_DOS << 14) | (x))
 
 // -- BASIC program
-#define TARGET_BIN			  		MAKE_BASIC(0) // BASIC binary program (8000h~)
-#define TARGET_BIN_USR		  		MAKE_BASIC(1) // BASIC USR driver (C000h~)
+#define TARGET_BIN_DISK		  		MAKE_BASIC(0) // BASIC binary on disk (8000h~)
+#define TARGET_BIN_TAPE		  		MAKE_BASIC(1) // BASIC binary on tape (8000h~)
+#define TARGET_BIN_USR		  		MAKE_BASIC(2) // BASIC USR driver (C000h~)
 // -- DOS program
 #define TARGET_DOS0					MAKE_DOS(DOS_0) // Disk boot program (0100h~). Access to BDOS functions through F37Dh
 #define TARGET_DOS1					MAKE_DOS(DOS_1) // MSX-DOS 1 program (0100h~). No direct acces to Main-ROM
@@ -181,6 +182,9 @@
 #define TARGET_ROM_KONAMI_SCC_2048K	MAKE_ROM(ROM_KONAMI_SCC, ROM_2048K, 1, 1) // Konami 8KB ROM Mapper (256 segments) + SCC sound chip
 #define TARGET_ROM_KONAMI_SCC		TARGET_ROM_KONAMI_SCC_128K
 // -- NEO-8 ROM
+#define TARGET_ROM_NEO8_128K		MAKE_ROM(ROM_NEO8, ROM_128K,  0, 1) // NEO 8KB ROM Mapper (16 segments)
+#define TARGET_ROM_NEO8_256K		MAKE_ROM(ROM_NEO8, ROM_256K,  0, 1) // NEO 8KB ROM Mapper (32 segments)
+#define TARGET_ROM_NEO8_512K		MAKE_ROM(ROM_NEO8, ROM_512K,  0, 1) // NEO 8KB ROM Mapper (64 segments)
 #define TARGET_ROM_NEO8_1M			MAKE_ROM(ROM_NEO8, ROM_1M,  0, 1) // NEO 8KB ROM Mapper (128 segments)
 #define TARGET_ROM_NEO8_2M			MAKE_ROM(ROM_NEO8, ROM_2M,  0, 1) // NEO 8KB ROM Mapper (256 segments)
 #define TARGET_ROM_NEO8_4M			MAKE_ROM(ROM_NEO8, ROM_4M,  0, 1) // NEO 8KB ROM Mapper (512 segments)
@@ -189,6 +193,9 @@
 #define TARGET_ROM_NEO8_32M			MAKE_ROM(ROM_NEO8, ROM_32M, 0, 1) // NEO 8KB ROM Mapper (4096 segments)
 #define TARGET_ROM_NEO8				TARGET_ROM_NEO8_8M		
 // -- NEO-16 ROM
+#define TARGET_ROM_NEO16_128K		MAKE_ROM(ROM_NEO16, ROM_128K,  0, 1) // NEO 16KB ROM Mapper (16 segments)
+#define TARGET_ROM_NEO16_256K		MAKE_ROM(ROM_NEO16, ROM_256K,  0, 1) // NEO 16KB ROM Mapper (32 segments)
+#define TARGET_ROM_NEO16_512K		MAKE_ROM(ROM_NEO16, ROM_512K,  0, 1) // NEO 16KB ROM Mapper (64 segments)
 #define TARGET_ROM_NEO16_1M			MAKE_ROM(ROM_NEO16, ROM_1M,  0, 1) // NEO 16KB ROM Mapper (64 segments)
 #define TARGET_ROM_NEO16_2M			MAKE_ROM(ROM_NEO16, ROM_2M,  0, 1) // NEO 16KB ROM Mapper (128 segments)
 #define TARGET_ROM_NEO16_4M			MAKE_ROM(ROM_NEO16, ROM_4M,  0, 1) // NEO 16KB ROM Mapper (256 segments)
@@ -370,6 +377,22 @@
 //-----------------------------------------------------------------------------
 
 #define QRCODE_PARAM_CUSTOM			0x10000 // Give access to function to customize the parameter
+
+// The error correction level in a QR Code symbol.
+#define QRCODE_ECC_LOW				0 // The QR Code can tolerate about  7% erroneous codewords
+#define QRCODE_ECC_MEDIUM			1 // The QR Code can tolerate about 15% erroneous codewords
+#define QRCODE_ECC_QUARTILE			2 // The QR Code can tolerate about 25% erroneous codewords
+#define QRCODE_ECC_HIGH				3 // The QR Code can tolerate about 30% erroneous codewords
+
+// The mask pattern used in a QR Code symbol.
+#define QRCODE_MASK_0				0 // (i + j) % 2 = 0
+#define QRCODE_MASK_1				1 // i % 2 = 0
+#define QRCODE_MASK_2				2 // j % 3 = 0
+#define QRCODE_MASK_3				3 // (i + j) % 3 = 0
+#define QRCODE_MASK_4				4 // (i / 2 + j / 3) % 2 = 0
+#define QRCODE_MASK_5				5 // (i * j) % 2 + (i * j) % 3 = 0
+#define QRCODE_MASK_6				6 // ((i * j) % 3 + i * j) % 2 = 0
+#define QRCODE_MASK_7				7 // ((i * j) % 3 + i + j) % 2 = 0
 
 //-----------------------------------------------------------------------------
 // MISC

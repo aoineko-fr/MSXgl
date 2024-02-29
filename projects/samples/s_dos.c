@@ -63,6 +63,29 @@ c8  g_FileList[10][12];
 //=============================================================================
 
 //-----------------------------------------------------------------------------
+// Load file to RAM
+u16 DOS_LoadFile(DOS_FCB* fcb, const c8* filename, u16 dest)
+{
+	// Open File
+	Mem_Set(0, fcb, sizeof(DOS_FCB));
+	Mem_Copy(filename, &fcb->Name, 11);
+	DOS_OpenFCB(fcb);
+	
+	// Read File
+	for (u16 i = 0; i < fcb->Size; i += 128)
+	{
+		DOS_SetTransferAddr(dest);
+		DOS_SequentialReadFCB(fcb);
+		dest += 128;
+	}
+
+	// Close File
+	DOS_CloseFCB(fcb);
+
+	return (u16)fcb->Size;
+}
+
+//-----------------------------------------------------------------------------
 // Load image using DOS file manager
 void LoadImage(u8 srcMode, u8 imgIdx)
 {
@@ -70,6 +93,9 @@ void LoadImage(u8 srcMode, u8 imgIdx)
 	VDP_SetMode(srcMode);
 	VDP_SetColor(0x00);
 	VDP_ClearVRAM();
+
+	// u16 size = DOS_LoadFile(&g_File, g_FileList[imgIdx], Mem_GetHeapAddress());
+	// VDP_WriteVRAM_128K(Mem_GetHeapAddress() + 7, 0, 0, size);
 
 	// Open File
 	Mem_Set(0, &g_File, sizeof(FCB));
