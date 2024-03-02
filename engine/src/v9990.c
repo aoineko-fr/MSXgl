@@ -215,6 +215,8 @@ void V9_SetScrollingX(u16 x)
 	V9_SetRegister(20, (x >> 3) & 0xFF);
 }
 
+#if (V9_USE_MODE_P1)
+
 //-----------------------------------------------------------------------------
 //
 void V9_SetScrollingBY(u16 y)
@@ -239,6 +241,7 @@ void V9_SetScrollingBX(u16 x)
 	V9_SetRegister(24, (x >> 3) & 0xFF);
 }
 
+#endif // (V9_USE_MODE_P1)
 
 //-----------------------------------------------------------------------------
 // Clean the whole VRAM (512 KB)
@@ -554,6 +557,8 @@ void V9_SetPaletteEntry(u8 index, const u8* color) __PRESERVES(h, l, iyl, iyh)
 
 #endif
 
+#if ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
+
 //-----------------------------------------------------------------------------
 // Set the given cursor atribute (for bitmap modes).
 //
@@ -591,3 +596,5 @@ void V9_SetCursorEnable(u8 id, bool enable)
 		val &= ~V9_CURSOR_DISABLE;
 	V9_Poke(addr, val);
 }
+
+#endif // ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))

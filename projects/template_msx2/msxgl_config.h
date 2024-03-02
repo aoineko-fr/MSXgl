@@ -119,6 +119,29 @@
 #define VDP_INIT_50HZ				VDP_INIT_ON
 
 //-----------------------------------------------------------------------------
+// V9990  MODULE
+//-----------------------------------------------------------------------------
+
+// V9990 screen modes support
+#define V9_USE_MODE_P1				TRUE	// Tile mode 0 256x212
+#define V9_USE_MODE_P2				TRUE	// Tile mode 1 512x212
+#define V9_USE_MODE_B0				TRUE	// Bitmap mode 1 192x240 (Undocumented v9990 mode)
+#define V9_USE_MODE_B1				TRUE	// Bitmap mode 1 256x212
+#define V9_USE_MODE_B2				TRUE	// Bitmap mode 2 384x240
+#define V9_USE_MODE_B3				TRUE	// Bitmap mode 3 512x212
+#define V9_USE_MODE_B4				TRUE	// Bitmap mode 4 768x240
+#define V9_USE_MODE_B5				TRUE	// Bitmap mode 5 640x400 (VGA)
+#define V9_USE_MODE_B6				TRUE	// Bitmap mode 6 640x480 (VGA)
+#define V9_USE_MODE_B7				TRUE	// Bitmap mode 7 1024x212 (Undocumented v9990 mode)
+
+#define V9_INT_PROTECT				TRUE	// VRAM access protection mode against interruption
+// Palette input data format
+// - V9_PALETTE_YSGBR_16 .......... 16 bits RGB + Ys [Ys|G|G|G|G|G|R|R] [R|R|R|B|B|B|B|B]
+// - V9_PALETTE_GBR_16 ............ 16 bits RGB      [0|G|G|G|G|G|R|R] [R|R|R|B|B|B|B|B]
+// - V9_PALETTE_RGB_24 ............ 24 bits RGB      [0|0|0|R|R|R|R|R] [0|0|0|G|G|G|G|G] [0|0|0|B|B|B|B|B]
+#define V9_PALETTE_MODE				V9_PALETTE_RGB_24
+
+//-----------------------------------------------------------------------------
 // INPUT MODULE
 //-----------------------------------------------------------------------------
 
@@ -449,8 +472,11 @@
 // - PLETTER_DI_LOOP .............. Disable interruption during VRAM write loop
 #define PLETTER_DI_MODE				PLETTER_DI_LOOP
 // VRAM write timing mode
-// - PLETTER_WRITE_SAFE ........... Safe VRAM write speed (include nop between write)
-// - PLETTER_WRITE_QUICK .......... No wait beetween write
+// - PLETTER_WRITE_SAFE ........... Safe VRAM write speed (30 t-states)
+// - PLETTER_WRITE_NODISPLAY ...... Safe VRAM write speed when screen display disable (22 t-states)
+// - PLETTER_WRITE_MINIMAL ........ Minimal wait beetween write (17 t-states)
+// - PLETTER_WRITE_QUICK .......... No wait beetween write (12 t-states)
+// - PLETTER_WRITE_AUTO ........... Determine the worst case according to selected screen mode (12~30 t-states)
 #define PLETTER_WRITE_MODE			PLETTER_WRITE_SAFE
 
 // BitBuster compression

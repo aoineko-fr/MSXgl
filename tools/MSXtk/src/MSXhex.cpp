@@ -172,7 +172,7 @@ u32 GetValue(std::string name)
 		return strtol(name.c_str(), NULL, 16);
 
 	// Decimal
-	return atoi(name.c_str());
+	return atol(name.c_str());
 }
 
 //-----------------------------------------------------------------------------
@@ -198,7 +198,7 @@ bool WriteBytesAtOffset(u32 offsetStart, const std::vector<u8>& data)
 
 	// Write data
 	u32 offset = offsetStart;
-	for (u8 i = 0; i < data.size(); i++)
+	for (u32 i = 0; i < data.size(); i++)
 	{
 		if (g_BinCheck[offset])
 		{
@@ -293,7 +293,7 @@ int SaveBinary(std::string outFile)
 //
 bool AddRawData(u32 offset, std::string inFile)
 {
-	if (g_Log)
+	//if (g_Log)
 		printf("Log: Add file '%s' at offset %08Xh\n", inFile.c_str(), offset);
 
 	RawData raw;
@@ -542,13 +542,17 @@ int main(int argc, const char* argv[])
 			g_OutputFile += "." + g_OutputExt;
 	}
 
+	// Parse IHX file
 	if (!ParseHex(g_InputFile))
 		return 1;
 
+	// Insert raw data
 	for (u8 i = 0; i < g_RawData.size(); i++)
 	{
-		WriteBytesAtOffset(g_RawData[i].Offset, g_RawData[i].Data);
+		if (!WriteBytesAtOffset(g_RawData[i].Offset, g_RawData[i].Data))
+			return 1;
 	}
 
+	// Save final binary file
 	return SaveBinary(g_OutputFile);
 }

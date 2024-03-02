@@ -18,6 +18,9 @@
 // Library's logo
 #define MSX_GL "\x01\x02\x03\x04\x05\x06"
 
+#define V9_GROUND_Y		20
+#define V9_HORIZON_Y	14
+
 // Screen mode structure
 struct ScreenMode
 {
@@ -70,16 +73,36 @@ const u8 g_BppModes[4] = { BPP_2, BPP_4, BPP_8, BPP_16 };
 // Screen mode configuration
 const struct ScreenMode g_ScreenMode[] =
 {
+#if (V9_USE_MODE_P1)
 	{ "P1", V9_MODE_P1, InitP1,  TickP1,  HblankP1,  BPP_4, 256, 212 },
+#endif
+#if (V9_USE_MODE_P2)
 	{ "P2", V9_MODE_P2, InitP2,  TickP2,  HblankP2,  BPP_4, 512, 212 },
+#endif
+#if (V9_USE_MODE_B0)
 	{ "B0", V9_MODE_B0, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4|BPP_8|BPP_16, 192, 240 },
+#endif
+#if (V9_USE_MODE_B1)
 	{ "B1", V9_MODE_B1, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4|BPP_8|BPP_16, 256, 212 },
+#endif
+#if (V9_USE_MODE_B2)
 	{ "B2", V9_MODE_B2, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4|BPP_8|BPP_16, 384, 240 },
+#endif
+#if (V9_USE_MODE_B3)
 	{ "B3", V9_MODE_B3, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4|BPP_8|BPP_16, 512, 212 },
+#endif
+#if (V9_USE_MODE_B4)
 	{ "B4", V9_MODE_B4, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 768, 240 },
+#endif
+#if (V9_USE_MODE_B5)
 	{ "B5", V9_MODE_B5, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 640, 400 },
+#endif
+#if (V9_USE_MODE_B6)
 	{ "B6", V9_MODE_B6, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 650, 480 },
+#endif
+#if (V9_USE_MODE_B7)
 	{ "B7", V9_MODE_B7, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 1024, 212 },
+#endif
 };
 
 //=============================================================================
@@ -133,8 +156,7 @@ void InitPalette()
 // P1
 //-----------------------------------------------------------------------------
 
-#define P1_GROUND_Y		20
-#define P1_HORIZON_Y	14
+#if (V9_USE_MODE_P1)
 
 void V9_Print(u32 addr, const c8* str)
 {
@@ -167,7 +189,7 @@ void InitP1()
 	{
 		u8 x = i * 8;
 		u8 y = Math_GetRandom8() % 8 + 10;
-		for(u8 j = y; j < P1_GROUND_Y; j++)
+		for(u8 j = y; j < V9_GROUND_Y; j++)
 		{
 			u8 cell;
 			if(j == y)
@@ -186,10 +208,10 @@ void InitP1()
 	}
 	for(u16 i = 0; i < 64; ++i) // Draw ground
 	{
-		for(u8 j = P1_GROUND_Y; j < 27; j++)
+		for(u8 j = V9_GROUND_Y; j < 27; j++)
 		{
 			u8 cell;
-			if(j == P1_GROUND_Y)
+			if(j == V9_GROUND_Y)
 				cell = 33;
 			else
 				cell = (j & 1) ? 65 : 97;
@@ -199,8 +221,8 @@ void InitP1()
 
 	V9_FillVRAM16(V9_P1_PNT_B, 160, 64*27); // Init layer B
 	for(u16 i = 0; i < 64; ++i) // Draw horizon
-		V9_Poke16(V9_CellAddrP1B(0, P1_HORIZON_Y) + i*2, 128 + i%4);
-	V9_FillVRAM16(V9_P1_PNT_B, 135, 64*P1_HORIZON_Y); // Draw sky
+		V9_Poke16(V9_CellAddrP1B(0, V9_HORIZON_Y) + i*2, 128 + i%4);
+	V9_FillVRAM16(V9_P1_PNT_B, 135, 64*V9_HORIZON_Y); // Draw sky
 	for(u8 i = 0; i < 6; ++i) // Draw big cloud
 	{
 		u8 x = Math_GetRandom8() % 8 + (i * 10);
@@ -269,9 +291,13 @@ void HblankP1()
 	V9_SetScrollingBX(g_Frame >> 2);
 }
 
+#endif // (V9_USE_MODE_P1)
+
 //-----------------------------------------------------------------------------
 // P2
 //-----------------------------------------------------------------------------
+
+#if (V9_USE_MODE_P2)
 
 void V9_WriteVRAM_256to512(u32 addr, const u8* src, u8 line)
 {
@@ -310,10 +336,10 @@ void InitP2()
 	// }
 	V9_FillVRAM16(V9_P2_PNT, 0, 128*2);
 	V9_Print(V9_P2_PNT, "MSXgl V9990 Sample - P2 Mode"); // Draw title
-	V9_FillVRAM16(V9_P2_PNT + 512, 135, 128*P1_HORIZON_Y); // Draw sky
+	V9_FillVRAM16(V9_P2_PNT + 512, 135, 128*V9_HORIZON_Y); // Draw sky
 	for(u16 i = 0; i < 128; ++i) // Draw horizon
-		V9_Poke16(V9_CellAddrP2(0, P1_HORIZON_Y) + i*2, 128 + i%4);
-	V9_FillVRAM16(V9_CellAddrP2(0, P1_HORIZON_Y+1), 160, (27-P1_HORIZON_Y)*128); // Draw sea
+		V9_Poke16(V9_CellAddrP2(0, V9_HORIZON_Y) + i*2, 128 + i%4);
+	V9_FillVRAM16(V9_CellAddrP2(0, V9_HORIZON_Y+1), 160, (27-V9_HORIZON_Y)*128); // Draw sea
 	for(u8 i = 0; i < 12; ++i) // Draw big cloud
 	{
 		u8 x = Math_GetRandom8() % 8 + (i * 10);
@@ -344,7 +370,7 @@ void InitP2()
 	{
 		u8 x = i * 16;
 		u8 y = Math_GetRandom8() % 8 + 10;
-		for(u8 j = y; j < P1_GROUND_Y; j++)
+		for(u8 j = y; j < V9_GROUND_Y; j++)
 		{
 			u8 cell;
 			if(j == y)
@@ -367,10 +393,10 @@ void InitP2()
 	}
 	for(u16 i = 0; i < 128; ++i) // Draw ground
 	{
-		for(u8 j = P1_GROUND_Y; j < 27; j++)
+		for(u8 j = V9_GROUND_Y; j < 27; j++)
 		{
 			u8 cell;
-			if(j == P1_GROUND_Y)
+			if(j == V9_GROUND_Y)
 				cell = 33;
 			else
 				cell = (j & 1) ? 65 : 97;
@@ -419,9 +445,13 @@ void HblankP2()
 	V9_SetScrollingBX(g_Frame >> 2);
 }
 
+#endif // (V9_USE_MODE_P1)
+
 //-----------------------------------------------------------------------------
 // Bitmap
 //-----------------------------------------------------------------------------
+
+#if ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
 
 //
 void V9_SetPrintPositionBmp(u16 x, u16 y)
@@ -494,14 +524,14 @@ void InitBmp()
 
 	for(u16 i = 0; i < 128; ++i) // Draw ground
 	{
-		for(u16 j = P1_HORIZON_Y; j < 32; j++)
+		for(u16 j = V9_HORIZON_Y; j < 32; j++)
 		{
 			u8 cell;
-			if(j == P1_HORIZON_Y)
+			if(j == V9_HORIZON_Y)
 				cell = 128 + i % 4;
-			else if(j < P1_GROUND_Y)
+			else if(j < V9_GROUND_Y)
 				cell = 160;
-			else if(j == P1_GROUND_Y)
+			else if(j == V9_GROUND_Y)
 				cell = 33 + i % 2;
 			else
 			{
@@ -516,7 +546,7 @@ void InitBmp()
 	{
 		u16 x = i * 8;
 		u8 y = Math_GetRandom8() % 8 + 10;
-		for(u8 j = y; j < P1_GROUND_Y; j++)
+		for(u8 j = y; j < V9_GROUND_Y; j++)
 		{
 			u8 cell;
 			if(j == y)
@@ -570,6 +600,8 @@ void HblankBmp()
 	V9_SelectPaletteBP4(0);
 	V9_SetScrollingX(g_Frame >> 0);
 }
+
+#endif // ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
 
 //-----------------------------------------------------------------------------
 // Helper function

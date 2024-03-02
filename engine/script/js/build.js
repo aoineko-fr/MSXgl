@@ -573,7 +573,12 @@ if (DoPackage)
 	for (let i = 0; i < RawFiles.length; i++)
 	{
 		let raw = RawFiles[i];
-		H2BParam += ` -r ${raw['offset']} ${raw['file']}`;
+		if(raw.offset !== undefined)
+			H2BParam += ` -r ${raw.offset} ${raw.file}`;
+		else if(raw.page !== undefined)
+			H2BParam += ` -r ${raw.page * 16 * 1024} ${raw.file}`;
+		else if(raw.segment !== undefined)
+			H2BParam += ` -r ${raw.segment * SegSize} ${raw.file}`;
 	}
 
 	let err = util.execSync(`${Hex2Bin} ${H2BParam}`);

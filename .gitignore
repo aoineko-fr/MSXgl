@@ -6,7 +6,6 @@ testcases
 *.xcf
 *.map
 *.noi
-/projects/default_config.js
 
 /engine/doc/Natural Docs
 /engine/doc/NaturalDocs_Config/Working Data
@@ -20,8 +19,11 @@ testcases
 /engine/src/arkos/playerSoundEffects
 /engine/src/arkos/serial
 /engine/src/arkos/misc
+/engine/src/realfun
 /engine/src/obsolete
 /engine/datasrc/font/damieng
+
+/projects/default_config.js
 
 /projects/_backup
 /projects/gos
@@ -35,16 +37,10 @@ testcases
 /projects/Corrupta
 /projects/eggysmaze
 /projects/Corrupta
+/projects/DuaelDrop
+/projects/htd005
 
-/projects/samples/datasrc/pcm
-/projects/samples/datasrc/pt3
-/projects/samples/datasrc/vgm
-/projects/samples/datasrc/wyz
-/projects/samples/datasrc/ZomBCool
-/projects/samples/datasrc/arkos
-/projects/samples/datasrc/ayfx
-/projects/samples/datasrc/GrafxKid
-/projects/samples/datasrc/misc
+/projects/samples/datasrc
 
 /tools/audio/pcmenc/replayer_core_22050.asm
 /tools/audio/pcmenc/replayer_core_44100.asm

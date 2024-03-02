@@ -18,38 +18,74 @@
 // DEFINES
 //=============================================================================
 
-#define V9_INT_PROTECT				1
+//-----------------------------------------------------------------------------
+// Check parameters
+//-----------------------------------------------------------------------------
 
-// Palette input data format
-#define V9_PALETTE_YSGBR_16			0	// [Ys|G|G|G|G|G|R|R] [R|R|R|B|B|B|B|B]
-#define V9_PALETTE_GBR_16			1	// [0|G|G|G|G|G|R|R] [R|R|R|B|B|B|B|B]
-#define V9_PALETTE_RGB_24			2	// [0|0|0|R|R|R|R|R] [0|0|0|G|G|G|G|G] [0|0|0|B|B|B|B|B]
+// V9_USE_MODE_P1
+#if !defined(V9_USE_MODE_P1)
+	#warning V9_USE_MODE_P1 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define V9_USE_MODE_P1			TRUE
+#endif
+// V9_USE_MODE_P2
+#if !defined(V9_USE_MODE_P2)
+	#warning V9_USE_MODE_P2 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define V9_USE_MODE_P2			TRUE
+#endif
+// V9_USE_MODE_B0
+#if !defined(V9_USE_MODE_B0)
+	#warning V9_USE_MODE_B0 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define V9_USE_MODE_B0			TRUE
+#endif
+// V9_USE_MODE_B1
+#if !defined(V9_USE_MODE_B1)
+	#warning V9_USE_MODE_B1 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define V9_USE_MODE_B1			TRUE
+#endif
+// V9_USE_MODE_B2
+#if !defined(V9_USE_MODE_B2)
+	#warning V9_USE_MODE_B2 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define V9_USE_MODE_B2			TRUE
+#endif
+// V9_USE_MODE_B3
+#if !defined(V9_USE_MODE_B3)
+	#warning V9_USE_MODE_B3 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define V9_USE_MODE_B3			TRUE
+#endif
+// V9_USE_MODE_B4
+#if !defined(V9_USE_MODE_B4)
+	#warning V9_USE_MODE_B4 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define V9_USE_MODE_B4			TRUE
+#endif
+// V9_USE_MODE_B5
+#if !defined(V9_USE_MODE_B5)
+	#warning V9_USE_MODE_B5 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define V9_USE_MODE_B5			TRUE
+#endif
+// V9_USE_MODE_B6
+#if !defined(V9_USE_MODE_B6)
+	#warning V9_USE_MODE_B6 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define V9_USE_MODE_B6			TRUE
+#endif
+// V9_USE_MODE_B7
+#if !defined(V9_USE_MODE_B7)
+	#warning V9_USE_MODE_B7 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define V9_USE_MODE_B7			TRUE
+#endif
+// V9_INT_PROTECT
+#if !defined(V9_INT_PROTECT)
+	#warning V9_INT_PROTECT is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define V9_INT_PROTECT			TRUE
+#endif
+// V9_PALETTE_MODE
+#if !defined(V9_PALETTE_MODE)
+	#warning V9_PALETTE_MODE is not defined in "msxgl_config.h"! Default value will be used: V9_PALETTE_RGB_24
+	#define V9_PALETTE_MODE			V9_PALETTE_RGB_24
+#endif
 
-// Palette data format (can be YsGRB 16-bits or RGB 24-bits)
-#define V9_PALETTE_MODE				V9_PALETTE_RGB_24
-
-// Cursor disable bit
-#define V9_CURSOR_DISABLE			0b00010000
-
-// RGB color definition macro
-#define V9_RGB(r, g, b)				(u16)(((u16)((g) & 0x1F) << 10) + (((r) & 0x1F) << 5) + ((b) & 0x1F))
-#define V9_RGBYs(r, g, b, ys)		(u16)((((ys) & 0x01) << 15) + ((u16)((g) & 0x1F) << 10) + (((r) & 0x1F) << 5) + ((b) & 0x1F))
-
-// V9990 address structure
-struct V9_Address
-{
-	u8 Lower;
-	u8 Center;
-	u8 Upper;
-};
-
-//
-extern struct V9_Address g_V9_Address;
-
-//
-#define V9_REG(n)					n
-#define V9_RII						0b01000000
-#define V9_WII						0b10000000
+//-----------------------------------------------------------------------------
+// Defines
+//-----------------------------------------------------------------------------
 
 // Screen modes
 enum V9_SCREEN_MODE
@@ -86,6 +122,19 @@ enum V9_COLOR_MODE
 	V9_COLOR_BD16,	// 3    0    0	Direct RGB [YS|G:5|R:2][R:3|B:5] (32768 colors)
 };
 
+// Cursor disable bit
+#define V9_CURSOR_DISABLE			0b00010000
+
+// RGB color definition macro
+#define V9_RGB(r, g, b)				(u16)(((u16)((g) & 0x1F) << 10) + (((r) & 0x1F) << 5) + ((b) & 0x1F))
+#define V9_RGBYs(r, g, b, ys)		(u16)((((ys) & 0x01) << 15) + ((u16)((g) & 0x1F) << 10) + (((r) & 0x1F) << 5) + ((b) & 0x1F))
+
+// Register access
+#define V9_REG(n)					n
+#define V9_RII						0b01000000
+#define V9_WII						0b10000000
+
+// Masks
 #define V9_R06_COLOR_MASK			0b00000011
 #define V9_R13_COLOR_MASK			0b11100000
 
@@ -106,6 +155,38 @@ enum V9_COLOR_MODE
 // Bitmap mode VRAM layout
 #define V9_BMP_PGT					0x00000 // Pattern Generator Table (bitmap data)
 #define V9_BMP_CUR					0x7FE00	// Cursor area (512 bytes)
+
+// V9990 interruption flag
+#define V9_INT_VBLANK				V9_P06_VI
+#define V9_INT_HBLANK				V9_P06_HI
+#define V9_INT_CMDEND				V9_P06_CE
+
+//-----------------------------------------------------------------------------
+// Structures
+//-----------------------------------------------------------------------------
+
+// V9990 sprite structure
+struct V9_Sprite
+{
+	u8		Y;			// Sprite Y-coordinate (Actual display position is one line below specified)
+	u8		Pattern;	// Sprite Pattern Number (Pattern Offset is specified in R#25 SGBA)
+	u16		X  : 10;	// Sprite X-coordinate
+	u16		_1 : 2;
+	u16		D  : 1;		// Sprite is disabled when D=1
+	u16		P  : 1;		// Sprite is in front of the front layer when P=0, sprite is behind the front layer when P=1.
+	u16		SC : 2;		// Palette offset for sprite colors
+};
+
+// V9990 address structure
+struct V9_Address
+{
+	u8 Lower;
+	u8 Center;
+	u8 Upper;
+};
+
+// External variable containing address to read or write
+extern struct V9_Address g_V9_Address;
 
 //=============================================================================
 // FUNCTIONS
@@ -469,10 +550,6 @@ inline bool V9_IsSecondField() { return V9_GetStatus() & V9_P05_E0; }
 // Group: Interrupt
 //-----------------------------------------------------------------------------
 
-#define V9_INT_VBLANK				V9_P06_VI
-#define V9_INT_HBLANK				V9_P06_HI
-#define V9_INT_CMDEND				V9_P06_CE
-
 // Function: V9_SetInterrupt
 // Set interruption flags.
 //
@@ -549,6 +626,8 @@ void V9_SetScrollingY(u16 y);
 //   y - Scrolling value (between 0 and image space height-1).
 inline void V9_SetScrolling(u16 x, u16 y) { V9_SetScrollingX(x);  V9_SetScrollingY(y); }
 
+#if (V9_USE_MODE_P1)
+
 // Function: V9_SetScrollingBX
 // Set horizontal scrolling value for layer B (P1 mode only).
 //
@@ -571,9 +650,13 @@ void V9_SetScrollingBY(u16 y);
 //   y - Scrolling value (between 0 and image space height-1).
 inline void V9_SetScrollingB(u16 x, u16 y) { V9_SetScrollingBX(x);  V9_SetScrollingBY(y); }
 
+#endif // (V9_USE_MODE_P1)
+
 //-----------------------------------------------------------------------------
 // Group: Cursor
 //-----------------------------------------------------------------------------
+
+#if ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
 
 // Function: V9_SetCursorAttribute
 // Set the given cursor atribute (for bitmap modes).
@@ -608,9 +691,13 @@ inline void V9_SetCursorPattern(u8 id, const u8* data) { V9_WriteVRAM(0x7FF00 + 
 //   offset - Palette offset (4 bits: 0 to 15).
 inline void V9_SetCursorPalette(u8 offset) { V9_SetRegister(28, offset); }
 
+#endif // ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
+
 //-----------------------------------------------------------------------------
 // Group: Sprite
 //-----------------------------------------------------------------------------
+
+#if ((V9_USE_MODE_P1) || (V9_USE_MODE_P2))
 
 // Function: V9_SetSpriteEnable
 // Enable/disable all sprites display.
@@ -635,17 +722,7 @@ inline void V9_SetSpritePatternAddr(u8 addr) { V9_SetRegister(25, addr); }
 //   offset - Palette offset (4 bits: 0 to 15).
 inline void V9_SetSpritePalette(u8 offset) { V9_SetRegister(28, offset); }
 
-// Sprite structure
-struct V9_Sprite
-{
-	u8		Y;			// Sprite Y-coordinate (Actual display position is one line below specified)
-	u8		Pattern;	// Sprite Pattern Number (Pattern Offset is specified in R#25 SGBA)
-	u16		X  : 10;	// Sprite X-coordinate
-	u16		_1 : 2;
-	u16		D  : 1;		// Sprite is disabled when D=1
-	u16		P  : 1;		// Sprite is in front of the front layer when P=0, sprite is behind the front layer when P=1.
-	u16		SC : 2;		// Palette offset for sprite colors
-};
+#if (V9_USE_MODE_P1)
 
 // Function: V9_SetSpriteP1
 // Set sprite attribute for P1 mode.
@@ -672,6 +749,10 @@ inline void V9_SetSpritePatternP1(u8 id, u8 pat) { V9_Poke(V9_P1_SPAT + 4 * id +
 //   y - Sprite Y coordinate.
 inline void V9_SetSpritePositionP1(u8 id, u8 x, u8 y) { V9_Poke(V9_P1_SPAT + (4 * id), y); V9_Poke(V9_P1_SPAT + (4 * id) + 2, x); }
 
+#endif // (V9_USE_MODE_P1)
+
+#if (V9_USE_MODE_P2)
+
 // Function: V9_SetSpriteP2
 // Set sprite attribute for P2 mode.
 //
@@ -697,18 +778,13 @@ inline void V9_SetSpritePatternP2(u8 id, u8 pat) { V9_Poke(V9_P2_SPAT + 4 * id +
 //   y - Sprite Y coordinate.
 inline void V9_SetSpritePositionP2(u8 id, u8 x, u8 y) { V9_Poke(V9_P2_SPAT + (4 * id), y); V9_Poke(V9_P2_SPAT + (4 * id) + 2, x); }
 
+#endif // (V9_USE_MODE_P2)
+
+#endif // ((V9_USE_MODE_P1 || V9_USE_MODE_P2))
+
 //-----------------------------------------------------------------------------
 // Group: Palette
 //-----------------------------------------------------------------------------
-
-// Color structure
-struct V9_Color
-{
-	u16 B  : 5;
-	u16 R  : 5;
-	u16 G  : 5;
-	u16 Ys : 1;
-};
 
 #if ((V9_PALETTE_MODE == V9_PALETTE_GBR_16) || (V9_PALETTE_MODE == V9_PALETTE_YSGBR_16))
 
@@ -745,8 +821,8 @@ inline void V9_SetPaletteAll(const u16* table) { V9_SetPalette(0, 64, table); }
 //
 // Parameters:
 //   index - Index of the palette entry (0-63).
-//   color - 16 bits color value.
-//           Format: [Ys:1|green:5|red:5|blue:5]
+//   table - 24 bits color table.
+//           Format: [x:3|red:5] [x:3|green:5] [x:3|blue:5]
 void V9_SetPaletteEntry(u8 index, const u8* color);
 
 // Set the colors of a given palette entries.
@@ -754,18 +830,20 @@ void V9_SetPaletteEntry(u8 index, const u8* color);
 // Parameters:
 //   first - Index of the first entry to set (0-63).
 //   num   - Numer of entries to set (1-64).
-//   table - 16 bits color table.
-//           Format: [Ys:1|green:5|red:5|blue:5]
+//   table - 24 bits color table.
+//           Format: [x:3|red:5] [x:3|green:5] [x:3|blue:5]
 inline void V9_SetPalette(u8 first, u8 num, const u8* table) { for(u8 i = 0; i < num; ++i) { V9_SetPaletteEntry(first++, table); table += 3; } }
 
 // Set the colors of all the palette 64 entries.
 //
 // Parameters:
-//   table - 16 bits color table.
-//           Format: [Ys:1|green:5|red:5|blue:5]
+//   table - 24 bits color table.
+//           Format: [x:3|red:5] [x:3|green:5] [x:3|blue:5]
 inline void V9_SetPaletteAll(const u8* table) { V9_SetPalette(0, 64, table); }
 
 #endif
+
+#if (V9_USE_MODE_P1)
 
 // Function: V9_SelectPaletteP1
 // Set the P1 mode palette offset.
@@ -775,12 +853,20 @@ inline void V9_SetPaletteAll(const u8* table) { V9_SetPalette(0, 64, table); }
 //   b - Layer B palette index (2 bits).
 inline void V9_SelectPaletteP1(u8 a, u8 b) { V9_SetRegister(13, ((b & 0x3) << 2) + (a & 0x3)); }
 
+#endif
+
+#if (V9_USE_MODE_P2)
+
 // Function: V9_SelectPaletteP2
 // Set the P2 mode palette offset.
 //
 // Parameters:
 //   a - Palette index (2 bits).
 inline void V9_SelectPaletteP2(u8 a) { V9_SetRegister(13, ((a & 0x3) << 2) + (a & 0x3)); }
+
+#endif
+
+#if ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
 
 // Function: V9_SelectPaletteBP2
 // Set the BP2 mode palette offset (R#13 PLTO5-2).
@@ -795,6 +881,8 @@ inline void V9_SelectPaletteBP2(u8 a) { V9_SetRegister(13, a & 0x7); }
 // Parameters:
 //   a - Palette index (2 bits).
 inline void V9_SelectPaletteBP4(u8 a) { V9_SetRegister(13, (a & 0x3) << 2); }
+
+#endif
 
 //-----------------------------------------------------------------------------
 // Group: Command helper
@@ -1127,6 +1215,12 @@ bool V9_Detect();
 // Clear the whole 512 KB of VRAM with zero
 void V9_ClearVRAM();
 
+// Function: V9_WaitCmdEnd
+// Wait for current command completion
+inline void V9_WaitCmdEnd() { while(V9_IsCmdRunning()) {} }
+
+#if (V9_USE_MODE_P1)
+
 // Function: V9_CellAddrP1A
 // Get address fo the given X/Y cell coordiante for player A of P1 mode.
 //
@@ -1149,6 +1243,10 @@ inline u32 V9_CellAddrP1A(u8 x, u8 y) { return V9_P1_PNT_A + (((64 * y) + x) * 2
 //   VRAM address of the given cell.
 inline u32 V9_CellAddrP1B(u8 x, u8 y) { return V9_P1_PNT_B + (((64 * y) + x) * 2); }
 
+#endif // (V9_USE_MODE_P1)
+
+#if (V9_USE_MODE_P2)
+
 // Function: V9_CellAddrP2
 // Get address fo the given X/Y cell coordiante for P2 mode.
 //
@@ -1160,6 +1258,4 @@ inline u32 V9_CellAddrP1B(u8 x, u8 y) { return V9_P1_PNT_B + (((64 * y) + x) * 2
 //   VRAM address of the given cell.
 inline u32 V9_CellAddrP2(u8 x, u8 y) { return V9_P2_PNT + (((128 * y) + x) * 2); }
 
-// Function: V9_WaitCmdEnd
-// Wait for current command completion
-inline void V9_WaitCmdEnd() { while(V9_IsCmdRunning()) {} }
+#endif

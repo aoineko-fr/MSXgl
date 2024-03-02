@@ -259,6 +259,15 @@
 #define VDP_ISR_SAFE_ALL			2 // Protect all VDP writing process
 
 //-----------------------------------------------------------------------------
+// V9990 MODULE
+//-----------------------------------------------------------------------------
+
+// Palette input data format
+#define V9_PALETTE_YSGBR_16			0	// 16 bits RGB + Ys [Ys|G|G|G|G|G|R|R] [R|R|R|B|B|B|B|B]
+#define V9_PALETTE_GBR_16			1	// 16 bits RGB      [0|G|G|G|G|G|R|R] [R|R|R|B|B|B|B|B]
+#define V9_PALETTE_RGB_24			2	// 24 bits RGB      [0|0|0|R|R|R|R|R] [0|0|0|G|G|G|G|G] [0|0|0|B|B|B|B|B]
+
+//-----------------------------------------------------------------------------
 // DRAW MODULE
 //-----------------------------------------------------------------------------
 
@@ -352,8 +361,11 @@
 #define PLETTER_DI_FULL				1 // Disable interruption during the whole function
 #define PLETTER_DI_LOOP				2 // Disable interruption during VRAM write loop
 
-#define PLETTER_WRITE_SAFE			0 // Safe VRAM write speed
-#define PLETTER_WRITE_QUICK			1 // No wait beetween write
+#define PLETTER_WRITE_SAFE			0 // Safe VRAM write speed (30 t-states)
+#define PLETTER_WRITE_NODISPLAY		1 // Safe VRAM write speed when screen display disable (22 t-states)
+#define PLETTER_WRITE_MINIMAL		2 // Minimal wait beetween write (17 t-states)
+#define PLETTER_WRITE_QUICK			3 // No wait beetween write (12 t-states)
+#define PLETTER_WRITE_AUTO			4 // Determine the worst case according to selected screen mode (12~30 t-states)
 
 #define BITBUSTER_WRITE_SAFE		0 // Safe VRAM write speed (include nop between write)
 #define BITBUSTER_WRITE_QUICK		1 // No wait beetween write

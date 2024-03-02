@@ -53,11 +53,40 @@
 	#define EI_LOOP		ei
 #endif
 
+#undef PLETTER_WRITE_MODE
+#define PLETTER_WRITE_MODE PLETTER_WRITE_AUTO
+
 // VRAM write timing mode
-#if (PLETTER_WRITE_MODE == PLETTER_WRITE_SAFE)
-	#define WRITE_NOP	nop
-#elif (PLETTER_WRITE_MODE == PLETTER_WRITE_QUICK)
-	#define WRITE_NOP
+#if (PLETTER_WRITE_MODE == PLETTER_WRITE_SAFE) // Safe VRAM write speed (29 t-states)
+	#define PLETTER_WRITE	PLETTER_WRITE_30CC
+
+#elif (PLETTER_WRITE_MODE == PLETTER_WRITE_NODISPLAY) // Safe VRAM write speed when screen display disable (20 t-states)
+	#define PLETTER_WRITE	PLETTER_WRITE_22CC
+
+#elif (PLETTER_WRITE_MODE == PLETTER_WRITE_MINIMAL) // No wait beetween write (12 t-states)
+	#define PLETTER_WRITE	PLETTER_WRITE_17CC
+
+#elif (PLETTER_WRITE_MODE == PLETTER_WRITE_QUICK) // No wait beetween write (12 t-states)
+	#define PLETTER_WRITE	PLETTER_WRITE_12CC
+
+#elif (PLETTER_WRITE_MODE == PLETTER_WRITE_AUTO) // Determine the worst case according to selected screen mode (12~29 t-states)
+
+	#if (MSX_VERSION >= MSX_2)
+		#if (VDP_USE_MODE_T1 || VDP_USE_MODE_T1) // 20cc limit
+			#define PLETTER_WRITE	PLETTER_WRITE_22CC
+		#else // 15cc limit
+			#define PLETTER_WRITE	PLETTER_WRITE_17CC
+		#endif
+	#else
+		#if (VDP_USE_MODE_G1 || VDP_USE_MODE_G2 || VDP_USE_MODE_MC) // 29cc limit
+			#define PLETTER_WRITE	PLETTER_WRITE_30CC
+		#elif (VDP_USE_MODE_T1 || VDP_USE_MODE_T1) // 20cc limit
+			#define PLETTER_WRITE	PLETTER_WRITE_22CC
+		#else // 15cc limit
+			#define PLETTER_WRITE	PLETTER_WRITE_17CC
+		#endif
+	#endif
+
 #endif
 
 //=============================================================================
@@ -361,24 +390,91 @@ v_offsok:
 	push	af
 v_offsok_loop:
 	ld		a, l
+
+.macro PLETTER_WRITE_12CC
 	DI_LOOP
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
 	ld		a, h			//  5 cc
-	WRITE_NOP				//  5 cc
-	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
-	WRITE_NOP				//  5 cc
-	WRITE_NOP				//  5 cc
-	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 17
+	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~ 12
 	ex		af, af' ;'		//  5 cc
 	ld		a, e			//  5 cc
-	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 22
 	ld		a, d			//  5 cc
 	or		#0x40			//  8 cc
-	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
-	ex		af, af'			;'
-	WRITE_NOP				// VDP timing
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 25
+	ex		af, af' ;'		//  5 cc
 	EI_LOOP
-	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~
+	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~ 17/22
+.endm
+
+.macro PLETTER_WRITE_17CC
+	DI_LOOP
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
+	ld		a, h			//  5 cc
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 17
+	nop						//  5 cc
+	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~ 17
+	ex		af, af' ;'		//  5 cc
+	ld		a, e			//  5 cc
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 22
+	ld		a, d			//  5 cc
+	or		#0x40			//  8 cc
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 25
+	ex		af, af' ;'		//  5 cc
+	EI_LOOP
+	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~ 17/22
+.endm
+
+.macro PLETTER_WRITE_22CC
+	DI_LOOP
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
+	ld		a, h			//  5 cc
+	nop						//  5 cc
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 22
+	nop						//  5 cc
+	nop						//  5 cc
+	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~ 22
+	ex		af, af' ;'		//  5 cc
+	ld		a, e			//  5 cc
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 22
+	ld		a, d			//  5 cc
+	or		#0x40			//  8 cc
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 25
+	ex		af, af' ;'		//  5 cc
+	nop						//  5 cc
+	EI_LOOP
+	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~ 22/27
+.endm
+
+.macro PLETTER_WRITE_30CC
+	DI_LOOP
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
+	ld		a, h			//  5 cc
+	nop						//  5 cc
+	or		#0				//  8 cc
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 30
+	nop						//  5 cc
+	nop						//  5 cc
+	or		#0				//  8 cc
+	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~ 30
+	ex		af, af' ;'		//  5 cc
+	ld		a, e			//  5 cc
+	or		#0				//  8 cc
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 30
+	ld		a, d			//  5 cc
+	nop						//  5 cc
+	or		#0x40			//  8 cc
+	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 30
+	ex		af, af' ;'		//  5 cc
+	nop						//  5 cc
+	or		#0				//  8 cc
+	EI_LOOP
+	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~ 30/35
+.endm
+
+	PLETTER_WRITE
+
 	inc		de
 	cpi
 	jp		pe, v_offsok_loop

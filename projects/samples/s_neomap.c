@@ -154,22 +154,22 @@ const c8* GetROMSize(u8 size)
 {
 	switch(size)
 	{
-	case ROM_8K:	return "8K";
-	case ROM_16K:	return "16K";
-	case ROM_24K:	return "24K";
-	case ROM_32K:	return "32K";
-	case ROM_48K:	return "48K";
-	case ROM_64K:	return "64K";
-	case ROM_128K:	return "128K";
-	case ROM_256K:	return "256K";
-	case ROM_512K:	return "512K";
-	case ROM_1M:	return "1M";
-	case ROM_2M:	return "2M";
-	case ROM_4M:	return "4M";
-	case ROM_8M:	return "8M";
-	case ROM_16M:	return "16M";
-	case ROM_32M:	return "32M";
-	case ROM_64M:	return "64M";
+	case ROM_8K:	return "8 KB";
+	case ROM_16K:	return "16 KB";
+	case ROM_24K:	return "24 KB";
+	case ROM_32K:	return "32 KB";
+	case ROM_48K:	return "48 KB";
+	case ROM_64K:	return "64 KB";
+	case ROM_128K:	return "128 KB";
+	case ROM_256K:	return "256 KB";
+	case ROM_512K:	return "512 KB";
+	case ROM_1M:	return "1024 KB";
+	case ROM_2M:	return "2048 KB";
+	case ROM_4M:	return "4096 KB";
+	case ROM_8M:	return "8192 KB";
+	case ROM_16M:	return "16 MB";
+	case ROM_32M:	return "32 MB";
+	case ROM_64M:	return "64 MB";
 	};
 	return "Unknow";
 }
