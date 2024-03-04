@@ -559,7 +559,7 @@ void DiplayInfo()
 		
 		Print_DrawFormat("\nSize:   %s", GetROMSize(ROM_SIZE));
 		#if (ROM_MAPPER != ROM_PLAIN)
-			Print_DrawFormat(" (%i)", ROM_SEGMENTS);
+			Print_DrawFormat(" (%i)", (i16)ROM_SEGMENTS);
 		#endif
 	#endif
 	Print_DrawFormat("\nAddr:   %4x~%4x", Sys_GetFirstAddr(), Sys_GetLastAddr());

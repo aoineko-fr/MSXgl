@@ -8,7 +8,7 @@
 #pragma once
 
 //-----------------------------------------------------------------------------
-// Optimized assmbler bits shift
+// Optimized assembler bits shift
 //-----------------------------------------------------------------------------
 
 // Right shift of A register
@@ -71,6 +71,107 @@
 // a << 7
 #define LShift_7			rrca			\
 							and a, #0x80
+
+//-----------------------------------------------------------------------------
+// Optimized wait code
+//-----------------------------------------------------------------------------
+
+// Wait 5 t-states (1 byte)
+#define Wait5				nop
+
+// Wait 8 t-states (1 byte)
+#define Wait8				cp (hl)
+
+// Wait 10 t-states (2 bytes)
+#define Wait10				nop				\
+							nop
+
+// Wait 11 t-states (2 bytes)
+#define Wait11				scf				\
+							ret nc
+
+// Wait 12 t-states (???)
+
+// Wait 13 t-states (2 bytes)
+#define Wait13				jr $+2
+
+// Wait 14 t-states (2 bytes)
+#define Wait14				bit 0, (hl)
+
+// Wait 15 t-states (3 bytes)
+#define Wait15				nop				\
+							nop				\
+							nop
+
+// Wait 16 t-states (2 bytes)
+#define Wait16				cp (hl)			\
+							cp (hl)
+
+// Wait 17 t-states (3 bytes)
+#define Wait17				scf				\
+							ret nc			\
+							ret nc
+
+// Wait 18 t-states (3 bytes)
+#define Wait18				nop				\
+							nop				\
+							cp (hl)
+
+// Wait 19 t-states (3 bytes)
+#define Wait19				nop				\
+							bit 0, (hl)
+
+// Wait 20 t-states (4 bytes)
+#define Wait20				nop				\
+							nop				\
+							nop				\
+							nop
+
+// Wait 21 t-states (3 bytes)
+#define Wait21				cp 0(iy)
+
+// Wait 22 t-states (3 bytes)
+#define Wait22				cp (hl)			\
+							bit 0, (hl)
+
+// Wait 23 t-states (2 bytes)
+#define Wait23				push af			\
+							pop af
+
+// Wait 24 t-states (3 bytes)
+#define Wait24				cp (hl)			\
+							cp (hl)			\
+							cp (hl)	
+
+// Wait 25 t-states (5 bytes)
+#define Wait25				nop				\
+							nop				\
+							nop				\
+							nop				\
+							nop
+
+// Wait 26 t-states (4 bytes)
+#define Wait26				nop				\
+							cp 0(iy)
+
+// Wait 27 t-states (4 bytes)
+#define Wait27				nop				\
+							cp (hl)			\
+							bit 0,(hl)
+
+// Wait 28 t-states (3 bytes)
+#define Wait28				nop				\
+							push af			\
+							pop af
+
+// Wait 29 t-states (4 bytes)
+#define Wait29				cp 0(iy)		\
+							cp (hl)
+
+// Wait 30 t-states (4 bytes)
+#define Wait30				bit 0,(hl)		\
+							cp (hl)			\
+							cp (hl)
 
 //-----------------------------------------------------------------------------
 // Misc.
