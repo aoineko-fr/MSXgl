@@ -40,6 +40,9 @@ typedef struct
 #include "font/font_bios_hangul.h"
 #include "font/font_bios_cyrillic.h"
 #include "font/font_bios_arabic1.h"
+#include "font/font_mgl_kana8.h"
+#include "font/font_mgl_makoto.h"
+#include "font/font_1re1_1.h"
 
 // Font data
 const Font g_Fonts[] = 
@@ -50,6 +53,9 @@ const Font g_Fonts[] =
 	{ "Korean MSX",   g_Font_BIOS_Hangul, 0, 0x17 }, // 3
 	{ "Cyrillic MSX", g_Font_BIOS_Cyril,  0, 0x17 }, // 4
 	{ "Arabic MSX",   g_Font_BIOS_ARB1,   0, 0x17 }, // 5
+	{ "Makoto",       g_Font_MGL_Makoto,  0, 0x17 }, // 6
+	{ "1re1",         g_Font_1re1_1,      0, 0x17 }, // 7
+	{ "Kana8",        g_Font_MGL_Kana8,   0, 0x17 }, // 8
 };
 
 // 
