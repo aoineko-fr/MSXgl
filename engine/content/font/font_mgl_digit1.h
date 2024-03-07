@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.16.5 on Mon Nov 27 22:26:16 2023
+// Data generated using MSXimg 1.16.5 on Tue Mar  5 02:27:12 2024
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Author: Guillaume "Aoineko" Blanchard, for MSXgl (MSX Game library)
@@ -459,4 +459,4 @@ const unsigned char g_Font_MGL_Digit1[] =
 	0x70, /* .###.... */ 
 	0x00, /* ........ */ 
 };
-// Total size :  388 bytes
+// Total size : 388 bytes

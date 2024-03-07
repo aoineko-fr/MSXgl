@@ -1153,7 +1153,7 @@ void Print_DrawChar(u8 chr)
 	#if (PRINT_USE_VALIDATOR)
 		if(g_PrintData.CursorX + PRINT_W(g_PrintData.UnitX) > g_PrintData.ScreenWidth) // Handle automatic new-line when 
 			Print_Return();
-		#if (MSX_VERSION >= MSX_2)
+		#if ((MSX_VERSION >= MSX_2) && (PRINT_USE_BITMAP))
 			VDP_CommandWait();
 		#endif
 	#endif
@@ -1415,8 +1415,10 @@ void Print_DrawFormat(const c8* format, ...)
 			Print_Tab();
 		else if(*ptr == '\n')
 			Print_Return();
+	#if (PRINT_SKIP_SPACE)
 		else if(*ptr == ' ')
 			Print_Space();
+	#endif
 		else
 			Print_DrawChar(*ptr);
 		

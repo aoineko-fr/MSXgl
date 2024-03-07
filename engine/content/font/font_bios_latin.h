@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.16.5 on Sat Dec  2 20:27:05 2023
+// Data generated using MSXimg 1.16.5 on Tue Mar  5 02:27:13 2024
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // ASCII Corporation. All right reserved. Free to use for MSX application.
@@ -2330,4 +2330,4 @@ const unsigned char g_Font_BIOS_EU[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 };
-// Total size :  2052 bytes
+// Total size : 2052 bytes
