@@ -7,6 +7,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 
 // Configure alias
+if (Target === "DRIVER")  Target = "RAW";
 if (Target === "DOS")     Target = "DOS1";
 if (Target === "ROM")     Target = "ROM_32K";
 if (Target === "BIN")     Target = "BIN_DISK";
@@ -16,12 +17,25 @@ if (Target === "BOOT")    Target = "DOS0";
 if (Target === "ROM_K4")  Target = "ROM_KONAMI";
 if (Target === "ROM_K5")  Target = "ROM_KONAMI_SCC";
 
+//-----------------------------------------------------------------------------
+if (Target === "RAW")
+{
+	Ext = "bin";
+	Crt0 = "crt0_raw";
+	StartAddr = ForceCodeAddr;
+	CodeAddr = ForceCodeAddr;
+	RamAddr = ForceRamAddr;
+	FillSize = 0;
+
+	TargetDesc = "RAW binary program (driver)";
+}
+
 //*****************************************************************************
 // BASIC
 //*****************************************************************************
 
 //-----------------------------------------------------------------------------
-if ((Target === "BIN_DISK") || (Target === "BIN_TAPE"))
+else if ((Target === "BIN_DISK") || (Target === "BIN_TAPE"))
 {
 	Ext = "bin";
 	Crt0 = "crt0_basic";

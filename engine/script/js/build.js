@@ -362,13 +362,6 @@ if (DoCompile)
 		RelList.push(`${OutDir}${fileName}.rel`);
 	}
 
-	//-- Overwrite RAM start address
-	if (ForceRamAddr)
-	{
-		util.print(`» Force RAM address to ${ForceRamAddr}`);
-		RamAddr = ForceRamAddr;
-	}
-
 	//=========================================================================
 	// COMPILE ALL MODULES
 	//=========================================================================
@@ -474,6 +467,20 @@ if (DoMake)
 	util.print("┌───────────────────────────────────────────────────────────────────────────┐");
 	util.print("│ LINK                                                                      │");
 	util.print("└───────────────────────────────────────────────────────────────────────────┘");
+
+	//-- Overwrite code start address
+	if (ForceCodeAddr)
+	{
+		util.print(`» Force code address to ${util.getHex(ForceCodeAddr)}h`);
+		CodeAddr = ForceCodeAddr;
+	}
+
+	//-- Overwrite RAM start address
+	if (ForceRamAddr)
+	{
+		util.print(`» Force RAM address to ${util.getHex(ForceRamAddr)}h`);
+		RamAddr = ForceRamAddr;
+	}
 
 	//=========================================================================
 	// Generate Library
@@ -625,7 +632,7 @@ if (DoDeploy)
 		if (!fs.existsSync(`${ProjDir}emul/bin`)) fs.mkdirSync(`${ProjDir}emul/bin`);
 		if (Target === "BIN_TAPE")
 			if (!fs.existsSync(`${ProjDir}emul/cas`)) fs.mkdirSync(`${ProjDir}emul/cas`);
-		else
+		else if (Target !== "RAW")
 			if (!fs.existsSync(`${ProjDir}emul/dsk`)) fs.mkdirSync(`${ProjDir}emul/dsk`);
 	}
 	else if (Ext === "com")
@@ -686,76 +693,85 @@ if (DoDeploy)
 	//-------------------------------------------------------------------------
 	else if (Ext === "bin")
 	{
-		//---- Copy program file ----
-		util.print(`Copy BASIC binary to emul/bin/`);
-		util.copyFile(`${OutDir}${ProjName}.${Ext}`, `${ProjDir}emul/bin/${ProjName}.${Ext}`);
-
-		//---- Copy data files ----
-		if (DiskFiles.length)
+		if (Target === "RAW")
 		{
-			util.print(`-- Copy data files to disk (${DiskFiles})`);
-			for (let i = 0; i < DiskFiles.length; i++)
-				util.copyFile(`${DiskFiles[i]}`, `${ProjDir}emul/bin/` + path.parse(DiskFiles[i]).base);
-		}
-
-		//---- Generate autoexec ----
-		util.print("-- Create emul/bin/autoexec.bas");
-		let basTxt = "10 CLS : KEY OFF\r\n";
-		if (Target === "BIN_USR")
-		{
-			basTxt += '20 PRINT"Loading USR..."\r\n';
-			basTxt += '30 DEF USR=&HC007\r\n';
-			basTxt += `40 BLOAD"${projNameShort}.${Ext}"\r\n`;
-			basTxt += '50 PRINT"USR(0) routine insalled"\r\n';
+			//---- Copy program file ----
+			util.print(`Copy driver binary to emul/bin/`);
+			util.copyFile(`${OutDir}${ProjName}.${Ext}`, `${ProjDir}emul/bin/${ProjName}.${Ext}`);
 		}
 		else
 		{
-			basTxt += '20 PRINT"Loading BIN..."\r\n';
-			basTxt += `30 BLOAD"${projNameShort}.${Ext}",r\r\n`;
-		}
-		util.print("----------------------------------------", PrintDetail);
-		util.print(basTxt, PrintDetail);
-		util.print("----------------------------------------", PrintDetail);
-		fs.writeFileSync(`${ProjDir}emul/bin/autoexec.bas`, basTxt);
-		util.print("Success", PrintSuccess);
+			//---- Copy program file ----
+			util.print(`Copy BASIC binary to emul/bin/`);
+			util.copyFile(`${OutDir}${ProjName}.${Ext}`, `${ProjDir}emul/bin/${ProjName}.${Ext}`);
 
-		//---- Generate CAS file ----
-		if (Target === "BIN_TAPE")
-		{
-			util.print("Generating CAS file...", PrintHighlight);
-			util.createCAS(`${ProjDir}emul/bin/${ProjName}.${Ext}`, `${ProjDir}emul/cas/${ProjName}.cas`);
-		}
-		//---- Generate DSK file ----
-		else (fs.existsSync(DskTool))
-		{
-			util.print("Generating DSK file...", PrintHighlight);
-
-			let filesList = [ "autoexec.bas", `${ProjName}.${Ext}` ];
-			for (let i = 0; i < DiskFiles.length; i++)
-				filesList.push(path.parse(DiskFiles[i]).base);
-			
-			util.print("-- Temporary copy files to DskTool directory");
-			for (let i = 0; i < filesList.length; i++)
-				util.copyFile(`${ProjDir}emul/bin/${filesList[i]}`, `${DskToolPath}${filesList[i]}`);
-
-			util.print("-- Generate .DSK file");
-			let curDir = process.cwd();
-			process.chdir(DskToolPath);
-			let err = util.execSync(`${DskToolName} -cf temp.dsk --dos1 --verbose --size=${DiskSize} ` + filesList.join(" "));
-			if(err)
+			//---- Copy data files ----
+			if (DiskFiles.length)
 			{
-				util.print(`DSK generation error! Code: ${err}`, PrintError);
-				process.exit(1);
+				util.print(`-- Copy data files to disk (${DiskFiles})`);
+				for (let i = 0; i < DiskFiles.length; i++)
+					util.copyFile(`${DiskFiles[i]}`, `${ProjDir}emul/bin/` + path.parse(DiskFiles[i]).base);
 			}
-			process.chdir(curDir);
 
-			util.print(`-- Copy DSK file to ${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`);
-			util.copyFile(`${DskToolPath}temp.dsk`, `${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`);
+			//---- Generate autoexec ----
+			util.print("-- Create emul/bin/autoexec.bas");
+			let basTxt = "10 CLS : KEY OFF\r\n";
+			if (Target === "BIN_USR")
+			{
+				basTxt += '20 PRINT"Loading USR..."\r\n';
+				basTxt += '30 DEF USR=&HC007\r\n';
+				basTxt += `40 BLOAD"${projNameShort}.${Ext}"\r\n`;
+				basTxt += '50 PRINT"USR(0) routine insalled"\r\n';
+			}
+			else
+			{
+				basTxt += '20 PRINT"Loading BIN..."\r\n';
+				basTxt += `30 BLOAD"${projNameShort}.${Ext}",r\r\n`;
+			}
+			util.print("----------------------------------------", PrintDetail);
+			util.print(basTxt, PrintDetail);
+			util.print("----------------------------------------", PrintDetail);
+			fs.writeFileSync(`${ProjDir}emul/bin/autoexec.bas`, basTxt);
+			util.print("Success", PrintSuccess);
 
-			util.print("-- Clean temporary files");
-			util.delFile(`${DskToolPath}temp.dsk`);
-			for (let i = 0; i < filesList.length; i++)
-				util.delFile(`${DskToolPath}${filesList[i]}`);
+			//---- Generate CAS file ----
+			if (Target === "BIN_TAPE")
+			{
+				util.print("Generating CAS file...", PrintHighlight);
+				util.createCAS(`${ProjDir}emul/bin/${ProjName}.${Ext}`, `${ProjDir}emul/cas/${ProjName}.cas`);
+			}
+			//---- Generate DSK file ----
+			else (fs.existsSync(DskTool))
+			{
+				util.print("Generating DSK file...", PrintHighlight);
+
+				let filesList = [ "autoexec.bas", `${ProjName}.${Ext}` ];
+				for (let i = 0; i < DiskFiles.length; i++)
+					filesList.push(path.parse(DiskFiles[i]).base);
+				
+				util.print("-- Temporary copy files to DskTool directory");
+				for (let i = 0; i < filesList.length; i++)
+					util.copyFile(`${ProjDir}emul/bin/${filesList[i]}`, `${DskToolPath}${filesList[i]}`);
+
+				util.print("-- Generate .DSK file");
+				let curDir = process.cwd();
+				process.chdir(DskToolPath);
+				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos1 --verbose --size=${DiskSize} ` + filesList.join(" "));
+				if(err)
+				{
+					util.print(`DSK generation error! Code: ${err}`, PrintError);
+					process.exit(1);
+				}
+				process.chdir(curDir);
+
+				util.print(`-- Copy DSK file to ${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`);
+				util.copyFile(`${DskToolPath}temp.dsk`, `${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`);
+
+				util.print("-- Clean temporary files");
+				util.delFile(`${DskToolPath}temp.dsk`);
+				for (let i = 0; i < filesList.length; i++)
+					util.delFile(`${DskToolPath}${filesList[i]}`);
+			}
 		}
 	}
 

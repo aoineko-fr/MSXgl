@@ -1,57 +1,58 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
-//  Program template
+//  Driver sample
 //─────────────────────────────────────────────────────────────────────────────
-
-//=============================================================================
-// INCLUDES
-//=============================================================================
 #include "msxgl.h"
+#include "bios.h"
 
 //=============================================================================
 // DEFINES
 //=============================================================================
 
-// Library's logo
-#define MSX_GL "\x01\x02\x03\x04\x05\x06"
-
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
 
-// Fonts data
-#include "font/font_mgl_sample6.h"
-
-// Animation characters
-const u8 g_ChrAnim[] = { '-', '/', '|', '\\' };
+// Table use to quick decimal-to-hexadecimal conversion
+const c8 g_HexChar[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 //=============================================================================
-// MAIN LOOP
+// MEMORY DATA
+//=============================================================================
+
+u8 g_MyVar;
+
+//=============================================================================
+// CODE
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-/// Program entry point
-void main()
+// Print a 8-bits hexadecimal value
+void Bios_PrintHexa(u8 value)
 {
-	VDP_SetMode(VDP_MODE_SCREEN0);
-	VDP_EnableVBlank(TRUE);
-	VDP_ClearVRAM();
+	Bios_TextPrintChar(g_HexChar[(value >> 4) & 0x000F]);
+	Bios_TextPrintChar(g_HexChar[value & 0x000F]);
+}
 
-	Print_SetTextFont(g_Font_MGL_Sample6, 1);
-	Print_SetColor(COLOR_WHITE, COLOR_BLACK);
-	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL" The MSX Game Library");
+//-----------------------------------------------------------------------------
+// Print a string
+void Bios_PrintText(const c8* str)
+{
+	while(*str)
+		Bios_TextPrintChar(*str++);
+}
 
-	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
-	{
-		Print_SetPosition(39, 0);
-		Print_DrawChar(g_ChrAnim[count++ % 4]);
-		Halt();
-	}
-
-	Bios_Exit(0);
+//-----------------------------------------------------------------------------
+// Program entry point
+void main(u8 arg)
+{
+	g_MyVar = arg;
+	Bios_PrintText("Driver start!\n");
+	Bios_PrintText("Argument: ");
+	Bios_PrintHexa(g_MyVar);
+	Bios_PrintText("\n");
+	Bios_PrintText("Driver end!\n");
 }

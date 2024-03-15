@@ -236,6 +236,9 @@ global.CustomISR = "VBLANK";
 //-- Use automatic banked call and trampoline functions (boolean). For mapped ROM
 global.BankedCall = false;
 
+//-- Overwrite code starting address (number). For example. 0xE0000 for a driver in RAM
+global.ForceCodeAddr = 0;
+
 //-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
 global.ForceRamAddr = 0;
 

@@ -220,6 +220,15 @@ inline void CallL(u16 addr, u8 l) { ((calll_t)addr)(l); }
 //   val  - Function parameter to put in register HL
 inline void CallHL(u16 addr, u16 hl) { ((void(*)(u16))addr)(hl); }
 
+// Function: CallDriver
+// Direct call a routine at a given address with a 8-bits parameter in register A (generate ASM code: "call XXXX")
+// No extra cost due to calling a C function.
+//
+// Parameters:
+//   addr - Address of the driver
+//   a    - Value to transfer to driver's main function
+inline void CallDriver(u16 addr, u8 a) { CallA(addr, a); }
+
 //-----------------------------------------------------------------------------
 // Group: Slot
 // Slot handling functions
