@@ -6,7 +6,7 @@
 //  Driver sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
-#include "bios.h"
+#include "dos.h"
 
 //=============================================================================
 // DEFINES
@@ -30,29 +30,45 @@ u8 g_MyVar;
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// Print a 8-bits hexadecimal value
-void Bios_PrintHexa(u8 value)
+// Output character
+void DOS_CharOutput(c8 chr)
 {
-	Bios_TextPrintChar(g_HexChar[(value >> 4) & 0x000F]);
-	Bios_TextPrintChar(g_HexChar[value & 0x000F]);
+	chr;	// A
+__asm
+	push	ix
+	ld		e, a
+	ld		c, #DOS_FUNC_CONOUT
+	call	BDOS
+	pop		ix
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Print a 8-bits hexadecimal value
+void DOS_PrintHexa(u8 value)
+{
+	DOS_CharOutput(g_HexChar[(value >> 4) & 0x000F]);
+	DOS_CharOutput(g_HexChar[value & 0x000F]);
 }
 
 //-----------------------------------------------------------------------------
 // Print a string
-void Bios_PrintText(const c8* str)
+void DOS_PrintText(const c8* str)
 {
 	while(*str)
-		Bios_TextPrintChar(*str++);
+		DOS_CharOutput(*str++);
 }
 
 //-----------------------------------------------------------------------------
 // Program entry point
-void main(u8 arg)
+u8 main(u8 arg)
 {
 	g_MyVar = arg;
-	Bios_PrintText("Driver start!\n");
-	Bios_PrintText("Argument: ");
-	Bios_PrintHexa(g_MyVar);
-	Bios_PrintText("\n");
-	Bios_PrintText("Driver end!\n");
+	DOS_PrintText("-> Driver start!\n\r");
+	DOS_PrintText("-> Argument: ");
+	DOS_PrintHexa(g_MyVar);
+	DOS_PrintText("\n\r");
+	DOS_PrintText("-> Driver end!\n\r");
+
+	return g_MyVar * 2;
 }

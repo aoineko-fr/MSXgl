@@ -144,9 +144,6 @@ DiskFiles = [];
 //-- Size of the final disk (.DSK file). Can be "360K" or "720K" (string)
 DiskSize = "720K";
 
-//-- BASIC USR driver default address (number)
-USRAddr = 0xC000;
-
 //-- Parse MSX-DOS command-line arguments
 DOSParseArg = true;
 
@@ -225,6 +222,12 @@ LocStruct = "g_LocData";
 
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 PackSegments = false;
+
+//-- Command lines to be executed before the build process (array)
+PreBuildScripts = [];
+
+//-- Command lines to be executed after the build process (array)
+PostBuildScripts = [];
 
 //*****************************************************************************
 // BUILD TOOL OPTION

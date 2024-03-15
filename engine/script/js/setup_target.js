@@ -55,8 +55,8 @@ else if (Target === "BIN_USR")
 {
 	Ext = "bin";
 	Crt0 = "crt0_basic_usr";
-	StartAddr = USRAddr;
-	CodeAddr = USRAddr;
+	StartAddr = ForceCodeAddr;
+	CodeAddr = ForceCodeAddr;
 	RamAddr = 0; // Right after the code
 	FillSize = 0;
 

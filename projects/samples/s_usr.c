@@ -69,6 +69,7 @@ void main()
 		break;
 	default:
 		// Bios_PrintText("Ntap:Unknow");
+		break;
 	}
 
 	Basic_SetWord(ret);

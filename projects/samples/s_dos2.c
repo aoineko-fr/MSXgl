@@ -726,6 +726,30 @@ void UpdateStdIn()
 }
 
 //-----------------------------------------------------------------------------
+// 
+void DisplayDriver()
+{
+	// Program header
+	DisplayDOSHeader();
+	DOS_StringOutput("== START DRIVER AT 0xE000 ==\n\r$");
+
+	// Load driver to memory
+	DOS_StringOutput("Opening 'sample.drv'...\n\r$");
+	u8 file = DOS_FOpen("SAMPLE.DRV", O_RDONLY); // open
+	u32 size = DOS_FSeek(file, 0, SEEK_END); // get size
+	DOS_FSeek(file, 0, SEEK_SET); // rewind
+	DOS_FRead(file, (void*)0xE000, size); // load
+	DOS_FClose(file); // close
+
+	// Starting driver
+	DOS_StringOutput("Starting driver...\n\r$");
+	u8 val = CallDriver(0xE000, 12);
+
+	DOS_StringOutput("\n\rPRESS A KEY...$");
+	DOS_CharInput();
+}
+
+//-----------------------------------------------------------------------------
 // Program entry point
 u8 main(u8 argc, const c8** argv)
 {
@@ -742,6 +766,7 @@ DisplayMenu:
 	DOS_StringOutput(" [2] File handling (Screen 5)\n\r$");
 	DOS_StringOutput(" [3] Memory mapper (Screen 7)\n\r$");
 	DOS_StringOutput(" [4] Standard input\n\r$");
+	DOS_StringOutput(" [5] Load and execute driver\n\r$");
 	DOS_StringOutput(" [Q] Quit\n\r$");
 
 	callback cbUpdate = NULL;
@@ -766,6 +791,12 @@ DisplayMenu:
 	case '4':
 		DisplayStdIn();
 		cbUpdate = UpdateStdIn;
+		break;
+
+	case '5':
+		DisplayDriver();
+		chr = 0;
+		goto DisplayMenu;
 		break;
 
 	case 'q':

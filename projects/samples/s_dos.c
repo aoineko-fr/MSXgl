@@ -74,7 +74,7 @@ u16 DOS_LoadFile(DOS_FCB* fcb, const c8* filename, u16 dest)
 	// Read File
 	for (u16 i = 0; i < fcb->Size; i += 128)
 	{
-		DOS_SetTransferAddr(dest);
+		DOS_SetTransferAddr((void*)dest);
 		DOS_SequentialReadFCB(fcb);
 		dest += 128;
 	}

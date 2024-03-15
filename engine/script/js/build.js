@@ -179,6 +179,22 @@ util.print(`- ToolsDir: ${ToolsDir}`, PrintDetail);
 
 process.env.path += `;${ToolsDir}sdcc/bin`; // Hotfix for SDCC 4.3.0 path error for CC1
 
+//-- Command lines to be executed before the build process (array)
+if(PreBuildScripts.length)
+{
+	util.print("Executing pre-build scripts...", PrintHighlight);
+	for (let i = 0; i < PreBuildScripts.length; i++)
+	{
+		let err = util.execSync(PreBuildScripts[i]);
+		if(err)
+		{
+			util.print(`Pre-build scripts error! Code: ${err}`, PrintError);
+			process.exit(1);
+		}
+	}
+	util.print("Success", PrintSuccess);
+}
+
 //_____________________________________________________________________________
 //   ▄▄  ▄▄
 //  ██ ▀ ██  ▄███ ▄▀██ ██▀▄
@@ -917,9 +933,36 @@ if (DoDeploy)
 	util.print('Deploy duration: ' + util.getTimeString(deployElapsTime), PrintDetail);
 }
 
+//_____________________________________________________________________________
+//
+//
+//
+//_____________________________________________________________________________
+
+util.print("");
+util.print("┌───────────────────────────────────────────────────────────────────────────┐");
+util.print("│ POST BUILD                                                                │");
+util.print("└───────────────────────────────────────────────────────────────────────────┘");
+
 //-- Build duration
 const buildElapsTime = Date.now() - buildStartTime;
 util.print('\nTotal build time: ' + util.getTimeString(buildElapsTime), PrintDetail);
+
+//-- Command lines to be executed after the build process (array)
+if(PostBuildScripts.length)
+{
+	util.print("Executing post-build scripts...", PrintHighlight);
+	for (let i = 0; i < PostBuildScripts.length; i++)
+	{
+		let err = util.execSync(PostBuildScripts[i]);
+		if(err)
+		{
+			util.print(`Post-build scripts error! Code: ${err}`, PrintError);
+			process.exit(1);
+		}
+	}
+	util.print("Success", PrintSuccess);
+}
 
 //_____________________________________________________________________________
 //  ▄▄▄
