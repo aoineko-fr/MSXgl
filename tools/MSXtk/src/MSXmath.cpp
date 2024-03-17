@@ -14,6 +14,7 @@
 #include <math.h>
 #include <string.h>
 #include <ctime>
+#include <limits>
 
 // MSX Tool Kit
 #include "MSXtk.h"
@@ -21,7 +22,7 @@
 //-----------------------------------------------------------------------------
 // D E F I N E S
 
-const c8* VERSION = "1.6.1";
+const c8* VERSION = "1.7.0";
 
 const f64 PI = 3.14159265358979323846f;
 const f64 PI_2 = 2.0f * PI;
@@ -33,18 +34,21 @@ const f64 PIdiv2 = 0.5f * PI;
 f64 ComputeSquare(f64 x);
 f64 ComputeMap(f64 x);
 f64 ComputePower(f64 x);
+f64 ComputeCoTan(f64 x);
+f64 ComputeHypoDX(f64 x);
+f64 ComputeHypoDY(f64 x);
 
 // Operator structure
 struct Operation
 {
 	const c8* op;
-	const c8* name;
-	const c8* range;
-	f64       range_min;
-	f64       range_max;
-	bool      inc_range;
-	bool      need_sign;
-	f64       (*func)(f64);
+	const c8* Name;
+	const c8* Range;
+	f64       RangeMin;
+	f64       RangeMax;
+	bool      IncRange;
+	bool      Signed;
+	f64       (*Func)(f64);
 };
 
 //-----------------------------------------------------------------------------
@@ -78,6 +82,7 @@ enum OPERATOR
 	OP_SINUS = 0,
 	OP_COSINUS,
 	OP_TANGENT,
+	OP_COTANGENT,
 	OP_ARCSIN,
 	OP_ARCCOS,
 	OP_ARCTAN,
@@ -88,67 +93,87 @@ enum OPERATOR
 	OP_EXP,
 	OP_LOG,
 	OP_LOG10,
+	OP_HYPO_DX,
+	OP_HYPO_DY,
 };
 
 // Operator list
 const Operation OpTable[] =
 {
 	//         op       name           range         min:max        inc    sign   func
-	/*  0 */ { "sin",   "Sinus",       "0:Pi*2",     0, PI_2,       false, false, sin },
-	/*  1 */ { "cos",   "Cosinus",     "0:Pi*2",     0, PI_2,       false, false, cos },
-	/*  2 */ { "tan",   "Tangent",     "-Pi/2:Pi/2", -PI/2, PI_2/2, true,  false, tan },
-	/*  3 */ { "asin",  "ArcSinus",    "-1:1",       -1, 1,         true,  false, asin },
-	/*  4 */ { "acos",  "ArcCosinus",  "-1:1",       -1, 1,         true,  false, acos },
-	/*  5 */ { "atan",  "ArcTangent",  "0:N",        0, 0,          true,  false, atan },
-	/*  6 */ { "sq",    "Square",      "0:1",        0, 1,          true,  false, ComputeSquare },
-	/*  7 */ { "sqrt",  "SquareRoot",  "0:N",        0, 0,          false, false, sqrt },
-	/*  8 */ { "map",   "Map",         "0:N",        0, 0,          false, false, ComputeMap },
-	/*  9 */ { "pow",   "Power",       "0:N",        0, 0,          false, false, ComputePower },
-	/* 10 */ { "exp",   "Exponential", "0:N",        0, 0,          false, false, exp },
-	/* 11 */ { "log",   "Log",         "0:N",        0, 0,          false, false, log },
-	/* 12 */ { "log10", "Log10",       "0:N",        0, 0,          false, false, log10 },
+	/*  0 */ { "sin",   "Sinus",       "0:Pi*2",     0, PI_2,       false, true, sin },
+	/*  1 */ { "cos",   "Cosinus",     "0:Pi*2",     0, PI_2,       false, true, cos },
+	/*  2 */ { "tan",   "Tangent",     "-Pi/2:Pi/2", -PI/2, PI/2,   false, true, tan },
+	/*  3 */ { "cot",   "Cotangent",   "-Pi/2:Pi/2", -PI/2, PI/2,   false, true, ComputeCoTan },
+	/*  4 */ { "asin",  "ArcSinus",    "-1:1",       -1, 1,         true,  true, asin },
+	/*  5 */ { "acos",  "ArcCosinus",  "-1:1",       -1, 1,         true,  true, acos },
+	/*  6 */ { "atan",  "ArcTangent",  "0:N",        0, 0,          true,  true, atan },
+	/*  7 */ { "sq",    "Square",      "0:1",        0, 1,          true,  true, ComputeSquare },
+	/*  8 */ { "sqrt",  "SquareRoot",  "0:N",        0, 0,          false, true, sqrt },
+	/*  9 */ { "map",   "Map",         "0:N",        0, 0,          false, true, ComputeMap },
+	/* 10 */ { "pow",   "Power",       "0:N",        0, 0,          false, true, ComputePower },
+	/* 11 */ { "exp",   "Exponential", "0:N",        0, 0,          false, true, exp },
+	/* 12 */ { "log",   "Log",         "0:N",        0, 0,          false, true, log },
+	/* 13 */ { "log10", "Log10",       "0:N",        0, 0,          false, true, log10 },
+	/* 14 */ { "hdx",   "HypoDX",      "0:Pi*2",     0, PI_2,       false, true, ComputeHypoDX },
+	/* 15 */ { "hdy",   "HypoDY",      "0:Pi*2",     0, PI_2,       false, true, ComputeHypoDY },
 };
 
 //-----------------------------------------------------------------------------
 // U T I L I T Y   F U N C T I O N S
 
 // Simple opetation functions
+f64 ComputeCoTan(f64 x)      { return 1 / tan(x); }
 f64 ComputeSquare(f64 x)     { return pow(x, 2); }
 f64 ComputeMap(f64 x)        { return (x / (Number - 1)) * (B - A) + A; }
 f64 ComputePower(f64 x)      { return pow(x, A); }
+f64 ComputeHypoDX(f64 x)     { return (cos(x) == 0) ? DBL_MAX : sqrt(1.0 + pow(-sin(x) / cos(x), 2)); }
+f64 ComputeHypoDY(f64 x)     { return (sin(x) == 0) ? DBL_MAX : sqrt(1.0 + pow(cos(x) / -sin(x), 2)); }
 
 // Print a generic table using operation pointer function
-void PrintTable(i32 op)
+f64 Clamp(f64 x, f64 min, f64 max)
 {
+	if (x < min)
+		return min;
+	if (x > max)
+		return max;
+	return x;
+}
+
+// Print a generic table using operation pointer function
+void PrintTable(i32 t)
+{
+	const Operation* op = &OpTable[t];
+
 	// Initialize variables
 	f64 multi = pow(2, Shift);
 	i32 maxNumber = Number;
-	if (OpTable[op].inc_range)
+	if (op->IncRange)
 		maxNumber++;
-	f64 minRange = OpTable[op].range_min;
-	f64 maxRange = OpTable[op].range_max;
+	f64 minRange = op->RangeMin;
+	f64 maxRange = op->RangeMax;
 
 	//c8 tmpStr[BUFFER_SIZE];
 
 	// Handle special range cases
 	if (minRange == 0 && maxRange == 0)
 	{
-		if (MSX::StrEqual(OpTable[op].range, "0:N")) // [0:N]
+		if (MSX::StrEqual(op->Range, "0:N")) // [0:N]
 		{
 			minRange = 0;
 			maxRange = Number;
 		}
-		else if (MSX::StrEqual(OpTable[op].range, "0:N-1")) // [0:N-1]
+		else if (MSX::StrEqual(op->Range, "0:N-1")) // [0:N-1]
 		{
 			minRange = 0;
 			maxRange = Number - 1;
 		}
-		else if (MSX::StrEqual(OpTable[op].range, "-N:N")) // [-N:N]
+		else if (MSX::StrEqual(op->Range, "-N:N")) // [-N:N]
 		{
 			minRange = -Number;
 			maxRange = Number;
 		}
-		else if (MSX::StrEqual(OpTable[op].range, "-N/2:N/2")) // [-N/2:N/2]
+		else if (MSX::StrEqual(op->Range, "-N/2:N/2")) // [-N/2:N/2]
 		{
 			minRange = -Number / 2;
 			maxRange = Number / 2;
@@ -158,8 +183,8 @@ void PrintTable(i32 op)
 
 	// Add table
 	Exporter->AddReturn();
-	Exporter->AddComment(MSX::Format(" %s table. Range [%s%s", OpTable[op].name, OpTable[op].range, OpTable[op].inc_range ? "]" : "["));
-	Exporter->StartSection(MSX::Format("%s%s%d", Prefix, OpTable[op].name, Number), DataSize);
+	Exporter->AddComment(MSX::Format(" %s table. Range [%s%s", op->Name, op->Range, op->IncRange ? "]" : "["));
+	Exporter->StartSection(MSX::Format("%s%s%d", Prefix, op->Name, Number), DataSize);
 
 	// Table content
 	for (i32 i = 0; i < Number; i++)
@@ -168,15 +193,24 @@ void PrintTable(i32 op)
 			Exporter->StartLine();
 
 		f64 x = (f64)i * (maxRange - minRange) / (f64)maxNumber + minRange;
-		x = OpTable[op].func(x);
+		x = op->Func(x);
 		x *= multi;
 		x = round(x);
 
 		switch (DataSize)
 		{
-		case MSX::DATASIZE_8bits:  Exporter->AddByte(0xFF & (u32)x); break;
-		case MSX::DATASIZE_16bits: Exporter->AddWord(0xFFFF & (u32)x); break;
-		case MSX::DATASIZE_32bits: Exporter->AddDouble((u32)x); break;
+		case MSX::DATASIZE_8bits:
+			x = op->Signed ? Clamp(x, _I8_MIN, _I8_MAX) : Clamp(x, 0, _UI8_MAX);
+			Exporter->AddByte(0xFF & (u32)x);
+			break;
+		case MSX::DATASIZE_16bits:
+			x = op->Signed ? Clamp(x, _I16_MIN, _I16_MAX) : Clamp(x, 0, _UI16_MAX);
+			Exporter->AddWord(0xFFFF & (u32)x);
+			break;
+		case MSX::DATASIZE_32bits:
+			x = op->Signed ? Clamp(x, _I32_MIN, _I32_MAX) : Clamp(x, 0, _UI32_MAX);
+			Exporter->AddDouble((u32)x);
+			break;
 		}
 
 		if ((i % 8 == 7) || (i == maxNumber - 1)) // 8th column or last
@@ -233,6 +267,7 @@ void Help()
 	printf("  sin              Sinus table [0:Pi*2]\n");
 	printf("  cos              Cosinus table [0:Pi*2]\n");
 	printf("  tan              Tangente table [-Pi/2:Pi/2]\n");
+	printf("  cot              Cotangente table [-Pi/2:Pi/2]\n");
 	printf("  asin             Arc-sinus table [-1:1]\n");
 	printf("  acos             Arc-cosinus table [-1:1]\n");
 	printf("  atan             Arc-tangente table [-num:num]\n");
@@ -242,6 +277,8 @@ void Help()
 	printf("  exp              Exponential\n");
 	printf("  log              Natural logarithm (to the base e)\n");
 	printf("  log10            Common logarithm (to the base 10)\n");
+	printf("  hdx              Hypotenuse length when dX=1 [0:Pi*2]\n");
+	printf("  hdy              Hypotenuse length when dY=1 [0:Pi*2]\n");
 	printf("  proj W H         3d projection tables (W/H: screen width/height)\n");
 	printf("  rot              Rotation vector table\n");
 	printf("  equa A B C D E   Equation of type y=A+B*(C+x*D)^E\n");
@@ -252,6 +289,7 @@ void Help()
 //const c8* ARGV[] = { "", "-num", "512", "-Bytes", "2",  "-Shift", "6","equa", "0", "1", "1", "-0.001953125", "1.5" };
 //const c8* ARGV[] = { "", "-num", "16", "-Bytes", "1",  "-Shift", "0","map", "0", "100" };
 //const c8* ARGV[] = { "", "-o", "../testcases/sin.h", "-Shift", "12", "sin", "cos", "tan", "sq", "sqrt", "exp" };
+//const c8* ARGV[] = { "", "-num", "256", "-bytes", "2",  "-shift", "8", "hdx", "hdy" };
 //#define DEBUG_ARGS
 
 
@@ -306,7 +344,6 @@ int main(int argc, const c8* argv[])
 			case 1: DataSize = MSX::DATASIZE_8bits;  break;
 			case 2: DataSize = MSX::DATASIZE_16bits; break;
 			case 4: DataSize = MSX::DATASIZE_32bits; break;
-			case 8: DataSize = MSX::DATASIZE_64bits; break;
 			}
 		}
 		else if (MSX::StrEqual(argv[argIndex], "-prefix"))
@@ -374,6 +411,10 @@ int main(int argc, const c8* argv[])
 		{
 			PrintTable(OP_TANGENT);
 		}
+		else if (MSX::StrEqual(argv[argIndex], "cot")) // Cotangent
+		{
+			PrintTable(OP_COTANGENT);
+		}
 		else if(MSX::StrEqual(argv[argIndex], "asin")) // Arc-sinus
 		{
 			PrintTable(OP_ARCSIN);
@@ -416,6 +457,14 @@ int main(int argc, const c8* argv[])
 		else if (MSX::StrEqual(argv[argIndex], "log10")) // Common logarithm (to the base 10)
 		{
 			PrintTable(OP_LOG10);
+		}
+		else if (MSX::StrEqual(argv[argIndex], "hdx")) // Hypotenuse length when dX=1
+		{
+			PrintTable(OP_HYPO_DX);
+		}
+		else if (MSX::StrEqual(argv[argIndex], "hdy")) // Hypotenuse length when dY=1
+		{
+			PrintTable(OP_HYPO_DY);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "proj")) // X/Y 3d projection according to Z value
 		{

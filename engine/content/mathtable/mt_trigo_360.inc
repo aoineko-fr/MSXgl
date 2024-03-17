@@ -1,16 +1,16 @@
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█            ▄▄   ▄▄
-// ██  ▀  █▄  ▀██▄ ▀ ▄█  ▄█▄█ ▄▀██ ██▀  ██▄
-// █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-//─────────────────────────────────────────────────────────────────────────────
-// MSXmath 1.6.1 by Guillaume "Aoineko" Blanchard
-// under CC-BY-SA free license
-//
-// Generated: Mon Nov 27 22:26:14 2023
-// Parameters: Entries=360, Bytes=2 (16-bits), Shift=12 (Q4.12)
-//─────────────────────────────────────────────────────────────────────────────
+//  ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█            ▄▄   ▄▄
+//  ██  ▀  █▄  ▀██▄ ▀ ▄█  ▄█▄█ ▄▀██ ██▀  ██▄
+//  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
+//  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+// ─────────────────────────────────────────────────────────────────────────────
+//  MSXmath 1.7.0 by Guillaume "Aoineko" Blanchard
+//  under CC-BY-SA free license
+// 
+//  Generated: Sun Mar 17 16:23:50 2024
+//  Parameters: Entries=360, Bytes=2 (16-bits), Shift=12 (Q4.12)
+// ─────────────────────────────────────────────────────────────────────────────
 
-// Sinus table. Range [0:Pi*2[
+//  Sinus table. Range [0:Pi*2[
 const unsigned short g_Sinus360[] = {
 	0x0000, 0x0047, 0x008F, 0x00D6, 0x011E, 0x0165, 0x01AC, 0x01F3, 
 	0x023A, 0x0281, 0x02C7, 0x030E, 0x0354, 0x0399, 0x03DF, 0x0424, 
@@ -59,7 +59,7 @@ const unsigned short g_Sinus360[] = {
 	0xFDC6, 0xFE0D, 0xFE54, 0xFE9B, 0xFEE2, 0xFF2A, 0xFF71, 0xFFB9, 
 };
 
-// Cosinus table. Range [0:Pi*2[
+//  Cosinus table. Range [0:Pi*2[
 const unsigned short g_Cosinus360[] = {
 	0x1000, 0x0FFF, 0x0FFE, 0x0FFA, 0x0FF6, 0x0FF0, 0x0FEA, 0x0FE1, 
 	0x0FD8, 0x0FCE, 0x0FC2, 0x0FB5, 0x0FA6, 0x0F97, 0x0F86, 0x0F74, 
