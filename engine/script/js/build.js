@@ -586,26 +586,45 @@ if (DoPackage)
 	//=========================================================================
 	// MSXhex
 	//=========================================================================
-	H2BParam = `${OutDir}${ProjName}.ihx -e ${Ext} -s 0x${util.getHex(StartAddr)}`;
+	let hexBinParam = `${OutDir}${ProjName}.ihx -e ${Ext} -s 0x${util.getHex(StartAddr)}`;
 	if ((Ext === "rom") && (MapperSize))
-		H2BParam += ` -l ${MapperSize} -b ${SegSize}`;
+		hexBinParam += ` -l ${MapperSize} -b ${SegSize}`;
 	else
-		H2BParam += ` -l ${FillSize}`;
+		hexBinParam += ` -l ${FillSize}`;
 	// if (Target === "DOS2_MAPPER")
-	// 	H2BParam += " -split";
-	for (let i = 0; i < RawFiles.length; i++)
+	// 	hexBinParam += " -split";
+
+	// Handle additionnal raw files list
+	if (RawFiles.length > 0)
 	{
-		let raw = RawFiles[i];
-		if(raw.offset !== undefined)
-			H2BParam += ` -r ${raw.offset} ${raw.file}`;
-		else if(raw.page !== undefined)
-			H2BParam += ` -r ${raw.page * 16 * 1024} ${raw.file}`;
-		else if(raw.segment !== undefined)
-			H2BParam += ` -r ${raw.segment * SegSize} ${raw.file}`;
+		util.print("Creating additionnal raw files list...");
+		const rawListName = `${OutDir}raw_list.txt`;
+		let rawFileList = "";
+		for (let i = 0; i < RawFiles.length; i++)
+		{
+			let raw = RawFiles[i];
+			if (raw.offset !== undefined)
+				rawFileList += `${raw.offset}: ${raw.file}\n`;
+			else if (raw.page !== undefined)
+				rawFileList += `${raw.page * 16 * 1024}: ${raw.file}\n`;
+			else if (raw.segment !== undefined)
+				rawFileList += `${raw.segment * SegSize}: ${raw.file}\n`;
+			else
+			{
+				util.print(`Invalid entry in RawFiles table!`, PrintError);
+				process.exit(1);
+			}		
+		}
+		util.print("----------------------------------------", PrintDetail);
+		util.print(rawFileList, PrintDetail);
+		util.print("----------------------------------------", PrintDetail);
+		fs.writeFileSync(`${rawListName}`, rawFileList);
+		hexBinParam += ` -rl ${rawListName}`;
 	}
 
-	let err = util.execSync(`${Hex2Bin} ${H2BParam}`);
-	if(err)
+	// Execute hex-to-bin program
+	let err = util.execSync(`${Hex2Bin} ${hexBinParam}`);
+	if (err)
 	{
 		util.print(`Package error! Code: ${err}`, PrintError);
 		process.exit(1);

@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.7";
+const char* VERSION = "0.1.8";
 
 #define BUFFER_SIZE 1024
 
@@ -63,7 +63,7 @@ struct RawData
 };
 
 //
-enum RecordType
+enum RecordType : u8
 {
 	Type_Data                   = 0,
 	Type_EndOfFile              = 1,
@@ -72,6 +72,14 @@ enum RecordType
 	Type_ExtendedLinearAddress  = 4,
 	Type_StartLinearAddress     = 5,
 };
+
+// Raw file parser step
+enum ParserStep : u8
+{
+	ParserStep_Offset = 0,
+	ParserStep_Filename,
+};
+
 
 //=============================================================================
 // VARIABLES
@@ -304,7 +312,7 @@ bool AddRawData(u32 offset, std::string inFile)
 	if (file == NULL)
 	{
 		printf("Error: Fail to open input file %s\n", inFile.c_str());
-		return 1;
+		return false;
 	}
 	fseek(file, 0, SEEK_END);
 	u32 fileSize = ftell(file);
@@ -318,6 +326,58 @@ bool AddRawData(u32 offset, std::string inFile)
 	fclose(file);
 
 	g_RawData.push_back(raw);
+	return true;
+}
+
+//-----------------------------------------------------------------------------
+// 
+bool AddRawDataList(std::string inFile)
+{
+	MSX::FileData fileData(inFile);
+	if (!MSX::File::Load(fileData))
+		return false;
+
+	ParserStep step = ParserStep_Offset;
+	std::string offset;
+	std::string filename;
+	for (u32 i = 0; i < fileData.Data.size(); i++)
+	{
+		u8 chr = fileData.Data[i];
+		switch (chr)
+		{
+		case ':':
+			if (step == ParserStep_Offset)
+				step = ParserStep_Filename;
+			break;
+		
+		case '\n':
+		case '\r':
+			if (step == ParserStep_Filename)
+			{
+				AddRawData(GetValue(offset), filename);
+				offset = filename = "";
+				step = ParserStep_Offset;
+			}
+			break;
+
+		case '\t': // skip
+		case ' ':
+			break;
+
+		default:
+			if (step == ParserStep_Offset)
+				offset += chr;
+			else // if (step == ParserStep_Filename)
+				filename += chr;
+			break;
+		}
+	}
+
+	if (step == ParserStep_Filename)
+	{
+		AddRawData(GetValue(offset), filename);
+	}
+
 	return true;
 }
 
@@ -444,6 +504,7 @@ void PrintHelp()
 	printf(" -b length        Bank size (default: 0, means don't use)\n");
 	printf(" -p value         Pading value (default: 0xFF)\n");
 	printf(" -r offset file   Raw data 'file' to add at a given 'offset'\n");
+	printf(" -rl filename     Raw data files list in format: offset:filename\\n\n");
 	printf(" -check           Validate records\n");
 	printf(" -log             Log records\n");
 	printf("\n");
@@ -459,7 +520,7 @@ void PrintHelp()
 }
 
 //-----------------------------------------------------------------------------
-//const char* ARGV[] = { "", "D:/Dev/Private/MSX/MSXgl/projects/htd005/out/htd005.ihx", "-e", "rom", "-s", "0x4000", "-l", "131072", "-b", "8192", "-log"};
+//const char* ARGV[] = { "", "D:/Dev/Private/MSX/MSXgl/projects/htd005/out/htd005.ihx", "-e", "rom", "-s", "0x4000", "-l", "131072", "-b", "8192", "-log", "-rl" , "list.txt" };
 //#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
@@ -520,6 +581,13 @@ int main(int argc, const char* argv[])
 			std::string file = argv[++i];
 			AddRawData(offset, file);
 		}
+		// Raw data files list
+		else if (MSX::StrEqual(argv[i], "-rl"))
+		{
+			std::string file = argv[++i];
+			AddRawDataList(file);
+		}
+
 		// Activate record logging
 		else if (MSX::StrEqual(argv[i], "-log"))
 		{

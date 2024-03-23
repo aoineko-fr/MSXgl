@@ -1,4 +1,4 @@
-MSXhex 0.1.7 - Convert Intel HEX file to binary
+MSXhex 0.1.8 - Convert Intel HEX file to binary
 --------------------------------------------------------------------------------
 Usage: msxhex <inputfile> [options]
 
@@ -10,6 +10,7 @@ Options:
  -b length        Bank size (default: 0, means don't use)
  -p value         Pading value (default: 0xFF)
  -r offset file   Raw data 'file' to add at a given 'offset'
+ -rl filename     Raw data files list in format: offset:filename\n
  -check           Validate records
  -log             Log records
 

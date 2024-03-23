@@ -172,7 +172,7 @@ public:
 	{
 		// Write header file
 		FILE* file = fopen(filename.c_str(), "wb");
-		if (file == NULL)
+		if (file == nullptr)
 		{
 			printf("Error: Fail to create %s\n", filename.c_str());
 			return false;
@@ -211,7 +211,7 @@ public:
 	{
 		// Write header file
 		FILE* file = fopen(filename.c_str(), "wb");
-		if (file == NULL)
+		if (file == nullptr)
 		{
 			printf("Error: Fail to create %s\n", filename.c_str());
 			return false;

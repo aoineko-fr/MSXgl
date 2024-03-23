@@ -65,6 +65,12 @@
  <div class="CBody"><p>Direct call a routine at a given address with a 16-bits parameter in register HL (generate ASM code: &quot;call XXXX&quot;) No extra cost due to calling a C function.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to call</p></td></tr><tr><td class="CDLEntry">val</td><td class="CDLDefinition"><p>Function parameter to put in register HL</p></td></tr></table></div>
 </div>
 
+<a name="CallDriver"></a><a name="Topic73"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">CallDriver</div>
+ <div id="NDPrototype73" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> CallDriver(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">a</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Direct call a routine at a given address with a 8-bits parameter in register A (generate ASM code: &quot;call XXXX&quot;) No extra cost due to calling a C function.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address of the driver</p></td></tr><tr><td class="CDLEntry">a<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to transfer to driver's main function</p></td></tr></table></div>
+</div>
+
 <a name="Slot"></a><a name="Topic201"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Slot</div>
  <div class="CBody"><p>Slot handling functions</p></div>

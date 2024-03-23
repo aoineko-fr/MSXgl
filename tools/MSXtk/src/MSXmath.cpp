@@ -174,9 +174,17 @@ void PrintTable(i32 op)
 
 		switch (DataSize)
 		{
-		case MSX::DATASIZE_8bits:  Exporter->AddByte(0xFF & (u32)x); break;
-		case MSX::DATASIZE_16bits: Exporter->AddWord(0xFFFF & (u32)x); break;
-		case MSX::DATASIZE_32bits: Exporter->AddDouble((u32)x); break;
+		case MSX::DATASIZE_8bits:
+			Exporter->AddByte(0xFF & (u32)x);
+			break;
+		case MSX::DATASIZE_16bits:
+			Exporter->AddWord(0xFFFF & (u32)x);
+			break;
+		case MSX::DATASIZE_32bits:
+			Exporter->AddDouble((u32)x);
+			break;
+		default:
+			break;
 		}
 
 		if ((i % 8 == 7) || (i == maxNumber - 1)) // 8th column or last

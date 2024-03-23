@@ -10,6 +10,8 @@
 //_____________________________________________________________________________
 #pragma once
 
+#include <stdio.h>
+
 // MSX Tool Kit
 #include "MSXtk_string.h"
 
@@ -28,10 +30,13 @@ enum FileFormat : u8
 /// File structure
 struct FileData
 {
-	std::string		Filename;
-	FILE*			Interface = nullptr;
-	u32				Size = 0;
-	std::vector<u8>	Data;
+	std::string			Filename;
+	FILE*				Interface;
+	u32					Size;
+	std::vector<u8>		Data;
+
+	FileData(): Interface(nullptr), Size(0) {}
+	FileData(std::string str): Filename(str), Interface(nullptr), Size(0) {}
 };
 
 class File
@@ -43,7 +48,7 @@ public:
 	static bool Load(FileData& file)
 	{
 		file.Interface = fopen(file.Filename.c_str(), "rb");
-		if (file.Interface == NULL)
+		if (file.Interface == nullptr)
 		{
 			printf("Error: Fail to open file %s\n", file.Filename.c_str());
 			return false;
@@ -51,7 +56,7 @@ public:
 		fseek(file.Interface, 0, SEEK_END);
 		file.Size = ftell(file.Interface);
 		file.Data.resize(file.Size);
-		fseek(file.Interface, 0, SEEK_SET);
+		rewind(file.Interface);
 		if (fread(file.Data.data(), sizeof(u8), file.Size, file.Interface) != file.Size)
 		{
 			file.Data.resize(0);
@@ -68,7 +73,7 @@ public:
 	{
 		// Open binary file
 		file.Interface = fopen(file.Filename.c_str(), "wb");
-		if (file.Interface == NULL)
+		if (file.Interface == nullptr)
 		{
 			printf("Error: Fail to open output file %s\n", file.Filename.c_str());
 			return false;

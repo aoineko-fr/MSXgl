@@ -193,7 +193,7 @@ inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 	case DATAFORMAT_BinaryASM:
 		return "%u";
 	}
-	return NULL;
+	return nullptr;
 }
 
 /// 
@@ -243,7 +243,7 @@ inline const c8* GetCTable(DataFormat format, u8 size = DATASIZE_8bits)
 		case DATASIZE_64bits:	return "const double";
 		}
 	}
-	return NULL;
+	return nullptr;
  }
 
 ///
@@ -272,7 +272,7 @@ inline const c8* GetAsmDirective(u8 size, u8 syntax)
 		};
 	};
 
-	return NULL;
+	return nullptr;
 }
 
 } // namespace MSX
