@@ -97,12 +97,18 @@ struct ExportParameters
 	bool bDefine;				///< Add define block for C file that allow to add directive to table definition (to place data at a given address for e.g.)
 	bool bTitle;				///< Display ASCII-art title on top of exported text file
 	std::vector<Layer> layers;	///< Block layers
-	bool bTilesCompressNames;		///< GM2 mode: Compress names/layout table
+	bool bTilesCompressNames;	///< GM2 mode: Compress names/layout table
 	bool bTilesUnique;			///< GM2 mode: Export all unique tiles
-	bool bTilesName;		///< GM2 mode: Include name table
-	bool bTilesPattern;	///< GM2 mode: Include pattern table
-	bool bTilesColor;		///< GM2 mode: Include color table
+	bool bTilesName;			///< GM2 mode: Include name table
+	bool bTilesPattern;			///< GM2 mode: Include pattern table
+	bool bTilesColor;			///< GM2 mode: Include color table
 	bool bBLOAD;				///< Add header for BLOAD image
+	FilterMethod scaleFilter;
+	u16 scaleX;
+	u16 scaleY;
+	bool flipH;
+	bool flipV;
+	f32 rotAngle;
 
 	ExportParameters()
 	{
@@ -152,6 +158,12 @@ struct ExportParameters
 		bTilesPattern = TRUE;
 		bTilesColor = TRUE;
 		bBLOAD = FALSE;
+		scaleFilter = FILTER_None;
+		scaleX = 0;
+		scaleY = 0;
+		flipH = 0;
+		flipV = 0;
+		rotAngle = 0.f;
 	}
 };
 

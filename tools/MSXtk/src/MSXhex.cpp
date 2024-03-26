@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.8";
+const char* VERSION = "1.0.0";
 
 #define BUFFER_SIZE 1024
 
@@ -263,7 +263,7 @@ int SaveBinary(std::string outFile)
 	{
 		u32 size = 0;
 		printf("Saving %s...\n", outFile.c_str());
-		for (u16 i = 0; i < g_SegmentInfo.size(); i++)
+		for (u32 i = 0; i < g_SegmentInfo.size(); i++)
 		{
 			if (g_SegmentInfo[i].Size > 0)
 			{
@@ -428,7 +428,7 @@ bool ParseHex(std::string inFile)
 		ptr = GetU8(ptr, rec.Count);
 		ptr = GetU16(ptr, rec.Address);
 		ptr = GetU8(ptr, rec.Type);
-		for (u8 i = 0; i < rec.Count; i++)
+		for (u32 i = 0; i < rec.Count; i++)
 		{
 			u8 byte;
 			ptr = GetU8(ptr, byte);
@@ -439,7 +439,7 @@ bool ParseHex(std::string inFile)
 		if (g_Check)
 		{
 			u8 sum = rec.Count + (rec.Address >> 8) + (rec.Address & 0xFF) + rec.Type + rec.Checksum;
-			for (u8 i = 0; i < rec.Data.size(); i++)
+			for (u32 i = 0; i < rec.Data.size(); i++)
 				sum += rec.Data[i];
 			if (sum != 0)
 			{
@@ -615,7 +615,7 @@ int main(int argc, const char* argv[])
 		return 1;
 
 	// Insert raw data
-	for (u8 i = 0; i < g_RawData.size(); i++)
+	for (u32 i = 0; i < g_RawData.size(); i++)
 	{
 		if (!WriteBytesAtOffset(g_RawData[i].Offset, g_RawData[i].Data))
 			return 1;
