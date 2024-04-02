@@ -139,12 +139,6 @@ void main()
 	// Setup video
 	VDP_SetColor(0xF0);
 	VDP_ClearVRAM();
-	VDP_EnableVBlank(TRUE);
-	#if ((SCROLL_ADJUST) && (SCROLL_ADJUST_SPLIT))
-	VDP_EnableHBlank(TRUE);
-	Bios_SetHookCallback(H_KEYI, InterruptHook);
-	#endif
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
 
 	// Initialize text
 	Print_SetTextFont(g_Font_MGL_Sample8, 96);
@@ -173,6 +167,13 @@ void main()
 	SET_SPRITE(sprt+1, 70, 130, 36, COLOR_WHITE);
 	SET_SPRITE(sprt+2, 70, 130, 40, COLOR_LIGHT_RED);
 	VDP_DisableSpritesFrom(sprt+3);
+
+	VDP_EnableVBlank(TRUE);
+	#if ((SCROLL_ADJUST) && (SCROLL_ADJUST_SPLIT))
+	VDP_EnableHBlank(TRUE);
+	Bios_SetHookCallback(H_KEYI, InterruptHook);
+	#endif
+	Bios_SetHookCallback(H_TIMI, VBlankHook);
 
 	u8 frame = 0;
 	u8 prevRow8 = 0xFF;

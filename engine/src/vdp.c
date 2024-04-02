@@ -34,28 +34,26 @@
 
 // Handle interruptions disabling
 #if (VDP_ISR_SAFE_MODE == VDP_ISR_SAFE_ALL)
+	#define VDP_DI			di
+	#define VDP_EI			ei
 	#define VDP_DI_ALL		di
 	#define VDP_EI_ALL		ei
 	#define VDP_DI_DEF
 	#define VDP_EI_DEF
 #elif (VDP_ISR_SAFE_MODE == VDP_ISR_SAFE_DEFAULT)
+	#define VDP_DI			di
+	#define VDP_EI			ei
 	#define VDP_DI_ALL
 	#define VDP_EI_ALL
 	#define VDP_DI_DEF		di
 	#define VDP_EI_DEF		ei
 #else // (VDP_ISR_SAFE_MODE == VDP_ISR_SAFE_NONE)
+	#define VDP_DI
+	#define VDP_EI
 	#define VDP_DI_ALL
 	#define VDP_EI_ALL
 	#define VDP_DI_DEF
 	#define VDP_EI_DEF
-#endif
-
-#if (VDP_ISR_SAFE_MODE == VDP_ISR_SAFE_NONE)
-	#define VDP_DI
-	#define VDP_EI
-#else
-	#define VDP_DI			di
-	#define VDP_EI			ei
 #endif
 
 // #if ((MSX_VERSION & MSX_1) && (VDP_USE_MODE_G1 || VDP_USE_MODE_G2 || VDP_USE_MODE_MC)) // Worst case 29 cc
@@ -280,8 +278,10 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count)
 	#if ((VDP_USE_VALIDATOR) && !(MSX_VERSION & MSX_1))
 		// Reset VRAM address bit 14 to 16 (in R#14)
 		xor		a
+		VDP_DI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
+		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_REG), a
 	#endif
 
@@ -360,8 +360,10 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __NAKED // Stack: 4 bytes
 	#if ((VDP_USE_VALIDATOR) && !(MSX_VERSION & MSX_1))
 		// Reset VRAM address bit 14 to 16 (in R#14)
 		xor		a
+		VDP_DI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
+		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_REG), a
 	#endif
 
@@ -422,8 +424,10 @@ void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count) __NAKED // Stack: 4 byt
 	#if ((VDP_USE_VALIDATOR) && !(MSX_VERSION & MSX_1))
 		// Reset VRAM address bit 14 to 16 (in R#14)
 		xor		a
+		VDP_DI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
+		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_REG), a
 	#endif
 
@@ -524,8 +528,10 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count)
 	#if ((VDP_USE_VALIDATOR) && !(MSX_VERSION & MSX_1))
 		// Reset VRAM address bit 14 to 16 (in R#14)
 		xor		a
+		VDP_DI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
+		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_REG), a
 	#endif
 
@@ -603,8 +609,10 @@ u8 VDP_Peek_16K(u16 dest) __PRESERVES(b, c, d, e, iyl, iyh)
 	#if ((VDP_USE_VALIDATOR) && !(MSX_VERSION & MSX_1))
 		// Reset VRAM address bit 14 to 16 (in R#14)
 		xor		a
+		VDP_DI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
+		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_REG), a
 	#endif
 
@@ -649,8 +657,10 @@ void VDP_Poke_16K(u8 val, u16 dest) __PRESERVES(c, h, l, iyl, iyh)
 	#if ((VDP_USE_VALIDATOR) && !(MSX_VERSION & MSX_1))
 		// Reset VRAM address bit 14 to 16 (in R#14)
 		xor		a
+		VDP_DI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_REG), a
 		ld		a, #VDP_REG(14)
+		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_REG), a
 	#endif
 

@@ -210,6 +210,7 @@ void Scroll_Update()
 	#endif
 
 	// Check for tile movement
+	#if (!SCROLL_FORCE_UPDATE)
 	#if ((SCROLL_HORIZONTAL) && (SCROLL_VERTICAL))
 	if((offsetTileX == g_Scroll_TileX) && (offsetTileY == g_Scroll_TileY))
 		return;
@@ -219,6 +220,7 @@ void Scroll_Update()
 	#elif (SCROLL_VERTICAL)
 	if(offsetTileY == g_Scroll_TileY)
 		return;
+	#endif
 	#endif
 
 	#if (SCROLL_HORIZONTAL)
