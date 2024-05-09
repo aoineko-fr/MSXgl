@@ -73,6 +73,9 @@ void Mem_HeapFree(u16 size);
 //.............................................................................
 // Group: Memory content modification
 
+#if (MEM_USE_BUILTIN)
+#define Mem_Copy(src, dst, n) __builtin_memcpy(dst, src, n)
+#else
 // Function: Mem_Copy
 // Copy a memory block from a source address to an other (minimal size of 1 byte).
 //
@@ -81,6 +84,8 @@ void Mem_HeapFree(u16 size);
 //   dst - Destination address
 //   size - The size of data to copy. Note: A size of 0 mean 65536
 void Mem_Copy(const void* src, void* dest, u16 size);
+#endif // (MEM_USE_BUILTIN)
+
 
 // Function: Mem_Copy_16b
 // Copy a 16-bits memory block from a source address to an other (minimal size of 1 word / 2 byte).
@@ -113,6 +118,13 @@ void Mem_FastCopy(const void* src, void* dest, u16 size);
 inline void Mem_FastCopy_16b(const void* src, void* dest, u16 size) { Mem_FastCopy(src, dest, size * 2); }
 #endif
 
+#if (MEM_USE_BUILTIN)
+#define Mem_Set(c, dst, n) __builtin_memset(dst, c, n)
+#else
+// @todo Add a memmove function
+// https://marmota.medium.com/c-language-making-memmove-def8792bb8d5
+// void Mem_Move(const void* src, void* dest, u16 size);
+
 // Function: Mem_Set
 // Fill a memory block with a given 8-bits value (minimal size of 2 bytes).
 //
@@ -121,6 +133,7 @@ inline void Mem_FastCopy_16b(const void* src, void* dest, u16 size) { Mem_FastCo
 //   dst - Destination address
 //   size - The size of data to fill. Note: A size of 0 mean 65536
 void Mem_Set(u8 val, void* dest, u16 size);
+#endif // (MEM_USE_BUILTIN)
 
 // Function: Mem_Set_16b
 // Fill a memory block with a given 16-bits value (minimal size of 2 bytes).

@@ -701,7 +701,6 @@ void main()
 {
 	DEBUG_INIT();
 	DEBUG_LOG("Start debug session!");
-	DEBUG_LOG("Let it go...");
 
 	Game_SetState(State_Initialize);
 	Game_MainLoop(VDP_MODE_GRAPHIC1);

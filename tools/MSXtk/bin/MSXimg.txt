@@ -1,4 +1,4 @@
-MSXimg (v1.17.0)
+MSXimg (v1.18.0)
 Usage: MSXimg <filename> [options]
 
 Options:
@@ -17,6 +17,7 @@ Options:
     gm1           Generate all tables for Graphic mode 1 (Screen 1)
     gm2           Generate all tables for Graphic mode 2 or 3 (Screen 2 or 4)
     sprt          Export 16x16 sprites with specific block ordering
+    mglv          MGLV video format from multiple image
  -pos x y         Start position in the input image
  -size x y        Width/height of a block to export (if 0, use image size)
  -gap x y         Gap between blocks in pixels

@@ -1,0 +1,87 @@
+MGLV is a video format for MSXgl.
+
+==============================================================================
+ FORMAT
+==============================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Header
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Offset		Size	Desc.		Value
+--------------------------------------------------------
+0x0000		3		Signature	"MGV"
+........................................................
+0x0003		1		Flag		7  6  5  4  3  2  1  0
+								│        │  └──┴──┴──┴── File format version (0-15)
+								│        └────────────── Segment size (0: 8 KB, 1: 16 KB)
+								└─────────────────────── Include video format data (4 bytes)
+........................................................
+(0x0004)	1		Image		7  6  5  4  3  2  1  0
+								│  │  │        └──┴──┴── Screen mode (0-7)
+								│  │  └───────────────── Screen width (0: 256 px, 1: 512 px)
+								└──┴──────────────────── Bit per pixel (0: 1-bit, 1: 2-bit, 2: 4-bit, 3: 8-bit)
+								Screen mode:
+									0: TEXT - Screen 0, width 40 & 80
+									1: GM1 - Screen 1
+									2: GM2 - Screen 2 & 4
+									3: MC - Screen 3
+									4: BITMAP - Screen 5 ~ 8
+									5: YAE - Screen 10 (GM7 + YJK + YAE)
+									6: YJK - Screen 12 (GM7 + YJK)
+........................................................
+(0x0005)	1	Replay			7  6  5  4  3  2  1  0
+								│  │        └──┴──┴──┴── Frame skip (0-15)
+								│  └──────────────────── Loop (0: No, 1: Yes)
+								└─────────────────────── Frequency (0: 50 Hz, 1: 60 Hz)
+								At 50 Hz, a frame skip of 1 means 25 fps.
+								At 60 Hz, a frame skip of 5 means 10 fps.
+........................................................
+(0x0006)	1	Width			1-256 (or 2-512 for Screen mode 6 and 7)
+........................................................
+(0x0007)	1	Height			1-256
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Cmd	Options			Desc.
+--------------------------------------------------------
+00					End of data
+01					End of segment (increment segment index and reset data pointer)
+02					End of line
+x3					Switch to table. x:
+						0: Pattern table (default)
+						1: Color table (screen mode 1, 2 and 3)
+						2: Layout table (tile based modes)
+						3: Color palette (MSX2/2+)
+........................................................
+n4					Skip n bytes (1-15)
+05	nn				Skip nn bytes (1-255)
+06	nnnn			Skip nnnn bytes (1-65535)
+07					Skip a frame / End of frame
+........................................................
+n8	vv				Fill n bytes (1-15) with vv value
+09	nn,vv			Fill nn bytes (1-255) with vv value
+0A	nnnn,vv			Fill nnnn bytes (1-65535) with vv value
+0B	vv				Fill a full frame with vv value
+........................................................
+nC	vv[n]			Copy n bytes (1-15) from vv[n] data table
+0D	nn,vv[nn]		Copy nn bytes (1-255) from vv[nn] data table
+0E	nnnn,vv[nnnn]	Copy nnnn bytes (1-65535) from vv[nnnn] data table
+0F	vv[]			Copy a full frame from data table (raw frame)
+
+
+==============================================================================
+ EXTENSION
+==============================================================================
+
+.MGLV (for Windows/Linux) or .MGV (for MSX-DOS)
+
+
+==============================================================================
+ CHANGE LOG
+==============================================================================
+
+Version 1.0 (2024/03/31)
+	Original version (File format version 0)

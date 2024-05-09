@@ -41,6 +41,7 @@ global.PrintBG        = 6;
 // Initilized in setup_target.js
 
 // Default values
+global.TargetType = "";
 global.TargetDesc = "";
 global.Ext = "";
 global.Crt0 = "";

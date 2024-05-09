@@ -45,6 +45,7 @@ void Mem_HeapFree(u16 size)
 	g_HeapStartAddress -= size;	
 }
 
+#if (!MEM_USE_BUILTIN)
 //-----------------------------------------------------------------------------
 // Copy a memory block from a source address to an other
 void Mem_Copy(const void* src, void* dest, u16 size) __NAKED // Stack: 4 bytes
@@ -68,6 +69,7 @@ void Mem_Copy(const void* src, void* dest, u16 size) __NAKED // Stack: 4 bytes
 		jp		(iy)						// 10 cc
 	__endasm;
 }
+#endif // (!MEM_USE_BUILTIN)
 
 #if (MEM_USE_FASTCOPY)
 //-----------------------------------------------------------------------------
@@ -116,6 +118,7 @@ void Mem_FastCopy(const void* src, void* dest, u16 size) __NAKED // Stack: 4 byt
 }
 #endif // (MEM_USE_FASTCOPY)
 
+#if (!MEM_USE_BUILTIN)
 //-----------------------------------------------------------------------------
 // Fill a memory block with a given value (minimal size: 2)
 void Mem_Set(u8 val, void* dest, u16 size) __NAKED // Stack: 4 bytes
@@ -147,6 +150,7 @@ void Mem_Set(u8 val, void* dest, u16 size) __NAKED // Stack: 4 bytes
 		jp		(iy)						// 10 cc
 	__endasm;
 }
+#endif // (!MEM_USE_BUILTIN)
 
 //-----------------------------------------------------------------------------
 // Fill a memory block with a given 16-bits value (minimal size of 2 bytes).
@@ -287,7 +291,7 @@ void* Mem_DynamicAlloc(u16 size)
 			u16 needSize = size + sizeof(struct MemChunkHeader);
 			if(chunkSize > needSize) // Create new sub-chunk
 			{
-				struct MemChunkHeader* newChunk = (struct MemChunkHeader*)(chunk + needSize); // New free sub-chunk
+				struct MemChunkHeader* newChunk = (struct MemChunkHeader*)((u16)chunk + needSize); // New free sub-chunk
 				newChunk->Size = (chunkSize - needSize) | MEM_CHUNK_FREE;
 				newChunk->Next = chunk->Next;
 

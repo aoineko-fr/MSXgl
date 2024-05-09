@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "inc", "inc", "{8DED7E11-AF9F-4508-A00A-844F746209BF}"
 	ProjectSection(SolutionItems) = preProject
 		src\lVGM.h = src\lVGM.h
+		src\MGLV.h = src\MGLV.h
 		src\MSXtk.h = src\MSXtk.h
 		src\MSXtk_data.h = src\MSXtk_data.h
 		src\MSXtk_export.h = src\MSXtk_export.h

@@ -267,7 +267,7 @@ void String_Format(c8* dest, const c8* format, ...)
 				// Character
 				case 'c':
 				{
-					c8 val = (c8)va_arg(args, c8);
+					c8 val = (c8)va_arg(args, u16);
 					*dest++ = val;
 					break;
 				}

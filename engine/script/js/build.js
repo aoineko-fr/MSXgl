@@ -125,6 +125,7 @@ if(util.isString(CompileComplexity))
 	CompileComplexity = CompileComplexity.toUpperCase();
 
 //-- Target specific initialization
+global.TargetType = Target;
 require("./setup_target.js");
 
 //=============================================================================

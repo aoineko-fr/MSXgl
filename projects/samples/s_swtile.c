@@ -12,6 +12,7 @@
 #include "msxgl.h"
 #include "game_pawn.h"
 #include "tile.h"
+#include "debug.h"
 
 //=============================================================================
 // DEFINES
@@ -138,6 +139,9 @@ const Game_Action g_AnimActions[] =
 	{ g_FramesFall, numberof(g_FramesFall), TRUE, TRUE },
 };
 
+// Sign-of-life animation
+const u8 chrAnim[] = { '|', '\\', '-', '/' };
+
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
@@ -184,12 +188,19 @@ void PhysicsEvent(u8 event, u8 tile)
 	tile;
 	switch(event)
 	{
-	case PAWN_PHYSICS_BORDER_DOWN:
+	case PAWN_PHYSICS_BORDER_LEFT:
 	case PAWN_PHYSICS_BORDER_RIGHT:
+		DEBUG_LOG("Touch border!");
+		DEBUG_BREAK();
 		g_LastEvent = event;
 		break;
 	
 	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
+		if (g_bJumping)
+		{
+			DEBUG_LOGNUM("Velocity", g_VelocityY);
+			DEBUG_LOG("Land on ground!");
+		}
 		g_bJumping = FALSE;
 		break;
 	
@@ -221,6 +232,11 @@ bool PhysicsCollision(u8 tile)
 // Programme entry point
 void main()
 {
+	DEBUG_INIT();
+	DEBUG_LOG("Start debug session!");
+	DEBUG_PRINT("Print: %c %s %i %d %u %f %x %X %%", '*', "Example game", -1234, -1234, -1, -0.123, -1, 0xABCD);
+	DEBUG_PRINT("Align: [%04i] [% 4d] [%-4u] [%+i] [%04X] [%016b]", 123, 123, 123, 123, 123, 1234);
+
 	// Initialize VDP
 	VDP_SetMode(VDP_MODE_SCREEN5);
 	VDP_SetColor(6);
@@ -273,6 +289,9 @@ void main()
 	{
 		WaitVBlank();
 
+		Print_SetPosition(247, 0);
+		Print_DrawChar(chrAnim[g_Frame & 0x03]);
+
 		if(Keyboard_IsKeyPressed(KEY_1))
 			VDP_SetPage(0);
 		if(Keyboard_IsKeyPressed(KEY_2))
@@ -281,7 +300,7 @@ void main()
 			VDP_SetPage(2);
 		if(Keyboard_IsKeyPressed(KEY_4))
 			VDP_SetPage(3);
-	
+
 		g_DX = 0;
 		g_DY = 0;
 		u8 row8 = Keyboard_Read(8);
@@ -322,11 +341,13 @@ void main()
 			act = ACTION_FALL;
 		else if(g_bMoving)
 			act = ACTION_MOVE;
+
 		GamePawn_SetAction(&g_PlayerPawn, act);
 		GamePawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
 		GamePawn_Update(&g_PlayerPawn);
 		GamePawn_Draw(&g_PlayerPawn);
 	}
 
+	DEBUG_LOG("End debug session!");
 	Bios_Exit(0);
 }

@@ -98,6 +98,7 @@ void PrintHelp()
 	printf("    gm1           Generate all tables for Graphic mode 1 (Screen 1)\n");
 	printf("    gm2           Generate all tables for Graphic mode 2 or 3 (Screen 2 or 4)\n");
 	printf("    sprt          Export 16x16 sprites with specific block ordering\n");
+	printf("    mglv          MGLV video format from multiple image\n");
 	printf(" -pos x y         Start position in the input image\n");
 	printf(" -size x y        Width/height of a block to export (if 0, use image size)\n");
 	printf(" -gap x y         Gap between blocks in pixels\n");
@@ -222,6 +223,7 @@ void PrintHelp()
 //const char* ARGV[] = { "", "testcases/menu.png", "-out", "select.h", "-mode", "gm2", "-name", "g_DataSelect", "-pos", "0", "0", "-size", "256", "96" };
 //const char* ARGV[] = { "", "../testcases/poc2.png", "-out", "../testcases/room5.h", "-mode", "gm1", "--noTilesName", "", "-name", "g_DataRoom0", "-pos", "0", "0", "-size", "256", "192" };
 //const char* ARGV[] = { "", "../testcases/poc2.png", "-out", "../testcases/room5.bas", "-format", "bas", "-data", "hexaraw", "-mode", "gm1", "-name", "g_DataRoom0", "-pos", "0", "0", "-size", "256", "192" };
+//const char* ARGV[] = { "", "../testcases/JoyAndHeron", "-out", "../testcases/JoyAndHeron.mglv", "-mode", "mglv", "-format", "bin", "-size", "256", "144", "-bpc", "4", "-pal", "custom" };
 //#define DEBUG_ARGS
 
 /** Main entry point
@@ -470,6 +472,8 @@ int main(int argc, const char* argv[])
 				param.mode = MODE_GM2;
 			else if (MSX::StrEqual(argv[i], "sprt"))
 				param.mode = MODE_Sprite;
+			else if (MSX::StrEqual(argv[i], "mglv"))
+				param.mode = MODE_MGLV;
 		}
 		else if (MSX::StrEqual(argv[i], "-skip")) // Skip empty blocks
 		{
