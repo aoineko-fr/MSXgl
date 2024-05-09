@@ -9,4 +9,4 @@ LibModules = [ "tile", "debug", "game_pawn", ...LibModules ];
 AppID = "ST";
 
 //-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific
-EmulExtraParam = `-script ${ToolsDir}script/openMSX/debugger_pvm.tcl`;
+// EmulExtraParam = `-script ${ToolsDir}script/openMSX/debugger_pvm.tcl`; // uncomment for use Debug module with openMSX

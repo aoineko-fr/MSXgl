@@ -571,5 +571,5 @@
 // - DEBUG_OPENMSX_P .............. Debug features for openMSX using PVM script (tools/script/openMSX/debugger_pvm.tcl)
 // - DEBUG_OPENMSX_G .............. Profiler features for openMSX using Grauw script (tools/script/openMSX/profiler_grauw.tcl)
 // - DEBUG_OPENMSX_S .............. Profiler features for openMSX using Salutte script (tools/script/openMSX/profiler_salutte.tcl)
-#define DEBUG_TOOL					DEBUG_OPENMSX_P
+#define DEBUG_TOOL					DEBUG_DISABLE
 #define PROFILE_LEVEL				10

@@ -2,19 +2,17 @@
 # by Pedro de Medeiros "PVMM", May 7 2024
 # https://github.com/pvmm/msx-dev/tree/main/src/debugv2
 
-set debug_mode 0 ;# debugdevice printing mode
+set debug_mode 0
 set pos        0
 set addr       0
 set ppos       0
 
 proc pause_on {} {
-    #ext debugdevice
     set use_pause true
     debug set_watchpoint write_io {0x2e} {} {process_ctrl $::wp_last_value}
 }
 
 proc pause_off {} {
-    #ext debugdevice
     set use_pause false
     debug set_watchpoint write_io {0x2e} {} {}
 }
@@ -99,7 +97,7 @@ proc parse_basic_float {size addr} {
 
 # format is unknown (even searching in the manual)
 proc parse_sdcc_float {value} {
-    append buf "??.??"
+    return "?.????" ;# [format %f $value]
 }
 
 # compatibility with old debugging code
@@ -125,7 +123,7 @@ proc printf {addr} {
     global ppos
 
     set tysz  2  ;# default type size
-    set neg  ""  ;# negative sign?
+    set neg  ""  ;# negative/positive sign?
     set lpad ""  ;# pad size in characters
     set tdot ""  ;# truncated dot?
     set rpad ""  ;# truncated size in characters
@@ -157,7 +155,7 @@ proc printf {addr} {
             "l" { if {$ppos > 0}  { append tcs $c; incr ppos; set tysz 4 } else { append raw $c } }
             default {
                 if {$ppos > 0} {
-                    if {$c eq "-"} {
+                    if {$c eq "-" || $c eq "+"} {
                         append neg $c
                     } elseif {$ppos > 0 && $c eq "."} {
                         append tdot $c
@@ -208,4 +206,4 @@ proc debug_printf {value} {
     debug set_watchpoint write_io {0x2f} {} {debug_printf $::wp_last_value}
 # }
 
-ext debugdevice
+# ext debugdevice
