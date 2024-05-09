@@ -27,6 +27,8 @@ if %BuildMath%==1 (
 	%MSXmath% -num 128 -bytes 2 -shift 8 tan asin acos atan -o ..\content\mathtable\mt_trigo_ext_128.inc
 	%MSXmath% -num 256 -bytes 2 -shift 8 tan asin acos atan -o ..\content\mathtable\mt_trigo_ext_256.inc
 
+	%MSXmath% -num 256 -bytes 2 -shift 8 sin cos hdx hdy -o ..\content\mathtable\mt_raycast_256.inc
+
 	%MSXmath% -num 64 -bytes 2 -shift 8 sin  -o ..\content\mathtable\mt_sin_64.inc
 	%MSXmath% -num 64 -bytes 2 -shift 8 cos  -o ..\content\mathtable\mt_cos_64.inc
 	%MSXmath% -num 64 -bytes 2 -shift 8 tan  -o ..\content\mathtable\mt_tan_64.inc

@@ -1,4 +1,4 @@
-MSXimg (v1.17.0)
+MSXimg (v1.16.5)
 Usage: MSXimg <filename> [options]
 
 Options:
@@ -67,17 +67,6 @@ Options:
     cluster6      Ordered clustered dot dithering (order 3 - 6x6 matrix)
     cluster8      Ordered clustered dot dithering (order 4 - 8x8 matrix)
     cluster16     Ordered clustered dot dithering (order 8 - 16x16 matrix)
- -scale x y ?     Upscale or downscale the image before processing
-    box           Box, pulse, Fourier window, 1st order(constant) B - Spline
-    bilinear      Bilinear filter
-    bspline       4th order(cubic) B - Spline
-    bicubic       Mitchell and Netravali's two-param cubic filter
-    catmull       Catmull - Rom spline, Overhauser spline
-    lanczos       Lanczos - windowed sinc filter
- -flip ?          Flip the image before processing
-    h             Flip the image horizontally along the vertical axis
-    v             Flip the image vertically along the horizontal axis
- -rot a           Rotate image before processing (e.g. –90, 90, 180, 270)
  -data ?          Text format for numbers
     dec           Decimal data (c & asm)
     hexa          Default hexadecimal data (depend on langage; default)

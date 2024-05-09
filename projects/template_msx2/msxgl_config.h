@@ -330,7 +330,6 @@
 // Allow horizontal and/or vertical scrolling
 #define SCROLL_HORIZONTAL			TRUE	// Activate horizontal scrolling
 #define SCROLL_VERTICAL				TRUE	// Activate vertical scrolling
-#define SCROLL_FORCE_UPDATE			FALSE	// Force to update layout table even when no scrolling aoccurs
 // Source data info
 #define SCROLL_SRC_X				64		// Start X coordinate of the source data
 #define SCROLL_SRC_Y				0		// Start Y coordinate of the source data

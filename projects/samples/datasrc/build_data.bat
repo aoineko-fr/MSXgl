@@ -11,11 +11,11 @@ set BuildlVGM=0
 set BuildPCMEnc=0
 set BuildPCMPlay=0
 :: Image
-set BuildBitmap=1
-set BuildImage=1
-set BuildCompress=1
-set BuildTile=1
-set BuildV9990=1
+set BuildBitmap=0
+set BuildImage=0
+set BuildCompress=0
+set BuildTile=0
+set BuildV9990=0
 :: Misc
 set BuildZip=0
 

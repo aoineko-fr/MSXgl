@@ -190,7 +190,7 @@ inline void Halt() { __asm__("halt"); }
 //
 // Return:
 //   Value stored in register A
-inline u8 Call(u16 addr) { ((void(*)(void))addr)(); }
+inline void Call(u16 addr) { ((void(*)(void))addr)(); }
 
 // Function: CallA
 // Direct call a routine at a given address with a 8-bits parameter in register A (generate ASM code: "call XXXX")
@@ -227,7 +227,7 @@ inline void CallHL(u16 addr, u16 hl) { ((void(*)(u16))addr)(hl); }
 // Parameters:
 //   addr - Address of the driver
 //   a    - Value to transfer to driver's main function
-inline void CallDriver(u16 addr, u8 a) { CallA(addr, a); }
+inline u8 CallDriver(u16 addr, u8 a) { return ((u8(*)(u8))addr)(a); }
 
 //-----------------------------------------------------------------------------
 // Group: Slot

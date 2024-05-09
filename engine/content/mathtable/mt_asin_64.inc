@@ -1,16 +1,16 @@
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█            ▄▄   ▄▄
-// ██  ▀  █▄  ▀██▄ ▀ ▄█  ▄█▄█ ▄▀██ ██▀  ██▄
-// █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-//─────────────────────────────────────────────────────────────────────────────
-// MSXmath 1.6.1 by Guillaume "Aoineko" Blanchard
-// under CC-BY-SA free license
-//
-// Generated: Mon Nov 27 22:26:14 2023
-// Parameters: Entries=64, Bytes=2 (16-bits), Shift=8 (Q8.8)
-//─────────────────────────────────────────────────────────────────────────────
+//  ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█            ▄▄   ▄▄
+//  ██  ▀  █▄  ▀██▄ ▀ ▄█  ▄█▄█ ▄▀██ ██▀  ██▄
+//  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
+//  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+// ─────────────────────────────────────────────────────────────────────────────
+//  MSXmath 1.7.0 by Guillaume "Aoineko" Blanchard
+//  under CC-BY-SA free license
+// 
+//  Generated: Sun Mar 17 16:23:50 2024
+//  Parameters: Entries=64, Bytes=2 (16-bits), Shift=8 (Q8.8)
+// ─────────────────────────────────────────────────────────────────────────────
 
-// ArcSinus table. Range [-1:1]
+//  ArcSinus table. Range [-1:1]
 const unsigned short g_ArcSinus64[] = {
 	0xFE6E, 0xFEAE, 0xFEC8, 0xFEDD, 0xFEEE, 0xFEFE, 0xFF0C, 0xFF19, 
 	0xFF25, 0xFF31, 0xFF3C, 0xFF47, 0xFF51, 0xFF5B, 0xFF65, 0xFF6E, 

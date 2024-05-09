@@ -1,4 +1,4 @@
-//_____________________________________________________________________________
+﻿//_____________________________________________________________________________
 //   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄   ▄▄▄▄           ▄▄         ▄▄ ▄ ▄  ▄▄
 //  ██ ▀ ██▀█ ▀█▄  ▀█▄▀    ██  ▄█▀▄ ▄█▀▄ ██   ██▀   ██▄▀ ▄  ██▀
 //  ▀█▄▀ ██ █ ▄▄█▀ ██ █    ██  ▀█▄▀ ▀█▄▀ ▀█▄ ▄██    ██ █ ██ ▀█▄
@@ -193,7 +193,7 @@ inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 	case DATAFORMAT_BinaryASM:
 		return "%u";
 	}
-	return nullptr;
+	return NULL;
 }
 
 /// 
@@ -243,7 +243,7 @@ inline const c8* GetCTable(DataFormat format, u8 size = DATASIZE_8bits)
 		case DATASIZE_64bits:	return "const double";
 		}
 	}
-	return nullptr;
+	return NULL;
  }
 
 ///
@@ -272,7 +272,7 @@ inline const c8* GetAsmDirective(u8 size, u8 syntax)
 		};
 	};
 
-	return nullptr;
+	return NULL;
 }
 
 } // namespace MSX

@@ -229,10 +229,10 @@ enum VDP_MODE
 	//.........................................................................
 	// VDP modes
 	VDP_MODE_MSX1        = 0,				// TMS 9918A video modes
-	VDP_MODE_TEXT1       = VDP_MODE_MSX1,	// 00 001	TEXT	40 characters per line of text, one colour for each character
+	VDP_MODE_TEXT1       = VDP_MODE_MSX1,	// 00 001	TEXT	40 characters per line of text, one colour for each characte
+	VDP_MODE_MULTICOLOR,					// 00 010	TILES	pseudo-graphic, one character divided into four block
 	VDP_MODE_GRAPHIC1,						// 00 000	TILES	32 characters per one line of text, the COLOURed character available
 	VDP_MODE_GRAPHIC2,						// 00 100	TILES	256 x 192, the colour is specififed for each 8 dots
-	VDP_MODE_MULTICOLOR,					// 00 010	TILES	pseudo-graphic, one character divided into four block
 #if (MSX_VERSION >= MSX_2)
 	VDP_MODE_MSX2,							// V9938 video modes
 	VDP_MODE_TEXT2       = VDP_MODE_MSX2,	// 01 001	TEXT	80 characters per line of text, character blinkable selection
@@ -1064,7 +1064,7 @@ inline void VDP_SetSpriteTables(VADDR patAddr, VADDR attAddr) { VDP_SetSpritePat
 // Parameters:
 //   addr  - Source address for sprite patterns (in RAM/ROM).
 //   index - Index of the first VRAM sprite pattern to copy to (in 16x16 mode, only multiple of 4 can be used).
-//   count - Number of patterns to copy (8x8 mode use 1 pattern per sprite, while 16x16 mode use 4 patterns per sprite).
+//   count - Number of patterns to copy (8x8 mode use 1 per sprite shape, while 16x16 mode use 4).
 void VDP_LoadSpritePattern(const u8* addr, u8 index, u8 count);
 
 #define VDP_SPRITE_EC			0x80		// Early clock ; used to offset sprite by 32 dots to the left

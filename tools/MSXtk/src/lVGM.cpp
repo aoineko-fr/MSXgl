@@ -846,8 +846,6 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			case LVGM_CHIP_OPL4:
 				ExportOPL4(exp, chunk);
 				break;
-			default:
-				break;
 			}
 			break;
 

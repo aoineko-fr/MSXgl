@@ -1,4 +1,4 @@
-//_____________________________________________________________________________
+﻿//_____________________________________________________________________________
 //   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄   ▄▄▄▄           ▄▄         ▄▄ ▄ ▄  ▄▄
 //  ██ ▀ ██▀█ ▀█▄  ▀█▄▀    ██  ▄█▀▄ ▄█▀▄ ██   ██▀   ██▄▀ ▄  ██▀
 //  ▀█▄▀ ██ █ ▄▄█▀ ██ █    ██  ▀█▄▀ ▀█▄▀ ▀█▄ ▄██    ██ █ ██ ▀█▄
@@ -9,8 +9,6 @@
 // under CC-BY-SA license (https://creativecommons.org/licenses/by-sa/2.0/)
 //_____________________________________________________________________________
 #pragma once
-
-#include <stdio.h>
 
 // MSX Tool Kit
 #include "MSXtk_string.h"
@@ -30,13 +28,10 @@ enum FileFormat : u8
 /// File structure
 struct FileData
 {
-	std::string			Filename;
-	FILE*				Interface;
-	u32					Size;
-	std::vector<u8>		Data;
-
-	FileData(): Interface(nullptr), Size(0) {}
-	FileData(std::string str): Filename(str), Interface(nullptr), Size(0) {}
+	std::string		Filename;
+	FILE*			Interface = nullptr;
+	u32				Size = 0;
+	std::vector<u8>	Data;
 };
 
 class File
@@ -48,7 +43,7 @@ public:
 	static bool Load(FileData& file)
 	{
 		file.Interface = fopen(file.Filename.c_str(), "rb");
-		if (file.Interface == nullptr)
+		if (file.Interface == NULL)
 		{
 			printf("Error: Fail to open file %s\n", file.Filename.c_str());
 			return false;
@@ -56,7 +51,7 @@ public:
 		fseek(file.Interface, 0, SEEK_END);
 		file.Size = ftell(file.Interface);
 		file.Data.resize(file.Size);
-		rewind(file.Interface);
+		fseek(file.Interface, 0, SEEK_SET);
 		if (fread(file.Data.data(), sizeof(u8), file.Size, file.Interface) != file.Size)
 		{
 			file.Data.resize(0);
@@ -73,7 +68,7 @@ public:
 	{
 		// Open binary file
 		file.Interface = fopen(file.Filename.c_str(), "wb");
-		if (file.Interface == nullptr)
+		if (file.Interface == NULL)
 		{
 			printf("Error: Fail to open output file %s\n", file.Filename.c_str());
 			return false;

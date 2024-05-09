@@ -1,4 +1,4 @@
-//_____________________________________________________________________________
+﻿//_____________________________________________________________________________
 //   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄   ▄▄▄▄           ▄▄         ▄▄ ▄ ▄  ▄▄
 //  ██ ▀ ██▀█ ▀█▄  ▀█▄▀    ██  ▄█▀▄ ▄█▀▄ ██   ██▀   ██▄▀ ▄  ██▀
 //  ▀█▄▀ ██ █ ▄▄█▀ ██ █    ██  ▀█▄▀ ▀█▄▀ ▀█▄ ▄██    ██ █ ██ ▀█▄
@@ -172,7 +172,7 @@ public:
 	{
 		// Write header file
 		FILE* file = fopen(filename.c_str(), "wb");
-		if (file == nullptr)
+		if (file == NULL)
 		{
 			printf("Error: Fail to create %s\n", filename.c_str());
 			return false;
@@ -211,7 +211,7 @@ public:
 	{
 		// Write header file
 		FILE* file = fopen(filename.c_str(), "wb");
-		if (file == nullptr)
+		if (file == NULL)
 		{
 			printf("Error: Fail to create %s\n", filename.c_str());
 			return false;

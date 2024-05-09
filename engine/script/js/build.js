@@ -177,10 +177,7 @@ util.print(`- RootDir: ${RootDir}`, PrintDetail);
 util.print(`- LibDir: ${LibDir}`, PrintDetail);
 util.print(`- ToolsDir: ${ToolsDir}`, PrintDetail);
 
-//-- Hotfix for SDCC 4.3.0 path error for CC1
-const sdccPath = path.dirname(Compiler);
-util.print(`Added ${sdccPath} to path for hotfix SDCC's CC1 bug`, PrintDetail);
-process.env.path += `;${sdccPath}`;
+process.env.path += `;${ToolsDir}sdcc/bin`; // Hotfix for SDCC 4.3.0 path error for CC1
 
 //-- Command lines to be executed before the build process (array)
 if(PreBuildScripts.length)
@@ -589,45 +586,26 @@ if (DoPackage)
 	//=========================================================================
 	// MSXhex
 	//=========================================================================
-	let hexBinParam = `${OutDir}${ProjName}.ihx -e ${Ext} -s 0x${util.getHex(StartAddr)}`;
+	H2BParam = `${OutDir}${ProjName}.ihx -e ${Ext} -s 0x${util.getHex(StartAddr)}`;
 	if ((Ext === "rom") && (MapperSize))
-		hexBinParam += ` -l ${MapperSize} -b ${SegSize}`;
+		H2BParam += ` -l ${MapperSize} -b ${SegSize}`;
 	else
-		hexBinParam += ` -l ${FillSize}`;
+		H2BParam += ` -l ${FillSize}`;
 	// if (Target === "DOS2_MAPPER")
-	// 	hexBinParam += " -split";
-
-	// Handle additionnal raw files list
-	if (RawFiles.length > 0)
+	// 	H2BParam += " -split";
+	for (let i = 0; i < RawFiles.length; i++)
 	{
-		util.print("Creating additionnal raw files list...");
-		const rawListName = `${OutDir}raw_list.txt`;
-		let rawFileList = "";
-		for (let i = 0; i < RawFiles.length; i++)
-		{
-			let raw = RawFiles[i];
-			if (raw.offset !== undefined)
-				rawFileList += `${raw.offset}: ${raw.file}\n`;
-			else if (raw.page !== undefined)
-				rawFileList += `${raw.page * 16 * 1024}: ${raw.file}\n`;
-			else if (raw.segment !== undefined)
-				rawFileList += `${raw.segment * SegSize}: ${raw.file}\n`;
-			else
-			{
-				util.print(`Invalid entry in RawFiles table!`, PrintError);
-				process.exit(1);
-			}		
-		}
-		util.print("----------------------------------------", PrintDetail);
-		util.print(rawFileList, PrintDetail);
-		util.print("----------------------------------------", PrintDetail);
-		fs.writeFileSync(`${rawListName}`, rawFileList);
-		hexBinParam += ` -rl ${rawListName}`;
+		let raw = RawFiles[i];
+		if(raw.offset !== undefined)
+			H2BParam += ` -r ${raw.offset} ${raw.file}`;
+		else if(raw.page !== undefined)
+			H2BParam += ` -r ${raw.page * 16 * 1024} ${raw.file}`;
+		else if(raw.segment !== undefined)
+			H2BParam += ` -r ${raw.segment * SegSize} ${raw.file}`;
 	}
 
-	// Execute hex-to-bin program
-	let err = util.execSync(`${Hex2Bin} ${hexBinParam}`);
-	if (err)
+	let err = util.execSync(`${Hex2Bin} ${H2BParam}`);
+	if(err)
 	{
 		util.print(`Package error! Code: ${err}`, PrintError);
 		process.exit(1);

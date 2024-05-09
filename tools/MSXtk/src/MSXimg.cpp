@@ -62,18 +62,6 @@ bool FileExists(const std::string& filename)
 //}
 
 //-----------------------------------------------------------------------------
-// 
-i32 GetValue(std::string name)
-{
-	// Hexadecimal
-	if ((name[0] == '0') && (name[1] == 'x'))
-		return strtol(name.c_str(), NULL, 16);
-
-	// Decimal
-	return atol(name.c_str());
-}
-
-//-----------------------------------------------------------------------------
 // Main
 //-----------------------------------------------------------------------------
 
@@ -148,17 +136,6 @@ void PrintHelp()
 	printf("    cluster6      Ordered clustered dot dithering (order 3 - 6x6 matrix)\n");
 	printf("    cluster8      Ordered clustered dot dithering (order 4 - 8x8 matrix)\n");
 	printf("    cluster16     Ordered clustered dot dithering (order 8 - 16x16 matrix)\n");
-	printf(" -scale x y ?     Upscale or downscale the image before processing\n");
-	printf("    box           Box, pulse, Fourier window, 1st order(constant) B - Spline\n");
-	printf("    bilinear      Bilinear filter\n");
-	printf("    bspline       4th order(cubic) B - Spline\n");
-	printf("    bicubic       Mitchell and Netravali's two-param cubic filter\n");
-	printf("    catmull       Catmull - Rom spline, Overhauser spline\n");
-	printf("    lanczos       Lanczos - windowed sinc filter\n");
-	printf(" -flip ?          Flip the image before processing\n");
-	printf("    h             Flip the image horizontally along the vertical axis\n");
-	printf("    v             Flip the image vertically along the horizontal axis\n");
-	printf(" -rot a           Rotate image before processing (e.g. –90, 90, 180, 270)\n");
 	printf(" -data ?          Text format for numbers\n");
 	printf("    dec           Decimal data (c & asm)\n");
 	printf("    hexa          Default hexadecimal data (depend on langage; default)\n");
@@ -279,23 +256,23 @@ int main(int argc, const char* argv[])
 		}
 		else if(MSX::StrEqual(argv[i], "-pos")) // Extract start position
 		{
-			param.posX = GetValue(argv[++i]);
-			param.posY = GetValue(argv[++i]);
+			param.posX = atoi(argv[++i]);
+			param.posY = atoi(argv[++i]);
 		}
 		else if(MSX::StrEqual(argv[i], "-size")) // Block size
 		{
-			param.sizeX = GetValue(argv[++i]);
-			param.sizeY = GetValue(argv[++i]);
+			param.sizeX = atoi(argv[++i]);
+			param.sizeY = atoi(argv[++i]);
 		}
 		else if (MSX::StrEqual(argv[i], "-gap")) // Gap between blocks
 		{
-			param.gapX = GetValue(argv[++i]);
-			param.gapY = GetValue(argv[++i]);
+			param.gapX = atoi(argv[++i]);
+			param.gapY = atoi(argv[++i]);
 		}		
 		else if(MSX::StrEqual(argv[i], "-num")) // Column/rows blocks count
 		{
-			param.numX = GetValue(argv[++i]);
-			param.numY = GetValue(argv[++i]);
+			param.numX = atoi(argv[++i]);
+			param.numY = atoi(argv[++i]);
 		}
 		else if (MSX::StrEqual(argv[i], "-name")) // Data table name
 		{
@@ -303,7 +280,7 @@ int main(int argc, const char* argv[])
 		}
 		else if(MSX::StrEqual(argv[i], "-bpc")) // Byte per color
 		{
-			param.bpc = GetValue(argv[++i]);
+			param.bpc = atoi(argv[++i]);
 		}
 		else if(MSX::StrEqual(argv[i], "-trans")) // Use transparency color
 		{
@@ -325,11 +302,11 @@ int main(int argc, const char* argv[])
 		}
 		else if (MSX::StrEqual(argv[i], "--palcount") || MSX::StrEqual(argv[i], "-palcount")) // Palette count
 		{
-			param.palCount = GetValue(argv[++i]);
+			param.palCount = atoi(argv[++i]);
 		}		
 		else if (MSX::StrEqual(argv[i], "--paloff") || MSX::StrEqual(argv[i], "-paloff")) // Palette offset
 		{
-			param.palOffset = GetValue(argv[++i]);
+			param.palOffset = atoi(argv[++i]);
 		}
 		else if (MSX::StrEqual(argv[i], "--pal24") || MSX::StrEqual(argv[i], "-pal24")) // Palette 24b
 		{
@@ -386,38 +363,6 @@ int main(int argc, const char* argv[])
 				param.dither = DITHER_Cluster8;
 			else if (MSX::StrEqual(argv[i], "cluster16"))
 				param.dither = DITHER_Cluster16;
-		}
-		else if (MSX::StrEqual(argv[i], "-scale")) // Upscale or downscale the image before processing
-		{
-			param.scaleX = GetValue(argv[++i]);
-			param.scaleY = GetValue(argv[++i]);
-			i++;
-			if (MSX::StrEqual(argv[i], "none"))
-				param.scaleFilter = FILTER_None;
-			else if (MSX::StrEqual(argv[i], "box"))
-				param.scaleFilter = FILTER_Box;
-			else if (MSX::StrEqual(argv[i], "bilinear"))
-				param.scaleFilter = FILTER_Bilinear;
-			else if (MSX::StrEqual(argv[i], "bspline"))
-				param.scaleFilter = FILTER_BSpline;
-			else if (MSX::StrEqual(argv[i], "bicubic"))
-				param.scaleFilter = FILTER_Bicubic;
-			else if (MSX::StrEqual(argv[i], "catmull"))
-				param.scaleFilter = FILTER_Catmull;
-			else if (MSX::StrEqual(argv[i], "lanczos"))
-				param.scaleFilter = FILTER_Lanczos;
-		}
-		else if (MSX::StrEqual(argv[i], "-flip")) // Flip the image before processing
-		{
-			i++;
-			if (MSX::StrEqual(argv[i], "h"))
-				param.flipH = true;
-			else if (MSX::StrEqual(argv[i], "v"))
-				param.flipV = true;
-		}
-		else if (MSX::StrEqual(argv[i], "-rot")) // Rotate image before processing
-		{
-			param.rotAngle = (f32)GetValue(argv[++i]);
 		}
 		else if(MSX::StrEqual(argv[i], "-data")) // Text data format
 		{
@@ -498,8 +443,8 @@ int main(int argc, const char* argv[])
 		else if (MSX::StrEqual(argv[i], "-font")) // Add font data header
 		{
 			param.bAddFont = true;
-			param.fontX = GetValue(argv[++i]);
-			param.fontY = GetValue(argv[++i]);
+			param.fontX = atoi(argv[++i]);
+			param.fontY = atoi(argv[++i]);
 			i++;
 			if(strlen(argv[i]) > 1) // is hexadecimal? (in '0xFF' format)
 				param.fontFirst = (c8)strtol(argv[i], NULL, 16);
@@ -523,7 +468,7 @@ int main(int argc, const char* argv[])
 		}
 		else if (MSX::StrEqual(argv[i], "-offset")) // Offset
 		{
-			param.offset = GetValue(argv[++i]);
+			param.offset = atoi(argv[++i]);
 		}
 		else if (MSX::StrEqual(argv[i], "-notitle")) // Remove title
 		{
@@ -553,10 +498,10 @@ int main(int argc, const char* argv[])
 				l.size16 = true;
 				l.include = false;
 			}
-			l.posX = GetValue(argv[++i]);
-			l.posY = GetValue(argv[++i]);
-			l.numX = GetValue(argv[++i]);
-			l.numY = GetValue(argv[++i]);
+			l.posX = atoi(argv[++i]);
+			l.posY = atoi(argv[++i]);
+			l.numX = atoi(argv[++i]);
+			l.numY = atoi(argv[++i]);
 			while((i < argc - 1) && (argv[i+1][0] != '-'))
 			{
 				u32 c24;

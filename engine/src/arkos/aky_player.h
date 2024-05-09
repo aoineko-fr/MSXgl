@@ -26,6 +26,10 @@
 //   num	- Music number
 void AKY_Init(const void* data, u8 num);
 
+// Function: AKY_Stop
+// Stop music playback
+// void AKY_Stop();
+
 // Function: AKY_Decode
 // Decode a music frame and update the PSG
 bool AKY_Decode();
