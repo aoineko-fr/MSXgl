@@ -22,12 +22,13 @@
 //*****************************************************************************
 
 //-- Path to the emulator to launch the project (string)
-// Emulator = `${ToolsDir}openMSX/openmsx`;
-// Emulator = `${ToolsDir}Emulicious/Emulicious`;
-// Emulator = `${ToolsDir}BlueMSX/blueMSX`;
-// Emulator = `${ToolsDir}MEISEI/meisei`;
-// Emulator = `${ToolsDir}fMSX/fMSX`;
-// Emulator = `${ToolsDir}RuMSX/MSX`;
+// Emulator  = `${ToolsDir}openMSX/openmsx`;
+// Emulator  = `${ToolsDir}Emulicious/Emulicious`;
+// Emulator  = `${ToolsDir}fMSX/fMSX`;
+// Emulator  = `${ToolsDir}MSXEC\\MSXEC`;
+// Emulator  = `${ToolsDir}BlueMSX/blueMSX`;
+// Emulator  = `${ToolsDir}MEISEI/meisei`;
+// Emulator  = `${ToolsDir}RuMSX/MSX`;
 
 //*****************************************************************************
 // PROJECT SETTINGS

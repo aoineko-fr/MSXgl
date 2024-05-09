@@ -28,15 +28,25 @@ enum PaletteType
 enum DitheringMethod
 {
 	DITHER_None      = -1,
-	DITHER_Floyd     = FID_FS,     // Floyd & Steinberg error diffusion algorithm
-	DITHER_Bayer4    = FID_BAYER4x4,    // Bayer ordered dispersed dot dithering(order 2 – 4x4 - dithering matrix)
-	DITHER_Bayer8    = FID_BAYER8x8,    // Bayer ordered dispersed dot dithering(order 3 – 8x8 - dithering matrix)
+	DITHER_Floyd     = FID_FS,           // Floyd & Steinberg error diffusion algorithm
+	DITHER_Bayer4    = FID_BAYER4x4,     // Bayer ordered dispersed dot dithering(order 2 – 4x4 - dithering matrix)
+	DITHER_Bayer8    = FID_BAYER8x8,     // Bayer ordered dispersed dot dithering(order 3 – 8x8 - dithering matrix)
 	DITHER_Bayer16   = FID_BAYER16x16,   // Bayer ordered dispersed dot dithering(order 4 – 16x16 dithering matrix)
-	DITHER_Cluster6  = FID_CLUSTER6x6,  // Ordered clustered dot dithering(order 3 - 6x6 matrix)
-	DITHER_Cluster8  = FID_CLUSTER8x8,  // Ordered clustered dot dithering(order 4 - 8x8 matrix)
+	DITHER_Cluster6  = FID_CLUSTER6x6,   // Ordered clustered dot dithering(order 3 - 6x6 matrix)
+	DITHER_Cluster8  = FID_CLUSTER8x8,   // Ordered clustered dot dithering(order 4 - 8x8 matrix)
 	DITHER_Cluster16 = FID_CLUSTER16x16, // Ordered clustered dot dithering(order 8 - 16x16 matrix)
 };
 
+enum FilterMethod
+{
+	FILTER_None     = -1,
+	FILTER_Box      = FILTER_BOX,        // Box, pulse, Fourier window, 1st order (constant) B-Spline
+	FILTER_Bilinear = FILTER_BILINEAR,   // Bilinear filter
+	FILTER_BSpline  = FILTER_BSPLINE,    // 4th order(cubic) B - Spline
+	FILTER_Bicubic  = FILTER_BICUBIC,    // Mitchell and Netravali's two-param cubic filter
+	FILTER_Catmull  = FILTER_CATMULLROM, // Catmull - Rom spline, Overhauser spline
+	FILTER_Lanczos  = FILTER_LANCZOS3,   // Lanczos - windowed sinc filter
+};
 
 // color types
 

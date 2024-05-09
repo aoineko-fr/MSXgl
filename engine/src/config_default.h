@@ -241,6 +241,12 @@
 	#define MEM_USE_DYNAMIC			FALSE
 #endif
 
+// MEM_USE_BUILTIN
+#ifndef MEM_USE_BUILTIN
+	#warning MEM_USE_BUILTIN is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define MEM_USE_BUILTIN			FALSE
+#endif
+
 //-----------------------------------------------------------------------------
 // CLOCK MODULE
 //-----------------------------------------------------------------------------
@@ -496,6 +502,6 @@
 // PROFILE_LEVEL
 #if !defined(PROFILE_LEVEL)
 	#warning PROFILE_LEVEL is not defined in "msxgl_config.h"! Default value will be used: 10
-	#define PROFILE_LEVEL				10
+	#define PROFILE_LEVEL					10
 #endif
 

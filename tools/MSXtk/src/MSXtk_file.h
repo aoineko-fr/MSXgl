@@ -39,6 +39,19 @@ class File
 public:
 
 	//----------------------------------------------------------------------------
+	/// Check of file exists
+	static bool Exists(const std::string& filename)
+	{
+		FILE* file = fopen(filename.c_str(), "rb");
+		if (file == nullptr)
+		{
+			return false;
+		}
+		fclose(file);
+		return true;
+	}
+
+	//----------------------------------------------------------------------------
 	/// Read binary file
 	static bool Load(FileData& file)
 	{

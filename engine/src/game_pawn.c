@@ -61,10 +61,15 @@ void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNu
 		#if (GAMEPAWN_ID_PER_LAYER)
 		u8 sprtIdx = g_Sprite->SpriteID;
 		#endif
+
+		u8 color = g_Sprite->Color;
+		if((g_Sprite->Flag & PAWN_SPRITE_OR) != 0)
+			color |= VDP_SPRITE_CC;
+
 		#if ((MSX_VERSION & MSX_1) || GAMEPAWN_FORCE_SM1)
-		VDP_SetSpriteColorSM1(sprtIdx, g_Sprite->Color);
+		VDP_SetSpriteColorSM1(sprtIdx, color);
 		#else
-		VDP_SetSpriteUniColor(sprtIdx, g_Sprite->Color);
+		VDP_SetSpriteUniColor(sprtIdx, color);
 		#endif
 
 		#if !(GAMEPAWN_ID_PER_LAYER)

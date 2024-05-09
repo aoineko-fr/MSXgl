@@ -141,7 +141,7 @@ if (EmulatorName === "OPENMSX") {
 
 	//---- Start emulator ----
 	EmulatorArgs += " -ext debugdevice";
-	// EmulatorArgs += ` -script ${ToolsDir}script/openMSX/XXXX.tcl`;
+	// EmulatorArgs += ` -script ${ToolsDir}script/openMSX/debugger_pvm.tcl`;
 	if (EmulDebug) {
 		if (fs.existsSync(Debugger) || ( (process.platform === "win32") && fs.existsSync(`${Debugger}.exe`)))
 			util.execSync(`start /b ${Debugger}`);
@@ -233,6 +233,7 @@ else if (EmulatorName === "FMSX") {
 	}
 	if (EmulFullScreen) { util.print("EmulFullScreen can't be use with fMSX", PrintWarning); }
 	if (EmulMute)       { EmulatorArgs += " -nosound"; }
+	if (EmulTurbo)		{ util.print("EmulTurbo can't be use with fMSX", PrintWarning); }
 
 	//---- Emulator conenctors ----
 	if      (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -joy 1'; }
@@ -252,6 +253,74 @@ else if (EmulatorName === "FMSX") {
 	}
 	if (Ext === "rom") { EmulatorArgs += ` ${ProjDir}/emul/rom/${ProjName}.rom` }
 	if (Ext === "com") { EmulatorArgs += ` -diska ${ProjDir}/emul/dsk/${ProjName}.dsk` }
+}
+
+//*****************************************************************************
+// MSXEC
+//*****************************************************************************
+// Doc: http://cngsoft.no-ip.org/cpcec.htm
+else if (EmulatorName === "MSXEC") {
+
+	//---- Add launch options ----
+	// 0: Generic 8K
+	// 1: Generic 16K
+	// 2: Konami SCC
+	// 3: Konami 8K (no SRAM at all)
+	// 4: ASCII 8K (no SRAM at all)
+	// 5: ASCII 16K (no SRAM at all)
+	// 6: Konami 8K + SRAM (16K SRAM set by BIT 4 and selected by BIT 5)
+	// 7: ASCII 8K + SRAM / KOEI SRAM (8/16/32K SRAM set by BIT 5/6/7)
+	// 8: ASCII 16K + SRAM (2/8K SRAM set by BIT 4)
+	// 9: Miscellaneous
+	switch(TargetType)
+	{
+	case "ROM_ASCII8":		EmulatorArgs += " -g4"; break;
+	case "ROM_ASCII16":		EmulatorArgs += " -g5"; break;
+	case "ROM_KONAMI":		EmulatorArgs += " -g3"; break;
+	case "ROM_KONAMI_SCC":	EmulatorArgs += " -g2"; break;
+	case "ROM_NEO8":
+	case "ROM_NEO16":
+		util.print("NEO mapper formats not supported by MSXEC", PrintError);
+		process.exit(520);
+	default:
+		// EmulatorArgs += " -g1";
+	}
+
+	if (EmulMachine) {
+		if ((Machine === "1") || (Machine === "12") || (Machine === "122P")) {
+			EmulatorArgs += " -m0";
+		} else if ((Machine === "2") || (Machine === "2K") || (Machine === "22P")) {
+			EmulatorArgs += " -m1";
+		} else if (Machine === "2P") {
+			EmulatorArgs += " -m2";
+		} else if (Machine === "TR") {
+			util.print("EmulMachine MSX turbo R can't be use with MSXEC", PrintError);
+			process.exit(530);
+		}
+	}
+	if (Emul60Hz)       { util.print("Emul60Hz can't be use with MSXEC", PrintWarning); }
+	if (EmulFullScreen) { EmulatorArgs += " -W"; }
+	if (EmulMute)       { EmulatorArgs += " -S"; }
+	if (EmulTurbo)		{ util.print("EmulTurbo can't be use with MSXEC", PrintWarning); }
+
+	//---- Emulator conenctors ----
+	// if      (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -joy 1'; }
+	// else if (EmulPortA === "MOUSE")    { EmulatorArgs += ' -joy 3'; }
+	// else                               { EmulatorArgs += ' -joy 0'; }
+	// if      (EmulPortB === "JOYSTICK") { EmulatorArgs += ' -joy 1'; }
+	// else if (EmulPortB === "MOUSE")    { EmulatorArgs += ' -joy 3'; }
+	// else                               { EmulatorArgs += ' -joy 0'; }
+
+	//---- Add launch program ----
+	if (Ext === "bin")
+	{
+		if (Target === "BIN_TAPE")
+			EmulatorArgs += ` ${ProjDir}emul/cas/${ProjName}.cas"`;
+		else
+			EmulatorArgs += ` ${ProjDir}/emul/dsk/${ProjName}.dsk`;
+	}
+	if (Ext === "rom") { EmulatorArgs += ` ${ProjDir}/emul/rom/${ProjName}.rom` }
+	if (Ext === "com") { EmulatorArgs += ` ${ProjDir}/emul/dsk/${ProjName}.dsk` }
 }
 
 //*****************************************************************************
@@ -292,6 +361,7 @@ else if (EmulatorName === "BLUEMSX") {
 	}
 	if (EmulFullScreen) { EmulatorArgs += " /fullscreen"; }
 	if (EmulMute)       { util.print("EmulMute can't be use with BlueMSX", PrintWarning); }
+	if (EmulTurbo)		{ util.print("EmulTurbo can't be use with BlueMSX", PrintWarning); }
 
 	//---- Add launch program ----
 	if (Ext === "bin")
@@ -314,13 +384,14 @@ else if (EmulatorName === "MEISEI") {
 	if (Emul60Hz)       { util.print("Emul60Hz can't be use with Mesei", PrintWarning); }
 	if (EmulFullScreen) { util.print("EmulFullScreen can't be use with Mesei", PrintWarning); }
 	if (EmulMute)       { util.print("EmulMute can't be use with Mesei", PrintWarning); }
+	if (EmulTurbo)		{ util.print("EmulTurbo can't be use with Mesei", PrintWarning); }
 
 	//---- Add launch program ----
 	if (Ext === "rom") { 
 		EmulatorArgs += ` ${ProjDir}/emul/rom/${ProjName}.rom`;
 	} else {
 		util.print("Mesei only support ROM format", PrintError);
-		process.exit(520);
+		process.exit(540);
 	}
 }
 
@@ -334,6 +405,7 @@ else if (EmulatorName === "MSX") {
 	if (Emul60Hz)       { util.print("Emul60Hz can't be use with RuMSX", PrintWarning); }
 	if (EmulFullScreen) { util.print("EmulFullScreen can't be use with RuMSX", PrintWarning); }
 	if (EmulMute)       { EmulatorArgs += " -NoSoundOut"; }
+	if (EmulTurbo)		{ util.print("EmulTurbo can't be use with RuMSX", PrintWarning); }
 
 	//---- Add launch program ----
 	if (Ext === "bin") { EmulatorArgs += ` -dirAsDisk -disk ${ProjDir}/emul/bin`; }

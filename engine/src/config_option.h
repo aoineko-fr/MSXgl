@@ -411,11 +411,12 @@
 //-----------------------------------------------------------------------------
 
 // DEBUG_TOOL
-#define DEBUG_DISABLE				0x00 // No support for debug/profile tool
-#define DEBUG_OPENMSX				0x10 // Support for openMSX default debugger (no profiler)
-#define DEBUG_OPENMSX_G				0x11 // Grauw profile script for openMSX
-#define DEBUG_OPENMSX_S				0x12 // Salutte profile script for openMSX
-#define DEBUG_OPENMSX_P				0x13 // PVM debug script for openMSX
-#define DEBUG_EMULICIOUS			0x20 // Support for Emulicious debugger/profiler
+#define DEBUG_DISABLE				0x00 // No debug or profile feature
+#define DEBUG_DEVICE				0x10 // Debug features for debugdevice device (https://aoineko.org/msxgl/index.php?title=Debug_device)
+#define DEBUG_EMULICIOUS			0x20 // Debug features for Emulicious emulator
+#define DEBUG_OPENMSX				0x30 // Debug features for openMSX using 'debugdevice' extension
+#define DEBUG_OPENMSX_P				0x31 // Debug features for openMSX using PVM script (tools/script/openMSX/debugger_pvm.tcl)
+#define DEBUG_OPENMSX_G				0x39 // Profiler features for openMSX using Grauw script (tools/script/openMSX/profiler_grauw.tcl)
+#define DEBUG_OPENMSX_S				0x3A // Profiler features for openMSX using Salutte script (tools/script/openMSX/profiler_salutte.tcl)
 
 #define DEBUG_EMULATOR(tool)		(tool & 0xF0)

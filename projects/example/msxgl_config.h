@@ -164,7 +164,8 @@
 #define MEM_USE_VALIDATOR			FALSE	// Activate validator to handle invalide input value
 #define MEM_USE_FASTCOPY			FALSE	// Add support for fast-copy function (using unrolled-LDI loop)
 #define MEM_USE_FASTSET				FALSE	// Add support for fast-set function (using unrolled-LDI loop)
-#define MEM_USE_DYNAMIC				TRUE	// Add support for malloc style dynamic allocator
+#define MEM_USE_DYNAMIC				FALSE	// Add support for malloc style dynamic allocator
+#define MEM_USE_BUILTIN				FALSE	// Use SDCC built-in memcpy and memset function instead of MSXgl ones
 
 //-----------------------------------------------------------------------------
 // MSX-DOS MODULE
@@ -560,15 +561,15 @@
 #define QRCODE_TINY_MASK 			QRCODE_MASK_0
 
 //-----------------------------------------------------------------------------
-// DEBUG
+// DEBUG & PROFILE
 //-----------------------------------------------------------------------------
 
-// Profiler method
-// - DEBUG_DISABLE ................ No profiler
-// - DEBUG_OPENMSX ................ Support for openMSX default debugger (no profiler)
-// - DEBUG_OPENMSX_G .............. Grauw profile script for openMSX
-// - DEBUG_OPENMSX_S .............. Salutte profile script for openMSX
-// - DEBUG_OPENMSX_P .............. PVM debug script for openMSX (no profiler)
-// - DEBUG_EMULICIOUS ............. Profile script for Emulicious
+// Debugger and profiler options
+// - DEBUG_DISABLE ................ No debug or profile feature
+// - DEBUG_EMULICIOUS ............. Debug features for Emulicious
+// - DEBUG_OPENMSX ................ Debug features for openMSX using 'debugdevice' extension
+// - DEBUG_OPENMSX_P .............. Debug features for openMSX using PVM script (tools/script/openMSX/debugger_pvm.tcl)
+// - DEBUG_OPENMSX_G .............. Profiler features for openMSX using Grauw script (tools/script/openMSX/profiler_grauw.tcl)
+// - DEBUG_OPENMSX_S .............. Profiler features for openMSX using Salutte script (tools/script/openMSX/profiler_salutte.tcl)
 #define DEBUG_TOOL					DEBUG_DISABLE
-#define PROFILE_LEVEL				10 
+#define PROFILE_LEVEL				10

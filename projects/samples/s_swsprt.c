@@ -83,7 +83,7 @@ const struct ScreenSetting g_Settings[] =
 	{ MSX_GL6 " SOFTWARE SPRITE SAMPLE (S8/G7)", VDP_MODE_SCREEN8, 256,	8,	0xFF, COLOR8_DARKGREEN, COLOR8_GREEN, COLOR8_LIGHTGREEN, 0x6D, 0x00, g_Font_MGL_Sample6, g_DataBmp8b, g_DataBmp8b, NULL }, // 3
 };
 
-// Character animation
+// Sign-of-life animation
 const u8 chrAnim[] = { '|', '\\', '-', '/' };
 
 //=============================================================================
