@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("mgl",["Function"],[["MGLV_Decode",,[[,,,,0,"File:mglv/mglv_player.c:MGLV_Decode"]]],["MGLV_Play",,[[,,,,0,"File:mglv/mglv_player.c:MGLV_Play"]]]]);
