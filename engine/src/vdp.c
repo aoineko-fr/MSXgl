@@ -319,7 +319,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count)
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
 		ld		a, 0(iy)				// count LSB
-		cp		a, #0
+		and		a
 		jp		z, wrt16_loop_init		// skip LSB
 		ld		b, a					// send (count & 0x00FF) bytes
 		otir
@@ -327,7 +327,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count)
 	wrt16_loop_init:
 		ld		a, 1(iy)				// count MSB
 	wrt16_loop_start:
-		cp		a, #0
+		and		a
 		jp		z, wrt16_loop_end		// finished
 		ld		b, #0					// send 256 bytes packages
 		otir
@@ -564,7 +564,7 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count)
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
 		ld		a, 0(iy)				// count LSB
-		cp		a, #0
+		and		a
 		jp		z, rd16_loop_init		// skip LSB
 		ld		b, a					// retreive (count & 0x00FF) bytes
 		inir							// 										23 cc
@@ -572,7 +572,7 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count)
 	rd16_loop_init:
 		ld		a, 1(iy)				// count MSB
 	rd16_loop_start:
-		cp		a, #0
+		and		a
 		jp		z, rd16_loop_end		// finished
 		ld		b, #0					// retreive 256 bytes packages
 		inir							// 										23 cc
@@ -1029,7 +1029,7 @@ void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count)
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
 		ld		a, 1(iy)				// count LSB
-		cp		a, #0
+		and		a
 		jp		z, wrt_loop_init		// skip LSB
 		ld		b, a					// send (count & 0x00FF) bytes
 		otir
@@ -1037,7 +1037,7 @@ void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count)
 	wrt_loop_init:
 		ld		a, 2(iy)				// count MSB
 	wrt_loop_start:
-		cp		a, #0
+		and		a
 		jp		z, wrt_loop_end			// finished
 		ld		b, #0					// send 256 bytes packages
 		otir
@@ -1150,7 +1150,7 @@ void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count)
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
 		ld		a, 3(iy)				// count LSB
-		cp		a, #0
+		and		a
 		jp		z, rd_loop_init			// skip LSB
 		ld		b, a					// retreive (count & 0x00FF) bytes
 		inir		
@@ -1158,7 +1158,7 @@ void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count)
 	rd_loop_init:
 		ld		a, 4(iy)				// count MSB
 	rd_loop_start:
-		cp		a, #0
+		and		a
 		jp		z, rd_loop_end			// finished
 		ld		b, #0					// retreive 256 bytes packages
 		inir
