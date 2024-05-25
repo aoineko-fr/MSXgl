@@ -41,6 +41,7 @@ Options:
  -pal             Palette to use for 16 colors mode
     msx1          Use default MSX1 palette
     custom        Generate a custom palette and add it to the output file
+    input n [c1 c2 ...] Use the following colors for conversion
  --palcount n     Number of color in the custom palette to create (default: 15)
  --paloff n       Index offset of the palette (default: 1)
  --pal24          Use 24-bits palette (for v9990; default: false)

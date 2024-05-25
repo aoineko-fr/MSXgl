@@ -105,6 +105,7 @@ struct ExportParameters
 	i32 palCount;				///< Number of colors in the palette
 	i32 palOffset;				///< Index offset of the palette
 	bool pal24;					///< Use 24-bits palette (v9990)
+	std::vector<u32> palInput;	///< Use 24-bits palette (v9990)
 	MSX::Compressor comp;		///< Compressor to use (@see MSX::Compressor)
 	MSX::DataFormat format;		///< Data format to use for text export (@see MSX::DataFormat)
 	MSX::AsmSyntax syntax;		///< Assember syntax (@see MSX::AsmSyntax)

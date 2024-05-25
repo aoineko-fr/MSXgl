@@ -110,6 +110,7 @@ void PrintHelp()
 	printf(" -pal             Palette to use for 16 colors mode\n");
 	printf("    msx1          Use default MSX1 palette\n");
 	printf("    custom        Generate a custom palette and add it to the output file\n");
+	printf("    input n [c1 c2 ...] Use the following colors for conversion\n");
 	printf(" --palcount n     Number of color in the custom palette to create (default: 15)\n");
 	printf(" --paloff n       Index offset of the palette (default: 1)\n");
 	printf(" --pal24          Use 24-bits palette (for v9990; default: false)\n");
@@ -231,7 +232,7 @@ int main(int argc, const char* argv[])
 
 	//-------------------------------------------------------------------------
 	// Parse parameters
-	for(i=2; i<argc; i++)
+	for(i = 2; i < argc; i++)
 	{
 		if (MSX::StrEqual(argv[i], "-help")) // Display help
 		{
@@ -301,6 +302,18 @@ int main(int argc, const char* argv[])
 				param.palType = PALETTE_MSX1;
 			else if (MSX::StrEqual(argv[i], "custom"))
 				param.palType = PALETTE_Custom;
+			else if (MSX::StrEqual(argv[i], "input"))
+			{
+				param.palType = PALETTE_Input;
+				param.palCount = atoi(argv[++i]);
+				param.palInput.clear();
+				for (i32 j = 0; j < param.palCount; j++)
+				{
+					u32 c24;
+					sscanf(argv[++i], "%i", &c24);
+					param.palInput.push_back(c24);
+				}
+			}
 		}
 		else if (MSX::StrEqual(argv[i], "--palcount") || MSX::StrEqual(argv[i], "-palcount")) // Palette count
 		{
