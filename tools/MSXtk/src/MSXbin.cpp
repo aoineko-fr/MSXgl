@@ -238,7 +238,7 @@ void EndTable(std::string& data, const std::string& name, u32 size)
 		data += "\n};\n";
 		if (g_AddSize)
 		{
-			data += StringFormat("#define %s_SIZE %i\n", MSX::ToUpper(name), size);
+			data += StringFormat("#define %s_SIZE %i\n", MSX::ToUpper(name).c_str(), size);
 		}
 		break;
 	case DATA_LANG_ASM: data += "\n"; break;
