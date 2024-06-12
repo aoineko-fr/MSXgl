@@ -15,6 +15,7 @@
 #include <string.h>
 #include <ctime>
 #include <limits>
+#include <cfloat>
 
 // MSX Tool Kit
 #include "MSXtk.h"
@@ -200,15 +201,15 @@ void PrintTable(i32 t)
 		switch (DataSize)
 		{
 		case MSX::DATASIZE_8bits:
-			x = op->Signed ? Clamp(x, _I8_MIN, _I8_MAX) : Clamp(x, 0, _UI8_MAX);
+			x = op->Signed ? Clamp(x, INT8_MIN, INT8_MAX) : Clamp(x, 0, UINT8_MAX);
 			Exporter->AddByte(0xFF & (u32)x);
 			break;
 		case MSX::DATASIZE_16bits:
-			x = op->Signed ? Clamp(x, _I16_MIN, _I16_MAX) : Clamp(x, 0, _UI16_MAX);
+			x = op->Signed ? Clamp(x, INT16_MIN, INT16_MAX) : Clamp(x, 0, UINT16_MAX);
 			Exporter->AddWord(0xFFFF & (u32)x);
 			break;
 		case MSX::DATASIZE_32bits:
-			x = op->Signed ? Clamp(x, _I32_MIN, _I32_MAX) : Clamp(x, 0, _UI32_MAX);
+			x = op->Signed ? Clamp(x, INT32_MIN, INT32_MAX) : Clamp(x, 0, UINT32_MAX);
 			Exporter->AddDouble((u32)x);
 			break;
 		}
