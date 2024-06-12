@@ -1,5 +1,6 @@
 .vs
 .vscode
+.DS_Store
 out
 test
 testcases
