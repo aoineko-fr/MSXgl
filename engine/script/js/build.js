@@ -109,7 +109,7 @@ for (let i = 0; i < CommandArgs.length; i++)
 	}
 	else
 	{
-		util.print(`Unknow command line overwrite '${arg}'`, PrintWarning);
+		util.print(`Unknown command line overwrite '${arg}'`, PrintWarning);
 	}
 }
 
@@ -121,6 +121,7 @@ AsmOptim  = AsmOptim.toUpperCase();
 Optim     = Optim.toUpperCase();
 EmulPortA = EmulPortA.toUpperCase();
 EmulPortB = EmulPortB.toUpperCase();
+RunDevice = RunDevice.toUpperCase();
 if(util.isString(CompileComplexity))
 	CompileComplexity = CompileComplexity.toUpperCase();
 
@@ -511,7 +512,7 @@ if (DoMake)
 
 		let libStr = LibList.join(" ");
 		let SDARParam = `-rc ${OutDir}msxgl.lib ${libStr}`
-		let err = util.execSync(`${MakeLib} ${SDARParam}`);
+		let err = util.execSync(`"${MakeLib}" ${SDARParam}`);
 		if(err)
 		{
 			util.print(`Lib generation error! Code: ${err}`, PrintError);
@@ -532,7 +533,7 @@ if (DoMake)
 
 		let mapStr = MapList.join(" ");
 		let SDARParam = `-rc ${OutDir}mapper.lib ${mapStr}`
-		let err = util.execSync(`${MakeLib} ${SDARParam}`);
+		let err = util.execSync(`"${MakeLib}" ${SDARParam}`);
 		if(err)
 		{
 			util.print(`Lib generation error! Code: ${err}`, PrintError);
@@ -545,7 +546,7 @@ if (DoMake)
 	// Link Program
 	//=========================================================================
 	util.print(`Link ${ProjName} project using SDCC...`, PrintHighlight);
-	util.execSync(`${Linker} --version`); // display SDCC version
+	util.execSync(`"${Linker}" --version`); // display SDCC version
 
 	if (Optim === "SPEED") LinkOpt += " --opt-code-speed";
 	if (Optim === "SIZE")  LinkOpt += " --opt-code-size";
@@ -555,7 +556,7 @@ if (DoMake)
 		mapLibStr = `${OutDir}mapper.lib`;
 
 	let SDCCParam = `-mz80 --vc --no-std-crt0 -L${ToolsDir}sdcc/lib/z80 --code-loc 0x${util.getHex(CodeAddr)} --data-loc 0x${util.getHex(RamAddr)} ${LinkOpt} ${MapperBanks} ${OutDir}${Crt0}.rel ${OutDir}msxgl.lib ${mapLibStr} ${RelList.join(" ")} -o ${OutDir}${ProjName}.ihx`;
-	let err = util.execSync(`${Linker} ${SDCCParam}`);
+	let err = util.execSync(`"${Linker}" ${SDCCParam}`);
 	if(err)
 	{
 		util.print(`Link error! Code: ${err}`, PrintError);
@@ -605,7 +606,7 @@ if (DoPackage)
 			H2BParam += ` -r ${raw.segment * SegSize} ${raw.file}`;
 	}
 
-	let err = util.execSync(`${Hex2Bin} ${H2BParam}`);
+	let err = util.execSync(`"${Hex2Bin}" ${H2BParam}`);
 	if(err)
 	{
 		util.print(`Package error! Code: ${err}`, PrintError);
@@ -758,7 +759,7 @@ if (DoDeploy)
 				util.createCAS(`${ProjDir}emul/bin/${ProjName}.${Ext}`, `${ProjDir}emul/cas/${ProjName}.cas`);
 			}
 			//---- Generate DSK file ----
-			else (fs.existsSync(DskTool))
+			else if (fs.existsSync(DskTool))
 			{
 				util.print("Generating DSK file...", PrintHighlight);
 
@@ -773,7 +774,7 @@ if (DoDeploy)
 				util.print("-- Generate .DSK file");
 				let curDir = process.cwd();
 				process.chdir(DskToolPath);
-				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos1 --verbose --size=${DiskSize} ` + filesList.join(" "));
+				let err = util.execSync(`"${DskToolName}" -cf temp.dsk --dos1 --verbose --size=${DiskSize} ` + filesList.join(" "));
 				if(err)
 				{
 					util.print(`DSK generation error! Code: ${err}`, PrintError);
@@ -861,7 +862,7 @@ if (DoDeploy)
 				util.print("-- Generate .DSK file");
 				let curDir = process.cwd();
 				process.chdir(DskToolPath);
-				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos${DOS} --verbose --size=${DiskSize} ` + filesList.join(" "));
+				let err = util.execSync(`"${DskToolName}" -cf temp.dsk --dos${DOS} --verbose --size=${DiskSize} ` + filesList.join(" "));
 				if(err)
 				{
 					util.print(`DSK generation error! Code: ${err}`, PrintError);
@@ -908,7 +909,7 @@ if (DoDeploy)
 				util.print("-- Generate .DSK file");
 				let curDir = process.cwd();
 				process.chdir(DskToolPath);
-				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos0 --verbose --size=${DiskSize} ` + filesList.join(" "));
+				let err = util.execSync(`"${DskToolName}" -cf temp.dsk --dos0 --verbose --size=${DiskSize} ` + filesList.join(" "));
 				if(err)
 				{
 					util.print(`DSK generation error! Code: ${err}`, PrintError);
@@ -979,9 +980,38 @@ if (DoRun)
 	util.print("Launching program...", PrintHighlight);
 
 	//=============================================================================
+	// RUN DEVICE
+	//=============================================================================
+	if(RunDevice)
+	{
+		if(RunDevice === "EASY-USB")
+		{
+			if (Ext === "rom")
+			{
+				// Delete all .ROM files
+				fs.readdirSync(RunDeviceOpt).forEach(file => {
+					if(path.parse(file).ext.toUpperCase() === ".ROM")
+					{
+						util.delFile(RunDeviceOpt + file);
+					}
+				});
+
+				util.print(`Copy ${ProjName}.rom to ${RunDeviceOpt}`, PrintDetail);
+				fs.copyFileSync(`${ProjDir}/emul/rom/${ProjName}.rom`, `${RunDeviceOpt}${ProjName}.rom`);
+			}
+			else
+				util.print(`EASY-USB only support execution of ROM files`, PrintWarning);
+		}
+		else
+			util.print(`Unknown run device '${RunDevice}'`, PrintWarning);
+	}
+	//=============================================================================
 	// EMULATOR
 	//=============================================================================
-	require("./setup_emulator.js");
+	else
+	{
+		require("./setup_emulator.js");
 
-	util.exec(`${Emulator} ${EmulatorArgs}`);
+		util.exec(`"${Emulator}" ${EmulatorArgs}`);
+	}
 }

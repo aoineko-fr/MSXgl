@@ -328,6 +328,7 @@ void MoveCursor(i8 offset)
 void main()
 {
 	VDP_SetMode(VDP_MODE_SCREEN1); // Initialize screen mode 1 (G1)
+	VDP_SetColor2(COLOR_BLACK, COLOR_WHITE);
 	VDP_ClearVRAM();
 	VDP_EnableVBlank(TRUE);
 

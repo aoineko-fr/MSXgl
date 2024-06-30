@@ -1,5 +1,5 @@
 ;-----------------------------------------------------------------------------
-; WYZ file merged for MSXgl on 13/01/2024 19:09:53,78 
+; WYZ file merged for MSXgl on 25/05/2024 23:14:18,06 
 ;-----------------------------------------------------------------------------
 .module wyz_gothic 
 _gothic_Song:: .DW SONG00 
@@ -31,7 +31,7 @@ _gothic_Freq:: .DW 0,0
 ; Song data 
 SONG00: 
 ; MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-; File generated on Sat Jan 13 19:09:53 2024
+; File generated on Sat May 25 23:14:17 2024
 ; Soure file: D:\Dev\Private\MSX\MSXgl\projects\samples\datasrc\wyz\gothic.mus
 _gothic_Data::
 .db 0x01,0x31,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x3F,0x00,0x00,0xCE

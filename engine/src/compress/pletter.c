@@ -53,9 +53,6 @@
 	#define EI_LOOP		ei
 #endif
 
-#undef PLETTER_WRITE_MODE
-#define PLETTER_WRITE_MODE PLETTER_WRITE_AUTO
-
 // VRAM write timing mode
 #if (PLETTER_WRITE_MODE == PLETTER_WRITE_SAFE) // Safe VRAM write speed (29 t-states)
 	#define PLETTER_WRITE	PLETTER_WRITE_30CC
@@ -63,7 +60,7 @@
 #elif (PLETTER_WRITE_MODE == PLETTER_WRITE_NODISPLAY) // Safe VRAM write speed when screen display disable (20 t-states)
 	#define PLETTER_WRITE	PLETTER_WRITE_22CC
 
-#elif (PLETTER_WRITE_MODE == PLETTER_WRITE_MINIMAL) // No wait beetween write (12 t-states)
+#elif (PLETTER_WRITE_MODE == PLETTER_WRITE_MINIMAL) // No wait beetween write (17 t-states)
 	#define PLETTER_WRITE	PLETTER_WRITE_17CC
 
 #elif (PLETTER_WRITE_MODE == PLETTER_WRITE_QUICK) // No wait beetween write (12 t-states)
@@ -71,20 +68,14 @@
 
 #elif (PLETTER_WRITE_MODE == PLETTER_WRITE_AUTO) // Determine the worst case according to selected screen mode (12~29 t-states)
 
-	#if (MSX_VERSION >= MSX_2)
-		#if (VDP_USE_MODE_T1 || VDP_USE_MODE_T1) // 20cc limit
-			#define PLETTER_WRITE	PLETTER_WRITE_22CC
-		#else // 15cc limit
-			#define PLETTER_WRITE	PLETTER_WRITE_17CC
-		#endif
-	#else
-		#if (VDP_USE_MODE_G1 || VDP_USE_MODE_G2 || VDP_USE_MODE_MC) // 29cc limit
-			#define PLETTER_WRITE	PLETTER_WRITE_30CC
-		#elif (VDP_USE_MODE_T1 || VDP_USE_MODE_T1) // 20cc limit
-			#define PLETTER_WRITE	PLETTER_WRITE_22CC
-		#else // 15cc limit
-			#define PLETTER_WRITE	PLETTER_WRITE_17CC
-		#endif
+	#if (VDP_SAFE_ACCESS == VDP_ACCESS_29CC) // 29 CC => 30 CC
+		#define PLETTER_WRITE	PLETTER_WRITE_30CC
+	#elif (VDP_SAFE_ACCESS == VDP_ACCESS_20CC) // 20 CC => 22 CC
+		#define PLETTER_WRITE	PLETTER_WRITE_22CC
+	#elif (VDP_SAFE_ACCESS == VDP_ACCESS_15CC) // 15 CC => 17 CC
+		#define PLETTER_WRITE	PLETTER_WRITE_17CC
+	#elif (VDP_SAFE_ACCESS == VDP_ACCESS_12CC) // 12 CC => 12 CC
+		#define PLETTER_WRITE	PLETTER_WRITE_12CC
 	#endif
 
 #endif
@@ -499,7 +490,7 @@ v_offsok_loop:
 // Depacker exit
 v_Depack_out:
 	pop		ix
-	EI_LOOP
+	EI_FULL
 	ret
 
 v_modes:

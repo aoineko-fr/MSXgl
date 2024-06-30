@@ -79,7 +79,7 @@ module.exports.compile = function (file, size, seg)
 		let SDCCParam = `-c -mz80 -DTARGET=TARGET_${Target} -DMSX_VERSION=MSX_${Machine} -I${ProjDir} -I${LibDir}src -I${LibDir}content -I${ToolsDir} ${AddOpt} ${file} -o ${OutDir}`;
 
 		util.print(`Compiling ${file} using SDCC C compiler...`, PrintHighlight);
-		let err = util.execSync(`${Compiler} ${SDCCParam}`);
+		let err = util.execSync(`"${Compiler}" ${SDCCParam}`);
 		if(err)
 		{
 			util.print(`Compile error! Code: ${err}`, PrintError);
@@ -100,7 +100,7 @@ module.exports.compile = function (file, size, seg)
 
 		util.print(`Compiling ${file} using SDASZ80 ASM compiler...`, PrintHighlight);
 
-		let err = util.execSync(`${Assembler} ${ASMParam}`);
+		let err = util.execSync(`"${Assembler}" ${ASMParam}`);
 		if(err)
 		{
 			util.print(`Compile error! Code: ${err}`, PrintError);

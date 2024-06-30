@@ -17,7 +17,6 @@ const locLat = require("./localize/localize_lat.js");
 const locJap = require("./localize/localize_jap.js"); 
 const locKor = require("./localize/localize_kor.js"); 
 
-
 //-----------------------------------------------------------------------------
 // Contants
 
@@ -30,7 +29,6 @@ const lineTypeSpecial = 3;
 //-----------------------------------------------------------------------------
 // Variables
 
-var bVerbose = true;
 var bComment = true;
 
 //=============================================================================
@@ -38,30 +36,11 @@ var bComment = true;
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// 
-function log(str)
-{
-	if(bVerbose)
-		console.log(str);
-}
-
-//-----------------------------------------------------------------------------
-// Get the first non empty character (not space or tab)
-function getFirstChar(str)
-{
-	for (var i = 0; i < str.length; i++)
-		if((str[i] != ' ') && (str[i] != '\t'))
-			return str[i];
-
-	return 0;
-}
-
-//-----------------------------------------------------------------------------
 // Parse a line and return a descriptor according to line type
 function getLineType(str)
 {
 	var obj = {};
-	const chr = getFirstChar(str);
+	const chr = locUtil.getFirstChar(str);
 	if((chr == '#') || (chr == ';')) // Comment
 		return null;
 	else if(chr == '[') // Language code
@@ -99,7 +78,7 @@ function getLineType(str)
 // Parse a localisation file
 function parseLocFile(filename, locTable, langTable)
 {
-	log("Parsing " + filename + "...");
+	locUtil.log("Parsing " + filename + "...");
 
 	var lang = null;
 	const fileData = fs.readFileSync(filename, 'utf8');
@@ -111,26 +90,31 @@ function parseLocFile(filename, locTable, langTable)
 		{
 			switch(obj.type)
 			{
+				// Start a new language section
 				case lineTypeSection:
 					if(obj.value != lang)
 					{
 						lang = obj.value;
 					}
+					locUtil.resetSpecial(); // Reset language parameters
 					break;
 
+				// Special character entry
 				case lineTypeSpecial:
 					if(langTable[lang] == null)
 						langTable[lang] = {};
 					
 					langTable[lang][obj.key] = obj.value;
+					locUtil.handleSpecial(obj.key, obj.value);
 					break;
 
+				// Localization entry
 				case lineTypeText:
 					if(locTable[lang] == null)
 						locTable[lang] = [];
 
 					if(locTable[lang][obj.key] != null)
-						log(`Warning: Text ID '${obj.key}' already defined for language '${lang}'`);
+						locUtil.log(`Warning: Text ID '${obj.key}' already defined for language '${lang}'`);
 					else
 					{
 						switch(lang)
@@ -228,8 +212,11 @@ module.exports.generate = function (inputFiles, outFilename, structName, verbose
 	var langTable = [];
 	for(var i = 0; i < inputFiles.length; i++)
 		parseLocFile(inputFiles[i], locTable, langTable);
-	// log(locTable);
-	// log(langTable);
+
+	// locUtil.log("locTable:");
+	// locUtil.log(locTable);
+	// locUtil.log("langTable:");
+	// locUtil.log(langTable);
 
 	//-----------------------------------------------------------------------------
 	// Analyze localisation data
@@ -244,8 +231,11 @@ module.exports.generate = function (inputFiles, outFilename, structName, verbose
 			if(!textIDs.includes(textKeys[j]))
 				textIDs.push(textKeys[j]);
 	}
-	// log(langIDs);
-	// log(textIDs);
+
+	// locUtil.log("langIDs:");
+	// locUtil.log(langIDs);
+	// locUtil.log("textIDs:");
+	// locUtil.log(textIDs);
 
 	//-----------------------------------------------------------------------------
 	// Generate header file
@@ -275,7 +265,7 @@ module.exports.generate = function (inputFiles, outFilename, structName, verbose
 			if(locTable[langKeys[i]][textIDs[j]] == null)
 			{
 				headContent += `\t\tNULL,`;
-				log(`Warning: Text ID '${textIDs[j]}' not defined for language '${langKeys[i]}'`);
+				locUtil.log(`Warning: Text ID '${textIDs[j]}' not defined for language '${langKeys[i]}'`);
 			}
 			else
 				headContent += `\t\t"${locTable[langKeys[i]][textIDs[j]]}",`;
@@ -288,6 +278,8 @@ module.exports.generate = function (inputFiles, outFilename, structName, verbose
 
 	headContent += `};`;
 
-	// log(headContent);
+	// locUtil.log("headContent:");
+	// locUtil.log(headContent);
+
 	fs.writeFileSync(outFilename, headContent);
 }

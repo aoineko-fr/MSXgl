@@ -31,14 +31,15 @@ OutDir = `${ProjDir}out/`;
 // TOOLS SETTINGS
 //*****************************************************************************
 
-Compiler  = `${ToolsDir}sdcc/bin/sdcc`;				//-- Path to the C compile program (string)
-Assembler = `${ToolsDir}sdcc/bin/sdasz80`;			//-- Path to the assembler program (string)
-Linker    = `${ToolsDir}sdcc/bin/sdcc`;				//-- Path to the linker program (string)
-MakeLib   = `${ToolsDir}sdcc/bin/sdar`;				//-- Path to the program to generate lib file (string)
-Hex2Bin   = `${ToolsDir}MSXtk/bin/MSXhex`;			//-- Path to IHX to binary convertor (string)
-MSXDOS    = `${ToolsDir}build/DOS/`;				//-- Path to the MSX-DOS files (string)
-DskTool   = `${ToolsDir}build/msxtar/msxtar`;		//-- Path to the tool to generate DSK file (string)
-Emulator  = "";										//-- Path to the emulator to launch the project (string)
+const sdccPath  = `${ToolsDir}sdcc/bin`;
+Compiler  = `${sdccPath}/sdcc`;					//-- Path to the C compile program (string)
+Assembler = `${sdccPath}/sdasz80`;				//-- Path to the assembler program (string)
+Linker    = `${sdccPath}/sdcc`;					//-- Path to the linker program (string)
+MakeLib   = `${sdccPath}/sdar`;					//-- Path to the program to generate lib file (string)
+Hex2Bin   = `${ToolsDir}MSXtk/bin/MSXhex`;		//-- Path to IHX to binary convertor (string)
+MSXDOS    = `${ToolsDir}build/DOS/`;			//-- Path to the MSX-DOS files (string)
+DskTool   = `${ToolsDir}build/msxtar/msxtar`;	//-- Path to the tool to generate DSK file (string)
+Emulator  = "";									//-- Path to the emulator to launch the project (string)
 // Emulator  = `${ToolsDir}openMSX/openmsx`;
 // Emulator  = `${ToolsDir}Emulicious/Emulicious`;
 // Emulator  = `${ToolsDir}fMSX/fMSX`;
@@ -46,9 +47,6 @@ Emulator  = "";										//-- Path to the emulator to launch the project (string
 // Emulator  = `${ToolsDir}BlueMSX/blueMSX`;
 // Emulator  = `${ToolsDir}MEISEI/meisei`;
 // Emulator  = `${ToolsDir}RuMSX/MSX`;
-Debugger  = "";										//-- Path to the debugger to test the project (string)
-// Debugger  = `${ToolsDir}openMSX/Debugger/openmsx-debugger`;
-
 
 //*****************************************************************************
 // PROJECT SETTINGS
@@ -285,3 +283,12 @@ EmulPortA = "";
 
 //-- Plug a virtual device into the joystick port B (string)
 EmulPortB = "";
+
+//-------------------------------------------------------------------------------
+// Run device
+
+//-- Run device like Easy-USB (string)
+RunDevice = "";
+
+//-- Run device option (string)
+RunDeviceOpt = "";

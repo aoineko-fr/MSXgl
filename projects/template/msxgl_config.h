@@ -165,7 +165,7 @@
 #define MEM_USE_FASTCOPY			FALSE	// Add support for fast-copy function (using unrolled-LDI loop)
 #define MEM_USE_FASTSET				FALSE	// Add support for fast-set function (using unrolled-LDI loop)
 #define MEM_USE_DYNAMIC				FALSE	// Add support for malloc style dynamic allocator
-#define MEM_USE_BUILTIN				FALSE	// Use SDCC built-in memcpy and memset function instead of MSXgl ones
+#define MEM_USE_BUILTIN				TRUE	// Use SDCC built-in memcpy and memset function instead of MSXgl ones
 
 //-----------------------------------------------------------------------------
 // MSX-DOS MODULE

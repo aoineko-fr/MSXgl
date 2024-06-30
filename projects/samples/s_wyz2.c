@@ -197,6 +197,7 @@ void main()
 {
 	// Initialize screen
 	VDP_SetMode(VDP_MODE_SCREEN1);
+	VDP_SetColor2(COLOR_BLACK, COLOR_WHITE);
 	VDP_ClearVRAM();
 	VDP_EnableVBlank(TRUE);
 

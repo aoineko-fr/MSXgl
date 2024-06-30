@@ -4,18 +4,18 @@ setlocal EnableDelayedExpansion
 :: Audio
 set BuildArkos=0
 set BuildTrilo=0
-set BuildWYZ=1
+set BuildWYZ=0
 set BuildayFX=0
 set BuildVGM=0
 set BuildlVGM=0
 set BuildPCMEnc=0
 set BuildPCMPlay=0
 :: Image
-set BuildBitmap=0
+set BuildBitmap=1
 set BuildImage=0
 set BuildCompress=0
 set BuildTile=0
-set BuildV9990=0
+set BuildV9990=1
 :: Misc
 set BuildZip=0
 
@@ -171,6 +171,7 @@ if %BuildBitmap%==1 (
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format c -out %Dest%\img\data_sc5_msx1.h  -pal msx1
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format c -out %Dest%\img\data_sc5_cust.h  -pal custom
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format c -out %Dest%\img\data_sc5_pal24.h -pal custom --pal24
+	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format c -out %Dest%\img\data_sc5_input.h -pal input 8 0x000000 0x222222 0x444444 0x666666 0x888888 0xAAAAAA 0xCCCCCC 0xEEEEEE
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 8 --bload -format c -out %Dest%\img\data_sc8.h
 
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format bin -out %Dest%\img\data_msx1.sc5  -pal msx1

@@ -157,6 +157,9 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 // DEFINES
 //-----------------------------------------------------------------------------
 
+//.............................................................................
+// Unit defines
+
 #if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_14)
 	#define VADDR				u16
 	#define VADDR_LO(a)			(a)
@@ -195,6 +198,27 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 	#define USY					i8
 #endif
 
+//.............................................................................
+// Define faster safe VRAM access according to selected screen mode and MSX generation 
+
+#define VDP_ACCESS_12CC			12
+#define VDP_ACCESS_15CC			15
+#define VDP_ACCESS_20CC			20
+#define VDP_ACCESS_29CC			29
+
+#if ((MSX_VERSION & MSX_1) && (VDP_USE_MODE_G1 || VDP_USE_MODE_G2 || VDP_USE_MODE_MC)) // MSX1 (G1, G2, MC): 29cc limit
+	#define VDP_SAFE_ACCESS		VDP_ACCESS_29CC
+#elif ((MSX_VERSION > MSX_1) && (VDP_USE_MODE_T1 || VDP_USE_MODE_T2)) // MSX2/2+/tR (T1, T2): 20cc limit
+	#define VDP_SAFE_ACCESS		VDP_ACCESS_20CC
+#elif (MSX_VERSION > MSX_1) // MSX2/2+/tR (G1, G2, MC, G3, G4, G5, G6, G7): 15cc limit
+	#define VDP_SAFE_ACCESS		VDP_ACCESS_15CC
+#else // MSX1 (T1): 12cc limit
+	#define VDP_SAFE_ACCESS		VDP_ACCESS_12CC
+#endif
+
+//.............................................................................
+// Helper macros
+
 #define VRAM16b(a)				(u16)((u32)(a >> 4))
 #define VRAM17b(a)				(u16)((u32)(a >> 1))
 #define Addr20bTo16b(a)			(u16)((u32)(a >> 4))	// Convert 20-bits (V)RAM address into 16-bits with bit shifting
@@ -221,6 +245,9 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 #define F_VDP_READ				0x00 // bit 6: read/write access (0=read)
 
 #define VDP_REG(_r)				(F_VDP_REG | _r)
+
+//.............................................................................
+// Screen mode defines
 
 // Enum: VDP_MODE
 // VDP display modes
@@ -332,7 +359,7 @@ enum VDP_BLINK_TIME
 	VDP_BLINK_TIME_2500MS = VDP_BLINK_TIME_2503MS,
 };
 
-//-----------------------------------------------------------------------------
+//.............................................................................
 // Default Screen Mode tables VRAM address
 
 // Screen 0 (Width 40)

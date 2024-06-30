@@ -525,21 +525,30 @@ void DisplayMem()
 	Print_DrawFormat("- Free:    %i bytes\n", Mem_GetHeapSize());
 
 	// Static allocator
-	Print_DrawText("\nDynamic\n");
+	Print_DrawText("\nDynamic allocator\n");
+
 	Mem_DynamicInitializeHeap(1024);
 	Print_DrawFormat("- Init 1024 bytes from heap\n");
+
 	void* p1 = Mem_DynamicAlloc(100);
-	Print_DrawFormat("- Alloc 100 bytes: p1=%x (%i)\n", p1, Mem_GetDynamicSize(p1));
+	Print_DrawFormat("- Alloc 100 bytes: p1=%x (%i)\n", p1, p1 ? Mem_GetDynamicSize(p1) : 0);
+
 	void* p2 = Mem_DynamicAlloc(500);
-	Print_DrawFormat("- Alloc 500 bytes: p2=%x (%i)\n", p2, Mem_GetDynamicSize(p2));
+	Print_DrawFormat("- Alloc 500 bytes: p2=%x (%i)\n", p2, p2 ? Mem_GetDynamicSize(p2) : 0);
+
 	Mem_DynamicFree(p1);
 	Print_DrawFormat("- Free p1\n");
+
 	void* p3 = Mem_DynamicAlloc(101);
-	Print_DrawFormat("- Alloc 101 bytes: p3=%x (%i)\n", p3,Mem_GetDynamicSize(p3));
+	Print_DrawFormat("- Alloc 101 bytes: p3=%x (%i)\n", p3, p3 ? Mem_GetDynamicSize(p3) : 0);
+
 	void* p4 = Mem_DynamicAlloc(100);
-	Print_DrawFormat("- Alloc 100 bytes: p4=%x (%i)\n", p4,Mem_GetDynamicSize(p4));
+	Print_DrawFormat("- Alloc 100 bytes: p4=%x (%i)\n", p4, p4 ? Mem_GetDynamicSize(p4) : 0);
+
 	void* p5 = Mem_DynamicAlloc(500);
-	Print_DrawFormat("- Alloc 500 bytes: p5=%x (%i)\n", p5,Mem_GetDynamicSize(p5));
+	Print_DrawFormat("- Alloc 500 bytes: p5=%x (%i)\n", p5, p5 ? Mem_GetDynamicSize(p5) : 0);
+	
+	Mem_HeapFree(1024); // Release dynamic allocator heap allocation
 
 	DisplayFooter();
 }

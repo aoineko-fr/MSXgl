@@ -28,7 +28,6 @@
 // Emulator  = `${ToolsDir}BlueMSX/blueMSX`;
 // Emulator  = `${ToolsDir}MEISEI/meisei`;
 // Emulator  = `${ToolsDir}RuMSX/MSX`;
-// Debugger = `${ToolsDir}openMSX/Debugger/openmsx-debugger`;
 
 //*****************************************************************************
 // PROJECT SETTINGS

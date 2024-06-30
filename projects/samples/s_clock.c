@@ -132,13 +132,13 @@ void UpdateHour()
 
 	// Update analog watch
 	u16 idx = ((g_PrevHour + 9) * 30) % 360;
-	i16 dx = g_Cosinus360[idx] >> 8;
-	i16 dy = g_Sinus360[idx] >> 8;
+	i16 dx = ((i16)g_Cosinus360[idx]) >> 8;
+	i16 dy = ((i16)g_Sinus360[idx]) >> 8;
 	Draw_Line(ANALOG_X, ANALOG_Y, ANALOG_X + dx, ANALOG_Y + dy, 0x1, 0);
 
 	idx = ((g_Hour + 9) * 30) % 360;
-	dx = g_Cosinus360[idx] >> 8;
-	dy = g_Sinus360[idx] >> 8;
+	dx = ((i16)g_Cosinus360[idx]) >> 8;
+	dy = ((i16)g_Sinus360[idx]) >> 8;
 	Draw_Line(ANALOG_X, ANALOG_Y, ANALOG_X + dx, ANALOG_Y + dy, 0xF, 0);
 }
 
@@ -162,13 +162,13 @@ void UpdateMinute()
 
 	// Update analog watch
 	u16 idx = ((g_PrevMin + 45) * 6) % 360;	
-	i16 dx = g_Cosinus360[idx] >> 7;
-	i16 dy = g_Sinus360[idx] >> 7;
+	i16 dx = ((i16)g_Cosinus360[idx]) >> 7;
+	i16 dy = ((i16)g_Sinus360[idx]) >> 7;
 	Draw_Line(ANALOG_X, ANALOG_Y, ANALOG_X + dx, ANALOG_Y + dy, 0x1, 0);
 
 	idx = ((g_Min + 45) * 6) % 360;	
-	dx = g_Cosinus360[idx] >> 7;
-	dy = g_Sinus360[idx] >> 7;
+	dx = ((i16)g_Cosinus360[idx]) >> 7;
+	dy = ((i16)g_Sinus360[idx]) >> 7;
 	Draw_Line(ANALOG_X, ANALOG_Y, ANALOG_X + dx, ANALOG_Y + dy, 0xF, 0);
 }
 
@@ -192,13 +192,13 @@ void UpdateSecond()
 
 	// Update analog watch
 	u16 idx = ((g_PrevSec + 45) * 6) % 360;	
-	i16 dx = g_Cosinus360[idx] >> 7;
-	i16 dy = g_Sinus360[idx] >> 7;
+	i16 dx = ((i16)g_Cosinus360[idx]) >> 7;
+	i16 dy = ((i16)g_Sinus360[idx]) >> 7;
 	Draw_Line(ANALOG_X, ANALOG_Y, ANALOG_X + dx, ANALOG_Y + dy, 0x1, 0);
 
 	idx = ((g_Sec + 45) * 6) % 360;	
-	dx = g_Cosinus360[idx] >> 7;
-	dy = g_Sinus360[idx] >> 7;
+	dx = ((i16)g_Cosinus360[idx]) >> 7;
+	dy = ((i16)g_Sinus360[idx]) >> 7;
 	Draw_Line(ANALOG_X, ANALOG_Y, ANALOG_X + dx, ANALOG_Y + dy, 0x9, 0);
 }
 
@@ -228,18 +228,18 @@ void DisplayClock()
 	{
 		// Analog clock hour numbers
 		u16 idx = (((i * 5) + 45) * 6) % 360;
-		i16 dx = g_Cosinus360[idx] >> 6;
-		i16 dy = g_Sinus360[idx] >> 6;
-		i16 dx2 = g_Cosinus360[idx] >> 10;
-		i16 dy2 = g_Sinus360[idx] >> 10;
+		i16 dx = ((i16)g_Cosinus360[idx]) >> 6;
+		i16 dy = ((i16)g_Sinus360[idx]) >> 6;
+		i16 dx2 = ((i16)g_Cosinus360[idx]) >> 10;
+		i16 dy2 = ((i16)g_Sinus360[idx]) >> 10;
 		Print_SetPosition(ANALOG_X + dx - 3 - dx2, ANALOG_Y + dy - 4 - dy2);
 		Print_DrawInt((i == 0) ? 12 : i);
 
 		// Analog clock hour marks
-		dx = g_Cosinus360[idx] >> 7;
-		dy = g_Sinus360[idx] >> 7;
-		dx2 = g_Cosinus360[idx] >> 9;
-		dy2 = g_Sinus360[idx] >> 9;
+		dx = ((i16)g_Cosinus360[idx]) >> 7;
+		dy = ((i16)g_Sinus360[idx]) >> 7;
+		dx2 = ((i16)g_Cosinus360[idx]) >> 9;
+		dy2 = ((i16)g_Sinus360[idx]) >> 9;
 		Draw_Line(ANALOG_X + dx + dx2, ANALOG_Y + dy + dy2 + 1, ANALOG_X + dx + 2 * dx2, ANALOG_Y + dy + 2 * dy2 + 1, 0xEE, 0);
 	}
 

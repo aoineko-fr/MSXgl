@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
-//  Game module sample
+//  Example game
 //─────────────────────────────────────────────────────────────────────────────
 
 //=============================================================================
@@ -354,6 +354,12 @@ void PhysicsEventBall(u8 event, u8 tile)
 
 //-----------------------------------------------------------------------------
 // Collision callback
+//
+// Parameters:
+//   tile - Number o the tile to check
+//
+// Return:
+//   TRUE if the tile is a blocker, FALSE otherwise
 bool PhysicsCollision(u8 tile)
 {
 	return (tile < 8);

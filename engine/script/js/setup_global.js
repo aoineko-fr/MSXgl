@@ -153,9 +153,6 @@ global.DskTool = `${ToolsDir}build/msxtar/msxtar`;
 //-- Path to the emulator to launch the project (string)
 global.Emulator;
 
-//-- Path to the debugger to test the project (string)
-global.Debugger;
-
 //*****************************************************************************
 // PROJECT SETTINGS
 //*****************************************************************************
@@ -414,3 +411,12 @@ global.EmulPortA = "";
 
 //-- Plug a virtual device into the joystick port B (string)
 global.EmulPortB = "";
+
+//-------------------------------------------------------------------------------
+// Link tool
+
+//-- Run device like Easy-USB (string)
+global.RunDevice = "";
+
+//-- Run device option (string)
+global.RunDeviceOpt = "";

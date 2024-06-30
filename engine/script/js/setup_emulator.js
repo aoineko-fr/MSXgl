@@ -17,7 +17,8 @@ const util = require("./util.js");
 // INITIALIZATION
 //-----------------------------------------------------------------------------
 
-EmulatorName = path.parse(Emulator).name.toUpperCase();
+const EmulatorName = path.parse(Emulator).name.toUpperCase();
+const EmulatorPath = path.parse(Emulator).dir;
 util.print(`Starting ${EmulatorName} emulator...`, PrintHighlight);
 
 util.print("Emulator configuration:", PrintDetail);
@@ -140,13 +141,9 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulPortB === "NINJATAP") { EmulatorArgs += ' -command "plug joyportb ninjatap"'; }
 
 	//---- Start emulator ----
-	EmulatorArgs += " -ext debugdevice";
-	// EmulatorArgs += ` -script ${ToolsDir}script/openMSX/debugger_pvm.tcl`;
 	if (EmulDebug) {
-		if (fs.existsSync(Debugger) || ( (process.platform === "win32") && fs.existsSync(`${Debugger}.exe`)))
-			util.execSync(`start /b ${Debugger}`);
-		else
-			util.print(`Invalid path to Debugger (${Debugger})`, PrintWarning);
+		EmulatorArgs += " -ext debugdevice";
+		// EmulatorArgs += ` -script ${ToolsDir}script/openMSX/debugger_pvm.tcl`;
 	}
 }
 
@@ -418,5 +415,5 @@ else if (EmulatorName === "MSX") {
 //*****************************************************************************
 
 else {
-	util.print("Unknow emulator! Only EmulExtraParam parameters will be added to the command line", PrintWarning);
+	util.print("Unknown emulator! Only EmulExtraParam parameters will be added to the command line", PrintWarning);
 }
