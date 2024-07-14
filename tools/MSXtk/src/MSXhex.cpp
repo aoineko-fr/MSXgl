@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.8";
+const char* VERSION = "0.1.9";
 
 #define BUFFER_SIZE 1024
 
@@ -77,8 +77,9 @@ enum RecordType
 enum LogType
 {
 	Log_None     = 0,
-	Log_Records  = 0b00000001,
-	Log_Segments = 0b00000010,
+	Log_Verbose  = 0b00000001,
+	Log_Records  = 0b00000010,
+	Log_Segments = 0b00000100,
 };
 
 //=============================================================================
@@ -89,9 +90,8 @@ enum LogType
 std::string          g_InputFile;
 std::string          g_OutputFile;
 std::string          g_OutputExt;
-u8                   g_Log = Log_None;
+u8                   g_Log = Log_Verbose;
 bool                 g_Check = false;
-bool                 g_Verbose = true;
 u32                  g_StartAddress = 0;
 u32                  g_DataSize = 0;
 u32                  g_BankSize = 0;
@@ -100,6 +100,7 @@ std::vector<bool>    g_BinCheck;
 u8                   g_Padding = 0xFF;
 std::vector<Segment> g_SegmentInfo;
 std::vector<RawData> g_RawData;
+std::vector<u32>     g_SegException;
 
 std::map<c8, u8> g_HexaMap = {
 	{ '0', 0 },
@@ -251,6 +252,11 @@ bool WriteBytesAtAddress(u32 addr, const std::vector<u8>& data)
 		g_SegmentInfo[segNum].Lower = segAddr;
 	if (segAddr + data.size() - 1 > g_SegmentInfo[segNum].Higher)
 		g_SegmentInfo[segNum].Higher = segAddr + (u16)data.size() - 1;
+	if (g_Log & Log_Segments)
+	{
+		if ((std::find(g_SegException.begin(), g_SegException.end(), segNum) == g_SegException.end()) && (g_SegmentInfo[segNum].Size > g_BankSize))
+			printf("Warning: Segment %i size (%i) exceed defined bank size (%i)\n", segNum, g_SegmentInfo[segNum].Size, g_BankSize);
+	}
 
 	return WriteBytesAtOffset(addr - g_StartAddress, data);
 }
@@ -259,7 +265,7 @@ bool WriteBytesAtAddress(u32 addr, const std::vector<u8>& data)
 // Save binary file
 int SaveBinary(std::string outFile)
 {
-	if (g_Verbose)
+	if (g_Log & Log_Verbose)
 	{
 		u32 size = 0;
 		printf("Saving %s...\n", outFile.c_str());
@@ -339,7 +345,7 @@ bool ParseHex(std::string inFile)
 
 	// Display header
 	printf("MSXhex %s - Convert Intel HEX file to binary\n", VERSION);
-	if (g_Verbose)
+	if (g_Log & Log_Verbose)
 		printf(" Start=%08Xh Size=%08Xh Bank=%08Xh Pad=%02Xh\n", g_StartAddress, g_DataSize, g_BankSize, g_Padding);
 
 	// Read binary file
@@ -420,8 +426,6 @@ bool ParseHex(std::string inFile)
 			baseAddr = (rec.Data[0] << 12) + (rec.Data[1] << 4);
 			if (g_Log & Log_Records)
 				printf("Log: Set base Addr=%08Xh\n", baseAddr);
-			if (g_Log & Log_Segments)
-				printf("Log: Set segment %i\n", baseAddr >> 16);
 			break;
 		case Type_StartSegmentAddress:
 			break;
@@ -429,8 +433,6 @@ bool ParseHex(std::string inFile)
 			baseAddr = (rec.Data[0] << 24) + (rec.Data[1] << 16);
 			if (g_Log & Log_Records)
 				printf("Log: Set base Addr=%08Xh\n", baseAddr);
-			if (g_Log & Log_Segments)
-				printf("Log: Set segment %i\n", baseAddr >> 16);
 			break;
 		case Type_StartLinearAddress:
 			break;
@@ -450,16 +452,17 @@ void PrintHelp()
 	printf("--------------------------------------------------------------------------------\n");
 	printf("Usage: msxhex <inputfile> [options]\n\n");
 	printf("Options:\n");
-	printf(" -o filename      Output filename (default: use input filename with '.bin')\n");
-	printf(" -e ext           Output filename extension (can't be use with -o)\n");
-	printf(" -s addr          Starting address (default: 0)\n");
-	printf(" -l length        Total data length (default: 0, means autodetect)\n");
-	printf(" -b length        Bank size (default: 0, means don't use)\n");
-	printf(" -p value         Pading value (default: 0xFF)\n");
-	printf(" -r offset file   Raw data 'file' to add at a given 'offset'\n");
-	printf(" -check           Validate records\n");
-	printf(" -log             Log each records\n");
-	printf(" -ls              Log segment changes\n");
+	printf(" -o filename       Output filename (default: use input filename with '.bin')\n");
+	printf(" -e ext            Output filename extension (can't be use with -o)\n");
+	printf(" -s addr           Starting address (default: 0)\n");
+	printf(" -l length         Total data length (default: 0, means autodetect)\n");
+	printf(" -b length         Bank size (default: 0, means don't use)\n");
+	printf(" -p value          Pading value (default: 0xFF)\n");
+	printf(" -r offset file    Raw data 'file' to add at a given 'offset'\n");
+	printf(" --check           Validate each record using checksum\n");
+	printf(" --log             Log each record\n");
+	printf(" --segcheck        Check if segment size does not exceed the bank size\n");
+	printf(" --segexcept num   Don't report oversize for this segment (can be use more than once)\n");
 	printf("\n");
 	printf(" All integers can be decimal or hexadecimal starting with '0x'.\n");
 	printf(" One of the following named values can also be used:\n  ");
@@ -473,7 +476,7 @@ void PrintHelp()
 }
 
 //-----------------------------------------------------------------------------
-//const char* ARGV[] = { "", "../testcases/s_arkos.ihx", "-e", "rom", "-s", "0x4000", "-l", "128K", "-b", "8K", "-ls"};
+//const char* ARGV[] = { "", "../testcases/s_arkos.ihx", "-e", "rom", "-s", "0x4000", "-l", "128K", "-b", "8K", "-segcheck"};
 //#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
@@ -535,17 +538,23 @@ int main(int argc, const char* argv[])
 			AddRawData(offset, file);
 		}
 		// Activate record logging
-		else if (MSX::StrEqual(argv[i], "-log"))
+		else if (MSX::StrEqual(argv[i], "--log") || MSX::StrEqual(argv[i], "-log"))
 		{
 			g_Log |= Log_Records;
 		}
 		// Activate record logging
-		else if (MSX::StrEqual(argv[i], "-ls"))
+		else if (MSX::StrEqual(argv[i], "--segcheck"))
 		{
 			g_Log |= Log_Segments;
 		}
+		// Activate record logging
+		else if (MSX::StrEqual(argv[i], "--segexcept"))
+		{
+			u32 val = GetValue(argv[++i]);
+			g_SegException.push_back(val);
+		}
 		// Activate record validation check
-		else if (MSX::StrEqual(argv[i], "-check"))
+		else if (MSX::StrEqual(argv[i], "--check") || MSX::StrEqual(argv[i], "-check"))
 		{
 			g_Check = true;
 		}
