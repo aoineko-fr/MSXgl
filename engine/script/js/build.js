@@ -605,6 +605,7 @@ if (DoPackage)
 		else if(raw.segment !== undefined)
 			H2BParam += ` -r ${raw.segment * SegSize} ${raw.file}`;
 	}
+	H2BParam += ` ${HexBinOpt}`;
 
 	let err = util.execSync(`"${Hex2Bin}" ${H2BParam}`);
 	if(err)

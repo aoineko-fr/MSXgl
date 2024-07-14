@@ -222,6 +222,9 @@ LocStruct = "g_LocData";
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 PackSegments = false;
 
+//-- Additionnal options of Hex to Binary convertor (string)
+HexBinOpt = "";
+
 //-- Command lines to be executed before the build process (array)
 PreBuildScripts = [];
 

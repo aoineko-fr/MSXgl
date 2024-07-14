@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.7";
+const char* VERSION = "0.1.8";
 
 #define BUFFER_SIZE 1024
 
@@ -62,7 +62,7 @@ struct RawData
 	RawData() : Offset(0) {}
 };
 
-//
+// IHX Record Types
 enum RecordType
 {
 	Type_Data                   = 0,
@@ -73,6 +73,14 @@ enum RecordType
 	Type_StartLinearAddress     = 5,
 };
 
+// IHX Record Types
+enum LogType
+{
+	Log_None     = 0,
+	Log_Records  = 0b00000001,
+	Log_Segments = 0b00000010,
+};
+
 //=============================================================================
 // VARIABLES
 //=============================================================================
@@ -81,7 +89,7 @@ enum RecordType
 std::string          g_InputFile;
 std::string          g_OutputFile;
 std::string          g_OutputExt;
-bool                 g_Log = false;
+u8                   g_Log = Log_None;
 bool                 g_Check = false;
 bool                 g_Verbose = true;
 u32                  g_StartAddress = 0;
@@ -376,6 +384,7 @@ bool ParseHex(std::string inFile)
 		}
 		ptr = GetU8(ptr, rec.Checksum);
 
+		// Check checksum validation
 		if (g_Check)
 		{
 			u8 sum = rec.Count + (rec.Address >> 8) + (rec.Address & 0xFF) + rec.Type + rec.Checksum;
@@ -397,27 +406,31 @@ bool ParseHex(std::string inFile)
 		switch (rec.Type)
 		{
 		case Type_Data:
-			if (g_Log)
+			if (g_Log & Log_Records)
 				printf("Log: Record[%i] Addr=%08Xh Size=%i\n", index, addr, rec.Count);
 			if (!WriteBytesAtAddress(addr, rec.Data))
 				return false;
 			break;
 		case Type_EndOfFile:
-			if (g_Log)
+			if (g_Log & Log_Records)
 				printf("Log: End of file\n");
 			free(binData);
 			return true;
 		case Type_ExtendedSegmentAddress:
 			baseAddr = (rec.Data[0] << 12) + (rec.Data[1] << 4);
-			if (g_Log)
+			if (g_Log & Log_Records)
 				printf("Log: Set base Addr=%08Xh\n", baseAddr);
+			if (g_Log & Log_Segments)
+				printf("Log: Set segment %i\n", baseAddr >> 16);
 			break;
 		case Type_StartSegmentAddress:
 			break;
 		case Type_ExtendedLinearAddress:
 			baseAddr = (rec.Data[0] << 24) + (rec.Data[1] << 16);
-			if (g_Log)
+			if (g_Log & Log_Records)
 				printf("Log: Set base Addr=%08Xh\n", baseAddr);
+			if (g_Log & Log_Segments)
+				printf("Log: Set segment %i\n", baseAddr >> 16);
 			break;
 		case Type_StartLinearAddress:
 			break;
@@ -445,7 +458,8 @@ void PrintHelp()
 	printf(" -p value         Pading value (default: 0xFF)\n");
 	printf(" -r offset file   Raw data 'file' to add at a given 'offset'\n");
 	printf(" -check           Validate records\n");
-	printf(" -log             Log records\n");
+	printf(" -log             Log each records\n");
+	printf(" -ls              Log segment changes\n");
 	printf("\n");
 	printf(" All integers can be decimal or hexadecimal starting with '0x'.\n");
 	printf(" One of the following named values can also be used:\n  ");
@@ -459,7 +473,7 @@ void PrintHelp()
 }
 
 //-----------------------------------------------------------------------------
-//const char* ARGV[] = { "", "D:/Dev/Private/MSX/MSXgl/projects/htd005/out/htd005.ihx", "-e", "rom", "-s", "0x4000", "-l", "131072", "-b", "8192", "-log"};
+//const char* ARGV[] = { "", "../testcases/s_arkos.ihx", "-e", "rom", "-s", "0x4000", "-l", "128K", "-b", "8K", "-ls"};
 //#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
@@ -523,7 +537,12 @@ int main(int argc, const char* argv[])
 		// Activate record logging
 		else if (MSX::StrEqual(argv[i], "-log"))
 		{
-			g_Log = true;
+			g_Log |= Log_Records;
+		}
+		// Activate record logging
+		else if (MSX::StrEqual(argv[i], "-ls"))
+		{
+			g_Log |= Log_Segments;
 		}
 		// Activate record validation check
 		else if (MSX::StrEqual(argv[i], "-check"))

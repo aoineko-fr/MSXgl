@@ -1,4 +1,4 @@
-MSXhex 0.1.7 - Convert Intel HEX file to binary
+MSXhex 0.1.8 - Convert Intel HEX file to binary
 --------------------------------------------------------------------------------
 Usage: msxhex <inputfile> [options]
 
@@ -11,7 +11,8 @@ Options:
  -p value         Pading value (default: 0xFF)
  -r offset file   Raw data 'file' to add at a given 'offset'
  -check           Validate records
- -log             Log records
+ -log             Log each records
+ -ls              Log segment changes
 
  All integers can be decimal or hexadecimal starting with '0x'.
  One of the following named values can also be used:

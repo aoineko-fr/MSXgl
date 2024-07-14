@@ -328,6 +328,9 @@ global.LocStruct = "";
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 global.PackSegments = false;
 
+//-- Additionnal options of Hex to Binary convertor (string)
+global.HexBinOpt = "";
+
 //-- Command lines to be executed before the build process (array)
 global.PreBuildScripts = [];
 
