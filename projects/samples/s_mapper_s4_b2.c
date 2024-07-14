@@ -7,23 +7,25 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 
-const c8 const Seg4Data1[] = "Segment #4 Data 1";
-const c8 const Seg4Data2[] = "Segment #4 Data 2";
+const c8 const Seg4Data1[] = "-> Segment #4 Data 1";
+const c8 const Seg4Data2[] = "-> Segment #4 Data 2";
+
+// Exten function
+void DrawSegments(u8 y, const c8* txt);
 
 //-----------------------------------------------------------------------------
 //
-void Seg4Func2(u8 x, u8 y)
+void Seg4Func2(u8 x, u8 y, const c8* txt)
 {
-	Print_SetPosition(x, y);
+	DrawSegments(y, txt);
 }
 
 //-----------------------------------------------------------------------------
 //
 void Seg4Func1(u8 id) __banked
 {
-	Seg4Func2(0, 12 + id);
-	if(id == 0)
-		Print_DrawText(Seg4Data1);
+	if(id & 1)
+		Seg4Func2(0, id, Seg4Data1);
 	else
-		Print_DrawText(Seg4Data2);
+		Seg4Func2(0, id, Seg4Data2);
 }

@@ -375,6 +375,10 @@
 #define ZX0_MODE_FAST				2 // Fast routine: 187 bytes, about 25% faster
 #define ZX0_MODE_MEGA				3 // Mega routine: 673 bytes, about 28% faster
 
+#define LZ48_MODE_STANDARD			0 // Standard routine
+#define LZ48_MODE_SPEED				1 // Version optimized for speed
+#define LZ48_MODE_SIZE				2 // Version optimized for size
+
 //-----------------------------------------------------------------------------
 // PAC MODULE
 //-----------------------------------------------------------------------------

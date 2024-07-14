@@ -266,10 +266,10 @@ __asm
 
 // VRAM address setup
 	ld		a, e
-	out		(P_VDP_1), a
+	out		(P_VDP_ADDR), a
 	ld		a, d
 	or		#0x40
-	out		(P_VDP_1), a
+	out		(P_VDP_ADDR), a
 
 // Initialization
 	ld		a, (hl)
@@ -297,7 +297,7 @@ __asm
 
 // Main depack loop
 v_literal:
-	ld		c, #P_VDP_0
+	ld		c, #P_VDP_DATA
 	outi
 	inc		de
 v_loop:
@@ -387,7 +387,7 @@ v_offsok_loop:
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
 	ld		a, h			//  5 cc
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 17
-	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~ 12
+	in		a, (P_VDP_DATA)	// 12 cc ~~~~~~~~~~ 12
 	ex		af, af' ;'		//  5 cc
 	ld		a, e			//  5 cc
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 22
@@ -396,7 +396,7 @@ v_offsok_loop:
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 25
 	ex		af, af' ;'		//  5 cc
 	EI_LOOP
-	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~ 17/22
+	out		(P_VDP_DATA), a	// 12 cc ~~~~~~~~~~ 17/22
 .endm
 
 .macro PLETTER_WRITE_17CC
@@ -405,7 +405,7 @@ v_offsok_loop:
 	ld		a, h			//  5 cc
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 17
 	nop						//  5 cc
-	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~ 17
+	in		a, (P_VDP_DATA)	// 12 cc ~~~~~~~~~~ 17
 	ex		af, af' ;'		//  5 cc
 	ld		a, e			//  5 cc
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 22
@@ -414,7 +414,7 @@ v_offsok_loop:
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 25
 	ex		af, af' ;'		//  5 cc
 	EI_LOOP
-	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~ 17/22
+	out		(P_VDP_DATA), a	// 12 cc ~~~~~~~~~~ 17/22
 .endm
 
 .macro PLETTER_WRITE_22CC
@@ -425,7 +425,7 @@ v_offsok_loop:
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 22
 	nop						//  5 cc
 	nop						//  5 cc
-	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~ 22
+	in		a, (P_VDP_DATA)	// 12 cc ~~~~~~~~~~ 22
 	ex		af, af' ;'		//  5 cc
 	ld		a, e			//  5 cc
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 22
@@ -435,7 +435,7 @@ v_offsok_loop:
 	ex		af, af' ;'		//  5 cc
 	nop						//  5 cc
 	EI_LOOP
-	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~ 22/27
+	out		(P_VDP_DATA), a	// 12 cc ~~~~~~~~~~ 22/27
 .endm
 
 .macro PLETTER_WRITE_30CC
@@ -448,7 +448,7 @@ v_offsok_loop:
 	nop						//  5 cc
 	nop						//  5 cc
 	or		#0				//  8 cc
-	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~ 30
+	in		a, (P_VDP_DATA)	// 12 cc ~~~~~~~~~~ 30
 	ex		af, af' ;'		//  5 cc
 	ld		a, e			//  5 cc
 	or		#0				//  8 cc
@@ -461,7 +461,7 @@ v_offsok_loop:
 	nop						//  5 cc
 	or		#0				//  8 cc
 	EI_LOOP
-	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~ 30/35
+	out		(P_VDP_DATA), a	// 12 cc ~~~~~~~~~~ 30/35
 .endm
 
 	PLETTER_WRITE

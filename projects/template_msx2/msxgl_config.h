@@ -494,6 +494,12 @@
 // - ZX0_MODE_MEGA ................ Mega routine: 673 bytes, about 28% faster
 #define ZX0_MODE					ZX0_MODE_STANDARD
 
+// LZ48 compression
+// - LZ48_MODE_STANDARD ........... Standard routine
+// - LZ48_MODE_SPEED .............. Version optimized for speed
+// - LZ48_MODE_SIZE ............... Version optimized for size
+#define LZ48_MODE					LZ48_MODE_STANDARD
+
 // MSXi compressor support
 #define MSXi_USE_COMP_NONE			TRUE
 #define MSXi_USE_COMP_CROP16		TRUE
