@@ -274,16 +274,16 @@ void PROFILE_SECTION_END(u8 id, u8 level)
 // Initialize Debug module
 void DEBUG_INIT()
 {
-	// // Fix assertion for un-initialized VDP buffer
-	// u8* ptr = (u8*)&g_VDP_Command;
-	// for(u8 i = 0; i < sizeof(g_VDP_Command); ++i)
-	// 	*(ptr++) = 0;
+	// Fix assertion for un-initialized VDP buffer
+	u8* ptr = (u8*)&g_VDP_Command;
+	for(u8 i = 0; i < sizeof(g_VDP_Command); ++i)
+		*(ptr++) = 0;
 	
-	// // Fix assertion for BIOS-initialized key buffer
-	// #if (INPUT_KB_UPDATE)
-	// for(u8 i = INPUT_KB_UPDATE_MIN; i <= INPUT_KB_UPDATE_MAX; ++i)	
-	// 	((u8*)g_NEWKEY)[i] = 0xFF;
-	// #endif
+	// Fix assertion for BIOS-initialized key buffer
+	#if (INPUT_KB_UPDATE)
+	for(u8 i = INPUT_KB_UPDATE_MIN; i <= INPUT_KB_UPDATE_MAX; ++i)
+		((u8*)g_NEWKEY)[i] = 0xFF;
+	#endif
 }
 
 //-----------------------------------------------------------------------------
