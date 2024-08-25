@@ -8,6 +8,7 @@
 #include "msxgl.h"
 #include "v9990.h"
 #include "math.h"
+#include "memory.h"
 
 //=============================================================================
 // DEFINES
@@ -16,10 +17,39 @@
 #define CUSTOM_ISR					0
 
 // Library's logo
-#define MSX_GL "\x01\x02\x03\x04\x05\x06"
+#define MSX_GL						"\x01\x02\x03\x04\x05\x06"
 
-#define V9_GROUND_Y		20
-#define V9_HORIZON_Y	14
+// Display constants
+#define V9_GROUND_Y					20
+#define V9_HORIZON_Y				14
+
+// Bits per pixel
+#define BPP_2						0x02
+#define BPP_4						0x04
+#define BPP_8						0x08
+#define BPP_16						0x10
+
+// Screen mode index (match the g_ScreenMode table)
+enum 
+{
+#if (V9_USE_MODE_P1)
+	MODE_P1,
+#endif
+#if (V9_USE_MODE_P2)
+	MODE_P2,
+#endif
+#if ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
+	MODE_B0,
+	MODE_B1,
+	MODE_B2,
+	MODE_B3,
+	MODE_B4,
+	MODE_B5,
+	MODE_B6,
+	MODE_B7,
+#endif
+	MODE_MAX,
+};
 
 // Screen mode structure
 struct ScreenMode
@@ -34,16 +64,18 @@ struct ScreenMode
 	u16       Height;
 };
 
-// Function prototype
+// Color mode structure
+struct ColorMode
+{
+	const c8* Name;
+	u8        Mode;
+	u8        BPP;
+};
+
+// Function prototypes
 void InitP1();  void TickP1();  void HblankP1();
 void InitP2();  void TickP2();  void HblankP2();
 void InitBmp(); void TickBmp(); void HblankBmp();
-
-// Bits per pixel
-#define BPP_2						0x02
-#define BPP_4						0x04
-#define BPP_8						0x08
-#define BPP_16						0x10
 
 //=============================================================================
 // READ-ONLY DATA
@@ -61,17 +93,21 @@ void InitBmp(); void TickBmp(); void HblankBmp();
 // Tiles
 #include "content/v9990/data_v9_bg.h"
 
+// Trigo table
+#include "mathtable/mt_sin_64.inc"
+
 // Animation characters
 const u8 g_ChrAnim[4] = { '|', '\\', '-', '/' };
 
 // Black color
 const u8 g_ColorBlack[] = { 0, 0, 0 };
+const u8 g_ColorBG[] = { 0x07, 0x12, 0x1C };
 
 // Animation characters
 const u8 g_BppModes[4] = { BPP_2, BPP_4, BPP_8, BPP_16 };
 
 // Screen mode configuration
-const struct ScreenMode g_ScreenMode[] =
+const struct ScreenMode g_ScreenMode[MODE_MAX] =
 {
 #if (V9_USE_MODE_P1)
 	{ "P1", V9_MODE_P1, InitP1,  TickP1,  HblankP1,  BPP_4, 256, 212 },
@@ -79,42 +115,47 @@ const struct ScreenMode g_ScreenMode[] =
 #if (V9_USE_MODE_P2)
 	{ "P2", V9_MODE_P2, InitP2,  TickP2,  HblankP2,  BPP_4, 512, 212 },
 #endif
-#if (V9_USE_MODE_B0)
+#if ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
 	{ "B0", V9_MODE_B0, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4|BPP_8|BPP_16, 192, 240 },
-#endif
-#if (V9_USE_MODE_B1)
 	{ "B1", V9_MODE_B1, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4|BPP_8|BPP_16, 256, 212 },
-#endif
-#if (V9_USE_MODE_B2)
 	{ "B2", V9_MODE_B2, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4|BPP_8|BPP_16, 384, 240 },
-#endif
-#if (V9_USE_MODE_B3)
 	{ "B3", V9_MODE_B3, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4|BPP_8|BPP_16, 512, 212 },
-#endif
-#if (V9_USE_MODE_B4)
 	{ "B4", V9_MODE_B4, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 768, 240 },
-#endif
-#if (V9_USE_MODE_B5)
 	{ "B5", V9_MODE_B5, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 640, 400 },
-#endif
-#if (V9_USE_MODE_B6)
-	{ "B6", V9_MODE_B6, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 650, 480 },
-#endif
-#if (V9_USE_MODE_B7)
+	{ "B6", V9_MODE_B6, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 640, 480 },
 	{ "B7", V9_MODE_B7, InitBmp, TickBmp, HblankBmp, BPP_2|BPP_4, 1024, 212 },
 #endif
+};
+
+// Color mode configuration
+const struct ColorMode g_ColorMode[] =
+{
+	{ "BP2",   V9_COLOR_BP2,   BPP_2  }, // Color palette (4 colors out of 32768 colors)
+	{ "BP4",   V9_COLOR_BP4,   BPP_4  }, // Color palette (16 colors out of 32768 colors)
+	{ "PP",    V9_COLOR_PP,    BPP_4  }, // Display type when the display mode is P1 or P2
+	{ "BP6",   V9_COLOR_BP6,   BPP_8  }, // Color palette (64 colors out of 32768 colors)
+	{ "BD8",   V9_COLOR_BD8,   BPP_8  }, // Direct RGB [G:3|R:3|B:2] (256 colors)
+	{ "BYJK",  V9_COLOR_BYJK,  BPP_8  }, // YJK Decoder (19268 colors)
+	{ "BYJKP", V9_COLOR_BYJKP, BPP_8  }, // YJK Decoder + Color palette (12599 colors + 16 colors out of 32768 colors)
+	{ "BYUV",  V9_COLOR_BYUV,  BPP_8  }, // YUV Decoder (19268 colors)
+	{ "BYUVP", V9_COLOR_BYUVP, BPP_8  }, // YUV Decoder + Color palette (12599 colors + 16 colors out of 32768 colors)
+	{ "BD16",  V9_COLOR_BD16,  BPP_16 }, // Direct RGB [YS|G:5|R:2][R:3|B:5] (32768 colors)
 };
 
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
-u8   g_CurrentMode = 0;
+u8   g_CurrentMode = MODE_B1; // Current screen mode index in the g_ScreenMode table
 u8   g_CurrentBPP = BPP_4;
+u8   g_CurrentColor = V9_COLOR_BP4; // Current color mode index in the g_ColorMode table
+
 u16  g_Frame = 0;
 bool g_Interlaced = false;
 u16  g_TextX;
 u16  g_TextY;
+bool g_HideSprite = FALSE;
+bool g_KeyPressed[256];
 
 //=============================================================================
 // CODE
@@ -126,10 +167,6 @@ void InitPalette()
 	{
 	case V9_MODE_P1:
 	case V9_MODE_P2:
-	case V9_MODE_B0:
-	case V9_MODE_B1:
-	case V9_MODE_B2:
-	case V9_MODE_B3:
 		V9_SetPaletteEntry(0, g_ColorBlack);
 		V9_SetPalette(1,  15, g_DataV9BG_palette);
 		V9_SetPaletteEntry(16, g_ColorBlack);
@@ -137,23 +174,34 @@ void InitPalette()
 		V9_SetPaletteEntry(32, g_ColorBlack);
 		V9_SetPalette(33, 15, g_DataV9Font_palette);
 		break;
+	case V9_MODE_B0:
+	case V9_MODE_B1:
+	case V9_MODE_B2:
+	case V9_MODE_B3:
+		V9_SetPaletteEntry(0, g_ColorBlack);
+		V9_SetPalette(1,  15, g_DataV9BG_palette);
+		V9_SetPaletteEntry(16, g_ColorBlack);
+		V9_SetPalette(17, 15, g_DataV9Font_palette);
+		V9_SetPaletteEntry(16 + 6, g_ColorBG);
+		break;
 	case V9_MODE_B4:
 	case V9_MODE_B5:
 	case V9_MODE_B6:
 	case V9_MODE_B7:
 		loop(i, 2)
 		{
-			V9_SetPaletteEntry(0 + i * 32, g_ColorBlack);
-			V9_SetPalette(1 + i * 32,  15, g_DataV9BG_palette);
-			V9_SetPaletteEntry(16 + i * 32, g_ColorBlack);
-			V9_SetPalette(17 + i * 32, 15, g_DataV9Chr_palette);
+			V9_SetPaletteEntry(i * 32 + 0, g_ColorBlack);
+			V9_SetPalette(i * 32 + 1,  15, g_DataV9BG_palette);
+			V9_SetPaletteEntry(i * 32 + 16, g_ColorBlack);
+			V9_SetPalette(i * 32 + 17, 15, g_DataV9Font_palette);
+			V9_SetPaletteEntry(i * 32 + 16 + 6, g_ColorBG);
 		}
 		break;
 	}
 }
 
 //-----------------------------------------------------------------------------
-// P1
+// P1 MODE (256x212, 2 layers)
 //-----------------------------------------------------------------------------
 
 #if (V9_USE_MODE_P1)
@@ -169,11 +217,10 @@ void InitP1()
 {
 	// Initialize screen mode
 	V9_SetMode(V9_MODE_P1);
-	V9_SetBackgroundColor(6);
 	V9_SetDisplayEnable(FALSE);
+	V9_SetInterrupt(V9_INT_NONE);
+	V9_SetBackgroundColor(6);
 	V9_SetSpriteEnable(TRUE);
-	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
-	V9_SetInterruptLine(71);
 
 	InitPalette();
 
@@ -184,7 +231,7 @@ void InitP1()
 
 	// Pattern name table
 	V9_FillVRAM16(V9_P1_PNT_A, 0, 64*64); // Init layer A
-	V9_Print(V9_P1_PNT_A, "MSXgl V9990 Sample - P1 Mode");
+	V9_Print(V9_P1_PNT_A, "MSXgl V9990 - P1 Mode (PP)"); // Draw title
 	for(u8 i = 0; i < 8; ++i) // Draw plateform
 	{
 		u8 x = i * 8;
@@ -266,6 +313,9 @@ void InitP1()
 		attr.SC = 1;
 		V9_SetSpriteP1(i, &attr);
 	}
+
+	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
+	V9_SetInterruptLine(71);
 	V9_SetDisplayEnable(TRUE);
 }
 
@@ -294,7 +344,7 @@ void HblankP1()
 #endif // (V9_USE_MODE_P1)
 
 //-----------------------------------------------------------------------------
-// P2
+// P1 MODE (512x212, 1 layer)
 //-----------------------------------------------------------------------------
 
 #if (V9_USE_MODE_P2)
@@ -315,11 +365,10 @@ void InitP2()
 {
 	// Initialize screen mode
 	V9_SetMode(V9_MODE_P2);
-	V9_SetBackgroundColor(6);
 	V9_SetDisplayEnable(FALSE);
+	V9_SetInterrupt(V9_INT_NONE);
+	V9_SetBackgroundColor(6);
 	V9_SetSpriteEnable(TRUE);
-	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
-	V9_SetInterruptLine(6);
 
 	InitPalette();
 
@@ -335,7 +384,7 @@ void InitP2()
 		// addr += 2;
 	// }
 	V9_FillVRAM16(V9_P2_PNT, 0, 128*2);
-	V9_Print(V9_P2_PNT, "MSXgl V9990 Sample - P2 Mode"); // Draw title
+	V9_Print(V9_P2_PNT, "MSXgl V9990 - P2 Mode (PP)"); // Draw title
 	V9_FillVRAM16(V9_P2_PNT + 512, 135, 128*V9_HORIZON_Y); // Draw sky
 	for(u16 i = 0; i < 128; ++i) // Draw horizon
 		V9_Poke16(V9_CellAddrP2(0, V9_HORIZON_Y) + i*2, 128 + i%4);
@@ -421,6 +470,9 @@ void InitP2()
 		attr.SC = 1;
 		V9_SetSpriteP2(i, &attr);
 	}
+
+	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
+	V9_SetInterruptLine(6);
 	V9_SetDisplayEnable(TRUE);
 }
 
@@ -448,7 +500,7 @@ void HblankP2()
 #endif // (V9_USE_MODE_P1)
 
 //-----------------------------------------------------------------------------
-// Bitmap
+// BITMAP MODE
 //-----------------------------------------------------------------------------
 
 #if ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
@@ -496,27 +548,41 @@ void InitBmp()
 {
 	// Initialize screen mode
 	V9_SetMode(g_ScreenMode[g_CurrentMode].Mode);
-	V9_SetBackgroundColor(6);
 	V9_SetDisplayEnable(FALSE);
+	V9_SetInterrupt(V9_INT_NONE);
+	V9_SetBackgroundColor(6);
 	V9_SetBPP(V9_R06_BPP_4);
 	V9_SetImageSpaceWidth(V9_R06_WIDH_1024);
-	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
-	V9_SetInterruptLine(8);
 
 	InitPalette();
 
 	V9_SelectPaletteBP4(0);
 	V9_SetScrollingX(0);
 
+	// Load graphics data to VRAM
 	for(u8 i = 0; i < 48; ++i)
 		V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(512 + 0 + i))), g_DataV9BG + (128 * i), 128);
 
 	for(u8 i = 0; i < 24; ++i)
-		V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(512 + 48 + i))), g_DataV9Font + (128 * i), 128);
+	{
+		u8* buf = (u8*)Mem_GetHeapAddress();
+		loop(j, 128)
+		{
+			u8 v = *(const u8*)(g_DataV9Font + (128 * i) + j);
+			if((v & 0xF0) == 0x00)
+				v |= 0x60;
+			else if((v & 0xF0) == 0x60)
+				v &= 0x0F;
+			if((v & 0x0F) == 0x00)
+				v |= 0x06;
+			else if((v & 0x0F) == 0x06)
+				v &= 0xF0;
+			buf[j] = v;
+		}
+		V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(512 + 48 + i))), buf, 128);
+	}
 
-	for(u8 i = 0; i < 16; ++i)
-		V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(512 + 72 + i))), g_DataV9Chr + (128 * i), 128);
-
+	// Initialize background color
 	V9_SetCommandLogicalOp(V9_R45_LOP_SET);//| V9_R45_TP);
 	V9_SetCommandWriteMask(0xFFFF);
 	V9_WaitCmdEnd();
@@ -562,20 +628,33 @@ void InitBmp()
 		}
 	}
 
-	V9_PrintBmpStringAt(4, 1, "MSXgl V9990 Sample - ");
+	// Draw title
+	V9_PrintBmpStringAt(g_CurrentMode > MODE_B1 ? 16 : 8, 1, "MSXgl V9990 - ");
 	V9_PrintBmpString(g_ScreenMode[g_CurrentMode].Name);
+	V9_PrintBmpString(" (");
+	V9_PrintBmpString(g_ColorMode[g_CurrentColor].Name);
+	V9_PrintBmpString(")");
 
-	// Cursor
-	V9_SetCursorEnable(0, FALSE);
-	V9_SetCursorEnable(1, FALSE);
+	// Setup cursors
+	V9_SetCursorEnable(true);
+	V9_SetCursorPalette(2); // entry 8
+	u8* buf = (u8*)Mem_GetHeapAddress();
+	loop(i, 128)
+	{
+		buf[i] = i & 0x04 ? 0xAA : 0x55; // Initialize 'check' pattern
+	}
+	loop(i, 2)
+		V9_SetCursorPattern(i, buf);
 
+	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
+	V9_SetInterruptLine(9);
 	V9_SetDisplayEnable(TRUE);
 }
 
 //
 void TickBmp()
 {
-	V9_SelectPaletteBP4(2);
+	V9_SelectPaletteBP4(1);
 	V9_SetScrollingX(0);
 
 	if(Keyboard_IsKeyPressed(KEY_H))
@@ -589,6 +668,12 @@ void TickBmp()
 	{
 		V9_SetScrollingY(0);
 		V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
+	}
+
+	loop(i, 2)
+	{
+		u8 idx = ((g_Frame >> 2) + (i * 32)) % 64;
+		V9_SetCursorAttribute(i, 64 + i * 96, 64 + ((i16)g_Sinus64[idx] / 8), i + 1);
 	}
 
 	g_Frame++;
@@ -613,7 +698,7 @@ void DisplayMSX()
 {
 	Print_SetTextFont(g_Font_MGL_Sample6, 1); // Initialize font
 	Print_SetColor(0xF, 0x0);
-	Print_DrawText(MSX_GL " V9990 SAMPLE");
+	Print_DrawText(MSX_GL " V9990 Sample");
 	Print_DrawLineH(0, 1, 40);
 
 	const c8* str = "V9990 not found!";
@@ -703,11 +788,19 @@ void VDP_InterruptVBlank()
 {
 }
 
+void SetScreenMode(u8 mode)
+{
+	g_CurrentMode = mode;
+	g_ScreenMode[g_CurrentMode].Init();
+}
+
+
 //-----------------------------------------------------------------------------
 // Program entry point
 void main()
 {
-	VDP_SetMode(VDP_MODE_SCREEN0); // Initialize screen mode 0 (text)
+	// Initialize screen mode 0 (text)
+	VDP_SetMode(VDP_MODE_SCREEN0);
 	VDP_EnableVBlank(FALSE);
 	VDP_ClearVRAM();
 
@@ -717,7 +810,12 @@ void main()
 		Bios_SetHookDirectCallback(H_KEYI, InterruptHook);
 		Bios_ClearHook(H_TIMI);
 	#endif
+
+	//---- CURRENT SCREEN MODE INIT ----
 	g_ScreenMode[g_CurrentMode].Init();
+
+	loop(i, 80)
+		g_KeyPressed[i] = FALSE;
 
 	u16 count = 0;
 	u8 clr = 0;
@@ -728,33 +826,59 @@ void main()
 		// V9_SetRegister(15, 1);
 		g_VSynch = FALSE;
 
+		//---- CURRENT SCREEN MODE UPDATE ----
 		g_ScreenMode[g_CurrentMode].Tick();
 
+		// Sign of life
 		Print_SetPosition(39, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 
-		if(Keyboard_IsKeyPressed(KEY_R))
-			DisplayMSX();
-
+		// Handle inputs
+		u8 row0 = Keyboard_Read(0);
+		u8 row1 = Keyboard_Read(1);
 		u8 row8 = Keyboard_Read(8);
-		// Update horizontal scrolling offset
+
+		// Select next/previous screen mode
 		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
 			if(g_CurrentMode < numberof(g_ScreenMode) - 1)
-			{
-				g_CurrentMode++;
-				g_ScreenMode[g_CurrentMode].Init();
-			}
+				SetScreenMode(g_CurrentMode + 1);
 		}
 		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
 			if(g_CurrentMode > 0)
-			{
-				g_CurrentMode--;
-				g_ScreenMode[g_CurrentMode].Init();
-			}
+				SetScreenMode(g_CurrentMode - 1);
 		}
-		// Update vertical scrolling offset
+
+		// Direction selection of a screen mode
+#if ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
+		if(IS_KEY_PRESSED(row0, KEY_0))
+			SetScreenMode(MODE_B0);
+		else if(IS_KEY_PRESSED(row0, KEY_1))
+			SetScreenMode(MODE_B1);
+		else if(IS_KEY_PRESSED(row0, KEY_2))
+			SetScreenMode(MODE_B2);
+		else if(IS_KEY_PRESSED(row0, KEY_3))
+			SetScreenMode(MODE_B3);
+		else if(IS_KEY_PRESSED(row0, KEY_4))
+			SetScreenMode(MODE_B4);
+		else if(IS_KEY_PRESSED(row0, KEY_5))
+			SetScreenMode(MODE_B5);
+		else if(IS_KEY_PRESSED(row0, KEY_6))
+			SetScreenMode(MODE_B6);
+		else if(IS_KEY_PRESSED(row0, KEY_7))
+			SetScreenMode(MODE_B7);
+#endif
+#if (V9_USE_MODE_P1)
+		if(IS_KEY_PRESSED(row1, KEY_8))
+			SetScreenMode(MODE_P1);
+#endif
+#if (V9_USE_MODE_P2)
+		if(IS_KEY_PRESSED(row1, KEY_9))
+			SetScreenMode(MODE_P2);
+#endif
+
+		// Select color mode
 		if(IS_KEY_PRESSED(row8, KEY_DOWN))
 		{
 			
@@ -763,5 +887,25 @@ void main()
 		{
 			
 		}
+
+		// Hide/display sprite/cursor
+		if(Keyboard_IsKeyPressed(KEY_G))
+		{
+			if(!g_KeyPressed[KEY_G])
+			{
+				g_KeyPressed[KEY_G] = TRUE;
+				g_HideSprite = !g_HideSprite;
+				if(g_HideSprite)
+					V9_SetFlag(8, V9_R08_SPD_OFF, V9_R08_SPD_OFF);
+				else
+					V9_SetFlag(8, V9_R08_SPD_OFF, 0);
+			}
+		}
+		else
+			g_KeyPressed[KEY_G] = FALSE;
+
+		// Refresh MSX display
+		if(Keyboard_IsKeyPressed(KEY_R))
+			DisplayMSX();
 	}
 }

@@ -128,7 +128,7 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulMSXAudio) { EmulatorArgs += " -ext audio"; }
 	if (EmulOPL4)     { EmulatorArgs += " -ext moonsound"; }
 	if (EmulPSG2)     { EmulatorArgs += " -ext 2nd_PSG"; }
-	if (EmulV9990)    { EmulatorArgs += ' -ext gfx9000 -command "set videosource GFX9000"'; }
+	if (EmulV9990)    { EmulatorArgs += ' -ext gfx9000 -command "after time 0 {set videosource gfx9000}"'; }
 
 	//---- Emulator conenctors ----
 	if (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -command "plug joyporta joystick1"'; }

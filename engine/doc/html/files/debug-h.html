@@ -8,14 +8,14 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic93"></a><div class="CTopic TGroup LC first">
- <div class="CTitle">Functions</div>
+<a name="Debug"></a><a name="Topic73"></a><div class="CTopic TGroup LC first">
+ <div class="CTitle">Debug</div>
 </div>
 
-<a name="DEBUG_INIT"></a><a name="Topic1115"></a><div class="CTopic TFunction LC">
+<a name="DEBUG_INIT"></a><a name="Topic187"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DEBUG_INIT</div>
- <div id="NDPrototype1115" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DEBUG_INIT()</div></div>
- <div class="CBody"><p>Initialize Debug module</p></div>
+ <div id="NDPrototype187" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DEBUG_INIT()</div></div>
+ <div class="CBody"><p>Initialize Debug module</p><div class="CHeading">Notes</div><ul><li><p>[Emulicious] This allow to mark area reserved by BIOS to help detection of unset memory access</p></li></ul></div>
 </div>
 
 <a name="DEBUG_BREAK"></a><a name="Topic121"></a><div class="CTopic TFunction LC">
@@ -42,10 +42,14 @@
  <div class="CBody"><p>Display debug message and a 8-bits value</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">msg<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Null-terminated string with numer name</p></td></tr><tr><td class="CDLEntry">num<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>8-bit number value</p></td></tr></table></div>
 </div>
 
-<a name="DEBUG_PRINT"></a><a name="Topic405"></a><div class="CTopic TFunction LC">
+<a name="DEBUG_PRINT"></a><a name="Topic1119"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DEBUG_PRINT</div>
- <div id="NDPrototype405" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DEBUG_PRINT(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td></td><td class="PName last">format,</td></tr><tr><td class="first"></td><td></td><td class="PSymbols">...</td><td class="last"></td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Display debug formated message</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">format<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Null-terminated string with format specifiers</p></td></tr></table><div class="CHeading">Notes</div><ul><li><p>[Emulicious] Supported format specifiers: <a href="https://www.tutorialspoint.com/format-specifiers-in-c" target="_top">https://&#8203;www&#8203;.tutorialspoint&#8203;.com&#8203;/format-specifiers-in-c</a></p></li><li><p>[openMSX] You need the &quot;tools/script/openMSX/debugger_pvm.tcl&quot; script to be loaded to use this function. Supported format specifiers:</p></li></ul></div>
+ <div id="NDPrototype1119" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DEBUG_PRINT(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td></td><td class="PName last">format,</td></tr><tr><td class="first"></td><td></td><td class="PSymbols">...</td><td class="last"></td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Display debug formated message</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">format<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Null-terminated string with format specifiers</p></td></tr></table><div class="CHeading">Notes</div><ul><li><p>[Emulicious] Supported format specifiers: <a href="https://www.tutorialspoint.com/format-specifiers-in-c" target="_top">https://&#8203;www&#8203;.tutorialspoint&#8203;.com&#8203;/format-specifiers-in-c</a></p></li><li><p>[openMSX] You need the &quot;tools/script/openMSX/debugger_pvm.tcl&quot; script to be loaded to use this function.</p></li></ul></div>
+</div>
+
+<a name="Profile"></a><a name="Topic1130"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Profile</div>
 </div>
 
 <a name="PROFILE_FRAME_START"></a><a name="Topic1133"></a><div class="CTopic TFunction LC">

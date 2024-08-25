@@ -372,22 +372,28 @@
  <div class="CTitle">Cursor</div>
 </div>
 
+<a name="V9_SetCursorEnable"></a><a name="Topic93"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCursorEnable</div>
+ <div id="NDPrototype93" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCursorEnable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable/disable all cursor display.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable or FALSE to disable.</p></td></tr></table></div>
+</div>
+
 <a name="V9_SetCursorAttribute"></a><a name="Topic1046"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetCursorAttribute</div>
  <div id="NDPrototype1046" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetCursorAttribute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the given cursor atribute (for bitmap modes).</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">id<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Cursor index (0 or 1).</p></td></tr><tr><td class="CDLEntry">x<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Cursor X coordinate (from 0 to 1023 regardless of the screen mode).</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Cursor Y coordinate (from 0 to 511 regardless of the screen mode).</p></td></tr><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Cursor color (2 bits: 0 to 3).</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetCursorEnable"></a><a name="Topic1047"></a><div class="CTopic TFunction LC">
- <div class="CTitle">V9_SetCursorEnable</div>
- <div id="NDPrototype1047" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetCursorEnable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id,</td></tr><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable/disable the given cursor</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">id<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Cursor index (0 or 1).</p></td></tr><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable or FALSE to disable.</p></td></tr></table></div>
+<a name="V9_SetCursorDisplay"></a><a name="Topic405"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetCursorDisplay</div>
+ <div id="NDPrototype405" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetCursorDisplay(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id,</td></tr><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Display/hide the given cursor</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">id<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Cursor index (0 or 1).</p></td></tr><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to display or FALSE to hide.</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetCursorPattern"></a><a name="Topic1048"></a><div class="CTopic TFunction LC">
+<a name="V9_SetCursorPattern"></a><a name="Topic1115"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetCursorPattern</div>
- <div id="NDPrototype1048" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCursorPattern(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">id,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set the given cursor pattern.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">id<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Cursor index (0 or 1).</p></td></tr><tr><td class="CDLEntry">data<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>128 bytes pattern buffer (32 x 32 binary data).</p></td></tr></table></div>
+ <div id="NDPrototype1115" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetCursorPattern(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">id,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the given cursor pattern.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">id<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Cursor index (0 or 1).</p></td></tr><tr><td class="CDLEntry">data<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>128 bytes pattern buffer (32 x 32 binary data, 4 bytes per line).</p></td></tr></table></div>
 </div>
 
 <a name="V9_SetCursorPalette"></a><a name="Topic1049"></a><div class="CTopic TFunction LC">
@@ -714,9 +720,9 @@
  <div class="CBody"><p>Detecting the presence of a V9990 card</p><div class="CHeading">Return</div><p>TRUE if V9990 video chip is detected.</p></div>
 </div>
 
-<a name="V9_ClearVRAM"></a><a name="Topic618"></a><div class="CTopic TFunction LC">
+<a name="V9_ClearVRAM"></a><a name="Topic1131"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_ClearVRAM</div>
- <div id="NDPrototype618" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> V9_ClearVRAM()</div></div>
+ <div id="NDPrototype1131" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> V9_ClearVRAM() __PRESERVES(d, e, h, l, iyl, iyh)</div></div>
  <div class="CBody"><p>Clear the whole 512 KB of VRAM with zero</p></div>
 </div>
 

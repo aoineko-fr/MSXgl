@@ -245,7 +245,7 @@ void V9_SetScrollingBX(u16 x)
 
 //-----------------------------------------------------------------------------
 // Clean the whole VRAM (512 KB)
-void V9_ClearVRAM()
+void V9_ClearVRAM() __PRESERVES(d, e, h, l, iyl, iyh)
 {
 	__asm
 		V9_DI
@@ -258,16 +258,20 @@ void V9_ClearVRAM()
 
 		// Setup 512 KB loop (256x256x8)
 		ld		b, a
-		ld		d, a
-		ld		e, #8
+		ld		c, a
 
 		// Loop
 	v9_clear_loop:
 		out		(V9_P00), a
+		out		(V9_P00), a
+		out		(V9_P00), a
+		out		(V9_P00), a
+		out		(V9_P00), a
+		out		(V9_P00), a
+		out		(V9_P00), a
+		out		(V9_P00), a
 		djnz	v9_clear_loop
-		dec		d
-		jp		nz, v9_clear_loop
-		dec		e
+		dec		c
 		jp		nz, v9_clear_loop
 
 		V9_EI
@@ -566,34 +570,39 @@ void V9_SetPaletteEntry(u8 index, const u8* color) __PRESERVES(h, l, iyl, iyh)
 //   id - Cursor index (0 or 1).
 //   x - Cursor X coordinate (from 0 to 1023 regardless of the screen mode).
 //   y - Cursor Y coordinate (from 0 to 511 regardless of the screen mode).
-//   color - Cursor color (2 bits).
+//   color - Cursor color offset (2 bits).
+//
+// Note: Call to this function will enable cursor display.
 void V9_SetCursorAttribute(u8 id, u16 x, u16 y, u8 color)
 {
 	u32 addr = 0x7FE00;
 	if(id)
 		addr += 8;
-	V9_Poke(addr += 2, y & 0xFF);
-	V9_Poke(addr += 2, y >> 8);
-	V9_Poke(addr += 2, x & 0xFF);
+	V9_Poke(addr, y & 0xFF);
+	addr += 2;
+	V9_Poke(addr, y >> 8);
+	addr += 2;
+	V9_Poke(addr, x & 0xFF);
+	addr += 2;
 	V9_Poke(addr, ((x >> 8) & 0x3) + ((color & 0x3) << 6));
 }
 
 //-----------------------------------------------------------------------------
-// Enable/disable the given cursor
+// Display/hide the given cursor
 //
 // Parameters:
 //   id - Cursor index (0 or 1).
-//   enable - TRUE to enable or FALSE to disable.
-void V9_SetCursorEnable(u8 id, bool enable)
+//   enable - TRUE to display or FALSE to hide.
+void V9_SetCursorDisplay(u8 id, bool enable)
 {
 	u32 addr = 0x7FE06;
 	if(id)
 		addr += 8;
 	u8 val = V9_Peek(addr);
 	if(enable)
-		val |= V9_CURSOR_DISABLE;
-	else
 		val &= ~V9_CURSOR_DISABLE;
+	else
+		val |= V9_CURSOR_DISABLE;
 	V9_Poke(addr, val);
 }
 

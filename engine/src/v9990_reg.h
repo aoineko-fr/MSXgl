@@ -129,6 +129,7 @@ struct V9_Status
 #define V9_PORT_INT_FLAG			V9_P06
 __sfr __at(V9_P06)					g_V9_IntFlagPort;
 
+#define V9_P06_NONE					0b00000000
 #define V9_P06_VI					0b00000001
 #define V9_P06_HI					0b00000010
 #define V9_P06_CE					0b00000100

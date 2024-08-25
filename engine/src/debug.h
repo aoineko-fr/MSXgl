@@ -19,8 +19,14 @@
 // Support for debug/profile tool
 #if (DEBUG_TOOL != DEBUG_DISABLE)
 
+//.............................................................................
+// Group: Debug
+
 	// Function: DEBUG_INIT
 	// Initialize Debug module
+	//
+	// Notes:
+	// - [Emulicious] This allow to mark area reserved by BIOS to help detection of unset memory access
 	void DEBUG_INIT();
 
 	// Function: DEBUG_BREAK
@@ -65,8 +71,11 @@
 	//
 	// Notes:
 	// - [Emulicious] Supported format specifiers: https://www.tutorialspoint.com/format-specifiers-in-c
-	// - [openMSX] You need the "tools/script/openMSX/debugger_pvm.tcl" script to be loaded to use this function. Supported format specifiers: 
+	// - [openMSX] You need the "tools/script/openMSX/debugger_pvm.tcl" script to be loaded to use this function. 
 	void DEBUG_PRINT(const c8* format, ...);
+
+//.............................................................................
+// Group: Profile
 
 	// Function: PROFILE_FRAME_START
 	// Signal the start of a frame to be measured.

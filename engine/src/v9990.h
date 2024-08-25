@@ -157,6 +157,7 @@ enum V9_COLOR_MODE
 #define V9_BMP_CUR					0x7FE00	// Cursor area (512 bytes)
 
 // V9990 interruption flag
+#define V9_INT_NONE					V9_P06_NONE
 #define V9_INT_VBLANK				V9_P06_VI
 #define V9_INT_HBLANK				V9_P06_HI
 #define V9_INT_CMDEND				V9_P06_CE
@@ -658,6 +659,13 @@ inline void V9_SetScrollingB(u16 x, u16 y) { V9_SetScrollingBX(x);  V9_SetScroll
 
 #if ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
 
+// Function: V9_SetCursorEnable
+// Enable/disable all cursor display.
+//
+// Parameters:
+//   enable - TRUE to enable or FALSE to disable.
+inline void V9_SetCursorEnable(bool enable) { V9_SetFlag(8, V9_R08_SPD_OFF, enable ? 0 : V9_R08_SPD_OFF); }
+
 // Function: V9_SetCursorAttribute
 // Set the given cursor atribute (for bitmap modes).
 //
@@ -668,21 +676,21 @@ inline void V9_SetScrollingB(u16 x, u16 y) { V9_SetScrollingBX(x);  V9_SetScroll
 //   color - Cursor color (2 bits: 0 to 3).
 void V9_SetCursorAttribute(u8 id, u16 x, u16 y, u8 color);
 
-// Function: V9_SetCursorEnable
-// Enable/disable the given cursor
+// Function: V9_SetCursorDisplay
+// Display/hide the given cursor
 //
 // Parameters:
 //   id - Cursor index (0 or 1).
-//   enable - TRUE to enable or FALSE to disable.
-void V9_SetCursorEnable(u8 id, bool enable);
+//   enable - TRUE to display or FALSE to hide.
+void V9_SetCursorDisplay(u8 id, bool enable);
 
 // Function: V9_SetCursorPattern
 // Set the given cursor pattern.
 //
 // Parameters:
 //   id - Cursor index (0 or 1).
-//   data - 128 bytes pattern buffer (32 x 32 binary data).
-inline void V9_SetCursorPattern(u8 id, const u8* data) { V9_WriteVRAM(0x7FF00 + id * 0x80, data, 128); }
+//   data - 128 bytes pattern buffer (32 x 32 binary data, 4 bytes per line).
+inline void V9_SetCursorPattern(u8 id, const u8* data) { V9_WriteVRAM(0x7FF00 + (id * 0x80), data, 128); }
 
 // Function: V9_SetCursorPalette
 // Set cursor palette offset.
@@ -1213,7 +1221,7 @@ bool V9_Detect();
 
 // Function: V9_ClearVRAM
 // Clear the whole 512 KB of VRAM with zero
-void V9_ClearVRAM();
+void V9_ClearVRAM() __PRESERVES(d, e, h, l, iyl, iyh);
 
 // Function: V9_WaitCmdEnd
 // Wait for current command completion
