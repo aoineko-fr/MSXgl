@@ -74,25 +74,6 @@
 	// - [openMSX] You need the "tools/script/openMSX/debugger_pvm.tcl" script to be loaded to use this function. 
 	void DEBUG_PRINT(const c8* format, ...);
 
-//.............................................................................
-// Group: Profile
-
-	// Function: PROFILE_FRAME_START
-	// Signal the start of a frame to be measured.
-	void PROFILE_FRAME_START();
-
-	// Function: PROFILE_FRAME_END
-	// Signal the end of a frame to be measured.
-	void PROFILE_FRAME_END();
-
-	// Function: PROFILE_SECTION_START
-	// Signal the start of a section to be measured.
-	void PROFILE_SECTION_START(u8 id, u8 level);
-
-	// Function: PROFILE_SECTION_END
-	// Signal the end of a section to be measured.
-	void PROFILE_SECTION_END(u8 id, u8 level);
-
 //-----------------------------------------------------------------------------
 // No support for debug/profile tool
 #else
@@ -115,16 +96,103 @@
 	// Display debug formated message
 	#define DEBUG_PRINT(...)
 
+#endif
+
+
+//.............................................................................
+// Group: Profile
+
+//-----------------------------------------------------------------------------
+// Grauw profile script for openMSX emulator
+#if (PROFILE_TOOL == PROFILE_OPENMSX_G)
+
+	#define P_PROFILE_SECTION		0x2C
+	#define P_PROFILE_FRAME			0x2D
+
+	__sfr __at(P_PROFILE_SECTION)	g_PortDebugSection;
+	__sfr __at(P_PROFILE_FRAME)		g_PortDebugFrame;
+
+	inline void do_PROFILE_SECTION_START(u8 id)
+	{
+		id; // A
+		__asm
+			in a, (P_PROFILE_SECTION)
+		__endasm;	
+	}																		
+	inline void PROFILE_SECTION_START(u8 level, u8 section, const c8* msg) { msg; if (level <= PROFILE_LEVEL) { do_PROFILE_SECTION_START(section); } }
+
+	inline void do_PROFILE_SECTION_END(u8 id)
+	{
+		id; // A
+		__asm
+			out (P_PROFILE_SECTION), a
+		__endasm;	
+	}
+	inline void PROFILE_SECTION_END(u8 level, u8 section, const c8* msg) { msg; if (level <= PROFILE_LEVEL) { do_PROFILE_SECTION_END(section); } }
+																			
+	inline void PROFILE_FRAME_START()
+	{
+		__asm
+			in a, (P_PROFILE_FRAME)
+		__endasm;
+	}
+	inline void PROFILE_FRAME_END()
+	{
+		__asm
+			out (P_PROFILE_FRAME), a
+		__endasm;
+	}
+
+//-----------------------------------------------------------------------------
+// Salutte profile script for openMSX emulator
+// Doc: https://github.com/MartinezTorres/OpenMSX_profiler
+#elif (PROFILE_TOOL == PROFILE_OPENMSX_S)
+
+	#define P_PROFILE_START			0x2C
+	#define P_PROFILE_END			0x2D
+
+	__sfr __at(P_PROFILE_START)		g_PortStartProfile;
+	__sfr __at(P_PROFILE_END)		g_PortEndProfile;
+
+	const c8* __at(0xF931) g_ProfileMsg;
+
+	inline void PROFILE_SECTION_START(u8 level, u8 section, const c8* msg)
+	{
+		if (level < PROFILE_LEVEL)
+		{
+			g_ProfileMsg = msg;
+			g_PortStartProfile = section;
+		}
+	}
+
+	inline void PROFILE_SECTION_END(u8 level, u8 section, const c8* msg)
+	{
+		if (level < PROFILE_LEVEL)
+		{
+			g_ProfileMsg = msg;
+			g_PortEndProfile = section;
+		}
+	}
+
+	inline void PROFILE_FRAME_START()	{ PROFILE_SECTION_START(0, 0, "FRAME"); }
+	inline void PROFILE_FRAME_END()		{ PROFILE_SECTION_END(0, 0, "FRAME"); }
+
+#else
+
+	// Function: PROFILE_FRAME_START
 	// Signal the start of a frame to be measured.
-	#define PROFILE_FRAME_START()
+	inline void PROFILE_FRAME_START() {}
 
+	// Function: PROFILE_FRAME_END
 	// Signal the end of a frame to be measured.
-	#define PROFILE_FRAME_END()
+	inline void PROFILE_FRAME_END() {}
 
+	// Function: PROFILE_SECTION_START
 	// Signal the start of a section to be measured.
-	#define PROFILE_SECTION_START(id, level)
+	inline void PROFILE_SECTION_START(u8 level, u8 section, const c8* msg) { level, section, msg; }
 
+	// Function: PROFILE_SECTION_END
 	// Signal the end of a section to be measured.
-	#define PROFILE_SECTION_END(id, level)
+	inline void PROFILE_SECTION_END(u8 level, u8 section, const c8* msg) { level, section, msg; }
 
 #endif

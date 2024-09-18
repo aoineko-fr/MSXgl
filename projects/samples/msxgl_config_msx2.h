@@ -275,7 +275,7 @@
 #define GAMEPAWN_BORDER_MIN_Y		0		// High border Y coordinade
 #define GAMEPAWN_BORDER_MAX_Y		191		// Low border Y coordinate
 #define GAMEPAWN_FORCE_SM1			FALSE	// Force the use sprite mode 1 (for MSX2) 
-#define GAMEPAWN_USE_VRAM_COL		FALSE	// Use VRAM to chech tile collision (use RAM buffer instead)
+#define GAMEPAWN_USE_VRAM_COL		FALSE	// Use VRAM to chech tile collision (otherwise, use RAM buffer)
 #define GAMEPAWN_TILEMAP_WIDTH		32		// Width of the tiles map
 #define GAMEPAWN_TILEMAP_HEIGHT		24		// Height of the tiles map
 
@@ -570,12 +570,15 @@
 // DEBUG & PROFILE
 //-----------------------------------------------------------------------------
 
-// Debugger and profiler options
-// - DEBUG_DISABLE ................ No debug or profile feature
+// Debugger options
+// - DEBUG_DISABLE ................ No debug tool
 // - DEBUG_EMULICIOUS ............. Debug features for Emulicious
 // - DEBUG_OPENMSX ................ Debug features for openMSX using 'debugdevice' extension
 // - DEBUG_OPENMSX_P .............. Debug features for openMSX using PVM script (tools/script/openMSX/debugger_pvm.tcl)
-// - DEBUG_OPENMSX_G .............. Profiler features for openMSX using Grauw script (tools/script/openMSX/profiler_grauw.tcl)
-// - DEBUG_OPENMSX_S .............. Profiler features for openMSX using Salutte script (tools/script/openMSX/profiler_salutte.tcl)
 #define DEBUG_TOOL					DEBUG_DISABLE
+// Profiler options
+// - PROFILE_DISABLE .............. No profile tool
+// - PROFILE_OPENMSX_G ............ Profiler features for openMSX using Grauw script (tools/script/openMSX/profiler_grauw.tcl)
+// - PROFILE_OPENMSX_S ............ Profiler features for openMSX using Salutte script (tools/script/openMSX/profiler_salutte.tcl)
+#define PROFILE_TOOL				PROFILE_DISABLE
 #define PROFILE_LEVEL				10

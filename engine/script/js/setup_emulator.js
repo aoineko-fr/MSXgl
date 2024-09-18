@@ -131,11 +131,11 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulV9990)    { EmulatorArgs += ' -ext gfx9000 -command "after time 0 {set videosource gfx9000}"'; }
 
 	//---- Emulator conenctors ----
-	if (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -command "plug joyporta joystick1"'; }
+	if (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -command "plug joyporta msxjoystick1"'; }
 	if (EmulPortA === "KEYBOARD") { EmulatorArgs += ' -command "plug joyporta keyjoystick1"'; }
 	if (EmulPortA === "MOUSE")    { EmulatorArgs += ' -command "plug joyporta mouse"'; }
 	if (EmulPortA === "NINJATAP") { EmulatorArgs += ' -command "plug joyporta ninjatap"'; }
-	if (EmulPortB === "JOYSTICK") { EmulatorArgs += ' -command "plug joyportb joystick1"'; }
+	if (EmulPortB === "JOYSTICK") { EmulatorArgs += ' -command "plug joyportb msxjoystick2"'; }
 	if (EmulPortB === "KEYBOARD") { EmulatorArgs += ' -command "plug joyportb keyjoystick2"'; }
 	if (EmulPortB === "MOUSE")    { EmulatorArgs += ' -command "plug joyportb mouse"'; }
 	if (EmulPortB === "NINJATAP") { EmulatorArgs += ' -command "plug joyportb ninjatap"'; }

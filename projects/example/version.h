@@ -1,1 +1,1 @@
-#define BUILD_VERSION 104
+#define BUILD_VERSION 106

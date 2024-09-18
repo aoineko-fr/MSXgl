@@ -22,7 +22,7 @@
 //*****************************************************************************
 
 // Emulator  = `${ToolsDir}openMSX/openmsx`;
-// Emulator  = `${ToolsDir}Emulicious/Emulicious`;
+Emulator  = `${ToolsDir}Emulicious/Emulicious`;
 // Emulator  = `${ToolsDir}fMSX/fMSX`;
 // Emulator  = `${ToolsDir}MSXEC\\MSXEC`;
 // Emulator  = `${ToolsDir}BlueMSX/blueMSX`;

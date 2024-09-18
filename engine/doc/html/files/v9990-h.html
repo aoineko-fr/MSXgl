@@ -164,16 +164,22 @@
  <div class="CTitle">Setting</div>
 </div>
 
-<a name="V9_SetMode"></a><a name="Topic1014"></a><div class="CTopic TFunction LC">
- <div class="CTitle">V9_SetMode</div>
- <div id="NDPrototype1014" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="V9_SetScreenMode"></a><a name="Topic1133"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetScreenMode</div>
+ <div id="NDPrototype1133" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetScreenMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the current screen mode.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Screen mode ID (see &lt;V9_SCREEN_MODE&gt;).</p></td></tr></table></div>
 </div>
 
-<a name="V9_SetBPP"></a><a name="Topic1015"></a><div class="CTopic TFunction LC">
+<a name="V9_SetBPP"></a><a name="Topic1134"></a><div class="CTopic TFunction LC">
  <div class="CTitle">V9_SetBPP</div>
- <div id="NDPrototype1015" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetBPP(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bpp</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set bit number per pixel.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">bpp<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>New bits per pixel to set. Can be: &lt;V9_R06_BPP_2&gt;, &lt;V9_R06_BPP_4&gt;, &lt;V9_R06_BPP_8&gt; or &lt;V9_R06_BPP_16&gt;.</p></td></tr></table></div>
+ <div id="NDPrototype1134" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> V9_SetBPP(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bpp</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set bitmap bit-per-pixel value.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">bpp<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>New bits per pixel to set. Can be: &lt;V9_R06_BPP_2&gt;, &lt;V9_R06_BPP_4&gt;, &lt;V9_R06_BPP_8&gt; or &lt;V9_R06_BPP_16&gt;.</p></td></tr></table></div>
+</div>
+
+<a name="V9_SetColorMode"></a><a name="Topic1135"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">V9_SetColorMode</div>
+ <div id="NDPrototype1135" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> V9_SetColorMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set bitmap color mode.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>New color mode to set. Can be any of the bitmap modes of &lt;V9_COLOR_MODE&gt; enum.</p></td></tr></table></div>
 </div>
 
 <a name="V9_GetBPP"></a><a name="Topic1016"></a><div class="CTopic TFunction LC">

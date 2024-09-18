@@ -65,10 +65,22 @@
  <div class="CBody"><p>Set pawn physics callback Only available if GAMEPAWN_USE_PHYSICS compile option is set to TRUE.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">pawn</td><td class="CDLDefinition"><p>Address of game pawn structure to initialize.</p></td></tr><tr><td class="CDLEntry">pcb</td><td class="CDLDefinition"><p>Callback function to be called when physics events occurs.</p></td></tr><tr><td class="CDLEntry">ccb</td><td class="CDLDefinition"><p>Callback function to be called when collision events occurs.</p></td></tr><tr><td class="CDLEntry">boundX</td><td class="CDLDefinition"><p>Bounding box X extend (in pixels, from the pawn's origin).</p></td></tr><tr><td class="CDLEntry">boundY</td><td class="CDLDefinition"><p>Bounding box Y extend (in pixels, from the pawn's origin).</p></td></tr></table></div>
 </div>
 
-<a name="GamePawn_GetPhysicsState"></a><a name="Topic590"></a><div class="CTopic TFunction LC last">
+<a name="GamePawn_GetPhysicsState"></a><a name="Topic590"></a><div class="CTopic TFunction LC">
  <div class="CTitle">GamePawn_GetPhysicsState</div>
  <div id="NDPrototype590" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 GamePawn_GetPhysicsState(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Game_Pawn*&nbsp;</td><td class="PName last">pawn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get pawn physics state.&nbsp; Only available if GAMEPAWN_USE_PHYSICS compile option is set to TRUE.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">pawn<div class="CDLParameterType">Game_Pawn*</div></td><td class="CDLDefinition"><p>Pointer to pawn structure.</p></td></tr></table><div class="CHeading">Return</div><p>Pawn's physics state.</p></div>
+</div>
+
+<a name="GamePawn_GetCallbackCellX"></a><a name="Topic1014"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">GamePawn_GetCallbackCellX</div>
+ <div id="NDPrototype1014" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline const</span> u8 GamePawn_GetCallbackCellX()</div></div>
+ <div class="CBody"><p>Get the X coordinate of the cell that triggered a callback.&nbsp; The value is only valid within a callback.&nbsp; Only available if GAMEPAWN_USE_PHYSICS compile option is set to TRUE.</p><div class="CHeading">Return</div><p>X coordinate of the current cell.</p></div>
+</div>
+
+<a name="GamePawn_GetCallbackCellY"></a><a name="Topic1015"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">GamePawn_GetCallbackCellY</div>
+ <div id="NDPrototype1015" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline const</span> u8 GamePawn_GetCallbackCellY()</div></div>
+ <div class="CBody"><p>Get the Y coordinate of the cell that triggered a callback.&nbsp; The value is only valid within a callback.&nbsp; Only available if GAMEPAWN_USE_PHYSICS compile option is set to TRUE.</p><div class="CHeading">Return</div><p>Y coordinate of the current cell.</p></div>
 </div>
 
 </body></html>

@@ -24,6 +24,12 @@ static u8 g_Game_DrawPattern;
 static Game_Pawn* g_Pawn;
 static const Game_Sprite* g_Sprite;
 
+#if (GAMEPAWN_USE_PHYSICS)
+// Current cell coordinate
+u8 g_Game_CellX;
+u8 g_Game_CellY;
+#endif
+
 // Tile map buffer in RAM
 #if (!GAMEPAWN_USE_VRAM_COL)
 const u8* g_GamePawn_TileMap;
@@ -171,74 +177,75 @@ void GamePawn_Update(Game_Pawn* pawn)
 			else
 			#endif
 			{
-				u8 cellY = (targetY + GET_BOUND_Y) / 8;
-				u8 cellX, lastCell = 0xFF;
+				g_Game_CellY = (targetY + GET_BOUND_Y) / 8;
+				g_Game_CellX = 0xFF;
+				u8 lastCell = 0xFF;
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_0)
-					cellX = (targetX) / 8;
-					if(cellX != lastCell)
+					g_Game_CellX = (targetX) / 8;
+					if(g_Game_CellX != lastCell)
 					{
-						lastCell = cellX;
-						u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
+						lastCell = g_Game_CellX;
+						u8 tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (cellY * 8) - GET_BOUND_Y;
+							targetY = (g_Game_CellY * 8) - GET_BOUND_Y;
 							goto skipVertival;
 						}
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_25)
-					cellX = (targetX + (GET_BOUND_X / 4)) / 8;
-					if(cellX != lastCell)
+					g_Game_CellX = (targetX + (GET_BOUND_X / 4)) / 8;
+					if(g_Game_CellX != lastCell)
 					{
-						lastCell = cellX;
-						u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
+						lastCell = g_Game_CellX;
+						u8 tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (cellY * 8) - GET_BOUND_Y;
+							targetY = (g_Game_CellY * 8) - GET_BOUND_Y;
 							goto skipVertival;
 						}
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_50)
-					cellX = (targetX + (GET_BOUND_X / 2)) / 8;
-					if(cellX != lastCell)
+					g_Game_CellX = (targetX + (GET_BOUND_X / 2)) / 8;
+					if(g_Game_CellX != lastCell)
 					{
-						lastCell = cellX;
-						u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
+						lastCell = g_Game_CellX;
+						u8 tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (cellY * 8) - GET_BOUND_Y;
+							targetY = (g_Game_CellY * 8) - GET_BOUND_Y;
 							goto skipVertival;
 						}
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_75)
-					cellX = (targetX + GET_BOUND_X - (GET_BOUND_X / 4)) / 8;
-					if(cellX != lastCell)
+					g_Game_CellX = (targetX + GET_BOUND_X - (GET_BOUND_X / 4)) / 8;
+					if(g_Game_CellX != lastCell)
 					{
-						lastCell = cellX;
-						u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
+						lastCell = g_Game_CellX;
+						u8 tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (cellY * 8) - GET_BOUND_Y;
+							targetY = (g_Game_CellY * 8) - GET_BOUND_Y;
 							goto skipVertival;
 						}
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_100)
-					cellX = (targetX + GET_BOUND_X - 1) / 8;
-					if(cellX != lastCell)
+					g_Game_CellX = (targetX + GET_BOUND_X - 1) / 8;
+					if(g_Game_CellX != lastCell)
 					{
-						lastCell = cellX;
-						u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
+						lastCell = g_Game_CellX;
+						u8 tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 						if(g_Pawn->CollisionCB(tile))
 						{
 							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (cellY * 8) - GET_BOUND_Y;
+							targetY = (g_Game_CellY * 8) - GET_BOUND_Y;
 							goto skipVertival;
 						}
 					}
@@ -266,13 +273,13 @@ void GamePawn_Update(Game_Pawn* pawn)
 			else
 			#endif
 			{
-				u8 cellX = (targetX + (GET_BOUND_X / 2)) / 8;
-				u8 cellY = (targetY) / 8;
-				u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
+				g_Game_CellX = (targetX + (GET_BOUND_X / 2)) / 8;
+				g_Game_CellY = (targetY) / 8;
+				u8 tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 				if(g_Pawn->CollisionCB(tile))
 				{
 					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_UP, tile);
-					targetY = (cellY * 8) + 8;
+					targetY = (g_Game_CellY * 8) + 8;
 				}
 			}
 		}
@@ -285,54 +292,55 @@ void GamePawn_Update(Game_Pawn* pawn)
 			#endif
 			{
 				u8 tile = 0;
-				u8 cellY = (targetY + GET_BOUND_Y) / 8;
-				u8 cellX, lastCell = 0xFF;
+				g_Game_CellY = (targetY + GET_BOUND_Y) / 8;
+				g_Game_CellX = 0xFF;
+				u8 lastCell = 0xFF;
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_0)
-					cellX = (targetX) / 8;
-					if(cellX != lastCell)
+					g_Game_CellX = (targetX) / 8;
+					if(g_Game_CellX != lastCell)
 					{
-						lastCell = cellX;
-						tile = GAMEPAWN_GET_TILE(cellX, cellY);
+						lastCell = g_Game_CellX;
+						tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 						if(g_Pawn->CollisionCB(tile))
 							goto skipVertival;
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_25)
-					cellX = (targetX + (GET_BOUND_X / 4)) / 8;
-					if(cellX != lastCell)
+					g_Game_CellX = (targetX + (GET_BOUND_X / 4)) / 8;
+					if(g_Game_CellX != lastCell)
 					{
-						lastCell = cellX;
-						tile = GAMEPAWN_GET_TILE(cellX, cellY);
+						lastCell = g_Game_CellX;
+						tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 						if(g_Pawn->CollisionCB(tile))
 							goto skipVertival;
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_50)
-					cellX = (targetX + (GET_BOUND_X / 2)) / 8;
-					if(cellX != lastCell)
+					g_Game_CellX = (targetX + (GET_BOUND_X / 2)) / 8;
+					if(g_Game_CellX != lastCell)
 					{
-						lastCell = cellX;
-						tile = GAMEPAWN_GET_TILE(cellX, cellY);
+						lastCell = g_Game_CellX;
+						tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 						if(g_Pawn->CollisionCB(tile))
 							goto skipVertival;
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_75)
-					cellX = (targetX + GET_BOUND_X - (GET_BOUND_X / 4)) / 8;
-					if(cellX != lastCell)
+					g_Game_CellX = (targetX + GET_BOUND_X - (GET_BOUND_X / 4)) / 8;
+					if(g_Game_CellX != lastCell)
 					{
-						lastCell = cellX;
-						tile = GAMEPAWN_GET_TILE(cellX, cellY);
+						lastCell = g_Game_CellX;
+						tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 						if(g_Pawn->CollisionCB(tile))
 							goto skipVertival;
 					}
 				#endif
 				#if (GAMEPAWN_COL_DOWN & GAMEPAWN_COL_100)
-					cellX = (targetX + GET_BOUND_X - 1) / 8;
-					if(cellX != lastCell)
+					g_Game_CellX = (targetX + GET_BOUND_X - 1) / 8;
+					if(g_Game_CellX != lastCell)
 					{
-						lastCell = cellX;
-						tile = GAMEPAWN_GET_TILE(cellX, cellY);
+						lastCell = g_Game_CellX;
+						tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 						if(g_Pawn->CollisionCB(tile))
 							goto skipVertival;
 					}
@@ -358,13 +366,13 @@ skipVertival:
 			else
 			#endif
 			{
-				u8 cellX = (targetX + GET_BOUND_X) / 8;
-				u8 cellY = (targetY + (GET_BOUND_Y / 2)) / 8;
-				u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
+				g_Game_CellX = (targetX + GET_BOUND_X) / 8;
+				g_Game_CellY = (targetY + (GET_BOUND_Y / 2)) / 8;
+				u8 tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 				if(g_Pawn->CollisionCB(tile))
 				{
 					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT, tile);
-					targetX = (cellX * 8) - GET_BOUND_X;
+					targetX = (g_Game_CellX * 8) - GET_BOUND_X;
 				}
 			}
 		}
@@ -385,13 +393,13 @@ skipVertival:
 			else
 			#endif
 			{
-				u8 cellX = (targetX) / 8;
-				u8 cellY = (targetY + (GET_BOUND_Y / 2)) / 8;
-				u8 tile = GAMEPAWN_GET_TILE(cellX, cellY);
+				g_Game_CellX = (targetX) / 8;
+				g_Game_CellY = (targetY + (GET_BOUND_Y / 2)) / 8;
+				u8 tile = GAMEPAWN_GET_TILE(g_Game_CellX, g_Game_CellY);
 				if(g_Pawn->CollisionCB(tile))
 				{
 					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT, tile);
-					targetX = (cellX * 8) + 8;
+					targetX = (g_Game_CellX * 8) + 8;
 				}
 			}
 		}

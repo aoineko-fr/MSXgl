@@ -289,6 +289,8 @@ void main()
 	{
 		WaitVBlank();
 
+		PROFILE_FRAME_START();
+
 		Print_SetPosition(247, 0);
 		Print_DrawChar(chrAnim[g_Frame & 0x03]);
 
@@ -344,8 +346,16 @@ void main()
 
 		GamePawn_SetAction(&g_PlayerPawn, act);
 		GamePawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
+
+		PROFILE_SECTION_START(1, 10, "UPDATE");
 		GamePawn_Update(&g_PlayerPawn);
+		PROFILE_SECTION_END(1, 10, "UPDATE");
+
+		PROFILE_SECTION_START(1, 20, "DRAW");
 		GamePawn_Draw(&g_PlayerPawn);
+		PROFILE_SECTION_END(1, 20, "DRAW");
+
+		PROFILE_FRAME_END();
 	}
 
 	DEBUG_LOG("End debug session!");

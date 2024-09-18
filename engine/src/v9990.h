@@ -100,6 +100,7 @@ enum V9_SCREEN_MODE
 	V9_MODE_B5, // Bitmap mode 5 640x400 (VGA)
 	V9_MODE_B6, // Bitmap mode 6 640x480 (VGA)
 	V9_MODE_B7, // Bitmap mode 7 1024x212 (Undocumented v9990 mode)
+	V9_MODE_MAX,
 };
 
 // Color modes
@@ -110,7 +111,6 @@ enum V9_COLOR_MODE
 	V9_COLOR_BP2,	// 0    0    0	Color palette (4 colors out of 32768 colors)
 	// 4 bits per pixel
 	V9_COLOR_BP4,	// 1    0    0	Color palette (16 colors out of 32768 colors)
-	V9_COLOR_PP,	// 				Display type when the display mode is P1 or P2
 	// 8 bits per pixel
 	V9_COLOR_BP6,	// 2    0    0	Color palette (64 colors out of 32768 colors)
 	V9_COLOR_BD8,	// 2    1    0	Direct RGB [G:3|R:3|B:2] (256 colors)
@@ -120,6 +120,10 @@ enum V9_COLOR_MODE
 	V9_COLOR_BYUVP,	// 2    3    1	YUV Decoder + Color palette (12599 colors + 16 colors out of 32768 colors)
 	// 16 bits per pixel
 	V9_COLOR_BD16,	// 3    0    0	Direct RGB [YS|G:5|R:2][R:3|B:5] (32768 colors)
+	V9_COLOR_BMP_MAX,
+	// Tile-based screen's color mode
+	V9_COLOR_PP,	// 				Display type when the display mode is P1 or P2 (16/32 colors out of 32768 colors)
+	V9_COLOR_MAX,
 };
 
 // Cursor disable bit
@@ -135,8 +139,8 @@ enum V9_COLOR_MODE
 #define V9_WII						0b10000000
 
 // Masks
-#define V9_R06_COLOR_MASK			0b00000011
-#define V9_R13_COLOR_MASK			0b11100000
+#define V9_R06_COLOR_MASK			V9_R06_BPP_MASK
+#define V9_R13_COLOR_MASK			(V9_R13_PLTM_MASK + V9_R13_YAE)
 
 // P1 mode VRAM layout
 #define V9_P1_PGT_A					0x00000	// Pattern Generator Table (Layer A). 8160 patterns max
@@ -415,19 +419,30 @@ inline u16 V9_Peek16(u32 addr) { V9_SetReadAddress(addr); return V9_Peek16_Curre
 // Group: Setting
 //-----------------------------------------------------------------------------
 
-// Function: V9_SetMode
+// Function: V9_SetScreenMode
 // Set the current screen mode.
 //
 // Parameters:
 //   mode - Screen mode ID (see <V9_SCREEN_MODE>).
-void V9_SetMode(u8 mode);
+void V9_SetScreenMode(u8 mode);
+
+#if ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
 
 // Function: V9_SetBPP
-// Set bit number per pixel.
+// Set bitmap bit-per-pixel value.
 //
 // Parameters:
 //   bpp - New bits per pixel to set. Can be: <V9_R06_BPP_2>, <V9_R06_BPP_4>, <V9_R06_BPP_8> or <V9_R06_BPP_16>.
-inline void V9_SetBPP(u8 bpp) { V9_SetRegister(6, V9_GetRegister(6) & (~V9_R06_BPP_MASK) | bpp); }
+inline void V9_SetBPP(u8 bpp) { V9_SetFlag(6, V9_R06_BPP_MASK, bpp); }
+
+// Function: V9_SetColorMode
+// Set bitmap color mode.
+//
+// Parameters:
+//   mode - New color mode to set. Can be any of the bitmap modes of <V9_COLOR_MODE> enum.
+void V9_SetColorMode(u8 mode);
+
+#endif
 
 // Function: V9_GetBPP
 // Get bit number per pixel.
@@ -441,7 +456,7 @@ inline u8 V9_GetBPP() { return V9_GetRegister(6) & (~V9_R06_BPP_MASK); }
 //
 // Parameters:
 //   width - New image space width to set. Can be: <V9_R06_WIDH_256>, <V9_R06_WIDH_512>, <V9_R06_WIDH_1024> or <V9_R06_WIDH_2048>.
-inline void V9_SetImageSpaceWidth(u8 width) { V9_SetRegister(6, V9_GetRegister(6) & (~V9_R06_WIDH_MASK) | width); }
+inline void V9_SetImageSpaceWidth(u8 width) { V9_SetFlag(6, V9_R06_WIDH_MASK, width); }
 
 // Function: V9_GetImageSpaceWidth
 // Get number of pixels in X direction of image space.

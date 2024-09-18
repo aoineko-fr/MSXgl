@@ -267,7 +267,7 @@ void VDP_ClearVRAM()
 //
 // Parameters:
 //   src   - Source data address in RAM
-//   dest  - Destiation address in VRAM (14bits address for 16KB VRAM)
+//   dest  - Destination address in VRAM (14bits address for 16KB VRAM)
 //   count - Nomber of byte to copy in VRAM
 void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count)
 {
@@ -346,7 +346,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count)
 //
 // Parameters:
 //   value	- Byte value to copy in VRAM
-//   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
+//   dest	- Destination address in VRAM (14 bits address form 16 KB VRAM)
 //   count	- Nomber of byte to copy in VRAM
 void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __NAKED // Stack: 4 bytes
 {
@@ -408,7 +408,7 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __NAKED // Stack: 4 bytes
 //
 // Parameters:
 //   value	- Byte value to copy in VRAM
-//   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
+//   dest	- Destination address in VRAM (14 bits address form 16 KB VRAM)
 //   count	- Nomber of byte to copy in VRAM
 void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count) __NAKED // Stack: 4 bytes
 {
@@ -991,8 +991,8 @@ void VDP_SetPaletteEntry(u8 index, u16 color)
 //
 // Parameters:
 //   src		- Source data address in RAM
-//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
-//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
+//   destLow	- Destination address in VRAM (16 LSB of 17-bits VRAM address)
+//   destHigh	- Destination address in VRAM (1 MSB of 17-bits VRAM address)
 //   count		- Nomber of byte to copy in VRAM
 void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count)
 {
@@ -1054,8 +1054,8 @@ void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count)
 //
 // Parameters:
 //   value		- Byte value to copy in VRAM
-//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
-//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
+//   destLow	- Destination address in VRAM (16 LSB of 17-bits VRAM address)
+//   destHigh	- Destination address in VRAM (1 MSB of 17-bits VRAM address)
 //   count		- Nomber of byte to copy in VRAM
 void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count)
 {
@@ -1175,8 +1175,8 @@ void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count)
 //
 // Parameters:
 //   val		- Value to write in VRAM
-//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
-//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
+//   destLow	- Destination address in VRAM (16 LSB of 17-bits VRAM address)
+//   destHigh	- Destination address in VRAM (1 MSB of 17-bits VRAM address)
 void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh)
 {
 	val;      // A
