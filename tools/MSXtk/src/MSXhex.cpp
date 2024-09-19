@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.9";
+const char* VERSION = "0.1.10";
 
 #define BUFFER_SIZE 1024
 
@@ -575,7 +575,7 @@ int main(int argc, const char* argv[])
 		return 1;
 
 	// Insert raw data
-	for (u8 i = 0; i < g_RawData.size(); i++)
+	for (u32 i = 0; i < g_RawData.size(); i++)
 	{
 		if (!WriteBytesAtOffset(g_RawData[i].Offset, g_RawData[i].Data))
 			return 1;
