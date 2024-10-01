@@ -179,7 +179,7 @@ util.print(`- RootDir: ${RootDir}`, PrintDetail);
 util.print(`- LibDir: ${LibDir}`, PrintDetail);
 util.print(`- ToolsDir: ${ToolsDir}`, PrintDetail);
 
-process.env.path += `;${ToolsDir}sdcc/bin`; // Hotfix for SDCC 4.3.0 path error for CC1
+process.env.path += `;${SDCCPath}`; // Hotfix for SDCC 4.3.0 path error for CC1
 
 //-- Command lines to be executed before the build process (array)
 if(PreBuildScripts.length)

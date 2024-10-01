@@ -8,49 +8,49 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic5"></a><div class="CTopic TGroup LC first">
+<a name="Functions"></a><a name="Topic19"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="AKL_IsPlaying"></a><a name="Topic6"></a><div class="CTopic TFunction LC">
+<a name="AKL_IsPlaying"></a><a name="Topic20"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKL_IsPlaying</div>
- <div id="NDPrototype6" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> AKL_IsPlaying()</div></div>
+ <div id="NDPrototype20" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> AKL_IsPlaying()</div></div>
  <div class="CBody"><p>Initialize music and start playback</p></div>
 </div>
 
-<a name="AKL_Init"></a><a name="Topic7"></a><div class="CTopic TFunction LC">
+<a name="AKL_Init"></a><a name="Topic21"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKL_Init</div>
- <div id="NDPrototype7" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKL_Init(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">sng</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype21" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKL_Init(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">sng</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Initialize music and start playback</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data</td><td class="CDLDefinition"><p>Pointer to the music data</p></td></tr><tr><td class="CDLEntry">num</td><td class="CDLDefinition"><p>Music number</p></td></tr></table></div>
 </div>
 
-<a name="AKL_Stop"></a><a name="Topic8"></a><div class="CTopic TFunction LC">
+<a name="AKL_Stop"></a><a name="Topic22"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKL_Stop</div>
- <div id="NDPrototype8" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> AKL_Stop()</div></div>
+ <div id="NDPrototype22" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> AKL_Stop()</div></div>
  <div class="CBody"><p>Stop music playback</p></div>
 </div>
 
-<a name="AKL_Decode"></a><a name="Topic9"></a><div class="CTopic TFunction LC">
+<a name="AKL_Decode"></a><a name="Topic23"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKL_Decode</div>
- <div id="NDPrototype9" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">bool</span> AKL_Decode()</div></div>
+ <div id="NDPrototype23" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">bool</span> AKL_Decode()</div></div>
  <div class="CBody"><p>Decode a music frame and update the PSG</p></div>
 </div>
 
-<a name="AKL_InitSFX"></a><a name="Topic10"></a><div class="CTopic TFunction LC">
+<a name="AKL_InitSFX"></a><a name="Topic24"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKL_InitSFX</div>
- <div id="NDPrototype10" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 AKL_InitSFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype24" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 AKL_InitSFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Initializes the sound effects. It MUST be called at any times before a first sound effect is triggered.&nbsp; It doesn't matter whether the song is playing or not, or if it has been initialized or not.</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data</td><td class="CDLDefinition"><p>Address to the sound effects data.</p></td></tr></table><div class="CHeading">Return</div><p>Number of SFX in the package</p></div>
 </div>
 
-<a name="AKL_PlaySFX"></a><a name="Topic11"></a><div class="CTopic TFunction LC">
+<a name="AKL_PlaySFX"></a><a name="Topic25"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKL_PlaySFX</div>
- <div id="NDPrototype11" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKL_PlaySFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">sfx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chan,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">vol</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype25" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKL_PlaySFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">sfx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chan,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">vol</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Plays a sound effect. If a previous one was already playing on the same channel, it is replaced.&nbsp; This does not actually plays the sound effect, but programs its playing.</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">sfx</td><td class="CDLDefinition"><p>Sound effect number (&gt;0!).</p></td></tr><tr><td class="CDLEntry">chan</td><td class="CDLDefinition"><p>The channel where to play the sound effect (0, 1, 2).</p></td></tr><tr><td class="CDLEntry">vol</td><td class="CDLDefinition"><p>Inverted volume (0 = full volume, 16 = no sound). Hardware sounds are also lowered.</p></td></tr></table></div>
 </div>
 
-<a name="AKL_StopSFX"></a><a name="Topic12"></a><div class="CTopic TFunction LC last">
+<a name="AKL_StopSFX"></a><a name="Topic26"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">AKL_StopSFX</div>
- <div id="NDPrototype12" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKL_StopSFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chan</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype26" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKL_StopSFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chan</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Stops a sound effect. Nothing happens if there was no sound effect.</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">chan</td><td class="CDLDefinition"><p>The channel where to stop the sound effect (0, 1, 2).</p></td></tr></table></div>
 </div>
 

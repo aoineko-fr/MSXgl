@@ -261,7 +261,7 @@ void main()
 	VDP_SetPaletteEntry(7, RGB16(3, 1, 1));
 	VDP_SetSpriteExMultiColor(SPRITE_16OR_1ST + 4, (u8)(256-32), 64+8, PATTERN_8_1ST + 16, ColorTab);
 
-	VDP_HideSpriteFrom(SPRITE_16_1ST + 7);
+	VDP_DisableSpritesFrom(SPRITE_16_1ST + 7);
 
 	// Setup print
 	Print_SetBitmapFont(g_Font_MGL_Sample6);

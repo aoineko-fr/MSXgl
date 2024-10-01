@@ -8,71 +8,71 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Debug"></a><a name="Topic73"></a><div class="CTopic TGroup LC first">
+<a name="Debug"></a><a name="Topic936"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">Debug</div>
 </div>
 
-<a name="DEBUG_INIT"></a><a name="Topic187"></a><div class="CTopic TFunction LC">
+<a name="DEBUG_INIT"></a><a name="Topic937"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DEBUG_INIT</div>
- <div id="NDPrototype187" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DEBUG_INIT()</div></div>
+ <div id="NDPrototype937" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DEBUG_INIT()</div></div>
  <div class="CBody"><p>Initialize Debug module</p><div class="CHeading">Notes</div><ul><li><p>[Emulicious] This allow to mark area reserved by BIOS to help detection of unset memory access</p></li></ul></div>
 </div>
 
-<a name="DEBUG_BREAK"></a><a name="Topic121"></a><div class="CTopic TFunction LC">
+<a name="DEBUG_BREAK"></a><a name="Topic938"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DEBUG_BREAK</div>
- <div id="NDPrototype121" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DEBUG_BREAK()</div></div>
+ <div id="NDPrototype938" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DEBUG_BREAK()</div></div>
  <div class="CBody"><p>Force a break point</p><div class="CHeading">Notes</div><ul><li><p>[Emulicious] You need the &quot;Break on ld b, b instruction&quot; exception to be activated.</p></li><li><p>[openMSX] You need the &quot;tools/script/openMSX/debugger_pvm.tcl&quot; script to be loaded to use this function.</p></li></ul></div>
 </div>
 
-<a name="DEBUG_ASSERT"></a><a name="Topic401"></a><div class="CTopic TFunction LC">
+<a name="DEBUG_ASSERT"></a><a name="Topic939"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DEBUG_ASSERT</div>
- <div id="NDPrototype401" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DEBUG_ASSERT(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">a</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype939" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DEBUG_ASSERT(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">a</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Conditionnal break</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">a<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>Instructions to evialuate. A 'false' result will trigger a break.</p></td></tr></table><div class="CHeading">Notes</div><ul><li><p>[Emulicious] You need the &quot;Break on ld b, b instruction&quot; exception to be activated.</p></li><li><p>[openMSX] You need the &quot;tools/script/openMSX/debugger_pvm.tcl&quot; script to be loaded to use this function.</p></li></ul></div>
 </div>
 
-<a name="DEBUG_LOG"></a><a name="Topic402"></a><div class="CTopic TFunction LC">
+<a name="DEBUG_LOG"></a><a name="Topic940"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DEBUG_LOG</div>
- <div id="NDPrototype402" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DEBUG_LOG(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">msg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype940" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DEBUG_LOG(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">msg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Display debug message</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">msg<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Null-terminated string with message to display</p></td></tr></table></div>
 </div>
 
-<a name="DEBUG_LOGNUM"></a><a name="Topic403"></a><div class="CTopic TFunction LC">
+<a name="DEBUG_LOGNUM"></a><a name="Topic941"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DEBUG_LOGNUM</div>
- <div id="NDPrototype403" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DEBUG_LOGNUM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">msg,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">num</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype941" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DEBUG_LOGNUM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">msg,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">num</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Display debug message and a 8-bits value</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">msg<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Null-terminated string with numer name</p></td></tr><tr><td class="CDLEntry">num<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>8-bit number value</p></td></tr></table></div>
 </div>
 
-<a name="DEBUG_PRINT"></a><a name="Topic1119"></a><div class="CTopic TFunction LC">
+<a name="DEBUG_PRINT"></a><a name="Topic942"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DEBUG_PRINT</div>
- <div id="NDPrototype1119" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DEBUG_PRINT(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td></td><td class="PName last">format,</td></tr><tr><td class="first"></td><td></td><td class="PSymbols">...</td><td class="last"></td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype942" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DEBUG_PRINT(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td></td><td class="PName last">format,</td></tr><tr><td class="first"></td><td></td><td class="PSymbols">...</td><td class="last"></td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Display debug formated message</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">format<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Null-terminated string with format specifiers</p></td></tr></table><div class="CHeading">Notes</div><ul><li><p>[Emulicious] Supported format specifiers: <a href="https://www.tutorialspoint.com/format-specifiers-in-c" target="_top">https://&#8203;www&#8203;.tutorialspoint&#8203;.com&#8203;/format-specifiers-in-c</a></p></li><li><p>[openMSX] You need the &quot;tools/script/openMSX/debugger_pvm.tcl&quot; script to be loaded to use this function.</p></li></ul></div>
 </div>
 
-<a name="Profile"></a><a name="Topic1130"></a><div class="CTopic TGroup LC">
+<a name="Profile"></a><a name="Topic943"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Profile</div>
 </div>
 
-<a name="PROFILE_FRAME_START"></a><a name="Topic618"></a><div class="CTopic TFunction LC">
+<a name="PROFILE_FRAME_START"></a><a name="Topic944"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PROFILE_FRAME_START</div>
- <div id="NDPrototype618" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PROFILE_FRAME_START()</div></div>
+ <div id="NDPrototype944" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PROFILE_FRAME_START()</div></div>
  <div class="CBody"><p>Signal the start of a frame to be measured.</p></div>
 </div>
 
-<a name="PROFILE_FRAME_END"></a><a name="Topic1047"></a><div class="CTopic TFunction LC">
+<a name="PROFILE_FRAME_END"></a><a name="Topic945"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PROFILE_FRAME_END</div>
- <div id="NDPrototype1047" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PROFILE_FRAME_END()</div></div>
+ <div id="NDPrototype945" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PROFILE_FRAME_END()</div></div>
  <div class="CBody"><p>Signal the end of a frame to be measured.</p></div>
 </div>
 
-<a name="PROFILE_SECTION_START"></a><a name="Topic1048"></a><div class="CTopic TFunction LC">
+<a name="PROFILE_SECTION_START"></a><a name="Topic946"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PROFILE_SECTION_START</div>
- <div id="NDPrototype1048" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PROFILE_SECTION_START(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">level,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">section,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">msg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype946" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PROFILE_SECTION_START(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">level,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">section,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">msg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Signal the start of a section to be measured.</p></div>
 </div>
 
-<a name="PROFILE_SECTION_END"></a><a name="Topic1132"></a><div class="CTopic TFunction LC last">
+<a name="PROFILE_SECTION_END"></a><a name="Topic947"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">PROFILE_SECTION_END</div>
- <div id="NDPrototype1132" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PROFILE_SECTION_END(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">level,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">section,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">msg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype947" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PROFILE_SECTION_END(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">level,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">section,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">msg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Signal the end of a section to be measured.</p></div>
 </div>
 

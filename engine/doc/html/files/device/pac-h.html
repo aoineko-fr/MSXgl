@@ -8,73 +8,73 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic937"></a><div class="CTopic TGroup LC first">
+<a name="Functions"></a><a name="Topic53"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="PAC_Initialize"></a><a name="Topic950"></a><div class="CTopic TFunction LC">
+<a name="PAC_Initialize"></a><a name="Topic54"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PAC_Initialize</div>
- <div id="NDPrototype950" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">bool</span> PAC_Initialize()</div></div>
+ <div id="NDPrototype54" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">bool</span> PAC_Initialize()</div></div>
  <div class="CBody"><p>Initialize PAC module</p><div class="CHeading">Return</div><p>FALSE if not PAC compatible SRAM found</p></div>
 </div>
 
-<a name="PAC_GetNumber"></a><a name="Topic951"></a><div class="CTopic TFunction LC">
+<a name="PAC_GetNumber"></a><a name="Topic55"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PAC_GetNumber</div>
- <div id="NDPrototype951" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 PAC_GetNumber()</div></div>
- <div class="CBody"><p>Get number of detected PAC devices.&nbsp; <a href="../../index.html#File:device/pac.h:PAC_Initialize" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,950);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >PAC_Initialize</a> must be called first.</p><div class="CHeading">Return</div><p>Number of detected PAC devices</p></div>
+ <div id="NDPrototype55" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 PAC_GetNumber()</div></div>
+ <div class="CBody"><p>Get number of detected PAC devices.&nbsp; <a href="../../index.html#File:device/pac.h:PAC_Initialize" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,54);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >PAC_Initialize</a> must be called first.</p><div class="CHeading">Return</div><p>Number of detected PAC devices</p></div>
 </div>
 
-<a name="PAC_GetSlot"></a><a name="Topic952"></a><div class="CTopic TFunction LC">
+<a name="PAC_GetSlot"></a><a name="Topic56"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PAC_GetSlot</div>
- <div id="NDPrototype952" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 PAC_GetSlot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dev</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype56" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 PAC_GetSlot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dev</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get a given PAC device's slot ID</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">dev<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>PAC device index</p></td></tr></table><div class="CHeading">Return</div><p>Slot ID</p></div>
 </div>
 
-<a name="PAC_GetDefaultSlot"></a><a name="Topic953"></a><div class="CTopic TFunction LC">
+<a name="PAC_GetDefaultSlot"></a><a name="Topic57"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PAC_GetDefaultSlot</div>
- <div id="NDPrototype953" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 PAC_GetDefaultSlot()</div></div>
+ <div id="NDPrototype57" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 PAC_GetDefaultSlot()</div></div>
  <div class="CBody"><p>Get the default (first) PAC device's slot ID</p><div class="CHeading">Return</div><p>Default device's slot ID</p></div>
 </div>
 
-<a name="PAC_Select"></a><a name="Topic954"></a><div class="CTopic TFunction LC">
+<a name="PAC_Select"></a><a name="Topic58"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PAC_Select</div>
- <div id="NDPrototype954" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PAC_Select(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dev</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype58" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PAC_Select(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dev</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Select a given PAC device</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">dev<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>PAC device index</p></td></tr></table></div>
 </div>
 
-<a name="PAC_Activate"></a><a name="Topic955"></a><div class="CTopic TFunction LC">
+<a name="PAC_Activate"></a><a name="Topic59"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PAC_Activate</div>
- <div id="NDPrototype955" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> PAC_Activate(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">bEnable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype59" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> PAC_Activate(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">bEnable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Activate or disactive the current PAC device</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">bEnable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>FALSE to disable</p></td></tr></table></div>
 </div>
 
-<a name="PAC_Write"></a><a name="Topic956"></a><div class="CTopic TFunction LC">
+<a name="PAC_Write"></a><a name="Topic60"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PAC_Write</div>
- <div id="NDPrototype956" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> PAC_Write(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">page,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype60" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> PAC_Write(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">page,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Write data to the current PAC device in the given page</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">page<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>PAC's page to write on (0-7)</p></td></tr><tr><td class="CDLEntry">data<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Pointer to data to write</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of data to write</p></td></tr></table></div>
 </div>
 
-<a name="PAC_Read"></a><a name="Topic957"></a><div class="CTopic TFunction LC">
+<a name="PAC_Read"></a><a name="Topic61"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PAC_Read</div>
- <div id="NDPrototype957" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> PAC_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page,</td></tr><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype61" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> PAC_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page,</td></tr><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Read data from the current PAC device in the given page</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">page<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>PAC's page to read from (0-7)</p></td></tr><tr><td class="CDLEntry">data<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Pointer to store read data</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of data to read</p></td></tr></table></div>
 </div>
 
-<a name="PAC_Format"></a><a name="Topic959"></a><div class="CTopic TFunction LC">
+<a name="PAC_Format"></a><a name="Topic62"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PAC_Format</div>
- <div id="NDPrototype959" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> PAC_Format(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype62" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> PAC_Format(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Format the given page in the current PAC device</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">page<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>PAC's page to format (0-7)</p></td></tr></table></div>
 </div>
 
-<a name="PAC_FormatAll"></a><a name="Topic947"></a><div class="CTopic TFunction LC">
+<a name="PAC_FormatAll"></a><a name="Topic63"></a><div class="CTopic TFunction LC">
  <div class="CTitle">PAC_FormatAll</div>
- <div id="NDPrototype947" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PAC_FormatAll()</div></div>
+ <div id="NDPrototype63" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> PAC_FormatAll()</div></div>
  <div class="CBody"><p>Format all pages in the current PAC device</p></div>
 </div>
 
-<a name="PAC_Check"></a><a name="Topic964"></a><div class="CTopic TFunction LC last">
+<a name="PAC_Check"></a><a name="Topic64"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">PAC_Check</div>
- <div id="NDPrototype964" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 PAC_Check(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype64" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 PAC_Check(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Check the stat of the given page in the current PAC device</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">page<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>PAC's page to check (0-7)</p></td></tr></table></div>
 </div>
 

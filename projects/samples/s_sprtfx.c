@@ -445,7 +445,7 @@ void Init16()
 	VDP_SetSpriteExUniColor(5, 0, 128-1, 20, VDP_SPRITE_CC + 0x01);
 	VDP_SetSpriteExUniColor(6, 64, (u8)(176-1), 24, 0x02);
 	VDP_SetSpriteExUniColor(7, 64, (u8)(176-1), 28, VDP_SPRITE_CC + 0x01);
-	VDP_HideSpriteFrom(8);
+	VDP_DisableSpritesFrom(8);
 	g_PosX0 = 0;
 	g_PosX1 = 0;
 

@@ -220,10 +220,10 @@ void main()
 		sprt->Pattern = (rnd >> 4) % PATTERN_8_NUM;
 		sprt->Color = ((rnd >> 12) % 11) + 5;
 
-		g_SpriteAtributeLow = VRAM_SPRITE_ATTRIBUTE_0;
+		g_SpriteAttributeLow = VRAM_SPRITE_ATTRIBUTE_0;
 		VDP_SetSpriteSM1(i, sprt->X, sprt->Y, sprt->Pattern, sprt->Color);
 
-		g_SpriteAtributeLow = VRAM_SPRITE_ATTRIBUTE_1;
+		g_SpriteAttributeLow = VRAM_SPRITE_ATTRIBUTE_1;
 		VDP_SetSpriteSM1(SPRITE_8_NUM - 1 - i, sprt->X, sprt->Y, sprt->Pattern, sprt->Color);
 	}
 	

@@ -422,7 +422,7 @@ void GamePawn_Draw(Game_Pawn* pawn)
 
 	g_Sprite = g_Pawn->SpriteList;
 	#if !(GAMEPAWN_ID_PER_LAYER)
-	u16 dest = g_SpriteAtributeLow + (g_Pawn->SpriteID * 4);
+	u16 dest = g_SpriteAttributeLow + (g_Pawn->SpriteID * 4);
 	#endif
 	loop(i, g_Pawn->SpriteNum)
 	{
@@ -452,9 +452,9 @@ void GamePawn_Draw(Game_Pawn* pawn)
 		}
 
 		#if (GAMEPAWN_ID_PER_LAYER)
-		u16 dest = g_SpriteAtributeLow + (g_Sprite->SpriteID * 4);
+		u16 dest = g_SpriteAttributeLow + (g_Sprite->SpriteID * 4);
 		#endif
-		VDP_WriteVRAM((u8*)&g_Game_DrawY, dest, g_SpriteAtributeHigh, size);
+		VDP_WriteVRAM((u8*)&g_Game_DrawY, dest, g_SpriteAttributeHigh, size);
 		#if !(GAMEPAWN_ID_PER_LAYER)
 		dest += 4;
 		#endif

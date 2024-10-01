@@ -8,159 +8,159 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="SET_BANK_SEGMENT"></a><a name="Topic174"></a><div class="CTopic TMacro LC first">
+<a name="SET_BANK_SEGMENT"></a><a name="Topic305"></a><div class="CTopic TMacro LC first">
  <div class="CTitle">SET_BANK_SEGMENT</div>
  <div class="CBody"><p>Set the current segment of the given bank</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">b</td><td class="CDLDefinition"><p>Bank number to set (0-5, depending of the mapper). Must be an inline number (not a variable)</p></td></tr><tr><td class="CDLEntry">s</td><td class="CDLDefinition"><p>Segment to select in this bank</p></td></tr></table></div>
 </div>
 
-<a name="GET_BANK_SEGMENT"></a><a name="Topic175"></a><div class="CTopic TMacro LC">
+<a name="GET_BANK_SEGMENT"></a><a name="Topic306"></a><div class="CTopic TMacro LC">
  <div class="CTitle">GET_BANK_SEGMENT</div>
  <div class="CBody"><p>Get the current segment of the given bank</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">b</td><td class="CDLDefinition"><p>Bank number to get (0-5, depending of the mapper). Must be an inline number (not a variable)</p></td></tr></table><div class="CHeading">Return</div><p>Segment selected in this bank</p></div>
 </div>
 
-<a name="Helper"></a><a name="Topic196"></a><div class="CTopic TGroup LC">
+<a name="Helper"></a><a name="Topic307"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Helper</div>
  <div class="CBody"><p>Helper inline functions</p></div>
 </div>
 
-<a name="EnableInterrupt"></a><a name="Topic198"></a><div class="CTopic TFunction LC">
+<a name="EnableInterrupt"></a><a name="Topic308"></a><div class="CTopic TFunction LC">
  <div class="CTitle">EnableInterrupt</div>
- <div id="NDPrototype198" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> EnableInterrupt()</div></div>
+ <div id="NDPrototype308" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> EnableInterrupt()</div></div>
  <div class="CBody"><p>Enable interruption</p></div>
 </div>
 
-<a name="DisableInterrupt"></a><a name="Topic199"></a><div class="CTopic TFunction LC">
+<a name="DisableInterrupt"></a><a name="Topic309"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DisableInterrupt</div>
- <div id="NDPrototype199" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DisableInterrupt()</div></div>
+ <div id="NDPrototype309" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DisableInterrupt()</div></div>
  <div class="CBody"><p>Disable interruption</p></div>
 </div>
 
-<a name="Halt"></a><a name="Topic245"></a><div class="CTopic TFunction LC">
+<a name="Halt"></a><a name="Topic310"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Halt</div>
- <div id="NDPrototype245" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Halt()</div></div>
+ <div id="NDPrototype310" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Halt()</div></div>
  <div class="CBody"><p>Pause the CPU until a new interruption occured</p></div>
 </div>
 
-<a name="Call"></a><a name="Topic407"></a><div class="CTopic TFunction LC">
+<a name="Call"></a><a name="Topic311"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Call</div>
- <div id="NDPrototype407" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Call(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype311" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Call(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Direct call a routine at a given address (generate ASM code: &quot;call XXXX&quot;) No extra cost due to calling a C function.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to call</p></td></tr></table><div class="CHeading">Return</div><p>Value stored in register A</p></div>
 </div>
 
-<a name="CallA"></a><a name="Topic363"></a><div class="CTopic TFunction LC">
+<a name="CallA"></a><a name="Topic312"></a><div class="CTopic TFunction LC">
  <div class="CTitle">CallA</div>
- <div id="NDPrototype363" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> CallA(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">a</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype312" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> CallA(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">a</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Direct call a routine at a given address with a 8-bits parameter in register A (generate ASM code: &quot;call XXXX&quot;) No extra cost due to calling a C function.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to call</p></td></tr><tr><td class="CDLEntry">a<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Function parameter to put in register A</p></td></tr></table></div>
 </div>
 
-<a name="CallL"></a><a name="Topic364"></a><div class="CTopic TFunction LC">
+<a name="CallL"></a><a name="Topic313"></a><div class="CTopic TFunction LC">
  <div class="CTitle">CallL</div>
- <div id="NDPrototype364" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> CallL(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">l</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype313" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> CallL(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">l</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Direct call a routine at a given address with a 8-bits parameter in register L (generate ASM code: &quot;call XXXX&quot;) No extra cost due to calling a C function.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to call</p></td></tr><tr><td class="CDLEntry">l<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Function parameter to put in register L</p></td></tr></table></div>
 </div>
 
-<a name="CallHL"></a><a name="Topic848"></a><div class="CTopic TFunction LC">
+<a name="CallHL"></a><a name="Topic314"></a><div class="CTopic TFunction LC">
  <div class="CTitle">CallHL</div>
- <div id="NDPrototype848" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> CallHL(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">hl</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype314" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> CallHL(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">hl</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Direct call a routine at a given address with a 16-bits parameter in register HL (generate ASM code: &quot;call XXXX&quot;) No extra cost due to calling a C function.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to call</p></td></tr><tr><td class="CDLEntry">val</td><td class="CDLDefinition"><p>Function parameter to put in register HL</p></td></tr></table></div>
 </div>
 
-<a name="CallDriver"></a><a name="Topic1116"></a><div class="CTopic TFunction LC">
+<a name="CallDriver"></a><a name="Topic315"></a><div class="CTopic TFunction LC">
  <div class="CTitle">CallDriver</div>
- <div id="NDPrototype1116" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 CallDriver(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">a</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype315" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 CallDriver(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">a</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Direct call a routine at a given address with a 8-bits parameter in register A (generate ASM code: &quot;call XXXX&quot;) No extra cost due to calling a C function.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address of the driver</p></td></tr><tr><td class="CDLEntry">a<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to transfer to driver's main function</p></td></tr></table></div>
 </div>
 
-<a name="Slot"></a><a name="Topic201"></a><div class="CTopic TGroup LC">
+<a name="Slot"></a><a name="Topic316"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Slot</div>
  <div class="CBody"><p>Slot handling functions</p></div>
 </div>
 
-<a name="Sys_GetPageSlot"></a><a name="Topic202"></a><div class="CTopic TFunction LC">
+<a name="Sys_GetPageSlot"></a><a name="Topic317"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_GetPageSlot</div>
- <div id="NDPrototype202" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Sys_GetPageSlot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype317" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Sys_GetPageSlot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get the slot ID of a given page</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">page<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The page to ckeck</p></td></tr></table></div>
 </div>
 
-<a name="Sys_SetPageSlot"></a><a name="Topic203"></a><div class="CTopic TFunction LC">
+<a name="Sys_SetPageSlot"></a><a name="Topic318"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_SetPageSlot</div>
- <div id="NDPrototype203" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Sys_SetPageSlot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slotId</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype318" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Sys_SetPageSlot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slotId</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Select a slot in a given page</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">page<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The page to change</p></td></tr><tr><td class="CDLEntry">slotId<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The slot ID to select</p></td></tr></table></div>
 </div>
 
-<a name="Sys_IsSlotExpanded"></a><a name="Topic204"></a><div class="CTopic TFunction LC">
+<a name="Sys_IsSlotExpanded"></a><a name="Topic319"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_IsSlotExpanded</div>
- <div id="NDPrototype204" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Sys_IsSlotExpanded(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype319" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Sys_IsSlotExpanded(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Check if slot is expanded</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">slot<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The slot to check</p></td></tr></table></div>
 </div>
 
-<a name="Sys_SetPage0Slot"></a><a name="Topic205"></a><div class="CTopic TFunction LC">
+<a name="Sys_SetPage0Slot"></a><a name="Topic320"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_SetPage0Slot</div>
- <div id="NDPrototype205" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Sys_SetPage0Slot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slotId</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype320" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Sys_SetPage0Slot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slotId</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Select a given slot in page 0</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">slotId<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The slot to select</p></td></tr></table></div>
 </div>
 
-<a name="Sys_SlotIsExpended"></a><a name="Topic206"></a><div class="CTopic TFunction LC">
+<a name="Sys_SlotIsExpended"></a><a name="Topic321"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_SlotIsExpended</div>
- <div id="NDPrototype206" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Sys_SlotIsExpended(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slotId</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype321" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Sys_SlotIsExpended(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slotId</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Check expended flag from slot ID</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">slotId<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The slot ID</p></td></tr></table></div>
 </div>
 
-<a name="Sys_SlotGetPrimary"></a><a name="Topic207"></a><div class="CTopic TFunction LC">
+<a name="Sys_SlotGetPrimary"></a><a name="Topic322"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_SlotGetPrimary</div>
- <div id="NDPrototype207" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Sys_SlotGetPrimary(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slotId</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype322" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Sys_SlotGetPrimary(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slotId</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get primary slot from slot ID</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">slotId<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The slot ID</p></td></tr></table></div>
 </div>
 
-<a name="Sys_SlotGetSecondary"></a><a name="Topic208"></a><div class="CTopic TFunction LC">
+<a name="Sys_SlotGetSecondary"></a><a name="Topic323"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_SlotGetSecondary</div>
- <div id="NDPrototype208" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Sys_SlotGetSecondary(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slotId</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype323" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Sys_SlotGetSecondary(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slotId</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get secondary slot from slot ID</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">slotId<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The slot ID</p></td></tr></table></div>
 </div>
 
-<a name="Sys_CheckSlot"></a><a name="Topic209"></a><div class="CTopic TFunction LC">
+<a name="Sys_CheckSlot"></a><a name="Topic324"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_CheckSlot</div>
- <div id="NDPrototype209" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Sys_CheckSlot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">CheckSlotCallback&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype324" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Sys_CheckSlot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">CheckSlotCallback&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Check all slots with a given callback function</p></div>
 </div>
 
-<a name="Address"></a><a name="Topic210"></a><div class="CTopic TGroup LC">
+<a name="Address"></a><a name="Topic325"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Address</div>
  <div class="CBody"><p>Binary address functions</p></div>
 </div>
 
-<a name="Sys_GetFirstAddr"></a><a name="Topic211"></a><div class="CTopic TFunction LC">
+<a name="Sys_GetFirstAddr"></a><a name="Topic326"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_GetFirstAddr</div>
- <div id="NDPrototype211" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 Sys_GetFirstAddr()</div></div>
+ <div id="NDPrototype326" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 Sys_GetFirstAddr()</div></div>
  <div class="CBody"><p>Get first address of program binary</p></div>
 </div>
 
-<a name="Sys_GetHeaderAddr"></a><a name="Topic968"></a><div class="CTopic TFunction LC">
+<a name="Sys_GetHeaderAddr"></a><a name="Topic327"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_GetHeaderAddr</div>
- <div id="NDPrototype968" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 Sys_GetHeaderAddr()</div></div>
+ <div id="NDPrototype327" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 Sys_GetHeaderAddr()</div></div>
  <div class="CBody"><p>Get address of program header (if any)</p></div>
 </div>
 
-<a name="Sys_GetLastAddr"></a><a name="Topic213"></a><div class="CTopic TFunction LC">
+<a name="Sys_GetLastAddr"></a><a name="Topic328"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_GetLastAddr</div>
- <div id="NDPrototype213" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 Sys_GetLastAddr()</div></div>
+ <div id="NDPrototype328" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 Sys_GetLastAddr()</div></div>
  <div class="CBody"><p>Get last address of program binary</p></div>
 </div>
 
-<a name="Misc"></a><a name="Topic3"></a><div class="CTopic TGroup LC">
+<a name="Misc"></a><a name="Topic329"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Misc</div>
  <div class="CBody"><p>Miscellaneous helper functions</p></div>
 </div>
 
-<a name="Sys_PlayClickSound"></a><a name="Topic6"></a><div class="CTopic TFunction LC">
+<a name="Sys_PlayClickSound"></a><a name="Topic330"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_PlayClickSound</div>
- <div id="NDPrototype6" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sys_PlayClickSound()</div></div>
+ <div id="NDPrototype330" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sys_PlayClickSound()</div></div>
  <div class="CBody"><p>Play the click sound</p></div>
 </div>
 
-<a name="Sys_StopClickSound"></a><a name="Topic348"></a><div class="CTopic TFunction LC last">
+<a name="Sys_StopClickSound"></a><a name="Topic331"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">Sys_StopClickSound</div>
- <div id="NDPrototype348" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sys_StopClickSound()</div></div>
+ <div id="NDPrototype331" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sys_StopClickSound()</div></div>
  <div class="CBody"><p>Stop the click sound</p></div>
 </div>
 

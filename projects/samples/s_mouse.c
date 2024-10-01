@@ -101,7 +101,7 @@ void main()
 	VDP_LoadSpritePattern(g_Cursor_MGL1, 0, 32);
 	VDP_SetSpriteSM1(0, 0, 0, 0, COLOR_LIGHT_BLUE);
 	VDP_SetSpriteSM1(1, 0, 0, 0, COLOR_LIGHT_RED);
-	VDP_HideSpriteFrom(2);
+	VDP_DisableSpritesFrom(2);
 	VDP_EnableDisplay(TRUE);
 
 	Mouse_State msState[2];

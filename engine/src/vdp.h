@@ -147,7 +147,7 @@ extern u8 g_ScreenLayoutHigh;		// Address of the Pattern Layout Table (Name)
 extern u8 g_ScreenColorHigh;		// Address of the Color Table
 extern u8 g_ScreenPatternHigh;		// Address of the Pattern Generator Table
 #if (VDP_USE_SPRITE)
-extern u8 g_SpriteAtributeHigh;		// Address of the Sprite Attribute Table
+extern u8 g_SpriteAttributeHigh;		// Address of the Sprite Attribute Table
 extern u8 g_SpritePatternHigh;		// Address of the Sprite Pattern Generator Table
 extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 #endif // (VDP_USE_SPRITE)
@@ -983,7 +983,7 @@ void VDP_SetSpriteAttributeTable(VADDR addr);
 
 // Function: VDP_SetSpriteAttributeTableEx
 // Set sprite attribute table address. [MSX1/2/2+/TR]
-inline void VDP_SetSpriteAttributeTableEx(VADDR addr, u8 r5, u8 r11) { g_SpriteAttributeLow = (u16)addr; VDP_RegWrite(5, r5); VADDR_14_CODE(r11;) VADDR_17_CODE(VDP_RegWrite(11, r11); g_SpriteAtributeHigh = addr >> 16;) addr -= 0x200; g_SpriteColorLow = (u16)addr; VADDR_17_CODE(g_SpriteColorHigh = addr >> 16;) }
+inline void VDP_SetSpriteAttributeTableEx(VADDR addr, u8 r5, u8 r11) { g_SpriteAttributeLow = (u16)addr; VDP_RegWrite(5, r5); VADDR_14_CODE(r11;) VADDR_17_CODE(VDP_RegWrite(11, r11); g_SpriteAttributeHigh = addr >> 16;) addr -= 0x200; g_SpriteColorLow = (u16)addr; VADDR_17_CODE(g_SpriteColorHigh = addr >> 16;) }
 
 // Function: VDP_SetSpritePatternTable
 // Set sprite pattern table address. [MSX1/2/2+/TR]
@@ -1026,7 +1026,7 @@ inline VADDR VDP_GetPatternTable() { return VADDR_GET(g_ScreenPatternLow, g_Scre
 //
 // Return:
 //   VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)
-inline VADDR VDP_GetSpriteAttributeTable() { return VADDR_GET(g_SpriteAttributeLow, g_SpriteAtributeHigh); }
+inline VADDR VDP_GetSpriteAttributeTable() { return VADDR_GET(g_SpriteAttributeLow, g_SpriteAttributeHigh); }
 
 // Function: VDP_GetSpritePatternTable
 // Get address of the Sprite Pattern Generator Table
@@ -1367,7 +1367,7 @@ inline void VDP_Poke_GM2(u8 x, u8 y, u8 value) { VDP_Poke(value, g_ScreenLayoutL
 inline u8 VDP_Peek_GM2(u8 x, u8 y) { return VDP_Peek(g_ScreenLayoutLow + (y * 32) + x, g_ScreenLayoutHigh); }
 
 // Function: VDP_LoadPattern_GM2
-// Load patterns in all 3 screen sections. [MSX1/2/2+/TR]
+// Load tile patterns in all 3 screen sections. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   src    - Address of data buffer to copy to VRAM
@@ -1376,13 +1376,33 @@ inline u8 VDP_Peek_GM2(u8 x, u8 y) { return VDP_Peek(g_ScreenLayoutLow + (y * 32
 void VDP_LoadPattern_GM2(const u8* src, u8 count, u8 offset);
 
 // Function: VDP_LoadColor_GM2
-// Load colors in all 3 screen sections. [MSX1/2/2+/TR]
+// Load tile colors in all 3 screen sections. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   src    - Address of data buffer to copy to VRAM
 //   count  - Number of pattern to copy. Note: A count of 0 mean 256
 //   offset - Pattern index from which to copy data 
 void VDP_LoadColor_GM2(const u8* src, u8 count, u8 offset);
+
+// Function: VDP_LoadBankPattern_GM2
+// Load tile patterns in a given screen section (bank). [MSX1/2/2+/TR]
+//
+// Parameters:
+//   src    - Address of data buffer to copy to VRAM
+//   count  - Number of pattern to copy. Note: A count of 0 mean 256
+//   bank   - Screen section number (bank) from 0 (up) to 2 (bottom). On MSX2 or higher, a 4th bank is accessible via vertical scrolling
+//   offset - Pattern index from which to copy data 
+inline void VDP_LoadBankPattern_GM2(const u8* src, u8 count, u8 bank, u8 offset) { VDP_WriteVRAM(src, g_ScreenPatternLow + (bank * 0x800) + (offset * 8), g_ScreenPatternHigh, count * 8); }
+
+// Function: VDP_LoadBankColor_GM2
+// Load tile colors in a given screen section (bank). [MSX1/2/2+/TR]
+//
+// Parameters:
+//   src    - Address of data buffer to copy to VRAM
+//   count  - Number of pattern to copy. Note: A count of 0 mean 256
+//   bank   - Screen section number (bank) from 0 (up) to 2 (bottom). On MSX2 or higher, a 4th bank is accessible via vertical scrolling
+//   offset - Pattern index from which to copy data 
+inline void VDP_LoadBankColor_GM2(const u8* src, u8 count, u8 bank, u8 offset) { VDP_WriteVRAM(src, g_ScreenColorLow + (bank * 0x800) + (offset * 8), g_ScreenColorHigh, count * 8); }
 
 // Function: VDP_WriteLayout_GM2
 // Copy patterns layout to a given rectangle. [MSX1/2/2+/TR]

@@ -129,17 +129,20 @@ global.ToolsDir = `${RootDir}tools/`;
 // TOOLS SETTINGS
 //*****************************************************************************
 
+//-- Path to SDCC tools chain (string)
+global.SDCCPath = `${ToolsDir}sdcc/bin`;
+
 //-- Path to the C compile program (string)
-global.Compiler = `${ToolsDir}sdcc/bin/sdcc`;
+global.Compiler = `${SDCCPath}/sdcc`;
 
 //-- Path to the assembler program (string)
-global.Assembler = `${ToolsDir}sdcc/bin/sdasz80`;
+global.Assembler = `${SDCCPath}/sdasz80`;
 
 //-- Path to the linker program (string)
-global.Linker = `${ToolsDir}sdcc/bin/sdcc`;
+global.Linker = `${SDCCPath}/sdcc`;
 
 //-- Path to the program to generate lib file (string)
-global.MakeLib = `${ToolsDir}sdcc/bin/sdar`;
+global.MakeLib = `${SDCCPath}/sdar`;
 
 //-- Path to IHX to binary convertor (string)
 global.Hex2Bin = `${ToolsDir}MSXtk/bin/MSXhex`;

@@ -133,7 +133,7 @@ u8  g_ScreenLayoutHigh;		// Address of the Name Table
 u8  g_ScreenColorHigh;		// Address of the Color Table
 u8  g_ScreenPatternHigh;	// Address of the Pattern Table
 #if (VDP_USE_SPRITE)
-u8  g_SpriteAtributeHigh;	// Address of the Sprite Attribute Table
+u8  g_SpriteAttributeHigh;	// Address of the Sprite Attribute Table
 u8  g_SpritePatternHigh;	// Address of the Sprite Pattern Table
 u8  g_SpriteColorHigh;		// Address of the Sprite Color Table
 #endif
@@ -1945,7 +1945,7 @@ void VDP_SetSpriteAttributeTable(VADDR addr)
 		reg = (u8)(addr >> 15);
 		VDP_RegWrite(11, reg);
 
-		g_SpriteAtributeHigh = addr >> 16;
+		g_SpriteAttributeHigh = addr >> 16;
 	#endif
 
 	addr -= 0x200;
@@ -1991,7 +1991,7 @@ void VDP_SetSpriteSM1(u8 index, u8 x, u8 y, u8 shape, u8 color)
 
 	u16 low = g_SpriteAttributeLow;
 	low += (index * 4);
-	VDP_WriteVRAM((u8*)&g_VDP_Sprite, low, g_SpriteAtributeHigh, 4);
+	VDP_WriteVRAM((u8*)&g_VDP_Sprite, low, g_SpriteAttributeHigh, 4);
 }
 
 //-----------------------------------------------------------------------------
@@ -2004,7 +2004,7 @@ void VDP_SetSprite(u8 index, u8 x, u8 y, u8 shape)
 
 	u16 low = g_SpriteAttributeLow;
 	low += (index * 4);
-	VDP_WriteVRAM((u8*)&g_VDP_Sprite, low, g_SpriteAtributeHigh, 3);
+	VDP_WriteVRAM((u8*)&g_VDP_Sprite, low, g_SpriteAttributeHigh, 3);
 }
 
 #if (MSX_VERSION >= MSX_2)
@@ -2021,7 +2021,7 @@ void VDP_SetSpriteExMultiColor(u8 index, u8 x, u8 y, u8 shape, const u8* ram)
 	g_VDP_Sprite.Pattern = shape;	// Pattern index
 	u16 attr = g_SpriteAttributeLow;
 	attr += (index * 4);
-	VDP_WriteVRAM((u8*)&g_VDP_Sprite, attr, g_SpriteAtributeHigh, 3);
+	VDP_WriteVRAM((u8*)&g_VDP_Sprite, attr, g_SpriteAttributeHigh, 3);
 }
 
 //-----------------------------------------------------------------------------
@@ -2037,7 +2037,7 @@ void VDP_SetSpriteExUniColor(u8 index, u8 x, u8 y, u8 shape, u8 color)
 	g_VDP_Sprite.Pattern = shape;	// Pattern index
 	u16 attr = g_SpriteAttributeLow;
 	attr += (index * 4);
-	VDP_WriteVRAM((u8*)&g_VDP_Sprite, attr, g_SpriteAtributeHigh, 3);
+	VDP_WriteVRAM((u8*)&g_VDP_Sprite, attr, g_SpriteAttributeHigh, 3);
 }
 #endif // (MSX_VERSION >= MSX_2)
 
@@ -2050,7 +2050,7 @@ void VDP_SetSpritePosition(u8 index, u8 x, u8 y)
 
 	u16 low = g_SpriteAttributeLow;
 	low += (index * 4);
-	VDP_WriteVRAM((u8*)&g_VDP_Sprite, low, g_SpriteAtributeHigh, 2);
+	VDP_WriteVRAM((u8*)&g_VDP_Sprite, low, g_SpriteAttributeHigh, 2);
 }
 
 //-----------------------------------------------------------------------------
@@ -2059,7 +2059,7 @@ void VDP_SetSpritePositionX(u8 index, u8 x)
 {
 	u16 low = g_SpriteAttributeLow;
 	low += (index * 4);
-	VDP_Poke(x, ++low, g_SpriteAtributeHigh);
+	VDP_Poke(x, ++low, g_SpriteAttributeHigh);
 }
 
 //-----------------------------------------------------------------------------
@@ -2068,7 +2068,7 @@ void VDP_SetSpritePositionY(u8 index, u8 y)
 {
 	u16 low = g_SpriteAttributeLow;
 	low += (index * 4);
-	VDP_Poke(y, low, g_SpriteAtributeHigh);
+	VDP_Poke(y, low, g_SpriteAttributeHigh);
 }
 
 //-----------------------------------------------------------------------------
@@ -2077,7 +2077,7 @@ void VDP_SetSpritePattern(u8 index, u8 shape)
 {
 	u16 low = g_SpriteAttributeLow + 2;
 	low += (index * 4);
-	VDP_Poke(shape, low, g_SpriteAtributeHigh);
+	VDP_Poke(shape, low, g_SpriteAttributeHigh);
 }
 
 //-----------------------------------------------------------------------------
@@ -2086,7 +2086,7 @@ void VDP_SetSpriteColorSM1(u8 index, u8 color)
 {
 	u16 low = g_SpriteAttributeLow + 3;
 	low += (index * 4);
-	VDP_Poke(color, low, g_SpriteAtributeHigh);
+	VDP_Poke(color, low, g_SpriteAttributeHigh);
 }
 
 #if (MSX_VERSION >= MSX_2)
@@ -2114,7 +2114,7 @@ void VDP_SetSpriteData(u8 index, const u8* data)
 {
 	u16 low = g_SpriteAttributeLow;
 	low += (index * 4);
-	VDP_WriteVRAM(data, low, g_SpriteAtributeHigh, 3);
+	VDP_WriteVRAM(data, low, g_SpriteAttributeHigh, 3);
 }
 #endif // (MSX_VERSION >= MSX_2)
 

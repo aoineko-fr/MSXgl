@@ -31,11 +31,11 @@ OutDir = `${ProjDir}out/`;
 // TOOLS SETTINGS
 //*****************************************************************************
 
-const sdccPath  = `${ToolsDir}sdcc/bin`;
-Compiler  = `${sdccPath}/sdcc`;					//-- Path to the C compile program (string)
-Assembler = `${sdccPath}/sdasz80`;				//-- Path to the assembler program (string)
-Linker    = `${sdccPath}/sdcc`;					//-- Path to the linker program (string)
-MakeLib   = `${sdccPath}/sdar`;					//-- Path to the program to generate lib file (string)
+SDCCPath  = `${ToolsDir}sdcc/bin`;				//-- Path to SDCC tools chain (string)
+Compiler  = `${SDCCPath}/sdcc`;					//-- Path to the C compile program (string)
+Assembler = `${SDCCPath}/sdasz80`;				//-- Path to the assembler program (string)
+Linker    = `${SDCCPath}/sdcc`;					//-- Path to the linker program (string)
+MakeLib   = `${SDCCPath}/sdar`;					//-- Path to the program to generate lib file (string)
 Hex2Bin   = `${ToolsDir}MSXtk/bin/MSXhex`;		//-- Path to IHX to binary convertor (string)
 MSXDOS    = `${ToolsDir}build/DOS/`;			//-- Path to the MSX-DOS files (string)
 DskTool   = `${ToolsDir}build/msxtar/msxtar`;	//-- Path to the tool to generate DSK file (string)

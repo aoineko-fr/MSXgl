@@ -196,7 +196,7 @@ void DisplayPage()
 	// Load and setup sprite
 	VDP_LoadSpritePattern(g_CursorForm, 0, 4);
 	VDP_SetSpriteExUniColor(0, SX, SY, 0, 0xF);
-	VDP_HideSpriteFrom(1);
+	VDP_DisableSpritesFrom(1);
 	VDP_EnableDisplay(TRUE);
 }
 
