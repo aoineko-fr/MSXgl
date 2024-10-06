@@ -130,19 +130,19 @@ global.ToolsDir = `${RootDir}tools/`;
 //*****************************************************************************
 
 //-- Path to SDCC tools chain (string)
-global.SDCCPath = `${ToolsDir}sdcc/bin`;
+global.SDCCPath = `${ToolsDir}sdcc/`;
 
 //-- Path to the C compile program (string)
-global.Compiler = `${SDCCPath}/sdcc`;
+global.Compiler = `${SDCCPath}bin/sdcc`;
 
 //-- Path to the assembler program (string)
-global.Assembler = `${SDCCPath}/sdasz80`;
+global.Assembler = `${SDCCPath}bin/sdasz80`;
 
 //-- Path to the linker program (string)
-global.Linker = `${SDCCPath}/sdcc`;
+global.Linker = `${SDCCPath}bin/sdcc`;
 
 //-- Path to the program to generate lib file (string)
-global.MakeLib = `${SDCCPath}/sdar`;
+global.MakeLib = `${SDCCPath}bin/sdar`;
 
 //-- Path to IHX to binary convertor (string)
 global.Hex2Bin = `${ToolsDir}MSXtk/bin/MSXhex`;
@@ -340,6 +340,9 @@ global.PreBuildScripts = [];
 //-- Command lines to be executed after the build process (array)
 global.PostBuildScripts = [];
 
+//-- 
+global.Analyze = false;
+
 //*****************************************************************************
 // BUILD TOOL OPTION
 //*****************************************************************************
@@ -355,6 +358,39 @@ global.LogFile = false;
 
 //-- Name of the log file (string)
 global.LogFileName = "";
+
+//*******************************************************************************
+// ANALYZER SETINGS
+//*******************************************************************************
+
+//-- Execute MAP analyzer (boolean)
+global.Analyzer = false;
+
+//-- Analyzer output selection (string)
+//   - Console    Output to termial console
+//   - File       Output to file
+//   - Both       Output to file and termial console (default)
+global.AnalyzerOutput = "Both";
+
+//-- Analyzer report elements (string)
+//   - [A]        Report areas
+//   - [S]        Report segments
+//   - [M]        Report modules
+//   - [C]        Report code symbols
+//   - [V]        Report variable symbols
+global.AnalyzerReport = "ASMCV";
+
+//-- Analyzer report sorting (string)
+//   - None       No sorting (MAP file order)
+//   - Alpha      Alphanumeric sorting
+//   - Size       Size sorting (default)
+global.AnalyzerSort = "Size";
+
+//-- Export analyzer data to CSV file (boolean)
+global.AnalyzerCSV = false;
+
+//-- Analyzer CSV file separator (string)
+global.AnalyzerSeparator = ",";
 
 //*******************************************************************************
 // EMULATOR SETINGS

@@ -48,10 +48,10 @@
 // RTC MODE REGISTER (0xD)
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0
-//	X	X	X	X	ES	AE	M1	M0	
+//	X	X	X	X	TE	AE	M1	M0	
 //					│	│	└───┴── Select Block
 //					│	└────────── Alarm Enable (0=Disable, 1=Enable) ; Not used in MSX
-//					└────────────── Enable Seconds (0=Freeze, 1=Active)
+//					└────────────── Timer Enable (0=Disable, 1=Enable)
 #define RTC_REG_MODE				0xD // Mode Register
 
 #define RTC_MODE_BLOCK_0			0 // Current Time and Day
@@ -60,8 +60,8 @@
 #define RTC_MODE_BLOCK_3			3 // Title, Password, Prompt + MSXgl custom save data
 #define RTC_MODE_ALARM_ON			4 // Alarm Enable
 #define RTC_MODE_ALARM_OFF			0 // Alarm Disable
-#define RTC_MODE_SEC_ON				8 // Seconds Enable 
-#define RTC_MODE_SEC_OFF			0 // Seconds Disable
+#define RTC_MODE_TIMER_ON			8 // Timer Enable 
+#define RTC_MODE_TIMER_OFF			0 // Timer Disable
 
 //-----------------------------------------------------------------------------
 // RTC TEST REGISTER  (0xE)
@@ -208,7 +208,7 @@
 //
 // Parameters:
 //   mode - The clock mode flags
-inline void RTC_SetMode(u8 mode) { g_RTC_AddrPort = RTC_REG_MODE; g_RTC_DataPort = mode | (RTC_MODE_ALARM_OFF + RTC_MODE_SEC_ON); }
+inline void RTC_SetMode(u8 mode) { g_RTC_AddrPort = RTC_REG_MODE; g_RTC_DataPort = mode | (RTC_MODE_ALARM_OFF + RTC_MODE_TIMER_ON); }
 
 // Function: RTC_Read
 // Read a RTC register value

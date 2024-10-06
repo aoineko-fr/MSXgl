@@ -31,11 +31,11 @@ OutDir = `${ProjDir}out/`;
 // TOOLS SETTINGS
 //*****************************************************************************
 
-SDCCPath  = `${ToolsDir}sdcc/bin`;				//-- Path to SDCC tools chain (string)
-Compiler  = `${SDCCPath}/sdcc`;					//-- Path to the C compile program (string)
-Assembler = `${SDCCPath}/sdasz80`;				//-- Path to the assembler program (string)
-Linker    = `${SDCCPath}/sdcc`;					//-- Path to the linker program (string)
-MakeLib   = `${SDCCPath}/sdar`;					//-- Path to the program to generate lib file (string)
+SDCCPath  = `${ToolsDir}sdcc/`;					//-- Path to SDCC tools chain (string)
+Compiler  = `${SDCCPath}bin/sdcc`;				//-- Path to the C compile program (string)
+Assembler = `${SDCCPath}bin/sdasz80`;			//-- Path to the assembler program (string)
+Linker    = `${SDCCPath}bin/sdcc`;				//-- Path to the linker program (string)
+MakeLib   = `${SDCCPath}bin/sdar`;				//-- Path to the program to generate lib file (string)
 Hex2Bin   = `${ToolsDir}MSXtk/bin/MSXhex`;		//-- Path to IHX to binary convertor (string)
 MSXDOS    = `${ToolsDir}build/DOS/`;			//-- Path to the MSX-DOS files (string)
 DskTool   = `${ToolsDir}build/msxtar/msxtar`;	//-- Path to the tool to generate DSK file (string)
@@ -246,6 +246,39 @@ LogFile = false;
 
 //-- Name of the log file (string)
 LogFileName = "";
+
+//*******************************************************************************
+// ANALYZER SETINGS
+//*******************************************************************************
+
+//-- Execute MAP analyzer (boolean)
+Analyzer = false;
+
+//-- Analyzer output selection (string)
+//   - Console    Output to termial console
+//   - File       Output to file
+//   - Both       Output to file and termial console (default)
+AnalyzerOutput = "Both";
+
+//-- Analyzer report elements (string)
+//   - [A]        Report areas
+//   - [S]        Report segments
+//   - [M]        Report modules
+//   - [C]        Report code symbols
+//   - [V]        Report variable symbols
+AnalyzerReport = "ASMCV";
+
+//-- Analyzer report sorting (string)
+//   - None       No sorting (MAP file order)
+//   - Alpha      Alphanumeric sorting
+//   - Size       Size sorting (default)
+AnalyzerSort = "Size";
+
+//-- Export analyzer data to CSV file (boolean)
+AnalyzerCSV = false;
+
+//-- Analyzer CSV file separator (string)
+AnalyzerSeparator = ",";
 
 //*******************************************************************************
 // EMULATOR SETINGS

@@ -189,10 +189,10 @@
 
 	// Function: PROFILE_SECTION_START
 	// Signal the start of a section to be measured.
-	inline void PROFILE_SECTION_START(u8 level, u8 section, const c8* msg) { level, section, msg; }
+	inline void PROFILE_SECTION_START(u8 level, u8 section, const c8* msg) { level; section; msg; }
 
 	// Function: PROFILE_SECTION_END
 	// Signal the end of a section to be measured.
-	inline void PROFILE_SECTION_END(u8 level, u8 section, const c8* msg) { level, section, msg; }
+	inline void PROFILE_SECTION_END(u8 level, u8 section, const c8* msg) { level; section; msg; }
 
 #endif

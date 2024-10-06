@@ -639,22 +639,22 @@ bool State_Game()
 {
 	PROFILE_FRAME_START();
 
-	PROFILE_SECTION_START(S_DRAW, 100);
+	PROFILE_SECTION_START(100, S_DRAW, "");
 	GamePawn_Draw(&g_Ball.Pawn);
 	GamePawn_Draw(&g_Player1.Pawn);
 	GamePawn_Draw(&g_Player2.Pawn);
 	// Background horizon blink
 	if(g_bFlicker)
 		VDP_FillVRAM(g_GameFrame & 1 ? 9 : 10, g_ScreenLayoutLow + (HORIZON + 2) * 32, 0, 32);
-	PROFILE_SECTION_END(S_DRAW, 100);
+	PROFILE_SECTION_END(100, S_DRAW, "");
 
-	PROFILE_SECTION_START(S_UPDATE, 100);
+	PROFILE_SECTION_START(100, S_UPDATE, "");
 	UpdatePlayer(&g_Player1);
 	UpdatePlayer(&g_Player2);
 	UpdateBall();
-	PROFILE_SECTION_END(S_UPDATE, 100);
+	PROFILE_SECTION_END(100, S_UPDATE, "");
 
-	PROFILE_SECTION_START(S_INPUT, 100);
+	PROFILE_SECTION_START(100, S_INPUT, "");
 	// Update input
 	u8 row3 = Keyboard_Read(3);
 	u8 row8 = Keyboard_Read(8);
@@ -683,7 +683,7 @@ bool State_Game()
 
 	if(Keyboard_IsKeyPressed(KEY_ESC))
 		Game_Exit();
-	PROFILE_SECTION_END(S_INPUT, 100);
+	PROFILE_SECTION_END(100, S_INPUT, "");
 
 	PROFILE_FRAME_END();
 		

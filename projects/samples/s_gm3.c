@@ -82,7 +82,7 @@ const u16 g_SATAddr[] = { 0x5200, 0x5600 };
 
 // Bank data
 const c8 g_FillChar[] = { 10, 185, 156, 142 };
-const c8 g_FillColor[] = { 0x3C, 0x74, 0x96, 0x1E };
+const c8 g_FillColor[] = { 0x3C, 0x74, 0x96, 0xFE };
 
 //=============================================================================
 // MEMORY DATA
@@ -130,6 +130,7 @@ void VDP_HBlankHandler()
 void SetScreenMode(u8 mode)
 {
 	VDP_SetMode(mode); // Screen mode 4 (G3) with mirrored pattern/color table
+	VDP_SetLineCount(VDP_LINE_212);
 	VDP_SetPatternTable(0x0000);
 	VDP_SetColorTable(0x2000);
 	VDP_SetLayoutTable(0x4000);
@@ -149,7 +150,6 @@ void main()
 
 	// Initialize video
 	SetScreenMode(VDP_MODE_GRAPHIC3_MIRROR); // Screen mode 4 (G3) with full mirrored pattern/color table
-	VDP_SetLineCount(VDP_LINE_212);
 	VDP_SetColor(0xF5);
 	VDP_ClearVRAM();
 
