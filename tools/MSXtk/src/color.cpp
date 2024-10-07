@@ -51,6 +51,18 @@ GRB8::GRB8(RGB24 color)
 	RGB = u8((g << 5) + (r << 2) + b);
 }
 
+// Convert GRB16 to RGB24
+GRB16::GRB16(RGB24 color)
+{
+	i32 r, g, b;
+
+	r = ((4 + color.R) * 31 / 255) & 0x1F;
+	g = ((4 + color.G) * 31 / 255) & 0x1F;
+	b = ((4 + color.B) * 31 / 255) & 0x1F;
+
+	RGB = u16((g << 10) + (r << 5) + b);
+}
+
 // Convert GRB8 to RGB24
 RGB24::RGB24(GRB8 color)
 {

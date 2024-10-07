@@ -66,6 +66,18 @@ struct GRB8
 	operator u8() { return RGB; }
 };
 
+/** G5 R5 B5 color type */
+struct GRB16
+{
+	u16 RGB;
+
+	GRB16() : RGB(0) {}
+	GRB16(u16 a) : RGB(a) {}
+	GRB16(RGB24 color);
+
+	operator u16() { return RGB; }
+};
+
 /** R8 G8 B8 color type */
 struct RGB24
 {

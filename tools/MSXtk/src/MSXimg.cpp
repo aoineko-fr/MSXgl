@@ -107,6 +107,7 @@ void PrintHelp()
 	printf("    2	           2-bit index in 4 colors palette\n");
 	printf("    4	           4-bits index in 16 colors palette\n");
 	printf("    8	           8 bits RGB 256 colors (format: [G:3|R:3|B2]; default)\n");
+	printf("    16	           16-bits RGB colors  (format: [G:5|R:5|B5])\n");
 	printf(" -pal             Palette to use for 16 colors mode\n");
 	printf("    msx1          Use default MSX1 palette\n");
 	printf("    custom        Generate a custom palette and add it to the output file\n");
@@ -694,9 +695,9 @@ int main(int argc, const char* argv[])
 			return 1;
 		}
 	}
-	if ((param.bpc != 1) && (param.bpc != 2) && (param.bpc != 4) && (param.bpc != 8))
+	if ((param.bpc != 1) && (param.bpc != 2) && (param.bpc != 4) && (param.bpc != 8) && (param.bpc != 16))
 	{
-		printf("Error: Invalid bits-per-color value (%i). Only 1, 2, 4 or 8-bits colors are supported!\n", param.bpc);
+		printf("Error: Invalid bits-per-color value (%i). Only 1, 2, 4, 8 or 16-bits colors are supported!\n", param.bpc);
 		return 1;
 	}
 	if ((param.bAddCopy) && (!FileExists(param.copyFile)))
