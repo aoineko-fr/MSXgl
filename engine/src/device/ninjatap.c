@@ -10,12 +10,11 @@
 // 	Written by Firm Knight.
 //─────────────────────────────────────────────────────────────────────────────
 #include "ninjatap.h"
+#include "system_port.h"
 
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
-
-// INCLUDE_ASM(NTap_Dummy, "ninjatap.asm");
 
 void NTap_Dummy()
 {
@@ -65,22 +64,22 @@ void NTap_Dummy()
 		call	MGL_PORSEL
 		inc		b
 		and		#0xCA
-		out		(0xA1), a	// 678=L
+		out		(P_PSG_DATA), a	// 678=L
 		ex		af, af'		;'
 		ld		a, #14
-		out		(0xA0), a
-		in		a, (0xA2)
+		out		(P_PSG_REGS), a
+		in		a, (P_PSG_STAT)
 		and		#0x20		// 7=H ?
 		ret		z
 
 		ld		a, #15
-		out		(0xA0), a
+		out		(P_PSG_REGS), a
 		ex		af, af'		;'
 		or		#0x30
-		out		(0xA1), a	// 8=H
+		out		(P_PSG_DATA), a	// 8=H
 		ld		a, #14
-		out		(0xA0), a
-		in		a, (0xA2)
+		out		(P_PSG_REGS), a
+		in		a, (P_PSG_STAT)
 		and		#0x20		// 7=L ?
 		jr		nz, MGL_CHECK1
 
@@ -100,11 +99,11 @@ void NTap_Dummy()
 	// [E]	D: Mask, E: Flags
 	MGL_PORSEL:
 		ld		a, #15
-		out		(0xA0), a
-		in		a, (0xA2)
+		out		(P_PSG_REGS), a
+		in		a, (P_PSG_STAT)
 		and		d
 		or		e
-		out		(0xA1), a
+		out		(P_PSG_DATA), a
 		ret
 	#endif
 

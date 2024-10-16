@@ -40,6 +40,7 @@ u8 g_DeviceID[2];
 u8 g_MouseX[2] = { 127, 127 };
 u8 g_MouseY[2] = { 95, 95 };
 u8 g_MouseCur[2] = { 0, 0 };
+Mouse_State g_MouseState[2];
 
 //=============================================================================
 // MAIN LOOP
@@ -104,8 +105,6 @@ void main()
 	VDP_DisableSpritesFrom(2);
 	VDP_EnableDisplay(TRUE);
 
-	Mouse_State msState[2];
-
 	u8 count = 0;
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
@@ -116,37 +115,37 @@ void main()
 
 		for(u8 i = 0; i < 2; ++i)
 		{
-			Mouse_Read((i == 0) ? MOUSE_PORT_1 : MOUSE_PORT_2, &msState[i]);
+			Mouse_Read((i == 0) ? MOUSE_PORT_1 : MOUSE_PORT_2, &g_MouseState[i]);
 
 			if(g_DeviceID[i] != INPUT_TYPE_MOUSE)
 				continue;
 
-			i8 dX = REDUCE(Mouse_GetOffsetX(&msState[i]));
-			i8 dY = REDUCE(Mouse_GetOffsetY(&msState[i]));
+			i8 dX = REDUCE(Mouse_GetOffsetX(&g_MouseState[i]));
+			i8 dY = REDUCE(Mouse_GetOffsetY(&g_MouseState[i]));
 			g_MouseX[i] += dX;
 			g_MouseY[i] += dY;
 			VDP_SetSpritePosition(i, g_MouseX[i], g_MouseY[i]-1);
 		
 			c8 btn1 = '-';
-			if(Mouse_IsButtonClick(&msState[i], MOUSE_BOUTON_1))
+			if(Mouse_IsButtonClick(&g_MouseState[i], MOUSE_BOUTON_1))
 			{
 				g_MouseCur[i]++;
 				g_MouseCur[i] &= 0x1F;
 				VDP_SetSpritePattern(i, g_MouseCur[i]);
 				btn1 = 'X';
 			}
-			else if(Mouse_IsButtonPress(&msState[i], MOUSE_BOUTON_1))
+			else if(Mouse_IsButtonPress(&g_MouseState[i], MOUSE_BOUTON_1))
 				btn1 = 'O';
 
 			c8 btn2 = '-';
-			if(Mouse_IsButtonClick(&msState[i], MOUSE_BOUTON_2))
+			if(Mouse_IsButtonClick(&g_MouseState[i], MOUSE_BOUTON_2))
 			{
 				g_MouseCur[i]--;
 				g_MouseCur[i] &= 0x1F;
 				VDP_SetSpritePattern(i, g_MouseCur[i]);
 				btn2 = 'X';
 			}
-			else if(Mouse_IsButtonPress(&msState[i], MOUSE_BOUTON_2))
+			else if(Mouse_IsButtonPress(&g_MouseState[i], MOUSE_BOUTON_2))
 				btn2 = 'O';
 
 			u8 px = 5 + i * 10;

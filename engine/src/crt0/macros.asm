@@ -5,6 +5,7 @@
 ; ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 ;  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 ;──────────────────────────────────────────────────────────────────────────────
+.z80
 .module	crt0
 
 ;==============================================================================
@@ -403,11 +404,31 @@
 .endif
 
 ;------------------------------------------------------------------------------
+; Backup Main-ROM's MSX info before switching out the BIOS from page 0
+;------------------------------------------------------------------------------
+.macro ALLOC_ROMINFO
+	_g_VersionROM::
+		.ds		1
+	_g_VersionMSX::
+		.ds		1
+.endm
+
+.macro BACKUP_ROMINFO
+	ld		a, (ROMVER)
+	ld		(#_g_VersionROM), a
+	ld		a, (MSXVER)
+	ld		(#_g_VersionMSX), a
+.endm
+
+;------------------------------------------------------------------------------
 ; Install ISR in RAM
 ; (needs 64 KB of RAM in Page #3's slot)
 ;------------------------------------------------------------------------------
 .macro INSTALL_RAM_ISR
 	.if ROM_RAMISR
+
+	; Backup Page 0 (Main-ROM) information
+		BACKUP_ROMINFO
 
 		di
 		jp		crt0_interrupt_end
@@ -451,7 +472,6 @@
 		ret
 	.endif
 .endm
-
 
 ;==============================================================================
 ; ROM MAPPER

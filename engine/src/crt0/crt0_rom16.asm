@@ -10,6 +10,7 @@
 ; Code address: 0x4010 (right after the header)
 ; Data address: 0xC000
 ;──────────────────────────────────────────────────────────────────────────────
+.z80
 .module	crt0
 
 .include "defines.asm"
@@ -45,7 +46,7 @@ crt0_init:
 	ld		hl, #s__HEAP
 	ld		(#_g_HeapStartAddress), hl
 
-	; Install ISR in RAM
+	; Install ISR in RAM (if ROM_RAMISR is set)
 	INSTALL_RAM_ISR
 
 	; Initialize globals
@@ -72,6 +73,10 @@ _g_LastAddr::
 
 _g_HeapStartAddress::
 	.ds		2
+
+	.if ROM_RAMISR
+		ALLOC_ROMINFO
+	.endif
 
 ;------------------------------------------------------------------------------
 ; Ordering of segments for the linker

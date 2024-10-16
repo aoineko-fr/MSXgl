@@ -10,6 +10,7 @@
 ; Code address: 0x0100 (bootload) 0x4000 (program)
 ; Data address: 0xC000
 ;──────────────────────────────────────────────────────────────────────────────
+.z80
 .module	crt0
 
 .include "defines.asm"
