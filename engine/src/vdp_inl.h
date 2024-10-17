@@ -49,13 +49,17 @@ inline void VDP_CommandHMMC(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny)
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandYMMM
 // High speed move VRAM to VRAM, Y coordinate only. [MSX2/2+/TR]
+// This function copies data from the coordinates (dx, sy)-(255, sy+ny) 
+// to (dx, dy)-(255,dy+ny).
 //
 // Parameters:
 //   sy - Y coordinate of the source area
 //   dx - X coordinate of the destination area (must be multiple of 2 in GM4 and GM6 mode, and multiple of 4 in GM5)
 //   dy - Y coordinate of the destination area
 //   ny - Height of the area to move
-//   dir - Direction of the move (from the destination)
+//   dir - Direction of the move from the destination:
+//                   0 when sy < dy
+//                   1 when sy > dy
 inline void VDP_CommandYMMM(u16 sy, u16 dx, u16 dy, u16 ny, u8 dir)
 {
 	g_VDP_Command.SY = sy;
@@ -70,7 +74,32 @@ inline void VDP_CommandYMMM(u16 sy, u16 dx, u16 dy, u16 ny, u8 dir)
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandHMMM_Arg
 // High speed move VRAM to VRAM. [MSX2/2+/TR]
-inline void VDP_CommandHMMM_Arg(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 arg)
+//
+// This function copies rectangular sections from VRAM to VRAM.
+//
+// By default, the copy is done from (sx,sy)-(sx+nx,sy+ny) to (dx,dy)-(dx+nx,dy+ny),
+// that is, left to right and top to bottom. However, this order can be
+// changed by specifying values in the argument register parameter (see below).
+// Also, this function by default copies data from and to the standard MSX2/2+/TR
+// VRAM addresses, that is, below 128kb. To deal with addresses above that (in
+// the rare case of a MSX with 192kb VRAM), there is an argument register value
+// for that too.
+// 
+//
+// Parameters:
+//   sx   - X coordinate of the source area (must be multiple of 2 in GM4 and GM6 mode, and multiple of 4 in GM5)
+//   sy   - Y coordinate of the source area
+//   dx   - X coordinate of the destination area (same limitation as SX)
+//   dy   - Y coordinate of the destination area
+//   nx   - Width of the area (same limitation as SX)
+//   ny   - Height of the area
+//   arg  - Argument register:
+//		VDP_ARG_DIY_DOWN (0)	copies from line sy to line sy + ny
+//		VDP_ARG_DIY_UP (4)	copies from line sy - ny to line sy
+//		VDP_ARG_DIX_RIGHT (0)	copies from column sx to sx + nx
+//		VDP_ARG_DIX_LEFT (8)	copies from column sx - nx to sx
+//              16                      copies from extended VRAM (between 128kb and 192kb)
+//              32                      copies to extended VRAM (between 128kb and 192kb)
 {
 	g_VDP_Command.SX = sx;
 	g_VDP_Command.SY = sy;
@@ -87,6 +116,9 @@ inline void VDP_CommandHMMM_Arg(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, 
 // Function: VDP_CommandHMMM
 // High speed move VRAM to VRAM. [MSX2/2+/TR]
 //
+// This function copies data from the coordinates (sx, sy)-(sx+nx, sy+ny) 
+// to (dx, dy)-(dx+nx,dy+ny).
+//
 // Parameters:
 //   sx   - X coordinate of the source area (must be multiple of 2 in GM4 and GM6 mode, and multiple of 4 in GM5)
 //   sy   - Y coordinate of the source area
@@ -102,6 +134,33 @@ inline void VDP_CommandHMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny)
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandHMMV_Arg
 // High speed move VDP to VRAM. [MSX2/2+/TR]
+// 
+// This function fills a retangular area with the byte
+// col (bear in mind the bit depth of the mode you're using).
+//
+// By default, the filling is done from (sx,sy)-(sx+nx,sy+ny) to (dx,dy)-(dx+nx,dy+ny),
+// that is, left to right and top to bottom. However, this order can be
+// changed by specifying values in the argument register parameter (see below).
+// Also, this function by default filling data inside standard MSX2/2+/TR
+// VRAM addresses, that is, below 128kb. To deal with addresses above that (in
+// the rare case of a MSX with 192kb VRAM), there is an argument register value
+// for that too;
+//
+// Parameters:
+//   sx   - X coordinate of the source area (must be multiple of 2 in GM4 and GM6 mode, and multiple of 4 in GM5)
+//   sy   - Y coordinate of the source area
+//   dx   - X coordinate of the destination area (same limitation as SX)
+//   dy   - Y coordinate of the destination area
+//   nx   - Width of the area (same limitation as SX)
+//   ny   - Height of the area
+//   col  - Byte to fill the area
+//   arg  - Argument register:
+//		VDP_ARG_DIY_DOWN (0)	fills from line sy to line sy + ny
+//		VDP_ARG_DIY_UP (4)	fills from line sy - ny to line sy
+//		VDP_ARG_DIX_RIGHT (0)	fills from column sx to sx + nx
+//		VDP_ARG_DIX_LEFT (8)	fills from column sx - nx to sx
+//              16                      fills extended VRAM (between 128kb and 192kb)
+//
 inline void VDP_CommandHMMV_Arg(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 arg)
 {
 	g_VDP_Command.DX = dx; 
@@ -117,6 +176,10 @@ inline void VDP_CommandHMMV_Arg(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 arg)
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandHMMV
 // High speed move VDP to VRAM. [MSX2/2+/TR]
+//
+// This function fills a retangular area (dx,dy)-(dx+nx,dy+ny) with the byte
+// col (bear in mind the bit depth of the mode you're using), from left to
+// right, top to bottom.
 //
 // Parameters:
 //   dx   - X coordinate of the destination area (must be multiple of 2 in GM4 and GM6 mode, and multiple of 4 in GM5)
@@ -163,7 +226,7 @@ inline void VDP_CommandLMMC(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny, u8 o
 
 //-----------------------------------------------------------------------------
 // Function: VDP_CommandLMCM
-// Logical move VRAM to CPU (not fonctional). [MSX2/2+/TR]
+// Logical move VRAM to CPU (not implemented). [MSX2/2+/TR]
 inline void VDP_CommandLMCM()
 {
 }
@@ -188,6 +251,21 @@ inline void VDP_CommandLMMM_Arg(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, 
 // Function: VDP_CommandLMMM
 // Logical move VRAM to VRAM. [MSX2/2+/TR]
 //
+// This function copies rectangular sections from VRAM to VRAM, applying
+// a logical operator between the value on source and the value on destination.
+//
+// Specifying AND operation means that the final pixel will be the source pixel AND the destination pixel.
+// Same goes for OR and XOR.
+//
+// NOT disregards the pixel at destination, and copies a negated pixel from the source.
+//
+// All logic operators preceded by a "T" (TAND, TOR, TXOR, TNOT) behaves as the regular versions,
+// but they keep the destination pixel untouched if the source pixel is transparent (usually 0)
+//
+// The TIMP operation copies data from source to value, except transparent ones - useful for
+// superimposing two images. IMP copies everything, including the transparent pixels - so
+// consider using the faster command VDP_CommandHMMM instead)
+//
 // Parameters:
 //   sx   - X coordinate of the source area
 //   sy   - Y coordinate of the source area
@@ -196,6 +274,16 @@ inline void VDP_CommandLMMM_Arg(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, 
 //   nx   - Width of the area
 //   ny   - Height of the area
 //   op   - Color blend operation
+//		VDP_OP_IMP	(0x00) copies everything (consider using the faster function HMMM)
+//		VDP_OP_AND	(0x01) applies an AND operation between source and destination
+//		VDP_OP_OR	(0x02) applies an OR operation between source and destination
+//		VDP_OP_XOR	(0x03) applies a XOR operation between source and destination
+//		VDP_OP_NOT	(0x04) applies a NOT operation in the source pixel
+//		VDP_OP_TIMP	(0x08) copies only non-transparent pixels (superimpose)
+//		VDP_OP_TAND	(0x09) same as AND, but dont change pixels transparent at the source
+//		VDP_OP_TOR	(0x0A) same as OR, but dont change pixels transparent at the source
+//		VDP_OP_TXOR	(0x0B) same as XOR, but dont change pixels transparent at the source
+//		VDP_OP_TNOT	(0x0C) same as NOT, but dont change pixels transparent at the source
 inline void VDP_CommandLMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 op)
 {
 	VDP_CommandLMMM_Arg(sx, sy, dx, dy, nx, ny, op, 0);
