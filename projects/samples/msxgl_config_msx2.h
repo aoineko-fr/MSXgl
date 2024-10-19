@@ -149,6 +149,8 @@
 #define INPUT_USE_JOYSTICK			TRUE	// Add functions to handle joystick using I/O port
 #define INPUT_USE_KEYBOARD			TRUE	// Add functions to handle keyboard using I/O port
 #define INPUT_USE_MOUSE				TRUE	// Add support for Mouse handling functions
+#define INPUT_USE_PADDLE			TRUE	// Add functions to handle Arkanoid Vaus paddle through direct I/O access
+#define INPUT_USE_PADDLE_CALIB		TRUE	// Add functions paddle calibration feature
 #define INPUT_USE_DETECT			TRUE	// Add feature to detect device plugged in General purpose ports
 #define INPUT_USE_ISR_PROTECTION	TRUE	// Disable interruptions while access PSG registers (needed if you use BIOS or access PSG in your own ISR)
 #define INPUT_JOY_UPDATE			FALSE	// Add function to update all joystick states at once

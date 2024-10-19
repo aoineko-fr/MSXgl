@@ -174,4 +174,33 @@
 //             _                     _
 // 1  1  1  1  _ /|_________________ _
 
+//-----------------------------------------------------------------------------
+// R#14   I/O Parallel Port A (ready)
+//-----------------------------------------------------------------------------
+//	7	6	5	4	3	2	1	0	
+//	CR	JIS	P7	P6	P4	P3	P2	P1 	
+//  │	│	│	│	│	│	│	└── Pin 1 state of the selected general port (Up if joystick)
+//	│	│	│	│	│   │   └────── Pin 2 state of the selected general port (Down if joystick)
+//	│	│	│	│	│   └────────── Pin 3 state of the selected general port (Left if joystick)
+//	│	│	│	│	└────────────── Pin 4 state of the selected general port (Right if joystick)
+//	│	│	│	└────────────────── Pin 6 state of the selected general port (Trigger A if joystick)
+//	│	│	└────────────────────── Pin 7 state of the selected general port (Trigger B if joystick)
+//	│	└────────────────────────── 1 for JIS keyboard, 0 for JP50on (only valid for Japanese MSX)
+//	└────────────────────────────── CASRD (Reading signal on cassette)
+#define PSG_REG_IO_PORT_A	14
+
+//-----------------------------------------------------------------------------
+// R#15   I/O Parallel Port B (write)
+//-----------------------------------------------------------------------------
+//	7	6	5	4	3	2	1	0	
+//	LED	SEL	B8	A8	B7	B6	A7	A6 	
+//  │	│	│	│	│	│	│	└── Pin control 6 of the general port 1
+//	│	│	│	│	│   │   └────── Pin control 7 of the general port 1
+//	│	│	│	│	│   └────────── Pin control 6 of the general port 2
+//	│	│	│	│	└────────────── Pin control 7 of the general port 2
+//	│	│	│	└────────────────── Pin control 8 of the general port 1 (0 for standard joystick mode)
+//	│	│	└────────────────────── Pin control 8 of the general port 2 (0 for standard joystick mode)
+//	│	└────────────────────────── Selection of the general port readable via register 14 (1 for port 2)
+//	└────────────────────────────── LED control of the "Code" or "Kana" key. (1 to turn off)
+#define PSG_REG_IO_PORT_B	15
 

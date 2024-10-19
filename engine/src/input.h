@@ -443,3 +443,32 @@ bool Keyboard_IsKeyPressed(u8 key);
 #endif // (INPUT_KB_UPDATE)
 
 #endif // (INPUT_USE_KEYBOARD)
+
+//=============================================================================
+// Group: Paddle
+// Direct access to paddle
+//=============================================================================
+#if (INPUT_USE_PADDLE)
+
+extern u16 g_PaddleStates[2];
+
+void Paddle_Update();
+inline bool Paddle_IsConnected(u8 port) { return (g_PaddleStates[port] & 0x8000) == 0; }
+inline u16 Paddle_GetAngle(u8 port) { return g_PaddleStates[port] & 0x01FF; }
+inline bool Paddle_IsButtonPressed(u8 port) { return (g_PaddleStates[port] & 0x0200) == 0; }
+
+#if (INPUT_USE_PADDLE_CALIB)
+
+extern i16 g_PaddleMidPoints[2];
+
+inline void Paddle_SetCalibration(u8 port, u16 min, u16 max) { g_PaddleMidPoints[port] = min + (max - min) / 2; }
+u8 Paddle_GetCalibratedAngle(u8 port);
+
+#endif
+
+u16 Paddle_Read(u8 port) __FASTCALL;
+inline u16 Paddle_GetAngle2(u16 pad) { return pad & 0x01FF; }
+inline bool Paddle_IsButtonPressed2(u16 pad) { return (pad & 0x0200) == 0; }
+inline bool Paddle_IsConnected2(u16 pad) { return (pad & 0x8000) == 0; }
+
+#endif // (INPUT_USE_PADDLE)

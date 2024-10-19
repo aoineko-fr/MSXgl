@@ -46,6 +46,49 @@ Mouse_State g_MouseState[2];
 // MAIN LOOP
 //=============================================================================
 
+/*u16 Input_DetectEx(u8 port)
+{
+__asm
+	detect_setup:
+
+		or		a
+		jr		nz, detect_port2
+		// Port A
+		ld		bc, #0x1F0F
+		jr		detect_start
+
+	detect_port2:
+		// Port B
+		ld		bc, #0x6F4F
+
+	detect_start:
+
+		ld		a, #15				// Select R#15
+		out		(P_PSG_REGS), a
+		ld		a, b
+		out		(P_PSG_DATA), a		// Select pin 8 LOW
+
+		ld		a, #14				// Select R#14
+		out		(P_PSG_REGS), a
+		in		a, (P_PSG_STAT)		// Reads
+		and		#0x3F
+		ld		l, a
+
+		ld		a, #15				// Select R#15
+		out		(P_PSG_REGS), a
+		ld		a, c
+		out		(P_PSG_DATA), a		// Select pin 8 HIGH
+
+		ld		a, #14				// Select R#14
+		out		(P_PSG_REGS), a
+		in		a, (P_PSG_STAT)		// Reads
+		and		#0x3F
+		ld		h, a
+
+__endasm;
+}*/
+
+
 //-----------------------------------------------------------------------------
 // Program entry point
 void Detect()
@@ -74,6 +117,12 @@ void Detect()
 }
 
 //-----------------------------------------------------------------------------
+// Vertical-blank interruption handler
+void VDP_InterruptHandler()
+{
+}
+
+//-----------------------------------------------------------------------------
 // Program entry point
 void main()
 {
@@ -86,10 +135,10 @@ void main()
 	Print_SetTextFont(g_Font_MGL_Sample8, 1);
 	Print_SetColor(COLOR_WHITE, COLOR_BLACK);
 	// Draw static text
-	Print_DrawText(MSX_GL " MOUSE SAMPLE");
+	Print_DrawText(MSX_GL " PADDLE SAMPLE");
 	Print_DrawLineH(0, 1, 32);
 	Print_SetPosition(0, 3);
-	Print_DrawText("     Port 1    Port 2\n\nDev\n\n\nX :\nY :\ndX:\ndY:\nLB:\nRB:");
+	Print_DrawText("     Port 1    Port 2\n\nDev\n\n\nX:\nBtn:\nDsc:");
 	Print_DrawLineH(0, 1, 22);
 	Print_SetPosition(0, 23);
 	Print_DrawText("D:Detect");
@@ -100,8 +149,8 @@ void main()
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8);
 	// Load and setup sprite
 	VDP_LoadSpritePattern(g_Cursor_MGL1, 0, 32);
-	VDP_SetSpriteSM1(0, 0, 0, 0, COLOR_LIGHT_BLUE);
-	VDP_SetSpriteSM1(1, 0, 0, 0, COLOR_LIGHT_RED);
+	VDP_SetSpriteSM1(0, 0, 0, 6, COLOR_LIGHT_BLUE);
+	VDP_SetSpriteSM1(1, 0, 0, 6, COLOR_LIGHT_RED);
 	VDP_DisableSpritesFrom(2);
 	VDP_EnableDisplay(TRUE);
 
@@ -115,62 +164,39 @@ void main()
 
 		for(u8 i = 0; i < 2; ++i)
 		{
-			if(g_DeviceID[i] != INPUT_TYPE_MOUSE)
-				continue;
+			// if(g_DeviceID[i] != INPUT_TYPE_PADDLE)
+			// 	continue;
 
-			Mouse_Read((i == 0) ? MOUSE_PORT_1 : MOUSE_PORT_2, &g_MouseState[i]);
+		#if (1)
+			Paddle_Update();
+			u16 padX = Paddle_GetAngle(i);
+			bool padB = Paddle_IsButtonPressed(i);
+			bool padC = Paddle_IsConnected(i);
+		#else
+			u16 pad = Paddle_Read(i);
+			u16 padX = Paddle_GetAngle2(pad);
+			bool padB = Paddle_IsButtonPressed2(pad);
+			bool padC = Paddle_IsConnected2(pad);
+		#endif
 
-			i8 dX = REDUCE(Mouse_GetOffsetX(&g_MouseState[i]));
-			i8 dY = REDUCE(Mouse_GetOffsetY(&g_MouseState[i]));
-			g_MouseX[i] += dX;
-			g_MouseY[i] += dY;
-			VDP_SetSpritePosition(i, g_MouseX[i], g_MouseY[i]-1);
+			VDP_SetSpritePosition(i, padX - 3, i * 32 + 96 - 3);
 		
-			c8 btn1 = '-';
-			if(Mouse_IsButtonClick(&g_MouseState[i], MOUSE_BOUTON_1))
-			{
-				g_MouseCur[i]++;
-				g_MouseCur[i] &= 0x1F;
-				VDP_SetSpritePattern(i, g_MouseCur[i]);
-				btn1 = 'X';
-			}
-			else if(Mouse_IsButtonPress(&g_MouseState[i], MOUSE_BOUTON_1))
-				btn1 = 'O';
-
-			c8 btn2 = '-';
-			if(Mouse_IsButtonClick(&g_MouseState[i], MOUSE_BOUTON_2))
-			{
-				g_MouseCur[i]--;
-				g_MouseCur[i] &= 0x1F;
-				VDP_SetSpritePattern(i, g_MouseCur[i]);
-				btn2 = 'X';
-			}
-			else if(Mouse_IsButtonPress(&g_MouseState[i], MOUSE_BOUTON_2))
-				btn2 = 'O';
-
 			u8 px = 5 + i * 10;
 
 			Print_SetPosition(px, 8);
-			Print_DrawInt(g_MouseX[i]);
+			Print_DrawInt(padX);
 			Print_DrawText("  ");
+
 			Print_SetPosition(px, 9);
-			Print_DrawInt(g_MouseY[i]);
-			Print_DrawText("  ");
+			Print_DrawChar(padB ? 'O' : '-');
 
 			Print_SetPosition(px, 10);
-			Print_DrawInt(dX);
-			Print_DrawText("  ");
-			Print_SetPosition(px, 11);
-			Print_DrawInt(dY);
-			Print_DrawText("  ");
-
-			Print_SetPosition(px, 12);
-			Print_DrawChar(btn1);
-			Print_SetPosition(px, 13);
-			Print_DrawChar(btn2);
+			Print_DrawChar(!padC ? 'O' : '-');
 		}
 		
 		if(Keyboard_IsKeyPressed(KEY_D))
+		{
 			Detect();
+		}
 	}
 }

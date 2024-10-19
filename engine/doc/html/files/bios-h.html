@@ -8,394 +8,394 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Helper"></a><a name="Topic1057"></a><div class="CTopic TGroup LC first">
+<a name="Helper"></a><a name="Topic155"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">Helper</div>
 </div>
 
-<a name="Bios_Exit"></a><a name="Topic1058"></a><div class="CTopic TFunction LC">
+<a name="Bios_Exit"></a><a name="Topic389"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_Exit</div>
- <div id="NDPrototype1058" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_Exit(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">ret</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype389" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_Exit(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">ret</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Handle clean exit form Basic or MSX-DOS environment</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">ret<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Return value (for MSX-DOS environment)</p></td></tr></table></div>
 </div>
 
-<a name="Bios_SetKeyClick"></a><a name="Topic1059"></a><div class="CTopic TFunction LC">
+<a name="Bios_SetKeyClick"></a><a name="Topic231"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SetKeyClick</div>
- <div id="NDPrototype1059" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetKeyClick(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable or disable key click</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">ret</td><td class="CDLDefinition"><p>TRUE to enable and FALSE to disable</p></td></tr></table></div>
+ <div id="NDPrototype231" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetKeyClick(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable or disable key click</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable and FALSE to disable</p></td></tr></table></div>
 </div>
 
-<a name="Bios_GetMSXVersion"></a><a name="Topic1060"></a><div class="CTopic TFunction LC">
+<a name="Bios_GetMSXVersion"></a><a name="Topic390"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GetMSXVersion</div>
- <div id="NDPrototype1060" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Bios_GetMSXVersion()</div></div>
+ <div id="NDPrototype390" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Bios_GetMSXVersion()</div></div>
  <div class="CBody"><p>Get MSX generation version</p><div class="CHeading">Return</div><ul><li><p>MSXVER_1 (0) for MSX1.</p></li><li><p>MSXVER_2 (1) for MSX2.</p></li><li><p>MSXVER_2P (2) for MSX2+.</p></li><li><p>MSXVER_TR (3) for MSX turbo R.</p></li></ul></div>
 </div>
 
-<a name="Main-ROM-Core"></a><a name="Topic1061"></a><div class="CTopic TGroup LC">
+<a name="Main-ROM-Core"></a><a name="Topic156"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Main-ROM - Core</div>
 </div>
 
-<a name="Bios_Startup"></a><a name="Topic1062"></a><div class="CTopic TFunction LC">
+<a name="Bios_Startup"></a><a name="Topic304"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_Startup</div>
- <div id="NDPrototype1062" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_Startup()</div></div>
+ <div id="NDPrototype304" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_Startup()</div></div>
  <div class="CBody"><p>Tests RAM and sets RAM slot for the system.&nbsp; Wrapper for CHKRAM routine.</p></div>
 </div>
 
-<a name="Bios_InterSlotRead"></a><a name="Topic1063"></a><div class="CTopic TFunction LC">
+<a name="Bios_InterSlotRead"></a><a name="Topic308"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InterSlotRead</div>
- <div id="NDPrototype1063" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Bios_InterSlotRead(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype308" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Bios_InterSlotRead(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Reads the value of an address in another slot.&nbsp; Wrapper for RDSLT routine.</p></div>
 </div>
 
-<a name="Bios_InterSlotWrite"></a><a name="Topic1064"></a><div class="CTopic TFunction LC">
+<a name="Bios_InterSlotWrite"></a><a name="Topic309"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InterSlotWrite</div>
- <div id="NDPrototype1064" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_InterSlotWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype309" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_InterSlotWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Writes a value to an address in another slot.&nbsp; Wrapper for WRSLT routine.</p></div>
 </div>
 
-<a name="Bios_InterSlotCall"></a><a name="Topic1065"></a><div class="CTopic TFunction LC">
+<a name="Bios_InterSlotCall"></a><a name="Topic310"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InterSlotCall</div>
- <div id="NDPrototype1065" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_InterSlotCall(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype310" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_InterSlotCall(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Executes inter-slot call.&nbsp; Wrapper for CALSLT routine.</p></div>
 </div>
 
-<a name="Bios_SwitchSlot"></a><a name="Topic1066"></a><div class="CTopic TFunction LC">
+<a name="Bios_SwitchSlot"></a><a name="Topic439"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SwitchSlot</div>
- <div id="NDPrototype1066" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_SwitchSlot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype439" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_SwitchSlot(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">page,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Switches to specified slot and page definitively.&nbsp; Wrapper for ENASLT routine.</p></div>
 </div>
 
-<a name="BIOS_CALLF"></a><a name="Topic1067"></a><div class="CTopic TMacro LC">
+<a name="BIOS_CALLF"></a><a name="Topic586"></a><div class="CTopic TMacro LC">
  <div class="CTitle">BIOS_CALLF</div>
  <div class="CBody"><p>Executes an interslot call.&nbsp; Wrapper for CALLF routine.</p></div>
 </div>
 
-<a name="Main-ROM-Init"></a><a name="Topic1068"></a><div class="CTopic TGroup LC">
+<a name="Main-ROM-Init"></a><a name="Topic177"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Main-ROM - Init</div>
 </div>
 
-<a name="Main-ROM-VDP"></a><a name="Topic1069"></a><div class="CTopic TGroup LC">
+<a name="Main-ROM-VDP"></a><a name="Topic180"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Main-ROM - VDP</div>
 </div>
 
-<a name="Bios_DisableScreen"></a><a name="Topic1070"></a><div class="CTopic TFunction LC">
+<a name="Bios_DisableScreen"></a><a name="Topic492"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_DisableScreen</div>
- <div id="NDPrototype1070" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_DisableScreen()</div></div>
+ <div id="NDPrototype492" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_DisableScreen()</div></div>
  <div class="CBody"><p>Inhibits the screen display. Wrapper for DISSCR routine.</p></div>
 </div>
 
-<a name="Bios_EnableScreen"></a><a name="Topic1071"></a><div class="CTopic TFunction LC">
+<a name="Bios_EnableScreen"></a><a name="Topic493"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_EnableScreen</div>
- <div id="NDPrototype1071" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_EnableScreen()</div></div>
+ <div id="NDPrototype493" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_EnableScreen()</div></div>
  <div class="CBody"><p>Displays the screen. Wrapper for ENASCR routine.</p></div>
 </div>
 
-<a name="Bios_WriteVDP"></a><a name="Topic1072"></a><div class="CTopic TFunction LC">
+<a name="Bios_WriteVDP"></a><a name="Topic661"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_WriteVDP</div>
- <div id="NDPrototype1072" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_WriteVDP(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype661" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_WriteVDP(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Writes data in the VDP-register. Wrapper for WRTVDP routine.</p></div>
 </div>
 
-<a name="Bios_ReadVRAM"></a><a name="Topic1073"></a><div class="CTopic TFunction LC">
+<a name="Bios_ReadVRAM"></a><a name="Topic495"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_ReadVRAM</div>
- <div id="NDPrototype1073" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Bios_ReadVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype495" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Bios_ReadVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Reads the content of VRAM. Wrapper for RDVRM routine.</p></div>
 </div>
 
-<a name="Bios_WriteVRAM"></a><a name="Topic1074"></a><div class="CTopic TFunction LC">
+<a name="Bios_WriteVRAM"></a><a name="Topic496"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_WriteVRAM</div>
- <div id="NDPrototype1074" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_WriteVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype496" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_WriteVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Writes data in VRAM. Wrapper for WRTVRM routine.</p></div>
 </div>
 
-<a name="Bios_SetAddressForRead"></a><a name="Topic1075"></a><div class="CTopic TFunction LC">
+<a name="Bios_SetAddressForRead"></a><a name="Topic824"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SetAddressForRead</div>
- <div id="NDPrototype1075" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetAddressForRead(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype824" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetAddressForRead(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Enables VDP to read. Wrapper for SETRD routine.</p></div>
 </div>
 
-<a name="Bios_SetAddressForWrite"></a><a name="Topic1076"></a><div class="CTopic TFunction LC">
+<a name="Bios_SetAddressForWrite"></a><a name="Topic825"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SetAddressForWrite</div>
- <div id="NDPrototype1076" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetAddressForWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype825" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetAddressForWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Enables VDP to write. Wrapper for SETWRT routine.</p></div>
 </div>
 
-<a name="Bios_FillVRAM"></a><a name="Topic1077"></a><div class="CTopic TFunction LC">
+<a name="Bios_FillVRAM"></a><a name="Topic826"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_FillVRAM</div>
- <div id="NDPrototype1077" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_FillVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">length,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype826" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_FillVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">length,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Fills VRAM with value. Wrapper for FILVRM routine.</p></div>
 </div>
 
-<a name="Bios_TransfertVRAMtoRAM"></a><a name="Topic1078"></a><div class="CTopic TFunction LC">
+<a name="Bios_TransfertVRAMtoRAM"></a><a name="Topic500"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_TransfertVRAMtoRAM</div>
- <div id="NDPrototype1078" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_TransfertVRAMtoRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">vram,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ram,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">length</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype500" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_TransfertVRAMtoRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">vram,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ram,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">length</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Block transfer to memory from VRAM. Wrapper for LDIRMV routine.</p></div>
 </div>
 
-<a name="Bios_TransfertRAMtoVRAM"></a><a name="Topic1079"></a><div class="CTopic TFunction LC">
+<a name="Bios_TransfertRAMtoVRAM"></a><a name="Topic501"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_TransfertRAMtoVRAM</div>
- <div id="NDPrototype1079" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_TransfertRAMtoVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ram,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">vram,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">length</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype501" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_TransfertRAMtoVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ram,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">vram,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">length</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Block transfer to VRAM from memory. Wrapper for LDIRVM routine.</p></div>
 </div>
 
-<a name="Bios_ChangeMode"></a><a name="Topic1080"></a><div class="CTopic TFunction LC">
+<a name="Bios_ChangeMode"></a><a name="Topic827"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_ChangeMode</div>
- <div id="NDPrototype1080" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_ChangeMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">screen</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype827" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_ChangeMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">screen</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Switches to given screen mode. Wrapper for CHGMOD routine.</p></div>
 </div>
 
-<a name="Bios_ChangeColor"></a><a name="Topic1081"></a><div class="CTopic TFunction LC">
+<a name="Bios_ChangeColor"></a><a name="Topic828"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_ChangeColor</div>
- <div id="NDPrototype1081" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_ChangeColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">back,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype828" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_ChangeColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">back,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Changes the screen colors. Wrapper for CHGCLR routine.</p></div>
 </div>
 
-<a name="Bios_InitScreen0"></a><a name="Topic1082"></a><div class="CTopic TFunction LC">
+<a name="Bios_InitScreen0"></a><a name="Topic504"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InitScreen0</div>
- <div id="NDPrototype1082" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_InitScreen0()</div></div>
+ <div id="NDPrototype504" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_InitScreen0()</div></div>
  <div class="CBody"><p>Switches to SCREEN 0 (text screen with 40*24 characters). Wrapper for INITXT routine.</p></div>
 </div>
 
-<a name="Bios_InitScreen0Ex"></a><a name="Topic1083"></a><div class="CTopic TFunction LC">
+<a name="Bios_InitScreen0Ex"></a><a name="Topic505"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InitScreen0Ex</div>
- <div id="NDPrototype1083" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_InitScreen0Ex(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pnt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pgt,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">width,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype505" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_InitScreen0Ex(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pnt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pgt,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">width,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Switches to SCREEN 0 (text screen with 40*24 characters). Wrapper for INITXT routine.</p></div>
 </div>
 
-<a name="Bios_InitScreen1"></a><a name="Topic1084"></a><div class="CTopic TFunction LC">
+<a name="Bios_InitScreen1"></a><a name="Topic506"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InitScreen1</div>
- <div id="NDPrototype1084" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_InitScreen1()</div></div>
+ <div id="NDPrototype506" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_InitScreen1()</div></div>
  <div class="CBody"><p>Switches to SCREEN 1 (text screen with 32*24 characters). Wrapper for INIT32 routine.</p></div>
 </div>
 
-<a name="Bios_InitScreen1Ex"></a><a name="Topic1085"></a><div class="CTopic TFunction LC">
+<a name="Bios_InitScreen1Ex"></a><a name="Topic507"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InitScreen1Ex</div>
- <div id="NDPrototype1085" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_InitScreen1Ex(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pnt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ct,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pgt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sat,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sgt,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype507" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_InitScreen1Ex(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pnt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ct,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pgt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sat,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sgt,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Switches to SCREEN 1 (text screen with 32*24 characters). Wrapper for INIT32 routine.</p></div>
 </div>
 
-<a name="Bios_InitScreen2"></a><a name="Topic1086"></a><div class="CTopic TFunction LC">
+<a name="Bios_InitScreen2"></a><a name="Topic508"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InitScreen2</div>
- <div id="NDPrototype1086" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_InitScreen2()</div></div>
+ <div id="NDPrototype508" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_InitScreen2()</div></div>
  <div class="CBody"><p>Switches to SCREEN 2 (high resolution screen with 256*192 pixels). Wrapper for INIGRP routine.</p></div>
 </div>
 
-<a name="Bios_InitScreen2Ex"></a><a name="Topic1087"></a><div class="CTopic TFunction LC">
+<a name="Bios_InitScreen2Ex"></a><a name="Topic509"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InitScreen2Ex</div>
- <div id="NDPrototype1087" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_InitScreen2Ex(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pnt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ct,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pgt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sat,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sgt,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype509" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_InitScreen2Ex(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pnt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ct,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pgt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sat,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sgt,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Switches to SCREEN 2 (high resolution screen with 256*192 pixels). Wrapper for INIGRP routine.</p></div>
 </div>
 
-<a name="Bios_InitScreen3"></a><a name="Topic1088"></a><div class="CTopic TFunction LC">
+<a name="Bios_InitScreen3"></a><a name="Topic510"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InitScreen3</div>
- <div id="NDPrototype1088" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_InitScreen3()</div></div>
+ <div id="NDPrototype510" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_InitScreen3()</div></div>
  <div class="CBody"><p>Switches to SCREEN 3 (multi-color screen 64*48 pixels). Wrapper for INIMLT routine.</p></div>
 </div>
 
-<a name="Bios_InitScreen3Ex"></a><a name="Topic1089"></a><div class="CTopic TFunction LC">
+<a name="Bios_InitScreen3Ex"></a><a name="Topic511"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InitScreen3Ex</div>
- <div id="NDPrototype1089" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_InitScreen3Ex(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pnt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ct,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pgt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sat,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sgt,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype511" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_InitScreen3Ex(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pnt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">ct,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">pgt,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sat,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">sgt,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Switches to SCREEN 3 (multi-color screen 64*48 pixels). Wrapper for INIMLT routine.</p></div>
 </div>
 
-<a name="Bios_SetScreen0"></a><a name="Topic1090"></a><div class="CTopic TFunction LC">
+<a name="Bios_SetScreen0"></a><a name="Topic512"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SetScreen0</div>
- <div id="NDPrototype1090" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetScreen0()</div></div>
+ <div id="NDPrototype512" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetScreen0()</div></div>
  <div class="CBody"><p>Switches VDP in SCREEN 0 mode. Wrapper for SETTXT routine.</p></div>
 </div>
 
-<a name="Bios_SetScreen1"></a><a name="Topic1091"></a><div class="CTopic TFunction LC">
+<a name="Bios_SetScreen1"></a><a name="Topic513"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SetScreen1</div>
- <div id="NDPrototype1091" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetScreen1()</div></div>
+ <div id="NDPrototype513" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetScreen1()</div></div>
  <div class="CBody"><p>Switches VDP in SCREEN 1 mode. Wrapper for SETT32 routine.</p></div>
 </div>
 
-<a name="Bios_SetScreen2"></a><a name="Topic1092"></a><div class="CTopic TFunction LC">
+<a name="Bios_SetScreen2"></a><a name="Topic514"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SetScreen2</div>
- <div id="NDPrototype1092" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetScreen2()</div></div>
+ <div id="NDPrototype514" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetScreen2()</div></div>
  <div class="CBody"><p>Switches VDP to SCREEN 2 mode. Wrapper for SETGRP routine.</p></div>
 </div>
 
-<a name="Bios_SetScreen3"></a><a name="Topic1093"></a><div class="CTopic TFunction LC">
+<a name="Bios_SetScreen3"></a><a name="Topic515"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SetScreen3</div>
- <div id="NDPrototype1093" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetScreen3()</div></div>
+ <div id="NDPrototype515" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetScreen3()</div></div>
  <div class="CBody"><p>Switches VDP to SCREEN 3 mode. Wrapper for SETMLT routine.</p></div>
 </div>
 
-<a name="Bios_GetPatternTableAddress"></a><a name="Topic1094"></a><div class="CTopic TFunction LC">
+<a name="Bios_GetPatternTableAddress"></a><a name="Topic516"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GetPatternTableAddress</div>
- <div id="NDPrototype1094" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 Bios_GetPatternTableAddress(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
+ <div id="NDPrototype516" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 Bios_GetPatternTableAddress(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
  <div class="CBody"><p>Returns the address of the sprite pattern table. Wrapper for CALPAT routine.</p></div>
 </div>
 
-<a name="Bios_GetAttributeTableAddress"></a><a name="Topic1095"></a><div class="CTopic TFunction LC">
+<a name="Bios_GetAttributeTableAddress"></a><a name="Topic517"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GetAttributeTableAddress</div>
- <div id="NDPrototype1095" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 Bios_GetAttributeTableAddress(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
+ <div id="NDPrototype517" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 Bios_GetAttributeTableAddress(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
  <div class="CBody"><p>Returns the address of the sprite attribute table. Wrapper for CALATR routine.</p></div>
 </div>
 
-<a name="Bios_GetSpriteSize"></a><a name="Topic1096"></a><div class="CTopic TFunction LC">
+<a name="Bios_GetSpriteSize"></a><a name="Topic518"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GetSpriteSize</div>
- <div id="NDPrototype1096" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Bios_GetSpriteSize()</div></div>
+ <div id="NDPrototype518" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Bios_GetSpriteSize()</div></div>
  <div class="CBody"><p>Returns current sprite size. Wrapper for GSPSIZ routine.</p></div>
 </div>
 
-<a name="Bios_GraphPrintChar"></a><a name="Topic1097"></a><div class="CTopic TFunction LC">
+<a name="Bios_GraphPrintChar"></a><a name="Topic519"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GraphPrintChar</div>
- <div id="NDPrototype1097" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_GraphPrintChar(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype519" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_GraphPrintChar(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Displays a character on the graphic screen. Wrapper for GRPPRT routine.</p></div>
 </div>
 
-<a name="Bios_GraphPrintCharEx"></a><a name="Topic1098"></a><div class="CTopic TFunction LC">
+<a name="Bios_GraphPrintCharEx"></a><a name="Topic520"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GraphPrintCharEx</div>
- <div id="NDPrototype1098" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_GraphPrintCharEx(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">op</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype520" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_GraphPrintCharEx(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chr,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">op</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Displays a character on the graphic screen. Wrapper for GRPPRT routine.</p></div>
 </div>
 
-<a name="Bios_IsSpriteCollision"></a><a name="Topic1099"></a><div class="CTopic TFunction LC">
+<a name="Bios_IsSpriteCollision"></a><a name="Topic540"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_IsSpriteCollision</div>
- <div id="NDPrototype1099" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Bios_IsSpriteCollision()</div></div>
+ <div id="NDPrototype540" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Bios_IsSpriteCollision()</div></div>
  <div class="CBody"><p>Returns FALSE if no collision occured during the previous frame, otherwise returns S00_C.&nbsp; This function use value of VDP status register S#0 that BIOS backup in RAM (STATFL).</p></div>
 </div>
 
-<a name="Bios_IsSpriteOverScan"></a><a name="Topic1100"></a><div class="CTopic TFunction LC">
+<a name="Bios_IsSpriteOverScan"></a><a name="Topic547"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_IsSpriteOverScan</div>
- <div id="NDPrototype1100" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Bios_IsSpriteOverScan()</div></div>
+ <div id="NDPrototype547" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Bios_IsSpriteOverScan()</div></div>
  <div class="CBody"><p>Returns FALSE if no over-scan occured during the previous frame (more than 4/8 sprites on the same line), otherwise returns S00_5S.&nbsp; This function use value of VDP status register S#0 that BIOS backup in RAM (STATFL).</p></div>
 </div>
 
-<a name="Bios_GetSpriteOverScanId"></a><a name="Topic1101"></a><div class="CTopic TFunction LC">
+<a name="Bios_GetSpriteOverScanId"></a><a name="Topic550"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GetSpriteOverScanId</div>
- <div id="NDPrototype1101" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Bios_GetSpriteOverScanId()</div></div>
+ <div id="NDPrototype550" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Bios_GetSpriteOverScanId()</div></div>
  <div class="CBody"><p>Returns index of the over-scaned sprite (5th/8th sprite on line). Value is in 0-31 range.&nbsp; This function use value of VDP status register S#0 that BIOS backup in RAM (STATFL).</p></div>
 </div>
 
-<a name="Main-ROM-PSG"></a><a name="Topic1102"></a><div class="CTopic TGroup LC">
+<a name="Main-ROM-PSG"></a><a name="Topic239"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Main-ROM - PSG</div>
 </div>
 
-<a name="Bios_InitPSG"></a><a name="Topic1103"></a><div class="CTopic TFunction LC">
+<a name="Bios_InitPSG"></a><a name="Topic521"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_InitPSG</div>
- <div id="NDPrototype1103" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_InitPSG()</div></div>
+ <div id="NDPrototype521" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_InitPSG()</div></div>
  <div class="CBody"><p>Initialises PSG and sets initial value for the PLAY statement. Wrapper for GICINI routine.</p></div>
 </div>
 
-<a name="Bios_WritePSG"></a><a name="Topic1104"></a><div class="CTopic TFunction LC">
+<a name="Bios_WritePSG"></a><a name="Topic522"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_WritePSG</div>
- <div id="NDPrototype1104" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_WritePSG(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype522" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_WritePSG(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Writes data to PSG-register. Wrapper for WRTPSG routine.</p></div>
 </div>
 
-<a name="Bios_ReadPSG"></a><a name="Topic1105"></a><div class="CTopic TFunction LC">
+<a name="Bios_ReadPSG"></a><a name="Topic523"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_ReadPSG</div>
- <div id="NDPrototype1105" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Bios_ReadPSG(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype523" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Bios_ReadPSG(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">reg</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Reads value from PSG-register. Wrapper for RDPSG routine.</p></div>
 </div>
 
-<a name="Bios_PlayPSG"></a><a name="Topic1106"></a><div class="CTopic TFunction LC">
+<a name="Bios_PlayPSG"></a><a name="Topic524"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_PlayPSG</div>
- <div id="NDPrototype1106" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_PlayPSG()</div></div>
+ <div id="NDPrototype524" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_PlayPSG()</div></div>
  <div class="CBody"><p>Tests whether the PLAY statement is being executed as a background task. Wrapper for STRTMS routine.</p></div>
 </div>
 
-<a name="Main-ROM-Console"></a><a name="Topic1107"></a><div class="CTopic TGroup LC">
+<a name="Main-ROM-Console"></a><a name="Topic240"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Main-ROM - Console</div>
 </div>
 
-<a name="Bios_GetCharacter"></a><a name="Topic1108"></a><div class="CTopic TFunction LC">
+<a name="Bios_GetCharacter"></a><a name="Topic284"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GetCharacter</div>
- <div id="NDPrototype1108" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> c8 Bios_GetCharacter()</div></div>
+ <div id="NDPrototype284" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> c8 Bios_GetCharacter()</div></div>
  <div class="CBody"><p>One character input (waiting). Wrapper for CHGET routine.</p></div>
 </div>
 
-<a name="Bios_HasCharacter"></a><a name="Topic1109"></a><div class="CTopic TFunction LC">
+<a name="Bios_HasCharacter"></a><a name="Topic615"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_HasCharacter</div>
- <div id="NDPrototype1109" class="NDPrototype"><div class="PSection PPlainSection">u8 Bios_HasCharacter() __FASTCALL</div></div>
+ <div id="NDPrototype615" class="NDPrototype"><div class="PSection PPlainSection">u8 Bios_HasCharacter() __FASTCALL</div></div>
  <div class="CBody"><p>Get a character input (if any) or return 0.</p></div>
 </div>
 
-<a name="Bios_TextPrintChar"></a><a name="Topic1110"></a><div class="CTopic TFunction LC">
+<a name="Bios_TextPrintChar"></a><a name="Topic285"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_TextPrintChar</div>
- <div id="NDPrototype1110" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_TextPrintChar(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">c8&nbsp;</td><td class="PName last">chr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype285" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_TextPrintChar(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">c8&nbsp;</td><td class="PName last">chr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Displays one character. Wrapper for CHPUT routine.</p></div>
 </div>
 
-<a name="Bios_TextPrintSting"></a><a name="Topic1111"></a><div class="CTopic TFunction LC">
+<a name="Bios_TextPrintSting"></a><a name="Topic286"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_TextPrintSting</div>
- <div id="NDPrototype1111" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_TextPrintSting(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">str</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype286" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_TextPrintSting(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">str</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Displays a null-terminated string.</p></div>
 </div>
 
-<a name="Bios_Beep"></a><a name="Topic1112"></a><div class="CTopic TFunction LC">
+<a name="Bios_Beep"></a><a name="Topic136"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_Beep</div>
- <div id="NDPrototype1112" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_Beep()</div></div>
+ <div id="NDPrototype136" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_Beep()</div></div>
  <div class="CBody"><p>Generates beep. Wrapper for BEEP routine.</p></div>
 </div>
 
-<a name="Bios_ClearScreen"></a><a name="Topic1113"></a><div class="CTopic TFunction LC">
+<a name="Bios_ClearScreen"></a><a name="Topic146"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_ClearScreen</div>
- <div id="NDPrototype1113" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Bios_ClearScreen()</div></div>
+ <div id="NDPrototype146" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Bios_ClearScreen()</div></div>
  <div class="CBody"><p>Clears the screen. Wrapper for CLS routine.</p></div>
 </div>
 
-<a name="Bios_SetCursorPosition"></a><a name="Topic1114"></a><div class="CTopic TFunction LC">
+<a name="Bios_SetCursorPosition"></a><a name="Topic529"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SetCursorPosition</div>
- <div id="NDPrototype1114" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_SetCursorPosition(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">X,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">Y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype529" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Bios_SetCursorPosition(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">X,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">Y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Moves cursor to the specified position. Wrapper for POSIT routine.</p></div>
 </div>
 
-<a name="Main-ROM-Controller"></a><a name="Topic1115"></a><div class="CTopic TGroup LC">
+<a name="Main-ROM-Controller"></a><a name="Topic486"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Main-ROM - Controller</div>
 </div>
 
-<a name="Bios_GetJoystickDirection"></a><a name="Topic1116"></a><div class="CTopic TFunction LC">
+<a name="Bios_GetJoystickDirection"></a><a name="Topic530"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GetJoystickDirection</div>
- <div id="NDPrototype1116" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Bios_GetJoystickDirection(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype530" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Bios_GetJoystickDirection(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Returns the joystick status. Wrapper for GTSTCK routine.</p></div>
 </div>
 
-<a name="Bios_GetJoystickTrigger"></a><a name="Topic1117"></a><div class="CTopic TFunction LC">
+<a name="Bios_GetJoystickTrigger"></a><a name="Topic531"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GetJoystickTrigger</div>
- <div id="NDPrototype1117" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Bios_GetJoystickTrigger(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">trigger</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype531" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Bios_GetJoystickTrigger(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">trigger</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Returns current trigger status. Wrapper for GTTRIG routine.</p></div>
 </div>
 
-<a name="Main-ROM-Misc"></a><a name="Topic1118"></a><div class="CTopic TGroup LC">
+<a name="Main-ROM-Misc"></a><a name="Topic489"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Main-ROM - Misc</div>
 </div>
 
-<a name="Bios_GetKeyboardMatrix"></a><a name="Topic1119"></a><div class="CTopic TFunction LC">
+<a name="Bios_GetKeyboardMatrix"></a><a name="Topic532"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_GetKeyboardMatrix</div>
- <div id="NDPrototype1119" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Bios_GetKeyboardMatrix(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">line</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype532" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Bios_GetKeyboardMatrix(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">line</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Returns the value of the specified line from the keyboard matrix. Wrapper for SNSMAT routine.</p></div>
 </div>
 
-<a name="Bios_IsKeyPressed"></a><a name="Topic1120"></a><div class="CTopic TFunction LC">
+<a name="Bios_IsKeyPressed"></a><a name="Topic533"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_IsKeyPressed</div>
- <div id="NDPrototype1120" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Bios_IsKeyPressed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">key</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype533" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Bios_IsKeyPressed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">key</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Check if the given key is pressed</p></div>
 </div>
 
-<a name="Main-ROM-MSX2"></a><a name="Topic1121"></a><div class="CTopic TGroup LC">
+<a name="Main-ROM-MSX2"></a><a name="Topic491"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Main-ROM - MSX2</div>
 </div>
 
-<a name="Main-ROM-MSX2+"></a><a name="Topic1122"></a><div class="CTopic TGroup LC">
+<a name="Main-ROM-MSX2+"></a><a name="Topic527"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Main-ROM - MSX2+</div>
 </div>
 
-<a name="Main-ROM-MSX_turbo_R"></a><a name="Topic1123"></a><div class="CTopic TGroup LC">
+<a name="Main-ROM-MSX_turbo_R"></a><a name="Topic528"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Main-ROM - MSX turbo R</div>
 </div>
 
-<a name="Bios_SetCPUMode"></a><a name="Topic1124"></a><div class="CTopic TFunction LC">
+<a name="Bios_SetCPUMode"></a><a name="Topic534"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Bios_SetCPUMode</div>
- <div id="NDPrototype1124" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetCPUMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype534" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Bios_SetCPUMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Changes CPU mode. Wrapper for CHGCPU routine.</p></div>
 </div>
 
-<a name="Bios_GetCPUMode"></a><a name="Topic1125"></a><div class="CTopic TFunction LC last">
+<a name="Bios_GetCPUMode"></a><a name="Topic535"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">Bios_GetCPUMode</div>
- <div id="NDPrototype1125" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Bios_GetCPUMode()</div></div>
+ <div id="NDPrototype535" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Bios_GetCPUMode()</div></div>
  <div class="CBody"><p>Returns current CPU mode. Wrapper for GETCPU routine.</p></div>
 </div>
 

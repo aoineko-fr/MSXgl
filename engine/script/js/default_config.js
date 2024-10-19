@@ -314,6 +314,7 @@ EmulV9990    = false;				//-- Add V9990 video-chip extension (boolean)
 //   - Joystick
 //   - Keyboard         Fake joystick
 //   - Mouse
+//   - Paddle
 //   - NinjaTap
 EmulPortA = "";
 

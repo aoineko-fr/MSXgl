@@ -179,11 +179,15 @@ if %BuildBitmap%==1 (
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format bin -out %Dest%\img\data_pal24.sc5 -pal custom --pal24
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 8 --bload -format bin -out %Dest%\img\data.sc8
 
-	%MSXtk%\MSXimg.exe img\image00.png -pos 0 0 -size 128 128 -bpc 4 -format bin -out %Dest%\img\data00_sc5.bin -pal msx1
-	%MSXtk%\MSXimg.exe img\image00.png -pos 0 0 -size 128 128 -bpc 8 -format bin -out %Dest%\img\data00_sc8.bin
+	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 16 -format c -out %Dest%\img\data_bd16.h
 
-	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 4 -format bin -out %Dest%\img\data10_sc5.bin -pal msx1
-	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 8 -format bin -out %Dest%\img\data10_sc8.bin
+	%MSXtk%\MSXimg.exe img\image00.png -pos 0 0 -size 128 128 -bpc 4  -format bin -out %Dest%\img\data00_sc5.bin -pal msx1
+	%MSXtk%\MSXimg.exe img\image00.png -pos 0 0 -size 128 128 -bpc 8  -format bin -out %Dest%\img\data00_sc8.bin
+	%MSXtk%\MSXimg.exe img\image00.png -pos 0 0 -size 128 128 -bpc 16 -format bin -out %Dest%\img\data00_db16.bin
+
+	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 4  -format bin -out %Dest%\img\data10_sc5.bin -pal msx1
+	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 8  -format bin -out %Dest%\img\data10_sc8.bin
+	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 16 -format bin -out %Dest%\img\data10_db16.bin
 )
 
 ::-----------------------------------------------------------------------------
