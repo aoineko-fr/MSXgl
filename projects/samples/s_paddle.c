@@ -16,8 +16,7 @@
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
 
-// #define REDUCE(a)	Math_SignedDiv2(a)
-#define REDUCE(a)	(a)
+#define MSXGL_PADDLE_DRIVER			TRUE
 
 //=============================================================================
 // READ-ONLY DATA
@@ -37,10 +36,6 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 //=============================================================================
 
 u8 g_DeviceID[2];
-u8 g_MouseX[2] = { 127, 127 };
-u8 g_MouseY[2] = { 95, 95 };
-u8 g_MouseCur[2] = { 0, 0 };
-Mouse_State g_MouseState[2];
 
 //=============================================================================
 // MAIN LOOP
@@ -162,13 +157,16 @@ void main()
 		Print_SetPosition(31, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 
+		#if (MSXGL_PADDLE_DRIVER)
+			Paddle_Update();
+		#endif
+
 		for(u8 i = 0; i < 2; ++i)
 		{
 			// if(g_DeviceID[i] != INPUT_TYPE_PADDLE)
 			// 	continue;
 
-		#if (1)
-			Paddle_Update();
+		#if (MSXGL_PADDLE_DRIVER)
 			u16 padX = Paddle_GetAngle(i);
 			bool padB = Paddle_IsButtonPressed(i);
 			bool padC = Paddle_IsConnected(i);
