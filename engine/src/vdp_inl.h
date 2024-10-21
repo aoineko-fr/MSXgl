@@ -100,6 +100,7 @@ inline void VDP_CommandYMMM(u16 sy, u16 dx, u16 dy, u16 ny, u8 dir)
 //		VDP_ARG_DIX_LEFT (8)	copies from column sx - nx to sx
 //              16                      copies from extended VRAM (between 128kb and 192kb)
 //              32                      copies to extended VRAM (between 128kb and 192kb)
+inline void VDP_CommandHMMM_Arg(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 arg)
 {
 	g_VDP_Command.SX = sx;
 	g_VDP_Command.SY = sy;
