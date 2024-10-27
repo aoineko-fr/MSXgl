@@ -11,6 +11,9 @@ Target = "ROM_KONAMI_SCC";
 //-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)
 ROMSize = 128;
 
+//-- Project segments base name (string). ProjName will be used if not defined
+ProjSegments = "segment/s_trilo";
+
 //-- Number of segments in the main program of a mapped-ROM (number)
 ROMMainSegments = 3;
 

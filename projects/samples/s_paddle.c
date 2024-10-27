@@ -16,8 +16,6 @@
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
 
-#define MSXGL_PADDLE_DRIVER			TRUE
-
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -157,25 +155,16 @@ void main()
 		Print_SetPosition(31, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 
-		#if (MSXGL_PADDLE_DRIVER)
-			Paddle_Update();
-		#endif
+		Paddle_Update();
 
 		for(u8 i = 0; i < 2; ++i)
 		{
 			// if(g_DeviceID[i] != INPUT_TYPE_PADDLE)
 			// 	continue;
 
-		#if (MSXGL_PADDLE_DRIVER)
 			u16 padX = Paddle_GetAngle(i);
 			bool padB = Paddle_IsButtonPressed(i);
 			bool padC = Paddle_IsConnected(i);
-		#else
-			u16 pad = Paddle_Read(i);
-			u16 padX = Paddle_GetAngle2(pad);
-			bool padB = Paddle_IsButtonPressed2(pad);
-			bool padC = Paddle_IsConnected2(pad);
-		#endif
 
 			VDP_SetSpritePosition(i, padX - 3, i * 32 + 96 - 3);
 		

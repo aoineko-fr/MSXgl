@@ -52,7 +52,10 @@ module.exports.handleSpecial = function (key, value)
 			break;
 
 		case "CHARSET":
-			charSet = value;
+			if((value == "UTF8") || (value == "ASCII"))
+				charSet = "";
+			else
+				charSet = value;
 			break;
 	}
 }

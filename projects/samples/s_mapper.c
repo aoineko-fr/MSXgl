@@ -109,7 +109,7 @@ void main()
 	//   Bank 1 => Segment 1
 	//   Bank 2 => Segment 2
 	//   Bank 3 => Segment 3
-	DrawSegments(5, "Initial");
+	DrawSegments(5, "Initial segments");
 	
 	// SIMPLE SWITCH
 	//   Bank 0 => Segment 0

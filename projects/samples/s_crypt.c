@@ -17,7 +17,7 @@
 // Library's logo
 #define MSX_GL "\x01\x02\x03\x04\x05\x06"
 
-// Test structure
+// Test structure (7 bytes)
 struct TestStruct
 {
 	u8 Foo;
@@ -43,10 +43,10 @@ const c8* g_InvalidData = "12345678901234";
 // MEMORY DATA
 //=============================================================================
 
-// Test data
+// Data source test
 struct TestStruct g_TestData = { 0xAB, 0x1234, { 'M', 'S', 'X' }, TRUE };
 
-// String buffer
+// String buffer to store decoded data
 c8 g_Buffer[256];
 
 //=============================================================================

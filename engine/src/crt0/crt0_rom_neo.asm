@@ -47,7 +47,7 @@ crt0_init:
 	ld		(#_g_HeapStartAddress), hl
 
 	; Backup Page 0 (Main-ROM) information
-	BACKUP_INFO
+	BACKUP_ROMINFO
 
 	; ; Set Page 2 slot equal to Page 1 slot
 	; INIT_P1_TO_P2

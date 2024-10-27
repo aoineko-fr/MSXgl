@@ -113,84 +113,85 @@ function parseLocFile(filename, locTable, langTable)
 					if(locTable[lang] == null)
 						locTable[lang] = [];
 
-					if(locTable[lang][obj.key] != null)
-						locUtil.log(`Warning: Text ID '${obj.key}' already defined for language '${lang}'`);
-					else
+					var str = "";
+					switch(lang)
 					{
-						switch(lang)
-						{
-						case "INT": // International
-						case "ENG": // English
-						case "EN":
-						case "FRA": // French
-						case "FRE":
-						case "FR":
-						case "GER": // German
-						case "DEU":
-						case "DE":
-						case "SPA": // Spanish
-						case "ES":
-						case "DAN": // Danish
-						case "DA":
-						case "NO":  // Norwegian
-						case "NOR":
-						case "NL":  // Dutch
-						case "NLD":
-						case "DUT":
-						case "FI":  // Finnish
-						case "FIN":
-						case "DE":  // German
-						case "DEU":
-						case "GER":
-						case "IS":  // Icelandic
-						case "ISL":
-						case "ICE":
-						case "GA":  // Irish
-						case "GLE":
-						case "IT":  // Italian
-						case "ITA":
-						case "PL":  // Polish
-						case "POL":
-						case "PT":  // Portuguese
-						case "POR":
-						case "ES":  // Spanish, Castilian
-						case "SPA":
-						case "SK":  // Slovak
-						case "SLK":
-						case "SLO":
-						case "SV":  // Swedish
-						case "SWE":
-						case "TR":  // Turkish
-						case "TUR":
-							locTable[lang][obj.key] = locLat.convertToMSX(obj.value);
-							break;
+					case "INT": // International
+					case "ENG": // English
+					case "EN":
+					case "FRA": // French
+					case "FRE":
+					case "FR":
+					case "GER": // German
+					case "DEU":
+					case "DE":
+					case "SPA": // Spanish
+					case "ES":
+					case "DAN": // Danish
+					case "DA":
+					case "NO":  // Norwegian
+					case "NOR":
+					case "NL":  // Dutch
+					case "NLD":
+					case "DUT":
+					case "FI":  // Finnish
+					case "FIN":
+					case "DE":  // German
+					case "DEU":
+					case "GER":
+					case "IS":  // Icelandic
+					case "ISL":
+					case "ICE":
+					case "GA":  // Irish
+					case "GLE":
+					case "IT":  // Italian
+					case "ITA":
+					case "PL":  // Polish
+					case "POL":
+					case "PT":  // Portuguese
+					case "POR":
+					case "ES":  // Spanish, Castilian
+					case "SPA":
+					case "SK":  // Slovak
+					case "SLK":
+					case "SLO":
+					case "SV":  // Swedish
+					case "SWE":
+					case "TR":  // Turkish
+					case "TUR":
+						str = locLat.convertToMSX(obj.value);
+						break;
 
-						case "JA":  // Japanese
-						case "JPN":
-							locTable[lang][obj.key] = locJap.convertToMSX(obj.value);
-							break;
+					case "JA":  // Japanese
+					case "JPN":
+						str = locJap.convertToMSX(obj.value);
+						break;
 
-						case "KO":  // Korean
-						case "KOR":
-							locTable[lang][obj.key] = locKor.convertToMSX(obj.value);
-							break;
+					case "KO":  // Korean
+					case "KOR":
+						str = locKor.convertToMSX(obj.value);
+						break;
 
-						case "AR": // Arabic
-						case "ARA":
-							locTable[lang][obj.key] = locArb.convertToMSX(obj.value);
-							break;
+					case "AR": // Arabic
+					case "ARA":
+						str = locArb.convertToMSX(obj.value);
+						break;
 
-						case "UK":  // Ukrainian
-						case "UKR":
-						case "RU":  // Russian
-						case "RUS":
-							locTable[lang][obj.key] = locCyr.convertToMSX(obj.value);
-							break;
+					case "UK":  // Ukrainian
+					case "UKR":
+					case "RU":  // Russian
+					case "RUS":
+						str = locCyr.convertToMSX(obj.value);
+						break;
 
-						default:
-							locTable[lang][obj.key] = obj.value;
-						}
+					default:
+						str = obj.value;
 					}
+
+					if(locTable[lang][obj.key] == null)
+						locTable[lang][obj.key] = str; // set
+					else
+						locTable[lang][obj.key] += "\\n" + str; // concatenate
 					break;
 			}
 		}

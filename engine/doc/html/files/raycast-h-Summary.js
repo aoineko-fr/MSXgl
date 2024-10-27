@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:raycast.h","raycast.h");NDSummary.OnSummaryLoaded("File:raycast.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[95,0,1,"Functions","Functions"],[115,0,0,"Raycast_Initialize","Raycast_Initialize"],[123,0,0,"Raycast_Compute","Raycast_Compute"]]);

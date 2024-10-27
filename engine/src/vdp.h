@@ -1293,11 +1293,11 @@ inline void VDP_SetInfiniteBlink() { VDP_RegWrite(13, 0x10); }
 
 // Function: VDP_CleanBlinkScreen
 // Clean blink attribute on the whole screen. [MSX2/2+/TR]
-inline void VDP_CleanBlinkScreen() { VDP_FillVRAM(0x00, g_ScreenColorLow, g_ScreenColorHigh, 8 * 27 / 8); }
+inline void VDP_CleanBlinkScreen() { VDP_FillVRAM(0x00, g_ScreenColorLow, g_ScreenColorHigh, 80 * 27 / 8); }
 
 // Function: VDP_SetBlinkScreen
 // Set blink attribute on the whole screen. [MSX2/2+/TR]
-inline void VDP_SetBlinkScreen() { VDP_FillVRAM(0xFF, g_ScreenColorLow, g_ScreenColorHigh, 8 * 27 / 8); }
+inline void VDP_SetBlinkScreen() { VDP_FillVRAM(0xFF, g_ScreenColorLow, g_ScreenColorHigh, 80 * 27 / 8); }
 
 // Function: VDP_SetBlinkLine
 // Set blink attribute on the given screen line. [MSX2/2+/TR]
