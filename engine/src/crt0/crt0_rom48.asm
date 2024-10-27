@@ -10,6 +10,7 @@
 ; Code address: 0x4000
 ; Data address: 0xC000
 ;──────────────────────────────────────────────────────────────────────────────
+.z80
 .module	crt0
 
 .include "defines.asm"
@@ -49,7 +50,7 @@ crt0_init:
 	; Set Page 2 slot equal to Page 1 slot
 	INIT_P1_TO_P2
 
-	; Install ISR in RAM
+	; Install ISR in RAM (if ROM_RAMISR is set)
 	INSTALL_RAM_ISR
 
 	; Initialize globals
@@ -76,6 +77,10 @@ _g_LastAddr::
 
 _g_HeapStartAddress::
 	.ds		2
+
+	.if ROM_RAMISR
+		ALLOC_ROMINFO
+	.endif
 
 ;------------------------------------------------------------------------------
 ; Ordering of segments for the linker

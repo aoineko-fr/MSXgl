@@ -84,6 +84,27 @@ u8 GetGBR8(u32 color, bool bUseTrans, u32 transRGB)
 	return c8;
 }
 
+//-----------------------------------------------------------------------------
+//
+u16 GetGBR16(u32 color, bool bUseTrans, u32 transRGB)
+{
+	RGB24 c24 = RGB24(color);
+	u16 c16 = GRB16(c24);
+
+	if (bUseTrans)
+	{
+		if (color == transRGB) // force color 0 for transparent pixel
+		{
+			c16 = 0;
+		}
+		else if (c16 == 0) // prevent color 0 for non-transparent pixel
+		{
+			c16 = GRB16(RGB24(1, 1, 1));
+		}
+	}
+	return c16;
+}
+
 ///
 void ExportTable(ExportParameters* param, ExporterInterface* exp, const std::vector<u8>& data, u32 modX)
 {
@@ -176,6 +197,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 	FIBITMAP *dib, *dib32;
 	i32 i, j, nx, ny, bit, minX, maxX, minY, maxY;
 	RGB24 c24;
+	GRB16 c16;
 	GRB8 c8;
 	u8 c2, c4, byte = 0;
 	char strData[BUFFER_SIZE];
@@ -429,6 +451,16 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 									exp->Write1ByteData(c8);
 								}
 							}
+							else if (param->bpc == 16) // 16-bits GBR color
+							{
+								for (u32 l = 0; l < hashTable[k].data.size(); l++)
+								{
+									c16 = GetGBR16(hashTable[k].data[l], param->bUseTrans, transRGB);
+									exp->Write1ByteData(c16 & 0x00FF);
+									exp->Write1ByteData(c16 >> 8);
+								}
+							}
+							
 						}
 					}
 					else if (param->comp == MSX::COMPRESS_RLE4) // Full color 4bits Run-length encoding
@@ -652,7 +684,15 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 								i32 pixel = param->posX + i + (nx * (param->sizeX + param->gapX)) + ((param->posY + j + (ny * (param->sizeY + param->gapY))) * imageX);
 								u32 rgb = 0xFFFFFF & ((u32*)bits)[pixel];
 								//-----------------------------------------------------------------
-								if (param->bpc == 8) // 8-bits GBR color
+								if (param->bpc == 16) // 16-bits GBR color
+								{
+									// convert to 16 bits GRB
+									c16 = GetGBR16(rgb, param->bUseTrans, transRGB);
+									exp->Write1ByteData(c16 & 0x00FF);
+									exp->Write1ByteData(c16 >> 8);
+								}
+								//-----------------------------------------------------------------
+								else if (param->bpc == 8) // 8-bits GBR color
 								{
 									// convert to 8 bits GRB
 									c8 = GetGBR8(rgb, param->bUseTrans, transRGB);

@@ -98,9 +98,9 @@ extern u16 g_LastAddr;
 	// Parameters:
 	//   b - Bank number to set (0-5, depending of the mapper). Must be an inline number (not a variable)
 	//   s - Segment to select in this bank
-	#define SET_BANK_SEGMENT(b, s)		do { (*(u16*)(ADDR_BANK_##b) = (s)); (g_Bank##b##Segment = (s)); } while (0)
-	#define SET_BANK_SEGMENT_LOW(b, s)	do { (*(u8*)(ADDR_BANK_##b + 0) = (s)); (*(u8*)(&g_Bank##b##Segment + 0) = (s)); } while (0)
-	#define SET_BANK_SEGMENT_HIGH(b, s)	do { (*(u8*)(ADDR_BANK_##b + 1) = (s)); (*(u8*)(&g_Bank##b##Segment + 1) = (s)); } while (0)
+	#define SET_BANK_SEGMENT(b, s)		do { (g_Bank##b##Segment = (s)); (*(u16*)(ADDR_BANK_##b) = (s)); } while (0)
+	#define SET_BANK_SEGMENT_LOW(b, s)	do { (*(u8*)(&g_Bank##b##Segment + 0) = (s)); (*(u8*)(ADDR_BANK_##b + 0) = (s)); } while (0)
+	#define SET_BANK_SEGMENT_HIGH(b, s)	do { (*(u8*)(&g_Bank##b##Segment + 1) = (s)); (*(u8*)(ADDR_BANK_##b + 1) = (s)); } while (0)
 
 	// Macro: GET_BANK_SEGMENT
 	// Get the current segment of the given bank
@@ -125,7 +125,7 @@ extern u16 g_LastAddr;
 	#endif
 
 	// Set the current segment of the given bank
-	#define SET_BANK_SEGMENT(b, s)		do { (*(u8*)(ADDR_BANK_##b) = (s)); (g_Bank##b##Segment = (s)); } while (0)
+	#define SET_BANK_SEGMENT(b, s)		do { (g_Bank##b##Segment = (s)); (*(u8*)(ADDR_BANK_##b) = (s)); } while (0)
 	#define SET_BANK_SEGMENT_LOW(b, s)	SET_BANK_SEGMENT(b, s)
 	#define SET_BANK_SEGMENT_HIGH(b, s)
 

@@ -13,7 +13,8 @@ const path = require('path');
 //-- MSXgl JS libraries
 const util = require("./util.js"); 
 const compiler = require("./compiler.js"); 
-const localizer = require("./localizer.js"); 
+const localizer = require("./localizer.js");
+const analyzer = require("./analyzer.js");
 
 //_____________________________________________________________________________
 //  ▄▄▄▄      ▄  ▄▄ 
@@ -39,12 +40,22 @@ require(`${RootDir}projects/default_config.js`);
 //-- Project specific overwrite
 require(`${ProjDir}project_config.js`);
 
+//-- Setup log file
+if (LogFile)
+{
+	if (!LogFileName)
+		LogFileName = `log_${util.getDateTag()}.txt`;
+
+	if (fs.existsSync(`${OutDir}${LogFileName}`))
+		util.delFile(`${OutDir}${LogFileName}`);	
+}
+	
 //-- Setup command line overwrite parameters
 let CommandArgs = process.argv.slice(2);
 for (let i = 0; i < CommandArgs.length; i++)
 {
 	const arg = CommandArgs[i].toLowerCase();
-	if(arg.startsWith("projname="))
+	if (arg.startsWith("projname="))
 	{
 		let val = CommandArgs[i].substring(9);
 		if (val)
@@ -67,10 +78,10 @@ CommandArgs = process.argv.slice(2);
 for (let i = 0; i < CommandArgs.length; i++)
 {
 	const arg = CommandArgs[i].toLowerCase();
-	if(arg.startsWith("projname="))
+	if (arg.startsWith("projname="))
 	{
 	}
-	else if(arg.startsWith("target="))
+	else if (arg.startsWith("target="))
 	{
 		let val = CommandArgs[i].substring(7);
 		if (val)
@@ -79,7 +90,7 @@ for (let i = 0; i < CommandArgs.length; i++)
 			util.print(`Command line overwrite => Target=${Target}`, PrintDetail);
 		}
 	}
-	else if(arg.startsWith("machine="))
+	else if (arg.startsWith("machine="))
 	{
 		let val = CommandArgs[i].substring(7);
 		if (val)
@@ -88,7 +99,7 @@ for (let i = 0; i < CommandArgs.length; i++)
 			util.print(`Command line overwrite => Machine=${Machine}`, PrintDetail);
 		}
 	}
-	else if(arg.startsWith("romsize="))
+	else if (arg.startsWith("romsize="))
 	{
 		let val = CommandArgs[i].substring(8);
 		if (val)
@@ -97,19 +108,19 @@ for (let i = 0; i < CommandArgs.length; i++)
 			util.print(`Command line overwrite => ROMSize=${ROMSize}`, PrintDetail);
 		}
 	}
-	else if(arg === "delay")
+	else if (arg === "delay")
 	{
 		ROMDelayBoot = true;
 		util.print(`Command line overwrite => ROMDelayBoot=${ROMDelayBoot}`, PrintDetail);
 	}
-	else if(arg === "ramisr")
+	else if (arg === "ramisr")
 	{
 		InstallRAMISR = true;
 		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
 	}
 	else
 	{
-		util.print(`Unknow command line overwrite '${arg}'`, PrintWarning);
+		util.print(`Unknown command line overwrite '${arg}'`, PrintWarning);
 	}
 }
 
@@ -121,7 +132,8 @@ AsmOptim  = AsmOptim.toUpperCase();
 Optim     = Optim.toUpperCase();
 EmulPortA = EmulPortA.toUpperCase();
 EmulPortB = EmulPortB.toUpperCase();
-if(util.isString(CompileComplexity))
+RunDevice = RunDevice.toUpperCase();
+if (util.isString(CompileComplexity))
 	CompileComplexity = CompileComplexity.toUpperCase();
 
 //-- Target specific initialization
@@ -137,12 +149,6 @@ require("./setup_target.js");
 //-- Create out directory
 if (!fs.existsSync(OutDir))
 	fs.mkdirSync(OutDir);
-
-//-- Setup log file
-if (!LogFileName)
-	LogFileName = `log_${util.getDateTag()}.txt`;
-if (fs.existsSync(`${OutDir}${LogFileName}`))
-	util.delFile(`${OutDir}${LogFileName}`);
 
 //-- Display information
 process.title = `MSXgl Build Tool – ${ProjName} – ${Target} – ${util.getMachineName(Machine)}`;
@@ -178,16 +184,16 @@ util.print(`- RootDir: ${RootDir}`, PrintDetail);
 util.print(`- LibDir: ${LibDir}`, PrintDetail);
 util.print(`- ToolsDir: ${ToolsDir}`, PrintDetail);
 
-process.env.path += `;${ToolsDir}sdcc/bin`; // Hotfix for SDCC 4.3.0 path error for CC1
+process.env.path += `;${SDCCPath}bin`; // Hotfix for SDCC 4.3.0 path error for CC1
 
 //-- Command lines to be executed before the build process (array)
-if(PreBuildScripts.length)
+if (PreBuildScripts.length)
 {
 	util.print("Executing pre-build scripts...", PrintHighlight);
 	for (let i = 0; i < PreBuildScripts.length; i++)
 	{
 		let err = util.execSync(PreBuildScripts[i]);
-		if(err)
+		if (err)
 		{
 			util.print(`Pre-build scripts error! Code: ${err}`, PrintError);
 			process.exit(1);
@@ -339,7 +345,7 @@ if (DoCompile)
 			}
 		}
 
-		if(!bFound)
+		if (!bFound)
 		{
 			util.print(`Source file ${ProjModules[i]}.c not found!`, PrintError);
 			process.exit(100);
@@ -461,7 +467,7 @@ if (DoCompile)
 				}
 			}
 		}
-		if(!pageFound)
+		if (!pageFound)
 			util.print("No pages code found", PrintDetail);
 	}
 
@@ -511,8 +517,8 @@ if (DoMake)
 
 		let libStr = LibList.join(" ");
 		let SDARParam = `-rc ${OutDir}msxgl.lib ${libStr}`
-		let err = util.execSync(`${MakeLib} ${SDARParam}`);
-		if(err)
+		let err = util.execSync(`"${MakeLib}" ${SDARParam}`);
+		if (err)
 		{
 			util.print(`Lib generation error! Code: ${err}`, PrintError);
 			process.exit(1);
@@ -532,8 +538,8 @@ if (DoMake)
 
 		let mapStr = MapList.join(" ");
 		let SDARParam = `-rc ${OutDir}mapper.lib ${mapStr}`
-		let err = util.execSync(`${MakeLib} ${SDARParam}`);
-		if(err)
+		let err = util.execSync(`"${MakeLib}" ${SDARParam}`);
+		if (err)
 		{
 			util.print(`Lib generation error! Code: ${err}`, PrintError);
 			process.exit(1);
@@ -545,7 +551,7 @@ if (DoMake)
 	// Link Program
 	//=========================================================================
 	util.print(`Link ${ProjName} project using SDCC...`, PrintHighlight);
-	util.execSync(`${Linker} --version`); // display SDCC version
+	util.execSync(`"${Linker}" --version`); // display SDCC version
 
 	if (Optim === "SPEED") LinkOpt += " --opt-code-speed";
 	if (Optim === "SIZE")  LinkOpt += " --opt-code-size";
@@ -554,9 +560,9 @@ if (DoMake)
 	if (PackSegments && MapList.length)
 		mapLibStr = `${OutDir}mapper.lib`;
 
-	let SDCCParam = `-mz80 --vc --no-std-crt0 -L${ToolsDir}sdcc/lib/z80 --code-loc 0x${util.getHex(CodeAddr)} --data-loc 0x${util.getHex(RamAddr)} ${LinkOpt} ${MapperBanks} ${OutDir}${Crt0}.rel ${OutDir}msxgl.lib ${mapLibStr} ${RelList.join(" ")} -o ${OutDir}${ProjName}.ihx`;
-	let err = util.execSync(`${Linker} ${SDCCParam}`);
-	if(err)
+	let SDCCParam = `-mz80 --vc --no-std-crt0 -L${ToolsDir}${SDCCPath}lib/z80 --code-loc 0x${util.getHex(CodeAddr)} --data-loc 0x${util.getHex(RamAddr)} ${LinkOpt} ${MapperBanks} ${OutDir}${Crt0}.rel ${OutDir}msxgl.lib ${mapLibStr} ${RelList.join(" ")} -o ${OutDir}${ProjName}.ihx`;
+	let err = util.execSync(`"${Linker}" ${SDCCParam}`);
+	if (err)
 	{
 		util.print(`Link error! Code: ${err}`, PrintError);
 		process.exit(1);
@@ -597,16 +603,17 @@ if (DoPackage)
 	for (let i = 0; i < RawFiles.length; i++)
 	{
 		let raw = RawFiles[i];
-		if(raw.offset !== undefined)
+		if (raw.offset !== undefined)
 			H2BParam += ` -r ${raw.offset} ${raw.file}`;
-		else if(raw.page !== undefined)
+		else if (raw.page !== undefined)
 			H2BParam += ` -r ${raw.page * 16 * 1024} ${raw.file}`;
-		else if(raw.segment !== undefined)
+		else if (raw.segment !== undefined)
 			H2BParam += ` -r ${raw.segment * SegSize} ${raw.file}`;
 	}
+	H2BParam += ` ${HexBinOpt}`;
 
-	let err = util.execSync(`${Hex2Bin} ${H2BParam}`);
-	if(err)
+	let err = util.execSync(`"${Hex2Bin}" ${H2BParam}`);
+	if (err)
 	{
 		util.print(`Package error! Code: ${err}`, PrintError);
 		process.exit(1);
@@ -758,7 +765,7 @@ if (DoDeploy)
 				util.createCAS(`${ProjDir}emul/bin/${ProjName}.${Ext}`, `${ProjDir}emul/cas/${ProjName}.cas`);
 			}
 			//---- Generate DSK file ----
-			else (fs.existsSync(DskTool))
+			else if (fs.existsSync(DskTool))
 			{
 				util.print("Generating DSK file...", PrintHighlight);
 
@@ -773,8 +780,8 @@ if (DoDeploy)
 				util.print("-- Generate .DSK file");
 				let curDir = process.cwd();
 				process.chdir(DskToolPath);
-				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos1 --verbose --size=${DiskSize} ` + filesList.join(" "));
-				if(err)
+				let err = util.execSync(`"${DskToolName}" -cf temp.dsk --dos1 --verbose --size=${DiskSize} ` + filesList.join(" "));
+				if (err)
 				{
 					util.print(`DSK generation error! Code: ${err}`, PrintError);
 					process.exit(1);
@@ -861,8 +868,8 @@ if (DoDeploy)
 				util.print("-- Generate .DSK file");
 				let curDir = process.cwd();
 				process.chdir(DskToolPath);
-				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos${DOS} --verbose --size=${DiskSize} ` + filesList.join(" "));
-				if(err)
+				let err = util.execSync(`"${DskToolName}" -cf temp.dsk --dos${DOS} --verbose --size=${DiskSize} ` + filesList.join(" "));
+				if (err)
 				{
 					util.print(`DSK generation error! Code: ${err}`, PrintError);
 					process.exit(1);
@@ -908,8 +915,8 @@ if (DoDeploy)
 				util.print("-- Generate .DSK file");
 				let curDir = process.cwd();
 				process.chdir(DskToolPath);
-				let err = util.execSync(`${DskToolName} -cf temp.dsk --dos0 --verbose --size=${DiskSize} ` + filesList.join(" "));
-				if(err)
+				let err = util.execSync(`"${DskToolName}" -cf temp.dsk --dos0 --verbose --size=${DiskSize} ` + filesList.join(" "));
+				if (err)
 				{
 					util.print(`DSK generation error! Code: ${err}`, PrintError);
 					process.exit(1);
@@ -949,14 +956,22 @@ util.print("└─────────────────────�
 const buildElapsTime = Date.now() - buildStartTime;
 util.print('\nTotal build time: ' + util.getTimeString(buildElapsTime), PrintDetail);
 
+//-- Execute MAP file analyzer
+if (Analyzer)
+{
+	util.print(`Analyzing ${OutDir}${ProjName}.map...`, PrintHighlight);
+	analyzer.exec(`${OutDir}${ProjName}.map`, false, AnalyzerOutput, AnalyzerSort, AnalyzerReport, AnalyzerCSV, AnalyzerSeparator);
+	util.print("Success", PrintSuccess);
+}
+
 //-- Command lines to be executed after the build process (array)
-if(PostBuildScripts.length)
+if (PostBuildScripts.length)
 {
 	util.print("Executing post-build scripts...", PrintHighlight);
 	for (let i = 0; i < PostBuildScripts.length; i++)
 	{
 		let err = util.execSync(PostBuildScripts[i]);
-		if(err)
+		if (err)
 		{
 			util.print(`Post-build scripts error! Code: ${err}`, PrintError);
 			process.exit(1);
@@ -979,9 +994,38 @@ if (DoRun)
 	util.print("Launching program...", PrintHighlight);
 
 	//=============================================================================
+	// RUN DEVICE
+	//=============================================================================
+	if (RunDevice)
+	{
+		if (RunDevice === "EASY-USB")
+		{
+			if (Ext === "rom")
+			{
+				// Delete all .ROM files
+				fs.readdirSync(RunDeviceOpt).forEach(file => {
+					if (path.parse(file).ext.toUpperCase() === ".ROM")
+					{
+						util.delFile(RunDeviceOpt + file);
+					}
+				});
+
+				util.print(`Copy ${ProjName}.rom to ${RunDeviceOpt}`, PrintDetail);
+				fs.copyFileSync(`${ProjDir}/emul/rom/${ProjName}.rom`, `${RunDeviceOpt}${ProjName}.rom`);
+			}
+			else
+				util.print(`EASY-USB only support execution of ROM files`, PrintWarning);
+		}
+		else
+			util.print(`Unknown run device '${RunDevice}'`, PrintWarning);
+	}
+	//=============================================================================
 	// EMULATOR
 	//=============================================================================
-	require("./setup_emulator.js");
+	else
+	{
+		require("./setup_emulator.js");
 
-	util.exec(`${Emulator} ${EmulatorArgs}`);
+		util.exec(`"${Emulator}" ${EmulatorArgs}`);
+	}
 }

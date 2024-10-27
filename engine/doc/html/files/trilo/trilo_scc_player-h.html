@@ -8,125 +8,125 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="SCC_player"></a><a name="Topic153"></a><div class="CTopic TGroup LC first">
+<a name="SCC_player"></a><a name="Topic211"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">SCC player</div>
 </div>
 
-<a name="TriloSCC_Initialize"></a><a name="Topic154"></a><div class="CTopic TFunction LC">
+<a name="TriloSCC_Initialize"></a><a name="Topic212"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSCC_Initialize</div>
- <div id="NDPrototype154" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSCC_Initialize()</div></div>
+ <div id="NDPrototype212" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSCC_Initialize()</div></div>
  <div class="CBody"><p>Initialize replayer data. Only call this on start-up.</p></div>
 </div>
 
-<a name="TriloSCC_Pause"></a><a name="Topic155"></a><div class="CTopic TFunction LC">
+<a name="TriloSCC_Pause"></a><a name="Topic213"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSCC_Pause</div>
- <div id="NDPrototype155" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSCC_Pause()</div></div>
+ <div id="NDPrototype213" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSCC_Pause()</div></div>
  <div class="CBody"><p>Stop/Restart music playback.</p></div>
 </div>
 
-<a name="TriloSCC_Resume"></a><a name="Topic156"></a><div class="CTopic TFunction LC">
+<a name="TriloSCC_Resume"></a><a name="Topic214"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSCC_Resume</div>
- <div id="NDPrototype156" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> TriloSCC_Resume()</div></div>
+ <div id="NDPrototype214" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> TriloSCC_Resume()</div></div>
  <div class="CBody"><p>Stop/Restart music playback.</p></div>
 </div>
 
-<a name="TriloSCC_FadeOut"></a><a name="Topic157"></a><div class="CTopic TFunction LC">
+<a name="TriloSCC_FadeOut"></a><a name="Topic215"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSCC_FadeOut</div>
- <div id="NDPrototype157" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSCC_FadeOut(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">speed</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype215" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSCC_FadeOut(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">speed</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Fade out the music. Once the sound is silence the replayer is paused.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">speed<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Fade speed (1 - 255)</p></td></tr></table></div>
 </div>
 
-<a name="TriloSCC_SetBalanceSCC"></a><a name="Topic158"></a><div class="CTopic TFunction LC">
+<a name="TriloSCC_SetBalanceSCC"></a><a name="Topic216"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSCC_SetBalanceSCC</div>
- <div id="NDPrototype158" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSCC_SetBalanceSCC(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">vol</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype216" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSCC_SetBalanceSCC(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">vol</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the main volume for the SCC chip.&nbsp; This enables for setting the balance between SCC and PSG as some MSX models default balance differs.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">vol<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Master volume (0-7) 0=halve volume, 8=full volume.</p></td></tr></table></div>
 </div>
 
-<a name="TriloSCC_SetBalancePSG"></a><a name="Topic159"></a><div class="CTopic TFunction LC">
+<a name="TriloSCC_SetBalancePSG"></a><a name="Topic217"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSCC_SetBalancePSG</div>
- <div id="NDPrototype159" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSCC_SetBalancePSG(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">vol</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype217" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSCC_SetBalancePSG(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">vol</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the main volume for the PSG chip.&nbsp; This enables for setting the balance between SCC and PSG as some MSX models default balance differs.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">vol<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Master volume (0-7) 0=halve volume, 8=full volume.</p></td></tr></table></div>
 </div>
 
-<a name="TriloSCC_SetFrequency"></a><a name="Topic160"></a><div class="CTopic TFunction LC">
+<a name="TriloSCC_SetFrequency"></a><a name="Topic218"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSCC_SetFrequency</div>
- <div id="NDPrototype160" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> TriloSCC_SetFrequency(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">freq</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype218" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> TriloSCC_SetFrequency(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">freq</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set playback frequency.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">freq<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Can be TRILO_50HZ (0) or TRILO_60HZ (not 0).</p></td></tr></table></div>
 </div>
 
-<a name="TriloSCC_LoadMusic"></a><a name="Topic161"></a><div class="CTopic TFunction LC">
+<a name="TriloSCC_LoadMusic"></a><a name="Topic219"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSCC_LoadMusic</div>
- <div id="NDPrototype161" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSCC_LoadMusic(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype219" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSCC_LoadMusic(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Initialize a music for playback.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Address of the music data</p></td></tr></table></div>
 </div>
 
-<a name="TriloSCC_SetToneTable"></a><a name="Topic162"></a><div class="CTopic TFunction LC">
+<a name="TriloSCC_SetToneTable"></a><a name="Topic220"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSCC_SetToneTable</div>
- <div id="NDPrototype162" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> TriloSCC_SetToneTable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype220" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> TriloSCC_SetToneTable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set a custom tone table.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Address of the tone table</p></td></tr></table></div>
 </div>
 
-<a name="TriloSCC_Silent"></a><a name="Topic163"></a><div class="CTopic TFunction LC">
+<a name="TriloSCC_Silent"></a><a name="Topic221"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSCC_Silent</div>
- <div id="NDPrototype163" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSCC_Silent()</div></div>
+ <div id="NDPrototype221" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSCC_Silent()</div></div>
  <div class="CBody"><p>Set mixer values to silent.</p></div>
 </div>
 
-<a name="TriloSCC_Update"></a><a name="Topic164"></a><div class="CTopic TFunction LC">
+<a name="TriloSCC_Update"></a><a name="Topic222"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSCC_Update</div>
- <div id="NDPrototype164" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSCC_Update()</div></div>
+ <div id="NDPrototype222" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSCC_Update()</div></div>
  <div class="CBody"><p>Decode music data and process instruments and effects.</p></div>
 </div>
 
-<a name="TriloSCC_Apply"></a><a name="Topic165"></a><div class="CTopic TFunction LC">
+<a name="TriloSCC_Apply"></a><a name="Topic223"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSCC_Apply</div>
- <div id="NDPrototype165" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSCC_Apply()</div></div>
+ <div id="NDPrototype223" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSCC_Apply()</div></div>
  <div class="CBody"><p>Output the data to the CHIP registers.</p></div>
 </div>
 
-<a name="SFX_player"></a><a name="Topic166"></a><div class="CTopic TGroup LC">
+<a name="SFX_player"></a><a name="Topic224"></a><div class="CTopic TGroup LC">
  <div class="CTitle">SFX player</div>
 </div>
 
-<a name="TriloSFX_Initialize"></a><a name="Topic167"></a><div class="CTopic TFunction LC">
+<a name="TriloSFX_Initialize"></a><a name="Topic225"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSFX_Initialize</div>
- <div id="NDPrototype167" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSFX_Initialize()</div></div>
+ <div id="NDPrototype225" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSFX_Initialize()</div></div>
  <div class="CBody"><p>Initialise the sfx player. Sets initial priorities, volume balancce and initial SCC waveform.&nbsp; Note : TriloTracker SFX replayer is ayFX bank format but use 2 bank entry for each Trilo SFX.&nbsp; The first one describe the PSG part of the SFX and the second one the SCC part of the SFX.</p></div>
 </div>
 
-<a name="TriloSFX_SetBank"></a><a name="Topic168"></a><div class="CTopic TFunction LC">
+<a name="TriloSFX_SetBank"></a><a name="Topic226"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSFX_SetBank</div>
- <div id="NDPrototype168" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> TriloSFX_SetBank(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">bank,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">wave</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype226" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> TriloSFX_SetBank(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">bank,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">wave</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the current SFX bank data</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">bank<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Address of the ayFX bank data</p></td></tr><tr><td class="CDLEntry">wave<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Address of the bank wave table</p></td></tr></table></div>
 </div>
 
-<a name="TriloSFX_GetNumber"></a><a name="Topic169"></a><div class="CTopic TFunction LC">
+<a name="TriloSFX_GetNumber"></a><a name="Topic227"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSFX_GetNumber</div>
- <div id="NDPrototype169" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 TriloSFX_GetNumber()</div></div>
+ <div id="NDPrototype227" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 TriloSFX_GetNumber()</div></div>
  <div class="CBody"><p>Get the number of SFX in the bank.</p><div class="CHeading">Return</div><p>Number of SFX in the bank.&nbsp; Note: TriloTracker SFX replayer use 2 bank entry for each SFX so return size is half the ayFX bank size.</p></div>
 </div>
 
-<a name="TriloSFX_SetBalanceSCC"></a><a name="Topic170"></a><div class="CTopic TFunction LC">
+<a name="TriloSFX_SetBalanceSCC"></a><a name="Topic228"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSFX_SetBalanceSCC</div>
- <div id="NDPrototype170" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSFX_SetBalanceSCC(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">vol</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype228" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSFX_SetBalanceSCC(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">vol</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the main SFX volume for the SCC chip.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">vol<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Master volume (0-15) 0=silenced, 15=full volume.</p></td></tr></table></div>
 </div>
 
-<a name="TriloSFX_SetBalancePSG"></a><a name="Topic171"></a><div class="CTopic TFunction LC">
+<a name="TriloSFX_SetBalancePSG"></a><a name="Topic229"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSFX_SetBalancePSG</div>
- <div id="NDPrototype171" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSFX_SetBalancePSG(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">vol</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype229" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSFX_SetBalancePSG(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">vol</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the main SFXvolume for the PSG chip.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">vol<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Master volume (0-15) 0=silenced, 15=full volume.</p></td></tr></table></div>
 </div>
 
-<a name="TriloSFX_Play"></a><a name="Topic172"></a><div class="CTopic TFunction LC">
+<a name="TriloSFX_Play"></a><a name="Topic230"></a><div class="CTopic TFunction LC">
  <div class="CTitle">TriloSFX_Play</div>
- <div id="NDPrototype172" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSFX_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">sfx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">prio</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype230" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> TriloSFX_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">sfx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">prio</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Start a new SFX.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">sfx<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>SFX index in the bank.</p></td></tr><tr><td class="CDLEntry">prio<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sound priority (0 is lowest, 255 is highest).</p></td></tr></table></div>
 </div>
 
-<a name="TriloSFX_Update"></a><a name="Topic173"></a><div class="CTopic TFunction LC last">
+<a name="TriloSFX_Update"></a><a name="Topic231"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">TriloSFX_Update</div>
- <div id="NDPrototype173" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSFX_Update()</div></div>
+ <div id="NDPrototype231" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> TriloSFX_Update()</div></div>
  <div class="CBody"><p>Decode SFX streams.</p></div>
 </div>
 

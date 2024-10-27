@@ -11,9 +11,7 @@
 #include "system_port.h"
 #include "input.h"
 #include "bios_var.h"
-
-#define PSG_REG_IO_PORT_A	14
-#define PSG_REG_IO_PORT_B	15
+#include "psg_reg.h"
 
 //-----------------------------------------------------------------------------
 // Constant data
@@ -295,3 +293,271 @@ u8 Keyboard_IsKeyPressed(u8 key)
 #endif // (INPUT_KB_UPDATE)
 
 #endif // (INPUT_USE_KEYBOARD)
+
+//-----------------------------------------------------------------------------
+//
+// Direct access to paddle
+//
+//-----------------------------------------------------------------------------
+#if (INPUT_USE_PADDLE)
+
+u16 g_PaddleStates[2];
+
+//  5 4 3 2 1 0 9 8   7 6 5 4 3 2 1 0 
+//------------------------------------
+//  D 0 0 0 0 0 B C   C C C C C C C C
+//  │           │ └───┴─┴─┴─┴─┴─┴─┴─┴── 9-bit counter
+//	│           └────────────────────── Button state (0: pressed, 1: released)
+//	└────────────────────────────────── Disconnect state (0: connected, 1: disconnected)
+
+#if (INPUT_USE_PADDLE_CALIB)
+
+i16 g_PaddleMidPoints[2];
+
+#endif
+
+//-----------------------------------------------------------------------------
+// Read paddle state
+void Paddle_Update()
+{
+__asm
+// Based on:
+//    Program for reading the VAUS arkanoid paddle
+//    danjovic@hotmail.com
+//    http://hotbit.blogspot.com
+//    License: GNU GPL 2.0
+
+	// Read port A
+	ld		iy, #_g_PaddleStates
+	ld		de, #0x3E3F
+	call	paddle_reads
+
+	// Read port B
+	ld		iy, #_g_PaddleStates + 2
+	ld		de, #0x7B7F
+	call	paddle_reads
+
+	// Start counter for next frame (both port)
+	ld		a, #15				// Select R#15
+	out		(P_PSG_REGS), a
+	ld		a, #0x0F
+	out		(P_PSG_DATA), a		// Pin 8 LOW
+	ld		a, #0x3F
+	out		(P_PSG_DATA), a		// Pin 8 HIGH
+
+	ret
+
+paddle_reads:
+	// Read counter 1st bit and button state
+	ld		a, #15				// Select R#15
+	out		(P_PSG_REGS), a
+	ld		a, e
+	out		(P_PSG_DATA), a		// Select given port for reading
+
+	ld		a, #14				// Select R#14
+	out		(P_PSG_REGS), a
+	in		a, (P_PSG_STAT)		// Reads (port A)
+	and		#0x03
+	ld		h, a				// Store first bit and button state in H
+	ld		l, #0				// Reset L
+	ld		b, #8				// Setup 8 bits loop
+
+paddle_nextbit:
+	// Read remaining counter's 8 bits
+	ld		a, #15				// Select R#15
+	out		(P_PSG_REGS), a
+	ld		a, d
+	out		(P_PSG_DATA), a		// Clock LOW
+	ld		a, e
+	out		(P_PSG_DATA), a		// Clock HIGH
+
+	ld		a, #14				// Select R#14
+	out		(P_PSG_REGS), a
+	in		a, (P_PSG_STAT)		// Reads (port A)
+	srl		a					// Shift bit...
+	rl		l					// ...and store it in L
+	djnz	paddle_nextbit		// Reads next bit
+
+	// Check for disconnection
+	ld		a, h  
+	rra							// H.0 to F.c 
+	ld		a, l
+	adc		a, #0				// If L + F.c == 0, then all counter bits are 1 (paddle is not conected) 
+	jr		nz, paddle_end
+	set		7, h				// Set disconnection flag
+paddle_end:
+	ld		0(iy), l
+	ld		1(iy), h
+
+	ret
+__endasm;
+}
+
+#if (INPUT_USE_PADDLE_CALIB)
+
+//-----------------------------------------------------------------------------
+// Read paddle state
+u8 Paddle_GetCalibratedAngle(u8 port)
+{
+	i16 val = (i16)Paddle_GetAngle(port) - g_PaddleMidPoints[port];
+	if (val < 0)
+		val = 0;
+	else if (val > 255)
+		val = 255; 
+	return (u8)val;
+}
+
+#endif
+
+// //-----------------------------------------------------------------------------
+// // Read paddle state
+// u16 Paddle_Read(u8 port) __FASTCALL
+// {
+// 	port; // A
+
+// __asm
+// // Based on:
+// //    Program for reading the VAUS arkanoid paddle
+// //    danjovic@hotmail.com
+// //    http://hotbit.blogspot.com
+// //    License: GNU GPL 2.0
+
+// paddle_reads:
+// 	// Read counter 1st bit and button state
+// 	ld		a, #14				// Select R#14
+// 	out		(P_PSG_REGS), a
+// 	in		a, (P_PSG_STAT)		// Reads (port A)
+// 	ld		h, a				// Store first bit and button state in H
+// 	ld		l, #0				// Reset L
+// 	ld		b, #8				// Setup 8 bits loop
+
+// paddle_nextbit:
+// 	// Read remaining counter's 8 bits
+// 	ld		a, #15				// Select R#15
+// 	out		(P_PSG_REGS), a
+// 	ld		a, #0x1E
+// 	out		(P_PSG_DATA), a		// Clock LOW (port A)
+// 	ld		a, #0x1F
+// 	out		(P_PSG_DATA), a		// Clock HIGH (port A)
+
+// 	ld		a, #14				// Select R#14
+// 	out		(P_PSG_REGS), a
+// 	in		a, (P_PSG_STAT)		// Reads (port A)
+// 	srl		a					// Shift bit...
+// 	rl		l					// ...and store it in L
+// 	djnz	paddle_nextbit		// Reads next bit
+
+// paddle_startcounter:
+// 	// Start counter for next frame
+// 	ld		a, #15				// Select R#15
+// 	out		(P_PSG_REGS), a
+// 	ld		a, #0x0F
+// 	out		(P_PSG_DATA), a		// Pin 8 LOW (port A)
+// 	ld		a, #0x1F
+// 	out		(P_PSG_DATA), a		// Pin 8 HIGH (port A)
+// __endasm;
+// }
+
+
+//-----------------------------------------------------------------------------
+// Read paddle state
+u16 Paddle_Read(u8 port) __FASTCALL
+{
+	port; // A
+
+__asm
+// R#14      cas  kbd  trA  trB  rgt  lft  dwn  up_
+//---------------------------------------------------
+//                                         BTN  DATA
+//
+// R#15      kana  Sel  8B   8A   7B   6B   7A   6A 
+//---------------------------------------------------
+// PORTA            0        1/0                 1/0
+// PORTB            1   1/0            1/0  
+//
+//             1    0    1    1    1    1    1    0    #0xBE  and mask port A
+//             1    1    1    1    1    0    1    1    #0xFB  and mask port B
+//             0    1    0    0    0    0    0    0    #0x40  or mask port B
+//
+// maskClkB    0    0    0    0    0    1    0    0    #0x04
+// maskPulseB  0    0    1    0    0    0    0    0    #0x20
+//
+// maskClkA    0    0    0    0    0    0    0    1    #0x01    
+// maskPulseA  0    0    0    1    0    0    0    0    #0x10
+ 
+// A = port to read  0: Port A, 1: Port B
+
+paddle_read_start:
+// Configure input multiplexer
+	and		a                   	// Move selection to flag Zero
+	ld		a, #15					// Select R#15
+	out		(P_PSG_REGS), a
+	in		a, (P_PSG_STAT)
+
+	jr		nz, paddle_setup_port_b
+
+paddle_setup_port_a:
+	and		#0xBE					// Make sure bit  SEL is LOW and Clock are LOW
+	ld		de, #0x0110				// D = 0x01, E = 0x10 
+	jr		paddle_select_port
+
+paddle_setup_port_b:	
+	or		#0x40					// Make sure bit SEL is HIGH
+	and		#0xFB					// Make sure bits SEL and Clock are LOW
+	ld		de, #0x0420				// D = 0x04, E = 0x20 
+
+paddle_select_port:
+	ld		c, a                  	// Save R#15 state
+	out		(P_PSG_DATA), a
+
+paddle_read_data:
+	// Read counter 1st bit and button state
+	ld		a, #14					// Select R#14
+	out		(P_PSG_REGS), a
+	in		a, (P_PSG_STAT)			// Reads (port A)
+	and		#0x03
+	ld		h, a					// Store first bit and button state in H
+	ld		l, #0					// Reset L
+	ld		b, #0x08				// Setup 8 bits loop
+
+paddle_next_bit:
+	// Read remaining counter's 8 bits
+	ld		a, #15					// Select R#15
+	out		(P_PSG_REGS), a
+	ld		a, c					// Restore  R#15 state
+	xor		d						// maskClk
+	out		(P_PSG_DATA), a			// Clock HIGH (ls165 shift on the rising edge)
+	xor		d
+	out		(P_PSG_DATA), a			// Clock LOW
+	ld		a, #14					// Select R#14
+	out		(P_PSG_REGS), a
+	in		a, (P_PSG_STAT)			// Reads (port A)
+	rra								// Shift bit...
+	rl		l						// ...and store it in L
+	djnz	paddle_next_bit			// Reads next bit
+	
+	// Check for disconnection
+	ld		a, h
+	rra								// h.0 to cy 
+	ld		a, l
+	adc		a, #0					// If count is either 0 or 511 z will be set 
+	jr		nz, paddle_restart_counter
+	set		7, h
+
+paddle_restart_counter:
+	// Start counter for next frame
+	ld		a, #15					// Select R#15
+	out		(P_PSG_REGS), a
+	ld		a, c					// Restore R#15 state  
+	or		e
+	xor		e						// Make sure bit is low 
+	out		(P_PSG_DATA), a			// Pin 8 LOW (port A)
+	xor		e
+	or		d						// Pin 6 high, make sure clock is high at the end 	
+	out		(P_PSG_DATA), a			// Pin 8 HIGH (port A)
+	
+	ret
+__endasm;
+}
+
+#endif // (INPUT_USE_PADDLE)

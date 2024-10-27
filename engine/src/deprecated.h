@@ -19,6 +19,7 @@
 #define VADDR_Lo					VADDR_LO
 #define VADDR_Hi					VADDR_HI
 #define g_SpriteAtributeLow			g_SpriteAttributeLow
+#define g_SpriteAtributeHigh		g_SpriteAttributeHigh
 
 // Compress module
 #define UnpackRLEpToRAM				RLEp_UnpackToRAM
@@ -100,6 +101,7 @@
 
 // V9990 module
 #define V9_SetLayerPalette          V9_SelectPaletteP1
+#define V9_SetMode					V9_SetScreenMode
 
 // Menu module
 #define MENU_CLEAR					MENU_CHAR_CLEAR

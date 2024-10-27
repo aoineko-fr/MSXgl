@@ -44,8 +44,15 @@ module.exports.print = function (string, flag = PrintNote)
 	if((flag == PrintDetail) && (!Verbose))
 		return;
 
-	if(LogFile && fs.existsSync(OutDir))
+	if(LogFile)
+	{
+		switch(flag)
+		{
+			case PrintError:     string = "Error: " + string; break;
+			case PrintWarning:   string = "Warning: " + string; break;
+		}
 		fs.appendFileSync(`${OutDir}${LogFileName}`, `${string}\n`);
+	}
 
 	if(LogStdout)
 	{

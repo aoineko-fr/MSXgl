@@ -109,17 +109,16 @@ const Game_Action g_AnimActions[] =
 // MEMORY DATA
 //=============================================================================
 
-Game_Pawn g_PlayerPawn;
-
-bool g_bFlicker = TRUE;
-bool g_bMoving = FALSE;
-bool g_bJumping = FALSE;
-i8   g_VelocityY;
-u8   g_PrevRow8 = 0xFF;
-i8   g_DX = 0;
-i8   g_DY = 0;
-u8   g_LastEvent = 0;
-u16  g_Level = 0;
+Game_Pawn g_PlayerPawn;				// Player's pawn data structure
+bool g_bFlicker = TRUE;				// Activate sprite colorflickering 
+bool g_bMoving = FALSE;				// Is player moving?
+bool g_bJumping = FALSE;			// Is player jumping?
+i8   g_VelocityY;					// Current player velocity
+u8   g_PrevRow8 = 0xFF;				// Previous keyboard 8th row value
+i8   g_DX = 0;						// Current X movement
+i8   g_DY = 0;						// Current Y movement
+u8   g_LastEvent = 0;				// Last triggered event
+u16  g_Level = 0;					// Current map level
 
 //=============================================================================
 // FUNCTIONS

@@ -375,6 +375,10 @@
 #define ZX0_MODE_FAST				2 // Fast routine: 187 bytes, about 25% faster
 #define ZX0_MODE_MEGA				3 // Mega routine: 673 bytes, about 28% faster
 
+#define LZ48_MODE_STANDARD			0 // Standard routine
+#define LZ48_MODE_SPEED				1 // Version optimized for speed
+#define LZ48_MODE_SIZE				2 // Version optimized for size
+
 //-----------------------------------------------------------------------------
 // PAC MODULE
 //-----------------------------------------------------------------------------
@@ -411,12 +415,19 @@
 //-----------------------------------------------------------------------------
 
 // DEBUG_TOOL
-#define DEBUG_DISABLE				0x00 // No debug or profile feature
+#define DEBUG_NONE					0x00 // No debug tool
 #define DEBUG_DEVICE				0x10 // Debug features for debugdevice device (https://aoineko.org/msxgl/index.php?title=Debug_device)
 #define DEBUG_EMULICIOUS			0x20 // Debug features for Emulicious emulator
 #define DEBUG_OPENMSX				0x30 // Debug features for openMSX using 'debugdevice' extension
 #define DEBUG_OPENMSX_P				0x31 // Debug features for openMSX using PVM script (tools/script/openMSX/debugger_pvm.tcl)
-#define DEBUG_OPENMSX_G				0x39 // Profiler features for openMSX using Grauw script (tools/script/openMSX/profiler_grauw.tcl)
-#define DEBUG_OPENMSX_S				0x3A // Profiler features for openMSX using Salutte script (tools/script/openMSX/profiler_salutte.tcl)
 
+#define DEBUG_DISABLE				DEBUG_NONE
 #define DEBUG_EMULATOR(tool)		(tool & 0xF0)
+
+// PROFILE_TOOL
+#define PROFILE_NONE				0x00 // No profile tool
+#define PROFILE_OPENMSX_G			0x38 // Profiler features for openMSX using Grauw script (tools/script/openMSX/profiler_grauw.tcl)
+#define PROFILE_OPENMSX_S			0x39 // Profiler features for openMSX using Salutte script (tools/script/openMSX/profiler_salutte.tcl)
+
+#define PROFILE_DISABLE				PROFILE_NONE
+#define PROFILE_EMULATOR(tool)		(tool & 0xF0)

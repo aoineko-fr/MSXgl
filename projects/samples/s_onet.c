@@ -552,7 +552,7 @@ void UpdateGame()
 
 			// Draw players
 			for(u8 i = 0; i < g_PlayerNum; ++i)
-				VDP_WriteVRAM((const u8*)&g_Player[i], g_SpriteAtributeLow + (i * 4), g_SpriteAtributeHigh, 3);
+				VDP_WriteVRAM((const u8*)&g_Player[i], g_SpriteAttributeLow + (i * 4), g_SpriteAttributeHigh, 3);
 		}
 		break;
 	}

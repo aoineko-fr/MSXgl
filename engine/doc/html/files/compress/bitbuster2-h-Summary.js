@@ -1,1 +1,1 @@
-﻿NDFramePage.OnPageTitleLoaded("File:compress/bitbuster2.h","bitbuster2.h");NDSummary.OnSummaryLoaded("File:compress/bitbuster2.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[35,0,1,"Functions","Functions"],[20,0,0,"Bitbuster2_UnpackToRAM","Bitbuster2_UnpackToRAM"]]);
+﻿NDFramePage.OnPageTitleLoaded("File:compress/bitbuster2.h","bitbuster2.h");NDSummary.OnSummaryLoaded("File:compress/bitbuster2.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[32,0,1,"Functions","Functions"],[33,0,0,"Bitbuster2_UnpackToRAM","Bitbuster2_UnpackToRAM"]]);

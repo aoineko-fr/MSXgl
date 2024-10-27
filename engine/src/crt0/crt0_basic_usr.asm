@@ -10,6 +10,7 @@
 ; Code address: User defined
 ; Data address: 0      (right after code)
 ;──────────────────────────────────────────────────────────────────────────────
+.z80
 .module crt0
 
 .include "defines.asm"

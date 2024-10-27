@@ -10,6 +10,7 @@
 ; Code address: 0x4000
 ; Data address: 0xC000
 ;──────────────────────────────────────────────────────────────────────────────
+.z80
 .module	crt0
 
 .include "defines.asm"
@@ -55,10 +56,7 @@ crt0_init:
 	ld		(#_g_HeapStartAddress), hl
 
 	; Backup Page 0 (Main-ROM) information
-	ld		a, (ROMVER)
-	ld		(#_g_VersionROM), a
-	ld		a, (MSXVER)
-	ld		(#_g_VersionMSX), a
+	BACKUP_ROMINFO
 
 	; Set Page 0 & 2 at the same slot than the Page 1 one
 	INIT_P1_TO_P02
@@ -87,10 +85,8 @@ _g_LastAddr::
 
 _g_HeapStartAddress::
 	.ds		2
-_g_VersionROM::
-	.ds		1
-_g_VersionMSX::
-	.ds		1
+
+	ALLOC_ROMINFO
 
 ;------------------------------------------------------------------------------
 ; Ordering of segments for the linker

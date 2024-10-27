@@ -201,6 +201,9 @@ DebugSymbols = true;
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 // PackSegments = false;
 
+//-- Additionnal options of Hex to Binary convertor (string)
+// HexBinOpt = "";
+
 //*****************************************************************************
 // BUILD TOOL OPTION
 //*****************************************************************************

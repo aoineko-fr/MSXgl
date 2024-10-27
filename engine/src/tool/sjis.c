@@ -35,7 +35,7 @@ typedef struct
 // 
 const SJIS_MapToMSX g_SJIS_MarkToMSX[] =
 {
-	{ 0x41, 0xA4 }, // [、] 
+	{ 0x41, 0xA4 }, // [、]
 	{ 0x42, 0xA1 }, // [。]
 	{ 0x45, 0xA5 }, // [・]
 	{ 0x48, 0x3F }, // [？]
@@ -44,6 +44,7 @@ const SJIS_MapToMSX g_SJIS_MarkToMSX[] =
 	{ 0x4B, 0xDF }, // [゜]
 	{ 0x75, 0xA5 }, // [「]
 	{ 0x76, 0xA5 }, // [」]
+	{ 0x5B, 0xB0 }, // [ー]
 };
 
 // 

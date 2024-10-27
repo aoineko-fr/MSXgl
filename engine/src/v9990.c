@@ -19,60 +19,103 @@
 	#define V9_EI
 #endif
 
-
-//
-// R#06, R#07, Port#07
-const u8 g_V9_ModeConfig[] = 
+// V9990 screen mode configuration
+//  R#06, R#07, Port#07
+const u8 g_V9_ModeConfig[V9_MODE_MAX][3] = 
 {
 	// Pattern mode 1      (P1)
-	(u8)(V9_R06_MODE_P1 + V9_R06_CLOCK_4 + V9_R06_WIDH_512 + V9_R06_BPP_4),
-	0,
-	V9_P07_XTAL1,
+	{
+		(u8)(V9_R06_MODE_P1 + V9_R06_CLOCK_4 + V9_R06_WIDH_512 + V9_R06_BPP_4),
+		0,
+		V9_P07_XTAL1,
+	},
 
 	// Pattern mode 2      (P2)
-	(u8)(V9_R06_MODE_P2 + V9_R06_CLOCK_2 + V9_R06_WIDH_1024 + V9_R06_BPP_4),
-	0,
-	V9_P07_XTAL1,
+	{
+		(u8)(V9_R06_MODE_P2 + V9_R06_CLOCK_2 + V9_R06_WIDH_1024 + V9_R06_BPP_4),
+		0,
+		V9_P07_XTAL1,
+	},
 
 	// Bitmap 256 * 212    (B0) (undocumented mode)
-	(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_4 + V9_R06_WIDH_256 + V9_R06_BPP_8),
-	0,
-	V9_P07_MCKIN,
+	{
+		(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_4 + V9_R06_WIDH_256 + V9_R06_BPP_8),
+		0,
+		V9_P07_MCKIN,
+	},
 
 	// Bitmap 256 * 212    (B1)
-	(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_4 + V9_R06_WIDH_256 + V9_R06_BPP_8),
-	0,
-	V9_P07_XTAL1,
+	{
+		(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_4 + V9_R06_WIDH_256 + V9_R06_BPP_8),
+		0,
+		V9_P07_XTAL1,
+	},
 
 	// Bitmap 384 * 240    (B2)
-	(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_2 + V9_R06_WIDH_512 + V9_R06_BPP_8),
-	0,
-	V9_P07_MCKIN,
+	{
+		(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_2 + V9_R06_WIDH_512 + V9_R06_BPP_8),
+		0,
+		V9_P07_MCKIN,
+	},
 
 	// Bitmap 512 * 212    (B3)
-	(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_2 + V9_R06_WIDH_512 + V9_R06_BPP_8),
-	0,
-	V9_P07_XTAL1,
+	{
+		(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_2 + V9_R06_WIDH_512 + V9_R06_BPP_8),
+		0,
+		V9_P07_XTAL1,
+	},
 
 	// Bitmap 768 * 212    (B4)
-	(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_1 + V9_R06_WIDH_1024 + V9_R06_BPP_4),
-	0,
-	V9_P07_MCKIN,
+	{
+		(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_1 + V9_R06_WIDH_1024 + V9_R06_BPP_4),
+		0,
+		V9_P07_MCKIN,
+	},
 
 	// Bitmap 640 * 400    (B5)
-	(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_1 + V9_R06_WIDH_1024 + V9_R06_BPP_4),
-	V9_R07_HSCN,
-	V9_P07_XTAL1,
+	{
+		(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_1 + V9_R06_WIDH_1024 + V9_R06_BPP_4),
+		V9_R07_HSCN,
+		V9_P07_XTAL1,
+	},
 
 	// Bitmap 640 * 480    (B6)
-	(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_1 + V9_R06_WIDH_1024 + V9_R06_BPP_4),
-	(u8)(V9_R07_HSCN + V9_R07_C25),
-	V9_P07_XTAL1,
+	{
+		(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_1 + V9_R06_WIDH_1024 + V9_R06_BPP_4),
+		(u8)(V9_R07_HSCN + V9_R07_C25),
+		V9_P07_XTAL1,
+	},
 
 	// Bitmap 1024 * 212   (B7) (undocumented mode)
-	(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_1 + V9_R06_WIDH_1024 + V9_R06_BPP_4),
-	0,
-	V9_P07_XTAL1,
+	{
+		(u8)(V9_R06_MODE_BITMAP + V9_R06_CLOCK_1 + V9_R06_WIDH_1024 + V9_R06_BPP_4),
+		0,
+		V9_P07_XTAL1,
+	},
+};
+
+// V9990 color mode configuration
+//  R#06, R#13
+const u8 g_V9_ColorConfig[V9_COLOR_BMP_MAX][2] = 
+{
+	// V9_COLOR_BP2			Color palette (4 colors out of 32768 colors)
+	{ V9_R06_BPP_2, V9_R13_PLTM_PAL },
+	// V9_COLOR_BP4			Color palette (16 colors out of 32768 colors)
+	{ V9_R06_BPP_4, V9_R13_PLTM_PAL },
+	// V9_COLOR_BP6			Color palette (64 colors out of 32768 colors)
+	{ V9_R06_BPP_8, V9_R13_PLTM_PAL },
+	// V9_COLOR_BD8			Direct RGB [G:3|R:3|B:2] (256 colors)
+	{ V9_R06_BPP_8, V9_R13_PLTM_256 },
+	// V9_COLOR_BYJK		YJK Decoder (19268 colors)
+	{ V9_R06_BPP_8, V9_R13_PLTM_YJK },
+	// V9_COLOR_BYJKP		YJK Decoder + Color palette (12599 colors + 16 colors out of 32768 colors)
+	{ V9_R06_BPP_8, V9_R13_PLTM_YJK + V9_R13_YAE},
+	// V9_COLOR_BYUV		YUV Decoder (19268 colors)
+	{ V9_R06_BPP_8, V9_R13_PLTM_YUV },
+	// V9_COLOR_BYUVP		YUV Decoder + Color palette (12599 colors + 16 colors out of 32768 colors)
+	{ V9_R06_BPP_8, V9_R13_PLTM_YUV + V9_R13_YAE},
+	// V9_COLOR_BD16		Direct RGB [YS|G:5|R:2][R:3|B:5] (32768 colors)
+	{ V9_R06_BPP_16, V9_R13_PLTM_PAL },
 };
 
 //-----------------------------------------------------------------------------
@@ -180,9 +223,9 @@ bool V9_Detect()
 
 //-----------------------------------------------------------------------------
 // Set screen mode
-void V9_SetMode(u8 mode)
+void V9_SetScreenMode(u8 mode)
 {
-	const u8* ptr = g_V9_ModeConfig + (mode * 3);
+	const u8* ptr = (const u8*)&g_V9_ModeConfig[mode];
 	V9_SetRegister(6, *ptr++);
 	V9_SetRegister(7, *ptr++);
 	V9_SetPort(V9_P07, *ptr);
@@ -190,6 +233,22 @@ void V9_SetMode(u8 mode)
 	V9_SetRegister(8, V9_R08_DISP_ON | 0x02); // Enable display
 	V9_SetRegister(13, 0x00); // Reset color mode
 }
+
+#if ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
+
+//-----------------------------------------------------------------------------
+// Set bitmap color mode.
+//
+// Parameters:
+//   mode - New color mode to set. Can be any of the bitmap modes of <V9_COLOR_MODE> enum.
+void V9_SetColorMode(u8 mode)
+{
+	const u8* ptr = (const u8*)&g_V9_ColorConfig[mode];
+	V9_SetFlag(6, V9_R06_BPP_MASK, *ptr++);
+	V9_SetFlag(13, (u8)(V9_R13_PLTM_MASK + V9_R13_YAE), *ptr);
+}
+
+#endif
 
 //-----------------------------------------------------------------------------
 //
@@ -245,7 +304,7 @@ void V9_SetScrollingBX(u16 x)
 
 //-----------------------------------------------------------------------------
 // Clean the whole VRAM (512 KB)
-void V9_ClearVRAM()
+void V9_ClearVRAM() __PRESERVES(d, e, h, l, iyl, iyh)
 {
 	__asm
 		V9_DI
@@ -258,16 +317,20 @@ void V9_ClearVRAM()
 
 		// Setup 512 KB loop (256x256x8)
 		ld		b, a
-		ld		d, a
-		ld		e, #8
+		ld		c, a
 
 		// Loop
 	v9_clear_loop:
 		out		(V9_P00), a
+		out		(V9_P00), a
+		out		(V9_P00), a
+		out		(V9_P00), a
+		out		(V9_P00), a
+		out		(V9_P00), a
+		out		(V9_P00), a
+		out		(V9_P00), a
 		djnz	v9_clear_loop
-		dec		d
-		jp		nz, v9_clear_loop
-		dec		e
+		dec		c
 		jp		nz, v9_clear_loop
 
 		V9_EI
@@ -566,34 +629,39 @@ void V9_SetPaletteEntry(u8 index, const u8* color) __PRESERVES(h, l, iyl, iyh)
 //   id - Cursor index (0 or 1).
 //   x - Cursor X coordinate (from 0 to 1023 regardless of the screen mode).
 //   y - Cursor Y coordinate (from 0 to 511 regardless of the screen mode).
-//   color - Cursor color (2 bits).
+//   color - Cursor color offset (2 bits).
+//
+// Note: Call to this function will enable cursor display.
 void V9_SetCursorAttribute(u8 id, u16 x, u16 y, u8 color)
 {
 	u32 addr = 0x7FE00;
 	if(id)
 		addr += 8;
-	V9_Poke(addr += 2, y & 0xFF);
-	V9_Poke(addr += 2, y >> 8);
-	V9_Poke(addr += 2, x & 0xFF);
+	V9_Poke(addr, y & 0xFF);
+	addr += 2;
+	V9_Poke(addr, y >> 8);
+	addr += 2;
+	V9_Poke(addr, x & 0xFF);
+	addr += 2;
 	V9_Poke(addr, ((x >> 8) & 0x3) + ((color & 0x3) << 6));
 }
 
 //-----------------------------------------------------------------------------
-// Enable/disable the given cursor
+// Display/hide the given cursor
 //
 // Parameters:
 //   id - Cursor index (0 or 1).
-//   enable - TRUE to enable or FALSE to disable.
-void V9_SetCursorEnable(u8 id, bool enable)
+//   enable - TRUE to display or FALSE to hide.
+void V9_SetCursorDisplay(u8 id, bool enable)
 {
 	u32 addr = 0x7FE06;
 	if(id)
 		addr += 8;
 	u8 val = V9_Peek(addr);
 	if(enable)
-		val |= V9_CURSOR_DISABLE;
-	else
 		val &= ~V9_CURSOR_DISABLE;
+	else
+		val |= V9_CURSOR_DISABLE;
 	V9_Poke(addr, val);
 }
 

@@ -2,22 +2,22 @@
 setlocal EnableDelayedExpansion
 
 :: Audio
-set BuildArkos=0
-set BuildTrilo=0
+set BuildArkos=1
+set BuildTrilo=1
 set BuildWYZ=1
-set BuildayFX=0
-set BuildVGM=0
-set BuildlVGM=0
-set BuildPCMEnc=0
-set BuildPCMPlay=0
+set BuildayFX=1
+set BuildVGM=1
+set BuildlVGM=1
+set BuildPCMEnc=1
+set BuildPCMPlay=1
 :: Image
-set BuildBitmap=0
-set BuildImage=0
-set BuildCompress=0
-set BuildTile=0
-set BuildV9990=0
+set BuildBitmap=1
+set BuildImage=1
+set BuildCompress=1
+set BuildTile=1
+set BuildV9990=1
 :: Misc
-set BuildZip=0
+set BuildZip=1
 
 :: Path
 set Tools=..\..\..\tools
@@ -171,6 +171,7 @@ if %BuildBitmap%==1 (
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format c -out %Dest%\img\data_sc5_msx1.h  -pal msx1
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format c -out %Dest%\img\data_sc5_cust.h  -pal custom
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format c -out %Dest%\img\data_sc5_pal24.h -pal custom --pal24
+	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format c -out %Dest%\img\data_sc5_input.h -pal input 8 0x000000 0x222222 0x444444 0x666666 0x888888 0xAAAAAA 0xCCCCCC 0xEEEEEE
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 8 --bload -format c -out %Dest%\img\data_sc8.h
 
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format bin -out %Dest%\img\data_msx1.sc5  -pal msx1
@@ -178,11 +179,15 @@ if %BuildBitmap%==1 (
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 --bload -format bin -out %Dest%\img\data_pal24.sc5 -pal custom --pal24
 	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 8 --bload -format bin -out %Dest%\img\data.sc8
 
-	%MSXtk%\MSXimg.exe img\image00.png -pos 0 0 -size 128 128 -bpc 4 -format bin -out %Dest%\img\data00_sc5.bin -pal msx1
-	%MSXtk%\MSXimg.exe img\image00.png -pos 0 0 -size 128 128 -bpc 8 -format bin -out %Dest%\img\data00_sc8.bin
+	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 16 -format c -out %Dest%\img\data_bd16.h
 
-	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 4 -format bin -out %Dest%\img\data10_sc5.bin -pal msx1
-	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 8 -format bin -out %Dest%\img\data10_sc8.bin
+	%MSXtk%\MSXimg.exe img\image00.png -pos 0 0 -size 128 128 -bpc 4  -format bin -out %Dest%\img\data00_sc5.bin -pal msx1
+	%MSXtk%\MSXimg.exe img\image00.png -pos 0 0 -size 128 128 -bpc 8  -format bin -out %Dest%\img\data00_sc8.bin
+	%MSXtk%\MSXimg.exe img\image00.png -pos 0 0 -size 128 128 -bpc 16 -format bin -out %Dest%\img\data00_db16.bin
+
+	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 4  -format bin -out %Dest%\img\data10_sc5.bin -pal msx1
+	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 8  -format bin -out %Dest%\img\data10_sc8.bin
+	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 16 -format bin -out %Dest%\img\data10_db16.bin
 )
 
 ::-----------------------------------------------------------------------------
@@ -297,7 +302,8 @@ if %BuildZip%==1 (
 
 	echo ---- No compression ----
 	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 4 -format bin -out %Dest%\zip\data10.bin -pal msx1
-	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 -format bin -out %Dest%\zip\data01.bin
+	@REM %MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 192 -bpc 4 -format bin -out %Dest%\zip\data01.bin
+	%MSXtk%\MSXimg.exe img\image01.png -pos 0 0 -size 256 100 -bpc 4 -format bin -out %Dest%\zip\data01.bin
 
 	echo ---- RLEp compression ----
 	%MSXtk%\MSXzip.exe %Dest%\zip\data10.bin -bin -rlep -def auto -incdef -o %Dest%\zip\data10.rlep
@@ -306,6 +312,11 @@ if %BuildZip%==1 (
 	echo ---- ZX0 compression ----
 	%Tools%\compress\ZX0\zx0.exe -f %Dest%\zip\data10.bin %Dest%\zip\data10.zx0
 	%Tools%\compress\ZX0\zx0.exe -f %Dest%\zip\data01.bin %Dest%\zip\data01.zx0
+
+	echo ---- LZ48 compression ----
+	%Tools%\compress\LZ48\lz48.exe -i %Dest%\zip\data10.bin -o %Dest%\zip\data10.z48
+	%Tools%\compress\LZ48\lz48.exe -i %Dest%\zip\data01.bin -o %Dest%\zip\data01.z48
+	%MSXtk%\MSXbin.exe %Dest%\zip\data01.z48 -t g_Data01 -ad -o %Dest%\zip\data01_z48.h
 
 	echo ---- Bitbuster compression ----
 	copy %Dest%\zip\data10.bin %Tools%\compress\Bitbuster\data10.tmp
@@ -326,6 +337,7 @@ if %BuildZip%==1 (
 	echo ---- Pletter compression ----
 	%Tools%\compress\Pletter\pletter.exe %Dest%\zip\data10.bin %Dest%\zip\data10.pl5
 	%Tools%\compress\Pletter\pletter.exe %Dest%\zip\data01.bin %Dest%\zip\data01.pl5
+	%MSXtk%\MSXbin.exe %Dest%\zip\data01.pl5 -t g_Data01 -ad -o %Dest%\zip\data01_pl5.h
 )
 
 pause

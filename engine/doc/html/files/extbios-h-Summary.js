@@ -1,1 +1,1 @@
-﻿NDFramePage.OnPageTitleLoaded("File:extbios.h","extbios.h");NDSummary.OnSummaryLoaded("File:extbios.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[726,0,1,"Functions","Functions"],[727,0,0,"ExtBIOS_Check","ExtBIOS_Check"]]);
+﻿NDFramePage.OnPageTitleLoaded("File:extbios.h","extbios.h");NDSummary.OnSummaryLoaded("File:extbios.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[1018,0,1,"Functions","Functions"],[1019,0,0,"ExtBIOS_Check","ExtBIOS_Check"]]);

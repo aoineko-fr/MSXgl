@@ -10,6 +10,7 @@
 ; Code address: 0x4010 (right after the header)
 ; Data address: 0xC000
 ;──────────────────────────────────────────────────────────────────────────────
+.z80
 .module	crt0
 
 .include "defines.asm"
@@ -46,10 +47,7 @@ crt0_init:
 	ld		(#_g_HeapStartAddress), hl
 
 	; Backup Page 0 (Main-ROM) information
-	ld		a, (ROMVER)
-	ld		(#_g_VersionROM), a
-	ld		a, (MSXVER)
-	ld		(#_g_VersionMSX), a
+	BACKUP_INFO
 
 	; ; Set Page 2 slot equal to Page 1 slot
 	; INIT_P1_TO_P2
@@ -58,9 +56,6 @@ crt0_init:
 	
 	; Initialize ROM mapper segment
 	INIT_MAPPER
-
-	; ; Install ISR in RAM
-	; INSTALL_RAM_ISR
 
 	; Initialize globals
 	INIT_GLOBALS
@@ -102,10 +97,8 @@ _g_LastAddr::
 
 _g_HeapStartAddress::
 	.ds		2
-_g_VersionROM::
-	.ds		1
-_g_VersionMSX::
-	.ds		1
+
+	ALLOC_ROMINFO
 
 	ALLOC_MAPPER
 

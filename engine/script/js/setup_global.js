@@ -129,17 +129,20 @@ global.ToolsDir = `${RootDir}tools/`;
 // TOOLS SETTINGS
 //*****************************************************************************
 
+//-- Path to SDCC tools chain (string)
+global.SDCCPath = `${ToolsDir}sdcc/`;
+
 //-- Path to the C compile program (string)
-global.Compiler = `${ToolsDir}sdcc/bin/sdcc`;
+global.Compiler = `${SDCCPath}bin/sdcc`;
 
 //-- Path to the assembler program (string)
-global.Assembler = `${ToolsDir}sdcc/bin/sdasz80`;
+global.Assembler = `${SDCCPath}bin/sdasz80`;
 
 //-- Path to the linker program (string)
-global.Linker = `${ToolsDir}sdcc/bin/sdcc`;
+global.Linker = `${SDCCPath}bin/sdcc`;
 
 //-- Path to the program to generate lib file (string)
-global.MakeLib = `${ToolsDir}sdcc/bin/sdar`;
+global.MakeLib = `${SDCCPath}bin/sdar`;
 
 //-- Path to IHX to binary convertor (string)
 global.Hex2Bin = `${ToolsDir}MSXtk/bin/MSXhex`;
@@ -152,9 +155,6 @@ global.DskTool = `${ToolsDir}build/msxtar/msxtar`;
 
 //-- Path to the emulator to launch the project (string)
 global.Emulator;
-
-//-- Path to the debugger to test the project (string)
-global.Debugger;
 
 //*****************************************************************************
 // PROJECT SETTINGS
@@ -331,11 +331,17 @@ global.LocStruct = "";
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 global.PackSegments = false;
 
+//-- Additionnal options of Hex to Binary convertor (string)
+global.HexBinOpt = "";
+
 //-- Command lines to be executed before the build process (array)
 global.PreBuildScripts = [];
 
 //-- Command lines to be executed after the build process (array)
 global.PostBuildScripts = [];
+
+//-- 
+global.Analyze = false;
 
 //*****************************************************************************
 // BUILD TOOL OPTION
@@ -352,6 +358,39 @@ global.LogFile = false;
 
 //-- Name of the log file (string)
 global.LogFileName = "";
+
+//*******************************************************************************
+// ANALYZER SETINGS
+//*******************************************************************************
+
+//-- Execute MAP analyzer (boolean)
+global.Analyzer = false;
+
+//-- Analyzer output selection (string)
+//   - Console    Output to termial console
+//   - File       Output to file
+//   - Both       Output to file and termial console (default)
+global.AnalyzerOutput = "Both";
+
+//-- Analyzer report elements (string)
+//   - [A]        Report areas
+//   - [S]        Report segments
+//   - [M]        Report modules
+//   - [C]        Report code symbols
+//   - [V]        Report variable symbols
+global.AnalyzerReport = "ASMCV";
+
+//-- Analyzer report sorting (string)
+//   - None       No sorting (MAP file order)
+//   - Alpha      Alphanumeric sorting
+//   - Size       Size sorting (default)
+global.AnalyzerSort = "Size";
+
+//-- Export analyzer data to CSV file (boolean)
+global.AnalyzerCSV = false;
+
+//-- Analyzer CSV file separator (string)
+global.AnalyzerSeparator = ",";
 
 //*******************************************************************************
 // EMULATOR SETINGS
@@ -414,3 +453,12 @@ global.EmulPortA = "";
 
 //-- Plug a virtual device into the joystick port B (string)
 global.EmulPortB = "";
+
+//-------------------------------------------------------------------------------
+// Link tool
+
+//-- Run device like Easy-USB (string)
+global.RunDevice = "";
+
+//-- Run device option (string)
+global.RunDeviceOpt = "";

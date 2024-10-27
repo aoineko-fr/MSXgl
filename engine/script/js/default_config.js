@@ -31,14 +31,15 @@ OutDir = `${ProjDir}out/`;
 // TOOLS SETTINGS
 //*****************************************************************************
 
-Compiler  = `${ToolsDir}sdcc/bin/sdcc`;				//-- Path to the C compile program (string)
-Assembler = `${ToolsDir}sdcc/bin/sdasz80`;			//-- Path to the assembler program (string)
-Linker    = `${ToolsDir}sdcc/bin/sdcc`;				//-- Path to the linker program (string)
-MakeLib   = `${ToolsDir}sdcc/bin/sdar`;				//-- Path to the program to generate lib file (string)
-Hex2Bin   = `${ToolsDir}MSXtk/bin/MSXhex`;			//-- Path to IHX to binary convertor (string)
-MSXDOS    = `${ToolsDir}build/DOS/`;				//-- Path to the MSX-DOS files (string)
-DskTool   = `${ToolsDir}build/msxtar/msxtar`;		//-- Path to the tool to generate DSK file (string)
-Emulator  = "";										//-- Path to the emulator to launch the project (string)
+SDCCPath  = `${ToolsDir}sdcc/`;					//-- Path to SDCC tools chain (string)
+Compiler  = `${SDCCPath}bin/sdcc`;				//-- Path to the C compile program (string)
+Assembler = `${SDCCPath}bin/sdasz80`;			//-- Path to the assembler program (string)
+Linker    = `${SDCCPath}bin/sdcc`;				//-- Path to the linker program (string)
+MakeLib   = `${SDCCPath}bin/sdar`;				//-- Path to the program to generate lib file (string)
+Hex2Bin   = `${ToolsDir}MSXtk/bin/MSXhex`;		//-- Path to IHX to binary convertor (string)
+MSXDOS    = `${ToolsDir}build/DOS/`;			//-- Path to the MSX-DOS files (string)
+DskTool   = `${ToolsDir}build/msxtar/msxtar`;	//-- Path to the tool to generate DSK file (string)
+Emulator  = "";									//-- Path to the emulator to launch the project (string)
 // Emulator  = `${ToolsDir}openMSX/openmsx`;
 // Emulator  = `${ToolsDir}Emulicious/Emulicious`;
 // Emulator  = `${ToolsDir}fMSX/fMSX`;
@@ -46,9 +47,6 @@ Emulator  = "";										//-- Path to the emulator to launch the project (string
 // Emulator  = `${ToolsDir}BlueMSX/blueMSX`;
 // Emulator  = `${ToolsDir}MEISEI/meisei`;
 // Emulator  = `${ToolsDir}RuMSX/MSX`;
-Debugger  = "";										//-- Path to the debugger to test the project (string)
-// Debugger  = `${ToolsDir}openMSX/Debugger/openmsx-debugger`;
-
 
 //*****************************************************************************
 // PROJECT SETTINGS
@@ -224,6 +222,9 @@ LocStruct = "g_LocData";
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 PackSegments = false;
 
+//-- Additionnal options of Hex to Binary convertor (string)
+HexBinOpt = "";
+
 //-- Command lines to be executed before the build process (array)
 PreBuildScripts = [];
 
@@ -245,6 +246,39 @@ LogFile = false;
 
 //-- Name of the log file (string)
 LogFileName = "";
+
+//*******************************************************************************
+// ANALYZER SETINGS
+//*******************************************************************************
+
+//-- Execute MAP analyzer (boolean)
+Analyzer = false;
+
+//-- Analyzer output selection (string)
+//   - Console    Output to termial console
+//   - File       Output to file
+//   - Both       Output to file and termial console (default)
+AnalyzerOutput = "Both";
+
+//-- Analyzer report elements (string)
+//   - [A]        Report areas
+//   - [S]        Report segments
+//   - [M]        Report modules
+//   - [C]        Report code symbols
+//   - [V]        Report variable symbols
+AnalyzerReport = "ASMCV";
+
+//-- Analyzer report sorting (string)
+//   - None       No sorting (MAP file order)
+//   - Alpha      Alphanumeric sorting
+//   - Size       Size sorting (default)
+AnalyzerSort = "Size";
+
+//-- Export analyzer data to CSV file (boolean)
+AnalyzerCSV = false;
+
+//-- Analyzer CSV file separator (string)
+AnalyzerSeparator = ",";
 
 //*******************************************************************************
 // EMULATOR SETINGS
@@ -280,8 +314,18 @@ EmulV9990    = false;				//-- Add V9990 video-chip extension (boolean)
 //   - Joystick
 //   - Keyboard         Fake joystick
 //   - Mouse
+//   - Paddle
 //   - NinjaTap
 EmulPortA = "";
 
 //-- Plug a virtual device into the joystick port B (string)
 EmulPortB = "";
+
+//-------------------------------------------------------------------------------
+// Run device
+
+//-- Run device like Easy-USB (string)
+RunDevice = "";
+
+//-- Run device option (string)
+RunDeviceOpt = "";

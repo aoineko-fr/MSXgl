@@ -185,6 +185,16 @@
 	#define INPUT_USE_MOUSE				FALSE
 #endif
 
+#ifndef INPUT_USE_PADDLE // Add support for Mouse handling functions
+	#warning INPUT_USE_PADDLE is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define INPUT_USE_PADDLE			FALSE
+#endif
+
+#ifndef INPUT_USE_PADDLE_CALIB // Add support for Mouse handling functions
+	#warning INPUT_USE_PADDLE_CALIB is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define INPUT_USE_PADDLE_CALIB		FALSE
+#endif
+
 #ifndef INPUT_USE_DETECT // Add feature to detect device plugged in General purpose ports
 	#warning INPUT_USE_DETECT is not defined in "msxgl_config.h"! Default value will be used: FALSE
 	#define INPUT_USE_DETECT			FALSE

@@ -100,7 +100,7 @@ if (Ext === "com")
 // Emulator specific tools
 if (DoRun)
 {
-	if (!fs.existsSync(Emulator) && ( (process.platform === "win32") && !fs.existsSync(`${Emulator}.exe`)))
+	if ((!RunDevice) && !fs.existsSync(Emulator) && ( (process.platform === "win32") && !fs.existsSync(`${Emulator}.exe`)))
 	{
 		util.print(`Invalid path to Emulator ${Emulator}!`, PrintWarning);
 		util.print("Disactivate DoRun option");

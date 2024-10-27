@@ -251,6 +251,13 @@ typedef struct
 	extern const u8* g_GamePawn_TileMap;
 #endif
 
+
+#if (GAMEPAWN_USE_PHYSICS)
+// Current cell coordinate
+extern u8 g_Game_CellX;
+extern u8 g_Game_CellY;
+#endif
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -354,6 +361,26 @@ void GamePawn_InitializePhysics(Game_Pawn* pawn, Game_PhysicsCB pcb, Game_Collis
 // Return:
 //   Pawn's physics state.
 inline u8 GamePawn_GetPhysicsState(Game_Pawn* pawn) { return pawn->PhysicsState; }
+
+// Function: GamePawn_GetCallbackCellX
+// Get the X coordinate of the cell that triggered a callback.
+// The value is only valid within a callback.
+// Only available if GAMEPAWN_USE_PHYSICS compile option is set to TRUE.
+//
+// Return:
+//   X coordinate of the current cell.
+inline const u8 GamePawn_GetCallbackCellX() { return g_Game_CellX; }
+
+// Function: GamePawn_GetCallbackCellY
+// Get the Y coordinate of the cell that triggered a callback.
+// The value is only valid within a callback.
+// Only available if GAMEPAWN_USE_PHYSICS compile option is set to TRUE.
+//
+// Return:
+//   Y coordinate of the current cell.
+inline const u8 GamePawn_GetCallbackCellY() { return g_Game_CellY; }
+
+
 
 #endif
 

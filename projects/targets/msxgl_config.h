@@ -149,6 +149,8 @@
 #define INPUT_USE_JOYSTICK			FALSE	// Add functions to handle joystick using I/O port
 #define INPUT_USE_KEYBOARD			TRUE	// Add functions to handle keyboard using I/O port
 #define INPUT_USE_MOUSE				FALSE	// Add support for Mouse handling functions
+#define INPUT_USE_PADDLE			FALSE	// Add functions to handle Arkanoid Vaus paddle through direct I/O access
+#define INPUT_USE_PADDLE_CALIB		FALSE	// Add functions paddle calibration feature
 #define INPUT_USE_DETECT			FALSE	// Add feature to detect device plugged in General purpose ports
 #define INPUT_USE_ISR_PROTECTION	FALSE	// Disable interruptions while access PSG registers (needed if you use BIOS or access PSG in your own ISR)
 #define INPUT_JOY_UPDATE			FALSE	// Add function to update all joystick states at once
@@ -165,7 +167,7 @@
 #define MEM_USE_FASTCOPY			FALSE	// Add support for fast-copy function (using unrolled-LDI loop)
 #define MEM_USE_FASTSET				FALSE	// Add support for fast-set function (using unrolled-LDI loop)
 #define MEM_USE_DYNAMIC				FALSE	// Add support for malloc style dynamic allocator
-#define MEM_USE_BUILTIN				FALSE	// Use SDCC built-in memcpy and memset function instead of MSXgl ones
+#define MEM_USE_BUILTIN				TRUE	// Use SDCC built-in memcpy and memset function instead of MSXgl ones
 
 //-----------------------------------------------------------------------------
 // MSX-DOS MODULE
@@ -275,7 +277,7 @@
 #define GAMEPAWN_BORDER_MIN_Y		0		// High border Y coordinade
 #define GAMEPAWN_BORDER_MAX_Y		192		// Low border Y coordinate
 #define GAMEPAWN_FORCE_SM1			FALSE	// Force the use sprite mode 1 (for MSX2) 
-#define GAMEPAWN_USE_VRAM_COL		TRUE	// Use VRAM to chech tile collision (use RAM buffer instead)
+#define GAMEPAWN_USE_VRAM_COL		TRUE	// Use VRAM to chech tile collision (otherwise, use RAM buffer)
 #define GAMEPAWN_TILEMAP_WIDTH		32		// Width of the tiles map
 #define GAMEPAWN_TILEMAP_HEIGHT		24		// Height of the tiles map
 
@@ -494,6 +496,12 @@
 // - ZX0_MODE_MEGA ................ Mega routine: 673 bytes, about 28% faster
 #define ZX0_MODE					ZX0_MODE_STANDARD
 
+// LZ48 compression
+// - LZ48_MODE_STANDARD ........... Standard routine
+// - LZ48_MODE_SPEED .............. Version optimized for speed
+// - LZ48_MODE_SIZE ............... Version optimized for size
+#define LZ48_MODE					LZ48_MODE_STANDARD
+
 // MSXi compressor support
 #define MSXi_USE_COMP_NONE			TRUE
 #define MSXi_USE_COMP_CROP16		TRUE
@@ -564,12 +572,15 @@
 // DEBUG
 //-----------------------------------------------------------------------------
 
-// Debugger and profiler options
-// - DEBUG_DISABLE ................ No debug or profile feature
+// Debugger options
+// - DEBUG_DISABLE ................ No debug tool
 // - DEBUG_EMULICIOUS ............. Debug features for Emulicious
 // - DEBUG_OPENMSX ................ Debug features for openMSX using 'debugdevice' extension
 // - DEBUG_OPENMSX_P .............. Debug features for openMSX using PVM script (tools/script/openMSX/debugger_pvm.tcl)
-// - DEBUG_OPENMSX_G .............. Profiler features for openMSX using Grauw script (tools/script/openMSX/profiler_grauw.tcl)
-// - DEBUG_OPENMSX_S .............. Profiler features for openMSX using Salutte script (tools/script/openMSX/profiler_salutte.tcl)
 #define DEBUG_TOOL					DEBUG_DISABLE
+// Profiler options
+// - PROFILE_DISABLE .............. No profile tool
+// - PROFILE_OPENMSX_G ............ Profiler features for openMSX using Grauw script (tools/script/openMSX/profiler_grauw.tcl)
+// - PROFILE_OPENMSX_S ............ Profiler features for openMSX using Salutte script (tools/script/openMSX/profiler_salutte.tcl)
+#define PROFILE_TOOL				PROFILE_DISABLE
 #define PROFILE_LEVEL				10

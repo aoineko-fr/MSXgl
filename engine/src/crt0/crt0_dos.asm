@@ -13,6 +13,7 @@
 ; Code address: 0x0100
 ; Data address: 0		(right after code)
 ;------------------------------------------------------------------------------
+.z80
 .module	crt0
 
 .include "defines.asm"

@@ -53,9 +53,6 @@
 	#define EI_LOOP		ei
 #endif
 
-#undef PLETTER_WRITE_MODE
-#define PLETTER_WRITE_MODE PLETTER_WRITE_AUTO
-
 // VRAM write timing mode
 #if (PLETTER_WRITE_MODE == PLETTER_WRITE_SAFE) // Safe VRAM write speed (29 t-states)
 	#define PLETTER_WRITE	PLETTER_WRITE_30CC
@@ -63,7 +60,7 @@
 #elif (PLETTER_WRITE_MODE == PLETTER_WRITE_NODISPLAY) // Safe VRAM write speed when screen display disable (20 t-states)
 	#define PLETTER_WRITE	PLETTER_WRITE_22CC
 
-#elif (PLETTER_WRITE_MODE == PLETTER_WRITE_MINIMAL) // No wait beetween write (12 t-states)
+#elif (PLETTER_WRITE_MODE == PLETTER_WRITE_MINIMAL) // No wait beetween write (17 t-states)
 	#define PLETTER_WRITE	PLETTER_WRITE_17CC
 
 #elif (PLETTER_WRITE_MODE == PLETTER_WRITE_QUICK) // No wait beetween write (12 t-states)
@@ -71,20 +68,14 @@
 
 #elif (PLETTER_WRITE_MODE == PLETTER_WRITE_AUTO) // Determine the worst case according to selected screen mode (12~29 t-states)
 
-	#if (MSX_VERSION >= MSX_2)
-		#if (VDP_USE_MODE_T1 || VDP_USE_MODE_T1) // 20cc limit
-			#define PLETTER_WRITE	PLETTER_WRITE_22CC
-		#else // 15cc limit
-			#define PLETTER_WRITE	PLETTER_WRITE_17CC
-		#endif
-	#else
-		#if (VDP_USE_MODE_G1 || VDP_USE_MODE_G2 || VDP_USE_MODE_MC) // 29cc limit
-			#define PLETTER_WRITE	PLETTER_WRITE_30CC
-		#elif (VDP_USE_MODE_T1 || VDP_USE_MODE_T1) // 20cc limit
-			#define PLETTER_WRITE	PLETTER_WRITE_22CC
-		#else // 15cc limit
-			#define PLETTER_WRITE	PLETTER_WRITE_17CC
-		#endif
+	#if (VDP_SAFE_ACCESS == VDP_ACCESS_29CC) // 29 CC => 30 CC
+		#define PLETTER_WRITE	PLETTER_WRITE_30CC
+	#elif (VDP_SAFE_ACCESS == VDP_ACCESS_20CC) // 20 CC => 22 CC
+		#define PLETTER_WRITE	PLETTER_WRITE_22CC
+	#elif (VDP_SAFE_ACCESS == VDP_ACCESS_15CC) // 15 CC => 17 CC
+		#define PLETTER_WRITE	PLETTER_WRITE_17CC
+	#elif (VDP_SAFE_ACCESS == VDP_ACCESS_12CC) // 12 CC => 12 CC
+		#define PLETTER_WRITE	PLETTER_WRITE_12CC
 	#endif
 
 #endif
@@ -275,10 +266,10 @@ __asm
 
 // VRAM address setup
 	ld		a, e
-	out		(P_VDP_1), a
+	out		(P_VDP_ADDR), a
 	ld		a, d
 	or		#0x40
-	out		(P_VDP_1), a
+	out		(P_VDP_ADDR), a
 
 // Initialization
 	ld		a, (hl)
@@ -306,7 +297,7 @@ __asm
 
 // Main depack loop
 v_literal:
-	ld		c, #P_VDP_0
+	ld		c, #P_VDP_DATA
 	outi
 	inc		de
 v_loop:
@@ -396,7 +387,7 @@ v_offsok_loop:
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~
 	ld		a, h			//  5 cc
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 17
-	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~ 12
+	in		a, (P_VDP_DATA)	// 12 cc ~~~~~~~~~~ 12
 	ex		af, af' ;'		//  5 cc
 	ld		a, e			//  5 cc
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 22
@@ -405,7 +396,7 @@ v_offsok_loop:
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 25
 	ex		af, af' ;'		//  5 cc
 	EI_LOOP
-	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~ 17/22
+	out		(P_VDP_DATA), a	// 12 cc ~~~~~~~~~~ 17/22
 .endm
 
 .macro PLETTER_WRITE_17CC
@@ -414,7 +405,7 @@ v_offsok_loop:
 	ld		a, h			//  5 cc
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 17
 	nop						//  5 cc
-	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~ 17
+	in		a, (P_VDP_DATA)	// 12 cc ~~~~~~~~~~ 17
 	ex		af, af' ;'		//  5 cc
 	ld		a, e			//  5 cc
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 22
@@ -423,7 +414,7 @@ v_offsok_loop:
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 25
 	ex		af, af' ;'		//  5 cc
 	EI_LOOP
-	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~ 17/22
+	out		(P_VDP_DATA), a	// 12 cc ~~~~~~~~~~ 17/22
 .endm
 
 .macro PLETTER_WRITE_22CC
@@ -434,7 +425,7 @@ v_offsok_loop:
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 22
 	nop						//  5 cc
 	nop						//  5 cc
-	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~ 22
+	in		a, (P_VDP_DATA)	// 12 cc ~~~~~~~~~~ 22
 	ex		af, af' ;'		//  5 cc
 	ld		a, e			//  5 cc
 	out		(P_VDP_1), a	// 12 cc ~~~~~~~~~~ 22
@@ -444,7 +435,7 @@ v_offsok_loop:
 	ex		af, af' ;'		//  5 cc
 	nop						//  5 cc
 	EI_LOOP
-	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~ 22/27
+	out		(P_VDP_DATA), a	// 12 cc ~~~~~~~~~~ 22/27
 .endm
 
 .macro PLETTER_WRITE_30CC
@@ -457,7 +448,7 @@ v_offsok_loop:
 	nop						//  5 cc
 	nop						//  5 cc
 	or		#0				//  8 cc
-	in		a, (P_VDP_0)	// 12 cc ~~~~~~~~~~ 30
+	in		a, (P_VDP_DATA)	// 12 cc ~~~~~~~~~~ 30
 	ex		af, af' ;'		//  5 cc
 	ld		a, e			//  5 cc
 	or		#0				//  8 cc
@@ -470,7 +461,7 @@ v_offsok_loop:
 	nop						//  5 cc
 	or		#0				//  8 cc
 	EI_LOOP
-	out		(P_VDP_0), a	// 12 cc ~~~~~~~~~~ 30/35
+	out		(P_VDP_DATA), a	// 12 cc ~~~~~~~~~~ 30/35
 .endm
 
 	PLETTER_WRITE
@@ -499,7 +490,7 @@ v_offsok_loop:
 // Depacker exit
 v_Depack_out:
 	pop		ix
-	EI_LOOP
+	EI_FULL
 	ret
 
 v_modes:

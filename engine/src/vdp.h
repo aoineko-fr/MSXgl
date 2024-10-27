@@ -147,7 +147,7 @@ extern u8 g_ScreenLayoutHigh;		// Address of the Pattern Layout Table (Name)
 extern u8 g_ScreenColorHigh;		// Address of the Color Table
 extern u8 g_ScreenPatternHigh;		// Address of the Pattern Generator Table
 #if (VDP_USE_SPRITE)
-extern u8 g_SpriteAtributeHigh;		// Address of the Sprite Attribute Table
+extern u8 g_SpriteAttributeHigh;		// Address of the Sprite Attribute Table
 extern u8 g_SpritePatternHigh;		// Address of the Sprite Pattern Generator Table
 extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 #endif // (VDP_USE_SPRITE)
@@ -156,6 +156,9 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 //-----------------------------------------------------------------------------
 // DEFINES
 //-----------------------------------------------------------------------------
+
+//.............................................................................
+// Unit defines
 
 #if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_14)
 	#define VADDR				u16
@@ -195,6 +198,27 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 	#define USY					i8
 #endif
 
+//.............................................................................
+// Define faster safe VRAM access according to selected screen mode and MSX generation 
+
+#define VDP_ACCESS_12CC			12
+#define VDP_ACCESS_15CC			15
+#define VDP_ACCESS_20CC			20
+#define VDP_ACCESS_29CC			29
+
+#if ((MSX_VERSION & MSX_1) && (VDP_USE_MODE_G1 || VDP_USE_MODE_G2 || VDP_USE_MODE_MC)) // MSX1 (G1, G2, MC): 29cc limit
+	#define VDP_SAFE_ACCESS		VDP_ACCESS_29CC
+#elif ((MSX_VERSION > MSX_1) && (VDP_USE_MODE_T1 || VDP_USE_MODE_T2)) // MSX2/2+/tR (T1, T2): 20cc limit
+	#define VDP_SAFE_ACCESS		VDP_ACCESS_20CC
+#elif (MSX_VERSION > MSX_1) // MSX2/2+/tR (G1, G2, MC, G3, G4, G5, G6, G7): 15cc limit
+	#define VDP_SAFE_ACCESS		VDP_ACCESS_15CC
+#else // MSX1 (T1): 12cc limit
+	#define VDP_SAFE_ACCESS		VDP_ACCESS_12CC
+#endif
+
+//.............................................................................
+// Helper macros
+
 #define VRAM16b(a)				(u16)((u32)(a >> 4))
 #define VRAM17b(a)				(u16)((u32)(a >> 1))
 #define Addr20bTo16b(a)			(u16)((u32)(a >> 4))	// Convert 20-bits (V)RAM address into 16-bits with bit shifting
@@ -221,6 +245,9 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 #define F_VDP_READ				0x00 // bit 6: read/write access (0=read)
 
 #define VDP_REG(_r)				(F_VDP_REG | _r)
+
+//.............................................................................
+// Screen mode defines
 
 // Enum: VDP_MODE
 // VDP display modes
@@ -332,7 +359,7 @@ enum VDP_BLINK_TIME
 	VDP_BLINK_TIME_2500MS = VDP_BLINK_TIME_2503MS,
 };
 
-//-----------------------------------------------------------------------------
+//.............................................................................
 // Default Screen Mode tables VRAM address
 
 // Screen 0 (Width 40)
@@ -535,7 +562,7 @@ u8 VDP_ReadStatus(u8 stat) __PRESERVES(b, c, d, e, h, iyl, iyh);
 //
 // Parameters:
 //   src   - Source data address in RAM
-//   dest  - Destiation address in VRAM (14bits address for 16KB VRAM)
+//   dest  - Destination address in VRAM (14bits address for 16KB VRAM)
 //   count - Number of byte to copy in VRAM. Note: A count of 0 mean 65536
 void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count);
 
@@ -545,7 +572,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count);
 //
 // Parameters:
 //   value	- Byte value to copy in VRAM
-//   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
+//   dest	- Destination address in VRAM (14 bits address form 16 KB VRAM)
 //   count	- Number of byte to copy in VRAM. Note: A count of 0 mean 65536
 void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count);
 
@@ -556,7 +583,7 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count);
 //
 // Parameters:
 //   value	- Byte value to copy in VRAM
-//   dest	- Destiation address in VRAM (14 bits address form 16 KB VRAM)
+//   dest	- Destination address in VRAM (14 bits address form 16 KB VRAM)
 //   count	- Nomber of byte to copy in VRAM. Note: A count of 0 mean 65536
 void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count);
 #endif
@@ -606,8 +633,8 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	//
 	// Parameters:
 	//   src		- Source data address in RAM
-	//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
-	//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
+	//   destLow	- Destination address in VRAM (16 LSB of 17-bits VRAM address)
+	//   destHigh	- Destination address in VRAM (1 MSB of 17-bits VRAM address)
 	//   count		- Nomber of byte to copy in VRAM. Note: A count of 0 mean 65536
 	void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count);
 
@@ -616,8 +643,8 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	//
 	// Parameters:
 	//   value		- Byte value to copy in VRAM
-	//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
-	//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
+	//   destLow	- Destination address in VRAM (16 LSB of 17-bits VRAM address)
+	//   destHigh	- Destination address in VRAM (1 MSB of 17-bits VRAM address)
 	//   count		- Nomber of byte to copy in VRAM. Note: A count of 0 mean 65536
 	void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count);
 
@@ -636,8 +663,8 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	//
 	// Parameters:
 	//   val		- Value to write in VRAM
-	//   destLow	- Destiation address in VRAM (16 LSB of 17-bits VRAM address)
-	//   destHigh	- Destiation address in VRAM (1 MSB of 17-bits VRAM address)
+	//   destLow	- Destination address in VRAM (16 LSB of 17-bits VRAM address)
+	//   destHigh	- Destination address in VRAM (1 MSB of 17-bits VRAM address)
 	void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh);
 
 	// Function: VDP_Peek_128K
@@ -956,7 +983,7 @@ void VDP_SetSpriteAttributeTable(VADDR addr);
 
 // Function: VDP_SetSpriteAttributeTableEx
 // Set sprite attribute table address. [MSX1/2/2+/TR]
-inline void VDP_SetSpriteAttributeTableEx(VADDR addr, u8 r5, u8 r11) { g_SpriteAttributeLow = (u16)addr; VDP_RegWrite(5, r5); VADDR_14_CODE(r11;) VADDR_17_CODE(VDP_RegWrite(11, r11); g_SpriteAtributeHigh = addr >> 16;) addr -= 0x200; g_SpriteColorLow = (u16)addr; VADDR_17_CODE(g_SpriteColorHigh = addr >> 16;) }
+inline void VDP_SetSpriteAttributeTableEx(VADDR addr, u8 r5, u8 r11) { g_SpriteAttributeLow = (u16)addr; VDP_RegWrite(5, r5); VADDR_14_CODE(r11;) VADDR_17_CODE(VDP_RegWrite(11, r11); g_SpriteAttributeHigh = addr >> 16;) addr -= 0x200; g_SpriteColorLow = (u16)addr; VADDR_17_CODE(g_SpriteColorHigh = addr >> 16;) }
 
 // Function: VDP_SetSpritePatternTable
 // Set sprite pattern table address. [MSX1/2/2+/TR]
@@ -999,7 +1026,7 @@ inline VADDR VDP_GetPatternTable() { return VADDR_GET(g_ScreenPatternLow, g_Scre
 //
 // Return:
 //   VRAM address of the table (u16 for 14-bits address and u32 for 17-bits)
-inline VADDR VDP_GetSpriteAttributeTable() { return VADDR_GET(g_SpriteAttributeLow, g_SpriteAtributeHigh); }
+inline VADDR VDP_GetSpriteAttributeTable() { return VADDR_GET(g_SpriteAttributeLow, g_SpriteAttributeHigh); }
 
 // Function: VDP_GetSpritePatternTable
 // Get address of the Sprite Pattern Generator Table
@@ -1340,7 +1367,7 @@ inline void VDP_Poke_GM2(u8 x, u8 y, u8 value) { VDP_Poke(value, g_ScreenLayoutL
 inline u8 VDP_Peek_GM2(u8 x, u8 y) { return VDP_Peek(g_ScreenLayoutLow + (y * 32) + x, g_ScreenLayoutHigh); }
 
 // Function: VDP_LoadPattern_GM2
-// Load patterns in all 3 screen sections. [MSX1/2/2+/TR]
+// Load tile patterns in all 3 screen sections. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   src    - Address of data buffer to copy to VRAM
@@ -1349,13 +1376,33 @@ inline u8 VDP_Peek_GM2(u8 x, u8 y) { return VDP_Peek(g_ScreenLayoutLow + (y * 32
 void VDP_LoadPattern_GM2(const u8* src, u8 count, u8 offset);
 
 // Function: VDP_LoadColor_GM2
-// Load colors in all 3 screen sections. [MSX1/2/2+/TR]
+// Load tile colors in all 3 screen sections. [MSX1/2/2+/TR]
 //
 // Parameters:
 //   src    - Address of data buffer to copy to VRAM
 //   count  - Number of pattern to copy. Note: A count of 0 mean 256
 //   offset - Pattern index from which to copy data 
 void VDP_LoadColor_GM2(const u8* src, u8 count, u8 offset);
+
+// Function: VDP_LoadBankPattern_GM2
+// Load tile patterns in a given screen section (bank). [MSX1/2/2+/TR]
+//
+// Parameters:
+//   src    - Address of data buffer to copy to VRAM
+//   count  - Number of pattern to copy. Note: A count of 0 mean 256
+//   bank   - Screen section number (bank) from 0 (up) to 2 (bottom). On MSX2 or higher, a 4th bank is accessible via vertical scrolling
+//   offset - Pattern index from which to copy data 
+inline void VDP_LoadBankPattern_GM2(const u8* src, u8 count, u8 bank, u8 offset) { VDP_WriteVRAM(src, g_ScreenPatternLow + (bank * 0x800) + (offset * 8), g_ScreenPatternHigh, count * 8); }
+
+// Function: VDP_LoadBankColor_GM2
+// Load tile colors in a given screen section (bank). [MSX1/2/2+/TR]
+//
+// Parameters:
+//   src    - Address of data buffer to copy to VRAM
+//   count  - Number of pattern to copy. Note: A count of 0 mean 256
+//   bank   - Screen section number (bank) from 0 (up) to 2 (bottom). On MSX2 or higher, a 4th bank is accessible via vertical scrolling
+//   offset - Pattern index from which to copy data 
+inline void VDP_LoadBankColor_GM2(const u8* src, u8 count, u8 bank, u8 offset) { VDP_WriteVRAM(src, g_ScreenColorLow + (bank * 0x800) + (offset * 8), g_ScreenColorHigh, count * 8); }
 
 // Function: VDP_WriteLayout_GM2
 // Copy patterns layout to a given rectangle. [MSX1/2/2+/TR]

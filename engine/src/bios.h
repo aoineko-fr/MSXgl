@@ -60,7 +60,7 @@ void Bios_Exit(u8 ret);
 // Enable or disable key click
 //
 // Parameters:
-//   ret - TRUE to enable and FALSE to disable
+//   enable - TRUE to enable and FALSE to disable
 inline void Bios_SetKeyClick(bool enable) { g_CLIKSW = enable; }
 
 // Function: Bios_GetMSXVersion

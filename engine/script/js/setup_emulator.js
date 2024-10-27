@@ -17,7 +17,8 @@ const util = require("./util.js");
 // INITIALIZATION
 //-----------------------------------------------------------------------------
 
-EmulatorName = path.parse(Emulator).name.toUpperCase();
+const EmulatorName = path.parse(Emulator).name.toUpperCase();
+const EmulatorPath = path.parse(Emulator).dir;
 util.print(`Starting ${EmulatorName} emulator...`, PrintHighlight);
 
 util.print("Emulator configuration:", PrintDetail);
@@ -127,26 +128,24 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulMSXAudio) { EmulatorArgs += " -ext audio"; }
 	if (EmulOPL4)     { EmulatorArgs += " -ext moonsound"; }
 	if (EmulPSG2)     { EmulatorArgs += " -ext 2nd_PSG"; }
-	if (EmulV9990)    { EmulatorArgs += ' -ext gfx9000 -command "set videosource GFX9000"'; }
+	if (EmulV9990)    { EmulatorArgs += ' -ext gfx9000 -command "after time 0 {set videosource gfx9000}"'; }
 
 	//---- Emulator conenctors ----
-	if (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -command "plug joyporta joystick1"'; }
-	if (EmulPortA === "KEYBOARD") { EmulatorArgs += ' -command "plug joyporta keyjoystick1"'; }
+	if (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -command "plug joyporta msxjoystick1"'; }
+	// if (EmulPortA === "KEYBOARD") { EmulatorArgs += ' -command "plug joyporta keyjoystick1"'; }
 	if (EmulPortA === "MOUSE")    { EmulatorArgs += ' -command "plug joyporta mouse"'; }
+	if (EmulPortA === "PADDLE")   { EmulatorArgs += ' -command "plug joyporta arkanoidpad"'; }
 	if (EmulPortA === "NINJATAP") { EmulatorArgs += ' -command "plug joyporta ninjatap"'; }
-	if (EmulPortB === "JOYSTICK") { EmulatorArgs += ' -command "plug joyportb joystick1"'; }
-	if (EmulPortB === "KEYBOARD") { EmulatorArgs += ' -command "plug joyportb keyjoystick2"'; }
+	if (EmulPortB === "JOYSTICK") { EmulatorArgs += ' -command "plug joyportb msxjoystick2"'; }
+	// if (EmulPortB === "KEYBOARD") { EmulatorArgs += ' -command "plug joyportb keyjoystick2"'; }
 	if (EmulPortB === "MOUSE")    { EmulatorArgs += ' -command "plug joyportb mouse"'; }
 	if (EmulPortB === "NINJATAP") { EmulatorArgs += ' -command "plug joyportb ninjatap"'; }
+	if (EmulPortB === "PADDLE")   { EmulatorArgs += ' -command "plug joyportb arkanoidpad"'; }
 
 	//---- Start emulator ----
-	EmulatorArgs += " -ext debugdevice";
-	// EmulatorArgs += ` -script ${ToolsDir}script/openMSX/debugger_pvm.tcl`;
 	if (EmulDebug) {
-		if (fs.existsSync(Debugger) || ( (process.platform === "win32") && fs.existsSync(`${Debugger}.exe`)))
-			util.execSync(`start /b ${Debugger}`);
-		else
-			util.print(`Invalid path to Debugger (${Debugger})`, PrintWarning);
+		EmulatorArgs += " -ext debugdevice";
+		// EmulatorArgs += ` -script ${ToolsDir}script/openMSX/debugger_pvm.tcl`;
 	}
 }
 
@@ -418,5 +417,5 @@ else if (EmulatorName === "MSX") {
 //*****************************************************************************
 
 else {
-	util.print("Unknow emulator! Only EmulExtraParam parameters will be added to the command line", PrintWarning);
+	util.print("Unknown emulator! Only EmulExtraParam parameters will be added to the command line", PrintWarning);
 }
