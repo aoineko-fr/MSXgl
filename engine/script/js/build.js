@@ -560,7 +560,7 @@ if (DoMake)
 	if (PackSegments && MapList.length)
 		mapLibStr = `${OutDir}mapper.lib`;
 
-	let SDCCParam = `-mz80 --vc --no-std-crt0 -L${ToolsDir}${SDCCPath}lib/z80 --code-loc 0x${util.getHex(CodeAddr)} --data-loc 0x${util.getHex(RamAddr)} ${LinkOpt} ${MapperBanks} ${OutDir}${Crt0}.rel ${OutDir}msxgl.lib ${mapLibStr} ${RelList.join(" ")} -o ${OutDir}${ProjName}.ihx`;
+	let SDCCParam = `-mz80 --vc --no-std-crt0 -L${SDCCPath}lib/z80 --code-loc 0x${util.getHex(CodeAddr)} --data-loc 0x${util.getHex(RamAddr)} ${LinkOpt} ${MapperBanks} ${OutDir}${Crt0}.rel ${OutDir}msxgl.lib ${mapLibStr} ${RelList.join(" ")} -o ${OutDir}${ProjName}.ihx`;
 	let err = util.execSync(`"${Linker}" ${SDCCParam}`);
 	if (err)
 	{
