@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("jsx",["Function"],[["JSX_Detect",,[[,,,,0,"File:device/jsx.h:JSX_Detect"]]],["JSX_Read",,[[,,,,0,"File:device/jsx.h:JSX_Read"]]]]);

@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:device/jsx.h","jsx.h");NDSummary.OnSummaryLoaded("File:device/jsx.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[1148,0,1,"Functions","Functions"],[1149,0,0,"JSX_Detect","JSX_Detect"],[1150,0,0,"JSX_Read","JSX_Read"]]);
