@@ -40,6 +40,7 @@ enum MSXi_Mode
 	MODE_GM1,					///< Export name/pattern/color tables for Graphic 1 mode
 	MODE_GM2,					///< Export name/pattern/color tables for Graphic 2 & 3 mode
 	MODE_Sprite,				///< Export 16x16 sprites with specific block ordering (0,2,1,3)
+	MODE_Text,					///< Export name/pattern tables for Text 1 & 2 mode
 	MODE_MGLV,					///< Export movie data in MGLV format
 };
 
@@ -188,7 +189,7 @@ struct ExportParameters
 		bTilesPattern = TRUE;
 		bTilesColor = TRUE;
 		bBLOAD = FALSE;
-		scaleFilter = FILTER_None;
+		scaleFilter = FILTER_Catmull;
 		scaleX = 0;
 		scaleY = 0;
 		flipH = 0;

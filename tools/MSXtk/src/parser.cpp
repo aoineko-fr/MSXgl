@@ -38,7 +38,8 @@ struct RLEHash
 // MSX interface
 //-----------------------------------------------------------------------------
 
-/***/
+//-----------------------------------------------------------------------------
+// Get nearest color index
 u8 GetNearestColorIndex(u32 color, u32* pal, i32 count, i32 offset)
 {
 	u8 bestIndex = 0;
@@ -61,7 +62,8 @@ u8 GetNearestColorIndex(u32 color, u32* pal, i32 count, i32 offset)
 	return bestIndex;
 }
 
-/***/
+//-----------------------------------------------------------------------------
+// Get 8-bit GRB color
 u8 GetGBR8(u32 color, bool bUseTrans, u32 transRGB)
 {
 	RGB24 c24 = RGB24(color);
@@ -85,7 +87,7 @@ u8 GetGBR8(u32 color, bool bUseTrans, u32 transRGB)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Get 16-bit GBR color
 u16 GetGBR16(u32 color, bool bUseTrans, u32 transRGB)
 {
 	RGB24 c24 = RGB24(color);
@@ -105,7 +107,8 @@ u16 GetGBR16(u32 color, bool bUseTrans, u32 transRGB)
 	return c16;
 }
 
-///
+//-----------------------------------------------------------------------------
+// Export a table
 void ExportTable(ExportParameters* param, ExporterInterface* exp, const std::vector<u8>& data, u32 modX)
 {
 	u32 i = 0;
@@ -125,7 +128,8 @@ void ExportTable(ExportParameters* param, ExporterInterface* exp, const std::vec
 
 namespace Pletter { void Export(const std::vector<u8>& in, std::vector<u8>& out); }
 
-///
+//-----------------------------------------------------------------------------
+// Export Pletter data
 void ExportPletter(ExportParameters* param, ExporterInterface* exp, const std::vector<u8>& data)
 {
 	std::vector<u8> out;
@@ -135,7 +139,8 @@ void ExportPletter(ExportParameters* param, ExporterInterface* exp, const std::v
 	ExportTable(param, exp, out, 16);
 }
 
-///
+//-----------------------------------------------------------------------------
+// Export RLEp data
 void ExportRLEp(ExportParameters* param, ExporterInterface* exp, const std::vector<u8>& data)
 {
 	u32 chunk = 0;
@@ -188,13 +193,72 @@ void ExportRLEp(ExportParameters* param, ExporterInterface* exp, const std::vect
 }
 
 //-----------------------------------------------------------------------------
-// EXPORT BITMAP
-//-----------------------------------------------------------------------------
-
-/***/
-bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
+// Prepare image for export
+FIBITMAP* GetPreparedImage(std::string filename, ExportParameters* param)
 {
 	FIBITMAP *dib, *dib32;
+	dib = LoadImage(param->inFile.c_str()); // open and load the file using the default load option
+	if (dib == NULL)
+	{
+		printf("Error: Fail to load %s\n", param->inFile.c_str());
+		return NULL;
+	}
+
+	// Apply transformations
+	if (param->scaleX && param->scaleY)
+	{
+		dib = FreeImage_Rescale(dib, param->scaleX, param->scaleY, (FREE_IMAGE_FILTER)param->scaleFilter);
+		if (dib == NULL)
+		{
+			printf("Error: Fail to rescale image (x:%i, y:%i, filter:%i)\n", param->scaleX, param->scaleY, param->scaleFilter);
+			return NULL;
+		}
+	}
+	if (param->flipH)
+	{
+		if (!FreeImage_FlipHorizontal(dib))
+		{
+			printf("Error: Fail to apply horizontal flip\n");
+			FreeImage_Unload(dib); // free the original dib
+			return NULL;
+		}
+	}
+	if (param->flipV)
+	{
+		if (!FreeImage_FlipVertical(dib))
+		{
+			printf("Error: Fail to apply vertical flip\n");
+			FreeImage_Unload(dib); // free the original dib
+			return NULL;
+		}
+	}
+	if (param->rotAngle != 0)
+	{
+		dib = FreeImage_Rotate(dib, param->rotAngle, NULL);
+		if (dib == NULL)
+		{
+			printf("Error: Fail to rotate image (angle:%i)\n", (i32)param->rotAngle);
+			return NULL;
+		}
+	}
+
+	dib32 = FreeImage_ConvertTo32Bits(dib);
+	FreeImage_Unload(dib); // free the original dib
+
+	return dib32;
+}
+
+//#############################################################################
+//
+// EXPORT BITMAP
+// 
+//#############################################################################
+
+//-----------------------------------------------------------------------------
+// Export bitmap image
+bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
+{
+	FIBITMAP *dib32;
 	i32 i, j, nx, ny, bit, minX, maxX, minY, maxY;
 	RGB24 c24;
 	GRB16 c16;
@@ -205,20 +269,17 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 	u32 headAddr = 0, palAddr = 0;
 	std::vector<u16> sprtAddr;
 
-	dib = LoadImage(param->inFile.c_str()); // open and load the file using the default load option
-	if (dib == NULL)
+	dib32 = GetPreparedImage(param->inFile.c_str(), param); // open and load the file using the default load option
+	if (dib32 == NULL)
 	{
-		printf("Error: Fail to load %s\n", param->inFile.c_str());
+		printf("Error: Fail to prepare 32-bit image\n");
 		return false;
 	}
 
 	// Get 32 bits version
-	dib32 = FreeImage_ConvertTo32Bits(dib);
-	FreeImage_Unload(dib); // free the original dib
 	i32 imageX = FreeImage_GetWidth(dib32);
 	i32 imageY = FreeImage_GetHeight(dib32);
 	i32 scanWidth = FreeImage_GetPitch(dib32);
-	i32 bpp = FreeImage_GetBPP(dib32);
 	BYTE* bits = new BYTE[scanWidth * imageY];
 	FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
 
@@ -831,7 +892,8 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 	return bSaved;
 }
 
-/** Build 256 colors palette */
+//-----------------------------------------------------------------------------
+// Build 256 colors palette
 void Create256ColorsPalette(const char* filename)
 {
 	RGB24 ColorTable[256];
@@ -847,7 +909,8 @@ void Create256ColorsPalette(const char* filename)
 	fclose(file);
 }
 
-/** Build 16 colors palette */
+//-----------------------------------------------------------------------------
+// Build 16 colors palette
 void Create16ColorsPalette(const char* filename)
 {
 	RGB24 ColorTable[256];
@@ -880,11 +943,13 @@ void Create16ColorsPalette(const char* filename)
 	fclose(file);
 }
 
-//-----------------------------------------------------------------------------
+//#############################################################################
+//
 // EXPORT GRAPHIC 1
-//-----------------------------------------------------------------------------
+// 
+//#############################################################################
 
-///
+// GM1 chunk structure
 struct ChunkGM1
 {
 	u8 Color0;
@@ -909,7 +974,7 @@ struct ChunkGM1
 	}
 };
 
-///
+// GM1 group structure
 struct GroupGM1
 {
 	u8 Color0;
@@ -977,7 +1042,8 @@ struct GroupGM1
 	}
 };
 
-///
+//-----------------------------------------------------------------------------
+// Get GM1 chunk ID
 u8 GetChunkIdGM1(std::vector<GroupGM1>& group, ChunkGM1& chunk, ExportParameters* param)
 {
 	// Force color0 to be smaller than color1
@@ -1086,29 +1152,27 @@ u8 GetChunkIdGM1(std::vector<GroupGM1>& group, ChunkGM1& chunk, ExportParameters
 	return static_cast<u8>((group.size() - 1) * 8);
 }
 
-/***/
+//-----------------------------------------------------------------------------
+// Export GM1 image
 bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 {
 	std::vector<GroupGM1> chunkList;
-	FIBITMAP* dib, * dib32;
+	FIBITMAP *dib32;
 
 	//-------------------------------------------------------------------------
 	// Prepare image
 
-	dib = LoadImage(param->inFile.c_str()); // open and load the file using the default load option
-	if (dib == NULL)
+	dib32 = GetPreparedImage(param->inFile.c_str(), param); // open and load the file using the default load option
+	if (dib32 == NULL)
 	{
-		printf("Error: Fail to load %s\n", param->inFile.c_str());
+		printf("Error: Fail to prepare 32-bit image\n");
 		return false;
 	}
 
 	// Get 32 bits raw datas
-	dib32 = FreeImage_ConvertTo32Bits(dib);
-	FreeImage_Unload(dib); // free the original dib
 	i32 imageX = FreeImage_GetWidth(dib32);
 	i32 imageY = FreeImage_GetHeight(dib32);
 	i32 scanWidth = FreeImage_GetPitch(dib32);
-	i32 bpp = FreeImage_GetBPP(dib32);
 	BYTE* bits = new BYTE[scanWidth * imageY];
 	FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
 	FreeImage_Unload(dib32);
@@ -1148,7 +1212,7 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 		u32 numY = layer->numY / 8;
 
 		// Parse image
-		std::vector<u8> layoutBytes;
+		std::vector<u8> layoutTable;
 		for (u32 ny = 0; ny < numY; ny++)
 		{
 			for (u32 nx = 0; nx < numX; nx++)
@@ -1187,7 +1251,7 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 				chunk.Color0 = colors[0];
 				chunk.Color1 = (colors.size() == 2) ? colors[1] : 0xFF;
 				u8 patIdx = GetChunkIdGM1(chunkList, chunk, param);
-				layoutBytes.push_back(patIdx + param->offset);
+				layoutTable.push_back(patIdx + param->offset);
 			}
 		}
 
@@ -1202,11 +1266,11 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 				exp->WriteTableBegin(TABLE_U8, MSX::Format("%sL%i_Names", param->tabName.c_str(), l), "Names Table");
 
 			if (param->bTilesCompressNames && param->comp == MSX::COMPRESS_RLEp)
-				ExportRLEp(param, exp, layoutBytes);
+				ExportRLEp(param, exp, layoutTable);
 			else if (param->bTilesCompressNames && param->comp == MSX::COMPRESS_Pletter)
-				ExportPletter(param, exp, layoutBytes);
+				ExportPletter(param, exp, layoutTable);
 			else
-				ExportTable(param, exp, layoutBytes, numX);
+				ExportTable(param, exp, layoutTable, numX);
 
 			exp->WriteTableEnd("");
 		}
@@ -1291,9 +1355,10 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 		}
 		i32 colorsSize = exp->GetTotalBytes() - namesSize - patternsSize;
 		exp->WriteTableEnd(MSX::Format("Colors size: %i Bytes", colorsSize));
-		exp->WriteLineEnd();
-		exp->WriteCommentLine(MSX::Format("Total size: %i Bytes", exp->GetTotalBytes()));
 	}
+
+	exp->WriteLineEnd();
+	exp->WriteCommentLine(MSX::Format("Total size: %i Bytes", exp->GetTotalBytes()));
 
 	//-------------------------------------------------------------------------
 	// Write file
@@ -1302,18 +1367,21 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 	return bSaved;
 }
 
-//-----------------------------------------------------------------------------
+//#############################################################################
+//
 // EXPORT GRAPHIC 2
-//-----------------------------------------------------------------------------
+// 
+//#############################################################################
 
-///
+// GM2 chunk
 struct ChunkGM2
 {
 	u8 Pattern[8];
 	u8 Color[8];
 };
 
-///
+//-----------------------------------------------------------------------------
+// Get GM3 chunk ID
 u8 GetChunkIdGM2(std::vector<ChunkGM2>& list, const ChunkGM2& chunk, ExportParameters* param)
 {
 	if (!param->bTilesUnique)
@@ -1333,29 +1401,27 @@ u8 GetChunkIdGM2(std::vector<ChunkGM2>& list, const ChunkGM2& chunk, ExportParam
 	return (u8)(list.size() - 1);
 }
 
-/***/
+//-----------------------------------------------------------------------------
+// Export GM2
 bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 {
 	std::vector<ChunkGM2> chunkList;
-	FIBITMAP* dib, * dib32;
+	FIBITMAP *dib32;
 
 	//-------------------------------------------------------------------------
 	// Prepare image
 
-	dib = LoadImage(param->inFile.c_str()); // open and load the file using the default load option
-	if (dib == NULL)
+	dib32 = GetPreparedImage(param->inFile.c_str(), param); // open and load the file using the default load option
+	if (dib32 == NULL)
 	{
-		printf("Error: Fail to load %s\n", param->inFile.c_str());
+		printf("Error: Fail to prepare 32-bit image\n");
 		return false;
 	}
 
 	// Get 32 bits raw datas
-	dib32 = FreeImage_ConvertTo32Bits(dib);
-	FreeImage_Unload(dib); // free the original dib
 	i32 imageX = FreeImage_GetWidth(dib32);
 	i32 imageY = FreeImage_GetHeight(dib32);
 	i32 scanWidth = FreeImage_GetPitch(dib32);
-	i32 bpp = FreeImage_GetBPP(dib32);
 	BYTE* bits = new BYTE[scanWidth * imageY];
 	FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
 	FreeImage_Unload(dib32);
@@ -1395,7 +1461,7 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 		u32 numY = layer->numY / 8;
 
 		// Parse image
-		std::vector<u8> layoutBytes;
+		std::vector<u8> layoutTable;
 		for (u32 ny = 0; ny < numY; ny++)
 		{
 			for (u32 nx = 0; nx < numX; nx++)
@@ -1444,7 +1510,7 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 				}
 
 				u8 patIdx = GetChunkIdGM2(chunkList, chunk, param);
-				layoutBytes.push_back(patIdx + param->offset);
+				layoutTable.push_back(patIdx + param->offset);
 			}
 		}
 
@@ -1459,11 +1525,11 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 				exp->WriteTableBegin(TABLE_U8, MSX::Format("%sL%i_Names", param->tabName.c_str(), l), "Names Table");
 
 			if (param->bTilesCompressNames && param->comp == MSX::COMPRESS_RLEp)
-				ExportRLEp(param, exp, layoutBytes);
+				ExportRLEp(param, exp, layoutTable);
 			else if (param->bTilesCompressNames && param->comp == MSX::COMPRESS_Pletter)
-				ExportPletter(param, exp, layoutBytes);
+				ExportPletter(param, exp, layoutTable);
 			else
-				ExportTable(param, exp, layoutBytes, numX);
+				ExportTable(param, exp, layoutTable, numX);
 
 			exp->WriteTableEnd("");
 		}
@@ -1548,9 +1614,10 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 		}
 		i32 colorsSize = exp->GetTotalBytes() - namesSize - patternsSize;
 		exp->WriteTableEnd(MSX::Format("Colors size: %i Bytes", colorsSize));
-		exp->WriteLineEnd();
-		exp->WriteCommentLine(MSX::Format("Total size: %i Bytes", exp->GetTotalBytes()));
 	}
+
+	exp->WriteLineEnd();
+	exp->WriteCommentLine(MSX::Format("Total size: %i Bytes", exp->GetTotalBytes()));
 
 	//-------------------------------------------------------------------------
 	// Write file
@@ -1559,11 +1626,14 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 	return bSaved;
 }
 
-//-----------------------------------------------------------------------------
+//#############################################################################
+//
 // EXPORT SPRITES
-//-----------------------------------------------------------------------------
+// 
+//#############################################################################
 
-/// Convert color to binary value according to layer configuration
+//-----------------------------------------------------------------------------
+// Convert color to binary value according to layer configuration
 i32 ColorToBinary(Layer& layer, u32 c24)
 {
 	std::vector<u32>::iterator it;
@@ -1580,7 +1650,8 @@ i32 ColorToBinary(Layer& layer, u32 c24)
 	}
 }
 
-/// Export a 8x8 sprite data (1-bit per point)
+//-----------------------------------------------------------------------------
+// Export a 8x8 sprite data (1-bit per point)
 void ExportSpriteData(ExportParameters* param, ExporterInterface* exp, Layer& layer, i32 sid, i32 x, i32 y, BYTE* bits, i32 imageX, i32 imageY, std::vector<u8> &rawData)
 {
 	if (param->comp == MSX::COMPRESS_None)
@@ -1617,30 +1688,28 @@ void ExportSpriteData(ExportParameters* param, ExporterInterface* exp, Layer& la
 	}
 }
 
-/***/
+//-----------------------------------------------------------------------------
+// Export sprite sheet
 bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 {
-	FIBITMAP* dib, * dib32;
+	FIBITMAP *dib32;
 	u32 sid = 0; // sprite id
 	std::vector<u8> rawData;
 
 	//-------------------------------------------------------------------------
 	// Prepare image
 
-	dib = LoadImage(param->inFile.c_str()); // open and load the file using the default load option
-	if (dib == NULL)
+	dib32 = GetPreparedImage(param->inFile.c_str(), param); // open and load the file using the default load option
+	if (dib32 == NULL)
 	{
-		printf("Error: Fail to load %s\n", param->inFile.c_str());
+		printf("Error: Fail to prepare 32-bit image\n");
 		return false;
 	}
 
 	// Get 32 bits raw datas
-	dib32 = FreeImage_ConvertTo32Bits(dib);
-	FreeImage_Unload(dib); // free the original dib
 	i32 imageX = FreeImage_GetWidth(dib32);
 	i32 imageY = FreeImage_GetHeight(dib32);
 	i32 scanWidth = FreeImage_GetPitch(dib32);
-	i32 bpp = FreeImage_GetBPP(dib32);
 	BYTE* bits = new BYTE[scanWidth * imageY];
 	FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
 	FreeImage_Unload(dib32);
@@ -1729,6 +1798,242 @@ bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 
 	return bSaved;
 }
+
+//#############################################################################
+//
+// EXPORT TEXT
+// 
+//#############################################################################
+
+// SC0 chunk structure
+struct ChunkSC0
+{
+	u8 Pattern[8];
+	u8 Coverage;
+	u8 Usage;
+
+	// Check if chunks are equals
+	bool IsEqual(ChunkSC0& chunk)
+	{
+		loop(i, 8)
+			if (chunk.Pattern[i] != Pattern[i])
+				return false;
+		return true;
+	}
+
+	// Compute chunk information
+	void Compute()
+	{
+		Coverage = 0;
+		loop(i, 8)
+		{
+			loop(j, 8)
+			{
+				if (Pattern[i] & (1 << j))
+					Coverage++;
+			}
+		}
+	}
+
+	// Return empty chunk
+	static ChunkSC0 Empty()
+	{
+		ChunkSC0 chunk;
+		loop(i, 8)
+			chunk.Pattern[i] = 0;
+		return chunk;
+	}
+
+	// Return full chunk
+	static ChunkSC0 Full()
+	{
+		ChunkSC0 chunk;
+		loop(i, 8)
+			chunk.Pattern[i] = 0xFC;
+		return chunk;
+	}
+};
+
+//-----------------------------------------------------------------------------
+// Export TEXT image
+u16 GetChunkIdSC0(std::vector<ChunkSC0>& list, ChunkSC0& chunk, ExportParameters* param)
+{
+	for (u32 i = 0; i < list.size(); i++)
+	{
+		if (list[i].IsEqual(chunk))
+		{
+			list[i].Usage++;
+			return i;
+		}
+	}
+
+	chunk.Usage = 1;
+	chunk.Compute();
+	list.push_back(chunk);
+	
+	return (u16)list.size() - 1;
+}
+
+//-----------------------------------------------------------------------------
+// Export TEXT image
+bool ExportText(ExportParameters* param, ExporterInterface* exp)
+{
+	//-------------------------------------------------------------------------
+	// Prepare image
+
+	FIBITMAP* dib32 = GetPreparedImage(param->inFile.c_str(), param); // open and load the file using the default load option
+	if (dib32 == NULL)
+	{
+		printf("Error: Fail to prepare 32-bit image\n");
+		return false;
+	}
+	// Get 2 colors image
+	if (param->dither == DITHER_None)
+	{
+		FIBITMAP* dib1 = FreeImage_Threshold(dib32, 192);
+		dib32 = FreeImage_ConvertTo32Bits(dib1);
+	}
+	else
+	{
+		FIBITMAP* dib1 = FreeImage_Dither(dib32, (FREE_IMAGE_DITHER)param->dither);
+		dib32 = FreeImage_ConvertTo32Bits(dib1);
+	}
+
+	// Get 32 bits raw datas
+	i32 imageX = FreeImage_GetWidth(dib32);
+	i32 imageY = FreeImage_GetHeight(dib32);
+	i32 scanWidth = FreeImage_GetPitch(dib32);
+	BYTE* bits = new BYTE[scanWidth * imageY];
+	FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
+	FreeImage_Unload(dib32);
+
+	// Check image size
+	if ((param->sizeX == 0) || (param->sizeY == 0))
+	{
+		param->posX = param->posY = 0;
+		param->sizeX = imageX;
+		param->sizeY = imageY;
+	}
+
+	// File header
+	exp->WriteHeader();
+
+	std::vector<ChunkSC0> chunkList;
+	std::vector<u16> layoutTable;
+	u32 numX = param->sizeX / 6;
+	u32 numY = param->sizeY / 8;
+
+	//-------------------------------------------------------------------------
+	// Parse data chunks
+	for (u32 ny = 0; ny < numY; ny++)
+	{
+		for (u32 nx = 0; nx < numX; nx++)
+		{
+			// Generate chunk
+			ChunkSC0 chunk;
+			for (i32 j = 0; j < 8; j++) // Y
+			{
+				u8 pattern = 0;
+				for (i32 i = 0; i < 6; i++) // X
+				{
+					i32 idx = param->posX + i + (nx * 6) + ((param->posY + j + (ny * 8)) * imageX);
+					u32 c24 = 0xFFFFFF & ((u32*)bits)[idx];
+					if(c24)
+						pattern |= 1 << (7 - i);
+				}
+				chunk.Pattern[j] = pattern;
+			}
+			u16 patIdx = GetChunkIdSC0(chunkList, chunk, param);
+			layoutTable.push_back(patIdx + param->offset);
+		}
+	}
+
+	delete[] bits;
+
+	//-------------------------------------------------------------------------
+	// Analyze and prepare for export
+
+	if (chunkList.size() > 256)
+	{
+		printf("Warning: Image needs more than 256 patterns (needed patterns: %i).\n", (i32)chunkList.size());
+	}
+
+	std::vector<u8> layoutTableU8;
+	layoutTableU8.resize(layoutTable.size());
+	loop(i, layoutTable.size())
+		layoutTableU8[i] = (u8)layoutTable[i];
+
+	//-------------------------------------------------------------------------
+	// Layout table
+	u32 namesSize = 0;
+	if (param->bTilesName)
+	{
+		exp->WriteTableBegin(TABLE_U8, param->tabName + "_Names", "Names Table");
+
+		if (param->bTilesCompressNames && param->comp == MSX::COMPRESS_RLEp)
+			ExportRLEp(param, exp, layoutTableU8);
+		else if (param->bTilesCompressNames && param->comp == MSX::COMPRESS_Pletter)
+			ExportPletter(param, exp, layoutTableU8);
+		else
+			ExportTable(param, exp, layoutTableU8, numX);
+
+		namesSize = exp->GetTotalBytes();
+		exp->WriteTableEnd(MSX::Format("Names size: %i Bytes", namesSize));
+	}
+
+	//-------------------------------------------------------------------------
+	// Patterns table
+	i32 patternsSize = 0;
+	if (param->bTilesPattern)
+	{
+		exp->WriteTableBegin(TABLE_U8, param->tabName + "_Patterns", "Patterns Table");
+		if (param->comp != MSX::COMPRESS_None)
+		{
+			// Build data
+			std::vector<u8> bytes;
+			for (i32 i = 0; i < (i32)chunkList.size(); i++)
+				for (i32 j = 0; j < 8; j++)
+					bytes.push_back(chunkList[i].Pattern[j]);
+
+			// Compress
+			if (param->comp == MSX::COMPRESS_RLEp)
+				ExportRLEp(param, exp, bytes);
+			else if (param->comp == MSX::COMPRESS_Pletter)
+				ExportPletter(param, exp, bytes);
+		}
+		else
+		{
+			for (i32 i = 0; i < (i32)chunkList.size(); i++)
+			{
+				// Print sprite header
+				exp->WriteSpriteHeader(i + param->offset);
+				for (i32 j = 0; j < 8; j++)
+				{
+					exp->WriteLineBegin();
+					exp->Write8BitsData(chunkList[i].Pattern[j]);
+					exp->WriteLineEnd();
+				}
+			}
+		}
+		patternsSize = exp->GetTotalBytes() - namesSize;
+		exp->WriteTableEnd(MSX::Format("Patterns size: %i Bytes", patternsSize));
+	}
+
+	exp->WriteLineEnd();
+	exp->WriteCommentLine(MSX::Format("Total size: %i Bytes", exp->GetTotalBytes()));
+
+	//-------------------------------------------------------------------------
+	// Write file
+	bool bSaved = exp->Export();
+
+	return bSaved;
+}
+
+//#############################################################################
+//
+// EXPORT MGLV
+// 
+//#############################################################################
 
 // MGLV data chunk
 struct MGLVChunk
@@ -1910,7 +2215,7 @@ MGLVChunk MGLVGetNextChunk(const std::vector<u8>& curData, const std::vector<u8>
 }
 
 //-----------------------------------------------------------------------------
-/** Convert multiple images into MGLV video data */
+// Convert multiple images into MGLV video data
 bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 {
 	// Individual image exporter parameters
@@ -2086,7 +2391,8 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 // PARSE IMAGE
 //-----------------------------------------------------------------------------
 
-/***/
+//-----------------------------------------------------------------------------
+// Invoke the selected mode's exporter
 bool ParseImage(ExportParameters* param, ExporterInterface* exp)
 {
 	switch (param->mode)
@@ -2096,6 +2402,7 @@ bool ParseImage(ExportParameters* param, ExporterInterface* exp)
 	case MODE_GM1:		return ExportGM1(param, exp);
 	case MODE_GM2:		return ExportGM2(param, exp);
 	case MODE_Sprite:	return ExportSprite(param, exp);
+	case MODE_Text:		return ExportText(param, exp);
 	case MODE_MGLV:		return ExportMGLV(param, exp);
 	};
 }

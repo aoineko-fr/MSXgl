@@ -17,6 +17,7 @@
 #include <string.h>
 #include <string>
 #include <vector>
+#include <map>
 // FreeImage
 #include "FreeImage.h"
 // MSXi
@@ -26,6 +27,57 @@
 #include "exporter.h"
 #include "image.h"
 #include "parser.h"
+
+#define KILO(x) (1024*(x))
+#define MEGA(x) (1024*1024*(x))
+#define GIGA(x) (1024*1024*1024*(x))
+#define TERA(x) (1024*1024*1024*1024*(x))
+
+
+// Named values table
+std::map<const c8*, u32> g_NamedValue =
+{
+	{ "1K",   KILO(1) },
+	{ "2K",   KILO(2) },
+	{ "4K",   KILO(4) },
+	{ "8K",   KILO(8) },
+	{ "16K",  KILO(16) },
+	{ "24K",  KILO(24) },
+	{ "32K",  KILO(32) },
+	{ "48K",  KILO(48) },
+	{ "64K",  KILO(64) },
+	{ "128K", KILO(128) },
+	{ "256K", KILO(256) },
+	{ "512K", KILO(512) },
+	{ "1M",   MEGA(1) },
+	{ "2M",   MEGA(2) },
+	{ "4M",   MEGA(4) },
+	{ "8M",   MEGA(8) },
+	{ "16M",  MEGA(16) },
+	{ "32M",  MEGA(32) },
+	{ "64M",  MEGA(64) },
+	{ "128M", MEGA(128) },
+	{ "256M", MEGA(256) },
+	{ "512M", MEGA(512) },
+	{ "1G",   GIGA(1) },
+};
+
+//-----------------------------------------------------------------------------
+// 
+u32 GetValue(std::string name)
+{
+	// Named value
+	for (std::map<const c8*, u32>::iterator it = g_NamedValue.begin(); it != g_NamedValue.end(); ++it)
+		if (MSX::StrEqual(name.c_str(), it->first))
+			return it->second;
+
+	// Hexadecimal
+	if ((name[0] == '0') && (name[1] == 'x'))
+		return strtol(name.c_str(), NULL, 16);
+
+	// Decimal
+	return atol(name.c_str());
+}
 
 /// Check if filename contains the given extension
 bool HaveExt(const std::string& str, const std::string& ext)
@@ -70,36 +122,40 @@ void PrintHelp()
 	printf("MSXimg (v%s)\n", MSXi_VERSION);
 	printf("Usage: MSXimg <filename> [options]\n");
 	printf("\n");
-	printf("Options:\n");
-	printf(" inputFile        Input file name. Can be 8/16/24/32 bits image\n");
+	printf("General options:\n");
+	printf(" filename         Input filename. Can be 8, 16, 24 or 32 bits image\n");
 	printf("                  Supported format: BMP, JPEG, PCX, PNG, TGA, PSD, GIF, etc.\n");
-	printf(" -out outFile     Output file name\n");
-	printf(" -format ?        Output format\n");
-	printf("    auto          Auto-detected using output file extension (default)\n");
-	printf("    c             C header file output\n");
-	printf("    asm           Assembler header file output\n");
-	printf("    bas           BASIC listing file output\n");
-	printf("    bin           Raw binary data image\n");
+	printf(" -out outFile     Output filename\n");
+	printf(" -format ?        Output file format\n");
+	printf("    auto          Auto-detected from output file extension (default)\n");
+	printf("    c             C header file output (auto selected for .H or .INC file)\n");
+	printf("    asm           Assembler header file output (auto selected for .ASM or .S file)\n");
+	printf("    bas           BASIC listing file output (auto selected for .BAS or .LST file)\n");
+	printf("    bin           Raw binary data image (auto selected for .BIN or .ROW file)\n");
 	printf(" -name name       Name of the table to generate\n");
 	printf(" -mode ?          Exporter mode\n");
 	printf("    bmp           Export image as bitmap (default)\n");
+	printf("    txt           Generate all tables for Text mode 1 or 2 (Screen 0)\n");
 	printf("    gm1           Generate all tables for Graphic mode 1 (Screen 1)\n");
 	printf("    gm2           Generate all tables for Graphic mode 2 or 3 (Screen 2 or 4)\n");
 	printf("    sprt          Export 16x16 sprites with specific block ordering\n");
 	printf("    mglv          MGLV video format from multiple image\n");
 	printf(" -pos x y         Start position in the input image\n");
 	printf(" -size x y        Width/height of a block to export (if 0, use image size)\n");
-	printf(" -gap x y         Gap between blocks in pixels\n");
 	printf(" -num x y         Number of block to export (columns/rows number)\n");
-	printf(" -l ? sx sy nx ny col1 (col2, col3, ...)\n");
+	printf(" -gap x y         Gap between blocks in pixels\n");
+	printf(" -l ? sx sy nx ny col1 [col2 col3 ...]\n");
 	printf("                  Layer including the given color(s) (coordinate are relative to each expoted block)\n");
-	printf("    i8            8x8 sprites layer with only provided colors\n");
-	printf("    i16           16x16 sprites layer with only provided colors\n");
-	printf("    e8            8x8 sprites layer with all colors but the provided ones\n");
-	printf("    e16           16x16 sprites layer with all colors but the provided ones\n");
+	printf("    i8            Include 8x8 sprites layer with only provided colors\n");
+	printf("    i16           Include 16x16 sprites layer with only provided colors\n");
+	printf("    e8            Exclude 8x8 sprites layer with all colors but the provided ones\n");
+	printf("    e16           Exclude 16x16 sprites layer with all colors but the provided ones\n");
 	printf("                  sx/sy is layer start position in pixel in a block\n");
 	printf("                  nx/ny is layer size in sprite count (1 equal 8 or 16 according to sprite size)\n");
 	printf("                  Colors are in RGB 24 bits format (0xFFFFFF)\n");
+	printf(" -help            Display this help\n");
+	printf("\n");
+	printf("Color options:\n");
 	printf(" -trans color     Transparency color (in RGB 24 bits format : 0xFFFFFF)\n");
 	printf(" -opacity color   Opacity color (in RGB 24 bits format : 0xFFFFFF). All other colors are considered transparent\n");
 	printf(" -bpc ?           Number of bits per color for the output image (support 1, 4 and 8-bits)\n");
@@ -108,13 +164,35 @@ void PrintHelp()
 	printf("    4	           4-bits index in 16 colors palette\n");
 	printf("    8	           8 bits RGB 256 colors (format: [G:3|R:3|B2]; default)\n");
 	printf("    16	           16-bits RGB colors  (format: [G:5|R:5|B5])\n");
-	printf(" -pal             Palette to use for 16 colors mode\n");
+	printf(" -pal ?           Palette to use for 16 colors mode\n");
 	printf("    msx1          Use default MSX1 palette\n");
 	printf("    custom        Generate a custom palette and add it to the output file\n");
 	printf("    input n [c1 c2 ...] Use the following colors for conversion\n");
 	printf(" --palcount n     Number of color in the custom palette to create (default: 15)\n");
 	printf(" --paloff n       Index offset of the palette (default: 1)\n");
 	printf(" --pal24          Use 24-bits palette (for v9990; default: false)\n");
+	printf(" -dither ?        Dithering method (for 1-bit color only)\n");
+	printf("    none          No dithering (default)\n");
+	printf("    floyd         Floyd & Steinberg error diffusion algorithm\n");
+	printf("    bayer4        Bayer ordered dispersed dot dithering (order 2 – 4x4 - dithering matrix)\n");
+	printf("    bayer8        Bayer ordered dispersed dot dithering (order 3 – 8x8 - dithering matrix)\n");
+	printf("    bayer16       Bayer ordered dispersed dot dithering (order 4 – 16x16 dithering matrix)\n");
+	printf("    cluster6      Ordered clustered dot dithering (order 3 - 6x6 matrix)\n");
+	printf("    cluster8      Ordered clustered dot dithering (order 4 - 8x8 matrix)\n");
+	printf("    cluster16     Ordered clustered dot dithering (order 8 - 16x16 matrix)\n");
+	printf("\n");
+	printf("Transformations\n");
+	printf(" -vflip           Vertical flip\n");
+	printf(" -hflip           Horizontal flip\n");
+	printf(" -rot x           Rotate image by X° (positive integer value)\n");
+	printf(" -resize x y      Resize the image to the given width & height (before starting export)\n");
+	printf(" -filter ?        Resize image filter\n");
+	printf("    box           Box, pulse, Fourier window, 1st order (constant) B-Spline\n");
+	printf("    bilinear      Bilinear filter\n");
+	printf("    bspline       4th order(cubic) B - Spline\n");
+	printf("    bicubic       Mitchell and Netravali's two-param cubic filter\n");
+	printf("    catmull       Catmull - Rom spline, Overhauser spline (default)\n");
+	printf("    lanczos       Lanczos - windowed sinc filter\n");
 	printf(" -compress ?\n");
 	printf("    none          No compression (default)\n");
 	printf("    crop16        Crop image to non transparent area (4-bits, max size 16x16)\n");
@@ -130,15 +208,9 @@ void PrintHelp()
 	printf("    auto          Determine a good compression method according to parameters\n");
 	printf("    best          Search for best compressor according to input parameters (smallest data)\n");
 	printf("    pletter       Pletter v0.5c1 by XL2S Entertainment\n");
-	printf(" -dither ?        Dithering method (for 1-bit color only)\n");
-	printf("    none          No dithering (default)\n");
-	printf("    floyd         Floyd & Steinberg error diffusion algorithm\n");
-	printf("    bayer4        Bayer ordered dispersed dot dithering (order 2 – 4x4 - dithering matrix)\n");
-	printf("    bayer8        Bayer ordered dispersed dot dithering (order 3 – 8x8 - dithering matrix)\n");
-	printf("    bayer16       Bayer ordered dispersed dot dithering (order 4 – 16x16 dithering matrix)\n");
-	printf("    cluster6      Ordered clustered dot dithering (order 3 - 6x6 matrix)\n");
-	printf("    cluster8      Ordered clustered dot dithering (order 4 - 8x8 matrix)\n");
-	printf("    cluster16     Ordered clustered dot dithering (order 8 - 16x16 matrix)\n");
+	printf(" -skip            Skip empty sprites (default: false)\n");
+	printf("\n");
+	printf("Exporter options:\n");
 	printf(" -data ?          Text format for numbers\n");
 	printf("    dec           Decimal data (c & asm)\n");
 	printf("    hexa          Default hexadecimal data (depend on langage; default)\n");
@@ -152,22 +224,21 @@ void PrintHelp()
 	printf("    tniasm        tniASM format\n");
 	printf("    asmsx         asMSX format\n");
 	printf("    sjasm         Sjasm format\n");
-	printf(" -skip            Skip empty sprites (default: false)\n");
 	printf(" -idx             Add images index table (default: false)\n");
+	printf(" -notitle         Remove the ASCII-art title in top of exported text file\n");
 	printf(" -copy (file)     Add copyright information from text file\n");
 	printf("                  If file name is empty, search for <inputFile>.txt\n");
 	printf(" -head            Add a header table contening input parameters (default: false)\n");
+	printf(" -bload           Add header for BLOAD image (default: false)\n");
 	printf(" -font x y f l    Add font header (default: false)\n");
 	printf("                  x/y: Font width/heigt in pixels\n");
 	printf("                  f/l: ASCII code of the first/last character to export\n");
 	printf("                  Can be character (like: &) or hexadecimal value (0xFF format)\n");
-	printf(" -offset x        Offset of layout index for GM1 et GM2 mode (default: 0)\n");
 	printf(" -at x            Data starting address (can be decimal or hexadecimal starting with '0x')\n");
 	printf(" -def             Add defines for each table\n");
-	printf(" -notitle         Remove the ASCII-art title in top of exported text file\n");
-	printf(" --bload          Add header for BLOAD image (default: false)\n");
-	printf(" -help            Display this help\n");
+	printf("\n");
 	printf("GM1 & GM2 specific options:\n");
+	printf(" -offset x        Offset of layout index for GM1 et GM2 mode (default: 0)\n");
 	printf(" --tilesComp      Compress also names/layout table (default: false)\n");
 	printf(" --tilesUnique    Export all tiles as unique (default: false)\n");
 	printf(" --noTilesName    Exclude name table (default: false)\n");
@@ -203,6 +274,7 @@ void PrintHelp()
 //const char* ARGV[] = { "", "../testcases/poc2.png", "-out", "../testcases/room5.h", "-mode", "gm1", "--noTilesName", "", "-name", "g_DataRoom0", "-pos", "0", "0", "-size", "256", "192" };
 //const char* ARGV[] = { "", "../testcases/poc2.png", "-out", "../testcases/room5.bas", "-format", "bas", "-data", "hexaraw", "-mode", "gm1", "-name", "g_DataRoom0", "-pos", "0", "0", "-size", "256", "192" };
 //const char* ARGV[] = { "", "../testcases/JoyAndHeron", "-out", "../testcases/JoyAndHeron.mglv", "-mode", "mglv", "-format", "bin", "-size", "256", "144", "-bpc", "4", "-pal", "custom" };
+//const char* ARGV[] = { "", "../testcases/image03.png", "-out", "../testcases/screen0.h", "-mode", "sc0", "-size", "150", "150" };
 //#define DEBUG_ARGS
 
 /** Main entry point
@@ -260,23 +332,23 @@ int main(int argc, const char* argv[])
 		}
 		else if(MSX::StrEqual(argv[i], "-pos")) // Extract start position
 		{
-			param.posX = atoi(argv[++i]);
-			param.posY = atoi(argv[++i]);
+			param.posX = GetValue(argv[++i]);
+			param.posY = GetValue(argv[++i]);
 		}
 		else if(MSX::StrEqual(argv[i], "-size")) // Block size
 		{
-			param.sizeX = atoi(argv[++i]);
-			param.sizeY = atoi(argv[++i]);
+			param.sizeX = GetValue(argv[++i]);
+			param.sizeY = GetValue(argv[++i]);
 		}
 		else if (MSX::StrEqual(argv[i], "-gap")) // Gap between blocks
 		{
-			param.gapX = atoi(argv[++i]);
-			param.gapY = atoi(argv[++i]);
+			param.gapX = GetValue(argv[++i]);
+			param.gapY = GetValue(argv[++i]);
 		}		
 		else if(MSX::StrEqual(argv[i], "-num")) // Column/rows blocks count
 		{
-			param.numX = atoi(argv[++i]);
-			param.numY = atoi(argv[++i]);
+			param.numX = GetValue(argv[++i]);
+			param.numY = GetValue(argv[++i]);
 		}
 		else if (MSX::StrEqual(argv[i], "-name")) // Data table name
 		{
@@ -284,7 +356,7 @@ int main(int argc, const char* argv[])
 		}
 		else if(MSX::StrEqual(argv[i], "-bpc")) // Byte per color
 		{
-			param.bpc = atoi(argv[++i]);
+			param.bpc = GetValue(argv[++i]);
 		}
 		else if(MSX::StrEqual(argv[i], "-trans")) // Use transparency color
 		{
@@ -306,7 +378,7 @@ int main(int argc, const char* argv[])
 			else if (MSX::StrEqual(argv[i], "input"))
 			{
 				param.palType = PALETTE_Input;
-				param.palCount = atoi(argv[++i]);
+				param.palCount = GetValue(argv[++i]);
 				param.palInput.clear();
 				for (i32 j = 0; j < param.palCount; j++)
 				{
@@ -318,11 +390,11 @@ int main(int argc, const char* argv[])
 		}
 		else if (MSX::StrEqual(argv[i], "--palcount") || MSX::StrEqual(argv[i], "-palcount")) // Palette count
 		{
-			param.palCount = atoi(argv[++i]);
+			param.palCount = GetValue(argv[++i]);
 		}		
 		else if (MSX::StrEqual(argv[i], "--paloff") || MSX::StrEqual(argv[i], "-paloff")) // Palette offset
 		{
-			param.palOffset = atoi(argv[++i]);
+			param.palOffset = GetValue(argv[++i]);
 		}
 		else if (MSX::StrEqual(argv[i], "--pal24") || MSX::StrEqual(argv[i], "-pal24")) // Palette 24b
 		{
@@ -425,14 +497,36 @@ int main(int argc, const char* argv[])
 			i++;
 			if (MSX::StrEqual(argv[i], "bmp"))
 				param.mode = MODE_Bitmap;
-			else if (MSX::StrEqual(argv[i], "gm1"))
+			else if (MSX::StrEqual(argv[i], "sc5"))
+			{
+				param.mode = MODE_Bitmap;
+				param.bpc = 4;
+			}
+			else if (MSX::StrEqual(argv[i], "sc6"))
+			{
+				param.mode = MODE_Bitmap;
+				param.bpc = 2;
+			}
+			else if (MSX::StrEqual(argv[i], "sc7"))
+			{
+				param.mode = MODE_Bitmap;
+				param.bpc = 4;
+			}
+			else if (MSX::StrEqual(argv[i], "sc8"))
+			{
+				param.mode = MODE_Bitmap;
+				param.bpc = 8;
+			}
+			else if (MSX::StrEqual(argv[i], "gm1") || MSX::StrEqual(argv[i], "sc1"))
 				param.mode = MODE_GM1;
-			else if (MSX::StrEqual(argv[i], "gm2"))
+			else if (MSX::StrEqual(argv[i], "gm2") || MSX::StrEqual(argv[i], "sc2") || MSX::StrEqual(argv[i], "gm3") || MSX::StrEqual(argv[i], "sc4"))
 				param.mode = MODE_GM2;
 			else if (MSX::StrEqual(argv[i], "sprt"))
 				param.mode = MODE_Sprite;
 			else if (MSX::StrEqual(argv[i], "mglv"))
 				param.mode = MODE_MGLV;
+			else if (MSX::StrEqual(argv[i], "txt") || MSX::StrEqual(argv[i], "sc0"))
+				param.mode = MODE_Text;
 		}
 		else if (MSX::StrEqual(argv[i], "-skip")) // Skip empty blocks
 		{
@@ -461,8 +555,8 @@ int main(int argc, const char* argv[])
 		else if (MSX::StrEqual(argv[i], "-font")) // Add font data header
 		{
 			param.bAddFont = true;
-			param.fontX = atoi(argv[++i]);
-			param.fontY = atoi(argv[++i]);
+			param.fontX = GetValue(argv[++i]);
+			param.fontY = GetValue(argv[++i]);
 			i++;
 			if(strlen(argv[i]) > 1) // is hexadecimal? (in '0xFF' format)
 				param.fontFirst = (c8)strtol(argv[i], NULL, 16);
@@ -486,7 +580,7 @@ int main(int argc, const char* argv[])
 		}
 		else if (MSX::StrEqual(argv[i], "-offset")) // Offset
 		{
-			param.offset = atoi(argv[++i]);
+			param.offset = GetValue(argv[++i]);
 		}
 		else if (MSX::StrEqual(argv[i], "-notitle")) // Remove title
 		{
@@ -516,10 +610,10 @@ int main(int argc, const char* argv[])
 				l.size16 = true;
 				l.include = false;
 			}
-			l.posX = atoi(argv[++i]);
-			l.posY = atoi(argv[++i]);
-			l.numX = atoi(argv[++i]);
-			l.numY = atoi(argv[++i]);
+			l.posX = GetValue(argv[++i]);
+			l.posY = GetValue(argv[++i]);
+			l.numX = GetValue(argv[++i]);
+			l.numY = GetValue(argv[++i]);
 			while((i < argc - 1) && (argv[i+1][0] != '-'))
 			{
 				u32 c24;
@@ -535,7 +629,7 @@ int main(int argc, const char* argv[])
 			}
 			param.layers.push_back(l);
 		}
-		else if (MSX::StrEqual(argv[i], "--bload")) // Add header for BLOAD image
+		else if (MSX::StrEqual(argv[i], "-bload") || MSX::StrEqual(argv[i], "--bload")) // Add header for BLOAD image
 		{
 			param.bBLOAD = true;
 		}
@@ -559,6 +653,39 @@ int main(int argc, const char* argv[])
 		else if (MSX::StrEqual(argv[i], "--noTilesColor")) // GM2 include color table
 		{
 			param.bTilesColor = false;
+		}
+		else if (MSX::StrEqual(argv[i], "-vflip")) // Vertical flip
+		{
+			param.flipV = true;
+		}
+		else if (MSX::StrEqual(argv[i], "-hflip")) // Horizontal flip
+		{
+			param.flipH = true;
+		}
+		else if (MSX::StrEqual(argv[i], "-rot")) // Rotate image by X°
+		{
+			param.rotAngle = (f32)GetValue(argv[++i]);
+		}
+		else if (MSX::StrEqual(argv[i], "-resize")) // Resize the image to the given width & height (before starting export)
+		{
+			param.scaleX = GetValue(argv[++i]);
+			param.scaleY = GetValue(argv[++i]);
+		}
+		else if (MSX::StrEqual(argv[i], "-filter")) // Resize image filter
+		{
+			i++;
+			if (MSX::StrEqual(argv[i], "box"))
+				param.scaleFilter = FILTER_Box;
+			else if (MSX::StrEqual(argv[i], "bilinear"))
+				param.scaleFilter = FILTER_Bilinear;
+			else if (MSX::StrEqual(argv[i], "bspline"))
+				param.scaleFilter = FILTER_BSpline;
+			else if (MSX::StrEqual(argv[i], "bicubic"))
+				param.scaleFilter = FILTER_Bicubic;
+			else if (MSX::StrEqual(argv[i], "catmull"))
+				param.scaleFilter = FILTER_Catmull;
+			else if (MSX::StrEqual(argv[i], "lanczos"))
+				param.scaleFilter = FILTER_Lanczos;
 		}
 	}
 
