@@ -312,9 +312,9 @@ EmulV9990    = false;				//-- Add V9990 video-chip extension (boolean)
 
 //-- Plug a virtual device into the joystick port A (string)
 //   - Joystick
-//   - Keyboard         Fake joystick
 //   - Mouse
 //   - Paddle
+//   - JoyMega
 //   - NinjaTap
 EmulPortA = "";
 

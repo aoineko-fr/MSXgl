@@ -185,16 +185,6 @@
 	#define INPUT_USE_MOUSE				FALSE
 #endif
 
-#ifndef INPUT_USE_PADDLE // Add support for Mouse handling functions
-	#warning INPUT_USE_PADDLE is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define INPUT_USE_PADDLE			FALSE
-#endif
-
-#ifndef INPUT_USE_PADDLE_CALIB // Add support for Mouse handling functions
-	#warning INPUT_USE_PADDLE_CALIB is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define INPUT_USE_PADDLE_CALIB		FALSE
-#endif
-
 #ifndef INPUT_USE_DETECT // Add feature to detect device plugged in General purpose ports
 	#warning INPUT_USE_DETECT is not defined in "msxgl_config.h"! Default value will be used: FALSE
 	#define INPUT_USE_DETECT			FALSE
@@ -221,6 +211,15 @@
 
 #ifndef INPUT_KB_UPDATE // Last row to update (10 for numerical-pad, 8 otherwise)
 	#define INPUT_KB_UPDATE_MAX			8
+#endif
+
+//-----------------------------------------------------------------------------
+// PADDLE MODULE
+//-----------------------------------------------------------------------------
+
+#ifndef PADDLE_USE_CALIB // Add support for Mouse handling functions
+	#warning PADDLE_USE_CALIB is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PADDLE_USE_CALIB		FALSE
 #endif
 
 //-----------------------------------------------------------------------------

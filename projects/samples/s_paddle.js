@@ -5,6 +5,9 @@
 //-- Target MSX machine version (string)
 Machine = "1";
 
+//-- List of library modules to build (array)
+LibModules = [ "device/paddle", ...LibModules ];
+
 //-- Target program format (string)
 Target = "ROM_48K_ISR";
 

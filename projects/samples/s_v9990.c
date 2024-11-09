@@ -227,7 +227,7 @@ void InitP1()
 	V9_WriteVRAM(V9_P1_PGT_B, g_DataV9BG, sizeof(g_DataV9BG));
 
 	// Pattern name table
-	V9_FillVRAM16(V9_P1_PNT_A, 0, 64*64); // Init layer A
+	V9_FillVRAM16(V9_P1_PNT_A, 0x0000, 64*64); // Init layer A
 	V9_Print(V9_P1_PNT_A, "MSXgl V9990 - P1 Mode (PP)"); // Draw title
 	for(u8 i = 0; i < 8; ++i) // Draw plateform
 	{

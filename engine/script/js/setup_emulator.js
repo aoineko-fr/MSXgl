@@ -132,15 +132,16 @@ if (EmulatorName === "OPENMSX") {
 
 	//---- Emulator conenctors ----
 	if (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -command "plug joyporta msxjoystick1"'; }
-	// if (EmulPortA === "KEYBOARD") { EmulatorArgs += ' -command "plug joyporta keyjoystick1"'; }
 	if (EmulPortA === "MOUSE")    { EmulatorArgs += ' -command "plug joyporta mouse"'; }
 	if (EmulPortA === "PADDLE")   { EmulatorArgs += ' -command "plug joyporta arkanoidpad"'; }
+	if (EmulPortA === "JOYMEGA")  { EmulatorArgs += ' -command "plug joyporta joymega1"'; }
 	if (EmulPortA === "NINJATAP") { EmulatorArgs += ' -command "plug joyporta ninjatap"'; }
+
 	if (EmulPortB === "JOYSTICK") { EmulatorArgs += ' -command "plug joyportb msxjoystick2"'; }
-	// if (EmulPortB === "KEYBOARD") { EmulatorArgs += ' -command "plug joyportb keyjoystick2"'; }
 	if (EmulPortB === "MOUSE")    { EmulatorArgs += ' -command "plug joyportb mouse"'; }
-	if (EmulPortB === "NINJATAP") { EmulatorArgs += ' -command "plug joyportb ninjatap"'; }
 	if (EmulPortB === "PADDLE")   { EmulatorArgs += ' -command "plug joyportb arkanoidpad"'; }
+	if (EmulPortA === "JOYMEGA")  { EmulatorArgs += ' -command "plug joyportb joymega2"'; }
+	if (EmulPortB === "NINJATAP") { EmulatorArgs += ' -command "plug joyportb ninjatap"'; }
 
 	//---- Start emulator ----
 	if (EmulDebug) {

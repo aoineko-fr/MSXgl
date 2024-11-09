@@ -17,11 +17,43 @@
 // Constant data
 //-----------------------------------------------------------------------------
 
+//=============================================================================
+// General purpose port device detection
+//=============================================================================
+#if (1)//(INPUT_USE_DETECT)
+
 //-----------------------------------------------------------------------------
-//
+// Detect device plugged in General purpose ports
+u8 Input_Detect(enum INPUT_PORT port)
+{
+	port; // A
+__asm
+	ld		h, a					// Pin 8 HIGH
+	and		#0b11001111
+	ld		l, a					// Pin 8 LOW
+
+	ld		a, #PSG_REG_IO_PORT_B	// R#15
+	out		(P_PSG_REGS), a			// Select port B (output)
+	ld		a, l					// 
+	out		(P_PSG_DATA), a			// Set Pin 8 LOW
+
+	ld		a, #PSG_REG_IO_PORT_B	// R#15
+	out		(P_PSG_REGS), a			// Select port B (output)
+	ld		a, h					// 
+	out		(P_PSG_DATA), a			// Set Pin 8 HIGH
+
+	ld		a, #PSG_REG_IO_PORT_A	// R#14
+	out		(P_PSG_REGS), a			// Select port A (input)
+	in		a, (P_PSG_STAT)			//
+	and		#0x3F
+__endasm;
+}
+
+#endif
+
+//=============================================================================
 // Direct access to joystick
-//
-//-----------------------------------------------------------------------------
+//=============================================================================
 #if (INPUT_USE_JOYSTICK)
 
 //-----------------------------------------------------------------------------
@@ -41,10 +73,15 @@ u8 Joystick_Read(u8 port) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)
 		ld		a, #PSG_REG_IO_PORT_B	// R#15
 		INPUT_DI
 		out		(P_PSG_REGS), a			// Select port B
+#if (INPUT_HOLD_SIGNAL)
 		in		a, (P_PSG_STAT)			// Read port B value
 		res		6, a
 		or		a, l					// Select witch joystick connector is connected to PSG Port A
 		out		(P_PSG_DATA), a			// Write port B value
+#else
+		ld		a, l					// Select witch joystick connector is connected to PSG Port A
+		out		(P_PSG_DATA), a			// Write port B value
+#endif
 
 		ld		a, #PSG_REG_IO_PORT_A	// R#14
 		out		(P_PSG_REGS), a			// Select port A
@@ -97,11 +134,9 @@ void Joystick_Update()
 #endif // (INPUT_USE_JOYSTICK)
 
 
-//-----------------------------------------------------------------------------
-//
+//=============================================================================
 // Direct access to mouse
-//
-//-----------------------------------------------------------------------------
+//=============================================================================
 #if (INPUT_USE_MOUSE)
 
 i8 g_Mouse_OffsetX;
@@ -223,12 +258,9 @@ void Mouse_Read(u8 port, Mouse_State* data) __naked
 
 #endif // (INPUT_USE_MOUSE)
 
-
-//-----------------------------------------------------------------------------
-//
+//=============================================================================
 // Direct access to keyboard
-//
-//-----------------------------------------------------------------------------
+//=============================================================================
 #if (INPUT_USE_KEYBOARD)
 
 //-----------------------------------------------------------------------------
@@ -293,117 +325,3 @@ u8 Keyboard_IsKeyPressed(u8 key)
 #endif // (INPUT_KB_UPDATE)
 
 #endif // (INPUT_USE_KEYBOARD)
-
-//-----------------------------------------------------------------------------
-//
-// Direct access to paddle
-//
-//-----------------------------------------------------------------------------
-#if (INPUT_USE_PADDLE)
-
-u16 g_PaddleStates[2];
-
-//  5 4 3 2 1 0 9 8   7 6 5 4 3 2 1 0 
-//------------------------------------
-//  D 0 0 0 0 0 B C   C C C C C C C C
-//  │           │ └───┴─┴─┴─┴─┴─┴─┴─┴── 9-bit counter
-//	│           └────────────────────── Button state (0: pressed, 1: released)
-//	└────────────────────────────────── Disconnect state (0: connected, 1: disconnected)
-
-//-----------------------------------------------------------------------------
-// Read paddle state
-void Paddle_Update()
-{
-__asm
-// Based on:
-//    Program for reading the VAUS arkanoid paddle
-//    danjovic@hotmail.com
-//    http://hotbit.blogspot.com
-//    License: GNU GPL 2.0
-
-	// Read port A
-	ld		iy, #_g_PaddleStates
-	ld		de, #0x3E3F
-	call	paddle_reads
-
-	// Read port B
-	ld		iy, #_g_PaddleStates + 2
-	ld		de, #0x7B7F
-	call	paddle_reads
-
-	// Start counter for next frame (both port)
-	ld		a, #15				// Select R#15
-	out		(P_PSG_REGS), a
-	ld		a, #0x0F
-	out		(P_PSG_DATA), a		// Pin 8 LOW
-	ld		a, #0x3F
-	out		(P_PSG_DATA), a		// Pin 8 HIGH
-
-	ret
-
-paddle_reads:
-	// Read counter 1st bit and button state
-	ld		a, #15				// Select R#15
-	out		(P_PSG_REGS), a
-	ld		a, e
-	out		(P_PSG_DATA), a		// Select given port for reading
-
-	ld		a, #14				// Select R#14
-	out		(P_PSG_REGS), a
-	in		a, (P_PSG_STAT)		// Reads (port A)
-	and		#0x03
-	ld		h, a				// Store first bit and button state in H
-	ld		l, #0				// Reset L
-	ld		b, #8				// Setup 8 bits loop
-
-paddle_nextbit:
-	// Read remaining counter's 8 bits
-	ld		a, #15				// Select R#15
-	out		(P_PSG_REGS), a
-	ld		a, d
-	out		(P_PSG_DATA), a		// Clock LOW
-	ld		a, e
-	out		(P_PSG_DATA), a		// Clock HIGH
-
-	ld		a, #14				// Select R#14
-	out		(P_PSG_REGS), a
-	in		a, (P_PSG_STAT)		// Reads (port A)
-	srl		a					// Shift bit...
-	rl		l					// ...and store it in L
-	djnz	paddle_nextbit		// Reads next bit
-
-	// Check for disconnection
-	ld		a, h  
-	rra							// H.0 to F.c 
-	ld		a, l
-	adc		a, #0				// If L + F.c == 0, then all counter bits are 1 (paddle is not conected) 
-	jr		nz, paddle_end
-	set		7, h				// Set disconnection flag
-paddle_end:
-	ld		0(iy), l
-	ld		1(iy), h
-
-	ret
-__endasm;
-}
-
-#if (INPUT_USE_PADDLE_CALIB)
-
-// Paddle calibration offset
-i16 g_PaddleOffset[2];
-
-//-----------------------------------------------------------------------------
-// Read paddle state
-u8 Paddle_GetCalibratedAngle(u8 port)
-{
-	i16 val = (i16)Paddle_GetAngle(port) - g_PaddleOffset[port];
-	if (val < 0)
-		val = 0;
-	else if (val > 255)
-		val = 255; 
-	return (u8)val;
-}
-
-#endif // (INPUT_USE_PADDLE_CALIB)
-
-#endif // (INPUT_USE_PADDLE)

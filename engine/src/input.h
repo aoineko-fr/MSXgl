@@ -9,6 +9,8 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+#include "core.h"
+
 // Handle interrupt disabling
 #if (INPUT_USE_ISR_PROTECTION)
 	#define INPUT_DI				di
@@ -17,6 +19,29 @@
 	#define INPUT_DI
 	#define INPUT_EI
 #endif
+
+#define INPUT_PORT1_LOW				0b00000011
+#define INPUT_PORT1_HIGH			0b00010011
+
+#define INPUT_PORT2_LOW				0b01001100
+#define INPUT_PORT2_HIGH			0b01101100
+
+enum INPUT_PORT
+{
+	INPUT_PORT1 = INPUT_PORT1_HIGH,
+	INPUT_PORT2 = INPUT_PORT2_HIGH,
+};
+
+// Mask
+#define INPUT_PIN8_ONLY				0b00110000
+#define INPUT_PIN8_MASK				0b11001111
+#define INPUT_PORT1_ONLY			0b00010011
+#define INPUT_PORT1_MASK			0b11101100
+#define INPUT_PORT2_ONLY			0b00101100
+#define INPUT_PORT2_MASK			0b11010011
+
+// Determines whether functions that modify signals should keep the state of those they don't need to modify (which slows functions down a bit) 
+#define INPUT_HOLD_SIGNAL			FALSE
 
 //=============================================================================
 // Group: Joystick
@@ -46,7 +71,7 @@
 #define IS_JOY_PRESSED(stat, input) ((stat & input) == 0)
 #define IS_JOY_RELEASED(stat, input) ((stat & input) != 0)
 
-#define JOY_GET_DIR(in)				(~(in) & JOY_INPUT_DIR_MASK))
+#define JOY_GET_DIR(in)				(~(in) & JOY_INPUT_DIR_MASK)
 #define JOY_GET_TRIG1(in)			(((in) & JOY_INPUT_TRIGGER_A) == 0)
 #define JOY_GET_TRIG2(in)			(((in) & JOY_INPUT_TRIGGER_B) == 0)
 #define JOY_GET_A(in)				(((in) & JOY_INPUT_TRIGGER_A) == 0)
@@ -182,17 +207,24 @@ inline bool Joystick_IsButtonPressed(u8 port, u8 trigger)
 // Value returned from device in idle state (allows approximate detection of the connected device)
 enum INPUT_TYPE
 {
-	INPUT_TYPE_UNPLUGGED			= 0x3F,
-	INPUT_TYPE_JOYSTICK				= INPUT_TYPE_UNPLUGGED,
+	INPUT_TYPE_JSX					= 0x0F,
+	INPUT_TYPE_JSX_A0_B1			= 0x01, // Joypad: 6 boutons
+	INPUT_TYPE_JSX_A2_B1			= 0x09, // Joypad: 2 axies, 6 boutons
+	INPUT_TYPE_JSX_A6_B2			= 0x1A, // Joypad: 6 axies, 12 boutons (Xbox gamepad)
+	INPUT_TYPE_NINJATAP				= 0x1F,
 	INPUT_TYPE_MOUSE				= 0x30,
+	INPUT_TYPE_JOYMEGA				= 0x33,
 	INPUT_TYPE_TRACKBALL			= 0x38,
+	INPUT_TYPE_TOUCHPAD				= 0x3D,
 	INPUT_TYPE_PADDLE				= 0x3E, // Arkanoid Vaus Paddle or MSX-Paddle
-	// Unvalidated types
-	INPUT_TYPE_TOUCHPAD				= 0x39, // Can also be 3D or 3B
-	INPUT_TYPE_LIGHTGUN				= 0x2F, // Can also be 20 or 3F
-	INPUT_TYPE_MUSIC_PAD			= 0x3C, // Yamaha MMP-01 music pad
-	INPUT_TYPE_IBM_ADAPTER			= 0x3A, // IBM-PC DA15 joystick adapter
-	INPUT_TYPE_ATARI_ADAPTER		= 0x36, // Atari dual-paddle adapter
+	INPUT_TYPE_JOYSTICK				= 0x3F,
+	INPUT_TYPE_UNPLUGGED			= INPUT_TYPE_JOYSTICK,
+
+	// // Unvalidated types
+	// INPUT_TYPE_LIGHTGUN				= 0x2F, // Can also be 20 or 3F
+	// INPUT_TYPE_MUSIC_PAD			= 0x3C, // Yamaha MMP-01 music pad
+	// INPUT_TYPE_IBM_ADAPTER			= 0x3A, // IBM-PC DA15 joystick adapter
+	// INPUT_TYPE_ATARI_ADAPTER		= 0x36, // Atari dual-paddle adapter
 };
 
 #define INPUT_PORT_1				JOY_PORT_1
@@ -200,7 +232,7 @@ enum INPUT_TYPE
 
 // Function: Input_Detect
 // Detect device plugged in General purpose ports
-inline u8 Input_Detect(u8 port) { return Joystick_Read(port) & 0x3F; }
+u8 Input_Detect(enum INPUT_PORT port);
 
 #endif
 
@@ -443,72 +475,3 @@ bool Keyboard_IsKeyPressed(u8 key);
 #endif // (INPUT_KB_UPDATE)
 
 #endif // (INPUT_USE_KEYBOARD)
-
-//=============================================================================
-// Group: Paddle
-// Direct access to paddle
-//=============================================================================
-#if (INPUT_USE_PADDLE)
-
-extern u16 g_PaddleStates[2];
-
-// Function: Paddle_Update
-// Update both joystick port and store paddles information
-void Paddle_Update();
-
-// Function: Paddle_IsConnected
-// Check if a paddle is connected to the given port
-//
-// Parameters:
-//   port - Index of the port to check (0: Port A, 1: Port B)
-//
-// Returns:
-//   TRUE if a paddle is connected to that port
-inline bool Paddle_IsConnected(u8 port) { return (g_PaddleStates[port] & 0x8000) == 0; }
-
-// Function: Paddle_GetAngle
-// Get the rotation angle of a paddle on the given port
-//
-// Parameters:
-//   port - Index of the port to check (0: Port A, 1: Port B)
-//
-// Returns:
-//   Paddle angle (theorical value goes from 0 to 510, but valid range is around 110 to 380)
-inline u16 Paddle_GetAngle(u8 port) { return g_PaddleStates[port] & 0x01FF; }
-
-// Function: Paddle_IsButtonPressed
-// Check if the given paddle's button is pressed
-//
-// Parameters:
-//   port - Index of the port to check (0: Port A, 1: Port B)
-//
-// Returns:
-//   TRUE if the given paddle's button is pressed
-inline bool Paddle_IsButtonPressed(u8 port) { return (g_PaddleStates[port] & 0x0200) == 0; }
-
-#if (INPUT_USE_PADDLE_CALIB)
-
-extern i16 g_PaddleOffset[2];
-
-// Function: Paddle_SetCalibration
-// Calibrate the given paddle
-//
-// Parameters:
-//   port - Index of the port to check (0: Port A, 1: Port B)
-//   min - Minimum recoreded value
-//   max - Maximum recoreded value
-inline void Paddle_SetCalibration(u8 port, u16 min, u16 max) { g_PaddleOffset[port] = min + (max - min) / 2 - 128; }
-
-// Function: Paddle_GetCalibratedAngle
-// Get the callibrated rotation angle of a paddle on the given port
-//
-// Parameters:
-//   port - Index of the port to check (0: Port A, 1: Port B)
-//
-// Returns:
-//   Paddle angle (from 0 to 255)
-u8 Paddle_GetCalibratedAngle(u8 port);
-
-#endif // (INPUT_USE_PADDLE_CALIB)
-
-#endif // (INPUT_USE_PADDLE)
