@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.16.6 on Mon Jul 24 23:08:32 2023
+// Data generated using MSXimg 1.20.0 on Sat Nov  9 14:46:27 2024
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Source image author: GrafxKid (https://opengameart.org/content/super-random-sprites)
@@ -886,4 +886,4 @@ const unsigned char g_DataSprt16il[] =
 	0xFC, /* ######.. */ 
 	0xF8, /* #####... */ 
 };
-// Total size :  768 bytes
+// Total size : 768 bytes

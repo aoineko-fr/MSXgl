@@ -64,7 +64,8 @@ void Detect()
 			case INPUT_TYPE_TRACKBALL:	str = "Trackball"; break;
 			case INPUT_TYPE_PADDLE:		str = "Paddle   "; break;
 			case INPUT_TYPE_TOUCHPAD:	str = "Touchpad "; break;
-			case INPUT_TYPE_LIGHTGUN:	str = "Lightgun "; break;
+			case INPUT_TYPE_NINJATAP:	str = "NinjaTap "; break;
+			case INPUT_TYPE_JOYMEGA:	str = "JoyMega  "; break;
 			default:					str = "Unknow   "; break;
 		}
 		Print_SetPosition(px, 6);

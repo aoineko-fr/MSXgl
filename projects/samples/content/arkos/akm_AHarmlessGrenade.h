@@ -1,9 +1,9 @@
-// â–ˆâ–ˆâ–€â–€â–ˆâ–€â–€â–ˆâ–ˆâ–€â–€â–€â–€â–€â–€â–€â–ˆâ–€â–€â–ˆ â–„â–„   â–„
-// â–ˆâ–ˆ  â–€  â–ˆâ–„  â–€â–ˆâ–ˆâ–„ â–€ â–„â–ˆ â–ˆâ–ˆâ–„  â–„  â–ˆâ–ˆâ–€â–„
-// â–ˆ  â–ˆ â–ˆ  â–€â–€  â–„â–ˆ  â–ˆ  â–ˆ â–ˆâ–ˆâ–„â–€ â–ˆâ–ˆ â–ˆâ–ˆ â–ˆ
-// â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
-// MSXbin 1.4.0 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Mon Jul 24 23:08:18 2023
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█ ▄▄   ▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
+// █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+// MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
+// File generated on Sat Nov  9 14:46:15 2024
 // Soure file: arkos\AHarmlessGrenade.akm
 const unsigned char g_AKM_AHarmlessGrenade[] = {
 	0x08, 0xA0, 0x21, 0xA1, 0x35, 0xA1, 0x41, 0xA1, 0x30, 0xA0, 0x35, 0xA0, 0x47, 0xA0, 0x65, 0xA0, //      0

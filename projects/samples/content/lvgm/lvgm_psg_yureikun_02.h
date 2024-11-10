@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
 // MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Mon Dec 18 21:23:14 2023
+// File generated on Sat Nov  9 14:46:24 2024
 // Source file: vgm\psg_yureikun_02.vgm (21344 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG)

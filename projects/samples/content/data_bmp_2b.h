@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.16.6 on Mon Jul 24 23:08:32 2023
+// Data generated using MSXimg 1.20.0 on Sat Nov  9 14:46:27 2024
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Source image author: GrafxKid (https://opengameart.org/content/super-random-sprites)
@@ -124,7 +124,7 @@ const unsigned char g_DataBmp2b[] =
 	0x05, 0xAA, 0x95, 0x50, 
 	0x00, 0x55, 0x6A, 0x40, 
 };
-// Total size :  384 bytes
+// Total size : 384 bytes
 
 // Custom palette | Format: [x|R:3|x|B:3] [x:5|G:3] (v9938)
 const unsigned char g_DataBmp2b_palette[] =

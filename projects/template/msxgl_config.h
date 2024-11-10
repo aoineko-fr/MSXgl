@@ -116,7 +116,7 @@
 // - VDP_INIT_ON .................. Force option to be enable
 // - VDP_INIT_AUTO ................ Determining the best value for the context
 // - VDP_INIT_DEFAULT ............. Keep default value
-#define VDP_INIT_50HZ				VDP_INIT_ON
+#define VDP_INIT_50HZ				VDP_INIT_DEFAULT
 
 //-----------------------------------------------------------------------------
 // V9990  MODULE
@@ -574,7 +574,7 @@
 #define QRCODE_TINY_MASK 			QRCODE_MASK_0
 
 //-----------------------------------------------------------------------------
-// DEBUG
+// DEBUG & PROFILE
 //-----------------------------------------------------------------------------
 
 // Debugger options
