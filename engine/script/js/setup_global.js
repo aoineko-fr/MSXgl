@@ -328,6 +328,9 @@ global.LocOutput = "";
 //-- Localization structure name (string)
 global.LocStruct = "";
 
+//-- Split socalization data and definitions in different files (boolean)
+global.LocSplitDef = false;
+
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 global.PackSegments = false;
 

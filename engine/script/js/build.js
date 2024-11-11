@@ -313,7 +313,7 @@ if (DoCompile)
 	if (LocFiles.length)
 	{
 		util.print(`Generating '${LocOutput}' localization file...`, PrintHighlight);
-		localizer.generate(LocFiles, LocOutput, LocStruct, Verbose);
+		localizer.generate(LocFiles, LocOutput, LocStruct, LocSplitDef, Verbose);
 		util.print("Success", PrintSuccess);
 	}
 
