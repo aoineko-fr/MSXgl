@@ -285,6 +285,7 @@
 #define GAMEPAWN_USE_VRAM_COL		TRUE	// Use VRAM to chech tile collision (otherwise, use RAM buffer)
 #define GAMEPAWN_TILEMAP_WIDTH		32		// Width of the tiles map
 #define GAMEPAWN_TILEMAP_HEIGHT		24		// Height of the tiles map
+#define GAMEPAWN_USE_V9990			FALSE	// Use V9990 sprites
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE

@@ -10,6 +10,9 @@
 #include "game_pawn.h"
 #include "vdp.h"
 #include "memory.h"
+#if (GAMEPAWN_USE_V9990)
+#include "v9990.h"
+#endif
 
 //=============================================================================
 // MEMORY DATA
@@ -68,6 +71,7 @@ void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNu
 		u8 sprtIdx = g_Sprite->SpriteID;
 		#endif
 
+		#if !(GAMEPAWN_USE_V9990)
 		u8 color = g_Sprite->Color;
 		if((g_Sprite->Flag & PAWN_SPRITE_OR) != 0)
 			color |= VDP_SPRITE_CC;
@@ -82,6 +86,7 @@ void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNu
 		if((g_Sprite->Flag & PAWN_SPRITE_ODD) == 0)
 			sprtIdx++;
 		#endif
+		#endif // !(GAMEPAWN_USE_V9990)
 
 		g_Sprite++;
 	}
@@ -421,6 +426,28 @@ void GamePawn_Draw(Game_Pawn* pawn)
 		return;
 
 	g_Sprite = g_Pawn->SpriteList;
+
+	#if (GAMEPAWN_USE_V9990)
+
+		struct V9_Sprite sprt;
+		sprt.P = 0;
+		sprt.D = 0; // enable this sprite
+		sprt.SC = 1; // use 2nd palette
+
+		u8 sprtId = g_Pawn->SpriteID;
+
+		loop(i, g_Pawn->SpriteNum)
+		{
+			sprt.Y = g_Pawn->PositionY + g_Sprite->OffsetY - 1; // Decrement Y to fit screen coordinate;
+			sprt.X = g_Pawn->PositionX + g_Sprite->OffsetX;
+			sprt.Pattern = g_Pawn->AnimFrame + g_Sprite->DataOffset;
+			V9_SetSpriteP1(sprtId++, &sprt);
+
+			g_Sprite = (const Game_Sprite*)((u8*)g_Sprite + sizeof(Game_Sprite));
+		}
+
+	#else
+
 	#if !(GAMEPAWN_ID_PER_LAYER)
 	u16 dest = g_SpriteAttributeLow + (g_Pawn->SpriteID * 4);
 	#endif
@@ -463,6 +490,9 @@ void GamePawn_Draw(Game_Pawn* pawn)
 		//g_Sprite++;
 		g_Sprite = (const Game_Sprite*)((u8*)g_Sprite + sizeof(Game_Sprite));
 	}
+
+	#endif // !(GAMEPAWN_USE_V9990)
+
 	g_Pawn->Update = 0;
 }
 

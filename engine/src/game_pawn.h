@@ -111,6 +111,12 @@
 	#define GAMEPAWN_TILEMAP_HEIGHT		24
 #endif
 
+// GAMEPAWN_TILEMAP_HEIGHT
+#ifndef GAMEPAWN_USE_V9990
+	#warning GAMEPAWN_USE_V9990 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define GAMEPAWN_USE_V9990		TRUE
+#endif
+
 //=============================================================================
 // DEFINES
 //=============================================================================
@@ -244,7 +250,11 @@ typedef struct
 
 // Tile map getter macro
 #if (GAMEPAWN_USE_VRAM_COL)
-	#define GAMEPAWN_GET_TILE(X, Y)	VDP_Peek(g_ScreenLayoutLow + (Y * GAMEPAWN_TILEMAP_WIDTH) + X, g_ScreenLayoutHigh)
+	#if (GAMEPAWN_USE_V9990)
+		#define GAMEPAWN_GET_TILE(X, Y)	V9_Peek(V9_CellAddrP1A(X, Y))
+	#else
+		#define GAMEPAWN_GET_TILE(X, Y)	VDP_Peek(g_ScreenLayoutLow + (Y * GAMEPAWN_TILEMAP_WIDTH) + X, g_ScreenLayoutHigh)
+	#endif
 #else
 	#define GAMEPAWN_GET_TILE(X, Y)	g_GamePawn_TileMap[(Y * GAMEPAWN_TILEMAP_WIDTH) + X]
 	// Tile map buffer in RAM
