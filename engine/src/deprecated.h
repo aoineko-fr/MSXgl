@@ -102,6 +102,7 @@
 // V9990 module
 #define V9_SetLayerPalette          V9_SelectPaletteP1
 #define V9_SetMode					V9_SetScreenMode
+#define V9_SetSpritePalette			V9_SetSpritePaletteOffset
 
 // Menu module
 #define MENU_CLEAR					MENU_CHAR_CLEAR

@@ -87,18 +87,6 @@
 	#define GAMEPAWN_BOUND_Y			GAMEPAWN_BOUND_CUSTOM
 #endif
 
-// GAMEPAWN_FORCE_SM1
-#ifndef GAMEPAWN_FORCE_SM1
-	#warning GAMEPAWN_FORCE_SM1 is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define GAMEPAWN_FORCE_SM1			FALSE
-#endif
-
-// GAMEPAWN_USE_VRAM_COL
-#ifndef GAMEPAWN_USE_VRAM_COL
-	#warning GAMEPAWN_USE_VRAM_COL is not defined in "msxgl_config.h"! Default value will be used: TRUE
-	#define GAMEPAWN_USE_VRAM_COL		TRUE
-#endif
-
 // GAMEPAWN_TILEMAP_WIDTH
 #ifndef GAMEPAWN_TILEMAP_WIDTH
 	#warning GAMEPAWN_TILEMAP_WIDTH is not defined in "msxgl_config.h"! Default value will be used: 32
@@ -111,10 +99,38 @@
 	#define GAMEPAWN_TILEMAP_HEIGHT		24
 #endif
 
-// GAMEPAWN_TILEMAP_HEIGHT
-#ifndef GAMEPAWN_USE_V9990
-	#warning GAMEPAWN_USE_V9990 is not defined in "msxgl_config.h"! Default value will be used: TRUE
-	#define GAMEPAWN_USE_V9990		TRUE
+// GAMEPAWN_TILEMAP_SRC
+#ifndef GAMEPAWN_TILEMAP_SRC
+	#warning GAMEPAWN_TILEMAP_SRC is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_TILEMAP_SRC_AUTO
+	#define GAMEPAWN_TILEMAP_SRC		GAMEPAWN_TILEMAP_SRC_AUTO
+#endif
+
+// Handle tilemap source backward compatibility
+#if (GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_AUTO)
+	#undef GAMEPAWN_TILEMAP_SRC
+	#if (defined(GAMEPAWN_USE_VRAM_COL) && GAMEPAWN_USE_VRAM_COL)
+		#define GAMEPAWN_TILEMAP_SRC	GAMEPAWN_TILEMAP_SRC_VRAM
+	#else
+		#define GAMEPAWN_TILEMAP_SRC	GAMEPAWN_TILEMAP_SRC_RAM
+	#endif
+#endif
+
+// GAMEPAWN_SPT_MODE
+#ifndef GAMEPAWN_SPT_MODE
+	#warning GAMEPAWN_SPT_MODE is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_SPT_MODE_AUTO
+	#define GAMEPAWN_SPT_MODE			GAMEPAWN_SPT_MODE_AUTO
+#endif
+
+// Handle sprite mode backward compatibility
+#if (GAMEPAWN_SPT_MODE == GAMEPAWN_SPT_MODE_AUTO)
+	#undef GAMEPAWN_SPT_MODE
+	#if (defined(GAMEPAWN_FORCE_SM1) && GAMEPAWN_FORCE_SM1)
+		#define GAMEPAWN_SPT_MODE		GAMEPAWN_SPT_MODE_MSX1
+	#elif (MSX_VERSION >= MSX_2)
+		#define GAMEPAWN_SPT_MODE		GAMEPAWN_SPT_MODE_MSX2
+	#else
+		#define GAMEPAWN_SPT_MODE		GAMEPAWN_SPT_MODE_MSX1
+	#endif
 #endif
 
 //=============================================================================
@@ -249,18 +265,15 @@ typedef struct
 #endif
 
 // Tile map getter macro
-#if (GAMEPAWN_USE_VRAM_COL)
-	#if (GAMEPAWN_USE_V9990)
-		#define GAMEPAWN_GET_TILE(X, Y)	V9_Peek(V9_CellAddrP1A(X, Y))
-	#else
-		#define GAMEPAWN_GET_TILE(X, Y)	VDP_Peek(g_ScreenLayoutLow + (Y * GAMEPAWN_TILEMAP_WIDTH) + X, g_ScreenLayoutHigh)
-	#endif
-#else
+#if (GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_RAM)
 	#define GAMEPAWN_GET_TILE(X, Y)	g_GamePawn_TileMap[(Y * GAMEPAWN_TILEMAP_WIDTH) + X]
 	// Tile map buffer in RAM
 	extern const u8* g_GamePawn_TileMap;
+#elif (GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_VRAM)
+	#define GAMEPAWN_GET_TILE(X, Y)	VDP_Peek(g_ScreenLayoutLow + (Y * GAMEPAWN_TILEMAP_WIDTH) + X, g_ScreenLayoutHigh)
+#elif (GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_V9)
+	#define GAMEPAWN_GET_TILE(X, Y)	V9_Peek(V9_CellAddrP1A(X, Y))
 #endif
-
 
 #if (GAMEPAWN_USE_PHYSICS)
 // Current cell coordinate
@@ -302,10 +315,10 @@ void GamePawn_SetPosition(Game_Pawn* pawn, u8 x, u8 y);
 //   id   - New action index.
 void GamePawn_SetAction(Game_Pawn* pawn, u8 id);
 
-#if (!GAMEPAWN_USE_VRAM_COL)
+#if (GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_RAM)
 // Function: GamePawn_SetTileMap
 // Set the tile map to be used for collision.
-// Available only when GAMEPAWN_USE_VRAM_COL is set to FALSE.
+// Available only when GAMEPAWN_TILEMAP_SRC is set to GAMEPAWN_TILEMAP_SRC_RAM.
 //
 // Parameters:
 //   map - Pointer to RAM buffer with the tile map. Size must be GAMEPAWN_TILEMAP_WIDTH * GAMEPAWN_TILEMAP_HEIGHT.
@@ -390,19 +403,4 @@ inline const u8 GamePawn_GetCallbackCellX() { return g_Game_CellX; }
 //   Y coordinate of the current cell.
 inline const u8 GamePawn_GetCallbackCellY() { return g_Game_CellY; }
 
-
-
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-

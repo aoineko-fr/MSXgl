@@ -22,7 +22,7 @@
 //*****************************************************************************
 
 // Emulator  = `${ToolsDir}openMSX/openmsx`;
-Emulator  = `${ToolsDir}Emulicious/Emulicious`;
+// Emulator  = `${ToolsDir}Emulicious/Emulicious`;
 // Emulator  = `${ToolsDir}fMSX/fMSX`;
 // Emulator  = `${ToolsDir}MSXEC\\MSXEC`;
 // Emulator  = `${ToolsDir}BlueMSX/blueMSX`;
@@ -112,8 +112,12 @@ AddROMSignature = true;
 //-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
 // ForceRamAddr = 0;
 
+//-- List of raw data files to be added to final binary (array). Each entry can be { offset=0x0000, file="file.bin" }, { page=0, file="file.bin" } or { segment=0, file="file.bin" }
+// RawFiles = [];
+
 //-- List of data files to copy to disk (array)
 // DiskFiles = [];
+
 //-- Size of the final disk (.DSK file). Can be "360K" or "720K" (string)
 // DiskSize = "720K";
 
@@ -195,6 +199,9 @@ LocOutput = "localization.h";
 
 //-- Localization structure name (string)
 LocStruct = "g_LocData";
+
+//-- Split socalization data and definitions in different files (boolean)
+LocSplitDef = false;
 
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 PackSegments = false;

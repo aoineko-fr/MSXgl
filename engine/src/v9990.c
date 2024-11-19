@@ -109,11 +109,11 @@ const u8 g_V9_ColorConfig[V9_COLOR_BMP_MAX][2] =
 	// V9_COLOR_BYJK		YJK Decoder (19268 colors)
 	{ V9_R06_BPP_8, V9_R13_PLTM_YJK },
 	// V9_COLOR_BYJKP		YJK Decoder + Color palette (12599 colors + 16 colors out of 32768 colors)
-	{ V9_R06_BPP_8, V9_R13_PLTM_YJK + V9_R13_YAE},
+	{ V9_R06_BPP_8, (u8)(V9_R13_PLTM_YJK + V9_R13_YAE)},
 	// V9_COLOR_BYUV		YUV Decoder (19268 colors)
 	{ V9_R06_BPP_8, V9_R13_PLTM_YUV },
 	// V9_COLOR_BYUVP		YUV Decoder + Color palette (12599 colors + 16 colors out of 32768 colors)
-	{ V9_R06_BPP_8, V9_R13_PLTM_YUV + V9_R13_YAE},
+	{ V9_R06_BPP_8, (u8)(V9_R13_PLTM_YUV + V9_R13_YAE)},
 	// V9_COLOR_BD16		Direct RGB [YS|G:5|R:2][R:3|B:5] (32768 colors)
 	{ V9_R06_BPP_16, V9_R13_PLTM_PAL },
 };

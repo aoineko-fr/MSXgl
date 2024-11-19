@@ -21,12 +21,15 @@ testcases
 /engine/src/arkos/serial
 /engine/src/arkos/misc
 /engine/src/realfun
+/engine/src/kss
 /engine/src/obsolete
 /engine/datasrc/font/damieng
 
 /projects/default_config.js
 
+/projects_backup
 /projects/_backup
+
 /projects/gos
 /projects/FinalSmash
 /projects/wizzl
@@ -40,6 +43,12 @@ testcases
 /projects/Corrupta
 /projects/DuaelDrop
 /projects/htd005
+/projects/VATT
+/projects/room5
+/projects/NY2024
+/projects/Crawlers
+/projects/alley_cat_msxgl
+/projects/artrag
 
 /projects/samples/datasrc
 
@@ -65,10 +74,11 @@ testcases
 /tools/openMSX_18
 /tools/RuMSX
 /tools/MSXtk/proj/*.user
-/projects/artrag
 /tools/MSXEC
-/projects/VATT
-/projects/room5
-/projects/NY2024
-/projects/Crawlers
-/projects/alley_cat_msxgl
+
+/tools/build/DOS/MSX-DOS_1.3
+/tools/build/DOS/MSX-DOS_1.8
+/tools/build/DOS/MSX-DOS_2.20
+/tools/build/DOS/MSX-DOS_2.30
+/tools/build/DOS/MSX-DOS_2.31
+/tools/build/DOS/MSX-DOS_2.40

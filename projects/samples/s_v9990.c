@@ -144,7 +144,7 @@ const struct ColorMode g_ColorMode[V9_COLOR_BMP_MAX] =
 // MEMORY DATA
 //=============================================================================
 
-u8   g_CurrentScreen = MODE_B1; // Current screen mode index in the g_ScreenMode table
+u8   g_CurrentScreen = MODE_P1; // Current screen mode index in the g_ScreenMode table
 u8   g_CurrentColor = V9_COLOR_BP4; // Current color mode index in the g_ColorMode table
 
 u16  g_Frame = 0;

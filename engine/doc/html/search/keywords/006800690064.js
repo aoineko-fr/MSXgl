@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("hid",["Function"],[["HID_Detect",,[[,,,,0,"File:device/msx-hid.h:HID_Detect"]]]]);

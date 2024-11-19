@@ -12,15 +12,41 @@
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="JSX_Detect"></a><a name="Topic1149"></a><div class="CTopic TFunction LC">
+<a name="JSX_Detect"></a><a name="Topic1155"></a><div class="CTopic TFunction LC">
  <div class="CTitle">JSX_Detect</div>
- <div id="NDPrototype1149" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSX_Detect(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">) __NAKED</td></tr></table></div></div>
- <div class="CBody"><p>7 6 5 4 3 2 1 0 –-–-–-–-–-–-–-–-- x x A A A A B B │ │ │ │ └─┴── Number of button rows (0-3) └─┴─┴─┴────── Number of axis (0-15)</p></div>
+ <div id="NDPrototype1155" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSX_Detect(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>7 6 5 4 3 2 1 0 –-–-–-–-–-–-–-–-- 0 0 A A A A B B │ │ │ │ └─┴── Number of button rows (0-3) └─┴─┴─┴────── Number of axis (0-15)</p></div>
 </div>
 
-<a name="JSX_Read"></a><a name="Topic1150"></a><div class="CTopic TFunction LC last">
+<a name="JSX_Read"></a><a name="Topic1156"></a><div class="CTopic TFunction LC">
  <div class="CTitle">JSX_Read</div>
- <div id="NDPrototype1150" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSX_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">buffer</td></tr></table></td><td class="PAfterParameters">) __NAKED</td></tr></table></div></div>
+ <div id="NDPrototype1156" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSX_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="first"></td><td class="PType">u8*&nbsp;</td><td class="PName last">buffer</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="JSX_GetAxisNumber"></a><a name="Topic1157"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">JSX_GetAxisNumber</div>
+ <div id="NDPrototype1157" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 JSX_GetAxisNumber(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="JSX_GetRowsNumber"></a><a name="Topic1158"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">JSX_GetRowsNumber</div>
+ <div id="NDPrototype1158" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 JSX_GetRowsNumber(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="JSX_GetButtonsNumber"></a><a name="Topic1159"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">JSX_GetButtonsNumber</div>
+ <div id="NDPrototype1159" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 JSX_GetButtonsNumber(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+</div>
+
+<a name="JSXC_Detect"></a><a name="Topic1160"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">JSXC_Detect</div>
+ <div id="NDPrototype1160" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSXC_Detect(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>7 6 5 4 3 2 1 0 –-–-–-–-–-–-–-–-- 0 0 A A A A B B │ │ │ │ └─┴── Number of button rows (0-3) └─┴─┴─┴────── Number of axis (0-15)</p></div>
+</div>
+
+<a name="JSXC_Read"></a><a name="Topic1161"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">JSXC_Read</div>
+ <div id="NDPrototype1161" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSXC_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="first"></td><td class="PType">u8*&nbsp;</td><td class="PName last">buffer</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
 </div>
 
 </body></html>

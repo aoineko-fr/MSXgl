@@ -346,6 +346,19 @@
 
 #define GAMEPAWN_BOUND_CUSTOM		0x10000 // Use variable bound value for each pawn
 
+// Collision tilemap source
+#define GAMEPAWN_TILEMAP_SRC_AUTO	0 // Backward compatibility option
+#define GAMEPAWN_TILEMAP_SRC_RAM	1 // Tilemap located in a buffer in RAM (best for performance)
+#define GAMEPAWN_TILEMAP_SRC_VRAM	2 // Tilemap located in VRAM (slow but don't need additionnal data)
+#define GAMEPAWN_TILEMAP_SRC_V9		3 // Tilemap located in V9990's VRAM
+
+// Pawn's sprite mode
+#define GAMEPAWN_SPT_MODE_AUTO		0 // Backward compatibility option
+#define GAMEPAWN_SPT_MODE_MSX1		1 // Sprite Mode 1 (MSX1 screens)
+#define GAMEPAWN_SPT_MODE_MSX2		2 // Sprite Mode 2 (MSX2 screens)
+#define GAMEPAWN_SPT_MODE_V9_P1		3 // V9990 sprite in P1 mode
+#define GAMEPAWN_SPT_MODE_V9_P2		4 // V9990 sprite in P2 mode
+
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE
 //-----------------------------------------------------------------------------

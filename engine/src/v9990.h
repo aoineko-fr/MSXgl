@@ -743,44 +743,134 @@ inline void V9_SetSpritePatternAddr(u8 addr) { V9_SetRegister(25, addr); }
 //
 // Parameters:
 //   offset - Palette offset (4 bits: 0 to 15).
-inline void V9_SetSpritePalette(u8 offset) { V9_SetRegister(28, offset); }
+inline void V9_SetSpritePaletteOffset(u8 offset) { V9_SetRegister(28, offset); }
 
+// Attribute table
+//-----------------------------------------------------------------------------
+// +0: Y-coordinate (Actual display position is one line below specified)
+// +1: Pattern number
+// +2: X-coordinate (bits 0:7)
+// +3: Additionnal information
+//
+//	7	6	5	4	3	2	1	0
+//	SC5	SC4	PR1	PR0	-	-	X9	X8
+//  │	│	│	│	 	 	└───┴── X-coordinate (bits 8:9)
+//	│	│	│	└────────────────── Disable flag (0: Enable, 1: Disable)
+//	│	│	└────────────────────── Priority flag (0: Front, 1: Between layers)
+//	└───┴────────────────────────── Color palette base (0-3)
+#define V9_SPAT_X_MASK				0b00000011
+#define V9_SPAT_DISABLE_MASK		0b00010000
+#define V9_SPAT_PRIORITY_MASK		0b00100000
+#define V9_SPAT_PALETTE_MASK		0b11000000
+
+#define V9_SPAT_INFO_ENABLE			0
+#define V9_SPAT_INFO_DISABLE		V9_SPAT_DISABLE_MASK
+#define V9_SPAT_INFO_PRIO_FRONT		0
+#define V9_SPAT_INFO_PRIO_BETWEEN	V9_SPAT_PRIORITY_MASK
+#define V9_SPAT_INFO_PALETTE(p)		((p) << 6)
+
+//.............................................................................
 #if (V9_USE_MODE_P1)
 
 // Function: V9_SetSpriteP1
 // Set sprite attribute for P1 mode.
 //
 // Parameters:
-//   id - Sprite index (0 to 125).
+//   id - Sprite index (0 to 124).
 //   attr - Pointer to sprite structure.
-inline void V9_SetSpriteP1(u8 id, const struct V9_Sprite* attr) { V9_WriteVRAM(V9_P1_SPAT + 4 * id, (const u8*)attr, 4); }
+inline void V9_SetSpriteP1(u8 id, const struct V9_Sprite* attr) { V9_WriteVRAM(V9_P1_SPAT + (id * 4), (const u8*)attr, 4); }
 
 // Function: V9_SetSpritePatternP1
 // Set sprite pattern for P1 mode.
 //
 // Parameters:
-//   id - Sprite index (0 to 125).
+//   id - Sprite index (0 to 124).
 //   pat - Pattern index (0 to 255).
-inline void V9_SetSpritePatternP1(u8 id, u8 pat) { V9_Poke(V9_P1_SPAT + 4 * id + 1, pat); }
+inline void V9_SetSpritePatternP1(u8 id, u8 pat) { V9_Poke(V9_P1_SPAT + 1 + (id * 4), pat); }
 
 // Function: V9_SetSpritePositionP1
 // Set sprite position for P1 mode.
 //
 // Parameters:
-//   id - Sprite index (0 to 125).
+//   id - Sprite index (0 to 124).
 //   x - Sprite X coordinate.
 //   y - Sprite Y coordinate.
-inline void V9_SetSpritePositionP1(u8 id, u8 x, u8 y) { V9_Poke(V9_P1_SPAT + (4 * id), y); V9_Poke(V9_P1_SPAT + (4 * id) + 2, x); }
+inline void V9_SetSpritePositionP1(u8 id, u8 x, u8 y) { V9_Poke(V9_P1_SPAT + 0 + (id * 4), y); V9_Poke(V9_P1_SPAT + 2 + (id * 4), x); }
+
+// Function: V9_SetSpriteInfoP1
+// Set sprite additionnal information for P1 mode.
+//
+// Parameters:
+//   id - Sprite index (0 to 124).
+//   info - Sprite additionnal information.
+// >	7	6	5	4	3	2	1	0
+// >	SC5	SC4	PR1	PR0	-	-	X9	X8
+// >	│	│	│	│	 	 	└───┴── X-coordinate (bits 8:9)
+// >	│	│	│	└────────────────── Disable flag (0: Enable, 1: Disable)
+// >	│	│	└────────────────────── Priority flag (0: Front, 1: Between layers)
+// >	└───┴────────────────────────── Color palette base (0-3)
+//          Can be any combination of:
+//             <V9_SPAT_INFO_ENABLE> or <V9_SPAT_INFO_DISABLE>
+//           + <V9_SPAT_INFO_PRIO_FRONT> or <V9_SPAT_INFO_PRIO_BETWEEN>
+//           + <V9_SPAT_INFO_PALETTE>
+inline void V9_SetSpriteInfoP1(u8 id, u8 info) { V9_Poke(V9_P1_SPAT + 3 + (id * 4), info); }
+
+// Function: V9_SetSpriteDisableP1
+// Set sprite disable flag for P1 mode.
+//
+// Parameters:
+//   id - Sprite index (0 to 124).
+//   disable - Is sprite display is disable?
+inline void V9_SetSpriteDisableP1(u8 id, bool disable)
+{
+	u8 val = V9_Peek(V9_P1_SPAT + 3 + (id * 4));
+	if (disable)
+		val &= ~V9_SPAT_DISABLE_MASK;
+	else
+		val |= V9_SPAT_DISABLE_MASK;
+	V9_Poke(V9_P1_SPAT + 3 + (id * 4), val); 
+}
+
+// Function: V9_SetSpritePriorityP1
+// Set sprite priority for P1 mode.
+//
+// Parameters:
+//   id - Sprite index (0 to 124).
+//   prio - Priority flag (0: Front, 1: Between layers).
+inline void V9_SetSpritePriorityP1(u8 id, u8 prio)
+{
+	u8 val = V9_Peek(V9_P1_SPAT + 3 + (id * 4));
+	if (prio)
+		val &= ~V9_SPAT_PRIORITY_MASK;
+	else
+		val |= V9_SPAT_PRIORITY_MASK;
+	V9_Poke(V9_P1_SPAT + 3 + (id * 4), val); 
+}
+
+// Function: V9_SetSpritePaletteP1
+// Set sprite palette for P1 mode.
+//
+// Parameters:
+//   id - Sprite index (0 to 124).
+//   info - Sprite additionnal information.
+inline void V9_SetSpritePaletteP1(u8 id, u8 pal)
+{
+	u8 val = V9_Peek(V9_P1_SPAT + 3 + (id * 4));
+	val &= ~V9_SPAT_PALETTE_MASK;
+	val |= pal << 6;
+	V9_Poke(V9_P1_SPAT + 3 + (id * 4), val); 
+}
 
 #endif // (V9_USE_MODE_P1)
 
+//.............................................................................
 #if (V9_USE_MODE_P2)
 
 // Function: V9_SetSpriteP2
 // Set sprite attribute for P2 mode.
 //
 // Parameters:
-//   id - Sprite index (0 to 125).
+//   id - Sprite index (0 to 124).
 //   attr - Pointer to sprite structure.
 inline void V9_SetSpriteP2(u8 id, const struct V9_Sprite* attr) { V9_WriteVRAM(V9_P2_SPAT + 4 * id, (const u8*)attr, 4); }
 
@@ -788,7 +878,7 @@ inline void V9_SetSpriteP2(u8 id, const struct V9_Sprite* attr) { V9_WriteVRAM(V
 // Set sprite pattern for P2 mode.
 //
 // Parameters:
-//   id - Sprite index (0 to 125).
+//   id - Sprite index (0 to 124).
 //   pat - Pattern index (0 to 255).
 inline void V9_SetSpritePatternP2(u8 id, u8 pat) { V9_Poke(V9_P2_SPAT + 4 * id + 1, pat); }
 
@@ -796,10 +886,74 @@ inline void V9_SetSpritePatternP2(u8 id, u8 pat) { V9_Poke(V9_P2_SPAT + 4 * id +
 // Set sprite position for P2 mode.
 //
 // Parameters:
-//   id - Sprite index (0 to 125).
+//   id - Sprite index (0 to 124).
 //   x - Sprite X coordinate.
 //   y - Sprite Y coordinate.
 inline void V9_SetSpritePositionP2(u8 id, u8 x, u8 y) { V9_Poke(V9_P2_SPAT + (4 * id), y); V9_Poke(V9_P2_SPAT + (4 * id) + 2, x); }
+
+// Function: V9_SetSpriteInfoP2
+// Set sprite additionnal information for P2 mode.
+//
+// Parameters:
+//   id - Sprite index (0 to 124).
+//   info - Sprite additionnal information.
+// >	7	6	5	4	3	2	1	0
+// >	SC5	SC4	PR1	PR0	-	-	X9	X8
+// >	│	│	│	│	 	 	└───┴── X-coordinate (bits 8:9)
+// >	│	│	│	└────────────────── Disable flag (0: Enable, 1: Disable)
+// >	│	│	└────────────────────── Priority flag (0: Front, 1: Between layers)
+// >	└───┴────────────────────────── Color palette base (0-3)
+//          Can be any combination of:
+//             <V9_SPAT_INFO_ENABLE> or <V9_SPAT_INFO_DISABLE>
+//           + <V9_SPAT_INFO_PRIO_FRONT> or <V9_SPAT_INFO_PRIO_BETWEEN>
+//           + <V9_SPAT_INFO_PALETTE>
+inline void V9_SetSpriteInfoP2(u8 id, u8 info) { V9_Poke(V9_P2_SPAT + 3 + (id * 4), info); }
+
+// Function: V9_SetSpriteDisableP2
+// Set sprite disable flag for P2 mode.
+//
+// Parameters:
+//   id - Sprite index (0 to 124).
+//   disable - Is sprite display is disable?
+inline void V9_SetSpriteDisableP2(u8 id, bool disable)
+{
+	u8 val = V9_Peek(V9_P2_SPAT + 3 + (id * 4));
+	if (disable)
+		val &= ~V9_SPAT_DISABLE_MASK;
+	else
+		val |= V9_SPAT_DISABLE_MASK;
+	V9_Poke(V9_P2_SPAT + 3 + (id * 4), val); 
+}
+
+// Function: V9_SetSpritePriorityP2
+// Set sprite priority for P2 mode.
+//
+// Parameters:
+//   id - Sprite index (0 to 124).
+//   prio - Priority flag (0: Front, 1: Between layers).
+inline void V9_SetSpritePriorityP2(u8 id, u8 prio)
+{
+	u8 val = V9_Peek(V9_P2_SPAT + 3 + (id * 4));
+	if (prio)
+		val &= ~V9_SPAT_PRIORITY_MASK;
+	else
+		val |= V9_SPAT_PRIORITY_MASK;
+	V9_Poke(V9_P2_SPAT + 3 + (id * 4), val); 
+}
+
+// Function: V9_SetSpritePaletteP2
+// Set sprite palette for P2 mode.
+//
+// Parameters:
+//   id - Sprite index (0 to 124).
+//   info - Sprite additionnal information.
+inline void V9_SetSpritePaletteP2(u8 id, u8 pal)
+{
+	u8 val = V9_Peek(V9_P2_SPAT + 3 + (id * 4));
+	val &= ~V9_SPAT_PALETTE_MASK;
+	val |= pal << 6;
+	V9_Poke(V9_P2_SPAT + 3 + (id * 4), val); 
+}
 
 #endif // (V9_USE_MODE_P2)
 

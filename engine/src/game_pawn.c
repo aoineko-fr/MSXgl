@@ -10,7 +10,7 @@
 #include "game_pawn.h"
 #include "vdp.h"
 #include "memory.h"
-#if (GAMEPAWN_USE_V9990)
+#if ((GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_V9) || (GAMEPAWN_SPT_MODE == GAMEPAWN_SPT_MODE_V9_P1) || (GAMEPAWN_SPT_MODE == GAMEPAWN_SPT_MODE_V9_P2))
 #include "v9990.h"
 #endif
 
@@ -19,9 +19,7 @@
 //=============================================================================
 
 // RAM buffer to send data to VRAM
-static u8 g_Game_DrawY;
-static u8 g_Game_DrawX;
-static u8 g_Game_DrawPattern;
+static u8 g_GamePawn_Buffer[4];
 
 // Static pointer for compilation optimization
 static Game_Pawn* g_Pawn;
@@ -34,7 +32,7 @@ u8 g_Game_CellY;
 #endif
 
 // Tile map buffer in RAM
-#if (!GAMEPAWN_USE_VRAM_COL)
+#if (GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_RAM)
 const u8* g_GamePawn_TileMap;
 #endif
 
@@ -52,45 +50,45 @@ void GamePawn_Initialize(Game_Pawn* pawn, const Game_Sprite* sprtList, u8 sprtNu
 	Mem_Set(0x00, g_Pawn, sizeof(Game_Pawn));
 	g_Pawn->SpriteList = sprtList;
 	g_Pawn->SpriteNum = sprtNum;
-	#if !(GAMEPAWN_ID_PER_LAYER)
+#if !(GAMEPAWN_ID_PER_LAYER)
 	g_Pawn->SpriteID = sprtID;
-	#endif
+#endif
 	g_Pawn->ActionList = actList;
 
 	// Initialize pawn action
 	GamePawn_SetAction(g_Pawn, 0);
 
 	// Initialize pawn sprite color
-	#if !(GAMEPAWN_ID_PER_LAYER)
+#if !(GAMEPAWN_ID_PER_LAYER)
 	u8 sprtIdx = sprtID;
-	#endif
+#endif
 	g_Sprite = sprtList;
 	loop(i, g_Pawn->SpriteNum)
 	{
-		#if (GAMEPAWN_ID_PER_LAYER)
+	#if (GAMEPAWN_ID_PER_LAYER)
 		u8 sprtIdx = g_Sprite->SpriteID;
-		#endif
-
-		#if !(GAMEPAWN_USE_V9990)
+	#endif
+	#if (GAMEPAWN_SPT_MODE == GAMEPAWN_SPT_MODE_V9_P1)
+		V9_SetSpriteInfoP1(sprtIdx, V9_SPAT_INFO_PALETTE(g_Sprite->Color));
+	#elif (GAMEPAWN_SPT_MODE == GAMEPAWN_SPT_MODE_V9_P2)
+		V9_SetSpriteInfoP2(sprtIdx, V9_SPAT_INFO_PALETTE(g_Sprite->Color));
+	#else
 		u8 color = g_Sprite->Color;
 		if((g_Sprite->Flag & PAWN_SPRITE_OR) != 0)
 			color |= VDP_SPRITE_CC;
 
-		#if ((MSX_VERSION & MSX_1) || GAMEPAWN_FORCE_SM1)
+		#if (GAMEPAWN_SPT_MODE == GAMEPAWN_SPT_MODE_MSX1)
 		VDP_SetSpriteColorSM1(sprtIdx, color);
-		#else
+		#else // (GAMEPAWN_SPT_MODE == GAMEPAWN_SPT_MODE_MSX2)
 		VDP_SetSpriteUniColor(sprtIdx, color);
 		#endif
-
-		#if !(GAMEPAWN_ID_PER_LAYER)
-		if((g_Sprite->Flag & PAWN_SPRITE_ODD) == 0)
+	#endif
+	#if !(GAMEPAWN_ID_PER_LAYER)
+		if((g_Sprite->Flag & PAWN_SPRITE_ODD) == 0) // don't increment sprite index for odd frames
 			sprtIdx++;
-		#endif
-		#endif // !(GAMEPAWN_USE_V9990)
-
+	#endif
 		g_Sprite++;
 	}
-
 }
 
 //-----------------------------------------------------------------------------
@@ -427,30 +425,36 @@ void GamePawn_Draw(Game_Pawn* pawn)
 
 	g_Sprite = g_Pawn->SpriteList;
 
-	#if (GAMEPAWN_USE_V9990)
+#if ((GAMEPAWN_SPT_MODE == GAMEPAWN_SPT_MODE_V9_P1) || (GAMEPAWN_SPT_MODE == GAMEPAWN_SPT_MODE_V9_P2))
 
-		struct V9_Sprite sprt;
-		sprt.P = 0;
-		sprt.D = 0; // enable this sprite
-		sprt.SC = 1; // use 2nd palette
-
-		u8 sprtId = g_Pawn->SpriteID;
-
-		loop(i, g_Pawn->SpriteNum)
-		{
-			sprt.Y = g_Pawn->PositionY + g_Sprite->OffsetY - 1; // Decrement Y to fit screen coordinate;
-			sprt.X = g_Pawn->PositionX + g_Sprite->OffsetX;
-			sprt.Pattern = g_Pawn->AnimFrame + g_Sprite->DataOffset;
-			V9_SetSpriteP1(sprtId++, &sprt);
-
-			g_Sprite = (const Game_Sprite*)((u8*)g_Sprite + sizeof(Game_Sprite));
-		}
-
-	#else
-
-	#if !(GAMEPAWN_ID_PER_LAYER)
-	u16 dest = g_SpriteAttributeLow + (g_Pawn->SpriteID * 4);
+#if !(GAMEPAWN_ID_PER_LAYER)
+	u8 sprtId = g_Pawn->SpriteID;
+#endif
+	loop(i, g_Pawn->SpriteNum)
+	{
+	#if (GAMEPAWN_ID_PER_LAYER)
+		u8 sprtId = g_Sprite->SpriteID;
 	#endif
+		g_GamePawn_Buffer[2] = g_Pawn->PositionX + g_Sprite->OffsetX;
+		g_GamePawn_Buffer[0] = g_Pawn->PositionY + g_Sprite->OffsetY - 1; // Decrement Y to fit screen coordinate;
+		g_GamePawn_Buffer[1] = g_Pawn->AnimFrame + g_Sprite->DataOffset;
+	#if (GAMEPAWN_SPT_MODE == GAMEPAWN_SPT_MODE_V9_P1)
+		V9_WriteVRAM(V9_P1_SPAT + (sprtId * 4), (const u8*)g_GamePawn_Buffer, 3);
+	#else
+		V9_WriteVRAM(V9_P2_SPAT + (sprtId * 4), (const u8*)g_GamePawn_Buffer, 3);
+	#endif
+	#if !(GAMEPAWN_ID_PER_LAYER)
+		sprtId++;
+	#endif
+		g_Sprite = (const Game_Sprite*)((u8*)g_Sprite + sizeof(Game_Sprite));
+	}
+
+#else
+
+#if !(GAMEPAWN_ID_PER_LAYER)
+	u16 dest = g_SpriteAttributeLow + (g_Pawn->SpriteID * 4);
+#endif
+
 	loop(i, g_Pawn->SpriteNum)
 	{
 		if(g_Sprite->Flag & PAWN_SPRITE_EVEN) // Skip odd frames
@@ -468,34 +472,33 @@ void GamePawn_Draw(Game_Pawn* pawn)
 				g_Pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
 
-		g_Game_DrawY = g_Pawn->PositionY + g_Sprite->OffsetY - 1; // Decrement Y to fit screen coordinate
-		g_Game_DrawX = g_Pawn->PositionX + g_Sprite->OffsetX;
+		g_GamePawn_Buffer[0] = g_Pawn->PositionY + g_Sprite->OffsetY - 1; // Decrement Y to fit screen coordinate
+		g_GamePawn_Buffer[1] = g_Pawn->PositionX + g_Sprite->OffsetX;
 		u8 size = 2;
 
 		if(g_Pawn->Update & PAWN_UPDATE_PATTERN)
 		{
-			g_Game_DrawPattern = g_Pawn->AnimFrame + g_Sprite->DataOffset;
+			g_GamePawn_Buffer[2] = g_Pawn->AnimFrame + g_Sprite->DataOffset;
 			size++;
 		}
 
-		#if (GAMEPAWN_ID_PER_LAYER)
+	#if (GAMEPAWN_ID_PER_LAYER)
 		u16 dest = g_SpriteAttributeLow + (g_Sprite->SpriteID * 4);
-		#endif
-		VDP_WriteVRAM((u8*)&g_Game_DrawY, dest, g_SpriteAttributeHigh, size);
-		#if !(GAMEPAWN_ID_PER_LAYER)
+	#endif
+		VDP_WriteVRAM(g_GamePawn_Buffer, dest, g_SpriteAttributeHigh, size);
+	#if !(GAMEPAWN_ID_PER_LAYER)
 		dest += 4;
-		#endif
+	#endif
 
 	SkipDrawing:
 		//g_Sprite++;
 		g_Sprite = (const Game_Sprite*)((u8*)g_Sprite + sizeof(Game_Sprite));
 	}
 
-	#endif // !(GAMEPAWN_USE_V9990)
+#endif
 
 	g_Pawn->Update = 0;
 }
-
 
 #if (GAMEPAWN_USE_PHYSICS)
 //-----------------------------------------------------------------------------
@@ -515,11 +518,11 @@ void GamePawn_InitializePhysics(Game_Pawn* pawn, Game_PhysicsCB pcb, Game_Collis
 	boundY;
 	pawn->PhysicsCB = pcb; 
 	pawn->CollisionCB = ccb;
-	#if (GAMEPAWN_BOUND_X == GAMEPAWN_BOUND_CUSTOM)
+#if (GAMEPAWN_BOUND_X == GAMEPAWN_BOUND_CUSTOM)
 	pawn->BoundX = boundX;
-	#endif
-	#if (GAMEPAWN_BOUND_Y == GAMEPAWN_BOUND_CUSTOM)
+#endif
+#if (GAMEPAWN_BOUND_Y == GAMEPAWN_BOUND_CUSTOM)
 	pawn->BoundY = boundY;
-	#endif
+#endif
 }
 #endif

@@ -195,6 +195,9 @@ LocOutput = "localization.h";
 //-- Localization structure name (string)
 LocStruct = "g_LocData";
 
+//-- Split socalization data and definitions in different files (boolean)
+LocSplitDef = false;
+
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 PackSegments = false;
 

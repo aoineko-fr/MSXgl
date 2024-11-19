@@ -281,11 +281,21 @@
 // Top/bottom border position (in pixel)
 #define GAMEPAWN_BORDER_MIN_Y		0		// High border Y coordinade
 #define GAMEPAWN_BORDER_MAX_Y		184		// Low border Y coordinate
-#define GAMEPAWN_FORCE_SM1			FALSE	// Force the use sprite mode 1 (for MSX2) 
-#define GAMEPAWN_USE_VRAM_COL		TRUE	// Use VRAM to chech tile collision (otherwise, use RAM buffer)
 #define GAMEPAWN_TILEMAP_WIDTH		32		// Width of the tiles map
 #define GAMEPAWN_TILEMAP_HEIGHT		24		// Height of the tiles map
-#define GAMEPAWN_USE_V9990			FALSE	// Use V9990 sprites
+// Collision tilemap source
+// - GAMEPAWN_TILEMAP_SRC_AUTO .... Backward compatibility option
+// - GAMEPAWN_TILEMAP_SRC_RAM ..... Tilemap located in a buffer in RAM (best for performance)
+// - GAMEPAWN_TILEMAP_SRC_VRAM .... Tilemap located in VRAM (slow but don't need additionnal data)
+// - GAMEPAWN_TILEMAP_SRC_V9 ...... Tilemap located in V9990's VRAM
+#define GAMEPAWN_TILEMAP_SRC		GAMEPAWN_TILEMAP_SRC_VRAM
+// Pawn's sprite mode
+// - GAMEPAWN_SPT_MODE_AUTO ....... Backward compatibility option
+// - GAMEPAWN_SPT_MODE_MSX1 ....... Sprite Mode 1 (MSX1 screens)
+// - GAMEPAWN_SPT_MODE_MSX2 ....... Sprite Mode 2 (MSX2 screens)
+// - GAMEPAWN_SPT_MODE_V9_P1 ...... V9990 sprite in P1 mode
+// - GAMEPAWN_SPT_MODE_V9_P2 ...... V9990 sprite in P2 mode
+#define GAMEPAWN_SPT_MODE			GAMEPAWN_SPT_MODE_MSX1
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE
