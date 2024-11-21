@@ -13,3 +13,4 @@ if type -P node; then
 else
 	../../tools/build/Node/node ../../engine/script/js/build.js target=$1
 fi
+
