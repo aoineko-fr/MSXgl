@@ -59,8 +59,8 @@
 
 // Function: JoyMega_Read3
 // Read Megadrive 3-button joypad through JoyMega adapter
-u8 JoyMega_Read3(u8 port);
+u8 JoyMega_Read3(enum INPUT_PORT port);
 
 // Function: JoyMega_Read6
 // Read Megadrive 6-button joypad through JoyMega adapter
-u16 JoyMega_Read6(u8 port);
+u16 JoyMega_Read6(enum INPUT_PORT port);
