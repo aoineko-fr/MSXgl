@@ -13,6 +13,23 @@
 // - Six Button Control Pad (Sega Retro): https://segaretro.org/Six_Button_Control_Pad_(Mega_Drive)#Technical_information
 //─────────────────────────────────────────────────────────────────────────────
 #include "joymega.h"
+#include "system_port.h"
+
+//			MSX					MEGA
+//-------------------------------------------------------
+//	Up			(1) --------- (1)	Up
+//	Down		(2) ~~~~~~~~~ (2)	Down
+//	Left		(3) ~~~~~~~~~ (3)	Left
+//	Right		(4) ~~~~~~~~~ (4)	Right
+//	+5V			(5) ~~~~~~~~~ (5)	+5V
+//	Trigger 1	(6) ~~~~~~~~~ (6)	TL (A/B)
+//	Trigger 2	(7) ~~~~~~~~~ (9)	TR (Start/C)
+//	OUT			(8) ~~~~~~~~~ (7)	TH (Select)
+//	Ground		(9) ~~~~~~~~~ (8)	Ground
+
+//=============================================================================
+// DEFINES
+//=============================================================================
 
 //=============================================================================
 // DEFINES
@@ -32,120 +49,141 @@
 
 //-----------------------------------------------------------------------------
 // Read Megadrive 3-button joypad through JoyMega adapter
-u8 JoyMega_Read3(u8 port) __NAKED
+//
+// 			TH out	TR in	TL in	D3 in	D2 in	D1 in	D0 in
+// Cycle	Pin8	Pin7	Pin6	Pin4	Pin3	Pin2	Pin1
+//----------------------------------------------------------------
+// <1>		HI		C		B		Right	Left	Down	Up
+// <2>		LO		Start	A		0		0		Down	Up
+//
+// INPUT_PORT1 = 0b00010011
+// INPUT_PORT2 = 0b01101100
+u8 JoyMega_Read3(enum INPUT_PORT port) __NAKED
 {
 	port; // A
 
 __asm
 	// Setup
-	or		a
-	jp		nz, jm3_setup_port2 
-jm3_setup_port1:
-	ld		hl, (jm_data_port1)
-	jp		jm3_detect_start 
-jm3_setup_port2:
-	ld		hl, (jm_data_port2)
+	ld		h, a
+	and		#0b11001111				// Set Pin 8 LOW
+	ld		l, a
 
 jm3_detect_start:
 	INPUT_DI
-	call	jm_get_high				// Get: xxCBRLDU
-	ld		b, a
-
-	call	jm_get_low				// Get: xxSAxxxx
-	INPUT_EI
-	and		#0b00110000
-	add		a, a
-	add		a, a					// Compute: SAxxxxxx
-
-	or		a, b					// Merge: SACBRLDU
-
-	ret								// Return A
-
-jm_get_high:
-	ld		a, #15
-	out		(P_PSG_REGS), a			// Select R#15
-	ld		a, h
-	out		(P_PSG_DATA), a			// Set Pin 6 LOW
-
-	ld		a, #14
-	out		(P_PSG_REGS), a			// Select R#14
-	in		a, (P_PSG_STAT)			// Read R#14
-
-	ret
-
-jm_get_low:
+	// Get: [..CBRLDU]
 	ld		a, #15
 	out		(P_PSG_REGS), a			// Select R#15
 	ld		a, l
 	out		(P_PSG_DATA), a			// Set Pin 6 LOW
+	ld		a, #14
+	out		(P_PSG_REGS), a			// Select R#14
+	in		a, (P_PSG_STAT)			// Read R#14
+	and		#0b00111111
+	ld		b, a					// Backup: [00CBRLDU]
 
+	// Get: [..SA....]
+	ld		a, #15
+	out		(P_PSG_REGS), a			// Select R#15
+	ld		a, h
+	out		(P_PSG_DATA), a			// Set Pin 6 LOW
 	ld		a, #14
 	out		(P_PSG_REGS), a			// Select R#14
 	in		a, (P_PSG_STAT)			// Read R#14
 
-	ret
-
-jm_data_port1:
-			// S 8  76
-	.db		0b00000011 // Pin 8 LOW
-	.db		0b00010011 // Pin 8 HIGH
-
-jm_data_port2:
-			// S8 76
-	.db		0b01001100 // Pin 8 LOW
-	.db		0b01101100 // Pin 8 HIGH
+	// Merge result
+	INPUT_EI
+	and		#0b00110000
+	add		a, a
+	add		a, a					// Compute: [SA000000]
+	or		a, b					// Merge: [SACBRLDU]
+	ret								// Return A
 
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Read Megadrive 6-button joypad through JoyMega adapter
-u16 JoyMega_Read6(u8 port) __NAKED
+//
+// 			TH out	TR in	TL in	D3 in	D2 in	D1 in	D0 in
+// Cycle	Pin8	Pin7	Pin6	Pin4	Pin3	Pin2	Pin1
+//----------------------------------------------------------------
+// <1>		LO		C		B		Right	Left	Down	Up
+// <2>		HI		Start	A		0		0		Down	Up
+//  3		LO		C		B		Right	Left	Down	Up
+//  4		HI		Start	A		0		0		Down	Up
+//  5		LO		C		B		Right	Left	Down	Up
+//  6		HI		Start	A		0		0		0		0
+// <7>		LO		C		B		Mode	X		Y		Z
+//  8		HI		Start	A		---		---		---		---
+//
+// INPUT_PORT1 = 0b00010011
+// INPUT_PORT2 = 0b01101100
+u16 JoyMega_Read6(enum INPUT_PORT port) __NAKED
 {
 	port; // A
 
 __asm
 	// Setup
-	or		a
-	jp		nz, jm3_setup_port2 
-jm3_setup_port1:
-	ld		hl, (jm_data_port1)
-	jp		jm3_detect_start 
-jm3_setup_port2:
-	ld		hl, (jm_data_port2)
+	ld		h, a
+	and		#0b11001111				// Set Pin 8 LOW
+	ld		l, a
 
-jm3_detect_start:
+jm6_detect_start:
 	INPUT_DI
-	call	jm_get_high				// Get: xxCBRLDU
-	ld		b, a
+	call	jm6_set_low				// Set: Phase 1
+	call	jm6_get					// Get: [..CBRLDU]
+	and		#0b00111111
+	ld		b, a					// Backup: [00CBRLDU]
 
-	call	jm_get_low				// Get: xxSAxxxx
+	call	jm6_set_high			// Set: Phase 2
+	call	jm6_get					// Get: [..SA....]
 	and		#0b00110000
 	add		a, a
-	add		a, a					// Compute: SAxxxxxx
-
-	or		a, b					// Merge: SACBRLDU
+	add		a, a					// Compute: [SA000000]
+	or		a, b					// Merge: [SACBRLDU]
 	ld		e, a					// Store in E
 
-	call	jm_get_high
-	call	jm_get_low
-	call	jm_get_high
-	call	jm_get_low
+	call	jm6_set_low				// Set: Phase 3
+	call	jm6_set_high			// Set: Phase 4
+	call	jm6_set_low				// Set: Phase 5
+	call	jm6_set_high			// Set: Phase 6
+	call	jm6_get					// Get: [....0000]
 	and		#0x0F					// Keep low 4-bit; should be 0 for a 6-button joypad
-	jp		nz, jm3_detect_failed
+	jp		nz, jm6_detect_failed
 
-	call	jm_get_high				// Get: xxCBMXYZ
-	INPUT_EI
-	and		#0x0F					// Compute: 0000MXYZ
+	call	jm6_set_low				// Set: Phase 6
+	call	jm6_get					// Get: [....MXYZ]
+	and		#0x0F					// Compute: [0000MXYZ]
 	ld		d, a					// Store in D
 
-	//call	jm_get_low				// Can be used to reset joypad internal counter
+	call	jm6_set_high			// Set: Phase 7 (reset the joystick internal counter)
+	INPUT_EI
 
 	ret								// return DE
 
-jm3_detect_failed:
-	ld		d, #0					// Reset D
-	
+jm6_set_high:
+	ld		a, #15
+	out		(P_PSG_REGS), a			// Select R#15
+	ld		a, h
+	out		(P_PSG_DATA), a			// Set Pin 6 LOW
 	ret
+
+jm6_set_low:
+	ld		a, #15
+	out		(P_PSG_REGS), a			// Select R#15
+	ld		a, l
+	out		(P_PSG_DATA), a			// Set Pin 6 LOW
+	ret
+
+jm6_get:
+	ld		a, #14
+	out		(P_PSG_REGS), a			// Select R#14
+	in		a, (P_PSG_STAT)			// Read R#14
+	ret
+
+jm6_detect_failed:
+	ld		d, #0					// Reset D
+	ret								// Return DE (in 3-butons mode)
+
 __endasm;
 }

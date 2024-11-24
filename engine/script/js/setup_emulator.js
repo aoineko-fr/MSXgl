@@ -140,7 +140,7 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulPortB === "JOYSTICK") { EmulatorArgs += ' -command "plug joyportb msxjoystick2"'; }
 	if (EmulPortB === "MOUSE")    { EmulatorArgs += ' -command "plug joyportb mouse"'; }
 	if (EmulPortB === "PADDLE")   { EmulatorArgs += ' -command "plug joyportb arkanoidpad"'; }
-	if (EmulPortA === "JOYMEGA")  { EmulatorArgs += ' -command "plug joyportb joymega2"'; }
+	if (EmulPortB === "JOYMEGA")  { EmulatorArgs += ' -command "plug joyportb joymega2"'; }
 	if (EmulPortB === "NINJATAP") { EmulatorArgs += ' -command "plug joyportb ninjatap"'; }
 
 	//---- Start emulator ----
