@@ -6,7 +6,7 @@
 Machine = "1";
 
 //-- List of library modules to build (array)
-LibModules = [ "device/joymega", ...LibModules];
+LibModules = [ "device/joymega", "device/msx-hid", ...LibModules];
 
 //-- Plug a virtual device into the joystick port A (string)
 EmulPortA = "JoyMega";

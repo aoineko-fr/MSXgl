@@ -43,7 +43,7 @@ __asm
 	ld		a, #PSG_REG_IO_PORT_B	// R#15
 	out		(P_PSG_REGS), a			// Select port B (output)
 	ld		a, h					// 
-	out		(P_PSG_DATA), a			// Set Pin 8 LOW
+	out		(P_PSG_DATA), a			// Set Pin 8 HIGH
 
 	ld		a, #PSG_REG_IO_PORT_A	// R#14
 	out		(P_PSG_REGS), a			// Select port A (input)

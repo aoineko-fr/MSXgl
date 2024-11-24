@@ -13,6 +13,7 @@
 // - Six Button Control Pad (Sega Retro): https://segaretro.org/Six_Button_Control_Pad_(Mega_Drive)#Technical_information
 //─────────────────────────────────────────────────────────────────────────────
 #include "joymega.h"
+#include "system_port.h"
 
 //			MSX					MEGA
 //-------------------------------------------------------
@@ -72,7 +73,7 @@ jm3_detect_start:
 	// Get: [..CBRLDU]
 	ld		a, #15
 	out		(P_PSG_REGS), a			// Select R#15
-	ld		a, h
+	ld		a, l
 	out		(P_PSG_DATA), a			// Set Pin 6 LOW
 	ld		a, #14
 	out		(P_PSG_REGS), a			// Select R#14
@@ -83,7 +84,7 @@ jm3_detect_start:
 	// Get: [..SA....]
 	ld		a, #15
 	out		(P_PSG_REGS), a			// Select R#15
-	ld		a, l
+	ld		a, h
 	out		(P_PSG_DATA), a			// Set Pin 6 LOW
 	ld		a, #14
 	out		(P_PSG_REGS), a			// Select R#14
@@ -106,14 +107,14 @@ __endasm;
 // 			TH out	TR in	TL in	D3 in	D2 in	D1 in	D0 in
 // Cycle	Pin8	Pin7	Pin6	Pin4	Pin3	Pin2	Pin1
 //----------------------------------------------------------------
-// <1>		HI		C		B		Right	Left	Down	Up
-// <2>		LO		Start	A		0		0		Down	Up
-//  3		HI		C		B		Right	Left	Down	Up
-//  4		LO		Start	A		0		0		Down	Up
-//  5		HI		C		B		Right	Left	Down	Up
-//  6		LO		Start	A		0		0		0		0
-// <7>		HI		C		B		Mode	X		Y		Z
-//  8		LO		Start	A		---		---		---		---
+// <1>		LO		C		B		Right	Left	Down	Up
+// <2>		HI		Start	A		0		0		Down	Up
+//  3		LO		C		B		Right	Left	Down	Up
+//  4		HI		Start	A		0		0		Down	Up
+//  5		LO		C		B		Right	Left	Down	Up
+//  6		HI		Start	A		0		0		0		0
+// <7>		LO		C		B		Mode	X		Y		Z
+//  8		HI		Start	A		---		---		---		---
 //
 // INPUT_PORT1 = 0b00010011
 // INPUT_PORT2 = 0b01101100
@@ -129,12 +130,12 @@ __asm
 
 jm6_detect_start:
 	INPUT_DI
-	call	jm6_set_high			// Set: Phase 1
+	call	jm6_set_low				// Set: Phase 1
 	call	jm6_get					// Get: [..CBRLDU]
 	and		#0b00111111
 	ld		b, a					// Backup: [00CBRLDU]
 
-	call	jm6_set_low				// Set: Phase 2
+	call	jm6_set_high			// Set: Phase 2
 	call	jm6_get					// Get: [..SA....]
 	and		#0b00110000
 	add		a, a
@@ -142,20 +143,20 @@ jm6_detect_start:
 	or		a, b					// Merge: [SACBRLDU]
 	ld		e, a					// Store in E
 
-	call	jm6_set_high			// Set: Phase 3
-	call	jm6_set_low				// Set: Phase 4
-	call	jm6_set_high			// Set: Phase 5
-	call	jm6_set_low				// Set: Phase 6
+	call	jm6_set_low				// Set: Phase 3
+	call	jm6_set_high			// Set: Phase 4
+	call	jm6_set_low				// Set: Phase 5
+	call	jm6_set_high			// Set: Phase 6
 	call	jm6_get					// Get: [....0000]
 	and		#0x0F					// Keep low 4-bit; should be 0 for a 6-button joypad
 	jp		nz, jm6_detect_failed
 
-	call	jm6_set_high			// Set: Phase 6
+	call	jm6_set_low				// Set: Phase 6
 	call	jm6_get					// Get: [....MXYZ]
 	and		#0x0F					// Compute: [0000MXYZ]
 	ld		d, a					// Store in D
 
-	call	jm6_set_low				// Set: Phase 7 (reset the joystick internal counter)
+	call	jm6_set_high			// Set: Phase 7 (reset the joystick internal counter)
 	INPUT_EI
 
 	ret								// return DE
