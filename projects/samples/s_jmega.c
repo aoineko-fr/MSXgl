@@ -125,18 +125,18 @@ void main()
 
 			Print_SetPosition(8 + i * 20, 8);
 			Print_DrawHex16(jm);
-			Print_DrawCharAt(8 + i * 20,  9, jm & JOYMEGA_IN_UP ? 'X' : 'O');
-			Print_DrawCharAt(8 + i * 20, 10, jm & JOYMEGA_IN_DOWN ? 'X' : 'O');
-			Print_DrawCharAt(8 + i * 20, 11, jm & JOYMEGA_IN_LEFT ? 'X' : 'O');
-			Print_DrawCharAt(8 + i * 20, 12, jm & JOYMEGA_IN_RIGHT ? 'X' : 'O');
-			Print_DrawCharAt(8 + i * 20, 13, jm & JOYMEGA_IN_A ? 'X' : 'O');
-			Print_DrawCharAt(8 + i * 20, 14, jm & JOYMEGA_IN_B ? 'X' : 'O');
-			Print_DrawCharAt(8 + i * 20, 15, jm & JOYMEGA_IN_C ? 'X' : 'O');
-			Print_DrawCharAt(8 + i * 20, 16, jm & JOYMEGA_IN_X ? 'X' : 'O');
-			Print_DrawCharAt(8 + i * 20, 17, jm & JOYMEGA_IN_Y ? 'X' : 'O');
-			Print_DrawCharAt(8 + i * 20, 18, jm & JOYMEGA_IN_Z ? 'X' : 'O');
-			Print_DrawCharAt(8 + i * 20, 19, jm & JOYMEGA_IN_START ? 'X' : 'O');
-			Print_DrawCharAt(8 + i * 20, 20, jm & JOYMEGA_IN_MODE ? 'X' : 'O');
+			Print_DrawCharAt(8 + i * 20,  9, JoyMega_IsPressedUp(jm) ? 0x88 : 0x07);
+			Print_DrawCharAt(8 + i * 20, 10, JoyMega_IsPressedDown(jm) ? 0x89 : 0x07);
+			Print_DrawCharAt(8 + i * 20, 11, JoyMega_IsPressedLeft(jm) ? 0x8B : 0x07);
+			Print_DrawCharAt(8 + i * 20, 12, JoyMega_IsPressedRight(jm) ? 0x8A : 0x07);
+			Print_DrawCharAt(8 + i * 20, 13, JoyMega_IsPressedA(jm) ? 0x0C : 0x0B);
+			Print_DrawCharAt(8 + i * 20, 14, JoyMega_IsPressedB(jm) ? 0x0C : 0x0B);
+			Print_DrawCharAt(8 + i * 20, 15, JoyMega_IsPressedC(jm) ? 0x0C : 0x0B);
+			Print_DrawCharAt(8 + i * 20, 16, JoyMega_IsPressedX(jm) ? 0x0C : 0x0B);
+			Print_DrawCharAt(8 + i * 20, 17, JoyMega_IsPressedY(jm) ? 0x0C : 0x0B);
+			Print_DrawCharAt(8 + i * 20, 18, JoyMega_IsPressedZ(jm) ? 0x0C : 0x0B);
+			Print_DrawCharAt(8 + i * 20, 19, JoyMega_IsPressedStart(jm) ? 0x0C : 0x0B);
+			Print_DrawCharAt(8 + i * 20, 20, JoyMega_IsPressedMode(jm) ? 0x0C : 0x0B);
 
 			Update_MSXHID(i); // Pin 8 will stay HIGH long enough to don't disturb next call to JoyMega_Read6
 		}

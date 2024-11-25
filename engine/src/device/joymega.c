@@ -15,7 +15,7 @@
 #include "joymega.h"
 #include "system_port.h"
 
-//			MSX					MEGA
+//	MSX								MEGA
 //-------------------------------------------------------
 //	Up			(1) --------- (1)	Up
 //	Down		(2) ~~~~~~~~~ (2)	Down
@@ -130,56 +130,82 @@ __asm
 
 jm6_detect_start:
 	INPUT_DI
-	call	jm6_set_low				// Set: Phase 1
-	call	jm6_get					// Get: [..CBRLDU]
+	// Set: Phase 1
+	ld		a, #15
+	out		(P_PSG_REGS), a			// Select R#15
+	ld		a, l
+	out		(P_PSG_DATA), a			// Set Pin 6 LOW
+
+	// Get: [..CBRLDU]
+	ld		a, #14
+	out		(P_PSG_REGS), a			// Select R#14
+	in		a, (P_PSG_STAT)			// Read R#14
 	and		#0b00111111
 	ld		b, a					// Backup: [00CBRLDU]
 
-	call	jm6_set_high			// Set: Phase 2
-	call	jm6_get					// Get: [..SA....]
+	// Set: Phase 2
+	ld		a, #15
+	out		(P_PSG_REGS), a			// Select R#15
+	ld		a, h
+	out		(P_PSG_DATA), a			// Set Pin 6 LOW
+
+	// Get: [..SA....]
+	ld		a, #14
+	out		(P_PSG_REGS), a			// Select R#14
+	in		a, (P_PSG_STAT)			// Read R#14
+
 	and		#0b00110000
 	add		a, a
 	add		a, a					// Compute: [SA000000]
 	or		a, b					// Merge: [SACBRLDU]
 	ld		e, a					// Store in E
 
-	call	jm6_set_low				// Set: Phase 3
-	call	jm6_set_high			// Set: Phase 4
-	call	jm6_set_low				// Set: Phase 5
-	call	jm6_set_high			// Set: Phase 6
-	call	jm6_get					// Get: [....0000]
-	and		#0x0F					// Keep low 4-bit; should be 0 for a 6-button joypad
-	jp		nz, jm6_detect_failed
-
-	call	jm6_set_low				// Set: Phase 6
-	call	jm6_get					// Get: [....MXYZ]
-	and		#0x0F					// Compute: [0000MXYZ]
-	ld		d, a					// Store in D
-
-	call	jm6_set_high			// Set: Phase 7 (reset the joystick internal counter)
-	INPUT_EI
-
-	ret								// return DE
-
-jm6_set_high:
-	ld		a, #15
-	out		(P_PSG_REGS), a			// Select R#15
-	ld		a, h
-	out		(P_PSG_DATA), a			// Set Pin 6 LOW
-	ret
-
-jm6_set_low:
+	// Set: Phase 3
 	ld		a, #15
 	out		(P_PSG_REGS), a			// Select R#15
 	ld		a, l
 	out		(P_PSG_DATA), a			// Set Pin 6 LOW
-	ret
 
-jm6_get:
+	// Set: Phase 4
+	ld		a, h
+	out		(P_PSG_DATA), a			// Set Pin 6 LOW
+
+	// Set: Phase 5
+	ld		a, l
+	out		(P_PSG_DATA), a			// Set Pin 6 LOW
+
+	// Set: Phase 6
+	ld		a, h
+	out		(P_PSG_DATA), a			// Set Pin 6 LOW
+
+	// Get: [....0000]
 	ld		a, #14
 	out		(P_PSG_REGS), a			// Select R#14
 	in		a, (P_PSG_STAT)			// Read R#14
-	ret
+	and		#0x0F					// Keep low 4-bit; should be 0 for a 6-button joypad
+	jp		nz, jm6_detect_failed
+
+	// Set: Phase 6
+	ld		a, #15
+	out		(P_PSG_REGS), a			// Select R#15
+	ld		a, l
+	out		(P_PSG_DATA), a			// Set Pin 6 LOW
+
+	// Get: [....MXYZ]
+	ld		a, #14
+	out		(P_PSG_REGS), a			// Select R#14
+	in		a, (P_PSG_STAT)			// Read R#14
+	and		#0x0F					// Compute: [0000MXYZ]
+	ld		d, a					// Store in D
+
+	// Set: Phase 7 (reset the joystick internal counter)
+	ld		a, #15
+	out		(P_PSG_REGS), a			// Select R#15
+	ld		a, h
+	out		(P_PSG_DATA), a			// Set Pin 6 LOW
+
+	INPUT_EI
+	ret								// return DE
 
 jm6_detect_failed:
 	ld		d, #0					// Reset D
