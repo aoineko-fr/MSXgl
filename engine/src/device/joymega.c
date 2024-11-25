@@ -53,8 +53,8 @@
 // 			TH out	TR in	TL in	D3 in	D2 in	D1 in	D0 in
 // Cycle	Pin8	Pin7	Pin6	Pin4	Pin3	Pin2	Pin1
 //----------------------------------------------------------------
-// <1>		HI		C		B		Right	Left	Down	Up
-// <2>		LO		Start	A		0		0		Down	Up
+// <1>		LO		C		B		Right	Left	Down	Up
+// <2>		HI		Start	A		0		0		Down	Up
 //
 // INPUT_PORT1 = 0b00010011
 // INPUT_PORT2 = 0b01101100
@@ -74,7 +74,7 @@ jm3_detect_start:
 	ld		a, #15
 	out		(P_PSG_REGS), a			// Select R#15
 	ld		a, l
-	out		(P_PSG_DATA), a			// Set Pin 6 LOW
+	out		(P_PSG_DATA), a			// Set Pin 8 LOW
 	ld		a, #14
 	out		(P_PSG_REGS), a			// Select R#14
 	in		a, (P_PSG_STAT)			// Read R#14
@@ -85,7 +85,7 @@ jm3_detect_start:
 	ld		a, #15
 	out		(P_PSG_REGS), a			// Select R#15
 	ld		a, h
-	out		(P_PSG_DATA), a			// Set Pin 6 LOW
+	out		(P_PSG_DATA), a			// Set Pin 8 HIGH
 	ld		a, #14
 	out		(P_PSG_REGS), a			// Select R#14
 	in		a, (P_PSG_STAT)			// Read R#14
