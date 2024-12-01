@@ -172,7 +172,41 @@
 ;------------------------------------------------------------------------------
 .macro INIT_P3_TO_P0
 
+	; crt0_p3_to_p0:
+	; 	; Set pages #0 primary slot equal to page #3 one
+	; 	in		a, (PPI_A)				; A=[P3|P2|P1|P0] Get primary slots info 
+	; 	and		a, #0b11111100			; A=[P3|P2|P1|00] Mask P0 slot 
+	; 	ld		b, a					; B=[P3|P2|P1|00] Backup
+	; 	and		a, #0b11000000			; A=[P3|00|00|00] Mask all pages slots but P3 
+	; 	rlca							;                 A<<1
+	; 	rlca							; A=[00|00|00|P3] A<<1
+	; 	or		a, b					; A=[P3|P2|P1|P3] Merge
+	; 	out		(PPI_A), a				;                 Set primary slots info
+
+	; 	; Set page #0 seconday slot equal to page #3 one
+	; 	ld		a, (SLTSL)				; A=[~3|~2|~1|~0] Read secondary slots register of selected primary slot
+	; 	cpl								; A=[S3|S2|S1|S0] Reverses the bits
+	; 	and		a, #0b11111100			; A=[S3|S2|S1|00] Mask S0 slot 
+	; 	ld		b, a					; B=[S3|S2|S1|00] Backup
+	; 	and		a, #0b11000000			; A=[S3|00|00|00] Mask all pages slots but S3 
+	; 	rlca							;                 A<<1
+	; 	rlca							; A=[00|00|00|S3] A<<1
+	; 	or		a, b					; A=[S3|S2|S1|S3] Merge
+	; 	ld		(SLTSL), a				;                 Set secondary slot info
+
 	crt0_p3_to_p0:
+
+		; Code by retrocanada76
+		; https://msx.org/forum/msx-talk/development/msxgl-%E2%80%93-a-new-c-game-library-for-msx?page=28
+
+		; D = current SLOT config (P3|P2|P1|P0)
+		; E = current SLTSL reg (P3)
+		in		a, (PPI_A)				; get current SLOTs
+		ld		e, a					; save for later (E)
+		ld		a, (SLTSL)				
+		cpl								; get current SSLOTs (P3)
+		ld		d,a						; save for later (D)
+
 		; Set pages #0 primary slot equal to page #3 one
 		in		a, (PPI_A)				; A=[P3|P2|P1|P0] Get primary slots info 
 		and		a, #0b11111100			; A=[P3|P2|P1|00] Mask P0 slot 
@@ -193,6 +227,93 @@
 		rlca							; A=[00|00|00|S3] A<<1
 		or		a, b					; A=[S3|S2|S1|S3] Merge
 		ld		(SLTSL), a				;                 Set secondary slot info
+
+		ld		a,(0)					; read from P0
+		ld		h,a						; save for comparison
+		cpl								; make it inverse
+		ld		(0),a					; write back to P0
+		ld		a,(0)					; read again
+		cp		h						; compare against original
+		jr		nz, #ram_found			; not the same ? RAM found here
+
+		; RAM deep search
+		; this routine search for RAM on P0. It searches each subslot as the RAM might be fragmented (Victor HC-80 or Sony HB-F900 rev1)
+		; it could be also MSX1s with RAM expansion cards
+		; into several 16K chunks.
+		; B = probing SSLOT (3 - 0)
+		; C = probing SLOT (3 - 0) (P3|P0)
+		; L = saved SLTSL reg for probing SLOT
+
+		ld		a,#0b11000011			; set probing SLOTs P0 and P3 to SLOT 3
+
+	slot_loop:
+		ld		c,a						; save probing P0 and P3
+
+		in		a, (PPI_A)				; read current SLOTs
+		and		#0b00111100				; mask out P0 and P3
+		or		c						; set P0 and P3 to current probing SLOTs
+		out		(PPI_A),a				
+
+		ld		b, #4					; probe for 4 SSLOTs	
+	sslot_loop:
+		ld		a, (SLTSL)				; read SSLOT reg
+		cpl								; get current SSLOTs for probing SLOT
+		ld		l, a					; save for later (L)
+		and		#0b11111100				; mask out P0
+		dec		b						; dec probing SSLOT (started on #4)
+		or		b						; set probing P0 SSLOT
+		ld		(SLTSL), a				; write SSLOT reg
+
+		ld		a,(0)					; read from P0
+		ld		h,a						; save for comparison
+		cpl								; make it inverse
+		ld		(0),a					; write back to P0
+		ld		a,(0)					; read again
+		cp		h						; compare against original
+		jr		nz, #ram_found			; not the same ? RAM found here
+
+		xor		a						; this SSLOT is not RAM
+		or 		b 						; check SSLOT counter
+		jr		nz, #sslot_loop			; repeat if still SSLOT left
+
+		ld		a,l						; no more SSLOTs for this SLOT
+		ld 		(SLTSL), a				; restore saved SSLOT for probing SLOT (L)
+
+		ld		a, e
+		out		(PPI_A), a 				; restore saved SLOT (E)
+		ld		a, d
+		ld		(SLTSL), a 				; restore saved SSLOT (D)
+
+		xor		a
+		or		c						; has ended ?
+		jr		z, #ram_not_found
+		sub		#0b01000001				; dec SLOTS P0 and P3
+		jr		#slot_loop				; repeat next slot
+
+	ram_found:
+		cpl								; ram has been found
+		ld		(0),a 					; restore original RAM content
+
+		ld		a,e						; now we found P0 ram lets 
+		and		#0b11000000				; extract P3 original SLOT
+		ld		e,a						; keep only original P3
+
+		in		a,(PPI_A)				; read actual SLOT config
+		and		#0b00111111				; mask out P3 from current config
+		or		e
+		out		(PPI_A),a				; set back original P3 SLOT
+
+		ld		a, d					; do the same now with SSLOT
+		and		#0b11000000				; extract P3 from original SSLOT
+		ld		d,a
+		ld		a,(SLTSL)				; read actual SSLOT
+		cpl
+		and		#0b00111111				; mask out P3
+		or		d						; set back original P3 SSLOT
+		ld		(SLTSL), a 				; restore orig sslot
+
+	ram_not_found:
+
 .endm
 
 ;------------------------------------------------------------------------------
