@@ -161,4 +161,7 @@ inline void PAC_FormatAll() { for(u8 i = 0; i < PAC_PAGE_MAX; ++i) PAC_Format(i)
 //
 // Parameters:
 //   page - PAC's page to check (0-7)
+//
+// Return:
+//   State of the given page. See <PAC_CHECK>
 u8 PAC_Check(u8 page);

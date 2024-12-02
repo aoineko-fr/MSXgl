@@ -103,10 +103,10 @@ inline u8 NTap_Check()
 //
 // Return:
 //   Number of usable joysticks and types. See <NTap_Check>.
-//   > 7	6	5	4	3	2	1	0
-//   > │	│	│	│	└───┴───┴───┴── Nomber of joystick port available (2, 5 or 8)
-//   > │	│	└───┴────────────────── Tap type pluged in port 1 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)
-//   > └────┴────────────────────────── Tap type pluged in port 2 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)
+//   > 7  6  5  4  3  2  1  0
+//   > │  │  │  │  └──┴──┴──┴── Nomber of joystick port available (2, 5 or 8)
+//   > │  │  └──┴────────────── Tap type pluged in port 1 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)
+//   > └──┴──────────────────── Tap type pluged in port 2 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)
 inline u8 NTap_GetInfo() { return g_NTap_Info; }
 
 // Function: NTap_GetPortNum
@@ -133,15 +133,15 @@ void NTap_Update();
 //
 // Return:
 //   State of the joystick. Bit set to 0 are triggered.
-//   > 7	6	5	4	3	2	1	0
-//   > │	│	│	│	│	│	│	└── Right direction
-//   > │	│	│	│	│	│	└────── Left direction
-//   > │	│	│	│	│	└────────── Down direction
-//   > │	│	│	│	└────────────── Up direction
-//   > │	│	│	└────────────────── Start bouton (for NES pad)
-//   > │	│	└────────────────────── Select bouton (for NES pad)
-//   > │	└────────────────────────── A bouton
-//   > └─────────────────────────────── B bouton
+//   > 7  6  5  4  3  2  1  0
+//   > │  │  │  │  │  │  │  └── Right direction
+//   > │  │  │  │  │  │  └───── Left direction
+//   > │  │  │  │  │  └──────── Down direction
+//   > │  │  │  │  └─────────── Up direction
+//   > │  │  │  └────────────── Start bouton (for NES pad)
+//   > │  │  └───────────────── Select bouton (for NES pad)
+//   > │  └──────────────────── A bouton
+//   > └─────────────────────── B bouton
 inline u8 NTap_GetData(u8 idx) { return g_NTap_Data[idx]; }
 
 // Function: NTap_IsPressed

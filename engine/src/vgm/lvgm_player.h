@@ -248,26 +248,44 @@ inline void LVGM_SetPointer(const u8* ptr) { g_LVGM_Pointer = ptr; }
 
 // Function: LVGM_GetDevices
 // Get devices list
+//
+// Return:
+//   Device list (see <LVGM_CHIP>)
 inline u8 LVGM_GetDevices() { return g_LVGM_Devices; }
 
 // Function: LVGM_IncludePSG
 // Is music including PSG data
+//
+// Return:
+//   TRUE is current music include PSG data
 inline bool LVGM_IncludePSG() { return g_LVGM_Devices & LVGM_CHIP_PSG; }
 
 // Function: LVGM_IncludeOPLL
 // Is music including OPLL/MSX-Music data
+//
+// Return:
+//   TRUE is current music include OPLL data
 inline bool LVGM_IncludeOPLL() { return g_LVGM_Devices & LVGM_CHIP_MSXMUSIC; }
 
 // Function: LVGM_IncludeOPL
 // Is music including OPL/MSX-Audio data
+//
+// Return:
+//   TRUE is current music include OPL data
 inline bool LVGM_IncludeOPL() { return g_LVGM_Devices & LVGM_CHIP_MSXAUDIO; }
 
 // Function: LVGM_IncludeSCC
 // Is music including SCC data
+//
+// Return:
+//   TRUE is current music include SCC data
 inline bool LVGM_IncludeSCC() { return g_LVGM_Devices & LVGM_CHIP_SCC; }
 
 // Function: LVGM_GetDefaultPSGValue
-// Get default PSG value
+// Get default PSG value used to optimized more commun data
+//
+// Return:
+//   Default value for PSG data
 inline u8 LVGM_GetDefaultPSGValue() { return g_LVGM_PSG_Default; }
 
 

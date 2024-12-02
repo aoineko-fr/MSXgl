@@ -102,6 +102,9 @@ extern u8        g_VGM_State;
 // Parameters:
 //   addr - Address of source data
 //   loop - If set to TRUE, playback restart when end is reached 
+//
+// Return:
+//    TRUE if initialization succeed
 bool VGM_Play(const void* addr, bool loop);
 
 // Function: VGM_Stop
@@ -120,7 +123,7 @@ inline void VGM_SetFrequency60Hz() { g_VGM_State &= ~VGM_STATE_50HZ; g_VGM_WaitF
 // Check if music playing
 //
 // Return:
-//   FALSE if music is not playing
+//   TRUR if music is playing
 inline bool VGM_IsPlaying() { return g_VGM_State & VGM_STATE_PLAY; }
 
 // Function: VGM_Resume

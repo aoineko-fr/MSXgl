@@ -54,6 +54,9 @@ void Registers_StoreBase();
 
 // Function: Registers_Data
 // Get z80 register data structure
+//
+// Return:
+//   Poimter to register structure
 inline struct Registers* Registers_Data() { return &g_Registers; }
 
 // Function: Registers_CallBDOS

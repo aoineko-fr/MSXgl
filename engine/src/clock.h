@@ -215,6 +215,9 @@ inline void RTC_SetMode(u8 mode) { g_RTC_AddrPort = RTC_REG_MODE; g_RTC_DataPort
 //
 // Parameters:
 //   reg - RTC register number
+//
+// Return:
+//   Register value (4 bits)
 inline u8 RTC_Read(u8 reg) { g_RTC_AddrPort = reg; return 0xF & g_RTC_DataPort; }
 
 // Function: RTC_Write
@@ -266,41 +269,65 @@ inline void RTC_Set24H(bool enable) { RTC_SetMode(RTC_MODE_ALARM); RTC_Write(RTC
 // Function: RTC_GetSecond
 // Get current clock second counter (0-59)
 // Need RTC_USE_CLOCK define to be set in MSXgl configuration
+//
+// Return:
+//   Current clock second
 u8 RTC_GetSecond();
 
 // Function: RTC_GetMinute
 // Get current clock minute counter (0-59)
 // Need RTC_USE_CLOCK define to be set in MSXgl configuration
+//
+// Return:
+//   Current clock minute
 u8 RTC_GetMinute();
 
 // Function: RTC_GetHour
 // Get current clock hour counter (0-23)
 // Need RTC_USE_CLOCK define to be set in MSXgl configuration
+//
+// Return:
+//   Current clock hour
 u8 RTC_GetHour();
 
 // Function: RTC_IsPM
 // Check if current hour is PM or AM
 // Need RTC_USE_CLOCK define to be set in MSXgl configuration
+//
+// Return:
+//   FALSE if current hour is AM
 inline bool RTC_IsPM() { return RTC_GetHour() >= 12; }
 
 // Function: RTC_GetDayOfWeek
 // Get current clock day-of-week counter (0-6)
 // Need RTC_USE_CLOCK define to be set in MSXgl configuration
+//
+// Return:
+//   Current clock day-of-week
 u8 RTC_GetDayOfWeek();
 
 // Function: RTC_GetDay
 // Get current clock day counter (1-31)
 // Need RTC_USE_CLOCK define to be set in MSXgl configuration
+//
+// Return:
+//   Current clock day
 u8 RTC_GetDay();
 
 // Function: RTC_GetMonth
 // Get current clock month counter (1-12)
 // Need RTC_USE_CLOCK define to be set in MSXgl configuration
+//
+// Return:
+//   Current clock month
 u8 RTC_GetMonth();
 
 // Function: RTC_GetYear
 // Get current clock year counter (0-99)
 // Need RTC_USE_CLOCK define to be set in MSXgl configuration
+//
+// Return:
+//   Current clock year
 u8 RTC_GetYear();
 
 //-----------------------------------------------------------------------------
@@ -311,16 +338,25 @@ u8 RTC_GetYear();
 // Function: RTC_GetDayOfWeekString
 // Get current clock day of week string
 // Need RTC_USE_CLOCK and RTC_USE_CLOCK_EXTRA define to be set in MSXgl configuration
+//
+// Return:
+//   Zero-terminated string with day of week 
 const c8* RTC_GetDayOfWeekString();
 
 // Function: RTC_GetMonthString
 // Get current clock month counter string
 // Need RTC_USE_CLOCK and RTC_USE_CLOCK_EXTRA define to be set in MSXgl configuration
+//
+// Return:
+//   Zero-terminated string with month
 const c8* RTC_GetMonthString();
 
 // Function: RTC_GetYear4
 // Get current clock 4-digits year counter (1980-2079)
 // Need RTC_USE_CLOCK and RTC_USE_CLOCK_EXTRA define to be set in MSXgl configuration
+//
+// Return:
+//   4-digits year counter 
 u16 RTC_GetYear4();
 
 #endif // (RTC_USE_CLOCK_EXTRA)

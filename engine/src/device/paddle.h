@@ -32,7 +32,7 @@ void Paddle_Update();
 // Parameters:
 //   port - Index of the port to check (0: Port A, 1: Port B)
 //
-// Returns:
+// Return:
 //   TRUE if a paddle is connected to that port
 inline bool Paddle_IsConnected(u8 port) { return (g_PaddleStates[port] & 0x8000) == 0; }
 
@@ -42,7 +42,7 @@ inline bool Paddle_IsConnected(u8 port) { return (g_PaddleStates[port] & 0x8000)
 // Parameters:
 //   port - Index of the port to check (0: Port A, 1: Port B)
 //
-// Returns:
+// Return:
 //   Paddle angle (theorical value goes from 0 to 510, but valid range is around 110 to 380)
 inline u16 Paddle_GetAngle(u8 port) { return g_PaddleStates[port] & 0x01FF; }
 
@@ -52,7 +52,7 @@ inline u16 Paddle_GetAngle(u8 port) { return g_PaddleStates[port] & 0x01FF; }
 // Parameters:
 //   port - Index of the port to check (0: Port A, 1: Port B)
 //
-// Returns:
+// Return:
 //   TRUE if the given paddle's button is pressed
 inline bool Paddle_IsButtonPressed(u8 port) { return (g_PaddleStates[port] & 0x0200) == 0; }
 
@@ -75,7 +75,7 @@ inline void Paddle_SetCalibration(u8 port, u16 min, u16 max) { g_PaddleOffset[po
 // Parameters:
 //   port - Index of the port to check (0: Port A, 1: Port B)
 //
-// Returns:
+// Return:
 //   Paddle angle (from 0 to 255)
 u8 Paddle_GetCalibratedAngle(u8 port);
 

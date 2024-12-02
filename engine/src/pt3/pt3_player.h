@@ -225,14 +225,14 @@ inline void PT3_SetNoteTable(const void* nt) { PT3_NoteTable = nt; }
 // Function: PT3_GetLoop
 // Check if loop flag is set
 //
-// Returns:
+// Return:
 //   FALSE if loop flag is not set
 inline bool PT3_GetLoop() { return (PT3_State & PT3_STATE_LOOP); }
 
 // Function: PT3_IsPlaying
 // Check if playback flag is set
 //
-// Returns:
+// Return:
 //	 FALSE if playback flag is not set
 inline bool PT3_IsPlaying() { return (PT3_State & PT3_STATE_PLAY); }
 
@@ -246,12 +246,12 @@ inline void PT3_Play() { PT3_Resume(); }
 // Parameters:
 //	 chan		- The channel number (0: channel A, 1: channel B, 2: channel C)
 //
-// Returns:
+// Return:
 //   Volume in bits #0 to #3 and envelope seting in bit #4
-// :	7	6	5	4	3	2	1	0	
-// :	x	x	x	M	L3	L2	L1	L0 	
-// :  				│	└───┴───┴───┴── Channel A Amplitude (volume)
-// :				└────────────────── Volume controlled by Envelope enable/disable
+// >  7  6  5  4  3  2  1  0
+// >  x  x  x  M  L3 L2 L1 L0
+// >           │  └──┴──┴──┴── Channel A Amplitude (volume)
+// >           └────────────── Volume controlled by Envelope enable/disable
 inline u8 PT3_GetVolume(u8 chan) { return PT3_Regs[PSG_REG_AMP_A + chan] & 0x0F; }
 
 // Function: PT3_GetFrequency
@@ -260,7 +260,7 @@ inline u8 PT3_GetVolume(u8 chan) { return PT3_Regs[PSG_REG_AMP_A + chan] & 0x0F;
 // Parameters:
 //	 chan		- The channel number (0: channel A, 1: channel B, 2: channel C)
 //
-// Returns:
+// Return:
 //   12-bits tone period (1 to 4095).
 //   Frequency = 111,861 Hz / Period.
 //   Reange from 111,861 Hz (divide by 1) down to 27.3 Hz (divide by 4095)
@@ -272,7 +272,7 @@ inline u16 PT3_GetFrequency(u8 chan) { return *(u16*)&PT3_Regs[PSG_REG_TONE_A + 
 // Parameters:
 //	 reg			- The PSG register number (0-13)
 //
-// Returns:
+// Return:
 //   Value of the given register in the PT3 buffer
 inline u8 PT3_GetPSGRegister(u8 reg) { return PT3_Regs[reg]; }
 
@@ -284,7 +284,7 @@ inline u8 PT3_GetPSGRegister(u8 reg) { return PT3_Regs[reg]; }
 // Function: PT3_GetPattern
 // Get the current pattern number
 //
-// Returns:
+// Return:
 //   Pattern number between 0 and max
 inline u8 PT3_GetPattern() { return PT3_CrPsPtr - PT3_SrtCrPsPtr; }
 
