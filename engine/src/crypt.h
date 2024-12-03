@@ -25,30 +25,47 @@ extern const u16* g_CryptCode; // Bit-field coding table
 
 // Function: Crypt_SetKey
 // Set the encryption key
-//
 // Call to this function is mandatory before calling <Crypt_Encode> or <Crypt_Decode> functions.
+//
+// Parameters:
+//   key - Zero-terminated string that contain the key
 inline void Crypt_SetKey(const c8* key) { g_CryptKey = key; }
 
 // Function: Crypt_SetMap
 // Set the encryption character mapping table
-//
 // Not mandatory (default one will be use instead).
+//
+// Parameters:
+//   map - Zero-terminated string that contain the character mapping table (should be 16, 32 or 64 charater long depending on number of bit per character used)
 inline void Crypt_SetMap(const c8* map) { g_CryptMap = map; }
 
 // Function: Crypt_SetCode
 // Set the encryption code bit field
-//
 // Not mandatory (default one will be use instead).
+//
+// Parameters:
+//   code - Array of 8 entries of 16-bit number that map each bit into 2 characters  
 inline void Crypt_SetCode(const u16* code) { g_CryptCode = code; }
 
 // Function: Crypt_Encode
 // Encrypt data
 //
-// Note: Destination string buffer size must be: input data size x 2 + 1.
+// Parameters:
+//   data - Source data buffer  
+//   size - Size of the data buffer
+//   str - Destination string buffer (size must be: input data size x 2 + 1).
+//
+// Returns:
+//   FALSE if encoding failed  
 bool Crypt_Encode(const void* data, u8 size, c8* str);
 
 // Function: Crypt_Decode
 // Decrypt data
 //
-// Note: Destination buffer size must be: length of the string / 2.
+// Parameters:
+//   str - Source string 
+//   data - Destination data buffer  (size must be: length of the string / 2).
+//
+// Returns:
+//   FALSE if decoding failed  
 bool Crypt_Decode(const c8* str, void* data);

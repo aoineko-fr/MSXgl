@@ -49,6 +49,9 @@
 //   src - Source data
 //   dst - Destination data in RAM
 //   size - Size of the data to unpack (only if COMPRESS_USE_RLEP_FIXSIZE is defined)
+//
+// Return:
+//   Unpacked data size
 u16 RLEp_UnpackToRAM(const u8* src, u8* dst RLEP_FIXSIZE_PARAM);
 
 #endif // (COMPRESS_USE_RLEP)

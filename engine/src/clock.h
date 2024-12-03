@@ -367,15 +367,24 @@ u16 RTC_GetYear4();
 //-----------------------------------------------------------------------------
 
 // Function: RTC_IsSettingOK
-// Set area code
+// Check if setting data is valid
+//
+// Return:
+//   FALSE if setting is invalid (system information is not used or initialized) 
 inline bool RTC_IsSettingOK() { RTC_SetMode(RTC_MODE_SCREEN); return RTC_Read(RTC_REG_SYS_INIT) == RTC_INIT_DONE; }
 
 // Function: RTC_SetAreaCode
 // Set area code
+//
+// Parameers:
+//   code -  New area code to set
 inline void RTC_SetAreaCode(u8 code) { RTC_SetMode(RTC_MODE_SCREEN); RTC_Write(RTC_REG_SYS_AREA_CODE, code); }
 
 // Function: RTC_GetAreaCode
 // Get area code
+//
+// Return:
+//    Current area code
 inline u8 RTC_GetAreaCode() { RTC_SetMode(RTC_MODE_SCREEN); return RTC_Read(RTC_REG_SYS_AREA_CODE); }
 
 //-----------------------------------------------------------------------------
@@ -383,7 +392,10 @@ inline u8 RTC_GetAreaCode() { RTC_SetMode(RTC_MODE_SCREEN); return RTC_Read(RTC_
 //-----------------------------------------------------------------------------
 
 // Function: RTC_GetDataType
-// Get area code
+// Get current data type
+//
+// Return:
+//    Current data type (see RTC_DATA_ defines)
 inline u8 RTC_GetDataType() { RTC_SetMode(RTC_MODE_DATA); return RTC_Read(RTC_REG_DATATYPE); }
 
 #if (RTC_USE_SAVEDATA)
@@ -402,6 +414,9 @@ void RTC_SaveData(u8* data);
 //
 // Parameters:
 //   data - 6 bytes buffer to load data
+//
+// Return:
+//   FALSE if data loading failed
 bool RTC_LoadData(u8* data);
 
 #endif // (RTC_USE_SAVEDATA)
