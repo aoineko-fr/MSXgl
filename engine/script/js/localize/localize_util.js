@@ -88,15 +88,23 @@ module.exports.mapCharacter = function (str, mapTable)
 		}
 
 		var code = str[i].codePointAt(0);
-		if (charSet.length)
+		if (charSet.length) // Custom charset
 		{
-			var idx = charSet.indexOf(chr);
-			if(idx == -1) // character not found ; keep original
-				chr = charCodeToHex(code);
+			if (str[i] === "\\" && str[i + 1] === "n")
+			{
+				chr = "\\n";
+				i++;
+			}
 			else
-				chr = charCodeToHex(idx + charOffset);
+			{
+				var idx = charSet.indexOf(chr);
+				if(idx == -1) // character not found ; keep original
+					chr = charCodeToHex(code);
+				else
+					chr = charCodeToHex(idx + charOffset);
+			}
 		}
-		else
+		else // chek parameter map table
 		{
 			var map = mapTable[code];
 			if(map == null) // character not found

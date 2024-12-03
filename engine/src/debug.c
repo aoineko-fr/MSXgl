@@ -213,7 +213,7 @@ void DEBUG_LOGNUM(const c8* msg, u8 num)
 // Display debug formated message
 // from SMSlib - C programming library for the SMS/GG (part of devkitSMS - github.com/sverx/devkitSMS)
 // https://github.com/sverx/devkitSMS/blob/master/SMSlib/src/SMSlib_debug.c
-void DEBUG_PRINT(const c8 *format, ...) __NAKED __preserves_regs(a, b, c, iyh, iyl)
+void DEBUG_PRINT(const c8 *format, ...) __NAKED __PRESERVES(a, b, c, iyh, iyl)
 {
 	format;
 	// basic debug_printf code kindly provided by toxa - thank you!

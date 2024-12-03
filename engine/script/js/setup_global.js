@@ -225,8 +225,11 @@ global.ROMDelayBoot = false;
 //-- Add a ROM signature to help flasher and emulator to detect the ROM type properly (boolean)
 global.AddROMSignature = false;
 
-//-- Select RAM in slot 0 and install ISR there (boolean). For MSX with at least 64 KB of RAM
-global.InstallRAMISR = false;
+//-- Select RAM in slot 0 and install ISR and optional code there (string). For MSX with at least 64 KB of RAM
+//   - RAM0_NONE       Don't install anything in RAM 
+//   - RAM0_ISR        Install only ISR
+//   - RAM0_SEGMENT    Install ISR and segment data (for mapped-ROM)
+global.InstallRAMISR = "RAM0_NONE";
 
 //-- Type of custom ISR to install (string). ISR is install in RAM or ROM depending on Target and InstallRAMISR parameters
 //   - VBLANK     V-blank handler
@@ -319,18 +322,6 @@ global.LinkOpt = "";
 //-- Automatic increment of build version in a header file (boolean)
 global.BuildVersion = false;
 
-//-- List files to be localized (array)
-global.LocFiles = [];
-
-//-- Localization output filename (string)
-global.LocOutput = "";
-
-//-- Localization structure name (string)
-global.LocStruct = "";
-
-//-- Split socalization data and definitions in different files (boolean)
-global.LocSplitDef = false;
-
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 global.PackSegments = false;
 
@@ -343,8 +334,21 @@ global.PreBuildScripts = [];
 //-- Command lines to be executed after the build process (array)
 global.PostBuildScripts = [];
 
-//-- 
-global.Analyze = false;
+//*******************************************************************************
+// LOCALISATION SETTINGS
+//*******************************************************************************
+
+//-- List files to be localized (array)
+global.LocFiles = [];
+
+//-- Localization output filename (string)
+global.LocOutput = "";
+
+//-- Localization structure name (string)
+global.LocStruct = "";
+
+//-- Split socalization data and definitions in different files (boolean)
+global.LocSplitDef = false;
 
 //*****************************************************************************
 // BUILD TOOL OPTION
@@ -449,8 +453,9 @@ global.EmulV9990 = false;
 
 //-- Plug a virtual device into the joystick port A (string)
 //   - Joystick
-//   - Keyboard         Fake joystick
 //   - Mouse
+//   - Paddle
+//   - JoyMega
 //   - NinjaTap
 global.EmulPortA = "";
 
@@ -458,7 +463,7 @@ global.EmulPortA = "";
 global.EmulPortB = "";
 
 //-------------------------------------------------------------------------------
-// Link tool
+// Run device options
 
 //-- Run device like Easy-USB (string)
 global.RunDevice = "";

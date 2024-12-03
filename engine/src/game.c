@@ -22,7 +22,7 @@
 void Game_Initialize(u8 screenMode)
 {
 	VDP_SetMode(screenMode);
-	#if ((GAME_USE_VSYNC) && ((TARGET_TYPE != TYPE_ROM) || !(TARGET & ROM_ISR)))
+	#if ((GAME_USE_VSYNC) && ((TARGET_TYPE != TYPE_ROM) || !(TARGET & ROM_ISR)) && (TARGET != TARGET_DOS0))
 		VDP_EnableVBlank(TRUE);
 		Bios_SetHookCallback(H_TIMI, Game_VSyncHook);
 	#endif
@@ -44,7 +44,7 @@ void Game_Update()
 // Release game module
 void Game_Release()
 {
-	#if ((GAME_USE_VSYNC) && ((TARGET_TYPE != TYPE_ROM) || !(TARGET & ROM_ISR)))
+	#if ((GAME_USE_VSYNC) && ((TARGET_TYPE != TYPE_ROM) || !(TARGET & ROM_ISR)) && (TARGET != TARGET_DOS0))
 		Bios_ClearHook(H_TIMI);
 	#endif
 }
@@ -161,7 +161,7 @@ void Game_DefaultVSyncCB() {}
 
 //-----------------------------------------------------------------------------
 // Vertical-synchronization hook handler
-#if ((TARGET_TYPE == TYPE_ROM) && (TARGET & ROM_ISR))
+#if (((TARGET_TYPE == TYPE_ROM) && (TARGET & ROM_ISR)) || (TARGET == TARGET_DOS0))
 void VDP_InterruptHandler()
 #else
 void Game_VSyncHook()

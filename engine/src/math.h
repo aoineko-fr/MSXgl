@@ -168,23 +168,23 @@ u16 Math_Swap(u16 val) __PRESERVES(a, b, c, iyl, iyh);
 
 // Function: Math_SignedDiv2
 // Divide a signed 8-bits integer by 2 using shift
-i8 Math_SignedDiv2(i8 val) __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh);
+i8 Math_SignedDiv2(i8 val) __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_SignedDiv4
 // Divide a signed 8-bits integer by 4 using shift
-i8 Math_SignedDiv4(i8 val) __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh);
+i8 Math_SignedDiv4(i8 val) __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_SignedDiv8
 // Divide a signed 8-bits integer by 8 using shift
-i8 Math_SignedDiv8(i8 val) __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh);
+i8 Math_SignedDiv8(i8 val) __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_SignedDiv16
 // Divide a signed 8-bits integer by 16 using shift
-i8 Math_SignedDiv16(i8 val) __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh);
+i8 Math_SignedDiv16(i8 val) __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_SignedDiv32
 // Divide a signed 8-bits integer by 32 using shift
-i8 Math_SignedDiv32(i8 val) __naked __PRESERVES(b, c, d, e, h, l, iyl, iyh);
+i8 Math_SignedDiv32(i8 val) __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_Abs
 // Get absolute value of a signed 8-bits integer

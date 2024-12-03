@@ -2,8 +2,11 @@
 // PROJECT CONFIG OVERWRITE
 //*****************************************************************************
 
+//-- Target program format (string)
+Target = "ROM_ASCII16";
+
 //-- Select RAM in slot 0 and install ISR there (boolean). For MSX with at least 64 KB of RAM
-InstallRAMISR = true;
+InstallRAMISR = "RAM0_SEGMENT";
 
 //-- Type of custom ISR to install (string). ISR is install in RAM or ROM depending on Target and InstallRAMISR parameters
 //   - VBLANK     V-blank handler

@@ -115,8 +115,11 @@ ROMDelayBoot = false;
 //-- Add a ROM signature to help flasher and emulator to detect the ROM type properly (boolean)
 AddROMSignature = false;
 
-//-- Select RAM in slot 0 and install ISR there (boolean). For MSX with at least 64 KB of RAM
-InstallRAMISR = false;
+//-- Select RAM in slot 0 and install ISR and optional code there (string). For MSX with at least 64 KB of RAM
+//   - RAM0_NONE       Don't install anything in RAM 
+//   - RAM0_ISR        Install only ISR
+//   - RAM0_SEGMENT    Install ISR and segment data (for mapped-ROM)
+InstallRAMISR = "RAM0_NONE";
 
 //-- Type of custom ISR to install (string). ISR is install in RAM or ROM depending on Target and InstallRAMISR parameters
 //   - NONE       No ISR
@@ -210,18 +213,6 @@ LinkOpt = "";
 //-- Automatic increment of build version in a header file (boolean)
 BuildVersion = false;
 
-//-- List files to be localized (array)
-LocFiles = [];
-
-//-- Localization output filename (string)
-LocOutput = "localization.h";
-
-//-- Localization structure name (string)
-LocStruct = "g_LocData";
-
-//-- Split socalization data and definitions in different files (boolean)
-global.LocSplitDef = false;
-
 //-- Package all segments into a lib file to reduce the number of files to link (boolean)
 PackSegments = false;
 
@@ -233,6 +224,22 @@ PreBuildScripts = [];
 
 //-- Command lines to be executed after the build process (array)
 PostBuildScripts = [];
+
+//*******************************************************************************
+// LOCALISATION SETTINGS
+//*******************************************************************************
+
+//-- List files to be localized (array)
+LocFiles = [];
+
+//-- Localization output filename (string)
+LocOutput = "localization.h";
+
+//-- Localization structure name (string)
+LocStruct = "g_LocData";
+
+//-- Split socalization data and definitions in different files (boolean)
+LocSplitDef = false;
 
 //*****************************************************************************
 // BUILD TOOL OPTION
@@ -325,7 +332,7 @@ EmulPortA = "";
 EmulPortB = "";
 
 //-------------------------------------------------------------------------------
-// Run device
+// Run device options
 
 //-- Run device like Easy-USB (string)
 RunDevice = "";

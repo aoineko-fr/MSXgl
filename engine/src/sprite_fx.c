@@ -517,7 +517,7 @@ void SpriteFX_CropBottom16(const u8* src, u8* dest, u8 offset)
 #if (SPRITEFX_USE_8x8)
 //-----------------------------------------------------------------------------
 // Vertical flip 8x8 sprite
-void SpriteFX_FlipVertical8(const u8* src, u8* dest)__PRESERVES(iyl, iyh)
+void SpriteFX_FlipVertical8(const u8* src, u8* dest) __PRESERVES(iyl, iyh)
 {
 	src;	// HL
 	dest;	// DE
@@ -539,7 +539,7 @@ void SpriteFX_FlipVertical8(const u8* src, u8* dest)__PRESERVES(iyl, iyh)
 #if (SPRITEFX_USE_16x16)
 //-----------------------------------------------------------------------------
 // Vertical flip 16x16 sprite
-void SpriteFX_FlipVertical16(const u8* src, u8* dest)__PRESERVES(iyl, iyh)
+void SpriteFX_FlipVertical16(const u8* src, u8* dest) __PRESERVES(iyl, iyh)
 {
 	src;	// HL
 	dest;	// DE

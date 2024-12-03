@@ -160,7 +160,7 @@ void SpriteFX_CropBottom16(const u8* src, u8* dest, u8 offset);
 // Parameters:
 //   src    - Pointer to 8 bytes source sprite data
 //   dest   - Pointer to 8 bytes destination buffer
-void SpriteFX_FlipVertical8(const u8* src, u8* dest);
+void SpriteFX_FlipVertical8(const u8* src, u8* dest) __PRESERVES(iyl, iyh);
 
 // Function: SpriteFX_FlipHorizontal8
 // Horizontally flip 8x8 sprite.
@@ -168,7 +168,7 @@ void SpriteFX_FlipVertical8(const u8* src, u8* dest);
 // Parameters:
 //   src    - Pointer to 8 bytes source sprite data
 //   dest   - Pointer to 8 bytes destination buffer
-void SpriteFX_FlipHorizontal8(const u8* src, u8* dest);
+void SpriteFX_FlipHorizontal8(const u8* src, u8* dest) __PRESERVES(iyl, iyh);
 
 // Define: SpriteFX_FlipV8
 // Alias for <SpriteFX_FlipVertical8> function.
@@ -189,7 +189,7 @@ void SpriteFX_FlipHorizontal8(const u8* src, u8* dest);
 // Parameters:
 //   src    - Pointer to 32 bytes source sprite data
 //   dest   - Pointer to 32 bytes destination buffer
-void SpriteFX_FlipVertical16(const u8* src, u8* dest);
+void SpriteFX_FlipVertical16(const u8* src, u8* dest) __PRESERVES(iyl, iyh);
 
 // Function: SpriteFX_FlipHorizontal16
 // Horizontally flip 16x16 sprite.
@@ -197,7 +197,7 @@ void SpriteFX_FlipVertical16(const u8* src, u8* dest);
 // Parameters:
 //   src    - Pointer to 32 bytes source sprite data
 //   dest   - Pointer to 32 bytes destination buffer
-void SpriteFX_FlipHorizontal16(const u8* src, u8* dest);
+void SpriteFX_FlipHorizontal16(const u8* src, u8* dest) __PRESERVES(iyl, iyh);
 
 // Define: SpriteFX_FlipV16
 // Alias for <SpriteFX_FlipVertical16> function.
@@ -256,7 +256,7 @@ void SpriteFX_Mask16(const u8* src, u8* dest, const u8* mask);
 // Parameters:
 //   src    - Pointer to 8 bytes source sprite data
 //   dest   - Pointer to 8 bytes destination buffer
-void SpriteFX_RotateRight8(const u8* src, u8* dest);
+void SpriteFX_RotateRight8(const u8* src, u8* dest) __PRESERVES(iyl, iyh);
 
 // Function: SpriteFX_RotateLeft8
 // Rotate 8x8 sprite 90° to the left.
@@ -264,7 +264,7 @@ void SpriteFX_RotateRight8(const u8* src, u8* dest);
 // Parameters:
 //   src    - Pointer to 8 bytes source sprite data
 //   dest   - Pointer to 8 bytes destination buffer
-void SpriteFX_RotateLeft8(const u8* src, u8* dest);
+void SpriteFX_RotateLeft8(const u8* src, u8* dest) __PRESERVES(iyl, iyh);
 
 // Function: SpriteFX_RotateHalfTurn8
 // Rotate 8x8 sprite 180°.
@@ -272,7 +272,7 @@ void SpriteFX_RotateLeft8(const u8* src, u8* dest);
 // Parameters:
 //   src    - Pointer to 8 bytes source sprite data
 //   dest   - Pointer to 8 bytes destination buffer
-void SpriteFX_RotateHalfTurn8(const u8* src, u8* dest);
+void SpriteFX_RotateHalfTurn8(const u8* src, u8* dest) __PRESERVES(iyl, iyh);
 
 // Define: SpriteFX_Rotate90_8
 // Alias for <SpriteFX_RotateRight8> function.

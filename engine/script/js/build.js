@@ -115,7 +115,7 @@ for (let i = 0; i < CommandArgs.length; i++)
 	}
 	else if (arg === "ramisr")
 	{
-		InstallRAMISR = true;
+		InstallRAMISR = "RAM0_ISR";
 		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
 	}
 	else
@@ -259,7 +259,8 @@ if (DoCompile)
 	if (Mapper)                  conf += `ROM_MAPPER=${Mapper}\n`;
 	if (ROMDelayBoot)            conf += "ROM_DELAY=1\n";
 	if (BankedCall)              conf += "ROM_BCALL=1\n";
-	if (InstallRAMISR)           conf += "ROM_RAMISR=1\n";
+	if (InstallRAMISR === true)  conf += `ROM_RAMISR=RAM0_ISR\n`;
+	else if ((InstallRAMISR === "RAM0_ISR") || (InstallRAMISR === "RAM0_SEGMENT")) conf += `ROM_RAMISR=${InstallRAMISR}\n`;
 	if (CustomISR === "VHBLANK") conf += "ROM_ISR=ISR_VHBLANK\n";
 	if (CustomISR === "V9990")   conf += "ROM_ISR=ISR_V9990\n";
 	if (DOSParseArg)             conf += "DOS_PARSEARG=1\n";
@@ -431,6 +432,38 @@ if (DoCompile)
 					}
 				}
 			}
+		}
+
+		if (InstallRAMISR)
+		{
+			util.print(`Search for page 0 code to be copied to RAM`, PrintHighlight);
+			let pageName = `${ProjName}_p0`;
+			let pageFound = 0;
+			let pageStartAddr;
+			switch (Mapper)
+			{
+			case "ROM_ASCII8":		pageStartAddr = "0x40100"; break;
+			case "ROM_ASCII16":		pageStartAddr = "0x20100"; break;
+			case "ROM_KONAMI":		pageStartAddr = "0x40100"; break;
+			case "ROM_KONAMI_SCC":	pageStartAddr = "0x40100"; break;
+			case "ROM_NEO8":		pageStartAddr = "0x60100"; break;
+			case "ROM_NEO16":		pageStartAddr = "0x30100"; break;
+			default: util.print(`Unknow mapper: ${Mapper}`, PrintError);
+			}
+
+			for (let e = 0; e < segExtList.length; e++) // Parse all supported extension
+			{
+				if (fs.existsSync(`${pageName}.${segExtList[e]}`))
+				{
+					util.print(`Page 0 found: ${pageName}.${segExtList[e]} (address:${pageStartAddr})`);
+					compiler.compile(`${ProjDir}${pageName}.${segExtList[e]}`, 16 * 1024, `PAGE0`);
+					MapperBanks += `-Wl-b_PAGE0=${pageStartAddr} `;
+					RelList.push(`${OutDir}${pageName}.rel`);
+					pageFound++;
+				}
+			}
+			if (!pageFound)
+				util.print("No page 0 code found", PrintDetail);
 		}
 	}
 

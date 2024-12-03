@@ -17,7 +17,7 @@
 ;------------------------------------------------------------------------------
 .macro ROM_HEADER startAddr
 
-	crt0_rom_header:
+	crt0_rom_header::
 		.ascii	"AB"
 		.dw		startAddr
 		.dw		0x0000
@@ -45,7 +45,7 @@
 ;------------------------------------------------------------------------------
 .macro BASIC_HEADER endAddr
 
-	crt0_basic_header:
+	crt0_basic_header::
 		.db 	0xFE				; ID byte
 		.dw 	crt0_basic_start	; Start address
 		.dw		crt0_end			; End address
@@ -90,7 +90,7 @@
 ;------------------------------------------------------------------------------
 .macro INIT_P1_TO_P2
 
-	crt0_p1_to_p2:
+	crt0_p1_to_p2::
 		in		a, (PPI_A)				; A=[P3|P2|P1|P0] Get primary slots info
 		rrca
 		rrca							; A=[P0|P3|P2|P1]
@@ -119,7 +119,7 @@
 ;------------------------------------------------------------------------------
 .macro INIT_P1_TO_P02
 
-	crt0_p1_to_p02:
+	crt0_p1_to_p02::
 		; Set all pages primary slot equal to page #1 one
 		in		a, (PPI_A)				; A=[P3|P2|P1|P0] Get primary slots info
 		ld		d, a					; D=[P3|P2|P1|P0] Backup full slots info
@@ -194,7 +194,7 @@
 	; 	or		a, b					; A=[S3|S2|S1|S3] Merge
 	; 	ld		(SLTSL), a				;                 Set secondary slot info
 
-	crt0_p3_to_p0:
+	crt0_p3_to_p0::
 
 		; Code by retrocanada76
 		; https://msx.org/forum/msx-talk/development/msxgl-%E2%80%93-a-new-c-game-library-for-msx?page=28
@@ -322,7 +322,7 @@
 .macro DELAY_BOOT
 	.if ROM_DELAY
 	; Setup the hook H.STKE to run the ROM with disk support
-	crt0_bdos_install:
+	crt0_bdos_install::
 		ld		a, c					; Get the ROM slot number
 		ld		hl, #crt0_bdos_hook
 		ld		de, #H_STKE
@@ -546,7 +546,9 @@
 ; (needs 64 KB of RAM in Page #3's slot)
 ;------------------------------------------------------------------------------
 .macro INSTALL_RAM_ISR
-	.if ROM_RAMISR
+	.ifne ROM_RAMISR-RAM0_NONE
+
+	crt0_select_ram::
 
 	; Backup Page 0 (Main-ROM) information
 		BACKUP_ROMINFO
@@ -561,10 +563,64 @@
 		INIT_P3_TO_P0
 
 	; Copy ISR to RAM
-		ld		bc, #crt0_interrupt_end-crt0_interrupt_start
+	crt0_install_isr::
 		ld		hl, #crt0_interrupt_start
 		ld		de, #0x0038
+		ld		bc, #crt0_interrupt_end-crt0_interrupt_start
 		ldir
+
+		.ifeq ROM_RAMISR-RAM0_SEGMENT
+	crt0_install_seg::
+
+			.ifeq ROM_MAPPER-ROM_ASCII8
+				BANK2_ADDR = #0x7000
+				BANK3_ADDR = #0x7800
+				ld		a, #4
+				ld		(BANK2_ADDR), a ; Segment 4 in Bank 2
+				inc		a
+				ld		(BANK3_ADDR), a ; Segment 5 in Bank 3
+			.endif
+			.ifeq ROM_MAPPER-ROM_ASCII16
+				BANK1_ADDR = #0x77FF
+				ld		a, #2
+				ld		(BANK1_ADDR), a ; Segment 2 in Bank 1
+			.endif
+			.ifeq ROM_MAPPER-ROM_KONAMI
+				BANK2_ADDR = #0x8000
+				BANK3_ADDR = #0xA000
+				ld		a, #4
+				ld		(BANK2_ADDR), a ; Segment 4 in Bank 2
+				inc		a
+				ld		(BANK3_ADDR), a ; Segment 5 in Bank 3
+			.endif
+			.ifeq ROM_MAPPER-ROM_KONAMI_SCC
+				BANK2_ADDR = #0x9000
+				BANK3_ADDR = #0xB000
+				ld		a, #4
+				ld		(BANK2_ADDR), a ; Segment 4 in Bank 2
+				inc		a
+				ld		(BANK3_ADDR), a ; Segment 5 in Bank 3
+			.endif
+			.ifeq ROM_MAPPER-ROM_NEO8
+				BANK4_ADDR = #0x7000
+				BANK5_ADDR = #0x7800
+				ld		a, #6
+				ld		(BANK4_ADDR), a ; Segment 6 in Bank 4
+				inc		a
+				ld		(BANK5_ADDR), a ; Segment 7 in Bank 5
+			.endif
+			.ifeq ROM_MAPPER-ROM_NEO16
+				BANK2_ADDR = #0x7000
+				ld		a, #3
+				ld		(BANK2_ADDR), a ; Segment 3 in Bank 2
+			.endif
+
+		; Copy Segment content to RAM
+			ld		hl, #0x8100 ; Page 2
+			ld		de, #0x0100 ; Page 0 (after ISR)
+			ld		bc, #0x3F00 ; 16 KB - 100h
+			ldir
+		.endif
 
 		ei
 

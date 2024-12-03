@@ -56,7 +56,6 @@ ROM_MAPPER_16K	= 8 ; Mapper 16 KB
 ROM_ASCII16		= 8 ; ASCII-16 mmaper
 ROM_NEO16		= 9 ; NEO-16 mapper
 
-
 ;------------------------------------------------------------------------------
 ; ISR types
 ISR_NONE		= 0				; No ISR
@@ -65,13 +64,19 @@ ISR_VHBLANK		= 2				; V-blank and h-blank handler (V9958)
 ISR_V9990		= 3				; V-blank, h-blank and command end handler (V9990)
 
 ;------------------------------------------------------------------------------
+; Installation in RAM's page 0
+RAM0_NONE		= 0				; Don't install anything in RAM 
+RAM0_ISR		= 1				; Install only ISR
+RAM0_SEGMENT	= 2				; Install ISR and segment data (for mapped-ROM)
+
+;------------------------------------------------------------------------------
 ; Default values
 START_ADDR		= 0x4000		; Program start address
 ROM_MAPPER		= ROM_PLAIN		; ROM type
 ROM_DELAY		= 0				; Install BDOS
 ROM_BCALL		= 0				; Add banked call trampoline
 ROM_ISR			= ISR_VBLANK	; ISR type
-ROM_RAMISR		= 0				; Install ISR in RAM
+ROM_RAMISR		= RAM0_NONE		; Install ISR in RAM's page 0
 ISR_SET_S0		= 0				; Reset statut register to S#0 in ISR
 APP_SIGN		= 0				; Add application signature
 APP_SIGN_NAME	= "GL"			; Application creator/group/company name

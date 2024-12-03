@@ -1346,7 +1346,7 @@ void VPD_CommandSetupR36()
 // Write to VRAM command loop
 // @param		addr		The address in RAM from where read data to be copied in VRAM
 // 						(First byte of data was sent in the command execution)
-void VPD_CommandWriteLoop(const u8* addr) __FASTCALL __PRESERVES(b, d, e, iyl, iyh)
+void VPD_CommandWriteLoop(const u8* addr) __FASTCALL __PRESERVES(d, e, iyl, iyh)
 {
 	addr; // HL
 	
