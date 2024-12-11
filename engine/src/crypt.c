@@ -59,9 +59,12 @@ bool Crypt_Encode(const void* data, u8 size, c8* str)
 	const c8* key = g_CryptKey;
 	const u8* ptr = (const u8*)data;
 
+	u8 prev = 0;
 	loop(i, size)
 	{
-		u8 val = *ptr++;
+		u8 val = *ptr;
+		val += prev;
+		prev = *ptr++;
 		val += *key;
 
 		u8 cnt = *key++;
@@ -105,6 +108,7 @@ bool Crypt_Decode(const c8* str, void* data)
 	const c8* key = g_CryptKey;
 	u8* ptr = (u8*)data;
 
+	u8 prev = 0;
 	while (*str)
 	{
 		// Retreive the less significant bits
@@ -135,11 +139,13 @@ bool Crypt_Decode(const c8* str, void* data)
 			}
 		}
 		val -= *key++;
+		val -= prev;
 		if (!*key)
 			key = g_CryptKey;
 
 		// Write value
 		*ptr++ = val;
+		prev = val;
 	}
 
 	return TRUE;

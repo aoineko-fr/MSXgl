@@ -186,7 +186,9 @@ function parseLocFile(filename, locTable, langTable)
 						break;
 
 					default:
-						str = obj.value;
+						str = locLat.convertToMSX(obj.value);
+						// str = obj.value;
+						break;
 					}
 
 					if(locTable[lang][obj.key] == null)

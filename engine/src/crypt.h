@@ -15,6 +15,12 @@
 // DEFINES
 //-----------------------------------------------------------------------------
 
+// Crypt module version
+#define CRYPT_VERSION VERSION(1, 1, 0)
+// Version history
+// - 1.0: Original version
+// - 1.1: Cascaded translation of code bytes to the next
+
 extern const c8*  g_CryptKey; // Zero-terminated string use as key for encrypt/decrypt
 extern const c8*  g_CryptMap; // String containing the 32 valid characters 
 extern const u16* g_CryptCode; // Bit-field coding table
