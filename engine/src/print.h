@@ -480,7 +480,7 @@ void Print_Backspace(u8 num);
 //   x     - Position X coordinate
 //   y     - Position Y coordinate
 //   str   - Null-terminated string to draw
-inline void Print_DrawTextAt(u8 x, u8 y, const c8* str)
+inline void Print_DrawTextAt(UX x, UY y, const c8* str)
 {
 	Print_SetPosition(x, y);
 	Print_DrawText(str);
@@ -509,7 +509,7 @@ inline void Print_DrawTextAtV(u8 x, u8 y, const c8* str)
 //   x   - Position X coordinate
 //   y   - Position Y coordinate
 //   chr - Character to draw
-inline void Print_DrawCharAt(u8 x, u8 y, c8 chr)
+inline void Print_DrawCharAt(UX x, UY y, c8 chr)
 {
 	Print_SetPosition(x, y);
 	Print_DrawChar(chr);
@@ -523,7 +523,7 @@ inline void Print_DrawCharAt(u8 x, u8 y, c8 chr)
 //   y   - Position Y coordinate
 //   chr - Character to draw
 //   len - Number of character to draw
-inline void Print_DrawCharXAt(u8 x, u8 y, c8 chr, u8 len)
+inline void Print_DrawCharXAt(UX x, UY y, c8 chr, u8 len)
 {
 	Print_SetPosition(x, y);
 	Print_DrawCharX(chr, len);
@@ -537,7 +537,7 @@ inline void Print_DrawCharXAt(u8 x, u8 y, c8 chr, u8 len)
 //   y   - Position Y coordinate
 //   chr - Character to draw
 //   len - Number of character to draw
-inline void Print_DrawCharYAt(u8 x, u8 y, c8 chr, u8 len)
+inline void Print_DrawCharYAt(UX x, UY y, c8 chr, u8 len)
 {
 	for(u8 i = 0; i < len; ++i)
 		Print_DrawCharAt(x, y++, chr);
@@ -550,7 +550,7 @@ inline void Print_DrawCharYAt(u8 x, u8 y, c8 chr, u8 len)
 //   x   - Position X coordinate
 //   y   - Position Y coordinate
 //   val - 16 bits integer to display
-inline void Print_DrawIntAt(u8 x, u8 y, i16 val)
+inline void Print_DrawIntAt(UX x, UY y, i16 val)
 {
 	Print_SetPosition(x, y);
 	Print_DrawInt(val);
@@ -729,7 +729,7 @@ inline void Print_DrawTextAlign(const c8* str, u8 align)
 //   y     - Position Y coordinate
 //   str   - Null-terminated string to draw
 //   align - Alignement flag: PRINT_ALIGN_LEFT, PRINT_ALIGN_CENTER, PRINT_ALIGN_RIGHT
-inline void Print_DrawTextAlignAt(u8 x, u8 y, const c8* str, u8 align)
+inline void Print_DrawTextAlignAt(UX x, UY y, const c8* str, u8 align)
 {
 	Print_SetPosition(x, y);
 	Print_DrawTextAlign(str, align);
