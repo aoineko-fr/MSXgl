@@ -553,7 +553,6 @@
 	; Backup Page 0 (Main-ROM) information
 		BACKUP_ROMINFO
 
-		di
 		jp		crt0_interrupt_end
 
 	; ISR
@@ -621,8 +620,6 @@
 			ld		bc, #0x3F00 ; 16 KB - 100h
 			ldir
 		.endif
-
-		ei
 
 	.endif
 .endm
