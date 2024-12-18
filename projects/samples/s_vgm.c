@@ -17,6 +17,7 @@
 #if (VGM_USE_MSXAUDIO)
 	#include "msx-audio.h"
 #endif
+#include "s_vgm_rawdef.h"
 
 //=============================================================================
 // DEFINES
@@ -77,15 +78,15 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
-	{ "Dragon Slayer 4    ", 0x8000, 2 },
-	{ "Gambare Goemon     ", 0x8000, 3 },
-	{ "Metal Gear         ", 0x8000, 5 },
-	{ "Hi no Tori         ", 0x8000, 6 },
-	{ "F1 Spirit (SCC)    ", 0x8000, 7 },
-	{ "Undeadline (M-M)   ", 0x8000, 4 },
-	{ "Final Fantasy (M-M)", 0x8000, 8 },
-	{ "Xevious (M-A)      ", 0x8000, 9 },
-	{ "Pro Yakyu (M-A)    ", 0x8000, 10 },
+	{ "Dragon Slayer 4    ", 0x8000 + PSG_DS4_03_VGM_REL,       PSG_DS4_03_VGM_SEG },
+	{ "Gambare Goemon     ", 0x8000 + PSG_GOEMON_07_VGM_REL,    PSG_GOEMON_07_VGM_SEG },
+	{ "Metal Gear         ", 0x8000 + PSG_METALGEAR_05_VGM_REL, PSG_METALGEAR_05_VGM_SEG },
+	{ "Hi no Tori         ", 0x8000 + PSG_HONOTORI_09_VGM_REL,  PSG_HONOTORI_09_VGM_SEG },
+	{ "F1 Spirit (SCC)    ", 0x8000 + SCC_F1SPIRIT_01_VGM_REL,  SCC_F1SPIRIT_01_VGM_SEG },
+	{ "Undeadline (M-M)   ", 0x8000 + MM_UNDEADLINE_03_VGM_REL, MM_UNDEADLINE_03_VGM_SEG },
+	{ "Final Fantasy (M-M)", 0x8000 + MM_FF_03_VGM_REL,         MM_FF_03_VGM_SEG },
+	{ "Xevious (M-A)      ", 0x8000 + MA_XEVIOUS_01_VGM_REL,    MA_XEVIOUS_01_VGM_SEG },
+	{ "Pro Yakyu (M-A)    ", 0x8000 + MA_PROYAKYU_10_VGM_REL,   MA_PROYAKYU_10_VGM_SEG },
 };
 
 // Player button list
