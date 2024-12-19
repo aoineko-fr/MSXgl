@@ -334,7 +334,7 @@ if (DoCompile)
 				let baseOffset = raw.page * 16 * 1024;
 
 				if (rawPages[raw.page] === undefined)
-					rawPages[raw.page] = 0;			
+					rawPages[raw.page] = ((raw.page == 0) && ROMWithISR) ? 0x0100 : 0x0000;			
 				let relOffset = rawPages[raw.page];
 				rawPages[raw.page] += stats.size;
 
