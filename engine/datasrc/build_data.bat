@@ -44,6 +44,7 @@ if %BuildMath%==1 (
 	%MSXmath% -num 256 -bytes 2 -shift 12 sq -o ..\content\mathtable\mt_sq_256.inc
 
 	%MSXmath% -num 32  -bytes 1 -shift 4  map 0 100 -o ..\content\mathtable\mt_sq_64.inc
+	%MSXmath% -num 256 -bytes 1 -shift 0  proj -o ..\content\mathtable\mt_proj256.inc
 )
 
 ::-----------------------------------------------------------------------------

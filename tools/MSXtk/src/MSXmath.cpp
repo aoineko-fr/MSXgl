@@ -75,7 +75,7 @@ i16					Width = 256;
 i16					Height = 212;
 // Output file format
 MSX::ExporterInterface* Exporter = NULL;
-MSX::FileFormat		OutputFormat = MSX::FILEFORMAT_C;
+MSX::FileFormat		OutputFormat = MSX::FILEFORMAT_Auto;
 std::string         OutputFile;
 
 enum OPERATOR
@@ -142,7 +142,7 @@ f64 Clamp(f64 x, f64 min, f64 max)
 }
 
 // Print a generic table using operation pointer function
-void PrintTable(i32 t)
+void ExportTable(i32 t)
 {
 	const Operation* op = &OpTable[t];
 
@@ -284,6 +284,10 @@ void Help()
 	printf("  rot              Rotation vector table\n");
 	printf("  equa A B C D E   Equation of type y=A+B*(C+x*D)^E\n");
 	printf("  map  A B         Map [0:num[ values to [A:B] space\n");
+	printf("  muls             Full 8-bit signed integer multiplication table (bytes should be 2\n");
+	printf("  mulu             Full 8-bit unsigned integer multiplication table (bytes should be 2)\n");
+	printf("  divs             Full 8-bit signed integer division table\n");
+	printf("  divu             Full 8-bit unsigned integer division table\n");
 	printf("Note: All number can be decimal or hexadecimal starting with '0x', '$' or '#'.\n");
 }
 
@@ -291,7 +295,8 @@ void Help()
 //const c8* ARGV[] = { "", "-num", "16", "-Bytes", "1",  "-Shift", "0","map", "0", "100" };
 //const c8* ARGV[] = { "", "-o", "../testcases/sin.h", "-Shift", "12", "sin", "cos", "tan", "sq", "sqrt", "exp" };
 //const c8* ARGV[] = { "", "-num", "256", "-bytes", "2",  "-shift", "8", "hdx", "hdy" };
-//#define DEBUG_ARGS
+const c8* ARGV[] = { "", "-o", "../testcases/muls.h", "-num", "256", "-bytes", "2",  "-shift", "0", "muls" };
+#define DEBUG_ARGS
 
 
 //-----------------------------------------------------------------------------
@@ -360,6 +365,8 @@ int main(int argc, const c8* argv[])
 				OutputFormat = MSX::FILEFORMAT_C;
 			else if (MSX::StrEqual(format, "asm"))
 				OutputFormat = MSX::FILEFORMAT_Asm;
+			else if (MSX::StrEqual(format, "bin"))
+				OutputFormat = MSX::FILEFORMAT_Bin;
 		}
 		else if (MSX::StrEqual(argv[argIndex], "-at")) // Starting address
 		{
@@ -402,176 +409,269 @@ int main(int argc, const c8* argv[])
 	{
 		if(MSX::StrEqual(argv[argIndex], "sin")) // Sinus
 		{
-			PrintTable(OP_SINUS);
+			ExportTable(OP_SINUS);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "cos")) // Cosinus
 		{
-			PrintTable(OP_COSINUS);
+			ExportTable(OP_COSINUS);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "tan")) // Tangent
 		{
-			PrintTable(OP_TANGENT);
+			ExportTable(OP_TANGENT);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "cot")) // Cotangent
 		{
-			PrintTable(OP_COTANGENT);
+			ExportTable(OP_COTANGENT);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "asin")) // Arc-sinus
 		{
-			PrintTable(OP_ARCSIN);
+			ExportTable(OP_ARCSIN);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "acos")) // Arc-cosinus
 		{
-			PrintTable(OP_ARCCOS);
+			ExportTable(OP_ARCCOS);
 		}
 		else if(MSX::StrEqual(argv[argIndex], "atan")) // Arc-tangent
 		{
-			PrintTable(OP_ARCTAN);
+			ExportTable(OP_ARCTAN);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "sq")) // Square
 		{
-			PrintTable(OP_SQUARE);
+			ExportTable(OP_SQUARE);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "sqrt")) // Square-root
 		{
-			PrintTable(OP_SQUAREROOT);
+			ExportTable(OP_SQUAREROOT);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "map")) // Mapping
 		{
 			A = atof(argv[++argIndex]);
 			B = atof(argv[++argIndex]);
-			PrintTable(OP_MAP);
+			ExportTable(OP_MAP);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "pow")) // Power: x^A
 		{
 			A = atof(argv[++argIndex]);
-			PrintTable(OP_POWER);
+			ExportTable(OP_POWER);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "exp")) // Exponential
 		{
-			PrintTable(OP_EXP);
+			ExportTable(OP_EXP);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "log")) // Natural logarithm (to the base e)
 		{
-			PrintTable(OP_LOG);
+			ExportTable(OP_LOG);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "log10")) // Common logarithm (to the base 10)
 		{
-			PrintTable(OP_LOG10);
+			ExportTable(OP_LOG10);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "hdx")) // Hypotenuse length when dX=1
 		{
-			PrintTable(OP_HYPO_DX);
+			ExportTable(OP_HYPO_DX);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "hdy")) // Hypotenuse length when dY=1
 		{
-			PrintTable(OP_HYPO_DY);
+			ExportTable(OP_HYPO_DY);
 		}
-		else if(MSX::StrEqual(argv[argIndex], "proj")) // X/Y 3d projection according to Z value
+		else if (MSX::StrEqual(argv[argIndex], "muls")) // Full 8-bit unsigned integer multiplication table
 		{
-			// @todo Convert to generic function and add it to operation table
+			// Add table
+			Exporter->AddReturn();
+			Exporter->AddComment("3D projection table.");
+			Exporter->StartSection(MSX::Format("%s%s%d", Prefix, "Proj", Number), DataSize);
 
-			f64 yScale = cos(PI * 0.25);
-			f64 xScale = yScale * Height / Width;
-			f64 zFar = 0.01;
-			f64 zNear = 16;
-			f64 K = zFar / (zFar - zNear) + 1;
-			f64 multi = (f64)(1 << Shift);
-
-			// X projection table
-			printf("static const signed %s %sProjectionX%d[%d] =\n{\n", (Bytes == 1) ? "char" : "short", Prefix, Number, Number);
-			for(i32 i=0; i< Number; i++)
+			f64 multi = pow(2, Shift);
+			for (int a = 0; a < Number; a++)
 			{
-				if ((i % 8 == 0))
-					printf("\t");
-
-				f64 z = i - (f64)Number/2;
-				f64 x = multi * xScale / (z * K);
-
-				if (Bytes == 1)
-					printf("0x%02X, ", 0xFF & (i32)x);
-				else
-					printf("0x%04X, ", 0xFFFF & (i32)x);
-
-				if ((i % 8 == 7) || (i == Number - 1)) // 8th column or last
-					printf("\n");
-			}
-			printf("};\n");
-
-			// Y projection table
-			printf("static const signed %s %sProjectionY%d[%d] =\n{\n", (Bytes == 1) ? "char" : "short", Prefix, Number, Number);
-			for(i32 i=0; i< Number; i++)
-			{
-				if ((i % 8 == 0))
-					printf("\t");
-
-				f64 z = i - (f64)Number/2;
-				f64 x = multi * yScale / (z * K);
-
-				if (Bytes == 1)
-					printf("0x%02X, ", 0xFF & (i32)x);
-				else
-					printf("0x%04X, ", 0xFFFF & (i32)x);
-
-				if ((i % 8 == 7) || (i == Number - 1)) // 8th column or last
-					printf("\n");
-			}
-			printf("};\n");
-		}
-		else if(MSX::StrEqual(argv[argIndex], "rot")) // Rotation table
-		{
-			// @todo Convert to generic function and add it to operation table
-
-			f64 multi = (f64)(1 << Shift);
-			printf("static const %s %sRotation%d[%d] =\n{\n\t", (Bytes == 1) ? "char" : "short", Prefix, Number, (2 * Number - 1) * (2 * Number - 1));
-			for(i32 i = 1 - Number; i < Number; i++)
-			{
-				printf("/* x=%d */\n\t", i);
-				for(i32 j = 1 - Number; j < Number; j++)
+				Exporter->AddComment(MSX::Format("A=%d", a));
+				for (int b = 0; b < Number; b++)
 				{
-					f64 x = multi * ComputeAngle((f64)i, (f64)j) / PI_2;
-					x += 0.5; // for nearest approximation
-					if(Bytes == 1)
-						printf("0x%02X, ", 0xFF & (i32)x % (i32)multi);
-					else
-						printf("0x%04X, ", 0xFFFF & (i32)x % (i32)multi);
+					if ((b % 8 == 0))
+						Exporter->StartLine();
+
+					f64 x = f64(a - (f64)Number / 2) * f64(b - (f64)Number / 2);
+					x *= multi;
+					x = round(x);
+
+					switch (DataSize)
+					{
+					case MSX::DATASIZE_8bits:
+						x = Clamp(x, INT8_MIN, INT8_MAX);
+						Exporter->AddByte(0xFF & (u32)x);
+						break;
+					case MSX::DATASIZE_16bits:
+						x = Clamp(x, INT16_MIN, INT16_MAX);
+						Exporter->AddWord(0xFFFF & (u32)x);
+						break;
+					case MSX::DATASIZE_32bits:
+						x = Clamp(x, INT32_MIN, INT32_MAX);
+						Exporter->AddDouble((u32)x);
+						break;
+					}
+
+					if (b % 8 == 7) // 8th column or last
+						Exporter->EndLine();
 				}
-				printf("\n\t");
 			}
-			printf("\n};\n");
+
+			Exporter->EndSection();
 		}
-		else if(MSX::StrEqual(argv[argIndex], "equa")) // Equation of type y=A+B*(C+x*D)^E
+		else if (MSX::StrEqual(argv[argIndex], "proj")) // X/Y 3d projection according to Z value
 		{
-			A = atof(argv[++argIndex]);
-			B = atof(argv[++argIndex]);
-			C = atof(argv[++argIndex]);
-			D = atof(argv[++argIndex]);
-			E = atof(argv[++argIndex]);
-			f64 multi = (f64)(1 << Shift);
+#define FOCAL_DIST 16.0f
 
-			printf("static const signed %s %sEqua%d[%d] =\n{\n", (Bytes == 1) ? "char" : "short", Prefix, Number, Number);
-			for(i32 i=0; i<Number; i++)
+			// Add table
+			Exporter->AddReturn();
+			Exporter->AddComment("3D projection table.");
+			Exporter->StartSection(MSX::Format("%s%s%d", Prefix, "Proj", Number), DataSize);
+
+			f64 multi = pow(2, Shift);
+			for (i32 j = 1; j <= Number; j++)
 			{
-				if ((i % 8 == 0))
-					printf("\t");
+				f64 k = FOCAL_DIST / (f64)j;
 
-				f64 x = multi * (A + B * pow((C + (f64)i * D), E));
-				if(Bytes == 1)
-					printf("0x%02X, ", 0xFF & (i32)x);
-				else
-					printf("0x%04X, ", 0xFFFF & (i32)x);
+				Exporter->AddComment(MSX::Format("Z=%d, K=%0.3f", j, k));
+				for (i32 i = 0; i < Number; i++)
+				{
+					if ((i % 8 == 0))
+						Exporter->StartLine();
 
-				if((i % 8 == 7) && (i < Number - 1))
-					printf("\n");
+					f64 x = ((f64)i - ((f64)Number / 2));
+					x *= k;
+					x += (f64)(Number / 2);
+					x *= multi;
+					x = round(x);
+
+					switch (DataSize)
+					{
+					case MSX::DATASIZE_8bits:
+						x = Clamp(x, 0, UINT8_MAX);
+						Exporter->AddByte(0xFF & (u32)x);
+						break;
+					case MSX::DATASIZE_16bits:
+						x = Clamp(x, 0, UINT16_MAX);
+						Exporter->AddWord(0xFFFF & (u32)x);
+						break;
+					case MSX::DATASIZE_32bits:
+						x = Clamp(x, 0, UINT32_MAX);
+						Exporter->AddDouble((u32)x);
+						break;
+					}
+
+					if (i % 8 == 7) // 8th column or last
+						Exporter->EndLine();
+				}
 			}
-			printf("};\n");
+
+			Exporter->EndSection();
 		}
+		//else if(MSX::StrEqual(argv[argIndex], "proj")) // X/Y 3d projection according to Z value
+		//{
+		//	// @todo Convert to generic function and add it to operation table
+
+		//	f64 yScale = cos(PI * 0.25);
+		//	f64 xScale = yScale * Height / Width;
+		//	f64 zFar = 0.01;
+		//	f64 zNear = 16;
+		//	f64 K = zFar / (zFar - zNear) + 1;
+		//	f64 multi = (f64)(1 << Shift);
+
+		//	// X projection table
+		//	printf("static const signed %s %sProjectionX%d[%d] =\n{\n", (Bytes == 1) ? "char" : "short", Prefix, Number, Number);
+		//	for(i32 i=0; i< Number; i++)
+		//	{
+		//		if ((i % 8 == 0))
+		//			printf("\t");
+
+		//		f64 z = i - (f64)Number/2;
+		//		f64 x = multi * xScale / (z * K);
+
+		//		if (Bytes == 1)
+		//			printf("0x%02X, ", 0xFF & (i32)x);
+		//		else
+		//			printf("0x%04X, ", 0xFFFF & (i32)x);
+
+		//		if ((i % 8 == 7) || (i == Number - 1)) // 8th column or last
+		//			printf("\n");
+		//	}
+		//	printf("};\n");
+
+		//	// Y projection table
+		//	printf("static const signed %s %sProjectionY%d[%d] =\n{\n", (Bytes == 1) ? "char" : "short", Prefix, Number, Number);
+		//	for(i32 i=0; i< Number; i++)
+		//	{
+		//		if ((i % 8 == 0))
+		//			printf("\t");
+
+		//		f64 z = i - (f64)Number/2;
+		//		f64 x = multi * yScale / (z * K);
+
+		//		if (Bytes == 1)
+		//			printf("0x%02X, ", 0xFF & (i32)x);
+		//		else
+		//			printf("0x%04X, ", 0xFFFF & (i32)x);
+
+		//		if ((i % 8 == 7) || (i == Number - 1)) // 8th column or last
+		//			printf("\n");
+		//	}
+		//	printf("};\n");
+		//}
+		//else if(MSX::StrEqual(argv[argIndex], "rot")) // Rotation table
+		//{
+		//	// @todo Convert to generic function and add it to operation table
+
+		//	f64 multi = (f64)(1 << Shift);
+		//	printf("static const %s %sRotation%d[%d] =\n{\n\t", (Bytes == 1) ? "char" : "short", Prefix, Number, (2 * Number - 1) * (2 * Number - 1));
+		//	for(i32 i = 1 - Number; i < Number; i++)
+		//	{
+		//		printf("/* x=%d */\n\t", i);
+		//		for(i32 j = 1 - Number; j < Number; j++)
+		//		{
+		//			f64 x = multi * ComputeAngle((f64)i, (f64)j) / PI_2;
+		//			x += 0.5; // for nearest approximation
+		//			if(Bytes == 1)
+		//				printf("0x%02X, ", 0xFF & (i32)x % (i32)multi);
+		//			else
+		//				printf("0x%04X, ", 0xFFFF & (i32)x % (i32)multi);
+		//		}
+		//		printf("\n\t");
+		//	}
+		//	printf("\n};\n");
+		//}
+		//else if(MSX::StrEqual(argv[argIndex], "equa")) // Equation of type y=A+B*(C+x*D)^E
+		//{
+		//	A = atof(argv[++argIndex]);
+		//	B = atof(argv[++argIndex]);
+		//	C = atof(argv[++argIndex]);
+		//	D = atof(argv[++argIndex]);
+		//	E = atof(argv[++argIndex]);
+		//	f64 multi = (f64)(1 << Shift);
+
+		//	printf("static const signed %s %sEqua%d[%d] =\n{\n", (Bytes == 1) ? "char" : "short", Prefix, Number, Number);
+		//	for(i32 i=0; i<Number; i++)
+		//	{
+		//		if ((i % 8 == 0))
+		//			printf("\t");
+
+		//		f64 x = multi * (A + B * pow((C + (f64)i * D), E));
+		//		if(Bytes == 1)
+		//			printf("0x%02X, ", 0xFF & (i32)x);
+		//		else
+		//			printf("0x%04X, ", 0xFFFF & (i32)x);
+
+		//		if((i % 8 == 7) && (i < Number - 1))
+		//			printf("\n");
+		//	}
+		//	printf("};\n");
+		//}
 		//else
 		//{
 		//	printf("\n/* Error: Unknown table type \'%s\'! */\n", argv[argIndex]);
 		//}
 	}
 
+	Exporter->AddComment(MSX::Format("Size: %d bytes", Exporter->GetTotalSize()));
 	Exporter->Export(OutputFile);
 
 	u32 retAddr = Exporter->GetTotalSize();

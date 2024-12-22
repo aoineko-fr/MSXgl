@@ -136,7 +136,7 @@ public:
 	/// Check if filename contains the given extension
 	static FileFormat GetFormat(const std::string& filename)
 	{
-		if(HaveExt(filename, ".h") || HaveExt(filename, ".inc"))
+		if(HaveExt(filename, ".c") || HaveExt(filename, ".h") || HaveExt(filename, ".inc"))
 			return MSX::FILEFORMAT_C;
 
 		if (HaveExt(filename, ".s") || HaveExt(filename, ".asm"))

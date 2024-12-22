@@ -26,11 +26,23 @@ namespace MSX {
 //---------------------------------------------------------------------------------
 struct ExportConfig
 {
-	DataFormat Format;
-	AsmSyntax  Asm;
-	u32        Address;
+	DataSize   Bytes;       // Data size (byte, word, dword, ...)
+	DataFormat Format;      // Data format (decimal, hex, ...)
+	AsmSyntax  Asm;         // Assembler syntax
+	u32        Address;     // 
+	bool       SeparateDef; // Define table in separate file
 
-	ExportConfig() : Format(DATAFORMAT_Hexa), Asm(ASMSYNTAX_Default), Address(ADDRESS_INVALID) {}
+	ExportConfig() : Bytes(DATASIZE_8bits), Format(DATAFORMAT_Hexa), Asm(ASMSYNTAX_Default), Address(ADDRESS_INVALID), SeparateDef(false) {}
+};
+
+//---------------------------------------------------------------------------------
+struct ExportSection
+{
+	u32 Size;
+	std::string Name;
+
+	ExportSection() : Size(0) {}
+	ExportSection(std::string name) : Size(0), Name(name) {}
 };
 
 //---------------------------------------------------------------------------------
@@ -40,11 +52,11 @@ struct ExportConfig
 class ExporterInterface
 {
 public:
-	u32 TotalBytes;
+	std::vector<ExportSection> Sections;
 	ExportConfig Config;
 
-	ExporterInterface() : TotalBytes(0), Config() {}
-	ExporterInterface(ExportConfig& cfg) : TotalBytes(0), Config(cfg) {}
+	ExporterInterface() : Config() {}
+	ExporterInterface(ExportConfig& cfg) : Config(cfg) {}
 	virtual ~ExporterInterface() = default;
 
 	virtual void AddReturn() = 0;
@@ -100,7 +112,13 @@ public:
 	}
 
 	virtual bool Export(std::string filename) const = 0;
-	virtual u32 GetTotalSize() const { return TotalBytes; }
+	virtual u32 GetTotalSize() const
+	{
+		u32 TotalBytes = 0;
+		for (int i = 0; i < Sections.size(); i++)
+			TotalBytes += Sections[i].Size;
+		return TotalBytes;
+	}
 };
 
 //---------------------------------------------------------------------------------
@@ -116,13 +134,13 @@ public:
 	virtual void AddReturn() {}
 	virtual void AddComment(std::string comment = "") {}
 
-	virtual void StartSection(std::string name, u8 size = DATASIZE_8bits, std::string comment = "") {}
+	virtual void StartSection(std::string name, u8 size = DATASIZE_8bits, std::string comment = "")	{ Sections.push_back(ExportSection()); }
 	virtual void EndSection(std::string comment = "") {}
 
 	virtual void StartLine() {}
-	virtual void AddByte(u8 data) { TotalBytes++; }
-	virtual void AddWord(u16 data) { TotalBytes += 2; }
-	virtual void AddDouble(u32 data) { TotalBytes += 4; }
+	virtual void AddByte(u8 data) { Sections.back().Size++; }
+	virtual void AddWord(u16 data) { Sections.back().Size += 2; }
+	virtual void AddDouble(u32 data) { Sections.back().Size += 4; }
 	virtual void EndLine(std::string comment = "") {}
 
 	virtual bool Export(std::string filename) const { return true; }
@@ -143,20 +161,20 @@ public:
 	virtual void AddReturn() {}
 	virtual void AddComment(std::string comment = "") {}
 
-	virtual void StartSection(std::string name, u8 size = DATASIZE_8bits, std::string comment = "") {}
+	virtual void StartSection(std::string name, u8 size = DATASIZE_8bits, std::string comment = "") { Sections.push_back(ExportSection()); }
 	virtual void EndSection(std::string comment = "") {}
 
 	virtual void StartLine() {}
 	virtual void AddByte(u8 data)
 	{
 		outData.push_back(data);
-		TotalBytes += 1;
+		Sections.back().Size += 1;
 	}
 	virtual void AddWord(u16 data) // Little endian
 	{
 		outData.push_back(data & 0x00FF);
 		outData.push_back(data >> 8);
-		TotalBytes += 2;
+		Sections.back().Size += 2;
 	}
 	virtual void AddDouble(u32 data) // Little endian
 	{
@@ -164,7 +182,7 @@ public:
 		outData.push_back((data >> 8) & 0x000000FF);
 		outData.push_back((data >> 16) &0x000000FF);
 		outData.push_back(data >> 24);
-		TotalBytes += 4;
+		Sections.back().Size += 4;
 	}
 	virtual void EndLine(std::string comment = "") {}
 
@@ -237,6 +255,7 @@ public:
 
 	virtual void StartSection(std::string name, u8 size = DATASIZE_8bits, std::string comment = "")
 	{
+		Sections.push_back(ExportSection(name));
 		outData += MSX::Format("%s %s[] = {", MSX::GetCTable(Config.Format, size), name.c_str());
 		if (!comment.empty())
 			outData += MSX::Format(" // %s", comment.c_str());
@@ -254,19 +273,19 @@ public:
 	{
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_8bits) + std::string(", ");
 		outData += MSX::Format(Dataformat.c_str(), data);
-		TotalBytes += 1;
+		Sections.back().Size += 1;
 	}
 	virtual void AddWord(u16 data)
 	{
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_16bits) + std::string(", ");
 		outData += MSX::Format(Dataformat.c_str(), data);
-		TotalBytes += 2;
+		Sections.back().Size += 2;
 	}
 	virtual void AddDouble(u32 data)
 	{
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_32bits) + std::string(", ");
 		outData += MSX::Format(Dataformat.c_str(), data);
-		TotalBytes += 4;
+		Sections.back().Size += 4;
 	}
 	virtual void EndLine(std::string comment = "")
 	{
@@ -294,6 +313,7 @@ public:
 
 	virtual void StartSection(std::string name, u8 size = DATASIZE_8bits, std::string comment = "")
 	{
+		Sections.push_back(ExportSection(name));
 		CurrentSectionSize = size;
 		outData += MSX::Format("%s:", name.c_str());
 		if (!comment.empty())
@@ -316,7 +336,7 @@ public:
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_8bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
-		TotalBytes += 1;
+		Sections.back().Size += 1;
 		DataCount++;
 	}
 	virtual void AddWord(u16 data)
@@ -325,7 +345,7 @@ public:
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_16bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
-		TotalBytes += 2;
+		Sections.back().Size += 2;
 		DataCount++;
 	}
 	virtual void AddDouble(u32 data)
@@ -334,7 +354,7 @@ public:
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_32bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
-		TotalBytes += 4;
+		Sections.back().Size += 4;
 		DataCount++;
 	}
 	virtual void EndLine(std::string comment = "")
@@ -364,6 +384,7 @@ public:
 
 	virtual void StartSection(std::string name, u8 size = DATASIZE_8bits, std::string comment = "")
 	{
+		Sections.push_back(ExportSection(name));
 		CurrentSectionSize = size;
 		outData += MSX::Format("%i '%s", LineNumber++, name.c_str());
 		if (!comment.empty())
@@ -386,7 +407,7 @@ public:
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_8bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
-		TotalBytes += 1;
+		Sections.back().Size += 1;
 		DataCount++;
 	}
 	virtual void AddWord(u16 data)
@@ -395,7 +416,7 @@ public:
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_16bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
-		TotalBytes += 2;
+		Sections.back().Size += 2;
 		DataCount++;
 	}
 	virtual void AddDouble(u32 data)
@@ -404,7 +425,7 @@ public:
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_32bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
-		TotalBytes += 4;
+		Sections.back().Size += 4;
 		DataCount++;
 	}
 	virtual void EndLine(std::string comment = "")
