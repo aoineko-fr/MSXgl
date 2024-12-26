@@ -78,96 +78,170 @@ struct ONET_PacketInfo
 //=============================================================================
 
 // Function: ONET_Initialize
-// ObsoNET searching routine
-// /!\ Must not be call from page 1
-// /!\ Must not be call before any other function from this module
+// ObsoNET searching routine.
+// /!\ Must not be call from page 1.
+// /!\ Must not be call before any other function from this module.
 u8 ONET_Initialize();
 
 // Function: ONET_GetSlot
-// Obtains the ObsoNET slot (or 0xFF is not found)
+// Obtains the ObsoNET slot (or 0xFF is not found).
+//
+// Return:
+//   Slot number.
 inline u8 ONET_GetSlot() { return g_ONET_Slot; }
 
 // Function: ONET_HasBIOS
-// Check if ObsoNET card has a BIOS
+// Check if ObsoNET card has a BIOS.
+//
+// Return:
+//   TRUE if the card has a BIOS.
 inline bool ONET_HasBIOS() { return g_ONET_Bios; }
 
 // Function: ONET_Reset
-// Initializes the ObsoNET card
+// Initializes the ObsoNET card.
 void ONET_Reset();
 
 // Function: ONET_GetVersion
-// Obtains the BIOS version
+// Obtains the BIOS version.
+//
+// Return:
+//   Pointer to the 3 bytes version number (major, minor, revision).
 inline const u8* ONET_GetVersion() { return g_ONET_Version; }
 
 // Function: ONET_GetPhysicalAddr
-// Obtains the ObsoNET physical address
+// Obtains the ObsoNET physical address.
+//
+// Return:
+//   Pointer to the 6 bytes MAC address.
 inline const u8* ONET_GetPhysicalAddr() { return g_ONET_MAC; }
 
 // Function: ONET_GetMACAddress
-// Obtains the ObsoNET physical address
+// Obtains the ObsoNET physical address.
 // See <ONET_GetPhysicalAddr>
+//
+// Return:
+//   Pointer to the 6 bytes MAC address.
 inline const u8* ONET_GetMACAddress() { return ONET_GetPhysicalAddr(); }
 
 // Function: ONET_GetStatus
-// Obtains the network connection status
+// Obtains the network connection status.
+//
+// Return:
+//   TRUE if the network is connected.
 bool ONET_GetStatus();
 
 // Function: ONET_Activation
-// Activates or deactivates ObsoNET
+// Activates or deactivates ObsoNET.
+//
+// Parameters:
+//   flag - Activation flag (ONET_ACTIVATE_GET, ONET_ACTIVATE_ON or ONET_ACTIVATE_OFF).
+//
+// Return:
+//   Current activation state if flag is ONET_ACTIVATE_GET.
 u8 ONET_Activation(u8 flag);
 
 // Function: ONET_Activate
-// Activates ObsoNET
+// Activates ObsoNET.
 inline void ONET_Activate() { ONET_Activation(ONET_ACTIVATE_ON); }
 
 // Function: ONET_Disactivate
-// Deactivates ObsoNET
+// Deactivates ObsoNET.
 inline void ONET_Disactivate() { ONET_Activation(ONET_ACTIVATE_OFF); }
 
 // Function: ONET_IsActivate
-// Check Activates or deactivates ObsoNET
+// Check Activates or deactivates ObsoNET.
+//
+// Return:
+//   TRUE if the card is activated.
 inline bool ONET_IsActivate() { return ONET_Activation(ONET_ACTIVATE_GET) == ONET_ACTIVATE_ON; }
 
 // Function: ONET_ReceptConfig
-// Configuration of the reception parameters
+// Configuration of the reception parameters.
+//
+// Parameters:
+//   flag - Reception flag (ONET_RECEPT_SMALL, ONET_RECEPT_BROADCAST, ONET_RECEPT_MULTICAST, ONET_RECEPT_ALL or ONET_RECEPT_GET).
+//
+// Return:
+//   Current configuration if flag is ONET_RECEPT_GET.
 u8 ONET_ReceptConfig(u8 flag);
 
 // Function: ONET_SetReceptConfig
-// Set Configuration of the reception parameters
+// Set Configuration of the reception parameters.
+//
+// Parameters:
+//   flag - Reception flag (ONET_RECEPT_SMALL, ONET_RECEPT_BROADCAST, ONET_RECEPT_MULTICAST or ONET_RECEPT_ALL).
 inline void ONET_SetReceptConfig(u8 flag) { ONET_ReceptConfig(flag); }
 
 // Function: ONET_SetReceptConfig
-// Get Configuration of the reception parameters
+// Get Configuration of the reception parameters.
+//
+// Return:
+//   Current configuration.
 inline u8 ONET_GetReceptConfig() { return ONET_ReceptConfig(ONET_RECEPT_GET); }
 
 // Function: ONET_SetMulticastMask
-// Set Configuration of the multicast mask
+// Set Configuration of the multicast mask.
+//
+// Parameters:
+//   addr - Address to write the mask to.
 void ONET_SetMulticastMask(u8* addr);
 
 // Function: ONET_GetMulticastMask
-// Get Configuration of the multicast mask
+// Get Configuration of the multicast mask.
+//
+// Parameters:
+//   addr - Address to read the mask from.
 void ONET_GetMulticastMask(u8* addr);
 
 // Function: ONET_GetPacketInfo
-// Obtains information about the oldest received packet
+// Obtains information about the oldest received packet.
+//
+// Parameters:
+//   info - Pointer to the packet information structure.
+//
+// Return:
+//   TRUE if a packet is available.
 bool ONET_GetPacketInfo(struct ONET_PacketInfo* info);
 
 // Function: ONET_GetPacket
-// Obtains the oldest captured incoming packet
+// Obtains the oldest captured incoming packet.
+//
+// Parameters:
+//   addr - Address where to put the packet (0 to discard it).
+//
+// Return:
+//   TRUE if a packet has been obtained (or discarded).
 bool ONET_GetPacket(u8* addr);
 
 // Function: ONET_DiscardPacket
-// Discard the oldest captured incoming packet
+// Discard the oldest captured incoming packet.
 void ONET_DiscardPacket();
 
 // Function: ONET_SendPacketSync
-// Sends a packet to the network (Synchronous execution)
+// Sends a packet to the network (Synchronous execution).
+//
+// Parameters:
+//   addr - Address of the packet to send.
+//   size - Size of the packet.
+//
+// Return:
+//   Status of the transmission.
 u8 ONET_SendPacketSync(const u8* addr, u16 size);
 
 // Function: ONET_SendPacketAsync
-// Sends a packet to the network (Asynchronous execution)
+// Sends a packet to the network (Asynchronous execution).
+//
+// Parameters:
+//   addr - Address of the packet to send.
+//   size - Size of the packet.
+//
+// Return:
+//   Status of the transmission.
 u8 ONET_SendPacketAsync(const u8* addr, u16 size);
 
 // Function: ONET_GetSendStatus
-// Obtains the status of the packet transmission
+// Obtains the status of the packet transmission.
+//
+// Return:
+//   Status of the transmission.
 u8 ONET_GetSendStatus();

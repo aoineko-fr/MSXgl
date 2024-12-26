@@ -86,7 +86,7 @@ bool WYZ_IsFinished();
 // Play Sound Effect
 //
 // Parameters:
-//   FX number
+//   numSound - FX number
 void WYZ_PlayFX(u8 numSound); 
 
 // Function: WYZ_PlayAY

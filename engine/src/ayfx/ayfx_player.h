@@ -83,7 +83,7 @@ void ayFX_InitBank(void* bank);
 //   id		- Sound index in the bank
 //   prio	- Priority of the sound (0-15). 0 is the highest priority.
 //
-// Returns:
+// Return:
 //   Error number (if any). See <AYFX_ERROR>.
 u8 ayFX_PlayBank(u8 id, u8 prio);
 

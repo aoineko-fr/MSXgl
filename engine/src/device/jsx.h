@@ -42,14 +42,29 @@
 //=============================================================================
 
 // Function: JSX_Detect
-//  7 6 5 4 3 2 1 0
-// –-–-–-–-–-–-–-–--
-//  0 0 A A A A B B
-//      │ │ │ │ └─┴── Number of button rows (0-3)
-//      └─┴─┴─┴────── Number of axis (0-15)
+// Detect JSX device in the given port.
+//
+// Parameters:
+//   port	- Input port to detect (INPUT_PORT1 or INPUT_PORT2).
+//
+// Return:
+//   JSX device ID.
+//>  7 6 5 4 3 2 1 0
+//> –-–-–-–-–-–-–-–--
+//>  0 0 A A A A B B
+//>      │ │ │ │ └─┴── Number of button rows (0-3)
+//>      └─┴─┴─┴────── Number of axis (0-15)
 u8 JSX_Detect(enum INPUT_PORT port);
 
 // Function: JSX_Read
+// Read JSX device in the given port.
+//
+// Parameters:
+//   port	- Input port to read (INPUT_PORT1 or INPUT_PORT2).
+//   buffer	- Buffer to store the input data.
+//
+// Return:
+//   JSX device ID.
 u8 JSX_Read(enum INPUT_PORT port, u8* buffer);
 
 // // Function: JSX_GetInput
@@ -59,21 +74,57 @@ u8 JSX_Read(enum INPUT_PORT port, u8* buffer);
 // inline u8* JSX_GetInputBuffer(u8 port) { return g_JSX_InputBuffer[port]; }
 
 // Function: JSX_GetAxisNumber
+// Get the number of axis from the given JSX device ID.
+//
+// Parameters:
+//   id	- JSX device ID.
+//
+// Return:
+//   Number of axis.
 inline u8 JSX_GetAxisNumber(u8 id) { return id >> 2; }
 
 // Function: JSX_GetRowsNumber
+// Get the number of button rows from the given JSX device ID.
+//
+// Parameters:
+//   id	- JSX device ID.
+//
+// Return:
+//   Number of button rows.
 inline u8 JSX_GetRowsNumber(u8 id) { return id & 0x03; }
 
 // Function: JSX_GetButtonsNumber
+// Get the number of buttons from the given JSX device ID.
+//
+// Parameters:
+//   id	- JSX device ID.
+//
+// Return:
+//   Number of buttons.
 inline u8 JSX_GetButtonsNumber(u8 id) { return (id & 0x03) * 6; }
 
 // Function: JSXC_Detect
-//  7 6 5 4 3 2 1 0
-// –-–-–-–-–-–-–-–--
-//  0 0 A A A A B B
-//      │ │ │ │ └─┴── Number of button rows (0-3)
-//      └─┴─┴─┴────── Number of axis (0-15)
+// Detect JSX device in the given port.
+//
+// Parameters:
+//   port	- Input port to detect (INPUT_PORT1 or INPUT_PORT2).
+//
+// Return:
+//   JSX device ID.
+//>  7 6 5 4 3 2 1 0
+//> –-–-–-–-–-–-–-–--
+//>  0 0 A A A A B B
+//>      │ │ │ │ └─┴── Number of button rows (0-3)
+//>      └─┴─┴─┴────── Number of axis (0-15)
 u8 JSXC_Detect(enum INPUT_PORT port);
 
 // Function: JSXC_Read
+// Read JSX device in the given port.
+//
+// Parameters:
+//   port	- Input port to read (INPUT_PORT1 or INPUT_PORT2).
+//   buffer	- Buffer to store the input data.
+//
+// Return:
+//   JSX device ID.
 u8 JSXC_Read(enum INPUT_PORT port, u8* buffer);

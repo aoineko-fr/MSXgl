@@ -280,7 +280,7 @@ void Help()
 	printf("  log10            Common logarithm (to the base 10)\n");
 	printf("  hdx              Hypotenuse length when dX=1 [0:Pi*2]\n");
 	printf("  hdy              Hypotenuse length when dY=1 [0:Pi*2]\n");
-	printf("  proj W H         3d projection tables (W/H: screen width/height)\n");
+	printf("  proj N F         3d projection tables (N/F: near/far scale)\n");
 	printf("  rot              Rotation vector table\n");
 	printf("  equa A B C D E   Equation of type y=A+B*(C+x*D)^E\n");
 	printf("  map  A B         Map [0:num[ values to [A:B] space\n");
@@ -295,8 +295,8 @@ void Help()
 //const c8* ARGV[] = { "", "-num", "16", "-Bytes", "1",  "-Shift", "0","map", "0", "100" };
 //const c8* ARGV[] = { "", "-o", "../testcases/sin.h", "-Shift", "12", "sin", "cos", "tan", "sq", "sqrt", "exp" };
 //const c8* ARGV[] = { "", "-num", "256", "-bytes", "2",  "-shift", "8", "hdx", "hdy" };
-const c8* ARGV[] = { "", "-o", "../testcases/muls.h", "-num", "256", "-bytes", "2",  "-shift", "0", "muls" };
-#define DEBUG_ARGS
+//const c8* ARGV[] = { "", "-o", "../testcases/muls.h", "-num", "256", "-bytes", "2",  "-shift", "0", "muls" };
+//#define DEBUG_ARGS
 
 
 //-----------------------------------------------------------------------------
@@ -519,7 +519,8 @@ int main(int argc, const c8* argv[])
 		}
 		else if (MSX::StrEqual(argv[argIndex], "proj")) // X/Y 3d projection according to Z value
 		{
-#define FOCAL_DIST 16.0f
+			f64 nearScale = atof(argv[++argIndex]);
+			f64 farScale = atof(argv[++argIndex]);
 
 			// Add table
 			Exporter->AddReturn();
@@ -527,9 +528,10 @@ int main(int argc, const c8* argv[])
 			Exporter->StartSection(MSX::Format("%s%s%d", Prefix, "Proj", Number), DataSize);
 
 			f64 multi = pow(2, Shift);
-			for (i32 j = 1; j <= Number; j++)
+			for (i32 j = 0; j < Number; j++)
 			{
-				f64 k = FOCAL_DIST / (f64)j;
+				f64 k0 = (f64)j / (f64)(Number - 1);
+				f64 k = nearScale * (1.f - k0) + farScale * k0;
 
 				Exporter->AddComment(MSX::Format("Z=%d, K=%0.3f", j, k));
 				for (i32 i = 0; i < Number; i++)

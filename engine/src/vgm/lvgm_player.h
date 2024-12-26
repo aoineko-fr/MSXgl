@@ -243,7 +243,10 @@ void LVGM_Pause();
 void LVGM_Decode();
 
 // Function: LVGM_SetPointer
-// Decode a frame of music
+// Jump to a specific position in the music data
+//
+// Parameters:
+//   ptr	- Pointer to the new position
 inline void LVGM_SetPointer(const u8* ptr) { g_LVGM_Pointer = ptr; }
 
 // Function: LVGM_GetDevices
@@ -292,6 +295,9 @@ inline u8 LVGM_GetDefaultPSGValue() { return g_LVGM_PSG_Default; }
 #if (LVGM_USE_NOTIFY)
 // Function: LVGM_SetNotifyCallback
 // Set the function to be called when a notification is triggered
+//
+// Parameters:
+//   cb	- Callback function
 inline void LVGM_SetNotifyCallback(LVGM_NotifyCB cb) { g_LVGM_Callback = cb; }
 #endif
 

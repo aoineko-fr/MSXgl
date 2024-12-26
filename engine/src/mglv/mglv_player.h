@@ -137,6 +137,12 @@ extern u16 g_MGLV_VRAMAddr;
 
 // Function: MGLV_Play
 // Start movie playback.
+//
+// Parameters:
+//   addr - Address of the movie data
+//
+// Returns:
+//   TRUE if initialization is successful
 bool MGLV_Play(const void* addr);
 
 // Function: MGLV_Decode
