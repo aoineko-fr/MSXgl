@@ -12,41 +12,46 @@
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="JSX_Detect"></a><a name="Topic1155"></a><div class="CTopic TFunction LC">
+<a name="JSX_Detect"></a><a name="Topic785"></a><div class="CTopic TFunction LC">
  <div class="CTitle">JSX_Detect</div>
- <div id="NDPrototype1155" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSX_Detect(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>7 6 5 4 3 2 1 0 –-–-–-–-–-–-–-–-- 0 0 A A A A B B │ │ │ │ └─┴── Number of button rows (0-3) └─┴─┴─┴────── Number of axis (0-15)</p></div>
+ <div id="NDPrototype785" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSX_Detect(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Detect JSX device in the given port.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType"><span class="SHKeyword">enum</span> INPUT_PORT</div></td><td class="CDLDefinition"><p>Input port to detect (INPUT_PORT1 or INPUT_PORT2).</p></td></tr></table><div class="CHeading">Return</div><p>JSX device ID.</p><pre class="CText"> 7 6 5 4 3 2 1 0<br />–-–-–-–-–-–-–-–--<br /> 0 0 A A A A B B<br />     │ │ │ │ └─┴── Number of button rows (0-3)<br />     └─┴─┴─┴────── Number of axis (0-15)</pre></div>
 </div>
 
-<a name="JSX_Read"></a><a name="Topic1156"></a><div class="CTopic TFunction LC">
+<a name="JSX_Read"></a><a name="Topic802"></a><div class="CTopic TFunction LC">
  <div class="CTitle">JSX_Read</div>
- <div id="NDPrototype1156" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSX_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="first"></td><td class="PType">u8*&nbsp;</td><td class="PName last">buffer</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype802" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSX_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="first"></td><td class="PType">u8*&nbsp;</td><td class="PName last">buffer</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Read JSX device in the given port.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType"><span class="SHKeyword">enum</span> INPUT_PORT</div></td><td class="CDLDefinition"><p>Input port to read (INPUT_PORT1 or INPUT_PORT2).</p></td></tr><tr><td class="CDLEntry">buffer<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Buffer to store the input data.</p></td></tr></table><div class="CHeading">Return</div><p>JSX device ID.</p></div>
 </div>
 
-<a name="JSX_GetAxisNumber"></a><a name="Topic1157"></a><div class="CTopic TFunction LC">
+<a name="JSX_GetAxisNumber"></a><a name="Topic803"></a><div class="CTopic TFunction LC">
  <div class="CTitle">JSX_GetAxisNumber</div>
- <div id="NDPrototype1157" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 JSX_GetAxisNumber(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype803" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 JSX_GetAxisNumber(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get the number of axis from the given JSX device ID.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">id<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JSX device ID.</p></td></tr></table><div class="CHeading">Return</div><p>Number of axis.</p></div>
 </div>
 
-<a name="JSX_GetRowsNumber"></a><a name="Topic1158"></a><div class="CTopic TFunction LC">
+<a name="JSX_GetRowsNumber"></a><a name="Topic804"></a><div class="CTopic TFunction LC">
  <div class="CTitle">JSX_GetRowsNumber</div>
- <div id="NDPrototype1158" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 JSX_GetRowsNumber(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype804" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 JSX_GetRowsNumber(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get the number of button rows from the given JSX device ID.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">id<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JSX device ID.</p></td></tr></table><div class="CHeading">Return</div><p>Number of button rows.</p></div>
 </div>
 
-<a name="JSX_GetButtonsNumber"></a><a name="Topic1159"></a><div class="CTopic TFunction LC">
+<a name="JSX_GetButtonsNumber"></a><a name="Topic901"></a><div class="CTopic TFunction LC">
  <div class="CTitle">JSX_GetButtonsNumber</div>
- <div id="NDPrototype1159" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 JSX_GetButtonsNumber(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype901" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 JSX_GetButtonsNumber(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get the number of buttons from the given JSX device ID.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">id<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JSX device ID.</p></td></tr></table><div class="CHeading">Return</div><p>Number of buttons.</p></div>
 </div>
 
-<a name="JSXC_Detect"></a><a name="Topic1160"></a><div class="CTopic TFunction LC">
+<a name="JSXC_Detect"></a><a name="Topic902"></a><div class="CTopic TFunction LC">
  <div class="CTitle">JSXC_Detect</div>
- <div id="NDPrototype1160" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSXC_Detect(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>7 6 5 4 3 2 1 0 –-–-–-–-–-–-–-–-- 0 0 A A A A B B │ │ │ │ └─┴── Number of button rows (0-3) └─┴─┴─┴────── Number of axis (0-15)</p></div>
+ <div id="NDPrototype902" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSXC_Detect(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Detect JSX device in the given port.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType"><span class="SHKeyword">enum</span> INPUT_PORT</div></td><td class="CDLDefinition"><p>Input port to detect (INPUT_PORT1 or INPUT_PORT2).</p></td></tr></table><div class="CHeading">Return</div><p>JSX device ID.</p><pre class="CText"> 7 6 5 4 3 2 1 0<br />–-–-–-–-–-–-–-–--<br /> 0 0 A A A A B B<br />     │ │ │ │ └─┴── Number of button rows (0-3)<br />     └─┴─┴─┴────── Number of axis (0-15)</pre></div>
 </div>
 
-<a name="JSXC_Read"></a><a name="Topic1161"></a><div class="CTopic TFunction LC last">
+<a name="JSXC_Read"></a><a name="Topic903"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">JSXC_Read</div>
- <div id="NDPrototype1161" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSXC_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="first"></td><td class="PType">u8*&nbsp;</td><td class="PName last">buffer</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype903" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 JSXC_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="first"></td><td class="PType">u8*&nbsp;</td><td class="PName last">buffer</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Read JSX device in the given port.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType"><span class="SHKeyword">enum</span> INPUT_PORT</div></td><td class="CDLDefinition"><p>Input port to read (INPUT_PORT1 or INPUT_PORT2).</p></td></tr><tr><td class="CDLEntry">buffer<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Buffer to store the input data.</p></td></tr></table><div class="CHeading">Return</div><p>JSX device ID.</p></div>
 </div>
 
 </body></html>

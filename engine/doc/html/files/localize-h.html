@@ -8,26 +8,26 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic771"></a><div class="CTopic TGroup LC first">
+<a name="Functions"></a><a name="Topic769"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="Loc_Initialize"></a><a name="Topic772"></a><div class="CTopic TFunction LC">
+<a name="Loc_Initialize"></a><a name="Topic782"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Loc_Initialize</div>
- <div id="NDPrototype772" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Loc_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">num</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype782" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Loc_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">num</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Initialize the localization module</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Pointer to generated localization data</p></td></tr><tr><td class="CDLEntry">num<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Maximum number of entry for a language (should be TEXT_MAX).</p></td></tr></table></div>
 </div>
 
-<a name="Loc_SetLanguage"></a><a name="Topic773"></a><div class="CTopic TFunction LC">
+<a name="Loc_SetLanguage"></a><a name="Topic784"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Loc_SetLanguage</div>
- <div id="NDPrototype773" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Loc_SetLanguage(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">lang</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype784" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Loc_SetLanguage(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">lang</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the current language</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">lang<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Index of the language to selection (must be between 0 and LANG_MAX-1).</p></td></tr></table></div>
 </div>
 
-<a name="Loc_GetText"></a><a name="Topic774"></a><div class="CTopic TFunction LC last">
+<a name="Loc_GetText"></a><a name="Topic801"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">Loc_GetText</div>
- <div id="NDPrototype774" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline const</span> c8* Loc_GetText(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get a given text in the current language</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">text<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Index of the text to retreive in the current language (must be between 0 and TEXT_MAX-1).</p></td></tr></table></div>
+ <div id="NDPrototype801" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline const</span> c8* Loc_GetText(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">text</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get a given text in the current language</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">text<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Index of the text to retreive in the current language (must be between 0 and TEXT_MAX-1).</p></td></tr></table><div class="CHeading">Return</div><p>Pointer to the zero terminated string.</p></div>
 </div>
 
 </body></html>

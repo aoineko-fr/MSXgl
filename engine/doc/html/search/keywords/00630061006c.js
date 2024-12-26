@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("cal",["Function"],[["Call",,[[,,,,0,"File:system.h:Call"]]],["CallA",,[[,,,,0,"File:system.h:CallA"]]],["CallDriver",,[[,,,,0,"File:system.h:CallDriver"]]],["CallHL",,[[,,,,0,"File:system.h:CallHL"]]],["CallL",,[[,,,,0,"File:system.h:CallL"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("cal",["Function"],[["Call",,[[,,,,0,"File:system.h:Call(2)"]]],["CallA",,[[,,,,0,"File:system.h:CallA"]]],["CallDriver",,[[,,,,0,"File:system.h:CallDriver"]]],["CallHL",,[[,,,,0,"File:system.h:CallHL"]]],["CallL",,[[,,,,0,"File:system.h:CallL"]]]]);

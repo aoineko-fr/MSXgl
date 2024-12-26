@@ -13,10 +13,10 @@
  <div class="CBody"><p>Direct access to joystick</p></div>
 </div>
 
-<a name="Joystick_Read"></a><a name="Topic497"></a><div class="CTopic TFunction LC">
+<a name="Joystick_Read"></a><a name="Topic376"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Joystick_Read</div>
- <div id="NDPrototype497" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Joystick_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)</td></tr></table></div></div>
- <div class="CBody"><p>Gets current joystick information</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_PORT_1 or JOY_PORT_2</p></td></tr></table><div class="CHeading">Returns</div><p>Joystick state (bit=0: pressed)</p><pre class="CText">xxBARLDU<br />  │││││└─ Up<br />  ││││└── Down<br />  │││└─── Left<br />  ││└──── Right<br />  │└───── Trigger A<br />  └────── Trigger B</pre></div>
+ <div id="NDPrototype376" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Joystick_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)</td></tr></table></div></div>
+ <div class="CBody"><p>Gets current joystick information</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_PORT_1 or JOY_PORT_2</p></td></tr></table><div class="CHeading">Return</div><p>Joystick state (bit=0: pressed)</p><pre class="CText">xxBARLDU<br />  │││││└─ Up<br />  ││││└── Down<br />  │││└─── Left<br />  ││└──── Right<br />  │└───── Trigger A<br />  └────── Trigger B</pre></div>
 </div>
 
 <a name="Joystick_Update"></a><a name="Topic498"></a><div class="CTopic TFunction LC">
@@ -25,28 +25,28 @@
  <div class="CBody"><p>Updates both joystick stats at once and stores the result Only available when INPUT_JOY_UPDATE is TRUE</p></div>
 </div>
 
-<a name="Joystick_GetDirection"></a><a name="Topic499"></a><div class="CTopic TFunction LC">
+<a name="Joystick_GetDirection"></a><a name="Topic377"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Joystick_GetDirection</div>
- <div id="NDPrototype499" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Joystick_GetDirection(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Gets current direction of the given joystick If INPUT_JOY_UPDATE is TRUE, this function uses data retrieved by Joystick_Update().&nbsp; Otherwise, this function reads I/O data.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_PORT_1 or JOY_PORT_2</p></td></tr></table><div class="CHeading">Returns</div><p>One or two of those defines:</p><pre class="CText">JOY_INPUT_DIR_NONE<br />JOY_INPUT_DIR_UP<br />JOY_INPUT_DIR_DOWN<br />JOY_INPUT_DIR_LEFT<br />JOY_INPUT_DIR_RIGHT</pre></div>
+ <div id="NDPrototype377" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Joystick_GetDirection(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Gets current direction of the given joystick If INPUT_JOY_UPDATE is TRUE, this function uses data retrieved by Joystick_Update().&nbsp; Otherwise, this function reads I/O data.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_PORT_1 or JOY_PORT_2</p></td></tr></table><div class="CHeading">Return</div><p>One or two of those defines:</p><pre class="CText">JOY_INPUT_DIR_NONE<br />JOY_INPUT_DIR_UP<br />JOY_INPUT_DIR_DOWN<br />JOY_INPUT_DIR_LEFT<br />JOY_INPUT_DIR_RIGHT</pre></div>
 </div>
 
-<a name="Joystick_GetDirectionChange"></a><a name="Topic502"></a><div class="CTopic TFunction LC">
+<a name="Joystick_GetDirectionChange"></a><a name="Topic573"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Joystick_GetDirectionChange</div>
- <div id="NDPrototype502" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Joystick_GetDirectionChange(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Gets current direction of the given joystick if different from previous one Only available if INPUT_JOY_UPDATE is TRUE.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_PORT_1 or JOY_PORT_2</p></td></tr></table><div class="CHeading">Returns</div><p>One or two of those defines:</p><pre class="CText">JOY_INPUT_DIR_NONE<br />JOY_INPUT_DIR_UP<br />JOY_INPUT_DIR_DOWN<br />JOY_INPUT_DIR_LEFT<br />JOY_INPUT_DIR_RIGHT<br />JOY_INPUT_DIR_UNCHANGED</pre></div>
+ <div id="NDPrototype573" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 Joystick_GetDirectionChange(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Gets current direction of the given joystick if different from previous one Only available if INPUT_JOY_UPDATE is TRUE.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_PORT_1 or JOY_PORT_2</p></td></tr></table><div class="CHeading">Return</div><p>One or two of those defines:</p><pre class="CText">JOY_INPUT_DIR_NONE<br />JOY_INPUT_DIR_UP<br />JOY_INPUT_DIR_DOWN<br />JOY_INPUT_DIR_LEFT<br />JOY_INPUT_DIR_RIGHT<br />JOY_INPUT_DIR_UNCHANGED</pre></div>
 </div>
 
-<a name="Joystick_IsButtonPressed"></a><a name="Topic503"></a><div class="CTopic TFunction LC">
+<a name="Joystick_IsButtonPressed"></a><a name="Topic620"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Joystick_IsButtonPressed</div>
- <div id="NDPrototype503" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Joystick_IsButtonPressed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">trigger</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Gets current trigger status of the given joystick If INPUT_JOY_UPDATE is TRUE, this function uses data retrieved by Joystick_Update().&nbsp; Otherwise, this function read I/O data.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_PORT_1 or JOY_PORT_2</p></td></tr><tr><td class="CDLEntry">trigger<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B</p></td></tr></table><div class="CHeading">Returns</div><p>TRUE if given button is pressed</p></div>
+ <div id="NDPrototype620" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Joystick_IsButtonPressed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">trigger</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Gets current trigger status of the given joystick If INPUT_JOY_UPDATE is TRUE, this function uses data retrieved by Joystick_Update().&nbsp; Otherwise, this function read I/O data.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_PORT_1 or JOY_PORT_2</p></td></tr><tr><td class="CDLEntry">trigger<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B</p></td></tr></table><div class="CHeading">Return</div><p>TRUE if given button is pressed</p></div>
 </div>
 
-<a name="Joystick_IsButtonPushed"></a><a name="Topic732"></a><div class="CTopic TFunction LC">
+<a name="Joystick_IsButtonPushed"></a><a name="Topic653"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Joystick_IsButtonPushed</div>
- <div id="NDPrototype732" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Joystick_IsButtonPushed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">trigger</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Gets current trigger status of the given joystick Only available if INPUT_JOY_UPDATE is TRUE.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_PORT_1 or JOY_PORT_2</p></td></tr><tr><td class="CDLEntry">trigger<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B</p></td></tr></table><div class="CHeading">Returns</div><p>TRUE if given button is pressed</p></div>
+ <div id="NDPrototype653" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Joystick_IsButtonPushed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">trigger</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Gets current trigger status of the given joystick Only available if INPUT_JOY_UPDATE is TRUE.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_PORT_1 or JOY_PORT_2</p></td></tr><tr><td class="CDLEntry">trigger<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B</p></td></tr></table><div class="CHeading">Return</div><p>TRUE if given button is pressed</p></div>
 </div>
 
 <a name="Detect"></a><a name="Topic733"></a><div class="CTopic TGroup LC">
@@ -54,10 +54,10 @@
  <div class="CBody"><p>General purpose port device detection</p></div>
 </div>
 
-<a name="Input_Detect"></a><a name="Topic1170"></a><div class="CTopic TFunction LC">
+<a name="Input_Detect"></a><a name="Topic654"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Input_Detect</div>
- <div id="NDPrototype1170" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Input_Detect(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Detect device plugged in General purpose ports</p></div>
+ <div id="NDPrototype654" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Input_Detect(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">enum</span>&nbsp;</td><td class="PType">INPUT_PORT&nbsp;</td><td class="PName last">port</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Detect device plugged in General purpose ports</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType"><span class="SHKeyword">enum</span> INPUT_PORT</div></td><td class="CDLDefinition"><p>Port to check (INPUT_PORT_1 or INPUT_PORT_2)</p></td></tr></table><div class="CHeading">Return</div><p>Device type (INPUT_TYPE_JOYSTICK, INPUT_TYPE_MOUSE, etc.)</p></div>
 </div>
 
 <a name="Mouse"></a><a name="Topic598"></a><div class="CTopic TGroup LC">
@@ -65,39 +65,46 @@
  <div class="CBody"><p>Direct access to mouse</p></div>
 </div>
 
-<a name="Mouse_Read"></a><a name="Topic599"></a><div class="CTopic TFunction LC">
+<a name="Mouse_Read"></a><a name="Topic655"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mouse_Read</div>
- <div id="NDPrototype599" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mouse_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype655" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Mouse_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">port,</td></tr><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Gets current mouse information</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">port<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Port to check (MOUSE_PORT_1 or MOUSE_PORT_2)</p></td></tr><tr><td class="CDLEntry">data<div class="CDLParameterType">Mouse_State*</div></td><td class="CDLDefinition"><p>Output mouse state</p></td></tr></table></div>
 </div>
 
-<a name="Mouse_GetOffsetX"></a><a name="Topic600"></a><div class="CTopic TFunction LC">
+<a name="Mouse_GetOffsetX"></a><a name="Topic663"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mouse_GetOffsetX</div>
- <div id="NDPrototype600" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> i8 Mouse_GetOffsetX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype663" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> i8 Mouse_GetOffsetX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Gets current mouse X offset</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data<div class="CDLParameterType">Mouse_State*</div></td><td class="CDLDefinition"><p>Current mouse state (from Mouse_Read)</p></td></tr></table><div class="CHeading">Return</div><p>Mouse X offset</p></div>
 </div>
 
-<a name="Mouse_GetOffsetY"></a><a name="Topic601"></a><div class="CTopic TFunction LC">
+<a name="Mouse_GetOffsetY"></a><a name="Topic664"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mouse_GetOffsetY</div>
- <div id="NDPrototype601" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> i8 Mouse_GetOffsetY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype664" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> i8 Mouse_GetOffsetY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Gets current mouse Y offset</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data<div class="CDLParameterType">Mouse_State*</div></td><td class="CDLDefinition"><p>Current mouse state (from Mouse_Read)</p></td></tr></table><div class="CHeading">Return</div><p>Mouse Y offset</p></div>
 </div>
 
-<a name="Mouse_GetAdjustedOffsetX"></a><a name="Topic602"></a><div class="CTopic TFunction LC">
+<a name="Mouse_GetAdjustedOffsetX"></a><a name="Topic666"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mouse_GetAdjustedOffsetX</div>
- <div id="NDPrototype602" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> i8 Mouse_GetAdjustedOffsetX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">spd</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype666" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> i8 Mouse_GetAdjustedOffsetX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">spd</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Gets current mouse X offset adjusted by speed</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data<div class="CDLParameterType">Mouse_State*</div></td><td class="CDLDefinition"><p>Current mouse state (from Mouse_Read)</p></td></tr><tr><td class="CDLEntry">spd<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Mouse speed (MOUSE_SPEED_LOWEST, MOUSE_SPEED_LOW, MOUSE_SPEED_MEDIUM, MOUSE_SPEED_HIGH, MOUSE_SPEED_HIGHEST)</p></td></tr></table><div class="CHeading">Return</div><p>Mouse X offset</p></div>
 </div>
 
-<a name="Mouse_GetAdjustedOffsetY"></a><a name="Topic603"></a><div class="CTopic TFunction LC">
+<a name="Mouse_GetAdjustedOffsetY"></a><a name="Topic676"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mouse_GetAdjustedOffsetY</div>
- <div id="NDPrototype603" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> i8 Mouse_GetAdjustedOffsetY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">spd</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype676" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> i8 Mouse_GetAdjustedOffsetY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">spd</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Gets current mouse Y offset adjusted by speed</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data<div class="CDLParameterType">Mouse_State*</div></td><td class="CDLDefinition"><p>Current mouse state (from Mouse_Read)</p></td></tr><tr><td class="CDLEntry">spd<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Mouse speed (MOUSE_SPEED_LOWEST, MOUSE_SPEED_LOW, MOUSE_SPEED_MEDIUM, MOUSE_SPEED_HIGH, MOUSE_SPEED_HIGHEST)</p></td></tr></table><div class="CHeading">Return</div><p>Mouse Y offset</p></div>
 </div>
 
-<a name="Mouse_IsButtonPress"></a><a name="Topic604"></a><div class="CTopic TFunction LC">
+<a name="Mouse_IsButtonPress"></a><a name="Topic677"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mouse_IsButtonPress</div>
- <div id="NDPrototype604" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Mouse_IsButtonPress(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">btn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype677" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Mouse_IsButtonPress(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">btn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Check if mouse button is pressed</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data<div class="CDLParameterType">Mouse_State*</div></td><td class="CDLDefinition"><p>Current mouse state (from Mouse_Read)</p></td></tr><tr><td class="CDLEntry">btn<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Mouse button to check (MOUSE_BOUTON_LEFT, MOUSE_BOUTON_RIGHT)</p></td></tr></table><div class="CHeading">Return</div><p>FALSE is not pressed</p></div>
 </div>
 
-<a name="Mouse_IsButtonClick"></a><a name="Topic605"></a><div class="CTopic TFunction LC">
+<a name="Mouse_IsButtonClick"></a><a name="Topic678"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Mouse_IsButtonClick</div>
- <div id="NDPrototype605" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Mouse_IsButtonClick(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">btn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype678" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Mouse_IsButtonClick(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Mouse_State*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">btn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Check if mouse button is clicked</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data<div class="CDLParameterType">Mouse_State*</div></td><td class="CDLDefinition"><p>Current mouse state (from Mouse_Read)</p></td></tr><tr><td class="CDLEntry">btn<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Mouse button to check (MOUSE_BOUTON_LEFT, MOUSE_BOUTON_RIGHT)</p></td></tr></table><div class="CHeading">Return</div><p>FALSE is not clicked</p></div>
 </div>
 
 <a name="Keyboard"></a><a name="Topic384"></a><div class="CTopic TGroup LC">
@@ -111,15 +118,16 @@
  <div class="CBody"><p>Value encoded by combining a row number with a given physical key index in that row Can be KEY_1, KEY_SPACE, KEY_A, KEY_F1, etc.</p></div>
 </div>
 
-<a name="Keyboard_Read"></a><a name="Topic830"></a><div class="CTopic TFunction LC">
+<a name="Keyboard_Read"></a><a name="Topic679"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Keyboard_Read</div>
- <div id="NDPrototype830" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Keyboard_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">row</td></tr></table></td><td class="PAfterParameters">) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)</td></tr></table></div></div>
- <div class="CBody"><p>Reads keyboard matrix row</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">row<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The row to read (0-10)</p></td></tr></table><div class="CHeading">Returns</div><p>8-bits value where each bit to 0 represents the pressed keys</p></div>
+ <div id="NDPrototype679" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 Keyboard_Read(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">row</td></tr></table></td><td class="PAfterParameters">) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)</td></tr></table></div></div>
+ <div class="CBody"><p>Reads keyboard matrix row</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">row<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The row to read (0-10)</p></td></tr></table><div class="CHeading">Return</div><p>8-bits value where each bit to 0 represents the pressed keys</p></div>
 </div>
 
-<a name="Keyboard_SetBuffer"></a><a name="Topic120"></a><div class="CTopic TFunction LC">
+<a name="Keyboard_SetBuffer"></a><a name="Topic721"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Keyboard_SetBuffer</div>
- <div id="NDPrototype120" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Keyboard_SetBuffer(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">new,</td></tr><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">old</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype721" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Keyboard_SetBuffer(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">new,</td></tr><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">old</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the buffer to store keyboard state</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">new<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Buffer to store current frame keys state</p></td></tr><tr><td class="CDLEntry">old<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Buffer to store previous frame keys state</p></td></tr></table></div>
 </div>
 
 <a name="Keyboard_Update"></a><a name="Topic831"></a><div class="CTopic TFunction LC">
@@ -128,16 +136,16 @@
  <div class="CBody"><p>Updates all keyboard rows at once Only available when INPUT_KB_UPDATE is TRUE</p></div>
 </div>
 
-<a name="Keyboard_IsKeyPressed"></a><a name="Topic832"></a><div class="CTopic TFunction LC">
+<a name="Keyboard_IsKeyPressed"></a><a name="Topic723"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Keyboard_IsKeyPressed</div>
- <div id="NDPrototype832" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> Keyboard_IsKeyPressed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">key</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>When INPUT_KB_UPDATE is TRUE, this function uses data retrieved by Keyboard_Update() function Otherwise, the function reads the key's row before checking the key.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">key<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The key ID to check</p></td></tr></table><div class="CHeading">Returns</div><p>TRUE if key is pressed</p></div>
+ <div id="NDPrototype723" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> Keyboard_IsKeyPressed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">key</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>When INPUT_KB_UPDATE is TRUE, this function uses data retrieved by Keyboard_Update() function Otherwise, the function reads the key's row before checking the key.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">key<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The key ID to check</p></td></tr></table><div class="CHeading">Return</div><p>TRUE if key is pressed</p></div>
 </div>
 
-<a name="Keyboard_IsKeyPushed"></a><a name="Topic833"></a><div class="CTopic TFunction LC last">
+<a name="Keyboard_IsKeyPushed"></a><a name="Topic741"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">Keyboard_IsKeyPushed</div>
- <div id="NDPrototype833" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> Keyboard_IsKeyPushed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">key</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Checks if a given key was just pushed Only available when INPUT_KB_UPDATE is TRUE</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">key<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The key ID to check</p></td></tr></table><div class="CHeading">Returns</div><p>TRUE if the key was pushed on this frame</p></div>
+ <div id="NDPrototype741" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> Keyboard_IsKeyPushed(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">key</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Checks if a given key was just pushed Only available when INPUT_KB_UPDATE is TRUE</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">key<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>The key ID to check</p></td></tr></table><div class="CHeading">Return</div><p>TRUE if the key was pushed on this frame</p></div>
 </div>
 
 </body></html>

@@ -8,62 +8,62 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic775"></a><div class="CTopic TGroup LC first">
+<a name="Functions"></a><a name="Topic836"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="IPM_Initialize"></a><a name="Topic776"></a><div class="CTopic TFunction LC">
+<a name="IPM_Initialize"></a><a name="Topic743"></a><div class="CTopic TFunction LC">
  <div class="CTitle">IPM_Initialize</div>
- <div id="NDPrototype776" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> IPM_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">IPM_Config*&nbsp;</td><td class="PName last">config</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Initialize input manager</p></div>
+ <div id="NDPrototype743" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> IPM_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">IPM_Config*&nbsp;</td><td class="PName last">config</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize input manager</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">config<div class="CDLParameterType">IPM_Config*</div></td><td class="CDLDefinition"><p>Input manager configuration structure</p></td></tr></table></div>
 </div>
 
-<a name="IPM_SetTimer"></a><a name="Topic777"></a><div class="CTopic TFunction LC">
+<a name="IPM_SetTimer"></a><a name="Topic746"></a><div class="CTopic TFunction LC">
  <div class="CTitle">IPM_SetTimer</div>
- <div id="NDPrototype777" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> IPM_SetTimer(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">doubleClk,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">hold</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Initialize input manager</p></div>
+ <div id="NDPrototype746" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> IPM_SetTimer(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">doubleClk,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">hold</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize input manager</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">doubleClk<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Double click timer</p></td></tr><tr><td class="CDLEntry">hold<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Hold timer</p></td></tr></table></div>
 </div>
 
-<a name="IPM_Update"></a><a name="Topic778"></a><div class="CTopic TFunction LC">
+<a name="IPM_Update"></a><a name="Topic839"></a><div class="CTopic TFunction LC">
  <div class="CTitle">IPM_Update</div>
- <div id="NDPrototype778" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> IPM_Update()</div></div>
+ <div id="NDPrototype839" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> IPM_Update()</div></div>
  <div class="CBody"><p>Update device manager</p></div>
 </div>
 
-<a name="IPM_RegisterEvent"></a><a name="Topic779"></a><div class="CTopic TFunction LC">
+<a name="IPM_RegisterEvent"></a><a name="Topic747"></a><div class="CTopic TFunction LC">
  <div class="CTitle">IPM_RegisterEvent</div>
- <div id="NDPrototype779" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> IPM_RegisterEvent(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">joy,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">input,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">event,</td></tr><tr><td class="PType first">IPM_cb&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Register a callback to a given device manager's event</p></div>
+ <div id="NDPrototype747" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> IPM_RegisterEvent(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dev,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">input,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">event,</td></tr><tr><td class="PType first">IPM_cb&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Register a callback to a given device manager's event</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">dev<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Device ID</p></td></tr><tr><td class="CDLEntry">input<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Input ID</p></td></tr><tr><td class="CDLEntry">event<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Event ID</p></td></tr><tr><td class="CDLEntry">cb<div class="CDLParameterType">IPM_cb</div></td><td class="CDLDefinition"><p>Callback function</p></td></tr></table><div class="CHeading">Return</div><p>TRUE if the event was registered, FALSE otherwise</p></div>
 </div>
 
-<a name="IPM_GetStatus"></a><a name="Topic780"></a><div class="CTopic TFunction LC">
+<a name="IPM_GetStatus"></a><a name="Topic754"></a><div class="CTopic TFunction LC">
  <div class="CTitle">IPM_GetStatus</div>
- <div id="NDPrototype780" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 IPM_GetStatus(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dev</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get current device status</p></div>
+ <div id="NDPrototype754" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 IPM_GetStatus(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dev</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get current device status</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">dev<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Device ID</p></td></tr></table><div class="CHeading">Return</div><p>Current device status</p></div>
 </div>
 
-<a name="IPM_GetStickDirection"></a><a name="Topic781"></a><div class="CTopic TFunction LC">
+<a name="IPM_GetStickDirection"></a><a name="Topic755"></a><div class="CTopic TFunction LC">
  <div class="CTitle">IPM_GetStickDirection</div>
- <div id="NDPrototype781" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 IPM_GetStickDirection(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">joy</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get current direction of the given device</p></div>
+ <div id="NDPrototype755" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 IPM_GetStickDirection(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dev</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get current direction of the given device</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">dev<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Device ID</p></td></tr></table><div class="CHeading">Return</div><p>Current device direction</p></div>
 </div>
 
-<a name="IPM_GetInputState"></a><a name="Topic782"></a><div class="CTopic TFunction LC">
+<a name="IPM_GetInputState"></a><a name="Topic756"></a><div class="CTopic TFunction LC">
  <div class="CTitle">IPM_GetInputState</div>
- <div id="NDPrototype782" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 IPM_GetInputState(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dev,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">input</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get current device state</p></div>
+ <div id="NDPrototype756" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 IPM_GetInputState(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dev,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">input</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get current device state</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">dev<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Device ID</p></td></tr><tr><td class="CDLEntry">input<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Input ID</p></td></tr></table><div class="CHeading">Return</div><p>Current device's input state</p></div>
 </div>
 
-<a name="IPM_GetInputTimer"></a><a name="Topic783"></a><div class="CTopic TFunction LC">
+<a name="IPM_GetInputTimer"></a><a name="Topic939"></a><div class="CTopic TFunction LC">
  <div class="CTitle">IPM_GetInputTimer</div>
- <div id="NDPrototype783" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 IPM_GetInputTimer(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dev,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">input</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get current device state timer</p></div>
+ <div id="NDPrototype939" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 IPM_GetInputTimer(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">dev,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">input</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get current device state timer</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">dev<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Device ID</p></td></tr><tr><td class="CDLEntry">input<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Input ID</p></td></tr></table><div class="CHeading">Return</div><p>Current device's input state timer</p></div>
 </div>
 
-<a name="IPM_GetEventName"></a><a name="Topic784"></a><div class="CTopic TFunction LC last">
+<a name="IPM_GetEventName"></a><a name="Topic1159"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">IPM_GetEventName</div>
- <div id="NDPrototype784" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">const</span> c8* IPM_GetEventName(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">ev</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get event name</p></div>
+ <div id="NDPrototype1159" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">const</span> c8* IPM_GetEventName(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">ev</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get event name</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">ev<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Event ID</p></td></tr></table><div class="CHeading">Return</div><p>Zero-terminated string containing the event name</p></div>
 </div>
 
 </body></html>

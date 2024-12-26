@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("get",["Macro","Function"],[["GET_BANK_SEGMENT",,[[,,,,0,"File:system.h:GET_BANK_SEGMENT"]]],["GetCommandBX",,[[,,,,1,"File:v9990.h:GetCommandBX"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("get",["Function"],[["GET_BANK_SEGMENT",,[[,,,,0,"File:rom_mapper.h:GET_BANK_SEGMENT"]]],["GET_BANK_SEGMENT_HIGH",,[[,,,,0,"File:rom_mapper.h:GET_BANK_SEGMENT_HIGH"]]],["GET_BANK_SEGMENT_LOW",,[[,,,,0,"File:rom_mapper.h:GET_BANK_SEGMENT_LOW"]]],["GetCommandBX",,[[,,,,0,"File:v9990.h:GetCommandBX"]]]]);

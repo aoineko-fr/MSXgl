@@ -184,7 +184,7 @@ void DisplayHeader()
 	// Print_Clear();
 	VDP_FillVRAM(' ' - g_PrintData.CharFirst + g_PrintData.PatternOffset, g_ScreenLayoutLow, g_ScreenLayoutHigh, 40 * 24);
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL " Target Sample");
+	Print_DrawText(MSX_GL " TARGET SAMPLE");
 	Print_DrawLineH(0, 1, 40);
 }
 

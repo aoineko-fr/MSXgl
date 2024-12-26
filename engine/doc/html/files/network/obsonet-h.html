@@ -8,145 +8,145 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic91"></a><div class="CTopic TGroup LC first">
+<a name="Functions"></a><a name="Topic621"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="ONET_Initialize"></a><a name="Topic92"></a><div class="CTopic TFunction LC">
+<a name="ONET_Initialize"></a><a name="Topic241"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_Initialize</div>
- <div id="NDPrototype92" class="NDPrototype"><div class="PSection PPlainSection">u8 ONET_Initialize()</div></div>
- <div class="CBody"><p>ObsoNET searching routine /!\ Must not be call from page 1 /!\ Must not be call before any other function from this module</p></div>
+ <div id="NDPrototype241" class="NDPrototype"><div class="PSection PPlainSection">u8 ONET_Initialize()</div></div>
+ <div class="CBody"><p>ObsoNET searching routine.&nbsp; /!\ Must not be call from page 1.&nbsp; /!\ Must not be call before any other function from this module.</p></div>
 </div>
 
-<a name="ONET_GetSlot"></a><a name="Topic93"></a><div class="CTopic TFunction LC">
+<a name="ONET_GetSlot"></a><a name="Topic319"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_GetSlot</div>
- <div id="NDPrototype93" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 ONET_GetSlot()</div></div>
- <div class="CBody"><p>Obtains the ObsoNET slot (or 0xFF is not found)</p></div>
+ <div id="NDPrototype319" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 ONET_GetSlot()</div></div>
+ <div class="CBody"><p>Obtains the ObsoNET slot (or 0xFF is not found).</p><div class="CHeading">Return</div><p>Slot number.</p></div>
 </div>
 
-<a name="ONET_HasBIOS"></a><a name="Topic94"></a><div class="CTopic TFunction LC">
+<a name="ONET_HasBIOS"></a><a name="Topic321"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_HasBIOS</div>
- <div id="NDPrototype94" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> ONET_HasBIOS()</div></div>
- <div class="CBody"><p>Check if ObsoNET card has a BIOS</p></div>
+ <div id="NDPrototype321" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> ONET_HasBIOS()</div></div>
+ <div class="CBody"><p>Check if ObsoNET card has a BIOS.</p><div class="CHeading">Return</div><p>TRUE if the card has a BIOS.</p></div>
 </div>
 
-<a name="ONET_Reset"></a><a name="Topic95"></a><div class="CTopic TFunction LC">
+<a name="ONET_Reset"></a><a name="Topic322"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_Reset</div>
- <div id="NDPrototype95" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> ONET_Reset()</div></div>
- <div class="CBody"><p>Initializes the ObsoNET card</p></div>
+ <div id="NDPrototype322" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> ONET_Reset()</div></div>
+ <div class="CBody"><p>Initializes the ObsoNET card.</p></div>
 </div>
 
-<a name="ONET_GetVersion"></a><a name="Topic96"></a><div class="CTopic TFunction LC">
+<a name="ONET_GetVersion"></a><a name="Topic323"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_GetVersion</div>
- <div id="NDPrototype96" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline const</span> u8* ONET_GetVersion()</div></div>
- <div class="CBody"><p>Obtains the BIOS version</p></div>
+ <div id="NDPrototype323" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline const</span> u8* ONET_GetVersion()</div></div>
+ <div class="CBody"><p>Obtains the BIOS version.</p><div class="CHeading">Return</div><p>Pointer to the 3 bytes version number (major, minor, revision).</p></div>
 </div>
 
-<a name="ONET_GetPhysicalAddr"></a><a name="Topic97"></a><div class="CTopic TFunction LC">
+<a name="ONET_GetPhysicalAddr"></a><a name="Topic324"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_GetPhysicalAddr</div>
- <div id="NDPrototype97" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline const</span> u8* ONET_GetPhysicalAddr()</div></div>
- <div class="CBody"><p>Obtains the ObsoNET physical address</p></div>
+ <div id="NDPrototype324" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline const</span> u8* ONET_GetPhysicalAddr()</div></div>
+ <div class="CBody"><p>Obtains the ObsoNET physical address.</p><div class="CHeading">Return</div><p>Pointer to the 6 bytes MAC address.</p></div>
 </div>
 
-<a name="ONET_GetMACAddress"></a><a name="Topic98"></a><div class="CTopic TFunction LC">
+<a name="ONET_GetMACAddress"></a><a name="Topic325"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_GetMACAddress</div>
- <div id="NDPrototype98" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline const</span> u8* ONET_GetMACAddress()</div></div>
- <div class="CBody"><p>Obtains the ObsoNET physical address See <a href="../../index.html#File:network/obsonet.h:ONET_GetPhysicalAddr" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,97);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >ONET_GetPhysicalAddr</a></p></div>
+ <div id="NDPrototype325" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline const</span> u8* ONET_GetMACAddress()</div></div>
+ <div class="CBody"><p>Obtains the ObsoNET physical address.&nbsp; See <a href="../../index.html#File:network/obsonet.h:ONET_GetPhysicalAddr" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,324);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >ONET_GetPhysicalAddr</a></p><div class="CHeading">Return</div><p>Pointer to the 6 bytes MAC address.</p></div>
 </div>
 
-<a name="ONET_GetStatus"></a><a name="Topic99"></a><div class="CTopic TFunction LC">
+<a name="ONET_GetStatus"></a><a name="Topic326"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_GetStatus</div>
- <div id="NDPrototype99" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">bool</span> ONET_GetStatus()</div></div>
- <div class="CBody"><p>Obtains the network connection status</p></div>
+ <div id="NDPrototype326" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">bool</span> ONET_GetStatus()</div></div>
+ <div class="CBody"><p>Obtains the network connection status.</p><div class="CHeading">Return</div><p>TRUE if the network is connected.</p></div>
 </div>
 
-<a name="ONET_Activation"></a><a name="Topic100"></a><div class="CTopic TFunction LC">
+<a name="ONET_Activation"></a><a name="Topic327"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_Activation</div>
- <div id="NDPrototype100" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 ONET_Activation(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flag</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Activates or deactivates ObsoNET</p></div>
+ <div id="NDPrototype327" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 ONET_Activation(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flag</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Activates or deactivates ObsoNET.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">flag<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Activation flag (ONET_ACTIVATE_GET, ONET_ACTIVATE_ON or ONET_ACTIVATE_OFF).</p></td></tr></table><div class="CHeading">Return</div><p>Current activation state if flag is ONET_ACTIVATE_GET.</p></div>
 </div>
 
-<a name="ONET_Activate"></a><a name="Topic101"></a><div class="CTopic TFunction LC">
+<a name="ONET_Activate"></a><a name="Topic328"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_Activate</div>
- <div id="NDPrototype101" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> ONET_Activate()</div></div>
- <div class="CBody"><p>Activates ObsoNET</p></div>
+ <div id="NDPrototype328" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> ONET_Activate()</div></div>
+ <div class="CBody"><p>Activates ObsoNET.</p></div>
 </div>
 
-<a name="ONET_Disactivate"></a><a name="Topic102"></a><div class="CTopic TFunction LC">
+<a name="ONET_Disactivate"></a><a name="Topic329"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_Disactivate</div>
- <div id="NDPrototype102" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> ONET_Disactivate()</div></div>
- <div class="CBody"><p>Deactivates ObsoNET</p></div>
+ <div id="NDPrototype329" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> ONET_Disactivate()</div></div>
+ <div class="CBody"><p>Deactivates ObsoNET.</p></div>
 </div>
 
-<a name="ONET_IsActivate"></a><a name="Topic103"></a><div class="CTopic TFunction LC">
+<a name="ONET_IsActivate"></a><a name="Topic407"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_IsActivate</div>
- <div id="NDPrototype103" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> ONET_IsActivate()</div></div>
- <div class="CBody"><p>Check Activates or deactivates ObsoNET</p></div>
+ <div id="NDPrototype407" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> ONET_IsActivate()</div></div>
+ <div class="CBody"><p>Check Activates or deactivates ObsoNET.</p><div class="CHeading">Return</div><p>TRUE if the card is activated.</p></div>
 </div>
 
-<a name="ONET_ReceptConfig"></a><a name="Topic104"></a><div class="CTopic TFunction LC">
+<a name="ONET_ReceptConfig"></a><a name="Topic968"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_ReceptConfig</div>
- <div id="NDPrototype104" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 ONET_ReceptConfig(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flag</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Configuration of the reception parameters</p></div>
+ <div id="NDPrototype968" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 ONET_ReceptConfig(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flag</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Configuration of the reception parameters.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">flag<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Reception flag (ONET_RECEPT_SMALL, ONET_RECEPT_BROADCAST, ONET_RECEPT_MULTICAST, ONET_RECEPT_ALL or ONET_RECEPT_GET).</p></td></tr></table><div class="CHeading">Return</div><p>Current configuration if flag is ONET_RECEPT_GET.</p></div>
 </div>
 
-<a name="ONET_SetReceptConfig"></a><a name="Topic105"></a><div class="CTopic TFunction LC">
+<a name="ONET_SetReceptConfig"></a><a name="Topic1116"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_SetReceptConfig</div>
- <div id="NDPrototype105" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> ONET_SetReceptConfig(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flag</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set Configuration of the reception parameters</p></div>
+ <div id="NDPrototype1116" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> ONET_SetReceptConfig(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">flag</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set Configuration of the reception parameters.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">flag<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Reception flag (ONET_RECEPT_SMALL, ONET_RECEPT_BROADCAST, ONET_RECEPT_MULTICAST or ONET_RECEPT_ALL).</p></td></tr></table></div>
 </div>
 
-<a name="ONET_SetReceptConfig(2)"></a><a name="Topic106"></a><div class="CTopic TFunction LC">
+<a name="ONET_SetReceptConfig(2)"></a><a name="Topic1209"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_SetReceptConfig</div>
- <div class="CBody"><p>Get Configuration of the reception parameters</p></div>
+ <div class="CBody"><p>Get Configuration of the reception parameters.</p><div class="CHeading">Return</div><p>Current configuration.</p></div>
 </div>
 
-<a name="ONET_SetMulticastMask"></a><a name="Topic107"></a><div class="CTopic TFunction LC">
+<a name="ONET_SetMulticastMask"></a><a name="Topic1210"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_SetMulticastMask</div>
- <div id="NDPrototype107" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> ONET_SetMulticastMask(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set Configuration of the multicast mask</p></div>
+ <div id="NDPrototype1210" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> ONET_SetMulticastMask(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set Configuration of the multicast mask.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Address to write the mask to.</p></td></tr></table></div>
 </div>
 
-<a name="ONET_GetMulticastMask"></a><a name="Topic108"></a><div class="CTopic TFunction LC">
+<a name="ONET_GetMulticastMask"></a><a name="Topic1211"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_GetMulticastMask</div>
- <div id="NDPrototype108" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> ONET_GetMulticastMask(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get Configuration of the multicast mask</p></div>
+ <div id="NDPrototype1211" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> ONET_GetMulticastMask(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get Configuration of the multicast mask.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Address to read the mask from.</p></td></tr></table></div>
 </div>
 
-<a name="ONET_GetPacketInfo"></a><a name="Topic109"></a><div class="CTopic TFunction LC">
+<a name="ONET_GetPacketInfo"></a><a name="Topic1212"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_GetPacketInfo</div>
- <div id="NDPrototype109" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> ONET_GetPacketInfo(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">struct</span>&nbsp;</td><td class="PType">ONET_PacketInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Obtains information about the oldest received packet</p></div>
+ <div id="NDPrototype1212" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> ONET_GetPacketInfo(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">struct</span>&nbsp;</td><td class="PType">ONET_PacketInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Obtains information about the oldest received packet.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType"><span class="SHKeyword">struct</span> ONET_PacketInfo*</div></td><td class="CDLDefinition"><p>Pointer to the packet information structure.</p></td></tr></table><div class="CHeading">Return</div><p>TRUE if a packet is available.</p></div>
 </div>
 
-<a name="ONET_GetPacket"></a><a name="Topic110"></a><div class="CTopic TFunction LC">
+<a name="ONET_GetPacket"></a><a name="Topic1213"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_GetPacket</div>
- <div id="NDPrototype110" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> ONET_GetPacket(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Obtains the oldest captured incoming packet</p></div>
+ <div id="NDPrototype1213" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> ONET_GetPacket(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Obtains the oldest captured incoming packet.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Address where to put the packet (0 to discard it).</p></td></tr></table><div class="CHeading">Return</div><p>TRUE if a packet has been obtained (or discarded).</p></div>
 </div>
 
-<a name="ONET_DiscardPacket"></a><a name="Topic111"></a><div class="CTopic TFunction LC">
+<a name="ONET_DiscardPacket"></a><a name="Topic1214"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_DiscardPacket</div>
- <div id="NDPrototype111" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> ONET_DiscardPacket()</div></div>
- <div class="CBody"><p>Discard the oldest captured incoming packet</p></div>
+ <div id="NDPrototype1214" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> ONET_DiscardPacket()</div></div>
+ <div class="CBody"><p>Discard the oldest captured incoming packet.</p></div>
 </div>
 
-<a name="ONET_SendPacketSync"></a><a name="Topic112"></a><div class="CTopic TFunction LC">
+<a name="ONET_SendPacketSync"></a><a name="Topic1215"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_SendPacketSync</div>
- <div id="NDPrototype112" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 ONET_SendPacketSync(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Sends a packet to the network (Synchronous execution)</p></div>
+ <div id="NDPrototype1215" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 ONET_SendPacketSync(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Sends a packet to the network (Synchronous execution).</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of the packet to send.</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the packet.</p></td></tr></table><div class="CHeading">Return</div><p>Status of the transmission.</p></div>
 </div>
 
-<a name="ONET_SendPacketAsync"></a><a name="Topic113"></a><div class="CTopic TFunction LC">
+<a name="ONET_SendPacketAsync"></a><a name="Topic1216"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ONET_SendPacketAsync</div>
- <div id="NDPrototype113" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 ONET_SendPacketAsync(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Sends a packet to the network (Asynchronous execution)</p></div>
+ <div id="NDPrototype1216" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 ONET_SendPacketAsync(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Sends a packet to the network (Asynchronous execution).</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of the packet to send.</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Size of the packet.</p></td></tr></table><div class="CHeading">Return</div><p>Status of the transmission.</p></div>
 </div>
 
-<a name="ONET_GetSendStatus"></a><a name="Topic114"></a><div class="CTopic TFunction LC last">
+<a name="ONET_GetSendStatus"></a><a name="Topic1217"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">ONET_GetSendStatus</div>
- <div id="NDPrototype114" class="NDPrototype"><div class="PSection PPlainSection">u8 ONET_GetSendStatus()</div></div>
- <div class="CBody"><p>Obtains the status of the packet transmission</p></div>
+ <div id="NDPrototype1217" class="NDPrototype"><div class="PSection PPlainSection">u8 ONET_GetSendStatus()</div></div>
+ <div class="CBody"><p>Obtains the status of the packet transmission.</p><div class="CHeading">Return</div><p>Status of the transmission.</p></div>
 </div>
 
 </body></html>
