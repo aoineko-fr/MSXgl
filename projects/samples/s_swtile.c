@@ -267,7 +267,7 @@ void main()
 	Print_SetBitmapFont(g_Font_MGL_Sample8);
 	Print_SetColor(0x11, 0x66);
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL " Software Tile Sample");
+	Print_DrawText(MSX_GL " SOFTWARE TILE SAMPLE");
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);

@@ -418,7 +418,6 @@ void main()
 	//-----------------------------------------------------------------------------
 	// ayFX
 
-
 	Print_SetFont(g_Font_MGL_Sample6);
 
 	Print_SetPosition(0, AYFX_Y);
@@ -439,7 +438,6 @@ void main()
 
 	//-----------------------------------------------------------------------------
 	// PSG
-
 
 	Print_SetPosition(0, PSG_Y);
 	Print_DrawText(" PSG\n\n");		

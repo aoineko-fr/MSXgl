@@ -103,7 +103,10 @@ if (EmulatorName === "OPENMSX") {
 	}
 	if (Ext === "rom") { 
 		EmulatorArgs += ` -cart ${ProjDir}emul/rom/${ProjName}.rom`;
-		if (ROMDelayBoot) { EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dsk/tmp`; }
+		if (ROMDelayBoot)
+			EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dsk/tmp`;
+		if (Mapper == "ROM_YAMANOOTO")
+			EmulatorArgs += " -romtype Yamanooto";
 	}
 	if (Ext === "com")
 	{ 

@@ -10,7 +10,6 @@
 ; By Guillaume 'Aoineko' Blanchard for MSX Game Library 
 ; (ɔ) 2022 under CC-BY-AS license
 ;------------------------------------------------------------------------------
-.z80
 .module	crt0
 
 ;------------------------------------------------------------------------------
@@ -46,15 +45,29 @@ SLTSL			= #0xFFFF
 
 ;------------------------------------------------------------------------------
 ; ROM types
-ROM_PLAIN		= 0 ; Plain ROM (no mapper)
-ROM_MAPPER_8K	= 2 ; Mapper 8 KB
-ROM_ASCII8		= 2 ; ASCII-8 mapper
-ROM_KONAMI		= 3 ; Konami without SCC mapper
-ROM_KONAMI_SCC	= 4 ; Konami with SCC mapper
-ROM_NEO8		= 5 ; NEO-8 mapper
-ROM_MAPPER_16K	= 8 ; Mapper 16 KB
-ROM_ASCII16		= 8 ; ASCII-16 mmaper
-ROM_NEO16		= 9 ; NEO-16 mapper
+ROM_PLAIN		= 0		; Plain ROM (no mapper)
+ROM_MAPPER_8K	= 2		; Mapper 8 KB
+ROM_ASCII8		= 2		;  ASCII-8 mapper
+ROM_KONAMI		= 3		;  Konami without SCC mapper
+ROM_KONAMI_SCC	= 4		;  Konami with SCC mapper
+ROM_NEO8		= 5		;  NEO-8 mapper
+ROM_YAMANOOTO	= 6		;  Yamanooto mapper
+ROM_MAPPER_16K	= 10	; Mapper 16 KB
+ROM_ASCII16		= 10	;  ASCII-16 mmaper
+ROM_ASCII16X	= 11	;  ASCII16-X mmaper
+ROM_NEO16		= 12	;  NEO-16 mapper
+
+;------------------------------------------------------------------------------
+; Yamanooto registers types
+YAMA_ENAR		= #0x7FFF		; Features enable register
+YAMA_ENAR_REGEN	= #0b00000001	; Registers enable. Setting this bit allows writing to all other registers and all register readability.
+YAMA_ENAR_WREN	= #0b00010000	; Write enable. Set to 1 to enable writes to flash rom.
+YAMA_OFFR		= #0x7FFE		; Mapper offset register
+YAMA_CFGR		= #0x7FFD		; Configuration and control register
+YAMA_CFGR_MDIS	= #0b00000001	; This bit disables mapping so you avoid mapper changes with small (up to 32 kbyte) roms that poke the switching area. Usually this is a problem only in K4 mode. Remember to reset this bit to make changes again.
+YAMA_CFGR_ECHO	= #0b00000010	; This bit allows the built-in PSG to respond to the port number of the internal PSG of the MSX, causing music intended for the internal PSG to be played too in the Yamanooto and be heard through the stereo output of the cartridge. This is set only during boot when you press the HOME key.
+YAMA_CFGR_ROMDIS= #0b00000100	; Setting this bit disables access to flash rom. This is automatically set during boot when the DEL key is pressed. You need to clear this bit in software to be able read/write the flash rom.
+YAMA_CFGR_K4	= #0b00001000	; Changes mapper configuration from Konami5 (SCC) to Konami4 for compatibility with game compilations including non-SCC games.
 
 ;------------------------------------------------------------------------------
 ; ISR types

@@ -35,7 +35,7 @@ u8 g_LogX, g_LogY;
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-/// 
+// Callback function for joystick events
 void JoystickEvent(u8 joy, u8 in, u8 evt)
 {
 	if(g_LogY >= 24)
@@ -65,7 +65,6 @@ void JoystickEvent(u8 joy, u8 in, u8 evt)
 	
 	g_LogX = g_PrintData.CursorX;
 	g_LogY = g_PrintData.CursorY;
-
 }
 
 //=============================================================================
@@ -73,7 +72,7 @@ void JoystickEvent(u8 joy, u8 in, u8 evt)
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-/// Program entry point
+// Program entry point
 void main()
 {
 	// Initialize screen

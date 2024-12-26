@@ -89,9 +89,9 @@ const Menu g_Menus[MENU_MAX] =
 
 const ModeInfo g_ModeInfos[] =
 {
-	{ "Screen 0 (T1)", VDP_MODE_SCREEN0, 40, g_Font_MGL_Sample6, MSX_GL6 " Menu Sample", COLOR_DARK_BLUE },
-	{ "Screen 1 (G1)", VDP_MODE_SCREEN1, 32, g_Font_MGL_Sample8, MSX_GL8 " Menu Sample", COLOR_DARK_GREEN },
-	{ "Screen 2 (G2)", VDP_MODE_SCREEN2, 32, g_Font_MGL_Sample8, MSX_GL8 " Menu Sample", COLOR_DARK_RED },
+	{ "Screen 0 (T1)", VDP_MODE_SCREEN0, 40, g_Font_MGL_Sample6, MSX_GL6 " MENU SAMPLE", COLOR_DARK_BLUE },
+	{ "Screen 1 (G1)", VDP_MODE_SCREEN1, 32, g_Font_MGL_Sample8, MSX_GL8 " MENU SAMPLE", COLOR_DARK_GREEN },
+	{ "Screen 2 (G2)", VDP_MODE_SCREEN2, 32, g_Font_MGL_Sample8, MSX_GL8 " MENU SAMPLE", COLOR_DARK_RED },
 };
 
 //=============================================================================

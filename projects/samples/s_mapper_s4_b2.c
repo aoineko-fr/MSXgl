@@ -17,6 +17,7 @@ void DrawSegments(u8 y, const c8* txt);
 //
 void Seg4Func2(u8 x, u8 y, const c8* txt)
 {
+	x;
 	DrawSegments(y, txt);
 }
 

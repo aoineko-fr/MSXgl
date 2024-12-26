@@ -204,7 +204,7 @@ void PSG_SetShape(u8 shape)
 
 //-----------------------------------------------------------------------------
 //
-void PSG_EnableTone(u8 chan, u8 val)
+void PSG_EnableTone(u8 chan, bool val)
 {
 #if (PSG_ACCESS == PSG_INDIRECT)
 	u8 mix = g_PSG_Regs.Mixer;
@@ -228,7 +228,7 @@ void PSG_EnableTone(u8 chan, u8 val)
 
 //-----------------------------------------------------------------------------
 //
-void PSG_EnableNoise(u8 chan, u8 val)
+void PSG_EnableNoise(u8 chan, bool val)
 {
 #if (PSG_ACCESS == PSG_INDIRECT)
 	u8 mix = g_PSG_Regs.Mixer;
@@ -252,7 +252,7 @@ void PSG_EnableNoise(u8 chan, u8 val)
 
 //-----------------------------------------------------------------------------
 //
-void PSG_EnableEnvelope(u8 chan, u8 val)
+void PSG_EnableEnvelope(u8 chan, bool val)
 {
 #if (PSG_ACCESS == PSG_INDIRECT)
 	u8 vol = g_PSG_Regs.Volume[chan];

@@ -310,7 +310,7 @@ void SCC_Select()
 void SCC_SetRegister(u8 reg, u8 value)
 {
 	#if (SCC_SLOT_MODE == SCC_SLOT_DIRECT)
-		POKE(0x9800 + reg, value);
+		Poke(0x9800 + reg, value);
 	#else
 		Bios_InterSlotWrite(SCC_SLOT, 0x9800 + reg, value);
 	#endif
@@ -326,7 +326,7 @@ void SCC_SetRegister(u8 reg, u8 value)
 u8 SCC_GetRegister(u8 reg)
 {
 	#if (SCC_SLOT_MODE == SCC_SLOT_DIRECT)
-		return PEEK(0x9800 + reg);
+		return Peek(0x9800 + reg);
 	#else
 		return Bios_InterSlotRead(SCC_SLOT, 0x9800 + reg);
 	#endif
@@ -337,7 +337,7 @@ u8 SCC_GetRegister(u8 reg)
 void SCC_Mute()
 {
 	#if (SCC_SLOT_MODE == SCC_SLOT_DIRECT)
-		POKE(SCC_ADDR_MIXER, 0);
+		Poke(SCC_ADDR_MIXER, 0);
 	#else
 		Bios_InterSlotWrite(SCC_SLOT, SCC_ADDR_MIXER, 0x00);
 	#endif
@@ -349,7 +349,7 @@ void SCC_Mute()
 void SCC_Resume()
 {
 	#if (SCC_SLOT_MODE == SCC_SLOT_DIRECT)
-		POKE(SCC_ADDR_MIXER, g_SCC_MixerBackup);
+		Poke(SCC_ADDR_MIXER, g_SCC_MixerBackup);
 	#else
 		Bios_InterSlotWrite(SCC_SLOT, SCC_ADDR_MIXER, g_SCC_MixerBackup);
 	#endif

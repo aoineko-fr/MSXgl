@@ -48,16 +48,18 @@
 
 // ROM_MAPPER options (0-15)
 #define ROM_PLAIN					0 // Plain ROM (no mapper)
-// Mapper 8 KB
+// 8 KB mappers
 #define ROM_MAPPER_8K				2
 #define ROM_ASCII8					2 // ASCII-8 mapper
 #define ROM_KONAMI					3 // Konami without SCC mapper
 #define ROM_KONAMI_SCC				4 // Konami with SCC mapper
 #define ROM_NEO8					5 // NEO-8 mapper
-// Mapper 16 KB
-#define ROM_MAPPER_16K				8
-#define ROM_ASCII16					8 // ASCII-16 mmaper
-#define ROM_NEO16					9 // NEO-16 mapper
+#define ROM_YAMANOOTO				6 // Yamanooto mapper
+// 16 KB mappers
+#define ROM_MAPPER_16K				10
+#define ROM_ASCII16					10 // ASCII-16 mmaper
+#define ROM_ASCII16X				11 // ASCII16-X mmaper
+#define ROM_NEO16					12 // NEO-16 mapper
 
 // ROM_SIZE options (0-15)
 #define ROM_8K						0
@@ -182,28 +184,35 @@
 #define TARGET_ROM_KONAMI_SCC_2048K	MAKE_ROM(ROM_KONAMI_SCC, ROM_2048K, 1, 1) // Konami 8KB ROM Mapper (256 segments) + SCC sound chip
 #define TARGET_ROM_KONAMI_SCC		TARGET_ROM_KONAMI_SCC_128K
 // -- NEO-8 ROM
-#define TARGET_ROM_NEO8_128K		MAKE_ROM(ROM_NEO8, ROM_128K,  0, 1) // NEO 8KB ROM Mapper (16 segments)
-#define TARGET_ROM_NEO8_256K		MAKE_ROM(ROM_NEO8, ROM_256K,  0, 1) // NEO 8KB ROM Mapper (32 segments)
-#define TARGET_ROM_NEO8_512K		MAKE_ROM(ROM_NEO8, ROM_512K,  0, 1) // NEO 8KB ROM Mapper (64 segments)
-#define TARGET_ROM_NEO8_1M			MAKE_ROM(ROM_NEO8, ROM_1M,  0, 1) // NEO 8KB ROM Mapper (128 segments)
-#define TARGET_ROM_NEO8_2M			MAKE_ROM(ROM_NEO8, ROM_2M,  0, 1) // NEO 8KB ROM Mapper (256 segments)
-#define TARGET_ROM_NEO8_4M			MAKE_ROM(ROM_NEO8, ROM_4M,  0, 1) // NEO 8KB ROM Mapper (512 segments)
-#define TARGET_ROM_NEO8_8M			MAKE_ROM(ROM_NEO8, ROM_8M,  0, 1) // NEO 8KB ROM Mapper (1024 segments)
-#define TARGET_ROM_NEO8_16M			MAKE_ROM(ROM_NEO8, ROM_16M, 0, 1) // NEO 8KB ROM Mapper (2048 segments)
-#define TARGET_ROM_NEO8_32M			MAKE_ROM(ROM_NEO8, ROM_32M, 0, 1) // NEO 8KB ROM Mapper (4096 segments)
+#define TARGET_ROM_NEO8_128K		MAKE_ROM(ROM_NEO8, ROM_128K, 0, 1) + ROM_ISR // NEO 8KB ROM Mapper (16 segments)
+#define TARGET_ROM_NEO8_256K		MAKE_ROM(ROM_NEO8, ROM_256K, 0, 1) + ROM_ISR // NEO 8KB ROM Mapper (32 segments)
+#define TARGET_ROM_NEO8_512K		MAKE_ROM(ROM_NEO8, ROM_512K, 0, 1) + ROM_ISR // NEO 8KB ROM Mapper (64 segments)
+#define TARGET_ROM_NEO8_1M			MAKE_ROM(ROM_NEO8, ROM_1M,   0, 1) + ROM_ISR // NEO 8KB ROM Mapper (128 segments)
+#define TARGET_ROM_NEO8_2M			MAKE_ROM(ROM_NEO8, ROM_2M,   0, 1) + ROM_ISR // NEO 8KB ROM Mapper (256 segments)
+#define TARGET_ROM_NEO8_4M			MAKE_ROM(ROM_NEO8, ROM_4M,   0, 1) + ROM_ISR // NEO 8KB ROM Mapper (512 segments)
+#define TARGET_ROM_NEO8_8M			MAKE_ROM(ROM_NEO8, ROM_8M,   0, 1) + ROM_ISR // NEO 8KB ROM Mapper (1024 segments)
+#define TARGET_ROM_NEO8_16M			MAKE_ROM(ROM_NEO8, ROM_16M,  0, 1) + ROM_ISR // NEO 8KB ROM Mapper (2048 segments)
+#define TARGET_ROM_NEO8_32M			MAKE_ROM(ROM_NEO8, ROM_32M,  0, 1) + ROM_ISR // NEO 8KB ROM Mapper (4096 segments)
 #define TARGET_ROM_NEO8				TARGET_ROM_NEO8_8M		
 // -- NEO-16 ROM
-#define TARGET_ROM_NEO16_128K		MAKE_ROM(ROM_NEO16, ROM_128K,  0, 1) // NEO 16KB ROM Mapper (16 segments)
-#define TARGET_ROM_NEO16_256K		MAKE_ROM(ROM_NEO16, ROM_256K,  0, 1) // NEO 16KB ROM Mapper (32 segments)
-#define TARGET_ROM_NEO16_512K		MAKE_ROM(ROM_NEO16, ROM_512K,  0, 1) // NEO 16KB ROM Mapper (64 segments)
-#define TARGET_ROM_NEO16_1M			MAKE_ROM(ROM_NEO16, ROM_1M,  0, 1) // NEO 16KB ROM Mapper (64 segments)
-#define TARGET_ROM_NEO16_2M			MAKE_ROM(ROM_NEO16, ROM_2M,  0, 1) // NEO 16KB ROM Mapper (128 segments)
-#define TARGET_ROM_NEO16_4M			MAKE_ROM(ROM_NEO16, ROM_4M,  0, 1) // NEO 16KB ROM Mapper (256 segments)
-#define TARGET_ROM_NEO16_8M			MAKE_ROM(ROM_NEO16, ROM_8M,  0, 1) // NEO 16KB ROM Mapper (512 segments)
-#define TARGET_ROM_NEO16_16M		MAKE_ROM(ROM_NEO16, ROM_16M, 0, 1) // NEO 16KB ROM Mapper (1024 segments)
-#define TARGET_ROM_NEO16_32M		MAKE_ROM(ROM_NEO16, ROM_32M, 0, 1) // NEO 16KB ROM Mapper (2048 segments)
-#define TARGET_ROM_NEO16_64M		MAKE_ROM(ROM_NEO16, ROM_64M, 0, 1) // NEO 16KB ROM Mapper (4096 segments)
+#define TARGET_ROM_NEO16_128K		MAKE_ROM(ROM_NEO16, ROM_128K, 0, 1) + ROM_ISR // NEO 16KB ROM Mapper (16 segments)
+#define TARGET_ROM_NEO16_256K		MAKE_ROM(ROM_NEO16, ROM_256K, 0, 1) + ROM_ISR // NEO 16KB ROM Mapper (32 segments)
+#define TARGET_ROM_NEO16_512K		MAKE_ROM(ROM_NEO16, ROM_512K, 0, 1) + ROM_ISR // NEO 16KB ROM Mapper (64 segments)
+#define TARGET_ROM_NEO16_1M			MAKE_ROM(ROM_NEO16, ROM_1M,   0, 1) + ROM_ISR // NEO 16KB ROM Mapper (64 segments)
+#define TARGET_ROM_NEO16_2M			MAKE_ROM(ROM_NEO16, ROM_2M,   0, 1) + ROM_ISR // NEO 16KB ROM Mapper (128 segments)
+#define TARGET_ROM_NEO16_4M			MAKE_ROM(ROM_NEO16, ROM_4M,   0, 1) + ROM_ISR // NEO 16KB ROM Mapper (256 segments)
+#define TARGET_ROM_NEO16_8M			MAKE_ROM(ROM_NEO16, ROM_8M,   0, 1) + ROM_ISR // NEO 16KB ROM Mapper (512 segments)
+#define TARGET_ROM_NEO16_16M		MAKE_ROM(ROM_NEO16, ROM_16M,  0, 1) + ROM_ISR // NEO 16KB ROM Mapper (1024 segments)
+#define TARGET_ROM_NEO16_32M		MAKE_ROM(ROM_NEO16, ROM_32M,  0, 1) + ROM_ISR // NEO 16KB ROM Mapper (2048 segments)
+#define TARGET_ROM_NEO16_64M		MAKE_ROM(ROM_NEO16, ROM_64M,  0, 1) + ROM_ISR // NEO 16KB ROM Mapper (4096 segments)
 #define TARGET_ROM_NEO16			TARGET_ROM_NEO16_8M		
+// -- YAMANOOTO ROM
+#define TARGET_ROM_YAMANOOTO_2M		MAKE_ROM(ROM_YAMANOOTO, ROM_2M,  1, 1) // YAMANOOTO 8KB ROM Mapper
+#define TARGET_ROM_YAMANOOTO_4M		MAKE_ROM(ROM_YAMANOOTO, ROM_4M,  1, 1) // YAMANOOTO 8KB ROM Mapper
+#define TARGET_ROM_YAMANOOTO_8M		MAKE_ROM(ROM_YAMANOOTO, ROM_8M,  1, 1) // YAMANOOTO 8KB ROM Mapper
+#define TARGET_ROM_YAMANOOTO_16M	MAKE_ROM(ROM_YAMANOOTO, ROM_16M, 1, 1) // YAMANOOTO 8KB ROM Mapper
+#define TARGET_ROM_YAMANOOTO_32M	MAKE_ROM(ROM_YAMANOOTO, ROM_32M, 1, 1) // YAMANOOTO 8KB ROM Mapper
+#define TARGET_ROM_YAMANOOTO		TARGET_ROM_YAMANOOTO_8M
 
 #include "config_target.h"
 

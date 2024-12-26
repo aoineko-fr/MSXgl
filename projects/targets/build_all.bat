@@ -53,14 +53,20 @@ for %%G in (64,128,256,512,1024,2048) do (
 
 ::-----------------------------------------------------------------------------
 :: NEO-8 mapped ROM
-for %%G in (512, 1024, 2048, 4096, 8192, 16384, 32768) do (
+for %%G in (256, 512, 1024, 2048, 4096, 8192, 16384, 32768) do (
 	call build ROM_NEO8 ROM_NEO8_%%GK %%G
 )
 
 ::-----------------------------------------------------------------------------
 :: NEO-16 mapped ROM
-for %%G in (512, 1024, 2048, 4096, 8192, 16384, 32768, 65536) do (
+for %%G in (256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536) do (
 	call build ROM_NEO16 ROM_NEO16_%%GK %%G
+)
+
+::-----------------------------------------------------------------------------
+:: Yamanooto mapped ROM
+for %%G in (2048, 4096, 8192) do (
+	call build ROM_YAMANOOTO ROM_YAMANOOTO_%%GK %%G
 )
 
 ::-----------------------------------------------------------------------------
@@ -74,5 +80,6 @@ call build ROM_ASCII8 ROM_ASCII8_128K_BDOS 128 BDOS
 call build ROM_32K ROM_32K_RAMISR 0 RAMISR
 call build ROM_48K ROM_48K_RAMISR 0 RAMISR
 call build ROM_ASCII8 ROM_ASCII8_128K_RAMISR 128 RAMISR
+call build ROM_ASCII8 ROM_ASCII8_128K_RAMSEG 128 RAMSEG
 
 :EOF

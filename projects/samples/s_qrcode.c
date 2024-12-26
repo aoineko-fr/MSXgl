@@ -62,7 +62,7 @@ void main()
 	Print_Clear();
 
 	Print_SetPosition(0, 0);
-	Print_DrawText("\x1\x2\x3\x4\x5\x6 QR Code Sample");
+	Print_DrawText("\x1\x2\x3\x4\x5\x6 QR CODE SAMPLE");
 	Draw_LineH(0, 255, 12, 0xFF, 0);
 
 	Print_SetPosition(0, 16);

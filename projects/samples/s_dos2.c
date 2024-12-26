@@ -82,7 +82,7 @@ void Print_DrawSlot(u8 slot)
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Format slot ID
 const c8* FormatSlot(u8 slot)
 {
 	c8* str = g_SlotBuffer;
@@ -102,12 +102,12 @@ void DisplayDOSHeader()
 {
 	DOS_ClearScreen();
 	DOS_StringOutput("+--------------------------+\n\r$");
-	DOS_StringOutput("| MSXgl - MSX-DOS 2 Sample |\n\r$");
+	DOS_StringOutput("| MSXgl - MSX-DOS 2 SAMPLE |\n\r$");
 	DOS_StringOutput("+--------------------------+\n\r$");
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Display machine information
 void DisplayInfo()
 {
 	// Program header
@@ -176,7 +176,7 @@ void DisplayInfo()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Wait for key press
 void WaitKeyPress()
 {
 	Print_DrawText("\nPRESS ANY KEY...");
@@ -185,7 +185,7 @@ void WaitKeyPress()
 
 #if (DOS_USE_VALIDATOR)
 //-----------------------------------------------------------------------------
-// 
+// Display last error
 void DisplayLastError()
 {
 	u8 err = DOS_GetLastError();
@@ -197,7 +197,7 @@ void DisplayLastError()
 #endif
 
 //-----------------------------------------------------------------------------
-// 
+// Display the page header
 void DisplayHeader()
 {
 	Print_Clear();
@@ -206,7 +206,7 @@ void DisplayHeader()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Display a file content
 void DisplayFile()
 {
 	// Initialize display system
@@ -458,7 +458,7 @@ void DisplayFile()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Apply Memory Mapper
 void ApplyExtBIOS()
 {
 	// Mapper information
@@ -533,7 +533,7 @@ void ApplyExtBIOS()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Display Extended BIOS information
 void DisplayExtBIOS()
 {
 	// Initialize display system
@@ -579,7 +579,7 @@ void DisplayExtBIOS()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Log a message
 void Log(const c8* str)
 {
 	if(g_LogLine > 190)
@@ -594,7 +594,7 @@ void Log(const c8* str)
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Update Extended BIOS
 void UpdateExtBIOS()
 {
 	// Print sign-of-life
@@ -677,7 +677,7 @@ void UpdateExtBIOS()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Display standard input
 void DisplayStdIn()
 {
 	// Program header
@@ -717,7 +717,7 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Update standard input
 void UpdateStdIn()
 {
 	u8 chr = DOS_StandardInput();
@@ -726,7 +726,7 @@ void UpdateStdIn()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Call driver and display result
 void DisplayDriver()
 {
 	// Program header

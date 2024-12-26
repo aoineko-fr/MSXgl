@@ -98,7 +98,7 @@ void NTapScan()
 
 	// Header
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL " Ninja-Tap Sample");
+	Print_DrawText(MSX_GL " NINJA-TAP SAMPLE");
 	Print_DrawLineH(0, 1, 32);
 
 	Print_SetPosition(3, TAB_Y);

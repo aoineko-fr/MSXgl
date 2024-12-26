@@ -139,7 +139,7 @@ void main()
 	VDP_ClearVRAM();
 
 	Print_SetTextFont(g_Font_MGL_Sample6, 1); // Initialize font
-	Print_DrawText(MSX_GL " PAC SRAM sample");
+	Print_DrawText(MSX_GL " PAC SRAM SAMPLE");
 	Print_DrawLineH(0, 1, 40);
 
 	bool bFound = PAC_Initialize();

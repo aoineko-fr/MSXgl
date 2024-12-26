@@ -359,7 +359,7 @@ void main()
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
-	Print_DrawText(MSX_GL " VGM Sample");
+	Print_DrawText(MSX_GL " VGM SAMPLE");
 	Print_DrawLineH(0, 1, 32);
 
 	Print_SetPosition(20, 7);

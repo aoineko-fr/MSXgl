@@ -131,7 +131,7 @@ struct DrawData g_Data;
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-/// Generate random data into a given frame
+// Generate random data into a given frame
 void RandomizeData(u16 minX, u16 minY)
 {
 	u16 rnd = Math_GetRandom16();
@@ -290,14 +290,14 @@ void DisplayPage()
 }
 
 //-----------------------------------------------------------------------------
-/// H_TIMI interrupt hook
+// H_TIMI interrupt hook
 void VBlankHook()
 {
 	g_VBlank = 1;
 }
 
 //-----------------------------------------------------------------------------
-/// Wait for V-Blank period
+// Wait for V-Blank period
 void WaitVBlank()
 {
 	while(g_VBlank == 0) {}

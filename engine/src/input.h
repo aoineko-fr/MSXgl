@@ -85,7 +85,7 @@ enum INPUT_PORT
 // Parameters:
 //   port - JOY_PORT_1 or JOY_PORT_2
 //
-// Returns:
+// Return:
 //   Joystick state (bit=0: pressed)
 // : xxBARLDU
 // :   │││││└─ Up
@@ -114,7 +114,7 @@ void Joystick_Update();
 // Parameters:
 //   port - JOY_PORT_1 or JOY_PORT_2
 //
-// Returns:
+// Return:
 //   One or two of those defines:
 // : JOY_INPUT_DIR_NONE
 // : JOY_INPUT_DIR_UP
@@ -130,7 +130,7 @@ inline u8 Joystick_GetDirection(u8 port) { return g_JoyStats[port >> 6] & JOY_IN
 // Parameters:
 //   port - JOY_PORT_1 or JOY_PORT_2
 //
-// Returns:
+// Return:
 //   One or two of those defines:
 // : JOY_INPUT_DIR_NONE
 // : JOY_INPUT_DIR_UP
@@ -156,7 +156,7 @@ inline u8 Joystick_GetDirectionChange(u8 port)
 //   port - JOY_PORT_1 or JOY_PORT_2
 //   trigger - JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B
 //
-// Returns:
+// Return:
 //   TRUE if given button is pressed
 inline bool Joystick_IsButtonPressed(u8 port, u8 trigger) { return ((g_JoyStats[port >> 6] & trigger) != 0); }
 
@@ -168,7 +168,7 @@ inline bool Joystick_IsButtonPressed(u8 port, u8 trigger) { return ((g_JoyStats[
 //   port - JOY_PORT_1 or JOY_PORT_2
 //   trigger - JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B
 //
-// Returns:
+// Return:
 //   TRUE if given button is pressed
 inline bool Joystick_IsButtonPushed(u8 port, u8 trigger)
 {
@@ -232,6 +232,12 @@ enum INPUT_TYPE
 
 // Function: Input_Detect
 // Detect device plugged in General purpose ports
+//
+// Parameters:
+//   port - Port to check (INPUT_PORT_1 or INPUT_PORT_2)
+//
+// Return:
+//   Device type (INPUT_TYPE_JOYSTICK, INPUT_TYPE_MOUSE, etc.)
 u8 Input_Detect(enum INPUT_PORT port);
 
 #endif
@@ -273,24 +279,75 @@ typedef struct
 } Mouse_State;
 
 // Function: Mouse_Read
+// Gets current mouse information
+//
+// Parameters:
+//   port - Port to check (MOUSE_PORT_1 or MOUSE_PORT_2)
+//   data - Output mouse state
 void Mouse_Read(u8 port, Mouse_State* data);
 
 // Function: Mouse_GetOffsetX
+// Gets current mouse X offset
+//
+// Parameters:
+//   data - Current mouse state (from Mouse_Read)
+//
+// Return:
+//   Mouse X offset
 inline i8 Mouse_GetOffsetX(Mouse_State* data) { return -data->dX; }
 
 // Function: Mouse_GetOffsetY
+// Gets current mouse Y offset
+//
+// Parameters:
+//   data - Current mouse state (from Mouse_Read)
+//
+// Return:
+//   Mouse Y offset
 inline i8 Mouse_GetOffsetY(Mouse_State* data) { return -data->dY; }
 
 // Function: Mouse_GetAdjustedOffsetX
+// Gets current mouse X offset adjusted by speed
+//
+// Parameters:
+//   data - Current mouse state (from Mouse_Read)
+//   spd - Mouse speed (MOUSE_SPEED_LOWEST, MOUSE_SPEED_LOW, MOUSE_SPEED_MEDIUM, MOUSE_SPEED_HIGH, MOUSE_SPEED_HIGHEST)
+//
+// Return:
+//   Mouse X offset
 inline i8 Mouse_GetAdjustedOffsetX(Mouse_State* data, u8 spd) { return -data->dX / spd; }
 
 // Function: Mouse_GetAdjustedOffsetY
+// Gets current mouse Y offset adjusted by speed
+//
+// Parameters:
+//   data - Current mouse state (from Mouse_Read)
+//   spd - Mouse speed (MOUSE_SPEED_LOWEST, MOUSE_SPEED_LOW, MOUSE_SPEED_MEDIUM, MOUSE_SPEED_HIGH, MOUSE_SPEED_HIGHEST)
+//
+// Return:
+//   Mouse Y offset
 inline i8 Mouse_GetAdjustedOffsetY(Mouse_State* data, u8 spd) { return -data->dY / spd; }
 
 // Function: Mouse_IsButtonPress
+// Check if mouse button is pressed
+//
+// Parameters:
+//   data - Current mouse state (from Mouse_Read)
+//   btn - Mouse button to check (MOUSE_BOUTON_LEFT, MOUSE_BOUTON_RIGHT)
+//
+// Return:
+//   FALSE is not pressed
 inline bool Mouse_IsButtonPress(Mouse_State* data, u8 btn) { return (data->Buttons & btn) == 0; }
 
 // Function: Mouse_IsButtonClick
+// Check if mouse button is clicked
+//
+// Parameters:
+//   data - Current mouse state (from Mouse_Read)
+//   btn - Mouse button to check (MOUSE_BOUTON_LEFT, MOUSE_BOUTON_RIGHT)
+//
+// Return:
+//   FALSE is not clicked
 inline bool Mouse_IsButtonClick(Mouse_State* data, u8 btn) { return ((data->Buttons & btn) == 0) && ((data->PrevButtons & btn) != 0); }
 
 #endif // (INPUT_USE_MOUSE)
@@ -426,7 +483,7 @@ enum KEY_ID
 // Parameters:
 //   row - The row to read (0-10)
 //
-// Returns:
+// Return:
 //   8-bits value where each bit to 0 represents the pressed keys
 u8 Keyboard_Read(u8 row) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh);
 
@@ -438,6 +495,11 @@ extern u8* g_InputBufferNew;
 extern u8* g_InputBufferOld;
 
 // Function: Keyboard_SetBuffer
+// Set the buffer to store keyboard state
+//
+// Parameters:
+//   new - Buffer to store current frame keys state
+//   old - Buffer to store previous frame keys state
 inline void Keyboard_SetBuffer(u8* new, u8* old) { g_InputBufferNew = new; g_InputBufferOld = old; }
 
 // Function: Keyboard_Update
@@ -452,7 +514,7 @@ void Keyboard_Update();
 // Parameters:
 //   key - The key ID to check
 //
-// Returns:
+// Return:
 //   TRUE if key is pressed
 bool Keyboard_IsKeyPressed(u8 key);
 
@@ -463,7 +525,7 @@ bool Keyboard_IsKeyPressed(u8 key);
 // Parameters:
 //   key - The key ID to check
 //
-// Returns:
+// Return:
 //   TRUE if the key was pushed on this frame
 bool Keyboard_IsKeyPushed(u8 key);
 

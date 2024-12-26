@@ -55,7 +55,7 @@ void main()
 	Print_SetColor(COLOR_WHITE, COLOR_BLACK);
 
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL " PCM-Play " PCM_FREQ " Sample");
+	Print_DrawText(MSX_GL " PCM-PLAY " PCM_FREQ " SAMPLE");
 	Print_DrawLineH(0, 1, 40);
 
 	Print_DrawLineH(0, 22, 40);

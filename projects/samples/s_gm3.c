@@ -178,7 +178,7 @@ void main()
 	Print_SetMode(PRINT_MODE_TEXT);
 	VDP_LoadBankPattern_GM2(g_PrintData.FontPatterns, g_PrintData.CharCount, 0, 32); // Load data to VRAM
 	// Print header
-	Print_DrawTextAt(0, 0, "MSXgl - GM3 Sample");
+	Print_DrawTextAt(0, 0, "MSXgl - GM3 SAMPLE");
 	Print_DrawTextAt(0, 1, " [1]:Mirror 0    [2]:Mirror 01");
 	Print_DrawTextAt(0, 2, " [3]:Mirror 02   [4]:No mirror");
 

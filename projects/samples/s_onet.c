@@ -263,7 +263,7 @@ void DisplayHead()
 {
 	Print_Clear();
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL " ObsoNET Sample");
+	Print_DrawText(MSX_GL " OBSONET SAMPLE");
 	Print_DrawLineH(0, 1, 32);
 }
 

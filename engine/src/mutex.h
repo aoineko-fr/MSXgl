@@ -7,6 +7,8 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+#include "core.h"
+
 extern u8 g_Mutex; //< @note Must be declared somewhere in the application code
 #define MUTEX_DATA() u8 g_Mutex
 

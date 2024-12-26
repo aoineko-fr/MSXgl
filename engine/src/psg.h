@@ -141,49 +141,91 @@ extern struct PSG_Data g_PSG2_Regs;
 
 // Function: PSG_SetRegister
 // Set the value of a given register
+//
+// Parameters:
+//   reg   - Register to set
+//   value - Value to set
 void PSG_SetRegister(u8 reg, u8 value);
 
 // Function: PSG_GetRegister
 // Get the value of a given register
+//
+// Parameters:
+//   reg - Register to get
+//
+// Return:
+//   Value of the register
 u8 PSG_GetRegister(u8 reg);
 
 // Group: Helper
 #if (PSG_USE_EXTRA)
 // Function: PSG_SetTone
 // Set the tone period of a given channel (tone generator control register)
+//
+// Parameters:
+//   chan   - Channel to set (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
+//   period - Period to set (12-bits value)
 void PSG_SetTone(u8 chan, u16 period);
 
 // Function: PSG_SetNoise
 // Set the noise period (noise generator control register)
+//
+// Parameters:
+//   period - Period to set (5-bits value)
 void PSG_SetNoise(u8 period);
 
 // Function: PSG_SetMixer
 // Setup mixer by enabling tune and noise generators for each channel (mixer control enable register)
+//
+// Parameters:
+//   mix - Mixer value to set
 void PSG_SetMixer(u8 mix);
 
 // Function: PSG_SetVolume
 // Set the volume of a given channel (Amplitude control register)
+//
+// Parameters:
+//   chan - Channel to set (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
+//   vol  - Volume to set (4-bits value)
 void PSG_SetVolume(u8 chan, u8 vol);
 
 // Function: PSG_SetEnvelope
 // Set the envelope period (Envelope priod control register)
+//
+// Parameters:
+//   period - Period to set (16-bits value)
 void PSG_SetEnvelope(u16 period);
 
 // Function: PSG_SetShape
 // Set the envelope shape (Envelope shape control register)
+//
+// Parameters:
+//   shape - Shape to set (4-bits value)
 void PSG_SetShape(u8 shape);
 
 // Function: PSG_EnableTone
 // Enable/disable tone on the given channel
-void PSG_EnableTone(u8 chan, u8 val);
+//
+// Parameters:
+//   chan - Channel to set (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
+//   val  - TRUE to enable, FALSE to disable
+void PSG_EnableTone(u8 chan, bool val);
 
 // Function: PSG_EnableNoise
 // Enable/disable noise on the given channel
-void PSG_EnableNoise(u8 chan, u8 val);
+//
+// Parameters:
+//   chan - Channel to set (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
+//   val  - TRUE to enable, FALSE to disable
+void PSG_EnableNoise(u8 chan, bool val);
 
 // Function: PSG_EnableEnvelope
 // Enable/disable envelope on the given channel
-void PSG_EnableEnvelope(u8 chan, u8 val);
+//
+// Parameters:
+//   chan - Channel to set (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
+
+void PSG_EnableEnvelope(u8 chan, bool val);
 
 #endif //(PSG_USE_EXTRA)
 

@@ -25,5 +25,8 @@ if "%4" == "BDOS" set ARGS=%ARGS% delay
 :: Set RAM in slot 0 and install ISR there (0=false, 1=true)
 if "%4" == "RAMISR" set ARGS=%ARGS% ramisr
 
+:: Set RAM in slot 0 and install ISR there (0=false, 1=true)
+if "%4" == "RAMSEG" set ARGS=%ARGS% ramseg
+
 cls
 ..\..\tools\build\Node\node.exe ..\..\engine\script\js\build.js %ARGS%

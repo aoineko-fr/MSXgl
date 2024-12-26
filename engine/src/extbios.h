@@ -40,4 +40,7 @@ const u8 __at(M_EXTBIO) g_EXTBIO;
 
 // Function: ExtBIOS_Check
 // Check id extended BIOS is installed
+//
+// Return:
+//   FALSE if not installed
 inline bool ExtBIOS_Check() { return g_HOKVLD & 0x01; }

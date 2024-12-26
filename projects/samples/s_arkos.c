@@ -263,7 +263,7 @@ void main()
 	Print_SetTextFont(g_Font_MGL_Sample6, 1);
 
 	// Dislay static information on screen
-	Print_DrawTextAt(0, 0, MSX_GL " Arkos Tracker sample");
+	Print_DrawTextAt(0, 0, MSX_GL " ARKOS TRACKER SAMPLE");
 	Print_DrawLineH(0, 1, 40);
 
 	// Display the list of the replayers

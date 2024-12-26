@@ -38,7 +38,7 @@ u16 g_PrevID[2] = { 0xFF, 0xFF };
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// 
+// Update device detection
 void Update_MSXHID(u8 i)
 {
 	u16 id = HID_Detect(i == 0 ? INPUT_PORT1 : INPUT_PORT2);
@@ -83,7 +83,7 @@ void main()
 
 	// Draw static text
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL " JoyMega Sample");
+	Print_DrawText(MSX_GL " JOYMEGA SAMPLE");
 	Print_DrawLineH(0, 1, 40);
 	Print_DrawLineV(19, 2, 20);
 	Print_DrawLineH(0, 22, 40);

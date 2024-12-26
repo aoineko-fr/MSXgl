@@ -460,6 +460,9 @@ typedef struct
 
 // Function: DOS_Call
 // Call a BDOS function
+//
+// Parameters:
+//   func - Function number
 void DOS_Call(u8 func);
 
 // Function: DOS_Exit0

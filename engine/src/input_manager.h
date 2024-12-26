@@ -128,10 +128,17 @@ extern IPM_Data g_IPM;
 
 // Function: IPM_Initialize
 // Initialize input manager
+//
+// Parameters:
+//   config - Input manager configuration structure
 void IPM_Initialize(IPM_Config* config);
 
 // Function: IPM_SetTimer
 // Initialize input manager
+//
+// Parameters:
+//   doubleClk - Double click timer
+//   hold - Hold timer
 inline void IPM_SetTimer(u8 doubleClk, u8 hold)
 {
 	g_IPM.Config.DoubleClickTimer = doubleClk;
@@ -144,24 +151,65 @@ void IPM_Update();
 
 // Function: IPM_RegisterEvent
 // Register a callback to a given device manager's event
-bool IPM_RegisterEvent(u8 joy, u8 input, u8 event, IPM_cb cb);
+//
+// Parameters:
+//   dev   - Device ID
+//   input - Input ID
+//   event - Event ID
+//   cb    - Callback function
+//
+// Return:
+//   TRUE if the event was registered, FALSE otherwise
+bool IPM_RegisterEvent(u8 dev, u8 input, u8 event, IPM_cb cb);
 
 // Function: IPM_GetStatus
 // Get current device status
+//
+// Parameters:
+//   dev - Device ID
+//
+// Return:
+//   Current device status
 inline u8 IPM_GetStatus(u8 dev) { return g_IPM.Process[dev].CurrentStatus; }
 
 // Function: IPM_GetStickDirection
 // Get current direction of the given device
-u8 IPM_GetStickDirection(u8 joy);
+//
+// Parameters:
+//   dev - Device ID
+//
+// Return:
+//   Current device direction
+u8 IPM_GetStickDirection(u8 dev);
 
 // Function: IPM_GetInputState
 // Get current device state
+//
+// Parameters:
+//   dev   - Device ID
+//   input - Input ID
+//
+// Return:
+//   Current device's input state
 inline u8 IPM_GetInputState(u8 dev, u8 input) { return g_IPM.Process[dev].State[input]; }
 
 // Function: IPM_GetInputTimer
 // Get current device state timer
+//
+// Parameters:
+//   dev   - Device ID
+//   input - Input ID
+//
+// Return:
+//   Current device's input state timer
 inline u8 IPM_GetInputTimer(u8 dev, u8 input) { return g_IPM.Process[dev].Timer[input]; }
 
 // Function: IPM_GetEventName
 // Get event name
+//
+// Parameters:
+//   ev - Event ID
+//
+// Return:
+//   Zero-terminated string containing the event name
 const c8* IPM_GetEventName(u8 ev);

@@ -210,10 +210,7 @@ inline void Print_SetFontEx(u8 patternX, u8 patternY, u8 sizeX, u8 sizeY, u8 fir
 //
 // Return:
 //   Current font information structure
-inline const struct Print_Data* Print_GetFontInfo()
-{
-	return &g_PrintData;
-}
+inline const struct Print_Data* Print_GetFontInfo() { return &g_PrintData;}
 
 // Function: Print_SetPosition
 // Set cursor position.
@@ -226,6 +223,20 @@ inline void Print_SetPosition(UX x, UY y)
 	g_PrintData.CursorX = x;
 	g_PrintData.CursorY = y;
 }
+
+// Function: Print_SetPositionX
+// Set cursor X coordinate.
+//
+// Parameters:
+//   X - Print cursor position X coordinate
+inline void Print_SetPositionX(UX x) { g_PrintData.CursorX = x; }
+
+// Function: Print_SetPositionY
+// Set cursor Y coordinate.
+//
+// Parameters:
+//   Y - Print cursor position Y coordinate
+inline void Print_SetPositionY(UY y) { g_PrintData.CursorY = y; }
 
 // Function: Print_SetCharSize
 // Set character size.
@@ -244,10 +255,7 @@ inline void Print_SetCharSize(u8 x, u8 y)
 //
 // Parameters:
 //   size - Size of the tabulation in pixel (must be a power of 2 like 16, 32, 64, ...)
-inline void Print_SetTabSize(u8 size)
-{
-	g_PrintData.TabSize = size;
-}
+inline void Print_SetTabSize(u8 size) { g_PrintData.TabSize = size; }
 
 #if (PRINT_USE_BITMAP)
 // Function: Print_SetBitmapFont
@@ -256,7 +264,7 @@ inline void Print_SetTabSize(u8 size)
 //
 // Parameters:
 //   font - Pointer to font structure. Character patterns plus a 4 bytes headers (character width/height, spacing width/height, 1st character code, last character code).
-bool Print_SetBitmapFont(const u8* font);
+void Print_SetBitmapFont(const u8* font);
 #endif
 
 #if (PRINT_USE_VRAM)
@@ -411,10 +419,7 @@ void Print_DrawInt(i16 value);
 
 // Function: Print_Space
 // Print space.
-inline void Print_Space()
-{
-	g_PrintData.CursorX += PRINT_W(g_PrintData.UnitX);
-}
+inline void Print_Space() { g_PrintData.CursorX += PRINT_W(g_PrintData.UnitX); }
 
 // Function: Print_Tab
 // Print tabulation.
@@ -493,7 +498,7 @@ inline void Print_DrawTextAt(UX x, UY y, const c8* str)
 //   x   - Position X coordinate
 //   y   - Position Y coordinate
 //   str - Null-terminated string to draw
-inline void Print_DrawTextAtV(u8 x, u8 y, const c8* str)
+inline void Print_DrawTextAtV(UX x, UY y, const c8* str)
 {
 	while(*str)
 	{

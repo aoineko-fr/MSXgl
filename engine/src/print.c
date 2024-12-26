@@ -570,7 +570,7 @@ u8 Print_ValidatePattern(u8 chr, const c8** patterns)
 //-----------------------------------------------------------------------------
 // Initialize print module. Must be called after VDP_SetMode()
 // @param		font		Pointer to font data to use (NULL=use Main-ROM font)
-bool Print_SetBitmapFont(const u8* font)
+void Print_SetBitmapFont(const u8* font)
 {
 	Print_SetFont(font);
 	Print_SetMode(PRINT_MODE_BITMAP);

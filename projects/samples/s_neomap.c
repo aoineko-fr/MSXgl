@@ -144,6 +144,7 @@ const c8* GetROMMapper(u8 mapper)
 	case ROM_KONAMI_SCC: return "Konami SCC";
 	case ROM_NEO8:       return "NEO-8";
 	case ROM_NEO16:      return "NEO-16";
+	case ROM_YAMANOOTO:  return "YAMANOOTO";
 	};
 	return "Unknow";
 }
@@ -212,7 +213,7 @@ void main()
 
 	// Title
 	Print_SetTextFont(g_Font_MGL_Sample6, 1); // Initialize font
-	Print_DrawText(MSX_GL " NEO mapper sample"); // Display title
+	Print_DrawText(MSX_GL " NEO MAPPER SAMPLE"); // Display title
 	Print_DrawLineH(0, 1, 40);
 
 	// Information
@@ -279,7 +280,7 @@ void main()
 	loop(i, numberof(g_Signs))
 	{
 		const struct SignEntry* e = &g_Signs[i];
-		POKEW(g_SwitchAddr[TEST_BANK], e->Segment); // Set segment in bank
+		Poke16(g_SwitchAddr[TEST_BANK], e->Segment); // Set segment in bank
 		Print_DrawText(CheckSign((const u8*)TEST_ADDR, e->Sign) ? "\xC " : "\xB ");
 	}
 
@@ -289,7 +290,7 @@ void main()
 	{
 		const struct SignEntry* e = &g_Signs[i];
 		u16 addr = g_SwitchAddr[TEST_BANK] | MIRROR_MASK;
-		POKEW(addr, e->Segment); // Set segment in bank
+		Poke16(addr, e->Segment); // Set segment in bank
 		Print_DrawText(CheckSign((const u8*)TEST_ADDR, e->Sign) ? "\xC " : "\xB ");
 	}
 

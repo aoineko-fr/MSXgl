@@ -203,7 +203,7 @@ void main()
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
-	Print_DrawText(MSX_GL " WYZ2 Sample");
+	Print_DrawText(MSX_GL " WYZ2 SAMPLE");
 	Print_DrawLineH(0, 1, 32);
 
 	// Decode VGM header

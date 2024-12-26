@@ -10,7 +10,6 @@
 ; Code address: 0x4010 (right after the header)
 ; Data address: 0xC000
 ;──────────────────────────────────────────────────────────────────────────────
-.z80
 .module	crt0
 
 .include "defines.asm"

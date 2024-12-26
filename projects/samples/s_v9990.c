@@ -767,7 +767,7 @@ void DisplayMSX()
 {
 	Print_SetTextFont(g_Font_MGL_Sample6, 1); // Initialize font
 	Print_SetColor(0xF, 0x0);
-	Print_DrawText(MSX_GL " V9990 Sample");
+	Print_DrawText(MSX_GL " V9990 SAMPLE");
 	Print_DrawLineH(0, 1, 40);
 
 	const c8* str = "V9990 not found!";

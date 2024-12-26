@@ -465,7 +465,7 @@ void Init16()
 	VDP_FillVRAM_16K(COLOR_MERGE(COLOR_LIGHT_BLUE, COLOR_DARK_BLUE), g_ScreenColorLow + (32*4*8) + (1*256*8), 32*4*8);
 	VDP_FillVRAM_16K(COLOR_MERGE(COLOR_LIGHT_BLUE, COLOR_DARK_BLUE), g_ScreenColorLow + (32*4*8) + (2*256*8), 32*4*8);
 
-	Print_DrawTextAt(0, 0, "\x2\x3\x4\x5 Sprite FX sample (16x16)");
+	Print_DrawTextAt(0, 0, "\x2\x3\x4\x5 SPRITE FX SAMPLE (16x16)");
 	Print_DrawCharXAt(0, 1, '\x17', 32);
 
 	Print_DrawTextAt(1, 4, "Crop R/L");
@@ -629,7 +629,7 @@ void Init8()
 	VDP_FillVRAM_16K(COLOR_MERGE(COLOR_LIGHT_BLUE, COLOR_DARK_BLUE), g_ScreenColorLow + (32*4*8) + (1*256*8), 32*4*8);
 	VDP_FillVRAM_16K(COLOR_MERGE(COLOR_LIGHT_BLUE, COLOR_DARK_BLUE), g_ScreenColorLow + (32*4*8) + (2*256*8), 32*4*8);
 
-	Print_DrawTextAt(0, 0, "\x2\x3\x4\x5 Sprite FX sample (8x8)");
+	Print_DrawTextAt(0, 0, "\x2\x3\x4\x5 SPRITE FX SAMPLE (8x8)");
 	Print_DrawCharXAt(0, 1, '\x17', 32);
 
 	Print_DrawTextAt(31-7, 20, "\x8D:FX");

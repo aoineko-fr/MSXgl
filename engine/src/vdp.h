@@ -333,6 +333,8 @@ enum VRAM_SIZE
 // Get VRAM size macro
 #define GET_VRAM_SIZE()		((g_MODE >> 1) & 0x3)
 
+// Enum: VDP_BLINK_TIME
+// Blink time enumaration
 enum VDP_BLINK_TIME
 {
 	VDP_BLINK_TIME_0 = 0,

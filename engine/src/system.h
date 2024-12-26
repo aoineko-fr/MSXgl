@@ -12,7 +12,6 @@
 //=============================================================================
 
 #include "core.h"
-// #include "bios.h"
 #include "system_port.h"
 #include "asm.h"
 #include "bios_var.h"
@@ -53,6 +52,7 @@
 #define SLOT_3_2		(SLOT_3 | (SLOT_2 << 2) | SLOT_EXP)
 #define SLOT_3_3		(SLOT_3 | (SLOT_3 << 2) | SLOT_EXP)
 
+// Slot macros
 #define SLOT(p)			(0x03 & (p))
 #define SLOTEX(p, s)	((0x03 & (p)) | ((0x03 & (s)) << 2) | SLOT_EXP)
 
@@ -60,114 +60,72 @@
 #define SLOT_PRIM(s)	((s) & 0x03)
 #define SLOT_SEC(s)		(((s) >> 2 ) & 0x03)
 
+// Special slot ID values
 #define SLOT_NOTFOUND 	0xFF
 #define SLOT_INVALID 	0xFF
 
+// Function callback to make iterations on slots
 typedef bool (*CheckSlotCallback)(u8);
-
-//-----------------------------------------------------------------------------
-extern u16 g_FirstAddr;
-extern u16 g_HeaderAddr;
-extern u16 g_LastAddr;
 
 //-----------------------------------------------------------------------------
 // CRT0 defines
 
+extern u16 g_FirstAddr; // First address of the program
+extern u16 g_HeaderAddr; // Address of the header
+extern u16 g_LastAddr; // Last address of the program
+
 #if ((TARGET_TYPE == TYPE_ROM) && GET_TARGET_ISR(TARGET))
-	extern u8 g_VersionROM;
-	extern u8 g_VersionMSX;
+	extern u8 g_VersionROM; // ROM version
+	extern u8 g_VersionMSX; // MSX version
 #endif
-
-//-----------------------------------------------------------------------------
-// Macro to change a given bank's segment
-#if ((ROM_MAPPER == ROM_NEO8) || (ROM_MAPPER == ROM_NEO16))
-
-	// Segment value backup
-	extern u16 g_Bank0Segment;
-	extern u16 g_Bank1Segment;
-	extern u16 g_Bank2Segment;
-	#if (ROM_MAPPER == ROM_NEO8)
-	extern u16 g_Bank3Segment;
-	extern u16 g_Bank4Segment;
-	extern u16 g_Bank5Segment;
-	#endif
-
-	// Macro: SET_BANK_SEGMENT
-	// Set the current segment of the given bank
-	//
-	// Parameters:
-	//   b - Bank number to set (0-5, depending of the mapper). Must be an inline number (not a variable)
-	//   s - Segment to select in this bank
-	#define SET_BANK_SEGMENT(b, s)		do { (g_Bank##b##Segment = (s)); (*(u16*)(ADDR_BANK_##b) = (s)); } while (0)
-	#define SET_BANK_SEGMENT_LOW(b, s)	do { (*(u8*)(&g_Bank##b##Segment + 0) = (s)); (*(u8*)(ADDR_BANK_##b + 0) = (s)); } while (0)
-	#define SET_BANK_SEGMENT_HIGH(b, s)	do { (*(u8*)(&g_Bank##b##Segment + 1) = (s)); (*(u8*)(ADDR_BANK_##b + 1) = (s)); } while (0)
-
-	// Macro: GET_BANK_SEGMENT
-	// Get the current segment of the given bank
-	//
-	// Parameters:
-	//   b - Bank number to get (0-5, depending of the mapper). Must be an inline number (not a variable)
-	//
-	// Return:
-	//   Segment selected in this bank
-	#define GET_BANK_SEGMENT(b)			(g_Bank##b##Segment)
-	#define GET_BANK_SEGMENT_LOW(b)		(u8)(g_Bank##b##Segment)
-	#define GET_BANK_SEGMENT_HIGH(b)	(u8)(g_Bank##b##Segment >> 8)
-
-#elif (ROM_MAPPER > ROM_PLAIN)
-
-	// Segment value backup
-	extern u8 g_Bank0Segment;
-	extern u8 g_Bank1Segment;
-	#if (ROM_MAPPER < ROM_MAPPER_16K)
-	extern u8 g_Bank2Segment;
-	extern u8 g_Bank3Segment;
-	#endif
-
-	// Set the current segment of the given bank
-	#define SET_BANK_SEGMENT(b, s)		do { (g_Bank##b##Segment = (s)); (*(u8*)(ADDR_BANK_##b) = (s)); } while (0)
-	#define SET_BANK_SEGMENT_LOW(b, s)	SET_BANK_SEGMENT(b, s)
-	#define SET_BANK_SEGMENT_HIGH(b, s)
-
-	// Get the current segment of the given bank
-	#define GET_BANK_SEGMENT(b)			(g_Bank##b##Segment)
-	#define GET_BANK_SEGMENT_LOW(b)		GET_BANK_SEGMENT(b)
-	#define GET_BANK_SEGMENT_HIGH(b)	(0)
-
-#elif (TARGET == TARGET_DOS2_MAPPER)
-
-	// Set the current segment of the given bank
-	#define SET_BANK_SEGMENT(b, s)		DOSMapper_SetPage(b + 1, s)
-	#define SET_BANK_SEGMENT_LOW(b, s)	SET_BANK_SEGMENT(b, s)
-	#define SET_BANK_SEGMENT_HIGH(b, s)
-
-	// Get the current segment of the given bank
-	#define GET_BANK_SEGMENT(b)			DOSMapper_GetPage(b + 1)
-	#define GET_BANK_SEGMENT_LOW(b)		GET_BANK_SEGMENT(b)
-	#define GET_BANK_SEGMENT_HIGH(b)	(0)
-
-#else
-
-	// Set the current segment of the given bank
-	#define SET_BANK_SEGMENT(b, s)
-	#define SET_BANK_SEGMENT_LOW(b, s)
-	#define SET_BANK_SEGMENT_HIGH(b, s)
-
-	// Get the current segment of the given bank
-	#define GET_BANK_SEGMENT(b)
-	#define GET_BANK_SEGMENT_LOW(b)
-	#define GET_BANK_SEGMENT_HIGH(b)
-
-#endif
-
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// Group: Helper
-// Helper inline functions
+// Group: Peek & poke
+// Functions to read and write memory
+
+// Function: Poke
+// Set a 8-bit value at the given address
+//
+// Parameters:
+//   addr - Address to set
+//   val  - 8-bit value to set
+inline void Poke(u16 addr, u8 val) { *(u8*)addr = val; }
+
+// Function: Poke16
+// Set a 16-bit value at the given address
+//
+// Parameters:
+//   addr - Address to set
+//   val  - 16-bit value to set
+inline void Poke16(u16 addr, u16 val) { *(u16*)addr = val; }
+
+// Function: Peek
+// Get the 8-bit value at the given address
+//
+// Parameters:
+//   addr - Address to get
+//
+// Return:
+//   8-bit value stored at the given address
+inline u8 Peek(u16 addr) { return *(u8*)addr; }
+
+// Function: Peek16
+// Get the 16-bit value at the given address
+//
+// Parameters:
+//   addr - Address to get
+//
+// Return:
+//   16-bit value stored at the given address
+inline u16 Peek16(u16 addr) { return *(u16*)addr; }
+
+//-----------------------------------------------------------------------------
+// Group: Low level
+// Functions to access low level functions
 
 // Function: EnableInterrupt
 // Enable interruption
@@ -180,6 +138,10 @@ inline void DisableInterrupt() { __asm__("di"); }
 // Function: Halt
 // Pause the CPU until a new interruption occured
 inline void Halt() { __asm__("halt"); }
+
+//-----------------------------------------------------------------------------
+// Group: Call
+// Functions to call routines
 
 // Function: Call
 // Direct call a routine at a given address (generate ASM code: "call XXXX")
@@ -202,6 +164,7 @@ inline void Call(u16 addr) { ((void(*)(void))addr)(); }
 inline void CallA(u16 addr, u8 a) { ((void(*)(u8))addr)(a); }
 
 typedef void (*calll_t)(u8) __FASTCALL;
+
 // Function: CallL
 // Direct call a routine at a given address with a 8-bits parameter in register L (generate ASM code: "call XXXX")
 // No extra cost due to calling a C function.
@@ -226,8 +189,11 @@ inline void CallHL(u16 addr, u16 hl) { ((void(*)(u16))addr)(hl); }
 //
 // Parameters:
 //   addr - Address of the driver
-//   a    - Value to transfer to driver's main function
-inline u8 CallDriver(u16 addr, u8 a) { return ((u8(*)(u8))addr)(a); }
+//   val  - 8-bit value to transfer to driver's main function
+//
+// Return:
+//   Value returned by the driver
+inline u8 CallDriver(u16 addr, u8 val) { return ((u8(*)(u8))addr)(val); }
 
 //-----------------------------------------------------------------------------
 // Group: Slot
@@ -238,6 +204,9 @@ inline u8 CallDriver(u16 addr, u8 a) { return ((u8(*)(u8))addr)(a); }
 //
 // Parameters:
 //   page - The page to ckeck
+//
+// Return:
+//   The slot ID
 u8 Sys_GetPageSlot(u8 page);
 
 // Function: Sys_SetPageSlot
@@ -253,6 +222,9 @@ void Sys_SetPageSlot(u8 page, u8 slotId);
 //
 // Parameters:
 //   slot - The slot to check
+//
+// Return:
+//   FALSE if the slot is not expanded
 inline bool Sys_IsSlotExpanded(u8 slot) { return g_EXPTBL[slot] & SLOT_EXP; }
 
 // Function: Sys_SetPage0Slot
@@ -267,6 +239,9 @@ void Sys_SetPage0Slot(u8 slotId);
 //
 // Parameters:
 //   slotId - The slot ID
+//
+// Return:
+//   FALSE if the slot is not expended
 inline bool Sys_SlotIsExpended(u8 slotId) { return IS_SLOT_EXP(slotId); }
 
 // Function: Sys_SlotGetPrimary
@@ -274,6 +249,9 @@ inline bool Sys_SlotIsExpended(u8 slotId) { return IS_SLOT_EXP(slotId); }
 //
 // Parameters:
 //   slotId - The slot ID
+//
+// Return:
+//   The primary slot of the slot ID
 inline u8 Sys_SlotGetPrimary(u8 slotId) { return SLOT_PRIM(slotId); }
 
 // Function: Sys_SlotGetSecondary
@@ -281,10 +259,19 @@ inline u8 Sys_SlotGetPrimary(u8 slotId) { return SLOT_PRIM(slotId); }
 //
 // Parameters:
 //   slotId - The slot ID
+//
+// Return:
+//   The secondary slot of the slot ID
 inline u8 Sys_SlotGetSecondary(u8 slotId) { return SLOT_SEC(slotId); }
 
 // Function: Sys_CheckSlot
 // Check all slots with a given callback function
+//
+// Parameters:
+//   cb - Callback function to call for each slot
+//
+// Return:
+//   The slot ID that match the callback function
 u8 Sys_CheckSlot(CheckSlotCallback cb);
 
 //-----------------------------------------------------------------------------
@@ -293,14 +280,23 @@ u8 Sys_CheckSlot(CheckSlotCallback cb);
 
 // Function: Sys_GetFirstAddr
 // Get first address of program binary
+//
+// Return:
+//   The first address of the program binary
 inline u16 Sys_GetFirstAddr() { return (u16)&g_FirstAddr; }
 
 // Function: Sys_GetHeaderAddr
 // Get address of program header (if any)
+//
+// Return:
+//   The address of the program header
 inline u16 Sys_GetHeaderAddr() { return (u16)&g_HeaderAddr; }
 
 // Function: Sys_GetLastAddr
 // Get last address of program binary
+//
+// Return:
+//   The last address of the program binary
 inline u16 Sys_GetLastAddr()  { return (u16)&g_LastAddr; }
 
 //-----------------------------------------------------------------------------
@@ -314,3 +310,9 @@ inline void Sys_PlayClickSound() { g_PortAccessKeyboard |= 0x80; }
 // Function: Sys_StopClickSound
 // Stop the click sound
 inline void Sys_StopClickSound() { g_PortAccessKeyboard &= 0x7F; }
+
+//=============================================================================
+// INCLUDES
+//=============================================================================
+
+#include "rom_mapper.h"

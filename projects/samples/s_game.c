@@ -162,7 +162,7 @@ bool PhysicsCollision(u8 tile)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Draw the current level
 void DrawLevel()
 {
 	Print_SetPosition(25, 0);
@@ -193,7 +193,7 @@ void DrawLevel()
 
 
 //-----------------------------------------------------------------------------
-//
+// Initialize the game
 bool State_Initialize()
 {
 	// Initialize display
@@ -240,7 +240,7 @@ bool State_Initialize()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update the gameplay
 bool State_Game()
 {
 	// Update player animation & physics
@@ -325,7 +325,7 @@ bool State_Game()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Pause the game
 bool State_Pause()
 {
 	return TRUE; // Frame finished

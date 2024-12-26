@@ -19,7 +19,7 @@ const i8 g_Jump[] = { -4, -3, -2, -1, 0, 1, 2, 3, 4 };
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-//
+// Print a text at the current position
 void Bios_PrintText(const c8* str)
 {
 	while(*str)
@@ -27,7 +27,7 @@ void Bios_PrintText(const c8* str)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Print a text at the specified position
 void Bios_PrintTextAt(u8 x, u8 y, const c8* str)
 {
 	Bios_SetCursorPosition(x + 1, y + 1);
@@ -36,7 +36,7 @@ void Bios_PrintTextAt(u8 x, u8 y, const c8* str)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Change the screen width
 void Bios_ChangeWidth(u8 width)
 {
 	switch(g_SCRMOD)
@@ -47,7 +47,7 @@ void Bios_ChangeWidth(u8 width)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Clamp a value between a min and a max
 i8 Clamp(i8 val, i8 min, i8 max)
 {
 	if(val < min)
@@ -57,6 +57,8 @@ i8 Clamp(i8 val, i8 min, i8 max)
 	return val;
 }
 
+//-----------------------------------------------------------------------------
+// Change the text and background color
 void Bios_ChangeColor2(u8 text, u8 back, u8 border, u8 mode)
 {
 	text;   // A
@@ -85,11 +87,13 @@ void Bios_ChangeColor2(u8 text, u8 back, u8 border, u8 mode)
 // Program entry point
 void main()
 {
+	// Initialize screen mode 1 (text)
 	Bios_ChangeMode(1);
 	Bios_ChangeWidth(32);
 	Bios_ChangeColor2(COLOR_LIGHT_GREEN, COLOR_BLACK, COLOR_GRAY, 0);
 	Bios_SetKeyClick(FALSE);
 	
+	// Display static information on screen
 	Bios_PrintTextAt(0, 0,  "MSXgl - BIOS SAMPLE");
 	Bios_PrintTextAt(0, 1,  "--------------------------------");
 	Bios_PrintTextAt(0, 21, "--------------------------------");
@@ -105,6 +109,7 @@ void main()
 		prevX = x;
 		prevY = y;
 
+		// Read keyboard
 		if(Bios_IsKeyPressed(KEY_DEL))
 			bContinue = FALSE;
 		if(Bios_IsKeyPressed(KEY_RIGHT))

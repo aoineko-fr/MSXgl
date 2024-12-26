@@ -11,83 +11,19 @@
 
 //-----------------------------------------------------------------------------
 // Get current targer parameters
-#define GET_TARGET_TYPE(t)		(((t) >> 14) & 0x3)
-#define GET_TARGET_ISR(t)		(((t) >> 12) & 0x1)
-#define GET_TARGET_MAPPER(t)	(((t) >> 8)  & 0xF)
-#define GET_TARGET_SIZE(t)		(((t) >> 4)  & 0xF)
-#define GET_TARGET_START(t)		(((t) >> 2)  & 0x3)
-#define GET_TARGET_BOOT(t)		( (t)        & 0x3)
+#define GET_TARGET_TYPE(t)			(((t) >> 14) & 0x3)
+#define GET_TARGET_ISR(t)			(((t) >> 12) & 0x1)
+#define GET_TARGET_MAPPER(t)		(((t) >> 8)  & 0xF)
+#define GET_TARGET_SIZE(t)			(((t) >> 4)  & 0xF)
+#define GET_TARGET_START(t)			(((t) >> 2)  & 0x3)
+#define GET_TARGET_BOOT(t)			( (t)        & 0x3)
 
-#define TARGET_TYPE				GET_TARGET_TYPE(TARGET)
-#define ROM_MAPPER				GET_TARGET_MAPPER(TARGET)
-#define ROM_SIZE				GET_TARGET_SIZE(TARGET)
-
-//-----------------------------------------------------------------------------
-// ROM mapper segment switch addresses
-#if (ROM_MAPPER == ROM_ASCII8)
-	#define ADDR_BANK_0			0x6000 // 4000h - 5FFFh
-	#define ADDR_BANK_1			0x6800 // 6000h - 7FFFh
-	#define ADDR_BANK_2			0x7000 // 8000h - 9FFFh
-	#define ADDR_BANK_3			0x7800 // A000h - BFFFh
-#elif (ROM_MAPPER == ROM_ASCII16)
-	#define ADDR_BANK_0			0x6000 // 4000h - 7FFFh
-	#define ADDR_BANK_1			0x77FF // 8000h - BFFFh (or 0x7000 ?)
-#elif (ROM_MAPPER == ROM_KONAMI)
-	//#define ADDR_BANK_0		        / 4000h - 5FFFh
-	#define ADDR_BANK_1			0x6000 // 6000h - 7FFFh
-	#define ADDR_BANK_2			0x8000 // 8000h - 9FFFh
-	#define ADDR_BANK_3			0xA000 // A000h - BFFFh
-#elif (ROM_MAPPER == ROM_KONAMI_SCC)
-	#define ADDR_BANK_0			0x5000 // 4000h - 5FFFh
-	#define ADDR_BANK_1			0x7000 // 6000h - 7FFFh
-	#define ADDR_BANK_2			0x9000 // 8000h - 9FFFh
-	#define ADDR_BANK_3			0xB000 // A000h - BFFFh
-#elif (ROM_MAPPER == ROM_NEO8)
-	#define ADDR_BANK_0			0x5000 // 0000h - 1FFFh
-	#define ADDR_BANK_1			0x5800 // 2000h - 3FFFh
-	#define ADDR_BANK_2			0x6000 // 4000h - 5FFFh
-	#define ADDR_BANK_3			0x6800 // 6000h - 7FFFh
-	#define ADDR_BANK_4			0x7000 // 8000h - 9FFFh
-	#define ADDR_BANK_5			0x7800 // A000h - BFFFh
-#elif (ROM_MAPPER == ROM_NEO16)
-	#define ADDR_BANK_0			0x5000 // 0000h - 3FFFh
-	#define ADDR_BANK_1			0x6000 // 4000h - 7FFFh
-	#define ADDR_BANK_2			0x7000 // 8000h - BFFFh
-#endif
-
-//-----------------------------------------------------------------------------
-// ROM mapper segment size
-#if (ROM_MAPPER >= ROM_MAPPER_16K)
-	#define ROM_SEGMENT_SIZE	16
-#else 
-	#define ROM_SEGMENT_SIZE	8
-#endif
-
-//-----------------------------------------------------------------------------
-// ROM mapper segments count
-#if (ROM_SIZE == ROM_64K)
-	#define ROM_SEGMENTS	(64/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_128K)
-	#define ROM_SEGMENTS	(128/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_256K)
-	#define ROM_SEGMENTS	(256/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_512K)
-	#define ROM_SEGMENTS	(512/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_1M)
-	#define ROM_SEGMENTS	(1*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_2M)
-	#define ROM_SEGMENTS	(2*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_4M)
-	#define ROM_SEGMENTS	(4*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_8M)
-	#define ROM_SEGMENTS	(8*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_16M)
-	#define ROM_SEGMENTS	(16*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_32M)
-	#define ROM_SEGMENTS	(32*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_64M)
-	#define ROM_SEGMENTS	(64*1024/ROM_SEGMENT_SIZE)
-#endif
+#define TARGET_TYPE					GET_TARGET_TYPE(TARGET)
+#define TARGET_ISR					GET_TARGET_ISR(TARGET)
+#define ROM_MAPPER					GET_TARGET_MAPPER(TARGET)
+#define ROM_SIZE					GET_TARGET_SIZE(TARGET)
+#define ROM_START					GET_TARGET_START(TARGET)
+#define ROM_BOOT					GET_TARGET_BOOT(TARGET)
 
 //-----------------------------------------------------------------------------
 // Target names
@@ -294,5 +230,20 @@
 
 #elif (TARGET == TARGET_ROM_NEO16_64M)
 	#define TARGET_NAME "64M NEO-16 ROM"
+
+#elif (TARGET == TARGET_ROM_YAMANOOTO_2M)
+	#define TARGET_NAME "2M YAMANOOTO ROM"
+
+#elif (TARGET == TARGET_ROM_YAMANOOTO_4M)
+	#define TARGET_NAME "4M YAMANOOTO ROM"
+
+#elif (TARGET == TARGET_ROM_YAMANOOTO_8M)
+	#define TARGET_NAME "8M YAMANOOTO ROM"
+
+#elif (TARGET == TARGET_ROM_YAMANOOTO_16M)
+	#define TARGET_NAME "16M YAMANOOTO ROM"
+
+#elif (TARGET == TARGET_ROM_YAMANOOTO_32M)
+	#define TARGET_NAME "32M YAMANOOTO ROM"
 
 #endif

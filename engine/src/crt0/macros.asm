@@ -5,7 +5,6 @@
 ; ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
 ;  by Guillaume 'Aoineko' Blanchard under CC-BY-AS license
 ;──────────────────────────────────────────────────────────────────────────────
-.z80
 .module	crt0
 
 ;==============================================================================
@@ -613,6 +612,14 @@
 				ld		a, #3
 				ld		(BANK2_ADDR), a ; Segment 3 in Bank 2
 			.endif
+			.ifeq ROM_MAPPER-ROM_YAMANOOTO
+				BANK2_ADDR = #0x9000
+				BANK3_ADDR = #0xB000
+				ld		a, #4
+				ld		(BANK2_ADDR), a ; Segment 4 in Bank 2
+				inc		a
+				ld		(BANK3_ADDR), a ; Segment 5 in Bank 3
+			.endif
 
 		; Copy Segment content to RAM
 			ld		hl, #0x8100 ; Page 2
@@ -817,24 +824,24 @@
 	BANK5_ADDR = #0x7800
 
 	.macro INIT_MAPPER
-		xor		a
-		ld		(BANK2_ADDR), a ; Segment 0 in Bank 2
-		ld		(_g_Bank2Segment), a
-		inc		a
-		ld		(BANK3_ADDR), a ; Segment 1 in Bank 3
-		ld		(_g_Bank3Segment), a
-		inc		a
-		ld		(BANK4_ADDR), a ; Segment 2 in Bank 4
-		ld		(_g_Bank4Segment), a
-		inc		a
-		ld		(BANK5_ADDR), a ; Segment 3 in Bank 5
-		ld		(_g_Bank5Segment), a
-		inc		a
-		ld		(BANK0_ADDR), a ; Segment 4 in Bank 0
-		ld		(_g_Bank0Segment), a
-		inc		a
-		ld		(BANK1_ADDR), a ; Segment 5 in Bank 1
-		ld		(_g_Bank1Segment), a
+		ld		hl, #0x0000
+		ld		(BANK2_ADDR), hl ; Segment 0 in Bank 2
+		ld		(_g_Bank2Segment), hl
+		inc		hl
+		ld		(BANK3_ADDR), hl ; Segment 1 in Bank 3
+		ld		(_g_Bank3Segment), hl
+		inc		hl
+		ld		(BANK4_ADDR), hl ; Segment 2 in Bank 4
+		ld		(_g_Bank4Segment), hl
+		inc		hl
+		ld		(BANK5_ADDR), hl ; Segment 3 in Bank 5
+		ld		(_g_Bank5Segment), hl
+		inc		hl
+		ld		(BANK0_ADDR), hl ; Segment 4 in Bank 0
+		ld		(_g_Bank0Segment), hl
+		inc		hl
+		ld		(BANK1_ADDR), hl ; Segment 5 in Bank 1
+		ld		(_g_Bank1Segment), hl
 
 	.endm
 
@@ -866,15 +873,15 @@
 	BANK2_ADDR = #0x7000
 
 	.macro INIT_MAPPER
-		xor		a
-		ld		(BANK1_ADDR), a ; Segment 0 in Bank 1
-		ld		(_g_Bank1Segment), a
-		inc		a
-		ld		(BANK2_ADDR), a ; Segment 1 in Bank 2
-		ld		(_g_Bank2Segment), a
-		inc		a
-		ld		(BANK0_ADDR), a ; Segment 2 in Bank 0
-		ld		(_g_Bank0Segment), a
+		ld		hl, #0x0000
+		ld		(BANK1_ADDR), hl ; Segment 0 in Bank 1
+		ld		(_g_Bank1Segment), hl
+		inc		hl
+		ld		(BANK2_ADDR), hl ; Segment 1 in Bank 2
+		ld		(_g_Bank2Segment), hl
+		inc		hl
+		ld		(BANK0_ADDR), hl ; Segment 2 in Bank 0
+		ld		(_g_Bank0Segment), hl
 	.endm
 
 	.macro ALLOC_MAPPER
@@ -884,6 +891,55 @@
 			.ds 2
 		_g_CurrentSegment::
 		_g_Bank2Segment::
+			.ds 2
+	.endm
+
+.endif
+
+;------------------------------------------------------------------------------
+; ROM_YAMANOOTO
+;------------------------------------------------------------------------------
+.ifeq ROM_MAPPER-ROM_YAMANOOTO
+
+	BANK0_ADDR = #0x5000
+	BANK1_ADDR = #0x7000
+	BANK2_ADDR = #0x9000
+	BANK3_ADDR = #0xB000
+
+	.macro INIT_MAPPER
+		ld		a, #YAMA_ENAR_REGEN
+		ld		(YAMA_ENAR), a ; Enable mapper
+
+		xor		a
+		ld		(YAMA_OFFR), a ; Set mapper offset to 0
+		ld		(YAMA_CFGR), a ; Clear configuration
+		ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
+		inc		a
+		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
+		inc		a
+		ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
+		inc		a
+		ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
+
+		ld		hl, #0x0000
+		ld		(_g_Bank0Segment), hl
+		inc		hl
+		ld		(_g_Bank1Segment), hl
+		inc		hl
+		ld		(_g_Bank2Segment), hl
+		inc		hl
+		ld		(_g_Bank3Segment), hl
+	.endm
+
+	.macro ALLOC_MAPPER
+		_g_Bank0Segment::
+			.ds 2
+		_g_Bank1Segment::
+			.ds 2
+		_g_CurrentSegment::
+		_g_Bank2Segment::
+			.ds 2
+		_g_Bank3Segment::
 			.ds 2
 	.endm
 

@@ -172,7 +172,7 @@ StartProgram:
 	// Program header
 	DOS_ClearScreen();
 	DOS_StringOutput("+--------------------+\n\r$");
-	DOS_StringOutput("| MSXgl - DOS Sample |\n\r$");
+	DOS_StringOutput("| MSXgl - DOS SAMPLE |\n\r$");
 	DOS_StringOutput("+--------------------+\n\r$");
 
 	// Check argument

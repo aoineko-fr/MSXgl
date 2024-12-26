@@ -118,6 +118,11 @@ for (let i = 0; i < CommandArgs.length; i++)
 		InstallRAMISR = "RAM0_ISR";
 		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
 	}
+	else if (arg === "ramseg")
+	{
+		InstallRAMISR = "RAM0_SEGMENT";
+		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
+	}
 	else
 	{
 		util.print(`Unknown command line overwrite '${arg}'`, PrintWarning);
@@ -505,6 +510,7 @@ if (DoCompile)
 			case "ROM_KONAMI_SCC":	pageStartAddr = "0x40100"; break;
 			case "ROM_NEO8":		pageStartAddr = "0x60100"; break;
 			case "ROM_NEO16":		pageStartAddr = "0x30100"; break;
+			case "ROM_YAMANOOTO":	pageStartAddr = "0x40100"; break;
 			default: util.print(`Unknow mapper: ${Mapper}`, PrintError);
 			}
 

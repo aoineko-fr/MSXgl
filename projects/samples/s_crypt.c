@@ -71,7 +71,7 @@ void main()
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample6, 1);
-	Print_DrawText(MSX_GL " Encrypt/decrypt sample");
+	Print_DrawText(MSX_GL " ENCRYPTION SAMPLE");
 	Print_DrawLineH(0, 1, 40);
 
 	// Source

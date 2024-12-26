@@ -98,6 +98,10 @@
 
 // System module
 #define Sys_GetHeardAddr            Sys_GetHeaderAddr
+#define POKE						Poke
+#define POKEW						Poke16
+#define PEEK						Peek
+#define PEEKW						Poke16
 
 // V9990 module
 #define V9_SetLayerPalette          V9_SelectPaletteP1

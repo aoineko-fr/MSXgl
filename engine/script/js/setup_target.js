@@ -316,7 +316,7 @@ else if (Target === "ROM_NEO8")
 	Bank0Addr = 0x0000;
 	Bank1Addr = 0x2000;
 	Bank2Addr = 0x4000;
-	Bank3Addr = 0x6800;
+	Bank3Addr = 0x6000;
 	Bank4Addr = 0x8000;
 	Bank5Addr = 0xA000;
 	ROMSignature = "ROM_NEO8";
@@ -346,6 +346,29 @@ else if (Target === "ROM_NEO16")
 	AddROMSignature = true; // Force adding signature
 
 	TargetDesc = `${ROMSize/1024}MB ROM using NEO-16 mapper (starting at 4000h)`;
+}
+//-----------------------------------------------------------------------------
+else if (Target === "ROM_YAMANOOTO")
+{
+	if(!ROMMainSegments)
+		ROMMainSegments = 4;
+	Mapper = "ROM_YAMANOOTO";
+	Target = `ROM_YAMANOOTO_${ROMSize/1024}M`;
+	Ext = "rom";
+	Crt0 = "crt0_rom_mapper";
+	StartAddr = 0x4000;
+	CodeAddr = 0x4000;
+	RamAddr = 0xC000;
+	MapperSize = ROMSize*1024;
+	SegSize = 8*1024;
+	FillSize = ROMMainSegments * SegSize;
+	Bank0Addr = 0x4000;
+	Bank1Addr = 0x6000;
+	Bank2Addr = 0x8000;
+	Bank3Addr = 0xA000;
+	ROMSignature = "ROM_YAM8";
+
+	TargetDesc = `${ROMSize/1024}MB ROM using Yamanooto-8 mapper (starting at 4000h)`;
 }
 
 //*****************************************************************************

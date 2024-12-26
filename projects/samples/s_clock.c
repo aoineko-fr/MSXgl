@@ -203,7 +203,7 @@ void UpdateSecond()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Display the clock
 void DisplayClock()
 {
 	// Initialize print system
@@ -211,7 +211,7 @@ void DisplayClock()
 	Print_SetColor(0xFF, 0x11);
 	Print_Clear();
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL " RTC Sample - Clock");
+	Print_DrawText(MSX_GL " RTC SAMPLE - Clock");
 	Draw_LineH(0, 255, 12, 0xF, 0);
 
 	Print_SetPosition(0, 204);
@@ -275,7 +275,7 @@ void DisplayClock()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Update the clock
 void UpdateClock()
 {
 	// Update time variables
@@ -301,7 +301,7 @@ void UpdateClock()
 extern const u32 g_AppSignature;
 
 //-----------------------------------------------------------------------------
-// 
+// Draw an ID
 void DrawID(const u8* data)
 {
 	for(u8 i = 0; i < 4; ++i)
@@ -314,7 +314,7 @@ void DrawID(const u8* data)
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Display the save data
 void DisplaySaveData()
 {
 	// Initialize print system
@@ -322,7 +322,7 @@ void DisplaySaveData()
 	Print_SetColor(0xFF, 0x11);
 	Print_Clear();
 	Print_SetPosition(0, 0);
-	Print_DrawText(MSX_GL " RTC Sample - Save");
+	Print_DrawText(MSX_GL " RTC SAMPLE - Save");
 	Draw_LineH(0, 255, 12, 0xF, 0);
 
 	RTC_SetMode(RTC_MODE_BLOCK_3);
@@ -441,7 +441,7 @@ void DisplaySaveData()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Update the save data
 void UpdateSaveData()
 {
 	// Wait for (linkly) the screen synchronization interruption

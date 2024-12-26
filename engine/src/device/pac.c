@@ -24,8 +24,8 @@ extern const u32 g_AppSignature;
 
 #if(PAC_ACCESS == PAC_ACCESS_DIRECT)
 
-	#define PAC_INTERSLOTREAD(slot, addr) PEEK(addr)
-	#define PAC_INTERSLOTWRITE(slot, addr, value) POKE(addr, value)
+	#define PAC_INTERSLOTREAD(slot, addr) Peek(addr)
+	#define PAC_INTERSLOTWRITE(slot, addr, value) Poke(addr, value)
 
 #elif(PAC_ACCESS == PAC_ACCESS_BIOS)
 

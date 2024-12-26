@@ -47,10 +47,20 @@ u8 MSXMusic_Detect();
 
 // Function: MSXMusic_SetRegister
 // Set MSX-Music register value
+//
+// Parameters:
+//   reg   - Register to set
+//   value - Value to set
 void MSXMusic_SetRegister(u8 reg, u8 value);
 
 // Function: MSXMusic_GetRegister
 // Get MSX-Music register value
+//
+// Parameters:
+//   reg - Register to get
+//
+// Return:
+//   Value of the register
 u8 MSXMusic_GetRegister(u8 reg);
 
 // Function: MSXMusic_Mute

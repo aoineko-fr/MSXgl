@@ -48,4 +48,7 @@ inline void Loc_SetLanguage(u8 lang) { g_Loc_CurLang = (const c8**)(g_Loc_DataRo
 //
 // Parameters:
 //   text - Index of the text to retreive in the current language (must be between 0 and TEXT_MAX-1).
-inline const c8* Loc_GetText(u8 text) { return g_Loc_CurLang[text]; }
+//
+// Return:
+//   Pointer to the zero terminated string.
+inline const c8* Loc_GetText(u16 text) { return g_Loc_CurLang[text]; }

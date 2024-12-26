@@ -10,7 +10,7 @@
 // Library version
 #define VERSION_MAJOR				(u16)1		// 4-bits (0-15)
 #define VERSION_MINOR				(u16)2		// 6-bits (0-63)
-#define VERSION_PATCH				(u16)10		// 6-bits (0-63)
+#define VERSION_PATCH				(u16)12		// 6-bits (0-63)
 #define VERSION(a, b, c)			((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT				VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 
@@ -85,14 +85,6 @@ typedef void (*callback)(void);				// Callback default signature
 
 #define loop(a, b)					for(u8 a = 0; a < b; ++a)
 #define loopx(a)					for(u8 i##__LINE__ = 0; i##__LINE__ < a; ++i##__LINE__)
-
-//-----------------------------------------------------------------------------
-// PEEK & POKE
-//-----------------------------------------------------------------------------
-#define POKE(addr, val)				(*(u8*)(addr) = (val))
-#define POKEW(addr, val)			(*(u16*)(addr) = (val))
-#define PEEK(addr)					(*(u8*)(addr))
-#define PEEKW(addr)					(*(u16*)(addr))
 
 //-----------------------------------------------------------------------------
 // SDCC calling convention 0
