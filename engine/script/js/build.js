@@ -539,7 +539,7 @@ if (DoCompile)
 		let pageFound = 0;
 
 		util.print(`Search for ROM's pages specific code (from ${ROMFirstPage} to ${ROMLastPage})`, PrintHighlight);
-		for (let p = ROMFirstPage; p < ROMLastPage; p++) // Parse all ROM's pages
+		for (let p = ROMFirstPage; p <= ROMLastPage; p++) // Parse all ROM's pages
 		{
 			let pageName = `${ProjName}_p${p}`;
 			let pageStartAddr;
