@@ -478,19 +478,19 @@ int main(int argc, const c8* argv[])
 		{
 			// Add table
 			Exporter->AddReturn();
-			Exporter->AddComment("3D projection table.");
-			Exporter->StartSection(MSX::Format("%s%s%d", Prefix, "Proj", Number), DataSize);
+			Exporter->AddComment("Multiplication table.");
+			Exporter->StartSection(MSX::Format("%s%s%d", Prefix, "MulS", Number), DataSize);
 
 			f64 multi = pow(2, Shift);
 			for (int a = 0; a < Number; a++)
 			{
-				Exporter->AddComment(MSX::Format("A=%d", a));
+				Exporter->AddComment(MSX::Format("A=%d", (i8)a));
 				for (int b = 0; b < Number; b++)
 				{
 					if ((b % 8 == 0))
 						Exporter->StartLine();
 
-					f64 x = f64(a - (f64)Number / 2) * f64(b - (f64)Number / 2);
+					f64 x = f64((i8)a) * f64((i8)b);
 					x *= multi;
 					x = round(x);
 
