@@ -60,6 +60,10 @@
 	#define ADDR_BANK_1				0x7000 // 7000h - 77FFh
 	#define ADDR_BANK_2				0x9000 // 9000h - 97FFh
 	#define ADDR_BANK_3				0xB000 // B000h - B7FFh
+#elif (ROM_MAPPER == ROM_ASCII16X)
+	#define MAPPER_BANKS			2
+	#define ADDR_BANK_0				0x6000 // 4000h - 7FFFh
+	#define ADDR_BANK_1				0x7000 // 8000h - BFFFh (or 0x77FF ?)
 #endif
 
 //-----------------------------------------------------------------------------
@@ -93,7 +97,7 @@
 #elif (ROM_SIZE == ROM_32M)
 	#define ROM_SEGMENTS	(32*1024/ROM_SEGMENT_SIZE)
 #elif (ROM_SIZE == ROM_64M)
-	#define ROM_SEGMENTS	(64*1024/ROM_SEGMENT_SIZE)
+	#define ROM_SEGMENTS	(1024/ROM_SEGMENT_SIZE*64)
 #endif
 
 //-----------------------------------------------------------------------------
@@ -211,6 +215,30 @@
 	// Get the current segment of the given bank
 	inline u8 GET_BANK_SEGMENT_HIGH(u8 b) { return (u8)(g_Bank0Segment[b] >> 8); }
 	
+#elif (ROM_MAPPER == ROM_ASCII16X)
+
+	// Segment value backup
+	extern u16 g_Bank0Segment[MAPPER_BANKS];
+
+	// Set the current segment of the given bank
+	inline void SET_BANK_SEGMENT(u8 b, u16 s)
+	{ 
+		g_Bank0Segment[b] = s;
+		if(b == 0)		Poke(ADDR_BANK_0 | (s & 0x0F00), s & 0xFF);
+		else if(b == 1)	Poke(ADDR_BANK_1 | (s & 0x0F00), s & 0xFF);
+	}
+	// Set the current segment of the given bank
+	inline void SET_BANK_SEGMENT_LOW(u8 b, u8 s) { b; s; }
+	// Set the current segment of the given bank
+	inline void SET_BANK_SEGMENT_HIGH(u8 b, u8 s) { b; s; }
+
+	// Get the current segment of the given bank
+	inline u16 GET_BANK_SEGMENT(u8 b) { return g_Bank0Segment[b]; }
+	// Get the current segment of the given bank
+	inline u8 GET_BANK_SEGMENT_LOW(u8 b) { b; return 0; }
+	// Get the current segment of the given bank
+	inline u8 GET_BANK_SEGMENT_HIGH(u8 b) { b; return 0; }
+
 #elif (ROM_MAPPER > ROM_PLAIN) // ROM_ASCII8, ROM_ASCII16, ROM_KONAMI, ROM_KONAMI_SCC
 
 	// Segment value backup

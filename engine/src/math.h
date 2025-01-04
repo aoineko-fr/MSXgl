@@ -67,27 +67,27 @@ typedef struct
 
 // Macro: Merge44
 // Merge two 4 bits value into a 8 bits integer
-#define MERGE44(a, b)		(u8)(((a) & 0x0F) << 4 | ((b) & 0x0F))
+#define MERGE44(a, b)		((u8)(((a) & 0x0F) << 4 | ((b) & 0x0F)))
 // Macro: Merge88
 // Merge two 8 bits value into a 16 bits integer
-#define MERGE88(a, b)		(u16)((u8)(a) << 8 | (u8)(b))
+#define MERGE88(a, b)		((u16)((u8)(a) << 8 | (u8)(b)))
 // Macro: ModuloPow2
 // Get the power-of-2 modulo of a integer (ie. "MOD_POW2(100, 32)")
-#define MOD_POW2(a, b)		((a) & ((b) - 1))
+#define MOD_POW2(a, b)		(((a) & ((b) - 1)))
 
 // Macro: Clamp8
 // Clamp a 8-bits value into a interval 
-#define CLAMP8(a, b, c)		((i8)(a) < (i8)(b)) ? (b) : ((i8)(a) > (i8)(c)) ? (c) : (a)
+#define CLAMP8(a, b, c)		(((i8)(a) < (i8)(b)) ? (b) : ((i8)(a) > (i8)(c)) ? (c) : (a))
 // Macro: Clamp16
 // Clamp a 16-bits value into a interval 
-#define CLAMP16(a, b, c)	((i16)(a) < (i16)(b)) ? (b) : ((i16)(a) > (i16)(c)) ? (c) : (a)
+#define CLAMP16(a, b, c)	(((i16)(a) < (i16)(b)) ? (b) : ((i16)(a) > (i16)(c)) ? (c) : (a))
 
 // Macro: Max
 // Find highest value
-#define MAX(a, b)			((a) > (b)) ? (a) : (b)
+#define MAX(a, b)			(((a) > (b)) ? (a) : (b))
 // Macro: Min
 // Find lowest value
-#define MIN(a, b)			((a) > (b)) ? (b) : (a)
+#define MIN(a, b)			(((a) > (b)) ? (b) : (a))
 
 //-----------------------------------------------------------------------------
 // Group: Quick math

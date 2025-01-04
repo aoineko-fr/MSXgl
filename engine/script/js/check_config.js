@@ -34,12 +34,12 @@ if (!ProjModules.length)
 }
 
 // Project segments base name
-if ((MapperSize !== 0) && (!ProjSegments))
+if (!ProjSegments)
 {
 	util.print(`ProjSegments not defined. Using '${ProjName}'`, PrintDetail);
 	ProjSegments = ProjName;
 }
-
+	
 // Build library
 if (!BuildLibrary && !fs.existsSync(`${OutDir}msxgl.lib`))
 {

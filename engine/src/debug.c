@@ -87,7 +87,7 @@ void DEBUG_ASSERT(bool a)
 void DEBUG_LOG(const c8* msg)
 {
 #if (DEBUG_TOOL == DEBUG_OPENMSX_P)
-	DEBUG_PRINT("%s", msg);
+	DEBUG_PRINT("%s\n", msg);
 #else
 	g_PortDebugMode = DEBUG_MODE_MULTI|DEBUG_MULTI_ASCII; // Multi byte ASCII mode
 	while(*msg)
@@ -100,7 +100,7 @@ void DEBUG_LOG(const c8* msg)
 void DEBUG_LOGNUM(const c8* msg, u8 num)
 {
 #if (DEBUG_TOOL == DEBUG_OPENMSX_P)
-	DEBUG_PRINT("%s:%d", msg, num);
+	DEBUG_PRINT("%s:%d\n", msg, num);
 #else
 	DEBUG_LOG(msg);
 	g_PortDebugData = ':';

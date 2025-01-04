@@ -54,8 +54,8 @@ ROM_NEO8		= 5		;  NEO-8 mapper
 ROM_YAMANOOTO	= 6		;  Yamanooto mapper
 ROM_MAPPER_16K	= 10	; Mapper 16 KB
 ROM_ASCII16		= 10	;  ASCII-16 mmaper
-ROM_ASCII16X	= 11	;  ASCII16-X mmaper
-ROM_NEO16		= 12	;  NEO-16 mapper
+ROM_NEO16		= 11	;  NEO-16 mapper
+ROM_ASCII16X	= 12	;  ASCII16-X mmaper
 
 ;------------------------------------------------------------------------------
 ; Yamanooto registers types

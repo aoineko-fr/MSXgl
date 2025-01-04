@@ -8,7 +8,7 @@
 #include "msxgl.h"
 
 // 16KM ROM mapper sample data
-const c8 g_Segment3Data[] = "Extra Segment #3 data";
+const c8 const g_Segment3Data[] = "Extra Segment #3 data";
 
 // Bnaked test function
 void PrintSegment3Data(u8 x, u8 y) __banked

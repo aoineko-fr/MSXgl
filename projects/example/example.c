@@ -528,6 +528,8 @@ void UpdateBall()
 	u16 sqrtDist = (dx*dx) + (dy*dy);
 	if(sqrtDist < 16*16)
 	{
+		DEBUG_LOGNUM("Velocity", g_Ball.VelocityY);
+
 		g_Ball.VelocityY = FORCE;
 		if(ply->bInAir)
 			g_Ball.VelocityY += ply->VelocityY;
@@ -545,8 +547,7 @@ void UpdateBall()
 		Print_SetPosition(0, 2);
 		Print_DrawFormat("%i..\n%i..", dx, dy);
 
-		DEBUG_LOGNUM("DX", dx);
-		DEBUG_LOGNUM("DY", dy);
+		DEBUG_PRINT("DX/Y: %s%i %s%i\n", (dx > 0) ? "+" : "", dx, (dy > 0) ? "+" : "", dy);
 		DEBUG_BREAK();
 	}
 

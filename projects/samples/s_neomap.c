@@ -145,6 +145,7 @@ const c8* GetROMMapper(u8 mapper)
 	case ROM_NEO8:       return "NEO-8";
 	case ROM_NEO16:      return "NEO-16";
 	case ROM_YAMANOOTO:  return "YAMANOOTO";
+	case ROM_ASCII16X:    return "ASCII16-X";
 	};
 	return "Unknow";
 }

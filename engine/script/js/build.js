@@ -496,10 +496,10 @@ if (DoCompile)
 			}
 		}
 
-		if (InstallRAMISR)
+		if (InstallRAMISR === "RAM0_SEGMENT")
 		{
 			util.print(`Search for page 0 code to be copied to RAM`, PrintHighlight);
-			let pageName = `${ProjName}_p0`;
+			let pageName = `${ProjSegments}_p0`;
 			let pageFound = 0;
 			let pageStartAddr;
 			switch (Mapper)
@@ -511,6 +511,7 @@ if (DoCompile)
 			case "ROM_NEO8":		pageStartAddr = "0x60100"; break;
 			case "ROM_NEO16":		pageStartAddr = "0x30100"; break;
 			case "ROM_YAMANOOTO":	pageStartAddr = "0x40100"; break;
+			case "ROM_ASCII16X":	pageStartAddr = "0x20100"; break;
 			default: util.print(`Unknow mapper: ${Mapper}`, PrintError);
 			}
 
@@ -541,11 +542,12 @@ if (DoCompile)
 		util.print(`Search for ROM's pages specific code (from ${ROMFirstPage} to ${ROMLastPage})`, PrintHighlight);
 		for (let p = ROMFirstPage; p <= ROMLastPage; p++) // Parse all ROM's pages
 		{
-			let pageName = `${ProjName}_p${p}`;
+			let pageName = `${ProjSegments}_p${p}`;
 			let pageStartAddr;
 			switch(p)
 			{
-			case 0: pageStartAddr = (ROMWithISR) ? "0x0100" : "0x0000"; break;
+			// case 0: pageStartAddr = (ROMWithISR) ? "0x0100" : "0x0000"; break;
+			case 0: pageStartAddr = "0x0100"; break; // 0x0000 is not a valid address (it move the segment after the code)
 			case 1: pageStartAddr = "0x4000"; break;
 			case 2: pageStartAddr = "0x8000"; break;
 			case 3: pageStartAddr = "0xC000"; break;

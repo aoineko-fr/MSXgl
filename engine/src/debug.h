@@ -23,14 +23,14 @@
 // Group: Debug
 
 	// Function: DEBUG_INIT
-	// Initialize Debug module
+	// Initialize Debug module.
 	//
 	// Notes:
 	// - [Emulicious] This allow to mark area reserved by BIOS to help detection of unset memory access
 	void DEBUG_INIT();
 
 	// Function: DEBUG_BREAK
-	// Force a break point
+	// Force a break point.
 	//
 	// Notes:
 	// - [Emulicious] You need the "Break on ld b, b instruction" exception to be activated.
@@ -38,7 +38,7 @@
 	void DEBUG_BREAK();
 
 	// Function: DEBUG_ASSERT
-	// Conditionnal break
+	// Conditionnal break.
 	//
 	// Parameters:
 	//   a - Instructions to evialuate. A 'false' result will trigger a break.
@@ -49,14 +49,14 @@
 	void DEBUG_ASSERT(bool a);
 
 	// Function: DEBUG_LOG
-	// Display debug message
+	// Display debug message (and return to next line).
 	//
 	// Parameters:
 	//   msg - Null-terminated string with message to display
 	void DEBUG_LOG(const c8* msg);
 
 	// Function: DEBUG_LOGNUM
-	// Display debug message and a 8-bits value
+	// Display debug message and a 8-bits value (and return to next line).
 	//
 	// Parameters:
 	//   msg - Null-terminated string with numer name
@@ -64,7 +64,8 @@
 	void DEBUG_LOGNUM(const c8* msg, u8 num);
 
 	// Function: DEBUG_PRINT
-	// Display debug formated message
+	// Display debug formated message.
+	// No new line is added at the end of the message.
 	//
 	// Parameters:
 	//   format - Null-terminated string with format specifiers
@@ -189,10 +190,20 @@
 
 	// Function: PROFILE_SECTION_START
 	// Signal the start of a section to be measured.
+	//
+	// Parameters:
+	//   level - Minimal level to display the section
+	//   section - Section identifier
+	//   msg - Null-terminated string with section name
 	inline void PROFILE_SECTION_START(u8 level, u8 section, const c8* msg) { level; section; msg; }
 
 	// Function: PROFILE_SECTION_END
 	// Signal the end of a section to be measured.
+	//
+	// Parameters:
+	//   level - Minimal level to display the section
+	//   section - Section identifier
+	//   msg - Null-terminated string with section name
 	inline void PROFILE_SECTION_END(u8 level, u8 section, const c8* msg) { level; section; msg; }
 
 #endif
