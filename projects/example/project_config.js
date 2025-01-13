@@ -90,6 +90,20 @@ Target = "ROM_32K";
 //-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)
 // ROMSize = 128;
 
+//-- Check for ROM boot skipping if a given key is pressed (boolean)
+// ROMSkipBoot = false;
+
+//-- The key to be check for ROM boot skipping (string). Key must be from keyboard row #7.
+//   - F4
+//   - F5
+//   - ESC
+//   - TAB
+//   - STOP
+//   - BS
+//   - SELECT
+//   - RETURN
+// ROMSkipBootKey = "ESC";
+
 //-- Postpone the ROM startup to let the other ROMs initialize like Disk controller or Network cartridge (boolean)
 // ROMDelayBoot = false;
 
@@ -237,7 +251,7 @@ EmulMachine    = false;				//-- Force the MSX version of the emulated machine (b
 // EmulTurbo      = false;				//-- Start emulator in turbo mode (boolean)
 
 //-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific
-// EmulExtraParam = "";
+EmulExtraParam = `-ext Mitsubishi_ML-30DC_ML-30FD -script ${ToolsDir}script/openMSX/debugger_pvm.tcl`;
 
 //-------------------------------------------------------------------------------
 // Extension options

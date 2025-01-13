@@ -35,7 +35,10 @@ _g_HeaderAddr::
 ;------------------------------------------------------------------------------
 ; Initialization code
 crt0_init:
-	; Delay startup using STKE hook (if ROM_DELAY is 1)
+	; Check for skip key press (if ROM_SKIP is set to 1)
+	SKIP_BOOT
+
+	; Delay startup using STKE hook (if ROM_DELAY is set to 1)
 	DELAY_BOOT
 
 	di

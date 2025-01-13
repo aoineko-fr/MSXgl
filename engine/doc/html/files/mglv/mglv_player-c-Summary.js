@@ -1,1 +1,0 @@
-﻿NDFramePage.OnPageTitleLoaded("File:mglv/mglv_player.c","mglv_player.c");NDSummary.OnSummaryLoaded("File:mglv/mglv_player.c",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[79,0,1,"Functions","Functions"],[80,0,0,"MGLV_Play","MGLV_Play"],[81,0,0,"MGLV_Decode","MGLV_Decode"]]);

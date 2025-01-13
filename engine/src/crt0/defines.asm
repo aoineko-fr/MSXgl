@@ -25,6 +25,9 @@
 ;------------------------------------------------------------------------------
 ; I/O ports
 PPI_A			= #0xA8
+PPI_B			= #0xA9
+PPI_C			= #0xAA
+PPI_MODE		= #0xAB
 VDP_S			= #0x99
 VDP_A			= #0x99
 V9_P06			= #0x66
@@ -42,6 +45,17 @@ HIMEM			= #0xFC4A
 EXPTBL			= #0xFCC1
 H_STKE			= #0xFEDA
 SLTSL			= #0xFFFF
+
+;------------------------------------------------------------------------------
+; Row #7 keys
+KEY_F4			= #0b00000001
+KEY_F5			= #0b00000010
+KEY_ESC			= #0b00000100
+KEY_TAB			= #0b00001000
+KEY_STOP		= #0b00010000
+KEY_BS			= #0b00100000
+KEY_SELECT		= #0b01000000
+KEY_RETURN		= #0b10000000
 
 ;------------------------------------------------------------------------------
 ; ROM types
@@ -86,6 +100,8 @@ RAM0_SEGMENT	= 2				; Install ISR and segment data (for mapped-ROM)
 ; Default values
 START_ADDR		= 0x4000		; Program start address
 ROM_MAPPER		= ROM_PLAIN		; ROM type
+ROM_SKIP		= 0				; Skip boot with a key press
+ROM_SKIP_KEY	= KEY_ESC		; Skip key to check
 ROM_DELAY		= 0				; Install BDOS
 ROM_BCALL		= 0				; Add banked call trampoline
 ROM_ISR			= ISR_VBLANK	; ISR type

@@ -7,6 +7,70 @@
 ;──────────────────────────────────────────────────────────────────────────────
 .module	crt0
 
+;==============================================================================
+; HEADER
+;==============================================================================
+
+;------------------------------------------------------------------------------
+; ROM Header
+;------------------------------------------------------------------------------
+.macro ROM_HEADER startAddr
+
+	crt0_rom_header::
+		.ascii	"AB"
+		.dw		startAddr
+		.dw		0x0000
+		.dw		0x0000
+		.dw		0x0000
+		.dw		0x0000
+		.dw		0x0000
+		.dw		0x0000
+
+		ROM_SIGN_MACRO ; empty if AddROMSignature build option is set to false
+
+	.if APP_SIGN
+	_g_AppSignature::
+		.dw		APP_SIGN_NAME
+		.dw		APP_SIGN_ID
+	.endif
+	; .ifdef APP_SIGN_EXTRA
+		; .db		APP_SIGN_EXTRA
+	; .endif
+
+.endm
+
+;------------------------------------------------------------------------------
+; Basic Header
+;------------------------------------------------------------------------------
+.macro BASIC_HEADER endAddr
+
+	crt0_basic_header::
+		.db 	0xFE				; ID byte
+		.dw 	crt0_basic_start	; Start address
+		.dw		crt0_end			; End address
+		.dw 	crt0_basic_exec		; Execution address
+
+	crt0_basic_start:
+	.if APP_SIGN
+	_g_AppSignature::
+		.dw		APP_SIGN_NAME
+		.dw		APP_SIGN_ID
+	.endif
+	; .ifdef APP_SIGN_EXTRA
+		; .db		APP_SIGN_EXTRA
+	; .endif
+	crt0_basic_exec:
+
+.endm
+
+;==============================================================================
+; MAPPER
+;==============================================================================
+
+;------------------------------------------------------------------------------
+; Bank switching addresses
+;------------------------------------------------------------------------------
+
 ; ROM_ASCII8
 .ifeq ROM_MAPPER-ROM_ASCII8
 	BANK0_ADDR = #0x6000
@@ -67,63 +131,6 @@
 	BANK1_ADDR = #0x7000
 	BANKED_ADDR = BANK1_ADDR
 .endif
-
-
-;==============================================================================
-; HEADER
-;==============================================================================
-
-;------------------------------------------------------------------------------
-; ROM Header
-;------------------------------------------------------------------------------
-.macro ROM_HEADER startAddr
-
-	crt0_rom_header::
-		.ascii	"AB"
-		.dw		startAddr
-		.dw		0x0000
-		.dw		0x0000
-		.dw		0x0000
-		.dw		0x0000
-		.dw		0x0000
-		.dw		0x0000
-
-		ROM_SIGN_MACRO ; empty if AddROMSignature build option is set to false
-
-	.if APP_SIGN
-	_g_AppSignature::
-		.dw		APP_SIGN_NAME
-		.dw		APP_SIGN_ID
-	.endif
-	; .ifdef APP_SIGN_EXTRA
-		; .db		APP_SIGN_EXTRA
-	; .endif
-
-.endm
-
-;------------------------------------------------------------------------------
-; Basic Header
-;------------------------------------------------------------------------------
-.macro BASIC_HEADER endAddr
-
-	crt0_basic_header::
-		.db 	0xFE				; ID byte
-		.dw 	crt0_basic_start	; Start address
-		.dw		crt0_end			; End address
-		.dw 	crt0_basic_exec		; Execution address
-
-	crt0_basic_start:
-	.if APP_SIGN
-	_g_AppSignature::
-		.dw		APP_SIGN_NAME
-		.dw		APP_SIGN_ID
-	.endif
-	; .ifdef APP_SIGN_EXTRA
-		; .db		APP_SIGN_EXTRA
-	; .endif
-	crt0_basic_exec:
-
-.endm
 
 ;==============================================================================
 ; HELPER
@@ -375,6 +382,23 @@
 
 	ram_not_found:
 
+.endm
+
+;------------------------------------------------------------------------------
+; Check for skip key press
+;------------------------------------------------------------------------------
+.macro SKIP_BOOT
+	.if ROM_SKIP
+	; Check for 'ESC' key press
+	ctr0_check_rom_skip:
+		in		a, (PPI_C)
+		and		#0xF0					; only change bits 0-3
+		or		#7						; check row number 7
+		out		(PPI_C), a
+		in		a, (PPI_B)				; read row into A
+		and		#ROM_SKIP_KEY
+		ret		z
+	.endif
 .endm
 
 ;------------------------------------------------------------------------------

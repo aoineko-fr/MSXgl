@@ -262,6 +262,11 @@ if (DoCompile)
 	// Defines
 	conf += `ADDR_BOOT=0x${util.getHex(StartAddr)}\n`;
 	if (Mapper)                  conf += `ROM_MAPPER=${Mapper}\n`;
+	if (ROMSkipBoot)
+	{
+		conf += "ROM_SKIP=1\n";
+		conf += `ROM_SKIP_KEY=KEY_${ROMSkipBootKey}\n`;
+	}
 	if (ROMDelayBoot)            conf += "ROM_DELAY=1\n";
 	if (BankedCall)              conf += "ROM_BCALL=1\n";
 	if (InstallRAMISR === true)  conf += `ROM_RAMISR=RAM0_ISR\n`;

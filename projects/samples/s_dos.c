@@ -34,20 +34,6 @@ struct ImageEntry
 // Fonts
 #include "font/font_mgl_sample6.h"
 
-// Images table
-const struct ImageEntry g_Images[] =
-{
-	{ "IMAGE01 SC5", "Screen 5",  VDP_MODE_SCREEN5 },
-	{ "IMAGE01 SC8", "Screen 8",  VDP_MODE_SCREEN8 },
-	{ "IMAGE01 S12", "Screen 12", VDP_MODE_SCREEN12 },
-	{ "IMAGE04 SC5", "Screen 5",  VDP_MODE_SCREEN5 },
-	{ "IMAGE04 SC8", "Screen 8",  VDP_MODE_SCREEN8 },
-	{ "IMAGE04 S12", "Screen 12", VDP_MODE_SCREEN12 },
-	{ "PALETTE SC5", "Screen 5",  VDP_MODE_SCREEN5 },
-	{ "PALETTE SC8", "Screen 8",  VDP_MODE_SCREEN8 },
-	{ "PALETTE S12", "Screen 12", VDP_MODE_SCREEN12 },
-};
-
 //=============================================================================
 // MEMORY DATA
 //=============================================================================

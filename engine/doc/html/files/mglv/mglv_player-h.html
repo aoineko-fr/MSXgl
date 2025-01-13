@@ -12,16 +12,63 @@
  <div class="CTitle">Functions</div>
 </div>
 
+<a name="MGLV_Init"></a><a name="Topic121"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">MGLV_Init</div>
+ <div id="NDPrototype121" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> MGLV_Init(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">MGLV_EventCallback&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize the movie player.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">cb<div class="CDLParameterType">MGLV_EventCallback</div></td><td class="CDLDefinition"><p>Event callback function</p></td></tr></table></div>
+</div>
+
+<a name="MGLV_SetTimer"></a><a name="Topic187"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">MGLV_SetTimer</div>
+ <div class="CBody"><p>Set frame duration in number of screen refresh.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">timer</td><td class="CDLDefinition"><p>Duration of a frame</p></td></tr></table></div>
+</div>
+
+<a name="MGLV_SetLoop"></a><a name="Topic401"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">MGLV_SetLoop</div>
+ <div id="NDPrototype401" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> MGLV_SetLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">loop</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set looping flag.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">loop<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE if movie should loop when reaching the end</p></td></tr></table></div>
+</div>
+
+<a name="MGLV_IsLooping"></a><a name="Topic402"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">MGLV_IsLooping</div>
+ <div id="NDPrototype402" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> MGLV_IsLooping()</div></div>
+ <div class="CBody"><p>Get looping flag.</p><div class="CHeading">Parameters</div><p>FALSE if the loop flag is set</p></div>
+</div>
+
 <a name="MGLV_Play"></a><a name="Topic115"></a><div class="CTopic TFunction LC">
  <div class="CTitle">MGLV_Play</div>
  <div id="NDPrototype115" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> MGLV_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Start movie playback.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Address of the movie data</p></td></tr></table><div class="CHeading">Returns</div><p>TRUE if initialization is successful</p></div>
 </div>
 
-<a name="MGLV_Decode"></a><a name="Topic1114"></a><div class="CTopic TFunction LC last">
+<a name="MGLV_VBlankHandler"></a><a name="Topic403"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">MGLV_VBlankHandler</div>
+ <div id="NDPrototype403" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> MGLV_VBlankHandler()</div></div>
+ <div class="CBody"><p>Function to be called in the interruption handler</p></div>
+</div>
+
+<a name="MGLV_Decode"></a><a name="Topic1114"></a><div class="CTopic TFunction LC">
  <div class="CTitle">MGLV_Decode</div>
  <div id="NDPrototype1114" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> MGLV_Decode()</div></div>
  <div class="CBody"><p>Decode a frame of movie</p></div>
+</div>
+
+<a name="MGLV_GetHeaderType"></a><a name="Topic787"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">MGLV_GetHeaderType</div>
+ <div id="NDPrototype787" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline enum</span> MGLV_HEADER_MODE MGLV_GetHeaderType()</div></div>
+ <div class="CBody"><p>Get the initialized movie's header type.&nbsp; Note: MGLV_Init() function must be called first.</p><div class="CHeading">Return</div><p>Header type MGLV_HEADER_NONE, MGLV_HEADER_FULL or MGLV_HEADER_SHORT.</p></div>
+</div>
+
+<a name="MGLV_GetVersion"></a><a name="Topic817"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">MGLV_GetVersion</div>
+ <div id="NDPrototype817" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 MGLV_GetVersion()</div></div>
+ <div class="CBody"><p>Get the initialized movie's format version.&nbsp; Note: MGLV_Init() function must be called first.</p><div class="CHeading">Return</div><p>Format version (0-15).</p></div>
+</div>
+
+<a name="MGLV_GetSegmentSize"></a><a name="Topic917"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">MGLV_GetSegmentSize</div>
+ <div id="NDPrototype917" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 MGLV_GetSegmentSize()</div></div>
+ <div class="CBody"><p>Get the initialized movie's segment size.&nbsp; Note: MGLV_Init() function must be called first.</p><div class="CHeading">Return</div><p>Segment size in kilo-bytes.</p></div>
 </div>
 
 </body></html>
