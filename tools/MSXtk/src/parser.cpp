@@ -2073,7 +2073,7 @@ u32 MGLVGetFillCount(const std::vector<u8>& curData, u32 it)
 
 //-----------------------------------------------------------------------------
 /** Convert multiple images into MGLV video data */
-MGLVChunk MGLVGetNextChunk(const std::vector<u8>& curData, const std::vector<u8>& prevData, u32& it, u32 remain)
+MGLVChunk MGLVGetNextChunk(ExportParameters* param, const std::vector<u8>& curData, const std::vector<u8>& prevData, u32& it, u32 remain)
 {
 	MGLVChunk chunk;
 
@@ -2089,7 +2089,7 @@ MGLVChunk MGLVGetNextChunk(const std::vector<u8>& curData, const std::vector<u8>
 	//......................................................................... 
 	// Check skip chunks
 	u32 skip = MGLVGetSkipCount(curData, prevData, it);
-	if (skip >= MGLV_SKIP_COUNT_MIN)
+	if (skip >= param->mglvConfig.minSkip)
 	{
 		chunk.Number = skip;
 		if (skip < 16)
@@ -2124,7 +2124,7 @@ MGLVChunk MGLVGetNextChunk(const std::vector<u8>& curData, const std::vector<u8>
 	//......................................................................... 
 	// Check fill chunks
 	u32 fill = MGLVGetFillCount(curData, it);
-	if (fill >= MGLV_FILL_COUNT_MIN)
+	if (fill >= param->mglvConfig.minFill)
 	{
 		chunk.Value.resize(1);
 		chunk.Value[0] = curData[it];
@@ -2173,13 +2173,13 @@ MGLVChunk MGLVGetNextChunk(const std::vector<u8>& curData, const std::vector<u8>
 	std::vector<u8> data;
 	for (u32 i = it; i < (u32)curData.size(); i++)
 	{
-		if ((i - it) >= remain - 2)
+		if ((i - it) >= remain - 3)
 			break;
 
-		if (MGLVGetSkipCount(curData, prevData, i) >= MGLV_SKIP_COUNT_MIN)
+		if (MGLVGetSkipCount(curData, prevData, i) >= param->mglvConfig.minSkip)
 			break;
 
-		if (MGLVGetFillCount(curData, i) >= MGLV_FILL_COUNT_MIN)
+		if (MGLVGetFillCount(curData, i) >= param->mglvConfig.minFill)
 			break;
 
 		data.push_back(curData[i]);
@@ -2230,9 +2230,15 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 	// Write header
 	MGLV_Header head;
 	memcpy(&head.Sign, "MGV", 3);
-	head.Flag = param->mglvConfig.segmentSize == 16 ? MGLV_SEGMENT_16K | MGLV_VERSION : MGLV_VERSION;
+	head.Flag = MGLV_VERSION;
+	if (param->mglvConfig.segmentSize == 16)
+		head.Flag |= MGLV_SEGMENT_16K;
 	head.Image = MGLV_SCR_MODE_BITMAP | MGLV_SCR_WIDTH_256 | MGLV_SCR_BPP_4;
-	head.Replay = MGLV_LOOP | MGLV_FREQ_50HZ | 5;
+	head.Replay = param->mglvConfig.frameSkip;
+	if (param->mglvConfig.isLooping)
+		head.Replay |= MGLV_LOOP;
+	if (param->mglvConfig.freq == 60)
+		head.Replay |= MGLV_FREQ_60HZ;
 	head.Width = (head.Image & MGLV_SCR_WIDTH_512) ? param->mglvConfig.width / 2 - 1 : param->mglvConfig.width - 1;
 	head.Height = (u8)param->mglvConfig.height;
 	switch (param->mglvConfig.headerMode)
@@ -2266,6 +2272,7 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 		if (MSX::File::Exists(filename))
 		{
 			printf("Converting %s...\n", filename.c_str());
+			exp->WriteCommentLine(MSX::Format("Image %i", i));
 
 			if (!bStart) // First image
 			{
@@ -2277,7 +2284,7 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 
 			// Get data from source image
 			imgParam.inFile = filename;
-			ExporterBin curImg(param->format, &imgParam); // convert image to binary
+			ExporterBinNoSave curImg(param->format, &imgParam); // convert image to binary
 			ExportBitmap(&imgParam, &curImg);
 			std::vector<u8> curData = curImg.GetData();
 
@@ -2286,7 +2293,7 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 			// Export image to video data
 			while (1)
 			{
-				MGLVChunk chunk = MGLVGetNextChunk(curData, prevData, imgIt, segRemain);
+				MGLVChunk chunk = MGLVGetNextChunk(param, curData, prevData, imgIt, segRemain);
 				switch (chunk.Command)
 				{
 				//---- Events ----//
@@ -2304,7 +2311,7 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 					break;
 				//---- Skip ----//
 				case MGLV_CMD_SKIP_4B: // Skip n bytes(1 - 15)
-					exp->Write1ByteLine(chunk.Command + (u8)(chunk.Number << 4), "SKIP_4B");
+					exp->Write1ByteLine(chunk.Command + (u8)(chunk.Number << 4), MSX::Format("SKIP_4B (%i)", chunk.Number));
 					break;
 				case MGLV_CMD_SKIP_8B: // Skip nn bytes(1 - 255)
 					exp->Write1ByteLine(chunk.Command, "SKIP_8B");
@@ -2319,7 +2326,7 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 					break;
 				//---- Fill ----//
 				case MGLV_CMD_FILL_4B: // Fill n bytes(1 - 15) with vv value
-					exp->Write1ByteLine(chunk.Command + (u8)(chunk.Number << 4), "FILL_4B");
+					exp->Write1ByteLine(chunk.Command + (u8)(chunk.Number << 4), MSX::Format("FILL_4B (%i)", chunk.Number));
 					exp->Write1ByteLine((u8)chunk.Value[0]);
 					break;
 				case MGLV_CMD_FILL_8B: // Fill nn bytes(1 - 255) with vv value
@@ -2338,7 +2345,7 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 					break;
 				//---- Copy ----//
 				case MGLV_CMD_COPY_4B: // Copy n bytes(1 - 15) from vv[n] data table
-					exp->Write1ByteLine(chunk.Command + (u8)(chunk.Number << 4), "COPY_4B");
+					exp->Write1ByteLine(chunk.Command + (u8)(chunk.Number << 4), MSX::Format("COPY_4B (%i)", chunk.Number));
 					exp->WriteBytesList(chunk.Value);
 					break;
 				case MGLV_CMD_COPY_8B: // Copy nn bytes(1 - 255) from vv[nn] data table
@@ -2363,6 +2370,7 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 				{
 					segRemain = param->mglvConfig.segmentSize * 1024;
 					segIdx++;
+					exp->WriteCommentLine(MSX::Format("Switch to segment +%i (%i)", segIdx, exp->GetTotalBytes()));
 				}
 
 				if (chunk.Command == MGLV_CMD_END_FRAME)

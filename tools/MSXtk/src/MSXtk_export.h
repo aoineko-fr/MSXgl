@@ -39,10 +39,12 @@ struct ExportConfig
 struct ExportSection
 {
 	u32 Size;
+	u8 ID;
 	std::string Name;
 
-	ExportSection() : Size(0) {}
-	ExportSection(std::string name) : Size(0), Name(name) {}
+	ExportSection() : Size(0), ID(0) {}
+	ExportSection(std::string name) : Size(0), ID(0), Name(name) {}
+	ExportSection(u8 id, std::string name = "") : Size(0), ID(id), Name(name) {}
 };
 
 //---------------------------------------------------------------------------------

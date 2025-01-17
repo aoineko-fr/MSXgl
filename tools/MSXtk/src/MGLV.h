@@ -52,8 +52,8 @@
 #define MGLV_FREQ_60HZ				0b10000000
 
 // Replay values
-#define MGLV_SKIP_COUNT_MIN			1 // Minimum number of consecutive unchanged bytes to start a "skip" chunk
-#define MGLV_FILL_COUNT_MIN			2 // Minimum number of consecutive identical bytes to start a "fill" chunk
+#define MGLV_SKIP_COUNT_MIN			8 // Minimum number of consecutive unchanged bytes to start a "skip" chunk
+#define MGLV_FILL_COUNT_MIN			8 // Minimum number of consecutive identical bytes to start a "fill" chunk
 
 // MGLV file header
 struct MGLV_Header

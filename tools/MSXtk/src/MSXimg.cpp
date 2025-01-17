@@ -20,9 +20,10 @@
 #include <map>
 // FreeImage
 #include "FreeImage.h"
+// MSXtk
+#include "MSXtk.h"
 // MSXi
 #include "MSXimg.h"
-#include "types.h"
 #include "color.h"
 #include "exporter.h"
 #include "image.h"
@@ -244,6 +245,18 @@ void PrintHelp()
 	printf(" --noTilesName    Exclude name table (default: false)\n");
 	printf(" --noTilesPattern Exclude pattern table (default: false)\n");
 	printf(" --noTilesColor   Exclude color table (default: false)\n");
+	printf("\n");
+	printf("MGLV options:\n");
+	printf(" -mglvHead x      File header\n");
+	printf("    full          Full data header (default)\n");
+	printf("    short         Short data header without image information\n");
+	printf("    none          No header\n");
+	printf(" -mglvSeg x       Segment size (default: 8)\n");
+	printf(" -mglvFreq x      Movie frequency (default: 60)\n");
+	printf(" -mglvTime x      Duration of image in screen frames (default: 5, for 12 fps at 60 Hz)\n");
+	printf(" -mglvLoop        \n");
+	printf(" -mglvMinSkip x   Minimal size of skip chunk (default: 8)\n");
+	printf(" -mglvMinFill x   Minimal size of fill chunk (default: 60)\n");
 }
 
 // Debug
@@ -274,6 +287,7 @@ void PrintHelp()
 //const char* ARGV[] = { "", "../testcases/poc2.png", "-out", "../testcases/room5.h", "-mode", "gm1", "--noTilesName", "", "-name", "g_DataRoom0", "-pos", "0", "0", "-size", "256", "192" };
 //const char* ARGV[] = { "", "../testcases/poc2.png", "-out", "../testcases/room5.bas", "-format", "bas", "-data", "hexaraw", "-mode", "gm1", "-name", "g_DataRoom0", "-pos", "0", "0", "-size", "256", "192" };
 //const char* ARGV[] = { "", "../testcases/JoyAndHeron", "-out", "../testcases/JoyAndHeron.mglv", "-mode", "mglv", "-format", "bin", "-size", "256", "144", "-bpc", "4", "-pal", "custom" };
+//const char* ARGV[] = { "", "../testcases/JoyAndHeron", "-out", "../testcases/JoyAndHeron.h", "-mode", "mglv", "-format", "c", "-size", "256", "144", "-bpc", "4", "-pal", "custom" };
 //const char* ARGV[] = { "", "../testcases/image03.png", "-out", "../testcases/screen0.h", "-mode", "sc0", "-size", "150", "150" };
 //#define DEBUG_ARGS
 
@@ -284,7 +298,8 @@ int main(int argc, const char* argv[])
 {
 	// for debug purpose
 #ifdef DEBUG_ARGS
-	argc = sizeof(ARGV)/sizeof(ARGV[0]); argv = ARGV;
+	argc = sizeof(ARGV) / sizeof(ARGV[0]);
+	argv = ARGV;
 #endif
 
 	FreeImage_Initialise();
@@ -321,7 +336,7 @@ int main(int argc, const char* argv[])
 			i++;
 			if (MSX::StrEqual(argv[i], "auto"))
 				outFormat = MSX::FILEFORMAT_Auto;
-			else if (MSX::StrEqual(argv[i], "c"))
+			else if (MSX::StrEqual(argv[i], "c") || MSX::StrEqual(argv[i], "h"))
 				outFormat = MSX::FILEFORMAT_C;
 			else if (MSX::StrEqual(argv[i], "asm"))
 				outFormat = MSX::FILEFORMAT_Asm;
@@ -686,6 +701,40 @@ int main(int argc, const char* argv[])
 				param.scaleFilter = FILTER_Catmull;
 			else if (MSX::StrEqual(argv[i], "lanczos"))
 				param.scaleFilter = FILTER_Lanczos;
+		}
+		else if (MSX::StrEqual(argv[i], "-mglvHead")) // File header
+		{
+			i++;
+			if (MSX::StrEqual(argv[i], "full"))
+				param.mglvConfig.headerMode = MGLV_HEADER_FULL;
+			else if (MSX::StrEqual(argv[i], "short"))
+				param.mglvConfig.headerMode = MGLV_HEADER_SHORT;
+			else if (MSX::StrEqual(argv[i], "none"))
+				param.mglvConfig.headerMode = MGLV_HEADER_NONE;
+		}
+		else if (MSX::StrEqual(argv[i], "-mglvSeg")) // Segment size
+		{
+			param.mglvConfig.segmentSize = GetValue(argv[++i]);
+		}
+		else if (MSX::StrEqual(argv[i], "-mglvFreq")) // Movie frequency
+		{
+			param.mglvConfig.freq = GetValue(argv[++i]);
+		}
+		else if (MSX::StrEqual(argv[i], "-mglvTime")) // 
+		{
+			param.mglvConfig.frameSkip = GetValue(argv[++i]);
+		}
+		else if (MSX::StrEqual(argv[i], "-mglvLoop")) // 
+		{
+			param.mglvConfig.isLooping = true;
+		}
+		else if (MSX::StrEqual(argv[i], "-mglvMinSkip")) // Minimal size of skip chunk (default: 8)
+		{
+			param.mglvConfig.minSkip = GetValue(argv[++i]);
+		}
+		else if (MSX::StrEqual(argv[i], "-mglvMinFill")) // Minimal size of fill chunk (default: /)
+		{
+			param.mglvConfig.minFill = GetValue(argv[++i]);
 		}
 	}
 

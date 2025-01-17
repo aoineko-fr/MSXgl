@@ -10,7 +10,6 @@
 #pragma once
 
 // MSXi
-#include "types.h"
 #include "exporter.h"
 
 //

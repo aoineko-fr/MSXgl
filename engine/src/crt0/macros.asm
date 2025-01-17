@@ -434,6 +434,46 @@
 ;------------------------------------------------------------------------------
 
 ;..............................................................................
+; All interruption ISR
+.ifeq ROM_ISR-ISR_ALL
+.macro INCLUDE_ISR
+		.globl	_VDP_InterruptHandler
+	crt0_interrupt_start::
+	; Backup registers
+		push	af
+		push	hl
+		push	de
+		push	bc
+		exx
+		ex		af, af'
+		push	af
+		push	hl
+		push	de
+		push	bc
+		push	iy
+		push	ix
+	; Call interruption handler
+		call	_VDP_InterruptHandler
+	; Restore registers
+		pop		ix
+		pop		iy
+		pop		bc
+		pop		de
+		pop		hl
+		pop		af
+		ex		af, af'
+		exx
+		pop		bc
+		pop		de
+		pop		hl
+		pop		af
+		ei
+		reti
+	crt0_interrupt_end:
+.endm
+.endif
+
+;..............................................................................
 ; V-Blank ISR
 .ifeq ROM_ISR-ISR_VBLANK
 .macro INCLUDE_ISR

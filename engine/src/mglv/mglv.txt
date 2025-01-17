@@ -48,6 +48,48 @@ Commands
 Cmd	Options			Desc.
 --------------------------------------------------------
 00					End of data
+10					End of frame
+20					End of segment (increment segment index and reset data pointer)
+30					End of line
+x0					Switch to table. x:
+						8: Pattern table (default)
+						9: Color table (screen mode 1, 2 and 3)
+						A: Layout table (tile based modes)
+						B: Color palette (MSX2/2+)
+........................................................
+n1					Skip n bytes (1-15)
+02	nn				Skip nn bytes (1-255)
+03	nnnn			Skip nnnn bytes (1-65535)
+........................................................
+nA	vv				Fill n bytes (1-15) with vv value
+0B	nn,vv			Fill nn bytes (1-255) with vv value
+0C	nnnn,vv			Fill nnnn bytes (1-65535) with vv value
+........................................................
+nD	vv[n]			Copy n bytes (1-15) from vv[n] data table
+0E	nn,vv[nn]		Copy nn bytes (1-255) from vv[nn] data table
+0F	nnnn,vv[nnnn]	Copy nnnn bytes (1-65535) from vv[nnnn] data table
+
+
+
+
+Fill 8 bytes
+Fill 16 bytes
+Fill 32 bytes
+Fill 64 bytes
+Fill 128 bytes
+Fill 256 bytes
+Fill 256 - n bytes (241-256) with vv value
+Fill 256 - nn bytes (0-256) with vv value
+
+
+
+
+
+
+
+Cmd	Options			Desc.
+--------------------------------------------------------
+00					End of data
 01					End of segment (increment segment index and reset data pointer)
 02					End of line
 x3					Switch to table. x:

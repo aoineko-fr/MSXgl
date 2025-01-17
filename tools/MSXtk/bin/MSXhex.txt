@@ -1,19 +1,21 @@
-MSXhex 0.1.10 - Convert Intel HEX file to binary
+MSXhex 0.1.11 - Convert Intel HEX file to binary
 --------------------------------------------------------------------------------
 Usage: msxhex <inputfile> [options]
 
 Options:
- -o filename       Output filename (default: use input filename with '.bin')
- -e ext            Output filename extension (can't be use with -o)
- -s addr           Starting address (default: 0)
- -l length         Total data length (default: 0, means autodetect)
- -b length         Bank size (default: 0, means don't use)
- -p value          Pading value (default: 0xFF)
- -r offset file    Raw data 'file' to add at a given 'offset'
- --check           Validate each record using checksum
- --log             Log each record
- --segcheck        Check if segment size does not exceed the bank size
- --segexcept num   Don't report oversize for this segment (can be use more than once)
+ -o filename         Output filename (default: use input filename with '.bin')
+ -e ext              Output filename extension (can't be use with -o)
+ -s addr             Starting address (default: 0)
+ -l length           Total data length (default: 0, means autodetect)
+ -b length           Bank size (default: 0, means don't use)
+ -p value            Pading value (default: 0xFF)
+ -r offset file      Raw data 'file' to add at a given 'offset'
+ --check             Validate each record using checksum
+ --log               Log each record
+ --segcheck          Check if segment size does not exceed the bank size
+ --segexcept num     Don't report oversize for this segment (can be use more than once)
+ --segaddr seg addr  Base address of the given segment (can be use more than once)
+                     If no base address is supplied, autodetection is used.
 
  All integers can be decimal or hexadecimal starting with '0x'.
  One of the following named values can also be used:

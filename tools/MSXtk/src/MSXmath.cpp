@@ -519,28 +519,45 @@ int main(int argc, const c8* argv[])
 		}
 		else if (MSX::StrEqual(argv[argIndex], "proj")) // X/Y 3d projection according to Z value
 		{
+#define PROJ_FOCUS true
+
+#if (!PROJ_FOCUS)
 			f64 nearScale = atof(argv[++argIndex]);
 			f64 farScale = atof(argv[++argIndex]);
+			f64 power = atof(argv[++argIndex]);
+#else
+			f64 F = atof(argv[++argIndex]);
+#endif
 
 			// Add table
 			Exporter->AddReturn();
-			Exporter->AddComment("3D projection table.");
+			Exporter->AddComment("3D projection table");
+#if (!PROJ_FOCUS)
+			Exporter->AddComment(MSX::Format("Near: %0.3f, Far: %0.3f, Power: %0.3f", nearScale, farScale, power));
+#else
+			Exporter->AddComment(MSX::Format("Focal: %0.3f", F));
+#endif
 			Exporter->StartSection(MSX::Format("%s%s%d", Prefix, "Proj", Number), DataSize);
 
 			f64 multi = pow(2, Shift);
 			for (i32 j = 0; j < Number; j++)
 			{
-				f64 k0 = (f64)j / (f64)(Number - 1);
-				f64 k = nearScale * (1.f - k0) + farScale * k0;
+#if (!PROJ_FOCUS)
+				f64 k0 = (f64)j / (f64)(Number - 1); // [0:1]
+				k0 = pow(k0, power);
+				f64 K = nearScale * (1.f - k0) + farScale * k0;
+#else
+				f64 K = F / (f64)(j + 1);
+#endif
 
-				Exporter->AddComment(MSX::Format("Z=%d, K=%0.3f", j, k));
+				Exporter->AddComment(MSX::Format("Z=%d, K=%0.3f", j, K));
 				for (i32 i = 0; i < Number; i++)
 				{
 					if ((i % 8 == 0))
 						Exporter->StartLine();
 
 					f64 x = ((f64)i - ((f64)Number / 2));
-					x *= k;
+					x *= K;
 					x += (f64)(Number / 2);
 					x *= multi;
 					x = round(x);

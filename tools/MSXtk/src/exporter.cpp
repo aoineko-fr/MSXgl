@@ -11,7 +11,7 @@
 // MSXi
 #include "exporter.h"
 
-//
+// Get compressor name
 const char* GetCompressorName(MSX::Compressor comp, bool bShort)
 {
 	switch (comp)
@@ -35,7 +35,7 @@ const char* GetCompressorName(MSX::Compressor comp, bool bShort)
 	return "Unknow";
 }
 
-//
+// Get image mode name
 const char* GetModeName(MSXi_Mode mode)
 {
 	switch (mode)
@@ -50,7 +50,24 @@ const char* GetModeName(MSXi_Mode mode)
 	return "Unknow";
 }
 
-//
+// Get table type name
+const char* GetTableTypeName(TableType type)
+{
+	switch (type)
+	{
+	case TABLETYPE_Raw:				return "Raw";
+	case TABLETYPE_Bitmap:			return "Bitmap";
+	case TABLETYPE_TilePattern:		return "TilePattern";
+	case TABLETYPE_TileColor:		return "TileColor";
+	case TABLETYPE_TileLayout:		return "TileLayout";
+	case TABLETYPE_SpritePattern:	return "SptritePattern";
+	case TABLETYPE_SpriteColor:		return "SptriteColor";
+	case TABLETYPE_Palette:			return "Palette";
+	};
+	return "Unknow";
+};
+
+// ...
 std::string GetTableCText(TableFormat format, std::string name, s32 addr)
 {
 	if (format == TABLE_Header)
@@ -70,6 +87,7 @@ std::string GetTableCText(TableFormat format, std::string name, s32 addr)
 	return ret;
 }
 
+// Check id a given compressor is compatible with export format
 bool IsCompressorCompatible(MSX::Compressor comp, const ExportParameters& param)
 {
 	if (comp == MSX::COMPRESS_None)

@@ -18,20 +18,10 @@
 #include <ctime>
 // MSXi
 #include "MSXimg.h"
-#include "types.h"
 #include "color.h"
 #include "mglv.h"
 
 #define BUFFER_SIZE 1024
-
-/// Format of the data
-enum TableFormat
-{
-	TABLE_U8,					///< 8-bits unsigned interger
-	TABLE_U16,					///< 16-bits unsigned interger
-	TABLE_U32,					///< 32-bits unsigned interger
-	TABLE_Header,				///< Header structure (@see MSXi_Header)
-};
 
 /// Export mode
 enum MSXi_Mode
@@ -44,7 +34,32 @@ enum MSXi_Mode
 	MODE_MGLV,					///< Export movie data in MGLV format
 };
 
-///
+/// Format of the data
+enum TableFormat
+{
+	TABLE_U8,					///< 8-bits unsigned interger
+	TABLE_U16,					///< 16-bits unsigned interger
+	TABLE_U32,					///< 32-bits unsigned interger
+	TABLE_S8,					///< 8-bits signed interger
+	TABLE_S16,					///< 16-bits signed interger
+	TABLE_S32,					///< 32-bits signed interger
+	TABLE_Header,				///< Header structure (@see MSXi_Header)
+};
+
+/// Type of iùage table
+enum TableType
+{
+	TABLETYPE_Raw,				///< Raw binary data (misc)
+	TABLETYPE_Bitmap,			///< Bitmap table
+	TABLETYPE_TilePattern,		///< Tiles pattern form
+	TABLETYPE_TileColor,		///< Tiles pattern color
+	TABLETYPE_TileLayout,		///< Tiles screen layout
+	TABLETYPE_SpritePattern,	///< Sprites pattern form
+	TABLETYPE_SpriteColor,		///< Sprites pattern color
+	TABLETYPE_Palette,			///< Palette
+};
+
+///Sprit layer information
 struct Layer
 {
 	i32 posX;					///< Start X position for the layer (relative to block coordante)
@@ -55,7 +70,6 @@ struct Layer
 	bool include;				///< 
 	std::vector<u32> colors;	///< Layer colors
 };
-
 
 // Struct: ConfigMGLV
 // MGLV video player parameters
@@ -69,17 +83,21 @@ struct ConfigMGLV
 	u8   freq;					///< Display frequency (50 or 60 Hz)
 	u16  width;					///< Video width
 	u16  height;				///< Video height
+	u16  minSkip;				///< Video height
+	u16  minFill;				///< Video height
 
 	ConfigMGLV(): 
 		headerMode(MGLV_HEADER_FULL),
 		segmentSize(8),
 		screenMode(5),
 		frameSkip(5),
-		isLooping(true),
-		freq(60),
+		isLooping(false),
+		freq(50),
 		width(256),
-		height (144)
-		{}
+		height (144),
+		minSkip (MGLV_SKIP_COUNT_MIN),
+		minFill (MGLV_FILL_COUNT_MIN)
+	{}
 };
 
 /// Exporter parameters
@@ -210,6 +228,21 @@ std::string GetTableCText(TableFormat format, std::string name, s32 addr = -1);
 // Check if a compressor if compatible with given import parameters
 bool IsCompressorCompatible(MSX::Compressor comp, const ExportParameters& param);
 
+//---------------------------------------------------------------------------------
+// Exporter section parameters
+struct ExportSection
+{
+	u32 ID;
+	MSX::DataSize Size;
+	MSX::DataFormat Format;
+	std::vector<u8> Data;
+
+	ExportSection(u32 id = 0, MSX::DataSize size = MSX::DATASIZE_8bits, MSX::DataFormat format = MSX::DATAFORMAT_Hexa) : ID(id), Size(size), Format(format) {}
+
+	const std::vector<u8>& GetData() const { return Data; }
+	u32 GetTotalSize() { return (u32)Data.size(); }
+};
+
 /**
  * Exporter interface
  */
@@ -218,37 +251,76 @@ class ExporterInterface
 protected:
 	MSX::DataFormat eFormat;
 	ExportParameters* Param;
-	u32 TotalBytes;
+	std::vector<ExportSection> Sections;
 
 public:
-	ExporterInterface(MSX::DataFormat f, ExportParameters* p): eFormat(f), Param(p), TotalBytes(0) {}
+	ExporterInterface(MSX::DataFormat f, ExportParameters* p): eFormat(f), Param(p) {}
 	virtual ~ExporterInterface() = default;
 	virtual void WriteHeader() = 0;
-	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "") = 0;
 	virtual void WriteSpriteHeader(i32 number) = 0;
-	virtual void WriteCommentLine(std::string comment = "") = 0;
-	virtual void Write1ByteLine(u8 a, std::string comment = "") = 0;
-	virtual void Write2BytesLine(u8 a, u8 b, std::string comment = "") = 0;
-	virtual void Write4BytesLine(u8 a, u8 b, u8 c, u8 d, std::string comment = "") = 0;
-	virtual void Write1WordLine(u16 a, std::string comment = "") = 0;
-	virtual void Write2WordsLine(u16 a, u16 b, std::string comment = "") = 0;
+	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "") = 0;
+	virtual void WriteTableEnd(std::string comment = "") = 0;
 	virtual void WriteLineBegin() = 0;
+	virtual void WriteLineEnd(std::string comment = "") = 0;
+	virtual void WriteCommentLine(std::string comment = "") = 0;
+
 	virtual void Write1ByteData(u8 data) = 0;
 	virtual void Write8BitsData(u8 data) = 0;
-	virtual void WriteLineEnd() = 0;
-	virtual void WriteTableEnd(std::string comment = "") = 0;
+	virtual void Write1WordData(u16 data) = 0;
+
+	virtual void Write1ByteLine(u8 a, std::string comment = "")
+	{
+		WriteLineBegin();
+		Write1ByteData(a);
+		WriteLineEnd(comment);
+	}
+	virtual void Write2BytesLine(u8 a, u8 b, std::string comment = "")
+	{
+		WriteLineBegin();
+		Write1ByteData(a);
+		Write1ByteData(b);
+		WriteLineEnd(comment);
+	}
+	virtual void Write4BytesLine(u8 a, u8 b, u8 c, u8 d, std::string comment = "")
+	{
+		WriteLineBegin();
+		Write1ByteData(a);
+		Write1ByteData(b);
+		Write1ByteData(c);
+		Write1ByteData(d);
+		WriteLineEnd(comment);
+	}
+	virtual void Write1WordLine(u16 a, std::string comment = "")
+	{
+		WriteLineBegin();
+		Write1WordData(a);
+		WriteLineEnd(comment);
+	}
+	virtual void Write2WordsLine(u16 a, u16 b, std::string comment = "")
+	{
+		WriteLineBegin();
+		Write1WordData(a);
+		Write1WordData(b);
+		WriteLineEnd(comment);
+	}
 	virtual void WriteBytesList(std::vector<u8> data, std::string comment = "")
 	{
 		WriteLineBegin();
 		for (u32 i = 0; i < data.size(); i++)
 			Write1ByteData(data[i]);
-		WriteLineEnd();
+		WriteLineEnd(comment);
 	}
 
 	virtual const c8* GetNumberFormat(u8 bytes = 1) = 0;
 	virtual const c8* GetDataFormat(u8 bytes = 1) = 0;
 
-	virtual u32 GetTotalBytes() { return TotalBytes; }
+	virtual u32 GetTotalBytes()
+	{
+		u32 totalSize = 0;
+		loop(i, Sections.size())
+			totalSize += (u32)Sections[i].Data.size();
+		return totalSize;
+	}
 	virtual bool Export() = 0;
 };
 
@@ -261,9 +333,11 @@ protected:
 	char strFormat[BUFFER_SIZE];
 	char strData[BUFFER_SIZE];
 	std::string outData;
+	u32 TotalBytes;
 
 public:
 	ExporterText(MSX::DataFormat f, ExportParameters* p) : ExporterInterface(f, p) {}
+
 	virtual void WriteHeader()
 	{
 		// Add title
@@ -322,19 +396,17 @@ public:
 			break;
 		};
 	}
-	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "") = 0;
+
 	virtual void WriteSpriteHeader(i32 number) = 0;
-	virtual void WriteCommentLine(std::string comment = "") = 0;
-	virtual void Write1ByteLine(u8 a, std::string comment = "") = 0;
-	virtual void Write2BytesLine(u8 a, u8 b, std::string comment = "") = 0;
-	virtual void Write4BytesLine(u8 a, u8 b, u8 c, u8 d, std::string comment = "") = 0;
-	virtual void Write1WordLine(u16 a, std::string comment = "") = 0;
-	virtual void Write2WordsLine(u16 a, u16 b, std::string comment = "") = 0;
+	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "") = 0;
+	virtual void WriteTableEnd(std::string comment = "") = 0;
 	virtual void WriteLineBegin() = 0;
+	virtual void WriteLineEnd(std::string comment = "") = 0;
+	virtual void WriteCommentLine(std::string comment = "") = 0;
+
 	virtual void Write1ByteData(u8 data) = 0;
 	virtual void Write8BitsData(u8 data) = 0;
-	virtual void WriteLineEnd() = 0;
-	virtual void WriteTableEnd(std::string comment = "") = 0;
+	virtual void Write1WordData(u16 data) = 0;
 
 	virtual const c8* GetNumberFormat(u8 bytes = 1)
 	{
@@ -359,7 +431,6 @@ public:
 		return NULL;
 	}
 
-
 	virtual bool Export()
 	{
 		// Write header file
@@ -373,6 +444,8 @@ public:
 		fclose(file);
 		return TRUE;
 	}
+
+	virtual u32 GetTotalBytes() { return TotalBytes; }
 };
 	
 /**
@@ -382,6 +455,11 @@ class ExporterC: public ExporterText
 {
 public:
 	ExporterC(MSX::DataFormat f, ExportParameters* p): ExporterText(f, p) {}
+
+	virtual void WriteSpriteHeader(i32 number)
+	{
+		WriteCommentLine(MSX::Format("// Sprite[%i] (offset:%i)\n", number, GetTotalBytes()));
+	}
 
 	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "")
 	{
@@ -418,81 +496,41 @@ public:
 		outData += strData;
 	}
 
-	virtual void WriteSpriteHeader(i32 number)
-	{ 
-		sprintf(strData,
-			"// Sprite[%i] (offset:%i)\n", number, TotalBytes);
-		outData += strData;
+	virtual void WriteTableEnd(std::string comment = "")
+	{
+		outData += "};\n";
+		if (comment != "")
+			outData += MSX::Format("// %s\n", comment.c_str());
+	}
+
+	virtual void WriteLineBegin()
+	{
+		outData += "\t";
+	}
+
+	virtual void WriteLineEnd(std::string comment = "")
+	{
+		if (comment != "")
+			outData += MSX::Format("// %s", comment.c_str());
+		outData += "\n";
 	}
 
 	virtual void WriteCommentLine(std::string comment = "")
 	{
-		sprintf(strData, "// %s\n", comment.c_str());
-		outData += strData;
-	}
-
-	virtual void Write4BytesLine(u8 a, u8 b, u8 c, u8 d, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"\t%s, %s, %s, %s, // %s\n", GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf(strData, strFormat, a, b, c, d);
-		outData += strData;
-		TotalBytes += 4;
-	}
-
-	virtual void Write2BytesLine(u8 a, u8 b, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"\t%s, %s, // %s\n", GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf(strData, strFormat, a, b);
-		outData += strData;
-		TotalBytes += 2;
-	}
-
-	virtual void Write1ByteLine(u8 a, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"\t%s, // %s\n", GetNumberFormat(), comment.c_str());
-		sprintf(strData, strFormat, a);
-		outData += strData;
-		TotalBytes += 1;
-	}
-
-	virtual void Write1WordLine(u16 a, std::string comment = "")
-	{ 
-		sprintf(strFormat,
-			"\t%s, // %s\n", GetNumberFormat(2), comment.c_str());
-		sprintf(strData, strFormat, a);
-		outData += strData;
-		TotalBytes += 2;
-	}
-
-	virtual void Write2WordsLine(u16 a, u16 b, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"\t%s, %s, // %s\n", GetNumberFormat(2), GetNumberFormat(2), comment.c_str());
-		sprintf(strData, strFormat, a, b);
-		outData += strData;
-		TotalBytes += 4;
-	}
-
-	virtual void WriteLineBegin()
-	{ 
-		outData += "\t";
+		outData += MSX::Format("// %s\n", comment.c_str());
 	}
 
 	virtual void Write1ByteData(u8 data)
 	{
-		sprintf(strFormat, "%s, ", GetNumberFormat());
-		sprintf(strData, strFormat, data);
-		outData += strData;
+		sprintf(strFormat, "%s, ", GetNumberFormat(1));
+		outData += MSX::Format(strFormat, data);
 		TotalBytes += 1;
 	}
 
 	virtual void Write8BitsData(u8 data)
 	{
 		sprintf(strFormat,
-			"%s, /* %%c%%c%%c%%c%%c%%c%%c%%c */ ", GetNumberFormat());
+			"%s, /* %%c%%c%%c%%c%%c%%c%%c%%c */ ", GetNumberFormat(1));
 		sprintf(strData, strFormat, data, 
 			data & 0x80 ? '#' : '.', 
 			data & 0x40 ? '#' : '.', 
@@ -506,20 +544,11 @@ public:
 		TotalBytes += 1;
 	}
 
-	virtual void WriteLineEnd()
-	{ 
-		outData += "\n";
-	}
-
-	virtual void WriteTableEnd(std::string comment = "")
+	virtual void Write1WordData(u16 data)
 	{
-		outData += "};\n";
-		if (comment != "")
-		{
-			sprintf(strData,
-				"// %s\n", comment.c_str());
-			outData += strData;
-		}
+		sprintf(strFormat, "%s, ", GetNumberFormat(2));
+		outData += MSX::Format(strFormat, data);
+		TotalBytes += 2;
 	}
 };
 
@@ -532,6 +561,13 @@ class ExporterASM: public ExporterText
 public:
 	ExporterASM(MSX::DataFormat f, ExportParameters* p) : ExporterText(f, p) {}
 
+	virtual void WriteSpriteHeader(i32 number)
+	{
+		sprintf(strData,
+			"; Sprite[%i] (offset:%i)\n", number, GetTotalBytes());
+		outData += strData;
+	}
+
 	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "")
 	{
 		sprintf(strData,
@@ -542,92 +578,6 @@ public:
 		outData += strData;
 	}
 
-	virtual void WriteSpriteHeader(i32 number)
-	{ 
-		sprintf(strData,
-			"; Sprite[%i] (offset:%i)\n", number, TotalBytes);
-		outData += strData;
-	}
-
-	virtual void WriteCommentLine(std::string comment = "")
-	{
-		sprintf(strData, "; %s\n", comment.c_str());
-		outData += strData;
-	}
-
-	virtual void Write4BytesLine(u8 a, u8 b, u8 c, u8 d, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"\t%s %s, %s, %s, %s, ; %s\n", GetDataFormat(1), GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf(strData, strFormat, a, b, c, d);
-		outData += strData;
-		TotalBytes += 4;
-	}
-
-	virtual void Write2BytesLine(u8 a, u8 b, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"\t%s %s, %s, ; %s\n", GetDataFormat(1), GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf(strData, strFormat, a, b);
-		outData += strData;
-		TotalBytes += 2;
-	}
-
-	virtual void Write1ByteLine(u8 a, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"\t%s %s, ; %s\n", GetDataFormat(1), GetNumberFormat(), comment.c_str());
-		sprintf(strData, strFormat, a);
-		outData += strData;
-		TotalBytes += 1;
-	}
-
-	virtual void Write1WordLine(u16 a, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"\t%s %s, ; %s\n", GetDataFormat(2), GetNumberFormat(2), comment.c_str());
-		sprintf(strData, strFormat, a);
-		outData += strData;
-		TotalBytes += 2;
-	}
-
-	virtual void Write2WordsLine(u16 a, u16 b, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"\t%s %s, %s, ; %s\n", GetDataFormat(2), GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf(strData, strFormat, a, b);
-		outData += strData;
-		TotalBytes += 4;
-	}
-
-	virtual void WriteLineBegin()
-	{ 
-		outData += "\t";
-		outData += GetDataFormat(1);
-		outData += " ";
-	}
-
-	virtual void Write1ByteData(u8 data)
-	{
-		sprintf(strFormat, "%s, ", GetNumberFormat());
-		sprintf(strData, strFormat, data);
-		outData += strData;
-		TotalBytes += 1;
-	}
-
-	virtual void Write8BitsData(u8 data)
-	{
-		sprintf(strFormat, "%s, ", GetNumberFormat());
-		sprintf(strData, strFormat, data);
-		outData += strData;
-		TotalBytes += 1;
-	}
-
-	virtual void WriteLineEnd()
-	{ 
-		outData += "\n";
-	}
-
 	virtual void WriteTableEnd(std::string comment = "")
 	{
 		if (comment != "")
@@ -636,6 +586,46 @@ public:
 				"; %s\n", comment.c_str());
 			outData += strData;
 		}
+	}
+
+	virtual void WriteLineBegin()
+	{
+		outData += "\t";
+		outData += GetDataFormat(1);
+		outData += " ";
+	}
+
+	virtual void WriteLineEnd(std::string comment = "")
+	{
+		if (comment != "")
+			outData += MSX::Format("; %s", comment.c_str());
+		outData += "\n";
+	}
+
+	virtual void WriteCommentLine(std::string comment = "")
+	{
+		outData += MSX::Format("; %s\n", comment.c_str());
+	}
+
+	virtual void Write1ByteData(u8 data)
+	{
+		sprintf(strFormat, "%s, ", GetNumberFormat(1));
+		outData += MSX::Format(strFormat, data);
+		TotalBytes += 1;
+	}
+
+	virtual void Write8BitsData(u8 data)
+	{
+		sprintf(strFormat, "%s, ", GetNumberFormat(1));
+		outData += MSX::Format(strFormat, data);
+		TotalBytes += 1;
+	}
+
+	virtual void Write1WordData(u16 data)
+	{
+		sprintf(strFormat, "%s, ", GetDataFormat(2));
+		outData += MSX::Format(strFormat, data);
+		TotalBytes += 2;
 	}
 };
 
@@ -653,6 +643,13 @@ public:
 		bLineStart = TRUE;
 	}
 
+	virtual void WriteSpriteHeader(i32 number)
+	{
+		sprintf(strData,
+			"%i 'Sprite[%i] (offset:%i)\n", Line++, number, GetTotalBytes());
+		outData += strData;
+	}
+
 	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "")
 	{
 		sprintf(strData,
@@ -660,101 +657,6 @@ public:
 			"%i '%s:%s\n",
 			Line++, name.c_str(), comment.c_str());
 		outData += strData;
-	}
-
-	virtual void WriteSpriteHeader(i32 number)
-	{
-		sprintf(strData,
-			"%i 'Sprite[%i] (offset:%i)\n", Line++, number, TotalBytes);
-		outData += strData;
-	}
-
-	virtual void WriteCommentLine(std::string comment = "")
-	{
-		sprintf(strData, "%i '%s\n", Line++, comment.c_str());
-		outData += strData;
-	}
-
-	virtual void Write4BytesLine(u8 a, u8 b, u8 c, u8 d, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"%i DATA %s,%s,%s,%s '%s\n", Line++, GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf(strData, strFormat, a, b, c, d);
-		outData += strData;
-		TotalBytes += 4;
-	}
-
-	virtual void Write2BytesLine(u8 a, u8 b, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"%i DATA %s,%s '%s\n", Line++, GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf(strData, strFormat, a, b);
-		outData += strData;
-		TotalBytes += 2;
-	}
-
-	virtual void Write1ByteLine(u8 a, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"%i DATA %s '%s\n", Line++, GetNumberFormat(), comment.c_str());
-		sprintf(strData, strFormat, a);
-		outData += strData;
-		TotalBytes += 1;
-	}
-
-	virtual void Write1WordLine(u16 a, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"%i DATA %s '%s\n", Line++, GetNumberFormat(2), comment.c_str());
-		sprintf(strData, strFormat, a);
-		outData += strData;
-		TotalBytes += 2;
-	}
-
-	virtual void Write2WordsLine(u16 a, u16 b, std::string comment = "")
-	{
-		sprintf(strFormat,
-			"%i DATA %s,%s '%s\n", Line++, GetNumberFormat(), GetNumberFormat(), comment.c_str());
-		sprintf(strData, strFormat, a, b);
-		outData += strData;
-		TotalBytes += 4;
-	}
-
-	virtual void WriteLineBegin()
-	{
-		sprintf(strData, "%i DATA ", Line++);
-		outData += strData;
-		bLineStart = TRUE;
-	}
-
-	virtual void Write1ByteData(u8 data)
-	{
-		if (bLineStart)
-			sprintf(strFormat, "%s", GetNumberFormat());
-		else
-			sprintf(strFormat, ",%s", GetNumberFormat());
-		sprintf(strData, strFormat, data);
-		outData += strData;
-		TotalBytes += 1;
-		bLineStart = FALSE;
-	}
-
-	virtual void Write8BitsData(u8 data)
-	{
-		if (bLineStart)
-			sprintf(strFormat, "%s", GetNumberFormat());
-		else
-			sprintf(strFormat, ",%s", GetNumberFormat());
-		sprintf(strData, strFormat, data);
-		outData += strData;
-		TotalBytes += 1;
-		bLineStart = FALSE;
-	}
-
-	virtual void WriteLineEnd()
-	{
-		outData += "\n";
-		bLineStart = FALSE;
 	}
 
 	virtual void WriteTableEnd(std::string comment = "")
@@ -766,6 +668,62 @@ public:
 			outData += strData;
 		}
 	}
+
+	virtual void WriteLineBegin()
+	{
+		sprintf(strData, "%i DATA ", Line++);
+		outData += strData;
+		bLineStart = TRUE;
+	}
+
+	virtual void WriteLineEnd(std::string comment = "")
+	{
+		outData += "\n";
+		bLineStart = FALSE;
+	}
+
+	virtual void WriteCommentLine(std::string comment = "")
+	{
+		sprintf(strData, "%i '%s\n", Line++, comment.c_str());
+		outData += strData;
+	}
+
+	virtual void Write1ByteData(u8 data)
+	{
+		if (bLineStart)
+			sprintf(strFormat, "%s", GetNumberFormat(1));
+		else
+			sprintf(strFormat, ",%s", GetNumberFormat(1));
+		sprintf(strData, strFormat, data);
+		outData += strData;
+		TotalBytes += 1;
+		bLineStart = FALSE;
+	}
+
+	virtual void Write8BitsData(u8 data)
+	{
+		if (bLineStart)
+			sprintf(strFormat, "%s", GetNumberFormat(1));
+		else
+			sprintf(strFormat, ",%s", GetNumberFormat(1));
+		sprintf(strData, strFormat, data);
+		outData += strData;
+		TotalBytes += 1;
+		bLineStart = FALSE;
+	}
+
+
+	virtual void Write1WordData(u16 data)
+	{
+		if (bLineStart)
+			sprintf(strFormat, "%s", GetNumberFormat(2));
+		else
+			sprintf(strFormat, ",%s", GetNumberFormat(2));
+		sprintf(strData, strFormat, data);
+		outData += strData;
+		TotalBytes += 2;
+		bLineStart = FALSE;
+	}
 };
 
 /**
@@ -774,68 +732,31 @@ public:
 class ExporterBin: public ExporterInterface
 {
 protected:
-#define BUFFER_SIZE 1024
-	std::vector<u8> outData;
 
 public:
 	ExporterBin(MSX::DataFormat f, ExportParameters* p) : ExporterInterface(f, p) {}
 	virtual void WriteHeader() {}
-	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "") {}
 	virtual void WriteSpriteHeader(i32 number) {}
-	virtual void WriteCommentLine(std::string comment = "") {}
-	virtual void Write1ByteLine(u8 a, std::string comment = "")
-	{ 
-		outData.push_back(a); 
-		TotalBytes += 1;
-	}
-	virtual void Write2BytesLine(u8 a, u8 b, std::string comment = "")
-	{ 
-		outData.push_back(a); 
-		outData.push_back(b); 
-		TotalBytes += 2;
-	}
-	virtual void Write4BytesLine(u8 a, u8 b, u8 c, u8 d, std::string comment = "")
-	{ 
-		outData.push_back(a); 
-		outData.push_back(b); 
-		outData.push_back(c); 
-		outData.push_back(d); 
-		TotalBytes += 4;
-	}
-	virtual void Write1WordLine(u16 a, std::string comment = "")
-	{
-		outData.push_back(a & 0x00FF);
-		outData.push_back(a >> 8);
-		TotalBytes += 2;
-	}
-	virtual void Write2WordsLine(u16 a, u16 b, std::string comment = "")
-	{
-		outData.push_back(a & 0x00FF);
-		outData.push_back(a >> 8);
-		outData.push_back(b & 0x00FF);
-		outData.push_back(b >> 8);
-		TotalBytes += 4;
-	}
-	virtual void WriteLineBegin() {}
-	virtual void Write1ByteData(u8 data)
-	{ 
-		outData.push_back(data);
-		TotalBytes += 1;
-	}
-	virtual void Write8BitsData(u8 data)
-	{ 
-		outData.push_back(data);
-		TotalBytes += 1;
-	}
-	virtual void WriteLineEnd() {}
+
+	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "") { Sections.push_back(ExportSection()); }
 	virtual void WriteTableEnd(std::string comment = "") {}
+	virtual void WriteLineBegin() {}
+	virtual void WriteLineEnd(std::string comment = "") {}
+	virtual void WriteCommentLine(std::string comment = "") {}
+
+	virtual void Write1ByteData(u8 data) { Sections.back().Data.push_back(data); }
+	virtual void Write8BitsData(u8 data) { Sections.back().Data.push_back(data); }
+	virtual void Write1WordData(u16 data)
+	{
+		Sections.back().Data.push_back(data & 0xFF);
+		Sections.back().Data.push_back(data >> 8);
+	}
 
 	virtual const c8* GetNumberFormat(u8 bytes = 1) { return NULL; }
 	virtual const c8* GetDataFormat(u8 bytes = 1) { return NULL; }
 
 	virtual bool Export()
 	{
-		// Write header file
 		FILE* file;
 		file = fopen(Param->outFile.c_str(), "wb");
 		if (file == NULL)
@@ -843,38 +764,53 @@ public:
 			printf("Error: Fail to create %s\n", Param->outFile.c_str());
 			return FALSE;
 		}
-		fwrite(outData.data(), 1, outData.size(), file);
+		loop(i, Sections.size())
+			fwrite(Sections[i].Data.data(), 1, Sections[i].Data.size(), file);
 		fclose(file);
 		return TRUE;
 	}
 
-	std::vector<u8>& GetData() { return outData; }
+	std::vector<u8>& GetData(u32 idx = 0) { return Sections[idx].Data; }
 };
 
+/**
+ * Binary exporter
+ */
+class ExporterBinNoSave : public ExporterBin
+{
+protected:
+
+public:
+	ExporterBinNoSave(MSX::DataFormat f, ExportParameters* p) : ExporterBin(f, p) {}
+
+	virtual bool Export() { return TRUE; }
+};
 
 /**
  * Dummy exporter
  */
 class ExporterDummy : public ExporterInterface
 {
+protected:
+	u32 TotalBytes;
+
 public:
-	ExporterDummy(MSX::DataFormat f, ExportParameters* p) : ExporterInterface(f, p) {}
+	ExporterDummy(MSX::DataFormat f, ExportParameters* p) : ExporterInterface(f, p), TotalBytes(0) {}
 	virtual void WriteHeader() {}
-	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "") {}
 	virtual void WriteSpriteHeader(i32 number) {}
-	virtual void WriteCommentLine(std::string comment = "") {}
-	virtual void Write1ByteLine(u8 a, std::string comment = "") { TotalBytes += 1; }
-	virtual void Write2BytesLine(u8 a, u8 b, std::string comment = "") { TotalBytes += 2; }
-	virtual void Write4BytesLine(u8 a, u8 b, u8 c, u8 d, std::string comment = "") { TotalBytes += 4; }
-	virtual void Write1WordLine(u16 a, std::string comment = "") { TotalBytes += 2; }
-	virtual void Write2WordsLine(u16 a, u16 b, std::string comment = "") { TotalBytes += 4; }
+	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "") {}
+	virtual void WriteTableEnd(std::string comment = "") {}
 	virtual void WriteLineBegin() {}
+	virtual void WriteLineEnd(std::string comment = "") {}
+	virtual void WriteCommentLine(std::string comment = "") {}
+
 	virtual void Write1ByteData(u8 data) { TotalBytes += 1; }
 	virtual void Write8BitsData(u8 data) { TotalBytes += 1;	}
-	virtual void WriteLineEnd() {}
-	virtual void WriteTableEnd(std::string comment = "") {}
+	virtual void Write1WordData(u16 data) { TotalBytes += 2; }
+
 	virtual const c8* GetNumberFormat(u8 bytes = 1) { return NULL; }
 	virtual const c8* GetDataFormat(u8 bytes = 1) { return NULL; }
+	virtual u32 GetTotalBytes() { return TotalBytes; }
 	virtual bool Export() { return TRUE; }
 };
 

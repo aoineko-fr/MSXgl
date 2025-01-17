@@ -291,8 +291,6 @@ $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetN
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\kmeans.c" />
-    <ClCompile Include="..\src\km_quantization.c" />
     <ClCompile Include="..\src\MSXimg.cpp" />
     <ClCompile Include="..\src\color.cpp" />
     <ClCompile Include="..\src\exporter.cpp" />
@@ -305,8 +303,6 @@ $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetN
     <ClInclude Include="..\src\color.h" />
     <ClInclude Include="..\src\exporter.h" />
     <ClInclude Include="..\src\image.h" />
-    <ClInclude Include="..\src\kmeans.h" />
-    <ClInclude Include="..\src\km_quantization.h" />
     <ClInclude Include="..\src\MSXimg.h" />
     <ClInclude Include="..\src\parser.h" />
   </ItemGroup>

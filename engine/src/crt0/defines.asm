@@ -86,9 +86,10 @@ YAMA_CFGR_K4	= #0b00001000	; Changes mapper configuration from Konami5 (SCC) to 
 ;------------------------------------------------------------------------------
 ; ISR types
 ISR_NONE		= 0				; No ISR
-ISR_VBLANK		= 1				; V-blank handler (V9938 or V9958)
-ISR_VHBLANK		= 2				; V-blank and h-blank handler (V9958)
-ISR_V9990		= 3				; V-blank, h-blank and command end handler (V9990)
+ISR_ALL			= 1				; Handle any interruption
+ISR_VBLANK		= 2				; V-blank handler (V9938 or V9958)
+ISR_VHBLANK		= 3				; V-blank and h-blank handler (V9958)
+ISR_V9990		= 4				; V-blank, h-blank and command end handler (V9990)
 
 ;------------------------------------------------------------------------------
 ; Installation in RAM's page 0

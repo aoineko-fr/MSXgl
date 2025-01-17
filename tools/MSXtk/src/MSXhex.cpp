@@ -27,9 +27,10 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.10";
+const char* VERSION = "0.1.11";
 
 #define BUFFER_SIZE 1024
+#define INVALID_ADDR 0xFFFF
 
 // Record structure
 struct Record
@@ -46,11 +47,12 @@ struct Record
 // Record structure
 struct Segment
 {
+	u16 Base;
 	u16 Size;
 	u16 Lower;
 	u16 Higher;
 
-	Segment() : Size(0), Lower(0xFFFF), Higher(0) {}
+	Segment() : Base(INVALID_ADDR), Size(0), Lower(0xFFFF), Higher(0) {}
 };
 
 // RawData structure
@@ -238,7 +240,11 @@ bool WriteBytesAtAddress(u32 addr, const std::vector<u8>& data)
 	// Check banked data segment
 	u16 segNum = (addr >> 16);
 	u16 segAddr = (addr & 0xFFFF);
-	if ((g_BankSize != 0) && (segNum > 0))
+	if (((u16)g_SegmentInfo.size() > segNum) && (g_SegmentInfo[segNum].Base != INVALID_ADDR)) // Use provided segment base address...
+	{
+		addr = g_StartAddress + (segNum * g_BankSize) + (u16)addr - g_SegmentInfo[segNum].Base;
+	}
+	else if ((g_BankSize != 0) && (segNum > 0)) // ...or try to guess it
 	{	
 		u16 segOffset = (u16)(addr & (g_BankSize - 1));
 		addr = g_StartAddress + (segNum * g_BankSize) + segOffset;
@@ -254,7 +260,7 @@ bool WriteBytesAtAddress(u32 addr, const std::vector<u8>& data)
 		g_SegmentInfo[segNum].Higher = segAddr + (u16)data.size() - 1;
 	if (g_Log & Log_Segments)
 	{
-		if ((std::find(g_SegException.begin(), g_SegException.end(), segNum) == g_SegException.end()) && (g_SegmentInfo[segNum].Size > g_BankSize))
+		if ((g_SegmentInfo[segNum].Size > g_BankSize) && (std::find(g_SegException.begin(), g_SegException.end(), segNum) == g_SegException.end()))
 			printf("Warning: Segment %i size (%i) exceed defined bank size (%i)\n", segNum, g_SegmentInfo[segNum].Size, g_BankSize);
 	}
 
@@ -452,17 +458,19 @@ void PrintHelp()
 	printf("--------------------------------------------------------------------------------\n");
 	printf("Usage: msxhex <inputfile> [options]\n\n");
 	printf("Options:\n");
-	printf(" -o filename       Output filename (default: use input filename with '.bin')\n");
-	printf(" -e ext            Output filename extension (can't be use with -o)\n");
-	printf(" -s addr           Starting address (default: 0)\n");
-	printf(" -l length         Total data length (default: 0, means autodetect)\n");
-	printf(" -b length         Bank size (default: 0, means don't use)\n");
-	printf(" -p value          Pading value (default: 0xFF)\n");
-	printf(" -r offset file    Raw data 'file' to add at a given 'offset'\n");
-	printf(" --check           Validate each record using checksum\n");
-	printf(" --log             Log each record\n");
-	printf(" --segcheck        Check if segment size does not exceed the bank size\n");
-	printf(" --segexcept num   Don't report oversize for this segment (can be use more than once)\n");
+	printf(" -o filename         Output filename (default: use input filename with '.bin')\n");
+	printf(" -e ext              Output filename extension (can't be use with -o)\n");
+	printf(" -s addr             Starting address (default: 0)\n");
+	printf(" -l length           Total data length (default: 0, means autodetect)\n");
+	printf(" -b length           Bank size (default: 0, means don't use)\n");
+	printf(" -p value            Pading value (default: 0xFF)\n");
+	printf(" -r offset file      Raw data 'file' to add at a given 'offset'\n");
+	printf(" --check             Validate each record using checksum\n");
+	printf(" --log               Log each record\n");
+	printf(" --segcheck          Check if segment size does not exceed the bank size\n");
+	printf(" --segexcept num     Don't report oversize for this segment (can be use more than once)\n");
+	printf(" --segaddr seg addr  Base address of the given segment (can be use more than once)\n");
+	printf("                     If no base address is supplied, autodetection is used.\n");
 	printf("\n");
 	printf(" All integers can be decimal or hexadecimal starting with '0x'.\n");
 	printf(" One of the following named values can also be used:\n  ");
@@ -476,7 +484,7 @@ void PrintHelp()
 }
 
 //-----------------------------------------------------------------------------
-//const char* ARGV[] = { "", "../testcases/s_arkos.ihx", "-e", "rom", "-s", "0x4000", "-l", "128K", "-b", "8K", "-segcheck"};
+//const char* ARGV[] = { "", "../testcases/s_swsprt.ihx", "-e", "rom", "-s", "0x4000", "-l", "131072", "-b", "8192", "--segaddr", "4", "0x0000"};
 //#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
@@ -557,6 +565,15 @@ int main(int argc, const char* argv[])
 		else if (MSX::StrEqual(argv[i], "--check") || MSX::StrEqual(argv[i], "-check"))
 		{
 			g_Check = true;
+		}
+		// Activate record validation check
+		else if (MSX::StrEqual(argv[i], "--segaddr"))
+		{
+			u32 seg = GetValue(argv[++i]);
+			u32 addr = GetValue(argv[++i]);
+			if ((u16)g_SegmentInfo.size() < seg + 1)
+				g_SegmentInfo.resize(seg + 1);
+			g_SegmentInfo[seg].Base = addr;
 		}
 	}
 

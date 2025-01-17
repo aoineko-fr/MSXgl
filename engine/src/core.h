@@ -10,7 +10,7 @@
 // Library version
 #define VERSION_MAJOR				(u16)1		// 4-bits (0-15)
 #define VERSION_MINOR				(u16)2		// 6-bits (0-63)
-#define VERSION_PATCH				(u16)14		// 6-bits (0-63)
+#define VERSION_PATCH				(u16)15		// 6-bits (0-63)
 #define VERSION(a, b, c)			((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
 #define VERSION_CURRENT				VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 
@@ -148,7 +148,7 @@ typedef void (*callback)(void);				// Callback default signature
 // Tells the compiler which registers are not used in the function to prevent
 // the calling code from saving them unnecessarily before the call.
 #define __PRESERVES					__preserves_regs
-// __PRESERVES(a, f, b, c, d, e, h, l, iyl, iyh)
+// __PRESERVES(a, b, c, d, e, h, l, iyl, iyh)
 
 //-----------------------------------------------------------------------------
 // Bits handling

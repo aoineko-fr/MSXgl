@@ -273,6 +273,7 @@ if (DoCompile)
 	else if ((InstallRAMISR === "RAM0_ISR") || (InstallRAMISR === "RAM0_SEGMENT")) conf += `ROM_RAMISR=${InstallRAMISR}\n`;
 	if (CustomISR === "VHBLANK") conf += "ROM_ISR=ISR_VHBLANK\n";
 	if (CustomISR === "V9990")   conf += "ROM_ISR=ISR_V9990\n";
+	if (CustomISR === "ALL")     conf += "ROM_ISR=ISR_ALL\n";
 	if (DOSParseArg)             conf += "DOS_PARSEARG=1\n";
 	if (Target === "DOS0")       conf += "DOS_ISR=1\n";
 	// if (Machine != "1")          conf += "ISR_SET_S0=1\n";
