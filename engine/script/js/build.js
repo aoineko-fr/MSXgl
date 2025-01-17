@@ -529,6 +529,7 @@ if (DoCompile)
 					compiler.compile(`${ProjDir}${pageName}.${segExtList[e]}`, 16 * 1024, `PAGE0`);
 					MapperBanks += `-Wl-b_PAGE0=${pageStartAddr} `;
 					RelList.push(`${OutDir}${pageName}.rel`);
+					HexBinOpt += ` --segaddr ${pageStartAddr >> 16} 0x0000`;
 					pageFound++;
 				}
 			}
