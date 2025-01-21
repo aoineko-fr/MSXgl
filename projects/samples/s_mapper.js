@@ -6,7 +6,7 @@
 Machine = "1";
 
 //-- List of library modules to build (array)
-LibModules = [ "system", "vdp", "print", "input", "memory" ];
+LibModules = [ "bios", "system", "vdp", "print", "input", "memory" ];
 
 //-- Target program format (string)
 Target = "ROM_ASCII8";

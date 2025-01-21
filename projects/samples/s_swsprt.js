@@ -20,4 +20,4 @@ CustomISR = "VBLANK";
 AppID = "SW";
 
 //-- Additionnal options of Hex to Binary convertor (string)
-HexBinOpt = "--segaddr 4 0x0000";
+// HexBinOpt = "--segaddr 4 0x0000";
