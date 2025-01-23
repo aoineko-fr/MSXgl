@@ -140,7 +140,9 @@ void PrintHelp()
 	printf("    gm1           Generate all tables for Graphic mode 1 (Screen 1)\n");
 	printf("    gm2           Generate all tables for Graphic mode 2 or 3 (Screen 2 or 4)\n");
 	printf("    sprt          Export 16x16 sprites with specific block ordering\n");
+#ifdef MGLV
 	printf("    mglv          MGLV video format from multiple image\n");
+#endif
 	printf(" -pos x y         Start position in the input image\n");
 	printf(" -size x y        Width/height of a block to export (if 0, use image size)\n");
 	printf(" -num x y         Number of block to export (columns/rows number)\n");
@@ -245,6 +247,7 @@ void PrintHelp()
 	printf(" --noTilesName    Exclude name table (default: false)\n");
 	printf(" --noTilesPattern Exclude pattern table (default: false)\n");
 	printf(" --noTilesColor   Exclude color table (default: false)\n");
+#ifdef MGLV
 	printf("\n");
 	printf("MGLV options:\n");
 	printf(" -mglvHead x      File header\n");
@@ -257,6 +260,7 @@ void PrintHelp()
 	printf(" -mglvLoop        \n");
 	printf(" -mglvMinSkip x   Minimal size of skip chunk (default: 8)\n");
 	printf(" -mglvMinFill x   Minimal size of fill chunk (default: 60)\n");
+#endif
 }
 
 // Debug
@@ -538,8 +542,10 @@ int main(int argc, const char* argv[])
 				param.mode = MODE_GM2;
 			else if (MSX::StrEqual(argv[i], "sprt"))
 				param.mode = MODE_Sprite;
+#ifdef MGLV
 			else if (MSX::StrEqual(argv[i], "mglv"))
 				param.mode = MODE_MGLV;
+#endif
 			else if (MSX::StrEqual(argv[i], "txt") || MSX::StrEqual(argv[i], "sc0"))
 				param.mode = MODE_Text;
 		}
@@ -702,6 +708,7 @@ int main(int argc, const char* argv[])
 			else if (MSX::StrEqual(argv[i], "lanczos"))
 				param.scaleFilter = FILTER_Lanczos;
 		}
+#ifdef MGLV
 		else if (MSX::StrEqual(argv[i], "-mglvHead")) // File header
 		{
 			i++;
@@ -736,6 +743,7 @@ int main(int argc, const char* argv[])
 		{
 			param.mglvConfig.minFill = GetValue(argv[++i]);
 		}
+#endif
 	}
 
 	//-------------------------------------------------------------------------

@@ -23,7 +23,9 @@
 #include "exporter.h"
 #include "image.h"
 #include "parser.h"
+#ifdef MGLV
 #include "mglv.h"
+#endif
 
 struct RLEHash
 {
@@ -2029,6 +2031,7 @@ bool ExportText(ExportParameters* param, ExporterInterface* exp)
 	return bSaved;
 }
 
+#ifdef MGLV
 //#############################################################################
 //
 // EXPORT MGLV
@@ -2394,6 +2397,7 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 	bool bSaved = exp->Export();
 	return bSaved;
 }
+#endif // MGLV
 
 //-----------------------------------------------------------------------------
 // PARSE IMAGE
@@ -2411,6 +2415,8 @@ bool ParseImage(ExportParameters* param, ExporterInterface* exp)
 	case MODE_GM2:		return ExportGM2(param, exp);
 	case MODE_Sprite:	return ExportSprite(param, exp);
 	case MODE_Text:		return ExportText(param, exp);
+#ifdef MGLV
 	case MODE_MGLV:		return ExportMGLV(param, exp);
+#endif
 	};
 }

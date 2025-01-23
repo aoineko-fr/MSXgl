@@ -19,7 +19,9 @@
 // MSXi
 #include "MSXimg.h"
 #include "color.h"
+#ifdef MGLV
 #include "mglv.h"
+#endif
 
 #define BUFFER_SIZE 1024
 
@@ -71,6 +73,7 @@ struct Layer
 	std::vector<u32> colors;	///< Layer colors
 };
 
+#ifdef MGLV
 // Struct: ConfigMGLV
 // MGLV video player parameters
 struct ConfigMGLV
@@ -99,6 +102,7 @@ struct ConfigMGLV
 		minFill (MGLV_FILL_COUNT_MIN)
 	{}
 };
+#endif
 
 /// Exporter parameters
 struct ExportParameters
@@ -157,7 +161,9 @@ struct ExportParameters
 	bool flipH;
 	bool flipV;
 	f32 rotAngle;
+#ifdef MGLV
 	ConfigMGLV mglvConfig;
+#endif
 
 	ExportParameters()
 	{
