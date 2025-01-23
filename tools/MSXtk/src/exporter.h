@@ -143,6 +143,7 @@ struct ExportParameters
 	bool bStartAddr;			///< Add starting address in the data definition
 	u32 startAddr;				///< Data starting adress
 	bool bDefine;				///< Add define block for C file that allow to add directive to table definition (to place data at a given address for e.g.)
+	bool bReturn0;				///< Return 0 instead of data size
 	bool bTitle;				///< Display ASCII-art title on top of exported text file
 	std::vector<Layer> layers;	///< Block layers
 	bool bTilesCompressNames;	///< GM2 mode: Compress names/layout table

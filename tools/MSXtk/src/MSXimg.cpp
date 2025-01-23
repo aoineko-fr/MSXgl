@@ -237,6 +237,7 @@ void PrintHelp()
 	printf("                  Can be character (like: &) or hexadecimal value (0xFF format)\n");
 	printf(" -at x            Data starting address (can be decimal or hexadecimal starting with '0x')\n");
 	printf(" -def             Add defines for each table\n");
+	printf(" -ret0            Program return 0 for success instead of data size (default: data size)\n");
 	printf("\n");
 	printf("GM1 & GM2 specific options:\n");
 	printf(" -offset x        Offset of layout index for GM1 et GM2 mode (default: 0)\n");
@@ -593,6 +594,11 @@ int main(int argc, const char* argv[])
 		{
 			param.bDefine= true;
 		}
+		else if (MSX::StrEqual(argv[i], "-ret0")) // Return 0
+		{
+			param.bReturn0 = true;
+		}
+		
 		else if (MSX::StrEqual(argv[i], "-offset")) // Offset
 		{
 			param.offset = GetValue(argv[++i]);
@@ -989,6 +995,9 @@ int main(int argc, const char* argv[])
 		printf("Succeed!\n");
 	else
 		printf("Error: Fatal error!\n");
+
+	if (param.bReturn0)
+		return bSucceed ? 0 : 1;
 
 	return bSucceed ? param.startAddr + size : 0;
 }

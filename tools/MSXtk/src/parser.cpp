@@ -2314,11 +2314,11 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 					exp->Write1ByteLine(chunk.Command + (u8)(chunk.Number << 4), MSX::Format("SKIP_4B (%i)", chunk.Number));
 					break;
 				case MGLV_CMD_SKIP_8B: // Skip nn bytes(1 - 255)
-					exp->Write1ByteLine(chunk.Command, "SKIP_8B");
+					exp->Write1ByteLine(chunk.Command, MSX::Format("SKIP_8B (%i)", chunk.Number));
 					exp->Write1ByteLine((u8)chunk.Number);
 					break;
 				case MGLV_CMD_SKIP_16B: // Skip nnnn bytes(1 - 65535)
-					exp->Write1ByteLine(chunk.Command, "SKIP_16B");
+					exp->Write1ByteLine(chunk.Command, MSX::Format("SKIP_16B (%i)", chunk.Number));
 					exp->Write1WordLine((u16)chunk.Number);
 					break;
 				case MGLV_CMD_SKIP_FRAME: // Skip a frame / End of frame
@@ -2330,12 +2330,12 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 					exp->Write1ByteLine((u8)chunk.Value[0]);
 					break;
 				case MGLV_CMD_FILL_8B: // Fill nn bytes(1 - 255) with vv value
-					exp->Write1ByteLine(chunk.Command, "FILL_8B");
+					exp->Write1ByteLine(chunk.Command, MSX::Format("FILL_8B (%i)", chunk.Number));
 					exp->Write1ByteLine((u8)chunk.Number);
 					exp->Write1ByteLine((u8)chunk.Value[0]);
 					break;
 				case MGLV_CMD_FILL_16B: // Fill nnnn bytes(1 - 65535) with vv value
-					exp->Write1ByteLine(chunk.Command, "FILL_16B");
+					exp->Write1ByteLine(chunk.Command, MSX::Format("FILL_16B (%i)", chunk.Number));
 					exp->Write1WordLine((u16)chunk.Number);
 					exp->Write1ByteLine((u8)chunk.Value[0]);
 					break;
@@ -2349,12 +2349,12 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 					exp->WriteBytesList(chunk.Value);
 					break;
 				case MGLV_CMD_COPY_8B: // Copy nn bytes(1 - 255) from vv[nn] data table
-					exp->Write1ByteLine(chunk.Command, "COPY_8B");
+					exp->Write1ByteLine(chunk.Command, MSX::Format("COPY_8B (%i)", chunk.Number));
 					exp->Write1ByteLine((u8)chunk.Number);
 					exp->WriteBytesList(chunk.Value);
 					break;
 				case MGLV_CMD_COPY_16B: // Copy nnnn bytes(1 - 65535) from vv[nnnn] data table
-					exp->Write1ByteLine(chunk.Command, "COPY_16B");
+					exp->Write1ByteLine(chunk.Command, MSX::Format("COPY_16B (%i)", chunk.Number));
 					exp->Write1WordLine((u16)chunk.Number);
 					exp->WriteBytesList(chunk.Value);
 					break;

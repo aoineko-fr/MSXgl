@@ -10,7 +10,7 @@
 
 #pragma once
 
-#define MSXi_VERSION "1.20.1"
+#define MSXi_VERSION "1.20.2"
 
 /// Header structure
 struct MSXi_Header
