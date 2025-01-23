@@ -990,6 +990,6 @@ int main(int argc, const char* argv[])
 	else
 		printf("Error: Fatal error!\n");
 
-	return bSucceed ? param.startAddr + size : 0;
+	return !bSucceed;
 }
 
