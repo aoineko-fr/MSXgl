@@ -482,6 +482,11 @@ if (DoCompile)
 				for (let b = 0; b < bankAddrList.length; b++)
 				{
 					let bankAddr = bankAddrList[b];
+					switch (Mapper)
+					{
+					case "ROM_NEO8":  if((b == 0) && (s == 4)) bankAddr = 0x0100; break;
+					case "ROM_NEO16": if((b == 0) && (s == 2)) bankAddr = 0x0100; break;
+					}
 					if (bankAddr != 0xFFFF)
 					{
 						let segPath = `${ProjSegments}_s${s}_b${b}`;
