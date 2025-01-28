@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------
 // DEFINES
 
-const char* VERSION = "1.4.1";
+const char* VERSION = "1.4.2";
 
 #define BUFFER_SIZE 1024
 
@@ -504,7 +504,7 @@ void PrintHelp()
 	printf("  -def			Add define before data structure (only for C language. default: false)\n");
 	printf("  -size			Add size define after data structure (only for C language. default: false)\n");
 	printf("  -nodeco       Don't display header decoration (default: false)\n");
-	printf("  -h            Display this help\n");
+	printf("  -help         Display this help\n");
 }
 
 //const char* ARGV[] = { "", "testcases/pt3/Beg!nsum.pt3", "-n", "16", "-skip", "0", "100", "-ascii", "-ax" };
@@ -532,7 +532,7 @@ int main(int argc, const char* argv[])
 	for (i32 i = 2; i < argc; ++i)
 	{
 		// Display help
-		if (MSX::StrEqual(argv[i], "-h"))
+		if (MSX::StrEqual(argv[i], "-help"))
 		{
 			PrintHelp();
 			return 0;

@@ -1,5 +1,5 @@
 Error: No enough parameters!
-MSXmath 1.7.0 - Math Table Generator
+MSXmath 1.7.1 - Math Table Generator
 Usage: MSXmath [options] [tables]
 Options:
   -o <filename>    Filename of the output file (default: use input filename with .h/.asm/.bin extension)
@@ -30,8 +30,12 @@ Tables:
   log10            Common logarithm (to the base 10)
   hdx              Hypotenuse length when dX=1 [0:Pi*2]
   hdy              Hypotenuse length when dY=1 [0:Pi*2]
-  proj W H         3d projection tables (W/H: screen width/height)
+  proj N F         3d projection tables (N/F: near/far scale)
   rot              Rotation vector table
   equa A B C D E   Equation of type y=A+B*(C+x*D)^E
   map  A B         Map [0:num[ values to [A:B] space
+  muls             Full 8-bit signed integer multiplication table (bytes should be 2
+  mulu             Full 8-bit unsigned integer multiplication table (bytes should be 2)
+  divs             Full 8-bit signed integer division table
+  divu             Full 8-bit unsigned integer division table
 Note: All number can be decimal or hexadecimal starting with '0x', '$' or '#'.

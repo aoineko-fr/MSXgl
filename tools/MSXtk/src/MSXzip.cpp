@@ -29,7 +29,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "1.4.1";
+const char* VERSION = "1.4.2";
 
 /// Compressor enum
 enum COMPRESSOR
@@ -108,7 +108,7 @@ void PrintHelp()
 	printf(" -asm           Assembler data format\n");
 	printf(" -bin           Binary data format\n");
 	printf(" -no            No compression (default)\n");
-	printf(" -h             Display this help\n");
+	printf(" -help          Display this help\n");
 	printf("RLEp options:\n");
 	printf(" -rlep          RLEp compression\n");
 	printf(" --def auto|X   Default value for type 0 chunk (default: 0)\n");
@@ -186,7 +186,7 @@ int main(int argc, const char* argv[])
 	for (i32 i = 2; i < argc; ++i)
 	{
 		// Display help
-		if (MSX::StrEqual(argv[i], "-h"))
+		if (MSX::StrEqual(argv[i], "-help"))
 		{
 			PrintHelp();
 			return 0;

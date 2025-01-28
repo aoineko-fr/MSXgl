@@ -1,4 +1,4 @@
-MSXhex 0.1.11 - Convert Intel HEX file to binary
+MSXhex 0.1.12 - Convert Intel HEX file to binary
 --------------------------------------------------------------------------------
 Usage: msxhex <inputfile> [options]
 
@@ -16,6 +16,7 @@ Options:
  --segexcept num     Don't report oversize for this segment (can be use more than once)
  --segaddr seg addr  Base address of the given segment (can be use more than once)
                      If no base address is supplied, autodetection is used.
+ -help               Display this help
 
  All integers can be decimal or hexadecimal starting with '0x'.
  One of the following named values can also be used:

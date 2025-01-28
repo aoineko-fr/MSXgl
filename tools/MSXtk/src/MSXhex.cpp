@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.11";
+const char* VERSION = "0.1.12";
 
 #define BUFFER_SIZE 1024
 #define INVALID_ADDR 0xFFFF
@@ -471,6 +471,7 @@ void PrintHelp()
 	printf(" --segexcept num     Don't report oversize for this segment (can be use more than once)\n");
 	printf(" --segaddr seg addr  Base address of the given segment (can be use more than once)\n");
 	printf("                     If no base address is supplied, autodetection is used.\n");
+	printf(" -help               Display this help\n");
 	printf("\n");
 	printf(" All integers can be decimal or hexadecimal starting with '0x'.\n");
 	printf(" One of the following named values can also be used:\n  ");
@@ -508,8 +509,14 @@ int main(int argc, const char* argv[])
 	// Parse command line parameters
 	for (i32 i = 2; i < argc; ++i)
 	{
+		// Display help
+		if (MSX::StrEqual(argv[i], "-help"))
+		{
+			PrintHelp();
+			return 0;
+		}
 		// Output filename
-		if (MSX::StrEqual(argv[i], "-o"))
+		else if (MSX::StrEqual(argv[i], "-o"))
 		{
 			g_OutputFile = argv[++i];
 		}

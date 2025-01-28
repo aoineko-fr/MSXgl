@@ -1,5 +1,5 @@
 Error: No enough parameters!
-MSXbin 1.4.1 - Convert binary to text file
+MSXbin 1.4.2 - Convert binary to text file
 Usage: msxbin <inputfile> [options]
 Options:
   -o output     Filename of the output file (default: use input filename with .h/.asm extension)
@@ -25,4 +25,4 @@ Options:
   -def			Add define before data structure (only for C language. default: false)
   -size			Add size define after data structure (only for C language. default: false)
   -nodeco       Don't display header decoration (default: false)
-  -h            Display this help
+  -help         Display this help

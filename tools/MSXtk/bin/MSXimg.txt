@@ -1,4 +1,4 @@
-MSXimg (v1.20.0)
+MSXimg (v1.20.2)
 Usage: MSXimg <filename> [options]
 
 General options:
@@ -115,6 +115,7 @@ Exporter options:
                   Can be character (like: &) or hexadecimal value (0xFF format)
  -at x            Data starting address (can be decimal or hexadecimal starting with '0x')
  -def             Add defines for each table
+ -ret0            Program return 0 for success instead of data size (default: data size)
 
 GM1 & GM2 specific options:
  -offset x        Offset of layout index for GM1 et GM2 mode (default: 0)
@@ -123,3 +124,15 @@ GM1 & GM2 specific options:
  --noTilesName    Exclude name table (default: false)
  --noTilesPattern Exclude pattern table (default: false)
  --noTilesColor   Exclude color table (default: false)
+
+MGLV options:
+ -mglvHead x      File header
+    full          Full data header (default)
+    short         Short data header without image information
+    none          No header
+ -mglvSeg x       Segment size (default: 8)
+ -mglvFreq x      Movie frequency (default: 60)
+ -mglvTime x      Duration of image in screen frames (default: 5, for 12 fps at 60 Hz)
+ -mglvLoop        
+ -mglvMinSkip x   Minimal size of skip chunk (default: 8)
+ -mglvMinFill x   Minimal size of fill chunk (default: 60)
