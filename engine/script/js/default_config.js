@@ -349,7 +349,7 @@ EmulPortB = "";
 //-------------------------------------------------------------------------------
 // Run device options
 
-//-- Run device like Easy-USB (string)
+//-- Run device like 'RISKY MSX' or 'Easy-USB' (string)
 RunDevice = "";
 
 //-- Run device option (string)

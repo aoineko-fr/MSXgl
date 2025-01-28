@@ -373,6 +373,7 @@
 #define GAMEPAWN_SPT_MODE_MSX2		2 // Sprite Mode 2 (MSX2 screens)
 #define GAMEPAWN_SPT_MODE_V9_P1		3 // V9990 sprite in P1 mode
 #define GAMEPAWN_SPT_MODE_V9_P2		4 // V9990 sprite in P2 mode
+#define GAMEPAWN_SPT_MODE_BITMAP	5 // V9938/58 software sprite (Todo)
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE

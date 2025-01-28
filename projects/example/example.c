@@ -634,6 +634,8 @@ bool State_Initialize()
 #define S_UPDATE	1
 #define S_INPUT		2
 
+bool bEnable = TRUE;
+
 //-----------------------------------------------------------------------------
 //
 bool State_Game()
@@ -676,8 +678,14 @@ bool State_Game()
 	if(IS_KEY_PRESSED(row3, KEY_F))
 		g_Player2.Input |= INPUT_JUMP;
 
-	if(IS_KEY_PRESSED(row3, KEY_I) && !IS_KEY_PRESSED(g_PrevRow3, KEY_I))
+	if(IS_KEY_PUSHED(row3, g_PrevRow3, KEY_I))
 		g_bFlicker = 1 - g_bFlicker;
+
+	if(IS_KEY_PUSHED(row8, g_PrevRow8, KEY_DEL))
+	{
+		bEnable = !bEnable;
+		GamePawn_SetEnable(&g_Ball.Pawn, bEnable);
+	}
 
 	g_PrevRow3 = row3;
 	g_PrevRow8 = row8;

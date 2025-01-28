@@ -1103,26 +1103,7 @@ if (DoRun)
 	//=============================================================================
 	if (RunDevice)
 	{
-		if (RunDevice === "EASY-USB")
-		{
-			if (Ext === "rom")
-			{
-				// Delete all .ROM files
-				fs.readdirSync(RunDeviceOpt).forEach(file => {
-					if (path.parse(file).ext.toUpperCase() === ".ROM")
-					{
-						util.delFile(RunDeviceOpt + file);
-					}
-				});
-
-				util.print(`Copy ${ProjName}.rom to ${RunDeviceOpt}`, PrintDetail);
-				fs.copyFileSync(`${ProjDir}/emul/rom/${ProjName}.rom`, `${RunDeviceOpt}${ProjName}.rom`);
-			}
-			else
-				util.print(`EASY-USB only support execution of ROM files`, PrintWarning);
-		}
-		else
-			util.print(`Unknown run device '${RunDevice}'`, PrintWarning);
+		require("./rundevice.js");
 	}
 	//=============================================================================
 	// EMULATOR

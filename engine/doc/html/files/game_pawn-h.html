@@ -32,6 +32,24 @@
  <div class="CBody"><p>Set the tile map to be used for collision.&nbsp; Available only when GAMEPAWN_TILEMAP_SRC is set to GAMEPAWN_TILEMAP_SRC_RAM.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">map<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Pointer to RAM buffer with the tile map. Size must be GAMEPAWN_TILEMAP_WIDTH * GAMEPAWN_TILEMAP_HEIGHT.</p></td></tr></table></div>
 </div>
 
+<a name="GamePawn_SetEnable"></a><a name="Topic918"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">GamePawn_SetEnable</div>
+ <div id="NDPrototype918" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> GamePawn_SetEnable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Game_Pawn*&nbsp;</td><td class="PName last">pawn,</td></tr><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set if pawn is enable or disable. Disabled pawn will not be updated nor drawn.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">pawn<div class="CDLParameterType">Game_Pawn*</div></td><td class="CDLDefinition"><p>Address of game pawn structure to update (move, collision, etc.).</p></td></tr><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable the pawn, FALSE to disable it.</p></td></tr></table></div>
+</div>
+
+<a name="GamePawn_Disable"></a><a name="Topic919"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">GamePawn_Disable</div>
+ <div id="NDPrototype919" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> GamePawn_Disable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Game_Pawn*&nbsp;</td><td class="PName last">pawn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Disable a pawn. Disabled pawn will not be updated nor drawn.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">pawn<div class="CDLParameterType">Game_Pawn*</div></td><td class="CDLDefinition"><p>Address of game pawn structure to update (move, collision, etc.).</p></td></tr></table></div>
+</div>
+
+<a name="GamePawn_Enable"></a><a name="Topic920"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">GamePawn_Enable</div>
+ <div id="NDPrototype920" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> GamePawn_Enable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Game_Pawn*&nbsp;</td><td class="PName last">pawn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable a pawn. Enabled pawn will be updated and drawn.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">pawn<div class="CDLParameterType">Game_Pawn*</div></td><td class="CDLDefinition"><p>Address of game pawn structure to update (move, collision, etc.).</p></td></tr></table></div>
+</div>
+
 <a name="GamePawn_Update"></a><a name="Topic250"></a><div class="CTopic TFunction LC">
  <div class="CTitle">GamePawn_Update</div>
  <div id="NDPrototype250" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> GamePawn_Update(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">Game_Pawn*&nbsp;</td><td class="PName last">pawn</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>

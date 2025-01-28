@@ -1,5 +1,5 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
@@ -18,6 +18,27 @@
 // DoRun     = false;	//-- Start the program automatically at the end of the build (boolean)
 
 //*****************************************************************************
+// TOOLS SETTINGS
+//*****************************************************************************
+
+// SDCCPath  = `${ToolsDir}sdcc/`;					//-- Path to SDCC tools chain (string)
+// Compiler  = `${SDCCPath}bin/sdcc`;				//-- Path to the C compile program (string)
+// Assembler = `${SDCCPath}bin/sdasz80`;			//-- Path to the assembler program (string)
+// Linker    = `${SDCCPath}bin/sdcc`;				//-- Path to the linker program (string)
+// MakeLib   = `${SDCCPath}bin/sdar`;				//-- Path to the program to generate lib file (string)
+// Hex2Bin   = `${ToolsDir}MSXtk/bin/MSXhex`;		//-- Path to IHX to binary convertor (string)
+// MSXDOS    = `${ToolsDir}build/DOS/`;			//-- Path to the MSX-DOS files (string)
+// DskTool   = `${ToolsDir}build/msxtar/msxtar`;	//-- Path to the tool to generate DSK file (string)
+// Emulator  = "";									//-- Path to the emulator to launch the project (string)
+// Emulator  = `${ToolsDir}openMSX/openmsx`;
+// Emulator  = `${ToolsDir}Emulicious/Emulicious`;
+// Emulator  = `${ToolsDir}fMSX/fMSX`;
+// Emulator  = `${ToolsDir}MSXEC\\MSXEC`;
+// Emulator  = `${ToolsDir}BlueMSX/blueMSX`;
+// Emulator  = `${ToolsDir}MEISEI/meisei`;
+// Emulator  = `${ToolsDir}RuMSX/MSX`;
+
+//*****************************************************************************
 // PROJECT SETTINGS
 //*****************************************************************************
 
@@ -28,7 +49,7 @@ ProjName = "template";
 ProjModules = [ ProjName ];
 
 //-- Project segments base name (string). ProjName will be used if not defined
-// ProjSegments = "";
+// ProjSegments = ProjName;
 
 //-- List of library modules to build (array)
 LibModules = [ "system", "bios", "vdp", "print", "input", "memory" ];
@@ -76,7 +97,7 @@ Machine = "1";
 Target = "ROM_32K";
 
 //-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)
-// ROMSize = 0;
+// ROMSize = 128;
 
 //-- Check for ROM boot skipping if a given key is pressed (boolean)
 // ROMSkipBoot = false;
@@ -96,10 +117,13 @@ Target = "ROM_32K";
 // ROMDelayBoot = false;
 
 //-- Add a ROM signature to help flasher and emulator to detect the ROM type properly (boolean)
-AddROMSignature = true;
+// AddROMSignature = false;
 
-//-- Select RAM in slot 0 and install ISR there (boolean). For MSX with at least 64 KB of RAM
-// InstallRAMISR = false;
+//-- Select RAM in slot 0 and install ISR and optional code there (string). For MSX with at least 64 KB of RAM
+//   - RAM0_NONE       Don't install anything in RAM 
+//   - RAM0_ISR        Install only ISR
+//   - RAM0_SEGMENT    Install ISR and segment data (for mapped-ROM)
+// InstallRAMISR = "RAM0_NONE";
 
 //-- Type of custom ISR to install (string). ISR is install in RAM or ROM depending on Target and InstallRAMISR parameters
 //   - NONE       No ISR
@@ -110,10 +134,16 @@ AddROMSignature = true;
 // CustomISR = "VBLANK";
 
 //-- Use automatic banked call and trampoline functions (boolean). For mapped ROM
-// BankedCall = 0;
+// BankedCall = false;
+
+//-- Overwrite code starting address (number). For example. 0xE0000 for a driver in RAM
+// ForceCodeAddr = 0;
 
 //-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
 // ForceRamAddr = 0;
+
+//-- List of raw data files to be added to final binary (array). Each entry must be in the following format: { offset=0x0000, file="myfile.bin" }
+// RawFiles = [];
 
 //-- List of data files to copy to disk (array)
 // DiskFiles = [];
@@ -121,11 +151,8 @@ AddROMSignature = true;
 //-- Size of the final disk (.DSK file). Can be "360K" or "720K" (string)
 // DiskSize = "720K";
 
-//-- BASIC USR driver default address (number)
-// USRAddr = 0xC000;
-
 //-- Parse MSX-DOS command-line arguments
-// DOSParseArg = false;
+// DOSParseArg = true;
 
 //*******************************************************************************
 // SIGNATURE SETTINGS
@@ -138,7 +165,7 @@ AppSignature = true;
 AppCompany = "GL";
 
 //-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
-AppID = "EX";
+AppID = "T1";
 
 //-- Application extra data (array). Comma-separated bytes starting with data size
 // AppExtra = [];
@@ -191,6 +218,22 @@ AppID = "EX";
 //-- Automatic increment of build version in a header file (boolean)
 // BuildVersion = false;
 
+//-- Package all segments into a lib file to reduce the number of files to link (boolean)
+// PackSegments = false;
+
+//-- Additionnal options of Hex to Binary convertor (string)
+// HexBinOpt = "";
+
+//-- Command lines to be executed before the build process (array)
+// PreBuildScripts = [];
+
+//-- Command lines to be executed after the build process (array)
+// PostBuildScripts = [];
+
+//*******************************************************************************
+// LOCALISATION SETTINGS
+//*******************************************************************************
+
 //-- List files to be localized (array)
 // LocFiles = [];
 
@@ -202,12 +245,6 @@ AppID = "EX";
 
 //-- Split socalization data and definitions in different files (boolean)
 // LocSplitDef = false;
-
-//-- Package all segments into a lib file to reduce the number of files to link (boolean)
-// PackSegments = false;
-
-//-- Additionnal options of Hex to Binary convertor (string)
-// HexBinOpt = "";
 
 //*****************************************************************************
 // BUILD TOOL OPTION
@@ -224,6 +261,39 @@ Verbose = true;
 
 //-- Name of the log file (string)
 // LogFileName = "";
+
+//*******************************************************************************
+// ANALYZER SETINGS
+//*******************************************************************************
+
+//-- Execute MAP analyzer (boolean)
+// Analyzer = false;
+
+//-- Analyzer output selection (string)
+//   - Console    Output to termial console
+//   - File       Output to file
+//   - Both       Output to file and termial console (default)
+// AnalyzerOutput = "Both";
+
+//-- Analyzer report elements (string)
+//   - [A]        Report areas
+//   - [S]        Report segments
+//   - [M]        Report modules
+//   - [C]        Report code symbols
+//   - [V]        Report variable symbols
+// AnalyzerReport = "ASMCV";
+
+//-- Analyzer report sorting (string)
+//   - None       No sorting (MAP file order)
+//   - Alpha      Alphanumeric sorting
+//   - Size       Size sorting (default)
+// AnalyzerSort = "Size";
+
+//-- Export analyzer data to CSV file (boolean)
+// AnalyzerCSV = false;
+
+//-- Analyzer CSV file separator (string)
+// AnalyzerSeparator = ",";
 
 //*******************************************************************************
 // EMULATOR SETINGS
@@ -257,10 +327,20 @@ Verbose = true;
 
 //-- Plug a virtual device into the joystick port A (string)
 //   - Joystick
-//   - Keyboard         Fake joystick
 //   - Mouse
+//   - Paddle
+//   - JoyMega
 //   - NinjaTap
 // EmulPortA = "";
 
 //-- Plug a virtual device into the joystick port B (string)
 // EmulPortB = "";
+
+//-------------------------------------------------------------------------------
+// Run device options
+
+//-- Run device like 'RISKY MSX' or 'Easy-USB' (string)
+// RunDevice = "";
+
+//-- Run device option (string)
+// RunDeviceOpt = "";

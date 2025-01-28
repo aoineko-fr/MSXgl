@@ -119,6 +119,7 @@ i8   g_DX = 0;						// Current X movement
 i8   g_DY = 0;						// Current Y movement
 u8   g_LastEvent = 0;				// Last triggered event
 u16  g_Level = 0;					// Current map level
+bool g_bEnable = TRUE;				// 
 
 //=============================================================================
 // FUNCTIONS
@@ -243,6 +244,7 @@ bool State_Initialize()
 // Update the gameplay
 bool State_Game()
 {
+// VDP_SetColor(COLOR_DARK_GREEN);
 	// Update player animation & physics
 	u8 act = ACTION_IDLE;
 	if(g_bJumping && (g_VelocityY >= 0))
@@ -253,18 +255,19 @@ bool State_Game()
 		act = ACTION_MOVE;
 	GamePawn_SetAction(&g_PlayerPawn, act);
 	GamePawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
-// VDP_SetColor(4);
+// VDP_SetColor(COLOR_DARK_BLUE);
 	GamePawn_Update(&g_PlayerPawn);
-// VDP_SetColor(8);
+// VDP_SetColor(COLOR_DARK_RED);
 	GamePawn_Draw(&g_PlayerPawn);
-// VDP_SetColor(1);
+// VDP_SetColor(COLOR_BLACK);
 
 	// Character animation
 	Print_SetPosition(31, 0);
 	Print_DrawChar(g_ChrAnim[g_PlayerPawn.Counter & 0x03]);
 
 	// Background horizon blink
-	VDP_FillVRAM(g_PlayerPawn.Counter & 1 ? 9 : 10, g_ScreenLayoutLow + (12+2) * 32, 0, 32);
+	if (g_bFlicker)
+		VDP_FillVRAM(g_PlayerPawn.Counter & 1 ? 9 : 10, g_ScreenLayoutLow + (12+2) * 32, 0, 32);
 
 	// Handle collision events
 	switch(g_LastEvent)
@@ -274,7 +277,7 @@ bool State_Game()
 		break;
 	case PAWN_PHYSICS_BORDER_RIGHT:
 		g_LastEvent = 0;
-		GamePawn_SetPosition(&g_PlayerPawn, 0+4, g_PlayerPawn.PositionY);
+		GamePawn_SetPosition(&g_PlayerPawn, 0 + 4, g_PlayerPawn.PositionY);
 		g_Level++;
 		DrawLevel();
 		break;
@@ -312,9 +315,15 @@ bool State_Game()
 		g_VelocityY = FORCE;
 	}
 
-	if(IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(g_PrevRow8, KEY_HOME))
+	if(IS_KEY_PUSHED(row8, g_PrevRow8, KEY_HOME))
 		g_bFlicker = 1 - g_bFlicker;
 	
+	if(IS_KEY_PUSHED(row8, g_PrevRow8, KEY_DEL))
+	{
+		g_bEnable = !g_bEnable;
+		GamePawn_SetEnable(&g_PlayerPawn, g_bEnable);
+	}
+
 	g_PrevRow8 = row8;
 
 	if(Keyboard_IsKeyPressed(KEY_ESC))

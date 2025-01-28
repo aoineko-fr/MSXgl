@@ -181,10 +181,17 @@ enum PAWN_UPDATE_FLAG
 {
 	PAWN_UPDATE_POSITION  = 0b00000001,
 	PAWN_UPDATE_PATTERN   = 0b00000010,
+	PAWN_UPDATE_2         = 0b00000100,
+	PAWN_UPDATE_3         = 0b00001000,
+
+	PAWN_UPDATE_MASK	  = 0b00001111,
+
 	#if (GAMEPAWN_USE_PHYSICS)
 	PAWN_UPDATE_COLLISION = 0b00010000,
 	PAWN_UPDATE_PHYSICS   = 0b00100000,
 	#endif
+	PAWN_UPDATE_7         = 0b01000000,
+	PAWN_UPDATE_DISABLE   = 0b10000000,
 };
 
 #if (GAMEPAWN_USE_PHYSICS)
@@ -324,6 +331,28 @@ void GamePawn_SetAction(Game_Pawn* pawn, u8 id);
 //   map - Pointer to RAM buffer with the tile map. Size must be GAMEPAWN_TILEMAP_WIDTH * GAMEPAWN_TILEMAP_HEIGHT.
 inline void GamePawn_SetTileMap(const u8* map) { g_GamePawn_TileMap = map; }
 #endif
+
+// Function: GamePawn_SetEnable
+// Set if pawn is enable or disable. Disabled pawn will not be updated nor drawn.
+//
+// Parameters:
+//   pawn - Address of game pawn structure to update (move, collision, etc.).
+//   enable - TRUE to enable the pawn, FALSE to disable it.
+void GamePawn_SetEnable(Game_Pawn* pawn, bool enable);
+
+// Function: GamePawn_Disable
+// Disable a pawn. Disabled pawn will not be updated nor drawn.
+//
+// Parameters:
+//   pawn - Address of game pawn structure to update (move, collision, etc.).
+inline void GamePawn_Disable(Game_Pawn* pawn) { GamePawn_SetEnable(pawn, FALSE); }
+
+// Function: GamePawn_Enable
+// Enable a pawn. Enabled pawn will be updated and drawn.
+//
+// Parameters:
+//   pawn - Address of game pawn structure to update (move, collision, etc.).
+inline void GamePawn_Enable(Game_Pawn* pawn) { GamePawn_SetEnable(pawn, TRUE); }
 
 // Function: GamePawn_Update
 // Update animation of the game pawn. Must be called once a frame.
