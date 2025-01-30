@@ -321,7 +321,7 @@ int main(int argc, const char* argv[])
 
 	//-------------------------------------------------------------------------
 	// Parse parameters
-	for(i = 2; i < argc; i++)
+	for(i = 1; i < argc; i++)
 	{
 		if (MSX::StrEqual(argv[i], "-help")) // Display help
 		{

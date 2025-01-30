@@ -529,7 +529,7 @@ int main(int argc, const char* argv[])
 	g_InputFile = argv[1];
 
 	// Parse command line parameters
-	for (i32 i = 2; i < argc; ++i)
+	for (i32 i = 1; i < argc; ++i)
 	{
 		// Display help
 		if (MSX::StrEqual(argv[i], "-help"))
