@@ -139,6 +139,7 @@ enum COLOR_BPC
 
 #define RGB16_From8B(r, g, b)	RGB16(((r) >> 5), ((g) >> 5), ((b) >> 5))
 #define RGB16_From32B(rgb)	RGB16_From8B(((u32)rgb >> 16) & 0xFF, ((rgb) >> 8) & 0xFF, (rgb) & 0xFF)
+#define RGB16_FromPal(pal, i)	(((u16*)(pal))[i])
 
 #define COLOR16_DEFAULT_0	RGB16(0, 0, 0)
 #define COLOR16_DEFAULT_1	RGB16(0, 0, 0)
