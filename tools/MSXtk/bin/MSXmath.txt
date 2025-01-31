@@ -1,5 +1,5 @@
 Error: No enough parameters!
-MSXmath 1.7.1 - Math Table Generator
+MSXmath 1.7.1 - Mathematics table generator
 Usage: MSXmath [options] [tables]
 Options:
   -o <filename>    Filename of the output file (default: use input filename with .h/.asm/.bin extension)

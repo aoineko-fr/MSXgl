@@ -27,7 +27,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.12";
+const char* VERSION = "0.1.13";
 
 #define BUFFER_SIZE 1024
 #define INVALID_ADDR 0xFFFF
@@ -350,7 +350,7 @@ bool ParseHex(std::string inFile)
 	u32 baseAddr = 0x00000000, lowAddr = 0xFFFFFFFF;
 
 	// Display header
-	printf("MSXhex %s - Convert Intel HEX file to binary\n", VERSION);
+	printf("MSXhex %s - Convert an Intel HEX file to binary\n", VERSION);
 	if (g_Log & Log_Verbose)
 		printf(" Start=%08Xh Size=%08Xh Bank=%08Xh Pad=%02Xh\n", g_StartAddress, g_DataSize, g_BankSize, g_Padding);
 
@@ -496,10 +496,21 @@ int main(int argc, const char* argv[])
 	argc = sizeof(ARGV) / sizeof(ARGV[0]); argv = ARGV;
 #endif
 
+	// Search for -help option
+	for (i32 i = 1; i < argc; ++i)
+	{
+		// Display help
+		if (MSX::StrEqual(argv[i], "-help"))
+		{
+			PrintHelp();
+			return 0;
+		}
+	}
+
 	// Error check
 	if (argc < 2)
 	{
-		//printf("Error: Not enough parameters!\n");
+		printf("Error: No enough parameters!\n");
 		PrintHelp();
 		return 0;
 	}
@@ -509,14 +520,8 @@ int main(int argc, const char* argv[])
 	// Parse command line parameters
 	for (i32 i = 2; i < argc; ++i)
 	{
-		// Display help
-		if (MSX::StrEqual(argv[i], "-help"))
-		{
-			PrintHelp();
-			return 0;
-		}
 		// Output filename
-		else if (MSX::StrEqual(argv[i], "-o"))
+		if (MSX::StrEqual(argv[i], "-o"))
 		{
 			g_OutputFile = argv[++i];
 		}

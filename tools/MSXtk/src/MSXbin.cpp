@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------
 // DEFINES
 
-const char* VERSION = "1.4.2";
+const char* VERSION = "1.4.3";
 
 #define BUFFER_SIZE 1024
 
@@ -478,7 +478,7 @@ i32 Export()
 // Display help information
 void PrintHelp()
 {
-	printf("MSXbin %s - Convert binary to text file\n", VERSION);
+	printf("MSXbin %s - Convert a binary file for use in MSX development\n", VERSION);
 	printf("Usage: msxbin <inputfile> [options]\n");
 	printf("Options:\n");
 	printf("  -o output     Filename of the output file (default: use input filename with .h/.asm extension)\n");
@@ -518,6 +518,17 @@ int main(int argc, const char* argv[])
 	argc = sizeof(ARGV) / sizeof(ARGV[0]); argv = ARGV;
 #endif
 
+	// Search for -help option
+	for (i32 i = 1; i < argc; ++i)
+	{
+		// Display help
+		if (MSX::StrEqual(argv[i], "-help"))
+		{
+			PrintHelp();
+			return 0;
+		}
+	}
+
 	// Error check
 	if (argc < 2)
 	{
@@ -531,14 +542,8 @@ int main(int argc, const char* argv[])
 	// Parse command line parameters
 	for (i32 i = 2; i < argc; ++i)
 	{
-		// Display help
-		if (MSX::StrEqual(argv[i], "-help"))
-		{
-			PrintHelp();
-			return 0;
-		}
 		// Output filename
-		else if (MSX::StrEqual(argv[i], "-o"))
+		if (MSX::StrEqual(argv[i], "-o"))
 			g_OutputFile = argv[++i];
 		// Data table name
 		else if (MSX::StrEqual(argv[i], "-t"))

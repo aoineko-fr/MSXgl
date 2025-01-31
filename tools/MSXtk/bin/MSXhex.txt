@@ -1,4 +1,5 @@
-MSXhex 0.1.12 - Convert Intel HEX file to binary
+Error: No enough parameters!
+MSXhex 0.1.13 - Convert Intel HEX file to binary
 --------------------------------------------------------------------------------
 Usage: msxhex <inputfile> [options]
 

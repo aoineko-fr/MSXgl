@@ -1,5 +1,5 @@
 Error: No enough parameters!
-MSXbin 1.4.2 - Convert binary to text file
+MSXbin 1.4.3 - Convert a binary file for use in MSX development
 Usage: msxbin <inputfile> [options]
 Options:
   -o output     Filename of the output file (default: use input filename with .h/.asm extension)

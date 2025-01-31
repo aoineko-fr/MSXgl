@@ -120,7 +120,7 @@ bool FileExists(const std::string& filename)
 
 void PrintHelp()
 {
-	printf("MSXimg (v%s)\n", MSXi_VERSION);
+	printf("MSXimg %s - Image converter for MSX development\n", MSXi_VERSION);
 	printf("Usage: MSXimg <filename> [options]\n");
 	printf("\n");
 	printf("General options:\n");
@@ -311,8 +311,21 @@ int main(int argc, const char* argv[])
 	bool bAutoCompress = false;
 	bool bBestCompress = false;
 
-	if(argc < 2)
+	// Search for -help option
+	for (i32 i = 1; i < argc; ++i)
 	{
+		// Display help
+		if (MSX::StrEqual(argv[i], "-help"))
+		{
+			PrintHelp();
+			return 0;
+		}
+	}
+
+	// Error check
+	if (argc < 2)
+	{
+		printf("Error: No enough parameters!\n");
 		PrintHelp();
 		return 0;
 	}
@@ -323,12 +336,7 @@ int main(int argc, const char* argv[])
 	// Parse parameters
 	for(i = 2; i < argc; i++)
 	{
-		if (MSX::StrEqual(argv[i], "-help")) // Display help
-		{
-			PrintHelp();
-			return 0;
-		}
-		else if (MSX::StrEqual(argv[i], "-out")) // Output filename
+		if (MSX::StrEqual(argv[i], "-out")) // Output filename
 		{
 			param.outFile = argv[++i];
 		}

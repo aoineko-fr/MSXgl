@@ -23,7 +23,7 @@
 //-----------------------------------------------------------------------------
 // D E F I N E S
 
-const c8* VERSION = "1.7.0";
+const c8* VERSION = "1.7.1";
 
 const f64 PI = 3.14159265358979323846f;
 const f64 PI_2 = 2.0f * PI;
@@ -247,9 +247,9 @@ f64 ComputeAngle(f64 x, f64 y)
 }
 
 // Display help information
-void Help()
+void PrintHelp()
 {
-	printf("MSXmath %s - Math Table Generator\n", VERSION);
+	printf("MSXmath %s - Mathematics table generator\n", VERSION);
 	printf("Usage: MSXmath [options] [tables]\n");
 	printf("Options:\n");
 	printf("  -o <filename>    Filename of the output file (default: use input filename with .h/.asm/.bin extension)\n");
@@ -308,11 +308,22 @@ int main(int argc, const c8* argv[])
 	argv = ARGV;
 #endif
 
+	// Search for -help option
+	for (i32 i = 1; i < argc; ++i)
+	{
+		// Display help
+		if (MSX::StrEqual(argv[i], "-help"))
+		{
+			PrintHelp();
+			return 0;
+		}
+	}
+
 	// Error check
 	if(argc < 2)
 	{
 		printf("Error: No enough parameters!\n");
-		Help();
+		PrintHelp();
 		return 0;
 	}
 
@@ -324,13 +335,8 @@ int main(int argc, const c8* argv[])
 	// Set paramters
 	for(i32 argIndex = 1; argIndex < argc; argIndex++)
 	{
-		if(MSX::StrEqual(argv[argIndex], "-help"))
-		{
-			Help();
-			return 0;
-		}
 		// Output filename
-		else if (MSX::StrEqual(argv[argIndex], "-o"))
+		if (MSX::StrEqual(argv[argIndex], "-o"))
 		{
 			OutputFile = argv[++argIndex];
 		}
