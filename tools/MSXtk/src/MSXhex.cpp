@@ -518,7 +518,7 @@ int main(int argc, const char* argv[])
 	g_InputFile = argv[1];
 
 	// Parse command line parameters
-	for (i32 i = 2; i < argc; ++i)
+	for (i32 i = 1; i < argc; ++i)
 	{
 		// Output filename
 		if (MSX::StrEqual(argv[i], "-o"))
