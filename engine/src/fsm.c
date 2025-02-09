@@ -48,7 +48,7 @@ void FSM_Update()
 		g_NextState = NULL;
 
 		// Start next state
-		if(g_CurrentState->Begin);
+		if(g_CurrentState->Begin)
 			g_CurrentState->Begin();
 	}
 
