@@ -206,7 +206,7 @@ inline void Print_SetFontEx(u8 patternX, u8 patternY, u8 sizeX, u8 sizeY, u8 fir
 }
 
 // Function: Print_GetFontInfo
-// Get first character code
+// Get information on the current font.
 //
 // Return:
 //   Current font information structure
