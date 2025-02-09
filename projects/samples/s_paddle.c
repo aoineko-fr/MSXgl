@@ -95,12 +95,13 @@ void Detect()
 		const c8* str;
 		switch(device)
 		{
-			case INPUT_TYPE_JOYSTICK:	str = "Joy/None "; break;
+			case INPUT_TYPE_NINJATAP:	str = "NinjaTap "; break;
 			case INPUT_TYPE_MOUSE:		str = "Mouse    "; break;
+			case INPUT_TYPE_JOYMEGA:	str = "JoyMega  "; break;
 			case INPUT_TYPE_TRACKBALL:	str = "Trackball"; break;
-			case INPUT_TYPE_PADDLE:		str = "Paddle   "; break;
 			case INPUT_TYPE_TOUCHPAD:	str = "Touchpad "; break;
-			case INPUT_TYPE_LIGHTGUN:	str = "Lightgun "; break;
+			case INPUT_TYPE_PADDLE:		str = "Paddle   "; break;
+			case INPUT_TYPE_JOYSTICK:	str = "Joy/None "; break;
 			default:					str = "Unknow   "; break;
 		}
 		Print_SetPosition(px, 6);

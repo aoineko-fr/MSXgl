@@ -123,6 +123,15 @@ for (let i = 0; i < CommandArgs.length; i++)
 		InstallRAMISR = "RAM0_SEGMENT";
 		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
 	}
+	else if (arg === "clean")
+	{
+		DoClean = true;
+		DoCompile = DoMake = DoPackage = DoDeploy = DoRun = false;
+	}
+	else if (arg === "rebuild")
+	{
+		DoClean = true;
+	}
 	else
 	{
 		util.print(`Unknown command line overwrite '${arg}'`, PrintWarning);
@@ -130,16 +139,21 @@ for (let i = 0; i < CommandArgs.length; i++)
 }
 
 //-- Validate enum
-Machine   = Machine.toUpperCase();
-Target    = Target.toUpperCase();
-CustomISR = CustomISR.toUpperCase();
-AsmOptim  = AsmOptim.toUpperCase();
-Optim     = Optim.toUpperCase();
-EmulPortA = EmulPortA.toUpperCase();
-EmulPortB = EmulPortB.toUpperCase();
-RunDevice = RunDevice.toUpperCase();
-if (util.isString(CompileComplexity))
-	CompileComplexity = CompileComplexity.toUpperCase();
+Machine        = Machine.toUpperCase();
+Target         = Target.toUpperCase();
+ROMSkipBootKey = ROMSkipBootKey.toUpperCase();
+if (util.isString(InstallRAMISR)) InstallRAMISR = InstallRAMISR.toUpperCase();
+CustomISR      = CustomISR.toUpperCase();
+DiskSize       = DiskSize.toUpperCase();
+AsmOptim       = AsmOptim.toUpperCase();
+Optim          = Optim.toUpperCase();
+if (util.isString(CompileComplexity)) CompileComplexity = CompileComplexity.toUpperCase();
+AnalyzerOutput = AnalyzerOutput.toUpperCase();
+AnalyzerReport = AnalyzerReport.toUpperCase();
+AnalyzerSort   = AnalyzerSort.toUpperCase();
+EmulPortA      = EmulPortA.toUpperCase();
+EmulPortB      = EmulPortB.toUpperCase();
+RunDevice      = RunDevice.toUpperCase();
 
 //-- Target specific initialization
 global.TargetType = Target;
@@ -473,7 +487,7 @@ if (DoCompile)
 		const segExtList = [ "c", "s", "asm" ];
 		const bankAddrList = [ Bank0Addr, Bank1Addr, Bank2Addr, Bank3Addr, Bank4Addr, Bank5Addr ];
 
-		util.print(`Search for extra mapper segments to compile [${FirstSeg}-${LastSeg}]...`, PrintHighlight);
+		util.print(`Searching for extra mapper segments to compile [${FirstSeg}-${LastSeg}] (${ProjSegments}_s?_b?)...`, PrintHighlight);
 		for (let e = 0; e < segExtList.length; e++)
 		{
 			for (let s = FirstSeg; s <= LastSeg; s++)
@@ -509,8 +523,8 @@ if (DoCompile)
 
 		if (InstallRAMISR === "RAM0_SEGMENT")
 		{
-			util.print(`Search for page 0 code to be copied to RAM`, PrintHighlight);
 			let pageName = `${ProjSegments}_p0`;
+			util.print(`Searching for page 0 code to be copied to RAM (${pageName})...`, PrintHighlight);
 			let pageFound = 0;
 			let pageStartAddr;
 			switch (Mapper)
@@ -551,7 +565,7 @@ if (DoCompile)
 		const segExtList = [ "c", "s", "asm" ];
 		let pageFound = 0;
 
-		util.print(`Search for ROM's pages specific code (from ${ROMFirstPage} to ${ROMLastPage})`, PrintHighlight);
+		util.print(`Searching for ROM's pages specific code (from ${ROMFirstPage} to ${ROMLastPage})...`, PrintHighlight);
 		for (let p = ROMFirstPage; p <= ROMLastPage; p++) // Parse all ROM's pages
 		{
 			let pageName = `${ProjSegments}_p${p}`;
@@ -1069,7 +1083,7 @@ if (Analyzer)
 	util.print("Success", PrintSuccess);
 }
 
-//-- Command lines to be executed after the build process (array)
+//-- Command lines to be executed after the build process
 if (PostBuildScripts.length)
 {
 	util.print("Executing post-build scripts...", PrintHighlight);
@@ -1082,6 +1096,17 @@ if (PostBuildScripts.length)
 			process.exit(1);
 		}
 	}
+	util.print("Success", PrintSuccess);
+}
+
+//-- Generate Clang compatible Compilation database
+// See https://clang.llvm.org/docs/JSONCompilationDatabase.html
+if (GenCompileDB)
+{
+	util.print("Generating Compilation database...", PrintHighlight);
+	const compDB = JSON.stringify(CompileDB, null, "\t");
+	fs.writeFileSync(`${OutDir}compile_commands.json`, compDB);
+	util.print(`${OutDir}compile_commands.json generated`, PrintDetail);
 	util.print("Success", PrintSuccess);
 }
 

@@ -224,6 +224,9 @@ CompileComplexity = "Default";
 //-- Additionnal options of Hex to Binary convertor (string)
 // HexBinOpt = "";
 
+//-- Generate Clang compatible Compilation database (boolean)
+// GenCompileDB = false;
+
 //-- Command lines to be executed before the build process (array)
 // PreBuildScripts = [];
 

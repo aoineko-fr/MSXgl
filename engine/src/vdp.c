@@ -1327,7 +1327,7 @@ void VDP_CommandWait() __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 }
 
 //-----------------------------------------------------------------------------
-// Send VDP command (form registres 32 to 46)
+// Send VDP command (from register 32 to 46)
 void VPD_CommandSetupR32()
 {
 	VDP_CommandWait();
@@ -1335,7 +1335,7 @@ void VPD_CommandSetupR32()
 }
 
 //-----------------------------------------------------------------------------
-// Send VDP command (form registres 36 to 46)
+// Send VDP command (from register 36 to 46)
 void VPD_CommandSetupR36()
 {
 	VDP_CommandWait();

@@ -234,6 +234,9 @@ PackSegments = false;
 //-- Additionnal options of Hex to Binary convertor (string)
 HexBinOpt = "";
 
+//-- Generate Clang compatible Compilation database (boolean)
+GenCompileDB = false;
+
 //-- Command lines to be executed before the build process (array)
 PreBuildScripts = [];
 
@@ -331,6 +334,7 @@ EmulMSXAudio = false;				//-- Add MSX-Audio extension (boolean)
 EmulOPL4     = false;				//-- Add OPL4 extension (boolean)
 EmulPSG2     = false;				//-- Add second PSG extension (boolean)
 EmulV9990    = false;				//-- Add V9990 video-chip extension (boolean)
+EmulRAM      = false;				//-- Add mapped-RAM extension (boolean)
 
 //-------------------------------------------------------------------------------
 // Input options

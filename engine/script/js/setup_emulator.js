@@ -132,6 +132,7 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulOPL4)     { EmulatorArgs += " -ext moonsound"; }
 	if (EmulPSG2)     { EmulatorArgs += " -ext 2nd_PSG"; }
 	if (EmulV9990)    { EmulatorArgs += ' -ext gfx9000 -command "after time 0 {set videosource gfx9000}"'; }
+	if (EmulRAM)      { EmulatorArgs += ' -ext ram4mb'; }
 
 	//---- Emulator conenctors ----
 	if (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -command "plug joyporta msxjoystick1"'; }
@@ -196,6 +197,7 @@ else if (EmulatorName === "EMULICIOUS") {
 	// if (EmulOPL4)     {}
 	// if (EmulPSG2)     {}
 	// if (EmulV9990)    {}
+	if (EmulRAM)      { EmulatorArgs += " -set MSXRAMBankShift=5"; }
 
 	//---- Add launch program ----
 	if (Ext === "rom") { EmulatorArgs += ` ${ProjDir}emul/rom/${ProjName}.rom`; }

@@ -80,6 +80,8 @@ global.MapperBanks;
 // Emulator parameters
 global.EmulatorArgs = "";
 
+global.CompileDB = [];
+
 //─────────────────────────────────────────────────────────────────────────────
 // Build Tool default configuration
 //─────────────────────────────────────────────────────────────────────────────
@@ -344,6 +346,9 @@ global.PackSegments = false;
 //-- Additionnal options of Hex to Binary convertor (string)
 global.HexBinOpt = "";
 
+//-- Generate Clang compatible Compilation database (boolean)
+global.GenCompileDB = false;
+
 //-- Command lines to be executed before the build process (array)
 global.PreBuildScripts = [];
 
@@ -463,6 +468,9 @@ global.EmulPSG2 = false;
 
 //-- Add V9990 video-chip extension (boolean)
 global.EmulV9990 = false;
+
+//-- Add mapped-RAM extension (boolean)
+global.EmulRAM = false;
 
 //-------------------------------------------------------------------------------
 // Input options
