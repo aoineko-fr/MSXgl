@@ -165,7 +165,7 @@ AppSignature = true;
 AppCompany = "PP";
 
 //-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
-AppID = "EX";
+AppID = 0x0003;
 
 //-- Application extra data (array). Comma-separated bytes starting with data size
 // AppExtra = [];
@@ -175,7 +175,7 @@ AppID = "EX";
 //*******************************************************************************
 
 //-- Force to generate MSXgl static library even if 'msxgl.lib' already exist (boolean)
-BuildLibrary = true;
+BuildLibrary = false;
 
 //-- Prepare program for debug (boolean)
 Debug = true;
@@ -296,7 +296,7 @@ Verbose = true;
 // AnalyzerCSV = false;
 
 //-- Analyzer CSV file separator (string)
-AnalyzerSeparator = ",";
+// AnalyzerSeparator = ",";
 
 //*******************************************************************************
 // EMULATOR SETINGS
