@@ -21,6 +21,17 @@
 // DEFINES
 //=============================================================================
 
+// Fixed point format
+//
+// Format	Prec.	Min		Max
+//-----------------------------------
+// Q2.6		0.016	-2		1.98
+// Q4.4		0.06	-8		7.94
+// Q10.6	0.016	-512	511.98
+// Q12.4	0.06	-2048	2047.94
+
+
+
 // Unit conversion (Pixel <> Q10.6)
 #define Q10_6_TO_PX(a)				(u8)((a) / 64)
 #define PX_TO_Q10_6(a)				(i16)((a) * 64)
@@ -36,14 +47,13 @@
 #define GRAVITY						1
 
 // Background
-#define GROUND						192
-#define HORIZON						11
+#define HORIZON_H					11
 #define NET_H						7
 
 // Debug section
-#define S_DRAW		0
-#define S_UPDATE	1
-#define S_INPUT		2
+#define S_DRAW						0
+#define S_UPDATE					1
+#define S_INPUT						2
 
 //
 enum INPUT_ACTION
@@ -223,8 +233,8 @@ const Game_Action g_AnimActions2[] =
 // Pawn sprite layers
 const Game_Sprite g_BallLayers[] =
 {
-	{ 2, 0, 0, 4,  COLOR_DARK_RED, 0 },
-	{ 3, 0, 0, 0,  COLOR_MEDIUM_RED, 0 },
+	{ 2, 0, 0, 4,  COLOR_DARK_GREEN, 0 },
+	{ 3, 0, 0, 0,  COLOR_MEDIUM_GREEN, 0 },
 };
 
 // Idle animation frames
@@ -392,7 +402,7 @@ void DrawLevel()
 {
 	// Background
 	loop(i, 24-1)
-		VDP_FillVRAM_16K((i <= HORIZON) ? 16 : 8, VDP_GetLayoutTable() + (i+1) * 32, 32);
+		VDP_FillVRAM_16K((i <= HORIZON_H) ? 16 : 8, VDP_GetLayoutTable() + (i+1) * 32, 32);
 
 	// Ground
 	VDP_FillVRAM_16K(1, VDP_GetLayoutTable() + 23 * 32, 32);
@@ -441,12 +451,12 @@ void UpdatePlayer(struct Character* ply)
 	
 	if(ply->Input & INPUT_RIGHT)
 	{
-		ply->DX++;
+		ply->DX = 16;
 		ply->bMoving = TRUE;
 	}
 	else if(ply->Input & INPUT_LEFT)
 	{
-		ply->DX--;
+		ply->DX = -16;
 		ply->bMoving = TRUE;
 	}
 	else
@@ -454,7 +464,7 @@ void UpdatePlayer(struct Character* ply)
 
 	if(ply->bInAir) // Handle in air state (jump or fall)
 	{
-		ply->DY -= ply->VelocityY / 4; // Apply vertical force
+		ply->DY -= ply->VelocityY * 16 / 4; // Apply vertical force
 
 		ply->VelocityY -= GRAVITY; // Apply gravity
 		if(ply->VelocityY < -FALL_SPEED) // Clamp fall speed
@@ -477,7 +487,7 @@ void UpdatePlayer(struct Character* ply)
 
 	Game_Pawn* pawn = &ply->Pawn;
 	GamePawn_SetAction(pawn, act);
-	GamePawn_SetMovement(pawn, ply->DX, ply->DY);
+	GamePawn_SetMovement(pawn, ply->DX / 16, ply->DY / 16);
 	GamePawn_Update(pawn);
 }
 
@@ -504,7 +514,7 @@ void InitBall()
 void UpdateBall()
 {
 	// Apply gravity
-	g_Ball.DY = -g_Ball.VelocityY / 4;
+	g_Ball.DY = -g_Ball.VelocityY * 16 / 4;
 	g_Ball.VelocityY -= GRAVITY;
 	if(g_Ball.VelocityY < -FALL_SPEED)
 		g_Ball.VelocityY = -FALL_SPEED;
@@ -526,7 +536,7 @@ void UpdateBall()
 		// g_Ball.VelocityY = JUMP_FORCE;
 		// if(ply->bInAir)
 		// 	g_Ball.VelocityY += ply->VelocityY;
-		g_Ball.DX = dx / 4; // Math_SignedDiv4
+		g_Ball.DX = dx * 16 / 4; // Math_SignedDiv4
 
 		g_Ball.VelocityY = JUMP_FORCE;
 
@@ -540,12 +550,12 @@ void UpdateBall()
 		Print_SetPosition(0, 2);
 		Print_DrawFormat("%i..\n%i..", dx, dy);
 
-		DEBUG_PRINT("DX/Y: %s%i %s%i\n", (dx > 0) ? "+" : "", dx, (dy > 0) ? "+" : "", dy);
+		DEBUG_PRINT("DX/Y: %s%i %s%i", (dx > 0) ? "+" : "", dx, (dy > 0) ? "+" : "", dy);
 		// DEBUG_BREAK();
 	}
 
 	// Update player animation & physics
-	GamePawn_SetMovement(ballPawn, g_Ball.DX, g_Ball.DY);
+	GamePawn_SetMovement(ballPawn, g_Ball.DX / 16, g_Ball.DY / 16);
 	GamePawn_Update(ballPawn);
 }
 //-----------------------------------------------------------------------------
@@ -635,7 +645,7 @@ bool State_Game()
 	GamePawn_Draw(&g_Player2.Pawn);
 	// Background horizon blink
 	if(g_bFlicker)
-		VDP_FillVRAM_16K(g_GameFrame & 1 ? 9 : 10, VDP_GetLayoutTable() + (HORIZON + 2) * 32, 32);
+		VDP_FillVRAM_16K(g_GameFrame & 1 ? 9 : 10, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
 	PROFILE_SECTION_END(100, S_DRAW, "");
 
 	PROFILE_SECTION_START(100, S_UPDATE, "");
