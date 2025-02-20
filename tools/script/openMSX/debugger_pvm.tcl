@@ -1,6 +1,37 @@
 # Next generation debugger with OpenMSX
 # by Pedro de Medeiros "PVMM", May 7 2024
 # https://github.com/pvmm/msx-dev/tree/main/src/debugv2
+#
+# | Placeholders used in DEBUG_PRINT           |  Value and alternatives  |  status  |
+# | ------------------------------------------ | ------------------------ | -------- |
+# | The "%" character                          |                     "%%" |          |
+# | Character                                  |                     "%c" |          |
+# | Nul-terminated string                      |                     "%s" |          |
+# | Nul-terminated string uppercase            |                     "%S" |          |
+# | Left-padded nul-terminated string          |              "%[width]s" |          |
+# | Right-padded nul-terminated string         |             "%-[width]s" |          |
+# | Truncate string at [width] size            |             "%.[width]s" |          |
+# | MSX-BASIC float (exponent + BCD mantissa)  |                     "%f" |          |
+# | SDCC float                                 |                    "%hf" |          |
+# | 16-bit fixed point                         |                   "%hhf" | missing  |
+# | 8-bit unsigned integer                     |                   "%hhu" |          |
+# | 8-bit signed integer                       |                   "%hhi" |          |
+# | 8-bit hexadecimal (a-f)                    |                   "%hhx" |          |
+# | 8-bit hexadecimal (A-F)                    |                   "%hhX" |          |
+# | 8-bit binary                               |                   "%hhb" |          |
+# | 8-bit octal                                |                   "%hho" |          |
+# | 16-bit unsigned integer                    |               "%u" "%hu" |          |
+# | 16-bit signed integer                      |    "%i" "%d" "%hi" "%hd" |          |
+# | Left-padded integer                        |             "%0[count]u" |          |
+# | 16-bit hexadecimal (a-f)                   |               "%x" "%hx" |          |
+# | 16-bit hexadecimal (A-F)                   |               "%X" "%hX" |          |
+# | 16-bit binary                              |               "%b" "%hb" |          |
+# | 16-bit octal                               |               "%o" "%ho" |          |
+# | 32-bit unsigned integer                    |                    "%lu" |          |
+# | 32-bit signed integer                      |              "%li" "%ld" |          |
+# | Void pointer (platform specific)           |                     "%p" | missing  |
+# | Debug_mode output (for compatibility)      |                     "%?" |          |
+# | ------------------------------------------ | ------------------------ | -------- |
 
 set debug_mode 0
 set pos        0
@@ -64,10 +95,9 @@ proc printf__o   {mod addr} { return [printf__ho $mod $addr] }
 proc printf__hhb {mod addr} { puts -nonewline stderr [format "%${mod}hb" [peek8  $addr]]; return 2 }
 proc printf__hb  {mod addr} { puts -nonewline stderr [format "%${mod}hb" [peek16 $addr]]; return 2 }
 proc printf__b   {mod addr} { return [printf__hb $mod $addr ] }
-proc printf__f   {mod addr} { puts -nonewline stderr [format "%${mod}s"  [parse_basic_float 3 [peek16 $addr]]]; return 4 }
-proc printf__lf  {mod addr} { puts -nonewline stderr [format "%${mod}s"  [parse_basic_float 7 [peek16 $addr]]]; return 8 }
-proc printf__hf  {mod addr} { puts -nonewline stderr [format "%${mod}s"  [parse_sdcc_float    [peek16 $addr]]]; return 4 }
-#proc printf__hhf {mod addr} { puts -nonewline stderr [format "%${mod}s"  [parse_fp_float      [peek16 $addr]]]; return 4 }
+proc printf__f   {mod addr} { puts -nonewline stderr [format "%${mod}s"  [parse_basic_float 3 [peek16 $addr]]]; return 2 }
+proc printf__lf  {mod addr} { puts -nonewline stderr [format "%${mod}s"  [parse_basic_float 7 [peek16 $addr]]]; return 2 }
+proc printf__hf  {mod addr} { puts -nonewline stderr [format "%${mod}s"  [parse_sdcc_float    [peek32 $addr]]]; return 4 }
 proc printf__li  {mod addr} { puts -nonewline stderr [format "%${mod}li" [parse_int32 [peek32 $addr]]]; return 4 }
 proc printf__lu  {mod addr} { puts -nonewline stderr [format "%${mod}lu" [peek32 $addr]]; return 4 }
 proc printf__lx  {mod addr} { puts -nonewline stderr [format "%${mod}lx" [peek32 $addr]]; return 4 }
@@ -80,24 +110,30 @@ proc parse_int32 {value} {
     return [expr $value > 2147483647 ? $value - 4294967296 : $value]
 }
 
-# MSX-BASIC single is 1-bit signal + 7-bit exponent + (3|7) bytes packed BCD (n*2 digits)
-proc parse_basic_float {size addr} {
-    set buf "0."
+# MSX-BASIC single is 1-bit signal + 7-bit exponent + 3 bytes packed BCD mantissa = 4 bytes
+# MSX-BASIC double is 1-bit signal + 7-bit exponent + 7 bytes packed BCD mantissa = 8 bytes
+proc parse_basic_float {mantissa_len addr} {
     set tmp [peek8 $addr]
-    set signal [expr $tmp & 0x80 ? {"-"} : {"+"}]
+    set signal [expr $tmp & 0x80 ? {"-"} : {""}]
+    set buf "${signal}0."
     set exponent [expr ($tmp & 0x7f) - 0x40]
-    set mantissa [debug read_block memory [expr $addr + 1] $size] ;# read_block returns a string
-    for {set b 0} {$b < $size} {incr b} {
+    set mantissa [debug read_block memory [expr $addr + 1] $mantissa_len] ;# read_block returns a string
+    for {set b 0} {$b < $mantissa_len} {incr b} {
         set i [scan [string index $mantissa $b] %c]
         append buf [format %x $i]
     }
-    append buf "e$signal$exponent"
-    return $buf
+    append buf "e[expr $exponent >= 0 ? \"+\" : \"\"]$exponent"
+    expr {$buf}
 }
 
-# format is unknown (even searching in the manual)
+proc retscan {args} {
+    if {[binary scan {*}$args result]} { return $result }
+    error "parse error on value [lindex $args 0]"
+}
+
 proc parse_sdcc_float {value} {
-    return "?.????" ;# [format %f $value]
+    set intval [binary format i $value]
+    return [retscan $intval f result]
 }
 
 # compatibility with old debugging code
