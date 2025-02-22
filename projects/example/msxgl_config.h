@@ -593,7 +593,7 @@
 // - DEBUG_EMULICIOUS ............. Debug features for Emulicious
 // - DEBUG_OPENMSX ................ Debug features for openMSX using 'debugdevice' extension
 // - DEBUG_OPENMSX_P .............. Debug features for openMSX using PVM script (tools/script/openMSX/debugger_pvm.tcl)
-#define DEBUG_TOOL					DEBUG_OPENMSX_P
+#define DEBUG_TOOL					DEBUG_EMULICIOUS
 // Profiler options
 // - PROFILE_DISABLE .............. No profile tool
 // - PROFILE_OPENMSX_G ............ Profiler features for openMSX using Grauw script (tools/script/openMSX/profiler_grauw.tcl)

@@ -42,9 +42,15 @@
 #define Q4_4_TO_PX(a)				(u8)((a) / 16)
 #define PX_TO_Q4_4(a)				(i8)((a) * 16)
 
+// Unit conversion (Pixel <> Q12.4)
+#define Q12_4_TO_PX(a)				(u16)((a) / 16)
+#define PX_TO_Q12_4(a)				(i16)((a) * 16)
+
 // Gameplay value
+#define BOUNCE_FORCE				PX_TO_Q4_4(5.0f)
 #define JUMP_FORCE					PX_TO_Q4_4(5.0f)
 #define FALL_SPEED					PX_TO_Q4_4(5.0f)
+#define MOVE_SPEED					PX_TO_Q4_4(2.0)
 #define GRAVITY						PX_TO_Q4_4(0.25f)
 #define COL_DIST					16
 
@@ -76,6 +82,7 @@ struct Character
 	u8			Input;
 	u8			Score;
 	Game_Pawn	Pawn;
+	VectorI16	Position;
 };
 
 // Prototypes
@@ -435,12 +442,12 @@ void UpdatePlayer(struct Character* ply)
 	
 	if (ply->Input & INPUT_RIGHT)
 	{
-		ply->DX = 16;
+		ply->DX += MOVE_SPEED;
 		ply->bMoving = TRUE;
 	}
 	else if (ply->Input & INPUT_LEFT)
 	{
-		ply->DX = -16;
+		ply->DX += -MOVE_SPEED;
 		ply->bMoving = TRUE;
 	}
 	else
@@ -469,10 +476,16 @@ void UpdatePlayer(struct Character* ply)
 	else if (ply->bMoving)
 		act = ACTION_MOVE;
 
+	i16 px = ply->Position.x + ply->DX;
+	i16 py = ply->Position.y + ply->DY;
+
 	Game_Pawn* pawn = &ply->Pawn;
 	GamePawn_SetAction(pawn, act);
-	GamePawn_SetMovement(pawn, ply->DX / 16, ply->DY / 16);
+	GamePawn_SetMovement(pawn, Q4_4_TO_PX(px - ply->Position.x), Q4_4_TO_PX(py - ply->Position.y));
 	GamePawn_Update(pawn);
+
+	ply->Position.x = px;
+	ply->Position.y = py;
 }
 
 //-----------------------------------------------------------------------------
@@ -510,22 +523,24 @@ void UpdateBall()
 	u16 sqrtDist = (dx*dx) + (dy*dy);
 	if (sqrtDist < COL_DIST * COL_DIST)
 	{
-		DEBUG_LOGNUM("Velocity", g_Ball.VelocityY);
-
+		DEBUG_PRINT("--- Collision ---\n");
+		DEBUG_PRINT("Coll dx/dy: %i/%i\n", dx, dy);
+		DEBUG_LOGNUM("Ball Velocity", g_Ball.VelocityY);
+	
 		g_Ball.DX = dx * 4; // Math_SignedDiv4
-		g_Ball.VelocityY = JUMP_FORCE;
+		g_Ball.DX += ply->DX / 2;
+		g_Ball.VelocityY = BOUNCE_FORCE;
+		// g_Ball.VelocityY -= ABS8(dy) * 4; // Math_SignedDiv4
 
 		GamePawn_SetAction(ballPawn, ACTION_BALL_BUMP);
 
-		// Print_SetPosition(0, 2);
-		// Print_DrawFormat("%i..\n%i..", dx, dy);
-
-		DEBUG_PRINT("DX/Y: %s%i %s%i", (dx > 0) ? "+" : "", dx, (dy > 0) ? "+" : "", dy);
-		// DEBUG_BREAK();
+		DEBUG_PRINT("Ball DX/DY: %i %i\n", g_Ball.DX, g_Ball.DY);
+		DEBUG_PRINT("Ball Vel: %i\n", g_Ball.VelocityY);
+		DEBUG_BREAK();
 	}
 
 	// Update player animation & physics
-	GamePawn_SetMovement(ballPawn, g_Ball.DX / 16, g_Ball.DY / 16);
+	GamePawn_SetMovement(ballPawn, Q4_4_TO_PX(g_Ball.DX), Q4_4_TO_PX(g_Ball.DY));
 	GamePawn_Update(ballPawn);
 }
 

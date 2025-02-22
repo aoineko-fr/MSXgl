@@ -159,10 +159,12 @@ void DEBUG_PRINT(const c8* format, ...)
 // Initialize Debug module
 void DEBUG_INIT()
 {
+#if (VDP_USE_COMMAND)
 	// Fix assertion for un-initialized VDP buffer
 	u8* ptr = (u8*)&g_VDP_Command;
 	for(u8 i = 0; i < sizeof(g_VDP_Command); ++i)
 		*(ptr++) = 0;
+#endif
 	
 	// Fix assertion for BIOS-initialized key buffer
 	#if (INPUT_KB_UPDATE)
