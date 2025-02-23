@@ -21,6 +21,15 @@
 // DEFINES
 //=============================================================================
 
+// Fixed point format
+//
+// Format	Prec.	Min		Max
+//-----------------------------------
+// Q2.6		0.016	-2		1.98
+// Q4.4		0.06	-8		7.94
+// Q10.6	0.016	-512	511.98
+// Q12.4	0.06	-2048	2047.94
+
 // Unit conversion (Pixel <> Q10.6)
 #define Q10_6_TO_PX(a)				(u8)((a) / 64)
 #define PX_TO_Q10_6(a)				(i16)((a) * 64)
@@ -29,13 +38,32 @@
 #define Q2_6_TO_PX(a)				(u8)((a) / 64)
 #define PX_TO_Q2_6(a)				(i8)((a) * 64)
 
-#define FORCE						20
-#define GRAVITY						1
-#define GROUND						192
-#define HORIZON						11
+// Unit conversion (Pixel <> Q4.4)
+#define Q4_4_TO_PX(a)				(u8)((a) / 16)
+#define PX_TO_Q4_4(a)				(i8)((a) * 16)
+
+// Unit conversion (Pixel <> Q12.4)
+#define Q12_4_TO_PX(a)				(u16)((a) / 16)
+#define PX_TO_Q12_4(a)				(i16)((a) * 16)
+
+// Gameplay value
+#define BOUNCE_FORCE				PX_TO_Q4_4(5.0f)
+#define JUMP_FORCE					PX_TO_Q4_4(5.0f)
+#define FALL_SPEED					PX_TO_Q4_4(5.0f)
+#define MOVE_SPEED					PX_TO_Q4_4(2.0)
+#define GRAVITY						PX_TO_Q4_4(0.25f)
+#define COL_DIST					16
+
+// Background
+#define HORIZON_H					11
 #define NET_H						7
 
-//
+// Debug section
+#define S_DRAW						0
+#define S_UPDATE					1
+#define S_INPUT						2
+
+// Input action flag
 enum INPUT_ACTION
 {
 	INPUT_RIGHT = 0b00000001,
@@ -43,33 +71,18 @@ enum INPUT_ACTION
 	INPUT_JUMP  = 0b00000100,
 };
 
-// 8-bits vector structure
-typedef struct
-{
-	i8			x;
-	i8			y;
-} Vector8;
-
-// 16-bits vector structure
-typedef struct
-{
-	i16			x;
-	i16			y;
-} Vector16;
-
 // Gameplay character stricture
 struct Character
 {
 	bool		bMoving;
 	bool		bInAir;
-	i8			VelocityY;
-	i8			DX;
-	i8			DY;
+	i8			VelocityY;	// Format Q4.4
+	i8			DX;			// Format Q4.4
+	i8			DY;			// Format Q4.4
 	u8			Input;
 	u8			Score;
 	Game_Pawn	Pawn;
-	Vector16	Position;
-	Vector16	Velocity;
+	VectorI16	Position;
 };
 
 // Prototypes
@@ -77,6 +90,7 @@ bool State_Initialize();
 bool State_Game();
 bool State_Pause();
 void UpdateScore();
+
 
 //=============================================================================
 // READ-ONLY DATA
@@ -213,8 +227,8 @@ const Game_Action g_AnimActions2[] =
 // Pawn sprite layers
 const Game_Sprite g_BallLayers[] =
 {
-	{ 2, 0, 0, 4,  COLOR_DARK_RED, 0 },
-	{ 3, 0, 0, 0,  COLOR_MEDIUM_RED, 0 },
+	{ 2, 0, 0, 4,  COLOR_DARK_GREEN, 0 },
+	{ 3, 0, 0, 0,  COLOR_MEDIUM_GREEN, 0 },
 };
 
 // Idle animation frames
@@ -258,7 +272,10 @@ bool g_bFlicker = TRUE;
 u8   g_PrevRow3 = 0xFF;
 u8   g_PrevRow8 = 0xFF;
 
-c8 g_StrBuffer[16];
+c8   g_StrBuffer[16];
+
+bool g_FreezeBall = TRUE;
+
 
 //=============================================================================
 // FUNCTIONS
@@ -277,7 +294,7 @@ void PhysicsEventPlayer1(u8 event, u8 tile)
 		break;
 
 	case PAWN_PHYSICS_FALL: // Handle falling
-		if(!g_Player1.bInAir)
+		if (!g_Player1.bInAir)
 		{
 			g_Player1.bInAir = TRUE;
 			g_Player1.VelocityY = 0;
@@ -299,7 +316,7 @@ void PhysicsEventPlayer2(u8 event, u8 tile)
 		break;
 
 	case PAWN_PHYSICS_FALL: // Handle falling
-		if(!g_Player2.bInAir)
+		if (!g_Player2.bInAir)
 		{
 			g_Player2.bInAir = TRUE;
 			g_Player2.VelocityY = 0;
@@ -319,16 +336,16 @@ void PhysicsEventBall(u8 event, u8 tile)
 	case PAWN_PHYSICS_COL_DOWN:
 		g_Ball.VelocityY *= -1; // Reverse
 		GamePawn_SetAction(&g_Ball.Pawn, ACTION_BALL_BUMP);
-		// if(g_Ball.Pawn.PositionY > 128)
+		// if (g_Ball.Pawn.PositionY > 128)
 		// {
-			// if(g_Ball.Pawn.PositionX < 128) // Player 1 score a point!
+			// if (g_Ball.Pawn.PositionX < 128) // Player 1 score a point!
 			// {
-				// if(g_Player1.Score < 99)
+				// if (g_Player1.Score < 99)
 					// g_Player1.Score++;
 			// }
 			// else // Player 2 score a point!
 			// {
-				// if(g_Player2.Score < 99)
+				// if (g_Player2.Score < 99)
 					// g_Player2.Score++;
 			// }
 			// UpdateScore();
@@ -343,7 +360,7 @@ void PhysicsEventBall(u8 event, u8 tile)
 		break;
 
 	case PAWN_PHYSICS_FALL: // Handle falling
-		if(!g_Ball.bInAir)
+		if (!g_Ball.bInAir)
 		{
 			g_Ball.bInAir = TRUE;
 			g_Ball.VelocityY = 0;
@@ -375,97 +392,100 @@ void UpdateScore()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Draw level background
 void DrawLevel()
 {
 	// Background
 	loop(i, 24-1)
-		VDP_FillVRAM((i <= HORIZON) ? 16 : 8, g_ScreenLayoutLow + (i+1) * 32, 0, 32);
+		VDP_FillVRAM_16K((i <= HORIZON_H) ? 16 : 8, VDP_GetLayoutTable() + (i + 1) * 32, 32);
 
 	// Ground
-	VDP_FillVRAM(1, g_ScreenLayoutLow + 23 * 32, 0, 32);
+	VDP_FillVRAM_16K(1, VDP_GetLayoutTable() + 23 * 32, 32);
 
 	// "Net"
 	loop(i, NET_H)
 	{
-		u16 addr = g_ScreenLayoutLow + 15 + (i + (23 - NET_H)) * 32;
+		u16 addr = VDP_GetLayoutTable() + 15 + (i + (23 - NET_H)) * 32;
 		VDP_Poke_16K((i == 0) ? 0 : 5, addr++);
 		VDP_Poke_16K((i == 0) ? 2 : 6, addr);
 	}
 }
 
 //-----------------------------------------------------------------------------
-//
+// Initialize player
 void InitPlayer(struct Character* ply, u8 id)
 {
 	Mem_Set(0, ply, sizeof(struct Character));
 
 	Game_Pawn* pawn = &ply->Pawn;
-	if(id == 0)
+	if (id == 0)
 	{
 		GamePawn_Initialize(pawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
 		GamePawn_SetPosition(pawn, (u8)(255 - 16 - 16), 128);
 		GamePawn_InitializePhysics(pawn, PhysicsEventPlayer1, PhysicsCollision, 16, 16);
-		ply->Position.x = PX_TO_Q10_6(255 - 16 - 16);
-		ply->Position.y = PX_TO_Q10_6(128);
 	}
 	else
 	{
 		GamePawn_Initialize(pawn, g_SpriteLayers2, numberof(g_SpriteLayers2), 0, g_AnimActions2);
 		GamePawn_SetPosition(pawn, 16, 128);
 		GamePawn_InitializePhysics(pawn, PhysicsEventPlayer2, PhysicsCollision, 16, 16);
-		ply->Position.x = PX_TO_Q10_6(16);
-		ply->Position.y = PX_TO_Q10_6(128);
 	}
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update player gameplay and display
 void UpdatePlayer(struct Character* ply)
 {
 	// Update movement
 	ply->DX = 0;
 	ply->DY = 0;
 	
-	if(ply->Input & INPUT_RIGHT)
+	if (ply->Input & INPUT_RIGHT)
 	{
-		ply->DX++;
+		ply->DX += MOVE_SPEED;
 		ply->bMoving = TRUE;
 	}
-	else if(ply->Input & INPUT_LEFT)
+	else if (ply->Input & INPUT_LEFT)
 	{
-		ply->DX--;
+		ply->DX += -MOVE_SPEED;
 		ply->bMoving = TRUE;
 	}
 	else
 		ply->bMoving = FALSE;
 
-	if(ply->bInAir) // Jump/fall
+	if (ply->bInAir) // Handle in air state (jump or fall)
 	{
-		ply->DY -= ply->VelocityY / 4;
-		ply->VelocityY -= GRAVITY;
-		if(ply->VelocityY < -FORCE)
-			ply->VelocityY = -FORCE;
+		ply->DY -= ply->VelocityY; // Apply vertical force
+
+		ply->VelocityY -= GRAVITY; // Apply gravity
+		if (ply->VelocityY < -FALL_SPEED) // Clamp fall speed
+			ply->VelocityY = -FALL_SPEED;
 	}
-	else if(ply->Input & INPUT_JUMP)
+	else if (ply->Input & INPUT_JUMP) // Initialize jump force
 	{
 		ply->bInAir = TRUE;
-		ply->VelocityY = FORCE;
+		ply->VelocityY = JUMP_FORCE;
 	}
 
 	// Update player animation & physics
 	u8 act = ACTION_IDLE;
-	if(ply->bInAir && (ply->VelocityY >= 0))
+	if (ply->bInAir && (ply->VelocityY >= 0))
 		act = ACTION_JUMP;
-	else if(ply->bInAir)
+	else if (ply->bInAir)
 		act = ACTION_FALL;
-	else if(ply->bMoving)
+	else if (ply->bMoving)
 		act = ACTION_MOVE;
+
+	i16 px = ply->Position.x + ply->DX;
+	i16 py = ply->Position.y + ply->DY;
 
 	Game_Pawn* pawn = &ply->Pawn;
 	GamePawn_SetAction(pawn, act);
-	GamePawn_SetMovement(pawn, ply->DX, ply->DY);
+	GamePawn_SetMovement(pawn, Q4_4_TO_PX(px - ply->Position.x), Q4_4_TO_PX(py - ply->Position.y));
 	GamePawn_Update(pawn);
+
+	ply->Position.x = px;
+	ply->Position.y = py;
 }
 
 //-----------------------------------------------------------------------------
@@ -479,46 +499,21 @@ void InitBall()
 	GamePawn_SetPosition(pawn, 150, 128);
 	GamePawn_InitializePhysics(pawn, PhysicsEventBall, PhysicsCollision, 16, 16);
 	GamePawn_SetAction(pawn, ACTION_BALL_IDLE);
-
-	g_Ball.Position.x = PX_TO_Q10_6(150);
-	g_Ball.Position.y = PX_TO_Q10_6(128);
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update ball gameplay and display
 void UpdateBall()
 {
-	/*
-	// Update physics
-	g_Ball.Velocity.y += PX_TO_Q10_6(GRAVITY);
-	if(g_Ball.Velocity.y > PX_TO_Q10_6(FORCE))
-		g_Ball.Velocity.y = PX_TO_Q10_6(FORCE);
-
-	g_Ball.Position.x += g_Ball.Velocity.x;
-	g_Ball.Position.y += g_Ball.Velocity.y;
-
-	// Update player animation & physics
-	Game_Pawn* ballPawn = &g_Ball.Pawn;
-	GamePawn_SetTargetPosition(ballPawn, Q10_6_TO_PX(g_Ball.Position.x), Q10_6_TO_PX(g_Ball.Position.y));
-	GamePawn_Update(ballPawn);*/
-
-	// Update movement
-	// g_Ball.DX = 0;
-	g_Ball.DY = 0;
-	
-	// Jump/fall
-	g_Ball.DY -= g_Ball.VelocityY / 4;
+	// Apply gravity
+	g_Ball.DY = -g_Ball.VelocityY;
 	g_Ball.VelocityY -= GRAVITY;
-	if(g_Ball.VelocityY < -FORCE)
-		g_Ball.VelocityY = -FORCE;
+	if (g_Ball.VelocityY < -FALL_SPEED)
+		g_Ball.VelocityY = -FALL_SPEED;
 
-	// Test player collision
+	// Select the player to tests
 	Game_Pawn* ballPawn = &g_Ball.Pawn;
-	struct Character* ply;
-	if(ballPawn->PositionX > 128 - 8)
-		ply = &g_Player1;
-	else
-		ply = &g_Player2;
+	struct Character* ply = (ballPawn->PositionX > 128 - 8) ? &g_Player1 : &g_Player2;
 
 	// Compute distance
 	Game_Pawn* plyPawn = &ply->Pawn;
@@ -526,45 +521,39 @@ void UpdateBall()
 	i8 dy = ballPawn->PositionY - plyPawn->PositionY;
 
 	u16 sqrtDist = (dx*dx) + (dy*dy);
-	if(sqrtDist < 16*16)
+	if (sqrtDist < COL_DIST * COL_DIST)
 	{
-		DEBUG_LOGNUM("Velocity", g_Ball.VelocityY);
-
-		g_Ball.VelocityY = FORCE;
-		if(ply->bInAir)
-			g_Ball.VelocityY += ply->VelocityY;
-		g_Ball.DX = dx / 4; // Math_SignedDiv4
-
-		g_Ball.VelocityY = FORCE;
-
-		// g_Ball.DX = dx / 3;
-		// g_Ball.VelocityY = 10 + 16 - ABS8(dx);
-		// if(ply->bInAir)
-			// g_Ball.VelocityY += ply->VelocityY;
+		DEBUG_PRINT("--- Collision ---\n");
+		DEBUG_PRINT("Coll dx/dy: %i/%i\n", dx, dy);
+		DEBUG_LOGNUM("Ball Velocity", g_Ball.VelocityY);
+	
+		g_Ball.DX = dx * 4; // Math_SignedDiv4
+		g_Ball.DX += ply->DX / 2;
+		g_Ball.VelocityY = BOUNCE_FORCE;
+		// g_Ball.VelocityY -= ABS8(dy) * 4; // Math_SignedDiv4
 
 		GamePawn_SetAction(ballPawn, ACTION_BALL_BUMP);
 
-		Print_SetPosition(0, 2);
-		Print_DrawFormat("%i..\n%i..", dx, dy);
-
-		DEBUG_PRINT("DX/Y: %s%i %s%i\n", (dx > 0) ? "+" : "", dx, (dy > 0) ? "+" : "", dy);
+		DEBUG_PRINT("Ball DX/DY: %i %i\n", g_Ball.DX, g_Ball.DY);
+		DEBUG_PRINT("Ball Vel: %i\n", g_Ball.VelocityY);
 		DEBUG_BREAK();
 	}
 
 	// Update player animation & physics
-	GamePawn_SetMovement(ballPawn, g_Ball.DX, g_Ball.DY);
+	GamePawn_SetMovement(ballPawn, Q4_4_TO_PX(g_Ball.DX), Q4_4_TO_PX(g_Ball.DY));
 	GamePawn_Update(ballPawn);
 }
+
 //-----------------------------------------------------------------------------
 // Load pattern data into VRAM
 void VDP_LoadSpritePattern16_VSym(const u8* src, u8 index, u8 count)
 {
 	u16 dest = g_SpritePatternLow + (index * 8);
-	for(u16 i = 0; i < count * 8; i++)
+	for (u16 i = 0; i < count * 8; i++)
 	{
 		u8 val = Math_Flip(*src++);
 		u16 addr = dest++;
-		if(i & 0x10) // Shift every 16 bytes to flip 16x16 sprite's 4 blocks
+		if (i & 0x10) // Shift every 16 bytes to flip 16x16 sprite's 4 blocks
 			addr -= 16;
 		else
 			addr += 16;
@@ -573,7 +562,7 @@ void VDP_LoadSpritePattern16_VSym(const u8* src, u8 index, u8 count)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Data initialization state
 bool State_Initialize()
 {
 	// Initialize display
@@ -581,22 +570,22 @@ bool State_Initialize()
 	VDP_SetColor(COLOR_BLACK);
 	
 	// Initialize pattern
-	VDP_FillVRAM(32, g_ScreenLayoutLow, 0, 32*24);
-	VDP_FillVRAM(0, g_ScreenPatternLow, 0, 256*8); // Clear pattern
-	VDP_WriteVRAM(g_DataBackground, g_ScreenPatternLow, 0, 24*8);
+	VDP_FillVRAM_16K(32, VDP_GetLayoutTable(), 32*24);
+	VDP_FillVRAM_16K(0, VDP_GetPatternTable(), 256*8); // Clear pattern
+	VDP_WriteVRAM_16K(g_DataBackground, VDP_GetPatternTable(), 24*8);
 
 	// Initialize text
 	Print_SetTextFont(g_Font_Carwar, 65);
 	Print_SetColor(0xF, 0x1);
 	Print_SetPosition(0, 0);
-	Print_DrawText("EXAMPLE");
+	Print_DrawText("PENG.PONG....00..00");
 
 	// Initialize color
-	VDP_FillVRAM(0xF0, g_ScreenColorLow, 0, 32); // Clear color
-	VDP_Poke_16K(0x7F, g_ScreenColorLow + 0);
-	VDP_Poke_16K(0x5F, g_ScreenColorLow + 1);
-	VDP_Poke_16K(0xF5, g_ScreenColorLow + 2);
-	VDP_Poke_16K(0x99, g_ScreenColorLow + 3);
+	VDP_FillVRAM_16K(0xF0, VDP_GetColorTable(), 32); // Clear color
+	VDP_Poke_16K(0x7F, VDP_GetColorTable() + 0);
+	VDP_Poke_16K(0x5F, VDP_GetColorTable() + 1);
+	VDP_Poke_16K(0xF5, VDP_GetColorTable() + 2);
+	VDP_Poke_16K(0x99, VDP_GetColorTable() + 3);
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
@@ -630,14 +619,8 @@ bool State_Initialize()
 	return FALSE; // Frame finished
 }
 
-#define S_DRAW		0
-#define S_UPDATE	1
-#define S_INPUT		2
-
-bool bEnable = TRUE;
-
 //-----------------------------------------------------------------------------
-//
+// Game update state
 bool State_Game()
 {
 	PROFILE_FRAME_START();
@@ -647,8 +630,8 @@ bool State_Game()
 	GamePawn_Draw(&g_Player1.Pawn);
 	GamePawn_Draw(&g_Player2.Pawn);
 	// Background horizon blink
-	if(g_bFlicker)
-		VDP_FillVRAM(g_GameFrame & 1 ? 9 : 10, g_ScreenLayoutLow + (HORIZON + 2) * 32, 0, 32);
+	if (g_bFlicker)
+		VDP_FillVRAM_16K(g_GameFrame & 1 ? 9 : 10, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
 	PROFILE_SECTION_END(100, S_DRAW, "");
 
 	PROFILE_SECTION_START(100, S_UPDATE, "");
@@ -663,34 +646,34 @@ bool State_Game()
 	u8 row8 = Keyboard_Read(8);
 
 	g_Player1.Input = 0;
-	if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+	if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 		g_Player1.Input |= INPUT_RIGHT;
-	if(IS_KEY_PRESSED(row8, KEY_LEFT))
+	if (IS_KEY_PRESSED(row8, KEY_LEFT))
 		g_Player1.Input |= INPUT_LEFT;
-	if(IS_KEY_PRESSED(row8, KEY_UP))
+	if (IS_KEY_PRESSED(row8, KEY_UP))
 		g_Player1.Input |= INPUT_JUMP;
 
 	g_Player2.Input = 0;
-	if(IS_KEY_PRESSED(row3, KEY_D))
+	if (IS_KEY_PRESSED(row3, KEY_D))
 		g_Player2.Input |= INPUT_LEFT;
-	if(IS_KEY_PRESSED(row3, KEY_G))
+	if (IS_KEY_PRESSED(row3, KEY_G))
 		g_Player2.Input |= INPUT_RIGHT;
-	if(IS_KEY_PRESSED(row3, KEY_F))
+	if (IS_KEY_PRESSED(row3, KEY_F))
 		g_Player2.Input |= INPUT_JUMP;
 
-	if(IS_KEY_PUSHED(row3, g_PrevRow3, KEY_I))
+	if (IS_KEY_PUSHED(row3, g_PrevRow3, KEY_I))
 		g_bFlicker = 1 - g_bFlicker;
 
-	if(IS_KEY_PUSHED(row8, g_PrevRow8, KEY_DEL))
+	if (IS_KEY_PUSHED(row8, g_PrevRow8, KEY_DEL))
 	{
-		bEnable = !bEnable;
-		GamePawn_SetEnable(&g_Ball.Pawn, bEnable);
+		g_FreezeBall = !g_FreezeBall;
+		GamePawn_SetEnable(&g_Ball.Pawn, g_FreezeBall);
 	}
 
 	g_PrevRow3 = row3;
 	g_PrevRow8 = row8;
 
-	if(Keyboard_IsKeyPressed(KEY_ESC))
+	if (Keyboard_IsKeyPressed(KEY_ESC))
 		Game_Exit();
 	PROFILE_SECTION_END(100, S_INPUT, "");
 

@@ -31,7 +31,7 @@
 // DskTool   = `${ToolsDir}build/msxtar/msxtar`;	//-- Path to the tool to generate DSK file (string)
 // Emulator  = "";									//-- Path to the emulator to launch the project (string)
 // Emulator  = `${ToolsDir}openMSX/openmsx`;
-// Emulator  = `${ToolsDir}Emulicious/Emulicious`;
+Emulator  = `${ToolsDir}Emulicious/Emulicious`;
 // Emulator  = `${ToolsDir}fMSX/fMSX`;
 // Emulator  = `${ToolsDir}MSXEC\\MSXEC`;
 // Emulator  = `${ToolsDir}BlueMSX/blueMSX`;
@@ -165,7 +165,7 @@ AppSignature = true;
 AppCompany = "PP";
 
 //-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
-AppID = "EX";
+AppID = 0x0003;
 
 //-- Application extra data (array). Comma-separated bytes starting with data size
 // AppExtra = [];
@@ -175,7 +175,7 @@ AppID = "EX";
 //*******************************************************************************
 
 //-- Force to generate MSXgl static library even if 'msxgl.lib' already exist (boolean)
-BuildLibrary = true;
+BuildLibrary = false;
 
 //-- Prepare program for debug (boolean)
 Debug = true;
@@ -296,7 +296,7 @@ Verbose = true;
 // AnalyzerCSV = false;
 
 //-- Analyzer CSV file separator (string)
-AnalyzerSeparator = ",";
+// AnalyzerSeparator = ",";
 
 //*******************************************************************************
 // EMULATOR SETINGS
@@ -309,11 +309,11 @@ EmulMachine    = false;				//-- Force the MSX version of the emulated machine (b
 // Emul60Hz       = false;				//-- Force the emulated machine to be at 60 Hz (boolean)
 // EmulFullScreen = false;				//-- Force the emulator to start in fullscreen mode (boolean)
 // EmulMute       = false;				//-- Disable emulator sound (boolean)
-// EmulDebug      = false;				//-- Start emulator debugger with program launch (boolean)
+EmulDebug      = true;				//-- Start emulator debugger with program launch (boolean)
 // EmulTurbo      = false;				//-- Start emulator in turbo mode (boolean)
 
 //-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific
-EmulExtraParam = `-ext Mitsubishi_ML-30DC_ML-30FD -script ${ToolsDir}script/openMSX/debugger_pvm.tcl`;
+// EmulExtraParam = `-ext Mitsubishi_ML-30DC_ML-30FD -script ${ToolsDir}script/openMSX/debugger_pvm.tcl`;
 
 //-------------------------------------------------------------------------------
 // Extension options

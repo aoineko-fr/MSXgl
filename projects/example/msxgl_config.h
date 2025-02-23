@@ -82,8 +82,8 @@
 // VDP screen modes (additionnal limitations come from the selected MSX_VERSION)
 #define VDP_USE_MODE_T1				TRUE	// MSX1		Screen 0 Width 40
 #define VDP_USE_MODE_G1				TRUE	// MSX1		Screen 1
-#define VDP_USE_MODE_G2				TRUE	// MSX1		Screen 2
-#define VDP_USE_MODE_MC				TRUE	// MSX1		Screen 3
+#define VDP_USE_MODE_G2				FALSE	// MSX1		Screen 2
+#define VDP_USE_MODE_MC				FALSE	// MSX1		Screen 3
 #define VDP_USE_MODE_T2				FALSE	// MSX2		Screen 0 Width 80
 #define VDP_USE_MODE_G3				FALSE	// MSX2		Screen 4
 #define VDP_USE_MODE_G4				FALSE	// MSX2		Screen 5
@@ -93,10 +93,10 @@
 
 #define VDP_USE_VRAM16K				TRUE	// Use 16K VRAM access functions on MSX2
 #define VDP_USE_SPRITE				TRUE	// Use sprite handling functions
-#define VDP_USE_COMMAND				TRUE	// Use VDP commands wrapper functions
+#define VDP_USE_COMMAND				FALSE	// Use VDP commands wrapper functions
 #define VDP_USE_CUSTOM_CMD			FALSE	// Use custom VDP commands through data buffer
 #define VDP_AUTO_INIT				TRUE	// Call VDP_Initialize() at the first call to VDP_SetMode()
-#define VDP_USE_UNDOCUMENTED		TRUE	// Allow the use of undocumented screen mode (WIP)
+#define VDP_USE_UNDOCUMENTED		FALSE	// Allow the use of undocumented screen mode (WIP)
 #define VDP_USE_VALIDATOR			TRUE	// Handle some option specific for each VDP mode (highly recommended)
 #define VDP_USE_DEFAULT_PALETTE		FALSE	// Add data for default MSX2 palette
 #define VDP_USE_MSX1_PALETTE		FALSE	// Add data for default MSX1 palette
@@ -214,7 +214,7 @@
 #define PRINT_USE_FORMAT			TRUE	// Add printf type function
 #define PRINT_USE_32B				TRUE	// Allow to print 32-bits integers
 #define PRINT_SKIP_SPACE			FALSE	// Skill space character
-#define PRINT_COLOR_NUM				12		// 1 color per line
+#define PRINT_COLOR_NUM				1		// 1 color per line
 // Character width
 // - PRINT_WIDTH_1 (text mode)
 // - PRINT_WIDTH_6
@@ -593,7 +593,7 @@
 // - DEBUG_EMULICIOUS ............. Debug features for Emulicious
 // - DEBUG_OPENMSX ................ Debug features for openMSX using 'debugdevice' extension
 // - DEBUG_OPENMSX_P .............. Debug features for openMSX using PVM script (tools/script/openMSX/debugger_pvm.tcl)
-#define DEBUG_TOOL					DEBUG_DISABLE
+#define DEBUG_TOOL					DEBUG_EMULICIOUS
 // Profiler options
 // - PROFILE_DISABLE .............. No profile tool
 // - PROFILE_OPENMSX_G ............ Profiler features for openMSX using Grauw script (tools/script/openMSX/profiler_grauw.tcl)

@@ -87,7 +87,7 @@ void DEBUG_ASSERT(bool a)
 void DEBUG_LOG(const c8* msg)
 {
 #if (DEBUG_TOOL == DEBUG_OPENMSX_P)
-	DEBUG_PRINT("%s\n", msg);
+	DEBUG_PRINT("%s", msg);
 #else
 	g_PortDebugMode = DEBUG_MODE_MULTI|DEBUG_MULTI_ASCII; // Multi byte ASCII mode
 	while(*msg)
@@ -100,7 +100,7 @@ void DEBUG_LOG(const c8* msg)
 void DEBUG_LOGNUM(const c8* msg, u8 num)
 {
 #if (DEBUG_TOOL == DEBUG_OPENMSX_P)
-	DEBUG_PRINT("%s:%d\n", msg, num);
+	DEBUG_PRINT("%s:%d", msg, num);
 #else
 	DEBUG_LOG(msg);
 	g_PortDebugData = ':';
@@ -159,10 +159,12 @@ void DEBUG_PRINT(const c8* format, ...)
 // Initialize Debug module
 void DEBUG_INIT()
 {
+#if (VDP_USE_COMMAND)
 	// Fix assertion for un-initialized VDP buffer
 	u8* ptr = (u8*)&g_VDP_Command;
 	for(u8 i = 0; i < sizeof(g_VDP_Command); ++i)
 		*(ptr++) = 0;
+#endif
 	
 	// Fix assertion for BIOS-initialized key buffer
 	#if (INPUT_KB_UPDATE)
