@@ -229,7 +229,7 @@ void InitP1()
 	// Pattern name table
 	V9_FillVRAM16(V9_P1_PNT_A, 0x0000, 64*64); // Init layer A
 	V9_Print(V9_P1_PNT_A, "MSXgl V9990 - P1 Mode (PP)"); // Draw title
-	for(u8 i = 0; i < 8; ++i) // Draw plateform
+	for(u8 i = 0; i < 8; ++i) // Draw platform
 	{
 		u8 x = i * 8;
 		u8 y = Math_GetRandom8() % 8 + 10;
@@ -412,7 +412,7 @@ void InitP2()
 		V9_Poke16(addr, 168); addr += 2;
 		V9_Poke16(addr, 169);
 	}
-	for(u8 i = 0; i < 8; ++i) // Draw plateform
+	for(u8 i = 0; i < 8; ++i) // Draw platform
 	{
 		u8 x = i * 16;
 		u8 y = Math_GetRandom8() % 8 + 10;
@@ -671,7 +671,7 @@ void InitBmp()
 		}
 	}
 
-	for(u8 i = 0; i < 16; ++i) // Draw plateform
+	for(u8 i = 0; i < 16; ++i) // Draw platform
 	{
 		u16 x = i * 8;
 		u8 y = Math_GetRandom8() % 8 + 10;
@@ -886,7 +886,7 @@ void SetColorMode(u8 mode)
 // Program entry point
 void main()
 {
-	V9_SetPort(V9_P15, 0); // Disactivate Video9000 if present (recommanded)
+	V9_SetPort(V9_P15, 0); // Deactivate Video9000 if present (recommended)
 
 	// Initialize screen mode 0 (text)
 	VDP_SetMode(VDP_MODE_SCREEN0);
@@ -1000,5 +1000,5 @@ void main()
 			DisplayMSX();
 	}
 
-	V9_SetPort(V9_P15, 0x10); // Reactivate Video9000 if present (recommanded)
+	V9_SetPort(V9_P15, 0x10); // Reactivate Video9000 if present (recommended)
 }
