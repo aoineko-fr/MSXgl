@@ -338,42 +338,43 @@
 #define WYZ_6CH 					1
 
 //-----------------------------------------------------------------------------
-// GAME MODULE
+// GAME PAWN MODULE
 //-----------------------------------------------------------------------------
 
 // Border collision options
-#define GAMEPAWN_BORDER_NONE		0 // 0000
-#define GAMEPAWN_BORDER_DOWN		1 // 0001
-#define GAMEPAWN_BORDER_UP			2 // 0010
-#define GAMEPAWN_BORDER_RIGHT		4 // 0100
-#define GAMEPAWN_BORDER_LEFT		8 // 1000
+#define PAWN_BORDER_NONE			0 // 0000
+#define PAWN_BORDER_DOWN			1 // 0001
+#define PAWN_BORDER_UP				2 // 0010
+#define PAWN_BORDER_RIGHT			4 // 0100
+#define PAWN_BORDER_LEFT			8 // 1000
 
 // Collision position options
-#define GAMEPAWN_COL_0				1  // 00000001
-#define GAMEPAWN_COL_25             2  // 00000010
-#define GAMEPAWN_COL_50             4  // 00000100
-#define GAMEPAWN_COL_75             8  // 00001000
-#define GAMEPAWN_COL_100			16 // 00010000
+#define PAWN_COL_NONE				0  // 00000000
+#define PAWN_COL_0					1  // 00000001
+#define PAWN_COL_25					2  // 00000010
+#define PAWN_COL_50					4  // 00000100
+#define PAWN_COL_75					8  // 00001000
+#define PAWN_COL_100				16 // 00010000
 
-#define GAMEPAWN_COL_1P_MIDDLE		GAMEPAWN_COL_50
-#define GAMEPAWN_COL_2P_MIDDLE		(GAMEPAWN_COL_25|GAMEPAWN_COL_75)
-#define GAMEPAWN_COL_2P_CORNER		(GAMEPAWN_COL_0|GAMEPAWN_COL_100)
+#define PAWN_COL_1P_MIDDLE			PAWN_COL_50
+#define PAWN_COL_2P_MIDDLE			(PAWN_COL_25|PAWN_COL_75)
+#define PAWN_COL_2P_CORNER			(PAWN_COL_0|PAWN_COL_100)
 
-#define GAMEPAWN_BOUND_CUSTOM		0x10000 // Use variable bound value for each pawn
+#define PAWN_BOUND_CUSTOM			0x10000 // Use variable bound value for each pawn
 
 // Collision tilemap source
-#define GAMEPAWN_TILEMAP_SRC_AUTO	0 // Backward compatibility option
-#define GAMEPAWN_TILEMAP_SRC_RAM	1 // Tilemap located in a buffer in RAM (best for performance)
-#define GAMEPAWN_TILEMAP_SRC_VRAM	2 // Tilemap located in VRAM (slow but don't need additionnal data)
-#define GAMEPAWN_TILEMAP_SRC_V9		3 // Tilemap located in V9990's VRAM
+#define PAWN_TILEMAP_SRC_AUTO		0 // Backward compatibility option
+#define PAWN_TILEMAP_SRC_RAM		1 // Tilemap located in a buffer in RAM (best for performance)
+#define PAWN_TILEMAP_SRC_VRAM		2 // Tilemap located in VRAM (slow but don't need additionnal data)
+#define PAWN_TILEMAP_SRC_V9			3 // Tilemap located in V9990's VRAM
 
 // Pawn's sprite mode
-#define GAMEPAWN_SPT_MODE_AUTO		0 // Backward compatibility option
-#define GAMEPAWN_SPT_MODE_MSX1		1 // Sprite Mode 1 (MSX1 screens)
-#define GAMEPAWN_SPT_MODE_MSX2		2 // Sprite Mode 2 (MSX2 screens)
-#define GAMEPAWN_SPT_MODE_V9_P1		3 // V9990 sprite in P1 mode
-#define GAMEPAWN_SPT_MODE_V9_P2		4 // V9990 sprite in P2 mode
-#define GAMEPAWN_SPT_MODE_BITMAP	5 // V9938/58 software sprite (Todo)
+#define PAWN_SPT_MODE_AUTO			0 // Backward compatibility option
+#define PAWN_SPT_MODE_MSX1			11 // Sprite Mode 1 (MSX1 screens)
+#define PAWN_SPT_MODE_MSX2			12 // Sprite Mode 2 (MSX2 screens)
+#define PAWN_SPT_MODE_BITMAP		50 // V9938/58 software sprite (Todo)
+#define PAWN_SPT_MODE_V9_P1			91 // V9990 sprite in P1 mode
+#define PAWN_SPT_MODE_V9_P2			92 // V9990 sprite in P2 mode
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE

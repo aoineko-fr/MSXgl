@@ -10,12 +10,22 @@
 // Library version
 #define VERSION_MAJOR				(u16)1		// 4-bits (0-15)
 #define VERSION_MINOR				(u16)2		// 6-bits (0-63)
-#define VERSION_PATCH				(u16)17		// 6-bits (0-63)
+#define VERSION_PATCH				(u16)18		// 6-bits (0-63)
+
+// Macro: VERSION
+// Combines major, minor, and patch versions into a single version number.
+//
+// Parameters:
+//   a - Major version
+//   b - Minor version
+//   c - Patch version
 #define VERSION(a, b, c)			((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
-#define VERSION_CURRENT				VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
+
+// MSXgl version
+#define MSXGL_VERSION				VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 
 // SDCC version
-#define SDCC_VERSION_CURRENT		VERSION(__SDCC_VERSION_MAJOR, __SDCC_VERSION_MINOR, __SDCC_VERSION_PATCH)
+#define SDCC_VERSION				VERSION(__SDCC_VERSION_MAJOR, __SDCC_VERSION_MINOR, __SDCC_VERSION_PATCH)
 
 //-----------------------------------------------------------------------------
 // Basic types

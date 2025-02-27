@@ -106,6 +106,10 @@ u8 g_Phase = 0;
 // Sprite data
 struct SpriteData g_Sprite[32];
 
+struct SpriteData* g_Data1;
+struct SpriteData* g_Data2;
+struct SpriteData* g_Data3;
+
 //=============================================================================
 // HELPER FUNCTIONS
 //=============================================================================
@@ -172,6 +176,49 @@ void WaitVBlank()
 	g_Phase = 0;
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 	VDP_SetHBlankLine(SPRITE_2X_LINE);
+}
+
+//-----------------------------------------------------------------------------
+// Update sprites attributes
+void UpdateSprites()
+{
+	struct SpriteData* sprt = &g_Sprite[0];
+	u8 sprtIdx = SPRITE_8_1ST;
+	for(u8 i = 0; i < SPRITE_8_NUM; i++)
+	{
+		const struct Vector* mov = &DirMove[i & 0x7];
+		sprt->X += mov->x;
+		sprt->Y += mov->y;
+		if(sprt->Y > 212)
+			sprt->Y -= 98;
+		if(sprt->Y < 114)
+			sprt->Y += 98;
+
+		VDP_SetSpriteData(sprtIdx++, (u8*)sprt++);
+	}
+
+	u8 frame = (g_Frame >> 2) % 6;
+	g_Data1->X++;
+	if(g_Data1->X > 128-16)
+	g_Data1->X = 0;
+	g_Data1->Shape = PATTERN_16_1ST + (0 + frame) * 4;
+	VDP_SetSpriteData(SPRITE_16_1ST + 0, (u8*)g_Data1);
+	g_Data1->Shape = PATTERN_16_1ST + (6 + frame) * 4;
+	VDP_SetSpriteData(SPRITE_16_1ST + 1, (u8*)g_Data1);
+
+	g_Data2->X = g_Data1->X + 128;
+	g_Data2->Shape = PATTERN_16OR_1ST + (0 + frame) * 4;
+	VDP_SetSpriteData(SPRITE_16OR_1ST + 0, (u8*)g_Data2);
+	g_Data2->Shape = PATTERN_16OR_1ST + (6 + frame) * 4;
+	VDP_SetSpriteData(SPRITE_16OR_1ST + 1, (u8*)g_Data2);
+
+	g_Data3->X += 2;
+	g_Data3->Shape = PATTERN_16OR_1ST + (0 + frame) * 4;
+	VDP_SetSpriteData(SPRITE_16OR_1ST + 2, (u8*)g_Data3);
+	g_Data3->Shape = PATTERN_16OR_1ST + (6 + frame) * 4;
+	VDP_SetSpriteData(SPRITE_16OR_1ST + 3, (u8*)g_Data3);
+
+	VDP_SetSpriteMultiColor(SPRITE_16OR_1ST + 4, ColorTab + ((g_Frame >> 2) & 0x07));
 }
 
 //=============================================================================
@@ -284,15 +331,15 @@ void main()
 	Print_SetPosition(8, 24 + 98);
 	Print_DrawText("8x8");
 	
-	struct SpriteData* data1 = &g_Sprite[SPRITE_16_1ST];
-	data1->X = 0;
-	data1->Y = 32;
-	struct SpriteData* data2 = &g_Sprite[SPRITE_16_1ST+1];
-	data2->X = 128;
-	data2->Y = 32;
-	struct SpriteData* data3 = &g_Sprite[SPRITE_16_1ST+2];
-	data3->X = 0;
-	data3->Y = 64+8;
+	g_Data1 = &g_Sprite[SPRITE_16_1ST];
+	g_Data1->X = 0;
+	g_Data1->Y = 32;
+	g_Data2 = &g_Sprite[SPRITE_16_1ST+1];
+	g_Data2->X = 128;
+	g_Data2->Y = 32;
+	g_Data3 = &g_Sprite[SPRITE_16_1ST+2];
+	g_Data3->X = 0;
+	g_Data3->Y = 64+8;
 
 	g_Phase = 0;
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
@@ -308,46 +355,7 @@ void main()
 		WaitVBlank();
 		// VDP_SetColor(COLOR_DARK_BLUE);
 	
-		// Print_SetPosition(248, 2);
-		// Print_DrawChar(chrAnim[g_Frame & 0x03]);
-
-		struct SpriteData* sprt = &g_Sprite[0];
-		u8 sprtIdx = SPRITE_8_1ST;
-		for(u8 i = 0; i < SPRITE_8_NUM; i++)
-		{
-			const struct Vector* mov = &DirMove[i & 0x7];
-			sprt->X += mov->x;
-			sprt->Y += mov->y;
-			if(sprt->Y > 212)
-				sprt->Y -= 98;
-			if(sprt->Y < 114)
-				sprt->Y += 98;
-
-			VDP_SetSpriteData(sprtIdx++, (u8*)sprt++);
-		}
-
-		u8 frame = (g_Frame >> 2) % 6;
-		data1->X++;
-		if(data1->X > 128-16)
-			data1->X = 0;
-		data1->Shape = PATTERN_16_1ST + (0 + frame) * 4;
-		VDP_SetSpriteData(SPRITE_16_1ST + 0, (u8*)data1);
-		data1->Shape = PATTERN_16_1ST + (6 + frame) * 4;
-		VDP_SetSpriteData(SPRITE_16_1ST + 1, (u8*)data1);
-
-		data2->X = data1->X + 128;
-		data2->Shape = PATTERN_16OR_1ST + (0 + frame) * 4;
-		VDP_SetSpriteData(SPRITE_16OR_1ST + 0, (u8*)data2);
-		data2->Shape = PATTERN_16OR_1ST + (6 + frame) * 4;
-		VDP_SetSpriteData(SPRITE_16OR_1ST + 1, (u8*)data2);
-
-		data3->X += 2;
-		data3->Shape = PATTERN_16OR_1ST + (0 + frame) * 4;
-		VDP_SetSpriteData(SPRITE_16OR_1ST + 2, (u8*)data3);
-		data3->Shape = PATTERN_16OR_1ST + (6 + frame) * 4;
-		VDP_SetSpriteData(SPRITE_16OR_1ST + 3, (u8*)data3);
-
-		VDP_SetSpriteMultiColor(SPRITE_16OR_1ST + 4, ColorTab + ((g_Frame >> 2) & 0x07));
+		UpdateSprites();
 		
 		if(Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;

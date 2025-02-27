@@ -10,6 +10,42 @@
 #include "game.h"
 #include "vdp.h"
 #include "bios_hook.h"
+#include "bios_mainrom.h"
+
+//-----------------------------------------------------------------------------
+// Defines
+//-----------------------------------------------------------------------------
+
+#if (GAME_USE_VSYNC)
+
+// Function prototype
+void Game_DefaultVSyncCB();
+
+#endif
+
+//-----------------------------------------------------------------------------
+// Memory data
+//-----------------------------------------------------------------------------
+
+#if (GAME_USE_LOOP)
+bool			g_GameExit = FALSE;
+#endif
+
+#if (GAME_USE_STATE)
+State			g_GameState = NULL;
+State			g_GamePrevState = NULL;
+#endif
+
+#if (GAME_USE_VSYNC)
+volatile bool	g_GameVSync = FALSE;
+u8				g_GameFrame = 0;
+callback		g_GameVSyncCB = Game_DefaultVSyncCB;
+#endif
+
+#if ((GAME_USE_VSYNC) && (GAME_USE_SYNC_50HZ))
+bool			g_Game60Hz = 0;
+u8				g_GameCount = 0;
+#endif
 
 //=============================================================================
 //
@@ -25,6 +61,11 @@ void Game_Initialize(u8 screenMode)
 	#if ((GAME_USE_VSYNC) && ((TARGET_TYPE != TYPE_ROM) || !(TARGET & ROM_ISR)) && (TARGET != TARGET_DOS0))
 		VDP_EnableVBlank(TRUE);
 		Bios_SetHookCallback(H_TIMI, Game_VSyncHook);
+	#endif
+
+	#if ((GAME_USE_VSYNC) && (GAME_USE_SYNC_50HZ))
+	// Initialize frequency
+	g_Game60Hz = (g_ROMVersion.VSF == 0);
 	#endif
 }
 
@@ -58,14 +99,6 @@ void Game_Release()
 #if (GAME_USE_LOOP)
 
 //-----------------------------------------------------------------------------
-// RAM DATA
-
-bool g_GameExit = FALSE;
-
-//-----------------------------------------------------------------------------
-// FUNCTIONS
-
-//-----------------------------------------------------------------------------
 // Game main loop
 void Game_MainLoop(u8 screenMode)
 {
@@ -84,21 +117,13 @@ void Game_Exit()
 
 #endif // (GAME_USE_LOOP)
 
+
 //=============================================================================
 //
 //   G A M E   S T A T E
 //
 //=============================================================================
 #if (GAME_USE_STATE)
-
-//-----------------------------------------------------------------------------
-// RAM DATA
-
-State g_GameState = NULL;
-State g_GamePrevState = NULL;
-
-//-----------------------------------------------------------------------------
-// FUNCTIONS
 
 //-----------------------------------------------------------------------------
 // Set the next state (change will be effective at the next state update)
@@ -139,23 +164,6 @@ void Game_UpdateState()
 //=============================================================================
 #if (GAME_USE_VSYNC)
 
-//-----------------------------------------------------------------------------
-// DEFINES
-
-// Function prototype
-void Game_DefaultVSyncCB();
-
-//-----------------------------------------------------------------------------
-// RAM DATA
-
-bool     g_GameVSync = FALSE;
-u8       g_GameFrame = 0;
-callback g_GameVSyncCB = Game_DefaultVSyncCB;
-
-//-----------------------------------------------------------------------------
-// FUNCTIONS
-
-//-----------------------------------------------------------------------------
 // Default V-Sync callback
 void Game_DefaultVSyncCB() {}
 
@@ -177,6 +185,19 @@ void Game_VSyncHook()
 void Game_WaitVSync()
 {
 	while(g_GameVSync == FALSE) {}
+
+	#if (GAME_USE_SYNC_50HZ)
+	if(g_Game60Hz)
+	{
+		g_GameCount++;
+		if(g_GameCount == 6)
+		{
+			g_GameCount = 0;
+			while(g_GameVSync == FALSE) {} // Wait an additional frame
+		}
+	}
+	#endif
+
 	g_GameVSync = FALSE;
 }
 

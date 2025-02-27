@@ -139,7 +139,7 @@ void NTapScan()
 	Print_DrawLineH(0, 22, 32);
 	Print_SetPosition(0, 23);
 	Print_DrawText("R:Rescan D:Driver        ");
-	Print_DrawVersion(VERSION_CURRENT);
+	Print_DrawVersion(MSXGL_VERSION);
 }
 
 //-----------------------------------------------------------------------------

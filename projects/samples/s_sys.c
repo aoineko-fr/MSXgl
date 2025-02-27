@@ -408,9 +408,9 @@ void DisplayInfo()
 	Y++;
 	Print_DrawTextAt(X, Y++, "Lib");
 	Print_DrawTextAt(X, Y++, "- "MSX_GL":   ");
-	Print_DrawVersion(VERSION_CURRENT);
+	Print_DrawVersion(MSXGL_VERSION);
 	Print_DrawTextAt(X, Y++, "- SDCC:     ");
-	Print_DrawVersion(SDCC_VERSION_CURRENT);
+	Print_DrawVersion(SDCC_VERSION);
 	#if (MSX_VERSION & MSX_1)
 	Print_DrawTextAt(X, Y++, "- Target:   MSX1");
 	#elif (MSX_VERSION & MSX_2)         

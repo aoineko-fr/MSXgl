@@ -15,6 +15,7 @@
 #include "math.h"
 #include "debug.h"
 #include "string.h"
+#include "fixed_point.h"
 #include "version.h"
 
 //=============================================================================
@@ -25,37 +26,24 @@
 //
 // Format	Prec.	Min		Max
 //-----------------------------------
-// Q2.6		0.016	-2		1.98
 // Q4.4		0.06	-8		7.94
-// Q10.6	0.016	-512	511.98
 // Q12.4	0.06	-2048	2047.94
 
-// Unit conversion (Pixel <> Q10.6)
-#define Q10_6_TO_PX(a)				(u8)((a) / 64)
-#define PX_TO_Q10_6(a)				(i16)((a) * 64)
-
-// Unit conversion (Pixel <> Q2.6)
-#define Q2_6_TO_PX(a)				(u8)((a) / 64)
-#define PX_TO_Q2_6(a)				(i8)((a) * 64)
-
-// Unit conversion (Pixel <> Q4.4)
-#define Q4_4_TO_PX(a)				(u8)((a) / 16)
-#define PX_TO_Q4_4(a)				(i8)((a) * 16)
-
-// Unit conversion (Pixel <> Q12.4)
-#define Q12_4_TO_PX(a)				(u16)((a) / 16)
-#define PX_TO_Q12_4(a)				(i16)((a) * 16)
-
 // Gameplay value
-#define BOUNCE_FORCE				PX_TO_Q4_4(5.0f)
-#define JUMP_FORCE					PX_TO_Q4_4(5.0f)
-#define FALL_SPEED					PX_TO_Q4_4(5.0f)
-#define MOVE_SPEED					PX_TO_Q4_4(2.0)
-#define GRAVITY						PX_TO_Q4_4(0.25f)
+#define BALL_GRAVITY				Q4_4_SET(0.15f)
+#define FALL_MAX_SPEED				Q4_4_SET(3.0f)
+
+#define JUMP_FORCE					Q4_4_SET(-3.0f)
+#define GRAVITY						Q4_4_SET(0.2f)
+#define MOVE_FRICTION				Q4_4_SET(0.2f)
+#define MOVE_ACCEL					Q4_4_SET(0.33f)
+#define MOVE_MAX_SPEED				Q4_4_SET(1.5f)
+
+#define BOUNCE_FORCE				Q4_4_SET(-2.5f)
 #define COL_DIST					16
 
 // Background
-#define HORIZON_H					11
+#define HORIZON_H					12
 #define NET_H						7
 
 // Debug section
@@ -76,13 +64,13 @@ struct Character
 {
 	bool		bMoving;
 	bool		bInAir;
-	i8			VelocityY;	// Format Q4.4
-	i8			DX;			// Format Q4.4
-	i8			DY;			// Format Q4.4
+	i8			VelocityX;	// Format Q4.4 [-8:7.94]
+	i8			VelocityY;	// Format Q4.4 [-8:7.94]
+	i8			RestX;	// Format Q4.4 [-8:7.94]
+	i8			RestY;	// Format Q4.4 [-8:7.94]
 	u8			Input;
 	u8			Score;
-	Game_Pawn	Pawn;
-	VectorI16	Position;
+	Pawn		Pawn;
 };
 
 // Prototypes
@@ -97,10 +85,11 @@ void UpdateScore();
 //=============================================================================
 
 // Fonts
-#include "font/font_carwar.h"
+#include "content/data_font.h"
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
 #include "content/data_sprt_layer.h"
 #include "content/data_sprt_ball.h"
+#include "content/data_sprt_cloud.h"
 #include "content/data_bg.h"
 
 //.............................................................................
@@ -110,49 +99,48 @@ void UpdateScore();
 // This character is made by 3 layers (3 sprites) but the first two are special: One is only visible on even frames while the second only on odd frames.
 // So, on the 3 layers, only two are visible at a given frame. The blinking of the first two black layers is done to create shaded colors.
 // The counterpart is the flickering effect. The character white color comes from the background and is not in a sprite.
-const Game_Sprite g_SpriteLayers[] =
+const Pawn_Sprite g_SpriteLayers[] =
 {
 //	  Sprite ID
 //    |  X offset from pawn's position
 //    |  |  Y offset
 //    |  |  |  Pattern offset from current animation key
-//    |  |  |  |   Layer's color
-//    |  |  |  |   |                Layer option
-	{ 0, 0, 0, 0,  COLOR_BLACK,     PAWN_SPRITE_EVEN }, // Only visible on even frame number
-	{ 0, 0, 0, 12, COLOR_BLACK,     PAWN_SPRITE_ODD }, // Only visible on odd frame number
-	{ 4, 0, 0, 8,  COLOR_LIGHT_RED, 0 },
+//    |  |  |  |  Layer's color
+//    |  |  |  |  |                Layer option
+	{ 4, 0, 0, 0, COLOR_LIGHT_RED, 0 },
+	{ 0, 0, 0, 4, COLOR_BLACK,     PAWN_SPRITE_FLIP }, // Only visible on even frame number
 };
 
 // Idle animation frames
 // Each line describes an animation key
-const Game_Frame g_FramesIdle[] =
+const Pawn_Frame g_FramesIdle[] =
 {
 //	  Pattern offset of this animation key in the sprite data
 //    |     Animation key duration (in frame number)
 //    |     |   Event to trigger during this animation key (function pointer)
-	{ 4*16,	64,	NULL },
-	{ 2*16,	24,	NULL },
+	{ 4*12,	64,	NULL },
+	{ 2*12,	24,	NULL },
 };
 
 // Move animation frames
-const Game_Frame g_FramesMove[] =
+const Pawn_Frame g_FramesMove[] =
 {
-	{ 0*16,	4,	NULL },
-	{ 1*16,	4,	NULL },
-	{ 2*16,	4,	NULL },
-	{ 3*16,	4,	NULL },
+	{ 0*12,	4,	NULL },
+	{ 1*12,	4,	NULL },
+	{ 2*12,	4,	NULL },
+	{ 3*12,	4,	NULL },
 };
 
 // Jump animation frames
-const Game_Frame g_FramesJump[] =
+const Pawn_Frame g_FramesJump[] =
 {
-	{ 5*16,	4,	NULL },
+	{ 5*12,	4,	NULL },
 };
 
 // Fall animation frames
-const Game_Frame g_FramesFall[] =
+const Pawn_Frame g_FramesFall[] =
 {
-	{ 6*16,	4,	NULL },
+	{ 6*12,	4,	NULL },
 };
 
 // Actions id
@@ -165,7 +153,7 @@ enum ANIM_ACTION_ID
 };
 
 // List of all player actions
-const Game_Action g_AnimActions[] =
+const Pawn_Action g_AnimActions[] =
 { //  Frames        Number                  Loop?  Interrupt?
 	{ g_FramesIdle, numberof(g_FramesIdle), TRUE,  TRUE },
 	{ g_FramesMove, numberof(g_FramesMove), TRUE,  TRUE },
@@ -177,72 +165,34 @@ const Game_Action g_AnimActions[] =
 // Player 2 data
 
 // Pawn sprite layers
-const Game_Sprite g_SpriteLayers2[] =
+const Pawn_Sprite g_SpriteLayers2[] =
 {
-	{ 1, 0, 0, 0,  COLOR_BLACK, PAWN_SPRITE_EVEN },
-	{ 1, 0, 0, 12, COLOR_BLACK, PAWN_SPRITE_ODD },
-	{ 5, 0, 0, 8,  COLOR_LIGHT_RED, 0 },
-};
-
-// Idle animation frames
-const Game_Frame g_FramesIdle2[] =
-{
-	{ 4*16+7*16,	64,	NULL },
-	{ 2*16+7*16,	24,	NULL },
-};
-
-// Move animation frames
-const Game_Frame g_FramesMove2[] =
-{
-	{ 0*16+7*16,	4,	NULL },
-	{ 1*16+7*16,	4,	NULL },
-	{ 2*16+7*16,	4,	NULL },
-	{ 3*16+7*16,	4,	NULL },
-};
-
-// Jump animation frames
-const Game_Frame g_FramesJump2[] =
-{
-	{ 5*16+7*16,	4,	NULL },
-};
-
-// Fall animation frames
-const Game_Frame g_FramesFall2[] =
-{
-	{ 6*16+7*16,	4,	NULL },
-};
-
-// List of all player actions
-const Game_Action g_AnimActions2[] =
-{ //  Frames        Number                  Loop?  Interrupt?
-	{ g_FramesIdle2, numberof(g_FramesIdle2), TRUE,  TRUE },
-	{ g_FramesMove2, numberof(g_FramesMove2), TRUE,  TRUE },
-	{ g_FramesJump2, numberof(g_FramesJump2), TRUE,  TRUE },
-	{ g_FramesFall2, numberof(g_FramesFall2), TRUE,  TRUE },
+	{ 5, 0, 0, 0, COLOR_LIGHT_RED, 0 },
+	{ 1, 0, 0, 4, COLOR_BLACK, PAWN_SPRITE_FLIP },
 };
 
 //.............................................................................
 // Ball data
 
 // Pawn sprite layers
-const Game_Sprite g_BallLayers[] =
+const Pawn_Sprite g_BallLayers[] =
 {
 	{ 2, 0, 0, 4,  COLOR_DARK_GREEN, 0 },
 	{ 3, 0, 0, 0,  COLOR_MEDIUM_GREEN, 0 },
 };
 
 // Idle animation frames
-const Game_Frame g_BallIdle[] =
+const Pawn_Frame g_BallIdle[] =
 {
-	{ 0*8+224,	4,	NULL },
+	{ 0*8,	4,	NULL },
 };
 
 // Bump animation frames
-const Game_Frame g_BallBump[] =
+const Pawn_Frame g_BallBump[] =
 {
-	{ 1*8+224,	1,	NULL },
-	{ 2*8+224,	5,	NULL },
-	{ 1*8+224,	2,	NULL },
+	{ 1*8,	1,	NULL },
+	{ 2*8,	5,	NULL },
+	{ 1*8,	2,	NULL },
 };
 
 // Actions id
@@ -253,7 +203,7 @@ enum ANIM_ACTION_BALL_ID
 };
 
 // List of all ball actions
-const Game_Action g_BallActions[] =
+const Pawn_Action g_BallActions[] =
 { //  Frames      Number                Loop?  Interrupt?
 	{ g_BallIdle, numberof(g_BallIdle), TRUE,  TRUE },
 	{ g_BallBump, numberof(g_BallBump), FALSE, TRUE },
@@ -274,7 +224,10 @@ u8   g_PrevRow8 = 0xFF;
 
 c8   g_StrBuffer[16];
 
-bool g_FreezeBall = TRUE;
+u8   g_CloudX[4];
+u8   g_FrameCount = 0;
+
+u8   g_ScreenBuffer[32*24];
 
 
 //=============================================================================
@@ -335,7 +288,7 @@ void PhysicsEventBall(u8 event, u8 tile)
 	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
 	case PAWN_PHYSICS_COL_DOWN:
 		g_Ball.VelocityY *= -1; // Reverse
-		GamePawn_SetAction(&g_Ball.Pawn, ACTION_BALL_BUMP);
+		Pawn_SetAction(&g_Ball.Pawn, ACTION_BALL_BUMP);
 		// if (g_Ball.Pawn.PositionY > 128)
 		// {
 			// if (g_Ball.Pawn.PositionX < 128) // Player 1 score a point!
@@ -356,15 +309,15 @@ void PhysicsEventBall(u8 event, u8 tile)
 	case PAWN_PHYSICS_COL_LEFT:
 	case PAWN_PHYSICS_BORDER_RIGHT: // Handle border
 	case PAWN_PHYSICS_BORDER_LEFT:
-		g_Ball.DX = -g_Ball.DX;
+		g_Ball.VelocityX *= -1;
 		break;
 
 	case PAWN_PHYSICS_FALL: // Handle falling
-		if (!g_Ball.bInAir)
-		{
-			g_Ball.bInAir = TRUE;
-			g_Ball.VelocityY = 0;
-		}
+		// if (!g_Ball.bInAir)
+		// {
+		// 	g_Ball.bInAir = TRUE;
+		// 	g_Ball.VelocityY = 0;
+		// }
 		break;
 	};
 }
@@ -395,77 +348,131 @@ void UpdateScore()
 // Draw level background
 void DrawLevel()
 {
+	Mem_Set(0, g_ScreenBuffer, sizeof(g_ScreenBuffer));
+	
 	// Background
 	loop(i, 24-1)
-		VDP_FillVRAM_16K((i <= HORIZON_H) ? 16 : 8, VDP_GetLayoutTable() + (i + 1) * 32, 32);
+		Mem_Set((i <= HORIZON_H) ? 24 : 16, g_ScreenBuffer + (i + 1) * 32, 32);
 
 	// Ground
-	VDP_FillVRAM_16K(1, VDP_GetLayoutTable() + 23 * 32, 32);
+	u8* ptr = g_ScreenBuffer + 23 * 32;
+	loop(i, 32)
+	{
+		u8 tile = (i & 1) ? 1 : 2;
+		if ((i == 0) || (i == 31))
+			tile = 10;
+		else if (i == 1)
+			tile = 0;
+		else if (i == 30)
+			tile = 3;
+		*ptr++ = tile;
+	}
 
 	// "Net"
 	loop(i, NET_H)
 	{
-		u16 addr = VDP_GetLayoutTable() + 15 + (i + (23 - NET_H)) * 32;
-		VDP_Poke_16K((i == 0) ? 0 : 5, addr++);
-		VDP_Poke_16K((i == 0) ? 2 : 6, addr);
+		u8* ptr = g_ScreenBuffer + 15 + (i + (23 - NET_H)) * 32;
+		*ptr++ = (i == 0) ? 0 : (i & 1) ? 4 : 6;
+		*ptr++ = (i == 0) ? 3 : (i & 1) ? 5 : 7;
 	}
+
+	// Copy to screen
+	VDP_WriteVRAM_16K(g_ScreenBuffer + 32, VDP_GetLayoutTable() + 32, 32 * 23);
+
+	Pawn_SetTileMap(g_ScreenBuffer);
 }
 
 //-----------------------------------------------------------------------------
 // Initialize player
 void InitPlayer(struct Character* ply, u8 id)
 {
-	Mem_Set(0, ply, sizeof(struct Character));
+	Mem_Set(0, ply, sizeof(struct Character)); // Set all paramters to 0
 
-	Game_Pawn* pawn = &ply->Pawn;
+	Pawn* pawn = &ply->Pawn;
 	if (id == 0)
 	{
-		GamePawn_Initialize(pawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
-		GamePawn_SetPosition(pawn, (u8)(255 - 16 - 16), 128);
-		GamePawn_InitializePhysics(pawn, PhysicsEventPlayer1, PhysicsCollision, 16, 16);
+		Pawn_Initialize(pawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
+		Pawn_SetPosition(pawn, (u8)(255 - 16 - 16), 128);
+		Pawn_InitializePhysics(pawn, PhysicsEventPlayer1, PhysicsCollision, 16, 16);
+		Pawn_SetSpriteFX(pawn, PAWN_SPRITE_FX_FLIP_X);
 	}
 	else
 	{
-		GamePawn_Initialize(pawn, g_SpriteLayers2, numberof(g_SpriteLayers2), 0, g_AnimActions2);
-		GamePawn_SetPosition(pawn, 16, 128);
-		GamePawn_InitializePhysics(pawn, PhysicsEventPlayer2, PhysicsCollision, 16, 16);
+		Pawn_Initialize(pawn, g_SpriteLayers2, numberof(g_SpriteLayers2), 0, g_AnimActions);
+		Pawn_SetPosition(pawn, 16, 128);
+		Pawn_InitializePhysics(pawn, PhysicsEventPlayer2, PhysicsCollision, 16, 16);
 	}
+	Pawn_SetPatternAddress(pawn, g_DataSprtLayer);
+}
+
+//-----------------------------------------------------------------------------
+// Update character gameplay and display
+void UpdateCharacter(struct Character* ply)
+{
+	// Compute delta movement and store conversion rest
+	i8 dx = Q4_4_GET(ply->VelocityX);
+	ply->RestX += ply->VelocityX - dx;
+	dx += Q4_4_GET(ply->RestX);
+	ply->RestX = Q4_4_FRAC(ply->RestX);
+
+	// Compute delta movement and store conversion rest
+	i8 dy = Q4_4_GET(ply->VelocityY);
+	ply->RestY += ply->VelocityY - dy;
+	dy += Q4_4_GET(ply->RestY);
+	ply->RestY = Q4_4_FRAC(ply->RestY);
+
+	Pawn* pawn = &ply->Pawn;
+	Pawn_SetMovement(pawn, dx, dy);
+	Pawn_Update(pawn);
 }
 
 //-----------------------------------------------------------------------------
 // Update player gameplay and display
 void UpdatePlayer(struct Character* ply)
 {
-	// Update movement
-	ply->DX = 0;
-	ply->DY = 0;
-	
+	// HORIZONTAL MOVEMENT
+
+	// Check movement input
 	if (ply->Input & INPUT_RIGHT)
 	{
-		ply->DX += MOVE_SPEED;
+		ply->VelocityX += MOVE_ACCEL;
 		ply->bMoving = TRUE;
 	}
 	else if (ply->Input & INPUT_LEFT)
 	{
-		ply->DX += -MOVE_SPEED;
+		ply->VelocityX -= MOVE_ACCEL;
 		ply->bMoving = TRUE;
 	}
-	else
+	else // Apply friction
+	{
 		ply->bMoving = FALSE;
+		// if(ply->VelocityX > MOVE_FRICTION)
+		// 	ply->VelocityX -= MOVE_FRICTION;
+		// else if(ply->VelocityX < -MOVE_FRICTION)
+		// 	ply->VelocityX += MOVE_FRICTION;
+		// else
+			ply->VelocityX = 0;
+	}
+	// Clamp speed
+	ply->VelocityX = CLAMP8(ply->VelocityX, -MOVE_MAX_SPEED, MOVE_MAX_SPEED);
 
+	// VERTICAL MOVEMENT
+	
 	if (ply->bInAir) // Handle in air state (jump or fall)
 	{
-		ply->DY -= ply->VelocityY; // Apply vertical force
-
-		ply->VelocityY -= GRAVITY; // Apply gravity
-		if (ply->VelocityY < -FALL_SPEED) // Clamp fall speed
-			ply->VelocityY = -FALL_SPEED;
+		ply->VelocityY += GRAVITY; // Apply gravity
+		if (ply->VelocityY > FALL_MAX_SPEED) // Clamp fall speed
+			ply->VelocityY = FALL_MAX_SPEED;
 	}
 	else if (ply->Input & INPUT_JUMP) // Initialize jump force
 	{
 		ply->bInAir = TRUE;
 		ply->VelocityY = JUMP_FORCE;
 	}
+	else
+		ply->VelocityY = 0;
+
+	// UPDATE
 
 	// Update player animation & physics
 	u8 act = ACTION_IDLE;
@@ -476,16 +483,9 @@ void UpdatePlayer(struct Character* ply)
 	else if (ply->bMoving)
 		act = ACTION_MOVE;
 
-	i16 px = ply->Position.x + ply->DX;
-	i16 py = ply->Position.y + ply->DY;
-
-	Game_Pawn* pawn = &ply->Pawn;
-	GamePawn_SetAction(pawn, act);
-	GamePawn_SetMovement(pawn, Q4_4_TO_PX(px - ply->Position.x), Q4_4_TO_PX(py - ply->Position.y));
-	GamePawn_Update(pawn);
-
-	ply->Position.x = px;
-	ply->Position.y = py;
+	Pawn* pawn = &ply->Pawn;
+	Pawn_SetAction(pawn, act);
+	UpdateCharacter(ply);
 }
 
 //-----------------------------------------------------------------------------
@@ -494,11 +494,12 @@ void InitBall()
 {
 	Mem_Set(0, &g_Ball, sizeof(struct Character));
 
-	Game_Pawn* pawn = &g_Ball.Pawn;
-	GamePawn_Initialize(pawn, g_BallLayers, numberof(g_BallLayers), 6, g_BallActions);
-	GamePawn_SetPosition(pawn, 150, 128);
-	GamePawn_InitializePhysics(pawn, PhysicsEventBall, PhysicsCollision, 16, 16);
-	GamePawn_SetAction(pawn, ACTION_BALL_IDLE);
+	Pawn* pawn = &g_Ball.Pawn;
+	Pawn_Initialize(pawn, g_BallLayers, numberof(g_BallLayers), 6, g_BallActions);
+	Pawn_SetPosition(pawn, 150, 32);
+	Pawn_InitializePhysics(pawn, PhysicsEventBall, PhysicsCollision, 16, 16);
+	Pawn_SetAction(pawn, ACTION_BALL_IDLE);
+	Pawn_SetPatternAddress(pawn, g_DataSprtBall);
 }
 
 //-----------------------------------------------------------------------------
@@ -506,59 +507,73 @@ void InitBall()
 void UpdateBall()
 {
 	// Apply gravity
-	g_Ball.DY = -g_Ball.VelocityY;
-	g_Ball.VelocityY -= GRAVITY;
-	if (g_Ball.VelocityY < -FALL_SPEED)
-		g_Ball.VelocityY = -FALL_SPEED;
+	g_Ball.VelocityY += BALL_GRAVITY; // Apply gravity
+	if (g_Ball.VelocityY > FALL_MAX_SPEED) // Clamp fall speed
+		g_Ball.VelocityY = FALL_MAX_SPEED;
 
 	// Select the player to tests
-	Game_Pawn* ballPawn = &g_Ball.Pawn;
+	Pawn* ballPawn = &g_Ball.Pawn;
 	struct Character* ply = (ballPawn->PositionX > 128 - 8) ? &g_Player1 : &g_Player2;
 
 	// Compute distance
-	Game_Pawn* plyPawn = &ply->Pawn;
+	Pawn* plyPawn = &ply->Pawn;
 	i8 dx = ballPawn->PositionX - plyPawn->PositionX;
 	i8 dy = ballPawn->PositionY - plyPawn->PositionY;
 
-	u16 sqrtDist = (dx*dx) + (dy*dy);
+	u16 sqrtDist = (dx * dx) + (dy * dy);
 	if (sqrtDist < COL_DIST * COL_DIST)
 	{
 		DEBUG_PRINT("--- Collision ---\n");
 		DEBUG_PRINT("Coll dx/dy: %i/%i\n", dx, dy);
-		DEBUG_LOGNUM("Ball Velocity", g_Ball.VelocityY);
 	
-		g_Ball.DX = dx * 4; // Math_SignedDiv4
-		g_Ball.DX += ply->DX / 2;
+		g_Ball.VelocityX = dx * 2; // Math_SignedDiv4
+		g_Ball.VelocityX += ply->VelocityX / 2;
 		g_Ball.VelocityY = BOUNCE_FORCE;
-		// g_Ball.VelocityY -= ABS8(dy) * 4; // Math_SignedDiv4
+		// g_Ball.VelocityY -= ABS8(dy); // Math_SignedDiv4
 
-		GamePawn_SetAction(ballPawn, ACTION_BALL_BUMP);
+		Pawn_SetAction(ballPawn, ACTION_BALL_BUMP);
 
-		DEBUG_PRINT("Ball DX/DY: %i %i\n", g_Ball.DX, g_Ball.DY);
-		DEBUG_PRINT("Ball Vel: %i\n", g_Ball.VelocityY);
+		DEBUG_PRINT("Ball Vel: %i %i\n", g_Ball.VelocityX, g_Ball.VelocityY);
 		DEBUG_BREAK();
 	}
 
 	// Update player animation & physics
-	GamePawn_SetMovement(ballPawn, Q4_4_TO_PX(g_Ball.DX), Q4_4_TO_PX(g_Ball.DY));
-	GamePawn_Update(ballPawn);
+	UpdateCharacter(&g_Ball);
 }
 
 //-----------------------------------------------------------------------------
-// Load pattern data into VRAM
-void VDP_LoadSpritePattern16_VSym(const u8* src, u8 index, u8 count)
+// Initialize cloud sprites
+void InitCloud(u8 id, u8 x, u8 y)
 {
-	u16 dest = g_SpritePatternLow + (index * 8);
-	for (u16 i = 0; i < count * 8; i++)
+	u8 sprt = 8 + id * 4;
+	u8 pat = 64;
+	switch(id)
 	{
-		u8 val = Math_Flip(*src++);
-		u16 addr = dest++;
-		if (i & 0x10) // Shift every 16 bytes to flip 16x16 sprite's 4 blocks
-			addr -= 16;
-		else
-			addr += 16;
-		VDP_Poke_16K(val, addr);
+		case 0: pat = 64; break;
+		case 1: pat = 80; break;
+		case 2: pat = 96; break;
+		case 3: pat = 112; break;
 	}
+	VDP_SetSpriteSM1(sprt++, x, y, pat + 0, COLOR_GRAY);
+	VDP_SetSpriteSM1(sprt++, x, y, pat + 4, COLOR_WHITE);
+	VDP_SetSpriteSM1(sprt++, x + 16, y, pat + 8, COLOR_GRAY);
+	VDP_SetSpriteSM1(sprt, x + 16, y, pat + 12, COLOR_WHITE);
+	g_CloudX[id] = x;
+}
+
+//-----------------------------------------------------------------------------
+// Update cloud sprites position
+void UpdateCloud(u8 id)
+{
+	if ((g_FrameCount & ((1 << (id + 2)) - 1)) != 0)
+		return;
+
+	u8 sprt = 8 + id * 4;
+	g_CloudX[id]++;
+	VDP_SetSpritePositionX(sprt++, g_CloudX[id]);
+	VDP_SetSpritePositionX(sprt++, g_CloudX[id]);
+	VDP_SetSpritePositionX(sprt++, g_CloudX[id] + 16);
+	VDP_SetSpritePositionX(sprt, g_CloudX[id] + 16);
 }
 
 //-----------------------------------------------------------------------------
@@ -575,30 +590,21 @@ bool State_Initialize()
 	VDP_WriteVRAM_16K(g_DataBackground, VDP_GetPatternTable(), 24*8);
 
 	// Initialize text
-	Print_SetTextFont(g_Font_Carwar, 65);
+	Print_SetTextFont(g_Font, 64);
 	Print_SetColor(0xF, 0x1);
 	Print_SetPosition(0, 0);
-	Print_DrawText("PENG.PONG....00..00");
+	Print_DrawText("PENG-PONG    00  00");
 
 	// Initialize color
 	VDP_FillVRAM_16K(0xF0, VDP_GetColorTable(), 32); // Clear color
-	VDP_Poke_16K(0x7F, VDP_GetColorTable() + 0);
-	VDP_Poke_16K(0x5F, VDP_GetColorTable() + 1);
+	VDP_Poke_16K(0xF7, VDP_GetColorTable() + 0);
+	VDP_Poke_16K(0xF7, VDP_GetColorTable() + 1);
 	VDP_Poke_16K(0xF5, VDP_GetColorTable() + 2);
-	VDP_Poke_16K(0x99, VDP_GetColorTable() + 3);
+	VDP_Poke_16K(0xF5, VDP_GetColorTable() + 3);
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
-	//                           Source data              SprtID  Num
-	VDP_LoadSpritePattern16_VSym(g_DataSprtLayer+8*4*4*1, 4*4*0,  4*4*2);
-	VDP_LoadSpritePattern16_VSym(g_DataSprtLayer+8*4*4*4, 4*4*2,  4*4*3);
-	VDP_LoadSpritePattern16_VSym(g_DataSprtLayer+8*4*4*8, 4*4*5,  4*4*2);
-	//                    Source data              SprtID  Num
-	VDP_LoadSpritePattern(g_DataSprtLayer+8*4*4*1, 4*4*7,  4*4*2);
-	VDP_LoadSpritePattern(g_DataSprtLayer+8*4*4*4, 4*4*9,  4*4*3);
-	VDP_LoadSpritePattern(g_DataSprtLayer+8*4*4*8, 4*4*12, 4*4*2);
-	//                    Source data              SprtID  Num
-	VDP_LoadSpritePattern(g_DataSprtBall,          4*4*14, 4*2*3);
+	VDP_WriteVRAM_16K(g_DataSprtCloud, VDP_GetSpritePatternTable() + 8 * 64, 7 * 4 * 8 * 2);
 	// VDP_SetSpriteSM1(6, 0, 208, 0, 0); // hide
 
 	// Init player 1 pawn
@@ -610,6 +616,12 @@ bool State_Initialize()
 	// Init ball
 	InitBall();
 
+	// Init cloud
+	InitCloud(0, 30, 20);
+	InitCloud(1, 140, 40);
+	InitCloud(2, 260, 60);
+	InitCloud(3, 380, 80);
+	
 	// Initialize layout
 	DrawLevel();
 
@@ -623,36 +635,42 @@ bool State_Initialize()
 // Game update state
 bool State_Game()
 {
+VDP_SetColor(COLOR_DARK_BLUE);
+
 	PROFILE_FRAME_START();
 
 	PROFILE_SECTION_START(100, S_DRAW, "");
-	GamePawn_Draw(&g_Ball.Pawn);
-	GamePawn_Draw(&g_Player1.Pawn);
-	GamePawn_Draw(&g_Player2.Pawn);
+	Pawn_Draw(&g_Ball.Pawn);
+	Pawn_Draw(&g_Player1.Pawn);
+	Pawn_Draw(&g_Player2.Pawn);
 	// Background horizon blink
 	if (g_bFlicker)
-		VDP_FillVRAM_16K(g_GameFrame & 1 ? 9 : 10, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
+		VDP_FillVRAM_16K(g_GameFrame & 1 ? 16 : 17, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
 	PROFILE_SECTION_END(100, S_DRAW, "");
 
 	PROFILE_SECTION_START(100, S_UPDATE, "");
 	UpdatePlayer(&g_Player1);
 	UpdatePlayer(&g_Player2);
 	UpdateBall();
+	UpdateCloud(0);
+	UpdateCloud(1);
+	UpdateCloud(2);
+	UpdateCloud(3);
 	PROFILE_SECTION_END(100, S_UPDATE, "");
 
 	PROFILE_SECTION_START(100, S_INPUT, "");
 	// Update input
 	u8 row3 = Keyboard_Read(3);
 	u8 row8 = Keyboard_Read(8);
-
+	
 	g_Player1.Input = 0;
 	if (IS_KEY_PRESSED(row8, KEY_RIGHT))
-		g_Player1.Input |= INPUT_RIGHT;
+	g_Player1.Input |= INPUT_RIGHT;
 	if (IS_KEY_PRESSED(row8, KEY_LEFT))
-		g_Player1.Input |= INPUT_LEFT;
+	g_Player1.Input |= INPUT_LEFT;
 	if (IS_KEY_PRESSED(row8, KEY_UP))
-		g_Player1.Input |= INPUT_JUMP;
-
+	g_Player1.Input |= INPUT_JUMP;
+	
 	g_Player2.Input = 0;
 	if (IS_KEY_PRESSED(row3, KEY_D))
 		g_Player2.Input |= INPUT_LEFT;
@@ -664,12 +682,6 @@ bool State_Game()
 	if (IS_KEY_PUSHED(row3, g_PrevRow3, KEY_I))
 		g_bFlicker = 1 - g_bFlicker;
 
-	if (IS_KEY_PUSHED(row8, g_PrevRow8, KEY_DEL))
-	{
-		g_FreezeBall = !g_FreezeBall;
-		GamePawn_SetEnable(&g_Ball.Pawn, g_FreezeBall);
-	}
-
 	g_PrevRow3 = row3;
 	g_PrevRow8 = row8;
 
@@ -677,8 +689,12 @@ bool State_Game()
 		Game_Exit();
 	PROFILE_SECTION_END(100, S_INPUT, "");
 
+	g_FrameCount++;
+
 	PROFILE_FRAME_END();
-		
+	
+VDP_SetColor(COLOR_BLACK);
+
 	return TRUE; // Frame finished
 }
 

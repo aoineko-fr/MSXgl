@@ -248,7 +248,7 @@ if (DoClean)
 		fs.rmSync(`${ProjDir}emul`, { recursive: true });
 	}
 
-	return;
+	fs.mkdirSync(OutDir);
 }
 
 //_____________________________________________________________________________

@@ -30,8 +30,8 @@
 // MSXDOS    = `${ToolsDir}build/DOS/`;			//-- Path to the MSX-DOS files (string)
 // DskTool   = `${ToolsDir}build/msxtar/msxtar`;	//-- Path to the tool to generate DSK file (string)
 // Emulator  = "";									//-- Path to the emulator to launch the project (string)
-// Emulator  = `${ToolsDir}openMSX/openmsx`;
-Emulator  = `${ToolsDir}Emulicious/Emulicious`;
+Emulator  = `${ToolsDir}openMSX/openmsx`;
+// Emulator  = `${ToolsDir}Emulicious/Emulicious`;
 // Emulator  = `${ToolsDir}fMSX/fMSX`;
 // Emulator  = `${ToolsDir}MSXEC\\MSXEC`;
 // Emulator  = `${ToolsDir}BlueMSX/blueMSX`;
@@ -52,7 +52,7 @@ ProjModules = [ ProjName ];
 // ProjSegments = ProjName;
 
 //-- List of library modules to build (array)
-LibModules = [ "debug", "system", "bios", "vdp", "print", "input", "memory", "game", "game_pawn", "math", "string" ];
+LibModules = [ "debug", "sprite_fx", "system", "bios", "vdp", "print", "input", "memory", "game", "game_pawn", "math", "string" ];
 
 //-- Additional sources to be compiled and linked with the project (array)
 // AddSources = [];
@@ -175,7 +175,7 @@ AppID = 0x0003;
 //*******************************************************************************
 
 //-- Force to generate MSXgl static library even if 'msxgl.lib' already exist (boolean)
-BuildLibrary = false;
+BuildLibrary = true;
 
 //-- Prepare program for debug (boolean)
 Debug = true;
@@ -309,7 +309,7 @@ EmulMachine    = false;				//-- Force the MSX version of the emulated machine (b
 // Emul60Hz       = false;				//-- Force the emulated machine to be at 60 Hz (boolean)
 // EmulFullScreen = false;				//-- Force the emulator to start in fullscreen mode (boolean)
 // EmulMute       = false;				//-- Disable emulator sound (boolean)
-EmulDebug      = true;				//-- Start emulator debugger with program launch (boolean)
+EmulDebug      = false;				//-- Start emulator debugger with program launch (boolean)
 // EmulTurbo      = false;				//-- Start emulator in turbo mode (boolean)
 
 //-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific

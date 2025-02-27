@@ -232,13 +232,13 @@
 //-----------------------------------------------------------------------------
 
 // Supported sprite size
-#define SPRITEFX_USE_8x8			TRUE	// Use 8x8 pixels effects
+#define SPRITEFX_USE_8x8			FALSE	// Use 8x8 pixels effects
 #define SPRITEFX_USE_16x16			TRUE	// Use 16x16 pixels effects
 
 // Supported effect
-#define SPRITEFX_USE_CROP			TRUE	// Use cropping effect
+#define SPRITEFX_USE_CROP			FALSE	// Use cropping effect
 #define SPRITEFX_USE_FLIP			TRUE	// Use flipping effect
-#define SPRITEFX_USE_MASK			TRUE	// Use masking effect
+#define SPRITEFX_USE_MASK			FALSE	// Use masking effect
 #define SPRITEFX_USE_ROTATE			TRUE	// Use rotating effect
 
 //-----------------------------------------------------------------------------
@@ -249,53 +249,57 @@
 #define GAME_USE_STATE				TRUE	// Add state machine features
 #define GAME_USE_VSYNC				TRUE	// Add vertical synchronization features
 #define GAME_USE_LOOP				TRUE	// Add game main loop with call to v-synch and state
+#define GAME_USE_SYNC_50HZ			TRUE	// On 60 Hz system, synchronize gameplay loop at 5 0Hz
 
 //-----------------------------------------------------------------------------
 // GAME PAWN MODULE
 //-----------------------------------------------------------------------------
 
 // GamePawn setting
-#define GAMEPAWN_ID_PER_LAYER		TRUE	// Set sprite ID for each layer (otherwise set per pawn)
-#define GAMEPAWN_USE_PHYSICS		TRUE	// Add physics and collision features
+#define PAWN_ID_PER_LAYER			TRUE	// Set sprite ID for each layer (otherwise set per pawn)
+#define PAWN_USE_RT_LOAD			TRUE	// Load sprite pattern data on the fly (real-time)
+#define PAWN_USE_SPRT_FX			TRUE	// Allow sprite effects (crop, flip, mask, rotate)
+#define PAWN_SPRITE_SIZE			16		// Sprite size mode (8 for 8x8 pixel mode, or 16 for 16x16)
+#define PAWN_USE_PHYSICS			TRUE	// Add physics and collision features
 // Pawn's bound (can be fixed for all pawn, or setable for each one)
-#define GAMEPAWN_BOUND_X			16
-#define GAMEPAWN_BOUND_Y			16
+#define PAWN_BOUND_X				16
+#define PAWN_BOUND_Y				16
 // Collision position options for each pawn's side
-// - GAMEPAWN_COL_0
-// - GAMEPAWN_COL_25
-// - GAMEPAWN_COL_50
-// - GAMEPAWN_COL_75
-// - GAMEPAWN_COL_100
-#define GAMEPAWN_COL_DOWN			(GAMEPAWN_COL_25|GAMEPAWN_COL_75)
-#define GAMEPAWN_COL_UP				GAMEPAWN_COL_50
-#define GAMEPAWN_COL_RIGHT			GAMEPAWN_COL_50
-#define GAMEPAWN_COL_LEFT			GAMEPAWN_COL_50
+// - PAWN_COL_0
+// - PAWN_COL_25
+// - PAWN_COL_50
+// - PAWN_COL_75
+// - PAWN_COL_100
+#define PAWN_COL_DOWN				PAWN_COL_50
+#define PAWN_COL_UP					PAWN_COL_NONE
+#define PAWN_COL_RIGHT				PAWN_COL_50
+#define PAWN_COL_LEFT				PAWN_COL_50
 // Options to determine which border collide or trigger events
-// - GAMEPAWN_BORDER_NONE
-// - GAMEPAWN_BORDER_DOWN
-// - GAMEPAWN_BORDER_UP
-// - GAMEPAWN_BORDER_RIGHT
-// - GAMEPAWN_BORDER_LEFT
-#define GAMEPAWN_BORDER_EVENT		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_LEFT|GAMEPAWN_BORDER_RIGHT)
-#define GAMEPAWN_BORDER_BLOCK		(GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_LEFT|GAMEPAWN_BORDER_RIGHT)
+// - PAWN_BORDER_NONE
+// - PAWN_BORDER_DOWN
+// - PAWN_BORDER_UP
+// - PAWN_BORDER_RIGHT
+// - PAWN_BORDER_LEFT
+#define PAWN_BORDER_EVENT			(PAWN_BORDER_DOWN|PAWN_BORDER_LEFT|PAWN_BORDER_RIGHT)
+#define PAWN_BORDER_BLOCK			(PAWN_BORDER_UP|PAWN_BORDER_DOWN|PAWN_BORDER_LEFT|PAWN_BORDER_RIGHT)
 // Top/bottom border position (in pixel)
-#define GAMEPAWN_BORDER_MIN_Y		0		// High border Y coordinade
-#define GAMEPAWN_BORDER_MAX_Y		184		// Low border Y coordinate
-#define GAMEPAWN_TILEMAP_WIDTH		32		// Width of the tiles map
-#define GAMEPAWN_TILEMAP_HEIGHT		24		// Height of the tiles map
+#define PAWN_BORDER_MIN_Y			0		// High border Y coordinade
+#define PAWN_BORDER_MAX_Y			184		// Low border Y coordinate
+#define PAWN_TILEMAP_WIDTH			32		// Width of the tiles map
+#define PAWN_TILEMAP_HEIGHT			24		// Height of the tiles map
 // Collision tilemap source
-// - GAMEPAWN_TILEMAP_SRC_AUTO .... Backward compatibility option
-// - GAMEPAWN_TILEMAP_SRC_RAM ..... Tilemap located in a buffer in RAM (best for performance)
-// - GAMEPAWN_TILEMAP_SRC_VRAM .... Tilemap located in VRAM (slow but don't need additionnal data)
-// - GAMEPAWN_TILEMAP_SRC_V9 ...... Tilemap located in V9990's VRAM
-#define GAMEPAWN_TILEMAP_SRC		GAMEPAWN_TILEMAP_SRC_VRAM
+// - PAWN_TILEMAP_SRC_AUTO ........ Backward compatibility option
+// - PAWN_TILEMAP_SRC_RAM ......... Tilemap located in a buffer in RAM (best for performance)
+// - PAWN_TILEMAP_SRC_VRAM ........ Tilemap located in VRAM (slow but don't need additionnal data)
+// - PAWN_TILEMAP_SRC_V9 .......... Tilemap located in V9990's VRAM
+#define PAWN_TILEMAP_SRC			PAWN_TILEMAP_SRC_RAM
 // Pawn's sprite mode
-// - GAMEPAWN_SPT_MODE_AUTO ....... Backward compatibility option
-// - GAMEPAWN_SPT_MODE_MSX1 ....... Sprite Mode 1 (MSX1 screens)
-// - GAMEPAWN_SPT_MODE_MSX2 ....... Sprite Mode 2 (MSX2 screens)
-// - GAMEPAWN_SPT_MODE_V9_P1 ...... V9990 sprite in P1 mode
-// - GAMEPAWN_SPT_MODE_V9_P2 ...... V9990 sprite in P2 mode
-#define GAMEPAWN_SPT_MODE			GAMEPAWN_SPT_MODE_MSX1
+// - PAWN_SPT_MODE_AUTO ........... Backward compatibility option
+// - PAWN_SPT_MODE_MSX1 ........... Sprite Mode 1 (MSX1 screens)
+// - PAWN_SPT_MODE_MSX2 ........... Sprite Mode 2 (MSX2 screens)
+// - PAWN_SPT_MODE_V9_P1 .......... V9990 sprite in P1 mode
+// - PAWN_SPT_MODE_V9_P2 .......... V9990 sprite in P2 mode
+#define PAWN_SPT_MODE				PAWN_SPT_MODE_MSX1
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE
@@ -593,7 +597,7 @@
 // - DEBUG_EMULICIOUS ............. Debug features for Emulicious
 // - DEBUG_OPENMSX ................ Debug features for openMSX using 'debugdevice' extension
 // - DEBUG_OPENMSX_P .............. Debug features for openMSX using PVM script (tools/script/openMSX/debugger_pvm.tcl)
-#define DEBUG_TOOL					DEBUG_EMULICIOUS
+#define DEBUG_TOOL					DEBUG_DISABLE
 // Profiler options
 // - PROFILE_DISABLE .............. No profile tool
 // - PROFILE_OPENMSX_G ............ Profiler features for openMSX using Grauw script (tools/script/openMSX/profiler_grauw.tcl)

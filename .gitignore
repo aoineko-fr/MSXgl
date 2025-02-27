@@ -1,12 +1,18 @@
 .vs
 .vscode
 .DS_Store
-out
-test
-testcases
 *.xcf
 *.map
 *.noi
+*.cdb
+*.code-workspace
+out
+test
+testcases
+bin
+dos0
+dos1
+dos2
 
 /engine/doc/Natural Docs
 /engine/doc/NaturalDocs_Config/Working Data
@@ -27,63 +33,31 @@ testcases
 
 /projects/default_config.js
 
-/projects_backup
-/projects/_backup
-
-/projects/gos
-/projects/FinalSmash
-/projects/wizzl
-/projects/Slava
-/projects/Trojan
-/projects/Scroller
-/projects/screen3rot
-/projects/Koneko
-/projects/Corrupta
-/projects/eggysmaze
-/projects/Corrupta
-/projects/DuaelDrop
-/projects/htd005
-/projects/VATT
-/projects/room5
-/projects/NY2024
-/projects/Crawlers
-/projects/alley_cat_msxgl
-/projects/artrag
+/projects/*
+!/projects/example
+!/projects/samples
+!/projects/targets
+!/projects/template
+!/projects/template_msx2
 
 /projects/samples/datasrc
 
-/tools/audio/pcmenc/replayer_core_22050.asm
-/tools/audio/pcmenc/replayer_core_44100.asm
-/tools/audio/pcmenc/resampl.h
-/tools/audio/pcmenc/resample.c
-/tools/audio/pcmenc/st.h
-/tools/audio/pcmenc/vplayer.asm
+/tools/*
+!/tools/audio
+!/tools/build
+!/tools/compress
+!/tools/MSXtk
+!/tools/script
+!/tools/sdcc
+
+/tools/audio/pcmenc/*.asm
+/tools/audio/pcmenc/*.c
+/tools/audio/pcmenc/*.cpp
+/tools/audio/pcmenc/*.h
 /tools/audio/pcmenc/MSX.ORG
-/tools/audio/pcmenc/pcmenc.cpp
-/tools/audio/pcmenc/replayer_core_8000.asm
-/tools/audio/pcmenc/replayer_core_8000v2.asm
-/tools/audio/pcmenc/replayer_core_11025.asm
 
 /tools/build/DskTool/src
+/tools/build/DOS/MSX-DOS*
 
-/tools/BlueMSX
-/tools/Emulicious
-/tools/fMSX
-/tools/MEISEI
-/tools/OpenMSX
-/tools/openMSX_18
-/tools/RuMSX
 /tools/MSXtk/proj/*.user
-/tools/MSXEC
 
-/tools/build/DOS/MSX-DOS_1.3
-/tools/build/DOS/MSX-DOS_1.8
-/tools/build/DOS/MSX-DOS_2.20
-/tools/build/DOS/MSX-DOS_2.30
-/tools/build/DOS/MSX-DOS_2.31
-/tools/build/DOS/MSX-DOS_2.40
-/projects/Spirit-Cards
-/projects/JSX
-/projects/movie
-/projects/NY2025
-/projects/Doomlings
