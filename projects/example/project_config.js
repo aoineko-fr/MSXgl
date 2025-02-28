@@ -52,7 +52,7 @@ ProjModules = [ ProjName ];
 // ProjSegments = ProjName;
 
 //-- List of library modules to build (array)
-LibModules = [ "debug", "sprite_fx", "system", "bios", "vdp", "print", "input", "memory", "game", "game_pawn", "math", "string" ];
+LibModules = [ "debug", "game_pawn", "game", "sprite_fx", "system", "bios", "vdp", "print", "input", "memory", "math" ];
 
 //-- Additional sources to be compiled and linked with the project (array)
 // AddSources = [];
@@ -175,7 +175,7 @@ AppID = 0x0003;
 //*******************************************************************************
 
 //-- Force to generate MSXgl static library even if 'msxgl.lib' already exist (boolean)
-BuildLibrary = true;
+BuildLibrary = false;
 
 //-- Prepare program for debug (boolean)
 Debug = true;
