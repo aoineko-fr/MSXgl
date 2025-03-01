@@ -52,7 +52,7 @@ ProjModules = [ ProjName ];
 // ProjSegments = ProjName;
 
 //-- List of library modules to build (array)
-LibModules = [ "debug", "game_pawn", "game", "sprite_fx", "system", "bios", "vdp", "print", "input", "memory", "math" ];
+LibModules = [ "debug", "game", "game_pawn", "game_menu", "sprite_fx", "system", "bios", "vdp", "print", "input", "memory", "math" ];
 
 //-- Additional sources to be compiled and linked with the project (array)
 // AddSources = [];

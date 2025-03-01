@@ -12,6 +12,7 @@
 #include "msxgl.h"
 #include "game.h"
 #include "game_pawn.h"
+#include "game_menu.h"
 #include "math.h"
 #include "debug.h"
 #include "string.h"
@@ -50,6 +51,15 @@
 #define S_DRAW						0
 #define S_UPDATE					1
 #define S_INPUT						2
+
+// Index of all menu pages
+enum MENU_PAGES
+{
+	MENU_MAIN = 0, // Main page
+	MENU_START,    // Start page
+	MENU_OPTION,   // Options page
+	MENU_MAX,      // Number of menu
+};
 
 // Input action flag
 enum INPUT_ACTION
@@ -93,12 +103,15 @@ struct Cloud
 };
 
 // Prototypes
-bool State_Initialize();
+bool State_MenuInit();
+bool State_MenuUpdate();
+bool State_GameInit();
 bool State_KickOff();
 bool State_Game();
 bool State_Pause();
 bool State_Point();
 bool State_Victory();
+
 void DrawScore();
 
 
@@ -113,6 +126,47 @@ void DrawScore();
 #include "content/data_sprt_ball.h"
 #include "content/data_sprt_cloud.h"
 #include "content/data_bg.h"
+
+//.............................................................................
+// Menu
+
+// Entries description for the Main menu
+const MenuItem g_MenuMain[] =
+{
+	{ "Start",               MENU_ITEM_GOTO, NULL, MENU_START },	// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
+	{ "Options",             MENU_ITEM_GOTO, NULL, MENU_OPTION },	// Entry to go to Option menu page
+	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },			// Blank entry to create a gap
+	{ "Exit",                MENU_ITEM_ACTION, NULL, 0 },			// Entry to exit the game (will trigger MenuAction_Start with value equal to '0')
+};
+/*
+// Entries description for the Option menu
+MenuItem g_MenuOption[] =
+{
+	{ "Mode",                MENU_ITEM_ACTION, MenuAction_Screen, 0 }, // Entry to change the screen mode (will trigger MenuAction_Screen)
+	{ "Integer",             MENU_ITEM_INT, &g_Integer, 0 },           // Entry to edit an integer
+	{ "Boolean",             MENU_ITEM_BOOL, &g_Boolean, 0 },          // Entry to edit a boolean
+	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },               // Blank entry to create a gap
+	{ "Back",                MENU_ITEM_GOTO, NULL, MENU_MAIN },        // Entry to go back to the main menu
+};
+
+// Entries description for the Align menu
+MenuItem g_MenuAlign[] =
+{
+	{ "Left",                MENU_ITEM_TEXT+MENU_ITEM_ALIGN_LEFT,   NULL, 0 }, // Entry display a text aligned to left
+	{ "Center",              MENU_ITEM_TEXT+MENU_ITEM_ALIGN_CENTER, NULL, 0 }, // Entry display a text aligned to center
+	{ "Right",               MENU_ITEM_TEXT+MENU_ITEM_ALIGN_RIGHT,  NULL, 0 }, // Entry display a text aligned to right
+	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
+	{ "Back",                MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
+};
+*/
+
+// List of all menus
+const Menu g_Menus[MENU_MAX] =
+{
+	{ "Main",    g_MenuMain,   numberof(g_MenuMain),   NULL }, // MENU_MAIN
+	// { "Options", g_MenuOption, numberof(g_MenuOption), NULL }, // MENU_OPTION
+	// { "Align",   g_MenuAlign,  numberof(g_MenuAlign),  NULL }, // MENU_ALIGN
+};
 
 //.............................................................................
 // Player 1 data
@@ -763,8 +817,40 @@ void UpdateCloud(u8 id)
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
+// 
+bool State_MenuInit()
+{
+	// Initialize display
+	VDP_EnableDisplay(FALSE);
+	VDP_SetColor(COLOR_BLACK);
+	VDP_ClearVRAM();
+	
+	// Initialize text
+	Print_SetTextFont(g_Font, 64);
+	Print_SetColor(0xF, 0x1);
+	Print_SetPosition(0, 0);
+	Print_DrawText("PENG-PONG");
+
+	Menu_Initialize(g_Menus); // Initialize the menu
+	Menu_DrawPage(MENU_MAIN); // Display the first page
+
+	Game_SetState(State_MenuUpdate);
+	return FALSE; // Frame finished
+}
+
+//-----------------------------------------------------------------------------
+// 
+bool State_MenuUpdate()
+{
+	// Update menu
+	Menu_Update();
+	// Game_SetState(State_GameInit);
+	return FALSE; // Frame finished
+}
+
+//-----------------------------------------------------------------------------
 // Data initialization state
-bool State_Initialize()
+bool State_GameInit()
 {
 	// Initialize display
 	VDP_EnableDisplay(FALSE);
@@ -960,7 +1046,7 @@ bool State_Point()
 //
 bool State_Victory()
 {
-	Game_SetState(State_Initialize);
+	Game_SetState(State_GameInit);
 	return TRUE; // Frame finished
 }
 
@@ -975,7 +1061,7 @@ void main()
 	DEBUG_INIT();
 	DEBUG_LOG("Start debug session!");
 
-	Game_SetState(State_Initialize);
+	Game_SetState(State_MenuInit);
 	Game_MainLoop(VDP_MODE_GRAPHIC1);
 
 	DEBUG_LOG("End debug session!");
