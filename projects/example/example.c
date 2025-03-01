@@ -35,7 +35,7 @@
 
 #define JUMP_FORCE					Q4_4_SET(-3.0f)
 #define GRAVITY						Q4_4_SET(0.2f)
-#define MOVE_FRICTION				Q4_4_SET(0.2f)
+#define MOVE_FRICTION				Q4_4_SET(0.1f)
 #define MOVE_ACCEL					Q4_4_SET(0.33f)
 #define MOVE_MAX_SPEED				Q4_4_SET(1.5f)
 
@@ -43,7 +43,7 @@
 #define COL_DIST					16
 
 // Background
-#define HORIZON_H					12
+#define HORIZON_H					11
 #define NET_H						7
 
 // Debug section
@@ -74,7 +74,7 @@ struct Character
 	Pawn		Pawn;
 };
 
-// 
+// Gameplay rule structure
 struct Rule
 {
 	u8			GameScore;
@@ -82,11 +82,22 @@ struct Rule
 	u8			MaxPass;
 };
 
+// Cloud data structure
+struct Cloud
+{
+	u8			X;
+	u8			Y;
+	u8			Pattern;
+	u8			Sprite;
+	u8			Mask;
+};
+
 // Prototypes
 bool State_Initialize();
 bool State_KickOff();
 bool State_Game();
 bool State_Pause();
+bool State_Point();
 bool State_Victory();
 void DrawScore();
 
@@ -188,8 +199,8 @@ const Pawn_Sprite g_SpriteLayers2[] =
 // Pawn sprite layers
 const Pawn_Sprite g_BallLayers[] =
 {
-	{ 2, 0, 0, 4,  COLOR_DARK_GREEN, 0 },
-	{ 3, 0, 0, 0,  COLOR_MEDIUM_GREEN, 0 },
+	{ 2, 0, 0, 4,  COLOR_DARK_RED, 0 },
+	{ 3, 0, 0, 0,  COLOR_MEDIUM_RED, 0 },
 };
 
 // Idle animation frames
@@ -222,8 +233,21 @@ const Pawn_Action g_BallActions[] =
 
 //.............................................................................
 
-const struct Rule g_DefautRule = { 11, 3, 0 };
+// Default rule parameters
+const struct Rule g_DefautRule = { 11, 1, 0 };
 
+// Clouds data
+const struct Cloud g_Could[] =
+{
+	{  30, 16,  64,  6, 0b00000111 },
+	{  46, 16,  72,  8, 0b00000111 },
+	{ 140, 38,  80, 10, 0b00001111 },
+	{ 156, 38,  88, 12, 0b00001111 },
+	{   4, 54,  96, 14, 0b00011111 },
+	{  20, 54, 104, 16, 0b00011111 },
+	{ 124, 72, 112, 18, 0b00111111 },
+	{ 248, 82, 112, 20, 0b01111111 },
+};
 
 //=============================================================================
 // MEMORY DATA
@@ -236,8 +260,9 @@ bool g_bFlicker = TRUE;
 u8   g_PrevRow3 = 0xFF;
 u8   g_PrevRow8 = 0xFF;
 
-u8   g_CloudX[4];
+i16  g_CloudX[numberof(g_Could)];
 u8   g_FrameCount = 0;
+u8   g_StateTimer = 0;
 
 u8   g_ScreenBuffer[32*24];
 
@@ -245,11 +270,19 @@ u8   g_Field = 0;
 u8   g_Bounce = 0;
 u8   g_Pass = 0;
 
+u8   g_LastTouch = 0;
+u8   g_Victorious = 0;
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
 //-----------------------------------------------------------------------------
+// RULES
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Handle change field rule
 void Rules_ChangeField(u8 field)
 {
 	g_Field = field;
@@ -258,6 +291,7 @@ void Rules_ChangeField(u8 field)
 }
 
 //-----------------------------------------------------------------------------
+// Handle match starting rule
 void Rules_Init()
 {
 	g_Player[0].Score = 0;
@@ -267,48 +301,54 @@ void Rules_Init()
 }	
 
 //-----------------------------------------------------------------------------
+// Handle score rule
 void Rules_Score(u8 ply)
 {
 	g_Player[ply].Score++;
-	if (g_Player[ply].Score > g_DefautRule.GameScore)
+	if ((g_Player[ply].Score >= g_DefautRule.GameScore) && (g_Player[ply].Score > g_Player[1 - ply].Score + 1))
+	{
 		Game_SetState(State_Victory);
+	}
 	else
 	{
-		Rules_ChangeField(1 - ply);
-		Game_SetState(State_KickOff);
+		g_Victorious = ply;
+		g_StateTimer = 20;
+		VDP_SetColor(COLOR_WHITE);
+		Game_SetState(State_Point);
 	}
 	DrawScore();
 }	
 
 //-----------------------------------------------------------------------------
+// Handle bounces rule
 void Rules_Bounce()
 {
 	g_Bounce++;
 	if (g_Bounce > g_DefautRule.MaxBounce)
 		Rules_Score(1 - g_Field);
+	g_LastTouch = g_Field;
 }
 
 //-----------------------------------------------------------------------------
+// Handle pass rule
 void Rules_Pass()
 {
 	g_Pass++;
 	// if (g_Pass > g_DefautRule.MaxPass)
 	// 	Rules_Score(1 - g_Field);
+	g_LastTouch = g_Field;
 }
 
 //-----------------------------------------------------------------------------
-void DrawScore()
+// Handle out-of-field rule
+void Rules_Out()
 {
-	Print_SetPosition(13, 0);
-	if (g_Player[0].Score < 10)
-		Print_DrawChar('0');
-	Print_DrawInt(g_Player[0].Score);
-
-	Print_SetPosition(17, 0);
-	if (g_Player[1].Score < 10)
-		Print_DrawChar('0');
-	Print_DrawInt(g_Player[1].Score);
+	Rules_Score(1 - g_LastTouch);
 }
+
+//-----------------------------------------------------------------------------
+// PHYSICS
+//-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // Physics callback
@@ -365,14 +405,18 @@ void PhysicsEventBall(u8 event, u8 tile)
 	case PAWN_PHYSICS_COL_DOWN:
 		g_Ball.VelocityY *= -1; // Reverse
 		Pawn_SetAction(&g_Ball.Pawn, ACTION_BALL_BUMP);
-		Rules_Bounce();
+		if (g_Ball.Pawn.PositionY > 140)
+			Rules_Bounce();
 		break;
 
 	case PAWN_PHYSICS_COL_RIGHT: // Handle net
 	case PAWN_PHYSICS_COL_LEFT:
+		g_Ball.VelocityX *= -1;
+		break;
+	
 	case PAWN_PHYSICS_BORDER_RIGHT: // Handle border
 	case PAWN_PHYSICS_BORDER_LEFT:
-		g_Ball.VelocityX *= -1;
+		Rules_Out();
 		break;
 
 	case PAWN_PHYSICS_FALL: // Handle falling
@@ -399,6 +443,25 @@ bool PhysicsCollision(u8 tile)
 }
 
 //-----------------------------------------------------------------------------
+// MISC
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Draw the updated score
+void DrawScore()
+{
+	Print_SetPosition(13, 0);
+	if (g_Player[0].Score < 10)
+		Print_DrawChar('0');
+	Print_DrawInt(g_Player[0].Score);
+
+	Print_SetPosition(17, 0);
+	if (g_Player[1].Score < 10)
+		Print_DrawChar('0');
+	Print_DrawInt(g_Player[1].Score);
+}
+
+//-----------------------------------------------------------------------------
 // Draw level background
 void DrawLevel()
 {
@@ -413,11 +476,9 @@ void DrawLevel()
 	loop(i, 32)
 	{
 		u8 tile = (i & 1) ? 1 : 2;
-		if ((i == 0) || (i == 31))
-			tile = 10;
-		else if (i == 1)
+		if (i == 0)
 			tile = 0;
-		else if (i == 30)
+		else if (i == 31)
 			tile = 3;
 		*ptr++ = tile;
 	}
@@ -437,26 +498,43 @@ void DrawLevel()
 }
 
 //-----------------------------------------------------------------------------
+// PLAYER
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
 // Initialize player
-void InitPlayer(struct Character* ply, u8 id)
+void InitPlayerPosition(u8 id)
 {
+	struct Character* ply = &g_Player[id];
+	Pawn* pawn = &ply->Pawn;
+	if (id == 0)
+		Pawn_SetPosition(pawn, 16, 164);
+	else
+		Pawn_SetPosition(pawn, (u8)(255 - 16 - 16), 164);
+}
+
+//-----------------------------------------------------------------------------
+// Initialize player
+void InitPlayer(u8 id)
+{
+	struct Character* ply = &g_Player[id];
 	Mem_Set(0, ply, sizeof(struct Character)); // Set all paramters to 0
 
 	Pawn* pawn = &ply->Pawn;
 	if (id == 0)
 	{
 		Pawn_Initialize(pawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
-		Pawn_SetPosition(pawn, 16, 128);
 		Pawn_InitializePhysics(pawn, PhysicsEventPlayer1, PhysicsCollision, 16, 16);
 	}
 	else
 	{
 		Pawn_Initialize(pawn, g_SpriteLayers2, numberof(g_SpriteLayers2), 0, g_AnimActions);
-		Pawn_SetPosition(pawn, (u8)(255 - 16 - 16), 128);
 		Pawn_InitializePhysics(pawn, PhysicsEventPlayer2, PhysicsCollision, 16, 16);
 		Pawn_SetSpriteFX(pawn, PAWN_SPRITE_FX_FLIP_X);
 	}
 	Pawn_SetPatternAddress(pawn, g_DataSprtLayer);
+
+	InitPlayerPosition(id);
 }
 
 //-----------------------------------------------------------------------------
@@ -547,18 +625,31 @@ void UpdatePlayer(struct Character* ply)
 }
 
 //-----------------------------------------------------------------------------
-//
+// BALL
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Initialize ball position
+void InitBallPosition()
+{
+	Pawn* pawn = &g_Ball.Pawn;
+	Pawn_SetPosition(pawn, (g_Field == 0) ? 56 : 184, 128);
+	g_Ball.bFreeze = TRUE;
+}
+
+//-----------------------------------------------------------------------------
+// Initialize ball structure
 void InitBall()
 {
 	Mem_Set(0, &g_Ball, sizeof(struct Character));
-	g_Ball.bFreeze = TRUE;
 
 	Pawn* pawn = &g_Ball.Pawn;
 	Pawn_Initialize(pawn, g_BallLayers, numberof(g_BallLayers), 6, g_BallActions);
-	Pawn_SetPosition(pawn, (g_Field == 0) ? 56 : 184, 128);
 	Pawn_InitializePhysics(pawn, PhysicsEventBall, PhysicsCollision, 16, 16);
 	Pawn_SetAction(pawn, ACTION_BALL_IDLE);
 	Pawn_SetPatternAddress(pawn, g_DataSprtBall);
+
+	InitBallPosition();
 }
 
 //-----------------------------------------------------------------------------
@@ -584,11 +675,22 @@ void UpdateBall()
 	{
 		DEBUG_PRINT("--- Collision ---\n");
 		DEBUG_PRINT("Coll dx/dy: %i/%i\n", dx, dy);
-	
-		g_Ball.VelocityX = dx * 2; // Math_SignedDiv4
+
+		g_Ball.VelocityX = dx * 2;
 		g_Ball.VelocityX += ply->VelocityX / 2;
-		g_Ball.VelocityY = BOUNCE_FORCE;
-		// g_Ball.VelocityY -= ABS8(dy); // Math_SignedDiv4
+
+		g_Ball.VelocityY = Q4_4_SET(-1.5f);
+		// if (dy < 0)
+		// 	g_Ball.VelocityY += dy * 2; // Math_SignedDiv4
+		if (ply->VelocityY < 0)
+			g_Ball.VelocityY += ply->VelocityY / 2;
+
+
+
+		// g_Ball.VelocityX = dx * 2; // Math_SignedDiv4
+		// g_Ball.VelocityX += ply->VelocityX / 2;
+		// g_Ball.VelocityY = BOUNCE_FORCE;
+		// // g_Ball.VelocityY -= ABS8(dy); // Math_SignedDiv4
 
 		g_Ball.bFreeze = FALSE;
 		Pawn_SetAction(ballPawn, ACTION_BALL_BUMP);
@@ -609,39 +711,56 @@ void UpdateBall()
 }
 
 //-----------------------------------------------------------------------------
+// CLOUDS
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
 // Initialize cloud sprites
-void InitCloud(u8 id, u8 x, u8 y)
+void InitCloud(u8 id)
 {
-	u8 sprt = 8 + id * 4;
-	u8 pat = 64;
-	switch(id)
-	{
-		case 0: pat = 64; break;
-		case 1: pat = 80; break;
-		case 2: pat = 96; break;
-		case 3: pat = 112; break;
-	}
-	VDP_SetSpriteSM1(sprt++, x, y, pat + 0, COLOR_GRAY);
-	VDP_SetSpriteSM1(sprt++, x, y, pat + 4, COLOR_WHITE);
-	VDP_SetSpriteSM1(sprt++, x + 16, y, pat + 8, COLOR_GRAY);
-	VDP_SetSpriteSM1(sprt, x + 16, y, pat + 12, COLOR_WHITE);
-	g_CloudX[id] = x;
+	const struct Cloud* cloud = &g_Could[id];
+
+	u8 sprt = cloud->Sprite;
+	u8 pat = cloud->Pattern;
+	VDP_SetSpriteSM1(sprt++, cloud->X, cloud->Y, pat + 0, COLOR_GRAY);
+	VDP_SetSpriteSM1(sprt,   cloud->X, cloud->Y, pat + 4, COLOR_WHITE);
+	g_CloudX[id] = cloud->X;
 }
 
 //-----------------------------------------------------------------------------
 // Update cloud sprites position
 void UpdateCloud(u8 id)
 {
-	if ((g_FrameCount & ((1 << (id + 2)) - 1)) != 0)
+	const struct Cloud* cloud = &g_Could[id];
+
+	if ((g_FrameCount & cloud->Mask) != 0)
 		return;
 
-	u8 sprt = 8 + id * 4;
-	g_CloudX[id]++;
-	VDP_SetSpritePositionX(sprt++, g_CloudX[id]);
-	VDP_SetSpritePositionX(sprt++, g_CloudX[id]);
-	VDP_SetSpritePositionX(sprt++, g_CloudX[id] + 16);
-	VDP_SetSpritePositionX(sprt, g_CloudX[id] + 16);
+	g_CloudX[id]--;
+	u8 x = g_CloudX[id];
+	if (g_CloudX[id] == -16)
+	{
+		u8 sprt = cloud->Sprite;
+		VDP_SetSpriteColorSM1(sprt++, COLOR_GRAY);
+		VDP_SetSpriteColorSM1(sprt,   COLOR_WHITE);
+		x = g_CloudX[id] = 255;
+	}
+	else if (g_CloudX[id] < 0)
+	{
+		u8 sprt = cloud->Sprite;
+		VDP_SetSpriteColorSM1(sprt++, VDP_SPRITE_EC | COLOR_GRAY);
+		VDP_SetSpriteColorSM1(sprt,   VDP_SPRITE_EC | COLOR_WHITE);
+		x = g_CloudX[id] + 32;
+	}
+
+	u8 sprt = cloud->Sprite;
+	VDP_SetSpritePositionX(sprt++, x);
+	VDP_SetSpritePositionX(sprt,   x);
 }
+
+//-----------------------------------------------------------------------------
+// STATES
+//-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // Data initialization state
@@ -674,16 +793,23 @@ bool State_Initialize()
 	VDP_WriteVRAM_16K(g_DataSprtCloud, VDP_GetSpritePatternTable() + 8 * 64, 7 * 4 * 8 * 2);
 	// VDP_SetSpriteSM1(6, 0, 208, 0, 0); // hide
 
-	// Init cloud
-	InitCloud(0, 30, 20);
-	InitCloud(1, 140, 40);
-	InitCloud(2, 260, 60);
-	InitCloud(3, 380, 80);
-	
 	// Initialize layout
 	DrawLevel();
 
+	// Init cloud
+	loop(i, numberof(g_Could))
+		InitCloud(i);
+	
 	Rules_Init();
+
+	// Init player 1 pawn (left)
+	InitPlayer(0);
+
+	// Init player 2 pawn (right)
+	InitPlayer(1);
+
+	// Init ball
+	InitBall();
 
 	VDP_EnableDisplay(TRUE);
 
@@ -696,13 +822,13 @@ bool State_Initialize()
 bool State_KickOff()
 {
 	// Init player 1 pawn (left)
-	InitPlayer(&g_Player[0], 0);
+	InitPlayerPosition(0);
 
 	// Init player 2 pawn (right)
-	InitPlayer(&g_Player[1], 1);
+	InitPlayerPosition(1);
 
 	// Init ball
-	InitBall();
+	InitBallPosition();
 
 	Game_SetState(State_Game);
 	return FALSE; // Frame finished
@@ -729,10 +855,8 @@ bool State_Game()
 	UpdatePlayer(&g_Player[0]);
 	UpdatePlayer(&g_Player[1]);
 	UpdateBall();
-	UpdateCloud(0);
-	UpdateCloud(1);
-	UpdateCloud(2);
-	UpdateCloud(3);
+	loop(i, numberof(g_Could))
+		UpdateCloud(i);
 	PROFILE_SECTION_END(100, S_UPDATE, "");
 
 	PROFILE_SECTION_START(100, S_INPUT, "");
@@ -743,7 +867,7 @@ bool State_Game()
 	g_Player[0].Input = 0;
 	if (IS_KEY_PRESSED(row3, KEY_D))
 		g_Player[0].Input |= INPUT_LEFT;
-	if (IS_KEY_PRESSED(row3, KEY_G))
+	else if (IS_KEY_PRESSED(row3, KEY_G))
 		g_Player[0].Input |= INPUT_RIGHT;
 	if (IS_KEY_PRESSED(row3, KEY_F))
 		g_Player[0].Input |= INPUT_JUMP;
@@ -751,7 +875,7 @@ bool State_Game()
 	g_Player[1].Input = 0;
 	if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 		g_Player[1].Input |= INPUT_RIGHT;
-	if (IS_KEY_PRESSED(row8, KEY_LEFT))
+	else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 		g_Player[1].Input |= INPUT_LEFT;
 	if (IS_KEY_PRESSED(row8, KEY_UP))
 		g_Player[1].Input |= INPUT_JUMP;
@@ -762,6 +886,22 @@ bool State_Game()
 	g_PrevRow3 = row3;
 	g_PrevRow8 = row8;
 
+	u8 joy = Joystick_Read(JOY_PORT_1);
+	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
+		g_Player[0].Input |= INPUT_LEFT;
+	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
+		g_Player[0].Input |= INPUT_RIGHT;
+	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
+		g_Player[0].Input |= INPUT_JUMP;
+	
+	joy = Joystick_Read(JOY_PORT_2);
+	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
+		g_Player[1].Input |= INPUT_LEFT;
+	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
+		g_Player[1].Input |= INPUT_RIGHT;
+	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
+		g_Player[1].Input |= INPUT_JUMP;
+	
 	if (Keyboard_IsKeyPressed(KEY_ESC))
 		Game_Exit();
 	PROFILE_SECTION_END(100, S_INPUT, "");
@@ -785,9 +925,42 @@ bool State_Pause()
 
 //-----------------------------------------------------------------------------
 //
+bool State_Point()
+{
+	Pawn_Draw(&g_Ball.Pawn);
+	Pawn_Draw(&g_Player[0].Pawn);
+	Pawn_Draw(&g_Player[1].Pawn);
+	// Background horizon blink
+	if (g_bFlicker)
+		VDP_FillVRAM_16K(g_GameFrame & 1 ? 16 : 17, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
+
+	Pawn_SetMovement(&g_Ball.Pawn, 0, 0);
+	Pawn_SetMovement(&g_Player[0].Pawn, 0, 0);
+	Pawn_SetMovement(&g_Player[1].Pawn, 0, 0);
+	Pawn_Update(&g_Ball.Pawn);
+	Pawn_Update(&g_Player[0].Pawn);
+	Pawn_Update(&g_Player[1].Pawn);
+	loop(i, numberof(g_Could))
+		UpdateCloud(i);
+
+	g_StateTimer--;
+	if (g_StateTimer == 0)
+	{
+		VDP_SetColor(COLOR_BLACK);
+		Rules_ChangeField(1 - g_Victorious);
+		Game_SetState(State_KickOff);
+	}
+
+	g_FrameCount++;
+
+	return TRUE; // Frame finished
+}
+
+//-----------------------------------------------------------------------------
+//
 bool State_Victory()
 {
-	Game_SetState(State_KickOff);
+	Game_SetState(State_Initialize);
 	return TRUE; // Frame finished
 }
 
