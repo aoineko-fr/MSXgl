@@ -1061,7 +1061,7 @@ void main()
 	DEBUG_INIT();
 	DEBUG_LOG("Start debug session!");
 
-	Game_SetState(State_MenuInit);
+	Game_SetState(State_GameInit);
 	Game_MainLoop(VDP_MODE_GRAPHIC1);
 
 	DEBUG_LOG("End debug session!");
