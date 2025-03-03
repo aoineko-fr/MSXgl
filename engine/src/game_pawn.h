@@ -232,10 +232,11 @@ typedef struct
 {
 	const Pawn_Frame*	FrameList;     // Animation frames data
 	u8					FrameNum;      // Animation frames data count
-	u8					Loop      : 1; // Is action looping?
-	u8					Interrupt : 1; // Is action interruptable?
+	u8					Loop; // Is action looping?
+	u8					Interrupt; // Is action interruptable?
+	// u8					Loop      : 1; // Is action looping?
+	// u8					Interrupt : 1; // Is action interruptable?
 } Pawn_Action;
-
 
 // Pawn sprite flags
 enum PAWN_SPRITE_FLAG
@@ -395,6 +396,14 @@ void Pawn_Initialize(Pawn* pawn, const Pawn_Sprite* sprtList, u8 sprtNum, u8 spr
 //   y    - New Y coordinate (in pixels).
 void Pawn_SetPosition(Pawn* pawn, u8 x, u8 y);
 
+// Function: Pawn_ForceSetAction
+// Force to set game pawn action id
+//
+// Parameters:
+//   pawn - Address of game pawn structure to setup.
+//   id   - New action index.
+void Pawn_ForceSetAction(Pawn* pawn, u8 id);
+
 // Function: Pawn_SetAction
 // Set game pawn current action index.
 //
@@ -441,6 +450,13 @@ inline void Pawn_Enable(Pawn* pawn) { Pawn_SetEnable(pawn, TRUE); }
 // Parameters:
 //   pawn - Address of game pawn structure to update (move, collision, etc.).
 void Pawn_Update(Pawn* pawn);
+
+// Function: Pawn_SetDirty
+// Mark the pawn as dirty. This will force the pawn to be redrawn.
+//
+// Parameters:
+//   pawn - Address of game pawn structure to update (move, collision, etc.).
+inline void Pawn_SetDirty(Pawn* pawn) { pawn->Update |= (PAWN_UPDATE_PATTERN | PAWN_UPDATE_POSITION); }
 
 // Function: Pawn_Draw
 // Update rendering of the game pawn. Must be called once a frame.

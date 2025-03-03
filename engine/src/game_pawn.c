@@ -198,7 +198,7 @@ void Pawn_Initialize(Pawn* pawn, const Pawn_Sprite* sprtList, u8 sprtNum, u8 spr
 	g_Pawn->ActionList = actList;
 
 	// Initialize pawn action
-	Pawn_SetAction(g_Pawn, 0);
+	Pawn_ForceSetAction(g_Pawn, 0);
 
 	// Initialize all sprites
 	Pawn_ParseSprite(g_Pawn, PawnSprite_Initialize);
@@ -215,18 +215,23 @@ void Pawn_SetPosition(Pawn* pawn, u8 x, u8 y)
 	pawn->Update |= PAWN_UPDATE_POSITION;
 }
 
+//-----------------------------------------------------------------------------
+// Force to set game pawn action id
+void Pawn_ForceSetAction(Pawn* pawn, u8 id)
+{
+	pawn->ActionId = id;
+	pawn->AnimTimer = 0;
+	pawn->AnimStep = 0;
+	pawn->Update |= PAWN_UPDATE_PATTERN;
+}
 
 //-----------------------------------------------------------------------------
 // Set game pawn action id
 void Pawn_SetAction(Pawn* pawn, u8 id)
 {
-	if (pawn->ActionId != id)
-	{
-		pawn->ActionId = id;
-		pawn->AnimTimer = 0;
-		pawn->AnimStep = 0;
-		pawn->Update |= PAWN_UPDATE_PATTERN;
-	}
+	const Pawn_Action* act = &pawn->ActionList[pawn->ActionId];
+	if ((act->Interrupt == 1) && (pawn->ActionId != id))
+		Pawn_ForceSetAction(pawn, id);
 }
 
 //-----------------------------------------------------------------------------
@@ -279,7 +284,7 @@ void Pawn_Update(Pawn* pawn)
 		}
 		else // stop action and transit to default action
 		{
-			Pawn_SetAction(g_Pawn, 0);
+			Pawn_ForceSetAction(g_Pawn, 0);
 			return;
 		}
 	}

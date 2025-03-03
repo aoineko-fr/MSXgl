@@ -1,1 +1,1 @@
-#define BUILD_VERSION 580
+#define BUILD_VERSION 674

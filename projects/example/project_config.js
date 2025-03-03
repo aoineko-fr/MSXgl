@@ -68,7 +68,7 @@ LibModules = [ "debug", "game", "game_pawn", "game_menu", "sprite_fx", "system",
 //   - 0        MSX0
 //   - TR       MSX turbo R
 //   - 3        MSX3 (reserved)
-Machine = "1";
+Machine = "12";
 
 //-- Target program format (string)
 //   - BIN              .bin    BASIC binary program (starting at 8000h)
@@ -175,7 +175,7 @@ AppID = 0x0003;
 //*******************************************************************************
 
 //-- Force to generate MSXgl static library even if 'msxgl.lib' already exist (boolean)
-BuildLibrary = false;
+BuildLibrary = true;
 
 //-- Prepare program for debug (boolean)
 Debug = true;
@@ -270,13 +270,13 @@ Verbose = true;
 //*******************************************************************************
 
 //-- Execute MAP analyzer (boolean)
-// Analyzer = false;
+// Analyzer = true;
 
 //-- Analyzer output selection (string)
 //   - Console    Output to termial console
 //   - File       Output to file
 //   - Both       Output to file and termial console (default)
-// AnalyzerOutput = "Both";
+// AnalyzerOutput = "Console";
 
 //-- Analyzer report elements (string)
 //   - [A]        Report areas

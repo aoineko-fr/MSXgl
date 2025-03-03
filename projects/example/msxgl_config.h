@@ -162,7 +162,7 @@
 //-----------------------------------------------------------------------------
 
 // Paddle module setting
-#define PADDLE_USE_CALIB			TRUE	// Add functions paddle calibration feature
+#define PADDLE_USE_CALIB			FALSE	// Add functions paddle calibration feature
 
 //-----------------------------------------------------------------------------
 // MEMORY MODULE
@@ -209,10 +209,10 @@
 #define PRINT_USE_FX_OUTLINE		FALSE	// [Bitmap] Allow use of text outline
 #define PRINT_USE_2_PASS_FX			FALSE	// [Bitmap] Allow use 2-pass FX render to prevent character overlap
 #define PRINT_USE_GRAPH				TRUE	// Allow use of character lines and boxes
-#define PRINT_USE_VALIDATOR			TRUE	// Add validator character code
+#define PRINT_USE_VALIDATOR			FALSE	// Add validator character code
 #define PRINT_USE_UNIT				FALSE	// Display integer type (h: hexadecimal, b: binary)
-#define PRINT_USE_FORMAT			TRUE	// Add printf type function
-#define PRINT_USE_32B				TRUE	// Allow to print 32-bits integers
+#define PRINT_USE_FORMAT			FALSE	// Add printf type function
+#define PRINT_USE_32B				FALSE	// Allow to print 32-bits integers
 #define PRINT_SKIP_SPACE			FALSE	// Skill space character
 #define PRINT_COLOR_NUM				1		// 1 color per line
 // Character width
@@ -306,11 +306,11 @@
 //-----------------------------------------------------------------------------
 
 #define MENU_USE_DEFAULT_CALLBACK	TRUE	// Use default input/print callback
-#define MENU_SCREEN_WIDTH			MENU_VARIABLE		// Screen width
+#define MENU_SCREEN_WIDTH			32		// Screen width
 #define MENU_FRAME_X				0		// Frame position X
 #define MENU_FRAME_Y				6		// Frame position Y
 #define MENU_FRAME_WIDTH			32		// Frame width
-#define MENU_FRAME_HEIGHT			8		// Frame height
+#define MENU_FRAME_HEIGHT			10		// Frame height
 #define MENU_CHAR_CLEAR				'\0'	// Clear character
 #define MENU_CHAR_CURSOR			'@'		// Cursor character
 #define MENU_CHAR_TRUE				'O'		// True character
@@ -324,7 +324,7 @@
 #define MENU_ITEM_X_GOTO			6		// Goto type item label X position
 #define MENU_ITEM_ALIGN				MENU_ITEM_ALIGN_LEFT // Item label alignment
 #define MENU_ITEM_ALIGN_GOTO		MENU_ITEM_ALIGN_LEFT // Goto type item label alignment
-#define MENU_VALUE_X				14		// Item value X position
+#define MENU_VALUE_X				18		// Item value X position
 // Type of cursor
 // - MENU_CURSOR_MODE_NONE ........ No cursor
 // - MENU_CURSOR_MODE_CHAR ........ Character cursor
