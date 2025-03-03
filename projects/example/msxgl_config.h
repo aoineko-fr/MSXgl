@@ -80,9 +80,9 @@
 #define VDP_UNIT					VDP_UNIT_U8
 
 // VDP screen modes (additionnal limitations come from the selected MSX_VERSION)
-#define VDP_USE_MODE_T1				TRUE	// MSX1		Screen 0 Width 40
-#define VDP_USE_MODE_G1				TRUE	// MSX1		Screen 1
-#define VDP_USE_MODE_G2				FALSE	// MSX1		Screen 2
+#define VDP_USE_MODE_T1				FALSE	// MSX1		Screen 0 Width 40
+#define VDP_USE_MODE_G1				FALSE	// MSX1		Screen 1
+#define VDP_USE_MODE_G2				TRUE	// MSX1		Screen 2
 #define VDP_USE_MODE_MC				FALSE	// MSX1		Screen 3
 #define VDP_USE_MODE_T2				FALSE	// MSX2		Screen 0 Width 80
 #define VDP_USE_MODE_G3				FALSE	// MSX2		Screen 4

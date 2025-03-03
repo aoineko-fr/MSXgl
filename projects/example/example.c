@@ -10,9 +10,9 @@
 // INCLUDES
 //=============================================================================
 #include "msxgl.h"
-#include "game.h"
-#include "game_pawn.h"
-#include "game_menu.h"
+#include "game/game.h"
+#include "game/pawn.h"
+#include "game/menu.h"
 #include "math.h"
 #include "debug.h"
 #include "string.h"
@@ -150,6 +150,7 @@ const c8* MenuAction_Start(u8 op, i8 value);
 #include "content/data_sprt_ball.h"
 #include "content/data_sprt_cloud.h"
 #include "content/data_bg.h"
+#include "content/data_bg2.h"
 
 //.............................................................................
 // Player 1 data
@@ -279,14 +280,14 @@ const Pawn_Action g_BallActions[ACTION_BALL_MAX] =
 // Clouds data
 const struct Cloud g_Cloud[] =
 {
-	{  30, 16,  64,  6, 0b00000111 },
-	{  46, 16,  72,  8, 0b00000111 },
-	{ 140, 38,  80, 10, 0b00001111 },
-	{ 156, 38,  88, 12, 0b00001111 },
-	{   4, 54,  96, 14, 0b00011111 },
-	{  20, 54, 104, 16, 0b00011111 },
-	{ 124, 72, 112, 18, 0b00111111 },
-	{ 248, 82, 112, 20, 0b01111111 },
+	{  30,  8,  80,  6, 0b00000111 },
+	{  46,  8,  88,  8, 0b00000111 },
+	{ 140, 20,  96, 10, 0b00001111 },
+	{ 156, 20, 104, 12, 0b00001111 },
+	{   4, 30,  96, 14, 0b00011111 },
+	{  20, 30, 104, 16, 0b00011111 },
+	{ 124, 37, 112, 18, 0b00111111 },
+	{ 248, 38, 112, 20, 0b00111111 },
 };
 
 
@@ -297,7 +298,7 @@ const struct Cloud g_Cloud[] =
 struct Character g_Player[2];
 struct Character g_Ball;
 
-bool g_bFlicker = TRUE;
+// bool g_bFlicker = TRUE;
 u8   g_PrevRow3 = 0xFF;
 u8   g_PrevRow8 = 0xFF;
 
@@ -621,9 +622,18 @@ void DrawLevel()
 	}
 
 	// Copy to screen
-	VDP_WriteVRAM_16K(g_ScreenBuffer + 32, VDP_GetLayoutTable() + 32, 32 * 23);
+	// VDP_WriteVRAM_16K(g_ScreenBuffer + 32, VDP_GetLayoutTable() + 32, 32 * 23);
 
 	Pawn_SetTileMap(g_ScreenBuffer);
+
+	// Background
+	VDP_WriteVRAM_16K(g_DataBackground_Patterns, VDP_GetPatternTable() + 256 * 8 * 0, sizeof(g_DataBackground_Patterns));
+	VDP_WriteVRAM_16K(g_DataBackground_Patterns, VDP_GetPatternTable() + 256 * 8 * 1, sizeof(g_DataBackground_Patterns));
+	VDP_WriteVRAM_16K(g_DataBackground_Patterns, VDP_GetPatternTable() + 256 * 8 * 2, sizeof(g_DataBackground_Patterns));
+	VDP_WriteVRAM_16K(g_DataBackground_Colors, VDP_GetColorTable() + 256 * 8 * 0, sizeof(g_DataBackground_Colors));
+	VDP_WriteVRAM_16K(g_DataBackground_Colors, VDP_GetColorTable() + 256 * 8 * 1, sizeof(g_DataBackground_Colors));
+	VDP_WriteVRAM_16K(g_DataBackground_Colors, VDP_GetColorTable() + 256 * 8 * 2, sizeof(g_DataBackground_Colors));
+	VDP_WriteVRAM_16K(g_DataBackground_Names, VDP_GetLayoutTable(), sizeof(g_DataBackground_Names));
 }
 
 //-----------------------------------------------------------------------------
@@ -944,11 +954,11 @@ bool State_GameInit()
 	Print_DrawText("PENG-PONG");
 
 	// Initialize color
-	VDP_FillVRAM_16K(0xF0, VDP_GetColorTable(), 32); // Clear color
-	VDP_Poke_16K(0xF7, VDP_GetColorTable() + 0);
-	VDP_Poke_16K(0xF7, VDP_GetColorTable() + 1);
-	VDP_Poke_16K(0xF5, VDP_GetColorTable() + 2);
-	VDP_Poke_16K(0xF5, VDP_GetColorTable() + 3);
+	// VDP_FillVRAM_16K(0xF0, VDP_GetColorTable(), 32); // Clear color
+	// VDP_Poke_16K(0xF7, VDP_GetColorTable() + 0);
+	// VDP_Poke_16K(0xF7, VDP_GetColorTable() + 1);
+	// VDP_Poke_16K(0xF5, VDP_GetColorTable() + 2);
+	// VDP_Poke_16K(0xF5, VDP_GetColorTable() + 3);
 
 	// Initialize layout
 	DrawLevel();
@@ -1009,8 +1019,8 @@ bool State_Game()
 	Pawn_Draw(&g_Player[0].Pawn);
 	Pawn_Draw(&g_Player[1].Pawn);
 	// Background horizon blink
-	if (g_bFlicker)
-		VDP_FillVRAM_16K(g_GameFrame & 1 ? 16 : 17, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
+	// if (g_bFlicker)
+	// 	VDP_FillVRAM_16K(g_GameFrame & 1 ? 16 : 17, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
 	PROFILE_SECTION_END(100, S_DRAW, "");
 
 	PROFILE_SECTION_START(100, S_UPDATE, "");
@@ -1042,8 +1052,8 @@ bool State_Game()
 	if (IS_KEY_PRESSED(row8, KEY_UP))
 		g_Player[1].Input |= INPUT_JUMP;
 	
-	if (IS_KEY_PUSHED(row3, g_PrevRow3, KEY_I))
-		g_bFlicker = 1 - g_bFlicker;
+	// if (IS_KEY_PUSHED(row3, g_PrevRow3, KEY_I))
+	// 	g_bFlicker = 1 - g_bFlicker;
 
 	g_PrevRow3 = row3;
 	g_PrevRow8 = row8;
@@ -1100,8 +1110,8 @@ bool State_Point()
 	Pawn_Draw(&g_Player[0].Pawn);
 	Pawn_Draw(&g_Player[1].Pawn);
 	// Background horizon blink
-	if (g_bFlicker)
-		VDP_FillVRAM_16K(g_GameFrame & 1 ? 16 : 17, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
+	// if (g_bFlicker)
+	// 	VDP_FillVRAM_16K(g_GameFrame & 1 ? 16 : 17, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
 
 	Pawn_Update(&g_Ball.Pawn);
 	Pawn_Update(&g_Player[0].Pawn);
@@ -1149,8 +1159,8 @@ bool State_VictoryUpdate()
 	Pawn_Draw(&g_Player[1].Pawn);
 
 	// Background horizon blink
-	if (g_bFlicker)
-		VDP_FillVRAM_16K(g_GameFrame & 1 ? 16 : 17, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
+	// if (g_bFlicker)
+	// 	VDP_FillVRAM_16K(g_GameFrame & 1 ? 16 : 17, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
 
 	Pawn_Update(&g_Player[0].Pawn);
 	Pawn_Update(&g_Player[1].Pawn);
@@ -1180,7 +1190,7 @@ void main()
 	DEBUG_LOG("Start debug session!");
 
 	Game_SetState(State_MenuInit);
-	Game_MainLoop(VDP_MODE_GRAPHIC1);
+	Game_MainLoop(VDP_MODE_SCREEN2);
 
 	DEBUG_LOG("End debug session!");
 }
