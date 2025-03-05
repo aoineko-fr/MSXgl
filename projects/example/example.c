@@ -576,7 +576,7 @@ void PhysicsEventBall(u8 event, u8 tile)
 //   TRUE if the tile is a blocker, FALSE otherwise
 bool PhysicsCollision(u8 tile)
 {
-	return (tile < 8);
+	return tile;
 }
 
 //-----------------------------------------------------------------------------
@@ -615,32 +615,16 @@ void DrawLevel()
 {
 	Mem_Set(0, g_ScreenBuffer, sizeof(g_ScreenBuffer));
 	
-	// Background
-	loop(i, 24-1)
-		Mem_Set((i <= HORIZON_H) ? 24 : 16, g_ScreenBuffer + (i + 1) * 32, 32);
-
 	// Ground
-	u8* ptr = g_ScreenBuffer + 23 * 32;
-	loop(i, 32)
-	{
-		u8 tile = (i & 1) ? 1 : 2;
-		if (i == 0)
-			tile = 0;
-		else if (i == 31)
-			tile = 3;
-		*ptr++ = tile;
-	}
+	Mem_Set(1, g_ScreenBuffer + 23 * 32, 32);
 
 	// "Net"
 	loop(i, NET_H)
 	{
 		u8* ptr = g_ScreenBuffer + 15 + (i + (23 - NET_H)) * 32;
-		*ptr++ = (i == 0) ? 0 : (i & 1) ? 4 : 6;
-		*ptr++ = (i == 0) ? 3 : (i & 1) ? 5 : 7;
+		*ptr++ = 1;
+		*ptr   = 1;
 	}
-
-	// Copy to screen
-	// VDP_WriteVRAM_16K(g_ScreenBuffer + 32, VDP_GetLayoutTable() + 32, 32 * 23);
 
 	Pawn_SetTileMap(g_ScreenBuffer);
 
@@ -648,6 +632,13 @@ void DrawLevel()
 	Pletter_LoadGM2(g_DataBackground_Patterns, VDP_GetPatternTable());
 	Pletter_LoadGM2(g_DataBackground_Colors, VDP_GetColorTable());
 	Pletter_UnpackToVRAM(g_DataBackground_Names, VDP_GetLayoutTable());
+}
+
+//-----------------------------------------------------------------------------
+//
+bool Logo_Skip()
+{
+	return FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -985,8 +976,6 @@ bool State_GameInit()
 	// Initialize text
 	Print_SetTextFont(g_Font, 192);
 	Print_SetColor(0xF, 0x1);
-	Print_SetPosition(0, 0);
-	Print_DrawText("PENG-PONG");
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);

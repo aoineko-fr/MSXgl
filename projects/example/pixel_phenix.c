@@ -23,6 +23,8 @@
 
 void Pletter_LoadGM2(void*, u16 dst);
 
+bool Logo_Skip();
+
 extern u8 g_FrameCount;
 extern u16 g_StateTimer;
 
@@ -98,14 +100,6 @@ void Logo_Initialize()
 //
 bool Logo_Update()
 {
-	// if (IsInputButton1())
-	// {
-	// 	PlaySFX(SFX_SELECT);		
-	// 	FSM_SetState(&State_Title);
-	// }
-
-	Halt();
-
 	g_FrameCount++;
 
 	if ((g_FrameCount & 0b00000011) != 0)
@@ -127,7 +121,7 @@ bool Logo_Update()
 		VDP_SetSpritePositionY(6, offset);
 	}
 
-	if (g_StateTimer == LOGO_END)
+	if ((g_StateTimer == LOGO_END) || Logo_Skip())
 		return TRUE;
 
 	return FALSE;
