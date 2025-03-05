@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.20.3 on Mon Mar  3 20:18:26 2025
+// Data generated using MSXimg 1.20.3 on Tue Mar  4 21:19:08 2025
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Author: GFX
@@ -14,7 +14,7 @@
 //  - Start position: 0, 0
 //  - Sprite size:    8, 8 (gap: 0, 0)
 //  - Sprite count:   16, 4
-//  - Color count:    2 (Transparent: #0000)
+//  - Color count:    2 (Transparent: #10101)
 //  - Compressor:     None
 //  - Skip empty:     FALSE
 
@@ -648,13 +648,13 @@ const unsigned char g_Font[] =
 	0x00, /* ........ */ 
 // // Sprite[62] (offset:500)
 
-	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
-	0x38, /* ..###... */ 
-	0x6C, /* .##.##.. */ 
-	0x44, /* .#...#.. */ 
-	0x00, /* ........ */ 
-	0x00, /* ........ */ 
+	0x18, /* ...##... */ 
+	0xFC, /* ######.. */ 
+	0xFE, /* #######. */ 
+	0xFC, /* ######.. */ 
+	0x18, /* ...##... */ 
+	0x10, /* ...#.... */ 
 	0x00, /* ........ */ 
 // // Sprite[63] (offset:508)
 

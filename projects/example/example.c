@@ -18,6 +18,7 @@
 #include "string.h"
 #include "fixed_point.h"
 #include "version.h"
+#include "compress/pletter.h"
 
 //=============================================================================
 // DEFINES
@@ -125,6 +126,8 @@ struct Cloud
 };
 
 // Prototypes
+bool State_LogoInit();
+bool State_LogoUpdate();
 bool State_MenuInit();
 bool State_MenuUpdate();
 bool State_GameInit();
@@ -149,8 +152,9 @@ const c8* MenuAction_Start(u8 op, i8 value);
 #include "content/data_sprt_layer.h"
 #include "content/data_sprt_ball.h"
 #include "content/data_sprt_cloud.h"
-#include "content/data_bg.h"
 #include "content/data_bg2.h"
+#include "content/logo_tile.h"
+#include "content/logo_sprt.h"
 
 //.............................................................................
 // Player 1 data
@@ -592,6 +596,17 @@ void DrawScore()
 }
 
 //-----------------------------------------------------------------------------
+// Load in all 3 screen sections
+void Pletter_LoadGM2(const u8* src, u16 dst)
+{
+	Pletter_UnpackToVRAM(src, dst);
+	dst += 0x800;
+	Pletter_UnpackToVRAM(src, dst);
+	dst += 0x800;
+	Pletter_UnpackToVRAM(src, dst);
+}
+
+//-----------------------------------------------------------------------------
 // Draw level background
 void DrawLevel()
 {
@@ -627,13 +642,9 @@ void DrawLevel()
 	Pawn_SetTileMap(g_ScreenBuffer);
 
 	// Background
-	VDP_WriteVRAM_16K(g_DataBackground_Patterns, VDP_GetPatternTable() + 256 * 8 * 0, sizeof(g_DataBackground_Patterns));
-	VDP_WriteVRAM_16K(g_DataBackground_Patterns, VDP_GetPatternTable() + 256 * 8 * 1, sizeof(g_DataBackground_Patterns));
-	VDP_WriteVRAM_16K(g_DataBackground_Patterns, VDP_GetPatternTable() + 256 * 8 * 2, sizeof(g_DataBackground_Patterns));
-	VDP_WriteVRAM_16K(g_DataBackground_Colors, VDP_GetColorTable() + 256 * 8 * 0, sizeof(g_DataBackground_Colors));
-	VDP_WriteVRAM_16K(g_DataBackground_Colors, VDP_GetColorTable() + 256 * 8 * 1, sizeof(g_DataBackground_Colors));
-	VDP_WriteVRAM_16K(g_DataBackground_Colors, VDP_GetColorTable() + 256 * 8 * 2, sizeof(g_DataBackground_Colors));
-	VDP_WriteVRAM_16K(g_DataBackground_Names, VDP_GetLayoutTable(), sizeof(g_DataBackground_Names));
+	Pletter_LoadGM2(g_DataBackground_Patterns, VDP_GetPatternTable());
+	Pletter_LoadGM2(g_DataBackground_Colors, VDP_GetColorTable());
+	Pletter_UnpackToVRAM(g_DataBackground_Names, VDP_GetLayoutTable());
 }
 
 //-----------------------------------------------------------------------------
@@ -900,6 +911,99 @@ void UpdateCloud(u8 id)
 // STATES
 //-----------------------------------------------------------------------------
 
+#define LOGO_START					8
+#define LOGO_OFFSET					33+16
+#define LOGO_END					64+16
+
+//-----------------------------------------------------------------------------
+//
+bool State_LogoInit()
+{
+	// Initialize VDP
+	VDP_EnableDisplay(FALSE);
+	VDP_SetColor(COLOR_BLACK);
+	VDP_ClearVRAM();
+
+	// Load sprites data
+	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
+	Pletter_UnpackToVRAM(g_DataLogoSprt, g_SpritePatternLow + 4 * 8);
+	VDP_FillVRAM_16K(0xFF, g_SpritePatternLow, 4 * 8);
+	VDP_HideAllSprites();
+	// Set sprites data - Mask
+	VDP_SetSpriteSM1(0,  96, 95, 0, COLOR_BLACK);
+	VDP_SetSpriteSM1(1, 112, 95, 0, COLOR_BLACK);
+	VDP_SetSpriteSM1(2, 128, 95, 0, COLOR_BLACK);
+	VDP_SetSpriteSM1(3, 104, 79, 0, COLOR_BLACK);
+	VDP_SetSpriteSM1(4, 120, 79, 0, COLOR_BLACK);
+	VDP_SetSpriteSM1(5, 104, 63, 0, COLOR_BLACK);
+	VDP_SetSpriteSM1(6, 120, 63, 0, COLOR_BLACK);
+	// Logo
+	VDP_SetSpriteSM1( 7, 104, 63,  4, COLOR_LIGHT_RED);
+	VDP_SetSpriteSM1( 8, 120, 63,  8, COLOR_LIGHT_RED);
+	VDP_SetSpriteSM1( 9, 104, 79, 12, COLOR_LIGHT_RED);
+	VDP_SetSpriteSM1(10, 120, 79, 16, COLOR_LIGHT_RED);
+	VDP_SetSpriteSM1(11, 104, 55, 20, COLOR_DARK_RED);
+	VDP_SetSpriteSM1(12, 120, 55, 24, COLOR_DARK_RED);
+	VDP_SetSpriteSM1(13, 104, 71, 28, COLOR_WHITE);
+	VDP_SetSpriteSM1(14, 120, 71, 32, COLOR_WHITE);
+	VDP_SetSpriteSM1(15, 104, 87, 36, COLOR_LIGHT_YELLOW);
+	VDP_SetSpriteSM1(16, 120, 87, 40, COLOR_LIGHT_YELLOW);
+
+	// Load tiles data
+	Pletter_LoadGM2(g_DataLogoTile_Patterns, g_ScreenPatternLow);
+	Pletter_LoadGM2(g_DataLogoTile_Colors, g_ScreenColorLow);
+	// Draw tiles data
+	VDP_FillScreen_GM2(0x00);
+	VDP_WriteLayout_GM2(g_DataLogoTileL0_Names, 12, 12, 6, 2);
+	VDP_WriteLayout_GM2(g_DataLogoTileL1_Names, 13, 8, 4, 4);
+
+	g_StateTimer = 0;
+	g_FrameCount = 0;
+
+	VDP_EnableDisplay(TRUE);
+	Game_SetState(State_LogoUpdate);
+
+	return FALSE;
+}
+
+//-----------------------------------------------------------------------------
+//
+bool State_LogoUpdate()
+{
+	// if (IsInputButton1())
+	// {
+	// 	PlaySFX(SFX_SELECT);		
+	// 	FSM_SetState(&State_Title);
+	// }
+
+	Halt();
+
+	g_FrameCount++;
+	if ((g_FrameCount & 0b00000011) != 0)
+		return FALSE;
+
+	g_StateTimer++;
+	if ((g_StateTimer >= LOGO_START) && (g_StateTimer < LOGO_START + LOGO_OFFSET))
+	{
+		u8 offset = (95 + LOGO_START) - g_StateTimer;
+
+		VDP_SetSpritePositionY(0, offset);
+		VDP_SetSpritePositionY(1, offset);
+		VDP_SetSpritePositionY(2, offset);
+		offset -= 16;
+		VDP_SetSpritePositionY(3, offset);
+		VDP_SetSpritePositionY(4, offset);
+		offset -= 16;
+		VDP_SetSpritePositionY(5, offset);
+		VDP_SetSpritePositionY(6, offset);
+	}
+
+	if (g_StateTimer == LOGO_END)
+		Game_SetState(State_MenuInit);
+
+	return FALSE;
+}
+
 //-----------------------------------------------------------------------------
 // 
 bool State_MenuInit()
@@ -910,7 +1014,7 @@ bool State_MenuInit()
 	VDP_ClearVRAM();
 	
 	// Initialize text
-	Print_SetTextFont(g_Font, 64);
+	Print_SetTextFont(g_Font, 192);
 	Print_SetColor(0xF, 0x1);
 	
 	Print_DrawTextAt(11, 0, "PENG-PONG");
@@ -942,31 +1046,19 @@ bool State_GameInit()
 	VDP_EnableDisplay(FALSE);
 	VDP_SetColor(COLOR_BLACK);
 	
-	// Initialize pattern
-	VDP_FillVRAM_16K(32, VDP_GetLayoutTable(), 32*24);
-	VDP_FillVRAM_16K(0, VDP_GetPatternTable(), 256*8); // Clear pattern
-	VDP_WriteVRAM_16K(g_DataBackground, VDP_GetPatternTable(), 24*8);
+	// Initialize background tiles
+	DrawLevel();
 
 	// Initialize text
-	Print_SetTextFont(g_Font, 64);
+	Print_SetTextFont(g_Font, 192);
 	Print_SetColor(0xF, 0x1);
 	Print_SetPosition(0, 0);
 	Print_DrawText("PENG-PONG");
 
-	// Initialize color
-	// VDP_FillVRAM_16K(0xF0, VDP_GetColorTable(), 32); // Clear color
-	// VDP_Poke_16K(0xF7, VDP_GetColorTable() + 0);
-	// VDP_Poke_16K(0xF7, VDP_GetColorTable() + 1);
-	// VDP_Poke_16K(0xF5, VDP_GetColorTable() + 2);
-	// VDP_Poke_16K(0xF5, VDP_GetColorTable() + 3);
-
-	// Initialize layout
-	DrawLevel();
-
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
-	VDP_WriteVRAM_16K(g_DataSprtCloud, VDP_GetSpritePatternTable() + 8 * 64, 7 * 4 * 8 * 2);
-	// VDP_SetSpriteSM1(6, 0, 208, 0, 0); // hide
+	Pletter_UnpackToVRAM(g_DataSprtCloud, VDP_GetSpritePatternTable() + 8 * 64);
+	VDP_DisableSpritesFrom(22); // hide
 
 	// Init cloud
 	loop(i, numberof(g_Cloud))
@@ -1189,7 +1281,7 @@ void main()
 	DEBUG_INIT();
 	DEBUG_LOG("Start debug session!");
 
-	Game_SetState(State_MenuInit);
+	Game_SetState(State_LogoInit);
 	Game_MainLoop(VDP_MODE_SCREEN2);
 
 	DEBUG_LOG("End debug session!");

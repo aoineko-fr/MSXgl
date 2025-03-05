@@ -312,7 +312,7 @@
 #define MENU_FRAME_WIDTH			32		// Frame width
 #define MENU_FRAME_HEIGHT			10		// Frame height
 #define MENU_CHAR_CLEAR				'\0'	// Clear character
-#define MENU_CHAR_CURSOR			'@'		// Cursor character
+#define MENU_CHAR_CURSOR			'^'		// Cursor character
 #define MENU_CHAR_TRUE				'O'		// True character
 #define MENU_CHAR_FALSE				'X'		// False character
 #define MENU_CHAR_LEFT				'<'		// Left edit character
