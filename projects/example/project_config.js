@@ -46,7 +46,7 @@ Emulator  = `${ToolsDir}openMSX/openmsx`;
 ProjName = "example";
 
 //-- List of project modules to build (array). If empty, ProjName will be added
-ProjModules = [ ProjName ];
+ProjModules = [ ProjName, "pixel_phenix" ];
 
 //-- Project segments base name (string). ProjName will be used if not defined
 // ProjSegments = ProjName;
@@ -175,7 +175,7 @@ AppID = 0x0003;
 //*******************************************************************************
 
 //-- Force to generate MSXgl static library even if 'msxgl.lib' already exist (boolean)
-BuildLibrary = true;
+BuildLibrary = false;
 
 //-- Prepare program for debug (boolean)
 Debug = true;
