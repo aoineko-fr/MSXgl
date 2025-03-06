@@ -308,19 +308,19 @@
 #define MENU_USE_DEFAULT_CALLBACK	TRUE	// Use default input/print callback
 #define MENU_SCREEN_WIDTH			32		// Screen width
 #define MENU_FRAME_X				0		// Frame position X
-#define MENU_FRAME_Y				6		// Frame position Y
+#define MENU_FRAME_Y				15		// Frame position Y
 #define MENU_FRAME_WIDTH			32		// Frame width
-#define MENU_FRAME_HEIGHT			10		// Frame height
-#define MENU_CHAR_CLEAR				'\0'	// Clear character
+#define MENU_FRAME_HEIGHT			8		// Frame height
+#define MENU_CHAR_CLEAR				192		// Clear character
 #define MENU_CHAR_CURSOR			'^'		// Cursor character
 #define MENU_CHAR_TRUE				'O'		// True character
 #define MENU_CHAR_FALSE				'X'		// False character
 #define MENU_CHAR_LEFT				'<'		// Left edit character
 #define MENU_CHAR_RIGHT				'>'		// Right edit character
-#define MENU_TITLE_X				4		// Title position X
-#define MENU_TITLE_Y				6		// Title position Y
+#define MENU_TITLE_X				0		// Title position X
+#define MENU_TITLE_Y				0		// Title position Y
 #define MENU_ITEM_X					6		// Item label X position
-#define MENU_ITEM_Y					8		// Item label X position
+#define MENU_ITEM_Y					15		// Item label X position
 #define MENU_ITEM_X_GOTO			6		// Goto type item label X position
 #define MENU_ITEM_ALIGN				MENU_ITEM_ALIGN_LEFT // Item label alignment
 #define MENU_ITEM_ALIGN_GOTO		MENU_ITEM_ALIGN_LEFT // Goto type item label alignment

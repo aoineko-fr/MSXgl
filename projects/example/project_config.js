@@ -175,7 +175,7 @@ AppID = 0x0003;
 //*******************************************************************************
 
 //-- Force to generate MSXgl static library even if 'msxgl.lib' already exist (boolean)
-BuildLibrary = false;
+BuildLibrary = true;
 
 //-- Prepare program for debug (boolean)
 Debug = true;

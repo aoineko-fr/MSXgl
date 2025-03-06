@@ -313,7 +313,7 @@ i16  g_CloudX[numberof(g_Cloud)];
 u8   g_FrameCount = 0;
 u16  g_StateTimer = 0;
 
-u8   g_ScreenBuffer[32*24];
+u8   g_CollisionMap[32*24];
 
 u8   g_Field = 0;
 u8   g_Bounce = 0;
@@ -382,10 +382,10 @@ MenuItem g_MenuCredits[] =
 // List of all menus
 const Menu g_Menus[MENU_MAX] =
 {
-	{ "MAIN",    g_MenuMain,    numberof(g_MenuMain),    NULL }, // MENU_MAIN
-	{ "GAME",    g_MenuStart,   numberof(g_MenuStart),   NULL }, // MENU_START
-	{ "OPTIONS", g_MenuOptions, numberof(g_MenuOptions), NULL }, // MENU_OPTIONS
-	{ "CREDITS", g_MenuCredits, numberof(g_MenuCredits), NULL }, // MENU_CREDITS
+	{ NULL,	g_MenuMain,    numberof(g_MenuMain),    NULL }, // MENU_MAIN
+	{ NULL,	g_MenuStart,   numberof(g_MenuStart),   NULL }, // MENU_START
+	{ NULL,	g_MenuOptions, numberof(g_MenuOptions), NULL }, // MENU_OPTIONS
+	{ NULL,	g_MenuCredits, numberof(g_MenuCredits), NULL }, // MENU_CREDITS
 };
 
 
@@ -610,24 +610,29 @@ void Pletter_LoadGM2(const u8* src, u16 dst)
 }
 
 //-----------------------------------------------------------------------------
-// Draw level background
-void DrawLevel()
+// 
+void CollisionInit()
 {
-	Mem_Set(0, g_ScreenBuffer, sizeof(g_ScreenBuffer));
+	Mem_Set(0, g_CollisionMap, sizeof(g_CollisionMap));
 	
 	// Ground
-	Mem_Set(1, g_ScreenBuffer + 23 * 32, 32);
+	Mem_Set(1, g_CollisionMap + 23 * 32, 32);
 
 	// "Net"
 	loop(i, NET_H)
 	{
-		u8* ptr = g_ScreenBuffer + 15 + (i + (23 - NET_H)) * 32;
+		u8* ptr = g_CollisionMap + 15 + (i + (23 - NET_H)) * 32;
 		*ptr++ = 1;
 		*ptr   = 1;
 	}
 
-	Pawn_SetTileMap(g_ScreenBuffer);
+	Pawn_SetTileMap(g_CollisionMap);
+}
 
+//-----------------------------------------------------------------------------
+// Draw level background
+void DrawLevel()
+{
 	// Background
 	Pletter_LoadGM2(g_DataBackground_Patterns, VDP_GetPatternTable());
 	Pletter_LoadGM2(g_DataBackground_Colors, VDP_GetColorTable());
@@ -936,13 +941,13 @@ bool State_MenuInit()
 	VDP_EnableDisplay(FALSE);
 	VDP_SetColor(COLOR_BLACK);
 	VDP_ClearVRAM();
+
+	DrawLevel();
 	
 	// Initialize text
 	Print_SetTextFont(g_Font, 192);
-	Print_SetColor(0xF, 0x1);
+	Print_SetColor(0x1, 0xF);
 	
-	Print_DrawTextAt(11, 0, "PENG-PONG");
-
 	Menu_Initialize(g_Menus); // Initialize the menu
 	Menu_DrawPage(MENU_MAIN); // Display the first page
 
@@ -972,6 +977,7 @@ bool State_GameInit()
 	
 	// Initialize background tiles
 	DrawLevel();
+	CollisionInit();
 
 	// Initialize text
 	Print_SetTextFont(g_Font, 192);
