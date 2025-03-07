@@ -15,7 +15,7 @@
 //   G A M E
 //-----------------------------------------------------------------------------
 
-// Group: Game
+// Group: Game Core
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -43,8 +43,9 @@ void Game_Release();
 // Group: Game Loop
 
 //-----------------------------------------------------------------------------
-// DATA RAM
+// RAM DATA
 
+extern bool g_GameExit;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -58,7 +59,7 @@ void Game_MainLoop(u8 screenMode);
 
 // Function: Game_Exit
 // Game exit
-void Game_Exit();
+inline void Game_Exit() { g_GameExit = TRUE; }
 
 #endif
 
@@ -70,10 +71,16 @@ void Game_Exit();
 // Group: Game State
 
 //-----------------------------------------------------------------------------
-// DFINES
+// DEFINES
 
 // Functions
 typedef bool (*State)(void);	// Callback default signature
+
+//-----------------------------------------------------------------------------
+// RAM DATA
+
+extern State g_GameState;
+extern State g_GamePrevState;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -93,6 +100,13 @@ void Game_RestoreState();
 // Check state transition and update current state
 void Game_UpdateState();
 
+// Function: Game_GetCurrentState
+// Get current state
+//
+// Return:
+//   Address of the current state function
+inline State Game_GetCurrentState() { return g_GameState; }
+
 #endif // (GAME_USE_STATE)
 
 
@@ -103,10 +117,16 @@ void Game_UpdateState();
 // Group: Game V-Synch
 
 //-----------------------------------------------------------------------------
-// DEFINES
+// RAM DATA
 
+extern bool	g_GameVSync;
 extern u8 g_GameFrame;
 extern callback g_GameVSyncCB;
+
+#if (GAME_USE_SYNC_50HZ)
+extern bool g_Game60Hz;
+extern u8 g_GameCount;
+#endif
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -122,16 +142,15 @@ void Game_VSyncHook();
 //   cb - The v-sync function to set
 inline void Game_SetVSyncCallback(callback cb) { g_GameVSyncCB = cb; }
 
-// Function: Game_GetFrameCount
+// Function: Game_GetFrame
 // Get frame counter
 //
 // Return:
 //   Current frame counter (0-255).
-inline u8 Game_GetFrameCount() { return g_GameFrame; }
+inline u8 Game_GetFrame() { return g_GameFrame; }
 
 // Function: Game_WaitVSync
 // Wait for vertical-synchronization 
 void Game_WaitVSync();
 
 #endif // (GAME_USE_VSYNC)
-

@@ -16,12 +16,9 @@
 // Defines
 //-----------------------------------------------------------------------------
 
-#if (GAME_USE_VSYNC)
-
-// Function prototype
+// Functions prototype
 void Game_DefaultVSyncCB();
-
-#endif
+void VDP_InterruptHandler();
 
 //-----------------------------------------------------------------------------
 // Memory data
@@ -37,7 +34,7 @@ State			g_GamePrevState = NULL;
 #endif
 
 #if (GAME_USE_VSYNC)
-volatile bool	g_GameVSync = FALSE;
+bool			g_GameVSync = FALSE;
 u8				g_GameFrame = 0;
 callback		g_GameVSyncCB = Game_DefaultVSyncCB;
 #endif
@@ -60,7 +57,7 @@ void Game_Initialize(u8 screenMode)
 	VDP_SetMode(screenMode);
 	#if ((GAME_USE_VSYNC) && ((TARGET_TYPE != TYPE_ROM) || !(TARGET & ROM_ISR)) && (TARGET != TARGET_DOS0))
 		VDP_EnableVBlank(TRUE);
-		Bios_SetHookCallback(H_TIMI, Game_VSyncHook);
+		Bios_SetHookCallback(H_TIMI, VDP_InterruptHandler);
 	#endif
 
 	#if ((GAME_USE_VSYNC) && (GAME_USE_SYNC_50HZ))
@@ -106,13 +103,6 @@ void Game_MainLoop(u8 screenMode)
 	while(!g_GameExit)
 		Game_Update();
 	Game_Release();
-}
-
-//-----------------------------------------------------------------------------
-// Game exit
-void Game_Exit()
-{
-	g_GameExit = TRUE;
 }
 
 #endif // (GAME_USE_LOOP)
@@ -169,11 +159,7 @@ void Game_DefaultVSyncCB() {}
 
 //-----------------------------------------------------------------------------
 // Vertical-synchronization hook handler
-#if (((TARGET_TYPE == TYPE_ROM) && (TARGET & ROM_ISR)) || (TARGET == TARGET_DOS0))
 void VDP_InterruptHandler()
-#else
-void Game_VSyncHook()
-#endif
 {
 	g_GameFrame++;
 	g_GameVSyncCB();

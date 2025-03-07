@@ -53,11 +53,6 @@
 #define HORIZON_H					11
 #define NET_H						7
 
-// Debug section
-#define S_DRAW						0
-#define S_UPDATE					1
-#define S_INPUT						2
-
 // Index of all menu pages
 enum MENU_PAGES
 {
@@ -151,12 +146,15 @@ const c8* MenuAction_Start(u8 op, i8 value);
 // READ-ONLY DATA
 //=============================================================================
 
-// Fonts
+// Font by Ludo 'GFX'
 #include "content/data_font.h"
+
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "content/data_sprt_layer.h"
+#include "content/data_sprt_player.h"
 #include "content/data_sprt_ball.h"
 #include "content/data_sprt_cloud.h"
+
+// Background by Yaz
 #include "content/data_bg2.h"
 
 //.............................................................................
@@ -388,6 +386,18 @@ const Menu g_Menus[MENU_MAX] =
 	{ NULL,	g_MenuCredits, numberof(g_MenuCredits), NULL }, // MENU_CREDITS
 };
 
+//
+const u8 g_FontColor[8] =
+{
+	COLOR_MERGE(COLOR_LIGHT_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_DARK_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_DARK_RED, COLOR_WHITE),
+};
 
 //=============================================================================
 // FUNCTIONS
@@ -488,22 +498,21 @@ void Rules_Out()
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Physics callback
-void PhysicsEventPlayer1(u8 event, u8 tile)
+// Physics hnadle for player
+void PlayerPhysics(u8 event, struct Character* ply)
 {
-	tile;
 	switch(event)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
 	case PAWN_PHYSICS_COL_DOWN:
-		g_Player[0].bInAir = FALSE;
+		ply->bInAir = FALSE;
 		break;
 
 	case PAWN_PHYSICS_FALL: // Handle falling
-		if (!g_Player[0].bInAir)
+		if (!ply->bInAir)
 		{
-			g_Player[0].bInAir = TRUE;
-			g_Player[0].VelocityY = 0;
+			ply->bInAir = TRUE;
+			ply->VelocityY = 0;
 		}
 		break;
 	};
@@ -511,24 +520,18 @@ void PhysicsEventPlayer1(u8 event, u8 tile)
 
 //-----------------------------------------------------------------------------
 // Physics callback
+void PhysicsEventPlayer1(u8 event, u8 tile)
+{
+	tile;
+	PlayerPhysics(event, &g_Player[0]);
+}
+
+//-----------------------------------------------------------------------------
+// Physics callback
 void PhysicsEventPlayer2(u8 event, u8 tile)
 {
 	tile;
-	switch(event)
-	{
-	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
-	case PAWN_PHYSICS_COL_DOWN:
-		g_Player[1].bInAir = FALSE;
-		break;
-
-	case PAWN_PHYSICS_FALL: // Handle falling
-		if (!g_Player[1].bInAir)
-		{
-			g_Player[1].bInAir = TRUE;
-			g_Player[1].VelocityY = 0;
-		}
-		break;
-	};
+	PlayerPhysics(event, &g_Player[1]);
 }
 
 //-----------------------------------------------------------------------------
@@ -616,14 +619,14 @@ void CollisionInit()
 	Mem_Set(0, g_CollisionMap, sizeof(g_CollisionMap));
 	
 	// Ground
-	Mem_Set(1, g_CollisionMap + 23 * 32, 32);
+	Mem_Set(0xFF, g_CollisionMap + 23 * 32, 32);
 
 	// "Net"
 	loop(i, NET_H)
 	{
 		u8* ptr = g_CollisionMap + 15 + (i + (23 - NET_H)) * 32;
-		*ptr++ = 1;
-		*ptr   = 1;
+		*ptr++ = 0xFF;
+		*ptr   = 0xFF;
 	}
 
 	Pawn_SetTileMap(g_CollisionMap);
@@ -822,9 +825,6 @@ void UpdateBall()
 	u16 sqrtDist = (dx * dx) + (dy * dy);
 	if (sqrtDist < COL_DIST * COL_DIST)
 	{
-		DEBUG_PRINT("--- Collision ---\n");
-		DEBUG_PRINT("Coll dx/dy: %i/%i\n", dx, dy);
-
 		g_Ball.VelocityX = dx * 2;
 		g_Ball.VelocityX += ply->VelocityX / 2;
 
@@ -843,9 +843,6 @@ void UpdateBall()
 		Pawn_SetAction(ballPawn, ACTION_BALL_BUMP);
 		Pawn_SetAction(plyPawn, ACTION_PLAYER_HIT);
 		Rules_Pass();
-
-		DEBUG_PRINT("Ball Vel: %i %i\n", g_Ball.VelocityX, g_Ball.VelocityY);
-		DEBUG_BREAK();
 	}
 
 	// Update ball animation & physics
@@ -864,46 +861,57 @@ void UpdateBall()
 
 //-----------------------------------------------------------------------------
 // Initialize cloud sprites
-void InitCloud(u8 id)
+void InitClouds()
 {
-	const struct Cloud* cloud = &g_Cloud[id];
+	// Unpack sprite data to VRAM
+	Pletter_UnpackToVRAM(g_DataSprtCloud, VDP_GetSpritePatternTable() + 8 * 64);
 
-	u8 sprt = cloud->Sprite;
-	u8 pat = cloud->Pattern;
-	VDP_SetSpriteSM1(sprt++, cloud->X, cloud->Y, pat + 0, COLOR_GRAY);
-	VDP_SetSpriteSM1(sprt,   cloud->X, cloud->Y, pat + 4, COLOR_WHITE);
-	g_CloudX[id] = cloud->X;
+	// Initialize cloud sprites
+	loop(id, numberof(g_Cloud))
+	{
+		const struct Cloud* cloud = &g_Cloud[id];
+	
+		u8 sprt = cloud->Sprite;
+		u8 pat = cloud->Pattern;
+		VDP_SetSpriteSM1(sprt++, cloud->X, cloud->Y, pat + 0, COLOR_GRAY);
+		VDP_SetSpriteSM1(sprt,   cloud->X, cloud->Y, pat + 4, COLOR_WHITE);
+		g_CloudX[id] = cloud->X;
+	}
 }
 
 //-----------------------------------------------------------------------------
 // Update cloud sprites position
-void UpdateCloud(u8 id)
+void UpdateClouds()
 {
-	const struct Cloud* cloud = &g_Cloud[id];
-
-	if ((g_FrameCount & cloud->Mask) != 0)
-		return;
-
-	g_CloudX[id]--;
-	u8 x = g_CloudX[id];
-	if (g_CloudX[id] == -16)
+	u8 frame = Game_GetFrame();
+	loop(id, numberof(g_Cloud))
 	{
-		u8 sprt = cloud->Sprite;
-		VDP_SetSpriteColorSM1(sprt++, COLOR_GRAY);
-		VDP_SetSpriteColorSM1(sprt,   COLOR_WHITE);
-		x = g_CloudX[id] = 255;
-	}
-	else if (g_CloudX[id] < 0)
-	{
-		u8 sprt = cloud->Sprite;
-		VDP_SetSpriteColorSM1(sprt++, VDP_SPRITE_EC | COLOR_GRAY);
-		VDP_SetSpriteColorSM1(sprt,   VDP_SPRITE_EC | COLOR_WHITE);
-		x = g_CloudX[id] + 32;
-	}
+		const struct Cloud* cloud = &g_Cloud[id];
 
-	u8 sprt = cloud->Sprite;
-	VDP_SetSpritePositionX(sprt++, x);
-	VDP_SetSpritePositionX(sprt,   x);
+		if ((frame & cloud->Mask) != 0)
+			continue;
+
+		g_CloudX[id]--;
+		u8 x = g_CloudX[id];
+		if (g_CloudX[id] == -16)
+		{
+			u8 sprt = cloud->Sprite;
+			VDP_SetSpriteColorSM1(sprt++, COLOR_GRAY);
+			VDP_SetSpriteColorSM1(sprt,   COLOR_WHITE);
+			x = g_CloudX[id] = 255;
+		}
+		else if (g_CloudX[id] < 0)
+		{
+			u8 sprt = cloud->Sprite;
+			VDP_SetSpriteColorSM1(sprt++, VDP_SPRITE_EC | COLOR_GRAY);
+			VDP_SetSpriteColorSM1(sprt,   VDP_SPRITE_EC | COLOR_WHITE);
+			x = g_CloudX[id] + 32;
+		}
+
+		u8 sprt = cloud->Sprite;
+		VDP_SetSpritePositionX(sprt++, x);
+		VDP_SetSpritePositionX(sprt,   x);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -942,11 +950,20 @@ bool State_MenuInit()
 	VDP_SetColor(COLOR_BLACK);
 	VDP_ClearVRAM();
 
+	// Draw background
 	DrawLevel();
-	
+	VDP_HideAllSprites();
+	InitClouds();
+		
 	// Initialize text
 	Print_SetTextFont(g_Font, 192);
-	Print_SetColor(0x1, 0xF);
+	for(u16 i = 192; i < 256; i++)
+	{
+		VDP_WriteVRAM_16K(g_FontColor, VDP_GetColorTable() + 0x0000 + (i * 8), 8);
+		VDP_WriteVRAM_16K(g_FontColor, VDP_GetColorTable() + 0x0800 + (i * 8), 8);
+		VDP_WriteVRAM_16K(g_FontColor, VDP_GetColorTable() + 0x1000 + (i * 8), 8);
+	}
+	// Print_SetColor(0x1, 0xF);
 	
 	Menu_Initialize(g_Menus); // Initialize the menu
 	Menu_DrawPage(MENU_MAIN); // Display the first page
@@ -963,6 +980,7 @@ bool State_MenuUpdate()
 {
 	// Update menu
 	Menu_Update();
+	UpdateClouds();
 
 	return FALSE; // Frame finished
 }
@@ -985,12 +1003,10 @@ bool State_GameInit()
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
-	Pletter_UnpackToVRAM(g_DataSprtCloud, VDP_GetSpritePatternTable() + 8 * 64);
 	VDP_DisableSpritesFrom(22); // hide
 
 	// Init cloud
-	loop(i, numberof(g_Cloud))
-		InitCloud(i);
+	InitClouds();
 	
 	Rules_Init();
 
@@ -1032,26 +1048,18 @@ bool State_Game()
 {
 // VDP_SetColor(COLOR_DARK_BLUE);
 
-	PROFILE_FRAME_START();
-
-	PROFILE_SECTION_START(100, S_DRAW, "");
 	Pawn_Draw(&g_Ball.Pawn);
 	Pawn_Draw(&g_Player[0].Pawn);
 	Pawn_Draw(&g_Player[1].Pawn);
 	// Background horizon blink
 	// if (g_bFlicker)
 	// 	VDP_FillVRAM_16K(g_GameFrame & 1 ? 16 : 17, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
-	PROFILE_SECTION_END(100, S_DRAW, "");
 
-	PROFILE_SECTION_START(100, S_UPDATE, "");
 	UpdatePlayer(&g_Player[0]);
 	UpdatePlayer(&g_Player[1]);
 	UpdateBall();
-	loop(i, numberof(g_Cloud))
-		UpdateCloud(i);
-	PROFILE_SECTION_END(100, S_UPDATE, "");
+	UpdateClouds();
 
-	PROFILE_SECTION_START(100, S_INPUT, "");
 	// Update input
 	u8 row3 = Keyboard_Read(3);
 	u8 row8 = Keyboard_Read(8);
@@ -1099,12 +1107,9 @@ bool State_Game()
 		// Game_Exit();
 		Game_SetState(State_MenuInit);
 	}
-	PROFILE_SECTION_END(100, S_INPUT, "");
 
 	g_FrameCount++;
 
-	PROFILE_FRAME_END();
-	
 // VDP_SetColor(COLOR_BLACK);
 
 	return TRUE; // Frame finished
@@ -1136,8 +1141,7 @@ bool State_Point()
 	Pawn_Update(&g_Ball.Pawn);
 	Pawn_Update(&g_Player[0].Pawn);
 	Pawn_Update(&g_Player[1].Pawn);
-	loop(i, numberof(g_Cloud))
-		UpdateCloud(i);
+	UpdateClouds();
 
 	g_StateTimer--;
 	if ((g_StateTimer == 0) || (Keyboard_IsKeyPressed(KEY_ESC)))
@@ -1184,8 +1188,7 @@ bool State_VictoryUpdate()
 
 	Pawn_Update(&g_Player[0].Pawn);
 	Pawn_Update(&g_Player[1].Pawn);
-	loop(i, numberof(g_Cloud))
-		UpdateCloud(i);
+	UpdateClouds();
 
 	g_StateTimer--;
 	if ((g_StateTimer == 0) || (Keyboard_IsKeyPressed(KEY_ESC)))
@@ -1206,11 +1209,6 @@ bool State_VictoryUpdate()
 // Programme entry point
 void main()
 {
-	DEBUG_INIT();
-	DEBUG_LOG("Start debug session!");
-
 	Game_SetState(State_LogoInit);
 	Game_MainLoop(VDP_MODE_SCREEN2);
-
-	DEBUG_LOG("End debug session!");
 }

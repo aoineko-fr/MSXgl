@@ -140,7 +140,7 @@ AddROMSignature = true;
 // ForceCodeAddr = 0;
 
 //-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
-// ForceRamAddr = 0;
+ForceRamAddr = 0xE000;
 
 //-- List of raw data files to be added to final binary (array). Each entry must be in the following format: { offset=0x0000, file="myfile.bin" }
 // RawFiles = [];
