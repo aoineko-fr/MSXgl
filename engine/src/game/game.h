@@ -142,12 +142,12 @@ void Game_VSyncHook();
 //   cb - The v-sync function to set
 inline void Game_SetVSyncCallback(callback cb) { g_GameVSyncCB = cb; }
 
-// Function: Game_GetFrame
+// Function: Game_GetFrameCount
 // Get frame counter
 //
 // Return:
 //   Current frame counter (0-255).
-inline u8 Game_GetFrame() { return g_GameFrame; }
+inline u8 Game_GetFrameCount() { return g_GameFrame; }
 
 // Function: Game_WaitVSync
 // Wait for vertical-synchronization 

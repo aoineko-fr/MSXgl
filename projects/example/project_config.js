@@ -52,7 +52,7 @@ ProjModules = [ ProjName, "pixel_phenix" ];
 // ProjSegments = ProjName;
 
 //-- List of library modules to build (array)
-LibModules = [ "compress/pletter", "game/game", "game/pawn", "game/menu", "sprite_fx", "system", "bios", "vdp", "print", "input", "memory", "math" ];
+LibModules = [ "debug", "compress/pletter", "game/game", "game/pawn", "game/menu", "sprite_fx", "system", "bios", "vdp", "print", "input", "memory", "math" ];
 
 //-- Additional sources to be compiled and linked with the project (array)
 // AddSources = [];
@@ -140,7 +140,7 @@ AddROMSignature = true;
 // ForceCodeAddr = 0;
 
 //-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
-ForceRamAddr = 0xE000;
+// ForceRamAddr = 0xE000;
 
 //-- List of raw data files to be added to final binary (array). Each entry must be in the following format: { offset=0x0000, file="myfile.bin" }
 // RawFiles = [];
@@ -309,7 +309,7 @@ EmulMachine    = false;				//-- Force the MSX version of the emulated machine (b
 // Emul60Hz       = false;				//-- Force the emulated machine to be at 60 Hz (boolean)
 // EmulFullScreen = false;				//-- Force the emulator to start in fullscreen mode (boolean)
 // EmulMute       = false;				//-- Disable emulator sound (boolean)
-EmulDebug      = false;				//-- Start emulator debugger with program launch (boolean)
+EmulDebug      = true;				//-- Start emulator debugger with program launch (boolean)
 // EmulTurbo      = false;				//-- Start emulator in turbo mode (boolean)
 
 //-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific

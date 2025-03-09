@@ -77,9 +77,10 @@ void Logo_Initialize()
 	VDP_ClearVRAM();
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 
-	// Load sprites data
+	// Load sprites pattern data
 	VDP_FillVRAM_16K(0xFF, VDP_GetSpritePatternTable(), 4 * 8);
 	Pletter_UnpackToVRAM(g_DataLogoSprt, VDP_GetSpritePatternTable() + 4 * 8);
+	// Initialize sprite attribute table
 	VDP_WriteVRAM_16K((void*)&g_LogoSprt, VDP_GetSpriteAttributeTable(), sizeof(g_LogoSprt));
 	
 	// Load tiles data

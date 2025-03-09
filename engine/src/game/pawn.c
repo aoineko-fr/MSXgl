@@ -285,13 +285,13 @@ void Pawn_Update(Pawn* pawn)
 		else // stop action and transit to default action
 		{
 			Pawn_ForceSetAction(g_Pawn, 0);
-			return;
+			act = &g_Pawn->ActionList[0];
 		}
 	}
 
 	// Execute event
 	const Pawn_Frame* frame = &act->FrameList[g_Pawn->AnimStep];
-	if (frame->Event != 0)
+	if (frame->Event != NULL)
 		frame->Event();
 
 	// Update animation
@@ -562,16 +562,8 @@ skipVertival:
 #if ((PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P2))
 //-----------------------------------------------------------------------------
 // Update rendering of the game pawn
-inline void Pawn_Draw_V9(Pawn* pawn)
+inline void Pawn_Draw_V9()
 {
-	g_Pawn = pawn;
-
-	if ((g_Pawn->Update & (PAWN_UPDATE_PATTERN | PAWN_UPDATE_POSITION)) == 0)
-		return;
-	
-	if (g_Pawn->Update & PAWN_UPDATE_DISABLE)
-		return;
-
 	g_Pawn_Sprite = g_Pawn->SpriteList;
 
 	PAWN_SPRT_INIT()
@@ -589,8 +581,6 @@ inline void Pawn_Draw_V9(Pawn* pawn)
 		PAWN_SPRT_NEXT()
 		g_Pawn_Sprite++;
 	}
-
-	g_Pawn->Update &= ~(PAWN_UPDATE_PATTERN | PAWN_UPDATE_POSITION);
 }
 #endif // ((PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P2))
 
@@ -600,16 +590,8 @@ u8 g_Pawn_FrameOffset;
 
 //-----------------------------------------------------------------------------
 // Update rendering of the game pawn
-inline void Pawn_Draw_Sprite(Pawn* pawn)
+inline void Pawn_Draw_Sprite()
 {
-	g_Pawn = pawn;
-
-	if ((g_Pawn->Update & (PAWN_UPDATE_PATTERN | PAWN_UPDATE_POSITION)) == 0)
-		return;
-	
-	if (g_Pawn->Update & PAWN_UPDATE_DISABLE)
-		return;
-
 	g_Pawn_Sprite = g_Pawn->SpriteList;
 
 	PAWN_SPRT_INIT()
@@ -617,10 +599,10 @@ inline void Pawn_Draw_Sprite(Pawn* pawn)
 	loop(i, g_Pawn->SpriteNum)
 	{
 		g_Pawn_FrameOffset = 0;
-		if (g_Pawn_Sprite->Flag & PAWN_SPRITE_FLIP) // Skip odd frames
+		if ((g_Pawn->Update & PAWN_UPDATE_BLEND) && (g_Pawn_Sprite->Flag & PAWN_SPRITE_BLEND)) // Skip odd frames
 		{
 			if ((g_Pawn->Counter & 1) != 0)
-			g_Pawn_FrameOffset = PAWN_PATTERN_NUM;
+				g_Pawn_FrameOffset = PAWN_PATTERN_NUM;
 			g_Pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
 
@@ -678,8 +660,6 @@ inline void Pawn_Draw_Sprite(Pawn* pawn)
 
 		g_Pawn_Sprite++;
 	}
-
-	g_Pawn->Update &= ~(PAWN_UPDATE_PATTERN | PAWN_UPDATE_POSITION);
 }
 #endif // ((PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2))
 
@@ -687,16 +667,21 @@ inline void Pawn_Draw_Sprite(Pawn* pawn)
 // Update rendering of the game pawn
 void Pawn_Draw(Pawn* pawn)
 {
+	g_Pawn = pawn;
+
+	if ((g_Pawn->Update & (PAWN_UPDATE_PATTERN | PAWN_UPDATE_POSITION)) == 0)
+		return;
+	
+	if (g_Pawn->Update & PAWN_UPDATE_DISABLE)
+		return;
 
 #if ((PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P2))
-
-	Pawn_Draw_V9(pawn);
-
+	Pawn_Draw_V9();
 #elif ((PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2))
-
-	Pawn_Draw_Sprite(pawn);
-
+	Pawn_Draw_Sprite();
 #endif
+
+	g_Pawn->Update &= ~(PAWN_UPDATE_PATTERN | PAWN_UPDATE_POSITION);
 }
 
 #if (PAWN_USE_PHYSICS)

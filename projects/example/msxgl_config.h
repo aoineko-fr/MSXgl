@@ -313,8 +313,8 @@
 #define MENU_FRAME_HEIGHT			8		// Frame height
 #define MENU_CHAR_CLEAR				192		// Clear character
 #define MENU_CHAR_CURSOR			'^'		// Cursor character
-#define MENU_CHAR_TRUE				'O'		// True character
-#define MENU_CHAR_FALSE				'X'		// False character
+#define MENU_CHAR_TRUE				'#'		// True character
+#define MENU_CHAR_FALSE				'$'		// False character
 #define MENU_CHAR_LEFT				'<'		// Left edit character
 #define MENU_CHAR_RIGHT				'>'		// Right edit character
 #define MENU_TITLE_X				0		// Title position X

@@ -241,8 +241,8 @@ typedef struct
 // Pawn sprite flags
 enum PAWN_SPRITE_FLAG
 {
-	PAWN_SPRITE_FLIP = 0b00000001,
-	PAWN_SPRITE_OR   = 0b00000100,
+	PAWN_SPRITE_BLEND = 0b00000001,
+	PAWN_SPRITE_OR    = 0b00000100,
 };
 
 // Pawn structure
@@ -272,7 +272,7 @@ enum PAWN_UPDATE_FLAG
 	PAWN_UPDATE_COLLISION = 0b00010000,
 	PAWN_UPDATE_PHYSICS   = 0b00100000,
 	#endif
-	PAWN_UPDATE_7         = 0b01000000,
+	PAWN_UPDATE_BLEND     = 0b01000000,
 	PAWN_UPDATE_DISABLE   = 0b10000000,
 };
 
@@ -457,6 +457,14 @@ void Pawn_Update(Pawn* pawn);
 // Parameters:
 //   pawn - Address of game pawn structure to update (move, collision, etc.).
 inline void Pawn_SetDirty(Pawn* pawn) { pawn->Update |= (PAWN_UPDATE_PATTERN | PAWN_UPDATE_POSITION); }
+
+// Function: Pawn_SetColorBlend
+// Enable or disable sprite color blending effect.
+//
+// Parameters:
+//   pawn   - Address of game pawn structure to update (move, collision, etc.).
+//   enable - TRUE to enable color blending, FALSE to disable it.
+inline void Pawn_SetColorBlend(Pawn* pawn, bool enable) { if (enable) pawn->Update |= PAWN_UPDATE_BLEND; else pawn->Update &= ~PAWN_UPDATE_BLEND; }
 
 // Function: Pawn_Draw
 // Update rendering of the game pawn. Must be called once a frame.

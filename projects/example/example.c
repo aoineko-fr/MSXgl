@@ -58,7 +58,9 @@ enum MENU_PAGES
 {
 	MENU_MAIN = 0, // Main page
 	MENU_START,    // Start page
-	MENU_OPTIONS,  // Options page
+	MENU_OPTION,   // Options page
+	MENU_AUDIO,    // Audio options page
+	MENU_GRAPH,    // Graphical options page
 	MENU_CREDITS,  // Credits page
 	MENU_MAX,      // Number of menu
 };
@@ -152,7 +154,7 @@ const c8* MenuAction_Start(u8 op, i8 value);
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
 #include "content/data_sprt_player.h"
 #include "content/data_sprt_ball.h"
-#include "content/data_sprt_cloud.h"
+#include "content/data_sprt_extra.h"
 
 // Background by Yaz
 #include "content/data_bg2.h"
@@ -173,7 +175,7 @@ const Pawn_Sprite g_SpriteLayers[] =
 //    |  |  |  |  Layer's color
 //    |  |  |  |  |                Layer option
 	{ 4, 0, 0, 0, COLOR_LIGHT_RED, 0 },
-	{ 2, 0, 0, 4, COLOR_BLACK,     PAWN_SPRITE_FLIP }, // Only visible on even frame number
+	{ 2, 0, 0, 4, COLOR_BLACK,     PAWN_SPRITE_BLEND }, // Only visible on even frame number
 };
 
 // Idle animation frames
@@ -199,19 +201,20 @@ const Pawn_Frame g_FramesMove[] =
 // Jump animation frames
 const Pawn_Frame g_FramesJump[] =
 {
-	{ 5*12, 4, NULL },
+	{ 8*12, 4, NULL },
+	{ 3*12, 4, NULL },
 };
 
 // Fall animation frames
 const Pawn_Frame g_FramesFall[] =
 {
-	{ 6*12,	4, NULL },
+	{ 9*12,	4, NULL },
 };
 
 // 
 const Pawn_Frame g_FramesHit[] =
 {
-	{ 12*12, 10, NULL },
+	{ 12*12, 8, NULL },
 };
 
 // 
@@ -246,7 +249,7 @@ const Pawn_Action g_AnimActions[ACTION_PLAYER_MAX] =
 const Pawn_Sprite g_SpriteLayers2[] =
 {
 	{ 5, 0, 0, 0, COLOR_LIGHT_RED, 0 },
-	{ 3, 0, 0, 4, COLOR_BLACK, PAWN_SPRITE_FLIP },
+	{ 3, 0, 0, 4, COLOR_BLACK, PAWN_SPRITE_BLEND },
 };
 
 //.............................................................................
@@ -285,14 +288,14 @@ const Pawn_Action g_BallActions[ACTION_BALL_MAX] =
 // Clouds data
 const struct Cloud g_Cloud[] =
 {
-	{  30,  8,  80,  6, 0b00000111 },
-	{  46,  8,  88,  8, 0b00000111 },
-	{ 140, 20,  96, 10, 0b00001111 },
-	{ 156, 20, 104, 12, 0b00001111 },
-	{   4, 30,  96, 14, 0b00011111 },
-	{  20, 30, 104, 16, 0b00011111 },
-	{ 124, 37, 112, 18, 0b00111111 },
-	{ 248, 38, 112, 20, 0b00111111 },
+	{  30,  8,  80 + 64,  6, 0b00000111 },
+	{  46,  8,  88 + 64,  8, 0b00000111 },
+	{ 140, 20,  96 + 64, 10, 0b00001111 },
+	{ 156, 20, 104 + 64, 12, 0b00001111 },
+	{   4, 30,  96 + 64, 14, 0b00011111 },
+	{  20, 30, 104 + 64, 16, 0b00011111 },
+	{ 124, 37, 112 + 64, 18, 0b00111111 },
+	{ 248, 38, 120 + 64, 20, 0b01111111 },
 };
 
 
@@ -303,12 +306,10 @@ const struct Cloud g_Cloud[] =
 struct Character g_Player[2];
 struct Character g_Ball;
 
-// bool g_bFlicker = TRUE;
 u8   g_PrevRow3 = 0xFF;
 u8   g_PrevRow8 = 0xFF;
 
 i16  g_CloudX[numberof(g_Cloud)];
-u8   g_FrameCount = 0;
 u16  g_StateTimer = 0;
 
 u8   g_CollisionMap[32*24];
@@ -320,11 +321,11 @@ u8   g_Pass = 0;
 u8   g_LastTouch = 0;
 u8   g_Victorious = 0;
 
+// Options parameters
 struct Rule g_Rule = { 11, 1, 0 };
-
-bool g_OptMusic;
-bool g_OptSFX;
-bool g_OptBlend;
+bool g_OptMusic = TRUE;
+bool g_OptSFX = TRUE;
+bool g_OptBlend = TRUE;
 
 //.............................................................................
 // Menu
@@ -333,7 +334,7 @@ bool g_OptBlend;
 const MenuItem g_MenuMain[] =
 {
 	{ "GAME",                MENU_ITEM_GOTO, NULL, MENU_START },	// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
-	{ "OPTIONS",             MENU_ITEM_GOTO, NULL, MENU_OPTIONS },	// Entry to go to Option menu page
+	{ "OPTIONS",             MENU_ITEM_GOTO, NULL, MENU_OPTION },	// Entry to go to Option menu page
 	{ "CREDITS",             MENU_ITEM_GOTO, NULL, MENU_CREDITS },	// Entry to go to Option menu page
 	// { NULL,                  MENU_ITEM_EMPTY, NULL, 0 },			// Blank entry to create a gap
 	// { "EXIT",                MENU_ITEM_ACTION, NULL, NULL },			// Entry to exit the game (will trigger MenuAction_Start with value equal to '0')
@@ -347,7 +348,6 @@ MenuItem g_MenuStart[] =
 	{ "PLAYER2",             MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to center
 	{ "POINTS",              MENU_ITEM_INT, &g_Rule.GameScore, NULL },
 	{ "BOUNCES",             MENU_ITEM_INT, &g_Rule.MaxBounce, NULL },
-	{ "PASSES",              MENU_ITEM_INT, &g_Rule.MaxPass, NULL },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },               // Blank entry to create a gap
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },        // Entry to go back to the main menu
 };
@@ -355,13 +355,29 @@ MenuItem g_MenuStart[] =
 // 
 MenuItem g_MenuOptions[] =
 {
+	{ "AUDIO",               MENU_ITEM_GOTO, NULL, MENU_AUDIO },
+	{ "GRAPH",               MENU_ITEM_GOTO, NULL, MENU_GRAPH },
+	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
+	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
+};
+
+// 
+MenuItem g_MenuAudio[] =
+{
 	{ "MUSIC",               MENU_ITEM_BOOL, &g_OptMusic, NULL },
 	{ "SFX",                 MENU_ITEM_BOOL, &g_OptSFX, NULL },
+	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
+	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_OPTION },                // Entry to go back to the main menu
+};
+
+// 
+MenuItem g_MenuGraph[] =
+{
 	{ "COLOR BLEND",         MENU_ITEM_BOOL, &g_OptBlend, NULL },
 	{ "FREQ",                MENU_ITEM_TEXT, NULL, 0 },
 	{ "PALETTE",             MENU_ITEM_TEXT, NULL, 0 },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
-	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
+	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_OPTION },                // Entry to go back to the main menu
 };
 
 // 
@@ -382,7 +398,9 @@ const Menu g_Menus[MENU_MAX] =
 {
 	{ NULL,	g_MenuMain,    numberof(g_MenuMain),    NULL }, // MENU_MAIN
 	{ NULL,	g_MenuStart,   numberof(g_MenuStart),   NULL }, // MENU_START
-	{ NULL,	g_MenuOptions, numberof(g_MenuOptions), NULL }, // MENU_OPTIONS
+	{ NULL,	g_MenuOptions, numberof(g_MenuOptions), NULL }, // MENU_OPTION
+	{ NULL,	g_MenuAudio,   numberof(g_MenuAudio),   NULL }, // MENU_AUDIO
+	{ NULL,	g_MenuGraph,   numberof(g_MenuGraph),   NULL }, // MENU_GRAPH
 	{ NULL,	g_MenuCredits, numberof(g_MenuCredits), NULL }, // MENU_CREDITS
 };
 
@@ -587,6 +605,23 @@ bool PhysicsCollision(u8 tile)
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
+// 
+bool PressKey()
+{
+	if (Keyboard_IsKeyPressed(KEY_SPACE))
+		return TRUE;
+
+	if ((Joystick_Read(JOY_PORT_1) & JOY_INPUT_TRIGGER_A) == 0)
+		return TRUE;
+	
+	if ((Joystick_Read(JOY_PORT_2) & JOY_INPUT_TRIGGER_A) == 0)
+		return TRUE;
+		
+	return FALSE;
+}
+
+
+//-----------------------------------------------------------------------------
 // Draw the updated score
 void DrawScore()
 {
@@ -685,6 +720,7 @@ void InitPlayer(u8 id)
 		Pawn_SetSpriteFX(pawn, PAWN_SPRITE_FX_FLIP_X);
 	}
 	Pawn_SetPatternAddress(pawn, g_DataSprtLayer);
+	Pawn_SetColorBlend(pawn, g_OptBlend);
 
 	InitPlayerPosition(id);
 }
@@ -764,9 +800,9 @@ void UpdatePlayer(struct Character* ply)
 
 	// Update player animation & physics
 	u8 act = ACTION_PLAYER_IDLE;
-	if (ply->bInAir && (ply->VelocityY >= 0))
+	if (ply->bInAir && (ply->VelocityY < 0)) // Up
 		act = ACTION_PLAYER_JUMP;
-	else if (ply->bInAir)
+	else if (ply->bInAir) // Down
 		act = ACTION_PLAYER_FALL;
 	else if (ply->bMoving)
 		act = ACTION_PLAYER_MOVE;
@@ -864,7 +900,7 @@ void UpdateBall()
 void InitClouds()
 {
 	// Unpack sprite data to VRAM
-	Pletter_UnpackToVRAM(g_DataSprtCloud, VDP_GetSpritePatternTable() + 8 * 64);
+	Pletter_UnpackToVRAM(g_DataSprtExtra, VDP_GetSpritePatternTable() + 8 * 64);
 
 	// Initialize cloud sprites
 	loop(id, numberof(g_Cloud))
@@ -883,7 +919,7 @@ void InitClouds()
 // Update cloud sprites position
 void UpdateClouds()
 {
-	u8 frame = Game_GetFrame();
+	u8 frame = Game_GetFrameCount();
 	loop(id, numberof(g_Cloud))
 	{
 		const struct Cloud* cloud = &g_Cloud[id];
@@ -935,7 +971,7 @@ bool State_LogoUpdate()
 
 	bool bFinish = Logo_Update();
 
-	if (bFinish)
+	if (bFinish || PressKey())
 		Game_SetState(State_MenuInit);
 
 	return FALSE;
@@ -1051,9 +1087,6 @@ bool State_Game()
 	Pawn_Draw(&g_Ball.Pawn);
 	Pawn_Draw(&g_Player[0].Pawn);
 	Pawn_Draw(&g_Player[1].Pawn);
-	// Background horizon blink
-	// if (g_bFlicker)
-	// 	VDP_FillVRAM_16K(g_GameFrame & 1 ? 16 : 17, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
 
 	UpdatePlayer(&g_Player[0]);
 	UpdatePlayer(&g_Player[1]);
@@ -1080,9 +1113,6 @@ bool State_Game()
 	if (IS_KEY_PRESSED(row8, KEY_UP))
 		g_Player[1].Input |= INPUT_JUMP;
 	
-	// if (IS_KEY_PUSHED(row3, g_PrevRow3, KEY_I))
-	// 	g_bFlicker = 1 - g_bFlicker;
-
 	g_PrevRow3 = row3;
 	g_PrevRow8 = row8;
 
@@ -1108,8 +1138,6 @@ bool State_Game()
 		Game_SetState(State_MenuInit);
 	}
 
-	g_FrameCount++;
-
 // VDP_SetColor(COLOR_BLACK);
 
 	return TRUE; // Frame finished
@@ -1134,9 +1162,6 @@ bool State_Point()
 	Pawn_Draw(&g_Ball.Pawn);
 	Pawn_Draw(&g_Player[0].Pawn);
 	Pawn_Draw(&g_Player[1].Pawn);
-	// Background horizon blink
-	// if (g_bFlicker)
-	// 	VDP_FillVRAM_16K(g_GameFrame & 1 ? 16 : 17, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
 
 	Pawn_Update(&g_Ball.Pawn);
 	Pawn_Update(&g_Player[0].Pawn);
@@ -1144,14 +1169,12 @@ bool State_Point()
 	UpdateClouds();
 
 	g_StateTimer--;
-	if ((g_StateTimer == 0) || (Keyboard_IsKeyPressed(KEY_ESC)))
+	if ((g_StateTimer == 0) || PressKey())
 	{
 		VDP_SetColor(COLOR_BLACK);
 		Rules_ChangeField(1 - g_Victorious);
 		Game_SetState(State_KickOff);
 	}
-
-	g_FrameCount++;
 
 	return TRUE; // Frame finished
 }
@@ -1162,12 +1185,19 @@ bool State_VictoryInit()
 {
 	g_StateTimer = 500;
 
-	InitPlayerPosition(0);
-	InitPlayerPosition(1);
+	Pawn_SetPosition(&g_Player[0].Pawn, g_Player[0].Pawn.PositionX, 168);
+	Pawn_SetPosition(&g_Player[1].Pawn, g_Player[1].Pawn.PositionX, 168);
+
+	// Pawn_SetPosition(&g_Player[0].Pawn, 64, 168);
+	// Pawn_SetPosition(&g_Player[1].Pawn, (u8)(255 - 64 - 16), 168);
 
 	Pawn_SetEnable(&g_Ball.Pawn, FALSE);
-	Pawn_SetAction(&g_Player[g_Victorious].Pawn, ACTION_PLAYER_WIN);
 	Pawn_SetAction(&g_Player[1 - g_Victorious].Pawn, ACTION_PLAYER_LOOSE);
+
+	Pawn* winner = &g_Player[g_Victorious].Pawn;
+	Pawn_SetAction(winner, ACTION_PLAYER_WIN);
+	VDP_SetSpriteSM1(22, winner->PositionX, winner->PositionY - 24, 112, COLOR_LIGHT_RED);
+	VDP_SetSpriteSM1(23, winner->PositionX, winner->PositionY - 24, 116, COLOR_DARK_RED);
 
 	Game_SetState(State_VictoryUpdate);
 	return TRUE; // Frame finished
@@ -1182,21 +1212,26 @@ bool State_VictoryUpdate()
 	Pawn_Draw(&g_Player[0].Pawn);
 	Pawn_Draw(&g_Player[1].Pawn);
 
-	// Background horizon blink
-	// if (g_bFlicker)
-	// 	VDP_FillVRAM_16K(g_GameFrame & 1 ? 16 : 17, VDP_GetLayoutTable() + (HORIZON_H + 2) * 32, 32);
-
 	Pawn_Update(&g_Player[0].Pawn);
 	Pawn_Update(&g_Player[1].Pawn);
 	UpdateClouds();
+
+	if (Game_GetFrameCount() & 0b00010000)
+	{
+		VDP_SetSpritePositionY(22, g_Player[g_Victorious].Pawn.PositionY - 24);
+		VDP_SetSpritePositionY(23, g_Player[g_Victorious].Pawn.PositionY - 24);
+	}
+	else
+	{
+		VDP_HideSprite(22);
+		VDP_HideSprite(23);
+	}
 
 	g_StateTimer--;
 	if ((g_StateTimer == 0) || (Keyboard_IsKeyPressed(KEY_ESC)))
 	{
 		Game_SetState(State_MenuInit);
 	}
-
-	g_FrameCount++;
 
 	return TRUE; // Frame finished
 }
@@ -1209,6 +1244,7 @@ bool State_VictoryUpdate()
 // Programme entry point
 void main()
 {
+	Bios_SetKeyClick(FALSE);
 	Game_SetState(State_LogoInit);
 	Game_MainLoop(VDP_MODE_SCREEN2);
 }

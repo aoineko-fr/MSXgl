@@ -22,10 +22,10 @@ echo  Building ball data...
 	-l i16 0 0 1 1 0xCCC35E
 
 echo ----------------------------------------
-echo  Building cloud data...
-%MSXtk%\MSXimg.exe datasrc\img.png -out %Dest%\data_sprt_cloud.h -pos 128 128 -size 16 16 -num 7 1 -name g_DataSprtCloud -mode sprt -compress pletter ^
-	-l i16 0 0 1 1 0xCCCCCC ^
-	-l i16 0 0 1 1 0xFFFFFF 0xCCCCCC
+echo  Building extra sprite data...
+%MSXtk%\MSXimg.exe datasrc\img.png -out %Dest%\data_sprt_extra.h -pos 0 160 -size 16 16 -num 16 1 -name g_DataSprtExtra -mode sprt -compress pletter ^
+	-l i16 0 0 1 1 0x5955E0 ^
+	-l i16 0 0 1 1 0x8076F1 0x5955E0
 
 echo ----------------------------------------
 echo  Building background data...
@@ -36,10 +36,9 @@ echo  Building font data...
 %MSXtk%\MSXimg.exe datasrc\font.png -copy datasrc\gfx.txt -out %Dest%\data_font.h -pos 0 0 -size 8 8 -num 16 4 -trans 0x010101 -bpc 1 -name g_Font -font 8 8 0x20 _
 
 echo ----------------------------------------
-echo  Building font data...
+echo  Building Phenix Pixel logo data...
 %MSXtk%\MSXimg.exe datasrc\logo.png -out content\logo_tile.h -mode gm2 -compress pletter -name g_DataLogoTile -pos 0 0 -size 48 16 ^
 	-l gm2 0 16 32 32
-
 %MSXtk%\MSXimg.exe datasrc\logo.png -out content\logo_sprt.h -mode sprt -compress pletter -name g_DataLogoSprt -pos 0 48 -size 32 48 -num 1 1 ^
 	-l i16 0  8 2 2 0xFF897D ^
 	-l i16 0  0 2 1 0xB95E51 ^
