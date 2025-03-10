@@ -53,6 +53,13 @@
 #define HORIZON_H					11
 #define NET_H						7
 
+// VRAM Tables Address
+#define VRAM_PATTERN_TABLE			0x0000
+#define VRAM_COLOR_TABLE			0x2000
+#define VRAM_LAYOUT_TABLE			0x3800
+#define VRAM_SPRITE_PATTERN			0x1800
+#define VRAM_SPRITE_ATTRIBUTE		0x3E00
+
 // Index of all menu pages
 enum MENU_PAGES
 {
@@ -62,6 +69,7 @@ enum MENU_PAGES
 	MENU_AUDIO,    // Audio options page
 	MENU_GRAPH,    // Graphical options page
 	MENU_CREDITS,  // Credits page
+//.............................
 	MENU_MAX,      // Number of menu
 };
 
@@ -83,6 +91,7 @@ enum ACTION_PLAYER_ID
 	ACTION_PLAYER_HIT,
 	ACTION_PLAYER_WIN,
 	ACTION_PLAYER_LOOSE,
+//.............................
 	ACTION_PLAYER_MAX,
 };
 
@@ -91,7 +100,29 @@ enum ACTION_BALL_ID
 {
 	ACTION_BALL_IDLE = 0,
 	ACTION_BALL_BUMP,
+//.............................
 	ACTION_BALL_MAX,
+};
+
+// Palette enumaration
+enum PAL_ID
+{
+	PAL_CUSTOM = 0,
+	PAL_MSX1,
+	PAL_MSX2,
+	PAL_GRAY,
+//.............................
+	PAL_MAX,
+};
+
+// Frequence enumaration
+enum FREQ_MODE
+{
+	FREQ_AUTO,							// Use auto-detection
+	FREQ_60HZ,							// Force 60 Hz
+	FREQ_50HZ,							// Force 50 Hz
+//.............................
+	FREQ_MAX,
 };
 
 // Gameplay character stricture
@@ -112,9 +143,20 @@ struct Character
 // Gameplay rule structure
 struct Rule
 {
-	u8			GameScore;
+	u8			GamePoints;
 	u8			MaxBounce;
 	u8			MaxPass;
+};
+
+// Option data structure
+struct Option
+{
+	bool		Music;
+	bool		SFX;
+	bool		Blend; // Color blending
+	u8			Freq;
+	u8			Palette;
+	struct Rule	Rule;
 };
 
 // Cloud data structure
@@ -127,7 +169,7 @@ struct Cloud
 	u8			Mask;
 };
 
-// Prototypes
+// States prototype
 bool State_LogoInit();
 bool State_LogoUpdate();
 bool State_MenuInit();
@@ -141,8 +183,12 @@ bool State_VictoryInit();
 bool State_VictoryUpdate();
 
 void DrawScore();
+void ApplyPaletteOption();
+void ApplyFreqOption();
 
 const c8* MenuAction_Start(u8 op, i8 value);
+const c8* MenuAction_Freq(u8 op, i8 value);
+const c8* MenuAction_Palette(u8 op, i8 value);
 
 //=============================================================================
 // READ-ONLY DATA
@@ -298,37 +344,81 @@ const struct Cloud g_Cloud[] =
 	{ 248, 38, 120 + 64, 20, 0b01111111 },
 };
 
+// Custom palette
+const u16 g_CustomPalette[15] =
+{
+	RGB16(0, 0, 0), // black				RGB16(0, 0, 0),
+	RGB16(1, 5, 1), // medium green			RGB16(1, 5, 1),
+	RGB16(3, 6, 3), // light green			RGB16(3, 6, 3),
+	RGB16(2, 2, 6), // dark blue			RGB16(2, 2, 6),
+	RGB16(3, 3, 7), // light blue			RGB16(3, 3, 7),
+	RGB16(5, 2, 2), // dark red				RGB16(5, 2, 2),
+	RGB16(5, 5, 7), // *cyan				RGB16(2, 6, 7),
+	RGB16(6, 3, 3), // *medium red			RGB16(6, 2, 2),
+	RGB16(7, 4, 4), // *light red			RGB16(6, 3, 3),
+	RGB16(5, 5, 3), // *dark yellow			RGB16(5, 5, 2),
+	RGB16(6, 6, 4), // *light yellow		RGB16(6, 6, 3),
+	RGB16(1, 4, 1), // dark green			RGB16(1, 4, 1),
+	RGB16(5, 2, 4), // *magenta				RGB16(5, 2, 5),
+	RGB16(5, 5, 5), // gray					RGB16(5, 5, 5),
+	RGB16(7, 7, 7)  // white				RGB16(7, 7, 7) 
+};
+
+// Gray scale palette
+const u16 g_GrayPalette[15] =
+{
+	RGB16(0, 0, 0), // black				RGB16(0, 0, 0),
+	RGB16(3, 3, 3), // medium green			RGB16(1, 5, 1),
+	RGB16(6, 6, 6), // light green			RGB16(3, 6, 3),
+	RGB16(3, 3, 3), // dark blue			RGB16(2, 2, 6),
+	RGB16(4, 4, 4), // light blue			RGB16(3, 3, 7),
+	RGB16(2, 2, 2), // dark red				RGB16(5, 2, 2),
+	RGB16(6, 6, 6), // *cyan				RGB16(2, 6, 7),
+	RGB16(3, 3, 3), // *medium red			RGB16(6, 2, 2),
+	RGB16(4, 4, 4), // *light red			RGB16(6, 3, 3),
+	RGB16(4, 4, 4), // *dark yellow			RGB16(5, 5, 2),
+	RGB16(5, 5, 5), // *light yellow		RGB16(6, 6, 3),
+	RGB16(2, 2, 2), // dark green			RGB16(1, 4, 1),
+	RGB16(4, 4, 4), // *magenta				RGB16(5, 2, 5),
+	RGB16(4, 4, 4), // gray					RGB16(5, 5, 5),
+	RGB16(7, 7, 7)  // white				RGB16(7, 7, 7) 
+};
+
 
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
-struct Character g_Player[2];
-struct Character g_Ball;
-
 u8   g_PrevRow3 = 0xFF;
 u8   g_PrevRow8 = 0xFF;
 
-i16  g_CloudX[numberof(g_Cloud)];
 u16  g_StateTimer = 0;
+u8   g_VersionVDP;
+u8   g_Freq;
+u8   g_FreqDetected;
 
+// Characters
+struct Character g_Player[2];
+struct Character g_Ball;
 u8   g_CollisionMap[32*24];
 
+i16  g_CloudX[numberof(g_Cloud)];
+
+// Rules
 u8   g_Field = 0;
 u8   g_Bounce = 0;
 u8   g_Pass = 0;
-
 u8   g_LastTouch = 0;
 u8   g_Victorious = 0;
 
 // Options parameters
-struct Rule g_Rule = { 11, 1, 0 };
-bool g_OptMusic = TRUE;
-bool g_OptSFX = TRUE;
-bool g_OptBlend = TRUE;
+struct Option g_Option = { TRUE, TRUE, TRUE, 60, PAL_CUSTOM, { 11, 1, 0 } };
 
 //.............................................................................
 // Menu
+
+const MenuItemMinMax g_MenuPointsMinMax = { 1, 60, 1 };
+const MenuItemMinMax g_MenuBouncesMinMax =  { 0, 10, 1 };
 
 // Entries description for the Main menu
 const MenuItem g_MenuMain[] =
@@ -346,8 +436,8 @@ MenuItem g_MenuStart[] =
 	{ "START>",              MENU_ITEM_ACTION, MenuAction_Start, 0 }, // Entry to change the screen mode (will trigger MenuAction_Screen)
 	{ "PLAYER1",             MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to left
 	{ "PLAYER2",             MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to center
-	{ "POINTS",              MENU_ITEM_INT, &g_Rule.GameScore, NULL },
-	{ "BOUNCES",             MENU_ITEM_INT, &g_Rule.MaxBounce, NULL },
+	{ "POINTS",              MENU_ITEM_INT, &g_Option.Rule.GamePoints, (i16)&g_MenuPointsMinMax },
+	{ "BOUNCES",             MENU_ITEM_INT, &g_Option.Rule.MaxBounce, (i16)&g_MenuBouncesMinMax },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },               // Blank entry to create a gap
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },        // Entry to go back to the main menu
 };
@@ -364,8 +454,8 @@ MenuItem g_MenuOptions[] =
 // 
 MenuItem g_MenuAudio[] =
 {
-	{ "MUSIC",               MENU_ITEM_BOOL, &g_OptMusic, NULL },
-	{ "SFX",                 MENU_ITEM_BOOL, &g_OptSFX, NULL },
+	{ "MUSIC",               MENU_ITEM_BOOL, &g_Option.Music, NULL },
+	{ "SFX",                 MENU_ITEM_BOOL, &g_Option.SFX, NULL },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_OPTION },                // Entry to go back to the main menu
 };
@@ -373,9 +463,9 @@ MenuItem g_MenuAudio[] =
 // 
 MenuItem g_MenuGraph[] =
 {
-	{ "COLOR BLEND",         MENU_ITEM_BOOL, &g_OptBlend, NULL },
-	{ "FREQ",                MENU_ITEM_TEXT, NULL, 0 },
-	{ "PALETTE",             MENU_ITEM_TEXT, NULL, 0 },
+	{ "COLOR BLEND",         MENU_ITEM_BOOL, &g_Option.Blend, NULL },
+	{ "FREQ",                MENU_ITEM_ACTION, MenuAction_Freq, 0 },
+	{ "PALETTE",             MENU_ITEM_ACTION, MenuAction_Palette, 0 },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_OPTION },                // Entry to go back to the main menu
 };
@@ -443,6 +533,73 @@ const c8* MenuAction_Start(u8 op, i8 value)
 }
 
 //-----------------------------------------------------------------------------
+//
+const c8* MenuAction_Freq(u8 op, i8 value)
+{
+	value;
+	switch(op)
+	{
+	case MENU_ACTION_SET:
+	case MENU_ACTION_INC:
+		g_Option.Freq = (g_Option.Freq + 1) % FREQ_MAX;
+		break;
+	case MENU_ACTION_DEC:
+		g_Option.Freq = (g_Option.Freq + (FREQ_MAX - 1)) % FREQ_MAX;
+		break;
+	}
+
+	ApplyFreqOption();
+	if (g_Option.Freq == FREQ_60HZ) 
+		return "60HZ";
+	else if (g_Option.Freq == FREQ_50HZ)
+		return "50HZ";
+	else //if (g_Option.Freq == FREQ_AUTO) 
+	{
+		if (g_Freq == FREQ_50HZ)
+			return "AUTO (50HZ)";
+		else
+			return "AUTO (60HZ)";
+	}
+
+	return NULL;
+}
+
+//-----------------------------------------------------------------------------
+//
+const c8* MenuAction_Palette(u8 op, i8 value)
+{
+	value;
+	if (g_VersionVDP == VDP_VERSION_TMS9918A)
+		return "(FOR MSX2)";
+
+	switch(op)
+	{
+	case MENU_ACTION_SET:
+	case MENU_ACTION_INC:
+		g_Option.Palette = (g_Option.Palette + 1) % PAL_MAX;
+		break;
+	case MENU_ACTION_DEC:
+		g_Option.Palette = (g_Option.Palette + (PAL_MAX - 1)) % PAL_MAX;
+		break;
+	}
+
+	ApplyPaletteOption();
+	switch(g_Option.Palette)
+	{
+	case PAL_CUSTOM:
+		return "CUSTOM";
+	case PAL_MSX1: 
+		return "MSX1";
+	case PAL_MSX2: 
+		return "MSX2";
+	case PAL_GRAY:
+		return "GRAY";
+	}
+
+	return NULL;
+}
+
+//-----------------------------------------------------------------------------
 // RULES
 //-----------------------------------------------------------------------------
 
@@ -471,7 +628,7 @@ void Rules_Score(u8 ply)
 {
 	g_Victorious = ply;
 	g_Player[ply].Score++;
-	if ((g_Player[ply].Score >= g_Rule.GameScore) && (g_Player[ply].Score > g_Player[1 - ply].Score + 1))
+	if ((g_Player[ply].Score >= g_Option.Rule.GamePoints) && (g_Player[ply].Score > g_Player[1 - ply].Score + 1))
 	{
 		Game_SetState(State_VictoryInit);
 	}
@@ -489,7 +646,7 @@ void Rules_Score(u8 ply)
 void Rules_Bounce()
 {
 	g_Bounce++;
-	if ((g_Rule.MaxBounce != 0xFF) && (g_Bounce > g_Rule.MaxBounce))
+	if ((g_Option.Rule.MaxBounce != 0xFF) && (g_Bounce > g_Option.Rule.MaxBounce))
 		Rules_Score(1 - g_Field);
 	g_LastTouch = g_Field;
 }
@@ -499,7 +656,7 @@ void Rules_Bounce()
 void Rules_Pass()
 {
 	g_Pass++;
-	if ((g_Rule.MaxPass != 0) && (g_Pass > g_Rule.MaxPass))
+	if ((g_Option.Rule.MaxPass != 0) && (g_Pass > g_Option.Rule.MaxPass))
 		Rules_Score(1 - g_Field);
 	g_LastTouch = g_Field;
 }
@@ -620,6 +777,58 @@ bool PressKey()
 	return FALSE;
 }
 
+//-----------------------------------------------------------------------------
+//
+void ApplyPaletteOption()
+{
+	switch(g_Option.Palette)
+	{
+	case PAL_CUSTOM:
+		VDP_SetPalette((u8*)g_CustomPalette);
+		return;
+	case PAL_MSX1: 
+		VDP_SetMSX1Palette();
+		return;
+	case PAL_MSX2: 
+		VDP_SetDefaultPalette();
+		return;
+	case PAL_GRAY:
+		VDP_SetPalette((u8*)g_GrayPalette);
+		return;
+	}
+}
+
+//-----------------------------------------------------------------------------
+//
+void ApplyFreqOption()
+{
+	if (g_Option.Freq == FREQ_60HZ) 
+		g_Freq = FREQ_60HZ;
+	else if (g_Option.Freq == FREQ_50HZ)
+		g_Freq = FREQ_50HZ;
+	else
+		g_Freq = g_FreqDetected;
+}
+
+//-----------------------------------------------------------------------------
+// 
+void SetSprite(u8 idx, u8 x, u8 y, u8 shape, u8 color)
+{
+	// if (g_VersionVDP == VDP_VERSION_TMS9918A)
+		VDP_SetSpriteSM1(idx, x, y, shape, color);
+	// else
+	// 	VDP_SetSpriteExUniColor(idx, x, y, shape, color);
+}
+
+//-----------------------------------------------------------------------------
+// 
+void SetSpriteColor(u8 idx, u8 color)
+{
+	// if (g_VersionVDP == VDP_VERSION_TMS9918A)
+		VDP_SetSpriteColorSM1(idx, color);
+	// else
+	// 	VDP_SetSpriteUniColor(idx, color);
+}
 
 //-----------------------------------------------------------------------------
 // Draw the updated score
@@ -720,7 +929,7 @@ void InitPlayer(u8 id)
 		Pawn_SetSpriteFX(pawn, PAWN_SPRITE_FX_FLIP_X);
 	}
 	Pawn_SetPatternAddress(pawn, g_DataSprtLayer);
-	Pawn_SetColorBlend(pawn, g_OptBlend);
+	Pawn_SetColorBlend(pawn, g_Option.Blend);
 
 	InitPlayerPosition(id);
 }
@@ -909,8 +1118,8 @@ void InitClouds()
 	
 		u8 sprt = cloud->Sprite;
 		u8 pat = cloud->Pattern;
-		VDP_SetSpriteSM1(sprt++, cloud->X, cloud->Y, pat + 0, COLOR_GRAY);
-		VDP_SetSpriteSM1(sprt,   cloud->X, cloud->Y, pat + 4, COLOR_WHITE);
+		SetSprite(sprt++, cloud->X, cloud->Y, pat + 0, COLOR_GRAY);
+		SetSprite(sprt,   cloud->X, cloud->Y, pat + 4, COLOR_WHITE);
 		g_CloudX[id] = cloud->X;
 	}
 }
@@ -932,15 +1141,15 @@ void UpdateClouds()
 		if (g_CloudX[id] == -16)
 		{
 			u8 sprt = cloud->Sprite;
-			VDP_SetSpriteColorSM1(sprt++, COLOR_GRAY);
-			VDP_SetSpriteColorSM1(sprt,   COLOR_WHITE);
+			SetSpriteColor(sprt++, COLOR_GRAY);
+			SetSpriteColor(sprt,   COLOR_WHITE);
 			x = g_CloudX[id] = 255;
 		}
 		else if (g_CloudX[id] < 0)
 		{
 			u8 sprt = cloud->Sprite;
-			VDP_SetSpriteColorSM1(sprt++, VDP_SPRITE_EC | COLOR_GRAY);
-			VDP_SetSpriteColorSM1(sprt,   VDP_SPRITE_EC | COLOR_WHITE);
+			SetSpriteColor(sprt++, VDP_SPRITE_EC | COLOR_GRAY);
+			SetSpriteColor(sprt,   VDP_SPRITE_EC | COLOR_WHITE);
 			x = g_CloudX[id] + 32;
 		}
 
@@ -982,9 +1191,17 @@ bool State_LogoUpdate()
 bool State_MenuInit()
 {
 	// Initialize display
+	// VDP_SetMode((g_VersionVDP == VDP_VERSION_TMS9918A) ? VDP_MODE_SCREEN2 : VDP_MODE_SCREEN4);
 	VDP_EnableDisplay(FALSE);
 	VDP_SetColor(COLOR_BLACK);
 	VDP_ClearVRAM();
+
+	// Setup VRAM tables
+	// VDP_SetPatternTable(VRAM_PATTERN_TABLE);
+	// VDP_SetColorTable(VRAM_COLOR_TABLE);
+	// VDP_SetLayoutTable(VRAM_LAYOUT_TABLE);
+	// VDP_SetSpritePatternTable(VRAM_SPRITE_PATTERN);
+	// VDP_SetSpriteAttributeTable(VRAM_SPRITE_ATTRIBUTE);
 
 	// Draw background
 	DrawLevel();
@@ -1196,8 +1413,8 @@ bool State_VictoryInit()
 
 	Pawn* winner = &g_Player[g_Victorious].Pawn;
 	Pawn_SetAction(winner, ACTION_PLAYER_WIN);
-	VDP_SetSpriteSM1(22, winner->PositionX, winner->PositionY - 24, 112, COLOR_LIGHT_RED);
-	VDP_SetSpriteSM1(23, winner->PositionX, winner->PositionY - 24, 116, COLOR_DARK_RED);
+	SetSprite(22, winner->PositionX, winner->PositionY - 24, 112, COLOR_LIGHT_RED);
+	SetSprite(23, winner->PositionX, winner->PositionY - 24, 116, COLOR_DARK_RED);
 
 	Game_SetState(State_VictoryUpdate);
 	return TRUE; // Frame finished
@@ -1245,6 +1462,26 @@ bool State_VictoryUpdate()
 void main()
 {
 	Bios_SetKeyClick(FALSE);
+
+	// Get VDP version
+	if (Keyboard_IsKeyPressed(KEY_1))
+		g_VersionVDP = VDP_VERSION_TMS9918A;
+	else if (Keyboard_IsKeyPressed(KEY_2))
+		g_VersionVDP = VDP_VERSION_V9938;
+	else
+		g_VersionVDP = VDP_GetVersion();
+
+	// Initialize palette
+	if (g_VersionVDP > VDP_VERSION_TMS9918A)
+		ApplyPaletteOption();
+
+	// // Initialize frequency
+	// if (g_VersionROM & 0x80)
+	// 	g_FreqDetected = FREQ_50HZ;
+	// else
+	// 	g_FreqDetected = FREQ_60HZ;
+	// g_Freq = g_FreqDetected;
+
 	Game_SetState(State_LogoInit);
 	Game_MainLoop(VDP_MODE_SCREEN2);
 }

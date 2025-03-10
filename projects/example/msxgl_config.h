@@ -85,7 +85,7 @@
 #define VDP_USE_MODE_G2				TRUE	// MSX1		Screen 2
 #define VDP_USE_MODE_MC				FALSE	// MSX1		Screen 3
 #define VDP_USE_MODE_T2				FALSE	// MSX2		Screen 0 Width 80
-#define VDP_USE_MODE_G3				FALSE	// MSX2		Screen 4
+#define VDP_USE_MODE_G3				TRUE	// MSX2		Screen 4
 #define VDP_USE_MODE_G4				FALSE	// MSX2		Screen 5
 #define VDP_USE_MODE_G5				FALSE	// MSX2		Screen 6
 #define VDP_USE_MODE_G6				FALSE	// MSX2		Screen 7
@@ -98,8 +98,8 @@
 #define VDP_AUTO_INIT				TRUE	// Call VDP_Initialize() at the first call to VDP_SetMode()
 #define VDP_USE_UNDOCUMENTED		FALSE	// Allow the use of undocumented screen mode (WIP)
 #define VDP_USE_VALIDATOR			TRUE	// Handle some option specific for each VDP mode (highly recommended)
-#define VDP_USE_DEFAULT_PALETTE		FALSE	// Add data for default MSX2 palette
-#define VDP_USE_MSX1_PALETTE		FALSE	// Add data for default MSX1 palette
+#define VDP_USE_DEFAULT_PALETTE		TRUE	// Add data for default MSX2 palette
+#define VDP_USE_MSX1_PALETTE		TRUE	// Add data for default MSX1 palette
 #define VDP_USE_DEFAULT_SETTINGS	TRUE	// Auto-initialization of common VDP feature
 #define VDP_USE_16X16_SPRITE		TRUE	// Use 16x16 sprites mode
 #define VDP_USE_RESTORE_S0			TRUE	// Do restore of status register pointer to S#0 (needed onlt for default BIOS ISR)
@@ -116,7 +116,7 @@
 // - VDP_INIT_ON .................. Force option to be enable
 // - VDP_INIT_AUTO ................ Determining the best value for the context
 // - VDP_INIT_DEFAULT ............. Keep default value
-#define VDP_INIT_50HZ				VDP_INIT_ON
+#define VDP_INIT_50HZ				VDP_INIT_DEFAULT
 
 //-----------------------------------------------------------------------------
 // V9990  MODULE
@@ -208,7 +208,7 @@
 #define PRINT_USE_FX_SHADOW			FALSE	// [Bitmap] Allow use of text shadow
 #define PRINT_USE_FX_OUTLINE		FALSE	// [Bitmap] Allow use of text outline
 #define PRINT_USE_2_PASS_FX			FALSE	// [Bitmap] Allow use 2-pass FX render to prevent character overlap
-#define PRINT_USE_GRAPH				TRUE	// Allow use of character lines and boxes
+#define PRINT_USE_GRAPH				FALSE	// Allow use of character lines and boxes
 #define PRINT_USE_VALIDATOR			FALSE	// Add validator character code
 #define PRINT_USE_UNIT				FALSE	// Display integer type (h: hexadecimal, b: binary)
 #define PRINT_USE_FORMAT			FALSE	// Add printf type function
@@ -400,8 +400,8 @@
 // - PSG_INDIRECT ................. Function set a buffer (Apply() function must be call once a frame)
 #define PSG_ACCESS					PSG_INDIRECT
 #define PSG_USE_NOTES				FALSE	// Add notes table to convert note to tone
-#define PSG_USE_EXTRA				TRUE	// Add helper functions to handle PSG settings
-#define PSG_USE_RESUME				TRUE	// Add function to allow playback pause and resume
+#define PSG_USE_EXTRA				FALSE	// Add helper functions to handle PSG settings
+#define PSG_USE_RESUME				FALSE	// Add function to allow playback pause and resume
 
 // MSX-Music options
 #define MSXAUDIO_USE_RESUME			TRUE	// Add function to allow playback pause and resume
@@ -589,7 +589,7 @@
 #define QRCODE_TINY_MASK 			QRCODE_MASK_0
 
 //-----------------------------------------------------------------------------
-// DEBUG
+// DEBUG & PROFILE
 //-----------------------------------------------------------------------------
 
 // Debugger options
