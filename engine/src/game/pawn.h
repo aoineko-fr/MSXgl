@@ -396,8 +396,28 @@ void Pawn_Initialize(Pawn* pawn, const Pawn_Sprite* sprtList, u8 sprtNum, u8 spr
 //   y    - New Y coordinate (in pixels).
 void Pawn_SetPosition(Pawn* pawn, u8 x, u8 y);
 
+// Function: Pawn_GetPositionX
+// Get the X coordinate of the pawn's position.
+//
+// Parameters:
+//   pawn - Pointer to pawn structure.
+//
+// Return:
+//   X coordinate of the pawn's position.
+inline u8 Pawn_GetPositionX(Pawn* pawn) { return pawn->PositionX; }
+
+// Function: Pawn_GetPositionY
+// Get the Y coordinate of the pawn's position.
+//
+// Parameters:
+//   pawn - Pointer to pawn structure.
+//
+// Return:
+//   Y coordinate of the pawn's position.
+inline u8 Pawn_GetPositionY(Pawn* pawn) { return pawn->PositionY; }
+
 // Function: Pawn_ForceSetAction
-// Force to set game pawn action id
+// Force to set game pawn action id.
 //
 // Parameters:
 //   pawn - Address of game pawn structure to setup.
@@ -411,6 +431,23 @@ void Pawn_ForceSetAction(Pawn* pawn, u8 id);
 //   pawn - Address of game pawn structure to setup.
 //   id   - New action index.
 void Pawn_SetAction(Pawn* pawn, u8 id);
+
+// Function: Pawn_RestartAction
+// Restart the current action.
+//
+// Parameters:
+//   pawn - Address of game pawn structure to setup.
+inline void Pawn_RestartAction(Game_Pawn* pawn) { pawn->AnimTimer = 0; pawn->AnimStep = 0; pawn->Update |= PAWN_UPDATE_PATTERN; }
+
+// Function: Pawn_GetAction
+// Get the current action ID of the pawn.
+//
+// Parameters:
+//   pawn - Pointer to pawn structure.
+//
+// Return:
+//   Current action ID of the pawn.
+inline u8 Pawn_GetAction(Pawn* pawn) { return pawn->ActionId; }
 
 #if (PAWN_TILEMAP_SRC == PAWN_TILEMAP_SRC_RAM)
 // Function: Pawn_SetTileMap
@@ -472,6 +509,7 @@ inline void Pawn_SetColorBlend(Pawn* pawn, bool enable) { if (enable) pawn->Upda
 // Parameters:
 //   pawn - Address of game pawn structure to draw.
 void Pawn_Draw(Pawn* pawn);
+
 
 #if (PAWN_USE_RT_LOAD)
 // Function: Pawn_SetPatternAddress

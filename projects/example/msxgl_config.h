@@ -319,12 +319,12 @@
 #define MENU_CHAR_RIGHT				'>'		// Right edit character
 #define MENU_TITLE_X				0		// Title position X
 #define MENU_TITLE_Y				0		// Title position Y
-#define MENU_ITEM_X					8		// Item label X position
+#define MENU_ITEM_X					9		// Item label X position
 #define MENU_ITEM_Y					15		// Item label X position
-#define MENU_ITEM_X_GOTO			8		// Goto type item label X position
+#define MENU_ITEM_X_GOTO			9		// Goto type item label X position
 #define MENU_ITEM_ALIGN				MENU_ITEM_ALIGN_LEFT // Item label alignment
 #define MENU_ITEM_ALIGN_GOTO		MENU_ITEM_ALIGN_LEFT // Goto type item label alignment
-#define MENU_VALUE_X				20		// Item value X position
+#define MENU_VALUE_X				18		// Item value X position
 // Type of cursor
 // - MENU_CURSOR_MODE_NONE ........ No cursor
 // - MENU_CURSOR_MODE_CHAR ........ Character cursor

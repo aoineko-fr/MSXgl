@@ -463,7 +463,7 @@ MenuItem g_MenuAudio[] =
 // 
 MenuItem g_MenuGraph[] =
 {
-	{ "COLOR BLEND",         MENU_ITEM_BOOL, &g_Option.Blend, NULL },
+	{ "BLEND",               MENU_ITEM_BOOL, &g_Option.Blend, NULL },
 	{ "FREQ",                MENU_ITEM_ACTION, MenuAction_Freq, 0 },
 	{ "PALETTE",             MENU_ITEM_ACTION, MenuAction_Palette, 0 },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
@@ -556,9 +556,9 @@ const c8* MenuAction_Freq(u8 op, i8 value)
 	else //if (g_Option.Freq == FREQ_AUTO) 
 	{
 		if (g_Freq == FREQ_50HZ)
-			return "AUTO (50HZ)";
+			return "AUTO:50HZ";
 		else
-			return "AUTO (60HZ)";
+			return "AUTO:60HZ";
 	}
 
 	return NULL;
@@ -570,7 +570,7 @@ const c8* MenuAction_Palette(u8 op, i8 value)
 {
 	value;
 	if (g_VersionVDP == VDP_VERSION_TMS9918A)
-		return "(FOR MSX2)";
+		return "MSX2 ONLY";
 
 	switch(op)
 	{
@@ -1475,12 +1475,13 @@ void main()
 	if (g_VersionVDP > VDP_VERSION_TMS9918A)
 		ApplyPaletteOption();
 
-	// // Initialize frequency
-	// if (g_VersionROM & 0x80)
-	// 	g_FreqDetected = FREQ_50HZ;
-	// else
-	// 	g_FreqDetected = FREQ_60HZ;
-	// g_Freq = g_FreqDetected;
+	// Initialize frequency
+	if (Sys_GetBASICVersion() & 0x80)
+		g_FreqDetected = FREQ_50HZ;
+	else
+		g_FreqDetected = FREQ_60HZ;
+	g_Option.Freq = g_FreqDetected;
+	ApplyFreqOption();
 
 	Game_SetState(State_LogoInit);
 	Game_MainLoop(VDP_MODE_SCREEN2);

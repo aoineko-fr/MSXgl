@@ -15,6 +15,7 @@
 #include "system_port.h"
 #include "asm.h"
 #include "bios_var.h"
+#include "bios_mainrom.h"
 
 //=============================================================================
 // DEFINES
@@ -138,6 +139,35 @@ inline void DisableInterrupt() { __asm__("di"); }
 // Function: Halt
 // Pause the CPU until a new interruption occured
 inline void Halt() { __asm__("halt"); }
+
+//-----------------------------------------------------------------------------
+// Group: Information
+
+#if ((TARGET_TYPE == TYPE_ROM) && GET_TARGET_ISR(TARGET))
+
+// Function: Sys_GetBasicVersion
+// Get the BASIC ROM version
+//
+// Return:
+//   The BASIC ROM version
+inline u8 Sys_GetBASICVersion() { return g_VersionROM; }
+
+// Function: Sys_GetMSXVersion
+// Get the MSX version
+//
+// Return:
+//   The MSX version (0 = MSX1, 1 = MSX2, 2 = MSX2+, 3 = MSX turbo R)
+inline u8 Sys_GetMSXVersion() { return g_VersionMSX; } 
+
+#else
+
+// Get the BASIC ROM version
+inline u8 Sys_GetBASICVersion() { return g_BASRVN[0]; }
+
+// Get the MSX version
+inline u8 Sys_GetMSXVersion() { return g_MSXVER; } 
+
+#endif
 
 //-----------------------------------------------------------------------------
 // Group: Call
