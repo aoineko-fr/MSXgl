@@ -10,12 +10,12 @@
 #include "game/pawn.h"
 #include "vdp.h"
 #include "memory.h"
-#if ((PAWN_TILEMAP_SRC == PAWN_TILEMAP_SRC_V9) || (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P2))
+// #if ((PAWN_TILEMAP_SRC == PAWN_TILEMAP_SRC_V9) || (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P2))
 #include "v9990.h"
-#endif
-#if (PAWN_USE_RT_LOAD && PAWN_USE_SPRT_FX)
+// #endif
+// #if (PAWN_USE_RT_LOAD && PAWN_USE_SPRT_FX)
 #include "sprite_fx.h"
-#endif
+// #endif
 
 //=============================================================================
 // DEFINES
@@ -154,9 +154,14 @@ void PawnSprite_Initialize(u8 sprtIdx)
 	if ((g_Pawn_Sprite->Flag & PAWN_SPRITE_OR) != 0)
 		color |= VDP_SPRITE_CC;
 
-	#if (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1)
+	#if (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX12)
+	if (VDP_GetMode() < VDP_MODE_MSX2)
+		VDP_SetSpriteColorSM1(sprtIdx, color);
+	else
+		VDP_SetSpriteUniColor(sprtIdx, color);
+	#elif (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1)
 	VDP_SetSpriteColorSM1(sprtIdx, color);
-	#else
+	#else // (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2)
 	VDP_SetSpriteUniColor(sprtIdx, color);
 	#endif
 
@@ -584,7 +589,7 @@ inline void Pawn_Draw_V9()
 }
 #endif // ((PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P2))
 
-#if ((PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2))
+#if ((PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX12))
 
 u8 g_Pawn_FrameOffset;
 
@@ -661,7 +666,7 @@ inline void Pawn_Draw_Sprite()
 		g_Pawn_Sprite++;
 	}
 }
-#endif // ((PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2))
+#endif // ((PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX12))
 
 //-----------------------------------------------------------------------------
 // Update rendering of the game pawn
@@ -677,7 +682,7 @@ void Pawn_Draw(Pawn* pawn)
 
 #if ((PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P2))
 	Pawn_Draw_V9();
-#elif ((PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2))
+#elif ((PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX12))
 	Pawn_Draw_Sprite();
 #endif
 

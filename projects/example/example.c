@@ -430,7 +430,7 @@ const MenuItem g_MenuMain[] =
 	// { "EXIT",                MENU_ITEM_ACTION, NULL, NULL },			// Entry to exit the game (will trigger MenuAction_Start with value equal to '0')
 };
 
-// 
+// Entries description for the Start menu
 MenuItem g_MenuStart[] =
 {
 	{ "START>",              MENU_ITEM_ACTION, MenuAction_Start, 0 }, // Entry to change the screen mode (will trigger MenuAction_Screen)
@@ -442,7 +442,7 @@ MenuItem g_MenuStart[] =
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },        // Entry to go back to the main menu
 };
 
-// 
+// Entries description for the Option menu
 MenuItem g_MenuOptions[] =
 {
 	{ "AUDIO",               MENU_ITEM_GOTO, NULL, MENU_AUDIO },
@@ -451,7 +451,7 @@ MenuItem g_MenuOptions[] =
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
 };
 
-// 
+// Entries description for the Audio options menu
 MenuItem g_MenuAudio[] =
 {
 	{ "MUSIC",               MENU_ITEM_BOOL, &g_Option.Music, NULL },
@@ -460,7 +460,7 @@ MenuItem g_MenuAudio[] =
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_OPTION },                // Entry to go back to the main menu
 };
 
-// 
+// Entries description for the Graphical options menu
 MenuItem g_MenuGraph[] =
 {
 	{ "BLEND",               MENU_ITEM_BOOL, &g_Option.Blend, NULL },
@@ -470,7 +470,7 @@ MenuItem g_MenuGraph[] =
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_OPTION },                // Entry to go back to the main menu
 };
 
-// 
+// Entries description for the Credits menu
 MenuItem g_MenuCredits[] =
 {
 	{ "CODE    AOINEKO",     MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to left
@@ -494,7 +494,7 @@ const Menu g_Menus[MENU_MAX] =
 	{ NULL,	g_MenuCredits, numberof(g_MenuCredits), NULL }, // MENU_CREDITS
 };
 
-//
+// GM2 font color (1 color per line)
 const u8 g_FontColor[8] =
 {
 	COLOR_MERGE(COLOR_LIGHT_RED, COLOR_WHITE),
@@ -516,7 +516,7 @@ const u8 g_FontColor[8] =
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-//
+// Callback to handle game start
 const c8* MenuAction_Start(u8 op, i8 value)
 {
 	value;
@@ -533,7 +533,7 @@ const c8* MenuAction_Start(u8 op, i8 value)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Callback to handle frequency change
 const c8* MenuAction_Freq(u8 op, i8 value)
 {
 	value;
@@ -565,7 +565,7 @@ const c8* MenuAction_Freq(u8 op, i8 value)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Callback to handle palette change
 const c8* MenuAction_Palette(u8 op, i8 value)
 {
 	value;
@@ -762,7 +762,7 @@ bool PhysicsCollision(u8 tile)
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// 
+// Check key press
 bool PressKey()
 {
 	if (Keyboard_IsKeyPressed(KEY_SPACE))
@@ -778,7 +778,7 @@ bool PressKey()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Apply palette option (for MSX2)
 void ApplyPaletteOption()
 {
 	switch(g_Option.Palette)
@@ -799,7 +799,7 @@ void ApplyPaletteOption()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Apply frequency option
 void ApplyFreqOption()
 {
 	if (g_Option.Freq == FREQ_60HZ) 
@@ -811,23 +811,23 @@ void ApplyFreqOption()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Initialize sprite according to sprite model
 void SetSprite(u8 idx, u8 x, u8 y, u8 shape, u8 color)
 {
-	// if (g_VersionVDP == VDP_VERSION_TMS9918A)
+	if (g_VersionVDP == VDP_VERSION_TMS9918A)
 		VDP_SetSpriteSM1(idx, x, y, shape, color);
-	// else
-	// 	VDP_SetSpriteExUniColor(idx, x, y, shape, color);
+	else
+		VDP_SetSpriteExUniColor(idx, x, y, shape, color);
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Set sprite color
 void SetSpriteColor(u8 idx, u8 color)
 {
-	// if (g_VersionVDP == VDP_VERSION_TMS9918A)
+	if (g_VersionVDP == VDP_VERSION_TMS9918A)
 		VDP_SetSpriteColorSM1(idx, color);
-	// else
-	// 	VDP_SetSpriteUniColor(idx, color);
+	else
+		VDP_SetSpriteUniColor(idx, color);
 }
 
 //-----------------------------------------------------------------------------
@@ -857,7 +857,7 @@ void Pletter_LoadGM2(const u8* src, u16 dst)
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Initialize collision map
 void CollisionInit()
 {
 	Mem_Set(0, g_CollisionMap, sizeof(g_CollisionMap));
@@ -884,13 +884,6 @@ void DrawLevel()
 	Pletter_LoadGM2(g_DataBackground_Patterns, VDP_GetPatternTable());
 	Pletter_LoadGM2(g_DataBackground_Colors, VDP_GetColorTable());
 	Pletter_UnpackToVRAM(g_DataBackground_Names, VDP_GetLayoutTable());
-}
-
-//-----------------------------------------------------------------------------
-//
-bool Logo_Skip()
-{
-	return FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -1164,7 +1157,7 @@ void UpdateClouds()
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-//
+// Logo initialization state
 bool State_LogoInit()
 {
 	Logo_Initialize();
@@ -1173,7 +1166,7 @@ bool State_LogoInit()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Logo update state
 bool State_LogoUpdate()
 {
 	Halt();
@@ -1187,28 +1180,30 @@ bool State_LogoUpdate()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Menu initialization state
 bool State_MenuInit()
 {
 	// Initialize display
-	// VDP_SetMode((g_VersionVDP == VDP_VERSION_TMS9918A) ? VDP_MODE_SCREEN2 : VDP_MODE_SCREEN4);
+	VDP_SetMode((g_VersionVDP == VDP_VERSION_TMS9918A) ? VDP_MODE_SCREEN2 : VDP_MODE_SCREEN4);
 	VDP_EnableDisplay(FALSE);
 	VDP_SetColor(COLOR_BLACK);
 	VDP_ClearVRAM();
+	VDP_RegWrite(14, 0);
+	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
+	VDP_HideAllSprites();
 
 	// Setup VRAM tables
-	// VDP_SetPatternTable(VRAM_PATTERN_TABLE);
-	// VDP_SetColorTable(VRAM_COLOR_TABLE);
-	// VDP_SetLayoutTable(VRAM_LAYOUT_TABLE);
-	// VDP_SetSpritePatternTable(VRAM_SPRITE_PATTERN);
-	// VDP_SetSpriteAttributeTable(VRAM_SPRITE_ATTRIBUTE);
+	VDP_SetPatternTable(VRAM_PATTERN_TABLE);
+	VDP_SetColorTable(VRAM_COLOR_TABLE);
+	VDP_SetLayoutTable(VRAM_LAYOUT_TABLE);
+	VDP_SetSpritePatternTable(VRAM_SPRITE_PATTERN);
+	VDP_SetSpriteAttributeTable(VRAM_SPRITE_ATTRIBUTE);
 
 	// Draw background
 	DrawLevel();
-	VDP_HideAllSprites();
 	InitClouds();
 		
-	// Initialize text
+	// Initialize font
 	Print_SetTextFont(g_Font, 192);
 	for(u16 i = 192; i < 256; i++)
 	{
@@ -1216,19 +1211,19 @@ bool State_MenuInit()
 		VDP_WriteVRAM_16K(g_FontColor, VDP_GetColorTable() + 0x0800 + (i * 8), 8);
 		VDP_WriteVRAM_16K(g_FontColor, VDP_GetColorTable() + 0x1000 + (i * 8), 8);
 	}
-	// Print_SetColor(0x1, 0xF);
 	
-	Menu_Initialize(g_Menus); // Initialize the menu
+	// Initialize the menu
+	Menu_Initialize(g_Menus);
 	Menu_DrawPage(MENU_MAIN); // Display the first page
+	
+	Game_SetState(State_MenuUpdate);
 
 	VDP_EnableDisplay(TRUE);
-
-	Game_SetState(State_MenuUpdate);
 	return FALSE; // Frame finished
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Menu update state
 bool State_MenuUpdate()
 {
 	// Update menu
@@ -1255,7 +1250,6 @@ bool State_GameInit()
 	Print_SetColor(0xF, 0x1);
 
 	// Initialize sprite
-	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 	VDP_DisableSpritesFrom(22); // hide
 
 	// Init cloud
@@ -1279,7 +1273,7 @@ bool State_GameInit()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Kick-off state
 bool State_KickOff()
 {
 	// Init player 1 pawn (left)
@@ -1361,7 +1355,7 @@ bool State_Game()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Pause state
 bool State_Pause()
 {
 	Game_SetState(State_Game);
@@ -1369,7 +1363,7 @@ bool State_Pause()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Point won state
 bool State_Point()
 {
 	Pawn_SetDirty(&g_Ball.Pawn);
@@ -1397,7 +1391,7 @@ bool State_Point()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Victory scene initialization state
 bool State_VictoryInit()
 {
 	g_StateTimer = 500;
@@ -1421,7 +1415,7 @@ bool State_VictoryInit()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Victory scene update state
 bool State_VictoryUpdate()
 {
 	Pawn_SetDirty(&g_Player[0].Pawn);

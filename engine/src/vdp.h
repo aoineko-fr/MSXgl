@@ -564,7 +564,7 @@ u8 VDP_ReadStatus(u8 stat) __PRESERVES(b, c, d, e, h, iyl, iyh);
 //
 // Parameters:
 //   src   - Source data address in RAM
-//   dest  - Destination address in VRAM (14bits address for 16KB VRAM)
+//   dest  - Destination address in VRAM (14 bits address for 16KB VRAM)
 //   count - Number of byte to copy in VRAM. Note: A count of 0 mean 65536
 void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count);
 
@@ -594,7 +594,7 @@ void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count);
 // Read data from VRAM to RAM. [MSX1/2/2+/TR]
 //
 // Parameters:
-//   src	- Source address in VRAM (14bits address form 16KB VRAM)
+//   src	- Source address in VRAM (14 bits address form 16KB VRAM)
 //   dest	- Desitation data address in RAM
 //   count	- Number of byte to copy from VRAM. Note: A count of 0 mean 65536
 void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count);
@@ -604,14 +604,14 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count);
 //
 // Parameters:
 //   val	- Value to write in VRAM
-//   dest	- Desitation address in VRAM (14bits address form 16KB VRAM)
+//   dest	- Desitation address in VRAM (14 bits address form 16KB VRAM)
 void VDP_Poke_16K(u8 val, u16 dest) __PRESERVES(c, h, l, iyl, iyh);
 
 // Function: VDP_Peek_16K
 // Read a value from VRAM. [MSX1/2/2+/TR]
 //
 // Parameters:
-//   src	- Source address in VRAM (14bits address form 16KB VRAM)
+//   src	- Source address in VRAM (14 bits address form 16KB VRAM)
 //
 // Return:
 //   Value read in VRAM

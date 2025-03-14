@@ -96,7 +96,7 @@ Machine = "12";
 //   - ROM_NEO16        .rom    NEO-16: 16 KB segments for a total of 1 MB to 64 MB
 Target = "ROM_32K";
 
-//-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)
+//-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096 for legacy mappers; can be up to 65536 for NEO-16 mapper)
 // ROMSize = 128;
 
 //-- Check for ROM boot skipping if a given key is pressed (boolean)
@@ -178,7 +178,7 @@ AppID = 0x0003;
 BuildLibrary = true;
 
 //-- Prepare program for debug (boolean)
-Debug = true;
+Debug = false;
 
 //-- Move debug symbols to deployement folder (boolean)
 DebugSymbols = true;
@@ -270,13 +270,13 @@ Verbose = true;
 //*******************************************************************************
 
 //-- Execute MAP analyzer (boolean)
-// Analyzer = true;
+// Analyzer = false;
 
 //-- Analyzer output selection (string)
 //   - Console    Output to termial console
 //   - File       Output to file
 //   - Both       Output to file and termial console (default)
-// AnalyzerOutput = "Console";
+// AnalyzerOutput = "Both";
 
 //-- Analyzer report elements (string)
 //   - [A]        Report areas

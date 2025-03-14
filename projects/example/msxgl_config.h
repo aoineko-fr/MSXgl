@@ -297,9 +297,10 @@
 // - PAWN_SPT_MODE_AUTO ........... Backward compatibility option
 // - PAWN_SPT_MODE_MSX1 ........... Sprite Mode 1 (MSX1 screens)
 // - PAWN_SPT_MODE_MSX2 ........... Sprite Mode 2 (MSX2 screens)
+// - PAWN_SPT_MODE_MSX12 .......... Sprite Mode 1 & 2 (MSX1 & MSX2 screens)
 // - PAWN_SPT_MODE_V9_P1 .......... V9990 sprite in P1 mode
 // - PAWN_SPT_MODE_V9_P2 .......... V9990 sprite in P2 mode
-#define PAWN_SPT_MODE				PAWN_SPT_MODE_MSX1
+#define PAWN_SPT_MODE				PAWN_SPT_MODE_MSX12
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE
