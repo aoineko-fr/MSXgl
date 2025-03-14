@@ -1137,6 +1137,6 @@ if (DoRun)
 	{
 		require("./setup_emulator.js");
 
-		util.exec(`"${Emulator}" ${EmulatorArgs}`);
+		util.execSync(`"${Emulator}" ${EmulatorArgs}`);
 	}
 }
