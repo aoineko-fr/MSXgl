@@ -73,9 +73,21 @@ enum MENU_PAGES
 	MENU_MAX,      // Number of menu
 };
 
+// Input set enumeration
+enum INPUT_SET
+{
+	INPUT_SET_KB1 = 0,
+	INPUT_SET_KB2,
+	INPUT_SET_JOY1,
+	INPUT_SET_JOY2,
+//.............................
+	INPUT_SET_MAX,
+};
+
 // Input action flag
 enum INPUT_ACTION
 {
+	INPUT_NONE  = 0,
 	INPUT_RIGHT = 0b00000001,
 	INPUT_LEFT  = 0b00000010,
 	INPUT_JUMP  = 0b00000100,
@@ -169,6 +181,9 @@ struct Cloud
 	u8			Mask;
 };
 
+// Functions
+typedef u8 (*cbInputCheck)(void);				// Callback default signature
+
 // States prototype
 bool State_LogoInit();
 bool State_LogoUpdate();
@@ -186,9 +201,17 @@ void DrawScore();
 void ApplyPaletteOption();
 void ApplyFreqOption();
 
+// 
 const c8* MenuAction_Start(u8 op, i8 value);
+const c8* MenuAction_Input(u8 op, i8 value);
 const c8* MenuAction_Freq(u8 op, i8 value);
 const c8* MenuAction_Palette(u8 op, i8 value);
+
+// 
+u8 CheckKB1();
+u8 CheckKB2();
+u8 CheckJoy1();
+u8 CheckJoy2();
 
 //=============================================================================
 // READ-ONLY DATA
@@ -384,13 +407,21 @@ const u16 g_GrayPalette[15] =
 	RGB16(7, 7, 7)  // white				RGB16(7, 7, 7) 
 };
 
+// 
+const c8* g_InputSetName[INPUT_SET_MAX] =
+{
+	"DFG",
+	"\\]",
+	"[1",
+	"[2",
+};
+
+// 
+const cbInputCheck g_InputCheck[INPUT_SET_MAX] ={ CheckKB1, CheckKB2, CheckJoy1, CheckJoy2 };
 
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
-
-u8   g_PrevRow3 = 0xFF;
-u8   g_PrevRow8 = 0xFF;
 
 u16  g_StateTimer = 0;
 u8   g_VersionVDP;
@@ -401,6 +432,7 @@ u8   g_FreqDetected;
 struct Character g_Player[2];
 struct Character g_Ball;
 u8   g_CollisionMap[32*24];
+u8   g_InputSet[2] = { INPUT_SET_KB1, INPUT_SET_KB2 };
 
 i16  g_CloudX[numberof(g_Cloud)];
 
@@ -431,11 +463,11 @@ const MenuItem g_MenuMain[] =
 };
 
 // Entries description for the Start menu
-MenuItem g_MenuStart[] =
+const MenuItem g_MenuStart[] =
 {
 	{ "START>",              MENU_ITEM_ACTION, MenuAction_Start, 0 }, // Entry to change the screen mode (will trigger MenuAction_Screen)
-	{ "PLAYER1",             MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to left
-	{ "PLAYER2",             MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to center
+	{ "PLAYER1",             MENU_ITEM_ACTION, MenuAction_Input, 0 }, // Entry display a text aligned to left
+	{ "PLAYER2",             MENU_ITEM_ACTION, MenuAction_Input, 1 }, // Entry display a text aligned to center
 	{ "POINTS",              MENU_ITEM_INT, &g_Option.Rule.GamePoints, (i16)&g_MenuPointsMinMax },
 	{ "BOUNCES",             MENU_ITEM_INT, &g_Option.Rule.MaxBounce, (i16)&g_MenuBouncesMinMax },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },               // Blank entry to create a gap
@@ -443,7 +475,7 @@ MenuItem g_MenuStart[] =
 };
 
 // Entries description for the Option menu
-MenuItem g_MenuOptions[] =
+const MenuItem g_MenuOptions[] =
 {
 	{ "AUDIO",               MENU_ITEM_GOTO, NULL, MENU_AUDIO },
 	{ "GRAPH",               MENU_ITEM_GOTO, NULL, MENU_GRAPH },
@@ -452,7 +484,7 @@ MenuItem g_MenuOptions[] =
 };
 
 // Entries description for the Audio options menu
-MenuItem g_MenuAudio[] =
+const MenuItem g_MenuAudio[] =
 {
 	{ "MUSIC",               MENU_ITEM_BOOL, &g_Option.Music, NULL },
 	{ "SFX",                 MENU_ITEM_BOOL, &g_Option.SFX, NULL },
@@ -461,7 +493,7 @@ MenuItem g_MenuAudio[] =
 };
 
 // Entries description for the Graphical options menu
-MenuItem g_MenuGraph[] =
+/*const*/ MenuItem g_MenuGraph[] =
 {
 	{ "BLEND",               MENU_ITEM_BOOL, &g_Option.Blend, NULL },
 	{ "FREQ",                MENU_ITEM_ACTION, MenuAction_Freq, 0 },
@@ -471,7 +503,7 @@ MenuItem g_MenuGraph[] =
 };
 
 // Entries description for the Credits menu
-MenuItem g_MenuCredits[] =
+const MenuItem g_MenuCredits[] =
 {
 	{ "CODE    AOINEKO",     MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to left
 	{ "SPRITE  GRAFXKID",    MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to center
@@ -533,6 +565,31 @@ const c8* MenuAction_Start(u8 op, i8 value)
 }
 
 //-----------------------------------------------------------------------------
+// Callback to handle input
+const c8* MenuAction_Input(u8 op, i8 value)
+{
+	value;
+	switch(op)
+	{
+	case MENU_ACTION_SET:
+	case MENU_ACTION_INC:
+	inc_input_set:
+		g_InputSet[value] = (g_InputSet[value] + 1) % INPUT_SET_MAX;
+		if (g_InputSet[value] == g_InputSet[1 - value])
+			goto inc_input_set;
+		break;
+	case MENU_ACTION_DEC:
+	dec_input_set:
+		g_InputSet[value] = (g_InputSet[value] + (INPUT_SET_MAX - 1)) % INPUT_SET_MAX;
+		if (g_InputSet[value] == g_InputSet[1 - value])
+			goto dec_input_set;
+		break;
+	}
+
+	return g_InputSetName[g_InputSet[value]];
+}
+
+//-----------------------------------------------------------------------------
 // Callback to handle frequency change
 const c8* MenuAction_Freq(u8 op, i8 value)
 {
@@ -570,7 +627,7 @@ const c8* MenuAction_Palette(u8 op, i8 value)
 {
 	value;
 	if (g_VersionVDP == VDP_VERSION_TMS9918A)
-		return "MSX2 ONLY";
+		return "(FOR MSX2)";
 
 	switch(op)
 	{
@@ -1290,6 +1347,66 @@ bool State_KickOff()
 }
 
 //-----------------------------------------------------------------------------
+//
+u8 CheckKB1()
+{
+	u8 row3 = Keyboard_Read(3);
+	u8 ret = INPUT_NONE;
+	if (IS_KEY_PRESSED(row3, KEY_D))
+		ret |= INPUT_LEFT;
+	else if (IS_KEY_PRESSED(row3, KEY_G))
+		ret |= INPUT_RIGHT;
+	if (IS_KEY_PRESSED(row3, KEY_F))
+		ret |= INPUT_JUMP;
+	return ret;
+}
+
+//-----------------------------------------------------------------------------
+//
+u8 CheckKB2()
+{
+	u8 row8 = Keyboard_Read(8);
+	u8 ret = INPUT_NONE;
+	if (IS_KEY_PRESSED(row8, KEY_RIGHT))
+		ret |= INPUT_RIGHT;
+	else if (IS_KEY_PRESSED(row8, KEY_LEFT))
+		ret |= INPUT_LEFT;
+	if (IS_KEY_PRESSED(row8, KEY_UP))
+		ret |= INPUT_JUMP;
+	return ret;
+}
+
+//-----------------------------------------------------------------------------
+//
+u8 CheckJoy1()
+{
+	u8 joy = Joystick_Read(JOY_PORT_1);
+	u8 ret = INPUT_NONE;
+	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
+		ret |= INPUT_LEFT;
+	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
+		ret |= INPUT_RIGHT;
+	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
+		ret |= INPUT_JUMP;
+	return ret;
+}
+
+//-----------------------------------------------------------------------------
+//
+u8 CheckJoy2()
+{
+	u8 joy = Joystick_Read(JOY_PORT_2);
+	u8 ret = INPUT_NONE;
+	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
+		ret |= INPUT_LEFT;
+	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
+		ret |= INPUT_RIGHT;
+	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
+		ret |= INPUT_JUMP;
+	return ret;
+}
+
+//-----------------------------------------------------------------------------
 // Game update state
 bool State_Game()
 {
@@ -1305,49 +1422,11 @@ bool State_Game()
 	UpdateClouds();
 
 	// Update input
-	u8 row3 = Keyboard_Read(3);
-	u8 row8 = Keyboard_Read(8);
-	
-	g_Player[0].Input = 0;
-	if (IS_KEY_PRESSED(row3, KEY_D))
-		g_Player[0].Input |= INPUT_LEFT;
-	else if (IS_KEY_PRESSED(row3, KEY_G))
-		g_Player[0].Input |= INPUT_RIGHT;
-	if (IS_KEY_PRESSED(row3, KEY_F))
-		g_Player[0].Input |= INPUT_JUMP;
-
-	g_Player[1].Input = 0;
-	if (IS_KEY_PRESSED(row8, KEY_RIGHT))
-		g_Player[1].Input |= INPUT_RIGHT;
-	else if (IS_KEY_PRESSED(row8, KEY_LEFT))
-		g_Player[1].Input |= INPUT_LEFT;
-	if (IS_KEY_PRESSED(row8, KEY_UP))
-		g_Player[1].Input |= INPUT_JUMP;
-	
-	g_PrevRow3 = row3;
-	g_PrevRow8 = row8;
-
-	u8 joy = Joystick_Read(JOY_PORT_1);
-	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
-		g_Player[0].Input |= INPUT_LEFT;
-	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
-		g_Player[0].Input |= INPUT_RIGHT;
-	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
-		g_Player[0].Input |= INPUT_JUMP;
-	
-	joy = Joystick_Read(JOY_PORT_2);
-	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
-		g_Player[1].Input |= INPUT_LEFT;
-	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
-		g_Player[1].Input |= INPUT_RIGHT;
-	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
-		g_Player[1].Input |= INPUT_JUMP;
+	g_Player[0].Input = g_InputCheck[g_InputSet[0]]();
+	g_Player[1].Input = g_InputCheck[g_InputSet[1]]();
 	
 	if (Keyboard_IsKeyPressed(KEY_ESC))
-	{
-		// Game_Exit();
 		Game_SetState(State_MenuInit);
-	}
 
 // VDP_SetColor(COLOR_BLACK);
 
@@ -1476,6 +1555,12 @@ void main()
 		g_FreqDetected = FREQ_60HZ;
 	g_Option.Freq = g_FreqDetected;
 	ApplyFreqOption();
+
+	// Invalidate MSX2 only features
+	if (g_VersionVDP == VDP_VERSION_TMS9918A)
+	{
+		g_MenuGraph[2].Type |= MENU_ITEM_DISABLE;
+	}
 
 	Game_SetState(State_LogoInit);
 	Game_MainLoop(VDP_MODE_SCREEN2);
