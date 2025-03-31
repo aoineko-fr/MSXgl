@@ -178,7 +178,7 @@ AppID = 0x0003;
 BuildLibrary = false;
 
 //-- Prepare program for debug (boolean)
-Debug = false;
+Debug = true;
 
 //-- Move debug symbols to deployement folder (boolean)
 DebugSymbols = true;

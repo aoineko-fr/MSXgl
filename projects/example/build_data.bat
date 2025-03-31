@@ -10,7 +10,7 @@ if not exist %Dest% md %Dest%
 
 echo ----------------------------------------
 echo  Building player data...
-%MSXtk%\MSXimg.exe datasrc\img.png -copy datasrc\gk.txt -out %Dest%\data_sprt_layer.h -pos 0 64 -size 16 16 -num 16 1 -name g_DataSprtLayer -mode sprt ^
+%MSXtk%\MSXimg.exe datasrc\img.png -copy datasrc\gk.txt -out %Dest%\data_sprt_player.h -pos 0 64 -size 16 16 -num 16 1 -name g_DataSprtPlayer -mode sprt ^
 	-l i16 0 0 1 1 0xEB8A06 0xBE5340 ^
 	-l i16 0 0 1 1 0x1B141E ^
 	-l i16 0 0 1 1 0x1B141E 0x759DA9 0xB8D8D1 0xBE5340

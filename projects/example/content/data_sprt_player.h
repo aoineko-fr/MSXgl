@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.20.3 on Thu Mar  6 22:55:34 2025
+// Data generated using MSXimg 1.20.3 on Mon Mar 31 19:01:57 2025
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Source image author: GrafxKid (https://opengameart.org/content/super-random-sprites)
@@ -19,7 +19,7 @@
 //  - Skip empty:     FALSE
 
 // Sprites table
-const unsigned char g_DataSprtLayer[] =
+const unsigned char g_DataSprtPlayer[] =
 {
 // ======== Frame[0]
 // ---- Layer[0] (16x16 0,0 1,1 inc 2)

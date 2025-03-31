@@ -1,4 +1,4 @@
- // ____________________________
+// ____________________________
 // ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
@@ -48,6 +48,8 @@
 
 #define BOUNCE_FORCE				Q4_4_SET(-2.5f)
 #define COL_DIST					16
+
+#define SHADOW_COLOR				COLOR_LIGHT_BLUE
 
 // Background
 #define HORIZON_H					11
@@ -137,6 +139,25 @@ enum FREQ_MODE
 	FREQ_MAX,
 };
 
+// Sprite index
+enum SPRITE_ID
+{
+	SPRITE_BALL_DARK,					// 0		Ball shadow
+	SPRITE_BALL_LIGHT,					// 1		Ball light
+	SPRITE_PLY1_BLACK,					// 2		Player 1 black
+	SPRITE_PLY2_BLACK,					// 3		Player 2 black
+	SPRITE_PLY1_RED,					// 4 		Player 1 red
+	SPRITE_PLY2_RED,					// 5		Player 2 red
+	SPRITE_WIN_BACK,					// 6
+	SPRITE_WIN_FRONT,					// 7
+	SPRITE_BALL_SHADOW,					// 8
+	SPRITE_PLY1_SHADOW,					// 9
+	SPRITE_PLY2_SHADOW,					// 10
+	SPRITE_CLOUD,						// 11-26
+//.............................
+	SPRITE_MAX,
+};
+
 // Gameplay character stricture
 struct Character
 {
@@ -150,6 +171,7 @@ struct Character
 	u8			Input;
 	u8			Score;
 	Pawn		Pawn;
+	u8			Shadow;
 };
 
 // Gameplay rule structure
@@ -200,6 +222,7 @@ bool State_VictoryUpdate();
 void DrawScore();
 void ApplyPaletteOption();
 void ApplyFreqOption();
+void UpdateBallColor();
 
 // 
 const c8* MenuAction_Start(u8 op, i8 value);
@@ -238,13 +261,13 @@ u8 CheckJoy2();
 const Pawn_Sprite g_SpriteLayers[] =
 {
 //	  Sprite ID
-//    |  X offset from pawn's position
-//    |  |  Y offset
-//    |  |  |  Pattern offset from current animation key
-//    |  |  |  |  Layer's color
-//    |  |  |  |  |                Layer option
-	{ 4, 0, 0, 0, COLOR_LIGHT_RED, 0 },
-	{ 2, 0, 0, 4, COLOR_BLACK,     PAWN_SPRITE_BLEND }, // Only visible on even frame number
+//    |                  X offset from pawn's position
+//    |                  |  Y offset
+//    |                  |  |  Pattern offset from current animation key
+//    |                  |  |  |  Layer's color
+//    |                  |  |  |  |                Layer option
+	{ SPRITE_PLY1_RED,   0, 0, 0, COLOR_LIGHT_RED, 0 },
+	{ SPRITE_PLY1_BLACK, 0, 0, 4, COLOR_BLACK,     PAWN_SPRITE_BLEND }, // Only visible on even frame number
 };
 
 // Idle animation frames
@@ -317,8 +340,8 @@ const Pawn_Action g_AnimActions[ACTION_PLAYER_MAX] =
 // Pawn sprite layers
 const Pawn_Sprite g_SpriteLayers2[] =
 {
-	{ 5, 0, 0, 0, COLOR_LIGHT_RED, 0 },
-	{ 3, 0, 0, 4, COLOR_BLACK, PAWN_SPRITE_BLEND },
+	{ SPRITE_PLY2_RED,   0, 0, 0, COLOR_LIGHT_RED, 0 },
+	{ SPRITE_PLY2_BLACK, 0, 0, 4, COLOR_BLACK, PAWN_SPRITE_BLEND },
 };
 
 //.............................................................................
@@ -327,8 +350,8 @@ const Pawn_Sprite g_SpriteLayers2[] =
 // Pawn sprite layers
 const Pawn_Sprite g_BallLayers[] =
 {
-	{ 0, 0, 0, 4,  COLOR_DARK_RED, 0 },
-	{ 1, 0, 0, 0,  COLOR_MEDIUM_RED, 0 },
+	{ SPRITE_BALL_DARK, 0, 0, 4,  COLOR_DARK_RED, 0 },
+	{ SPRITE_BALL_LIGHT, 0, 0, 0,  COLOR_MEDIUM_RED, 0 },
 };
 
 // Idle animation frames
@@ -357,14 +380,14 @@ const Pawn_Action g_BallActions[ACTION_BALL_MAX] =
 // Clouds data
 const struct Cloud g_Cloud[] =
 {
-	{  30,  8,  80 + 64,  6, 0b00000111 },
-	{  46,  8,  88 + 64,  8, 0b00000111 },
-	{ 140, 20,  96 + 64, 10, 0b00001111 },
-	{ 156, 20, 104 + 64, 12, 0b00001111 },
-	{   4, 30,  96 + 64, 14, 0b00011111 },
-	{  20, 30, 104 + 64, 16, 0b00011111 },
-	{ 124, 37, 112 + 64, 18, 0b00111111 },
-	{ 248, 38, 120 + 64, 20, 0b01111111 },
+	{  30,  8,  80 + 64, SPRITE_CLOUD + 0,  0b00000111 },
+	{  46,  8,  88 + 64, SPRITE_CLOUD + 2,  0b00000111 },
+	{ 140, 20,  96 + 64, SPRITE_CLOUD + 4,  0b00001111 },
+	{ 156, 20, 104 + 64, SPRITE_CLOUD + 6,  0b00001111 },
+	{   4, 30,  96 + 64, SPRITE_CLOUD + 8,  0b00011111 },
+	{  20, 30, 104 + 64, SPRITE_CLOUD + 10, 0b00011111 },
+	{ 124, 37, 112 + 64, SPRITE_CLOUD + 12, 0b00111111 },
+	{ 248, 38, 120 + 64, SPRITE_CLOUD + 14, 0b01111111 },
 };
 
 // Custom palette
@@ -393,16 +416,16 @@ const u16 g_GrayPalette[15] =
 	RGB16(0, 0, 0), // black				RGB16(0, 0, 0),
 	RGB16(3, 3, 3), // medium green			RGB16(1, 5, 1),
 	RGB16(6, 6, 6), // light green			RGB16(3, 6, 3),
-	RGB16(3, 3, 3), // dark blue			RGB16(2, 2, 6),
-	RGB16(4, 4, 4), // light blue			RGB16(3, 3, 7),
-	RGB16(2, 2, 2), // dark red				RGB16(5, 2, 2),
-	RGB16(6, 6, 6), // *cyan				RGB16(2, 6, 7),
+	RGB16(2, 2, 2), // dark blue			RGB16(2, 2, 6),
+	RGB16(3, 3, 3), // light blue			RGB16(3, 3, 7),
+	RGB16(1, 1, 1), // dark red				RGB16(5, 2, 2),
+	RGB16(5, 5, 5), // *cyan				RGB16(2, 6, 7),
 	RGB16(3, 3, 3), // *medium red			RGB16(6, 2, 2),
-	RGB16(4, 4, 4), // *light red			RGB16(6, 3, 3),
-	RGB16(4, 4, 4), // *dark yellow			RGB16(5, 5, 2),
-	RGB16(5, 5, 5), // *light yellow		RGB16(6, 6, 3),
-	RGB16(2, 2, 2), // dark green			RGB16(1, 4, 1),
-	RGB16(4, 4, 4), // *magenta				RGB16(5, 2, 5),
+	RGB16(5, 5, 5), // *light red			RGB16(6, 3, 3),
+	RGB16(3, 3, 3), // *dark yellow			RGB16(5, 5, 2),
+	RGB16(6, 6, 6), // *light yellow		RGB16(6, 6, 3),
+	RGB16(1, 1, 1), // dark green			RGB16(1, 4, 1),
+	RGB16(3, 3, 3), // *magenta				RGB16(5, 2, 5),
 	RGB16(4, 4, 4), // gray					RGB16(5, 5, 5),
 	RGB16(7, 7, 7)  // white				RGB16(7, 7, 7) 
 };
@@ -417,7 +440,35 @@ const c8* g_InputSetName[INPUT_SET_MAX] =
 };
 
 // 
-const cbInputCheck g_InputCheck[INPUT_SET_MAX] ={ CheckKB1, CheckKB2, CheckJoy1, CheckJoy2 };
+const cbInputCheck g_InputCheck[INPUT_SET_MAX] = { CheckKB1, CheckKB2, CheckJoy1, CheckJoy2 };
+
+
+// GM2 font color (1 color per line)
+const u8 g_FontColor[8] =
+{
+	COLOR_MERGE(COLOR_LIGHT_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_DARK_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_DARK_RED, COLOR_WHITE),
+};
+
+// 
+const u8 g_ShadowPattern[] =
+{
+	0b00111111, 0b11111111,
+	0b00000111, 0b11111110,
+	0b00000000, 0b11111100,
+};
+
+// 
+const u8 g_ShadowPatternId[24] =
+{ // 0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23
+	36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 32, 32, 32, 32, 28, 28, 28, 24, 24, 24, 24
+};
 
 //=============================================================================
 // MEMORY DATA
@@ -505,12 +556,11 @@ const MenuItem g_MenuAudio[] =
 // Entries description for the Credits menu
 const MenuItem g_MenuCredits[] =
 {
-	{ "CODE    AOINEKO",     MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to left
-	{ "SPRITE  GRAFXKID",    MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to center
-	{ "GRAPH   YAZ",         MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to center
-	{ "FONT    LUDO 'GFX'",  MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to center
-	{ "MUSIC   ???",         MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to center
-	{ "SFX     ???",         MENU_ITEM_TEXT, NULL, 0 }, // Entry display a text aligned to center
+	{ "CODE        AOINEKO",     MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to left
+	{ "SPRITE      GRAFXKID",    MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
+	{ "GRAPH       YAZ",         MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
+	{ "FONT        LUDO 'GFX'",  MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
+	{ "MUSIC+SFX   ???",         MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
 };
@@ -524,19 +574,6 @@ const Menu g_Menus[MENU_MAX] =
 	{ NULL,	g_MenuAudio,   numberof(g_MenuAudio),   NULL }, // MENU_AUDIO
 	{ NULL,	g_MenuGraph,   numberof(g_MenuGraph),   NULL }, // MENU_GRAPH
 	{ NULL,	g_MenuCredits, numberof(g_MenuCredits), NULL }, // MENU_CREDITS
-};
-
-// GM2 font color (1 color per line)
-const u8 g_FontColor[8] =
-{
-	COLOR_MERGE(COLOR_LIGHT_RED, COLOR_WHITE),
-	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
-	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
-	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
-	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
-	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
-	COLOR_MERGE(COLOR_DARK_RED, COLOR_WHITE),
-	COLOR_MERGE(COLOR_DARK_RED, COLOR_WHITE),
 };
 
 //=============================================================================
@@ -667,6 +704,7 @@ void Rules_ChangeField(u8 field)
 	g_Field = field;
 	g_Bounce = 0;
 	g_Pass = 0;
+	UpdateBallColor();
 }
 
 //-----------------------------------------------------------------------------
@@ -706,6 +744,7 @@ void Rules_Bounce()
 	if ((g_Option.Rule.MaxBounce != 0xFF) && (g_Bounce > g_Option.Rule.MaxBounce))
 		Rules_Score(1 - g_Field);
 	g_LastTouch = g_Field;
+	UpdateBallColor();
 }
 
 //-----------------------------------------------------------------------------
@@ -815,7 +854,7 @@ bool PhysicsCollision(u8 tile)
 }
 
 //-----------------------------------------------------------------------------
-// MISC
+// INPUT
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
@@ -833,6 +872,71 @@ bool PressKey()
 		
 	return FALSE;
 }
+
+
+//-----------------------------------------------------------------------------
+//
+u8 CheckKB1()
+{
+	u8 row3 = Keyboard_Read(3);
+	u8 ret = INPUT_NONE;
+	if (IS_KEY_PRESSED(row3, KEY_D))
+		ret |= INPUT_LEFT;
+	else if (IS_KEY_PRESSED(row3, KEY_G))
+		ret |= INPUT_RIGHT;
+	if (IS_KEY_PRESSED(row3, KEY_F))
+		ret |= INPUT_JUMP;
+	return ret;
+}
+
+//-----------------------------------------------------------------------------
+//
+u8 CheckKB2()
+{
+	u8 row8 = Keyboard_Read(8);
+	u8 ret = INPUT_NONE;
+	if (IS_KEY_PRESSED(row8, KEY_RIGHT))
+		ret |= INPUT_RIGHT;
+	else if (IS_KEY_PRESSED(row8, KEY_LEFT))
+		ret |= INPUT_LEFT;
+	if (IS_KEY_PRESSED(row8, KEY_UP))
+		ret |= INPUT_JUMP;
+	return ret;
+}
+
+//-----------------------------------------------------------------------------
+//
+u8 CheckJoy1()
+{
+	u8 joy = Joystick_Read(JOY_PORT_1);
+	u8 ret = INPUT_NONE;
+	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
+		ret |= INPUT_LEFT;
+	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
+		ret |= INPUT_RIGHT;
+	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
+		ret |= INPUT_JUMP;
+	return ret;
+}
+
+//-----------------------------------------------------------------------------
+//
+u8 CheckJoy2()
+{
+	u8 joy = Joystick_Read(JOY_PORT_2);
+	u8 ret = INPUT_NONE;
+	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
+		ret |= INPUT_LEFT;
+	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
+		ret |= INPUT_RIGHT;
+	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
+		ret |= INPUT_JUMP;
+	return ret;
+}
+
+//-----------------------------------------------------------------------------
+// MISC
+//-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // Apply palette option (for MSX2)
@@ -941,6 +1045,7 @@ void DrawLevel()
 	Pletter_LoadGM2(g_DataBackground_Patterns, VDP_GetPatternTable());
 	Pletter_LoadGM2(g_DataBackground_Colors, VDP_GetColorTable());
 	Pletter_UnpackToVRAM(g_DataBackground_Names, VDP_GetLayoutTable());
+	// VDP_FillVRAM_16K(0x01, VDP_GetLayoutTable(), 32);
 }
 
 //-----------------------------------------------------------------------------
@@ -978,10 +1083,13 @@ void InitPlayer(u8 id)
 		Pawn_InitializePhysics(pawn, PhysicsEventPlayer2, PhysicsCollision, 16, 16);
 		Pawn_SetSpriteFX(pawn, PAWN_SPRITE_FX_FLIP_X);
 	}
-	Pawn_SetPatternAddress(pawn, g_DataSprtLayer);
+	Pawn_SetPatternAddress(pawn, g_DataSprtPlayer);
 	Pawn_SetColorBlend(pawn, g_Option.Blend);
-
+	
 	InitPlayerPosition(id);
+	
+	ply->Shadow = (id == 0) ? SPRITE_PLY1_SHADOW : SPRITE_PLY2_SHADOW; 
+	SetSprite(ply->Shadow, ply->Pawn.PositionX, 183, 24, SHADOW_COLOR);
 }
 
 //-----------------------------------------------------------------------------
@@ -1069,6 +1177,10 @@ void UpdatePlayer(struct Character* ply)
 	Pawn* pawn = &ply->Pawn;
 	Pawn_SetAction(pawn, act);
 	UpdateCharacter(ply);
+
+	// Player shadow
+	VDP_SetSpritePositionX(ply->Shadow, pawn->PositionX);
+	VDP_SetSpritePattern(ply->Shadow, g_ShadowPatternId[pawn->PositionY >> 3]);
 }
 
 //-----------------------------------------------------------------------------
@@ -1089,14 +1201,31 @@ void InitBallPosition()
 void InitBall()
 {
 	Mem_Set(0, &g_Ball, sizeof(struct Character));
-
+	
 	Pawn* pawn = &g_Ball.Pawn;
 	Pawn_Initialize(pawn, g_BallLayers, numberof(g_BallLayers), 6, g_BallActions);
 	Pawn_InitializePhysics(pawn, PhysicsEventBall, PhysicsCollision, 16, 16);
 	Pawn_SetAction(pawn, ACTION_BALL_IDLE);
 	Pawn_SetPatternAddress(pawn, g_DataSprtBall);
-
+	
 	InitBallPosition();
+	SetSprite(SPRITE_BALL_SHADOW, pawn->PositionX, 183, 24, SHADOW_COLOR);
+}
+
+//
+//
+void UpdateBallColor()
+{
+	if (g_Bounce == g_Option.Rule.MaxBounce)
+	{
+		SetSpriteColor(SPRITE_BALL_DARK, COLOR_DARK_RED);
+		SetSpriteColor(SPRITE_BALL_LIGHT, COLOR_MEDIUM_RED);
+	}
+	else
+	{
+		SetSpriteColor(SPRITE_BALL_DARK, COLOR_MEDIUM_RED);
+		SetSpriteColor(SPRITE_BALL_LIGHT, COLOR_LIGHT_RED);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -1144,10 +1273,30 @@ void UpdateBall()
 	u8 x = ballPawn->PositionX;
 	UpdateCharacter(&g_Ball);
 
+	// Ball shadow
+	VDP_SetSpritePositionX(SPRITE_BALL_SHADOW, ballPawn->PositionX);
+	VDP_SetSpritePattern(SPRITE_BALL_SHADOW, g_ShadowPatternId[ballPawn->PositionY >> 3]);
+
 	if ((x <= 120) && (ballPawn->PositionX > 120))
 		Rules_ChangeField(1);
 	else if ((x > 120) && (ballPawn->PositionX <= 120))
 		Rules_ChangeField(0);
+}
+
+//-----------------------------------------------------------------------------
+// SHADOWS
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Initialize shadows sprites
+void InitShadows()
+{
+	u16 addr = VDP_GetSpritePatternTable() + 8 * 24;
+	loop(i, numberof(g_ShadowPattern))
+	{
+		VDP_Poke_16K(g_ShadowPattern[i], addr);
+		addr += 16;
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -1247,17 +1396,19 @@ bool State_MenuInit()
 	VDP_ClearVRAM();
 	VDP_RegWrite(14, 0);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
-	VDP_HideAllSprites();
-
+	
 	// Setup VRAM tables
 	VDP_SetPatternTable(VRAM_PATTERN_TABLE);
 	VDP_SetColorTable(VRAM_COLOR_TABLE);
 	VDP_SetLayoutTable(VRAM_LAYOUT_TABLE);
 	VDP_SetSpritePatternTable(VRAM_SPRITE_PATTERN);
 	VDP_SetSpriteAttributeTable(VRAM_SPRITE_ATTRIBUTE);
-
+	
 	// Draw background
 	DrawLevel();
+
+	// Initialize clouds
+	VDP_HideAllSprites();
 	InitClouds();
 		
 	// Initialize font
@@ -1304,24 +1455,26 @@ bool State_GameInit()
 
 	// Initialize text
 	Print_SetTextFont(g_Font, 192);
-	Print_SetColor(0xF, 0x1);
+	Print_SetColor(COLOR_WHITE, COLOR_BLACK);
 
 	// Initialize sprite
-	VDP_DisableSpritesFrom(22); // hide
-
-	// Init cloud
-	InitClouds();
-	
-	Rules_Init();
+	VDP_HideAllSprites();
+	VDP_DisableSpritesFrom(SPRITE_MAX); // hide
 
 	// Init player 1 pawn (left)
 	InitPlayer(0);
-
+	
 	// Init player 2 pawn (right)
 	InitPlayer(1);
-
+	
 	// Init ball
 	InitBall();
+	
+	// Init misc graphics
+	InitClouds();
+	InitShadows();
+	
+	Rules_Init();
 
 	VDP_EnableDisplay(TRUE);
 
@@ -1344,66 +1497,6 @@ bool State_KickOff()
 
 	Game_SetState(State_Game);
 	return FALSE; // Frame finished
-}
-
-//-----------------------------------------------------------------------------
-//
-u8 CheckKB1()
-{
-	u8 row3 = Keyboard_Read(3);
-	u8 ret = INPUT_NONE;
-	if (IS_KEY_PRESSED(row3, KEY_D))
-		ret |= INPUT_LEFT;
-	else if (IS_KEY_PRESSED(row3, KEY_G))
-		ret |= INPUT_RIGHT;
-	if (IS_KEY_PRESSED(row3, KEY_F))
-		ret |= INPUT_JUMP;
-	return ret;
-}
-
-//-----------------------------------------------------------------------------
-//
-u8 CheckKB2()
-{
-	u8 row8 = Keyboard_Read(8);
-	u8 ret = INPUT_NONE;
-	if (IS_KEY_PRESSED(row8, KEY_RIGHT))
-		ret |= INPUT_RIGHT;
-	else if (IS_KEY_PRESSED(row8, KEY_LEFT))
-		ret |= INPUT_LEFT;
-	if (IS_KEY_PRESSED(row8, KEY_UP))
-		ret |= INPUT_JUMP;
-	return ret;
-}
-
-//-----------------------------------------------------------------------------
-//
-u8 CheckJoy1()
-{
-	u8 joy = Joystick_Read(JOY_PORT_1);
-	u8 ret = INPUT_NONE;
-	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
-		ret |= INPUT_LEFT;
-	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
-		ret |= INPUT_RIGHT;
-	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
-		ret |= INPUT_JUMP;
-	return ret;
-}
-
-//-----------------------------------------------------------------------------
-//
-u8 CheckJoy2()
-{
-	u8 joy = Joystick_Read(JOY_PORT_2);
-	u8 ret = INPUT_NONE;
-	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
-		ret |= INPUT_LEFT;
-	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
-		ret |= INPUT_RIGHT;
-	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
-		ret |= INPUT_JUMP;
-	return ret;
 }
 
 //-----------------------------------------------------------------------------
@@ -1486,8 +1579,8 @@ bool State_VictoryInit()
 
 	Pawn* winner = &g_Player[g_Victorious].Pawn;
 	Pawn_SetAction(winner, ACTION_PLAYER_WIN);
-	SetSprite(22, winner->PositionX, winner->PositionY - 24, 112, COLOR_LIGHT_RED);
-	SetSprite(23, winner->PositionX, winner->PositionY - 24, 116, COLOR_DARK_RED);
+	SetSprite(SPRITE_WIN_BACK,  winner->PositionX, winner->PositionY - 24, 112, COLOR_LIGHT_RED);
+	SetSprite(SPRITE_WIN_FRONT, winner->PositionX, winner->PositionY - 24, 116, COLOR_DARK_RED);
 
 	Game_SetState(State_VictoryUpdate);
 	return TRUE; // Frame finished
@@ -1508,13 +1601,13 @@ bool State_VictoryUpdate()
 
 	if (Game_GetFrameCount() & 0b00010000)
 	{
-		VDP_SetSpritePositionY(22, g_Player[g_Victorious].Pawn.PositionY - 24);
-		VDP_SetSpritePositionY(23, g_Player[g_Victorious].Pawn.PositionY - 24);
+		VDP_SetSpritePositionY(SPRITE_WIN_BACK, g_Player[g_Victorious].Pawn.PositionY - 24);
+		VDP_SetSpritePositionY(SPRITE_WIN_FRONT, g_Player[g_Victorious].Pawn.PositionY - 24);
 	}
 	else
 	{
-		VDP_HideSprite(22);
-		VDP_HideSprite(23);
+		VDP_HideSprite(SPRITE_WIN_BACK);
+		VDP_HideSprite(SPRITE_WIN_FRONT);
 	}
 
 	g_StateTimer--;
