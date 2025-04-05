@@ -57,6 +57,9 @@ LibModules = [ "system", "bios", "vdp", "print", "input", "memory" ];
 //-- Additional sources to be compiled and linked with the project (array)
 // AddSources = [];
 
+//-- Additional extern library to be linked with the project (array)
+// AddLibs = [];
+
 //-- Target MSX machine version (string)
 //   - 1        MSX1
 //   - 2        MSX2

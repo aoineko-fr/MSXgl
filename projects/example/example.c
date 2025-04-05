@@ -22,8 +22,8 @@
 #include "version.h"
 #include "compress/pletter.h"
 
-// Game
-#include "pixel_phenix.h"
+// Lib
+#include "lib/phenix.h"
 
 //=============================================================================
 // DEFINES
@@ -557,8 +557,8 @@ const MenuItem g_MenuAudio[] =
 const MenuItem g_MenuCredits[] =
 {
 	{ "CODE        AOINEKO",     MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to left
-	{ "SPRITE      GRAFXKID",    MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
-	{ "GRAPH       YAZ",         MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
+	{ "SPRITES     GRAFXKID",    MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
+	{ "GRAPHICS    YAZ",         MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
 	{ "FONT        LUDO 'GFX'",  MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
 	{ "MUSIC+SFX   ???",         MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap

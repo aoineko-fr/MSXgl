@@ -27,9 +27,13 @@
 #define MSX_2P						0b00001000 // MSX2+
 #define MSX_22P						(MSX_2|MSX_2P) // MSX2 and 2+ (support each)
 #define MSX_122P					(MSX_1|MSX_2|MSX_2P) // MSX1, 2 and 2+ (support each)
-#define MSX_0						MSX_2P // MSX0 (MSX2+)
 #define MSX_TR						0b00010000 // MSX turbo R
-#define MSX_3						0b00100000 // MSX3
+//.............................................................................
+#define MSX_0						MSX_2P // MSX0 (MSX2+)
+#define MSX_PP						0b00100000 // MSX++
+#define MSX_2PP						(MSX_2P|MSX_PP) // MSX2++
+#define MSX_TRP						(MSX_TR|MSX_PP) // MSX turbo R+
+#define MSX_3						0b01000000 // MSX3
 
 //-----------------------------------------------------------------------------
 // TARGET_TYPE options

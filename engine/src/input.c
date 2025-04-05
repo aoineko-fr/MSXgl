@@ -33,6 +33,7 @@ __asm
 	ld		l, a					// Pin 8 LOW
 
 	ld		a, #PSG_REG_IO_PORT_B	// R#15
+	INPUT_DI //-------- Disable interrupts --------
 	out		(P_PSG_REGS), a			// Select port B (output)
 	ld		a, l					// 
 	out		(P_PSG_DATA), a			// Set Pin 8 LOW
@@ -44,6 +45,7 @@ __asm
 
 	ld		a, #PSG_REG_IO_PORT_A	// R#14
 	out		(P_PSG_REGS), a			// Select port A (input)
+	INPUT_EI //-------- Enable interrupts --------
 	in		a, (P_PSG_STAT)			//
 	and		#0x3F
 __endasm;
@@ -71,7 +73,7 @@ u8 Joystick_Read(u8 port) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)
 	port; // L
 	__asm
 		ld		a, #PSG_REG_IO_PORT_B	// R#15
-		INPUT_DI
+		INPUT_DI //-------- Disable interrupts --------
 		out		(P_PSG_REGS), a			// Select port B
 #if (INPUT_HOLD_SIGNAL)
 		in		a, (P_PSG_STAT)			// Read port B value
@@ -85,7 +87,7 @@ u8 Joystick_Read(u8 port) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)
 
 		ld		a, #PSG_REG_IO_PORT_A	// R#14
 		out		(P_PSG_REGS), a			// Select port A
-		INPUT_EI
+		INPUT_EI //-------- Enable interrupts --------
 		in		a, (P_PSG_STAT)			// Read port A value
 		ld		l, a					// Return value
 	__endasm;

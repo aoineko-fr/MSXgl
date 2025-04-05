@@ -46,7 +46,7 @@ Emulator  = `${ToolsDir}openMSX/openmsx`;
 ProjName = "example";
 
 //-- List of project modules to build (array). If empty, ProjName will be added
-ProjModules = [ ProjName, "pixel_phenix" ];
+ProjModules = [ ProjName ];
 
 //-- Project segments base name (string). ProjName will be used if not defined
 // ProjSegments = ProjName;
@@ -56,6 +56,9 @@ LibModules = [ "debug", "compress/pletter", "game/game", "game/pawn", "game/menu
 
 //-- Additional sources to be compiled and linked with the project (array)
 // AddSources = [];
+
+//-- Additional extern library to be linked with the project (array)
+AddLibs = [ "lib/phenix.lib" ];
 
 //-- Target MSX machine version (string)
 //   - 1        MSX1

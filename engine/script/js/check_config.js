@@ -97,6 +97,14 @@ if (Ext === "com")
 	}
 }
 
+// C library
+if ((Target === "LIB") && (DoMake || DoPackage || DoRun))
+{
+	util.print("C library projects are incompatible with Make, Package and Run steps!", PrintWarning);
+	util.print("Those steps will be desactivated");
+	DoMake = DoPackage = DoRun = false;
+}
+	
 // Emulator specific tools
 if (DoRun)
 {
