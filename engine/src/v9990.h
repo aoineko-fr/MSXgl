@@ -221,7 +221,7 @@ u8 V9_GetPort(u8 port) __PRESERVES(b, d, e, h, l, iyl, iyh);
 
 // Function: V9_SetRegister
 // Set register value.
-// This function as no effect if register is read-only.
+// This function has no effect if register is read-only.
 //
 // Parameters:
 //   reg - V9990 register number.
@@ -230,7 +230,7 @@ void V9_SetRegister(u8 reg, u8 val) __PRESERVES(b, c, d, e, h, iyl, iyh);
 
 // Function: V9_SetRegister16
 // Set register value.
-// This function as no effect if register is read-only.
+// This function has no effect if register is read-only.
 //
 // Parameters:
 //   reg - V9990 register number (LSB will be write to this register and MSB to the next).
@@ -682,7 +682,7 @@ inline void V9_SetScrollingB(u16 x, u16 y) { V9_SetScrollingBX(x);  V9_SetScroll
 inline void V9_SetCursorEnable(bool enable) { V9_SetFlag(8, V9_R08_SPD_OFF, enable ? 0 : V9_R08_SPD_OFF); }
 
 // Function: V9_SetCursorAttribute
-// Set the given cursor atribute (for bitmap modes).
+// Set the given cursor attribute (for bitmap modes).
 //
 // Parameters:
 //   id - Cursor index (0 or 1).
@@ -798,11 +798,11 @@ inline void V9_SetSpritePatternP1(u8 id, u8 pat) { V9_Poke(V9_P1_SPAT + 1 + (id 
 inline void V9_SetSpritePositionP1(u8 id, u8 x, u8 y) { V9_Poke(V9_P1_SPAT + 0 + (id * 4), y); V9_Poke(V9_P1_SPAT + 2 + (id * 4), x); }
 
 // Function: V9_SetSpriteInfoP1
-// Set sprite additionnal information for P1 mode.
+// Set sprite additional information for P1 mode.
 //
 // Parameters:
 //   id - Sprite index (0 to 124).
-//   info - Sprite additionnal information.
+//   info - Sprite additional information.
 // >	7	6	5	4	3	2	1	0
 // >	SC5	SC4	PR1	PR0	-	-	X9	X8
 // >	│	│	│	│	 	 	└───┴── X-coordinate (bits 8:9)
@@ -852,7 +852,7 @@ inline void V9_SetSpritePriorityP1(u8 id, u8 prio)
 //
 // Parameters:
 //   id - Sprite index (0 to 124).
-//   info - Sprite additionnal information.
+//   info - Sprite additional information.
 inline void V9_SetSpritePaletteP1(u8 id, u8 pal)
 {
 	u8 val = V9_Peek(V9_P1_SPAT + 3 + (id * 4));
@@ -892,11 +892,11 @@ inline void V9_SetSpritePatternP2(u8 id, u8 pat) { V9_Poke(V9_P2_SPAT + 4 * id +
 inline void V9_SetSpritePositionP2(u8 id, u8 x, u8 y) { V9_Poke(V9_P2_SPAT + (4 * id), y); V9_Poke(V9_P2_SPAT + (4 * id) + 2, x); }
 
 // Function: V9_SetSpriteInfoP2
-// Set sprite additionnal information for P2 mode.
+// Set sprite additional information for P2 mode.
 //
 // Parameters:
 //   id - Sprite index (0 to 124).
-//   info - Sprite additionnal information.
+//   info - Sprite additional information.
 // >	7	6	5	4	3	2	1	0
 // >	SC5	SC4	PR1	PR0	-	-	X9	X8
 // >	│	│	│	│	 	 	└───┴── X-coordinate (bits 8:9)
@@ -914,7 +914,7 @@ inline void V9_SetSpriteInfoP2(u8 id, u8 info) { V9_Poke(V9_P2_SPAT + 3 + (id * 
 //
 // Parameters:
 //   id - Sprite index (0 to 124).
-//   disable - Is sprite display is disable?
+//   disable - Is sprite display disabled?
 inline void V9_SetSpriteDisableP2(u8 id, bool disable)
 {
 	u8 val = V9_Peek(V9_P2_SPAT + 3 + (id * 4));
@@ -946,7 +946,7 @@ inline void V9_SetSpritePriorityP2(u8 id, u8 prio)
 //
 // Parameters:
 //   id - Sprite index (0 to 124).
-//   info - Sprite additionnal information.
+//   info - Sprite additional information.
 inline void V9_SetSpritePaletteP2(u8 id, u8 pal)
 {
 	u8 val = V9_Peek(V9_P2_SPAT + 3 + (id * 4));
@@ -1399,7 +1399,7 @@ inline void V9_WaitCmdEnd() { while(V9_IsCmdRunning()) {} }
 #if (V9_USE_MODE_P1)
 
 // Function: V9_CellAddrP1A
-// Get address fo the given X/Y cell coordiante for player A of P1 mode.
+// Get address fo the given X/Y cell coordinate for layer A of P1 mode.
 //
 // Parameters:
 //   x - Cell X-coordinate.
@@ -1410,7 +1410,7 @@ inline void V9_WaitCmdEnd() { while(V9_IsCmdRunning()) {} }
 inline u32 V9_CellAddrP1A(u8 x, u8 y) { return V9_P1_PNT_A + (((64 * y) + x) * 2); }
 
 // Function: V9_CellAddrP1B
-// Get address fo the given X/Y cell coordiante for player B of P1 mode.
+// Get address fo the given X/Y cell coordinate for layer B of P1 mode.
 //
 // Parameters:
 //   x - Cell X-coordinate.
@@ -1425,7 +1425,7 @@ inline u32 V9_CellAddrP1B(u8 x, u8 y) { return V9_P1_PNT_B + (((64 * y) + x) * 2
 #if (V9_USE_MODE_P2)
 
 // Function: V9_CellAddrP2
-// Get address fo the given X/Y cell coordiante for P2 mode.
+// Get address fo the given X/Y cell coordinate for P2 mode.
 //
 // Parameters:
 //   x - Cell X-coordinate.
