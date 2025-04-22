@@ -29,7 +29,8 @@ echo  Building extra sprite data...
 
 echo ----------------------------------------
 echo  Building background data...
-%MSXtk%\MSXimg.exe datasrc\bg.png -out %Dest%\data_bg2.h -pos 0 0 -size 256 192 -name g_DataBackground -mode gm2 -compress pletter --tilesComp
+%MSXtk%\MSXimg.exe datasrc\bg.png -out %Dest%\data_bg2.h -pos 0 0 -size 256 192 -name g_DataBackground -mode gm2 -compress pletter --tilesComp ^
+	-l gm2 0 256 256 192
 
 echo ----------------------------------------
 echo  Building font data...

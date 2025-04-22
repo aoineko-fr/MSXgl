@@ -220,17 +220,17 @@ bool State_VictoryInit();
 bool State_VictoryUpdate();
 
 void DrawScore();
-void ApplyPaletteOption();
-void ApplyFreqOption();
 void UpdateBallColor();
 
-// 
+// Menu function callback
+void ApplyPaletteOption();
+void ApplyFreqOption();
 const c8* MenuAction_Start(u8 op, i8 value);
 const c8* MenuAction_Input(u8 op, i8 value);
 const c8* MenuAction_Freq(u8 op, i8 value);
 const c8* MenuAction_Palette(u8 op, i8 value);
 
-// 
+// Input function callback
 u8 CheckKB1();
 u8 CheckKB2();
 u8 CheckJoy1();
@@ -390,6 +390,28 @@ const struct Cloud g_Cloud[] =
 	{ 248, 38, 120 + 64, SPRITE_CLOUD + 14, 0b01111111 },
 };
 
+#if (1)
+// Custom palette
+const u16 g_CustomPalette[15] =
+{
+	RGB16(0, 0, 0), // black				RGB16(0, 0, 0),
+	RGB16(0, 4, 4), // medium green			RGB16(1, 5, 1),
+	RGB16(3, 5, 6), // light green			RGB16(3, 6, 3),
+	RGB16(2, 2, 6), // dark blue			RGB16(2, 2, 6),
+	RGB16(1, 3, 6), // light blue			RGB16(3, 3, 7),
+	RGB16(5, 2, 2), // dark red				RGB16(5, 2, 2),
+	// RGB16(2, 6, 7), // *cyan				RGB16(2, 6, 7),
+	RGB16(3, 5, 7), // *cyan				RGB16(2, 6, 7),
+	RGB16(6, 3, 3), // *medium red			RGB16(6, 2, 2),
+	RGB16(7, 4, 4), // *light red			RGB16(6, 3, 3),
+	RGB16(5, 5, 3), // *dark yellow			RGB16(5, 5, 2),
+	RGB16(6, 6, 4), // *light yellow		RGB16(6, 6, 3),
+	RGB16(2, 4, 5), // dark green			RGB16(1, 4, 1),
+	RGB16(5, 2, 4), // *magenta				RGB16(5, 2, 5),
+	RGB16(5, 5, 6), // gray					RGB16(5, 5, 5),
+	RGB16(7, 7, 7)  // white				RGB16(7, 7, 7) 
+};
+#else
 // Custom palette
 const u16 g_CustomPalette[15] =
 {
@@ -406,9 +428,10 @@ const u16 g_CustomPalette[15] =
 	RGB16(6, 6, 4), // *light yellow		RGB16(6, 6, 3),
 	RGB16(1, 4, 1), // dark green			RGB16(1, 4, 1),
 	RGB16(5, 2, 4), // *magenta				RGB16(5, 2, 5),
-	RGB16(5, 5, 5), // gray					RGB16(5, 5, 5),
+	RGB16(5, 5, 6), // gray					RGB16(5, 5, 5),
 	RGB16(7, 7, 7)  // white				RGB16(7, 7, 7) 
 };
+#endif
 
 // Gray scale palette
 const u16 g_GrayPalette[15] =
@@ -1039,12 +1062,12 @@ void CollisionInit()
 
 //-----------------------------------------------------------------------------
 // Draw level background
-void DrawLevel()
+void DrawLevel(bool bTitle)
 {
 	// Background
 	Pletter_LoadGM2(g_DataBackground_Patterns, VDP_GetPatternTable());
 	Pletter_LoadGM2(g_DataBackground_Colors, VDP_GetColorTable());
-	Pletter_UnpackToVRAM(g_DataBackground_Names, VDP_GetLayoutTable());
+	Pletter_UnpackToVRAM(bTitle ? g_DataBackgroundL1_Names : g_DataBackgroundL0_Names, VDP_GetLayoutTable());
 	// VDP_FillVRAM_16K(0x01, VDP_GetLayoutTable(), 32);
 }
 
@@ -1382,7 +1405,7 @@ bool State_LogoUpdate()
 	if (bFinish || PressKey())
 		Game_SetState(State_MenuInit);
 
-	return FALSE;
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -1405,7 +1428,7 @@ bool State_MenuInit()
 	VDP_SetSpriteAttributeTable(VRAM_SPRITE_ATTRIBUTE);
 	
 	// Draw background
-	DrawLevel();
+	DrawLevel(TRUE);
 
 	// Initialize clouds
 	VDP_HideAllSprites();
@@ -1438,7 +1461,7 @@ bool State_MenuUpdate()
 	Menu_Update();
 	UpdateClouds();
 
-	return FALSE; // Frame finished
+	return TRUE; // Frame finished
 }
 
 //-----------------------------------------------------------------------------
@@ -1450,7 +1473,7 @@ bool State_GameInit()
 	VDP_SetColor(COLOR_BLACK);
 	
 	// Initialize background tiles
-	DrawLevel();
+	DrawLevel(FALSE);
 	CollisionInit();
 
 	// Initialize text
@@ -1583,7 +1606,7 @@ bool State_VictoryInit()
 	SetSprite(SPRITE_WIN_FRONT, winner->PositionX, winner->PositionY - 24, 116, COLOR_DARK_RED);
 
 	Game_SetState(State_VictoryUpdate);
-	return TRUE; // Frame finished
+	return FALSE; // Frame finished
 }
 
 //-----------------------------------------------------------------------------

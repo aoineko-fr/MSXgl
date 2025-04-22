@@ -152,10 +152,12 @@
 #define INPUT_USE_DETECT			FALSE	// Add feature to detect device plugged in General purpose ports
 #define INPUT_USE_ISR_PROTECTION	TRUE	// Disable interruptions while access PSG registers (needed if you use BIOS or access PSG in your own ISR)
 #define INPUT_JOY_UPDATE			FALSE	// Add function to update all joystick states at once
+#define INPUT_HOLD_SIGNAL			FALSE	// Determines whether functions that modify signals should keep the state of those they don't need to modify (which slows functions down a bit) 
 // Key update handler
 #define INPUT_KB_UPDATE				FALSE	// Add function to update all keyboard rows at once
 #define INPUT_KB_UPDATE_MIN			0		// First row to update
 #define INPUT_KB_UPDATE_MAX			8		// Last row to update (10 for numerical-pad, 8 otherwise)
+
 
 //-----------------------------------------------------------------------------
 // PADDLE MODULE
@@ -249,7 +251,7 @@
 #define GAME_USE_STATE				TRUE	// Add state machine features
 #define GAME_USE_VSYNC				TRUE	// Add vertical synchronization features
 #define GAME_USE_LOOP				TRUE	// Add game main loop with call to v-synch and state
-#define GAME_USE_SYNC_50HZ			TRUE	// On 60 Hz system, synchronize gameplay loop at 50 Hz
+#define GAME_USE_SYNC_50HZ			FALSE	// On 60 Hz system, synchronize gameplay loop at 50 Hz
 
 //-----------------------------------------------------------------------------
 // GAME PAWN MODULE
