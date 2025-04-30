@@ -21,6 +21,7 @@
 #include "fixed_point.h"
 #include "version.h"
 #include "compress/pletter.h"
+#include "arkos/akg_player.h"
 
 // Lib
 #include "lib/phenix.h"
@@ -61,6 +62,8 @@
 #define VRAM_LAYOUT_TABLE			0x3800
 #define VRAM_SPRITE_PATTERN			0x1800
 #define VRAM_SPRITE_ATTRIBUTE		0x3E00
+
+#define MUSIC_ADDRESS				0xE800
 
 // Index of all menu pages
 enum MENU_PAGES
@@ -158,6 +161,16 @@ enum SPRITE_ID
 	SPRITE_MAX,
 };
 
+// Musics index
+enum MUSIC_ID
+{
+	MUSIC_EMPTY = 0,
+	MUSIC_MAIN,
+	MUSIC_VICTORY,
+//.............................
+	MUSIC_MAX,
+};
+
 // Gameplay character stricture
 struct Character
 {
@@ -250,6 +263,12 @@ u8 CheckJoy2();
 
 // Background by Yaz
 #include "content/data_bg2.h"
+
+// Audio data
+#include "content/music_empty.h"
+#include "content/music_main.h"
+#include "content/music_victory.h"
+// #include "content/data_sfx.h"
 
 //.............................................................................
 // Player 1 data
@@ -390,7 +409,6 @@ const struct Cloud g_Cloud[] =
 	{ 248, 38, 120 + 64, SPRITE_CLOUD + 14, 0b01111111 },
 };
 
-#if (1)
 // Custom palette
 const u16 g_CustomPalette[15] =
 {
@@ -400,7 +418,6 @@ const u16 g_CustomPalette[15] =
 	RGB16(2, 2, 6), // dark blue			RGB16(2, 2, 6),
 	RGB16(1, 3, 6), // light blue			RGB16(3, 3, 7),
 	RGB16(5, 2, 2), // dark red				RGB16(5, 2, 2),
-	// RGB16(2, 6, 7), // *cyan				RGB16(2, 6, 7),
 	RGB16(3, 5, 7), // *cyan				RGB16(2, 6, 7),
 	RGB16(6, 3, 3), // *medium red			RGB16(6, 2, 2),
 	RGB16(7, 4, 4), // *light red			RGB16(6, 3, 3),
@@ -411,27 +428,6 @@ const u16 g_CustomPalette[15] =
 	RGB16(5, 5, 6), // gray					RGB16(5, 5, 5),
 	RGB16(7, 7, 7)  // white				RGB16(7, 7, 7) 
 };
-#else
-// Custom palette
-const u16 g_CustomPalette[15] =
-{
-	RGB16(0, 0, 0), // black				RGB16(0, 0, 0),
-	RGB16(1, 5, 1), // medium green			RGB16(1, 5, 1),
-	RGB16(3, 6, 3), // light green			RGB16(3, 6, 3),
-	RGB16(2, 2, 6), // dark blue			RGB16(2, 2, 6),
-	RGB16(3, 3, 7), // light blue			RGB16(3, 3, 7),
-	RGB16(5, 2, 2), // dark red				RGB16(5, 2, 2),
-	RGB16(5, 5, 7), // *cyan				RGB16(2, 6, 7),
-	RGB16(6, 3, 3), // *medium red			RGB16(6, 2, 2),
-	RGB16(7, 4, 4), // *light red			RGB16(6, 3, 3),
-	RGB16(5, 5, 3), // *dark yellow			RGB16(5, 5, 2),
-	RGB16(6, 6, 4), // *light yellow		RGB16(6, 6, 3),
-	RGB16(1, 4, 1), // dark green			RGB16(1, 4, 1),
-	RGB16(5, 2, 4), // *magenta				RGB16(5, 2, 5),
-	RGB16(5, 5, 6), // gray					RGB16(5, 5, 5),
-	RGB16(7, 7, 7)  // white				RGB16(7, 7, 7) 
-};
-#endif
 
 // Gray scale palette
 const u16 g_GrayPalette[15] =
@@ -467,7 +463,20 @@ const cbInputCheck g_InputCheck[INPUT_SET_MAX] = { CheckKB1, CheckKB2, CheckJoy1
 
 
 // GM2 font color (1 color per line)
-const u8 g_FontColor[8] =
+const u8 g_FontColorNormal[8] =
+{
+	COLOR_MERGE(COLOR_LIGHT_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_LIGHT_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_LIGHT_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_LIGHT_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_LIGHT_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_LIGHT_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
+	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
+};
+
+// GM2 font color (1 color per line)
+const u8 g_FontColorSelect[8] =
 {
 	COLOR_MERGE(COLOR_LIGHT_RED, COLOR_WHITE),
 	COLOR_MERGE(COLOR_MEDIUM_RED, COLOR_WHITE),
@@ -493,6 +502,9 @@ const u8 g_ShadowPatternId[24] =
 	36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 32, 32, 32, 32, 28, 28, 28, 24, 24, 24, 24
 };
 
+// Liste des animations
+const u8 *const g_MusicTable[MUSIC_MAX] = { g_AKG_MusicEmpty, g_AKG_MusicMain, g_AKG_MusicEmpty };
+
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
@@ -517,6 +529,11 @@ u8   g_Pass = 0;
 u8   g_LastTouch = 0;
 u8   g_Victorious = 0;
 
+// Audio
+u8 g_CurrentMusic = 0xFF;
+u8 g_NextMusic = 0xFF;
+u8 g_NextSFX = 0xFF;
+
 // Options parameters
 struct Option g_Option = { TRUE, TRUE, TRUE, 60, PAL_CUSTOM, { 11, 1, 0 } };
 
@@ -532,14 +549,18 @@ const MenuItem g_MenuMain[] =
 	{ "GAME",                MENU_ITEM_GOTO, NULL, MENU_START },	// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
 	{ "OPTIONS",             MENU_ITEM_GOTO, NULL, MENU_OPTION },	// Entry to go to Option menu page
 	{ "CREDITS",             MENU_ITEM_GOTO, NULL, MENU_CREDITS },	// Entry to go to Option menu page
-	// { NULL,                  MENU_ITEM_EMPTY, NULL, 0 },			// Blank entry to create a gap
-	// { "EXIT",                MENU_ITEM_ACTION, NULL, NULL },			// Entry to exit the game (will trigger MenuAction_Start with value equal to '0')
+#if ((TARGET == TARGET_BIN_DISK) || (TARGET == TARGET_BIN_TAPE) || (TARGET == TARGET_DOS1) || (TARGET == TARGET_DOS2))
+	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },			// Blank entry to create a gap
+	{ "EXIT",                MENU_ITEM_ACTION, MenuAction_Start, 0 },			// Entry to exit the game (will trigger MenuAction_Start with value equal to '0')
+#endif
 };
+
+
 
 // Entries description for the Start menu
 const MenuItem g_MenuStart[] =
 {
-	{ "START>",              MENU_ITEM_ACTION, MenuAction_Start, 0 }, // Entry to change the screen mode (will trigger MenuAction_Screen)
+	{ "START>",              MENU_ITEM_ACTION, MenuAction_Start, 1 }, // Entry to change the screen mode (will trigger MenuAction_Screen)
 	{ "PLAYER1",             MENU_ITEM_ACTION, MenuAction_Input, 0 }, // Entry display a text aligned to left
 	{ "PLAYER2",             MENU_ITEM_ACTION, MenuAction_Input, 1 }, // Entry display a text aligned to center
 	{ "POINTS",              MENU_ITEM_INT, &g_Option.Rule.GamePoints, (i16)&g_MenuPointsMinMax },
@@ -583,9 +604,9 @@ const MenuItem g_MenuCredits[] =
 	{ "SPRITES     GRAFXKID",    MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
 	{ "GRAPHICS    YAZ",         MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
 	{ "FONT        LUDO 'GFX'",  MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
-	{ "MUSIC+SFX   ???",         MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
-	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
-	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
+	{ "MUSIC       MAKOTO",      MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
+	{ NULL,                      MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
+	{ "<BACK",                   MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
 };
 
 // List of all menus
@@ -604,20 +625,57 @@ const Menu g_Menus[MENU_MAX] =
 //=============================================================================
 
 //-----------------------------------------------------------------------------
+// AUDIO
+//-----------------------------------------------------------------------------
+
+// Set the new music to be player
+inline void PlayMusic(u8 id) { g_NextMusic = id; }
+
+// Stop music
+inline void StopMusic() { PlayMusic(MUSIC_EMPTY); }
+
+// Set the new music to be player
+inline void PlaySFX(u8 id) { g_NextSFX = id; }
+
+//-----------------------------------------------------------------------------
 // MENU
 //-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+//
+void MenuEventHandler(u8 event)
+{
+	switch (event)
+	{
+	case MENU_EVENT_UP:
+	case MENU_EVENT_DOWN:
+	case MENU_EVENT_SET:
+	case MENU_EVENT_INC:
+	case MENU_EVENT_DEC:
+	case MENU_EVENT_DRAW_TITLE:
+		break;
+	case MENU_EVENT_DRAW_ENTRY:
+		Print_SetPatternOffset(128);
+		break;
+	case MENU_EVENT_DRAW_SELECTED:
+		Print_SetPatternOffset(192);
+		break;
+	}
+}
 
 //-----------------------------------------------------------------------------
 // Callback to handle game start
 const c8* MenuAction_Start(u8 op, i8 value)
 {
-	value;
 	switch(op)
 	{
 	case MENU_ACTION_SET:
 	case MENU_ACTION_INC:
 	case MENU_ACTION_DEC:
-		Game_SetState(State_GameInit);
+		if (value == 0)
+			Bios_Exit(0);
+		else // if (value == 1)
+			Game_SetState(State_GameInit);
 		break;
 	}
 
@@ -1432,21 +1490,37 @@ bool State_MenuInit()
 
 	// Initialize clouds
 	VDP_HideAllSprites();
+	SetSprite(0,   1, 174, 68, COLOR_GRAY);
+	SetSprite(1,  17, 174, 76, COLOR_GRAY);
+	SetSprite(2, 224, 168, 84, COLOR_GRAY);
+	SetSprite(3, 240, 168, 92, COLOR_GRAY);
 	InitClouds();
 		
 	// Initialize font
 	Print_SetTextFont(g_Font, 192);
 	for(u16 i = 192; i < 256; i++)
 	{
-		VDP_WriteVRAM_16K(g_FontColor, VDP_GetColorTable() + 0x0000 + (i * 8), 8);
-		VDP_WriteVRAM_16K(g_FontColor, VDP_GetColorTable() + 0x0800 + (i * 8), 8);
-		VDP_WriteVRAM_16K(g_FontColor, VDP_GetColorTable() + 0x1000 + (i * 8), 8);
+		VDP_WriteVRAM_16K(g_FontColorSelect, VDP_GetColorTable() + 0x0000 + (i * 8), 8);
+		VDP_WriteVRAM_16K(g_FontColorSelect, VDP_GetColorTable() + 0x0800 + (i * 8), 8);
+		VDP_WriteVRAM_16K(g_FontColorSelect, VDP_GetColorTable() + 0x1000 + (i * 8), 8);
 	}
-	
+	// Duplicate font patterns for shaded characters
+	VDP_WriteVRAM_16K(Print_GetFontInfo()->FontPatterns, VDP_GetPatternTable() + 0x0800 + (128 * 8), Print_GetFontInfo()->CharCount * 8);
+	VDP_WriteVRAM_16K(Print_GetFontInfo()->FontPatterns, VDP_GetPatternTable() + 0x1000 + (128 * 8), Print_GetFontInfo()->CharCount * 8);
+	for(u16 i = 128; i < 192; i++)
+	{
+		VDP_WriteVRAM_16K(g_FontColorNormal, VDP_GetColorTable() + 0x0800 + (i * 8), 8);
+		VDP_WriteVRAM_16K(g_FontColorNormal, VDP_GetColorTable() + 0x1000 + (i * 8), 8);
+	}
+
 	// Initialize the menu
 	Menu_Initialize(g_Menus);
+	Menu_SetEventCallback(MenuEventHandler);
 	Menu_DrawPage(MENU_MAIN); // Display the first page
 	
+	// Play main music
+	PlayMusic(MUSIC_MAIN);
+
 	Game_SetState(State_MenuUpdate);
 
 	VDP_EnableDisplay(TRUE);
@@ -1471,7 +1545,10 @@ bool State_GameInit()
 	// Initialize display
 	VDP_EnableDisplay(FALSE);
 	VDP_SetColor(COLOR_BLACK);
-	
+
+	// Play main music
+	StopMusic();
+
 	// Initialize background tiles
 	DrawLevel(FALSE);
 	CollisionInit();
@@ -1643,6 +1720,37 @@ bool State_VictoryUpdate()
 }
 
 //=============================================================================
+// INTERRUPTION
+//=============================================================================
+
+//
+void VSynch()
+{
+	if ((g_NextMusic != 0xFF) /*&& (g_frameVSyncCounter != 6)*/)
+	{
+		if (g_NextMusic != g_CurrentMusic)
+		{
+			// Load music data
+			Pletter_UnpackToRAM((const void *)g_MusicTable[g_NextMusic], (void *)MUSIC_ADDRESS);
+			AKG_Init((const void *)MUSIC_ADDRESS, 0);
+	
+			// // Load SFX data
+			// Pletter_UnpackToRAM((const void *)g_AKG_SoundFX, (void *)SFX_ADDRESS);
+			// AKG_InitSFX((const void *)SFX_ADDRESS);
+	
+			g_CurrentMusic = g_NextMusic;
+		}
+		// if (g_NextSFX != 0xFF)
+		// {
+		// 	AKG_PlaySFX(g_NextSFX, ARKOS_CHANNEL_C, 0);
+		// 	g_NextSFX = 0xFF;
+		// }
+	
+		AKG_Decode();
+	}
+}
+
+//=============================================================================
 // MAIN LOOP
 //=============================================================================
 
@@ -1678,6 +1786,8 @@ void main()
 		g_MenuGraph[2].Type |= MENU_ITEM_DISABLE;
 	}
 
+	// Start game loop
+	Game_SetVSyncCallback(VSynch);
 	Game_SetState(State_LogoInit);
 	Game_MainLoop(VDP_MODE_SCREEN2);
 }

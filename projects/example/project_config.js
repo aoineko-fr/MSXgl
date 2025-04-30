@@ -43,7 +43,7 @@ Emulator  = `${ToolsDir}openMSX/openmsx`;
 //*****************************************************************************
 
 //-- Project name (string). Will be use for output filename
-ProjName = "example";
+ProjName = "pengpong";
 
 //-- List of project modules to build (array). If empty, ProjName will be added
 ProjModules = [ ProjName ];
@@ -52,7 +52,7 @@ ProjModules = [ ProjName ];
 // ProjSegments = ProjName;
 
 //-- List of library modules to build (array)
-LibModules = [ "debug", "compress/pletter", "game/game", "game/pawn", "game/menu", "sprite_fx", "system", "bios", "vdp", "print", "input", "memory", "math" ];
+LibModules = [ "arkos/akg_player", "debug", "compress/pletter", "game/game", "game/pawn", "game/menu", "sprite_fx", "system", "bios", "vdp", "print", "input", "math" ];
 
 //-- Additional sources to be compiled and linked with the project (array)
 // AddSources = [];
@@ -165,7 +165,7 @@ AddROMSignature = true;
 AppSignature = true;
 
 //-- Application company (*). Can be 2 character string or 16-bits integer (0~65535)
-AppCompany = "PP";
+AppCompany = "PH"; // PP = Pixel Phenix
 
 //-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
 AppID = 0x0003;
@@ -178,7 +178,7 @@ AppID = 0x0003;
 //*******************************************************************************
 
 //-- Force to generate MSXgl static library even if 'msxgl.lib' already exist (boolean)
-BuildLibrary = false;
+BuildLibrary = true;
 
 //-- Prepare program for debug (boolean)
 Debug = true;
@@ -273,13 +273,13 @@ Verbose = true;
 //*******************************************************************************
 
 //-- Execute MAP analyzer (boolean)
-// Analyzer = false;
+Analyzer = true;
 
 //-- Analyzer output selection (string)
 //   - Console    Output to termial console
 //   - File       Output to file
 //   - Both       Output to file and termial console (default)
-// AnalyzerOutput = "Both";
+AnalyzerOutput = "Both";
 
 //-- Analyzer report elements (string)
 //   - [A]        Report areas
@@ -287,13 +287,13 @@ Verbose = true;
 //   - [M]        Report modules
 //   - [C]        Report code symbols
 //   - [V]        Report variable symbols
-// AnalyzerReport = "ASMCV";
+AnalyzerReport = "ASMCV";
 
 //-- Analyzer report sorting (string)
 //   - None       No sorting (MAP file order)
 //   - Alpha      Alphanumeric sorting
 //   - Size       Size sorting (default)
-// AnalyzerSort = "Size";
+AnalyzerSort = "Size";
 
 //-- Export analyzer data to CSV file (boolean)
 // AnalyzerCSV = false;

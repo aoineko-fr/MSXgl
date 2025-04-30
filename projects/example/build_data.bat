@@ -46,4 +46,19 @@ echo  Building Phenix Pixel logo data...
 	-l i16 0 16 2 1 0xFFFFFF ^
 	-l i16 0 32 2 1 0xDED087
 
+echo ----------------------------------------
+echo  Converting Arkos Tracker music...
+%Tools%\compress\Pletter\pletter datasrc\music\music_main.akg  datasrc\music\music_main.pl5
+%MSXtk%\MSXbin datasrc\music\music_main.pl5 -ad -t g_AKG_MusicMain -o content\music_main.h
+
+%Tools%\compress\Pletter\pletter datasrc\music\music_victory.akg  datasrc\music\music_victory.pl5
+%MSXtk%\MSXbin datasrc\music\music_victory.pl5 -ad -t g_AKG_Musicvictory -o content\music_victory.h
+
+%Tools%\compress\Pletter\pletter datasrc\music\music_empty.akg  datasrc\music\music_empty.pl5
+%MSXtk%\MSXbin datasrc\music\music_empty.pl5 -ad -t g_AKG_MusicEmpty -o content\music_empty.h
+
+@REM %Tools%\compress\Pletter\pletter datasrc\music\sfx.akx  datasrc\music\sfx.pl5
+@REM %MSXtk%\MSXbin datasrc\music\sfx.pl5 -ad -t g_AKG_SoundFX -o content\sfx.h
+
+
 pause

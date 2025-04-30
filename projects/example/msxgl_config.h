@@ -58,10 +58,10 @@
 
 // MAIN-Bios module setting
 #define BIOS_USE_MAINROM			TRUE	// Allow use of Main-ROM routines
-#define BIOS_USE_VDP				TRUE	// Give access to Main-ROM routines related to VDP
-#define BIOS_USE_PSG				TRUE	// Give access to Main-ROM routines related to PSG
-#define BIOS_USE_SUBROM				TRUE	// Allow use of Sub-ROM routines (MSX2/2+/turbo R)
-#define BIOS_USE_DISKROM			TRUE	// Allow use of Disk-ROM routines
+#define BIOS_USE_VDP				FALSE	// Give access to Main-ROM routines related to VDP
+#define BIOS_USE_PSG				FALSE	// Give access to Main-ROM routines related to PSG
+#define BIOS_USE_SUBROM				FALSE	// Allow use of Sub-ROM routines (MSX2/2+/turbo R)
+#define BIOS_USE_DISKROM			FALSE	// Allow use of Disk-ROM routines
 
 //-----------------------------------------------------------------------------
 // VDP MODULE
