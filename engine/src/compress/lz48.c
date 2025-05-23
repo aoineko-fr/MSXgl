@@ -22,7 +22,8 @@ void LZ48_UnpackToRAM(const void* source, void* dest)
 {
 	source;	// HL
 	dest;	// DE
-	__asm
+
+__asm
 //-----------------------------------------------------------------------------
 // LZ48 decrunch
 //
@@ -114,7 +115,7 @@ ram_copykey:
 	pop		hl
 	jr		ram_nextsequence
 //-----------------------------------------------------------------------------
-	__endasm;
+__endasm;
 }
 
 #elif (LZ48_MODE == LZ48_MODE_SPEED)
@@ -126,7 +127,8 @@ void LZ48_UnpackToRAM(const void* source, void* dest)
 {
 	source;	// HL
 	dest;	// DE
-	__asm
+
+__asm
 //-----------------------------------------------------------------------------
 // LZ48 decrunch
 //
@@ -241,7 +243,7 @@ getadditionallength:
 	inc		b
 	jr		lengthC
 //-----------------------------------------------------------------------------
-	__endasm;
+__endasm;
 }
 
 #elif (LZ48_MODE == LZ48_MODE_SIZE)
@@ -253,7 +255,8 @@ void LZ48_UnpackToRAM(const void* source, void* dest)
 {
 	source;	// HL
 	dest;	// DE
-	__asm
+
+__asm
 //-----------------------------------------------------------------------------
 // LZ48 decrunch
 //
@@ -339,7 +342,7 @@ getadditionallength:
 	inc		b
 	jr		lengthC
 //-----------------------------------------------------------------------------
-	__endasm;
+__endasm;
 }
 
 #endif

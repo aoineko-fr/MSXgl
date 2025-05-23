@@ -81,68 +81,70 @@ void Print_DrawVersion(u16 ver)
 
 //-----------------------------------------------------------------------------
 //
-void InterSlotWritePage3(u8 slot, u16 addr, u8 value) __sdcccall(0)
+void InterSlotWritePage3(u8 slot, u16 addr, u8 value) __NAKED __SDCCCALL0
 {
 	slot;  // IX+4
 	addr;  // IX+6 IX+5
 	value; // IX+7
-	__asm
-		di
-		push	ix
-		ld		ix, #0
-		add		ix, sp
-		ld		d, 4(ix)		// D=[E.|..|SS|PP] Get slot ID
-		ld		l, 5(ix)
-		ld		h, 6(ix)		// HL=Write address
-		ld		a, 7(ix)		
-		ld		i, a			// I=Write value
-		
-		// Backup primary slot
-		in		a, (P_PPI_A)	// A=[P3|P2|P1|P0]
-		ld		b, a			// B=[P3|P2|P1|P0] Save current primary slot in B
 
-		// Switch primary slot
-		ld		a, d			// A=[E.|..|SS|PP]
-		rrca
-		rrca					// A=[PP|E.|..|SS]
-		and		#0b11000000		// A=[PP|00|00|00]
-		ld		e, a			// E=[PP|00|00|00]
-		ld		a, b			// A=[P3|P2|P1|P0]
-		and		#0b00111111		// A=[00|P2|P1|P0]
-		or		e				// A=[PP|P2|P1|P0] remplace ?? par le slot primaire (00,01,10 ou 11)
-		out		(P_PPI_A), a	//                 write new primary slot
+__asm
+	di
+	push	ix
+	ld		ix, #0
+	add		ix, sp
+	ld		d, 4(ix)		// D=[E.|..|SS|PP] Get slot ID
+	ld		l, 5(ix)
+	ld		h, 6(ix)		// HL=Write address
+	ld		a, 7(ix)		
+	ld		i, a			// I=Write value
+	
+	// Backup primary slot
+	in		a, (P_PPI_A)	// A=[P3|P2|P1|P0]
+	ld		b, a			// B=[P3|P2|P1|P0] Save current primary slot in B
 
-		// Backup secondary slot (of the new primary slot)
-		ld		a, (M_SLTSL)	// A=[~3|~2|~1|~0]
-		cpl						// A=[S3|S2|S1|S0]
-		ld		c, a			// C=[S3|S2|S1|S0] Save current secondary slot in C
+	// Switch primary slot
+	ld		a, d			// A=[E.|..|SS|PP]
+	rrca
+	rrca					// A=[PP|E.|..|SS]
+	and		#0b11000000		// A=[PP|00|00|00]
+	ld		e, a			// E=[PP|00|00|00]
+	ld		a, b			// A=[P3|P2|P1|P0]
+	and		#0b00111111		// A=[00|P2|P1|P0]
+	or		e				// A=[PP|P2|P1|P0] remplace ?? par le slot primaire (00,01,10 ou 11)
+	out		(P_PPI_A), a	//                 write new primary slot
 
-		// Switch secondary slot
-		ld		a, d			// A=[E.|..|SS|PP]
-		rlca
-		rlca					// A=[..|SS|PP|E.]
-		rlca
-		rlca					// A=[SS|PP|E.|..]
-		and		#0b11000000		// A=[SS|00|00|00]
-		ld		e, a			// E=[SS|00|00|00]
-		ld		a, c			// A=[S3|S2|S1|S0]
-		and		#0b00111111		// A=[00|S2|S1|S0]
-		or		e				// A=[SS|S2|S1|S0] remplace ?? par le slot secondaire (00,01,10 ou 11)
-		ld		(M_SLTSL), a	//				   write new seconday slot
+	// Backup secondary slot (of the new primary slot)
+	ld		a, (M_SLTSL)	// A=[~3|~2|~1|~0]
+	cpl						// A=[S3|S2|S1|S0]
+	ld		c, a			// C=[S3|S2|S1|S0] Save current secondary slot in C
 
-		// Write
-		ld		a, i
-		ld		(hl), a
+	// Switch secondary slot
+	ld		a, d			// A=[E.|..|SS|PP]
+	rlca
+	rlca					// A=[..|SS|PP|E.]
+	rlca
+	rlca					// A=[SS|PP|E.|..]
+	and		#0b11000000		// A=[SS|00|00|00]
+	ld		e, a			// E=[SS|00|00|00]
+	ld		a, c			// A=[S3|S2|S1|S0]
+	and		#0b00111111		// A=[00|S2|S1|S0]
+	or		e				// A=[SS|S2|S1|S0] remplace ?? par le slot secondaire (00,01,10 ou 11)
+	ld		(M_SLTSL), a	//				   write new seconday slot
 
-		// Restore		
-		ld		a, c			// C=[S3|S2|S1|S0]
-		ld		(M_SLTSL), a
-		ld		a, b			// B=[P3|P2|P1|P0]
-		out		(P_PPI_A), a
+	// Write
+	ld		a, i
+	ld		(hl), a
 
-		pop		ix
-		ei
-	__endasm;
+	// Restore		
+	ld		a, c			// C=[S3|S2|S1|S0]
+	ld		(M_SLTSL), a
+	ld		a, b			// B=[P3|P2|P1|P0]
+	out		(P_PPI_A), a
+
+	pop		ix
+	ei
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
@@ -151,56 +153,58 @@ u8 InterSlotReadPage3(u8 slot, u16 addr)
 {
 	slot;	// A  -> D
 	addr;	// DE -> HL
-	__asm
-		di
-		ld		d, a			// D=[E.|..|SS|PP] Get slot ID
-		ld		l, d
-		ld		h, e			// HL=Read address
 
-		// Backup primary slot
-		in		a, (P_PPI_A)	// A=[P3|P2|P1|P0]
-		ld		b, a			// B=[P3|P2|P1|P0] Save current primary slot in B
+__asm
+	di
+	ld		d, a			// D=[E.|..|SS|PP] Get slot ID
+	ld		l, d
+	ld		h, e			// HL=Read address
 
-		// Switch primary slot
-		ld		a, d			// A=[E.|..|SS|PP]
-		rrca
-		rrca					// A=[PP|E.|..|SS]
-		and		#0b11000000		// A=[PP|00|00|00]
-		ld		e, a			// E=[PP|00|00|00]
-		ld		a, b			// A=[P3|P2|P1|P0]
-		and		#0b00111111		// A=[00|P2|P1|P0]
-		or		e				// A=[PP|P2|P1|P0] Remplace ?? par le slot primaire (00,01,10 ou 11)
-		out		(P_PPI_A), a
+	// Backup primary slot
+	in		a, (P_PPI_A)	// A=[P3|P2|P1|P0]
+	ld		b, a			// B=[P3|P2|P1|P0] Save current primary slot in B
 
-		// Backup secondary slot (of the new primary slot)
-		ld		a, (M_SLTSL)	// A=[~3|~2|~1|~0]
-		cpl						// A=[S3|S2|S1|S0]
-		ld		c, a			// C=[S3|S2|S1|S0] Save current secondary slot in C
+	// Switch primary slot
+	ld		a, d			// A=[E.|..|SS|PP]
+	rrca
+	rrca					// A=[PP|E.|..|SS]
+	and		#0b11000000		// A=[PP|00|00|00]
+	ld		e, a			// E=[PP|00|00|00]
+	ld		a, b			// A=[P3|P2|P1|P0]
+	and		#0b00111111		// A=[00|P2|P1|P0]
+	or		e				// A=[PP|P2|P1|P0] Remplace ?? par le slot primaire (00,01,10 ou 11)
+	out		(P_PPI_A), a
 
-		// Switch secondary slot
-		ld		a, d			// A=[E.|..|SS|PP]
-		rlca					
-		rlca					// A=[..|SS|PP|E.]
-		rlca
-		rlca					// A=[SS|PP|E.|..]
-		and		#0b11000000		// A=[SS|00|00|00]
-		ld		e, a			// E=[SS|00|00|00]
-		ld		a, c			// A=[S3|S2|S1|S0]
-		and		#0b00111111		// A=[S3|00|00|00]
-		or		e				// A=[SS|S2|S1|S0] Remplace ?? par le slot secondaire (00,01,10 ou 11)
-		ld		(M_SLTSL), a
-		// Read
-		ld		a, (hl)
-		ld		l, a			// L=Return value
+	// Backup secondary slot (of the new primary slot)
+	ld		a, (M_SLTSL)	// A=[~3|~2|~1|~0]
+	cpl						// A=[S3|S2|S1|S0]
+	ld		c, a			// C=[S3|S2|S1|S0] Save current secondary slot in C
 
-		// Restore		
-		ld		a, c
-		ld		(M_SLTSL), a
-		ld		a, b
-		out		(P_PPI_A), a
+	// Switch secondary slot
+	ld		a, d			// A=[E.|..|SS|PP]
+	rlca					
+	rlca					// A=[..|SS|PP|E.]
+	rlca
+	rlca					// A=[SS|PP|E.|..]
+	and		#0b11000000		// A=[SS|00|00|00]
+	ld		e, a			// E=[SS|00|00|00]
+	ld		a, c			// A=[S3|S2|S1|S0]
+	and		#0b00111111		// A=[S3|00|00|00]
+	or		e				// A=[SS|S2|S1|S0] Remplace ?? par le slot secondaire (00,01,10 ou 11)
+	ld		(M_SLTSL), a
+	// Read
+	ld		a, (hl)
+	ld		l, a			// L=Return value
 
-		ei
-	__endasm;
+	// Restore		
+	ld		a, c
+	ld		(M_SLTSL), a
+	ld		a, b
+	out		(P_PPI_A), a
+
+	ei
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------

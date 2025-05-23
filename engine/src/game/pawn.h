@@ -28,13 +28,13 @@
 // PAWN_USE_RT_LOAD
 #ifndef PAWN_USE_RT_LOAD
 	#warning PAWN_USE_RT_LOAD is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define PAWN_USE_RT_LOAD			TRUE // FALSE
+	#define PAWN_USE_RT_LOAD			FALSE
 #endif
 
 // PAWN_USE_SPRT_FX
 #ifndef PAWN_USE_SPRT_FX
 	#warning PAWN_USE_SPRT_FX is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define PAWN_USE_SPRT_FX			TRUE // FALSE
+	#define PAWN_USE_SPRT_FX			FALSE
 #endif
 
 // PAWN_USE_PHYSICS
@@ -45,6 +45,12 @@
 	#else
 		#define PAWN_USE_PHYSICS		FALSE
 	#endif
+#endif
+
+// PAWN_UNIT
+#ifndef PAWN_UNIT
+	#warning PAWN_UNIT is not defined in "msxgl_config.h"! Default value will be used: PAWN_UNIT_SCREEN
+	#define PAWN_UNIT					PAWN_UNIT_SCREEN
 #endif
 
 // PAWN_SPRITE_SIZE
@@ -215,6 +221,15 @@
 	#endif
 #endif
 
+
+#if (PAWN_UNIT == PAWN_UNIT_SCREEN)
+	// Pawn coordinate unit
+	#define PAWN_POS				u8
+#else // (PAWN_UNIT == PAWN_UNIT_QMN())
+	// Pawn coordinate unit
+	#define PAWN_POS				u16
+#endif
+
 //=============================================================================
 // DEFINES
 //=============================================================================
@@ -330,8 +345,8 @@ typedef struct
 	u8					SpriteID;		// Sprite ID of the first layer (0~31)
 #endif
 	const Pawn_Action*	ActionList;		// List of actions
-	u8					PositionX;		// Pawn screen position
-	u8					PositionY;
+	PAWN_POS			PositionX;		// Pawn screen position
+	PAWN_POS			PositionY;
 	u8					ActionId;		// Current action id
 	u8					AnimFrame;		// Current animation frame id
 	u8					AnimStep;		// Current step into the animation
@@ -394,7 +409,7 @@ void Pawn_Initialize(Pawn* pawn, const Pawn_Sprite* sprtList, u8 sprtNum, u8 spr
 //   pawn - Address of game pawn structure to move.
 //   x    - New X coordinate (in pixels).
 //   y    - New Y coordinate (in pixels).
-void Pawn_SetPosition(Pawn* pawn, u8 x, u8 y);
+void Pawn_SetPosition(Pawn* pawn, PAWN_POS x, PAWN_POS y);
 
 // Function: Pawn_GetPositionX
 // Get the X coordinate of the pawn's position.
@@ -404,7 +419,7 @@ void Pawn_SetPosition(Pawn* pawn, u8 x, u8 y);
 //
 // Return:
 //   X coordinate of the pawn's position.
-inline u8 Pawn_GetPositionX(Pawn* pawn) { return pawn->PositionX; }
+inline PAWN_POS Pawn_GetPositionX(Pawn* pawn) { return pawn->PositionX; }
 
 // Function: Pawn_GetPositionY
 // Get the Y coordinate of the pawn's position.
@@ -414,7 +429,7 @@ inline u8 Pawn_GetPositionX(Pawn* pawn) { return pawn->PositionX; }
 //
 // Return:
 //   Y coordinate of the pawn's position.
-inline u8 Pawn_GetPositionY(Pawn* pawn) { return pawn->PositionY; }
+inline PAWN_POS Pawn_GetPositionY(Pawn* pawn) { return pawn->PositionY; }
 
 // Function: Pawn_ForceSetAction
 // Force to set game pawn action id.
@@ -556,7 +571,7 @@ void Pawn_SetMovement(Pawn* pawn, i8 dx, i8 dy);
 //   pawn - Address of game pawn structure to move.
 //   x    - New X coordinate (in pixels).
 //   y    - New Y coordinate (in pixels).
-inline void Pawn_SetTargetPosition(Pawn* pawn, u8 x, u8 y) { Pawn_SetMovement(pawn, x - pawn->PositionX, y - pawn->PositionY); }
+inline void Pawn_SetTargetPosition(Pawn* pawn, PAWN_POS x, PAWN_POS y) { Pawn_SetMovement(pawn, (i8)((i16)x - pawn->PositionX), (i8)((i16)y - pawn->PositionY)); }
 
 // Function: Pawn_SetPhysicsCallback
 // Set pawn physics callback

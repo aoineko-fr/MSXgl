@@ -59,24 +59,29 @@ i8 Clamp(i8 val, i8 min, i8 max)
 
 //-----------------------------------------------------------------------------
 // Change the text and background color
-void Bios_ChangeColor2(u8 text, u8 back, u8 border, u8 mode)
+void Bios_ChangeColor2(u8 text, u8 back, u8 border, u8 mode) __NAKED // Stack: 4 bytes
 {
 	text;   // A
 	back;   // L
 	border; // (SP+4)
 	mode;   // (SP+5)
-	__asm
-		ld		iy, #4
-		add		iy, sp
 
-		ld  	(M_FORCLR), a
-		ld  	a, l
-		ld  	(M_BAKCLR), a
-		ld  	a, 0(iy)
-		ld  	(M_BDRCLR), a
-		ld  	a, 1(iy)
-		call	R_CHGCLR
-	__endasm;
+__asm
+	ld		iy, #4
+	add		iy, sp
+
+	ld  	(M_FORCLR), a
+	ld  	a, l
+	ld  	(M_BAKCLR), a
+	ld  	a, 0(iy)
+	ld  	(M_BDRCLR), a
+	ld  	a, 1(iy)
+	call	R_CHGCLR
+
+	pop	hl
+	pop	af
+	jp	(hl)
+__endasm;
 }
 
 //=============================================================================

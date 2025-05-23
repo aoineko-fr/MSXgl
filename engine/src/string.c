@@ -26,23 +26,26 @@ enum STRINT_PAD
 #if (STRING_USE_FROM_UINT8)
 //-----------------------------------------------------------------------------
 // Create a zero-terminated string from a 8-bits unsigned integer
-void String_FromUInt8ZT(u8 value, c8* string)
+void String_FromUInt8ZT(u8 value, c8* string) __NAKED
 {
 	value;	// A
 	string;	// DE
+
 __asm
 	call	_String_FromUInt8
 	xor		a
 	ld		(de), a
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Create a string from a 8-bits unsigned integer (string is not zero-terminated)
-void String_FromUInt8(u8 value, c8* string)
+void String_FromUInt8(u8 value, c8* string) __NAKED
 {
 	value;	// A
 	string; // DE
+
 __asm
 DispA:
 	ld		c, #-100
@@ -73,23 +76,26 @@ __endasm;
 #if (STRING_USE_FROM_UINT16)
 //-----------------------------------------------------------------------------
 // Create a zero-terminated string from a 16-bits unsigned integer
-void String_FromUInt16ZT(u16 value, c8* string)
+void String_FromUInt16ZT(u16 value, c8* string) __NAKED
 {
 	value;	// HL
 	string;	// DE
+
 __asm
 	call	_String_FromUInt16
 	xor		a
 	ld		(de), a
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Create a string from a 16-bits unsigned integer (string is not zero-terminated)
-void String_FromUInt16(u16 value, c8* string)
+void String_FromUInt16(u16 value, c8* string) __NAKED
 {
 	value;	// HL
 	string;	// DE
+
 __asm
 Num2Dec:
 	ld		bc, #-10000

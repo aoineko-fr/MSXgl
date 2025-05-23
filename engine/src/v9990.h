@@ -570,7 +570,7 @@ inline bool V9_IsSecondField() { return V9_GetStatus() & V9_P05_E0; }
 // Set interruption flags.
 //
 // Parameters:
-//   flags - Can be a combination of <V9_INT_VBLANK>, <V9_INT_HBLANK> or <V9_INT_CMDEND>.
+//   flags - Can be any combination of <V9_INT_VBLANK>, <V9_INT_HBLANK> or <V9_INT_CMDEND>.
 inline void V9_SetInterrupt(u8 flags) { V9_SetRegister(9, flags); }
 
 // Function: V9_DisableInterrupt
@@ -815,21 +815,29 @@ inline void V9_SetSpritePositionP1(u8 id, u8 x, u8 y) { V9_Poke(V9_P1_SPAT + 0 +
 //           + <V9_SPAT_INFO_PALETTE>
 inline void V9_SetSpriteInfoP1(u8 id, u8 info) { V9_Poke(V9_P1_SPAT + 3 + (id * 4), info); }
 
+// Function: V9_SetSpriteEnableP1
+// Set sprite enable flag for P1 mode.
+//
+// Parameters:
+//   id - Sprite index (0 to 124).
+//   enable - Is sprite display is enable?
+inline void V9_SetSpriteEnableP1(u8 id, bool enable)
+{
+	u8 val = V9_Peek(V9_P1_SPAT + 3 + (id * 4));
+	if (enable)
+		val &= ~V9_SPAT_DISABLE_MASK;
+	else
+		val |= V9_SPAT_DISABLE_MASK;
+	V9_Poke(V9_P1_SPAT + 3 + (id * 4), val); 
+}
+
 // Function: V9_SetSpriteDisableP1
 // Set sprite disable flag for P1 mode.
 //
 // Parameters:
 //   id - Sprite index (0 to 124).
 //   disable - Is sprite display is disable?
-inline void V9_SetSpriteDisableP1(u8 id, bool disable)
-{
-	u8 val = V9_Peek(V9_P1_SPAT + 3 + (id * 4));
-	if (disable)
-		val &= ~V9_SPAT_DISABLE_MASK;
-	else
-		val |= V9_SPAT_DISABLE_MASK;
-	V9_Poke(V9_P1_SPAT + 3 + (id * 4), val); 
-}
+inline void V9_SetSpriteDisableP1(u8 id, bool disable) { V9_SetSpriteEnableP1(id, !disable); }
 
 // Function: V9_SetSpritePriorityP1
 // Set sprite priority for P1 mode.
@@ -909,21 +917,29 @@ inline void V9_SetSpritePositionP2(u8 id, u8 x, u8 y) { V9_Poke(V9_P2_SPAT + (4 
 //           + <V9_SPAT_INFO_PALETTE>
 inline void V9_SetSpriteInfoP2(u8 id, u8 info) { V9_Poke(V9_P2_SPAT + 3 + (id * 4), info); }
 
+// Function: V9_SetSpriteEnableP2
+// Set sprite enable flag for P2 mode.
+//
+// Parameters:
+//   id - Sprite index (0 to 124).
+//   enable - Is sprite display is enable?
+inline void V9_SetSpriteEnableP2(u8 id, bool enable)
+{
+	u8 val = V9_Peek(V9_P2_SPAT + 3 + (id * 4));
+	if (enable)
+		val &= ~V9_SPAT_DISABLE_MASK;
+	else
+		val |= V9_SPAT_DISABLE_MASK;
+	V9_Poke(V9_P2_SPAT + 3 + (id * 4), val); 
+}
+
 // Function: V9_SetSpriteDisableP2
 // Set sprite disable flag for P2 mode.
 //
 // Parameters:
 //   id - Sprite index (0 to 124).
 //   disable - Is sprite display is disable?
-inline void V9_SetSpriteDisableP2(u8 id, bool disable)
-{
-	u8 val = V9_Peek(V9_P2_SPAT + 3 + (id * 4));
-	if (disable)
-		val &= ~V9_SPAT_DISABLE_MASK;
-	else
-		val |= V9_SPAT_DISABLE_MASK;
-	V9_Poke(V9_P2_SPAT + 3 + (id * 4), val); 
-}
+inline void V9_SetSpriteDisableP2(u8 id, bool disable) { V9_SetSpriteEnableP2(id, !disable); }
 
 // Function: V9_SetSpritePriorityP2
 // Set sprite priority for P2 mode.

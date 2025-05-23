@@ -80,7 +80,7 @@ typedef void (*callback)(void);				// Callback default signature
 //-----------------------------------------------------------------------------
 // Compilation switch
 //-----------------------------------------------------------------------------
-#pragma disable_warning	59		// Remove "function must return value" warning
+// #pragma disable_warning	59		// Remove "function must return value" warning
 #pragma disable_warning	110		// Remove "conditional flow changed by optimizer: so said EVELYN the modified DOG" warning
 #pragma disable_warning	126		// Remove "unreachable code" warning
 #pragma disable_warning	218 	// Remove "z80instructionSize() failed to parse line node, assuming 999 bytes" info
@@ -188,29 +188,29 @@ typedef void (*callback)(void);				// Callback default signature
 // Misc.
 //-----------------------------------------------------------------------------
 
-// Macro to include assembler code into C source file
-#define INCLUDE_ASM(label, path) void DummyASM_##label() __NAKED { \
-	__asm                                                          \
-		_##label::                                                 \
-		.include path                                              \
-		_end##label::                                              \
-	__endasm; }                                                    \
-	extern void label
-
-// Macro to include binary data into C source file
-#define INCLUDE_BIN(label, path) void DummyASM_##label() __NAKED { \
-	__asm                                                          \
-		_##label::                                                 \
-		.inbin path                                                \
-		_end##label::                                              \
-	__endasm; }                                                    \
-	extern void label
-
 // Macro to create a name by concatenating two part
 #define MACRO_MERGE(a, b)			a##b
 
 // Macro to overcome # in macro error with SDCC 4.3.0 
 #define HASH #
+
+// Macro to include assembler code into C source file
+#define INCLUDE_ASM(label, path) void MACRO_MERGE(DummyASM_,label)() __NAKED { \
+	__asm                                                                      \
+		MACRO_MERGE(_,label)::                                                 \
+		.include path                                                          \
+		MACRO_MERGE(_end,label)::                                              \
+	__endasm; }                                                                \
+	extern void label
+
+// Macro to include binary data into C source file
+#define INCLUDE_BIN(label, path) void MACRO_MERGE(DummyASM_,label)() __NAKED { \
+	__asm                                                                      \
+		MACRO_MERGE(_,label)::                                                 \
+		.inbin path                                                            \
+		MACRO_MERGE(_end,label)::                                              \
+	__endasm; }                                                                \
+	extern void label
 
 //-----------------------------------------------------------------------------
 // SDCC defines

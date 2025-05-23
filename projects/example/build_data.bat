@@ -48,17 +48,16 @@ echo  Building Phenix Pixel logo data...
 
 echo ----------------------------------------
 echo  Converting Arkos Tracker music...
-%Tools%\compress\Pletter\pletter datasrc\music\music_main.akg  datasrc\music\music_main.pl5
-%MSXtk%\MSXbin datasrc\music\music_main.pl5 -ad -t g_AKG_MusicMain -o content\music_main.h
+%Tools%\compress\Pletter\pletter datasrc\music\music_main.akm  datasrc\music\music_main.pl5
+%MSXtk%\MSXbin datasrc\music\music_main.pl5 -ad -t g_MusicMain -o content\music_main.h
 
-%Tools%\compress\Pletter\pletter datasrc\music\music_victory.akg  datasrc\music\music_victory.pl5
-%MSXtk%\MSXbin datasrc\music\music_victory.pl5 -ad -t g_AKG_Musicvictory -o content\music_victory.h
+%Tools%\compress\Pletter\pletter datasrc\music\music_victory.akm  datasrc\music\music_victory.pl5
+%MSXtk%\MSXbin datasrc\music\music_victory.pl5 -ad -t g_Musicvictory -o content\music_victory.h
 
-%Tools%\compress\Pletter\pletter datasrc\music\music_empty.akg  datasrc\music\music_empty.pl5
-%MSXtk%\MSXbin datasrc\music\music_empty.pl5 -ad -t g_AKG_MusicEmpty -o content\music_empty.h
+%Tools%\compress\Pletter\pletter datasrc\music\music_empty.akm  datasrc\music\music_empty.pl5
+%MSXtk%\MSXbin datasrc\music\music_empty.pl5 -ad -t g_MusicEmpty -o content\music_empty.h
 
-@REM %Tools%\compress\Pletter\pletter datasrc\music\sfx.akx  datasrc\music\sfx.pl5
-@REM %MSXtk%\MSXbin datasrc\music\sfx.pl5 -ad -t g_AKG_SoundFX -o content\sfx.h
-
+%Tools%\compress\Pletter\pletter datasrc\music\sfx.akx  datasrc\music\sfx.pl5
+%MSXtk%\MSXbin datasrc\music\sfx.pl5 -ad -t g_SoundFX -o content\sfx.h
 
 pause

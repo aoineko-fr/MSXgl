@@ -26,7 +26,7 @@ u16 g_PaddleStates[2];
 
 //-----------------------------------------------------------------------------
 // Read paddle state
-void Paddle_Update()
+void Paddle_Update() __NAKED
 {
 __asm
 // Based on:

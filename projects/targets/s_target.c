@@ -431,7 +431,7 @@ void main()
 		#endif
 	}
 	
-	#if ((TARGET_TYPE == TYPE_ROM) || (TARGET & ROM_ISR))
+	#if ((TARGET_TYPE == TYPE_ROM) && (TARGET & ROM_ISR))
 		// BIOS not present in page 0
 		Sys_SetPage0Slot(g_EXPTBL[0]);
 	#endif

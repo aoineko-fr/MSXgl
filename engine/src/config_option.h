@@ -41,14 +41,28 @@
 #define TYPE_ROM					1 // ROM program
 #define TYPE_DOS					2 // MSX-DOS program
 
+// General target options
+#define TARGET_ISR					(1<<13)
+
 //-----------------------------------------------------------------------------
 // TARGET options
 
-// DOS options
-#define DOS_0						0 // Disk boot program
-#define DOS_1						1 // MSX-DOS 1 program
-#define DOS_2						2 // MSX-DOS 2 program
-#define DOS_3						3 // NEXTOR program
+//.............................................................................
+// BIN options
+
+// BASIC program types
+#define BIN_DISK		  			0 // BASIC binary on disk
+#define BIN_TAPE		  			1 // BASIC binary on tape
+#define BIN_USR		  				2 // BASIC USR driver
+
+// Basic target type define
+//	15	14	13	12	11	10	9	8	7	6	5	4	3	2	1	0
+//	0	0	x	x	x	x	x	x	x	x	x	x	T3	T2	T1	T0
+//													└───┴───┴───┴── BASIC program type
+#define MAKE_BASIC(x)				((TYPE_BIN << 14) | (x))
+
+//.............................................................................
+// ROM options
 
 // ROM_MAPPER options (0-15)
 #define ROM_PLAIN					0 // Plain ROM (no mapper)
@@ -90,36 +104,55 @@
 #define ROM_32M						ROM_32768K
 #define ROM_64M						ROM_65536K
 
-#define ROM_ISR						(1<<12)
-#define ROM_MIRROR					(1<<13)
-#define RAM_MAPPER					(1<<13)
+// Additionnal ROM options
+#define ROM_MIRROR					(1<<12)
+#define ROM_ISR						TARGET_ISR
 
 // ROM target type define
 //	15	14	13	12	11	10	9	8	7	6	5	4	3	2	1	0
-//	0	1	MIR	ISR	M3	M2	M1	M0	S3	S2	S1	S0	P1	P0	B1	B0
+//	0	1	ISR	MIR	M3	M2	M1	M0	S3	S2	S1	S0	P1	P0	B1	B0
 //			│	│	│	│	│	│	│	│	│	│	│	│	└───┴── ROM boot page (address of 'AB' header)
 //			│	│	│	│	│	│	│	│	│	│	└───┴────────── ROM starting page (first address of the ROM ; can be different from booting page)
 //			│	│	│	│	│	│	└───┴───┴───┴────────────────── ROM size
 //			│	│	└───┴───┴───┴────────────────────────────────── ROM Mapper Type
-//			│	└────────────────────────────────────────────────── Use custom Interrupt Service Routine (place custom code in page 0)
-//			└────────────────────────────────────────────────────── Mirrored ROM
+//			│	└────────────────────────────────────────────────── Mirrored ROM
+//			└────────────────────────────────────────────────────── Use custom Interrupt Service Routine (place custom code in page 0)
 #define MAKE_ROM(m, s, p, b)		((TYPE_ROM << 14) | ((m) << 8) | ((s) << 4) | ((p) << 2) | (b))
 
-// Basic target type define
-#define MAKE_BASIC(x)				((TYPE_BIN << 14) | (x))
+
+//.............................................................................
+// DOS options
+
+// MSX-DOS program types
+#define DOS_0						0 // Disk boot program
+#define DOS_1						1 // MSX-DOS 1 program
+#define DOS_2						2 // MSX-DOS 2 program
+#define DOS_3						3 // NEXTOR program
+
+// Additionnal MSX-DOS options
+#define DOS_MAPPER					(1<<12)
+#define DOS_ISR						TARGET_ISR
 
 // DOS target type define
+//	15	14	13	12	11	10	9	8	7	6	5	4	3	2	1	0
+//	1	0	ISR	MAP	x	x	x	x	x	x	x	x	T3	T2	T1	T0
+//			│	│									└───┴───┴───┴── MSX-DOS program type
+//			│	└────────────────────────────────────────────────── ASCII-16 mapper emulation through RAM mapper
+//			└────────────────────────────────────────────────────── Use custom Interrupt Service Routine (place custom code in page 0)
 #define MAKE_DOS(x)					((TYPE_DOS << 14) | (x))
 
+//.............................................................................
+// Targets definition
+
 // -- BASIC program
-#define TARGET_BIN_DISK		  		MAKE_BASIC(0) // BASIC binary on disk (8000h~)
-#define TARGET_BIN_TAPE		  		MAKE_BASIC(1) // BASIC binary on tape (8000h~)
-#define TARGET_BIN_USR		  		MAKE_BASIC(2) // BASIC USR driver (C000h~)
+#define TARGET_BIN_DISK		  		MAKE_BASIC(BIN_DISK) // BASIC binary on disk (8000h~)
+#define TARGET_BIN_TAPE		  		MAKE_BASIC(BIN_TAPE) // BASIC binary on tape (8000h~)
+#define TARGET_BIN_USR		  		MAKE_BASIC(BIN_USR) // BASIC USR driver (C000h~)
 // -- DOS program
 #define TARGET_DOS0					MAKE_DOS(DOS_0) // Disk boot program (0100h~). Access to BDOS functions through F37Dh
 #define TARGET_DOS1					MAKE_DOS(DOS_1) // MSX-DOS 1 program (0100h~). No direct acces to Main-ROM
 #define TARGET_DOS2					MAKE_DOS(DOS_2) // MSX-DOS 2 program (0100h~). No direct acces to Main-ROM
-#define TARGET_DOS2_MAPPER			MAKE_DOS(DOS_2) + RAM_MAPPER // MSX-DOS 2 launcher to RAM mapper
+#define TARGET_DOS2_MAPPER			MAKE_DOS(DOS_2) + DOS_MAPPER // MSX-DOS 2 launcher to RAM mapper
 #define TARGET_DOS3					MAKE_DOS(DOS_3) // NEXTOR program (0100h~). No direct acces to Main-ROM
 #define TARGET_NEXTOR				TARGET_DOS3
 #define TARGET_DOS					TARGET_DOS1
@@ -380,6 +413,10 @@
 #define PAWN_SPT_MODE_BITMAP		50 // V9938/58 software sprite (Todo)
 #define PAWN_SPT_MODE_V9_P1			91 // V9990 sprite in P1 mode
 #define PAWN_SPT_MODE_V9_P2			92 // V9990 sprite in P2 mode
+
+// Pawn coordinate unit
+#define PAWN_UNIT_SCREEN			0x10000 // Default screen (pixel) unit (8-bit unsigned int)
+#define PAWN_UNIT_QMN(n)			(1 << n) // Fixed-point (Qm.n) unit (16-bit signed int)
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE

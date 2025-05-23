@@ -52,7 +52,7 @@ ProjModules = [ ProjName ];
 // ProjSegments = ProjName;
 
 //-- List of library modules to build (array)
-LibModules = [ "arkos/akg_player", "debug", "compress/pletter", "game/game", "game/pawn", "game/menu", "sprite_fx", "system", "bios", "vdp", "print", "input", "math" ];
+LibModules = [ "arkos/akm_player", "compress/pletter", "game/game", "game/pawn", "game/menu", "sprite_fx", "bios", "system", "vdp", "print", "input", "clock" ];
 
 //-- Additional sources to be compiled and linked with the project (array)
 // AddSources = [];
@@ -273,7 +273,7 @@ Verbose = true;
 //*******************************************************************************
 
 //-- Execute MAP analyzer (boolean)
-Analyzer = true;
+Analyzer = false;
 
 //-- Analyzer output selection (string)
 //   - Console    Output to termial console
@@ -309,7 +309,7 @@ AnalyzerSort = "Size";
 // General options
 
 EmulMachine    = false;				//-- Force the MSX version of the emulated machine (boolean)
-// Emul60Hz       = false;				//-- Force the emulated machine to be at 60 Hz (boolean)
+Emul60Hz       = true;				//-- Force the emulated machine to be at 60 Hz (boolean)
 // EmulFullScreen = false;				//-- Force the emulator to start in fullscreen mode (boolean)
 // EmulMute       = false;				//-- Disable emulator sound (boolean)
 EmulDebug      = true;				//-- Start emulator debugger with program launch (boolean)

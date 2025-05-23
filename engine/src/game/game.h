@@ -25,7 +25,7 @@
 //
 // Parameters:
 //   screenMode - The screen mode to select at game start. See <VDP_MODE>
-void Game_Initialize(u8 screenMode);
+void Game_Initialize(u8 screenMode, bool b60hz);
 
 // Function: Game_Update
 // Update game frame
@@ -55,7 +55,7 @@ extern bool g_GameExit;
 //
 // Parameters:
 //   screenMode - The screen mode to select at game start. See <VDP_MODE>
-void Game_MainLoop(u8 screenMode);
+void Game_Start(u8 screenMode, bool b60hz);
 
 // Function: Game_Exit
 // Game exit
@@ -152,5 +152,11 @@ inline u8 Game_GetFrameCount() { return g_GameFrame; }
 // Function: Game_WaitVSync
 // Wait for vertical-synchronization 
 void Game_WaitVSync();
+
+#if (GAME_USE_SYNC_50HZ)
+// Function: Game_SetIs60Hz
+// Set 60Hz mode (6th frame skip)
+inline void Game_SetIs60Hz(bool b60hz) { g_Game60Hz = b60hz; }
+#endif // (GAME_USE_SYNC_50HZ)
 
 #endif // (GAME_USE_VSYNC)

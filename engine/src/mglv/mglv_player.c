@@ -101,32 +101,34 @@ bool MGLV_Play(const void* addr)
 
 //-----------------------------------------------------------------------------
 // Set VRAM 16-bits address 
-void MGLV_SetVRAM_16B(u16 dest) __PRESERVES(b, c, d, e, iyl, iyh)
+void MGLV_SetVRAM_16B(u16 dest) __NAKED __PRESERVES(b, c, d, e, iyl, iyh)
 {
 	dest; // HL
-	__asm
-		ld		a, h
-		rlca
-		rlca
-		and		a, #0x03
-		di // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		out		(P_VDP_ADDR), a			// RegPort = (page << 2) + (dest >> 14);
-		ld		a, #VDP_REG(14)
-		out		(P_VDP_ADDR), a			// RegPort = VDP_REG(14);
-		
-		ld		a, l
-		out		(P_VDP_ADDR), a			// RegPort = (dest & 0x00FF);
-		ld		a, h
-		and		a, #0x3F
-		or		a, #F_VDP_WRIT
-		ei // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT;
-	__endasm;
+
+__asm
+	ld		a, h
+	rlca
+	rlca
+	and		a, #0x03
+	di // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	out		(P_VDP_ADDR), a			// RegPort = (page << 2) + (dest >> 14);
+	ld		a, #VDP_REG(14)
+	out		(P_VDP_ADDR), a			// RegPort = VDP_REG(14);
+	
+	ld		a, l
+	out		(P_VDP_ADDR), a			// RegPort = (dest & 0x00FF);
+	ld		a, h
+	and		a, #0x3F
+	or		a, #F_VDP_WRIT
+	ei // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT;
+	ret
+__endasm;
 }
 
 // //-----------------------------------------------------------------------------
 // // Set VRAM 17-bits address 
-// void MGLV_SetVRAM_17B(u32 dest) __PRESERVES(b, c, iyl, iyh)
+// void MGLV_SetVRAM_17B(u32 dest) __NAKED __PRESERVES(b, c, iyl, iyh)
 // {
 // 	dest; // HL:DE
 // 	__asm
@@ -150,6 +152,7 @@ void MGLV_SetVRAM_16B(u16 dest) __PRESERVES(b, c, d, e, iyl, iyh)
 // 		and		a, #0x3F
 // 		or		a, #F_VDP_WRIT
 // 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT;
+// 		ret
 // 	__endasm;
 // }
 
@@ -158,23 +161,23 @@ void MGLV_SetVRAM_16B(u16 dest) __PRESERVES(b, c, d, e, iyl, iyh)
 //
 // Parameters:
 //   value		- Byte value to copy in VRAM
-//   count		- Nomber of byte to copy in VRAM
-void MGLV_FillVRAM(u8 value, u16 count) __PRESERVES(c, h, l, iyl, iyh)
+//   count		- Number of byte to copy in VRAM
+void MGLV_FillVRAM(u8 value, u16 count) __NAKED __PRESERVES(c, h, l, iyl, iyh)
 {
 	value; // A
 	count; // DE
 
-	__asm
-		// fast 16-bits loop
-		ld		b, e					// number of loops is in DE
-		dec		de						// calculate DB value (destroys B, D and E)
-		inc		d
-	fll_loop_start:
-		out		(P_VDP_DATA), a			// fill			12cc
-		djnz	fll_loop_start			//				14cc
-		dec		d
-		jp		nz, fll_loop_start
-	__endasm;
+__asm
+	// fast 16-bits loop
+	ld		b, e					// number of loops is in DE
+	dec		de						// calculate DB value (destroys B, D and E)
+	inc		d
+fll_loop_start:
+	out		(P_VDP_DATA), a			// fill			12cc
+	djnz	fll_loop_start			//				14cc
+	dec		d
+	jp		nz, fll_loop_start
+__endasm;
 }
 
 
@@ -185,53 +188,54 @@ void MGLV_FillVRAM_32(u8 value) __PRESERVES(a, b, c, d, e, h, l, iyl, iyh);
 void MGLV_FillVRAM_16(u8 value) __PRESERVES(a, b, c, d, e, h, l, iyl, iyh);
 void MGLV_FillVRAM_8(u8 value) __PRESERVES(a, b, c, d, e, h, l, iyl, iyh);
 
-void MGLV_FillVRAM_X(u8 value, u8 count) __PRESERVES(a, b, c, iyl, iyh)
+void MGLV_FillVRAM_X(u8 value, u8 count) __NAKED __PRESERVES(a, b, c, iyl, iyh)
 {
 	value; // A
 	count; // L
 
-	__asm
+__asm
 
-		ld		h, #0					//  8|2
-		ld		d, h					//  5|1
-		ld		e, l					//  5|1
-		add		hl, hl					// 12|1 cound*2
-		add		hl, de 					// 12|1 cound*3
-		ld		de, #_MGLV_FillVRAM_256	// 11|3
-		add		hl, de					// 12|1 table+cound*3
-		jp		(hl)					//  5|1
+	ld		h, #0					//  8|2
+	ld		d, h					//  5|1
+	ld		e, l					//  5|1
+	add		hl, hl					// 12|1 cound*2
+	add		hl, de 					// 12|1 cound*3
+	ld		de, #_MGLV_FillVRAM_256	// 11|3
+	add		hl, de					// 12|1 table+cound*3
+	jp		(hl)					//  5|1
 
-	_MGLV_FillVRAM_256:
-	.rept 128
-		out		(P_VDP_DATA), a			// 12|2
-		nop								//  5|1
-	.endm
-	_MGLV_FillVRAM_128:
-	.rept 64
-		out		(P_VDP_DATA), a			// 12|2
-		nop								//  5|1
-	.endm
-	_MGLV_FillVRAM_64:
-	.rept 32
-		out		(P_VDP_DATA), a			// 12|2
-		nop								//  5|1
-	.endm
-	_MGLV_FillVRAM_32:
-	.rept 16
-		out		(P_VDP_DATA), a			// 12|2
-		nop								//  5|1
-	.endm
-	_MGLV_FillVRAM_16:
-	.rept 8
-		out		(P_VDP_DATA), a			// 12|2
-		nop								//  5|1
-	.endm
-	_MGLV_FillVRAM_8:
-	.rept 8
-		out		(P_VDP_DATA), a			// 12|2
-		nop								//  5|1
-	.endm
-	__endasm;
+_MGLV_FillVRAM_256:
+.rept 128
+	out		(P_VDP_DATA), a			// 12|2
+	nop								//  5|1
+.endm
+_MGLV_FillVRAM_128:
+.rept 64
+	out		(P_VDP_DATA), a			// 12|2
+	nop								//  5|1
+.endm
+_MGLV_FillVRAM_64:
+.rept 32
+	out		(P_VDP_DATA), a			// 12|2
+	nop								//  5|1
+.endm
+_MGLV_FillVRAM_32:
+.rept 16
+	out		(P_VDP_DATA), a			// 12|2
+	nop								//  5|1
+.endm
+_MGLV_FillVRAM_16:
+.rept 8
+	out		(P_VDP_DATA), a			// 12|2
+	nop								//  5|1
+.endm
+_MGLV_FillVRAM_8:
+.rept 8
+	out		(P_VDP_DATA), a			// 12|2
+	nop								//  5|1
+.endm
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
@@ -239,61 +243,62 @@ void MGLV_FillVRAM_X(u8 value, u8 count) __PRESERVES(a, b, c, iyl, iyh)
 //
 // Parameters:
 //   src		- Source data address in RAM
-//   count		- Nomber of byte to copy in VRAM
-void MGLV_WriteVRAM(const u8* src, u16 count) __PRESERVES(iyl, iyh)
+//   count		- Number of byte to copy in VRAM
+void MGLV_WriteVRAM(const u8* src, u16 count) __NAKED __PRESERVES(iyl, iyh)
 {
 	src;   // HL
 	count; // DE
 
-	__asm
-		ld		c, #P_VDP_DATA			// data register
-		// Handle count LSB
-		ld		a, e					// count LSB
-		and		a
-		jp		z, wrt_loop_init		// skip LSB
-		ld		b, a					// send (count & 0x00FF) bytes
-		otir
-		// Handle count MSB
-	wrt_loop_init:
-		ld		a, d					// count MSB
-	wrt_loop_start:
-		and		a
-		jp		z, wrt_loop_end			// finished
-		// ld		b, #0					// send 256 bytes packages
-		// otir
-	.rept 256
-		outi							// 18 t-states
-	.endm
-		dec		a
-		jp		wrt_loop_start
-	wrt_loop_end:
-	__endasm;
+__asm
+	ld		c, #P_VDP_DATA			// data register
+	// Handle count LSB
+	ld		a, e					// count LSB
+	and		a
+	jp		z, wrt_loop_init		// skip LSB
+	ld		b, a					// send (count & 0x00FF) bytes
+	otir
+	// Handle count MSB
+wrt_loop_init:
+	ld		a, d					// count MSB
+wrt_loop_start:
+	and		a
+	jp		z, wrt_loop_end			// finished
+	// ld		b, #0					// send 256 bytes packages
+	// otir
+.rept 256
+	outi							// 18 t-states
+.endm
+	dec		a
+	jp		wrt_loop_start
+wrt_loop_end:
+	ret
+__endasm;
 }
 
-void MGLV_CopyVRAM_X(u16 count, const u8* src)
+void MGLV_CopyVRAM_X(u16 count, const u8* src) __NAKED
 {
 	count; // A
 	src;   // DE
 
-	__asm
+__asm
 
-		// ld		h, #0					//  8|2
-		// ld		l, a					//  5|1
-		add		hl, hl					// 12|1 cound*2
-		ld		bc, #_MGLV_CopyVRAM_256	// 11|3
-		add		hl, bc					// 12|1 table+cound*2
-		ex		de, hl					//  5|1
-		ld		c, #P_VDP_DATA			//  8|2 set IO port
-		ld______iyh_d					// 10|2
-		ld______iyl_e					// 10|2
-		jp		(iy)					// 10|2
+	// ld		h, #0					//  8|2
+	// ld		l, a					//  5|1
+	add		hl, hl					// 12|1 cound*2
+	ld		bc, #_MGLV_CopyVRAM_256	// 11|3
+	add		hl, bc					// 12|1 table+cound*2
+	ex		de, hl					//  5|1
+	ld		c, #P_VDP_DATA			//  8|2 set IO port
+	ld______iyh_d					// 10|2
+	ld______iyl_e					// 10|2
+	jp		(iy)					// 10|2
 
-	_MGLV_CopyVRAM_256:
-	.rept 256
-		outi							// 18|2
-	.endm
+_MGLV_CopyVRAM_256:
+.rept 256
+	outi							// 18|2
+.endm
 
-	__endasm;
+__endasm;
 }
 
 //-----------------------------------------------------------------------------

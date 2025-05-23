@@ -34,7 +34,7 @@ u8 g_ONET_MAC[6];
 
 //-----------------------------------------------------------------------------
 // ObsoNET searching routine
-u8 ONET_Initialize() __naked
+u8 ONET_Initialize() __NAKED
 {
 	__asm
 
@@ -250,7 +250,7 @@ u8 ONET_Initialize() __naked
 }
 
 //-----------------------------------------------------------------------------
-void ONET_Dummy() __naked
+void ONET_Dummy() __NAKED
 {
 	__asm
 

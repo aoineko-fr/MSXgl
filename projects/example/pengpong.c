@@ -15,13 +15,13 @@
 #include "game/game.h"
 #include "game/pawn.h"
 #include "game/menu.h"
+#include "clock.h"
 #include "math.h"
-#include "debug.h"
 #include "string.h"
 #include "fixed_point.h"
 #include "version.h"
 #include "compress/pletter.h"
-#include "arkos/akg_player.h"
+#include "arkos/akm_player.h"
 
 // Lib
 #include "lib/phenix.h"
@@ -64,15 +64,19 @@
 #define VRAM_SPRITE_ATTRIBUTE		0x3E00
 
 #define MUSIC_ADDRESS				0xE800
+#define SFX_ADDRESS					0xE000
 
 // Index of all menu pages
 enum MENU_PAGES
 {
 	MENU_MAIN = 0, // Main page
-	MENU_START,    // Start page
+	MENU_VERSUS,   // Start page
+	MENU_SOLO,     // Start page
+	MENU_RULES,    // Rules page
 	MENU_OPTION,   // Options page
 	MENU_AUDIO,    // Audio options page
 	MENU_GRAPH,    // Graphical options page
+	MENU_INFOS,    // Infos page
 	MENU_CREDITS,  // Credits page
 //.............................
 	MENU_MAX,      // Number of menu
@@ -92,10 +96,13 @@ enum INPUT_SET
 // Input action flag
 enum INPUT_ACTION
 {
-	INPUT_NONE  = 0,
-	INPUT_RIGHT = 0b00000001,
-	INPUT_LEFT  = 0b00000010,
-	INPUT_JUMP  = 0b00000100,
+	INPUT_NONE   = 0,
+	INPUT_UP     = 0b00000001,
+	INPUT_DOWN   = 0b00000010,
+	INPUT_LEFT   = 0b00000100,
+	INPUT_RIGHT  = 0b00001000,
+	INPUT_ACTION = 0b00010000,
+	INPUT_CANCEL = 0b00100000,
 };
 
 // Actions id
@@ -121,6 +128,16 @@ enum ACTION_BALL_ID
 	ACTION_BALL_MAX,
 };
 
+// AI level
+enum AI_LEVEL
+{
+	AI_EASY = 0,
+	AI_MEDIUM,
+	AI_HARD,
+//.............................
+	AI_MAX,
+};
+
 // Palette enumaration
 enum PAL_ID
 {
@@ -135,7 +152,7 @@ enum PAL_ID
 // Frequence enumaration
 enum FREQ_MODE
 {
-	FREQ_AUTO,							// Use auto-detection
+	FREQ_AUTO,							// Use auto-detected frequency
 	FREQ_60HZ,							// Force 60 Hz
 	FREQ_50HZ,							// Force 50 Hz
 //.............................
@@ -156,7 +173,8 @@ enum SPRITE_ID
 	SPRITE_BALL_SHADOW,					// 8
 	SPRITE_PLY1_SHADOW,					// 9
 	SPRITE_PLY2_SHADOW,					// 10
-	SPRITE_CLOUD,						// 11-26
+	SPRITE_HIT_MARKER,					// 11
+	SPRITE_CLOUD,						// 12-27
 //.............................
 	SPRITE_MAX,
 };
@@ -171,9 +189,32 @@ enum MUSIC_ID
 	MUSIC_MAX,
 };
 
+// SFX index
+enum SFX_ID
+{
+	SFX_CLICK = 0,
+	SFX_BUMP,
+	SFX_JUMP,
+	SFX_BUMP2,
+	SFX_DING,
+	SFX_PUING,
+	SFX_CUICUI,
+	SFX_CUICUI2,
+	SFX_CLICK2,
+	SFX_TAC,
+	SFX_TIC,
+	SFX_SPEAK,
+	SFX_LAND,
+	SFX_DEBUG,
+	SFX_SEA,
+//.............................
+	SFX_MAX,
+};
+
 // Gameplay character stricture
 struct Character
 {
+	u8			ID;
 	bool		bFreeze;
 	bool		bMoving;
 	bool		bInAir;
@@ -198,12 +239,13 @@ struct Rule
 // Option data structure
 struct Option
 {
-	bool		Music;
-	bool		SFX;
-	bool		Blend; // Color blending
-	u8			Freq;
-	u8			Palette;
-	struct Rule	Rule;
+	bool		Music;				// 1
+	bool		SFX;				// 1
+	bool		Blend;				// 1	Color blending
+	u8			Freq;				// 2
+	u8			Palette;			// 3
+	u8   		InputSet[2];		// 2 x 2
+	struct Rule	Rule;				// 6 + 4
 };
 
 // Cloud data structure
@@ -234,20 +276,30 @@ bool State_VictoryUpdate();
 
 void DrawScore();
 void UpdateBallColor();
+void SaveOptions();
+void LoadOptions();
+void SetSprite(u8 idx, u8 x, u8 y, u8 shape, u8 color);
+void SetSpriteColor(u8 idx, u8 color);
 
 // Menu function callback
 void ApplyPaletteOption();
 void ApplyFreqOption();
+void ApplyMusicOption();
 const c8* MenuAction_Start(u8 op, i8 value);
 const c8* MenuAction_Input(u8 op, i8 value);
+const c8* MenuAction_AI(u8 op, i8 value);
 const c8* MenuAction_Freq(u8 op, i8 value);
 const c8* MenuAction_Palette(u8 op, i8 value);
+const c8* MenuAction_Music(u8 op, i8 value);
+const c8* MenuAction_Save(u8 op, i8 value);
+const c8* MenuAction_Reset(u8 op, i8 value);
 
 // Input function callback
 u8 CheckKB1();
 u8 CheckKB2();
 u8 CheckJoy1();
 u8 CheckJoy2();
+u8 CheckAI();
 
 //=============================================================================
 // READ-ONLY DATA
@@ -268,7 +320,7 @@ u8 CheckJoy2();
 #include "content/music_empty.h"
 #include "content/music_main.h"
 #include "content/music_victory.h"
-// #include "content/data_sfx.h"
+#include "content/sfx.h"
 
 //.............................................................................
 // Player 1 data
@@ -325,7 +377,7 @@ const Pawn_Frame g_FramesFall[] =
 // 
 const Pawn_Frame g_FramesHit[] =
 {
-	{ 12*12, 8, NULL },
+	{ 12*12, 12, NULL },
 };
 
 // 
@@ -503,7 +555,10 @@ const u8 g_ShadowPatternId[24] =
 };
 
 // Liste des animations
-const u8 *const g_MusicTable[MUSIC_MAX] = { g_AKG_MusicEmpty, g_AKG_MusicMain, g_AKG_MusicEmpty };
+const u8 *const g_MusicTable[MUSIC_MAX] = { g_MusicEmpty, g_MusicMain, g_Musicvictory };
+
+// Default options
+const struct Option g_OptionDefault = { TRUE, TRUE, TRUE, FREQ_AUTO, PAL_CUSTOM, { INPUT_SET_KB1, INPUT_SET_KB2 }, { 11, 1, 0 } };
 
 //=============================================================================
 // MEMORY DATA
@@ -511,16 +566,23 @@ const u8 *const g_MusicTable[MUSIC_MAX] = { g_AKG_MusicEmpty, g_AKG_MusicMain, g
 
 u16  g_StateTimer = 0;
 u8   g_VersionVDP;
-u8   g_Freq;
+u8   g_FreqCurrent;
 u8   g_FreqDetected;
+
+u8   g_SaveData[6];
+bool g_Saved = FALSE;
 
 // Characters
 struct Character g_Player[2];
 struct Character g_Ball;
 u8   g_CollisionMap[32*24];
-u8   g_InputSet[2] = { INPUT_SET_KB1, INPUT_SET_KB2 };
+bool g_BallHit;
 
 i16  g_CloudX[numberof(g_Cloud)];
+
+// AI
+bool g_AI = FALSE;
+u8   g_AILevel = AI_EASY;
 
 // Rules
 u8   g_Field = 0;
@@ -530,12 +592,13 @@ u8   g_LastTouch = 0;
 u8   g_Victorious = 0;
 
 // Audio
-u8 g_CurrentMusic = 0xFF;
-u8 g_NextMusic = 0xFF;
-u8 g_NextSFX = 0xFF;
+u8   g_CurrentMusic = 0xFF;
+u8   g_NextMusic = 0xFF;
+u8   g_NextSFX[3] = { 0xFF, 0xFF, 0xFF };
+u8   g_NextSFXVol[3];
 
 // Options parameters
-struct Option g_Option = { TRUE, TRUE, TRUE, 60, PAL_CUSTOM, { 11, 1, 0 } };
+struct Option g_Option;
 
 //.............................................................................
 // Menu
@@ -546,34 +609,56 @@ const MenuItemMinMax g_MenuBouncesMinMax =  { 0, 10, 1 };
 // Entries description for the Main menu
 const MenuItem g_MenuMain[] =
 {
-	{ "GAME",                MENU_ITEM_GOTO, NULL, MENU_START },	// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
+	{ "PLY VS PLY",          MENU_ITEM_GOTO, NULL, MENU_VERSUS },	// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
+	{ "PLY VS CPU",          MENU_ITEM_GOTO, NULL, MENU_SOLO },		// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
 	{ "OPTIONS",             MENU_ITEM_GOTO, NULL, MENU_OPTION },	// Entry to go to Option menu page
+	{ "INFOS",               MENU_ITEM_GOTO, NULL, MENU_INFOS },	// Entry to go to Option menu page
 	{ "CREDITS",             MENU_ITEM_GOTO, NULL, MENU_CREDITS },	// Entry to go to Option menu page
-#if ((TARGET == TARGET_BIN_DISK) || (TARGET == TARGET_BIN_TAPE) || (TARGET == TARGET_DOS1) || (TARGET == TARGET_DOS2))
+	#if ((TARGET == TARGET_BIN_DISK) || (TARGET == TARGET_BIN_TAPE) || (TARGET == TARGET_DOS1) || (TARGET == TARGET_DOS2))
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },			// Blank entry to create a gap
 	{ "EXIT",                MENU_ITEM_ACTION, MenuAction_Start, 0 },			// Entry to exit the game (will trigger MenuAction_Start with value equal to '0')
-#endif
+	#endif
 };
 
-
-
 // Entries description for the Start menu
-const MenuItem g_MenuStart[] =
+const MenuItem g_MenuVersus[] =
 {
 	{ "START>",              MENU_ITEM_ACTION, MenuAction_Start, 1 }, // Entry to change the screen mode (will trigger MenuAction_Screen)
-	{ "PLAYER1",             MENU_ITEM_ACTION, MenuAction_Input, 0 }, // Entry display a text aligned to left
-	{ "PLAYER2",             MENU_ITEM_ACTION, MenuAction_Input, 1 }, // Entry display a text aligned to center
+	{ "PLAYER 1",            MENU_ITEM_ACTION, MenuAction_Input, 0 }, // Entry display a text aligned to left
+	{ "PLAYER 2",            MENU_ITEM_ACTION, MenuAction_Input, 1 }, // Entry display a text aligned to center
+	{ "RULES>",              MENU_ITEM_GOTO, NULL, MENU_RULES },	// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
+	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },               // Blank entry to create a gap
+	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },        // Entry to go back to the main menu
+};
+
+// Entries description for the Start menu
+const MenuItem g_MenuSolo[] =
+{
+	{ "START>",              MENU_ITEM_ACTION, MenuAction_Start, 2 }, // Entry to change the screen mode (will trigger MenuAction_Screen)
+	{ "CONTROL",             MENU_ITEM_ACTION, MenuAction_Input, 1 }, // Entry display a text aligned to center
+	{ "CPU",                 MENU_ITEM_ACTION, MenuAction_AI,    0 }, // Entry display a text aligned to left
+	{ "RULES>",              MENU_ITEM_GOTO, NULL, MENU_RULES },	// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
+	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },               // Blank entry to create a gap
+	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },        // Entry to go back to the main menu
+};
+
+// Entries description for the Start menu
+const MenuItem g_MenuRules[] =
+{
 	{ "POINTS",              MENU_ITEM_INT, &g_Option.Rule.GamePoints, (i16)&g_MenuPointsMinMax },
 	{ "BOUNCES",             MENU_ITEM_INT, &g_Option.Rule.MaxBounce, (i16)&g_MenuBouncesMinMax },
+	{ "PASSES",              MENU_ITEM_INT, &g_Option.Rule.MaxPass,   (i16)&g_MenuBouncesMinMax },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },               // Blank entry to create a gap
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },        // Entry to go back to the main menu
 };
 
 // Entries description for the Option menu
-const MenuItem g_MenuOptions[] =
+/*const*/ MenuItem g_MenuOptions[] =
 {
-	{ "AUDIO",               MENU_ITEM_GOTO, NULL, MENU_AUDIO },
-	{ "GRAPH",               MENU_ITEM_GOTO, NULL, MENU_GRAPH },
+	{ "AUDIO>",              MENU_ITEM_GOTO, NULL, MENU_AUDIO },
+	{ "VIDEO>",              MENU_ITEM_GOTO, NULL, MENU_GRAPH },
+	{ "SAVE",                MENU_ITEM_ACTION, MenuAction_Save, 0 },
+	{ "RESET",               MENU_ITEM_ACTION, MenuAction_Reset, 0 },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
 };
@@ -581,7 +666,7 @@ const MenuItem g_MenuOptions[] =
 // Entries description for the Audio options menu
 const MenuItem g_MenuAudio[] =
 {
-	{ "MUSIC",               MENU_ITEM_BOOL, &g_Option.Music, NULL },
+	{ "MUSIC",               MENU_ITEM_ACTION, MenuAction_Music, 0 },
 	{ "SFX",                 MENU_ITEM_BOOL, &g_Option.SFX, NULL },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_OPTION },                // Entry to go back to the main menu
@@ -595,6 +680,16 @@ const MenuItem g_MenuAudio[] =
 	{ "PALETTE",             MENU_ITEM_ACTION, MenuAction_Palette, 0 },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
 	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_OPTION },                // Entry to go back to the main menu
+};
+
+// Entries description for the Credits menu
+const MenuItem g_MenuInfos[] =
+{
+	{ "VERSION 1.0 (FD50)",      MENU_ITEM_TEXT, NULL, -2 }, // Entry display a text aligned to center
+	{ "MADE WITH MSXGL",         MENU_ITEM_TEXT, NULL, -2 }, // Entry display a text aligned to center
+	{ "PHENIX PIXEL & 2025",     MENU_ITEM_TEXT, NULL, -2 }, // Entry display a text aligned to center
+	{ NULL,                      MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
+	{ "<BACK",                   MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
 };
 
 // Entries description for the Credits menu
@@ -613,10 +708,13 @@ const MenuItem g_MenuCredits[] =
 const Menu g_Menus[MENU_MAX] =
 {
 	{ NULL,	g_MenuMain,    numberof(g_MenuMain),    NULL }, // MENU_MAIN
-	{ NULL,	g_MenuStart,   numberof(g_MenuStart),   NULL }, // MENU_START
+	{ NULL,	g_MenuVersus,  numberof(g_MenuVersus),  NULL }, // MENU_VERSUS
+	{ NULL,	g_MenuSolo,    numberof(g_MenuSolo),    NULL }, // MENU_SOLO
+	{ NULL,	g_MenuRules,   numberof(g_MenuRules),   NULL }, // MENU_RULES
 	{ NULL,	g_MenuOptions, numberof(g_MenuOptions), NULL }, // MENU_OPTION
 	{ NULL,	g_MenuAudio,   numberof(g_MenuAudio),   NULL }, // MENU_AUDIO
 	{ NULL,	g_MenuGraph,   numberof(g_MenuGraph),   NULL }, // MENU_GRAPH
+	{ NULL,	g_MenuInfos,   numberof(g_MenuInfos),   NULL }, // MENU_INFOS
 	{ NULL,	g_MenuCredits, numberof(g_MenuCredits), NULL }, // MENU_CREDITS
 };
 
@@ -629,13 +727,13 @@ const Menu g_Menus[MENU_MAX] =
 //-----------------------------------------------------------------------------
 
 // Set the new music to be player
-inline void PlayMusic(u8 id) { g_NextMusic = id; }
+inline void PlayMusic(u8 id) { if (g_Option.Music) g_NextMusic = id; }
 
 // Stop music
-inline void StopMusic() { PlayMusic(MUSIC_EMPTY); }
+inline void StopMusic() { g_NextMusic = MUSIC_EMPTY; }
 
 // Set the new music to be player
-inline void PlaySFX(u8 id) { g_NextSFX = id; }
+inline void PlaySFX(u8 id, u8 chan, u8 vol) { g_NextSFX[chan] = id; g_NextSFXVol[chan] = vol; }
 
 //-----------------------------------------------------------------------------
 // MENU
@@ -648,12 +746,29 @@ void MenuEventHandler(u8 event)
 	switch (event)
 	{
 	case MENU_EVENT_UP:
+		PlaySFX(SFX_TIC, ARKOS_CHANNEL_C, 0x0F);
+		break;
+
 	case MENU_EVENT_DOWN:
+		PlaySFX(SFX_TAC, ARKOS_CHANNEL_C, 0x0F);
+		break;
+
 	case MENU_EVENT_SET:
 	case MENU_EVENT_INC:
 	case MENU_EVENT_DEC:
-	case MENU_EVENT_DRAW_TITLE:
+		PlaySFX(SFX_CLICK, ARKOS_CHANNEL_C, 0x0F);
+		switch (Menu_GetCurrentItem()->Type)
+		{
+		case MENU_ITEM_INT:
+		case MENU_ITEM_BOOL:
+			g_Saved = FALSE;
+			break;
+		}
 		break;
+
+	// case MENU_EVENT_DRAW_TITLE:
+	// 	break;
+
 	case MENU_EVENT_DRAW_ENTRY:
 		Print_SetPatternOffset(128);
 		break;
@@ -672,10 +787,19 @@ const c8* MenuAction_Start(u8 op, i8 value)
 	case MENU_ACTION_SET:
 	case MENU_ACTION_INC:
 	case MENU_ACTION_DEC:
+
 		if (value == 0)
 			Bios_Exit(0);
-		else // if (value == 1)
+		else if (value == 1) // Versus
+		{
+			g_AI = FALSE;
 			Game_SetState(State_GameInit);
+		}
+		else if (value == 2) // Solo
+		{
+			g_AI = TRUE;
+			Game_SetState(State_GameInit);
+		}
 		break;
 	}
 
@@ -686,25 +810,60 @@ const c8* MenuAction_Start(u8 op, i8 value)
 // Callback to handle input
 const c8* MenuAction_Input(u8 op, i8 value)
 {
-	value;
 	switch(op)
 	{
 	case MENU_ACTION_SET:
 	case MENU_ACTION_INC:
 	inc_input_set:
-		g_InputSet[value] = (g_InputSet[value] + 1) % INPUT_SET_MAX;
-		if (g_InputSet[value] == g_InputSet[1 - value])
+		g_Option.InputSet[value] = (g_Option.InputSet[value] + 1) % INPUT_SET_MAX;
+		if (g_Option.InputSet[value] == g_Option.InputSet[1 - value])
 			goto inc_input_set;
+		g_Saved = FALSE;
 		break;
 	case MENU_ACTION_DEC:
 	dec_input_set:
-		g_InputSet[value] = (g_InputSet[value] + (INPUT_SET_MAX - 1)) % INPUT_SET_MAX;
-		if (g_InputSet[value] == g_InputSet[1 - value])
+		g_Option.InputSet[value] = (g_Option.InputSet[value] + (INPUT_SET_MAX - 1)) % INPUT_SET_MAX;
+		if (g_Option.InputSet[value] == g_Option.InputSet[1 - value])
 			goto dec_input_set;
+		g_Saved = FALSE;
 		break;
 	}
 
-	return g_InputSetName[g_InputSet[value]];
+	return g_InputSetName[g_Option.InputSet[value]];
+}
+
+//-----------------------------------------------------------------------------
+// Callback to handle input
+const c8* MenuAction_AI(u8 op, i8 value)
+{
+	value;
+	switch(op)
+	{
+	case MENU_ACTION_SET:
+	case MENU_ACTION_INC:
+		if (g_AILevel < AI_MAX - 1)
+			g_AILevel++;
+		else
+			g_AILevel = 0;
+		break;
+	case MENU_ACTION_DEC:
+		if (g_AILevel > 0)
+			g_AILevel--;
+		else
+			g_AILevel = AI_MAX - 1;
+		break;
+	}
+
+	switch (g_AILevel)
+	{
+	case AI_EASY:
+		return "EASY";
+	case AI_MEDIUM:
+		return "MEDIUM";
+	case AI_HARD:
+		return "HARD";
+	}
+	return NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -716,10 +875,18 @@ const c8* MenuAction_Freq(u8 op, i8 value)
 	{
 	case MENU_ACTION_SET:
 	case MENU_ACTION_INC:
-		g_Option.Freq = (g_Option.Freq + 1) % FREQ_MAX;
+		if (g_Option.Freq < FREQ_MAX - 1)
+			g_Option.Freq++;
+		else
+			g_Option.Freq = 0;
+		g_Saved = FALSE;
 		break;
 	case MENU_ACTION_DEC:
-		g_Option.Freq = (g_Option.Freq + (FREQ_MAX - 1)) % FREQ_MAX;
+		if (g_Option.Freq > 0)
+			g_Option.Freq--;
+		else
+			g_Option.Freq = FREQ_MAX - 1;
+		g_Saved = FALSE;
 		break;
 	}
 
@@ -728,9 +895,9 @@ const c8* MenuAction_Freq(u8 op, i8 value)
 		return "60HZ";
 	else if (g_Option.Freq == FREQ_50HZ)
 		return "50HZ";
-	else //if (g_Option.Freq == FREQ_AUTO) 
+	else // if (g_Option.Freq == FREQ_AUTO) 
 	{
-		if (g_Freq == FREQ_50HZ)
+		if (g_FreqCurrent == FREQ_50HZ)
 			return "AUTO:50HZ";
 		else
 			return "AUTO:60HZ";
@@ -752,9 +919,11 @@ const c8* MenuAction_Palette(u8 op, i8 value)
 	case MENU_ACTION_SET:
 	case MENU_ACTION_INC:
 		g_Option.Palette = (g_Option.Palette + 1) % PAL_MAX;
+		g_Saved = FALSE;
 		break;
 	case MENU_ACTION_DEC:
 		g_Option.Palette = (g_Option.Palette + (PAL_MAX - 1)) % PAL_MAX;
+		g_Saved = FALSE;
 		break;
 	}
 
@@ -773,6 +942,68 @@ const c8* MenuAction_Palette(u8 op, i8 value)
 
 	return NULL;
 }
+
+//-----------------------------------------------------------------------------
+// Callback to handle music enabling/disabling
+const c8* MenuAction_Music(u8 op, i8 value)
+{
+	value;
+	switch(op)
+	{
+	case MENU_ACTION_SET:
+	case MENU_ACTION_INC:
+	case MENU_ACTION_DEC:
+		TOGGLE(g_Option.Music);
+		g_Saved = FALSE;
+		ApplyMusicOption();
+		break;
+	}
+	return g_Option.Music ? "#" : "$";
+}
+
+//-----------------------------------------------------------------------------
+// Callback to handle otion save on RTC
+const c8* MenuAction_Save(u8 op, i8 value)
+{
+	value;
+	if (g_VersionVDP == VDP_VERSION_TMS9918A)
+		return "(FOR MSX2)";
+
+	switch(op)
+	{
+	case MENU_ACTION_SET:
+	case MENU_ACTION_INC:
+	case MENU_ACTION_DEC:
+		SaveOptions();
+		g_Saved = TRUE;
+		break;
+	}
+
+	RTC_SetMode(RTC_MODE_BLOCK_3);
+	bool bValid = ((RTC_Read(0) == RTC_DATA_SIGNSAVE) && (RTC_LoadDataSigned(g_SaveData)));
+	return g_Saved ? "SAVED" : (bValid) ? "VALID" : "EMPTY";
+}
+
+//-----------------------------------------------------------------------------
+// Callback to reset options
+const c8* MenuAction_Reset(u8 op, i8 value)
+{
+	value;
+	switch(op)
+	{
+	case MENU_ACTION_SET:
+	case MENU_ACTION_INC:
+	case MENU_ACTION_DEC:
+		Mem_Copy((u8*)&g_OptionDefault, (u8*)&g_Option, sizeof(struct Option));
+		g_Saved = FALSE;
+		ApplyFreqOption();
+		ApplyPaletteOption();
+		ApplyMusicOption();
+		break;
+	}
+	return NULL;
+}
+
 
 //-----------------------------------------------------------------------------
 // RULES
@@ -814,6 +1045,7 @@ void Rules_Score(u8 ply)
 		VDP_SetColor(COLOR_WHITE);
 		Game_SetState(State_Point);
 	}
+	PlaySFX(SFX_CUICUI, ARKOS_CHANNEL_C, 0x0F);
 	DrawScore();
 }	
 
@@ -857,7 +1089,11 @@ void PlayerPhysics(u8 event, struct Character* ply)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
 	case PAWN_PHYSICS_COL_DOWN:
-		ply->bInAir = FALSE;
+		if (ply->bInAir)
+		{
+			ply->bInAir = FALSE;
+			PlaySFX(SFX_LAND, ply->ID, 0x0C);
+		}
 		break;
 
 	case PAWN_PHYSICS_FALL: // Handle falling
@@ -895,6 +1131,7 @@ void PhysicsEventBall(u8 event, u8 tile)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN: // Handle downward collisions 
 	case PAWN_PHYSICS_COL_DOWN:
+		PlaySFX(SFX_BUMP2, ARKOS_CHANNEL_C, ((g_Ball.VelocityY >> 3) & 0x03) + 11); // Make bounce volume depend on vertical velocity
 		g_Ball.VelocityY *= -1; // Reverse
 		Pawn_SetAction(&g_Ball.Pawn, ACTION_BALL_BUMP);
 		if (g_Ball.Pawn.PositionY > 140)
@@ -956,7 +1193,7 @@ bool PressKey()
 
 
 //-----------------------------------------------------------------------------
-//
+// Check keyboard configuration 1
 u8 CheckKB1()
 {
 	u8 row3 = Keyboard_Read(3);
@@ -966,12 +1203,12 @@ u8 CheckKB1()
 	else if (IS_KEY_PRESSED(row3, KEY_G))
 		ret |= INPUT_RIGHT;
 	if (IS_KEY_PRESSED(row3, KEY_F))
-		ret |= INPUT_JUMP;
+		ret |= INPUT_ACTION;
 	return ret;
 }
 
 //-----------------------------------------------------------------------------
-//
+// Check keyboard configuration 2
 u8 CheckKB2()
 {
 	u8 row8 = Keyboard_Read(8);
@@ -981,12 +1218,12 @@ u8 CheckKB2()
 	else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 		ret |= INPUT_LEFT;
 	if (IS_KEY_PRESSED(row8, KEY_UP))
-		ret |= INPUT_JUMP;
+		ret |= INPUT_ACTION;
 	return ret;
 }
 
 //-----------------------------------------------------------------------------
-//
+// Check joystick port 1
 u8 CheckJoy1()
 {
 	u8 joy = Joystick_Read(JOY_PORT_1);
@@ -996,12 +1233,12 @@ u8 CheckJoy1()
 	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
 		ret |= INPUT_RIGHT;
 	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
-		ret |= INPUT_JUMP;
+		ret |= INPUT_ACTION;
 	return ret;
 }
 
 //-----------------------------------------------------------------------------
-//
+// Check joystick port 2
 u8 CheckJoy2()
 {
 	u8 joy = Joystick_Read(JOY_PORT_2);
@@ -1011,8 +1248,90 @@ u8 CheckJoy2()
 	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
 		ret |= INPUT_RIGHT;
 	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
-		ret |= INPUT_JUMP;
+		ret |= INPUT_ACTION;
 	return ret;
+}
+
+//-----------------------------------------------------------------------------
+//
+u8 GetBallHitX()
+{
+	const Pawn* ballPawn = &g_Ball.Pawn;
+
+	u8 hitT = 0;
+	i8 hitV = g_Ball.VelocityY;
+	i16 hitH = ballPawn->PositionY * 16;
+	while (hitH < 168 * 16)
+	{
+		hitV += BALL_GRAVITY; // Apply gravity
+		if (hitV > FALL_MAX_SPEED) // Clamp fall speed
+			hitV = FALL_MAX_SPEED;
+		hitH += hitV;
+		hitT++;
+	}
+	i16 x = ballPawn->PositionX + Q4_4_GET(g_Ball.VelocityX * hitT);
+	if (x < 0)
+		x = 0;
+	else if (x > 255)
+		x = 255;
+	return x;
+	// return ballPawn->PositionX + Q4_4_GET(g_Ball.VelocityX * ((168 - ballPawn->PositionY) / 3));{
+}
+
+//-----------------------------------------------------------------------------
+//
+u8 CheckAI()
+{
+	const Pawn* ballPawn = &g_Ball.Pawn;
+	const Pawn* plyPawn = &g_Player[0].Pawn;
+
+// VDP_SetColor(COLOR_BLACK);
+SetSpriteColor(SPRITE_HIT_MARKER, COLOR_MEDIUM_GREEN);
+
+	// Serve
+	if ((ballPawn->PositionX < 128) && (g_Ball.bFreeze == TRUE))
+	{
+		if (plyPawn->PositionX < 48)
+			return INPUT_RIGHT | INPUT_ACTION;
+		else
+			return INPUT_LEFT;
+	}
+
+	u8 hitX = GetBallHitX();
+
+SetSprite(SPRITE_HIT_MARKER, hitX, 176, 124, COLOR_MEDIUM_RED);
+// VDP_SetColor(COLOR_DARK_GREEN);
+
+	// Repositionning
+	if ((ballPawn->PositionX > 128) && (hitX > 128))
+	{
+		if (plyPawn->PositionX < 32)
+				return INPUT_RIGHT;
+		else if (plyPawn->PositionX > 64)
+			return INPUT_LEFT;
+		else
+			return INPUT_NONE;
+	}	
+
+// VDP_SetColor(COLOR_DARK_RED);
+
+	// Shoot
+	i8 dx = (hitX - plyPawn->PositionX);
+	if ((dx > 0) && (ballPawn->PositionY > 128))
+	{
+		if (dx > 32)
+			return INPUT_ACTION | INPUT_RIGHT;
+		else
+			return INPUT_ACTION;
+	}
+
+// VDP_SetColor(COLOR_DARK_BLUE);
+
+	// Reception
+	if (plyPawn->PositionX < hitX)
+		return INPUT_RIGHT;
+	else
+		return INPUT_LEFT;
 }
 
 //-----------------------------------------------------------------------------
@@ -1023,6 +1342,9 @@ u8 CheckJoy2()
 // Apply palette option (for MSX2)
 void ApplyPaletteOption()
 {
+	if (g_VersionVDP == VDP_VERSION_TMS9918A)
+		return;
+
 	switch(g_Option.Palette)
 	{
 	case PAL_CUSTOM:
@@ -1044,13 +1366,31 @@ void ApplyPaletteOption()
 // Apply frequency option
 void ApplyFreqOption()
 {
+	// Set gameplay frequency according to option
 	if (g_Option.Freq == FREQ_60HZ) 
-		g_Freq = FREQ_60HZ;
+		g_FreqCurrent = FREQ_60HZ;
 	else if (g_Option.Freq == FREQ_50HZ)
-		g_Freq = FREQ_50HZ;
-	else
-		g_Freq = g_FreqDetected;
+		g_FreqCurrent = FREQ_50HZ;
+	else // if (g_Option.Freq == FREQ_AUTO)
+		g_FreqCurrent = g_FreqDetected;
+
+	// Change VDP frequency
+	if (g_VersionVDP > VDP_VERSION_TMS9918A)
+	{
+		VDP_SetFrequency((g_FreqCurrent == FREQ_50HZ) ? VDP_FREQ_50HZ : VDP_FREQ_60HZ);
+		Game_SetIs60Hz(g_FreqCurrent == FREQ_60HZ);
+	}
 }
+
+//-----------------------------------------------------------------------------
+// Apply music option
+void ApplyMusicOption()
+{
+	if (g_Option.Music)
+		PlayMusic(MUSIC_MAIN);
+	else
+		StopMusic();
+}	
 
 //-----------------------------------------------------------------------------
 // Initialize sprite according to sprite model
@@ -1105,7 +1445,7 @@ void CollisionInit()
 	Mem_Set(0, g_CollisionMap, sizeof(g_CollisionMap));
 	
 	// Ground
-	Mem_Set(0xFF, g_CollisionMap + 23 * 32, 32);
+	// Mem_Set(0xFF, g_CollisionMap + 23 * 32, 32);
 
 	// "Net"
 	loop(i, NET_H)
@@ -1129,6 +1469,58 @@ void DrawLevel(bool bTitle)
 	// VDP_FillVRAM_16K(0x01, VDP_GetLayoutTable(), 32);
 }
 
+
+//-----------------------------------------------------------------------------
+// Save options to RTC
+void SaveOptions()
+{
+	// Byte #0
+	g_SaveData[0] = g_Option.Palette & 0x07; // 0b00000111
+	if (g_Option.Music) g_SaveData[0] |= 0b00010000;
+	if (g_Option.SFX)   g_SaveData[0] |= 0b00100000;
+	if (g_Option.Blend) g_SaveData[0] |= 0b01000000;
+
+	// Byte #1
+	g_SaveData[1] = g_Option.Freq & 0x03;              // 0b00000011
+	g_SaveData[1] |= (g_Option.InputSet[0] & 0x03) << 4; // 0b00110000
+	g_SaveData[1] |= (g_Option.InputSet[1] & 0x03) << 6; // 0b11000000
+
+	// Bytes #2-4
+	g_SaveData[2] = g_Option.Rule.GamePoints;   // 0b00111111
+	g_SaveData[3] = g_Option.Rule.MaxBounce;    // 0b00001111
+	g_SaveData[4] = g_Option.Rule.MaxPass;      // 0b00001111
+
+	RTC_SaveDataSigned(g_SaveData);
+}
+
+//-----------------------------------------------------------------------------
+// Load options from RTC
+void LoadOptions()
+{
+	RTC_SetMode(RTC_MODE_BLOCK_3);
+	if (RTC_Read(0) != RTC_DATA_SIGNSAVE)
+		return;
+
+	if (!RTC_LoadDataSigned(g_SaveData))
+		return;
+
+	// Byte #0
+	g_Option.Palette = g_SaveData[0] & 0b00000111;
+	g_Option.Music   = (g_SaveData[0] & 0b00010000);
+	g_Option.SFX     = (g_SaveData[0] & 0b00100000);
+	g_Option.Blend   = (g_SaveData[0] & 0b01000000);
+
+	// Byte #1
+	g_Option.Freq         = g_SaveData[1] & 0b00000011;
+	g_Option.InputSet[0] = (g_SaveData[1] & 0b00110000) >> 4;
+	g_Option.InputSet[1] = (g_SaveData[1] & 0b11000000) >> 6;
+
+	// Bytes #2-4
+	g_Option.Rule.GamePoints = g_SaveData[2];
+	g_Option.Rule.MaxBounce  = g_SaveData[3];
+	g_Option.Rule.MaxPass    = g_SaveData[4];
+}
+
 //-----------------------------------------------------------------------------
 // PLAYER
 //-----------------------------------------------------------------------------
@@ -1139,10 +1531,17 @@ void InitPlayerPosition(u8 id)
 {
 	struct Character* ply = &g_Player[id];
 	Pawn* pawn = &ply->Pawn;
+	#if (1)
 	if (id == 0)
 		Pawn_SetPosition(pawn, 32, 168);
 	else
 		Pawn_SetPosition(pawn, (u8)(255 - 32 - 16), 168);
+	#else
+	if (id == 0)
+		Pawn_SetPosition(pawn, Q4_4_SET(32), Q4_4_SET(168));
+	else
+		Pawn_SetPosition(pawn, Q4_4_SET(255 - 32 - 16), Q4_4_SET(168));
+	#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1152,6 +1551,7 @@ void InitPlayer(u8 id)
 	struct Character* ply = &g_Player[id];
 	Mem_Set(0, ply, sizeof(struct Character)); // Set all paramters to 0
 
+	ply->ID = id;
 	Pawn* pawn = &ply->Pawn;
 	if (id == 0)
 	{
@@ -1181,6 +1581,7 @@ void UpdateCharacter(struct Character* ply)
 
 	if (!ply->bFreeze)
 	{
+#if (1)
 		// Compute delta movement and store conversion rest
 		i8 dx = Q4_4_GET(ply->VelocityX);
 		ply->RestX += ply->VelocityX - dx;
@@ -1192,8 +1593,11 @@ void UpdateCharacter(struct Character* ply)
 		ply->RestY += ply->VelocityY - dy;
 		dy += Q4_4_GET(ply->RestY);
 		ply->RestY = Q4_4_FRAC(ply->RestY);
-
+		
 		Pawn_SetMovement(pawn, dx, dy);
+#else
+		Pawn_SetMovement(pawn, ply->VelocityX, ply->VelocityY);
+#endif
 	}
 	Pawn_Update(pawn);
 }
@@ -1236,8 +1640,9 @@ void UpdatePlayer(struct Character* ply)
 		if (ply->VelocityY > FALL_MAX_SPEED) // Clamp fall speed
 			ply->VelocityY = FALL_MAX_SPEED;
 	}
-	else if (ply->Input & INPUT_JUMP) // Initialize jump force
+	else if (ply->Input & INPUT_ACTION) // Initialize jump force
 	{
+		PlaySFX(SFX_JUMP, ply->ID, 0x0E);
 		ply->bInAir = TRUE;
 		ply->VelocityY = JUMP_FORCE;
 	}
@@ -1273,7 +1678,11 @@ void UpdatePlayer(struct Character* ply)
 void InitBallPosition()
 {
 	Pawn* pawn = &g_Ball.Pawn;
+	#if (1)
 	Pawn_SetPosition(pawn, (g_Field == 0) ? 56 : 184, 128);
+	#else
+	Pawn_SetPosition(pawn, (g_Field == 0) ? Q4_4_SET(56) : Q4_4_SET(184), Q4_4_SET(128));
+	#endif
 	g_Ball.bFreeze = TRUE;
 }
 
@@ -1291,6 +1700,7 @@ void InitBall()
 	
 	InitBallPosition();
 	SetSprite(SPRITE_BALL_SHADOW, pawn->PositionX, 183, 24, SHADOW_COLOR);
+	g_BallHit = FALSE;
 }
 
 //
@@ -1330,25 +1740,26 @@ void UpdateBall()
 	u16 sqrtDist = (dx * dx) + (dy * dy);
 	if (sqrtDist < COL_DIST * COL_DIST)
 	{
-		g_Ball.VelocityX = dx * 2;
-		g_Ball.VelocityX += ply->VelocityX / 2;
+		if (!g_BallHit)
+		{
+			g_BallHit = TRUE;
+			PlaySFX(SFX_BUMP2, ARKOS_CHANNEL_C, 0x0E);
 
-		g_Ball.VelocityY = Q4_4_SET(-1.5f);
-		// if (dy < 0)
-		// 	g_Ball.VelocityY += dy * 2; // Math_SignedDiv4
-		if (ply->VelocityY < 0)
-			g_Ball.VelocityY += ply->VelocityY / 2;
+			g_Ball.VelocityX = dx * 2;
+			g_Ball.VelocityX += ply->VelocityX / 2;
 
-		// g_Ball.VelocityX = dx * 2; // Math_SignedDiv4
-		// g_Ball.VelocityX += ply->VelocityX / 2;
-		// g_Ball.VelocityY = BOUNCE_FORCE;
-		// // g_Ball.VelocityY -= ABS8(dy); // Math_SignedDiv4
+			g_Ball.VelocityY = Q4_4_SET(-1.5f);
+			if (ply->VelocityY < 0)
+				g_Ball.VelocityY += ply->VelocityY / 2;
 
-		g_Ball.bFreeze = FALSE;
-		Pawn_SetAction(ballPawn, ACTION_BALL_BUMP);
-		Pawn_SetAction(plyPawn, ACTION_PLAYER_HIT);
-		Rules_Pass();
+			g_Ball.bFreeze = FALSE;
+			Pawn_SetAction(ballPawn, ACTION_BALL_BUMP);
+			Pawn_SetAction(plyPawn, ACTION_PLAYER_HIT);
+			Rules_Pass();
+		}
 	}
+	else
+		g_BallHit = FALSE;
 
 	// Update ball animation & physics
 	u8 x = ballPawn->PositionX;
@@ -1490,10 +1901,10 @@ bool State_MenuInit()
 
 	// Initialize clouds
 	VDP_HideAllSprites();
-	SetSprite(0,   1, 174, 68, COLOR_GRAY);
-	SetSprite(1,  17, 174, 76, COLOR_GRAY);
-	SetSprite(2, 224, 168, 84, COLOR_GRAY);
-	SetSprite(3, 240, 168, 92, COLOR_GRAY);
+	SetSprite(0,   2, 173, 68, COLOR_GRAY); // MSXgl
+	SetSprite(1,  18, 173, 76, COLOR_GRAY);
+	SetSprite(2, 223, 167, 84, COLOR_GRAY); // FutureDisk
+	SetSprite(3, 239, 167, 92, COLOR_GRAY);
 	InitClouds();
 		
 	// Initialize font
@@ -1577,6 +1988,7 @@ bool State_GameInit()
 	Rules_Init();
 
 	VDP_EnableDisplay(TRUE);
+	// PlaySFX(SFX_SEA, ARKOS_CHANNEL_C, 0x08);
 
 	Game_SetState(State_KickOff);
 	return FALSE; // Frame finished
@@ -1603,20 +2015,24 @@ bool State_KickOff()
 // Game update state
 bool State_Game()
 {
-// VDP_SetColor(COLOR_DARK_BLUE);
+// VDP_SetColor(COLOR_DARK_RED);
 
 	Pawn_Draw(&g_Ball.Pawn);
 	Pawn_Draw(&g_Player[0].Pawn);
 	Pawn_Draw(&g_Player[1].Pawn);
+
+// VDP_SetColor(COLOR_DARK_BLUE);
 
 	UpdatePlayer(&g_Player[0]);
 	UpdatePlayer(&g_Player[1]);
 	UpdateBall();
 	UpdateClouds();
 
+// VDP_SetColor(COLOR_DARK_GREEN);
+
 	// Update input
-	g_Player[0].Input = g_InputCheck[g_InputSet[0]]();
-	g_Player[1].Input = g_InputCheck[g_InputSet[1]]();
+	g_Player[0].Input = g_AI ? CheckAI() : g_InputCheck[g_Option.InputSet[0]]();
+	g_Player[1].Input = g_InputCheck[g_Option.InputSet[1]]();
 	
 	if (Keyboard_IsKeyPressed(KEY_ESC))
 		Game_SetState(State_MenuInit);
@@ -1639,11 +2055,10 @@ bool State_Pause()
 bool State_Point()
 {
 	Pawn_SetDirty(&g_Ball.Pawn);
-	Pawn_SetDirty(&g_Player[0].Pawn);
-	Pawn_SetDirty(&g_Player[1].Pawn);
-
 	Pawn_Draw(&g_Ball.Pawn);
+	Pawn_SetDirty(&g_Player[0].Pawn);
 	Pawn_Draw(&g_Player[0].Pawn);
+	Pawn_SetDirty(&g_Player[1].Pawn);
 	Pawn_Draw(&g_Player[1].Pawn);
 
 	Pawn_Update(&g_Ball.Pawn);
@@ -1668,11 +2083,13 @@ bool State_VictoryInit()
 {
 	g_StateTimer = 500;
 
+	#if (1)
 	Pawn_SetPosition(&g_Player[0].Pawn, g_Player[0].Pawn.PositionX, 168);
 	Pawn_SetPosition(&g_Player[1].Pawn, g_Player[1].Pawn.PositionX, 168);
-
-	// Pawn_SetPosition(&g_Player[0].Pawn, 64, 168);
-	// Pawn_SetPosition(&g_Player[1].Pawn, (u8)(255 - 64 - 16), 168);
+	#else
+	Pawn_SetPosition(&g_Player[0].Pawn, g_Player[0].Pawn.PositionX, Q4_4_SET(168));
+	Pawn_SetPosition(&g_Player[1].Pawn, g_Player[1].Pawn.PositionX, Q4_4_SET(168));
+	#endif
 
 	Pawn_SetEnable(&g_Ball.Pawn, FALSE);
 	Pawn_SetAction(&g_Player[1 - g_Victorious].Pawn, ACTION_PLAYER_LOOSE);
@@ -1681,6 +2098,9 @@ bool State_VictoryInit()
 	Pawn_SetAction(winner, ACTION_PLAYER_WIN);
 	SetSprite(SPRITE_WIN_BACK,  winner->PositionX, winner->PositionY - 24, 112, COLOR_LIGHT_RED);
 	SetSprite(SPRITE_WIN_FRONT, winner->PositionX, winner->PositionY - 24, 116, COLOR_DARK_RED);
+
+	PlayMusic(MUSIC_VICTORY);
+	PlaySFX(SFX_CUICUI, ARKOS_CHANNEL_C, 0x0F);
 
 	Game_SetState(State_VictoryUpdate);
 	return FALSE; // Frame finished
@@ -1691,8 +2111,9 @@ bool State_VictoryInit()
 bool State_VictoryUpdate()
 {
 	Pawn_SetDirty(&g_Player[0].Pawn);
-	Pawn_SetDirty(&g_Player[1].Pawn);
 	Pawn_Draw(&g_Player[0].Pawn);
+	
+	Pawn_SetDirty(&g_Player[1].Pawn);
 	Pawn_Draw(&g_Player[1].Pawn);
 
 	Pawn_Update(&g_Player[0].Pawn);
@@ -1711,8 +2132,9 @@ bool State_VictoryUpdate()
 	}
 
 	g_StateTimer--;
-	if ((g_StateTimer == 0) || (Keyboard_IsKeyPressed(KEY_ESC)))
+	if ((g_StateTimer == 0) || Keyboard_IsKeyPressed(KEY_ESC))
 	{
+		StopMusic();
 		Game_SetState(State_MenuInit);
 	}
 
@@ -1723,30 +2145,37 @@ bool State_VictoryUpdate()
 // INTERRUPTION
 //=============================================================================
 
-//
+//-----------------------------------------------------------------------------
+// Vertical synchronization callback (always synchronized at 50 Hz)
 void VSynch()
 {
-	if ((g_NextMusic != 0xFF) /*&& (g_frameVSyncCounter != 6)*/)
+	if (g_NextMusic != 0xFF)
 	{
 		if (g_NextMusic != g_CurrentMusic)
 		{
 			// Load music data
 			Pletter_UnpackToRAM((const void *)g_MusicTable[g_NextMusic], (void *)MUSIC_ADDRESS);
-			AKG_Init((const void *)MUSIC_ADDRESS, 0);
+			AKM_Init((const void *)MUSIC_ADDRESS, 0);
 	
-			// // Load SFX data
-			// Pletter_UnpackToRAM((const void *)g_AKG_SoundFX, (void *)SFX_ADDRESS);
-			// AKG_InitSFX((const void *)SFX_ADDRESS);
+			// Load SFX data
+			Pletter_UnpackToRAM((const void *)g_SoundFX, (void *)SFX_ADDRESS);
+			AKM_InitSFX((const void *)SFX_ADDRESS);
 	
 			g_CurrentMusic = g_NextMusic;
 		}
-		// if (g_NextSFX != 0xFF)
-		// {
-		// 	AKG_PlaySFX(g_NextSFX, ARKOS_CHANNEL_C, 0);
-		// 	g_NextSFX = 0xFF;
-		// }
+		if (g_Option.SFX)
+		{
+			loop (i, 3)
+			{
+				if (g_NextSFX[i] != 0xFF)
+				{
+					AKM_PlaySFX(g_NextSFX[i], i, 0xF - g_NextSFXVol[i]);
+					g_NextSFX[i] = 0xFF;
+				}
+			}
+		}
 	
-		AKG_Decode();
+		AKM_Decode();
 	}
 }
 
@@ -1760,6 +2189,8 @@ void main()
 {
 	Bios_SetKeyClick(FALSE);
 
+	Mem_Copy((u8*)&g_OptionDefault, (u8*)&g_Option, sizeof(struct Option)); // Set default options
+
 	// Get VDP version
 	if (Keyboard_IsKeyPressed(KEY_1))
 		g_VersionVDP = VDP_VERSION_TMS9918A;
@@ -1768,26 +2199,36 @@ void main()
 	else
 		g_VersionVDP = VDP_GetVersion();
 
-	// Initialize palette
+	// MSX2 specific settings
 	if (g_VersionVDP > VDP_VERSION_TMS9918A)
+	{
+		// Initialize the RTC module
+		RTC_Initialize();
+		LoadOptions();
+				
+		// Initialize palette
 		ApplyPaletteOption();
 
-	// Initialize frequency
-	if (Sys_GetBASICVersion() & 0x80)
-		g_FreqDetected = FREQ_50HZ;
-	else
-		g_FreqDetected = FREQ_60HZ;
-	g_Option.Freq = g_FreqDetected;
-	ApplyFreqOption();
-
-	// Invalidate MSX2 only features
-	if (g_VersionVDP == VDP_VERSION_TMS9918A)
-	{
-		g_MenuGraph[2].Type |= MENU_ITEM_DISABLE;
+		// Get video frequency from VDP
+		g_FreqDetected = (VDP_GetFrequency() == VDP_FREQ_50HZ) ? FREQ_50HZ : FREQ_60HZ;
 	}
+	else // MSX1 specific settings
+	{
+		// Inivalidate MSX2 options
+		g_MenuOptions[2].Type |= MENU_ITEM_DISABLE;
+		g_MenuGraph[2].Type |= MENU_ITEM_DISABLE;
+
+		// Get video frequency from BIOS
+		if (Sys_GetBASICVersion() & 0x80) // 50 Hz flag
+			g_FreqDetected = FREQ_50HZ;
+		else
+			g_FreqDetected = FREQ_60HZ;
+	}
+	ApplyFreqOption();
+	StopMusic();
 
 	// Start game loop
 	Game_SetVSyncCallback(VSynch);
 	Game_SetState(State_LogoInit);
-	Game_MainLoop(VDP_MODE_SCREEN2);
+	Game_Start(VDP_MODE_SCREEN2, g_FreqCurrent == FREQ_60HZ);
 }

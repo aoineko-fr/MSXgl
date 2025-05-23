@@ -40,17 +40,14 @@ enum INPUT_PORT
 #define INPUT_PORT2_ONLY			0b00101100
 #define INPUT_PORT2_MASK			0b11010011
 
-// Determines whether functions that modify signals should keep the state of those they don't need to modify (which slows functions down a bit) 
-#define INPUT_HOLD_SIGNAL			FALSE
-
 //=============================================================================
 // Group: Joystick
 // Direct access to joystick
 //=============================================================================
 #if (INPUT_USE_JOYSTICK || INPUT_USE_DETECT)
 
-#define JOY_PORT_1					0b00000011
-#define JOY_PORT_2					0b01001100
+#define JOY_PORT_1					0b00001111
+#define JOY_PORT_2					0b01001111
 
 #define JOY_INPUT_DIR_NONE			0
 #define JOY_INPUT_DIR_UP			(1 << 0)

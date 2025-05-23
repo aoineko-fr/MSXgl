@@ -34,6 +34,7 @@ u8 g_MyVar;
 void DOS_CharOutput(c8 chr)
 {
 	chr;	// A
+
 __asm
 	push	ix
 	ld		e, a

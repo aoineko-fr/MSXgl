@@ -811,23 +811,23 @@ bool g_VSynch = FALSE;
 //
 void InterruptHook()
 {
-	__asm
-		// Flush VDP interruption signal
-		in		a, (P_VDP_STAT)
+__asm
+	// Flush VDP interruption signal
+	in		a, (P_VDP_STAT)
 
-		// Call VDP interruption handler
-		in		a, (V9_P06)
-		out		(V9_P06), a
-		// V-Blank interruption
-		rra
-		call	c, _V9_InterruptVBlank
-		// H-Blank interruption
-		rra
-		call	c, _V9_InterruptHBlank
-		// Command end interruption
-		rra
-		call	c, _V9_InterruptCommand
-	__endasm;
+	// Call VDP interruption handler
+	in		a, (V9_P06)
+	out		(V9_P06), a
+	// V-Blank interruption
+	rra
+	call	c, _V9_InterruptVBlank
+	// H-Blank interruption
+	rra
+	call	c, _V9_InterruptHBlank
+	// Command end interruption
+	rra
+	call	c, _V9_InterruptCommand
+__endasm;
 }
 #endif
 

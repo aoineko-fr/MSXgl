@@ -24,9 +24,10 @@
 
 //-----------------------------------------------------------------------------
 // Detect device plugged in General purpose ports
-u8 Input_Detect(enum INPUT_PORT port)
+u8 Input_Detect(enum INPUT_PORT port) __NAKED __PRESERVES(b, c, d, e, iyl, iyh)
 {
 	port; // A
+
 __asm
 	ld		h, a					// Pin 8 HIGH
 	and		#0b11001111
@@ -48,6 +49,8 @@ __asm
 	INPUT_EI //-------- Enable interrupts --------
 	in		a, (P_PSG_STAT)			//
 	and		#0x3F
+
+	ret
 __endasm;
 }
 
@@ -68,29 +71,32 @@ __endasm;
 //            ││└──── Right
 //            │└───── Trigger A
 //            └────── Trigger B
-u8 Joystick_Read(u8 port) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)
+u8 Joystick_Read(u8 port) __NAKED __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)
 {
 	port; // L
-	__asm
-		ld		a, #PSG_REG_IO_PORT_B	// R#15
-		INPUT_DI //-------- Disable interrupts --------
-		out		(P_PSG_REGS), a			// Select port B
+
+__asm
+	ld		a, #PSG_REG_IO_PORT_B	// R#15
+	INPUT_DI //-------- Disable interrupts --------
+	out		(P_PSG_REGS), a			// Select port B
 #if (INPUT_HOLD_SIGNAL)
-		in		a, (P_PSG_STAT)			// Read port B value
-		res		6, a
-		or		a, l					// Select witch joystick connector is connected to PSG Port A
-		out		(P_PSG_DATA), a			// Write port B value
+	in		a, (P_PSG_STAT)			// Read port B value
+	res		6, a
+	or		a, l					// Select witch joystick connector is connected to PSG Port A
+	out		(P_PSG_DATA), a			// Write port B value
 #else
-		ld		a, l					// Select witch joystick connector is connected to PSG Port A
-		out		(P_PSG_DATA), a			// Write port B value
+	ld		a, l					// Select witch joystick connector is connected to PSG Port A
+	out		(P_PSG_DATA), a			// Write port B value
 #endif
 
-		ld		a, #PSG_REG_IO_PORT_A	// R#14
-		out		(P_PSG_REGS), a			// Select port A
-		INPUT_EI //-------- Enable interrupts --------
-		in		a, (P_PSG_STAT)			// Read port A value
-		ld		l, a					// Return value
-	__endasm;
+	ld		a, #PSG_REG_IO_PORT_A	// R#14
+	out		(P_PSG_REGS), a			// Select port A
+	INPUT_EI //-------- Enable interrupts --------
+	in		a, (P_PSG_STAT)			// Read port A value
+	ld		l, a					// Return value
+
+	ret
+__endasm;
 }
 
 #if (INPUT_JOY_UPDATE)
@@ -147,115 +153,116 @@ u8 g_Mouse_Buttons;
 
 //-----------------------------------------------------------------------------
 // 
-void Mouse_Read(u8 port, Mouse_State* data) __naked
+void Mouse_Read(u8 port, Mouse_State* data) __NAKED __PRESERVES(iyl, iyh)
 {
-		port; // A
-		data; // DE
-	__asm
+	port; // A
+	data; // DE
 
-		WAIT1 = 10	// Short delay value
-		WAIT2 = 30	// Long delay value
+__asm
+	WAIT1 = 10	// Short delay value
+	WAIT2 = 30	// Long delay value
 
-	// Routine to read the mouse by direct accesses (works on MSX1/2/2+/turbo R)
-	// Original function by FRS and/or MRC users (https://www.msx.org/wiki/Mouse/Trackball)
-	//
-	// Input:  HL = 09310h for mouse in port 1 (H = 10010011b, L = 00010000b)
-	//         HL = 0EC20h for mouse in port 2 (H = 11101100b, L = 00100000b)
-	// Output: D = X-offset, E = Y-offset (D = E = 255 if no mouse)
-	GTMOUS:
-		ld		l, a					// Backup input port value 
+// Routine to read the mouse by direct accesses (works on MSX1/2/2+/turbo R)
+// Original function by FRS and/or MRC users (https://www.msx.org/wiki/Mouse/Trackball)
+//
+// Input:  HL = 09310h for mouse in port 1 (H = 10010011b, L = 00010000b)
+//         HL = 0EC20h for mouse in port 2 (H = 11101100b, L = 00100000b)
+// Output: D = X-offset, E = Y-offset (D = E = 255 if no mouse)
+GTMOUS:
+	ld		l, a					// Backup input port value 
 
-		ld		a, (de)					// Get previous mouse button value
-		ld		i, a
+	ld		a, (de)					// Get previous mouse button value
+	ld		i, a
 
-		// Get current Code/Kana LED state
-		ld		a, #PSG_REG_IO_PORT_B	// Select PSG R#15
-		INPUT_DI
-		out		(P_PSG_REGS), a
-		INPUT_EI
-		in		a, (P_PSG_STAT)			// Read from PSG R#15
-		and		#0x80					// Keep current Code/Kana LED state
-		or		l
-		ld		h, a
-		ld		l, a
+	// Get current Code/Kana LED state
+	ld		a, #PSG_REG_IO_PORT_B	// Select PSG R#15
+	INPUT_DI
+	out		(P_PSG_REGS), a
+	INPUT_EI
+	in		a, (P_PSG_STAT)			// Read from PSG R#15
+	and		#0x80					// Keep current Code/Kana LED state
+	or		l
+	ld		h, a
+	ld		l, a
 
-		// Read first X-offset nibble (bits 4-7)
-		ld		b, #WAIT2				// Long delay for first read
-		call	GTOFS2					// Get R#14 content
-		ld		(de), a					// Store mouse button value
-		and		#0x0F
-		rlca
-		rlca
-		rlca
-		rlca
-		ld		c, a					// Backup bits 4-7 of the X-offset
-		// Read second X-offset nibble (bits 0-3)
-		ld		a, h
-		and		#0b11001111
-		ld		l, a
-		call	GTOFST					// Read bits 0-3 of the X-offset
-		and		#0x0F
-		or		c
-		inc		de
-		ld		(de), a					// Store combined X-offset
+	// Read first X-offset nibble (bits 4-7)
+	ld		b, #WAIT2				// Long delay for first read
+	call	GTOFS2					// Get R#14 content
+	ld		(de), a					// Store mouse button value
+	and		#0x0F
+	rlca
+	rlca
+	rlca
+	rlca
+	ld		c, a					// Backup bits 4-7 of the X-offset
+	// Read second X-offset nibble (bits 0-3)
+	ld		a, h
+	and		#0b11001111
+	ld		l, a
+	call	GTOFST					// Read bits 0-3 of the X-offset
+	and		#0x0F
+	or		c
+	inc		de
+	ld		(de), a					// Store combined X-offset
 
-		// Read first Y-offset nibble (bits 7-4)
-		ld		l, h
-		call	GTOFST					// Read bits 7-4 of the y-offset
-		and		#0x0F
-		rlca
-		rlca
-		rlca
-		rlca
-		ld		c, a
-		// Read second Y-offset nibble (bits 0-3)
-		ld		a, h
-		and		#0b11001111
-		ld		l, a
-		call	GTOFST					// Read bits 3-0 of the y-offset
-		and		#0x0F
-		or		c
-		inc		de
-		ld		(de), a					// Store combined Y-offset
+	// Read first Y-offset nibble (bits 7-4)
+	ld		l, h
+	call	GTOFST					// Read bits 7-4 of the y-offset
+	and		#0x0F
+	rlca
+	rlca
+	rlca
+	rlca
+	ld		c, a
+	// Read second Y-offset nibble (bits 0-3)
+	ld		a, h
+	and		#0b11001111
+	ld		l, a
+	call	GTOFST					// Read bits 3-0 of the y-offset
+	and		#0x0F
+	or		c
+	inc		de
+	ld		(de), a					// Store combined Y-offset
 
-		ld		a, i
-		inc		de
-		ld		(de), a					// Store previous mouse button value
+	ld		a, i
+	inc		de
+	ld		(de), a					// Store previous mouse button value
 
-		ret
+	ret
 
-	GTOFST:
-		ld		b, #WAIT1
-	GTOFS2:
-		ld		a, #PSG_REG_IO_PORT_B	// Select PSG R#15 for mouse
-		INPUT_DI
-		out		(P_PSG_REGS), a
-		ld		a, l					// Port 1=10010011b, 2=11101100b
-		out		(P_PSG_DATA), a			// Write to PSG R#15
+GTOFST:
+	ld		b, #WAIT1
+GTOFS2:
+	ld		a, #PSG_REG_IO_PORT_B	// Select PSG R#15 for mouse
+	INPUT_DI
+	out		(P_PSG_REGS), a
+	ld		a, l					// Port 1=10010011b, 2=11101100b
+	out		(P_PSG_DATA), a			// Write to PSG R#15
 
-		call	WAITMS					// Extra delay because the mouse is slow
+	call	WAITMS					// Extra delay because the mouse is slow
 
-		ld		a, #PSG_REG_IO_PORT_A	// Select PSG R#14 for mouse
-		out		(P_PSG_REGS), a
-		INPUT_EI
-		in		a, (P_PSG_STAT)			// Read to PSG R#14
-		ret
+	ld		a, #PSG_REG_IO_PORT_A	// Select PSG R#14 for mouse
+	out		(P_PSG_REGS), a
+	INPUT_EI
+	in		a, (P_PSG_STAT)			// Read to PSG R#14
+	ret
 
-	WAITMS:
-		ld		a, b
-	WTTR:
-		djnz	WTTR
-		.db		0xED, 0x55				// Back if Z80 (RETN on Z80, NOP on R800)
-		rlca
-		rlca
-		ld		b, a
-	WTTR2:
-		djnz	WTTR2
-		ld		b, a
-	WTTR3:
-		djnz	WTTR3
-		ret
-	__endasm;
+WAITMS:
+	ld		a, b
+WTTR:
+	djnz	WTTR
+	.db		0xED, 0x55				// Back if Z80 (RETN on Z80, NOP on R800)
+	rlca
+	rlca
+	ld		b, a
+WTTR2:
+	djnz	WTTR2
+	ld		b, a
+WTTR3:
+	djnz	WTTR3
+
+	ret
+__endasm;
 }
 
 #endif // (INPUT_USE_MOUSE)
@@ -267,17 +274,20 @@ void Mouse_Read(u8 port, Mouse_State* data) __naked
 
 //-----------------------------------------------------------------------------
 // Read keyboard matrix row
-u8 Keyboard_Read(u8 row) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)
+u8 Keyboard_Read(u8 row) __NAKED __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh)
 {
 	row; // L
-	__asm
-		in		a, (P_PPI_C)
-		and		#0xF0			// only change bits 0-3
-		or		l				// take row number from L
-		out		(P_PPI_C), a
-		in		a, (P_PPI_B)	// read row into A
-		ld		l, a
-	__endasm;
+
+__asm
+	in		a, (P_PPI_C)
+	and		#0xF0					// only change bits 0-3
+	or		l						// take row number from L
+	out		(P_PPI_C), a
+	in		a, (P_PPI_B)			// read row into A
+	ld		l, a
+
+	ret
+__endasm;
 }
 
 #if (INPUT_KB_UPDATE)

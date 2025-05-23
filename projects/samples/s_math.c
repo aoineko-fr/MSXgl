@@ -243,13 +243,11 @@ void DisplayRandom8()
 void DisplayFunc()
 {
 	DisplayHeader("Function");
-
-	Print_SetPosition(0, 20);
-
-	i16 rnd8, val8;
-	i16 rnd16, val16;
-
+	
 	// 8-bits
+	Print_SetPosition(0, 20);
+	i8 rnd8, val8;
+
 	rnd8 = (i16)Math_GetRandom8();
 	Print_DrawFormat("A=Random8():  %i [%8b]\n", rnd8, rnd8);
 
@@ -263,7 +261,7 @@ void DisplayFunc()
 	Print_DrawFormat("Flip(A):      %i [%8b]\n", val8, val8);
 
 	val8 = Math_Negative(rnd8);
-	Print_DrawFormat("Negative(B):  %i\n", val8);
+	Print_DrawFormat("Negative(A):  %i\n", val8);
 
 	val8 = Math_SignedDiv2(rnd8);
 	Print_DrawFormat("Div2(A):      %i\n", val8);
@@ -282,6 +280,7 @@ void DisplayFunc()
 
 	// 16-bits
 	Print_Return();
+	i16 rnd16, val16;
 
 	rnd16 = Math_GetRandom16();
 	Print_DrawFormat("B=Random16(): %i [%b]\n", rnd16, rnd16);

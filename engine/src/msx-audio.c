@@ -13,6 +13,7 @@
 #include "msx-audio.h"
 #include "system.h"
 #include "system_port.h"
+#include "memory.h"
 
 //=============================================================================
 // DEFINES
@@ -28,7 +29,11 @@ const c8 g_MSXAudio_Ident[] = "AUDIO";
 //=============================================================================
 
 #if (MSXAUDIO_USE_RESUME)
+bool g_MSXAudio_DoBackup = TRUE;
 u8 g_MSXAudio_RegBackup[16];
+#define MSXAUDIO_DOBACKUP(do)	g_MSXAudio_DoBackup = do
+#else
+#define MSXAUDIO_DOBACKUP(do)
 #endif
 
 //=============================================================================
@@ -40,6 +45,9 @@ u8 g_MSXAudio_RegBackup[16];
 void MSXAudio_Initialize()
 {
 	MSXAudio_Detect();
+	#if (MSXAUDIO_USE_RESUME)
+	Mem_Set(0, g_MSXAudio_RegBackup, 16);
+	#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -57,7 +65,7 @@ void MSXAudio_SetRegister(u8 reg, u8 value)
 	g_MSXAudio_DataPort = value;
 
 	#if (MSXAUDIO_USE_RESUME)
-	if((reg & 0xF0) == 0xB0) // MSXAUDIO_REG_CTRL_x
+	if(g_MSXAudio_DoBackup && ((reg & 0xF0)) == 0xB0) // MSXAUDIO_REG_CTRL_x
 		g_MSXAudio_RegBackup[reg & 0x0F] = value;
 	#endif
 }
@@ -74,10 +82,12 @@ u8 MSXAudio_GetRegister(u8 reg)
 // Mute MSX-Audio sound
 void MSXAudio_Mute()
 {
+	MSXAUDIO_DOBACKUP(FALSE);
 	loop(i, 9)
 	{
 		MSXAudio_SetRegister(MSXAUDIO_REG_CTRL_1 + i, 0); // seem to be enough
 	}
+	MSXAUDIO_DOBACKUP(TRUE);
 }
 
 #if (MSXAUDIO_USE_RESUME)

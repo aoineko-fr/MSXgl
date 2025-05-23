@@ -332,7 +332,7 @@ void PSG_Resume()
 //-----------------------------------------------------------------------------
 // Send data to PSG registers #1 to #13
 // @note					Must be executed on each V-Blank interruption
-void PSG_Apply()
+void PSG_Apply() __NAKED __PRESERVES(d, e, iyl, iyh)
 {
 __asm
 	// Update mixer register wanted value with I/O 2-bits from the current mixer register value
@@ -351,11 +351,11 @@ __asm
 	ld		C, #PSG_PORT_WRITE		// Setup outi register
 	xor		A						// Initialize register number
 	// R#0-12
-	.rept 13
-		out		(PSG_PORT_REG), A	// port_reg <- reg_num
-		outi						// port_data <- data[i++]
-		inc		A					// 
-	.endm
+.rept 13
+	out		(PSG_PORT_REG), A		// port_reg <- reg_num
+	outi							// port_data <- data[i++]
+	inc		A						// 
+.endm
 	// R#13
 	out		(PSG_PORT_REG), A		// port_reg <- reg_num
 	ld		A, (HL)					// 
@@ -383,11 +383,11 @@ PSG_End:
 	ld		C, #PSG2_PORT_WRITE		// Setup outi register
 	xor		A						// Initialize register number
 	// R#0-12
-	.rept 13
-		out		(PSG2_PORT_REG), A	// port_reg <- reg_num
-		outi						// port_data <- data[i++]
-		inc		A					// 
-	.endm
+.rept 13
+	out		(PSG2_PORT_REG), A		// port_reg <- reg_num
+	outi							// port_data <- data[i++]
+	inc		A						// 
+.endm
 	// R#13
 	out		(PSG2_PORT_REG), A		// port_reg <- reg_num
 	ld		A, (HL)					// 
@@ -399,6 +399,7 @@ PSG2_End:
 	ld		(HL), A					// 
 #endif
 
+	ret
 __endasm;
 }
 

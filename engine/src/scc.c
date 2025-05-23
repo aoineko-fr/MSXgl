@@ -82,7 +82,7 @@ u8 SCC_AutoDetect()
 
 //-----------------------------------------------------------------------------
 // Auto-detecting the SCC slot id
-/*u8 SCC_AutoDetect() __naked
+/*u8 SCC_AutoDetect() __NAKED
 {
 __asm
 	
@@ -184,7 +184,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 //
-/*u8 SCC_AutoDetect() __naked
+/*u8 SCC_AutoDetect() __NAKED
 {
 __asm
 

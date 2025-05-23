@@ -32,6 +32,7 @@ Menu_DrawCB		g_MenuDrawCB;
 Menu_EventCB	g_MenuEventCB;
 u8				g_MenuPageIdx;
 u8				g_MenuFlag;
+MenuItem*       g_MenuCurItem;
 
 #if (MENU_USE_DEFAULT_CALLBACK)
 u8				g_MenuInputPrev;
@@ -118,10 +119,12 @@ void Menu_Initialize(const Menu* menus)
 // Display a item in the current page
 void Menu_DisplayItem(u8 item)
 {
-	MenuItem* pCurItem = &g_MenuPage->Items[item];
-	u8 type = pCurItem->Type & MENU_ITEM_MASK;
+	g_MenuCurItem = &g_MenuPage->Items[item];
+	u8 type = g_MenuCurItem->Type & MENU_ITEM_MASK;
 	if(type >= MENU_ITEM_EMPTY)
 		return;
+
+	g_MenuEventCB((g_MenuItem == item) ? MENU_EVENT_DRAW_SELECTED : MENU_EVENT_DRAW_ENTRY);
 
 	// Get base Y coordinate
 	u8 y = MENU_ITEM_Y + item;
@@ -136,9 +139,9 @@ void Menu_DisplayItem(u8 item)
 	else
 		x = MENU_ITEM_X;
 	if(type == MENU_ITEM_TEXT)
-		x += pCurItem->Value;
+		x += g_MenuCurItem->Value;
 	// Get align flag
-	u8 align = pCurItem->Type & MENU_ITEM_ALIGN_MASK;
+	u8 align = g_MenuCurItem->Type & MENU_ITEM_ALIGN_MASK;
 	if(align == MENU_ITEM_ALIGN_DEFAULT)
 	{
 		if(type == MENU_ITEM_GOTO)
@@ -149,7 +152,7 @@ void Menu_DisplayItem(u8 item)
 	// Adjust X coordinate
 	if(align != MENU_ITEM_ALIGN_LEFT)
 	{
-		u8 len = String_Length(pCurItem->Text);
+		u8 len = String_Length(g_MenuCurItem->Text);
 		if(align == MENU_ITEM_ALIGN_RIGHT)
 			x -= len;
 		else // if(align == MENU_ITEM_ALIGN_CENTER)
@@ -166,7 +169,7 @@ void Menu_DisplayItem(u8 item)
 	#endif
 
 	// Draw item label
-	Print_DrawTextAt(x, y, pCurItem->Text);
+	Print_DrawTextAt(x, y, g_MenuCurItem->Text);
 
 	// Draw item value
 	Print_SetPosition(MENU_VALUE_X, y);
@@ -174,8 +177,8 @@ void Menu_DisplayItem(u8 item)
 	{
 		case MENU_ITEM_ACTION:
 		{
-			Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
-			const c8* str = cb(MENU_ACTION_GET, pCurItem->Value);
+			Menu_ActionCB cb = (Menu_ActionCB)g_MenuCurItem->Action;
+			const c8* str = cb(MENU_ACTION_GET, g_MenuCurItem->Value);
 			if(str)
 			{
 				if(g_MenuItem == item)
@@ -194,7 +197,7 @@ void Menu_DisplayItem(u8 item)
 				Print_DrawChar(MENU_CHAR_LEFT);
 			else
 				Print_Space();
-			i8* data = (i8*)pCurItem->Action;
+			i8* data = (i8*)g_MenuCurItem->Action;
 			Print_DrawInt(*data);
 			if(g_MenuItem == item)
 				Print_DrawChar(MENU_CHAR_RIGHT);
@@ -202,7 +205,7 @@ void Menu_DisplayItem(u8 item)
 		}
 		case MENU_ITEM_BOOL:
 		{
-			u8* data = (u8*)pCurItem->Action;
+			u8* data = (u8*)g_MenuCurItem->Action;
 			if(g_MenuItem == item)
 				Print_DrawChar(MENU_CHAR_LEFT);
 			else
@@ -245,6 +248,7 @@ void Menu_DrawPage(u8 page)
 	// Title
 	if (g_MenuPage->Title)
 	{
+		g_MenuEventCB(MENU_EVENT_DRAW_TITLE);
 		Print_DrawTextAt(MENU_TITLE_X, MENU_TITLE_Y, g_MenuPage->Title);
 	}
 
@@ -269,11 +273,11 @@ void Menu_Update()
 	// Update menu items
 	for(u8 item = 0; item < g_MenuPage->ItemNum; ++item)
 	{
-		MenuItem* pCurItem = &g_MenuPage->Items[item];
-		if(pCurItem->Type == MENU_ITEM_UPDATE)
+		g_MenuCurItem = &g_MenuPage->Items[item];
+		if(g_MenuCurItem->Type == MENU_ITEM_UPDATE)
 		{
-			Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
-			const c8* str = cb(MENU_ACTION_UPDATE, pCurItem->Value);
+			Menu_ActionCB cb = (Menu_ActionCB)g_MenuCurItem->Action;
+			const c8* str = cb(MENU_ACTION_UPDATE, g_MenuCurItem->Value);
 			if(str)
 			{
 				u8 y = MENU_FRAME_Y + item;
@@ -281,16 +285,15 @@ void Menu_Update()
 				u16 dst = g_ScreenLayoutLow + MENU_FRAME_X + (y * MENU_GET_SCREEN_WIDTH());
 				VDP_FillVRAM(MENU_CHAR_CLEAR, dst, g_ScreenLayoutHigh, MENU_FRAME_WIDTH);
 				// Update draw
-				Print_SetPosition(MENU_ITEM_X + pCurItem->Value, y);
-				Print_DrawText(str);
+				Print_DrawTextAt(MENU_ITEM_X + g_MenuCurItem->Value, y, str);
 			}
 		}
 	}
 
 	// Handle input
 	u8 input = g_MenuInputCB();
-	MenuItem* pCurItem = &g_MenuPage->Items[g_MenuItem];
-	u8 type = pCurItem->Type & MENU_ITEM_MASK;
+	g_MenuCurItem = &g_MenuPage->Items[g_MenuItem];
+	u8 type = g_MenuCurItem->Type & MENU_ITEM_MASK;
 	switch(type)
 	{
 		case MENU_ITEM_ACTION:
@@ -314,8 +317,8 @@ void Menu_Update()
 			}
 			if(act != MENU_ACTION_INVALID)
 			{
-				Menu_ActionCB cb = (Menu_ActionCB)pCurItem->Action;
-				cb(act, pCurItem->Value);
+				Menu_ActionCB cb = (Menu_ActionCB)g_MenuCurItem->Action;
+				cb(act, g_MenuCurItem->Value);
 				Menu_DisplayItem(g_MenuItem);
 				g_MenuEventCB(event);
 			}
@@ -325,7 +328,7 @@ void Menu_Update()
 		{
 			if(input & (MENU_INPUT_TRIGGER | MENU_INPUT_RIGHT| MENU_INPUT_LEFT))
 			{
-				Menu_DrawPage(pCurItem->Value);
+				Menu_DrawPage(g_MenuCurItem->Value);
 				g_MenuEventCB(MENU_EVENT_SET);
 				return;
 			}
@@ -335,10 +338,10 @@ void Menu_Update()
 		{
 			if(input & (MENU_INPUT_TRIGGER | MENU_INPUT_RIGHT))
 			{
-				i8* data = (i8*)pCurItem->Action;
-				if(pCurItem->Value != NULL)
+				i8* data = (i8*)g_MenuCurItem->Action;
+				if(g_MenuCurItem->Value != NULL)
 				{
-					MenuItemMinMax* param = (MenuItemMinMax*)pCurItem->Value;
+					MenuItemMinMax* param = (MenuItemMinMax*)g_MenuCurItem->Value;
 					if((*data) + param->Step > param->Max)
 						(*data) = param->Max;
 					else
@@ -351,10 +354,10 @@ void Menu_Update()
 			}
 			else if(input & MENU_INPUT_LEFT)
 			{
-				i8* data = (i8*)pCurItem->Action;
-				if(pCurItem->Value != NULL)
+				i8* data = (i8*)g_MenuCurItem->Action;
+				if(g_MenuCurItem->Value != NULL)
 				{
-					MenuItemMinMax* param = (MenuItemMinMax*)pCurItem->Value;
+					MenuItemMinMax* param = (MenuItemMinMax*)g_MenuCurItem->Value;
 					if((*data) < param->Min + param->Step)
 						(*data) = param->Min;
 					else
@@ -371,7 +374,7 @@ void Menu_Update()
 		{
 			if(input & (MENU_INPUT_TRIGGER | MENU_INPUT_RIGHT | MENU_INPUT_LEFT))
 			{
-				u8* data = (u8*)pCurItem->Action;
+				u8* data = (u8*)g_MenuCurItem->Action;
 				*data = 1 - *data;
 				Menu_DisplayItem(g_MenuItem);
 				g_MenuEventCB(MENU_EVENT_SET);

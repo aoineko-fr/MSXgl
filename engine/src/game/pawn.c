@@ -211,7 +211,7 @@ void Pawn_Initialize(Pawn* pawn, const Pawn_Sprite* sprtList, u8 sprtNum, u8 spr
 
 //-----------------------------------------------------------------------------
 // Set game pawn position
-void Pawn_SetPosition(Pawn* pawn, u8 x, u8 y)
+void Pawn_SetPosition(Pawn* pawn, PAWN_POS x, PAWN_POS y)
 {
 	pawn->PositionX = x;
 	pawn->PositionY = y;
@@ -261,12 +261,8 @@ void Pawn_SetEnable(Pawn* pawn, bool enable)
 
 //-----------------------------------------------------------------------------
 // Update animation of the game pawn
-void Pawn_Update(Pawn* pawn)
+void Pawn_UpdateAnimation()
 {
-	g_Pawn = pawn;
-
-	if (g_Pawn->Update & PAWN_UPDATE_DISABLE)
-		return;
 
 	const Pawn_Action* act = &g_Pawn->ActionList[g_Pawn->ActionId];
 
@@ -303,264 +299,296 @@ void Pawn_Update(Pawn* pawn)
 	g_Pawn->AnimFrame = frame->Id;
 	g_Pawn->AnimTimer++;
 	g_Pawn->Counter++;
+}
 
 #if (PAWN_USE_PHYSICS)
-	if (g_Pawn->Update & PAWN_UPDATE_COLLISION)
+//-----------------------------------------------------------------------------
+// Update pawn collision
+void Pawn_UpdatePhysics()
+{
+#if (PAWN_UNIT == PAWN_UNIT_SCREEN)
+	PAWN_POS targetX = g_Pawn->PositionX + g_Pawn->MoveX;
+	PAWN_POS targetY = g_Pawn->PositionY + g_Pawn->MoveY;
+#else // (PAWN_UNIT == PAWN_UNIT_QMN())
+	PAWN_POS targetX = (g_Pawn->PositionX + g_Pawn->MoveX) / PAWN_UNIT;
+	PAWN_POS targetY = (g_Pawn->PositionY + g_Pawn->MoveY) / PAWN_UNIT;
+#endif
+
+	//.....................................................................
+	// Vertical movement - Go down
+	if (g_Pawn->MoveY > 0)
 	{
-		u8 targetX = g_Pawn->PositionX + g_Pawn->MoveX;
-		u8 targetY = g_Pawn->PositionY + g_Pawn->MoveY;
-
-		//.....................................................................
-		// Vertical movement - Go down
-		if (g_Pawn->MoveY > 0)
+		#if ((PAWN_BORDER_EVENT & PAWN_BORDER_DOWN) || (PAWN_BORDER_BLOCK & PAWN_BORDER_DOWN))
+		if (targetY + GET_BOUND_Y() >= PAWN_BORDER_MAX_Y)
 		{
-			#if ((PAWN_BORDER_EVENT & PAWN_BORDER_DOWN) || (PAWN_BORDER_BLOCK & PAWN_BORDER_DOWN))
-			if (targetY + GET_BOUND_Y() >= PAWN_BORDER_MAX_Y)
-			{
-				#if (PAWN_BORDER_EVENT & PAWN_BORDER_DOWN)
-					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_DOWN, 0);
-				#endif
-				#if (PAWN_BORDER_BLOCK & PAWN_BORDER_DOWN)
-					targetY = (u8)(PAWN_BORDER_MAX_Y - GET_BOUND_Y());
-				#endif
-			}
-			else
+			#if (PAWN_BORDER_EVENT & PAWN_BORDER_DOWN)
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_DOWN, 0);
 			#endif
-			{
-				g_Pawn_CellY = (targetY + GET_BOUND_Y()) / 8;
-				g_Pawn_CellX = 0xFF;
-				u8 lastCell = 0xFF;
-				#if (PAWN_COL_DOWN & PAWN_COL_0)
-					g_Pawn_CellX = (targetX) / 8;
-					if (g_Pawn_CellX != lastCell)
-					{
-						lastCell = g_Pawn_CellX;
-						u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-						if (g_Pawn->CollisionCB(tile))
-						{
-							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
-							goto skipVertival;
-						}
-					}
-				#endif
-				#if (PAWN_COL_DOWN & PAWN_COL_25)
-					g_Pawn_CellX = (targetX + (GET_BOUND_X() / 4)) / 8;
-					if (g_Pawn_CellX != lastCell)
-					{
-						lastCell = g_Pawn_CellX;
-						u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-						if (g_Pawn->CollisionCB(tile))
-						{
-							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
-							goto skipVertival;
-						}
-					}
-				#endif
-				#if (PAWN_COL_DOWN & PAWN_COL_50)
-					g_Pawn_CellX = (targetX + (GET_BOUND_X() / 2)) / 8;
-					if (g_Pawn_CellX != lastCell)
-					{
-						lastCell = g_Pawn_CellX;
-						u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-						if (g_Pawn->CollisionCB(tile))
-						{
-							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
-							goto skipVertival;
-						}
-					}
-				#endif
-				#if (PAWN_COL_DOWN & PAWN_COL_75)
-					g_Pawn_CellX = (targetX + GET_BOUND_X() - (GET_BOUND_X() / 4)) / 8;
-					if (g_Pawn_CellX != lastCell)
-					{
-						lastCell = g_Pawn_CellX;
-						u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-						if (g_Pawn->CollisionCB(tile))
-						{
-							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
-							goto skipVertival;
-						}
-					}
-				#endif
-				#if (PAWN_COL_DOWN & PAWN_COL_100)
-					g_Pawn_CellX = (targetX + GET_BOUND_X() - 1) / 8;
-					if (g_Pawn_CellX != lastCell)
-					{
-						lastCell = g_Pawn_CellX;
-						u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-						if (g_Pawn->CollisionCB(tile))
-						{
-							g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
-							targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
-							goto skipVertival;
-						}
-					}
-				#endif
-			}
-		}
-		//.....................................................................
-		// Vertical movement - Go up
-		else if (g_Pawn->MoveY < 0)
-		{
-			#if (PAWN_COL_UP != PAWN_COL_NONE)
-			#if ((PAWN_BORDER_EVENT & PAWN_BORDER_UP) || (PAWN_BORDER_BLOCK & PAWN_BORDER_UP))
-			#if (PAWN_BORDER_MIN_Y > 0)
-			if ((targetY > g_Pawn->PositionY) || ((targetY < PAWN_BORDER_MIN_Y)))
-			#else
-			if (targetY > g_Pawn->PositionY)
-			#endif
-			{
-				#if (PAWN_BORDER_EVENT & PAWN_BORDER_UP)
-					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_UP, 0);
-				#endif
-				#if (PAWN_BORDER_BLOCK & PAWN_BORDER_UP)
-					targetY = PAWN_BORDER_MIN_Y;
-				#endif
-			}
-			else
-			#endif // ((PAWN_BORDER_EVENT & PAWN_BORDER_UP) || (PAWN_BORDER_BLOCK & PAWN_BORDER_UP))
-			{
-				g_Pawn_CellX = (targetX + (GET_BOUND_X() / 2)) / 8;
-				g_Pawn_CellY = (targetY) / 8;
-				u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-				if (g_Pawn->CollisionCB(tile))
-				{
-					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_UP, tile);
-					targetY = (g_Pawn_CellY * 8) + 8;
-				}
-			}
-			#endif // (PAWN_COL_UP != PAWN_COL_NONE)
-		}
-		//.....................................................................
-		// No vertical movement - Check floor
-		else // if (g_Pawn->MoveY == 0)
-		{
 			#if (PAWN_BORDER_BLOCK & PAWN_BORDER_DOWN)
-			if (targetY + GET_BOUND_Y() < PAWN_BORDER_MAX_Y)
+				targetY = (u8)(PAWN_BORDER_MAX_Y - GET_BOUND_Y());
 			#endif
-			{
-				u8 tile = 0;
-				g_Pawn_CellY = (targetY + GET_BOUND_Y()) / 8;
-				g_Pawn_CellX = 0xFF;
-				u8 lastCell = 0xFF;
-				#if (PAWN_COL_DOWN & PAWN_COL_0)
-					g_Pawn_CellX = (targetX) / 8;
-					if (g_Pawn_CellX != lastCell)
-					{
-						lastCell = g_Pawn_CellX;
-						tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-						if (g_Pawn->CollisionCB(tile))
-							goto skipVertival;
-					}
-				#endif
-				#if (PAWN_COL_DOWN & PAWN_COL_25)
-					g_Pawn_CellX = (targetX + (GET_BOUND_X() / 4)) / 8;
-					if (g_Pawn_CellX != lastCell)
-					{
-						lastCell = g_Pawn_CellX;
-						tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-						if (g_Pawn->CollisionCB(tile))
-							goto skipVertival;
-					}
-				#endif
-				#if (PAWN_COL_DOWN & PAWN_COL_50)
-					g_Pawn_CellX = (targetX + (GET_BOUND_X() / 2)) / 8;
-					if (g_Pawn_CellX != lastCell)
-					{
-						lastCell = g_Pawn_CellX;
-						tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-						if (g_Pawn->CollisionCB(tile))
-							goto skipVertival;
-					}
-				#endif
-				#if (PAWN_COL_DOWN & PAWN_COL_75)
-					g_Pawn_CellX = (targetX + GET_BOUND_X() - (GET_BOUND_X() / 4)) / 8;
-					if (g_Pawn_CellX != lastCell)
-					{
-						lastCell = g_Pawn_CellX;
-						tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-						if (g_Pawn->CollisionCB(tile))
-							goto skipVertival;
-					}
-				#endif
-				#if (PAWN_COL_DOWN & PAWN_COL_100)
-					g_Pawn_CellX = (targetX + GET_BOUND_X() - 1) / 8;
-					if (g_Pawn_CellX != lastCell)
-					{
-						lastCell = g_Pawn_CellX;
-						tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-						if (g_Pawn->CollisionCB(tile))
-							goto skipVertival;
-					}
-				#endif
-				g_Pawn->PhysicsCB(PAWN_PHYSICS_FALL, tile);
-			}
 		}
-skipVertival:
-		//.....................................................................
-		// Horizontal movement - Go right
-		if (g_Pawn->MoveX > 0)
+		else
+		#endif
 		{
-			#if ((PAWN_BORDER_EVENT & PAWN_BORDER_RIGHT) || (PAWN_BORDER_BLOCK & PAWN_BORDER_RIGHT))
-			if ((u8)(targetX + GET_BOUND_X()) < g_Pawn->PositionX)
-			{
-				#if (PAWN_BORDER_EVENT & PAWN_BORDER_RIGHT)
-					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_RIGHT, 0);
-				#endif
-				#if (PAWN_BORDER_BLOCK & PAWN_BORDER_RIGHT)
-					targetX = (u8)(0 - GET_BOUND_X());
-				#endif
-			}
-			else
-			#endif
-			{
-				g_Pawn_CellX = (targetX + GET_BOUND_X()) / 8;
-				g_Pawn_CellY = (targetY + (GET_BOUND_Y() / 2)) / 8;
-				u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-				if (g_Pawn->CollisionCB(tile))
-				{
-					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT, tile);
-					targetX = (g_Pawn_CellX * 8) - GET_BOUND_X();
-				}
-			}
-		}
-		//.....................................................................
-		// Horizontal movement - Go left
-		else if (g_Pawn->MoveX < 0)
-		{
-			#if ((PAWN_BORDER_EVENT & PAWN_BORDER_LEFT) || (PAWN_BORDER_BLOCK & PAWN_BORDER_LEFT))
-			if (targetX > g_Pawn->PositionX)
-			{
-				#if (PAWN_BORDER_EVENT & PAWN_BORDER_LEFT)
-					g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_LEFT, 0);
-				#endif
-				#if (PAWN_BORDER_BLOCK & PAWN_BORDER_LEFT)
-					targetX = 0;
-				#endif
-			}
-			else
-			#endif
-			{
+			g_Pawn_CellY = (targetY + GET_BOUND_Y()) / 8;
+			g_Pawn_CellX = 0xFF;
+			u8 lastCell = 0xFF;
+			#if (PAWN_COL_DOWN & PAWN_COL_0)
 				g_Pawn_CellX = (targetX) / 8;
-				g_Pawn_CellY = (targetY + (GET_BOUND_Y() / 2)) / 8;
-				u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-				if (g_Pawn->CollisionCB(tile))
+				if (g_Pawn_CellX != lastCell)
 				{
-					g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT, tile);
-					targetX = (g_Pawn_CellX * 8) + 8;
+					lastCell = g_Pawn_CellX;
+					u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+					if (g_Pawn->CollisionCB(tile))
+					{
+						g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
+						targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
+						goto skipVertival;
+					}
 				}
+			#endif
+			#if (PAWN_COL_DOWN & PAWN_COL_25)
+				g_Pawn_CellX = (targetX + (GET_BOUND_X() / 4)) / 8;
+				if (g_Pawn_CellX != lastCell)
+				{
+					lastCell = g_Pawn_CellX;
+					u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+					if (g_Pawn->CollisionCB(tile))
+					{
+						g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
+						targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
+						goto skipVertival;
+					}
+				}
+			#endif
+			#if (PAWN_COL_DOWN & PAWN_COL_50)
+				g_Pawn_CellX = (targetX + (GET_BOUND_X() / 2)) / 8;
+				if (g_Pawn_CellX != lastCell)
+				{
+					lastCell = g_Pawn_CellX;
+					u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+					if (g_Pawn->CollisionCB(tile))
+					{
+						g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
+						targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
+						goto skipVertival;
+					}
+				}
+			#endif
+			#if (PAWN_COL_DOWN & PAWN_COL_75)
+				g_Pawn_CellX = (targetX + GET_BOUND_X() - (GET_BOUND_X() / 4)) / 8;
+				if (g_Pawn_CellX != lastCell)
+				{
+					lastCell = g_Pawn_CellX;
+					u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+					if (g_Pawn->CollisionCB(tile))
+					{
+						g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
+						targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
+						goto skipVertival;
+					}
+				}
+			#endif
+			#if (PAWN_COL_DOWN & PAWN_COL_100)
+				g_Pawn_CellX = (targetX + GET_BOUND_X() - 1) / 8;
+				if (g_Pawn_CellX != lastCell)
+				{
+					lastCell = g_Pawn_CellX;
+					u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+					if (g_Pawn->CollisionCB(tile))
+					{
+						g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
+						targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
+						goto skipVertival;
+					}
+				}
+			#endif
+		}
+	}
+	//.....................................................................
+	// Vertical movement - Go up
+	else if (g_Pawn->MoveY < 0)
+	{
+		#if (PAWN_COL_UP != PAWN_COL_NONE)
+		#if ((PAWN_BORDER_EVENT & PAWN_BORDER_UP) || (PAWN_BORDER_BLOCK & PAWN_BORDER_UP))
+		#if (PAWN_BORDER_MIN_Y > 0)
+		if ((targetY > g_Pawn->PositionY) || ((targetY < PAWN_BORDER_MIN_Y)))
+		#else
+		if (targetY > g_Pawn->PositionY)
+		#endif
+		{
+			#if (PAWN_BORDER_EVENT & PAWN_BORDER_UP)
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_UP, 0);
+			#endif
+			#if (PAWN_BORDER_BLOCK & PAWN_BORDER_UP)
+				targetY = PAWN_BORDER_MIN_Y;
+			#endif
+		}
+		else
+		#endif // ((PAWN_BORDER_EVENT & PAWN_BORDER_UP) || (PAWN_BORDER_BLOCK & PAWN_BORDER_UP))
+		{
+			g_Pawn_CellX = (targetX + (GET_BOUND_X() / 2)) / 8;
+			g_Pawn_CellY = (targetY) / 8;
+			u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+			if (g_Pawn->CollisionCB(tile))
+			{
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_UP, tile);
+				targetY = (g_Pawn_CellY * 8) + 8;
 			}
 		}
-
-		g_Pawn->PositionX = targetX;
-		g_Pawn->PositionY = targetY;
-		g_Pawn->Update |= PAWN_UPDATE_POSITION;
-		g_Pawn->Update &= ~PAWN_UPDATE_COLLISION;
+		#endif // (PAWN_COL_UP != PAWN_COL_NONE)
 	}
+	//.....................................................................
+	// No vertical movement - Check floor
+	else // if (g_Pawn->MoveY == 0)
+	{
+		#if (PAWN_BORDER_BLOCK & PAWN_BORDER_DOWN)
+		if (targetY + GET_BOUND_Y() < PAWN_BORDER_MAX_Y)
+		#endif
+		{
+			u8 tile = 0;
+			g_Pawn_CellY = (targetY + GET_BOUND_Y()) / 8;
+			g_Pawn_CellX = 0xFF;
+			u8 lastCell = 0xFF;
+			#if (PAWN_COL_DOWN & PAWN_COL_0)
+				g_Pawn_CellX = (targetX) / 8;
+				if (g_Pawn_CellX != lastCell)
+				{
+					lastCell = g_Pawn_CellX;
+					tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+					if (g_Pawn->CollisionCB(tile))
+						goto skipVertival;
+				}
+			#endif
+			#if (PAWN_COL_DOWN & PAWN_COL_25)
+				g_Pawn_CellX = (targetX + (GET_BOUND_X() / 4)) / 8;
+				if (g_Pawn_CellX != lastCell)
+				{
+					lastCell = g_Pawn_CellX;
+					tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+					if (g_Pawn->CollisionCB(tile))
+						goto skipVertival;
+				}
+			#endif
+			#if (PAWN_COL_DOWN & PAWN_COL_50)
+				g_Pawn_CellX = (targetX + (GET_BOUND_X() / 2)) / 8;
+				if (g_Pawn_CellX != lastCell)
+				{
+					lastCell = g_Pawn_CellX;
+					tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+					if (g_Pawn->CollisionCB(tile))
+						goto skipVertival;
+				}
+			#endif
+			#if (PAWN_COL_DOWN & PAWN_COL_75)
+				g_Pawn_CellX = (targetX + GET_BOUND_X() - (GET_BOUND_X() / 4)) / 8;
+				if (g_Pawn_CellX != lastCell)
+				{
+					lastCell = g_Pawn_CellX;
+					tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+					if (g_Pawn->CollisionCB(tile))
+						goto skipVertival;
+				}
+			#endif
+			#if (PAWN_COL_DOWN & PAWN_COL_100)
+				g_Pawn_CellX = (targetX + GET_BOUND_X() - 1) / 8;
+				if (g_Pawn_CellX != lastCell)
+				{
+					lastCell = g_Pawn_CellX;
+					tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+					if (g_Pawn->CollisionCB(tile))
+						goto skipVertival;
+				}
+			#endif
+			g_Pawn->PhysicsCB(PAWN_PHYSICS_FALL, tile);
+		}
+	}
+skipVertival:
+	//.....................................................................
+	// Horizontal movement - Go right
+	if (g_Pawn->MoveX > 0)
+	{
+		#if ((PAWN_BORDER_EVENT & PAWN_BORDER_RIGHT) || (PAWN_BORDER_BLOCK & PAWN_BORDER_RIGHT))
+		if ((u8)(targetX + GET_BOUND_X()) < g_Pawn->PositionX)
+		{
+			#if (PAWN_BORDER_EVENT & PAWN_BORDER_RIGHT)
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_RIGHT, 0);
+			#endif
+			#if (PAWN_BORDER_BLOCK & PAWN_BORDER_RIGHT)
+				targetX = (u8)(0 - GET_BOUND_X());
+			#endif
+		}
+		else
+		#endif
+		{
+			g_Pawn_CellX = (targetX + GET_BOUND_X()) / 8;
+			g_Pawn_CellY = (targetY + (GET_BOUND_Y() / 2)) / 8;
+			u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+			if (g_Pawn->CollisionCB(tile))
+			{
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT, tile);
+				targetX = (g_Pawn_CellX * 8) - GET_BOUND_X();
+			}
+		}
+	}
+	//.....................................................................
+	// Horizontal movement - Go left
+	else if (g_Pawn->MoveX < 0)
+	{
+		#if ((PAWN_BORDER_EVENT & PAWN_BORDER_LEFT) || (PAWN_BORDER_BLOCK & PAWN_BORDER_LEFT))
+		if (targetX > g_Pawn->PositionX)
+		{
+			#if (PAWN_BORDER_EVENT & PAWN_BORDER_LEFT)
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_LEFT, 0);
+			#endif
+			#if (PAWN_BORDER_BLOCK & PAWN_BORDER_LEFT)
+				targetX = 0;
+			#endif
+		}
+		else
+		#endif
+		{
+			g_Pawn_CellX = (targetX) / 8;
+			g_Pawn_CellY = (targetY + (GET_BOUND_Y() / 2)) / 8;
+			u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
+			if (g_Pawn->CollisionCB(tile))
+			{
+				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT, tile);
+				targetX = (g_Pawn_CellX * 8) + 8;
+			}
+		}
+	}
+
+#if (PAWN_UNIT == PAWN_UNIT_SCREEN)
+	g_Pawn->PositionX = targetX;
+	g_Pawn->PositionY = targetY;
+#else // (PAWN_UNIT == PAWN_UNIT_QMN())
+	g_Pawn->PositionX = targetX * PAWN_UNIT;
+	g_Pawn->PositionY = targetY * PAWN_UNIT;
+#endif
+
+	g_Pawn->Update |= PAWN_UPDATE_POSITION;
+	g_Pawn->Update &= ~PAWN_UPDATE_COLLISION;
+}
+#endif
+
+//-----------------------------------------------------------------------------
+// Update the game pawn
+void Pawn_Update(Pawn* pawn)
+{
+	g_Pawn = pawn;
+
+	if (g_Pawn->Update & PAWN_UPDATE_DISABLE)
+		return;
+
+	// Update animation
+	Pawn_UpdateAnimation();
+
+#if (PAWN_USE_PHYSICS)
+	// Update physics
+	if (g_Pawn->Update & PAWN_UPDATE_COLLISION)
+		Pawn_UpdatePhysics();
 #endif
 }
 
@@ -593,14 +621,13 @@ inline void Pawn_Draw_V9()
 
 u8 g_Pawn_FrameOffset;
 
+#if 1//(PAWN_ID_PER_LAYER)
 //-----------------------------------------------------------------------------
 // Update rendering of the game pawn
 inline void Pawn_Draw_Sprite()
 {
 	g_Pawn_Sprite = g_Pawn->SpriteList;
 
-	PAWN_SPRT_INIT()
-	PAWN_ADDR_INIT()
 	loop(i, g_Pawn->SpriteNum)
 	{
 		g_Pawn_FrameOffset = 0;
@@ -614,8 +641,74 @@ inline void Pawn_Draw_Sprite()
 		g_Pawn_Buffer[PAWN_SPRT_POS_Y] = g_Pawn->PositionY + g_Pawn_Sprite->OffsetY - 1; // Decrement Y to fit screen coordinate
 		g_Pawn_Buffer[PAWN_SPRT_POS_X] = g_Pawn->PositionX + g_Pawn_Sprite->OffsetX;
 		
-		PAWN_SPRT_LOOP()
-		PAWN_ADDR_LOOP()
+		u8 size = 2;
+		if (g_Pawn->Update & PAWN_UPDATE_PATTERN)
+		{
+			u8 frame = g_Pawn->AnimFrame + g_Pawn_Sprite->DataOffset + g_Pawn_FrameOffset;
+			#if (PAWN_USE_RT_LOAD)
+				const u8* src = (const u8*)g_Pawn->PatternAddr + frame * 8;
+				#if (PAWN_USE_SPRT_FX)
+					u8* buffer = (u8*)Mem_GetHeapAddress();
+					switch (g_Pawn->SpriteFX)
+					{
+						case PAWN_SPRITE_FX_FLIP_X:
+							PAWN_FUNC_FLIP_X(src, buffer);
+							src = buffer;
+							break;
+						case PAWN_SPRITE_FX_FLIP_Y:
+							PAWN_FUNC_FLIP_Y(src, buffer);
+							src = buffer;
+							break;
+						case PAWN_SPRITE_FX_ROTATE_90:
+							PAWN_FUNC_ROTATE_90(src, buffer);
+							src = buffer;
+							break;
+						case PAWN_SPRITE_FX_ROTATE_180:
+							PAWN_FUNC_ROTATE_180(src, buffer);
+							src = buffer;
+							break;
+						case PAWN_SPRITE_FX_ROTATE_270:
+							PAWN_FUNC_ROTATE_270(src, buffer);
+							src = buffer;
+							break;
+						default:
+							break;
+					}
+				#endif
+				VDP_WriteVRAM_16K(src, VDP_GetSpritePatternTable() + g_Pawn_Sprite->SpriteID * PAWN_PATTERN_NUM * 8, PAWN_PATTERN_NUM * 8);
+			#else
+				g_Pawn_Buffer[PAWN_SPRT_PATTERN] = frame;
+				size++;
+			#endif
+		}
+
+		u16 dest = g_SpriteAttributeLow + (g_Pawn_Sprite->SpriteID * 4);		
+		VDP_WriteVRAM(g_Pawn_Buffer, dest, g_SpriteAttributeHigh, size);
+		
+		g_Pawn_Sprite++;
+	}
+}
+#else // if (PAWN_ID_PER_LAYER == FALSE)
+//-----------------------------------------------------------------------------
+// Update rendering of the game pawn
+inline void Pawn_Draw_Sprite()
+{
+	g_Pawn_Sprite = g_Pawn->SpriteList;
+
+	u8 sprtIdx = g_Pawn->SpriteID;
+	u16 dest = g_SpriteAttributeLow + (g_Pawn->SpriteID * 4);
+	loop(i, g_Pawn->SpriteNum)
+	{
+		g_Pawn_FrameOffset = 0;
+		if ((g_Pawn->Update & PAWN_UPDATE_BLEND) && (g_Pawn_Sprite->Flag & PAWN_SPRITE_BLEND)) // Skip odd frames
+		{
+			if ((g_Pawn->Counter & 1) != 0)
+				g_Pawn_FrameOffset = PAWN_PATTERN_NUM;
+			g_Pawn->Update |= PAWN_UPDATE_PATTERN;
+		}
+
+		g_Pawn_Buffer[PAWN_SPRT_POS_Y] = g_Pawn->PositionY + g_Pawn_Sprite->OffsetY - 1; // Decrement Y to fit screen coordinate
+		g_Pawn_Buffer[PAWN_SPRT_POS_X] = g_Pawn->PositionX + g_Pawn_Sprite->OffsetX;
 		
 		u8 size = 2;
 		if (g_Pawn->Update & PAWN_UPDATE_PATTERN)
@@ -660,12 +753,13 @@ inline void Pawn_Draw_Sprite()
 
 		VDP_WriteVRAM(g_Pawn_Buffer, dest, g_SpriteAttributeHigh, size);
 		
-		PAWN_SPRT_NEXT()
-		PAWN_ADDR_NEXT()
+		sprtIdx++;
+		dest += 4;
 
 		g_Pawn_Sprite++;
 	}
 }
+#endif // (PAWN_ID_PER_LAYER)
 #endif // ((PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX12))
 
 //-----------------------------------------------------------------------------

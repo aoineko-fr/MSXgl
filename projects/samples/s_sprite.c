@@ -137,24 +137,24 @@ void HBlankHook()
 // H_KEYI interrupt hook
 void InterruptHook()
 {
-	__asm
-		// Get S#1
-		ld		a, #1
-		out		(P_VDP_ADDR), a
-		ld		a, #(0x80 + 15)
-		out		(P_VDP_ADDR), a
-		in		a, (P_VDP_STAT)
-		//  Call H-Blank if bit #0 of S#1 is set 
-		rrca
-		jp		nc, _no_hblank
-		call	_HBlankHook // call to C function HBlankHook() 
-	_no_hblank:
-		// Reset R#15 to S#0
-		xor		a           		
-		out		(P_VDP_ADDR), a
-		ld		a, #(0x80 + 15)
-		out		(P_VDP_ADDR),a
-	__endasm;
+__asm
+	// Get S#1
+	ld		a, #1
+	out		(P_VDP_ADDR), a
+	ld		a, #(0x80 + 15)
+	out		(P_VDP_ADDR), a
+	in		a, (P_VDP_STAT)
+	//  Call H-Blank if bit #0 of S#1 is set 
+	rrca
+	jp		nc, _no_hblank
+	call	_HBlankHook // call to C function HBlankHook() 
+_no_hblank:
+	// Reset R#15 to S#0
+	xor		a           		
+	out		(P_VDP_ADDR), a
+	ld		a, #(0x80 + 15)
+	out		(P_VDP_ADDR),a
+__endasm;
 
 	// Call((u16)HookBackup_KEYI);
 }

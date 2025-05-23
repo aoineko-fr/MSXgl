@@ -690,7 +690,7 @@ void DisplayStdIn()
 
 //-----------------------------------------------------------------------------
 // Get a character from standard input
-u8 DOS_StandardInput()
+u8 DOS_StandardInput() __NAKED
 {
 __asm
 	push	ix
@@ -698,8 +698,8 @@ __asm
 	ld		c, #DOS_FUNC_DIRIO
 	call	BDOS
 	pop		ix
+	ret								// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
@@ -781,7 +781,7 @@ DisplayMenu:
 
 	case '2':
 		DisplayFile();
-		return;
+		return 1;
 
 	case '3':
 		DisplayExtBIOS();
@@ -823,5 +823,5 @@ DisplayMenu:
 	}
 
 	Bios_Exit(0);
-	// return 0;   // Can be used only if you don't use VDP module
+	return 0;   // Can be used only if you don't use VDP module
 }

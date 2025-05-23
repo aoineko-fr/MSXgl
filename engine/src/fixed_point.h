@@ -74,7 +74,7 @@
 
 // Macro: Q7_1_FRAC
 // Get the fractional part of a Q7.1 fixed point number
-#define Q7_1_FRAC(a)				(((a) >= 0) ? (a) & 0x01 : (a) | 0xFE)
+#define Q7_1_FRAC(a)				((a) >= 0 ? (a) & 0x01 : -(-(a) & 0x01))
 
 //.............................................................................
 // Q6.2 [-32:31.75]
@@ -98,7 +98,7 @@
 
 // Macro: Q6_2_FRAC
 // Get the fractional part of a Q6.2 fixed point number
-#define Q6_2_FRAC(a)				(((a) >= 0) ? (a) & 0x03 : (a) | 0xFC)
+#define Q6_2_FRAC(a)				(((a) >= 0) ? (a) & 0x03 : -(-(a) & 0x03))
 
 //.............................................................................
 // Q5.3 [-16:15.87]
@@ -122,7 +122,7 @@
 
 // Macro: Q5_3_FRAC
 // Get the fractional part of a Q5.3 fixed point number
-#define Q5_3_FRAC(a)				(((a) >= 0) ? (a) & 0x07 : (a) | 0xF8)
+#define Q5_3_FRAC(a)				(((a) >= 0) ? (a) & 0x07 : -(-(a) & 0x07))
 
 //.............................................................................
 // Q4.4 [-8:7.94]
@@ -146,7 +146,7 @@
 
 // Macro: Q4_4_FRAC
 // Get the fractional part of a Q4.4 fixed point number
-#define Q4_4_FRAC(a)				(((a) >= 0) ? (a) & 0x0F : (a) | 0xF0)
+#define Q4_4_FRAC(a)				((a) >= 0 ? (a) & 0x0F : -(-(a) & 0x0F))
 
 //.............................................................................
 // Q3.5 [-4:3.97]
@@ -170,7 +170,7 @@
 
 // Macro: Q3_5_FRAC
 // Get the fractional part of a Q3.5 fixed point number
-#define Q3_5_FRAC(a)				(((a) >= 0) ? (a) & 0x1F : (a) | 0xE0)
+#define Q3_5_FRAC(a)				(((a) >= 0) ? (a) & 0x1F : -(-(a) & 0x1F))
 
 //.............................................................................
 // Q2.6 [-2:1.98]
@@ -194,7 +194,7 @@
 
 // Macro: Q2_6_FRAC
 // Get the fractional part of a Q2.6 fixed point number
-#define Q2_6_FRAC(a)				(((a) >= 0) ? (a) & 0x3F : (a) | 0xC0)
+#define Q2_6_FRAC(a)				(((a) >= 0) ? (a) & 0x3F : -(-(a) & 0x3F))
 
 //.............................................................................
 // Q1.7 [-1:0.99]
@@ -218,7 +218,7 @@
 
 // Macro: Q1_7_FRAC
 // Get the fractional part of a Q1.7 fixed point number
-#define Q1_7_FRAC(a)				(((a) >= 0) ? (a) & 0x7F : (a) | 0x80)
+#define Q1_7_FRAC(a)				(((a) >= 0) ? (a) & 0x7F : -(-(a) & 0x7F))
 
 // Function: QMN_Set8
 // Convert source unit 8-bit value to a Qm.n fixed point number
@@ -295,7 +295,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q15_1_FRAC
 // Get the fractional part of a Q15.1 fixed point number
-#define Q15_1_FRAC(a)				(((a) >= 0) ? (a) & 0x0001 : (a) | 0xFFFE)
+#define Q15_1_FRAC(a)				(((a) >= 0) ? (a) & 0x0001 : -(-(a) & 0x0001))
 
 //.............................................................................
 // Q14.2 [-8192:8191.75]
@@ -319,7 +319,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q14_2_FRAC
 // Get the fractional part of a Q14.2 fixed point number
-#define Q14_2_FRAC(a)				(((a) >= 0) ? (a) & 0x0003 : (a) | 0xFFFC)
+#define Q14_2_FRAC(a)				(((a) >= 0) ? (a) & 0x0003 : -(-(a) & 0x0003))
 
 //.............................................................................
 // Q13.3 [-4096:4095.87]
@@ -343,7 +343,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q13_3_FRAC
 // Get the fractional part of a Q13.3 fixed point number
-#define Q13_3_FRAC(a)				(((a) >= 0) ? (a) & 0x0007 : (a) | 0xFFF8)
+#define Q13_3_FRAC(a)				(((a) >= 0) ? (a) & 0x0007 : -(-(a) & 0x0007))
 
 //.............................................................................
 // Q12.4 [-2048:2047.94]
@@ -367,7 +367,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q12_4_FRAC
 // Get the fractional part of a Q12.4 fixed point number
-#define Q12_4_FRAC(a)				(((a) >= 0) ? (a) & 0x000F : (a) | 0xFFF0)
+#define Q12_4_FRAC(a)				(((a) >= 0) ? (a) & 0x000F : -(-(a) & 0x000F))
 
 //.............................................................................
 // Q11.5 [-1024:1023.97]
@@ -391,7 +391,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q11_5_FRAC
 // Get the fractional part of a Q11.5 fixed point number
-#define Q11_5_FRAC(a)				(((a) >= 0) ? (a) & 0x001F : (a) | 0xFFE0)
+#define Q11_5_FRAC(a)				(((a) >= 0) ? (a) & 0x001F : -(-(a) & 0x001F))
 
 //.............................................................................
 // Q10.6 [-512:511.98]
@@ -415,7 +415,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q10_6_FRAC
 // Get the fractional part of a Q10.6 fixed point number
-#define Q10_6_FRAC(a)				(((a) >= 0) ? (a) & 0x003F : (a) | 0xFFC0)
+#define Q10_6_FRAC(a)				(((a) >= 0) ? (a) & 0x003F : -(-(a) & 0x003F))
 
 //.............................................................................
 // Q9.7 [-256:255.99]
@@ -439,7 +439,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q9_7_FRAC
 // Get the fractional part of a Q9.7 fixed point number
-#define Q9_7_FRAC(a)				(((a) >= 0) ? (a) & 0x007F : (a) | 0xFF80)
+#define Q9_7_FRAC(a)				(((a) >= 0) ? (a) & 0x007F : -(-(a) & 0x007F))
 
 //.............................................................................
 // Q8.8 [-128:127.99]
@@ -463,7 +463,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q8_8_FRAC
 // Get the fractional part of a Q8.8 fixed point number
-#define Q8_8_FRAC(a)				(((a) >= 0) ? (a) & 0x00FF : (a) | 0xFF00)
+#define Q8_8_FRAC(a)				(((a) >= 0) ? (a) & 0x00FF : -(-(a) & 0x00FF))
 
 //.............................................................................
 // Q7.9 [-64:63.99]
@@ -487,7 +487,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q7_9_FRAC
 // Get the fractional part of a Q7.9 fixed point number
-#define Q7_9_FRAC(a)				(((a) >= 0) ? (a) & 0x01FF : (a) | 0xFE00)
+#define Q7_9_FRAC(a)				(((a) >= 0) ? (a) & 0x01FF : -(-(a) & 0x01FF))
 
 //.............................................................................
 // Q6.10 [-32:31.99]
@@ -511,7 +511,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q6_10_FRAC
 // Get the fractional part of a Q6.10 fixed point number
-#define Q6_10_FRAC(a)				(((a) >= 0) ? (a) & 0x03FF : (a) | 0xFC00)
+#define Q6_10_FRAC(a)				(((a) >= 0) ? (a) & 0x03FF : -(-(a) & 0x03FF))
 
 //.............................................................................
 // Q5.11 [-16:15.99]
@@ -535,7 +535,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q5_11_FRAC
 // Get the fractional part of a Q5.11 fixed point number
-#define Q5_11_FRAC(a)				(((a) >= 0) ? (a) & 0x07FF : (a) | 0xF800)
+#define Q5_11_FRAC(a)				(((a) >= 0) ? (a) & 0x07FF : -(-(a) & 0x07FF))
 
 //.............................................................................
 // Q4.12 [-8:7.99]
@@ -559,7 +559,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q4_12_FRAC
 // Get the fractional part of a Q4.12 fixed point number
-#define Q4_12_FRAC(a)				(((a) >= 0) ? (a) & 0x0FFF : (a) | 0xF000)
+#define Q4_12_FRAC(a)				(((a) >= 0) ? (a) & 0x0FFF : -(-(a) & 0x0FFF))
 
 //.............................................................................
 // Q3.13 [-4:3.99]
@@ -583,7 +583,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q3_13_FRAC
 // Get the fractional part of a Q3.13 fixed point number
-#define Q3_13_FRAC(a)				(((a) >= 0) ? (a) & 0x1FFF : (a) | 0xE000)
+#define Q3_13_FRAC(a)				(((a) >= 0) ? (a) & 0x1FFF : -(-(a) & 0x1FFF))
 
 //.............................................................................
 // Q2.14 [-2:1.99]
@@ -607,7 +607,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q2_14_FRAC
 // Get the fractional part of a Q2.14 fixed point number
-#define Q2_14_FRAC(a)				(((a) >= 0) ? (a) & 0x3FFF : (a) | 0xC000)
+#define Q2_14_FRAC(a)				(((a) >= 0) ? (a) & 0x3FFF : -(-(a) & 0x3FFF))
 
 //.............................................................................
 // Q1.15 [-1:0.99]
@@ -631,7 +631,7 @@ inline i8 QMN_Get8(u16 q, i8 a) { return a / (i8)(1 << (q & 0x00FF)); }
 
 // Macro: Q1_15_FRAC
 // Get the fractional part of a Q1.15 fixed point number
-#define Q1_15_FRAC(a)				(((a) >= 0) ? (a) & 0x7FFF : (a) | 0x8000)
+#define Q1_15_FRAC(a)				(((a) >= 0) ? (a) & 0x7FFF : -(-(a) & 0x7FFF))
 
 // Function: QMN_Set16
 // Convert source unit 16-bit value to a Qm.n fixed point number

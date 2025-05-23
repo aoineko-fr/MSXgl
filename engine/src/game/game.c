@@ -34,13 +34,13 @@ State			g_GamePrevState = NULL;
 #endif
 
 #if (GAME_USE_VSYNC)
-bool			g_GameVSync = FALSE;
+u8				g_GameVSync = 0;
 u8				g_GameFrame = 0;
 callback		g_GameVSyncCB = Game_DefaultVSyncCB;
 #endif
 
 #if ((GAME_USE_VSYNC) && (GAME_USE_SYNC_50HZ))
-bool			g_Game60Hz = 0;
+bool			g_Game60Hz = FALSE;
 u8				g_GameCount = 0;
 #endif
 
@@ -52,17 +52,26 @@ u8				g_GameCount = 0;
 
 //-----------------------------------------------------------------------------
 // Initialize game module
-void Game_Initialize(u8 screenMode)
+void Game_Initialize(u8 screenMode, bool b60hz)
 {
+	// Set screen mode
 	VDP_SetMode(screenMode);
-	#if ((GAME_USE_VSYNC) && ((TARGET_TYPE != TYPE_ROM) || !(TARGET & ROM_ISR)) && (TARGET != TARGET_DOS0))
-		VDP_EnableVBlank(TRUE);
-		Bios_SetHookCallback(H_TIMI, VDP_InterruptHandler);
-	#endif
 
-	#if ((GAME_USE_VSYNC) && (GAME_USE_SYNC_50HZ))
-	// Initialize frequency
-	g_Game60Hz = (g_ROMVersion.VSF == 0);
+	#if (GAME_USE_VSYNC)
+		// Initialize v-synch hook
+		#if !(TARGET & TARGET_ISR)
+			Bios_SetHookCallback(H_TIMI, VDP_InterruptHandler);
+		#endif
+	
+		// Enable v-synch interruption
+		VDP_EnableVBlank(TRUE);
+
+		// Initialize frequency
+		#if (GAME_USE_SYNC_50HZ)
+			g_Game60Hz = b60hz;
+		#else
+			b60hz;
+		#endif
 	#endif
 }
 
@@ -82,7 +91,7 @@ void Game_Update()
 // Release game module
 void Game_Release()
 {
-	#if ((GAME_USE_VSYNC) && ((TARGET_TYPE != TYPE_ROM) || !(TARGET & ROM_ISR)) && (TARGET != TARGET_DOS0))
+	#if ((GAME_USE_VSYNC) && !(TARGET & TARGET_ISR))
 		Bios_ClearHook(H_TIMI);
 	#endif
 }
@@ -97,9 +106,9 @@ void Game_Release()
 
 //-----------------------------------------------------------------------------
 // Game main loop
-void Game_MainLoop(u8 screenMode)
+void Game_Start(u8 screenMode, bool b60hz)
 {
-	Game_Initialize(screenMode);
+	Game_Initialize(screenMode, b60hz);
 	while(!g_GameExit)
 		Game_Update();
 	Game_Release();
@@ -161,30 +170,29 @@ void Game_DefaultVSyncCB() {}
 // Vertical-synchronization hook handler
 void VDP_InterruptHandler()
 {
+	#if (GAME_USE_SYNC_50HZ)
+	if(g_Game60Hz)
+	{
+		g_GameCount++;
+		if(g_GameCount >= 6)
+		{
+			g_GameCount = 0;
+			return;
+		}
+	}
+	#endif
+
 	g_GameFrame++;
 	g_GameVSyncCB();
-	g_GameVSync = TRUE;
+	g_GameVSync++;
 }
 
 //-----------------------------------------------------------------------------
 // Wait for vertical-synchronization 
 void Game_WaitVSync()
 {
-	while(g_GameVSync == FALSE) {}
-
-	#if (GAME_USE_SYNC_50HZ)
-	if(g_Game60Hz)
-	{
-		g_GameCount++;
-		if(g_GameCount == 6)
-		{
-			g_GameCount = 0;
-			while(g_GameVSync == FALSE) {} // Wait an additional frame
-		}
-	}
-	#endif
-
-	g_GameVSync = FALSE;
+	while(g_GameVSync == 0) {}
+	g_GameVSync = 0;
 }
 
 #endif // (GAME_USE_VSYNC)

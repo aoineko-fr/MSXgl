@@ -588,7 +588,7 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count);
 // Parameters:
 //   value	- Byte value to copy in VRAM
 //   dest	- Destination address in VRAM (14 bits address form 16 KB VRAM)
-//   count	- Nomber of byte to copy in VRAM. Note: A count of 0 mean 65536
+//   count	- Number of byte to copy in VRAM. Note: A count of 0 mean 65536
 void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count);
 #endif
 
@@ -639,7 +639,7 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	//   src		- Source data address in RAM
 	//   destLow	- Destination address in VRAM (16 LSB of 17-bits VRAM address)
 	//   destHigh	- Destination address in VRAM (1 MSB of 17-bits VRAM address)
-	//   count		- Nomber of byte to copy in VRAM. Note: A count of 0 mean 65536
+	//   count		- Number of byte to copy in VRAM. Note: A count of 0 mean 65536
 	void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count);
 
 	// Function: VDP_FillVRAM_128K
@@ -649,7 +649,7 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	//   value		- Byte value to copy in VRAM
 	//   destLow	- Destination address in VRAM (16 LSB of 17-bits VRAM address)
 	//   destHigh	- Destination address in VRAM (1 MSB of 17-bits VRAM address)
-	//   count		- Nomber of byte to copy in VRAM. Note: A count of 0 mean 65536
+	//   count		- Number of byte to copy in VRAM. Note: A count of 0 mean 65536
 	void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count);
 
 	// Function: VDP_ReadVRAM_128K
@@ -659,7 +659,7 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	//   srcLow		- Source address in VRAM (16 LSB of 17-bits VRAM address)
 	//   srcHigh	- Source address in VRAM (1 MSB of 17-bits VRAM address)
 	//   dest		- Desitation data address in RAM
-	//   count		- Nomber of byte to copy from VRAM. Note: A count of 0 mean 65536
+	//   count		- Number of byte to copy from VRAM. Note: A count of 0 mean 65536
 	void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count);
 
 	// Function: VDP_Poke_128K

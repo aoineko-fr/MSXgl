@@ -175,11 +175,12 @@ void DEBUG_INIT()
 
 //-----------------------------------------------------------------------------
 // Force a break point
-void DEBUG_BREAK() __PRESERVES(a, b, c, d, e, h, l, iyl, iyh)
+void DEBUG_BREAK() __NAKED __PRESERVES(a, b, c, d, e, h, l, iyl, iyh)
 {
-	__asm
-		ld b, b
-	__endasm;
+__asm
+	ld b, b
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
@@ -194,14 +195,15 @@ void DEBUG_ASSERT(bool a)
 // Display debug message
 void DEBUG_LOG(const c8* msg) __NAKED __PRESERVES(a, b, c, d, e, h, l, iyl, iyh)
 {
-	msg;
-	__asm
-		ld		d, d
-		ret
-		nop
-		.dw		DEBUG_CMD_MAGIC // emulator debug function request
-		.dw		DEBUG_CMD_PRINT_REG_HL // debug_printf function selected
-	__endasm;
+	msg; // HL
+
+__asm
+	ld		d, d
+	ret
+	nop
+	.dw		DEBUG_CMD_MAGIC // emulator debug function request
+	.dw		DEBUG_CMD_PRINT_REG_HL // debug_printf function selected
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
@@ -218,21 +220,22 @@ void DEBUG_LOGNUM(const c8* msg, u8 num)
 void DEBUG_PRINT(const c8 *format, ...) __NAKED __PRESERVES(a, b, c, iyh, iyl)
 {
 	format;
-	// basic debug_printf code kindly provided by toxa - thank you!
-	__asm
-		ld		hl, #2
-		add		hl, sp
-		ld		e, (hl)
-		inc		hl
-		ld		d, (hl)
-		inc		hl
-		ex		de, hl  ; format string needs to be in HL
-		ld		d, d
-		ret
-		nop
-		.dw		DEBUG_CMD_MAGIC // emulator debug function request
-		.dw		DEBUG_CMD_PRINT_FORMAT // debug_printf function selected
-	__endasm;
+
+// basic debug_printf code kindly provided by toxa - thank you!
+__asm
+	ld		hl, #2
+	add		hl, sp
+	ld		e, (hl)
+	inc		hl
+	ld		d, (hl)
+	inc		hl
+	ex		de, hl  ; format string needs to be in HL
+	ld		d, d
+	ret
+	nop
+	.dw		DEBUG_CMD_MAGIC // emulator debug function request
+	.dw		DEBUG_CMD_PRINT_FORMAT // debug_printf function selected
+__endasm;
 }
 
 #endif

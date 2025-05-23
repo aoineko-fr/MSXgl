@@ -16,98 +16,98 @@
 // READ-ONLY DATA
 //=============================================================================
 
-void NTap_Dummy()
+void NTap_Dummy() __NAKED
 {
-	__asm
+__asm
 
-	#if (NTAP_DRIVER & NTAP_DRIVER_GIGAMIX)
-		#include "ninjatap.asm"
-	#endif
+#if (NTAP_DRIVER & NTAP_DRIVER_GIGAMIX)
+	#include "ninjatap.asm"
+#endif
 
-	#if (NTAP_DRIVER & NTAP_DRIVER_SHINOBI)
-		#include "ninjatap_st.asm"
-	#endif
+#if (NTAP_DRIVER & NTAP_DRIVER_SHINOBI)
+	#include "ninjatap_st.asm"
+#endif
 
-	#if (NTAP_DRIVER & NTAP_DRIVER_MSXGL)
-	//======================================
-	// Connection Check
-	//[E]	None
-	//[R]	(NTAP Info)
-	//[M]	af,bc,de,hl,ix
+#if (NTAP_DRIVER & NTAP_DRIVER_MSXGL)
+//======================================
+// Connection Check
+//[E]	None
+//[R]	(NTAP Info)
+//[M]	af,bc,de,hl,ix
 
-	//NTAP Info
-	//ofset	-1 Result(Internal Work)
-	//	+0 Max Player
-	//	+1 ID(Port1),0-15	(Dummy)
-	//	+2 ID(Port2),NotAP=255	(Dummy)
+//NTAP Info
+//ofset	-1 Result(Internal Work)
+//	+0 Max Player
+//	+1 ID(Port1),0-15	(Dummy)
+//	+2 ID(Port2),NotAP=255	(Dummy)
 
-	MGL_CKNTAP::
-		di
-		ld		b, #0	// b=Max Player
-		ld		de, #0xBF0A
-		call	MGL_CHECK	// Port1 Check
-		ld		c, a
-		ld		e, #0x4A
-		call	MGL_CHECK	// Port2 Check
-		rlca
-		or		c
-	// Result Save
-		ld		c, a
-		ld		(_g_NTap_Buffer), bc
-	// Restore Port (6,7,8=H)
-		ld		de, #0xFF3F
-		jp		MGL_PORSEL
+MGL_CKNTAP::
+	di
+	ld		b, #0	// b=Max Player
+	ld		de, #0xBF0A
+	call	MGL_CHECK	// Port1 Check
+	ld		c, a
+	ld		e, #0x4A
+	call	MGL_CHECK	// Port2 Check
+	rlca
+	or		c
+// Result Save
+	ld		c, a
+	ld		(_g_NTap_Buffer), bc
+// Restore Port (6,7,8=H)
+	ld		de, #0xFF3F
+	jp		MGL_PORSEL
 
-	//======================================
-	// Connection Check Sub.
-	MGL_CHECK:
-		call	MGL_PORSEL
-		inc		b
-		and		#0xCA
-		out		(P_PSG_DATA), a	// 678=L
-		ex		af, af'		;'
-		ld		a, #14
-		out		(P_PSG_REGS), a
-		in		a, (P_PSG_STAT)
-		and		#0x20		// 7=H ?
-		ret		z
+//======================================
+// Connection Check Sub.
+MGL_CHECK:
+	call	MGL_PORSEL
+	inc		b
+	and		#0xCA
+	out		(P_PSG_DATA), a	// 678=L
+	ex		af, af'		;'
+	ld		a, #14
+	out		(P_PSG_REGS), a
+	in		a, (P_PSG_STAT)
+	and		#0x20		// 7=H ?
+	ret		z
 
-		ld		a, #15
-		out		(P_PSG_REGS), a
-		ex		af, af'		;'
-		or		#0x30
-		out		(P_PSG_DATA), a	// 8=H
-		ld		a, #14
-		out		(P_PSG_REGS), a
-		in		a, (P_PSG_STAT)
-		and		#0x20		// 7=L ?
-		jr		nz, MGL_CHECK1
+	ld		a, #15
+	out		(P_PSG_REGS), a
+	ex		af, af'		;'
+	or		#0x30
+	out		(P_PSG_DATA), a	// 8=H
+	ld		a, #14
+	out		(P_PSG_REGS), a
+	in		a, (P_PSG_STAT)
+	and		#0x20		// 7=L ?
+	jr		nz, MGL_CHECK1
 
-		inc		a
-		inc		b
-		inc		b
-		inc		b
-		ret
+	inc		a
+	inc		b
+	inc		b
+	inc		b
+	ret
 
-	// No NTAP
-	MGL_CHECK1:
-		xor		a
-		ret
+// No NTAP
+MGL_CHECK1:
+	xor		a
+	ret
 
-	//======================================
-	// Sub Routine
-	// [E]	D: Mask, E: Flags
-	MGL_PORSEL:
-		ld		a, #15
-		out		(P_PSG_REGS), a
-		in		a, (P_PSG_STAT)
-		and		d
-		or		e
-		out		(P_PSG_DATA), a
-		ret
-	#endif
+//======================================
+// Sub Routine
+// [E]	D: Mask, E: Flags
+MGL_PORSEL:
+	ld		a, #15
+	out		(P_PSG_REGS), a
+	in		a, (P_PSG_STAT)
+	and		d
+	or		e
+	out		(P_PSG_DATA), a
+	ret
+#endif
 
-	__endasm;
+__endasm;
 }
 
 //=============================================================================

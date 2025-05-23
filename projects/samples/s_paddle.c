@@ -39,44 +39,46 @@ u8 g_DeviceID[2];
 // MAIN LOOP
 //=============================================================================
 
-/*u16 Input_DetectEx(u8 port)
+/*u16 Input_DetectEx(u8 port) __NAKED
 {
 __asm
-	detect_setup:
+detect_setup:
 
-		or		a
-		jr		nz, detect_port2
-		// Port A
-		ld		bc, #0x1F0F
-		jr		detect_start
+	or		a
+	jr		nz, detect_port2
+	// Port A
+	ld		bc, #0x1F0F
+	jr		detect_start
 
-	detect_port2:
-		// Port B
-		ld		bc, #0x6F4F
+detect_port2:
+	// Port B
+	ld		bc, #0x6F4F
 
-	detect_start:
+detect_start:
 
-		ld		a, #15				// Select R#15
-		out		(P_PSG_REGS), a
-		ld		a, b
-		out		(P_PSG_DATA), a		// Select pin 8 LOW
+	ld		a, #15				// Select R#15
+	out		(P_PSG_REGS), a
+	ld		a, b
+	out		(P_PSG_DATA), a		// Select pin 8 LOW
 
-		ld		a, #14				// Select R#14
-		out		(P_PSG_REGS), a
-		in		a, (P_PSG_STAT)		// Reads
-		and		#0x3F
-		ld		l, a
+	ld		a, #14				// Select R#14
+	out		(P_PSG_REGS), a
+	in		a, (P_PSG_STAT)		// Reads
+	and		#0x3F
+	ld		l, a
 
-		ld		a, #15				// Select R#15
-		out		(P_PSG_REGS), a
-		ld		a, c
-		out		(P_PSG_DATA), a		// Select pin 8 HIGH
+	ld		a, #15				// Select R#15
+	out		(P_PSG_REGS), a
+	ld		a, c
+	out		(P_PSG_DATA), a		// Select pin 8 HIGH
 
-		ld		a, #14				// Select R#14
-		out		(P_PSG_REGS), a
-		in		a, (P_PSG_STAT)		// Reads
-		and		#0x3F
-		ld		h, a
+	ld		a, #14				// Select R#14
+	out		(P_PSG_REGS), a
+	in		a, (P_PSG_STAT)		// Reads
+	and		#0x3F
+	ld		h, a
+
+	ret
 
 __endasm;
 }*/

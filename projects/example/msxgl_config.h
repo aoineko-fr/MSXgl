@@ -251,7 +251,7 @@
 #define GAME_USE_STATE				TRUE	// Add state machine features
 #define GAME_USE_VSYNC				TRUE	// Add vertical synchronization features
 #define GAME_USE_LOOP				TRUE	// Add game main loop with call to v-synch and state
-#define GAME_USE_SYNC_50HZ			FALSE	// On 60 Hz system, synchronize gameplay loop at 50 Hz
+#define GAME_USE_SYNC_50HZ			TRUE	// On 60 Hz system, synchronize gameplay loop at 50 Hz
 
 //-----------------------------------------------------------------------------
 // GAME PAWN MODULE
@@ -263,6 +263,10 @@
 #define PAWN_USE_SPRT_FX			TRUE	// Allow sprite effects (crop, flip, mask, rotate)
 #define PAWN_SPRITE_SIZE			16		// Sprite size mode (8 for 8x8 pixel mode, or 16 for 16x16)
 #define PAWN_USE_PHYSICS			TRUE	// Add physics and collision features
+// Pawn coordinate unit
+// - PAWN_UNIT_SCREEN				Default screen (pixel) unit (8-bit unsigned int)
+// - PAWN_UNIT_QMN(n)				Fixed-point (Qm.n) unit (16-bit signed int)
+#define PAWN_UNIT					PAWN_UNIT_SCREEN//PAWN_UNIT_QMN(4)
 // Pawn's bound (can be fixed for all pawn, or setable for each one)
 #define PAWN_BOUND_X				16
 #define PAWN_BOUND_Y				16

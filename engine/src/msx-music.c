@@ -17,6 +17,7 @@
 #include "bios.h"
 #include "system.h"
 #include "system_port.h"
+#include "memory.h"
 
 //=============================================================================
 // DEFINES
@@ -33,7 +34,11 @@ const c8 g_MSXMusic_Ident[] = "APRLOPLL";
 u8 g_MSXMusic_SlotId = SLOT_NOTFOUND;
 
 #if (MSXMUSIC_USE_RESUME)
+bool g_MSXMusic_DoBackup = TRUE;
 u8 g_MSXMusic_RegBackup[16];
+#define MSXMUSIC_DOBACKUP(do)	g_MSXMusic_DoBackup = do
+#else
+#define MSXMUSIC_DOBACKUP(do)
 #endif
 
 //=============================================================================
@@ -45,6 +50,9 @@ u8 g_MSXMusic_RegBackup[16];
 void MSXMusic_Initialize()
 {
 	MSXMusic_Detect();
+	#if (MSXMUSIC_USE_RESUME)
+	Mem_Set(0, g_MSXMusic_RegBackup, 16);
+	#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -107,7 +115,7 @@ void MSXMusic_SetRegister(u8 reg, u8 value)
 	g_MSXMusic_DataPort = value;
 
 	#if (MSXMUSIC_USE_RESUME)
-	if((reg & 0xF0) == 0x20) // MSXMUSIC_REG_CTRL_x
+	if((g_MSXMusic_DoBackup) && ((reg & 0xF0) == 0x20)) // MSXMUSIC_REG_CTRL_x
 		g_MSXMusic_RegBackup[reg & 0x0F] = value;
 	#endif
 }
@@ -124,10 +132,12 @@ u8 MSXMusic_GetRegister(u8 reg)
 // Mute MSX-Music sound
 void MSXMusic_Mute()
 {
+	MSXMUSIC_DOBACKUP(FALSE);
 	loop(i, 9)
 	{
 		MSXMusic_SetRegister(MSXMUSIC_REG_CTRL_1 + i, 0); // seem to be enough
 	}
+	MSXMUSIC_DOBACKUP(TRUE);
 }
 
 #if (MSXMUSIC_USE_RESUME)

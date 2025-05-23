@@ -200,6 +200,11 @@
 	#define INPUT_JOY_UPDATE			FALSE
 #endif
 
+#ifndef INPUT_HOLD_SIGNAL // Determines whether functions that modify signals should keep the state of those they don't need to modify (which slows functions down a bit) 
+	#warning INPUT_HOLD_SIGNAL is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define INPUT_HOLD_SIGNAL			TRUE	
+#endif
+
 #ifndef INPUT_KB_UPDATE // Add function to update all keyboard rows at once
 	#warning INPUT_KB_UPDATE is not defined in "msxgl_config.h"! Default value will be used: FALSE
 	#define INPUT_KB_UPDATE				FALSE

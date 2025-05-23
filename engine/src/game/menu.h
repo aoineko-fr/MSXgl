@@ -201,7 +201,11 @@ enum MENU_EVENT_CALLBACK
 	MENU_EVENT_SET,
 	MENU_EVENT_INC,
 	MENU_EVENT_DEC,
-//------------------------------------
+//....................................
+	MENU_EVENT_DRAW_TITLE,			// Before drawing title
+	MENU_EVENT_DRAW_ENTRY,			// Before drawing menu entry
+	MENU_EVENT_DRAW_SELECTED,		// Before drawing selected menu entry
+//....................................
 	MENU_EVENT_MAX,
 };
 
@@ -255,6 +259,7 @@ extern Menu_InputCB		g_MenuInputCB;
 extern Menu_DrawCB		g_MenuDrawCB;
 extern Menu_EventCB		g_MenuEventCB;
 extern u8				g_MenuFlag;
+extern MenuItem*        g_MenuCurItem;
 
 #if (MENU_SCREEN_WIDTH == MENU_VARIABLE)
 extern u8				g_MenuScrWidth;
@@ -296,6 +301,19 @@ inline void Menu_SetEventCallback(Menu_EventCB cb) { g_MenuEventCB = cb; }
 // Function: Menu_SetDirty
 // Set flag to force a whole menu redraw
 inline void Menu_SetDirty() { g_MenuFlag |= MENU_FLAG_DIRTY; }
+
+// Function: Menu_GetCurrentItem
+// Get the current item in the menu
+// This value is only available for the following events:
+//   - MENU_EVENT_SET
+//   - MENU_EVENT_INC
+//   - MENU_EVENT_DEC
+//   - MENU_EVENT_DRAW_ENTRY
+//   - MENU_EVENT_DRAW_SELECTED
+//
+// Return:
+//   Pointer to the current item in the menu
+inline const MenuItem* Menu_GetCurrentItem() { return g_MenuCurItem; }
 
 // Function: Menu_DrawPage
 // Draw a given page by its page number

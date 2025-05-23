@@ -104,7 +104,7 @@ inline u8 NTap_Check()
 // Return:
 //   Number of usable joysticks and types. See <NTap_Check>.
 //   > 7  6  5  4  3  2  1  0
-//   > │  │  │  │  └──┴──┴──┴── Nomber of joystick port available (2, 5 or 8)
+//   > │  │  │  │  └──┴──┴──┴── Number of joystick port available (2, 5 or 8)
 //   > │  │  └──┴────────────── Tap type pluged in port 1 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)
 //   > └──┴──────────────────── Tap type pluged in port 2 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)
 inline u8 NTap_GetInfo() { return g_NTap_Info; }

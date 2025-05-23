@@ -303,6 +303,24 @@ inline void Print_SelectTextFont(const u8* font, u8 offset)
 	// Print_Initialize();
 	// Print_SetMode(PRINT_MODE_TEXT);
 }
+
+// Function: Print_GetPatternOffset
+// Get pattern index where the font is stored.
+// This function requires PRINT_USE_TEXT compile option to be set to TRUE.
+//
+// Return:
+//   Pattern index where the font is stored
+inline u8 Print_GetPatternOffset() { return g_PrintData.PatternOffset; }
+
+// Function: Print_SetPatternOffset
+// Set pattern index where the font is stored.
+// This function requires PRINT_USE_TEXT compile option to be set to TRUE.
+//
+//
+// Parameters:
+//   offset - Pattern index where to start to store the font
+inline void  Print_SetPatternOffset(u8 offset) { g_PrintData.PatternOffset = offset; }
+
 #endif
 
 #if (PRINT_USE_SPRITE)
