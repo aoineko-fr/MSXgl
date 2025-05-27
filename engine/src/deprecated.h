@@ -116,6 +116,7 @@
 #define MENU_POS_Y					MENU_FRAME_Y
 #define MENU_WIDTH					MENU_FRAME_WIDTH
 #define MENU_HEIGHT					MENU_FRAME_HEIGHT
+#define Menu_DrawPage				Menu_Display
 
 // Game pawn module
 #define GAMEPAWN_BORDER_NONE		PAWN_BORDER_NONE

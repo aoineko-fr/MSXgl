@@ -76,8 +76,8 @@ enum MENU_PAGES
 	MENU_OPTION,   // Options page
 	MENU_AUDIO,    // Audio options page
 	MENU_GRAPH,    // Graphical options page
-	MENU_INFOS,    // Infos page
-	MENU_CREDITS,  // Credits page
+	MENU_CREDITS1, // Credits page
+	MENU_CREDITS2,    // Infos page
 //.............................
 	MENU_MAX,      // Number of menu
 };
@@ -558,7 +558,7 @@ const u8 g_ShadowPatternId[24] =
 const u8 *const g_MusicTable[MUSIC_MAX] = { g_MusicEmpty, g_MusicMain, g_Musicvictory };
 
 // Default options
-const struct Option g_OptionDefault = { TRUE, TRUE, TRUE, FREQ_AUTO, PAL_CUSTOM, { INPUT_SET_KB1, INPUT_SET_KB2 }, { 11, 1, 0 } };
+const struct Option g_OptionDefault = { TRUE, TRUE, TRUE, FREQ_AUTO, PAL_CUSTOM, { INPUT_SET_KB1, INPUT_SET_KB2 }, { 11, 1, 3 } };
 
 //=============================================================================
 // MEMORY DATA
@@ -577,6 +577,7 @@ struct Character g_Player[2];
 struct Character g_Ball;
 u8   g_CollisionMap[32*24];
 bool g_BallHit;
+u8   g_BallGroundX;
 
 i16  g_CloudX[numberof(g_Cloud)];
 
@@ -586,8 +587,8 @@ u8   g_AILevel = AI_EASY;
 
 // Rules
 u8   g_Field = 0;
-u8   g_Bounce = 0;
-u8   g_Pass = 0;
+u8   g_BounceNum = 0;
+u8   g_PassNum = 0;
 u8   g_LastTouch = 0;
 u8   g_Victorious = 0;
 
@@ -612,8 +613,7 @@ const MenuItem g_MenuMain[] =
 	{ "PLY VS PLY",          MENU_ITEM_GOTO, NULL, MENU_VERSUS },	// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
 	{ "PLY VS CPU",          MENU_ITEM_GOTO, NULL, MENU_SOLO },		// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
 	{ "OPTIONS",             MENU_ITEM_GOTO, NULL, MENU_OPTION },	// Entry to go to Option menu page
-	{ "INFOS",               MENU_ITEM_GOTO, NULL, MENU_INFOS },	// Entry to go to Option menu page
-	{ "CREDITS",             MENU_ITEM_GOTO, NULL, MENU_CREDITS },	// Entry to go to Option menu page
+	{ "CREDITS",             MENU_ITEM_GOTO, NULL, MENU_CREDITS1 },	// Entry to go to Option menu page
 	#if ((TARGET == TARGET_BIN_DISK) || (TARGET == TARGET_BIN_TAPE) || (TARGET == TARGET_DOS1) || (TARGET == TARGET_DOS2))
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },			// Blank entry to create a gap
 	{ "EXIT",                MENU_ITEM_ACTION, MenuAction_Start, 0 },			// Entry to exit the game (will trigger MenuAction_Start with value equal to '0')
@@ -649,7 +649,7 @@ const MenuItem g_MenuRules[] =
 	{ "BOUNCES",             MENU_ITEM_INT, &g_Option.Rule.MaxBounce, (i16)&g_MenuBouncesMinMax },
 	{ "PASSES",              MENU_ITEM_INT, &g_Option.Rule.MaxPass,   (i16)&g_MenuBouncesMinMax },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },               // Blank entry to create a gap
-	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },        // Entry to go back to the main menu
+	{ "<BACK",               MENU_ITEM_BACK, NULL, 0 },        // Entry to go back to the main menu
 };
 
 // Entries description for the Option menu
@@ -683,17 +683,7 @@ const MenuItem g_MenuAudio[] =
 };
 
 // Entries description for the Credits menu
-const MenuItem g_MenuInfos[] =
-{
-	{ "VERSION 1.0 (FD50)",      MENU_ITEM_TEXT, NULL, -2 }, // Entry display a text aligned to center
-	{ "MADE WITH MSXGL",         MENU_ITEM_TEXT, NULL, -2 }, // Entry display a text aligned to center
-	{ "PHENIX PIXEL & 2025",     MENU_ITEM_TEXT, NULL, -2 }, // Entry display a text aligned to center
-	{ NULL,                      MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
-	{ "<BACK",                   MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
-};
-
-// Entries description for the Credits menu
-const MenuItem g_MenuCredits[] =
+const MenuItem g_MenuCredits1[] =
 {
 	{ "CODE        AOINEKO",     MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to left
 	{ "SPRITES     GRAFXKID",    MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
@@ -701,21 +691,31 @@ const MenuItem g_MenuCredits[] =
 	{ "FONT        LUDO 'GFX'",  MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
 	{ "MUSIC       MAKOTO",      MENU_ITEM_TEXT, NULL, -3 }, // Entry display a text aligned to center
 	{ NULL,                      MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
+	{ "NEXT>",                   MENU_ITEM_GOTO, NULL, MENU_CREDITS2 },	// Entry to go to Option menu page
+};
+
+// Entries description for the Credits menu
+const MenuItem g_MenuCredits2[] =
+{
+	{ "VERSION 1.0 (FD50)",      MENU_ITEM_TEXT, NULL, -2 }, // Entry display a text aligned to center
+	{ "MADE WITH MSXGL",         MENU_ITEM_TEXT, NULL, -2 }, // Entry display a text aligned to center
+	{ "PIXEL PHENIX & 2025",     MENU_ITEM_TEXT, NULL, -2 }, // Entry display a text aligned to center
+	{ NULL,                      MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
 	{ "<BACK",                   MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
 };
 
 // List of all menus
 const Menu g_Menus[MENU_MAX] =
 {
-	{ NULL,	g_MenuMain,    numberof(g_MenuMain),    NULL }, // MENU_MAIN
-	{ NULL,	g_MenuVersus,  numberof(g_MenuVersus),  NULL }, // MENU_VERSUS
-	{ NULL,	g_MenuSolo,    numberof(g_MenuSolo),    NULL }, // MENU_SOLO
-	{ NULL,	g_MenuRules,   numberof(g_MenuRules),   NULL }, // MENU_RULES
-	{ NULL,	g_MenuOptions, numberof(g_MenuOptions), NULL }, // MENU_OPTION
-	{ NULL,	g_MenuAudio,   numberof(g_MenuAudio),   NULL }, // MENU_AUDIO
-	{ NULL,	g_MenuGraph,   numberof(g_MenuGraph),   NULL }, // MENU_GRAPH
-	{ NULL,	g_MenuInfos,   numberof(g_MenuInfos),   NULL }, // MENU_INFOS
-	{ NULL,	g_MenuCredits, numberof(g_MenuCredits), NULL }, // MENU_CREDITS
+	{ NULL,	g_MenuMain,     numberof(g_MenuMain),     NULL }, // MENU_MAIN
+	{ NULL,	g_MenuVersus,   numberof(g_MenuVersus),   NULL }, // MENU_VERSUS
+	{ NULL,	g_MenuSolo,     numberof(g_MenuSolo),     NULL }, // MENU_SOLO
+	{ NULL,	g_MenuRules,    numberof(g_MenuRules),    NULL }, // MENU_RULES
+	{ NULL,	g_MenuOptions,  numberof(g_MenuOptions),  NULL }, // MENU_OPTION
+	{ NULL,	g_MenuAudio,    numberof(g_MenuAudio),    NULL }, // MENU_AUDIO
+	{ NULL,	g_MenuGraph,    numberof(g_MenuGraph),    NULL }, // MENU_GRAPH
+	{ NULL,	g_MenuCredits1, numberof(g_MenuCredits1), NULL }, // MENU_CREDITS1
+	{ NULL,	g_MenuCredits2, numberof(g_MenuCredits2), NULL }, // MENU_CREDITS2
 };
 
 //=============================================================================
@@ -975,13 +975,12 @@ const c8* MenuAction_Save(u8 op, i8 value)
 	case MENU_ACTION_INC:
 	case MENU_ACTION_DEC:
 		SaveOptions();
-		g_Saved = TRUE;
 		break;
 	}
 
 	RTC_SetMode(RTC_MODE_BLOCK_3);
 	bool bValid = ((RTC_Read(0) == RTC_DATA_SIGNSAVE) && (RTC_LoadDataSigned(g_SaveData)));
-	return g_Saved ? "SAVED" : (bValid) ? "VALID" : "EMPTY";
+	return g_Saved ? "SAVED" : (bValid) ? "MODIFIED" : "EMPTY";
 }
 
 //-----------------------------------------------------------------------------
@@ -1014,8 +1013,8 @@ const c8* MenuAction_Reset(u8 op, i8 value)
 void Rules_ChangeField(u8 field)
 {
 	g_Field = field;
-	g_Bounce = 0;
-	g_Pass = 0;
+	g_BounceNum = 0;
+	g_PassNum = 0;
 	UpdateBallColor();
 }
 
@@ -1026,7 +1025,7 @@ void Rules_Init()
 	g_Player[0].Score = 0;
 	g_Player[1].Score = 0;
 	DrawScore();
-	Rules_ChangeField(0);
+	Rules_ChangeField(g_AI ? 1 : 0);
 }	
 
 //-----------------------------------------------------------------------------
@@ -1053,8 +1052,8 @@ void Rules_Score(u8 ply)
 // Handle bounces rule
 void Rules_Bounce()
 {
-	g_Bounce++;
-	if ((g_Option.Rule.MaxBounce != 0xFF) && (g_Bounce > g_Option.Rule.MaxBounce))
+	g_BounceNum++;
+	if ((g_Option.Rule.MaxBounce != 0xFF) && (g_BounceNum > g_Option.Rule.MaxBounce))
 		Rules_Score(1 - g_Field);
 	g_LastTouch = g_Field;
 	UpdateBallColor();
@@ -1064,10 +1063,11 @@ void Rules_Bounce()
 // Handle pass rule
 void Rules_Pass()
 {
-	g_Pass++;
-	if ((g_Option.Rule.MaxPass != 0) && (g_Pass > g_Option.Rule.MaxPass))
+	g_PassNum++;
+	if ((g_Option.Rule.MaxPass != 0) && (g_PassNum > g_Option.Rule.MaxPass))
 		Rules_Score(1 - g_Field);
 	g_LastTouch = g_Field;
+	UpdateBallColor();
 }
 
 //-----------------------------------------------------------------------------
@@ -1258,10 +1258,11 @@ u8 GetBallHitX()
 {
 	const Pawn* ballPawn = &g_Ball.Pawn;
 
+#if (1)
 	u8 hitT = 0;
 	i8 hitV = g_Ball.VelocityY;
-	i16 hitH = ballPawn->PositionY * 16;
-	while (hitH < 168 * 16)
+	i16 hitH = Q12_4_SET(ballPawn->PositionY);
+	while (hitH < Q12_4_SET(168))
 	{
 		hitV += BALL_GRAVITY; // Apply gravity
 		if (hitV > FALL_MAX_SPEED) // Clamp fall speed
@@ -1269,14 +1270,18 @@ u8 GetBallHitX()
 		hitH += hitV;
 		hitT++;
 	}
-	i16 x = ballPawn->PositionX + Q4_4_GET(g_Ball.VelocityX * hitT);
-	if (x < 0)
-		x = 0;
-	else if (x > 255)
-		x = 255;
-	return x;
-	// return ballPawn->PositionX + Q4_4_GET(g_Ball.VelocityX * ((168 - ballPawn->PositionY) / 3));{
+	i16 bpx = ballPawn->PositionX + Q4_4_GET(g_Ball.VelocityX * hitT);
+	if (bpx < 0)
+		bpx = 0;
+	else if (bpx > 255)
+		bpx = 255;
+	return bpx;
+#else
+	return ballPawn->PositionX + Q4_4_GET(g_Ball.VelocityX * ((168 - ballPawn->PositionY) / 3));
+#endif
 }
+
+// const i8 g_AIReceptOffset[] = { +8, +4, +2, +1, 0, 0, 0, 0 };
 
 //-----------------------------------------------------------------------------
 //
@@ -1286,24 +1291,20 @@ u8 CheckAI()
 	const Pawn* plyPawn = &g_Player[0].Pawn;
 
 // VDP_SetColor(COLOR_BLACK);
-SetSpriteColor(SPRITE_HIT_MARKER, COLOR_MEDIUM_GREEN);
 
 	// Serve
 	if ((ballPawn->PositionX < 128) && (g_Ball.bFreeze == TRUE))
 	{
 		if (plyPawn->PositionX < 48)
-			return INPUT_RIGHT | INPUT_ACTION;
+			return INPUT_ACTION | INPUT_RIGHT;
 		else
 			return INPUT_LEFT;
 	}
 
-	u8 hitX = GetBallHitX();
-
-SetSprite(SPRITE_HIT_MARKER, hitX, 176, 124, COLOR_MEDIUM_RED);
 // VDP_SetColor(COLOR_DARK_GREEN);
 
 	// Repositionning
-	if ((ballPawn->PositionX > 128) && (hitX > 128))
+	if ((ballPawn->PositionX > 128) && (g_BallGroundX > 128))
 	{
 		if (plyPawn->PositionX < 32)
 				return INPUT_RIGHT;
@@ -1316,10 +1317,10 @@ SetSprite(SPRITE_HIT_MARKER, hitX, 176, 124, COLOR_MEDIUM_RED);
 // VDP_SetColor(COLOR_DARK_RED);
 
 	// Shoot
-	i8 dx = (hitX - plyPawn->PositionX);
-	if ((dx > 0) && (ballPawn->PositionY > 128))
+	i8 dx = (g_BallGroundX - plyPawn->PositionX);
+	if ((dx > 0) && (dx < 24) && (ballPawn->PositionX < 128) && (ballPawn->PositionY > 128))
 	{
-		if (dx > 32)
+		if (dx > 8)
 			return INPUT_ACTION | INPUT_RIGHT;
 		else
 			return INPUT_ACTION;
@@ -1328,7 +1329,7 @@ SetSprite(SPRITE_HIT_MARKER, hitX, 176, 124, COLOR_MEDIUM_RED);
 // VDP_SetColor(COLOR_DARK_BLUE);
 
 	// Reception
-	if (plyPawn->PositionX < hitX)
+	if (plyPawn->PositionX < g_BallGroundX /*+ g_AIReceptOffset[g_BallGroundX / 16]*/)
 		return INPUT_RIGHT;
 	else
 		return INPUT_LEFT;
@@ -1491,6 +1492,7 @@ void SaveOptions()
 	g_SaveData[4] = g_Option.Rule.MaxPass;      // 0b00001111
 
 	RTC_SaveDataSigned(g_SaveData);
+	g_Saved = TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -1519,6 +1521,8 @@ void LoadOptions()
 	g_Option.Rule.GamePoints = g_SaveData[2];
 	g_Option.Rule.MaxBounce  = g_SaveData[3];
 	g_Option.Rule.MaxPass    = g_SaveData[4];
+
+	g_Saved = TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -1707,7 +1711,11 @@ void InitBall()
 //
 void UpdateBallColor()
 {
-	if (g_Bounce == g_Option.Rule.MaxBounce)
+	bool bWarning = (g_BounceNum >= g_Option.Rule.MaxBounce);
+	if (g_Option.Rule.MaxPass != 0)
+		bWarning |= (g_PassNum >= g_Option.Rule.MaxPass - 1);
+
+	if (bWarning)
 	{
 		SetSpriteColor(SPRITE_BALL_DARK, COLOR_DARK_RED);
 		SetSpriteColor(SPRITE_BALL_LIGHT, COLOR_MEDIUM_RED);
@@ -1744,19 +1752,19 @@ void UpdateBall()
 		{
 			g_BallHit = TRUE;
 			PlaySFX(SFX_BUMP2, ARKOS_CHANNEL_C, 0x0E);
-
-			g_Ball.VelocityX = dx * 2;
-			g_Ball.VelocityX += ply->VelocityX / 2;
-
-			g_Ball.VelocityY = Q4_4_SET(-1.5f);
-			if (ply->VelocityY < 0)
-				g_Ball.VelocityY += ply->VelocityY / 2;
-
-			g_Ball.bFreeze = FALSE;
-			Pawn_SetAction(ballPawn, ACTION_BALL_BUMP);
-			Pawn_SetAction(plyPawn, ACTION_PLAYER_HIT);
 			Rules_Pass();
 		}
+
+		g_Ball.VelocityX = dx * 2;
+		g_Ball.VelocityX += ply->VelocityX / 2;
+
+		g_Ball.VelocityY = Q4_4_SET(-1.5f);
+		if (ply->VelocityY < 0)
+			g_Ball.VelocityY += ply->VelocityY / 2;
+
+		g_Ball.bFreeze = FALSE;
+		Pawn_SetAction(ballPawn, ACTION_BALL_BUMP);
+		Pawn_SetAction(plyPawn, ACTION_PLAYER_HIT);
 	}
 	else
 		g_BallHit = FALSE;
@@ -1773,6 +1781,9 @@ void UpdateBall()
 		Rules_ChangeField(1);
 	else if ((x > 120) && (ballPawn->PositionX <= 120))
 		Rules_ChangeField(0);
+
+	g_BallGroundX = GetBallHitX();
+	SetSprite(SPRITE_HIT_MARKER, g_BallGroundX, 176, 124, COLOR_MEDIUM_RED);
 }
 
 //-----------------------------------------------------------------------------
@@ -2092,10 +2103,10 @@ bool State_VictoryInit()
 	#endif
 
 	Pawn_SetEnable(&g_Ball.Pawn, FALSE);
-	Pawn_SetAction(&g_Player[1 - g_Victorious].Pawn, ACTION_PLAYER_LOOSE);
+	Pawn_ForceSetAction(&g_Player[1 - g_Victorious].Pawn, ACTION_PLAYER_LOOSE);
 
 	Pawn* winner = &g_Player[g_Victorious].Pawn;
-	Pawn_SetAction(winner, ACTION_PLAYER_WIN);
+	Pawn_ForceSetAction(winner, ACTION_PLAYER_WIN);
 	SetSprite(SPRITE_WIN_BACK,  winner->PositionX, winner->PositionY - 24, 112, COLOR_LIGHT_RED);
 	SetSprite(SPRITE_WIN_FRONT, winner->PositionX, winner->PositionY - 24, 116, COLOR_DARK_RED);
 

@@ -132,6 +132,7 @@ enum MENU_ITEM_TYPE
 {
 	MENU_ITEM_ACTION =				0,	// Execute callback function defined in Action
 	MENU_ITEM_GOTO,						// Change page to the one defined in Value
+	MENU_ITEM_BACK,						// Return to the previous page
 //------------------------------------
 	MENU_ITEM_INT,						// Handle pointer to 8-bits integer defined in Action
 	MENU_ITEM_BOOL,						// Handle pointer to boolean defined in Action
@@ -251,19 +252,28 @@ typedef struct
 	callback  Callback;		// Function to be called when page is opened
 } Menu;
 
-// Table of the menu pages.
-extern const Menu*		g_MenuTable;
-extern const Menu*		g_MenuPage;
-extern u8				g_MenuItem;
-extern Menu_InputCB		g_MenuInputCB;
-extern Menu_DrawCB		g_MenuDrawCB;
-extern Menu_EventCB		g_MenuEventCB;
-extern u8				g_MenuFlag;
-extern MenuItem*        g_MenuCurItem;
-
-#if (MENU_SCREEN_WIDTH == MENU_VARIABLE)
-extern u8				g_MenuScrWidth;
+// Menu item parameters
+typedef struct
+{
+	const Menu*		Table;
+	const Menu*		Page;
+	u8				Item;
+	Menu_InputCB	InputCB;
+	Menu_DrawCB		DrawCB;
+	Menu_EventCB	EventCB;
+	u8				PageIdx;
+	u8				PrevPage;
+	u8				Flag;
+	MenuItem*       CurItem;
+#if (MENU_USE_DEFAULT_CALLBACK)
+	u8				InputPrev;
 #endif
+#if (MENU_SCREEN_WIDTH == MENU_VARIABLE)
+	u8				ScrWidth;
+#endif
+} MenuData;
+
+extern MenuData g_MenuData;
 
 //=============================================================================
 // FUNCTIONS
@@ -282,25 +292,25 @@ void Menu_Initialize(const Menu* menus);
 //
 // Parameters:
 //   cb - Callback function address
-inline void Menu_SetInputCallback(Menu_InputCB cb) { g_MenuInputCB = cb; }
+inline void Menu_SetInputCallback(Menu_InputCB cb) { g_MenuData.InputCB = cb; }
 
 // Function: Menu_SetDrawCallback
 // Set the callback function to be called to handle menu item drawing
 //
 // Parameters:
 //   cb - Callback function address
-inline void Menu_SetDrawCallback(Menu_DrawCB cb) { g_MenuDrawCB = cb; }
+inline void Menu_SetDrawCallback(Menu_DrawCB cb) { g_MenuData.DrawCB = cb; }
 
 // Function: Menu_SetEventCallback
 // Set the callback function to be called when event occurs
 //
 // Parameters:
 //   cb - Callback function address
-inline void Menu_SetEventCallback(Menu_EventCB cb) { g_MenuEventCB = cb; }
+inline void Menu_SetEventCallback(Menu_EventCB cb) { g_MenuData.EventCB = cb; }
 
 // Function: Menu_SetDirty
 // Set flag to force a whole menu redraw
-inline void Menu_SetDirty() { g_MenuFlag |= MENU_FLAG_DIRTY; }
+inline void Menu_SetDirty() { g_MenuData.Flag |= MENU_FLAG_DIRTY; }
 
 // Function: Menu_GetCurrentItem
 // Get the current item in the menu
@@ -313,14 +323,14 @@ inline void Menu_SetDirty() { g_MenuFlag |= MENU_FLAG_DIRTY; }
 //
 // Return:
 //   Pointer to the current item in the menu
-inline const MenuItem* Menu_GetCurrentItem() { return g_MenuCurItem; }
+inline const MenuItem* Menu_GetCurrentItem() { return g_MenuData.CurItem; }
 
-// Function: Menu_DrawPage
+// Function: Menu_Display
 // Draw a given page by its page number
 //
 // Parameters:
 //   page - Page index to draw (index is relative to the ist passed to <Menu_Initialize> function)
-void Menu_DrawPage(u8 page);
+void Menu_Display(u8 page);
 
 // Function: Menu_Update
 // Update the menu handler
@@ -333,12 +343,12 @@ void Menu_Update();
 //
 // Parameters:
 //   width - Screen width in screen mode's unit (tiles or pixels)
-inline void Menu_SetScreenWidth(u8 width) { g_MenuScrWidth = width; }
+inline void Menu_SetScreenWidth(u8 width) { g_MenuData.ScrWidth = width; }
 
 // Function: Menu_GetScreenWidth
 // Get menu screen with
 //
 // Return: Screen width in screen mode's unit (tiles or pixels)
-inline u8 Menu_GetScreenWidth() { return g_MenuScrWidth; }
+inline u8 Menu_GetScreenWidth() { return g_MenuData.ScrWidth; }
 
 #endif
