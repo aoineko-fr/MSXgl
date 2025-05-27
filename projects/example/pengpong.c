@@ -242,6 +242,7 @@ struct Option
 	bool		Music;				// 1
 	bool		SFX;				// 1
 	bool		Blend;				// 1	Color blending
+	bool		Marker;				// 1	Ball prediction marker
 	u8			Freq;				// 2
 	u8			Palette;			// 3
 	u8   		InputSet[2];		// 2 x 2
@@ -558,7 +559,7 @@ const u8 g_ShadowPatternId[24] =
 const u8 *const g_MusicTable[MUSIC_MAX] = { g_MusicEmpty, g_MusicMain, g_Musicvictory };
 
 // Default options
-const struct Option g_OptionDefault = { TRUE, TRUE, TRUE, FREQ_AUTO, PAL_CUSTOM, { INPUT_SET_KB1, INPUT_SET_KB2 }, { 11, 1, 3 } };
+const struct Option g_OptionDefault = { TRUE, TRUE, TRUE, FALSE, FREQ_AUTO, PAL_CUSTOM, { INPUT_SET_KB1, INPUT_SET_KB2 }, { 11, 1, 3 } };
 
 //=============================================================================
 // MEMORY DATA
@@ -675,7 +676,8 @@ const MenuItem g_MenuAudio[] =
 // Entries description for the Graphical options menu
 /*const*/ MenuItem g_MenuGraph[] =
 {
-	{ "BLEND",               MENU_ITEM_BOOL, &g_Option.Blend, NULL },
+	{ "CLR MIX",             MENU_ITEM_BOOL, &g_Option.Blend, NULL },
+	{ "MARKER",              MENU_ITEM_BOOL, &g_Option.Marker, NULL },
 	{ "FREQ",                MENU_ITEM_ACTION, MenuAction_Freq, 0 },
 	{ "PALETTE",             MENU_ITEM_ACTION, MenuAction_Palette, 0 },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
@@ -1281,7 +1283,7 @@ u8 GetBallHitX()
 #endif
 }
 
-// const i8 g_AIReceptOffset[] = { +8, +4, +2, +1, 0, 0, 0, 0 };
+const i8 g_AIReceptOffset[] = { 0, 8, 12, 16, 16, 16, 16, 16 };
 
 //-----------------------------------------------------------------------------
 //
@@ -1318,9 +1320,10 @@ u8 CheckAI()
 
 	// Shoot
 	i8 dx = (g_BallGroundX - plyPawn->PositionX);
-	if ((dx > 0) && (dx < 24) && (ballPawn->PositionX < 128) && (ballPawn->PositionY > 128))
+	i8 sx = (ballPawn->PositionX - plyPawn->PositionX);
+	if ((dx > 0) && (sx < 24) && (ballPawn->PositionX < 128) && (ballPawn->PositionY > 128))
 	{
-		if (dx > 8)
+		if (sx > g_AIReceptOffset[g_BallGroundX / 16])
 			return INPUT_ACTION | INPUT_RIGHT;
 		else
 			return INPUT_ACTION;
@@ -1329,7 +1332,7 @@ u8 CheckAI()
 // VDP_SetColor(COLOR_DARK_BLUE);
 
 	// Reception
-	if (plyPawn->PositionX < g_BallGroundX /*+ g_AIReceptOffset[g_BallGroundX / 16]*/)
+	if (plyPawn->PositionX < g_BallGroundX)
 		return INPUT_RIGHT;
 	else
 		return INPUT_LEFT;
@@ -1783,7 +1786,8 @@ void UpdateBall()
 		Rules_ChangeField(0);
 
 	g_BallGroundX = GetBallHitX();
-	SetSprite(SPRITE_HIT_MARKER, g_BallGroundX, 176, 124, COLOR_MEDIUM_RED);
+	if (g_Option.Marker)
+		SetSprite(SPRITE_HIT_MARKER, g_BallGroundX, 176, 124, COLOR_MEDIUM_RED);
 }
 
 //-----------------------------------------------------------------------------
