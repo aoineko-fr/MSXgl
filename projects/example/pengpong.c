@@ -1283,7 +1283,7 @@ u8 GetBallHitX()
 #endif
 }
 
-const i8 g_AIReceptOffset[] = { 0, 8, 12, 16, 16, 16, 16, 16 };
+const i8 g_AIReceptOffset[] = { 8, 12, 16, 16, 16, 16, 16, 16 };
 
 //-----------------------------------------------------------------------------
 //
@@ -1323,7 +1323,7 @@ u8 CheckAI()
 	i8 sx = (ballPawn->PositionX - plyPawn->PositionX);
 	if ((dx > 0) && (sx < 24) && (ballPawn->PositionX < 128) && (ballPawn->PositionY > 128))
 	{
-		if (sx > g_AIReceptOffset[g_BallGroundX / 16])
+		if (sx > g_AIReceptOffset[plyPawn->PositionX / 16])
 			return INPUT_ACTION | INPUT_RIGHT;
 		else
 			return INPUT_ACTION;
@@ -2239,7 +2239,7 @@ void main()
 		else
 			g_FreqDetected = FREQ_60HZ;
 	}
-	ApplyFreqOption();
+	// ApplyFreqOption();
 	StopMusic();
 
 	// Start game loop
