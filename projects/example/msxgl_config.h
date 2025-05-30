@@ -312,7 +312,7 @@
 // GAME MENU MODULE
 //-----------------------------------------------------------------------------
 
-#define MENU_USE_DEFAULT_CALLBACK	TRUE	// Use default input/print callback
+#define MENU_USE_DEFAULT_CALLBACK	FALSE	// Use default input/print callback
 #define MENU_SCREEN_WIDTH			32		// Screen width
 #define MENU_FRAME_X				0		// Frame position X
 #define MENU_FRAME_Y				15		// Frame position Y

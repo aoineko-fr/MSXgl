@@ -177,7 +177,7 @@ enum MENU_INPUT_TYPE
 	MENU_INPUT_LEFT    = 1 << 2,
 	MENU_INPUT_RIGHT   = 1 << 3,
 	MENU_INPUT_TRIGGER = 1 << 4,
-	MENU_INPUT_5       = 1 << 5,
+	MENU_INPUT_BACK    = 1 << 5,
 	MENU_INPUT_6       = 1 << 6,
 	MENU_INPUT_7       = 1 << 7,
 };

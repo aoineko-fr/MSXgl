@@ -96,13 +96,15 @@ enum INPUT_SET
 // Input action flag
 enum INPUT_ACTION
 {
-	INPUT_NONE   = 0,
-	INPUT_UP     = 0b00000001,
-	INPUT_DOWN   = 0b00000010,
-	INPUT_LEFT   = 0b00000100,
-	INPUT_RIGHT  = 0b00001000,
-	INPUT_ACTION = 0b00010000,
-	INPUT_CANCEL = 0b00100000,
+	INPUT_NONE    = 0,
+	INPUT_UP      = 0b00000001,
+	INPUT_DOWN    = 0b00000010,
+	INPUT_LEFT    = 0b00000100,
+	INPUT_RIGHT   = 0b00001000,
+	INPUT_BUTTON1 = 0b00010000,
+	INPUT_BUTTON2 = 0b00100000,
+	INPUT_ACTION  = 0b01000000,
+	INPUT_7       = 0b10000000,
 };
 
 // Actions id
@@ -241,11 +243,11 @@ struct Option
 {
 	bool		Music;				// 1
 	bool		SFX;				// 1
-	bool		Blend;				// 1	Color blending
-	bool		Marker;				// 1	Ball prediction marker
+	bool		Blend;				// 1		Color blending
 	u8			Freq;				// 2
 	u8			Palette;			// 3
-	u8   		InputSet[2];		// 2 x 2
+	u8   		InputSet[3];		// 3 x 2
+	u8			AILevel;			// 2		AI level for each player
 	struct Rule	Rule;				// 6 + 4
 };
 
@@ -263,6 +265,7 @@ struct Cloud
 typedef u8 (*cbInputCheck)(void);				// Callback default signature
 
 // States prototype
+bool State_AppInit();
 bool State_LogoInit();
 bool State_LogoUpdate();
 bool State_MenuInit();
@@ -301,6 +304,9 @@ u8 CheckKB2();
 u8 CheckJoy1();
 u8 CheckJoy2();
 u8 CheckAI();
+u8 GetBallHitX_Easy();
+u8 GetBallHitX_Medium();
+u8 GetBallHitX_Hard();
 
 //=============================================================================
 // READ-ONLY DATA
@@ -559,7 +565,10 @@ const u8 g_ShadowPatternId[24] =
 const u8 *const g_MusicTable[MUSIC_MAX] = { g_MusicEmpty, g_MusicMain, g_Musicvictory };
 
 // Default options
-const struct Option g_OptionDefault = { TRUE, TRUE, TRUE, FALSE, FREQ_AUTO, PAL_CUSTOM, { INPUT_SET_KB1, INPUT_SET_KB2 }, { 11, 1, 3 } };
+const struct Option g_OptionDefault = { TRUE, TRUE, TRUE, FREQ_AUTO, PAL_CUSTOM, { INPUT_SET_KB1, INPUT_SET_KB2, INPUT_SET_KB2 }, AI_MEDIUM, { 11, 1, 3 } };
+
+// AI reception position offset
+const i8 g_AIReceptOffset[] = { 8, 12, 16, 16, 16, 16, 16, 16 };
 
 //=============================================================================
 // MEMORY DATA
@@ -583,8 +592,8 @@ u8   g_BallGroundX;
 i16  g_CloudX[numberof(g_Cloud)];
 
 // AI
-bool g_AI = FALSE;
-u8   g_AILevel = AI_EASY;
+bool g_AIGame;
+u8   g_AIWait;
 
 // Rules
 u8   g_Field = 0;
@@ -592,6 +601,9 @@ u8   g_BounceNum = 0;
 u8   g_PassNum = 0;
 u8   g_LastTouch = 0;
 u8   g_Victorious = 0;
+cbInputCheck g_InputCheck1;
+cbInputCheck g_InputCheck2;
+cbInputCheck g_AIPredict;
 
 // Audio
 u8   g_CurrentMusic = 0xFF;
@@ -636,7 +648,7 @@ const MenuItem g_MenuVersus[] =
 const MenuItem g_MenuSolo[] =
 {
 	{ "START>",              MENU_ITEM_ACTION, MenuAction_Start, 2 }, // Entry to change the screen mode (will trigger MenuAction_Screen)
-	{ "CONTROL",             MENU_ITEM_ACTION, MenuAction_Input, 1 }, // Entry display a text aligned to center
+	{ "CONTROL",             MENU_ITEM_ACTION, MenuAction_Input, 2 }, // Entry display a text aligned to center
 	{ "CPU",                 MENU_ITEM_ACTION, MenuAction_AI,    0 }, // Entry display a text aligned to left
 	{ "RULES>",              MENU_ITEM_GOTO, NULL, MENU_RULES },	// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },               // Blank entry to create a gap
@@ -677,7 +689,6 @@ const MenuItem g_MenuAudio[] =
 /*const*/ MenuItem g_MenuGraph[] =
 {
 	{ "CLR MIX",             MENU_ITEM_BOOL, &g_Option.Blend, NULL },
-	{ "MARKER",              MENU_ITEM_BOOL, &g_Option.Marker, NULL },
 	{ "FREQ",                MENU_ITEM_ACTION, MenuAction_Freq, 0 },
 	{ "PALETTE",             MENU_ITEM_ACTION, MenuAction_Palette, 0 },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
@@ -741,6 +752,18 @@ inline void PlaySFX(u8 id, u8 chan, u8 vol) { g_NextSFX[chan] = id; g_NextSFXVol
 // MENU
 //-----------------------------------------------------------------------------
 
+u8 g_PrevInput = INPUT_NONE;
+
+//-----------------------------------------------------------------------------
+//
+u8 MenuInputHandler()
+{
+	u8 in = CheckKB2() | CheckJoy1() | CheckJoy2(); // Get input from keyboard and joystick (the game use the same input value than menu)
+	u8 ret = in & ~g_PrevInput; // Only return new input
+	g_PrevInput = in;
+	return ret;
+}
+
 //-----------------------------------------------------------------------------
 //
 void MenuEventHandler(u8 event)
@@ -794,12 +817,28 @@ const c8* MenuAction_Start(u8 op, i8 value)
 			Bios_Exit(0);
 		else if (value == 1) // Versus
 		{
-			g_AI = FALSE;
+			g_AIGame = FALSE;
+			g_InputCheck1 = g_InputCheck[g_Option.InputSet[0]];
+			g_InputCheck2 = g_InputCheck[g_Option.InputSet[1]];
 			Game_SetState(State_GameInit);
 		}
 		else if (value == 2) // Solo
 		{
-			g_AI = TRUE;
+			g_AIGame = TRUE;
+			g_InputCheck1 = CheckAI;
+			g_InputCheck2 = g_InputCheck[g_Option.InputSet[2]];
+			switch (g_Option.AILevel)
+			{
+			case AI_EASY:
+				g_AIPredict = GetBallHitX_Easy;
+				break;
+			case AI_MEDIUM:
+				g_AIPredict = GetBallHitX_Medium;
+				break;
+			case AI_HARD:
+				g_AIPredict = GetBallHitX_Hard;
+				break;
+			}	
 			Game_SetState(State_GameInit);
 		}
 		break;
@@ -818,14 +857,14 @@ const c8* MenuAction_Input(u8 op, i8 value)
 	case MENU_ACTION_INC:
 	inc_input_set:
 		g_Option.InputSet[value] = (g_Option.InputSet[value] + 1) % INPUT_SET_MAX;
-		if (g_Option.InputSet[value] == g_Option.InputSet[1 - value])
+		if ((value < 2) && (g_Option.InputSet[value] == g_Option.InputSet[1 - value]))
 			goto inc_input_set;
 		g_Saved = FALSE;
 		break;
 	case MENU_ACTION_DEC:
 	dec_input_set:
 		g_Option.InputSet[value] = (g_Option.InputSet[value] + (INPUT_SET_MAX - 1)) % INPUT_SET_MAX;
-		if (g_Option.InputSet[value] == g_Option.InputSet[1 - value])
+		if ((value < 2) && (g_Option.InputSet[value] == g_Option.InputSet[1 - value]))
 			goto dec_input_set;
 		g_Saved = FALSE;
 		break;
@@ -843,20 +882,20 @@ const c8* MenuAction_AI(u8 op, i8 value)
 	{
 	case MENU_ACTION_SET:
 	case MENU_ACTION_INC:
-		if (g_AILevel < AI_MAX - 1)
-			g_AILevel++;
+		if (g_Option.AILevel < AI_MAX - 1)
+			g_Option.AILevel++;
 		else
-			g_AILevel = 0;
+			g_Option.AILevel = 0;
 		break;
 	case MENU_ACTION_DEC:
-		if (g_AILevel > 0)
-			g_AILevel--;
+		if (g_Option.AILevel > 0)
+			g_Option.AILevel--;
 		else
-			g_AILevel = AI_MAX - 1;
+			g_Option.AILevel = AI_MAX - 1;
 		break;
 	}
 
-	switch (g_AILevel)
+	switch (g_Option.AILevel)
 	{
 	case AI_EASY:
 		return "EASY";
@@ -1000,6 +1039,7 @@ const c8* MenuAction_Reset(u8 op, i8 value)
 		ApplyFreqOption();
 		ApplyPaletteOption();
 		ApplyMusicOption();
+		Menu_SetDirty();
 		break;
 	}
 	return NULL;
@@ -1027,7 +1067,7 @@ void Rules_Init()
 	g_Player[0].Score = 0;
 	g_Player[1].Score = 0;
 	DrawScore();
-	Rules_ChangeField(g_AI ? 1 : 0);
+	Rules_ChangeField(g_AIGame ? 1 : 0);
 }	
 
 //-----------------------------------------------------------------------------
@@ -1220,7 +1260,34 @@ u8 CheckKB2()
 	else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 		ret |= INPUT_LEFT;
 	if (IS_KEY_PRESSED(row8, KEY_UP))
-		ret |= INPUT_ACTION;
+		ret |= INPUT_UP | INPUT_ACTION;
+	else if (IS_KEY_PRESSED(row8, KEY_DOWN))
+		ret |= INPUT_DOWN;
+	if (IS_KEY_PRESSED(row8, KEY_SPACE))
+		ret |= INPUT_BUTTON1 | INPUT_ACTION;
+	if (IS_KEY_PRESSED(row8, KEY_ESC))
+		ret |= INPUT_BUTTON2;
+	return ret;
+}
+
+//-----------------------------------------------------------------------------
+// Check joystick port
+u8 CheckJoystick(u8 port)
+{
+	u8 joy = Joystick_Read(port);
+	u8 ret = INPUT_NONE;
+	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
+		ret |= INPUT_LEFT;
+	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
+		ret |= INPUT_RIGHT;
+	if ((joy & JOY_INPUT_DIR_UP) == 0)
+		ret |= INPUT_UP;
+	else if ((joy & JOY_INPUT_DIR_DOWN) == 0)
+		ret |= INPUT_DOWN;
+	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
+		ret |= INPUT_BUTTON1 | INPUT_ACTION;
+	if ((joy & JOY_INPUT_TRIGGER_B) == 0)
+		ret |= INPUT_BUTTON2;
 	return ret;
 }
 
@@ -1228,39 +1295,50 @@ u8 CheckKB2()
 // Check joystick port 1
 u8 CheckJoy1()
 {
-	u8 joy = Joystick_Read(JOY_PORT_1);
-	u8 ret = INPUT_NONE;
-	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
-		ret |= INPUT_LEFT;
-	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
-		ret |= INPUT_RIGHT;
-	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
-		ret |= INPUT_ACTION;
-	return ret;
+	return CheckJoystick(JOY_PORT_1);
 }
 
 //-----------------------------------------------------------------------------
 // Check joystick port 2
 u8 CheckJoy2()
 {
-	u8 joy = Joystick_Read(JOY_PORT_2);
-	u8 ret = INPUT_NONE;
-	if ((joy & JOY_INPUT_DIR_LEFT) == 0)
-		ret |= INPUT_LEFT;
-	else if ((joy & JOY_INPUT_DIR_RIGHT) == 0)
-		ret |= INPUT_RIGHT;
-	if ((joy & JOY_INPUT_TRIGGER_A) == 0)
-		ret |= INPUT_ACTION;
-	return ret;
+	return CheckJoystick(JOY_PORT_2);
 }
 
 //-----------------------------------------------------------------------------
 //
-u8 GetBallHitX()
+u8 GetBallHitX_Easy()
 {
 	const Pawn* ballPawn = &g_Ball.Pawn;
 
-#if (1)
+	i16 hitX = ballPawn->PositionX + Q4_4_GET(g_Ball.VelocityX * ((168 - ballPawn->PositionY) / 4));
+	if (hitX < 0)
+		hitX = 0;
+	else if (hitX > 255)
+		hitX = 255;
+	return (u8)hitX;
+}
+
+//-----------------------------------------------------------------------------
+//
+u8 GetBallHitX_Medium()
+{
+	const Pawn* ballPawn = &g_Ball.Pawn;
+
+	i16 hitX = ballPawn->PositionX + Q4_4_GET(g_Ball.VelocityX * ((168 - ballPawn->PositionY) / 3));
+	if (hitX < 0)
+		hitX = 0;
+	else if (hitX > 255)
+		hitX = 255;
+	return (u8)hitX;
+}
+
+//-----------------------------------------------------------------------------
+//
+u8 GetBallHitX_Hard()
+{
+	const Pawn* ballPawn = &g_Ball.Pawn;
+
 	u8 hitT = 0;
 	i8 hitV = g_Ball.VelocityY;
 	i16 hitH = Q12_4_SET(ballPawn->PositionY);
@@ -1272,18 +1350,13 @@ u8 GetBallHitX()
 		hitH += hitV;
 		hitT++;
 	}
-	i16 bpx = ballPawn->PositionX + Q4_4_GET(g_Ball.VelocityX * hitT);
-	if (bpx < 0)
-		bpx = 0;
-	else if (bpx > 255)
-		bpx = 255;
-	return bpx;
-#else
-	return ballPawn->PositionX + Q4_4_GET(g_Ball.VelocityX * ((168 - ballPawn->PositionY) / 3));
-#endif
+	i16 hitX = ballPawn->PositionX + Q4_4_GET(g_Ball.VelocityX * hitT);
+	if (hitX < 0)
+		hitX = 0;
+	else if (hitX > 255)
+		hitX = 255;
+	return (u8)hitX;
 }
-
-const i8 g_AIReceptOffset[] = { 8, 12, 16, 16, 16, 16, 16, 16 };
 
 //-----------------------------------------------------------------------------
 //
@@ -1297,13 +1370,22 @@ u8 CheckAI()
 	// Serve
 	if ((ballPawn->PositionX < 128) && (g_Ball.bFreeze == TRUE))
 	{
-		if (plyPawn->PositionX < 48)
+		if (g_AIWait > 0) // Wait a bit before serving
+		{
+			g_AIWait--;
+			return INPUT_NONE;
+		}
+
+		if (plyPawn->PositionX < 40)
 			return INPUT_ACTION | INPUT_RIGHT;
 		else
 			return INPUT_LEFT;
 	}
 
 // VDP_SetColor(COLOR_DARK_GREEN);
+
+	g_BallGroundX = g_AIPredict();
+	// SetSprite(SPRITE_HIT_MARKER, g_BallGroundX, 176, 124, COLOR_MEDIUM_RED);
 
 	// Repositionning
 	if ((ballPawn->PositionX > 128) && (g_BallGroundX > 128))
@@ -1319,6 +1401,7 @@ u8 CheckAI()
 // VDP_SetColor(COLOR_DARK_RED);
 
 	// Shoot
+#if (1)
 	i8 dx = (g_BallGroundX - plyPawn->PositionX);
 	i8 sx = (ballPawn->PositionX - plyPawn->PositionX);
 	if ((dx > 0) && (sx < 24) && (ballPawn->PositionX < 128) && (ballPawn->PositionY > 128))
@@ -1328,6 +1411,17 @@ u8 CheckAI()
 		else
 			return INPUT_ACTION;
 	}
+#else
+	i8 dx = ballPawn->PositionX - plyPawn->PositionX;
+	i8 dy = plyPawn->PositionY - ballPawn->PositionY;
+	if ((dx + dy < 40) && (ballPawn->PositionX < 128))
+	{
+		if (dx > g_AIReceptOffset[plyPawn->PositionX / 16])
+			return INPUT_ACTION | INPUT_RIGHT;
+		else
+			return INPUT_ACTION;
+	}
+#endif
 
 // VDP_SetColor(COLOR_DARK_BLUE);
 
@@ -1382,8 +1476,8 @@ void ApplyFreqOption()
 	if (g_VersionVDP > VDP_VERSION_TMS9918A)
 	{
 		VDP_SetFrequency((g_FreqCurrent == FREQ_50HZ) ? VDP_FREQ_50HZ : VDP_FREQ_60HZ);
-		Game_SetIs60Hz(g_FreqCurrent == FREQ_60HZ);
 	}
+	Game_SetIs60Hz(g_FreqCurrent == FREQ_60HZ);
 }
 
 //-----------------------------------------------------------------------------
@@ -1480,19 +1574,23 @@ void SaveOptions()
 {
 	// Byte #0
 	g_SaveData[0] = g_Option.Palette & 0x07; // 0b00000111
-	if (g_Option.Music) g_SaveData[0] |= 0b00010000;
-	if (g_Option.SFX)   g_SaveData[0] |= 0b00100000;
-	if (g_Option.Blend) g_SaveData[0] |= 0b01000000;
+	if (g_Option.Music)  g_SaveData[0] |= 0b00010000;
+	if (g_Option.SFX)    g_SaveData[0] |= 0b00100000;
+	if (g_Option.Blend)  g_SaveData[0] |= 0b01000000;
 
 	// Byte #1
-	g_SaveData[1] = g_Option.Freq & 0x03;              // 0b00000011
-	g_SaveData[1] |= (g_Option.InputSet[0] & 0x03) << 4; // 0b00110000
-	g_SaveData[1] |= (g_Option.InputSet[1] & 0x03) << 6; // 0b11000000
+	g_SaveData[1]  = (g_Option.InputSet[0] & 0x03) << 0; // 0b00000011
+	g_SaveData[1] |= (g_Option.InputSet[1] & 0x03) << 2; // 0b00001100
+	g_SaveData[1] |= (g_Option.InputSet[2] & 0x03) << 4; // 0b00110000
+	g_SaveData[1] |= (g_Option.AILevel     & 0x03) << 6; // 0b11000000
 
-	// Bytes #2-4
-	g_SaveData[2] = g_Option.Rule.GamePoints;   // 0b00111111
-	g_SaveData[3] = g_Option.Rule.MaxBounce;    // 0b00001111
-	g_SaveData[4] = g_Option.Rule.MaxPass;      // 0b00001111
+	// Byte #2
+	g_SaveData[2] = g_Option.Freq & 0x03;                // 0b00000011
+
+	// Bytes #3-5
+	g_SaveData[3] = g_Option.Rule.GamePoints;   // 0b00111111
+	g_SaveData[4] = g_Option.Rule.MaxBounce;    // 0b00001111
+	g_SaveData[5] = g_Option.Rule.MaxPass;      // 0b00001111
 
 	RTC_SaveDataSigned(g_SaveData);
 	g_Saved = TRUE;
@@ -1510,20 +1608,24 @@ void LoadOptions()
 		return;
 
 	// Byte #0
-	g_Option.Palette = g_SaveData[0] & 0b00000111;
+	g_Option.Palette = (g_SaveData[0] & 0b00000111);
 	g_Option.Music   = (g_SaveData[0] & 0b00010000);
 	g_Option.SFX     = (g_SaveData[0] & 0b00100000);
 	g_Option.Blend   = (g_SaveData[0] & 0b01000000);
 
 	// Byte #1
-	g_Option.Freq         = g_SaveData[1] & 0b00000011;
-	g_Option.InputSet[0] = (g_SaveData[1] & 0b00110000) >> 4;
-	g_Option.InputSet[1] = (g_SaveData[1] & 0b11000000) >> 6;
+	g_Option.InputSet[0] = (g_SaveData[1] & 0b00000011) >> 0;
+	g_Option.InputSet[1] = (g_SaveData[1] & 0b00001100) >> 2;
+	g_Option.InputSet[2] = (g_SaveData[1] & 0b00110000) >> 4;
+	g_Option.AILevel     = (g_SaveData[1] & 0b11000000) >> 6;
 
-	// Bytes #2-4
-	g_Option.Rule.GamePoints = g_SaveData[2];
-	g_Option.Rule.MaxBounce  = g_SaveData[3];
-	g_Option.Rule.MaxPass    = g_SaveData[4];
+	// Byte #2
+	g_Option.Freq        = g_SaveData[2] & 0x03;
+
+	// Bytes #3-5
+	g_Option.Rule.GamePoints = g_SaveData[3];
+	g_Option.Rule.MaxBounce  = g_SaveData[4];
+	g_Option.Rule.MaxPass    = g_SaveData[5];
 
 	g_Saved = TRUE;
 }
@@ -1784,10 +1886,6 @@ void UpdateBall()
 		Rules_ChangeField(1);
 	else if ((x > 120) && (ballPawn->PositionX <= 120))
 		Rules_ChangeField(0);
-
-	g_BallGroundX = GetBallHitX();
-	if (g_Option.Marker)
-		SetSprite(SPRITE_HIT_MARKER, g_BallGroundX, 176, 124, COLOR_MEDIUM_RED);
 }
 
 //-----------------------------------------------------------------------------
@@ -1869,6 +1967,53 @@ void UpdateClouds()
 // STATES
 //-----------------------------------------------------------------------------
 
+// Game initialization state
+bool State_AppInit()
+{
+	Bios_SetKeyClick(FALSE);
+
+	Mem_Copy((u8*)&g_OptionDefault, (u8*)&g_Option, sizeof(struct Option)); // Set default options
+
+	// Get VDP version
+	if (Keyboard_IsKeyPressed(KEY_1))
+		g_VersionVDP = VDP_VERSION_TMS9918A;
+	else if (Keyboard_IsKeyPressed(KEY_2))
+		g_VersionVDP = VDP_VERSION_V9938;
+	else
+		g_VersionVDP = VDP_GetVersion();
+
+	// MSX2 specific settings
+	if (g_VersionVDP > VDP_VERSION_TMS9918A)
+	{
+		// Initialize the RTC module
+		RTC_Initialize();
+		LoadOptions();
+				
+		// Initialize palette
+		ApplyPaletteOption();
+
+		// Get video frequency from VDP
+		g_FreqDetected = (VDP_GetFrequency() == VDP_FREQ_50HZ) ? FREQ_50HZ : FREQ_60HZ;
+	}
+	else // MSX1 specific settings
+	{
+		// Invalidate MSX2 only options
+		g_MenuOptions[2].Type |= MENU_ITEM_DISABLE; // Save
+		g_MenuGraph[2].Type |= MENU_ITEM_DISABLE; // Palette
+
+		// Get video frequency from BIOS
+		if (Sys_GetBASICVersion() & 0x80) // 50 Hz flag
+			g_FreqDetected = FREQ_50HZ;
+		else
+			g_FreqDetected = FREQ_60HZ;
+	}
+	ApplyFreqOption();
+	StopMusic();
+
+	Game_SetState(State_LogoInit);
+	return FALSE;
+}
+
 //-----------------------------------------------------------------------------
 // Logo initialization state
 bool State_LogoInit()
@@ -1942,6 +2087,7 @@ bool State_MenuInit()
 	// Initialize the menu
 	Menu_Initialize(g_Menus);
 	Menu_SetEventCallback(MenuEventHandler);
+	Menu_SetInputCallback(MenuInputHandler);
 	Menu_DrawPage(MENU_MAIN); // Display the first page
 	
 	// Play main music
@@ -1989,7 +2135,25 @@ bool State_GameInit()
 
 	// Init player 1 pawn (left)
 	InitPlayer(0);
-	
+
+	// MSX2 specific settings
+	if ((g_AIGame) && (g_VersionVDP > VDP_VERSION_TMS9918A))
+	{
+		VDP_SetSpriteUniColor(SPRITE_PLY1_BLACK, COLOR_MAGENTA);
+		switch (g_Option.AILevel)
+		{
+		case AI_EASY:
+			VDP_SetPaletteEntry(COLOR_MAGENTA, RGB16(0, 0, 1));
+			break;
+		case AI_MEDIUM:
+			VDP_SetPaletteEntry(COLOR_MAGENTA, RGB16(1, 0, 1));
+			break;
+		case AI_HARD:
+			VDP_SetPaletteEntry(COLOR_MAGENTA, RGB16(1, 0, 0));
+			break;
+		}
+	}
+
 	// Init player 2 pawn (right)
 	InitPlayer(1);
 	
@@ -2015,6 +2179,7 @@ bool State_KickOff()
 {
 	// Init player 1 pawn (left)
 	InitPlayerPosition(0);
+	g_AIWait = 30; // If AI, wait a bit before serving
 
 	// Init player 2 pawn (right)
 	InitPlayerPosition(1);
@@ -2046,8 +2211,8 @@ bool State_Game()
 // VDP_SetColor(COLOR_DARK_GREEN);
 
 	// Update input
-	g_Player[0].Input = g_AI ? CheckAI() : g_InputCheck[g_Option.InputSet[0]]();
-	g_Player[1].Input = g_InputCheck[g_Option.InputSet[1]]();
+	g_Player[0].Input = g_InputCheck1();
+	g_Player[1].Input = g_InputCheck2();
 	
 	if (Keyboard_IsKeyPressed(KEY_ESC))
 		Game_SetState(State_MenuInit);
@@ -2202,48 +2367,8 @@ void VSynch()
 // Programme entry point
 void main()
 {
-	Bios_SetKeyClick(FALSE);
-
-	Mem_Copy((u8*)&g_OptionDefault, (u8*)&g_Option, sizeof(struct Option)); // Set default options
-
-	// Get VDP version
-	if (Keyboard_IsKeyPressed(KEY_1))
-		g_VersionVDP = VDP_VERSION_TMS9918A;
-	else if (Keyboard_IsKeyPressed(KEY_2))
-		g_VersionVDP = VDP_VERSION_V9938;
-	else
-		g_VersionVDP = VDP_GetVersion();
-
-	// MSX2 specific settings
-	if (g_VersionVDP > VDP_VERSION_TMS9918A)
-	{
-		// Initialize the RTC module
-		RTC_Initialize();
-		LoadOptions();
-				
-		// Initialize palette
-		ApplyPaletteOption();
-
-		// Get video frequency from VDP
-		g_FreqDetected = (VDP_GetFrequency() == VDP_FREQ_50HZ) ? FREQ_50HZ : FREQ_60HZ;
-	}
-	else // MSX1 specific settings
-	{
-		// Inivalidate MSX2 options
-		g_MenuOptions[2].Type |= MENU_ITEM_DISABLE;
-		g_MenuGraph[2].Type |= MENU_ITEM_DISABLE;
-
-		// Get video frequency from BIOS
-		if (Sys_GetBASICVersion() & 0x80) // 50 Hz flag
-			g_FreqDetected = FREQ_50HZ;
-		else
-			g_FreqDetected = FREQ_60HZ;
-	}
-	// ApplyFreqOption();
-	StopMusic();
-
 	// Start game loop
 	Game_SetVSyncCallback(VSynch);
-	Game_SetState(State_LogoInit);
+	Game_SetState(State_AppInit);
 	Game_Start(VDP_MODE_SCREEN2, g_FreqCurrent == FREQ_60HZ);
 }
