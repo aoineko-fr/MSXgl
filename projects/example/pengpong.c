@@ -702,7 +702,7 @@ const MenuItem g_MenuAudio[] =
 /*const*/ MenuItem g_MenuGraph[] =
 {
 	{ "CLR MIX",             MENU_ITEM_BOOL, &g_Option.Blend, NULL },
-	{ "FEEDBACK",            MENU_ITEM_BOOL, &g_Option.Feedback, NULL },
+	{ "RULE CLR",            MENU_ITEM_BOOL, &g_Option.Feedback, NULL },
 	{ "FREQ",                MENU_ITEM_ACTION, MenuAction_Freq, 0 },
 	{ "PALETTE",             MENU_ITEM_ACTION, MenuAction_Palette, 0 },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
