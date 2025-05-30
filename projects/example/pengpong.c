@@ -127,7 +127,17 @@ enum ACTION_BALL_ID
 	ACTION_BALL_IDLE = 0,
 	ACTION_BALL_BUMP,
 //.............................
-	ACTION_BALL_MAX,
+ACTION_BALL_MAX,
+};
+
+// Score type
+enum SCORE_ID
+{
+	SCORE_OUT = 0,
+	SCORE_BOUNCE,
+	SCORE_PASS,
+	//.............................
+	SCORE_MAX
 };
 
 // AI level
@@ -244,6 +254,7 @@ struct Option
 	bool		Music;				// 1
 	bool		SFX;				// 1
 	bool		Blend;				// 1		Color blending
+	bool		Feedback;			// 1		Ball rule feedback
 	u8			Freq;				// 2
 	u8			Palette;			// 3
 	u8   		InputSet[3];		// 3 x 2
@@ -279,6 +290,7 @@ bool State_VictoryInit();
 bool State_VictoryUpdate();
 
 void DrawScore();
+void DrawInfo(u8 event);
 void UpdateBallColor();
 void SaveOptions();
 void LoadOptions();
@@ -419,7 +431,7 @@ const Pawn_Action g_AnimActions[ACTION_PLAYER_MAX] =
 const Pawn_Sprite g_SpriteLayers2[] =
 {
 	{ SPRITE_PLY2_RED,   0, 0, 0, COLOR_LIGHT_RED, 0 },
-	{ SPRITE_PLY2_BLACK, 0, 0, 4, COLOR_BLACK, PAWN_SPRITE_BLEND },
+	{ SPRITE_PLY2_BLACK, 0, 0, 4, COLOR_BLACK,     PAWN_SPRITE_BLEND },
 };
 
 //.............................................................................
@@ -428,8 +440,8 @@ const Pawn_Sprite g_SpriteLayers2[] =
 // Pawn sprite layers
 const Pawn_Sprite g_BallLayers[] =
 {
-	{ SPRITE_BALL_DARK, 0, 0, 4,  COLOR_DARK_RED, 0 },
-	{ SPRITE_BALL_LIGHT, 0, 0, 0,  COLOR_MEDIUM_RED, 0 },
+	{ SPRITE_BALL_DARK,  0, 0, 4, COLOR_MEDIUM_RED, 0 },
+	{ SPRITE_BALL_LIGHT, 0, 0, 0, COLOR_LIGHT_RED,  0 },
 };
 
 // Idle animation frames
@@ -565,7 +577,7 @@ const u8 g_ShadowPatternId[24] =
 const u8 *const g_MusicTable[MUSIC_MAX] = { g_MusicEmpty, g_MusicMain, g_Musicvictory };
 
 // Default options
-const struct Option g_OptionDefault = { TRUE, TRUE, TRUE, FREQ_AUTO, PAL_CUSTOM, { INPUT_SET_KB1, INPUT_SET_KB2, INPUT_SET_KB2 }, AI_MEDIUM, { 11, 1, 3 } };
+const struct Option g_OptionDefault = { TRUE, TRUE, TRUE, TRUE, FREQ_AUTO, PAL_CUSTOM, { INPUT_SET_KB1, INPUT_SET_KB2, INPUT_SET_KB2 }, AI_MEDIUM, { 11, 1, 3 } };
 
 // AI reception position offset
 const i8 g_AIReceptOffset[] = { 8, 12, 16, 16, 16, 16, 16, 16 };
@@ -599,6 +611,7 @@ u8   g_AIWait;
 u8   g_Field = 0;
 u8   g_BounceNum = 0;
 u8   g_PassNum = 0;
+u8   g_ChangeNum = 0;
 u8   g_LastTouch = 0;
 u8   g_Victorious = 0;
 cbInputCheck g_InputCheck1;
@@ -641,7 +654,7 @@ const MenuItem g_MenuVersus[] =
 	{ "PLAYER 2",            MENU_ITEM_ACTION, MenuAction_Input, 1 }, // Entry display a text aligned to center
 	{ "RULES>",              MENU_ITEM_GOTO, NULL, MENU_RULES },	// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },               // Blank entry to create a gap
-	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },        // Entry to go back to the main menu
+	{ "BACK",                MENU_ITEM_GOTO, NULL, MENU_MAIN },        // Entry to go back to the main menu
 };
 
 // Entries description for the Start menu
@@ -652,7 +665,7 @@ const MenuItem g_MenuSolo[] =
 	{ "CPU",                 MENU_ITEM_ACTION, MenuAction_AI,    0 }, // Entry display a text aligned to left
 	{ "RULES>",              MENU_ITEM_GOTO, NULL, MENU_RULES },	// Entry to start a game (will trigger MenuAction_Start with value equal to '1')
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },               // Blank entry to create a gap
-	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },        // Entry to go back to the main menu
+	{ "BACK",                MENU_ITEM_GOTO, NULL, MENU_MAIN },        // Entry to go back to the main menu
 };
 
 // Entries description for the Start menu
@@ -662,7 +675,7 @@ const MenuItem g_MenuRules[] =
 	{ "BOUNCES",             MENU_ITEM_INT, &g_Option.Rule.MaxBounce, (i16)&g_MenuBouncesMinMax },
 	{ "PASSES",              MENU_ITEM_INT, &g_Option.Rule.MaxPass,   (i16)&g_MenuBouncesMinMax },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },               // Blank entry to create a gap
-	{ "<BACK",               MENU_ITEM_BACK, NULL, 0 },        // Entry to go back to the main menu
+	{ "BACK",                MENU_ITEM_BACK, NULL, 0 },        // Entry to go back to the main menu
 };
 
 // Entries description for the Option menu
@@ -673,7 +686,7 @@ const MenuItem g_MenuRules[] =
 	{ "SAVE",                MENU_ITEM_ACTION, MenuAction_Save, 0 },
 	{ "RESET",               MENU_ITEM_ACTION, MenuAction_Reset, 0 },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
-	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
+	{ "BACK",                MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
 };
 
 // Entries description for the Audio options menu
@@ -682,17 +695,18 @@ const MenuItem g_MenuAudio[] =
 	{ "MUSIC",               MENU_ITEM_ACTION, MenuAction_Music, 0 },
 	{ "SFX",                 MENU_ITEM_BOOL, &g_Option.SFX, NULL },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
-	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_OPTION },                // Entry to go back to the main menu
+	{ "BACK",                MENU_ITEM_GOTO, NULL, MENU_OPTION },                // Entry to go back to the main menu
 };
 
 // Entries description for the Graphical options menu
 /*const*/ MenuItem g_MenuGraph[] =
 {
 	{ "CLR MIX",             MENU_ITEM_BOOL, &g_Option.Blend, NULL },
+	{ "FEEDBACK",            MENU_ITEM_BOOL, &g_Option.Feedback, NULL },
 	{ "FREQ",                MENU_ITEM_ACTION, MenuAction_Freq, 0 },
 	{ "PALETTE",             MENU_ITEM_ACTION, MenuAction_Palette, 0 },
 	{ NULL,                  MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
-	{ "<BACK",               MENU_ITEM_GOTO, NULL, MENU_OPTION },                // Entry to go back to the main menu
+	{ "BACK",                MENU_ITEM_GOTO, NULL, MENU_OPTION },                // Entry to go back to the main menu
 };
 
 // Entries description for the Credits menu
@@ -714,7 +728,7 @@ const MenuItem g_MenuCredits2[] =
 	{ "MADE WITH MSXGL",         MENU_ITEM_TEXT, NULL, -2 }, // Entry display a text aligned to center
 	{ "PIXEL PHENIX & 2025",     MENU_ITEM_TEXT, NULL, -2 }, // Entry display a text aligned to center
 	{ NULL,                      MENU_ITEM_EMPTY, NULL, 0 },                       // Blank entry to create a gap
-	{ "<BACK",                   MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
+	{ "BACK",                    MENU_ITEM_GOTO, NULL, MENU_MAIN },                // Entry to go back to the main menu
 };
 
 // List of all menus
@@ -812,7 +826,6 @@ const c8* MenuAction_Start(u8 op, i8 value)
 	case MENU_ACTION_SET:
 	case MENU_ACTION_INC:
 	case MENU_ACTION_DEC:
-
 		if (value == 0)
 			Bios_Exit(0);
 		else if (value == 1) // Versus
@@ -886,12 +899,14 @@ const c8* MenuAction_AI(u8 op, i8 value)
 			g_Option.AILevel++;
 		else
 			g_Option.AILevel = 0;
+		g_Saved = FALSE;
 		break;
 	case MENU_ACTION_DEC:
 		if (g_Option.AILevel > 0)
 			g_Option.AILevel--;
 		else
 			g_Option.AILevel = AI_MAX - 1;
+		g_Saved = FALSE;
 		break;
 	}
 
@@ -1045,7 +1060,6 @@ const c8* MenuAction_Reset(u8 op, i8 value)
 	return NULL;
 }
 
-
 //-----------------------------------------------------------------------------
 // RULES
 //-----------------------------------------------------------------------------
@@ -1072,7 +1086,7 @@ void Rules_Init()
 
 //-----------------------------------------------------------------------------
 // Handle score rule
-void Rules_Score(u8 ply)
+void Rules_Score(u8 ply, u8 event)
 {
 	g_Victorious = ply;
 	g_Player[ply].Score++;
@@ -1088,6 +1102,7 @@ void Rules_Score(u8 ply)
 	}
 	PlaySFX(SFX_CUICUI, ARKOS_CHANNEL_C, 0x0F);
 	DrawScore();
+	DrawInfo(event);
 }	
 
 //-----------------------------------------------------------------------------
@@ -1096,7 +1111,7 @@ void Rules_Bounce()
 {
 	g_BounceNum++;
 	if ((g_Option.Rule.MaxBounce != 0xFF) && (g_BounceNum > g_Option.Rule.MaxBounce))
-		Rules_Score(1 - g_Field);
+		Rules_Score(1 - g_Field, SCORE_BOUNCE);
 	g_LastTouch = g_Field;
 	UpdateBallColor();
 }
@@ -1107,7 +1122,7 @@ void Rules_Pass()
 {
 	g_PassNum++;
 	if ((g_Option.Rule.MaxPass != 0) && (g_PassNum > g_Option.Rule.MaxPass))
-		Rules_Score(1 - g_Field);
+		Rules_Score(1 - g_Field, SCORE_PASS);
 	g_LastTouch = g_Field;
 	UpdateBallColor();
 }
@@ -1116,7 +1131,7 @@ void Rules_Pass()
 // Handle out-of-field rule
 void Rules_Out()
 {
-	Rules_Score(1 - g_LastTouch);
+	Rules_Score(1 - g_LastTouch, SCORE_OUT);
 }
 
 //-----------------------------------------------------------------------------
@@ -1514,6 +1529,7 @@ void SetSpriteColor(u8 idx, u8 color)
 // Draw the updated score
 void DrawScore()
 {
+	Print_SetPatternOffset(192);
 	Print_SetPosition(13, 0);
 	if (g_Player[0].Score < 10)
 		Print_DrawChar('0');
@@ -1523,6 +1539,40 @@ void DrawScore()
 	if (g_Player[1].Score < 10)
 		Print_DrawChar('0');
 	Print_DrawInt(g_Player[1].Score);
+}
+
+//-----------------------------------------------------------------------------
+// Draw point info
+void DrawInfo(u8 event)
+{
+	Print_SetPatternOffset(128);
+	switch (event)
+	{
+	case SCORE_OUT:
+		if (g_PassNum == 0)
+		{
+			if (g_BounceNum == 0)
+				Print_DrawTextAt(14, 15, "OUT!");
+			else if (g_ChangeNum == 1)
+				Print_DrawTextAt(14, 15, "ACE!");
+			else
+				Print_DrawTextAt(12, 15, "PASSING!");
+		}
+		return;
+	case SCORE_BOUNCE:
+	case SCORE_PASS:
+		Print_DrawTextAt(13, 15, "FAULT!");
+		return;
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Clear point info
+void ClearInfo()
+{
+	Print_SetPatternOffset(128);
+	Print_SetPosition(8, 15);
+	Print_DrawCharX(' ', 16); // Clear line
 }
 
 //-----------------------------------------------------------------------------
@@ -1574,9 +1624,10 @@ void SaveOptions()
 {
 	// Byte #0
 	g_SaveData[0] = g_Option.Palette & 0x07; // 0b00000111
-	if (g_Option.Music)  g_SaveData[0] |= 0b00010000;
-	if (g_Option.SFX)    g_SaveData[0] |= 0b00100000;
-	if (g_Option.Blend)  g_SaveData[0] |= 0b01000000;
+	if (g_Option.Music)    g_SaveData[0] |= 0b00010000;
+	if (g_Option.SFX)      g_SaveData[0] |= 0b00100000;
+	if (g_Option.Blend)    g_SaveData[0] |= 0b01000000;
+	if (g_Option.Feedback) g_SaveData[0] |= 0b10000000;
 
 	// Byte #1
 	g_SaveData[1]  = (g_Option.InputSet[0] & 0x03) << 0; // 0b00000011
@@ -1608,10 +1659,11 @@ void LoadOptions()
 		return;
 
 	// Byte #0
-	g_Option.Palette = (g_SaveData[0] & 0b00000111);
-	g_Option.Music   = (g_SaveData[0] & 0b00010000);
-	g_Option.SFX     = (g_SaveData[0] & 0b00100000);
-	g_Option.Blend   = (g_SaveData[0] & 0b01000000);
+	g_Option.Palette  = (g_SaveData[0] & 0b00000111);
+	g_Option.Music    = (g_SaveData[0] & 0b00010000);
+	g_Option.SFX      = (g_SaveData[0] & 0b00100000);
+	g_Option.Blend    = (g_SaveData[0] & 0b01000000);
+	g_Option.Feedback = (g_SaveData[0] & 0b10000000);
 
 	// Byte #1
 	g_Option.InputSet[0] = (g_SaveData[1] & 0b00000011) >> 0;
@@ -1675,9 +1727,12 @@ void InitPlayer(u8 id)
 	}
 	Pawn_SetPatternAddress(pawn, g_DataSprtPlayer);
 	Pawn_SetColorBlend(pawn, g_Option.Blend);
-	
+
 	InitPlayerPosition(id);
+
+	Pawn_Update(pawn);
 	
+	// Shadow
 	ply->Shadow = (id == 0) ? SPRITE_PLY1_SHADOW : SPRITE_PLY2_SHADOW; 
 	SetSprite(ply->Shadow, ply->Pawn.PositionX, 183, 24, SHADOW_COLOR);
 }
@@ -1812,10 +1867,13 @@ void InitBall()
 	g_BallHit = FALSE;
 }
 
-//
-//
+//-----------------------------------------------------------------------------
+// Change ball color according to game rules
 void UpdateBallColor()
 {
+	if (!g_Option.Feedback)
+		return;
+
 	bool bWarning = (g_BounceNum >= g_Option.Rule.MaxBounce);
 	if (g_Option.Rule.MaxPass != 0)
 		bWarning |= (g_PassNum >= g_Option.Rule.MaxPass - 1);
@@ -1883,9 +1941,15 @@ void UpdateBall()
 	VDP_SetSpritePattern(SPRITE_BALL_SHADOW, g_ShadowPatternId[ballPawn->PositionY >> 3]);
 
 	if ((x <= 120) && (ballPawn->PositionX > 120))
+	{
 		Rules_ChangeField(1);
+		g_ChangeNum++;
+	}
 	else if ((x > 120) && (ballPawn->PositionX <= 120))
+	{
 		Rules_ChangeField(0);
+		g_ChangeNum++;
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -1999,7 +2063,7 @@ bool State_AppInit()
 	{
 		// Invalidate MSX2 only options
 		g_MenuOptions[2].Type |= MENU_ITEM_DISABLE; // Save
-		g_MenuGraph[2].Type |= MENU_ITEM_DISABLE; // Palette
+		g_MenuGraph[3].Type |= MENU_ITEM_DISABLE; // Palette
 
 		// Get video frequency from BIOS
 		if (Sys_GetBASICVersion() & 0x80) // 50 Hz flag
@@ -2071,7 +2135,6 @@ bool State_MenuInit()
 	Print_SetTextFont(g_Font, 192);
 	for(u16 i = 192; i < 256; i++)
 	{
-		VDP_WriteVRAM_16K(g_FontColorSelect, VDP_GetColorTable() + 0x0000 + (i * 8), 8);
 		VDP_WriteVRAM_16K(g_FontColorSelect, VDP_GetColorTable() + 0x0800 + (i * 8), 8);
 		VDP_WriteVRAM_16K(g_FontColorSelect, VDP_GetColorTable() + 0x1000 + (i * 8), 8);
 	}
@@ -2128,6 +2191,14 @@ bool State_GameInit()
 	// Initialize text
 	Print_SetTextFont(g_Font, 192);
 	Print_SetColor(COLOR_WHITE, COLOR_BLACK);
+	// Duplicate font patterns for shaded characters
+	VDP_WriteVRAM_16K(Print_GetFontInfo()->FontPatterns, VDP_GetPatternTable() + 0x0800 + (128 * 8), Print_GetFontInfo()->CharCount * 8);
+	VDP_WriteVRAM_16K(Print_GetFontInfo()->FontPatterns, VDP_GetPatternTable() + 0x1000 + (128 * 8), Print_GetFontInfo()->CharCount * 8);
+	for(u16 i = 128; i < 192; i++)
+	{
+		VDP_WriteVRAM_16K(g_FontColorNormal, VDP_GetColorTable() + 0x0800 + (i * 8), 8);
+		VDP_WriteVRAM_16K(g_FontColorNormal, VDP_GetColorTable() + 0x1000 + (i * 8), 8);
+	}
 
 	// Initialize sprite
 	VDP_HideAllSprites();
@@ -2186,6 +2257,8 @@ bool State_KickOff()
 
 	// Init ball
 	InitBallPosition();
+
+	g_ChangeNum = 0;
 
 	Game_SetState(State_Game);
 	return FALSE; // Frame finished
@@ -2249,6 +2322,7 @@ bool State_Point()
 	g_StateTimer--;
 	if ((g_StateTimer == 0) || PressKey())
 	{
+		ClearInfo();
 		VDP_SetColor(COLOR_BLACK);
 		Rules_ChangeField(1 - g_Victorious);
 		Game_SetState(State_KickOff);
@@ -2278,9 +2352,10 @@ bool State_VictoryInit()
 	Pawn_ForceSetAction(winner, ACTION_PLAYER_WIN);
 	SetSprite(SPRITE_WIN_BACK,  winner->PositionX, winner->PositionY - 24, 112, COLOR_LIGHT_RED);
 	SetSprite(SPRITE_WIN_FRONT, winner->PositionX, winner->PositionY - 24, 116, COLOR_DARK_RED);
-
+	
 	PlayMusic(MUSIC_VICTORY);
 	PlaySFX(SFX_CUICUI, ARKOS_CHANNEL_C, 0x0F);
+	ClearInfo();
 
 	Game_SetState(State_VictoryUpdate);
 	return FALSE; // Frame finished

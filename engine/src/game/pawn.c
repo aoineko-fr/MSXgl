@@ -225,17 +225,14 @@ void Pawn_SetPosition(Pawn* pawn, PAWN_POS x, PAWN_POS y)
 void Pawn_ForceSetAction(Pawn* pawn, u8 id)
 {
 	pawn->ActionId = id;
-	pawn->AnimTimer = 0;
-	pawn->AnimStep = 0;
-	pawn->Update |= PAWN_UPDATE_PATTERN;
+	Pawn_RestartAction(pawn);
 }
 
 //-----------------------------------------------------------------------------
 // Set game pawn action id
 void Pawn_SetAction(Pawn* pawn, u8 id)
 {
-	const Pawn_Action* act = &pawn->ActionList[pawn->ActionId];
-	if ((act->Interrupt == 1) && (pawn->ActionId != id))
+	if ((pawn->ActionList[pawn->ActionId].Interrupt == 1) && (pawn->ActionId != id))
 		Pawn_ForceSetAction(pawn, id);
 }
 

@@ -337,7 +337,7 @@
 // - MENU_CURSOR_MODE_CHAR ........ Character cursor
 // - MENU_CURSOR_MODE_SPRT ........ Sprite cursor
 #define MENU_CURSOR_MODE			MENU_CURSOR_MODE_CHAR
-#define MENU_CURSOR_OFFSET			(-2)	// Cursor X position offset
+#define MENU_CURSOR_OFFSET			(-1)	// Cursor X position offset
 
 //-----------------------------------------------------------------------------
 // STRING MODULE
