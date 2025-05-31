@@ -294,6 +294,7 @@ void DrawInfo(u8 event);
 void UpdateBallColor();
 void SaveOptions();
 void LoadOptions();
+void ResetOptions();
 void SetSprite(u8 idx, u8 x, u8 y, u8 shape, u8 color);
 void SetSpriteColor(u8 idx, u8 color);
 
@@ -1049,11 +1050,7 @@ const c8* MenuAction_Reset(u8 op, i8 value)
 	case MENU_ACTION_SET:
 	case MENU_ACTION_INC:
 	case MENU_ACTION_DEC:
-		Mem_Copy((u8*)&g_OptionDefault, (u8*)&g_Option, sizeof(struct Option));
-		g_Saved = FALSE;
-		ApplyFreqOption();
-		ApplyPaletteOption();
-		ApplyMusicOption();
+		ResetOptions();
 		Menu_SetDirty();
 		break;
 	}
@@ -1683,6 +1680,17 @@ void LoadOptions()
 }
 
 //-----------------------------------------------------------------------------
+// Reset options
+void ResetOptions()
+{
+	Mem_Copy((u8*)&g_OptionDefault, (u8*)&g_Option, sizeof(struct Option));
+	ApplyFreqOption();
+	ApplyPaletteOption();
+	ApplyMusicOption();
+	g_Saved = FALSE;
+}
+
+//-----------------------------------------------------------------------------
 // PLAYER
 //-----------------------------------------------------------------------------
 
@@ -2051,7 +2059,8 @@ bool State_AppInit()
 	{
 		// Initialize the RTC module
 		RTC_Initialize();
-		LoadOptions();
+		if (!Keyboard_IsKeyPressed(KEY_3))
+			LoadOptions();
 				
 		// Initialize palette
 		ApplyPaletteOption();
