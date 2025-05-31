@@ -23,13 +23,25 @@ A player scores a point when:
 - The opponent lets the ball bounce too many times on their side of the court, or hits it more times than allowed (this is considered a "fault")
 
 ### Modes
-- PLY vs PLY: Face off against a friend (or maybe a future ex-friend?)
-- PLY vs CPU: Challenge an AI opponent with three difficulty levels (Easy, Medium, and Hard)
+- PLY VS PLY: Face off against a friend (or maybe a future ex-friend?)
+- PLY VS CPU: Challenge an AI opponent with three difficulty levels (Easy, Medium, and Hard)
 
-### Options
-- 
+## Options
+- AUDIO: Audio settings
+  - MUSIC: Activate/desactivate music playback
+  - SFX: Activate/desactivate SFX playback
+- VIDEO: 
+  - CLR MIX: Activate/desactivate color mix (this generates more color, but can cause flickering on some displays)
+  - RULE CLR: Enables/disables ball color change to reflect critical moments
+  - FREQ:
+    - 50 HZ: Force 50 HZ for gameplay (on MSX2, VDP is also set to PAL)
+    - 60 HZ: Force 60 HZ for gameplay (on MSX2, VDP is also set to NTSC)
+    - AUTO: Uses MSX default frequency
+  - PALETTE: Changes the game palette (MSX2 only)
+- SAVE: Saves options in the Real-time clock's memory (MSX2 only)
+- RESET: Reset options to default
 
-### MSX2 enhancements
+## MSX2 enhancements
 If the game is 100% compatible with MSX1 standard, it bring some ehancement when played on a MSX2, MSX2+ or MSX turbo R:
 - Use of Screen 4 (same as Screen 2 but with MSX2 sprites: no more flickers)
 - Enable custom palette (4 palettes available)
