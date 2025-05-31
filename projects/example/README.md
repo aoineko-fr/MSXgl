@@ -32,16 +32,16 @@ Note: You can exit a match at any time by pressing the `[Esc]` key.
 Les menus peuvent être controlés depuis le clavier (flêches de direction et touche `[Space]`) ou une manette standard MSX branché sur les ports 1 ou 2.
 En jeu, vous avez 4 configurations possibles :
 - `DFG`:
-  - `[D]`: Left
-  - `[G]`: Right
+  - `[D]`: Move left
+  - `[G]`: Move right
   - `[F]`: Jump
 - `⯇⯅⯈`:
-  - `[⯇]`: Left
-  - `[⯈]`: Right
+  - `[⯇]`: Move left
+  - `[⯈]`: Move right
   - `[⯅]` or `[Space]`: Jump
 - `🕹️1` or `🕹️2`:
-  - `[⯇]`: Left
-  - `[⯈]`: Right
+  - `[⯇]`: Move left
+  - `[⯈]`: Move right
   - `[Button 1]`: Jump
 
 ## Options
