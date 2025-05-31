@@ -36,12 +36,12 @@ En jeu, vous avez 4 configurations possibles :
   - `[G]`: Right
   - `[F]`: Jump
 - `⯇⯅⯈`:
-  - `[<]`: Left
-  - `[>]`: Right
-  - `[^]` or `[Space]`: Jump
+  - `[⯇]`: Left
+  - `[⯈]`: Right
+  - `[⯅]` or `[Space]`: Jump
 - `🕹️1` or `🕹️2`:
-  - `[<]`: Left
-  - `[>]`: Right
+  - `[⯇]`: Left
+  - `[⯈]`: Right
   - `[Button 1]`: Jump
 
 ## Options
