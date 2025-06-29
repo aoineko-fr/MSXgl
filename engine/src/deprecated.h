@@ -110,7 +110,10 @@
 #define V9_SetMode					V9_SetScreenMode
 #define V9_SetSpritePalette			V9_SetSpritePaletteOffset
 
-// Menu module
+// Game module
+#define Game_MainLoop(a)			Game_Start(a, FALSE)
+
+// Game menu module
 #define MENU_CLEAR					MENU_CHAR_CLEAR
 #define MENU_POS_X					MENU_FRAME_X
 #define MENU_POS_Y					MENU_FRAME_Y

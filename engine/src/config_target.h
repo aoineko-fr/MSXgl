@@ -12,7 +12,8 @@
 //-----------------------------------------------------------------------------
 // Get current targer parameters
 #define GET_TARGET_TYPE(t)			(((t) >> 14) & 0x3)
-#define GET_TARGET_ISR(t)			(((t) >> 12) & 0x1)
+#define GET_TARGET_ISR(t)			(((t) >> 13) & 0x1)
+#define GET_TARGET_MIRROR(t)		(((t) >> 12) & 0x1)
 #define GET_TARGET_MAPPER(t)		(((t) >> 8)  & 0xF)
 #define GET_TARGET_SIZE(t)			(((t) >> 4)  & 0xF)
 #define GET_TARGET_START(t)			(((t) >> 2)  & 0x3)

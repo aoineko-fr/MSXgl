@@ -691,7 +691,7 @@ void Print_DrawTextOutline(const c8* string, u8 color);
 //   x   - Start position X coordinate
 //   y   - Start position Y coordinate
 //   len - Lenght of the horizontal line (in print mode unit)
-void Print_DrawLineH(u8 x, u8 y, u8 len);
+void Print_DrawLineH(UX x, UY y, u8 len);
 
 // Function: Print_DrawLineV
 // Draw a vertical line using characters
@@ -701,7 +701,7 @@ void Print_DrawLineH(u8 x, u8 y, u8 len);
 //   x   - Start position X coordinate
 //   y   - Start position Y coordinate
 //   len - Lenght of the vertical line (in print mode unit)
-void Print_DrawLineV(u8 x, u8 y, u8 len);
+void Print_DrawLineV(UX x, UY y, u8 len);
 
 // Function: Print_DrawBox
 // Draw a box using characters
@@ -712,7 +712,7 @@ void Print_DrawLineV(u8 x, u8 y, u8 len);
 //   y      - Start position Y coordinate
 //   width  - Box width (in print mode unit)
 //   height - Box height (in print mode unit)
-void Print_DrawBox(u8 x, u8 y, u8 width, u8 height);
+void Print_DrawBox(UX x, UY y, u8 width, u8 height);
 
 #endif // (PRINT_USE_GRAPH)
 

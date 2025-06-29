@@ -1436,7 +1436,7 @@ void Print_DrawFormat(const c8* format, ...)
 
 //-----------------------------------------------------------------------------
 // Draw an horizontal line using characters
-void Print_DrawLineH(u8 x, u8 y, u8 len)
+void Print_DrawLineH(UX x, UY y, u8 len)
 {
 	Print_SetPosition(x, y);
 	Print_DrawCharX(0x17, len);
@@ -1444,7 +1444,7 @@ void Print_DrawLineH(u8 x, u8 y, u8 len)
 
 //-----------------------------------------------------------------------------
 // Draw a vertical line using characters
-void Print_DrawLineV(u8 x, u8 y, u8 len)
+void Print_DrawLineV(UX x, UY y, u8 len)
 {
 	for(u8 i = 0; i < len; i++)
 	{
@@ -1455,7 +1455,7 @@ void Print_DrawLineV(u8 x, u8 y, u8 len)
 
 //-----------------------------------------------------------------------------
 // Draw a box using characters
-void Print_DrawBox(u8 x, u8 y, u8 width, u8 height)
+void Print_DrawBox(UX x, UY y, u8 width, u8 height)
 {
 	// Draw corners
 	Print_SetPosition(x, y);
