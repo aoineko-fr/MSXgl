@@ -1236,14 +1236,15 @@ void VDP_Poke_128K(u8 val, u16 destLow, u8 destHigh)
 u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __NAKED
 {
 	srcLow;		// HL
-	srcHigh;	// SP+2 => IY+0
+	srcHigh;	// SP+2
 
 	__asm
-		ld		iy, #2
-		add		iy, sp
+		pop		iy				// Get return address from stack
+		dec		sp				// Adjust stack pointer
+		pop		de				// Get srcHigh from stack
 
 		// Set destination address bits 14~16 to R#14
-		ld		a, 0(iy)
+		ld		a, d
 		add		a, a
 		add		a, a
 		ld		c, a
@@ -1275,7 +1276,8 @@ u8 VDP_Peek_128K(u16 srcLow, u8 srcHigh) __NAKED
 		VDP_EI //~~~~~~~~~~~~~~~~~~~~~~ //  5cc
 		in		a, (P_VDP_DATA)			// 12cc		value = DataPort
 
-		ret
+		// Return
+		jp		(iy)
 	__endasm;
 }
 
@@ -2181,23 +2183,15 @@ void VDP_SendSpriteAttribute(u8 index) __FASTCALL
 
 #if (VDP_USE_MODE_T2 && (MSX_VERSION >= MSX_2))
 
+const u8 g_VDPBitValue[8] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
+
 //-----------------------------------------------------------------------------
 // Set blink attribute for a the given tile 
 void VDP_SetBlinkTile(u8 x, u8 y)
 {
 	u16 addr = g_ScreenColorLow + (y * 10) + (x / 8);
 	u8 chunk = VDP_Peek(addr, g_ScreenColorHigh);
-	switch (x % 8)
-	{
-	case 0: chunk |= 0b10000000; break;
-	case 1: chunk |= 0b01000000; break;
-	case 2: chunk |= 0b00100000; break;
-	case 3: chunk |= 0b00010000; break;
-	case 4: chunk |= 0b00001000; break;
-	case 5: chunk |= 0b00000100; break;
-	case 6: chunk |= 0b00000010; break;
-	case 7: chunk |= 0b00000001; break;
-	}
+	chunk |= g_VDPBitValue[7 - (x % 8)];
 	VDP_Poke(chunk, addr, g_ScreenColorHigh);
 }
 

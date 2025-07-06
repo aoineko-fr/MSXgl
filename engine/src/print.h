@@ -503,11 +503,7 @@ void Print_Backspace(u8 num);
 //   x     - Position X coordinate
 //   y     - Position Y coordinate
 //   str   - Null-terminated string to draw
-inline void Print_DrawTextAt(UX x, UY y, const c8* str)
-{
-	Print_SetPosition(x, y);
-	Print_DrawText(str);
-}
+inline void Print_DrawTextAt(UX x, UY y, const c8* str) { Print_SetPosition(x, y); Print_DrawText(str); }
 
 // Function: Print_DrawTextAtV
 // Draw a vertical text at a given position on screen.
@@ -532,11 +528,7 @@ inline void Print_DrawTextAtV(UX x, UY y, const c8* str)
 //   x   - Position X coordinate
 //   y   - Position Y coordinate
 //   chr - Character to draw
-inline void Print_DrawCharAt(UX x, UY y, c8 chr)
-{
-	Print_SetPosition(x, y);
-	Print_DrawChar(chr);
-}
+inline void Print_DrawCharAt(UX x, UY y, c8 chr) { Print_SetPosition(x, y); Print_DrawChar(chr); }
 
 // Function: Print_DrawCharXAt
 // Print the same character many times at a given position.
@@ -546,11 +538,7 @@ inline void Print_DrawCharAt(UX x, UY y, c8 chr)
 //   y   - Position Y coordinate
 //   chr - Character to draw
 //   len - Number of character to draw
-inline void Print_DrawCharXAt(UX x, UY y, c8 chr, u8 len)
-{
-	Print_SetPosition(x, y);
-	Print_DrawCharX(chr, len);
-}
+inline void Print_DrawCharXAt(UX x, UY y, c8 chr, u8 len) { Print_SetPosition(x, y); Print_DrawCharX(chr, len); }
 
 // Function: Print_DrawCharYAt
 // Print vertically the same character many times at a given position.
@@ -566,6 +554,33 @@ inline void Print_DrawCharYAt(UX x, UY y, c8 chr, u8 len)
 		Print_DrawCharAt(x, y++, chr);
 }
 
+// Function: Print_DrawHex8At
+// Print a 8-bits binary value at a given position.
+//
+// Parameters:
+//   x   - Position X coordinate
+//   y   - Position Y coordinate
+//   val - 8 bits integer to draw in hexadecimal form
+inline void Print_DrawHex8At(UX x, UY y, u8 val) { Print_SetPosition(x, y); Print_DrawHex8(val); }
+
+// Function: Print_DrawHex16At
+// Print a 16-bits hexadecimal value at a given position.
+//
+// Parameters:
+//   x   - Position X coordinate
+//   y   - Position Y coordinate
+//   val - 16 bits integer to draw in hexadecimal form
+inline void Print_DrawHex16At(UX x, UY y, u16 val) { Print_SetPosition(x, y); Print_DrawHex16(val); }
+
+// Function: Print_DrawBin8At
+// Print a 8-bits binary value at a given position.
+//
+// Parameters:
+//   x   - Position X coordinate
+//   y   - Position Y coordinate
+//   val - 8 bits integer to draw in binary form (0 or 1)
+inline void Print_DrawBin8At(UX x, UY y, u8 val) { Print_SetPosition(x, y); Print_DrawBin8(val); }
+
 // Function: Print_DrawIntAt
 // Print a 16-bits signed decimal value at a given position.
 //
@@ -573,11 +588,7 @@ inline void Print_DrawCharYAt(UX x, UY y, c8 chr, u8 len)
 //   x   - Position X coordinate
 //   y   - Position Y coordinate
 //   val - 16 bits integer to display
-inline void Print_DrawIntAt(UX x, UY y, i16 val)
-{
-	Print_SetPosition(x, y);
-	Print_DrawInt(val);
-}
+inline void Print_DrawIntAt(UX x, UY y, i16 val) { Print_SetPosition(x, y); Print_DrawInt(val); }
 
 //-----------------------------------------------------------------------------
 // Group: FX
