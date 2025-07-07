@@ -15,13 +15,13 @@
 <a name="NTap_Check"></a><a name="Topic278"></a><div class="CTopic TFunction LC">
  <div class="CTitle">NTap_Check</div>
  <div id="NDPrototype278" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 NTap_Check()</div></div>
- <div class="CBody"><p>Check the presence of Ninja Tap in the joystick ports.</p><div class="CHeading">Return</div><p>Ninja Tap information. See <a href="../../index.html#File:device/ninjatap.h:NTap_GetInfo" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,61);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_GetInfo</a></p></div>
+ <div class="CBody"><p>Check the presence of Ninja Tap in the joystick ports.</p><div class="CHeading">Return</div><p>Ninja Tap information. See <a href="../../index.html#File:device/ninjatap.h:NTap_GetInfo" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,1419);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_GetInfo</a></p></div>
 </div>
 
-<a name="NTap_GetInfo"></a><a name="Topic61"></a><div class="CTopic TFunction LC">
+<a name="NTap_GetInfo"></a><a name="Topic1419"></a><div class="CTopic TFunction LC">
  <div class="CTitle">NTap_GetInfo</div>
- <div id="NDPrototype61" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 NTap_GetInfo()</div></div>
- <div class="CBody"><p>Get Ninja Tap information.&nbsp; <a href="../../index.html#File:device/ninjatap.h:NTap_Check" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,278);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_Check</a> function must be called first.</p><div class="CHeading">Return</div><p>Number of usable joysticks and types. See <a href="../../index.html#File:device/ninjatap.h:NTap_Check" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,278);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_Check</a>.</p><pre class="CText">7  6  5  4  3  2  1  0<br />│  │  │  │  └──┴──┴──┴── Nomber of joystick port available (2, 5 or 8)<br />│  │  └──┴────────────── Tap type pluged in port 1 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)<br />└──┴──────────────────── Tap type pluged in port 2 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)</pre></div>
+ <div id="NDPrototype1419" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 NTap_GetInfo()</div></div>
+ <div class="CBody"><p>Get Ninja Tap information.&nbsp; <a href="../../index.html#File:device/ninjatap.h:NTap_Check" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,278);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_Check</a> function must be called first.</p><div class="CHeading">Return</div><p>Number of usable joysticks and types. See <a href="../../index.html#File:device/ninjatap.h:NTap_Check" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,278);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >NTap_Check</a>.</p><pre class="CText">7  6  5  4  3  2  1  0<br />│  │  │  │  └──┴──┴──┴── Number of joystick port available (2, 5 or 8)<br />│  │  └──┴────────────── Tap type pluged in port 1 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)<br />└──┴──────────────────── Tap type pluged in port 2 (0=No Tap, 1=Ninja Tap, 2=Shinobi Tap)</pre></div>
 </div>
 
 <a name="NTap_GetPortNum"></a><a name="Topic296"></a><div class="CTopic TFunction LC">

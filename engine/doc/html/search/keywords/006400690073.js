@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("dis",["Function"],[["DisableInterrupt",,[[,,,,0,"File:system.h:DisableInterrupt"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("dis",["Function"],[["DisableInterrupt",,[[,,,,0,"File:system.h:DisableInterrupt"]]],["DiskSave_Check",,[[,,,,0,"File:tool/disk_save.h:DiskSave_Check"]]],["DiskSave_Delete",,[[,,,,0,"File:tool/disk_save.h:DiskSave_Delete"]]],["DiskSave_Load",,[[,,,,0,"File:tool/disk_save.h:DiskSave_Load"]]],["DiskSave_Save",,[[,,,,0,"File:tool/disk_save.h:DiskSave_Save"]]]]);

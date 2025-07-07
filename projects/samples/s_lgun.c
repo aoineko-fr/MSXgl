@@ -6,7 +6,7 @@
 //  Hello world sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
-#include "input.h"
+#include "device/lightgun.h"
 
 //=============================================================================
 // DEFINES
@@ -14,11 +14,6 @@
 
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
-
-#define LIGHTGUN_ASCII_TRIGGER		JOY_INPUT_TRIGGER_B
-#define LIGHTGUN_ASCII_LIGHT		JOY_INPUT_TRIGGER_A
-#define LIGHTGUN_GUNSTICK_TRIGGER	JOY_INPUT_TRIGGER_A		
-#define LIGHTGUN_GUNSTICK_LIGHT		JOY_INPUT_DIR_DOWN
 
 #define COLUMN_PORT1		15
 #define COLUMN_PORT2		28
@@ -33,29 +28,41 @@
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
+// Sinus table (64 samples)
+const unsigned char g_Sinus64[] = {
+	0x00, 0x02, 0x03, 0x05, 0x06, 0x08, 0x09, 0x0A, 
+	0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x0F, 0x10, 0x10, 
+	0x10, 0x10, 0x10, 0x0F, 0x0F, 0x0E, 0x0D, 0x0C, 
+	0x0B, 0x0A, 0x09, 0x08, 0x06, 0x05, 0x03, 0x02, 
+	0x00, 0xFE, 0xFD, 0xFB, 0xFA, 0xF8, 0xF7, 0xF6, 
+	0xF5, 0xF4, 0xF3, 0xF2, 0xF1, 0xF1, 0xF0, 0xF0, 
+	0xF0, 0xF0, 0xF0, 0xF1, 0xF1, 0xF2, 0xF3, 0xF4, 
+	0xF5, 0xF6, 0xF7, 0xF8, 0xFA, 0xFB, 0xFD, 0xFE, 
+};
+
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
 u8 g_SpritData[8 * 4];
 
+u8 g_SpritePosX = 100;
+u8 g_SpritePosY = 100;
+u8 g_SpriteColor = COLOR_WHITE;
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// Detects the light gun trigger
-inline u8 LightGun_Read(u8 port) { return Joystick_Read(port); }
-
-inline bool LightGun_ASCII_GetTrigger(u8 state) { return (state & LIGHTGUN_ASCII_TRIGGER) == 0; }
-inline u8   LightGun_ASCII_GetLight  (u8 state) { return (state & LIGHTGUN_ASCII_LIGHT) != 0; }
-
-inline bool LightGun_GunStick_GetTrigger(u8 state) { return (state & LIGHTGUN_GUNSTICK_TRIGGER) == 0; }
-inline u8   LightGun_GunStick_GetLight  (u8 state) { return (state & LIGHTGUN_GUNSTICK_LIGHT) == 0; }
-
-inline bool LightGun_Phenix_GetTriggerA(u8 state) { return (state & JOY_INPUT_TRIGGER_A) == 0; }
-inline bool LightGun_Phenix_GetTriggerB(u8 state) { return (state & JOY_INPUT_TRIGGER_B) == 0; }
-inline u8   LightGun_Phenix_GetLight   (u8 state) { return ~state & 0x07; }
+// Update sprite
+void UpdateSprite()
+{
+	VDP_SetSpriteSM1(0, g_SpritePosX ,      g_SpritePosY,      0, g_SpriteColor);
+	VDP_SetSpriteSM1(1, g_SpritePosX + 16,  g_SpritePosY,      0, g_SpriteColor);
+	VDP_SetSpriteSM1(2, g_SpritePosX,       g_SpritePosY + 16, 0, g_SpriteColor);
+	VDP_SetSpriteSM1(3, g_SpritePosX + 16,  g_SpritePosY + 16, 0, g_SpriteColor);
+}
 
 //-----------------------------------------------------------------------------
 // Program entry point
@@ -97,21 +104,19 @@ void main()
 	loop(i, 4 * 8)	
 		g_SpritData[i] = 0xFF;
 	VDP_LoadSpritePattern(g_SpritData, 0, 32);
-	VDP_SetSpriteSM1(0,  100,  100, 0, COLOR_WHITE);
-	// VDP_SetSpriteSM1(1,  60,  60, 0, COLOR_MEDIUM_RED);
-	// VDP_SetSpriteSM1(2,  80,  80, 0, COLOR_MEDIUM_GREEN);
-	// VDP_SetSpriteSM1(3, 100, 100, 0, COLOR_DARK_BLUE);
-	// VDP_SetSpriteSM1(4, 120, 120, 0, COLOR_LIGHT_YELLOW);
-	// VDP_SetSpriteSM1(5, 140, 140, 0, COLOR_CYAN);
-	// VDP_SetSpriteSM1(6, 160, 160, 0, COLOR_MAGENTA);
+	UpdateSprite();
 
-	u8 count = 0;
+	u16 count = 0;
 
 	// Main loop
 	while(!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Print_SetPosition(31, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
+
+		g_SpritePosX = count / 2;
+		g_SpritePosY = 100 + 2 * g_Sinus64[(count / 2) & 0x3F];
+		UpdateSprite();
 
 		loop (i, 2)
 		{
