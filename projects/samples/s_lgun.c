@@ -46,21 +46,33 @@ const unsigned char g_Sinus64[] = {
 
 u8 g_SpritData[8 * 4];
 
-u8 g_SpritePosX = 100;
-u8 g_SpritePosY = 100;
+u8 g_SpritePosX;
+u8 g_SpritePosY;
 u8 g_SpriteColor = COLOR_WHITE;
+
+u16 g_FrameCount;
+u16 g_MoveCount;
+bool g_Move = FALSE;
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// Update sprite
+// Update sprite position
+void UpdatePosition()
+{
+	g_SpritePosX = g_MoveCount++ / 2;
+	g_SpritePosY = 100 + 2 * g_Sinus64[(g_MoveCount / 2) & 0x3F];
+}
+
+//-----------------------------------------------------------------------------
+// Update sprite attributes
 void UpdateSprite()
 {
-	VDP_SetSpriteSM1(0, g_SpritePosX ,      g_SpritePosY,      0, g_SpriteColor);
-	VDP_SetSpriteSM1(1, g_SpritePosX + 16,  g_SpritePosY,      0, g_SpriteColor);
+	VDP_SetSpriteSM1(0, g_SpritePosX,       g_SpritePosY,      0, g_SpriteColor);
 	VDP_SetSpriteSM1(2, g_SpritePosX,       g_SpritePosY + 16, 0, g_SpriteColor);
+	VDP_SetSpriteSM1(1, g_SpritePosX + 16,  g_SpritePosY,      0, g_SpriteColor);
 	VDP_SetSpriteSM1(3, g_SpritePosX + 16,  g_SpritePosY + 16, 0, g_SpriteColor);
 }
 
@@ -95,28 +107,47 @@ void main()
 	Print_DrawTextAt(1, 15, "Light");
 
 	Print_DrawTextAt(0, 17, "Phenix Light Gun");
-	Print_DrawTextAt(1, 19, "Trigger A");
-	Print_DrawTextAt(1, 20, "Trigger B");
-	Print_DrawTextAt(1, 21, "Light");
+	Print_DrawTextAt(1, 19, "Triggers");
+	Print_DrawTextAt(1, 20, "Light");
+
+	Print_DrawLineH(0, 22, 32);
+	Print_DrawTextAt(0, 23, "M:Move");
+
+	g_FrameCount = 0;
+	g_MoveCount = 160 * 2;
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 	loop(i, 4 * 8)	
 		g_SpritData[i] = 0xFF;
 	VDP_LoadSpritePattern(g_SpritData, 0, 32);
+	UpdatePosition();
 	UpdateSprite();
 
-	u16 count = 0;
+	u8 keyWait = 0;
 
 	// Main loop
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Print_SetPosition(31, 0);
-		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
+		Print_DrawChar(g_ChrAnim[g_FrameCount++ & 0x03]);
 
-		g_SpritePosX = count / 2;
-		g_SpritePosY = 100 + 2 * g_Sinus64[(count / 2) & 0x3F];
-		UpdateSprite();
+		if (keyWait == 0 && Keyboard_IsKeyPressed(KEY_M))
+		{
+			g_Move = !g_Move;
+			keyWait = 20;
+		}
+		else if (keyWait > 0)
+		{
+			keyWait--;
+		}
+
+
+		if (g_Move)
+		{
+			UpdatePosition();
+			UpdateSprite();
+		}
 
 		loop (i, 2)
 		{
@@ -132,9 +163,9 @@ void main()
 			Print_DrawCharAt(x, 14, LightGun_GunStick_GetTrigger(joy) ? 0x0C : 0x0B);
 			Print_DrawCharAt(x, 15, LightGun_GunStick_GetLight(joy) ? 0x0C : 0x0B);
 
-			Print_DrawCharAt(x, 19, LightGun_Phenix_GetTriggerA(joy) ? 0x0C : 0x0B);
-			Print_DrawCharAt(x, 20, LightGun_Phenix_GetTriggerB(joy) ? 0x0C : 0x0B);
-			Print_DrawHex8At(x, 21, LightGun_Phenix_GetLight(joy));
+			Print_DrawCharAt(x + 0, 19, LightGun_Phenix_GetTriggerA(joy) ? 0x0C : 0x0B);
+			Print_DrawCharAt(x + 1, 19, LightGun_Phenix_GetTriggerB(joy) ? 0x0C : 0x0B);
+			Print_DrawHex8At(x, 20, LightGun_Phenix_GetLight(joy));
 		}
 	}
 }

@@ -453,7 +453,7 @@ void VDP_Initialize();
 //
 // Return:
 //   VDP identifier (see <VDP_VERSION>).
-u8 VDP_GetVersion() __naked;
+u8 VDP_GetVersion() __NAKED;
 
 // Function: VDP_ClearVRAM
 // Clear the VRAM content. [MSX1/2/2+/TR]

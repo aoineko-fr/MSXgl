@@ -103,7 +103,7 @@ inline void WYZ_Initialize(u16 song, u16 inst, u16 fx, u16 freq)
 //
 // Parameters:
 //   music - Music number
-void WYZ_Play(u8 music) __naked; 
+void WYZ_Play(u8 music) __NAKED; 
 
 // Function: WYZ_Stop
 // Stop song playback 
@@ -111,4 +111,4 @@ void WYZ_Stop();
 
 // Function: WYZ_Decode
 // Process the next step in the song sequence 
-void WYZ_Decode() __naked; 
+void WYZ_Decode() __NAKED; 
