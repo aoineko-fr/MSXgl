@@ -435,6 +435,11 @@
 #define PT3_AUTOPLAY				TRUE	// Play music automatically
 #define PT3_EXTRA					TRUE	// Add helper functions
 
+// ayFX options
+// - AYFX_BUFFER_DEFAULT .......... Use PSG module PSG register buffer
+// - AYFX_BUFFER_PT3 .............. Use PT3 module PSG register buffer
+#define AYFX_BUFFER					AYFX_BUFFER_PT3
+
 // TriloTracker options
 #define TRILO_USE_SFXPLAY			TRUE	// Add SFX playback through Trilo SCC player (ayFX + SCC format)
 #define TRILO_USE_TREMOLO			TRUE	// Add support for tremolo effect (little bit expensive)

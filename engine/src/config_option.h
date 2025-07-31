@@ -374,6 +374,12 @@
 #define WYZ_3CH 					0
 #define WYZ_6CH 					1
 
+// AYFX MODULE
+#define AYFX_BUFFER_DEFAULT			0
+#define AYFX_BUFFER_PT3				1
+#define AYFX_BUFFER_VGM				AYFX_BUFFER_DEFAULT
+#define AYFX_BUFFER_LVGM			AYFX_BUFFER_DEFAULT
+
 //-----------------------------------------------------------------------------
 // GAME PAWN MODULE
 //-----------------------------------------------------------------------------

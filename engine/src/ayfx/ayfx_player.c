@@ -63,7 +63,11 @@ u16 ayFX_VT;
 ///					Any custom callback from application (must handle playback termination and mute as needed)
 callback ayFX_Finish = ayFX_Mute;
 
-#define AYREGS _PT3_Regs
+#if (AYFX_BUFFER == AYFX_BUFFER_DEFAULT)
+	#define AYREGS					_g_PSG_Regs
+#elif (AYFX_BUFFER == AYFX_BUFFER_PT3)
+	#define AYREGS					_PT3_Regs
+#endif
 
 //-----------------------------------------------------------------------------
 // Setup the ayFX replayer
