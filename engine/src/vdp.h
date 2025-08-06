@@ -244,7 +244,7 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 #define F_VDP_WRIT				0x40 // bit 6: read/write access (1=write)
 #define F_VDP_READ				0x00 // bit 6: read/write access (0=read)
 
-#define VDP_REG(_r)				(F_VDP_REG | _r)
+#define VDP_REG(_r)				(F_VDP_REG | (_r))
 
 //.............................................................................
 // Screen mode defines

@@ -451,7 +451,7 @@
 #define DEBUG_OPENMSX_P				0x31 // Debug features for openMSX using PVM script (tools/script/openMSX/debugger_pvm.tcl)
 
 #define DEBUG_DISABLE				DEBUG_NONE
-#define DEBUG_EMULATOR(tool)		(tool & 0xF0)
+#define DEBUG_EMULATOR(tool)		((tool) & 0xF0)
 
 // PROFILE_TOOL
 #define PROFILE_NONE				0x00 // No profile tool
@@ -459,4 +459,4 @@
 #define PROFILE_OPENMSX_S			0x39 // Profiler features for openMSX using Salutte script (tools/script/openMSX/profiler_salutte.tcl)
 
 #define PROFILE_DISABLE				PROFILE_NONE
-#define PROFILE_EMULATOR(tool)		(tool & 0xF0)
+#define PROFILE_EMULATOR(tool)		((tool) & 0xF0)

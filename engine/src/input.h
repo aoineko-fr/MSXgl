@@ -68,8 +68,8 @@ enum INPUT_PORT
 #define JOY_INPUT_TRIGGER_RUN		(JOY_INPUT_DIR_RIGHT + JOY_INPUT_DIR_LEFT) // FM-Town input method
 #define JOY_INPUT_TRIGGER_SELECT	(JOY_INPUT_DIR_UP + JOY_INPUT_DIR_DOWN) // FM-Town input method
 
-#define IS_JOY_PRESSED(stat, input) ((stat & input) == 0)
-#define IS_JOY_RELEASED(stat, input) ((stat & input) != 0)
+#define IS_JOY_PRESSED(stat, input) (((stat) & (input)) == 0)
+#define IS_JOY_RELEASED(stat, input) (((stat) & (input)) != 0)
 
 #define JOY_GET_DIR(in)				(~(in) & JOY_INPUT_DIR_MASK)
 #define JOY_GET_TRIG1(in)			(((in) & JOY_INPUT_TRIGGER_A) == 0)
@@ -358,14 +358,14 @@ inline bool Mouse_IsButtonClick(Mouse_State* data, u8 btn) { return ((data->Butt
 //=============================================================================
 #if (INPUT_USE_KEYBOARD)
 
-#define MAKE_KEY(r, b)		((b << 4) | r)
-#define KEY_ROW(key)		(key & 0x0F)
-#define KEY_IDX(key)		(key >> 4)
+#define MAKE_KEY(r, b)		(((b) << 4) | (r))
+#define KEY_ROW(key)		((key) & 0x0F)
+#define KEY_IDX(key)		((key) >> 4)
 #define KEY_FLAG(key)		(1 << KEY_IDX(key))
 
-#define IS_KEY_PRESSED(row, key)  ((row & KEY_FLAG(key)) == 0)
-#define IS_KEY_RELEASED(row, key) ((row & KEY_FLAG(key)) != 0)
-#define IS_KEY_PUSHED(row, prev, key)  (((row & KEY_FLAG(key)) == 0) && ((prev & KEY_FLAG(key)) != 0))
+#define IS_KEY_PRESSED(row, key)  (((row) & KEY_FLAG(key)) == 0)
+#define IS_KEY_RELEASED(row, key) (((row) & KEY_FLAG(key)) != 0)
+#define IS_KEY_PUSHED(row, prev, key)  ((((row) & KEY_FLAG(key)) == 0) && (((prev) & KEY_FLAG(key)) != 0))
 
 // Function: KEY_ID
 // Value encoded by combining a row number with a given physical key index in that row

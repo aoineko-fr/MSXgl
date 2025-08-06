@@ -273,11 +273,11 @@ typedef struct
 
 // Tile map getter macro
 #if (GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_RAM)
-	#define GAMEPAWN_GET_TILE(X, Y)	g_GamePawn_TileMap[(Y * GAMEPAWN_TILEMAP_WIDTH) + X]
+	#define GAMEPAWN_GET_TILE(X, Y)	g_GamePawn_TileMap[((Y) * GAMEPAWN_TILEMAP_WIDTH) + (X)]
 	// Tile map buffer in RAM
 	extern const u8* g_GamePawn_TileMap;
 #elif (GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_VRAM)
-	#define GAMEPAWN_GET_TILE(X, Y)	VDP_Peek(g_ScreenLayoutLow + (Y * GAMEPAWN_TILEMAP_WIDTH) + X, g_ScreenLayoutHigh)
+	#define GAMEPAWN_GET_TILE(X, Y)	VDP_Peek(g_ScreenLayoutLow + ((Y) * GAMEPAWN_TILEMAP_WIDTH) + (X), g_ScreenLayoutHigh)
 #elif (GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_V9)
 	#define GAMEPAWN_GET_TILE(X, Y)	V9_Peek(V9_CellAddrP1A(X, Y))
 #endif

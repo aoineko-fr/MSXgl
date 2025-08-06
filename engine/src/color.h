@@ -39,7 +39,7 @@ enum COLOR_BPC
 #define COLOR_WHITE			15
 
 // Merge 2 x 4-bits colors on 1 byte
-#define COLOR_MERGE(a, b)		(u8)((a & 0x0F) << 4 | (b & 0x0F))
+#define COLOR_MERGE(a, b)		(u8)(((a) & 0x0F) << 4 | ((b) & 0x0F))
 #define COLOR_MERGE_4B			COLOR_MERGE
 #define COLOR_MERGE2(a)			COLOR_MERGE(a, a)
 
@@ -62,7 +62,7 @@ enum COLOR_BPC
 #define COLOR_S7_WHITE			15	// (7,7,7)
 
 // Merge 4 x 2-bits colors on 1 byte (for GM5)
-#define COLOR_MERGE_2B(a, b, c, d)	(u8)((a & 0x03) << 6 | (b & 0x03) << 4 | (c & 0x03) << 2 | (d & 0x03))
+#define COLOR_MERGE_2B(a, b, c, d)	(u8)(((a) & 0x03) << 6 | ((b) & 0x03) << 4 | ((c) & 0x03) << 2 | ((d) & 0x03))
 #define COLOR_MERGE4(a)				COLOR_MERGE_2B(a, a, a, a)
 
 //-----------------------------------------------------------------------------
@@ -71,7 +71,7 @@ enum COLOR_BPC
 // Format : [G:3|R:3|B:2]
 
 // Helper macros
-#define RGB8(r, g, b)		(u8)(((g & 0x07) << 5) + ((r & 0x07) << 2) + (b & 0x03))
+#define RGB8(r, g, b)		(u8)((((g) & 0x07) << 5) + (((r) & 0x07) << 2) + ((b) & 0x03))
 #define GRB8(g, r, b)		RGB8(r, g, b)
 
 // Some colors
