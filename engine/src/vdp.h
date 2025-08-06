@@ -165,13 +165,13 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 	#define VADDR_LO(a)			(a)
 	#define VADDR_HI(a)			0
 	#define VADDR_GET(lo, hi)	(lo)
-	#define VADDR_14_CODE(a)	a
+	#define VADDR_14_CODE(a)	(a)
 	#define VADDR_17_CODE(a)
 #else // if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
 	#define VADDR				u32
 	#define VADDR_LO(a)			(u16)(a)
-	#define VADDR_HI(a)			(u16)(a >> 16)
-	#define VADDR_GET(lo, hi)	((u32)(lo) | ((u32)hi << 16))
+	#define VADDR_HI(a)			(((u16)a) >> 16)
+	#define VADDR_GET(lo, hi)	(((u32)hi) << 16 | ((u32)lo))
 	#define VADDR_14_CODE(a)
 	#define VADDR_17_CODE(a)	a
 #endif
@@ -219,10 +219,10 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 //.............................................................................
 // Helper macros
 
-#define VRAM16b(a)				(u16)((u32)(a >> 4))
-#define VRAM17b(a)				(u16)((u32)(a >> 1))
-#define Addr20bTo16b(a)			(u16)((u32)(a >> 4))	// Convert 20-bits (V)RAM address into 16-bits with bit shifting
-#define Addr17bTo16b(a)			(u16)((u32)(a >> 1))	// Convert 17-bits (V)RAM address into 16-bits with bit shifting
+#define VRAM16b(a)				((u16)((u32)(a) >> 4))
+#define VRAM17b(a)				((u16)((u32)(a) >> 1))
+#define Addr20bTo16b(a)			((u16)((u32)(a) >> 4))	// Convert 20-bits (V)RAM address into 16-bits with bit shifting
+#define Addr17bTo16b(a)			((u16)((u32)(a) >> 1))	// Convert 17-bits (V)RAM address into 16-bits with bit shifting
 
 // #define REGSAV(a)				#(_g_VDP_REGSAV+a)
 
