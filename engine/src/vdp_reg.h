@@ -65,7 +65,7 @@
 //		└───┴───┴───┴───┴───┴───┴──	In MSX1 screen and SCREEN 4 modes, N10-N13 bits correspond to the four most significant bits of the address that defines the start of the character table in VRAM. Other bits must be always reseted.
 //									In other SCREEN modes N10-N14 bits must always be set, and N15-N16 bits determine the page number.
 // 									In KANJI screens modes, it will vary according using of Bitmap screen 5 or 7.
-#define R02_SET(_n)					((_n >> 10) & 0x7F)
+#define R02_SET(n)					(((n) >> 10) & 0x7F)
 #define R02_DEFAULT_S0W40			0b00000000	// 0x0000
 #define R02_DEFAULT_S0W80			0b00000011	// 0x0C00
 #define R02_DEFAULT_S1				0b00000110	// 0x1800
@@ -89,7 +89,7 @@
 //	└───┴───┴───┴───┴───┴───┴───┴── In the SCREEN modes 0, 1 and 3, C6-C13 bits define the address of the colors table.
 //									In SCREEN 2 and 4, the operation is different. Only C13 can be changed, the other bits must be always set.
 // 									In KANJI screens modes, it will vary according using of Bitmap screen 5 or 7.
-#define R03_SET(_n)					((_n >> 6) & 0xFF)
+#define R03_SET(n)					(((n) >> 6) & 0xFF)
 #define R03_DEFAULT_S0W80			0b00100111	// 0x09C0
 #define R03_DEFAULT_S1				0b10000000	// 0x2000
 #define R03_DEFAULT_S2				0b11111111	// 0x1800
@@ -103,7 +103,7 @@
 //			└───┴───┴───┴───┴───┴── In the SCREEN modes 0, 1 and 3, F11-F13 bits code the 3 most significant bits of the address of the VRAM pattern table.
 //									In the SCREEN modes 2 and 4, only the F13 bit defines the pattern table address. Thus, it can only start at the address 0000h or 2000h.
 //									In the other SCREEN modes, F11-F16 bits code the 6 most significant bits of the address at the start of the pattern table.
-#define R04_SET(_n)					((_n >> 11) & 0x3F)
+#define R04_SET(n)					(((n) >> 11) & 0x3F)
 #define R04_DEFAULT_S0W40			0b00000001	// 0x0800
 #define R04_DEFAULT_S0W80			0b00000010	// 0x1000
 #define R04_DEFAULT_S1				0b00000000	// 0x0000
@@ -119,7 +119,7 @@
 //	└───┴───┴───┴───┴───┴───┴───┴── In SCREEN 1 to 3, S7-S13 bits code the 7 most significant bits of address of the sprites attribute table.
 //									In SCREEN 4 to 6, the S7-S8 bits are ignored and S9 must be always set. So the address is obtained by the formula ((Register 5 value) - 3) x 80h.
 //									In SCREEN 7, 8, 10 to 12, S7-S14 are used with S15-S16 of the VDP register 11. 
-#define R05_SET(_n)					((_n >> 7) & 0xFF)
+#define R05_SET(n)					(((n) >> 7) & 0xFF)
 #define R05_DEFAULT_S1				0b00110110	// 0x1B00
 #define R05_DEFAULT_S2				0b00110110	// 0x1B00
 #define R05_DEFAULT_S3				0b00110110	// 0x1B00
@@ -139,7 +139,7 @@
 //	0	0	P16	P15	P14	P13	P12	P11
 //			└───┴───┴───┴───┴───┴── In MSX1 screen modes, P11-P13 encode the 3 most significant bits of the address of the Sprite Pattern in VRAM. Other bits must be reseted.
 //									In other screen modes, P11-P16 code the 6 most significant bits of the Sprite Pattern address.
-#define R06_SET(_n)					((_n >> 11) & 0x3F)
+#define R06_SET(n)					(((n) >> 11) & 0x3F)
 #define R06_DEFAULT_S1				0b00000111	// 0x3800
 #define R06_DEFAULT_S2				0b00000111	// 0x3800
 #define R06_DEFAULT_S3				0b00000111	// 0x3800
@@ -159,7 +159,7 @@
 //	TC3	TC2	TC1	TC0	BD3	BD2	BD1	BD0
 //	│	│	│	│	└───┴───┴───┴── TC0-TC3 define the text color in screen 0. Other bits are ignored in the other screen modes except in SCREEN 8 and 12. In these two modes, all the bits of the register define the border color.
 //	└───┴───┴───┴────────────────── BD0-BD3 defines the border color. In SCREEN 6, only the bits BD0 and BD1 define the border color and when the bit BD3 is 0, the even lines of the border take the background color.
-#define R07_SET(_a, _b)				(((_a & 0x0F) << 4) + (_b & 0x0F))
+#define R07_SET(a, b)				((((a) & 0x0F) << 4) + ((b) & 0x0F))
 
 #if (MSX_VERSION >= MSX_2)
 //-----------------------------------------------------------------------------
@@ -207,7 +207,7 @@
 //	7	6	5	4	3	2	1	0	WRITE ONLY
 //	0	0	0	0	0	C16	C15	C14
 //						└───┴───┴── Cf. R#3
-#define R10_SET(_n)					((_n >> 14) & 0x07)
+#define R10_SET(n)					(((n) >> 14) & 0x07)
 #define R10_DEFAULT_S0W80			0	// 0x09C0
 #define R10_DEFAULT_S1				0	// 0x2000
 #define R10_DEFAULT_S2				0	// 0x1800
@@ -219,7 +219,7 @@
 //	7	6	5	4	3	2	1	0	WRITE ONLY
 //	0	0	0	0	0	0	S16	S15
 //							└───┴── Cf. R#5
-#define R11_SET(_n)					((_n >> 15) & 0x03)
+#define R11_SET(n)					(((n) >> 15) & 0x03)
 #define R11_DEFAULT_S1				0	// 0x1B00
 #define R11_DEFAULT_S2				0	// 0x1B00
 #define R11_DEFAULT_S3				0	// 0x1B00
@@ -239,7 +239,7 @@
 //	T23	T22	T21	T20	BC3	BC2	BC1	BC0
 //	│	│	│	│	└───┴───┴───┴── T20-T23 bits is text blink color in SCREEN 0 width 41-80
 //	└───┴───┴───┴────────────────── BC0-BC3 bits is background blink color in SCREEN 0 width 41-80
-#define R12_SET(_a, _b)				(((_a & 0x0F) << 4) + (_b & 0x0F))
+#define R12_SET(a, b)				((((a) & 0x0F) << 4) + ((b) & 0x0F))
 
 //-----------------------------------------------------------------------------
 // R#13								Blink Period Register
@@ -248,7 +248,7 @@
 //	ON3	ON2	ON1	ON0	OF3	OF2	OF1	OF0
 //	│	│	│	│	└───┴───┴───┴── ON0-ON3 bits set the time for the second period
 //	└───┴───┴───┴────────────────── OF0-OF3 bits set the time for the first period and enables the periodic display when any of these bits are set to 1.
-#define R13_SET(_a, _b)				(((_a & 0x0F) << 4) + (_b & 0x0F))
+#define R13_SET(a, b)				((((a) & 0x0F) << 4) + ((b) & 0x0F))
 
 //-----------------------------------------------------------------------------
 // R#14								VRAM Access Base Register
@@ -430,37 +430,37 @@
 //
 //-----------------------------------------------------------------------------
 
-#define VDP_CMD_HMMC	0xF0 // 1111
-#define VDP_CMD_YMMM	0xE0 // 1110
-#define VDP_CMD_HMMM	0xD0 // 1101
-#define VDP_CMD_HMMV	0xC0 // 1100
-#define VDP_CMD_LMMC	0xB0 // 1011
-#define VDP_CMD_LMCM	0xA0 // 1010
-#define VDP_CMD_LMMM	0x90 // 1001
-#define VDP_CMD_LMMV	0x80 // 1000
-#define VDP_CMD_LINE	0x70 // 0111
-#define VDP_CMD_SRCH	0x60 // 0110
-#define VDP_CMD_PSET	0x50 // 0101
-#define VDP_CMD_POINT	0x40 // 0100
-#define VDP_CMD_STOP	0x00 // 0000
+#define VDP_CMD_HMMC				0xF0 // 1111
+#define VDP_CMD_YMMM				0xE0 // 1110
+#define VDP_CMD_HMMM				0xD0 // 1101
+#define VDP_CMD_HMMV				0xC0 // 1100
+#define VDP_CMD_LMMC				0xB0 // 1011
+#define VDP_CMD_LMCM				0xA0 // 1010
+#define VDP_CMD_LMMM				0x90 // 1001
+#define VDP_CMD_LMMV				0x80 // 1000
+#define VDP_CMD_LINE				0x70 // 0111
+#define VDP_CMD_SRCH				0x60 // 0110
+#define VDP_CMD_PSET				0x50 // 0101
+#define VDP_CMD_POINT				0x40 // 0100
+#define VDP_CMD_STOP				0x00 // 0000
 
-#define VDP_OP_IMP		0x00 // 0000
-#define VDP_OP_AND		0x01 // 0001
-#define VDP_OP_OR		0x02 // 0010
-#define VDP_OP_XOR		0x03 // 0011
-#define VDP_OP_NOT		0x04 // 0100
-#define VDP_OP_TIMP		0x08 // 1000
-#define VDP_OP_TAND		0x09 // 1001
-#define VDP_OP_TOR		0x0A // 1010
-#define VDP_OP_TXOR		0x0B // 1011
-#define VDP_OP_TNOT		0x0C // 1100
+#define VDP_OP_IMP					0x00 // 0000
+#define VDP_OP_AND					0x01 // 0001
+#define VDP_OP_OR					0x02 // 0010
+#define VDP_OP_XOR					0x03 // 0011
+#define VDP_OP_NOT					0x04 // 0100
+#define VDP_OP_TIMP					0x08 // 1000
+#define VDP_OP_TAND					0x09 // 1001
+#define VDP_OP_TOR					0x0A // 1010
+#define VDP_OP_TXOR					0x0B // 1011
+#define VDP_OP_TNOT					0x0C // 1100
 
-#define VDP_ARG_DIY_DOWN	0
-#define VDP_ARG_DIY_UP		8
-#define VDP_ARG_DIX_RIGHT	0
-#define VDP_ARG_DIX_LEFT	4
-#define VDP_ARG_MAJ_H		0 // horizontal
-#define VDP_ARG_MAJ_V		1 // vertical
+#define VDP_ARG_DIY_DOWN			0
+#define VDP_ARG_DIY_UP				8
+#define VDP_ARG_DIX_RIGHT			0
+#define VDP_ARG_DIX_LEFT			4
+#define VDP_ARG_MAJ_H				0 // horizontal
+#define VDP_ARG_MAJ_V				1 // vertical
 
 //-----------------------------------------------------------------------------
 //
@@ -479,7 +479,7 @@
 #define S00_F						0x80
 #define S00_5S						0x40
 #define S00_C						0x20
-#define S00_GET_SN(_a)				(_a & 0x1F)
+#define S00_GET_SN(a)				((a) & 0x1F)
 
 //-----------------------------------------------------------------------------
 // S#1								Status register 1
@@ -492,7 +492,7 @@
 // 	└────────────────────────────── Light pen. Is set if light pen detects light. If IE2 is set, interrupt is generated. Reset when S#1 is read.
 //									Mouse 2. Is set if second button of mouse was pressed. This flag is not reset when reading status register S#1 
 #define S01_FH						0x01
-#define S01_GET_ID(_a)				((_a >> 1) & 0x1F)
+#define S01_GET_ID(a)				(((a) >> 1) & 0x1F)
 #define S01_IPS						0x40
 #define S01_FL						0x80
 
@@ -507,11 +507,11 @@
 //  │	└────────────────────────── Vertical retrace flag. Is set during scanning of VBLANK area of the screen, i.e. during vertical retrace plus while lower and upper borders of the screen is drawn 
 //  └────────────────────────────── Transfer ready flag. If set to 1, indicates to the CPU that VDP is ready for next transfer. Value of 0 means that VDP is not ready 
 #define S02_CE						0x01
-#define S02_EO                      0x02
-#define S02_BD                      0x10
-#define S02_HR                      0x20
-#define S02_VR                      0x40
-#define S02_TR                      0x80
+#define S02_EO						0x02
+#define S02_BD						0x10
+#define S02_HR						0x20
+#define S02_VR						0x40
+#define S02_TR						0x80
 
 //-----------------------------------------------------------------------------
 // S#3								Column register low 

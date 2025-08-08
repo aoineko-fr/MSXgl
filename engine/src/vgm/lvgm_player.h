@@ -91,11 +91,11 @@ enum LVGM_OPTION
 
 // Macro: LVGM_GET_FREQ
 // Get frequency from option
-#define LVGM_GET_FREQ(opt) (opt & LVGM_OPTION_FREQ)
+#define LVGM_GET_FREQ(opt) ((opt) & LVGM_OPTION_FREQ)
 
 // Macro: LVGM_GET_VER
 // Get format version from option
-#define LVGM_GET_VER(opt) (opt >> 4)
+#define LVGM_GET_VER(opt) ((opt) >> 4)
 
 // lVGM audio chips
 enum LVGM_CHIP

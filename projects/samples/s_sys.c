@@ -149,7 +149,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 //
-u8 InterSlotReadPage3(u8 slot, u16 addr)
+u8 InterSlotReadPage3(u8 slot, u16 addr) __NAKED
 {
 	slot;	// A  -> D
 	addr;	// DE -> HL

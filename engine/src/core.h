@@ -93,7 +93,7 @@ typedef void (*callback)(void);				// Callback default signature
 // Get the number of elements of a static initialized structure
 #define numberof(tab)				(sizeof(tab) / sizeof(tab[0]))
 
-#define loop(a, b)					for(u8 a = 0; a < b; ++a)
+#define loop(a, b)					for(u8 a = 0; a < (b); ++a)
 #define loopx(a)					for(u8 i##__LINE__ = 0; i##__LINE__ < a; ++i##__LINE__)
 
 //-----------------------------------------------------------------------------
@@ -133,7 +133,7 @@ typedef void (*callback)(void);				// Callback default signature
 #define FC8(a)						(u8)(a)					// L
 // For 16 bits parameters
 #define FC16(a)						(u16)(a)				// HL
-#define FC88(a, b)					(u16)((a << 8) + (b))	// H, L
+#define FC88(a, b)					(u16)(((a) << 8) + (b))	// H, L
 // For 32 bits parameters
 #define FC32(a)						(u32)(a)															// DE:HL
 #define FC1616(a, b)				(u32)(((u32)(a) << 16) + (b))										// DE, HL
@@ -180,9 +180,9 @@ typedef void (*callback)(void);				// Callback default signature
 #define BIT_14						0x4000
 #define BIT_15						0x8000	// 16 bits MSB
 
-#define BIT_SET(val, bit)			val |=  (1 << bit)  	// Macro to set a given bit in an integer
-#define BIT_CLR(val, bit)			val &= ~(1 << bit)  	// Macro to clear a given bit in an integer
-#define BIT_ISSET(val, bit)			(val & (1 << bit) != 0)	// Macro to tell if a given bit is set or not
+#define BIT_SET(val, bit)			val |=  (1 << (bit))  		// Macro to set a given bit in an integer
+#define BIT_CLR(val, bit)			val &= ~(1 << (bit))  		// Macro to clear a given bit in an integer
+#define BIT_ISSET(val, bit)			((val) & (1 << (bit)) != 0)	// Macro to tell if a given bit is set or not
 
 //-----------------------------------------------------------------------------
 // Misc.

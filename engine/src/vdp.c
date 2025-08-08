@@ -27,22 +27,22 @@
 
 // VDP Registers Flags
 #if (VDP_USE_16X16_SPRITE)
-#define VDP_SPRITE_COLORS	16
+#define VDP_SPRITE_COLORS			16
 #else
-#define VDP_SPRITE_COLORS	8
+#define VDP_SPRITE_COLORS			8
 #endif
 
 // Handle interruptions disabling
 #if (VDP_ISR_SAFE_MODE == VDP_ISR_SAFE_ALL)
-	#define VDP_DI_ALL		di
-	#define VDP_EI_ALL		ei
+	#define VDP_DI_ALL				di
+	#define VDP_EI_ALL				ei
 	#define VDP_DI_DEF
 	#define VDP_EI_DEF
 #elif (VDP_ISR_SAFE_MODE == VDP_ISR_SAFE_DEFAULT)
 	#define VDP_DI_ALL
 	#define VDP_EI_ALL
-	#define VDP_DI_DEF		di
-	#define VDP_EI_DEF		ei
+	#define VDP_DI_DEF				di
+	#define VDP_EI_DEF				ei
 #else // (VDP_ISR_SAFE_MODE == VDP_ISR_SAFE_NONE)
 	#define VDP_DI_ALL
 	#define VDP_EI_ALL
@@ -54,8 +54,8 @@
 	#define VDP_DI
 	#define VDP_EI
 #else
-	#define VDP_DI			di
-	#define VDP_EI			ei
+	#define VDP_DI					di
+	#define VDP_EI					ei
 #endif
 
 // #if ((MSX_VERSION & MSX_1) && (VDP_USE_MODE_G1 || VDP_USE_MODE_G2 || VDP_USE_MODE_MC)) // Worst case 29 cc

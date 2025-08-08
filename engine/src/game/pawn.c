@@ -60,9 +60,9 @@
 
 // Tile map getter macro
 #if (PAWN_TILEMAP_SRC == PAWN_TILEMAP_SRC_RAM)
-	#define PAWN_GET_TILE(X, Y)		g_Pawn_TileMap[(Y * PAWN_TILEMAP_WIDTH) + X]
+	#define PAWN_GET_TILE(X, Y)		g_Pawn_TileMap[((Y) * PAWN_TILEMAP_WIDTH) + (X)]
 #elif (PAWN_TILEMAP_SRC == PAWN_TILEMAP_SRC_VRAM)
-	#define PAWN_GET_TILE(X, Y)		VDP_Peek(g_ScreenLayoutLow + (Y * PAWN_TILEMAP_WIDTH) + X, g_ScreenLayoutHigh)
+	#define PAWN_GET_TILE(X, Y)		VDP_Peek(g_ScreenLayoutLow + ((Y) * PAWN_TILEMAP_WIDTH) + (X), g_ScreenLayoutHigh)
 #elif (PAWN_TILEMAP_SRC == PAWN_TILEMAP_SRC_V9)
 	#define PAWN_GET_TILE(X, Y)		V9_Peek(V9_CellAddrP1A(X, Y))
 #endif

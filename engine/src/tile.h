@@ -63,12 +63,12 @@
 //=============================================================================
 
 // Precomputed values
-#define TILE_PER_ROW				(TILE_SCREEN_WIDTH / TILE_WIDTH)
-#define TILE_PER_COLUMN				(TILE_SCREEN_HEIGHT / TILE_HEIGHT)
-#define TILE_CELL_BYTES				(TILE_WIDTH * TILE_HEIGHT * TILE_BPP / 8)
-#define TILE_PAGE_SIZE				(u32)((u32)256 * 256 * TILE_BPP / 8)
+#define TILE_PER_ROW				((TILE_SCREEN_WIDTH) / (TILE_WIDTH))
+#define TILE_PER_COLUMN				((TILE_SCREEN_HEIGHT) / (TILE_HEIGHT))
+#define TILE_CELL_BYTES				((TILE_WIDTH) * (TILE_HEIGHT) * (TILE_BPP) / 8)
+#define TILE_PAGE_SIZE				(u32)((u32)256 * 256 * (TILE_BPP) / 8)
 #define TILE_BANK_WIDTH				TILE_SCREEN_WIDTH
-#define TILE_BANK_HEIGHT			(u16)((u32)TILE_WIDTH * TILE_HEIGHT * 256 / TILE_SCREEN_WIDTH)
+#define TILE_BANK_HEIGHT			(u16)((u32)(TILE_WIDTH) * (TILE_HEIGHT) * 256 / (TILE_SCREEN_WIDTH))
 
 // Current pattern bank
 extern u8  g_Tile_CurBank;
