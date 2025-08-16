@@ -228,13 +228,13 @@ void main()
 	Print_DrawText("Loop:\n");
 	Print_DrawText("Ended:");
 	
-	g_Freq50Hz = g_ROMVersion.VSF ? 1 : 0;
+	g_Freq50Hz = Sys_Is50Hz() ? 1 : 0;
 
 	Print_SetPosition(0, 18);
 	Print_DrawFormat("Freq: %s", (g_Freq50Hz) ? "50Hz" : "60Hz");
 
 	Print_SetPosition(20, 18);
-	Print_DrawFormat("BIOS: %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
+	Print_DrawFormat("BIOS: %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
 
 	// Footer
 	Print_DrawLineH(0, 22, 32);

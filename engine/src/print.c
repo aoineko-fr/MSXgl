@@ -399,7 +399,7 @@ void Print_SetColor(u8 text, u8 bg)
 			#endif
 			#if (PRINT_COLOR_NUM == 1)
 				g_PrintData.TextColor = t;
-			#else // if (PRINT_COLOR_NUM > 1)
+			#else // if(PRINT_COLOR_NUM > 1)
 				for(u8 i = 0; i < PRINT_COLOR_NUM; ++i)
 				{
 					g_PrintData.TextColor[i] = t;

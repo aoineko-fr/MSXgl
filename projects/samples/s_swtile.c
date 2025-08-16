@@ -196,7 +196,7 @@ void PhysicsEvent(u8 event, u8 tile)
 		break;
 	
 	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
-		if (g_bJumping)
+		if(g_bJumping)
 		{
 			DEBUG_LOGNUM("Velocity", g_VelocityY);
 			DEBUG_LOG("Land on ground!");

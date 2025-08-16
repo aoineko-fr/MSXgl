@@ -26,16 +26,13 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Initialize music and start playback
-void AKG_Init(const void* data, u8 sng) __NAKED
+void AKG_Play(u8 sng, const void* data) __NAKED
 {
-	data;	// HL
-	sng;	// SP[2]
+	sng;	// A
+	data;	// DE
 
 __asm
-	pop		bc					// Retreive return address
-	dec		sp					// Adjust Stack-pointer
-	pop		af					// Retreive sng in A
-	push	bc
+	ex		de, hl
 	// Initializes the player.
 	// IN:    HL = music address.
 	//        A = subsong index (>=0).

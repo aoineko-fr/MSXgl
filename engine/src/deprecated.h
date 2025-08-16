@@ -104,6 +104,7 @@
 #define POKEW						Poke16
 #define PEEK						Peek
 #define PEEKW						Poke16
+#define Sys_GetBASICVersion			Sys_GetBIOSInfo
 
 // V9990 module
 #define V9_SetLayerPalette          V9_SelectPaletteP1
@@ -187,3 +188,8 @@
 #define Game_Sprite					Pawn_Sprite
 #define Game_PhysicsCB				Pawn_PhysicsCB
 #define Game_CollisionCB			Pawn_CollisionCB
+
+// Arkos modules
+#define AKG_Init(data, sng)			AKG_Play(sng, data)
+#define AKY_Init(data, sng)			AKY_Play(sng, data)
+#define AKM_Init(data, sng)			AKM_Play(sng, data)

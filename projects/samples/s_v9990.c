@@ -160,7 +160,7 @@ bool g_KeyPressed[256];
 
 void InitPalette()
 {
-	switch (g_ScreenMode[g_CurrentScreen].Mode)
+	switch(g_ScreenMode[g_CurrentScreen].Mode)
 	{
 	case V9_MODE_P1:
 	case V9_MODE_P2:
@@ -600,7 +600,7 @@ void InitBmp()
 		// 		V9_Poke((u32)(0 + (u32)(512 * (u32)(256 + 0 + i)) + j), (j & 1) ? 0b11100100 : 0b00011011);
 		V9_FillVRAM(BMP_TILES_Y * 256, 0b00000000, 256 * 72);
 	}
-	else if (g_CurrentColor == V9_COLOR_BP4)
+	else if(g_CurrentColor == V9_COLOR_BP4)
 	{
 		bgColor = 0x6666;
 		InitPalette();
@@ -615,20 +615,20 @@ void InitBmp()
 			loop(j, 128)
 			{
 				u8 v = *(const u8*)(g_DataV9Font + (128 * i) + j);
-				if ((v & 0xF0) == 0x00)
+				if((v & 0xF0) == 0x00)
 					v |= 0x60;
-				else if ((v & 0xF0) == 0x60)
+				else if((v & 0xF0) == 0x60)
 					v &= 0x0F;
-				if ((v & 0x0F) == 0x00)
+				if((v & 0x0F) == 0x00)
 					v |= 0x06;
-				else if ((v & 0x0F) == 0x06)
+				else if((v & 0x0F) == 0x06)
 					v &= 0xF0;
 				buf[j] = v;
 			}
 			V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(BMP_TILES_Y + 48 + i))), buf, 128);
 		}
 	}
-	else if (g_CurrentColor == V9_COLOR_BD8)
+	else if(g_CurrentColor == V9_COLOR_BD8)
 	{
 		bgColor = 0x8787;
 		// Load graphics data to VRAM
@@ -651,16 +651,16 @@ void InitBmp()
 	V9_WaitCmdEnd();
 	V9_CommandLMMV(0, 0, 1024, 256, 0, bgColor);
 
-	for (u16 i = 0; i < 128; ++i) // Draw ground
+	for(u16 i = 0; i < 128; ++i) // Draw ground
 	{
-		for (u16 j = V9_HORIZON_Y; j < 32; j++)
+		for(u16 j = V9_HORIZON_Y; j < 32; j++)
 		{
 			u8 cell;
-			if (j == V9_HORIZON_Y)
+			if(j == V9_HORIZON_Y)
 				cell = 128 + i % 4;
-			else if (j < V9_GROUND_Y)
+			else if(j < V9_GROUND_Y)
 				cell = 160;
-			else if (j == V9_GROUND_Y)
+			else if(j == V9_GROUND_Y)
 				cell = 33 + i % 2;
 			else
 			{
@@ -675,12 +675,12 @@ void InitBmp()
 	{
 		u16 x = i * 8;
 		u8 y = Math_GetRandom8() % 8 + 10;
-		for (u8 j = y; j < V9_GROUND_Y; j++)
+		for(u8 j = y; j < V9_GROUND_Y; j++)
 		{
 			u8 cell;
-			if (j == y)
+			if(j == y)
 				cell = 32;
-			else if (((j - y) & 1))
+			else if(((j - y) & 1))
 				cell = 64;
 			else
 				cell = 96;
@@ -717,14 +717,14 @@ void InitBmp()
 //
 void TickBmp()
 {
-	if (g_CurrentColor == V9_COLOR_BP4)
+	if(g_CurrentColor == V9_COLOR_BP4)
 		V9_SelectPaletteBP4(1);
 
 	V9_SetScrollingX(0);
 
 	if(Keyboard_IsKeyPressed(KEY_H))
 	{
-		if (g_CurrentColor == V9_COLOR_BP4)
+		if(g_CurrentColor == V9_COLOR_BP4)
 			V9_SelectPaletteBP4(0);
 
 		V9_SetScrollingX(0);
@@ -749,7 +749,7 @@ void TickBmp()
 //
 void HblankBmp()
 {
-	if (g_CurrentColor == V9_COLOR_BP4)
+	if(g_CurrentColor == V9_COLOR_BP4)
 		V9_SelectPaletteBP4(0);
 
 	V9_SetScrollingX(g_Frame >> 0);

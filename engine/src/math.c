@@ -290,7 +290,7 @@ void Math_SetRandomSeed8(u8 seed) { g_RandomSeed8 = seed; }
 u8 Math_GetRandom8() __NAKED
 {
 __asm
-#if(1)
+#if (1)
 	ld      a, (_g_RandomSeed8)
 	ld		b, a
 	ld		a, r
@@ -325,7 +325,7 @@ void Math_SetRandomSeed8(u8 seed) { g_RandomSeed8 = (u16)seed; }
 u8 Math_GetRandom8() __NAKED
 {
 __asm
-#if(0)
+#if (0)
 	ld		hl, (_g_RandomSeed8)
 	ld		a, r
 	ld		d, a

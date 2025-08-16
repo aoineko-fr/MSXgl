@@ -65,7 +65,7 @@ void PSG_SetRegister(u8 reg, u8 value)
 	ptr += reg;
 	*ptr = value;
 
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 
 	PSG_VAR_REG = reg;
 	PSG_VAR_WRITE = value;
@@ -83,7 +83,7 @@ u8 PSG_GetRegister(u8 reg)
 	ptr += reg;
 	return *ptr;
 
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 
 	PSG_VAR_REG = reg;
 	return PSG_VAR_READ;
@@ -104,7 +104,7 @@ void PSG_SetTone(u8 chan, u16 period)
 	*ptr = (u8)period;
 	*++ptr = (u8)(period >> 8);
 
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 
 	u8 reg = (chan * 2);
 	PSG_VAR_REG = reg;
@@ -124,7 +124,7 @@ void PSG_SetNoise(u8 period)
 	u8* ptr = (u8*)g_PSG_Regs + PSG_REG_NOISE;
 	*ptr = period;
 
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 
 	PSG_VAR_REG = PSG_REG_NOISE;
 	PSG_VAR_WRITE = period;
@@ -141,7 +141,7 @@ void PSG_SetMixer(u8 mix)
 	u8* ptr = (u8*)g_PSG_Regs + PSG_REG_MIXER;
 	*ptr = ~mix; // with PSG_INDIRECT bit #6 & #7 are handled in PSG_Apply() function
 
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 
 	PSG_VAR_REG = PSG_REG_MIXER;
 	PSG_VAR_WRITE = ~mix;
@@ -159,7 +159,7 @@ void PSG_SetVolume(u8 chan, u8 vol)
 	ptr += chan;
 	*ptr = vol;
 
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 
 	PSG_VAR_REG = PSG_REG_AMP_A + chan;
 	PSG_VAR_WRITE = vol;
@@ -175,7 +175,7 @@ void PSG_SetEnvelope(u16 period)
 
 	g_PSG_Regs.Envelope = period;
 
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 
 	u8 reg = PSG_REG_ENV;
 	PSG_VAR_REG = reg;
@@ -194,7 +194,7 @@ void PSG_SetShape(u8 shape)
 
 	g_PSG_Regs.Shape = shape;
 
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 
 	PSG_VAR_REG = PSG_REG_SHAPE;
 	PSG_VAR_WRITE = shape;
@@ -208,7 +208,7 @@ void PSG_EnableTone(u8 chan, bool val)
 {
 #if (PSG_ACCESS == PSG_INDIRECT)
 	u8 mix = g_PSG_Regs.Mixer;
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 	PSG_VAR_REG = PSG_REG_MIXER;
 	u8 mix = PSG_VAR_READ;
 #endif
@@ -221,7 +221,7 @@ void PSG_EnableTone(u8 chan, bool val)
 	
 #if (PSG_ACCESS == PSG_INDIRECT)
 	g_PSG_Regs.Mixer = mix;
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 	PSG_VAR_WRITE = mix;
 #endif
 }
@@ -232,7 +232,7 @@ void PSG_EnableNoise(u8 chan, bool val)
 {
 #if (PSG_ACCESS == PSG_INDIRECT)
 	u8 mix = g_PSG_Regs.Mixer;
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 	PSG_VAR_REG = PSG_REG_MIXER;
 	u8 mix = PSG_VAR_READ;
 #endif
@@ -245,7 +245,7 @@ void PSG_EnableNoise(u8 chan, bool val)
 	
 #if (PSG_ACCESS == PSG_INDIRECT)
 	g_PSG_Regs.Mixer = mix;
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 	PSG_VAR_WRITE = mix;
 #endif
 }
@@ -256,7 +256,7 @@ void PSG_EnableEnvelope(u8 chan, bool val)
 {
 #if (PSG_ACCESS == PSG_INDIRECT)
 	u8 vol = g_PSG_Regs.Volume[chan];
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 	PSG_VAR_REG = PSG_REG_AMP_A + chan;
 	u8 vol = PSG_VAR_READ;
 #endif
@@ -268,7 +268,7 @@ void PSG_EnableEnvelope(u8 chan, bool val)
 	
 #if (PSG_ACCESS == PSG_INDIRECT)
 	g_PSG_Regs.Volume[chan] = vol;
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 	PSG_VAR_WRITE = vol;
 #endif
 }
@@ -289,7 +289,7 @@ void PSG_Mute()
 		g_PSG_Regs.Volume[i] = 0;
 	}
 
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 
 	loop(i, 3)
 	{
@@ -315,7 +315,7 @@ void PSG_Resume()
 		g_PSG_Regs.Volume[i] = g_PSG_VolumeBackup[i];
 	}
 
-#else // if (PSG_ACCESS == PSG_DIRECT)
+#else // if(PSG_ACCESS == PSG_DIRECT)
 
 	loop(i, 3)
 	{

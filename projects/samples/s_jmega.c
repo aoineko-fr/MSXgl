@@ -42,7 +42,7 @@ u16 g_PrevID[2] = { 0xFF, 0xFF };
 void Update_MSXHID(u8 i)
 {
 	u16 id = HID_Detect(i == 0 ? INPUT_PORT1 : INPUT_PORT2);
-	if (id == g_PrevID[i])
+	if(id == g_PrevID[i])
 		return;
 
 	g_PrevID[i] = id;

@@ -119,7 +119,7 @@ bool g_Boolean = TRUE;
 const c8* MenuAction_Screen(u8 op, i8 value)
 {
 	value;
-	switch (op) // 'op' represents the operation performed on the menu entry when this function is called.
+	switch(op) // 'op' represents the operation performed on the menu entry when this function is called.
 	{
 		case MENU_ACTION_GET: // Recovers the value of the input to be displayed.
 			return g_ModeInfos[g_ScreenId].Name;
@@ -143,7 +143,7 @@ const c8* MenuAction_Screen(u8 op, i8 value)
 // Program entry point
 const c8* MenuAction_Start(u8 op, i8 value)
 {
-	if (op == MENU_ACTION_SET) // Manages trigger button pressing
+	if(op == MENU_ACTION_SET) // Manages trigger button pressing
 	{
 		switch(value) // 'value' is defined in the menu entries table (so the same callback function can be called several times with different values)
 		{

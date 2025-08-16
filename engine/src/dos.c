@@ -13,7 +13,7 @@
 #include "dos.h"
 #include "bios.h"
 
-#if (DOS_USE_VALIDATOR)
+#if ((DOS_USE_VALIDATOR) || (DOS_USE_ERROR_HANDLER))
 // Backup of the last error value
 u8 g_DOS_LastError;
 #endif
@@ -26,10 +26,155 @@ DOS_FIB g_DOS_LastFIB;
 DOS_Time g_DOS_Time;
 #endif
 
+#if (DOS_USE_ERROR_HANDLER)
+// Pointer to the error handler
+void* g_DOS_ErrorHandler;
+
+// Stack pointer for the error handler
+void* g_DOS_ErrorStack;
+#endif
+
+// Macro to call BDOS with stack backup
+#if (DOS_USE_ERROR_HANDLER)
+	#define BACKUP_STACK			ld (_g_DOS_ErrorStack), sp
+#else
+	#define BACKUP_STACK
+#endif
 
 //=============================================================================
 // MSX-DOS 1 FUNCTIONS
 //=============================================================================
+
+
+#if (DOS_USE_BIOSCALL)
+
+//-----------------------------------------------------------------------------
+// Function : Reads the value of an address in another slot
+// Input    : A  - ExxxSSPP  Slot-ID
+//                 │   ││└┴─ Primary slot number (00-11)
+//                 │   └┴─── Secondary slot number (00-11)
+//                 └──────── Expanded slot (0 = no, 1 = yes)
+//            HL - Address to read
+// Output   : A  - Contains the value of the read address
+// Registers: AF, C, DE
+// Remark   : Can be call directly from MSX-DOS
+//            This routine turns off the interupt, but won't turn it on again
+u8 DOS_InterSlotRead(u8 slot, u16 addr) __NAKED
+{
+	slot; // A
+	addr; // DE
+	__asm
+		ex		de, hl
+		call	R_RDSLT
+		ret
+	__endasm;
+}
+
+// Function : Writes a value to an address in another slot
+// Input    : A  - ExxxSSPP  Slot-ID
+//                 │   ││└┴─ Primary slot number (00-11)
+//                 │   └┴─── Secondary slot number (00-11)
+//                 └──────── Expanded slot (0 = no, 1 = yes)
+//            HL - Address
+//            E  - Value
+// Registers: AF, BC, D
+// Remark   : Can be call directly from MSX-DOS
+//            This routine turns off the interupt, but won't turn it on again
+void DOS_InterSlotWrite(u8 slot, u16 addr, u8 value)
+{
+	slot;  // A
+	addr;  // DE
+	value; // (SP+4)
+	__asm
+		ld		iy, #4
+		add		iy, sp
+
+		ld		l, e
+		ld		h, d
+		ld		e, 0(iy)	
+		call	R_WRSLT
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Function : Executes inter-slot call.
+// Input    : IY - High byte with slot ID, see RDSLT
+//            IX - The address that will be called
+// Remark   : Can be call directly from MSX-DOS
+//            Variables can never be given in alternative registers or IX and IY
+void DOS_InterSlotCall(u8 slot, u16 addr)
+{
+	slot; // A
+	addr; // DE
+	__asm
+		push	ix
+
+		ld		l, #0
+		ld		h, a
+		push	hl
+		pop		iy
+
+		push	de
+		pop		ix
+
+		call	R_CALSLT
+
+		ei							// because CALSLT do DI
+		pop		ix
+	__endasm;
+}
+
+#endif // (DOS_USE_BIOSCALL)
+
+
+
+
+
+
+#if (DOS_USE_ERROR_HANDLER)
+
+//-----------------------------------------------------------------------------
+// Error handler
+void DOS_ErrorHandler() __NAKED
+{
+__asm
+	ld		a, c					;// Get error code
+	or		a, #0x70				;// Add marker so 0 is no error
+	ld		(_g_DOS_LastError), a	;// Save the error code
+	// ld		c, #DOS1_ERROR_RET_ABORT ;// Return 'Abort' action
+	ld		sp, (_g_DOS_ErrorStack)		;// Restore stack pointer
+	ret
+__endasm;
+}
+
+
+//-----------------------------------------------------------------------------
+// Abort error andler
+void DOS_AbortHandler() __NAKED
+{
+__asm
+	ld		sp, (_g_DOS_ErrorStack)		;// Restore stack pointer
+	ret
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Install the DOS error handler in RAM (page 3).
+void DOS_InitErrorHandler()
+{
+	// Install error handler to memory
+	void* ptr = 0xD000;//Mem_HeapAlloc(16);
+	Mem_Copy((const void*)DOS_ErrorHandler, ptr, 16);
+	g_DOS_ErrorHandler = ptr;
+	Poke16(M_DISKVE, (u16)&g_DOS_ErrorHandler);
+
+	// // Install abort handler to memory
+	// ptr = 0xD010;//Mem_HeapAlloc(8);
+	// Mem_Copy((const void*)DOS_AbortHandler, ptr, 8);
+	// Poke16(0xF1E6, (u16)ptr);
+}
+
+#endif // (DOS_USE_ERROR_HANDLER)
 
 //-----------------------------------------------------------------------------
 // Call a BDOS function
@@ -122,11 +267,28 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
+// Get free space on disk
+u16 DOS_GetFreeSpace(u8 drive) __NAKED
+{
+	drive;	// HL
+
+__asm
+	push	ix
+	ld		e, a
+	ld		c, #DOS_FUNC_ALLOC
+	call	BDOS
+	pop		ix
+	ex		de, hl
+	ret
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
 // Open file
 //  The unopened FCB must contain a drive which may be zero to indicate the current drive and a filename and extension which may be ambiguous.
 //  The current directory of the specified drive will be searched for a matching file and if found it will be opened.
 //  Matching entries which are sub-directories or system files will be ignored, and if the filename is ambiguous then the first suitable matching entry will be opened.
-u8 DOS_OpenFCB(FCB* stream) __NAKED
+u8 DOS_OpenFCB(DOS_FCB* stream) __NAKED
 {
 	stream;	// HL
 
@@ -136,6 +298,7 @@ __asm
 	ex		de, hl
 	// Open file
 	ld		c, #DOS_FUNC_FOPEN
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
@@ -147,7 +310,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Create file
-u8 DOS_CreateFCB(FCB* stream) __NAKED
+u8 DOS_CreateFCB(DOS_FCB* stream) __NAKED
 {
 	stream;	// HL
 
@@ -157,6 +320,7 @@ __asm
 	ex		de, hl
 	// Create file
 	ld		c, #DOS_FUNC_FMAKE
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
@@ -168,7 +332,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Close file
-u8 DOS_CloseFCB(FCB* stream) __NAKED
+u8 DOS_CloseFCB(DOS_FCB* stream) __NAKED
 {
 	stream;	// HL
 
@@ -178,6 +342,29 @@ __asm
 	ex		de, hl
 	// Close file
 	ld		c, #DOS_FUNC_FCLOSE
+	BACKUP_STACK
+	call	BDOS
+#if (DOS_USE_VALIDATOR)
+	ld		(_g_DOS_LastError), a
+#endif
+	pop		ix
+	ret								// return value in A
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Delete file
+u8 DOS_DeleteFCB(DOS_FCB* stream) __NAKED
+{
+	stream;	// HL
+
+__asm
+	push	ix
+	// FCB pointer
+	ex		de, hl
+	// Sequential read
+	ld		c, #DOS_FUNC_FDEL
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
@@ -189,7 +376,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Sequential read
-u8 DOS_SequentialReadFCB(FCB* stream) __NAKED
+u8 DOS_SequentialReadFCB(DOS_FCB* stream) __NAKED
 {
 	stream;	// HL
 
@@ -199,6 +386,7 @@ __asm
 	ex		de, hl
 	// Sequential read
 	ld		c, #DOS_FUNC_RDSEQ
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
@@ -210,7 +398,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Sequential write
-u8 DOS_SequentialWriteFCB(FCB* stream) __NAKED
+u8 DOS_SequentialWriteFCB(DOS_FCB* stream) __NAKED
 {
 	stream;	// HL
 
@@ -220,6 +408,7 @@ __asm
 	ex		de, hl
 	// Sequential write
 	ld		c, #DOS_FUNC_WRSEQ
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
@@ -231,7 +420,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Random block write
-u8 DOS_RandomBlockWriteFCB(FCB* stream, u16 records) __NAKED
+u8 DOS_RandomBlockWriteFCB(DOS_FCB* stream, u16 records) __NAKED
 {
 	stream;		// HL
 	records;	// DE
@@ -242,6 +431,7 @@ __asm
 	ex		de, hl
 	// Write random block
 	ld		c, #DOS_FUNC_WRBLK
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
@@ -253,7 +443,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Random block read
-u16 DOS_RandomBlockReadFCB(FCB* stream, u16 records) __NAKED
+u16 DOS_RandomBlockReadFCB(DOS_FCB* stream, u16 records) __NAKED
 {
 	stream;		// HL
 	records;	// DE
@@ -264,6 +454,7 @@ __asm
 	ex		de, hl
 	// Read random block
 	ld		c, #DOS_FUNC_RDBLK
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
@@ -276,7 +467,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Search the first file matched with wildcard
-u8 DOS_FindFirstFileFCB(FCB* stream) __NAKED
+u8 DOS_FindFirstFileFCB(DOS_FCB* stream) __NAKED
 {
 	stream; // HL
 
@@ -285,6 +476,7 @@ __asm
 	// FCB pointer
 	ex		de, hl
 	ld		c, #DOS_FUNC_SFIRST
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
@@ -301,6 +493,7 @@ u8 DOS_FindNextFileFCB() __NAKED
 __asm
 	push	ix
 	ld		c, #DOS_FUNC_SNEXT
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
@@ -553,7 +746,7 @@ u8 DOS_DeleteHandle(u8 file) __NAKED
 __asm
 	ld		b, a
 	ld		c, #DOS_FUNC_HDELETE	// DOS routine
-	jp		BDOS
+	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
@@ -572,7 +765,7 @@ __asm
 	ex		de, hl
 	ld		b, a
 	ld		c, #DOS_FUNC_HRENAME	// DOS routine
-	jp		BDOS
+	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
@@ -591,7 +784,7 @@ __asm
 	ex		de, hl
 	ld		b, a
 	ld		c, #DOS_FUNC_HMOVE		// DOS routine
-	jp		BDOS
+	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
@@ -610,7 +803,7 @@ __asm
 	ld		b, a
 	ld		a, #1					// A==1 => Set attributes
 	ld		c, #DOS_FUNC_HATTR		// DOS routine
-	jp		BDOS
+	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 	or		a
@@ -634,7 +827,7 @@ __asm
 	ld		b, a
 	xor		a						// A==0 => Get attributes
 	ld		c, #DOS_FUNC_HATTR		// DOS routine
-	jp		BDOS
+	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 	or		a

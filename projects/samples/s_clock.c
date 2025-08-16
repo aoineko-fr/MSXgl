@@ -286,7 +286,7 @@ void UpdateClock()
 	g_PrevSec = g_Sec;
 	g_Sec = RTC_GetSecond();
 
-	// Wait for (linkly) the screen synchronization interruption
+	// Wait for(linkly) the screen synchronization interruption
 	Halt();
 
 	// Update display
@@ -444,7 +444,7 @@ void DisplaySaveData()
 // Update the save data
 void UpdateSaveData()
 {
-	// Wait for (linkly) the screen synchronization interruption
+	// Wait for(linkly) the screen synchronization interruption
 	Halt();
 
 	if(Keyboard_IsKeyPressed(KEY_SPACE))

@@ -345,13 +345,13 @@ void LVGM_Decode()
 	{
 		u8 op = *g_LVGM_Pointer & 0xF0;
 
-		if (op == 0xE0) // Wait n+1 cycles (1~16)
+		if(op == 0xE0) // Wait n+1 cycles (1~16)
 		{
 			g_LVGM_Wait += (*g_LVGM_Pointer & 0x0F);
 			g_LVGM_Pointer++;
 			return;
 		}
-		else if (op == 0xF0) // Special markers
+		else if(op == 0xF0) // Special markers
 		{
 			switch(*g_LVGM_Pointer)
 			{

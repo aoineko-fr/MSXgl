@@ -824,7 +824,7 @@ inline void V9_SetSpriteInfoP1(u8 id, u8 info) { V9_Poke(V9_P1_SPAT + 3 + (id * 
 inline void V9_SetSpriteEnableP1(u8 id, bool enable)
 {
 	u8 val = V9_Peek(V9_P1_SPAT + 3 + (id * 4));
-	if (enable)
+	if(enable)
 		val &= ~V9_SPAT_DISABLE_MASK;
 	else
 		val |= V9_SPAT_DISABLE_MASK;
@@ -848,7 +848,7 @@ inline void V9_SetSpriteDisableP1(u8 id, bool disable) { V9_SetSpriteEnableP1(id
 inline void V9_SetSpritePriorityP1(u8 id, u8 prio)
 {
 	u8 val = V9_Peek(V9_P1_SPAT + 3 + (id * 4));
-	if (prio)
+	if(prio)
 		val &= ~V9_SPAT_PRIORITY_MASK;
 	else
 		val |= V9_SPAT_PRIORITY_MASK;
@@ -926,7 +926,7 @@ inline void V9_SetSpriteInfoP2(u8 id, u8 info) { V9_Poke(V9_P2_SPAT + 3 + (id * 
 inline void V9_SetSpriteEnableP2(u8 id, bool enable)
 {
 	u8 val = V9_Peek(V9_P2_SPAT + 3 + (id * 4));
-	if (enable)
+	if(enable)
 		val &= ~V9_SPAT_DISABLE_MASK;
 	else
 		val |= V9_SPAT_DISABLE_MASK;
@@ -950,7 +950,7 @@ inline void V9_SetSpriteDisableP2(u8 id, bool disable) { V9_SetSpriteEnableP2(id
 inline void V9_SetSpritePriorityP2(u8 id, u8 prio)
 {
 	u8 val = V9_Peek(V9_P2_SPAT + 3 + (id * 4));
-	if (prio)
+	if(prio)
 		val &= ~V9_SPAT_PRIORITY_MASK;
 	else
 		val |= V9_SPAT_PRIORITY_MASK;

@@ -309,12 +309,12 @@ void DisplayInfo()
 	Print_DrawText("System");
 	// MSX version
 	Print_DrawText("\n- Version: ");
-	switch(g_MSXVER)
+	switch(Sys_GetMSXVersion())
 	{
-		case 0: Print_DrawText("MSX1"); break;
-		case 1: Print_DrawText("MSX2"); break;
-		case 2: Print_DrawText("MSX2+"); break;
-		case 3: Print_DrawText("TurboR"); break;
+		case MSXVER_1:  Print_DrawText("MSX1"); break;
+		case MSXVER_2:  Print_DrawText("MSX2"); break;
+		case MSXVER_2P: Print_DrawText("MSX2+"); break;
+		case MSXVER_TR: Print_DrawText("TurboR"); break;
 		default: Print_DrawText("Unknow"); break;
 	}
 	Print_DrawText("\n- Font:    ");

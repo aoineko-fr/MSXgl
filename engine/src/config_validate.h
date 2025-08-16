@@ -76,28 +76,28 @@
 #endif // (MSX_VERSION == MSX_1)
 
 // Check PRINT_USE_BITMAP dependency
-#if(!PRINT_USE_BITMAP)
-	#if(PRINT_USE_VRAM)
+#if (!PRINT_USE_BITMAP)
+	#if (PRINT_USE_VRAM)
 		#warning PRINT_USE_VRAM need PRINT_USE_BITMAP to be set! Option will be disable
 		#undef  PRINT_USE_VRAM
 		#define PRINT_USE_VRAM			FALSE
 	#endif
 
-	#if(PRINT_USE_FX_SHADOW)
+	#if (PRINT_USE_FX_SHADOW)
 		#warning PRINT_USE_FX_SHADOW need PRINT_USE_BITMAP to be set! Option will be disable
 		#undef  PRINT_USE_FX_SHADOW
 		#define PRINT_USE_FX_SHADOW		FALSE
 	#endif
 
-	#if(PRINT_USE_FX_OUTLINE)
+	#if (PRINT_USE_FX_OUTLINE)
 		#warning PRINT_USE_FX_OUTLINE need PRINT_USE_BITMAP to be set! Option will be disable
 		#undef  PRINT_USE_FX_OUTLINE
 		#define PRINT_USE_FX_OUTLINE	FALSE
 	#endif
 #endif // (!PRINT_USE_BITMAP)
 
-#if(PRINT_USE_BITMAP)
-	#if(!VDP_USE_COMMAND)
+#if (PRINT_USE_BITMAP)
+	#if (!VDP_USE_COMMAND)
 		#warning PRINT_USE_BITMAP need VDP_USE_COMMAND to be set! Option will be enable
 		#undef  VDP_USE_COMMAND
 		#define VDP_USE_COMMAND			TRUE
@@ -105,8 +105,8 @@
 #endif
 
 // Check PRINT_USE_SPRITE dependency
-#if(PRINT_USE_SPRITE)
-	#if(!VDP_USE_SPRITE)
+#if (PRINT_USE_SPRITE)
+	#if (!VDP_USE_SPRITE)
 		#warning PRINT_USE_SPRITE need VDP_USE_SPRITE to be set! Option will be enable
 		#undef  VDP_USE_SPRITE
 		#define VDP_USE_SPRITE			TRUE

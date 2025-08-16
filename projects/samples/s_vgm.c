@@ -197,7 +197,7 @@ void DrawVGM(const u8* ptr)
 		{
 			Print_DrawText("END!!!");
 		}
-		else if ((*ptr & 0xF0) == 0x70) // wait n+1 samples, n can range from 0 to 15.
+		else if((*ptr & 0xF0) == 0x70) // wait n+1 samples, n can range from 0 to 15.
 		{
 			Print_DrawFormat("W=%1x   ", 1 + *ptr & 0x0F);
 		}
@@ -365,7 +365,7 @@ void main()
 	Print_SetPosition(20, 7);
 	Print_DrawText("Main-ROM:");
 	Print_SetPosition(20, 8);
-	Print_DrawFormat("\x07" "Freq  %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
+	Print_DrawFormat("\x07" "Freq  %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
 
 	Print_SetPosition(20, 17);
 	Print_DrawText("Slots: ");

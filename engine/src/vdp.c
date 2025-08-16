@@ -1621,7 +1621,7 @@ void VDP_SetMode(const u8 mode)
 	#elif (VDP_INIT_50HZ == VDP_INIT_OFF)
 		VDP_SetFrequency(VDP_FREQ_60HZ);
 	#elif (VDP_INIT_50HZ == VDP_INIT_AUTO)
-		u8 freq = (g_ROMVersion.VSF) ? VDP_FREQ_50HZ : VDP_FREQ_60HZ;
+		u8 freq = Sys_Is50Hz() ? VDP_FREQ_50HZ : VDP_FREQ_60HZ;
 		VDP_SetFrequency(freq);
 	#endif
 	#if (VDP_USE_SPRITE)

@@ -120,11 +120,11 @@ void main()
 	Print_DrawLineH(0, 1, 40);
 
 	Print_SetPosition(0, 20);
-	Print_DrawFormat("Main-ROM Freq: %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
+	Print_DrawFormat("Main-ROM Freq: %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
 
 	// Initialize TriloSCC
 	TriloSCC_Initialize();
-	TriloSCC_SetFrequency((g_ROMVersion.VSF) ? TRILO_50HZ : TRILO_60HZ);
+	TriloSCC_SetFrequency(Sys_Is50Hz() ? TRILO_50HZ : TRILO_60HZ);
 	TriloSCC_SetToneTable(g_PSG_A445_Konami);
 	SetMusic(0);
 

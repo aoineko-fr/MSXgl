@@ -516,7 +516,7 @@ inline void Pawn_SetDirty(Pawn* pawn) { pawn->Update |= (PAWN_UPDATE_PATTERN | P
 // Parameters:
 //   pawn   - Address of game pawn structure to update (move, collision, etc.).
 //   enable - TRUE to enable color blending, FALSE to disable it.
-inline void Pawn_SetColorBlend(Pawn* pawn, bool enable) { if (enable) pawn->Update |= PAWN_UPDATE_BLEND; else pawn->Update &= ~PAWN_UPDATE_BLEND; }
+inline void Pawn_SetColorBlend(Pawn* pawn, bool enable) { if(enable) pawn->Update |= PAWN_UPDATE_BLEND; else pawn->Update &= ~PAWN_UPDATE_BLEND; }
 
 // Function: Pawn_Draw
 // Update rendering of the game pawn. Must be called once a frame.

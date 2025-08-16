@@ -32,9 +32,9 @@ inline bool AKM_IsPlaying() { return g_AKM_Playing; }
 // Initialize music and start playback
 //
 // Paramaters:
-//   data	- Pointer to the music data
 //   num	- Music number
-void AKM_Init(const void* data, u8 sng);
+//   data	- Pointer to the music data
+void AKM_Play(u8 sng, const void* data);
 
 // Function: AKM_Stop
 // Stop music playback

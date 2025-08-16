@@ -25,15 +25,57 @@
 // Save data slot state
 enum SAVEDATA_STATE
 {
-	SAVEDATA_NODISK = 0,	// No disk present
+	SAVEDATA_NODRIVE = 0,	// No disk dirve present
+	SAVEDATA_NODISK,		// No disk present
 	SAVEDATA_NOTFOUND,		// No save data found
-	SAVEDATA_INVALID,		// Save data is present but invalid
+	SAVEDATA_ERROR,			// Save data is present but invalid
+	SAVEDATA_UNSIGNED,		// Save data is present but not signed
 	SAVEDATA_VALID,			// Save data is valid
 };
+
+// Base name of the save data file (must be 6 characters max)
+extern const c8* g_DiskSave_Name;
+
+// Extension of the save data file (must be 3 characters max).
+extern const c8* g_DiskSave_Ext;
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
+
+// Function: DiskSave_Initialize
+// Detect if a disk drive is present and valid disk is inserted
+//
+// Return:
+//   SAVEDATA_NODRIVE if no disk drive is present
+//   SAVEDATA_NODISK if no disk is present
+//   SAVEDATA_VALID if a valid disk is present
+u8 DiskSave_Initialize();
+
+// Function: DiskSave_SetName
+// Set the base name of the save data file
+//
+// Parameters:
+//   name - Pointer to the ASCIIZ string with the name (must be 6 characters max)
+//          The name will be used as the base for the save data file, e.g. "GAME" will create files like "GAME00.SAV", "GAME01.SAV", etc.
+inline void DiskSave_SetName(const c8* name) { g_DiskSave_Name = name; }
+
+// Function: DiskSave_SetExtension
+// Set the extension of the save data file
+//
+// Parameters:
+//   ext - Pointer to the ASCIIZ string with the extension (must be 3 characters max)
+//         The extension will be used for the save data file, e.g. "SAV" will create files like "GAME00.SAV", "GAME01.SAV", etc.
+inline void DiskSave_SetExtension(const c8* ext) { g_DiskSave_Ext = ext; }
+
+// Function: DiskSave_BuildFilename
+// Build the filename for a given save data slot
+//
+// Parameters:
+//   slot   - Save data slot
+//   buffer - Pointer to the buffer where the filename will be stored (must be at least 13 bytes long)
+//   pad    - If TRUE, the filename will be padded with spaces to fill 8 characters
+void DiskSave_BuildFilename(u8 slot, c8* buffer, bool pad);
 
 // Function: DiskSave_Check
 // Check if a save data slot is valid

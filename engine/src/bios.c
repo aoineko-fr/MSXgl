@@ -66,7 +66,7 @@ void Bios_Exit(u8 ret)
 		call	R_CALBAS
 	__endasm;
 
-#else // if (TARGET_TYPE == TYPE_ROM)
+#else // if(TARGET_TYPE == TYPE_ROM)
 
 	__asm
 		call	0x0000				// Soft reset
@@ -137,8 +137,7 @@ u8 Bios_InterSlotRead(u8 slot, u16 addr) __NAKED
 	addr; // DE
 
 	__asm
-		ld		l, e
-		ld		h, d
+		ex		de, hl
 		call	R_RDSLT
 		ret
 	__endasm;
@@ -245,7 +244,6 @@ void Bios_InterSlotCall(u8 slot, u16 addr)
 //            When this routine is called, interrupts are inhibited and remain so even after execution ends.
 // Input    : A - Slot ID, see RDSLT
 //            H - Bit 6 and 7 must contain the page number (00-11)
-		   
 void Bios_SwitchSlot(u8 page, u8 slot)
 {
 	page; // A

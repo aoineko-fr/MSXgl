@@ -230,7 +230,7 @@ void UpdateSprites()
 void main()
 {
 	Bios_SetKeyClick(FALSE);
-	if(g_MSXVER == 0)
+	if(Sys_GetMSXVersion() == MSXVER_1)
 	{
 		Bios_ClearScreen();
 		Bios_TextPrintSting("This sample need MSX2 or above");

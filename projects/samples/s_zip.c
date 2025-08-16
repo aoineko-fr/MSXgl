@@ -96,7 +96,7 @@ u16 Load(const c8* filename, u8* buffer)
 	DOS_Open(&file);
 	
 	// Read file and copy content into VRAM
-	for (u16 i = 0; i < file.Size; i += 128)
+	for(u16 i = 0; i < file.Size; i += 128)
 	{
 		DOS_SetTransferAddr(buffer);
 		DOS_SequentialRead(&file);

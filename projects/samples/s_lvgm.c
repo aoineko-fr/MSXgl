@@ -271,7 +271,7 @@ void ButtonStop()
 //
 void ButtonPrev()
 {
-	if (g_CurrentMusic > 0)
+	if(g_CurrentMusic > 0)
 		SetMusic(g_CurrentMusic - 1);
 	else
 		SetMusic(numberof(g_MusicEntry) - 1);
@@ -281,7 +281,7 @@ void ButtonPrev()
 //
 void ButtonNext()
 {
-	if (g_CurrentMusic < numberof(g_MusicEntry) - 1)
+	if(g_CurrentMusic < numberof(g_MusicEntry) - 1)
 		SetMusic(g_CurrentMusic + 1);
 	else
 		SetMusic(0);
@@ -291,7 +291,7 @@ void ButtonNext()
 //
 void ButtonLoop()
 {
-	if (g_LVGM_State & LVGM_STATE_LOOP)
+	if(g_LVGM_State & LVGM_STATE_LOOP)
 		g_LVGM_State &= ~LVGM_STATE_LOOP;
 	else
 		g_LVGM_State |= LVGM_STATE_LOOP;
@@ -378,7 +378,7 @@ void main()
 	Print_SetPosition(20, 11);
 	Print_DrawText("Main-ROM:");
 	Print_SetPosition(20, 12);
-	Print_DrawFormat("\x07" "Freq  %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
+	Print_DrawFormat("\x07" "Freq  %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
 
 	u8 Y = 17;
 	Print_SetPosition(20, Y++);
@@ -446,31 +446,31 @@ VDP_SetColor(0xF0);
 		u8 row8 = Keyboard_Read(8);
 
 		// Change button
-		if (IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
+		if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
 		{
 			SetCursor(g_CurrentButton + 1);
 		}
-		else if (IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
+		else if(IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
 		{
 			SetCursor(g_CurrentButton - 1);
 		}
 		// Activate button
-		if (IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
 			g_ButtonEntry[g_CurrentButton].Func();
 		}
 		// Change frequency
-		if ((IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
+		if((IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
 		 || (IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN)))
 		{
-			if (g_LVGM_State & LVGM_STATE_50HZ)
+			if(g_LVGM_State & LVGM_STATE_50HZ)
 				g_LVGM_State &= ~LVGM_STATE_50HZ;
 			else
 				g_LVGM_State |= LVGM_STATE_50HZ;
 			UpdatePlayer();
 		}
 		// Exit
-		if (IS_KEY_PRESSED(row8, KEY_ESC))
+		if(IS_KEY_PRESSED(row8, KEY_ESC))
 			DOS_Exit(0);
 		
 		prevRow8 = row8;

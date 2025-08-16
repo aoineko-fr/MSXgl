@@ -399,7 +399,7 @@ void DisplayCurve()
 			}
 		};
 		
-		#if(0)
+		#if (0)
 		VDP_CommandPSET(x, y, COLOR_WHITE, 0);
 		#else
 		if(i > 0)

@@ -147,11 +147,11 @@ void Draw_Circle(UX dx, UY dy, u8 radius, u8 color, u8 op)
 		g_VDP_Command.DY = dy + x;
 		VPD_CommandSetupR36();
 		
-		if (x <= y)
+		if(x <= y)
 			break;
 		e += (2 * y) + 1;
 		y++;
-		if (e > x)
+		if(e > x)
 		{
 			e += 1 - (2 * x);
 			x--;

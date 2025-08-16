@@ -533,7 +533,7 @@ void main()
 				DisplayPage();
 			}
 
-			if (bEditing)
+			if(bEditing)
 			{
 				DisplayPage();
 				bEditing = FALSE;

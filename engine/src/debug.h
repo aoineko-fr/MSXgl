@@ -120,7 +120,7 @@
 			in a, (P_PROFILE_SECTION)
 		__endasm;	
 	}																		
-	inline void PROFILE_SECTION_START(u8 level, u8 section, const c8* msg) { msg; if (level <= PROFILE_LEVEL) { do_PROFILE_SECTION_START(section); } }
+	inline void PROFILE_SECTION_START(u8 level, u8 section, const c8* msg) { msg; if(level <= PROFILE_LEVEL) { do_PROFILE_SECTION_START(section); } }
 
 	inline void do_PROFILE_SECTION_END(u8 id)
 	{
@@ -129,7 +129,7 @@
 			out (P_PROFILE_SECTION), a
 		__endasm;	
 	}
-	inline void PROFILE_SECTION_END(u8 level, u8 section, const c8* msg) { msg; if (level <= PROFILE_LEVEL) { do_PROFILE_SECTION_END(section); } }
+	inline void PROFILE_SECTION_END(u8 level, u8 section, const c8* msg) { msg; if(level <= PROFILE_LEVEL) { do_PROFILE_SECTION_END(section); } }
 																			
 	inline void PROFILE_FRAME_START()
 	{
@@ -159,7 +159,7 @@
 
 	inline void PROFILE_SECTION_START(u8 level, u8 section, const c8* msg)
 	{
-		if (level < PROFILE_LEVEL)
+		if(level < PROFILE_LEVEL)
 		{
 			g_ProfileMsg = msg;
 			g_PortStartProfile = section;
@@ -168,7 +168,7 @@
 
 	inline void PROFILE_SECTION_END(u8 level, u8 section, const c8* msg)
 	{
-		if (level < PROFILE_LEVEL)
+		if(level < PROFILE_LEVEL)
 		{
 			g_ProfileMsg = msg;
 			g_PortEndProfile = section;

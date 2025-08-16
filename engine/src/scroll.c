@@ -241,7 +241,7 @@ void Scroll_Update()
 	u16 sw = (SCROLL_SRC_W) - TILE_X;
 	for(u8 y = 0; y < (SCROLL_DST_H); ++y)
 	{
-		#if(SCROLL_WRAP)
+		#if (SCROLL_WRAP)
 		if(TILE_X + (SCROLL_DST_W) > (SCROLL_SRC_W))
 		{
 			VDP_WriteVRAM_16K((const u8*)src, dst, sw);

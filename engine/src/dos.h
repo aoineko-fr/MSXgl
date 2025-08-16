@@ -45,6 +45,18 @@
 	#define DOS_USE_VALIDATOR		TRUE
 #endif
 
+// DOS_USE_ERROR_HANDLER
+#ifndef DOS_USE_ERROR_HANDLER
+	#warning DOS_USE_ERROR_HANDLER is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define DOS_USE_ERROR_HANDLER	TRUE
+#endif
+
+// DOS_USE_BIOSCALL
+#ifndef DOS_USE_BIOSCALL
+	#warning DOS_USE_BIOSCALL is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define DOS_USE_BIOSCALL	TRUE
+#endif
+
 //=============================================================================
 // DEFINES
 //=============================================================================
@@ -174,6 +186,11 @@
 // ERROR VALUES
 //-----------------------------------------------------------------------------
 
+// Choice returned to the error handler
+#define DOS1_ERROR_RET_IGNORE		0 // Ignore error
+#define DOS1_ERROR_RET_RETRY		1 // Retry operation
+#define DOS1_ERROR_RET_ABORT		2 // Abort operation
+
 // DISK ERRORS - The errors in this group are those which are usually passed to disk error handling routines. By default they will be reported as "Abort, Retry" errors. These errors except the one from "format disk" will be passed to the error handling routine, so they will not be returned as the return value from BDOS.
 #define DOS_ERR_NCOMP				0xFF // Incompatible disk - The disk cannot be accessed in that drive (eg. a double sided disk in a single sided drive).
 #define DOS_ERR_WRERR				0xFE // Write error - General error occurred during a disk write.
@@ -228,7 +245,7 @@
 #define DOS_ERR_IDATE				0xBE // Invalid date - Date parameters passed to "set date" are invalid.
 #define DOS_ERR_ITIME				0xBD // Invalid time - Time parameters passed to "set time" are invalid.
 #define DOS_ERR_RAMDX				0xBC // RAM disk (drive H:) already exists - Returned from the "ramdisk" function if trying to create a RAM disk when one already exists.
-#define DOS_ERR _NRAMD				0xBB // RAM disk does not exist - Attempt to delete the RAM disk when it does not currently exist. A function which tries to access a non-existent RAM disk will get a .IDRV error.
+#define DOS_ERR_NRAMD				0xBB // RAM disk does not exist - Attempt to delete the RAM disk when it does not currently exist. A function which tries to access a non-existent RAM disk will get a .IDRV error.
 #define DOS_ERR_HDEAD				0xBA // File handle has been deleted - The file associate with a file handle has been deleted so the file handle can no longer be used.
 #define DOS_ERR_EOL					0xB9 // - Internal error should never occur.
 #define DOS_ERR_ISBFN				0xB8 // Invalid sub-function number - The sub-function number passed to the IOCTL function (function 4Bh) was invalid.
@@ -289,9 +306,9 @@
 #define DOS_PRN						4
 
 // MSX-DOS 2 Open/create flags
+#define O_RDWR						0x00 // Open file for reading and writing
 #define O_RDONLY					0x01 // Open file for reading only
 #define O_WRONLY					0x02 // Open file for writing only
-#define O_RDWR						0x00 // Open file for reading and writing
 #define O_INHERIT					0x04 // 
 
 // MSX-DOS 2 Create attributes
@@ -394,7 +411,7 @@ typedef struct
 	u8	Reserved[38];				// 26..63 - Internal information, must not be modified
 } DOS_FIB;
 
-#if (DOS_USE_VALIDATOR)
+#if ((DOS_USE_VALIDATOR) || (DOS_USE_ERROR_HANDLER))
 // Backup of the last error value
 extern u8 g_DOS_LastError;
 #endif
@@ -533,6 +550,16 @@ inline void DOS_Return() { DOS_StringOutput("\n\r$"); }
 //   data - Required Disk Transfer Address
 void DOS_SetTransferAddr(void* data);
 
+// Function: DOS_GetFreeSpace
+// Get free space on disk
+//
+// Parameters:
+//   drive - Drive number (0 for current drive, 1 for A, 2 for B, ..., 8 for H)
+//
+// Return:
+//   Number of free sectors on the disk
+u16 DOS_GetFreeSpace(u8 drive);
+
 // Function: DOS_OpenFCB
 // Open file
 // The unopened FCB must contain a drive which may be zero to indicate the current drive and a filename and extension which may be ambiguous.
@@ -578,6 +605,15 @@ u8 DOS_CloseFCB(DOS_FCB* stream);
 // Return:
 //   Error code (DOS_ERR_NONE if succeed)
 u8 DOS_CreateFCB(DOS_FCB* stream);
+
+// Function: DOS_DeleteFCB
+// Delete file
+//
+// Parameters:
+//   stream - Pointer to opened FCB
+// Return:
+//   Error code (DOS_ERR_NONE if succeed)
+u8 DOS_DeleteFCB(DOS_FCB* stream);
 
 // Function: DOS_SequentialReadFCB
 // Sequential read
@@ -639,6 +675,21 @@ u8 DOS_FindFirstFileFCB(DOS_FCB* stream);
 u8 DOS_FindNextFileFCB();
 
 #endif // (DOS_USE_FCB)
+
+//.............................................................................
+// Group: MSX-DOS 1 Error Handling
+#if (DOS_USE_ERROR_HANDLER)
+
+// Function: DOS_InitErrorHandler
+// Install the DOS error handler in RAM (page 3).
+void DOS_InitErrorHandler();
+
+// Function: DOS_ResetLastError
+// Reset the last error code.
+// Must be called before any MSX-DOS 1 function call when you want to check whether an error has occurred.
+inline void DOS_ResetLastError() { g_DOS_LastError = 0; }
+
+#endif // (DOS_USE_ERROR_HANDLER)
 
 //-----------------------------------------------------------------------------
 // MSX-DOS 2 FUNCTIONS
@@ -823,7 +874,7 @@ void DOS_Exit(u8 err);
 // Explain error code
 void DOS_Explain(u8 err, c8* str);
 
-#if (DOS_USE_VALIDATOR)
+#if ((DOS_USE_VALIDATOR) || (DOS_USE_ERROR_HANDLER))
 // Function: DOS_GetLastError
 // Get last error code
 inline u8 DOS_GetLastError() { return g_DOS_LastError; }
@@ -1003,3 +1054,39 @@ const DOS_Time* DOS_GetTime();
 // Function: DOS_GetVersion
 // Get MSX-DOS version number
 u8 DOS_GetVersion(DOS_Version* ver);
+
+//.............................................................................
+// Group: BIOS
+
+#if (DOS_USE_BIOSCALL)
+
+// Function: DOS_InterSlotRead
+// Reads the value of an address in another slot
+//
+// Parameters:
+//   slot - Slot-ID
+//   addr - Address to read
+//
+// Return:
+//   Contains the value of the read address
+u8 DOS_InterSlotRead(u8 slot, u16 addr);
+
+// Function : DOS_InterSlotWrite
+// Writes a value to an address in another slot
+//
+// Parameters:
+//   slot - Slot-ID
+//   addr - Address to write
+//   value - Value to write
+void DOS_InterSlotWrite(u8 slot, u16 addr, u8 value);
+
+//-----------------------------------------------------------------------------
+// Function : DOS_InterSlotCall
+// Executes inter-slot call.
+//
+// Parameters:
+//   slot - Slot-ID
+//   addr - Address to call
+void DOS_InterSlotCall(u8 slot, u16 addr);
+
+#endif // (DOS_USE_BIOSCALL)

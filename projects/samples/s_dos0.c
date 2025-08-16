@@ -62,7 +62,7 @@ void LoadImage(const c8* filename)
 	
 	// Read file and copy content into VRAM
 	u16 dst = 0;
-	for (u16 i = 0; i < g_File.Size; i+=128)
+	for(u16 i = 0; i < g_File.Size; i+=128)
 	{
 		DOS_SetTransferAddr(g_StrBuffer);
 		DOS_SequentialReadFCB(&g_File);

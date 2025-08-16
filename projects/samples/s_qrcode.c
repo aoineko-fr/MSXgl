@@ -43,8 +43,8 @@ u8 g_LMMC4b[16*16];
 void QRCode_DrawBitmap(u8 x, u8 y, const u8* qrc)
 {
 	i16 size = QRCode_GetSize(qrc);
-	for (i16 j = 0; j < size; j++)
-		for (i16 i = 0; i < size; i++) 
+	for(i16 j = 0; j < size; j++)
+		for(i16 i = 0; i < size; i++) 
 			if(QRCode_GetModule(qrc, i, j))
 				VDP_CommandPSET(x + i, y + j, COLOR_WHITE, 0);
 }

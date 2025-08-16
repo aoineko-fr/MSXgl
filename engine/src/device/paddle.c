@@ -111,9 +111,9 @@ i16 g_PaddleOffset[2];
 u8 Paddle_GetCalibratedAngle(u8 port)
 {
 	i16 val = (i16)Paddle_GetAngle(port) - g_PaddleOffset[port];
-	if (val < 0)
+	if(val < 0)
 		val = 0;
-	else if (val > 255)
+	else if(val > 255)
 		val = 255; 
 	return (u8)val;
 }

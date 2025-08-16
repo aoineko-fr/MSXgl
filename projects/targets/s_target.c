@@ -114,7 +114,7 @@ void VDP_InterruptHandler()
 void Print_Slot(u8 slot)
 {
 	Print_DrawInt(Sys_SlotGetPrimary(slot));
-	if (Sys_SlotIsExpended(slot))
+	if(Sys_SlotIsExpended(slot))
 	{
 		Print_DrawChar('-');
 		Print_DrawInt(Sys_SlotGetSecondary(slot));
@@ -197,7 +197,7 @@ void DisplayFooter()
 	Print_DrawLineH(0, 22, 40);
 	Print_SetPosition(0, 23);
 	#if ((TARGET_TYPE == TYPE_ROM) || (ROM_MAPPER != ROM_PLAIN))
-		if (g_DisplayASCII)
+		if(g_DisplayASCII)
 			Print_DrawText("F1:Hexa ");
 		else
 			Print_DrawText("F1:ASCII ");
@@ -226,9 +226,9 @@ void UpdateMapper()
 		u16 index = g_Segment + i;
 		Print_SetPosition(2, MAPPER_Y + 2 + i);
 		Print_DrawInt(index);
-		if (index < 100)
+		if(index < 100)
 			Print_DrawChar(' ');
-		if (index < 1000)
+		if(index < 1000)
 			Print_DrawChar(' ');
 
 		Print_SetPosition(7, MAPPER_Y + 2 + i);
@@ -237,12 +237,12 @@ void UpdateMapper()
 		for(u8 j = 0; j < max; j++)
 		{
 			u8 chr = ((const u8*)(g_Address))[j];
-			if (g_DisplayASCII)
+			if(g_DisplayASCII)
 				Print_DrawChar(chr);
 			else
 			{
 				Print_DrawHex8(chr);
-				if (j < max - 1)
+				if(j < max - 1)
 					Print_DrawChar(' ');
 			}
 		}
@@ -392,39 +392,39 @@ void main()
 		u8 row8 = Keyboard_Read(8);
 
 		#if ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER != ROM_PLAIN))
-			if (IS_KEY_PRESSED(row6, KEY_F1))
+			if(IS_KEY_PRESSED(row6, KEY_F1))
 			{
 				g_DisplayASCII = 1 - g_DisplayASCII;
 				UpdateMapper();
 			}
-			if (IS_KEY_PRESSED(row8, KEY_RIGHT))
+			if(IS_KEY_PRESSED(row8, KEY_RIGHT))
 			{
 				g_Address++;
 				UpdateMapper();
 			}
-			if (IS_KEY_PRESSED(row8, KEY_LEFT))
+			if(IS_KEY_PRESSED(row8, KEY_LEFT))
 			{
-				if (g_Address > BANK_ADDR)
+				if(g_Address > BANK_ADDR)
 					g_Address--;
 				UpdateMapper();
 			}
-			if (IS_KEY_PRESSED(row8, KEY_DOWN))
+			if(IS_KEY_PRESSED(row8, KEY_DOWN))
 			{
-				if (IS_KEY_PRESSED(row6, KEY_CTRL))
+				if(IS_KEY_PRESSED(row6, KEY_CTRL))
 					g_Segment += QUICK_JUMP;
 				else
 					g_Segment++;
-				if (g_Segment > ROM_SEGMENTS - MAPPER_NUM)
+				if(g_Segment > ROM_SEGMENTS - MAPPER_NUM)
 					g_Segment = ROM_SEGMENTS - MAPPER_NUM;
 				UpdateMapper();
 			}
-			if (IS_KEY_PRESSED(row8, KEY_UP))
+			if(IS_KEY_PRESSED(row8, KEY_UP))
 			{
-				if (IS_KEY_PRESSED(row6, KEY_CTRL))
+				if(IS_KEY_PRESSED(row6, KEY_CTRL))
 					g_Segment -= QUICK_JUMP;
 				else
 					g_Segment--;
-				if (g_Segment < 0)
+				if(g_Segment < 0)
 					g_Segment = 0;
 				UpdateMapper();
 			}

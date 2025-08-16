@@ -58,7 +58,7 @@ u16 DOS_LoadFile(DOS_FCB* fcb, const c8* filename, u16 dest)
 	DOS_OpenFCB(fcb);
 	
 	// Read File
-	for (u16 i = 0; i < fcb->Size; i += 128)
+	for(u16 i = 0; i < fcb->Size; i += 128)
 	{
 		DOS_SetTransferAddr((void*)dest);
 		DOS_SequentialReadFCB(fcb);
@@ -90,7 +90,7 @@ void LoadImage(u8 srcMode, u8 imgIdx)
 
 	// Read file and copy content into VRAM
 	u16 dst = 0;
-	for (u16 i = 0; i < g_File.Size; i+=128)
+	for(u16 i = 0; i < g_File.Size; i+=128)
 	{
 		DOS_SetTransferAddr(g_StrBuffer);
 		DOS_SequentialReadFCB(&g_File);

@@ -8,6 +8,7 @@
 // VGM replayer
 //  https://vgmrips.net/wiki/VGM_Specification
 //─────────────────────────────────────────────────────────────────────────────
+#include "msxgl.h"
 #include "vgm_player.h"
 #include "bios_mainrom.h"
 #if (VGM_USE_SCC)
@@ -63,7 +64,7 @@ bool VGM_Play(const void* addr, bool loop)
 		g_VGM_Loop = 0;
 	g_VGM_WaitCount = 0;
 
-	if(g_ROMVersion.VSF)
+	if(Sys_Is50Hz())
 		VGM_SetFrequency50Hz();
 	else
 		VGM_SetFrequency60Hz();
@@ -205,7 +206,7 @@ void VGM_Decode()
 				return;
 			}
 		}
-		else if ((*g_VGM_Pointer & 0xF0) == 0x70) // wait n+1 samples, n can range from 0 to 15.
+		else if((*g_VGM_Pointer & 0xF0) == 0x70) // wait n+1 samples, n can range from 0 to 15.
 		{
 			g_VGM_WaitCount += 1 + *g_VGM_Pointer & 0x0F;
 		}

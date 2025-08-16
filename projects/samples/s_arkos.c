@@ -38,13 +38,13 @@ struct MusicEntry
 };
 
 // Init function callback
-typedef void (*cbInit)(const void*, u8);
+typedef void (*cbPlay)(u8, const void*);
 // Play function callback
-typedef bool (*cbPlay)();
+typedef bool (*cbUpdate)();
 // Init SFX function callback
-typedef u8 (*cbInitSFX)(const void*);
+typedef u8 (*cbPlaySFX)(const void*);
 // Play SFX function callback
-typedef void (*cbPlaySFX)(u8, u8, u8);
+typedef void (*cbUpdateSFX)(u8, u8, u8);
 // Stop SFX function callback
 typedef void (*cbStopSFX)(u8);
 
@@ -52,12 +52,12 @@ typedef void (*cbStopSFX)(u8);
 struct PlayerEntry
 {
 	const c8* Name;    // Player display name
-	cbPlay    Decode;  // Pointer to player's update function
-	cbInit    Init;    // Pointer to player's music initialization and playback function
-	callback  Stop;    // Pointer to player's music stop function
-	cbInitSFX InitSFX; // Pointer to player's SFX initialization function
-	cbPlaySFX PlaySFX; // Pointer to player's SFX playback function
-	cbStopSFX StopSFX; // Pointer to player's SFX stop function
+	cbUpdate    Decode;  // Pointer to player's update function
+	cbPlay      Init;    // Pointer to player's music initialization and playback function
+	callback    Stop;    // Pointer to player's music stop function
+	cbPlaySFX   InitSFX; // Pointer to player's SFX initialization function
+	cbUpdateSFX PlaySFX; // Pointer to player's SFX playback function
+	cbStopSFX   StopSFX; // Pointer to player's SFX stop function
 	const struct MusicEntry* Musics; // List of musics for this player
 };
 
@@ -118,9 +118,9 @@ const struct MusicEntry g_MusicEntryAKM[] =
 // Replayers data
 const struct PlayerEntry g_PlayerEntry[] =
 {
-	{ "AKG (generic)",    AKG_Decode, AKG_Init, AKG_Stop, AKG_InitSFX, AKG_PlaySFX, AKG_StopSFX, g_MusicEntryAKG },
-	{ "AKY (fast)",       AKY_Decode, AKY_Init, NULL,     NULL,        NULL,        NULL,        g_MusicEntryAKY },
-	{ "AKM (minimalist)", AKM_Decode, AKM_Init, AKM_Stop, AKM_InitSFX, AKM_PlaySFX, AKM_StopSFX, g_MusicEntryAKM },
+	{ "AKG (generic)",    AKG_Decode, AKG_Play, AKG_Stop, AKG_InitSFX, AKG_PlaySFX, AKG_StopSFX, g_MusicEntryAKG },
+	{ "AKY (fast)",       AKY_Decode, AKY_Play, NULL,     NULL,        NULL,        NULL,        g_MusicEntryAKY },
+	{ "AKM (minimalist)", AKM_Decode, AKM_Play, AKM_Stop, AKM_InitSFX, AKM_PlaySFX, AKM_StopSFX, g_MusicEntryAKM },
 };
 
 //=============================================================================
@@ -183,7 +183,7 @@ void DisplaySFX()
 	if(g_CurrentPlayer->InitSFX)
 		Print_DrawFormat("SFX: %i/%i        ", g_SFXNum ? g_SFXIdx + 1 : 0, g_SFXNum);
 	else
-		Print_DrawFormat("SFX: Unsupported", g_SFXNum ? g_SFXIdx + 1 : 0, g_SFXNum);
+		Print_DrawText("SFX: Unsupported");
 }
 
 //-----------------------------------------------------------------------------
@@ -216,7 +216,7 @@ void SetMusic(u8 idx)
 
 	// Call the current replayer's initialize function (also start the music playback)
 	// Function can be AKG_Init, AKY_Init or AKM_Init
-	g_CurrentPlayer->Init(mus->Data, 0);
+	g_CurrentPlayer->Init(0, mus->Data);
 }
 
 //-----------------------------------------------------------------------------
@@ -228,9 +228,6 @@ void SetPlayer(u8 idx)
 	{
 		if(g_CurrentPlayer->Stop)
 			g_CurrentPlayer->Stop();
-
-		// if(g_CurrentPlayer->StopSFX)
-			// g_CurrentPlayer->StopSFX(0);
 	}
 
 	// Select the new replayer
@@ -276,10 +273,10 @@ void main()
 	SetMusic(0);
 
 	// Detect current machine VDP frequency and display this information
-	g_Freq50Hz = g_ROMVersion.VSF ? 1 : 0;
+	g_Freq50Hz = Sys_Is50Hz() ? 1 : 0;
 	DisplayFreq();
 	Print_SetPosition(20, 20);
-	Print_DrawFormat("BIOS: %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
+	Print_DrawFormat("BIOS: %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
 
 	// Display footer
 	Print_DrawLineH(0, 22, 40);
@@ -339,7 +336,7 @@ void main()
 			if(g_CurrentPlayer->Stop)
 				g_CurrentPlayer->Stop();
 		}
-		// Stop music playback
+		// SFX playback
 		if(IS_KEY_PUSHED(row7, prevRow7, KEY_BACK))
 		{
 			if(g_CurrentPlayer->PlaySFX)

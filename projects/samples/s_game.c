@@ -266,7 +266,7 @@ bool State_Game()
 	Print_DrawChar(g_ChrAnim[g_PlayerPawn.Counter & 0x03]);
 
 	// Background horizon blink
-	if (g_bFlicker)
+	if(g_bFlicker)
 		VDP_FillVRAM(g_PlayerPawn.Counter & 1 ? 9 : 10, g_ScreenLayoutLow + (12+2) * 32, 0, 32);
 
 	// Handle collision events
