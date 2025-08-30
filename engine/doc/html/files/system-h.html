@@ -60,20 +60,39 @@
  <div class="CBody"><p>Pause the CPU until a new interruption occured</p></div>
 </div>
 
-<a name="Information"></a><a name="Topic61"></a><div class="CTopic TGroup LC">
+<a name="Information"></a><a name="Topic106"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Information</div>
+ <div class="CBody"><p>Functions to get information from the system</p></div>
 </div>
 
-<a name="Sys_GetBasicVersion"></a><a name="Topic1420"></a><div class="CTopic TFunction LC">
- <div class="CTitle">Sys_GetBasicVersion</div>
- <div id="NDPrototype1420" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sys_GetBASICVersion()</div></div>
- <div class="CBody"><p>Get the BASIC ROM version</p><div class="CHeading">Return</div><p>The BASIC ROM version</p></div>
+<a name="Sys_GetBIOSInfo"></a><a name="Topic243"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sys_GetBIOSInfo</div>
+ <div id="NDPrototype243" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sys_GetBIOSInfo()</div></div>
+ <div class="CBody"><p>Get BIOS information (frequency, keyboard type, etc.)</p><div class="CHeading">Return</div><p>The BIOS information</p></div>
 </div>
 
-<a name="Sys_GetMSXVersion"></a><a name="Topic1421"></a><div class="CTopic TFunction LC">
+<a name="Sys_GetMSXVersion"></a><a name="Topic465"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sys_GetMSXVersion</div>
- <div id="NDPrototype1421" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sys_GetMSXVersion()</div></div>
- <div class="CBody"><p>Get the MSX version</p><div class="CHeading">Return</div><p>The MSX version (0 = MSX1, 1 = MSX2, 2 = MSX2+, 3 = MSX turbo R)</p></div>
+ <div id="NDPrototype465" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sys_GetMSXVersion()</div></div>
+ <div class="CBody"><p>Get the MSX version</p><div class="CHeading">Return</div><p>The MSX version (0: MSX1, 1: MSX2, 2: MSX2+, 3: MSX turbo R)</p></div>
+</div>
+
+<a name="Sys_GetFrequency"></a><a name="Topic467"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sys_GetFrequency</div>
+ <div id="NDPrototype467" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sys_GetFrequency()</div></div>
+ <div class="CBody"><p>Get the system frequency (from BIOS)</p><div class="CHeading">Return</div><p>SYS_FERQ_50HZ or SYS_FERQ_60HZ</p></div>
+</div>
+
+<a name="Sys_Is60Hz"></a><a name="Topic479"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sys_Is60Hz</div>
+ <div id="NDPrototype479" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Sys_Is60Hz()</div></div>
+ <div class="CBody"><p>Get the system frequency (from BIOS)</p><div class="CHeading">Return</div><p>TRUE if the BIOS is 60 Hz</p></div>
+</div>
+
+<a name="Sys_Is50Hz"></a><a name="Topic627"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sys_Is50Hz</div>
+ <div id="NDPrototype627" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Sys_Is50Hz()</div></div>
+ <div class="CBody"><p>Get the system frequency (from BIOS)</p><div class="CHeading">Return</div><p>TRUE if the BIOS is 50 Hz</p></div>
 </div>
 
 <a name="Call"></a><a name="Topic844"></a><div class="CTopic TGroup LC">

@@ -12,6 +12,30 @@
  <div class="CTitle">Functions</div>
 </div>
 
+<a name="DiskSave_Initialize"></a><a name="Topic437"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DiskSave_Initialize</div>
+ <div id="NDPrototype437" class="NDPrototype"><div class="PSection PPlainSection">u8 DiskSave_Initialize()</div></div>
+ <div class="CBody"><p>Detect if a disk drive is present and valid disk is inserted</p><div class="CHeading">Return</div><p>SAVEDATA_NODRIVE if no disk drive is present SAVEDATA_NODISK if no disk is present SAVEDATA_VALID if a valid disk is present</p></div>
+</div>
+
+<a name="DiskSave_SetName"></a><a name="Topic458"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DiskSave_SetName</div>
+ <div id="NDPrototype458" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DiskSave_SetName(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">name</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the base name of the save data file</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">name<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Pointer to the ASCIIZ string with the name (must be 6 characters max) The name will be used as the base for the save data file, e.g. &quot;GAME&quot; will create files like &quot;GAME00.SAV&quot;, &quot;GAME01.SAV&quot;, etc.</p></td></tr></table></div>
+</div>
+
+<a name="DiskSave_SetExtension"></a><a name="Topic459"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DiskSave_SetExtension</div>
+ <div id="NDPrototype459" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DiskSave_SetExtension(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">ext</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the extension of the save data file</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">ext<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Pointer to the ASCIIZ string with the extension (must be 3 characters max) The extension will be used for the save data file, e.g. &quot;SAV&quot; will create files like &quot;GAME00.SAV&quot;, &quot;GAME01.SAV&quot;, etc.</p></td></tr></table></div>
+</div>
+
+<a name="DiskSave_BuildFilename"></a><a name="Topic460"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DiskSave_BuildFilename</div>
+ <div id="NDPrototype460" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DiskSave_BuildFilename(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">c8*&nbsp;</td><td class="PName last">buffer,</td></tr><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">pad</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Build the filename for a given save data slot</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">slot<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Save data slot</p></td></tr><tr><td class="CDLEntry">buffer<div class="CDLParameterType">c8*</div></td><td class="CDLDefinition"><p>Pointer to the buffer where the filename will be stored (must be at least 13 bytes long)</p></td></tr><tr><td class="CDLEntry">pad<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>If TRUE, the filename will be padded with spaces to fill 8 characters</p></td></tr></table></div>
+</div>
+
 <a name="DiskSave_Check"></a><a name="Topic453"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DiskSave_Check</div>
  <div id="NDPrototype453" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DiskSave_Check(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>

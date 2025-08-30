@@ -74,6 +74,12 @@
  <div class="CBody"><p>Set transfer address This function simply records the address passed in DE as the disk transfer address.&nbsp; This address will be used for all subsequent FCB read and write calls, for &quot;search for first&quot; and &quot;search for next&quot; calls to store the directory entry, and for absolute read and write calls.&nbsp; It is not used by the new MSX-DOS read and write functions. The address is set back to 80h by a DISK RESET call.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data<div class="CDLParameterType"><span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Required Disk Transfer Address</p></td></tr></table></div>
 </div>
 
+<a name="DOS_GetFreeSpace"></a><a name="Topic375"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetFreeSpace</div>
+ <div id="NDPrototype375" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_GetFreeSpace(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">drive</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get free space on disk</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">drive<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Drive number (0 for current drive, 1 for A, 2 for B, ..., 8 for H)</p></td></tr></table><div class="CHeading">Return</div><p>Number of free sectors on the disk</p></div>
+</div>
+
 <a name="DOS_OpenFCB"></a><a name="Topic421"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_OpenFCB</div>
  <div id="NDPrototype421" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_OpenFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
@@ -96,6 +102,12 @@
  <div class="CTitle">DOS_CreateFCB</div>
  <div id="NDPrototype424" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CreateFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Create file</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stream<div class="CDLParameterType">DOS_FCB*</div></td><td class="CDLDefinition"><p>Pointer to unopened FCB</p></td></tr></table><div class="CHeading">Return</div><p>Error code (DOS_ERR_NONE if succeed)</p></div>
+</div>
+
+<a name="DOS_DeleteFCB"></a><a name="Topic665"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_DeleteFCB</div>
+ <div id="NDPrototype665" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_DeleteFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Delete file</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stream<div class="CDLParameterType">DOS_FCB*</div></td><td class="CDLDefinition"><p>Pointer to opened FCB Return: Error code (DOS_ERR_NONE if succeed)</p></td></tr></table></div>
 </div>
 
 <a name="DOS_SequentialReadFCB"></a><a name="Topic425"></a><div class="CTopic TFunction LC">
@@ -132,6 +144,22 @@
  <div class="CTitle">DOS_FindNextFileFCB</div>
  <div id="NDPrototype430" class="NDPrototype"><div class="PSection PPlainSection">u8 DOS_FindNextFileFCB()</div></div>
  <div class="CBody"><p>Search the second and after the second file matched wildcard</p><div class="CHeading">Return</div><p>Error code (DOS_ERR_NONE if succeed)</p></div>
+</div>
+
+<a name="MSX-DOS_1_Error_Handling"></a><a name="Topic682"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">MSX-DOS 1 Error Handling</div>
+</div>
+
+<a name="DOS_InitErrorHandler"></a><a name="Topic683"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_InitErrorHandler</div>
+ <div id="NDPrototype683" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DOS_InitErrorHandler()</div></div>
+ <div class="CBody"><p>Install the DOS error handler in RAM (page 3).</p></div>
+</div>
+
+<a name="DOS_ResetLastError"></a><a name="Topic684"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_ResetLastError</div>
+ <div id="NDPrototype684" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DOS_ResetLastError()</div></div>
+ <div class="CBody"><p>Reset the last error code.&nbsp; Must be called before any MSX-DOS 1 function call when you want to check whether an error has occurred.</p></div>
 </div>
 
 <a name="MSX-DOS_2_File_Handling"></a><a name="Topic431"></a><div class="CTopic TGroup LC">
@@ -360,10 +388,20 @@
  <div class="CTitle">Misc</div>
 </div>
 
-<a name="DOS_GetVersion"></a><a name="Topic887"></a><div class="CTopic TFunction LC last">
+<a name="DOS_GetVersion"></a><a name="Topic887"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetVersion</div>
  <div id="NDPrototype887" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetVersion(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_Version*&nbsp;</td><td class="PName last">ver</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get MSX-DOS version number</p></div>
+</div>
+
+<a name="BIOS"></a><a name="Topic685"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">BIOS</div>
+</div>
+
+<a name="DOS_InterSlotRead"></a><a name="Topic691"></a><div class="CTopic TFunction LC last">
+ <div class="CTitle">DOS_InterSlotRead</div>
+ <div id="NDPrototype691" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_InterSlotRead(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Reads the value of an address in another slot</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">slot<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Slot-ID</p></td></tr><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to read</p></td></tr></table><div class="CHeading">Return</div><p>Contains the value of the read address</p></div>
 </div>
 
 </body></html>

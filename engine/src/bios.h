@@ -338,9 +338,9 @@ u8 Bios_HasCharacter() __FASTCALL;
 // Displays one character. Wrapper for CHPUT routine.
 inline void Bios_TextPrintChar(c8 chr) { ((void(*)(u8))R_CHPUT)(chr); }
 
-// Function: Bios_TextPrintSting
+// Function: Bios_TextPrintString
 // Displays a null-terminated string.
-inline void Bios_TextPrintSting(const c8* str) { while(*str) Bios_TextPrintChar(*str++); }
+inline void Bios_TextPrintString(const c8* str) { while(*str) Bios_TextPrintChar(*str++); }
 
 // Function: Bios_Beep
 // Generates beep. Wrapper for BEEP routine.

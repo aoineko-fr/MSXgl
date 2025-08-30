@@ -43,7 +43,20 @@ void MSXMusic_Initialize();
 
 // Function: MSXMusic_Detect
 // Search for MSX-Music (YM2413) chip
+//
+// Return:
+//   MSXMUSIC_NOTFOUND if no MSX-Music chip found
+//   MSXMUSIC_INTERNAL if an internal MSX-Music chip is found
+//   MSXMUSIC_EXTERNAL if an external MSX-Music chip (FM-PAC)
 u8 MSXMusic_Detect();
+
+// Function: MSXMusic_GetSlotId
+// Get the Slot ID of the first MSX-Music chip found
+// <MSXMusic_Detect> or <MSXMusic_Initialize> must be called first
+//
+// Return:
+//   Slot ID if found or SLOT_NOTFOUND otherwise
+inline u8 MSXMusic_GetSlotId() { return g_MSXMusic_SlotId; }
 
 // Function: MSXMusic_SetRegister
 // Set MSX-Music register value

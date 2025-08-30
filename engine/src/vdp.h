@@ -858,9 +858,10 @@ inline void VDP_SetFrameRender(u8 mode) { VDP_RegWriteBakMask(9, (u8)~(R09_EO|R0
 
 // Function: VDP_SetPalette
 // Set a new color palette from index 1 to 15. [MSX2/2+/TR]
+// If VDP_USE_PALETTE16 is set to TRUE, index 0 to 15 are used.
 //
 // Parameters:
-//   pal - Address of the palette in RAM (table of 15 * 2 bytes)
+//   pal - Address of the palette in RAM; table of 15 (or 16) * 2 bytes
 //         Format: [0:5|green:3|0|red:3|0|blue:3]
 void VDP_SetPalette(const u8* pal) __FASTCALL __PRESERVES(d, e, iyl, iyh);
 

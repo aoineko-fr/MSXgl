@@ -29,6 +29,9 @@ void MSXAudio_Initialize();
 
 // Function: MSXAudio_Detect
 // Search for MSX-Audio (Y8950) chip
+//
+// Return:
+//   FALSE if no MSX-Audio chip found
 bool MSXAudio_Detect();
 
 // Function: MSXAudio_SetRegister

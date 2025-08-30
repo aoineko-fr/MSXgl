@@ -38,9 +38,9 @@
  <div class="CBody"><p>Initialize VDP module. [MSX1/2/2+/TR] Retreive BIOS initiale value.&nbsp; This function is called automatically when <a href="../index.html#File:vdp.h:VDP_SetMode" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,109);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >VDP_SetMode</a> is called if the macro VDP_AUTO_INIT equals 1.</p></div>
 </div>
 
-<a name="VDP_GetVersion"></a><a name="Topic106"></a><div class="CTopic TFunction LC">
+<a name="VDP_GetVersion"></a><a name="Topic236"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_GetVersion</div>
- <div id="NDPrototype106" class="NDPrototype"><div class="PSection PPlainSection">u8 VDP_GetVersion() __naked</div></div>
+ <div id="NDPrototype236" class="NDPrototype"><div class="PSection PPlainSection">u8 VDP_GetVersion() __NAKED</div></div>
  <div class="CBody"><p>Get VDP version. [MSX1/2/2+/TR]</p><div class="CHeading">Return</div><p>VDP identifier (see <a href="../index.html#File:vdp.h:VDP_VERSION" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,102);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >VDP_VERSION</a>).</p></div>
 </div>
 
@@ -317,10 +317,10 @@
  <div class="CBody"><p>Set the frame render mode. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Can be VDP_FRAME_STATIC, VDP_FRAME_ALTERNANCE or VDP_FRAME_INTERLACE</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetPalette"></a><a name="Topic627"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetPalette"></a><a name="Topic237"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetPalette</div>
- <div id="NDPrototype627" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPalette(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">pal</td></tr></table></td><td class="PAfterParameters">) __FASTCALL __PRESERVES(d, e, iyl, iyh)</td></tr></table></div></div>
- <div class="CBody"><p>Set a new color palette from index 1 to 15. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">pal<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of the palette in RAM (table of 15 * 2 bytes) Format: [0:5|green:3|0|red:3|0|blue:3]</p></td></tr></table></div>
+ <div id="NDPrototype237" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetPalette(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">pal</td></tr></table></td><td class="PAfterParameters">) __FASTCALL __PRESERVES(d, e, iyl, iyh)</td></tr></table></div></div>
+ <div class="CBody"><p>Set a new color palette from index 1 to 15. [MSX2/2+/TR] If VDP_USE_PALETTE16 is set to TRUE, index 0 to 15 are used.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">pal<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of the palette in RAM; table of 15 (or 16) * 2 bytes Format: [0:5|green:3|0|red:3|0|blue:3]</p></td></tr></table></div>
 </div>
 
 <a name="VDP_SetPaletteEntry"></a><a name="Topic150"></a><div class="CTopic TFunction LC">

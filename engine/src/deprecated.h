@@ -40,6 +40,7 @@
 #define Bios_InterSlotCallF			BIOS_CALLF
 #define Bios_Reboot					Bios_Startup
 #define Bios_MainCall				Call
+#define Bios_TextPrintSting			Bios_TextPrintString
 
 // Math module
 #define Abs8						ABS8
