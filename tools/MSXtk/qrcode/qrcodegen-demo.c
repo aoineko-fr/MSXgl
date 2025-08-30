@@ -66,19 +66,19 @@ static void doBasicDemo(void)
 #endif
 	{
 		bool ok = QRCode_EncodeText("MSXgl", tempBuffer, qrcode, QRCODE_ECC_LOW, QRCODE_MASK_AUTO, TRUE);
-		if (ok)
+		if(ok)
 			printQr(qrcode);
 	}
 
 	{
 		bool ok = QRCode_EncodeText("https://aoineko.org/msxgl", tempBuffer, qrcode, QRCODE_ECC_LOW, QRCODE_MASK_AUTO, TRUE);
-		if (ok)
+		if(ok)
 			printQr(qrcode);
 	}
 
 	{
 		bool ok = QRCode_EncodeText("https://aoineko.org/msxgl?g=012&c=0123456789ABCDEF", tempBuffer, qrcode, QRCODE_ECC_LOW, QRCODE_MASK_AUTO, TRUE);
-		if (ok)
+		if(ok)
 			printQr(qrcode);
 	}
 }
@@ -92,7 +92,7 @@ static void doVarietyDemo(void)
 		u8 tempBuffer[QRCODE_BUFFER_LEN_MAX];
 		bool ok = QRCode_EncodeText("314159265358979323846264338327950288419716939937510", tempBuffer, qrcode,
 			QRCODE_ECC_MEDIUM, QRCODE_MASK_AUTO, TRUE);
-		if (ok)
+		if(ok)
 			printQr(qrcode);
 	}
 	
@@ -101,7 +101,7 @@ static void doVarietyDemo(void)
 		u8 tempBuffer[QRCODE_BUFFER_LEN_MAX];
 		bool ok = QRCode_EncodeText("DOLLAR-AMOUNT:$39.87 PERCENTAGE:100.00% OPERATIONS:+-*/", tempBuffer, qrcode,
 			QRCODE_ECC_HIGH, QRCODE_MASK_AUTO, TRUE);
-		if (ok)
+		if(ok)
 			printQr(qrcode);
 	}
 	
@@ -112,7 +112,7 @@ static void doVarietyDemo(void)
 		u8 tempBuffer[QRCODE_BUFFER_LEN_MAX];
 		bool ok = QRCode_EncodeText(text, tempBuffer, qrcode,
 			QRCODE_ECC_QUARTILE, QRCODE_MASK_AUTO, TRUE);
-		if (ok)
+		if(ok)
 			printQr(qrcode);
 	}
 	
@@ -129,7 +129,7 @@ static void doVarietyDemo(void)
 		u8 tempBuffer[QRCODE_BUFFER_LEN_MAX];
 		bool ok = QRCode_EncodeText(text, tempBuffer, qrcode,
 			QRCODE_ECC_HIGH, QRCODE_MASK_AUTO, TRUE);
-		if (ok)
+		if(ok)
 			printQr(qrcode);
 	}
 }
@@ -145,7 +145,7 @@ static void doVarietyDemo(void)
 //		bool ok;
 //		{
 //			char *concat = calloc(strlen(silver0) + strlen(silver1) + 1, sizeof(char));
-//			if (concat == NULL) {
+//			if(concat == NULL) {
 //				perror("calloc");
 //				exit(EXIT_FAILURE);
 //			}
@@ -153,14 +153,14 @@ static void doVarietyDemo(void)
 //			strcat(concat, silver1);
 //			ok = QRCode_EncodeText(concat, tempBuffer, qrcode, QRCODE_ECC_LOW,
 //				QRCODE_MASK_AUTO, TRUE);
-//			if (ok)
+//			if(ok)
 //				printQr(qrcode);
 //			free(concat);
 //		}
 //		{
 //			u8 *segBuf0 = malloc(QRCode_CalcSegmentBufferSize(QRCODE_MODE_ALPHANUMERIC, (u16)strlen(silver0)) * sizeof(u8));
 //			u8 *segBuf1 = malloc(QRCode_CalcSegmentBufferSize(QRCODE_MODE_NUMERIC, (u16)strlen(silver1)) * sizeof(u8));
-//			if (segBuf0 == NULL || segBuf1 == NULL) {
+//			if(segBuf0 == NULL || segBuf1 == NULL) {
 //				perror("malloc");
 //				exit(EXIT_FAILURE);
 //			}
@@ -171,7 +171,7 @@ static void doVarietyDemo(void)
 //			ok = QRCode_encodeSegments(segs, sizeof(segs) / sizeof(segs[0]), QRCODE_ECC_LOW, tempBuffer, qrcode);
 //			free(segBuf0);
 //			free(segBuf1);
-//			if (ok)
+//			if(ok)
 //				printQr(qrcode);
 //		}
 //	}
@@ -185,7 +185,7 @@ static void doVarietyDemo(void)
 //		bool ok;
 //		{
 //			char *concat = calloc(strlen(golden0) + strlen(golden1) + strlen(golden2) + 1, sizeof(char));
-//			if (concat == NULL) {
+//			if(concat == NULL) {
 //				perror("calloc");
 //				exit(EXIT_FAILURE);
 //			}
@@ -194,22 +194,22 @@ static void doVarietyDemo(void)
 //			strcat(concat, golden2);
 //			ok = QRCode_EncodeText(concat, tempBuffer, qrcode, QRCODE_ECC_LOW,
 //				QRCODE_MASK_AUTO, TRUE);
-//			if (ok)
+//			if(ok)
 //				printQr(qrcode);
 //			free(concat);
 //		}
 //		{
 //			u8 *bytes = malloc(strlen(golden0) * sizeof(u8));
-//			if (bytes == NULL) {
+//			if(bytes == NULL) {
 //				perror("malloc");
 //				exit(EXIT_FAILURE);
 //			}
-//			for (u16 i = 0, len = (u16)strlen(golden0); i < len; i++)
+//			for(u16 i = 0, len = (u16)strlen(golden0); i < len; i++)
 //				bytes[i] = (u8)golden0[i];
 //			u8 *segBuf0 = malloc(QRCode_CalcSegmentBufferSize(QRCODE_MODE_BYTE, (u16)strlen(golden0)) * sizeof(u8));
 //			u8 *segBuf1 = malloc(QRCode_CalcSegmentBufferSize(QRCODE_MODE_NUMERIC, (u16)strlen(golden1)) * sizeof(u8));
 //			u8 *segBuf2 = malloc(QRCode_CalcSegmentBufferSize(QRCODE_MODE_ALPHANUMERIC, (u16)strlen(golden2)) * sizeof(u8));
-//			if (segBuf0 == NULL || segBuf1 == NULL || segBuf2 == NULL) {
+//			if(segBuf0 == NULL || segBuf1 == NULL || segBuf2 == NULL) {
 //				perror("malloc");
 //				exit(EXIT_FAILURE);
 //			}
@@ -223,7 +223,7 @@ static void doVarietyDemo(void)
 //			free(segBuf0);
 //			free(segBuf1);
 //			free(segBuf2);
-//			if (ok)
+//			if(ok)
 //				printQr(qrcode);
 //		}
 //	}
@@ -245,7 +245,7 @@ static void doVarietyDemo(void)
 //				"\xBC\x9F";
 //			ok = QRCode_EncodeText(madoka, tempBuffer, qrcode, QRCODE_ECC_LOW,
 //				QRCODE_MASK_AUTO, TRUE);
-//			if (ok)
+//			if(ok)
 //				printQr(qrcode);
 //		}
 //		{
@@ -259,7 +259,7 @@ static void doVarietyDemo(void)
 //			};
 //			u16 len = sizeof(kanjiChars) / sizeof(kanjiChars[0]);
 //			u8 *segBuf = calloc(QRCode_CalcSegmentBufferSize(QRCODE_MODE_KANJI, len), sizeof(u8));
-//			if (segBuf == NULL) {
+//			if(segBuf == NULL) {
 //				perror("calloc");
 //				exit(EXIT_FAILURE);
 //			}
@@ -267,14 +267,14 @@ static void doVarietyDemo(void)
 //			seg.mode = QRCODE_MODE_KANJI;
 //			seg.numChars = (i16)len;
 //			seg.bitLength = 0;
-//			for (u16 i = 0; i < len; i++) {
-//				for (i16 j = 12; j >= 0; j--, seg.bitLength++)
+//			for(u16 i = 0; i < len; i++) {
+//				for(i16 j = 12; j >= 0; j--, seg.bitLength++)
 //					segBuf[seg.bitLength >> 3] |= ((kanjiChars[i] >> j) & 1) << (7 - (seg.bitLength & 7));
 //			}
 //			seg.data = segBuf;
 //			ok = QRCode_encodeSegments(&seg, 1, QRCODE_ECC_LOW, tempBuffer, qrcode);
 //			free(segBuf);
-//			if (ok)
+//			if(ok)
 //				printQr(qrcode);
 //		}
 //	}
@@ -290,12 +290,12 @@ static void doVarietyDemo(void)
 //		
 //		ok = QRCode_EncodeText("https://www.nayuki.io/", tempBuffer, qrcode,
 //			QRCODE_ECC_HIGH, QRCODE_MASK_AUTO, TRUE);
-//		if (ok)
+//		if(ok)
 //			printQr(qrcode);
 //		
 //		ok = QRCode_EncodeText("https://www.nayuki.io/", tempBuffer, qrcode,
 //			QRCODE_ECC_HIGH, QRCODE_MASK_3, TRUE);
-//		if (ok)
+//		if(ok)
 //			printQr(qrcode);
 //	}
 //	
@@ -314,22 +314,22 @@ static void doVarietyDemo(void)
 //		
 //		ok = QRCode_EncodeText(text, tempBuffer, qrcode,
 //			QRCODE_ECC_MEDIUM, QRCODE_MASK_0, TRUE);
-//		if (ok)
+//		if(ok)
 //			printQr(qrcode);
 //		
 //		ok = QRCode_EncodeText(text, tempBuffer, qrcode,
 //			QRCODE_ECC_MEDIUM, QRCODE_MASK_1, TRUE);
-//		if (ok)
+//		if(ok)
 //			printQr(qrcode);
 //		
 //		ok = QRCode_EncodeText(text, tempBuffer, qrcode,
 //			QRCODE_ECC_MEDIUM, QRCODE_MASK_5, TRUE);
-//		if (ok)
+//		if(ok)
 //			printQr(qrcode);
 //		
 //		ok = QRCode_EncodeText(text, tempBuffer, qrcode,
 //			QRCODE_ECC_MEDIUM, QRCODE_MASK_7, TRUE);
-//		if (ok)
+//		if(ok)
 //			printQr(qrcode);
 //	}
 //}
@@ -345,9 +345,9 @@ static void printQr(const u8 qrcode[])
 	u8 ver = QRCode_GetVersion(qrcode);
 	printf("Size: %i; Version:%i\n", size, ver);
 	i16 border = 4;
-	for (i16 y = -border; y < size + border; y++)
+	for(i16 y = -border; y < size + border; y++)
 	{
-		for (i16 x = -border; x < size + border; x++) 
+		for(i16 x = -border; x < size + border; x++) 
 		{
 			char chr = QRCode_GetModule(qrcode, x, y) ? 219 : ' ';
 			printf("%c%c", chr, chr);

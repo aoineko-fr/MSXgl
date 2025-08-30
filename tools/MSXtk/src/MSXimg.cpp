@@ -169,6 +169,7 @@ void PrintHelp()
 	printf("    msx1          Use default MSX1 palette\n");
 	printf("    custom        Generate a custom palette and add it to the output file\n");
 	printf("    input n [c1 c2 ...] Use the following colors for conversion\n");
+	printf("    partial n [c1 c2 ...] Use the following colors as base for custom palette\n");
 	printf(" --palcount n     Number of color in the custom palette to create (default: 15)\n");
 	printf(" --paloff n       Index offset of the palette (default: 1)\n");
 	printf(" --pal24          Use 24-bits palette (for v9990; default: false)\n");
@@ -290,6 +291,7 @@ void PrintHelp()
 //const char* ARGV[] = { "", "../testcases/JoyAndHeron", "-out", "../testcases/JoyAndHeron.mglv", "-mode", "mglv", "-format", "bin", "-size", "256", "144", "-bpc", "4", "-pal", "custom" };
 //const char* ARGV[] = { "", "../testcases/JoyAndHeron", "-out", "../testcases/JoyAndHeron.h", "-mode", "mglv", "-format", "c", "-size", "256", "144", "-bpc", "4", "-pal", "custom" };
 //const char* ARGV[] = { "", "../testcases/image03.png", "-out", "../testcases/screen0.h", "-mode", "sc0", "-size", "150", "150" };
+//const char* ARGV[] = { "", "../testcases/vaus.png", "-out", "../testcases/vaus.h", "-mode", "bmp", "-bpc", "4", "-pal", "custom" };
 //#define DEBUG_ARGS
 
 /** Main entry point
@@ -314,7 +316,6 @@ int main(int argc, const char* argv[])
 	// Search for -help option
 	for (i32 i = 1; i < argc; ++i)
 	{
-		// Display help
 		if (MSX::StrEqual(argv[i], "-help"))
 		{
 			PrintHelp();
@@ -402,19 +403,24 @@ int main(int argc, const char* argv[])
 			else if (MSX::StrEqual(argv[i], "input"))
 			{
 				param.palType = PALETTE_Input;
-				param.palCount = GetValue(argv[++i]);
+				param.palInCount = GetValue(argv[++i]);
 				param.palInput.clear();
-				for (i32 j = 0; j < param.palCount; j++)
-				{
-					u32 c24;
-					sscanf(argv[++i], "%i", &c24);
-					param.palInput.push_back(c24);
-				}
+				for (i32 j = 0; j < param.palInCount; j++)
+					param.palInput.push_back(GetValue(argv[++i]));
+				param.palOutCount = param.palInCount;
+			}
+			else if (MSX::StrEqual(argv[i], "partial"))
+			{
+				param.palType = PALETTE_Partial;
+				param.palInCount = GetValue(argv[++i]);
+				param.palInput.clear();
+				for (i32 j = 0; j < param.palInCount; j++)
+					param.palInput.push_back(GetValue(argv[++i]));
 			}
 		}
 		else if (MSX::StrEqual(argv[i], "--palcount") || MSX::StrEqual(argv[i], "-palcount")) // Palette count
 		{
-			param.palCount = GetValue(argv[++i]);
+			param.palOutCount = GetValue(argv[++i]);
 		}		
 		else if (MSX::StrEqual(argv[i], "--paloff") || MSX::StrEqual(argv[i], "-paloff")) // Palette offset
 		{
@@ -753,12 +759,12 @@ int main(int argc, const char* argv[])
 	}
 
 	//-------------------------------------------------------------------------
-	if (param.palCount < 0) // Set default palette count
+	if (param.palOutCount < 0) // Set default palette count
 	{
 		if (param.bpc == 2)
-			param.palCount = 4 - param.palOffset;
+			param.palOutCount = 4 - param.palOffset;
 		else if (param.bpc == 4)
-			param.palCount = 16 - param.palOffset;
+			param.palOutCount = 16 - param.palOffset;
 	}
 
 	//-------------------------------------------------------------------------
@@ -900,7 +906,7 @@ int main(int argc, const char* argv[])
 		printf("Error: Transparency and Opacity can't be use together!\n");
 		return 1;
 	}
-	if (((param.bpc == 2) || (param.bpc == 4)) && (param.palCount < 1))
+	if (((param.bpc == 2) || (param.bpc == 4)) && (param.palOutCount < 1))
 	{
 		printf("Error: Palette count can't be less that 1 with 2-bits and 4-bits color mode!\n");
 		return 1;
@@ -936,15 +942,15 @@ int main(int argc, const char* argv[])
 	{
 		printf("Warning: -skip as no effect without transparency color.\n");
 	}
-	if ((param.bpc == 2) && (param.palOffset + param.palCount > 4))
+	if ((param.bpc == 2) && (param.palOffset + param.palOutCount > 4))
 	{
-		printf("Warning: -paloffset is %i and -palcount is %i but total can't be more than 4 with 2-bits color (color index 0 is always transparent). Continue with 4 as value.\n", param.palOffset, param.palCount);
-		param.palCount = 4 - param.palOffset;
+		printf("Warning: -paloffset is %i and -palcount is %i but total can't be more than 4 with 2-bits color (color index 0 is always transparent). Continue with 4 as value.\n", param.palOffset, param.palOutCount);
+		param.palOutCount = 4 - param.palOffset;
 	}
-	if ((param.bpc == 4) && (param.palOffset + param.palCount > 16))
+	if ((param.bpc == 4) && (param.palOffset + param.palOutCount > 16))
 	{
-		printf("Warning: -paloffset is %i and -palcount is %i but total can't be more than 16 with 4-bits color (color index 0 is always transparent). Continue with 16 as value.\n", param.palOffset, param.palCount);
-		param.palCount = 16 - param.palOffset;
+		printf("Warning: -paloffset is %i and -palcount is %i but total can't be more than 16 with 4-bits color (color index 0 is always transparent). Continue with 16 as value.\n", param.palOffset, param.palOutCount);
+		param.palOutCount = 16 - param.palOffset;
 	}
 	if ((param.dither != DITHER_None) && (param.bpc != 1))
 	{

@@ -311,7 +311,6 @@ int main(int argc, const c8* argv[])
 	// Search for -help option
 	for (i32 i = 1; i < argc; ++i)
 	{
-		// Display help
 		if (MSX::StrEqual(argv[i], "-help"))
 		{
 			PrintHelp();

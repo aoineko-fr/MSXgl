@@ -30,7 +30,7 @@ static double pt_distance(const Pointer a, const Pointer b)
 
 	double somma_quadrati = 0;
 
-	for (i = 0; i < N; i++) {
+	for(i = 0; i < N; i++) {
 		double d = pa->x[i] - pb->x[i];
 		somma_quadrati += d * d;
 	}
@@ -45,25 +45,25 @@ static void pt_centroid(const Pointer* objs, const int* clusters, size_t num_obj
 	point** pts = (point**)objs;
 	point* center = (point*)centroid;
 
-	for (j = 0; j < N; j++) {
+	for(j = 0; j < N; j++) {
 		sum.x[j] = 0.0;
 	}
 
-	if (num_objs <= 0) return;		// no objects in the set
+	if(num_objs <= 0) return;		// no objects in the set
 
-	for (i = 0; i < num_objs; i++) {
+	for(i = 0; i < num_objs; i++) {
 
-		if (clusters[i] != cluster) continue;	// Only process objects of this cluster 
+		if(clusters[i] != cluster) continue;	// Only process objects of this cluster 
 
-		for (j = 0; j < N; j++) {
+		for(j = 0; j < N; j++) {
 			sum.x[j] += pts[i]->x[j];
 		}
 		num_cluster++;
 	}
 
-	if (num_cluster)
+	if(num_cluster)
 	{
-		for (j = 0; j < N; j++) {
+		for(j = 0; j < N; j++) {
 			sum.x[j] /= num_cluster;
 		}
 		*center = sum;
@@ -87,7 +87,7 @@ bool km_quantization(const std::vector<point>& image /*int nargs, char** argv*/)
 
 	int k = 256;
 
-	//if (nargs != 3) {
+	//if(nargs != 3) {
 	//	printf("Use: %s <InputFileName> <InputVectorNumber>\n\n", argv[0]);
 	//	printf("The input file is an array of chars with value 0 or 1, with size 64xVectorNumber\n");
 	//	printf("NB: VectorNumber has to be > 256\n\n");
@@ -122,28 +122,28 @@ bool km_quantization(const std::vector<point>& image /*int nargs, char** argv*/)
 
 	/* read binary data */
 	//fp = fopen(inputfile, "rb");
-	//if (fp == NULL) {
+	//if(fp == NULL) {
 	//	printf("Error while opening the input file.\n");
 	//	return 1;
 	//}
 
-	for (j = 0; j < config.num_objs; j++)
+	for(j = 0; j < config.num_objs; j++)
 	{
 		//char inp[N];
 		//int nbytes = (int)fread(&(inp[0]), sizeof(char), N, fp);
 
-		//if (nbytes != N)
+		//if(nbytes != N)
 		//{
 		//	printf("Error while reading the input file.\n");
 		//	fclose(fp);
 		//	return 1;
 		//}
-		//for (i = 0; i < N; i++)
+		//for(i = 0; i < N; i++)
 		//{
 		//	pts[j].x[i] = (char)(inp[i] != 0);  // convert input to 1bpp
 		//}
 
-		for (i = 0; i < N; i++)
+		for(i = 0; i < N; i++)
 		{
 			pts[j].x[i] = (char)(image[j][i] != 0);  // convert input to 1bpp
 		}
@@ -154,7 +154,7 @@ bool km_quantization(const std::vector<point>& image /*int nargs, char** argv*/)
 	//fclose(fp);
 
 	/* Populate the initial means vector with random start points */
-	for (i = 0; i < config.k; i++)
+	for(i = 0; i < config.k; i++)
 	{
 		int r = lround(config.num_objs * (1.0 * rand() / RAND_MAX));
 		/* Populate raw data */
@@ -179,22 +179,22 @@ bool km_quantization(const std::vector<point>& image /*int nargs, char** argv*/)
 
 	// Save the tileset from the kmeans (centroids of 64 bytes)
 	fp = fopen("centroids.bin", "wb");
-	if (fp == NULL) {
+	if(fp == NULL) {
 		printf("Error opening the centroid file.\n");
 		return 1;
 	}
 
-	for (i = 0; i < config.k; i++)
+	for(i = 0; i < config.k; i++)
 	{
 
 		char centroid[N];
-		for (j = 0; j < N; j++) {
+		for(j = 0; j < N; j++) {
 			centroid[j] = (char)(((point*)config.centers[i])->x[j] > 0.5);		// convert to 1bpp 
 		}
 
 		int nbytes = (int)fwrite(centroid, sizeof(char), N, fp);
 
-		if (nbytes != N) {
+		if(nbytes != N) {
 			printf("Error while writng the centroid file.\n");
 			fclose(fp);
 			return 1;
@@ -203,11 +203,11 @@ bool km_quantization(const std::vector<point>& image /*int nargs, char** argv*/)
 	fclose(fp);
 
 	fp = fopen("classification.bin", "wb");
-	if (fp == NULL) {
+	if(fp == NULL) {
 		printf("Error opening the classification file.\n");
 		return 1;
 	}
-	for (i = 0; i < config.num_objs; i++) {
+	for(i = 0; i < config.num_objs; i++) {
 		char t = (char)config.clusters[i];
 		fwrite(&t, sizeof(char), 1, fp);
 	}

@@ -255,6 +255,43 @@ FIBITMAP* GetPreparedImage(std::string filename, ExportParameters* param)
 //#############################################################################
 
 //-----------------------------------------------------------------------------
+// 
+bool IsColorInPalette(u32 col, u32* pal, i32 size)
+{
+	for (i32 i = 0; i < size; i++)
+		if (pal[i] == col)
+			return true;
+	return false;
+}
+
+//-----------------------------------------------------------------------------
+// 
+void FillPalette(RGBQUAD* inPal, u32* outPal, ExportParameters* param)
+{
+	if (param->palType == PALETTE_Partial)
+	{
+		i32 idx = 0;
+		for (i32 c = 0; c < param->palOffset; c++)
+			outPal[idx++] = 0;
+		for (i32 c = 0; c < param->palInCount; c++)
+			outPal[idx++] = param->palInput[c];
+		for (i32 c = 0; c < param->palOutCount; c++)
+		{
+			u32 col = ((u32*)inPal)[c];
+			if (!IsColorInPalette(col, outPal, idx))
+				outPal[idx++] = col;
+		}
+	}
+	else // if (param->palType == PALETTE_Custom)
+	{
+		for (i32 c = 0; c < param->palOffset; c++)
+			outPal[c] = 0;
+		for (i32 c = 0; c < param->palOutCount; c++)
+			outPal[c + param->palOffset] = ((u32*)inPal)[c];
+	}
+}
+
+//-----------------------------------------------------------------------------
 // Export bitmap image
 bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 {
@@ -283,46 +320,60 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 	BYTE* bits = new BYTE[scanWidth * imageY];
 	FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
 
+	if (!param->pal24) // convert image for use with 9-bits palette
+	{
+		u32* rgb = (u32*)bits;
+		for (i32 i = 0; i < imageX * imageY; i++)
+		{
+			rgb[i] &= 0b1111111111'11100000'11100000'11100000;
+		}
+		dib32 = FreeImage_ConvertFromRawBits(bits, imageX, imageY, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
+		FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
+	}
+
 	// Get custom palette for 16 colors mode
 	u32 customPalette[16];
-	if (param->palType == PALETTE_Input)
+	if ((param->palType == PALETTE_Input) || (param->palType == PALETTE_Partial))
 	{
-		for (i32 i = 0; i < param->palCount; i++)
+		for (i32 i = 0; i < param->palInCount; i++)
 			customPalette[i] = param->palInput[i];
 	}
-	else if ((param->bpc == 4) && (param->palType == PALETTE_Custom))
+	
+	if ((param->bpc == 4) && ((param->palType == PALETTE_Custom) || (param->palType == PALETTE_Partial)))
 	{
+		i32 inNum = param->palInCount;
+		RGBQUAD* inPal = (param->palType == PALETTE_Partial) ? (RGBQUAD*)customPalette : NULL;
+
 		if (param->bUseTrans)
 		{
 			u32 black = 0;
 			i32 res = FreeImage_ApplyColorMapping(dib32, (RGBQUAD*)&transRGB, (RGBQUAD*)&black, 1, true, false); // @warning: must be call AFTER retreving raw data!
 		}
-		FIBITMAP* dib4 = FreeImage_ColorQuantizeEx(dib32, FIQ_LFPQUANT, param->palCount, 0, NULL); // Try Lossless Fast Pseudo-Quantization algorithm (if there are 15 colors or less)
-		if(dib4 == NULL)
-			dib4 = FreeImage_ColorQuantizeEx(dib32, FIQ_WUQUANT, param->palCount, 0, NULL); // Else, use Efficient Statistical Computations for Optimal Color Quantization
+		FIBITMAP* dib4 = FreeImage_ColorQuantizeEx(dib32, FIQ_LFPQUANT, param->palOutCount, inNum, inPal); // Try Lossless Fast Pseudo-Quantization algorithm (if there are 15 colors or less)
+		if (dib4 == NULL)
+		{
+			dib32 = FreeImage_ConvertTo24Bits(dib32);
+			dib4 = FreeImage_ColorQuantizeEx(dib32, FIQ_NNQUANT, param->palOutCount, inNum, inPal); // Else, use Efficient Statistical Computations for Optimal Color Quantization
+		}
 		RGBQUAD* pal = FreeImage_GetPalette(dib4);
-		
-		for (i32 c = 0; c < param->palOffset; c++)
-			customPalette[c] = 0;
-		for (i32 c = 0; c < param->palCount; c++)
-			customPalette[c + param->palOffset] = ((u32*)pal)[c];
+		FillPalette(pal, customPalette, param);
 		FreeImage_Unload(dib4);
 	}
-	else if ((param->bpc == 2) && (param->palType == PALETTE_Custom))
+	else if ((param->bpc == 2) && ((param->palType == PALETTE_Custom) || (param->palType == PALETTE_Partial)))
 	{
+		i32 inNum = param->palInCount;
+		RGBQUAD* inPal = (param->palType == PALETTE_Partial) ? (RGBQUAD*)customPalette : NULL;
+
 		if (param->bUseTrans)
 		{
 			u32 black = 0;
 			i32 res = FreeImage_ApplyColorMapping(dib32, (RGBQUAD*)&transRGB, (RGBQUAD*)&black, 1, true, false); // @warning: must be call AFTER retreving raw data!
 		}
-		FIBITMAP* dib2 = FreeImage_ColorQuantizeEx(dib32, FIQ_LFPQUANT, param->palCount, 0, NULL); // Try Lossless Fast Pseudo-Quantization algorithm (if there are 3 colors or less)
+		FIBITMAP* dib2 = FreeImage_ColorQuantizeEx(dib32, FIQ_LFPQUANT, param->palOutCount, inNum, inPal); // Try Lossless Fast Pseudo-Quantization algorithm (if there are 3 colors or less)
 		if (dib2 == NULL)
-			dib2 = FreeImage_ColorQuantizeEx(dib32, FIQ_WUQUANT, param->palCount, 0, NULL); // Else, use Efficient Statistical Computations for Optimal Color Quantization
+			dib2 = FreeImage_ColorQuantizeEx(dib32, FIQ_WUQUANT, param->palOutCount, inNum, inPal); // Else, use Efficient Statistical Computations for Optimal Color Quantization
 		RGBQUAD* pal = FreeImage_GetPalette(dib2);
-		for (i32 c = 0; c < param->palOffset; c++)
-			customPalette[c] = 0;
-		for (i32 c = 0; c < param->palCount; c++)
-			customPalette[c + param->palOffset] = ((u32*)pal)[c];
+		FillPalette(pal, customPalette, param);
 		FreeImage_Unload(dib2);
 	}
 	// Apply dithering for 2 color mode
@@ -490,9 +541,9 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 									u32 rgb = hashTable[k].color;
 									u32* pal = (param->palType == PALETTE_MSX1) ? PaletteMSX : customPalette;
 									if (param->bUseTrans)
-										c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palCount, param->palOffset);
+										c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
 									else
-										c4 = GetNearestColorIndex(rgb, pal, param->palCount, param->palOffset);
+										c4 = GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
 									if (l & 0x1)
 										byte |= c4; // Second pixel use lower bits
 									else
@@ -531,9 +582,9 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							u32 rgb = hashTable[k].color;
 							u32* pal = (param->palType == PALETTE_MSX1) ? PaletteMSX : customPalette;
 							if (param->bUseTrans)
-								c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palCount, param->palOffset);
+								c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
 							else
-								c4 = GetNearestColorIndex(rgb, pal, param->palCount, param->palOffset);
+								c4 = GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
 							u8 byte = ((0x0F & hashTable[k].length) << 4) + c4;
 							exp->Write1ByteData(byte);
 						}
@@ -546,9 +597,9 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							u32 rgb = hashTable[k].color;
 							u32* pal = (param->palType == PALETTE_MSX1) ? PaletteMSX : customPalette;
 							if (param->bUseTrans)
-								c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palCount, param->palOffset);
+								c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
 							else
-								c4 = GetNearestColorIndex(rgb, pal, param->palCount, param->palOffset);
+								c4 = GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
 							exp->Write1ByteData(c4);
 						}
 						else if (param->bpc == 8) // 8-bits GBR color
@@ -764,9 +815,9 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 								{
 									u32* pal = (param->palType == PALETTE_MSX1) ? PaletteMSX : customPalette;
 									if (param->bUseTrans)
-										c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palCount, param->palOffset);
+										c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
 									else
-										c4 = GetNearestColorIndex(rgb, pal, param->palCount, param->palOffset);
+										c4 = GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
 									c4 &= 0x0F;
 
 									if ((i & 0x1) == 0)
@@ -784,9 +835,9 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 								{
 									u32* pal = (param->palType == PALETTE_MSX1) ? PaletteMSX : customPalette;
 									if (param->bUseTrans)
-										c2 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palCount, param->palOffset);
+										c2 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
 									else
-										c2 = GetNearestColorIndex(rgb, pal, param->palCount, param->palOffset);
+										c2 = GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
 									c2 &= 0x03;
 
 									if ((i & 0x3) == 0)
@@ -854,13 +905,13 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 	//-------------------------------------------------------------------------
 	// PALETTE TABLE
 
-	if (((param->bpc == 2) || (param->bpc == 4)) && ((param->palType == PALETTE_Custom) || (param->palType == PALETTE_Input)))
+	if (((param->bpc == 2) || (param->bpc == 4)) && ((param->palType == PALETTE_Custom) || (param->palType == PALETTE_Partial) || (param->palType == PALETTE_Input)))
 	{
 		sprintf(strData, "%s_palette", param->tabName.c_str());
 		if (param->pal24)
 		{
 			exp->WriteTableBegin(TABLE_U8, strData, "Custom palette | Format: [x:3|R:5] [x:3|G:5] [x:3|B:5] (v9990)");
-			for (i32 i = param->palOffset; i < param->palOffset + param->palCount; i++)
+			for (i32 i = param->palOffset; i < param->palOffset + param->palOutCount; i++)
 			{
 				exp->WriteLineBegin();
 				RGB24 color(customPalette[i]);
@@ -874,7 +925,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 		else
 		{
 			exp->WriteTableBegin(TABLE_U8, strData, "Custom palette | Format: [x|R:3|x|B:3] [x:5|G:3] (v9938)");
-			for (i32 i = param->palOffset; i < param->palOffset + param->palCount; i++)
+			for (i32 i = param->palOffset; i < param->palOffset + param->palOutCount; i++)
 			{
 				RGB24 color(customPalette[i]);
 				u8 c1 = ((color.R >> 5) << 4) + (color.B >> 5);

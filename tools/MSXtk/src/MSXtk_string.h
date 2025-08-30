@@ -33,12 +33,12 @@ inline std::string Format(const char* fmt, ...)
 	const auto r = std::vsnprintf(buf, sizeof buf, fmt, args);
 	va_end(args);
 
-	if (r < 0)
+	if(r < 0)
 		// conversion failed
 		return {};
 
 	const size_t len = r;
-	if (len < sizeof buf)
+	if(len < sizeof buf)
 		// we fit in the buffer
 		return { buf, len };
 
@@ -65,8 +65,8 @@ inline std::string Format(const char* fmt, ...)
 inline std::string ToLower(const std::string& str)
 {
 	std::string ret = str;
-	for (int i = 0; i < (int)ret.size(); i++)
-		if ((ret[i] >= 'A') && (ret[i] <= 'Z'))
+	for(int i = 0; i < (int)ret.size(); i++)
+		if((ret[i] >= 'A') && (ret[i] <= 'Z'))
 			ret[i] = ret[i] - 'A' + 'a';
 	return ret;
 }
@@ -75,8 +75,8 @@ inline std::string ToLower(const std::string& str)
 inline std::string ToUpper(const std::string& str)
 {
 	std::string ret = str;
-	for (int i = 0; i < (int)ret.size(); i++)
-		if ((ret[i] >= 'a') && (ret[i] <= 'z'))
+	for(int i = 0; i < (int)ret.size(); i++)
+		if((ret[i] >= 'a') && (ret[i] <= 'z'))
 			ret[i] = ret[i] - 'a' + 'A';
 	return ret;
 }
@@ -99,7 +99,7 @@ inline bool StrEqual(const c8* str1, const c8* str2, bool bCaseInsensitive = tru
 inline std::string RemoveExt(const std::string& str)
 {
 	size_t lastdot = str.find_last_of(".");
-	if (lastdot == std::string::npos)
+	if(lastdot == std::string::npos)
 		return str;
 	return str.substr(0, lastdot);
 }
@@ -110,11 +110,11 @@ inline std::string RemovePath(const std::string& str)
 	size_t lastpos;
 	size_t last1 = str.find_last_of("\\");
 	size_t last2 = str.find_last_of("/");
-	if ((last1 == std::string::npos) && (last2 == std::string::npos))
+	if((last1 == std::string::npos) && (last2 == std::string::npos))
 		return str;
-	else if (last1 == std::string::npos)
+	else if(last1 == std::string::npos)
 		lastpos = last2;
-	else if (last2 == std::string::npos)
+	else if(last2 == std::string::npos)
 		lastpos = last1;
 	else
 		lastpos = std::max(last1, last2);
