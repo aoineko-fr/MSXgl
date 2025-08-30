@@ -138,7 +138,7 @@ void Erase(u8 sx, u8 sy, u16 num)
 //
 const c8* GetEtherTypeName(u16 id)
 {
-	switch(id)
+	switch (id)
 	{
 	case ETHERTYPE_IPV4			: return "IPv4";
 	case ETHERTYPE_ARP			: return "ARP";
@@ -203,7 +203,7 @@ const c8* GetEtherTypeName(u16 id)
 //
 const c8* GetSendResultName(u8 val)
 {
-	switch(val)
+	switch (val)
 	{
 	case ONET_SYNC_SUCCESS			: return "Success"; // Packet successfully sent
 	case ONET_SYNC_ERROR_LENGTH		: return "Error length"; // Invalid packet length
@@ -217,7 +217,7 @@ const c8* GetSendResultName(u8 val)
 //
 const c8* GetSendStatusName(u8 val)
 {
-	switch(val)
+	switch (val)
 	{
 	case ONET_SEND_NONE				: return "None"; // No packets have been sent since the last execution of RTL_RESET
 	case ONET_SEND_PROGRESS			: return "Progress"; // Transmission in progress
@@ -233,7 +233,7 @@ const c8* GetSendStatusName(u8 val)
 void Print_DrawSlot(u8 slot)
 {
 	Print_DrawInt(Sys_SlotGetPrimary(slot));
-	if(Sys_SlotIsExpended(slot))
+	if (Sys_SlotIsExpended(slot))
 	{
 		Print_DrawChar('-');
 		Print_DrawInt(Sys_SlotGetSecondary(slot));
@@ -274,7 +274,7 @@ void DisplayFoot()
 	Print_DrawLineH(0, 22, 32);
 	Erase(0, 23, 32);
 	Print_SetPosition(0, 23);
-	if(g_Mode == MODE_SNIFFER)
+	if (g_Mode == MODE_SNIFFER)
 		Print_DrawFormat("F1:Game R:Reset%s", (g_Pending) ? " G:Get D:Discard" : "");
 	else
 		Print_DrawFormat("F1:Sniffer");
@@ -293,7 +293,7 @@ void DisplaySniffer()
 	Print_SetPosition(0, 3);
 	Print_DrawText("Slot   :");
 	g_Slot = ONET_Initialize();
-	if(g_Slot == 0xFF)
+	if (g_Slot == 0xFF)
 	{
 		Print_DrawText("Not found!");
 		return;
@@ -322,15 +322,15 @@ void UpdateSniffer()
 {
 	struct ONET_PacketInfo info;
 	
-	if(ONET_GetSlot() == 0xFF)
+	if (ONET_GetSlot() == 0xFF)
 		return;
 
-	if(!g_Pending)
+	if (!g_Pending)
 	{
 		Erase(8, 10, 32-8);
 		bool bInf = ONET_GetPacketInfo(&info);
 		Print_SetPosition(8, 10);
-		if(bInf)
+		if (bInf)
 		{
 			Print_DrawFormat("Yes S=%i H=%4x %s", info.Size, info.Head, GetEtherTypeName(info.Head));
 			g_Pending = TRUE;
@@ -342,11 +342,11 @@ void UpdateSniffer()
 			DisplayFoot();
 		}
 	}
-	if(g_Pending)
+	if (g_Pending)
 	{
-		if(Keyboard_IsKeyPressed(KEY_G)) // Get Packet
+		if (Keyboard_IsKeyPressed(KEY_G)) // Get Packet
 		{
-			if(ONET_GetPacket(g_Buffer))
+			if (ONET_GetPacket(g_Buffer))
 			{
 				Erase(0, 11, 32*11);
 				Print_SetPosition(0, 11);
@@ -355,7 +355,7 @@ void UpdateSniffer()
 				Print_DrawText("\nDest.   "); Print_DrawMAC(g_Buffer + 2);
 				Print_DrawText("\nSource  "); Print_DrawMAC(g_Buffer + 8);
 				u8* buf;
-				if(info.Head > 1500)
+				if (info.Head > 1500)
 				{
 					buf = g_Buffer + 14;
 				}
@@ -369,22 +369,22 @@ void UpdateSniffer()
 				buf += 2;
 				Print_DrawText("\nRaw     ");
 				u16 size = MIN(info.Size, 8*6);
-				for(u8 i = 0; i < size; ++i)
+				for (u8 i = 0; i < size; ++i)
 				{
-					if((i > 0) && ((i % 8) == 0))
+					if ((i > 0) && ((i % 8) == 0))
 					{
 						g_PrintData.CursorX = 8;
 						g_PrintData.CursorY++;
 					}
 					Print_DrawHex8(*buf++);
-					if((i % 8) != 7)
+					if ((i % 8) != 7)
 						g_PrintData.CursorX++;
 				}
 				g_Pending = FALSE;
 				DisplayFoot();
 			}
 		}
-		else if(Keyboard_IsKeyPressed(KEY_D)) // Discard Packet
+		else if (Keyboard_IsKeyPressed(KEY_D)) // Discard Packet
 		{
 			ONET_GetPacket(0);
 			g_Pending = FALSE;
@@ -435,7 +435,7 @@ void SendBroadcast(u8 msg, const u8* data, u16 size)
 
 	// Prepare data
 	g_Buffer[14] = msg;
-	if(size)
+	if (size)
 		Mem_Copy(data, g_Buffer + 15, size);
 
 	// Send data
@@ -446,7 +446,7 @@ void SendBroadcast(u8 msg, const u8* data, u16 size)
 // Pseudo game FSM
 void UpdateGame()
 {
-	switch(g_State)
+	switch (g_State)
 	{
 	case STATE_MENU_INIT:
 		Erase(0, 2, 20*32);
@@ -460,9 +460,9 @@ void UpdateGame()
 		g_State = STATE_MENU;
 
 	case STATE_MENU:
-		if(Keyboard_IsKeyPressed(KEY_1))
+		if (Keyboard_IsKeyPressed(KEY_1))
 			g_State = STATE_HOSTING_INIT;
-		if(Keyboard_IsKeyPressed(KEY_2))
+		if (Keyboard_IsKeyPressed(KEY_2))
 			g_State = STATE_BROWSE_INIT;
 		break;
 
@@ -506,7 +506,7 @@ void UpdateGame()
 		break;
 
 	case STATE_HOSTING:
-		if((g_Frame % 32) == 0)
+		if ((g_Frame % 32) == 0)
 			SendBroadcast(MESSAGE_INVITATION, NULL, 0);
 
 		// u8 res = ONET_GetSendStatus();
@@ -519,19 +519,19 @@ void UpdateGame()
 		{
 			// Handle local player
 			struct Player* ply = &g_Player[0];
-			if(Keyboard_IsKeyPressed(KEY_RIGHT))
+			if (Keyboard_IsKeyPressed(KEY_RIGHT))
 			{
 				ply->Direction++;
 				ply->Direction %= 32;
 				ply->Shape = 0xB0 + (ply->Direction / 4);
 			}
-			else if(Keyboard_IsKeyPressed(KEY_LEFT))
+			else if (Keyboard_IsKeyPressed(KEY_LEFT))
 			{
 				ply->Direction--;
 				ply->Direction %= 32;
 				ply->Shape = 0xB0 + (ply->Direction / 4);
 			}
-			if(Keyboard_IsKeyPressed(KEY_UP))
+			if (Keyboard_IsKeyPressed(KEY_UP))
 			{
 				const struct Vector* vec = &g_MoveTab[ply->Direction / 4];
 				ply->X += vec->X;
@@ -539,7 +539,7 @@ void UpdateGame()
 			}
 
 			// Handle local player send info
-			if((g_Frame % 8) == 0)
+			if ((g_Frame % 8) == 0)
 				SendBroadcast(MESSAGE_UPDATE, (const u8*)ply, sizeof(struct Player));
 
 			// u8 res = ONET_GetSendStatus();
@@ -551,7 +551,7 @@ void UpdateGame()
 			// Update distant players
 
 			// Draw players
-			for(u8 i = 0; i < g_PlayerNum; ++i)
+			for (u8 i = 0; i < g_PlayerNum; ++i)
 				VDP_WriteVRAM((const u8*)&g_Player[i], g_SpriteAttributeLow + (i * 4), g_SpriteAttributeHigh, 3);
 		}
 		break;
@@ -579,7 +579,7 @@ void main()
 
 	g_Pending = false;
 	bool bPressed = FALSE;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 
@@ -588,9 +588,9 @@ void main()
 
 		g_ModeTab[g_Mode].Update();
 
-		if(Keyboard_IsKeyPressed(KEY_F1))
+		if (Keyboard_IsKeyPressed(KEY_F1))
 		{
-			if((!bPressed) && (g_Slot != 0xFF))
+			if ((!bPressed) && (g_Slot != 0xFF))
 			{
 				g_Mode = 1 - g_Mode;
 				g_ModeTab[g_Mode].Display();
@@ -600,7 +600,7 @@ void main()
 		else
 			bPressed = FALSE;
 
-		if(Keyboard_IsKeyPressed(KEY_R))
+		if (Keyboard_IsKeyPressed(KEY_R))
 			g_ModeTab[g_Mode].Display();
 
 		g_Frame++;

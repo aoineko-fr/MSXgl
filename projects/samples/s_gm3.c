@@ -109,7 +109,7 @@ void VDP_InterruptHandler()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {} // Wait for ISR to be executed
+	while (g_VBlank == 0) {} // Wait for ISR to be executed
 
 	g_VBlank = 0;
 	g_Frame++;
@@ -155,7 +155,7 @@ void main()
 
 	// Generate tiles data
 	u16 addr = VDP_GetColorTable();
-	for(u8 bank = 0; bank < 4; ++bank)
+	for (u8 bank = 0; bank < 4; ++bank)
 	{
 		VDP_LoadBankPattern_GM2(g_Font_MGL_Sample8 + 4 + 8 * g_FillChar[bank], 1, bank, 1); // Load 1 character at index 1
 		VDP_FillVRAM(g_FillColor[bank], addr, 0, 256 * 8); // Fill bank color
@@ -164,9 +164,9 @@ void main()
 
 	// Generate layout
 	addr = VDP_GetLayoutTable();
-	for(u16 i = 0; i < 32*32; ++i)
+	for (u16 i = 0; i < 32*32; ++i)
 	{
-		if((i >= 32 * 3) && !(i & 0x20))
+		if ((i >= 32 * 3) && !(i & 0x20))
 			VDP_Poke(i & 0x01, addr, 0);
 		addr++;
 	}
@@ -200,7 +200,7 @@ void main()
 		VDP_SetSpriteExUniColor(1, X, Y, 36, COLOR_WHITE);
 		VDP_SetSpriteExUniColor(2, X, Y, 40, COLOR_LIGHT_RED);
 
-		for(u8 i = 3; i < 32; ++i)
+		for (u8 i = 3; i < 32; ++i)
 		{
 			u8 idx = i - 3 + (s * 29);
 			struct VDP_Sprite* sprt = &g_SpriteData[idx];
@@ -218,7 +218,7 @@ void main()
 
 	u8 shape = 6;
 	u8 prevRow8 = 0xFF;
-	while(1)
+	while (1)
 	{
 		// Wait for v-synch
 		WaitVBlank();
@@ -235,55 +235,55 @@ void main()
 
 			// Update player sprites
 			u8 y = Y + g_Frame;
-			if(y == 216)
+			if (y == 216)
 				y++;
 			VDP_SetSprite(0, X, y, 32 + shape * 16);
 			VDP_SetSprite(1, X, y, 36 + shape * 16);
 			VDP_SetSprite(2, X, y, 40 + shape * 16);
 
 			// Update balloon sprites
-			for(u8 i = 3; i < 32; ++i)
+			for (u8 i = 3; i < 32; ++i)
 			{
 				u8 idx = i - 3;
-				if(s)
+				if (s)
 					idx += 29;
 				struct VDP_Sprite* sprt = &g_SpriteData[idx];
 				u8 y = sprt->Y + g_Frame;
-				if(y == 216)
+				if (y == 216)
 					y++;
 				VDP_SetSpritePositionY(i, y);
 			}
 		}
 
 		u8 row0 = Keyboard_Read(0);
-		if(IS_KEY_PRESSED(row0, KEY_1))
+		if (IS_KEY_PRESSED(row0, KEY_1))
 			SetScreenMode(VDP_MODE_GRAPHIC3_MIRROR_0);
-		if(IS_KEY_PRESSED(row0, KEY_2))
+		if (IS_KEY_PRESSED(row0, KEY_2))
 			SetScreenMode(VDP_MODE_GRAPHIC3_MIRROR_01);
-		if(IS_KEY_PRESSED(row0, KEY_3))
+		if (IS_KEY_PRESSED(row0, KEY_3))
 			SetScreenMode(VDP_MODE_GRAPHIC3_MIRROR_02);
-		if(IS_KEY_PRESSED(row0, KEY_4))
+		if (IS_KEY_PRESSED(row0, KEY_4))
 			SetScreenMode(VDP_MODE_GRAPHIC3);
 
 		shape = 6;
 		u8 row8 = Keyboard_Read(8);
 		// Update horizontal scrolling offset
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+		if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
 			X++;
 			shape = (g_Frame >> 2) % 6;
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
+		else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
 			X--;
 			shape = (g_Frame >> 2) % 6;
 		}
-		if(IS_KEY_PRESSED(row8, KEY_DOWN))
+		if (IS_KEY_PRESSED(row8, KEY_DOWN))
 		{
 			Y++;
 			shape = (g_Frame >> 2) % 6;
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_UP))
+		else if (IS_KEY_PRESSED(row8, KEY_UP))
 		{
 			Y--;
 			shape = (g_Frame >> 2) % 6;

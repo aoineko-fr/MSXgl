@@ -171,7 +171,7 @@ enum V9_COLOR_MODE
 //-----------------------------------------------------------------------------
 
 // V9990 sprite structure
-struct V9_Sprite
+typedef struct V9_Sprite
 {
 	u8		Y;			// Sprite Y-coordinate (Actual display position is one line below specified)
 	u8		Pattern;	// Sprite Pattern Number (Pattern Offset is specified in R#25 SGBA)
@@ -180,18 +180,18 @@ struct V9_Sprite
 	u16		D  : 1;		// Sprite is disabled when D=1
 	u16		P  : 1;		// Sprite is in front of the front layer when P=0, sprite is behind the front layer when P=1.
 	u16		SC : 2;		// Palette offset for sprite colors
-};
+} V9_Sprite;
 
 // V9990 address structure
-struct V9_Address
+typedef struct V9_Address
 {
 	u8 Lower;
 	u8 Center;
 	u8 Upper;
-};
+} V9_Address;
 
 // External variable containing address to read or write
-extern struct V9_Address g_V9_Address;
+extern V9_Address g_V9_Address;
 
 //=============================================================================
 // FUNCTIONS
@@ -778,7 +778,7 @@ inline void V9_SetSpritePaletteOffset(u8 offset) { V9_SetRegister(28, offset); }
 // Parameters:
 //   id - Sprite index (0 to 124).
 //   attr - Pointer to sprite structure.
-inline void V9_SetSpriteP1(u8 id, const struct V9_Sprite* attr) { V9_WriteVRAM(V9_P1_SPAT + (id * 4), (const u8*)attr, 4); }
+inline void V9_SetSpriteP1(u8 id, const V9_Sprite* attr) { V9_WriteVRAM(V9_P1_SPAT + (id * 4), (const u8*)attr, 4); }
 
 // Function: V9_SetSpritePatternP1
 // Set sprite pattern for P1 mode.
@@ -824,7 +824,7 @@ inline void V9_SetSpriteInfoP1(u8 id, u8 info) { V9_Poke(V9_P1_SPAT + 3 + (id * 
 inline void V9_SetSpriteEnableP1(u8 id, bool enable)
 {
 	u8 val = V9_Peek(V9_P1_SPAT + 3 + (id * 4));
-	if(enable)
+	if (enable)
 		val &= ~V9_SPAT_DISABLE_MASK;
 	else
 		val |= V9_SPAT_DISABLE_MASK;
@@ -848,7 +848,7 @@ inline void V9_SetSpriteDisableP1(u8 id, bool disable) { V9_SetSpriteEnableP1(id
 inline void V9_SetSpritePriorityP1(u8 id, u8 prio)
 {
 	u8 val = V9_Peek(V9_P1_SPAT + 3 + (id * 4));
-	if(prio)
+	if (prio)
 		val &= ~V9_SPAT_PRIORITY_MASK;
 	else
 		val |= V9_SPAT_PRIORITY_MASK;
@@ -880,7 +880,7 @@ inline void V9_SetSpritePaletteP1(u8 id, u8 pal)
 // Parameters:
 //   id - Sprite index (0 to 124).
 //   attr - Pointer to sprite structure.
-inline void V9_SetSpriteP2(u8 id, const struct V9_Sprite* attr) { V9_WriteVRAM(V9_P2_SPAT + 4 * id, (const u8*)attr, 4); }
+inline void V9_SetSpriteP2(u8 id, const V9_Sprite* attr) { V9_WriteVRAM(V9_P2_SPAT + 4 * id, (const u8*)attr, 4); }
 
 // Function: V9_SetSpritePatternP2
 // Set sprite pattern for P2 mode.
@@ -926,7 +926,7 @@ inline void V9_SetSpriteInfoP2(u8 id, u8 info) { V9_Poke(V9_P2_SPAT + 3 + (id * 
 inline void V9_SetSpriteEnableP2(u8 id, bool enable)
 {
 	u8 val = V9_Peek(V9_P2_SPAT + 3 + (id * 4));
-	if(enable)
+	if (enable)
 		val &= ~V9_SPAT_DISABLE_MASK;
 	else
 		val |= V9_SPAT_DISABLE_MASK;
@@ -950,7 +950,7 @@ inline void V9_SetSpriteDisableP2(u8 id, bool disable) { V9_SetSpriteEnableP2(id
 inline void V9_SetSpritePriorityP2(u8 id, u8 prio)
 {
 	u8 val = V9_Peek(V9_P2_SPAT + 3 + (id * 4));
-	if(prio)
+	if (prio)
 		val &= ~V9_SPAT_PRIORITY_MASK;
 	else
 		val |= V9_SPAT_PRIORITY_MASK;
@@ -998,7 +998,7 @@ void V9_SetPaletteEntry(u8 index, u16 color) __PRESERVES(h, l, iyl, iyh);
 //   num   - Numer of entries to set (1-64).
 //   table - 16 bits color table.
 //           Format: [Ys:1|green:5|red:5|blue:5]
-inline void V9_SetPalette(u8 first, u8 num, const u16* table) { for(u8 i = 0; i < num; ++i) V9_SetPaletteEntry(first++, *(table++)); }
+inline void V9_SetPalette(u8 first, u8 num, const u16* table) { for (u8 i = 0; i < num; ++i) V9_SetPaletteEntry(first++, *(table++)); }
 
 // Function: V9_SetPaletteAll
 // Set the colors of all the palette 64 entries.
@@ -1025,7 +1025,7 @@ void V9_SetPaletteEntry(u8 index, const u8* color);
 //   num   - Numer of entries to set (1-64).
 //   table - 24 bits color table.
 //           Format: [x:3|red:5] [x:3|green:5] [x:3|blue:5]
-inline void V9_SetPalette(u8 first, u8 num, const u8* table) { for(u8 i = 0; i < num; ++i) { V9_SetPaletteEntry(first++, table); table += 3; } }
+inline void V9_SetPalette(u8 first, u8 num, const u8* table) { for (u8 i = 0; i < num; ++i) { V9_SetPaletteEntry(first++, table); table += 3; } }
 
 // Set the colors of all the palette 64 entries.
 //
@@ -1410,7 +1410,7 @@ void V9_ClearVRAM() __PRESERVES(d, e, h, l, iyl, iyh);
 
 // Function: V9_WaitCmdEnd
 // Wait for current command completion
-inline void V9_WaitCmdEnd() { while(V9_IsCmdRunning()) {} }
+inline void V9_WaitCmdEnd() { while (V9_IsCmdRunning()) {} }
 
 #if (V9_USE_MODE_P1)
 

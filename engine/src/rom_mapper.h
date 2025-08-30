@@ -110,39 +110,39 @@
 	inline void SET_BANK_SEGMENT(u8 b, u16 s)
 	{ 
 		g_Bank0Segment[b] = s;
-		if(b == 0)		Poke16(ADDR_BANK_0, s);
-		else if(b == 1)	Poke16(ADDR_BANK_1, s);
-		else if(b == 2)	Poke16(ADDR_BANK_2, s);
+		if (b == 0)		Poke16(ADDR_BANK_0, s);
+		else if (b == 1)	Poke16(ADDR_BANK_1, s);
+		else if (b == 2)	Poke16(ADDR_BANK_2, s);
 	#if (ROM_MAPPER == ROM_NEO8)
-		else if(b == 3)	Poke16(ADDR_BANK_3, s);
-		else if(b == 4)	Poke16(ADDR_BANK_4, s);
-		else if(b == 5)	Poke16(ADDR_BANK_5, s);
+		else if (b == 3)	Poke16(ADDR_BANK_3, s);
+		else if (b == 4)	Poke16(ADDR_BANK_4, s);
+		else if (b == 5)	Poke16(ADDR_BANK_5, s);
 	#endif
 	}
 	// Set the current segment of the given bank
 	inline void SET_BANK_SEGMENT_LOW(u8 b, u8 s)
 	{
 		Poke((u16)&g_Bank0Segment[b] + 0, s);
-		if(b == 0)		Poke(ADDR_BANK_0 + 0, s);
-		else if(b == 1)	Poke(ADDR_BANK_1 + 0, s);
-		else if(b == 2)	Poke(ADDR_BANK_2 + 0, s);
+		if (b == 0)		Poke(ADDR_BANK_0 + 0, s);
+		else if (b == 1)	Poke(ADDR_BANK_1 + 0, s);
+		else if (b == 2)	Poke(ADDR_BANK_2 + 0, s);
 	#if (ROM_MAPPER == ROM_NEO8)
-		else if(b == 3)	Poke(ADDR_BANK_3 + 0, s);
-		else if(b == 4)	Poke(ADDR_BANK_4 + 0, s);
-		else if(b == 5)	Poke(ADDR_BANK_5 + 0, s);
+		else if (b == 3)	Poke(ADDR_BANK_3 + 0, s);
+		else if (b == 4)	Poke(ADDR_BANK_4 + 0, s);
+		else if (b == 5)	Poke(ADDR_BANK_5 + 0, s);
 	#endif
 	}
 	// Set the current segment of the given bank
 	inline void SET_BANK_SEGMENT_HIGH(u8 b, u8 s)
 	{
 		Poke((u16)&g_Bank0Segment[b] + 1, s);
-		if(b == 0)		Poke(ADDR_BANK_0 + 1, s);
-		else if(b == 1)	Poke(ADDR_BANK_1 + 1, s);
-		else if(b == 2)	Poke(ADDR_BANK_2 + 1, s);
+		if (b == 0)		Poke(ADDR_BANK_0 + 1, s);
+		else if (b == 1)	Poke(ADDR_BANK_1 + 1, s);
+		else if (b == 2)	Poke(ADDR_BANK_2 + 1, s);
 	#if (ROM_MAPPER == ROM_NEO8)
-		else if(b == 3)	Poke(ADDR_BANK_3 + 1, s);
-		else if(b == 4)	Poke(ADDR_BANK_4 + 1, s);
-		else if(b == 5)	Poke(ADDR_BANK_5 + 1, s);
+		else if (b == 3)	Poke(ADDR_BANK_3 + 1, s);
+		else if (b == 4)	Poke(ADDR_BANK_4 + 1, s);
+		else if (b == 5)	Poke(ADDR_BANK_5 + 1, s);
 	#endif
 	}
 
@@ -189,18 +189,18 @@
 	{ 
 		g_Bank0Segment[b] = s;
 		Poke(YAMANOOTO_OFFR, (s >> 2) & 0xC0);
-		if(b == 0)		Poke(ADDR_BANK_0, s & 0xFF);
-		else if(b == 1)	Poke(ADDR_BANK_1, s & 0xFF);
-		else if(b == 2)	Poke(ADDR_BANK_2, s & 0xFF);
-		else if(b == 3)	Poke(ADDR_BANK_3, s & 0xFF);
+		if (b == 0)		Poke(ADDR_BANK_0, s & 0xFF);
+		else if (b == 1)	Poke(ADDR_BANK_1, s & 0xFF);
+		else if (b == 2)	Poke(ADDR_BANK_2, s & 0xFF);
+		else if (b == 3)	Poke(ADDR_BANK_3, s & 0xFF);
 	}
 	inline void SET_BANK_SEGMENT_LOW(u8 b, u8 s)
 	{ 
 		Poke((u16)&g_Bank0Segment[b] + 0, s);
-		if(b == 0)		Poke(ADDR_BANK_0, s);
-		else if(b == 1)	Poke(ADDR_BANK_1, s);
-		else if(b == 2)	Poke(ADDR_BANK_2, s);
-		else if(b == 3)	Poke(ADDR_BANK_3, s);
+		if (b == 0)		Poke(ADDR_BANK_0, s);
+		else if (b == 1)	Poke(ADDR_BANK_1, s);
+		else if (b == 2)	Poke(ADDR_BANK_2, s);
+		else if (b == 3)	Poke(ADDR_BANK_3, s);
 	}
 	inline void SET_BANK_SEGMENT_HIGH(u8 b, u8 s)
 	{ 
@@ -224,8 +224,8 @@
 	inline void SET_BANK_SEGMENT(u8 b, u16 s)
 	{ 
 		g_Bank0Segment[b] = s;
-		if(b == 0)		Poke(ADDR_BANK_0 | (s & 0x0F00), s & 0xFF);
-		else if(b == 1)	Poke(ADDR_BANK_1 | (s & 0x0F00), s & 0xFF);
+		if (b == 0)		Poke(ADDR_BANK_0 | (s & 0x0F00), s & 0xFF);
+		else if (b == 1)	Poke(ADDR_BANK_1 | (s & 0x0F00), s & 0xFF);
 	}
 	// Set the current segment of the given bank
 	inline void SET_BANK_SEGMENT_LOW(u8 b, u8 s) { b; s; }
@@ -248,11 +248,11 @@
 	inline void SET_BANK_SEGMENT(u8 b, u8 s)
 	{ 
 		g_Bank0Segment[b] = s;
-		if(b == 0)		Poke(ADDR_BANK_0, s);
-		else if(b == 1)	Poke(ADDR_BANK_1, s);
+		if (b == 0)		Poke(ADDR_BANK_0, s);
+		else if (b == 1)	Poke(ADDR_BANK_1, s);
 	#if (ROM_MAPPER != ROM_ASCII16)
-		else if(b == 2)	Poke(ADDR_BANK_2, s);
-		else if(b == 3)	Poke(ADDR_BANK_3, s);
+		else if (b == 2)	Poke(ADDR_BANK_2, s);
+		else if (b == 3)	Poke(ADDR_BANK_3, s);
 	#endif
 	}
 	// Set the current segment of the given bank

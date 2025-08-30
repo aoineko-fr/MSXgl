@@ -47,7 +47,7 @@ void main()
 	Print_DrawText(MSX_GL" The MSX Game Library");
 
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt(); // Wait V-Blank
 		Print_SetPosition(255-8, 0);

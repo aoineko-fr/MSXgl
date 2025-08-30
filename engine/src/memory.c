@@ -262,14 +262,14 @@ __endasm;
 #define MEM_CHUNK_FREE				0x8000
 
 // Dynamic memory chunk root
-struct MemChunkHeader* g_MemChunkRoot = NULL;
+MemChunkHeader* g_MemChunkRoot = NULL;
 
 //-----------------------------------------------------------------------------
 // Allocates a static memory block which can then be used to allocate chunks dynimically.
 void Mem_DynamicInitialize(void* base, u16 size)
 {
-	g_MemChunkRoot = (struct MemChunkHeader*)base;
-	g_MemChunkRoot->Size = (size - sizeof(struct MemChunkHeader)) | MEM_CHUNK_FREE;
+	g_MemChunkRoot = (MemChunkHeader*)base;
+	g_MemChunkRoot->Size = (size - sizeof(MemChunkHeader)) | MEM_CHUNK_FREE;
 	g_MemChunkRoot->Next = NULL;
 }
 
@@ -278,33 +278,33 @@ void Mem_DynamicInitialize(void* base, u16 size)
 void* Mem_DynamicAlloc(u16 size)
 {
 	#if (MEM_USE_VALIDATOR)
-	if(size == 0)
+	if (size == 0)
 		return NULL;
 	#endif
 
-	struct MemChunkHeader* chunk = g_MemChunkRoot;
-	while(chunk)
+	MemChunkHeader* chunk = g_MemChunkRoot;
+	while (chunk)
 	{
 		u16 chunkSize = chunk->Size;
-		if(chunkSize & MEM_CHUNK_FREE) // Free chunk
+		if (chunkSize & MEM_CHUNK_FREE) // Free chunk
 		{
 			chunkSize &= ~MEM_CHUNK_FREE;
-			if(chunkSize == size) // Re-use chunk
+			if (chunkSize == size) // Re-use chunk
 			{
 				chunk->Size &= ~MEM_CHUNK_FREE;
-				return (void*)((u16)chunk + sizeof(struct MemChunkHeader));
+				return (void*)((u16)chunk + sizeof(MemChunkHeader));
 			}
-			u16 needSize = size + sizeof(struct MemChunkHeader);
-			if(chunkSize > needSize) // Create new sub-chunk
+			u16 needSize = size + sizeof(MemChunkHeader);
+			if (chunkSize > needSize) // Create new sub-chunk
 			{
-				struct MemChunkHeader* newChunk = (struct MemChunkHeader*)((u16)chunk + needSize); // New free sub-chunk
+				MemChunkHeader* newChunk = (MemChunkHeader*)((u16)chunk + needSize); // New free sub-chunk
 				newChunk->Size = (chunkSize - needSize) | MEM_CHUNK_FREE;
 				newChunk->Next = chunk->Next;
 
 				chunk->Size = size; // Allocated sub-chunk
 				chunk->Next = newChunk;
 
-				return (void*)((u16)chunk + sizeof(struct MemChunkHeader));
+				return (void*)((u16)chunk + sizeof(MemChunkHeader));
 			}
 		}
 		chunk = chunk->Next;
@@ -316,13 +316,13 @@ void* Mem_DynamicAlloc(u16 size)
 // Merge contiguous empty memory blocks
 void Mem_DynamicMerge()
 {
-	struct MemChunkHeader* chunk = g_MemChunkRoot;
-	while(chunk)
+	MemChunkHeader* chunk = g_MemChunkRoot;
+	while (chunk)
 	{
-		struct MemChunkHeader* nextChunk = chunk->Next;
-		if((nextChunk != NULL) && (chunk->Size & MEM_CHUNK_FREE) && (nextChunk->Size & MEM_CHUNK_FREE))
+		MemChunkHeader* nextChunk = chunk->Next;
+		if ((nextChunk != NULL) && (chunk->Size & MEM_CHUNK_FREE) && (nextChunk->Size & MEM_CHUNK_FREE))
 		{
-			chunk->Size += nextChunk->Size + sizeof(struct MemChunkHeader);
+			chunk->Size += nextChunk->Size + sizeof(MemChunkHeader);
 			chunk->Next = nextChunk->Next;
 		}
 		chunk = chunk->Next;
@@ -333,7 +333,7 @@ void Mem_DynamicMerge()
 // Free a memory chunk from the dynamic memory buffer
 void Mem_DynamicFree(void* ptr)
 {
-	struct MemChunkHeader* chunk = (struct MemChunkHeader*)((u16)ptr - sizeof(struct MemChunkHeader));
+	MemChunkHeader* chunk = (MemChunkHeader*)((u16)ptr - sizeof(MemChunkHeader));
 	chunk->Size |= MEM_CHUNK_FREE;
 	Mem_DynamicMerge();
 }

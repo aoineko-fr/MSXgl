@@ -50,7 +50,7 @@
 #define DOS_SEGSLOT_OTHERFIRST		0x30 // allocate a segment in another slot than the one specified if free otherwise try in specified slot
 
 // Memory Mappers variable table
-typedef struct
+typedef struct DOS_VarTable
 {
 	u8  Slot;						// Main Memory Mapper slot Number (Address in HL as output)
 	u8  NumSeg;						// Number of segments
@@ -61,7 +61,7 @@ typedef struct
 } DOS_VarTable;
 
 // Memory Mappers segment info
-typedef struct
+typedef struct DOS_Segment
 {
 	u8  Number;						// Segment number
 	u8  Slot;						// Segment's slot

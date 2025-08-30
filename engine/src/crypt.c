@@ -53,7 +53,7 @@ const u16* g_CryptCode = g_CryptDefaultCode;
 // Note: Destination buffer size must be: input data size x 2 + 1
 bool Crypt_Encode(const void* data, u8 size, c8* str)
 {
-	if(!g_CryptKey)
+	if (!g_CryptKey)
 		return FALSE;
 
 	const c8* key = g_CryptKey;
@@ -68,14 +68,14 @@ bool Crypt_Encode(const void* data, u8 size, c8* str)
 		val += *key;
 
 		u8 cnt = *key++;
-		if(!*key)
+		if (!*key)
 			key = g_CryptKey;
 
 		u16 bits = 0;
 		u8 flag = 0x01;
 		loop(j, 8)
 		{
-			if(val & flag)
+			if (val & flag)
 				bits |= g_CryptCode[cnt & 0x07];
 			cnt++;
 			flag <<= 1;
@@ -94,7 +94,7 @@ u8 Crypt_SearchMap(u8 chr)
 {
 	const c8* map = g_CryptMap;
 	loop(i, 32)
-		if(chr == *map++)
+		if (chr == *map++)
 			return i;
 
 	return 0xFF;
@@ -109,18 +109,18 @@ bool Crypt_Decode(const c8* str, void* data)
 	u8* ptr = (u8*)data;
 
 	u8 prev = 0;
-	while(*str)
+	while (*str)
 	{
 		// Retreive the less significant bits
 		u8 lsb = Crypt_SearchMap(*str++);
-		if(lsb == 0xFF)
+		if (lsb == 0xFF)
 			return FALSE; // Error: Invalid character (not found in the map)
-		if(!*str)
+		if (!*str)
 			return FALSE; // Error: Invalid number of character
 
 		// Retreive the most significant bits
 		u8 msb = Crypt_SearchMap(*str++);
-		if(msb == 0xFF)
+		if (msb == 0xFF)
 			return FALSE; // Error: Invalid character (not found in the map)
 
 		// Convert characters to value
@@ -131,16 +131,16 @@ bool Crypt_Decode(const c8* str, void* data)
 		{
 			u16 code = g_CryptCode[cnt++ & 0x07];
 			u16 test = bits & code;
-			if(test)
+			if (test)
 			{
-				if(test != code)
+				if (test != code)
 					return FALSE; // Error: Invalid control bits
 				val |= g_ShiftTable[i];
 			}
 		}
 		val -= *key++;
 		val -= prev;
-		if(!*key)
+		if (!*key)
 			key = g_CryptKey;
 
 		// Write value

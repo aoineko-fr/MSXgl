@@ -235,7 +235,7 @@
 //=============================================================================
 
 // Animation frame structure (one pose of the pawn)
-typedef struct
+typedef struct Pawn_Frame
 {
 	u8					Id;       // Animation frame data index (0-255)
 	u8					Duration; // Frame duration (in frame number)
@@ -243,7 +243,7 @@ typedef struct
 } Pawn_Frame;
 
 // Animation action structure
-typedef struct
+typedef struct Pawn_Action
 {
 	const Pawn_Frame*	FrameList;     // Animation frames data
 	u8					FrameNum;      // Animation frames data count
@@ -261,7 +261,7 @@ enum PAWN_SPRITE_FLAG
 };
 
 // Pawn structure
-typedef struct
+typedef struct Pawn_Sprite
 {
 #if (PAWN_ID_PER_LAYER)
 	u8					SpriteID;     // Sprite ID
@@ -337,7 +337,7 @@ enum PAWN_SPRITE_FX
 #endif
 
 // Pawn structure
-typedef struct
+typedef struct Pawn
 {
 	const Pawn_Sprite*	SpriteList;		// List of sprite layers
 	u8					SpriteNum;		// Number of sprite layers
@@ -516,7 +516,7 @@ inline void Pawn_SetDirty(Pawn* pawn) { pawn->Update |= (PAWN_UPDATE_PATTERN | P
 // Parameters:
 //   pawn   - Address of game pawn structure to update (move, collision, etc.).
 //   enable - TRUE to enable color blending, FALSE to disable it.
-inline void Pawn_SetColorBlend(Pawn* pawn, bool enable) { if(enable) pawn->Update |= PAWN_UPDATE_BLEND; else pawn->Update &= ~PAWN_UPDATE_BLEND; }
+inline void Pawn_SetColorBlend(Pawn* pawn, bool enable) { if (enable) pawn->Update |= PAWN_UPDATE_BLEND; else pawn->Update &= ~PAWN_UPDATE_BLEND; }
 
 // Function: Pawn_Draw
 // Update rendering of the game pawn. Must be called once a frame.

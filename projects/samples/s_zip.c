@@ -96,7 +96,7 @@ u16 Load(const c8* filename, u8* buffer)
 	DOS_Open(&file);
 	
 	// Read file and copy content into VRAM
-	for(u16 i = 0; i < file.Size; i += 128)
+	for (u16 i = 0; i < file.Size; i += 128)
 	{
 		DOS_SetTransferAddr(buffer);
 		DOS_SequentialRead(&file);
@@ -202,7 +202,7 @@ void LoadAndUnpack(u8 id)
 	// Draw
 	u8* src = g_UnpackBuffer;
 	u16 dest = g_ScreenLayoutLow + (IMAGE_X/2) + (IMAGE_Y*128);
-	for(u8 y = 0; y < IMAGE_H; ++y)
+	for (u8 y = 0; y < IMAGE_H; ++y)
 	{
 		VDP_WriteVRAM(src, dest, 0, IMAGE_W/2);
 		src += IMAGE_W/2;
@@ -235,7 +235,7 @@ void DisplayPage()
 	Print_SetPosition(0, 24);
 	Print_DrawText("Compressors:");
 
-	for(u8 i = 0; i < numberof(g_Compressors); ++i)
+	for (u8 i = 0; i < numberof(g_Compressors); ++i)
 	{
 		Print_SetPosition(MENU_X, MENU_Y + (i * 8));
 		Print_DrawText(g_Compressors[i].Name);
@@ -274,7 +274,7 @@ void main()
 	u8 compId = 0;
 	u8 count = 0;
 	u8 prevRow8 = 0xFF;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 
@@ -285,21 +285,21 @@ void main()
 
 		// Handle input
 		u8 row8 = Keyboard_Read(8);
-		if(IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
+		if (IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
 		{
-			if(compId == 0)
+			if (compId == 0)
 				compId = numberof(g_Compressors) - 1;
 			else
 				compId--;
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN))
+		else if (IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN))
 		{
-			if(compId == numberof(g_Compressors) - 1)
+			if (compId == numberof(g_Compressors) - 1)
 				compId = 0;
 			else
 				compId++;
 		}
-		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		if (IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
 			LoadAndUnpack(compId);
 		}

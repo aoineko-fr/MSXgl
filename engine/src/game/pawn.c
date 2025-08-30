@@ -123,7 +123,7 @@ void PawnSprite_Enable(u8 sprtIdx)
 	V9_SetSpriteDisableP1(sprtIdx, FALSE);
 #elif (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P2)
 	V9_SetSpriteDisableP2(sprtIdx, FALSE);
-#else // if((PAWN_SPT_MODE == PAWN_SPT_MODE_AUTO) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2))
+#else // if ((PAWN_SPT_MODE == PAWN_SPT_MODE_AUTO) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2))
 	sprtIdx;
 #endif
 }
@@ -136,7 +136,7 @@ void PawnSprite_Disable(u8 sprtIdx)
 	V9_SetSpriteDisableP1(sprtIdx, TRUE);
 #elif (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P2)
 	V9_SetSpriteDisableP2(sprtIdx, TRUE);
-#else // if((PAWN_SPT_MODE == PAWN_SPT_MODE_AUTO) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2))
+#else // if ((PAWN_SPT_MODE == PAWN_SPT_MODE_AUTO) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2))
 	VDP_HideSprite(sprtIdx);
 #endif
 }
@@ -149,13 +149,13 @@ void PawnSprite_Initialize(u8 sprtIdx)
 	V9_SetSpriteInfoP1(sprtIdx, V9_SPAT_INFO_PALETTE(g_Pawn_Sprite->Color));
 #elif (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P2)
 	V9_SetSpriteInfoP2(sprtIdx, V9_SPAT_INFO_PALETTE(g_Pawn_Sprite->Color));
-#else // if((PAWN_SPT_MODE == PAWN_SPT_MODE_AUTO) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2))
+#else // if ((PAWN_SPT_MODE == PAWN_SPT_MODE_AUTO) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX2))
 	u8 color = g_Pawn_Sprite->Color;
-	if((g_Pawn_Sprite->Flag & PAWN_SPRITE_OR) != 0)
+	if ((g_Pawn_Sprite->Flag & PAWN_SPRITE_OR) != 0)
 		color |= VDP_SPRITE_CC;
 
 	#if (PAWN_SPT_MODE == PAWN_SPT_MODE_MSX12)
-	if(VDP_GetMode() < VDP_MODE_MSX2)
+	if (VDP_GetMode() < VDP_MODE_MSX2)
 		VDP_SetSpriteColorSM1(sprtIdx, color);
 	else
 		VDP_SetSpriteUniColor(sprtIdx, color);
@@ -232,7 +232,7 @@ void Pawn_ForceSetAction(Pawn* pawn, u8 id)
 // Set game pawn action id
 void Pawn_SetAction(Pawn* pawn, u8 id)
 {
-	if((pawn->ActionList[pawn->ActionId].Interrupt == 1) && (pawn->ActionId != id))
+	if ((pawn->ActionList[pawn->ActionId].Interrupt == 1) && (pawn->ActionId != id))
 		Pawn_ForceSetAction(pawn, id);
 }
 
@@ -241,7 +241,7 @@ void Pawn_SetAction(Pawn* pawn, u8 id)
 void Pawn_SetEnable(Pawn* pawn, bool enable)
 {
 	g_Pawn = pawn;
-	if(enable)
+	if (enable)
 	{
 		g_Pawn->Update &= ~PAWN_UPDATE_DISABLE;
 		g_Pawn->Update |= (PAWN_UPDATE_PATTERN | PAWN_UPDATE_POSITION);
@@ -264,7 +264,7 @@ void Pawn_UpdateAnimation()
 	const Pawn_Action* act = &g_Pawn->ActionList[g_Pawn->ActionId];
 
 	// Finished current animation step
-	if(g_Pawn->AnimTimer >= act->FrameList[g_Pawn->AnimStep].Duration)
+	if (g_Pawn->AnimTimer >= act->FrameList[g_Pawn->AnimStep].Duration)
 	{
 		g_Pawn->AnimTimer = 0;
 		g_Pawn->AnimStep++;
@@ -272,9 +272,9 @@ void Pawn_UpdateAnimation()
 	}
 
 	// Finished last animation step
-	if(g_Pawn->AnimStep >= act->FrameNum)
+	if (g_Pawn->AnimStep >= act->FrameNum)
 	{
-		if(act->Loop) // restart action
+		if (act->Loop) // restart action
 		{
 			g_Pawn->AnimTimer = 0;
 			g_Pawn->AnimStep = 0;
@@ -289,7 +289,7 @@ void Pawn_UpdateAnimation()
 
 	// Execute event
 	const Pawn_Frame* frame = &act->FrameList[g_Pawn->AnimStep];
-	if(frame->Event != NULL)
+	if (frame->Event != NULL)
 		frame->Event();
 
 	// Update animation
@@ -313,10 +313,10 @@ void Pawn_UpdatePhysics()
 
 	//.....................................................................
 	// Vertical movement - Go down
-	if(g_Pawn->MoveY > 0)
+	if (g_Pawn->MoveY > 0)
 	{
 		#if ((PAWN_BORDER_EVENT & PAWN_BORDER_DOWN) || (PAWN_BORDER_BLOCK & PAWN_BORDER_DOWN))
-		if(targetY + GET_BOUND_Y() >= PAWN_BORDER_MAX_Y)
+		if (targetY + GET_BOUND_Y() >= PAWN_BORDER_MAX_Y)
 		{
 			#if (PAWN_BORDER_EVENT & PAWN_BORDER_DOWN)
 				g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_DOWN, 0);
@@ -333,11 +333,11 @@ void Pawn_UpdatePhysics()
 			u8 lastCell = 0xFF;
 			#if (PAWN_COL_DOWN & PAWN_COL_0)
 				g_Pawn_CellX = (targetX) / 8;
-				if(g_Pawn_CellX != lastCell)
+				if (g_Pawn_CellX != lastCell)
 				{
 					lastCell = g_Pawn_CellX;
 					u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-					if(g_Pawn->CollisionCB(tile))
+					if (g_Pawn->CollisionCB(tile))
 					{
 						g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
 						targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
@@ -347,11 +347,11 @@ void Pawn_UpdatePhysics()
 			#endif
 			#if (PAWN_COL_DOWN & PAWN_COL_25)
 				g_Pawn_CellX = (targetX + (GET_BOUND_X() / 4)) / 8;
-				if(g_Pawn_CellX != lastCell)
+				if (g_Pawn_CellX != lastCell)
 				{
 					lastCell = g_Pawn_CellX;
 					u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-					if(g_Pawn->CollisionCB(tile))
+					if (g_Pawn->CollisionCB(tile))
 					{
 						g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
 						targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
@@ -361,11 +361,11 @@ void Pawn_UpdatePhysics()
 			#endif
 			#if (PAWN_COL_DOWN & PAWN_COL_50)
 				g_Pawn_CellX = (targetX + (GET_BOUND_X() / 2)) / 8;
-				if(g_Pawn_CellX != lastCell)
+				if (g_Pawn_CellX != lastCell)
 				{
 					lastCell = g_Pawn_CellX;
 					u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-					if(g_Pawn->CollisionCB(tile))
+					if (g_Pawn->CollisionCB(tile))
 					{
 						g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
 						targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
@@ -375,11 +375,11 @@ void Pawn_UpdatePhysics()
 			#endif
 			#if (PAWN_COL_DOWN & PAWN_COL_75)
 				g_Pawn_CellX = (targetX + GET_BOUND_X() - (GET_BOUND_X() / 4)) / 8;
-				if(g_Pawn_CellX != lastCell)
+				if (g_Pawn_CellX != lastCell)
 				{
 					lastCell = g_Pawn_CellX;
 					u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-					if(g_Pawn->CollisionCB(tile))
+					if (g_Pawn->CollisionCB(tile))
 					{
 						g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
 						targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
@@ -389,11 +389,11 @@ void Pawn_UpdatePhysics()
 			#endif
 			#if (PAWN_COL_DOWN & PAWN_COL_100)
 				g_Pawn_CellX = (targetX + GET_BOUND_X() - 1) / 8;
-				if(g_Pawn_CellX != lastCell)
+				if (g_Pawn_CellX != lastCell)
 				{
 					lastCell = g_Pawn_CellX;
 					u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-					if(g_Pawn->CollisionCB(tile))
+					if (g_Pawn->CollisionCB(tile))
 					{
 						g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_DOWN, tile);
 						targetY = (g_Pawn_CellY * 8) - GET_BOUND_Y();
@@ -405,14 +405,14 @@ void Pawn_UpdatePhysics()
 	}
 	//.....................................................................
 	// Vertical movement - Go up
-	else if(g_Pawn->MoveY < 0)
+	else if (g_Pawn->MoveY < 0)
 	{
 		#if (PAWN_COL_UP != PAWN_COL_NONE)
 		#if ((PAWN_BORDER_EVENT & PAWN_BORDER_UP) || (PAWN_BORDER_BLOCK & PAWN_BORDER_UP))
 		#if (PAWN_BORDER_MIN_Y > 0)
-		if((targetY > g_Pawn->PositionY) || ((targetY < PAWN_BORDER_MIN_Y)))
+		if ((targetY > g_Pawn->PositionY) || ((targetY < PAWN_BORDER_MIN_Y)))
 		#else
-		if(targetY > g_Pawn->PositionY)
+		if (targetY > g_Pawn->PositionY)
 		#endif
 		{
 			#if (PAWN_BORDER_EVENT & PAWN_BORDER_UP)
@@ -428,7 +428,7 @@ void Pawn_UpdatePhysics()
 			g_Pawn_CellX = (targetX + (GET_BOUND_X() / 2)) / 8;
 			g_Pawn_CellY = (targetY) / 8;
 			u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-			if(g_Pawn->CollisionCB(tile))
+			if (g_Pawn->CollisionCB(tile))
 			{
 				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_UP, tile);
 				targetY = (g_Pawn_CellY * 8) + 8;
@@ -438,10 +438,10 @@ void Pawn_UpdatePhysics()
 	}
 	//.....................................................................
 	// No vertical movement - Check floor
-	else // if(g_Pawn->MoveY == 0)
+	else // if (g_Pawn->MoveY == 0)
 	{
 		#if (PAWN_BORDER_BLOCK & PAWN_BORDER_DOWN)
-		if(targetY + GET_BOUND_Y() < PAWN_BORDER_MAX_Y)
+		if (targetY + GET_BOUND_Y() < PAWN_BORDER_MAX_Y)
 		#endif
 		{
 			u8 tile = 0;
@@ -450,51 +450,51 @@ void Pawn_UpdatePhysics()
 			u8 lastCell = 0xFF;
 			#if (PAWN_COL_DOWN & PAWN_COL_0)
 				g_Pawn_CellX = (targetX) / 8;
-				if(g_Pawn_CellX != lastCell)
+				if (g_Pawn_CellX != lastCell)
 				{
 					lastCell = g_Pawn_CellX;
 					tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-					if(g_Pawn->CollisionCB(tile))
+					if (g_Pawn->CollisionCB(tile))
 						goto skipVertival;
 				}
 			#endif
 			#if (PAWN_COL_DOWN & PAWN_COL_25)
 				g_Pawn_CellX = (targetX + (GET_BOUND_X() / 4)) / 8;
-				if(g_Pawn_CellX != lastCell)
+				if (g_Pawn_CellX != lastCell)
 				{
 					lastCell = g_Pawn_CellX;
 					tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-					if(g_Pawn->CollisionCB(tile))
+					if (g_Pawn->CollisionCB(tile))
 						goto skipVertival;
 				}
 			#endif
 			#if (PAWN_COL_DOWN & PAWN_COL_50)
 				g_Pawn_CellX = (targetX + (GET_BOUND_X() / 2)) / 8;
-				if(g_Pawn_CellX != lastCell)
+				if (g_Pawn_CellX != lastCell)
 				{
 					lastCell = g_Pawn_CellX;
 					tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-					if(g_Pawn->CollisionCB(tile))
+					if (g_Pawn->CollisionCB(tile))
 						goto skipVertival;
 				}
 			#endif
 			#if (PAWN_COL_DOWN & PAWN_COL_75)
 				g_Pawn_CellX = (targetX + GET_BOUND_X() - (GET_BOUND_X() / 4)) / 8;
-				if(g_Pawn_CellX != lastCell)
+				if (g_Pawn_CellX != lastCell)
 				{
 					lastCell = g_Pawn_CellX;
 					tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-					if(g_Pawn->CollisionCB(tile))
+					if (g_Pawn->CollisionCB(tile))
 						goto skipVertival;
 				}
 			#endif
 			#if (PAWN_COL_DOWN & PAWN_COL_100)
 				g_Pawn_CellX = (targetX + GET_BOUND_X() - 1) / 8;
-				if(g_Pawn_CellX != lastCell)
+				if (g_Pawn_CellX != lastCell)
 				{
 					lastCell = g_Pawn_CellX;
 					tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-					if(g_Pawn->CollisionCB(tile))
+					if (g_Pawn->CollisionCB(tile))
 						goto skipVertival;
 				}
 			#endif
@@ -504,10 +504,10 @@ void Pawn_UpdatePhysics()
 skipVertival:
 	//.....................................................................
 	// Horizontal movement - Go right
-	if(g_Pawn->MoveX > 0)
+	if (g_Pawn->MoveX > 0)
 	{
 		#if ((PAWN_BORDER_EVENT & PAWN_BORDER_RIGHT) || (PAWN_BORDER_BLOCK & PAWN_BORDER_RIGHT))
-		if((u8)(targetX + GET_BOUND_X()) < g_Pawn->PositionX)
+		if ((u8)(targetX + GET_BOUND_X()) < g_Pawn->PositionX)
 		{
 			#if (PAWN_BORDER_EVENT & PAWN_BORDER_RIGHT)
 				g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_RIGHT, 0);
@@ -522,7 +522,7 @@ skipVertival:
 			g_Pawn_CellX = (targetX + GET_BOUND_X()) / 8;
 			g_Pawn_CellY = (targetY + (GET_BOUND_Y() / 2)) / 8;
 			u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-			if(g_Pawn->CollisionCB(tile))
+			if (g_Pawn->CollisionCB(tile))
 			{
 				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_RIGHT, tile);
 				targetX = (g_Pawn_CellX * 8) - GET_BOUND_X();
@@ -531,10 +531,10 @@ skipVertival:
 	}
 	//.....................................................................
 	// Horizontal movement - Go left
-	else if(g_Pawn->MoveX < 0)
+	else if (g_Pawn->MoveX < 0)
 	{
 		#if ((PAWN_BORDER_EVENT & PAWN_BORDER_LEFT) || (PAWN_BORDER_BLOCK & PAWN_BORDER_LEFT))
-		if(targetX > g_Pawn->PositionX)
+		if (targetX > g_Pawn->PositionX)
 		{
 			#if (PAWN_BORDER_EVENT & PAWN_BORDER_LEFT)
 				g_Pawn->PhysicsCB(PAWN_PHYSICS_BORDER_LEFT, 0);
@@ -549,7 +549,7 @@ skipVertival:
 			g_Pawn_CellX = (targetX) / 8;
 			g_Pawn_CellY = (targetY + (GET_BOUND_Y() / 2)) / 8;
 			u8 tile = PAWN_GET_TILE(g_Pawn_CellX, g_Pawn_CellY);
-			if(g_Pawn->CollisionCB(tile))
+			if (g_Pawn->CollisionCB(tile))
 			{
 				g_Pawn->PhysicsCB(PAWN_PHYSICS_COL_LEFT, tile);
 				targetX = (g_Pawn_CellX * 8) + 8;
@@ -576,7 +576,7 @@ void Pawn_Update(Pawn* pawn)
 {
 	g_Pawn = pawn;
 
-	if(g_Pawn->Update & PAWN_UPDATE_DISABLE)
+	if (g_Pawn->Update & PAWN_UPDATE_DISABLE)
 		return;
 
 	// Update animation
@@ -584,7 +584,7 @@ void Pawn_Update(Pawn* pawn)
 
 #if (PAWN_USE_PHYSICS)
 	// Update physics
-	if(g_Pawn->Update & PAWN_UPDATE_COLLISION)
+	if (g_Pawn->Update & PAWN_UPDATE_COLLISION)
 		Pawn_UpdatePhysics();
 #endif
 }
@@ -628,9 +628,9 @@ inline void Pawn_Draw_Sprite()
 	loop(i, g_Pawn->SpriteNum)
 	{
 		g_Pawn_FrameOffset = 0;
-		if((g_Pawn->Update & PAWN_UPDATE_BLEND) && (g_Pawn_Sprite->Flag & PAWN_SPRITE_BLEND)) // Skip odd frames
+		if ((g_Pawn->Update & PAWN_UPDATE_BLEND) && (g_Pawn_Sprite->Flag & PAWN_SPRITE_BLEND)) // Skip odd frames
 		{
-			if((g_Pawn->Counter & 1) != 0)
+			if ((g_Pawn->Counter & 1) != 0)
 				g_Pawn_FrameOffset = PAWN_PATTERN_NUM;
 			g_Pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
@@ -639,14 +639,14 @@ inline void Pawn_Draw_Sprite()
 		g_Pawn_Buffer[PAWN_SPRT_POS_X] = g_Pawn->PositionX + g_Pawn_Sprite->OffsetX;
 		
 		u8 size = 2;
-		if(g_Pawn->Update & PAWN_UPDATE_PATTERN)
+		if (g_Pawn->Update & PAWN_UPDATE_PATTERN)
 		{
 			u8 frame = g_Pawn->AnimFrame + g_Pawn_Sprite->DataOffset + g_Pawn_FrameOffset;
 			#if (PAWN_USE_RT_LOAD)
 				const u8* src = (const u8*)g_Pawn->PatternAddr + frame * 8;
 				#if (PAWN_USE_SPRT_FX)
 					u8* buffer = (u8*)Mem_GetHeapAddress();
-					switch(g_Pawn->SpriteFX)
+					switch (g_Pawn->SpriteFX)
 					{
 						case PAWN_SPRITE_FX_FLIP_X:
 							PAWN_FUNC_FLIP_X(src, buffer);
@@ -685,7 +685,7 @@ inline void Pawn_Draw_Sprite()
 		g_Pawn_Sprite++;
 	}
 }
-#else // if(PAWN_ID_PER_LAYER == FALSE)
+#else // if (PAWN_ID_PER_LAYER == FALSE)
 //-----------------------------------------------------------------------------
 // Update rendering of the game pawn
 inline void Pawn_Draw_Sprite()
@@ -697,9 +697,9 @@ inline void Pawn_Draw_Sprite()
 	loop(i, g_Pawn->SpriteNum)
 	{
 		g_Pawn_FrameOffset = 0;
-		if((g_Pawn->Update & PAWN_UPDATE_BLEND) && (g_Pawn_Sprite->Flag & PAWN_SPRITE_BLEND)) // Skip odd frames
+		if ((g_Pawn->Update & PAWN_UPDATE_BLEND) && (g_Pawn_Sprite->Flag & PAWN_SPRITE_BLEND)) // Skip odd frames
 		{
-			if((g_Pawn->Counter & 1) != 0)
+			if ((g_Pawn->Counter & 1) != 0)
 				g_Pawn_FrameOffset = PAWN_PATTERN_NUM;
 			g_Pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
@@ -708,14 +708,14 @@ inline void Pawn_Draw_Sprite()
 		g_Pawn_Buffer[PAWN_SPRT_POS_X] = g_Pawn->PositionX + g_Pawn_Sprite->OffsetX;
 		
 		u8 size = 2;
-		if(g_Pawn->Update & PAWN_UPDATE_PATTERN)
+		if (g_Pawn->Update & PAWN_UPDATE_PATTERN)
 		{
 			u8 frame = g_Pawn->AnimFrame + g_Pawn_Sprite->DataOffset + g_Pawn_FrameOffset;
 			#if (PAWN_USE_RT_LOAD)
 				const u8* src = (const u8*)g_Pawn->PatternAddr + frame * 8;
 				#if (PAWN_USE_SPRT_FX)
 					u8* buffer = (u8*)Mem_GetHeapAddress();
-					switch(g_Pawn->SpriteFX)
+					switch (g_Pawn->SpriteFX)
 					{
 						case PAWN_SPRITE_FX_FLIP_X:
 							PAWN_FUNC_FLIP_X(src, buffer);
@@ -765,10 +765,10 @@ void Pawn_Draw(Pawn* pawn)
 {
 	g_Pawn = pawn;
 
-	if((g_Pawn->Update & (PAWN_UPDATE_PATTERN | PAWN_UPDATE_POSITION)) == 0)
+	if ((g_Pawn->Update & (PAWN_UPDATE_PATTERN | PAWN_UPDATE_POSITION)) == 0)
 		return;
 	
-	if(g_Pawn->Update & PAWN_UPDATE_DISABLE)
+	if (g_Pawn->Update & PAWN_UPDATE_DISABLE)
 		return;
 
 #if ((PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P1) || (PAWN_SPT_MODE == PAWN_SPT_MODE_V9_P2))

@@ -70,16 +70,16 @@
 //-----------------------------------------------------------------------------
 
 // Structure used to store VDP module data
-struct VDP_Data
+typedef struct VDP_Data
 {
 	u8  Mode;		// Current screen mode (see <VDP_MODE>)
 	u8  BPC    : 4;	// Bits per color of the current mode (can be 1, 2, 4 or 8)
 	u8  Width  : 1;	// Width of the current screen (0: 256 px, 1: 512 px)
 	u8  Height : 1;	// Height of the current screen (0: 192 px, 1: 212 px)
-};
+} VDP_Data;
 
 // Structure used to store register data for VDP command
-struct VDP_Command
+typedef struct VDP_Command
 {
 	u16 SX;  // 32-33
 	u16 SY;  // 34-35
@@ -90,11 +90,11 @@ struct VDP_Command
 	u8  CLR; // 44
 	u8  ARG; // 45
 	u8  CMD; // 46
-};
+} VDP_Command;
 #define VDP_Command32 VDP_Command
 
 // Structure used to store register data for VDP command
-struct VDP_Command36
+typedef struct VDP_Command36
 {
 	u16 DX;  // 36-37
 	u16 DY;  // 38-39
@@ -103,10 +103,10 @@ struct VDP_Command36
 	u8  CLR; // 44
 	u8  ARG; // 45
 	u8  CMD; // 46
-};
+} VDP_Command36;
 
 // Structure to store a sprite attribute. see function <VDP_SetSprite>
-struct VDP_Sprite
+typedef struct VDP_Sprite
 {
     u8 Y;			// Y coordinate on screen (all lower priority sprite will be disable if equal to 216 or 0xD0)
     u8 X;			// X coordinate of the sprite
@@ -115,7 +115,7 @@ struct VDP_Sprite
     // u8 Color   : 4;	// Color index (Sprite Mode 1 only)
     // u8 _unused : 3;	// (unused 3 bits)
     // u8 EC      : 1;	// Early clock ; used to offset sprite by  32  dots  to  the  left  (Sprite Mode 1 only)
-};
+} VDP_Sprite;
 
 //-----------------------------------------------------------------------------
 // EXTERNALS
@@ -124,14 +124,14 @@ struct VDP_Sprite
 
 extern u8                 g_VDP_REGSAV[28]; // VDP register backup buffer
 
-extern struct VDP_Data    g_VDP_Data; // VDP configuration structure
+extern VDP_Data    g_VDP_Data; // VDP configuration structure
 
 #if (VDP_USE_COMMAND)
-extern struct VDP_Command g_VDP_Command; // VDP command buffer structure
+extern VDP_Command g_VDP_Command; // VDP command buffer structure
 #endif
 
 #if (VDP_USE_SPRITE)
-extern struct VDP_Sprite  g_VDP_Sprite; // Sprite data buffer
+extern VDP_Sprite  g_VDP_Sprite; // Sprite data buffer
 #endif
 
 extern u16 g_ScreenLayoutLow;		// Address of the Pattern Layout Table (Name)
@@ -1525,10 +1525,10 @@ void VPD_CommandReadLoop(u8* addr) __FASTCALL;
 
 // Function: VDP_CommandCustomR32
 // Send VDP custom command through buffer (form registres 32 to 46). [MSX2/2+/TR]
-void VDP_CommandCustomR32(const struct VDP_Command* data);
+void VDP_CommandCustomR32(const VDP_Command* data);
 
 // Function: VDP_CommandCustomR36
 // Send VDP custom command through buffer (form registres 36 to 46). [MSX2/2+/TR]
-void VDP_CommandCustomR36(const struct VDP_Command36* data);
+void VDP_CommandCustomR36(const VDP_Command36* data);
 
 #endif

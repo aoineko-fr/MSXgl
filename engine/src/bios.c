@@ -66,7 +66,7 @@ void Bios_Exit(u8 ret)
 		call	R_CALBAS
 	__endasm;
 
-#else // if(TARGET_TYPE == TYPE_ROM)
+#else // if (TARGET_TYPE == TYPE_ROM)
 
 	__asm
 		call	0x0000				// Soft reset

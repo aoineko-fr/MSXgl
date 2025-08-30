@@ -88,14 +88,14 @@ __endasm;
 // Program entry point
 void Detect()
 {
-	for(u8 i = 0; i < 2; ++i)
+	for (u8 i = 0; i < 2; ++i)
 	{
 		u8 px = 5 + i * 10;
 		u8 device = Input_Detect((i == 0) ? INPUT_PORT_1 : INPUT_PORT_2);
 		Print_SetPosition(px, 5);
 		Print_DrawHex8(device);
 		const c8* str;
-		switch(device)
+		switch (device)
 		{
 			case INPUT_TYPE_NINJATAP:	str = "NinjaTap "; break;
 			case INPUT_TYPE_MOUSE:		str = "Mouse    "; break;
@@ -151,7 +151,7 @@ void main()
 	VDP_EnableDisplay(TRUE);
 
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 
@@ -160,9 +160,9 @@ void main()
 
 		Paddle_Update();
 
-		for(u8 i = 0; i < 2; ++i)
+		for (u8 i = 0; i < 2; ++i)
 		{
-			// if(g_DeviceID[i] != INPUT_TYPE_PADDLE)
+			// if (g_DeviceID[i] != INPUT_TYPE_PADDLE)
 			// 	continue;
 
 			u16 padX = Paddle_GetAngle(i);
@@ -184,7 +184,7 @@ void main()
 			Print_DrawChar(!padC ? 'O' : '-');
 		}
 		
-		if(Keyboard_IsKeyPressed(KEY_D))
+		if (Keyboard_IsKeyPressed(KEY_D))
 		{
 			Detect();
 		}

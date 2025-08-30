@@ -49,14 +49,14 @@ void Tile_DrawMapChunk(u8 dx, u8 dy, const u8* map, u8 width, u8 height)
 	u8 x = dx;
 	u8 y = dy;
 	g_VDP_Command.DY = g_Tile_DrawPage * 256 + y * TILE_HEIGHT;
-	for(u16 j = 0; j < height; ++j)
+	for (u16 j = 0; j < height; ++j)
 	{
 		x = dx;
 		g_VDP_Command.DX = dx * TILE_WIDTH;
-		for(u16 i = 0; i < width; ++i)
+		for (u16 i = 0; i < width; ++i)
 		{
 			#if (TILE_USE_SKIP)
-			if(*map != TILE_SKIP_INDEX) // only draw file not the transparency
+			if (*map != TILE_SKIP_INDEX) // only draw file not the transparency
 			#endif
 			{
 				g_VDP_Command.SX = (*map % TILE_PER_ROW) * TILE_WIDTH;
@@ -83,13 +83,13 @@ void Tile_DrawScreen(const u8* map)
 	g_VDP_Command.CMD = (u8)(VDP_CMD_LMMM + VDP_OP_TIMP);
 
 	g_VDP_Command.DY = g_Tile_DrawPage * 256;
-	for(u16 j = 0; j < TILE_PER_COLUMN; ++j)
+	for (u16 j = 0; j < TILE_PER_COLUMN; ++j)
 	{
 		g_VDP_Command.DX = 0;
-		for(u16 i = 0; i < TILE_PER_ROW; ++i)
+		for (u16 i = 0; i < TILE_PER_ROW; ++i)
 		{
 			#if (TILE_USE_SKIP)
-			if(*map != TILE_SKIP_INDEX) // only draw file not the transparency
+			if (*map != TILE_SKIP_INDEX) // only draw file not the transparency
 			#endif
 			{
 				g_VDP_Command.SX = (*map % TILE_PER_ROW) * TILE_WIDTH;

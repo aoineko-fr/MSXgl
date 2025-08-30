@@ -129,7 +129,7 @@ bool g_bEnable = TRUE;				//
 void PhysicsEvent(u8 event, u8 tile)
 {
 	tile;
-	switch(event)
+	switch (event)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN:
 	case PAWN_PHYSICS_BORDER_RIGHT:
@@ -145,7 +145,7 @@ void PhysicsEvent(u8 event, u8 tile)
 		break;
 	
 	case PAWN_PHYSICS_FALL: // Handle falling
-		if(!g_bJumping)
+		if (!g_bJumping)
 		{
 			g_bJumping = TRUE;
 			g_VelocityY = 0;
@@ -176,7 +176,7 @@ void DrawLevel()
 	Math_SetRandomSeed16(g_Level);
 	loop(i, 8)
 	{
-		if(i == 7)
+		if (i == 7)
 			Math_SetRandomSeed16(g_Level + 1);
 		u8 y = Math_GetRandom16() & 0x07 ;
 		loop(j, y)
@@ -247,11 +247,11 @@ bool State_Game()
 // VDP_SetColor(COLOR_DARK_GREEN);
 	// Update player animation & physics
 	u8 act = ACTION_IDLE;
-	if(g_bJumping && (g_VelocityY >= 0))
+	if (g_bJumping && (g_VelocityY >= 0))
 		act = ACTION_JUMP;
-	else if(g_bJumping)
+	else if (g_bJumping)
 		act = ACTION_FALL;
-	else if(g_bMoving)
+	else if (g_bMoving)
 		act = ACTION_MOVE;
 	GamePawn_SetAction(&g_PlayerPawn, act);
 	GamePawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
@@ -266,11 +266,11 @@ bool State_Game()
 	Print_DrawChar(g_ChrAnim[g_PlayerPawn.Counter & 0x03]);
 
 	// Background horizon blink
-	if(g_bFlicker)
+	if (g_bFlicker)
 		VDP_FillVRAM(g_PlayerPawn.Counter & 1 ? 9 : 10, g_ScreenLayoutLow + (12+2) * 32, 0, 32);
 
 	// Handle collision events
-	switch(g_LastEvent)
+	switch (g_LastEvent)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN:
 		/* handle game over */
@@ -287,12 +287,12 @@ bool State_Game()
 	g_DX = 0;
 	g_DY = 0;
 	u8 row8 = Keyboard_Read(8);
-	if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+	if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 	{
 		g_DX++;
 		g_bMoving = TRUE;
 	}
-	else if(IS_KEY_PRESSED(row8, KEY_LEFT))
+	else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 	{
 		g_DX--;
 		g_bMoving = TRUE;
@@ -300,25 +300,25 @@ bool State_Game()
 	else
 		g_bMoving = FALSE;
 	
-	if(g_bJumping)
+	if (g_bJumping)
 	{
 		g_DY -= g_VelocityY / 4;
 		
 		g_VelocityY -= GRAVITY;
-		if(g_VelocityY < -FORCE)
+		if (g_VelocityY < -FORCE)
 			g_VelocityY = -FORCE;
 
 	}
-	else if(IS_KEY_PRESSED(row8, KEY_SPACE) || IS_KEY_PRESSED(row8, KEY_UP))
+	else if (IS_KEY_PRESSED(row8, KEY_SPACE) || IS_KEY_PRESSED(row8, KEY_UP))
 	{
 		g_bJumping = TRUE;
 		g_VelocityY = FORCE;
 	}
 
-	if(IS_KEY_PUSHED(row8, g_PrevRow8, KEY_HOME))
+	if (IS_KEY_PUSHED(row8, g_PrevRow8, KEY_HOME))
 		g_bFlicker = 1 - g_bFlicker;
 	
-	if(IS_KEY_PUSHED(row8, g_PrevRow8, KEY_DEL))
+	if (IS_KEY_PUSHED(row8, g_PrevRow8, KEY_DEL))
 	{
 		g_bEnable = !g_bEnable;
 		GamePawn_SetEnable(&g_PlayerPawn, g_bEnable);
@@ -326,7 +326,7 @@ bool State_Game()
 
 	g_PrevRow8 = row8;
 
-	if(Keyboard_IsKeyPressed(KEY_ESC))
+	if (Keyboard_IsKeyPressed(KEY_ESC))
 		Game_Exit();
 
 		

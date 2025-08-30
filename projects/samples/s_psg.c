@@ -130,9 +130,9 @@ u8 g_CursorPos = 0;
 void SetToneEnable(u8 chan, u8 action)
 {
 	u8 enable = (g_PSG_Regs.Mixer & (1 << chan)) ? 0 : 1;
-	if(action == ACTION_HOLD_UP)
+	if (action == ACTION_HOLD_UP)
 		enable = 1;
-	else if(action == ACTION_HOLD_DOWN)
+	else if (action == ACTION_HOLD_DOWN)
 		enable = 0;
 	PSG_EnableTone(chan, enable);
 
@@ -144,16 +144,16 @@ void SetToneEnable(u8 chan, u8 action)
 void SetTonePeriod(u8 chan, u8 action)
 {
 	u16 val = g_PSG_Regs.Tone[chan];
-	if(action == ACTION_HOLD_UP)
+	if (action == ACTION_HOLD_UP)
 	{
-		if(val < TONE_FREQ_MAX - TONE_FREQ_OFFSET)
+		if (val < TONE_FREQ_MAX - TONE_FREQ_OFFSET)
 			val += TONE_FREQ_OFFSET;
 		else
 			val = TONE_FREQ_MAX;
 	}
-	else if(action == ACTION_HOLD_DOWN)
+	else if (action == ACTION_HOLD_DOWN)
 	{
-		if(val > TONE_FREQ_OFFSET)
+		if (val > TONE_FREQ_OFFSET)
 			val -= TONE_FREQ_OFFSET;
 		else
 			val = 0;
@@ -172,16 +172,16 @@ void SetToneVolume(u8 chan, u8 action)
 	u8 val = g_PSG_Regs.Volume[chan];
 	u8 env = val & PSG_F_ENV;
 	val &= 0x0F;
-	if(action == ACTION_HOLD_UP)
+	if (action == ACTION_HOLD_UP)
 	{
-		if(val < TONE_VOL_MAX - TONE_VOL_OFFSET)
+		if (val < TONE_VOL_MAX - TONE_VOL_OFFSET)
 			val += TONE_VOL_OFFSET;
 		else
 			val = TONE_VOL_MAX;
 	}
-	else if(action == ACTION_HOLD_DOWN)
+	else if (action == ACTION_HOLD_DOWN)
 	{
-		if(val > TONE_VOL_OFFSET)
+		if (val > TONE_VOL_OFFSET)
 			val -= TONE_VOL_OFFSET;
 		else
 			val = 0;
@@ -198,9 +198,9 @@ void SetToneVolume(u8 chan, u8 action)
 void SetEnvEnable(u8 chan, u8 action)
 {
 	u8 enable = (g_PSG_Regs.Volume[chan] & PSG_F_ENV) ? 1 : 0;
-	if(action == ACTION_HOLD_UP)
+	if (action == ACTION_HOLD_UP)
 		enable = 1;
-	else if(action == ACTION_HOLD_DOWN)
+	else if (action == ACTION_HOLD_DOWN)
 		enable = 0;
 	PSG_EnableEnvelope(chan, enable);
 
@@ -212,16 +212,16 @@ void SetEnvEnable(u8 chan, u8 action)
 void SetEnvPeriod(u8 chan, u8 action)
 {
 	u16 val = g_PSG_Regs.Envelope;
-	if(action == ACTION_HOLD_UP)
+	if (action == ACTION_HOLD_UP)
 	{
-		if(val < ENV_FREQ_MAX - ENV_FREQ_OFFSET)
+		if (val < ENV_FREQ_MAX - ENV_FREQ_OFFSET)
 			val += ENV_FREQ_OFFSET;
 		else
 			val = ENV_FREQ_MAX;
 	}
-	else if(action == ACTION_HOLD_DOWN)
+	else if (action == ACTION_HOLD_DOWN)
 	{
-		if(val > ENV_FREQ_OFFSET)
+		if (val > ENV_FREQ_OFFSET)
 			val -= ENV_FREQ_OFFSET;
 		else
 			val = 0;
@@ -239,16 +239,16 @@ void SetEnvShape(u8 chan, u8 action)
 {
 	u8 val = g_PSG_Regs.Shape;
 	val &= 0x0F;
-	if(action == ACTION_PRESS_UP)
+	if (action == ACTION_PRESS_UP)
 	{
-		if(val < ENV_SHAPE_MAX - ENV_SHAPE_OFFSET)
+		if (val < ENV_SHAPE_MAX - ENV_SHAPE_OFFSET)
 			val += ENV_SHAPE_OFFSET;
 		else
 			val = ENV_SHAPE_MAX;
 	}
-	else if(action == ACTION_PRESS_DOWN)
+	else if (action == ACTION_PRESS_DOWN)
 	{
-		if(val > ENV_SHAPE_OFFSET)
+		if (val > ENV_SHAPE_OFFSET)
 			val -= ENV_SHAPE_OFFSET;
 		else
 			val = 0;
@@ -266,9 +266,9 @@ void SetEnvShape(u8 chan, u8 action)
 void SetNoiseEnable(u8 chan, u8 action)
 {
 	u8 enable = (g_PSG_Regs.Mixer & (8 << chan)) ? 0 : 1;
-	if(action == ACTION_HOLD_UP)
+	if (action == ACTION_HOLD_UP)
 		enable = 1;
-	else if(action == ACTION_HOLD_DOWN)
+	else if (action == ACTION_HOLD_DOWN)
 		enable = 0;
 	PSG_EnableNoise(chan, enable);
 
@@ -280,16 +280,16 @@ void SetNoiseEnable(u8 chan, u8 action)
 void SetNoisePeriod(u8 chan, u8 action)
 {
 	u8 val = g_PSG_Regs.Noise;
-	if(action == ACTION_HOLD_UP)
+	if (action == ACTION_HOLD_UP)
 	{
-		if(val < NOISE_FREQ_MAX - NOISE_FREQ_OFFSET)
+		if (val < NOISE_FREQ_MAX - NOISE_FREQ_OFFSET)
 			val += NOISE_FREQ_OFFSET;
 		else
 			val = NOISE_FREQ_MAX;
 	}
-	else if(action == ACTION_HOLD_DOWN)
+	else if (action == ACTION_HOLD_DOWN)
 	{
-		if(val > NOISE_FREQ_OFFSET)
+		if (val > NOISE_FREQ_OFFSET)
 			val -= NOISE_FREQ_OFFSET;
 		else
 			val = 0;
@@ -306,10 +306,10 @@ void SetNoisePeriod(u8 chan, u8 action)
 void MoveCursor(i8 offset)
 {
 	u8 newPos = g_CursorPos;
-	while(1)
+	while (1)
 	{
 		newPos = (24 + newPos + offset) % 24;
-		if(g_UIEntries[newPos].Func != 0)
+		if (g_UIEntries[newPos].Func != 0)
 			break;
 	}
 	VDP_SetSpriteColorSM1(g_CursorPos, COLOR_WHITE);
@@ -392,7 +392,7 @@ void main()
 	Print_DrawCharX(0x1C, 32);
 	
 	Print_SetPosition(4, 19);
-	for(u8 i = 0; i < 14; ++i)
+	for (u8 i = 0; i < 14; ++i)
 		Print_DrawFormat("%1x ", i);
 	Print_DrawText("\nRAW:");
 
@@ -402,10 +402,10 @@ void main()
 	Print_DrawText("\x81\x82\x80:Move H:Up N:Down");
 	
 	// Sprite
-	for(u8 i = 0; i < 24; ++i)
+	for (u8 i = 0; i < 24; ++i)
 	{
 		const struct UIEntry* entry = &g_UIEntries[i];
-		if(entry->Func)
+		if (entry->Func)
 			VDP_SetSpriteSM1(i, entry->PosX, entry->PosY - 1, 0, COLOR_WHITE);
 		else
 			VDP_SetSpriteSM1(i, 0, 213, 0, 0);
@@ -434,7 +434,7 @@ void main()
 	u8 prevRow8 = 0xFF;
 	u8 prevUp = 0;
 	u8 prevDown = 0;
-	while(1)
+	while (1)
 	{
 		VDP_SetSpriteColorSM1(CURSOR_ID, g_ColorBlink[(count >> 2) & 0x03]);
 		VDP_SetSpriteColorSM1(g_CursorPos, g_ColorBlink[(count >> 2) & 0x03]);
@@ -444,22 +444,22 @@ void main()
 
 		// Move cursor
 		u8 row8 = Keyboard_Read(8);
-		if(IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
+		if (IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
 			MoveCursor(MOVE_UP);
-		else if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
+		else if (IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
 			MoveCursor(MOVE_RIGHT);
-		else if(IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN))
+		else if (IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN))
 			MoveCursor(MOVE_DOWN);
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
+		else if (IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
 			MoveCursor(MOVE_LEFT);
 		prevRow8 = row8;
 
 		// Increase value
 		u8 newUp = Keyboard_IsKeyPressed(KEY_H);
-		if(newUp)
+		if (newUp)
 		{
 			const struct UIEntry* entry = &g_UIEntries[g_CursorPos];
-			if(!prevUp)
+			if (!prevUp)
 				entry->Func(entry->Chan, ACTION_PRESS_UP);
 			else
 				entry->Func(entry->Chan, ACTION_HOLD_UP);
@@ -467,10 +467,10 @@ void main()
 		prevUp = newUp;
 		
 		u8 newDown = Keyboard_IsKeyPressed(KEY_N);
-		if(newDown)
+		if (newDown)
 		{
 			const struct UIEntry* entry = &g_UIEntries[g_CursorPos];
-			if(!prevDown)
+			if (!prevDown)
 				entry->Func(entry->Chan, ACTION_PRESS_DOWN);
 			else
 				entry->Func(entry->Chan, ACTION_HOLD_DOWN);
@@ -482,7 +482,7 @@ void main()
 		
 		Print_SetPosition(4, 20);
 		i8* ptr = (u8*)g_PSG_Regs;
-		for(u8 i = 0; i < 14; ++i)
+		for (u8 i = 0; i < 14; ++i)
 			Print_DrawHex8(*ptr++);
 
 		PSG_Apply();

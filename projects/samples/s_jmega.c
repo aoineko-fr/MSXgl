@@ -42,7 +42,7 @@ u16 g_PrevID[2] = { 0xFF, 0xFF };
 void Update_MSXHID(u8 i)
 {
 	u16 id = HID_Detect(i == 0 ? INPUT_PORT1 : INPUT_PORT2);
-	if(id == g_PrevID[i])
+	if (id == g_PrevID[i])
 		return;
 
 	g_PrevID[i] = id;
@@ -51,7 +51,7 @@ void Update_MSXHID(u8 i)
 	Print_DrawHex16(id);
 
 	const c8* dev = "Unknow       ";
-	switch(id)
+	switch (id)
 	{
 	case HID_DEVICE_JOYSTICK:	dev = "None/Joystick"; break;
 	case HID_DEVICE_MOUSE:		dev = "Mouse        "; break;
@@ -111,7 +111,7 @@ void main()
 
 	u8 frameCount = 0;
 	bool bContinue = TRUE;
-	while(bContinue)
+	while (bContinue)
 	{
 		Halt();
 

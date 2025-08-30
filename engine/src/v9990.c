@@ -658,7 +658,7 @@ __endasm;
 void V9_SetCursorAttribute(u8 id, u16 x, u16 y, u8 color)
 {
 	u32 addr = 0x7FE00;
-	if(id)
+	if (id)
 		addr += 8;
 	V9_Poke(addr, y & 0xFF);
 	addr += 2;
@@ -678,10 +678,10 @@ void V9_SetCursorAttribute(u8 id, u16 x, u16 y, u8 color)
 void V9_SetCursorDisplay(u8 id, bool enable)
 {
 	u32 addr = 0x7FE06;
-	if(id)
+	if (id)
 		addr += 8;
 	u8 val = V9_Peek(addr);
-	if(enable)
+	if (enable)
 		val &= ~V9_CURSOR_DISABLE;
 	else
 		val |= V9_CURSOR_DISABLE;

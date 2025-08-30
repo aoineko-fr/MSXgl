@@ -25,7 +25,7 @@ void Seg4Func2(u8 x, u8 y, const c8* txt)
 //
 void Seg4Func1(u8 id) __banked
 {
-	if(id & 1)
+	if (id & 1)
 		Seg4Func2(0, id, Seg4Data1);
 	else
 		Seg4Func2(0, id, Seg4Data2);

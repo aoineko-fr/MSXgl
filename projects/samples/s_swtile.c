@@ -177,7 +177,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 	g_Frame++;
 }
@@ -186,7 +186,7 @@ void WaitVBlank()
 void PhysicsEvent(u8 event, u8 tile)
 {
 	tile;
-	switch(event)
+	switch (event)
 	{
 	case PAWN_PHYSICS_BORDER_LEFT:
 	case PAWN_PHYSICS_BORDER_RIGHT:
@@ -196,7 +196,7 @@ void PhysicsEvent(u8 event, u8 tile)
 		break;
 	
 	case PAWN_PHYSICS_COL_DOWN: // Handle downward collisions 
-		if(g_bJumping)
+		if (g_bJumping)
 		{
 			DEBUG_LOGNUM("Velocity", g_VelocityY);
 			DEBUG_LOG("Land on ground!");
@@ -209,7 +209,7 @@ void PhysicsEvent(u8 event, u8 tile)
 		break;
 	
 	case PAWN_PHYSICS_FALL: // Handle falling
-		if(!g_bJumping)
+		if (!g_bJumping)
 		{
 			g_bJumping = TRUE;
 			g_VelocityY = 0;
@@ -250,7 +250,7 @@ void main()
 	Tile_FillBank(3, 9);
 	Tile_LoadBank(0, g_DataBG4b, sizeof(g_DataBG4b) / TILE_CELL_BYTES);
 	Tile_LoadBank(2, g_DataBG4b, sizeof(g_DataBG4b) / TILE_CELL_BYTES);
-	for(u8 i = 0; i < 15; ++i)
+	for (u8 i = 0; i < 15; ++i)
 		VDP_SetPaletteEntry(i + 1, *(u16*)&g_DataBG4b_palette[i*2]);
 
 	// Draw level
@@ -285,7 +285,7 @@ void main()
 	VDP_EnableVBlank(TRUE);
 
 	bool bContinue = TRUE;
-	while(bContinue)
+	while (bContinue)
 	{
 		WaitVBlank();
 
@@ -294,24 +294,24 @@ void main()
 		Print_SetPosition(247, 0);
 		Print_DrawChar(chrAnim[g_Frame & 0x03]);
 
-		if(Keyboard_IsKeyPressed(KEY_1))
+		if (Keyboard_IsKeyPressed(KEY_1))
 			VDP_SetPage(0);
-		if(Keyboard_IsKeyPressed(KEY_2))
+		if (Keyboard_IsKeyPressed(KEY_2))
 			VDP_SetPage(1);
-		if(Keyboard_IsKeyPressed(KEY_3))
+		if (Keyboard_IsKeyPressed(KEY_3))
 			VDP_SetPage(2);
-		if(Keyboard_IsKeyPressed(KEY_4))
+		if (Keyboard_IsKeyPressed(KEY_4))
 			VDP_SetPage(3);
 
 		g_DX = 0;
 		g_DY = 0;
 		u8 row8 = Keyboard_Read(8);
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+		if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
 			g_DX++;
 			g_bMoving = TRUE;
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
+		else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
 			g_DX--;
 			g_bMoving = TRUE;
@@ -319,16 +319,16 @@ void main()
 		else
 			g_bMoving = FALSE;
 		
-		if(g_bJumping)
+		if (g_bJumping)
 		{
 			g_DY -= g_VelocityY / 4;
 			
 			g_VelocityY -= GRAVITY;
-			if(g_VelocityY < -FORCE)
+			if (g_VelocityY < -FORCE)
 				g_VelocityY = -FORCE;
 
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_SPACE) || IS_KEY_PRESSED(row8, KEY_UP))
+		else if (IS_KEY_PRESSED(row8, KEY_SPACE) || IS_KEY_PRESSED(row8, KEY_UP))
 		{
 			g_bJumping = TRUE;
 			g_VelocityY = FORCE;
@@ -337,11 +337,11 @@ void main()
 
 		// Update player animation & physics
 		u8 act = ACTION_IDLE;
-		if(g_bJumping && (g_VelocityY >= 0))
+		if (g_bJumping && (g_VelocityY >= 0))
 			act = ACTION_JUMP;
-		else if(g_bJumping)
+		else if (g_bJumping)
 			act = ACTION_FALL;
-		else if(g_bMoving)
+		else if (g_bMoving)
 			act = ACTION_MOVE;
 
 		GamePawn_SetAction(&g_PlayerPawn, act);

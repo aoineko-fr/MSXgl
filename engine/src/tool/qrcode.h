@@ -115,7 +115,7 @@ enum QRCODE_MODE
 // Even in the most favorable conditions, a QR Code can only hold 7089 characters of data.
 // Any segment longer than this is meaningless for the purpose of generating QR Codes.
 // Moreover, the maximum allowed bit length is 32767 because the largest QR Code (version 40) has 31329 modules.
-struct QRCode_Segment
+typedef struct QRCode_Segment
 {
 	// The mode indicator of this segment.
 	enum QRCODE_MODE mode;
@@ -133,7 +133,7 @@ struct QRCode_Segment
 	// 0 <= bitLength <= 32767, and bitLength <= (capacity of data array) * 8.
 	// The character count (numChars) must agree with the mode and the bit buffer length.
 	i16 bitLength;
-};
+} QRCode_Segment;
 
 // Define: QRCODE_BUFFER_LEN_FOR_VERSION
 // Calculates the number of bytes needed to store any QR Code up to and including the given version number,
@@ -236,7 +236,7 @@ bool QRCode_EncodeBinary(u8 dataAndTemp[], u16 dataLen, u8 qrcode[], enum QRCODE
 // 
 // This function allows the user to create a custom sequence of segments that switches between modes (such as alphanumeric and byte) to encode text in less space.
 // This is a low-level API; the high-level API is QRCode_EncodeText() and QRCode_EncodeBinary().
-bool QRCode_EncodeSegments(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, u8 tempBuffer[], u8 qrcode[]);
+bool QRCode_EncodeSegments(const QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, u8 tempBuffer[], u8 qrcode[]);
 #endif
 
 // Function: QRCode_EncodeSegmentsAdvanced
@@ -265,7 +265,7 @@ bool QRCode_EncodeSegments(const struct QRCode_Segment segs[], u16 len, enum QRC
 // 
 // This function allows the user to create a custom sequence of segments that switches between modes (such as alphanumeric and byte) to encode text in less space.
 // This is a low-level API; the high-level API is QRCode_EncodeText() and QRCode_EncodeBinary().
-bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, enum QRCODE_MASK mask, u8 tempBuffer[], u8 qrcode[]);
+bool QRCode_EncodeSegmentsAdvanced(const QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, enum QRCODE_MASK mask, u8 tempBuffer[], u8 qrcode[]);
 
 #if (!QRCODE_USE_BYTE_ONLY)
 // Function: QRCode_IsNumeric
@@ -295,26 +295,26 @@ u16 QRCode_CalcSegmentBufferSize(enum QRCODE_MODE mode, u16 numChars);
 // Function: QRCode_MakeBytes
 // Returns a segment representing the given binary data encoded in byte mode. All input byte arrays are acceptable. Any text string
 // can be converted to UTF-8 bytes and encoded as a byte mode segment.
-void QRCode_MakeBytes(const u8 data[], u16 len, u8 buf[], struct QRCode_Segment* seg);
+void QRCode_MakeBytes(const u8 data[], u16 len, u8 buf[], QRCode_Segment* seg);
 #endif
 
 #if (!QRCODE_USE_BYTE_ONLY)
 // Function: QRCode_MakeNumeric
 // Returns a segment representing the given string of decimal digits encoded in numeric mode.
-void QRCode_MakeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg);
+void QRCode_MakeNumeric(const char *digits, u8 buf[], QRCode_Segment* seg);
 #endif
 
 #if (!QRCODE_USE_BYTE_ONLY)
 // Function: QRCode_MakeAlphanumeric
 // Returns a segment representing the given text string encoded in alphanumeric mode.
 // The characters allowed are: 0 to 9, A to Z (uppercase only), space, dollar, percent, asterisk, plus, hyphen, period, slash, colon.
-void QRCode_MakeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* seg);
+void QRCode_MakeAlphanumeric(const char *text, u8 buf[], QRCode_Segment* seg);
 #endif
 
 #if (QRCODE_USE_EXTRA && !QRCODE_USE_BYTE_ONLY)
 // Function: QRCode_MakeECI
 // Returns a segment representing an Extended Channel Interpretation (ECI) designator with the given assignment value.
-void QRCode_MakeECI(i32 assignVal, u8 buf[], struct QRCode_Segment* seg);
+void QRCode_MakeECI(i32 assignVal, u8 buf[], QRCode_Segment* seg);
 #endif
 
 // Function: QRCode_GetSize

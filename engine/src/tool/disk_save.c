@@ -57,7 +57,7 @@ const c8 g_HexChar2[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A
 // Detect if a disk drive is present and valid disk is inserted
 u8 DiskSave_Initialize()
 {
-	if(Peek(H_PHYD) == 0xC9) // Check if a disk drive is present ; H.PHYD is not 0xC9 ('ret') if a disk drive is present
+	if (Peek(H_PHYD) == 0xC9) // Check if a disk drive is present ; H.PHYD is not 0xC9 ('ret') if a disk drive is present
 		return SAVEDATA_NODRIVE;
 
 	// Install the error handler
@@ -69,21 +69,21 @@ u8 DiskSave_Initialize()
 	// Build the filename for the given slot
 	Mem_Copy("TESTDATABIN", g_DiskSave_FCB.Name, 11);
 
-	if(DOS_CreateFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+	if (DOS_CreateFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return SAVEDATA_NODISK; // There was an error
 	
-	if(DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+	if (DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return SAVEDATA_NODISK; // There was an error
 
 	// Point to data that should be written to file
 	DOS_SetTransferAddr(g_DiskSave_Buffer);
 	
 	// Write data, 128 bytes per write
-	if(DOS_SequentialWriteFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+	if (DOS_SequentialWriteFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return SAVEDATA_NODISK; // There was an error
 	
 	// Try to delete the file
-	if(DOS_DeleteFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+	if (DOS_DeleteFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return SAVEDATA_NODISK; // There was an error
 
 	DOS_CloseFCB(&g_DiskSave_FCB);
@@ -101,21 +101,21 @@ void DiskSave_BuildFilename(u8 slot, c8* buffer, bool pad)
 
 	// Copy the base name to the FCB name field
 	u8 i;
-	for(i = 0; (i < 6) && (g_DiskSave_Name[i] != 0); ++i)
+	for (i = 0; (i < 6) && (g_DiskSave_Name[i] != 0); ++i)
 		buffer[i] = g_DiskSave_Name[i];
 
 	// Add slot number as hexadecimal digits
 	buffer[i++] = g_HexChar2[slot >> 4];
 	buffer[i++] = g_HexChar2[slot & 0xF];
 
-	if(pad)
+	if (pad)
 	{
 		// Fill the rest of the name with spaces
-		for(; i < 8; ++i)
+		for (; i < 8; ++i)
 			buffer[i] = ' ';
 
 		// Add the extension
-		for(; i < 11; ++i)
+		for (; i < 11; ++i)
 			buffer[i] = g_DiskSave_Ext[i - 8];
 	}
 	else
@@ -149,7 +149,7 @@ u8 DiskSave_Check(u8 slot)
 	// Point g_DiskSave_FCB to the file that should be opened
 	DiskSave_InitFCB(slot);
 	
-	if(DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+	if (DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return SAVEDATA_NOTFOUND;  // There was an error / file not found
 	
 #if (defined(APPSIGN))
@@ -158,13 +158,13 @@ u8 DiskSave_Check(u8 slot)
 	DOS_SetTransferAddr(g_DiskSave_Buffer);
 
 	//Read the first 128 bytes
-	if( DOS_SequentialReadFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+	if ( DOS_SequentialReadFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return SAVEDATA_ERROR; // Invalid file
 
 	// Check the save data signature
 	const u8* sign = (const u8*)&g_AppSignature;
 	loop(i, 4)
-		if(g_DiskSave_Buffer[i] != *sign++)
+		if (g_DiskSave_Buffer[i] != *sign++)
 			return SAVEDATA_UNSIGNED; // Invalid signature
 
 #endif
@@ -181,21 +181,21 @@ bool DiskSave_Save(u8 slot, const u8* data, u16 size)
 	// Point g_DiskSave_FCB to the file that should be opened/created
 	DiskSave_InitFCB(slot);
 	
-	if(DOS_CreateFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+	if (DOS_CreateFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return FALSE; // There was an error
 	
-	if(DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+	if (DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return FALSE; // There was an error
 	
 	// Point to data that should be written to file
 	DOS_SetTransferAddr(g_DiskSave_Buffer);
 	
 	i16 remains = size;
-	for(u16 i = 0; i < size; i += 128)
+	for (u16 i = 0; i < size; i += 128)
 	{
 		//Copy from data to g_DiskSave_Buffer.
 		remains -= 128;
-		if(remains < 0)
+		if (remains < 0)
 		{
 			remains += 128;
 			Mem_Copy(data, g_DiskSave_Buffer, remains);
@@ -207,7 +207,7 @@ bool DiskSave_Save(u8 slot, const u8* data, u16 size)
 		}
 		
 		//Write data, 128 bytes per write
-		if(DOS_SequentialWriteFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+		if (DOS_SequentialWriteFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 			return FALSE; // There was an error
 	}
 	
@@ -224,21 +224,21 @@ bool DiskSave_Load(u8 slot, u8* dst, u16 size)
 	DiskSave_InitFCB(slot);
 	
 	// Try to open the file
-	if(DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+	if (DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return FALSE; // There was an error
 	
 	// Point to data that should be read from file
 	DOS_SetTransferAddr(g_DiskSave_Buffer);
 	i16 remains = size;
-	for(u16 i = 0; i < size; i += 128)
+	for (u16 i = 0; i < size; i += 128)
 	{
 		//Read data, 128 bytes per read
-		if( DOS_SequentialReadFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+		if ( DOS_SequentialReadFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 			return FALSE; // There was an error
 
 		//Copy from g_DiskSave_Buffer to dst.
 		remains -= 128;
-		if(remains < 0)
+		if (remains < 0)
 		{
 			remains += 128;
 			Mem_Copy(g_DiskSave_Buffer, dst, remains);
@@ -265,11 +265,11 @@ bool DiskSave_Delete(u8 slot)
 	DiskSave_InitFCB(slot);
 	
 	// Try to open the file
-	if(DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+	if (DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return FALSE; // There was an error
 
 	// Try to delete the file
-	if(DOS_DeleteFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
+	if (DOS_DeleteFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return FALSE; // There was an error
 
 	// Close file

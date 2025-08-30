@@ -32,7 +32,7 @@ const u8  g_LVGM_Ident[4] = { 'l', 'V', 'G', 'M' };
 // MEMORY DATA
 //=============================================================================
 
-const struct LVGM_Header* g_LVGM_Header;
+const LVGM_Header* g_LVGM_Header;
 const u8*                 g_LVGM_Pointer;
 const u8*                 g_LVGM_LoopAddr;
 u8                        g_LVGM_Devices;
@@ -55,7 +55,7 @@ LVGM_NotifyCB             g_LVGM_Callback = LVGM_Defaultcallback;
 void LVGM_DecodePSG()
 {
 	u8 op = *g_LVGM_Pointer & 0xF0;
-	switch(op)
+	switch (op)
 	{
 		case 0x00: // R#0n = nn
 		{
@@ -102,7 +102,7 @@ const u8 g_lVGM_OPLL_Reg[] = { 0x00, 0x10, 0x20, 0x30, 0x16, 0x26, 0x36 };
 void LVGM_DecodeOPLL()
 {
 	u8 op = *g_LVGM_Pointer;
-	switch(op >> 4)
+	switch (op >> 4)
 	{
 		case 0x0: // Register #rr (00~38h) set to nn
 		case 0x1:
@@ -168,7 +168,7 @@ void LVGM_DecodeOPL1()
 	MSXAudio_SetRegister(reg, val);
 
 	// u8 op = *g_LVGM_Pointer;
-	// if((op & 0xF0) == 0xD0) // Da bb cc[a] | Copy a+3 bytes (3~18) start from R#bb
+	// if ((op & 0xF0) == 0xD0) // Da bb cc[a] | Copy a+3 bytes (3~18) start from R#bb
 	// {
 	// 	u8 cnt = (op & 0x0F) + 3;
 	// 	u8 reg = *++g_LVGM_Pointer;
@@ -191,24 +191,24 @@ const u8 g_lVGM_SCC_Reg[] = { 0x00, 0x20, 0x40, 0x60, 0x80 };
 void  LVGM_DecodeSCC()
 {
 	u8 op = *g_LVGM_Pointer;
-	if(op < 0xB0) // rr nn | Register #rr (00~AF) set to nn
+	if (op < 0xB0) // rr nn | Register #rr (00~AF) set to nn
 	{
 		SCC_SetRegister(op, *++g_LVGM_Pointer);
 	}
-	else if(op < 0xB8) // Bx | Waveform
+	else if (op < 0xB8) // Bx | Waveform
 	{
 		u8 reg = g_lVGM_SCC_Reg[op & 0x07];
 		loop(i, 32)
 			SCC_SetRegister(reg++, *++g_LVGM_Pointer);
 	}
-	else if(op < 0xC0) // Bx | Waveform
+	else if (op < 0xC0) // Bx | Waveform
 	{
 		u8 reg = g_lVGM_SCC_Reg[op & 0x07];
 		u8 val = *++g_LVGM_Pointer;
 		loop(i, 32)
 			SCC_SetRegister(reg++, val);
 	}
-	else if(op < 0xD0) // Cn rr vv | Set n+3 bytes (3~18) start from register #rr
+	else if (op < 0xD0) // Cn rr vv | Set n+3 bytes (3~18) start from register #rr
 	{
 		u8 cnt = (op & 0x0F) + 3;
 		u8 reg = *++g_LVGM_Pointer;
@@ -216,7 +216,7 @@ void  LVGM_DecodeSCC()
 		loop(i, cnt)
 			SCC_SetRegister(reg++, val);
 	}
-	else if(op < 0xE0) // Dn rr vv[] | Copy n+3 bytes (3~18) start from register #rr
+	else if (op < 0xE0) // Dn rr vv[] | Copy n+3 bytes (3~18) start from register #rr
 	{
 		u8 cnt = (op & 0x0F) + 3;
 		u8 reg = *++g_LVGM_Pointer;
@@ -255,28 +255,28 @@ void  LVGM_DecodeOPL4()
 bool LVGM_Play(const void* addr, bool loop)
 {
 	// Check file indentification bytes
-	g_LVGM_Header = (const struct LVGM_Header*)(addr);
-	for(u8 i = 0; i < 4; i++)
-		if(g_LVGM_Header->Ident[i] != g_LVGM_Ident[i])
+	g_LVGM_Header = (const LVGM_Header*)(addr);
+	for (u8 i = 0; i < 4; i++)
+		if (g_LVGM_Header->Ident[i] != g_LVGM_Ident[i])
 			return FALSE;
 
 	// Setup state
 	g_LVGM_State = 0;
-	if(g_LVGM_Header->Option & LVGM_OPTION_50HZ)
+	if (g_LVGM_Header->Option & LVGM_OPTION_50HZ)
 		g_LVGM_State |= LVGM_STATE_50HZ;
-	if(loop)
+	if (loop)
 		g_LVGM_State |= LVGM_STATE_LOOP;
 	
 	// Setup playback pointer
 	g_LVGM_Pointer = (const u8*)(addr) + 5;
-	if(g_LVGM_Header->Option & LVGM_OPTION_DEVICE)
+	if (g_LVGM_Header->Option & LVGM_OPTION_DEVICE)
 		g_LVGM_Devices = *g_LVGM_Pointer++;
 	else
 		g_LVGM_Devices = LVGM_CHIP_PSG;
 
 	// Setup default value
 	g_LVGM_PSG_Default = 0;
-	if(g_LVGM_Devices & LVGM_CHIP_PSG)
+	if (g_LVGM_Devices & LVGM_CHIP_PSG)
 		g_LVGM_PSG_Default = *g_LVGM_Pointer++;
 
 	// Init variables
@@ -297,7 +297,7 @@ void LVGM_Stop()
 	LVGM_Pause();
 
 	g_LVGM_Pointer = (const u8*)(g_LVGM_Header) + 2;
-	if(g_LVGM_Header->Option & LVGM_OPTION_DEVICE)
+	if (g_LVGM_Header->Option & LVGM_OPTION_DEVICE)
 		g_LVGM_Pointer++;
 	g_LVGM_Wait = 0;
 }
@@ -330,30 +330,30 @@ void LVGM_Pause()
 void LVGM_Decode()
 {
 	// Check if the music is playing
-	if(!(g_LVGM_State & LVGM_STATE_PLAY))
+	if (!(g_LVGM_State & LVGM_STATE_PLAY))
 		return;
 	
 	// Check if there are still waiting cycles
-	if(g_LVGM_Wait != 0)
+	if (g_LVGM_Wait != 0)
 	{
 		g_LVGM_Wait--;
 		return;
 	}
 	
 	// Parse music data
-	while(1)
+	while (1)
 	{
 		u8 op = *g_LVGM_Pointer & 0xF0;
 
-		if(op == 0xE0) // Wait n+1 cycles (1~16)
+		if (op == 0xE0) // Wait n+1 cycles (1~16)
 		{
 			g_LVGM_Wait += (*g_LVGM_Pointer & 0x0F);
 			g_LVGM_Pointer++;
 			return;
 		}
-		else if(op == 0xF0) // Special markers
+		else if (op == 0xF0) // Special markers
 		{
-			switch(*g_LVGM_Pointer)
+			switch (*g_LVGM_Pointer)
 			{
 			#if (LVGM_USE_PSG)
 			case LVGM_OP_PSG: // PSG / AY-3-8910
@@ -406,7 +406,7 @@ void LVGM_Decode()
 
 			case LVGM_OP_NOTIFY:
 			#if (LVGM_USE_NOTIFY)
-				if(g_LVGM_Callback(*++g_LVGM_Pointer))
+				if (g_LVGM_Callback(*++g_LVGM_Pointer))
 					continue;
 			#else
 				g_LVGM_Pointer++; // Skip notification
@@ -421,7 +421,7 @@ void LVGM_Decode()
 				break;
 
 			case LVGM_OP_END: // End of song
-				if(g_LVGM_State & LVGM_STATE_LOOP) // handle loop
+				if (g_LVGM_State & LVGM_STATE_LOOP) // handle loop
 				{
 				#if (LVGM_USE_NOTIFY)
 					g_LVGM_Callback(0xFF);

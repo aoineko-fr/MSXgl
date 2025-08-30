@@ -78,7 +78,7 @@ void DEBUG_BREAK()
 // Conditionnal break
 void DEBUG_ASSERT(bool a)
 {	
-	if(!(a))
+	if (!(a))
 		DEBUG_BREAK();
 }
 
@@ -90,7 +90,7 @@ void DEBUG_LOG(const c8* msg)
 	DEBUG_PRINT("%s", msg);
 #else
 	g_PortDebugMode = DEBUG_MODE_MULTI|DEBUG_MULTI_ASCII; // Multi byte ASCII mode
-	while(*msg)
+	while (*msg)
 		g_PortDebugData = *msg++;
 #endif
 }
@@ -162,13 +162,13 @@ void DEBUG_INIT()
 #if (VDP_USE_COMMAND)
 	// Fix assertion for un-initialized VDP buffer
 	u8* ptr = (u8*)&g_VDP_Command;
-	for(u8 i = 0; i < sizeof(g_VDP_Command); ++i)
+	for (u8 i = 0; i < sizeof(g_VDP_Command); ++i)
 		*(ptr++) = 0;
 #endif
 	
 	// Fix assertion for BIOS-initialized key buffer
 	#if (INPUT_KB_UPDATE)
-	for(u8 i = INPUT_KB_UPDATE_MIN; i <= INPUT_KB_UPDATE_MAX; ++i)
+	for (u8 i = INPUT_KB_UPDATE_MIN; i <= INPUT_KB_UPDATE_MAX; ++i)
 		((u8*)g_NEWKEY)[i] = 0xFF;
 	#endif
 }
@@ -187,7 +187,7 @@ __endasm;
 // Conditionnal break
 void DEBUG_ASSERT(bool a)
 {
-	if(!(a))
+	if (!(a))
 		DEBUG_BREAK();
 }
 

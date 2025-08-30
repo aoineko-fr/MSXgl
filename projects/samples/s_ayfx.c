@@ -133,7 +133,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(!g_VBlank) {}
+	while (!g_VBlank) {}
 	g_VBlank = FALSE;
 }
 
@@ -148,16 +148,16 @@ void DrawVUMeter()
 	// Channel A
 	g_VDP_Command.DY = PSG_Y + (8*2) + ((8-VU_H)/2); 
 	u8 volA = PT3_GetVolume(PSG_CHANNEL_A) >> 1;
-	if(volA > VU_MAX)
+	if (volA > VU_MAX)
 		volA = VU_MAX;
-	if(volA > 0)
+	if (volA > 0)
 	{
 		g_VDP_Command.DX = VU_X;
 		g_VDP_Command.NX = volA * 8;
 		g_VDP_Command.CLR = 0x22;
 		VPD_CommandSetupR36();
 	}
-	if(volA < VU_MAX)
+	if (volA < VU_MAX)
 	{
 		g_VDP_Command.DX = VU_X + volA * 8;
 		g_VDP_Command.NX = (VU_MAX - volA) * 8;
@@ -168,16 +168,16 @@ void DrawVUMeter()
 	// Channel B
 	g_VDP_Command.DY = PSG_Y + (8*3) + ((8-VU_H)/2); 
 	u8 volB = PT3_GetVolume(PSG_CHANNEL_B) >> 1;
-	if(volB > VU_MAX)
+	if (volB > VU_MAX)
 		volB = VU_MAX;
-	if(volB > 0)
+	if (volB > 0)
 	{
 		g_VDP_Command.DX = VU_X;
 		g_VDP_Command.NX = volB * 8;
 		g_VDP_Command.CLR = 0x22;
 		VPD_CommandSetupR36();
 	}
-	if(volB < VU_MAX)
+	if (volB < VU_MAX)
 	{
 		g_VDP_Command.DX = VU_X + volB * 8;
 		g_VDP_Command.NX = (VU_MAX - volB) * 8;
@@ -188,16 +188,16 @@ void DrawVUMeter()
 	// Channel C
 	g_VDP_Command.DY = PSG_Y + (8*4) + ((8-VU_H)/2); 
 	u8 volC = PT3_GetVolume(PSG_CHANNEL_C)>> 1;
-	if(volC > VU_MAX)
+	if (volC > VU_MAX)
 		volC = VU_MAX;
-	if(volC > 0)
+	if (volC > 0)
 	{
 		g_VDP_Command.DX = VU_X;
 		g_VDP_Command.NX = volC * 8;
 		g_VDP_Command.CLR = 0x22;
 		VPD_CommandSetupR36();
 	}
-	if(volC < VU_MAX)
+	if (volC < VU_MAX)
 	{
 		g_VDP_Command.DX = VU_X + volC * 8;
 		g_VDP_Command.NX = (VU_MAX - volC) * 8;
@@ -462,7 +462,7 @@ void main()
 	u8 prevRow8 = 0xFF;
 	u8 prevRow0 = 0xFF;
 	u8 prevPattern = 0xFF;
-	while(1)
+	while (1)
 	{
 		WaitVBlank();
 
@@ -481,7 +481,7 @@ void main()
 		
 		// Display Current Pattern
 		u8 pattern = PT3_GetPattern();
-		if(pattern != prevPattern)
+		if (pattern != prevPattern)
 		{
 			VDP_CommandHMMV(64, PT3_Y+8*3, 3*6, 8, 0x44);
 			Print_SetPosition(64, PT3_Y+8*3);
@@ -492,32 +492,32 @@ void main()
 
 		// Read keyboard matrix row #8
 		u8 row8 = g_NEWKEY[KEY_ROW(KEY_SPACE)];
-		if((IS_KEY_PRESSED(row8, KEY_RIGHT)) && (IS_KEY_RELEASED(prevRow8, KEY_RIGHT))) // Next SFX
+		if ((IS_KEY_PRESSED(row8, KEY_RIGHT)) && (IS_KEY_RELEASED(prevRow8, KEY_RIGHT))) // Next SFX
 		{
 			g_BankFXNum++;
-			if(g_BankFXNum >= ayFX_GetBankNumber())
+			if (g_BankFXNum >= ayFX_GetBankNumber())
 				g_BankFXNum = 0;
 			PlayBankSFX(g_BankFXNum, 0);
 		}
-		else if((IS_KEY_PRESSED(row8, KEY_LEFT)) && (IS_KEY_RELEASED(prevRow8, KEY_LEFT))) // Previous SFX
+		else if ((IS_KEY_PRESSED(row8, KEY_LEFT)) && (IS_KEY_RELEASED(prevRow8, KEY_LEFT))) // Previous SFX
 		{
-			if(g_BankFXNum > 0)
+			if (g_BankFXNum > 0)
 				g_BankFXNum--;
 			else
 				g_BankFXNum = ayFX_GetBankNumber() - 1;
 			PlayBankSFX(g_BankFXNum, 15);
 		}
 
-		if((IS_KEY_PRESSED(row8, KEY_UP)) && (IS_KEY_RELEASED(prevRow8, KEY_UP))) // Next Channel
+		if ((IS_KEY_PRESSED(row8, KEY_UP)) && (IS_KEY_RELEASED(prevRow8, KEY_UP))) // Next Channel
 		{
 			fxChan++;
-			if(fxChan > 2)
+			if (fxChan > 2)
 				fxChan = 0;
 			ChannelSFX(fxChan);
 		}
-		else if((IS_KEY_PRESSED(row8, KEY_DOWN)) && (IS_KEY_RELEASED(prevRow8, KEY_DOWN))) // Previous Channel
+		else if ((IS_KEY_PRESSED(row8, KEY_DOWN)) && (IS_KEY_RELEASED(prevRow8, KEY_DOWN))) // Previous Channel
 		{
-			if(fxChan > 0)
+			if (fxChan > 0)
 				fxChan--;
 			else
 				fxChan = 2;
@@ -526,24 +526,24 @@ void main()
 
 		// PLAYER FONT -----------------------------------------------------------
 		
-		if((IS_KEY_PRESSED(row8, KEY_SPACE)) && (IS_KEY_RELEASED(prevRow8, KEY_SPACE))) // Pause / Resume
+		if ((IS_KEY_PRESSED(row8, KEY_SPACE)) && (IS_KEY_RELEASED(prevRow8, KEY_SPACE))) // Pause / Resume
 		{
-			if(PT3_IsPlaying())
+			if (PT3_IsPlaying())
 				PauseMusic();
 			else
 				PlayMusic();
 		}
-		else if((IS_KEY_PRESSED(row8, KEY_DEL)) && (IS_KEY_RELEASED(prevRow8, KEY_DEL))) // Loop
+		else if ((IS_KEY_PRESSED(row8, KEY_DEL)) && (IS_KEY_RELEASED(prevRow8, KEY_DEL))) // Loop
 		{
 			LoopMusic(1 - g_Loop);
 		}
-		else if((IS_KEY_PRESSED(row8, KEY_HOME)) && (IS_KEY_RELEASED(prevRow8, KEY_HOME))) // 
+		else if ((IS_KEY_PRESSED(row8, KEY_HOME)) && (IS_KEY_RELEASED(prevRow8, KEY_HOME))) // 
 		{
 			g_FileFXNum++;
 			g_FileFXNum %= numberof(g_SFXFiles);
 			PlayFileSFX(g_FileFXNum);
 		}
-		// else if((IS_KEY_PRESSED(row8, KEY_INS)) && (IS_KEY_RELEASED(prevRow8, KEY_INS))) // 
+		// else if ((IS_KEY_PRESSED(row8, KEY_INS)) && (IS_KEY_RELEASED(prevRow8, KEY_INS))) // 
 		// {
 		// }
 		
@@ -551,15 +551,15 @@ void main()
 
 		// Read keyboard matrix row #0
 		u8 row0 = g_NEWKEY[KEY_ROW(KEY_0)];
-		if((IS_KEY_PRESSED(row0, KEY_1)) && (IS_KEY_RELEASED(prevRow0, KEY_1))) // Mute channel A
+		if ((IS_KEY_PRESSED(row0, KEY_1)) && (IS_KEY_RELEASED(prevRow0, KEY_1))) // Mute channel A
 		{
 			MuteMusic(0, 1 - g_Mute[0]);
 		}
-		else if((IS_KEY_PRESSED(row0, KEY_2)) && (IS_KEY_RELEASED(prevRow0, KEY_2))) // Mute channel B
+		else if ((IS_KEY_PRESSED(row0, KEY_2)) && (IS_KEY_RELEASED(prevRow0, KEY_2))) // Mute channel B
 		{
 			MuteMusic(1, 1 - g_Mute[1]);
 		}
-		else if((IS_KEY_PRESSED(row0, KEY_3)) && (IS_KEY_RELEASED(prevRow0, KEY_3))) // Mute channel C
+		else if ((IS_KEY_PRESSED(row0, KEY_3)) && (IS_KEY_RELEASED(prevRow0, KEY_3))) // Mute channel C
 		{
 			MuteMusic(2, 1 - g_Mute[2]);
 		}

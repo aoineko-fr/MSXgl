@@ -227,7 +227,7 @@ typedef void (*Menu_DrawCB)(u8, u8, u8, const void*);
 typedef void (*Menu_EventCB)(u8);
 
 // Menu item parameters
-typedef struct
+typedef struct MenuItem
 {
 	const c8* Text;		// Name of the item
 	u8        Type;		// Type of the item (see <MENU_ITEM_TYPE>)
@@ -236,7 +236,7 @@ typedef struct
 } MenuItem;
 
 // Menu integer item min/max definition
-typedef struct
+typedef struct MenuItemMinMax
 {
 	i8        Min;		// Minimal value limit
 	i8        Max;		// Maximal value limit
@@ -244,7 +244,7 @@ typedef struct
 } MenuItemMinMax;
 
 // Menu parameters
-typedef struct
+typedef struct Menu
 {
 	const c8* Title;		// Title of the page (NULL means no title)
 	MenuItem* Items;		// List of the page's menu entries
@@ -253,7 +253,7 @@ typedef struct
 } Menu;
 
 // Menu item parameters
-typedef struct
+typedef struct MenuData
 {
 	const Menu*		Table;
 	const Menu*		Page;

@@ -105,7 +105,7 @@ __asm
 	add		iy, sp
 	ld		a, 0(iy)			// A = offset
 
-// if(offset < 8) {
+// if (offset < 8) {
 	cp		#8
 	jp		nc, greaterCropL16	
 
@@ -229,7 +229,7 @@ __asm
 	add		iy, sp
 	ld		a, 0(iy)			// A = offset
 
-// if(offset < 8) {
+// if (offset < 8) {
 	cp		#8
 	jp		nc, greaterCropR16	
 
@@ -326,7 +326,7 @@ loopCropT8:
 	inc		de
 	djnz	loopCropT8
 
-// for(u8 i = n; i < 8; ++i)
+// for (u8 i = n; i < 8; ++i)
 // 	*dest++ = *src++;
 	ld		a, c				// A = C = offset + 1
 	neg
@@ -373,7 +373,7 @@ loopCropT16_1:
 	inc		de
 	djnz	loopCropT16_1
 
-// for(u8 i = n; i < 16; ++i)
+// for (u8 i = n; i < 16; ++i)
 // 	*dest++ = *src++;
 	ld______a_iyl
 	neg
@@ -398,7 +398,7 @@ loopCropT16_2:
 	inc		de
 	djnz	loopCropT16_2
 
-// for(u8 i = n; i < 16; ++i)
+// for (u8 i = n; i < 16; ++i)
 // 	*dest++ = *src++;
 	ld______a_iyl
 	neg
@@ -439,7 +439,7 @@ __asm
 	ld		b, #0
 	ldir
 
-// for(u8 i = n; i < 8; ++i)
+// for (u8 i = n; i < 8; ++i)
 // 	*dest++ = 0;
 	neg
 skipCropB8:
@@ -483,7 +483,7 @@ __asm
 	ld		b, #0
 	ldir
 
-// for(u8 i = n; i < 16; ++i)
+// for (u8 i = n; i < 16; ++i)
 // {
 // 	*dest++ = 0;
 // 	src++;
@@ -508,7 +508,7 @@ loopCropB16_1:
 	// B = 0 {from djnz}
 	ldir
 
-// for(u8 i = n; i < 16; ++i)
+// for (u8 i = n; i < 16; ++i)
 // 	*dest++ = 0;
 	neg
 skipCropB16_2:

@@ -119,7 +119,7 @@ struct SpriteData* g_Data3;
 void HBlankHook()
 {
 	// VDP_SetColor(COLOR_BLACK);
-	if(g_Phase == 0)
+	if (g_Phase == 0)
 	{
 		VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 + VDP_SPRITE_SCALE_2);
 		VDP_SetHBlankLine(SPRITE_8_LINE);
@@ -170,7 +170,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 	g_Frame++;
 	g_Phase = 0;
@@ -184,14 +184,14 @@ void UpdateSprites()
 {
 	struct SpriteData* sprt = &g_Sprite[0];
 	u8 sprtIdx = SPRITE_8_1ST;
-	for(u8 i = 0; i < SPRITE_8_NUM; i++)
+	for (u8 i = 0; i < SPRITE_8_NUM; i++)
 	{
 		const struct Vector* mov = &DirMove[i & 0x7];
 		sprt->X += mov->x;
 		sprt->Y += mov->y;
-		if(sprt->Y > 212)
+		if (sprt->Y > 212)
 			sprt->Y -= 98;
-		if(sprt->Y < 114)
+		if (sprt->Y < 114)
 			sprt->Y += 98;
 
 		VDP_SetSpriteData(sprtIdx++, (u8*)sprt++);
@@ -199,7 +199,7 @@ void UpdateSprites()
 
 	u8 frame = (g_Frame >> 2) % 6;
 	g_Data1->X++;
-	if(g_Data1->X > 128-16)
+	if (g_Data1->X > 128-16)
 	g_Data1->X = 0;
 	g_Data1->Shape = PATTERN_16_1ST + (0 + frame) * 4;
 	VDP_SetSpriteData(SPRITE_16_1ST + 0, (u8*)g_Data1);
@@ -230,7 +230,7 @@ void UpdateSprites()
 void main()
 {
 	Bios_SetKeyClick(FALSE);
-	if(Sys_GetMSXVersion() == MSXVER_1)
+	if (Sys_GetMSXVersion() == MSXVER_1)
 	{
 		Bios_ClearScreen();
 		Bios_TextPrintSting("This sample need MSX2 or above");
@@ -254,14 +254,14 @@ void main()
 	VDP_LoadSpritePattern(g_Font_MGL_Symbol1 + 4 + (16 * 10 * 8), PATTERN_8_1ST, PATTERN_8_NUM);
 	// Load 16x16 sprites (Pattern 96~143)
 	u8 chrSprt = PATTERN_16_1ST;
-	for(u8 i5 = 0; i5 < 6; i5++)
+	for (u8 i5 = 0; i5 < 6; i5++)
 	{
 		VDP_LoadSpritePattern(g_DataSprt16 + (i5 * 2 +  0) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16 + (i5 * 2 + 12) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16 + (i5 * 2 +  1) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16 + (i5 * 2 + 13) * 8, chrSprt++, 1);	
 	}
-	for(u8 i6 = 0; i6 < 6; i6++)
+	for (u8 i6 = 0; i6 < 6; i6++)
 	{
 		VDP_LoadSpritePattern(g_DataSprt16 + (i6 * 2 + 24) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16 + (i6 * 2 + 36) * 8, chrSprt++, 1);
@@ -269,14 +269,14 @@ void main()
 		VDP_LoadSpritePattern(g_DataSprt16 + (i6 * 2 + 37) * 8, chrSprt++, 1);
 	}
 	chrSprt = PATTERN_16OR_1ST;
-	for(u8 i5 = 0; i5 < 6; i5++)
+	for (u8 i5 = 0; i5 < 6; i5++)
 	{
 		VDP_LoadSpritePattern(g_DataSprt16or + (i5 * 2 +  0) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16or + (i5 * 2 + 12) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16or + (i5 * 2 +  1) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16or + (i5 * 2 + 13) * 8, chrSprt++, 1);	
 	}
-	for(u8 i6 = 0; i6 < 6; i6++)
+	for (u8 i6 = 0; i6 < 6; i6++)
 	{
 		VDP_LoadSpritePattern(g_DataSprt16or + (i6 * 2 + 24) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16or + (i6 * 2 + 36) * 8, chrSprt++, 1);
@@ -284,7 +284,7 @@ void main()
 		VDP_LoadSpritePattern(g_DataSprt16or + (i6 * 2 + 37) * 8, chrSprt++, 1);
 	}
 	// Initialize 8x8 sprites
-	for(u8 i = 0; i < SPRITE_8_NUM; i++)
+	for (u8 i = 0; i < SPRITE_8_NUM; i++)
 	{
 		u16 rnd = Math_GetRandom16();
 		g_Sprite[i].X = rnd >> 8;
@@ -349,7 +349,7 @@ void main()
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
 	
 	bool bContinue = TRUE;
-	while(bContinue)
+	while (bContinue)
 	{
 		// VDP_SetColor(COLOR_LIGHT_BLUE);
 		WaitVBlank();
@@ -357,7 +357,7 @@ void main()
 	
 		UpdateSprites();
 		
-		if(Keyboard_IsKeyPressed(KEY_ESC))
+		if (Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;
 	}
 

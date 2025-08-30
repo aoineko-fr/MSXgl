@@ -94,21 +94,21 @@ public:
 	virtual void AddByteList(std::vector<u8> data, std::string comment = "")
 	{
 		StartLine();
-		for(u32 i = 0; i < data.size(); i++)
+		for (u32 i = 0; i < data.size(); i++)
 			AddByte(data[i]);
 		EndLine(comment);
 	}
 	virtual void AddWordList(std::vector<u16> data, std::string comment = "")
 	{
 		StartLine();
-		for(u32 i = 0; i < data.size(); i++)
+		for (u32 i = 0; i < data.size(); i++)
 			AddWord(data[i]);
 		EndLine(comment);
 	}
 	virtual void AddDoubleList(std::vector<u32> data, std::string comment = "")
 	{
 		StartLine();
-		for(u32 i = 0; i < data.size(); i++)
+		for (u32 i = 0; i < data.size(); i++)
 			AddDouble(data[i]);
 		EndLine(comment);
 	}
@@ -117,7 +117,7 @@ public:
 	virtual u32 GetTotalSize() const
 	{
 		u32 TotalBytes = 0;
-		for(int i = 0; i < Sections.size(); i++)
+		for (int i = 0; i < Sections.size(); i++)
 			TotalBytes += Sections[i].Size;
 		return TotalBytes;
 	}
@@ -192,7 +192,7 @@ public:
 	{
 		// Write header file
 		FILE* file = fopen(filename.c_str(), "wb");
-		if(file == NULL)
+		if (file == NULL)
 		{
 			printf("Error: Fail to create %s\n", filename.c_str());
 			return false;
@@ -231,7 +231,7 @@ public:
 	{
 		// Write header file
 		FILE* file = fopen(filename.c_str(), "wb");
-		if(file == NULL)
+		if (file == NULL)
 		{
 			printf("Error: Fail to create %s\n", filename.c_str());
 			return false;
@@ -259,13 +259,13 @@ public:
 	{
 		Sections.push_back(ExportSection(name));
 		outData += MSX::Format("%s %s[] = {", MSX::GetCTable(Config.Format, size), name.c_str());
-		if(!comment.empty())
+		if (!comment.empty())
 			outData += MSX::Format(" // %s", comment.c_str());
 		outData += MSX::Format("\n");
 	}
 	virtual void EndSection(std::string comment = "")
 	{
-		if(outData.back() != '\n')
+		if (outData.back() != '\n')
 			outData += "\n";
 		outData += MSX::Format("};\n");
 	}
@@ -291,7 +291,7 @@ public:
 	}
 	virtual void EndLine(std::string comment = "")
 	{
-		if(!comment.empty())
+		if (!comment.empty())
 			outData += MSX::Format("// %s", comment.c_str());
 		outData += "\n";
 	}
@@ -318,7 +318,7 @@ public:
 		Sections.push_back(ExportSection(name));
 		CurrentSectionSize = size;
 		outData += MSX::Format("%s:", name.c_str());
-		if(!comment.empty())
+		if (!comment.empty())
 			outData += MSX::Format(" ; %s", comment.c_str());
 		outData += MSX::Format("\n");
 	}
@@ -334,7 +334,7 @@ public:
 	}
 	virtual void AddByte(u8 data)
 	{
-		if(DataCount > 0)
+		if (DataCount > 0)
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_8bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
@@ -343,7 +343,7 @@ public:
 	}
 	virtual void AddWord(u16 data)
 	{
-		if(DataCount > 0)
+		if (DataCount > 0)
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_16bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
@@ -352,7 +352,7 @@ public:
 	}
 	virtual void AddDouble(u32 data)
 	{
-		if(DataCount > 0)
+		if (DataCount > 0)
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_32bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
@@ -361,7 +361,7 @@ public:
 	}
 	virtual void EndLine(std::string comment = "")
 	{
-		if(!comment.empty())
+		if (!comment.empty())
 			outData += MSX::Format(" ; %s", comment.c_str());
 		outData += "\n";
 	}
@@ -389,7 +389,7 @@ public:
 		Sections.push_back(ExportSection(name));
 		CurrentSectionSize = size;
 		outData += MSX::Format("%i '%s", LineNumber++, name.c_str());
-		if(!comment.empty())
+		if (!comment.empty())
 			outData += MSX::Format(" - %s", comment.c_str());
 		outData += MSX::Format("\n");
 	}
@@ -405,7 +405,7 @@ public:
 	}
 	virtual void AddByte(u8 data)
 	{
-		if(DataCount > 0)
+		if (DataCount > 0)
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_8bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
@@ -414,7 +414,7 @@ public:
 	}
 	virtual void AddWord(u16 data)
 	{
-		if(DataCount > 0)
+		if (DataCount > 0)
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_16bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
@@ -423,7 +423,7 @@ public:
 	}
 	virtual void AddDouble(u32 data)
 	{
-		if(DataCount > 0)
+		if (DataCount > 0)
 			outData += std::string(", ");
 		std::string Dataformat = MSX::GetDataFormat(Config.Format, DATASIZE_32bits);
 		outData += MSX::Format(Dataformat.c_str(), data);
@@ -432,7 +432,7 @@ public:
 	}
 	virtual void EndLine(std::string comment = "")
 	{
-		if(!comment.empty())
+		if (!comment.empty())
 			outData += MSX::Format(" '%s", comment.c_str());
 		outData += "\n";
 	}

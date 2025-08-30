@@ -56,7 +56,7 @@ void DOS_PrintHexa(u8 value)
 // Print a string
 void DOS_PrintText(const c8* str)
 {
-	while(*str)
+	while (*str)
 		DOS_CharOutput(*str++);
 }
 

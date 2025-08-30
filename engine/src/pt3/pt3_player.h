@@ -297,7 +297,7 @@ inline u8 PT3_GetPattern() { return PT3_CrPsPtr - PT3_SrtCrPsPtr; }
 //	 mute		- Mute (TRUE) or un-mute (FALSE) the given channel
 inline void PT3_Mute(u8 chan, bool mute)
 {
-	if(mute)
+	if (mute)
 		PT3_State |= 1 << (chan + 1);
 	else
 		PT3_State &= ~(1 << (chan + 1));

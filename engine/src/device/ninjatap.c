@@ -130,9 +130,9 @@ u8 g_NTap_Prev[8];
 void NTap_BufferToInfo()
 {
 	g_NTap_Info = g_NTap_Buffer[1];
-	if(g_NTap_Buffer[0] & 1)
+	if (g_NTap_Buffer[0] & 1)
 		g_NTap_Info |= NTAP_TYPE_NINJA << 4;
-	if(g_NTap_Buffer[0] & 2)
+	if (g_NTap_Buffer[0] & 2)
 		g_NTap_Info |= NTAP_TYPE_NINJA << 6;
 }
 
@@ -176,9 +176,9 @@ u8 NTap_CheckST()
 	__endasm;
 
 	g_NTap_Buffer[0] = 0;
-	if(g_NTap_Info & NTAP_PORT1_MASK)
+	if (g_NTap_Info & NTAP_PORT1_MASK)
 		g_NTap_Buffer[0] |= 0x01;
-	if(g_NTap_Info & NTAP_PORT2_MASK)
+	if (g_NTap_Info & NTAP_PORT2_MASK)
 		g_NTap_Buffer[0] |= 0x02;
 
 	g_NTap_Buffer[1] = g_NTap_Info & 0x0F;

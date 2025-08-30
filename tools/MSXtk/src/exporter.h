@@ -311,7 +311,7 @@ public:
 	virtual void WriteBytesList(std::vector<u8> data, std::string comment = "")
 	{
 		WriteLineBegin();
-		for(u32 i = 0; i < data.size(); i++)
+		for (u32 i = 0; i < data.size(); i++)
 			Write1ByteData(data[i]);
 		WriteLineEnd(comment);
 	}
@@ -346,7 +346,7 @@ public:
 	virtual void WriteHeader()
 	{
 		// Add title
-		if(Param->bTitle)
+		if (Param->bTitle)
 		{
 			WriteCommentLine(u8"██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█ ▄");
 			WriteCommentLine(u8"██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██");
@@ -366,11 +366,11 @@ public:
 		WriteCommentLine(u8"─────────────────────────────────────────────────────────────────────────────");
 
 		// Add copyright information
-		if(Param->bAddCopy)
+		if (Param->bAddCopy)
 		{
 			std::ifstream file(Param->copyFile);
 			std::string strLine;
-			while(std::getline(file, strLine))
+			while (std::getline(file, strLine))
 			{
 				WriteCommentLine(strLine);
 			}
@@ -388,7 +388,7 @@ public:
 		WriteCommentLine(MSX::Format(" - Color count:    %i (Transparent: #%04X)", 1 << Param->bpc, Param->transColor));
 		WriteCommentLine(MSX::Format(" - Compressor:     %s", GetCompressorName(Param->comp)));
 		WriteCommentLine(MSX::Format(" - Skip empty:     %s", Param->bSkipEmpty ? "TRUE" : "FALSE"));
-		switch(Param->mode)
+		switch (Param->mode)
 		{
 		default:
 		case MODE_Bitmap:
@@ -420,15 +420,15 @@ public:
 
 	virtual const c8* GetDataFormat(u8 bytes = 1)
 	{
-		switch(bytes)
+		switch (bytes)
 		{
 		case 1:
-			if(Param->syntax == MSX::ASMSYNTAX_sdasz80)
+			if (Param->syntax == MSX::ASMSYNTAX_sdasz80)
 				return ".db";
 			else
 				return "db";
 		case 2:
-			if(Param->syntax == MSX::ASMSYNTAX_sdasz80)
+			if (Param->syntax == MSX::ASMSYNTAX_sdasz80)
 				return ".dw";
 			else
 				return "dw";
@@ -440,7 +440,7 @@ public:
 	{
 		// Write header file
 		FILE* file = fopen(Param->outFile.c_str(), "wb");
-		if(file == NULL)
+		if (file == NULL)
 		{
 			printf("Error: Fail to create %s\n", Param->outFile.c_str());
 			return FALSE;
@@ -468,7 +468,7 @@ public:
 
 	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "")
 	{
-		if(Param->bStartAddr)
+		if (Param->bStartAddr)
 		{
 			sprintf(strData,
 				"\n"
@@ -477,7 +477,7 @@ public:
 				"{\n",
 				comment.c_str(), GetTableCText(format, name, Param->startAddr + GetTotalBytes()).c_str());
 		}
-		else if(Param->bDefine)
+		else if (Param->bDefine)
 		{
 			sprintf(strData,
 				"\n"
@@ -504,7 +504,7 @@ public:
 	virtual void WriteTableEnd(std::string comment = "")
 	{
 		outData += "};\n";
-		if(comment != "")
+		if (comment != "")
 			outData += MSX::Format("// %s\n", comment.c_str());
 	}
 
@@ -515,7 +515,7 @@ public:
 
 	virtual void WriteLineEnd(std::string comment = "")
 	{
-		if(comment != "")
+		if (comment != "")
 			outData += MSX::Format("// %s", comment.c_str());
 		outData += "\n";
 	}
@@ -585,7 +585,7 @@ public:
 
 	virtual void WriteTableEnd(std::string comment = "")
 	{
-		if(comment != "")
+		if (comment != "")
 		{
 			sprintf(strData,
 				"; %s\n", comment.c_str());
@@ -602,7 +602,7 @@ public:
 
 	virtual void WriteLineEnd(std::string comment = "")
 	{
-		if(comment != "")
+		if (comment != "")
 			outData += MSX::Format("; %s", comment.c_str());
 		outData += "\n";
 	}
@@ -666,7 +666,7 @@ public:
 
 	virtual void WriteTableEnd(std::string comment = "")
 	{
-		if(comment != "")
+		if (comment != "")
 		{
 			sprintf(strData,
 				"' %s\n", comment.c_str());
@@ -695,7 +695,7 @@ public:
 
 	virtual void Write1ByteData(u8 data)
 	{
-		if(bLineStart)
+		if (bLineStart)
 			sprintf(strFormat, "%s", GetNumberFormat(1));
 		else
 			sprintf(strFormat, ",%s", GetNumberFormat(1));
@@ -707,7 +707,7 @@ public:
 
 	virtual void Write8BitsData(u8 data)
 	{
-		if(bLineStart)
+		if (bLineStart)
 			sprintf(strFormat, "%s", GetNumberFormat(1));
 		else
 			sprintf(strFormat, ",%s", GetNumberFormat(1));
@@ -720,7 +720,7 @@ public:
 
 	virtual void Write1WordData(u16 data)
 	{
-		if(bLineStart)
+		if (bLineStart)
 			sprintf(strFormat, "%s", GetNumberFormat(2));
 		else
 			sprintf(strFormat, ",%s", GetNumberFormat(2));
@@ -764,7 +764,7 @@ public:
 	{
 		FILE* file;
 		file = fopen(Param->outFile.c_str(), "wb");
-		if(file == NULL)
+		if (file == NULL)
 		{
 			printf("Error: Fail to create %s\n", Param->outFile.c_str());
 			return FALSE;

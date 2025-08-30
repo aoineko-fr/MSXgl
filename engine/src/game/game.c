@@ -109,7 +109,7 @@ void Game_Release()
 void Game_Start(u8 screenMode, bool b60hz)
 {
 	Game_Initialize(screenMode, b60hz);
-	while(!g_GameExit)
+	while (!g_GameExit)
 		Game_Update();
 	Game_Release();
 }
@@ -147,7 +147,7 @@ void Game_RestoreState()
 void Game_UpdateState()
 {
 	bool bFrameFinish = FALSE;
-	while((g_GameState != NULL) && !bFrameFinish)
+	while ((g_GameState != NULL) && !bFrameFinish)
 	{
 		bFrameFinish = g_GameState();
 	}	
@@ -171,10 +171,10 @@ void Game_DefaultVSyncCB() {}
 void VDP_InterruptHandler()
 {
 	#if (GAME_USE_SYNC_50HZ)
-	if(g_Game60Hz)
+	if (g_Game60Hz)
 	{
 		g_GameCount++;
-		if(g_GameCount >= 6)
+		if (g_GameCount >= 6)
 		{
 			g_GameCount = 0;
 			return;
@@ -191,7 +191,7 @@ void VDP_InterruptHandler()
 // Wait for vertical-synchronization 
 void Game_WaitVSync()
 {
-	while(g_GameVSync == 0) {}
+	while (g_GameVSync == 0) {}
 	g_GameVSync = 0;
 }
 

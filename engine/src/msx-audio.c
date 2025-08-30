@@ -65,7 +65,7 @@ void MSXAudio_SetRegister(u8 reg, u8 value)
 	g_MSXAudio_DataPort = value;
 
 	#if (MSXAUDIO_USE_RESUME)
-	if(g_MSXAudio_DoBackup && ((reg & 0xF0)) == 0xB0) // MSXAUDIO_REG_CTRL_x
+	if (g_MSXAudio_DoBackup && ((reg & 0xF0)) == 0xB0) // MSXAUDIO_REG_CTRL_x
 		g_MSXAudio_RegBackup[reg & 0x0F] = value;
 	#endif
 }

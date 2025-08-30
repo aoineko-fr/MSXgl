@@ -370,7 +370,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 	g_Frame++;
 }
@@ -419,14 +419,14 @@ void Init16()
 
 	// Load 16x16 sprites (Pattern 96~143)
 	u8* ptr = g_PatternData;
-	for(u8 i5 = 0; i5 < 6; i5++)
+	for (u8 i5 = 0; i5 < 6; i5++)
 	{
 		Mem_Copy((u8*)g_DataSprt16or + (i5 * 2 +  0) * 8, ptr, 8); ptr += 8;
 		Mem_Copy((u8*)g_DataSprt16or + (i5 * 2 + 12) * 8, ptr, 8); ptr += 8;
 		Mem_Copy((u8*)g_DataSprt16or + (i5 * 2 +  1) * 8, ptr, 8); ptr += 8;
 		Mem_Copy((u8*)g_DataSprt16or + (i5 * 2 + 13) * 8, ptr, 8); ptr += 8;
 	}
-	for(u8 i6 = 0; i6 < 6; i6++)
+	for (u8 i6 = 0; i6 < 6; i6++)
 	{
 		Mem_Copy((u8*)g_DataSprt16or + (i6 * 2 + 24) * 8, ptr, 8); ptr += 8;
 		Mem_Copy((u8*)g_DataSprt16or + (i6 * 2 + 36) * 8, ptr, 8); ptr += 8;
@@ -501,7 +501,7 @@ void Update16()
 	VDP_SetSpritePositionX(1, g_PosX0);
 	u8* pat1 = g_PatternData + pat;
 	u8* pat2 = g_PatternData + pat + 24 * 8;
-	if((g_PosX0 > 104) && (g_PosX0 <= 120))
+	if ((g_PosX0 > 104) && (g_PosX0 <= 120))
 	{
 		u8 offset = g_PosX0 - 105;
 		SpriteFX_CropRight16(pat1, g_Buffer1, offset);
@@ -509,7 +509,7 @@ void Update16()
 		pat1 = g_Buffer1;
 		pat2 = g_Buffer2;
 	}
-	else if((g_PosX0 >= 120) && (g_PosX0 < 136))
+	else if ((g_PosX0 >= 120) && (g_PosX0 < 136))
 	{
 		u8 offset = 15 - (g_PosX0 - 120);
 		SpriteFX_CropLeft16(pat1, g_Buffer1, offset);
@@ -517,7 +517,7 @@ void Update16()
 		pat1 = g_Buffer1;
 		pat2 = g_Buffer2;
 	}
-	if(bToggle)
+	if (bToggle)
 	{
 		SpriteFX_FlipVertical16(pat1, g_Buffer3);
 		SpriteFX_FlipVertical16(pat2, g_Buffer4);
@@ -533,7 +533,7 @@ void Update16()
 	VDP_SetSpritePositionX(3, g_PosX1);
 	pat1 = g_PatternData + pat;
 	pat2 = g_PatternData + pat + 24 * 8;
-	if(bToggle)
+	if (bToggle)
 	{
 		SpriteFX_Rotate180_16(pat1, g_Buffer1);
 		SpriteFX_Rotate180_16(pat2, g_Buffer2);
@@ -550,7 +550,7 @@ void Update16()
 	VDP_SetSpritePositionX(4, g_PosX0);
 	VDP_SetSpritePositionX(5, g_PosX0);
 	frame = (g_Frame >> 3) % 10;
-	if(g_MaskAnim[frame] == 0)
+	if (g_MaskAnim[frame] == 0)
 	{
 		VDP_FillSpritePattern(0, 16, 4);
 		VDP_FillSpritePattern(0, 20, 4);
@@ -560,14 +560,14 @@ void Update16()
 		pat1 = g_PatternData + pat;
 		pat2 = g_PatternData + pat + 24 * 8;
 
-		if(g_MaskAnim[frame] != (u8*)1)
+		if (g_MaskAnim[frame] != (u8*)1)
 		{
 			SpriteFX_Mask16(pat1, g_Buffer1, g_MaskAnim[frame]);
 			SpriteFX_Mask16(pat2, g_Buffer2, g_MaskAnim[frame]);
 			pat1 = g_Buffer1;
 			pat2 = g_Buffer2;
 		}
-		if(bToggle)
+		if (bToggle)
 		{
 			SpriteFX_FlipVertical16(pat1, g_Buffer3);
 			SpriteFX_FlipVertical16(pat2, g_Buffer4);
@@ -583,7 +583,7 @@ void Update16()
 	VDP_LoadSpritePattern(g_RotAnim[rot] + pat, 24, 4);
 	VDP_LoadSpritePattern(g_RotAnim[rot] + pat + (24 * 8), 28, 4);
 
-	if(Keyboard_IsKeyPressed(KEY_SPACE))
+	if (Keyboard_IsKeyPressed(KEY_SPACE))
 		FSM_SetState(&g_State8);
 }
 
@@ -652,10 +652,10 @@ void Update8()
 	u16 vram = g_SpritePatternLow;
 	loop(i, SPRITE_8_NUM)
 	{
-		if(!bStop && (g_Frame & 0x03) == 0)
+		if (!bStop && (g_Frame & 0x03) == 0)
 		{
 			VectorU8* vec = &g_SpritePos[i];
-			switch(i % 8)
+			switch (i % 8)
 			{
 			case 0: vec->x++; vec->y++; break;
 			case 1:	vec->x++; break;
@@ -666,16 +666,16 @@ void Update8()
 			case 6: vec->x--; vec->y++; break;
 			case 7: vec->y++; break;
 			}
-			if(vec->y < 32)
+			if (vec->y < 32)
 				vec->y += 128;
-			if(vec->y > 128+32)
+			if (vec->y > 128+32)
 				vec->y -= 128;
 			VDP_SetSpritePosition(i, vec->x, vec->y);			
 		}
 			
 		const EffectInfo* fx = &g_Effect[g_FXIndex];
 		const u8* ptr = pat;
-		if(!bDefault && fx->Func)
+		if (!bDefault && fx->Func)
 		{
 			fx->Func(pat, g_Buffer1);
 			ptr = g_Buffer1;
@@ -685,18 +685,18 @@ void Update8()
 		vram += 8;
 	}
 
-	if(Keyboard_IsKeyPressed(KEY_RIGHT))
+	if (Keyboard_IsKeyPressed(KEY_RIGHT))
 	{
 		SetFX((g_FXIndex + 1) % numberof(g_Effect));
-		while(Keyboard_IsKeyPressed(KEY_RIGHT)) {}
+		while (Keyboard_IsKeyPressed(KEY_RIGHT)) {}
 	}
-	else if(Keyboard_IsKeyPressed(KEY_LEFT))
+	else if (Keyboard_IsKeyPressed(KEY_LEFT))
 	{
 		SetFX((g_FXIndex + numberof(g_Effect) - 1) % numberof(g_Effect));
-		while(Keyboard_IsKeyPressed(KEY_LEFT)) {}
+		while (Keyboard_IsKeyPressed(KEY_LEFT)) {}
 	}
 
-	if(Keyboard_IsKeyPressed(KEY_SPACE))
+	if (Keyboard_IsKeyPressed(KEY_SPACE))
 		FSM_SetState(&g_State16);
 }
 
@@ -715,7 +715,7 @@ void main()
 	FSM_SetState(&g_State16);
 
 	bool bContinue = TRUE;
-	while(bContinue)
+	while (bContinue)
 	{
 		// VDP_SetColor(COLOR_DARK_BLUE);
 		WaitVBlank();
@@ -726,7 +726,7 @@ void main()
 		// Sign-of-life	
 		Print_DrawCharAt(31, 0, g_CharAnim[g_Frame & 0x03]);
 
-		if(Keyboard_IsKeyPressed(KEY_ESC))
+		if (Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;
 	}
 

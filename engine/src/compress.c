@@ -41,19 +41,19 @@ u16 RLEp_UnpackToRAM(const u8* src, u8* dst RLEP_FIXSIZE_PARAM)
 		u8 count = (*src & 0x3F) + 1;
 		
 		src++;
-		if(type == 0) // Chunk of zeros
+		if (type == 0) // Chunk of zeros
 		{
 			Mem_Set(RLEP_DEFAULT_GET, dst, count);
 		}
-		else if(type == 1) // Chunk of same byte
+		else if (type == 1) // Chunk of same byte
 		{
 			Mem_Set(*src, dst, count);
 			src++;
 		}
-		else if(type == 2) // Chunk of same 2 bytes
+		else if (type == 2) // Chunk of same 2 bytes
 		{
 			count <<= 1;
-			for(u8 i = 0; i < count; ++i)
+			for (u8 i = 0; i < count; ++i)
 				dst[i] = src[i & 0x1];
 			src += 2;
 		}

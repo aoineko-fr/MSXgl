@@ -93,8 +93,8 @@ typedef void (*callback)(void);				// Callback default signature
 // Get the number of elements of a static initialized structure
 #define numberof(tab)				(sizeof(tab) / sizeof(tab[0]))
 
-#define loop(a, b)					for(u8 a = 0; a < (b); ++a)
-#define loopx(a)					for(u8 i##__LINE__ = 0; i##__LINE__ < a; ++i##__LINE__)
+#define loop(a, b)					for (u8 a = 0; a < (b); ++a)
+#define loopx(a)					for (u8 i##__LINE__ = 0; i##__LINE__ < a; ++i##__LINE__)
 
 //-----------------------------------------------------------------------------
 // SDCC calling convention 0

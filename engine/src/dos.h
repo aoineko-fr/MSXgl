@@ -379,7 +379,7 @@ enum DOS_DEVICE
 #define DOS_FGetAttribute			DOS_GetAttributeHandle
 
 // File Control Block structure
-typedef struct
+typedef struct DOS_FCB
 {
 	u8	Drive;						// Drive number containing the file. (0 for Default drive, 1 for A, 2 for B, ..., 8 for H)
 	c8	Name[11];					// Filename (format: 8.3)
@@ -398,7 +398,7 @@ typedef struct
 } DOS_FCB;
 
 // File info block
-typedef struct
+typedef struct DOS_FIB
 {
 	u8	Ident;						//		0 - Always 0FFh
 	u8	Filename[13];				//	1..13 - Filename as an ASCIIZ string
@@ -425,14 +425,14 @@ __at(DOS_TPA) u16 DOS_TPAUpperAddr;
 #endif
 
 // DOS version structure
-typedef struct
+typedef struct DOS_Version
 {
 	u16 Kernel;
 	u16 System;
 } DOS_Version;
 
 // MSX-DOS 2 time structure
-typedef struct
+typedef struct DOS_Time
 {
 	u16 Year;						// +0 (note: order is important for fast update)
 	u8	Date;						// +2
@@ -444,7 +444,7 @@ typedef struct
 } DOS_Time;
 
 // MSX-DOS 2 disk parameters structure
-typedef struct
+typedef struct DOS_DiskParam
 {
 	u8	DriveNum;					// Physical drive number (1=A: etc)
 	u16 SectorSize;					// Sector size (always 512 currently)

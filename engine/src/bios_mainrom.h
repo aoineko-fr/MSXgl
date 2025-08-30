@@ -49,7 +49,7 @@ const u8 __at(R_VDP_DW) g_VDP_DW;
 // └─┴─┴─┴────────── Basic version
 //                   0000 = Japanese, 1111 = International
 const u8 __at(R_BASRVN) g_BASRVN[2];
-struct BasicROMVersion
+typedef struct BasicROMVersion
 {
 	u8 CharacterSet: 4; // Character Set
 	// 0000 (0) = Japan;
@@ -83,8 +83,8 @@ struct BasicROMVersion
 	u8 Cur: 1; // Currency Symbol
 	// 0 = yen (Japan), pound (U.K.);
 	// 1 = dollar (U.S.A.).
-};
-const struct BasicROMVersion __at(R_BASRVN) g_ROMVersion;
+} BasicROMVersion;
+const BasicROMVersion __at(R_BASRVN) g_ROMVersion;
 
 #define R_MSXVER		0x002D // MSX version number
 #define MSXVER_1		0 // MSX1

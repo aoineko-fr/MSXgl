@@ -19,7 +19,7 @@
 // Write data in CMOS
 void RTC_WriteRaw(u8 reg, u8* data, u8 num)
 {
-	for(u8 i = 0; i < num; ++i)
+	for (u8 i = 0; i < num; ++i)
 	{
 		RTC_Write(reg++, *data & 0xF);
 		RTC_Write(reg++, *data >> 4);
@@ -31,7 +31,7 @@ void RTC_WriteRaw(u8 reg, u8* data, u8 num)
 // Read data from CMOS
 void RTC_ReadRaw(u8 reg, u8* data, u8 num)
 {
-	for(u8 i = 0; i < num; ++i)
+	for (u8 i = 0; i < num; ++i)
 	{
 		*data = RTC_Read(reg++);
 		*data |= RTC_Read(reg++) << 4;
@@ -176,7 +176,7 @@ void RTC_SaveData(u8* data)
 bool RTC_LoadData(u8* data)
 {
 	RTC_SetMode(RTC_MODE_BLOCK_3);
-	if(RTC_Read(0) != RTC_DATA_SAVE) // Check data type
+	if (RTC_Read(0) != RTC_DATA_SAVE) // Check data type
 		return FALSE;
 	RTC_ReadRaw(1, data, 6);
 	return TRUE;
@@ -225,24 +225,24 @@ bool RTC_LoadDataSigned(u8* data)
 	// Signature 1st byte (company LSB)
 	u8 a = *sign & 0x7F;
 	u8 b = RTC_Read(2) + (RTC_Read(3) << 4);
-	if(a != b)
+	if (a != b)
 		return RTC_DATA_INVALID;
 	// Signature 2nd byte (company MSB)
 	sign++;
 	a = *sign & 0x7F;
 	b = RTC_Read(4) + (RTC_Read(6) << 4);
-	if(a != b)
+	if (a != b)
 		return RTC_DATA_INVALID;
 	// Signature 4th byte (product LSB)
 	sign++;
 	a = *sign;
 	b = RTC_Read(5) + (RTC_Read(7) << 2) + (RTC_Read(8) << 6);
-	if(a != b)
+	if (a != b)
 		return RTC_DATA_INVALID;
 
 	// Load data
 	RTC_SetMode(RTC_MODE_BLOCK_3);
-	if(RTC_Read(0) != RTC_DATA_SIGNSAVE)
+	if (RTC_Read(0) != RTC_DATA_SIGNSAVE)
 		return FALSE;
 	RTC_ReadRaw(1, data, 6);
 	return TRUE;

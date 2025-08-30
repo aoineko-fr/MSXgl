@@ -110,14 +110,14 @@ void VDP_SetModeGraphic7();
 
 u8 g_VDP_REGSAV[28];
 
-struct VDP_Data    g_VDP_Data;
+VDP_Data    g_VDP_Data;
 
 #if (VDP_USE_COMMAND)
-struct VDP_Command g_VDP_Command;
+VDP_Command g_VDP_Command;
 #endif
 
 #if (VDP_USE_SPRITE)
-struct VDP_Sprite  g_VDP_Sprite;
+VDP_Sprite  g_VDP_Sprite;
 #endif
 
 u16 g_ScreenLayoutLow;		// Address of the Name Table
@@ -167,9 +167,9 @@ void VDP_SetModeFlag(u8 flag)
 	// VDP register #1
 	u8 reg1 = g_VDP_REGSAV[1];
 	reg1 &= 0b11100111;
-	if(flag & 0b00001)
+	if (flag & 0b00001)
 		reg1 |= 0b00010000;
-	if(flag & 0b00010)
+	if (flag & 0b00010)
 		reg1 |= 0b00001000;
 	VDP_RegWriteBak(1, reg1);
 
@@ -315,7 +315,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count)
 
 	#else // Worst case 20 cc (use 23 cc loop with "otir")
 
-		// while(count--) DataPort = *src++;
+		// while (count--) DataPort = *src++;
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
 		ld		a, 0(iy)				// count LSB
@@ -559,7 +559,7 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count)
 
 	#else // Worst case 20 cc (use 23 cc loop)
 
-		// while(count--) *src++ = DataPort;
+		// while (count--) *src++ = DataPort;
 		ex		de, hl
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
@@ -1027,7 +1027,7 @@ void VDP_WriteVRAM_128K(const u8* src, u16 destLow, u8 destHigh, u16 count)
 		or		a, #F_VDP_WRIT
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT
-		// while(count--) DataPort = *src++;
+		// while (count--) DataPort = *src++;
 		ld		c, #P_VDP_DATA			// data register
 		// Handle count LSB
 		ld		a, 1(iy)				// count LSB
@@ -1091,7 +1091,7 @@ void VDP_FillVRAM_128K(u8 value, u16 destLow, u8 destHigh, u16 count)
 		or		a, #F_VDP_WRIT
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT;
-		// while(count--) DataPort = value;
+		// while (count--) DataPort = value;
 		ld		e, 1(iy)				// count
 		ld		d, 2(iy)
 		ld		a, b					// value
@@ -1146,7 +1146,7 @@ void VDP_ReadVRAM_128K(u16 srcLow, u8 srcHigh, u8* dest, u16 count)
 		and		a, #0x3F				// + F_VDP_READ
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// AddrPort = ((srcLow >> 8) & 0x3F) + F_VDP_READ
-		// while(count--) *src++ = DataPort;
+		// while (count--) *src++ = DataPort;
 		ld		l, 1(iy)				// source address
 		ld		h, 2(iy)
 		ld		c, #P_VDP_DATA			// data register
@@ -1398,7 +1398,7 @@ void VPD_CommandWriteLoop(const u8* addr) __FASTCALL __PRESERVES(d, e, iyl, iyh)
 
 //-----------------------------------------------------------------------------
 // Send VDP custom command through buffer (form registres 32 to 46). [MSX2/2+/TR]
-void VDP_CommandCustomR32(const struct VDP_Command* data)
+void VDP_CommandCustomR32(const VDP_Command* data)
 {
 	data; // HL
 	VDP_CommandWait(); // don't modify HL
@@ -1407,7 +1407,7 @@ void VDP_CommandCustomR32(const struct VDP_Command* data)
 
 //-----------------------------------------------------------------------------
 // Send VDP custom command through buffer (form registres 36 to 46). [MSX2/2+/TR]
-void VDP_CommandCustomR36(const struct VDP_Command36* data)
+void VDP_CommandCustomR36(const VDP_Command36* data)
 {
 	data; // HL
 	VDP_CommandWait(); // don't modify HL
@@ -1493,7 +1493,7 @@ __endasm;
 void VDP_SetMode(const u8 mode)
 {
 	#if (VDP_AUTO_INIT)
-	if(!g_VDPInitilized)
+	if (!g_VDPInitilized)
 		VDP_Initialize();
 	#endif
 
@@ -1502,7 +1502,7 @@ void VDP_SetMode(const u8 mode)
 	#endif
 
 	g_VDP_Data.Mode = mode;
-	switch(mode)
+	switch (mode)
 	{
 //.............................................................................
 // MSX1
@@ -1629,7 +1629,7 @@ void VDP_SetMode(const u8 mode)
 	#else
 		VDP_DisableSprite();
 	#endif
-	if(VDP_IsBitmapMode(mode)) // Activate 212 lines for bitmap mode
+	if (VDP_IsBitmapMode(mode)) // Activate 212 lines for bitmap mode
 		VDP_SetLineCount(VDP_LINE_212);
 	else
 		VDP_SetLineCount(VDP_LINE_192);
@@ -1814,7 +1814,7 @@ void VDP_SetLayoutTable(VADDR addr)
 	u8 reg;
 	reg = (u8)(addr >> 10);
 	#if (MSX_VERSION >= MSX_2)
-		switch(g_VDP_Data.Mode)
+		switch (g_VDP_Data.Mode)
 		{
 		case VDP_MODE_TEXT2:
 			reg |= 0b11;
@@ -1848,7 +1848,7 @@ void VDP_SetColorTable(VADDR addr)
 	
 	u8 reg;
 	reg = (u8)(addr >> 6);
-	switch(g_VDP_Data.Mode)
+	switch (g_VDP_Data.Mode)
 	{
 	#if (MSX_VERSION >= MSX_2)
 	case VDP_MODE_TEXT2:
@@ -1889,7 +1889,7 @@ void VDP_SetPatternTable(VADDR addr)
 
 	u8 reg;
 	reg = (u8)(addr >> 11);
-	switch(g_VDP_Data.Mode)
+	switch (g_VDP_Data.Mode)
 	{
 	#if (MSX_VERSION >= MSX_2)
 	#if (VDP_USE_UNDOCUMENTED)
@@ -1931,7 +1931,7 @@ void VDP_SetSpriteAttributeTable(VADDR addr)
 	u8 reg;
 	reg = (u8)(addr >> 7);
 	#if (MSX_VERSION >= MSX_2)
-		switch(g_VDP_Data.Mode)
+		switch (g_VDP_Data.Mode)
 		{
 		case VDP_MODE_GRAPHIC3:
 		case VDP_MODE_GRAPHIC4:
@@ -2137,7 +2137,7 @@ void VDP_DisableSpritesFrom(u8 index)
 {
 	u8 y = VDP_SPRITE_DISABLE_SM1;
 	#if (MSX_VERSION >= MSX_2)
-		if(g_VDP_Data.Mode >= VDP_MODE_MSX2) // MSX2 modes
+		if (g_VDP_Data.Mode >= VDP_MODE_MSX2) // MSX2 modes
 			y = VDP_SPRITE_DISABLE_SM2;
 	#endif
 	VDP_SetSpritePositionY(index, y);
@@ -2234,7 +2234,7 @@ void VDP_LoadColor_GM2(const u8* src, u8 count, u8 offset)
 void VDP_WriteLayout_GM2(const u8* src, u8 dx, u8 dy, u8 nx, u8 ny)
 {
 	u16 dst = g_ScreenLayoutLow + (dy * 32) + dx;
-	for(u8 y = 0; y < ny; ++y)
+	for (u8 y = 0; y < ny; ++y)
 	{
 		VDP_WriteVRAM(src, dst, g_ScreenLayoutHigh, nx);
 		src += nx;
@@ -2247,7 +2247,7 @@ void VDP_WriteLayout_GM2(const u8* src, u8 dx, u8 dy, u8 nx, u8 ny)
 void VDP_FillLayout_GM2(u8 value, u8 dx, u8 dy, u8 nx, u8 ny)
 {
 	u16 dst = g_ScreenLayoutLow + (dy * 32) + dx;
-	for(u8 y = 0; y < ny; ++y)
+	for (u8 y = 0; y < ny; ++y)
 	{
 		VDP_FillVRAM(value, dst, g_ScreenLayoutHigh, nx);
 		dst += 32;

@@ -484,7 +484,7 @@ void ONET_GetMulticastMask(u8* addr)
 //     The size of the buffer used to capture packets is 8K.  If it
 //     overflows, no new packets will be captured, so it is convenient to
 //     get the captured packets (with GET_PACKET) regularly.
-bool ONET_GetPacketInfo(struct ONET_PacketInfo* info)
+bool ONET_GetPacketInfo(ONET_PacketInfo* info)
 {
 	info; // HL
 	__asm

@@ -104,16 +104,16 @@ enum Compressor : u16
 /// 
 inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 {
-	if(size == DATASIZE_64bits)
+	if (size == DATASIZE_64bits)
 		return "%d";
 
-	switch(format)
+	switch (format)
 	{
 	default:
 	case DATAFORMAT_Float:
 	case DATAFORMAT_Decimal:
 	case DATAFORMAT_DecimalUnsigned:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "%3u";
@@ -121,7 +121,7 @@ inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 		case DATASIZE_32bits:	return "%u";
 		}
 	case DATAFORMAT_DecimalSigned:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "%d";
@@ -131,7 +131,7 @@ inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 
 	case DATAFORMAT_Hexa:
 	case DATAFORMAT_HexaC:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "0x%02X";
@@ -140,7 +140,7 @@ inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 		}
 
 	case DATAFORMAT_HexaASM:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "0%02Xh";
@@ -148,7 +148,7 @@ inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 		case DATASIZE_32bits:	return "0%08Xh";
 		}
 	case DATAFORMAT_HexaPascal:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "$%02X";
@@ -156,7 +156,7 @@ inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 		case DATASIZE_32bits:	return "$%08X";
 		}
 	case DATAFORMAT_HexaBasic:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "&H%02X";
@@ -164,7 +164,7 @@ inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 		case DATASIZE_32bits:	return "&H%08X";
 		}
 	case DATAFORMAT_HexaAnd:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "&%02X";
@@ -172,7 +172,7 @@ inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 		case DATASIZE_32bits:	return "&%08X";
 		}
 	case DATAFORMAT_HexaSharp:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "#%02X";
@@ -180,7 +180,7 @@ inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 		case DATASIZE_32bits:	return "#%08X";
 		}
 	case DATAFORMAT_HexaRaw:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "%02X";
@@ -199,7 +199,7 @@ inline const c8* GetDataFormat(DataFormat format, u8 size = DATASIZE_8bits)
 /// 
 inline const c8* GetCTable(DataFormat format, u8 size = DATASIZE_8bits)
 {
-	switch(format)
+	switch (format)
 	{
 	default:
 	case DATAFORMAT_Decimal:
@@ -215,7 +215,7 @@ inline const c8* GetCTable(DataFormat format, u8 size = DATASIZE_8bits)
 	case DATAFORMAT_Binary:
 	case DATAFORMAT_BinaryC:
 	case DATAFORMAT_BinaryASM:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "const unsigned char";
@@ -224,7 +224,7 @@ inline const c8* GetCTable(DataFormat format, u8 size = DATASIZE_8bits)
 		case DATASIZE_64bits:	return "const unsigned long long";
 		}
 	case DATAFORMAT_DecimalSigned:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "const signed char";
@@ -234,7 +234,7 @@ inline const c8* GetCTable(DataFormat format, u8 size = DATASIZE_8bits)
 		}
 
 	case DATAFORMAT_Float:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "const unsigned char";
@@ -249,10 +249,10 @@ inline const c8* GetCTable(DataFormat format, u8 size = DATASIZE_8bits)
 ///
 inline const c8* GetAsmDirective(u8 size, u8 syntax)
 {
-	switch(syntax)
+	switch (syntax)
 	{
 	case ASMSYNTAX_sdasz80:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return ".db";
@@ -263,7 +263,7 @@ inline const c8* GetAsmDirective(u8 size, u8 syntax)
 	case ASMSYNTAX_tniASM:
 	case ASMSYNTAX_asMSX:
 	case ASMSYNTAX_Sjasm:
-		switch(size)
+		switch (size)
 		{
 		default:
 		case DATASIZE_8bits:	return "db";

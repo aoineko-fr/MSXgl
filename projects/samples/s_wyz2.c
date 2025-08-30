@@ -158,7 +158,7 @@ void ButtonStop()
 //
 void ButtonPrev()
 {
-	if(g_CurrentMusic > 0)
+	if (g_CurrentMusic > 0)
 		SetMusic(g_CurrentMusic - 1);
 }
 
@@ -166,7 +166,7 @@ void ButtonPrev()
 //
 void ButtonNext()
 {
-	if(g_CurrentMusic < numberof(g_MusicEntry) - 1)
+	if (g_CurrentMusic < numberof(g_MusicEntry) - 1)
 		SetMusic(g_CurrentMusic + 1);
 }
 
@@ -209,7 +209,7 @@ void main()
 	// Decode VGM header
 	SetMusic(0);
 	Print_DrawBox(0, PLAYER_Y, numberof(g_ButtonEntry) * 2 + 1, 3);
-	for(u8 i = 0; i < numberof(g_ButtonEntry); ++i)
+	for (u8 i = 0; i < numberof(g_ButtonEntry); ++i)
 	{
 		Print_SetPosition(1 + 2 * i, PLAYER_Y+1);
 		Print_DrawChar(g_ButtonEntry[i].Char);
@@ -251,11 +251,11 @@ void main()
 
 	u8 prevRow8 = 0xFF;
 	u8 count = 0;
-	while(1)
+	while (1)
 	{
 		Halt();
 		count++;
-		if(g_Freq50Hz || (count % 6 != 0))
+		if (g_Freq50Hz || (count % 6 != 0))
 		{
 			WYZ_Decode();
 			#if (!WYZ_USE_DIRECT_ACCESS)
@@ -283,13 +283,13 @@ void main()
 		{
 			Print_SetPosition(8, y++);
 			
-			if(*ayReg < 8)
+			if (*ayReg < 8)
 			{
 				u8 l = *ayReg & 0x07;
 				Print_DrawChar((l == 0) ? ' ' : 0xA0 + l);
 				Print_DrawChar(' ');
 			}
-			else // if(*ayReg >= 8)
+			else // if (*ayReg >= 8)
 			{
 				Print_DrawChar(0xA0);
 				u8 h = *ayReg - 8;
@@ -303,28 +303,28 @@ void main()
 		u8 row8 = Keyboard_Read(8);
 
 		// Change button
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
+		if (IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
 		{
 			SetCursor(g_CurrentButton + 1);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
+		else if (IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
 		{
 			SetCursor(g_CurrentButton - 1);
 		}
 		// Activate button
-		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		if (IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
 			g_ButtonEntry[g_CurrentButton].Func();
 		}
 		// Change frequency
-		if((IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP)) || (IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN)))
+		if ((IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP)) || (IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN)))
 		{
 			g_Freq50Hz = 1 - g_Freq50Hz;
 			Print_SetPosition(0, 18);
 			Print_DrawFormat("Freq: %s", (g_Freq50Hz) ? "50Hz" : "60Hz");
 		}
 		// Activate button
-		// if(IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(prevRow8, KEY_HOME))
+		// if (IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(prevRow8, KEY_HOME))
 		// {
 			// WYZ_PlayFX(0);
 		// }

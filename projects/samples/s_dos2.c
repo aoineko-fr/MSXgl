@@ -74,7 +74,7 @@ u8 g_PrevRow0 = 0x00;
 void Print_DrawSlot(u8 slot)
 {
 	Print_DrawInt(Sys_SlotGetPrimary(slot));
-	if(Sys_SlotIsExpended(slot))
+	if (Sys_SlotIsExpended(slot))
 	{
 		Print_DrawChar('-');
 		Print_DrawInt(Sys_SlotGetSecondary(slot));
@@ -87,7 +87,7 @@ const c8* FormatSlot(u8 slot)
 {
 	c8* str = g_SlotBuffer;
 	*str++ = '0' + Sys_SlotGetPrimary(slot);
-	if(Sys_SlotIsExpended(slot))
+	if (Sys_SlotIsExpended(slot))
 	{
 		*str++ = '-';
 		*str++ = '0' + Sys_SlotGetSecondary(slot);
@@ -115,7 +115,7 @@ void DisplayInfo()
 
 	// Display VDP version
 	u8 vdp = VDP_GetVersion();
-	switch(vdp)
+	switch (vdp)
 	{
 	case VDP_VERSION_TMS9918A:	DOS_StringOutput("VDP: MSX1\n\r$"); break;
 	case VDP_VERSION_V9938:		DOS_StringOutput("VDP: MSX2\n\r$"); break;
@@ -133,7 +133,7 @@ void DisplayInfo()
 	DOS_StringOutput("Explain 'IBDOS': $");
 	DOS_Explain(DOS_ERR_IBDOS, g_StrBuffer);
 	c8* ptr = g_StrBuffer;
-	while(*ptr++) {}
+	while (*ptr++) {}
 	*ptr = '$';
 	DOS_StringOutput(g_StrBuffer);
 	DOS_Return();
@@ -233,9 +233,9 @@ void DisplayFile()
 	DOS_FCreate(g_StrBuffer, O_RDWR, ATTR_FOLDER);
 #if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
-	if(err == DOS_ERR_NONE)
+	if (err == DOS_ERR_NONE)
 		Print_DrawText("OK\n");
-	else if(err = DOS_ERR_DIRX)
+	else if (err = DOS_ERR_DIRX)
 		Print_DrawText(" Warning\n Directory already exists\n");
 	else
 	{
@@ -250,7 +250,7 @@ void DisplayFile()
 	DOS_ChangeDirectory(g_StrBuffer);
 #if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
@@ -262,7 +262,7 @@ void DisplayFile()
 	DOS_GetDirectory(DOS_DRIVE_DEFAULT, g_FileBuffer);
 #if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
@@ -280,14 +280,14 @@ void DisplayFile()
 	DOS_FIB* fib = DOS_FindFirstEntry("*.SC5", 0);
 #if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
 	}
 #endif
 	Print_DrawText("OK\n");
-	while(fib)
+	while (fib)
 	{
 		Print_DrawFormat(" Found: %s\n", fib->Filename);
 		fib = DOS_FindNextEntry();
@@ -308,7 +308,7 @@ void DisplayFile()
 	Print_DrawText("\x07""Opening 'image01.sc5'... ");
 	u8 file = DOS_FOpen("IMAGE01.SC5", O_RDONLY);
 #if (DOS_USE_VALIDATOR)
-	if(file == 0xFF)
+	if (file == 0xFF)
 	{
 		DisplayLastError();
 		return;
@@ -321,7 +321,7 @@ void DisplayFile()
 	u32 seek = DOS_FSeek(file, 7, SEEK_SET);
 #if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
@@ -334,7 +334,7 @@ void DisplayFile()
 	seek = DOS_FSeek(file, 2048, SEEK_CUR);
 #if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
@@ -347,7 +347,7 @@ void DisplayFile()
 	u16 read = DOS_FRead(file, g_FileBuffer, 4096);
 #if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
@@ -361,7 +361,7 @@ void DisplayFile()
 	Print_DrawText("\x07""Closing 'image01.sc5'... ");
 	err = DOS_FClose(file);
 #if (DOS_USE_VALIDATOR)
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
@@ -375,9 +375,9 @@ void DisplayFile()
 	file = DOS_FCreate("tmp", O_RDWR, ATTR_FOLDER);
 #if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
-	if(err == DOS_ERR_NONE)
+	if (err == DOS_ERR_NONE)
 		Print_DrawText("OK\n");
-	else if(err = DOS_ERR_DIRX)
+	else if (err = DOS_ERR_DIRX)
 		Print_DrawText(" Warning\n Directory already exists\n");
 	else
 	{
@@ -392,7 +392,7 @@ void DisplayFile()
 	Print_DrawText("\x07""Creating 'tmp\\a.bin' file... ");
 	file = DOS_FCreate("tmp\\a.bin", O_RDWR, 0);
 #if (DOS_USE_VALIDATOR)
-	if(file == 0xFF)
+	if (file == 0xFF)
 	{
 		DisplayLastError();
 		return;
@@ -405,7 +405,7 @@ void DisplayFile()
 	u16 write = DOS_FWrite(file, g_FileBuffer, 4096);
 #if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
@@ -418,7 +418,7 @@ void DisplayFile()
 	seek = DOS_FSeek(file, 0, SEEK_SET);
 #if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
@@ -431,7 +431,7 @@ void DisplayFile()
 	read = DOS_FRead(file, g_FileBuffer, 4096);
 #if (DOS_USE_VALIDATOR)
 	err = DOS_GetLastError();
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
@@ -445,7 +445,7 @@ void DisplayFile()
 	Print_DrawText("\x07""Closing 'tmp\\a.bin'... ");
 	err = DOS_FClose(file);
 #if (DOS_USE_VALIDATOR)
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 	{
 		DisplayLastError();
 		return;
@@ -471,7 +471,7 @@ void ApplyExtBIOS()
 	DOS_VarTable* tab = DOSMapper_GetVarTable();
 	u8 i = 0;
 	u16 x = TAB_X;
-	while(tab->Slot != 0)
+	while (tab->Slot != 0)
 	{
 		Print_SetPosition(x, TAB_Y);
 		Print_DrawFormat("#%i", i);
@@ -505,9 +505,9 @@ void ApplyExtBIOS()
 
 	Print_SetPosition(x, TAB_Y+16);
 	Print_DrawInt(TotalNumSeg);
-	if(TotalNumSeg < 64)
+	if (TotalNumSeg < 64)
 		Print_DrawFormat(" (%iK)", TotalNumSeg * 16);
-	else if(TotalNumSeg % 64 == 0)
+	else if (TotalNumSeg % 64 == 0)
 		Print_DrawFormat(" (%iM)", TotalNumSeg / 64);
 	else
 		Print_DrawFormat(" (%iM+%iK)", TotalNumSeg / 64, (TotalNumSeg % 64) * 16);
@@ -524,7 +524,7 @@ void ApplyExtBIOS()
 	// Page information
 	VDP_CommandHMMV(PAGE_X, PAGE_Y+8, 512-PAGE_X, 8, 0x44); // Clear
 	x = PAGE_X;
-	for(u8 i = 0; i < 4; ++i)
+	for (u8 i = 0; i < 4; ++i)
 	{
 		Print_SetPosition(x, 16);
 		Print_DrawInt(DOSMapper_GetPage(i));
@@ -553,7 +553,7 @@ void DisplayExtBIOS()
 
 	// Check Extended BIOS
 	Print_SetPosition(0, 16);
-	if(ExtBIOS_Check())
+	if (ExtBIOS_Check())
 		Print_DrawText("Extended BIOS: Detected\n");
 	else
 		Print_DrawText("Extended BIOS: Not detected\n");
@@ -582,7 +582,7 @@ void DisplayExtBIOS()
 // Log a message
 void Log(const c8* str)
 {
-	if(g_LogLine > 190)
+	if (g_LogLine > 190)
 	{
 		VDP_CommandHMMV(0, 120, 512, 72, 0x44);
 		g_LogLine = 120;
@@ -606,18 +606,18 @@ void UpdateExtBIOS()
 	g_PrevRow0 = row0;
 
 	// Allocate user segment from primary Memory mapper's slot
-	if(KEY_FLAG(KEY_1) & keys)
+	if (KEY_FLAG(KEY_1) & keys)
 	{
 		bool ok = DOSMapper_Alloc(DOS_ALLOC_USER, DOS_SEGSLOT_PRIM, &g_LastSeg);
 		String_Format(g_StrBuffer, "- %s: Allocate user segment from primary slot [slot:%s, seg:%d]", ok ? "Succed" : "Error", FormatSlot(g_LastSeg.Slot), g_LastSeg.Number);
 		Log(g_StrBuffer);
-		for(u8 i = 0; i < 4; ++i)
+		for (u8 i = 0; i < 4; ++i)
 			DOSMapper_WriteByte(g_LastSeg.Number, i, i);
 		ApplyExtBIOS();
 	}
 
 	// Allocate user segment from Memory mapper's slot other than primary one
-	if(KEY_FLAG(KEY_2) & keys)
+	if (KEY_FLAG(KEY_2) & keys)
 	{
 		bool ok = DOSMapper_Alloc(DOS_ALLOC_USER, g_DOS_VarTable->Slot | DOS_SEGSLOT_OTHER, &g_LastSeg);
 		String_Format(g_StrBuffer, "- %s: Allocate user segment from not-primary slot [slot:%s, seg:%d]", ok ? "Succed" : "Error", FormatSlot(g_LastSeg.Slot), g_LastSeg.Number);
@@ -626,7 +626,7 @@ void UpdateExtBIOS()
 	}
 
 	// Allocate system segment from primary Memory mapper's slot in priority
-	if(KEY_FLAG(KEY_3) & keys)
+	if (KEY_FLAG(KEY_3) & keys)
 	{
 		bool ok = DOSMapper_Alloc(DOS_ALLOC_SYS, g_DOS_VarTable->Slot | DOS_SEGSLOT_THISFIRST, &g_LastSeg);
 		String_Format(g_StrBuffer, "- %s: Allocate system segment from primary slot in priority [slot:%s, seg:%d]", ok ? "Succed" : "Error", FormatSlot(g_LastSeg.Slot), g_LastSeg.Number);
@@ -635,9 +635,9 @@ void UpdateExtBIOS()
 	}
 
 	// Free last allocated segment
-	if(KEY_FLAG(KEY_4) & keys)
+	if (KEY_FLAG(KEY_4) & keys)
 	{
-		if(g_LastSeg.Slot == SLOT_INVALID)
+		if (g_LastSeg.Slot == SLOT_INVALID)
 		{
 			String_Format(g_StrBuffer, "- Error: Invalid last segment");
 		}
@@ -652,11 +652,11 @@ void UpdateExtBIOS()
 	}
 
 	// Set page to next segment on the primary slot
-	if(KEY_FLAG(KEY_5) & keys)
+	if (KEY_FLAG(KEY_5) & keys)
 	{
 		DOSMapper_SetPage2(++g_Page2Seg);
 		u8 tab[8];
-		for(u8 i = 0; i < 8; ++i)
+		for (u8 i = 0; i < 8; ++i)
 			tab[i] = DOSMapper_ReadByte(g_Page2Seg, i);
 		String_Format(g_StrBuffer, "- Switch page 2 to segment %d. 8000h:[%2x %2x %2x %2x %2x %2x %2x %2x]", g_Page2Seg, tab[0], tab[1], tab[2], tab[3], tab[4], tab[5], tab[6], tab[7]);
 		Log(g_StrBuffer);
@@ -664,11 +664,11 @@ void UpdateExtBIOS()
 	}
 
 	// Set page to previous segment on the primary slot
-	if(KEY_FLAG(KEY_6) & keys)
+	if (KEY_FLAG(KEY_6) & keys)
 	{
 		DOSMapper_SetPage2(--g_Page2Seg);
 		u8 tab[8];
-		for(u8 i = 0; i < 8; ++i)
+		for (u8 i = 0; i < 8; ++i)
 			tab[i] = DOSMapper_ReadByte(g_Page2Seg, i);
 		String_Format(g_StrBuffer, "- Switch page 2 to segment %d. 8000h:[%2x %2x %2x %2x %2x %2x %2x %2x]", g_Page2Seg, tab[0], tab[1], tab[2], tab[3], tab[4], tab[5], tab[6], tab[7]);
 		Log(g_StrBuffer);
@@ -721,7 +721,7 @@ __endasm;
 void UpdateStdIn()
 {
 	u8 chr = DOS_StandardInput();
-	if(chr)
+	if (chr)
 		DOS_StandardOutput(chr);
 }
 
@@ -754,7 +754,7 @@ void DisplayDriver()
 u8 main(u8 argc, const c8** argv)
 {
 	c8 chr = 0;
-	if(argc > 0)
+	if (argc > 0)
 		chr = argv[0][0];
 
 DisplayMenu:
@@ -770,9 +770,9 @@ DisplayMenu:
 	DOS_StringOutput(" [Q] Quit\n\r$");
 
 	callback cbUpdate = NULL;
-	if(chr == 0)
+	if (chr == 0)
 		chr = DOS_CharInput();
-	switch(chr)
+	switch (chr)
 	{
 	case '1':
 		DisplayInfo();
@@ -809,13 +809,13 @@ DisplayMenu:
 		goto DisplayMenu;
 	}
 
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		// Naive V-Synch method
 		Halt();
 
 		// Update current page
-		if(cbUpdate)
+		if (cbUpdate)
 			cbUpdate();
 
 		// Increment frame counter

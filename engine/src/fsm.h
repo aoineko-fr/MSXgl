@@ -16,7 +16,7 @@
 //=============================================================================
 
 // 
-typedef struct
+typedef struct FSM_State
 {
 	u8       Flag;					// State behavior flag (reserved)
 	callback Begin;					// Function to be called when state begin (can be NULL)

@@ -131,14 +131,14 @@ void InitScreen()
 
 	//-------------------------------------------------------------------------
 	// Initialize background
-	if(src->BPC == 2)
+	if (src->BPC == 2)
 	{
 		VDP_SetPaletteEntry(0, RGB16(1, 3, 1));
 		VDP_SetPaletteEntry(1, RGB16(0, 0, 0));
 		VDP_SetPaletteEntry(2, RGB16(3, 5, 3));
 		VDP_SetPaletteEntry(3, RGB16(7, 7, 7));
 	}
-	else if(src->BPC == 4)
+	else if (src->BPC == 4)
 	{
 		VDP_SetPaletteEntry(0, COLOR16_DEFAULT_0);
 		VDP_SetPaletteEntry(1, COLOR16_DEFAULT_1);
@@ -147,7 +147,7 @@ void InitScreen()
 		VDP_SetPaletteEntry(13, RGB16(4, 4, 4));
 	}
 	VDP_CommandHMMV(0, 0, src->Width, HEIGHT, src->Background);
-	for(u8 i = 0; i < 255; ++i)
+	for (u8 i = 0; i < 255; ++i)
 	{
 		u16 x = Math_GetRandom16() % src->Width;
 		u16 y = Math_GetRandom16() % (HEIGHT - 24) + 16;
@@ -159,7 +159,7 @@ void InitScreen()
 
 	// Initialize sprite
 	VDP_CommandHMMV(0, HEIGHT, sprtWidth * 6, 16, 0);
-	for(u8 i = 0; i < 6; ++i)
+	for (u8 i = 0; i < 6; ++i)
 	{
 		VDP_CommandLMMC(src->DataLMMC + i * (16 * 16 * pixelWidth), i * sprtWidth, HEIGHT, sprtWidth, 16, VDP_OP_TIMP);
 	}
@@ -221,7 +221,7 @@ void VDP_InterruptHandler()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 	g_Frame++;
 	// VDP_SetColor(0);
@@ -236,29 +236,29 @@ void WaitVBlank()
 void main()
 {
 	// Precalc
-	for(u16 i = 0; i < 16*16*6; ++i)
+	for (u16 i = 0; i < 16*16*6; ++i)
 	{
 		u8 c, b = g_DataBmp4b[i >> 1];
-		if((i & 0x1) == 0)
+		if ((i & 0x1) == 0)
 			c = b >> 4;
-		else // if((i & 0x1) == 1)
+		else // if ((i & 0x1) == 1)
 			c = b & 0x0F;
-		if(c == 3)
+		if (c == 3)
 			c = 13;
 		g_LMMC4b[i] = c;
 		g_LMMC4b_2[2*i+0] = c;
 		g_LMMC4b_2[2*i+1] = c;
 	}
-	for(u16 i = 0; i < 16*16*6; ++i)
+	for (u16 i = 0; i < 16*16*6; ++i)
 	{
 		u8 c, b = g_DataBmp2b[i >> 2];
-		if((i & 0x3) == 0)
+		if ((i & 0x3) == 0)
 			c = b >> 6;
-		else if((i & 0x3) == 1)
+		else if ((i & 0x3) == 1)
 			c = b >> 4;
-		else if((i & 0x3) == 2)
+		else if ((i & 0x3) == 2)
 			c = b >> 2;
-		else // if((i & 0x3) == 3)
+		else // if ((i & 0x3) == 3)
 			c = b;
 		g_LMMC2b_2[2*i+0] = c & 0x03;
 		g_LMMC2b_2[2*i+1] = c & 0x03;
@@ -272,7 +272,7 @@ void main()
 	InitScreen();
 
 	bool bContinue = TRUE;
-	while(bContinue)
+	while (bContinue)
 	{
 		WaitVBlank();
 		DisplaySprite();
@@ -282,49 +282,49 @@ void main()
 		Print_DrawChar(chrAnim[g_Frame & 0x03]);
 
 		u8 row = Keyboard_Read(KEY_ROW(KEY_DOWN));
-		if((row & KEY_FLAG(KEY_SPACE)) == 0)
+		if ((row & KEY_FLAG(KEY_SPACE)) == 0)
 		{
-			if(g_SrcModeIndex < numberof(g_Settings) - 1)
+			if (g_SrcModeIndex < numberof(g_Settings) - 1)
 				g_SrcModeIndex++;
 			else
 				g_SrcModeIndex = 0;
 			InitScreen();
 		}
 		g_bMoving = FALSE;
-		if((row & KEY_FLAG(KEY_LEFT)) == 0)
+		if ((row & KEY_FLAG(KEY_LEFT)) == 0)
 		{
-			if(SX > 2)
+			if (SX > 2)
 			{
 				SX--;
 				g_bMoving = TRUE;
 			}
 		}
-		else if((row & KEY_FLAG(KEY_RIGHT)) == 0)
+		else if ((row & KEY_FLAG(KEY_RIGHT)) == 0)
 		{
-			if(SX < 256-16-2)
+			if (SX < 256-16-2)
 			{
 				SX++;
 				g_bMoving = TRUE;
 			}
 		}
-		if((row & KEY_FLAG(KEY_UP)) == 0)
+		if ((row & KEY_FLAG(KEY_UP)) == 0)
 		{
-			if(SY > 2)
+			if (SY > 2)
 			{
 				SY--;
 				g_bMoving = TRUE;
 			}
 		}
-		else if((row & KEY_FLAG(KEY_DOWN)) == 0)
+		else if ((row & KEY_FLAG(KEY_DOWN)) == 0)
 		{
-			if(SY < HEIGHT-16-2)
+			if (SY < HEIGHT-16-2)
 			{
 				SY++;
 				g_bMoving = TRUE;
 			}
 		}
 
-		if(Keyboard_IsKeyPressed(KEY_ESC))
+		if (Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;
 	}
 }

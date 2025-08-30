@@ -68,8 +68,6 @@ enum PRINT_MODE
 typedef void (*print_drawchar)(u8); //< Draw char callback signature
 typedef void (*print_loadfont)(VADDR); //< Font load callback signature
 
-extern struct Print_Data g_PrintData;
-
 // Print VFX flags
 #define PRINT_FX_SHADOW				0b00000001
 #define PRINT_FX_OUTLINE			0b00000010
@@ -95,7 +93,7 @@ enum PRINT_ALIGN
 //-----------------------------------------------------------------------------
 
 // Print module configuration structure
-struct Print_Data
+typedef struct Print_Data
 {
 	u8 PatternX;				//< X size of a character in screen unit (0-15)
 	u8 PatternY;				//< Y size of a character in screen unit (0-15)
@@ -150,7 +148,9 @@ struct Print_Data
 #if (PRINT_USE_DIRECTION)
 	i8 Direction;				//< Shadow color
 #endif
-};
+} Print_Data;
+
+extern Print_Data g_PrintData;
 
 //-----------------------------------------------------------------------------
 // Group: Initialization
@@ -210,7 +210,7 @@ inline void Print_SetFontEx(u8 patternX, u8 patternY, u8 sizeX, u8 sizeY, u8 fir
 //
 // Return:
 //   Current font information structure
-inline const struct Print_Data* Print_GetFontInfo() { return &g_PrintData;}
+inline const Print_Data* Print_GetFontInfo() { return &g_PrintData;}
 
 // Function: Print_SetPosition
 // Set cursor position.
@@ -514,7 +514,7 @@ inline void Print_DrawTextAt(UX x, UY y, const c8* str) { Print_SetPosition(x, y
 //   str - Null-terminated string to draw
 inline void Print_DrawTextAtV(UX x, UY y, const c8* str)
 {
-	while(*str)
+	while (*str)
 	{
 		Print_SetPosition(x, y++);
 		Print_DrawChar(*str++);
@@ -550,7 +550,7 @@ inline void Print_DrawCharXAt(UX x, UY y, c8 chr, u8 len) { Print_SetPosition(x,
 //   len - Number of character to draw
 inline void Print_DrawCharYAt(UX x, UY y, c8 chr, u8 len)
 {
-	for(u8 i = 0; i < len; ++i)
+	for (u8 i = 0; i < len; ++i)
 		Print_DrawCharAt(x, y++, chr);
 }
 
@@ -740,7 +740,7 @@ void Print_DrawBox(UX x, UY y, u8 width, u8 height);
 inline void Print_DrawTextAlign(const c8* str, u8 align)
 {
 	u8 len = String_Length(str);
-	switch(align)
+	switch (align)
 	{
 	case PRINT_ALIGN_LEFT:
 		break;

@@ -25,7 +25,7 @@ update_r(kmeans_config *config)
 {
 	int i;
 
-	for(i = 0; i < config->num_objs; i++)
+	for (i = 0; i < config->num_objs; i++)
 	{
 		double distance, curr_distance;
 		int cluster, curr_cluster;
@@ -42,7 +42,7 @@ update_r(kmeans_config *config)
 		* Don't try to cluster NULL objects, just add them
 		* to the "unclusterable cluster"
 		*/
-		if(!obj)
+		if (!obj)
 		{
 			config->clusters[i] = KMEANS_NULL_CLUSTER;
 			continue;
@@ -53,10 +53,10 @@ update_r(kmeans_config *config)
 		curr_cluster = 0;
 
 		/* Check all other cluster centers and find the nearest */
-		for(cluster = 1; cluster < config->k; cluster++)
+		for (cluster = 1; cluster < config->k; cluster++)
 		{
 			distance = (config->distance_method)(obj, config->centers[cluster]);
-			if(distance < curr_distance)
+			if (distance < curr_distance)
 			{
 				curr_distance = distance;
 				curr_cluster = cluster;
@@ -73,7 +73,7 @@ update_means(kmeans_config *config)
 {
 	int i;
 
-	for(i = 0; i < config->k; i++)
+	for (i = 0; i < config->k; i++)
 	{
 		/* Update the centroid for this cluster */
 		(config->centroid_method)(config->objs, config->clusters, config->num_objs, i, config->centers[i]);
@@ -101,7 +101,7 @@ static void update_r_threaded(kmeans_config *config)
 	num_threads = (num_threads > KMEANS_THR_MAX ? KMEANS_THR_MAX : num_threads);
 
 	/* If the problem size is small, don't bother w/ threading */
-	if(num_threads < 1)
+	if (num_threads < 1)
 	{
 		update_r(config);
 	}
@@ -113,7 +113,7 @@ static void update_r_threaded(kmeans_config *config)
 		int obs_per_thread = config->num_objs / num_threads;
 		int i, rc;
 
-		for(i = 0; i < num_threads; i++)
+		for (i = 0; i < num_threads; i++)
 		{
 			/*
 			* Each thread gets a copy of the config, but with the list pointers
@@ -124,7 +124,7 @@ static void update_r_threaded(kmeans_config *config)
 			thread_config[i].objs += i*obs_per_thread;
 			thread_config[i].clusters += i*obs_per_thread;
 			thread_config[i].num_objs = obs_per_thread;
-			if(i == num_threads-1)
+			if (i == num_threads-1)
 			{
 				thread_config[i].num_objs += config->num_objs - num_threads*obs_per_thread;
 			}
@@ -135,7 +135,7 @@ static void update_r_threaded(kmeans_config *config)
 
 			/* Now we just run the thread, on its subset of the data */
 			rc = pthread_create(&thread[i], &thread_attr, update_r_threaded_main, (void *) &thread_config[i]);
-			if(rc)
+			if (rc)
 			{
 				printf("ERROR: return code from pthread_create() is %d\n", rc);
 				exit(-1);
@@ -146,11 +146,11 @@ static void update_r_threaded(kmeans_config *config)
 		pthread_attr_destroy(&thread_attr);
 
 		/* Wait for all calculations to complete */
-		for(i = 0; i < num_threads; i++)
+		for (i = 0; i < num_threads; i++)
 		{
 		    void *status;
 			rc = pthread_join(thread[i], &status);
-			if(rc)
+			if (rc)
 			{
 				printf("ERROR: return code from pthread_join() is %d\n", rc);
 				exit(-1);
@@ -175,10 +175,10 @@ update_means_threaded_main(void *arg)
 		update_means_k++;
 		pthread_mutex_unlock (&update_means_k_mutex);
 
-		if(i < config->k)
+		if (i < config->k)
 			(config->centroid_method)(config->objs, config->clusters, config->num_objs, i, config->centers[i]);
 	}
-	while(i < config->k);
+	while (i < config->k);
 
 	pthread_exit(arg);
 }
@@ -195,7 +195,7 @@ update_means_threaded(kmeans_config *config)
 	num_threads = (num_threads > KMEANS_THR_MAX ? KMEANS_THR_MAX : num_threads);
 
 	/* If the problem size is small, don't bother w/ threading */
-	if(num_threads < 1)
+	if (num_threads < 1)
 	{
 		update_means(config);
 	}
@@ -213,12 +213,12 @@ update_means_threaded(kmeans_config *config)
 		pthread_attr_setdetachstate(&thread_attr, PTHREAD_CREATE_JOINABLE);
 
 		/* Create threads to perform computation  */
-		for(i = 0; i < num_threads; i++)
+		for (i = 0; i < num_threads; i++)
 		{
 
 			/* Now we just run the thread, on its subset of the data */
 			rc = pthread_create(&thread[i], &thread_attr, update_means_threaded_main, (void *) config);
-			if(rc)
+			if (rc)
 			{
 				printf("ERROR: return code from pthread_create() is %d\n", rc);
 				exit(-1);
@@ -228,11 +228,11 @@ update_means_threaded(kmeans_config *config)
 		pthread_attr_destroy(&thread_attr);
 
 		/* Watch until completion  */
-		for(i = 0; i < num_threads; i++)
+		for (i = 0; i < num_threads; i++)
 		{
 		    void *status;
 			rc = pthread_join(thread[i], &status);
-			if(rc)
+			if (rc)
 			{
 				printf("ERROR: return code from pthread_join() is %d\n", rc);
 				exit(-1);
@@ -266,7 +266,7 @@ kmeans(kmeans_config *config)
 	memset(config->clusters, 0, clusters_sz);
 
 	/* Set default max iterations if necessary */
-	if(!config->max_iterations)
+	if (!config->max_iterations)
 		config->max_iterations = KMEANS_MAX_ITERATIONS;
 
 	/*
@@ -275,7 +275,7 @@ kmeans(kmeans_config *config)
 	 */
 	clusters_last = kmeans_malloc(clusters_sz);
 
-	while(1)
+	while (1)
 	{
 		/* Store the previous state of the clustering */
 		memcpy(clusters_last, config->clusters, clusters_sz);
@@ -291,14 +291,14 @@ kmeans(kmeans_config *config)
 		 * if all the cluster numbers are unchanged since last time,
 		 * we are at a stable solution, so we can stop here
 		 */
-		if(memcmp(clusters_last, config->clusters, clusters_sz) == 0)
+		if (memcmp(clusters_last, config->clusters, clusters_sz) == 0)
 		{
 			kmeans_free(clusters_last);
 			config->total_iterations = iterations;
 			return KMEANS_OK;
 		}
 
-		if(iterations++ > config->max_iterations)
+		if (iterations++ > config->max_iterations)
 		{
 			kmeans_free(clusters_last);
 			config->total_iterations = iterations;

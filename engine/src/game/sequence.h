@@ -101,16 +101,16 @@ enum SEQ_INPUT
 };
 
 // Sequence action area coordinate definition
-struct SeqActionArea
+typedef struct SeqActionArea
 {
 	u8 StartX;						// X coordinate of the start of the area
 	u8 EndX;						// X coordinate of the end of the area
 	u8 StartY;						// Y coordinate of the start of the area
 	u8 EndY;						// Y coordinate of the end of the area
-};
+} SeqActionArea;
 
 // Sequence action structure
-struct SeqAction
+typedef struct SeqAction
 {
 	u8 Action;						// Action type (see <SEQ_ACTION>)
 	u8 Id;							// Action ID sent to the callback 
@@ -118,19 +118,19 @@ struct SeqAction
 	SeqCondCB Condition;			// Condition check callback
 	u8 FrameMin;					// Minimum frame to trigger the action
 	u8 FrameMax;					// Maximum frame to trigger the action
-	struct SeqActionArea Areas[];	// Action area
-};
+	SeqActionArea Areas[];	// Action area
+} SeqAction;
 
 // Sequence structure
-struct Sequence
+typedef struct Sequence
 {
 	u8  Mode;						// Playback mode (see <SEQ_MODE>)
 	u16 FirstFrame;					// First frame of the sequence
 	u16 LastFrame;					// Last frame of the sequence
 	SeqEventCB EventCB;				// Event callback
 	u8  ActionNum;					// Number of actions
-	const struct SeqAction* const Actions[];
-};
+	const SeqAction* const Actions[];
+} Sequence;
 
 //=============================================================================
 // VARIABLES
@@ -140,7 +140,7 @@ struct Sequence
 extern u8 g_SeqFrameCount;
 
 // Sequence variables
-extern const struct Sequence* g_SeqCur;
+extern const Sequence* g_SeqCur;
 extern u16 g_SeqFrame;
 
 // Cursor
@@ -151,13 +151,13 @@ extern i8 g_SeqCursorAccX;
 extern i8 g_SeqCursorAccY;
 extern u8 g_SeqInput;
 
-extern const struct SeqAction* g_SeqActionHover;
+extern const SeqAction* g_SeqActionHover;
 
 // Configuration
 extern u8 g_SeqFrameWait;
 extern SeqDrawCB g_SeqDrawCB;
-extern const struct SeqAction* g_SeqActionMoveLeft;
-extern const struct SeqAction* g_SeqActionMoveRight;
+extern const SeqAction* g_SeqActionMoveLeft;
+extern const SeqAction* g_SeqActionMoveRight;
 
 
 //=============================================================================
@@ -172,7 +172,7 @@ extern const struct SeqAction* g_SeqActionMoveRight;
 //   draw  - Draw callback function
 //   left  - Action to move left
 //   right - Action to move right
-inline void Sequence_Initialize(u8 wait, SeqDrawCB draw, const struct SeqAction* left, const struct SeqAction* right) { g_SeqFrameWait = wait; g_SeqDrawCB = draw; g_SeqActionMoveLeft = left; g_SeqActionMoveRight = right; }
+inline void Sequence_Initialize(u8 wait, SeqDrawCB draw, const SeqAction* left, const SeqAction* right) { g_SeqFrameWait = wait; g_SeqDrawCB = draw; g_SeqActionMoveLeft = left; g_SeqActionMoveRight = right; }
 
 // Function: Sequence_SetCursor
 // Set the cursor position
@@ -196,14 +196,14 @@ inline void Sequence_MoveCursor(i8 x, i8 y) { g_SeqCursorPosX += x; g_SeqCursorP
 // Parameters:
 //   seq   - Pointer to the sequence structure
 //   frame - Frame number to start playing
-void Sequence_Play(const struct Sequence* seq, u16 frame);
+void Sequence_Play(const Sequence* seq, u16 frame);
 
 // Function: Sequence_GetCurrent
 // Get the current sequence
 //
 // Return:
 //   Pointer to the current sequence structure
-inline const struct Sequence* Sequence_GetCurrent() { return g_SeqCur; }
+inline const Sequence* Sequence_GetCurrent() { return g_SeqCur; }
 
 // Function: Sequence_CheckArea
 // Check if cursor is in area
@@ -213,7 +213,7 @@ inline const struct Sequence* Sequence_GetCurrent() { return g_SeqCur; }
 //
 // Return:
 //   FALSE if cursor is not in area
-bool Sequence_CheckArea(const struct SeqActionArea* area);
+bool Sequence_CheckArea(const SeqActionArea* area);
 
 // Function: Sequence_Update
 // Update sequence and check for interaction

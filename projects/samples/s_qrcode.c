@@ -43,9 +43,9 @@ u8 g_LMMC4b[16*16];
 void QRCode_DrawBitmap(u8 x, u8 y, const u8* qrc)
 {
 	i16 size = QRCode_GetSize(qrc);
-	for(i16 j = 0; j < size; j++)
-		for(i16 i = 0; i < size; i++) 
-			if(QRCode_GetModule(qrc, i, j))
+	for (i16 j = 0; j < size; j++)
+		for (i16 i = 0; i < size; i++) 
+			if (QRCode_GetModule(qrc, i, j))
 				VDP_CommandPSET(x + i, y + j, COLOR_WHITE, 0);
 }
 
@@ -83,7 +83,7 @@ void main()
 	Print_DrawText("Encoding...");
 	bool ok = QRCode_EncodeText("MSXgl", g_Buffer, g_QR, QRCODE_ECC_MEDIUM, QRCODE_MASK_0);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
-	if(ok)
+	if (ok)
 	{
 		Print_SetColor(0xEE, 0x11);
 		Print_DrawFormat(" Version:%i, Size:%i\n", QRCode_GetVersion(g_QR), QRCode_GetSize(g_QR));
@@ -97,7 +97,7 @@ void main()
 	Print_DrawText("\nEncoding...");
 	ok = QRCode_EncodeText("https://aoineko.org/msxgl", g_Buffer, g_QR, QRCODE_ECC_MEDIUM, QRCODE_MASK_1);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
-	if(ok)
+	if (ok)
 	{
 		Print_SetColor(0xEE, 0x11);
 		Print_DrawFormat(" Version:%i, Size:%i\n", QRCode_GetVersion(g_QR), QRCode_GetSize(g_QR));
@@ -111,7 +111,7 @@ void main()
 	Print_DrawText("\nEncoding...");
 	ok = QRCode_EncodeText("https://github.com/aoineko-fr/MSXgl", g_Buffer, g_QR, QRCODE_ECC_MEDIUM, QRCODE_MASK_2);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
-	if(ok)
+	if (ok)
 	{
 		Print_SetColor(0xEE, 0x11);
 		Print_DrawFormat(" Version:%i, Size:%i\n", QRCode_GetVersion(g_QR), QRCode_GetSize(g_QR));
@@ -125,7 +125,7 @@ void main()
 	Print_DrawText("\nEncoding...");
 	ok = QRCode_EncodeText("Hello, MSXgl world!\nWelcome to the 8-bits party", g_Buffer, g_QR, QRCODE_ECC_MEDIUM, QRCODE_MASK_3);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
-	if(ok)
+	if (ok)
 	{
 		Print_SetColor(0xEE, 0x11);
 		Print_DrawFormat(" Version:%i, Size:%i\n", QRCode_GetVersion(g_QR), QRCode_GetSize(g_QR));
@@ -147,7 +147,7 @@ void main()
 	Print_DrawText("\nEncoding...");
 	ok = QRCode_EncodeText(text, g_Buffer, g_QR, QRCODE_ECC_MEDIUM, QRCODE_MASK_4);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
-	if(ok)
+	if (ok)
 	{
 		Print_SetColor(0xEE, 0x11);
 		Print_DrawFormat(" Version:%i, Size:%i\n", QRCode_GetVersion(g_QR), QRCode_GetSize(g_QR));
@@ -162,21 +162,21 @@ void main()
 	VDP_SetPaletteEntry(2, COLOR16_DEFAULT_2);
 	VDP_SetPaletteEntry(3, COLOR16_DEFAULT_3);
 	VDP_SetPaletteEntry(13, RGB16(4, 4, 4));
-	for(u16 i = 0; i < 16*16*6; ++i)
+	for (u16 i = 0; i < 16*16*6; ++i)
 	{
 		u8 c, b = g_DataBmp4b[i >> 1];
-		if((i & 0x1) == 0)
+		if ((i & 0x1) == 0)
 			c = b >> 4;
-		else // if((i & 0x1) == 1)
+		else // if ((i & 0x1) == 1)
 			c = b & 0x0F;
-		if(c == 3)
+		if (c == 3)
 			c = 13;
 		g_LMMC4b[i] = c;
 	}
 	VDP_CommandHMMV(150 + 40 - 2, 104 + 40 - 2, 16 + 4, 16 + 4, 0xFF);
 	VDP_CommandLMMC_Arg(g_LMMC4b, 150 + 40 + 15, 104 + 40, 16, 16, VDP_OP_TIMP, VDP_ARG_DIX_LEFT);
 
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 	}

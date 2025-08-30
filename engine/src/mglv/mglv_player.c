@@ -28,7 +28,7 @@ void MGLV_DefaultEventCallback(u8 cmd);
 // MEMORY DATA
 //=============================================================================
 
-const struct MGLV_Header* g_MGLV_Header;
+const MGLV_Header* g_MGLV_Header;
 const u8* g_MGLV_Start;
 const u8* g_MGLV_Pointer;
 u16 g_MGLV_VRAMAddr;
@@ -59,16 +59,16 @@ void MGLV_DefaultEventCallback(u8 cmd)
 // Start movie playback.
 bool MGLV_Play(const void* addr)
 {
-	g_MGLV_Header = (struct MGLV_Header*)addr;
+	g_MGLV_Header = (MGLV_Header*)addr;
 	g_MGLV_Start = addr;
 	g_MGLV_Timer = 5;
 	g_MGLV_Loop = FALSE;
 	#if (MGLV_HAS_HEADER)
-		if(g_MGLV_Header->Flag & MGLV_IMAGE_HEADER)
+		if (g_MGLV_Header->Flag & MGLV_IMAGE_HEADER)
 		{
 			g_MGLV_Start += 8;
 			g_MGLV_Timer = g_MGLV_Header->Replay & MGLV_FRAME_SKIP_MASK;
-			if(g_MGLV_Header->Replay & MGLV_LOOP)
+			if (g_MGLV_Header->Replay & MGLV_LOOP)
 				g_MGLV_Loop = TRUE;
 		}
 		else
@@ -305,10 +305,10 @@ __endasm;
 // Decode a frame of movie
 void MGLV_Decode()
 {
-	if(g_MGLV_Counter < g_MGLV_Timer)
+	if (g_MGLV_Counter < g_MGLV_Timer)
 		return;
 
-	if(g_MGLV_Counter == g_MGLV_Timer)
+	if (g_MGLV_Counter == g_MGLV_Timer)
 		VDP_SetColor(COLOR_BLACK);
 	else
 		VDP_SetColor(COLOR_DARK_RED);
@@ -318,15 +318,15 @@ void MGLV_Decode()
 
 mglvDecodeLoop:
 
-	while(1)
+	while (1)
 	{
 		u8 cmd = *g_MGLV_Pointer & 0xF;
-		switch(cmd)
+		switch (cmd)
 		{
 		//---------- EVENTS ----------
 		case MGLV_CMD_END_VIDEO:	// 00					End of data (handle loop if needed)
 		{
-			if(g_MGLV_Loop)
+			if (g_MGLV_Loop)
 			{
 				g_MGLV_Pointer = g_MGLV_Start;
 				g_MGLV_EventCallback(cmd);

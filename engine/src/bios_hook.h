@@ -83,7 +83,7 @@ inline void Bios_BackupHook(u16 hook, void* buffer)
 
 // // inline void AddDeferredHook()
 // {
-// 	if(g_DeferredHookCount < MAX_DEFERRED_HOOK)
+// 	if (g_DeferredHookCount < MAX_DEFERRED_HOOK)
 // 	{
 // 		DeferredHooks[DeferredHookCount] = g_LastCallback;
 // 		DeferredHookCount++;

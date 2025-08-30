@@ -6,17 +6,17 @@
 bool File_Copy(const c8* src, const c8* dst)
 {
 	u8 sFD, dFD;
-	if((sFD = DOS_OpenHandle(src, O_RDONLY)) == 0)
+	if ((sFD = DOS_OpenHandle(src, O_RDONLY)) == 0)
 		return FALSE;
-	if((dFD = DOS_CreateHandle(dst, O_WRONLY, 0)) == 0)
+	if ((dFD = DOS_CreateHandle(dst, O_WRONLY, 0)) == 0)
 		return FALSE;
 
 	u8 err = DOS_ERR_NONE;
 	u16 wrc = 0;
-	while(1)
+	while (1)
 	{
 		u16 rd = DOS_ReadHandle(sFD, Mem_GetHeapAddress(), 256);
-		if(rd == 0xFFFF)
+		if (rd == 0xFFFF)
 		{
 			err = DOS_GetLastError();
 			break;

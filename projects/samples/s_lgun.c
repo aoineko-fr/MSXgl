@@ -127,23 +127,23 @@ void main()
 	u8 keyWait = 0;
 
 	// Main loop
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Print_SetPosition(31, 0);
 		Print_DrawChar(g_ChrAnim[g_FrameCount++ & 0x03]);
 
-		if(keyWait == 0 && Keyboard_IsKeyPressed(KEY_M))
+		if (keyWait == 0 && Keyboard_IsKeyPressed(KEY_M))
 		{
 			g_Move = !g_Move;
 			keyWait = 20;
 		}
-		else if(keyWait > 0)
+		else if (keyWait > 0)
 		{
 			keyWait--;
 		}
 
 
-		if(g_Move)
+		if (g_Move)
 		{
 			UpdatePosition();
 			UpdateSprite();

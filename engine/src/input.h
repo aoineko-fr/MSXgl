@@ -139,7 +139,7 @@ inline u8 Joystick_GetDirectionChange(u8 port)
 {
 	u8 in = g_JoyStats[port >> 6]  & JOY_INPUT_DIR_MASK;
 	u8 prev = g_JoyStatsPrev[port >> 6]  & JOY_INPUT_DIR_MASK;
-	if(in == prev)
+	if (in == prev)
 		in = JOY_INPUT_DIR_UNCHANGED;
 	return in;
 }
@@ -270,7 +270,7 @@ enum MOUSE_SPEED
 };
 
 // Mouse state structure (don't change parameter order)
-typedef struct
+typedef struct Mouse_State
 {
 	u8			Buttons;
 	i8			dX;

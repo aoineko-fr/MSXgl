@@ -414,7 +414,7 @@ u16 g_RandomSeed16 = 1;
 // Initialize random generator seed
 void Math_SetRandomSeed16(u16 seed)
 {
-	if(seed)
+	if (seed)
 		g_RandomSeed16 = seed;
 	else
 		g_RandomSeed16 = 0x7FFF;

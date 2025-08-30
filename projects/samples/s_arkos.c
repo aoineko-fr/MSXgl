@@ -163,7 +163,7 @@ void VBlankHook()
 // Wait for V-Blank period to synchronize main loop with display frequency
 void WaitVBlank()
 {
-	while(!g_VBlank) {}
+	while (!g_VBlank) {}
 	g_VBlank = FALSE;
 }
 
@@ -180,7 +180,7 @@ void DisplayFreq()
 void DisplaySFX()
 {
 	Print_SetPosition(0, 14);
-	if(g_CurrentPlayer->InitSFX)
+	if (g_CurrentPlayer->InitSFX)
 		Print_DrawFormat("SFX: %i/%i        ", g_SFXNum ? g_SFXIdx + 1 : 0, g_SFXNum);
 	else
 		Print_DrawText("SFX: Unsupported");
@@ -198,7 +198,7 @@ void SetMusic(u8 idx)
 
 	// If current replayer supports SFX, initialize the sound bank
 	// Note: SFX data have been exported to be replayed at address 0xE000
-	if(g_CurrentPlayer->InitSFX) 
+	if (g_CurrentPlayer->InitSFX) 
 	{
 		Mem_Copy(g_AKX_effects, (void*)0xE000, sizeof(g_AKX_effects));
 		g_SFXNum = g_CurrentPlayer->InitSFX((const void*)0xE000); // can be AKG_InitSFX or AKM_InitSFX
@@ -224,9 +224,9 @@ void SetMusic(u8 idx)
 void SetPlayer(u8 idx)
 {
 	// Stop previous playing song (using the previous replayer)
-	if(g_CurrentPlayer)
+	if (g_CurrentPlayer)
 	{
-		if(g_CurrentPlayer->Stop)
+		if (g_CurrentPlayer->Stop)
 			g_CurrentPlayer->Stop();
 	}
 
@@ -235,7 +235,7 @@ void SetPlayer(u8 idx)
 	g_CurrentPlayer = &g_PlayerEntry[idx];
 
 	// Display cursor on front of the selected replayer
-	for(u8 i = 0; i < numberof(g_PlayerEntry) ; i++)
+	for (u8 i = 0; i < numberof(g_PlayerEntry) ; i++)
 		Print_DrawCharAt(0, i + 5, (i == idx) ? '\x8A' : ' ');
 
 	// Play the current music with the newly selected replayer
@@ -265,7 +265,7 @@ void main()
 
 	// Display the list of the replayers
 	Print_DrawTextAt(0, 3, "Player: ");
-	for(u8 i = 0; i < numberof(g_PlayerEntry) ; i++)
+	for (u8 i = 0; i < numberof(g_PlayerEntry) ; i++)
 		Print_DrawTextAt(2, i + 5, g_PlayerEntry[i].Name);		
 
 	// Select first replayer and fist music
@@ -289,12 +289,12 @@ void main()
 	u8 prevRow7 = 0xFF;
 	u8 prevRow8 = 0xFF;
 	u8 frameCount = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		// Wait for synchronizaion signal
 		WaitVBlank();
 
-		if(g_Freq50Hz || (frameCount % 6) != 0)
+		if (g_Freq50Hz || (frameCount % 6) != 0)
 		{
 			VDP_SetColor(0xF5);
 			g_CurrentPlayer->Decode();
@@ -309,47 +309,47 @@ void main()
 		u8 row7 = Keyboard_Read(7);
 		u8 row8 = Keyboard_Read(8);
 		// Change played music
-		if(IS_KEY_PUSHED(row8, prevRow8, KEY_RIGHT))
+		if (IS_KEY_PUSHED(row8, prevRow8, KEY_RIGHT))
 		{
-			if(g_MusicIdx < numberof(g_MusicEntryAKG) - 1)
+			if (g_MusicIdx < numberof(g_MusicEntryAKG) - 1)
 				SetMusic(g_MusicIdx + 1);
 		}
-		else if(IS_KEY_PUSHED(row8, prevRow8, KEY_LEFT))
+		else if (IS_KEY_PUSHED(row8, prevRow8, KEY_LEFT))
 		{
-			if(g_MusicIdx > 0)
+			if (g_MusicIdx > 0)
 				SetMusic(g_MusicIdx - 1);
 		}
 		// Change Arkos replayer
-		if(IS_KEY_PUSHED(row8, prevRow8, KEY_UP))
+		if (IS_KEY_PUSHED(row8, prevRow8, KEY_UP))
 		{
-			if(g_PlayerIdx > 0)
+			if (g_PlayerIdx > 0)
 				SetPlayer(g_PlayerIdx - 1);
 		}
-		else if(IS_KEY_PUSHED(row8, prevRow8, KEY_DOWN))
+		else if (IS_KEY_PUSHED(row8, prevRow8, KEY_DOWN))
 		{
-			if(g_PlayerIdx < numberof(g_PlayerEntry) - 1)
+			if (g_PlayerIdx < numberof(g_PlayerEntry) - 1)
 				SetPlayer(g_PlayerIdx + 1);
 		}
 		// Stop music playback
-		if(IS_KEY_PUSHED(row8, prevRow8, KEY_SPACE))
+		if (IS_KEY_PUSHED(row8, prevRow8, KEY_SPACE))
 		{
-			if(g_CurrentPlayer->Stop)
+			if (g_CurrentPlayer->Stop)
 				g_CurrentPlayer->Stop();
 		}
 		// SFX playback
-		if(IS_KEY_PUSHED(row7, prevRow7, KEY_BACK))
+		if (IS_KEY_PUSHED(row7, prevRow7, KEY_BACK))
 		{
-			if(g_CurrentPlayer->PlaySFX)
+			if (g_CurrentPlayer->PlaySFX)
 			{
 				DisplaySFX();
 				g_CurrentPlayer->PlaySFX(g_SFXIdx, ARKOS_CHANNEL_C, 0);
 				g_SFXIdx++;
-				if(g_SFXIdx >= g_SFXNum)
+				if (g_SFXIdx >= g_SFXNum)
 					g_SFXIdx = 0;
 			}
 		}
 		// Change frequency
-		if(IS_KEY_PUSHED(row7, prevRow7, KEY_RETURN))
+		if (IS_KEY_PUSHED(row7, prevRow7, KEY_RETURN))
 		{
 			g_Freq50Hz = 1 - g_Freq50Hz;
 			DisplayFreq();

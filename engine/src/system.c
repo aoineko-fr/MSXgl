@@ -15,7 +15,7 @@ u8 Sys_GetPageSlot(u8 page)
 	u8 slot = (g_PortPrimarySlot >> (page * 2)) & 0x03;
 	
 	// Check if slot is expended
-	if(g_EXPTBL[slot] & SLOT_EXP)
+	if (g_EXPTBL[slot] & SLOT_EXP)
 	{
 		u8 prevSlot = g_PortPrimarySlot; // Backup current primary slots register
 		DisableInterrupt();
@@ -41,7 +41,7 @@ void Sys_SetPageSlot(u8 page, u8 slotId)
 	// static const u8 mask10[4] = { 0b00000010, 0b00001000, 0b00100000, 0b10000000 };
 	// static const u8 mask11[4] = { 0b00000011, 0b00001100, 0b00110000, 0b11000000 };
 	DisableInterrupt();
-	if(slotId & SLOT_EXP)
+	if (slotId & SLOT_EXP)
 	{
 		// u8 prevSlot = g_PortPrimarySlot;
 		// g_PortPrimarySlot = (prevSlot & ~(0b11000000 | (0b00000011 << (page * 2)))) | ((slotId & 0b00000011) << (page * 2)) | ((slotId & 0b00000011) << 6);
@@ -138,18 +138,18 @@ __endasm;
 // Check all slots with a given callback function
 u8 Sys_CheckSlot(CheckSlotCallback cb)
 {
-	for(u8 slot = 0; slot < 4; ++slot)
+	for (u8 slot = 0; slot < 4; ++slot)
 	{
-		if(g_EXPTBL[slot] & SLOT_EXP)
+		if (g_EXPTBL[slot] & SLOT_EXP)
 		{
-			for(u8 sub = 0; sub < 4; ++sub)
+			for (u8 sub = 0; sub < 4; ++sub)
 			{
 				u8 slotId = SLOTEX(slot, sub);
-				if(cb(slotId))
+				if (cb(slotId))
 					return slotId;
 			}
 		}
-		else if(cb(slot))
+		else if (cb(slot))
 			return slot;
 	}
 	return SLOT_NOTFOUND;

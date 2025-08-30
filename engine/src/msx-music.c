@@ -61,9 +61,9 @@ bool MSXMusic_CheckInternal(u8 slotId)
 {
 	const c8* ptr = g_MSXMusic_Ident;
 	u16 dest = 0x4018;
-	while(*ptr != 0)
+	while (*ptr != 0)
 	{
-		if(*ptr != Bios_InterSlotRead(slotId, dest++))
+		if (*ptr != Bios_InterSlotRead(slotId, dest++))
 			return FALSE;
 		ptr++;
 	}
@@ -76,9 +76,9 @@ bool MSXMusic_CheckExternal(u8 slotId)
 {
 	const c8* ptr = g_MSXMusic_Ident + 4;
 	u16 dest = 0x401C;
-	while(*ptr != 0)
+	while (*ptr != 0)
 	{
-		if(*ptr != Bios_InterSlotRead(slotId, dest++))
+		if (*ptr != Bios_InterSlotRead(slotId, dest++))
 			return FALSE;
 		ptr++;
 	}
@@ -91,12 +91,12 @@ u8 MSXMusic_Detect()
 {
 	// Check internal MSX-Music chip
 	g_MSXMusic_SlotId = Sys_CheckSlot(MSXMusic_CheckInternal);
-	if(g_MSXMusic_SlotId != SLOT_NOTFOUND)
+	if (g_MSXMusic_SlotId != SLOT_NOTFOUND)
 		return MSXMUSIC_INTERNAL;
 
 	// Check external MSX-Music chip
 	g_MSXMusic_SlotId = Sys_CheckSlot(MSXMusic_CheckExternal);
-	if(g_MSXMusic_SlotId != SLOT_NOTFOUND)
+	if (g_MSXMusic_SlotId != SLOT_NOTFOUND)
 	{
 		// Activate external FM-PAC
 		u8 val = Bios_InterSlotRead(g_MSXMusic_SlotId, 0x7FF6);
@@ -115,7 +115,7 @@ void MSXMusic_SetRegister(u8 reg, u8 value)
 	g_MSXMusic_DataPort = value;
 
 	#if (MSXMUSIC_USE_RESUME)
-	if((g_MSXMusic_DoBackup) && ((reg & 0xF0) == 0x20)) // MSXMUSIC_REG_CTRL_x
+	if ((g_MSXMusic_DoBackup) && ((reg & 0xF0) == 0x20)) // MSXMUSIC_REG_CTRL_x
 		g_MSXMusic_RegBackup[reg & 0x0F] = value;
 	#endif
 }
