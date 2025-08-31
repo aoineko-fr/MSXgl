@@ -718,6 +718,13 @@ inline void VDP_EnableVBlank(bool enable) { VDP_RegWriteBakMask(1, (u8)~R01_IE0,
 //   color - Defaut color (Format: [TXT:4|BG:4])
 inline void VDP_SetColor(u8 color) { VDP_RegWrite(7, color); }
 
+// Function: VDP_SetBackdropColor
+// Set backdrop color (register 7). [MSX1/2/2+/TR]
+//
+// Parameters:
+//   color - Backdrop color
+inline void VDP_SetBackdropColor(u8 color) { VDP_SetColor(color); }
+
 // Function: VDP_SetColor2
 // Set text and border default color (register 7). [MSX1/2/2+/TR]
 //

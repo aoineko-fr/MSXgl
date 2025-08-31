@@ -1120,6 +1120,7 @@ void Print_Clear()
 // @param		num			Number of characters to remove
 void Print_Backspace(u8 num)
 {
+	num;
 	if (VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
 	{
 		#if (PRINT_USE_BITMAP)

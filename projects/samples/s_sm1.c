@@ -274,8 +274,8 @@ void main()
 			if (g_Move)
 			{
 				const struct Vector* mov = &s_DirMove[i & 0x7];
-				sprt->X = sprt->X + mov->x;
 				sprt->Y = (sprt->Y + mov->y) & 0x7F;
+				sprt->X = sprt->X + mov->x;
 			}
 			if (i < g_Count)
 				VDP_WriteVRAM_16K((const u8*)sprt, vram, 2);
