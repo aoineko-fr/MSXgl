@@ -409,7 +409,7 @@
 //	0	MXC	MXD	MXS	DIY	DIX	EQ	MAJ
 //  	│	│	│	│	│	│	└── MAJ must specify the longest side. 0 for horizontal, 1 for vertical. (Used only by the LINE command.) 
 //  	│	│	│	│	│	└────── EQ = 0 to stop the search when the color is found, 1 to stop the search when the color is different from that set. 
-//  	│	│	│	│	└────────── TEN = When this bit is at 1, the horizontal displacement value (register 40 and 41) comes negative. The displacement goes to the reverse direction.
+//  	│	│	│	│	└────────── DIX = When this bit is at 1, the horizontal displacement value (register 40 and 41) comes negative. The displacement goes to the reverse direction.
 //  	│	│	│	└────────────── DIY = When this bit is at 1, the vertical displacement value (register 42 and 43) is considered negative. The movement is in the other direction.
 //  	│	│	└────────────────── MXS = Source video memory. 0 for main VRAM; 1 for extended VRAM (for MSX with 192 KB of VRAM).
 //  	│	└────────────────────── MXD = Destination video memory. 0 for main VRAM; 1 for extended VRAM (for MSX with 192 KB of VRAM). This functionality has not been integrated into the MSX standard.

@@ -206,6 +206,12 @@
  <div class="CBody"><p>Set text and border default color (register 7). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Defaut color (Format: [TXT:4|BG:4])</p></td></tr></table></div>
 </div>
 
+<a name="VDP_SetBackdropColor"></a><a name="Topic712"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetBackdropColor</div>
+ <div id="NDPrototype712" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetBackdropColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set backdrop color (register 7). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Backdrop color</p></td></tr></table></div>
+</div>
+
 <a name="VDP_SetColor2"></a><a name="Topic176"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetColor2</div>
  <div id="NDPrototype176" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetColor2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
@@ -777,15 +783,15 @@
  <div class="CBody"><p>Read to VRAM command loop. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Address of the destination buffer (in RAM)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_CommandCustomR32"></a><a name="Topic574"></a><div class="CTopic TFunction LC">
+<a name="VDP_CommandCustomR32"></a><a name="Topic713"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_CommandCustomR32</div>
- <div id="NDPrototype574" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_CommandCustomR32(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const struct</span>&nbsp;</td><td class="PType">VDP_Command*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype713" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_CommandCustomR32(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">VDP_Command*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Send VDP custom command through buffer (form registres 32 to 46). [MSX2/2+/TR]</p></div>
 </div>
 
-<a name="VDP_CommandCustomR36"></a><a name="Topic575"></a><div class="CTopic TFunction LC last">
+<a name="VDP_CommandCustomR36"></a><a name="Topic773"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">VDP_CommandCustomR36</div>
- <div id="NDPrototype575" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_CommandCustomR36(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const struct</span>&nbsp;</td><td class="PType">VDP_Command36*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype773" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_CommandCustomR36(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">VDP_Command36*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Send VDP custom command through buffer (form registres 36 to 46). [MSX2/2+/TR]</p></div>
 </div>
 

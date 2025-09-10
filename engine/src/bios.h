@@ -363,12 +363,92 @@ void Bios_SetCursorPosition(u8 X, u8 Y);
 //-----------------------------------------------------------------------------
 
 // Function: Bios_GetJoystickDirection
-// Returns the joystick status. Wrapper for GTSTCK routine.
+// Returns the state of the joystick or the cursor keys.
+// Wrapper for GTSTCK routine.
+//
+// Parameters:
+//   port - Joystick number to be tested:
+//> 0 = Cursor keys
+//> 1 = Joystick on port 1
+//> 2 = Joystick on port 2
+//
+// Return:
+//   Direction of the joystick or function keys (0-8):
+//>  8  1  2
+//>   \ | /
+//> 7 - 0 - 3
+//>   / |'\'
+//>  6  5  4
 inline u8 Bios_GetJoystickDirection(u8 port) { return ((u8(*)(u8))R_GTSTCK)(port); }
 
 // Function: Bios_GetJoystickTrigger
-// Returns current trigger status. Wrapper for GTTRIG routine.
+// Returns the state of the mouse, joystick or keyboard space bar buttons.
+// Wrapper for GTTRIG routine.
+//
+// Parameters:
+//   trigger - Trigger button to test:
+//> 0 = space bar
+//> 1 = port 1, button A
+//> 2 = port 2, button A
+//> 3 = port 1, button B
+//> 4 = port 2, button B
+//
+// Return:
+//   FALSE if trigger button is not pressed
 inline bool Bios_GetJoystickTrigger(u8 trigger) { return ((u8(*)(u8))R_GTTRIG)(trigger); }
+
+// Function: Bios_GetTouchPad
+// Returns the touch pad status.
+// Wrapper for GTPAD routine.
+//
+// Parameters:
+//   entry - Function call number. Fetch device data first, then read:
+//> MSX1:
+//>   0 = Fetch touch pad data from port 1 (#FF if available)
+//>   1 = Read X-position
+//>   2 = Read Y-position
+//>   3 = Read touchpad status from port 1 (#FF if pressed
+//>   4 = Fetch touch pad data from port 2 (#FF if available)
+//>   5 = Read X-position
+//>   6 = Read Y-position
+//>   7 = Read touchpad status from port 2 (#FF if pressed)
+//> MSX2/2+/turbo R: 
+//>   8 = Fetch light pen data (#FF if available)
+//>   9 = Read X-position
+//>  10 = Read Y-position
+//>  11 = Read light pen status (#FF if pressed)
+//>  12 = Fetch mouse data from port 1 (#FF if available)
+//>  13 = Read X-position
+//>  14 = Read Y-position
+//>  15 = Read mouse button status from port 1 (#FF if pressed)
+//>  16 = Fetch mouse data from port 2 (#FF if available)
+//>  17 = Read X-position
+//>  18 = Read Y-position
+//            19 = Read mouse button status from port 2 (#FF if pressed)
+//
+// Return:
+//   Value depending on entry parameter
+inline u8 Bios_GetTouchPad(u8 entry) { return ((u8(*)(u8))R_GTPAD)(entry); }
+
+// Function: Bios_GetPaddle
+// Returns the paddle position.
+// Wrapper for GTPDL routine.
+//
+// Parameters:
+//   num - Paddle number (1-12):
+//> Paddle | Port1 | Port2
+//> -------+-------+-------
+//>    A   |   1   |   2
+//>    B   |   3   |   4
+//>    C   |   5   |   6
+//>    D   |   7   |   8
+//>    E   |   9   |   10
+//>    F   |   11  |   12
+//
+// Return:
+//   Paddle position (0-255)
+inline u8 Bios_GetPaddle(u8 num) { return ((u8(*)(u8))R_GTPDL)(num); }
+
 
 //=============================================================================
 // Misc routines
