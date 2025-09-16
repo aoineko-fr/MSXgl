@@ -1133,10 +1133,14 @@ if (DoRun)
 	//=============================================================================
 	// EMULATOR
 	//=============================================================================
-	else
+	else if (process.platform === "win32")
 	{
 		require("./setup_emulator.js");
 
 		util.exec(`"${Emulator}" ${EmulatorArgs}`);
+	} else {
+		require("./setup_emulator.js");
+
+		util.execSync(`"${Emulator}" ${EmulatorArgs}`);
 	}
 }
