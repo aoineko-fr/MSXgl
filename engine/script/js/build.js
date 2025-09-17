@@ -824,7 +824,7 @@ if (DoDeploy)
 
 	let DskToolPath = path.parse(DskTool).dir + '/';
 	let DskToolName = path.parse(DskTool).base;
-	if (process.platform === "linux")
+	if (process.platform !== "win32") // Linux & MacOS
 		DskToolName = `./${DskToolName}`;
 	let projNameShort = ProjName.substring(0, 8);
 
@@ -1180,6 +1180,6 @@ if (DoRun)
 	{
 		require("./setup_emulator.js");
 
-		util.exec(`"${Emulator}" ${EmulatorArgs}`);
+		util.execSync(`"${Emulator}" ${EmulatorArgs}`);
 	}
 }
