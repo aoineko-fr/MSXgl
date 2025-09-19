@@ -29,8 +29,8 @@ bool			g_GameExit = FALSE;
 #endif
 
 #if (GAME_USE_STATE)
-State			g_GameState = NULL;
-State			g_GamePrevState = NULL;
+GameState		g_GameState = NULL;
+GameState		g_GamePrevState = NULL;
 #endif
 
 #if (GAME_USE_VSYNC)
@@ -127,7 +127,7 @@ void Game_Start(u8 screenMode, bool b60hz)
 //-----------------------------------------------------------------------------
 // Set the next state (change will be effective at the next state update)
 // @param		newState	The new state to start (can be NULL to desactivate state-machine)
-void Game_SetState(State newState)
+void Game_SetState(GameState newState)
 {
 	g_GamePrevState = g_GameState;
 	g_GameState = newState;
@@ -137,7 +137,7 @@ void Game_SetState(State newState)
 // Restore the previous state
 void Game_RestoreState()
 {
-	State prev = g_GamePrevState;
+	GameState prev = g_GamePrevState;
 	g_GamePrevState = g_GameState;
 	g_GameState = prev;
 }

@@ -74,13 +74,13 @@ inline void Game_Exit() { g_GameExit = TRUE; }
 // DEFINES
 
 // Functions
-typedef bool (*State)(void);	// Callback default signature
+typedef bool (*GameState)(void);	// Callback default signature
 
 //-----------------------------------------------------------------------------
 // RAM DATA
 
-extern State g_GameState;
-extern State g_GamePrevState;
+extern GameState g_GameState;
+extern GameState g_GamePrevState;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -90,7 +90,7 @@ extern State g_GamePrevState;
 //
 // Parameters:
 //   newState - The new state to execute
-void Game_SetState(State newState);
+void Game_SetState(GameState newState);
 
 // Function: Game_RestoreState
 // Restore the previous state
@@ -105,7 +105,7 @@ void Game_UpdateState();
 //
 // Return:
 //   Address of the current state function
-inline State Game_GetCurrentState() { return g_GameState; }
+inline GameState Game_GetCurrentState() { return g_GameState; }
 
 #endif // (GAME_USE_STATE)
 

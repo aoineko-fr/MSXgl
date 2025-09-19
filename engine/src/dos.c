@@ -141,12 +141,11 @@ __asm
 	ld		a, c					;// Get error code
 	or		a, #0x70				;// Add marker so 0 is no error
 	ld		(_g_DOS_LastError), a	;// Save the error code
-	// ld		c, #DOS1_ERROR_RET_ABORT ;// Return 'Abort' action
-	ld		sp, (_g_DOS_ErrorStack)		;// Restore stack pointer
+	ld		c, #DOS1_ERROR_RET_ABORT ;// Return 'Abort' action
+	// ld		sp, (_g_DOS_ErrorStack)	;// Restore stack pointer
 	ret
 __endasm;
 }
-
 
 //-----------------------------------------------------------------------------
 // Abort error andler
@@ -163,15 +162,15 @@ __endasm;
 void DOS_InitErrorHandler()
 {
 	// Install error handler to memory
-	void* ptr = 0xD000;//Mem_HeapAlloc(16);
+	void* ptr = 0xE000;//Mem_HeapAlloc(16);
 	Mem_Copy((const void*)DOS_ErrorHandler, ptr, 16);
 	g_DOS_ErrorHandler = ptr;
 	Poke16(M_DISKVE, (u16)&g_DOS_ErrorHandler);
 
-	// // Install abort handler to memory
-	// ptr = 0xD010;//Mem_HeapAlloc(8);
-	// Mem_Copy((const void*)DOS_AbortHandler, ptr, 8);
-	// Poke16(0xF1E6, (u16)ptr);
+	// Install abort handler to memory
+	ptr = 0xE020;//Mem_HeapAlloc(8);
+	Mem_Copy((const void*)DOS_AbortHandler, ptr, 8);
+	Poke16(0xF1E6, (u16)ptr);
 }
 
 #endif // (DOS_USE_ERROR_HANDLER)
