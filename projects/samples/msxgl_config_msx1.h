@@ -103,7 +103,7 @@
 #define VDP_USE_DEFAULT_SETTINGS	TRUE	// Auto-initialization of common VDP feature
 #define VDP_USE_16X16_SPRITE		TRUE	// Use 16x16 sprites mode
 #define VDP_USE_RESTORE_S0			TRUE	// Do restore of status register pointer to S#0 (needed onlt for default BIOS ISR)
-#define VDP_USE_PALETTE16			TRUE	// Use 16 entries palette (use only 15 entries otherwise)
+#define VDP_USE_PALETTE16			FALSE	// Use 16 entries palette (use only 15 entries otherwise)
 
 // ISR protection while modifiying VDP registers
 // - VDP_ISR_SAFE_NONE ............ No ISR protection (for program not using VDP interruption)
@@ -116,7 +116,7 @@
 // - VDP_INIT_ON .................. Force option to be enable
 // - VDP_INIT_AUTO ................ Determining the best value for the context
 // - VDP_INIT_DEFAULT ............. Keep default value
-#define VDP_INIT_50HZ				VDP_INIT_ON
+#define VDP_INIT_50HZ				VDP_INIT_DEFAULT
 
 //-----------------------------------------------------------------------------
 // V9990  MODULE
@@ -252,11 +252,64 @@
 #define GAME_USE_STATE				TRUE	// Add state machine features
 #define GAME_USE_VSYNC				TRUE	// Add vertical synchronization features
 #define GAME_USE_LOOP				TRUE	// Add game main loop with call to v-synch and state
+#define GAME_USE_SYNC_50HZ			TRUE	// Force 50Hz synchronization on 60Hz machine
 
 //-----------------------------------------------------------------------------
 // GAME PAWN MODULE
 //-----------------------------------------------------------------------------
 
+// Pawn setting
+#define PAWN_ID_PER_LAYER			FALSE	// Set sprite ID for each layer (otherwise set per pawn)
+#define PAWN_USE_RT_LOAD			TRUE	// Load sprite pattern data on the fly (real-time)
+#define PAWN_USE_SPRT_FX			TRUE	// Allow sprite effects (crop, flip, mask, rotate)
+#define PAWN_SPRITE_SIZE			16		// Sprite size mode (8 for 8x8 pixel mode, or 16 for 16x16)
+#define PAWN_USE_PHYSICS			TRUE	// Add physics and collision features
+// Pawn coordinate unit
+// - PAWN_UNIT_SCREEN				Default screen (pixel) unit (8-bit unsigned int)
+// - PAWN_UNIT_QMN(n)				Fixed-point (Qm.n) unit (16-bit signed int)
+#define PAWN_UNIT					PAWN_UNIT_SCREEN
+// Pawn's bound (can be fixed for all pawn, or setable for each one)
+#define PAWN_BOUND_X				PAWN_BOUND_CUSTOM
+#define PAWN_BOUND_Y				PAWN_BOUND_CUSTOM
+// Collision position options for each pawn's side
+// - PAWN_COL_0
+// - PAWN_COL_25
+// - PAWN_COL_50
+// - PAWN_COL_75
+// - PAWN_COL_100
+#define PAWN_COL_DOWN				(PAWN_COL_25|PAWN_COL_75)
+#define PAWN_COL_UP					PAWN_COL_50
+#define PAWN_COL_RIGHT				PAWN_COL_50
+#define PAWN_COL_LEFT				PAWN_COL_50
+// Options to determine which border collide or trigger events
+// - PAWN_BORDER_NONE
+// - PAWN_BORDER_DOWN
+// - PAWN_BORDER_UP
+// - PAWN_BORDER_RIGHT
+// - PAWN_BORDER_LEFT
+#define PAWN_BORDER_EVENT			(PAWN_BORDER_DOWN|PAWN_BORDER_RIGHT)
+#define PAWN_BORDER_BLOCK			(PAWN_BORDER_UP|PAWN_BORDER_LEFT)
+// Top/bottom border position (in pixel)
+#define PAWN_BORDER_MIN_Y			0		// High border Y coordinade
+#define PAWN_BORDER_MAX_Y			191		// Low border Y coordinate
+#define PAWN_TILEMAP_WIDTH			32		// Width of the tiles map
+#define PAWN_TILEMAP_HEIGHT			24		// Height of the tiles map
+// Collision tilemap source
+// - PAWN_TILEMAP_SRC_AUTO ........ Backward compatibility option
+// - PAWN_TILEMAP_SRC_RAM ......... Tilemap located in a buffer in RAM (best for performance)
+// - PAWN_TILEMAP_SRC_VRAM ........ Tilemap located in VRAM (slow but don't need additionnal data)
+// - PAWN_TILEMAP_SRC_V9 .......... Tilemap located in V9990's VRAM
+#define PAWN_TILEMAP_SRC			PAWN_TILEMAP_SRC_VRAM
+// Pawn's sprite mode
+// - PAWN_SPT_MODE_AUTO ........... Backward compatibility option
+// - PAWN_SPT_MODE_MSX1 ........... Sprite Mode 1 (MSX1 screens)
+// - PAWN_SPT_MODE_MSX2 ........... Sprite Mode 2 (MSX2 screens)
+// - PAWN_SPT_MODE_MSX12 .......... Sprite Mode 1 & 2 (MSX1 & MSX2 screens)
+// - PAWN_SPT_MODE_V9_P1 .......... V9990 sprite in P1 mode
+// - PAWN_SPT_MODE_V9_P2 .......... V9990 sprite in P2 mode
+#define PAWN_SPT_MODE				PAWN_SPT_MODE_MSX1
+
+//########## Obsolete ##########
 // GamePawn setting
 #define GAMEPAWN_ID_PER_LAYER		FALSE	// Set sprite ID for each layer (otherwise set per pawn)
 #define GAMEPAWN_USE_PHYSICS		TRUE	// Add physics and collision features

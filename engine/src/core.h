@@ -83,7 +83,7 @@ typedef void (*callback)(void);				// Callback default signature
 #pragma disable_warning	110		// Remove "conditional flow changed by optimizer: so said EVELYN the modified DOG" warning
 #pragma disable_warning	126		// Remove "unreachable code" warning
 #pragma disable_warning	218 	// Remove "z80instructionSize() failed to parse line node, assuming 999 bytes" info
-// #pragma disable_warning	283 	// Remove "function declarator with no prototype" warning
+#pragma disable_warning	283 	// Remove "function declarator with no prototype" warning
 
 //-----------------------------------------------------------------------------
 // Helper macros

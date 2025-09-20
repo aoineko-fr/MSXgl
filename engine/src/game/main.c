@@ -7,7 +7,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 // Game state handler
 //─────────────────────────────────────────────────────────────────────────────
-#include "game/game.h"
+#include "game/main.h"
 #include "vdp.h"
 #include "bios_hook.h"
 #include "bios_mainrom.h"

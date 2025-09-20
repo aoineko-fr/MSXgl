@@ -183,8 +183,8 @@
 #define DOS_USE_HANDLE				TRUE	// Add support for file managment features through file handle
 #define DOS_USE_UTILITIES			TRUE	// Add support for file managment features through filename
 #define DOS_USE_VALIDATOR			TRUE	// Add support for last error backup and return value validation
-#define DOS_USE_ERROR_HANDLER		TRUE	// Add support for error handler callback
-#define DOS_USE_BIOSCALL			TRUE	// Add support for call to BIOS routines
+#define DOS_USE_ERROR_HANDLER		FALSE	// Add support for error handler callback
+#define DOS_USE_BIOSCALL			FALSE	// Add support for call to BIOS routines
 
 //-----------------------------------------------------------------------------
 // CLOCK MODULE
@@ -252,53 +252,62 @@
 #define GAME_USE_STATE				FALSE	// Add state machine features
 #define GAME_USE_VSYNC				FALSE	// Add vertical synchronization features
 #define GAME_USE_LOOP				FALSE	// Add game main loop with call to v-synch and state
+#define GAME_USE_SYNC_50HZ			TRUE	// Force 50Hz synchronization on 60Hz machine
 
 //-----------------------------------------------------------------------------
 // GAME PAWN MODULE
 //-----------------------------------------------------------------------------
 
-// GamePawn setting
-#define GAMEPAWN_ID_PER_LAYER		FALSE	// Set sprite ID for each layer (otherwise set per pawn)
-#define GAMEPAWN_USE_PHYSICS		FALSE	// Add physics and collision features
+// Pawn setting
+#define PAWN_ID_PER_LAYER			FALSE	// Set sprite ID for each layer (otherwise set per pawn)
+#define PAWN_USE_RT_LOAD			TRUE	// Load sprite pattern data on the fly (real-time)
+#define PAWN_USE_SPRT_FX			TRUE	// Allow sprite effects (crop, flip, mask, rotate)
+#define PAWN_SPRITE_SIZE			16		// Sprite size mode (8 for 8x8 pixel mode, or 16 for 16x16)
+#define PAWN_USE_PHYSICS			TRUE	// Add physics and collision features
+// Pawn coordinate unit
+// - PAWN_UNIT_SCREEN				Default screen (pixel) unit (8-bit unsigned int)
+// - PAWN_UNIT_QMN(n)				Fixed-point (Qm.n) unit (16-bit signed int)
+#define PAWN_UNIT					PAWN_UNIT_SCREEN
 // Pawn's bound (can be fixed for all pawn, or setable for each one)
-#define GAMEPAWN_BOUND_X			GAMEPAWN_BOUND_CUSTOM
-#define GAMEPAWN_BOUND_Y			GAMEPAWN_BOUND_CUSTOM
+#define PAWN_BOUND_X				PAWN_BOUND_CUSTOM
+#define PAWN_BOUND_Y				PAWN_BOUND_CUSTOM
 // Collision position options for each pawn's side
-// - GAMEPAWN_COL_0
-// - GAMEPAWN_COL_25
-// - GAMEPAWN_COL_50
-// - GAMEPAWN_COL_75
-// - GAMEPAWN_COL_100
-#define GAMEPAWN_COL_DOWN			0
-#define GAMEPAWN_COL_UP				0
-#define GAMEPAWN_COL_RIGHT			0
-#define GAMEPAWN_COL_LEFT			0
+// - PAWN_COL_0
+// - PAWN_COL_25
+// - PAWN_COL_50
+// - PAWN_COL_75
+// - PAWN_COL_100
+#define PAWN_COL_DOWN				(PAWN_COL_25|PAWN_COL_75)
+#define PAWN_COL_UP					PAWN_COL_50
+#define PAWN_COL_RIGHT				PAWN_COL_50
+#define PAWN_COL_LEFT				PAWN_COL_50
 // Options to determine which border collide or trigger events
-// - GAMEPAWN_BORDER_NONE
-// - GAMEPAWN_BORDER_DOWN
-// - GAMEPAWN_BORDER_UP
-// - GAMEPAWN_BORDER_RIGHT
-// - GAMEPAWN_BORDER_LEFT
-#define GAMEPAWN_BORDER_EVENT		0
-#define GAMEPAWN_BORDER_BLOCK		0
+// - PAWN_BORDER_NONE
+// - PAWN_BORDER_DOWN
+// - PAWN_BORDER_UP
+// - PAWN_BORDER_RIGHT
+// - PAWN_BORDER_LEFT
+#define PAWN_BORDER_EVENT			(PAWN_BORDER_DOWN|PAWN_BORDER_RIGHT)
+#define PAWN_BORDER_BLOCK			(PAWN_BORDER_UP|PAWN_BORDER_LEFT)
 // Top/bottom border position (in pixel)
-#define GAMEPAWN_BORDER_MIN_Y		0		// High border Y coordinade
-#define GAMEPAWN_BORDER_MAX_Y		191		// Low border Y coordinate
-#define GAMEPAWN_TILEMAP_WIDTH		32		// Width of the tiles map
-#define GAMEPAWN_TILEMAP_HEIGHT		24		// Height of the tiles map
+#define PAWN_BORDER_MIN_Y			0		// High border Y coordinade
+#define PAWN_BORDER_MAX_Y			191		// Low border Y coordinate
+#define PAWN_TILEMAP_WIDTH			32		// Width of the tiles map
+#define PAWN_TILEMAP_HEIGHT			24		// Height of the tiles map
 // Collision tilemap source
-// - GAMEPAWN_TILEMAP_SRC_AUTO .... Backward compatibility option
-// - GAMEPAWN_TILEMAP_SRC_RAM ..... Tilemap located in a buffer in RAM (best for performance)
-// - GAMEPAWN_TILEMAP_SRC_VRAM .... Tilemap located in VRAM (slow but don't need additionnal data)
-// - GAMEPAWN_TILEMAP_SRC_V9 ...... Tilemap located in V9990's VRAM
-#define GAMEPAWN_TILEMAP_SRC		GAMEPAWN_TILEMAP_SRC_VRAM
+// - PAWN_TILEMAP_SRC_AUTO ........ Backward compatibility option
+// - PAWN_TILEMAP_SRC_RAM ......... Tilemap located in a buffer in RAM (best for performance)
+// - PAWN_TILEMAP_SRC_VRAM ........ Tilemap located in VRAM (slow but don't need additionnal data)
+// - PAWN_TILEMAP_SRC_V9 .......... Tilemap located in V9990's VRAM
+#define PAWN_TILEMAP_SRC			PAWN_TILEMAP_SRC_VRAM
 // Pawn's sprite mode
-// - GAMEPAWN_SPT_MODE_AUTO ....... Backward compatibility option
-// - GAMEPAWN_SPT_MODE_MSX1 ....... Sprite Mode 1 (MSX1 screens)
-// - GAMEPAWN_SPT_MODE_MSX2 ....... Sprite Mode 2 (MSX2 screens)
-// - GAMEPAWN_SPT_MODE_V9_P1 ...... V9990 sprite in P1 mode
-// - GAMEPAWN_SPT_MODE_V9_P2 ...... V9990 sprite in P2 mode
-#define GAMEPAWN_SPT_MODE			GAMEPAWN_SPT_MODE_MSX1
+// - PAWN_SPT_MODE_AUTO ........... Backward compatibility option
+// - PAWN_SPT_MODE_MSX1 ........... Sprite Mode 1 (MSX1 screens)
+// - PAWN_SPT_MODE_MSX2 ........... Sprite Mode 2 (MSX2 screens)
+// - PAWN_SPT_MODE_MSX12 .......... Sprite Mode 1 & 2 (MSX1 & MSX2 screens)
+// - PAWN_SPT_MODE_V9_P1 .......... V9990 sprite in P1 mode
+// - PAWN_SPT_MODE_V9_P2 .......... V9990 sprite in P2 mode
+#define PAWN_SPT_MODE				PAWN_SPT_MODE_MSX1
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE
@@ -436,6 +445,11 @@
 #define PT3_SKIP_HEADER				TRUE	// Don't use PT3 data header (first 100 bytes must be truncated)
 #define PT3_AUTOPLAY				TRUE	// Play music automatically
 #define PT3_EXTRA					TRUE	// Add helper functions
+
+// ayFX options
+// - AYFX_BUFFER_DEFAULT .......... Use PSG module PSG register buffer
+// - AYFX_BUFFER_PT3 .............. Use PT3 module PSG register buffer
+#define AYFX_BUFFER					AYFX_BUFFER_PT3
 
 // TriloTracker options
 #define TRILO_USE_SFXPLAY			TRUE	// Add SFX playback through Trilo SCC player (ayFX + SCC format)
@@ -588,7 +602,7 @@
 #define QRCODE_TINY_MASK 			QRCODE_MASK_0
 
 //-----------------------------------------------------------------------------
-// DEBUG
+// DEBUG & PROFILE
 //-----------------------------------------------------------------------------
 
 // Debugger options
