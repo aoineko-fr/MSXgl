@@ -36,10 +36,7 @@ void* g_DOS_ErrorStack;
 
 // Macro to call BDOS with stack backup
 #if (DOS_USE_ERROR_HANDLER)
-	#define BACKUP_STACK \
-		xor a \
-		ld (_g_DOS_LastError), a \
-		ld (_g_DOS_ErrorStack), sp
+	#define BACKUP_STACK			ld (_g_DOS_ErrorStack), sp
 #else
 	#define BACKUP_STACK
 #endif
@@ -1151,5 +1148,99 @@ __asm
 #endif
 	ld		a, b
 	ret								// Return value in A
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Select disk drive number
+//
+// Parameters:    C = 0EH (_SELDSK)
+//                E = Drive number.  0=A:  1=B:   etc.
+// Results:       L=A = Number of drives (1...8)
+// This function simply selects the specified drive as the default drive. The current drive is also stored at address 0004h for CP/M compatibility.
+// The number of drives available is returned in register A but this will not include the RAM disk.
+u8 DOS_SelectDisk(u8 drive) __NAKED
+{
+	drive; // A
+
+__asm
+	ld		c, #DOS_FUNC_SELDSK
+	ld		e, a
+	push	ix
+	call	BDOS
+	pop		ix
+	ret		// Return value in A
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Get a bit field of all available disk drives
+//
+// Parameters:    C = 18H (_LOGIN)
+// Results:       HL = Login vector
+// This function returns a bit set in HL for each drive which is available, bit-0 of L corresponding to drive "A:".
+// Up to eight drives ("A:" to "H:") are supported by the system currently, so register H will usually be zero on return.
+u8 DOS_AvailableDrives() __NAKED __FASTCALL
+{
+__asm
+	ld		c, #DOS_FUNC_LOGIN
+	push	ix
+	call	BDOS
+	pop		ix
+	ret		// Return value in L
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Get current disk drive number
+//
+// Parameters:    C = 19H (_CURDRV)
+// Results:       L=A = Current drive (0=A: etc)
+// This function just returns the current drive number.
+u8 DOS_GetCurrentDrive() __NAKED
+{
+__asm
+	ld		c, #DOS_FUNC_CURDRV
+	push	ix
+	call	BDOS
+	pop		ix
+	ret		// Return value in A
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Get given disk information
+//
+// Parameters:    C = 1BH (_ALLOC)
+//                E = Drive number (0=current, 1=A: etc)
+// Results:       A = Sectors per cluster
+//                BC = Sector size (always 512)
+//                DE = Total clusters on disk
+//                HL = Free clusters on disk
+//                IX = Pointer to DPB
+//                IY = Pointer to first FAT sector
+// This function returns various information about the disk in the specified drive. It is not compatible with CP/M which uses this function number to return the address of an allocation vector.
+// Note that unlike MSX-DOS 1, only the first sector of the FAT may be accessed from the address in IY, and the data there will only remain valid until the next MSX-DOS call.
+void DOS_GetDiskInfo(u8 drive, DOS_DiskInfo* info) __NAKED
+{
+	drive; // A
+	info;  // DE
+
+__asm
+	push	de
+	ld		c, #DOS_FUNC_ALLOC
+	ld		e, a
+	push	ix
+	call	BDOS
+	pop		ix
+	pop		iy						// Get structure pointer
+	ld		0(iy), a				// Sectors per cluster
+	ld		1(iy), c				// Sector size (low byte)
+	ld		2(iy), b				// Sector size (high byte)
+	ld		3(iy), e				// Total clusters (low byte)
+	ld		4(iy), d				// Total clusters (high byte)
+	ld		5(iy), l				// Free clusters (low byte)
+	ld		6(iy), h				// Free clusters (high byte)
+	ret
 __endasm;
 }

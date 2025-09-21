@@ -92,7 +92,7 @@ u8 DiskSave_Initialize()
 	// Clear the FCB structure
 	Mem_Set(0, &g_DiskSave_FCB, sizeof(DOS_FCB));
 
-	// Build the filename for the given slot
+	// Build the filename for the given entry
 	Mem_Copy("TESTDATABIN", g_DiskSave_FCB.Name, 11);
 
 	if (DOS_CreateFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
@@ -119,8 +119,8 @@ u8 DiskSave_Initialize()
 
 
 //-----------------------------------------------------------------------------
-// Build the filename for a given save data slot
-void DiskSave_BuildFilename(u8 slot, c8* buffer, bool pad)
+// Build the filename for a given save data entry
+void DiskSave_BuildFilename(u8 entry, c8* buffer, bool pad)
 {
 	// Clear the FCB structure
 	Mem_Set(0, buffer, 13);
@@ -130,9 +130,9 @@ void DiskSave_BuildFilename(u8 slot, c8* buffer, bool pad)
 	for (i = 0; (i < 6) && (g_DiskSave_Name[i] != 0); ++i)
 		buffer[i] = g_DiskSave_Name[i];
 
-	// Add slot number as hexadecimal digits
-	buffer[i++] = g_HexChar2[slot >> 4];
-	buffer[i++] = g_HexChar2[slot & 0xF];
+	// Add entry number as hexadecimal digits
+	buffer[i++] = g_HexChar2[entry >> 4];
+	buffer[i++] = g_HexChar2[entry & 0xF];
 
 	if (pad)
 	{
@@ -158,22 +158,22 @@ void DiskSave_BuildFilename(u8 slot, c8* buffer, bool pad)
 }
 
 //-----------------------------------------------------------------------------
-// Initialize the FCB structure for a given save data slot
-void DiskSave_InitFCB(u8 slot)
+// Initialize the FCB structure for a given save data entry
+void DiskSave_InitFCB(u8 entry)
 {
 	// Clear the FCB structure
 	Mem_Set(0, &g_DiskSave_FCB, sizeof(DOS_FCB));
 
-	// Build the filename for the given slot
-	DiskSave_BuildFilename(slot, g_DiskSave_FCB.Name, TRUE);
+	// Build the filename for the given entry
+	DiskSave_BuildFilename(entry, g_DiskSave_FCB.Name, TRUE);
 }
 
 //-----------------------------------------------------------------------------
-// Check if a save data slot is valid
-u8 DiskSave_Check(u8 slot)
+// Check if a save data entry is valid
+u8 DiskSave_Check(u8 entry)
 {
 	// Point g_DiskSave_FCB to the file that should be opened
-	DiskSave_InitFCB(slot);
+	DiskSave_InitFCB(entry);
 	
 	if (DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return SAVEDATA_NOTFOUND;  // There was an error / file not found
@@ -202,10 +202,10 @@ u8 DiskSave_Check(u8 slot)
 
 //-----------------------------------------------------------------------------
 // Save data to a file
-bool DiskSave_Save(u8 slot, const u8* data, u16 size)
+bool DiskSave_Save(u8 entry, const u8* data, u16 size)
 {
 	// Point g_DiskSave_FCB to the file that should be opened/created
-	DiskSave_InitFCB(slot);
+	DiskSave_InitFCB(entry);
 	
 	if (DOS_CreateFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return FALSE; // There was an error
@@ -244,10 +244,10 @@ bool DiskSave_Save(u8 slot, const u8* data, u16 size)
 
 //-----------------------------------------------------------------------------
 // Load saved data from a file
-bool DiskSave_Load(u8 slot, u8* dst, u16 size)
+bool DiskSave_Load(u8 entry, u8* dst, u16 size)
 {
 	// Point g_DiskSave_FCB to the file that should be opened
-	DiskSave_InitFCB(slot);
+	DiskSave_InitFCB(entry);
 	
 	// Try to open the file
 	if (DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
@@ -285,21 +285,23 @@ bool DiskSave_Load(u8 slot, u8* dst, u16 size)
 
 //-----------------------------------------------------------------------------
 // Delete saved data from a file
-bool DiskSave_Delete(u8 slot)
+bool DiskSave_Delete(u8 entry)
 {
 	// Point g_DiskSave_FCB to the file that should be opened
-	DiskSave_InitFCB(slot);
+	DiskSave_InitFCB(entry);
 	
-	// Try to open the file
-	if (DOS_OpenFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
-		return FALSE; // There was an error
-
 	// Try to delete the file
 	if (DOS_DeleteFCB(&g_DiskSave_FCB) != DOS_ERR_NONE)
 		return FALSE; // There was an error
 
-	// Close file
-	DOS_CloseFCB(&g_DiskSave_FCB);
-
 	return TRUE;
+}
+
+//-----------------------------------------------------------------------------
+// Get the number of free save data entries available on the disk
+u8 DiskSave_GetFreeEntries()
+{
+	DOS_DiskInfo info;
+	DOS_GetDiskInfo(DOS_DRIVE_DEFAULT, &info);
+	return info.FreeClusters < 255 ? info.FreeClusters : 255;
 }

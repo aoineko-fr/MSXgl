@@ -424,12 +424,24 @@ extern DOS_FIB g_DOS_LastFIB;
 __at(DOS_TPA) u16 DOS_TPAUpperAddr;
 #endif
 
-// DOS version structure
+// MSX-DOS version structure
 typedef struct DOS_Version
 {
 	u16 Kernel;
 	u16 System;
 } DOS_Version;
+
+// MSX-DOS disk information structure
+typedef struct DOS_DiskInfo
+{
+	u8  SectorPerCluster;			// Sectors per cluster
+	u16 SectorSize;					// Sector size (always 512)
+	u16 TotalClusters;				// Total clusters on disk
+	u16 FreeClusters;				// Free clusters on disk
+	//-- not supported --
+	// u16 PDBPointer;					// Pointer to DPB
+	// u16 FATPointer;					// Pointer to first FAT sector
+} DOS_DiskInfo;
 
 // MSX-DOS 2 time structure
 typedef struct DOS_Time
@@ -463,7 +475,6 @@ typedef struct DOS_DiskParam
 	u8	Reserved[8];				// Reserved (currently always zero)
 } DOS_DiskParam;
 
-
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -484,6 +495,8 @@ void DOS_Call(u8 func);
 
 // Function: DOS_Exit0
 // Exit program and return to DOS
+//
+// Wrapper for MSX-DOS's TERM0 routine (0x00)
 // When this is called in MSX-DOS, the system is reset by jumping to 0000H.
 // When MSX DISK-BASIC call this, it is “warm started”.
 // That is, it returns to BASIC command level without destroying programs currently loaded.
@@ -495,6 +508,8 @@ void DOS_Exit0();
 
 // Function: DOS_CharInput
 // Input character
+//
+// Wrapper for MSX-DOS's CONIN routine (0x01)
 // A character will be read from the standard input (file handle 0 - usually the keyboard) and echoed to the standard output (file handle 1 - usually the screen).
 // If no character is ready then this function will wait for one.
 // Various control characters, as specified for the "console status" function (function 0Bh), will be trapped by this function for various control purposes.
@@ -507,6 +522,8 @@ c8 DOS_CharInput();
 
 // Function: DOS_CharOutput
 // Output character
+//
+// Wrapper for MSX-DOS's CONOUT routine (0x02)
 // The character passed in register E is written to the standard output (file handle 1 - usually the screen).
 // If printer echo is enabled then the character is also written to the printer.
 // Various control codes and escape sequences are interpreted as screen control codes.
@@ -1061,7 +1078,133 @@ const DOS_Time* DOS_GetTime();
 
 // Function: DOS_GetVersion
 // Get MSX-DOS version number
+//
+// Parameters:
+//   ver - Pointer to DOS_Version structure
+//
+// Return:
+//   High part of the MSX-DOS kernel version
 u8 DOS_GetVersion(DOS_Version* ver);
+
+// Function: DOS_SelectDrive
+// Select disk drive number
+//
+// Wrapper for MSX-DOS's SELDSK routine (0x0E)
+//
+// Parameters:
+//   drive - Disk drive number (0 for A, 1 for B, ..., 7 for H)
+//
+// Return:
+//   Number of available drives 
+u8 DOS_SelectDrive(u8 drive);
+
+// Function: DOS_SelectDriveLetter
+// Select disk drive letter
+//
+// Wrapper for MSX-DOS's SELDSK routine (0x0E)
+//
+// Parameters:
+//   drive - Disk drive letter ('A', 'B', ..., 'H')
+//
+// Return:
+//   Number of available drives 
+inline u8 DOS_SelectDriveLetter(c8 drive) { return DOS_SelectDrive('A' - drive); }
+
+// Function: DOS_AvailableDrivers
+// Get a bit field of all available disk drives
+//
+// Wrapper for MSX-DOS's LOGIN routine (0x18)
+//
+// Return:
+//   Bit field of available drives (bit 0 for A, bit 1 for B, ..., bit 7 for H)
+u8 DOS_AvailableDrives() __FASTCALL;
+
+// Function: DOS_GetCurrentDrive
+// Get current disk drive number
+//
+// Wrapper for MSX-DOS's CDRV routine (0x19)
+//
+// Return:
+//   Current drive number (0 for A, 1 for B, ..., 7 for H)
+u8 DOS_GetCurrentDrive();
+
+// Function: DOS_GetCurrentDriveLetter
+// Get current disk drive letter
+//
+// Wrapper for MSX-DOS's CDRV routine (0x19)
+//
+// Return:
+//   Current drive letter ('A', 'B', ..., 'H')
+inline c8 DOS_GetCurrentDriveLetter() { return 'A' + DOS_GetCurrentDrive(); }
+
+// Function: DOS_GetDiskInfo
+// Get given disk information
+//
+// Wrapper for MSX-DOS's ALLOC routine (0x1B)
+//
+// Parameters:
+//   drive - Drive number (0 for current drive, 1 for A, 2 for B, ..., 8 for H)
+//   info - Pointer to DOS_DiskInfo structure to receive the information
+void DOS_GetDiskInfo(u8 drive, DOS_DiskInfo* info);
+
+// Function: DOS_GetFreeClusters
+// Retreive number of free clusters from a disk information structure
+//
+// Parameters:
+//   info - Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()
+//
+// Return:
+//   Number of free clusters
+inline u16 DOS_GetFreeClusters(DOS_DiskInfo* info) { return info->FreeClusters; }
+
+// Function: DOS_GetFreeSectors
+// Retreive number of free sectors from a disk information structure
+//
+// Parameters:
+//   info - Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()
+//
+// Return:
+//   Number of free sectors
+inline u32 DOS_GetFreeSectors(DOS_DiskInfo* info) { return (u32)info->FreeClusters * info->SectorPerCluster; }
+
+// Function: DOS_GetFreeBytes
+// Retreive number of free bytes from a disk information structure
+//
+// Parameters:
+//   info - Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()
+//
+// Return:
+//   Number of free bytes
+inline u32 DOS_GetFreeBytes(DOS_DiskInfo* info) { return (u32)info->FreeClusters * info->SectorPerCluster * info->SectorSize; }
+
+// Function: DOS_GetTotalClusters
+// Retreive total number of clusters from a disk information structure
+//
+// Parameters:
+//   info - Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()
+//
+// Return:
+//   Total number of clusters
+inline u16 DOS_GetTotalClusters(DOS_DiskInfo* info) { return info->TotalClusters; }
+
+// Function: DOS_GetTotalSectors
+// Retreive total number of sectors from a disk information structure
+//
+// Parameters:
+//   info - Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()
+//
+// Return:
+//   Total number of sectors
+inline u32 DOS_GetTotalSectors(DOS_DiskInfo* info) { return (u32)info->TotalClusters * info->SectorPerCluster; }
+
+// Function: DOS_GetTotalBytes
+// Retreive total number of bytes from a disk information structure
+//
+// Parameters:
+//   info - Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()
+//
+// Return:
+inline u32 DOS_GetTotalBytes(DOS_DiskInfo* info) { return (u32)info->TotalClusters * info->SectorPerCluster * info->SectorSize; }
 
 //.............................................................................
 // Group: BIOS
