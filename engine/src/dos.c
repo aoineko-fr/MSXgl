@@ -36,7 +36,10 @@ void* g_DOS_ErrorStack;
 
 // Macro to call BDOS with stack backup
 #if (DOS_USE_ERROR_HANDLER)
-	#define BACKUP_STACK			ld (_g_DOS_ErrorStack), sp
+	#define BACKUP_STACK \
+		xor a \
+		ld (_g_DOS_LastError), a \
+		ld (_g_DOS_ErrorStack), sp
 #else
 	#define BACKUP_STACK
 #endif
@@ -126,51 +129,37 @@ void DOS_InterSlotCall(u8 slot, u16 addr)
 
 #endif // (DOS_USE_BIOSCALL)
 
-
-
-
-
-
 #if (DOS_USE_ERROR_HANDLER)
 
-//-----------------------------------------------------------------------------
-// Error handler
-void DOS_ErrorHandler() __NAKED
-{
-__asm
-	ld		a, c					;// Get error code
-	or		a, #0x70				;// Add marker so 0 is no error
-	ld		(_g_DOS_LastError), a	;// Save the error code
-	ld		c, #DOS1_ERROR_RET_ABORT ;// Return 'Abort' action
-	// ld		sp, (_g_DOS_ErrorStack)	;// Restore stack pointer
-	ret
-__endasm;
-}
+// void DOS_ErrorHandler() __NAKED
+// {
+// __asm
+// _dos_errorhandler_start:
+// 	// Backup error code
+// 	ld		a, c					;// Get error code
+// 	or		a, #0x70				;// Add marker so 0 is no error
+// 	ld		(_g_DOS_LastError), a	;// Save the error code
+// 	// Restore stack pointer and C frame counter
+// 	ld		sp, (_g_DOS_ErrorStack)	;// Restore stack pointer
+// 	pop		ix
+// 	ret
+// _dos_errorhandler_end:
+// _g_DOS_ErrorHandlerSize::
+// 	.db		_dos_errorhandler_end - _dos_errorhandler_start
+// __endasm;
+// }
 
-//-----------------------------------------------------------------------------
-// Abort error andler
-void DOS_AbortHandler() __NAKED
-{
-__asm
-	ld		sp, (_g_DOS_ErrorStack)		;// Restore stack pointer
-	ret
-__endasm;
-}
+// extern const u8 g_DOS_ErrorHandlerSize;
 
 //-----------------------------------------------------------------------------
 // Install the DOS error handler in RAM (page 3).
-void DOS_InitErrorHandler()
+void DOS_InstallErrorHandler(callback cb, u8 size)
 {
 	// Install error handler to memory
-	void* ptr = 0xE000;//Mem_HeapAlloc(16);
-	Mem_Copy((const void*)DOS_ErrorHandler, ptr, 16);
+	void* ptr = Mem_HeapAlloc(size);
+	Mem_Copy(*((const void **)&cb), ptr, size);
 	g_DOS_ErrorHandler = ptr;
 	Poke16(M_DISKVE, (u16)&g_DOS_ErrorHandler);
-
-	// Install abort handler to memory
-	ptr = 0xE020;//Mem_HeapAlloc(8);
-	Mem_Copy((const void*)DOS_AbortHandler, ptr, 8);
-	Poke16(0xF1E6, (u16)ptr);
 }
 
 #endif // (DOS_USE_ERROR_HANDLER)

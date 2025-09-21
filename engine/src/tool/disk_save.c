@@ -54,6 +54,32 @@ const c8 g_HexChar2[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A
 //=============================================================================
 
 //-----------------------------------------------------------------------------
+// Error handler
+void DiskSave_ErrorHandler() __NAKED
+{
+__asm
+_disksave_errorhandler_start:
+	// Backup error code
+	ld		a, c					;// Get error code
+	or		a, #0x70				;// Add marker so 0 is no error
+	ld		(_g_DOS_LastError), a	;// Save the error code
+	// Restore stack pointer and C frame counter
+	ld		sp, (_g_DOS_ErrorStack)	;// Restore stack pointer
+	pop		ix
+	// Restore ROM slot in page 1
+	ld		h, #0b01000000			;// Page 1
+	ld		a, (#_g_ROMSlotID)
+	call	R_ENASLT
+	ret
+_disksave_errorhandler_end:
+_g_DiskSave_ErrorHandlerSize::
+	.db		_disksave_errorhandler_end - _disksave_errorhandler_start
+__endasm;
+}
+
+extern const u8 g_DiskSave_ErrorHandlerSize;
+
+//-----------------------------------------------------------------------------
 // Detect if a disk drive is present and valid disk is inserted
 u8 DiskSave_Initialize()
 {
@@ -61,7 +87,7 @@ u8 DiskSave_Initialize()
 		return SAVEDATA_NODRIVE;
 
 	// Install the error handler
-	DOS_InitErrorHandler();
+	DOS_InstallErrorHandler(DiskSave_ErrorHandler, g_DiskSave_ErrorHandlerSize);
 
 	// Clear the FCB structure
 	Mem_Set(0, &g_DiskSave_FCB, sizeof(DOS_FCB));

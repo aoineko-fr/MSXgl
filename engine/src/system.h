@@ -68,6 +68,10 @@
 // Function callback to make iterations on slots
 typedef bool (*CheckSlotCallback)(u8);
 
+#if (TARGET_TYPE == TYPE_ROM)
+	extern u8 g_ROMSlotID; // ROM's slot ID
+#endif
+
 //-----------------------------------------------------------------------------
 // CRT0 defines
 

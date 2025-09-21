@@ -680,9 +680,17 @@ u8 DOS_FindNextFileFCB();
 // Group: MSX-DOS 1 Error Handling
 #if (DOS_USE_ERROR_HANDLER)
 
-// Function: DOS_InitErrorHandler
+// Function: DOS_InstallErrorHandler
 // Install the DOS error handler in RAM (page 3).
-void DOS_InitErrorHandler();
+//
+// Error stored in C register must be or-ed with 7 for error code never been 0.
+// Result must be store in g_DOS_LastError variable.
+// Error handler must restore SP from g_DOS_ErrorStack, then pop IX before returning.
+// 
+// Parameters:
+//   cb - Callback function address
+//   size - Size of the callback to be installed in RAM
+void DOS_InstallErrorHandler(callback cb, u8 size);
 
 // Function: DOS_ResetLastError
 // Reset the last error code.
