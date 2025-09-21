@@ -18,26 +18,26 @@
  <div class="CBody"><p>Call a BDOS function</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">func<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Function number</p></td></tr></table></div>
 </div>
 
-<a name="DOS_Exit0"></a><a name="Topic395"></a><div class="CTopic TFunction LC">
+<a name="DOS_Exit0"></a><a name="Topic454"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Exit0</div>
- <div id="NDPrototype395" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DOS_Exit0()</div></div>
- <div class="CBody"><p>Exit program and return to DOS When this is called in MSX-DOS, the system is reset by jumping to 0000H.&nbsp; When MSX DISK-BASIC call this, it is “warm started”.&nbsp; That is, it returns to BASIC command level without destroying programs currently loaded.&nbsp; With MSX-DOS 2, this function terminates program with a zero return code.</p></div>
+ <div id="NDPrototype454" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DOS_Exit0()</div></div>
+ <div class="CBody"><p>Exit program and return to DOS</p><p>Wrapper for MSX-DOS's TERM0 routine (0x00) When this is called in MSX-DOS, the system is reset by jumping to 0000H.&nbsp; When MSX DISK-BASIC call this, it is “warm started”.&nbsp; That is, it returns to BASIC command level without destroying programs currently loaded.&nbsp; With MSX-DOS 2, this function terminates program with a zero return code.</p></div>
 </div>
 
 <a name="MSX-DOS_1_Console_IO"></a><a name="Topic396"></a><div class="CTopic TGroup LC">
  <div class="CTitle">MSX-DOS 1 Console IO</div>
 </div>
 
-<a name="DOS_CharInput"></a><a name="Topic397"></a><div class="CTopic TFunction LC">
+<a name="DOS_CharInput"></a><a name="Topic455"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_CharInput</div>
- <div id="NDPrototype397" class="NDPrototype"><div class="PSection PPlainSection">c8 DOS_CharInput()</div></div>
- <div class="CBody"><p>Input character A character will be read from the standard input (file handle 0 - usually the keyboard) and echoed to the standard output (file handle 1 - usually the screen).&nbsp; If no character is ready then this function will wait for one.&nbsp; Various control characters, as specified for the &quot;console status&quot; function (function 0Bh), will be trapped by this function for various control purposes.&nbsp; If one of these characters is detected then it will be processed and this function will wait for another character.&nbsp; Thus these characters will never be returned to the user by this function.</p><div class="CHeading">Return</div><p>Character from keyboard</p></div>
+ <div id="NDPrototype455" class="NDPrototype"><div class="PSection PPlainSection">c8 DOS_CharInput()</div></div>
+ <div class="CBody"><p>Input character</p><p>Wrapper for MSX-DOS's CONIN routine (0x01) A character will be read from the standard input (file handle 0 - usually the keyboard) and echoed to the standard output (file handle 1 - usually the screen).&nbsp; If no character is ready then this function will wait for one.&nbsp; Various control characters, as specified for the &quot;console status&quot; function (function 0Bh), will be trapped by this function for various control purposes.&nbsp; If one of these characters is detected then it will be processed and this function will wait for another character.&nbsp; Thus these characters will never be returned to the user by this function.</p><div class="CHeading">Return</div><p>Character from keyboard</p></div>
 </div>
 
-<a name="DOS_CharOutput"></a><a name="Topic398"></a><div class="CTopic TFunction LC">
+<a name="DOS_CharOutput"></a><a name="Topic456"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_CharOutput</div>
- <div id="NDPrototype398" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_CharOutput(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">c8&nbsp;</td><td class="PName last">chr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Output character The character passed in register E is written to the standard output (file handle 1 - usually the screen).&nbsp; If printer echo is enabled then the character is also written to the printer.&nbsp; Various control codes and escape sequences are interpreted as screen control codes.&nbsp; A list of these is included in the &quot;Program Interface Specification&quot;, they are a sub-set of the standard VT-52 control codes.&nbsp; TABs will be expanded to every eighth column.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">chr<div class="CDLParameterType">c8</div></td><td class="CDLDefinition"><p>Character to be output</p></td></tr></table></div>
+ <div id="NDPrototype456" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_CharOutput(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">c8&nbsp;</td><td class="PName last">chr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Output character</p><p>Wrapper for MSX-DOS's CONOUT routine (0x02) The character passed in register E is written to the standard output (file handle 1 - usually the screen).&nbsp; If printer echo is enabled then the character is also written to the printer.&nbsp; Various control codes and escape sequences are interpreted as screen control codes.&nbsp; A list of these is included in the &quot;Program Interface Specification&quot;, they are a sub-set of the standard VT-52 control codes.&nbsp; TABs will be expanded to every eighth column.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">chr<div class="CDLParameterType">c8</div></td><td class="CDLDefinition"><p>Character to be output</p></td></tr></table></div>
 </div>
 
 <a name="DOS_StringOutput"></a><a name="Topic415"></a><div class="CTopic TFunction LC">
@@ -150,10 +150,10 @@
  <div class="CTitle">MSX-DOS 1 Error Handling</div>
 </div>
 
-<a name="DOS_InitErrorHandler"></a><a name="Topic683"></a><div class="CTopic TFunction LC">
- <div class="CTitle">DOS_InitErrorHandler</div>
- <div id="NDPrototype683" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DOS_InitErrorHandler()</div></div>
- <div class="CBody"><p>Install the DOS error handler in RAM (page 3).</p></div>
+<a name="DOS_InstallErrorHandler"></a><a name="Topic460"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_InstallErrorHandler</div>
+ <div id="NDPrototype460" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_InstallErrorHandler(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">callback&nbsp;</td><td class="PName last">cb,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Install the DOS error handler in RAM (page 3).</p><p>Error stored in C register must be or-ed with 7 for error code never been 0.&nbsp; Result must be store in g_DOS_LastError variable.&nbsp; Error handler must restore SP from g_DOS_ErrorStack, then pop IX before returning.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">cb<div class="CDLParameterType">callback</div></td><td class="CDLDefinition"><p>Callback function address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Size of the callback to be installed in RAM</p></td></tr></table></div>
 </div>
 
 <a name="DOS_ResetLastError"></a><a name="Topic684"></a><div class="CTopic TFunction LC">
@@ -388,10 +388,81 @@
  <div class="CTitle">Misc</div>
 </div>
 
-<a name="DOS_GetVersion"></a><a name="Topic887"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetVersion"></a><a name="Topic1379"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetVersion</div>
- <div id="NDPrototype887" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetVersion(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_Version*&nbsp;</td><td class="PName last">ver</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get MSX-DOS version number</p></div>
+ <div id="NDPrototype1379" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetVersion(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_Version*&nbsp;</td><td class="PName last">ver</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get MSX-DOS version number</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">ver<div class="CDLParameterType">DOS_Version*</div></td><td class="CDLDefinition"><p>Pointer to DOS_Version structure</p></td></tr></table><div class="CHeading">Return</div><p>High part of the MSX-DOS kernel version</p></div>
+</div>
+
+<a name="DOS_SelectDrive"></a><a name="Topic1380"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_SelectDrive</div>
+ <div id="NDPrototype1380" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SelectDrive(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">drive</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Select disk drive number</p><p>Wrapper for MSX-DOS's SELDSK routine (0x0E)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">drive<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Disk drive number (0 for A, 1 for B, ..., 7 for H)</p></td></tr></table><div class="CHeading">Return</div><p>Number of available drives</p></div>
+</div>
+
+<a name="DOS_SelectDriveLetter"></a><a name="Topic1381"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_SelectDriveLetter</div>
+ <div id="NDPrototype1381" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_SelectDriveLetter(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">c8&nbsp;</td><td class="PName last">drive</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Select disk drive letter</p><p>Wrapper for MSX-DOS's SELDSK routine (0x0E)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">drive<div class="CDLParameterType">c8</div></td><td class="CDLDefinition"><p>Disk drive letter ('A', 'B', ..., 'H')</p></td></tr></table><div class="CHeading">Return</div><p>Number of available drives</p></div>
+</div>
+
+<a name="DOS_AvailableDrivers"></a><a name="Topic1382"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_AvailableDrivers</div>
+ <div class="CBody"><p>Get a bit field of all available disk drives</p><p>Wrapper for MSX-DOS's LOGIN routine (0x18)</p><div class="CHeading">Return</div><p>Bit field of available drives (bit 0 for A, bit 1 for B, ..., bit 7 for H)</p></div>
+</div>
+
+<a name="DOS_GetCurrentDrive"></a><a name="Topic1393"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetCurrentDrive</div>
+ <div id="NDPrototype1393" class="NDPrototype"><div class="PSection PPlainSection">u8 DOS_GetCurrentDrive()</div></div>
+ <div class="CBody"><p>Get current disk drive number</p><p>Wrapper for MSX-DOS's CDRV routine (0x19)</p><div class="CHeading">Return</div><p>Current drive number (0 for A, 1 for B, ..., 7 for H)</p></div>
+</div>
+
+<a name="DOS_GetCurrentDriveLetter"></a><a name="Topic1420"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetCurrentDriveLetter</div>
+ <div id="NDPrototype1420" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> c8 DOS_GetCurrentDriveLetter()</div></div>
+ <div class="CBody"><p>Get current disk drive letter</p><p>Wrapper for MSX-DOS's CDRV routine (0x19)</p><div class="CHeading">Return</div><p>Current drive letter ('A', 'B', ..., 'H')</p></div>
+</div>
+
+<a name="DOS_GetDiskInfo"></a><a name="Topic1421"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetDiskInfo</div>
+ <div id="NDPrototype1421" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_GetDiskInfo(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">drive,</td></tr><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get given disk information</p><p>Wrapper for MSX-DOS's ALLOC routine (0x1B)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">drive<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Drive number (0 for current drive, 1 for A, 2 for B, ..., 8 for H)</p></td></tr><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure to receive the information</p></td></tr></table></div>
+</div>
+
+<a name="DOS_GetFreeClusters"></a><a name="Topic1444"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetFreeClusters</div>
+ <div id="NDPrototype1444" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 DOS_GetFreeClusters(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Retreive number of free clusters from a disk information structure</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()</p></td></tr></table><div class="CHeading">Return</div><p>Number of free clusters</p></div>
+</div>
+
+<a name="DOS_GetFreeSectors"></a><a name="Topic1445"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetFreeSectors</div>
+ <div id="NDPrototype1445" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetFreeSectors(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Retreive number of free sectors from a disk information structure</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()</p></td></tr></table><div class="CHeading">Return</div><p>Number of free sectors</p></div>
+</div>
+
+<a name="DOS_GetFreeBytes"></a><a name="Topic1446"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetFreeBytes</div>
+ <div id="NDPrototype1446" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetFreeBytes(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Retreive number of free bytes from a disk information structure</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()</p></td></tr></table><div class="CHeading">Return</div><p>Number of free bytes</p></div>
+</div>
+
+<a name="DOS_GetTotalClusters"></a><a name="Topic1447"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetTotalClusters</div>
+ <div id="NDPrototype1447" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 DOS_GetTotalClusters(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Retreive total number of clusters from a disk information structure</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()</p></td></tr></table><div class="CHeading">Return</div><p>Total number of clusters</p></div>
+</div>
+
+<a name="DOS_GetTotalSectors"></a><a name="Topic1448"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetTotalSectors</div>
+ <div id="NDPrototype1448" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetTotalSectors(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Retreive total number of sectors from a disk information structure</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()</p></td></tr></table><div class="CHeading">Return</div><p>Total number of sectors</p></div>
+</div>
+
+<a name="DOS_GetTotalBytes"></a><a name="Topic1449"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">DOS_GetTotalBytes</div>
+ <div id="NDPrototype1449" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetTotalBytes(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Retreive total number of bytes from a disk information structure</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()</p></td></tr></table><div class="CHeading">Return</div></div>
 </div>
 
 <a name="BIOS"></a><a name="Topic685"></a><div class="CTopic TGroup LC">
