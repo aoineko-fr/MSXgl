@@ -10,7 +10,7 @@
 // INCLUDES
 //=============================================================================
 #include "msxgl.h"
-#include "game_pawn.h"
+#include "game/pawn.h"
 #include "tile.h"
 #include "debug.h"
 
@@ -82,43 +82,42 @@ const u8 g_TreeTileMap[] =
 };
 
 // Pawn sprite layers
-const Game_Sprite g_SpriteLayers[] =
-{
-	{ 0, 0, 0,  1, PAWN_SPRITE_EVEN }, // Black
-	{ 0, 0, 12, 1, PAWN_SPRITE_ODD }, // Black
-	{ 0, 0, 4,  9, 0 }, // White
-	{ 0, 0, 8,  15, 0 }, // Orange
+const Pawn_Sprite g_SpriteLayers[] =
+{//   X  Y  Pattern Color Option
+	{ 0, 0, 0,      1,    PAWN_SPRITE_BLEND }, // Black (pattern alternated each frame)
+	{ 0, 0, 4,      9,    0 }, // White
+	{ 0, 0, 8,      15,   0 }, // Orange
 };
 
 // Idle animation frames
-const Game_Frame g_FramesIdle[] =
-{
-	{ 6*16,	48,	NULL },
-	{ 7*16,	24,	NULL },
+const Pawn_Frame g_FramesIdle[] =
+{//   Pattern Time Function
+	{ 6*16,   48,  NULL },
+	{ 7*16,   24,  NULL },
 };
 
 // Move animation frames
-const Game_Frame g_FramesMove[] =
-{
-	{ 0*16,	4,	NULL },
-	{ 1*16,	4,	NULL },
-	{ 2*16,	4,	NULL },
-	{ 3*16,	4,	NULL },
-	{ 4*16,	4,	NULL },
-	{ 5*16,	4,	NULL },
+const Pawn_Frame g_FramesMove[] =
+{//   Pattern Time Function
+	{ 0*16,   4,   NULL },
+	{ 1*16,   4,   NULL },
+	{ 2*16,   4,   NULL },
+	{ 3*16,   4,   NULL },
+	{ 4*16,   4,   NULL },
+	{ 5*16,   4,   NULL },
 };
 
 // Jump animation frames
-const Game_Frame g_FramesJump[] =
-{
-	{ 3*16,	4,	NULL },
-	{ 8*16,	4,	NULL },
+const Pawn_Frame g_FramesJump[] =
+{//   Pattern Time Function
+	{ 3*16,   4,   NULL },
+	{ 8*16,   4,   NULL },
 };
 
 // Fall animation frames
-const Game_Frame g_FramesFall[] =
-{
-	{ 9*16,	4,	NULL },
+const Pawn_Frame g_FramesFall[] =
+{//   Pattern Time Function
+	{ 9*16,   4,   NULL },
 };
 
 // Actions id
@@ -131,7 +130,7 @@ enum ANIM_ACTION_ID
 };
 
 // List of all player actions
-const Game_Action g_AnimActions[] =
+const Pawn_Action g_AnimActions[] =
 { //  Frames        Number                  Loop? Interrupt?
 	{ g_FramesIdle, numberof(g_FramesIdle), TRUE, TRUE },
 	{ g_FramesMove, numberof(g_FramesMove), TRUE, TRUE },
@@ -275,10 +274,11 @@ void main()
 	VDP_DisableSpritesFrom(3);
 
 	// Init player pawn
-	GamePawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
-	GamePawn_SetTileMap(g_TileMap);
-	GamePawn_SetPosition(&g_PlayerPawn, 100, 100);
-	GamePawn_InitializePhysics(&g_PlayerPawn, PhysicsEvent, PhysicsCollision, 16, 16);
+	Pawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
+	Pawn_SetTileMap(g_TileMap);
+	Pawn_SetPosition(&g_PlayerPawn, 100, 100);
+	Pawn_SetColorBlend(&g_PlayerPawn, TRUE);
+	Pawn_InitializePhysics(&g_PlayerPawn, PhysicsEvent, PhysicsCollision, 16, 16);
 
 	Bios_SetKeyClick(FALSE);
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
@@ -344,15 +344,15 @@ void main()
 		else if (g_bMoving)
 			act = ACTION_MOVE;
 
-		GamePawn_SetAction(&g_PlayerPawn, act);
-		GamePawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
+		Pawn_SetAction(&g_PlayerPawn, act);
+		Pawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
 
 		PROFILE_SECTION_START(1, 10, "UPDATE");
-		GamePawn_Update(&g_PlayerPawn);
+		Pawn_Update(&g_PlayerPawn);
 		PROFILE_SECTION_END(1, 10, "UPDATE");
 
 		PROFILE_SECTION_START(1, 20, "DRAW");
-		GamePawn_Draw(&g_PlayerPawn);
+		Pawn_Draw(&g_PlayerPawn);
 		PROFILE_SECTION_END(1, 20, "DRAW");
 
 		PROFILE_FRAME_END();

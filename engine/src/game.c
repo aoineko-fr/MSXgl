@@ -1,2 +1,2 @@
-#warning Deprecated! Use to "game/main.c" instead.
-#include "game/main.c"
+#warning Deprecated! Use to "game/state.c" instead.
+#include "game/state.c"

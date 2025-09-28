@@ -245,7 +245,7 @@
 #define SPRITEFX_USE_ROTATE			TRUE	// Use rotating effect
 
 //-----------------------------------------------------------------------------
-// GAME MODULE
+// GAME MAIN MODULE
 //-----------------------------------------------------------------------------
 
 // Game state setting
@@ -260,9 +260,10 @@
 
 // Pawn setting
 #define PAWN_ID_PER_LAYER			FALSE	// Set sprite ID for each layer (otherwise set per pawn)
-#define PAWN_USE_RT_LOAD			TRUE	// Load sprite pattern data on the fly (real-time)
-#define PAWN_USE_SPRT_FX			TRUE	// Allow sprite effects (crop, flip, mask, rotate)
+#define PAWN_USE_RT_LOAD			FALSE	// Load sprite pattern data on the fly (real-time)
+#define PAWN_USE_SPRT_FX			FALSE	// Allow sprite effects (crop, flip, mask, rotate)
 #define PAWN_SPRITE_SIZE			16		// Sprite size mode (8 for 8x8 pixel mode, or 16 for 16x16)
+#define PAWN_BLEND_OFFSET			12		// Sprite pattern offset for blending mode
 #define PAWN_USE_PHYSICS			TRUE	// Add physics and collision features
 // Pawn coordinate unit
 // - PAWN_UNIT_SCREEN				Default screen (pixel) unit (8-bit unsigned int)
@@ -308,50 +309,6 @@
 // - PAWN_SPT_MODE_V9_P1 .......... V9990 sprite in P1 mode
 // - PAWN_SPT_MODE_V9_P2 .......... V9990 sprite in P2 mode
 #define PAWN_SPT_MODE				PAWN_SPT_MODE_MSX2
-
-//########## Obsolete ##########
-// GamePawn setting
-#define GAMEPAWN_ID_PER_LAYER		FALSE	// Set sprite ID for each layer (otherwise set per pawn)
-#define GAMEPAWN_USE_PHYSICS		TRUE	// Add physics and collision features
-// Pawn's bound (can be fixed for all pawn, or setable for each one)
-#define GAMEPAWN_BOUND_X			GAMEPAWN_BOUND_CUSTOM
-#define GAMEPAWN_BOUND_Y			GAMEPAWN_BOUND_CUSTOM
-// Collision position options for each pawn's side
-// - GAMEPAWN_COL_0
-// - GAMEPAWN_COL_25
-// - GAMEPAWN_COL_50
-// - GAMEPAWN_COL_75
-// - GAMEPAWN_COL_100
-#define GAMEPAWN_COL_DOWN			(GAMEPAWN_COL_25|GAMEPAWN_COL_75)
-#define GAMEPAWN_COL_UP				GAMEPAWN_COL_50
-#define GAMEPAWN_COL_RIGHT			GAMEPAWN_COL_50
-#define GAMEPAWN_COL_LEFT			GAMEPAWN_COL_50
-// Options to determine which border collide or trigger events
-// - GAMEPAWN_BORDER_NONE
-// - GAMEPAWN_BORDER_DOWN
-// - GAMEPAWN_BORDER_UP
-// - GAMEPAWN_BORDER_RIGHT
-// - GAMEPAWN_BORDER_LEFT
-#define GAMEPAWN_BORDER_EVENT		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_RIGHT|GAMEPAWN_BORDER_LEFT)
-#define GAMEPAWN_BORDER_BLOCK		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_RIGHT|GAMEPAWN_BORDER_LEFT)
-// Top/bottom border position (in pixel)
-#define GAMEPAWN_BORDER_MIN_Y		0		// High border Y coordinade
-#define GAMEPAWN_BORDER_MAX_Y		211		// Low border Y coordinate
-#define GAMEPAWN_TILEMAP_WIDTH		32		// Width of the tiles map
-#define GAMEPAWN_TILEMAP_HEIGHT		27		// Height of the tiles map
-// Collision tilemap source
-// - GAMEPAWN_TILEMAP_SRC_AUTO .... Backward compatibility option
-// - GAMEPAWN_TILEMAP_SRC_RAM ..... Tilemap located in a buffer in RAM (best for performance)
-// - GAMEPAWN_TILEMAP_SRC_VRAM .... Tilemap located in VRAM (slow but don't need additionnal data)
-// - GAMEPAWN_TILEMAP_SRC_V9 ...... Tilemap located in V9990's VRAM
-#define GAMEPAWN_TILEMAP_SRC		GAMEPAWN_TILEMAP_SRC_RAM
-// Pawn's sprite mode
-// - GAMEPAWN_SPT_MODE_AUTO ....... Backward compatibility option
-// - GAMEPAWN_SPT_MODE_MSX1 ....... Sprite Mode 1 (MSX1 screens)
-// - GAMEPAWN_SPT_MODE_MSX2 ....... Sprite Mode 2 (MSX2 screens)
-// - GAMEPAWN_SPT_MODE_V9_P1 ...... V9990 sprite in P1 mode
-// - GAMEPAWN_SPT_MODE_V9_P2 ...... V9990 sprite in P2 mode
-#define GAMEPAWN_SPT_MODE			GAMEPAWN_SPT_MODE_MSX2
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE

@@ -1,2 +1,2 @@
-#warning Deprecated! Use to "game/main.h" instead.
-#include "game/main.h"
+#warning Deprecated! Use to "game/state.h" instead.
+#include "game/state.h"

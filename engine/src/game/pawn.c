@@ -618,7 +618,7 @@ inline void Pawn_Draw_V9()
 
 u8 g_Pawn_FrameOffset;
 
-#if 1//(PAWN_ID_PER_LAYER)
+#if (PAWN_ID_PER_LAYER)
 //-----------------------------------------------------------------------------
 // Update rendering of the game pawn
 inline void Pawn_Draw_Sprite()
@@ -631,7 +631,7 @@ inline void Pawn_Draw_Sprite()
 		if ((g_Pawn->Update & PAWN_UPDATE_BLEND) && (g_Pawn_Sprite->Flag & PAWN_SPRITE_BLEND)) // Skip odd frames
 		{
 			if ((g_Pawn->Counter & 1) != 0)
-				g_Pawn_FrameOffset = PAWN_PATTERN_NUM;
+				g_Pawn_FrameOffset = PAWN_BLEND_OFFSET;
 			g_Pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
 
@@ -700,7 +700,7 @@ inline void Pawn_Draw_Sprite()
 		if ((g_Pawn->Update & PAWN_UPDATE_BLEND) && (g_Pawn_Sprite->Flag & PAWN_SPRITE_BLEND)) // Skip odd frames
 		{
 			if ((g_Pawn->Counter & 1) != 0)
-				g_Pawn_FrameOffset = PAWN_PATTERN_NUM;
+				g_Pawn_FrameOffset = PAWN_BLEND_OFFSET;
 			g_Pawn->Update |= PAWN_UPDATE_PATTERN;
 		}
 

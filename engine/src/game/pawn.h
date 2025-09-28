@@ -18,175 +18,121 @@
 // PAWN_ID_PER_LAYER
 #ifndef PAWN_ID_PER_LAYER
 	#warning PAWN_ID_PER_LAYER is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#ifdef GAMEPAWN_ID_PER_LAYER
-		#define PAWN_ID_PER_LAYER		GAMEPAWN_ID_PER_LAYER
-	#else
-		#define PAWN_ID_PER_LAYER		FALSE
-	#endif
+	#define PAWN_ID_PER_LAYER		FALSE
 #endif
 
 // PAWN_USE_RT_LOAD
 #ifndef PAWN_USE_RT_LOAD
 	#warning PAWN_USE_RT_LOAD is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define PAWN_USE_RT_LOAD			FALSE
+	#define PAWN_USE_RT_LOAD		FALSE
 #endif
 
 // PAWN_USE_SPRT_FX
 #ifndef PAWN_USE_SPRT_FX
 	#warning PAWN_USE_SPRT_FX is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define PAWN_USE_SPRT_FX			FALSE
-#endif
-
-// PAWN_USE_PHYSICS
-#ifndef PAWN_USE_PHYSICS
-	#warning PAWN_USE_PHYSICS is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#ifdef GAMEPAWN_USE_PHYSICS
-		#define PAWN_USE_PHYSICS		GAMEPAWN_USE_PHYSICS
-	#else
-		#define PAWN_USE_PHYSICS		FALSE
-	#endif
-#endif
-
-// PAWN_UNIT
-#ifndef PAWN_UNIT
-	#warning PAWN_UNIT is not defined in "msxgl_config.h"! Default value will be used: PAWN_UNIT_SCREEN
-	#define PAWN_UNIT					PAWN_UNIT_SCREEN
+	#define PAWN_USE_SPRT_FX		FALSE
 #endif
 
 // PAWN_SPRITE_SIZE
 #ifndef PAWN_SPRITE_SIZE
 	#warning PAWN_SPRITE_SIZE is not defined in "msxgl_config.h"! Default value will be used: 16
-	#define PAWN_SPRITE_SIZE			16
+	#define PAWN_SPRITE_SIZE		16
+#endif
+
+// PAWN_BLEND_OFFSET
+#ifndef PAWN_BLEND_OFFSET
+	#warning PAWN_BLEND_OFFSET is not defined in "msxgl_config.h"! Default value will be used: 12
+	#define PAWN_BLEND_OFFSET		12
+#endif
+
+// PAWN_USE_PHYSICS
+#ifndef PAWN_USE_PHYSICS
+	#warning PAWN_USE_PHYSICS is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PAWN_USE_PHYSICS		FALSE
+#endif
+
+// PAWN_UNIT
+#ifndef PAWN_UNIT
+	#warning PAWN_UNIT is not defined in "msxgl_config.h"! Default value will be used: PAWN_UNIT_SCREEN
+	#define PAWN_UNIT				PAWN_UNIT_SCREEN
 #endif
 
 // PAWN_BORDER_EVENT
 #ifndef PAWN_BORDER_EVENT
 	#warning PAWN_BORDER_EVENT is not defined in "msxgl_config.h"! Default value will be used: 0
-	#ifdef GAMEPAWN_BORDER_EVENT
-		#define PAWN_BORDER_EVENT		GAMEPAWN_BORDER_EVENT
-	#else
-		#define PAWN_BORDER_EVENT		0
-	#endif
+	#define PAWN_BORDER_EVENT		0
 #endif
 
 // PAWN_BORDER_BLOCK
 #ifndef PAWN_BORDER_BLOCK
 	#warning PAWN_BORDER_BLOCK is not defined in "msxgl_config.h"! Default value will be used: 0
-	#ifdef GAMEPAWN_BORDER_BLOCK
-		#define PAWN_BORDER_BLOCK		GAMEPAWN_BORDER_BLOCK
-	#else
-		#define PAWN_BORDER_BLOCK		0
-	#endif
+	#define PAWN_BORDER_BLOCK		0
 #endif
 
 // PAWN_BORDER_MIN_Y
 #ifndef PAWN_BORDER_MIN_Y
 	#warning PAWN_BORDER_MIN_Y is not defined in "msxgl_config.h"! Default value will be used: 0
-	#ifdef GAMEPAWN_BORDER_MIN_Y
-		#define PAWN_BORDER_MIN_Y		GAMEPAWN_BORDER_MIN_Y
-	#else
-		#define PAWN_BORDER_MIN_Y		0
-	#endif
+	#define PAWN_BORDER_MIN_Y		0
 #endif
 
 // PAWN_BORDER_MAX_Y
 #ifndef PAWN_BORDER_MAX_Y
 	#warning PAWN_BORDER_MAX_Y is not defined in "msxgl_config.h"! Default value will be used: 192
-	#ifdef GAMEPAWN_BORDER_MAX_Y
-		#define PAWN_BORDER_MAX_Y		GAMEPAWN_BORDER_MAX_Y
-	#else
-		#define PAWN_BORDER_MAX_Y		192
-	#endif
+	#define PAWN_BORDER_MAX_Y		192
 #endif
 
 // PAWN_COL_DOWN
 #ifndef PAWN_COL_DOWN
 	#warning PAWN_COL_DOWN is not defined in "msxgl_config.h"! Default value will be used: PAWN_COL_50
-	#ifdef GAMEPAWN_COL_DOWN
-		#define PAWN_COL_DOWN			GAMEPAWN_COL_DOWN
-	#else
-		#define PAWN_COL_DOWN			PAWN_COL_50
-	#endif
+	#define PAWN_COL_DOWN			PAWN_COL_50
 #endif
 
 // PAWN_COL_UP
 #ifndef PAWN_COL_UP
 	#warning PAWN_COL_UP is not defined in "msxgl_config.h"! Default value will be used: PAWN_COL_50
-	#ifdef GAMEPAWN_COL_UP
-		#define PAWN_COL_UP				GAMEPAWN_COL_UP
-	#else
-		#define PAWN_COL_UP				PAWN_COL_50
-	#endif
+	#define PAWN_COL_UP				PAWN_COL_50
 #endif
 
 // PAWN_COL_RIGHT
 #ifndef PAWN_COL_RIGHT
 	#warning PAWN_COL_RIGHT is not defined in "msxgl_config.h"! Default value will be used: PAWN_COL_50
-	#ifdef GAMEPAWN_COL_RIGHT
-		#define PAWN_COL_RIGHT			GAMEPAWN_COL_RIGHT
-	#else
-		#define PAWN_COL_RIGHT			PAWN_COL_50
-	#endif
+	#define PAWN_COL_RIGHT			PAWN_COL_50
 #endif
 
 // PAWN_COL_LEFT
 #ifndef PAWN_COL_LEFT
 	#warning PAWN_COL_LEFT is not defined in "msxgl_config.h"! Default value will be used: PAWN_COL_50
-	#ifdef GAMEPAWN_COL_LEFT
-		#define PAWN_COL_LEFT			GAMEPAWN_COL_LEFT
-	#else
-		#define PAWN_COL_LEFT			PAWN_COL_50
-	#endif
+	#define PAWN_COL_LEFT			PAWN_COL_50
 #endif
 
 // PAWN_BOUND_X
 #ifndef PAWN_BOUND_X
 	#warning PAWN_BOUND_X is not defined in "msxgl_config.h"! Default value will be used: PAWN_BOUND_CUSTOM
-	#ifdef GAMEPAWN_BOUND_X
-		#define PAWN_BOUND_X			GAMEPAWN_BOUND_X
-	#else
-		#define PAWN_BOUND_X			PAWN_BOUND_CUSTOM
-	#endif
+	#define PAWN_BOUND_X			PAWN_BOUND_CUSTOM
 #endif
 
 // PAWN_BOUND_Y
 #ifndef PAWN_BOUND_Y
 	#warning PAWN_BOUND_Y is not defined in "msxgl_config.h"! Default value will be used: PAWN_BOUND_CUSTOM
-	#ifdef GAMEPAWN_BOUND_Y
-		#define PAWN_BOUND_Y			GAMEPAWN_BOUND_Y
-	#else
-		#define PAWN_BOUND_Y			PAWN_BOUND_CUSTOM
-	#endif
+	#define PAWN_BOUND_Y			PAWN_BOUND_CUSTOM
 #endif
 
 // PAWN_TILEMAP_WIDTH
 #ifndef PAWN_TILEMAP_WIDTH
 	#warning PAWN_TILEMAP_WIDTH is not defined in "msxgl_config.h"! Default value will be used: 32
-	#ifdef GAMEPAWN_TILEMAP_WIDTH
-		#define PAWN_TILEMAP_WIDTH		GAMEPAWN_TILEMAP_WIDTH
-	#else
-		#define PAWN_TILEMAP_WIDTH		32
-	#endif
+	#define PAWN_TILEMAP_WIDTH		32
 #endif
 
 // PAWN_TILEMAP_HEIGHT
 #ifndef PAWN_TILEMAP_HEIGHT
 	#warning PAWN_TILEMAP_HEIGHT is not defined in "msxgl_config.h"! Default value will be used: 24
-	#ifdef GAMEPAWN_TILEMAP_HEIGHT
-		#define PAWN_TILEMAP_HEIGHT		GAMEPAWN_TILEMAP_HEIGHT
-	#else
-		#define PAWN_TILEMAP_HEIGHT		24
-	#endif
+	#define PAWN_TILEMAP_HEIGHT		24
 #endif
 
 // PAWN_TILEMAP_SRC
 #ifndef PAWN_TILEMAP_SRC
 	#warning PAWN_TILEMAP_SRC is not defined in "msxgl_config.h"! Default value will be used: PAWN_TILEMAP_SRC_AUTO
-	#ifdef GAMEPAWN_TILEMAP_SRC
-		#define PAWN_TILEMAP_SRC		GAMEPAWN_TILEMAP_SRC
-	#else
-		#define PAWN_TILEMAP_SRC		PAWN_TILEMAP_SRC_AUTO
-	#endif
+	#define PAWN_TILEMAP_SRC		PAWN_TILEMAP_SRC_AUTO
 #endif
 
 // Handle tilemap source backward compatibility
@@ -202,11 +148,7 @@
 // PAWN_SPT_MODE
 #ifndef PAWN_SPT_MODE
 	#warning PAWN_SPT_MODE is not defined in "msxgl_config.h"! Default value will be used: PAWN_SPT_MODE_AUTO
-	#ifdef GAMEPAWN_SPT_MODE
-		#define PAWN_SPT_MODE			GAMEPAWN_SPT_MODE
-	#else
-		#define PAWN_SPT_MODE			PAWN_SPT_MODE_AUTO
-	#endif
+	#define PAWN_SPT_MODE			PAWN_SPT_MODE_AUTO
 #endif
 
 // Handle sprite mode backward compatibility
@@ -221,12 +163,10 @@
 	#endif
 #endif
 
-
+// Pawn coordinate unit
 #if (PAWN_UNIT == PAWN_UNIT_SCREEN)
-	// Pawn coordinate unit
 	#define PAWN_POS				u8
 #else // (PAWN_UNIT == PAWN_UNIT_QMN())
-	// Pawn coordinate unit
 	#define PAWN_POS				u16
 #endif
 
