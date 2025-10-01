@@ -57,7 +57,7 @@ for (let i = 0; i < CommandArgs.length; i++)
 	const arg = CommandArgs[i].toLowerCase();
 	if (arg.startsWith("projname="))
 	{
-		let val = CommandArgs[i].substring(9);
+		let val = CommandArgs[i].split("=")[1];
 		if (val)
 		{
 			ProjName = val;
@@ -83,7 +83,7 @@ for (let i = 0; i < CommandArgs.length; i++)
 	}
 	else if (arg.startsWith("target="))
 	{
-		let val = CommandArgs[i].substring(7);
+		let val = CommandArgs[i].split("=")[1];
 		if (val)
 		{
 			Target = val;
@@ -92,7 +92,7 @@ for (let i = 0; i < CommandArgs.length; i++)
 	}
 	else if (arg.startsWith("machine="))
 	{
-		let val = CommandArgs[i].substring(7);
+		let val = CommandArgs[i].split("=")[1];
 		if (val)
 		{
 			Machine = val;
@@ -101,7 +101,7 @@ for (let i = 0; i < CommandArgs.length; i++)
 	}
 	else if (arg.startsWith("romsize="))
 	{
-		let val = CommandArgs[i].substring(8);
+		let val = CommandArgs[i].split("=")[1];
 		if (val)
 		{
 			ROMSize = parseInt(val);
