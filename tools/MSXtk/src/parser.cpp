@@ -23,7 +23,7 @@
 #include "exporter.h"
 #include "image.h"
 #include "parser.h"
-#include "mglv.h"
+#include "MGLV.h"
 
 struct RLEHash
 {

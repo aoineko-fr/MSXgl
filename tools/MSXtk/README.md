@@ -16,3 +16,7 @@ Requirements:
 - Visual C++ Redistributable for Visual Studio 2019
 
 ## Linux
+Requirements:
+- freeimage-dev. On debian "sudo apt install freeimage-dev"
+Then run build.sh
+
