@@ -76,6 +76,13 @@ testcases
 /tools/MSXtk/proj/*.user
 /tools/MSXEC
 
+/tools/MSXtk/src/MSXbin
+/tools/MSXtk/src/MSXhex
+/tools/MSXtk/src/MSXimg
+/tools/MSXtk/src/MSXmath
+/tools/MSXtk/src/MSXzip
+/tools/MSXtk/src/*.o
+
 /tools/build/DOS/MSX-DOS_1.3
 /tools/build/DOS/MSX-DOS_1.8
 /tools/build/DOS/MSX-DOS_2.20
