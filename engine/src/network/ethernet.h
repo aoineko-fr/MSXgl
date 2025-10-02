@@ -21,22 +21,22 @@ enum ETHERFRAME
 #define GET_ETHERFRAME(a) (a > 1500) ? ETHERFRAME_ETHER2 : ETHERFRAME_IEEE
 
 // Ethernet II frame header
-struct EtherHeader
+typedef struct EtherHeader
 {
 	u8  Dest[6];
 	u8  Source[6];
 	u16 Type;						// /!\ Big endian
-};
+} EtherHeader;
 
 // IEEE 802.3 frame header
-struct EtherHeaderIEEE
+typedef struct EtherHeaderIEEE
 {
 	u8  Dest[6];
 	u8  Source[6];
 	u16 Length;						// /!\ Big endian
 	u8  Payload[6];
 	u16 Type;						// /!\ Big endian
-};
+} EtherHeaderIEEE;
 
 // EtherType (see https://en.wikipedia.org/wiki/EtherType)
 enum ETHERTYPE

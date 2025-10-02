@@ -99,7 +99,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 }
 
@@ -131,16 +131,16 @@ void DrawVUMeter()
 	// Channel A
 	g_VDP_Command.DY = 64 + (8*1) + ((8-VU_H)/2); 
 	u8 volA = PT3_GetVolume(PSG_CHANNEL_A) >> 1;
-	if(volA > VU_MAX)
+	if (volA > VU_MAX)
 		volA = VU_MAX;
-	if(volA > 0)
+	if (volA > 0)
 	{
 		g_VDP_Command.DX = VU_X;
 		g_VDP_Command.NX = volA * 8;
 		g_VDP_Command.CLR = 0x22;
 		VPD_CommandSetupR36();
 	}
-	if(volA < VU_MAX)
+	if (volA < VU_MAX)
 	{
 		g_VDP_Command.DX = VU_X + volA * 8;
 		g_VDP_Command.NX = (VU_MAX - volA) * 8;
@@ -151,16 +151,16 @@ void DrawVUMeter()
 	// Channel B
 	g_VDP_Command.DY = 64 + (8*2) + ((8-VU_H)/2); 
 	u8 volB = PT3_GetVolume(PSG_CHANNEL_B) >> 1;
-	if(volB > VU_MAX)
+	if (volB > VU_MAX)
 		volB = VU_MAX;
-	if(volB > 0)
+	if (volB > 0)
 	{
 		g_VDP_Command.DX = VU_X;
 		g_VDP_Command.NX = volB * 8;
 		g_VDP_Command.CLR = 0x22;
 		VPD_CommandSetupR36();
 	}
-	if(volB < VU_MAX)
+	if (volB < VU_MAX)
 	{
 		g_VDP_Command.DX = VU_X + volB * 8;
 		g_VDP_Command.NX = (VU_MAX - volB) * 8;
@@ -171,16 +171,16 @@ void DrawVUMeter()
 	// Channel C
 	g_VDP_Command.DY = 64 + (8*3) + ((8-VU_H)/2); 
 	u8 volC = PT3_GetVolume(PSG_CHANNEL_C)>> 1;
-	if(volC > VU_MAX)
+	if (volC > VU_MAX)
 		volC = VU_MAX;
-	if(volC > 0)
+	if (volC > 0)
 	{
 		g_VDP_Command.DX = VU_X;
 		g_VDP_Command.NX = volC * 8;
 		g_VDP_Command.CLR = 0x22;
 		VPD_CommandSetupR36();
 	}
-	if(volC < VU_MAX)
+	if (volC < VU_MAX)
 	{
 		g_VDP_Command.DX = VU_X + volC * 8;
 		g_VDP_Command.NX = (VU_MAX - volC) * 8;
@@ -262,7 +262,7 @@ void Loop(bool enable) __FASTCALL
 
 	g_Loop = enable;
 	PT3_SetLoop(enable);
-	if(enable)
+	if (enable)
 		PT3_ResetFinishCB();
 	else
 		PT3_SetFinishCB(Stop);
@@ -356,7 +356,7 @@ void main()
 	u8 prevRow8 = 0xFF;
 	u8 prevRow0 = 0xFF;
 	u8 prevPattern = 0xFF;
-	while(1)
+	while (1)
 	{
 		WaitVBlank();
 
@@ -374,7 +374,7 @@ void main()
 		
 		// Display Current Pattern
 		u8 pattern = PT3_GetPattern();
-		if(pattern != prevPattern)
+		if (pattern != prevPattern)
 		{
 			Print_SetPosition(64, 64);
 			VDP_CommandHMMV(64+6, 64, 2*6, 8, 0x44);
@@ -385,17 +385,17 @@ void main()
 
 		// Read keyboard matrix row #8
 		u8 row8 = g_NEWKEY[KEY_ROW(KEY_SPACE)];
-		if((IS_KEY_PRESSED(row8, KEY_RIGHT)) && (IS_KEY_RELEASED(prevRow8, KEY_RIGHT))) //Next song
+		if ((IS_KEY_PRESSED(row8, KEY_RIGHT)) && (IS_KEY_RELEASED(prevRow8, KEY_RIGHT))) //Next song
 		{
-			if(g_CurrentSong < numberof(g_SongData) - 1)
+			if (g_CurrentSong < numberof(g_SongData) - 1)
 				g_CurrentSong++;
 			else
 				g_CurrentSong = 0;
 			SetSong(g_CurrentSong);
 		}
-		else if((IS_KEY_PRESSED(row8, KEY_LEFT)) && (IS_KEY_RELEASED(prevRow8, KEY_LEFT))) // Previous song
+		else if ((IS_KEY_PRESSED(row8, KEY_LEFT)) && (IS_KEY_RELEASED(prevRow8, KEY_LEFT))) // Previous song
 		{
-			if(g_CurrentSong > 0)
+			if (g_CurrentSong > 0)
 				g_CurrentSong--;
 			else
 				g_CurrentSong = numberof(g_SongData) - 1;
@@ -404,14 +404,14 @@ void main()
 
 		// PLAYER FONT -----------------------------------------------------------
 		
-		if((IS_KEY_PRESSED(row8, KEY_SPACE)) && (IS_KEY_RELEASED(prevRow8, KEY_SPACE))) // Pause / Resume
+		if ((IS_KEY_PRESSED(row8, KEY_SPACE)) && (IS_KEY_RELEASED(prevRow8, KEY_SPACE))) // Pause / Resume
 		{
-			if(PT3_IsPlaying())
+			if (PT3_IsPlaying())
 				Pause();
 			else
 				Play();
 		}
-		else if((IS_KEY_PRESSED(row8, KEY_DEL)) && (IS_KEY_RELEASED(prevRow8, KEY_DEL))) // Loop
+		else if ((IS_KEY_PRESSED(row8, KEY_DEL)) && (IS_KEY_RELEASED(prevRow8, KEY_DEL))) // Loop
 		{
 			Loop(1 - g_Loop);
 		}
@@ -419,15 +419,15 @@ void main()
 
 		// Read keyboard matrix row #0		
 		u8 row0 = g_NEWKEY[KEY_ROW(KEY_0)];
-		if((IS_KEY_PRESSED(row0, KEY_1)) && (IS_KEY_RELEASED(prevRow0, KEY_1))) // Mute channel A
+		if ((IS_KEY_PRESSED(row0, KEY_1)) && (IS_KEY_RELEASED(prevRow0, KEY_1))) // Mute channel A
 		{
 			Mute(0, 1 - g_Mute[0]);
 		}
-		else if((IS_KEY_PRESSED(row0, KEY_2)) && (IS_KEY_RELEASED(prevRow0, KEY_2))) // Mute channel B
+		else if ((IS_KEY_PRESSED(row0, KEY_2)) && (IS_KEY_RELEASED(prevRow0, KEY_2))) // Mute channel B
 		{
 			Mute(1, 1 - g_Mute[1]);
 		}
-		else if((IS_KEY_PRESSED(row0, KEY_3)) && (IS_KEY_RELEASED(prevRow0, KEY_3))) // Mute channel C
+		else if ((IS_KEY_PRESSED(row0, KEY_3)) && (IS_KEY_RELEASED(prevRow0, KEY_3))) // Mute channel C
 		{
 			Mute(2, 1 - g_Mute[2]);
 		}

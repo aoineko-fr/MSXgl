@@ -103,7 +103,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 }
 
@@ -163,12 +163,12 @@ void DisplayRandom16()
 	VDP_CommandHMMV(150, GRAPH_Y + 8 * 5, 4, 8, COLOR_MERGE2(COLOR_LIGHT_RED));
 
 	u16 startFrame = g_Frame;
-	for(u16 i = 0; i < RAND_SAMPLE; ++i)
+	for (u16 i = 0; i < RAND_SAMPLE; ++i)
 	{
 		u16 rand = Math_GetRandom16();
 		u16 x = GRAPH_X + ((rand % 0x00FF) / 2);
 		u16 y = GRAPH_Y + 128 - ((rand >> 8) / 2);
-		switch(VDP_CommandPOINT(x, y))
+		switch (VDP_CommandPOINT(x, y))
 		{
 		case COLOR_DARK_BLUE:		VDP_CommandPSET(x, y, COLOR_LIGHT_BLUE, 0); break;
 		case COLOR_LIGHT_BLUE:		VDP_CommandPSET(x, y, COLOR_CYAN, 0); break;
@@ -211,7 +211,7 @@ void DisplayRandom8()
 	VDP_CommandHMMV(150, GRAPH_Y + 8 * 5, 4, 8, COLOR_MERGE2(COLOR_LIGHT_RED));
 
 	u16 startFrame = g_Frame;
-	for(u16 i = 0; i < RAND_SAMPLE; ++i)
+	for (u16 i = 0; i < RAND_SAMPLE; ++i)
 	{
 		#if (MSX_VERSION != MSX_TR) && ((RANDOM_8_METHOD == RANDOM_8_REGISTER) || (RANDOM_8_METHOD == RANDOM_8_RACC)) // 7-bits RNG
 		u16 x = GRAPH_X + Math_GetRandom8();
@@ -220,7 +220,7 @@ void DisplayRandom8()
 		u16 x = GRAPH_X + (Math_GetRandom8() / 2);
 		u16 y = GRAPH_Y + 128 - (Math_GetRandom8() / 2);
 		#endif
-		switch(VDP_CommandPOINT(x, y))
+		switch (VDP_CommandPOINT(x, y))
 		{
 		case COLOR_DARK_BLUE:		VDP_CommandPSET(x, y, COLOR_LIGHT_BLUE, 0); break;
 		case COLOR_LIGHT_BLUE:		VDP_CommandPSET(x, y, COLOR_CYAN, 0); break;
@@ -243,13 +243,11 @@ void DisplayRandom8()
 void DisplayFunc()
 {
 	DisplayHeader("Function");
-
-	Print_SetPosition(0, 20);
-
-	i16 rnd8, val8;
-	i16 rnd16, val16;
-
+	
 	// 8-bits
+	Print_SetPosition(0, 20);
+	i8 rnd8, val8;
+
 	rnd8 = (i16)Math_GetRandom8();
 	Print_DrawFormat("A=Random8():  %i [%8b]\n", rnd8, rnd8);
 
@@ -263,7 +261,7 @@ void DisplayFunc()
 	Print_DrawFormat("Flip(A):      %i [%8b]\n", val8, val8);
 
 	val8 = Math_Negative(rnd8);
-	Print_DrawFormat("Negative(B):  %i\n", val8);
+	Print_DrawFormat("Negative(A):  %i\n", val8);
 
 	val8 = Math_SignedDiv2(rnd8);
 	Print_DrawFormat("Div2(A):      %i\n", val8);
@@ -282,6 +280,7 @@ void DisplayFunc()
 
 	// 16-bits
 	Print_Return();
+	i16 rnd16, val16;
 
 	rnd16 = Math_GetRandom16();
 	Print_DrawFormat("B=Random16(): %i [%b]\n", rnd16, rnd16);
@@ -365,14 +364,14 @@ void DisplayCurve()
 	Print_DrawText(curve->Max);
 
 	u8 prevX = 0, prevY = 0;
-	for(u16 i = 0; i < CURVE_STEP; ++i)
+	for (u16 i = 0; i < CURVE_STEP; ++i)
 	{
 		u8 idx = i * (u8)((u16)curve->Count / CURVE_STEP);
 		
 		u8 x = i * (u8)((u16)256 / CURVE_STEP);
 		
 		u8 y = curve->ZeroY;
-		switch(curve->Format)
+		switch (curve->Format)
 		{
 			case CURVE_8B_SIGNED:
 			{
@@ -400,10 +399,10 @@ void DisplayCurve()
 			}
 		};
 		
-		#if(0)
+		#if (0)
 		VDP_CommandPSET(x, y, COLOR_WHITE, 0);
 		#else
-		if(i > 0)
+		if (i > 0)
 			Draw_Line(prevX, prevY, x, y, COLOR_WHITE, 0);
 		#endif
 		
@@ -431,7 +430,7 @@ void main()
 	DisplayCurve();
 	
 	bool bContinue = TRUE;
-	while(bContinue)
+	while (bContinue)
 	{
 		WaitVBlank();
 		
@@ -439,36 +438,36 @@ void main()
 		Print_DrawChar(chrAnim[g_Frame & 0x03]);
 
 		u8 row6 = Keyboard_Read(6);
-		if(IS_KEY_PRESSED(row6, KEY_F1))
+		if (IS_KEY_PRESSED(row6, KEY_F1))
 			DisplayRandom8();
-		else if(IS_KEY_PRESSED(row6, KEY_F2))
+		else if (IS_KEY_PRESSED(row6, KEY_F2))
 			DisplayRandom16();
-		else if(IS_KEY_PRESSED(row6, KEY_F3))
+		else if (IS_KEY_PRESSED(row6, KEY_F3))
 			DisplayCurve();
 
 		u8 row7 = Keyboard_Read(7);
-		if(IS_KEY_PRESSED(row7, KEY_F4))
+		if (IS_KEY_PRESSED(row7, KEY_F4))
 			DisplayFunc();
-		if(IS_KEY_PRESSED(row7, KEY_F5))
+		if (IS_KEY_PRESSED(row7, KEY_F5))
 			DisplayTab();
 
 		u8 row8 = Keyboard_Read(8);
-		if(IS_KEY_PRESSED(row8, KEY_UP) || IS_KEY_PRESSED(row8, KEY_LEFT))
+		if (IS_KEY_PRESSED(row8, KEY_UP) || IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
 			g_CurveIdx--;
-			if(g_CurveIdx < 0)
+			if (g_CurveIdx < 0)
 				g_CurveIdx = numberof(g_Curves) - 1;
 			DisplayCurve();
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_DOWN) || IS_KEY_PRESSED(row8, KEY_RIGHT))
+		else if (IS_KEY_PRESSED(row8, KEY_DOWN) || IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
 			g_CurveIdx++;
-			if(g_CurveIdx >= numberof(g_Curves))
+			if (g_CurveIdx >= numberof(g_Curves))
 				g_CurveIdx = 0;
 			DisplayCurve();
 		}
 
-		if(Keyboard_IsKeyPressed(KEY_ESC))
+		if (Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;
 	}
 

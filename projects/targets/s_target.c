@@ -125,7 +125,7 @@ void Print_Slot(u8 slot)
 //
 const c8* GetTargetType(u8 target)
 {
-	switch(target)
+	switch (target)
 	{
 	case TYPE_BIN: return "BASIC";
 	case TYPE_ROM: return "ROM";
@@ -138,7 +138,7 @@ const c8* GetTargetType(u8 target)
 //
 const c8* GetROMMapper(u8 mapper)
 {
-	switch(mapper)
+	switch (mapper)
 	{
 	case ROM_PLAIN:      return "Plain";
 	case ROM_ASCII8:     return "ASCII-8";
@@ -157,7 +157,7 @@ const c8* GetROMMapper(u8 mapper)
 //
 const c8* GetROMSize(u8 size)
 {
-	switch(size)
+	switch (size)
 	{
 	case ROM_8K:	return "8K";
 	case ROM_16K:	return "16K";
@@ -221,7 +221,7 @@ void UpdateMapper()
 	Print_SetPosition(1, MAPPER_Y + 1 + MAPPER_NUM);
 	Print_DrawChar((g_Segment == ROM_SEGMENTS - MAPPER_NUM) ? ' ' : '\x8F');
 
-	for(u8 i = 0; i < MAPPER_NUM; i++)
+	for (u8 i = 0; i < MAPPER_NUM; i++)
 	{
 		u16 index = g_Segment + i;
 		Print_SetPosition(2, MAPPER_Y + 2 + i);
@@ -234,7 +234,7 @@ void UpdateMapper()
 		Print_SetPosition(7, MAPPER_Y + 2 + i);
 		SET_BANK_SEGMENT(TEST_BANK, index);
 		u8 max = g_DisplayASCII ? CHAR_ASCII : CHAR_HEXA;
-		for(u8 j = 0; j < max; j++)
+		for (u8 j = 0; j < max; j++)
 		{
 			u8 chr = ((const u8*)(g_Address))[j];
 			if (g_DisplayASCII)
@@ -249,10 +249,10 @@ void UpdateMapper()
 		Print_Return();
 	}
 
-	for(u8 i = 0; i < MAPPER_BANKS; i++)
+	for (u8 i = 0; i < MAPPER_BANKS; i++)
 	{
 		u16 seg = 0;
-		switch(i)
+		switch (i)
 		{
 		case 0: seg = GET_BANK_SEGMENT(0); break;
 		case 1: seg = GET_BANK_SEGMENT(1); break;
@@ -296,7 +296,7 @@ void DiplayInfo()
 	Print_SetPosition(29, 5);
 	Print_DrawText("\x18\x17\x17\x17\x12\x17\x17\x17\x17\x17\x19");
 	u8 mainPage = (u16)main >> 14;
-	for(u8 i = 0; i < 4; i++)
+	for (u8 i = 0; i < 4; i++)
 	{
 		Print_SetPosition(29, 6 + i);
 		Print_DrawChar('\x16');
@@ -323,7 +323,7 @@ void DiplayInfo()
 		Print_DrawText("\x18\x17\x17\x17\x17\x17\x12");
 		Print_DrawCharX('\x17', 20);
 		Print_DrawChar('\x19');
-		for(u8 i = 0; i < MAPPER_NUM; i++)
+		for (u8 i = 0; i < MAPPER_NUM; i++)
 		{
 			Print_SetPosition(0, MAPPER_Y + 2 + i);
 			Print_DrawChar('\x16');
@@ -342,7 +342,7 @@ void DiplayInfo()
 
 		Print_SetPosition(29, MAPPER_Y + 3);
 		Print_DrawText("\x18\x17\x17\x17\x12\x17\x17\x17\x17\x17\x19");
-		for(u8 i = 0; i < MAPPER_BANKS; i++)
+		for (u8 i = 0; i < MAPPER_BANKS; i++)
 		{
 			Print_SetPosition(29, MAPPER_Y + 4 + i);
 			Print_DrawChar('\x16');
@@ -380,7 +380,7 @@ void main()
 	DiplayInfo();
 	
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 
@@ -431,7 +431,7 @@ void main()
 		#endif
 	}
 	
-	#if ((TARGET_TYPE == TYPE_ROM) || (TARGET & ROM_ISR))
+	#if ((TARGET_TYPE == TYPE_ROM) && (TARGET & ROM_ISR))
 		// BIOS not present in page 0
 		Sys_SetPage0Slot(g_EXPTBL[0]);
 	#endif

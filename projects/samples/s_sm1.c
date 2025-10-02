@@ -96,7 +96,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 	g_Frame++;
 }
@@ -108,7 +108,7 @@ void UpdateSpriteFlag()
 	u8 flag = 0;
 	
 	Print_SetPosition(10, 19);
-	if(g_Size)
+	if (g_Size)
 	{
 		flag |= VDP_SPRITE_SIZE_16;
 		Print_DrawText("16px");
@@ -117,7 +117,7 @@ void UpdateSpriteFlag()
 		Print_DrawText("8px ");
 	
 	Print_SetPosition(10, 20);
-	if(g_Scale)
+	if (g_Scale)
 	{
 		flag |= VDP_SPRITE_SCALE_2;
 		Print_DrawText("x2");
@@ -134,7 +134,7 @@ void UpdateFlipSAT(u8 mode)
 {
 	g_SATMode = mode;
 	Print_SetPosition(10, 21);
-	switch(g_SATMode)
+	switch (g_SATMode)
 	{
 	case SAT_STATIC: Print_DrawText("Static"); break;
 	case SAT_FLIP:   Print_DrawText("Flip  "); break;
@@ -150,7 +150,7 @@ void UpdateMove(u8 move)
 {
 	g_Move = move;
 	Print_SetPosition(10, 22);
-	if(g_Move)
+	if (g_Move)
 		Print_DrawText("\xC");
 	else
 		Print_DrawText("\xB");
@@ -160,9 +160,9 @@ void UpdateMove(u8 move)
 //
 void UpdateCount(u8 count)
 {
-	if(count < 1)
+	if (count < 1)
 		return;
-	if(count > SPRITE_8_NUM)
+	if (count > SPRITE_8_NUM)
 		return;
 	g_Count = count;
 	Print_SetPosition(10, 23);
@@ -211,7 +211,7 @@ void main()
 	VDP_LoadSpritePattern(g_Font_MGL_Symbol1 + 4 + (16 * 10 * 8), 0, PATTERN_8_NUM);
 	
 	// Initialize 8x8 sprites
-	for(u8 i = 0; i < SPRITE_8_NUM; ++i)
+	for (u8 i = 0; i < SPRITE_8_NUM; ++i)
 	{
 		u16 rnd = Math_GetRandom16();
 		struct VDP_Sprite* sprt = &g_Sprite[i];
@@ -237,7 +237,7 @@ void main()
 
 	u8 prevRow6 = 0xFF, prevRow7 = 0xFF, prevRow8 = 0xFF;
 	bool bContinue = TRUE;
-	while(bContinue)
+	while (bContinue)
 	{
 		// VDP_SetColor(COLOR_LIGHT_BLUE);
 		WaitVBlank();
@@ -246,14 +246,14 @@ void main()
 		// Set current SAT
 		u16 vram;
 		i8 offset;
-		if(g_SATMode == SAT_STATIC)
+		if (g_SATMode == SAT_STATIC)
 		{
 			vram = VRAM_SPRITE_ATTRIBUTE_0;
 			offset = 4;
 		}
-		else // if(g_SATMode != SAT_STATIC)
+		else // if (g_SATMode != SAT_STATIC)
 		{
-			if((g_Frame & 1) == 0)
+			if ((g_Frame & 1) == 0)
 			{
 				VDP_SetSpriteAttributeTable(VRAM_SPRITE_ATTRIBUTE_0);
 				vram = VRAM_SPRITE_ATTRIBUTE_0;
@@ -269,15 +269,15 @@ void main()
 		
 		// Update sprites attribute
 		struct VDP_Sprite* sprt = &g_Sprite[0];
-		for(u8 i = 0; i < SPRITE_8_NUM; i++)
+		for (u8 i = 0; i < SPRITE_8_NUM; i++)
 		{
-			if(g_Move)
+			if (g_Move)
 			{
 				const struct Vector* mov = &s_DirMove[i & 0x7];
-				sprt->X = sprt->X + mov->x;
 				sprt->Y = (sprt->Y + mov->y) & 0x7F;
+				sprt->X = sprt->X + mov->x;
 			}
-			if(i < g_Count)
+			if (i < g_Count)
 				VDP_WriteVRAM_16K((const u8*)sprt, vram, 2);
 			else
 				VDP_FillVRAM_16K(213, vram, 2);
@@ -288,37 +288,37 @@ void main()
 		
 		// Handle user input
 		u8 row6 = Keyboard_Read(6);
-		if(!IS_KEY_PRESSED(prevRow6, KEY_F1) && IS_KEY_PRESSED(row6, KEY_F1))
+		if (!IS_KEY_PRESSED(prevRow6, KEY_F1) && IS_KEY_PRESSED(row6, KEY_F1))
 		{
 			g_Size = 1 - g_Size;
 			UpdateSpriteFlag();
 		}
-		if(!IS_KEY_PRESSED(prevRow6, KEY_F2) && IS_KEY_PRESSED(row6, KEY_F2))
+		if (!IS_KEY_PRESSED(prevRow6, KEY_F2) && IS_KEY_PRESSED(row6, KEY_F2))
 		{
 			g_Scale = 1 - g_Scale;
 			UpdateSpriteFlag();
 		}
-		if(!IS_KEY_PRESSED(prevRow6, KEY_F3) && IS_KEY_PRESSED(row6, KEY_F3))
+		if (!IS_KEY_PRESSED(prevRow6, KEY_F3) && IS_KEY_PRESSED(row6, KEY_F3))
 		{
 			UpdateFlipSAT((g_SATMode + 1) % 2);
 		}		
 		prevRow6 = row6;
 		
 		u8 row7 = Keyboard_Read(7);
-		if(!IS_KEY_PRESSED(prevRow7, KEY_F4) && IS_KEY_PRESSED(row7, KEY_F4))
+		if (!IS_KEY_PRESSED(prevRow7, KEY_F4) && IS_KEY_PRESSED(row7, KEY_F4))
 		{
 			UpdateMove(1 - g_Move);
 		}
-		if(IS_KEY_PRESSED(prevRow7, KEY_ESC))
+		if (IS_KEY_PRESSED(prevRow7, KEY_ESC))
 			bContinue = FALSE;
 		prevRow7 = row7;		
 
 		u8 row8 = Keyboard_Read(8);
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+		if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
 			UpdateCount(g_Count + 1);
 		}
-		if(IS_KEY_PRESSED(row8, KEY_LEFT))
+		if (IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
 			UpdateCount(g_Count - 1);
 		}

@@ -34,6 +34,7 @@ u8 g_MyVar;
 void DOS_CharOutput(c8 chr)
 {
 	chr;	// A
+
 __asm
 	push	ix
 	ld		e, a
@@ -55,7 +56,7 @@ void DOS_PrintHexa(u8 value)
 // Print a string
 void DOS_PrintText(const c8* str)
 {
-	while(*str)
+	while (*str)
 		DOS_CharOutput(*str++);
 }
 

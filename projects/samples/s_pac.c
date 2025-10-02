@@ -50,7 +50,7 @@ u8 g_Data[8];
 void Print_DrawSlot(u8 slot)
 {
 	Print_DrawInt(Sys_SlotGetPrimary(slot));
-	if(Sys_SlotIsExpended(slot))
+	if (Sys_SlotIsExpended(slot))
 	{
 		Print_DrawChar('-');
 		Print_DrawInt(Sys_SlotGetSecondary(slot));
@@ -61,7 +61,7 @@ void Print_DrawSlot(u8 slot)
 // 
 const c8* GetStatName(u8 stat)
 {
-	switch(stat)
+	switch (stat)
 	{
 	case PAC_CHECK_EMPTY: return "Empty";
 	#if (PAC_USE_SIGNATURE)
@@ -94,7 +94,7 @@ void DrawPage(u8 page)
 	Print_DrawCharX(' ', 40);
 
 	Print_SetPosition(2, PAGE_CURSOR + page);
-	if(PAC_GetSlot(g_Device) != SLOT_NOTFOUND)
+	if (PAC_GetSlot(g_Device) != SLOT_NOTFOUND)
 	{
 		Print_DrawFormat("%i | %s | %2x %2x %2x %2x %2x %2x %2x %2x", page, GetStatName(stat),
 			g_Data[0], g_Data[1], g_Data[2], g_Data[3], g_Data[4], g_Data[5], g_Data[6], g_Data[7]);
@@ -116,13 +116,13 @@ void SetDevice(u8 dev)
 
 	Print_SetPosition(20, 4);
 	Print_DrawFormat(" (%i) ", g_Device);
-	if(PAC_GetSlot(g_Device) == SLOT_NOTFOUND)
+	if (PAC_GetSlot(g_Device) == SLOT_NOTFOUND)
 		Print_DrawText("Not found");
 	else
 		Print_DrawSlot(PAC_GetSlot(g_Device));
 
 	SetPage(0);
-	for(u8 i = 0; i < PAC_PAGE_MAX; ++i)
+	for (u8 i = 0; i < PAC_PAGE_MAX; ++i)
 		DrawPage(i);
 
 	Print_SetPosition(0, PAGE_CURSOR + PAC_PAGE_MAX);
@@ -149,11 +149,11 @@ void main()
 	Print_SetPosition(20, 3);
 	Print_DrawFormat("Current:");
 
-	for(u8 i = 0; i < PAC_DEVICE_MAX; ++i)
+	for (u8 i = 0; i < PAC_DEVICE_MAX; ++i)
 	{
 		Print_SetPosition(0, 4 + i);
 		Print_DrawFormat(" %i: ", i);
-		if(PAC_GetSlot(i) == SLOT_NOTFOUND)
+		if (PAC_GetSlot(i) == SLOT_NOTFOUND)
 			Print_DrawText("Not found");
 		else
 			Print_DrawSlot(PAC_GetSlot(i));
@@ -173,42 +173,42 @@ void main()
 	SetDevice(0);
 	
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 
-		if(Keyboard_IsKeyPressed(KEY_UP))
+		if (Keyboard_IsKeyPressed(KEY_UP))
 		{
 			SetPage((g_Page + PAC_PAGE_MAX - 1) % PAC_PAGE_MAX);
-			while(Keyboard_IsKeyPressed(KEY_UP)) {}
+			while (Keyboard_IsKeyPressed(KEY_UP)) {}
 		}
-		if(Keyboard_IsKeyPressed(KEY_DOWN))
+		if (Keyboard_IsKeyPressed(KEY_DOWN))
 		{
 			SetPage((g_Page + 1) % PAC_PAGE_MAX);
-			while(Keyboard_IsKeyPressed(KEY_DOWN)) {}
+			while (Keyboard_IsKeyPressed(KEY_DOWN)) {}
 		}
 
-		if(Keyboard_IsKeyPressed(KEY_RIGHT))
+		if (Keyboard_IsKeyPressed(KEY_RIGHT))
 		{
 			g_Device = (g_Device + 1) % PAC_DEVICE_MAX;
 			SetDevice(g_Device);
 		}
-		if(Keyboard_IsKeyPressed(KEY_LEFT))
+		if (Keyboard_IsKeyPressed(KEY_LEFT))
 		{
 			g_Device = (g_Device + PAC_DEVICE_MAX - 1) % PAC_DEVICE_MAX;
 			SetDevice(g_Device);
 		}
-		if(Keyboard_IsKeyPressed(KEY_W))
+		if (Keyboard_IsKeyPressed(KEY_W))
 		{
 			PAC_Write(g_Page, g_DataWrite, sizeof(g_DataWrite));
 			DrawPage(g_Page);
 		}
-		if(Keyboard_IsKeyPressed(KEY_E))
+		if (Keyboard_IsKeyPressed(KEY_E))
 		{
 			PAC_Format(g_Page);
 			DrawPage(g_Page);
 		}
-		if(Keyboard_IsKeyPressed(KEY_A))
+		if (Keyboard_IsKeyPressed(KEY_A))
 		{
 			PAC_FormatAll();
 			SetDevice(g_Device);

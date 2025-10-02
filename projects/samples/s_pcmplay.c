@@ -65,14 +65,14 @@ void main()
 	Bios_SetKeyClick(FALSE);
 
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 
 		Print_SetPosition(39, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 
-		if(Keyboard_IsKeyPressed(KEY_SPACE))
+		if (Keyboard_IsKeyPressed(KEY_SPACE))
 			PCM_Play(PCM_ADDR, PCM_SIZE);
 	}
 }

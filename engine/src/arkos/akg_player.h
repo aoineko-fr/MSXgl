@@ -28,10 +28,10 @@ extern bool g_AKG_Playing;
 // Initialize a music and start playback
 //
 // Paramaters:
+//   num	- Sub-music number if the AKG contain several musics (otherwise set to 0)
 //   data	- Pointer to the music data (data must be export to be replayed at this exact location)
 //            Check Arkos Tracker 2 documentation for more details: https://www.julien-nevo.com/arkostracker
-//   num	- Sub-music number if the AKG contain several musics (otherwise set to 0)
-void AKG_Init(const void* data, u8 sng);
+void AKG_Play(u8 sng, const void* data);
 
 // Function: AKG_IsPlaying
 // Check if a music is currently playing

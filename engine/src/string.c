@@ -26,23 +26,26 @@ enum STRINT_PAD
 #if (STRING_USE_FROM_UINT8)
 //-----------------------------------------------------------------------------
 // Create a zero-terminated string from a 8-bits unsigned integer
-void String_FromUInt8ZT(u8 value, c8* string)
+void String_FromUInt8ZT(u8 value, c8* string) __NAKED
 {
 	value;	// A
 	string;	// DE
+
 __asm
 	call	_String_FromUInt8
 	xor		a
 	ld		(de), a
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Create a string from a 8-bits unsigned integer (string is not zero-terminated)
-void String_FromUInt8(u8 value, c8* string)
+void String_FromUInt8(u8 value, c8* string) __NAKED
 {
 	value;	// A
 	string; // DE
+
 __asm
 DispA:
 	ld		c, #-100
@@ -73,23 +76,26 @@ __endasm;
 #if (STRING_USE_FROM_UINT16)
 //-----------------------------------------------------------------------------
 // Create a zero-terminated string from a 16-bits unsigned integer
-void String_FromUInt16ZT(u16 value, c8* string)
+void String_FromUInt16ZT(u16 value, c8* string) __NAKED
 {
 	value;	// HL
 	string;	// DE
+
 __asm
 	call	_String_FromUInt16
 	xor		a
 	ld		(de), a
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Create a string from a 16-bits unsigned integer (string is not zero-terminated)
-void String_FromUInt16(u16 value, c8* string)
+void String_FromUInt16(u16 value, c8* string) __NAKED
 {
 	value;	// HL
 	string;	// DE
+
 __asm
 Num2Dec:
 	ld		bc, #-10000
@@ -133,27 +139,27 @@ void String_Format(c8* dest, const c8* format, ...)
 
 	c8 str[16];
 	const c8* ptr = format;
-	while(*ptr != 0)
+	while (*ptr != 0)
 	{
-		if(*ptr == '%')
+		if (*ptr == '%')
 		{
 			ptr++;
 			
 			// Parse length
 			u8 pad = STRINT_PAD_NONE;
 			u8 len = 0;
-			if(*ptr == '0')
+			if (*ptr == '0')
 			{
 				pad = STRINT_PAD_ZERO;
 				ptr++;
 			}
-			else if((*ptr >= '1') && (*ptr <= '9'))
+			else if ((*ptr >= '1') && (*ptr <= '9'))
 			{
 				pad = STRINT_PAD_SPACE;
 				len = *ptr - '0';
 				ptr++;
 			}
-			while((*ptr >= '0') && (*ptr <= '9'))
+			while ((*ptr >= '0') && (*ptr <= '9'))
 			{
 				len *= 10;
 				len += *ptr - '0';
@@ -161,7 +167,7 @@ void String_Format(c8* dest, const c8* format, ...)
 			}
 			
 			// Parse variable types
-			switch(*ptr)
+			switch (*ptr)
 			{
 				case '%':
 					*dest++ = '%';
@@ -177,7 +183,7 @@ void String_Format(c8* dest, const c8* format, ...)
 				{
 					#if (STRING_USE_INT32)
 					i32 val;
-					if((*ptr == 'I') || (*ptr == 'D'))
+					if ((*ptr == 'I') || (*ptr == 'D'))
 						val = (i32)va_arg(args, i32);
 					else
 						val = (i32)va_arg(args, i16);
@@ -185,7 +191,7 @@ void String_Format(c8* dest, const c8* format, ...)
 					i16 val = (i16)va_arg(args, i16);
 					#endif
 					// Sign
-					if(val < 0)
+					if (val < 0)
 					{
 						*dest++ = '-';
 						val = -val;
@@ -194,7 +200,7 @@ void String_Format(c8* dest, const c8* format, ...)
 					c8* ptr = str;
 					*ptr = 0;
 					u8 digit = 1;
-					while(val >= 10)
+					while (val >= 10)
 					{
 						*++ptr = '0' + (val % 10);
 						val /= 10;
@@ -202,14 +208,14 @@ void String_Format(c8* dest, const c8* format, ...)
 					}
 					*++ptr = '0' + val;
 					// Padding
-					if(len > digit)
+					if (len > digit)
 					{
 						c8 padChr = (pad == STRINT_PAD_ZERO) ? '0' : ' ';
-						for(u8 i = 0; i < len - digit; ++i)
+						for (u8 i = 0; i < len - digit; ++i)
 							*dest++ = padChr;
 					}
 					// Copy digit string
-					while(*ptr != 0)
+					while (*ptr != 0)
 						*dest++ = *ptr--;
 					break;
 				}				
@@ -225,23 +231,23 @@ void String_Format(c8* dest, const c8* format, ...)
 				#if (STRING_USE_INT32)
 				case 'X':
 				{
-					if(len == 0)
+					if (len == 0)
 						len = 8;
 					u32 val = (u32)va_arg(args, u32);
 					// Print_DrawHex32(val);
-					if(len > 7)
+					if (len > 7)
 						*dest++ = g_HexChar[(val >> 28) & 0xF];
-					if(len > 6)
+					if (len > 6)
 						*dest++ = g_HexChar[(val >> 24) & 0xF];
-					if(len > 5)
+					if (len > 5)
 						*dest++ = g_HexChar[(val >> 20) & 0xF];
-					if(len > 4)
+					if (len > 4)
 						*dest++ = g_HexChar[(val >> 16) & 0xF];
-					if(len > 3)
+					if (len > 3)
 						*dest++ = g_HexChar[(val >> 12) & 0xF];
-					if(len > 2)
+					if (len > 2)
 						*dest++ = g_HexChar[(val >> 8) & 0xF];
-					if(len > 1)
+					if (len > 1)
 						*dest++ = g_HexChar[(val >> 4) & 0xF];
 					*dest++ = g_HexChar[val & 0xF];
 					break;
@@ -251,14 +257,14 @@ void String_Format(c8* dest, const c8* format, ...)
 				// Hexadecimal 16-bits integer
 				case 'x':
 				{
-					if(len == 0)
+					if (len == 0)
 						len = 4;
 					u16 val = (u16)va_arg(args, u16);
-					if(len > 3)
+					if (len > 3)
 						*dest++ = g_HexChar[(val >> 12) & 0xF];
-					if(len > 2)
+					if (len > 2)
 						*dest++ = g_HexChar[(val >> 8) & 0xF];
-					if(len > 1)
+					if (len > 1)
 						*dest++ = g_HexChar[(val >> 4) & 0xF];
 					*dest++ = g_HexChar[val & 0xF];
 					break;
@@ -277,7 +283,7 @@ void String_Format(c8* dest, const c8* format, ...)
 				{
 					const c8* val = (const c8*)va_arg(args, const c8*);
 					u8 len = String_Length(val);
-					for(u8 i = 0; i < len; i++)
+					for (u8 i = 0; i < len; i++)
 						*dest++ = *val++;
 					break;
 				}

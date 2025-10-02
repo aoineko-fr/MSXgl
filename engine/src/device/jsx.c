@@ -63,7 +63,7 @@
 
 //-----------------------------------------------------------------------------
 //
-u8 JSX_Detect(enum INPUT_PORT port)
+u8 JSX_Detect(enum INPUT_PORT port) __NAKED
 {
 	port; // A
 
@@ -90,13 +90,13 @@ jsx_detect_start:
 	out		(P_PSG_REGS), a			// Select R#14
 	in		a, (P_PSG_STAT)			// Read R#14
 	and		#0x3F
-
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 //
-u8 JSX_Read(enum INPUT_PORT port, u8* buffer)
+u8 JSX_Read(enum INPUT_PORT port, u8* buffer) __NAKED
 {
 	port;   // A
 	buffer; // DE
@@ -167,7 +167,7 @@ jsx_read_detect_loop:
 	djnz	jsx_read_detect_loop
 
 	ld		a, c
-
+	ret
 __endasm;
 }
 
@@ -175,7 +175,7 @@ __endasm;
 //
 // INPUT_PORT1_HIGH			0b00010011
 // INPUT_PORT2_HIGH			0b01101100
-u8 JSXC_Detect(enum INPUT_PORT port)
+u8 JSXC_Detect(enum INPUT_PORT port) __NAKED
 {
 	port; // A
 
@@ -212,7 +212,7 @@ jsxc_detect_get_id:
 	and		#0x3F
 
 	INPUT_EI
-
+	ret
 __endasm;
 }
 
@@ -226,7 +226,7 @@ __endasm;
 //
 // Return:
 //   Device ID
-u8 JSXC_Read(enum INPUT_PORT port, u8* buffer)
+u8 JSXC_Read(enum INPUT_PORT port, u8* buffer) __NAKED
 {
 	port;   // A
 	buffer; // DE
@@ -307,6 +307,6 @@ jsxc_read_detect_end:
 	INPUT_EI
 
 	ld		a, c					// Return the Device ID
-
+	ret
 __endasm;
 }

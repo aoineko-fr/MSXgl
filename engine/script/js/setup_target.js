@@ -7,15 +7,19 @@
 //─────────────────────────────────────────────────────────────────────────────
 
 // Configure alias
-if (Target === "DRIVER")  Target = "RAW";
-if (Target === "DOS")     Target = "DOS1";
-if (Target === "ROM")     Target = "ROM_32K";
 if (Target === "BIN")     Target = "BIN_DISK";
 if (Target === "BAS")     Target = "BIN_DISK";
 if (Target === "USR")     Target = "BIN_USR";
+if (Target === "DOS")     Target = "DOS1";
 if (Target === "BOOT")    Target = "DOS0";
+if (Target === "ROM")     Target = "ROM_32K";
 if (Target === "ROM_K4")  Target = "ROM_KONAMI";
 if (Target === "ROM_K5")  Target = "ROM_KONAMI_SCC";
+if (Target === "DRIVER")  Target = "RAW";
+
+//*****************************************************************************
+// SPECIAL
+//*****************************************************************************
 
 //-----------------------------------------------------------------------------
 if (Target === "RAW")
@@ -30,6 +34,14 @@ if (Target === "RAW")
 	TargetDesc = "RAW binary program (driver)";
 }
 
+//-----------------------------------------------------------------------------
+else if (Target === "LIB")
+{
+	Ext = "lib";
+
+	TargetDesc = "C library (.lib)";
+}
+	
 //*****************************************************************************
 // BASIC
 //*****************************************************************************

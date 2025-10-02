@@ -16,7 +16,7 @@
 //=============================================================================
 
 // z80 registers starage structure
-struct Registers
+typedef struct Registers
 {
 	u16 IX;
 	u16 IY;
@@ -24,10 +24,10 @@ struct Registers
 	u16 DE;
 	u16 BC;
 	u8  A;
-};
+} Registers;
 
 // Data to store z80 registers
-extern struct Registers g_Registers;
+extern Registers g_Registers;
 
 //=============================================================================
 // FUNCTIONS
@@ -57,7 +57,7 @@ void Registers_StoreBase();
 //
 // Return:
 //   Poimter to register structure
-inline struct Registers* Registers_Data() { return &g_Registers; }
+inline Registers* Registers_Data() { return &g_Registers; }
 
 // Function: Registers_CallBDOS
 // Call BDOS function after setting registers from <Registers_Data> data structure. Return values are then store in <Registers_Data>.

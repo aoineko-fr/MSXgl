@@ -158,9 +158,9 @@ u8 keyPressed[numberof(keys)];
 /// 
 void InputEvent(u8 dev, u8 in, u8 evt)
 {
-	if(g_LogY >= 24)
+	if (g_LogY >= 24)
 	{
-		for(i8 i = 18; i < 24; i++) // clear
+		for (i8 i = 18; i < 24; i++) // clear
 		{
 			Print_SetPosition(0, i);
 			Print_DrawCharX(' ', 40);
@@ -174,7 +174,7 @@ void InputEvent(u8 dev, u8 in, u8 evt)
 	Print_DrawChar('D');
 	Print_DrawInt(dev);
 	Print_DrawChar('.');
-	switch(in)
+	switch (in)
 	{
 	case IPM_INPUT_STICK:    Print_DrawText("S"); break;
 	case IPM_INPUT_BUTTON_A: Print_DrawText("A"); break;
@@ -218,7 +218,7 @@ void main()
 	Print_SetPosition(2, 1);
 	Print_DrawText(MSX_GL "  KEYBOARD SAMPLE");
 	
-	for(u8 i = 0; i < numberof(keys); i++)
+	for (u8 i = 0; i < numberof(keys); i++)
 	{
 		Print_SetPosition(keys[i].posX-1, keys[i].posY);
 		Print_DrawText(keys[i].text);
@@ -237,24 +237,24 @@ void main()
 	g_LogY = 18;
 
 	i8 i;
-	for(i = 0; i < numberof(keys); i++)
+	for (i = 0; i < numberof(keys); i++)
 		keyPressed[i] = 1;
 
 	u8 count = 0;
 	u8 loop = 1;
 	c8 start, end;
-	while(loop)
+	while (loop)
 	{
 		IPM_Update();
 		
-		for(i = 0; i < numberof(keys); i++)
+		for (i = 0; i < numberof(keys); i++)
 		{
 			u8 pressed = Keyboard_IsKeyPressed(keys[i].code);
-			if(keyPressed[i] != pressed)
+			if (keyPressed[i] != pressed)
 			{
 				keyPressed[i] = pressed;
 				start = end = ' ';
-				if(pressed)
+				if (pressed)
 				{
 					start = '[';
 					end = ']';
@@ -266,15 +266,15 @@ void main()
 			}
 		}
 
-		for(i = 0; i < 11; i++)
+		for (i = 0; i < 11; i++)
 		{
-			if((i % 4) == 0)
+			if ((i % 4) == 0)
 				Print_SetPosition(22, 13 + (i / 4));
 			Print_DrawHex8(Keyboard_Read(i));
 			Print_DrawChar(' ');
 		}
 		
-		if(Keyboard_IsKeyPressed(KEY_ESC) && Keyboard_IsKeyPressed(KEY_DEL))
+		if (Keyboard_IsKeyPressed(KEY_ESC) && Keyboard_IsKeyPressed(KEY_DEL))
 		{
 			loop = 0;
 		}

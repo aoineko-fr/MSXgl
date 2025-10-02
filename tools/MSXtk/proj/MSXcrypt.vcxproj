@@ -241,9 +241,10 @@ $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetN
       <OutputFile>$(IntermediateOutputPath)$(TargetName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Message>Copy generated program</Message>
-      <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
-$(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'">
@@ -306,7 +307,7 @@ $(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetN
     <PostBuildEvent>
       <Message>Copy generated program</Message>
       <Command>copy $(OutDir)$(TargetName)$(TargetExt) ..\bin\$(TargetName)$(TargetExt)
-$(ProjectDir)..\bin\$(TargetName)$(TargetExt) &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
+$(ProjectDir)..\bin\$(TargetName)$(TargetExt) -help &gt; $(ProjectDir)..\bin\$(TargetName).txt</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -77,7 +77,7 @@ inline bool Char_IsAlphaNum(c8 chr)
 inline u8 String_Length(const c8* str)
 {
 	u8 ret = 0;
-	while(*str++)
+	while (*str++)
 		ret++;		
 	return ret;
 }
@@ -91,7 +91,7 @@ inline u8 String_Length(const c8* str)
 //   src - Source string
 inline void String_Copy(c8* dst, const c8* src)
 {
-	while(*src)
+	while (*src)
 		*dst++ = *src++;
 	*dst = '\0';
 }

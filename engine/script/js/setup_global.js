@@ -177,6 +177,9 @@ global.LibModules = [];
 //-- Additional sources to be compiled and linked with the project (array)
 global.AddSources = [];
 
+//-- Additional extern library to be linked with the project (array)
+global.AddLibs = [];
+
 //-- Target MSX machine version (string)
 //   - 1        MSX1
 //   - 2        MSX2
@@ -191,7 +194,6 @@ global.AddSources = [];
 global.Machine = "1";
 
 //-- Target program format (string)
-//   - BIN              .bin    BASIC binary program (starting at 8000h)
 //   - BIN_DISK         .bin    BASIC binary program (starting at 8000h) on disk
 //   - BIN_TAPE         .bin    BASIC binary program (starting at 8000h) on tape
 //   - BIN_USR          .bin    BASIC USR binary driver (starting at C000h)
@@ -213,6 +215,10 @@ global.Machine = "1";
 //   - ROM_KONAMI_SCC   .rom    Konami MegaROM SCC (aka Konami5): 8 KB segments for a total of 64 KB to 2 MB
 //   - ROM_NEO8         .rom    NEO-8: 8 KB segments for a total of 1 MB to 32 MB
 //   - ROM_NEO16        .rom    NEO-16: 16 KB segments for a total of 1 MB to 64 MB
+//   - ROM_YAMANOOTO    .rom    Yamanooto: 8 KB segments for a total up to 8 MB
+//   - ROM_ASCII16X     .rom    ASCII16-X: 16 KB segments for a total up to 64 MB
+//   - RAW              .bin    Raw binary code and data to be compiled at a given address
+//   - LIB              .lib    C library to be included in other project
 global.Target = "ROM_32K";
 
 //-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096)
@@ -264,7 +270,7 @@ global.ForceCodeAddr = 0;
 //-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
 global.ForceRamAddr = 0;
 
-//-- List of raw data files to be added to final binary (array). Each entry must be in the following format: { offset=0x0000, file="myfile.bin" }
+//-- List of raw data files to be added to final binary (array). Each entry must be in the following format: { offset:0x0000, file:"myfile.bin" }
 global.RawFiles = [];
 
 //-- List of data files to copy to disk (array)

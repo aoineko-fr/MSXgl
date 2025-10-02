@@ -49,7 +49,7 @@ const u8 __at(R_VDP_DW) g_VDP_DW;
 // └─┴─┴─┴────────── Basic version
 //                   0000 = Japanese, 1111 = International
 const u8 __at(R_BASRVN) g_BASRVN[2];
-struct BasicROMVersion
+typedef struct BasicROMVersion
 {
 	u8 CharacterSet: 4; // Character Set
 	// 0000 (0) = Japan;
@@ -83,14 +83,16 @@ struct BasicROMVersion
 	u8 Cur: 1; // Currency Symbol
 	// 0 = yen (Japan), pound (U.K.);
 	// 1 = dollar (U.S.A.).
-};
-const struct BasicROMVersion __at(R_BASRVN) g_ROMVersion;
+} BasicROMVersion;
+const BasicROMVersion __at(R_BASRVN) g_ROMVersion;
 
-#define R_MSXVER	0x002D // MSX version number
-#define MSXVER_1	0 // MSX1
-#define MSXVER_2	1 // MSX2
-#define MSXVER_2P	2 // MSX2+
-#define MSXVER_TR	3 // MSX turbo R
+#define R_MSXVER		0x002D // MSX version number
+#define MSXVER_1		0 // MSX1
+#define MSXVER_2		1 // MSX2
+#define MSXVER_2P		2 // MSX2+
+#define MSXVER_TR		3 // MSX turbo R
+#define MSXVER_2PP		4 // MSX2++
+#define MSXVER_TRP		5 // MSX turbo R+
 const u8 __at(R_MSXVER) g_MSXVER;
 
 #define R_MSXMID	0x002E // Bit 0: if 1 then MSX-MIDI is present internally (MSX turbo R only)

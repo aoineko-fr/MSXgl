@@ -14,14 +14,14 @@
 #define SJIS_HAN		0xDF00 // Handaku ten
 
 // 
-typedef struct
+typedef struct SJIS_MapToMSX
 {
 	u8 SJIS;
 	u8 MSX;
 } SJIS_MapToMSX;
 
 // 
-typedef struct
+typedef struct SJIS_MapToMSX16
 {
 	u16 SJIS;
 	u8 MSX;
@@ -35,16 +35,16 @@ typedef struct
 // 
 const SJIS_MapToMSX g_SJIS_MarkToMSX[] =
 {
-	{ 0x41, 0xA4 }, // [A]
-	{ 0x42, 0xA1 }, // [B]
-	{ 0x45, 0xA5 }, // [E]
-	{ 0x48, 0x3F }, // [H]
-	{ 0x49, 0x21 }, // [I]
-	{ 0x4A, 0xDE }, // [J]
-	{ 0x4B, 0xDF }, // [K]
-	{ 0x75, 0xA5 }, // [u]
-	{ 0x76, 0xA5 }, // [v]
-	{ 0x5B, 0xB0 }, // [[]
+	{ 0x41, 0xA4 }, // [ï¿½A]
+	{ 0x42, 0xA1 }, // [ï¿½B]
+	{ 0x45, 0xA5 }, // [ï¿½E]
+	{ 0x48, 0x3F }, // [ï¿½H]
+	{ 0x49, 0x21 }, // [ï¿½I]
+	{ 0x4A, 0xDE }, // [ï¿½J]
+	{ 0x4B, 0xDF }, // [ï¿½K]
+	{ 0x75, 0xA5 }, // [ï¿½u]
+	{ 0x76, 0xA5 }, // [ï¿½v]
+	{ 0x5B, 0xB0 }, // [ï¿½[]
 };
 
 // 
@@ -166,7 +166,7 @@ const u16 g_SJIS_KataToMSX[] =
 	0xBD + SJIS_DAKU,	// 83 59 - KATAKAGA ZU
 	0xBE,				// 83 5A - KATAKAGA SE
 	0xBE + SJIS_DAKU,	// 83 5B - KATAKAGA ZE
-	0xBF,				// 83 5C - KATAKAGA SO ---------- Must be: 'ƒ\\'
+	0xBF,				// 83 5C - KATAKAGA SO ---------- Must be: 'ï¿½\\'
 	0xBF + SJIS_DAKU,	// 83 5D - KATAKAGA ZO
 	0xC0,				// 83 5E - KATAKAGA TA
 	0xC0 + SJIS_DAKU,	// 83 5F - KATAKAGA DA
@@ -230,44 +230,44 @@ const u16 g_SJIS_KataToMSX[] =
 // 
 const SJIS_MapToMSX16 g_SJIS_KanjiToMSX[] =
 {
-	{ 0x8C8E,	0x01 },	// ŒŽ
-	{ 0x89CE,	0x02 },	// ‰Î
-	{ 0x9085,	0x03 },	// …
-	{ 0x96D8,	0x04 },	// –Ø
-	{ 0x8BE0,	0x05 },	// ‹à
-	{ 0x9379,	0x06 },	// “y
-	{ 0x93FA,	0x07 },	// “ú
-	{ 0x944E,	0x08 },	// ”N
-	{ 0x897E,	0x09 },	// ‰~
-	{ 0x8E9E,	0x0A },	// Žž
-	{ 0x95AA,	0x0B },	// •ª
-	{ 0x9562,	0x0C },	// •b
-	{ 0x9553,	0x0D },	// •S
-	{ 0x90E7,	0x0E },	// ç
-	{ 0x969C,	0x0F },	// –œ
-	{ 0x91E5,	0x1D },	// ‘å
-	{ 0x9286,	0x1E },	// ’†
-	{ 0x8FAC,	0x1F },	// ¬
+	{ 0x8C8E,	0x01 },	// ï¿½ï¿½
+	{ 0x89CE,	0x02 },	// ï¿½ï¿½
+	{ 0x9085,	0x03 },	// ï¿½ï¿½
+	{ 0x96D8,	0x04 },	// ï¿½ï¿½
+	{ 0x8BE0,	0x05 },	// ï¿½ï¿½
+	{ 0x9379,	0x06 },	// ï¿½y
+	{ 0x93FA,	0x07 },	// ï¿½ï¿½
+	{ 0x944E,	0x08 },	// ï¿½N
+	{ 0x897E,	0x09 },	// ï¿½~
+	{ 0x8E9E,	0x0A },	// ï¿½ï¿½
+	{ 0x95AA,	0x0B },	// ï¿½ï¿½
+	{ 0x9562,	0x0C },	// ï¿½b
+	{ 0x9553,	0x0D },	// ï¿½S
+	{ 0x90E7,	0x0E },	// ï¿½ï¿½
+	{ 0x969C,	0x0F },	// ï¿½ï¿½
+	{ 0x91E5,	0x1D },	// ï¿½ï¿½
+	{ 0x9286,	0x1E },	// ï¿½ï¿½
+	{ 0x8FAC,	0x1F },	// ï¿½ï¿½
 };
 
 // Shift-JIS to MSX character mapping
 /*const u16* g_MapShiftJIS =
-	L"@ŒŽ‰Î…–Ø‹à“y“ú”N‰~Žž•ª•b•Sç–œ"
-	L"@@@@@@@@@@@@@‘å’†¬"
-	L"@I@@@@@@@@@@@@@^"
-	L"‚O‚P‚Q‚R‚S‚T‚U‚V‚W‚X@@@@@H"
-	L"—‚`‚a‚b‚c‚d‚e‚f‚g‚h‚i‚j‚k‚l‚m‚n"
-	L"‚o‚p‚q‚r‚s‚t‚u‚v‚w‚x‚ym@nOQ"
-	L"M‚‚‚‚ƒ‚„‚…‚†‚‡‚ˆ‚‰‚Š‚‹‚Œ‚‚Ž‚"
-	L"‚‚‘‚’‚“‚”‚•‚–‚—‚˜‚™‚šobp`@"
-	L"@@@@@@‚ð‚Ÿ‚¡‚£‚¥‚§‚á‚ã‚å‚Á"
-	L"@‚ ‚¢‚¤‚¦‚¨‚©‚«‚­‚¯‚±‚³‚µ‚·‚¹‚»"
-	L"@BuvAEƒ’ƒ@ƒBƒDƒFƒHƒƒƒ…ƒ‡ƒb"
-	L"[ƒAƒCƒEƒGƒIƒJƒLƒNƒPƒRƒTƒVƒXƒZƒ\"
-	L"ƒ^ƒ`ƒcƒeƒgƒiƒjƒkƒlƒmƒnƒqƒtƒwƒzƒ}"
-	L"ƒ~ƒ€ƒƒ‚ƒ„ƒ†ƒˆƒ‰ƒŠƒ‹ƒŒƒƒƒ“JK"
-	L"‚½‚¿‚Â‚Ä‚Æ‚È‚É‚Ê‚Ë‚Ì‚Í‚Ð‚Ó‚Ö‚Ù‚Ü"
-	L"‚Ý‚Þ‚ß‚à‚â‚ä‚æ‚ç‚è‚é‚ê‚ë‚í‚ñ";*/
+	L"ï¿½@ï¿½ï¿½ï¿½Îï¿½ï¿½Ø‹ï¿½ï¿½yï¿½ï¿½ï¿½Nï¿½~ï¿½ï¿½ï¿½ï¿½ï¿½bï¿½Sï¿½ç–œ"
+	L"ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½å’†ï¿½ï¿½"
+	L"ï¿½@ï¿½Iï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½^"
+	L"ï¿½Oï¿½Pï¿½Qï¿½Rï¿½Sï¿½Tï¿½Uï¿½Vï¿½Wï¿½Xï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½H"
+	L"ï¿½ï¿½ï¿½`ï¿½aï¿½bï¿½cï¿½dï¿½eï¿½fï¿½gï¿½hï¿½iï¿½jï¿½kï¿½lï¿½mï¿½n"
+	L"ï¿½oï¿½pï¿½qï¿½rï¿½sï¿½tï¿½uï¿½vï¿½wï¿½xï¿½yï¿½mï¿½@ï¿½nï¿½Oï¿½Q"
+	L"ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
+	L"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½pï¿½`ï¿½@"
+	L"ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
+	L"ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
+	L"ï¿½@ï¿½Bï¿½uï¿½vï¿½Aï¿½Eï¿½ï¿½ï¿½@ï¿½Bï¿½Dï¿½Fï¿½Hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½b"
+	L"ï¿½[ï¿½Aï¿½Cï¿½Eï¿½Gï¿½Iï¿½Jï¿½Lï¿½Nï¿½Pï¿½Rï¿½Tï¿½Vï¿½Xï¿½Zï¿½\"
+	L"ï¿½^ï¿½`ï¿½cï¿½eï¿½gï¿½iï¿½jï¿½kï¿½lï¿½mï¿½nï¿½qï¿½tï¿½wï¿½zï¿½}"
+	L"ï¿½~ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½K"
+	L"ï¿½ï¿½ï¿½ï¿½ï¿½Â‚Ä‚Æ‚È‚É‚Ê‚Ë‚Ì‚Í‚Ð‚Ó‚Ö‚Ù‚ï¿½"
+	L"ï¿½Ý‚Þ‚ß‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";*/
 
 //=============================================================================
 // MEMORY DATA
@@ -282,7 +282,7 @@ const SJIS_MapToMSX16 g_SJIS_KanjiToMSX[] =
 c8* SJIS_Convert(const c8* src, c8* dest)
 {
 	c8* ptr = dest;
-	while(*src)
+	while (*src)
 	{
 		if (*src == 0x81)
 		{
@@ -291,7 +291,7 @@ c8* SJIS_Convert(const c8* src, c8* dest)
 			loop(i, numberof(g_SJIS_MarkToMSX))
 			{
 				const SJIS_MapToMSX* map = &g_SJIS_MarkToMSX[i];
-				if(*src == map->SJIS)
+				if (*src == map->SJIS)
 				{
 					chr = map->MSX;
 					break;
@@ -305,39 +305,39 @@ c8* SJIS_Convert(const c8* src, c8* dest)
 			u16 code = (src[0] << 8) + src[1];
 			src += 2;
 			code -= 0x829F;
-			if(code < numberof(g_SJIS_HiraToMSX))
+			if (code < numberof(g_SJIS_HiraToMSX))
 			{
 				u16 val = g_SJIS_HiraToMSX[code];
 				*ptr++ = val & 0x00FF;
-				if(val & 0xFF00)
+				if (val & 0xFF00)
 					*ptr++ = val >> 8;
 			}
 			else
 				*ptr++ = '?';
 		}
-		else if(*src == 0x83)
+		else if (*src == 0x83)
 		{
 			u16 code = (src[0] << 8) + src[1];
 			src += 2;
 			code -= 0x8340;
-			if(code < numberof(g_SJIS_KataToMSX))
+			if (code < numberof(g_SJIS_KataToMSX))
 			{
 				u16 val = g_SJIS_KataToMSX[code];
 				*ptr++ = val & 0x00FF;
-				if(val & 0xFF00)
+				if (val & 0xFF00)
 					*ptr++ = val >> 8;
 			}
 			else
 				*ptr++ = '?';
 		}
-		else if(*src > 0x88)
+		else if (*src > 0x88)
 		{
 			u16 code = (src[0] << 8) + src[1];
 			u8 chr = '?';
 			loop(i, numberof(g_SJIS_KanjiToMSX))
 			{
 				const SJIS_MapToMSX16* map = &g_SJIS_KanjiToMSX[i];
-				if(code == map->SJIS)
+				if (code == map->SJIS)
 				{
 					chr = map->MSX;
 					break;
@@ -346,7 +346,7 @@ c8* SJIS_Convert(const c8* src, c8* dest)
 			*ptr++ = chr;
 			src += 2;
 		}
-		else if(*src & 0x80)
+		else if (*src & 0x80)
 		{
 			*ptr++ = '?';
 			src += 2;

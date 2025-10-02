@@ -79,7 +79,7 @@ void Print_DrawVersion(u16 ver)
 // 
 const c8* NTapType(u8 type)
 {
-	switch(type)
+	switch (type)
 	{
 		case NTAP_TYPE_NINJA:   return "Ninja Tap";
 		case NTAP_TYPE_SHINOBI: return "Shinobi Tap";
@@ -113,23 +113,23 @@ void NTapScan()
 	Print_DrawFormat("NinjaTap: %i\n", (g_JoyNum == 5) ? 1 : (g_JoyNum == 8) ? 2 : 0);
 
 	Print_SetPosition(0, TAB_Y + 2);
-	for(u8 i = 0; i < 8; ++i)
+	for (u8 i = 0; i < 8; ++i)
 	{
 		Print_DrawFormat("P%i ", i + 1);
 		Print_DrawText("--------  ");
 		Print_Return();
 	}
 
-	if(g_Info & NTAP_PORT1_MASK)
+	if (g_Info & NTAP_PORT1_MASK)
 	{
 		Print_DrawTextAtV(11, TAB_Y + 2, "\x19\x16\x16\x1B");
 		Print_DrawTextAt(12, TAB_Y + 3, NTapType(g_Info >> 4 & 0x3));
 	}
 
-	if(g_Info & NTAP_PORT2_MASK)
+	if (g_Info & NTAP_PORT2_MASK)
 	{
 		u8 y = TAB_Y + 3;
-		if(g_Info & NTAP_PORT1_MASK)
+		if (g_Info & NTAP_PORT1_MASK)
 			y += 3;
 		Print_DrawTextAtV(11, y, "\x19\x16\x16\x1B");
 		Print_DrawTextAt(12, y + 1, NTapType(g_Info >> 6 & 0x3));
@@ -139,7 +139,7 @@ void NTapScan()
 	Print_DrawLineH(0, 22, 32);
 	Print_SetPosition(0, 23);
 	Print_DrawText("R:Rescan D:Driver        ");
-	Print_DrawVersion(VERSION_CURRENT);
+	Print_DrawVersion(MSXGL_VERSION);
 }
 
 //-----------------------------------------------------------------------------
@@ -156,7 +156,7 @@ void main()
 	NTapScan();
 
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		// VDP_SetColor(0xF4);
 		Halt();
@@ -166,19 +166,19 @@ void main()
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 
 		NTap_Update();
-		for(u8 i = 0; i < g_JoyNum; ++i)
+		for (u8 i = 0; i < g_JoyNum; ++i)
 		{
 			Print_SetPosition(3, TAB_Y+2 + i);
 			Print_DrawBin8(NTap_GetData(i));
 		}
 
-		if(Keyboard_IsKeyPressed(KEY_R))
+		if (Keyboard_IsKeyPressed(KEY_R))
 			NTapScan();
 
-		if(Keyboard_IsKeyPressed(KEY_D))
+		if (Keyboard_IsKeyPressed(KEY_D))
 		{
 			g_DriverIdx++;
-			if(g_DriverIdx >= numberof(g_Drivers))
+			if (g_DriverIdx >= numberof(g_Drivers))
 				g_DriverIdx = 0;
 			NTapScan();
 		}

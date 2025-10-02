@@ -105,13 +105,13 @@ void main()
 
 	// Decode
 	Print_DrawText("\nDecode:\n");
-	if(Crypt_Decode(g_InvalidData, (void*)g_TestData))
+	if (Crypt_Decode(g_InvalidData, (void*)g_TestData))
 		PrintStruct();
 	else
 		Print_DrawText("> Invalid data\n");
 
 	u8 frame = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 

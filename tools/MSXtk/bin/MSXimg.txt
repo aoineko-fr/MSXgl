@@ -1,5 +1,4 @@
-Error: No enough parameters!
-MSXimg 1.20.3 - Image converter for MSX development
+MSXimg 1.21.0 - Image converter for MSX development
 Usage: MSXimg <filename> [options]
 
 General options:
@@ -48,6 +47,7 @@ Color options:
     msx1          Use default MSX1 palette
     custom        Generate a custom palette and add it to the output file
     input n [c1 c2 ...] Use the following colors for conversion
+    partial n [c1 c2 ...] Use the following colors as base for custom palette
  --palcount n     Number of color in the custom palette to create (default: 15)
  --paloff n       Index offset of the palette (default: 1)
  --pal24          Use 24-bits palette (for v9990; default: false)

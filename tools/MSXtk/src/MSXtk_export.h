@@ -94,7 +94,7 @@ public:
 	virtual void AddByteList(std::vector<u8> data, std::string comment = "")
 	{
 		StartLine();
-		for(u32 i = 0; i < data.size(); i++)
+		for (u32 i = 0; i < data.size(); i++)
 			AddByte(data[i]);
 		EndLine(comment);
 	}
@@ -265,7 +265,7 @@ public:
 	}
 	virtual void EndSection(std::string comment = "")
 	{
-		if(outData.back() != '\n')
+		if (outData.back() != '\n')
 			outData += "\n";
 		outData += MSX::Format("};\n");
 	}

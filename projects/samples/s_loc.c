@@ -229,36 +229,36 @@ void DisplayTrans()
 void Update()
 {
 	// Change language
-	if(Keyboard_IsKeyPressed(KEY_RIGHT))
+	if (Keyboard_IsKeyPressed(KEY_RIGHT))
 	{
 		SetLanguage((g_CurLang + 1) % LANG_MAX);
 		g_Display();
 	}
-	else if(Keyboard_IsKeyPressed(KEY_LEFT))
+	else if (Keyboard_IsKeyPressed(KEY_LEFT))
 	{
 		SetLanguage((g_CurLang + LANG_MAX - 1) % LANG_MAX);
 		g_Display();
 	}
 
 	// Change font
-	if(Keyboard_IsKeyPressed(KEY_UP))
+	if (Keyboard_IsKeyPressed(KEY_UP))
 	{
 		g_CurFont = (g_CurFont + 1) % numberof(g_Fonts);
 		g_Display();
 	}
-	else if(Keyboard_IsKeyPressed(KEY_DOWN))
+	else if (Keyboard_IsKeyPressed(KEY_DOWN))
 	{
 		g_CurFont = (g_CurFont + numberof(g_Fonts) - 1) % numberof(g_Fonts);
 		g_Display();
 	}
 
 	// Change font
-	if(Keyboard_IsKeyPressed(KEY_F1))
+	if (Keyboard_IsKeyPressed(KEY_F1))
 	{
 		g_Display = DisplayFont;
 		g_Display();
 	}
-	else if(Keyboard_IsKeyPressed(KEY_F2))
+	else if (Keyboard_IsKeyPressed(KEY_F2))
 	{
 		g_Display = DisplayTrans;
 		g_Display();
@@ -280,7 +280,7 @@ void main()
 
 	// Main loop
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		// Screen synchronization
 		Halt();

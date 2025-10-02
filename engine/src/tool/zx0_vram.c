@@ -8,7 +8,7 @@
 //   HL: source address (compressed data)
 //   DE: destination address (decompressing)
 // -----------------------------------------------------------------------------
-void ZX0_UnpackToVRAM(const void* source, void* dest) __naked
+void ZX0_UnpackToVRAM(const void* source, void* dest) __NAKED
 {
 	source; // HL
 	dest;   // DE

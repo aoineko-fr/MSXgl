@@ -22,12 +22,12 @@
 extern const u32 g_AppSignature;
 #endif
 
-#if(PAC_ACCESS == PAC_ACCESS_DIRECT)
+#if (PAC_ACCESS == PAC_ACCESS_DIRECT)
 
 	#define PAC_INTERSLOTREAD(slot, addr) Peek(addr)
 	#define PAC_INTERSLOTWRITE(slot, addr, value) Poke(addr, value)
 
-#elif(PAC_ACCESS == PAC_ACCESS_BIOS)
+#elif (PAC_ACCESS == PAC_ACCESS_BIOS)
 
 	#define PAC_INTERSLOTREAD(slot, addr) Bios_InterSlotRead(slot, addr)
 	#define PAC_INTERSLOTWRITE(slot, addr, value) Bios_InterSlotWrite(slot, addr, value)
@@ -81,7 +81,7 @@ u8 g_PAC_Current;
 // Read data using interslot code
 void PAC_ReadInterSlot(u8 slot, u16 addr, u8* data, u16 size)
 {
-	for(u16 i = 0; i < size; ++i)
+	for (u16 i = 0; i < size; ++i)
 		*data++ = PAC_INTERSLOTREAD(slot, addr++);
 	EnableInterrupt();
 }
@@ -90,7 +90,7 @@ void PAC_ReadInterSlot(u8 slot, u16 addr, u8* data, u16 size)
 // Write data using interslot code
 void PAC_WriteInterSlot(u8 slot, u16 addr, const u8* data, u16 size)
 {
-	for(u16 i = 0; i < size; ++i)
+	for (u16 i = 0; i < size; ++i)
 		PAC_INTERSLOTWRITE(slot, addr++, *data++);
 	EnableInterrupt();
 }
@@ -99,7 +99,7 @@ void PAC_WriteInterSlot(u8 slot, u16 addr, const u8* data, u16 size)
 // Check SRAM in the given slot
 void PAC_CheckSlot(u8 slot)
 {
-	if(g_PAC_Num >= PAC_DEVICE_MAX)
+	if (g_PAC_Num >= PAC_DEVICE_MAX)
 		return;
 
 	// Backup values
@@ -110,13 +110,13 @@ void PAC_CheckSlot(u8 slot)
 	// Check ROM
 	PAC_INTERSLOTWRITE(slot, 0x5FFF, 0);				// Desactivate SRAM
 	PAC_INTERSLOTWRITE(slot, 0x5FFD, ~bakD);
-	if(PAC_INTERSLOTREAD(slot, 0x5FFD) == bakD)
+	if (PAC_INTERSLOTREAD(slot, 0x5FFD) == bakD)
 	{
 		// Check SRAM
 		PAC_INTERSLOTWRITE(slot, 0x5FFE, 'M');		// Activate SRAM
 		PAC_INTERSLOTWRITE(slot, 0x5FFF, 'i');
 		PAC_INTERSLOTWRITE(slot, 0x5FFD, ~bakD);
-		if(PAC_INTERSLOTREAD(slot, 0x5FFD) != bakD)
+		if (PAC_INTERSLOTREAD(slot, 0x5FFD) != bakD)
 			g_PAC_Slot[g_PAC_Num++] = slot;
 	}
 
@@ -132,15 +132,15 @@ bool PAC_Search()
 {
 	// Initialize
 	g_PAC_Num = 0;
-	for(u8 i = 0; i < PAC_DEVICE_MAX; ++i)
+	for (u8 i = 0; i < PAC_DEVICE_MAX; ++i)
 		g_PAC_Slot[i] = SLOT_NOTFOUND;
 
 	// Parse slot and subslot
-	for(u8 slot = 0; slot < 4; ++slot)
+	for (u8 slot = 0; slot < 4; ++slot)
 	{
-		if(g_EXPTBL[slot] & SLOT_EXP)
+		if (g_EXPTBL[slot] & SLOT_EXP)
 		{
-			for(u8 sub = 0; sub < 4; ++sub)
+			for (u8 sub = 0; sub < 4; ++sub)
 			{
 				u8 slotId = SLOTEX(slot, sub);
 				PAC_CheckSlot(slotId);
@@ -157,7 +157,7 @@ bool PAC_Search()
 // Initialize PAC module
 bool PAC_Initialize()
 {
-	if(!PAC_Search())
+	if (!PAC_Search())
 		return FALSE;
 
 	PAC_Select(0);
@@ -170,7 +170,7 @@ bool PAC_Initialize()
 // Activate or disactive the current PAC device
 void PAC_Activate(bool bEnable)
 {
-	if(bEnable)
+	if (bEnable)
 	{
 		PAC_INTERSLOTWRITE(g_PAC_Current, 0x5FFE, 'M'); // 0x4D
 		PAC_INTERSLOTWRITE(g_PAC_Current, 0x5FFF, 'i'); // 0x69
@@ -187,18 +187,18 @@ void PAC_Activate(bool bEnable)
 void PAC_Write(u8 page, const u8* data, u16 size)
 {
 	#if (PAC_USE_VALIDATOR)
-	if(page > 7)
+	if (page > 7)
 		return;
-	if((page == 7) && (size > 1022))
+	if ((page == 7) && (size > 1022))
 		return;
-	if(size > 1024)
+	if (size > 1024)
 		return;
 	#endif
 
 	u16 addr = 0x4000 + page * 1024;
 	#if (PAC_USE_SIGNATURE)
 	const u8* sign = (const u8*)&g_AppSignature;
-	for(u16 i = 0; i < 4; ++i)
+	for (u16 i = 0; i < 4; ++i)
 		PAC_INTERSLOTWRITE(g_PAC_Current, addr++, *sign++);
 	#endif
 
@@ -210,11 +210,11 @@ void PAC_Write(u8 page, const u8* data, u16 size)
 void PAC_Read(u8 page, u8* data, u16 size)
 {
 	#if (PAC_USE_VALIDATOR)
-	if(page > 7)
+	if (page > 7)
 		return;
-	if((page == 7) && (size > 1022))
+	if ((page == 7) && (size > 1022))
 		return;
-	if(size > 1024)
+	if (size > 1024)
 		return;
 	#endif
 
@@ -231,17 +231,17 @@ void PAC_Read(u8 page, u8* data, u16 size)
 void PAC_Format(u8 page)
 {
 	#if (PAC_USE_VALIDATOR)
-	if(page > 7)
+	if (page > 7)
 		return;
 	#endif
 
 	u16 addr = 0x4000 + page * 1024;
 
 	u16 size = 1024;
-	if(page == 7)
+	if (page == 7)
 		size -= 2;
 
-	for(u16 i = 0; i < size; ++i)
+	for (u16 i = 0; i < size; ++i)
 		PAC_INTERSLOTWRITE(g_PAC_Current, addr++, PAC_EMPTY_CHAR);
 	EnableInterrupt();
 }
@@ -251,7 +251,7 @@ void PAC_Format(u8 page)
 u8 PAC_Check(u8 page)
 {
 	#if (PAC_USE_VALIDATOR)
-	if(page > 7)
+	if (page > 7)
 		return PAC_CHECK_ERROR;
 	#endif
 
@@ -260,24 +260,24 @@ u8 PAC_Check(u8 page)
 	#if (PAC_USE_SIGNATURE)
 	bool bSigned = TRUE;
 	const u8* sign = (const u8*)&g_AppSignature;
-	for(u16 i = 0; i < 4; ++i)
+	for (u16 i = 0; i < 4; ++i)
 	{
-		if(PAC_INTERSLOTREAD(g_PAC_Current, addr + i) != sign[i])
+		if (PAC_INTERSLOTREAD(g_PAC_Current, addr + i) != sign[i])
 		{
 			bSigned = FALSE;
 			break;
 		}
 	}
-	if(bSigned)
+	if (bSigned)
 		return PAC_CHECK_APP;
 	#endif
 
 	u16 size = 1024;
-	if(page == 7)
+	if (page == 7)
 		size -= 2;
 
-	for(u16 i = 0; i < size; ++i)
-		if(PAC_INTERSLOTREAD(g_PAC_Current, addr++) != PAC_EMPTY_CHAR)
+	for (u16 i = 0; i < size; ++i)
+		if (PAC_INTERSLOTREAD(g_PAC_Current, addr++) != PAC_EMPTY_CHAR)
 			return PAC_CHECK_UNDEF;
 
 	return PAC_CHECK_EMPTY;

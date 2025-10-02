@@ -36,10 +36,10 @@ void FSM_SetState(FSM_State* state)
 // Update the current state
 void FSM_Update()
 {
-	if(g_NextState)
+	if (g_NextState)
 	{
 		// End previous state
-		if(g_CurrentState && g_CurrentState->End)
+		if (g_CurrentState && g_CurrentState->End)
 			g_CurrentState->End();
 
 		// Switch state
@@ -48,7 +48,7 @@ void FSM_Update()
 		g_NextState = NULL;
 
 		// Start next state
-		if(g_CurrentState->Begin)
+		if (g_CurrentState->Begin)
 			g_CurrentState->Begin();
 	}
 

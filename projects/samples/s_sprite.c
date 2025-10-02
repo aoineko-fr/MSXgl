@@ -106,6 +106,10 @@ u8 g_Phase = 0;
 // Sprite data
 struct SpriteData g_Sprite[32];
 
+struct SpriteData* g_Data1;
+struct SpriteData* g_Data2;
+struct SpriteData* g_Data3;
+
 //=============================================================================
 // HELPER FUNCTIONS
 //=============================================================================
@@ -115,7 +119,7 @@ struct SpriteData g_Sprite[32];
 void HBlankHook()
 {
 	// VDP_SetColor(COLOR_BLACK);
-	if(g_Phase == 0)
+	if (g_Phase == 0)
 	{
 		VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 + VDP_SPRITE_SCALE_2);
 		VDP_SetHBlankLine(SPRITE_8_LINE);
@@ -133,24 +137,24 @@ void HBlankHook()
 // H_KEYI interrupt hook
 void InterruptHook()
 {
-	__asm
-		// Get S#1
-		ld		a, #1
-		out		(P_VDP_ADDR), a
-		ld		a, #(0x80 + 15)
-		out		(P_VDP_ADDR), a
-		in		a, (P_VDP_STAT)
-		//  Call H-Blank if bit #0 of S#1 is set 
-		rrca
-		jp		nc, _no_hblank
-		call	_HBlankHook // call to C function HBlankHook() 
-	_no_hblank:
-		// Reset R#15 to S#0
-		xor		a           		
-		out		(P_VDP_ADDR), a
-		ld		a, #(0x80 + 15)
-		out		(P_VDP_ADDR),a
-	__endasm;
+__asm
+	// Get S#1
+	ld		a, #1
+	out		(P_VDP_ADDR), a
+	ld		a, #(0x80 + 15)
+	out		(P_VDP_ADDR), a
+	in		a, (P_VDP_STAT)
+	//  Call H-Blank if bit #0 of S#1 is set 
+	rrca
+	jp		nc, _no_hblank
+	call	_HBlankHook // call to C function HBlankHook() 
+_no_hblank:
+	// Reset R#15 to S#0
+	xor		a           		
+	out		(P_VDP_ADDR), a
+	ld		a, #(0x80 + 15)
+	out		(P_VDP_ADDR),a
+__endasm;
 
 	// Call((u16)HookBackup_KEYI);
 }
@@ -166,12 +170,55 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 	g_Frame++;
 	g_Phase = 0;
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 	VDP_SetHBlankLine(SPRITE_2X_LINE);
+}
+
+//-----------------------------------------------------------------------------
+// Update sprites attributes
+void UpdateSprites()
+{
+	struct SpriteData* sprt = &g_Sprite[0];
+	u8 sprtIdx = SPRITE_8_1ST;
+	for (u8 i = 0; i < SPRITE_8_NUM; i++)
+	{
+		const struct Vector* mov = &DirMove[i & 0x7];
+		sprt->X += mov->x;
+		sprt->Y += mov->y;
+		if (sprt->Y > 212)
+			sprt->Y -= 98;
+		if (sprt->Y < 114)
+			sprt->Y += 98;
+
+		VDP_SetSpriteData(sprtIdx++, (u8*)sprt++);
+	}
+
+	u8 frame = (g_Frame >> 2) % 6;
+	g_Data1->X++;
+	if (g_Data1->X > 128-16)
+	g_Data1->X = 0;
+	g_Data1->Shape = PATTERN_16_1ST + (0 + frame) * 4;
+	VDP_SetSpriteData(SPRITE_16_1ST + 0, (u8*)g_Data1);
+	g_Data1->Shape = PATTERN_16_1ST + (6 + frame) * 4;
+	VDP_SetSpriteData(SPRITE_16_1ST + 1, (u8*)g_Data1);
+
+	g_Data2->X = g_Data1->X + 128;
+	g_Data2->Shape = PATTERN_16OR_1ST + (0 + frame) * 4;
+	VDP_SetSpriteData(SPRITE_16OR_1ST + 0, (u8*)g_Data2);
+	g_Data2->Shape = PATTERN_16OR_1ST + (6 + frame) * 4;
+	VDP_SetSpriteData(SPRITE_16OR_1ST + 1, (u8*)g_Data2);
+
+	g_Data3->X += 2;
+	g_Data3->Shape = PATTERN_16OR_1ST + (0 + frame) * 4;
+	VDP_SetSpriteData(SPRITE_16OR_1ST + 2, (u8*)g_Data3);
+	g_Data3->Shape = PATTERN_16OR_1ST + (6 + frame) * 4;
+	VDP_SetSpriteData(SPRITE_16OR_1ST + 3, (u8*)g_Data3);
+
+	VDP_SetSpriteMultiColor(SPRITE_16OR_1ST + 4, ColorTab + ((g_Frame >> 2) & 0x07));
 }
 
 //=============================================================================
@@ -183,7 +230,7 @@ void WaitVBlank()
 void main()
 {
 	Bios_SetKeyClick(FALSE);
-	if(g_MSXVER == 0)
+	if (Sys_GetMSXVersion() == MSXVER_1)
 	{
 		Bios_ClearScreen();
 		Bios_TextPrintSting("This sample need MSX2 or above");
@@ -207,14 +254,14 @@ void main()
 	VDP_LoadSpritePattern(g_Font_MGL_Symbol1 + 4 + (16 * 10 * 8), PATTERN_8_1ST, PATTERN_8_NUM);
 	// Load 16x16 sprites (Pattern 96~143)
 	u8 chrSprt = PATTERN_16_1ST;
-	for(u8 i5 = 0; i5 < 6; i5++)
+	for (u8 i5 = 0; i5 < 6; i5++)
 	{
 		VDP_LoadSpritePattern(g_DataSprt16 + (i5 * 2 +  0) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16 + (i5 * 2 + 12) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16 + (i5 * 2 +  1) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16 + (i5 * 2 + 13) * 8, chrSprt++, 1);	
 	}
-	for(u8 i6 = 0; i6 < 6; i6++)
+	for (u8 i6 = 0; i6 < 6; i6++)
 	{
 		VDP_LoadSpritePattern(g_DataSprt16 + (i6 * 2 + 24) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16 + (i6 * 2 + 36) * 8, chrSprt++, 1);
@@ -222,14 +269,14 @@ void main()
 		VDP_LoadSpritePattern(g_DataSprt16 + (i6 * 2 + 37) * 8, chrSprt++, 1);
 	}
 	chrSprt = PATTERN_16OR_1ST;
-	for(u8 i5 = 0; i5 < 6; i5++)
+	for (u8 i5 = 0; i5 < 6; i5++)
 	{
 		VDP_LoadSpritePattern(g_DataSprt16or + (i5 * 2 +  0) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16or + (i5 * 2 + 12) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16or + (i5 * 2 +  1) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16or + (i5 * 2 + 13) * 8, chrSprt++, 1);	
 	}
-	for(u8 i6 = 0; i6 < 6; i6++)
+	for (u8 i6 = 0; i6 < 6; i6++)
 	{
 		VDP_LoadSpritePattern(g_DataSprt16or + (i6 * 2 + 24) * 8, chrSprt++, 1);
 		VDP_LoadSpritePattern(g_DataSprt16or + (i6 * 2 + 36) * 8, chrSprt++, 1);
@@ -237,7 +284,7 @@ void main()
 		VDP_LoadSpritePattern(g_DataSprt16or + (i6 * 2 + 37) * 8, chrSprt++, 1);
 	}
 	// Initialize 8x8 sprites
-	for(u8 i = 0; i < SPRITE_8_NUM; i++)
+	for (u8 i = 0; i < SPRITE_8_NUM; i++)
 	{
 		u16 rnd = Math_GetRandom16();
 		g_Sprite[i].X = rnd >> 8;
@@ -284,15 +331,15 @@ void main()
 	Print_SetPosition(8, 24 + 98);
 	Print_DrawText("8x8");
 	
-	struct SpriteData* data1 = &g_Sprite[SPRITE_16_1ST];
-	data1->X = 0;
-	data1->Y = 32;
-	struct SpriteData* data2 = &g_Sprite[SPRITE_16_1ST+1];
-	data2->X = 128;
-	data2->Y = 32;
-	struct SpriteData* data3 = &g_Sprite[SPRITE_16_1ST+2];
-	data3->X = 0;
-	data3->Y = 64+8;
+	g_Data1 = &g_Sprite[SPRITE_16_1ST];
+	g_Data1->X = 0;
+	g_Data1->Y = 32;
+	g_Data2 = &g_Sprite[SPRITE_16_1ST+1];
+	g_Data2->X = 128;
+	g_Data2->Y = 32;
+	g_Data3 = &g_Sprite[SPRITE_16_1ST+2];
+	g_Data3->X = 0;
+	g_Data3->Y = 64+8;
 
 	g_Phase = 0;
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
@@ -302,54 +349,15 @@ void main()
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
 	
 	bool bContinue = TRUE;
-	while(bContinue)
+	while (bContinue)
 	{
 		// VDP_SetColor(COLOR_LIGHT_BLUE);
 		WaitVBlank();
 		// VDP_SetColor(COLOR_DARK_BLUE);
 	
-		// Print_SetPosition(248, 2);
-		// Print_DrawChar(chrAnim[g_Frame & 0x03]);
-
-		struct SpriteData* sprt = &g_Sprite[0];
-		u8 sprtIdx = SPRITE_8_1ST;
-		for(u8 i = 0; i < SPRITE_8_NUM; i++)
-		{
-			const struct Vector* mov = &DirMove[i & 0x7];
-			sprt->X += mov->x;
-			sprt->Y += mov->y;
-			if(sprt->Y > 212)
-				sprt->Y -= 98;
-			if(sprt->Y < 114)
-				sprt->Y += 98;
-
-			VDP_SetSpriteData(sprtIdx++, (u8*)sprt++);
-		}
-
-		u8 frame = (g_Frame >> 2) % 6;
-		data1->X++;
-		if(data1->X > 128-16)
-			data1->X = 0;
-		data1->Shape = PATTERN_16_1ST + (0 + frame) * 4;
-		VDP_SetSpriteData(SPRITE_16_1ST + 0, (u8*)data1);
-		data1->Shape = PATTERN_16_1ST + (6 + frame) * 4;
-		VDP_SetSpriteData(SPRITE_16_1ST + 1, (u8*)data1);
-
-		data2->X = data1->X + 128;
-		data2->Shape = PATTERN_16OR_1ST + (0 + frame) * 4;
-		VDP_SetSpriteData(SPRITE_16OR_1ST + 0, (u8*)data2);
-		data2->Shape = PATTERN_16OR_1ST + (6 + frame) * 4;
-		VDP_SetSpriteData(SPRITE_16OR_1ST + 1, (u8*)data2);
-
-		data3->X += 2;
-		data3->Shape = PATTERN_16OR_1ST + (0 + frame) * 4;
-		VDP_SetSpriteData(SPRITE_16OR_1ST + 2, (u8*)data3);
-		data3->Shape = PATTERN_16OR_1ST + (6 + frame) * 4;
-		VDP_SetSpriteData(SPRITE_16OR_1ST + 3, (u8*)data3);
-
-		VDP_SetSpriteMultiColor(SPRITE_16OR_1ST + 4, ColorTab + ((g_Frame >> 2) & 0x07));
+		UpdateSprites();
 		
-		if(Keyboard_IsKeyPressed(KEY_ESC))
+		if (Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;
 	}
 

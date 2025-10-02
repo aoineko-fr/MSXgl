@@ -45,6 +45,18 @@
 	#define DOS_USE_VALIDATOR		TRUE
 #endif
 
+// DOS_USE_ERROR_HANDLER
+#ifndef DOS_USE_ERROR_HANDLER
+	#warning DOS_USE_ERROR_HANDLER is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define DOS_USE_ERROR_HANDLER	TRUE
+#endif
+
+// DOS_USE_BIOSCALL
+#ifndef DOS_USE_BIOSCALL
+	#warning DOS_USE_BIOSCALL is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define DOS_USE_BIOSCALL	TRUE
+#endif
+
 //=============================================================================
 // DEFINES
 //=============================================================================
@@ -174,6 +186,11 @@
 // ERROR VALUES
 //-----------------------------------------------------------------------------
 
+// Choice returned to the error handler
+#define DOS1_ERROR_RET_IGNORE		0 // Ignore error
+#define DOS1_ERROR_RET_RETRY		1 // Retry operation
+#define DOS1_ERROR_RET_ABORT		2 // Abort operation
+
 // DISK ERRORS - The errors in this group are those which are usually passed to disk error handling routines. By default they will be reported as "Abort, Retry" errors. These errors except the one from "format disk" will be passed to the error handling routine, so they will not be returned as the return value from BDOS.
 #define DOS_ERR_NCOMP				0xFF // Incompatible disk - The disk cannot be accessed in that drive (eg. a double sided disk in a single sided drive).
 #define DOS_ERR_WRERR				0xFE // Write error - General error occurred during a disk write.
@@ -228,7 +245,7 @@
 #define DOS_ERR_IDATE				0xBE // Invalid date - Date parameters passed to "set date" are invalid.
 #define DOS_ERR_ITIME				0xBD // Invalid time - Time parameters passed to "set time" are invalid.
 #define DOS_ERR_RAMDX				0xBC // RAM disk (drive H:) already exists - Returned from the "ramdisk" function if trying to create a RAM disk when one already exists.
-#define DOS_ERR _NRAMD				0xBB // RAM disk does not exist - Attempt to delete the RAM disk when it does not currently exist. A function which tries to access a non-existent RAM disk will get a .IDRV error.
+#define DOS_ERR_NRAMD				0xBB // RAM disk does not exist - Attempt to delete the RAM disk when it does not currently exist. A function which tries to access a non-existent RAM disk will get a .IDRV error.
 #define DOS_ERR_HDEAD				0xBA // File handle has been deleted - The file associate with a file handle has been deleted so the file handle can no longer be used.
 #define DOS_ERR_EOL					0xB9 // - Internal error should never occur.
 #define DOS_ERR_ISBFN				0xB8 // Invalid sub-function number - The sub-function number passed to the IOCTL function (function 4Bh) was invalid.
@@ -289,9 +306,9 @@
 #define DOS_PRN						4
 
 // MSX-DOS 2 Open/create flags
+#define O_RDWR						0x00 // Open file for reading and writing
 #define O_RDONLY					0x01 // Open file for reading only
 #define O_WRONLY					0x02 // Open file for writing only
-#define O_RDWR						0x00 // Open file for reading and writing
 #define O_INHERIT					0x04 // 
 
 // MSX-DOS 2 Create attributes
@@ -362,7 +379,7 @@ enum DOS_DEVICE
 #define DOS_FGetAttribute			DOS_GetAttributeHandle
 
 // File Control Block structure
-typedef struct
+typedef struct DOS_FCB
 {
 	u8	Drive;						// Drive number containing the file. (0 for Default drive, 1 for A, 2 for B, ..., 8 for H)
 	c8	Name[11];					// Filename (format: 8.3)
@@ -381,7 +398,7 @@ typedef struct
 } DOS_FCB;
 
 // File info block
-typedef struct
+typedef struct DOS_FIB
 {
 	u8	Ident;						//		0 - Always 0FFh
 	u8	Filename[13];				//	1..13 - Filename as an ASCIIZ string
@@ -394,7 +411,7 @@ typedef struct
 	u8	Reserved[38];				// 26..63 - Internal information, must not be modified
 } DOS_FIB;
 
-#if (DOS_USE_VALIDATOR)
+#if ((DOS_USE_VALIDATOR) || (DOS_USE_ERROR_HANDLER))
 // Backup of the last error value
 extern u8 g_DOS_LastError;
 #endif
@@ -407,15 +424,27 @@ extern DOS_FIB g_DOS_LastFIB;
 __at(DOS_TPA) u16 DOS_TPAUpperAddr;
 #endif
 
-// DOS version structure
-typedef struct
+// MSX-DOS version structure
+typedef struct DOS_Version
 {
 	u16 Kernel;
 	u16 System;
 } DOS_Version;
 
+// MSX-DOS disk information structure
+typedef struct DOS_DiskInfo
+{
+	u8  SectorPerCluster;			// Sectors per cluster
+	u16 SectorSize;					// Sector size (always 512)
+	u16 TotalClusters;				// Total clusters on disk
+	u16 FreeClusters;				// Free clusters on disk
+	//-- not supported --
+	// u16 PDBPointer;					// Pointer to DPB
+	// u16 FATPointer;					// Pointer to first FAT sector
+} DOS_DiskInfo;
+
 // MSX-DOS 2 time structure
-typedef struct
+typedef struct DOS_Time
 {
 	u16 Year;						// +0 (note: order is important for fast update)
 	u8	Date;						// +2
@@ -427,7 +456,7 @@ typedef struct
 } DOS_Time;
 
 // MSX-DOS 2 disk parameters structure
-typedef struct
+typedef struct DOS_DiskParam
 {
 	u8	DriveNum;					// Physical drive number (1=A: etc)
 	u16 SectorSize;					// Sector size (always 512 currently)
@@ -445,7 +474,6 @@ typedef struct
 	u32 VolumeID;					// Volume id. (-1 => no volume id.)
 	u8	Reserved[8];				// Reserved (currently always zero)
 } DOS_DiskParam;
-
 
 //=============================================================================
 // FUNCTIONS
@@ -467,6 +495,8 @@ void DOS_Call(u8 func);
 
 // Function: DOS_Exit0
 // Exit program and return to DOS
+//
+// Wrapper for MSX-DOS's TERM0 routine (0x00)
 // When this is called in MSX-DOS, the system is reset by jumping to 0000H.
 // When MSX DISK-BASIC call this, it is “warm started”.
 // That is, it returns to BASIC command level without destroying programs currently loaded.
@@ -478,6 +508,8 @@ void DOS_Exit0();
 
 // Function: DOS_CharInput
 // Input character
+//
+// Wrapper for MSX-DOS's CONIN routine (0x01)
 // A character will be read from the standard input (file handle 0 - usually the keyboard) and echoed to the standard output (file handle 1 - usually the screen).
 // If no character is ready then this function will wait for one.
 // Various control characters, as specified for the "console status" function (function 0Bh), will be trapped by this function for various control purposes.
@@ -490,6 +522,8 @@ c8 DOS_CharInput();
 
 // Function: DOS_CharOutput
 // Output character
+//
+// Wrapper for MSX-DOS's CONOUT routine (0x02)
 // The character passed in register E is written to the standard output (file handle 1 - usually the screen).
 // If printer echo is enabled then the character is also written to the printer.
 // Various control codes and escape sequences are interpreted as screen control codes.
@@ -532,6 +566,16 @@ inline void DOS_Return() { DOS_StringOutput("\n\r$"); }
 // Parameters:
 //   data - Required Disk Transfer Address
 void DOS_SetTransferAddr(void* data);
+
+// Function: DOS_GetFreeSpace
+// Get free space on disk
+//
+// Parameters:
+//   drive - Drive number (0 for current drive, 1 for A, 2 for B, ..., 8 for H)
+//
+// Return:
+//   Number of free sectors on the disk
+u16 DOS_GetFreeSpace(u8 drive);
 
 // Function: DOS_OpenFCB
 // Open file
@@ -578,6 +622,15 @@ u8 DOS_CloseFCB(DOS_FCB* stream);
 // Return:
 //   Error code (DOS_ERR_NONE if succeed)
 u8 DOS_CreateFCB(DOS_FCB* stream);
+
+// Function: DOS_DeleteFCB
+// Delete file
+//
+// Parameters:
+//   stream - Pointer to opened FCB
+// Return:
+//   Error code (DOS_ERR_NONE if succeed)
+u8 DOS_DeleteFCB(DOS_FCB* stream);
 
 // Function: DOS_SequentialReadFCB
 // Sequential read
@@ -639,6 +692,170 @@ u8 DOS_FindFirstFileFCB(DOS_FCB* stream);
 u8 DOS_FindNextFileFCB();
 
 #endif // (DOS_USE_FCB)
+
+//.............................................................................
+// Group: MSX-DOS 1 Error Handling
+#if (DOS_USE_ERROR_HANDLER)
+
+// Function: DOS_InstallErrorHandler
+// Install the DOS error handler in RAM (page 3).
+//
+// Error stored in C register must be or-ed with 7 for error code never been 0.
+// Result must be store in g_DOS_LastError variable.
+// Error handler must restore SP from g_DOS_ErrorStack, then pop IX before returning.
+//
+// Example:
+//>  ld     a, c					; Get error code
+//>  or     a, #0x70				; Add marker so 0 is no error
+//>  ld     (_g_DOS_LastError), a	; Save the error code
+//>  ld     sp, (_g_DOS_ErrorStack)	; Restore stack pointer
+//>  pop    ix                      ; Restore C frame pointer
+//>  ret
+// 
+// Parameters:
+//   cb - Callback function address
+//   size - Size of the callback to be installed in RAM
+void DOS_InstallErrorHandler(callback cb, u8 size);
+
+// Function: DOS_ResetLastError
+// Reset the last error code.
+// Must be called before any MSX-DOS 1 function call when you want to check whether an error has occurred.
+inline void DOS_ResetLastError() { g_DOS_LastError = 0; }
+
+#endif // (DOS_USE_ERROR_HANDLER)
+
+//.............................................................................
+// Group: MSX-DOS 1 Misc
+
+// Function: DOS_GetVersion
+// Get MSX-DOS version number
+//
+// Parameters:
+//   ver - Pointer to DOS_Version structure
+//
+// Return:
+//   High part of the MSX-DOS kernel version
+u8 DOS_GetVersion(DOS_Version* ver);
+
+// Function: DOS_SelectDrive
+// Select disk drive number
+//
+// Wrapper for MSX-DOS's SELDSK routine (0x0E)
+//
+// Parameters:
+//   drive - Disk drive number (0 for A, 1 for B, ..., 7 for H)
+//
+// Return:
+//   Number of available drives 
+u8 DOS_SelectDrive(u8 drive);
+
+// Function: DOS_SelectDriveLetter
+// Select disk drive letter
+//
+// Wrapper for MSX-DOS's SELDSK routine (0x0E)
+//
+// Parameters:
+//   drive - Disk drive letter ('A', 'B', ..., 'H')
+//
+// Return:
+//   Number of available drives 
+inline u8 DOS_SelectDriveLetter(c8 drive) { return DOS_SelectDrive('A' - drive); }
+
+// Function: DOS_AvailableDrivers
+// Get a bit field of all available disk drives
+//
+// Wrapper for MSX-DOS's LOGIN routine (0x18)
+//
+// Return:
+//   Bit field of available drives (bit 0 for A, bit 1 for B, ..., bit 7 for H)
+u8 DOS_AvailableDrives() __FASTCALL;
+
+// Function: DOS_GetCurrentDrive
+// Get current disk drive number
+//
+// Wrapper for MSX-DOS's CDRV routine (0x19)
+//
+// Return:
+//   Current drive number (0 for A, 1 for B, ..., 7 for H)
+u8 DOS_GetCurrentDrive();
+
+// Function: DOS_GetCurrentDriveLetter
+// Get current disk drive letter
+//
+// Wrapper for MSX-DOS's CDRV routine (0x19)
+//
+// Return:
+//   Current drive letter ('A', 'B', ..., 'H')
+inline c8 DOS_GetCurrentDriveLetter() { return 'A' + DOS_GetCurrentDrive(); }
+
+// Function: DOS_GetDiskInfo
+// Get given disk information
+//
+// Wrapper for MSX-DOS's ALLOC routine (0x1B)
+//
+// Parameters:
+//   drive - Drive number (0 for current drive, 1 for A, 2 for B, ..., 8 for H)
+//   info - Pointer to DOS_DiskInfo structure to receive the information
+void DOS_GetDiskInfo(u8 drive, DOS_DiskInfo* info);
+
+// Function: DOS_GetFreeClusters
+// Retreive number of free clusters from a disk information structure
+//
+// Parameters:
+//   info - Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()
+//
+// Return:
+//   Number of free clusters
+inline u16 DOS_GetFreeClusters(DOS_DiskInfo* info) { return info->FreeClusters; }
+
+// Function: DOS_GetFreeSectors
+// Retreive number of free sectors from a disk information structure
+//
+// Parameters:
+//   info - Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()
+//
+// Return:
+//   Number of free sectors
+inline u32 DOS_GetFreeSectors(DOS_DiskInfo* info) { return (u32)info->FreeClusters * info->SectorPerCluster; }
+
+// Function: DOS_GetFreeBytes
+// Retreive number of free bytes from a disk information structure
+//
+// Parameters:
+//   info - Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()
+//
+// Return:
+//   Number of free bytes
+inline u32 DOS_GetFreeBytes(DOS_DiskInfo* info) { return (u32)info->FreeClusters * info->SectorPerCluster * info->SectorSize; }
+
+// Function: DOS_GetTotalClusters
+// Retreive total number of clusters from a disk information structure
+//
+// Parameters:
+//   info - Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()
+//
+// Return:
+//   Total number of clusters
+inline u16 DOS_GetTotalClusters(DOS_DiskInfo* info) { return info->TotalClusters; }
+
+// Function: DOS_GetTotalSectors
+// Retreive total number of sectors from a disk information structure
+//
+// Parameters:
+//   info - Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()
+//
+// Return:
+//   Total number of sectors
+inline u32 DOS_GetTotalSectors(DOS_DiskInfo* info) { return (u32)info->TotalClusters * info->SectorPerCluster; }
+
+// Function: DOS_GetTotalBytes
+// Retreive total number of bytes from a disk information structure
+//
+// Parameters:
+//   info - Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()
+//
+// Return:
+inline u32 DOS_GetTotalBytes(DOS_DiskInfo* info) { return (u32)info->TotalClusters * info->SectorPerCluster * info->SectorSize; }
 
 //-----------------------------------------------------------------------------
 // MSX-DOS 2 FUNCTIONS
@@ -823,7 +1040,7 @@ void DOS_Exit(u8 err);
 // Explain error code
 void DOS_Explain(u8 err, c8* str);
 
-#if (DOS_USE_VALIDATOR)
+#if ((DOS_USE_VALIDATOR) || (DOS_USE_ERROR_HANDLER))
 // Function: DOS_GetLastError
 // Get last error code
 inline u8 DOS_GetLastError() { return g_DOS_LastError; }
@@ -998,8 +1215,36 @@ const DOS_Time* DOS_GetTime();
 #endif // ((TARGET == TARGET_DOS2) || (TARGET == TARGET_DOS2_MAPPER))
 
 //.............................................................................
-// Group: Misc
+// Group: BIOS
 
-// Function: DOS_GetVersion
-// Get MSX-DOS version number
-u8 DOS_GetVersion(DOS_Version* ver);
+#if (DOS_USE_BIOSCALL)
+
+// Function: DOS_InterSlotRead
+// Reads the value of an address in another slot
+//
+// Parameters:
+//   slot - Slot-ID
+//   addr - Address to read
+//
+// Return:
+//   Contains the value of the read address
+u8 DOS_InterSlotRead(u8 slot, u16 addr);
+
+// Function: DOS_InterSlotWrite
+// Writes a value to an address in another slot
+//
+// Parameters:
+//   slot - Slot-ID
+//   addr - Address to write
+//   value - Value to write
+void DOS_InterSlotWrite(u8 slot, u16 addr, u8 value);
+
+// Function: DOS_InterSlotCall
+// Executes inter-slot call.
+//
+// Parameters:
+//   slot - Slot-ID
+//   addr - Address to call
+void DOS_InterSlotCall(u8 slot, u16 addr);
+
+#endif // (DOS_USE_BIOSCALL)

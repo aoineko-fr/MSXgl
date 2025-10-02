@@ -53,7 +53,7 @@ enum VGM_CHIP
 #define VGM_WAIT_60HZ	735 // 60 Hz
 
 // VGM header file data structure
-struct VGM_Header
+typedef struct VGM_Header
 {
 	u32 Ident;			u32 EoF_offset;		u32 Version;		u32 SN76489_clock;
 	u32 YM2413_clock;	u32 GD3_offset;		u32 Total_samples;	u32 Loop_offset;
@@ -82,10 +82,10 @@ struct VGM_Header
 						u8 dummyD7;			u32 X1_010_clock;	u32 C352_clock;
 	u32 GA20_clock;		u32 dummyE4;		u32 dummyE8;		u32 dummyEC;
 	u32 dummyF0;		u32 dummyF4;		u32 dummyF8;		u32 dummyFC;
-};
+} VGM_Header;
 
 // VGM work variables
-extern const struct VGM_Header* g_VGM_Header;
+extern const VGM_Header* g_VGM_Header;
 extern const u8* g_VGM_Pointer;
 extern const u8* g_VGM_Loop;
 extern u16       g_VGM_WaitCount;

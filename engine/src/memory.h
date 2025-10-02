@@ -18,11 +18,11 @@ extern u16 g_HeapStartAddress;
 
 #if (MEM_USE_DYNAMIC)
 // Dynamic memro chunk structure
-struct MemChunkHeader
+typedef struct MemChunkHeader
 {
 	u16 Size;
 	struct MemChunkHeader* Next;
-};
+} MemChunkHeader;
 #endif
 
 //=============================================================================
@@ -202,5 +202,5 @@ void Mem_DynamicFree(void* ptr);
 //
 // Return:
 //   Size of the allocated memory chunk
-inline u16 Mem_GetDynamicSize(void* ptr) { struct MemChunkHeader* chunk = (struct MemChunkHeader*)((u16)ptr - sizeof(struct MemChunkHeader)); return chunk->Size; }
+inline u16 Mem_GetDynamicSize(void* ptr) { MemChunkHeader* chunk = (MemChunkHeader*)((u16)ptr - sizeof(MemChunkHeader)); return chunk->Size; }
 #endif

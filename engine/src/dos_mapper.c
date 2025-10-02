@@ -31,7 +31,7 @@ u16 g_DOS_JumpTable = NULL;
 
 //-----------------------------------------------------------------------------
 // Initialize DOS extended BIOS
-bool DOSMapper_Init()
+bool DOSMapper_Init() __NAKED
 {
 __asm
 	push	ix
@@ -61,22 +61,23 @@ init_extbios:
 	ld		(_g_DOS_JumpTable), hl
 
 	ld		a, #0xFF				// Return TRUE
+	ret								// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Allocate a segment
-bool DOSMapper_Alloc(u8 type, u8 slot, DOS_Segment* seg) // Stack: 4 bytes
+bool DOSMapper_Alloc(u8 type, u8 slot, DOS_Segment* seg) __NAKED // Stack: 4 bytes
 {
 	type;	// A
 	slot;	// L
 	seg;	// SP[2:3]
+
 __asm
 	push	ix						// Backup the frame pointer
 	ld		b, l
 	ld		hl, (_g_DOS_JumpTable)
-	// ld		de, #DOS_ALL_SEG
+	// ld		de, #DOS_ALL_SEG 	// Not needed because DOS_ALL_SEG == 0
 	// add		hl, de
 	call	___sdcc_call_hl			// Call ALL_SEG
 	pop		ix						// Restore the frame pointer
@@ -93,16 +94,17 @@ __asm
 
 alloc_error:
 	xor		a						// Return FALSE
+	ret								// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Free a segment
-bool DOSMapper_Free(u8 seg, u8 slot)
+bool DOSMapper_Free(u8 seg, u8 slot) __NAKED
 {
 	seg;	// A
 	slot;	// L
+
 __asm
 	push	ix						// Backup the frame pointer
 	ld		b, l
@@ -113,16 +115,17 @@ __asm
 	ld		a, #0
 	adc		#0xFF
 	pop		ix						// Restore the frame pointer
+	ret								// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Read byte from given address
-u8 DOSMapper_ReadByte(u8 seg, u16 addr) // preserve BC, IX
+u8 DOSMapper_ReadByte(u8 seg, u16 addr) __NAKED // preserve BC, IX
 {
 	seg;	// A
 	addr;	// DE
+
 __asm
 	ex		de, hl					// Address in HL
 	ld		iy, (_g_DOS_JumpTable)
@@ -130,17 +133,18 @@ __asm
 	add		iy, de
 	call	___sdcc_call_iy			// Call RD_SEG
 	ei
+	ret								// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Write byte to given address
-void DOSMapper_WriteByte(u8 seg, u16 addr, u8 val)
+void DOSMapper_WriteByte(u8 seg, u16 addr, u8 val) __NAKED
 {
 	seg;	// A
 	addr;	// DE
 	val;	// SP[2:3]
+
 __asm
 	ex		de, hl					// Address in HL
 	ld		iy, #2
@@ -151,15 +155,17 @@ __asm
 	add		iy, bc
 	call	___sdcc_call_iy			// Call ALL_SEG
 	ei
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Select a segment on the corresponding memory page at the specified address
-void DOSMapper_SetPage(u8 page, u8 seg)
+void DOSMapper_SetPage(u8 page, u8 seg) __NAKED
 {
 	page;	// A
 	seg;	// L
+
 __asm
 	rrca
 	rrca
@@ -169,54 +175,58 @@ __asm
 	ld		iy, (_g_DOS_JumpTable)
 	ld		de, #DOS_PUT_PH
 	add		iy, de
-	call	___sdcc_call_iy			// Call PUT_PH
+	jp		(iy)					// Call PUT_PH
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Select a segment on page 0 (0000h~3FFFh)
-void DOSMapper_SetPage0(u8 seg)
+void DOSMapper_SetPage0(u8 seg) __NAKED
 {
 	seg;	// A
+
 __asm
 	ld		hl, (_g_DOS_JumpTable)
 	ld		de, #DOS_PUT_P0
 	add		hl, de
-	call	___sdcc_call_hl			// Call PUT_P0
+	jp		(hl)					// Call PUT_P0
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Select a segment on page 1 (4000h~7FFFh)
-void DOSMapper_SetPage1(u8 seg)
+void DOSMapper_SetPage1(u8 seg) __NAKED
 {
 	seg;	// A
+
 __asm
 	ld		hl, (_g_DOS_JumpTable)
 	ld		de, #DOS_PUT_P1
 	add		hl, de
-	call	___sdcc_call_hl			// Call PUT_P1
+	jp		(hl)					// Call PUT_P1
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Select a segment on page 2 (8000h~BFFFh)
-void DOSMapper_SetPage2(u8 seg)
+void DOSMapper_SetPage2(u8 seg) __NAKED
 {
 	seg;	// A
+
 __asm
 	ld		hl, (_g_DOS_JumpTable)
 	ld		de, #DOS_PUT_P2
 	add		hl, de
-	call	___sdcc_call_hl			// Call PUT_P2
+	jp		(hl)					// Call PUT_P2
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Get the selected segment number on the corresponding memory page at the specified address
-u8 DOSMapper_GetPage(u8 page)
+u8 DOSMapper_GetPage(u8 page) __NAKED
 {
 	page;	// A
+
 __asm
 	rrca
 	rrca
@@ -225,59 +235,54 @@ __asm
 	ld		iy, (_g_DOS_JumpTable)
 	ld		de, #DOS_GET_PH
 	add		iy, de
-	call	___sdcc_call_iy			// Call GET_PH
+	jp		(iy)					// Call GET_PH | Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Get the segment number on page 0 (0000h~3FFFh)
-u8 DOSMapper_GetPage0()
+u8 DOSMapper_GetPage0() __NAKED
 {
 __asm
 	ld		hl, (_g_DOS_JumpTable)
 	ld		de, #DOS_GET_P0
 	add		hl, de
-	call	___sdcc_call_hl			// Call GET_P0
+	jp		(hl)					// Call GET_P0 | Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Get the segment number on page 1 (4000h~7FFFh)
-u8 DOSMapper_GetPage1()
+u8 DOSMapper_GetPage1() __NAKED
 {
 __asm
 	ld		hl, (_g_DOS_JumpTable)
 	ld		de, #DOS_GET_P1
 	add		hl, de
-	call	___sdcc_call_hl			// Call GET_P1
+	jp		(hl)					// Call GET_P1 | Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Get the segment number on page 2 (8000h~BFFFh)
-u8 DOSMapper_GetPage2()
+u8 DOSMapper_GetPage2() __NAKED
 {
 __asm
 	ld		hl, (_g_DOS_JumpTable)
 	ld		de, #DOS_GET_P2
 	add		hl, de
-	call	___sdcc_call_hl			// Call GET_P2
+	jp		(hl)					// Call GET_P2 | Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Get the segment number on page 3 (C000h~FFFFh)
-u8 DOSMapper_GetPage3()
+u8 DOSMapper_GetPage3() __NAKED
 {
 __asm
 	ld		hl, (_g_DOS_JumpTable)
 	ld		de, #DOS_GET_P3
 	add		hl, de
-	call	___sdcc_call_hl			// Call GET_P3
+	jp		(hl)					// Call GET_P3 | Return value in A
 __endasm;
-	// return A
 }

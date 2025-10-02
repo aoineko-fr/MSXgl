@@ -68,8 +68,6 @@ enum PRINT_MODE
 typedef void (*print_drawchar)(u8); //< Draw char callback signature
 typedef void (*print_loadfont)(VADDR); //< Font load callback signature
 
-extern struct Print_Data g_PrintData;
-
 // Print VFX flags
 #define PRINT_FX_SHADOW				0b00000001
 #define PRINT_FX_OUTLINE			0b00000010
@@ -95,7 +93,7 @@ enum PRINT_ALIGN
 //-----------------------------------------------------------------------------
 
 // Print module configuration structure
-struct Print_Data
+typedef struct Print_Data
 {
 	u8 PatternX;				//< X size of a character in screen unit (0-15)
 	u8 PatternY;				//< Y size of a character in screen unit (0-15)
@@ -150,7 +148,9 @@ struct Print_Data
 #if (PRINT_USE_DIRECTION)
 	i8 Direction;				//< Shadow color
 #endif
-};
+} Print_Data;
+
+extern Print_Data g_PrintData;
 
 //-----------------------------------------------------------------------------
 // Group: Initialization
@@ -210,7 +210,7 @@ inline void Print_SetFontEx(u8 patternX, u8 patternY, u8 sizeX, u8 sizeY, u8 fir
 //
 // Return:
 //   Current font information structure
-inline const struct Print_Data* Print_GetFontInfo() { return &g_PrintData;}
+inline const Print_Data* Print_GetFontInfo() { return &g_PrintData;}
 
 // Function: Print_SetPosition
 // Set cursor position.
@@ -303,6 +303,24 @@ inline void Print_SelectTextFont(const u8* font, u8 offset)
 	// Print_Initialize();
 	// Print_SetMode(PRINT_MODE_TEXT);
 }
+
+// Function: Print_GetPatternOffset
+// Get pattern index where the font is stored.
+// This function requires PRINT_USE_TEXT compile option to be set to TRUE.
+//
+// Return:
+//   Pattern index where the font is stored
+inline u8 Print_GetPatternOffset() { return g_PrintData.PatternOffset; }
+
+// Function: Print_SetPatternOffset
+// Set pattern index where the font is stored.
+// This function requires PRINT_USE_TEXT compile option to be set to TRUE.
+//
+//
+// Parameters:
+//   offset - Pattern index where to start to store the font
+inline void  Print_SetPatternOffset(u8 offset) { g_PrintData.PatternOffset = offset; }
+
 #endif
 
 #if (PRINT_USE_SPRITE)
@@ -485,11 +503,7 @@ void Print_Backspace(u8 num);
 //   x     - Position X coordinate
 //   y     - Position Y coordinate
 //   str   - Null-terminated string to draw
-inline void Print_DrawTextAt(UX x, UY y, const c8* str)
-{
-	Print_SetPosition(x, y);
-	Print_DrawText(str);
-}
+inline void Print_DrawTextAt(UX x, UY y, const c8* str) { Print_SetPosition(x, y); Print_DrawText(str); }
 
 // Function: Print_DrawTextAtV
 // Draw a vertical text at a given position on screen.
@@ -500,7 +514,7 @@ inline void Print_DrawTextAt(UX x, UY y, const c8* str)
 //   str - Null-terminated string to draw
 inline void Print_DrawTextAtV(UX x, UY y, const c8* str)
 {
-	while(*str)
+	while (*str)
 	{
 		Print_SetPosition(x, y++);
 		Print_DrawChar(*str++);
@@ -514,11 +528,7 @@ inline void Print_DrawTextAtV(UX x, UY y, const c8* str)
 //   x   - Position X coordinate
 //   y   - Position Y coordinate
 //   chr - Character to draw
-inline void Print_DrawCharAt(UX x, UY y, c8 chr)
-{
-	Print_SetPosition(x, y);
-	Print_DrawChar(chr);
-}
+inline void Print_DrawCharAt(UX x, UY y, c8 chr) { Print_SetPosition(x, y); Print_DrawChar(chr); }
 
 // Function: Print_DrawCharXAt
 // Print the same character many times at a given position.
@@ -528,11 +538,7 @@ inline void Print_DrawCharAt(UX x, UY y, c8 chr)
 //   y   - Position Y coordinate
 //   chr - Character to draw
 //   len - Number of character to draw
-inline void Print_DrawCharXAt(UX x, UY y, c8 chr, u8 len)
-{
-	Print_SetPosition(x, y);
-	Print_DrawCharX(chr, len);
-}
+inline void Print_DrawCharXAt(UX x, UY y, c8 chr, u8 len) { Print_SetPosition(x, y); Print_DrawCharX(chr, len); }
 
 // Function: Print_DrawCharYAt
 // Print vertically the same character many times at a given position.
@@ -544,9 +550,36 @@ inline void Print_DrawCharXAt(UX x, UY y, c8 chr, u8 len)
 //   len - Number of character to draw
 inline void Print_DrawCharYAt(UX x, UY y, c8 chr, u8 len)
 {
-	for(u8 i = 0; i < len; ++i)
+	for (u8 i = 0; i < len; ++i)
 		Print_DrawCharAt(x, y++, chr);
 }
+
+// Function: Print_DrawHex8At
+// Print a 8-bits binary value at a given position.
+//
+// Parameters:
+//   x   - Position X coordinate
+//   y   - Position Y coordinate
+//   val - 8 bits integer to draw in hexadecimal form
+inline void Print_DrawHex8At(UX x, UY y, u8 val) { Print_SetPosition(x, y); Print_DrawHex8(val); }
+
+// Function: Print_DrawHex16At
+// Print a 16-bits hexadecimal value at a given position.
+//
+// Parameters:
+//   x   - Position X coordinate
+//   y   - Position Y coordinate
+//   val - 16 bits integer to draw in hexadecimal form
+inline void Print_DrawHex16At(UX x, UY y, u16 val) { Print_SetPosition(x, y); Print_DrawHex16(val); }
+
+// Function: Print_DrawBin8At
+// Print a 8-bits binary value at a given position.
+//
+// Parameters:
+//   x   - Position X coordinate
+//   y   - Position Y coordinate
+//   val - 8 bits integer to draw in binary form (0 or 1)
+inline void Print_DrawBin8At(UX x, UY y, u8 val) { Print_SetPosition(x, y); Print_DrawBin8(val); }
 
 // Function: Print_DrawIntAt
 // Print a 16-bits signed decimal value at a given position.
@@ -555,11 +588,7 @@ inline void Print_DrawCharYAt(UX x, UY y, c8 chr, u8 len)
 //   x   - Position X coordinate
 //   y   - Position Y coordinate
 //   val - 16 bits integer to display
-inline void Print_DrawIntAt(UX x, UY y, i16 val)
-{
-	Print_SetPosition(x, y);
-	Print_DrawInt(val);
-}
+inline void Print_DrawIntAt(UX x, UY y, i16 val) { Print_SetPosition(x, y); Print_DrawInt(val); }
 
 //-----------------------------------------------------------------------------
 // Group: FX
@@ -673,7 +702,7 @@ void Print_DrawTextOutline(const c8* string, u8 color);
 //   x   - Start position X coordinate
 //   y   - Start position Y coordinate
 //   len - Lenght of the horizontal line (in print mode unit)
-void Print_DrawLineH(u8 x, u8 y, u8 len);
+void Print_DrawLineH(UX x, UY y, u8 len);
 
 // Function: Print_DrawLineV
 // Draw a vertical line using characters
@@ -683,7 +712,7 @@ void Print_DrawLineH(u8 x, u8 y, u8 len);
 //   x   - Start position X coordinate
 //   y   - Start position Y coordinate
 //   len - Lenght of the vertical line (in print mode unit)
-void Print_DrawLineV(u8 x, u8 y, u8 len);
+void Print_DrawLineV(UX x, UY y, u8 len);
 
 // Function: Print_DrawBox
 // Draw a box using characters
@@ -694,7 +723,7 @@ void Print_DrawLineV(u8 x, u8 y, u8 len);
 //   y      - Start position Y coordinate
 //   width  - Box width (in print mode unit)
 //   height - Box height (in print mode unit)
-void Print_DrawBox(u8 x, u8 y, u8 width, u8 height);
+void Print_DrawBox(UX x, UY y, u8 width, u8 height);
 
 #endif // (PRINT_USE_GRAPH)
 
@@ -711,7 +740,7 @@ void Print_DrawBox(u8 x, u8 y, u8 width, u8 height);
 inline void Print_DrawTextAlign(const c8* str, u8 align)
 {
 	u8 len = String_Length(str);
-	switch(align)
+	switch (align)
 	{
 	case PRINT_ALIGN_LEFT:
 		break;

@@ -13,7 +13,7 @@
 #include "dos.h"
 #include "bios.h"
 
-#if (DOS_USE_VALIDATOR)
+#if ((DOS_USE_VALIDATOR) || (DOS_USE_ERROR_HANDLER))
 // Backup of the last error value
 u8 g_DOS_LastError;
 #endif
@@ -26,27 +26,159 @@ DOS_FIB g_DOS_LastFIB;
 DOS_Time g_DOS_Time;
 #endif
 
+#if (DOS_USE_ERROR_HANDLER)
+// Pointer to the error handler
+void* g_DOS_ErrorHandler;
+
+// Stack pointer for the error handler
+void* g_DOS_ErrorStack;
+#endif
+
+// Macro to call BDOS with stack backup
+#if (DOS_USE_ERROR_HANDLER)
+	#define BACKUP_STACK			ld (_g_DOS_ErrorStack), sp
+#else
+	#define BACKUP_STACK
+#endif
 
 //=============================================================================
 // MSX-DOS 1 FUNCTIONS
 //=============================================================================
 
+
+#if (DOS_USE_BIOSCALL)
+
+//-----------------------------------------------------------------------------
+// Function : Reads the value of an address in another slot
+// Input    : A  - ExxxSSPP  Slot-ID
+//                 │   ││└┴─ Primary slot number (00-11)
+//                 │   └┴─── Secondary slot number (00-11)
+//                 └──────── Expanded slot (0 = no, 1 = yes)
+//            HL - Address to read
+// Output   : A  - Contains the value of the read address
+// Registers: AF, C, DE
+// Remark   : Can be call directly from MSX-DOS
+//            This routine turns off the interupt, but won't turn it on again
+u8 DOS_InterSlotRead(u8 slot, u16 addr) __NAKED
+{
+	slot; // A
+	addr; // DE
+	__asm
+		ex		de, hl
+		call	R_RDSLT
+		ret
+	__endasm;
+}
+
+// Function : Writes a value to an address in another slot
+// Input    : A  - ExxxSSPP  Slot-ID
+//                 │   ││└┴─ Primary slot number (00-11)
+//                 │   └┴─── Secondary slot number (00-11)
+//                 └──────── Expanded slot (0 = no, 1 = yes)
+//            HL - Address
+//            E  - Value
+// Registers: AF, BC, D
+// Remark   : Can be call directly from MSX-DOS
+//            This routine turns off the interupt, but won't turn it on again
+void DOS_InterSlotWrite(u8 slot, u16 addr, u8 value)
+{
+	slot;  // A
+	addr;  // DE
+	value; // (SP+4)
+	__asm
+		ld		iy, #4
+		add		iy, sp
+
+		ld		l, e
+		ld		h, d
+		ld		e, 0(iy)	
+		call	R_WRSLT
+	__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Function : Executes inter-slot call.
+// Input    : IY - High byte with slot ID, see RDSLT
+//            IX - The address that will be called
+// Remark   : Can be call directly from MSX-DOS
+//            Variables can never be given in alternative registers or IX and IY
+void DOS_InterSlotCall(u8 slot, u16 addr)
+{
+	slot; // A
+	addr; // DE
+	__asm
+		push	ix
+
+		ld		l, #0
+		ld		h, a
+		push	hl
+		pop		iy
+
+		push	de
+		pop		ix
+
+		call	R_CALSLT
+
+		ei							// because CALSLT do DI
+		pop		ix
+	__endasm;
+}
+
+#endif // (DOS_USE_BIOSCALL)
+
+#if (DOS_USE_ERROR_HANDLER)
+
+// void DOS_ErrorHandler() __NAKED
+// {
+// __asm
+// _dos_errorhandler_start:
+// 	// Backup error code
+// 	ld		a, c					;// Get error code
+// 	or		a, #0x70				;// Add marker so 0 is no error
+// 	ld		(_g_DOS_LastError), a	;// Save the error code
+// 	// Restore stack pointer and C frame counter
+// 	ld		sp, (_g_DOS_ErrorStack)	;// Restore stack pointer
+// 	pop		ix
+// 	ret
+// _dos_errorhandler_end:
+// _g_DOS_ErrorHandlerSize::
+// 	.db		_dos_errorhandler_end - _dos_errorhandler_start
+// __endasm;
+// }
+
+// extern const u8 g_DOS_ErrorHandlerSize;
+
+//-----------------------------------------------------------------------------
+// Install the DOS error handler in RAM (page 3).
+void DOS_InstallErrorHandler(callback cb, u8 size)
+{
+	// Install error handler to memory
+	void* ptr = Mem_HeapAlloc(size);
+	Mem_Copy(*((const void **)&cb), ptr, size);
+	g_DOS_ErrorHandler = ptr;
+	Poke16(M_DISKVE, (u16)&g_DOS_ErrorHandler);
+}
+
+#endif // (DOS_USE_ERROR_HANDLER)
+
 //-----------------------------------------------------------------------------
 // Call a BDOS function
-void DOS_Call(u8 func)
+void DOS_Call(u8 func) __NAKED
 {
 	func;	// A
+
 __asm
 	push	ix
 	ld		c, a
 	call	BDOS
 	pop		ix
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Exit program and return to DOS
-void DOS_Exit0()
+void DOS_Exit0() __NAKED
 {
 __asm
 	ld		c, #DOS_FUNC_TERM0
@@ -56,42 +188,46 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Input character
-c8 DOS_CharInput()
+c8 DOS_CharInput() __NAKED
 {
 __asm
 	push	ix
 	ld		c, #DOS_FUNC_CONIN
 	call	BDOS
 	pop		ix
-	// return value in A
+	ret								// return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Output character
-void DOS_CharOutput(c8 chr)
+void DOS_CharOutput(c8 chr) __NAKED
 {
 	chr;	// A
+
 __asm
 	push	ix
 	ld		e, a
 	ld		c, #DOS_FUNC_CONOUT
 	call	BDOS
 	pop		ix
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // The characters of the string will be output. The string is terminated by "$" (ASCII 24h).
-void DOS_StringOutput(const c8* str)
+void DOS_StringOutput(const c8* str) __NAKED
 {
 	str;	// HL
+
 __asm
 	push	ix
 	ex		de, hl
 	ld		c, #DOS_FUNC_STROUT
 	call	BDOS
 	pop		ix
+	ret
 __endasm;
 }
 
@@ -99,9 +235,10 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Set transfer address
-void DOS_SetTransferAddr(void* data)
+void DOS_SetTransferAddr(void* data) __NAKED
 {
 	data;	// HL
+
 __asm
 	push	ix
 	// FCB pointer
@@ -110,6 +247,24 @@ __asm
 	ld		c, #DOS_FUNC_SETDTA
 	call	BDOS
 	pop		ix
+	ret
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Get free space on disk
+u16 DOS_GetFreeSpace(u8 drive) __NAKED
+{
+	drive;	// HL
+
+__asm
+	push	ix
+	ld		e, a
+	ld		c, #DOS_FUNC_ALLOC
+	call	BDOS
+	pop		ix
+	ex		de, hl
+	ret
 __endasm;
 }
 
@@ -118,170 +273,218 @@ __endasm;
 //  The unopened FCB must contain a drive which may be zero to indicate the current drive and a filename and extension which may be ambiguous.
 //  The current directory of the specified drive will be searched for a matching file and if found it will be opened.
 //  Matching entries which are sub-directories or system files will be ignored, and if the filename is ambiguous then the first suitable matching entry will be opened.
-u8 DOS_OpenFCB(FCB* stream)
+u8 DOS_OpenFCB(DOS_FCB* stream) __NAKED
 {
 	stream;	// HL
+
 __asm
 	push	ix
 	// FCB pointer
 	ex		de, hl
 	// Open file
 	ld		c, #DOS_FUNC_FOPEN
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
 #endif
 	pop		ix
+	ret								// return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Create file
-u8 DOS_CreateFCB(FCB* stream)
+u8 DOS_CreateFCB(DOS_FCB* stream) __NAKED
 {
 	stream;	// HL
+
 __asm
 	push	ix
 	// FCB pointer
 	ex		de, hl
 	// Create file
 	ld		c, #DOS_FUNC_FMAKE
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
 #endif
 	pop		ix
+	ret								// return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Close file
-u8 DOS_CloseFCB(FCB* stream)
+u8 DOS_CloseFCB(DOS_FCB* stream) __NAKED
 {
 	stream;	// HL
+
 __asm
 	push	ix
 	// FCB pointer
 	ex		de, hl
 	// Close file
 	ld		c, #DOS_FUNC_FCLOSE
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
 #endif
 	pop		ix
+	ret								// return value in A
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Delete file
+u8 DOS_DeleteFCB(DOS_FCB* stream) __NAKED
+{
+	stream;	// HL
+
+__asm
+	push	ix
+	// FCB pointer
+	ex		de, hl
+	// Sequential read
+	ld		c, #DOS_FUNC_FDEL
+	BACKUP_STACK
+	call	BDOS
+#if (DOS_USE_VALIDATOR)
+	ld		(_g_DOS_LastError), a
+#endif
+	pop		ix
+	ret								// return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Sequential read
-u8 DOS_SequentialReadFCB(FCB* stream)
+u8 DOS_SequentialReadFCB(DOS_FCB* stream) __NAKED
 {
 	stream;	// HL
+
 __asm
 	push	ix
 	// FCB pointer
 	ex		de, hl
 	// Sequential read
 	ld		c, #DOS_FUNC_RDSEQ
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
 #endif
 	pop		ix
+	ret								// return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Sequential write
-u8 DOS_SequentialWriteFCB(FCB* stream)
+u8 DOS_SequentialWriteFCB(DOS_FCB* stream) __NAKED
 {
 	stream;	// HL
+
 __asm
 	push	ix
 	// FCB pointer
 	ex		de, hl
 	// Sequential write
 	ld		c, #DOS_FUNC_WRSEQ
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
 #endif
 	pop		ix
+	ret								// return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Random block write
-u8 DOS_RandomBlockWriteFCB(FCB* stream, u16 records)
+u8 DOS_RandomBlockWriteFCB(DOS_FCB* stream, u16 records) __NAKED
 {
 	stream;		// HL
 	records;	// DE
+
 __asm
 	push	ix
 	// FCB pointer
 	ex		de, hl
 	// Write random block
 	ld		c, #DOS_FUNC_WRBLK
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
 #endif
 	pop		ix
+	ret								// return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Random block read
-u16 DOS_RandomBlockReadFCB(FCB* stream, u16 records)
+u16 DOS_RandomBlockReadFCB(DOS_FCB* stream, u16 records) __NAKED
 {
 	stream;		// HL
 	records;	// DE
+
 __asm
 	push	ix
 	// FCB pointer
 	ex		de, hl
 	// Read random block
 	ld		c, #DOS_FUNC_RDBLK
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
 #endif
-	ex		de, hl	// DE becomes actual number of records read
+	ex		de, hl					// DE becomes actual number of records read
 	pop		ix
+	ret								// return value in DE
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Search the first file matched with wildcard
-u8 DOS_FindFirstFileFCB(FCB* stream)
+u8 DOS_FindFirstFileFCB(DOS_FCB* stream) __NAKED
 {
 	stream; // HL
+
 __asm
 	push	ix
 	// FCB pointer
 	ex		de, hl
 	ld		c, #DOS_FUNC_SFIRST
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
 #endif
 	pop		ix
+	ret								// return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Search the second and after the second file matched wildcard
-u8 DOS_FindNextFileFCB()
+u8 DOS_FindNextFileFCB() __NAKED
 {
 __asm
 	push	ix
 	ld		c, #DOS_FUNC_SNEXT
+	BACKUP_STACK
 	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a
 #endif
 	pop		ix
+	ret								// return value in A
 __endasm;
 }
 
@@ -300,6 +503,7 @@ u8 DOS_OpenHandle(const c8* path, u8 mode) __NAKED // Stack: 3 bytes
 {
 	path;	// HL
 	mode;	// SP[2]
+
 __asm
 	pop		iy						// Retreive return address
 	// path
@@ -321,9 +525,8 @@ __asm
 fopen_ok:
 	ld		a, b
 fopen_end:
-	jp		(iy)
+	jp		(iy)					// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
@@ -333,6 +536,7 @@ u8 DOS_CreateHandle(const c8* path, u8 mode, u8 attr) __NAKED // Stack: 4 bytes
 	path;	// LH
 	mode;	// SP[2]
 	attr;	// SP[3]
+
 __asm
 	pop		iy						// Retreive return address
 	// path
@@ -355,16 +559,16 @@ __asm
 fcreat_ok:
 	ld		a, b
 fcreat_end:
-	jp		(iy)
+	jp		(iy)					// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Close file handle
-u8 DOS_CloseHandle(u8 file)
+u8 DOS_CloseHandle(u8 file) __NAKED
 {
 	file; // A
+
 __asm
 	ld		b, a					// File handle
 	ld		c, #DOS_FUNC_CLOSE		// DOS routine
@@ -372,15 +576,16 @@ __asm
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
-__endasm;
-	// return A
+	ret								// Return value in A
+	__endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Ensure file handle
-u8 DOS_EnsureHandle(u8 file)
+u8 DOS_EnsureHandle(u8 file) __NAKED
 {
 	file; // A
+
 __asm
 	ld		b, a					// File handle
 	ld		c, #DOS_FUNC_ENSURE		// DOS routine
@@ -388,15 +593,16 @@ __asm
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
+	ret								// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Duplicate file handle
-u8 DOS_DuplicateHandle(u8 file)
+u8 DOS_DuplicateHandle(u8 file) __NAKED
 {
 	file; // A
+
 __asm
 	ld		b, a					// File handle
 	ld		c, #DOS_FUNC_DUP		// DOS routine
@@ -411,8 +617,8 @@ __asm
 fdupl_ok:
 	ld		a, b
 fdupl_end:
+	ret								// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
@@ -422,6 +628,7 @@ u16 DOS_ReadHandle(u8 file, void* buffer, u16 size) __NAKED // Stack: 4 bytes
 	file;	// A
 	buffer;	// DE
 	size;	// SP[2:3]
+
 __asm
 	// Get file handle
 	ld		b, a
@@ -442,9 +649,8 @@ __asm
 	ld		d, e
 #endif
 fread_end:
-	jp		(iy)
+	jp		(iy)					// return DE
 __endasm;
-	// return DE
 }
 
 //-----------------------------------------------------------------------------
@@ -454,6 +660,7 @@ u16 DOS_WriteHandle(u8 file, const void* buffer, u16 size) __NAKED // Stack: 4 b
 	file;	// A
 	buffer;	// DE
 	size;	// SP[2:3]
+
 __asm
 	pop		iy						// Retreive return address
 	// handle
@@ -474,18 +681,18 @@ __asm
 	ld		d, e
 #endif
 fwrite_end:
-	jp		(iy)
+	jp		(iy)					// return DE
 __endasm;
-	// return DE
 }
 
 //-----------------------------------------------------------------------------
 // Move file handle pointer
-u32 DOS_SeekHandle(u8 file, i32 offset, u8 mode) __CALLEE __NAKED // Stack: 7 bytes
+u32 DOS_SeekHandle(u8 file, i32 offset, u8 mode) __NAKED __CALLEE // Stack: 7 bytes
 {
 	file;	// A
 	offset;	// SP[2:5]
 	mode;	// SP[6]
+
 __asm
 	pop		iy						// Retreive return address
 	// handle
@@ -511,70 +718,77 @@ __asm
 	ld		h, e
 #endif
 flseek_end:
-	jp		(iy)
+	jp		(iy)					// return HL:DE
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Delete file or subdirectory
-u8 DOS_DeleteHandle(u8 file)
+u8 DOS_DeleteHandle(u8 file) __NAKED
 {
 	file;	// A
+
 __asm
 	ld		b, a
 	ld		c, #DOS_FUNC_HDELETE	// DOS routine
-	jp		BDOS
+	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
+	ret								// Return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Rename file or subdirectory
-u8 DOS_RenameHandle(u8 file, const c8* path)
+u8 DOS_RenameHandle(u8 file, const c8* path) __NAKED
 {
 	file;	// A
 	path;	// DE
+
 __asm
 	ex		de, hl
 	ld		b, a
 	ld		c, #DOS_FUNC_HRENAME	// DOS routine
-	jp		BDOS
+	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
+	ret								// Return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Move file or subdirectory
-u8 DOS_MoveHandle(u8 file, const c8* path)
+u8 DOS_MoveHandle(u8 file, const c8* path) __NAKED
 {
 	file;	// A
 	path;	// DE
+
 __asm
 	ex		de, hl
 	ld		b, a
 	ld		c, #DOS_FUNC_HMOVE		// DOS routine
-	jp		BDOS
+	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
+	ret								// Return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Set file attributes
-u8 DOS_SetAttributeHandle(u8 file, u8 attr)
+u8 DOS_SetAttributeHandle(u8 file, u8 attr) __NAKED
 {
 	file;	// A
 	attr;	// L
+
 __asm
 	ld		b, a
 	ld		a, #1					// A==1 => Set attributes
 	ld		c, #DOS_FUNC_HATTR		// DOS routine
-	jp		BDOS
+	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 	or		a
@@ -584,19 +798,21 @@ __asm
 #endif
 fsetattr_ok:
 	ld		a, l
+	ret								// Return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Get file attributes
-u8 DOS_GetAttributeHandle(u8 file)
+u8 DOS_GetAttributeHandle(u8 file) __NAKED
 {
 	file;	// A
+
 __asm
 	ld		b, a
 	xor		a						// A==0 => Get attributes
 	ld		c, #DOS_FUNC_HATTR		// DOS routine
-	jp		BDOS
+	call	BDOS
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 	or		a
@@ -606,6 +822,7 @@ __asm
 #endif
 fgetattr_ok:
 	ld		a, l
+	ret								// Return value in A
 __endasm;
 }
 
@@ -613,10 +830,11 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Get disk parameters
-u8 DOS_GetDiskParam(u8 drv, DOS_DiskParam* param)
+u8 DOS_GetDiskParam(u8 drv, DOS_DiskParam* param) __NAKED
 {
 	drv;	// A
 	param;	// DE
+
 __asm
 	push	ix
 	ld		l, a
@@ -626,15 +844,16 @@ __asm
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
 	pop		ix
+	ret								// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Terminate with error code
-void DOS_Exit(u8 err)
+void DOS_Exit(u8 err) __NAKED
 {
 	err; // A
+
 __asm
 	ld		b, a
 	ld		c, #DOS_FUNC_TERM
@@ -644,16 +863,18 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Explain error code
-void DOS_Explain(u8 err, c8* str)
+void DOS_Explain(u8 err, c8* str) __NAKED
 {
 	err; // A
 	str; // DE
+
 __asm
 	push	ix
 	ld		b, a
 	ld		c, #DOS_FUNC_EXPLAIN
 	call	BDOS
 	pop		ix
+	ret
 __endasm;
 }
 
@@ -665,6 +886,7 @@ DOS_FIB* DOS_FindFirstEntry(const c8* filename, u8 attr) __NAKED // Stack: 3 byt
 {
 	filename;	// HL
 	attr;		// SP[2]
+
 __asm
 	pop		iy						// Retreive return address
 	// filename
@@ -691,14 +913,13 @@ find1st_ok:
 	ld		de, #_g_DOS_LastFIB
 find1st_end:
 	pop		ix						// Restore frame pointer
-	jp		(iy)
-__endasm;
-	// return DE
+	jp		(iy)					// return DE
+__endasm;	
 }
 
 //-----------------------------------------------------------------------------
 // Find next entry
-DOS_FIB* DOS_FindNextEntry()
+DOS_FIB* DOS_FindNextEntry() __NAKED
 {
 __asm
 	// file info block
@@ -720,15 +941,16 @@ findnxt_ok:
 	ld		de, #_g_DOS_LastFIB
 findnxt_end:
 	pop		ix						// Restore frame pointer
+	ret								// return DE
 __endasm;
-	// return DE
 }
 
 //-----------------------------------------------------------------------------
 // Delete file or subdirectory
-u8 DOS_Delete(const c8* path)
+u8 DOS_Delete(const c8* path) __NAKED
 {
 	path; // HL
+
 __asm
 	ex		de, hl
 	ld		c, #DOS_FUNC_DELETE		// DOS routine
@@ -736,16 +958,17 @@ __asm
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
+	ret								// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Rename file or subdirectory
-u8 DOS_Rename(const c8* path, const c8* newPath)
+u8 DOS_Rename(const c8* path, const c8* newPath) __NAKED
 {
 	path;		// HL
 	newPath;	// DE
+
 __asm
 	ex		de, hl
 	ld		c, #DOS_FUNC_RENAME		// DOS routine
@@ -753,16 +976,17 @@ __asm
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
+	ret								// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Move file or subdirectory
-u8 DOS_Move(const c8* path, const c8* newPath)
+u8 DOS_Move(const c8* path, const c8* newPath) __NAKED
 {
 	path;		// HL
 	newPath;	// DE
+
 __asm
 	ex		de, hl
 	ld		c, #DOS_FUNC_MOVE		// DOS routine
@@ -770,16 +994,17 @@ __asm
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
+	ret								// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Set file attributes
-u8 DOS_SetAttribute(const c8* path, u8 attr)
+u8 DOS_SetAttribute(const c8* path, u8 attr) __NAKED
 {
 	path;	// HL
 	attr;	// SP[2]
+
 __asm
 	pop		iy						// Retreive return address
 	// path
@@ -802,16 +1027,16 @@ __asm
 setattr_ok:
 	ld		a, l
 setattr_end:
-	jp		(iy)
+	jp		(iy)					// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Get file attributes
-u8 DOS_GetAttribute(const c8* path)
+u8 DOS_GetAttribute(const c8* path) __NAKED
 {
 	path;	// HL
+
 __asm
 	ex		de, hl
 	xor		a						// A==0 => Get attributes
@@ -826,16 +1051,17 @@ __asm
 #endif
 getattr_ok:
 	ld		a, l
+	ret								// Return value in A
 __endasm;
-	// return A
 }
 
 //-----------------------------------------------------------------------------
 // Get current directory
-u8 DOS_GetDirectory(u8 drive, const c8* path)
+u8 DOS_GetDirectory(u8 drive, const c8* path) __NAKED
 {
 	drive;	// A
 	path;	// DE
+
 __asm
 	ld		b, a
 	ld		c, #DOS_FUNC_GETCD
@@ -843,14 +1069,16 @@ __asm
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
+	ret								// Return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Change current directory
-u8 DOS_ChangeDirectory(const c8* path)
+u8 DOS_ChangeDirectory(const c8* path) __NAKED
 {
 	path;	// HL
+
 __asm
 	ex		de, hl
 	ld		c, #DOS_FUNC_CHDIR
@@ -858,12 +1086,13 @@ __asm
 #if (DOS_USE_VALIDATOR)
 	ld		(_g_DOS_LastError), a	// Store last error code
 #endif
+	ret								// Return value in A
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Get current date and time
-const DOS_Time* DOS_GetTime()
+const DOS_Time* DOS_GetTime() __NAKED
 {
 __asm
 	// Get date
@@ -880,6 +1109,7 @@ __asm
 	ld		(#_g_DOS_Time+7), a
 	// return
 	ld		de, #_g_DOS_Time
+	ret							// return DE
 __endasm;
 }
 
@@ -894,9 +1124,10 @@ __endasm;
 // Results:       A = Error (always zero)
 //               BC = MSX-DOS kernel version
 //               DE = MSXDOS2.SYS version number
-u8 DOS_GetVersion(DOS_Version* ver)
+u8 DOS_GetVersion(DOS_Version* ver) __NAKED
 {
 	ver; // HL
+
 __asm
 	push	ix
 	push	hl
@@ -916,6 +1147,100 @@ __asm
 	ld		(hl), d
 #endif
 	ld		a, b
+	ret								// Return value in A
 __endasm;
-	// return A
+}
+
+//-----------------------------------------------------------------------------
+// Select disk drive number
+//
+// Parameters:    C = 0EH (_SELDSK)
+//                E = Drive number.  0=A:  1=B:   etc.
+// Results:       L=A = Number of drives (1...8)
+// This function simply selects the specified drive as the default drive. The current drive is also stored at address 0004h for CP/M compatibility.
+// The number of drives available is returned in register A but this will not include the RAM disk.
+u8 DOS_SelectDisk(u8 drive) __NAKED
+{
+	drive; // A
+
+__asm
+	ld		c, #DOS_FUNC_SELDSK
+	ld		e, a
+	push	ix
+	call	BDOS
+	pop		ix
+	ret		// Return value in A
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Get a bit field of all available disk drives
+//
+// Parameters:    C = 18H (_LOGIN)
+// Results:       HL = Login vector
+// This function returns a bit set in HL for each drive which is available, bit-0 of L corresponding to drive "A:".
+// Up to eight drives ("A:" to "H:") are supported by the system currently, so register H will usually be zero on return.
+u8 DOS_AvailableDrives() __NAKED __FASTCALL
+{
+__asm
+	ld		c, #DOS_FUNC_LOGIN
+	push	ix
+	call	BDOS
+	pop		ix
+	ret		// Return value in L
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Get current disk drive number
+//
+// Parameters:    C = 19H (_CURDRV)
+// Results:       L=A = Current drive (0=A: etc)
+// This function just returns the current drive number.
+u8 DOS_GetCurrentDrive() __NAKED
+{
+__asm
+	ld		c, #DOS_FUNC_CURDRV
+	push	ix
+	call	BDOS
+	pop		ix
+	ret		// Return value in A
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Get given disk information
+//
+// Parameters:    C = 1BH (_ALLOC)
+//                E = Drive number (0=current, 1=A: etc)
+// Results:       A = Sectors per cluster
+//                BC = Sector size (always 512)
+//                DE = Total clusters on disk
+//                HL = Free clusters on disk
+//                IX = Pointer to DPB
+//                IY = Pointer to first FAT sector
+// This function returns various information about the disk in the specified drive. It is not compatible with CP/M which uses this function number to return the address of an allocation vector.
+// Note that unlike MSX-DOS 1, only the first sector of the FAT may be accessed from the address in IY, and the data there will only remain valid until the next MSX-DOS call.
+void DOS_GetDiskInfo(u8 drive, DOS_DiskInfo* info) __NAKED
+{
+	drive; // A
+	info;  // DE
+
+__asm
+	push	de
+	ld		c, #DOS_FUNC_ALLOC
+	ld		e, a
+	push	ix
+	call	BDOS
+	pop		ix
+	pop		iy						// Get structure pointer
+	ld		0(iy), a				// Sectors per cluster
+	ld		1(iy), c				// Sector size (low byte)
+	ld		2(iy), b				// Sector size (high byte)
+	ld		3(iy), e				// Total clusters (low byte)
+	ld		4(iy), d				// Total clusters (high byte)
+	ld		5(iy), l				// Free clusters (low byte)
+	ld		6(iy), h				// Free clusters (high byte)
+	ret
+__endasm;
 }

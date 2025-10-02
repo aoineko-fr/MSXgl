@@ -117,7 +117,7 @@ callback g_Update = NULL;
 void UpdateHour()
 {
 	// Update digital watch
-	if(g_Hour != g_PrevHour)
+	if (g_Hour != g_PrevHour)
 	{
 		Print_SetPosition(DIGIT_TIME+6*0, DIGIT_Y);
 		Print_SetColor(0x8, 0x1);
@@ -125,7 +125,7 @@ void UpdateHour()
 		
 		Print_SetPosition(DIGIT_TIME+6*0, DIGIT_Y);
 		Print_SetColor(0x9, 0x1);
-		if(g_Hour < 10)
+		if (g_Hour < 10)
 			Print_DrawChar('0');
 		Print_DrawInt(g_Hour);
 	}
@@ -147,7 +147,7 @@ void UpdateHour()
 void UpdateMinute()
 {
 	// Update digital watch
-	if(g_Min != g_PrevMin)
+	if (g_Min != g_PrevMin)
 	{
 		Print_SetPosition(DIGIT_TIME+6*3, DIGIT_Y);
 		Print_SetColor(0x8, 0x1);
@@ -155,7 +155,7 @@ void UpdateMinute()
 
 		Print_SetPosition(DIGIT_TIME+6*3, DIGIT_Y);
 		Print_SetColor(0x9, 0x1);
-		if(g_Min < 10)
+		if (g_Min < 10)
 			Print_DrawChar('0');
 		Print_DrawInt(g_Min);
 	}
@@ -177,7 +177,7 @@ void UpdateMinute()
 void UpdateSecond()
 {
 	// Update digital watch
-	if(g_Sec != g_PrevSec)
+	if (g_Sec != g_PrevSec)
 	{
 		Print_SetPosition(DIGIT_TIME+6*6, DIGIT_Y);
 		Print_SetColor(0x8, 0x1);
@@ -185,7 +185,7 @@ void UpdateSecond()
 
 		Print_SetPosition(DIGIT_TIME+6*6, DIGIT_Y);
 		Print_SetColor(0x9, 0x1);
-		if(g_Sec < 10)
+		if (g_Sec < 10)
 			Print_DrawChar('0');
 		Print_DrawInt(g_Sec);
 	}
@@ -294,7 +294,7 @@ void UpdateClock()
 	UpdateMinute();
 	UpdateSecond();
 
-	if(Keyboard_IsKeyPressed(KEY_F1))
+	if (Keyboard_IsKeyPressed(KEY_F1))
 		DisplaySaveData();
 }
 
@@ -304,9 +304,9 @@ extern const u32 g_AppSignature;
 // Draw an ID
 void DrawID(const u8* data)
 {
-	for(u8 i = 0; i < 4; ++i)
+	for (u8 i = 0; i < 4; ++i)
 	{
-		if((*data >= 0x21) && (*data <= 0x7E))
+		if ((*data >= 0x21) && (*data <= 0x7E))
 			Print_DrawChar(*data++);
 		else
 			Print_DrawFormat("[%2x]", *data++);
@@ -329,16 +329,16 @@ void DisplaySaveData()
 	u8 type = RTC_Read(0);
 
 	// 
-	for(u8 b = 0; b < 4; ++b)
+	for (u8 b = 0; b < 4; ++b)
 	{
 		Print_SetColor(0xFF, 0x11);
 		Print_SetPosition(22 + b * 56, 20);
 		Print_DrawFormat("Block#%i", b);
 		RTC_SetMode(b);
-		for(u8 r = 0; r < 13; ++r)
+		for (u8 r = 0; r < 13; ++r)
 		{
 			Print_SetColor(0xFF, 0x11);
-			if(b == 0)
+			if (b == 0)
 			{
 				Print_SetPosition(0, 32 + r * 8);
 				Print_DrawInt(r);
@@ -346,23 +346,23 @@ void DisplaySaveData()
 
 			u8 col = 0xFF;
 			u8 v = RTC_Read(r);
-			if((b == 3) && (r == 0))
+			if ((b == 3) && (r == 0))
 			{
-				if((v == RTC_DATA_SAVE) || (v == RTC_DATA_SIGNSAVE))
+				if ((v == RTC_DATA_SAVE) || (v == RTC_DATA_SIGNSAVE))
 					col = 0x33;
 				else
 					col = 0x99;
 			}
-			else if((b == 3) && ((type == RTC_DATA_SAVE) || (type == RTC_DATA_SIGNSAVE)))
+			else if ((b == 3) && ((type == RTC_DATA_SAVE) || (type == RTC_DATA_SIGNSAVE)))
 				col = 0x55;
-			else if((b == 2) && (r == 0))
+			else if ((b == 2) && (r == 0))
 			{
-				if(v == RTC_INIT_DONE)
+				if (v == RTC_INIT_DONE)
 					col = 0x33;
 				else
 					col = 0x99;
 			}
-			else if((b == 1) && (r >= 2) && (r <= 8) && (type == RTC_DATA_SIGNSAVE))
+			else if ((b == 1) && (r >= 2) && (r <= 8) && (type == RTC_DATA_SIGNSAVE))
 				col = 0xBB;
 
 			Print_SetColor(col, 0x11);
@@ -370,9 +370,9 @@ void DisplaySaveData()
 			Print_DrawChar(g_HexChar[v]);
 			Print_Space();
 			u8 bit = 8;
-			for(u8 i = 0; i < 4; ++i)
+			for (u8 i = 0; i < 4; ++i)
 			{
-				if(g_ValidBits[b][r] & bit)
+				if (g_ValidBits[b][r] & bit)
 					Print_SetColor(col, 0x11);
 				else
 					Print_SetColor(0xEE, 0x11);
@@ -383,7 +383,7 @@ void DisplaySaveData()
 	}
 
 	const c8* typeStr;
-	switch(type)
+	switch (type)
 	{
 	case RTC_DATA_TITLE:    typeStr = "Title";    break;
 	case RTC_DATA_PASSWORD: typeStr = "Password"; break;
@@ -399,10 +399,10 @@ void DisplaySaveData()
 	Print_SetColor(0xFF, 0x11);
 	Print_SetPosition(0, 144);
 	Print_DrawFormat("Type: %i %s", type, typeStr);
-	if((type == RTC_DATA_SAVE) || (type == RTC_DATA_SIGNSAVE))
+	if ((type == RTC_DATA_SAVE) || (type == RTC_DATA_SIGNSAVE))
 	{
 		bool bOK = FALSE;
-		if(type == RTC_DATA_SAVE)
+		if (type == RTC_DATA_SAVE)
 			bOK = RTC_LoadData(data);
 		else
 			bOK = RTC_LoadDataSigned(data);
@@ -447,32 +447,32 @@ void UpdateSaveData()
 	// Wait for (linkly) the screen synchronization interruption
 	Halt();
 
-	if(Keyboard_IsKeyPressed(KEY_SPACE))
+	if (Keyboard_IsKeyPressed(KEY_SPACE))
 	{
-		for(u8 i = 0; i < 6; ++i)
+		for (u8 i = 0; i < 6; ++i)
 			g_SaveData[i] = (i * 2) + 1 + ((i * 2) << 4);
 		RTC_SaveData(g_SaveData);
 		DisplaySaveData();
 	}
-	if(Keyboard_IsKeyPressed(KEY_RET))
+	if (Keyboard_IsKeyPressed(KEY_RET))
 	{
-		for(u8 i = 0; i < 6; ++i)
+		for (u8 i = 0; i < 6; ++i)
 			g_SaveData[i] = 0xBE;
 		RTC_SaveDataSigned(g_SaveData);
 		DisplaySaveData();
 	}
-	if(Keyboard_IsKeyPressed(KEY_BS))
+	if (Keyboard_IsKeyPressed(KEY_BS))
 	{
-		for(u8 b = 0; b < 4; ++b)
+		for (u8 b = 0; b < 4; ++b)
 		{
 			RTC_SetMode(b);
-			for(u8 r = 0; r < 13; ++r)
+			for (u8 r = 0; r < 13; ++r)
 				RTC_Write(r, 0xFF);
 		}
 		DisplaySaveData();
 	}
 
-	if(Keyboard_IsKeyPressed(KEY_F1))
+	if (Keyboard_IsKeyPressed(KEY_F1))
 		DisplayClock();
 }
 
@@ -496,7 +496,7 @@ void main()
 	DisplayClock();
 
 	// Main loop
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		g_Update();
 	}

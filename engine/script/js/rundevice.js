@@ -32,7 +32,8 @@ else if (RunDevice === "RISKY MSX")
 		switch (Target)
 		{
 		case "ROM_8K":
-		case "ROM_16K":
+		case "ROM_16K":			destFileName = "cart.r16"; break;
+
 		case "ROM_32K":			destFileName = "cart.r32"; break;
 
 		case "ROM_48K":

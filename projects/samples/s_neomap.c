@@ -101,7 +101,7 @@ const u16 g_SwitchAddr[BANK_NUM] =
 bool CheckSign(const u8* addr, const u8* sign)
 {
 	loop(i, 4)
-		if(*addr++ != *sign++)
+		if (*addr++ != *sign++)
 			return FALSE;
 	return TRUE;
 }
@@ -111,7 +111,7 @@ bool CheckSign(const u8* addr, const u8* sign)
 void Print_Slot(u8 slot)
 {
 	Print_DrawInt(Sys_SlotGetPrimary(slot));
-	if(Sys_SlotIsExpended(slot))
+	if (Sys_SlotIsExpended(slot))
 	{
 		Print_DrawChar('-');
 		Print_DrawInt(Sys_SlotGetSecondary(slot));
@@ -122,7 +122,7 @@ void Print_Slot(u8 slot)
 //
 const c8* GetTargetType(u8 target)
 {
-	switch(target)
+	switch (target)
 	{
 	case TYPE_BIN: return "BASIC";
 	case TYPE_ROM: return "ROM";
@@ -135,7 +135,7 @@ const c8* GetTargetType(u8 target)
 //
 const c8* GetROMMapper(u8 mapper)
 {
-	switch(mapper)
+	switch (mapper)
 	{
 	case ROM_PLAIN:      return "Plain";
 	case ROM_ASCII8:     return "ASCII-8";
@@ -154,7 +154,7 @@ const c8* GetROMMapper(u8 mapper)
 //
 const c8* GetROMSize(u8 size)
 {
-	switch(size)
+	switch (size)
 	{
 	case ROM_8K:	return "8 KB";
 	case ROM_16K:	return "16 KB";
@@ -239,7 +239,7 @@ void main()
 	loop(b, BANK_NUM)
 	{
 		u16 s = 0;
-		switch(b)
+		switch (b)
 		{
 			case 0:
 				s = GET_BANK_SEGMENT(0);
@@ -301,7 +301,7 @@ void main()
 	{
 		const struct SignEntry* e = &g_Signs[i];
 		u16 addr = g_SwitchAddr[TEST_BANK];
-		switch(i)
+		switch (i)
 		{
 			case 0: // 0x0003
 				SET_SEGMENT_LOW(0x03);
@@ -335,7 +335,7 @@ void main()
 
 
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 

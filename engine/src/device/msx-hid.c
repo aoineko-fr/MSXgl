@@ -21,9 +21,10 @@
 
 //-----------------------------------------------------------------------------
 // Detect device plugged to joystick port
-u16 HID_Detect(enum INPUT_PORT port)
+u16 HID_Detect(enum INPUT_PORT port) __NAKED
 {
 	port; // A
+
 __asm
 	ld		h, a					// Pin 8 HIGH
 	and		#0b11001111
@@ -50,5 +51,6 @@ __asm
 	in		a, (P_PSG_STAT)			//
 	and		#0x3F
 	ld		e, a					// Return value
+	ret
 __endasm;
 }

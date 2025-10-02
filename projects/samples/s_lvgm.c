@@ -137,7 +137,7 @@ void UpdatePlayer()
 //
 bool MusicNotification(u8 id)
 {
-	switch(id)
+	switch (id)
 	{
 	case 0: // End of data segment
 		g_SegIdx++;
@@ -183,28 +183,28 @@ void SetMusic(u8 idx)
 	Print_DrawFormat("Load \"%s\"...", g_MusicEntry[idx].File);
 	// open
 	u8 file = DOS_FOpen(g_MusicEntry[idx].File, O_RDONLY);
-	if(file == 0xFF)
+	if (file == 0xFF)
 		return;
 	// get size
 	u32 size = DOS_FSeek(file, 0, SEEK_END);
 	err = DOS_GetLastError();
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 		return;
 	// rewind
 	DOS_FSeek(file, 0, SEEK_SET);
 	// load
-	while(size > 16 * 1024)
+	while (size > 16 * 1024)
 	{
 		DOS_FRead(file, (void*)0x8000, 16 * 1024);
 		err = DOS_GetLastError();
-		if(err != DOS_ERR_NONE)
+		if (err != DOS_ERR_NONE)
 			return;
 		size -= 16 * 1024;
 		DOSMapper_SetPage2(g_SegList[++g_SegIdx].Number);
 	}
 	DOS_FRead(file, (void*)0x8000, size);
 	err = DOS_GetLastError();
-	if(err != DOS_ERR_NONE)
+	if (err != DOS_ERR_NONE)
 		return;
 	Print_DrawText(" OK!");
 
@@ -229,13 +229,13 @@ void SetMusic(u8 idx)
 	Print_DrawCharX(' ', 32);
 	Print_SetPosition(0, 8);
 	Print_DrawFormat("\x07" "Chips     %c", (g_LVGM_Header->Option & LVGM_OPTION_DEVICE) ? '\x0C' : '\x0B');
-	if(LVGM_GetDevices() & LVGM_CHIP_PSG)
+	if (LVGM_GetDevices() & LVGM_CHIP_PSG)
 		Print_DrawText(" PSG");
-	if(LVGM_GetDevices() & LVGM_CHIP_OPLL)
+	if (LVGM_GetDevices() & LVGM_CHIP_OPLL)
 		Print_DrawText(" OPLL");
-	if(LVGM_GetDevices() & LVGM_CHIP_OPL1)
+	if (LVGM_GetDevices() & LVGM_CHIP_OPL1)
 		Print_DrawText(" OPL1");
-	if(LVGM_GetDevices() & LVGM_CHIP_SCC)
+	if (LVGM_GetDevices() & LVGM_CHIP_SCC)
 		Print_DrawText(" SCC");
 	Print_SetPosition(0, 9);
 	Print_DrawFormat("\x07" "Default   %c %2xh", (LVGM_GetDevices() & LVGM_CHIP_PSG) ? '\x0C' : '\x0B', LVGM_GetDefaultPSGValue());
@@ -310,13 +310,13 @@ void SetCursor(u8 id)
 //
 void Print_DrawSlot(u8 slot)
 {
-	if(slot == 0xFF)
+	if (slot == 0xFF)
 	{
 		Print_DrawText("No!");
 		return;
 	}
 	Print_DrawInt(Sys_SlotGetPrimary(slot));
-	if(Sys_SlotIsExpended(slot))
+	if (Sys_SlotIsExpended(slot))
 	{
 		Print_DrawChar('-');
 		Print_DrawInt(Sys_SlotGetSecondary(slot));
@@ -338,14 +338,14 @@ void VDP_InterruptHandler()
 void main()
 {
 	// Initialize and alloc memory segment
-	if(!DOSMapper_Init())
+	if (!DOSMapper_Init())
 	{
 		DOS_StringOutput("Error: Unable to init mapper\n$");
 		DOS_Exit(1);
 	}
 	loop(i, 4)
 	{
-		if(!DOSMapper_Alloc(DOS_ALLOC_USER, DOS_SEGSLOT_PRIM, &g_SegList[i]))
+		if (!DOSMapper_Alloc(DOS_ALLOC_USER, DOS_SEGSLOT_PRIM, &g_SegList[i]))
 		{
 			DOS_StringOutput("Error: Can't allocate 4 segments of 16 KB\n$");
 			DOS_Exit(1);
@@ -378,7 +378,7 @@ void main()
 	Print_SetPosition(20, 11);
 	Print_DrawText("Main-ROM:");
 	Print_SetPosition(20, 12);
-	Print_DrawFormat("\x07" "Freq  %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
+	Print_DrawFormat("\x07" "Freq  %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
 
 	u8 Y = 17;
 	Print_SetPosition(20, Y++);
@@ -402,7 +402,7 @@ void main()
 	// Decode VGM header
 	SetMusic(0);
 	Print_DrawBox(0, 16, numberof(g_ButtonEntry) * 2 + 1, 3);
-	for(u8 i = 0; i < numberof(g_ButtonEntry); ++i)
+	for (u8 i = 0; i < numberof(g_ButtonEntry); ++i)
 	{
 		Print_SetPosition(1 + 2 * i, 17);
 		Print_DrawChar(g_ButtonEntry[i].Char);
@@ -424,7 +424,7 @@ void main()
 
 	u8 prevRow8 = 0xFF;
 	u8 count = 0;
-	while(1)
+	while (1)
 	{
 		Halt();
 VDP_SetColor(0xF4);

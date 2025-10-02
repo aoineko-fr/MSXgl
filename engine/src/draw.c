@@ -17,7 +17,7 @@ void Draw_Line(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 	u8 arg;
 
 	arg = 0;
-	if(x1 > x2)
+	if (x1 > x2)
 	{
 		arg |= VDP_ARG_DIX_LEFT;
 		dx = x1 - x2 /*+ 1*/;
@@ -27,7 +27,7 @@ void Draw_Line(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 		arg |= VDP_ARG_DIX_RIGHT;
 		dx = x2 - x1 /*+ 1*/;
 	}
-	if(y1 > y2)
+	if (y1 > y2)
 	{
 		arg |= VDP_ARG_DIY_UP;
 		dy = y1 - y2 /*+ 1*/;
@@ -37,7 +37,7 @@ void Draw_Line(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 		arg |= VDP_ARG_DIY_DOWN;
 		dy = y2 - y1 /*+ 1*/;
 	}
-	if(dx > dy)
+	if (dx > dy)
 	{
 		arg |= VDP_ARG_MAJ_H;
 		nx = dx;
@@ -58,7 +58,7 @@ void Draw_Line(UX x1, UY y1, UX x2, UY y2, u8 color, u8 op)
 void Draw_LineH(UX x1, UX x2, UY y, u8 color, u8 op)
 {
 	u16 dx, nx;
-	if(x1 > x2)
+	if (x1 > x2)
 	{
 		dx = x2;
 		nx = x1 - x2 + 1;
@@ -76,7 +76,7 @@ void Draw_LineH(UX x1, UX x2, UY y, u8 color, u8 op)
 void Draw_LineV(UX x, UY y1, UY y2, u8 color, u8 op)
 {
 	u16 dy, ny;
-	if(y1 < y2)
+	if (y1 < y2)
 	{
 		dy = y1;
 		ny = y2 - y1 + 1;
@@ -115,7 +115,7 @@ void Draw_Circle(UX dx, UY dy, u8 radius, u8 color, u8 op)
 	USY y = 0;
 	USX e = 0;
 
-	while(1)
+	while (1)
 	{
 		// VDP_CommandPSET(dx + x, dy + y, color, op);
 		g_VDP_Command.DX = dx + x;

@@ -114,7 +114,7 @@ void DrawPage()
 	Print_DrawText(g_Fonts[g_CurrentFont].name);
 
 #if (MSX_VERSION >= MSX_2)
-	if(g_Modes[g_CurrentMode].mode == VDP_MODE_TEXT2)
+	if (g_Modes[g_CurrentMode].mode == VDP_MODE_TEXT2)
 	{
 		VDP_SetBlinkColor(0xB0);
 		VDP_SetInfiniteBlink();
@@ -129,18 +129,18 @@ void DrawPage()
 	}
 #endif // (MSX_VERSION >= MSX_2)
 
-	if(g_DisplayFont)
+	if (g_DisplayFont)
 	{
 		Print_DrawText("\n\n");
 		const struct Print_Data* data = Print_GetFontInfo();
-		for(u8 j = 0; j < 16; ++j)
+		for (u8 j = 0; j < 16; ++j)
 		{
 			Print_DrawHex8(j * 16);
 			Print_DrawText("  ");
-			for(u8 i = 0; i < 16; ++i)
+			for (u8 i = 0; i < 16; ++i)
 			{
 				u8 chr = j * 16 + i;
-				if((chr >= data->CharFirst) && (chr <= data->CharLast))
+				if ((chr >= data->CharFirst) && (chr <= data->CharLast))
 					Print_DrawChar(chr);
 				else
 					Print_Space();
@@ -169,16 +169,16 @@ void main()
 	DrawPage();
 
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		// Change screen mode
-		if(Keyboard_IsKeyPressed(KEY_RIGHT))
+		if (Keyboard_IsKeyPressed(KEY_RIGHT))
 		{
 			g_CurrentMode++;
 			g_CurrentMode %= numberof(g_Modes);
 			DrawPage();
 		}
-		else if(Keyboard_IsKeyPressed(KEY_LEFT))
+		else if (Keyboard_IsKeyPressed(KEY_LEFT))
 		{
 			g_CurrentMode += numberof(g_Modes) - 1;
 			g_CurrentMode %= numberof(g_Modes);
@@ -186,19 +186,19 @@ void main()
 		}
 
 		// Change font
-		if(Keyboard_IsKeyPressed(KEY_UP))
+		if (Keyboard_IsKeyPressed(KEY_UP))
 		{
 			g_CurrentFont += numberof(g_Fonts) - 1;
 			g_CurrentFont %= numberof(g_Fonts);
 			DrawPage();
 		}
-		else if(Keyboard_IsKeyPressed(KEY_DOWN))
+		else if (Keyboard_IsKeyPressed(KEY_DOWN))
 		{
 			g_CurrentFont++;
 			g_CurrentFont %= numberof(g_Fonts);
 			DrawPage();
 		}
-		if(Keyboard_IsKeyPressed(KEY_F1))
+		if (Keyboard_IsKeyPressed(KEY_F1))
 		{
 			g_DisplayFont = 1 - g_DisplayFont;
 			DrawPage();

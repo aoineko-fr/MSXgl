@@ -8,6 +8,7 @@
 // VGM replayer
 //  https://vgmrips.net/wiki/VGM_Specification
 //─────────────────────────────────────────────────────────────────────────────
+#include "msxgl.h"
 #include "vgm_player.h"
 #include "bios_mainrom.h"
 #if (VGM_USE_SCC)
@@ -30,7 +31,7 @@
 // MEMORY DATA
 //=============================================================================
 
-const struct VGM_Header* g_VGM_Header;
+const VGM_Header* g_VGM_Header;
 const u8* g_VGM_Pointer;
 const u8* g_VGM_Loop;
 u16       g_VGM_WaitCount;
@@ -47,23 +48,23 @@ bool VGM_Play(const void* addr, bool loop)
 {
 	VGM_Pause(); // Mute all sound chip
 	
-	g_VGM_Header = (struct VGM_Header*)addr;
+	g_VGM_Header = (VGM_Header*)addr;
 
-	if(g_VGM_Header->Ident != VGM_IDENT)
+	if (g_VGM_Header->Ident != VGM_IDENT)
 		return FALSE;
 	
 	g_VGM_State = VGM_STATE_PLAY;
-	if(loop)
+	if (loop)
 		g_VGM_State |= VGM_STATE_LOOP;
 
 	g_VGM_Pointer = (u8*)((u16)&g_VGM_Header->Data_offset + (u16)g_VGM_Header->Data_offset);
-	if(g_VGM_Header->Loop_offset)
+	if (g_VGM_Header->Loop_offset)
 		g_VGM_Loop = (u8*)((u16)&g_VGM_Header->Loop_offset + (u16)g_VGM_Header->Loop_offset);
 	else
 		g_VGM_Loop = 0;
 	g_VGM_WaitCount = 0;
 
-	if(g_ROMVersion.VSF)
+	if (Sys_Is50Hz())
 		VGM_SetFrequency50Hz();
 	else
 		VGM_SetFrequency60Hz();
@@ -78,22 +79,22 @@ void VGM_Resume()
 	g_VGM_State |= VGM_STATE_PLAY;
 
 	#if (PSG_USE_RESUME)
-	if(VGM_ContainsPSG())
+	if (VGM_ContainsPSG())
 		PSG_Resume();
 	#endif
 
 	#if (VGM_USE_MSXMUSIC && MSXMUSIC_USE_RESUME)
-	if(VGM_ContainsMSXMusic())
+	if (VGM_ContainsMSXMusic())
 		MSXMusic_Resume();
 	#endif
 
 	#if (VGM_USE_MSXAUDIO && MSXAUDIO_USE_RESUME)
-	if(VGM_ContainsMSXAudio())
+	if (VGM_ContainsMSXAudio())
 		MSXAudio_Resume();
 	#endif
 
 	#if (VGM_USE_SCC && SCC_USE_RESUME)
-	if(VGM_ContainsSCC())
+	if (VGM_ContainsSCC())
 		SCC_Resume();
 	#endif
 }
@@ -132,21 +133,21 @@ void VGM_Stop()
 /// Decode a frame of VGM data
 void VGM_Decode()
 {
-	if(!(g_VGM_State & VGM_STATE_PLAY))
+	if (!(g_VGM_State & VGM_STATE_PLAY))
 		return;
 	
-	while(g_VGM_WaitCount < g_VGM_WaitFrame)
+	while (g_VGM_WaitCount < g_VGM_WaitFrame)
 	{
-		if(*g_VGM_Pointer == 0xA0) // AY8910, write value dd to register aa
+		if (*g_VGM_Pointer == 0xA0) // AY8910, write value dd to register aa
 		{
 			PSG_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
 		}
 		#if (VGM_USE_SCC)
-		else if(*g_VGM_Pointer == 0xD2) // SCC1, port pp, write value dd to register aa
+		else if (*g_VGM_Pointer == 0xD2) // SCC1, port pp, write value dd to register aa
 		{
 			u8 reg = 0;
-			switch(g_VGM_Pointer[1])
+			switch (g_VGM_Pointer[1])
 			{
 			// case 0:	reg = 0x00;	break; // 0x00 - waveform
 			case 1:	reg = 0x80;	break; // 0x01 - frequency
@@ -160,42 +161,42 @@ void VGM_Decode()
 		}
 		#endif
 		#if (VGM_USE_MSXMUSIC)
-		else if(*g_VGM_Pointer == 0x51) // YM2413, write value dd to register aa
+		else if (*g_VGM_Pointer == 0x51) // YM2413, write value dd to register aa
 		{
 			MSXMusic_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
 		}
 		#endif
 		#if (VGM_USE_MSXAUDIO)
-		else if(*g_VGM_Pointer == 0x5C) // Y8950, write value dd to register aa
+		else if (*g_VGM_Pointer == 0x5C) // Y8950, write value dd to register aa
 		{
 			u8 reg = g_VGM_Pointer[1];
-			if((reg != 0x04) && (reg != 0x18) && (reg != 0x19))
+			if ((reg != 0x04) && (reg != 0x18) && (reg != 0x19))
 			{
 				u8 value = g_VGM_Pointer[2];
-				if(reg == 0x08)
+				if (reg == 0x08)
 					value &= 0b11000100;
 				MSXAudio_SetRegister(reg, value);
 			}
 			g_VGM_Pointer += 2;
 		}
 		#endif
-		else if(*g_VGM_Pointer == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
+		else if (*g_VGM_Pointer == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
 			g_VGM_WaitCount += *(u16*)(g_VGM_Pointer+1);
 			g_VGM_Pointer += 2;
 		}
-		else if(*g_VGM_Pointer == 0x62) // Wait 735 samples (60th of a second), a shortcut for 0x61 0xdf 0x02
+		else if (*g_VGM_Pointer == 0x62) // Wait 735 samples (60th of a second), a shortcut for 0x61 0xdf 0x02
 		{
 			g_VGM_WaitCount += 735;
 		}
-		else if(*g_VGM_Pointer == 0x63) // Wait 882 samples (50th of a second), a shortcut for 0x61 0x72 0x03
+		else if (*g_VGM_Pointer == 0x63) // Wait 882 samples (50th of a second), a shortcut for 0x61 0x72 0x03
 		{
 			g_VGM_WaitCount += 882;
 		}
-		else if(*g_VGM_Pointer == 0x66) // End of sound data
+		else if (*g_VGM_Pointer == 0x66) // End of sound data
 		{
-			if((g_VGM_Loop != 0) && (g_VGM_State & VGM_STATE_LOOP))
+			if ((g_VGM_Loop != 0) && (g_VGM_State & VGM_STATE_LOOP))
 			{
 				g_VGM_Pointer = g_VGM_Loop;
 			}

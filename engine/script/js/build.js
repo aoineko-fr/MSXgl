@@ -248,7 +248,7 @@ if (DoClean)
 		fs.rmSync(`${ProjDir}emul`, { recursive: true });
 	}
 
-	return;
+	fs.mkdirSync(OutDir);
 }
 
 //_____________________________________________________________________________
@@ -405,11 +405,14 @@ if (DoCompile)
 	//=========================================================================
 
 	// Add crt0 source to build list (it must be the first in the list)
-	SrcList = [ `${LibDir}src/crt0/${Crt0}.asm` ];
+	SrcList = [];
 	RelList = [];
 	LibList = [];
 	MapList = [];
 	const codeExtList = [ "c", "s", "asm" ];
+
+	if (Target !== "LIB")
+		SrcList.push(`${LibDir}src/crt0/${Crt0}.asm`);
 
 	// Add project sources to build list
 	for (let i = 0; i < ProjModules.length; i++)
@@ -436,7 +439,7 @@ if (DoCompile)
 	}
 
 	// Add modules sources to build list
-	if (BuildLibrary)
+	if (BuildLibrary && LibModules.length)
 	{
 		util.print(`» MSXgl Modules: ${LibModules}`);
 		for (let i = 0; i < LibModules.length; i++)
@@ -595,6 +598,21 @@ if (DoCompile)
 			util.print("No pages code found", PrintDetail);
 	}
 
+	if (Target === "LIB")
+	{
+		util.print(`Generate ${ProjName}.lib...`, PrintHighlight);
+
+		let libStr = RelList.join(" ");
+		let SDARParam = `-rc ${OutDir}${ProjName}.lib ${libStr}`
+		let err = util.execSync(`"${MakeLib}" ${SDARParam}`);
+		if (err)
+		{
+			util.print(`Lib generation error! Code: ${err}`, PrintError);
+			process.exit(1);
+		}
+		util.print("Success", PrintSuccess);
+	}
+
 	//-- Display step duration
 	const compileElapsTime = Date.now() - compileStartTime;
 	util.print('Compile duration: ' + util.getTimeString(compileElapsTime), PrintDetail);
@@ -632,7 +650,7 @@ if (DoMake)
 	//=========================================================================
 	// Generate Library
 	//=========================================================================
-	if (BuildLibrary)
+	if (BuildLibrary && LibModules.length)
 	{
 		util.print("Generate msxgl.lib...", PrintHighlight);
 
@@ -680,11 +698,15 @@ if (DoMake)
 	if (Optim === "SPEED") LinkOpt += " --opt-code-speed";
 	if (Optim === "SIZE")  LinkOpt += " --opt-code-size";
 	if (Debug)             LinkOpt += " --debug";
-	let mapLibStr = "";
+	
+	// Build library list
+	AddLibs.push(`${OutDir}msxgl.lib`);
 	if (PackSegments && MapList.length)
-		mapLibStr = `${OutDir}mapper.lib`;
+		AddLibs.push(`${OutDir}mapper.lib`);
+	let libList = AddLibs.join(" ");
 
-	let SDCCParam = `-mz80 --vc --no-std-crt0 -L${SDCCPath}lib/z80 --code-loc 0x${util.getHex(CodeAddr)} --data-loc 0x${util.getHex(RamAddr)} ${LinkOpt} ${MapperBanks} ${OutDir}${Crt0}.rel ${OutDir}msxgl.lib ${mapLibStr} ${RelList.join(" ")} -o ${OutDir}${ProjName}.ihx`;
+	// Build command line
+	let SDCCParam = `-mz80 --vc --no-std-crt0 -L${SDCCPath}lib/z80 --code-loc 0x${util.getHex(CodeAddr)} --data-loc 0x${util.getHex(RamAddr)} ${LinkOpt} ${MapperBanks} ${OutDir}${Crt0}.rel ${libList} ${RelList.join(" ")} -o ${OutDir}${ProjName}.ihx`;
 	let err = util.execSync(`"${Linker}" ${SDCCParam}`);
 	if (err)
 	{
@@ -764,14 +786,15 @@ if (DoDeploy)
 	//=========================================================================
 	// CREATE OUTPUT DIRECTORY
 	//=========================================================================
-	if (!fs.existsSync(`${ProjDir}emul`)) fs.mkdirSync(`${ProjDir}emul`);
 	if (Ext === "rom")
 	{
+		if (!fs.existsSync(`${ProjDir}emul`)) fs.mkdirSync(`${ProjDir}emul`);
 		if (!fs.existsSync(`${ProjDir}emul/rom`)) fs.mkdirSync(`${ProjDir}emul/rom`);
 		if (ROMDelayBoot && !fs.existsSync(`${ProjDir}emul/dsk/tmp`)) fs.mkdirSync(`${ProjDir}emul/dsk/tmp`);
 	}
 	else if (Ext === "bin")
 	{
+		if (!fs.existsSync(`${ProjDir}emul`)) fs.mkdirSync(`${ProjDir}emul`);
 		if (!fs.existsSync(`${ProjDir}emul/bin`)) fs.mkdirSync(`${ProjDir}emul/bin`);
 		if (Target === "BIN_TAPE")
 			if (!fs.existsSync(`${ProjDir}emul/cas`)) fs.mkdirSync(`${ProjDir}emul/cas`);
@@ -780,6 +803,7 @@ if (DoDeploy)
 	}
 	else if (Ext === "com")
 	{
+		if (!fs.existsSync(`${ProjDir}emul`)) fs.mkdirSync(`${ProjDir}emul`);
 		if (!fs.existsSync(`${ProjDir}emul/dos${DOS}`)) fs.mkdirSync(`${ProjDir}emul/dos${DOS}`);
 		if (DOS === 1)
 		{
@@ -793,10 +817,14 @@ if (DoDeploy)
 		}
 		if (!fs.existsSync(`${ProjDir}emul/dsk`)) fs.mkdirSync(`${ProjDir}emul/dsk`);
 	}
+	else if (Ext === "lib")
+	{
+		if (!fs.existsSync(`${ProjDir}lib`)) fs.mkdirSync(`${ProjDir}lib`);
+	}
 
 	let DskToolPath = path.parse(DskTool).dir + '/';
 	let DskToolName = path.parse(DskTool).base;
-	if (process.platform === "linux")
+	if (process.platform !== "win32") // Linux & MacOS
 		DskToolName = `./${DskToolName}`;
 	let projNameShort = ProjName.substring(0, 8);
 
@@ -1053,6 +1081,21 @@ if (DoDeploy)
 		}
 	}
 
+	//-------------------------------------------------------------------------
+	// C LIBRARY TARGET
+	//-------------------------------------------------------------------------
+	else if (Ext === "lib")
+	{
+		// Copy library file
+		util.copyFile(`${OutDir}${ProjName}.lib`, `${ProjDir}lib/${ProjName}.lib`);
+		// Copy all available header files
+		for (let i = 0; i < ProjModules.length; i++)
+		{
+			if (fs.existsSync(`./${ProjModules[i]}.h`))
+				util.copyFile(`./${ProjModules[i]}.h`, `${ProjDir}lib/${ProjModules[i]}.h`);
+		}	
+	}
+
 	util.print("Success", PrintSuccess);
 
 	//-- Display step duration
@@ -1137,6 +1180,6 @@ if (DoRun)
 	{
 		require("./setup_emulator.js");
 
-		util.exec(`"${Emulator}" ${EmulatorArgs}`);
+		util.execSync(`"${Emulator}" ${EmulatorArgs}`);
 	}
 }

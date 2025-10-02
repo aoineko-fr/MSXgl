@@ -28,6 +28,16 @@
 #include "core.h"
 #include "psg.h"
 
+//=============================================================================
+// OPTIONS VALIDATION
+//=============================================================================
+
+// AYFX_BUFFER
+#ifndef AYFX_BUFFER
+	#warning AYFX_BUFFER is not defined in "msxgl_config.h"! Default value will be used: AYFX_BUFFER_PT3
+	#define AYFX_BUFFER					AYFX_BUFFER_PT3
+#endif
+
 //-----------------------------------------------------------------------------
 // DEFINES
 //-----------------------------------------------------------------------------

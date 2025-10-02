@@ -24,6 +24,7 @@ enum PaletteType
 	PALETTE_MSX2,
 	PALETTE_Custom,  // Generate a custom palette 
 	PALETTE_Input,   // Use input palette 
+	PALETTE_Partial, // Combine partial input palette and custom palette
 };
 
 enum DitheringMethod

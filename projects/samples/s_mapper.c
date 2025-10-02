@@ -69,7 +69,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 }
 
@@ -173,13 +173,13 @@ void main()
 
 	u8 frameCount = 0;
 	u8 errorCount = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		// WaitVBlank();
 
 		SET_BANK_SEGMENT(3, frameCount);
 
-		if(GET_BANK_SEGMENT(3) != frameCount)
+		if (GET_BANK_SEGMENT(3) != frameCount)
 			errorCount++;
 
 		Print_DrawIntAt(0, 23, errorCount);

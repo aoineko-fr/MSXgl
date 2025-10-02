@@ -22,9 +22,9 @@
 // Initialize music and start playback
 //
 // Paramaters:
-//   data	- Pointer to the music data
 //   num	- Music number
-void AKY_Init(const void* data, u8 num);
+//   data	- Pointer to the music data
+void AKY_Play(u8 num, const void* data);
 
 // Function: AKY_Stop
 // Stop music playback

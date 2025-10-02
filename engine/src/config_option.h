@@ -27,9 +27,13 @@
 #define MSX_2P						0b00001000 // MSX2+
 #define MSX_22P						(MSX_2|MSX_2P) // MSX2 and 2+ (support each)
 #define MSX_122P					(MSX_1|MSX_2|MSX_2P) // MSX1, 2 and 2+ (support each)
-#define MSX_0						MSX_2P // MSX0 (MSX2+)
 #define MSX_TR						0b00010000 // MSX turbo R
-#define MSX_3						0b00100000 // MSX3
+//.............................................................................
+#define MSX_0						MSX_2P // MSX0 (MSX2+)
+#define MSX_PP						0b00100000 // MSX++
+#define MSX_2PP						(MSX_2P|MSX_PP) // MSX2++
+#define MSX_TRP						(MSX_TR|MSX_PP) // MSX turbo R+
+#define MSX_3						0b01000000 // MSX3
 
 //-----------------------------------------------------------------------------
 // TARGET_TYPE options
@@ -37,14 +41,28 @@
 #define TYPE_ROM					1 // ROM program
 #define TYPE_DOS					2 // MSX-DOS program
 
+// General target options
+#define TARGET_ISR					(1<<13)
+
 //-----------------------------------------------------------------------------
 // TARGET options
 
-// DOS options
-#define DOS_0						0 // Disk boot program
-#define DOS_1						1 // MSX-DOS 1 program
-#define DOS_2						2 // MSX-DOS 2 program
-#define DOS_3						3 // NEXTOR program
+//.............................................................................
+// BIN options
+
+// BASIC program types
+#define BIN_DISK		  			0 // BASIC binary on disk
+#define BIN_TAPE		  			1 // BASIC binary on tape
+#define BIN_USR		  				2 // BASIC USR driver
+
+// Basic target type define
+//	15	14	13	12	11	10	9	8	7	6	5	4	3	2	1	0
+//	0	0	x	x	x	x	x	x	x	x	x	x	T3	T2	T1	T0
+//													└───┴───┴───┴── BASIC program type
+#define MAKE_BASIC(x)				((TYPE_BIN << 14) | (x))
+
+//.............................................................................
+// ROM options
 
 // ROM_MAPPER options (0-15)
 #define ROM_PLAIN					0 // Plain ROM (no mapper)
@@ -86,36 +104,55 @@
 #define ROM_32M						ROM_32768K
 #define ROM_64M						ROM_65536K
 
-#define ROM_ISR						(1<<12)
-#define ROM_MIRROR					(1<<13)
-#define RAM_MAPPER					(1<<13)
+// Additionnal ROM options
+#define ROM_MIRROR					(1<<12)
+#define ROM_ISR						TARGET_ISR
 
 // ROM target type define
 //	15	14	13	12	11	10	9	8	7	6	5	4	3	2	1	0
-//	0	1	MIR	ISR	M3	M2	M1	M0	S3	S2	S1	S0	P1	P0	B1	B0
+//	0	1	ISR	MIR	M3	M2	M1	M0	S3	S2	S1	S0	P1	P0	B1	B0
 //			│	│	│	│	│	│	│	│	│	│	│	│	└───┴── ROM boot page (address of 'AB' header)
 //			│	│	│	│	│	│	│	│	│	│	└───┴────────── ROM starting page (first address of the ROM ; can be different from booting page)
 //			│	│	│	│	│	│	└───┴───┴───┴────────────────── ROM size
 //			│	│	└───┴───┴───┴────────────────────────────────── ROM Mapper Type
-//			│	└────────────────────────────────────────────────── Use custom Interrupt Service Routine (place custom code in page 0)
-//			└────────────────────────────────────────────────────── Mirrored ROM
+//			│	└────────────────────────────────────────────────── Mirrored ROM
+//			└────────────────────────────────────────────────────── Use custom Interrupt Service Routine (place custom code in page 0)
 #define MAKE_ROM(m, s, p, b)		((TYPE_ROM << 14) | ((m) << 8) | ((s) << 4) | ((p) << 2) | (b))
 
-// Basic target type define
-#define MAKE_BASIC(x)				((TYPE_BIN << 14) | (x))
+
+//.............................................................................
+// DOS options
+
+// MSX-DOS program types
+#define DOS_0						0 // Disk boot program
+#define DOS_1						1 // MSX-DOS 1 program
+#define DOS_2						2 // MSX-DOS 2 program
+#define DOS_3						3 // NEXTOR program
+
+// Additionnal MSX-DOS options
+#define DOS_MAPPER					(1<<12)
+#define DOS_ISR						TARGET_ISR
 
 // DOS target type define
+//	15	14	13	12	11	10	9	8	7	6	5	4	3	2	1	0
+//	1	0	ISR	MAP	x	x	x	x	x	x	x	x	T3	T2	T1	T0
+//			│	│									└───┴───┴───┴── MSX-DOS program type
+//			│	└────────────────────────────────────────────────── ASCII-16 mapper emulation through RAM mapper
+//			└────────────────────────────────────────────────────── Use custom Interrupt Service Routine (place custom code in page 0)
 #define MAKE_DOS(x)					((TYPE_DOS << 14) | (x))
 
+//.............................................................................
+// Targets definition
+
 // -- BASIC program
-#define TARGET_BIN_DISK		  		MAKE_BASIC(0) // BASIC binary on disk (8000h~)
-#define TARGET_BIN_TAPE		  		MAKE_BASIC(1) // BASIC binary on tape (8000h~)
-#define TARGET_BIN_USR		  		MAKE_BASIC(2) // BASIC USR driver (C000h~)
+#define TARGET_BIN_DISK		  		MAKE_BASIC(BIN_DISK) // BASIC binary on disk (8000h~)
+#define TARGET_BIN_TAPE		  		MAKE_BASIC(BIN_TAPE) // BASIC binary on tape (8000h~)
+#define TARGET_BIN_USR		  		MAKE_BASIC(BIN_USR) // BASIC USR driver (C000h~)
 // -- DOS program
 #define TARGET_DOS0					MAKE_DOS(DOS_0) // Disk boot program (0100h~). Access to BDOS functions through F37Dh
 #define TARGET_DOS1					MAKE_DOS(DOS_1) // MSX-DOS 1 program (0100h~). No direct acces to Main-ROM
 #define TARGET_DOS2					MAKE_DOS(DOS_2) // MSX-DOS 2 program (0100h~). No direct acces to Main-ROM
-#define TARGET_DOS2_MAPPER			MAKE_DOS(DOS_2) + RAM_MAPPER // MSX-DOS 2 launcher to RAM mapper
+#define TARGET_DOS2_MAPPER			MAKE_DOS(DOS_2) + DOS_MAPPER // MSX-DOS 2 launcher to RAM mapper
 #define TARGET_DOS3					MAKE_DOS(DOS_3) // NEXTOR program (0100h~). No direct acces to Main-ROM
 #define TARGET_NEXTOR				TARGET_DOS3
 #define TARGET_DOS					TARGET_DOS1
@@ -337,43 +374,55 @@
 #define WYZ_3CH 					0
 #define WYZ_6CH 					1
 
+// AYFX MODULE
+#define AYFX_BUFFER_DEFAULT			0
+#define AYFX_BUFFER_PT3				1
+#define AYFX_BUFFER_VGM				AYFX_BUFFER_DEFAULT
+#define AYFX_BUFFER_LVGM			AYFX_BUFFER_DEFAULT
+
 //-----------------------------------------------------------------------------
-// GAME MODULE
+// GAME PAWN MODULE
 //-----------------------------------------------------------------------------
 
 // Border collision options
-#define GAMEPAWN_BORDER_NONE		0 // 0000
-#define GAMEPAWN_BORDER_DOWN		1 // 0001
-#define GAMEPAWN_BORDER_UP			2 // 0010
-#define GAMEPAWN_BORDER_RIGHT		4 // 0100
-#define GAMEPAWN_BORDER_LEFT		8 // 1000
+#define PAWN_BORDER_NONE			0 // 0000
+#define PAWN_BORDER_DOWN			1 // 0001
+#define PAWN_BORDER_UP				2 // 0010
+#define PAWN_BORDER_RIGHT			4 // 0100
+#define PAWN_BORDER_LEFT			8 // 1000
 
 // Collision position options
-#define GAMEPAWN_COL_0				1  // 00000001
-#define GAMEPAWN_COL_25             2  // 00000010
-#define GAMEPAWN_COL_50             4  // 00000100
-#define GAMEPAWN_COL_75             8  // 00001000
-#define GAMEPAWN_COL_100			16 // 00010000
+#define PAWN_COL_NONE				0  // 00000000
+#define PAWN_COL_0					1  // 00000001
+#define PAWN_COL_25					2  // 00000010
+#define PAWN_COL_50					4  // 00000100
+#define PAWN_COL_75					8  // 00001000
+#define PAWN_COL_100				16 // 00010000
 
-#define GAMEPAWN_COL_1P_MIDDLE		GAMEPAWN_COL_50
-#define GAMEPAWN_COL_2P_MIDDLE		(GAMEPAWN_COL_25|GAMEPAWN_COL_75)
-#define GAMEPAWN_COL_2P_CORNER		(GAMEPAWN_COL_0|GAMEPAWN_COL_100)
+#define PAWN_COL_1P_MIDDLE			PAWN_COL_50
+#define PAWN_COL_2P_MIDDLE			(PAWN_COL_25|PAWN_COL_75)
+#define PAWN_COL_2P_CORNER			(PAWN_COL_0|PAWN_COL_100)
 
-#define GAMEPAWN_BOUND_CUSTOM		0x10000 // Use variable bound value for each pawn
+#define PAWN_BOUND_CUSTOM			0x10000 // Use variable bound value for each pawn
 
 // Collision tilemap source
-#define GAMEPAWN_TILEMAP_SRC_AUTO	0 // Backward compatibility option
-#define GAMEPAWN_TILEMAP_SRC_RAM	1 // Tilemap located in a buffer in RAM (best for performance)
-#define GAMEPAWN_TILEMAP_SRC_VRAM	2 // Tilemap located in VRAM (slow but don't need additionnal data)
-#define GAMEPAWN_TILEMAP_SRC_V9		3 // Tilemap located in V9990's VRAM
+#define PAWN_TILEMAP_SRC_AUTO		0 // Backward compatibility option
+#define PAWN_TILEMAP_SRC_RAM		1 // Tilemap located in a buffer in RAM (best for performance)
+#define PAWN_TILEMAP_SRC_VRAM		2 // Tilemap located in VRAM (slow but don't need additionnal data)
+#define PAWN_TILEMAP_SRC_V9			3 // Tilemap located in V9990's VRAM
 
 // Pawn's sprite mode
-#define GAMEPAWN_SPT_MODE_AUTO		0 // Backward compatibility option
-#define GAMEPAWN_SPT_MODE_MSX1		1 // Sprite Mode 1 (MSX1 screens)
-#define GAMEPAWN_SPT_MODE_MSX2		2 // Sprite Mode 2 (MSX2 screens)
-#define GAMEPAWN_SPT_MODE_V9_P1		3 // V9990 sprite in P1 mode
-#define GAMEPAWN_SPT_MODE_V9_P2		4 // V9990 sprite in P2 mode
-#define GAMEPAWN_SPT_MODE_BITMAP	5 // V9938/58 software sprite (Todo)
+#define PAWN_SPT_MODE_AUTO			0 // Backward compatibility option
+#define PAWN_SPT_MODE_MSX1			11 // Sprite Mode 1 (MSX1 screens)
+#define PAWN_SPT_MODE_MSX2			12 // Sprite Mode 2 (MSX2 screens)
+#define PAWN_SPT_MODE_MSX12			13 // Sprite Mode 1 & 2 (MSX1 and MSX2 screens)
+#define PAWN_SPT_MODE_BITMAP		50 // V9938/58 software sprite (Todo)
+#define PAWN_SPT_MODE_V9_P1			91 // V9990 sprite in P1 mode
+#define PAWN_SPT_MODE_V9_P2			92 // V9990 sprite in P2 mode
+
+// Pawn coordinate unit
+#define PAWN_UNIT_SCREEN			0x10000 // Default screen (pixel) unit (8-bit unsigned int)
+#define PAWN_UNIT_QMN(n)			(1 << (n)) // Fixed-point (Qm.n) unit (16-bit signed int)
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE
@@ -451,7 +500,7 @@
 #define DEBUG_OPENMSX_P				0x31 // Debug features for openMSX using PVM script (tools/script/openMSX/debugger_pvm.tcl)
 
 #define DEBUG_DISABLE				DEBUG_NONE
-#define DEBUG_EMULATOR(tool)		(tool & 0xF0)
+#define DEBUG_EMULATOR(tool)		((tool) & 0xF0)
 
 // PROFILE_TOOL
 #define PROFILE_NONE				0x00 // No profile tool
@@ -459,4 +508,4 @@
 #define PROFILE_OPENMSX_S			0x39 // Profiler features for openMSX using Salutte script (tools/script/openMSX/profiler_salutte.tcl)
 
 #define PROFILE_DISABLE				PROFILE_NONE
-#define PROFILE_EMULATOR(tool)		(tool & 0xF0)
+#define PROFILE_EMULATOR(tool)		((tool) & 0xF0)

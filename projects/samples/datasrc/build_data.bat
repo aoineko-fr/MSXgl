@@ -3,21 +3,21 @@ setlocal EnableDelayedExpansion
 
 :: Audio
 set BuildArkos=1
-set BuildTrilo=1
-set BuildWYZ=1
-set BuildayFX=1
-set BuildVGM=1
-set BuildlVGM=1
-set BuildPCMEnc=1
-set BuildPCMPlay=1
+set BuildTrilo=0
+set BuildWYZ=0
+set BuildayFX=0
+set BuildVGM=0
+set BuildlVGM=0
+set BuildPCMEnc=0
+set BuildPCMPlay=0
 :: Image
-set BuildBitmap=1
-set BuildImage=1
-set BuildCompress=1
-set BuildTile=1
-set BuildV9990=1
+set BuildBitmap=0
+set BuildImage=0
+set BuildCompress=0
+set BuildTile=0
+set BuildV9990=0
 :: Misc
-set BuildZip=1
+set BuildZip=0
 
 :: Path
 set Tools=..\..\..\tools

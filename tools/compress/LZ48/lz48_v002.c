@@ -216,7 +216,7 @@ int ParseOptions(char **argv,int argc, char **inputfilename, char **outputfilena
 
 	if (argv[i][0]=='-')
 	{
-		switch(argv[i][1])
+		switch (argv[i][1])
 		{
 			case 'O':
 			case 'o':

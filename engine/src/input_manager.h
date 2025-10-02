@@ -72,7 +72,7 @@ typedef void (*IPM_cb)(u8 joy, u8 in, u8 evt);
 typedef u8 (*IPM_check)(u8 joy, u8 in);
 
 // IPM event structure
-typedef struct
+typedef struct IPM_Event
 {
 	u8			Device;
 	u8			Input;
@@ -81,7 +81,7 @@ typedef struct
 } IPM_Event;
 
 // IPM process structure
-typedef struct
+typedef struct IPM_Process
 {
 	u8			CurrentStatus;
 	u8			PreviousStatus;
@@ -90,7 +90,7 @@ typedef struct
 } IPM_Process;	
 
 // IPM key set structure
-typedef struct
+typedef struct IPM_KeySet
 {
 	u8			Up;
 	u8			Right;
@@ -101,7 +101,7 @@ typedef struct
 } IPM_KeySet;	
 
 // IPM configuration structure
-typedef struct
+typedef struct IPM_Config
 {
 	u8			DeviceSupport[IPM_DEVICE_MAX];
 	u8			HoldTimer;
@@ -110,7 +110,7 @@ typedef struct
 } IPM_Config;	
 
 // IPM internal data structure
-typedef struct
+typedef struct IPM_Data
 {
 	IPM_Process	Process[IPM_DEVICE_MAX];
 	IPM_Event	Events[IPM_EVENT_TAB_SIZE];

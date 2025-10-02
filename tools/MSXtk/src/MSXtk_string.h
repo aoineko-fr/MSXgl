@@ -84,7 +84,7 @@ inline std::string ToUpper(const std::string& str)
 /// Check if 2 string are equal
 inline bool StrEqual(const c8* str1, const c8* str2, bool bCaseInsensitive = true)
 {
-	if(bCaseInsensitive)
+	if (bCaseInsensitive)
 	{
 		//return (_stricmp(str1, str2) == 0);
 		std::string out1 = str1;
