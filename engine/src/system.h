@@ -166,6 +166,8 @@ inline u8 Sys_GetMSXVersion() { return g_VersionMSX; }
 
 #elif (TARGET_TYPE == TYPE_DOS)
 
+#if (DOS_USE_BIOSCALL)
+
 #include "dos.h"
 
 // Get the MSX information from BIOS
@@ -173,6 +175,14 @@ inline u8 Sys_GetBIOSInfo() { return DOS_InterSlotRead(Peek(M_EXPTBL), R_BASRVN)
 
 // Get the MSX version
 inline u8 Sys_GetMSXVersion() { return DOS_InterSlotRead(Peek(M_EXPTBL), R_MSXVER); } 
+
+#else
+
+// Not supported
+inline u8 Sys_GetBIOSInfo() { return 0; }
+inline u8 Sys_GetMSXVersion() { return 0; } 
+
+#endif
 
 #else // get information from Main-ROM
 
