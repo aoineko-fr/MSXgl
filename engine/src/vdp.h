@@ -315,8 +315,8 @@ enum VDP_MODE
 // VDP version enumaration
 enum VDP_VERSION
 {
-	VDP_VERSION_TMS9918A = 0,	// MSX1 VDP
-	VDP_VERSION_V9938,			// MSX2 VDP
+	VDP_VERSION_TMS9918A = 0,	// MSX1 VDP (no ID from hardware)
+	VDP_VERSION_V9938,			// MSX2 VDP (ID from hardware is 0)
 	VDP_VERSION_V9958,			// MSX2+ & MSX turbo R VDP
 	VDP_VERSION_V9968,			// MSX2++ VDP
 	VDP_VERSION_V9978,			// MSX2 turbo R+ VDP (V9968+V9990)

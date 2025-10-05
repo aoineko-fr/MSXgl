@@ -1678,9 +1678,9 @@ u8 VDP_GetVersion() __NAKED
 	// different method to detect the TMS9918A. We wait for the vertical blanking
 	// interrupt flag, and then quickly read status register 2 and expect bit 6
 	// (VR, vertical retrace flag) to be set as well. The TMS9918A has only one
-	// status register, so bit 6 (5S, 5th sprite flag) will return 0 in stead.
+	// status register, so bit 6 (5S, 5th sprite flag) will return 0 instead.
 	//
-	// f <- z: TMS9918A, nz: V99X8
+	// f <- z: TMS9918A, nz: V99x8
 	VDP_IsTMS9918A:
 		xor 	a						// reset s#0
 		VDP_DI //~~~~~~~~~~~~~~~~~~~~~~~~~~
