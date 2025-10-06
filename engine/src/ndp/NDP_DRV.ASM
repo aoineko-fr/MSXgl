@@ -162,15 +162,15 @@ NDPINI:
 	OR	A
 	RET	NZ
 
-	LD	HL,#HTIMI
-	LD	DE,#OLDTH
-	LD	BC,#5
-	LDIR
+	; LD	HL,#HTIMI
+	; LD	DE,#OLDTH
+	; LD	BC,#5
+	; LDIR
 
-	LD	A,#0xC3		;// JP
-	LD	HL,#INTRPT	;// ドライバ割り込みルーチンアドレス
-	LD	(HTIMI),A
-	LD	(HTIMI+1),HL
+	; LD	A,#0xC3		;// JP
+	; LD	HL,#INTRPT	;// ドライバ割り込みルーチンアドレス
+	; LD	(HTIMI),A
+	; LD	(HTIMI+1),HL
 
 	LD	A,#1
 NDP_SETHF::
@@ -381,26 +381,26 @@ INIW2:
 
 	RET
 
-;// ------	演奏状態取得 (0=停止中 1=演奏中 ->A)
+; ;// ------	演奏状態取得 (0=停止中 1=演奏中 ->A)
 
-NDP_RDSTAT::
-RDSTAT:
-	LD	A,(STATS)
-	RET
+; NDP_RDSTAT::
+; RDSTAT:
+; 	LD	A,(STATS)
+; 	RET
 
-;// ------	終了トラック取得 (0000321R で終端まで達したトラックのビットが立つ ->A)
+; ;// ------	終了トラック取得 (0000321R で終端まで達したトラックのビットが立つ ->A)
 
-NDP_RDENDT::
-RDENDT:
-	LD	A,(ENDTRW)
-	RET
+; NDP_RDENDT::
+; RDENDT:
+; 	LD	A,(ENDTRW)
+; 	RET
 
-;// ------	ループ回数取得 （ループしない曲では255を返す)
+; ;// ------	ループ回数取得 （ループしない曲では255を返す)
 
-NDP_RDLOOP::
-RDLOOP:
-	LD	A,(MCOUNT)
-	RET
+; NDP_RDLOOP::
+; RDLOOP:
+; 	LD	A,(MCOUNT)
+; 	RET
 
 ;// ------	バージョン取得
 
@@ -470,22 +470,22 @@ WPSG:
 
 ;// ------	タイマ割り込みルーチン呼び出し＆旧フックコール
 
-NDP_INTRPT::
-INTRPT:
-	DI
-	CALL	IMAIN
-	CALL	OLDTH
-	EI
-	RET
+; NDP_INTRPT::
+; INTRPT:
+; 	DI
+; 	CALL	IMAIN
+; 	CALL	OLDTH
+; 	EI
+; 	RET
 
 NDP_IMAIN::
 IMAIN:
-	PUSH	AF
-	PUSH	BC
-	PUSH	DE
-	PUSH	HL
-	PUSH	IX
-	PUSH	IY
+	; PUSH	AF
+	; PUSH	BC
+	; PUSH	DE
+	; PUSH	HL
+	; PUSH	IX
+	; PUSH	IY
 
 	LD	A,(SLWPRM)
 	RRCA
@@ -570,12 +570,12 @@ SECHK1:
 SINTED:
 
 INTEND:
-	POP	IY
-	POP	IX
-	POP	HL
-	POP	DE
-	POP	BC
-	POP	AF
+	; POP	IY
+	; POP	IX
+	; POP	HL
+	; POP	DE
+	; POP	BC
+	; POP	AF
 
 	RET
 

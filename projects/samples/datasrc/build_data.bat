@@ -136,7 +136,7 @@ if %BuildlNDP%==1 (
 	if not exist %Dest%\ndp md %Dest%\ndp
 	for %%I in (ndp\*.ndp) do (
 		echo Converting %%I...
-		%MSXtk%\MSXbin.exe %%I -t g_NDP_%%~nI -ad -o %Dest%\ndp\%%~nI.h
+		%MSXtk%\MSXbin.exe %%I -t g_NDP_%%~nI -skip 0 7 -ad -o %Dest%\ndp\%%~nI.h
 	)
 )
 

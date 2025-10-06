@@ -1,5 +1,19 @@
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄  ▄▄▄  ▄▄▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▀█ ██ █ ██▄▀
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██ █ ██▄▀ ██
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
+//─────────────────────────────────────────────────────────────────────────────
+// NDP replayer
+//─────────────────────────────────────────────────────────────────────────────
+
 #include "msxgl.h"
 #include "ndp_player.h"
+
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
 
 //-----------------------------------------------------------------------------
 // Dummy function to include the NDP player ASM code into the build
@@ -7,11 +21,11 @@ void NDP_DummyASM()
 {
 __asm
 
-	HTIMI  = 0xFD9F ;// Timer interrupt hook
-	WSIZE  = 61     ;// The size of the work area for each track
-	RWSIZE = 5*4    ;// Repeat work area size for each track (Size per nest * Number of nests)F
-	CHNUM  = 4      ;// Number of channels used
-	DRVADR = 0xC000 ;// Driver start address
+	// HTIMI  = 0xFD9F ;// Timer interrupt hook
+	// WSIZE  = 61     ;// The size of the work area for each track
+	// RWSIZE = 5*4    ;// Repeat work area size for each track (Size per nest * Number of nests)F
+	// CHNUM  = 4      ;// Number of channels used
+	// DRVADR = 0xC000 ;// Driver start address
 
 	#include "NDP_WRK.ASM"
 	#include "NDP_DRV.ASM"
@@ -25,6 +39,20 @@ void NDP_Initialize()
 {
 __asm
 	push	ix
+
+	// Mem_Set(0x00, &g_NDP_RAM0, g_NDP_RAM0SIZE); // Clear NDP work area
+	ld		hl, #_g_NDP_RAM0
+	ld		de, #_g_NDP_RAM0+1
+	ld		bc, #_g_NDP_RAM0END-_g_NDP_RAM0-1
+	ld		(hl), #0
+	ldir
+
+	// Mem_Copy(&g_NDP_RAMVAL, &g_NDP_RAMVAR, g_NDP_RAMVARSIZE);
+	ld		hl, #_g_NDP_RAMVAL
+	ld		de, #_g_NDP_RAMVAR
+	ld		bc, #_g_NDP_RAMVAREND-_g_NDP_RAMVAR
+	ldir
+
 	call	NDP_NDPINI
 	pop		ix
 __endasm;
@@ -53,18 +81,7 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-// INTRPT Interrupt processing (used when calling an interrupt routine without connecting to a hook) *Executes together with the old hook saved in the driver
-void NDP_Interrupt()
-{
-__asm
-	push	ix
-	call	NDP_INTRPT
-	pop		ix
-__endasm;
-}
-
-//-----------------------------------------------------------------------------
-// ADRSET Song data start address setting (DE ← address. No setting required if default is 04000H)
+// ADRSET Song data start address setting
 void NDP_SetMusicAddress(const void* addr)
 {
 	addr; // HL
@@ -72,21 +89,21 @@ void NDP_SetMusicAddress(const void* addr)
 __asm
 	push	ix
 	ex		de, hl
-	// DE <- Song Data Address
+	// DE ← address. No setting required if default is 04000H
 	call	NDP_ADRSET
 	pop		ix
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
-// CH1OFF Ch.A Temporary Mute (D ← Number of frames to mute [2 to 254 / 1 = Cancel / 255 = Permanent Mute])
+// CH1OFF Ch.A Temporary Mute
 void NDP_MuteChannel1(u8 frames)
 {
 	frames; // A
 
 __asm
 	push	ix
-	// D <- Number of frames to mute
+	// D ← Number of frames to mute [2 to 254 / 1 = Cancel / 255 = Permanent Mute]
 	ld		d, a
 	call	NDP_CH1OFF
 	pop		ix
@@ -94,14 +111,14 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-// CH2OFF Ch.B 〃
+// CH2OFF Ch.B Temporary Mute
 void NDP_MuteChannel2(u8 frames)
 {
 	frames; // A
 
 __asm
 	push	ix
-	// D <- Number of frames to mute
+	// D ← Number of frames to mute [2 to 254 / 1 = Cancel / 255 = Permanent Mute]
 	ld		d, a
 	call	NDP_CH2OFF
 	pop		ix
@@ -109,14 +126,14 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-// CH3OFF Ch.C 〃
+// CH3OFF Ch.C Temporary Mute
 void NDP_MuteChannel3(u8 frames)
 {
 	frames; // A
 
 __asm
 	push	ix
-	// D <- Number of frames to mute
+	// D ← Number of frames to mute [2 to 254 / 1 = Cancel / 255 = Permanent Mute]
 	ld		d, a
 	call	NDP_CH3OFF
 	pop		ix
@@ -138,14 +155,14 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-// MFOSET Fade-out (A←number of frames for each stage)
+// MFOSET Fade-out
 void NDP_FadeOut(u8 speed)
 {
 	speed; // A
 
 __asm
 	push	ix
-	// A <- Number of frames for fade
+	// A ← number of frames for each stage
 	call	NDP_MFOSET
 	pop		ix
 __endasm;
@@ -180,35 +197,35 @@ __asm
 __endasm;
 }
 
-//-----------------------------------------------------------------------------
-// RDSTAT Playing status → A (0: Stopped 1: Playing)
-u8 NDP_GetStatus() __NAKED
-{
-__asm
-	call	NDP_RDSTAT
-	ret
-__endasm;
-}
+// //-----------------------------------------------------------------------------
+// // RDSTAT Playing status → A (0: Stopped 1: Playing)
+// u8 NDP_GetStatus() __NAKED
+// {
+// __asm
+// 	call	NDP_RDSTAT
+// 	ret
+// __endasm;
+// }
 
-//-----------------------------------------------------------------------------
-// RDENDT Whether or not each track has reached the end → A (bit field of 0000321R)
-u8 NDP_HasTrackEnded() __NAKED
-{
-__asm
-	call	NDP_RDENDT
-	ret
-__endasm;
-}
+// //-----------------------------------------------------------------------------
+// // RDENDT Whether or not each track has reached the end → A (bit field of 0000321R)
+// u8 NDP_HasTrackEnded() __NAKED
+// {
+// __asm
+// 	call	NDP_RDENDT
+// 	ret
+// __endasm;
+// }
 
-//-----------------------------------------------------------------------------
-// RDLOOP Number of times the song has looped → A (If the song does not have an infinite loop, check +0BH in the song data and return 255 when the song finishes playing)
-u8 NDP_GetLoopCount() __NAKED
-{
-__asm
-	call	NDP_RDLOOP
-	ret
-__endasm;
-}
+// //-----------------------------------------------------------------------------
+// // RDLOOP Number of times the song has looped → A (If the song does not have an infinite loop, check +0BH in the song data and return 255 when the song finishes playing)
+// u8 NDP_GetLoopCount() __NAKED
+// {
+// __asm
+// 	call	NDP_RDLOOP
+// 	ret
+// __endasm;
+// }
 
 //-----------------------------------------------------------------------------
 // VSET Reflects tone color data to the driver (HL ← address of tone color definition data)
@@ -259,7 +276,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // IMAIN Interrupt processing - main part (only the interrupt routine body is processed without calling the old hook)
-void NDP_InterruptMain()
+void NDP_Update()
 {
 __asm
 	push	ix
