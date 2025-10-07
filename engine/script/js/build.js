@@ -123,6 +123,10 @@ for (let i = 0; i < CommandArgs.length; i++)
 		InstallRAMISR = "RAM0_SEGMENT";
 		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
 	}
+	else if (arg === "run")
+	{
+		DoRun = true;
+	}
 	else if (arg === "clean")
 	{
 		DoClean = true;
@@ -131,6 +135,13 @@ for (let i = 0; i < CommandArgs.length; i++)
 	else if (arg === "rebuild")
 	{
 		DoClean = true;
+	}
+	else if (arg.startsWith("define="))
+	{
+		let params = CommandArgs[i].substring(7).split(":");
+		let val = params[0] + (params[1] !== undefined ? `=${params[1]}` : "");
+		CompileOpt += ` -D${val} `;
+		util.print(`Command line overwrite => CompileOpt+=-D${val}`, PrintDetail);
 	}
 	else
 	{
