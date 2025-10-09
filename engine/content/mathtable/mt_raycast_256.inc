@@ -3,10 +3,10 @@
 //  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
 //  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // ─────────────────────────────────────────────────────────────────────────────
-//  MSXmath 1.7.0 by Guillaume "Aoineko" Blanchard
+//  MSXmath 1.7.1 by Guillaume "Aoineko" Blanchard
 //  under CC-BY-SA free license
 // 
-//  Generated: Sun Mar 17 16:23:50 2024
+//  Generated: Fri Oct 10 00:32:45 2025
 //  Parameters: Entries=256, Bytes=2 (16-bits), Shift=8 (Q8.8)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -153,3 +153,4 @@ const unsigned short g_HypoDY256[] = {
 	0x029D, 0x02C7, 0x02F8, 0x0330, 0x0372, 0x03C0, 0x041E, 0x0490, 
 	0x0520, 0x05D9, 0x06D1, 0x082B, 0x0A34, 0x0D98, 0x1461, 0x28BF, 
 };
+// Size: 2048 bytes

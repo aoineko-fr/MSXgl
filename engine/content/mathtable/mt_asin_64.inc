@@ -3,10 +3,10 @@
 //  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
 //  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // ─────────────────────────────────────────────────────────────────────────────
-//  MSXmath 1.7.0 by Guillaume "Aoineko" Blanchard
+//  MSXmath 1.7.1 by Guillaume "Aoineko" Blanchard
 //  under CC-BY-SA free license
 // 
-//  Generated: Sun Mar 17 16:23:50 2024
+//  Generated: Fri Oct 10 00:32:45 2025
 //  Parameters: Entries=64, Bytes=2 (16-bits), Shift=8 (Q8.8)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -21,3 +21,4 @@ const unsigned short g_ArcSinus64[] = {
 	0x007F, 0x0088, 0x0092, 0x009B, 0x00A5, 0x00AF, 0x00B9, 0x00C4, 
 	0x00CF, 0x00DB, 0x00E7, 0x00F4, 0x0102, 0x0112, 0x0123, 0x0138, 
 };
+// Size: 128 bytes

@@ -3,10 +3,10 @@
 //  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
 //  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // ─────────────────────────────────────────────────────────────────────────────
-//  MSXmath 1.7.0 by Guillaume "Aoineko" Blanchard
+//  MSXmath 1.7.1 by Guillaume "Aoineko" Blanchard
 //  under CC-BY-SA free license
 // 
-//  Generated: Sun Mar 17 16:23:50 2024
+//  Generated: Fri Oct 10 00:32:45 2025
 //  Parameters: Entries=1024, Bytes=2 (16-bits), Shift=8 (Q8.8)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -141,3 +141,4 @@ const unsigned short g_SquareRoot1024[] = {
 	0x1FC0, 0x1FC4, 0x1FC8, 0x1FCC, 0x1FD0, 0x1FD4, 0x1FD8, 0x1FDC, 
 	0x1FE0, 0x1FE4, 0x1FE8, 0x1FEC, 0x1FF0, 0x1FF4, 0x1FF8, 0x1FFC, 
 };
+// Size: 2048 bytes

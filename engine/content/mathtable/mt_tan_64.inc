@@ -3,10 +3,10 @@
 //  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
 //  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // ─────────────────────────────────────────────────────────────────────────────
-//  MSXmath 1.7.0 by Guillaume "Aoineko" Blanchard
+//  MSXmath 1.7.1 by Guillaume "Aoineko" Blanchard
 //  under CC-BY-SA free license
 // 
-//  Generated: Sun Mar 17 16:23:50 2024
+//  Generated: Fri Oct 10 00:32:45 2025
 //  Parameters: Entries=64, Bytes=2 (16-bits), Shift=8 (Q8.8)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -21,3 +21,4 @@ const unsigned short g_Tangent64[] = {
 	0x0100, 0x011A, 0x0138, 0x0159, 0x017F, 0x01AB, 0x01DF, 0x021D, 
 	0x026A, 0x02CB, 0x034C, 0x03FE, 0x0507, 0x06BE, 0x0A27, 0x145B, 
 };
+// Size: 128 bytes

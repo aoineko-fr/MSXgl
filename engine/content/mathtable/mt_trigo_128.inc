@@ -3,10 +3,10 @@
 //  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
 //  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // ─────────────────────────────────────────────────────────────────────────────
-//  MSXmath 1.7.0 by Guillaume "Aoineko" Blanchard
+//  MSXmath 1.7.1 by Guillaume "Aoineko" Blanchard
 //  under CC-BY-SA free license
 // 
-//  Generated: Sun Mar 17 16:23:50 2024
+//  Generated: Fri Oct 10 00:32:45 2025
 //  Parameters: Entries=128, Bytes=2 (16-bits), Shift=12 (Q4.12)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -49,3 +49,4 @@ const unsigned short g_Cosinus128[] = {
 	0x0B50, 0x0BDB, 0x0C5E, 0x0CDA, 0x0D4E, 0x0DB9, 0x0E1C, 0x0E77, 
 	0x0EC8, 0x0F11, 0x0F50, 0x0F85, 0x0FB1, 0x0FD4, 0x0FEC, 0x0FFB, 
 };
+// Size: 512 bytes
