@@ -32,13 +32,35 @@ const buildStartTime = Date.now();
 //-- Setup global variables
 require("./setup_global.js"); 
 
+//-- Display title
+console.log(ColorBG +
+	        "╔═══════════════════════════════════════════════════════════════════════════╗");
+console.log("║                                                                           ║");
+console.log("║  ██▀▀█▀▀███▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█                                         ║");
+console.log("║  ██  ▀  ██   ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █                                         ║");
+console.log("║  █  ▄ ▄  ▀▀▀   █▀  ▄  ▀█ ▀▄█ █▄ █                                         ║");
+console.log("║  █▄▄█▄█▄▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█                                         ║");
+console.log("║                                                                           ║");
+console.log("║   ▄▄▄       ▄  ▄▄    ▄▄   ▄▄▄▄           ▄▄                               ║");
+console.log("║   ██▄▀ ██ █ ▄  ██   ▄██    ██  ▄█▀▄ ▄█▀▄ ██                               ║");
+console.log("║   ██▄▀ ▀█▄█ ██ ▀█▄ ▀▄██    ██  ▀█▄▀ ▀█▄▀ ▀█▄                              ║");
+console.log("║                                                                           ║");
+console.log("╚═══════════════════════════════════════════════════════════════════════════╝");
+console.log(ColorReset+`MSXgl Build Tool using Node.js ${process.version} (${process.platform})\n`);
+
 //-- Default configuration
 if (!fs.existsSync(`${RootDir}projects/default_config.js`))
 	util.copyFile(`${RootDir}engine/script/js/default_config.js`, `${RootDir}projects/default_config.js`);
 require(`${RootDir}projects/default_config.js`);
 
-//-- Project specific overwrite
+//-- Project configuration overwrite
 require(`${ProjDir}project_config.js`);
+
+//... Log option and directory paths are now defined
+
+//-- Create out directory
+if (!fs.existsSync(OutDir))
+	fs.mkdirSync(OutDir);	
 
 //-- Setup log file
 if (LogFile)
@@ -48,9 +70,11 @@ if (LogFile)
 
 	if (fs.existsSync(`${OutDir}${LogFileName}`))
 		util.delFile(`${OutDir}${LogFileName}`);	
+
+	util.print(`Log to file: ${LogFileName}`, PrintDetail);
 }
-	
-//-- Setup command line overwrite parameters
+
+//-- Parse command line for project name overwrite
 let CommandArgs = process.argv.slice(2);
 for (let i = 0; i < CommandArgs.length; i++)
 {
@@ -66,152 +90,42 @@ for (let i = 0; i < CommandArgs.length; i++)
 	}
 }
 
-//-- Sub-project specific overwrite
+//-- Sub-project configuration overwrite
 if (fs.existsSync(`${ProjDir}${ProjName}.js`))
 {
 	util.print(`Sub-project configuration found '${ProjDir}${ProjName}.js'`, PrintDetail);
 	require(`${ProjDir}${ProjName}.js`);
 }
 
-//-- Setup command line overwrite parameters
-CommandArgs = process.argv.slice(2);
-for (let i = 0; i < CommandArgs.length; i++)
-{
-	const arg = CommandArgs[i].toLowerCase();
-	if (arg.startsWith("projname="))
-	{
-	}
-	else if (arg.startsWith("target="))
-	{
-		let val = CommandArgs[i].substring(7);
-		if (val)
-		{
-			Target = val;
-			util.print(`Command line overwrite => Target=${Target}`, PrintDetail);
-		}
-	}
-	else if (arg.startsWith("machine="))
-	{
-		let val = CommandArgs[i].substring(7);
-		if (val)
-		{
-			Machine = val;
-			util.print(`Command line overwrite => Machine=${Machine}`, PrintDetail);
-		}
-	}
-	else if (arg.startsWith("romsize="))
-	{
-		let val = CommandArgs[i].substring(8);
-		if (val)
-		{
-			ROMSize = parseInt(val);
-			util.print(`Command line overwrite => ROMSize=${ROMSize}`, PrintDetail);
-		}
-	}
-	else if (arg === "delay")
-	{
-		ROMDelayBoot = true;
-		util.print(`Command line overwrite => ROMDelayBoot=${ROMDelayBoot}`, PrintDetail);
-	}
-	else if (arg === "ramisr")
-	{
-		InstallRAMISR = "RAM0_ISR";
-		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
-	}
-	else if (arg === "ramseg")
-	{
-		InstallRAMISR = "RAM0_SEGMENT";
-		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
-	}
-	else if (arg === "run")
-	{
-		DoRun = true;
-	}
-	else if (arg === "clean")
-	{
-		DoClean = true;
-		DoCompile = DoMake = DoPackage = DoDeploy = DoRun = false;
-	}
-	else if (arg === "rebuild")
-	{
-		DoClean = true;
-	}
-	else if (arg.startsWith("define="))
-	{
-		let params = CommandArgs[i].substring(7).split(":");
-		let val = params[0] + (params[1] !== undefined ? `=${params[1]}` : "");
-		CompileOpt += ` -D${val} `;
-		util.print(`Command line overwrite => CompileOpt+=-D${val}`, PrintDetail);
-	}
-	else
-	{
-		util.print(`Unknown command line overwrite '${arg}'`, PrintWarning);
-	}
-}
-
-//-- Validate enum
-Machine        = Machine.toUpperCase();
-Target         = Target.toUpperCase();
-ROMSkipBootKey = ROMSkipBootKey.toUpperCase();
-if (util.isString(InstallRAMISR)) InstallRAMISR = InstallRAMISR.toUpperCase();
-CustomISR      = CustomISR.toUpperCase();
-DiskSize       = DiskSize.toUpperCase();
-AsmOptim       = AsmOptim.toUpperCase();
-Optim          = Optim.toUpperCase();
-if (util.isString(CompileComplexity)) CompileComplexity = CompileComplexity.toUpperCase();
-AnalyzerOutput = AnalyzerOutput.toUpperCase();
-AnalyzerReport = AnalyzerReport.toUpperCase();
-AnalyzerSort   = AnalyzerSort.toUpperCase();
-EmulPortA      = EmulPortA.toUpperCase();
-EmulPortB      = EmulPortB.toUpperCase();
-RunDevice      = RunDevice.toUpperCase();
+//-- Command line parameters overwrite
+require("./setup_command.js");
 
 //-- Target specific initialization
 global.TargetType = Target;
 require("./setup_target.js");
 
+//-- Parmaters validation
+require("./check_config.js");
+
 //=============================================================================
 // DISPLAY INFO
 //=============================================================================
 
+//-- Update console title
+process.title = `MSXgl – ${ProjName} – ${Target} – ${util.getMachineName(Machine)}`;
+
 // console.clear();
 
-//-- Create out directory
-if (!fs.existsSync(OutDir))
-	fs.mkdirSync(OutDir);
-
-//-- Display information
-process.title = `MSXgl Build Tool – ${ProjName} – ${Target} – ${util.getMachineName(Machine)}`;
-
-//-- Project specific overwrite
-util.print("╔═══════════════════════════════════════════════════════════════════════════╗", PrintBG);
-util.print("║                                                                           ║", PrintBG);
-util.print("║  ██▀▀█▀▀███▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█                                         ║", PrintBG);
-util.print("║  ██  ▀  ██   ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █                                         ║", PrintBG);
-util.print("║  █  ▄ ▄  ▀▀▀   █▀  ▄  ▀█ ▀▄█ █▄ █                                         ║", PrintBG);
-util.print("║  █▄▄█▄█▄▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█                                         ║", PrintBG);
-util.print("║                                                                           ║", PrintBG);
-util.print("║   ▄▄▄       ▄  ▄▄    ▄▄   ▄▄▄▄           ▄▄                               ║", PrintBG);
-util.print("║   ██▄▀ ██ █ ▄  ██   ▄██    ██  ▄█▀▄ ▄█▀▄ ██                               ║", PrintBG);
-util.print("║   ██▄▀ ▀█▄█ ██ ▀█▄ ▀▄██    ██  ▀█▄▀ ▀█▄▀ ▀█▄                              ║", PrintBG);
-util.print("║                                                                           ║", PrintBG);
-util.print("╚═══════════════════════════════════════════════════════════════════════════╝", PrintBG);
-
-util.print(`MSXgl Build Tool using Node.js ${process.version} (${process.platform})\n`);
-
-if (LogFile)
-	util.print(`Log to file: ${LogFileName}`, PrintDetail);
-
-//-- Parmaters validation
-require("./check_config.js");
-
-util.print(`» Target: ${TargetDesc}`);
+// Display configuration summary
+util.print(`» Project: ${ProjName}`);
+util.print(`» Machine: ${util.getMachineName(Machine)}`);
+util.print(`» Target:  ${TargetDesc}`);
 
 util.print("Project paths:", PrintDetail);
-util.print(`- ProjDir: ${ProjDir}`, PrintDetail);
-util.print(`- OutDir: ${OutDir}`, PrintDetail);
-util.print(`- RootDir: ${RootDir}`, PrintDetail);
-util.print(`- LibDir: ${LibDir}`, PrintDetail);
+util.print(`- ProjDir:  ${ProjDir}`, PrintDetail);
+util.print(`- OutDir:   ${OutDir}`, PrintDetail);
+util.print(`- RootDir:  ${RootDir}`, PrintDetail);
+util.print(`- LibDir:   ${LibDir}`, PrintDetail);
 util.print(`- ToolsDir: ${ToolsDir}`, PrintDetail);
 
 process.env.path += `;${SDCCPath}bin`; // Hotfix for SDCC 4.3.0 path error for CC1

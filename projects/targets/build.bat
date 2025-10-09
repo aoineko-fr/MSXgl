@@ -29,4 +29,4 @@ if "%4" == "RAMISR" set ARGS=%ARGS% ramisr
 if "%4" == "RAMSEG" set ARGS=%ARGS% ramseg
 
 cls
-..\..\tools\build\Node\node.exe ..\..\engine\script\js\build.js %ARGS%
+..\..\tools\build\Node\node.exe ..\..\engine\script\js\build.js %ARGS% %5 %6 %7 %8 %9

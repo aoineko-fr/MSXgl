@@ -213,14 +213,19 @@ module.exports.getMachineName = function (machine)
 {
 	switch(machine)
 	{
+		// Legacy
 		case "1":    return "MSX1";
 		case "2":    return "MSX2";
 		case "12":   return "MSX1, 2";
 		case "2P":   return "MSX2+";
 		case "22P":  return "MSX2, 2+";
 		case "122P": return "MSX1, 2, 2+";
-		case "0":    return "MSX0 (2+)";
 		case "TR":   return "MSX turbo R";
+		// New generation
+		case "0":    return "MSX0 (2+)";
+		case "2PP":  return "MSX2++";
+		case "TRP":  return "MSX turbo R+";
+		case "3":    return "MSX3";
 	}
 	return "Unsupported";
 }
