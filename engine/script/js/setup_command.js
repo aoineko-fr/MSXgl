@@ -68,6 +68,10 @@ for (let i = 0; i < CommandArgs.length; i++)
 	{
 		DoClean = true;
 	}
+	else if (arg === "compile")
+	{
+		DoCompile = true;
+	}
 	else if (arg === "make")
 	{
 		DoMake = true;
@@ -99,14 +103,19 @@ for (let i = 0; i < CommandArgs.length; i++)
 	{
 		util.print("Command line arguments:");
 		util.print(" projname=<name>        Set project name (without extension)");
-		util.print(" target=<name>          Set target name (as defined in targets.js)");
-		util.print(" machine=<name>         Set machine name (as defined in machines.js)");
+		util.print(" target=<name>          Set target name");
+		util.print(" machine=<name>         Set machine name");
 		util.print(" romsize=<size>         Set ROM size (in KB)");
 		util.print(" delay                  Enable ROM delay boot");
 		util.print(" ramisr                 Install the RAM0 interrupt service routine");
 		util.print(" ramseg                 Install the RAM0 segment (with no ISR)");
 		util.print(" run                    Run the built package after deployment");
-		util.print(" clean                  Clean all generated files, skip all other steps");
+		util.print(" clean                  Clean all generated files");
+		util.print(" compile                Compile all source files");
+		util.print(" make                   Link all files together");
+		util.print(" package                Convert binary into target format");
+		util.print(" deploy                 Deploy final files into separate directory");
+		util.print(" run                    Run the built program with the selected emulator");
 		util.print(" rebuild                Clean all generated files, then do all steps");
 		util.print(" define=<name>[:value]  Define a compilation symbol (can be used multiple times)");
 		util.print(" help                   Display this help");
