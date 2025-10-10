@@ -40,7 +40,7 @@ typedef struct MemChunkHeader
 u16 Mem_GetStackAddress();
 
 // Function: Mem_GetHeapAddress
-// Get the current address of the heap top (higher addresse).
+// Get the current address of the heap top (higher address).
 //
 // Return:
 //   Current heap top address
@@ -77,7 +77,7 @@ void Mem_HeapFree(u16 size);
 #define Mem_Copy(src, dst, n) __builtin_memcpy(dst, src, n)
 #else
 // Function: Mem_Copy
-// Copy a memory block from a source address to an other (minimal size of 1 byte).
+// Copy a memory block from a source address to another (minimal size of 1 byte).
 //
 // Parameters:
 //   src - Source address
@@ -88,7 +88,7 @@ void Mem_Copy(const void* src, void* dest, u16 size);
 
 
 // Function: Mem_Copy_16b
-// Copy a 16-bits memory block from a source address to an other (minimal size of 1 word / 2 byte).
+// Copy a 16-bits memory block from a source address to another (minimal size of 1 word / 2 byte).
 //
 // Parameters:
 //   src - Source address
@@ -160,7 +160,7 @@ void Mem_FastSet(u8 val, void* dest, u16 size);
 // Group: Dynamic allocator
 #if (MEM_USE_DYNAMIC)
 // Function: Mem_DynamicInitialize
-// Allocates a static memory chunk which can then be used to allocate chunks dynimically.
+// Allocates a static memory chunk which can then be used to allocate chunks dynamically.
 // Memory chunk can be in any pages but:
 // - The memory space have to be continuous from a Z80 perspective.
 // - You have to ensure that all memory segments are selected in their proper place when allocating or releasing memory.
@@ -171,7 +171,7 @@ void Mem_FastSet(u8 val, void* dest, u16 size);
 void Mem_DynamicInitialize(void* base, u16 size);
 
 // Function: Mem_DynamicInitializeHeap
-// Allocates a static memory chunk in the heap which can then be used to allocate chunks dynimically.
+// Allocates a static memory chunk in the heap which can then be used to allocate chunks dynamically.
 //
 // Parameters:
 //   size - Size of the dynamic allocator buffer (4 bytes chunk headers will consume some of this space)
