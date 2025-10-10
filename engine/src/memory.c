@@ -58,7 +58,7 @@ void Mem_Copy(const void* src, void* dest, u16 size) __NAKED // Stack: 4 bytes
 __asm
 	// Get parameters
 	pop		iy							// 16 cc (return address)
-	pop		bc							// 11 cc (retreive size) | stack ajusted
+	pop		bc							// 11 cc (retrieve size) | stack adjusted
 #if (MEM_USE_VALIDATOR)
 	// Skip if size == 0
 	ld		a, b
@@ -86,7 +86,7 @@ void Mem_FastCopy(const void* src, void* dest, u16 size) __NAKED // Stack: 4 byt
 __asm
 	// Get parameters
 	pop		iy							// 16 cc (return address)
-	pop		bc							// 11 cc (retreive size) | stack ajusted
+	pop		bc							// 11 cc (retrieve size) | stack adjusted
 #if (MEM_USE_VALIDATOR)
 	// Skip if size == 0
 	ld		a, b
@@ -137,7 +137,7 @@ __asm
 	inc		de
 	// Get parameters
 	pop		iy							// 16 cc (return address)
-	pop		bc							// 11 cc (retreive size) | stack ajusted
+	pop		bc							// 11 cc (retrieve size) | stack adjusted
 #if (MEM_USE_VALIDATOR)
 	// Skip if size < 2
 	ld		a, b
@@ -175,7 +175,7 @@ __asm
 	pop		hl
 	// Get parameters
 	pop		iy							// 16 cc (return address)
-	pop		bc							// 11 cc (retreive size) | stack ajusted
+	pop		bc							// 11 cc (retrieve size) | stack adjusted
 #if 0//(MEM_USE_VALIDATOR)
 	// Skip if size < 2
 	ld		a, b
@@ -212,7 +212,7 @@ __asm
 	inc		de
 	// Get parameters
 	pop		iy							// 16 cc (return address)
-	pop		bc							// 11 cc (retreive size) | stack ajusted
+	pop		bc							// 11 cc (retrieve size) | stack adjusted
 #if (MEM_USE_VALIDATOR)
 	// Skip if size < 2
 	ld		a, b
@@ -265,7 +265,7 @@ __endasm;
 MemChunkHeader* g_MemChunkRoot = NULL;
 
 //-----------------------------------------------------------------------------
-// Allocates a static memory block which can then be used to allocate chunks dynimically.
+// Allocates a static memory block which can then be used to allocate chunks dynamically.
 void Mem_DynamicInitialize(void* base, u16 size)
 {
 	g_MemChunkRoot = (MemChunkHeader*)base;
