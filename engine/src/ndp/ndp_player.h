@@ -81,6 +81,9 @@ extern void g_NDP_RAMVALEND;
 extern u16  g_NDP_RAM0SIZE;
 extern u16  g_NDP_RAMVARSIZE;
 
+// Address of the SFX data
+extern const u8* g_NDP_SFXData;
+
 // NDP player status
 enum NDP_STATUS
 {
@@ -104,12 +107,12 @@ void NDP_Play();
 // Stops playback (Stops playback and initializes PSG registers. Does not operate hooks.)
 void NDP_Stop();
 
-// Function: NDP_SetMusicAddress
+// Function: NDP_SetMusicData
 // Song data start address setting
 //
 // Parameters:
 //  addr - Address of the song data. No setting required if default is 04000H)
-void NDP_SetMusicAddress(const void* addr);
+void NDP_SetMusicData(const void* addr);
 
 // Function: NDP_MuteChannel1
 // Channel A Temporary Mute
@@ -169,12 +172,38 @@ void NDP_FadeOut(u8 speed);
 //   speed - Number of frames for each stage
 void NDP_PlayFadeIn(u8 speed);
 
-// Function: NDP_PlaySoundEffect
+// Function: NDP_SetSFXData
+// Set sound effect data address
+//
+// Parameters:
+//   addr - Address of the sound effect data
+inline void NDP_SetSFXData(const void* addr) { g_NDP_SFXData = addr; }
+
+// Function: NDP_GetSFXNumber
+// Get the number of sound effect into the current bank
+// Warning: <NDP_SetSFXData> must be called first
+//
+// Return:
+//   Number of sound effect in the current bank
+inline u8 NDP_GetSFXNumber() { return g_NDP_SFXData[0]; }
+
+// Function: NDP_GetSFXOffset
+// Get the offset of a given sound effect into the current bank
+// Warning: <NDP_SetSFXData> must be called first
+//
+// Parameters:
+//   sfx - Index of the sound effect
+//
+// Return:
+//   Offset of the given sound effect from the start of the bank data
+inline u16 NDP_GetSFXOffset(u8 sfx) { return ((u16*)(g_NDP_SFXData + 1))[sfx]; }
+
+// Function: NDP_PlaySFX
 // Sound effect
 //
 // Parameters:
 //   addr - Address of the sound effect data
-void NDP_PlaySoundEffect(const void* addr);
+void NDP_PlaySFX(u8 sfx);
 
 // Function: NDP_GetStatus
 // Playing status (NDP_STATUS_xxx)

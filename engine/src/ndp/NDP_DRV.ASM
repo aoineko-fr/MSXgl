@@ -1,11 +1,17 @@
-	.area _CODE
-
 ;// [NDP] - PSG Music Driver for MSX - Programmed by naruto2413
+
+;// Adapted to SDCC assembler by Aoineko for use in MSXgl.
+;// - v1.0: Original version
+;// - v1.1: Removed BASIC interface
+
+	.module NDP
 
 ;// =====================================
 ;// ドライバ本体
 ;// （NDP.ASM と NDP_WRK.ASM が別途必要）
 ;// =====================================
+
+	.area _CODE
 
 ;// ------	曲データのアドレス設定
 
@@ -406,7 +412,7 @@ INIW2:
 
 NDP_SYSVER::
 SYSVER:
-	LD	HL,#0x0103	;// v1.03
+	LD	HL,#0x0104	;// v1.04
 
 	;// 上位バイトがメジャーバージョン、下位バイトがマイナーバージョン
 	;// 上位バイトが0なら0.9として扱い、下位バイトはビルドバージョンとする

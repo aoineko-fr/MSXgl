@@ -17,8 +17,8 @@
 
 // Player Y coordinate
 #define COPY_Y						7
-#define TITLE_X						14
-#define TITLE_Y						4
+#define TITLE_X						0
+#define TITLE_Y						7
 #define PLAYER_Y					3
 #define QR_X						1
 #define QR_Y						13
@@ -62,6 +62,7 @@ void ButtonLoop();
 #include "content/ndp/NDP05.h"
 #include "content/ndp/NDP09.h"
 #include "content/ndp/NDP10.h"
+#include "content/ndp/SE.h"
 #include "content/img/naruto2413_qrcode.h"
 
 // Music list
@@ -96,6 +97,7 @@ const u8 g_ColorBlink[4] = { COLOR_LIGHT_RED, COLOR_MEDIUM_RED, COLOR_DARK_RED, 
 //=============================================================================
 
 u8   g_CurrentMusic = 0;
+u8   g_CurrentSFX = 0;
 u8   g_CurrentButton;
 bool g_Freq50Hz = FALSE;
 bool g_DoLoop = TRUE;
@@ -112,11 +114,23 @@ void SetMusic(u8 idx)
 	const MusicEntry* entry = &g_MusicEntry[idx];
 
 	NDP_Stop();
-	NDP_SetMusicAddress(entry->Song); // Set the song data address
+	NDP_SetMusicData(entry->Song); // Set the song data address
 	NDP_Play(); // Start playing
 	
 	Print_SetPosition(TITLE_X, TITLE_Y);
-	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), entry->Name);
+	Print_DrawFormat("Music %i/%i: %s", 1 + idx, numberof(g_MusicEntry), entry->Name);
+}
+
+//-----------------------------------------------------------------------------
+//
+void SetSFX(u8 idx)
+{
+	g_CurrentSFX = idx;
+
+	NDP_PlaySFX(g_CurrentSFX);
+	
+	Print_SetPosition(TITLE_X, TITLE_Y + 1);
+	Print_DrawFormat("SFX %i/%i", 1 + idx, NDP_GetSFXNumber());
 }
 
 //-----------------------------------------------------------------------------
@@ -185,9 +199,6 @@ void main()
 	Print_DrawTextAt(0, 0, MSX_GL" NDP SAMPLE"); // Display title
 	Print_DrawLineH(0, 1, 32);
 
-	Print_SetPosition(0, COPY_Y);
-	Print_DrawText("DemoSongs by Naruto2413\n");
-	Print_DrawText("\x0D All right reserved\n\n");
 	Print_SetPosition(0, QR_Y - 2);
 	Print_DrawText("https://naruto2413.bandcamp.com");
 
@@ -199,7 +210,13 @@ void main()
 		VDP_Poke(/*g_QRCode_Names[i] +*/ i + QR_PATTERN, g_ScreenLayoutLow + (y * 32) + x, g_ScreenLayoutHigh);
 	}
 
+	Print_SetPosition(0, COPY_Y);
+	Print_DrawTextAt(QR_X + 9, QR_Y + 1, "DemoSongs");
+	Print_DrawTextAt(QR_X + 9, QR_Y + 3, "Naruto2413 \x0D 2024");
+	Print_DrawTextAt(QR_X + 9, QR_Y + 5, "All right reserved");
+
 	NDP_Initialize(); // Initialize the NDP player
+	NDP_SetSFXData(g_NDS_SE); // Set the SFX data address
 
 	// Decode VGM header
 	SetMusic(1);
@@ -212,7 +229,7 @@ void main()
 
 	// Footer
 	Print_DrawLineH(0, 22, 32);
-	Print_DrawTextAt(0, 23, "\x8D:Button \x83:Action");// \x82:Freq Home:FX");
+	Print_DrawTextAt(0, 23, "\x8D:Button \x83:Action \x82:SFX");
 
 	// Sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8 + VDP_SPRITE_SCALE_1);
@@ -238,16 +255,24 @@ void main()
 		u8 row8 = Keyboard_Read(8);
 
 		// Change button
-		if (IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
+		if (IS_KEY_PUSHED(row8, prevRow8, KEY_RIGHT))
 		{
 			SetCursor((g_CurrentButton < numberof(g_ButtonEntry) - 1) ? g_CurrentButton + 1 : 0);
 		}
-		else if (IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
+		else if (IS_KEY_PUSHED(row8, prevRow8, KEY_LEFT))
 		{
 			SetCursor((g_CurrentButton > 0) ? g_CurrentButton - 1 : numberof(g_ButtonEntry) - 1);
 		}
+		if (IS_KEY_PUSHED(row8, prevRow8, KEY_UP))
+		{
+			SetSFX(g_CurrentSFX < NDP_GetSFXNumber() - 1 ? g_CurrentSFX++ : 0);
+		}
+		else if (IS_KEY_PUSHED(row8, prevRow8, KEY_DOWN))
+		{
+			SetSFX(g_CurrentSFX > 0 ? g_CurrentSFX-- : NDP_GetSFXNumber() - 1);
+		}
 		// Activate button
-		if (IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		if (IS_KEY_PUSHED(row8, prevRow8, KEY_SPACE))
 		{
 			g_ButtonEntry[g_CurrentButton].Func();
 		}

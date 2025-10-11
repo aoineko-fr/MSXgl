@@ -12,26 +12,15 @@
 #include "ndp_player.h"
 
 //=============================================================================
-// FUNCTIONS
+// VARIABLES
 //=============================================================================
 
-//-----------------------------------------------------------------------------
-// Dummy function to include the NDP player ASM code into the build
-void NDP_DummyASM()
-{
-__asm
+// Address of the SFX data
+const u8* g_NDP_SFXData = NULL;
 
-	// HTIMI  = 0xFD9F ;// Timer interrupt hook
-	// WSIZE  = 61     ;// The size of the work area for each track
-	// RWSIZE = 5*4    ;// Repeat work area size for each track (Size per nest * Number of nests)F
-	// CHNUM  = 4      ;// Number of channels used
-	// DRVADR = 0xC000 ;// Driver start address
-
-	#include "NDP_WRK.ASM"
-	#include "NDP_DRV.ASM"
-
-__endasm;
-}
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
 
 //-----------------------------------------------------------------------------
 // NDPINI driver initialization (connects the driver to the timer interrupt hook)
@@ -40,14 +29,12 @@ void NDP_Initialize()
 __asm
 	push	ix
 
-	// Mem_Set(0x00, &g_NDP_RAM0, g_NDP_RAM0SIZE); // Clear NDP work area
 	ld		hl, #_g_NDP_RAM0
 	ld		de, #_g_NDP_RAM0+1
 	ld		bc, #_g_NDP_RAM0END-_g_NDP_RAM0-1
 	ld		(hl), #0
 	ldir
 
-	// Mem_Copy(&g_NDP_RAMVAL, &g_NDP_RAMVAR, g_NDP_RAMVARSIZE);
 	ld		hl, #_g_NDP_RAMVAL
 	ld		de, #_g_NDP_RAMVAR
 	ld		bc, #_g_NDP_RAMVAREND-_g_NDP_RAMVAR
@@ -82,7 +69,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // ADRSET Song data start address setting
-void NDP_SetMusicAddress(const void* addr)
+void NDP_SetMusicData(const void* addr)
 {
 	addr; // HL
 
@@ -197,6 +184,15 @@ __asm
 __endasm;
 }
 
+//-----------------------------------------------------------------------------
+// Play sound effect
+void NDP_PlaySFX(u8 sfx)
+{
+	u16 addr = (u16)g_NDP_SFXData + NDP_GetSFXOffset(sfx);
+	NDP_PlaySoundEffect((const void*)addr);
+}
+
+
 // //-----------------------------------------------------------------------------
 // // RDSTAT Playing status → A (0: Stopped 1: Playing)
 // u8 NDP_GetStatus() __NAKED
@@ -282,5 +278,23 @@ __asm
 	push	ix
 	call	NDP_IMAIN
 	pop		ix
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Dummy function to include the NDP player ASM code into the build
+void NDP_DummyASM()
+{
+__asm
+
+	// HTIMI  = 0xFD9F ;// Timer interrupt hook
+	// WSIZE  = 61     ;// The size of the work area for each track
+	// RWSIZE = 5*4    ;// Repeat work area size for each track (Size per nest * Number of nests)F
+	// CHNUM  = 4      ;// Number of channels used
+	// DRVADR = 0xC000 ;// Driver start address
+
+	#include "NDP_WRK.ASM"
+	#include "NDP_DRV.ASM"
+
 __endasm;
 }

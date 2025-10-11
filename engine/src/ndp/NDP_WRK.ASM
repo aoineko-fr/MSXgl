@@ -1,6 +1,10 @@
-	.module NDP
-
 ; ;// [NDP] - PSG Music Driver for MSX - Programmed by naruto2413
+
+;// Adapted to SDCC assembler by Aoineko for use in MSXgl.
+;// - v1.0: Original version
+;// - v1.1: Removed BASIC interface
+
+	.module NDP
 
 ; ;// =====================================
 ; ;// コールエントリ／ワークエリア／テーブル
@@ -360,13 +364,3 @@ _g_NDP_RAMVAL::
 	.dw	0x001B,0x0019,0x0018,0x0016,0x0015,0x0014,0x0013,0x0012,0x0011,0x0010,0x000F,0x000E	;// O8
 
 _g_NDP_RAMVALEND::
-
-;//////////////////////////////////////////////////////////////////////////////
-
-	.area _CODE
-
-_g_NDP_RAM0SIZE::
-	.dw		_g_NDP_RAM0END-_g_NDP_RAM0
-
-_g_NDP_RAMVARSIZE::
-	.dw		_g_NDP_RAMVAREND-_g_NDP_RAMVAR

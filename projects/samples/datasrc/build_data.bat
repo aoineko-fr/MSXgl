@@ -8,7 +8,7 @@ set BuildWYZ=0
 set BuildayFX=0
 set BuildVGM=0
 set BuildlVGM=0
-set BuildlNDP=0
+set BuildlNDP=1
 set BuildPCMEnc=0
 set BuildPCMPlay=0
 :: Image
@@ -134,9 +134,17 @@ if %BuildlNDP%==1 (
 	echo ----------------------------------------
 	echo Building NDP data...
 	if not exist %Dest%\ndp md %Dest%\ndp
+
+	::---- Music
 	for %%I in (ndp\*.ndp) do (
 		echo Converting %%I...
 		%MSXtk%\MSXbin.exe %%I -t g_NDP_%%~nI -skip 0 7 -ad -o %Dest%\ndp\%%~nI.h
+	)
+
+	::---- Sound FX
+	for %%I in (ndp\*.nds) do (
+		echo Converting %%I...
+		%MSXtk%\MSXbin.exe %%I -t g_NDS_%%~nI -skip 0 7 -ad -o %Dest%\ndp\%%~nI.h
 	)
 )
 
