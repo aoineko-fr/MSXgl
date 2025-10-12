@@ -101,10 +101,28 @@ u8   g_CurrentSFX = 0;
 u8   g_CurrentButton;
 bool g_Freq50Hz = FALSE;
 bool g_DoLoop = TRUE;
+u8   g_ButtonState[numberof(g_ButtonEntry)] = { 1, 0, 1, 1, 1, 1 };
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
+
+//-----------------------------------------------------------------------------
+//
+void DrawPlayer()
+{
+	Print_DrawBox(0, PLAYER_Y, numberof(g_ButtonEntry) * 2 + 1, 3);
+	for (u8 i = 0; i < numberof(g_ButtonEntry); ++i)
+	{
+		// Draw button icon
+		Print_SetPosition((i * 2) + 1, PLAYER_Y + 1);
+		Print_DrawChar(g_ButtonEntry[i].Char);
+		
+		// Change icon color if disable
+		u16 addr = g_ScreenColorLow + ((g_PrintData.PatternOffset + g_ButtonEntry[i].Char) * 8); 
+		VDP_FillVRAM(g_ButtonState[i] ? COLOR_MERGE(COLOR_WHITE, COLOR_BLACK) : COLOR_MERGE(COLOR_GRAY, COLOR_BLACK), addr, g_ScreenColorHigh, 8);
+	}
+}
 
 //-----------------------------------------------------------------------------
 //
@@ -144,7 +162,6 @@ void ButtonPlay()
 //
 void ButtonPause()
 {
-	NDP_Stop();
 }
 
 //-----------------------------------------------------------------------------
@@ -174,8 +191,9 @@ void ButtonNext()
 //
 void ButtonLoop()
 {
-	// g_DoLoop = 1 - g_DoLoop;
-	// WYZ_SetLoop(g_DoLoop);
+	g_DoLoop = 1 - g_DoLoop;
+	g_ButtonState[5] = g_DoLoop;
+	DrawPlayer();
 }
 
 //-----------------------------------------------------------------------------
@@ -190,7 +208,7 @@ void SetCursor(u8 id)
 // Program entry point
 void main()
 {
-	VDP_SetMode(VDP_MODE_SCREEN1); // Initialize screen mode 1 (GM1)
+	VDP_SetMode(VDP_MODE_SCREEN2); // Initialize screen mode 2 (GM2)
 	VDP_SetColor(COLOR_BLACK);
 	VDP_ClearVRAM();
 
@@ -202,12 +220,13 @@ void main()
 	Print_SetPosition(0, QR_Y - 2);
 	Print_DrawText("https://naruto2413.bandcamp.com");
 
-	VDP_WriteVRAM(g_QRCode_Patterns, g_ScreenPatternLow + (QR_PATTERN * 8), g_ScreenPatternHigh, 64 * 8);
+	VDP_LoadPattern_GM2(g_QRCode_Patterns, 64, QR_PATTERN);
+	VDP_LoadColor_GM2(g_QRCode_Colors, 64, QR_PATTERN);
 	loop(i, 64)
 	{
 		u8 x = QR_X + (i & 0x7);
 		u8 y = QR_Y + (i >> 3);
-		VDP_Poke(/*g_QRCode_Names[i] +*/ i + QR_PATTERN, g_ScreenLayoutLow + (y * 32) + x, g_ScreenLayoutHigh);
+		VDP_Poke(i + QR_PATTERN, g_ScreenLayoutLow + (y * 32) + x, g_ScreenLayoutHigh);
 	}
 
 	Print_SetPosition(0, COPY_Y);
@@ -220,12 +239,7 @@ void main()
 
 	// Decode VGM header
 	SetMusic(1);
-	Print_DrawBox(0, PLAYER_Y, numberof(g_ButtonEntry) * 2 + 1, 3);
-	for (u8 i = 0; i < numberof(g_ButtonEntry); ++i)
-	{
-		Print_SetPosition(1 + 2 * i, PLAYER_Y+1);
-		Print_DrawChar(g_ButtonEntry[i].Char);		
-	}
+	DrawPlayer();
 
 	// Footer
 	Print_DrawLineH(0, 22, 32);
@@ -247,9 +261,17 @@ void main()
 		NDP_Update();
 // VDP_SetColor(COLOR_BLACK);
 
+		// Sing-of-life animation
 		Print_DrawCharAt(31, 0, g_ChrAnim[count++ & 0x03]);
-
+		
+		// Cursor blink
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
+		
+		// Automatic music transition when loop is disable and music reach its end
+		if (!g_DoLoop && NDP_HasMusicEnded())
+		{
+			SetMusic((g_CurrentMusic < numberof(g_MusicEntry) - 1) ? g_CurrentMusic + 1 : 0);
+		}
 
 		// Handle input
 		u8 row8 = Keyboard_Read(8);

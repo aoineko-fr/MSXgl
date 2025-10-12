@@ -259,18 +259,6 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-// SETHF Timer interrupt hook connection flag ← A
-void NDP_SetHookFlag(u8 flag)
-{
-	flag; // A
-
-__asm
-	// A <- 1:Set,0:Clear
-	call	NDP_SETHF
-__endasm;
-}
-
-//-----------------------------------------------------------------------------
 // IMAIN Interrupt processing - main part (only the interrupt routine body is processed without calling the old hook)
 void NDP_Update()
 {
@@ -287,12 +275,7 @@ void NDP_DummyASM()
 {
 __asm
 
-	// HTIMI  = 0xFD9F ;// Timer interrupt hook
-	// WSIZE  = 61     ;// The size of the work area for each track
-	// RWSIZE = 5*4    ;// Repeat work area size for each track (Size per nest * Number of nests)F
-	// CHNUM  = 4      ;// Number of channels used
-	// DRVADR = 0xC000 ;// Driver start address
-
+	// Assembler driver
 	#include "NDP_WRK.ASM"
 	#include "NDP_DRV.ASM"
 

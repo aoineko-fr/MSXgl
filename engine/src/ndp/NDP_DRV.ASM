@@ -117,21 +117,21 @@ NDP_CH1OFF::
 CH1OFF:
 	LD	E,#8
 	LD	C,#3
-	LD	HL,#CH1WRK+WSIZE+10
+	LD	HL,#CH1WRK+NDP_WSIZE+10
 	JR	CHMUTE
 
 NDP_CH2OFF::
 CH2OFF:
 	LD	E,#9
 	LD	C,#2
-	LD	HL,#CH1WRK+WSIZE*2+10
+	LD	HL,#CH1WRK+NDP_WSIZE*2+10
 	JR	CHMUTE
 
 NDP_CH3OFF::
 CH3OFF:
 	LD	E,#10
 	LD	C,#1
-	LD	HL,#CH1WRK+WSIZE*3+10
+	LD	HL,#CH1WRK+NDP_WSIZE*3+10
 
 CHMUTE:
 	LD	A,D
@@ -196,10 +196,10 @@ NDPOFF:
 
 	DI
 
-	LD	HL,#OLDTH
-	LD	DE,#HTIMI
-	LD	BC,#5
-	LDIR
+	; LD	HL,#OLDTH
+	; LD	DE,#HTIMI
+	; LD	BC,#5
+	; LDIR
 
 	XOR	A
 	LD	(HKFLG),A
@@ -213,11 +213,11 @@ NDPOFF:
 
 NDP_MSTOP::
 MSTOP:
-	LD	B,#CHNUM
+	LD	B,#NDP_CHNUM
 	LD	HL,#CH1WRK+10
 MSTP2L:
 	LD	(HL),#0
-	LD	DE,#WSIZE
+	LD	DE,#NDP_WSIZE
 	ADD	HL,DE
 	DJNZ	MSTP2L
 
@@ -271,7 +271,7 @@ MSTART:
 
 	LD	IX,#CH1WRK
 	LD	HL,(BGMADR)
-	LD	B,#CHNUM
+	LD	B,#NDP_CHNUM
 	CALL	INIADR		;// 曲データ先頭アドレス設定
 	CALL	VSET0		;// 音色アドレス設定
 
@@ -352,7 +352,7 @@ INIWRK:
 	JR	NZ,INIW1	;// オフセット値が0000Hでなければトラック有効
 
 	LD	A,C		;// 指定トラック数を確認して
-	CP	#CHNUM		;// 4トラック未満なら効果音なので
+	CP	#NDP_CHNUM		;// 4トラック未満なら効果音なので
 	JR	C,INIW0		;// トラック無効化だけ行う（終了フラグは触らない）
 
 	LD	E,#16		;// オフセット値が0000Hなら
@@ -381,7 +381,7 @@ INIW1:
 
 	POP	HL
 INIW2:
-	LD	DE,#WSIZE
+	LD	DE,#NDP_WSIZE
 	ADD	IX,DE
 	DJNZ	INIWRK
 
@@ -504,7 +504,7 @@ MINT:
 	XOR	A
 	LD	(SEMODE),A	;// 0=BGMモード
 
-	LD	B,#CHNUM
+	LD	B,#NDP_CHNUM
 	LD	IX,#CH1WRK
 MLOOP:
 	PUSH	BC
@@ -513,7 +513,7 @@ MLOOP:
 	OR	A
 	CALL	NZ,NMAIN
 
-	LD	DE,#WSIZE	;// CHワークのインデックスをワークサイズ分進める
+	LD	DE,#NDP_WSIZE	;// CHワークのインデックスをワークサイズ分進める
 	ADD	IX,DE
 
 	POP	BC
@@ -562,14 +562,14 @@ SINT:
 	INC	A
 	LD	(SEMODE),A	;// 1=SEモード
 
-	LD	B,#CHNUM-1
+	LD	B,#NDP_CHNUM-1
 	LD	IX,#SE1WRK
 SECHK1:
 	LD	A,10(IX)	;// チャンネル有効ならSE用MAINを呼ぶ
 	OR	A
 	CALL	NZ,MAINSE
 
-	LD	DE,#WSIZE	;// CHワークのインデックスをワークサイズ分進める
+	LD	DE,#NDP_WSIZE	;// CHワークのインデックスをワークサイズ分進める
 	ADD	IX,DE
 
 	DJNZ	SECHK1
@@ -672,7 +672,7 @@ MAIN0A:
 	CALL	WPSGM		;// ノイズ周波数書き込み
 MAIN0B:
 	LD	A,B		;// リズムチャンネルならリズムモード用のエンベに
-	CP	#CHNUM
+	CP	#NDP_CHNUM
 	JP	Z,RENV
 
 ;// 音長カウント・エンベロープ
@@ -1965,7 +1965,7 @@ NOTE3:
 	LD	H,A		;// 音長をHに
 
 	LD	A,B
-	CP	#CHNUM
+	CP	#NDP_CHNUM
 	JR	Z,NOTE2E	;// リズムトラックならゲートタイム計算しない
 
 	LD	A,57(IX)	;// 固定ゲートタイム
@@ -2870,8 +2870,8 @@ SEPSUB:
 	LD	IX,#SE1WRK
 	LD	IY,#CH2WRK
 	LD	HL,#SEBAKT
-	LD	DE,#WSIZE
-	LD	B,#CHNUM-1
+	LD	DE,#NDP_WSIZE
+	LD	B,#NDP_CHNUM-1
 SEPLY1:
 	LD	A,10(IX)	;// 効果音が
 	OR	A		;// 発音中でなければ
@@ -2899,14 +2899,14 @@ SEPLY3:
 	ADD	HL,DE
 SEPLY4:
 	LD	IX,#SE1WRK
-	LD	B,#CHNUM-1
+	LD	B,#NDP_CHNUM-1
 	CALL	INIADR		;// 効果音データ先頭アドレス設定
 
 	LD	IX,#CH2WRK
 	LD	IY,#SE1WRK
 	LD	HL,#SEBAKT
-	LD	DE,#WSIZE
-	LD	B,#CHNUM-1
+	LD	DE,#NDP_WSIZE
+	LD	B,#NDP_CHNUM-1
 SEMOF1:
 	LD	A,10(IX)	;// BGMのチャンネル有効フラグ
 	LD	(HL),A
@@ -2994,7 +2994,7 @@ REPADD:
 
 	LD	C,B
 	LD	B,A
-	LD	DE,#RWSIZE
+	LD	DE,#NDP_RWSIZE
 REPAD1:
 	ADD	IY,DE
 	DJNZ	REPAD1
@@ -3158,11 +3158,11 @@ REGV:
 
 PRRETA:
 	LD	IX,#CH1WRK
-	LD	B,#CHNUM-1
+	LD	B,#NDP_CHNUM-1
 PRRETL:
 	CALL	PRRET1
 
-	LD	DE,#WSIZE
+	LD	DE,#NDP_WSIZE
 	ADD	IX,DE
 
 	DJNZ	PRRETL
@@ -3194,7 +3194,7 @@ PRRET0:
 
 PRRET1:
 	LD	A,B
-	CP	#CHNUM
+	CP	#NDP_CHNUM
 	RET	NC
 
 	CALL	REGP
@@ -3227,8 +3227,8 @@ SEMON:
 	LD	IY,#SE1WRK
 	LD	HL,#SEBAKT
 
-	LD	DE,#WSIZE
-	LD	B,#CHNUM-1
+	LD	DE,#NDP_WSIZE
+	LD	B,#NDP_CHNUM-1
 SEMON1:
 	LD	A,10(IY)	;// SEトラック有効フラグ
 	CP	#255

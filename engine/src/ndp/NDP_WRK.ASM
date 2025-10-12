@@ -142,14 +142,14 @@ CH2WRK:	;// 通常トラック
 	.ds		1	;// +60	*n（ミックスモード）の値
 _g_NDP_CH3WRK::
 CH3WRK: 
-	.ds		WSIZE
+	.ds		NDP_WSIZE
 _g_NDP_CH4WRK::
 CH4WRK:
-	.ds		WSIZE
+	.ds		NDP_WSIZE
 
 _g_NDP_SE1WRK::
 SE1WRK:
-	.ds		WSIZE*3
+	.ds		NDP_WSIZE*3
 
 _g_NDP_CH1RWK::
 CH1RWK:
@@ -167,13 +167,13 @@ CH1RWK:
 	.ds		1	;// 19	リピート4回数
 _g_NDP_CH2RWK::
 CH2RWK:
-	.ds		RWSIZE
+	.ds		NDP_RWSIZE
 _g_NDP_CH3RWK::
 CH3RWK:
-	.ds		RWSIZE
+	.ds		NDP_RWSIZE
 _g_NDP_CH4RWK::
 CH4RWK:
-	.ds		RWSIZE
+	.ds		NDP_RWSIZE
 
 ;// ->*************** MSTART 初期化時に0クリアする物
 
@@ -221,7 +221,7 @@ CLREND:
 _g_NDP_SEMODE::
 SEMODE:	.ds		1		;// Playback Mode (0:BGM 1:SE) ※Set within interrupt
 _g_NDP_SEBAKT::
-SEBAKT:	.ds		CHNUM	;// Save the track enable flag for the track being interrupted by sound effects here
+SEBAKT:	.ds		NDP_CHNUM	;// Save the track enable flag for the track being interrupted by sound effects here
 _g_NDP_SEBAKR::
 SEBAKR:	.ds		1		;// Whether to trigger register reset at SE end during rhythm key off
 _g_NDP_SECNT::
