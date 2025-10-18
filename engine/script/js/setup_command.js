@@ -109,7 +109,6 @@ for (let i = 0; i < CommandArgs.length; i++)
 		util.print(" delay                  Enable ROM delay boot");
 		util.print(" ramisr                 Install the RAM0 interrupt service routine");
 		util.print(" ramseg                 Install the RAM0 segment (with no ISR)");
-		util.print(" run                    Run the built package after deployment");
 		util.print(" clean                  Clean all generated files");
 		util.print(" compile                Compile all source files");
 		util.print(" make                   Link all files together");
@@ -118,7 +117,7 @@ for (let i = 0; i < CommandArgs.length; i++)
 		util.print(" run                    Run the built program with the selected emulator");
 		util.print(" rebuild                Clean all generated files, then do all steps");
 		util.print(" define=<name>[:value]  Define a compilation symbol (can be used multiple times)");
-		util.print(" help                   Display this help");
+		util.print(" help                   Display this command-line arguments list");
 	}
 	else
 	{
