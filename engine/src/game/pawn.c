@@ -215,8 +215,10 @@ void Pawn_SetPosition(Pawn* pawn, PAWN_POS x, PAWN_POS y)
 {
 	pawn->PositionX = x;
 	pawn->PositionY = y;
-	pawn->MoveX = 0;
-	pawn->MoveY = 0;
+#if (PAWN_USE_PHYSICS)
+        pawn->MoveX = 0;
+        pawn->MoveY = 0;
+#endif        
 	pawn->Update |= PAWN_UPDATE_POSITION;
 }
 
