@@ -82,13 +82,14 @@ if (EmulatorName === "OPENMSX") {
 	//---- Handle extension ----
 	let EmulExtCount = 0;
 	if (Ext === "rom") { EmulExtCount++; } // Application cartridge
-	if (Ext === "com") { EmulExtCount++; } // MSX-DOS cartridge
+	if (Ext === "com") { EmulExtCount++; EmulRAM = true; } // MSX-DOS and RAM cartridge
 	if (EmulSCC)       { EmulExtCount++; }
 	if (EmulMSXMusic)  { EmulExtCount++; }
 	if (EmulMSXAudio)  { EmulExtCount++; }
 	if (EmulOPL4)      { EmulExtCount++; }
 	if (EmulPSG2)      { EmulExtCount++; }
 	if (EmulV9990)     { EmulExtCount++; }
+	if (EmulRAM)       { EmulExtCount++; }
 	if (EmulExtCount >= 3) { EmulatorArgs += " -exta slotexpander"; }
 	if (EmulExtCount >= 6) { EmulatorArgs += " -extb slotexpander"; }
 	util.print(`${EmulExtCount} extension found`);

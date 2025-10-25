@@ -26,16 +26,13 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Initialize music and start playback
-void AKL_Init(const void* data, u8 sng) __NAKED
+void AKL_Play(const void* data, u8 sng) __NAKED
 {
-	data;	// HL
-	sng;	// SP[2]
+	sng;	// A
+	data;	// DE
 
 __asm
-	pop		bc					// Retreive return address
-	dec		sp					// Adjust Stack-pointer
-	pop		af					// Retreive sng in A
-	push	bc
+	ex		de, hl
 	// Initializes the player.
 	// IN:    HL = music address.
 	//        A = subsong index (>=0).
@@ -65,7 +62,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Decode a music frame and update the PSG
-bool AKL_Decode() __NAKED
+bool AKL_Update() __NAKED
 {
 __asm
 	ld		a, (_g_AKL_Playing)
@@ -125,7 +122,9 @@ __asm
 	pop		bc					// Retreive vol in B
 	ld		c, l
 	push	de
+#if (AKL_SFX_STARTIDX == 0)
 	inc		a
+#endif
 	// Plays a sound effect. If a previous one was already playing on the same channel, it is replaced.
 	// This does not actually plays the sound effect, but programs its playing.
 	// The music player, when called, will call the PLY_LW_PlaySoundEffectsStream method below.

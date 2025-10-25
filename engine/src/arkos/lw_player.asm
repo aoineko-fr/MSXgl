@@ -339,7 +339,7 @@ PLY_LW_LINKERPOSTPT:
     jr c, PLY_LW_LINKERNOTENDOFSONGOK
 ; MSXgl - Start
 	push	af
-	ld		a, #1
+	ld		a, #TRUE
 	ld		(_g_AKL_EndOfSong), a
 	pop		af
 ; MSXgl - End

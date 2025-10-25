@@ -177,7 +177,11 @@ void main()
 		Print_DrawCharAt(1 + 2 * i, PLAYER_Y+1, g_ButtonEntry[i].Char);
 	}
 
-	Print_DrawTextAt(0, 11, "Loop:\n");
+	if (WaveGame_GetVersion() == 1)
+		Print_DrawTextAt(0, 8, "Valid MSX Pico detected");
+	else
+		Print_DrawTextAt(0, 8, "No valid MSX Pico detected!\nYou need firmware 1.50+ or 2.07+");
+	Print_DrawTextAt(0, 12, "Loop:\n");
 	
 	// Footer
 	Print_DrawLineH(0, 22, 32);
@@ -199,7 +203,7 @@ void main()
 
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
-		Print_DrawCharAt(8, 11, g_DoLoop ? 0xC : 0xB);
+		Print_DrawCharAt(8, 12, g_DoLoop ? 0xC : 0xB);
 		Print_DrawCharAt(31, 0, g_ChrAnim[count++ & 0x03]);
 		
 		// Handle input

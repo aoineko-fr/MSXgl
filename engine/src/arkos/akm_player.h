@@ -15,6 +15,22 @@
 #include "arkos.h"
 
 //=============================================================================
+// VALIDATE
+//=============================================================================
+
+// AKM_BUFFER_ADDR
+#if !defined(AKM_BUFFER_ADDR)
+	#warning AKM_BUFFER_ADDR is not defined in "msxgl_config.h"! Default value will be used: 0xF000
+	#define AKM_BUFFER_ADDR				0xF000
+#endif
+
+// AKM_SFX_STARTIDX
+#if !defined(AKM_SFX_STARTIDX)
+	#warning AKM_SFX_STARTIDX is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define AKM_SFX_STARTIDX				1
+#endif
+
+//=============================================================================
 // DEFINES
 //=============================================================================
 
@@ -24,25 +40,32 @@ extern bool g_AKM_Playing;
 // FUNCTIONS
 //=============================================================================
 
-// Function: AKM_IsPlaying
-// Initialize music and start playback
-inline bool AKM_IsPlaying() { return g_AKM_Playing; }
-
-// Function: AKM_Init
+// Function: AKM_Play
 // Initialize music and start playback
 //
 // Paramaters:
-//   num	- Music number
-//   data	- Pointer to the music data
+//   num	- Sub-music number if the AKG contain several musics (otherwise set to 0)
+//   data	- Pointer to the music data (data must be export to be replayed at this exact location)
+//            Check Arkos Tracker documentation for more details: https://www.julien-nevo.com/arkostracker
 void AKM_Play(u8 sng, const void* data);
+
+// Function: AKM_IsPlaying
+// Check if a music is currently playing
+//
+// Return:
+//   FALSE if no music is playing
+inline bool AKM_IsPlaying() { return g_AKM_Playing; }
 
 // Function: AKM_Stop
 // Stop music playback
 void AKM_Stop();
 
-// Function: AKM_Decode
+// Function: AKM_Update
 // Decode a music frame and update the PSG
-bool AKM_Decode();
+//
+// Return:
+//   TRUE if end of music have been reached
+bool AKM_Update();
 
 // Function: AKM_InitSFX
 // Initializes the sound effects. It MUST be called at any times before a first sound effect is triggered.
