@@ -187,6 +187,13 @@ void DisplaySFX()
 }
 
 //-----------------------------------------------------------------------------
+// Handle music event callback
+void HandleEvent(u8 event)
+{
+	VDP_SetColor((event % 8) + 1);
+}
+
+//-----------------------------------------------------------------------------
 // Set the new music to be played
 void SetMusic(u8 idx)
 {
@@ -269,6 +276,7 @@ void main()
 		Print_DrawTextAt(2, i + 5, g_PlayerEntry[i].Name);		
 
 	// Select first replayer and fist music
+	AKG_SetEventCallback(HandleEvent);
 	SetPlayer(0);
 	SetMusic(0);
 

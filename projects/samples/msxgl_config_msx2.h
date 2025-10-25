@@ -478,7 +478,7 @@
 // Arkos Tracker options
 #define AKG_BUFFER_ADDR				0xF000	// Replayer working area address in RAM
 #define AKG_SFX_STARTIDX			0		// Do SFX indexes start at 0 or 1? Default is 0 but Arkos Tracker use 1
-#define AKG_USE_EVENT				FALSE	// Support for event callback function
+#define AKG_USE_EVENT				TRUE	// Support for event callback function
 #define AKM_BUFFER_ADDR				0xF000	// Replayer working area address in RAM
 #define AKM_SFX_STARTIDX			0		// Do SFX indexes start at 0 or 1? Default is 0 but Arkos Tracker use 1
 #define AKY_BUFFER_ADDR				0xF000	// Replayer working area address in RAM

@@ -24,7 +24,10 @@
 
 bool g_AKG_Playing = FALSE;
 bool g_AKG_EndOfSong;
+
+#if (AKG_USE_EVENT)
 AKG_Event g_AKG_EventCallback = NULL;
+#endif
 
 //=============================================================================
 // FUNCTIONS
@@ -254,12 +257,14 @@ __asm
 
 #if (AKG_USE_EVENT)
     // Is there any event? 0 means "no effect".
-    ld		a, (PLY_AKG_Event)
+    ld		a, (PLY_AKG_EVENT)
     or		a
     jr		z, akg_update_noevents
 	// Event callback
-	ld		hl, _g_AKG_EventCallback
-	call	(hl)
+	ld		hl, (_g_AKG_EventCallback)
+	call	akg_update_jumphl
+akg_update_jumphl:
+	jp		(hl) // event value is in A
 akg_update_noevents:
 #endif
 

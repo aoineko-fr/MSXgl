@@ -40,12 +40,16 @@
 // DEFINES
 //=============================================================================
 
-// Event callback
-typedef void (*AKG_Event)(u8 event);
-
 // Variables
 extern bool g_AKG_Playing;
+
+#if (AKG_USE_EVENT)
+// Event callback prototype
+typedef void (*AKG_Event)(u8 event);
+
+// Event callback function pointer
 extern AKG_Event g_AKG_EventCallback;
+#endif
 
 //=============================================================================
 // FUNCTIONS
@@ -67,12 +71,15 @@ void AKG_Play(u8 sng, const void* data);
 //   FALSE if no music is playing
 inline bool AKG_IsPlaying() { return g_AKG_Playing; }
 
+#if (AKG_USE_EVENT)
 // Function: AKG_SetEventCallback
 // Set the event callback function. It will be called when an event is triggered.
+// If AKG_USE_EVENT is TRUE, this function MUST be called before any call to AKG_Update.
 //
 // Paramaters:
 //   callback - Pointer to the event callback function
 inline void AKG_SetEventCallback(AKG_Event callback) { g_AKG_EventCallback = callback; }
+#endif
 
 // Function: AKG_Stop
 // Stop current music playback
