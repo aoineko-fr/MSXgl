@@ -39,6 +39,7 @@ typedef struct MemChunkHeader
 //   Current stack bottom address
 u16 Mem_GetStackAddress();
 
+#if (MEM_USE_DYNAMIC)
 // Function: Mem_GetHeapAddress
 // Get the current address of the heap top (higher address).
 //
@@ -69,6 +70,7 @@ void* Mem_HeapAlloc(u16 size);
 // Parameters:
 //   size - The size of data to allocate
 void Mem_HeapFree(u16 size);
+#endif // (MEM_USE_DYNAMIC)
 
 //.............................................................................
 // Group: Memory content modification
