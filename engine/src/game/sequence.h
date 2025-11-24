@@ -87,6 +87,8 @@ enum SEQ_CURSOR
 	SEQ_CUR_MAX,
 };
 
+#define SEQ_CUR_NONE			0
+
 // Sequence input flags
 enum SEQ_INPUT
 {
@@ -104,8 +106,8 @@ enum SEQ_INPUT
 typedef struct SeqActionArea
 {
 	u8 StartX;						// X coordinate of the start of the area
-	u8 EndX;						// X coordinate of the end of the area
 	u8 StartY;						// Y coordinate of the start of the area
+	u8 EndX;						// X coordinate of the end of the area
 	u8 EndY;						// Y coordinate of the end of the area
 } SeqActionArea;
 
@@ -150,6 +152,7 @@ extern u8 g_SeqCursorPosY;
 extern i8 g_SeqCursorAccX;
 extern i8 g_SeqCursorAccY;
 extern u8 g_SeqInput;
+extern u8 g_SeqCustomCursor;
 
 extern const SeqAction* g_SeqActionHover;
 
@@ -190,6 +193,30 @@ inline void Sequence_SetCursor(u8 x, u8 y) { g_SeqCursorPosX = x; g_SeqCursorPos
 //   y - Y coordinate move offset
 inline void Sequence_MoveCursor(i8 x, i8 y) { g_SeqCursorPosX += x; g_SeqCursorPosY += y; }
 
+// Function: Sequence_SetCustomCursor
+// Set a custom cursor pattern
+// Parameters:
+//   cursor - Custum cursor pattern index (can't be 0)
+inline void Sequence_SetCustomCursor(u8 cursor) { g_SeqCustomCursor = cursor; }
+
+// Function: Sequence_GetCustomCursor
+// Get the current custom cursor pattern
+//
+// Return:
+//   Current custom cursor pattern index
+inline u8 Sequence_GetCustomCursor() { return g_SeqCustomCursor; }
+
+// Function: Sequence_HasCustomCursor
+// Check if a custom cursor pattern is set
+//
+// Return:
+//   FALSE if no custom cursor pattern is set
+inline bool Sequence_HasCustomCursor() { return g_SeqCustomCursor != SEQ_CUR_NONE; }
+
+// Function: Sequence_ClearCustomCursor
+// Clear custom cursor pattern
+inline void Sequence_ClearCustomCursor() { g_SeqCustomCursor = SEQ_CUR_NONE; }
+
 // Function: Sequence_Play
 // Play a sequence
 //
@@ -204,6 +231,29 @@ void Sequence_Play(const Sequence* seq, u16 frame);
 // Return:
 //   Pointer to the current sequence structure
 inline const Sequence* Sequence_GetCurrent() { return g_SeqCur; }
+
+// Function: Sequence_GetFrame
+// Get the current frame number
+//
+// Return:
+//   Current frame number
+inline u16 Sequence_GetFrame() { return g_SeqFrame; }
+
+// Function: Sequence_GetInput
+// Get the current input flags
+// Return:
+//   Current input flags
+inline u8 Sequence_GetInput() { return g_SeqInput; }
+
+// Function: Sequence_CheckInput
+// Check if specific input flag is set
+//
+// Parameters:
+//   in - Input flag to check
+//
+// Return:
+//   FALSE if input flag is not set
+inline bool Sequence_CheckInput(u8 in) { return g_SeqInput & in; }
 
 // Function: Sequence_CheckArea
 // Check if cursor is in area
