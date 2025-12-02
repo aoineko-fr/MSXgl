@@ -15,6 +15,16 @@
 #include "core.h"
 
 //=============================================================================
+// VALIDATE
+//=============================================================================
+
+// AKL_SFX_STARTIDX
+#if !defined(AKL_SFX_STARTIDX)
+	#warning AKL_SFX_STARTIDX is not defined in "msxgl_config.h"! Default value will be used: 1
+	#define AKL_SFX_STARTIDX				1
+#endif
+
+//=============================================================================
 // DEFINES
 //=============================================================================
 
@@ -24,25 +34,29 @@ extern bool g_AKL_Playing;
 // FUNCTIONS
 //=============================================================================
 
-// Function: AKL_IsPlaying
-// Initialize music and start playback
-inline bool AKL_IsPlaying() { return g_AKL_Playing; }
-
-// Function: AKL_Init
+// Function: AKL_Play
 // Initialize music and start playback
 //
 // Paramaters:
-//   data	- Pointer to the music data
-//   num	- Music number
-void AKL_Init(const void* data, u8 sng);
+//   num	- Sub-music number if the AKG contain several musics (otherwise set to 0)
+//   data	- Pointer to the music data (data must be export to be replayed at this exact location)
+//            Check Arkos Tracker documentation for more details: https://www.julien-nevo.com/arkostracker
+void AKL_Play(u8 sng, const void* data);
+
+// Function: AKL_IsPlaying
+// Check if a music is currently playing
+//
+// Return:
+//   FALSE if no music is playing
+inline bool AKL_IsPlaying() { return g_AKL_Playing; }
 
 // Function: AKL_Stop
 // Stop music playback
 void AKL_Stop();
 
-// Function: AKL_Decode
+// Function: AKL_Update
 // Decode a music frame and update the PSG
-bool AKL_Decode();
+bool AKL_Update();
 
 // Function: AKL_InitSFX
 // Initializes the sound effects. It MUST be called at any times before a first sound effect is triggered.

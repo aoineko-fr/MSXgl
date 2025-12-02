@@ -20,14 +20,19 @@
 // S#01    Status
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0	
-//	INT	T1	T2	EOS	BR			PCM
+//	IRQ	T1	T2	EOS	BUF			PCM
 //	│	│	│	│	│			└── PCM busy
 //  │	│	│	│	└────────────── Buffer ready
-//	│	│	│	└────────────────── 
-//  │	│	└────────────────────── 
-//  │	└────────────────────────── 
-//  └────────────────────────────── 
-
+//	│	│	│	└────────────────── End of ADPCM analysis/synthesis
+//  │	│	└────────────────────── Timer-2 elapses
+//  │	└────────────────────────── Timer-1 elapses
+//  └────────────────────────────── Interrupt
+#define MSXAUDIO_STATUS_PCM			0b00000001 // Set to 1 during ADPCM analysis/synthesis
+#define MSXAUDIO_STATUS_BUFFER		0b00001000 // Buffer ready
+#define MSXAUDIO_STATUS_EOS			0b00010000 // End of ADPCM analysis/synthesis or AD/DA conversion
+#define MSXAUDIO_STATUS_TIMER2		0b00100000 // Set to 1 when time set for timer-2 elapses
+#define MSXAUDIO_STATUS_TIMER1		0b01000000 // Set to 1 when time set for timer-1 elapses
+#define MSXAUDIO_STATUS_IRQ			0b10000000 // Set to 1 when bits 3 to 6 are 1
 
 //-----------------------------------------------------------------------------
 // R#01    Test
@@ -35,9 +40,17 @@
 #define MSXAUDIO_REG_TEST			0x01
 
 //-----------------------------------------------------------------------------
-// R#02    Timers
+// R#02    Timer-1
 //-----------------------------------------------------------------------------
+// 80 µs resolution
+// Tov(ms) = (256 - N) * 0.08
 #define MSXAUDIO_REG_TIMER_1		0x02
+
+//-----------------------------------------------------------------------------
+// R#03    Timer-2
+//-----------------------------------------------------------------------------
+// 320 µs resolution
+// Tov(ms) = (256 - N) * 0.32
 #define MSXAUDIO_REG_TIMER_2		0x03
 
 //-----------------------------------------------------------------------------
@@ -55,7 +68,7 @@
 #define MSXAUDIO_REG_FLAG_CTRL		0x04
 
 //-----------------------------------------------------------------------------
-// R#05    Keyboard in/out
+// R#05-06    Keyboard in/out
 //-----------------------------------------------------------------------------
 #define MSXAUDIO_KEYBOARD_IN		0x05
 #define MSXAUDIO_KEYBOARD_OUT		0x06
@@ -85,19 +98,19 @@
 #define MSXAUDIO_REG_MODE_CTRL		0x08
 
 //-----------------------------------------------------------------------------
-// R#09    Start address
+// R#09-0A    Start address
 //-----------------------------------------------------------------------------
 #define MSXAUDIO_REG_START_L		0x09
 #define MSXAUDIO_REG_START_H		0x0A
 
 //-----------------------------------------------------------------------------
-// R#0B    Stop address
+// R#0B-0C    Stop address
 //-----------------------------------------------------------------------------
 #define MSXAUDIO_REG_STOP_L			0x0B
 #define MSXAUDIO_REG_STOP_H			0x0C
 
 //-----------------------------------------------------------------------------
-// R#0D    Sample rate for AD/DA conversion
+// R#0D-0E    Sample rate for AD/DA conversion
 //-----------------------------------------------------------------------------
 #define MSXAUDIO_REG_PRESCALE_L		0x0D
 #define MSXAUDIO_REG_PRESCALE_H		0x0E // 3-bits
@@ -108,7 +121,7 @@
 #define MSXAUDIO_REG_ADPCM_DATA		0x0F
 
 //-----------------------------------------------------------------------------
-// R#10    Factor used for linear interpolation
+// R#10-11    Factor used for linear interpolation
 //-----------------------------------------------------------------------------
 #define MSXAUDIO_REG_DELTA_L		0x10
 #define MSXAUDIO_REG_DELTA_H		0x11
@@ -119,14 +132,14 @@
 #define MSXAUDIO_REG_ENV_CTRL		0x12
 
 //-----------------------------------------------------------------------------
-// R#15    Digital data for DA conversion
+// R#15-17    Digital data for DA conversion
 //-----------------------------------------------------------------------------
 #define MSXAUDIO_REG_DAC_DATA_L		0x15
 #define MSXAUDIO_REG_DAC_DATA_H		0x16
 #define MSXAUDIO_REG_DAC_DATA_SHIFT	0x17
 
 //-----------------------------------------------------------------------------
-// R#18    I/O control & data
+// R#18-19    I/O control & data
 //-----------------------------------------------------------------------------
 #define MSXAUDIO_REG_IO_CTRL		0x18
 #define MSXAUDIO_REG_IO_DATA		0x19
@@ -137,7 +150,7 @@
 #define MSXAUDIO_REG_PCM_DATA		0x1A
 
 //-----------------------------------------------------------------------------
-// R#20    User Tone
+// R#20-35    User Tone
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0	
 //	AM	VIB	EG	KSR	MUL	MUL	MUL	MUL
@@ -167,7 +180,7 @@
 #define MSXAUDIO_REG_MUL_9_CAR		0x35
 
 //-----------------------------------------------------------------------------
-// R#40    KLS/total level
+// R#40-55    KLS/total level
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0	
 //	KSL	KSL	LVL	LVL	LVL	LVL	LVL	LVL
@@ -193,7 +206,7 @@
 #define MSXAUDIO_REG_LEVEL_9_CAR	0x55
 
 //-----------------------------------------------------------------------------
-// R#60    Attack/decay rate
+// R#60-75    Attack/decay rate
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0	
 //	AR	AR	AR	AR	DR	DR	DR	DR
@@ -219,7 +232,7 @@
 #define MSXAUDIO_REG_ATT_9_CAR		0x75
 
 //-----------------------------------------------------------------------------
-// R#80    
+// R#80-95    
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0	
 //	SL	SL	SL	SL	RR	RR	RR	RR
@@ -245,7 +258,7 @@
 #define MSXAUDIO_REG_SUS_9_CAR		0x95
 
 //-----------------------------------------------------------------------------
-// R#A0    F-Number LSB 8 bits
+// R#A0-A8    F-Number LSB 8 bits
 //-----------------------------------------------------------------------------
 #define MSXAUDIO_REG_FREQ_1			0xA0
 #define MSXAUDIO_REG_FREQ_2			0xA1
@@ -258,7 +271,7 @@
 #define MSXAUDIO_REG_FREQ_9			0xA8
 
 //-----------------------------------------------------------------------------
-// R#B0    F-Number MSB, octave set. Key ON/OFF register.
+// R#B0-B8    F-Number MSB, octave set. Key ON/OFF register.
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0
 //			KEY	BL	BL	BL	F-N	F-N
@@ -291,7 +304,7 @@
 #define MSXAUDIO_REG_RHYTHM			0xBD
 
 //-----------------------------------------------------------------------------
-// R#C0    Feedback/connection
+// R#C0-C8    Feedback/connection
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0
 //					FB	FB	FB	C

@@ -12,9 +12,10 @@
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="AKG_Init"></a><a name="Topic442"></a><div class="CTopic TFunction LC">
- <div class="CTitle">AKG_Init</div>
- <div class="CBody"><p>Initialize a music and start playback</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">num</td><td class="CDLDefinition"><p>Sub-music number if the AKG contain several musics (otherwise set to 0)</p></td></tr><tr><td class="CDLEntry">data</td><td class="CDLDefinition"><p>Pointer to the music data (data must be export to be replayed at this exact location) Check Arkos Tracker 2 documentation for more details: <a href="https://www.julien-nevo.com/arkostracker" target="_top">https://&#8203;www&#8203;.julien-nevo&#8203;.com&#8203;/arkostracker</a></p></td></tr></table></div>
+<a name="AKG_Play"></a><a name="Topic2"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">AKG_Play</div>
+ <div id="NDPrototype2" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKG_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">sng,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize a music and start playback</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">num</td><td class="CDLDefinition"><p>Sub-music number if the AKG contain several musics (otherwise set to 0)</p></td></tr><tr><td class="CDLEntry">data</td><td class="CDLDefinition"><p>Pointer to the music data (data must be export to be replayed at this exact location) Check Arkos Tracker documentation for more details: <a href="https://www.julien-nevo.com/arkostracker" target="_top">https://&#8203;www&#8203;.julien-nevo&#8203;.com&#8203;/arkostracker</a></p></td></tr></table></div>
 </div>
 
 <a name="AKG_IsPlaying"></a><a name="Topic822"></a><div class="CTopic TFunction LC">
@@ -23,15 +24,21 @@
  <div class="CBody"><p>Check if a music is currently playing</p><div class="CHeading">Return</div><p>FALSE if no music is playing</p></div>
 </div>
 
+<a name="AKG_SetEventCallback"></a><a name="Topic442"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">AKG_SetEventCallback</div>
+ <div id="NDPrototype442" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> AKG_SetEventCallback(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">AKG_Event&nbsp;</td><td class="PName last">callback</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the event callback function. It will be called when an event is triggered.</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">callback</td><td class="CDLDefinition"><p>Pointer to the event callback function</p></td></tr></table></div>
+</div>
+
 <a name="AKG_Stop"></a><a name="Topic669"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKG_Stop</div>
  <div id="NDPrototype669" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> AKG_Stop()</div></div>
  <div class="CBody"><p>Stop current music playback</p></div>
 </div>
 
-<a name="AKG_Decode"></a><a name="Topic670"></a><div class="CTopic TFunction LC">
- <div class="CTitle">AKG_Decode</div>
- <div id="NDPrototype670" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">bool</span> AKG_Decode()</div></div>
+<a name="AKG_Update"></a><a name="Topic4"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">AKG_Update</div>
+ <div id="NDPrototype4" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">bool</span> AKG_Update()</div></div>
  <div class="CBody"><p>Decode a music frame and update the PSG (must be called once each frame)</p><div class="CHeading">Return</div><p>TRUE if end of music have been reached</p></div>
 </div>
 

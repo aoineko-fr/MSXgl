@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("aky",["Function"],[["AKY_Decode",,[[,,,,0,"File:arkos/aky_player.h:AKY_Decode"]]],["AKY_Init",,[[,,,,0,"File:arkos/aky_player.h:AKY_Init"]]],["AKY_Stop",,[[,,,,0,"File:arkos/aky_player.h:AKY_Stop"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("aky",["Function"],[["AKY_Play",,[[,,,,0,"File:arkos/aky_player.h:AKY_Play"]]],["AKY_Stop",,[[,,,,0,"File:arkos/aky_player.h:AKY_Stop"]]],["AKY_Update",,[[,,,,0,"File:arkos/aky_player.h:AKY_Update"]]]]);

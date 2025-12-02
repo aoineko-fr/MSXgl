@@ -3,10 +3,10 @@
 //  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
 //  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // ─────────────────────────────────────────────────────────────────────────────
-//  MSXmath 1.7.0 by Guillaume "Aoineko" Blanchard
+//  MSXmath 1.7.1 by Guillaume "Aoineko" Blanchard
 //  under CC-BY-SA free license
 // 
-//  Generated: Sun Mar 17 16:23:50 2024
+//  Generated: Fri Oct 10 00:32:45 2025
 //  Parameters: Entries=256, Bytes=2 (16-bits), Shift=12 (Q4.12)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -45,3 +45,4 @@ const unsigned short g_Square256[] = {
 	0x0DF4, 0x0E12, 0x0E30, 0x0E4E, 0x0E6C, 0x0E8A, 0x0EA9, 0x0EC7, 
 	0x0EE6, 0x0F05, 0x0F24, 0x0F43, 0x0F62, 0x0F81, 0x0FA1, 0x0FC0, 
 };
+// Size: 512 bytes

@@ -1,6 +1,10 @@
-	.module NDP
-
 ; ;// [NDP] - PSG Music Driver for MSX - Programmed by naruto2413
+
+;// Adapted to SDCC assembler by Aoineko for use in MSXgl.
+;// - v1.0: Original version
+;// - v1.1: Removed BASIC interface
+
+	.module NDP
 
 ; ;// =====================================
 ; ;// コールエントリ／ワークエリア／テーブル
@@ -42,8 +46,9 @@
 
 ;// ------	ワークエリア
 	.area _DATA
-_NDP_RAM0::
+_g_NDP_RAM0::
 
+_g_NDP_CH1WRK::
 CH1WRK:	;// リズムトラック
 	.ds		2	;// 0-1	演奏データ読み込みアドレス
 	.ds		1	;// 2	ノート番号
@@ -76,11 +81,13 @@ CH1WRK:	;// リズムトラック
 	.ds		1	;// 30
 	.ds		1	;// 31
 	.ds		1	;// 32	リピートネスト数
+_g_NDP_RVOLW::
 RVOLW:
 	.ds		26	;// 33-58	リズム26種類の音量
 	.ds		1	;// 59
 	.ds		1	;// 60
 
+_g_NDP_CH2WRK::
 CH2WRK:	;// 通常トラック
 	.ds		2	;// +0 1	演奏データ読み込みアドレス
 	.ds		1	;// +2	ノート番号
@@ -133,14 +140,18 @@ CH2WRK:	;// 通常トラック
 	.ds		1	;// +58	パラメータの退避領域
 	.ds		1	;// +59	リリースディレイ発動フラグ
 	.ds		1	;// +60	*n（ミックスモード）の値
+_g_NDP_CH3WRK::
 CH3WRK: 
-	.ds		WSIZE
+	.ds		NDP_WSIZE
+_g_NDP_CH4WRK::
 CH4WRK:
-	.ds		WSIZE
+	.ds		NDP_WSIZE
 
+_g_NDP_SE1WRK::
 SE1WRK:
-	.ds		WSIZE*3
+	.ds		NDP_WSIZE*3
 
+_g_NDP_CH1RWK::
 CH1RWK:
 	.ds		2	;// 0-1	リピート1開始アドレス
 	.ds		2	;// 2-3	リピート1終了アドレス
@@ -154,50 +165,78 @@ CH1RWK:
 	.ds		2	;// 15-16	リピート4開始アドレス
 	.ds		2	;// 17-18	リピート4終了アドレス
 	.ds		1	;// 19	リピート4回数
+_g_NDP_CH2RWK::
 CH2RWK:
-	.ds		RWSIZE
+	.ds		NDP_RWSIZE
+_g_NDP_CH3RWK::
 CH3RWK:
-	.ds		RWSIZE
+	.ds		NDP_RWSIZE
+_g_NDP_CH4RWK::
 CH4RWK:
-	.ds		RWSIZE
+	.ds		NDP_RWSIZE
 
 ;// ->*************** MSTART 初期化時に0クリアする物
 
+_g_NDP_FFFLG::
 FFFLG:	.ds		1	;// 早送りフラグ
+_g_NDP_ENDTR::
 ENDTR:	.ds		1	;// 演奏データが終端まで達したトラックのビットが立つ (0000321RB) ※1ループでリセット
+_g_NDP_ENDTRW::
 ENDTRW:	.ds		1	;// 〃 ※1ループ後もリセットしない
+_g_NDP_ENDTRR::
 ENDTRR:	.ds		1	;// 〃 リセット時に書き戻す値 (曲開始時に未使用トラックのフラグを立てておいた値)
+_g_NDP_MCOUNT::
 MCOUNT:	.ds		1	;// ループ回数
+_g_NDP_MVOL::
 MVOL:	.ds		1	;// マスター音量 (この値を減算)
+_g_NDP_MFADE::
 MFADE:	.ds		1	;// フェード設定 (0=フェードしない 1～255=フェードカウント)
+_g_NDP_FCOUNT::
 FCOUNT:	.ds		1	;// フェードカウンタ
+_g_NDP_LCOUNT::
 LCOUNT:	.ds		1	;// フェードループカウンタ
+_g_NDP_SLWPRM::
 SLWPRM:	.ds		1	;// スロー設定
+_g_NDP_SLWCNT::
 SLWCNT:	.ds		1	;// スロー再生用カウンタ
+_g_NDP_NFREQW::
 NFREQW:	.ds		1	;// ノイズ周波数
+_g_NDP_VISPAN::
 VISPAN:	.ds		1	;// 音量インターバル周期
 
+_g_NDP_RNON::
 RNON:	.ds		1	;// リズム発音中かどうか (0=発音しない 1=発音終了してピッチを戻す 2=発音中 3=1フレだけ通常トーン)
+_g_NDP_RSVOL::
 RSVOL:	.ds		1	;// リズムを鳴らす前の音量退避
+_g_NDP_RPITCH::
 RPITCH:	.ds		2	;// リズムを鳴らす前の音程退避
 
+_g_NDP_HENVSW::
 HENVSW:	.ds		1	;// ハードエンベ番号
 
 CLREND:
 
 	.area _DATA
 
+_g_NDP_SEMODE::
 SEMODE:	.ds		1		;// Playback Mode (0:BGM 1:SE) ※Set within interrupt
-SEBAKT:	.ds		CHNUM	;// Save the track enable flag for the track being interrupted by sound effects here
+_g_NDP_SEBAKT::
+SEBAKT:	.ds		NDP_CHNUM	;// Save the track enable flag for the track being interrupted by sound effects here
+_g_NDP_SEBAKR::
 SEBAKR:	.ds		1		;// Whether to trigger register reset at SE end during rhythm key off
+_g_NDP_SECNT::
 SECNT:	.ds		1		;// Sound Effect Track Counter (Number of sound effect tracks currently playing)
 
+_g_NDP_VADTBL::
 VADTBL:	.ds		32	;// Volume Embedded Address Table
+_g_NDP_RADTBL::
 RADTBL:	.ds		64	;// Rhythm Tone Address Table
+_g_NDP_PADTBL::
 PADTBL:	.ds		32	;// Pitch-Embedded Dressing Table
+_g_NDP_NADTBL::
 NADTBL:	.ds		32	;// Note Envelope Dress Table
 
-_NDP_RAM0END::
+_g_NDP_RAM0END::
 
 ;// <-***************
 
@@ -223,37 +262,76 @@ _NDP_RAM0END::
 
 ; BGMADR:	DW	04000H	;// Song Data Start Address
 
+; PTABLE:
+; ;//		c      c+     d      d+     e      f      f+     g      g+     a      a+     b
+; 	.dw	0x0D5D,0x0C9C,0x0BE7,0x0B3C,0x0A9B,0x0A02,0x0973,0x08EB,0x086B,0x07F2,0x0780,0x0714	;// O1
+; 	.dw	0x06AF,0x064E,0x05F4,0x059E,0x054E,0x0501,0x04BA,0x0476,0x0436,0x03F9,0x03C0,0x038A	;// O2
+; 	.dw	0x0357,0x0327,0x02FA,0x02CF,0x02A7,0x0281,0x025D,0x023B,0x021B,0x01FD,0x01E0,0x01C5	;// O3
+; O4C:
+; 	.dw	0x01AC,0x0194,0x017D,0x0168,0x0153,0x0140,0x012E,0x011D,0x010D,0x00FE,0x00F0,0x00E3	;// O4
+; 	.dw	0x00D6,0x00CA,0x00BE,0x00B4,0x00AA,0x00A0,0x0097,0x008F,0x0087,0x007F,0x0078,0x0071	;// O5
+; 	.dw	0x006B,0x0065,0x005F,0x005A,0x0055,0x0050,0x004C,0x0047,0x0043,0x0040,0x003C,0x0039	;// O6
+; 	.dw	0x0035,0x0032,0x0030,0x002D,0x002A,0x0028,0x0026,0x0024,0x0022,0x0020,0x001E,0x001C	;// O7
+; 	.dw	0x001B,0x0019,0x0018,0x0016,0x0015,0x0014,0x0013,0x0012,0x0011,0x0010,0x000F,0x000E	;// O8
+
 	.area _DATA
 
-_NDP_RAMVAR::
+_g_NDP_RAMVAR::
 
+_g_NDP_RVWRK::
 RVWRK:	.ds		1	;// For rhythm volume adjustment
+_g_NDP_RITRK::
 RITRK:	.ds		1	;// Interrupted Track (1=CH.C 2=CH.B 3=CH.A)
+_g_NDP_RVREG::
 RVREG:	.ds		1	;// Rhythm track volume register number
+_g_NDP_RPREG::
 RPREG:	.ds		1	;// Rhythm track frequency register number (high)
+_g_NDP_RHENV::
 RHENV:	.ds		1	;// If no S command is executed within the rhythm, it becomes 0.
 
+_g_NDP_OLDTH::
 OLDTH:	.ds		5	;// Legacy Timer Interrupt Hook
+_g_NDP_HKFLG::
 HKFLG:	.ds		1	;// Is the driver connected to the hook?
 
+_g_NDP_STATS::
 STATS:	.ds		1	;// Playback Status (0: Stopped 1: Playing)
 
+_g_NDP_FINOUT::
 FINOUT:	.ds		1	;// 0=Fade out; 1=Fade in
 
+_g_NDP_MIXNMH::
 MIXNMH:	.ds		1	;// Value of *n (mix mode) when using hard envelope
 
+_g_NDP_MIXWRK::
 MIXWRK:	.ds		1	;// 10NNNTTT 0=ON/1=OFF
+_g_NDP_MIXWRS::
 MIXWRS:	.ds		1	;// Sound Effects Mixing Work
 
+_g_NDP_HENVPW::
 HENVPW:	.ds		2	;// Hard Envelope Period
 
+_g_NDP_BGMADR::
 BGMADR:	.ds		2	;// Song Data Start Address
 
-_NDP_RAMVAREND::
+_g_NDP_PTABLE::
+PTABLE:
+	.ds 2*12
+	.ds 2*12
+	.ds 2*12
+_g_NDP_O4C::
+O4C:
+	.ds 2*12
+	.ds 2*12
+	.ds 2*12
+	.ds 2*12
+	.ds 2*12
+
+_g_NDP_RAMVAREND::
 
 	.area _CODE
 
-_NDP_RAMVAL::
+_g_NDP_RAMVAL::
 
 	.db		0	;// For rhythm volume adjustment
 	.db		1	;// Interrupted Track (1=CH.C 2=CH.B 3=CH.A)
@@ -274,26 +352,15 @@ _NDP_RAMVAL::
 	.dw		1024	;// Hard Envelope Period
 	.dw		0x4000	;// Song Data Start Address
 
-_NDP_RAMVALEND::
-
-
 ;// ------	Pitch Table
-	.area _CODE
-
-PTABLE:
 ;//		c      c+     d      d+     e      f      f+     g      g+     a      a+     b
 	.dw	0x0D5D,0x0C9C,0x0BE7,0x0B3C,0x0A9B,0x0A02,0x0973,0x08EB,0x086B,0x07F2,0x0780,0x0714	;// O1
 	.dw	0x06AF,0x064E,0x05F4,0x059E,0x054E,0x0501,0x04BA,0x0476,0x0436,0x03F9,0x03C0,0x038A	;// O2
 	.dw	0x0357,0x0327,0x02FA,0x02CF,0x02A7,0x0281,0x025D,0x023B,0x021B,0x01FD,0x01E0,0x01C5	;// O3
-O4C:
 	.dw	0x01AC,0x0194,0x017D,0x0168,0x0153,0x0140,0x012E,0x011D,0x010D,0x00FE,0x00F0,0x00E3	;// O4
 	.dw	0x00D6,0x00CA,0x00BE,0x00B4,0x00AA,0x00A0,0x0097,0x008F,0x0087,0x007F,0x0078,0x0071	;// O5
 	.dw	0x006B,0x0065,0x005F,0x005A,0x0055,0x0050,0x004C,0x0047,0x0043,0x0040,0x003C,0x0039	;// O6
 	.dw	0x0035,0x0032,0x0030,0x002D,0x002A,0x0028,0x0026,0x0024,0x0022,0x0020,0x001E,0x001C	;// O7
 	.dw	0x001B,0x0019,0x0018,0x0016,0x0015,0x0014,0x0013,0x0012,0x0011,0x0010,0x000F,0x000E	;// O8
 
-_NDP_RAM0SIZE::
-	.dw		_NDP_RAM0END-_NDP_RAM0
-
-_NDP_RAMVARSIZE::
-	.dw		_NDP_RAMVAREND-_NDP_RAMVAR
+_g_NDP_RAMVALEND::

@@ -3,10 +3,10 @@
 //  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
 //  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // ─────────────────────────────────────────────────────────────────────────────
-//  MSXmath 1.7.0 by Guillaume "Aoineko" Blanchard
+//  MSXmath 1.7.1 by Guillaume "Aoineko" Blanchard
 //  under CC-BY-SA free license
 // 
-//  Generated: Sun Mar 17 16:23:50 2024
+//  Generated: Fri Oct 10 00:32:45 2025
 //  Parameters: Entries=64, Bytes=2 (16-bits), Shift=8 (Q8.8)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -21,3 +21,4 @@ const unsigned short g_Sinus64[] = {
 	0xFF00, 0xFF01, 0xFF05, 0xFF0B, 0xFF13, 0xFF1E, 0xFF2B, 0xFF3A, 
 	0xFF4B, 0xFF5E, 0xFF72, 0xFF87, 0xFF9E, 0xFFB6, 0xFFCE, 0xFFE7, 
 };
+// Size: 128 bytes

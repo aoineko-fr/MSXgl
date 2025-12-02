@@ -42,6 +42,7 @@ u8 g_SeqCursorPosY;
 i8 g_SeqCursorAccX;
 i8 g_SeqCursorAccY;
 u8 g_SeqInput;
+u8 g_SeqCustomCursor = SEQ_CUR_NONE;
 
 const SeqAction* g_SeqActionHover;
 u8 g_SeqActionCond;
@@ -321,9 +322,11 @@ void Sequence_UpdateInput()
 
 	g_SeqCursorPosY += g_SeqCursorAccY;
 
-	// Update cursor click state
+	// Update cursor click states
 	if (Mouse_IsButtonPress(&g_SeqMouseData, MOUSE_BOUTON_LEFT) || IS_KEY_PRESSED(row8, KEY_SPACE))
 		g_SeqInput |= SEQ_INPUT_CLICK_1;
+	if (Mouse_IsButtonPress(&g_SeqMouseData, MOUSE_BOUTON_RIGHT) || IS_KEY_PRESSED(row3, KEY_C))
+		g_SeqInput |= SEQ_INPUT_CLICK_2;
 
 	if (IS_KEY_PRESSED(row3, KEY_F))
 		g_SeqInput |= SEQ_INPUT_MOVE_RIGHT;
@@ -340,16 +343,23 @@ void Sequence_UpdateInput()
 //
 void Sequence_Update()
 {
+	// Update input
 	Sequence_UpdateInput();
 
 	g_SeqActionHover = NULL;
 	g_SeqActionCond = SEQ_COND_OK;
 
+	// Update sequence
 	g_SeqUpdateModes[g_SeqCur->Mode]();	
 
 	// Update cursor
+	if (g_SeqInput & SEQ_INPUT_CLICK_2) // Cancel custom cursor
+		Sequence_ClearCustomCursor();
+
 	u8 pat = SEQ_CUR_DEFAULT;
-	if (g_SeqActionHover)
+	if (Sequence_HasCustomCursor())
+		pat = g_SeqCustomCursor;
+	else if (g_SeqActionHover)
 	{
 		switch (g_SeqActionCond)
 		{

@@ -9,4 +9,4 @@
 
 cls
 
-..\..\tools\build\Node\node.exe ..\..\engine\script\js\build.js projname=%~n1 target=%2
+..\..\tools\build\Node\node.exe ..\..\engine\script\js\build.js projname=%~n1 %2 %3 %4 %5 %6 %7 %8 %9

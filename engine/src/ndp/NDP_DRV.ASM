@@ -1,11 +1,17 @@
-	.area _CODE
-
 ;// [NDP] - PSG Music Driver for MSX - Programmed by naruto2413
+
+;// Adapted to SDCC assembler by Aoineko for use in MSXgl.
+;// - v1.0: Original version
+;// - v1.1: Removed BASIC interface
+
+	.module NDP
 
 ;// =====================================
 ;// ドライバ本体
 ;// （NDP.ASM と NDP_WRK.ASM が別途必要）
 ;// =====================================
+
+	.area _CODE
 
 ;// ------	曲データのアドレス設定
 
@@ -111,21 +117,21 @@ NDP_CH1OFF::
 CH1OFF:
 	LD	E,#8
 	LD	C,#3
-	LD	HL,#CH1WRK+WSIZE+10
+	LD	HL,#CH1WRK+NDP_WSIZE+10
 	JR	CHMUTE
 
 NDP_CH2OFF::
 CH2OFF:
 	LD	E,#9
 	LD	C,#2
-	LD	HL,#CH1WRK+WSIZE*2+10
+	LD	HL,#CH1WRK+NDP_WSIZE*2+10
 	JR	CHMUTE
 
 NDP_CH3OFF::
 CH3OFF:
 	LD	E,#10
 	LD	C,#1
-	LD	HL,#CH1WRK+WSIZE*3+10
+	LD	HL,#CH1WRK+NDP_WSIZE*3+10
 
 CHMUTE:
 	LD	A,D
@@ -162,15 +168,15 @@ NDPINI:
 	OR	A
 	RET	NZ
 
-	LD	HL,#HTIMI
-	LD	DE,#OLDTH
-	LD	BC,#5
-	LDIR
+	; LD	HL,#HTIMI
+	; LD	DE,#OLDTH
+	; LD	BC,#5
+	; LDIR
 
-	LD	A,#0xC3		;// JP
-	LD	HL,#INTRPT	;// ドライバ割り込みルーチンアドレス
-	LD	(HTIMI),A
-	LD	(HTIMI+1),HL
+	; LD	A,#0xC3		;// JP
+	; LD	HL,#INTRPT	;// ドライバ割り込みルーチンアドレス
+	; LD	(HTIMI),A
+	; LD	(HTIMI+1),HL
 
 	LD	A,#1
 NDP_SETHF::
@@ -190,10 +196,10 @@ NDPOFF:
 
 	DI
 
-	LD	HL,#OLDTH
-	LD	DE,#HTIMI
-	LD	BC,#5
-	LDIR
+	; LD	HL,#OLDTH
+	; LD	DE,#HTIMI
+	; LD	BC,#5
+	; LDIR
 
 	XOR	A
 	LD	(HKFLG),A
@@ -207,11 +213,11 @@ NDPOFF:
 
 NDP_MSTOP::
 MSTOP:
-	LD	B,#CHNUM
+	LD	B,#NDP_CHNUM
 	LD	HL,#CH1WRK+10
 MSTP2L:
 	LD	(HL),#0
-	LD	DE,#WSIZE
+	LD	DE,#NDP_WSIZE
 	ADD	HL,DE
 	DJNZ	MSTP2L
 
@@ -265,7 +271,7 @@ MSTART:
 
 	LD	IX,#CH1WRK
 	LD	HL,(BGMADR)
-	LD	B,#CHNUM
+	LD	B,#NDP_CHNUM
 	CALL	INIADR		;// 曲データ先頭アドレス設定
 	CALL	VSET0		;// 音色アドレス設定
 
@@ -346,7 +352,7 @@ INIWRK:
 	JR	NZ,INIW1	;// オフセット値が0000Hでなければトラック有効
 
 	LD	A,C		;// 指定トラック数を確認して
-	CP	#CHNUM		;// 4トラック未満なら効果音なので
+	CP	#NDP_CHNUM		;// 4トラック未満なら効果音なので
 	JR	C,INIW0		;// トラック無効化だけ行う（終了フラグは触らない）
 
 	LD	E,#16		;// オフセット値が0000Hなら
@@ -375,38 +381,38 @@ INIW1:
 
 	POP	HL
 INIW2:
-	LD	DE,#WSIZE
+	LD	DE,#NDP_WSIZE
 	ADD	IX,DE
 	DJNZ	INIWRK
 
 	RET
 
-;// ------	演奏状態取得 (0=停止中 1=演奏中 ->A)
+; ;// ------	演奏状態取得 (0=停止中 1=演奏中 ->A)
 
-NDP_RDSTAT::
-RDSTAT:
-	LD	A,(STATS)
-	RET
+; NDP_RDSTAT::
+; RDSTAT:
+; 	LD	A,(STATS)
+; 	RET
 
-;// ------	終了トラック取得 (0000321R で終端まで達したトラックのビットが立つ ->A)
+; ;// ------	終了トラック取得 (0000321R で終端まで達したトラックのビットが立つ ->A)
 
-NDP_RDENDT::
-RDENDT:
-	LD	A,(ENDTRW)
-	RET
+; NDP_RDENDT::
+; RDENDT:
+; 	LD	A,(ENDTRW)
+; 	RET
 
-;// ------	ループ回数取得 （ループしない曲では255を返す)
+; ;// ------	ループ回数取得 （ループしない曲では255を返す)
 
-NDP_RDLOOP::
-RDLOOP:
-	LD	A,(MCOUNT)
-	RET
+; NDP_RDLOOP::
+; RDLOOP:
+; 	LD	A,(MCOUNT)
+; 	RET
 
 ;// ------	バージョン取得
 
 NDP_SYSVER::
 SYSVER:
-	LD	HL,#0x0103	;// v1.03
+	LD	HL,#0x0104	;// v1.04
 
 	;// 上位バイトがメジャーバージョン、下位バイトがマイナーバージョン
 	;// 上位バイトが0なら0.9として扱い、下位バイトはビルドバージョンとする
@@ -470,22 +476,22 @@ WPSG:
 
 ;// ------	タイマ割り込みルーチン呼び出し＆旧フックコール
 
-NDP_INTRPT::
-INTRPT:
-	DI
-	CALL	IMAIN
-	CALL	OLDTH
-	EI
-	RET
+; NDP_INTRPT::
+; INTRPT:
+; 	DI
+; 	CALL	IMAIN
+; 	CALL	OLDTH
+; 	EI
+; 	RET
 
 NDP_IMAIN::
 IMAIN:
-	PUSH	AF
-	PUSH	BC
-	PUSH	DE
-	PUSH	HL
-	PUSH	IX
-	PUSH	IY
+	; PUSH	AF
+	; PUSH	BC
+	; PUSH	DE
+	; PUSH	HL
+	; PUSH	IX
+	; PUSH	IY
 
 	LD	A,(SLWPRM)
 	RRCA
@@ -498,7 +504,7 @@ MINT:
 	XOR	A
 	LD	(SEMODE),A	;// 0=BGMモード
 
-	LD	B,#CHNUM
+	LD	B,#NDP_CHNUM
 	LD	IX,#CH1WRK
 MLOOP:
 	PUSH	BC
@@ -507,7 +513,7 @@ MLOOP:
 	OR	A
 	CALL	NZ,NMAIN
 
-	LD	DE,#WSIZE	;// CHワークのインデックスをワークサイズ分進める
+	LD	DE,#NDP_WSIZE	;// CHワークのインデックスをワークサイズ分進める
 	ADD	IX,DE
 
 	POP	BC
@@ -556,26 +562,26 @@ SINT:
 	INC	A
 	LD	(SEMODE),A	;// 1=SEモード
 
-	LD	B,#CHNUM-1
+	LD	B,#NDP_CHNUM-1
 	LD	IX,#SE1WRK
 SECHK1:
 	LD	A,10(IX)	;// チャンネル有効ならSE用MAINを呼ぶ
 	OR	A
 	CALL	NZ,MAINSE
 
-	LD	DE,#WSIZE	;// CHワークのインデックスをワークサイズ分進める
+	LD	DE,#NDP_WSIZE	;// CHワークのインデックスをワークサイズ分進める
 	ADD	IX,DE
 
 	DJNZ	SECHK1
 SINTED:
 
 INTEND:
-	POP	IY
-	POP	IX
-	POP	HL
-	POP	DE
-	POP	BC
-	POP	AF
+	; POP	IY
+	; POP	IX
+	; POP	HL
+	; POP	DE
+	; POP	BC
+	; POP	AF
 
 	RET
 
@@ -666,7 +672,7 @@ MAIN0A:
 	CALL	WPSGM		;// ノイズ周波数書き込み
 MAIN0B:
 	LD	A,B		;// リズムチャンネルならリズムモード用のエンベに
-	CP	#CHNUM
+	CP	#NDP_CHNUM
 	JP	Z,RENV
 
 ;// 音長カウント・エンベロープ
@@ -1959,7 +1965,7 @@ NOTE3:
 	LD	H,A		;// 音長をHに
 
 	LD	A,B
-	CP	#CHNUM
+	CP	#NDP_CHNUM
 	JR	Z,NOTE2E	;// リズムトラックならゲートタイム計算しない
 
 	LD	A,57(IX)	;// 固定ゲートタイム
@@ -2864,8 +2870,8 @@ SEPSUB:
 	LD	IX,#SE1WRK
 	LD	IY,#CH2WRK
 	LD	HL,#SEBAKT
-	LD	DE,#WSIZE
-	LD	B,#CHNUM-1
+	LD	DE,#NDP_WSIZE
+	LD	B,#NDP_CHNUM-1
 SEPLY1:
 	LD	A,10(IX)	;// 効果音が
 	OR	A		;// 発音中でなければ
@@ -2893,14 +2899,14 @@ SEPLY3:
 	ADD	HL,DE
 SEPLY4:
 	LD	IX,#SE1WRK
-	LD	B,#CHNUM-1
+	LD	B,#NDP_CHNUM-1
 	CALL	INIADR		;// 効果音データ先頭アドレス設定
 
 	LD	IX,#CH2WRK
 	LD	IY,#SE1WRK
 	LD	HL,#SEBAKT
-	LD	DE,#WSIZE
-	LD	B,#CHNUM-1
+	LD	DE,#NDP_WSIZE
+	LD	B,#NDP_CHNUM-1
 SEMOF1:
 	LD	A,10(IX)	;// BGMのチャンネル有効フラグ
 	LD	(HL),A
@@ -2988,7 +2994,7 @@ REPADD:
 
 	LD	C,B
 	LD	B,A
-	LD	DE,#RWSIZE
+	LD	DE,#NDP_RWSIZE
 REPAD1:
 	ADD	IY,DE
 	DJNZ	REPAD1
@@ -3152,11 +3158,11 @@ REGV:
 
 PRRETA:
 	LD	IX,#CH1WRK
-	LD	B,#CHNUM-1
+	LD	B,#NDP_CHNUM-1
 PRRETL:
 	CALL	PRRET1
 
-	LD	DE,#WSIZE
+	LD	DE,#NDP_WSIZE
 	ADD	IX,DE
 
 	DJNZ	PRRETL
@@ -3188,7 +3194,7 @@ PRRET0:
 
 PRRET1:
 	LD	A,B
-	CP	#CHNUM
+	CP	#NDP_CHNUM
 	RET	NC
 
 	CALL	REGP
@@ -3221,8 +3227,8 @@ SEMON:
 	LD	IY,#SE1WRK
 	LD	HL,#SEBAKT
 
-	LD	DE,#WSIZE
-	LD	B,#CHNUM-1
+	LD	DE,#NDP_WSIZE
+	LD	B,#NDP_CHNUM-1
 SEMON1:
 	LD	A,10(IY)	;// SEトラック有効フラグ
 	CP	#255

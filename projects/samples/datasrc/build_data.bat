@@ -8,7 +8,7 @@ set BuildWYZ=0
 set BuildayFX=0
 set BuildVGM=0
 set BuildlVGM=0
-set BuildlNDP=1
+set BuildlNDP=0
 set BuildPCMEnc=0
 set BuildPCMPlay=0
 :: Image
@@ -134,9 +134,17 @@ if %BuildlNDP%==1 (
 	echo ----------------------------------------
 	echo Building NDP data...
 	if not exist %Dest%\ndp md %Dest%\ndp
+
+	::---- Music
 	for %%I in (ndp\*.ndp) do (
 		echo Converting %%I...
-		%MSXtk%\MSXbin.exe %%I -t g_NDP_%%~nI -ad -o %Dest%\ndp\%%~nI.h
+		%MSXtk%\MSXbin.exe %%I -t g_NDP_%%~nI -skip 0 7 -ad -o %Dest%\ndp\%%~nI.h
+	)
+
+	::---- Sound FX
+	for %%I in (ndp\*.nds) do (
+		echo Converting %%I...
+		%MSXtk%\MSXbin.exe %%I -t g_NDS_%%~nI -skip 0 7 -ad -o %Dest%\ndp\%%~nI.h
 	)
 )
 
@@ -286,6 +294,7 @@ if %BuildTile%==1 (
 	%MSXtk%\MSXimg.exe img\city.png -out %Dest%\tile\data_tile_gm2.h -mode gm2 -name g_DataTileGM2 -pos 0 256 -size 192  144 -offset 0
 	%MSXtk%\MSXimg.exe img\city.png -out %Dest%\tile\data_map_gm2.h  -mode gm2 -name g_DataMapGM2  -pos 0 320 -size 1024 192 -offset 0
 	REM %MSXtk%\MSXimg.exe img\city.png -out %Dest%\tile\data_tile_gm1.h -mode gm1 -name g_DataTileGM1 -pos 0 160 -size 192 144 -offset 0
+	%MSXtk%\MSXimg.exe misc\naruto2413_qrcode.png -mode gm2 -name g_QRCode -pos 0 0 -size 64 64 -out %Dest%\img\naruto2413_qrcode.h
 )
 
 ::-----------------------------------------------------------------------------

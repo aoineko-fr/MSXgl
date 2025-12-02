@@ -182,7 +182,7 @@ void ButtonLoop()
 //
 void SetCursor(u8 id)
 {
-	g_CurrentButton = id % 6;
+	g_CurrentButton = id;
 	VDP_SetSpriteSM1(0, 8 + 16*g_CurrentButton, ((PLAYER_Y+1)*8)-1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
 }
 
@@ -212,9 +212,9 @@ void main()
 	for (u8 i = 0; i < numberof(g_ButtonEntry); ++i)
 	{
 		Print_SetPosition(1 + 2 * i, PLAYER_Y+1);
-		Print_DrawChar(g_ButtonEntry[i].Char);
-		
+		Print_DrawChar(g_ButtonEntry[i].Char);		
 	}
+
 	Print_SetPosition(0, PLAYER_Y+3);
 	Print_DrawText(" Chan A\n");
 	Print_DrawText(" Chan B\n");
@@ -305,11 +305,11 @@ void main()
 		// Change button
 		if (IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
 		{
-			SetCursor(g_CurrentButton + 1);
+			SetCursor((g_CurrentButton < numberof(g_ButtonEntry) - 1) ? g_CurrentButton + 1 : 0);
 		}
 		else if (IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
 		{
-			SetCursor(g_CurrentButton - 1);
+			SetCursor((g_CurrentButton > 0) ? g_CurrentButton - 1 : numberof(g_ButtonEntry) - 1);
 		}
 		// Activate button
 		if (IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))

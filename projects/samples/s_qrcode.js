@@ -2,6 +2,9 @@
 // PROJECT CONFIG OVERWRITE
 //*****************************************************************************
 
+//-- Clear all intermediate files and exit (boolean)
+// DoClean = true;
+
 //-- Target MSX machine version (string)
 Machine = "2";
 

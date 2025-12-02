@@ -3,10 +3,10 @@
 //  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
 //  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // ─────────────────────────────────────────────────────────────────────────────
-//  MSXmath 1.7.0 by Guillaume "Aoineko" Blanchard
+//  MSXmath 1.7.1 by Guillaume "Aoineko" Blanchard
 //  under CC-BY-SA free license
 // 
-//  Generated: Sun Mar 17 16:23:50 2024
+//  Generated: Fri Oct 10 00:32:45 2025
 //  Parameters: Entries=64, Bytes=2 (16-bits), Shift=8 (Q8.8)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -57,3 +57,4 @@ const unsigned short g_ArcTangent64[] = {
 	0x018D, 0x018D, 0x018D, 0x018D, 0x018D, 0x018D, 0x018D, 0x018D, 
 	0x018D, 0x018E, 0x018E, 0x018E, 0x018E, 0x018E, 0x018E, 0x018E, 
 };
+// Size: 512 bytes
