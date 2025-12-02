@@ -64,7 +64,7 @@ if (EmulatorName === "OPENMSX") {
 			} else {
 				EmulatorArgs += " -machine C-BIOS_MSX2_EU";
 			}
-		} else if (Machine === "2P") {
+		} else if ((Machine === "2P") || (Machine === "0")) {
 			if (Emul60Hz) {
 				EmulatorArgs += " -machine C-BIOS_MSX2+_JP";
 			} else {
