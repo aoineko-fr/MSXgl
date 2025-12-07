@@ -22,12 +22,21 @@
 
 // Includes
 #include "msxgl.h"
+#include "psg.h"
+#include "device/darky.h"
 #include "arkos/akg_player.h"
 #include "arkos/akm_player.h"
 #include "arkos/aky_player.h"
+#include "arkos/aky_6ch_player.h"
+#include "arkos/aky_darky_player.h"
 
 // Library's logo
-#define MSX_GL "\x01\x02\x03\x04\x05\x06"
+#define MSX_GL						"\x01\x02\x03\x04\x05\x06"
+
+#define REPLAYER_NUM				numberof(g_PlayerEntry)
+#define MUSIC_ADDR					0xA000
+#define MUSIC_NUM					4
+#define SFX_ADDR					0xE000
 
 // Music entry structure
 struct MusicEntry
@@ -51,9 +60,9 @@ typedef void (*cbStopSFX)(u8);
 // Player entry structure
 struct PlayerEntry
 {
-	const c8* Name;    // Player display name
-	cbUpdate    Decode;  // Pointer to player's update function
+	const c8*   Name;    // Player display name
 	cbPlay      Init;    // Pointer to player's music initialization and playback function
+	cbUpdate    Update;  // Pointer to player's update function
 	callback    Stop;    // Pointer to player's music stop function
 	cbPlaySFX   InitSFX; // Pointer to player's SFX initialization function
 	cbUpdateSFX PlaySFX; // Pointer to player's SFX playback function
@@ -74,6 +83,13 @@ extern const u8* g_AKY_jinj_med;
 extern const u8* g_AKY_AHarmlessGrenade;
 extern const u8* g_AKY_Justaddcream;
 extern const u8* g_AKY_Sarkboteur;
+extern const u8* g_AKY_6ch_TimelessMini;
+
+// Function prototypes
+void AKY3ch(u8 song, const void* data);
+void AKY6ch(u8 song, const void* data);
+void AKYDarky(u8 song, const void* data);
+
 
 //=============================================================================
 // READ-ONLY DATA
@@ -97,15 +113,6 @@ const struct MusicEntry g_MusicEntryAKG[] =
 	{ "Sarkboteur (by Rob Hubbard)          ", g_AKG_Sarkboteur,   7 },
 };
 
-// Musics list for AKY replayer
-const struct MusicEntry g_MusicEntryAKY[] =
-{
-	{ "Cancion Nueva (by ?)                 ", g_AKY_jinj_med,     12 },
-	{ "A Harmless Grenade (by Targhan)      ", g_AKY_AHarmlessGrenade, 13 },
-	{ "Just add cream (by Excellence in Art)", g_AKY_Justaddcream, 14 },
-	{ "Sarkboteur (by Rob Hubbard)          ", g_AKY_Sarkboteur,   15 },
-};
-
 // Musics list for AKM replayer
 const struct MusicEntry g_MusicEntryAKM[] =
 {
@@ -115,12 +122,32 @@ const struct MusicEntry g_MusicEntryAKM[] =
 	{ "Sarkboteur (by Rob Hubbard)          ", g_AKM_Sarkboteur,   11 },
 };
 
+// Musics list for AKY replayer
+const struct MusicEntry g_MusicEntryAKY[] =
+{
+	{ "Cancion Nueva (by ?)                 ", g_AKY_jinj_med,     12 },
+	{ "A Harmless Grenade (by Targhan)      ", g_AKY_AHarmlessGrenade, 13 },
+	{ "Just add cream (by Excellence in Art)", g_AKY_Justaddcream, 14 },
+	{ "Sarkboteur (by Rob Hubbard)          ", g_AKY_Sarkboteur,   15 },
+};
+
+// Musics list for AKY 6 channels replayer
+const struct MusicEntry g_MusicEntryAKY_6CH[] =
+{
+	{ "Timeless (by Doclands / C.Wild)      ", g_AKY_6ch_TimelessMini, 16 },
+	{ "Timeless (by Doclands / C.Wild)      ", g_AKY_6ch_TimelessMini, 16 },
+	{ "Timeless (by Doclands / C.Wild)      ", g_AKY_6ch_TimelessMini, 16 },
+	{ "Timeless (by Doclands / C.Wild)      ", g_AKY_6ch_TimelessMini, 16 },
+};
+
 // Replayers data
 const struct PlayerEntry g_PlayerEntry[] =
 {
-	{ "AKG (generic)",    AKG_Decode, AKG_Play, AKG_Stop, AKG_InitSFX, AKG_PlaySFX, AKG_StopSFX, g_MusicEntryAKG },
-	{ "AKY (fast)",       AKY_Decode, AKY_Play, NULL,     NULL,        NULL,        NULL,        g_MusicEntryAKY },
-	{ "AKM (minimalist)", AKM_Decode, AKM_Play, AKM_Stop, AKM_InitSFX, AKM_PlaySFX, AKM_StopSFX, g_MusicEntryAKM },
+	{ "AKG (generic)",    AKG_Play, AKG_Update,      AKG_Stop, AKG_InitSFX, AKG_PlaySFX, AKG_StopSFX, g_MusicEntryAKG },
+	{ "AKM (minimalist)", AKM_Play, AKM_Update,      AKM_Stop, AKM_InitSFX, AKM_PlaySFX, AKM_StopSFX, g_MusicEntryAKM },
+	{ "AKY (fast)",       AKY3ch,   AKY_Update,      NULL,     NULL,        NULL,        NULL,        g_MusicEntryAKY },
+	{ "AKY 6ch",          AKY6ch,   AKY6ch_Update,   NULL,     NULL,        NULL,        NULL,        g_MusicEntryAKY_6CH },
+	{ "AKY Darky",        AKYDarky, AKYDarky_Update, NULL,     NULL,        NULL,        NULL,        g_MusicEntryAKY_6CH },
 };
 
 //=============================================================================
@@ -168,6 +195,30 @@ void WaitVBlank()
 }
 
 //-----------------------------------------------------------------------------
+// Dummy function to match AKY_Play signature
+void AKY3ch(u8 song, const void* data)
+{
+	song;
+	AKY_Play(data);
+}
+
+//-----------------------------------------------------------------------------
+// Dummy function to match AKY6ch_Play signature
+void AKY6ch(u8 song, const void* data)
+{
+	song;
+	AKY6ch_Play(data);
+}
+
+//-----------------------------------------------------------------------------
+// Dummy function to match AKYDarky_Play signature
+void AKYDarky(u8 song, const void* data)
+{
+	song;
+	AKYDarky_Play(data);
+}
+
+//-----------------------------------------------------------------------------
 // Display the current frquency
 void DisplayFreq()
 {
@@ -179,7 +230,7 @@ void DisplayFreq()
 // Display information about SFX
 void DisplaySFX()
 {
-	Print_SetPosition(0, 14);
+	Print_SetPosition(0, 15);
 	if (g_CurrentPlayer->InitSFX)
 		Print_DrawFormat("SFX: %i/%i        ", g_SFXNum ? g_SFXIdx + 1 : 0, g_SFXNum);
 	else
@@ -194,6 +245,28 @@ void HandleEvent(u8 event)
 }
 
 //-----------------------------------------------------------------------------
+// Mute both PSGs
+void MuteMusic()
+{
+	loop (i, 3)
+	{
+		// Mute internal PSG
+		g_PSG_RegPort = PSG_REG_AMP_A + i;
+		g_PSG_DataPort = 0;
+
+		// Mute external PSG
+		g_PSG_Ext_RegPort = PSG_REG_AMP_A + i;
+		g_PSG_Ext_DataPort = 0;
+
+		// Mute Darky PSGs
+		g_Darky_PSG1_IndexPort = PSG_REG_AMP_A + i;
+		g_Darky_PSG1_DataPort = 0;
+		g_Darky_PSG2_IndexPort = PSG_REG_AMP_A + i;
+		g_Darky_PSG2_DataPort = 0;
+	}
+}
+
+//-----------------------------------------------------------------------------
 // Set the new music to be played
 void SetMusic(u8 idx)
 {
@@ -204,16 +277,16 @@ void SetMusic(u8 idx)
 	const struct MusicEntry* mus = &g_PlayerEntry[g_PlayerIdx].Musics[idx];
 
 	// If current replayer supports SFX, initialize the sound bank
-	// Note: SFX data have been exported to be replayed at address 0xE000
+	// Note: SFX data have been exported to be replayed at address SFX_ADDR
 	if (g_CurrentPlayer->InitSFX) 
 	{
-		Mem_Copy(g_AKX_effects, (void*)0xE000, sizeof(g_AKX_effects));
-		g_SFXNum = g_CurrentPlayer->InitSFX((const void*)0xE000); // can be AKG_InitSFX or AKM_InitSFX
+		Mem_Copy(g_AKX_effects, (void*)SFX_ADDR, sizeof(g_AKX_effects));
+		g_SFXNum = g_CurrentPlayer->InitSFX((const void*)SFX_ADDR); // can be AKG_InitSFX or AKM_InitSFX
 	}
 
 	// Update the current music information on screen
-	Print_SetPosition(0, 10);
-	Print_DrawFormat("Music [%i/%i]:\n\n  %s", idx + 1, numberof(g_MusicEntryAKG), mus->Name);
+	Print_SetPosition(0, 11);
+	Print_DrawFormat("Music [%i/%i]:\n\n  %s", idx + 1, MUSIC_NUM, mus->Name);
 
 	// Update the SFX information on screen
 	DisplaySFX();
@@ -236,13 +309,14 @@ void SetPlayer(u8 idx)
 		if (g_CurrentPlayer->Stop)
 			g_CurrentPlayer->Stop();
 	}
+	MuteMusic();
 
 	// Select the new replayer
 	g_PlayerIdx = idx;
 	g_CurrentPlayer = &g_PlayerEntry[idx];
 
 	// Display cursor on front of the selected replayer
-	for (u8 i = 0; i < numberof(g_PlayerEntry) ; i++)
+	for (u8 i = 0; i < REPLAYER_NUM ; i++)
 		Print_DrawCharAt(0, i + 5, (i == idx) ? '\x8A' : ' ');
 
 	// Play the current music with the newly selected replayer
@@ -272,7 +346,7 @@ void main()
 
 	// Display the list of the replayers
 	Print_DrawTextAt(0, 3, "Player: ");
-	for (u8 i = 0; i < numberof(g_PlayerEntry) ; i++)
+	for (u8 i = 0; i < REPLAYER_NUM ; i++)
 		Print_DrawTextAt(2, i + 5, g_PlayerEntry[i].Name);		
 
 	// Select first replayer and fist music
@@ -305,7 +379,7 @@ void main()
 		if (g_Freq50Hz || (frameCount % 6) != 0)
 		{
 			VDP_SetColor(0xF5);
-			g_CurrentPlayer->Decode();
+			g_CurrentPlayer->Update();
 			VDP_SetColor(0xF4);
 		}
 
@@ -319,24 +393,24 @@ void main()
 		// Change played music
 		if (IS_KEY_PUSHED(row8, prevRow8, KEY_RIGHT))
 		{
-			if (g_MusicIdx < numberof(g_MusicEntryAKG) - 1)
-				SetMusic(g_MusicIdx + 1);
+			g_MusicIdx = (g_MusicIdx + 1) % MUSIC_NUM;
+			SetMusic(g_MusicIdx);
 		}
 		else if (IS_KEY_PUSHED(row8, prevRow8, KEY_LEFT))
 		{
-			if (g_MusicIdx > 0)
-				SetMusic(g_MusicIdx - 1);
+			g_MusicIdx = (g_MusicIdx + MUSIC_NUM - 1) % MUSIC_NUM;
+			SetMusic(g_MusicIdx);
 		}
 		// Change Arkos replayer
 		if (IS_KEY_PUSHED(row8, prevRow8, KEY_UP))
 		{
-			if (g_PlayerIdx > 0)
-				SetPlayer(g_PlayerIdx - 1);
+			g_PlayerIdx = (g_PlayerIdx + REPLAYER_NUM - 1) % REPLAYER_NUM;
+			SetPlayer(g_PlayerIdx);
 		}
 		else if (IS_KEY_PUSHED(row8, prevRow8, KEY_DOWN))
 		{
-			if (g_PlayerIdx < numberof(g_PlayerEntry) - 1)
-				SetPlayer(g_PlayerIdx + 1);
+			g_PlayerIdx = (g_PlayerIdx + 1) % REPLAYER_NUM;
+			SetPlayer(g_PlayerIdx);
 		}
 		// Stop music playback
 		if (IS_KEY_PUSHED(row8, prevRow8, KEY_SPACE))
@@ -359,7 +433,7 @@ void main()
 		// Change frequency
 		if (IS_KEY_PUSHED(row7, prevRow7, KEY_RETURN))
 		{
-			g_Freq50Hz = 1 - g_Freq50Hz;
+			g_Freq50Hz = !g_Freq50Hz;
 			DisplayFreq();
 		}
 		prevRow7 = row7;

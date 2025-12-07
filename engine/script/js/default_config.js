@@ -261,7 +261,7 @@ LocOutput = "localization.h";
 //-- Localization structure name (string)
 LocStruct = "g_LocData";
 
-//-- Split socalization data and definitions in different files (boolean)
+//-- Split localization data and definitions in different files (boolean)
 LocSplitDef = false;
 
 //*****************************************************************************
@@ -312,6 +312,13 @@ AnalyzerCSV = false;
 
 //-- Analyzer CSV file separator (string)
 AnalyzerSeparator = ",";
+
+//*******************************************************************************
+// PACKAGE SETTINGS
+//*******************************************************************************
+
+//-- Should the build tool create a standalone package? (boolean)
+Standalone = false;
 
 //*******************************************************************************
 // EMULATOR SETINGS

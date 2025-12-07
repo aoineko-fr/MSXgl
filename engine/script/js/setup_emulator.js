@@ -198,7 +198,7 @@ else if (EmulatorName === "EMULICIOUS") {
 	// if (EmulOPL4)     {}
 	// if (EmulPSG2)     {}
 	// if (EmulV9990)    {}
-	if (EmulRAM)      { EmulatorArgs += " -set MSXRAMBankShift=5"; }
+	if (EmulRAM)      { EmulatorArgs += " -set MSXRAMBankShift=6"; }
 
 	//---- Add launch program ----
 	if (Ext === "rom") { EmulatorArgs += ` ${ProjDir}emul/rom/${ProjName}.rom`; }

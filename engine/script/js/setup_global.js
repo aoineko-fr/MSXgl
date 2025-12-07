@@ -374,7 +374,7 @@ global.LocOutput = "";
 //-- Localization structure name (string)
 global.LocStruct = "";
 
-//-- Split socalization data and definitions in different files (boolean)
+//-- Split localization data and definitions in different files (boolean)
 global.LocSplitDef = false;
 
 //*****************************************************************************
@@ -425,6 +425,13 @@ global.AnalyzerCSV = false;
 
 //-- Analyzer CSV file separator (string)
 global.AnalyzerSeparator = ",";
+
+//*******************************************************************************
+// PACKAGE SETTINGS
+//*******************************************************************************
+
+//-- Should the build tool create a standalone package? (boolean)
+global.Standalone = false;
 
 //*******************************************************************************
 // EMULATOR SETINGS

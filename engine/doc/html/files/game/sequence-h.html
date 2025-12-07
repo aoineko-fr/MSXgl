@@ -30,6 +30,30 @@
  <div class="CBody"><p>Move the cursor position</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>X coordinate move offset</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>Y coordinate move offset</p></td></tr></table></div>
 </div>
 
+<a name="Sequence_SetCustomCursor"></a><a name="Topic1537"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_SetCustomCursor</div>
+ <div id="NDPrototype1537" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetCustomCursor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">cursor</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set a custom cursor pattern Parameters: cursor - Custum cursor pattern index (can't be 0)</p></div>
+</div>
+
+<a name="Sequence_GetCustomCursor"></a><a name="Topic1538"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_GetCustomCursor</div>
+ <div id="NDPrototype1538" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sequence_GetCustomCursor()</div></div>
+ <div class="CBody"><p>Get the current custom cursor pattern</p><div class="CHeading">Return</div><p>Current custom cursor pattern index</p></div>
+</div>
+
+<a name="Sequence_HasCustomCursor"></a><a name="Topic1539"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_HasCustomCursor</div>
+ <div id="NDPrototype1539" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Sequence_HasCustomCursor()</div></div>
+ <div class="CBody"><p>Check if a custom cursor pattern is set</p><div class="CHeading">Return</div><p>FALSE if no custom cursor pattern is set</p></div>
+</div>
+
+<a name="Sequence_ClearCustomCursor"></a><a name="Topic1540"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_ClearCustomCursor</div>
+ <div id="NDPrototype1540" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_ClearCustomCursor()</div></div>
+ <div class="CBody"><p>Clear custom cursor pattern</p></div>
+</div>
+
 <a name="Sequence_Play"></a><a name="Topic694"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_Play</div>
  <div id="NDPrototype694" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Sequence_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">Sequence*&nbsp;</td><td class="PName last">seq,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">frame</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
@@ -40,6 +64,24 @@
  <div class="CTitle">Sequence_GetCurrent</div>
  <div id="NDPrototype695" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline const</span> Sequence* Sequence_GetCurrent()</div></div>
  <div class="CBody"><p>Get the current sequence</p><div class="CHeading">Return</div><p>Pointer to the current sequence structure</p></div>
+</div>
+
+<a name="Sequence_GetFrame"></a><a name="Topic1541"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_GetFrame</div>
+ <div id="NDPrototype1541" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 Sequence_GetFrame()</div></div>
+ <div class="CBody"><p>Get the current frame number</p><div class="CHeading">Return</div><p>Current frame number</p></div>
+</div>
+
+<a name="Sequence_GetInput"></a><a name="Topic1542"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_GetInput</div>
+ <div id="NDPrototype1542" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sequence_GetInput()</div></div>
+ <div class="CBody"><p>Get the current input flags Return: Current input flags</p></div>
+</div>
+
+<a name="Sequence_CheckInput"></a><a name="Topic1543"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_CheckInput</div>
+ <div id="NDPrototype1543" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Sequence_CheckInput(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">in</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Check if specific input flag is set</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">in<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Input flag to check</p></td></tr></table><div class="CHeading">Return</div><p>FALSE if input flag is not set</p></div>
 </div>
 
 <a name="Sequence_CheckArea"></a><a name="Topic696"></a><div class="CTopic TFunction LC">

@@ -669,15 +669,20 @@ if (DoPackage)
 		H2BParam += ` -l ${MapperSize} -b ${SegSize}`;
 	else
 		H2BParam += ` -l ${FillSize}`;
-	// if (Target === "DOS2_MAPPER")
-	// 	H2BParam += " -split";
-	for (let i = 0; i < RawFiles.length; i++)
-	{
-		let raw = RawFiles[i];
-		H2BParam += ` -r ${raw.offset} ${raw.file}`;
-	}
 	H2BParam += ` ${HexBinOpt}`;
 
+	// Add raw files definitions
+	if (RawFiles.length)
+	{
+		let hexFile = "";
+		for (let raw of RawFiles)
+			hexFile += ` -r ${raw.offset} ${raw.file}`;
+
+		fs.writeFileSync(`${OutDir}msxhex.txt`, hexFile);
+		H2BParam += `-f ${OutDir}msxhex.txt`;
+	}
+	
+	// Execute MSXhex
 	let err = util.execSync(`"${Hex2Bin}" ${H2BParam}`);
 	if (err)
 	{
@@ -1024,8 +1029,15 @@ if (DoDeploy)
 				util.copyFile(`./${ProjModules[i]}.h`, `${ProjDir}lib/${ProjModules[i]}.h`);
 		}	
 	}
-
 	util.print("Success", PrintSuccess);
+
+	//-------------------------------------------------------------------------
+	// STANDALONE PACKAGE
+	//-------------------------------------------------------------------------
+	if (Standalone)
+	{
+		require("./standalone.js");
+	}
 
 	//-- Display step duration
 	const deployElapsTime = Date.now() - deployStartTime;

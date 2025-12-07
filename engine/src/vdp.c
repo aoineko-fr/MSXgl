@@ -164,7 +164,7 @@ bool g_VDPInitilized = FALSE;	// Flag to check if VDP module initialization alre
 //   flag - Screen binary flag
 void VDP_SetModeFlag(u8 flag)
 {
-	// VDP register #1
+	// VDP R#1
 	u8 reg1 = g_VDP_REGSAV[1];
 	reg1 &= 0b11100111;
 	if (flag & 0b00001)
@@ -173,7 +173,7 @@ void VDP_SetModeFlag(u8 flag)
 		reg1 |= 0b00001000;
 	VDP_RegWriteBak(1, reg1);
 
-	// VDP register #0
+	// VDP R#0
 	u8 reg0 = g_VDP_REGSAV[0];
 	reg0 &= 0b11110001;
 	flag >>= 1;
@@ -1333,7 +1333,7 @@ void VDP_CommandWait() __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 
 //-----------------------------------------------------------------------------
 // Send VDP command (from register 32 to 46)
-void VPD_CommandSetupR32()
+void VDP_CommandSetupR32()
 {
 	VDP_CommandWait();
 	ASM_REG_WRITE_INC(g_VDP_Command, 32, 15);
@@ -1341,7 +1341,7 @@ void VPD_CommandSetupR32()
 
 //-----------------------------------------------------------------------------
 // Send VDP command (from register 36 to 46)
-void VPD_CommandSetupR36()
+void VDP_CommandSetupR36()
 {
 	VDP_CommandWait();
 	ASM_REG_WRITE_INC(g_VDP_Command + 4, 36, 11);
@@ -1351,7 +1351,7 @@ void VPD_CommandSetupR36()
 // Write to VRAM command loop
 // @param		addr		The address in RAM from where read data to be copied in VRAM
 // 						(First byte of data was sent in the command execution)
-void VPD_CommandWriteLoop(const u8* addr) __FASTCALL __PRESERVES(d, e, iyl, iyh)
+void VDP_CommandWriteLoop(const u8* addr) __FASTCALL __PRESERVES(d, e, iyl, iyh)
 {
 	addr; // HL
 	
@@ -1676,7 +1676,7 @@ u8 VDP_GetVersion() __NAKED
 	//
 	// The VDP ID number was only introduced in the V9938, so we have to use a
 	// different method to detect the TMS9918A. We wait for the vertical blanking
-	// interrupt flag, and then quickly read status register 2 and expect bit 6
+	// interrupt flag, and then quickly read status R#2 and expect bit 6
 	// (VR, vertical retrace flag) to be set as well. The TMS9918A has only one
 	// status register, so bit 6 (5S, 5th sprite flag) will return 0 instead.
 	//

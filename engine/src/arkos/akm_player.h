@@ -15,22 +15,6 @@
 #include "arkos.h"
 
 //=============================================================================
-// VALIDATE
-//=============================================================================
-
-// AKM_BUFFER_ADDR
-#if !defined(AKM_BUFFER_ADDR)
-	#warning AKM_BUFFER_ADDR is not defined in "msxgl_config.h"! Default value will be used: 0xF000
-	#define AKM_BUFFER_ADDR				0xF000
-#endif
-
-// AKM_SFX_STARTIDX
-#if !defined(AKM_SFX_STARTIDX)
-	#warning AKM_SFX_STARTIDX is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define AKM_SFX_STARTIDX				1
-#endif
-
-//=============================================================================
 // DEFINES
 //=============================================================================
 

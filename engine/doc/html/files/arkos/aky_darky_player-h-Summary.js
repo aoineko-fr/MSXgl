@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:arkos/aky_darky_player.h","aky_darky_player.h");NDSummary.OnSummaryLoaded("File:arkos/aky_darky_player.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[448,0,1,"Functions","Functions"],[451,0,0,"AKYDarky_Play","AKYDarky_Play"],[452,0,0,"AKYDarky_Update","AKYDarky_Update"]]);

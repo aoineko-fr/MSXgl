@@ -15,35 +15,13 @@
 #include "arkos.h"
 
 //=============================================================================
-// VALIDATE
-//=============================================================================
-
-// AKG_BUFFER_ADDR
-#if !defined(AKG_BUFFER_ADDR)
-	#warning AKG_BUFFER_ADDR is not defined in "msxgl_config.h"! Default value will be used: 0xF000
-	#define AKG_BUFFER_ADDR			0xF000
-#endif
-
-// AKG_SFX_STARTIDX
-#if !defined(AKG_SFX_STARTIDX)
-	#warning AKG_SFX_STARTIDX is not defined in "msxgl_config.h"! Default value will be used: 1
-	#define AKG_SFX_STARTIDX		1
-#endif
-
-// AKG_USE_EVENT
-#if !defined(AKG_USE_EVENT)
-	#warning AKG_USE_EVENT is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define AKG_USE_EVENT			FALSE
-#endif
-
-//=============================================================================
 // DEFINES
 //=============================================================================
 
 // Variables
 extern bool g_AKG_Playing;
 
-#if (AKG_USE_EVENT)
+#if (ARKOS_USE_EVENT)
 // Event callback prototype
 typedef void (*AKG_Event)(u8 event);
 
@@ -71,10 +49,10 @@ void AKG_Play(u8 sng, const void* data);
 //   FALSE if no music is playing
 inline bool AKG_IsPlaying() { return g_AKG_Playing; }
 
-#if (AKG_USE_EVENT)
+#if (ARKOS_USE_EVENT)
 // Function: AKG_SetEventCallback
 // Set the event callback function. It will be called when an event is triggered.
-// If AKG_USE_EVENT is TRUE, this function MUST be called before any call to AKG_Update.
+// If ARKOS_USE_EVENT is TRUE, this function MUST be called before any call to AKG_Update.
 //
 // Paramaters:
 //   callback - Pointer to the event callback function

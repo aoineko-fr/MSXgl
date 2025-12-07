@@ -18,4 +18,4 @@ PLY_AKG_Rom = 1
 PLY_AKG_ROM_Buffer = #F000
 
 ; Include replayer
-include "playerAkg/sources/PlayerAkg.asm"
+include "playerAkg/sources/z80/PlayerAkg.asm"

@@ -22,6 +22,10 @@
 #define VADDR_Hi					VADDR_HI
 #define g_SpriteAtributeLow			g_SpriteAttributeLow
 #define g_SpriteAtributeHigh		g_SpriteAttributeHigh
+#define VPD_CommandSetupR32			VPD_CommandSetupR32
+#define VPD_CommandSetupR36			VPD_CommandSetupR36
+#define VPD_CommandWriteLoop		VPD_CommandWriteLoop
+#define VPD_CommandReadLoop			VPD_CommandReadLoop
 
 // Compress module
 #define UnpackRLEpToRAM				RLEp_UnpackToRAM
@@ -111,6 +115,9 @@
 #define V9_SetLayerPalette          V9_SelectPaletteP1
 #define V9_SetMode					V9_SetScreenMode
 #define V9_SetSpritePalette			V9_SetSpritePaletteOffset
+#define V9_CellAddrP1A				V9_TileAddrP1A
+#define V9_CellAddrP1B				V9_TileAddrP1B
+#define V9_CellAddrP2				V9_TileAddrP2
 
 // GAME MAIN MODULE
 #define Game_MainLoop(a)			Game_Start(a, FALSE)
@@ -193,9 +200,7 @@
 // Arkos modules
 #define AKG_Init(data, sng)			AKG_Play(sng, data)
 #define AKG_Decode					AKG_Update
-#define AKY_Init(data, sng)			AKY_Play(sng, data)
-#define AKY_Decode					AKY_Update
 #define AKM_Init(data, sng)			AKM_Play(sng, data)
 #define AKM_Decode					AKM_Update
-#define AKL_Init(data, sng)			AKL_Play(sng, data)
-#define AKL_Decode					AKL_Update
+#define AKY_Init(data, sng)			AKY_Play(data)
+#define AKY_Decode					AKY_Update

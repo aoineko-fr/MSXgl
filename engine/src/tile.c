@@ -61,7 +61,7 @@ void Tile_DrawMapChunk(u8 dx, u8 dy, const u8* map, u8 width, u8 height)
 			{
 				g_VDP_Command.SX = (*map % TILE_PER_ROW) * TILE_WIDTH;
 				g_VDP_Command.SY = g_Tile_BankBase + (*map / TILE_PER_ROW) * TILE_HEIGHT;
-				VPD_CommandSetupR32();
+				VDP_CommandSetupR32();
 			}
 
 			map++;		
@@ -94,7 +94,7 @@ void Tile_DrawScreen(const u8* map)
 			{
 				g_VDP_Command.SX = (*map % TILE_PER_ROW) * TILE_WIDTH;
 				g_VDP_Command.SY = g_Tile_BankBase + (*map / TILE_PER_ROW) * TILE_HEIGHT;
-				VPD_CommandSetupR32();
+				VDP_CommandSetupR32();
 			}
 
 			map++;		

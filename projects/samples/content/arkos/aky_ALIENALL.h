@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Fri Aug 15 15:54:47 2025
+// File generated on Sat Nov 29 12:57:23 2025
 // Soure file: arkos\ALIENALL.aky
 const unsigned char g_AKY_ALIENALL[] = {
 	0x80, 0x03, 0x40, 0x42, 0x0F, 0x00, 0xC0, 0x00, 0x41, 0xA1, 0x02, 0xA1, 0x02, 0xA1, 0xC0, 0x00, //      0

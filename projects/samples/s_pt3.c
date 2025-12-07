@@ -138,14 +138,14 @@ void DrawVUMeter()
 		g_VDP_Command.DX = VU_X;
 		g_VDP_Command.NX = volA * 8;
 		g_VDP_Command.CLR = 0x22;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 	}
 	if (volA < VU_MAX)
 	{
 		g_VDP_Command.DX = VU_X + volA * 8;
 		g_VDP_Command.NX = (VU_MAX - volA) * 8;
 		g_VDP_Command.CLR = 0x11;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 	}
 
 	// Channel B
@@ -158,14 +158,14 @@ void DrawVUMeter()
 		g_VDP_Command.DX = VU_X;
 		g_VDP_Command.NX = volB * 8;
 		g_VDP_Command.CLR = 0x22;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 	}
 	if (volB < VU_MAX)
 	{
 		g_VDP_Command.DX = VU_X + volB * 8;
 		g_VDP_Command.NX = (VU_MAX - volB) * 8;
 		g_VDP_Command.CLR = 0x11;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 	}
 
 	// Channel C
@@ -178,14 +178,14 @@ void DrawVUMeter()
 		g_VDP_Command.DX = VU_X;
 		g_VDP_Command.NX = volC * 8;
 		g_VDP_Command.CLR = 0x22;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 	}
 	if (volC < VU_MAX)
 	{
 		g_VDP_Command.DX = VU_X + volC * 8;
 		g_VDP_Command.NX = (VU_MAX - volC) * 8;
 		g_VDP_Command.CLR = 0x11;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 	}
 }
 

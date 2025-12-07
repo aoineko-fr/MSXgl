@@ -24,7 +24,7 @@ dos2
 /engine/src/arkos/playerLightweight
 /engine/src/arkos/playerMod
 /engine/src/arkos/playerSoundEffects
-/engine/src/arkos/serial
+/engine/src/arkos/playerFa/engine/src/arkos/serial
 /engine/src/arkos/misc
 /engine/src/realfun
 /engine/src/kss
@@ -60,4 +60,3 @@ dos2
 /tools/build/DOS/MSX-DOS*
 
 /tools/MSXtk/proj/*.user
-

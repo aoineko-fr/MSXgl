@@ -1196,7 +1196,7 @@ inline void V9_SetCommandWriteMask(u16 wm) { V9_SetRegister16(46, wm); }
 // Set color code of font data "1".
 //
 // Parameters:
-//   fc - Forground color.
+//   fc - Foreground color.
 inline void V9_SetCommandFC(u16 fc) { V9_SetRegister16(48, fc); }
 
 // Function: V9_SetCommandBC
@@ -1252,7 +1252,7 @@ inline void V9_CommandSTOP() { V9_ExecCommand(V9_CMD_STOP); }
 //   nx - Number of pixels in X direction.
 //   ny - Number of pixels in Y direction.
 //   arg - Command argument.
-//   fc - Forground color.
+//   fc - Foreground color.
 inline void V9_CommandLMMV(u16 dx, u16 dy, u16 nx, u16 ny, u8 arg, u16 fc) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_SetCommandFC(fc); V9_ExecCommand(V9_CMD_LMMV); }
 
 // Function: V9_CommandLMCM
@@ -1292,7 +1292,7 @@ inline void V9_CommandLMMM(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, u8 ar
 //   nx - Number of pixels in X direction.
 //   ny - Number of pixels in Y direction.
 //   arg - Command argument.
-//   fc - Forground color.
+//   fc - Foreground color.
 //   bc - Background color.
 inline void V9_CommandCMMC(u16 dx, u16 dy, u16 nx, u16 ny, u8 arg, u16 fc, u16 bc) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_SetCommandFC(fc); V9_SetCommandBC(bc); V9_ExecCommand(V9_CMD_CMMC); }
 
@@ -1306,7 +1306,7 @@ inline void V9_CommandCMMC(u16 dx, u16 dy, u16 nx, u16 ny, u8 arg, u16 fc, u16 b
 //   nx - Number of pixels in X direction.
 //   ny - Number of pixels in Y direction.
 //   arg - Command argument.
-//   fc - Forground color.
+//   fc - Foreground color.
 //   bc - Background color.
 inline void V9_CommandCMMM(u32 sa, u16 dx, u16 dy, u16 nx, u16 ny, u8 arg, u16 fc, u16 bc) { V9_SetCommandSA(sa); V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandNX(nx); V9_SetCommandNY(ny); V9_SetCommandArgument(arg); V9_SetCommandFC(fc); V9_SetCommandBC(bc); V9_ExecCommand(V9_CMD_CMMM); }
 
@@ -1353,7 +1353,7 @@ inline void V9_CommandBMLL(u32 sa, u32 da, u32 na, u8 arg) { V9_SetCommandSA(sa)
 //   mj - Shorter side of the rectangle.
 //   mi - Longer side of the rectangle.
 //   arg - Command argument.
-//   fc - Forground color.
+//   fc - Foreground color.
 inline void V9_CommandLINE(u16 dx, u16 dy, u16 mj, u16 mi, u8 arg, u16 fc) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandMJ(mj); V9_SetCommandMI(mi); V9_SetCommandArgument(arg); V9_SetCommandFC(fc); V9_ExecCommand(V9_CMD_LINE); }
 
 // Function: V9_CommandSEARCH
@@ -1363,7 +1363,7 @@ inline void V9_CommandLINE(u16 dx, u16 dy, u16 mj, u16 mi, u8 arg, u16 fc) { V9_
 //   sx - Source X-coordinate.
 //   sy - Source Y-coordinate.
 //   arg - Command argument.
-//   fc - Forground color.
+//   fc - Foreground color.
 inline void V9_CommandSEARCH(u16 sx, u16 sy, u8 arg, u16 fc) { V9_SetCommandSX(sx); V9_SetCommandSY(sy); V9_SetCommandArgument(arg); V9_SetCommandFC(fc); V9_ExecCommand(V9_CMD_SEARCH); }
 
 // Function: V9_CommandPOINT
@@ -1380,7 +1380,7 @@ inline void V9_CommandPOINT(u16 sx, u16 sy) { V9_SetCommandSX(sx); V9_SetCommand
 // Parameters:
 //   dx - Destination X-coordinate.
 //   dy - Destination Y-coordinate.
-//   fc - Forground color.
+//   fc - Foreground color.
 //   shift - Pointer shift.
 inline void V9_CommandPSET(u16 dx, u16 dy, u16 fc, u8 shift) { V9_SetCommandDX(dx); V9_SetCommandDY(dy); V9_SetCommandFC(fc); V9_ExecCommand(V9_CMD_PSET | shift); }
 
@@ -1414,41 +1414,41 @@ inline void V9_WaitCmdEnd() { while (V9_IsCmdRunning()) {} }
 
 #if (V9_USE_MODE_P1)
 
-// Function: V9_CellAddrP1A
-// Get address fo the given X/Y cell coordiante for player A of P1 mode.
+// Function: V9_TileAddrP1A
+// Get address of the given X/Y tile coordinate for layer A of P1 mode.
 //
 // Parameters:
-//   x - Cell X-coordinate.
-//   y - Cell Y-coordinate.
+//   x - Tile X-coordinate.
+//   y - Tile Y-coordinate.
 //
 // Return:
-//   VRAM address of the given cell.
-inline u32 V9_CellAddrP1A(u8 x, u8 y) { return V9_P1_PNT_A + (((64 * y) + x) * 2); }
+//   VRAM address of the given tile.
+inline u32 V9_TileAddrP1A(u8 x, u8 y) { return V9_P1_PNT_A + (((64 * y) + x) * 2); }
 
-// Function: V9_CellAddrP1B
-// Get address fo the given X/Y cell coordiante for player B of P1 mode.
+// Function: V9_TileAddrP1B
+// Get address of the given X/Y tile coordinate for layer B of P1 mode.
 //
 // Parameters:
-//   x - Cell X-coordinate.
-//   y - Cell Y-coordinate.
+//   x - Tile X-coordinate.
+//   y - Tile Y-coordinate.
 //
 // Return:
-//   VRAM address of the given cell.
-inline u32 V9_CellAddrP1B(u8 x, u8 y) { return V9_P1_PNT_B + (((64 * y) + x) * 2); }
+//   VRAM address of the given tile.
+inline u32 V9_TileAddrP1B(u8 x, u8 y) { return V9_P1_PNT_B + (((64 * y) + x) * 2); }
 
 #endif // (V9_USE_MODE_P1)
 
 #if (V9_USE_MODE_P2)
 
-// Function: V9_CellAddrP2
-// Get address fo the given X/Y cell coordiante for P2 mode.
+// Function: V9_TileAddrP2
+// Get address fo the given X/Y tile coordinate for P2 mode.
 //
 // Parameters:
-//   x - Cell X-coordinate.
-//   y - Cell Y-coordinate.
+//   x - Tile X-coordinate.
+//   y - Tile Y-coordinate.
 //
 // Return:
-//   VRAM address of the given cell.
-inline u32 V9_CellAddrP2(u8 x, u8 y) { return V9_P2_PNT + (((128 * y) + x) * 2); }
+//   VRAM address of the given tile.
+inline u32 V9_TileAddrP2(u8 x, u8 y) { return V9_P2_PNT + (((128 * y) + x) * 2); }
 
 #endif

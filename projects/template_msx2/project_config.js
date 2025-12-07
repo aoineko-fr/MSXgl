@@ -251,7 +251,7 @@ CompileComplexity = "Default";
 //-- Localization structure name (string)
 // LocStruct = "g_LocData";
 
-//-- Split socalization data and definitions in different files (boolean)
+//-- Split localization data and definitions in different files (boolean)
 // LocSplitDef = false;
 
 //*****************************************************************************

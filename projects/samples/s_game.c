@@ -41,8 +41,6 @@ bool State_Pause();
 // Sprites data by GrafxKid (https://opengameart.org/content/super-random-sprites)
 #include "content/data_sprt_layer.h"
 #include "content/data_bg.h"
-// Sinus & cosinus table
-#include "mathtable/mt_trigo_64.inc"
 
 // Sign-of-life character animation data
 const c8 g_ChrAnim[] = { '|', '\\', '-', '/' };

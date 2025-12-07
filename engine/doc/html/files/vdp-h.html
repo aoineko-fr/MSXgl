@@ -106,10 +106,10 @@
  <div class="CBody"><p>Set register value after backuping previous value using mask. [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">reg</td><td class="CDLDefinition"><p>Register number</p></td></tr><tr><td class="CDLEntry">mask<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Previous value reset mask</p></td></tr><tr><td class="CDLEntry">flag</td><td class="CDLDefinition"><p>Value to set</p></td></tr></table></div>
 </div>
 
-<a name="VDP_ReadDefaultStatus"></a><a name="Topic305"></a><div class="CTopic TFunction LC">
+<a name="VDP_ReadDefaultStatus"></a><a name="Topic442"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_ReadDefaultStatus</div>
- <div id="NDPrototype305" class="NDPrototype"><div class="PSection PPlainSection">u8 VDP_ReadDefaultStatus() __PRESERVES(b, c, d, e, h, l, iyl, iyh)</div></div>
- <div class="CBody"><p>Read default S#0 register. [MSX1/2/2+/TR]</p><div class="CHeading">Return</div><p>Status register #0 value</p></div>
+ <div id="NDPrototype442" class="NDPrototype"><div class="PSection PPlainSection">u8 VDP_ReadDefaultStatus() __PRESERVES(b, c, d, e, h, l, iyl, iyh)</div></div>
+ <div class="CBody"><p>Read default S#0 register. [MSX1/2/2+/TR]</p><div class="CHeading">Return</div><p>Status R#0 value</p></div>
 </div>
 
 <a name="VDP_ReadStatus"></a><a name="Topic609"></a><div class="CTopic TFunction LC">
@@ -188,88 +188,88 @@
  <div class="CTitle">Display setup</div>
 </div>
 
-<a name="VDP_EnableDisplay"></a><a name="Topic525"></a><div class="CTopic TFunction LC">
+<a name="VDP_EnableDisplay"></a><a name="Topic1455"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_EnableDisplay</div>
- <div id="NDPrototype525" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableDisplay(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable/disable screen display (register 1). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
+ <div id="NDPrototype1455" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableDisplay(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable/disable screen display (R#1). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
 </div>
 
-<a name="VDP_EnableVBlank"></a><a name="Topic526"></a><div class="CTopic TFunction LC">
+<a name="VDP_EnableVBlank"></a><a name="Topic1545"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_EnableVBlank</div>
- <div id="NDPrototype526" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableVBlank(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable/disable vertical interruption (register 1). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
+ <div id="NDPrototype1545" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableVBlank(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable/disable vertical interruption (R#1). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetColor"></a><a name="Topic133"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetColor"></a><a name="Topic1546"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetColor</div>
- <div id="NDPrototype133" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set text and border default color (register 7). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Defaut color (Format: [TXT:4|BG:4])</p></td></tr></table></div>
+ <div id="NDPrototype1546" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set text and border default color (R#7). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Defaut color (Format: [TXT:4|BG:4])</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetBackdropColor"></a><a name="Topic712"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetBackdropColor"></a><a name="Topic1547"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetBackdropColor</div>
- <div id="NDPrototype712" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetBackdropColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set backdrop color (register 7). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Backdrop color</p></td></tr></table></div>
+ <div id="NDPrototype1547" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetBackdropColor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">color</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set backdrop color (R#7). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">color<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Backdrop color</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetColor2"></a><a name="Topic176"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetColor2"></a><a name="Topic1548"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetColor2</div>
- <div id="NDPrototype176" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetColor2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set text and border default color (register 7). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">bg<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Background/border color (0~15)</p></td></tr><tr><td class="CDLEntry">text<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Text color (0~15)</p></td></tr></table></div>
+ <div id="NDPrototype1548" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetColor2(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">bg,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">text</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set text and border default color (R#7). [MSX1/2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">bg<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Background/border color (0~15)</p></td></tr><tr><td class="CDLEntry">text<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Text color (0~15)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_EnableSprite"></a><a name="Topic617"></a><div class="CTopic TFunction LC">
+<a name="VDP_EnableSprite"></a><a name="Topic1549"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_EnableSprite</div>
- <div id="NDPrototype617" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableSprite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable/disable sprite rendering (register 8). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
+ <div id="NDPrototype1549" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableSprite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable/disable sprite rendering (R#8). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
 </div>
 
 <a name="VDP_DisableSprite"></a><a name="Topic135"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_DisableSprite</div>
  <div id="NDPrototype135" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_DisableSprite()</div></div>
- <div class="CBody"><p>Disable sprite rendering (see <a href="../index.html#File:vdp.h:VDP_EnableSprite" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,617);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >VDP_EnableSprite</a>). [MSX1/2/2+/TR]</p></div>
+ <div class="CBody"><p>Disable sprite rendering (see <a href="../index.html#File:vdp.h:VDP_EnableSprite" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,1549);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >VDP_EnableSprite</a>). [MSX1/2/2+/TR]</p></div>
 </div>
 
-<a name="VDP_EnableTransparency"></a><a name="Topic772"></a><div class="CTopic TFunction LC">
+<a name="VDP_EnableTransparency"></a><a name="Topic1550"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_EnableTransparency</div>
- <div id="NDPrototype772" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableTransparency(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable/disable color 0 transparency (register 8). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
+ <div id="NDPrototype1550" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableTransparency(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable/disable color 0 transparency (R#8). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
 </div>
 
-<a name="VDP_EnableHBlank"></a><a name="Topic623"></a><div class="CTopic TFunction LC">
+<a name="VDP_EnableHBlank"></a><a name="Topic1551"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_EnableHBlank</div>
- <div id="NDPrototype623" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableHBlank(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable/disable horizontal interruption (register 0). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
+ <div id="NDPrototype1551" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableHBlank(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable/disable horizontal interruption (R#0). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetHBlankLine"></a><a name="Topic137"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetHBlankLine"></a><a name="Topic1552"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetHBlankLine</div>
- <div id="NDPrototype137" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetHBlankLine(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">line</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set the horizontal-blank interruption line (register 19). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">line<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Line number where the interruption will occure</p></td></tr></table></div>
+ <div id="NDPrototype1552" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetHBlankLine(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">line</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the horizontal-blank interruption line (R#19). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">line<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Line number where the interruption will occure</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetVerticalOffset"></a><a name="Topic138"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetVerticalOffset"></a><a name="Topic1553"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetVerticalOffset</div>
- <div id="NDPrototype138" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetVerticalOffset(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set the vertical rendering offset (register 23). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">offset<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Number of lines of offset from the top of the screen</p></td></tr></table></div>
+ <div id="NDPrototype1553" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetVerticalOffset(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the vertical rendering offset (R#23). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">offset<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Number of lines of offset from the top of the screen</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetAdjustOffset"></a><a name="Topic139"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetAdjustOffset"></a><a name="Topic1554"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetAdjustOffset</div>
- <div id="NDPrototype139" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetAdjustOffset(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Adjustment of the display location on the screen (register 18). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">offset<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Screen display position offset (MSB 4-bits: vertical offset, LSB 4-bits: horizontal offset)</p></td></tr></table></div>
+ <div id="NDPrototype1554" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_SetAdjustOffset(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">offset</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Adjustment of the display location on the screen (R#18). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">offset<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Screen display position offset (MSB 4-bits: vertical offset, LSB 4-bits: horizontal offset)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetAdjustOffsetXY"></a><a name="Topic274"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetAdjustOffsetXY"></a><a name="Topic1555"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetAdjustOffsetXY</div>
- <div id="NDPrototype274" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetAdjustOffsetXY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">i8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">i8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Adjustment of the display location on the screen (register 18). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>Horizontal screen display position offset [-7:+8]</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>Vertical screen display position offset [-7:+8]</p></td></tr></table></div>
+ <div id="NDPrototype1555" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetAdjustOffsetXY(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">i8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">i8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Adjustment of the display location on the screen (R#18). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>Horizontal screen display position offset [-7:+8]</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>Vertical screen display position offset [-7:+8]</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetGrayScale"></a><a name="Topic624"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetGrayScale"></a><a name="Topic1556"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetGrayScale</div>
- <div id="NDPrototype624" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetGrayScale(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enable/disable grayscale (register 8). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
+ <div id="NDPrototype1556" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetGrayScale(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable/disable grayscale (R#8). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
 </div>
 
 <a name="VDP_FREQ"></a><a name="Topic141"></a><div class="CTopic TEnumeration LC">
@@ -277,16 +277,16 @@
  <div class="CBody"><p>VDP frequency flags</p></div>
 </div>
 
-<a name="VDP_SetFrequency"></a><a name="Topic885"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetFrequency"></a><a name="Topic1557"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetFrequency</div>
- <div id="NDPrototype885" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetFrequency(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">freq</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Change VDP frequency (register 9). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">freq<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)</p></td></tr></table></div>
+ <div id="NDPrototype1557" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetFrequency(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">freq</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Change VDP frequency (R#9). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">freq<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_GetFrequency"></a><a name="Topic671"></a><div class="CTopic TFunction LC">
+<a name="VDP_GetFrequency"></a><a name="Topic1558"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_GetFrequency</div>
- <div id="NDPrototype671" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 VDP_GetFrequency()</div></div>
- <div class="CBody"><p>Change VDP frequency (register 9). [MSX2/2+/TR]</p><div class="CHeading">Return</div><p>Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)</p></div>
+ <div id="NDPrototype1558" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 VDP_GetFrequency()</div></div>
+ <div class="CBody"><p>GEt VDP frequency (R#9). [MSX2/2+/TR]</p><div class="CHeading">Return</div><p>Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)</p></div>
 </div>
 
 <a name="VDP_LINE"></a><a name="Topic143"></a><div class="CTopic TEnumeration LC">
@@ -294,10 +294,10 @@
  <div class="CBody"><p>VDP line flags</p></div>
 </div>
 
-<a name="VDP_SetLineCount"></a><a name="Topic144"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetLineCount"></a><a name="Topic1559"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetLineCount</div>
- <div id="NDPrototype144" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetLineCount(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">lines</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set line count for the current screen mode (register 9). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">lines<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Can be VDP_LINE_192 or VDP_LINE_212</p></td></tr></table></div>
+ <div id="NDPrototype1559" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetLineCount(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">lines</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set line count for the current screen mode (R#9). [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">lines<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Can be VDP_LINE_192 or VDP_LINE_212</p></td></tr></table></div>
 </div>
 
 <a name="VDP_SetPageAlternance"></a><a name="Topic630"></a><div class="CTopic TFunction LC">
@@ -321,6 +321,11 @@
  <div class="CTitle">VDP_SetFrameRender</div>
  <div id="NDPrototype148" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetFrameRender(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the frame render mode. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Can be VDP_FRAME_STATIC, VDP_FRAME_ALTERNANCE or VDP_FRAME_INTERLACE</p></td></tr></table></div>
+</div>
+
+<a name="VDP_SetVRAMAddrMSB"></a><a name="Topic1560"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_SetVRAMAddrMSB</div>
+ <div class="CBody"><p>Reset the VRAM address most-significant bits (R#14). [MSX2/2+/TR]</p></div>
 </div>
 
 <a name="VDP_SetPalette"></a><a name="Topic237"></a><div class="CTopic TFunction LC">
@@ -358,16 +363,16 @@
  <div class="CBody"><p>Set YJK mode. [MSX2+/TR].&nbsp; See <a href="../index.html#File:vdp.h:VDP_YJK" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,153);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >VDP_YJK</a> enum.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>YJK mode (can be VDP_YJK_OFF, VDP_YJK_ON or VDP_YJK_YAE)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_ExpendCommand"></a><a name="Topic635"></a><div class="CTopic TFunction LC">
+<a name="VDP_ExpendCommand"></a><a name="Topic1561"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_ExpendCommand</div>
- <div id="NDPrototype635" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_ExpendCommand(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Enables the VDP commands for screens 0 to 4 (register 25). [MSX2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
+ <div id="NDPrototype1561" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_ExpendCommand(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enables the VDP commands for screens 0 to 4 (R#25). [MSX2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
 </div>
 
-<a name="VDP_EnableMask"></a><a name="Topic636"></a><div class="CTopic TFunction LC">
+<a name="VDP_EnableMask"></a><a name="Topic1562"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_EnableMask</div>
- <div id="NDPrototype636" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableMask(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Allows to hide the first 8 vertical lines at left of screen (register 25). [MSX2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
+ <div id="NDPrototype1562" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_EnableMask(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Allows to hide the first 8 vertical lines at left of screen (R#25). [MSX2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">enable<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
 </div>
 
 <a name="VDP_SetHorizontalOffset"></a><a name="Topic157"></a><div class="CTopic TFunction LC">
@@ -376,10 +381,10 @@
  <div class="CBody"><p>Set the horizontal rendeing offset. [MSX2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">offset<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Screen horizontal offset (9-bits value in pixel)</p></td></tr></table></div>
 </div>
 
-<a name="VDP_SetHorizontalMode"></a><a name="Topic158"></a><div class="CTopic TFunction LC">
+<a name="VDP_SetHorizontalMode"></a><a name="Topic1563"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VDP_SetHorizontalMode</div>
- <div id="NDPrototype158" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetHorizontalMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set horizontal scrolling to occurs on a single page or two pages (register 25). [MSX2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Can be VDP_HSCROLL_SINGLE or VDP_HSCROLL_DOUBLE</p></td></tr></table></div>
+ <div id="NDPrototype1563" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VDP_SetHorizontalMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set horizontal scrolling to occurs on a single page or two pages (R#25). [MSX2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Can be VDP_HSCROLL_SINGLE or VDP_HSCROLL_DOUBLE</p></td></tr></table></div>
 </div>
 
 <a name="VRAM_tables_address"></a><a name="Topic159"></a><div class="CTopic TGroup LC">
@@ -759,27 +764,27 @@
  <div class="CBody"><p>Wait for previous VDP command to be finished. [MSX2/2+/TR]</p></div>
 </div>
 
-<a name="VPD_CommandSetupR32"></a><a name="Topic192"></a><div class="CTopic TFunction LC">
- <div class="CTitle">VPD_CommandSetupR32</div>
- <div id="NDPrototype192" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VPD_CommandSetupR32()</div></div>
+<a name="VDP_CommandSetupR32"></a><a name="Topic1564"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_CommandSetupR32</div>
+ <div id="NDPrototype1564" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VDP_CommandSetupR32()</div></div>
  <div class="CBody"><p>Send VDP command (form registres 32 to 46). [MSX2/2+/TR]</p></div>
 </div>
 
-<a name="VPD_CommandSetupR36"></a><a name="Topic193"></a><div class="CTopic TFunction LC">
- <div class="CTitle">VPD_CommandSetupR36</div>
- <div id="NDPrototype193" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VPD_CommandSetupR36()</div></div>
+<a name="VDP_CommandSetupR36"></a><a name="Topic1565"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_CommandSetupR36</div>
+ <div id="NDPrototype1565" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> VDP_CommandSetupR36()</div></div>
  <div class="CBody"><p>Send VDP command (form registres 36 to 46). [MSX2/2+/TR]</p></div>
 </div>
 
-<a name="VPD_CommandWriteLoop"></a><a name="Topic725"></a><div class="CTopic TFunction LC">
- <div class="CTitle">VPD_CommandWriteLoop</div>
- <div id="NDPrototype725" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VPD_CommandWriteLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __FASTCALL __PRESERVES(d, e, iyl, iyh)</td></tr></table></div></div>
+<a name="VDP_CommandWriteLoop"></a><a name="Topic1566"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_CommandWriteLoop</div>
+ <div id="NDPrototype1566" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_CommandWriteLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __FASTCALL __PRESERVES(d, e, iyl, iyh)</td></tr></table></div></div>
  <div class="CBody"><p>Write to VRAM command loop. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Address of the source buffer</p></td></tr></table></div>
 </div>
 
-<a name="VPD_CommandReadLoop"></a><a name="Topic195"></a><div class="CTopic TFunction LC">
- <div class="CTitle">VPD_CommandReadLoop</div>
- <div id="NDPrototype195" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VPD_CommandReadLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
+<a name="VDP_CommandReadLoop"></a><a name="Topic1567"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">VDP_CommandReadLoop</div>
+ <div id="NDPrototype1567" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> VDP_CommandReadLoop(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8*&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
  <div class="CBody"><p>Read to VRAM command loop. [MSX2/2+/TR]</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType">u8*</div></td><td class="CDLDefinition"><p>Address of the destination buffer (in RAM)</p></td></tr></table></div>
 </div>
 

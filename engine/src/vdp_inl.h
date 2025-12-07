@@ -27,8 +27,8 @@ inline void VDP_CommandHMMC_Arg(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny, 
 	g_VDP_Command.CLR = *addr;
 	g_VDP_Command.ARG = arg; 
 	g_VDP_Command.CMD = VDP_CMD_HMMC;
-	VPD_CommandSetupR36();
-	VPD_CommandWriteLoop(addr);
+	VDP_CommandSetupR36();
+	VDP_CommandWriteLoop(addr);
 }
 
 //-----------------------------------------------------------------------------
@@ -68,7 +68,7 @@ inline void VDP_CommandYMMM(u16 sy, u16 dx, u16 dy, u16 ny, u8 dir)
 	g_VDP_Command.NY = ny;
 	g_VDP_Command.ARG = dir; 
 	g_VDP_Command.CMD = VDP_CMD_YMMM;
-	VPD_CommandSetupR32();
+	VDP_CommandSetupR32();
 }
 
 //-----------------------------------------------------------------------------
@@ -110,7 +110,7 @@ inline void VDP_CommandHMMM_Arg(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, 
 	g_VDP_Command.NY = ny;
 	g_VDP_Command.ARG = arg; 
 	g_VDP_Command.CMD = VDP_CMD_HMMM;
-	VPD_CommandSetupR32();
+	VDP_CommandSetupR32();
 }
 
 //-----------------------------------------------------------------------------
@@ -171,7 +171,7 @@ inline void VDP_CommandHMMV_Arg(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 arg)
 	g_VDP_Command.CLR = col; 
 	g_VDP_Command.ARG = arg; 
 	g_VDP_Command.CMD = VDP_CMD_HMMV;
-	VPD_CommandSetupR36();
+	VDP_CommandSetupR36();
 }
 
 //-----------------------------------------------------------------------------
@@ -205,8 +205,8 @@ inline void VDP_CommandLMMC_Arg(const u8* addr, u16 dx, u16 dy, u16 nx, u16 ny, 
 	g_VDP_Command.CLR = *addr;
 	g_VDP_Command.ARG = arg; 
 	g_VDP_Command.CMD = VDP_CMD_LMMC + op;
-	VPD_CommandSetupR36();
-	VPD_CommandWriteLoop(addr);
+	VDP_CommandSetupR36();
+	VDP_CommandWriteLoop(addr);
 }
 
 //-----------------------------------------------------------------------------
@@ -245,7 +245,7 @@ inline void VDP_CommandLMMM_Arg(u16 sx, u16 sy, u16 dx, u16 dy, u16 nx, u16 ny, 
 	g_VDP_Command.NY = ny;
 	g_VDP_Command.ARG = arg; 
 	g_VDP_Command.CMD = VDP_CMD_LMMM + op;
-	VPD_CommandSetupR32();
+	VDP_CommandSetupR32();
 }
 
 //-----------------------------------------------------------------------------
@@ -302,7 +302,7 @@ inline void VDP_CommandLMMV_Arg(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 op, u
 	g_VDP_Command.CLR = col; 
 	g_VDP_Command.ARG = arg; 
 	g_VDP_Command.CMD = VDP_CMD_LMMV + op;
-	VPD_CommandSetupR36();
+	VDP_CommandSetupR36();
 }
 
 //-----------------------------------------------------------------------------
@@ -342,7 +342,7 @@ inline void VDP_CommandLINE(u16 dx, u16 dy, u16 nx, u16 ny, u8 col, u8 arg, u8 o
 	g_VDP_Command.CLR = col;
 	g_VDP_Command.ARG = arg;
 	g_VDP_Command.CMD = VDP_CMD_LINE + op;
-	VPD_CommandSetupR36();
+	VDP_CommandSetupR36();
 }
 
 //-----------------------------------------------------------------------------
@@ -361,7 +361,7 @@ inline void VDP_CommandSRCH(u16 sx, u16 sy, u8 col, u8 arg)
 	g_VDP_Command.CLR = col; 
 	g_VDP_Command.ARG = arg; 
 	g_VDP_Command.CMD = VDP_CMD_SRCH;
-	VPD_CommandSetupR32();
+	VDP_CommandSetupR32();
 }
 
 //-----------------------------------------------------------------------------
@@ -380,7 +380,7 @@ inline void VDP_CommandPSET(u16 dx, u16 dy, u8 col, u8 op)
 	g_VDP_Command.CLR = col;
 	g_VDP_Command.ARG = 0;
 	g_VDP_Command.CMD = VDP_CMD_PSET + op;
-	VPD_CommandSetupR36();
+	VDP_CommandSetupR36();
 }
 
 //-----------------------------------------------------------------------------
@@ -395,7 +395,7 @@ inline u8 VDP_CommandPOINT(u16 sx, u16 sy)
 	g_VDP_Command.SX = sx;
 	g_VDP_Command.SY = sy;
 	g_VDP_Command.CMD = VDP_CMD_POINT;
-	VPD_CommandSetupR32();
+	VDP_CommandSetupR32();
 	VDP_CommandWait();
 	return VDP_ReadStatus(7);
 }
@@ -414,7 +414,7 @@ inline void VDP_CommandSTOP()
 /*inline void VDP_CommandCustomR32(VDP_Command* data)
 {
     Mem_Copy((u8*)data, (u8*)g_VDP_Command, 15);
-    VPD_CommandSetupR32();
+    VDP_CommandSetupR32();
 }*/
 
 //-----------------------------------------------------------------------------
@@ -423,5 +423,5 @@ inline void VDP_CommandSTOP()
 /*inline void VDP_CommandCustomR36(VDP_Command36* data)
 {
     Mem_Copy((u8*)data, (u8*)g_VDP_Command+4, 11);
-    VPD_CommandSetupR36();
+    VDP_CommandSetupR36();
 }*/

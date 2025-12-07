@@ -546,7 +546,7 @@ void VDP_RegWriteBakMask(u8 idx, u8 mask, u8 value);
 // Read default S#0 register. [MSX1/2/2+/TR]
 //
 // Return:
-//   Status register #0 value
+//   Status R#0 value
 u8 VDP_ReadDefaultStatus() __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: VDP_ReadStatus
@@ -698,35 +698,35 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 // MSX1
 
 // Function: VDP_EnableDisplay
-// Enable/disable screen display (register 1). [MSX1/2/2+/TR]
+// Enable/disable screen display (R#1). [MSX1/2/2+/TR]
 //
 // Parameters:
 //   enable - TRUE to enable, FALSE to disable
 inline void VDP_EnableDisplay(bool enable) { VDP_RegWriteBakMask(1, (u8)~R01_BL, enable ? R01_BL : 0); }
 
 // Function: VDP_EnableVBlank
-// Enable/disable vertical interruption (register 1). [MSX1/2/2+/TR]
+// Enable/disable vertical interruption (R#1). [MSX1/2/2+/TR]
 //
 // Parameters:
 //   enable - TRUE to enable, FALSE to disable
 inline void VDP_EnableVBlank(bool enable) { VDP_RegWriteBakMask(1, (u8)~R01_IE0, enable ? R01_IE0 : 0); }
 
 // Function: VDP_SetColor
-// Set text and border default color (register 7). [MSX1/2/2+/TR]
+// Set text and border default color (R#7). [MSX1/2/2+/TR]
 //
 // Parameters:
 //   color - Defaut color (Format: [TXT:4|BG:4])
 inline void VDP_SetColor(u8 color) { VDP_RegWrite(7, color); }
 
 // Function: VDP_SetBackdropColor
-// Set backdrop color (register 7). [MSX1/2/2+/TR]
+// Set backdrop color (R#7). [MSX1/2/2+/TR]
 //
 // Parameters:
 //   color - Backdrop color
 inline void VDP_SetBackdropColor(u8 color) { VDP_SetColor(color); }
 
 // Function: VDP_SetColor2
-// Set text and border default color (register 7). [MSX1/2/2+/TR]
+// Set text and border default color (R#7). [MSX1/2/2+/TR]
 //
 // Parameters:
 //   bg   - Background/border color (0~15)
@@ -738,7 +738,7 @@ inline void VDP_SetColor2(u8 bg, u8 text) { VDP_RegWrite(7, bg | (text << 4)); }
 #if (MSX_VERSION >= MSX_2)
 
 // Function: VDP_EnableSprite
-// Enable/disable sprite rendering (register 8). [MSX2/2+/TR]
+// Enable/disable sprite rendering (R#8). [MSX2/2+/TR]
 //
 // Parameters:
 //   enable - TRUE to enable, FALSE to disable
@@ -749,42 +749,42 @@ inline void VDP_EnableSprite(u8 enable) { VDP_RegWriteBakMask(8, (u8)~R08_SPD, !
 inline void VDP_DisableSprite() { VDP_EnableSprite(FALSE); }
 
 // Function: VDP_EnableTransparency
-// Enable/disable color 0 transparency (register 8). [MSX2/2+/TR]
+// Enable/disable color 0 transparency (R#8). [MSX2/2+/TR]
 //
 // Parameters:
 //   enable - TRUE to enable, FALSE to disable
 inline void VDP_EnableTransparency(u8 enable) { VDP_RegWriteBakMask(8, (u8)~R08_TP, !enable ? R08_TP : 0); }
 
 // Function: VDP_EnableHBlank
-// Enable/disable horizontal interruption (register 0). [MSX2/2+/TR]
+// Enable/disable horizontal interruption (R#0). [MSX2/2+/TR]
 //
 // Parameters:
 //   enable - TRUE to enable, FALSE to disable
 inline void VDP_EnableHBlank(bool enable) { VDP_RegWriteBakMask(0, (u8)~R00_IE1, enable ? R00_IE1 : 0); }
 
 // Function: VDP_SetHBlankLine
-// Set the horizontal-blank interruption line (register 19). [MSX2/2+/TR]
+// Set the horizontal-blank interruption line (R#19). [MSX2/2+/TR]
 //
 // Parameters:
 //   line - Line number where the interruption will occure
 inline void VDP_SetHBlankLine(u8 line) { VDP_RegWrite(19, line); }
 
 // Function: VDP_SetVerticalOffset
-// Set the vertical rendering offset (register 23). [MSX2/2+/TR]
+// Set the vertical rendering offset (R#23). [MSX2/2+/TR]
 //
 // Parameters:
 //   offset - Number of lines of offset from the top of the screen
 inline void VDP_SetVerticalOffset(u8 offset) { VDP_RegWrite(23, offset); }
 
 // Function: VDP_SetAdjustOffset
-// Adjustment of the display location on the screen (register 18). [MSX2/2+/TR]
+// Adjustment of the display location on the screen (R#18). [MSX2/2+/TR]
 //
 // Parameters:
 //   offset - Screen display position offset (MSB 4-bits: vertical offset, LSB 4-bits: horizontal offset)
 void VDP_SetAdjustOffset(u8 offset);
 
 // Function: VDP_SetAdjustOffsetXY
-// Adjustment of the display location on the screen (register 18). [MSX2/2+/TR]
+// Adjustment of the display location on the screen (R#18). [MSX2/2+/TR]
 //
 // Parameters:
 //   x - Horizontal screen display position offset [-7:+8]
@@ -792,7 +792,7 @@ void VDP_SetAdjustOffset(u8 offset);
 inline void VDP_SetAdjustOffsetXY(i8 x, i8 y) { VDP_SetAdjustOffset(((-x) & 0x0F) | (((-y) & 0x0F) << 4)); }
 
 // Function: VDP_SetGrayScale
-// Enable/disable grayscale (register 8). [MSX2/2+/TR]
+// Enable/disable grayscale (R#8). [MSX2/2+/TR]
 //
 // Parameters:
 //   enable - TRUE to enable, FALSE to disable
@@ -806,14 +806,14 @@ enum VDP_FREQ
 	VDP_FREQ_60HZ = 0,			// Frequency at 60 Hz
 };
 // Function: VDP_SetFrequency
-// Change VDP frequency (register 9). [MSX2/2+/TR]
+// Change VDP frequency (R#9). [MSX2/2+/TR]
 //
 // Parameters:
 //   freq - Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)
 inline void VDP_SetFrequency(u8 freq) { VDP_RegWriteBakMask(9, (u8)~R09_NT, freq); }
 
 // Function: VDP_GetFrequency
-// Change VDP frequency (register 9). [MSX2/2+/TR]
+// GEt VDP frequency (R#9). [MSX2/2+/TR]
 //
 // Return:
 //   Can be 50 (VDP_FREQ_50HZ) or 60 Hz (VDP_FREQ_60HZ)
@@ -827,7 +827,7 @@ enum VDP_LINE
 	VDP_LINE_212 = R09_LN,		// 212 lines mode
 };
 // Function: VDP_SetLineCount
-// Set line count for the current screen mode (register 9). [MSX2/2+/TR]
+// Set line count for the current screen mode (R#9). [MSX2/2+/TR]
 //
 // Parameters:
 //   lines - Can be VDP_LINE_192 or VDP_LINE_212
@@ -862,6 +862,10 @@ enum VDP_FRAME
 // Parameters:
 //   mode - Can be VDP_FRAME_STATIC, VDP_FRAME_ALTERNANCE or VDP_FRAME_INTERLACE
 inline void VDP_SetFrameRender(u8 mode) { VDP_RegWriteBakMask(9, (u8)~(R09_EO|R09_IL), mode); }
+
+// Function: VDP_SetVRAMAddrMSB
+// Reset the VRAM address most-significant bits (R#14). [MSX2/2+/TR]
+inline void VDP_ResetVRAMAddrMSB () { VDP_RegWrite(14, 0); }
 
 // Function: VDP_SetPalette
 // Set a new color palette from index 1 to 15. [MSX2/2+/TR]
@@ -916,14 +920,14 @@ enum VDP_YJK
 inline void VDP_SetYJK(u8 mode) { VDP_RegWriteBakMask(25, (u8)~VDP_YJK_YAE, mode); }
 
 // Function: VDP_ExpendCommand
-// Enables the VDP commands for screens 0 to 4 (register 25). [MSX2+/TR]
+// Enables the VDP commands for screens 0 to 4 (R#25). [MSX2+/TR]
 //
 // Parameters:
 //   enable - TRUE to enable, FALSE to disable
 inline void VDP_ExpendCommand(u8 enable) { VDP_RegWriteBakMask(25, (u8)~R25_CMD, enable ? R25_CMD : 0); }
 
 // Function: VDP_EnableMask
-// Allows to hide the first 8 vertical lines at left of screen (register 25). [MSX2+/TR]
+// Allows to hide the first 8 vertical lines at left of screen (R#25). [MSX2+/TR]
 //
 // Parameters:
 //   enable - TRUE to enable, FALSE to disable
@@ -939,7 +943,7 @@ void VDP_SetHorizontalOffset(u16 offset);
 #define VDP_HSCROLL_SINGLE			0		// Scroll within a single screen page
 #define VDP_HSCROLL_DOUBLE			R25_SP2 // Scroll between two screen pages
 // Function: VDP_SetHorizontalMode
-// Set horizontal scrolling to occurs on a single page or two pages (register 25). [MSX2+/TR]
+// Set horizontal scrolling to occurs on a single page or two pages (R#25). [MSX2+/TR]
 //
 // Parameters:
 //   mode - Can be VDP_HSCROLL_SINGLE or VDP_HSCROLL_DOUBLE
@@ -1468,27 +1472,27 @@ void VDP_CommandWait() __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 #if ((MSX_VERSION >= MSX_2) && (VDP_USE_COMMAND))
 
-// Function: VPD_CommandSetupR32
+// Function: VDP_CommandSetupR32
 // Send VDP command (form registres 32 to 46). [MSX2/2+/TR]
-void VPD_CommandSetupR32();
+void VDP_CommandSetupR32();
 
-// Function: VPD_CommandSetupR36
+// Function: VDP_CommandSetupR36
 // Send VDP command (form registres 36 to 46). [MSX2/2+/TR]
-void VPD_CommandSetupR36();
+void VDP_CommandSetupR36();
 
-// Function: VPD_CommandWriteLoop
+// Function: VDP_CommandWriteLoop
 // Write to VRAM command loop. [MSX2/2+/TR]
 //
 // Parameters:
 //   addr - Address of the source buffer
-void VPD_CommandWriteLoop(const u8* addr) __FASTCALL __PRESERVES(d, e, iyl, iyh);
+void VDP_CommandWriteLoop(const u8* addr) __FASTCALL __PRESERVES(d, e, iyl, iyh);
 
-// Function: VPD_CommandReadLoop
+// Function: VDP_CommandReadLoop
 // Read to VRAM command loop. [MSX2/2+/TR]
 //
 // Parameters:
 //   addr - Address of the destination buffer (in RAM)
-void VPD_CommandReadLoop(u8* addr) __FASTCALL;
+void VDP_CommandReadLoop(u8* addr) __FASTCALL;
 
 //-----------------------------------------------------------------------------
 // INLINE FUNCTIONS

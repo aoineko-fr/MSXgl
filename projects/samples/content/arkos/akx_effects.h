@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Fri Aug 15 15:54:47 2025
+// File generated on Sat Nov 29 12:57:23 2025
 // Soure file: arkos\effects.akx
 const unsigned char g_AKX_effects[] = {
 	0x0A, 0xE0, 0x1C, 0xE0, 0x42, 0xE0, 0x81, 0xE0, 0x97, 0xE0, 0x00, 0xBD, 0x01, 0x5F, 0x00, 0xBD, //      0

@@ -680,14 +680,14 @@ void DrawChar_Trans(u8 chr)
 				g_VDP_Command.DX = g_PrintData.CursorX + g_PrintData.ShadowOffsetX - 3;
 				
 				u8 f = patterns[j];
-				if (f & BIT_7) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_6) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_5) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_4) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_3) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_2) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_1) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_0) VPD_CommandSetupR36();
+				if (f & BIT_7) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_6) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_5) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_4) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_3) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_2) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_1) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_0) VDP_CommandSetupR36();
 				g_VDP_Command.DY++;
 			}
 		}
@@ -706,14 +706,14 @@ void DrawChar_Trans(u8 chr)
 				g_VDP_Command.DX = g_PrintData.CursorX - 1;
 				
 				u8 f = patterns[j];
-				if (f & BIT_7) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_6) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_5) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_4) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_3) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_2) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_1) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if (f & BIT_0) VPD_CommandSetupR36();
+				if (f & BIT_7) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_6) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_5) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_4) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_3) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_2) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_1) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_0) VDP_CommandSetupR36();
 				g_VDP_Command.DY++;
 			}
 		}
@@ -737,14 +737,14 @@ void DrawChar_Trans(u8 chr)
 		g_VDP_Command.DX = g_PrintData.CursorX;
 		
 		u8 f = patterns[j];
-		if (f & BIT_7) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if (f & BIT_6) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if (f & BIT_5) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if (f & BIT_4) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if (f & BIT_3) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if (f & BIT_2) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if (f & BIT_1) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if (f & BIT_0) VPD_CommandSetupR36();
+		if (f & BIT_7) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_6) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_5) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_4) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_3) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_2) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_1) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_0) VDP_CommandSetupR36();
 		g_VDP_Command.DY++;
 	}
 }

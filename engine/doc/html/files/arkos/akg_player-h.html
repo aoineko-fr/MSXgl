@@ -24,10 +24,10 @@
  <div class="CBody"><p>Check if a music is currently playing</p><div class="CHeading">Return</div><p>FALSE if no music is playing</p></div>
 </div>
 
-<a name="AKG_SetEventCallback"></a><a name="Topic442"></a><div class="CTopic TFunction LC">
+<a name="AKG_SetEventCallback"></a><a name="Topic7"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKG_SetEventCallback</div>
- <div id="NDPrototype442" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> AKG_SetEventCallback(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">AKG_Event&nbsp;</td><td class="PName last">callback</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set the event callback function. It will be called when an event is triggered.</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">callback</td><td class="CDLDefinition"><p>Pointer to the event callback function</p></td></tr></table></div>
+ <div id="NDPrototype7" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> AKG_SetEventCallback(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">AKG_Event&nbsp;</td><td class="PName last">callback</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the event callback function. It will be called when an event is triggered.&nbsp; If ARKOS_USE_EVENT is TRUE, this function MUST be called before any call to AKG_Update.</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">callback</td><td class="CDLDefinition"><p>Pointer to the event callback function</p></td></tr></table></div>
 </div>
 
 <a name="AKG_Stop"></a><a name="Topic669"></a><div class="CTopic TFunction LC">

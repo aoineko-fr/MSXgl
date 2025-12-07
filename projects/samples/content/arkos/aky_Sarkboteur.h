@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Fri Aug 15 15:54:47 2025
+// File generated on Sat Nov 29 12:57:23 2025
 // Soure file: arkos\Sarkboteur.aky
 const unsigned char g_AKY_Sarkboteur[] = {
 	0x80, 0x03, 0x40, 0x42, 0x0F, 0x00, 0xA0, 0x00, 0x70, 0xA7, 0xF8, 0xA6, 0xE6, 0xA6, 0xA0, 0x00, //      0

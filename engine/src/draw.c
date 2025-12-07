@@ -123,29 +123,29 @@ void Draw_Circle(UX dx, UY dy, u8 radius, u8 color, u8 op)
 		g_VDP_Command.CLR = color;
 		g_VDP_Command.ARG = 0;
 		g_VDP_Command.CMD = VDP_CMD_PSET + op;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 		// VDP_CommandPSET(dx + x, dy - y, color, op);
 		g_VDP_Command.DY = dy - y;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 		// VDP_CommandPSET(dx - x, dy - y, color, op);
 		g_VDP_Command.DX = dx - x;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 		// VDP_CommandPSET(dx - x, dy + y, color, op);
 		g_VDP_Command.DY = dy + y;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 		// VDP_CommandPSET(dx + y, dy + x, color, op);
 		g_VDP_Command.DX = dx + y;
 		g_VDP_Command.DY = dy + x;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 		// VDP_CommandPSET(dx + y, dy - x, color, op);
 		g_VDP_Command.DY = dy - x;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 		// VDP_CommandPSET(dx - y, dy - x, color, op);
 		g_VDP_Command.DX = dx - y;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 		// VDP_CommandPSET(dx - y, dy + x, color, op);
 		g_VDP_Command.DY = dy + x;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 		
 		if (x <= y)
 			break;

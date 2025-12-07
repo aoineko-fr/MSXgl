@@ -3,7 +3,7 @@
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Fri Aug 15 15:54:46 2025
+// File generated on Sat Nov 29 12:57:22 2025
 // Soure file: arkos\CancinNueva.akg
 const unsigned char g_AKG_CancinNueva[] = {
 	0x41, 0x54, 0x32, 0x30, 0x0E, 0xA0, 0x0E, 0xA0, 0x0E, 0xA0, 0x2F, 0xA0, 0x2F, 0xA0, 0x12, 0xA0, //      0
