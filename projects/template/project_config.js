@@ -308,7 +308,7 @@ Verbose = true;
 //*******************************************************************************
 
 //-- Should the build tool create a standalone package? (boolean)
-Standalone = true;
+// Standalone = false;
 
 //*******************************************************************************
 // EMULATOR SETINGS
