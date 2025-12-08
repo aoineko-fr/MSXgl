@@ -2209,24 +2209,26 @@ void VDP_SetBlinkTile(u8 x, u8 y)
 // Load patterns in all 3 screen sections
 void VDP_LoadPattern_GM2(const u8* src, u8 count, u8 offset)
 {
+	u16 cnt = count == 0 ? 256 * 8 : count * 8;
 	u16 dst = g_ScreenPatternLow + (offset * 8);
-	VDP_WriteVRAM(src, dst, g_ScreenPatternHigh, count * 8);
+	VDP_WriteVRAM(src, dst, g_ScreenPatternHigh, cnt);
 	dst += 0x800;
-	VDP_WriteVRAM(src, dst, g_ScreenPatternHigh, count * 8);
+	VDP_WriteVRAM(src, dst, g_ScreenPatternHigh, cnt);
 	dst += 0x800;
-	VDP_WriteVRAM(src, dst, g_ScreenPatternHigh, count * 8);
+	VDP_WriteVRAM(src, dst, g_ScreenPatternHigh, cnt);
 }
 
 //-----------------------------------------------------------------------------
 // Load colors in all 3 screen sections
 void VDP_LoadColor_GM2(const u8* src, u8 count, u8 offset)
 {
+	u16 cnt = count == 0 ? 256 * 8 : count * 8;
 	u16 dst = g_ScreenColorLow + (offset * 8);
-	VDP_WriteVRAM(src, dst, g_ScreenColorHigh, count * 8);
+	VDP_WriteVRAM(src, dst, g_ScreenColorHigh, cnt);
 	dst += 0x800;
-	VDP_WriteVRAM(src, dst, g_ScreenColorHigh, count * 8);
+	VDP_WriteVRAM(src, dst, g_ScreenColorHigh, cnt);
 	dst += 0x800;
-	VDP_WriteVRAM(src, dst, g_ScreenColorHigh, count * 8);
+	VDP_WriteVRAM(src, dst, g_ScreenColorHigh, cnt);
 }
 
 //-----------------------------------------------------------------------------
