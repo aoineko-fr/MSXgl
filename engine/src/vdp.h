@@ -1427,8 +1427,8 @@ inline void VDP_LoadBankColor_GM2(const u8* src, u8 count, u8 bank, u8 offset) {
 //   src    - Address of data buffer to copy to VRAM
 //   dx     - Destination starting X position 
 //   dy     - Destination starting Y position 
-//   dx     - Destination width
-//   dy     - Destination height
+//   nx     - Destination width
+//   ny     - Destination height
 void VDP_WriteLayout_GM2(const u8* src, u8 dx, u8 dy, u8 nx, u8 ny);
 
 // Function: VDP_FillLayout_GM2
@@ -1438,8 +1438,8 @@ void VDP_WriteLayout_GM2(const u8* src, u8 dx, u8 dy, u8 nx, u8 ny);
 //   value - Pattern index to fill
 //   dx    - Destination starting X position 
 //   dy    - Destination starting Y position 
-//   dx    - Destination width
-//   dy    - Destination height
+//   nx    - Destination width
+//   ny    - Destination height
 void VDP_FillLayout_GM2(u8 value, u8 dx, u8 dy, u8 nx, u8 ny);
 
 // Function: VDP_GetColorTable_GM2
