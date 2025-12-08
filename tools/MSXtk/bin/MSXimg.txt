@@ -1,4 +1,4 @@
-MSXimg 1.21.0 - Image converter for MSX development
+MSXimg 1.21.1 - Image converter for MSX development
 Usage: MSXimg <filename> [options]
 
 General options:

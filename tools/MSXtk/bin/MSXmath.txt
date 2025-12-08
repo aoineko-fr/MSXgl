@@ -1,4 +1,4 @@
-MSXmath 1.7.1 - Mathematics table generator
+MSXmath 1.8.1 - Mathematics table generator
 Usage: MSXmath [options] [tables]
 Options:
   -o <filename>    Filename of the output file (default: use input filename with .h/.asm/.bin extension)
@@ -16,6 +16,7 @@ Options:
 Tables:
   sin              Sinus table [0:Pi*2]
   cos              Cosinus table [0:Pi*2]
+  sincos           Combined sinus and cosinus table [0:Pi*2]
   tan              Tangente table [-Pi/2:Pi/2]
   cot              Cotangente table [-Pi/2:Pi/2]
   asin             Arc-sinus table [-1:1]
