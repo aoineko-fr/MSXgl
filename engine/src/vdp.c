@@ -253,10 +253,16 @@ void VDP_ClearVRAM()
 	#if (MSX_VERSION & MSX_1)
 		VDP_FillVRAM_16K(0, 0x0000, 0x4000);  // Clear 16 KB of VRAM
 	#else
-		VDP_FillVRAM(0, 0x0000, 0, 0x8000); // Clear VRAM by 32 KB step
-		VDP_FillVRAM(0, 0x8000, 0, 0x8000); // Clear VRAM by 32 KB step
-		VDP_FillVRAM(0, 0x0000, 1, 0x8000); // Clear VRAM by 32 KB step
-		VDP_FillVRAM(0, 0x8000, 1, 0x8000); // Clear VRAM by 32 KB step
+		// VDP_FillVRAM(0, 0x0000, 0, 0x8000); // Clear VRAM by 32 KB step
+		// VDP_FillVRAM(0, 0x8000, 0, 0x8000); // Clear VRAM by 32 KB step
+		// VDP_FillVRAM(0, 0x0000, 1, 0x8000); // Clear VRAM by 32 KB step
+		// VDP_FillVRAM(0, 0x8000, 1, 0x8000); // Clear VRAM by 32 KB step
+		u32 addr = 0;
+		loopx (8)
+		{
+			VDP_FillVRAM(0x00, addr & 0xFFFF, addr >> 16, 0x4000); // Clear VRAM by 16 KB step
+			addr += 0x4000;
+		}
 	#endif
 }
 

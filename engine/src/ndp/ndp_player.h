@@ -50,6 +50,62 @@ enum NDP_CHANNEL
 	NDP_CHANNEL_C,
 };
 
+typedef struct NDP_WorkArea
+{
+	u16	PlayDataAddr	;// +0 1	演奏データ読み込みアドレス
+	u8 	NoteNumber		;// +2	ノート番号
+	u8 	Volume			;// +3	設定音量 (0=v15, 1=V14, 2=V13 … 15=v0)
+	u8 	NoteLenCnt		;// +4	音長カウンタ
+	u8 	NoteLenExt		;// +5	次の1バイトも音長かどうか
+	u8 	ToneNumber		;// +6	音色番号 (90～9FHの場合はハードエンベ番号)
+	u8 	Legato			;// +7	レガート
+	u8 	Sustain			;// +8	サスティン
+	u8 	QuantizeQ		;// +9	Q(クオンタイズ)の値
+	u8 	ChannelState	;// +10	チャンネル有効/無効 0=無効 1=有効 2=効果音発音中 3～255=一時ミュート(フレーム数)
+	u8 	PitchEnvNum		;// +11	ピッチエンベ番号 (bit7=ピッチを戻す？ bit6=ピッチ更新する？ bit5=元音程からの相対値？)
+	u8 	LegatoCheck		;// +12	レガート確認用フラグ（+7のレガート設定の値が1音あとに入る）
+	u16	CurrentPitch	;// +13 14	発音中の音程（レジスタ値）
+	u8 	CurrentVolume	;// +15	発音中の音量
+	u16	SoftEnvPtr		;// +16 17	ソフトエンベロープポインタ / ハードエンベ音量半減カウンタ
+	u8 	SoftEnvWait		;// +18	ソフトエンベロープウェイトカウンタ
+	u16	Detune			;// +19 20	デチューン
+	u16	PitchEnvPtr		;// +21 22	ピッチエンベロープポインタ
+	u8 	PitchEnvDelay	;// +23	ピッチエンベロープディレイカウンタ
+	u8 	ReleaseVolume	;// +24	リリース音量
+	u8 	ReleaseSet		;// +25	リリースカウンタ設定値
+	u8 	ReleaseCnt		;// +26	リリースカウンタ
+	u16	ReleasePitch	;// +27 28	リリースディレイ用ピッチ
+	u8 	ReleaseDelay	;// +29	リリースディレイ用スイッチ兼指定フレーム数
+	u8 	ReleaseVolSet	;// +30	リリース音量設定
+	u8 	KeyOnPitchUpd	;// +31	キーオン時の音程レジスタ更新フラグ
+	u8 	RepeatNest		;// +32	リピートネスト数
+	u8 	PortaAddFrac	;// +33	ポルタメント加算値(小数)
+	u8 	PortaAdd		;// +34	ポルタメント加算値
+	u16	PortaPitch		;// +35 36	ポルタメント用の現在音程 (13-14に向かって加減算)
+	u8 	PortaSetFrac	;// +37	ポルタメント設定値(小数)
+	u8 	PortaSet		;// +38	ポルタメント設定値兼スイッチ (0=OFF)
+	u8 	PortaOnce		;// +39	ポルタメント単発フラグ
+	u8 	QuantizeQ2		;// +40	@Q(後ろを削るクオンタイズ)の値
+	u8 	PrevNote		;// +41	キーオン直前のノート番号（リリースディレイ用）
+	u8 	VolIntervalSet	;// +42	音量インターバル設定値
+	u8 	NoteEnvNum		;// +43	ノートエンベ番号
+	u16	NoteEnvPtr		;// +44 45	ノートエンベロープポインタ
+	u8 	NoteEnvWait		;// +46	ノートエンベロープウェイトカウンタ
+	u8 	VolIntervalCnt	;// +47	音量インターバルのカウンタ
+	u8 	VolIntervalVol	;// +48	音量インターバルの音量値
+	u16	PrevDetune		;// +49 50	前回のデチューン値
+	u8 	ReleaseDelayCnt	;// +51	リリースディレイ用カウンタ
+	u8 	GateTime		;// +52	ゲートタイム (Qから計算してキーオン時に設定)
+	u8 	ReleaseSkipCnt	;// +53	リリースディレイスキップ用カウンタ
+	u16	PrePitchEnv		;// +54 55	ピッチエンベ適用前の音程（レジスタ値）
+	u8 	VolIntervalEnd	;// +56	音量インターバル到達値
+	u8 	FixedGateTime	;// +57	固定ゲートタイム
+	u8 	ParamBackup		;// +58	パラメータの退避領域
+	u8 	ReleaseActive	;// +59	リリースディレイ発動フラグ
+	u8 	MixMode			;// +60	*n（ミックスモード）の値
+} NDP_WorkArea;
+
+
 // NDP replayer pamarameters
 #define NDP_WSIZE		61		// The size of the work area for each track
 #define NDP_RWSIZE		(5*4)	// Repeat work area size for each track (Size per nest * Number of nests)F
@@ -57,9 +113,12 @@ enum NDP_CHANNEL
 
 // NDP work area (defined in NDP_WRK.ASM)
 extern u8   g_NDP_CH1WRK[NDP_WSIZE];	// Rhythm track
-extern u8   g_NDP_CH2WRK[NDP_WSIZE];	// Standard track 1
-extern u8   g_NDP_CH3WRK[NDP_WSIZE];	// Standard track 2
-extern u8   g_NDP_CH4WRK[NDP_WSIZE];	// Standard track 3
+extern NDP_WorkArea   g_NDP_CH2WRK;	// Standard track 1
+extern NDP_WorkArea   g_NDP_CH3WRK;	// Standard track 2
+extern NDP_WorkArea   g_NDP_CH4WRK;	// Standard track 3
+// extern u8   g_NDP_CH2WRK[NDP_WSIZE];	// Standard track 1
+// extern u8   g_NDP_CH3WRK[NDP_WSIZE];	// Standard track 2
+// extern u8   g_NDP_CH4WRK[NDP_WSIZE];	// Standard track 3
 extern u8   g_NDP_SE1WRK[NDP_WSIZE * 3];
 extern u8   g_NDP_CH1RWK[NDP_RWSIZE];
 extern u8   g_NDP_CH2RWK[NDP_RWSIZE];

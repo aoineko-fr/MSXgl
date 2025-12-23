@@ -493,7 +493,7 @@ if (DoCompile)
 		const segExtList = [ "c", "s", "asm" ];
 		let pageFound = 0;
 
-		util.print(`Searching for ROM's pages specific code (from ${ROMFirstPage} to ${ROMLastPage})...`, PrintHighlight);
+		util.print(`Searching for ROM's pages specific code [${ROMFirstPage}-${ROMLastPage}] (${ProjSegments}_p?)...`, PrintHighlight);
 		for (let p = ROMFirstPage; p <= ROMLastPage; p++) // Parse all ROM's pages
 		{
 			let pageName = `${ProjSegments}_p${p}`;

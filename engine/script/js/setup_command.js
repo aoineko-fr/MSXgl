@@ -88,6 +88,10 @@ for (let i = 0; i < CommandArgs.length; i++)
 	{
 		DoRun = true;
 	}
+	else if (arg === "all")
+	{
+		DoCompile = DoMake = DoPackage = DoDeploy = true;
+	}
 	else if (arg === "rebuild")
 	{
 		DoClean = DoCompile = DoMake = DoPackage = DoDeploy = true;
@@ -95,7 +99,9 @@ for (let i = 0; i < CommandArgs.length; i++)
 	else if (arg.startsWith("define="))
 	{
 		let params = CommandArgs[i].substring(7).split(":");
-		let val = params[0] + (params[1] !== undefined ? `=${params[1]}` : "");
+		let val = params[0];
+		if (params[1] !== undefined)
+			val += `=${params[1]}`;
 		CompileOpt += ` -D${val}`;
 		util.print(`Command line overwrite => CompileOpt+=-D${val}`, PrintDetail);
 	}
@@ -115,6 +121,7 @@ for (let i = 0; i < CommandArgs.length; i++)
 		util.print(" package                Convert binary into target format");
 		util.print(" deploy                 Deploy final files into separate directory");
 		util.print(" run                    Run the built program with the selected emulator");
+		util.print(" all                    Do all steps from compile to deploy");
 		util.print(" rebuild                Clean all generated files, then do all steps");
 		util.print(" define=<name>[:value]  Define a compilation symbol (can be used multiple times)");
 		util.print(" help                   Display this command-line arguments list");

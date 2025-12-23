@@ -359,7 +359,7 @@ void Sequence_Update()
 	u8 pat = SEQ_CUR_DEFAULT;
 	if (Sequence_HasCustomCursor())
 		pat = g_SeqCustomCursor;
-	else if (g_SeqActionHover)
+	if (g_SeqActionHover)
 	{
 		switch (g_SeqActionCond)
 		{
@@ -373,7 +373,7 @@ void Sequence_Update()
 		}
 	}
 
-	g_VDP_Sprite.Y = g_SeqCursorPosY - 7;
+	g_VDP_Sprite.Y = g_SeqCursorPosY - 8;
 	g_VDP_Sprite.X = g_SeqCursorPosX - 7;
 	g_VDP_Sprite.Pattern = pat;
 	VDP_WriteVRAM((u8*)&g_VDP_Sprite, g_SpriteAtributeLow, g_SpriteAtributeHigh, 3);
