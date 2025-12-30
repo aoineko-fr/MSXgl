@@ -41,6 +41,9 @@ crt0_init:
 	; Set stack address at the top of free memory
 	; ld		sp, (HIMEM)
 
+	; Check for minimum MSX version required (if CHECK_MSX is set)
+	DO_CHECK_MSX
+
 	; Initialize globals and jump to main()
 	INIT_GLOBALS
 

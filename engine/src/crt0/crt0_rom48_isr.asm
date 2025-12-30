@@ -47,6 +47,9 @@ crt0_init:
 	ld		a, c
 	ld		(#_g_ROMSlotID), a
 
+	; Check for minimum MSX version required (if CHECK_MSX is set)
+	DO_CHECK_MSX
+
 	; Check for skip key press (if ROM_SKIP is set to 1)
 	SKIP_BOOT
 

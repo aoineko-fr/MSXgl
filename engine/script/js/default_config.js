@@ -78,9 +78,10 @@ AddLibs = [];
 //   - 2P       MSX2+
 //   - 22P      MSX2 and 2+ (multi support)
 //   - 122P     MSX1, 2 and 2+ (multi support)
-//   - 0        MSX0
 //   - TR       MSX turbo R
-//   - 3        MSX3 (reserved)
+//   - 0        MSX0
+//   - 2PP      MSX2++
+//   - 2S       MSX2#
 Machine = "1";
 
 //-- Target program format (string)
@@ -147,6 +148,9 @@ InstallRAMISR = "RAM0_NONE";
 //   - VHBLANK    V-blank and h-blank handler (V9938 or V9958)
 //   - V9990      V-blank, h-blank and command end handler (V9990)
 CustomISR = "VBLANK";
+
+//-- Add code to check MSX version at program startup (boolean)
+CheckVersion = false;
 
 //-- Use automatic banked call and trampoline functions (boolean). For mapped ROM
 BankedCall = false;
