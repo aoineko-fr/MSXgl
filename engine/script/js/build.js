@@ -216,6 +216,7 @@ if (DoCompile)
 	if (DOSParseArg)             conf += "DOS_PARSEARG=1\n";
 	if (Target === "DOS0")       conf += "DOS_ISR=1\n";
 	// if (Machine != "1")          conf += "ISR_SET_S0=1\n";
+	if (CheckVersion)            conf += `CHECK_MSX=${util.getMachineID(Machine)}\n`;
 	if (AppSignature)
 	{
 		conf += "APP_SIGN=1\n";

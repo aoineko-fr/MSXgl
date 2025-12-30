@@ -33,7 +33,7 @@ for (let i = 0; i < CommandArgs.length; i++)
 	}
 	else if (arg.startsWith("machine="))
 	{
-		let val = CommandArgs[i].substring(7);
+		let val = CommandArgs[i].substring(8);
 		if (val)
 		{
 			Machine = val;

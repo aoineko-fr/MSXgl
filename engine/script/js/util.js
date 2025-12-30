@@ -208,7 +208,7 @@ module.exports.createCAS = function (binFile, casFile)
 	fs.closeSync(fd);
 }
 
-// 
+// Get machine game name from code
 module.exports.getMachineName = function (machine)
 {
 	switch(machine)
@@ -224,8 +224,29 @@ module.exports.getMachineName = function (machine)
 		// New generation
 		case "0":    return "MSX0 (2+)";
 		case "2PP":  return "MSX2++";
-		case "TRP":  return "MSX turbo R+";
+		case "2S":   return "MSX2#";
 		case "3":    return "MSX3";
 	}
-	return "Unsupported";
+	return `Unsupported (${machine})`;
+}
+
+// Get machine game name from code
+module.exports.getMachineID = function (machine)
+{
+	switch(machine)
+	{
+		// Legacy
+		case "1":    return "MSX1";
+		case "2":    return "MSX2";
+		case "12":   return "MSX1";
+		case "2P":   return "MSX2P";
+		case "22P":  return "MSX2";
+		case "122P": return "MSX1";
+		case "TR":   return "MSXTR";
+		// New generation
+		case "0":    return "MSX2P";
+		case "2PP":  return "MSX2PP";
+		case "2S":   return "MSX2S";
+	}
+	return `Unsupported (${machine})`;
 }
