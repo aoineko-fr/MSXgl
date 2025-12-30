@@ -151,7 +151,11 @@ void Sequence_UpdateOnce()
 		g_SeqFrame++;
 		g_SeqDrawCB(g_SeqFrame);
 		if (g_SeqFrame == g_SeqCur->LastFrame)
+		{
 			g_SeqCur->EventCB(SEQ_EVENT_END);
+			if (g_SeqCur->NextSeq)
+				Sequence_Play(g_SeqCur->NextSeq, g_SeqCur->NextFrame);
+		}
 	}
 
 	Sequence_CheckActions();
@@ -188,7 +192,11 @@ void Sequence_UpdateBackOnce()
 		g_SeqDrawCB(g_SeqFrame);
 	}
 	else
+	{
 		g_SeqCur->EventCB(SEQ_EVENT_END);
+		if (g_SeqCur->NextSeq)
+			Sequence_Play(g_SeqCur->NextSeq, g_SeqCur->NextFrame);
+	}
 
 	Sequence_CheckActions();
 	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA))

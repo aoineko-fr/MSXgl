@@ -130,6 +130,8 @@ typedef struct Sequence
 	u16 FirstFrame;					// First frame of the sequence
 	u16 LastFrame;					// Last frame of the sequence
 	SeqEventCB EventCB;				// Event callback
+	struct Sequence* NextSeq;				// Sequence to start when reaching the end
+	u16 NextFrame;					// Next sequence start frame
 	u8  ActionNum;					// Number of actions
 	const SeqAction* const Actions[];
 } Sequence;
