@@ -242,6 +242,9 @@ global.ROMSkipBoot = false;
 //   - RETURN
 global.ROMSkipBootKey = "ESC";
 
+//-- Add code to check MSX version at program startup (boolean)
+global.CheckVersion = false;
+
 //-- Postpone the ROM startup to let the other ROMs initialize like Disk controller or Network cartridge (boolean)
 global.ROMDelayBoot = false;
 
@@ -261,9 +264,6 @@ global.InstallRAMISR = "RAM0_NONE";
 //   - VHBLANK    V-blank and h-blank handler (V9938 or V9958)
 //   - V9990      V-blank, h-blank and command end handler (V9990)
 global.CustomISR = "VBLANK";
-
-//-- Add code to check MSX version at program startup (boolean)
-global.CheckVersion = false;
 
 //-- Use automatic banked call and trampoline functions (boolean). For mapped ROM
 global.BankedCall = false;

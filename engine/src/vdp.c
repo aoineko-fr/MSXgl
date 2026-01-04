@@ -253,10 +253,6 @@ void VDP_ClearVRAM()
 	#if (MSX_VERSION & MSX_1)
 		VDP_FillVRAM_16K(0, 0x0000, 0x4000);  // Clear 16 KB of VRAM
 	#else
-		// VDP_FillVRAM(0, 0x0000, 0, 0x8000); // Clear VRAM by 32 KB step
-		// VDP_FillVRAM(0, 0x8000, 0, 0x8000); // Clear VRAM by 32 KB step
-		// VDP_FillVRAM(0, 0x0000, 1, 0x8000); // Clear VRAM by 32 KB step
-		// VDP_FillVRAM(0, 0x8000, 1, 0x8000); // Clear VRAM by 32 KB step
 		u32 addr = 0;
 		loopx (8)
 		{
@@ -1736,11 +1732,11 @@ void VDP_RegWrite(u8 reg, u8 value) __PRESERVES(b, c, d, e, iyl, iyh)
 		ld		h, a					// Register number
 		ld		a, l					// Value
 		VDP_DI //~~~~~~~~~~~~~~~~~~~~~~~~~~
-		out		(P_VDP_ADDR), a
+		out		(P_VDP_REG), a
 		ld		a, h
 		add		#0x80					// @todo Can be optimize by including 80h in the register number ; 33cc -> 25cc (warning for MSX1 VRAM write timing)
 		VDP_EI //~~~~~~~~~~~~~~~~~~~~~~~~~~
-		out		(P_VDP_ADDR), a
+		out		(P_VDP_REG), a
 	__endasm;
 }
 

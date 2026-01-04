@@ -116,9 +116,6 @@ extern u8   g_NDP_CH1WRK[NDP_WSIZE];	// Rhythm track
 extern NDP_WorkArea   g_NDP_CH2WRK;	// Standard track 1
 extern NDP_WorkArea   g_NDP_CH3WRK;	// Standard track 2
 extern NDP_WorkArea   g_NDP_CH4WRK;	// Standard track 3
-// extern u8   g_NDP_CH2WRK[NDP_WSIZE];	// Standard track 1
-// extern u8   g_NDP_CH3WRK[NDP_WSIZE];	// Standard track 2
-// extern u8   g_NDP_CH4WRK[NDP_WSIZE];	// Standard track 3
 extern u8   g_NDP_SE1WRK[NDP_WSIZE * 3];
 extern u8   g_NDP_CH1RWK[NDP_RWSIZE];
 extern u8   g_NDP_CH2RWK[NDP_RWSIZE];

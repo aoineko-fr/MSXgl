@@ -33,7 +33,7 @@ void Sequence_UpdatePanLoop();
 u8 g_SeqFrameCount = 0;				// Render frame count
 
 const Sequence* g_SeqCur;	// Current sequence
-u16 g_SeqFrame = 0;					// Current sequence's frame
+u8 g_SeqFrame = 0;					// Current sequence's frame
 
 // Cursor
 Mouse_State g_SeqMouseData;
@@ -43,6 +43,7 @@ i8 g_SeqCursorAccX;
 i8 g_SeqCursorAccY;
 u8 g_SeqInput;
 u8 g_SeqCustomCursor = SEQ_CUR_NONE;
+u8 g_SeqPrevRaw8 = 0xFF;
 
 const SeqAction* g_SeqActionHover;
 u8 g_SeqActionCond;
@@ -91,11 +92,11 @@ void Sequence_Wait()
 
 //-----------------------------------------------------------------------------
 // 
-void Sequence_Play(const Sequence* seq, u16 frame)
+void Sequence_Play(const Sequence* seq, u8 frame)
 {
 	g_SeqCur = seq;
-	u16 min = MIN(g_SeqCur->FirstFrame, g_SeqCur->LastFrame);
-	u16 max = MAX(g_SeqCur->FirstFrame, g_SeqCur->LastFrame);
+	u8 min = MIN(g_SeqCur->FirstFrame, g_SeqCur->LastFrame);
+	u8 max = MAX(g_SeqCur->FirstFrame, g_SeqCur->LastFrame);
 	if ((frame >= min) && (frame <= max))
 		g_SeqFrame = frame;
 	else
@@ -253,20 +254,22 @@ void Sequence_UpdatePanLoop()
 			break;
 
 		case SEQ_ACT_CLICK_RIGHT:
-			if ((g_SeqInput & SEQ_INPUT_CLICK_1) || (g_SeqInput & SEQ_INPUT_MOVE_RIGHT))
+			if ((g_SeqInput & SEQ_INPUT_PRESS_1) || (g_SeqInput & SEQ_INPUT_MOVE_RIGHT))
 			{
-				g_SeqFrame++;
-				if (g_SeqFrame > g_SeqCur->LastFrame)
+				if (g_SeqFrame < g_SeqCur->LastFrame)
+					g_SeqFrame++;
+				else
 					g_SeqFrame = g_SeqCur->FirstFrame;
 				g_SeqDrawCB(g_SeqFrame);
 			}
 			break;
 
 		case SEQ_ACT_CLICK_LEFT:
-			if ((g_SeqInput & SEQ_INPUT_CLICK_1) || (g_SeqInput & SEQ_INPUT_MOVE_LEFT))
+			if ((g_SeqInput & SEQ_INPUT_PRESS_1) || (g_SeqInput & SEQ_INPUT_MOVE_LEFT))
 			{
-				g_SeqFrame--;
-				if (g_SeqFrame < g_SeqCur->FirstFrame)
+				if (g_SeqFrame > g_SeqCur->FirstFrame)
+					g_SeqFrame--;
+				else
 					g_SeqFrame = g_SeqCur->LastFrame;
 				g_SeqDrawCB(g_SeqFrame);
 			}
@@ -331,10 +334,16 @@ void Sequence_UpdateInput()
 	g_SeqCursorPosY += g_SeqCursorAccY;
 
 	// Update cursor click states
-	if (Mouse_IsButtonPress(&g_SeqMouseData, MOUSE_BOUTON_LEFT) || IS_KEY_PRESSED(row8, KEY_SPACE))
+	if (Mouse_IsButtonClick(&g_SeqMouseData, MOUSE_BOUTON_LEFT) || IS_KEY_PUSHED(row8, g_SeqPrevRaw8, KEY_SPACE))
 		g_SeqInput |= SEQ_INPUT_CLICK_1;
-	if (Mouse_IsButtonPress(&g_SeqMouseData, MOUSE_BOUTON_RIGHT) || IS_KEY_PRESSED(row3, KEY_C))
+	if (Mouse_IsButtonClick(&g_SeqMouseData, MOUSE_BOUTON_RIGHT) || IS_KEY_PUSHED(row3, g_SeqPrevRaw8, KEY_C))
 		g_SeqInput |= SEQ_INPUT_CLICK_2;
+
+		// Update cursor click states
+	if (Mouse_IsButtonPress(&g_SeqMouseData, MOUSE_BOUTON_LEFT) || IS_KEY_PRESSED(row8, KEY_SPACE))
+		g_SeqInput |= SEQ_INPUT_PRESS_1;
+	if (Mouse_IsButtonPress(&g_SeqMouseData, MOUSE_BOUTON_RIGHT) || IS_KEY_PRESSED(row3, KEY_C))
+		g_SeqInput |= SEQ_INPUT_PRESS_2;
 
 	if (IS_KEY_PRESSED(row3, KEY_F))
 		g_SeqInput |= SEQ_INPUT_MOVE_RIGHT;
@@ -345,6 +354,8 @@ void Sequence_UpdateInput()
 		g_SeqInput |= SEQ_INPUT_MOVE_UP;
 	else if (IS_KEY_PRESSED(row3, KEY_D))
 		g_SeqInput |= SEQ_INPUT_MOVE_DOWN;
+
+	g_SeqPrevRaw8 = row8;
 }
 
 //-----------------------------------------------------------------------------

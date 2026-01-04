@@ -1117,7 +1117,7 @@ void VDP_LoadSpritePattern(const u8* addr, u8 index, u8 count);
 // Set sprite attribute for Sprite Mode 1. [MSX1/2/2+/TR]
 //
 // Parameters:
-//   index - Sprite index in the attribute table
+//   index - Sprite index in the attribute table [0:31]
 //   x     - Initial X screen coordinate
 //   y     - Initial Y screen coordinate
 //   shape - Sprite pattern index (in 16x16 mode, only multiple of 4 can be used)
@@ -1128,7 +1128,7 @@ void VDP_SetSpriteSM1(u8 index, u8 x, u8 y, u8 shape, u8 color);
 // Set sprite attribute for Sprite Mode 2. [MSX2/2+/TR]
 //
 // Parameters:
-//   index - Sprite index in the attribute table
+//   index - Sprite index in the attribute table [0:31]
 //   x     - Initial X screen coordinate
 //   y     - Initial Y screen coordinate
 //   shape - Sprite pattern index (in 16x16 mode, only multiple of 4 can be used)
@@ -1140,7 +1140,7 @@ void VDP_SetSprite(u8 index, u8 x, u8 y, u8 shape);
 // Set sprite attribute for Sprite Mode 2 and fill color table with color data. [MSX2/2+/TR]
 //
 // Parameters:
-//   index - Sprite index in the attribute table
+//   index - Sprite index in the attribute table [0:31]
 //   x     - Initial X screen coordinate
 //   y     - Initial Y screen coordinate
 //   shape - Sprite pattern index (in 16x16 mode, only multiple of 4 can be used)
@@ -1152,7 +1152,7 @@ void VDP_SetSpriteExMultiColor(u8 index, u8 x, u8 y, u8 shape, const u8* ram);
 // Set sprite attribute for Sprite Mode 2 and fill color table with unique color. [MSX2/2+/TR]
 //
 // Parameters:
-//   index - Sprite index in the attribute table
+//   index - Sprite index in the attribute table [0:31]
 //   x     - Initial X screen coordinate.
 //   y     - Initial Y screen coordinate.
 //   shape - Sprite pattern index (in 16x16 mode, only multiple of 4 can be used).
@@ -1166,7 +1166,7 @@ void VDP_SetSpriteExUniColor(u8 index, u8 x, u8 y, u8 shape, u8 color);
 // Update sprite position. [MSX1/2/2+/TR]
 //
 // Parameters:
-//   index - Sprite index in the attribute table.
+//   index - Sprite index in the attribute table [0:31].
 //   x     - Initial X screen coordinate.
 //   y     - Initial Y screen coordinate.
 void VDP_SetSpritePosition(u8 index, u8 x, u8 y);
@@ -1175,7 +1175,7 @@ void VDP_SetSpritePosition(u8 index, u8 x, u8 y);
 // Update sprite position X. [MSX1/2/2+/TR]
 //
 // Parameters:
-//   index - Sprite index in the attribute table.
+//   index - Sprite index in the attribute table [0:31].
 //   x     - Initial X screen coordinate.
 void VDP_SetSpritePositionX(u8 index, u8 x);
 
@@ -1183,7 +1183,7 @@ void VDP_SetSpritePositionX(u8 index, u8 x);
 // Update sprite position Y. [MSX1/2/2+/TR]
 //
 // Parameters:
-//   index - Sprite index in the attribute table.
+//   index - Sprite index in the attribute table [0:31].
 //   y     - Initial Y screen coordinate.
 void VDP_SetSpritePositionY(u8 index, u8 y);
 
@@ -1191,7 +1191,7 @@ void VDP_SetSpritePositionY(u8 index, u8 y);
 // Update sprite pattern. [MSX1/2/2+/TR]
 //
 // Parameters:
-//   index - Sprite index in the attribute table.
+//   index - Sprite index in the attribute table [0:31].
 //   shape - Sprite pattern index (in 16x16 mode, only multiple of 4 can be used).
 void VDP_SetSpritePattern(u8 index, u8 shape);
 
@@ -1199,9 +1199,17 @@ void VDP_SetSpritePattern(u8 index, u8 shape);
 // Update sprite pattern (Sprite Mode 1). [MSX1/2/2+/TR]
 //
 // Parameters:
-//   index - Sprite index in the attribute table
+//   index - Sprite index in the attribute table [0:31]
 //   color - Sprite color (LSB 4-bits) + optional EC flag (see <VDP_SPRITE_EC>)
 void VDP_SetSpriteColorSM1(u8 index, u8 color);
+
+// Function: VDP_SetSpriteData
+// Set sprite attribute using data structure. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   index - Sprite index in the attribute table [0:31]
+//   data  - Address to a VDP_Sprite structure including sprite position, shape and color
+inline void VDP_SetSpriteData(u8 index, VDP_Sprite* data) {  VDP_WriteVRAM((u8*)data, g_SpriteAttributeLow + (index * 4), g_SpriteAttributeHigh, sizeof(VDP_Sprite)); }
 
 #if (MSX_VERSION >= MSX_2)
 	
@@ -1209,7 +1217,7 @@ void VDP_SetSpriteColorSM1(u8 index, u8 color);
 // Update sprite color (Uni-color). [MSX2/2+/TR]
 //
 // Parameters:
-//   index - Sprite index in the attribute table
+//   index - Sprite index in the attribute table [0:31]
 //   color - Sprite color (LSB 4-bits) + optional EC, CC & IC flags 
 //           (this color is used for the all 8 lines of the sprite)
 void VDP_SetSpriteUniColor(u8 index, u8 color);
@@ -1218,7 +1226,7 @@ void VDP_SetSpriteUniColor(u8 index, u8 color);
 // Update sprite color (Multi-color). [MSX2/2+/TR]
 //
 // Parameters:
-//   index - Sprite index in the attribute table
+//   index - Sprite index in the attribute table [0:31]
 //   ram   - Address to a 16 bytes buffer that determine the sprite colors (1 byte = 1 line).
 //           With this function, you must provide a 16 bytes buffer even for 8x8 size mode.
 void VDP_SetSpriteMultiColor(u8 index, const u8* ram);
@@ -1227,7 +1235,7 @@ void VDP_SetSpriteMultiColor(u8 index, const u8* ram);
 // Set sprite data for Sprite Mode 2. [MSX2/2+/TR]
 //
 // Parameters:
-//   index - Sprite index in the attribute table
+//   index - Sprite index in the attribute table [0:31]
 //   data  - Address to a 3 bytes data buffer including sprite position and shape
 void VDP_SetSpriteData(u8 index, const u8* data);
 

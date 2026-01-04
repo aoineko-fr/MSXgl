@@ -19,7 +19,7 @@
 // Functions callback
 typedef void (*SeqEventCB)(u8 id);	// Sequence event callback signature
 typedef u8   (*SeqCondCB)(u8 id);	// Sequence action condition check callback signature
-typedef void (*SeqDrawCB)(u16 frame); // Sequence draw callback signature
+typedef void (*SeqDrawCB)(u8 frame); // Sequence draw callback signature
 
 // Sequence playback modes
 enum SEQ_MODE
@@ -94,8 +94,8 @@ enum SEQ_INPUT
 {
 	SEQ_INPUT_CLICK_1		= 0b00000001,
 	SEQ_INPUT_CLICK_2		= 0b00000010,
-	SEQ_INPUT_4				= 0b00000100,
-	SEQ_INPUT_8				= 0b00001000,
+	SEQ_INPUT_PRESS_1		= 0b00000100,
+	SEQ_INPUT_PRESS_2		= 0b00001000,
 	SEQ_INPUT_MOVE_RIGHT	= 0b00010000,
 	SEQ_INPUT_MOVE_LEFT		= 0b00100000,
 	SEQ_INPUT_MOVE_UP		= 0b01000000,
@@ -126,12 +126,13 @@ typedef struct SeqAction
 // Sequence structure
 typedef struct Sequence
 {
+	u16 ID;							// Sequence ID
 	u8  Mode;						// Playback mode (see <SEQ_MODE>)
-	u16 FirstFrame;					// First frame of the sequence
-	u16 LastFrame;					// Last frame of the sequence
+	u8  FirstFrame;					// First frame of the sequence
+	u8  LastFrame;					// Last frame of the sequence
 	SeqEventCB EventCB;				// Event callback
 	struct Sequence* NextSeq;				// Sequence to start when reaching the end
-	u16 NextFrame;					// Next sequence start frame
+	u8  NextFrame;					// Next sequence start frame
 	u8  ActionNum;					// Number of actions
 	const SeqAction* const Actions[];
 } Sequence;
@@ -145,7 +146,7 @@ extern u8 g_SeqFrameCount;
 
 // Sequence variables
 extern const Sequence* g_SeqCur;
-extern u16 g_SeqFrame;
+extern u8 g_SeqFrame;
 
 // Cursor
 extern Mouse_State g_SeqMouseData;
@@ -155,6 +156,7 @@ extern i8 g_SeqCursorAccX;
 extern i8 g_SeqCursorAccY;
 extern u8 g_SeqInput;
 extern u8 g_SeqCustomCursor;
+extern u8 g_SeqPrevRaw8;
 
 extern const SeqAction* g_SeqActionHover;
 
@@ -225,7 +227,7 @@ inline void Sequence_ClearCustomCursor() { g_SeqCustomCursor = SEQ_CUR_NONE; }
 // Parameters:
 //   seq   - Pointer to the sequence structure
 //   frame - Frame number to start playing
-void Sequence_Play(const Sequence* seq, u16 frame);
+void Sequence_Play(const Sequence* seq, u8 frame);
 
 // Function: Sequence_GetCurrent
 // Get the current sequence
@@ -239,7 +241,7 @@ inline const Sequence* Sequence_GetCurrent() { return g_SeqCur; }
 //
 // Return:
 //   Current frame number
-inline u16 Sequence_GetFrame() { return g_SeqFrame; }
+inline u8 Sequence_GetFrame() { return g_SeqFrame; }
 
 // Function: Sequence_GetInput
 // Get the current input flags
