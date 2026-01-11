@@ -148,8 +148,10 @@ void GamePawn_SetPosition(Game_Pawn* pawn, u8 x, u8 y)
 {
 	pawn->PositionX = x;
 	pawn->PositionY = y;
+#if (GAMEPAWN_USE_PHYSICS)
 	pawn->MoveX = 0;
 	pawn->MoveY = 0;
+#endif
 	pawn->Update |= PAWN_UPDATE_POSITION;
 }
 
