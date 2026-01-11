@@ -118,6 +118,9 @@ Target = "ROM_32K";
 //   - RETURN
 // ROMSkipBootKey = "ESC";
 
+//-- Add code to check MSX version at program startup (boolean)
+CheckVersion = true;
+
 //-- Postpone the ROM startup to let the other ROMs initialize like Disk controller or Network cartridge (boolean)
 // ROMDelayBoot = false;
 
