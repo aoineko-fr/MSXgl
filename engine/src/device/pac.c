@@ -83,7 +83,6 @@ void PAC_ReadInterSlot(u8 slot, u16 addr, u8* data, u16 size)
 {
 	for (u16 i = 0; i < size; ++i)
 		*data++ = PAC_INTERSLOTREAD(slot, addr++);
-	EnableInterrupt();
 }
 
 //-----------------------------------------------------------------------------
@@ -92,7 +91,6 @@ void PAC_WriteInterSlot(u8 slot, u16 addr, const u8* data, u16 size)
 {
 	for (u16 i = 0; i < size; ++i)
 		PAC_INTERSLOTWRITE(slot, addr++, *data++);
-	EnableInterrupt();
 }
 
 //-----------------------------------------------------------------------------
@@ -179,7 +177,6 @@ void PAC_Activate(bool bEnable)
 	{
 		PAC_INTERSLOTWRITE(g_PAC_Current, 0x5FFF, 0);
 	}
-	EnableInterrupt();
 }
 
 //-----------------------------------------------------------------------------
@@ -243,7 +240,6 @@ void PAC_Format(u8 page)
 
 	for (u16 i = 0; i < size; ++i)
 		PAC_INTERSLOTWRITE(g_PAC_Current, addr++, PAC_EMPTY_CHAR);
-	EnableInterrupt();
 }
 
 //-----------------------------------------------------------------------------

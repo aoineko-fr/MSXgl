@@ -130,7 +130,7 @@ void Bios_SetHookCallback(u16 hook, callback cb)
 // Output   : A  - Contains the value of the read address
 // Registers: AF, C, DE
 // Remark   : Can be call directly from MSX-DOS
-//            This routine turns off the interupt, but won't turn it on again
+//            This routine turns off the interrupt, but won't turn it on again
 u8 Bios_InterSlotRead(u8 slot, u16 addr) __NAKED
 {
 	slot; // A
@@ -139,6 +139,7 @@ u8 Bios_InterSlotRead(u8 slot, u16 addr) __NAKED
 	__asm
 		ex		de, hl
 		call	R_RDSLT
+		ei
 		ret
 	__endasm;
 }
@@ -168,7 +169,7 @@ u8 Bios_InterSlotRead(u8 slot, u16 addr) __NAKED
 //            E  - Value
 // Registers: AF, BC, D
 // Remark   : Can be call directly from MSX-DOS
-//            This routine turns off the interupt, but won't turn it on again
+//            This routine turns off the interrupt, but won't turn it on again
 void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value)
 {
 	slot;  // A
@@ -185,6 +186,7 @@ void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value)
 		ld		e, 0(iy)	
 		call	R_WRSLT
 		pop		iy
+		ei
 	__endasm;
 }
 
@@ -255,7 +257,7 @@ void Bios_SwitchSlot(u8 page, u8 slot)
 		ld		h, a
 		ld		a, b
 		call	R_ENASLT
-		// ei							// because ENASLT do DI
+		ei							// because ENASLT do DI
 	__endasm;
 }
 
@@ -519,7 +521,7 @@ void Bios_ChangeColor(u8 text, u8 back, u8 border)
 //-----------------------------------------------------------------------------
 // NMI
 // Address  : #0066
-// Function : Executes non-maskable interupt handling routine
+// Function : Executes non-maskable interrupt handling routine
 
 //-----------------------------------------------------------------------------
 // CLRSPR

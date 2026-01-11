@@ -581,7 +581,6 @@ void main()
 	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
-		// EnableInterrupt();
 
 		Print_SetPosition(39, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
