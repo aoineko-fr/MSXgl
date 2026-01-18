@@ -327,6 +327,13 @@ void Print_DrawSlot(u8 slot)
 //
 void VDP_InterruptHandler()
 {
+	VDP_SetColor(0xF4);
+			LVGM_Decode();
+	VDP_SetColor(0xF6);
+			#if (PSG_ACCESS == PSG_INDIRECT)
+			PSG_Apply();
+			#endif
+	VDP_SetColor(0xF0);
 }
 
 //=============================================================================
@@ -420,6 +427,8 @@ void main()
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8 + VDP_SPRITE_SCALE_1);
 	VDP_LoadSpritePattern(g_Font_MGL_Sample8 + 4, 0, g_Font_MGL_Sample8[3] - g_Font_MGL_Sample8[2]);
 
+	// Bios_SetHookCallback(H_TIMI, VDP_InterruptHandler);
+
 	SetCursor(4);
 
 	u8 prevRow8 = 0xFF;
@@ -427,13 +436,8 @@ void main()
 	while (1)
 	{
 		Halt();
-VDP_SetColor(0xF4);
-		LVGM_Decode();
-VDP_SetColor(0xF6);
-		#if (PSG_ACCESS == PSG_INDIRECT)
-		PSG_Apply();
-		#endif
-VDP_SetColor(0xF0);
+		VDP_InterruptHandler();
+
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
 		DrawVGM(g_LVGM_Pointer);

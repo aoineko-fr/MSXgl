@@ -244,6 +244,8 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 #define F_VDP_WRIT					0x40 // bit 6: read/write access (1=write)
 #define F_VDP_READ					0x00 // bit 6: read/write access (0=read)
 
+#define F_VDP_AII					0x80 // bit 7: Disable indirect access register auto-increment
+
 #define VDP_REG(reg)				(F_VDP_REG | reg)
 
 //.............................................................................
