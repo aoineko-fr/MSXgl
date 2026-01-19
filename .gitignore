@@ -17,7 +17,6 @@ dos2
 /engine/doc/Natural Docs
 /engine/doc/NaturalDocs_Config/Working Data
 
-/engine/src/arkos/misc/doc
 /engine/src/arkos/playerAkg
 /engine/src/arkos/playerAkm
 /engine/src/arkos/playerAky
@@ -26,6 +25,7 @@ dos2
 /engine/src/arkos/playerSoundEffects
 /engine/src/arkos/playerFa/engine/src/arkos/serial
 /engine/src/arkos/misc
+/engine/src/arkos/serial
 /engine/src/realfun
 /engine/src/kss
 /engine/src/obsolete

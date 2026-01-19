@@ -412,14 +412,14 @@
 #define PAWN_TILEMAP_SRC_V9			3 // Tilemap located in V9990's VRAM
 
 // Pawn's sprite mode
-#define PAWN_SPT_MODE_AUTO			0 // Backward compatibility option
-#define PAWN_SPT_MODE_MSX1			11 // Sprite Mode 1 (MSX1 screens)
-#define PAWN_SPT_MODE_MSX2			12 // Sprite Mode 2 (MSX2 screens)
-#define PAWN_SPT_MODE_MSX12			13 // Sprite Mode 1 & 2 (MSX1 and MSX2 screens)
-#define PAWN_SPT_MODE_BITMAP		50 // V9938/58 software sprite (Todo)
-#define PAWN_SPT_MODE_V9_P1			91 // V9990 sprite in P1 mode
-#define PAWN_SPT_MODE_V9_P2			92 // V9990 sprite in P2 mode
-
+#define PAWN_SPT_MODE_AUTO			0x00 // Backward compatibility option
+#define PAWN_SPT_MODE_MSX1			0x10 // Sprite Mode 1 (MSX1 screens)
+#define PAWN_SPT_MODE_MSX2			0x20 // Sprite Mode 2 unicolor (MSX2 screens)
+#define PAWN_SPT_MODE_MSX2_MULTI	0x21 // Sprite Mode 2 multi-color (MSX2 screens)
+#define PAWN_SPT_MODE_MSX12			0x30 // Sprite Mode 1 & 2 unicolor (MSX1 and MSX2 screens)
+#define PAWN_SPT_MODE_BITMAP		0x40 // V9938/58 software sprite (Todo)
+#define PAWN_SPT_MODE_V9_P1			0x80 // V9990 sprite in P1 mode
+#define PAWN_SPT_MODE_V9_P2			0x81 // V9990 sprite in P2 mode
 // Pawn coordinate unit
 #define PAWN_UNIT_SCREEN			0x10000 // Default screen (pixel) unit (8-bit unsigned int)
 #define PAWN_UNIT_QMN(n)			(1 << (n)) // Fixed-point (Qm.n) unit (16-bit signed int)
