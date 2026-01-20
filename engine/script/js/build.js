@@ -32,13 +32,35 @@ const buildStartTime = Date.now();
 //-- Setup global variables
 require("./setup_global.js"); 
 
+//-- Display title
+console.log(ColorBG +
+	        "╔═══════════════════════════════════════════════════════════════════════════╗");
+console.log("║                                                                           ║");
+console.log("║  ██▀▀█▀▀███▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█                                         ║");
+console.log("║  ██  ▀  ██   ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █                                         ║");
+console.log("║  █  ▄ ▄  ▀▀▀   █▀  ▄  ▀█ ▀▄█ █▄ █                                         ║");
+console.log("║  █▄▄█▄█▄▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█                                         ║");
+console.log("║                                                                           ║");
+console.log("║   ▄▄▄       ▄  ▄▄    ▄▄   ▄▄▄▄           ▄▄                               ║");
+console.log("║   ██▄▀ ██ █ ▄  ██   ▄██    ██  ▄█▀▄ ▄█▀▄ ██                               ║");
+console.log("║   ██▄▀ ▀█▄█ ██ ▀█▄ ▀▄██    ██  ▀█▄▀ ▀█▄▀ ▀█▄                              ║");
+console.log("║                                                                           ║");
+console.log("╚═══════════════════════════════════════════════════════════════════════════╝");
+console.log(ColorReset+`MSXgl Build Tool using Node.js ${process.version} (${process.platform})\n`);
+
 //-- Default configuration
 if (!fs.existsSync(`${RootDir}projects/default_config.js`))
 	util.copyFile(`${RootDir}engine/script/js/default_config.js`, `${RootDir}projects/default_config.js`);
 require(`${RootDir}projects/default_config.js`);
 
-//-- Project specific overwrite
+//-- Project configuration overwrite
 require(`${ProjDir}project_config.js`);
+
+//... Log option and directory paths are now defined
+
+//-- Create out directory
+if (!fs.existsSync(OutDir))
+	fs.mkdirSync(OutDir);	
 
 //-- Setup log file
 if (LogFile)
@@ -48,9 +70,11 @@ if (LogFile)
 
 	if (fs.existsSync(`${OutDir}${LogFileName}`))
 		util.delFile(`${OutDir}${LogFileName}`);	
+
+	util.print(`Log to file: ${LogFileName}`, PrintDetail);
 }
-	
-//-- Setup command line overwrite parameters
+
+//-- Parse command line for project name overwrite
 let CommandArgs = process.argv.slice(2);
 for (let i = 0; i < CommandArgs.length; i++)
 {
@@ -66,141 +90,42 @@ for (let i = 0; i < CommandArgs.length; i++)
 	}
 }
 
-//-- Sub-project specific overwrite
+//-- Sub-project configuration overwrite
 if (fs.existsSync(`${ProjDir}${ProjName}.js`))
 {
 	util.print(`Sub-project configuration found '${ProjDir}${ProjName}.js'`, PrintDetail);
 	require(`${ProjDir}${ProjName}.js`);
 }
 
-//-- Setup command line overwrite parameters
-CommandArgs = process.argv.slice(2);
-for (let i = 0; i < CommandArgs.length; i++)
-{
-	const arg = CommandArgs[i].toLowerCase();
-	if (arg.startsWith("projname="))
-	{
-	}
-	else if (arg.startsWith("target="))
-	{
-		let val = CommandArgs[i].substring(7);
-		if (val)
-		{
-			Target = val;
-			util.print(`Command line overwrite => Target=${Target}`, PrintDetail);
-		}
-	}
-	else if (arg.startsWith("machine="))
-	{
-		let val = CommandArgs[i].substring(7);
-		if (val)
-		{
-			Machine = val;
-			util.print(`Command line overwrite => Machine=${Machine}`, PrintDetail);
-		}
-	}
-	else if (arg.startsWith("romsize="))
-	{
-		let val = CommandArgs[i].substring(8);
-		if (val)
-		{
-			ROMSize = parseInt(val);
-			util.print(`Command line overwrite => ROMSize=${ROMSize}`, PrintDetail);
-		}
-	}
-	else if (arg === "delay")
-	{
-		ROMDelayBoot = true;
-		util.print(`Command line overwrite => ROMDelayBoot=${ROMDelayBoot}`, PrintDetail);
-	}
-	else if (arg === "ramisr")
-	{
-		InstallRAMISR = "RAM0_ISR";
-		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
-	}
-	else if (arg === "ramseg")
-	{
-		InstallRAMISR = "RAM0_SEGMENT";
-		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
-	}
-	else if (arg === "clean")
-	{
-		DoClean = true;
-		DoCompile = DoMake = DoPackage = DoDeploy = DoRun = false;
-	}
-	else if (arg === "rebuild")
-	{
-		DoClean = true;
-	}
-	else
-	{
-		util.print(`Unknown command line overwrite '${arg}'`, PrintWarning);
-	}
-}
-
-//-- Validate enum
-Machine        = Machine.toUpperCase();
-Target         = Target.toUpperCase();
-ROMSkipBootKey = ROMSkipBootKey.toUpperCase();
-if (util.isString(InstallRAMISR)) InstallRAMISR = InstallRAMISR.toUpperCase();
-CustomISR      = CustomISR.toUpperCase();
-DiskSize       = DiskSize.toUpperCase();
-AsmOptim       = AsmOptim.toUpperCase();
-Optim          = Optim.toUpperCase();
-if (util.isString(CompileComplexity)) CompileComplexity = CompileComplexity.toUpperCase();
-AnalyzerOutput = AnalyzerOutput.toUpperCase();
-AnalyzerReport = AnalyzerReport.toUpperCase();
-AnalyzerSort   = AnalyzerSort.toUpperCase();
-EmulPortA      = EmulPortA.toUpperCase();
-EmulPortB      = EmulPortB.toUpperCase();
-RunDevice      = RunDevice.toUpperCase();
+//-- Command line parameters overwrite
+require("./setup_command.js");
 
 //-- Target specific initialization
 global.TargetType = Target;
 require("./setup_target.js");
 
+//-- Parmaters validation
+require("./check_config.js");
+
 //=============================================================================
 // DISPLAY INFO
 //=============================================================================
 
+//-- Update console title
+process.title = `MSXgl – ${ProjName} – ${Target} – ${util.getMachineName(Machine)}`;
+
 // console.clear();
 
-//-- Create out directory
-if (!fs.existsSync(OutDir))
-	fs.mkdirSync(OutDir);
-
-//-- Display information
-process.title = `MSXgl Build Tool – ${ProjName} – ${Target} – ${util.getMachineName(Machine)}`;
-
-//-- Project specific overwrite
-util.print("╔═══════════════════════════════════════════════════════════════════════════╗", PrintBG);
-util.print("║                                                                           ║", PrintBG);
-util.print("║  ██▀▀█▀▀███▀▀▀▀▀▀▀███▀▀█▀▀▀▀▀▀▀▀█                                         ║", PrintBG);
-util.print("║  ██  ▀  ██   ▄▄▄▄  ▀  ▄█ ▄▀▀ █  █                                         ║", PrintBG);
-util.print("║  █  ▄ ▄  ▀▀▀   █▀  ▄  ▀█ ▀▄█ █▄ █                                         ║", PrintBG);
-util.print("║  █▄▄█▄█▄▄▄▄▄▄▄██▄▄███▄▄█▄▄▄▄▄▄▄▄█                                         ║", PrintBG);
-util.print("║                                                                           ║", PrintBG);
-util.print("║   ▄▄▄       ▄  ▄▄    ▄▄   ▄▄▄▄           ▄▄                               ║", PrintBG);
-util.print("║   ██▄▀ ██ █ ▄  ██   ▄██    ██  ▄█▀▄ ▄█▀▄ ██                               ║", PrintBG);
-util.print("║   ██▄▀ ▀█▄█ ██ ▀█▄ ▀▄██    ██  ▀█▄▀ ▀█▄▀ ▀█▄                              ║", PrintBG);
-util.print("║                                                                           ║", PrintBG);
-util.print("╚═══════════════════════════════════════════════════════════════════════════╝", PrintBG);
-
-util.print(`MSXgl Build Tool using Node.js ${process.version} (${process.platform})\n`);
-
-if (LogFile)
-	util.print(`Log to file: ${LogFileName}`, PrintDetail);
-
-//-- Parmaters validation
-require("./check_config.js");
-
-util.print(`» Target: ${TargetDesc}`);
+// Display configuration summary
+util.print(`» Project: ${ProjName}`);
+util.print(`» Machine: ${util.getMachineName(Machine)}`);
+util.print(`» Target:  ${TargetDesc}`);
 
 util.print("Project paths:", PrintDetail);
-util.print(`- ProjDir: ${ProjDir}`, PrintDetail);
-util.print(`- OutDir: ${OutDir}`, PrintDetail);
-util.print(`- RootDir: ${RootDir}`, PrintDetail);
-util.print(`- LibDir: ${LibDir}`, PrintDetail);
+util.print(`- ProjDir:  ${ProjDir}`, PrintDetail);
+util.print(`- OutDir:   ${OutDir}`, PrintDetail);
+util.print(`- RootDir:  ${RootDir}`, PrintDetail);
+util.print(`- LibDir:   ${LibDir}`, PrintDetail);
 util.print(`- ToolsDir: ${ToolsDir}`, PrintDetail);
 
 process.env.path += `;${SDCCPath}bin`; // Hotfix for SDCC 4.3.0 path error for CC1
@@ -248,7 +173,7 @@ if (DoClean)
 		fs.rmSync(`${ProjDir}emul`, { recursive: true });
 	}
 
-	return;
+	fs.mkdirSync(OutDir);
 }
 
 //_____________________________________________________________________________
@@ -291,6 +216,7 @@ if (DoCompile)
 	if (DOSParseArg)             conf += "DOS_PARSEARG=1\n";
 	if (Target === "DOS0")       conf += "DOS_ISR=1\n";
 	// if (Machine != "1")          conf += "ISR_SET_S0=1\n";
+	if (CheckVersion)            conf += `CHECK_MSX=${util.getMachineID(Machine)}\n`;
 	if (AppSignature)
 	{
 		conf += "APP_SIGN=1\n";
@@ -405,11 +331,14 @@ if (DoCompile)
 	//=========================================================================
 
 	// Add crt0 source to build list (it must be the first in the list)
-	SrcList = [ `${LibDir}src/crt0/${Crt0}.asm` ];
+	SrcList = [];
 	RelList = [];
 	LibList = [];
 	MapList = [];
 	const codeExtList = [ "c", "s", "asm" ];
+
+	if (Target !== "LIB")
+		SrcList.push(`${LibDir}src/crt0/${Crt0}.asm`);
 
 	// Add project sources to build list
 	for (let i = 0; i < ProjModules.length; i++)
@@ -436,7 +365,7 @@ if (DoCompile)
 	}
 
 	// Add modules sources to build list
-	if (BuildLibrary)
+	if (BuildLibrary && LibModules.length)
 	{
 		util.print(`» MSXgl Modules: ${LibModules}`);
 		for (let i = 0; i < LibModules.length; i++)
@@ -565,7 +494,7 @@ if (DoCompile)
 		const segExtList = [ "c", "s", "asm" ];
 		let pageFound = 0;
 
-		util.print(`Searching for ROM's pages specific code (from ${ROMFirstPage} to ${ROMLastPage})...`, PrintHighlight);
+		util.print(`Searching for ROM's pages specific code [${ROMFirstPage}-${ROMLastPage}] (${ProjSegments}_p?)...`, PrintHighlight);
 		for (let p = ROMFirstPage; p <= ROMLastPage; p++) // Parse all ROM's pages
 		{
 			let pageName = `${ProjSegments}_p${p}`;
@@ -593,6 +522,21 @@ if (DoCompile)
 		}
 		if (!pageFound)
 			util.print("No pages code found", PrintDetail);
+	}
+
+	if (Target === "LIB")
+	{
+		util.print(`Generate ${ProjName}.lib...`, PrintHighlight);
+
+		let libStr = RelList.join(" ");
+		let SDARParam = `-rc ${OutDir}${ProjName}.lib ${libStr}`
+		let err = util.execSync(`"${MakeLib}" ${SDARParam}`);
+		if (err)
+		{
+			util.print(`Lib generation error! Code: ${err}`, PrintError);
+			process.exit(1);
+		}
+		util.print("Success", PrintSuccess);
 	}
 
 	//-- Display step duration
@@ -632,7 +576,7 @@ if (DoMake)
 	//=========================================================================
 	// Generate Library
 	//=========================================================================
-	if (BuildLibrary)
+	if (BuildLibrary && LibModules.length)
 	{
 		util.print("Generate msxgl.lib...", PrintHighlight);
 
@@ -680,11 +624,15 @@ if (DoMake)
 	if (Optim === "SPEED") LinkOpt += " --opt-code-speed";
 	if (Optim === "SIZE")  LinkOpt += " --opt-code-size";
 	if (Debug)             LinkOpt += " --debug";
-	let mapLibStr = "";
+	
+	// Build library list
+	AddLibs.push(`${OutDir}msxgl.lib`);
 	if (PackSegments && MapList.length)
-		mapLibStr = `${OutDir}mapper.lib`;
+		AddLibs.push(`${OutDir}mapper.lib`);
+	let libList = AddLibs.join(" ");
 
-	let SDCCParam = `-mz80 --vc --no-std-crt0 -L${SDCCPath}lib/z80 --code-loc 0x${util.getHex(CodeAddr)} --data-loc 0x${util.getHex(RamAddr)} ${LinkOpt} ${MapperBanks} ${OutDir}${Crt0}.rel ${OutDir}msxgl.lib ${mapLibStr} ${RelList.join(" ")} -o ${OutDir}${ProjName}.ihx`;
+	// Build command line
+	let SDCCParam = `-mz80 --vc --no-std-crt0 -L${SDCCPath}lib/z80 --code-loc 0x${util.getHex(CodeAddr)} --data-loc 0x${util.getHex(RamAddr)} ${LinkOpt} ${MapperBanks} ${OutDir}${Crt0}.rel ${libList} ${RelList.join(" ")} -o ${OutDir}${ProjName}.ihx`;
 	let err = util.execSync(`"${Linker}" ${SDCCParam}`);
 	if (err)
 	{
@@ -722,15 +670,20 @@ if (DoPackage)
 		H2BParam += ` -l ${MapperSize} -b ${SegSize}`;
 	else
 		H2BParam += ` -l ${FillSize}`;
-	// if (Target === "DOS2_MAPPER")
-	// 	H2BParam += " -split";
-	for (let i = 0; i < RawFiles.length; i++)
-	{
-		let raw = RawFiles[i];
-		H2BParam += ` -r ${raw.offset} ${raw.file}`;
-	}
 	H2BParam += ` ${HexBinOpt}`;
 
+	// Add raw files definitions
+	if (RawFiles.length)
+	{
+		let hexFile = "";
+		for (let raw of RawFiles)
+			hexFile += ` -r ${raw.offset} ${raw.file}`;
+
+		fs.writeFileSync(`${OutDir}msxhex.txt`, hexFile);
+		H2BParam += `-f ${OutDir}msxhex.txt`;
+	}
+	
+	// Execute MSXhex
 	let err = util.execSync(`"${Hex2Bin}" ${H2BParam}`);
 	if (err)
 	{
@@ -764,14 +717,19 @@ if (DoDeploy)
 	//=========================================================================
 	// CREATE OUTPUT DIRECTORY
 	//=========================================================================
-	if (!fs.existsSync(`${ProjDir}emul`)) fs.mkdirSync(`${ProjDir}emul`);
 	if (Ext === "rom")
 	{
+		if (!fs.existsSync(`${ProjDir}emul`)) fs.mkdirSync(`${ProjDir}emul`);
 		if (!fs.existsSync(`${ProjDir}emul/rom`)) fs.mkdirSync(`${ProjDir}emul/rom`);
-		if (ROMDelayBoot && !fs.existsSync(`${ProjDir}emul/dsk/tmp`)) fs.mkdirSync(`${ProjDir}emul/dsk/tmp`);
+		if (ROMDelayBoot)
+		{
+			if (!fs.existsSync(`${ProjDir}emul/dsk`)) fs.mkdirSync(`${ProjDir}emul/dsk`);
+			if (!fs.existsSync(`${ProjDir}emul/dsk/tmp`)) fs.mkdirSync(`${ProjDir}emul/dsk/tmp`);
+		}
 	}
 	else if (Ext === "bin")
 	{
+		if (!fs.existsSync(`${ProjDir}emul`)) fs.mkdirSync(`${ProjDir}emul`);
 		if (!fs.existsSync(`${ProjDir}emul/bin`)) fs.mkdirSync(`${ProjDir}emul/bin`);
 		if (Target === "BIN_TAPE")
 			if (!fs.existsSync(`${ProjDir}emul/cas`)) fs.mkdirSync(`${ProjDir}emul/cas`);
@@ -780,6 +738,7 @@ if (DoDeploy)
 	}
 	else if (Ext === "com")
 	{
+		if (!fs.existsSync(`${ProjDir}emul`)) fs.mkdirSync(`${ProjDir}emul`);
 		if (!fs.existsSync(`${ProjDir}emul/dos${DOS}`)) fs.mkdirSync(`${ProjDir}emul/dos${DOS}`);
 		if (DOS === 1)
 		{
@@ -793,10 +752,14 @@ if (DoDeploy)
 		}
 		if (!fs.existsSync(`${ProjDir}emul/dsk`)) fs.mkdirSync(`${ProjDir}emul/dsk`);
 	}
+	else if (Ext === "lib")
+	{
+		if (!fs.existsSync(`${ProjDir}lib`)) fs.mkdirSync(`${ProjDir}lib`);
+	}
 
 	let DskToolPath = path.parse(DskTool).dir + '/';
 	let DskToolName = path.parse(DskTool).base;
-	if (process.platform === "linux")
+	if (process.platform !== "win32") // Linux & MacOS
 		DskToolName = `./${DskToolName}`;
 	let projNameShort = ProjName.substring(0, 8);
 
@@ -1053,7 +1016,29 @@ if (DoDeploy)
 		}
 	}
 
+	//-------------------------------------------------------------------------
+	// C LIBRARY TARGET
+	//-------------------------------------------------------------------------
+	else if (Ext === "lib")
+	{
+		// Copy library file
+		util.copyFile(`${OutDir}${ProjName}.lib`, `${ProjDir}lib/${ProjName}.lib`);
+		// Copy all available header files
+		for (let i = 0; i < ProjModules.length; i++)
+		{
+			if (fs.existsSync(`./${ProjModules[i]}.h`))
+				util.copyFile(`./${ProjModules[i]}.h`, `${ProjDir}lib/${ProjModules[i]}.h`);
+		}	
+	}
 	util.print("Success", PrintSuccess);
+
+	//-------------------------------------------------------------------------
+	// STANDALONE PACKAGE
+	//-------------------------------------------------------------------------
+	if (Standalone)
+	{
+		require("./standalone.js");
+	}
 
 	//-- Display step duration
 	const deployElapsTime = Date.now() - deployStartTime;
@@ -1137,6 +1122,6 @@ if (DoRun)
 	{
 		require("./setup_emulator.js");
 
-		util.exec(`"${Emulator}" ${EmulatorArgs}`);
+		util.execSync(`"${Emulator}" ${EmulatorArgs}`);
 	}
 }

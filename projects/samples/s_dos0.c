@@ -69,7 +69,7 @@ void LoadImage(const c8* filename)
 		
 		const u8* src;
 		u8 size;
-		if(i == 0)
+		if (i == 0)
 		{
 			src = g_StrBuffer + 7;
 			size = 128 - 7;
@@ -103,7 +103,7 @@ void LoadImage(const c8* filename)
 // Add image to list
 void AddFile()
 {
-	if(g_FileNum >= 10)
+	if (g_FileNum >= 10)
 		return;
 	
 	Mem_Copy(((c8*)0x0081), g_FileList[g_FileNum], 11);
@@ -141,15 +141,15 @@ StartProgram:
 	Mem_Set(0, &g_File, sizeof(FCB));
 	Mem_Copy(wildcard, &g_File.Name, 11);
 	g_FileNum = 0;
-	if(DOS_FindFirstFileFCB(&g_File) == DOS_SUCCESS)
+	if (DOS_FindFirstFileFCB(&g_File) == DOS_SUCCESS)
 	{
 		AddFile();
-		while(DOS_FindNextFileFCB() == DOS_SUCCESS)
+		while (DOS_FindNextFileFCB() == DOS_SUCCESS)
 			AddFile();
 	}
 	DOS_Close(&g_File);
 
-	while(1) {}
+	while (1) {}
 
 	DOS_StringOutput("PRESS A KEY\n\r$");
 	DOS_CharInput();
@@ -160,7 +160,7 @@ StartProgram:
 	DOS_StringOutput("Loading image...\n\r$");
 	LoadImage("IMAGE04 SC8");
 
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 	}
 

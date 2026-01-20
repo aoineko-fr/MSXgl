@@ -8,49 +8,49 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic1"></a><div class="CTopic TGroup LC first">
+<a name="Functions"></a><a name="Topic9"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="AKM_IsPlaying"></a><a name="Topic2"></a><div class="CTopic TFunction LC">
+<a name="AKM_Play"></a><a name="Topic347"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">AKM_Play</div>
+ <div id="NDPrototype347" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKM_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">sng,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize music and start playback</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">num</td><td class="CDLDefinition"><p>Sub-music number if the AKG contain several musics (otherwise set to 0)</p></td></tr><tr><td class="CDLEntry">data</td><td class="CDLDefinition"><p>Pointer to the music data (data must be export to be replayed at this exact location) Check Arkos Tracker documentation for more details: <a href="https://www.julien-nevo.com/arkostracker" target="_top">https://&#8203;www&#8203;.julien-nevo&#8203;.com&#8203;/arkostracker</a></p></td></tr></table></div>
+</div>
+
+<a name="AKM_IsPlaying"></a><a name="Topic8"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKM_IsPlaying</div>
- <div id="NDPrototype2" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> AKM_IsPlaying()</div></div>
- <div class="CBody"><p>Initialize music and start playback</p></div>
+ <div id="NDPrototype8" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> AKM_IsPlaying()</div></div>
+ <div class="CBody"><p>Check if a music is currently playing</p><div class="CHeading">Return</div><p>FALSE if no music is playing</p></div>
 </div>
 
-<a name="AKM_Init"></a><a name="Topic3"></a><div class="CTopic TFunction LC">
- <div class="CTitle">AKM_Init</div>
- <div id="NDPrototype3" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKM_Init(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">sng</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Initialize music and start playback</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data</td><td class="CDLDefinition"><p>Pointer to the music data</p></td></tr><tr><td class="CDLEntry">num</td><td class="CDLDefinition"><p>Music number</p></td></tr></table></div>
-</div>
-
-<a name="AKM_Stop"></a><a name="Topic4"></a><div class="CTopic TFunction LC">
+<a name="AKM_Stop"></a><a name="Topic11"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKM_Stop</div>
- <div id="NDPrototype4" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> AKM_Stop()</div></div>
+ <div id="NDPrototype11" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> AKM_Stop()</div></div>
  <div class="CBody"><p>Stop music playback</p></div>
 </div>
 
-<a name="AKM_Decode"></a><a name="Topic5"></a><div class="CTopic TFunction LC">
- <div class="CTitle">AKM_Decode</div>
- <div id="NDPrototype5" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">bool</span> AKM_Decode()</div></div>
- <div class="CBody"><p>Decode a music frame and update the PSG</p></div>
+<a name="AKM_Update"></a><a name="Topic1457"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">AKM_Update</div>
+ <div id="NDPrototype1457" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">bool</span> AKM_Update()</div></div>
+ <div class="CBody"><p>Decode a music frame and update the PSG</p><div class="CHeading">Return</div><p>TRUE if end of music have been reached</p></div>
 </div>
 
-<a name="AKM_InitSFX"></a><a name="Topic6"></a><div class="CTopic TFunction LC">
+<a name="AKM_InitSFX"></a><a name="Topic443"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKM_InitSFX</div>
- <div id="NDPrototype6" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 AKM_InitSFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype443" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 AKM_InitSFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Initializes the sound effects. It MUST be called at any times before a first sound effect is triggered.&nbsp; It doesn't matter whether the song is playing or not, or if it has been initialized or not.</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data</td><td class="CDLDefinition"><p>Address to the sound effects data.</p></td></tr></table><div class="CHeading">Return</div><p>Number of SFX in the package</p></div>
 </div>
 
-<a name="AKM_PlaySFX"></a><a name="Topic7"></a><div class="CTopic TFunction LC">
+<a name="AKM_PlaySFX"></a><a name="Topic444"></a><div class="CTopic TFunction LC">
  <div class="CTitle">AKM_PlaySFX</div>
- <div id="NDPrototype7" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKM_PlaySFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">sfx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chan,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">vol</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype444" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKM_PlaySFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">sfx,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chan,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">vol</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Plays a sound effect. If a previous one was already playing on the same channel, it is replaced.&nbsp; This does not actually plays the sound effect, but programs its playing.</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">sfx</td><td class="CDLDefinition"><p>Sound effect number (&gt;0!).</p></td></tr><tr><td class="CDLEntry">chan</td><td class="CDLDefinition"><p>The channel where to play the sound effect (0, 1, 2).</p></td></tr><tr><td class="CDLEntry">vol</td><td class="CDLDefinition"><p>Inverted volume (0 = full volume, 16 = no sound). Hardware sounds are also lowered.</p></td></tr></table></div>
 </div>
 
-<a name="AKM_StopSFX"></a><a name="Topic8"></a><div class="CTopic TFunction LC last">
+<a name="AKM_StopSFX"></a><a name="Topic445"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">AKM_StopSFX</div>
- <div id="NDPrototype8" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKM_StopSFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chan</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype445" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> AKM_StopSFX(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chan</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Stops a sound effect. Nothing happens if there was no sound effect.</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">chan</td><td class="CDLDefinition"><p>The channel where to stop the sound effect (0, 1, 2).</p></td></tr></table></div>
 </div>
 

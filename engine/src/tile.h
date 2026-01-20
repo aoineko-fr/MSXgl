@@ -63,12 +63,12 @@
 //=============================================================================
 
 // Precomputed values
-#define TILE_PER_ROW				(TILE_SCREEN_WIDTH / TILE_WIDTH)
-#define TILE_PER_COLUMN				(TILE_SCREEN_HEIGHT / TILE_HEIGHT)
-#define TILE_CELL_BYTES				(TILE_WIDTH * TILE_HEIGHT * TILE_BPP / 8)
-#define TILE_PAGE_SIZE				(u32)((u32)256 * 256 * TILE_BPP / 8)
+#define TILE_PER_ROW				((TILE_SCREEN_WIDTH) / (TILE_WIDTH))
+#define TILE_PER_COLUMN				((TILE_SCREEN_HEIGHT) / (TILE_HEIGHT))
+#define TILE_CELL_BYTES				((TILE_WIDTH) * (TILE_HEIGHT) * (TILE_BPP) / 8)
+#define TILE_PAGE_SIZE				(u32)((u32)256 * 256 * (TILE_BPP) / 8)
 #define TILE_BANK_WIDTH				TILE_SCREEN_WIDTH
-#define TILE_BANK_HEIGHT			(u16)((u32)TILE_WIDTH * TILE_HEIGHT * 256 / TILE_SCREEN_WIDTH)
+#define TILE_BANK_HEIGHT			(u16)((u32)(TILE_WIDTH) * (TILE_HEIGHT) * 256 / (TILE_SCREEN_WIDTH))
 
 // Current pattern bank
 extern u8  g_Tile_CurBank;
@@ -103,6 +103,27 @@ inline void Tile_SetBankPage(u8 page) { g_Tile_BankPage = page; g_Tile_BankBase 
 //   offset - Tiles offset in the bank
 //   num - Number of tiles to load
 void Tile_LoadBankEx(u8 bank, const u8* data, u16 offset, u16 num);
+
+// Function: Tile_GetBankAddressEx
+// Get the VRAM address at a given offset in a given bank.
+//
+// Parameters:
+//   bank - Bank number in current page (number of bank depend of the size of 256 tiles)
+//   offset - Tiles offset in the bank
+//
+// Returns:
+//   VRAM address of the given bank and offset
+inline u32 Tile_GetBankAddressEx(u8 bank, u16 offset) { return (g_Tile_BankPage * TILE_PAGE_SIZE) + ((bank * 256) + offset) * TILE_CELL_BYTES; }
+
+// Function: Tile_GetBankAddressEx
+// Get the VRAM start address of a given bank.
+//
+// Parameters:
+//   bank - Bank number in current page (number of bank depend of the size of 256 tiles)
+//
+// Returns:
+//   VRAM address of the given bank and offset
+inline u32 Tile_GetBankAddress(u8 bank) { return Tile_GetBankAddressEx(bank, 0); }
 
 // Function: Tile_LoadBank
 // Load data to the given bank (in the selected page ; see <Tile_SetBankPage>).

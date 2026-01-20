@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("qmn",["Function"],[["QMN_Get16",,[[,,,,0,"File:fixed_point.h:QMN_Get16"]]],["QMN_Get8",,[[,,,,0,"File:fixed_point.h:QMN_Get8"]]],["QMN_Set16",,[[,,,,0,"File:fixed_point.h:QMN_Set16"]]],["QMN_Set8",,[[,,,,0,"File:fixed_point.h:QMN_Set8"]]]]);

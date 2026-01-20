@@ -2,22 +2,23 @@
 setlocal EnableDelayedExpansion
 
 :: Audio
-set BuildArkos=1
-set BuildTrilo=1
-set BuildWYZ=1
-set BuildayFX=1
-set BuildVGM=1
-set BuildlVGM=1
-set BuildPCMEnc=1
-set BuildPCMPlay=1
+set BuildArkos=0
+set BuildTrilo=0
+set BuildWYZ=0
+set BuildayFX=0
+set BuildVGM=0
+set BuildlVGM=0
+set BuildlNDP=0
+set BuildPCMEnc=0
+set BuildPCMPlay=0
 :: Image
-set BuildBitmap=1
-set BuildImage=1
-set BuildCompress=1
-set BuildTile=1
-set BuildV9990=1
+set BuildBitmap=0
+set BuildImage=0
+set BuildCompress=0
+set BuildTile=0
+set BuildV9990=0
 :: Misc
-set BuildZip=1
+set BuildZip=0
 
 :: Path
 set Tools=..\..\..\tools
@@ -125,6 +126,26 @@ if %BuildlVGM%==1 (
 	copy /Y %Dest%\lvgm\lvgm_scc_metagear2_10.bin  %Dest%\lvgm\mg2.lvm
 	copy /Y %Dest%\lvgm\lvgm_ma_proyakyu_10.bin    %Dest%\lvgm\proyakyu.lvm
 	copy /Y %Dest%\lvgm\lvgm_ma_xevious_02.bin     %Dest%\lvgm\xevious.lvm
+)
+
+::-----------------------------------------------------------------------------
+:: Build NDP data
+if %BuildlNDP%==1 (
+	echo ----------------------------------------
+	echo Building NDP data...
+	if not exist %Dest%\ndp md %Dest%\ndp
+
+	::---- Music
+	for %%I in (ndp\*.ndp) do (
+		echo Converting %%I...
+		%MSXtk%\MSXbin.exe %%I -t g_NDP_%%~nI -skip 0 7 -ad -o %Dest%\ndp\%%~nI.h
+	)
+
+	::---- Sound FX
+	for %%I in (ndp\*.nds) do (
+		echo Converting %%I...
+		%MSXtk%\MSXbin.exe %%I -t g_NDS_%%~nI -skip 0 7 -ad -o %Dest%\ndp\%%~nI.h
+	)
 )
 
 ::-----------------------------------------------------------------------------
@@ -273,6 +294,7 @@ if %BuildTile%==1 (
 	%MSXtk%\MSXimg.exe img\city.png -out %Dest%\tile\data_tile_gm2.h -mode gm2 -name g_DataTileGM2 -pos 0 256 -size 192  144 -offset 0
 	%MSXtk%\MSXimg.exe img\city.png -out %Dest%\tile\data_map_gm2.h  -mode gm2 -name g_DataMapGM2  -pos 0 320 -size 1024 192 -offset 0
 	REM %MSXtk%\MSXimg.exe img\city.png -out %Dest%\tile\data_tile_gm1.h -mode gm1 -name g_DataTileGM1 -pos 0 160 -size 192 144 -offset 0
+	%MSXtk%\MSXimg.exe misc\naruto2413_qrcode.png -mode gm2 -name g_QRCode -pos 0 0 -size 64 64 -out %Dest%\img\naruto2413_qrcode.h
 )
 
 ::-----------------------------------------------------------------------------

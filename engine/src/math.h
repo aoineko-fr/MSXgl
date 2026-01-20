@@ -16,35 +16,35 @@
 //-----------------------------------------------------------------------------
 
 // 8-bits unsigned vector structure
-typedef struct
+typedef struct VectorU8
 {
 	u8			x;	
 	u8			y;	
 } VectorU8;
 
 // 8-bits signed vector structure
-typedef struct
+typedef struct VectorI8
 {
 	i8			x;	
 	i8			y;	
 } VectorI8;
 
 // 16-bits unsigned vector structure
-typedef struct
+typedef struct VectorU16
 {
 	u16			x;	
 	u16			y;	
 } VectorU16;
 
 // 16-bits signed vector structure
-typedef struct
+typedef struct VectorI16
 {
 	i16			x;	
 	i16			y;	
 } VectorI16;
 
 #define VECTOR(type) Vector_##type
-#define DEFVECTOR(type) typedef struct { type x; type y; } VECTOR(type)
+#define DEFVECTOR(type) typedef struct VECTOR(type) { type x; type y; } VECTOR(type)
 
 //-----------------------------------------------------------------------------
 // Group: Macros

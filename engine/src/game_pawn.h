@@ -1,3 +1,5 @@
+#warning Deprecated! Upgrade to "game/pawn.h" instead.
+
 // ____________________________
 // ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄           
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██   ▄▀██ ▄█▄█ ▄███
@@ -138,7 +140,7 @@
 //=============================================================================
 
 // Animation frame structure (one pose of the pawn)
-typedef struct
+typedef struct Game_Frame
 {
 	u8					Id;       // Animation frame data index (0-255)
 	u8					Duration; // Frame duration (in frame number)
@@ -146,7 +148,7 @@ typedef struct
 } Game_Frame;
 
 // Animation action structure
-typedef struct
+typedef struct Game_Action
 {
 	const Game_Frame*	FrameList;     // Animation frames data
 	u8					FrameNum;      // Animation frames data count
@@ -164,7 +166,7 @@ enum PAWN_SPRITE_FLAG
 };
 
 // Pawn structure
-typedef struct
+typedef struct Game_Sprite
 {
 #if (GAMEPAWN_ID_PER_LAYER)
 	u8					SpriteID;     // Sprite ID
@@ -228,7 +230,7 @@ enum PAWN_PHYSICS_STATE
 #endif
 
 // Pawn structure
-typedef struct
+typedef struct Game_Pawn
 {
 	const Game_Sprite*	SpriteList;		// List of sprite layers
 	u8					SpriteNum;		// Number of sprite layers
@@ -273,11 +275,11 @@ typedef struct
 
 // Tile map getter macro
 #if (GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_RAM)
-	#define GAMEPAWN_GET_TILE(X, Y)	g_GamePawn_TileMap[(Y * GAMEPAWN_TILEMAP_WIDTH) + X]
+	#define GAMEPAWN_GET_TILE(X, Y)	g_GamePawn_TileMap[((Y) * GAMEPAWN_TILEMAP_WIDTH) + (X)]
 	// Tile map buffer in RAM
 	extern const u8* g_GamePawn_TileMap;
 #elif (GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_VRAM)
-	#define GAMEPAWN_GET_TILE(X, Y)	VDP_Peek(g_ScreenLayoutLow + (Y * GAMEPAWN_TILEMAP_WIDTH) + X, g_ScreenLayoutHigh)
+	#define GAMEPAWN_GET_TILE(X, Y)	VDP_Peek(g_ScreenLayoutLow + ((Y) * GAMEPAWN_TILEMAP_WIDTH) + (X), g_ScreenLayoutHigh)
 #elif (GAMEPAWN_TILEMAP_SRC == GAMEPAWN_TILEMAP_SRC_V9)
 	#define GAMEPAWN_GET_TILE(X, Y)	V9_Peek(V9_CellAddrP1A(X, Y))
 #endif

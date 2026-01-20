@@ -18,7 +18,10 @@ ForceCodeAddr = 0xE000;
 ForceRamAddr = 0; // 0: right after code area
 
 //-- Command lines to be executed after the build process (array)
-PostBuildScripts = [ "copy emul\\bin\\s_drv.bin content\\sample.drv /Y" ];
+if (process.platform === "win32")
+	PostBuildScripts = [ "copy emul\\bin\\s_drv.bin content\\sample.drv /Y" ];
+else
+	PostBuildScripts = [ "cp emul/bin/s_drv.bin content/sample.drv" ];
 
 //-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
 AppID = "DV";

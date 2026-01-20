@@ -175,7 +175,7 @@ void setModuleUnbounded(u8 qrcode[], u8 x, u8 y, bool isDark);
 static bool getBit(i16 x, u8 i);
 
 i16 calcSegmentBitLength(enum QRCODE_MODE mode, u16 numChars);
-i16 getTotalBits(const struct QRCode_Segment segs[], u16 len, u8 version);
+i16 getTotalBits(const QRCode_Segment segs[], u16 len, u8 version);
 static i8 numCharCountBits(enum QRCODE_MODE mode, u8 version);
 
 
@@ -233,7 +233,7 @@ bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[], enum QRCO
 		return QRCode_EncodeSegmentsAdvanced(NULL, 0, ecl, mask, tempBuffer, qrcode);
 	u16 bufLen = (u16)QRCODE_BUFFER_LEN_FOR_VERSION(QRCODE_VERSION_CURRENT_MAX);
 	
-	struct QRCode_Segment seg;
+	QRCode_Segment seg;
 #if (!QRCODE_USE_BYTE_ONLY)
 	if (QRCode_IsNumeric(text))
 	{
@@ -273,7 +273,7 @@ fail:
 // Public function - see documentation comment in header file.
 bool QRCode_EncodeBinary(u8 dataAndTemp[], u16 dataLen, u8 qrcode[], enum QRCODE_ECC ecl, enum QRCODE_MASK mask)
 {	
-	struct QRCode_Segment seg;
+	QRCode_Segment seg;
 	seg.mode = QRCODE_MODE_BYTE;
 	seg.bitLength = calcSegmentBitLength(seg.mode, dataLen);
 	if (seg.bitLength == LENGTH_OVERFLOW)
@@ -302,14 +302,14 @@ void appendBitsToBuffer(u16 val, u8 numBits, u8 buffer[], i16 *bitLen)
 
 #if (QRCODE_USE_EXTRA && !QRCODE_USE_BYTE_ONLY)
 // Public function - see documentation comment in header file.
-bool QRCode_EncodeSegments(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, u8 tempBuffer[], u8 qrcode[])
+bool QRCode_EncodeSegments(const QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, u8 tempBuffer[], u8 qrcode[])
 {
 	return QRCode_EncodeSegmentsAdvanced(segs, len, ecl, QRCODE_MASK_AUTO, tempBuffer, qrcode);
 }
 #endif
 
 // Public function - see documentation comment in header file.
-bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, enum QRCODE_MASK mask, u8 tempBuffer[], u8 qrcode[])
+bool QRCode_EncodeSegmentsAdvanced(const QRCode_Segment segs[], u16 len, enum QRCODE_ECC ecl, enum QRCODE_MASK mask, u8 tempBuffer[], u8 qrcode[])
 {
 	assert(segs != NULL || len == 0);
 	assert(QRCODE_VERSION_MIN <= QRCODE_VERSION_CURRENT_MIN && QRCODE_VERSION_CURRENT_MIN <= QRCODE_VERSION_CURRENT_MAX && QRCODE_VERSION_CURRENT_MAX <= QRCODE_VERSION_MAX);
@@ -333,7 +333,7 @@ bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, 
 	assert(dataUsedBits != LENGTH_OVERFLOW);
 	
 	// Increase the error correction level while the data still fits in the current version number
-	if(QRCODE_BOOST_ECL_CURRENT)
+	if (QRCODE_BOOST_ECL_CURRENT)
 	{
 		for (u8 i = (u8)QRCODE_ECC_MEDIUM; i <= (u8)QRCODE_ECC_HIGH; i++) // From low to high
 			if (dataUsedBits <= getNumDataCodewords(version, (enum QRCODE_ECC)i) * 8)
@@ -345,7 +345,7 @@ bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u16 len, 
 	i16 bitLen = 0;
 	for (u16 i = 0; i < len; i++)
 	{
-		const struct QRCode_Segment *seg = &segs[i];
+		const QRCode_Segment *seg = &segs[i];
 		appendBitsToBuffer((u16)seg->mode, 4, qrcode, &bitLen);
 		appendBitsToBuffer((u16)seg->numChars, numCharCountBits(seg->mode, version), qrcode, &bitLen);
 		for (i16 j = 0; j < seg->bitLength; j++)
@@ -1074,7 +1074,7 @@ i16 calcSegmentBitLength(enum QRCODE_MODE mode, u16 numChars)
 
 #if (QRCODE_USE_EXTRA && !QRCODE_USE_BYTE_ONLY)
 // Public function - see documentation comment in header file.
-void QRCode_MakeBytes(const u8 data[], u16 len, u8 buf[], struct QRCode_Segment* seg)
+void QRCode_MakeBytes(const u8 data[], u16 len, u8 buf[], QRCode_Segment* seg)
 {
 	assert(data != NULL || len == 0);
 	seg->mode = QRCODE_MODE_BYTE;
@@ -1089,7 +1089,7 @@ void QRCode_MakeBytes(const u8 data[], u16 len, u8 buf[], struct QRCode_Segment*
 
 #if (!QRCODE_USE_BYTE_ONLY)
 // Public function - see documentation comment in header file.
-void QRCode_MakeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg)
+void QRCode_MakeNumeric(const char *digits, u8 buf[], QRCode_Segment* seg)
 {
 	assert(digits != NULL);
 	u16 len = (u16)strlen(digits);
@@ -1125,7 +1125,7 @@ void QRCode_MakeNumeric(const char *digits, u8 buf[], struct QRCode_Segment* seg
 
 #if (!QRCODE_USE_BYTE_ONLY)
 // Public function - see documentation comment in header file.
-void QRCode_MakeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* seg)
+void QRCode_MakeAlphanumeric(const char *text, u8 buf[], QRCode_Segment* seg)
 {
 	assert(text != NULL);
 	u16 len = (u16)strlen(text);
@@ -1161,7 +1161,7 @@ void QRCode_MakeAlphanumeric(const char *text, u8 buf[], struct QRCode_Segment* 
 
 // Public function - see documentation comment in header file.
 #if (QRCODE_USE_EXTRA && !QRCODE_USE_BYTE_ONLY)
-void QRCode_MakeECI(i32 assignVal, u8 buf[], struct QRCode_Segment* seg)
+void QRCode_MakeECI(i32 assignVal, u8 buf[], QRCode_Segment* seg)
 {
 	seg->mode = QRCODE_MODE_ECI;
 	seg->numChars = 0;
@@ -1194,7 +1194,7 @@ void QRCode_MakeECI(i32 assignVal, u8 buf[], struct QRCode_Segment* seg)
 // Calculates the number of bits needed to encode the given segments at the given version.
 // Returns a non-negative number if successful. Otherwise returns LENGTH_OVERFLOW if a segment
 // has too many characters to fit its length field, or the total bits exceeds INT16_MAX.
-i16 getTotalBits(const struct QRCode_Segment segs[], u16 len, u8 version) 
+i16 getTotalBits(const QRCode_Segment segs[], u16 len, u8 version) 
 {
 	assert(segs != NULL || len == 0);
 	i32 result = 0;

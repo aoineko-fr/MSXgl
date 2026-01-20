@@ -30,5 +30,5 @@ if [ "$4" == "RAMISR" ]; then ARGS+=' ramisr'; fi
 if type -P node; then
 	node ../../engine/script/js/build.js ${ARGS}
 else
-	../../tools/build/Node/node ../../engine/script/js/build.js ${ARGS}
+	../../tools/build/Node/node ../../engine/script/js/build.js ${ARGS} $5 $6 $7 $8 $9
 fi

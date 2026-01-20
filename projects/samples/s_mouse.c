@@ -50,14 +50,14 @@ Mouse_State g_MouseState[2];
 // Program entry point
 void Detect()
 {
-	for(u8 i = 0; i < 2; ++i)
+	for (u8 i = 0; i < 2; ++i)
 	{
 		u8 px = 5 + i * 10;
 		u8 device = Input_Detect((i == 0) ? INPUT_PORT_1 : INPUT_PORT_2);
 		Print_SetPosition(px, 5);
 		Print_DrawHex8(device);
 		const c8* str;
-		switch(device)
+		switch (device)
 		{
 			case INPUT_TYPE_JOYSTICK:	str = "Joy/None "; break;
 			case INPUT_TYPE_MOUSE:		str = "Mouse    "; break;
@@ -107,16 +107,16 @@ void main()
 	VDP_EnableDisplay(TRUE);
 
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 
 		Print_SetPosition(31, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 
-		for(u8 i = 0; i < 2; ++i)
+		for (u8 i = 0; i < 2; ++i)
 		{
-			if(g_DeviceID[i] != INPUT_TYPE_MOUSE)
+			if (g_DeviceID[i] != INPUT_TYPE_MOUSE)
 				continue;
 
 			Mouse_Read((i == 0) ? MOUSE_PORT_1 : MOUSE_PORT_2, &g_MouseState[i]);
@@ -128,25 +128,25 @@ void main()
 			VDP_SetSpritePosition(i, g_MouseX[i], g_MouseY[i]-1);
 		
 			c8 btn1 = '-';
-			if(Mouse_IsButtonClick(&g_MouseState[i], MOUSE_BOUTON_1))
+			if (Mouse_IsButtonClick(&g_MouseState[i], MOUSE_BOUTON_1))
 			{
 				g_MouseCur[i]++;
 				g_MouseCur[i] &= 0x1F;
 				VDP_SetSpritePattern(i, g_MouseCur[i]);
 				btn1 = 'X';
 			}
-			else if(Mouse_IsButtonPress(&g_MouseState[i], MOUSE_BOUTON_1))
+			else if (Mouse_IsButtonPress(&g_MouseState[i], MOUSE_BOUTON_1))
 				btn1 = 'O';
 
 			c8 btn2 = '-';
-			if(Mouse_IsButtonClick(&g_MouseState[i], MOUSE_BOUTON_2))
+			if (Mouse_IsButtonClick(&g_MouseState[i], MOUSE_BOUTON_2))
 			{
 				g_MouseCur[i]--;
 				g_MouseCur[i] &= 0x1F;
 				VDP_SetSpritePattern(i, g_MouseCur[i]);
 				btn2 = 'X';
 			}
-			else if(Mouse_IsButtonPress(&g_MouseState[i], MOUSE_BOUTON_2))
+			else if (Mouse_IsButtonPress(&g_MouseState[i], MOUSE_BOUTON_2))
 				btn2 = 'O';
 
 			u8 px = 5 + i * 10;
@@ -171,7 +171,7 @@ void main()
 			Print_DrawChar(btn2);
 		}
 		
-		if(Keyboard_IsKeyPressed(KEY_D))
+		if (Keyboard_IsKeyPressed(KEY_D))
 			Detect();
 	}
 }

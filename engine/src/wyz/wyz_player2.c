@@ -216,7 +216,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 //
-void WYZ_Decode() __naked
+void WYZ_Decode() __NAKED
 {
 __asm
 	push	ix // Backup C frame buffer
@@ -448,9 +448,10 @@ __endasm;
 //-----------------------------------------------------------------------------
 // Load a song
 // IN:(A)=Song no.
-void WYZ_Play(u8 music) __naked
+void WYZ_Play(u8 music) __NAKED
 {
 	music; // A
+
 __asm
 CARGA_CANCION:
 	LD      HL,#INTERR				// Load song

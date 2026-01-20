@@ -64,7 +64,7 @@
 #define MGLV_FILL_COUNT_MIN			2 // Minimum number of consecutive identical bytes to start a "fill" chunk
 
 // MGLV file header
-struct MGLV_Header
+typedef struct MGLV_Header
 {
 	u8 Sign[3];
 	u8 Flag;
@@ -73,7 +73,7 @@ struct MGLV_Header
 	u8 Replay;
 	u8 Width;
 	u8 Height;
-};
+} MGLV_Header;
 
 // Offset		Size	Desc.		Value
 // --------------------------------------------------------
@@ -164,7 +164,7 @@ typedef void (*MGLV_EventCallback)(u8 cmd);
 //=============================================================================
 
 // Extern data
-extern const struct MGLV_Header* g_MGLV_Header;
+extern const MGLV_Header* g_MGLV_Header;
 extern const u8* g_MGLV_Start;
 extern const u8* g_MGLV_Pointer;
 extern u16 g_MGLV_VRAMAddr;

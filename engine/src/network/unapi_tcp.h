@@ -91,7 +91,7 @@ extern	int	tcpip_impl_getinfo(char** impl_string,	// UNAPI_GET_INFO: Obtain the 
 #define	CONFIG_PING_SET			1
 
 // tcpip_unapi_capab_flags_llproto
-typedef	struct
+typedef struct tcpip_unapi_capab_flags_llproto
 {
 	char	proto_used;		// Link level protocol used
 	int		feat_flags;		// Features flags
@@ -99,7 +99,7 @@ typedef	struct
 } tcpip_unapi_capab_flags_llproto;
 
 // tcpip_unapi_capab_connections
-typedef	struct
+typedef struct tcpip_unapi_capab_connections
 {
 	char	max_tcp_conn;	// Maximum simultaneous TCP connections supported
 	char	max_udp_conn;	// Maximum simultaneous UDP connections supported
@@ -110,14 +110,14 @@ typedef	struct
 } tcpip_unapi_capab_connections;
 
 // tcpip_unapi_capab_dtg_sizes
-typedef	struct
+typedef struct tcpip_unapi_capab_dtg_sizes
 {
 	int	max_outgoing_dtg_size;	// Maximum outgoing datagram size supported
 	int	max_incoming_dtg_size;	// Maximum incoming datagram size supported
 } tcpip_unapi_capab_dtg_sizes;
 
 // tcpip_unapi_ip_info
-typedef	struct
+typedef struct tcpip_unapi_ip_info
 {
 	char	local_ip[4];		// Local IP address
 	char	peer_ip[4];			// Peer IP address
@@ -128,7 +128,7 @@ typedef	struct
 } tcpip_unapi_ip_info;
 
 // tcpip_unapi_echo
-typedef struct
+typedef struct tcpip_unapi_echo
 {
 	char	dest_ip[4];		// +0 (4): IP address of the destination machine
 	char	ttl;			// +4 (1): TTL for the datagram
@@ -138,15 +138,16 @@ typedef struct
 } tcpip_unapi_echo;
 
 // tcpip_unapi_dns_q
-typedef	struct
+typedef struct tcpip_unapi_dns_q
 {
 	char	flags;
 	char	state;			// note that state (reg B) and substate (reg C) have different meaning for tcpip_dns_q
 	char	substate;		// and tcpip_dns_s. Please refer to the UNAPI description for more information
-	char	host_ip[4];		// Resolved IP address (only if no error occurred and state of 1 or 2 is returned)} tcpip_unapi_dns_q;
+	char	host_ip[4];		// Resolved IP address (only if no error occurred and state of 1 or 2 is returned)
+} tcpip_unapi_dns_q;
 
 // tcpip_unapi_udp_state
-typedef struct
+typedef struct tcpip_unapi_udp_state
 {
 	char	num_of_pend_dtg;		// Number of pending incoming datagrams
 	int		size_of_oldest_dtg;		// Size of oldest pending incoming datagram (data part only)
@@ -154,7 +155,7 @@ typedef struct
 } tcpip_unapi_udp_state;
 
 // tcpip_unapi_udp_dtg_parms
-typedef	struct
+typedef struct tcpip_unapi_udp_dtg_parms
 {
 	char	dest_ip[4];		// +0 (4): Destination IP address
 	int		dest_port;		// +4 (2): Destination port
@@ -162,7 +163,7 @@ typedef	struct
 } tcpip_unapi_udp_dtg_parms;
 
 // tcpip_unapi_tcp_conn_parms
-typedef	struct
+typedef struct tcpip_unapi_tcp_conn_parms
 {
 	char	dest_ip[4];				// +0 (4): Remote IP address (0.0.0.0 for unespecified remote socket)
 	int		dest_port;				// +4 (2): Remote port (ignored if unespecified remote socket)
@@ -177,14 +178,14 @@ typedef	struct
 } tcpip_unapi_tcp_conn_parms;
 
 // tcpip_unapi_ipraw_parms
-typedef	struct
+typedef struct tcpip_unapi_ipraw_parms
 {
 	char	ip[4];			// +0 (4): Destination IP address
 	int		data_length;	// +4 (2): Data length
 } tcpip_unapi_ipraw_parms;
 
 // tcpip_unapi_ipraw_state
-typedef	struct
+typedef struct tcpip_unapi_ipraw_state
 {
 	char	proto_code;			// +0 (1): Associated protocol code
 	int		num_of_pend_dtg;	// +2 (2): Number of pending incoming datagrams
@@ -206,12 +207,14 @@ extern	int	tcpip_net_state(int* net_state);
 
 /***** ICMP routines *****/
 
-/* TCPIP_SEND_ECHO: Send ICMP echo message (PING). All values of the structure
+/* TCPIP_SEND_ECHO: Send ICMP echo message (PING)
+. All values of the structure
    must be populated before performing the call */
 extern	int	tcpip_send_echo(tcpip_unapi_echo* echo_param_block);
 
 /* TCPIP_RCV_ECHO: Retrieve ICMP echo response message. The call populates
-   the structure at the address passed */
+   the structure at the address passed
+ */
 extern	int	tcpip_rcv_echo(tcpip_unapi_echo* echo_param_block);
 
 /***** Host name resoultion routines *****/
@@ -257,7 +260,8 @@ extern	int	tcpip_tcp_open(tcpip_unapi_tcp_conn_parms* tcp_conn_params, int* conn
 /* TCPIP_TCP_CLOSE: Close a TCP connection */
 extern	int	tcpip_tcp_close(int conn_number);
 
-/* TCPIP_TCP_ABORT: Abort a TCP connection */
+/* TCPIP_TCP_ABORT: Abort a TCP connection
+ */
 extern	int	tcpip_tcp_abort(int conn_number);
 
 /* TCPIP_TCP_STATE: Get the state of a TCP connection. Puts information into connection state,
@@ -276,7 +280,8 @@ extern	int	tcpip_tcp_rcv(int conn_number, char* buffer, int maxsize, tcpip_unapi
 /* TCPIP_TCP_FLUSH: Flush the output buffer of a TCP */
 extern	int	tcpip_tcp_flush(int conn_number);
 
-/***** Raw IP connections related routines *****/
+/***** Raw IP connections related routines
+ *****/
 
 /* TCPIP_RAW_OPEN: Open a raw IP connection. IPRAW protocol list is here:
    http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml */
@@ -292,7 +297,8 @@ extern	int	tcpip_ipraw_state(int conn_number, tcpip_unapi_ipraw_state* ipraw_sta
    destination IP address and data size set before calling */
 extern	int	tcpip_ipraw_send(int conn_number, char* data, tcpip_unapi_ipraw_parms* ipraw_params);
 
-/* TCPIP_RAW_RCV: Retrieve an incoming raw IP datagram */
+/* TCPIP_RAW_RCV: Retrieve an incoming raw IP datagram
+ */
 extern	int	tcpip_ipraw_rcv(int conn_number, char* buffer, int maxsize, tcpip_unapi_ipraw_parms* ipraw_params);
 
 /***** Configuration related routines*****/
@@ -301,7 +307,8 @@ extern	int	tcpip_ipraw_rcv(int conn_number, char* buffer, int maxsize, tcpip_una
 extern	int	tcpip_config_autoip_get(char* ip_mode);
 extern	int	tcpip_config_autoip_set(char ip_mode);
 
-/* TCPIP_CONFIG_IP: Manually configure an IP address */
+/* TCPIP_CONFIG_IP: Manually configure an IP address
+ */
 extern	int	tcpip_config_ip(tcpip_unapi_ip_info* ip_info);
 
 /* TCPIP_CONFIG_TTL: Get/set the value of TTL and TOS for outgoing datagrams */

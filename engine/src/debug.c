@@ -78,7 +78,7 @@ void DEBUG_BREAK()
 // Conditionnal break
 void DEBUG_ASSERT(bool a)
 {	
-	if(!(a))
+	if (!(a))
 		DEBUG_BREAK();
 }
 
@@ -87,10 +87,10 @@ void DEBUG_ASSERT(bool a)
 void DEBUG_LOG(const c8* msg)
 {
 #if (DEBUG_TOOL == DEBUG_OPENMSX_P)
-	DEBUG_PRINT("%s\n", msg);
+	DEBUG_PRINT("%s", msg);
 #else
 	g_PortDebugMode = DEBUG_MODE_MULTI|DEBUG_MULTI_ASCII; // Multi byte ASCII mode
-	while(*msg)
+	while (*msg)
 		g_PortDebugData = *msg++;
 #endif
 }
@@ -100,7 +100,7 @@ void DEBUG_LOG(const c8* msg)
 void DEBUG_LOGNUM(const c8* msg, u8 num)
 {
 #if (DEBUG_TOOL == DEBUG_OPENMSX_P)
-	DEBUG_PRINT("%s:%d\n", msg, num);
+	DEBUG_PRINT("%s:%d", msg, num);
 #else
 	DEBUG_LOG(msg);
 	g_PortDebugData = ':';
@@ -159,32 +159,35 @@ void DEBUG_PRINT(const c8* format, ...)
 // Initialize Debug module
 void DEBUG_INIT()
 {
+#if (VDP_USE_COMMAND)
 	// Fix assertion for un-initialized VDP buffer
 	u8* ptr = (u8*)&g_VDP_Command;
-	for(u8 i = 0; i < sizeof(g_VDP_Command); ++i)
+	for (u8 i = 0; i < sizeof(g_VDP_Command); ++i)
 		*(ptr++) = 0;
+#endif
 	
 	// Fix assertion for BIOS-initialized key buffer
 	#if (INPUT_KB_UPDATE)
-	for(u8 i = INPUT_KB_UPDATE_MIN; i <= INPUT_KB_UPDATE_MAX; ++i)
+	for (u8 i = INPUT_KB_UPDATE_MIN; i <= INPUT_KB_UPDATE_MAX; ++i)
 		((u8*)g_NEWKEY)[i] = 0xFF;
 	#endif
 }
 
 //-----------------------------------------------------------------------------
 // Force a break point
-void DEBUG_BREAK() __PRESERVES(a, b, c, d, e, h, l, iyl, iyh)
+void DEBUG_BREAK() __NAKED __PRESERVES(a, b, c, d, e, h, l, iyl, iyh)
 {
-	__asm
-		ld b, b
-	__endasm;
+__asm
+	ld b, b
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Conditionnal break
 void DEBUG_ASSERT(bool a)
 {
-	if(!(a))
+	if (!(a))
 		DEBUG_BREAK();
 }
 
@@ -192,14 +195,15 @@ void DEBUG_ASSERT(bool a)
 // Display debug message
 void DEBUG_LOG(const c8* msg) __NAKED __PRESERVES(a, b, c, d, e, h, l, iyl, iyh)
 {
-	msg;
-	__asm
-		ld		d, d
-		ret
-		nop
-		.dw		DEBUG_CMD_MAGIC // emulator debug function request
-		.dw		DEBUG_CMD_PRINT_REG_HL // debug_printf function selected
-	__endasm;
+	msg; // HL
+
+__asm
+	ld		d, d
+	ret
+	nop
+	.dw		DEBUG_CMD_MAGIC // emulator debug function request
+	.dw		DEBUG_CMD_PRINT_REG_HL // debug_printf function selected
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
@@ -216,21 +220,22 @@ void DEBUG_LOGNUM(const c8* msg, u8 num)
 void DEBUG_PRINT(const c8 *format, ...) __NAKED __PRESERVES(a, b, c, iyh, iyl)
 {
 	format;
-	// basic debug_printf code kindly provided by toxa - thank you!
-	__asm
-		ld		hl, #2
-		add		hl, sp
-		ld		e, (hl)
-		inc		hl
-		ld		d, (hl)
-		inc		hl
-		ex		de, hl  ; format string needs to be in HL
-		ld		d, d
-		ret
-		nop
-		.dw		DEBUG_CMD_MAGIC // emulator debug function request
-		.dw		DEBUG_CMD_PRINT_FORMAT // debug_printf function selected
-	__endasm;
+
+// basic debug_printf code kindly provided by toxa - thank you!
+__asm
+	ld		hl, #2
+	add		hl, sp
+	ld		e, (hl)
+	inc		hl
+	ld		d, (hl)
+	inc		hl
+	ex		de, hl  ; format string needs to be in HL
+	ld		d, d
+	ret
+	nop
+	.dw		DEBUG_CMD_MAGIC // emulator debug function request
+	.dw		DEBUG_CMD_PRINT_FORMAT // debug_printf function selected
+__endasm;
 }
 
 #endif

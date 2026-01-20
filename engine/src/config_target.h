@@ -12,14 +12,14 @@
 //-----------------------------------------------------------------------------
 // Get current targer parameters
 #define GET_TARGET_TYPE(t)			(((t) >> 14) & 0x3)
-#define GET_TARGET_ISR(t)			(((t) >> 12) & 0x1)
+#define GET_TARGET_ISR(t)			(((t) >> 13) & 0x1)
+#define GET_TARGET_MIRROR(t)		(((t) >> 12) & 0x1)
 #define GET_TARGET_MAPPER(t)		(((t) >> 8)  & 0xF)
 #define GET_TARGET_SIZE(t)			(((t) >> 4)  & 0xF)
 #define GET_TARGET_START(t)			(((t) >> 2)  & 0x3)
 #define GET_TARGET_BOOT(t)			( (t)        & 0x3)
 
 #define TARGET_TYPE					GET_TARGET_TYPE(TARGET)
-#define TARGET_ISR					GET_TARGET_ISR(TARGET)
 #define ROM_MAPPER					GET_TARGET_MAPPER(TARGET)
 #define ROM_SIZE					GET_TARGET_SIZE(TARGET)
 #define ROM_START					GET_TARGET_START(TARGET)

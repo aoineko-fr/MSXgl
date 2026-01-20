@@ -3,10 +3,10 @@
 //  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
 //  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // ─────────────────────────────────────────────────────────────────────────────
-//  MSXmath 1.7.0 by Guillaume "Aoineko" Blanchard
+//  MSXmath 1.7.1 by Guillaume "Aoineko" Blanchard
 //  under CC-BY-SA free license
 // 
-//  Generated: Sun Mar 17 16:23:50 2024
+//  Generated: Fri Oct 10 00:32:45 2025
 //  Parameters: Entries=360, Bytes=2 (16-bits), Shift=12 (Q4.12)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -107,3 +107,4 @@ const unsigned short g_Cosinus360[] = {
 	0x0F61, 0x0F74, 0x0F86, 0x0F97, 0x0FA6, 0x0FB5, 0x0FC2, 0x0FCE, 
 	0x0FD8, 0x0FE1, 0x0FEA, 0x0FF0, 0x0FF6, 0x0FFA, 0x0FFE, 0x0FFF, 
 };
+// Size: 1440 bytes

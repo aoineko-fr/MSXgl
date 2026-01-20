@@ -12,12 +12,26 @@ const fs = require('fs');
 //-- MSXgl JS libraries
 const util = require("./util.js"); 
 
+//-- Validate enum
+Machine        = Machine.toUpperCase();
+Target         = Target.toUpperCase();
+ROMSkipBootKey = ROMSkipBootKey.toUpperCase();
+if (util.isString(InstallRAMISR)) InstallRAMISR = InstallRAMISR.toUpperCase();
+CustomISR      = CustomISR.toUpperCase();
+DiskSize       = DiskSize.toUpperCase();
+AsmOptim       = AsmOptim.toUpperCase();
+Optim          = Optim.toUpperCase();
+if (util.isString(CompileComplexity)) CompileComplexity = CompileComplexity.toUpperCase();
+AnalyzerOutput = AnalyzerOutput.toUpperCase();
+AnalyzerReport = AnalyzerReport.toUpperCase();
+AnalyzerSort   = AnalyzerSort.toUpperCase();
+EmulPortA      = EmulPortA.toUpperCase();
+EmulPortB      = EmulPortB.toUpperCase();
+RunDevice      = RunDevice.toUpperCase();
+
 //***************************************************************************
 // CHECK BASE PARAMETERS
 //***************************************************************************
-
-// Check MSX version
-util.print(`» Machine: ${util.getMachineName(Machine)}`);
 
 // Check project name
 if (!ProjName)
@@ -97,6 +111,14 @@ if (Ext === "com")
 	}
 }
 
+// C library
+if ((Target === "LIB") && (DoMake || DoPackage || DoRun))
+{
+	util.print("C library projects are incompatible with Make, Package and Run steps!", PrintWarning);
+	util.print("Those steps will be desactivated");
+	DoMake = DoPackage = DoRun = false;
+}
+	
 // Emulator specific tools
 if (DoRun)
 {

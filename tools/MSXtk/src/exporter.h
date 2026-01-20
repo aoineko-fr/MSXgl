@@ -118,12 +118,14 @@ struct ExportParameters
 	i32 bpc;					///< Bits Per Color (can be 1, 2, 4 or 8-bits)
 	bool bUseTrans;				///< Use transparency color
 	u32 transColor;				///< Transparency color (24-bits RGB)
+	u8 alphaThreshold;			///< Alpha channel threshold
 	bool bUseOpacity;			///< Use opacity color
 	u32 opacityColor;			///< Opacity color (24-bits RGB)
 	PaletteType palType;		///< Palette type (@see PaletteType)
-	i32 palCount;				///< Number of colors in the palette
+	i32 palOutCount;			///< Number of colors in the output palette
 	i32 palOffset;				///< Index offset of the palette
 	bool pal24;					///< Use 24-bits palette (v9990)
+	i32 palInCount;				///< Number of colors in the input palette
 	std::vector<u32> palInput;	///< Use 24-bits palette (v9990)
 	MSX::Compressor comp;		///< Compressor to use (@see MSX::Compressor)
 	MSX::DataFormat format;		///< Data format to use for text export (@see MSX::DataFormat)
@@ -177,12 +179,14 @@ struct ExportParameters
 		bpc = 8;
 		bUseTrans = FALSE;
 		transColor = 0x000000;
+		alphaThreshold = 0;
 		bUseOpacity = FALSE;
 		opacityColor = 0x000000;
 		palType = PALETTE_MSX1;
-		palCount = -1;
+		palOutCount = -1;
 		palOffset = 1;
 		pal24 = FALSE;
+		palInCount = 0;
 		comp = MSX::COMPRESS_None;
 		format = MSX::DATAFORMAT_Hexa;
 		syntax = MSX::ASMSYNTAX_sdasz80;

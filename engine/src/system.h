@@ -15,6 +15,7 @@
 #include "system_port.h"
 #include "asm.h"
 #include "bios_var.h"
+#include "bios_mainrom.h"
 
 //=============================================================================
 // DEFINES
@@ -66,6 +67,10 @@
 
 // Function callback to make iterations on slots
 typedef bool (*CheckSlotCallback)(u8);
+
+#if (TARGET_TYPE == TYPE_ROM)
+	extern u8 g_ROMSlotID; // ROM's slot ID
+#endif
 
 //-----------------------------------------------------------------------------
 // CRT0 defines
@@ -138,6 +143,80 @@ inline void DisableInterrupt() { __asm__("di"); }
 // Function: Halt
 // Pause the CPU until a new interruption occured
 inline void Halt() { __asm__("halt"); }
+
+//-----------------------------------------------------------------------------
+// Group: Information
+// Functions to get information from the system
+
+#if ((TARGET_TYPE == TYPE_ROM) && GET_TARGET_ISR(TARGET))
+
+// Function: Sys_GetBIOSInfo
+// Get BIOS information (frequency, keyboard type, etc.)
+//
+// Return:
+//   The BIOS information
+inline u8 Sys_GetBIOSInfo() { return g_VersionROM; }
+
+// Function: Sys_GetMSXVersion
+// Get the MSX version
+//
+// Return:
+//   The MSX version (0: MSX1, 1: MSX2, 2: MSX2+, 3: MSX turbo R)
+inline u8 Sys_GetMSXVersion() { return g_VersionMSX; } 
+
+#elif (TARGET_TYPE == TYPE_DOS)
+
+#if (DOS_USE_BIOSCALL)
+
+#include "dos.h"
+
+// Get the MSX information from BIOS
+inline u8 Sys_GetBIOSInfo() { return DOS_InterSlotRead(Peek(M_EXPTBL), R_BASRVN); }
+
+// Get the MSX version
+inline u8 Sys_GetMSXVersion() { return DOS_InterSlotRead(Peek(M_EXPTBL), R_MSXVER); } 
+
+#else
+
+// Not supported
+inline u8 Sys_GetBIOSInfo() { return 0; }
+inline u8 Sys_GetMSXVersion() { return 0; } 
+
+#endif
+
+#else // get information from Main-ROM
+
+// Get the MSX information
+inline u8 Sys_GetBIOSInfo() { return g_BASRVN[0]; }
+
+// Get the MSX version
+inline u8 Sys_GetMSXVersion() { return g_MSXVER; } 
+
+#endif
+
+#define SYS_FREQ_50HZ		0x80 // 50 Hz frequency
+#define SYS_FREQ_60HZ		0x00 // 60 Hz frequency
+
+// Function: Sys_GetFrequency
+// Get the system frequency (from BIOS)
+//
+// Return:
+//   SYS_FERQ_50HZ or SYS_FERQ_60HZ
+inline u8 Sys_GetFrequency() { return Sys_GetBIOSInfo() & 0x80; }
+
+// Function: Sys_Is60Hz
+// Get the system frequency (from BIOS)
+//
+// Return:
+//   TRUE if the BIOS is 60 Hz
+inline bool Sys_Is60Hz() { return Sys_GetFrequency() == SYS_FREQ_60HZ; }
+
+// Function: Sys_Is50Hz
+// Get the system frequency (from BIOS)
+//
+// Return:
+//   TRUE if the BIOS is 50 Hz
+inline bool Sys_Is50Hz() { return Sys_GetFrequency() == SYS_FREQ_50HZ; }
 
 //-----------------------------------------------------------------------------
 // Group: Call

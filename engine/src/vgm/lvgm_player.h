@@ -91,11 +91,11 @@ enum LVGM_OPTION
 
 // Macro: LVGM_GET_FREQ
 // Get frequency from option
-#define LVGM_GET_FREQ(opt) (opt & LVGM_OPTION_FREQ)
+#define LVGM_GET_FREQ(opt) ((opt) & LVGM_OPTION_FREQ)
 
 // Macro: LVGM_GET_VER
 // Get format version from option
-#define LVGM_GET_VER(opt) (opt >> 4)
+#define LVGM_GET_VER(opt) ((opt) >> 4)
 
 // lVGM audio chips
 enum LVGM_CHIP
@@ -154,12 +154,12 @@ enum LVGM_NOTIFY
 };
 
 // LVGM header structure
-struct LVGM_Header
+typedef struct LVGM_Header
 {
 	u8	Ident[4]; // 'lVGM'
 	u8	Option;     // see <LVGM_OPTION>
 	u8	Device;     // see <LVGM_CHIP>
-};
+} LVGM_Header;
 
 // Notification callback signature
 typedef bool (*LVGM_NotifyCB)(u8);
@@ -169,7 +169,7 @@ typedef bool (*LVGM_NotifyCB)(u8);
 //=============================================================================
 
 // Extern data
-extern const struct LVGM_Header* g_LVGM_Header;
+extern const LVGM_Header* g_LVGM_Header;
 extern const u8* g_LVGM_Pointer;
 extern u8        g_LVGM_Wait;
 extern u8        g_LVGM_State;

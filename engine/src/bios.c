@@ -30,7 +30,7 @@ void Bios_Exit(u8 ret)
 #if (TARGET_TYPE == TYPE_DOS)
 
 	__asm
-	#if BIOS_USE_VDP
+
 		push	af
 		// Set Screen mode to 2...
 		ld		a, #2
@@ -42,24 +42,24 @@ void Bios_Exit(u8 ret)
 		ld		iy, (M_EXPTBL-1)
 		call	R_CALSLT
 		pop		af
-	#endif
+
+		// Call DOS exit function
 		ld		b, a
-		ld		c, #DOS_FUNC_TERM
+		ld		c, #DOS_FUNC_TERM // Try MSX-DOS 2's termination function...
 		call	BDOS
-		ld		c, #DOS_FUNC_TERM0
+		ld		c, #DOS_FUNC_TERM0 // ... if not available, use MSX-DOS 1's one
 		jp		BDOS
 	__endasm;
 
 #elif (TARGET_TYPE == TYPE_BIN)
 	
 	__asm
-	#if BIOS_USE_VDP
 		// Set Screen mode to 2...
 		ld		a, #2
 		call	R_CHGMOD
 		// ... to be able to call TOTEXT routine
 		call	R_TOTEXT
-	#endif
+
 		// 
 		ld		ix, #0x409B // address of "warm boot" BASIC interpreter
 		// this routine is called to reset the stack if basic is externally stopped and then restarted.
@@ -130,16 +130,17 @@ void Bios_SetHookCallback(u16 hook, callback cb)
 // Output   : A  - Contains the value of the read address
 // Registers: AF, C, DE
 // Remark   : Can be call directly from MSX-DOS
-//            This routine turns off the interupt, but won't turn it on again
-u8 Bios_InterSlotRead(u8 slot, u16 addr)
+//            This routine turns off the interrupt, but won't turn it on again
+u8 Bios_InterSlotRead(u8 slot, u16 addr) __NAKED
 {
 	slot; // A
 	addr; // DE
 
 	__asm
-		ld		l, e
-		ld		h, d
+		ex		de, hl
 		call	R_RDSLT
+		ei
+		ret
 	__endasm;
 }
 
@@ -168,7 +169,7 @@ u8 Bios_InterSlotRead(u8 slot, u16 addr)
 //            E  - Value
 // Registers: AF, BC, D
 // Remark   : Can be call directly from MSX-DOS
-//            This routine turns off the interupt, but won't turn it on again
+//            This routine turns off the interrupt, but won't turn it on again
 void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value)
 {
 	slot;  // A
@@ -185,6 +186,7 @@ void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value)
 		ld		e, 0(iy)	
 		call	R_WRSLT
 		pop		iy
+		ei
 	__endasm;
 }
 
@@ -244,7 +246,6 @@ void Bios_InterSlotCall(u8 slot, u16 addr)
 //            When this routine is called, interrupts are inhibited and remain so even after execution ends.
 // Input    : A - Slot ID, see RDSLT
 //            H - Bit 6 and 7 must contain the page number (00-11)
-		   
 void Bios_SwitchSlot(u8 page, u8 slot)
 {
 	page; // A
@@ -256,7 +257,7 @@ void Bios_SwitchSlot(u8 page, u8 slot)
 		ld		h, a
 		ld		a, b
 		call	R_ENASLT
-		// ei							// because ENASLT do DI
+		ei							// because ENASLT do DI
 	__endasm;
 }
 
@@ -520,7 +521,7 @@ void Bios_ChangeColor(u8 text, u8 back, u8 border)
 //-----------------------------------------------------------------------------
 // NMI
 // Address  : #0066
-// Function : Executes non-maskable interupt handling routine
+// Function : Executes non-maskable interrupt handling routine
 
 //-----------------------------------------------------------------------------
 // CLRSPR
@@ -672,13 +673,14 @@ void Bios_InitScreen3Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 
 // Input    : A  - Sprite ID
 // Output   : HL - For the address
 // Registers: AF, DE, HL
-u16 Bios_GetPatternTableAddress(u8 id) __FASTCALL
+u16 Bios_GetPatternTableAddress(u8 id) __NAKED __FASTCALL
 {
 	id; // L
 
 	__asm
 		ld		a, l
 		call	R_CALPAT
+		ret
 	__endasm;
 }
 
@@ -689,13 +691,14 @@ u16 Bios_GetPatternTableAddress(u8 id) __FASTCALL
 // Input    : A  - Sprite number
 // Output   : HL - For the address
 // Registers: AF, DE, HL
-u16 Bios_GetAttributeTableAddress(u8 id) __FASTCALL
+u16 Bios_GetAttributeTableAddress(u8 id) __NAKED __FASTCALL
 {
 	id; // L
 
 	__asm
 		ld		a, l
 		call	R_CALATR
+		ret
 	__endasm;
 }
 
@@ -800,7 +803,7 @@ void Bios_WritePSG(u8 reg, u8 value)
 // Function : Tests the status of the keyboard buffer
 // Output   : Zero flag set if buffer is empty, otherwise not set
 // Registers: AF
-u8 Bios_HasCharacter() __FASTCALL
+u8 Bios_HasCharacter() __NAKED __FASTCALL
 {
 	__asm
 		ld		l, #0
@@ -808,6 +811,7 @@ u8 Bios_HasCharacter() __FASTCALL
 		ret		z			// Return 0
 		call	R_CHGET
 		ld		l, a
+		ret
 	__endasm;
 }
 

@@ -20,8 +20,8 @@ void ZX0_UnpackToRAM(const void* source, void* dest)
 {
 	source;	// HL
 	dest;	// DE
-	__asm
 
+__asm
 // -----------------------------------------------------------------------------
 // ZX0 decoder by Einar Saukas & Urusergi
 // "Standard" version (68 bytes only)
@@ -31,58 +31,58 @@ void ZX0_UnpackToRAM(const void* source, void* dest)
 //   DE: destination address (decompressing)
 // -----------------------------------------------------------------------------
 dzx0_standard:
-        ld      bc, #0xFFFF             // preserve default offset 1
-        push    bc
-        inc     bc
-        ld      a, #0x80
+	ld      bc, #0xFFFF             // preserve default offset 1
+	push    bc
+	inc     bc
+	ld      a, #0x80
 dzx0s_literals:
-        call    dzx0s_elias             // obtain length
-        ldir                            // copy literals
-        add     a, a                    // copy from last offset or new offset?
-        jr      c, dzx0s_new_offset
-        call    dzx0s_elias             // obtain length
+	call    dzx0s_elias             // obtain length
+	ldir                            // copy literals
+	add     a, a                    // copy from last offset or new offset?
+	jr      c, dzx0s_new_offset
+	call    dzx0s_elias             // obtain length
 dzx0s_copy:
-        ex      (sp), hl                // preserve source, restore offset
-        push    hl                      // preserve offset
-        add     hl, de                  // calculate destination - offset
-        ldir                            // copy from offset
-        pop     hl                      // restore offset
-        ex      (sp), hl                // preserve offset, restore source
-        add     a, a                    // copy from literals or new offset?
-        jr      nc, dzx0s_literals
+	ex      (sp), hl                // preserve source, restore offset
+	push    hl                      // preserve offset
+	add     hl, de                  // calculate destination - offset
+	ldir                            // copy from offset
+	pop     hl                      // restore offset
+	ex      (sp), hl                // preserve offset, restore source
+	add     a, a                    // copy from literals or new offset?
+	jr      nc, dzx0s_literals
 dzx0s_new_offset:
-        pop     bc                      // discard last offset
-        ld      c, #0xFE                // prepare negative offset
-        call    dzx0s_elias_loop        // obtain offset MSB
-        inc     c
-        ret     z                       // check end marker
-        ld      b, c
-        ld      c, (hl)                 // obtain offset LSB
-        inc     hl
-        rr      b                       // last offset bit becomes first length bit
-        rr      c
-        push    bc                      // preserve new offset
-        ld      bc, #1                  // obtain length
-        call    nc, dzx0s_elias_backtrack
-        inc     bc
-        jr      dzx0s_copy
+	pop     bc                      // discard last offset
+	ld      c, #0xFE                // prepare negative offset
+	call    dzx0s_elias_loop        // obtain offset MSB
+	inc     c
+	ret     z                       // check end marker
+	ld      b, c
+	ld      c, (hl)                 // obtain offset LSB
+	inc     hl
+	rr      b                       // last offset bit becomes first length bit
+	rr      c
+	push    bc                      // preserve new offset
+	ld      bc, #1                  // obtain length
+	call    nc, dzx0s_elias_backtrack
+	inc     bc
+	jr      dzx0s_copy
 dzx0s_elias:
-        inc     c                       // interlaced Elias gamma coding
+	inc     c                       // interlaced Elias gamma coding
 dzx0s_elias_loop:
-        add     a, a
-        jr      nz, dzx0s_elias_skip
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        rla
+	add     a, a
+	jr      nz, dzx0s_elias_skip
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	rla
 dzx0s_elias_skip:
-        ret     c
+	ret     c
 dzx0s_elias_backtrack:
-        add     a, a
-        rl      c
-        rl      b
-        jr      dzx0s_elias_loop
+	add     a, a
+	rl      c
+	rl      b
+	jr      dzx0s_elias_loop
 // -----------------------------------------------------------------------------
-	__endasm;
+__endasm;
 }
 
 #elif (ZX0_MODE == ZX0_MODE_TURBO)
@@ -94,8 +94,8 @@ void ZX0_UnpackToRAM(const void* source, void* dest)
 {
 	source;	// HL
 	dest;	// DE
-	__asm
 
+__asm
 // -----------------------------------------------------------------------------
 // ZX0 decoder by Einar Saukas & introspec
 // "Turbo" version (126 bytes, 21% faster)
@@ -105,97 +105,97 @@ void ZX0_UnpackToRAM(const void* source, void* dest)
 //   DE: destination address (decompressing)
 // -----------------------------------------------------------------------------
 dzx0_turbo:
-        ld      bc, #0xFFFF             // preserve default offset 1
-        ld      (dzx0t_last_offset+1), bc
-        inc     bc
-        ld      a, #0x80
-        jr      dzx0t_literals
+	ld      bc, #0xFFFF             // preserve default offset 1
+	ld      (dzx0t_last_offset+1), bc
+	inc     bc
+	ld      a, #0x80
+	jr      dzx0t_literals
 dzx0t_new_offset:
-        ld      c, #0xFE                // prepare negative offset
-        add     a, a
-        jp      nz, dzx0t_new_offset_skip
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        rla
+	ld      c, #0xFE                // prepare negative offset
+	add     a, a
+	jp      nz, dzx0t_new_offset_skip
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	rla
 dzx0t_new_offset_skip:
-        call    nc, dzx0t_elias         // obtain offset MSB
-        inc     c
-        ret     z                       // check end marker
-        ld      b, c
-        ld      c, (hl)                 // obtain offset LSB
-        inc     hl
-        rr      b                       // last offset bit becomes first length bit
-        rr      c
-        ld      (dzx0t_last_offset+1), bc // preserve new offset
-        ld      bc, #1                  // obtain length
-        call    nc, dzx0t_elias
-        inc     bc
+	call    nc, dzx0t_elias         // obtain offset MSB
+	inc     c
+	ret     z                       // check end marker
+	ld      b, c
+	ld      c, (hl)                 // obtain offset LSB
+	inc     hl
+	rr      b                       // last offset bit becomes first length bit
+	rr      c
+	ld      (dzx0t_last_offset+1), bc // preserve new offset
+	ld      bc, #1                  // obtain length
+	call    nc, dzx0t_elias
+	inc     bc
 dzx0t_copy:
-        push    hl                      // preserve source
+	push    hl                      // preserve source
 dzx0t_last_offset:
-        ld      hl, #0                  // restore offset
-        add     hl, de                  // calculate destination - offset
-        ldir                            // copy from offset
-        pop     hl                      // restore source
-        add     a, a                    // copy from literals or new offset?
-        jr      c, dzx0t_new_offset
+	ld      hl, #0                  // restore offset
+	add     hl, de                  // calculate destination - offset
+	ldir                            // copy from offset
+	pop     hl                      // restore source
+	add     a, a                    // copy from literals or new offset?
+	jr      c, dzx0t_new_offset
 dzx0t_literals:
-        inc     c                       // obtain length
-        add     a, a
-        jp      nz, dzx0t_literals_skip
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        rla
+	inc     c                       // obtain length
+	add     a, a
+	jp      nz, dzx0t_literals_skip
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	rla
 dzx0t_literals_skip:
-        call    nc, dzx0t_elias
-        ldir                            // copy literals
-        add     a, a                    // copy from last offset or new offset?
-        jr      c, dzx0t_new_offset
-        inc     c                       // obtain length
-        add     a, a
-        jp      nz, dzx0t_last_offset_skip
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        rla
+	call    nc, dzx0t_elias
+	ldir                            // copy literals
+	add     a, a                    // copy from last offset or new offset?
+	jr      c, dzx0t_new_offset
+	inc     c                       // obtain length
+	add     a, a
+	jp      nz, dzx0t_last_offset_skip
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	rla
 dzx0t_last_offset_skip:
-        call    nc, dzx0t_elias
-        jp      dzx0t_copy
+	call    nc, dzx0t_elias
+	jp      dzx0t_copy
 dzx0t_elias:
-        add     a, a                    // interlaced Elias gamma coding
-        rl      c
-        add     a, a
-        jr      nc, dzx0t_elias
-        ret     nz
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        rla
-        ret     c
-        add     a, a
-        rl      c
-        add     a, a
-        ret     c
-        add     a, a
-        rl      c
-        add     a, a
-        ret     c
-        add     a, a
-        rl      c
-        add     a, a
-        ret     c
+	add     a, a                    // interlaced Elias gamma coding
+	rl      c
+	add     a, a
+	jr      nc, dzx0t_elias
+	ret     nz
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	rla
+	ret     c
+	add     a, a
+	rl      c
+	add     a, a
+	ret     c
+	add     a, a
+	rl      c
+	add     a, a
+	ret     c
+	add     a, a
+	rl      c
+	add     a, a
+	ret     c
 dzx0t_elias_loop:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jr      nc, dzx0t_elias_loop
-        ret     nz
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        rla
-        jr      nc, dzx0t_elias_loop
-        ret
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jr      nc, dzx0t_elias_loop
+	ret     nz
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	rla
+	jr      nc, dzx0t_elias_loop
+	ret
 // -----------------------------------------------------------------------------
-	__endasm;
+__endasm;
 }
 
 #elif (ZX0_MODE == ZX0_MODE_FAST)
@@ -207,8 +207,8 @@ void ZX0_UnpackToRAM(const void* source, void* dest)
 {
 	source;	// HL
 	dest;	// DE
-	__asm
 
+__asm
 //
 //  Speed-optimized ZX0 decompressor by spke (187 bytes)
 //
@@ -255,196 +255,196 @@ void ZX0_UnpackToRAM(const void* source, void* dest)
 
 DecompressZX0:
 
-        ld      iy, #CopyMatch1
-        ld      bc, #0xFFFF
-        ld      (PrevOffset+1), bc      // default offset is -1
-        inc     bc
-        ld      a, #0x80
-        jr      RunOfLiterals           // BC is assumed to contains 0 most of the time
+	ld      iy, #CopyMatch1
+	ld      bc, #0xFFFF
+	ld      (PrevOffset+1), bc      // default offset is -1
+	inc     bc
+	ld      a, #0x80
+	jr      RunOfLiterals           // BC is assumed to contains 0 most of the time
 
 ShorterOffsets:
-        ld      b, #0xFF                // the top byte of the offset is always 0xFF
-        ld      c, (hl)
-        inc     hl
-        rr      c
-        ld      (PrevOffset+1), bc
-        jr      nc, LongerMatch
+	ld      b, #0xFF                // the top byte of the offset is always 0xFF
+	ld      c, (hl)
+	inc     hl
+	rr      c
+	ld      (PrevOffset+1), bc
+	jr      nc, LongerMatch
 
 CopyMatch2:                             // the case of matches with len=2
-        ld      bc, #2
+	ld      bc, #2
 
-        // the faster match copying code
+	// the faster match copying code
 CopyMatch1:
-        push    hl                      // preserve source
+	push    hl                      // preserve source
 
 PrevOffset:
-        ld      hl, #0xFFFF             // restore offset (default offset is -1)
-        add     hl, de                  // HL = dest - offset
-        ldir
-        pop     hl                      // restore source
+	ld      hl, #0xFFFF             // restore offset (default offset is -1)
+	add     hl, de                  // HL = dest - offset
+	ldir
+	pop     hl                      // restore source
 
-        // after a match you can have either
-        // 0 + <elias length> = run of literals, or
-        // 1 + <elias offset msb> + [7-bits of offset lsb + 1-bit of length] + <elias length> = another match
+	// after a match you can have either
+	// 0 + <elias length> = run of literals, or
+	// 1 + <elias offset msb> + [7-bits of offset lsb + 1-bit of length] + <elias length> = another match
 AfterMatch1:
-        add     a, a
-        jr      nc, RunOfLiterals
+	add     a, a
+	jr      nc, RunOfLiterals
 
 UsualMatch:                             // this is the case of usual match+offset
-        add     a, a
-        jr      nc, LongerOffets
-        jr      nz, ShorterOffsets      // NZ after NC == "confirmed C"
-        
-        ld      a, (hl)                 // reload bits
-        inc     hl
-        rla
+	add     a, a
+	jr      nc, LongerOffets
+	jr      nz, ShorterOffsets      // NZ after NC == "confirmed C"
+	
+	ld      a, (hl)                 // reload bits
+	inc     hl
+	rla
 
-        jr      c, ShorterOffsets
+	jr      c, ShorterOffsets
 
 LongerOffets:
-        ld      c, #0xFE
+	ld      c, #0xFE
 
-        add     a, a                    // inline read gamma
-        rl      c
-        add     a, a
-        jr      nc, #.-4
+	add     a, a                    // inline read gamma
+	rl      c
+	add     a, a
+	jr      nc, #.-4
 
-        call    z, ReloadReadGamma
+	call    z, ReloadReadGamma
 
 ProcessOffset:
 
-        inc     c
-        ret     z                       // end-of-data marker (only checked for longer offsets)
-        rr      c
-        ld      b, c
-        ld      c, (hl)
-        inc     hl
-        rr      c
-        ld      (PrevOffset+1), bc
+	inc     c
+	ret     z                       // end-of-data marker (only checked for longer offsets)
+	rr      c
+	ld      b, c
+	ld      c, (hl)
+	inc     hl
+	rr      c
+	ld      (PrevOffset+1), bc
 
-        // lowest bit is the first bit of the gamma code for length
-        jr      c, CopyMatch2
+	// lowest bit is the first bit of the gamma code for length
+	jr      c, CopyMatch2
 
 LongerMatch:
-        ld      bc, #1
+	ld      bc, #1
 
-        add     a, a                    // inline read gamma
-        rl      c
-        add     a, a
-        jr      nc, #.-4
+	add     a, a                    // inline read gamma
+	rl      c
+	add     a, a
+	jr      nc, #.-4
 
-        call    z, ReloadReadGamma
+	call    z, ReloadReadGamma
 
 CopyMatch3:
-        push    hl                      // preserve source
-        ld      hl, (PrevOffset+1)      // restore offset
-        add     hl, de                  // HL = dest - offset
+	push    hl                      // preserve source
+	ld      hl, (PrevOffset+1)      // restore offset
+	add     hl, de                  // HL = dest - offset
 
-        // because BC>=3-1, we can do 2 x LDI safely
-        ldi
-        ldir
-        inc     c
-        ldi
-        pop     hl                      // restore source
+	// because BC>=3-1, we can do 2 x LDI safely
+	ldi
+	ldir
+	inc     c
+	ldi
+	pop     hl                      // restore source
 
-        // after a match you can have either
-        // 0 + <elias length> = run of literals, or
-        // 1 + <elias offset msb> + [7-bits of offset lsb + 1-bit of length] + <elias length> = another match
+	// after a match you can have either
+	// 0 + <elias length> = run of literals, or
+	// 1 + <elias offset msb> + [7-bits of offset lsb + 1-bit of length] + <elias length> = another match
 AfterMatch3:
-        add     a, a
-        jr      c, UsualMatch
+	add     a, a
+	jr      c, UsualMatch
 
 RunOfLiterals:
-        inc     c
-        add     a, a
-        jr      nc, LongerRun
-        jr      nz, CopyLiteral         // NZ after NC == "confirmed C"
-        
-        ld      a, (hl)                 // reload bits
-        inc     hl
-        rla
+	inc     c
+	add     a, a
+	jr      nc, LongerRun
+	jr      nz, CopyLiteral         // NZ after NC == "confirmed C"
+	
+	ld      a, (hl)                 // reload bits
+	inc     hl
+	rla
 
-        jr      c, CopyLiteral
+	jr      c, CopyLiteral
 
 LongerRun:
-        add     a, a                    // inline read gamma
-        rl      c
-        add     a, a
-        jr      nc, #.-4
+	add     a, a                    // inline read gamma
+	rl      c
+	add     a, a
+	jr      nc, #.-4
 
-        jr      nz, CopyLiterals
-        
-        ld      a, (hl)                 // reload bits
-        inc     hl
-        rla
+	jr      nz, CopyLiterals
+	
+	ld      a, (hl)                 // reload bits
+	inc     hl
+	rla
 
-        call    nc, ReadGammaAligned
+	call    nc, ReadGammaAligned
 
 CopyLiterals:
-        ldi
+	ldi
 
 CopyLiteral:
-        ldir
+	ldir
 
-        // after a literal run you can have either
-        // 0 + <elias length> = match using a repeated offset, or
-        // 1 + <elias offset msb> + [7-bits of offset lsb + 1-bit of length] + <elias length> = another match
-        add     a, a
-        jr      c, UsualMatch
+	// after a literal run you can have either
+	// 0 + <elias length> = match using a repeated offset, or
+	// 1 + <elias offset msb> + [7-bits of offset lsb + 1-bit of length] + <elias length> = another match
+	add     a, a
+	jr      c, UsualMatch
 
 RepMatch:
-        inc     c
-        add     a, a
-        jr      nc, LongerRepMatch
-        jr      nz, CopyMatch1          // NZ after NC == "confirmed C"
+	inc     c
+	add     a, a
+	jr      nc, LongerRepMatch
+	jr      nz, CopyMatch1          // NZ after NC == "confirmed C"
 
-        ld      a, (hl)                 // reload bits
-        inc     hl
-        rla
+	ld      a, (hl)                 // reload bits
+	inc     hl
+	rla
 
-        jr      c, CopyMatch1
+	jr      c, CopyMatch1
 
 LongerRepMatch:
-        add     a, a                    // inline read gamma
-        rl      c
-        add     a, a
-        jr      nc, #.-4
+	add     a, a                    // inline read gamma
+	rl      c
+	add     a, a
+	jr      nc, #.-4
 
-        jp      nz, CopyMatch1
+	jp      nz, CopyMatch1
 
-        // this is a crafty equivalent of CALL ReloadReadGamma : JP CopyMatch1
-        push    iy
+	// this is a crafty equivalent of CALL ReloadReadGamma : JP CopyMatch1
+	push    iy
 
-        //  the subroutine for reading the remainder of the partly read Elias gamma code.
-        //  it has two entry points: ReloadReadGamma first refills the bit reservoir in A,
-        //  while ReadGammaAligned assumes that the bit reservoir has just been refilled.
+	//  the subroutine for reading the remainder of the partly read Elias gamma code.
+	//  it has two entry points: ReloadReadGamma first refills the bit reservoir in A,
+	//  while ReadGammaAligned assumes that the bit reservoir has just been refilled.
 ReloadReadGamma:
-        ld      a, (hl)                 // reload bits
-        inc     hl
-        rla
+	ld      a, (hl)                 // reload bits
+	inc     hl
+	rla
 
-        ret     c
+	ret     c
 ReadGammaAligned:
-        add     a, a
-        rl      c
-        add     a, a
-        ret     c
-        add     a, a
-        rl      c
-        add     a, a
+	add     a, a
+	rl      c
+	add     a, a
+	ret     c
+	add     a, a
+	rl      c
+	add     a, a
 ReadingLongGamma:                       // this loop does not need unrolling, as it does not get much use anyway
-        ret     c
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jr      nz, ReadingLongGamma
+	ret     c
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jr      nz, ReadingLongGamma
 
-        ld      a, (hl)                 // reload bits
-        inc     hl
-        rla
-        jr      ReadingLongGamma
-	__endasm;
+	ld      a, (hl)                 // reload bits
+	inc     hl
+	rla
+	jr      ReadingLongGamma
+__endasm;
 }
 
 #elif (ZX0_MODE == ZX0_MODE_MEGA)
@@ -455,7 +455,8 @@ void ZX0_UnpackToRAM(const void* source, void* dest)
 {
 	source;	// HL
 	dest;	// DE
-	__asm
+
+__asm
 // -----------------------------------------------------------------------------
 // ZX0 decoder by Einar Saukas
 // "Mega" version (673 bytes, 28% faster)
@@ -465,449 +466,449 @@ void ZX0_UnpackToRAM(const void* source, void* dest)
 //   DE: destination address (decompressing)
 // -----------------------------------------------------------------------------
 dzx0_mega:
-        ld      bc, #0xFFFF               // preserve default offset 1
-        ld      (dzx0m_last_offset+1), bc
-        inc     bc
-        jr      dzx0m_literals0
+	ld      bc, #0xFFFF               // preserve default offset 1
+	ld      (dzx0m_last_offset+1), bc
+	inc     bc
+	jr      dzx0m_literals0
 
 dzx0m_new_offset6:
-        ld      c, #0xFE                  // prepare negative offset
-        add     a, a                    // obtain offset MSB
-        jp      c, dzx0m_new_offset5
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_new_offset3
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_new_offset1
+	ld      c, #0xFE                  // prepare negative offset
+	add     a, a                    // obtain offset MSB
+	jp      c, dzx0m_new_offset5
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_new_offset3
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_new_offset1
 dzx0m_elias_offset1:
-        add     a, a
-        rl      c
-        rl      b
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a
-        jp      nc, dzx0m_elias_offset7
+	add     a, a
+	rl      c
+	rl      b
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a
+	jp      nc, dzx0m_elias_offset7
 dzx0m_new_offset7:
-        inc     c
-        ret     z                       // check end marker
-        ld      b, c
-        ld      c, (hl)                 // obtain offset LSB
-        inc     hl
-        rr      b                       // last offset bit becomes first length bit
-        rr      c
-        ld      (dzx0m_last_offset+1), bc // preserve new offset
-        ld      bc, #1
-        jp      c, dzx0m_length7        // obtain length
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_length5
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_length3
+	inc     c
+	ret     z                       // check end marker
+	ld      b, c
+	ld      c, (hl)                 // obtain offset LSB
+	inc     hl
+	rr      b                       // last offset bit becomes first length bit
+	rr      c
+	ld      (dzx0m_last_offset+1), bc // preserve new offset
+	ld      bc, #1
+	jp      c, dzx0m_length7        // obtain length
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_length5
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_length3
 dzx0m_elias_length3:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jp      nc, dzx0m_elias_length1
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jp      nc, dzx0m_elias_length1
 dzx0m_length1:
-        push    hl                      // preserve source
-        ld      hl, (dzx0m_last_offset+1)
-        add     hl, de                  // calculate destination - offset
-        ldir                            // copy from offset
-        inc     c
-        ldi                             // copy one more from offset
-        pop     hl                      // restore source
-        add     a, a                    // copy from literals or new offset?
-        jr      c, dzx0m_new_offset0
+	push    hl                      // preserve source
+	ld      hl, (dzx0m_last_offset+1)
+	add     hl, de                  // calculate destination - offset
+	ldir                            // copy from offset
+	inc     c
+	ldi                             // copy one more from offset
+	pop     hl                      // restore source
+	add     a, a                    // copy from literals or new offset?
+	jr      c, dzx0m_new_offset0
 dzx0m_literals0:
-        inc     c
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a                    // obtain length
-        jp      c, dzx0m_literals7
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_literals5
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_literals3
+	inc     c
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a                    // obtain length
+	jp      c, dzx0m_literals7
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_literals5
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_literals3
 dzx0m_elias_literals3:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jp      nc, dzx0m_elias_literals1
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jp      nc, dzx0m_elias_literals1
 dzx0m_literals1:
-        ldir                            // copy literals
-        add     a, a                    // copy from last offset or new offset?
-        jr      c, dzx0m_new_offset0
-        inc     c
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a                    // obtain length
-        jp      c, dzx0m_reuse7
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_reuse5
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_reuse3
+	ldir                            // copy literals
+	add     a, a                    // copy from last offset or new offset?
+	jr      c, dzx0m_new_offset0
+	inc     c
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a                    // obtain length
+	jp      c, dzx0m_reuse7
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_reuse5
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_reuse3
 dzx0m_elias_reuse3:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jp      nc, dzx0m_elias_reuse1
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jp      nc, dzx0m_elias_reuse1
 dzx0m_reuse1:
-        push    hl                      // preserve source
-        ld      hl, (dzx0m_last_offset+1)
-        add     hl, de                  // calculate destination - offset
-        ldir                            // copy from offset
-        pop     hl                      // restore source
-        add     a, a                    // copy from literals or new offset?
-        jr      nc, dzx0m_literals0
+	push    hl                      // preserve source
+	ld      hl, (dzx0m_last_offset+1)
+	add     hl, de                  // calculate destination - offset
+	ldir                            // copy from offset
+	pop     hl                      // restore source
+	add     a, a                    // copy from literals or new offset?
+	jr      nc, dzx0m_literals0
 
 dzx0m_new_offset0:
-        ld      c, #0xFE                  // prepare negative offset
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a                    // obtain offset MSB
-        jp      c, dzx0m_new_offset7
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_new_offset5
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_new_offset3
+	ld      c, #0xFE                  // prepare negative offset
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a                    // obtain offset MSB
+	jp      c, dzx0m_new_offset7
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_new_offset5
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_new_offset3
 dzx0m_elias_offset3:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jp      nc, dzx0m_elias_offset1
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jp      nc, dzx0m_elias_offset1
 dzx0m_new_offset1:
-        inc     c
-        ret     z                       // check end marker
-        ld      b, c
-        ld      c, (hl)                 // obtain offset LSB
-        inc     hl
-        rr      b                       // last offset bit becomes first length bit
-        rr      c
-        ld      (dzx0m_last_offset+1), bc // preserve new offset
-        ld      bc, #1
-        jp      c, dzx0m_length1        // obtain length
-        add     a, a
-        rl      c
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a
-        jp      c, dzx0m_length7
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_length5
+	inc     c
+	ret     z                       // check end marker
+	ld      b, c
+	ld      c, (hl)                 // obtain offset LSB
+	inc     hl
+	rr      b                       // last offset bit becomes first length bit
+	rr      c
+	ld      (dzx0m_last_offset+1), bc // preserve new offset
+	ld      bc, #1
+	jp      c, dzx0m_length1        // obtain length
+	add     a, a
+	rl      c
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a
+	jp      c, dzx0m_length7
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_length5
 dzx0m_elias_length5:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jp      nc, dzx0m_elias_length3
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jp      nc, dzx0m_elias_length3
 dzx0m_length3:
-        push    hl                      // preserve source
-        ld      hl, (dzx0m_last_offset+1)
-        add     hl, de                  // calculate destination - offset
-        ldir                            // copy from offset
-        inc     c
-        ldi                             // copy one more from offset
-        pop     hl                      // restore source
-        add     a, a                    // copy from literals or new offset?
-        jr      c, dzx0m_new_offset2
+	push    hl                      // preserve source
+	ld      hl, (dzx0m_last_offset+1)
+	add     hl, de                  // calculate destination - offset
+	ldir                            // copy from offset
+	inc     c
+	ldi                             // copy one more from offset
+	pop     hl                      // restore source
+	add     a, a                    // copy from literals or new offset?
+	jr      c, dzx0m_new_offset2
 dzx0m_literals2:
-        inc     c
-        add     a, a                    // obtain length
-        jp      c, dzx0m_literals1
-        add     a, a
-        rl      c
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a
-        jp      c, dzx0m_literals7
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_literals5
+	inc     c
+	add     a, a                    // obtain length
+	jp      c, dzx0m_literals1
+	add     a, a
+	rl      c
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a
+	jp      c, dzx0m_literals7
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_literals5
 dzx0m_elias_literals5:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jp      nc, dzx0m_elias_literals3
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jp      nc, dzx0m_elias_literals3
 dzx0m_literals3:
-        ldir                            // copy literals
-        add     a, a                    // copy from last offset or new offset?
-        jr      c, dzx0m_new_offset2
-        inc     c
-        add     a, a                    // obtain length
-        jp      c, dzx0m_reuse1
-        add     a, a
-        rl      c
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a
-        jp      c, dzx0m_reuse7
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_reuse5
+	ldir                            // copy literals
+	add     a, a                    // copy from last offset or new offset?
+	jr      c, dzx0m_new_offset2
+	inc     c
+	add     a, a                    // obtain length
+	jp      c, dzx0m_reuse1
+	add     a, a
+	rl      c
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a
+	jp      c, dzx0m_reuse7
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_reuse5
 dzx0m_elias_reuse5:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jp      nc, dzx0m_elias_reuse3
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jp      nc, dzx0m_elias_reuse3
 dzx0m_reuse3:
-        push    hl                      // preserve source
-        ld      hl, (dzx0m_last_offset+1)
-        add     hl, de                  // calculate destination - offset
-        ldir                            // copy from offset
-        pop     hl                      // restore source
-        add     a, a                    // copy from literals or new offset?
-        jr      nc, dzx0m_literals2
+	push    hl                      // preserve source
+	ld      hl, (dzx0m_last_offset+1)
+	add     hl, de                  // calculate destination - offset
+	ldir                            // copy from offset
+	pop     hl                      // restore source
+	add     a, a                    // copy from literals or new offset?
+	jr      nc, dzx0m_literals2
 
 dzx0m_new_offset2:
-        ld      c, #0xFE                  // prepare negative offset
-        add     a, a                    // obtain offset MSB
-        jp      c, dzx0m_new_offset1
-        add     a, a
-        rl      c
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a
-        jp      c, dzx0m_new_offset7
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_new_offset5
+	ld      c, #0xFE                  // prepare negative offset
+	add     a, a                    // obtain offset MSB
+	jp      c, dzx0m_new_offset1
+	add     a, a
+	rl      c
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a
+	jp      c, dzx0m_new_offset7
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_new_offset5
 dzx0m_elias_offset5:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jp      nc, dzx0m_elias_offset3
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jp      nc, dzx0m_elias_offset3
 dzx0m_new_offset3:
-        inc     c
-        ret     z                       // check end marker
-        ld      b, c
-        ld      c, (hl)                 // obtain offset LSB
-        inc     hl
-        rr      b                       // last offset bit becomes first length bit
-        rr      c
-        ld      (dzx0m_last_offset+1), bc // preserve new offset
-        ld      bc, #1
-        jp      c, dzx0m_length3        // obtain length
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_length1
-        add     a, a
-        rl      c
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a
-        jp      c, dzx0m_length7
+	inc     c
+	ret     z                       // check end marker
+	ld      b, c
+	ld      c, (hl)                 // obtain offset LSB
+	inc     hl
+	rr      b                       // last offset bit becomes first length bit
+	rr      c
+	ld      (dzx0m_last_offset+1), bc // preserve new offset
+	ld      bc, #1
+	jp      c, dzx0m_length3        // obtain length
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_length1
+	add     a, a
+	rl      c
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a
+	jp      c, dzx0m_length7
 dzx0m_elias_length7:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jp      nc, dzx0m_elias_length5
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jp      nc, dzx0m_elias_length5
 dzx0m_length5:
-        push    hl                      // preserve source
-        ld      hl, (dzx0m_last_offset+1)
-        add     hl, de                  // calculate destination - offset
-        ldir                            // copy from offset
-        inc     c
-        ldi                             // copy one more from offset
-        pop     hl                      // restore source
-        add     a, a                    // copy from literals or new offset?
-        jr      c, dzx0m_new_offset4
+	push    hl                      // preserve source
+	ld      hl, (dzx0m_last_offset+1)
+	add     hl, de                  // calculate destination - offset
+	ldir                            // copy from offset
+	inc     c
+	ldi                             // copy one more from offset
+	pop     hl                      // restore source
+	add     a, a                    // copy from literals or new offset?
+	jr      c, dzx0m_new_offset4
 dzx0m_literals4:
-        inc     c
-        add     a, a                    // obtain length
-        jp      c, dzx0m_literals3
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_literals1
-        add     a, a
-        rl      c
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a
-        jp      c, dzx0m_literals7
+	inc     c
+	add     a, a                    // obtain length
+	jp      c, dzx0m_literals3
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_literals1
+	add     a, a
+	rl      c
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a
+	jp      c, dzx0m_literals7
 dzx0m_elias_literals7:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jp      nc, dzx0m_elias_literals5
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jp      nc, dzx0m_elias_literals5
 dzx0m_literals5:
-        ldir                            // copy literals
-        add     a, a                    // copy from last offset or new offset?
-        jr      c, dzx0m_new_offset4
-        inc     c
-        add     a, a                    // obtain length
-        jp      c, dzx0m_reuse3
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_reuse1
-        add     a, a
-        rl      c
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a
-        jp      c, dzx0m_reuse7
+	ldir                            // copy literals
+	add     a, a                    // copy from last offset or new offset?
+	jr      c, dzx0m_new_offset4
+	inc     c
+	add     a, a                    // obtain length
+	jp      c, dzx0m_reuse3
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_reuse1
+	add     a, a
+	rl      c
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a
+	jp      c, dzx0m_reuse7
 dzx0m_elias_reuse7:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jp      nc, dzx0m_elias_reuse5
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jp      nc, dzx0m_elias_reuse5
 dzx0m_reuse5:
-        push    hl                      // preserve source
-        ld      hl, (dzx0m_last_offset+1)
-        add     hl, de                  // calculate destination - offset
-        ldir                            // copy from offset
-        pop     hl                      // restore source
-        add     a, a                    // copy from literals or new offset?
-        jr      nc, dzx0m_literals4
+	push    hl                      // preserve source
+	ld      hl, (dzx0m_last_offset+1)
+	add     hl, de                  // calculate destination - offset
+	ldir                            // copy from offset
+	pop     hl                      // restore source
+	add     a, a                    // copy from literals or new offset?
+	jr      nc, dzx0m_literals4
 
 dzx0m_new_offset4:
-        ld      c, #0xFE                  // prepare negative offset
-        add     a, a                    // obtain offset MSB
-        jp      c, dzx0m_new_offset3
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_new_offset1
-        add     a, a
-        rl      c
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a
-        jp      c, dzx0m_new_offset7
+	ld      c, #0xFE                  // prepare negative offset
+	add     a, a                    // obtain offset MSB
+	jp      c, dzx0m_new_offset3
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_new_offset1
+	add     a, a
+	rl      c
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a
+	jp      c, dzx0m_new_offset7
 dzx0m_elias_offset7:
-        add     a, a
-        rl      c
-        rl      b
-        add     a, a
-        jp      nc, dzx0m_elias_offset5
+	add     a, a
+	rl      c
+	rl      b
+	add     a, a
+	jp      nc, dzx0m_elias_offset5
 dzx0m_new_offset5:
-        inc     c
-        ret     z                       // check end marker
-        ld      b, c
-        ld      c, (hl)                 // obtain offset LSB
-        inc     hl
-        rr      b                       // last offset bit becomes first length bit
-        rr      c
-        ld      (dzx0m_last_offset+1), bc // preserve new offset
-        ld      bc, #1
-        jp      c, dzx0m_length5        // obtain length
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_length3
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_length1
+	inc     c
+	ret     z                       // check end marker
+	ld      b, c
+	ld      c, (hl)                 // obtain offset LSB
+	inc     hl
+	rr      b                       // last offset bit becomes first length bit
+	rr      c
+	ld      (dzx0m_last_offset+1), bc // preserve new offset
+	ld      bc, #1
+	jp      c, dzx0m_length5        // obtain length
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_length3
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_length1
 dzx0m_elias_length1:
-        add     a, a
-        rl      c
-        rl      b
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a
-        jp      nc, dzx0m_elias_length7
+	add     a, a
+	rl      c
+	rl      b
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a
+	jp      nc, dzx0m_elias_length7
 dzx0m_length7:
-        push    hl                      // preserve source
-        ld      hl, (dzx0m_last_offset+1)
-        add     hl, de                  // calculate destination - offset
-        ldir                            // copy from offset
-        inc     c
-        ldi                             // copy one more from offset
-        pop     hl                      // restore source
-        add     a, a                    // copy from literals or new offset?
-        jp      c, dzx0m_new_offset6
+	push    hl                      // preserve source
+	ld      hl, (dzx0m_last_offset+1)
+	add     hl, de                  // calculate destination - offset
+	ldir                            // copy from offset
+	inc     c
+	ldi                             // copy one more from offset
+	pop     hl                      // restore source
+	add     a, a                    // copy from literals or new offset?
+	jp      c, dzx0m_new_offset6
 dzx0m_literals6:
-        inc     c
-        add     a, a                    // obtain length
-        jp      c, dzx0m_literals5
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_literals3
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_literals1
+	inc     c
+	add     a, a                    // obtain length
+	jp      c, dzx0m_literals5
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_literals3
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_literals1
 dzx0m_elias_literals1:
-        add     a, a
-        rl      c
-        rl      b
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a
-        jp      nc, dzx0m_elias_literals7
+	add     a, a
+	rl      c
+	rl      b
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a
+	jp      nc, dzx0m_elias_literals7
 dzx0m_literals7:
-        ldir                            // copy literals
-        add     a, a                    // copy from last offset or new offset?
-        jp      c, dzx0m_new_offset6
-        inc     c
-        add     a, a                    // obtain length
-        jp      c, dzx0m_reuse5
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_reuse3
-        add     a, a
-        rl      c
-        add     a, a
-        jp      c, dzx0m_reuse1
+	ldir                            // copy literals
+	add     a, a                    // copy from last offset or new offset?
+	jp      c, dzx0m_new_offset6
+	inc     c
+	add     a, a                    // obtain length
+	jp      c, dzx0m_reuse5
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_reuse3
+	add     a, a
+	rl      c
+	add     a, a
+	jp      c, dzx0m_reuse1
 dzx0m_elias_reuse1:
-        add     a, a
-        rl      c
-        rl      b
-        ld      a, (hl)                 // load another group of 8 bits
-        inc     hl
-        add     a, a
-        jp      nc, dzx0m_elias_reuse7
+	add     a, a
+	rl      c
+	rl      b
+	ld      a, (hl)                 // load another group of 8 bits
+	inc     hl
+	add     a, a
+	jp      nc, dzx0m_elias_reuse7
 dzx0m_reuse7:
-        push    hl                      // preserve source
+	push    hl                      // preserve source
 dzx0m_last_offset:
-        ld      hl, #0
-        add     hl, de                  // calculate destination - offset
-        ldir                            // copy from offset
-        pop     hl                      // restore source
-        add     a, a                    // copy from literals or new offset?
-        jr      nc, dzx0m_literals6
+	ld      hl, #0
+	add     hl, de                  // calculate destination - offset
+	ldir                            // copy from offset
+	pop     hl                      // restore source
+	add     a, a                    // copy from literals or new offset?
+	jr      nc, dzx0m_literals6
 
-        jp      dzx0m_new_offset6
+	jp      dzx0m_new_offset6
 // -----------------------------------------------------------------------------
-	__endasm;
+__endasm;
 }
 
 #endif

@@ -38,9 +38,9 @@ u8 g_LogX, g_LogY;
 // Callback function for joystick events
 void JoystickEvent(u8 joy, u8 in, u8 evt)
 {
-	if(g_LogY >= 24)
+	if (g_LogY >= 24)
 	{
-		for(i8 i = 17; i < 24; i++) // clear
+		for (i8 i = 17; i < 24; i++) // clear
 		{
 			Print_SetPosition(1, i);
 			Print_DrawCharX(' ', 40);
@@ -53,7 +53,7 @@ void JoystickEvent(u8 joy, u8 in, u8 evt)
 	Print_DrawChar('J');
 	Print_DrawInt(joy);
 	Print_DrawChar('.');
-	switch(in)
+	switch (in)
 	{
 	case IPM_INPUT_STICK:    Print_DrawText("S"); break;
 	case IPM_INPUT_BUTTON_A: Print_DrawText("A"); break;
@@ -112,7 +112,7 @@ void main()
 	Print_SetPosition(0, 16);
 	Print_DrawText("Events log:");
 	
-	for(i8 joy = 0; joy < 2; joy++)
+	for (i8 joy = 0; joy < 2; joy++)
 	{
 		// ID
 		Print_SetPosition(21 * joy, 3);
@@ -150,7 +150,7 @@ void main()
 	u8 count = 0;
 	
 	// Main loop
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 		count++;
@@ -163,7 +163,7 @@ void main()
 
 		IPM_Update();
 		
-		for(i8 joy = 0; joy < 2; joy++)
+		for (i8 joy = 0; joy < 2; joy++)
 		{
 			// Raw access
 			
@@ -189,7 +189,7 @@ void main()
 			Print_DrawText(" O ");		
 			Print_SetPosition(16 + (21 * joy), 9);
 			Print_DrawText("   ");
-			switch(dir)
+			switch (dir)
 			{
 			case JOY_INPUT_DIR_UP:
 				Print_SetPosition(17 + (21 * joy), 7);
@@ -231,11 +231,11 @@ void main()
 			Print_SetPosition(16 + (21 * joy), 12);
 			u8 timer = IPM_GetInputTimer(joy, IPM_INPUT_STICK);
 			Print_DrawInt(timer);
-			if(timer < 100) Print_DrawChar(' ');
-			if(timer < 10) Print_DrawChar(' ');
+			if (timer < 100) Print_DrawChar(' ');
+			if (timer < 10) Print_DrawChar(' ');
 			// Button A
 			Print_SetPosition(12 + (21 * joy), 13);
-			switch(IPM_GetInputState(joy, IPM_INPUT_BUTTON_A) & IPM_STATE_PRESSMASK)
+			switch (IPM_GetInputState(joy, IPM_INPUT_BUTTON_A) & IPM_STATE_PRESSMASK)
 			{
 			case IPM_STATE_OFF:     Print_DrawText("OFF"); break;
 			case IPM_STATE_PRESS:   Print_DrawText("PRE"); break;
@@ -245,16 +245,16 @@ void main()
 			Print_SetPosition(16 + (21 * joy), 13);
 			timer = IPM_GetInputTimer(joy, IPM_INPUT_BUTTON_A);
 			Print_DrawInt(timer);
-			if(timer < 100) Print_DrawChar(' ');
-			if(timer < 10) Print_DrawChar(' ');
+			if (timer < 100) Print_DrawChar(' ');
+			if (timer < 10) Print_DrawChar(' ');
 			// Button B
 			Print_SetPosition(12 + (21 * joy), 14);
 			Print_DrawText(IPM_GetInputState(joy, IPM_INPUT_BUTTON_B) ? "ON " : "OFF");
 			Print_SetPosition(16 + (21 * joy), 14);
 			timer = IPM_GetInputTimer(joy, IPM_INPUT_BUTTON_B);
 			Print_DrawInt(timer);
-			if(timer < 100) Print_DrawChar(' ');
-			if(timer < 10) Print_DrawChar(' ');
+			if (timer < 100) Print_DrawChar(' ');
+			if (timer < 10) Print_DrawChar(' ');
 		}
 	}
 

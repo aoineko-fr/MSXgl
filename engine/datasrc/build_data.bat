@@ -36,6 +36,8 @@ if %BuildMath%==1 (
 	%MSXmath% -num 64 -bytes 2 -shift 8 asin -o ..\content\mathtable\mt_asin_64.inc
 	%MSXmath% -num 64 -bytes 2 -shift 8 acos -o ..\content\mathtable\mt_acos_64.inc
 	%MSXmath% -num 64 -bytes 2 -shift 8 atan -o ..\content\mathtable\mt_atan_64.inc
+	%MSXmath% -num 64 -bytes 2 -shift 8 sincos -o ..\content\mathtable\mt_sincos_64.inc
+	%MSXmath% -num 128 -bytes 2 -shift 8 sincos -o ..\content\mathtable\mt_sincos_128.inc
 
 	%MSXmath% -num 256  -bytes 1 -shift 4 sqrt -o ..\content\mathtable\mt_sqrt_256.inc
 	%MSXmath% -num 1024 -bytes 2 -shift 8 sqrt -o ..\content\mathtable\mt_sqrt_1024.inc
@@ -45,6 +47,11 @@ if %BuildMath%==1 (
 
 	%MSXmath% -num 32  -bytes 1 -shift 4  map 0 100 -o ..\content\mathtable\mt_sq_64.inc
 	%MSXmath% -num 256 -bytes 1 -shift 0  proj -o ..\content\mathtable\mt_proj256.inc
+
+	%MSXmath% -num 256 -bytes 2 -shift 0 muls -o ..\content\mathtable\mt_muls.bin
+	%MSXmath% -num 256 -bytes 2 -shift 0 mulu -o ..\content\mathtable\mt_mulu.bin
+	%MSXmath% -num 256 -bytes 2 -shift 8 divs -o ..\content\mathtable\mt_divs.bin
+	%MSXmath% -num 256 -bytes 2 -shift 8 divu -o ..\content\mathtable\mt_divu.bin
 )
 
 ::-----------------------------------------------------------------------------

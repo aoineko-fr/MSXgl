@@ -97,7 +97,7 @@ enum QRCODE_MODE
 // Even in the most favorable conditions, a QR Code can only hold 7089 characters of data.
 // Any segment longer than this is meaningless for the purpose of generating QR Codes.
 // Moreover, the maximum allowed bit length is 32767 because the largest QR Code (version 40) has 31329 modules.
-struct QRCode_Segment
+typedef struct QRCode_Segment
 {
 	// The length of this segment's unencoded data. Measured in characters for
 	// numeric/alphanumeric/kanji mode, bytes for byte mode, and 0 for ECI mode.
@@ -112,7 +112,7 @@ struct QRCode_Segment
 	// 0 <= bitLength <= 32767, and bitLength <= (capacity of data array) * 8.
 	// The character count (numChars) must agree with the mode and the bit buffer length.
 	i16 bitLength;
-};
+} QRCode_Segment;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -174,7 +174,7 @@ bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[]);
 // 
 // This function allows the user to create a custom sequence of segments that switches between modes (such as alphanumeric and byte) to encode text in less space.
 // This is a low-level API; the high-level API is QRCode_EncodeText() and QRCode_EncodeBinary().
-bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u8 len, u8 tempBuffer[], u8 qrcode[]);
+bool QRCode_EncodeSegmentsAdvanced(const QRCode_Segment segs[], u8 len, u8 tempBuffer[], u8 qrcode[]);
 
 // Function: QRCode_GetSize
 // Returns the side length of the given QR Code, assuming that encoding succeeded.

@@ -137,7 +137,7 @@ void RandomizeData(u16 minX, u16 minY)
 	u16 rnd = Math_GetRandom16();
 	g_Data.x1 = rnd >> 8;
 	g_Data.x2 = rnd & 0x00FF;
-	if(g_Settings[g_SrcModeIndex].Width == 256)
+	if (g_Settings[g_SrcModeIndex].Width == 256)
 	{
 		g_Data.x1 >>= 1;
 		g_Data.x2 >>= 1;
@@ -148,16 +148,16 @@ void RandomizeData(u16 minX, u16 minY)
 	rnd = Math_GetRandom16();
 	g_Data.y1 = rnd >> 8;
 	g_Data.y2 = rnd & 0x00FF;
-	while(g_Data.y1 > 98)
+	while (g_Data.y1 > 98)
 		g_Data.y1 -= 98;
-	while(g_Data.y2 > 98)
+	while (g_Data.y2 > 98)
 		g_Data.y2 -= 98;
 	g_Data.y1 += minY;
 	g_Data.y2 += minY;
 	
 	rnd = Math_GetRandom16();
 	g_Data.color = rnd & 0x00FF;
-	if(g_Data.color == 0)
+	if (g_Data.color == 0)
 		g_Data.color++;
 }
 
@@ -184,14 +184,14 @@ void DisplayPage()
 	VDP_SetColor(src->Background);
 	VDP_CommandHMMV(0, 0, src->Width, 212, src->Background);
 	
-	if(src->BPC == 2)
+	if (src->BPC == 2)
 	{
 		VDP_SetPaletteEntry(0, RGB16(0, 0, 0));
 		VDP_SetPaletteEntry(1, RGB16(1, 1, 2));
 		VDP_SetPaletteEntry(2, RGB16(2, 2, 4));
 		VDP_SetPaletteEntry(3, RGB16(3, 3, 7));
 	}
-	else if(src->BPC == 4)
+	else if (src->BPC == 4)
 		VDP_SetPalette(pal->Data);
 
 	VDP_EnableSprite(FALSE);
@@ -206,32 +206,32 @@ void DisplayPage()
 	Draw_LineV(src->Width / 2, 16, 212, src->White, 0);
 
 	// Draw lines
-	for(u8 i = 0; i < 16; ++i)
+	for (u8 i = 0; i < 16; ++i)
 	{
 		RandomizeData(0, 16);
 		Draw_Line(g_Data.x1, g_Data.y1, g_Data.x2, g_Data.y2, g_Data.color, 0);
 	}
 	// Draw vertical/harizontal lines
-	for(u8 i = 0; i < 8; ++i)
+	for (u8 i = 0; i < 8; ++i)
 	{
 		RandomizeData(src->Width / 2, 16);
 		Draw_LineH(g_Data.x1, g_Data.x2, g_Data.y2, g_Data.color, 0);
 		RandomizeData(src->Width / 2, 16);
 		Draw_LineV(g_Data.x1, g_Data.y1, g_Data.y2, g_Data.color, 0);
 	}
-	for(u8 i = 0; i < 64; ++i)
+	for (u8 i = 0; i < 64; ++i)
 	{
 		RandomizeData(src->Width / 2, 16);
 		Draw_Point(g_Data.x1, g_Data.y1, g_Data.color, 0);
 	}
 	// Draw boxes
-	for(u8 i = 0; i < 16; ++i)
+	for (u8 i = 0; i < 16; ++i)
 	{
 		RandomizeData(0, 114);
 		Draw_Box(g_Data.x1, g_Data.y1, g_Data.x2, g_Data.y2, g_Data.color, 0);
 	}
 	// Draw circles
-	for(u8 i = 0; i < 16; ++i)
+	for (u8 i = 0; i < 16; ++i)
 	{
 		RandomizeData(src->Width / 2, 114);
 		Draw_Circle(
@@ -252,23 +252,23 @@ void DisplayPage()
 
 	#define PAL_POS_Y	(u8)(212 - 9)
 
-	if(src->BPC == 4)
+	if (src->BPC == 4)
 	{
 		Print_SetPosition(2, PAL_POS_Y);
 		Print_DrawFormat("\x82Pal:%s", pal->Name);
 	}
 
 	// Draw palette
-	if(src->BPC == 8)
+	if (src->BPC == 8)
 	{
 		u16 startX = src->Width - (128 + 1);
 		u16 x = startX;
 		u16 y = PAL_POS_Y;
 		Draw_FillBox(x - 1, (u8)(PAL_POS_Y - 1), (u8)(x + 128), (u8)(PAL_POS_Y + 8), 0xFF, 0);
-		for(u16 j = 0; j < 4; ++j)
+		for (u16 j = 0; j < 4; ++j)
 		{
 			x = startX;
-			for(u16 i = 0; i < 64; ++i)
+			for (u16 i = 0; i < 64; ++i)
 			{
 				Draw_FillBox(x, y, x + 1, y + 1, i + j * 64, 0);
 				x += 2;
@@ -300,7 +300,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 	g_Frame++;
 }
@@ -318,7 +318,7 @@ void main()
 	DisplayPage();
 
 	bool bContinue = TRUE;
-	while(bContinue)
+	while (bContinue)
 	{
 		const struct ScreenSetting* src = &g_Settings[g_SrcModeIndex];
 
@@ -327,36 +327,36 @@ void main()
 
 		u8 row = Keyboard_Read(8);
 		// Select screen mode
-		if((row & KEY_FLAG(KEY_LEFT)) == 0)
+		if ((row & KEY_FLAG(KEY_LEFT)) == 0)
 		{
-			if(g_SrcModeIndex > 0)
+			if (g_SrcModeIndex > 0)
 				g_SrcModeIndex--;
 			else
 				g_SrcModeIndex = numberof(g_Settings) - 1;
 			DisplayPage();
 		}
-		else if((row & KEY_FLAG(KEY_RIGHT)) == 0)
+		else if ((row & KEY_FLAG(KEY_RIGHT)) == 0)
 		{
-			if(g_SrcModeIndex < numberof(g_Settings) - 1)
+			if (g_SrcModeIndex < numberof(g_Settings) - 1)
 				g_SrcModeIndex++;
 			else
 				g_SrcModeIndex = 0;
 			DisplayPage();
 		}
 		// Select palette
-		if(src->BPC == 4)
+		if (src->BPC == 4)
 		{
-			if((row & KEY_FLAG(KEY_UP)) == 0)
+			if ((row & KEY_FLAG(KEY_UP)) == 0)
 			{
-				if(g_PalIndex > 0)
+				if (g_PalIndex > 0)
 					g_PalIndex--;
 				else
 					g_PalIndex = numberof(g_Palettes) - 1;
 				DisplayPage();
 			}
-			else if((row & KEY_FLAG(KEY_DOWN)) == 0)
+			else if ((row & KEY_FLAG(KEY_DOWN)) == 0)
 			{
-				if(g_PalIndex < numberof(g_Palettes) - 1)
+				if (g_PalIndex < numberof(g_Palettes) - 1)
 					g_PalIndex++;
 				else
 					g_PalIndex = 0;
@@ -364,7 +364,7 @@ void main()
 			}
 		}
 		
-		if(Keyboard_IsKeyPressed(KEY_ESC))
+		if (Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;
 
 		WaitVBlank();

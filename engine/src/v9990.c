@@ -119,106 +119,112 @@ const u8 g_V9_ColorConfig[V9_COLOR_BMP_MAX][2] =
 };
 
 //-----------------------------------------------------------------------------
-//
-void V9_SetPort(u8 port, u8 value) __PRESERVES(b, d, e, h, iyl, iyh)
+// Set port value.
+void V9_SetPort(u8 port, u8 value) __NAKED __PRESERVES(b, d, e, h, iyl, iyh)
 {
 	port;	// A
 	value;	// L
 
-	__asm
-	v9_set_port:
-		ld		c, a				// Select port
-		out		(c), l				// Set value
-	__endasm;
+__asm
+v9_set_port:
+	ld		c, a				// Select port
+	out		(c), l				// Set value
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-u8 V9_GetPort(u8 port) __PRESERVES(b, d, e, h, l, iyl, iyh)
+// Get port value.
+u8 V9_GetPort(u8 port) __NAKED __PRESERVES(b, d, e, h, l, iyl, iyh)
 {
 	port;	// A
 
-	__asm
-	v9_get_port:
-		ld		c, a				// Select port
-		in		a, (c)				// Get value
-	__endasm;
+__asm
+v9_get_port:
+	ld		c, a				// Select port
+	in		a, (c)				// Get value
+	ret							// Return value in A
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-void V9_SetRegister(u8 reg, u8 val) __PRESERVES(b, c, d, e, h, iyl, iyh)
+// Set register value.
+void V9_SetRegister(u8 reg, u8 val) __NAKED __PRESERVES(b, c, d, e, h, iyl, iyh)
 {
 	reg;	// A
 	val;	// L
 
-	__asm
-	v9_set_reg:
-		V9_DI
-		out		(V9_P04), a				// Select register
-		ld		a, l
-		V9_EI
-		out		(V9_P03), a				// Set value
-	__endasm;
+__asm
+v9_set_reg:
+	V9_DI
+	out		(V9_P04), a				// Select register
+	ld		a, l
+	V9_EI
+	out		(V9_P03), a				// Set value
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-void V9_SetRegister16(u8 reg, u16 val) __PRESERVES(b, h, l, iyl, iyh)
+// Set register value.
+void V9_SetRegister16(u8 reg, u16 val) __NAKED __PRESERVES(b, h, l, iyl, iyh)
 {
 	reg;	// A
 	val;	// DE
 
-	__asm
-	v9_set_reg16:
-		V9_DI
-		out		(V9_P04), a				// Select register
-		ld		a, l
-		V9_EI
-		ld		c, #V9_P03
-		out		(c), e					// Set LSB value
-		out		(c), d					// Set MSB value
-	__endasm;
+__asm
+v9_set_reg16:
+	V9_DI
+	out		(V9_P04), a				// Select register
+	ld		a, l
+	V9_EI
+	ld		c, #V9_P03
+	out		(c), e					// Set LSB value
+	out		(c), d					// Set MSB value
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-u8 V9_GetRegister(u8 reg) __PRESERVES(b, c, d, e, h, l, iyl, iyh)
+// Get register value.
+u8 V9_GetRegister(u8 reg) __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
 	reg;	// A
 
-	__asm
-	v9_get_reg:
-		V9_DI
-		out		(V9_P04), a				// Select register
-		V9_EI
-		in		a, (V9_P03)				// Get value
-	__endasm;
+__asm
+v9_get_reg:
+	V9_DI
+	out		(V9_P04), a				// Select register
+	V9_EI
+	in		a, (V9_P03)				// Get value
+	ret								// Return value in A
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-bool V9_Detect()
+// Detecting the presence of a V9990 card.
+bool V9_Detect() __NAKED
 {
-	__asm
-	v9_detect:
-		ld		a, #V9_REG(15) + V9_RII + V9_WII
-		V9_DI
-		out		(V9_P04), a				// Select R#15
+__asm
+v9_detect:
+	ld		a, #V9_REG(15) + V9_RII + V9_WII
+	V9_DI
+	out		(V9_P04), a				// Select R#15
 
-		in		a, (V9_P03)				// Read value
-		ld		b, a
-		cpl								// Invert value
-		out		(V9_P03), a				// Write value
-		in		a, (V9_P03)				// Read value again
-		xor		b
-		jr		z, v9_notfound
-	v9_found:							// Return A=0xFF
-		ld		c, #V9_P03
-		out		(c), b					// Restore value
-	v9_notfound:						// Return A=0x00
-		V9_EI
-	__endasm;
+	in		a, (V9_P03)				// Read value
+	ld		b, a
+	cpl								// Invert value
+	out		(V9_P03), a				// Write value
+	in		a, (V9_P03)				// Read value again
+	xor		b
+	jr		z, v9_notfound
+v9_found:							// Return A=0xFF
+	ld		c, #V9_P03
+	out		(c), b					// Restore value
+v9_notfound:						// Return A=0x00
+	V9_EI
+	ret								// Return value in A
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
@@ -251,7 +257,7 @@ void V9_SetColorMode(u8 mode)
 #endif
 
 //-----------------------------------------------------------------------------
-//
+// Set vertical scrolling value.
 void V9_SetScrollingY(u16 y)
 {
 	// Set R#17
@@ -264,7 +270,7 @@ void V9_SetScrollingY(u16 y)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Set horizontal scrolling value.
 void V9_SetScrollingX(u16 x)
 {
 	// Set R#19
@@ -277,7 +283,7 @@ void V9_SetScrollingX(u16 x)
 #if (V9_USE_MODE_P1)
 
 //-----------------------------------------------------------------------------
-//
+// Set horizontal scrolling value for layer B (P1 mode only).
 void V9_SetScrollingBY(u16 y)
 {
 	// Set R#21
@@ -290,7 +296,7 @@ void V9_SetScrollingBY(u16 y)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Set vertical scrolling value for layer B (P1 mode only).
 void V9_SetScrollingBX(u16 x)
 {
 	// Set R#23
@@ -304,318 +310,335 @@ void V9_SetScrollingBX(u16 x)
 
 //-----------------------------------------------------------------------------
 // Clean the whole VRAM (512 KB)
-void V9_ClearVRAM() __PRESERVES(d, e, h, l, iyl, iyh)
+void V9_ClearVRAM() __NAKED __PRESERVES(d, e, h, l, iyl, iyh)
 {
-	__asm
-		V9_DI
-		// Select address 0
-		xor		a
-		out		(V9_P04), a			// Select R#0
-		out		(V9_P03), a			// R#0 = 0
-		out		(V9_P03), a			// R#1 = 0
-		out		(V9_P03), a			// R#2 = 0
+__asm
+	V9_DI
+	// Select address 0
+	xor		a
+	out		(V9_P04), a			// Select R#0
+	out		(V9_P03), a			// R#0 = 0
+	out		(V9_P03), a			// R#1 = 0
+	out		(V9_P03), a			// R#2 = 0
 
-		// Setup 512 KB loop (256x256x8)
-		ld		b, a
-		ld		c, a
+	// Setup 512 KB loop (256x256x8)
+	ld		b, a
+	ld		c, a
 
-		// Loop
-	v9_clear_loop:
-		out		(V9_P00), a
-		out		(V9_P00), a
-		out		(V9_P00), a
-		out		(V9_P00), a
-		out		(V9_P00), a
-		out		(V9_P00), a
-		out		(V9_P00), a
-		out		(V9_P00), a
-		djnz	v9_clear_loop
-		dec		c
-		jp		nz, v9_clear_loop
+	// Loop
+v9_clear_loop:
+	out		(V9_P00), a
+	out		(V9_P00), a
+	out		(V9_P00), a
+	out		(V9_P00), a
+	out		(V9_P00), a
+	out		(V9_P00), a
+	out		(V9_P00), a
+	out		(V9_P00), a
+	djnz	v9_clear_loop
+	dec		c
+	jp		nz, v9_clear_loop
 
-		V9_EI
-	__endasm;
+	V9_EI
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-void V9_SetWriteAddress(u32 addr) __PRESERVES(b, iyl, iyh)
-{
-	addr;		// HL:DE
-	__asm
-	v9_set_write_addr:					//-cc-
-		xor		a						//  5
-		V9_DI
-		out		(V9_P04), a				// 12	Select R#0 (with write increment)
-		ld		c, #V9_P03				//  8
-		out		(c), e					// 14	R#0 (lower address)
-		out		(c), d					// 14	R#1 (center address)
-		out		(c), l					// 14	R#2 (upper address)
-	__endasm;							//-total: 67 cc
-}
-
-//-----------------------------------------------------------------------------
-//
-void V9_SetReadAddress(u32 addr) __PRESERVES(b, iyl, iyh)
+// Initialize VRAM address for writing.
+void V9_SetWriteAddress(u32 addr) __NAKED __PRESERVES(b, iyl, iyh)
 {
 	addr;		// HL:DE
-	__asm
-	v9_set_read_addr:					//-cc-
-		ld		a, #3					//  8
-		V9_DI
-		out		(V9_P04), a				// 12	Select R#3 (with read increment)
-		ld		c, #V9_P03				//  8
-		out		(c), e					// 14	R#3 (lower address)
-		out		(c), d					// 14	R#4 (center address)
-		out		(c), l					// 14	R#5 (upper address)
-	__endasm;							//-total: 70 cc
+
+__asm
+v9_set_write_addr:					//-cc-
+	xor		a						//  5
+	V9_DI
+	out		(V9_P04), a				// 12	Select R#0 (with write increment)
+	ld		c, #V9_P03				//  8
+	out		(c), e					// 14	R#0 (lower address)
+	out		(c), d					// 14	R#1 (center address)
+	out		(c), l					// 14	R#2 (upper address)
+	ret
+__endasm;							//-total: 67 cc
 }
 
 //-----------------------------------------------------------------------------
-//
-u8 V9_Peek_CurrentAddr() __PRESERVES(b, c, d, e, h, l, iyl, iyh)
+// Initialize VRAM address for reading.
+void V9_SetReadAddress(u32 addr) __NAKED __PRESERVES(b, iyl, iyh)
 {
-	__asm
-		V9_EI
-		in		a, (V9_P00)
-	__endasm;
+	addr;		// HL:DE
+
+__asm
+v9_set_read_addr:					//-cc-
+	ld		a, #3					//  8
+	V9_DI
+	out		(V9_P04), a				// 12	Select R#3 (with read increment)
+	ld		c, #V9_P03				//  8
+	out		(c), e					// 14	R#3 (lower address)
+	out		(c), d					// 14	R#4 (center address)
+	out		(c), l					// 14	R#5 (upper address)
+	ret
+__endasm;							//-total: 70 cc
 }
 
 //-----------------------------------------------------------------------------
-//
-u16 V9_Peek16_CurrentAddr() __PRESERVES(b, c, h, l, iyl, iyh)
+// Read a 8-bits value from the previously setup write VRAM address.
+u8 V9_Peek_CurrentAddr() __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh)
 {
-	__asm
-		in		a, (V9_P00)
-		ld		e, a
-		V9_EI
-		in		a, (V9_P00)
-		ld		d, a
-	__endasm;
+__asm
+	V9_EI
+	in		a, (V9_P00)
+	ret							// Return value in A
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-void V9_Poke_CurrentAddr(u8 val) __PRESERVES(b, c, d, e, h, l, iyl, iyh)
+// Read a 16-bits value from the previously setup write VRAM address.
+u16 V9_Peek16_CurrentAddr() __NAKED __PRESERVES(b, c, h, l, iyl, iyh)
 {
-	val;		// A
-	__asm
-		V9_EI
-		out		(V9_P00), a
-	__endasm;
+__asm
+	in		a, (V9_P00)
+	ld		e, a
+	V9_EI
+	in		a, (V9_P00)
+	ld		d, a
+	ret							// Return value in DE
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-void V9_Poke16_CurrentAddr(u16 val) __PRESERVES(b, c, d, e, iyl, iyh)
+// Write a 8-bits value to the given VRAM address.
+void V9_Poke_CurrentAddr(u8 val) __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh)
+{
+val;		// A
+
+__asm
+	V9_EI
+	out		(V9_P00), a
+	ret
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Write a 16-bits value to the given VRAM address.
+void V9_Poke16_CurrentAddr(u16 val) __NAKED __PRESERVES(b, c, d, e, iyl, iyh)
 {
 	val;		// HL
-	__asm
-		ld		a, l
-		out		(V9_P00), a				// Fill VRAM
-		ld		a, h
-		V9_EI
-		out		(V9_P00), a				// Fill VRAM
-	__endasm;
+
+__asm
+	ld		a, l
+	out		(V9_P00), a				// Fill VRAM
+	ld		a, h
+	V9_EI
+	out		(V9_P00), a				// Fill VRAM
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-void V9_FillVRAM_CurrentAddr(u8 value, u16 count)
+// Fill VRAM with 8-bits value from the previously setup write VRAM address.
+void V9_FillVRAM_CurrentAddr(u8 value, u16 count) __NAKED
 {
 	value;	// A
 	count;	// DE
 
-	__asm
-	// Setup fast 16-bits loop
-	v9_fill_setup:
-		ld		b, e					// Number of loops is in DE
-		dec		de						// Calculate DB value (destroys B, D and E)
-		inc		d
-	// Fast 16-bits loop
-	v9_fill_loop:
-		out		(V9_P00), a				// Fill VRAM
-		djnz	v9_fill_loop			// Iner 8-bits loop
-		dec		d
-		jp		nz, v9_fill_loop		// Outer 8-bits loop
+__asm
+// Setup fast 16-bits loop
+v9_fill_setup:
+	ld		b, e					// Number of loops is in DE
+	dec		de						// Calculate DB value (destroys B, D and E)
+	inc		d
+// Fast 16-bits loop
+v9_fill_loop:
+	out		(V9_P00), a				// Fill VRAM
+	djnz	v9_fill_loop			// Iner 8-bits loop
+	dec		d
+	jp		nz, v9_fill_loop		// Outer 8-bits loop
 
-		V9_EI
-	__endasm;
+	V9_EI
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-void V9_FillVRAM16_CurrentAddr(u16 value, u16 count)
+// Fill VRAM with 16-bits value from the previously setup write VRAM address.
+void V9_FillVRAM16_CurrentAddr(u16 value, u16 count) __NAKED
 {
 	value;	// HL
 	count;	// DE
 
-	__asm
-	// Setup fast 16-bits loop
-	v9_fill16_setup:
-		ld		b, e					// Number of loops is in DE
-		dec		de						// Calculate DB value (destroys B, D and E)
-		inc		d
-	// Fast 16-bits loop
-	v9_fill16_loop:
-		ld		a, l
-		out		(V9_P00), a				// Fill VRAM
-		ld		a, h
-		out		(V9_P00), a				// Fill VRAM
-		djnz	v9_fill16_loop			// Iner 8-bits loop
-		dec		d
-		jp		nz, v9_fill16_loop		// Outer 8-bits loop
+__asm
+// Setup fast 16-bits loop
+v9_fill16_setup:
+	ld		b, e					// Number of loops is in DE
+	dec		de						// Calculate DB value (destroys B, D and E)
+	inc		d
+// Fast 16-bits loop
+v9_fill16_loop:
+	ld		a, l
+	out		(V9_P00), a				// Fill VRAM
+	ld		a, h
+	out		(V9_P00), a				// Fill VRAM
+	djnz	v9_fill16_loop			// Iner 8-bits loop
+	dec		d
+	jp		nz, v9_fill16_loop		// Outer 8-bits loop
 
-		V9_EI
-	__endasm;
+	V9_EI
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-void V9_WriteVRAM_CurrentAddr(const u8* src, u16 count)
+// Copy data from RAM buffer to the previously setup write VRAM address.
+void V9_WriteVRAM_CurrentAddr(const u8* src, u16 count) __NAKED
 {
 	src;	// HL
 	count;	// DE
 
-	__asm
-	// Setup fast 16-bits loop
-	v9_write_setup:
-		ld		b, e					// Number of loops is in DE
-		dec		de						// Calculate DB value (destroys B, D and E)
-		inc		d
-		ld		c, #V9_P00
-	// Fast 16-bits loop
-	v9_write_loop:
-		otir							// Write to VRAM (iner 8-bits loop)
-		dec		d
-		jp		nz, v9_write_loop		// Outer 8-bits loop
+__asm
+// Setup fast 16-bits loop
+v9_write_setup:
+	ld		b, e					// Number of loops is in DE
+	dec		de						// Calculate DB value (destroys B, D and E)
+	inc		d
+	ld		c, #V9_P00
+// Fast 16-bits loop
+v9_write_loop:
+	otir							// Write to VRAM (iner 8-bits loop)
+	dec		d
+	jp		nz, v9_write_loop		// Outer 8-bits loop
 
-		V9_EI
-	__endasm;
+	V9_EI
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-void V9_ReadVRAM_CurrentAddr(const u8* dest, u16 count)
+// Copy data from the previously setup read VRAM address to a RAM buffer.
+void V9_ReadVRAM_CurrentAddr(const u8* dest, u16 count) __NAKED
 {
 	dest;	// HL
 	count;	// DE
 
-	__asm
-	// Setup fast 16-bits loop
-	v9_read_setup:
-		ld		b, e					// Number of loops is in DE
-		dec		de						// Calculate DB value (destroys B, D and E)
-		inc		d
-		ld		c, #V9_P00
-	// Fast 16-bits loop
-	v9_read_loop:
-		inir							// Read from VRAM (iner 8-bits loop)
-		dec		d
-		jp		nz, v9_read_loop		// Outer 8-bits loop
+__asm
+// Setup fast 16-bits loop
+v9_read_setup:
+	ld		b, e					// Number of loops is in DE
+	dec		de						// Calculate DB value (destroys B, D and E)
+	inc		d
+	ld		c, #V9_P00
+// Fast 16-bits loop
+v9_read_loop:
+	inir							// Read from VRAM (iner 8-bits loop)
+	dec		d
+	jp		nz, v9_read_loop		// Outer 8-bits loop
 
-		V9_EI
-	__endasm;
+	V9_EI
+	ret
+__endasm;
 }
 
 #if ((V9_PALETTE_MODE == V9_PALETTE_GBR_16) || (V9_PALETTE_MODE == V9_PALETTE_YSGBR_16))
 
 //-----------------------------------------------------------------------------
 // Set the color of a given palette entry.
-void V9_SetPaletteEntry(u8 index, u16 color)
+void V9_SetPaletteEntry(u8 index, u16 color) __NAKED
 {
 	index; // A
 	color; // DE
 	       // D: [Ys|G|G|G|G|G|R|R] E: [R|R|R|B|B|B|B|B]
 
-	__asm
-		// Select R#14 (palette pointer register)
-		ld		c, #V9_P04
-		ld		b, #14
-		V9_DI
-		out		(c), b
+__asm
+	// Select R#14 (palette pointer register)
+	ld		c, #V9_P04
+	ld		b, #14
+	V9_DI
+	out		(c), b
 
-		// Set palette pointer to right index's red channel [index:6|00]
-		sla		a
-		sla		a
-		out		(V9_P03), a
+	// Set palette pointer to right index's red channel [index:6|00]
+	sla		a
+	sla		a
+	out		(V9_P03), a
 
-	v9_set_pal_entry:
-		// Send R + Ys data
-		ld		a, d
-		and		#0b00000011
-		rlca
-		rlca
-		rlca
-		ld		b, a
+v9_set_pal_entry:
+	// Send R + Ys data
+	ld		a, d
+	and		#0b00000011
+	rlca
+	rlca
+	rlca
+	ld		b, a
 
-		ld		a, e
-		and		#0b11100000
-		rlca
-		rlca
-		rlca
-		or		b
+	ld		a, e
+	and		#0b11100000
+	rlca
+	rlca
+	rlca
+	or		b
 
 #if (V9_PALETTE_MODE == V9_PALETTE_YSGBR_16)
-		bit		7, d
-		jr		z, v9_set_pal_no_ys
-		set		7, a
-	v9_set_pal_no_ys:
+	bit		7, d
+	jr		z, v9_set_pal_no_ys
+	set		7, a
+v9_set_pal_no_ys:
 #endif
-		out		(V9_P01), a
+	out		(V9_P01), a
 
-		// Send G data
-		ld		a, d
-		and		#0b01111100
-		rrca
-		rrca
-		out		(V9_P01), a
+	// Send G data
+	ld		a, d
+	and		#0b01111100
+	rrca
+	rrca
+	out		(V9_P01), a
 
-		// Send B data
-		ld		a, e
-		and		#0b00011111
-		V9_EI
-		out		(V9_P01), a
-	__endasm;
+	// Send B data
+	ld		a, e
+	and		#0b00011111
+	V9_EI
+	out		(V9_P01), a
+	ret
+__endasm;
 }
 
 #elif (V9_PALETTE_MODE == V9_PALETTE_RGB_24)
 
 //-----------------------------------------------------------------------------
 // Set the color of a given palette entry.
-void V9_SetPaletteEntry(u8 index, const u8* color) __PRESERVES(h, l, iyl, iyh)
+void V9_SetPaletteEntry(u8 index, const u8* color) __NAKED __PRESERVES(h, l, iyl, iyh)
 {
 	index; // A
 	color; // DE [R][G][B]
 
-	__asm
-		// Select R#14 (palette pointer register)
-		ld		c, #V9_P04
-		ld		b, #14
-		V9_DI
-		out		(c), b
+__asm
+	// Select R#14 (palette pointer register)
+	ld		c, #V9_P04
+	ld		b, #14
+	V9_DI
+	out		(c), b
 
-		// Set palette pointer to right index's red channel [index:6|00]
-		sla		a
-		sla		a
-		out		(V9_P03), a
+	// Set palette pointer to right index's red channel [index:6|00]
+	sla		a
+	sla		a
+	out		(V9_P03), a
 
-	v9_set_pal_entry:
-		// Send R + Ys data
-		ld		a, (de)
-		out		(V9_P01), a
+v9_set_pal_entry:
+	// Send R + Ys data
+	ld		a, (de)
+	out		(V9_P01), a
 
-		// Send G data
-		inc		de
-		ld		a, (de)
-		out		(V9_P01), a
+	// Send G data
+	inc		de
+	ld		a, (de)
+	out		(V9_P01), a
 
-		// Send B data
-		inc		de
-		ld		a, (de)
-		V9_EI
-		out		(V9_P01), a
-	__endasm;
+	// Send B data
+	inc		de
+	ld		a, (de)
+	V9_EI
+	out		(V9_P01), a
+	ret
+__endasm;
 }
 
 #endif
@@ -635,7 +658,7 @@ void V9_SetPaletteEntry(u8 index, const u8* color) __PRESERVES(h, l, iyl, iyh)
 void V9_SetCursorAttribute(u8 id, u16 x, u16 y, u8 color)
 {
 	u32 addr = 0x7FE00;
-	if(id)
+	if (id)
 		addr += 8;
 	V9_Poke(addr, y & 0xFF);
 	addr += 2;
@@ -655,10 +678,10 @@ void V9_SetCursorAttribute(u8 id, u16 x, u16 y, u8 color)
 void V9_SetCursorDisplay(u8 id, bool enable)
 {
 	u32 addr = 0x7FE06;
-	if(id)
+	if (id)
 		addr += 8;
 	u8 val = V9_Peek(addr);
-	if(enable)
+	if (enable)
 		val &= ~V9_CURSOR_DISABLE;
 	else
 		val |= V9_CURSOR_DISABLE;

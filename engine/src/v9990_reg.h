@@ -30,7 +30,7 @@ __sfr __at(V9_P00)					g_V9_VRAMPort;
 __sfr __at(V9_P01)					g_V9_PalettePort;
 
 // V9990 color trilet structure
-struct V9_ColorTriplet
+typedef struct V9_ColorTriplet
 {
 	u8 R		: 5;	// Red
 	u8 unused1	: 2;
@@ -39,7 +39,7 @@ struct V9_ColorTriplet
 	u8 unused2	: 3;
 	u8 B		: 5;	// Blue
 	u8 unused3	: 3;
-};
+} V9_ColorTriplet;
 
 #define V9_YS						0x80
 
@@ -73,12 +73,12 @@ __sfr __at(V9_P04)					g_V9_RegSelectPort;
 #define V9_P04_WII					0b10000000
 
 // V9990 register select structure
-struct V9_RegisterSelect
+typedef struct V9_RegisterSelect
 {
 	u8 Number	: 6;
 	u8 RII		: 1;
 	u8 WII		: 1;
-};
+} V9_RegisterSelect;
 
 //-----------------------------------------------------------------------------
 // P#5 - Status port - Read Only
@@ -105,7 +105,7 @@ __sfr __at(V9_P05)					g_V9_SatusPort;
 #define V9_P05_TR					0b10000000
 
 // V9990 status structure
-struct V9_Status
+typedef struct V9_Status
 {
 	u8 CE		: 1;
 	u8 EO		: 1;
@@ -115,7 +115,7 @@ struct V9_Status
 	u8 HR		: 1;
 	u8 VR		: 1;
 	u8 TR		: 1;
-};
+} V9_Status;
 
 //-----------------------------------------------------------------------------
 // P#6 - Interrupt flag port - Read/write
@@ -135,13 +135,13 @@ __sfr __at(V9_P06)					g_V9_IntFlagPort;
 #define V9_P06_CE					0b00000100
 
 // V9990 interrupt flag structure
-struct V9_InterruptFlag
+typedef struct V9_InterruptFlag
 {
 	u8 VI		: 1;
 	u8 HI		: 1;
 	u8 CE		: 1;
 	u8 unused	: 5;
-};
+} V9_InterruptFlag;
 
 //-----------------------------------------------------------------------------
 // P#7 - System control port - Write Only
@@ -163,12 +163,12 @@ __sfr __at(V9_P07)					g_V9_SysCtrlPort;
 #define V9_P07_XTAL1				0b00000000
 
 // V9990 system control structure
-struct V9_SystemControl
+typedef struct V9_SystemControl
 {
 	u8 MCS		: 1;
 	u8 SRS		: 1;
 	u8 unused	: 6;
-};
+} V9_SystemControl;
 
 //-----------------------------------------------------------------------------
 // P#8 - Primary standard Kanji ROM address port - Write Only
@@ -231,7 +231,7 @@ __sfr __at(V9_P15)					g_V9_OutputCtrPort;
 #define V9_P15_S1					0b01000000
 
 // V9990 superimpose control structure
-struct V9_SuperimposeControl
+typedef struct V9_SuperimposeControl
 {
 	u8 YM		: 1;
 	u8 MIX		: 1;
@@ -241,7 +241,7 @@ struct V9_SuperimposeControl
 	u8 S2		: 1;
 	u8 S1		: 1;
 	u8 unused2	: 1;
-};
+} V9_SuperimposeControl;
 
 
 //#############################################################################

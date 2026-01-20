@@ -1,4 +1,3 @@
-Error: No enough parameters!
 MSXzip 1.4.3 - Binary file compressor for MSX
 Usage: cmsxzip <inputfile> [options]
 Base options:

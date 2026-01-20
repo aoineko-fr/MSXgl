@@ -17,7 +17,7 @@ LocOutput = "content/loc_data.h";
 //-- Localization structure name (string)
 LocStruct = "g_LocData";
 
-//-- Split socalization data and definitions in different files (boolean)
+//-- Split localization data and definitions in different files (boolean)
 LocSplitDef = false;
 
 //-- Application ID. Can be 2 character string or 16-bits integer (0~65535)

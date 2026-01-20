@@ -136,7 +136,7 @@ void setModuleUnbounded(u8 qrcode[], u8 x, u8 y, bool isDark);
 static bool getBit(i16 x, u8 i);
 
 i16 calcSegmentBitLength(u8 numChars);
-i16 getTotalBits(const struct QRCode_Segment segs[], u16 len);
+i16 getTotalBits(const QRCode_Segment segs[], u16 len);
 // static i8 numCharCountBits();
 
 /*---- Private tables of constants ----*/
@@ -245,7 +245,7 @@ bool QRCode_EncodeText(const char *text, u8 tempBuffer[], u8 qrcode[])
 	// 	return QRCode_EncodeSegmentsAdvanced(NULL, 0, tempBuffer, qrcode);
 	// u16 bufLen = (u16)QRCODE_TINY_BUFFER_LEN;
 	
-	struct QRCode_Segment seg;
+	QRCode_Segment seg;
 	// if (textLen > bufLen)
 	// 	goto fail;
 	for (u8 i = 0; i < textLen; i++)
@@ -275,7 +275,7 @@ void appendBitsToBuffer(u16 val, u8 numBits, u8 buffer[], i16 *bitLen)
 /*---- Low-level QR Code encoding functions ----*/
 
 // Public function - see documentation comment in header file.
-bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u8 len, u8 tempBuffer[], u8 qrcode[])
+bool QRCode_EncodeSegmentsAdvanced(const QRCode_Segment segs[], u8 len, u8 tempBuffer[], u8 qrcode[])
 {
 	// Find the minimal version number to use
 	i16 dataUsedBits;
@@ -292,7 +292,7 @@ bool QRCode_EncodeSegmentsAdvanced(const struct QRCode_Segment segs[], u8 len, u
 	i16 bitLen = 0;
 	for (u8 i = 0; i < len; i++)
 	{
-		const struct QRCode_Segment *seg = &segs[i];
+		const QRCode_Segment *seg = &segs[i];
 		appendBitsToBuffer((u16)QRCODE_MODE_BYTE, 4, qrcode, &bitLen);
 		appendBitsToBuffer((u16)seg->numChars, numCharCountBits(), qrcode, &bitLen);
 		for (i16 j = 0; j < seg->bitLength; j++)
@@ -856,7 +856,7 @@ static bool getBit(i16 x, u8 i)
 // Calculates the number of bits needed to encode the given segments at the given version.
 // Returns a non-negative number if successful. Otherwise returns QRCODE_OVERFLOW if a segment
 // has too many characters to fit its length field, or the total bits exceeds INT16_MAX.
-i16 getTotalBits(const struct QRCode_Segment segs[], u16 len) 
+i16 getTotalBits(const QRCode_Segment segs[], u16 len) 
 {
 	i32 result = 0;
 	for (u16 i = 0; i < len; i++) 

@@ -9,4 +9,4 @@
 
 cls
 
-..\..\tools\build\Node\node.exe ..\..\engine\script\js\build.js target=%1
+..\..\tools\build\Node\node.exe ..\..\engine\script\js\build.js %1 %2 %3 %4 %5 %6 %7 %8 %9

@@ -430,6 +430,57 @@
 .endm
 
 ;------------------------------------------------------------------------------
+; Check MSX version
+;------------------------------------------------------------------------------
+.macro DO_CHECK_MSX
+	.ifne CHECK_MSX-MSX1
+	; Check for minimal MSX version and display message if not correct
+	crt0_check_msx::
+		ld		a, (MSXVER)
+		cp		#CHECK_MSX
+		jp		nc, crt0_check_msx_end ; Version must be equal or higher
+
+		ld		a, #40
+		ld		(LINL40), a			; Set number of columns
+		call	INITXT				; Switch to Screen 0 (text mode)
+
+		ld		hl, #crt0_check_msx_message
+		call	crt0_check_msx_print ; Display error message
+
+	crt0_check_msx_loop:
+		call	CHGET				; Waiting for user to press a key
+		cp		#67 				; Character 'C'
+		jp		z, crt0_check_msx_end
+		cp		#99 				; Character 'c'
+		jp		z, crt0_check_msx_end
+		jr		crt0_check_msx_loop
+
+	crt0_check_msx_print:
+		ld		a, (hl)
+		or		a
+		ret		z
+		call	CHPUT
+		inc		hl
+		jr		crt0_check_msx_print
+
+	crt0_check_msx_message:
+		.ascii	"Error: A "
+		.ifeq CHECK_MSX-MSX2
+		.ascii	"MSX2"
+		.endif
+		.ifeq CHECK_MSX-MSX2P
+		.ascii	"MSX2+"
+		.endif
+		.ifeq CHECK_MSX-MSXTR
+		.ascii	"MSX turbo R"
+		.endif
+		.ascii	" is required!\n\n\n\rPress [C] to continue anyway.\0"
+
+	crt0_check_msx_end:
+	.endif
+.endm
+
+;------------------------------------------------------------------------------
 ; Interrupt Service Routine
 ;------------------------------------------------------------------------------
 

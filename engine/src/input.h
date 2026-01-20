@@ -40,17 +40,14 @@ enum INPUT_PORT
 #define INPUT_PORT2_ONLY			0b00101100
 #define INPUT_PORT2_MASK			0b11010011
 
-// Determines whether functions that modify signals should keep the state of those they don't need to modify (which slows functions down a bit) 
-#define INPUT_HOLD_SIGNAL			FALSE
-
 //=============================================================================
 // Group: Joystick
 // Direct access to joystick
 //=============================================================================
 #if (INPUT_USE_JOYSTICK || INPUT_USE_DETECT)
 
-#define JOY_PORT_1					0b00000011
-#define JOY_PORT_2					0b01001100
+#define JOY_PORT_1					0b00001111
+#define JOY_PORT_2					0b01001111
 
 #define JOY_INPUT_DIR_NONE			0
 #define JOY_INPUT_DIR_UP			(1 << 0)
@@ -68,8 +65,8 @@ enum INPUT_PORT
 #define JOY_INPUT_TRIGGER_RUN		(JOY_INPUT_DIR_RIGHT + JOY_INPUT_DIR_LEFT) // FM-Town input method
 #define JOY_INPUT_TRIGGER_SELECT	(JOY_INPUT_DIR_UP + JOY_INPUT_DIR_DOWN) // FM-Town input method
 
-#define IS_JOY_PRESSED(stat, input) ((stat & input) == 0)
-#define IS_JOY_RELEASED(stat, input) ((stat & input) != 0)
+#define IS_JOY_PRESSED(stat, input)	(((stat) & (input)) == 0)
+#define IS_JOY_RELEASED(stat, input) (((stat) & (input)) != 0)
 
 #define JOY_GET_DIR(in)				(~(in) & JOY_INPUT_DIR_MASK)
 #define JOY_GET_TRIG1(in)			(((in) & JOY_INPUT_TRIGGER_A) == 0)
@@ -142,7 +139,7 @@ inline u8 Joystick_GetDirectionChange(u8 port)
 {
 	u8 in = g_JoyStats[port >> 6]  & JOY_INPUT_DIR_MASK;
 	u8 prev = g_JoyStatsPrev[port >> 6]  & JOY_INPUT_DIR_MASK;
-	if(in == prev)
+	if (in == prev)
 		in = JOY_INPUT_DIR_UNCHANGED;
 	return in;
 }
@@ -218,6 +215,9 @@ enum INPUT_TYPE
 	INPUT_TYPE_TOUCHPAD				= 0x3D,
 	INPUT_TYPE_PADDLE				= 0x3E, // Arkanoid Vaus Paddle or MSX-Paddle
 	INPUT_TYPE_JOYSTICK				= 0x3F,
+	INPUT_TYPE_LIGHTGUN_ASCII		= 0x20,
+	INPUT_TYPE_LIGHTGUN_GUNSTICK	= 0x3F,
+	INPUT_TYPE_LIGHTGUN_PHENIX		= 0x37, // Backward compatible with Gun-Stick
 	INPUT_TYPE_UNPLUGGED			= INPUT_TYPE_JOYSTICK,
 
 	// // Unvalidated types
@@ -270,7 +270,7 @@ enum MOUSE_SPEED
 };
 
 // Mouse state structure (don't change parameter order)
-typedef struct
+typedef struct Mouse_State
 {
 	u8			Buttons;
 	i8			dX;
@@ -358,14 +358,14 @@ inline bool Mouse_IsButtonClick(Mouse_State* data, u8 btn) { return ((data->Butt
 //=============================================================================
 #if (INPUT_USE_KEYBOARD)
 
-#define MAKE_KEY(r, b)		((b << 4) | r)
-#define KEY_ROW(key)		(key & 0x0F)
-#define KEY_IDX(key)		(key >> 4)
+#define MAKE_KEY(r, b)		(((b) << 4) | (r))
+#define KEY_ROW(key)		((key) & 0x0F)
+#define KEY_IDX(key)		((key) >> 4)
 #define KEY_FLAG(key)		(1 << KEY_IDX(key))
 
-#define IS_KEY_PRESSED(row, key)  ((row & KEY_FLAG(key)) == 0)
-#define IS_KEY_RELEASED(row, key) ((row & KEY_FLAG(key)) != 0)
-#define IS_KEY_PUSHED(row, prev, key)  (((row & KEY_FLAG(key)) == 0) && ((prev & KEY_FLAG(key)) != 0))
+#define IS_KEY_PRESSED(row, key)  (((row) & KEY_FLAG(key)) == 0)
+#define IS_KEY_RELEASED(row, key) (((row) & KEY_FLAG(key)) != 0)
+#define IS_KEY_PUSHED(row, prev, key)  ((((row) & KEY_FLAG(key)) == 0) && (((prev) & KEY_FLAG(key)) != 0))
 
 // Function: KEY_ID
 // Value encoded by combining a row number with a given physical key index in that row

@@ -120,11 +120,11 @@ void main()
 	Print_DrawLineH(0, 1, 40);
 
 	Print_SetPosition(0, 20);
-	Print_DrawFormat("Main-ROM Freq: %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
+	Print_DrawFormat("Main-ROM Freq: %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
 
 	// Initialize TriloSCC
 	TriloSCC_Initialize();
-	TriloSCC_SetFrequency((g_ROMVersion.VSF) ? TRILO_50HZ : TRILO_60HZ);
+	TriloSCC_SetFrequency(Sys_Is50Hz() ? TRILO_50HZ : TRILO_60HZ);
 	TriloSCC_SetToneTable(g_PSG_A445_Konami);
 	SetMusic(0);
 
@@ -142,7 +142,7 @@ void main()
 	u8 prevRow8 = 0xFF;
 	u8 count = 0;
 	u8 sfx = 0;
-	while(1)
+	while (1)
 	{
 		Halt();
 		VDP_SetColor(0xF5);
@@ -160,27 +160,27 @@ void main()
 		u8 row8 = Keyboard_Read(8);
 
 		// Change music
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
+		if (IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
 		{
-			if(g_CurrentMusic < numberof(g_MusicEntry) - 1)
+			if (g_CurrentMusic < numberof(g_MusicEntry) - 1)
 				SetMusic(g_CurrentMusic + 1);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
+		else if (IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
 		{
-			if(g_CurrentMusic > 0)
+			if (g_CurrentMusic > 0)
 				SetMusic(g_CurrentMusic - 1);
 		}
 		// Pause/resume music
-		if(IS_KEY_PRESSED(row8, KEY_DEL) && !IS_KEY_PRESSED(prevRow8, KEY_DEL))
+		if (IS_KEY_PRESSED(row8, KEY_DEL) && !IS_KEY_PRESSED(prevRow8, KEY_DEL))
 		{
 			TriloSCC_Pause();
 		}
 		// Play SFX
 		#if (TRILO_USE_SFXPLAY)
-		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		if (IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
 			TriloSFX_Play(sfx++, 0);
-			if(sfx >= 2/*TriloSFX_GetNumber()*/)
+			if (sfx >= 2/*TriloSFX_GetNumber()*/)
 				sfx = 0;
 		}
 		#endif

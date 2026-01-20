@@ -8,70 +8,70 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Macros"></a><a name="Topic185"></a><div class="CTopic TGroup LC first">
+<a name="Macros"></a><a name="Topic949"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">Macros</div>
 </div>
 
-<a name="QRCODE_TINY_SIZE"></a><a name="Topic186"></a><div class="CTopic TMacro LC">
+<a name="QRCODE_TINY_SIZE"></a><a name="Topic1106"></a><div class="CTopic TMacro LC">
  <div class="CTitle">QRCODE_TINY_SIZE</div>
 </div>
 
-<a name="QRCODE_TINY_BUFFER_LEN"></a><a name="Topic187"></a><div class="CTopic TMacro LC">
+<a name="QRCODE_TINY_BUFFER_LEN"></a><a name="Topic1107"></a><div class="CTopic TMacro LC">
  <div class="CTitle">QRCODE_TINY_BUFFER_LEN</div>
  <div class="CBody"><p>The worst-case number of bytes needed to store one QR Code, up to and including version 40. This value equals 3918, which is just under 4 kilobytes.&nbsp; Use this more convenient value to avoid calculating tighter memory bounds for buffers.</p></div>
 </div>
 
-<a name="QRCODE_TINY_ECC_NAME"></a><a name="Topic188"></a><div class="CTopic TMacro LC">
+<a name="QRCODE_TINY_ECC_NAME"></a><a name="Topic1108"></a><div class="CTopic TMacro LC">
  <div class="CTitle">QRCODE_TINY_ECC_NAME</div>
  <div class="CBody"><p>String of error correction level</p></div>
 </div>
 
-<a name="Types"></a><a name="Topic189"></a><div class="CTopic TGroup LC">
+<a name="Types"></a><a name="Topic835"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Types</div>
 </div>
 
-<a name="QRCODE_MODE"></a><a name="Topic190"></a><div class="CTopic TEnumeration LC">
+<a name="QRCODE_MODE"></a><a name="Topic938"></a><div class="CTopic TEnumeration LC">
  <div class="CTitle">QRCODE_MODE</div>
  <div class="CBody"><p>Describes how a segment's data bits are interpreted.</p></div>
 </div>
 
-<a name="Functions"></a><a name="Topic191"></a><div class="CTopic TGroup LC">
+<a name="Functions"></a><a name="Topic1003"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="QRCode_EncodeText"></a><a name="Topic192"></a><div class="CTopic TFunction LC">
+<a name="QRCode_EncodeText"></a><a name="Topic1004"></a><div class="CTopic TFunction LC">
  <div class="CTitle">QRCode_EncodeText</div>
- <div id="NDPrototype192" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> QRCode_EncodeText(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PSymbols">*</td><td class="PName last">text,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td></td><td class="PName last">tempBuffer[],</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td></td><td class="PName last">qrcode[]</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1004" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> QRCode_EncodeText(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PSymbols">*</td><td class="PName last">text,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td></td><td class="PName last">tempBuffer[],</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td></td><td class="PName last">qrcode[]</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Encodes the given text string to a QR Code, returning TRUE if successful.&nbsp; If the data is too long to fit in any version in the given range at the given ECC level, then FALSE is returned.</p><p>The input text must be encoded in UTF-8 and contain no NULs.&nbsp; Requires 1 &lt;= minVersion &lt;= maxVersion &lt;= 40.</p><p>The smallest possible QR Code version within the given range is automatically chosen for the output. Iff boostEcl is TRUE, then the ECC level of the result may be higher than the ecl argument if it can be done without increasing the version. The mask is either between QRCODE_MASK_0 to 7 to force that mask, or QRCODE_MASK_AUTO to automatically choose an appropriate mask (which may be slow).</p><p>About the arrays, letting len = QRCODE_BUFFER_LEN_FOR_VERSION(maxVersion): - Before calling the function: - The array ranges tempBuffer[0 : len] and qrcode[0 : len] must allow reading and writing; hence each array must have a length of at least len.&nbsp; - The two ranges must not overlap (aliasing).&nbsp; - The initial state of both ranges can be uninitialized because the function always writes before reading.&nbsp; - After the function returns: - Both ranges have no guarantee on which elements are initialized and what values are stored.&nbsp; - tempBuffer contains no useful data and should be treated as entirely uninitialized.&nbsp; - If successful, qrcode can be passed into QRCode_GetSize() and QRCode_GetModule().</p><p>If successful, the resulting QR Code may use numeric, alphanumeric, or byte mode to encode the text.</p><p>In the most optimistic case, a QR Code at version 40 with low ECC can hold any UTF-8 string up to 2953 bytes, or any alphanumeric string up to 4296 characters, or any digit string up to 7089 characters.&nbsp; These numbers represent the hard upper limit of the QR Code standard.</p><p>Please consult the QR Code specification for information on data capacities per version, ECC level, and text encoding mode.</p></div>
 </div>
 
-<a name="QRCode_EncodeSegmentsAdvanced"></a><a name="Topic193"></a><div class="CTopic TFunction LC">
+<a name="QRCode_EncodeSegmentsAdvanced"></a><a name="Topic286"></a><div class="CTopic TFunction LC">
  <div class="CTitle">QRCode_EncodeSegmentsAdvanced</div>
- <div id="NDPrototype193" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> QRCode_EncodeSegmentsAdvanced(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const struct</span>&nbsp;</td><td class="PType">QRCode_Segment&nbsp;</td><td class="PName last">segs[],</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">len,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">tempBuffer[],</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">qrcode[]</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype286" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> QRCode_EncodeSegmentsAdvanced(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">QRCode_Segment&nbsp;</td><td class="PName last">segs[],</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">len,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">tempBuffer[],</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">qrcode[]</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Encodes the given segments to a QR Code, returning TRUE if successful.&nbsp; If the data is too long to fit in any version in the given range at the given ECC level, then FALSE is returned.</p><p>Requires 1 &lt;= minVersion &lt;= maxVersion &lt;= 40.</p><p>The smallest possible QR Code version within the given range is automatically chosen for the output. Iff boostEcl is TRUE, then the ECC level of the result may be higher than the ecl argument if it can be done without increasing the version. The mask is either between QRCODE_MASK_0 to 7 to force that mask, or QRCODE_MASK_AUTO to automatically choose an appropriate mask (which may be slow).</p><p>About the byte arrays, letting len = QRCODE_BUFFER_LEN_FOR_VERSION(QRCODE_VERSION_MAX): - Before calling the function: - The array ranges tempBuffer[0 : len] and qrcode[0 : len] must allow reading and writing; hence each array must have a length of at least len.&nbsp; - The two ranges must not overlap (aliasing).&nbsp; - The initial state of both ranges can be uninitialized because the function always writes before reading.&nbsp; - The input array segs can contain segments whose data buffers overlap with tempBuffer.&nbsp; - After the function returns: - Both ranges have no guarantee on which elements are initialized and what values are stored.&nbsp; - tempBuffer contains no useful data and should be treated as entirely uninitialized.&nbsp; - Any segment whose data buffer overlaps with tempBuffer[0 : len] must be treated as having invalid values in that array.&nbsp; - If successful, qrcode can be passed into QRCode_GetSize() and QRCode_GetModule().</p><p>Please consult the QR Code specification for information on data capacities per version, ECC level, and text encoding mode.</p><p>This function allows the user to create a custom sequence of segments that switches between modes (such as alphanumeric and byte) to encode text in less space.&nbsp; This is a low-level API; the high-level API is QRCode_EncodeText() and QRCode_EncodeBinary().</p></div>
 </div>
 
-<a name="QRCode_GetSize"></a><a name="Topic194"></a><div class="CTopic TFunction LC">
+<a name="QRCode_GetSize"></a><a name="Topic1102"></a><div class="CTopic TFunction LC">
  <div class="CTitle">QRCode_GetSize</div>
- <div id="NDPrototype194" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 QRCode_GetSize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8&nbsp;</td><td class="PName last">qrcode[]</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1102" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 QRCode_GetSize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8&nbsp;</td><td class="PName last">qrcode[]</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Returns the side length of the given QR Code, assuming that encoding succeeded.&nbsp; The result is in the range [21, 177]. Note that the length of the array buffer is related to the side length - every 'u8 qrcode[]' must have length at least QRCODE_BUFFER_LEN_FOR_VERSION(version), which equals ceil(size^2 / 8 + 1).</p></div>
 </div>
 
-<a name="QRCode_GetModule"></a><a name="Topic195"></a><div class="CTopic TFunction LC">
+<a name="QRCode_GetModule"></a><a name="Topic1103"></a><div class="CTopic TFunction LC">
  <div class="CTitle">QRCode_GetModule</div>
- <div id="NDPrototype195" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> QRCode_GetModule(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8&nbsp;</td><td class="PName last">qrcode[],</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1103" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> QRCode_GetModule(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8&nbsp;</td><td class="PName last">qrcode[],</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Returns the color of the module (pixel) at the given coordinates, which is FALSE for light or TRUE for dark.&nbsp; The top left corner has the coordinates (x=0, y=0).&nbsp; Coordinates must be in bounds.</p></div>
 </div>
 
-<a name="QRCode_GetByte"></a><a name="Topic196"></a><div class="CTopic TFunction LC">
+<a name="QRCode_GetByte"></a><a name="Topic1104"></a><div class="CTopic TFunction LC">
  <div class="CTitle">QRCode_GetByte</div>
- <div id="NDPrototype196" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 QRCode_GetByte(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8&nbsp;</td><td class="PName last">qrcode[],</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1104" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 QRCode_GetByte(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8&nbsp;</td><td class="PName last">qrcode[],</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Returns colors of 8 module (byte) at the given coordinates, which is 0 for light or 1 for dark.&nbsp; The top left corner has the coordinates (x=0, y=0).</p></div>
 </div>
 
-<a name="QRCode_GetVersion"></a><a name="Topic197"></a><div class="CTopic TFunction LC last">
+<a name="QRCode_GetVersion"></a><a name="Topic1105"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">QRCode_GetVersion</div>
- <div id="NDPrototype197" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 QRCode_GetVersion(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8&nbsp;</td><td class="PName last">qrcode[]</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1105" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 QRCode_GetVersion(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8&nbsp;</td><td class="PName last">qrcode[]</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
 </div>
 
 </body></html>

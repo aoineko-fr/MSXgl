@@ -97,7 +97,7 @@ void LoadImage(u8 srcMode, u8 imgIdx)
 		
 		const u8* src;
 		u8 size;
-		if(i == 0)
+		if (i == 0)
 		{
 			src = g_StrBuffer + 7;
 			size = 128 - 7;
@@ -131,7 +131,7 @@ void LoadImage(u8 srcMode, u8 imgIdx)
 // Add image to list
 void AddFile()
 {
-	if(g_FileNum >= 10)
+	if (g_FileNum >= 10)
 		return;
 
 	Mem_Copy(((c8*)0x0081), g_FileList[g_FileNum], 11);
@@ -164,7 +164,7 @@ StartProgram:
 	// Check argument
 	String_Format(g_StrBuffer, "Argument count: %d\n\r$", argc);
 	DOS_StringOutput(g_StrBuffer);
-	if(argc == 0)
+	if (argc == 0)
 	{
 		DOS_StringOutput("No argument...\n\r$");
 		DOS_StringOutput("Usage: s_dos <mode> <image>\n\r$");
@@ -174,7 +174,7 @@ StartProgram:
 
 	// Display VDP version
 	u8 vdp = VDP_GetVersion();
-	switch(vdp)
+	switch (vdp)
 	{
 	case VDP_VERSION_TMS9918A:
 		DOS_StringOutput("VDP: MSX1\n\r$");
@@ -191,17 +191,17 @@ StartProgram:
 
 	// Get screen mode
 	u8 scrChr = 0xFF;
-	if(argc >= 1) // Get from argument list
+	if (argc >= 1) // Get from argument list
 	{
 		u8 chr = argv[0][0];
-		switch(chr)
+		switch (chr)
 		{
 		case '5':
 		case '8':
 			scrChr = chr;
 			break;
 		case 'c':
-			if(vdp >= VDP_VERSION_V9958)
+			if (vdp >= VDP_VERSION_V9958)
 				scrChr = chr;
 			else
 				DOS_StringOutput("Error: Screen 12 need MSX2+ VDP!\n\r$");
@@ -212,7 +212,7 @@ StartProgram:
 			break;
 		}
 	}
-	if(scrChr == 0xFF) // Get from console input
+	if (scrChr == 0xFF) // Get from console input
 	{
 		DOS_StringOutput("Which screen mode?\n\r$");
 		DOS_StringOutput(" (can be: 5, 8, c)\n\r$");
@@ -224,7 +224,7 @@ StartProgram:
 	DOS_Beep();
 	DOS_Return();
 	const c8* wildcard;
-	switch(scrChr)
+	switch (scrChr)
 	{
 	case '5':
 		DOS_StringOutput("Screen mode 5 selected\n\r\n\r$");
@@ -233,7 +233,7 @@ StartProgram:
 		wildcard = "????????SC5";
 		break;
 	case '8':
-		if(vdp < VDP_VERSION_V9938)
+		if (vdp < VDP_VERSION_V9938)
 		{
 			DOS_StringOutput("Error: Screen 8 need MSX2/2+ VDP!\n\r$");
 			DOS_StringOutput("Press a key...\n\r$");
@@ -246,7 +246,7 @@ StartProgram:
 		wildcard = "????????SC8";
 		break;
 	case 'c':
-		if(vdp < VDP_VERSION_V9958)
+		if (vdp < VDP_VERSION_V9958)
 		{
 			DOS_StringOutput("Error: Screen 12 need MSX2+ VDP!\n\r$");
 			DOS_StringOutput("Press a key...\n\r$");
@@ -270,16 +270,16 @@ StartProgram:
 	Mem_Set(0, &g_File, sizeof(FCB));
 	Mem_Copy(wildcard, &g_File.Name, 11);
 	g_FileNum = 0;
-	if(DOS_FindFirstFileFCB(&g_File) == DOS_SUCCESS)
+	if (DOS_FindFirstFileFCB(&g_File) == DOS_SUCCESS)
 	{
 		AddFile();
-		while(DOS_FindNextFileFCB() == DOS_SUCCESS)
+		while (DOS_FindNextFileFCB() == DOS_SUCCESS)
 			AddFile();
 	}
 	DOS_Close(&g_File);
 
 	// No image found
-	if(g_FileNum == 0)
+	if (g_FileNum == 0)
 	{
 		DOS_StringOutput("Error: No file found!\n\r$");
 		DOS_StringOutput("Press a key...\n\r$");
@@ -293,7 +293,7 @@ StartProgram:
 	DOS_Return();
 
 	// Invalid image index
-	if(imgIdx >= g_FileNum)
+	if (imgIdx >= g_FileNum)
 	{
 		DOS_StringOutput("Error: Invalide image index!\n\r$");
 		DOS_StringOutput("Press a key...\n\r$");
@@ -308,7 +308,7 @@ StartProgram:
 	DOS_StringOutput("Loading image...\n\r$");
 	LoadImage(scrMode, imgIdx);
 
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 	}
 

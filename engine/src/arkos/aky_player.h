@@ -18,18 +18,14 @@
 // FUNCTIONS
 //=============================================================================
 
-// Function: AKY_Init
+// Function: AKY_Play
 // Initialize music and start playback
 //
 // Paramaters:
-//   data	- Pointer to the music data
-//   num	- Music number
-void AKY_Init(const void* data, u8 num);
+//   data	- Pointer to the music data (data must be export to be replayed at this exact location)
+//            Check Arkos Tracker documentation for more details: https://www.julien-nevo.com/arkostracker
+void AKY_Play(const void* data);
 
-// Function: AKY_Stop
-// Stop music playback
-// void AKY_Stop();
-
-// Function: AKY_Decode
+// Function: AKY_Update
 // Decode a music frame and update the PSG
-bool AKY_Decode();
+bool AKY_Update();

@@ -31,7 +31,7 @@ enum HID_DEVICE
 // Detect device plugged to joystick port
 //
 // Parameters:
-//   port - ID of the port to check. Can be <INPUT_PORT1> or <INPUT_PORT1>.
+//   port - ID of the port to check. Can be <INPUT_PORT1> or <INPUT_PORT2>.
 //
 // Returns:
 //   16-bit footprint of the device

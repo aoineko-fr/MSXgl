@@ -6,7 +6,7 @@
 //  Hello world sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
-#include "game_menu.h"
+#include "game/menu.h"
 
 //=============================================================================
 // DEFINES
@@ -145,7 +145,7 @@ const c8* MenuAction_Start(u8 op, i8 value)
 {
 	if (op == MENU_ACTION_SET) // Manages trigger button pressing
 	{
-		switch(value) // 'value' is defined in the menu entries table (so the same callback function can be called several times with different values)
+		switch (value) // 'value' is defined in the menu entries table (so the same callback function can be called several times with different values)
 		{
 		case 0: // Exit value
 			g_Exit = TRUE;
@@ -194,7 +194,7 @@ void main()
 	// Menu_SetEventCallback(Menu_HandleEvent);
 	Menu_DrawPage(MENU_MAIN); // Display the first page
 
-	while(!g_Exit)
+	while (!g_Exit)
 	{
 		// Wait for screen synchronization (50 or 60 Hz)
 		Halt();

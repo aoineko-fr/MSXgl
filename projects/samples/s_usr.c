@@ -29,7 +29,7 @@
 //
 void Bios_PrintText(const c8* str)
 {
-	while(*str)
+	while (*str)
 		Bios_TextPrintChar(*str++);
 }
 
@@ -37,7 +37,7 @@ void Bios_PrintText(const c8* str)
 // Program entry point
 void main()
 {
-	if(Basic_GetType() != BASIC_TYPE_INT)
+	if (Basic_GetType() != BASIC_TYPE_INT)
 	{
 		Basic_SetByte(-1);
 		return;
@@ -45,7 +45,7 @@ void main()
 
 	i16 ret = 0;
 	i8 val = Basic_GetByte();
-	switch(val)
+	switch (val)
 	{
 	case 0:
 		// Bios_PrintText("Ntap:Init");

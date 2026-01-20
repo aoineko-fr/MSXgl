@@ -67,11 +67,11 @@ extern u8 g_ONET_Bios;
 extern u8 g_ONET_Version[3];
 extern u8 g_ONET_MAC[6];
 
-struct ONET_PacketInfo
+typedef struct ONET_PacketInfo
 {
 	u16 Size;
 	u16 Head;
-};
+} ONET_PacketInfo;
 
 //=============================================================================
 // FUNCTIONS
@@ -201,7 +201,7 @@ void ONET_GetMulticastMask(u8* addr);
 //
 // Return:
 //   TRUE if a packet is available.
-bool ONET_GetPacketInfo(struct ONET_PacketInfo* info);
+bool ONET_GetPacketInfo(ONET_PacketInfo* info);
 
 // Function: ONET_GetPacket
 // Obtains the oldest captured incoming packet.

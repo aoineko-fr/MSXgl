@@ -154,7 +154,7 @@ void PAC_Format(u8 page);
 
 // Function: PAC_FormatAll
 // Format all pages in the current PAC device
-inline void PAC_FormatAll() { for(u8 i = 0; i < PAC_PAGE_MAX; ++i) PAC_Format(i); }
+inline void PAC_FormatAll() { for (u8 i = 0; i < PAC_PAGE_MAX; ++i) PAC_Format(i); }
 
 // Function: PAC_Check
 // Check the stat of the given page in the current PAC device

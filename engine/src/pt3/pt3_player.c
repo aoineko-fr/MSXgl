@@ -111,12 +111,12 @@ const void* PT3_NoteTable;    // note table memory address
 
 #if (PT3_EXTRA)
 
-/// Cursor position in pattern at start
+// Cursor position in pattern at start
 u16 PT3_SrtCrPsPtr;
 
 void EmptyCB() {}
 
-/// Finish callback
+// Finish callback
 callback PT3_Finish = EmptyCB;
 
 
@@ -130,7 +130,7 @@ callback PT3_Finish = EmptyCB;
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-/// Initialize the PT3 player
+// Initialize the PT3 player
 void PT3_Init()
 {
 // Create Volume Table for Vortex Tracker II/PT3.5
@@ -139,7 +139,7 @@ __asm
 	ld		HL, #0x11
 	ld		D, H
 	ld		E, H
-	ld		IY, #_VAR0END  ;_VT_ + 16
+	ld		IY, #_VAR0END  //_VT_ + 16
 	ld		B, #15
 INITV1:	
 	push	HL
@@ -179,9 +179,9 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-/// Initialize a given song to make it ready to playback
-/// @param		songAddr	Start address of the data
-///							If PT3_SKIP_HEADER is set, this address must be header address + 100 (if the data are not troncated)
+// Initialize a given song to make it ready to playback
+// @param		songAddr	Start address of the data
+//							If PT3_SKIP_HEADER is set, this address must be header address + 100 (if the data are not troncated)
 void PT3_InitSong(const void* songAddr)
 {
 	songAddr; // HL
@@ -231,29 +231,29 @@ __asm
 
 	// Initialize PT3 Variables
 	xor		A	
-	ld		HL, #_ChanA				; VARS
+	ld		HL, #_ChanA				// VARS
 	ld		(HL), A
-	ld		DE, #_ChanA + 1			; VARS+1
-	ld		BC, #_VAR0END - _ChanA -1    ;AYREGS - _ChanA -1
+	ld		DE, #_ChanA + 1			// VARS+1
+	ld		BC, #_VAR0END - _ChanA -1    //AYREGS - _ChanA -1
 	ldir
 
 	inc		A
 	ld		(#_DelyCnt), A
-	ld		HL, #0xF001				; H - CHNPRM_Volume, L - CHNPRM_NtSkCn
+	ld		HL, #0xF001				// H - CHNPRM_Volume, L - CHNPRM_NtSkCn
 	ld		(#_ChanA + CHNPRM_NtSkCn), HL
 	ld		(#_ChanB + CHNPRM_NtSkCn), HL
 	ld		(#_ChanC + CHNPRM_NtSkCn), HL
 
 	ld		HL, #EMPTYSAMORN
-	ld		(#_PT3_AdInPtA), HL		; ptr to zero  ; # chg
-	ld		(#_ChanA + CHNPRM_OrnPtr), HL ;ornament 0 is "0,1,0"
-	ld		(#_ChanB + CHNPRM_OrnPtr), HL ;in all versions from
-	ld		(#_ChanC + CHNPRM_OrnPtr), HL ;3.xx to 3.6x and VTII
+	ld		(#_PT3_AdInPtA), HL		// ptr to zero  // # chg
+	ld		(#_ChanA + CHNPRM_OrnPtr), HL //ornament 0 is "0,1,0"
+	ld		(#_ChanB + CHNPRM_OrnPtr), HL //in all versions from
+	ld		(#_ChanC + CHNPRM_OrnPtr), HL //3.xx to 3.6x and VTII
 
-	ld		(#_ChanA + CHNPRM_SamPtr), HL ;S1 There is no default
-	ld		(#_ChanB + CHNPRM_SamPtr), HL ;S2 sample in PT3, so, you
-	ld		(#_ChanC + CHNPRM_SamPtr), HL ;S3 can comment S1,2,3; see
-	; also EMPTYSAMORN comment
+	ld		(#_ChanA + CHNPRM_SamPtr), HL //S1 There is no default
+	ld		(#_ChanB + CHNPRM_SamPtr), HL //S2 sample in PT3, so, you
+	ld		(#_ChanC + CHNPRM_SamPtr), HL //S3 can comment S1,2,3// see
+	// also EMPTYSAMORN comment
 
 // Autoplay
 #if (PT3_AUTOPLAY)
@@ -269,8 +269,8 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-/// Pause song playback
-void PT3_Pause() __naked
+// Pause song playback
+void PT3_Pause() __NAKED
 {
 __asm
 	ld		HL, #_PT3_State       
@@ -281,7 +281,7 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-/// Resume song playback
+// Resume song playback
 void PT3_Resume()
 {
 __asm
@@ -291,8 +291,8 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-/// Change state of playback loop
-/// @param		loop		Either loop or not (TRUE: do loop; FALSE: don't loop)
+// Change state of playback loop
+// @param		loop		Either loop or not (TRUE: do loop; FALSE: don't loop)
 void PT3_SetLoop(u8 loop)
 {
 	loop; // A
@@ -311,8 +311,8 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-/// Silence the PSG
-void PT3_Silence() __naked
+// Silence the PSG
+void PT3_Silence() __NAKED
 {
 __asm
 	xor		A
@@ -320,13 +320,13 @@ __asm
 	ld		(#AYREGS + PSG_REG_AMP_B), A
 	ld		(#AYREGS + PSG_REG_AMP_C), A
 
-	jp		_PT3_UpdatePSG                ;ROUT_A0
+	jp		_PT3_UpdatePSG                //ROUT_A0
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
-/// Send data to PSG registers
-/// @note					Must be executed on each V-Blank interruption
+// Send data to PSG registers
+// @note					Must be executed on each V-Blank interruption
 void PT3_UpdatePSG()
 {
 __asm
@@ -388,8 +388,8 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-/// Decode a frame from PT3 song
-void PT3_Decode() __naked
+// Decode a frame from PT3 song
+void PT3_Decode() __NAKED
 {
 __asm   
 	di
@@ -503,7 +503,7 @@ PL2:
 	CALL CHREGS
 	LD   (#AYREGS + PSG_REG_TONE_C),HL			// Set Tone C
 
-	LD   HL,(#_Ns_Base)    ;Ns_Base_AddToNs
+	LD   HL,(#_Ns_Base)    //Ns_Base_AddToNs
 	LD   A,H
 	ADD  A,L
 	LD   (#AYREGS + PSG_REG_NOISE),A				// Set Noise
@@ -533,9 +533,9 @@ PL2:
 	LD   (#_CurESld),HL
 
   
-;  LD   HL,#_PT3_State
-;  BIT  0,(HL)   ; pause mode
-;  JP   Z,_PT3_Silence
+//  LD   HL,#_PT3_State
+//  BIT  0,(HL)   // pause mode
+//  JP   Z,_PT3_Silence
   
 	RET
 
@@ -627,7 +627,7 @@ PD_ESAM:
 
 PTDECOD: 
 	LD   A,-12 + CHNPRM_Note(IY)
-	LD   (#_PT3_PrNote),A           ;LD   (#PrNote + 1),A
+	LD   (#_PT3_PrNote),A           //LD   (#PrNote + 1),A
 	LD   L,CHNPRM_CrTnSl-12(IY)
 	LD   H,CHNPRM_CrTnSl + 1-12(IY)
 	LD  (#_PT3_PrSlide),HL
@@ -659,12 +659,12 @@ PD_LP2:
 	ADD  A,A
 	LD   E,A
 
-	LD   HL,#(SPCCOMS + 0xDF20)  ;LD HL,((SPCCOMS + $DF20) % 65536)
-;	PUSH DE
-;	LD   DE,#0xDF20
-;	LD   HL,#SPCCOMS	
-;	ADD  HL,DE
-;	POP  DE	
+	LD   HL,#(SPCCOMS + 0xDF20)  //LD HL,((SPCCOMS + $DF20) % 65536)
+//	PUSH DE
+//	LD   DE,#0xDF20
+//	LD   HL,#SPCCOMS	
+//	ADD  HL,DE
+//	POP  DE	
   
 	ADD  HL,DE
 	LD   E,(HL)
@@ -710,8 +710,8 @@ C_PORTM:
 	LD   A,(BC)
 	INC  BC
   
-;SKIP PRECALCULATED TONE DELTA (BECAUSE
-;CANNOT BE RIGHT AFTER PT3 COMPILATION)
+//SKIP PRECALCULATED TONE DELTA (BECAUSE
+//CANNOT BE RIGHT AFTER PT3 COMPILATION)
 	INC  BC
 	INC  BC
 	LD   -12 + CHNPRM_TnSlDl(IY),A
@@ -728,7 +728,7 @@ C_PORTM:
 	LD   H,(HL)
 	LD   L,A
 	PUSH HL
-	LD   A,(#_PT3_PrNote)            ;<--- LD   A,#0x3E
+	LD   A,(#_PT3_PrNote)            //<--- LD   A,#0x3E
 	LD   -12 + CHNPRM_Note(IY),A
 	ADD  A,A
 	LD   L,A
@@ -741,10 +741,10 @@ C_PORTM:
 	SBC  HL,DE
 	LD   -12 + CHNPRM_TnDelt(IY),L
 	LD   -12 + CHNPRM_TnDelt + 1(IY),H
-	LD   DE,(#_PT3_PrSlide)             ;<--- change to Kun version
-	LD   -12 + CHNPRM_CrTnSl(IY),E       ;<---
-	LD   -12 + CHNPRM_CrTnSl + 1(IY),D     ;<---
-	LD   A,(BC) ;SIGNED TONE STEP
+	LD   DE,(#_PT3_PrSlide)             //<--- change to Kun version
+	LD   -12 + CHNPRM_CrTnSl(IY),E       //<---
+	LD   -12 + CHNPRM_CrTnSl + 1(IY),D     //<---
+	LD   A,(BC) //SIGNED TONE STEP
 	INC  BC
 	EX   AF,AF
 	LD   A,(BC)
@@ -865,12 +865,12 @@ SETORN:
 
 
 
-;-------------------------------------------------------------------------------
-; ALL 16 ADDRESSES TO PROTECT FROM BROKEN PT3 MODULES 
+//-------------------------------------------------------------------------------
+// ALL 16 ADDRESSES TO PROTECT FROM BROKEN PT3 MODULES 
 
 SPCCOMS: 
-.dw C_NOP			  ; ## CHECK THAT IT IS NOT AUTOMODIF
-.dw C_GLISS			; (nothing seems to touch it)
+.dw C_NOP			  // ## CHECK THAT IT IS NOT AUTOMODIF
+.dw C_GLISS			// (nothing seems to touch it)
 .dw C_PORTM
 .dw C_SMPOS
 .dw C_ORPOS
@@ -1022,7 +1022,7 @@ CH_VOL:
 	OR   CHNPRM_Volume(IY)
 	LD   L,A
 	LD   H,#0
-	LD   DE,#AYREGS  ;_VT_
+	LD   DE,#AYREGS  //_VT_
 	ADD  HL,DE
 	LD   A,(HL)
 CH_ENV:	
@@ -1039,14 +1039,14 @@ CH_NOEN:
 	SRA  A
 	SRA  A
 	SRA  A
-	ADD  A,CHNPRM_CrEnSl(IY) ;SEE COMMENT BELOW
+	ADD  A,CHNPRM_CrEnSl(IY) //SEE COMMENT BELOW
 	BIT  5,B
 	JR   Z,NO_ENAC
 	LD   CHNPRM_CrEnSl(IY),A
 NO_ENAC:	
 	ld	 HL,#_PT3_AddToEn 
-	ADD  A,(HL) ;BUG IN PT3 - NEED WORD HERE.
-	   ;FIX IT IN NEXT VERSION?
+	ADD  A,(HL) //BUG IN PT3 - NEED WORD HERE.
+	   //FIX IT IN NEXT VERSION?
 	LD   (HL),A
 	JR   CH_MIX
 NO_ENSL: 
@@ -1084,11 +1084,11 @@ CH_ONDL:
 PT3_CALL_HL:
 	jp		(hl)
 
-;------------------------------------------------------------------------------- DATAS
+//------------------------------------------------------------------------------- DATAS
 
 EMPTYSAMORN: 
   .db 0,1,0,0x90 
-;delete $90 if you dont need default sample  ; # pongo el 0 aqui
+//delete $90 if you dont need default sample  // # pongo el 0 aqui
 
 __endasm;
 }

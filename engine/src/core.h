@@ -9,13 +9,23 @@
 
 // Library version
 #define VERSION_MAJOR				(u16)1		// 4-bits (0-15)
-#define VERSION_MINOR				(u16)2		// 6-bits (0-63)
-#define VERSION_PATCH				(u16)17		// 6-bits (0-63)
+#define VERSION_MINOR				(u16)3		// 6-bits (0-63)
+#define VERSION_PATCH				(u16)7		// 6-bits (0-63)
+
+// Macro: VERSION
+// Combines major, minor, and patch versions into a single version number.
+//
+// Parameters:
+//   a - Major version
+//   b - Minor version
+//   c - Patch version
 #define VERSION(a, b, c)			((((a) & 0x0F) << 12) | (((b) & 0x3F) << 6) | ((c) & 0x3F))
-#define VERSION_CURRENT				VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
+
+// MSXgl version
+#define MSXGL_VERSION				VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
 
 // SDCC version
-#define SDCC_VERSION_CURRENT		VERSION(__SDCC_VERSION_MAJOR, __SDCC_VERSION_MINOR, __SDCC_VERSION_PATCH)
+#define SDCC_VERSION				VERSION(__SDCC_VERSION_MAJOR, __SDCC_VERSION_MINOR, __SDCC_VERSION_PATCH)
 
 //-----------------------------------------------------------------------------
 // Basic types
@@ -70,7 +80,6 @@ typedef void (*callback)(void);				// Callback default signature
 //-----------------------------------------------------------------------------
 // Compilation switch
 //-----------------------------------------------------------------------------
-#pragma disable_warning	59		// Remove "function must return value" warning
 #pragma disable_warning	110		// Remove "conditional flow changed by optimizer: so said EVELYN the modified DOG" warning
 #pragma disable_warning	126		// Remove "unreachable code" warning
 #pragma disable_warning	218 	// Remove "z80instructionSize() failed to parse line node, assuming 999 bytes" info
@@ -83,8 +92,8 @@ typedef void (*callback)(void);				// Callback default signature
 // Get the number of elements of a static initialized structure
 #define numberof(tab)				(sizeof(tab) / sizeof(tab[0]))
 
-#define loop(a, b)					for(u8 a = 0; a < b; ++a)
-#define loopx(a)					for(u8 i##__LINE__ = 0; i##__LINE__ < a; ++i##__LINE__)
+#define loop(a, b)					for (u8 a = 0; a < (b); ++a)
+#define loopx(a)					for (u8 i##__LINE__ = 0; i##__LINE__ < a; ++i##__LINE__)
 
 //-----------------------------------------------------------------------------
 // SDCC calling convention 0
@@ -123,7 +132,7 @@ typedef void (*callback)(void);				// Callback default signature
 #define FC8(a)						(u8)(a)					// L
 // For 16 bits parameters
 #define FC16(a)						(u16)(a)				// HL
-#define FC88(a, b)					(u16)((a << 8) + (b))	// H, L
+#define FC88(a, b)					(u16)(((a) << 8) + (b))	// H, L
 // For 32 bits parameters
 #define FC32(a)						(u32)(a)															// DE:HL
 #define FC1616(a, b)				(u32)(((u32)(a) << 16) + (b))										// DE, HL
@@ -170,37 +179,37 @@ typedef void (*callback)(void);				// Callback default signature
 #define BIT_14						0x4000
 #define BIT_15						0x8000	// 16 bits MSB
 
-#define BIT_SET(val, bit)			val |=  (1 << bit)  	// Macro to set a given bit in an integer
-#define BIT_CLR(val, bit)			val &= ~(1 << bit)  	// Macro to clear a given bit in an integer
-#define BIT_ISSET(val, bit)			(val & (1 << bit) != 0)	// Macro to tell if a given bit is set or not
+#define BIT_SET(val, bit)			val |=  (1 << (bit))  		// Macro to set a given bit in an integer
+#define BIT_CLR(val, bit)			val &= ~(1 << (bit))  		// Macro to clear a given bit in an integer
+#define BIT_ISSET(val, bit)			((val) & (1 << (bit)) != 0)	// Macro to tell if a given bit is set or not
 
 //-----------------------------------------------------------------------------
 // Misc.
 //-----------------------------------------------------------------------------
-
-// Macro to include assembler code into C source file
-#define INCLUDE_ASM(label, path) void DummyASM_##label() __NAKED { \
-	__asm                                                          \
-		_##label::                                                 \
-		.include path                                              \
-		_end##label::                                              \
-	__endasm; }                                                    \
-	extern void label
-
-// Macro to include binary data into C source file
-#define INCLUDE_BIN(label, path) void DummyASM_##label() __NAKED { \
-	__asm                                                          \
-		_##label::                                                 \
-		.inbin path                                                \
-		_end##label::                                              \
-	__endasm; }                                                    \
-	extern void label
 
 // Macro to create a name by concatenating two part
 #define MACRO_MERGE(a, b)			a##b
 
 // Macro to overcome # in macro error with SDCC 4.3.0 
 #define HASH #
+
+// Macro to include assembler code into C source file
+#define INCLUDE_ASM(label, path) void MACRO_MERGE(DummyASM_,label)() __NAKED { \
+	__asm                                                                      \
+		MACRO_MERGE(_,label)::                                                 \
+		.include path                                                          \
+		MACRO_MERGE(_end,label)::                                              \
+	__endasm; }                                                                \
+	extern void label
+
+// Macro to include binary data into C source file
+#define INCLUDE_BIN(label, path) void MACRO_MERGE(DummyASM_,label)() __NAKED { \
+	__asm                                                                      \
+		MACRO_MERGE(_,label)::                                                 \
+		.inbin path                                                            \
+		MACRO_MERGE(_end,label)::                                              \
+	__endasm; }                                                                \
+	extern void label
 
 //-----------------------------------------------------------------------------
 // SDCC defines

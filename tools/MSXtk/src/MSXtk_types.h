@@ -47,5 +47,5 @@ typedef wchar_t			c16; ///< 16 bits character
 //-----------------------------------------------------------------------------
 // help macros
 #define numberof(tab)	(sizeof(tab) / sizeof(tab[0]))
-#define loop(var, x)	for(u32 var = 0; var < x; var++)
-#define loopx(x)		for(u32 i##__LINE__ = 0; i##__LINE__ < x; i##__LINE__++)
+#define loop(var, x)	for (u32 var = 0; var < x; var++)
+#define loopx(x)		for (u32 i##__LINE__ = 0; i##__LINE__ < x; i##__LINE__++)

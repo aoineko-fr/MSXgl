@@ -1,1 +1,1 @@
-﻿NDContentPage.OnToolTipsLoaded({});
+﻿NDContentPage.OnToolTipsLoaded({61:"<div class=\"NDToolTip TFunction LC\"><div id=\"NDPrototype61\" class=\"NDPrototype\"><div class=\"PSection PPlainSection\">u8 MSXMusic_Detect()</div></div><div class=\"TTSummary\">Search for MSX-Music (YM2413) chip</div></div>",335:"<div class=\"NDToolTip TFunction LC\"><div id=\"NDPrototype335\" class=\"NDPrototype\"><div class=\"PSection PPlainSection\"><span class=\"SHKeyword\">void</span> MSXMusic_Initialize()</div></div><div class=\"TTSummary\">Initialize MSX-Music module</div></div>"});

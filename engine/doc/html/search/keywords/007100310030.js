@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("q10",["Macro"],[["Q10_6",,[[,,,,0,"File:fixed_point.h:Q10_6"]]],["Q10_6_FRAC",,[[,,,,0,"File:fixed_point.h:Q10_6_FRAC"]]],["Q10_6_GET",,[[,,,,0,"File:fixed_point.h:Q10_6_GET"]]],["Q10_6_SET",,[[,,,,0,"File:fixed_point.h:Q10_6_SET"]]],["Q10_6_TYPE",,[[,,,,0,"File:fixed_point.h:Q10_6_TYPE"]]]]);

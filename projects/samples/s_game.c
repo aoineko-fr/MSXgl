@@ -10,8 +10,8 @@
 // INCLUDES
 //=============================================================================
 #include "msxgl.h"
-#include "game.h"
-#include "game_pawn.h"
+#include "game/state.h"
+#include "game/pawn.h"
 #include "math.h"
 #include "debug.h"
 
@@ -41,30 +41,27 @@ bool State_Pause();
 // Sprites data by GrafxKid (https://opengameart.org/content/super-random-sprites)
 #include "content/data_sprt_layer.h"
 #include "content/data_bg.h"
-// Sinus & cosinus table
-#include "mathtable/mt_trigo_64.inc"
 
 // Sign-of-life character animation data
 const c8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
 // Pawn sprite layers
-const Game_Sprite g_SpriteLayers[] =
+const Pawn_Sprite g_SpriteLayers[] =
 {//   X  Y  Pattern Color            Option
-	{ 0, 0, 0,      COLOR_BLACK,     PAWN_SPRITE_EVEN }, // Black sprite...
-	{ 0, 0, 12,     COLOR_BLACK,     PAWN_SPRITE_ODD }, // ...alternated each frame
+	{ 0, 0, 0,      COLOR_BLACK,     PAWN_SPRITE_BLEND }, // Black sprite alternated each frame
 	{ 0, 0, 4,      COLOR_WHITE,     0 },
 	{ 0, 0, 8,      COLOR_LIGHT_RED, 0 },
 };
 
 // Idle animation frames
-const Game_Frame g_FramesIdle[] =
-{ //  Pattern Frames Function
-	{ 6*16,	  48,    NULL },
-	{ 7*16,	  24,    NULL },
+const Pawn_Frame g_FramesIdle[] =
+{ //  Pattern Time Function
+	{ 6*16,	  48,  NULL },
+	{ 7*16,	  24,  NULL },
 };
 
 // Move animation frames
-const Game_Frame g_FramesMove[] =
+const Pawn_Frame g_FramesMove[] =
 {
 	{ 0*16,	4,	NULL },
 	{ 1*16,	4,	NULL },
@@ -75,14 +72,14 @@ const Game_Frame g_FramesMove[] =
 };
 
 // Jump animation frames
-const Game_Frame g_FramesJump[] =
+const Pawn_Frame g_FramesJump[] =
 {
 	{ 3*16,	4,	NULL },
 	{ 8*16,	4,	NULL },
 };
 
 // Fall animation frames
-const Game_Frame g_FramesFall[] =
+const Pawn_Frame g_FramesFall[] =
 {
 	{ 9*16,	4,	NULL },
 };
@@ -97,7 +94,7 @@ enum ANIM_ACTION_ID
 };
 
 // List of all player actions
-const Game_Action g_AnimActions[] =
+const Pawn_Action g_AnimActions[] =
 { //  Frames        Number                  Loop? Interrupt?
 	{ g_FramesIdle, numberof(g_FramesIdle), TRUE, TRUE },
 	{ g_FramesMove, numberof(g_FramesMove), TRUE, TRUE },
@@ -109,7 +106,7 @@ const Game_Action g_AnimActions[] =
 // MEMORY DATA
 //=============================================================================
 
-Game_Pawn g_PlayerPawn;				// Player's pawn data structure
+Pawn g_PlayerPawn;					// Player's pawn data structure
 bool g_bFlicker = TRUE;				// Activate sprite colorflickering 
 bool g_bMoving = FALSE;				// Is player moving?
 bool g_bJumping = FALSE;			// Is player jumping?
@@ -129,7 +126,7 @@ bool g_bEnable = TRUE;				//
 void PhysicsEvent(u8 event, u8 tile)
 {
 	tile;
-	switch(event)
+	switch (event)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN:
 	case PAWN_PHYSICS_BORDER_RIGHT:
@@ -145,7 +142,7 @@ void PhysicsEvent(u8 event, u8 tile)
 		break;
 	
 	case PAWN_PHYSICS_FALL: // Handle falling
-		if(!g_bJumping)
+		if (!g_bJumping)
 		{
 			g_bJumping = TRUE;
 			g_VelocityY = 0;
@@ -157,9 +154,7 @@ void PhysicsEvent(u8 event, u8 tile)
 // Collision callback
 bool PhysicsCollision(u8 tile)
 {
-	// return (tile < 8) || (tile >= 32);
 	return (tile < 8);
-	// return FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -176,7 +171,7 @@ void DrawLevel()
 	Math_SetRandomSeed16(g_Level);
 	loop(i, 8)
 	{
-		if(i == 7)
+		if (i == 7)
 			Math_SetRandomSeed16(g_Level + 1);
 		u8 y = Math_GetRandom16() & 0x07 ;
 		loop(j, y)
@@ -220,9 +215,10 @@ bool State_Initialize()
 	VDP_DisableSpritesFrom(3);
 
 	// Init player pawn
-	GamePawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
-	GamePawn_SetPosition(&g_PlayerPawn, 16, 16);
-	GamePawn_InitializePhysics(&g_PlayerPawn, PhysicsEvent, PhysicsCollision, 16, 16);
+	Pawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
+	Pawn_SetPosition(&g_PlayerPawn, 16, 16);
+	Pawn_SetColorBlend(&g_PlayerPawn, g_bFlicker);
+	Pawn_InitializePhysics(&g_PlayerPawn, PhysicsEvent, PhysicsCollision, 16, 16);
 
 	// Initialize text
 	Print_SetPosition(0, 0);
@@ -247,18 +243,18 @@ bool State_Game()
 // VDP_SetColor(COLOR_DARK_GREEN);
 	// Update player animation & physics
 	u8 act = ACTION_IDLE;
-	if(g_bJumping && (g_VelocityY >= 0))
+	if (g_bJumping && (g_VelocityY >= 0))
 		act = ACTION_JUMP;
-	else if(g_bJumping)
+	else if (g_bJumping)
 		act = ACTION_FALL;
-	else if(g_bMoving)
+	else if (g_bMoving)
 		act = ACTION_MOVE;
-	GamePawn_SetAction(&g_PlayerPawn, act);
-	GamePawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
+	Pawn_SetAction(&g_PlayerPawn, act);
+	Pawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
 // VDP_SetColor(COLOR_DARK_BLUE);
-	GamePawn_Update(&g_PlayerPawn);
+	Pawn_Update(&g_PlayerPawn);
 // VDP_SetColor(COLOR_DARK_RED);
-	GamePawn_Draw(&g_PlayerPawn);
+	Pawn_Draw(&g_PlayerPawn);
 // VDP_SetColor(COLOR_BLACK);
 
 	// Character animation
@@ -270,14 +266,14 @@ bool State_Game()
 		VDP_FillVRAM(g_PlayerPawn.Counter & 1 ? 9 : 10, g_ScreenLayoutLow + (12+2) * 32, 0, 32);
 
 	// Handle collision events
-	switch(g_LastEvent)
+	switch (g_LastEvent)
 	{
 	case PAWN_PHYSICS_BORDER_DOWN:
-		/* handle game over */
+		// @todo: handle game over...
 		break;
 	case PAWN_PHYSICS_BORDER_RIGHT:
 		g_LastEvent = 0;
-		GamePawn_SetPosition(&g_PlayerPawn, 0 + 4, g_PlayerPawn.PositionY);
+		Pawn_SetPosition(&g_PlayerPawn, 0 + 4, g_PlayerPawn.PositionY);
 		g_Level++;
 		DrawLevel();
 		break;
@@ -287,12 +283,12 @@ bool State_Game()
 	g_DX = 0;
 	g_DY = 0;
 	u8 row8 = Keyboard_Read(8);
-	if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+	if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 	{
 		g_DX++;
 		g_bMoving = TRUE;
 	}
-	else if(IS_KEY_PRESSED(row8, KEY_LEFT))
+	else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 	{
 		g_DX--;
 		g_bMoving = TRUE;
@@ -300,33 +296,36 @@ bool State_Game()
 	else
 		g_bMoving = FALSE;
 	
-	if(g_bJumping)
+	if (g_bJumping)
 	{
 		g_DY -= g_VelocityY / 4;
 		
 		g_VelocityY -= GRAVITY;
-		if(g_VelocityY < -FORCE)
+		if (g_VelocityY < -FORCE)
 			g_VelocityY = -FORCE;
 
 	}
-	else if(IS_KEY_PRESSED(row8, KEY_SPACE) || IS_KEY_PRESSED(row8, KEY_UP))
+	else if (IS_KEY_PRESSED(row8, KEY_SPACE) || IS_KEY_PRESSED(row8, KEY_UP))
 	{
 		g_bJumping = TRUE;
 		g_VelocityY = FORCE;
 	}
 
-	if(IS_KEY_PUSHED(row8, g_PrevRow8, KEY_HOME))
+	if (IS_KEY_PUSHED(row8, g_PrevRow8, KEY_HOME))
+	{
 		g_bFlicker = 1 - g_bFlicker;
+		Pawn_SetColorBlend(&g_PlayerPawn, g_bFlicker);
+	}
 	
-	if(IS_KEY_PUSHED(row8, g_PrevRow8, KEY_DEL))
+	if (IS_KEY_PUSHED(row8, g_PrevRow8, KEY_DEL))
 	{
 		g_bEnable = !g_bEnable;
-		GamePawn_SetEnable(&g_PlayerPawn, g_bEnable);
+		Pawn_SetEnable(&g_PlayerPawn, g_bEnable);
 	}
 
 	g_PrevRow8 = row8;
 
-	if(Keyboard_IsKeyPressed(KEY_ESC))
+	if (Keyboard_IsKeyPressed(KEY_ESC))
 		Game_Exit();
 
 		
@@ -351,8 +350,7 @@ void main()
 	Bios_SetKeyClick(FALSE);
 
 	Game_SetState(State_Initialize);
-	Game_MainLoop(VDP_MODE_GRAPHIC1);
-	Game_Release();
+	Game_Start(VDP_MODE_GRAPHIC1, FALSE);
 
 	Bios_Exit(0);
 }

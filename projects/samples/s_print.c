@@ -186,7 +186,7 @@ void PrintList()
 
 	Print_SetPosition(0, 24);
 	Print_DrawText("List:\n\n");
-	for(u8 i = 0; i < numberof(g_Fonts); ++i)
+	for (u8 i = 0; i < numberof(g_Fonts); ++i)
 	{
 		Print_SetFont(g_Fonts[i].Font);
 		Print_SetColor((i == g_FontIndex) ? g_Modes[g_ModeIndex].ColorAlt : g_Modes[g_ModeIndex].ColorText, g_Modes[g_ModeIndex].ColorBG);
@@ -212,7 +212,7 @@ void PrintSample()
 	Print_SetPosition(0, 40);
 	Print_SetColor(g_Modes[g_ModeIndex].ColorAlt, g_Modes[g_ModeIndex].ColorBG);
 	const struct Print_Data* data = Print_GetFontInfo();
-	for(u16 i = data->CharFirst; i <= data->CharLast; ++i)
+	for (u16 i = data->CharFirst; i <= data->CharLast; ++i)
 		Print_DrawChar(i);
 
 	Print_Return();
@@ -381,29 +381,29 @@ void main()
 
 	u8 count = 0;
 	bool bContinue = TRUE;
-	while(bContinue)
+	while (bContinue)
 	{
-		if(Keyboard_IsKeyPressed(KEY_ESC))
+		if (Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;
 
 		u8 row = Keyboard_Read(KEY_ROW(KEY_F1));
 		
-		if(IS_KEY_PRESSED(row, KEY_F1))
+		if (IS_KEY_PRESSED(row, KEY_F1))
 		{
 			cb = PrintList;
 			cb();
 		}
-		else if(IS_KEY_PRESSED(row, KEY_F2))
+		else if (IS_KEY_PRESSED(row, KEY_F2))
 		{
 			cb = PrintSample;
 			cb();
 		}
-		else if(IS_KEY_PRESSED(row, KEY_F3))
+		else if (IS_KEY_PRESSED(row, KEY_F3))
 		{
 			cb = PrintEffect;
 			cb();
 		}
-		else if(IS_KEY_PRESSED(row, KEY_CODE))
+		else if (IS_KEY_PRESSED(row, KEY_CODE))
 		{
 			cb = PrintBenchmark;
 			cb();
@@ -411,33 +411,33 @@ void main()
 
 		row = Keyboard_Read(KEY_ROW(KEY_RIGHT));
 
-		if(IS_KEY_PRESSED(row, KEY_RIGHT))
+		if (IS_KEY_PRESSED(row, KEY_RIGHT))
 		{
-			if(g_FontIndex < numberof(g_Fonts) - 1)
+			if (g_FontIndex < numberof(g_Fonts) - 1)
 				g_FontIndex++;
 			else
 				g_FontIndex = 0;			
 			cb();
 		}
-		else if(IS_KEY_PRESSED(row, KEY_LEFT))
+		else if (IS_KEY_PRESSED(row, KEY_LEFT))
 		{
-			if(g_FontIndex > 0)
+			if (g_FontIndex > 0)
 				g_FontIndex--;
 			else
 				g_FontIndex = numberof(g_Fonts) - 1;			
 			cb();
 		}
-		if(IS_KEY_PRESSED(row, KEY_UP))
+		if (IS_KEY_PRESSED(row, KEY_UP))
 		{
-			if(g_ModeIndex < numberof(g_Modes) - 1)
+			if (g_ModeIndex < numberof(g_Modes) - 1)
 				g_ModeIndex++;
 			else
 				g_ModeIndex = 0;			
 			cb();
 		}
-		else if(IS_KEY_PRESSED(row, KEY_DOWN))
+		else if (IS_KEY_PRESSED(row, KEY_DOWN))
 		{
-			if(g_ModeIndex > 0)
+			if (g_ModeIndex > 0)
 				g_ModeIndex--;
 			else
 				g_ModeIndex = numberof(g_Modes) - 1;			
@@ -448,9 +448,9 @@ void main()
 		Print_DrawChar(chrAnim[count & 0x03]);
 
 		#if (PRINT_USE_SPRITE)
-		if(cb == PrintEffect)
+		if (cb == PrintEffect)
 		{
-			for(u8 i = 0; i < String_Length(g_SpriteText); ++i)
+			for (u8 i = 0; i < String_Length(g_SpriteText); ++i)
 			{
 				VDP_SetSpritePositionY(i, 155 + ((i16)(g_Sinus32[((count >> 2) + i) % 32]) >> 8));
 			}

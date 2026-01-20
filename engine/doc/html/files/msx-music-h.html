@@ -18,10 +18,16 @@
  <div class="CBody"><p>Initialize MSX-Music module</p></div>
 </div>
 
-<a name="MSXMusic_Detect"></a><a name="Topic336"></a><div class="CTopic TFunction LC">
+<a name="MSXMusic_Detect"></a><a name="Topic61"></a><div class="CTopic TFunction LC">
  <div class="CTitle">MSXMusic_Detect</div>
- <div id="NDPrototype336" class="NDPrototype"><div class="PSection PPlainSection">u8 MSXMusic_Detect()</div></div>
- <div class="CBody"><p>Search for MSX-Music (YM2413) chip</p></div>
+ <div id="NDPrototype61" class="NDPrototype"><div class="PSection PPlainSection">u8 MSXMusic_Detect()</div></div>
+ <div class="CBody"><p>Search for MSX-Music (YM2413) chip</p><div class="CHeading">Return</div><p>MSXMUSIC_NOTFOUND if no MSX-Music chip found MSXMUSIC_INTERNAL if an internal MSX-Music chip is found MSXMUSIC_EXTERNAL if an external MSX-Music chip (FM-PAC)</p></div>
+</div>
+
+<a name="MSXMusic_GetSlotId"></a><a name="Topic660"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">MSXMusic_GetSlotId</div>
+ <div id="NDPrototype660" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 MSXMusic_GetSlotId()</div></div>
+ <div class="CBody"><p>Get the Slot ID of the first MSX-Music chip found <a href="../index.html#File:msx-music.h:MSXMusic_Detect" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,61);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >MSXMusic_Detect</a> or <a href="../index.html#File:msx-music.h:MSXMusic_Initialize" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,335);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >MSXMusic_Initialize</a> must be called first</p><div class="CHeading">Return</div><p>Slot ID if found or SLOT_NOTFOUND otherwise</p></div>
 </div>
 
 <a name="MSXMusic_SetRegister"></a><a name="Topic643"></a><div class="CTopic TFunction LC">

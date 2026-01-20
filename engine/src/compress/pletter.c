@@ -89,7 +89,7 @@
 // call unpack with hl pointing to some pletter5 data, and de pointing to the destination.
 // changes all registers
 // Set PLETTER_LENGTHINDATA to TRUE when the original size is written in the pletter data
-void Pletter_UnpackToRAM(const void* source, void* dest) __naked
+void Pletter_UnpackToRAM(const void* source, void* dest) __NAKED
 {
 	source;	// HL
 	dest;	// DE

@@ -64,7 +64,7 @@ void DrawChar_Layout(u8 chr);
 extern u16 g_HeapStartAddress;
 
 // Allocate memory for Print module data structure
-struct Print_Data g_PrintData;
+Print_Data g_PrintData;
 
 // Table use to quick decimal-to-hexadecimal conversion
 const c8 g_HexChar[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
@@ -98,11 +98,11 @@ u8 g_PrintInvalid[] =
 u8 Print_SplitColor(u8 color)
 {
 	#if (PRINT_USE_SPRITE)
-	if(g_PrintData.SourceMode == PRINT_MODE_SPRITE)
+	if (g_PrintData.SourceMode == PRINT_MODE_SPRITE)
 		return color;
 	#endif
 
-	switch(VDP_GetMode())
+	switch (VDP_GetMode())
 	{
 	#if (VDP_USE_MODE_G4)
 		case VDP_MODE_GRAPHIC4: return color & 0x0F;
@@ -123,7 +123,7 @@ u8 Print_SplitColor(u8 color)
 
 u8 Print_MergeColor(u8 color)
 {
-	switch(VDP_GetMode())
+	switch (VDP_GetMode())
 	{
 	#if (VDP_USE_MODE_G4)
 		case VDP_MODE_GRAPHIC4: return (color & 0x0F) << 4 | (color & 0x0F);
@@ -161,7 +161,7 @@ bool Print_Initialize()
 		Print_EnableOutline(FALSE);
 	#endif
 
-	switch(VDP_GetMode()) // Screen mode specific initialization
+	switch (VDP_GetMode()) // Screen mode specific initialization
 	{
 	#if (VDP_USE_MODE_T1)
 		case VDP_MODE_TEXT1:		// 40 characters per line of text, one colour for each character
@@ -244,12 +244,12 @@ void Print_SetMode(u8 mode)
 {
 	g_PrintData.SourceMode = mode;
 
-	switch(g_PrintData.SourceMode)
+	switch (g_PrintData.SourceMode)
 	{
 	#if (PRINT_USE_BITMAP)
 		case PRINT_MODE_BITMAP:
 		{
-			switch(VDP_GetMode()) // Screen mode specific initialization
+			switch (VDP_GetMode()) // Screen mode specific initialization
 			{
 			#if (VDP_USE_MODE_G5)
 				case VDP_MODE_GRAPHIC5:
@@ -281,7 +281,7 @@ void Print_SetMode(u8 mode)
 	#if (PRINT_USE_VRAM)
 		case PRINT_MODE_BITMAP_VRAM:
 		{
-			switch(VDP_GetMode()) // Screen mode specific initialization
+			switch (VDP_GetMode()) // Screen mode specific initialization
 			{
 			#if (VDP_USE_MODE_G4 || VDP_USE_MODE_G7)
 				case VDP_MODE_GRAPHIC4:
@@ -321,7 +321,7 @@ void Print_SetMode(u8 mode)
 // @param		font		Pointer to font data to use (NULL=use Main-ROM font)
 void Print_SetFont(const u8* font)
 {
-	if(font == NULL) // Use Bios font (if any)
+	if (font == NULL) // Use Bios font (if any)
 		Print_SetFontEx(8, 8, 6, 8, 1, 255, (const u8*)g_CGTABL + 8);
 	else
 		Print_SetFontEx(font[0] >> 4, font[0] & 0x0F, font[1] >> 4, font[1] & 0x0F, font[2], font[3], font+4);
@@ -333,7 +333,7 @@ void Print_SetFont(const u8* font)
 void Print_InitColorBuffer(u8 t, u8 b)
 {
 	// Pre-compute colors combinaison for 2-bits of a character pattern line (used to quick drawing in DrawChar_GX functions)
-	switch(VDP_GetMode())
+	switch (VDP_GetMode())
 	{
 	#if (VDP_USE_MODE_G4)
 		case VDP_MODE_GRAPHIC4:
@@ -390,7 +390,7 @@ void Print_InitColorBuffer(u8 t, u8 b)
 // @param		bg			Background color (format depend of current screen mode)
 void Print_SetColor(u8 text, u8 bg)
 {
-	if(VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
+	if (VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
 	{
 		#if ((PRINT_USE_BITMAP) || (PRINT_USE_SPRITE))
 			u8 t = text;
@@ -400,7 +400,7 @@ void Print_SetColor(u8 text, u8 bg)
 			#if (PRINT_COLOR_NUM == 1)
 				g_PrintData.TextColor = t;
 			#else // if (PRINT_COLOR_NUM > 1)
-				for(u8 i = 0; i < PRINT_COLOR_NUM; ++i)
+				for (u8 i = 0; i < PRINT_COLOR_NUM; ++i)
 				{
 					g_PrintData.TextColor[i] = t;
 				}
@@ -419,7 +419,7 @@ void Print_SetColor(u8 text, u8 bg)
 	{
 		#if (PRINT_USE_TEXT)
 			u8 col = text << 4 | bg;
-			switch(VDP_GetMode())
+			switch (VDP_GetMode())
 			{
 			#if (VDP_USE_MODE_T1)
 				case VDP_MODE_TEXT1:		// 40 characters per line of text, one colour for each character
@@ -463,10 +463,10 @@ void Print_SetColor(u8 text, u8 bg)
 // Set color shade
 void Print_SetColorShade(const u8* shade)
 {
-	if(VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
+	if (VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
 	{
 		#if ((PRINT_USE_BITMAP) || (PRINT_USE_SPRITE))
-			for(u8 i = 0; i < PRINT_COLOR_NUM; ++i)
+			for (u8 i = 0; i < PRINT_COLOR_NUM; ++i)
 			{
 				u8 t = shade[i];
 				#if (PRINT_USE_VALIDATOR)
@@ -479,7 +479,7 @@ void Print_SetColorShade(const u8* shade)
 	else // Text mode
 	{
 		#if (PRINT_USE_TEXT)
-			switch(VDP_GetMode())
+			switch (VDP_GetMode())
 			{
 			#if (VDP_USE_MODE_G2)
 				case VDP_MODE_GRAPHIC2:		// 256 x 192, the colour is specififed for each 8 dots
@@ -490,7 +490,7 @@ void Print_SetColorShade(const u8* shade)
 			#if (VDP_USE_MODE_G2 || VDP_USE_MODE_G3)
 				{
 					u16 dst = (u16)g_ScreenColorLow + g_PrintData.PatternOffset * 8;
-					for(u8 i = 0; i < g_PrintData.CharCount; ++i)
+					for (u8 i = 0; i < g_PrintData.CharCount; ++i)
 					{
 						VDP_WriteVRAM(shade, dst,           0, 8);
 						VDP_WriteVRAM(shade, dst + 256 * 8, 0, 8);
@@ -519,13 +519,13 @@ void Print_SetColorShade(const u8* shade)
 // @param		chr			Address of the character to check
 u8 Print_ValidateChar(u8 chr)
 {
-	if((chr < g_PrintData.CharFirst) || (chr > g_PrintData.CharLast))
+	if ((chr < g_PrintData.CharFirst) || (chr > g_PrintData.CharLast))
 	{
-		if((chr >= 'a') && (chr <= 'z') && (g_PrintData.CharFirst <= 'A') && (g_PrintData.CharLast >= 'Z')) // try to remap to upper case letter
+		if ((chr >= 'a') && (chr <= 'z') && (g_PrintData.CharFirst <= 'A') && (g_PrintData.CharLast >= 'Z')) // try to remap to upper case letter
 		{
 			chr = chr - 'a' + 'A';
 		}
-		else if((chr >= 'A') && (chr <= 'Z') && (g_PrintData.CharFirst <= 'a') && (g_PrintData.CharLast >= 'z')) // try to remap to lower case letter
+		else if ((chr >= 'A') && (chr <= 'Z') && (g_PrintData.CharFirst <= 'a') && (g_PrintData.CharLast >= 'z')) // try to remap to lower case letter
 		{
 			chr = chr - 'A' + 'a';
 		}
@@ -540,14 +540,14 @@ u8 Print_ValidateChar(u8 chr)
 // @param		patterns	Address of the font data to check
 u8 Print_ValidatePattern(u8 chr, const c8** patterns)
 {
-	if((chr < g_PrintData.CharFirst) || (chr > g_PrintData.CharLast))
+	if ((chr < g_PrintData.CharFirst) || (chr > g_PrintData.CharLast))
 	{
-		if((chr >= 'a') && (chr <= 'z') && (g_PrintData.CharFirst <= 'A') && (g_PrintData.CharLast >= 'Z')) // try to remap to upper case letter
+		if ((chr >= 'a') && (chr <= 'z') && (g_PrintData.CharFirst <= 'A') && (g_PrintData.CharLast >= 'Z')) // try to remap to upper case letter
 		{
 			chr = chr - 'a' + 'A';
 			*patterns = g_PrintData.FontPatterns + g_PrintData.PatternY * (chr - g_PrintData.CharFirst);
 		}
-		else if((chr >= 'A') && (chr <= 'Z') && (g_PrintData.CharFirst <= 'a') && (g_PrintData.CharLast >= 'z')) // try to remap to lower case letter
+		else if ((chr >= 'A') && (chr <= 'Z') && (g_PrintData.CharFirst <= 'a') && (g_PrintData.CharLast >= 'z')) // try to remap to lower case letter
 		{
 			chr = chr - 'A' + 'a';
 			*patterns = g_PrintData.FontPatterns + g_PrintData.PatternY * (chr - g_PrintData.CharFirst);
@@ -588,7 +588,7 @@ void DrawChar_8B(u8 chr)
 		chr = Print_ValidatePattern(chr, &patterns);
 	#endif
 	u16* l = (u16*)g_HeapStartAddress;
-	for(u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
+	for (u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
 	{
 		#if (PRINT_COLOR_NUM > 1)
 			Print_InitColorBuffer(g_PrintData.TextColor[j], g_PrintData.BGColor);
@@ -617,7 +617,7 @@ void DrawChar_4B(u8 chr)
 		chr = Print_ValidatePattern(chr, &patterns);
 	#endif
 	u8* l = (u8*)g_HeapStartAddress;
-	for(u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
+	for (u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
 	{
 		#if (PRINT_COLOR_NUM > 1)
 			Print_InitColorBuffer(g_PrintData.TextColor[j], g_PrintData.BGColor);
@@ -646,7 +646,7 @@ void DrawChar_2B(u8 chr)
 		chr = Print_ValidatePattern(chr, &patterns);
 	#endif
 	u8* l = (u8*)g_HeapStartAddress;
-	for(u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
+	for (u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
 	{
 		#if (PRINT_COLOR_NUM > 1)
 			Print_InitColorBuffer(g_PrintData.TextColor[j], g_PrintData.BGColor);
@@ -669,31 +669,31 @@ void DrawChar_Trans(u8 chr)
 		chr = Print_ValidatePattern(chr, &patterns);
 	#endif
 	#if (PRINT_USE_FX_SHADOW)
-		if(g_PrintData.FX & PRINT_FX_SHADOW)
+		if (g_PrintData.FX & PRINT_FX_SHADOW)
 		{
 			g_VDP_Command.DY = g_PrintData.CursorY + g_PrintData.ShadowOffsetY - 3;
 			g_VDP_Command.CLR = g_PrintData.ShadowColor;
 			g_VDP_Command.ARG = 0;
 			g_VDP_Command.CMD = VDP_CMD_PSET + 0;
-			for(u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j)
+			for (u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j)
 			{
 				g_VDP_Command.DX = g_PrintData.CursorX + g_PrintData.ShadowOffsetX - 3;
 				
 				u8 f = patterns[j];
-				if(f & BIT_7) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_6) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_5) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_4) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_3) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_2) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_1) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_0) VPD_CommandSetupR36();
+				if (f & BIT_7) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_6) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_5) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_4) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_3) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_2) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_1) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_0) VDP_CommandSetupR36();
 				g_VDP_Command.DY++;
 			}
 		}
 	#endif
 	#if (PRINT_USE_FX_OUTLINE)
-		if(g_PrintData.FX & PRINT_FX_OUTLINE)
+		if (g_PrintData.FX & PRINT_FX_OUTLINE)
 		{
 			g_VDP_Command.DY = g_PrintData.CursorY - 1;
 			g_VDP_Command.NX = 3;
@@ -701,25 +701,25 @@ void DrawChar_Trans(u8 chr)
 			g_VDP_Command.CLR = g_PrintData.OutlineColor;
 			g_VDP_Command.ARG = 0;
 			g_VDP_Command.CMD = (u8)(VDP_CMD_LMMV + 0);
-			for(u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j)
+			for (u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j)
 			{
 				g_VDP_Command.DX = g_PrintData.CursorX - 1;
 				
 				u8 f = patterns[j];
-				if(f & BIT_7) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_6) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_5) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_4) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_3) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_2) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_1) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-				if(f & BIT_0) VPD_CommandSetupR36();
+				if (f & BIT_7) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_6) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_5) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_4) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_3) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_2) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_1) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+				if (f & BIT_0) VDP_CommandSetupR36();
 				g_VDP_Command.DY++;
 			}
 		}
 	#endif
 	#if (PRINT_USE_2_PASS_FX)
-	if(g_PrintData.FX & PRINT_FX_ONLY)
+	if (g_PrintData.FX & PRINT_FX_ONLY)
 		return;
 	#endif
 
@@ -729,7 +729,7 @@ void DrawChar_Trans(u8 chr)
 	#if (PRINT_COLOR_NUM == 1)
 		g_VDP_Command.CLR = g_PrintData.TextColor;
 	#endif
-	for(u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j)
+	for (u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j)
 	{
 		#if (PRINT_COLOR_NUM > 1)
 			g_VDP_Command.CLR = g_PrintData.TextColor[j];
@@ -737,14 +737,14 @@ void DrawChar_Trans(u8 chr)
 		g_VDP_Command.DX = g_PrintData.CursorX;
 		
 		u8 f = patterns[j];
-		if(f & BIT_7) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if(f & BIT_6) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if(f & BIT_5) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if(f & BIT_4) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if(f & BIT_3) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if(f & BIT_2) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if(f & BIT_1) VPD_CommandSetupR36(); g_VDP_Command.DX++;
-		if(f & BIT_0) VPD_CommandSetupR36();
+		if (f & BIT_7) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_6) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_5) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_4) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_3) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_2) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_1) VDP_CommandSetupR36(); g_VDP_Command.DX++;
+		if (f & BIT_0) VDP_CommandSetupR36();
 		g_VDP_Command.DY++;
 	}
 }
@@ -776,7 +776,7 @@ void Print_SetVRAMFont(const u8* font, UY y, u8 color)
 	g_PrintData.FontVRAMY = y;
 	// @todo To optimize (pre-compute + fixed width/height cases
 	u8 nx = g_PrintData.ScreenWidth / PRINT_W(g_PrintData.UnitX);
-	for(u16 chr = g_PrintData.CharFirst; chr <= g_PrintData.CharLast; ++chr)
+	for (u16 chr = g_PrintData.CharFirst; chr <= g_PrintData.CharLast; ++chr)
 	{
 		u16 idx = chr - g_PrintData.CharFirst;
 		// @todo To optimize (pre-compute + fixed width/height cases
@@ -859,7 +859,7 @@ void DrawChar_VRAM512(u8 chr)
 #if (PRINT_USE_VALIDATOR)
 void CopyNo8HeightFontData(const u8* src, u16 dst, u8 height)
 {
-	for(u8 i = 0; i < g_PrintData.CharCount; ++i)
+	for (u8 i = 0; i < g_PrintData.CharCount; ++i)
 	{
 		VDP_FillVRAM(0, dst, 0, 8);
 		VDP_WriteVRAM(src, dst, 0, height);
@@ -876,7 +876,7 @@ void Print_SetTextFont(const u8* fontData, u8 offset)
 	g_PrintData.PatternOffset = offset;
 
 	// Initialize font attributes
-	if(fontData == NULL) // Use Bios font (if any)
+	if (fontData == NULL) // Use Bios font (if any)
 		Print_SetFontEx(8, 8, 1, 1, 1, 255, (const u8*)g_CGTABL + 8); // @todo Should be [1, 255] to include all characters
 	else
 		Print_SetFontEx(8, 8, 1, 1, fontData[2], fontData[3], fontData+4);
@@ -887,13 +887,13 @@ void Print_SetTextFont(const u8* fontData, u8 offset)
 	const u8* src = g_PrintData.FontPatterns;
 	u16 dst = (u16)g_ScreenPatternLow + (offset * 8);
 	#if (PRINT_USE_VALIDATOR)
-		if(fontData != NULL)
+		if (fontData != NULL)
 			CopyNo8HeightFontData(src, dst, fontData[0] & 0x0F);
 		else
 	#endif
 		VDP_WriteVRAM(src, dst, 0, g_PrintData.CharCount * 8);
 	
-	switch(VDP_GetMode())
+	switch (VDP_GetMode())
 	{
 	#if (VDP_USE_MODE_G2)
 		case VDP_MODE_GRAPHIC2:		// 256 x 192, the colour is specififed for each 8 dots
@@ -904,14 +904,14 @@ void Print_SetTextFont(const u8* fontData, u8 offset)
 	#if (VDP_USE_MODE_G2 || VDP_USE_MODE_G3)
 		dst += 256 * 8;
 		#if (PRINT_USE_VALIDATOR)
-			if(fontData != NULL)
+			if (fontData != NULL)
 				CopyNo8HeightFontData(src, dst, fontData[0] & 0x0F);
 			else
 		#endif
 			VDP_WriteVRAM(src, dst, 0, g_PrintData.CharCount * 8);
 		dst += 256 * 8;
 		#if (PRINT_USE_VALIDATOR)
-			if(fontData != NULL)
+			if (fontData != NULL)
 				CopyNo8HeightFontData(src, dst, fontData[0] & 0x0F);
 			else
 		#endif
@@ -965,10 +965,10 @@ void Print_SetSpriteFont(const u8* font, u8 patIdx, u8 sprtIdx)
 	#else // (PRINT_HEIGHT == PRINT_HEIGHT_X)
 		u16 ram = (u16)g_PrintData.FontPatterns;
 		u16 vram = g_SpritePatternLow;
-		for(u16 chr = g_PrintData.CharFirst; chr <= g_PrintData.CharLast; ++chr)
+		for (u16 chr = g_PrintData.CharFirst; chr <= g_PrintData.CharLast; ++chr)
 		{
 			u16 idx = chr - g_PrintData.CharFirst;
-			if(PRINT_H(g_PrintData.PatternY) < 8)
+			if (PRINT_H(g_PrintData.PatternY) < 8)
 			{
 				VDP_WriteVRAM((u8*)ram, vram, g_SpritePatternHigh, PRINT_H(g_PrintData.PatternY));
 				vram += PRINT_H(g_PrintData.PatternY);
@@ -1099,7 +1099,7 @@ void Print_DrawTextOutline(const c8* string, u8 color)
 // Clear screen on the current page
 void Print_Clear()
 {
-	if(VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
+	if (VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
 	{
 		#if (PRINT_USE_BITMAP)
 			u8 color = Print_MergeColor(g_PrintData.BGColor);
@@ -1120,11 +1120,12 @@ void Print_Clear()
 // @param		num			Number of characters to remove
 void Print_Backspace(u8 num)
 {
-	if(VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
+	num;
+	if (VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
 	{
 		#if (PRINT_USE_BITMAP)
 			u16 x = PRINT_W(g_PrintData.UnitX) * num;
-			if(x >  g_PrintData.CursorX)
+			if (x >  g_PrintData.CursorX)
 				x = 0;
 			else
 				x = g_PrintData.CursorX - x;
@@ -1151,7 +1152,7 @@ void Print_Backspace(u8 num)
 void Print_DrawChar(u8 chr)
 {
 	#if (PRINT_USE_VALIDATOR)
-		if(g_PrintData.CursorX + PRINT_W(g_PrintData.UnitX) > g_PrintData.ScreenWidth) // Handle automatic new-line when 
+		if (g_PrintData.CursorX + PRINT_W(g_PrintData.UnitX) > g_PrintData.ScreenWidth) // Handle automatic new-line when 
 			Print_Return();
 		#if ((MSX_VERSION >= MSX_2) && (PRINT_USE_BITMAP))
 			VDP_CommandWait();
@@ -1169,7 +1170,7 @@ void Print_DrawChar(u8 chr)
 // @param		num			Number of drawing
 void Print_DrawCharX(c8 chr, u8 num)
 {
-	for(u8 i = 0; i < num; ++i)
+	for (u8 i = 0; i < num; ++i)
 		Print_DrawChar(chr);
 }
 
@@ -1178,14 +1179,14 @@ void Print_DrawCharX(c8 chr, u8 num)
 // @param		chr			String to draw (must be NULL-terminated)
 void Print_DrawText(const c8* str)
 {
-	while(*str != 0)
+	while (*str != 0)
 	{
-		if(*str == '\t')
+		if (*str == '\t')
 			Print_Tab();
-		else if(*str == '\n')
+		else if (*str == '\n')
 			Print_Return();
 	#if (PRINT_SKIP_SPACE)
-		else if(*str == ' ')
+		else if (*str == ' ')
 			Print_Space();
 	#endif
 		else
@@ -1200,7 +1201,7 @@ void Print_DrawText(const c8* str)
 void Print_DrawBin8(u8 value)
 {
 	u8 flag = (u8)(1 << 7);
-	for(u8 i = 0; i < 8; ++i)
+	for (u8 i = 0; i < 8; ++i)
 	{
 		Print_DrawChar((value & flag) ? '1' : '0');
 		flag >>= 1;
@@ -1253,7 +1254,7 @@ void Print_DrawInt(i32 value)
 void Print_DrawInt(i16 value)
 #endif
 {
-	if(value < 0)
+	if (value < 0)
 	{	
 		Print_DrawChar('-');
 		value = -value;
@@ -1262,13 +1263,13 @@ void Print_DrawInt(i16 value)
 	c8 str[8];
 	c8* ptr = str;
 	*ptr = 0;
-	while(value >= 10)
+	while (value >= 10)
 	{
 		*++ptr = '0' + (value % 10);
 		value /= 10;
 	}
 	*++ptr = '0' + value;
-	while(*ptr != 0)
+	while (*ptr != 0)
 		Print_DrawChar(*ptr--);	
 }
 
@@ -1287,20 +1288,20 @@ void Print_DrawFormat(const c8* format, ...)
 	va_start(args, format);
 
 	const c8* ptr = format;
-	while(*ptr != 0)
+	while (*ptr != 0)
 	{
-		if(*ptr == '%')
+		if (*ptr == '%')
 		{
 			ptr++;
 			
 			// Parse length
 			u8 len = 0;
-			if((*ptr >= '0') && (*ptr <= '9'))
+			if ((*ptr >= '0') && (*ptr <= '9'))
 			{
 				len = *ptr - '0';
 				ptr++;
 			}
-			while((*ptr >= '0') && (*ptr <= '9'))
+			while ((*ptr >= '0') && (*ptr <= '9'))
 			{
 				len *= 10;
 				len += *ptr - '0';
@@ -1308,38 +1309,38 @@ void Print_DrawFormat(const c8* format, ...)
 			}
 
 			// Parse variable types
-			if((*ptr == 'i') || (*ptr == 'd'))
+			if ((*ptr == 'i') || (*ptr == 'd'))
 			{
 				i16 val = (i16)va_arg(args, i16);
 				Print_DrawInt(val);
 			}
-			else if(*ptr == 'u')
+			else if (*ptr == 'u')
 			{
 				u16 val = (u16)va_arg(args, u16);
 				Print_DrawInt(val);
 			}
-			else if(*ptr == 'x')
+			else if (*ptr == 'x')
 			{
-				if(len == 0)
+				if (len == 0)
 					len = 4;
 				u16 val = (u16)va_arg(args, u16);
-				if(len > 3)
+				if (len > 3)
 					Print_DrawChar(g_HexChar[(val >> 12) & 0x000F]);
-				if(len > 2)
+				if (len > 2)
 					Print_DrawChar(g_HexChar[(val >> 8) & 0x000F]);
-				if(len > 1)
+				if (len > 1)
 					Print_DrawChar(g_HexChar[(val >> 4) & 0x000F]);
 				Print_DrawChar(g_HexChar[val & 0x000F]);
 			}
-			else if(*ptr == 'b')
+			else if (*ptr == 'b')
 			{
-				if(len == 0)
+				if (len == 0)
 					len = 16;
 				u16 val = (u16)va_arg(args, u16);
 				u16 bit = 1 << (len - 1);
-				while(bit)
+				while (bit)
 				{
-					if(val & bit)
+					if (val & bit)
 						Print_DrawChar('1');
 					else
 						Print_DrawChar('0');
@@ -1347,47 +1348,47 @@ void Print_DrawFormat(const c8* format, ...)
 				}
 			}
 		#if (PRINT_USE_32B)
-			else if((*ptr == 'I') || (*ptr == 'D'))
+			else if ((*ptr == 'I') || (*ptr == 'D'))
 			{
 				i32 val = (i32)va_arg(args, i32);
 				Print_DrawInt(val);
 			}
-			else if(*ptr == 'U')
+			else if (*ptr == 'U')
 			{
 				u32 val = (u32)va_arg(args, u32);
 				Print_DrawInt(val);
 			}
-			else if(*ptr == 'X')
+			else if (*ptr == 'X')
 			{
-				if(len == 0)
+				if (len == 0)
 					len = 8;
 				u32 val = (u32)va_arg(args, u32);
 				// Print_DrawHex32(val);
-				if(len > 7)
+				if (len > 7)
 					Print_DrawChar(g_HexChar[(val >> 28) & 0xF]);
-				if(len > 6)
+				if (len > 6)
 					Print_DrawChar(g_HexChar[(val >> 24) & 0xF]);
-				if(len > 5)
+				if (len > 5)
 					Print_DrawChar(g_HexChar[(val >> 20) & 0xF]);
-				if(len > 4)
+				if (len > 4)
 					Print_DrawChar(g_HexChar[(val >> 16) & 0xF]);
-				if(len > 3)
+				if (len > 3)
 					Print_DrawChar(g_HexChar[(val >> 12) & 0xF]);
-				if(len > 2)
+				if (len > 2)
 					Print_DrawChar(g_HexChar[(val >> 8) & 0xF]);
-				if(len > 1)
+				if (len > 1)
 					Print_DrawChar(g_HexChar[(val >> 4) & 0xF]);
 				Print_DrawChar(g_HexChar[val & 0xF]);
 			}
-			else if(*ptr == 'B')
+			else if (*ptr == 'B')
 			{
-				if(len == 0)
+				if (len == 0)
 					len = 16;
 				u32 val = (u32)va_arg(args, u32);
 				u32 bit = 1 << (len - 1);
-				while(bit)
+				while (bit)
 				{
-					if(val & bit)
+					if (val & bit)
 						Print_DrawChar('1');
 					else
 						Print_DrawChar('0');
@@ -1395,28 +1396,28 @@ void Print_DrawFormat(const c8* format, ...)
 				}
 			}
 		#endif
-			else if(*ptr == 'c')
+			else if (*ptr == 'c')
 			{
 				c8 val = (c8)va_arg(args, u16);
 				Print_DrawChar(val);
 			}
-			else if(*ptr == 's')
+			else if (*ptr == 's')
 			{
 				const c8* val = (const c8*)va_arg(args, const c8*);
 				Print_DrawText(val);
 			}
-			else if(*ptr == '%')
+			else if (*ptr == '%')
 			{
 				Print_DrawChar('%');
 			}
 		}
 		// Parse special character
-		else if(*ptr == '\t')
+		else if (*ptr == '\t')
 			Print_Tab();
-		else if(*ptr == '\n')
+		else if (*ptr == '\n')
 			Print_Return();
 	#if (PRINT_SKIP_SPACE)
-		else if(*ptr == ' ')
+		else if (*ptr == ' ')
 			Print_Space();
 	#endif
 		else
@@ -1436,7 +1437,7 @@ void Print_DrawFormat(const c8* format, ...)
 
 //-----------------------------------------------------------------------------
 // Draw an horizontal line using characters
-void Print_DrawLineH(u8 x, u8 y, u8 len)
+void Print_DrawLineH(UX x, UY y, u8 len)
 {
 	Print_SetPosition(x, y);
 	Print_DrawCharX(0x17, len);
@@ -1444,9 +1445,9 @@ void Print_DrawLineH(u8 x, u8 y, u8 len)
 
 //-----------------------------------------------------------------------------
 // Draw a vertical line using characters
-void Print_DrawLineV(u8 x, u8 y, u8 len)
+void Print_DrawLineV(UX x, UY y, u8 len)
 {
-	for(u8 i = 0; i < len; i++)
+	for (u8 i = 0; i < len; i++)
 	{
 		Print_SetPosition(x, y + i);
 		Print_DrawChar(0x16);
@@ -1455,7 +1456,7 @@ void Print_DrawLineV(u8 x, u8 y, u8 len)
 
 //-----------------------------------------------------------------------------
 // Draw a box using characters
-void Print_DrawBox(u8 x, u8 y, u8 width, u8 height)
+void Print_DrawBox(UX x, UY y, u8 width, u8 height)
 {
 	// Draw corners
 	Print_SetPosition(x, y);

@@ -148,10 +148,11 @@
 // Input module setting
 #define INPUT_USE_JOYSTICK			TRUE	// Add functions to handle joystick using I/O port
 #define INPUT_USE_KEYBOARD			TRUE	// Add functions to handle keyboard using I/O port
-#define INPUT_USE_MOUSE				FALSE	// Add support for Mouse handling functions
-#define INPUT_USE_DETECT			FALSE	// Add feature to detect device plugged in General purpose ports
+#define INPUT_USE_MOUSE				TRUE	// Add support for Mouse handling functions
+#define INPUT_USE_DETECT			TRUE	// Add feature to detect device plugged in General purpose ports
 #define INPUT_USE_ISR_PROTECTION	TRUE	// Disable interruptions while access PSG registers (needed if you use BIOS or access PSG in your own ISR)
 #define INPUT_JOY_UPDATE			FALSE	// Add function to update all joystick states at once
+#define INPUT_HOLD_SIGNAL			FALSE	// Determines whether functions that modify signals should keep the state of those they don't need to modify (which slows functions down a bit) 
 // Key update handler
 #define INPUT_KB_UPDATE				FALSE	// Add function to update all keyboard rows at once
 #define INPUT_KB_UPDATE_MIN			0		// First row to update
@@ -171,7 +172,7 @@
 #define MEM_USE_VALIDATOR			FALSE	// Activate validator to handle invalide input value
 #define MEM_USE_FASTCOPY			FALSE	// Add support for fast-copy function (using unrolled-LDI loop)
 #define MEM_USE_FASTSET				FALSE	// Add support for fast-set function (using unrolled-LDI loop)
-#define MEM_USE_DYNAMIC				FALSE	// Add support for malloc style dynamic allocator
+#define MEM_USE_DYNAMIC				TRUE	// Add support for malloc style dynamic allocator
 #define MEM_USE_BUILTIN				TRUE	// Use SDCC built-in memcpy and memset function instead of MSXgl ones
 
 //-----------------------------------------------------------------------------
@@ -182,6 +183,8 @@
 #define DOS_USE_HANDLE				TRUE	// Add support for file managment features through file handle
 #define DOS_USE_UTILITIES			TRUE	// Add support for file managment features through filename
 #define DOS_USE_VALIDATOR			TRUE	// Add support for last error backup and return value validation
+#define DOS_USE_ERROR_HANDLER		TRUE	// Add support for MSX-DOS 1 error handler callback
+#define DOS_USE_BIOSCALL			TRUE	// Add support for call to BIOS routines
 
 //-----------------------------------------------------------------------------
 // CLOCK MODULE
@@ -214,7 +217,7 @@
 #define PRINT_USE_FORMAT			TRUE	// Add printf type function
 #define PRINT_USE_32B				TRUE	// Allow to print 32-bits integers
 #define PRINT_SKIP_SPACE			FALSE	// Skill space character
-#define PRINT_COLOR_NUM				12		// 1 color per line
+#define PRINT_COLOR_NUM				8		// 1 color per line
 // Character width
 // - PRINT_WIDTH_1 (text mode)
 // - PRINT_WIDTH_6
@@ -242,60 +245,71 @@
 #define SPRITEFX_USE_ROTATE			TRUE	// Use rotating effect
 
 //-----------------------------------------------------------------------------
-// GAME MODULE
+// GAME MAIN MODULE
 //-----------------------------------------------------------------------------
 
 // Game state setting
 #define GAME_USE_STATE				TRUE	// Add state machine features
 #define GAME_USE_VSYNC				TRUE	// Add vertical synchronization features
 #define GAME_USE_LOOP				TRUE	// Add game main loop with call to v-synch and state
+#define GAME_USE_SYNC_50HZ			TRUE	// Force 50Hz synchronization on 60Hz machine
 
 //-----------------------------------------------------------------------------
 // GAME PAWN MODULE
 //-----------------------------------------------------------------------------
 
-// GamePawn setting
-#define GAMEPAWN_ID_PER_LAYER		FALSE	// Set sprite ID for each layer (otherwise set per pawn)
-#define GAMEPAWN_USE_PHYSICS		TRUE	// Add physics and collision features
+// Pawn setting
+#define PAWN_ID_PER_LAYER			FALSE	// Set sprite ID for each layer (otherwise set per pawn)
+#define PAWN_USE_RT_LOAD			TRUE	// Load sprite pattern data on the fly (real-time)
+#define PAWN_USE_SPRT_FX			TRUE	// Allow sprite effects (crop, flip, mask, rotate)
+#define PAWN_SPRITE_SIZE			16		// Sprite size mode (8 for 8x8 pixel mode, or 16 for 16x16)
+#define PAWN_BLEND_OFFSET			12		// Sprite pattern offset for blending mode
+#define PAWN_USE_PHYSICS			TRUE	// Add physics and collision features
+// Pawn coordinate unit
+// - PAWN_UNIT_SCREEN				Default screen (pixel) unit (8-bit unsigned int)
+// - PAWN_UNIT_QMN(n)				Fixed-point (Qm.n) unit (16-bit signed int)
+#define PAWN_UNIT					PAWN_UNIT_SCREEN
 // Pawn's bound (can be fixed for all pawn, or setable for each one)
-#define GAMEPAWN_BOUND_X			GAMEPAWN_BOUND_CUSTOM
-#define GAMEPAWN_BOUND_Y			GAMEPAWN_BOUND_CUSTOM
+#define PAWN_BOUND_X				PAWN_BOUND_CUSTOM
+#define PAWN_BOUND_Y				PAWN_BOUND_CUSTOM
 // Collision position options for each pawn's side
-// - GAMEPAWN_COL_0
-// - GAMEPAWN_COL_25
-// - GAMEPAWN_COL_50
-// - GAMEPAWN_COL_75
-// - GAMEPAWN_COL_100
-#define GAMEPAWN_COL_DOWN			(GAMEPAWN_COL_25|GAMEPAWN_COL_75)
-#define GAMEPAWN_COL_UP				GAMEPAWN_COL_50
-#define GAMEPAWN_COL_RIGHT			GAMEPAWN_COL_50
-#define GAMEPAWN_COL_LEFT			GAMEPAWN_COL_50
+// - PAWN_COL_0
+// - PAWN_COL_25
+// - PAWN_COL_50
+// - PAWN_COL_75
+// - PAWN_COL_100
+#define PAWN_COL_DOWN				(PAWN_COL_25|PAWN_COL_75)
+#define PAWN_COL_UP					PAWN_COL_50
+#define PAWN_COL_RIGHT				PAWN_COL_50
+#define PAWN_COL_LEFT				PAWN_COL_50
 // Options to determine which border collide or trigger events
-// - GAMEPAWN_BORDER_NONE
-// - GAMEPAWN_BORDER_DOWN
-// - GAMEPAWN_BORDER_UP
-// - GAMEPAWN_BORDER_RIGHT
-// - GAMEPAWN_BORDER_LEFT
-#define GAMEPAWN_BORDER_EVENT		(GAMEPAWN_BORDER_DOWN|GAMEPAWN_BORDER_RIGHT)
-#define GAMEPAWN_BORDER_BLOCK		(GAMEPAWN_BORDER_UP|GAMEPAWN_BORDER_LEFT)
+// - PAWN_BORDER_NONE
+// - PAWN_BORDER_DOWN
+// - PAWN_BORDER_UP
+// - PAWN_BORDER_RIGHT
+// - PAWN_BORDER_LEFT
+#define PAWN_BORDER_EVENT			(PAWN_BORDER_DOWN|PAWN_BORDER_RIGHT)
+#define PAWN_BORDER_BLOCK			(PAWN_BORDER_UP|PAWN_BORDER_LEFT)
 // Top/bottom border position (in pixel)
-#define GAMEPAWN_BORDER_MIN_Y		0		// High border Y coordinade
-#define GAMEPAWN_BORDER_MAX_Y		191		// Low border Y coordinate
-#define GAMEPAWN_TILEMAP_WIDTH		32		// Width of the tiles map
-#define GAMEPAWN_TILEMAP_HEIGHT		24		// Height of the tiles map
+#define PAWN_BORDER_MIN_Y			0		// High border Y coordinade
+#define PAWN_BORDER_MAX_Y			191		// Low border Y coordinate
+#define PAWN_TILEMAP_WIDTH			32		// Width of the tiles map
+#define PAWN_TILEMAP_HEIGHT			24		// Height of the tiles map
 // Collision tilemap source
-// - GAMEPAWN_TILEMAP_SRC_AUTO .... Backward compatibility option
-// - GAMEPAWN_TILEMAP_SRC_RAM ..... Tilemap located in a buffer in RAM (best for performance)
-// - GAMEPAWN_TILEMAP_SRC_VRAM .... Tilemap located in VRAM (slow but don't need additionnal data)
-// - GAMEPAWN_TILEMAP_SRC_V9 ...... Tilemap located in V9990's VRAM
-#define GAMEPAWN_TILEMAP_SRC		GAMEPAWN_TILEMAP_SRC_VRAM
+// - PAWN_TILEMAP_SRC_AUTO ........ Backward compatibility option
+// - PAWN_TILEMAP_SRC_RAM ......... Tilemap located in a buffer in RAM (best for performance)
+// - PAWN_TILEMAP_SRC_VRAM ........ Tilemap located in VRAM (slow but don't need additionnal data)
+// - PAWN_TILEMAP_SRC_V9 .......... Tilemap located in V9990's VRAM
+#define PAWN_TILEMAP_SRC			PAWN_TILEMAP_SRC_VRAM
 // Pawn's sprite mode
-// - GAMEPAWN_SPT_MODE_AUTO ....... Backward compatibility option
-// - GAMEPAWN_SPT_MODE_MSX1 ....... Sprite Mode 1 (MSX1 screens)
-// - GAMEPAWN_SPT_MODE_MSX2 ....... Sprite Mode 2 (MSX2 screens)
-// - GAMEPAWN_SPT_MODE_V9_P1 ...... V9990 sprite in P1 mode
-// - GAMEPAWN_SPT_MODE_V9_P2 ...... V9990 sprite in P2 mode
-#define GAMEPAWN_SPT_MODE			GAMEPAWN_SPT_MODE_MSX1
+// - PAWN_SPT_MODE_AUTO ........... Backward compatibility option
+// - PAWN_SPT_MODE_MSX1 ........... Sprite Mode 1 (MSX1 screens)
+// - PAWN_SPT_MODE_MSX2 ........... Sprite Mode 2 unicolor (MSX2 screens)
+// - PAWN_SPT_MODE_MSX2_MULTI ..... Sprite Mode 2 multi-color (MSX2 screens)
+// - PAWN_SPT_MODE_MSX12 .......... Sprite Mode 1 & 2 unicolor (MSX1 & MSX2 screens)
+// - PAWN_SPT_MODE_V9_P1 .......... V9990 sprite in P1 mode
+// - PAWN_SPT_MODE_V9_P2 .......... V9990 sprite in P2 mode
+#define PAWN_SPT_MODE				PAWN_SPT_MODE_MSX1
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE
@@ -434,6 +448,11 @@
 #define PT3_AUTOPLAY				TRUE	// Play music automatically
 #define PT3_EXTRA					TRUE	// Add helper functions
 
+// ayFX options
+// - AYFX_BUFFER_DEFAULT .......... Use PSG module PSG register buffer
+// - AYFX_BUFFER_PT3 .............. Use PT3 module PSG register buffer
+#define AYFX_BUFFER					AYFX_BUFFER_PT3
+
 // TriloTracker options
 #define TRILO_USE_SFXPLAY			TRUE	// Add SFX playback through Trilo SCC player (ayFX + SCC format)
 #define TRILO_USE_TREMOLO			TRUE	// Add support for tremolo effect (little bit expensive)
@@ -456,6 +475,12 @@
 #define WYZ_CHANNELS				WYZ_3CH	// Number of supported channels (can be 3 for 1 PSG or 6 for 2 PSG)
 #define WYZ_USE_DIRECT_ACCESS		FALSE	// Send data directly to PSG registers (otherwise, write in a RAM buffer)
 #define WYZ_CHAN_BUFFER_SIZE		0x20	// Size of the channel buffer
+
+// Arkos Tracker options
+#define ARKOS_BUFFER_ADDR			0xF000	// Replayer working area address in RAM
+#define ARKOS_ISR_PROTECTION		FALSE	// Prevent interruption during audio update
+#define ARKOS_SFX_START_IDX			0		// Do SFX indexes start at 0 or 1? Default is 0 but Arkos Tracker use 1
+#define ARKOS_USE_EVENT				FALSE	// Support for event callback function (AKG replayer only)
 
 //-----------------------------------------------------------------------------
 // MATH MODULE

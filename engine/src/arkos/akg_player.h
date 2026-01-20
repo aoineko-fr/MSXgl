@@ -18,20 +18,29 @@
 // DEFINES
 //=============================================================================
 
+// Variables
 extern bool g_AKG_Playing;
+
+#if (ARKOS_USE_EVENT)
+// Event callback prototype
+typedef void (*AKG_Event)(u8 event);
+
+// Event callback function pointer
+extern AKG_Event g_AKG_EventCallback;
+#endif
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
-// Function: AKG_Init
+// Function: AKG_Play
 // Initialize a music and start playback
 //
 // Paramaters:
-//   data	- Pointer to the music data (data must be export to be replayed at this exact location)
-//            Check Arkos Tracker 2 documentation for more details: https://www.julien-nevo.com/arkostracker
 //   num	- Sub-music number if the AKG contain several musics (otherwise set to 0)
-void AKG_Init(const void* data, u8 sng);
+//   data	- Pointer to the music data (data must be export to be replayed at this exact location)
+//            Check Arkos Tracker documentation for more details: https://www.julien-nevo.com/arkostracker
+void AKG_Play(u8 sng, const void* data);
 
 // Function: AKG_IsPlaying
 // Check if a music is currently playing
@@ -40,16 +49,26 @@ void AKG_Init(const void* data, u8 sng);
 //   FALSE if no music is playing
 inline bool AKG_IsPlaying() { return g_AKG_Playing; }
 
+#if (ARKOS_USE_EVENT)
+// Function: AKG_SetEventCallback
+// Set the event callback function. It will be called when an event is triggered.
+// If ARKOS_USE_EVENT is TRUE, this function MUST be called before any call to AKG_Update.
+//
+// Paramaters:
+//   callback - Pointer to the event callback function
+inline void AKG_SetEventCallback(AKG_Event callback) { g_AKG_EventCallback = callback; }
+#endif
+
 // Function: AKG_Stop
 // Stop current music playback
 void AKG_Stop();
 
-// Function: AKG_Decode
+// Function: AKG_Update
 // Decode a music frame and update the PSG (must be called once each frame)
 //
 // Return:
 //   TRUE if end of music have been reached
-bool AKG_Decode();
+bool AKG_Update();
 
 // Function: AKG_InitSFX
 // Initialize sound effects. It MUST be called at any time before a first sound effect is triggered.

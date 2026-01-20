@@ -35,6 +35,13 @@ _g_HeaderAddr::
 ;------------------------------------------------------------------------------
 ; Initialization code
 crt0_init:
+	; Backup ROM's slot ID
+	ld		a, c
+	ld		(#_g_ROMSlotID), a
+
+	; Check for minimum MSX version required (if CHECK_MSX is set)
+	DO_CHECK_MSX
+
 	; Check for skip key press (if ROM_SKIP is set to 1)
 	SKIP_BOOT
 
@@ -79,6 +86,9 @@ _g_LastAddr::
 
 _g_HeapStartAddress::
 	.ds		2
+
+_g_ROMSlotID::
+	.ds		1
 
 	.if ROM_RAMISR
 		ALLOC_ROMINFO

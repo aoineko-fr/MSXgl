@@ -205,7 +205,7 @@ void InitPalette()
 
 void V9_Print(u32 addr, const c8* str)
 {
-	while(*str != 0)
+	while (*str != 0)
 		V9_Poke16(addr += 2, 512 + *(str++) - ' ');
 }
 
@@ -229,16 +229,16 @@ void InitP1()
 	// Pattern name table
 	V9_FillVRAM16(V9_P1_PNT_A, 0x0000, 64*64); // Init layer A
 	V9_Print(V9_P1_PNT_A, "MSXgl V9990 - P1 Mode (PP)"); // Draw title
-	for(u8 i = 0; i < 8; ++i) // Draw plateform
+	for (u8 i = 0; i < 8; ++i) // Draw plateform
 	{
 		u8 x = i * 8;
 		u8 y = Math_GetRandom8() % 8 + 10;
-		for(u8 j = y; j < V9_GROUND_Y; j++)
+		for (u8 j = y; j < V9_GROUND_Y; j++)
 		{
 			u8 cell;
-			if(j == y)
+			if (j == y)
 				cell = 32;
-			else if(((j - y) & 1))
+			else if (((j - y) & 1))
 				cell = 64;
 			else
 				cell = 96;
@@ -250,12 +250,12 @@ void InitP1()
 			V9_Poke16(addr += 2, cell++);
 		}
 	}
-	for(u16 i = 0; i < 64; ++i) // Draw ground
+	for (u16 i = 0; i < 64; ++i) // Draw ground
 	{
-		for(u8 j = V9_GROUND_Y; j < 27; j++)
+		for (u8 j = V9_GROUND_Y; j < 27; j++)
 		{
 			u8 cell;
-			if(j == V9_GROUND_Y)
+			if (j == V9_GROUND_Y)
 				cell = 33;
 			else
 				cell = (j & 1) ? 65 : 97;
@@ -264,10 +264,10 @@ void InitP1()
 	}
 
 	V9_FillVRAM16(V9_P1_PNT_B, 160, 64*27); // Init layer B
-	for(u16 i = 0; i < 64; ++i) // Draw horizon
+	for (u16 i = 0; i < 64; ++i) // Draw horizon
 		V9_Poke16(V9_CellAddrP1B(0, V9_HORIZON_Y) + i*2, 128 + i%4);
 	V9_FillVRAM16(V9_P1_PNT_B, 135, 64*V9_HORIZON_Y); // Draw sky
-	for(u8 i = 0; i < 6; ++i) // Draw big cloud
+	for (u8 i = 0; i < 6; ++i) // Draw big cloud
 	{
 		u8 x = Math_GetRandom8() % 8 + (i * 10);
 		u8 y = (i == 0) ? 0 : Math_GetRandom8() % 8;
@@ -282,7 +282,7 @@ void InitP1()
 		V9_Poke16(addr, 166); addr += 2;
 		V9_Poke16(addr, 167);
 	}
-	for(u8 i = 0; i < 6; ++i) // Draw small cloud
+	for (u8 i = 0; i < 6; ++i) // Draw small cloud
 	{
 		u8 x = Math_GetRandom8() % 8 + (i * 10);
 		u8 y = Math_GetRandom8() % 4 + 9;
@@ -300,7 +300,7 @@ void InitP1()
 
 	// Sprite attribute table
 	struct V9_Sprite attr;
-	for(u16 i = 0; i < 125; ++i)
+	for (u16 i = 0; i < 125; ++i)
 	{
 		attr.Y = (i / 13) * 20 + 12;
 		attr.Pattern = 0;
@@ -324,7 +324,7 @@ void TickP1()
 	V9_SetScrollingBX(g_Frame >> 1);
 
 	u8 frame = (g_Frame >> 2) % 6;
-	for(u16 i = 0; i < 125; ++i)
+	for (u16 i = 0; i < 125; ++i)
 		V9_SetSpritePatternP1(i, frame);
 
 	g_Frame++;
@@ -348,7 +348,7 @@ void HblankP1()
 
 void V9_WriteVRAM_256to512(u32 addr, const u8* src, u8 line)
 {
-	for(u8 i = 0; i < line; ++i)
+	for (u8 i = 0; i < line; ++i)
 	{
 		u8 line = i % 8;
 		u8 row = i / 2 / 8 * 8;
@@ -374,7 +374,7 @@ void InitP2()
 	V9_WriteVRAM_256to512(V9_P2_PGT + 0x04000, g_DataV9Font, 24);
 
 	// Pattern name table
-	// for(u16 i = 0; i < 64*27; ++i)
+	// for (u16 i = 0; i < 64*27; ++i)
 	// {
 		// u16 addr = (((i / 64) * 128) + (i % 64)) * 2;
 		// V9_Poke16(V9_P2_PNT + addr, i);
@@ -383,10 +383,10 @@ void InitP2()
 	V9_FillVRAM16(V9_P2_PNT, 0, 128*2);
 	V9_Print(V9_P2_PNT, "MSXgl V9990 - P2 Mode (PP)"); // Draw title
 	V9_FillVRAM16(V9_P2_PNT + 512, 135, 128*V9_HORIZON_Y); // Draw sky
-	for(u16 i = 0; i < 128; ++i) // Draw horizon
+	for (u16 i = 0; i < 128; ++i) // Draw horizon
 		V9_Poke16(V9_CellAddrP2(0, V9_HORIZON_Y) + i*2, 128 + i%4);
 	V9_FillVRAM16(V9_CellAddrP2(0, V9_HORIZON_Y+1), 160, (27-V9_HORIZON_Y)*128); // Draw sea
-	for(u8 i = 0; i < 12; ++i) // Draw big cloud
+	for (u8 i = 0; i < 12; ++i) // Draw big cloud
 	{
 		u8 x = Math_GetRandom8() % 8 + (i * 10);
 		u8 y = Math_GetRandom8() % 4 + 4;
@@ -401,7 +401,7 @@ void InitP2()
 		V9_Poke16(addr, 166); addr += 2;
 		V9_Poke16(addr, 167);
 	}
-	for(u8 i = 0; i < 12; ++i) // Draw small cloud
+	for (u8 i = 0; i < 12; ++i) // Draw small cloud
 	{
 		u8 x = Math_GetRandom8() % 8 + (i * 10);
 		u8 y = Math_GetRandom8() % 4 + 9;
@@ -412,16 +412,16 @@ void InitP2()
 		V9_Poke16(addr, 168); addr += 2;
 		V9_Poke16(addr, 169);
 	}
-	for(u8 i = 0; i < 8; ++i) // Draw plateform
+	for (u8 i = 0; i < 8; ++i) // Draw plateform
 	{
 		u8 x = i * 16;
 		u8 y = Math_GetRandom8() % 8 + 10;
-		for(u8 j = y; j < V9_GROUND_Y; j++)
+		for (u8 j = y; j < V9_GROUND_Y; j++)
 		{
 			u8 cell;
-			if(j == y)
+			if (j == y)
 				cell = 32;
-			else if(((j - y) & 1))
+			else if (((j - y) & 1))
 				cell = 64;
 			else
 				cell = 96;
@@ -437,12 +437,12 @@ void InitP2()
 			V9_Poke16(addr += 2, cell++);
 		}
 	}
-	for(u16 i = 0; i < 128; ++i) // Draw ground
+	for (u16 i = 0; i < 128; ++i) // Draw ground
 	{
-		for(u8 j = V9_GROUND_Y; j < 27; j++)
+		for (u8 j = V9_GROUND_Y; j < 27; j++)
 		{
 			u8 cell;
-			if(j == V9_GROUND_Y)
+			if (j == V9_GROUND_Y)
 				cell = 33;
 			else
 				cell = (j & 1) ? 65 : 97;
@@ -452,12 +452,12 @@ void InitP2()
 
 	// Sprite pattern generator table
 	V9_SetSpritePatternAddr(V9_P2_SGT_08000);
-	for(u8 i = 0; i < 16; ++i)
+	for (u8 i = 0; i < 16; ++i)
 		V9_WriteVRAM(V9_P2_PGT + 0x08000 + (256 * i), g_DataV9Chr + (128 * i), 128);
 
 	// Sprite attribute table
 	struct V9_Sprite attr;
-	for(u8 i = 0; i < 125; ++i)
+	for (u8 i = 0; i < 125; ++i)
 	{
 		attr.Y = (i / 13) * 20 + 12;
 		attr.Pattern = 0;
@@ -480,7 +480,7 @@ void TickP2()
 	V9_SetScrollingX(0);
 
 	u8 frame = (g_Frame >> 2) % 6;
-	for(u16 i = 0; i < 125; ++i)
+	for (u16 i = 0; i < 125; ++i)
 		V9_SetSpritePatternP2(i, frame);
 
 	g_Frame++;
@@ -522,7 +522,7 @@ void V9_PrintBmpChar(c8 chr)
 //
 void V9_PrintBmpString(const c8* str)
 {
-	while(*str)
+	while (*str)
 		V9_PrintBmpChar(*str++);
 }
 
@@ -583,16 +583,16 @@ void InitBmp()
 
 	u16 bgColor = 0;
 
-	if(g_CurrentColor == V9_COLOR_BP2)
+	if (g_CurrentColor == V9_COLOR_BP2)
 	{
 		bgColor = 0x5555;
 		V9_SetPalette(0, 4, g_BP6_Palette);
 		V9_SelectPaletteBP2(0);
 
 		// Load graphics data to VRAM
-		// for(u8 i = 0; i < 48; ++i)
+		// for (u8 i = 0; i < 48; ++i)
 		// 	V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(512 + 0 + i))), g_DataV9BG + (128 * i), 128);
-		// for(u8 i = 0; i < 24; ++i)
+		// for (u8 i = 0; i < 24; ++i)
 		// 	V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(512 + 48 + i))), g_DataV9Font + (128 * i), 128);
 
 		// loop(i, 48+24)
@@ -607,9 +607,9 @@ void InitBmp()
 		V9_SelectPaletteBP4(0);
 
 		// Load graphics data to VRAM
-		for(u8 i = 0; i < 48; ++i)
+		for (u8 i = 0; i < 48; ++i)
 			V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(BMP_TILES_Y + 0 + i))), g_DataV9BG + (128 * i), 128);
-		for(u8 i = 0; i < 24; ++i)
+		for (u8 i = 0; i < 24; ++i)
 		{
 			u8* buf = (u8*)Mem_GetHeapAddress();
 			loop(j, 128)
@@ -671,7 +671,7 @@ void InitBmp()
 		}
 	}
 
-	for(u8 i = 0; i < 16; ++i) // Draw plateform
+	for (u8 i = 0; i < 16; ++i) // Draw plateform
 	{
 		u16 x = i * 8;
 		u8 y = Math_GetRandom8() % 8 + 10;
@@ -722,7 +722,7 @@ void TickBmp()
 
 	V9_SetScrollingX(0);
 
-	if(Keyboard_IsKeyPressed(KEY_H))
+	if (Keyboard_IsKeyPressed(KEY_H))
 	{
 		if (g_CurrentColor == V9_COLOR_BP4)
 			V9_SelectPaletteBP4(0);
@@ -771,14 +771,14 @@ void DisplayMSX()
 	Print_DrawLineH(0, 1, 40);
 
 	const c8* str = "V9990 not found!";
-	if(V9_Detect())
+	if (V9_Detect())
 		str = "V9990 found!";
 	Print_SetPosition(0, 3);
 	Print_DrawText(str);
 
 	Print_SetPosition(0, 5);
 	Print_DrawText("Ports:\n\n 0-7\n 8-F");
-	for(u8 i = 0; i < 16; ++i)
+	for (u8 i = 0; i < 16; ++i)
 	{
 		u8 val = V9_GetPort(V9_P00 + i);
 		u8 x = 9 + (i % 8) * 3;
@@ -789,7 +789,7 @@ void DisplayMSX()
 
 	Print_SetPosition(0, 10);
 	Print_DrawText("Registers:\n\n 00-07\n 08-0F\n 10-17\n 18-1F\n 20-27\n 28-2F\n 30-37\n 38-3F");
-	for(u8 i = 0; i < 64; ++i)
+	for (u8 i = 0; i < 64; ++i)
 	{
 		u8 val = V9_GetRegister(i);
 		u8 x = 9 + (i % 8) * 3;
@@ -811,23 +811,23 @@ bool g_VSynch = FALSE;
 //
 void InterruptHook()
 {
-	__asm
-		// Flush VDP interruption signal
-		in		a, (P_VDP_STAT)
+__asm
+	// Flush VDP interruption signal
+	in		a, (P_VDP_STAT)
 
-		// Call VDP interruption handler
-		in		a, (V9_P06)
-		out		(V9_P06), a
-		// V-Blank interruption
-		rra
-		call	c, _V9_InterruptVBlank
-		// H-Blank interruption
-		rra
-		call	c, _V9_InterruptHBlank
-		// Command end interruption
-		rra
-		call	c, _V9_InterruptCommand
-	__endasm;
+	// Call VDP interruption handler
+	in		a, (V9_P06)
+	out		(V9_P06), a
+	// V-Blank interruption
+	rra
+	call	c, _V9_InterruptVBlank
+	// H-Blank interruption
+	rra
+	call	c, _V9_InterruptHBlank
+	// Command end interruption
+	rra
+	call	c, _V9_InterruptCommand
+__endasm;
 }
 #endif
 
@@ -870,11 +870,11 @@ void SetScreenMode(u8 mode)
 void SetColorMode(u8 mode)
 {
 #if (V9_USE_MODE_P1)
-	if(g_CurrentScreen == MODE_P1)
+	if (g_CurrentScreen == MODE_P1)
 		return;
 #endif
 #if (V9_USE_MODE_P2)
-	if(g_CurrentScreen == MODE_P2)
+	if (g_CurrentScreen == MODE_P2)
 		return;
 #endif
 
@@ -908,10 +908,10 @@ void main()
 
 	u16 count = 0;
 	u8 clr = 0;
-	while(1)
+	while (1)
 	{
 		// V9_SetRegister(15, 2);
-		while(g_VSynch == FALSE) {}
+		while (g_VSynch == FALSE) {}
 		// V9_SetRegister(15, 1);
 		g_VSynch = FALSE;
 
@@ -928,65 +928,65 @@ void main()
 		u8 row8 = Keyboard_Read(8);
 
 		// Select next/previous screen mode
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+		if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
-			if(g_CurrentScreen < numberof(g_ScreenMode) - 1)
+			if (g_CurrentScreen < numberof(g_ScreenMode) - 1)
 				SetScreenMode(g_CurrentScreen + 1);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
+		else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
-			if(g_CurrentScreen > 0)
+			if (g_CurrentScreen > 0)
 				SetScreenMode(g_CurrentScreen - 1);
 		}
 
 		// Direction selection of a screen mode
 #if ((V9_USE_MODE_B0) || (V9_USE_MODE_B1) || (V9_USE_MODE_B2) || (V9_USE_MODE_B3) || (V9_USE_MODE_B4) || (V9_USE_MODE_B5) || (V9_USE_MODE_B6) || (V9_USE_MODE_B7))
-		if(IS_KEY_PRESSED(row0, KEY_0))
+		if (IS_KEY_PRESSED(row0, KEY_0))
 			SetScreenMode(MODE_B0);
-		else if(IS_KEY_PRESSED(row0, KEY_1))
+		else if (IS_KEY_PRESSED(row0, KEY_1))
 			SetScreenMode(MODE_B1);
-		else if(IS_KEY_PRESSED(row0, KEY_2))
+		else if (IS_KEY_PRESSED(row0, KEY_2))
 			SetScreenMode(MODE_B2);
-		else if(IS_KEY_PRESSED(row0, KEY_3))
+		else if (IS_KEY_PRESSED(row0, KEY_3))
 			SetScreenMode(MODE_B3);
-		else if(IS_KEY_PRESSED(row0, KEY_4))
+		else if (IS_KEY_PRESSED(row0, KEY_4))
 			SetScreenMode(MODE_B4);
-		else if(IS_KEY_PRESSED(row0, KEY_5))
+		else if (IS_KEY_PRESSED(row0, KEY_5))
 			SetScreenMode(MODE_B5);
-		else if(IS_KEY_PRESSED(row0, KEY_6))
+		else if (IS_KEY_PRESSED(row0, KEY_6))
 			SetScreenMode(MODE_B6);
-		else if(IS_KEY_PRESSED(row0, KEY_7))
+		else if (IS_KEY_PRESSED(row0, KEY_7))
 			SetScreenMode(MODE_B7);
 #endif
 #if (V9_USE_MODE_P1)
-		if(IS_KEY_PRESSED(row1, KEY_8))
+		if (IS_KEY_PRESSED(row1, KEY_8))
 			SetScreenMode(MODE_P1);
 #endif
 #if (V9_USE_MODE_P2)
-		if(IS_KEY_PRESSED(row1, KEY_9))
+		if (IS_KEY_PRESSED(row1, KEY_9))
 			SetScreenMode(MODE_P2);
 #endif
 
 		// Select color mode
-		if(IS_KEY_PRESSED(row8, KEY_DOWN))
+		if (IS_KEY_PRESSED(row8, KEY_DOWN))
 		{
-			if(g_CurrentColor < numberof(g_ColorMode) - 1)
+			if (g_CurrentColor < numberof(g_ColorMode) - 1)
 				SetColorMode(g_CurrentColor + 1);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_UP))
+		else if (IS_KEY_PRESSED(row8, KEY_UP))
 		{
-			if(g_CurrentColor > 0)
+			if (g_CurrentColor > 0)
 				SetColorMode(g_CurrentColor - 1);			
 		}
 
 		// Hide/display sprite/cursor
-		if(Keyboard_IsKeyPressed(KEY_G))
+		if (Keyboard_IsKeyPressed(KEY_G))
 		{
-			if(!g_KeyPressed[KEY_G])
+			if (!g_KeyPressed[KEY_G])
 			{
 				g_KeyPressed[KEY_G] = TRUE;
 				g_HideSprite = !g_HideSprite;
-				if(g_HideSprite)
+				if (g_HideSprite)
 					V9_SetFlag(8, V9_R08_SPD_OFF, V9_R08_SPD_OFF);
 				else
 					V9_SetFlag(8, V9_R08_SPD_OFF, 0);
@@ -996,7 +996,7 @@ void main()
 			g_KeyPressed[KEY_G] = FALSE;
 
 		// Refresh MSX display
-		if(Keyboard_IsKeyPressed(KEY_R))
+		if (Keyboard_IsKeyPressed(KEY_R))
 			DisplayMSX();
 	}
 

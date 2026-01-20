@@ -52,7 +52,7 @@ bool SCC_CheckSlotID(u8 slotId)
 	// Check ROM
 	u8 val = Bios_InterSlotRead(slotId, 0x8000);
 	Bios_InterSlotWrite(slotId, 0x8000, ~val);
-	if(Bios_InterSlotRead(slotId, 0x8000) != val) // Is RAM?
+	if (Bios_InterSlotRead(slotId, 0x8000) != val) // Is RAM?
 	{
 		Bios_InterSlotWrite(slotId, 0x8000, val); // backup RAM value
 		return FALSE;
@@ -64,7 +64,7 @@ bool SCC_CheckSlotID(u8 slotId)
 	// Check SCC RAM
 	val = Bios_InterSlotRead(slotId, 0x9800);
 	Bios_InterSlotWrite(slotId, 0x9800, ~val);
-	if(Bios_InterSlotRead(slotId, 0x9800) != val) // Is SCC RAM?
+	if (Bios_InterSlotRead(slotId, 0x9800) != val) // Is SCC RAM?
 	{
 		Bios_InterSlotWrite(slotId, 0x9800, val); // backup SCC RAM value
 		return TRUE;
@@ -82,7 +82,7 @@ u8 SCC_AutoDetect()
 
 //-----------------------------------------------------------------------------
 // Auto-detecting the SCC slot id
-/*u8 SCC_AutoDetect() __naked
+/*u8 SCC_AutoDetect() __NAKED
 {
 __asm
 	
@@ -184,7 +184,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 //
-/*u8 SCC_AutoDetect() __naked
+/*u8 SCC_AutoDetect() __NAKED
 {
 __asm
 
@@ -283,7 +283,7 @@ bool SCC_Initialize()
 {
 	#if (SCC_SLOT_MODE == SCC_SLOT_AUTO)
 		g_SCC_SlotId = SCC_AutoDetect();
-		if(g_SCC_SlotId == SLOT_NOTFOUND)
+		if (g_SCC_SlotId == SLOT_NOTFOUND)
 			return FALSE;
 	#elif (SCC_SLOT_MODE == SCC_SLOT_USER)
 		g_SCC_SlotId = SLOT_2; // Non-expanded secondary slot cartridge 
@@ -316,7 +316,7 @@ void SCC_SetRegister(u8 reg, u8 value)
 	#endif
 
 	#if (SCC_USE_RESUME)
-	if(reg == SCC_REG_MIXER)
+	if (reg == SCC_REG_MIXER)
 		g_SCC_MixerBackup = value;
 	#endif
 }

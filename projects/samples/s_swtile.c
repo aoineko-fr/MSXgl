@@ -10,7 +10,7 @@
 // INCLUDES
 //=============================================================================
 #include "msxgl.h"
-#include "game_pawn.h"
+#include "game/pawn.h"
 #include "tile.h"
 #include "debug.h"
 
@@ -82,43 +82,42 @@ const u8 g_TreeTileMap[] =
 };
 
 // Pawn sprite layers
-const Game_Sprite g_SpriteLayers[] =
-{
-	{ 0, 0, 0,  1, PAWN_SPRITE_EVEN }, // Black
-	{ 0, 0, 12, 1, PAWN_SPRITE_ODD }, // Black
-	{ 0, 0, 4,  9, 0 }, // White
-	{ 0, 0, 8,  15, 0 }, // Orange
+const Pawn_Sprite g_SpriteLayers[] =
+{//   X  Y  Pattern Color Option
+	{ 0, 0, 0,      1,    PAWN_SPRITE_BLEND }, // Black (pattern alternated each frame)
+	{ 0, 0, 4,      9,    0 }, // White
+	{ 0, 0, 8,      15,   0 }, // Orange
 };
 
 // Idle animation frames
-const Game_Frame g_FramesIdle[] =
-{
-	{ 6*16,	48,	NULL },
-	{ 7*16,	24,	NULL },
+const Pawn_Frame g_FramesIdle[] =
+{//   Pattern Time Function
+	{ 6*16,   48,  NULL },
+	{ 7*16,   24,  NULL },
 };
 
 // Move animation frames
-const Game_Frame g_FramesMove[] =
-{
-	{ 0*16,	4,	NULL },
-	{ 1*16,	4,	NULL },
-	{ 2*16,	4,	NULL },
-	{ 3*16,	4,	NULL },
-	{ 4*16,	4,	NULL },
-	{ 5*16,	4,	NULL },
+const Pawn_Frame g_FramesMove[] =
+{//   Pattern Time Function
+	{ 0*16,   4,   NULL },
+	{ 1*16,   4,   NULL },
+	{ 2*16,   4,   NULL },
+	{ 3*16,   4,   NULL },
+	{ 4*16,   4,   NULL },
+	{ 5*16,   4,   NULL },
 };
 
 // Jump animation frames
-const Game_Frame g_FramesJump[] =
-{
-	{ 3*16,	4,	NULL },
-	{ 8*16,	4,	NULL },
+const Pawn_Frame g_FramesJump[] =
+{//   Pattern Time Function
+	{ 3*16,   4,   NULL },
+	{ 8*16,   4,   NULL },
 };
 
 // Fall animation frames
-const Game_Frame g_FramesFall[] =
-{
-	{ 9*16,	4,	NULL },
+const Pawn_Frame g_FramesFall[] =
+{//   Pattern Time Function
+	{ 9*16,   4,   NULL },
 };
 
 // Actions id
@@ -131,7 +130,7 @@ enum ANIM_ACTION_ID
 };
 
 // List of all player actions
-const Game_Action g_AnimActions[] =
+const Pawn_Action g_AnimActions[] =
 { //  Frames        Number                  Loop? Interrupt?
 	{ g_FramesIdle, numberof(g_FramesIdle), TRUE, TRUE },
 	{ g_FramesMove, numberof(g_FramesMove), TRUE, TRUE },
@@ -177,7 +176,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 	g_Frame++;
 }
@@ -186,7 +185,7 @@ void WaitVBlank()
 void PhysicsEvent(u8 event, u8 tile)
 {
 	tile;
-	switch(event)
+	switch (event)
 	{
 	case PAWN_PHYSICS_BORDER_LEFT:
 	case PAWN_PHYSICS_BORDER_RIGHT:
@@ -209,7 +208,7 @@ void PhysicsEvent(u8 event, u8 tile)
 		break;
 	
 	case PAWN_PHYSICS_FALL: // Handle falling
-		if(!g_bJumping)
+		if (!g_bJumping)
 		{
 			g_bJumping = TRUE;
 			g_VelocityY = 0;
@@ -250,7 +249,7 @@ void main()
 	Tile_FillBank(3, 9);
 	Tile_LoadBank(0, g_DataBG4b, sizeof(g_DataBG4b) / TILE_CELL_BYTES);
 	Tile_LoadBank(2, g_DataBG4b, sizeof(g_DataBG4b) / TILE_CELL_BYTES);
-	for(u8 i = 0; i < 15; ++i)
+	for (u8 i = 0; i < 15; ++i)
 		VDP_SetPaletteEntry(i + 1, *(u16*)&g_DataBG4b_palette[i*2]);
 
 	// Draw level
@@ -275,17 +274,18 @@ void main()
 	VDP_DisableSpritesFrom(3);
 
 	// Init player pawn
-	GamePawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
-	GamePawn_SetTileMap(g_TileMap);
-	GamePawn_SetPosition(&g_PlayerPawn, 100, 100);
-	GamePawn_InitializePhysics(&g_PlayerPawn, PhysicsEvent, PhysicsCollision, 16, 16);
+	Pawn_Initialize(&g_PlayerPawn, g_SpriteLayers, numberof(g_SpriteLayers), 0, g_AnimActions);
+	Pawn_SetTileMap(g_TileMap);
+	Pawn_SetPosition(&g_PlayerPawn, 100, 100);
+	Pawn_SetColorBlend(&g_PlayerPawn, TRUE);
+	Pawn_InitializePhysics(&g_PlayerPawn, PhysicsEvent, PhysicsCollision, 16, 16);
 
 	Bios_SetKeyClick(FALSE);
 	Bios_SetHookCallback(H_TIMI, VBlankHook);
 	VDP_EnableVBlank(TRUE);
 
 	bool bContinue = TRUE;
-	while(bContinue)
+	while (bContinue)
 	{
 		WaitVBlank();
 
@@ -294,24 +294,24 @@ void main()
 		Print_SetPosition(247, 0);
 		Print_DrawChar(chrAnim[g_Frame & 0x03]);
 
-		if(Keyboard_IsKeyPressed(KEY_1))
+		if (Keyboard_IsKeyPressed(KEY_1))
 			VDP_SetPage(0);
-		if(Keyboard_IsKeyPressed(KEY_2))
+		if (Keyboard_IsKeyPressed(KEY_2))
 			VDP_SetPage(1);
-		if(Keyboard_IsKeyPressed(KEY_3))
+		if (Keyboard_IsKeyPressed(KEY_3))
 			VDP_SetPage(2);
-		if(Keyboard_IsKeyPressed(KEY_4))
+		if (Keyboard_IsKeyPressed(KEY_4))
 			VDP_SetPage(3);
 
 		g_DX = 0;
 		g_DY = 0;
 		u8 row8 = Keyboard_Read(8);
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+		if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
 			g_DX++;
 			g_bMoving = TRUE;
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
+		else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
 			g_DX--;
 			g_bMoving = TRUE;
@@ -319,16 +319,16 @@ void main()
 		else
 			g_bMoving = FALSE;
 		
-		if(g_bJumping)
+		if (g_bJumping)
 		{
 			g_DY -= g_VelocityY / 4;
 			
 			g_VelocityY -= GRAVITY;
-			if(g_VelocityY < -FORCE)
+			if (g_VelocityY < -FORCE)
 				g_VelocityY = -FORCE;
 
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_SPACE) || IS_KEY_PRESSED(row8, KEY_UP))
+		else if (IS_KEY_PRESSED(row8, KEY_SPACE) || IS_KEY_PRESSED(row8, KEY_UP))
 		{
 			g_bJumping = TRUE;
 			g_VelocityY = FORCE;
@@ -337,22 +337,22 @@ void main()
 
 		// Update player animation & physics
 		u8 act = ACTION_IDLE;
-		if(g_bJumping && (g_VelocityY >= 0))
+		if (g_bJumping && (g_VelocityY >= 0))
 			act = ACTION_JUMP;
-		else if(g_bJumping)
+		else if (g_bJumping)
 			act = ACTION_FALL;
-		else if(g_bMoving)
+		else if (g_bMoving)
 			act = ACTION_MOVE;
 
-		GamePawn_SetAction(&g_PlayerPawn, act);
-		GamePawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
+		Pawn_SetAction(&g_PlayerPawn, act);
+		Pawn_SetMovement(&g_PlayerPawn, g_DX, g_DY);
 
 		PROFILE_SECTION_START(1, 10, "UPDATE");
-		GamePawn_Update(&g_PlayerPawn);
+		Pawn_Update(&g_PlayerPawn);
 		PROFILE_SECTION_END(1, 10, "UPDATE");
 
 		PROFILE_SECTION_START(1, 20, "DRAW");
-		GamePawn_Draw(&g_PlayerPawn);
+		Pawn_Draw(&g_PlayerPawn);
 		PROFILE_SECTION_END(1, 20, "DRAW");
 
 		PROFILE_FRAME_END();

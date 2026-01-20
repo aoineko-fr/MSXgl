@@ -52,7 +52,7 @@ void QRCode_DrawBitmap(u8 x, u8 y, const u8* qrc)
 	i16 size = QRCode_GetSize(qrc);
 	for (i16 j = 0; j < size; j++)
 		for (i16 i = 0; i < size; i++) 
-			if(QRCode_GetModule(qrc, i, j))
+			if (QRCode_GetModule(qrc, i, j))
 				VDP_CommandPSET(x + i, y + j, COLOR_WHITE, 0);
 }
 
@@ -72,7 +72,7 @@ void main()
 
 	// Display title
 	Print_SetPosition(0, 0);
-	Print_DrawText("\x1\x2\x3\x4\x5\x6 QR CODE SAMPLE");
+	Print_DrawText("\x1\x2\x3\x4\x5\x6 TINY QR CODE SAMPLE");
 	Draw_LineH(0, 255, 12, 0xFF, 0);
 
 	// Display QR Code Tiny parameters
@@ -91,7 +91,7 @@ void main()
 	Print_DrawText("Encoding...");
 	ok = QRCode_EncodeText("MSXgl", g_Buffer, g_QR);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
-	if(ok)
+	if (ok)
 	{
 		Print_SetColor(0xEE, 0x11);
 		Print_DrawText(" Drawing...");
@@ -104,7 +104,7 @@ void main()
 	Print_DrawText("\nEncoding...");
 	ok = QRCode_EncodeText("https://aoineko.org/msxgl", g_Buffer, g_QR);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
-	if(ok)
+	if (ok)
 	{
 		Print_SetColor(0xEE, 0x11);
 		Print_DrawText(" Drawing...");
@@ -117,7 +117,7 @@ void main()
 	Print_DrawText("\nEncoding...");
 	ok = QRCode_EncodeText("https://github.com/aoineko-fr/MSXgl", g_Buffer, g_QR);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
-	if(ok)
+	if (ok)
 	{
 		Print_SetColor(0xEE, 0x11);
 		Print_DrawText(" Drawing...");
@@ -130,7 +130,7 @@ void main()
 	Print_DrawText("\nEncoding...");
 	ok = QRCode_EncodeText("Hello, MSXgl world!\nWelcome to the 8-bits party", g_Buffer, g_QR);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
-	if(ok)
+	if (ok)
 	{
 		Print_SetColor(0xEE, 0x11);
 		Print_DrawText(" Drawing...");
@@ -148,7 +148,7 @@ void main()
 	Print_DrawText("\nEncoding...");
 	ok = QRCode_EncodeText(text, g_Buffer, g_QR);
 	Print_DrawFormat("%s\n", ok ? "Ok" : "Error!");
-	if(ok)
+	if (ok)
 	{
 		Print_SetColor(0xEE, 0x11);
 		Print_DrawText(" Drawing...");
@@ -156,7 +156,7 @@ void main()
 		Print_DrawText("Ok\n");
 	}
 
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 	}

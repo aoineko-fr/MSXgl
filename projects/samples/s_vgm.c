@@ -119,7 +119,7 @@ u8 g_CurrentButton;
 //
 const c8* GetChipName(u8 type)
 {
-	switch(type)
+	switch (type)
 	{
 	case 0x00: return "AY8910";
 	case 0x01: return "AY8912";
@@ -141,19 +141,19 @@ void DrawVGM(const u8* ptr)
 	Print_DrawFormat("%4x", ptr);
 	Print_SetPosition(25, 3);
 	Print_DrawText("------");
-	for(u8 i = 0; i < 1; ++i)
+	for (u8 i = 0; i < 1; ++i)
 	{
 		Print_SetPosition(25, 4 + i);
-		if(*ptr == 0xA0) // AY8910, write value dd to register aa
+		if (*ptr == 0xA0) // AY8910, write value dd to register aa
 		{
 			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
 			ptr += 2;
 		}
 		#if (VGM_USE_SCC)
-		else if(*ptr == 0xD2) // SCC1, port pp, write value dd to register aa
+		else if (*ptr == 0xD2) // SCC1, port pp, write value dd to register aa
 		{
 			u8 reg = 0;
-			switch(ptr[1])
+			switch (ptr[1])
 			{
 			case 0:	reg = 0x00;	break; // 0x00 - waveform
 			case 1:	reg = 0x80;	break; // 0x01 - frequency
@@ -167,33 +167,33 @@ void DrawVGM(const u8* ptr)
 		}
 		#endif
 		#if (VGM_USE_MSXMUSIC)
-		else if(*ptr == 0x51) // YM2413, write value dd to register aa
+		else if (*ptr == 0x51) // YM2413, write value dd to register aa
 		{
 			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
 			ptr += 2;
 		}
 		#endif
 		#if (VGM_USE_MSXAUDIO)
-		else if(*ptr == 0x5C) // Y8950, write value dd to register aa
+		else if (*ptr == 0x5C) // Y8950, write value dd to register aa
 		{
 			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
 			ptr += 2;
 		}
 		#endif
-		else if(*ptr == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
+		else if (*ptr == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
 			Print_DrawFormat("W=%4x", *(u16*)(ptr+1));
 			ptr += 2;
 		}
-		else if(*ptr == 0x62) // Wait 735 samples (60th of a second), a shortcut for 0x61 0xdf 0x02
+		else if (*ptr == 0x62) // Wait 735 samples (60th of a second), a shortcut for 0x61 0xdf 0x02
 		{
 			Print_DrawText("W=60Hz");
 		}
-		else if(*ptr == 0x63) // Wait 882 samples (50th of a second), a shortcut for 0x61 0x72 0x03
+		else if (*ptr == 0x63) // Wait 882 samples (50th of a second), a shortcut for 0x61 0x72 0x03
 		{
 			Print_DrawText("W=50Hz");
 		}
-		else if(*ptr == 0x66) // End of sound data
+		else if (*ptr == 0x66) // End of sound data
 		{
 			Print_DrawText("END!!!");
 		}
@@ -240,7 +240,7 @@ void SetMusic(u8 idx)
 	Print_DrawFormat("Version: %1x.%1x%1x\n", (u8)(g_VGM_Header->Version >> 8) & 0xF, (u8)(g_VGM_Header->Version >> 4) & 0xF, (u8)(g_VGM_Header->Version) & 0xF);
 	Print_DrawFormat("Loop:    %4X (%x)\n", g_VGM_Header->Loop_offset, (u16)&g_VGM_Header->Loop_offset + (u16)g_VGM_Header->Loop_offset);
 	Print_DrawFormat("AY8910:  %c\n", VGM_ContainsPSG() ? '\x0C' : '\x0B');
-	if(VGM_ContainsPSG())
+	if (VGM_ContainsPSG())
 	{
 		Print_DrawFormat(" type:   %s\n", GetChipName(g_VGM_Header->AYT));
 		Print_DrawFormat(" flag:   %2x,%2x,%2x\n", g_VGM_Header->AY_Flags[0], g_VGM_Header->AY_Flags[1], g_VGM_Header->AY_Flags[2]);
@@ -285,7 +285,7 @@ void ButtonStop()
 //
 void ButtonPrev()
 {
-	if(g_CurrentMusic > 0)
+	if (g_CurrentMusic > 0)
 		SetMusic(g_CurrentMusic - 1);
 }
 
@@ -293,7 +293,7 @@ void ButtonPrev()
 //
 void ButtonNext()
 {
-	if(g_CurrentMusic < numberof(g_MusicEntry) - 1)
+	if (g_CurrentMusic < numberof(g_MusicEntry) - 1)
 		SetMusic(g_CurrentMusic + 1);
 }
 
@@ -301,7 +301,7 @@ void ButtonNext()
 //
 void ButtonLoop()
 {
-	if(g_VGM_State & VGM_STATE_LOOP)
+	if (g_VGM_State & VGM_STATE_LOOP)
 		g_VGM_State &= ~VGM_STATE_LOOP;
 	else
 		g_VGM_State |= VGM_STATE_LOOP;
@@ -320,13 +320,13 @@ void SetCursor(u8 id)
 //
 void Print_DrawSlot(u8 slot)
 {
-	if(slot == 0xFF)
+	if (slot == 0xFF)
 	{
 		Print_DrawText("No!");
 		return;
 	}
 	Print_DrawInt(Sys_SlotGetPrimary(slot));
-	if(Sys_SlotIsExpended(slot))
+	if (Sys_SlotIsExpended(slot))
 	{
 		Print_DrawChar('-');
 		Print_DrawInt(Sys_SlotGetSecondary(slot));
@@ -365,7 +365,7 @@ void main()
 	Print_SetPosition(20, 7);
 	Print_DrawText("Main-ROM:");
 	Print_SetPosition(20, 8);
-	Print_DrawFormat("\x07" "Freq  %s", (g_ROMVersion.VSF) ? "50Hz" : "60Hz");
+	Print_DrawFormat("\x07" "Freq  %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
 
 	Print_SetPosition(20, 17);
 	Print_DrawText("Slots: ");
@@ -383,7 +383,7 @@ void main()
 	// Decode VGM header
 	SetMusic(0);
 	Print_DrawBox(0, PLAYER_Y, numberof(g_ButtonEntry) * 2 + 1, 3);
-	for(u8 i = 0; i < numberof(g_ButtonEntry); ++i)
+	for (u8 i = 0; i < numberof(g_ButtonEntry); ++i)
 	{
 		Print_SetPosition(1 + 2 * i, PLAYER_Y + 1);
 		Print_DrawChar(g_ButtonEntry[i].Char);
@@ -405,7 +405,7 @@ void main()
 
 	u8 prevRow8 = 0xFF;
 	u8 count = 0;
-	while(1)
+	while (1)
 	{
 		Halt();
 		// VDP_SetColor(0xFE);
@@ -427,24 +427,24 @@ void main()
 		u8 row8 = Keyboard_Read(8);
 
 		// Change button
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
+		if (IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
 		{
-			SetCursor(g_CurrentButton + 1);
+			SetCursor((g_CurrentButton < numberof(g_ButtonEntry) - 1) ? g_CurrentButton + 1 : 0);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
+		else if (IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
 		{
-			SetCursor(g_CurrentButton - 1);
+			SetCursor((g_CurrentButton > 0) ? g_CurrentButton - 1 : numberof(g_ButtonEntry) - 1);
 		}
 		// Activate button
-		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		if (IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
 			g_ButtonEntry[g_CurrentButton].Func();
 		}
 		// Change frequency
-		if((IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
+		if ((IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
 		 || (IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN)))
 		{
-			if(g_VGM_State & VGM_STATE_50HZ)
+			if (g_VGM_State & VGM_STATE_50HZ)
 				VGM_SetFrequency60Hz();
 			else
 				VGM_SetFrequency50Hz();

@@ -114,7 +114,7 @@ enum NOTE
 #endif // (PSG_USE_NOTES)
 
 //-----------------------------------------------------------------------------
-struct PSG_Data
+typedef struct PSG_Data
 {
 	u16		Tone[3];	// 6
 	u8		Noise;		// 1
@@ -124,12 +124,12 @@ struct PSG_Data
 	u8		Shape;		// 1
 	u8		IOPortA;	// 1
 	u8		IOPortB;	// 1
-};
+} PSG_Data;
 
 #if (PSG_ACCESS == PSG_INDIRECT)
-extern struct PSG_Data g_PSG_Regs;
+extern PSG_Data g_PSG_Regs;
 #if (PSG_CHIP == PSG_BOTH)
-extern struct PSG_Data g_PSG2_Regs;
+extern PSG_Data g_PSG2_Regs;
 #endif
 #endif
 
