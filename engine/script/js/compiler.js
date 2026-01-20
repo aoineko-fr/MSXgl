@@ -88,7 +88,7 @@ module.exports.compile = function (file, size, seg)
 
 		// Add file to Compile database
 		if (GenCompileDB)
-			CompileDB.push({directory: ProjDir, command: `"${Compiler}" ${SDCCParam}`, file: `${file}`, output: `${OutDir}${fileName}.rel` });
+			CompileDB.push({directory: `${ProjDir}`, command: `"${Compiler}" ${SDCCParam}`, file: `${file}`, output: `${OutDir}${fileName}.rel` });
 
 		// Generate dependencies list
 		// err = util.execSync(`${Compiler} -M ${SDCCParam} > ${OutDir}${path.parse(file).name}.dep`);
@@ -113,7 +113,7 @@ module.exports.compile = function (file, size, seg)
 
 		// Add file to Compile database
 		if (GenCompileDB)
-			CompileDB.push({directory: ProjDir, command: `"${Assembler}" ${ASMParam}`, file: `${file}`, output: `${OutDir}${fileName}.rel` });
+			CompileDB.push({directory: `${ProjDir}`, command: `"${Assembler}" ${ASMParam}`, file: `${file}`, output: `${OutDir}${fileName}.rel` });
 
 		// Move symbols files to output directory
 		fs.renameSync(`${filePath}${fileName}.rel`, `${OutDir}${fileName}.rel`)
