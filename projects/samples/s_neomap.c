@@ -32,6 +32,8 @@
 	#define BANK_SIZE				0x4000
 	#define TEST_BANK				2
 	#define TEST_ADDR				0x8000
+#else
+	#error Error: Invalide ROM mapper type (ROM_MAPPER)
 #endif
 
 #define MIRROR_MASK				0b0000011111111110
@@ -162,16 +164,6 @@ const c8* GetROMSize(u8 size)
 	case ROM_32K:	return "32 KB";
 	case ROM_48K:	return "48 KB";
 	case ROM_64K:	return "64 KB";
-	case ROM_128K:	return "128 KB";
-	case ROM_256K:	return "256 KB";
-	case ROM_512K:	return "512 KB";
-	case ROM_1M:	return "1024 KB";
-	case ROM_2M:	return "2048 KB";
-	case ROM_4M:	return "4096 KB";
-	case ROM_8M:	return "8192 KB";
-	case ROM_16M:	return "16 MB";
-	case ROM_32M:	return "32 MB";
-	case ROM_64M:	return "64 MB";
 	};
 	return "Unknow";
 }
@@ -222,7 +214,10 @@ void main()
 	Print_DrawFormat("%s\n\n", TARGET_NAME);
 	Print_DrawFormat("Type:    %s\n", GetTargetType(TARGET_TYPE));
 	Print_DrawFormat("Mapper:  %s\n", GetROMMapper(ROM_MAPPER));
-	Print_DrawFormat("Size:    %s\n", GetROMSize(ROM_SIZE));
+	if (ROM_SIZE > 1024)
+		Print_DrawFormat("Size:    %iMB\n", ROM_SIZE / 1024);
+	else
+		Print_DrawFormat("Size:    %iKB\n", ROM_SIZE);
 	Print_DrawFormat("Seg num: %i\n", ROM_SEGMENTS);
 	// Slot selection
 	loop(i, 4)

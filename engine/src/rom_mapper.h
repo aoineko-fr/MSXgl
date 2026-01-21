@@ -76,29 +76,7 @@
 
 //-----------------------------------------------------------------------------
 // ROM mapper segments count
-#if (ROM_SIZE == ROM_64K)
-	#define ROM_SEGMENTS	(64/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_128K)
-	#define ROM_SEGMENTS	(128/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_256K)
-	#define ROM_SEGMENTS	(256/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_512K)
-	#define ROM_SEGMENTS	(512/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_1M)
-	#define ROM_SEGMENTS	(1*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_2M)
-	#define ROM_SEGMENTS	(2*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_4M)
-	#define ROM_SEGMENTS	(4*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_8M)
-	#define ROM_SEGMENTS	(8*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_16M)
-	#define ROM_SEGMENTS	(16*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_32M)
-	#define ROM_SEGMENTS	(32*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_64M)
-	#define ROM_SEGMENTS	(1024/ROM_SEGMENT_SIZE*64)
-#endif
+#define ROM_SEGMENTS				(ROM_SIZE/ROM_SEGMENT_SIZE)
 
 //-----------------------------------------------------------------------------
 // Macro to change a given bank's segment

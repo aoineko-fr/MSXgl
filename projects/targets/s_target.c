@@ -155,7 +155,7 @@ const c8* GetROMMapper(u8 mapper)
 
 //-----------------------------------------------------------------------------
 //
-const c8* GetROMSize(u8 size)
+const c8* GetROMFrame(u8 size)
 {
 	switch (size)
 	{
@@ -165,16 +165,6 @@ const c8* GetROMSize(u8 size)
 	case ROM_32K:	return "32K";
 	case ROM_48K:	return "48K";
 	case ROM_64K:	return "64K";
-	case ROM_128K:	return "128K";
-	case ROM_256K:	return "256K";
-	case ROM_512K:	return "512K";
-	case ROM_1M:	return "1M";
-	case ROM_2M:	return "2M";
-	case ROM_4M:	return "4M";
-	case ROM_8M:	return "8M";
-	case ROM_16M:	return "16M";
-	case ROM_32M:	return "32M";
-	case ROM_64M:	return "64M";
 	};
 	return "Unknow";
 }
@@ -282,7 +272,7 @@ void DiplayInfo()
 	#if (TARGET_TYPE == TYPE_ROM)
 		Print_DrawFormat("\nMapper: %s", GetROMMapper(ROM_MAPPER));
 		
-		Print_DrawFormat("\nSize:   %s", GetROMSize(ROM_SIZE));
+		Print_DrawFormat("\nSize:   %iKB", ROM_SIZE);
 		#if (ROM_MAPPER != ROM_PLAIN)
 			Print_DrawFormat(" (%i)", (i16)ROM_SEGMENTS);
 		#endif
