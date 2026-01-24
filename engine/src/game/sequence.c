@@ -20,11 +20,12 @@
 // Functions prototypes
 void Sequence_UpdateFixed();
 void Sequence_UpdateOnce();
+void Sequence_UpdateOnceRevert();
 void Sequence_UpdateLoop();
-void Sequence_UpdateBackOnce();
-void Sequence_UpdateBackLoop();
+void Sequence_UpdateLoopRevert();
 void Sequence_UpdatePanBound();
 void Sequence_UpdatePanLoop();
+void Sequence_UpdateTimeline();
 
 //=============================================================================
 // VARIABLES
@@ -54,19 +55,24 @@ SeqDrawCB g_SeqDrawCB;
 const SeqAction* g_SeqActionMoveLeft;
 const SeqAction* g_SeqActionMoveRight;
 
+const SeqTime** g_SeqTimelines;
+u8 g_SeqTimelineTimer;
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
 
+// Sequence updqte callback
 const callback g_SeqUpdateModes[SEQ_MODE_MAX] =
 {
 	Sequence_UpdateFixed,
 	Sequence_UpdateOnce,
+	Sequence_UpdateOnceRevert,
 	Sequence_UpdateLoop,
-	Sequence_UpdateBackOnce,
-	Sequence_UpdateBackLoop,
+	Sequence_UpdateLoopRevert,
 	Sequence_UpdatePanBound,
-	Sequence_UpdatePanLoop
+	Sequence_UpdatePanLoop,
+	Sequence_UpdateTimeline
 };
 
 //=============================================================================
@@ -91,23 +97,33 @@ void Sequence_Wait()
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Play a sequence
 void Sequence_Play(const Sequence* seq, u8 frame)
 {
 	g_SeqCur = seq;
-	u8 min = MIN(g_SeqCur->FirstFrame, g_SeqCur->LastFrame);
-	u8 max = MAX(g_SeqCur->FirstFrame, g_SeqCur->LastFrame);
-	if ((frame >= min) && (frame <= max))
-		g_SeqFrame = frame;
-	else
-		g_SeqFrame = seq->FirstFrame;
 
-	g_SeqDrawCB(g_SeqFrame);
+	if (g_SeqCur->Mode == SEQ_MODE_TIMELINE)
+	{
+		g_SeqTimelineTimer = 0;
+		g_SeqFrame = frame;
+		g_SeqDrawCB(g_SeqTimelines[g_SeqCur->FirstFrame][frame].Frame);
+	}
+	else
+	{
+		u8 min = MIN(g_SeqCur->FirstFrame, g_SeqCur->LastFrame);
+		u8 max = MAX(g_SeqCur->FirstFrame, g_SeqCur->LastFrame);
+		if ((frame >= min) && (frame <= max))
+			g_SeqFrame = frame;
+		else
+			g_SeqFrame = seq->FirstFrame;
+		g_SeqDrawCB(g_SeqFrame);
+	}
+
 	g_SeqCur->EventCB(SEQ_EVENT_START);
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Check if cursor is into the giben area
 bool Sequence_CheckArea(const SeqActionArea* area)
 {
 	if ((g_SeqCursorPosX >= area->StartX) && (g_SeqCursorPosX <= area->EndX) && (g_SeqCursorPosY >= area->StartY) && (g_SeqCursorPosY <= area->EndY))
@@ -135,7 +151,7 @@ void Sequence_CheckActions()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update sequence for mode SEQ_MODE_FIXED
 void Sequence_UpdateFixed()
 {
 	Sequence_CheckActions();
@@ -144,7 +160,7 @@ void Sequence_UpdateFixed()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update sequence for mode SEQ_MODE_ONCE
 void Sequence_UpdateOnce()
 {
 	if (g_SeqFrame < g_SeqCur->LastFrame)
@@ -165,7 +181,7 @@ void Sequence_UpdateOnce()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update sequence for mode SEQ_MODE_LOOP
 void Sequence_UpdateLoop()
 {
 	g_SeqFrame++;
@@ -184,8 +200,26 @@ void Sequence_UpdateLoop()
 }
 
 //-----------------------------------------------------------------------------
-//
-void Sequence_UpdateBackOnce()
+// Update sequence for mode SEQ_MODE_LOOP_REVERT
+void Sequence_UpdateLoopRevert()
+{
+	if (g_SeqFrame == g_SeqCur->LastFrame)
+	{
+		g_SeqFrame = g_SeqCur->FirstFrame;
+		g_SeqCur->EventCB(SEQ_EVENT_LOOP);
+	}
+	else
+		g_SeqFrame--;
+	g_SeqDrawCB(g_SeqFrame);
+
+	Sequence_CheckActions();
+	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA))
+		g_SeqCur->EventCB(g_SeqActionHover->Id);
+}
+
+//-----------------------------------------------------------------------------
+// Update sequence for mode SEQ_MODE_ONCE_REVERT
+void Sequence_UpdateOnceRevert()
 {
 	if (g_SeqFrame > g_SeqCur->LastFrame)
 	{
@@ -205,31 +239,13 @@ void Sequence_UpdateBackOnce()
 }
 
 //-----------------------------------------------------------------------------
-//
-void Sequence_UpdateBackLoop()
-{
-	if (g_SeqFrame == g_SeqCur->LastFrame)
-	{
-		g_SeqFrame = g_SeqCur->FirstFrame;
-		g_SeqCur->EventCB(SEQ_EVENT_LOOP);
-	}
-	else
-		g_SeqFrame--;
-	g_SeqDrawCB(g_SeqFrame);
-
-	Sequence_CheckActions();
-	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA))
-		g_SeqCur->EventCB(g_SeqActionHover->Id);
-}
-
-//-----------------------------------------------------------------------------
-//
+// Update sequence for mode SEQ_MODE_PAN_BOUND
 void Sequence_UpdatePanBound()
 {
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update sequence for mode SEQ_MODE_PAN_LOOP
 void Sequence_UpdatePanLoop()
 {
 	// Check area
@@ -276,6 +292,34 @@ void Sequence_UpdatePanLoop()
 			break;
 		}
 	}
+}
+
+//-----------------------------------------------------------------------------
+// Update sequence for mode SEQ_MODE_TIMELINE
+void Sequence_UpdateTimeline()
+{
+	if (g_SeqFrame < g_SeqCur->LastFrame)
+	{
+		const SeqTime* timeline = g_SeqTimelines[g_SeqCur->FirstFrame];
+
+		g_SeqTimelineTimer++;
+		if (g_SeqTimelineTimer >= timeline[g_SeqFrame].Time)
+		{
+			g_SeqTimelineTimer = 0;
+			g_SeqFrame++;
+			g_SeqDrawCB(timeline[g_SeqFrame].Frame);
+			if (g_SeqFrame == g_SeqCur->LastFrame)
+			{
+				g_SeqCur->EventCB(SEQ_EVENT_END);
+				if (g_SeqCur->NextSeq)
+					Sequence_Play(g_SeqCur->NextSeq, g_SeqCur->NextFrame);
+			}
+		}
+	}
+
+	Sequence_CheckActions();
+	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA))
+		g_SeqCur->EventCB(g_SeqActionHover->Id);
 }
 
 //-----------------------------------------------------------------------------

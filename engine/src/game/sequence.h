@@ -11,10 +11,12 @@
 //=============================================================================
 #include "msxgl.h"
 
-
 //=============================================================================
 // DEFINES
 //=============================================================================
+
+#define SEQ_USE_PAN					TRUE
+#define SEQ_USE_TIMELINE			TRUE
 
 // Functions callback
 typedef void (*SeqEventCB)(u8 id);	// Sequence event callback signature
@@ -24,13 +26,14 @@ typedef void (*SeqDrawCB)(u8 frame); // Sequence draw callback signature
 // Sequence playback modes
 enum SEQ_MODE
 {
-	SEQ_MODE_FIXED = 0,		// Display a fixed image
-	SEQ_MODE_ONCE,			// Play sequence once and stop at last image
-	SEQ_MODE_LOOP,			// Play sequence looping from end to start
-	SEQ_MODE_BACK_ONCE,		// Play sequence backward once and stop at last image
-	SEQ_MODE_BACK_LOOP,		// Play sequence backward looping from end to start
-	SEQ_MODE_PAN_BOUND,		// Manual horizontal span between 2 bounds
-	SEQ_MODE_PAN_LOOP,		// Manual horizontal span looping from end to start
+	SEQ_MODE_FIXED = 0,				// Display a fixed image
+	SEQ_MODE_ONCE,					// Play sequence once and stop at last image
+	SEQ_MODE_ONCE_REVERT,			// Play sequence backward once and stop at last image
+	SEQ_MODE_LOOP,					// Play sequence looping from end to start
+	SEQ_MODE_LOOP_REVERT,			// Play sequence backward looping from end to start
+	SEQ_MODE_PAN_BOUND,				// Manual horizontal span between 2 bounds
+	SEQ_MODE_PAN_LOOP,				// Manual horizontal span looping from end to start
+	SEQ_MODE_TIMELINE,				// Play a sequence using a timeline
 //.....................................
 	SEQ_MODE_MAX,
 };
@@ -38,14 +41,14 @@ enum SEQ_MODE
 // Sequence events
 enum SEQ_EVENT
 {
-	SEQ_EVENT_START = 0,	// Sequence started
-	SEQ_EVENT_END,			// Sequence ended
-	SEQ_EVENT_LOOP,			// Sequence looped
-	SEQ_EVENT_ACTION,		// Action triggered
+	SEQ_EVENT_START = 0,			// Sequence started
+	SEQ_EVENT_END,					// Sequence ended
+	SEQ_EVENT_LOOP,					// Sequence looped
+	SEQ_EVENT_ACTION,				// Action triggered
 //.....................................
 	SEQ_EVENT_MAX,
 //.....................................
-	SEQ_EVENT_USER = 128,	// User defined event
+	SEQ_EVENT_USER = 128,			// User defined event
 };
 
 // Sequence action types
@@ -55,7 +58,7 @@ enum SEQ_ACTION
 	SEQ_ACT_CLICK_LEFT,				// Left click action
 	SEQ_ACT_CLICK_RIGHT,			// Right click action
 	SEQ_ACT_CLICK_UP,				// Up click action
-	SEQ_ACT_CLICK_BOTTOM,			// Bottom click action
+	SEQ_ACT_CLICK_DOWN,				// Bottom click action
 	SEQ_ACT_CLICK_AREA,				// Click on custom area
 //.....................................
 	SEQ_ACT_MAX,
@@ -120,18 +123,25 @@ typedef struct SeqAction
 	SeqCondCB Condition;			// Condition check callback
 	u8 FrameMin;					// Minimum frame to trigger the action
 	u8 FrameMax;					// Maximum frame to trigger the action
-	SeqActionArea Areas[];	// Action area
+	SeqActionArea Areas[];			// Action area
 } SeqAction;
+
+// Sequence timeline entry
+typedef struct SeqTime
+{
+	u8 Time;						// Duration of the frame (in sequencer unit)
+	u8 Frame;						// Frame number (relative to start)
+} SeqTime;
 
 // Sequence structure
 typedef struct Sequence
 {
 	u16 ID;							// Sequence ID
 	u8  Mode;						// Playback mode (see <SEQ_MODE>)
-	u8  FirstFrame;					// First frame of the sequence
-	u8  LastFrame;					// Last frame of the sequence
+	u8  FirstFrame;					// First frame of the sequence (or table index for timelined sequence)
+	u8  LastFrame;					// Last frame of the sequence (or number of entries for timelined sequence)
 	SeqEventCB EventCB;				// Event callback
-	struct Sequence* NextSeq;				// Sequence to start when reaching the end
+	struct Sequence* NextSeq;		// Sequence to start when reaching the end
 	u8  NextFrame;					// Next sequence start frame
 	u8  ActionNum;					// Number of actions
 	const SeqAction* const Actions[];
@@ -165,7 +175,7 @@ extern u8 g_SeqFrameWait;
 extern SeqDrawCB g_SeqDrawCB;
 extern const SeqAction* g_SeqActionMoveLeft;
 extern const SeqAction* g_SeqActionMoveRight;
-
+extern const SeqTime** g_SeqTimelines;
 
 //=============================================================================
 // FUNCTIONS
@@ -180,6 +190,13 @@ extern const SeqAction* g_SeqActionMoveRight;
 //   left  - Action to move left
 //   right - Action to move right
 inline void Sequence_Initialize(u8 wait, SeqDrawCB draw, const SeqAction* left, const SeqAction* right) { g_SeqFrameWait = wait; g_SeqDrawCB = draw; g_SeqActionMoveLeft = left; g_SeqActionMoveRight = right; }
+
+// Function: Sequence_InitializeTimeline
+// Initialize the timeline table
+//
+// Parameters:
+//   timelines - Pointer to the timeline table
+inline void Sequence_InitializeTimeline(const SeqTime** timelines) { g_SeqTimelines = timelines; }
 
 // Function: Sequence_SetCursor
 // Set the cursor position
