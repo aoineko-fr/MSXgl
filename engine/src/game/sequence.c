@@ -26,6 +26,12 @@ void Sequence_UpdateLoopRevert();
 void Sequence_UpdatePanBound();
 void Sequence_UpdatePanLoop();
 void Sequence_UpdateTimeline();
+void Sequence_UpdateInput();
+
+// MACRO
+#define SEQ_MOUSE_SPEED				2
+#define SEQ_CURSOR_SPD_TABLE		32
+
 
 //=============================================================================
 // VARIABLES
@@ -40,9 +46,9 @@ u8 g_SeqFrame = 0;					// Current sequence's frame
 Mouse_State g_SeqMouseData;
 u8 g_SeqCursorPosX;
 u8 g_SeqCursorPosY;
-i8 g_SeqCursorAccX;
-i8 g_SeqCursorAccY;
-u8 g_SeqInput;
+u8 g_SeqCursorAccX;
+u8 g_SeqCursorAccY;
+u8 g_SeqInput = 0;
 u8 g_SeqCustomCursor = SEQ_CUR_NONE;
 u8 g_SeqPrevRaw8 = 0xFF;
 
@@ -55,8 +61,10 @@ SeqDrawCB g_SeqDrawCB;
 const SeqAction* g_SeqActionMoveLeft;
 const SeqAction* g_SeqActionMoveRight;
 
+#if (SEQ_USE_TIMELINE)
 const SeqTime** g_SeqTimelines;
 u8 g_SeqTimelineTimer;
+#endif
 
 //=============================================================================
 // READ-ONLY DATA
@@ -72,8 +80,16 @@ const callback g_SeqUpdateModes[SEQ_MODE_MAX] =
 	Sequence_UpdateLoopRevert,
 	Sequence_UpdatePanBound,
 	Sequence_UpdatePanLoop,
+#if (SEQ_USE_TIMELINE)
 	Sequence_UpdateTimeline
+#endif
 };
+
+// Cursor acceleration over time
+const u8 g_seqCursorMoveSpd[SEQ_CURSOR_SPD_TABLE] = {	1,  0,  0,  1,  1,  1,  1,  1,  
+														1,  1,  1,  1,  1,  1,  1,  1,  
+														2,  2,  2,  2,  2,  2,  2,  2,  
+														2,  2,  3,  3,  3,  3,  4,  4 };
 
 //=============================================================================
 // FUNCTIONS
@@ -83,6 +99,9 @@ const callback g_SeqUpdateModes[SEQ_MODE_MAX] =
 // Interruption handler
 void Sequence_Interrupt()
 {
+	// Update input
+	Sequence_UpdateInput();
+
 	g_SeqFrameCount++;
 }
 
@@ -102,6 +121,7 @@ void Sequence_Play(const Sequence* seq, u8 frame)
 {
 	g_SeqCur = seq;
 
+#if (SEQ_USE_TIMELINE)
 	if (g_SeqCur->Mode == SEQ_MODE_TIMELINE)
 	{
 		g_SeqTimelineTimer = 0;
@@ -109,6 +129,7 @@ void Sequence_Play(const Sequence* seq, u8 frame)
 		g_SeqDrawCB(g_SeqTimelines[g_SeqCur->FirstFrame][frame].Frame);
 	}
 	else
+#endif
 	{
 		u8 min = MIN(g_SeqCur->FirstFrame, g_SeqCur->LastFrame);
 		u8 max = MAX(g_SeqCur->FirstFrame, g_SeqCur->LastFrame);
@@ -294,6 +315,7 @@ void Sequence_UpdatePanLoop()
 	}
 }
 
+#if (SEQ_USE_TIMELINE)
 //-----------------------------------------------------------------------------
 // Update sequence for mode SEQ_MODE_TIMELINE
 void Sequence_UpdateTimeline()
@@ -321,12 +343,13 @@ void Sequence_UpdateTimeline()
 	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA))
 		g_SeqCur->EventCB(g_SeqActionHover->Id);
 }
+#endif
 
 //-----------------------------------------------------------------------------
 //
 void Sequence_UpdateInput()
 {
-	g_SeqInput = 0;
+	// g_SeqInput = 0;
 
 	// Update mouse
 	Mouse_Read(MOUSE_PORT_1, &g_SeqMouseData);
@@ -336,46 +359,39 @@ void Sequence_UpdateInput()
 	u8 row5 = Keyboard_Read(5); // KEY_S, KEY_T, KEY_U, KEY_V, KEY_W, KEY_X, KEY_Y, KEY_Z
 	u8 row8 = Keyboard_Read(8); // KEY_SPACE, KEY_HOME, KEY_INS, KEY_DEL, KEY_LEFT, KEY_UP, KEY_DOWN, KEY_RIGHT
 
-	// Update cusror X coordinate
-	g_SeqCursorPosX += Mouse_GetOffsetX(&g_SeqMouseData) / 2;
+	// Update cursor X coordinate
+	g_SeqCursorPosX += Mouse_GetOffsetX(&g_SeqMouseData) / SEQ_MOUSE_SPEED;
 	if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 	{
-		if (g_SeqCursorAccX > 0)
+		if (g_SeqCursorAccX < (SEQ_CURSOR_SPD_TABLE - 1))
 			g_SeqCursorAccX++;
-		else
-			g_SeqCursorAccX = 1;
+		g_SeqCursorPosX += g_seqCursorMoveSpd[g_SeqCursorAccX];
 	}
 	else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 	{
-		if (g_SeqCursorAccX < 0)
-			g_SeqCursorAccX--;
-		else
-			g_SeqCursorAccX = -1;
+		if  (g_SeqCursorAccX < (SEQ_CURSOR_SPD_TABLE - 1))
+			g_SeqCursorAccX++;
+		g_SeqCursorPosX -= g_seqCursorMoveSpd[g_SeqCursorAccX];
 	}
 	else
 		g_SeqCursorAccX = 0;
-	g_SeqCursorPosX += g_SeqCursorAccX;
 
-	// Update cusror Y coordinate
-	g_SeqCursorPosY += Mouse_GetOffsetY(&g_SeqMouseData) / 2;
+	// Update cursor Y coordinate
+	g_SeqCursorPosY += Mouse_GetOffsetY(&g_SeqMouseData) / SEQ_MOUSE_SPEED;
 	if (IS_KEY_PRESSED(row8, KEY_DOWN))
 	{
-		if (g_SeqCursorAccY > 0)
+		if (g_SeqCursorAccY < (SEQ_CURSOR_SPD_TABLE - 1))
 			g_SeqCursorAccY++;
-		else
-			g_SeqCursorAccY = 1;
+		g_SeqCursorPosY += g_seqCursorMoveSpd[g_SeqCursorAccY];
 	}
 	else if (IS_KEY_PRESSED(row8, KEY_UP))
 	{
-		if (g_SeqCursorAccY < 0)
-			g_SeqCursorAccY--;
-		else
-			g_SeqCursorAccY = -1;
+		if (g_SeqCursorAccY < (SEQ_CURSOR_SPD_TABLE - 1))
+			g_SeqCursorAccY++;
+		g_SeqCursorPosY -= g_seqCursorMoveSpd[g_SeqCursorAccY];
 	}
 	else
 		g_SeqCursorAccY = 0;
-
-	g_SeqCursorPosY += g_SeqCursorAccY;
 
 	// Update cursor click states
 	if (Mouse_IsButtonClick(&g_SeqMouseData, MOUSE_BOUTON_LEFT) || IS_KEY_PUSHED(row8, g_SeqPrevRaw8, KEY_SPACE))
@@ -406,8 +422,8 @@ void Sequence_UpdateInput()
 //
 void Sequence_Update()
 {
-	// Update input
-	Sequence_UpdateInput();
+	// // Update input
+	// Sequence_UpdateInput();
 
 	g_SeqActionHover = NULL;
 	g_SeqActionCond = SEQ_COND_OK;
@@ -442,4 +458,6 @@ void Sequence_Update()
 	VDP_WriteVRAM((u8*)&g_VDP_Sprite, g_SpriteAtributeLow, g_SpriteAtributeHigh, 3);
 	g_VDP_Sprite.Pattern += 4;
 	VDP_WriteVRAM((u8*)&g_VDP_Sprite, g_SpriteAtributeLow + 4, g_SpriteAtributeHigh, 3);
+
+	g_SeqInput = 0;
 }

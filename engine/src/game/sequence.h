@@ -33,7 +33,9 @@ enum SEQ_MODE
 	SEQ_MODE_LOOP_REVERT,			// Play sequence backward looping from end to start
 	SEQ_MODE_PAN_BOUND,				// Manual horizontal span between 2 bounds
 	SEQ_MODE_PAN_LOOP,				// Manual horizontal span looping from end to start
+#if (SEQ_USE_TIMELINE)
 	SEQ_MODE_TIMELINE,				// Play a sequence using a timeline
+#endif
 //.....................................
 	SEQ_MODE_MAX,
 };
@@ -126,12 +128,14 @@ typedef struct SeqAction
 	SeqActionArea Areas[];			// Action area
 } SeqAction;
 
+#if (SEQ_USE_TIMELINE)
 // Sequence timeline entry
 typedef struct SeqTime
 {
 	u8 Time;						// Duration of the frame (in sequencer unit)
 	u8 Frame;						// Frame number (relative to start)
 } SeqTime;
+#endif
 
 // Sequence structure
 typedef struct Sequence
@@ -162,8 +166,8 @@ extern u8 g_SeqFrame;
 extern Mouse_State g_SeqMouseData;
 extern u8 g_SeqCursorPosX;
 extern u8 g_SeqCursorPosY;
-extern i8 g_SeqCursorAccX;
-extern i8 g_SeqCursorAccY;
+extern u8 g_SeqCursorAccX;
+extern u8 g_SeqCursorAccY;
 extern u8 g_SeqInput;
 extern u8 g_SeqCustomCursor;
 extern u8 g_SeqPrevRaw8;
@@ -175,7 +179,11 @@ extern u8 g_SeqFrameWait;
 extern SeqDrawCB g_SeqDrawCB;
 extern const SeqAction* g_SeqActionMoveLeft;
 extern const SeqAction* g_SeqActionMoveRight;
+
+#if (SEQ_USE_TIMELINE)
 extern const SeqTime** g_SeqTimelines;
+extern u8 g_SeqTimelineTimer;
+#endif
 
 //=============================================================================
 // FUNCTIONS
@@ -191,12 +199,14 @@ extern const SeqTime** g_SeqTimelines;
 //   right - Action to move right
 inline void Sequence_Initialize(u8 wait, SeqDrawCB draw, const SeqAction* left, const SeqAction* right) { g_SeqFrameWait = wait; g_SeqDrawCB = draw; g_SeqActionMoveLeft = left; g_SeqActionMoveRight = right; }
 
+#if (SEQ_USE_TIMELINE)
 // Function: Sequence_InitializeTimeline
 // Initialize the timeline table
 //
 // Parameters:
 //   timelines - Pointer to the timeline table
 inline void Sequence_InitializeTimeline(const SeqTime** timelines) { g_SeqTimelines = timelines; }
+#endif
 
 // Function: Sequence_SetCursor
 // Set the cursor position
