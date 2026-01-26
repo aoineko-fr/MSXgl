@@ -1,9 +1,9 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
-//  Program template
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄███ ▄▀██ ██ █ ▄███ ██▀▄ ▄█▀▀ ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀█▄▄  ▀██ ▀█▄█ ▀█▄▄ ██ █ ▀█▄▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘              ▀▀
+//  Gameplay sequence module
 //─────────────────────────────────────────────────────────────────────────────
 
 //=============================================================================
@@ -46,8 +46,8 @@ u8 g_SeqFrame = 0;					// Current sequence's frame
 Mouse_State g_SeqMouseData;
 u8 g_SeqCursorPosX;
 u8 g_SeqCursorPosY;
-u8 g_SeqCursorAccX;
-u8 g_SeqCursorAccY;
+u8 g_SeqCursorAccX = 0;
+u8 g_SeqCursorAccY = 0;
 u8 g_SeqInput = 0;
 u8 g_SeqCustomCursor = SEQ_CUR_NONE;
 u8 g_SeqPrevRaw8 = 0xFF;
@@ -60,6 +60,7 @@ u8 g_SeqFrameWait = 6;
 SeqDrawCB g_SeqDrawCB;
 const SeqAction* g_SeqActionMoveLeft;
 const SeqAction* g_SeqActionMoveRight;
+Sequence g_SeqTransition;
 
 #if (SEQ_USE_TIMELINE)
 const SeqTime** g_SeqTimelines;
@@ -99,9 +100,6 @@ const u8 g_seqCursorMoveSpd[SEQ_CURSOR_SPD_TABLE] = {	1,  0,  0,  1,  1,  1,  1,
 // Interruption handler
 void Sequence_Interrupt()
 {
-	// Update input
-	Sequence_UpdateInput();
-
 	g_SeqFrameCount++;
 }
 
@@ -144,6 +142,24 @@ void Sequence_Play(const Sequence* seq, u8 frame)
 }
 
 //-----------------------------------------------------------------------------
+// Start a pan sequence transition
+void Sequence_PlayPanTransition(u8 from, struct Sequence* nextSeq, u8 nextFrame)
+{
+	if ((g_SeqCur->Mode == SEQ_MODE_PAN_BOUND) || (g_SeqCur->Mode == SEQ_MODE_PAN_LOOP))
+	{
+		g_SeqTransition.ID         = g_SeqCur->ID;
+		g_SeqTransition.Mode       = (from > g_SeqFrame) ? SEQ_MODE_ONCE : SEQ_MODE_ONCE_REVERT;
+		g_SeqTransition.FirstFrame = g_SeqFrame;
+		g_SeqTransition.LastFrame  = from;
+		g_SeqTransition.EventCB    = g_SeqCur->EventCB;
+		g_SeqTransition.Next.Seq   = nextSeq;
+		g_SeqTransition.Next.Frame = nextFrame;
+		g_SeqTransition.ActionNum  = 0;
+		Sequence_Play(&g_SeqTransition, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
 // Check if cursor is into the giben area
 bool Sequence_CheckArea(const SeqActionArea* area)
 {
@@ -153,12 +169,21 @@ bool Sequence_CheckArea(const SeqActionArea* area)
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Check all current sequence's actions
 void Sequence_CheckActions()
 {
 	for (u8 i = 0; i < g_SeqCur->ActionNum; i++)
 	{
 		const SeqAction* const act = g_SeqCur->Actions[i];
+		if (act->FrameMin == SEQ_FRAME_ALL)
+		{
+			if (Sequence_CheckArea(&act->Areas[0]))
+			{
+				g_SeqActionHover = act;
+				if (act->Condition)
+					g_SeqActionCond = act->Condition(act->Id); 
+			}
+		}
 		if ((g_SeqFrame >= act->FrameMin) && (g_SeqFrame <= act->FrameMax))
 		{
 			if (Sequence_CheckArea(&act->Areas[g_SeqFrame - act->FrameMin]))
@@ -172,12 +197,30 @@ void Sequence_CheckActions()
 }
 
 //-----------------------------------------------------------------------------
+// Apply event linked to click on area
+void Sequence_ApplyClick()
+{
+	if (g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA) && (g_SeqActionCond == SEQ_COND_OK))
+	{
+		g_SeqCur->EventCB(g_SeqActionHover->Id);
+		const SeqTransition* trans = &g_SeqActionHover->Trans;
+		if (trans->Seq)
+		{
+			if (trans->From == SEQ_DIRECT)
+				Sequence_Play(trans->Seq, trans->Frame);
+			else
+				Sequence_PlayPanTransition(trans->From, trans->Seq, trans->Frame);
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
 // Update sequence for mode SEQ_MODE_FIXED
 void Sequence_UpdateFixed()
 {
 	Sequence_CheckActions();
-	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA))
-		g_SeqCur->EventCB(g_SeqActionHover->Id);
+	if (g_SeqInput & SEQ_INPUT_CLICK_1)
+		Sequence_ApplyClick();
 }
 
 //-----------------------------------------------------------------------------
@@ -191,14 +234,14 @@ void Sequence_UpdateOnce()
 		if (g_SeqFrame == g_SeqCur->LastFrame)
 		{
 			g_SeqCur->EventCB(SEQ_EVENT_END);
-			if (g_SeqCur->NextSeq)
-				Sequence_Play(g_SeqCur->NextSeq, g_SeqCur->NextFrame);
+			if (g_SeqCur->Next.Seq)
+				Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 		}
 	}
 
 	Sequence_CheckActions();
-	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA))
-		g_SeqCur->EventCB(g_SeqActionHover->Id);
+	if (g_SeqInput & SEQ_INPUT_CLICK_1)
+		Sequence_ApplyClick();
 }
 
 //-----------------------------------------------------------------------------
@@ -216,8 +259,8 @@ void Sequence_UpdateLoop()
 		g_SeqDrawCB(g_SeqFrame);
 
 	Sequence_CheckActions();
-	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA))
-		g_SeqCur->EventCB(g_SeqActionHover->Id);
+	if (g_SeqInput & SEQ_INPUT_CLICK_1)
+		Sequence_ApplyClick();
 }
 
 //-----------------------------------------------------------------------------
@@ -234,8 +277,8 @@ void Sequence_UpdateLoopRevert()
 	g_SeqDrawCB(g_SeqFrame);
 
 	Sequence_CheckActions();
-	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA))
-		g_SeqCur->EventCB(g_SeqActionHover->Id);
+	if (g_SeqInput & SEQ_INPUT_CLICK_1)
+		Sequence_ApplyClick();
 }
 
 //-----------------------------------------------------------------------------
@@ -250,13 +293,13 @@ void Sequence_UpdateOnceRevert()
 	else
 	{
 		g_SeqCur->EventCB(SEQ_EVENT_END);
-		if (g_SeqCur->NextSeq)
-			Sequence_Play(g_SeqCur->NextSeq, g_SeqCur->NextFrame);
+		if (g_SeqCur->Next.Seq)
+			Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 	}
 
 	Sequence_CheckActions();
-	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA))
-		g_SeqCur->EventCB(g_SeqActionHover->Id);
+	if (g_SeqInput & SEQ_INPUT_CLICK_1)
+		Sequence_ApplyClick();
 }
 
 //-----------------------------------------------------------------------------
@@ -286,8 +329,8 @@ void Sequence_UpdatePanLoop()
 		switch (g_SeqActionHover->Action)
 		{
 		case SEQ_ACT_CLICK_AREA:
-			if ((g_SeqInput & SEQ_INPUT_CLICK_1) && (g_SeqActionCond == SEQ_COND_OK))
-				g_SeqCur->EventCB(g_SeqActionHover->Id);
+			if (g_SeqInput & SEQ_INPUT_CLICK_1)
+				Sequence_ApplyClick();
 			break;
 
 		case SEQ_ACT_CLICK_RIGHT:
@@ -333,15 +376,15 @@ void Sequence_UpdateTimeline()
 			if (g_SeqFrame == g_SeqCur->LastFrame)
 			{
 				g_SeqCur->EventCB(SEQ_EVENT_END);
-				if (g_SeqCur->NextSeq)
-					Sequence_Play(g_SeqCur->NextSeq, g_SeqCur->NextFrame);
+				if (g_SeqCur->Next.Seq)
+					Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 			}
 		}
 	}
 
 	Sequence_CheckActions();
-	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA))
-		g_SeqCur->EventCB(g_SeqActionHover->Id);
+	if (g_SeqInput & SEQ_INPUT_CLICK_1)
+		Sequence_ApplyClick();
 }
 #endif
 
@@ -349,8 +392,6 @@ void Sequence_UpdateTimeline()
 //
 void Sequence_UpdateInput()
 {
-	// g_SeqInput = 0;
-
 	// Update mouse
 	Mouse_Read(MOUSE_PORT_1, &g_SeqMouseData);
 
@@ -365,13 +406,15 @@ void Sequence_UpdateInput()
 	{
 		if (g_SeqCursorAccX < (SEQ_CURSOR_SPD_TABLE - 1))
 			g_SeqCursorAccX++;
-		g_SeqCursorPosX += g_seqCursorMoveSpd[g_SeqCursorAccX];
+		g_SeqCursorPosX += g_SeqCursorAccX;
+		// g_SeqCursorPosX += g_seqCursorMoveSpd[g_SeqCursorAccX];
 	}
 	else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 	{
 		if  (g_SeqCursorAccX < (SEQ_CURSOR_SPD_TABLE - 1))
 			g_SeqCursorAccX++;
-		g_SeqCursorPosX -= g_seqCursorMoveSpd[g_SeqCursorAccX];
+		g_SeqCursorPosX -= g_SeqCursorAccX;
+		// g_SeqCursorPosX -= g_seqCursorMoveSpd[g_SeqCursorAccX];
 	}
 	else
 		g_SeqCursorAccX = 0;
@@ -382,13 +425,15 @@ void Sequence_UpdateInput()
 	{
 		if (g_SeqCursorAccY < (SEQ_CURSOR_SPD_TABLE - 1))
 			g_SeqCursorAccY++;
-		g_SeqCursorPosY += g_seqCursorMoveSpd[g_SeqCursorAccY];
+		g_SeqCursorPosY += g_SeqCursorAccY;
+		// g_SeqCursorPosY += g_seqCursorMoveSpd[g_SeqCursorAccY];
 	}
 	else if (IS_KEY_PRESSED(row8, KEY_UP))
 	{
 		if (g_SeqCursorAccY < (SEQ_CURSOR_SPD_TABLE - 1))
 			g_SeqCursorAccY++;
-		g_SeqCursorPosY -= g_seqCursorMoveSpd[g_SeqCursorAccY];
+		g_SeqCursorPosY -= g_SeqCursorAccY;
+		// g_SeqCursorPosY -= g_seqCursorMoveSpd[g_SeqCursorAccY];
 	}
 	else
 		g_SeqCursorAccY = 0;
@@ -420,17 +465,8 @@ void Sequence_UpdateInput()
 
 //-----------------------------------------------------------------------------
 //
-void Sequence_Update()
+void Sequence_UpdateCursor()
 {
-	// // Update input
-	// Sequence_UpdateInput();
-
-	g_SeqActionHover = NULL;
-	g_SeqActionCond = SEQ_COND_OK;
-
-	// Update sequence
-	g_SeqUpdateModes[g_SeqCur->Mode]();	
-
 	// Update cursor
 	if (g_SeqInput & SEQ_INPUT_CLICK_2) // Cancel custom cursor
 		Sequence_ClearCustomCursor();
@@ -455,9 +491,27 @@ void Sequence_Update()
 	g_VDP_Sprite.Y = g_SeqCursorPosY - 8;
 	g_VDP_Sprite.X = g_SeqCursorPosX - 7;
 	g_VDP_Sprite.Pattern = pat;
+	g_VDP_Sprite.Color = 0;
 	VDP_WriteVRAM((u8*)&g_VDP_Sprite, g_SpriteAtributeLow, g_SpriteAtributeHigh, 3);
 	g_VDP_Sprite.Pattern += 4;
 	VDP_WriteVRAM((u8*)&g_VDP_Sprite, g_SpriteAtributeLow + 4, g_SpriteAtributeHigh, 3);
+}
+
+//-----------------------------------------------------------------------------
+//
+void Sequence_Update()
+{
+	g_SeqActionHover = NULL;
+	g_SeqActionCond = SEQ_COND_OK;
+
+	// Update input
+	Sequence_UpdateInput();
+
+	// Update sequence (mode specific function)
+	g_SeqUpdateModes[g_SeqCur->Mode]();	
+
+	// Update cursor
+	Sequence_UpdateCursor();
 
 	g_SeqInput = 0;
 }

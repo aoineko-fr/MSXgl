@@ -1,9 +1,9 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄                ▄▄      
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
-//  Program template
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄███ ▄▀██ ██ █ ▄███ ██▀▄ ▄█▀▀ ▄███
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀█▄▄  ▀██ ▀█▄█ ▀█▄▄ ██ █ ▀█▄▄ ▀█▄▄
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘              ▀▀
+//  Gameplay sequence module
 //─────────────────────────────────────────────────────────────────────────────
 
 //=============================================================================
@@ -17,6 +17,13 @@
 
 #define SEQ_USE_PAN					TRUE
 #define SEQ_USE_TIMELINE			TRUE
+
+#define SEQ_CUR_NONE				0xFF	// No custom cursor
+
+#define SEQ_FRAME_ALL				0xFF	// Special frame number for action frame start (non frame depend action)
+#define SEQ_FRAME_BLACK				0xFF	// Special frame number for timelined sequences
+#define SEQ_FRAME_WHITE				0xFE	// Special frame number for timelined sequences
+#define SEQ_DIRECT					0xFF	// Special frame number for transitions
 
 // Functions callback
 typedef void (*SeqEventCB)(u8 id);	// Sequence event callback signature
@@ -43,7 +50,8 @@ enum SEQ_MODE
 // Sequence events
 enum SEQ_EVENT
 {
-	SEQ_EVENT_START = 0,			// Sequence started
+	SEQ_EVENT_NONE = 0,				// No event
+	SEQ_EVENT_START,				// Sequence started
 	SEQ_EVENT_END,					// Sequence ended
 	SEQ_EVENT_LOOP,					// Sequence looped
 	SEQ_EVENT_ACTION,				// Action triggered
@@ -92,8 +100,6 @@ enum SEQ_CURSOR
 	SEQ_CUR_MAX,
 };
 
-#define SEQ_CUR_NONE			0
-
 // Sequence input flags
 enum SEQ_INPUT
 {
@@ -116,6 +122,21 @@ typedef struct SeqActionArea
 	u8 EndY;						// Y coordinate of the end of the area
 } SeqActionArea;
 
+// Sequence transition structure
+typedef struct SeqNext
+{
+	struct Sequence* Seq;			// Sequence to transition to
+	u8 Frame;						// Transition sequence start frame
+} SeqNext;
+
+// Sequence transition structure
+typedef struct SeqTransition
+{
+	u8 From;						// Pan's frame to transition from
+	struct Sequence* Seq;			// Sequence to transition to
+	u8 Frame;						// Transition sequence start frame
+} SeqTransition;
+
 // Sequence action structure
 typedef struct SeqAction
 {
@@ -123,6 +144,7 @@ typedef struct SeqAction
 	u8 Id;							// Action ID sent to the callback 
 	u8 Cursor;						// Cursor type (see <SEQ_CURSOR>)
 	SeqCondCB Condition;			// Condition check callback
+	SeqTransition Trans;			// Sequence to auto-start when action triggered (if Trans.Seq is not NULL)
 	u8 FrameMin;					// Minimum frame to trigger the action
 	u8 FrameMax;					// Maximum frame to trigger the action
 	SeqActionArea Areas[];			// Action area
@@ -145,8 +167,7 @@ typedef struct Sequence
 	u8  FirstFrame;					// First frame of the sequence (or table index for timelined sequence)
 	u8  LastFrame;					// Last frame of the sequence (or number of entries for timelined sequence)
 	SeqEventCB EventCB;				// Event callback
-	struct Sequence* NextSeq;		// Sequence to start when reaching the end
-	u8  NextFrame;					// Next sequence start frame
+	SeqNext Next;					// Sequence to auto-start when reaching the end
 	u8  ActionNum;					// Number of actions
 	const SeqAction* const Actions[];
 } Sequence;
@@ -179,6 +200,7 @@ extern u8 g_SeqFrameWait;
 extern SeqDrawCB g_SeqDrawCB;
 extern const SeqAction* g_SeqActionMoveLeft;
 extern const SeqAction* g_SeqActionMoveRight;
+extern Sequence g_SeqTransition;
 
 #if (SEQ_USE_TIMELINE)
 extern const SeqTime** g_SeqTimelines;
@@ -255,6 +277,19 @@ inline void Sequence_ClearCustomCursor() { g_SeqCustomCursor = SEQ_CUR_NONE; }
 //   seq   - Pointer to the sequence structure
 //   frame - Frame number to start playing
 void Sequence_Play(const Sequence* seq, u8 frame);
+
+// Function: SeqStartTransition
+// Start a pan sequence transition
+//
+// Parameters:
+//   frame    - Pan's frame number to start the transition
+//   nextSeq  - Pointer to the next sequence structure
+//   nextFrame - Frame number to start the next sequence
+void Sequence_PlayPanTransition(u8 frame, struct Sequence* nextSeq, u8 nextFrame);
+
+// Function: Sequence_ForceDraw
+// Force redraw of the current frame
+inline void Sequence_ForceDraw() { g_SeqDrawCB(g_SeqFrame); }
 
 // Function: Sequence_GetCurrent
 // Get the current sequence

@@ -46,7 +46,7 @@
 	#define PSG_VAR_READ		g_PSG_Ext_StatPort
 
 #elif (PSG_CHIP == PSG_BOTH)
-	// PRimary PSG
+	// Primary PSG
 	#define PSG_PORT_REG		P_PSG_REGS
 	#define PSG_PORT_WRITE		P_PSG_DATA
 	#define PSG_PORT_READ		P_PSG_STAT
