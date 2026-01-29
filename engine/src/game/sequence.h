@@ -96,6 +96,7 @@ enum SEQ_CURSOR
 	SEQ_CUR_TAKE,					//
 	SEQ_CUR_LOOK,					//
 	SEQ_CUR_LOCK,					//
+	SEQ_CUR_MUSIC,					//
 //.....................................
 	SEQ_CUR_MAX,
 };
