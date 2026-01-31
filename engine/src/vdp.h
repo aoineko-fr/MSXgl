@@ -17,6 +17,10 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+//=============================================================================
+// INCLUDES
+//=============================================================================
+
 #include "core.h"
 #include "vdp_reg.h"
 #include "bios_var.h"
@@ -121,10 +125,9 @@ typedef struct VDP_Sprite
 // EXTERNALS
 //-----------------------------------------------------------------------------
 
+extern u8 g_VDP_REGSAV[28]; // VDP register backup buffer
 
-extern u8                 g_VDP_REGSAV[28]; // VDP register backup buffer
-
-extern VDP_Data    g_VDP_Data; // VDP configuration structure
+extern VDP_Data g_VDP_Data; // VDP configuration structure
 
 #if (VDP_USE_COMMAND)
 extern VDP_Command g_VDP_Command; // VDP command buffer structure
@@ -437,7 +440,7 @@ enum VDP_BLINK_TIME
 // Screen 9 (Korean)
 
 //=============================================================================
-// PROTOTYPES
+// FUNCTIONS
 //=============================================================================
 
 //-----------------------------------------------------------------------------

@@ -37,10 +37,13 @@ void Sequence_UpdateInput();
 // VARIABLES
 //=============================================================================
 
+// Render variables
 u8 g_SeqFrameCount = 0;				// Render frame count
 
-const Sequence* g_SeqCur;	// Current sequence
+// Sequence variables
+const Sequence* g_SeqCur;			// Current sequence
 u8 g_SeqFrame = 0;					// Current sequence's frame
+SeqEventCB g_SeqEventCB;			// Event callback
 
 // Cursor
 Mouse_State g_SeqMouseData;
@@ -60,7 +63,7 @@ u8 g_SeqFrameWait = 6;
 SeqDrawCB g_SeqDrawCB;
 const SeqAction* g_SeqActionMoveLeft;
 const SeqAction* g_SeqActionMoveRight;
-Sequence g_SeqTransition;
+Sequence g_SeqTransition = { 0, 0, 0, 0, { NULL, 0 }, { NULL } };
 
 #if (SEQ_USE_TIMELINE)
 const SeqTime** g_SeqTimelines;
@@ -138,7 +141,7 @@ void Sequence_Play(const Sequence* seq, u8 frame)
 		g_SeqDrawCB(g_SeqFrame);
 	}
 
-	g_SeqCur->EventCB(SEQ_EVENT_START);
+	g_SeqEventCB(SEQ_EVENT_START);
 }
 
 //-----------------------------------------------------------------------------
@@ -151,10 +154,8 @@ void Sequence_PlayPanTransition(u8 from, struct Sequence* nextSeq, u8 nextFrame)
 		g_SeqTransition.Mode       = (from > g_SeqFrame) ? SEQ_MODE_ONCE : SEQ_MODE_ONCE_REVERT;
 		g_SeqTransition.FirstFrame = g_SeqFrame;
 		g_SeqTransition.LastFrame  = from;
-		g_SeqTransition.EventCB    = g_SeqCur->EventCB;
 		g_SeqTransition.Next.Seq   = nextSeq;
 		g_SeqTransition.Next.Frame = nextFrame;
-		g_SeqTransition.ActionNum  = 0;
 		Sequence_Play(&g_SeqTransition, 0);
 	}
 }
@@ -172,7 +173,7 @@ bool Sequence_CheckArea(const SeqActionArea* area)
 // Check all current sequence's actions
 void Sequence_CheckActions()
 {
-	for (u8 i = 0; i < g_SeqCur->ActionNum; i++)
+	for (u8 i = 0; g_SeqCur->Actions[i] != NULL; i++)
 	{
 		const SeqAction* const act = g_SeqCur->Actions[i];
 		if (act->FrameMin == SEQ_FRAME_ALL)
@@ -202,7 +203,7 @@ void Sequence_ApplyClick()
 {
 	if (g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA) && (g_SeqActionCond == SEQ_COND_OK))
 	{
-		g_SeqCur->EventCB(g_SeqActionHover->Id);
+		g_SeqEventCB(g_SeqActionHover->Id);
 		const SeqTransition* trans = &g_SeqActionHover->Trans;
 		if (trans->Seq)
 		{
@@ -233,7 +234,7 @@ void Sequence_UpdateOnce()
 		g_SeqDrawCB(g_SeqFrame);
 		if (g_SeqFrame == g_SeqCur->LastFrame)
 		{
-			g_SeqCur->EventCB(SEQ_EVENT_END);
+			g_SeqEventCB(SEQ_EVENT_END);
 			if (g_SeqCur->Next.Seq)
 				Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 		}
@@ -253,7 +254,7 @@ void Sequence_UpdateLoop()
 	{
 		g_SeqFrame = g_SeqCur->FirstFrame;
 		g_SeqDrawCB(g_SeqFrame);
-		g_SeqCur->EventCB(SEQ_EVENT_LOOP);
+		g_SeqEventCB(SEQ_EVENT_LOOP);
 	}
 	else
 		g_SeqDrawCB(g_SeqFrame);
@@ -270,7 +271,7 @@ void Sequence_UpdateLoopRevert()
 	if (g_SeqFrame == g_SeqCur->LastFrame)
 	{
 		g_SeqFrame = g_SeqCur->FirstFrame;
-		g_SeqCur->EventCB(SEQ_EVENT_LOOP);
+		g_SeqEventCB(SEQ_EVENT_LOOP);
 	}
 	else
 		g_SeqFrame--;
@@ -292,7 +293,7 @@ void Sequence_UpdateOnceRevert()
 	}
 	else
 	{
-		g_SeqCur->EventCB(SEQ_EVENT_END);
+		g_SeqEventCB(SEQ_EVENT_END);
 		if (g_SeqCur->Next.Seq)
 			Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 	}
@@ -375,7 +376,7 @@ void Sequence_UpdateTimeline()
 			g_SeqDrawCB(timeline[g_SeqFrame].Frame);
 			if (g_SeqFrame == g_SeqCur->LastFrame)
 			{
-				g_SeqCur->EventCB(SEQ_EVENT_END);
+				g_SeqEventCB(SEQ_EVENT_END);
 				if (g_SeqCur->Next.Seq)
 					Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 			}

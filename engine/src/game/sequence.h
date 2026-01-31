@@ -70,6 +70,7 @@ enum SEQ_ACTION
 	SEQ_ACT_CLICK_UP,				// Up click action
 	SEQ_ACT_CLICK_DOWN,				// Bottom click action
 	SEQ_ACT_CLICK_AREA,				// Click on custom area
+	SEQ_ACT_CLICK_NEXT,				// Click on custom area and move to next sequence
 //.....................................
 	SEQ_ACT_MAX,
 };
@@ -167,10 +168,8 @@ typedef struct Sequence
 	u8  Mode;						// Playback mode (see <SEQ_MODE>)
 	u8  FirstFrame;					// First frame of the sequence (or table index for timelined sequence)
 	u8  LastFrame;					// Last frame of the sequence (or number of entries for timelined sequence)
-	SeqEventCB EventCB;				// Event callback
 	SeqNext Next;					// Sequence to auto-start when reaching the end
-	u8  ActionNum;					// Number of actions
-	const SeqAction* const Actions[];
+	const SeqAction* const Actions[]; // NULL-terminated list of actions
 } Sequence;
 
 //=============================================================================
@@ -178,11 +177,12 @@ typedef struct Sequence
 //=============================================================================
 
 // Render variables
-extern u8 g_SeqFrameCount;
+extern u8 g_SeqFrameCount;			// Render frame count
 
 // Sequence variables
-extern const Sequence* g_SeqCur;
-extern u8 g_SeqFrame;
+extern const Sequence* g_SeqCur;	// Current sequence
+extern u8 g_SeqFrame;				// Current sequence's frame
+extern SeqEventCB g_SeqEventCB;		// Event callback
 
 // Cursor
 extern Mouse_State g_SeqMouseData;
@@ -217,10 +217,11 @@ extern u8 g_SeqTimelineTimer;
 //
 // Parameters:
 //   wait  - Frame wait time
+//   event - Event callback function
 //   draw  - Draw callback function
 //   left  - Action to move left
 //   right - Action to move right
-inline void Sequence_Initialize(u8 wait, SeqDrawCB draw, const SeqAction* left, const SeqAction* right) { g_SeqFrameWait = wait; g_SeqDrawCB = draw; g_SeqActionMoveLeft = left; g_SeqActionMoveRight = right; }
+inline void Sequence_Initialize(u8 wait, SeqEventCB event, SeqDrawCB draw, const SeqAction* left, const SeqAction* right) { g_SeqFrameWait = wait; g_SeqEventCB = event; g_SeqDrawCB = draw; g_SeqActionMoveLeft = left; g_SeqActionMoveRight = right; }
 
 #if (SEQ_USE_TIMELINE)
 // Function: Sequence_InitializeTimeline
@@ -230,6 +231,27 @@ inline void Sequence_Initialize(u8 wait, SeqDrawCB draw, const SeqAction* left, 
 //   timelines - Pointer to the timeline table
 inline void Sequence_InitializeTimeline(const SeqTime** timelines) { g_SeqTimelines = timelines; }
 #endif
+
+// Function: Sequence_SetSynchFrames
+// Set the synchronization display frame count
+//
+// Parameters:
+//   frames - Number of display frames to wait before updating
+inline void Sequence_SetSynchFrames(u8 frames) { g_SeqFrameWait = frames; }
+
+// Function: Sequence_SetEventCallback
+// Set the event callback function
+//
+// Parameters:
+//   event - Event callback function
+inline void Sequence_SetEventCallback(SeqEventCB event) { g_SeqEventCB = event; }
+
+// Function: Sequence_SetDrawCallback
+// Set the draw callback function
+//
+// Parameters:
+//   draw - Draw callback function
+inline void Sequence_SetDrawCallback(SeqDrawCB draw) { g_SeqDrawCB = draw; }
 
 // Function: Sequence_SetCursor
 // Set the cursor position
