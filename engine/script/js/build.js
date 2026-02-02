@@ -262,7 +262,7 @@ if (DoCompile)
 	//=========================================================================
 	// GENERATE RAW FILES DEFINITIONS
 	//=========================================================================
-	if (/*RawFilesDef &&*/ RawFiles.length)
+	if (RawFiles.length)
 	{
 		util.print("Generate raw files definitions...", PrintHighlight);
 

@@ -31,7 +31,7 @@ typedef u8   (*SeqCondCB)(u8 id);	// Sequence action condition check callback si
 typedef void (*SeqDrawCB)(u8 frame); // Sequence draw callback signature
 
 // Sequence playback modes
-enum SEQ_MODE
+enum SEQ_MODE_ID
 {
 	SEQ_MODE_FIXED = 0,				// Display a fixed image
 	SEQ_MODE_ONCE,					// Play sequence once and stop at last image
@@ -48,45 +48,41 @@ enum SEQ_MODE
 };
 
 // Sequence events
-enum SEQ_EVENT
+enum SEQ_EVENT_ID
 {
 	SEQ_EVENT_NONE = 0,				// No event
-	SEQ_EVENT_START,				// Sequence started
-	SEQ_EVENT_END,					// Sequence ended
-	SEQ_EVENT_LOOP,					// Sequence looped
-	SEQ_EVENT_ACTION,				// Action triggered
+	SEQ_EVENT_LEFT,					// Left click event
+	SEQ_EVENT_RIGHT,				// Right click event
+	SEQ_EVENT_UP,					// Up click event
+	SEQ_EVENT_DOWN,					// Down click event
+	SEQ_EVENT_NEXT,					// Next sequence event
 //.....................................
 	SEQ_EVENT_MAX,
-//.....................................
-	SEQ_EVENT_USER = 128,			// User defined event
+	SEQ_EVENT_USER = SEQ_EVENT_MAX, // User defined event
 };
 
-// Sequence action types
-enum SEQ_ACTION
+// Sequence events
+enum SEQ_NEXT_ID
 {
-	SEQ_ACT_AUTO = 0,				// Automatic action
-	SEQ_ACT_CLICK_LEFT,				// Left click action
-	SEQ_ACT_CLICK_RIGHT,			// Right click action
-	SEQ_ACT_CLICK_UP,				// Up click action
-	SEQ_ACT_CLICK_DOWN,				// Bottom click action
-	SEQ_ACT_CLICK_AREA,				// Click on custom area
-	SEQ_ACT_CLICK_NEXT,				// Click on custom area and move to next sequence
+	SEQ_NEXT_NONE = 0,				// No auto transition
+	SEQ_NEXT_AUTO,					// Automatic transition when sequence ends
+	SEQ_NEXT_MANUAL,				// Manual transition to next sequence
 //.....................................
-	SEQ_ACT_MAX,
+	SEQ_NEXT_MAX,
 };
 
 // Sequence action conditions response
-enum SEQ_CONDITION
+enum SEQ_CONDITION_ID
 {
 	SEQ_COND_OK = 0,				// Condition is OK
 	SEQ_COND_LOCK,					// Condition not met (action is locked)
-	SEQ_COND_HIDE,					// Condition not met (action is hidden)
+	SEQ_COND_DISABLE,				// Condition not met (action is disabled)
 //.....................................
 	SEQ_COND_MAX,
 };
 
 // Sequence action cursors
-enum SEQ_CURSOR
+enum SEQ_CURSOR_ID
 {
 	SEQ_CUR_DEFAULT = 0,
 	SEQ_CUR_MOVE_LEFT,				// 
@@ -103,7 +99,7 @@ enum SEQ_CURSOR
 };
 
 // Sequence input flags
-enum SEQ_INPUT
+enum SEQ_INPUT_ID
 {
 	SEQ_INPUT_CLICK_1		= 0b00000001,
 	SEQ_INPUT_CLICK_2		= 0b00000010,
@@ -124,9 +120,17 @@ typedef struct SeqActionArea
 	u8 EndY;						// Y coordinate of the end of the area
 } SeqActionArea;
 
+// Sequence custom area structure
+typedef struct SeqCustomArea
+{
+	struct SeqActionArea Area;
+	u8 Event;
+} SeqCustomArea;
+
 // Sequence transition structure
 typedef struct SeqNext
 {
+	u8 Mode;						// Next sequence mode
 	struct Sequence* Seq;			// Sequence to transition to
 	u8 Frame;						// Transition sequence start frame
 } SeqNext;
@@ -142,8 +146,7 @@ typedef struct SeqTransition
 // Sequence action structure
 typedef struct SeqAction
 {
-	u8 Action;						// Action type (see <SEQ_ACTION>)
-	u8 Id;							// Action ID sent to the callback 
+	u8 Event;						// Action ID sent to the callback 
 	u8 Cursor;						// Cursor type (see <SEQ_CURSOR>)
 	SeqCondCB Condition;			// Condition check callback
 	SeqTransition Trans;			// Sequence to auto-start when action triggered (if Trans.Seq is not NULL)
@@ -168,7 +171,9 @@ typedef struct Sequence
 	u8  Mode;						// Playback mode (see <SEQ_MODE>)
 	u8  FirstFrame;					// First frame of the sequence (or table index for timelined sequence)
 	u8  LastFrame;					// Last frame of the sequence (or number of entries for timelined sequence)
-	SeqNext Next;					// Sequence to auto-start when reaching the end
+	u8  StartEvent;					// Event triggered when sequence starts
+	u8  EndEvent;					// Event triggered when sequence ends or loops
+	SeqNext Next;					// Sequence to be played after this one (if Next.Seq is not NULL)
 	const SeqAction* const Actions[]; // NULL-terminated list of actions
 } Sequence;
 
@@ -221,6 +226,8 @@ extern u8 g_SeqTimelineTimer;
 //   draw  - Draw callback function
 //   left  - Action to move left
 //   right - Action to move right
+//   up    - Action to move up
+//   down  - Action to move down
 inline void Sequence_Initialize(u8 wait, SeqEventCB event, SeqDrawCB draw, const SeqAction* left, const SeqAction* right) { g_SeqFrameWait = wait; g_SeqEventCB = event; g_SeqDrawCB = draw; g_SeqActionMoveLeft = left; g_SeqActionMoveRight = right; }
 
 #if (SEQ_USE_TIMELINE)

@@ -41,7 +41,7 @@ void Sequence_UpdateInput();
 u8 g_SeqFrameCount = 0;				// Render frame count
 
 // Sequence variables
-const Sequence* g_SeqCur;			// Current sequence
+const Sequence* g_SeqCur = NULL;	// Current sequence
 u8 g_SeqFrame = 0;					// Current sequence's frame
 SeqEventCB g_SeqEventCB;			// Event callback
 
@@ -63,7 +63,7 @@ u8 g_SeqFrameWait = 6;
 SeqDrawCB g_SeqDrawCB;
 const SeqAction* g_SeqActionMoveLeft;
 const SeqAction* g_SeqActionMoveRight;
-Sequence g_SeqTransition = { 0, 0, 0, 0, { NULL, 0 }, { NULL } };
+Sequence g_SeqTransition = { 0, 0, 0, 0, 0, 0, { SEQ_NEXT_AUTO, NULL, 0 }, { NULL } };
 
 #if (SEQ_USE_TIMELINE)
 const SeqTime** g_SeqTimelines;
@@ -141,7 +141,7 @@ void Sequence_Play(const Sequence* seq, u8 frame)
 		g_SeqDrawCB(g_SeqFrame);
 	}
 
-	g_SeqEventCB(SEQ_EVENT_START);
+	g_SeqEventCB(seq->StartEvent);
 }
 
 //-----------------------------------------------------------------------------
@@ -173,6 +173,7 @@ bool Sequence_CheckArea(const SeqActionArea* area)
 // Check all current sequence's actions
 void Sequence_CheckActions()
 {
+	// Check for action hover
 	for (u8 i = 0; g_SeqCur->Actions[i] != NULL; i++)
 	{
 		const SeqAction* const act = g_SeqCur->Actions[i];
@@ -182,28 +183,28 @@ void Sequence_CheckActions()
 			{
 				g_SeqActionHover = act;
 				if (act->Condition)
-					g_SeqActionCond = act->Condition(act->Id); 
+					g_SeqActionCond = act->Condition(act->Event);
+				if (g_SeqActionCond != SEQ_COND_DISABLE)
+					break;
 			}
 		}
-		if ((g_SeqFrame >= act->FrameMin) && (g_SeqFrame <= act->FrameMax))
+		else if ((g_SeqFrame >= act->FrameMin) && (g_SeqFrame <= act->FrameMax))
 		{
 			if (Sequence_CheckArea(&act->Areas[g_SeqFrame - act->FrameMin]))
 			{
 				g_SeqActionHover = act;
 				if (act->Condition)
-					g_SeqActionCond = act->Condition(act->Id); 
+					g_SeqActionCond = act->Condition(act->Event); 
+				if (g_SeqActionCond != SEQ_COND_DISABLE)
+					break;
 			}
 		}
 	}
-}
 
-//-----------------------------------------------------------------------------
-// Apply event linked to click on area
-void Sequence_ApplyClick()
-{
-	if (g_SeqActionHover && (g_SeqActionHover->Action == SEQ_ACT_CLICK_AREA) && (g_SeqActionCond == SEQ_COND_OK))
+	// Check for action click
+	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && (g_SeqActionCond == SEQ_COND_OK) &&  g_SeqActionHover)
 	{
-		g_SeqEventCB(g_SeqActionHover->Id);
+		g_SeqEventCB(g_SeqActionHover->Event);
 		const SeqTransition* trans = &g_SeqActionHover->Trans;
 		if (trans->Seq)
 		{
@@ -220,8 +221,6 @@ void Sequence_ApplyClick()
 void Sequence_UpdateFixed()
 {
 	Sequence_CheckActions();
-	if (g_SeqInput & SEQ_INPUT_CLICK_1)
-		Sequence_ApplyClick();
 }
 
 //-----------------------------------------------------------------------------
@@ -232,54 +231,15 @@ void Sequence_UpdateOnce()
 	{
 		g_SeqFrame++;
 		g_SeqDrawCB(g_SeqFrame);
-		if (g_SeqFrame == g_SeqCur->LastFrame)
+		if (g_SeqFrame == g_SeqCur->LastFrame) // reached the end
 		{
-			g_SeqEventCB(SEQ_EVENT_END);
-			if (g_SeqCur->Next.Seq)
+			g_SeqEventCB(g_SeqCur->EndEvent);
+			if (g_SeqCur->Next.Mode == SEQ_NEXT_AUTO)
 				Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 		}
 	}
 
 	Sequence_CheckActions();
-	if (g_SeqInput & SEQ_INPUT_CLICK_1)
-		Sequence_ApplyClick();
-}
-
-//-----------------------------------------------------------------------------
-// Update sequence for mode SEQ_MODE_LOOP
-void Sequence_UpdateLoop()
-{
-	g_SeqFrame++;
-	if (g_SeqFrame > g_SeqCur->LastFrame)
-	{
-		g_SeqFrame = g_SeqCur->FirstFrame;
-		g_SeqDrawCB(g_SeqFrame);
-		g_SeqEventCB(SEQ_EVENT_LOOP);
-	}
-	else
-		g_SeqDrawCB(g_SeqFrame);
-
-	Sequence_CheckActions();
-	if (g_SeqInput & SEQ_INPUT_CLICK_1)
-		Sequence_ApplyClick();
-}
-
-//-----------------------------------------------------------------------------
-// Update sequence for mode SEQ_MODE_LOOP_REVERT
-void Sequence_UpdateLoopRevert()
-{
-	if (g_SeqFrame == g_SeqCur->LastFrame)
-	{
-		g_SeqFrame = g_SeqCur->FirstFrame;
-		g_SeqEventCB(SEQ_EVENT_LOOP);
-	}
-	else
-		g_SeqFrame--;
-	g_SeqDrawCB(g_SeqFrame);
-
-	Sequence_CheckActions();
-	if (g_SeqInput & SEQ_INPUT_CLICK_1)
-		Sequence_ApplyClick();
 }
 
 //-----------------------------------------------------------------------------
@@ -291,22 +251,54 @@ void Sequence_UpdateOnceRevert()
 		g_SeqFrame--;
 		g_SeqDrawCB(g_SeqFrame);
 	}
-	else
+	else // reached the end
 	{
-		g_SeqEventCB(SEQ_EVENT_END);
-		if (g_SeqCur->Next.Seq)
+		g_SeqEventCB(g_SeqCur->EndEvent);
+		if (g_SeqCur->Next.Mode == SEQ_NEXT_AUTO)
 			Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 	}
 
 	Sequence_CheckActions();
-	if (g_SeqInput & SEQ_INPUT_CLICK_1)
-		Sequence_ApplyClick();
+}
+
+//-----------------------------------------------------------------------------
+// Update sequence for mode SEQ_MODE_LOOP
+void Sequence_UpdateLoop()
+{
+	g_SeqFrame++;
+	if (g_SeqFrame > g_SeqCur->LastFrame) // reached the loop point
+	{
+		g_SeqFrame = g_SeqCur->FirstFrame;
+		g_SeqDrawCB(g_SeqFrame);
+		g_SeqEventCB(g_SeqCur->EndEvent);
+	}
+	else
+		g_SeqDrawCB(g_SeqFrame);
+
+	Sequence_CheckActions();
+}
+
+//-----------------------------------------------------------------------------
+// Update sequence for mode SEQ_MODE_LOOP_REVERT
+void Sequence_UpdateLoopRevert()
+{
+	if (g_SeqFrame == g_SeqCur->LastFrame) // reached the loop point
+	{
+		g_SeqFrame = g_SeqCur->FirstFrame;
+		g_SeqEventCB(g_SeqCur->EndEvent);
+	}
+	else
+		g_SeqFrame--;
+	g_SeqDrawCB(g_SeqFrame);
+
+	Sequence_CheckActions();
 }
 
 //-----------------------------------------------------------------------------
 // Update sequence for mode SEQ_MODE_PAN_BOUND
 void Sequence_UpdatePanBound()
 {
+	// to be implemented...
 }
 
 //-----------------------------------------------------------------------------
@@ -314,48 +306,34 @@ void Sequence_UpdatePanBound()
 void Sequence_UpdatePanLoop()
 {
 	// Check area
-	if (g_SeqInput & SEQ_INPUT_MOVE_LEFT)
-		g_SeqActionHover = g_SeqActionMoveLeft;
-	else if (g_SeqInput & SEQ_INPUT_MOVE_RIGHT)
-		g_SeqActionHover = g_SeqActionMoveRight;
-	else if (Sequence_CheckArea(&(g_SeqActionMoveLeft->Areas[0])))
-		g_SeqActionHover = g_SeqActionMoveLeft;
-	else if (Sequence_CheckArea(&(g_SeqActionMoveRight->Areas[0])))
-		g_SeqActionHover = g_SeqActionMoveRight;
-	else
-		Sequence_CheckActions();
-
-	if (g_SeqActionHover)
+	if ((g_SeqInput & SEQ_INPUT_MOVE_LEFT) || (Sequence_CheckArea(&(g_SeqActionMoveLeft->Areas[0]))))
 	{
-		switch (g_SeqActionHover->Action)
+		g_SeqActionHover = g_SeqActionMoveLeft;
+
+		if ((g_SeqInput & SEQ_INPUT_PRESS_1) || (g_SeqInput & SEQ_INPUT_MOVE_LEFT))
 		{
-		case SEQ_ACT_CLICK_AREA:
-			if (g_SeqInput & SEQ_INPUT_CLICK_1)
-				Sequence_ApplyClick();
-			break;
-
-		case SEQ_ACT_CLICK_RIGHT:
-			if ((g_SeqInput & SEQ_INPUT_PRESS_1) || (g_SeqInput & SEQ_INPUT_MOVE_RIGHT))
-			{
-				if (g_SeqFrame < g_SeqCur->LastFrame)
-					g_SeqFrame++;
-				else
-					g_SeqFrame = g_SeqCur->FirstFrame;
-				g_SeqDrawCB(g_SeqFrame);
-			}
-			break;
-
-		case SEQ_ACT_CLICK_LEFT:
-			if ((g_SeqInput & SEQ_INPUT_PRESS_1) || (g_SeqInput & SEQ_INPUT_MOVE_LEFT))
-			{
-				if (g_SeqFrame > g_SeqCur->FirstFrame)
-					g_SeqFrame--;
-				else
-					g_SeqFrame = g_SeqCur->LastFrame;
-				g_SeqDrawCB(g_SeqFrame);
-			}
-			break;
+			if (g_SeqFrame > g_SeqCur->FirstFrame)
+				g_SeqFrame--;
+			else
+				g_SeqFrame = g_SeqCur->LastFrame;
+			g_SeqDrawCB(g_SeqFrame);
 		}
+	}
+	else if ((g_SeqInput & SEQ_INPUT_MOVE_RIGHT) || (Sequence_CheckArea(&(g_SeqActionMoveRight->Areas[0]))))
+	{
+		g_SeqActionHover = g_SeqActionMoveRight;
+		if ((g_SeqInput & SEQ_INPUT_PRESS_1) || (g_SeqInput & SEQ_INPUT_MOVE_RIGHT))
+		{
+			if (g_SeqFrame < g_SeqCur->LastFrame)
+				g_SeqFrame++;
+			else
+				g_SeqFrame = g_SeqCur->FirstFrame;
+			g_SeqDrawCB(g_SeqFrame);
+		}
+	}
+	else
+	{
+		Sequence_CheckActions();
 	}
 }
 
@@ -364,28 +342,27 @@ void Sequence_UpdatePanLoop()
 // Update sequence for mode SEQ_MODE_TIMELINE
 void Sequence_UpdateTimeline()
 {
-	if (g_SeqFrame < g_SeqCur->LastFrame)
+	if (g_SeqFrame <= g_SeqCur->LastFrame)
 	{
 		const SeqTime* timeline = g_SeqTimelines[g_SeqCur->FirstFrame];
 
 		g_SeqTimelineTimer++;
 		if (g_SeqTimelineTimer >= timeline[g_SeqFrame].Time)
 		{
-			g_SeqTimelineTimer = 0;
-			g_SeqFrame++;
-			g_SeqDrawCB(timeline[g_SeqFrame].Frame);
-			if (g_SeqFrame == g_SeqCur->LastFrame)
+			if (g_SeqFrame < g_SeqCur->LastFrame)
 			{
-				g_SeqEventCB(SEQ_EVENT_END);
-				if (g_SeqCur->Next.Seq)
-					Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
+				g_SeqTimelineTimer = 0;
+				g_SeqFrame++;
+				g_SeqDrawCB(timeline[g_SeqFrame].Frame);
+			}
+			else if (g_SeqCur->Next.Mode == SEQ_NEXT_AUTO)
+			{
+				Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 			}
 		}
 	}
 
 	Sequence_CheckActions();
-	if (g_SeqInput & SEQ_INPUT_CLICK_1)
-		Sequence_ApplyClick();
 }
 #endif
 
