@@ -157,11 +157,12 @@ typedef struct SeqAction
 
 #if (SEQ_USE_TIMELINE)
 // Sequence timeline entry
-typedef struct SeqTime
+typedef struct SeqKey
 {
 	u8 Time;						// Duration of the frame (in sequencer unit)
 	u8 Frame;						// Frame number (relative to start)
-} SeqTime;
+	u8 Event;						// Event to be triggered at the begining of each step
+} SeqKey;
 #endif
 
 // Sequence structure
@@ -209,7 +210,7 @@ extern const SeqAction* g_SeqActionMoveRight;
 extern Sequence g_SeqTransition;
 
 #if (SEQ_USE_TIMELINE)
-extern const SeqTime** g_SeqTimelines;
+extern const SeqKey** g_SeqTimelines;
 extern u8 g_SeqTimelineTimer;
 #endif
 
@@ -236,7 +237,7 @@ inline void Sequence_Initialize(u8 wait, SeqEventCB event, SeqDrawCB draw, const
 //
 // Parameters:
 //   timelines - Pointer to the timeline table
-inline void Sequence_InitializeTimeline(const SeqTime** timelines) { g_SeqTimelines = timelines; }
+inline void Sequence_InitializeTimeline(const SeqKey** timelines) { g_SeqTimelines = timelines; }
 #endif
 
 // Function: Sequence_SetSynchFrames

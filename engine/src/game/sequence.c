@@ -66,7 +66,7 @@ const SeqAction* g_SeqActionMoveRight;
 Sequence g_SeqTransition = { 0, 0, 0, 0, 0, 0, { SEQ_NEXT_AUTO, NULL, 0 }, { NULL } };
 
 #if (SEQ_USE_TIMELINE)
-const SeqTime** g_SeqTimelines;
+const SeqKey** g_SeqTimelines;
 u8 g_SeqTimelineTimer;
 #endif
 
@@ -127,7 +127,10 @@ void Sequence_Play(const Sequence* seq, u8 frame)
 	{
 		g_SeqTimelineTimer = 0;
 		g_SeqFrame = frame;
-		g_SeqDrawCB(g_SeqTimelines[g_SeqCur->FirstFrame][frame].Frame);
+		SeqKey* key = &g_SeqTimelines[g_SeqCur->FirstFrame][frame];
+		g_SeqDrawCB(key->Frame);
+		if (key->Event)
+			g_SeqEventCB(key->Event);
 	}
 	else
 #endif
@@ -344,18 +347,20 @@ void Sequence_UpdateTimeline()
 {
 	if (g_SeqFrame <= g_SeqCur->LastFrame)
 	{
-		const SeqTime* timeline = g_SeqTimelines[g_SeqCur->FirstFrame];
+		const SeqKey* key = &g_SeqTimelines[g_SeqCur->FirstFrame][g_SeqFrame];
 
 		g_SeqTimelineTimer++;
-		if (g_SeqTimelineTimer >= timeline[g_SeqFrame].Time)
+		if (g_SeqTimelineTimer >= key->Time)
 		{
-			if (g_SeqFrame < g_SeqCur->LastFrame)
+			if (g_SeqFrame < g_SeqCur->LastFrame) // End of step
 			{
 				g_SeqTimelineTimer = 0;
 				g_SeqFrame++;
-				g_SeqDrawCB(timeline[g_SeqFrame].Frame);
+				g_SeqDrawCB(key->Frame);
+				if (key->Event)
+					g_SeqEventCB(key->Event);
 			}
-			else if (g_SeqCur->Next.Mode == SEQ_NEXT_AUTO)
+			else if (g_SeqCur->Next.Mode == SEQ_NEXT_AUTO) // End of sequence
 			{
 				Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 			}
