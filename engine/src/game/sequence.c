@@ -127,7 +127,7 @@ void Sequence_Play(const Sequence* seq, u8 frame)
 	{
 		g_SeqTimelineTimer = 0;
 		g_SeqFrame = frame;
-		SeqKey* key = &g_SeqTimelines[g_SeqCur->FirstFrame][frame];
+		const SeqKey* key = &g_SeqTimelines[g_SeqCur->FirstFrame][frame];
 		g_SeqDrawCB(key->Frame);
 		if (key->Event)
 			g_SeqEventCB(key->Event);
@@ -348,7 +348,6 @@ void Sequence_UpdateTimeline()
 	if (g_SeqFrame <= g_SeqCur->LastFrame)
 	{
 		const SeqKey* key = &g_SeqTimelines[g_SeqCur->FirstFrame][g_SeqFrame];
-
 		g_SeqTimelineTimer++;
 		if (g_SeqTimelineTimer >= key->Time)
 		{
@@ -356,6 +355,7 @@ void Sequence_UpdateTimeline()
 			{
 				g_SeqTimelineTimer = 0;
 				g_SeqFrame++;
+				key++;
 				g_SeqDrawCB(key->Frame);
 				if (key->Event)
 					g_SeqEventCB(key->Event);
