@@ -67,8 +67,7 @@ enum SEQ_NEXT_ID
 	SEQ_NEXT_NONE   		= 0b00000000, // No auto transition
 	SEQ_NEXT_AUTO   		= 0b00000001, // Automatic transition when sequence ends
 	SEQ_NEXT_MANUAL 		= 0b00000010, // Manual transition to next sequence
-	//.....................................
-	SEQ_NEXT_ALL 		    = 0b00000011, // Automatic or manual transition
+	SEQ_NEXT_BOTH 		    = SEQ_NEXT_AUTO|SEQ_NEXT_MANUAL, // Automatic or manual transition
 };
 
 // Sequence action conditions response
