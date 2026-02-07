@@ -321,7 +321,7 @@ void Sequence_UpdatePanLoop()
 			g_SeqDrawCB(g_SeqFrame);
 		}
 	}
-	else if ((g_SeqInput & SEQ_INPUT_MOVE_RIGHT) || (Sequence_CheckArea(&(g_SeqActionMoveRight->Areas[0]))))
+	if ((g_SeqInput & SEQ_INPUT_MOVE_RIGHT) || (Sequence_CheckArea(&(g_SeqActionMoveRight->Areas[0]))))
 	{
 		g_SeqActionHover = g_SeqActionMoveRight;
 		if ((g_SeqInput & SEQ_INPUT_PRESS_1) || (g_SeqInput & SEQ_INPUT_MOVE_RIGHT))

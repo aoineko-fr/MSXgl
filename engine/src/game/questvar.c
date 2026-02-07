@@ -44,14 +44,14 @@ void QuestVar_Initialize()
 
 //-----------------------------------------------------------------------------
 // Set a quest variable
-void QuestVar_Set(u8 var)
+void QuestVar_Enable(u8 var)
 {
 	g_QuestVar[var / 8] |= g_QuestVarMask[var % 8];
 }
 
 //-----------------------------------------------------------------------------
 // Reset a quest variable
-void QuestVar_Reset(u8 var)
+void QuestVar_Disable(u8 var)
 {
 	g_QuestVar[var / 8] &= ~g_QuestVarMask[var % 8];
 }

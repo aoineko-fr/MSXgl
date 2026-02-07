@@ -37,19 +37,27 @@ extern u8 g_QuestVar[QUESTVAR_BYTES];
 // Initialize quest variables
 void QuestVar_Initialize();
 
-// Function: QuestVar_Set
+// Function: QuestVar_Enable
 // Set a quest variable
 //
 // Parameters:
 //   var - Quest variable to set
-void QuestVar_Set(u8 var);
+void QuestVar_Enable(u8 var);
 
-// Function: QuestVar_Reset
+// Function: QuestVar_Disable
 // Reset a quest variable
 //
 // Parameters:
 //   var - Quest variable to set
-void QuestVar_Reset(u8 var);
+void QuestVar_Disable(u8 var);
+
+// Function: QuestVar_Set
+// Set or reset a quest variable
+//
+// Parameters:
+//   var    - Quest variable to set
+//   enable - TRUE to enable, FALSE to disable
+inline void QuestVar_Set(u8 var, bool enable) { if (enable) QuestVar_Enable(var); else QuestVar_Disable(var); }
 
 // Function: QuestVar_Toggle
 // Toggle a quest variable

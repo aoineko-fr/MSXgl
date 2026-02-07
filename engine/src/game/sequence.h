@@ -268,6 +268,20 @@ inline void Sequence_SetDrawCallback(SeqDrawCB draw) { g_SeqDrawCB = draw; }
 //   y - Y coordinate of the cursor
 inline void Sequence_SetCursor(u8 x, u8 y) { g_SeqCursorPosX = x; g_SeqCursorPosY = y; g_SeqCursorAccX = 0; g_SeqCursorAccY = 0; }
 
+// Function: Sequence_GetCursorX
+// Get the cursor X coordinate
+//
+// Return:
+//   Cursor X coordinate
+inline u8 Sequence_GetCursorX() { return g_SeqCursorPosX; }
+
+// Function: Sequence_GetCursorY
+// Get the cursor Y coordinate
+//
+// Return:
+//   Cursor Y coordinate
+inline u8 Sequence_GetCursorY() { return g_SeqCursorPosY; }
+
 // Function: Sequence_MoveCursor
 // Move the cursor position
 //
