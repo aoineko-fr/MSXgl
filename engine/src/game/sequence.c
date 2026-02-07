@@ -204,7 +204,7 @@ void Sequence_CheckActions()
 	}
 
 	// Check for action click
-	if ((g_SeqInput & SEQ_INPUT_CLICK_1) && (g_SeqActionCond == SEQ_COND_OK) &&  g_SeqActionHover)
+	if ((Sequence_CheckInput(SEQ_INPUT_CLICK_1)) && (g_SeqActionCond == SEQ_COND_OK) &&  g_SeqActionHover)
 	{
 		g_SeqEventCB(g_SeqActionHover->Event);
 		const SeqTransition* trans = &g_SeqActionHover->Trans;
@@ -306,37 +306,37 @@ void Sequence_UpdatePanBound()
 //-----------------------------------------------------------------------------
 // Update sequence for mode SEQ_MODE_PAN_LOOP
 void Sequence_UpdatePanLoop()
-{
+{	
 	// Check area
-	if ((g_SeqInput & SEQ_INPUT_MOVE_LEFT) || (Sequence_CheckArea(&(g_SeqActionMoveLeft->Areas[0]))))
+	if ((Sequence_CheckInput(SEQ_INPUT_MOVE_LEFT)) || (Sequence_CheckArea(g_SeqActionMoveLeft->Areas)))
 	{
 		g_SeqActionHover = g_SeqActionMoveLeft;
 
-		if ((g_SeqInput & SEQ_INPUT_PRESS_1) || (g_SeqInput & SEQ_INPUT_MOVE_LEFT))
+		if ((Sequence_CheckInput(SEQ_INPUT_MOVE_LEFT) || (Sequence_CheckInput(SEQ_INPUT_PRESS_1))))
 		{
 			if (g_SeqFrame > g_SeqCur->FirstFrame)
 				g_SeqFrame--;
 			else
 				g_SeqFrame = g_SeqCur->LastFrame;
 			g_SeqDrawCB(g_SeqFrame);
+			return;
 		}
 	}
-	if ((g_SeqInput & SEQ_INPUT_MOVE_RIGHT) || (Sequence_CheckArea(&(g_SeqActionMoveRight->Areas[0]))))
+	if ((Sequence_CheckInput(SEQ_INPUT_MOVE_RIGHT)) || (Sequence_CheckArea(g_SeqActionMoveRight->Areas)))
 	{
 		g_SeqActionHover = g_SeqActionMoveRight;
-		if ((g_SeqInput & SEQ_INPUT_PRESS_1) || (g_SeqInput & SEQ_INPUT_MOVE_RIGHT))
+		if ((Sequence_CheckInput(SEQ_INPUT_MOVE_RIGHT)) || (Sequence_CheckInput(SEQ_INPUT_PRESS_1)))
 		{
 			if (g_SeqFrame < g_SeqCur->LastFrame)
 				g_SeqFrame++;
 			else
 				g_SeqFrame = g_SeqCur->FirstFrame;
 			g_SeqDrawCB(g_SeqFrame);
+			return;
 		}
 	}
-	else
-	{
-		Sequence_CheckActions();
-	}
+
+	Sequence_CheckActions();
 }
 
 #if (SEQ_USE_TIMELINE)
@@ -450,7 +450,7 @@ void Sequence_UpdateInput()
 void Sequence_UpdateCursor()
 {
 	// Update cursor
-	if (g_SeqInput & SEQ_INPUT_CLICK_2) // Cancel custom cursor
+	if (Sequence_CheckInput(SEQ_INPUT_CLICK_2)) // Cancel custom cursor
 		Sequence_ClearCustomCursor();
 
 	u8 pat = SEQ_CUR_DEFAULT;
