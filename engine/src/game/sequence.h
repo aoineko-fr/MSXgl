@@ -83,11 +83,11 @@ enum SEQ_CONDITION_ID
 // Sequence action cursors
 enum SEQ_CURSOR_ID
 {
-	SEQ_CUR_DEFAULT = 0,
-	SEQ_CUR_MOVE_LEFT,				// 
-	SEQ_CUR_MOVE_RIGHT,				// 
-	SEQ_CUR_MOVE_UP,				//
-	SEQ_CUR_MOVE_DOWN,				//
+	SEQ_CUR_DEFAULT = 0,			// Default cursor
+	SEQ_CUR_LEFT,					// 
+	SEQ_CUR_RIGHT,					// 
+	SEQ_CUR_UP,						//
+	SEQ_CUR_DOWN,					//
 	SEQ_CUR_USE,					//
 	SEQ_CUR_TAKE,					//
 	SEQ_CUR_LOOK,					//

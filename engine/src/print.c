@@ -64,7 +64,12 @@ void DrawChar_Layout(u8 chr);
 extern u16 g_HeapStartAddress;
 
 // Allocate memory for Print module data structure
+#if (PRINT_USE_MULTIFONT)
+Print_Data* g_PrintData;
+#else
 Print_Data g_PrintData;
+#endif
+
 
 // Table use to quick decimal-to-hexadecimal conversion
 const c8 g_HexChar[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
@@ -98,7 +103,7 @@ u8 g_PrintInvalid[] =
 u8 Print_SplitColor(u8 color)
 {
 	#if (PRINT_USE_SPRITE)
-	if (g_PrintData.SourceMode == PRINT_MODE_SPRITE)
+	if (PRINT_DATA.SourceMode == PRINT_MODE_SPRITE)
 		return color;
 	#endif
 
@@ -166,7 +171,7 @@ bool Print_Initialize()
 	#if (VDP_USE_MODE_T1)
 		case VDP_MODE_TEXT1:		// 40 characters per line of text, one colour for each character
 			Print_SetTabSize(3);
-			g_PrintData.ScreenWidth = 40;
+			PRINT_DATA.ScreenWidth = 40;
 			break;
 	#endif
 	#if (VDP_USE_MODE_MC)
@@ -176,19 +181,19 @@ bool Print_Initialize()
 	#if (VDP_USE_MODE_G1)
 		case VDP_MODE_GRAPHIC1:		// 32 characters per one line of text, the COLOURed character available
 			Print_SetTabSize(3);
-			g_PrintData.ScreenWidth = 32;
+			PRINT_DATA.ScreenWidth = 32;
 			break;
 	#endif
 	#if (VDP_USE_MODE_G2)
 		case VDP_MODE_GRAPHIC2:		// 256 x 192, the colour is specififed for each 8 dots
 			Print_SetTabSize(3);
-			g_PrintData.ScreenWidth = 32;
+			PRINT_DATA.ScreenWidth = 32;
 			break;
 	#endif
 	#if (VDP_USE_MODE_T2)
 		case VDP_MODE_TEXT2:		// 80 characters per line of text, character blinkable selection
 			Print_SetTabSize(3);
-			g_PrintData.ScreenWidth = 80;
+			PRINT_DATA.ScreenWidth = 80;
 			break;
 	#endif
 	#if (VDP_USE_MODE_G3)
@@ -199,33 +204,33 @@ bool Print_Initialize()
 		#endif
 		case VDP_MODE_GRAPHIC3:		// GRAPHIC 2 which can use sprite mode 2
 			Print_SetTabSize(3);
-			g_PrintData.ScreenWidth = 32;
+			PRINT_DATA.ScreenWidth = 32;
 			break;
 	#endif
 	#if (VDP_USE_MODE_G4)
 		case VDP_MODE_GRAPHIC4:		// 256 x 212; 16 colours are available for each dot
 			Print_SetTabSize(PRINT_TAB_SIZE);
-			g_PrintData.ScreenWidth = 256;
+			PRINT_DATA.ScreenWidth = 256;
 			break;
 	#endif
 	#if (VDP_USE_MODE_G5)
 		case VDP_MODE_GRAPHIC5:		// 512 x 212; 4 colours are available for each dot
 			Print_SetTabSize(PRINT_TAB_SIZE);
 			Print_SetColor(0x03, 0x0);
-			g_PrintData.ScreenWidth = 512;
+			PRINT_DATA.ScreenWidth = 512;
 			break;
 	#endif
 	#if (VDP_USE_MODE_G6)
 		case VDP_MODE_GRAPHIC6:		// 512 x 212; 16 colours are available for each dot
 			Print_SetTabSize(PRINT_TAB_SIZE);
-			g_PrintData.ScreenWidth = 512;
+			PRINT_DATA.ScreenWidth = 512;
 			break;
 	#endif
 	#if (VDP_USE_MODE_G7)
 		case VDP_MODE_GRAPHIC7:		// 256 x 212; 256 colours are available for each dot
 			Print_SetTabSize(PRINT_TAB_SIZE);
 			Print_SetColor(0xFF, 0x0);
-			g_PrintData.ScreenWidth = 256;
+			PRINT_DATA.ScreenWidth = 256;
 			break;
 	#endif
 	default:
@@ -233,7 +238,7 @@ bool Print_Initialize()
 		return FALSE;
 	}
 	
-	// g_PrintData.PatternsPerLine = g_PrintData.ScreenWidth / PRINT_W(g_PrintData.UnitX);
+	// PRINT_DATA.PatternsPerLine = PRINT_DATA.ScreenWidth / PRINT_W(PRINT_DATA.UnitX);
 
 	return TRUE;
 }
@@ -242,9 +247,9 @@ bool Print_Initialize()
 //
 void Print_SetMode(u8 mode)
 {
-	g_PrintData.SourceMode = mode;
+	PRINT_DATA.SourceMode = mode;
 
-	switch (g_PrintData.SourceMode)
+	switch (PRINT_DATA.SourceMode)
 	{
 	#if (PRINT_USE_BITMAP)
 		case PRINT_MODE_BITMAP:
@@ -253,18 +258,18 @@ void Print_SetMode(u8 mode)
 			{
 			#if (VDP_USE_MODE_G5)
 				case VDP_MODE_GRAPHIC5:
-					g_PrintData.DrawChar = DrawChar_2B;
+					PRINT_DATA.DrawChar = DrawChar_2B;
 					break;
 			#endif
 			#if (VDP_USE_MODE_G4 || VDP_USE_MODE_G6)
 				case VDP_MODE_GRAPHIC4:
 				case VDP_MODE_GRAPHIC6:
-					g_PrintData.DrawChar = DrawChar_4B;
+					PRINT_DATA.DrawChar = DrawChar_4B;
 					break;
 			#endif
 			#if (VDP_USE_MODE_G7)
 				case VDP_MODE_GRAPHIC7:
-					g_PrintData.DrawChar = DrawChar_8B; 
+					PRINT_DATA.DrawChar = DrawChar_8B; 
 					break;
 			#endif
 			}
@@ -273,7 +278,7 @@ void Print_SetMode(u8 mode)
 		#if (VDP_USE_MODE_G4 || VDP_USE_MODE_G5 || VDP_USE_MODE_G6 || VDP_USE_MODE_G7)
 		case PRINT_MODE_BITMAP_TRANS:
 		{
-			g_PrintData.DrawChar = DrawChar_Trans;
+			PRINT_DATA.DrawChar = DrawChar_Trans;
 			break;
 		}
 		#endif
@@ -286,13 +291,13 @@ void Print_SetMode(u8 mode)
 			#if (VDP_USE_MODE_G4 || VDP_USE_MODE_G7)
 				case VDP_MODE_GRAPHIC4:
 				case VDP_MODE_GRAPHIC7:
-					g_PrintData.DrawChar = DrawChar_VRAM256;
+					PRINT_DATA.DrawChar = DrawChar_VRAM256;
 					break;
 			#endif
 			#if (VDP_USE_MODE_G5 || VDP_USE_MODE_G6)
 				case VDP_MODE_GRAPHIC5:
 				case VDP_MODE_GRAPHIC6:
-					g_PrintData.DrawChar = DrawChar_VRAM512;
+					PRINT_DATA.DrawChar = DrawChar_VRAM512;
 					break;
 			#endif
 			};
@@ -302,14 +307,14 @@ void Print_SetMode(u8 mode)
 	#if (PRINT_USE_SPRITE)
 		case PRINT_MODE_SPRITE:
 		{
-			g_PrintData.DrawChar = DrawChar_Sprite;
+			PRINT_DATA.DrawChar = DrawChar_Sprite;
 			break;
 		}
 	#endif
 	#if (PRINT_USE_TEXT)
 		case PRINT_MODE_TEXT:
 		{
-			g_PrintData.DrawChar = DrawChar_Layout;
+			PRINT_DATA.DrawChar = DrawChar_Layout;
 			break;
 		}
 	#endif
@@ -342,42 +347,42 @@ void Print_InitColorBuffer(u8 t, u8 b)
 		case VDP_MODE_GRAPHIC6:
 	#endif
 	#if (VDP_USE_MODE_G4 || VDP_USE_MODE_G6)
-			g_PrintData.Buffer[0] = (b << 4) | b;	// [ 0, 0 ]
-			g_PrintData.Buffer[1] = (b << 4) | t;	// [ 0, 1 ]
-			g_PrintData.Buffer[2] = (t << 4) | b;	// [ 1, 0 ]
-			g_PrintData.Buffer[3] = (t << 4) | t;	// [ 1, 1 ]
+			PRINT_DATA.Buffer[0] = (b << 4) | b;	// [ 0, 0 ]
+			PRINT_DATA.Buffer[1] = (b << 4) | t;	// [ 0, 1 ]
+			PRINT_DATA.Buffer[2] = (t << 4) | b;	// [ 1, 0 ]
+			PRINT_DATA.Buffer[3] = (t << 4) | t;	// [ 1, 1 ]
 			break;
 	#endif
 	#if (VDP_USE_MODE_G5)
 		case VDP_MODE_GRAPHIC5:
-			g_PrintData.Buffer[ 0] = (b << 6) | (b << 4) | (b << 2) | b;	// [ 0, 0, 0, 0 ]
-			g_PrintData.Buffer[ 1] = (b << 6) | (b << 4) | (b << 2) | t;	// [ 0, 0, 0, 1 ]
-			g_PrintData.Buffer[ 2] = (b << 6) | (b << 4) | (t << 2) | b;	// [ 0, 0, 1, 0 ]
-			g_PrintData.Buffer[ 3] = (b << 6) | (b << 4) | (t << 2) | t;	// [ 0, 0, 1, 1 ]
-			g_PrintData.Buffer[ 4] = (b << 6) | (t << 4) | (b << 2) | b;	// [ 0, 1, 0, 0 ]
-			g_PrintData.Buffer[ 5] = (b << 6) | (t << 4) | (b << 2) | t;	// [ 0, 1, 0, 1 ]
-			g_PrintData.Buffer[ 6] = (b << 6) | (t << 4) | (t << 2) | b;	// [ 0, 1, 1, 0 ]
-			g_PrintData.Buffer[ 7] = (b << 6) | (t << 4) | (t << 2) | t;	// [ 0, 1, 1, 1 ]
-			g_PrintData.Buffer[ 8] = (t << 6) | (b << 4) | (b << 2) | b;	// [ 1, 0, 0, 0 ]
-			g_PrintData.Buffer[ 9] = (t << 6) | (b << 4) | (b << 2) | t;	// [ 1, 0, 0, 1 ]
-			g_PrintData.Buffer[10] = (t << 6) | (b << 4) | (t << 2) | b;	// [ 1, 0, 1, 0 ]
-			g_PrintData.Buffer[11] = (t << 6) | (b << 4) | (t << 2) | t;	// [ 1, 0, 1, 1 ]
-			g_PrintData.Buffer[12] = (t << 6) | (t << 4) | (b << 2) | b;	// [ 1, 1, 0, 0 ]
-			g_PrintData.Buffer[13] = (t << 6) | (t << 4) | (b << 2) | t;	// [ 1, 1, 0, 1 ]
-			g_PrintData.Buffer[14] = (t << 6) | (t << 4) | (t << 2) | b;	// [ 1, 1, 1, 0 ]
-			g_PrintData.Buffer[15] = (t << 6) | (t << 4) | (t << 2) | t;	// [ 1, 1, 1, 1 ]
+			PRINT_DATA.Buffer[ 0] = (b << 6) | (b << 4) | (b << 2) | b;	// [ 0, 0, 0, 0 ]
+			PRINT_DATA.Buffer[ 1] = (b << 6) | (b << 4) | (b << 2) | t;	// [ 0, 0, 0, 1 ]
+			PRINT_DATA.Buffer[ 2] = (b << 6) | (b << 4) | (t << 2) | b;	// [ 0, 0, 1, 0 ]
+			PRINT_DATA.Buffer[ 3] = (b << 6) | (b << 4) | (t << 2) | t;	// [ 0, 0, 1, 1 ]
+			PRINT_DATA.Buffer[ 4] = (b << 6) | (t << 4) | (b << 2) | b;	// [ 0, 1, 0, 0 ]
+			PRINT_DATA.Buffer[ 5] = (b << 6) | (t << 4) | (b << 2) | t;	// [ 0, 1, 0, 1 ]
+			PRINT_DATA.Buffer[ 6] = (b << 6) | (t << 4) | (t << 2) | b;	// [ 0, 1, 1, 0 ]
+			PRINT_DATA.Buffer[ 7] = (b << 6) | (t << 4) | (t << 2) | t;	// [ 0, 1, 1, 1 ]
+			PRINT_DATA.Buffer[ 8] = (t << 6) | (b << 4) | (b << 2) | b;	// [ 1, 0, 0, 0 ]
+			PRINT_DATA.Buffer[ 9] = (t << 6) | (b << 4) | (b << 2) | t;	// [ 1, 0, 0, 1 ]
+			PRINT_DATA.Buffer[10] = (t << 6) | (b << 4) | (t << 2) | b;	// [ 1, 0, 1, 0 ]
+			PRINT_DATA.Buffer[11] = (t << 6) | (b << 4) | (t << 2) | t;	// [ 1, 0, 1, 1 ]
+			PRINT_DATA.Buffer[12] = (t << 6) | (t << 4) | (b << 2) | b;	// [ 1, 1, 0, 0 ]
+			PRINT_DATA.Buffer[13] = (t << 6) | (t << 4) | (b << 2) | t;	// [ 1, 1, 0, 1 ]
+			PRINT_DATA.Buffer[14] = (t << 6) | (t << 4) | (t << 2) | b;	// [ 1, 1, 1, 0 ]
+			PRINT_DATA.Buffer[15] = (t << 6) | (t << 4) | (t << 2) | t;	// [ 1, 1, 1, 1 ]
 			break;
 	#endif
 	#if (VDP_USE_MODE_G7)
 		case VDP_MODE_GRAPHIC7:
-			g_PrintData.Buffer[0] = b;	// [ 0, 0 ]
-			g_PrintData.Buffer[1] = b;
-			g_PrintData.Buffer[2] = b;	// [ 0, 1 ]
-			g_PrintData.Buffer[3] = t;
-			g_PrintData.Buffer[4] = t;	// [ 1, 0 ]
-			g_PrintData.Buffer[5] = b;
-			g_PrintData.Buffer[6] = t;	// [ 1, 1 ]
-			g_PrintData.Buffer[7] = t;
+			PRINT_DATA.Buffer[0] = b;	// [ 0, 0 ]
+			PRINT_DATA.Buffer[1] = b;
+			PRINT_DATA.Buffer[2] = b;	// [ 0, 1 ]
+			PRINT_DATA.Buffer[3] = t;
+			PRINT_DATA.Buffer[4] = t;	// [ 1, 0 ]
+			PRINT_DATA.Buffer[5] = b;
+			PRINT_DATA.Buffer[6] = t;	// [ 1, 1 ]
+			PRINT_DATA.Buffer[7] = t;
 			break;
 	#endif
 	}	
@@ -398,11 +403,11 @@ void Print_SetColor(u8 text, u8 bg)
 				t = Print_SplitColor(t);
 			#endif
 			#if (PRINT_COLOR_NUM == 1)
-				g_PrintData.TextColor = t;
+				PRINT_DATA.TextColor = t;
 			#else // if (PRINT_COLOR_NUM > 1)
 				for (u8 i = 0; i < PRINT_COLOR_NUM; ++i)
 				{
-					g_PrintData.TextColor[i] = t;
+					PRINT_DATA.TextColor[i] = t;
 				}
 			#endif
 			
@@ -410,7 +415,7 @@ void Print_SetColor(u8 text, u8 bg)
 			#if (PRINT_USE_VALIDATOR)
 				b = Print_SplitColor(b);
 			#endif
-			g_PrintData.BGColor = b;
+			PRINT_DATA.BGColor = b;
 
 			Print_InitColorBuffer(t, b);
 		#endif
@@ -444,12 +449,12 @@ void Print_SetColor(u8 text, u8 bg)
 			#endif
 			#if (VDP_USE_MODE_G2 || VDP_USE_MODE_G3)
 				{
-					u16 dst = (u16)g_ScreenColorLow + g_PrintData.PatternOffset * 8;
-					VDP_FillVRAM(col, dst, 0, g_PrintData.CharCount * 8);
+					u16 dst = (u16)g_ScreenColorLow + PRINT_DATA.PatternOffset * 8;
+					VDP_FillVRAM(col, dst, 0, PRINT_DATA.CharCount * 8);
 					dst += 256 * 8;
-					VDP_FillVRAM(col, dst, 0, g_PrintData.CharCount * 8);
+					VDP_FillVRAM(col, dst, 0, PRINT_DATA.CharCount * 8);
 					dst += 256 * 8;
-					VDP_FillVRAM(col, dst, 0, g_PrintData.CharCount * 8);
+					VDP_FillVRAM(col, dst, 0, PRINT_DATA.CharCount * 8);
 					break;
 				}
 			#endif
@@ -472,7 +477,7 @@ void Print_SetColorShade(const u8* shade)
 				#if (PRINT_USE_VALIDATOR)
 					t = Print_SplitColor(t);
 				#endif
-				g_PrintData.TextColor[i] = t;
+				PRINT_DATA.TextColor[i] = t;
 			}
 		#endif
 	}
@@ -489,8 +494,8 @@ void Print_SetColorShade(const u8* shade)
 			#endif
 			#if (VDP_USE_MODE_G2 || VDP_USE_MODE_G3)
 				{
-					u16 dst = (u16)g_ScreenColorLow + g_PrintData.PatternOffset * 8;
-					for (u8 i = 0; i < g_PrintData.CharCount; ++i)
+					u16 dst = (u16)g_ScreenColorLow + PRINT_DATA.PatternOffset * 8;
+					for (u8 i = 0; i < PRINT_DATA.CharCount; ++i)
 					{
 						VDP_WriteVRAM(shade, dst,           0, 8);
 						VDP_WriteVRAM(shade, dst + 256 * 8, 0, 8);
@@ -519,18 +524,18 @@ void Print_SetColorShade(const u8* shade)
 // @param		chr			Address of the character to check
 u8 Print_ValidateChar(u8 chr)
 {
-	if ((chr < g_PrintData.CharFirst) || (chr > g_PrintData.CharLast))
+	if ((chr < PRINT_DATA.CharFirst) || (chr > PRINT_DATA.CharLast))
 	{
-		if ((chr >= 'a') && (chr <= 'z') && (g_PrintData.CharFirst <= 'A') && (g_PrintData.CharLast >= 'Z')) // try to remap to upper case letter
+		if ((chr >= 'a') && (chr <= 'z') && (PRINT_DATA.CharFirst <= 'A') && (PRINT_DATA.CharLast >= 'Z')) // try to remap to upper case letter
 		{
 			chr = chr - 'a' + 'A';
 		}
-		else if ((chr >= 'A') && (chr <= 'Z') && (g_PrintData.CharFirst <= 'a') && (g_PrintData.CharLast >= 'z')) // try to remap to lower case letter
+		else if ((chr >= 'A') && (chr <= 'Z') && (PRINT_DATA.CharFirst <= 'a') && (PRINT_DATA.CharLast >= 'z')) // try to remap to lower case letter
 		{
 			chr = chr - 'A' + 'a';
 		}
 		else
-			chr = g_PrintData.CharFirst;
+			chr = PRINT_DATA.CharFirst;
 	}
 	return chr;
 }
@@ -540,17 +545,17 @@ u8 Print_ValidateChar(u8 chr)
 // @param		patterns	Address of the font data to check
 u8 Print_ValidatePattern(u8 chr, const c8** patterns)
 {
-	if ((chr < g_PrintData.CharFirst) || (chr > g_PrintData.CharLast))
+	if ((chr < PRINT_DATA.CharFirst) || (chr > PRINT_DATA.CharLast))
 	{
-		if ((chr >= 'a') && (chr <= 'z') && (g_PrintData.CharFirst <= 'A') && (g_PrintData.CharLast >= 'Z')) // try to remap to upper case letter
+		if ((chr >= 'a') && (chr <= 'z') && (PRINT_DATA.CharFirst <= 'A') && (PRINT_DATA.CharLast >= 'Z')) // try to remap to upper case letter
 		{
 			chr = chr - 'a' + 'A';
-			*patterns = g_PrintData.FontPatterns + g_PrintData.PatternY * (chr - g_PrintData.CharFirst);
+			*patterns = PRINT_DATA.FontPatterns + PRINT_DATA.PatternY * (chr - PRINT_DATA.CharFirst);
 		}
-		else if ((chr >= 'A') && (chr <= 'Z') && (g_PrintData.CharFirst <= 'a') && (g_PrintData.CharLast >= 'z')) // try to remap to lower case letter
+		else if ((chr >= 'A') && (chr <= 'Z') && (PRINT_DATA.CharFirst <= 'a') && (PRINT_DATA.CharLast >= 'z')) // try to remap to lower case letter
 		{
 			chr = chr - 'A' + 'a';
-			*patterns = g_PrintData.FontPatterns + g_PrintData.PatternY * (chr - g_PrintData.CharFirst);
+			*patterns = PRINT_DATA.FontPatterns + PRINT_DATA.PatternY * (chr - PRINT_DATA.CharFirst);
 		}
 		else
 			*patterns = g_PrintInvalid;
@@ -583,25 +588,25 @@ void Print_SetBitmapFont(const u8* font)
 // @param		chr			The character to draw
 void DrawChar_8B(u8 chr)
 {
-	const u8* patterns = g_PrintData.FontAddr + chr * PRINT_H(g_PrintData.PatternY); // Get character patterns' base address
+	const u8* patterns = PRINT_DATA.FontAddr + chr * PRINT_H(PRINT_DATA.PatternY); // Get character patterns' base address
 	#if (PRINT_USE_VALIDATOR)
 		chr = Print_ValidatePattern(chr, &patterns);
 	#endif
 	u16* l = (u16*)g_HeapStartAddress;
-	for (u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
+	for (u8 j = 0; j < PRINT_H(PRINT_DATA.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
 	{
 		#if (PRINT_COLOR_NUM > 1)
-			Print_InitColorBuffer(g_PrintData.TextColor[j], g_PrintData.BGColor);
+			Print_InitColorBuffer(PRINT_DATA.TextColor[j], PRINT_DATA.BGColor);
 		#endif // (PRINT_COLOR_NUM > 1)
 		u8 f = patterns[j];
-		*l++ = ((u16*)g_PrintData.Buffer)[f >> 6];
-		*l++ = ((u16*)g_PrintData.Buffer)[(f >> 4) & 0x03];
-		*l++ = ((u16*)g_PrintData.Buffer)[(f >> 2) & 0x03];
+		*l++ = ((u16*)PRINT_DATA.Buffer)[f >> 6];
+		*l++ = ((u16*)PRINT_DATA.Buffer)[(f >> 4) & 0x03];
+		*l++ = ((u16*)PRINT_DATA.Buffer)[(f >> 2) & 0x03];
 		#if (PRINT_WIDTH != PRINT_WIDTH_6)
-			*l++ = ((u16*)g_PrintData.Buffer)[f & 0x03];
+			*l++ = ((u16*)PRINT_DATA.Buffer)[f & 0x03];
 		#endif
 	}
-	VDP_CommandHMMC((u8*)g_HeapStartAddress, g_PrintData.CursorX, g_PrintData.CursorY, DATA_LEN, PRINT_H(g_PrintData.PatternY));
+	VDP_CommandHMMC((u8*)g_HeapStartAddress, PRINT_DATA.CursorX, PRINT_DATA.CursorY, DATA_LEN, PRINT_H(PRINT_DATA.PatternY));
 }
 #endif // VDP_USE_MODE_G7
 
@@ -612,25 +617,25 @@ void DrawChar_8B(u8 chr)
 // @param		chr			The character to draw
 void DrawChar_4B(u8 chr)
 {
-	const u8* patterns = g_PrintData.FontAddr + chr * PRINT_H(g_PrintData.PatternY); // Get character patterns' base address
+	const u8* patterns = PRINT_DATA.FontAddr + chr * PRINT_H(PRINT_DATA.PatternY); // Get character patterns' base address
 	#if (PRINT_USE_VALIDATOR)
 		chr = Print_ValidatePattern(chr, &patterns);
 	#endif
 	u8* l = (u8*)g_HeapStartAddress;
-	for (u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
+	for (u8 j = 0; j < PRINT_H(PRINT_DATA.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
 	{
 		#if (PRINT_COLOR_NUM > 1)
-			Print_InitColorBuffer(g_PrintData.TextColor[j], g_PrintData.BGColor);
+			Print_InitColorBuffer(PRINT_DATA.TextColor[j], PRINT_DATA.BGColor);
 		#endif // (PRINT_COLOR_NUM > 1)
 		u8 f = patterns[j];
-		*l++ = g_PrintData.Buffer[f >> 6];
-		*l++ = g_PrintData.Buffer[(f >> 4) & 0x03];
-		*l++ = g_PrintData.Buffer[(f >> 2) & 0x03];
+		*l++ = PRINT_DATA.Buffer[f >> 6];
+		*l++ = PRINT_DATA.Buffer[(f >> 4) & 0x03];
+		*l++ = PRINT_DATA.Buffer[(f >> 2) & 0x03];
 		#if (PRINT_WIDTH != PRINT_WIDTH_6)
-			*l++ = g_PrintData.Buffer[f & 0x03];
+			*l++ = PRINT_DATA.Buffer[f & 0x03];
 		#endif
 	}
-	VDP_CommandHMMC((u8*)g_HeapStartAddress, g_PrintData.CursorX, g_PrintData.CursorY, DATA_LEN, PRINT_H(g_PrintData.PatternY));
+	VDP_CommandHMMC((u8*)g_HeapStartAddress, PRINT_DATA.CursorX, PRINT_DATA.CursorY, DATA_LEN, PRINT_H(PRINT_DATA.PatternY));
 }
 #endif // (VDP_USE_MODE_G4 || VDP_USE_MODE_G6)
 
@@ -641,21 +646,21 @@ void DrawChar_4B(u8 chr)
 // @param		chr			The character to draw
 void DrawChar_2B(u8 chr)
 {
-	const u8* patterns = g_PrintData.FontAddr + chr * PRINT_H(g_PrintData.PatternY); // Get character patterns' base address
+	const u8* patterns = PRINT_DATA.FontAddr + chr * PRINT_H(PRINT_DATA.PatternY); // Get character patterns' base address
 	#if (PRINT_USE_VALIDATOR)
 		chr = Print_ValidatePattern(chr, &patterns);
 	#endif
 	u8* l = (u8*)g_HeapStartAddress;
-	for (u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
+	for (u8 j = 0; j < PRINT_H(PRINT_DATA.PatternY); ++j) // Unpack each 6/8-bits line to buffer and send it to VRAM
 	{
 		#if (PRINT_COLOR_NUM > 1)
-			Print_InitColorBuffer(g_PrintData.TextColor[j], g_PrintData.BGColor);
+			Print_InitColorBuffer(PRINT_DATA.TextColor[j], PRINT_DATA.BGColor);
 		#endif // (PRINT_COLOR_NUM > 1)
 		u8 f = patterns[j];
-		*l++ = g_PrintData.Buffer[f >> 4];
-		*l++ = g_PrintData.Buffer[f & 0x0F];
+		*l++ = PRINT_DATA.Buffer[f >> 4];
+		*l++ = PRINT_DATA.Buffer[f & 0x0F];
 	}
-	VDP_CommandHMMC((u8*)g_HeapStartAddress, g_PrintData.CursorX, g_PrintData.CursorY, 8, PRINT_H(g_PrintData.PatternY));
+	VDP_CommandHMMC((u8*)g_HeapStartAddress, PRINT_DATA.CursorX, PRINT_DATA.CursorY, 8, PRINT_H(PRINT_DATA.PatternY));
 }
 #endif // VDP_USE_MODE_G5
 
@@ -664,20 +669,20 @@ void DrawChar_2B(u8 chr)
 //
 void DrawChar_Trans(u8 chr)
 {
-	const u8* patterns = g_PrintData.FontAddr + chr * PRINT_H(g_PrintData.PatternY); // Get character patterns' base address
+	const u8* patterns = PRINT_DATA.FontAddr + chr * PRINT_H(PRINT_DATA.PatternY); // Get character patterns' base address
 	#if (PRINT_USE_VALIDATOR)
 		chr = Print_ValidatePattern(chr, &patterns);
 	#endif
 	#if (PRINT_USE_FX_SHADOW)
-		if (g_PrintData.FX & PRINT_FX_SHADOW)
+		if (PRINT_DATA.FX & PRINT_FX_SHADOW)
 		{
-			g_VDP_Command.DY = g_PrintData.CursorY + g_PrintData.ShadowOffsetY - 3;
-			g_VDP_Command.CLR = g_PrintData.ShadowColor;
+			g_VDP_Command.DY = PRINT_DATA.CursorY + PRINT_DATA.ShadowOffsetY - 3;
+			g_VDP_Command.CLR = PRINT_DATA.ShadowColor;
 			g_VDP_Command.ARG = 0;
 			g_VDP_Command.CMD = VDP_CMD_PSET + 0;
-			for (u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j)
+			for (u8 j = 0; j < PRINT_H(PRINT_DATA.PatternY); ++j)
 			{
-				g_VDP_Command.DX = g_PrintData.CursorX + g_PrintData.ShadowOffsetX - 3;
+				g_VDP_Command.DX = PRINT_DATA.CursorX + PRINT_DATA.ShadowOffsetX - 3;
 				
 				u8 f = patterns[j];
 				if (f & BIT_7) VDP_CommandSetupR36(); g_VDP_Command.DX++;
@@ -693,17 +698,17 @@ void DrawChar_Trans(u8 chr)
 		}
 	#endif
 	#if (PRINT_USE_FX_OUTLINE)
-		if (g_PrintData.FX & PRINT_FX_OUTLINE)
+		if (PRINT_DATA.FX & PRINT_FX_OUTLINE)
 		{
-			g_VDP_Command.DY = g_PrintData.CursorY - 1;
+			g_VDP_Command.DY = PRINT_DATA.CursorY - 1;
 			g_VDP_Command.NX = 3;
 			g_VDP_Command.NY = 3;
-			g_VDP_Command.CLR = g_PrintData.OutlineColor;
+			g_VDP_Command.CLR = PRINT_DATA.OutlineColor;
 			g_VDP_Command.ARG = 0;
 			g_VDP_Command.CMD = (u8)(VDP_CMD_LMMV + 0);
-			for (u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j)
+			for (u8 j = 0; j < PRINT_H(PRINT_DATA.PatternY); ++j)
 			{
-				g_VDP_Command.DX = g_PrintData.CursorX - 1;
+				g_VDP_Command.DX = PRINT_DATA.CursorX - 1;
 				
 				u8 f = patterns[j];
 				if (f & BIT_7) VDP_CommandSetupR36(); g_VDP_Command.DX++;
@@ -719,22 +724,22 @@ void DrawChar_Trans(u8 chr)
 		}
 	#endif
 	#if (PRINT_USE_2_PASS_FX)
-	if (g_PrintData.FX & PRINT_FX_ONLY)
+	if (PRINT_DATA.FX & PRINT_FX_ONLY)
 		return;
 	#endif
 
-	g_VDP_Command.DY = g_PrintData.CursorY;
+	g_VDP_Command.DY = PRINT_DATA.CursorY;
 	g_VDP_Command.ARG = 0;
 	g_VDP_Command.CMD = VDP_CMD_PSET + 0;
 	#if (PRINT_COLOR_NUM == 1)
-		g_VDP_Command.CLR = g_PrintData.TextColor;
+		g_VDP_Command.CLR = PRINT_DATA.TextColor;
 	#endif
-	for (u8 j = 0; j < PRINT_H(g_PrintData.PatternY); ++j)
+	for (u8 j = 0; j < PRINT_H(PRINT_DATA.PatternY); ++j)
 	{
 		#if (PRINT_COLOR_NUM > 1)
-			g_VDP_Command.CLR = g_PrintData.TextColor[j];
+			g_VDP_Command.CLR = PRINT_DATA.TextColor[j];
 		#endif
-		g_VDP_Command.DX = g_PrintData.CursorX;
+		g_VDP_Command.DX = PRINT_DATA.CursorX;
 		
 		u8 f = patterns[j];
 		if (f & BIT_7) VDP_CommandSetupR36(); g_VDP_Command.DX++;
@@ -764,8 +769,8 @@ void DrawChar_Trans(u8 chr)
 // Set the current font and upload it to VRAM
 void Print_SetVRAMFont(const u8* font, UY y, u8 color)
 {
-	UX cx = g_PrintData.CursorX;
-	UY cy = g_PrintData.CursorY;
+	UX cx = PRINT_DATA.CursorX;
+	UY cy = PRINT_DATA.CursorY;
 
 	Print_SetFont(font);
 	Print_Initialize();
@@ -773,23 +778,23 @@ void Print_SetVRAMFont(const u8* font, UY y, u8 color)
 	
 	// Load font to VRAM	
 	Print_SetMode(PRINT_MODE_BITMAP_TRANS); // Activate default mode to write font data into VRAM
-	g_PrintData.FontVRAMY = y;
+	PRINT_DATA.FontVRAMY = y;
 	// @todo To optimize (pre-compute + fixed width/height cases
-	u8 nx = g_PrintData.ScreenWidth / PRINT_W(g_PrintData.UnitX);
-	for (u16 chr = g_PrintData.CharFirst; chr <= g_PrintData.CharLast; ++chr)
+	u8 nx = PRINT_DATA.ScreenWidth / PRINT_W(PRINT_DATA.UnitX);
+	for (u16 chr = PRINT_DATA.CharFirst; chr <= PRINT_DATA.CharLast; ++chr)
 	{
-		u16 idx = chr - g_PrintData.CharFirst;
+		u16 idx = chr - PRINT_DATA.CharFirst;
 		// @todo To optimize (pre-compute + fixed width/height cases
-		g_PrintData.CursorX = (idx % nx) * PRINT_W(g_PrintData.UnitX);		
-		g_PrintData.CursorY = (idx / nx) * PRINT_H(g_PrintData.PatternY) + y;
-		VDP_CommandHMMV(g_PrintData.CursorX, g_PrintData.CursorY, PRINT_W(g_PrintData.UnitX), PRINT_H(g_PrintData.PatternY), 0);
-		g_PrintData.DrawChar(chr);
+		PRINT_DATA.CursorX = (idx % nx) * PRINT_W(PRINT_DATA.UnitX);		
+		PRINT_DATA.CursorY = (idx / nx) * PRINT_H(PRINT_DATA.PatternY) + y;
+		VDP_CommandHMMV(PRINT_DATA.CursorX, PRINT_DATA.CursorY, PRINT_W(PRINT_DATA.UnitX), PRINT_H(PRINT_DATA.PatternY), 0);
+		PRINT_DATA.DrawChar(chr);
 	}
 
-	g_PrintData.CursorX = cx;
-	g_PrintData.CursorY = cy;
+	PRINT_DATA.CursorX = cx;
+	PRINT_DATA.CursorY = cy;
 	
-	g_PrintData.CharPerLine = g_PrintData.ScreenWidth / PRINT_W(g_PrintData.UnitX);
+	PRINT_DATA.CharPerLine = PRINT_DATA.ScreenWidth / PRINT_W(PRINT_DATA.UnitX);
 	
 	Print_SetMode(PRINT_MODE_BITMAP_VRAM);
 }
@@ -803,19 +808,19 @@ void DrawChar_VRAM256(u8 chr)
 	#if (PRINT_USE_VALIDATOR)
 		chr = Print_ValidateChar(chr);
 	#endif
-	u8 idx = chr - g_PrintData.CharFirst;
+	u8 idx = chr - PRINT_DATA.CharFirst;
 	#if (PRINT_WIDTH == PRINT_WIDTH_6)
-		u16 sx = (idx % 42) * PRINT_W(g_PrintData.UnitX);		
-		u16 sy = (idx / 42) * PRINT_H(g_PrintData.PatternY) + g_PrintData.FontVRAMY;
+		u16 sx = (idx % 42) * PRINT_W(PRINT_DATA.UnitX);		
+		u16 sy = (idx / 42) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
 	#elif (PRINT_WIDTH == PRINT_WIDTH_8)
-		u16 sx = (idx % 32) * PRINT_W(g_PrintData.UnitX);		
-		u16 sy = (idx / 32) * PRINT_H(g_PrintData.PatternY) + g_PrintData.FontVRAMY;
+		u16 sx = (idx % 32) * PRINT_W(PRINT_DATA.UnitX);		
+		u16 sy = (idx / 32) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
 	#else
-		u16 sx = (idx % g_PrintData.CharPerLine) * PRINT_W(g_PrintData.UnitX);		
-		u16 sy = (idx / g_PrintData.CharPerLine) * PRINT_H(g_PrintData.PatternY) + g_PrintData.FontVRAMY;
+		u16 sx = (idx % PRINT_DATA.CharPerLine) * PRINT_W(PRINT_DATA.UnitX);		
+		u16 sy = (idx / PRINT_DATA.CharPerLine) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
 	#endif
 
-	VDP_CommandHMMM(sx, sy, g_PrintData.CursorX, g_PrintData.CursorY, PRINT_W(g_PrintData.UnitX), PRINT_H(g_PrintData.PatternY));
+	VDP_CommandHMMM(sx, sy, PRINT_DATA.CursorX, PRINT_DATA.CursorY, PRINT_W(PRINT_DATA.UnitX), PRINT_H(PRINT_DATA.PatternY));
 }
 #endif // (VDP_USE_MODE_G4 || VDP_USE_MODE_G7)
 
@@ -828,19 +833,19 @@ void DrawChar_VRAM512(u8 chr)
 	#if (PRINT_USE_VALIDATOR)
 		chr = Print_ValidateChar(chr);
 	#endif
-	u8 idx = chr - g_PrintData.CharFirst;
+	u8 idx = chr - PRINT_DATA.CharFirst;
 	#if (PRINT_WIDTH == PRINT_WIDTH_6)
-		u16 sx = (idx % 85) * PRINT_W(g_PrintData.UnitX);		
-		u16 sy = (idx / 85) * PRINT_H(g_PrintData.PatternY) + g_PrintData.FontVRAMY;
+		u16 sx = (idx % 85) * PRINT_W(PRINT_DATA.UnitX);		
+		u16 sy = (idx / 85) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
 	#elif (PRINT_WIDTH == PRINT_WIDTH_8)
-		u16 sx = (idx % 64) * PRINT_W(g_PrintData.UnitX);		
-		u16 sy = (idx / 64) * PRINT_H(g_PrintData.PatternY) + g_PrintData.FontVRAMY;
+		u16 sx = (idx % 64) * PRINT_W(PRINT_DATA.UnitX);		
+		u16 sy = (idx / 64) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
 	#else
-		u16 sx = (idx % g_PrintData.CharPerLine) * PRINT_W(g_PrintData.UnitX);		
-		u16 sy = (idx / g_PrintData.CharPerLine) * PRINT_H(g_PrintData.PatternY) + g_PrintData.FontVRAMY;
+		u16 sx = (idx % PRINT_DATA.CharPerLine) * PRINT_W(PRINT_DATA.UnitX);		
+		u16 sy = (idx / PRINT_DATA.CharPerLine) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
 	#endif
 
-	VDP_CommandHMMM(sx, sy, g_PrintData.CursorX, g_PrintData.CursorY, PRINT_W(g_PrintData.UnitX), PRINT_H(g_PrintData.PatternY));
+	VDP_CommandHMMM(sx, sy, PRINT_DATA.CursorX, PRINT_DATA.CursorY, PRINT_W(PRINT_DATA.UnitX), PRINT_H(PRINT_DATA.PatternY));
 }
 #endif // (VDP_USE_MODE_G5 || VDP_USE_MODE_G6)
 
@@ -859,7 +864,7 @@ void DrawChar_VRAM512(u8 chr)
 #if (PRINT_USE_VALIDATOR)
 void CopyNo8HeightFontData(const u8* src, u16 dst, u8 height)
 {
-	for (u8 i = 0; i < g_PrintData.CharCount; ++i)
+	for (u8 i = 0; i < PRINT_DATA.CharCount; ++i)
 	{
 		VDP_FillVRAM(0, dst, 0, 8);
 		VDP_WriteVRAM(src, dst, 0, height);
@@ -873,7 +878,7 @@ void CopyNo8HeightFontData(const u8* src, u16 dst, u8 height)
 // Set the current font and upload it to VRAM
 void Print_SetTextFont(const u8* fontData, u8 offset)
 {
-	g_PrintData.PatternOffset = offset;
+	PRINT_DATA.PatternOffset = offset;
 
 	// Initialize font attributes
 	if (fontData == NULL) // Use Bios font (if any)
@@ -884,14 +889,14 @@ void Print_SetTextFont(const u8* fontData, u8 offset)
 	Print_SetMode(PRINT_MODE_TEXT);
 
 	// Load font data to VRAM
-	const u8* src = g_PrintData.FontPatterns;
+	const u8* src = PRINT_DATA.FontPatterns;
 	u16 dst = (u16)g_ScreenPatternLow + (offset * 8);
 	#if (PRINT_USE_VALIDATOR)
 		if (fontData != NULL)
 			CopyNo8HeightFontData(src, dst, fontData[0] & 0x0F);
 		else
 	#endif
-		VDP_WriteVRAM(src, dst, 0, g_PrintData.CharCount * 8);
+		VDP_WriteVRAM(src, dst, 0, PRINT_DATA.CharCount * 8);
 	
 	switch (VDP_GetMode())
 	{
@@ -908,14 +913,14 @@ void Print_SetTextFont(const u8* fontData, u8 offset)
 				CopyNo8HeightFontData(src, dst, fontData[0] & 0x0F);
 			else
 		#endif
-			VDP_WriteVRAM(src, dst, 0, g_PrintData.CharCount * 8);
+			VDP_WriteVRAM(src, dst, 0, PRINT_DATA.CharCount * 8);
 		dst += 256 * 8;
 		#if (PRINT_USE_VALIDATOR)
 			if (fontData != NULL)
 				CopyNo8HeightFontData(src, dst, fontData[0] & 0x0F);
 			else
 		#endif
-			VDP_WriteVRAM(src, dst, 0, g_PrintData.CharCount * 8);
+			VDP_WriteVRAM(src, dst, 0, PRINT_DATA.CharCount * 8);
 		break;
 	#endif
 	};
@@ -929,8 +934,8 @@ void DrawChar_Layout(u8 chr)
 	#if (PRINT_USE_VALIDATOR)
 		chr = Print_ValidateChar(chr);
 	#endif
-	u8 shape = chr - g_PrintData.CharFirst + g_PrintData.PatternOffset;
-	u16 dst = (u16)g_ScreenLayoutLow + (g_PrintData.CursorY * g_PrintData.ScreenWidth) + g_PrintData.CursorX;
+	u8 shape = chr - PRINT_DATA.CharFirst + PRINT_DATA.PatternOffset;
+	u16 dst = (u16)g_ScreenLayoutLow + (PRINT_DATA.CursorY * PRINT_DATA.ScreenWidth) + PRINT_DATA.CursorX;
 	VDP_Poke(shape, dst, g_ScreenLayoutHigh);
 }
 
@@ -953,34 +958,34 @@ extern u8  g_SpritePatternHigh;
 // 
 void Print_SetSpriteFont(const u8* font, u8 patIdx, u8 sprtIdx)
 {
-	g_PrintData.SpritePattern = patIdx;
-	g_PrintData.SpriteID = sprtIdx;
+	PRINT_DATA.SpritePattern = patIdx;
+	PRINT_DATA.SpriteID = sprtIdx;
 
 	Print_SetFont(font);
 	Print_Initialize();
 	Print_SetMode(PRINT_MODE_SPRITE);
 
 	#if (PRINT_HEIGHT == PRINT_HEIGHT_8)
-		VDP_LoadSpritePattern(g_PrintData.FontPatterns, patIdx, g_PrintData.CharCount);
+		VDP_LoadSpritePattern(PRINT_DATA.FontPatterns, patIdx, PRINT_DATA.CharCount);
 	#else // (PRINT_HEIGHT == PRINT_HEIGHT_X)
-		u16 ram = (u16)g_PrintData.FontPatterns;
+		u16 ram = (u16)PRINT_DATA.FontPatterns;
 		u16 vram = g_SpritePatternLow;
-		for (u16 chr = g_PrintData.CharFirst; chr <= g_PrintData.CharLast; ++chr)
+		for (u16 chr = PRINT_DATA.CharFirst; chr <= PRINT_DATA.CharLast; ++chr)
 		{
-			u16 idx = chr - g_PrintData.CharFirst;
-			if (PRINT_H(g_PrintData.PatternY) < 8)
+			u16 idx = chr - PRINT_DATA.CharFirst;
+			if (PRINT_H(PRINT_DATA.PatternY) < 8)
 			{
-				VDP_WriteVRAM((u8*)ram, vram, g_SpritePatternHigh, PRINT_H(g_PrintData.PatternY));
-				vram += PRINT_H(g_PrintData.PatternY);
-				VDP_FillVRAM(0, vram, g_SpritePatternHigh, 8 - PRINT_H(g_PrintData.PatternY));
-				vram += 8 - PRINT_H(g_PrintData.PatternY);
+				VDP_WriteVRAM((u8*)ram, vram, g_SpritePatternHigh, PRINT_H(PRINT_DATA.PatternY));
+				vram += PRINT_H(PRINT_DATA.PatternY);
+				VDP_FillVRAM(0, vram, g_SpritePatternHigh, 8 - PRINT_H(PRINT_DATA.PatternY));
+				vram += 8 - PRINT_H(PRINT_DATA.PatternY);
 			}
 			else
 			{
 				VDP_WriteVRAM((u8*)ram, vram, g_SpritePatternHigh, 8);
 				vram += 8;
 			}
-			ram += PRINT_H(g_PrintData.PatternY);
+			ram += PRINT_H(PRINT_DATA.PatternY);
 		}
 	#endif
 }
@@ -991,11 +996,11 @@ void Print_SetSpriteFont(const u8* font, u8 patIdx, u8 sprtIdx)
 // @param		chr			The character to draw
 void DrawChar_Sprite(u8 chr)
 {
-	u16 shape = chr - g_PrintData.CharFirst + g_PrintData.SpritePattern;
+	u16 shape = chr - PRINT_DATA.CharFirst + PRINT_DATA.SpritePattern;
 	#if (PRINT_COLOR_NUM == 1)
-		VDP_SetSpriteExUniColor(g_PrintData.SpriteID++, g_PrintData.CursorX, g_PrintData.CursorY, shape, g_PrintData.TextColor);
+		VDP_SetSpriteExUniColor(PRINT_DATA.SpriteID++, PRINT_DATA.CursorX, PRINT_DATA.CursorY, shape, PRINT_DATA.TextColor);
 	#else // (PRINT_COLOR_NUM > 1)
-		VDP_SetSpriteExMultiColor(g_PrintData.SpriteID++, g_PrintData.CursorX, g_PrintData.CursorY, shape, g_PrintData.TextColor);
+		VDP_SetSpriteExMultiColor(PRINT_DATA.SpriteID++, PRINT_DATA.CursorX, PRINT_DATA.CursorY, shape, PRINT_DATA.TextColor);
 	#endif
 }
 
@@ -1018,9 +1023,9 @@ void DrawChar_Sprite(u8 chr)
 void Print_SetShadow(bool enable, i8 offsetX, i8 offsetY, u8 color)
 {
 	Print_EnableShadow(enable);
-	g_PrintData.ShadowOffsetX = 3 + offsetX;
-	g_PrintData.ShadowOffsetY = 3 + offsetY;
-	g_PrintData.ShadowColor   = color;
+	PRINT_DATA.ShadowOffsetX = 3 + offsetX;
+	PRINT_DATA.ShadowOffsetY = 3 + offsetY;
+	PRINT_DATA.ShadowColor   = color;
 }
 
 //-----------------------------------------------------------------------------
@@ -1028,7 +1033,7 @@ void Print_SetShadow(bool enable, i8 offsetX, i8 offsetY, u8 color)
 // @param		activate	Activate/deactivate shadow
 void Print_EnableShadow(bool enable)
 {
-	g_PrintData.FX = enable ? PRINT_FX_SHADOW : 0;
+	PRINT_DATA.FX = enable ? PRINT_FX_SHADOW : 0;
 	Print_SetMode(enable ? PRINT_MODE_BITMAP_TRANS : PRINT_MODE_BITMAP); // enable default mode to write font data into VRAM
 }
 
@@ -1038,13 +1043,13 @@ void Print_EnableShadow(bool enable)
 void Print_DrawTextShadow(const c8* string, i8 offsetX, i8 offsetY, u8 color)
 {
 	// First pass
-	UX x = g_PrintData.CursorX;
-	UY y = g_PrintData.CursorY;
+	UX x = PRINT_DATA.CursorX;
+	UY y = PRINT_DATA.CursorY;
 	Print_SetShadow(TRUE, offsetX, offsetY, color);
-	g_PrintData.FX |= PRINT_FX_ONLY;
+	PRINT_DATA.FX |= PRINT_FX_ONLY;
 	Print_DrawText(string);
 	// Second pass
-	g_PrintData.FX = 0;
+	PRINT_DATA.FX = 0;
 	Print_SetPosition(x, y);
 	Print_DrawText(string);
 	Print_EnableShadow(FALSE);
@@ -1058,14 +1063,14 @@ void Print_DrawTextShadow(const c8* string, i8 offsetX, i8 offsetY, u8 color)
 void Print_SetOutline(bool enable, u8 color)
 {
 	Print_EnableOutline(enable);
-	g_PrintData.OutlineColor = color;
+	PRINT_DATA.OutlineColor = color;
 }
 
 //-----------------------------------------------------------------------------
 // Activate/desactivate shadow effect
 void Print_EnableOutline(bool enable)
 {
-	g_PrintData.FX = enable ? PRINT_FX_OUTLINE : 0;
+	PRINT_DATA.FX = enable ? PRINT_FX_OUTLINE : 0;
 	Print_SetMode(enable ? PRINT_MODE_BITMAP_TRANS : PRINT_MODE_BITMAP); // enable default mode to write font data into VRAM
 }
 
@@ -1075,13 +1080,13 @@ void Print_EnableOutline(bool enable)
 void Print_DrawTextOutline(const c8* string, u8 color)
 {
 	// First pass
-	UX x = g_PrintData.CursorX;
-	UY y = g_PrintData.CursorY;
+	UX x = PRINT_DATA.CursorX;
+	UY y = PRINT_DATA.CursorY;
 	Print_SetOutline(TRUE, color);
-	g_PrintData.FX |= PRINT_FX_ONLY;
+	PRINT_DATA.FX |= PRINT_FX_ONLY;
 	Print_DrawText(string);
 	// Second pass
-	g_PrintData.FX = 0;
+	PRINT_DATA.FX = 0;
 	Print_SetPosition(x, y);
 	Print_DrawText(string);
 	Print_EnableShadow(FALSE);
@@ -1102,15 +1107,15 @@ void Print_Clear()
 	if (VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
 	{
 		#if (PRINT_USE_BITMAP)
-			u8 color = Print_MergeColor(g_PrintData.BGColor);
-			VDP_CommandHMMV(0, 0, g_PrintData.ScreenWidth, 212, color); // @todo Check the 192/212 lines parameter
+			u8 color = Print_MergeColor(PRINT_DATA.BGColor);
+			VDP_CommandHMMV(0, 0, PRINT_DATA.ScreenWidth, 212, color); // @todo Check the 192/212 lines parameter
 			VDP_CommandWait();
 		#endif
 	}
 	#if (PRINT_USE_TEXT)
 	else // Text mode
 	{
-		VDP_FillVRAM(0, g_ScreenLayoutLow, g_ScreenLayoutHigh, 24 * g_PrintData.ScreenWidth);
+		VDP_FillVRAM(0, g_ScreenLayoutLow, g_ScreenLayoutHigh, 24 * PRINT_DATA.ScreenWidth);
 	}
 	#endif
 }
@@ -1124,24 +1129,24 @@ void Print_Backspace(u8 num)
 	if (VDP_IsBitmapMode(VDP_GetMode())) // Bitmap mode
 	{
 		#if (PRINT_USE_BITMAP)
-			u16 x = PRINT_W(g_PrintData.UnitX) * num;
-			if (x >  g_PrintData.CursorX)
+			u16 x = PRINT_W(PRINT_DATA.UnitX) * num;
+			if (x >  PRINT_DATA.CursorX)
 				x = 0;
 			else
-				x = g_PrintData.CursorX - x;
+				x = PRINT_DATA.CursorX - x;
 
-			u8 color = Print_MergeColor(g_PrintData.BGColor);
-			VDP_CommandHMMV(x, g_PrintData.CursorY, x - g_PrintData.CursorX, PRINT_H(g_PrintData.UnitY), color); // @todo Check the 192/212 lines parameter
-			g_PrintData.CursorX = x;
+			u8 color = Print_MergeColor(PRINT_DATA.BGColor);
+			VDP_CommandHMMV(x, PRINT_DATA.CursorY, x - PRINT_DATA.CursorX, PRINT_H(PRINT_DATA.UnitY), color); // @todo Check the 192/212 lines parameter
+			PRINT_DATA.CursorX = x;
 			VDP_CommandWait();	
 		#endif
 	}
 	else // Text mode
 	{
 		#if (PRINT_USE_TEXT)
-			u16 dst = g_ScreenLayoutLow + (g_PrintData.CursorY * g_PrintData.ScreenWidth) + g_PrintData.CursorX - num;
+			u16 dst = g_ScreenLayoutLow + (PRINT_DATA.CursorY * PRINT_DATA.ScreenWidth) + PRINT_DATA.CursorX - num;
 			VDP_FillVRAM(0, dst, g_ScreenLayoutHigh, num);
-			g_PrintData.CursorX -= num;
+			PRINT_DATA.CursorX -= num;
 		#endif
 	}
 }
@@ -1152,16 +1157,16 @@ void Print_Backspace(u8 num)
 void Print_DrawChar(u8 chr)
 {
 	#if (PRINT_USE_VALIDATOR)
-		if (g_PrintData.CursorX + PRINT_W(g_PrintData.UnitX) > g_PrintData.ScreenWidth) // Handle automatic new-line when 
+		if (PRINT_DATA.CursorX + PRINT_W(PRINT_DATA.UnitX) > PRINT_DATA.ScreenWidth) // Handle automatic new-line when 
 			Print_Return();
 		#if ((MSX_VERSION >= MSX_2) && (PRINT_USE_BITMAP))
 			VDP_CommandWait();
 		#endif
 	#endif
-	g_PrintData.DrawChar(chr);
+	PRINT_DATA.DrawChar(chr);
 
-	// g_PrintData.DrawChar(chr);
-	g_PrintData.CursorX += PRINT_W(g_PrintData.UnitX);
+	// PRINT_DATA.DrawChar(chr);
+	PRINT_DATA.CursorX += PRINT_W(PRINT_DATA.UnitX);
 }
 
 //-----------------------------------------------------------------------------
