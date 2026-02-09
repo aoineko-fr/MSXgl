@@ -62,7 +62,8 @@
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0	WRITE ONLY
 //	0	N16	N15	N14	N13	N12	N11	N10
-//		└───┴───┴───┴───┴───┴───┴──	In MSX1 screen and SCREEN 4 modes, N10-N13 bits correspond to the four most significant bits of the address that defines the start of the character table in VRAM. Other bits must be always reseted.
+//		└───┴───┴───┴───┴───┴───┴──	In MSX1 screen and SCREEN 4 modes, N10-N13 bits correspond to the four most significant bits of the address that defines the start of the character table in VRAM.
+//									Other bits must be always reseted.
 //									In other SCREEN modes N10-N14 bits must always be set, and N15-N16 bits determine the page number.
 // 									In KANJI screens modes, it will vary according using of Bitmap screen 5 or 7.
 #define R02_SET(n)					(((n) >> 10) & 0x7F)
@@ -157,7 +158,8 @@
 //-----------------------------------------------------------------------------
 //	7	6	5	4	3	2	1	0	WRITE ONLY
 //	TC3	TC2	TC1	TC0	BD3	BD2	BD1	BD0
-//	│	│	│	│	└───┴───┴───┴── TC0-TC3 define the text color in screen 0. Other bits are ignored in the other screen modes except in SCREEN 8 and 12. In these two modes, all the bits of the register define the border color.
+//	│	│	│	│	└───┴───┴───┴── TC0-TC3 define the text color in screen 0. Other bits are ignored in the other screen modes except in SCREEN 8 and 12.
+//	│	│	│	│					In these two modes, all the bits of the register define the border color.
 //	└───┴───┴───┴────────────────── BD0-BD3 defines the border color. In SCREEN 6, only the bits BD0 and BD1 define the border color and when the bit BD3 is 0, the even lines of the border take the background color.
 #define R07_SET(a, b)				((((a) & 0x0F) << 4) + ((b) & 0x0F))
 
@@ -169,9 +171,11 @@
 //	MS	LP	TP	CB	VR	0	SPD	BW	
 //  │	│	│	│	│		│	└── BW defines the display to grayscale in 32 tones (1) or in colour. (0 by default)
 //  │	│	│	│	│		└────── SPD allows us to disable the sprites. The VDP commands work a little faster when the sprites are disabled (1). (Sprites are enabled by default)
-//  │	│	│	│	└────────────── VR defines the type of vram chips used. Write 1 if the VRAM is 64K x 1 bit or 64K x 4 bits, 0 if VRAM is 16K x 1 bit or 16K x 4 bits. This bit Affects how VDP performs refresh on DRAM chips.
+//  │	│	│	│	└────────────── VR defines the type of vram chips used. Write 1 if the VRAM is 64K x 1 bit or 64K x 4 bits, 0 if VRAM is 16K x 1 bit or 16K x 4 bits.
+//  │	│	│	│					This bit Affects how VDP performs refresh on DRAM chips.
 //  │	│	│	└────────────────── CB define the direction of the color bus. 1 for input, 0 for output (Default value).
-//  │	│	└────────────────────── TP must be 0 to make the color 0 transparent. On machines with video input, the image of the video signal received becomes visible instead of the color 0. When 1 these dots are black by default. The color can be changed by defining the palette. TP also affects sprites in the same way.
+//  │	│	└────────────────────── TP must be 0 to make the color 0 transparent. On machines with video input, the image of the video signal received becomes visible instead of the color 0.
+//  │	│							When 1 these dots are black by default. The color can be changed by defining the palette. TP also affects sprites in the same way.
 //  │	└────────────────────────── LP serves to enable the light pen. (Used only Korean MSX2 Daewoo CPC-300 and CPC-400 / 400S, set to 0 otherwise.) (Does not exist on V9958.)
 //  └────────────────────────────── MS serves to enable the mouse mode. (Not used on MSX computers, always reset it) (Does not exist on V9958.)
 #define R08_BW						(0b00000001)
@@ -189,7 +193,7 @@
 //	LN	0	S1	S0	IL	EO	NT	DC
 //   │		│	│	│	│	│	└── DC is to define the direction of the signal dot clock. 1 sets DLCLK pin as input, 0 as output.
 //   │		│	│	│	│	└────── NT define the frames display frequency for the RGB output. Write 1 for PAL TV (313 lines, 50Hz), 0 for NTSC TV (262 lines, 60Hz).
-//   │		│	│	│	└────────── EO bit is used to activate the display of an even and odd page alternately, 1 frame out of two, for the second period in SCREEN 5 to 12 modes. (For more details, see register 13.)
+//   │		│	│	│	└────────── EO bit is used to activate the display of an even and odd page alternately, 1 frame out of two, for the second period in SCREEN 5 to 12 modes. (For more details, see R#13).
 //   │		│	│	└────────────── IL is for displaying with interlaced lines. Write 1 to select the display with interlacing, 0 to select the display non-interlaced.
 //   │		└───┴────────────────── S1-S0 bits select the mode used simultaneously (00 = Foreground (Default value), 01 = Digitizer or Superimposition device, 10 = external video).
 //   └───────────────────────────── LN defines the height of the screen. 1 for 212 lines, 0 for 192 (Default value).

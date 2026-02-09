@@ -285,6 +285,7 @@ void Print_SetMode(u8 mode)
 	#endif
 	#if (PRINT_USE_VRAM)
 		case PRINT_MODE_BITMAP_VRAM:
+		case PRINT_MODE_BITMAP_VRAM_TRANS:
 		{
 			switch (VDP_GetMode()) // Screen mode specific initialization
 			{
@@ -767,7 +768,7 @@ void DrawChar_Trans(u8 chr)
 #if (PRINT_USE_VRAM)
 //-----------------------------------------------------------------------------
 // Set the current font and upload it to VRAM
-void Print_SetVRAMFont(const u8* font, UY y, u8 color)
+void Print_SetVRAMFont(const u8* font, UY y, u8 color, bool trans)
 {
 	UX cx = PRINT_DATA.CursorX;
 	UY cy = PRINT_DATA.CursorY;
@@ -796,7 +797,7 @@ void Print_SetVRAMFont(const u8* font, UY y, u8 color)
 	
 	PRINT_DATA.CharPerLine = PRINT_DATA.ScreenWidth / PRINT_W(PRINT_DATA.UnitX);
 	
-	Print_SetMode(PRINT_MODE_BITMAP_VRAM);
+	Print_SetMode(trans ? PRINT_MODE_BITMAP_VRAM_TRANS : PRINT_MODE_BITMAP_VRAM);
 }
 
 #if (VDP_USE_MODE_G4 || VDP_USE_MODE_G7)
@@ -809,18 +810,13 @@ void DrawChar_VRAM256(u8 chr)
 		chr = Print_ValidateChar(chr);
 	#endif
 	u8 idx = chr - PRINT_DATA.CharFirst;
-	#if (PRINT_WIDTH == PRINT_WIDTH_6)
-		u16 sx = (idx % 42) * PRINT_W(PRINT_DATA.UnitX);		
-		u16 sy = (idx / 42) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
-	#elif (PRINT_WIDTH == PRINT_WIDTH_8)
-		u16 sx = (idx % 32) * PRINT_W(PRINT_DATA.UnitX);		
-		u16 sy = (idx / 32) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
-	#else
-		u16 sx = (idx % PRINT_DATA.CharPerLine) * PRINT_W(PRINT_DATA.UnitX);		
-		u16 sy = (idx / PRINT_DATA.CharPerLine) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
-	#endif
+	u16 sx = (idx % PRINT_MOD256) * PRINT_W(PRINT_DATA.UnitX);		
+	u16 sy = (idx / PRINT_MOD256) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
 
-	VDP_CommandHMMM(sx, sy, PRINT_DATA.CursorX, PRINT_DATA.CursorY, PRINT_W(PRINT_DATA.UnitX), PRINT_H(PRINT_DATA.PatternY));
+	if (PRINT_DATA.SourceMode == PRINT_MODE_BITMAP_VRAM)
+		VDP_CommandHMMM(sx, sy, PRINT_DATA.CursorX, PRINT_DATA.CursorY, PRINT_W(PRINT_DATA.UnitX), PRINT_H(PRINT_DATA.PatternY));
+	else
+		VDP_CommandLMMM(sx, sy, PRINT_DATA.CursorX, PRINT_DATA.CursorY, PRINT_W(PRINT_DATA.UnitX), PRINT_H(PRINT_DATA.PatternY), VDP_OP_TIMP);
 }
 #endif // (VDP_USE_MODE_G4 || VDP_USE_MODE_G7)
 
@@ -834,18 +830,13 @@ void DrawChar_VRAM512(u8 chr)
 		chr = Print_ValidateChar(chr);
 	#endif
 	u8 idx = chr - PRINT_DATA.CharFirst;
-	#if (PRINT_WIDTH == PRINT_WIDTH_6)
-		u16 sx = (idx % 85) * PRINT_W(PRINT_DATA.UnitX);		
-		u16 sy = (idx / 85) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
-	#elif (PRINT_WIDTH == PRINT_WIDTH_8)
-		u16 sx = (idx % 64) * PRINT_W(PRINT_DATA.UnitX);		
-		u16 sy = (idx / 64) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
-	#else
-		u16 sx = (idx % PRINT_DATA.CharPerLine) * PRINT_W(PRINT_DATA.UnitX);		
-		u16 sy = (idx / PRINT_DATA.CharPerLine) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
-	#endif
+	u16 sx = (idx % PRINT_MOD512) * PRINT_W(PRINT_DATA.UnitX);		
+	u16 sy = (idx / PRINT_MOD512) * PRINT_H(PRINT_DATA.PatternY) + PRINT_DATA.FontVRAMY;
 
-	VDP_CommandHMMM(sx, sy, PRINT_DATA.CursorX, PRINT_DATA.CursorY, PRINT_W(PRINT_DATA.UnitX), PRINT_H(PRINT_DATA.PatternY));
+	if (PRINT_DATA.SourceMode == PRINT_MODE_BITMAP_VRAM)
+		VDP_CommandHMMM(sx, sy, PRINT_DATA.CursorX, PRINT_DATA.CursorY, PRINT_W(PRINT_DATA.UnitX), PRINT_H(PRINT_DATA.PatternY));
+	else
+		VDP_CommandLMMM(sx, sy, PRINT_DATA.CursorX, PRINT_DATA.CursorY, PRINT_W(PRINT_DATA.UnitX), PRINT_H(PRINT_DATA.PatternY), VDP_OP_TIMP);
 }
 #endif // (VDP_USE_MODE_G5 || VDP_USE_MODE_G6)
 

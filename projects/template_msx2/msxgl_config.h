@@ -346,7 +346,7 @@
 // GAME QUEST VARIABLES MODULE
 //-----------------------------------------------------------------------------
 
-#define QUESTVAR_MAX				64	// Maximum number of quest variables (8 variables per byte)
+#define BITFIELD_MAX				64	// Maximum number of quest variables (8 variables per byte)
 
 //-----------------------------------------------------------------------------
 // STRING MODULE

@@ -1,9 +1,9 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │   ▄▄                 ▄▄    ▄▄ ▄
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ █ ██ █ ▄███  ██▀ ██▀   ██ █ ▄▀██ ██▄▀
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▄█ ▀█▄█ ▀█▄▄ ▄██  ▀█▄   ▀█▀  ▀▄██ ██
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
-//  Quest variables module
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄  ▄  ▄▄  ▄▄▄▄ ▄       ▄▄    ▄▄ 
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ▄  ██▀ ██▄  ▄  ▄███ ██   ▄██  
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ██ ▀█▄ ██   ██ ▀█▄▄ ▀█▄ ▀▄██  
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
+//  Bit field module
 //─────────────────────────────────────────────────────────────────────────────
 
 //=============================================================================
@@ -15,60 +15,60 @@
 // DEFINES
 //=============================================================================
 
-// QUESTVAR_MAX
-#ifndef QUESTVAR_MAX
-	#warning QUESTVAR_MAX is not defined in "msxgl_config.h"! Default value will be used: 64
-	#define QUESTVAR_MAX	64
+// BITFIELD_MAX
+#ifndef BITFIELD_MAX
+	#warning BITFIELD_MAX is not defined in "msxgl_config.h"! Default value will be used: 64
+	#define BITFIELD_MAX	64
 #endif
 
-#define QUESTVAR_BYTES				((QUESTVAR_MAX + 7) / 8)
+#define BITFIELD_BYTES				((BITFIELD_MAX + 7) / 8)
 
 //=============================================================================
 // VARIABLES
 //=============================================================================
 
-extern u8 g_QuestVar[QUESTVAR_BYTES];
+extern u8 g_BitField[BITFIELD_BYTES];
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
-// Function: QuestVar_Initialize
+// Function: BitField_Initialize
 // Initialize quest variables
-void QuestVar_Initialize();
+void BitField_Initialize();
 
-// Function: QuestVar_Enable
+// Function: BitField_Enable
 // Set a quest variable
 //
 // Parameters:
 //   var - Quest variable to set
-void QuestVar_Enable(u8 var);
+void BitField_Enable(u8 var);
 
-// Function: QuestVar_Disable
+// Function: BitField_Disable
 // Reset a quest variable
 //
 // Parameters:
 //   var - Quest variable to set
-void QuestVar_Disable(u8 var);
+void BitField_Disable(u8 var);
 
-// Function: QuestVar_Set
+// Function: BitField_Set
 // Set or reset a quest variable
 //
 // Parameters:
 //   var    - Quest variable to set
 //   enable - TRUE to enable, FALSE to disable
-inline void QuestVar_Set(u8 var, bool enable) { if (enable) QuestVar_Enable(var); else QuestVar_Disable(var); }
+inline void BitField_Set(u8 var, bool enable) { if (enable) BitField_Enable(var); else BitField_Disable(var); }
 
-// Function: QuestVar_Toggle
+// Function: BitField_Toggle
 // Toggle a quest variable
 //
 // Parameters:
 //   var - Quest variable to set
-void QuestVar_Toggle(u8 var);
+void BitField_Toggle(u8 var);
 
-// Function: QuestVar_Get
+// Function: BitField_Get
 // Get a quest variable
 //
 // Parameters:
 //   var - Quest variable to set
-bool QuestVar_Get(u8 var);
+bool BitField_Get(u8 var);

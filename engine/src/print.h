@@ -37,20 +37,21 @@ enum PRINT_MODE
 {
 	// Bitmap modes (from RAM)
 #if ((PRINT_USE_BITMAP) || (PRINT_USE_VRAM))
-	PRINT_MODE_BITMAP		= 0,	//< Draw characters from RAM (R-T unpack font data and draw it)
-	PRINT_MODE_BITMAP_TRANS	= 1,	//< Draw characters from RAM with transparency (R-T unpack font data and draw it)
+	PRINT_MODE_BITMAP		     = 0,	//< Draw characters from RAM (R-T unpack font data and draw it)
+	PRINT_MODE_BITMAP_TRANS      = 1,	//< Draw characters from RAM with transparency (R-T unpack font data and draw it)
 #endif
 	// Bitmap mode (from VRAM)
 #if (PRINT_USE_VRAM)
-	PRINT_MODE_BITMAP_VRAM	= 2,	//< Draw characters from VRAM (font data is upack once in VRAM thne drawing is done by VRAM copy)
+	PRINT_MODE_BITMAP_VRAM	     = 2,	//< Draw characters from VRAM (font data is upack once in VRAM thne drawing is done by VRAM copy)
+	PRINT_MODE_BITMAP_VRAM_TRANS = 3,	//< Draw characters from VRAM with transparency (font data is upack once in VRAM thne drawing is done by VRAM copy)
 #endif
 	// Sprite mode
 #if (PRINT_USE_SPRITE)
-	PRINT_MODE_SPRITE		= 3,	//< Draw characters from sprites (load font data as sprite pattern in VRAM then display characters using sprite system)
+	PRINT_MODE_SPRITE		     = 4,	//< Draw characters from sprites (load font data as sprite pattern in VRAM then display characters using sprite system)
 #endif
 	// Text mode
 #if (PRINT_USE_TEXT)
-	PRINT_MODE_TEXT			= 4,	//< Draw characters as pattern names (text mode)
+	PRINT_MODE_TEXT			     = 5,	//< Draw characters as pattern names (text mode)
 #endif
 	PRINT_MODE_MAX,
 };
@@ -58,12 +59,20 @@ enum PRINT_MODE
 // Handle fixed of variables character width
 #if (PRINT_WIDTH == PRINT_WIDTH_1)
 	#define PRINT_W(a) 1
+	#define PRINT_MOD256
+	#define PRINT_MOD512
 #elif (PRINT_WIDTH == PRINT_WIDTH_6)
 	#define PRINT_W(a) 6
+	#define PRINT_MOD256			42
+	#define PRINT_MOD512			85			
 #elif (PRINT_WIDTH == PRINT_WIDTH_8)
 	#define PRINT_W(a) 8
+	#define PRINT_MOD256			32
+	#define PRINT_MOD512			64			
 #else // (PRINT_WIDTH == PRINT_WIDTH_X)
 	#define PRINT_W(a) (a)
+	#define PRINT_MOD256			PRINT_DATA.CharPerLine
+	#define PRINT_MOD512			PRINT_DATA.CharPerLine			
 #endif
 
 // Handle fixed of variables character height
@@ -156,11 +165,11 @@ typedef struct Print_Data
 	u8 ShadowColor;				//< Shadow color
 #endif
 #if (PRINT_USE_FX_OUTLINE)
-	u8 OutlineColor;			//< Shadow color
+	u8 OutlineColor;			//< Outline color
 #endif
 	u8 Buffer[16];				//< Mode specifique buffer (used to pre-compute color combinations)
 #if (PRINT_USE_DIRECTION)
-	i8 Direction;				//< Shadow color
+	i8 Direction;				//< 
 #endif
 } Print_Data;
 
@@ -202,11 +211,12 @@ bool Print_Initialize();
 //
 // Parameters:
 //   mode - Print mode to select. Can be:
-// > PRINT_MODE_BITMAP          Draw characters from RAM (R-T unpack font data and draw it). Need PRINT_USE_BITMAP or PRINT_USE_VRAM compile option.
-// > PRINT_MODE_BITMAP_TRANS    Draw characters from RAM with transparency (R-T unpack font data and draw it). Need PRINT_USE_BITMAP or PRINT_USE_VRAM compile option.
-// > PRINT_MODE_BITMAP_VRAM     Draw characters from VRAM (font data is upack once in VRAM thne drawing is done by VRAM copy). Need PRINT_USE_VRAM compile option.
-// > PRINT_MODE_SPRITE          Draw characters from sprites (load font data as sprite pattern in VRAM then display characters using sprite system). Need PRINT_USE_SPRITE compile option.
-// > PRINT_MODE_TEXT            Draw characters as pattern names (text mode). Need PRINT_USE_TEXT compile option.
+// > PRINT_MODE_BITMAP                Draw characters from RAM (R-T unpack font data and draw it). Need PRINT_USE_BITMAP or PRINT_USE_VRAM compile option.
+// > PRINT_MODE_BITMAP_TRANS          Draw characters from RAM with transparency (R-T unpack font data and draw it). Need PRINT_USE_BITMAP or PRINT_USE_VRAM compile option.
+// > PRINT_MODE_BITMAP_VRAM           Draw characters from VRAM (font data is upack once in VRAM thne drawing is done by VRAM copy). Need PRINT_USE_VRAM compile option.
+// > PRINT_MODE_BITMAP_VRAM_TRANS     Draw characters from VRAM (font data is upack once in VRAM thne drawing is done by VRAM copy). Need PRINT_USE_VRAM compile option.
+// > PRINT_MODE_SPRITE                Draw characters from sprites (load font data as sprite pattern in VRAM then display characters using sprite system). Need PRINT_USE_SPRITE compile option.
+// > PRINT_MODE_TEXT                  Draw characters as pattern names (text mode). Need PRINT_USE_TEXT compile option.
 void Print_SetMode(u8 mode);
 
 // Function: Print_SetFont
@@ -311,7 +321,8 @@ void Print_SetBitmapFont(const u8* font);
 //   font  - Pointer to font structure. Character patterns plus a 4 bytes headers (character width/height, spacing width/height, 1st character code, last character code).
 //   y     - Y position to store the font in VRAM
 //   color - Color of the font
-void Print_SetVRAMFont(const u8* font, UY y, u8 color);
+//   trans - Use transparency
+void Print_SetVRAMFont(const u8* font, UY y, u8 color, bool trans);
 #endif
 
 #if (PRINT_USE_TEXT)

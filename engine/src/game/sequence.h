@@ -15,14 +15,13 @@
 // DEFINES
 //=============================================================================
 
-#define SEQ_USE_PAN					TRUE
-#define SEQ_USE_TIMELINE			TRUE
+#define SEQ_USE_PAN					TRUE	// Add support for manual panning sequences
+#define SEQ_USE_TIMELINE			TRUE	// Add support for timelined sequences
+
 
 #define SEQ_CUR_NONE				0xFF	// No custom cursor
 
 #define SEQ_FRAME_ALL				0xFF	// Special frame number for action frame start (non frame depend action)
-#define SEQ_FRAME_BLACK				0xFF	// Special frame number for timelined sequences
-#define SEQ_FRAME_WHITE				0xFE	// Special frame number for timelined sequences
 #define SEQ_DIRECT					0xFF	// Special frame number for transitions
 
 // Functions callback
