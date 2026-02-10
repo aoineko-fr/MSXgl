@@ -15,6 +15,7 @@
 ;------------------------------------------------------------------------------
 ; Global symbols
 .globl _main
+.globl _boot
 .globl l__INITIALIZER
 .globl s__INITIALIZED
 .globl s__INITIALIZER
