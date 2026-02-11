@@ -265,6 +265,9 @@ global.InstallRAMISR = "RAM0_NONE";
 //   - V9990      V-blank, h-blank and command end handler (V9990)
 global.CustomISR = "VBLANK";
 
+//-- Event called before BIOS is released (boolean). For target format that switch out BIOS from page 0
+global.BIOSReleaseEvent = false;
+
 //-- Use automatic banked call and trampoline functions (boolean). For mapped ROM
 global.BankedCall = false;
 
