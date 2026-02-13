@@ -176,6 +176,30 @@ if (DoClean)
 	fs.mkdirSync(OutDir);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+	// util.print(`Project segment: ${ProjSegments}`);
+	// let segDir = path.parse(ProjSegments).dir;
+	// util.print(`Segment directory: ${segDir}`);
+	// if (!segDir)
+	// 	segDir = ".";
+	// util.print("Get segment files...");
+	// const segFiles = fs.readdirSync(segDir);
+	// segFiles.forEach((item) => { util.print(segDir + "/" + item); });
+	// // rootFiles.concat(segFiles);
+
+	// return;
+
+
 //_____________________________________________________________________________
 //   ▄▄                 ▄  ▄▄
 //  ██ ▀ ▄█▀▄ ▄█▄█ ██▀▄ ▄  ██  ▄███
@@ -409,6 +433,7 @@ if (DoCompile)
 	//=========================================================================
 	// COMPILE MAPPER SEGMENT
 	//=========================================================================
+
 	MapperBanks = "";
 	if ((Ext === "rom") && (MapperSize))
 	{

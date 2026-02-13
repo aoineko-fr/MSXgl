@@ -96,6 +96,10 @@ for (let i = 0; i < CommandArgs.length; i++)
 	{
 		DoClean = DoCompile = DoMake = DoPackage = DoDeploy = true;
 	}
+	else if (arg === "none")
+	{
+		DoCompile = DoMake = DoPackage = DoDeploy = DoRun = false;
+	}
 	else if (arg.startsWith("define="))
 	{
 		let params = CommandArgs[i].substring(7).split(":");
@@ -122,7 +126,8 @@ for (let i = 0; i < CommandArgs.length; i++)
 		util.print(" deploy                 Deploy final files into separate directory");
 		util.print(" run                    Run the built program with the selected emulator");
 		util.print(" all                    Do all steps from compile to deploy");
-		util.print(" rebuild                Clean all generated files, then do all steps");
+		util.print(" rebuild                Clean all generated files, then do all steps (up to deploy)");
+		util.print(" none                	Disable all steps");
 		util.print(" define=<name>[:value]  Define a compilation symbol (can be used multiple times)");
 		util.print(" help                   Display this command-line arguments list");
 	}
