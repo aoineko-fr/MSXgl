@@ -44,6 +44,7 @@ u8 g_SeqFrameCount = 0;				// Render frame count
 const Sequence* g_SeqCur = NULL;	// Current sequence
 u8 g_SeqFrame = 0;					// Current sequence's frame
 SeqEventCB g_SeqEventCB;			// Event callback
+callback g_SeqActionCB = NULL;		// Action callback
 
 // Cursor
 Mouse_State g_SeqMouseData;
@@ -148,7 +149,7 @@ void Sequence_Play(const Sequence* seq, u8 frame)
 
 //-----------------------------------------------------------------------------
 // Start a pan sequence transition
-void Sequence_PlayPanTransition(u8 from, struct Sequence* nextSeq, u8 nextFrame)
+void Sequence_PlayPanTransition(u8 from, const Sequence* nextSeq, u8 nextFrame)
 {
 	if ((g_SeqCur->Mode == SEQ_MODE_PAN_BOUND) || (g_SeqCur->Mode == SEQ_MODE_PAN_LOOP))
 	{
@@ -172,57 +173,9 @@ bool Sequence_CheckArea(const SeqActionArea* area)
 }
 
 //-----------------------------------------------------------------------------
-// Check all current sequence's actions
-void Sequence_CheckActions()
-{
-	// Check for action hover
-	for (u8 i = 0; g_SeqCur->Actions[i] != NULL; i++)
-	{
-		const SeqAction* const act = g_SeqCur->Actions[i];
-		if (act->FrameMin == SEQ_FRAME_ALL)
-		{
-			if (Sequence_CheckArea(&act->Areas[0]))
-			{
-				g_SeqActionHover = act;
-				if (act->Condition)
-					g_SeqActionCond = act->Condition(act->Event);
-				if (g_SeqActionCond != SEQ_COND_DISABLE)
-					break;
-			}
-		}
-		else if ((g_SeqFrame >= act->FrameMin) && (g_SeqFrame <= act->FrameMax))
-		{
-			if (Sequence_CheckArea(&act->Areas[g_SeqFrame - act->FrameMin]))
-			{
-				g_SeqActionHover = act;
-				if (act->Condition)
-					g_SeqActionCond = act->Condition(act->Event); 
-				if (g_SeqActionCond != SEQ_COND_DISABLE)
-					break;
-			}
-		}
-	}
-
-	// Check for action click
-	if ((Sequence_CheckInput(SEQ_INPUT_CLICK_1)) && (g_SeqActionCond == SEQ_COND_OK) &&  g_SeqActionHover)
-	{
-		g_SeqEventCB(g_SeqActionHover->Event);
-		const SeqTransition* trans = &g_SeqActionHover->Trans;
-		if (trans->Seq)
-		{
-			if (trans->From == SEQ_DIRECT)
-				Sequence_Play(trans->Seq, trans->Frame);
-			else
-				Sequence_PlayPanTransition(trans->From, trans->Seq, trans->Frame);
-		}
-	}
-}
-
-//-----------------------------------------------------------------------------
 // Update sequence for mode SEQ_MODE_FIXED
 void Sequence_UpdateFixed()
 {
-	Sequence_CheckActions();
 }
 
 //-----------------------------------------------------------------------------
@@ -240,8 +193,6 @@ void Sequence_UpdateOnce()
 				Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 		}
 	}
-
-	Sequence_CheckActions();
 }
 
 //-----------------------------------------------------------------------------
@@ -259,8 +210,6 @@ void Sequence_UpdateOnceRevert()
 		if (g_SeqCur->Next.Mode & SEQ_NEXT_AUTO)
 			Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 	}
-
-	Sequence_CheckActions();
 }
 
 //-----------------------------------------------------------------------------
@@ -276,8 +225,6 @@ void Sequence_UpdateLoop()
 	}
 	else
 		g_SeqDrawCB(g_SeqFrame);
-
-	Sequence_CheckActions();
 }
 
 //-----------------------------------------------------------------------------
@@ -292,8 +239,6 @@ void Sequence_UpdateLoopRevert()
 	else
 		g_SeqFrame--;
 	g_SeqDrawCB(g_SeqFrame);
-
-	Sequence_CheckActions();
 }
 
 //-----------------------------------------------------------------------------
@@ -310,7 +255,7 @@ void Sequence_UpdatePanLoop()
 	// Check area
 	if ((Sequence_CheckInput(SEQ_INPUT_MOVE_LEFT)) || (Sequence_CheckArea(g_SeqActionMoveLeft->Areas)))
 	{
-		g_SeqActionHover = g_SeqActionMoveLeft;
+		Sequence_SetHoverAction(g_SeqActionMoveLeft);
 
 		if ((Sequence_CheckInput(SEQ_INPUT_MOVE_LEFT) || (Sequence_CheckInput(SEQ_INPUT_PRESS_1))))
 		{
@@ -324,7 +269,7 @@ void Sequence_UpdatePanLoop()
 	}
 	if ((Sequence_CheckInput(SEQ_INPUT_MOVE_RIGHT)) || (Sequence_CheckArea(g_SeqActionMoveRight->Areas)))
 	{
-		g_SeqActionHover = g_SeqActionMoveRight;
+		Sequence_SetHoverAction(g_SeqActionMoveRight);
 		if ((Sequence_CheckInput(SEQ_INPUT_MOVE_RIGHT)) || (Sequence_CheckInput(SEQ_INPUT_PRESS_1)))
 		{
 			if (g_SeqFrame < g_SeqCur->LastFrame)
@@ -335,8 +280,6 @@ void Sequence_UpdatePanLoop()
 			return;
 		}
 	}
-
-	Sequence_CheckActions();
 }
 
 #if (SEQ_USE_TIMELINE)
@@ -365,13 +308,11 @@ void Sequence_UpdateTimeline()
 			}
 		}
 	}
-
-	Sequence_CheckActions();
 }
 #endif
 
 //-----------------------------------------------------------------------------
-//
+// Check if specific input flag is set
 void Sequence_UpdateInput()
 {
 	// Update mouse
@@ -446,33 +387,89 @@ void Sequence_UpdateInput()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Check all current sequence's actions
+void Sequence_CheckActions()
+{
+	// Check for action hover
+	for (u8 i = 0; g_SeqCur->Actions[i] != NULL; i++)
+	{
+		const SeqAction* const act = g_SeqCur->Actions[i];
+		if (act->FrameMin == SEQ_FRAME_ALL)
+		{
+			if (Sequence_CheckArea(act->Areas))
+			{
+				Sequence_SetHoverAction(act);
+				if (act->Condition)
+				{
+					g_SeqActionCond = act->Condition(act->Event);
+					if (g_SeqActionCond != SEQ_COND_DISABLE)
+						break;
+				}
+			}
+		}
+		else if ((g_SeqFrame >= act->FrameMin) && (g_SeqFrame <= act->FrameMax))
+		{
+			if (Sequence_CheckArea(&act->Areas[g_SeqFrame - act->FrameMin]))
+			{
+				Sequence_SetHoverAction(act);
+				if (act->Condition)
+				{
+					g_SeqActionCond = act->Condition(act->Event);
+					if (g_SeqActionCond != SEQ_COND_DISABLE)
+						break;
+				}
+			}
+		}
+	}
+
+	if (g_SeqActionCB)
+		g_SeqActionCB();
+
+	// Check for action click
+	if (Sequence_CheckInput(SEQ_INPUT_CLICK_1))
+	{
+		if ((g_SeqActionCond == SEQ_COND_OK) && g_SeqActionHover)
+		{
+			// Trigger action event
+			g_SeqEventCB(g_SeqActionHover->Event);
+			// Check for auto-transition
+			const SeqTransition* trans = &g_SeqActionHover->Trans;
+			if (trans->Seq)
+			{
+				if (trans->From == SEQ_DIRECT)
+					Sequence_Play(trans->Seq, trans->Frame);
+				else
+					Sequence_PlayPanTransition(trans->From, trans->Seq, trans->Frame);
+			}
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Update cursor
 void Sequence_UpdateCursor()
 {
-	// Update cursor
-	if (Sequence_CheckInput(SEQ_INPUT_CLICK_2)) // Cancel custom cursor
-		Sequence_ClearCustomCursor();
-
+	// Update cursor pattern
 	u8 pat = SEQ_CUR_DEFAULT;
 	if (Sequence_HasCustomCursor())
-		pat = g_SeqCustomCursor;
+		pat = Sequence_GetCustomCursor();
 	if (g_SeqActionHover)
 	{
 		switch (g_SeqActionCond)
 		{
 		case SEQ_COND_OK:
-			pat = g_SeqActionHover->Cursor * 8;
+			pat = g_SeqActionHover->Cursor;
 			break;
-
 		case SEQ_COND_LOCK:
-			pat = SEQ_CUR_LOCK * 8;
+			pat = SEQ_CUR_LOCK;
 			break;
 		}
 	}
 
+	// Update sprites data
 	g_VDP_Sprite.Y = g_SeqCursorPosY - 8;
 	g_VDP_Sprite.X = g_SeqCursorPosX - 7;
-	g_VDP_Sprite.Pattern = pat;
+	g_VDP_Sprite.Pattern = pat * 8;
 	g_VDP_Sprite.Color = 0;
 	VDP_WriteVRAM((u8*)&g_VDP_Sprite, g_SpriteAtributeLow, g_SpriteAtributeHigh, 3);
 	g_VDP_Sprite.Pattern += 4;
@@ -480,20 +477,23 @@ void Sequence_UpdateCursor()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update current sequence and check for interactions
 void Sequence_Update()
 {
+	// Reset parameters
+	g_SeqInput = 0;
 	g_SeqActionHover = NULL;
 	g_SeqActionCond = SEQ_COND_OK;
-
+	
 	// Update input
 	Sequence_UpdateInput();
 
 	// Update sequence (mode specific function)
 	g_SeqUpdateModes[g_SeqCur->Mode]();	
 
+	// Check actions
+	Sequence_CheckActions();
+
 	// Update cursor
 	Sequence_UpdateCursor();
-
-	g_SeqInput = 0;
 }

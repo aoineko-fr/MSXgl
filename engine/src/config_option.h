@@ -309,8 +309,9 @@
 #define WYZ_6CH 					1
 
 // AYFX MODULE
-#define AYFX_BUFFER_DEFAULT			0
-#define AYFX_BUFFER_PT3				1
+#define AYFX_BUFFER_DEFAULT			0 // Use PSG module's PSG registers buffer
+#define AYFX_BUFFER_PSG2			1 // Use PSG module's 2nd PSG registers buffer (only if PSG_CHIP == PSG_BOTH)
+#define AYFX_BUFFER_PT3				2 // Use PT3 module's PSG registers buffer
 #define AYFX_BUFFER_VGM				AYFX_BUFFER_DEFAULT
 #define AYFX_BUFFER_LVGM			AYFX_BUFFER_DEFAULT
 

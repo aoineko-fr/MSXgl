@@ -6,6 +6,7 @@
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Support of WaveGame feature
+// https://www.msxpico.com/downloads/WaveGameReadme.txt
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
@@ -106,3 +107,10 @@ inline void WaveGame_Continue() { g_PortWaveGame = WAVEGAME_CMD_CONTINUE; }
 // Next command received will be temporarily stored and executed after the current song stops playing, or already has stopped
 inline void WaveGame_StoreNext() { g_PortWaveGame = WAVEGAME_CMD_STORE_NEXT; }
 
+// Function: WaveGame_PlayNext
+// Play song xxxxxx (for instance command 10000101 will play 05.wav continuously) when current music ends
+//
+// Parameters:
+//   song - Song number to play (0-63)
+//   loop - true to play in a loop, false to play once
+inline void WaveGame_PlayNext(u8 song, bool loop) { WaveGame_StoreNext(); if (loop) WaveGame_PlayLoop(song); else WaveGame_PlayOnce(song); }

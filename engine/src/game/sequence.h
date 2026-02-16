@@ -118,18 +118,11 @@ typedef struct SeqActionArea
 	u8 EndY;						// Y coordinate of the end of the area
 } SeqActionArea;
 
-// Sequence custom area structure
-typedef struct SeqCustomArea
-{
-	struct SeqActionArea Area;
-	u8 Event;
-} SeqCustomArea;
-
 // Sequence transition structure
 typedef struct SeqNext
 {
 	u8 Mode;						// Next sequence mode
-	struct Sequence* Seq;			// Sequence to transition to
+	const struct Sequence* Seq;		// Sequence to transition to
 	u8 Frame;						// Transition sequence start frame
 } SeqNext;
 
@@ -137,7 +130,7 @@ typedef struct SeqNext
 typedef struct SeqTransition
 {
 	u8 From;						// Pan's frame to transition from
-	struct Sequence* Seq;			// Sequence to transition to
+	const struct Sequence* Seq;		// Sequence to transition to
 	u8 Frame;						// Transition sequence start frame
 } SeqTransition;
 
@@ -187,6 +180,7 @@ extern u8 g_SeqFrameCount;			// Render frame count
 extern const Sequence* g_SeqCur;	// Current sequence
 extern u8 g_SeqFrame;				// Current sequence's frame
 extern SeqEventCB g_SeqEventCB;		// Event callback
+extern callback g_SeqActionCB;		// Action callback
 
 // Cursor
 extern Mouse_State g_SeqMouseData;
@@ -328,7 +322,7 @@ void Sequence_Play(const Sequence* seq, u8 frame);
 //   frame    - Pan's frame number to start the transition
 //   nextSeq  - Pointer to the next sequence structure
 //   nextFrame - Frame number to start the next sequence
-void Sequence_PlayPanTransition(u8 frame, struct Sequence* nextSeq, u8 nextFrame);
+void Sequence_PlayPanTransition(u8 frame, const Sequence* nextSeq, u8 nextFrame);
 
 // Function: Sequence_ForceDraw
 // Force redraw of the current frame
@@ -374,8 +368,29 @@ inline bool Sequence_CheckInput(u8 in) { return g_SeqInput & in; }
 //   FALSE if cursor is not in area
 bool Sequence_CheckArea(const SeqActionArea* area);
 
+// Function: Sequence_SetActionCallback
+// Set action callback 
+//
+// Parameters:
+//   cb - Function to be called during action check
+inline void Sequence_SetActionCallback(callback cb) { g_SeqActionCB = cb;}
+
+// Function: Sequence_SetHoverAction
+// Set the action hovered by the cursor
+//
+// Parameters:
+//   act - Pointer to hover action (can be NULL)
+inline void Sequence_SetHoverAction(const SeqAction* act) { g_SeqActionHover = act; }
+
+// Function: Sequence_GetHoverAction
+// Get the action hovered by the cursor
+//
+// Return:
+//   Pointer to hover action (can be NULL)
+inline const SeqAction* Sequence_GetHoverAction() { return g_SeqActionHover; }
+
 // Function: Sequence_Update
-// Update sequence and check for interaction
+// Update current sequence and check for interactions
 void Sequence_Update();
 
 // Function: Sequence_Interrupt
