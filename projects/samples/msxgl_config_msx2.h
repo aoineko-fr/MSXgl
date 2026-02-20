@@ -455,8 +455,9 @@
 #define PT3_EXTRA					TRUE	// Add helper functions
 
 // ayFX options
-// - AYFX_BUFFER_DEFAULT .......... Use PSG module PSG register buffer
-// - AYFX_BUFFER_PT3 .............. Use PT3 module PSG register buffer
+// - AYFX_BUFFER_DEFAULT .......... Use PSG module's PSG registers buffer
+// - AYFX_BUFFER_PSG2 ............. Use PSG module's 2nd PSG registers buffer (only if PSG_CHIP == PSG_BOTH)
+// - AYFX_BUFFER_PT3 .............. Use PT3 module's PSG registers buffer
 #define AYFX_BUFFER					AYFX_BUFFER_PT3
 
 // TriloTracker options
