@@ -15,14 +15,18 @@
 // DEFINES
 //=============================================================================
 
+// Configuration
 #define SEQ_USE_PAN					TRUE	// Add support for manual panning sequences
 #define SEQ_USE_TIMELINE			TRUE	// Add support for timelined sequences
+#define SEQ_USE_CUSTOM				TRUE	// Add support for custom sequences
 
-
+// Cursor
 #define SEQ_CUR_NONE				0xFF	// No custom cursor
 
+// Frame
 #define SEQ_FRAME_ALL				0xFF	// Special frame number for action frame start (non frame depend action)
 #define SEQ_DIRECT					0xFF	// Special frame number for transitions
+#define SEQ_DRAW_SKIP				0xFF	// Special frame number to skip rendering
 
 // Functions callback
 typedef void (*SeqEventCB)(u8 id);	// Sequence event callback signature
@@ -37,13 +41,23 @@ enum SEQ_MODE_ID
 	SEQ_MODE_ONCE_REVERT,			// Play sequence backward once and stop at last image
 	SEQ_MODE_LOOP,					// Play sequence looping from end to start
 	SEQ_MODE_LOOP_REVERT,			// Play sequence backward looping from end to start
+#if (SEQ_USE_PAN)
 	SEQ_MODE_PAN_BOUND,				// Manual horizontal span between 2 bounds
 	SEQ_MODE_PAN_LOOP,				// Manual horizontal span looping from end to start
+#endif
 #if (SEQ_USE_TIMELINE)
 	SEQ_MODE_TIMELINE,				// Play a sequence using a timeline
 #endif
 //.....................................
 	SEQ_MODE_MAX,
+};
+
+// Sequence flag
+enum SEQ_FLAG_ID
+{
+	SEQ_FLAG_NONE		= 0b00000000,
+	SEQ_FLAG_DIRTY		= 0b00000001,	// Dirty flag
+	SEQ_FLAG_FINISHED	= 0b00000010,	// Sequence end reached
 };
 
 // Sequence events
@@ -129,7 +143,9 @@ typedef struct SeqNext
 // Sequence transition structure
 typedef struct SeqTransition
 {
+#if (SEQ_USE_PAN)
 	u8 From;						// Pan's frame to transition from
+#endif
 	const struct Sequence* Seq;		// Sequence to transition to
 	u8 Frame;						// Transition sequence start frame
 } SeqTransition;
@@ -175,6 +191,8 @@ typedef struct Sequence
 
 // Render variables
 extern u8 g_SeqFrameCount;			// Render frame count
+extern u8 g_SeqDrawFrame;			// Frame to render
+extern u8 g_SeqFlag;				// Sequencer flag
 
 // Sequence variables
 extern const Sequence* g_SeqCur;	// Current sequence
@@ -253,6 +271,18 @@ inline void Sequence_SetEventCallback(SeqEventCB event) { g_SeqEventCB = event; 
 //   draw - Draw callback function
 inline void Sequence_SetDrawCallback(SeqDrawCB draw) { g_SeqDrawCB = draw; }
 
+// Function: Sequence_SetDirty
+// Set dirty flag to force redraw
+inline void Sequence_SetDirty() { g_SeqFlag |= SEQ_FLAG_DIRTY; }
+
+// Function: Sequence_SetFinished
+// Set finish flag to force redraw
+inline void Sequence_SetFinished() { g_SeqFlag |= SEQ_FLAG_FINISHED; }
+
+// Function: Sequence_SetNextFrame
+// Set next frame to be rendered
+inline void Sequence_SetNextFrame(u8 frame) { g_SeqDrawFrame = frame; Sequence_SetDirty(); }
+
 // Function: Sequence_SetCursor
 // Set the cursor position
 //
@@ -315,6 +345,7 @@ inline void Sequence_ClearCustomCursor() { g_SeqCustomCursor = SEQ_CUR_NONE; }
 //   frame - Frame number to start playing
 void Sequence_Play(const Sequence* seq, u8 frame);
 
+#if (SEQ_USE_PAN)
 // Function: SeqStartTransition
 // Start a pan sequence transition
 //
@@ -323,10 +354,7 @@ void Sequence_Play(const Sequence* seq, u8 frame);
 //   nextSeq  - Pointer to the next sequence structure
 //   nextFrame - Frame number to start the next sequence
 void Sequence_PlayPanTransition(u8 frame, const Sequence* nextSeq, u8 nextFrame);
-
-// Function: Sequence_ForceDraw
-// Force redraw of the current frame
-inline void Sequence_ForceDraw() { g_SeqDrawCB(g_SeqFrame); }
+#endif
 
 // Function: Sequence_GetCurrent
 // Get the current sequence

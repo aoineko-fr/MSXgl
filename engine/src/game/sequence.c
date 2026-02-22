@@ -39,6 +39,8 @@ void Sequence_UpdateInput();
 
 // Render variables
 u8 g_SeqFrameCount = 0;				// Render frame count
+u8 g_SeqDrawFrame = SEQ_DRAW_SKIP;	// Frame to render
+u8 g_SeqFlag = SEQ_FLAG_NONE;		// Sequencer flag
 
 // Sequence variables
 const Sequence* g_SeqCur = NULL;	// Current sequence
@@ -83,8 +85,10 @@ const callback g_SeqUpdateModes[SEQ_MODE_MAX] =
 	Sequence_UpdateOnceRevert,
 	Sequence_UpdateLoop,
 	Sequence_UpdateLoopRevert,
+#if (SEQ_USE_PAN)
 	Sequence_UpdatePanBound,
 	Sequence_UpdatePanLoop,
+#endif
 #if (SEQ_USE_TIMELINE)
 	Sequence_UpdateTimeline
 #endif
@@ -121,6 +125,7 @@ void Sequence_Wait()
 // Play a sequence
 void Sequence_Play(const Sequence* seq, u8 frame)
 {
+	g_SeqFlag = SEQ_FLAG_NONE;
 	g_SeqCur = seq;
 	g_SeqEventCB(seq->StartEvent);
 
@@ -132,7 +137,7 @@ void Sequence_Play(const Sequence* seq, u8 frame)
 		const SeqKey* key = &g_SeqTimelines[g_SeqCur->FirstFrame][frame];
 		if (key->Event)
 			g_SeqEventCB(key->Event);
-		g_SeqDrawCB(key->Frame);
+		Sequence_SetNextFrame(key->Frame);
 	}
 	else
 #endif
@@ -143,10 +148,11 @@ void Sequence_Play(const Sequence* seq, u8 frame)
 			g_SeqFrame = frame;
 		else
 			g_SeqFrame = seq->FirstFrame;
-		g_SeqDrawCB(g_SeqFrame);
+		Sequence_SetNextFrame(g_SeqFrame);
 	}
 }
 
+#if (SEQ_USE_PAN)
 //-----------------------------------------------------------------------------
 // Start a pan sequence transition
 void Sequence_PlayPanTransition(u8 from, const Sequence* nextSeq, u8 nextFrame)
@@ -162,6 +168,7 @@ void Sequence_PlayPanTransition(u8 from, const Sequence* nextSeq, u8 nextFrame)
 		Sequence_Play(&g_SeqTransition, 0);
 	}
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Check if cursor is into the giben area
@@ -185,13 +192,14 @@ void Sequence_UpdateOnce()
 	if (g_SeqFrame < g_SeqCur->LastFrame)
 	{
 		g_SeqFrame++;
-		g_SeqDrawCB(g_SeqFrame);
-		if (g_SeqFrame == g_SeqCur->LastFrame) // reached the end
-		{
-			g_SeqEventCB(g_SeqCur->EndEvent);
-			if (g_SeqCur->Next.Mode & SEQ_NEXT_AUTO)
-				Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
-		}
+		Sequence_SetNextFrame(g_SeqFrame);
+	}
+	else if ((g_SeqFlag & SEQ_FLAG_FINISHED) == 0) // Sequence end reached
+	{
+		Sequence_SetFinished();
+		g_SeqEventCB(g_SeqCur->EndEvent);
+		if (g_SeqCur->Next.Mode & SEQ_NEXT_AUTO)
+			Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
 	}
 }
 
@@ -202,10 +210,11 @@ void Sequence_UpdateOnceRevert()
 	if (g_SeqFrame > g_SeqCur->LastFrame)
 	{
 		g_SeqFrame--;
-		g_SeqDrawCB(g_SeqFrame);
+		Sequence_SetNextFrame(g_SeqFrame);
 	}
-	else // reached the end
+	else if ((g_SeqFlag & SEQ_FLAG_FINISHED) == 0) // Sequence end reached
 	{
+		Sequence_SetFinished();
 		g_SeqEventCB(g_SeqCur->EndEvent);
 		if (g_SeqCur->Next.Mode & SEQ_NEXT_AUTO)
 			Sequence_Play(g_SeqCur->Next.Seq, g_SeqCur->Next.Frame);
@@ -220,11 +229,13 @@ void Sequence_UpdateLoop()
 	if (g_SeqFrame > g_SeqCur->LastFrame) // reached the loop point
 	{
 		g_SeqFrame = g_SeqCur->FirstFrame;
-		g_SeqDrawCB(g_SeqFrame);
+		Sequence_SetNextFrame(g_SeqFrame);
 		g_SeqEventCB(g_SeqCur->EndEvent);
 	}
 	else
-		g_SeqDrawCB(g_SeqFrame);
+	{
+		Sequence_SetNextFrame(g_SeqFrame);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -238,16 +249,19 @@ void Sequence_UpdateLoopRevert()
 	}
 	else
 		g_SeqFrame--;
-	g_SeqDrawCB(g_SeqFrame);
+	Sequence_SetNextFrame(g_SeqFrame);
 }
 
+#if (SEQ_USE_PAN)
 //-----------------------------------------------------------------------------
 // Update sequence for mode SEQ_MODE_PAN_BOUND
 void Sequence_UpdatePanBound()
 {
 	// to be implemented...
 }
+#endif
 
+#if (SEQ_USE_PAN)
 //-----------------------------------------------------------------------------
 // Update sequence for mode SEQ_MODE_PAN_LOOP
 void Sequence_UpdatePanLoop()
@@ -263,7 +277,7 @@ void Sequence_UpdatePanLoop()
 				g_SeqFrame--;
 			else
 				g_SeqFrame = g_SeqCur->LastFrame;
-			g_SeqDrawCB(g_SeqFrame);
+			Sequence_SetNextFrame(g_SeqFrame);
 			return;
 		}
 	}
@@ -276,11 +290,12 @@ void Sequence_UpdatePanLoop()
 				g_SeqFrame++;
 			else
 				g_SeqFrame = g_SeqCur->FirstFrame;
-			g_SeqDrawCB(g_SeqFrame);
+			Sequence_SetNextFrame(g_SeqFrame);
 			return;
 		}
 	}
 }
+#endif
 
 #if (SEQ_USE_TIMELINE)
 //-----------------------------------------------------------------------------
@@ -300,7 +315,7 @@ void Sequence_UpdateTimeline()
 				key++;
 				if (key->Event)
 					g_SeqEventCB(key->Event);
-				g_SeqDrawCB(key->Frame);
+				Sequence_SetNextFrame(key->Frame);
 			}
 			else if (g_SeqCur->Next.Mode & SEQ_NEXT_AUTO) // End of sequence
 			{
@@ -436,10 +451,14 @@ void Sequence_CheckActions()
 			const SeqTransition* trans = &g_SeqActionHover->Trans;
 			if (trans->Seq)
 			{
+#if (SEQ_USE_PAN)
 				if (trans->From == SEQ_DIRECT)
 					Sequence_Play(trans->Seq, trans->Frame);
 				else
 					Sequence_PlayPanTransition(trans->From, trans->Seq, trans->Frame);
+#else
+				Sequence_Play(trans->Seq, trans->Frame);
+#endif
 			}
 		}
 	}
@@ -484,16 +503,24 @@ void Sequence_Update()
 	g_SeqInput = 0;
 	g_SeqActionHover = NULL;
 	g_SeqActionCond = SEQ_COND_OK;
-	
+
 	// Update input
 	Sequence_UpdateInput();
 
 	// Update sequence (mode specific function)
-	g_SeqUpdateModes[g_SeqCur->Mode]();	
+	g_SeqUpdateModes[g_SeqCur->Mode]();
 
 	// Check actions
 	Sequence_CheckActions();
 
 	// Update cursor
 	Sequence_UpdateCursor();
+
+	// Draw current frame
+	if (g_SeqFlag & SEQ_FLAG_DIRTY)
+	{
+		if (g_SeqDrawFrame != SEQ_DRAW_SKIP)
+			g_SeqDrawCB(g_SeqDrawFrame);
+		g_SeqFlag &= ~SEQ_FLAG_DIRTY;
+	}
 }
