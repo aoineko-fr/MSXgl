@@ -123,7 +123,7 @@ inline void VGM_SetFrequency60Hz() { g_VGM_State &= ~VGM_STATE_50HZ; g_VGM_WaitF
 // Check if music playing
 //
 // Return:
-//   TRUR if music is playing
+//   TRUE if music is playing
 inline bool VGM_IsPlaying() { return g_VGM_State & VGM_STATE_PLAY; }
 
 // Function: VGM_Resume
