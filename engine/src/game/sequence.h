@@ -29,8 +29,9 @@
 #define SEQ_DRAW_SKIP				0xFF	// Special frame number to skip rendering
 
 // Functions callback
-typedef void (*SeqEventCB)(u8 id);	// Sequence event callback signature
-typedef u8   (*SeqCondCB)(u8 id);	// Sequence action condition check callback signature
+typedef void (*SeqEventCB)(u8 id);   // Sequence event callback signature
+typedef u8   (*SeqCondCB)(u8 id);    // Sequence action condition check callback signature
+typedef u8   (*SeqInputCB)();        // Sequence action input check callback signature
 typedef void (*SeqDrawCB)(u8 frame); // Sequence draw callback signature
 
 // Sequence playback modes
@@ -204,17 +205,15 @@ extern callback g_SeqActionCB;		// Action callback
 extern Mouse_State g_SeqMouseData;
 extern u8 g_SeqCursorPosX;
 extern u8 g_SeqCursorPosY;
-extern u8 g_SeqCursorAccX;
-extern u8 g_SeqCursorAccY;
 extern u8 g_SeqInput;
 extern u8 g_SeqCustomCursor;
-extern u8 g_SeqPrevRaw8;
 
 extern const SeqAction* g_SeqActionHover;
 
 // Configuration
 extern u8 g_SeqFrameWait;
 extern SeqDrawCB g_SeqDrawCB;
+extern SeqInputCB g_SeqInputCB;
 extern const SeqAction* g_SeqActionMoveLeft;
 extern const SeqAction* g_SeqActionMoveRight;
 extern Sequence g_SeqTransition;
@@ -235,11 +234,16 @@ extern u8 g_SeqTimelineTimer;
 //   wait  - Frame wait time
 //   event - Event callback function
 //   draw  - Draw callback function
+//   input - Input check callback function
+inline void Sequence_Initialize(u8 wait, SeqEventCB event, SeqDrawCB draw, SeqInputCB input) { g_SeqFrameWait = wait; g_SeqEventCB = event; g_SeqDrawCB = draw; g_SeqInputCB = input; }
+
+// Function: Sequence_SetActions
+// Initialize the left and right move actions
+//
+// Parameters:
 //   left  - Action to move left
 //   right - Action to move right
-//   up    - Action to move up
-//   down  - Action to move down
-inline void Sequence_Initialize(u8 wait, SeqEventCB event, SeqDrawCB draw, const SeqAction* left, const SeqAction* right) { g_SeqFrameWait = wait; g_SeqEventCB = event; g_SeqDrawCB = draw; g_SeqActionMoveLeft = left; g_SeqActionMoveRight = right; }
+inline void Sequence_SetActions(const SeqAction* left, const SeqAction* right) { g_SeqActionMoveLeft = left; g_SeqActionMoveRight = right; }
 
 #if (SEQ_USE_TIMELINE)
 // Function: Sequence_InitializeTimeline
@@ -289,7 +293,7 @@ inline void Sequence_SetNextFrame(u8 frame) { g_SeqDrawFrame = frame; Sequence_S
 // Parameters:
 //   x - X coordinate of the cursor
 //   y - Y coordinate of the cursor
-inline void Sequence_SetCursor(u8 x, u8 y) { g_SeqCursorPosX = x; g_SeqCursorPosY = y; g_SeqCursorAccX = 0; g_SeqCursorAccY = 0; }
+inline void Sequence_SetCursor(u8 x, u8 y) { g_SeqCursorPosX = x; g_SeqCursorPosY = y; }
 
 // Function: Sequence_GetCursorX
 // Get the cursor X coordinate

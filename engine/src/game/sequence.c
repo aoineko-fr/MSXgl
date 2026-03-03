@@ -28,11 +28,6 @@ void Sequence_UpdatePanLoop();
 void Sequence_UpdateTimeline();
 void Sequence_UpdateInput();
 
-// MACRO
-#define SEQ_MOUSE_SPEED				2
-#define SEQ_CURSOR_SPD_TABLE		32
-
-
 //=============================================================================
 // VARIABLES
 //=============================================================================
@@ -52,11 +47,8 @@ callback g_SeqActionCB = NULL;		// Action callback
 Mouse_State g_SeqMouseData;
 u8 g_SeqCursorPosX;
 u8 g_SeqCursorPosY;
-u8 g_SeqCursorAccX = 0;
-u8 g_SeqCursorAccY = 0;
 u8 g_SeqInput = 0;
 u8 g_SeqCustomCursor = SEQ_CUR_NONE;
-u8 g_SeqPrevRaw8 = 0xFF;
 
 const SeqAction* g_SeqActionHover;
 u8 g_SeqActionCond;
@@ -64,6 +56,7 @@ u8 g_SeqActionCond;
 // Configuration
 u8 g_SeqFrameWait = 6;
 SeqDrawCB g_SeqDrawCB;
+SeqInputCB g_SeqInputCB;
 const SeqAction* g_SeqActionMoveLeft;
 const SeqAction* g_SeqActionMoveRight;
 Sequence g_SeqTransition = { 0, 0, 0, 0, 0, 0, { SEQ_NEXT_AUTO, NULL, 0 }, { NULL } };
@@ -93,12 +86,6 @@ const callback g_SeqUpdateModes[SEQ_MODE_MAX] =
 	Sequence_UpdateTimeline
 #endif
 };
-
-// Cursor acceleration over time
-const u8 g_seqCursorMoveSpd[SEQ_CURSOR_SPD_TABLE] = {	1,  0,  0,  1,  1,  1,  1,  1,  
-														1,  1,  1,  1,  1,  1,  1,  1,  
-														2,  2,  2,  2,  2,  2,  2,  2,  
-														2,  2,  3,  3,  3,  3,  4,  4 };
 
 //=============================================================================
 // FUNCTIONS
@@ -330,75 +317,7 @@ void Sequence_UpdateTimeline()
 // Check if specific input flag is set
 void Sequence_UpdateInput()
 {
-	// Update mouse
-	Mouse_Read(MOUSE_PORT_1, &g_SeqMouseData);
 
-	// Update keyboard
-	u8 row3 = Keyboard_Read(3); // KEY_C, KEY_D, KEY_E, KEY_F, KEY_G, KEY_H, KEY_I, KEY_J
-	u8 row5 = Keyboard_Read(5); // KEY_S, KEY_T, KEY_U, KEY_V, KEY_W, KEY_X, KEY_Y, KEY_Z
-	u8 row8 = Keyboard_Read(8); // KEY_SPACE, KEY_HOME, KEY_INS, KEY_DEL, KEY_LEFT, KEY_UP, KEY_DOWN, KEY_RIGHT
-
-	// Update cursor X coordinate
-	g_SeqCursorPosX += Mouse_GetOffsetX(&g_SeqMouseData) / SEQ_MOUSE_SPEED;
-	if (IS_KEY_PRESSED(row8, KEY_RIGHT))
-	{
-		if (g_SeqCursorAccX < (SEQ_CURSOR_SPD_TABLE - 1))
-			g_SeqCursorAccX++;
-		g_SeqCursorPosX += g_SeqCursorAccX;
-		// g_SeqCursorPosX += g_seqCursorMoveSpd[g_SeqCursorAccX];
-	}
-	else if (IS_KEY_PRESSED(row8, KEY_LEFT))
-	{
-		if  (g_SeqCursorAccX < (SEQ_CURSOR_SPD_TABLE - 1))
-			g_SeqCursorAccX++;
-		g_SeqCursorPosX -= g_SeqCursorAccX;
-		// g_SeqCursorPosX -= g_seqCursorMoveSpd[g_SeqCursorAccX];
-	}
-	else
-		g_SeqCursorAccX = 0;
-
-	// Update cursor Y coordinate
-	g_SeqCursorPosY += Mouse_GetOffsetY(&g_SeqMouseData) / SEQ_MOUSE_SPEED;
-	if (IS_KEY_PRESSED(row8, KEY_DOWN))
-	{
-		if (g_SeqCursorAccY < (SEQ_CURSOR_SPD_TABLE - 1))
-			g_SeqCursorAccY++;
-		g_SeqCursorPosY += g_SeqCursorAccY;
-		// g_SeqCursorPosY += g_seqCursorMoveSpd[g_SeqCursorAccY];
-	}
-	else if (IS_KEY_PRESSED(row8, KEY_UP))
-	{
-		if (g_SeqCursorAccY < (SEQ_CURSOR_SPD_TABLE - 1))
-			g_SeqCursorAccY++;
-		g_SeqCursorPosY -= g_SeqCursorAccY;
-		// g_SeqCursorPosY -= g_seqCursorMoveSpd[g_SeqCursorAccY];
-	}
-	else
-		g_SeqCursorAccY = 0;
-
-	// Update cursor click states
-	if (Mouse_IsButtonClick(&g_SeqMouseData, MOUSE_BOUTON_LEFT) || IS_KEY_PUSHED(row8, g_SeqPrevRaw8, KEY_SPACE))
-		g_SeqInput |= SEQ_INPUT_CLICK_1;
-	if (Mouse_IsButtonClick(&g_SeqMouseData, MOUSE_BOUTON_RIGHT) || IS_KEY_PUSHED(row3, g_SeqPrevRaw8, KEY_C))
-		g_SeqInput |= SEQ_INPUT_CLICK_2;
-
-		// Update cursor click states
-	if (Mouse_IsButtonPress(&g_SeqMouseData, MOUSE_BOUTON_LEFT) || IS_KEY_PRESSED(row8, KEY_SPACE))
-		g_SeqInput |= SEQ_INPUT_PRESS_1;
-	if (Mouse_IsButtonPress(&g_SeqMouseData, MOUSE_BOUTON_RIGHT) || IS_KEY_PRESSED(row3, KEY_C))
-		g_SeqInput |= SEQ_INPUT_PRESS_2;
-
-	if (IS_KEY_PRESSED(row3, KEY_F))
-		g_SeqInput |= SEQ_INPUT_MOVE_RIGHT;
-	else if (IS_KEY_PRESSED(row5, KEY_S))
-		g_SeqInput |= SEQ_INPUT_MOVE_LEFT;
-	
-	if (IS_KEY_PRESSED(row3, KEY_E))
-		g_SeqInput |= SEQ_INPUT_MOVE_UP;
-	else if (IS_KEY_PRESSED(row3, KEY_D))
-		g_SeqInput |= SEQ_INPUT_MOVE_DOWN;
-
-	g_SeqPrevRaw8 = row8;
 }
 
 //-----------------------------------------------------------------------------
@@ -500,12 +419,11 @@ void Sequence_UpdateCursor()
 void Sequence_Update()
 {
 	// Reset parameters
-	g_SeqInput = 0;
 	g_SeqActionHover = NULL;
 	g_SeqActionCond = SEQ_COND_OK;
 
 	// Update input
-	Sequence_UpdateInput();
+	g_SeqInput = g_SeqInputCB();
 
 	// Update sequence (mode specific function)
 	g_SeqUpdateModes[g_SeqCur->Mode]();
