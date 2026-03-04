@@ -88,6 +88,9 @@ u32						g_lVGM_Split;
 u8                      g_lVGM_CurChip;
 u8                      g_lVGM_Default;
 
+// Register map
+std::map<u8, std::map<u8, u8>> g_lVGM_RegMap;
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -572,6 +575,17 @@ void Simplify(std::vector<lVGM_Chunk>& chunkList)
 	chunkList = workList;
 }
 
+//-----------------------------------------------------------------------------
+//
+bool ExportValue(u8 chip, u8 reg, u8 val)
+{
+	if ((g_lVGM_RegMap[chip].find(reg) == g_lVGM_RegMap[chip].end()) || (g_lVGM_RegMap[chip][reg] != val))
+	{
+		g_lVGM_RegMap[chip][reg] = val;
+		return true;
+	}
+	return false;
+}
 
 //-----------------------------------------------------------------------------
 //
@@ -630,20 +644,23 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			u8 val = g_VGM_Pointer[2];
 			g_VGM_Pointer += 2;
 
-			switch (reg)
+			if (ExportValue(VGM_CMD_AY8910, reg, val))
 			{
-			case 7:
-				val = (val & 0b00111111) | 0b10000000; // Validate register values
-			case 0:
-			case 2:
-			case 4:
-			case 11:
-			case 12:
-				psgValFreq[val]++; // increment value counter
-				break;
-			}
+				switch (reg)
+				{
+				case 7:
+					val = (val & 0b00111111) | 0b10000000; // Validate register values
+				case 0:
+				case 2:
+				case 4:
+				case 11:
+				case 12:
+					psgValFreq[val]++; // increment value counter
+					break;
+				}
 
-			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_PSG, 0, reg, val));
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_PSG, 0, reg, val));
+			}
 		}
 		//-----------------------------------------------------------------------------
 		else if (*g_VGM_Pointer == VGM_CMD_YM2413) // MSX-MUSIC/YM2413/OPLL, write value dd to register aa
@@ -652,7 +669,10 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			u8 val = g_VGM_Pointer[2];
 			g_VGM_Pointer += 2;
 
-			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPLL, 0, reg, val));
+			if (ExportValue(VGM_CMD_YM2413, reg, val))
+			{
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPLL, 0, reg, val));
+			}
 		}
 		//-----------------------------------------------------------------------------
 		else if (*g_VGM_Pointer == VGM_CMD_Y8950) // MSX-AUDIO/Y8950/OPL1, write value dd to register aa
@@ -661,12 +681,15 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			u8 val = g_VGM_Pointer[2];
 			g_VGM_Pointer += 2;
 
-			if ((reg != 0x04) && (reg != 0x18) && (reg != 0x19))
+			if (ExportValue(VGM_CMD_Y8950, reg, val))
 			{
-				if (reg == 0x08)
-					val &= 0b11000100;
+				if ((reg != 0x04) && (reg != 0x18) && (reg != 0x19))
+				{
+					if (reg == 0x08)
+						val &= 0b11000100;
 
-				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL1, 0, reg, val));
+					chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL1, 0, reg, val));
+				}
 			}
 		}
 		//-----------------------------------------------------------------------------
@@ -695,10 +718,10 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 					reg -= 0x10;
 
 				// Skip 'no function' and 'test register' access
-				if (reg >= 0xC0)
-					break;
-
-				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_SCCI, 0, reg, val));
+				if (reg < 0xC0)
+				{
+					chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_SCCI, 0, reg, val));
+				}
 			}
 			else // SCC
 			{
@@ -707,10 +730,10 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 					reg -= 0x10;
 
 				// Skip 'no function' and 'test register' access
-				if (reg >= 0xA0)
-					break;
-
-				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_SCC, 0, reg, val));
+				if (reg < 0xA0)
+				{
+					chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_SCC, 0, reg, val));
+				}
 			}
 		}
 		//-----------------------------------------------------------------------------
