@@ -47,7 +47,7 @@ Here are also the supported audio formats:
 * WYZ Tracker (WYZ)
 * ayFX
 * VGM (for all supported audio chip)
-* lVGM (a light-VGM format for PSG)
+* lVGM (a light-VGM format for for all supported audio chip)
 * PCM-Encoder (aka. _Crystal clean PCM 8bit samples on the poor PSG_)
 
 Many thanks to the members of the [MSX Resource Center](https://www.msx.org) and [MSX Village](https://msxvillage.fr) who have been very helpful.
