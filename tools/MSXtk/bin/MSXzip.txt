@@ -1,4 +1,4 @@
-MSXzip 1.5.0 - Binary file compressor for MSX
+MSXzip 1.4.5 - Binary file compressor for MSX
 Usage: cmsxzip <inputfile> [options]
 Base options:
  -o filename    Filename of the output file (default: use input filename with .h/.asm/.bin extension)

@@ -51,7 +51,7 @@ Color options:
  --palcount n     Number of color in the custom palette to create (default: 15)
  --paloff n       Index offset of the palette (default: 1)
  --pal24          Use 24-bits palette (for v9990; default: false)
- --palscale s c   Create a scaled version of the palette (percentage of scale and contrast)
+ --palmod s c     Create a modified version of the palette (percentage of scale and contrast)
  -dither ?        Dithering method (for 1-bit color only)
     none          No dithering (default)
     floyd         Floyd & Steinberg error diffusion algorithm
