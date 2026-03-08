@@ -5,6 +5,7 @@
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘              ▀▀
 //  Gameplay sequence module
 //─────────────────────────────────────────────────────────────────────────────
+#pragma once
 
 //=============================================================================
 // INCLUDES
@@ -90,6 +91,7 @@ enum SEQ_CONDITION_ID
 	SEQ_COND_OK = 0,				// Condition is OK
 	SEQ_COND_LOCK,					// Condition not met (action is locked)
 	SEQ_COND_DISABLE,				// Condition not met (action is disabled)
+	SEQ_COND_HIDE,					// Condition not met (cursor is hidden)
 //.....................................
 	SEQ_COND_MAX,
 };

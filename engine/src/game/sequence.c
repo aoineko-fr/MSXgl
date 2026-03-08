@@ -405,7 +405,7 @@ void Sequence_UpdateCursor()
 	}
 
 	// Update sprites data
-	g_VDP_Sprite.Y = g_SeqCursorPosY - 8;
+	g_VDP_Sprite.Y = (g_SeqActionCond == SEQ_COND_HIDE) ? 193 : g_SeqCursorPosY - 8;
 	g_VDP_Sprite.X = g_SeqCursorPosX - 7;
 	g_VDP_Sprite.Pattern = pat * 8;
 	g_VDP_Sprite.Color = 0;
