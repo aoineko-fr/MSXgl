@@ -60,6 +60,7 @@ enum SEQ_FLAG_ID
 	SEQ_FLAG_NONE		= 0b00000000,
 	SEQ_FLAG_DIRTY		= 0b00000001,	// Dirty flag
 	SEQ_FLAG_FINISHED	= 0b00000010,	// Sequence end reached
+	SEQ_FLAG_HIDECURSOR	= 0b00000100,	// Sequence end reached
 };
 
 // Sequence events
@@ -90,8 +91,8 @@ enum SEQ_CONDITION_ID
 {
 	SEQ_COND_OK = 0,				// Condition is OK
 	SEQ_COND_LOCK,					// Condition not met (action is locked)
-	SEQ_COND_DISABLE,				// Condition not met (action is disabled)
-	SEQ_COND_HIDE,					// Condition not met (cursor is hidden)
+	SEQ_COND_INVALID,				// Condition not met (action is invalid)
+	SEQ_COND_HIDE,					// Condition not met (action is disabled)
 //.....................................
 	SEQ_COND_MAX,
 };
@@ -109,6 +110,7 @@ enum SEQ_CURSOR_ID
 	SEQ_CUR_LOOK,					//
 	SEQ_CUR_LOCK,					//
 	SEQ_CUR_MUSIC,					//
+	SEQ_CUR_INVALID,				//
 //.....................................
 	SEQ_CUR_MAX,
 };
@@ -284,6 +286,14 @@ inline void Sequence_SetDirty() { g_SeqFlag |= SEQ_FLAG_DIRTY; }
 // Function: Sequence_SetFinished
 // Set finish flag to force redraw
 inline void Sequence_SetFinished() { g_SeqFlag |= SEQ_FLAG_FINISHED; }
+
+// Function: Sequence_HideCursor
+// Set hide cursor flag
+inline void Sequence_HideCursor() { g_SeqFlag |= SEQ_FLAG_HIDECURSOR; }
+
+// Function: Sequence_ShowCursor
+// Reset hide cursor flag
+inline void Sequence_ShowCursor() { g_SeqFlag &= ~SEQ_FLAG_HIDECURSOR; }
 
 // Function: Sequence_SetNextFrame
 // Set next frame to be rendered

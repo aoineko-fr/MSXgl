@@ -336,7 +336,7 @@ void Sequence_CheckActions()
 				if (act->Condition)
 				{
 					g_SeqActionCond = act->Condition(act->Event);
-					if (g_SeqActionCond != SEQ_COND_DISABLE)
+					if (g_SeqActionCond != SEQ_COND_HIDE)
 						break;
 				}
 			}
@@ -349,7 +349,7 @@ void Sequence_CheckActions()
 				if (act->Condition)
 				{
 					g_SeqActionCond = act->Condition(act->Event);
-					if (g_SeqActionCond != SEQ_COND_DISABLE)
+					if (g_SeqActionCond != SEQ_COND_HIDE)
 						break;
 				}
 			}
@@ -387,6 +387,13 @@ void Sequence_CheckActions()
 // Update cursor
 void Sequence_UpdateCursor()
 {
+	if (g_SeqFlag & SEQ_FLAG_HIDECURSOR)
+	{
+		VDP_HideSprite(0);
+		VDP_HideSprite(1);
+		return;
+	}
+
 	// Update cursor pattern
 	u8 pat = SEQ_CUR_DEFAULT;
 	if (Sequence_HasCustomCursor())
@@ -398,14 +405,19 @@ void Sequence_UpdateCursor()
 		case SEQ_COND_OK:
 			pat = g_SeqActionHover->Cursor;
 			break;
+
 		case SEQ_COND_LOCK:
 			pat = SEQ_CUR_LOCK;
+			break;
+
+		case SEQ_COND_INVALID:
+			pat = SEQ_CUR_INVALID;
 			break;
 		}
 	}
 
 	// Update sprites data
-	g_VDP_Sprite.Y = (g_SeqActionCond == SEQ_COND_HIDE) ? 193 : g_SeqCursorPosY - 8;
+	g_VDP_Sprite.Y = g_SeqCursorPosY - 8;
 	g_VDP_Sprite.X = g_SeqCursorPosX - 7;
 	g_VDP_Sprite.Pattern = pat * 8;
 	g_VDP_Sprite.Color = 0;

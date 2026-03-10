@@ -235,14 +235,11 @@ enum INPUT_TYPE
 	// INPUT_TYPE_ATARI_ADAPTER		= 0x36, // Atari dual-paddle adapter
 };
 
-#define INPUT_PORT_1				JOY_PORT_1
-#define INPUT_PORT_2				JOY_PORT_2
-
 // Function: Input_Detect
 // Detect device plugged in General purpose ports
 //
 // Parameters:
-//   port - Port to check (INPUT_PORT_1 or INPUT_PORT_2)
+//   port - Port to check (INPUT_PORT1 or INPUT_PORT2)
 //
 // Return:
 //   Device type (INPUT_TYPE_JOYSTICK, INPUT_TYPE_MOUSE, etc.)
