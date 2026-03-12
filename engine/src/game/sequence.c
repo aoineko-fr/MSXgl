@@ -258,7 +258,7 @@ void Sequence_UpdatePanLoop()
 	{
 		Sequence_SetHoverAction(g_SeqActionMoveLeft);
 
-		if ((Sequence_CheckInput(SEQ_INPUT_MOVE_LEFT) || (Sequence_CheckInput(SEQ_INPUT_PRESS_1))))
+		if ((Sequence_CheckInput(SEQ_INPUT_MOVE_LEFT) || (Sequence_CheckInput(SEQ_INPUT_PRESS_A))))
 		{
 			if (g_SeqFrame > g_SeqCur->FirstFrame)
 				g_SeqFrame--;
@@ -271,7 +271,7 @@ void Sequence_UpdatePanLoop()
 	if ((Sequence_CheckInput(SEQ_INPUT_MOVE_RIGHT)) || (Sequence_CheckArea(g_SeqActionMoveRight->Areas)))
 	{
 		Sequence_SetHoverAction(g_SeqActionMoveRight);
-		if ((Sequence_CheckInput(SEQ_INPUT_MOVE_RIGHT)) || (Sequence_CheckInput(SEQ_INPUT_PRESS_1)))
+		if ((Sequence_CheckInput(SEQ_INPUT_MOVE_RIGHT)) || (Sequence_CheckInput(SEQ_INPUT_PRESS_A)))
 		{
 			if (g_SeqFrame < g_SeqCur->LastFrame)
 				g_SeqFrame++;
@@ -360,7 +360,7 @@ void Sequence_CheckActions()
 		g_SeqActionCB();
 
 	// Check for action click
-	if (Sequence_CheckInput(SEQ_INPUT_CLICK_1))
+	if (Sequence_CheckInput(SEQ_INPUT_CLICK_A))
 	{
 		if ((g_SeqActionCond == SEQ_COND_OK) && g_SeqActionHover)
 		{
