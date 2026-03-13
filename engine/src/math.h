@@ -83,6 +83,9 @@ typedef struct VectorI16
 // Get the power-of-2 modulo of a integer (ie. "MOD_POW2(100, 32)")
 #define MOD_POW2(a, b)		(((a) & ((b) - 1)))
 
+// Macro: Clamp
+// Clamp a value into a interval 
+#define CLAMP(a, b, c)		(((a) < (b)) ? (b) : ((a) > (c)) ? (c) : (a))
 // Macro: Clamp8
 // Clamp a 8-bits value into a interval 
 #define CLAMP8(a, b, c)		(((i8)(a) < (i8)(b)) ? (b) : ((i8)(a) > (i8)(c)) ? (c) : (a))
