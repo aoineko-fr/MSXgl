@@ -38,10 +38,10 @@
 	void DEBUG_BREAK();
 
 	// Function: DEBUG_ASSERT
-	// Conditionnal break.
+	// Conditional break.
 	//
 	// Parameters:
-	//   a - Instructions to evialuate. A 'false' result will trigger a break.
+	//   a - Instructions to evaluate. A 'false' result will trigger a break.
 	//
 	// Notes:
 	// - [Emulicious] You need the "Break on ld b, b instruction" exception to be activated.
@@ -52,23 +52,23 @@
 	// Display debug message (and return to next line).
 	//
 	// Parameters:
-	//   msg - Null-terminated string with message to display
+	//   msg - Nul-terminated string with message to display
 	void DEBUG_LOG(const c8* msg);
 
 	// Function: DEBUG_LOGNUM
 	// Display debug message and a 8-bits value (and return to next line).
 	//
 	// Parameters:
-	//   msg - Null-terminated string with numer name
+	//   msg - Nul-terminated string with numer name
 	//   num - 8-bit number value
 	void DEBUG_LOGNUM(const c8* msg, u8 num);
 
 	// Function: DEBUG_PRINT
-	// Display debug formated message.
+	// Display debug formatted message.
 	// No new line is added at the end of the message.
 	//
 	// Parameters:
-	//   format - Null-terminated string with format specifiers
+	//   format - Nul-terminated string with format specifiers
 	//
 	// Notes:
 	// - [Emulicious] Supported format specifiers: https://www.tutorialspoint.com/format-specifiers-in-c
@@ -85,7 +85,7 @@
 	// Force a break point
 	#define DEBUG_BREAK()
 
-	// Conditionnal break
+	// Conditional break
 	#define DEBUG_ASSERT(a)
 
 	// Display debug message
@@ -94,7 +94,7 @@
 	// Display debug message and a 8-bits value
 	#define DEBUG_LOGNUM(msg, num)
 
-	// Display debug formated message
+	// Display debug formatted message
 	#define DEBUG_PRINT(...)
 
 #endif
@@ -194,7 +194,7 @@
 	// Parameters:
 	//   level - Minimal level to display the section
 	//   section - Section identifier
-	//   msg - Null-terminated string with section name
+	//   msg - Nul-terminated string with section name
 	inline void PROFILE_SECTION_START(u8 level, u8 section, const c8* msg) { level; section; msg; }
 
 	// Function: PROFILE_SECTION_END
@@ -203,7 +203,7 @@
 	// Parameters:
 	//   level - Minimal level to display the section
 	//   section - Section identifier
-	//   msg - Null-terminated string with section name
+	//   msg - Nul-terminated string with section name
 	inline void PROFILE_SECTION_END(u8 level, u8 section, const c8* msg) { level; section; msg; }
 
 #endif

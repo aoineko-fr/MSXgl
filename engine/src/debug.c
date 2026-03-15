@@ -75,7 +75,7 @@ void DEBUG_BREAK()
 }
 
 //-----------------------------------------------------------------------------
-// Conditionnal break
+// Conditional break
 void DEBUG_ASSERT(bool a)
 {	
 	if (!(a))
@@ -110,7 +110,7 @@ void DEBUG_LOGNUM(const c8* msg, u8 num)
 }
 
 //-----------------------------------------------------------------------------
-// Display debug formated message
+// Display debug formatted message
 void DEBUG_PRINT(const c8* format, ...)
 {
 #if (DEBUG_TOOL == DEBUG_OPENMSX_P)
@@ -184,7 +184,7 @@ __endasm;
 }
 
 //-----------------------------------------------------------------------------
-// Conditionnal break
+// Conditional break
 void DEBUG_ASSERT(bool a)
 {
 	if (!(a))
@@ -214,7 +214,7 @@ void DEBUG_LOGNUM(const c8* msg, u8 num)
 }
 
 //-----------------------------------------------------------------------------
-// Display debug formated message
+// Display debug formatted message
 // from SMSlib - C programming library for the SMS/GG (part of devkitSMS - github.com/sverx/devkitSMS)
 // https://github.com/sverx/devkitSMS/blob/master/SMSlib/src/SMSlib_debug.c
 void DEBUG_PRINT(const c8 *format, ...) __NAKED __PRESERVES(a, b, c, iyh, iyl)

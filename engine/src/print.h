@@ -460,7 +460,7 @@ inline void Print_Return()
 //.............................................................................
 #if (PRINT_USE_FORMAT)
 // Function: Print_DrawFormat
-// Print a formated string with a variable number of parameters.
+// Print a formatted string with a variable number of parameters.
 // This function requires PRINT_USE_FORMAT compile option to be set to TRUE.
 //
 // Parameters:
