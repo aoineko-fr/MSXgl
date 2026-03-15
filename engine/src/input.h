@@ -253,8 +253,8 @@ u8 Input_Detect(enum INPUT_PORT port);
 //=============================================================================
 #if (INPUT_USE_MOUSE)
 
-#define MOUSE_PORT_1				0b00010011
-#define MOUSE_PORT_2				0b01101100
+#define MOUSE_PORT_1				INPUT_PORT1_HIGH
+#define MOUSE_PORT_2				INPUT_PORT2_HIGH
 
 #define MOUSE_NOTFOUND				0xFF
 

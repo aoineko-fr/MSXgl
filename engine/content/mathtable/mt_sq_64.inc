@@ -3,10 +3,10 @@
 //  █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █
 //  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // ─────────────────────────────────────────────────────────────────────────────
-//  MSXmath 1.7.1 by Guillaume "Aoineko" Blanchard
+//  MSXmath 1.8.1 by Guillaume "Aoineko" Blanchard
 //  under CC-BY-SA free license
 // 
-//  Generated: Fri Oct 10 00:32:45 2025
+//  Generated: Sun Mar 15 17:54:25 2026
 //  Parameters: Entries=32, Bytes=1 (8-bits), Shift=4 (Q4.4)
 // ─────────────────────────────────────────────────────────────────────────────
 

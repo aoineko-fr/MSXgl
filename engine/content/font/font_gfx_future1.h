@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.21.0 on Fri Oct 10 00:32:48 2025
+// Data generated using MSXimg 1.22.0 on Sun Mar 15 17:54:25 2026
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Author: GFX
@@ -14,7 +14,8 @@
 //  - Start position: 0, 0
 //  - Sprite size:    8, 8 (gap: 0, 0)
 //  - Sprite count:   16, 4
-//  - Color count:    2 (Transparent: #0000)
+//  - Color count:    2 (Transparent: #000000)
+//  - Palette mode:   MSX1 [1:-1]
 //  - Compressor:     None
 //  - Skip empty:     TRUE
 

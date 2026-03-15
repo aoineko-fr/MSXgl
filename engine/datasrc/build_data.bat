@@ -61,7 +61,7 @@ if %BuildFont%==1 (
 	echo ---- BUILD FONT DATA ----
 
 	REM -------- MSXGL FONTS --------
-	%MSXimg% font\font_mgl_big1.png     -out ..\content\font\font_mgl_big1.h        -pos 0 0  -size 8 11 -gap 0 5 -num 16 6  -trans 0x000000 -bpc 1 -name g_Font_MGL_Big1     -copy msxgl.txt -skip  -font 8 11 ! _
+	%MSXimg% font\font_mgl_big1.png     -out ..\content\font\font_mgl_big1.h        -pos 0 0  -size 8 11 -gap 0 5 -num 16 6  -trans 0x000000 -bpc 1 -name g_Font_MGL_Big1     -copy msxgl.txt -skip  -font 8 11 ! ~
 	%MSXimg% font\font_mgl_curs1.png    -out ..\content\font\font_mgl_curs1.h       -pos 0 16 -size 8 8  -gap 0 0 -num 16 6  -trans 0x000000 -bpc 1 -name g_Font_MGL_Curs1    -copy msxgl.txt -skip  -font 8 8 ! ~
 	%MSXimg% font\font_mgl_curs1b.png   -out ..\content\font\font_mgl_curs1b.h      -pos 0 16 -size 8 8  -gap 0 0 -num 16 6  -trans 0x000000 -bpc 1 -name g_Font_MGL_Curs1B   -copy msxgl.txt -skip  -font 8 8 ! ~
 	%MSXimg% font\font_mgl_digit1.png   -out ..\content\font\font_mgl_digit1.h      -pos 0 24 -size 8 8  -gap 0 0 -num 16 3  -trans 0x000000 -bpc 1 -name g_Font_MGL_Digit1   -copy msxgl.txt        -font 6 8 0 _
