@@ -72,4 +72,14 @@ void BitField_Toggle(u8 var);
 //
 // Parameters:
 //   var - Quest variable to set
+//
+// Return:
+//   FALSE if variable is not set
 bool BitField_Get(u8 var);
+
+// Function: BitField_GetData
+// Get bit field raw data
+//
+// Return:
+//   Raw data of the bitfield
+inline u8* BitField_GetData() { return g_BitField; }
