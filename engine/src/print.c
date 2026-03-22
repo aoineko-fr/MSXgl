@@ -1279,7 +1279,7 @@ void Print_DrawInt(i16 value)
 #if (PRINT_USE_FORMAT)
 
 //-----------------------------------------------------------------------------
-// Print a formated string with a variable number of parameters
+// Print a formatted string with a variable number of parameters
 void Print_DrawFormat(const c8* format, ...)
 {
 	// @todo To be replaced by String_Format() + Print_DrawText()
