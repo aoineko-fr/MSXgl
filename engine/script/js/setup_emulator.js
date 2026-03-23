@@ -82,7 +82,7 @@ if (EmulatorName === "OPENMSX") {
 	//---- Handle extension ----
 	let EmulExtCount = 0;
 	if (Ext === "rom") { EmulExtCount++; } // Application cartridge
-	if (Ext === "com") { EmulExtCount++; EmulRAM = true; } // MSX-DOS and RAM cartridge
+	if (Target === "DOS2") { EmulExtCount++; EmulRAM = true; } // MSX-DOS2 and RAM cartridge
 	if (EmulSCC)       { EmulExtCount++; }
 	if (EmulMSXMusic)  { EmulExtCount++; }
 	if (EmulMSXAudio)  { EmulExtCount++; }
@@ -111,10 +111,10 @@ if (EmulatorName === "OPENMSX") {
 	}
 	if (Ext === "com")
 	{ 
-		if (Target === "DOS0")
-			EmulatorArgs += ` -diska ${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`;
+		if (Target === "DOS2")
+			EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`;
 		else
-			EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dos${DOS}`;
+			EmulatorArgs += ` -diska ${ProjDir}emul/dsk/${Target}_${ProjName}.dsk`;
 	}
 	// if (Target === "DOS1" {
 		// EmulatorArgs += ` -exta slotexpander -ext Panasonic_FS-FD1A -ext ram64k -diska ${ProjDir}emul/dos${DOS}`;

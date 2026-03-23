@@ -227,3 +227,5 @@ typedef void (*callback)(void);				// Callback default signature
 
 // __TIME__		This macro expands to a string constant that describes the time at which the preprocessor is being run. 
 // 				The string constant contains eight characters and looks like `"23:59:01"'.
+
+#define __FUNCTION__ 				__func__
