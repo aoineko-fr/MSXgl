@@ -216,6 +216,7 @@
 #define PRINT_USE_UNIT				FALSE	// Display integer type (h: hexadecimal, b: binary)
 #define PRINT_USE_FORMAT			TRUE	// Add printf type function
 #define PRINT_USE_32B				TRUE	// Allow to print 32-bits integers
+#define PRINT_USE_MULTIFONT			FALSE	// Use multiple fonts (each one with its own data structure)
 #define PRINT_SKIP_SPACE			FALSE	// Skill space character
 #define PRINT_COLOR_NUM				8		// 1 color per line
 // Character width
