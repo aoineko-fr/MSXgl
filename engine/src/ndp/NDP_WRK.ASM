@@ -274,93 +274,93 @@ _g_NDP_RAM0END::
 ; 	.dw	0x0035,0x0032,0x0030,0x002D,0x002A,0x0028,0x0026,0x0024,0x0022,0x0020,0x001E,0x001C	;// O7
 ; 	.dw	0x001B,0x0019,0x0018,0x0016,0x0015,0x0014,0x0013,0x0012,0x0011,0x0010,0x000F,0x000E	;// O8
 
-	.area _DATA
+; 	.area _DATA
 
-_g_NDP_RAMVAR::
+; _g_NDP_RAMVAR::
 
-_g_NDP_RVWRK::
-RVWRK:	.ds		1	;// For rhythm volume adjustment
-_g_NDP_RITRK::
-RITRK:	.ds		1	;// Interrupted Track (1=CH.C 2=CH.B 3=CH.A)
-_g_NDP_RVREG::
-RVREG:	.ds		1	;// Rhythm track volume register number
-_g_NDP_RPREG::
-RPREG:	.ds		1	;// Rhythm track frequency register number (high)
-_g_NDP_RHENV::
-RHENV:	.ds		1	;// If no S command is executed within the rhythm, it becomes 0.
+; _g_NDP_RVWRK::
+; RVWRK:	.ds		1	;// For rhythm volume adjustment
+; _g_NDP_RITRK::
+; RITRK:	.ds		1	;// Interrupted Track (1=CH.C 2=CH.B 3=CH.A)
+; _g_NDP_RVREG::
+; RVREG:	.ds		1	;// Rhythm track volume register number
+; _g_NDP_RPREG::
+; RPREG:	.ds		1	;// Rhythm track frequency register number (high)
+; _g_NDP_RHENV::
+; RHENV:	.ds		1	;// If no S command is executed within the rhythm, it becomes 0.
 
-_g_NDP_OLDTH::
-OLDTH:	.ds		5	;// Legacy Timer Interrupt Hook
-_g_NDP_HKFLG::
-HKFLG:	.ds		1	;// Is the driver connected to the hook?
+; _g_NDP_OLDTH::
+; OLDTH:	.ds		5	;// Legacy Timer Interrupt Hook
+; _g_NDP_HKFLG::
+; HKFLG:	.ds		1	;// Is the driver connected to the hook?
 
-_g_NDP_STATS::
-STATS:	.ds		1	;// Playback Status (0: Stopped 1: Playing)
+; _g_NDP_STATS::
+; STATS:	.ds		1	;// Playback Status (0: Stopped 1: Playing)
 
-_g_NDP_FINOUT::
-FINOUT:	.ds		1	;// 0=Fade out; 1=Fade in
+; _g_NDP_FINOUT::
+; FINOUT:	.ds		1	;// 0=Fade out; 1=Fade in
 
-_g_NDP_MIXNMH::
-MIXNMH:	.ds		1	;// Value of *n (mix mode) when using hard envelope
+; _g_NDP_MIXNMH::
+; MIXNMH:	.ds		1	;// Value of *n (mix mode) when using hard envelope
 
-_g_NDP_MIXWRK::
-MIXWRK:	.ds		1	;// 10NNNTTT 0=ON/1=OFF
-_g_NDP_MIXWRS::
-MIXWRS:	.ds		1	;// Sound Effects Mixing Work
+; _g_NDP_MIXWRK::
+; MIXWRK:	.ds		1	;// 10NNNTTT 0=ON/1=OFF
+; _g_NDP_MIXWRS::
+; MIXWRS:	.ds		1	;// Sound Effects Mixing Work
 
-_g_NDP_HENVPW::
-HENVPW:	.ds		2	;// Hard Envelope Period
+; _g_NDP_HENVPW::
+; HENVPW:	.ds		2	;// Hard Envelope Period
 
-_g_NDP_BGMADR::
-BGMADR:	.ds		2	;// Song Data Start Address
+; _g_NDP_BGMADR::
+; BGMADR:	.ds		2	;// Song Data Start Address
 
-_g_NDP_PTABLE::
-PTABLE:
-	.ds 2*12
-	.ds 2*12
-	.ds 2*12
-_g_NDP_O4C::
-O4C:
-	.ds 2*12
-	.ds 2*12
-	.ds 2*12
-	.ds 2*12
-	.ds 2*12
+; _g_NDP_PTABLE::
+; PTABLE:
+; 	.ds 2*12
+; 	.ds 2*12
+; 	.ds 2*12
+; _g_NDP_O4C::
+; O4C:
+; 	.ds 2*12
+; 	.ds 2*12
+; 	.ds 2*12
+; 	.ds 2*12
+; 	.ds 2*12
 
-_g_NDP_RAMVAREND::
+; _g_NDP_RAMVAREND::
 
-	.area _CODE
+; 	.area _CODE
 
-_g_NDP_RAMVAL::
+; _g_NDP_RAMVAL::
 
-	.db		0	;// For rhythm volume adjustment
-	.db		1	;// Interrupted Track (1=CH.C 2=CH.B 3=CH.A)
-	.db		10	;// Rhythm track volume register number
-	.db		5	;// Rhythm track frequency register number (high)
-	.db		0	;// If no S command is executed within the rhythm, it becomes 0.
-	.db		0xC9	;// Legacy Timer Interrupt Hook
-	.db		0xC9	;// Legacy Timer Interrupt Hook
-	.db		0xC9	;// Legacy Timer Interrupt Hook
-	.db		0xC9	;// Legacy Timer Interrupt Hook
-	.db		0xC9	;// Legacy Timer Interrupt Hook
-	.db		0	;// Is the driver connected to the hook?
-	.db		0	;// Playback Status (0: Stopped 1: Playing)
-	.db		0	;// 0=Fade out; 1=Fade in
-	.db		1	;// Value of *n (mix mode) when using hard envelope
-	.db		0b10111000	;// 10NNNTTT 0=ON/1=OFF
-	.db		0b10111000	;// Sound Effects Mixing Work
-	.dw		1024	;// Hard Envelope Period
-	.dw		0x4000	;// Song Data Start Address
+; 	.db		0	;// For rhythm volume adjustment
+; 	.db		1	;// Interrupted Track (1=CH.C 2=CH.B 3=CH.A)
+; 	.db		10	;// Rhythm track volume register number
+; 	.db		5	;// Rhythm track frequency register number (high)
+; 	.db		0	;// If no S command is executed within the rhythm, it becomes 0.
+; 	.db		0xC9	;// Legacy Timer Interrupt Hook
+; 	.db		0xC9	;// Legacy Timer Interrupt Hook
+; 	.db		0xC9	;// Legacy Timer Interrupt Hook
+; 	.db		0xC9	;// Legacy Timer Interrupt Hook
+; 	.db		0xC9	;// Legacy Timer Interrupt Hook
+; 	.db		0	;// Is the driver connected to the hook?
+; 	.db		0	;// Playback Status (0: Stopped 1: Playing)
+; 	.db		0	;// 0=Fade out; 1=Fade in
+; 	.db		1	;// Value of *n (mix mode) when using hard envelope
+; 	.db		0b10111000	;// 10NNNTTT 0=ON/1=OFF
+; 	.db		0b10111000	;// Sound Effects Mixing Work
+; 	.dw		1024	;// Hard Envelope Period
+; 	.dw		0x4000	;// Song Data Start Address
 
-;// ------	Pitch Table
-;//		c      c+     d      d+     e      f      f+     g      g+     a      a+     b
-	.dw	0x0D5D,0x0C9C,0x0BE7,0x0B3C,0x0A9B,0x0A02,0x0973,0x08EB,0x086B,0x07F2,0x0780,0x0714	;// O1
-	.dw	0x06AF,0x064E,0x05F4,0x059E,0x054E,0x0501,0x04BA,0x0476,0x0436,0x03F9,0x03C0,0x038A	;// O2
-	.dw	0x0357,0x0327,0x02FA,0x02CF,0x02A7,0x0281,0x025D,0x023B,0x021B,0x01FD,0x01E0,0x01C5	;// O3
-	.dw	0x01AC,0x0194,0x017D,0x0168,0x0153,0x0140,0x012E,0x011D,0x010D,0x00FE,0x00F0,0x00E3	;// O4
-	.dw	0x00D6,0x00CA,0x00BE,0x00B4,0x00AA,0x00A0,0x0097,0x008F,0x0087,0x007F,0x0078,0x0071	;// O5
-	.dw	0x006B,0x0065,0x005F,0x005A,0x0055,0x0050,0x004C,0x0047,0x0043,0x0040,0x003C,0x0039	;// O6
-	.dw	0x0035,0x0032,0x0030,0x002D,0x002A,0x0028,0x0026,0x0024,0x0022,0x0020,0x001E,0x001C	;// O7
-	.dw	0x001B,0x0019,0x0018,0x0016,0x0015,0x0014,0x0013,0x0012,0x0011,0x0010,0x000F,0x000E	;// O8
+; ;// ------	Pitch Table
+; ;//		c      c+     d      d+     e      f      f+     g      g+     a      a+     b
+; 	.dw	0x0D5D,0x0C9C,0x0BE7,0x0B3C,0x0A9B,0x0A02,0x0973,0x08EB,0x086B,0x07F2,0x0780,0x0714	;// O1
+; 	.dw	0x06AF,0x064E,0x05F4,0x059E,0x054E,0x0501,0x04BA,0x0476,0x0436,0x03F9,0x03C0,0x038A	;// O2
+; 	.dw	0x0357,0x0327,0x02FA,0x02CF,0x02A7,0x0281,0x025D,0x023B,0x021B,0x01FD,0x01E0,0x01C5	;// O3
+; 	.dw	0x01AC,0x0194,0x017D,0x0168,0x0153,0x0140,0x012E,0x011D,0x010D,0x00FE,0x00F0,0x00E3	;// O4
+; 	.dw	0x00D6,0x00CA,0x00BE,0x00B4,0x00AA,0x00A0,0x0097,0x008F,0x0087,0x007F,0x0078,0x0071	;// O5
+; 	.dw	0x006B,0x0065,0x005F,0x005A,0x0055,0x0050,0x004C,0x0047,0x0043,0x0040,0x003C,0x0039	;// O6
+; 	.dw	0x0035,0x0032,0x0030,0x002D,0x002A,0x0028,0x0026,0x0024,0x0022,0x0020,0x001E,0x001C	;// O7
+; 	.dw	0x001B,0x0019,0x0018,0x0016,0x0015,0x0014,0x0013,0x0012,0x0011,0x0010,0x000F,0x000E	;// O8
 
-_g_NDP_RAMVALEND::
+; _g_NDP_RAMVALEND::
