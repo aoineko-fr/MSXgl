@@ -59,7 +59,7 @@ typedef unsigned short				c16;	// 16 bits character type (UTF-16, JIS, etc.)
 
 // Pointer
 typedef void*						ptr;	// Pointer type
-#define NULL						0		// Pointer "NULL" value
+#define NULL						0x0000	// Pointer "NULL" value
 
 // Functions
 typedef void (*callback)(void);				// Callback default signature

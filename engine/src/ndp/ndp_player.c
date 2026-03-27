@@ -18,81 +18,81 @@
 // Address of the SFX data
 const u8* g_NDP_SFXData = NULL;
 
-// // NDP work area (defined in NDP_WRK.ASM)
-// u8   g_NDP_CH1WRK[33];	// Rhythm track
-// #define CH1WRK						_g_NDP_CH1WRK
-// u8   g_NDP_RVOLW[28];
-// #define RVOLW						_g_NDP_RVOLW
-// NDP_WorkArea   g_NDP_CH2WRK;	// Standard track 1
-// #define CH2WRK						_g_NDP_CH2WRK
-// NDP_WorkArea   g_NDP_CH3WRK;	// Standard track 2
-// #define CH3WRK						_g_NDP_CH3WRK
-// NDP_WorkArea   g_NDP_CH4WRK;	// Standard track 3
-// #define CH4WRK						_g_NDP_CH4WRK
-// u8   g_NDP_SE1WRK[NDP_WSIZE * 3];
-// #define SE1WRK						_g_NDP_SE1WRK
-// u8   g_NDP_CH1RWK[NDP_RWSIZE];
-// #define CH1RWK						_g_NDP_CH1RWK
-// u8   g_NDP_CH2RWK[NDP_RWSIZE];
-// #define CH2RWK						_g_NDP_CH2RWK
-// u8   g_NDP_CH3RWK[NDP_RWSIZE];
-// #define CH3RWK						_g_NDP_CH3RWK
-// u8   g_NDP_CH4RWK[NDP_RWSIZE];
-// #define CH4RWK						_g_NDP_CH4RWK
+// NDP work area (defined in NDP_WRK.ASM)
+u8   g_NDP_CH1WRK[33];	// Rhythm track
+#define CH1WRK						_g_NDP_CH1WRK
+u8   g_NDP_RVOLW[28];
+#define RVOLW						_g_NDP_RVOLW
+NDP_WorkArea   g_NDP_CH2WRK;	// Standard track 1
+#define CH2WRK						_g_NDP_CH2WRK
+NDP_WorkArea   g_NDP_CH3WRK;	// Standard track 2
+#define CH3WRK						_g_NDP_CH3WRK
+NDP_WorkArea   g_NDP_CH4WRK;	// Standard track 3
+#define CH4WRK						_g_NDP_CH4WRK
+u8   g_NDP_SE1WRK[NDP_WSIZE * 3];
+#define SE1WRK						_g_NDP_SE1WRK
+u8   g_NDP_CH1RWK[NDP_RWSIZE];
+#define CH1RWK						_g_NDP_CH1RWK
+u8   g_NDP_CH2RWK[NDP_RWSIZE];
+#define CH2RWK						_g_NDP_CH2RWK
+u8   g_NDP_CH3RWK[NDP_RWSIZE];
+#define CH3RWK						_g_NDP_CH3RWK
+u8   g_NDP_CH4RWK[NDP_RWSIZE];
+#define CH4RWK						_g_NDP_CH4RWK
 
-// // ->*************** MSTART 初期化時に0クリアする物
+// ->*************** MSTART 初期化時に0クリアする物
 
-// u8   g_NDP_FFFLG;			// Fast-forward flag
-// #define FFFLG						_g_NDP_FFFLG
-// u8   g_NDP_ENDTR;			// The bit for tracks whose playback data has reached the end is set (0000321RB) ※Resets on loop
-// #define ENDTR						_g_NDP_ENDTR
-// u8   g_NDP_ENDTRW;			// ※ Does not reset even after 1 loop
-// #define	ENDTRW						_g_NDP_ENDTRW
-// u8   g_NDP_ENDTRR;			// Value to be written back upon reset (the value set to flag unused tracks at the start of the music)
-// #define ENDTRR						_g_NDP_ENDTRR
-// u8   g_NDP_MCOUNT;			// Number of loops
-// #define MCOUNT						_g_NDP_MCOUNT
-// u8   g_NDP_MVOL;			// Master volume (Subtract this value)
-// #define MVOL						_g_NDP_MVOL
-// u8   g_NDP_MFADE;			// Fade setting (0:No fade, 1–255:Fade count)
-// #define MFADE						_g_NDP_MFADE
-// u8   g_NDP_FCOUNT;			// Fade counter
-// #define FCOUNT						_g_NDP_FCOUNT
-// u8   g_NDP_LCOUNT;			// Fade loop counter
-// #define LCOUNT						_g_NDP_LCOUNT
-// u8   g_NDP_SLWPRM;			// Slow setting
-// #define SLWPRM						_g_NDP_SLWPRM
-// u8   g_NDP_SLWCNT;			// Slow playback counter
-// #define SLWCNT						_g_NDP_SLWCNT
-// u8   g_NDP_NFREQW;			// Noise frequency
-// #define NFREQW						_g_NDP_NFREQW
-// u8   g_NDP_VISPAN;			// Volume interval period
-// #define VISPAN						_g_NDP_VISPAN
-// u8   g_NDP_RNON;			// Rhythm tone active status (0:Not active, 1:Active and pitch restored, 2:Active, 3:Normal tone for one frame only)
-// #define RNON						_g_NDP_RNON
-// u8   g_NDP_RSVOL;			// Volume reduction before rhythm playback
-// #define RSVOL						_g_NDP_RSVOL
-// u16  g_NDP_RPITCH;			// Pitch evasion before rhythm playback
-// #define RPITCH						_g_NDP_RPITCH
-// u8   g_NDP_HENVSW;			// Hard envelope number
-// #define HENVSW						_g_NDP_HENVSW
+u8   g_NDP_FFFLG;			// Fast-forward flag
+#define FFFLG						_g_NDP_FFFLG
+u8   g_NDP_ENDTR;			// The bit for tracks whose playback data has reached the end is set (0000321RB) ※Resets on loop
+#define ENDTR						_g_NDP_ENDTR
+u8   g_NDP_ENDTRW;			// ※ Does not reset even after 1 loop
+#define	ENDTRW						_g_NDP_ENDTRW
+u8   g_NDP_ENDTRR;			// Value to be written back upon reset (the value set to flag unused tracks at the start of the music)
+#define ENDTRR						_g_NDP_ENDTRR
+u8   g_NDP_MCOUNT;			// Number of loops
+#define MCOUNT						_g_NDP_MCOUNT
+u8   g_NDP_MVOL;			// Master volume (Subtract this value)
+#define MVOL						_g_NDP_MVOL
+u8   g_NDP_MFADE;			// Fade setting (0:No fade, 1–255:Fade count)
+#define MFADE						_g_NDP_MFADE
+u8   g_NDP_FCOUNT;			// Fade counter
+#define FCOUNT						_g_NDP_FCOUNT
+u8   g_NDP_LCOUNT;			// Fade loop counter
+#define LCOUNT						_g_NDP_LCOUNT
+u8   g_NDP_SLWPRM;			// Slow setting
+#define SLWPRM						_g_NDP_SLWPRM
+u8   g_NDP_SLWCNT;			// Slow playback counter
+#define SLWCNT						_g_NDP_SLWCNT
+u8   g_NDP_NFREQW;			// Noise frequency
+#define NFREQW						_g_NDP_NFREQW
+u8   g_NDP_VISPAN;			// Volume interval period
+#define VISPAN						_g_NDP_VISPAN
+u8   g_NDP_RNON;			// Rhythm tone active status (0:Not active, 1:Active and pitch restored, 2:Active, 3:Normal tone for one frame only)
+#define RNON						_g_NDP_RNON
+u8   g_NDP_RSVOL;			// Volume reduction before rhythm playback
+#define RSVOL						_g_NDP_RSVOL
+u16  g_NDP_RPITCH;			// Pitch evasion before rhythm playback
+#define RPITCH						_g_NDP_RPITCH
+u8   g_NDP_HENVSW;			// Hard envelope number
+#define HENVSW						_g_NDP_HENVSW
 
-// u8   g_NDP_SEMODE;			// Playback Mode (0:BGM, 1:SE) ※Set within interrupt
-// #define SEMODE						_g_NDP_SEMODE
-// u8   g_NDP_SEBAKT[NDP_CHNUM];	// Save the track enable flag for the track being interrupted by sound effects here
-// #define SEBAKT						_g_NDP_SEBAKT
-// u8   g_NDP_SEBAKR;			// Whether to trigger register reset at SE end during rhythm key off
-// #define SEBAKR						_g_NDP_SEBAKR
-// u8   g_NDP_SECNT;			// Sound effect track counter (Number of sound effect tracks currently playing)
-// #define SECNT						_g_NDP_SECNT
-// u8   g_NDP_VADTBL[32];		// Volume embedded address table
-// #define VADTBL						_g_NDP_VADTBL
-// u8   g_NDP_RADTBL[64];		// Rhythm tone address table
-// #define RADTBL						_g_NDP_RADTBL
-// u8   g_NDP_PADTBL[32];		// Pitch-embedded dressing table
-// #define PADTBL						_g_NDP_PADTBL
-// u8   g_NDP_NADTBL[32];		// Note envelope dress table
-// #define NADTBL						_g_NDP_NADTBL
+u8   g_NDP_SEMODE;			// Playback Mode (0:BGM, 1:SE) ※Set within interrupt
+#define SEMODE						_g_NDP_SEMODE
+u8   g_NDP_SEBAKT[NDP_CHNUM];	// Save the track enable flag for the track being interrupted by sound effects here
+#define SEBAKT						_g_NDP_SEBAKT
+u8   g_NDP_SEBAKR;			// Whether to trigger register reset at SE end during rhythm key off
+#define SEBAKR						_g_NDP_SEBAKR
+u8   g_NDP_SECNT;			// Sound effect track counter (Number of sound effect tracks currently playing)
+#define SECNT						_g_NDP_SECNT
+u8   g_NDP_VADTBL[32];		// Volume embedded address table
+#define VADTBL						_g_NDP_VADTBL
+u8   g_NDP_RADTBL[64];		// Rhythm tone address table
+#define RADTBL						_g_NDP_RADTBL
+u8   g_NDP_PADTBL[32];		// Pitch-embedded dressing table
+#define PADTBL						_g_NDP_PADTBL
+u8   g_NDP_NADTBL[32];		// Note envelope dress table
+#define NADTBL						_g_NDP_NADTBL
 
 u8 g_NDP_RVWRK = 0;	// For rhythm volume adjustment
 #define RVWRK						_g_NDP_RVWRK
@@ -158,18 +158,17 @@ u16 g_NDP_O4C[12*5] = {
 // NDPINI driver initialization (connects the driver to the timer interrupt hook)
 void NDP_Initialize()
 {
-	// Mem_Set(0x00, &g_NDP_CH1WRK, 1024);
-
-	__asm
+__asm
 	push	ix
 
-	;// Clear buffers
-	ld		hl, #_g_NDP_RAM0
-	ld		de, #_g_NDP_RAM0+1
-	ld		bc, #_g_NDP_RAM0END-_g_NDP_RAM0-1
+	// Clear buffers
+	ld		hl, #_g_NDP_CH1WRK;//_g_NDP_RAM0
+	ld		de, #_g_NDP_CH1WRK+1;//_g_NDP_RAM0+1
+	ld		bc, #691;//_g_NDP_RAM0END-_g_NDP_RAM0-1
 	ld		(hl), #0
 	ldir
 
+	// // Initilize variables
 	// ld		hl, #_g_NDP_RAMVAL
 	// ld		de, #_g_NDP_RAMVAR
 	// ld		bc, #_g_NDP_RAMVAREND-_g_NDP_RAMVAR
@@ -184,8 +183,6 @@ __endasm;
 // MSTART Start playing (clears the work area to zero and starts playing. Do not operate the hook)
 void NDP_Play()
 {
-	// Mem_Set(0x00, &g_NDP_FFFLG, 18);
-
 __asm
 	push	ix
 	call	NDP_MSTART
@@ -413,7 +410,7 @@ void NDP_DummyASM()
 __asm
 
 	// Assembler driver
-	#include "NDP_WRK.ASM"
+	// #include "NDP_WRK.ASM"
 	#include "NDP_DRV.ASM"
 
 __endasm;
