@@ -467,10 +467,22 @@ WPSGM1:
 ;// (通常用PSG書き込み)
 
 WPSG:
+;//																				#MSXgl: Added an option to output data into a buffer
+#if (NDP_USE_INDERCT)
+	push	HL
+	push	DE
+	ld		HL, #_g_PSG_Regs
+	ld		D, #0
+	add		HL, DE
+	ld		(HL), A
+	pop		DE
+	pop		HL
+#else
 	LD	C,#0xA0		;// PSGポート
 	OUT	(C),E
 	INC	C
 	OUT	(C),A
+#endif
 
 	RET
 

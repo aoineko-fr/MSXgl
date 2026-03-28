@@ -12,8 +12,22 @@
 #include "msxgl.h"
 
 //=============================================================================
+// CONFIG
+//=============================================================================
+
+// NDP_USE_INDERCT
+#ifndef NDP_USE_INDERCT
+	#warning NDP_USE_INDERCT is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define NDP_USE_INDERCT			FALSE
+#endif
+
+//=============================================================================
 // DEFINES
 //=============================================================================
+
+#if (NDP_USE_INDERCT)
+	extern PSG_Data g_PSG_Regs;
+#endif
 
 // NDP player status
 enum NDP_STATUS

@@ -490,6 +490,9 @@
 #define ARKOS_SFX_START_IDX			0		// Do SFX indexes start at 0 or 1? Default is 0 but Arkos Tracker use 1
 #define ARKOS_USE_EVENT				FALSE	// Support for event callback function (AKG replayer only)
 
+// NDP player options
+#define NDP_USE_INDERCT				FALSE	// Output music data into RAM buffer (need to use with ayFX for example)
+
 //-----------------------------------------------------------------------------
 // MATH MODULE
 //-----------------------------------------------------------------------------
