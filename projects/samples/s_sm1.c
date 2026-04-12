@@ -232,7 +232,7 @@ void main()
 	UpdateMove(1);
 	UpdateCount(SPRITE_8_NUM);
 
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
+	BIOS_SetHookCallback(H_TIMI, VBlankHook);
 	VDP_EnableVBlank(TRUE);
 
 	u8 prevRow6 = 0xFF, prevRow7 = 0xFF, prevRow8 = 0xFF;
@@ -325,8 +325,8 @@ void main()
 		prevRow8 = row8;
 	}
 
-	Bios_ClearHook(H_TIMI);
-	Bios_Exit(0);
+	BIOS_ClearHook(H_TIMI);
+	BIOS_Exit(0);
 }
 
 

@@ -452,7 +452,7 @@ void main()
 	}
 
 	// Init	
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
+	BIOS_SetHookCallback(H_TIMI, VBlankHook);
 	g_SrcModeIndex = 3;
 	g_CmdModeIndex = 0;
 	SX = 8;
@@ -561,6 +561,6 @@ void main()
 		WaitVBlank();
 	}
 
-	Bios_ClearHook(H_TIMI);
-	Bios_Exit(0);
+	BIOS_ClearHook(H_TIMI);
+	BIOS_Exit(0);
 }

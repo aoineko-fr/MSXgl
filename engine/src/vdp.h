@@ -635,7 +635,7 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	#define VDP_Poke(val, destLow, destHigh)				VDP_Poke_16K(val, destLow)
 	#define VDP_Peek(srcLow, srcHigh)						VDP_Peek_16K(srcLow)
 
-#else // (MSX_VERSION >= MSX_2)
+#else // if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
 
 	// Function: VDP_WriteVRAM_128K
 	// Write data from RAM to VRAM. [MSX2/2+/TR]

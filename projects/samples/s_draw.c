@@ -314,7 +314,7 @@ void WaitVBlank()
 void main()
 {
 	// Init	
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
+	BIOS_SetHookCallback(H_TIMI, VBlankHook);
 	DisplayPage();
 
 	bool bContinue = TRUE;
@@ -370,6 +370,6 @@ void main()
 		WaitVBlank();
 	}
 
-	Bios_ClearHook(H_TIMI);
-	Bios_Exit(0);
+	BIOS_ClearHook(H_TIMI);
+	BIOS_Exit(0);
 }

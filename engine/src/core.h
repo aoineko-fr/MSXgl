@@ -33,8 +33,8 @@
 
 // Boolean
 typedef unsigned char				bool;	// 8 bits boolean type
-#define TRUE						1		// Value for "TRUE" boolean
-#define FALSE						0		// Value for "FALSE" boolean
+#define TRUE						(1)		// Value for "TRUE" boolean
+#define FALSE						(0)		// Value for "FALSE" boolean
 
 #define TOGGLE(a)					(a) = !(a)     // Toggle boolean value
 #define IS_TRUE(a)					((a) != FALSE) // Check if boolean is TRUE

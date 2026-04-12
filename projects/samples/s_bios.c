@@ -20,29 +20,29 @@ const i8 g_Jump[] = { -4, -3, -2, -1, 0, 1, 2, 3, 4 };
 
 //-----------------------------------------------------------------------------
 // Print a text at the current position
-void Bios_PrintText(const c8* str)
+void BIOS_PrintText(const c8* str)
 {
 	while (*str)
-		Bios_TextPrintChar(*str++);
+		BIOS_TextPrintChar(*str++);
 }
 
 //-----------------------------------------------------------------------------
 // Print a text at the specified position
-void Bios_PrintTextAt(u8 x, u8 y, const c8* str)
+void BIOS_PrintTextAt(u8 x, u8 y, const c8* str)
 {
-	Bios_SetCursorPosition(x + 1, y + 1);
+	BIOS_TextSetCursor(x + 1, y + 1);
 	while (*str)
-		Bios_TextPrintChar(*str++);
+		BIOS_TextPrintChar(*str++);
 }
 
 //-----------------------------------------------------------------------------
 // Change the screen width
-void Bios_ChangeWidth(u8 width)
+void BIOS_ChangeWidth(u8 width)
 {
 	switch (g_SCRMOD)
 	{
-	case 0: g_LINL40 = width; Bios_ChangeMode(g_SCRMOD); break;
-	case 1: g_LINL32 = width; Bios_ChangeMode(g_SCRMOD); break;
+	case 0: g_LINL40 = width; BIOS_SetScreenMode(g_SCRMOD); break;
+	case 1: g_LINL32 = width; BIOS_SetScreenMode(g_SCRMOD); break;
 	};
 }
 
@@ -59,7 +59,7 @@ i8 Clamp(i8 val, i8 min, i8 max)
 
 //-----------------------------------------------------------------------------
 // Change the text and background color
-void Bios_ChangeColor2(u8 text, u8 back, u8 border, u8 mode) __NAKED // Stack: 4 bytes
+void BIOS_ChangeColor2(u8 text, u8 back, u8 border, u8 mode) __NAKED // Stack: 4 bytes
 {
 	text;   // A
 	back;   // L
@@ -93,16 +93,16 @@ __endasm;
 void main()
 {
 	// Initialize screen mode 1 (text)
-	Bios_ChangeMode(1);
-	Bios_ChangeWidth(32);
-	Bios_ChangeColor2(COLOR_LIGHT_GREEN, COLOR_BLACK, COLOR_GRAY, 0);
-	Bios_SetKeyClick(FALSE);
+	BIOS_SetScreenMode(1);
+	BIOS_ChangeWidth(32);
+	BIOS_ChangeColor2(COLOR_LIGHT_GREEN, COLOR_BLACK, COLOR_GRAY, 0);
+	BIOS_SetKeyClick(FALSE);
 	
 	// Display static information on screen
-	Bios_PrintTextAt(0, 0,  "MSXgl - BIOS SAMPLE");
-	Bios_PrintTextAt(0, 1,  "--------------------------------");
-	Bios_PrintTextAt(0, 21, "--------------------------------");
-	Bios_PrintTextAt(0, 23, "<||> Move     [space] Jump");
+	BIOS_PrintTextAt(0, 0,  "MSXgl - BIOS SAMPLE");
+	BIOS_PrintTextAt(0, 1,  "--------------------------------");
+	BIOS_PrintTextAt(0, 21, "--------------------------------");
+	BIOS_PrintTextAt(0, 23, "<||> Move     [space] Jump");
 
 	bool bContinue = TRUE;
 	bool bJump = FALSE;
@@ -115,11 +115,11 @@ void main()
 		prevY = y;
 
 		// Read keyboard
-		if (Bios_IsKeyPressed(KEY_DEL))
+		if (BIOS_IsKeyPressed(KEY_DEL))
 			bContinue = FALSE;
-		if (Bios_IsKeyPressed(KEY_RIGHT))
+		if (BIOS_IsKeyPressed(KEY_RIGHT))
 			x++;
-		else if (Bios_IsKeyPressed(KEY_LEFT))
+		else if (BIOS_IsKeyPressed(KEY_LEFT))
 			x--;
 		
 		if (bJump)
@@ -128,29 +128,29 @@ void main()
 			if (jumpFrame >= numberof(g_Jump) * 2)
 				bJump = FALSE;
 		}
-		else if (Bios_IsKeyPressed(KEY_SPACE))
+		else if (BIOS_IsKeyPressed(KEY_SPACE))
 		{
-			Bios_Beep();
+			BIOS_Beep();
 			bJump = TRUE;
 			jumpFrame = 0;
 		}
 		
 		x = Clamp(x, 0, 39);
 		y = Clamp(y, 5, 20);
-		Bios_PrintTextAt(prevX, prevY, " ");
-		Bios_PrintTextAt(x, y, "#");
+		BIOS_PrintTextAt(prevX, prevY, " ");
+		BIOS_PrintTextAt(x, y, "#");
 
 		u8 x2 = 1;
-		u8 chr = Bios_HasCharacter();
+		u8 chr = BIOS_HasCharacter();
 		while (chr)
 		{
-			Bios_SetCursorPosition(x2++, 3);
-			Bios_TextPrintChar(chr);
-			chr = Bios_HasCharacter();
+			BIOS_TextSetCursor(x2++, 3);
+			BIOS_TextPrintChar(chr);
+			chr = BIOS_HasCharacter();
 		}
 
 		Halt();
 	}
 	
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

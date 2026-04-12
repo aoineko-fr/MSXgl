@@ -896,8 +896,8 @@ void main()
 	DisplayMSX();
 
 	#if (CUSTOM_ISR == 0)
-		Bios_SetHookDirectCallback(H_KEYI, InterruptHook);
-		Bios_ClearHook(H_TIMI);
+		BIOS_SetHookDirectCallback(H_KEYI, InterruptHook);
+		BIOS_ClearHook(H_TIMI);
 	#endif
 
 	//---- CURRENT SCREEN MODE INIT ----

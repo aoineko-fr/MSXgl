@@ -214,14 +214,14 @@ u8 IsSlotPageRAM(u8 slotId, u8 page)
 	u16 addr = page * 0x4000;
 	if (page < 3)
 	{
-		u8 data = Bios_InterSlotRead(slotId, addr);
+		u8 data = BIOS_InterSlotRead(slotId, addr);
 
-		Bios_InterSlotWrite(slotId, addr, ~data);
+		BIOS_InterSlotWrite(slotId, addr, ~data);
 		
-		if (Bios_InterSlotRead(slotId, addr) == data)
+		if (BIOS_InterSlotRead(slotId, addr) == data)
 			return 0;
 
-		Bios_InterSlotWrite(slotId, addr, data);
+		BIOS_InterSlotWrite(slotId, addr, data);
 	}
 	else
 	{
@@ -259,8 +259,8 @@ const c8* GetSlotName(u8 slotId, u8 page)
 	if (page < 3)
 	{
 		u16 addr = page * 0x4000;
-		if (Bios_InterSlotRead(slotId, addr) == 'A')
-			if (Bios_InterSlotRead(slotId, ++addr) == 'B')
+		if (BIOS_InterSlotRead(slotId, addr) == 'A')
+			if (BIOS_InterSlotRead(slotId, ++addr) == 'B')
 				return "ROM";
 	}
 		
@@ -603,5 +603,5 @@ void main()
 		}
 	}
 
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

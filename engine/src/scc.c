@@ -50,23 +50,23 @@ u8 g_SCC_MixerBackup;
 bool SCC_CheckSlotID(u8 slotId)
 {
 	// Check ROM
-	u8 val = Bios_InterSlotRead(slotId, 0x8000);
-	Bios_InterSlotWrite(slotId, 0x8000, ~val);
-	if (Bios_InterSlotRead(slotId, 0x8000) != val) // Is RAM?
+	u8 val = BIOS_InterSlotRead(slotId, 0x8000);
+	BIOS_InterSlotWrite(slotId, 0x8000, ~val);
+	if (BIOS_InterSlotRead(slotId, 0x8000) != val) // Is RAM?
 	{
-		Bios_InterSlotWrite(slotId, 0x8000, val); // backup RAM value
+		BIOS_InterSlotWrite(slotId, 0x8000, val); // backup RAM value
 		return FALSE;
 	}
 
 	// Select SCC
-	Bios_InterSlotWrite(slotId, 0x9000, 0x3F);
+	BIOS_InterSlotWrite(slotId, 0x9000, 0x3F);
 
 	// Check SCC RAM
-	val = Bios_InterSlotRead(slotId, 0x9800);
-	Bios_InterSlotWrite(slotId, 0x9800, ~val);
-	if (Bios_InterSlotRead(slotId, 0x9800) != val) // Is SCC RAM?
+	val = BIOS_InterSlotRead(slotId, 0x9800);
+	BIOS_InterSlotWrite(slotId, 0x9800, ~val);
+	if (BIOS_InterSlotRead(slotId, 0x9800) != val) // Is SCC RAM?
 	{
-		Bios_InterSlotWrite(slotId, 0x9800, val); // backup SCC RAM value
+		BIOS_InterSlotWrite(slotId, 0x9800, val); // backup SCC RAM value
 		return TRUE;
 	}
 
@@ -300,7 +300,7 @@ void SCC_Select()
 	#if (SCC_SLOT_MODE == SCC_SLOT_DIRECT)
 		SET_BANK_SEGMENT(2, 0x3F);
 	#else
-		Bios_InterSlotWrite(SCC_SLOT, 0x9000, 0x3F);
+		BIOS_InterSlotWrite(SCC_SLOT, 0x9000, 0x3F);
 	#endif
 }
 
@@ -312,7 +312,7 @@ void SCC_SetRegister(u8 reg, u8 value)
 	#if (SCC_SLOT_MODE == SCC_SLOT_DIRECT)
 		Poke(0x9800 + reg, value);
 	#else
-		Bios_InterSlotWrite(SCC_SLOT, 0x9800 + reg, value);
+		BIOS_InterSlotWrite(SCC_SLOT, 0x9800 + reg, value);
 	#endif
 
 	#if (SCC_USE_RESUME)
@@ -328,7 +328,7 @@ u8 SCC_GetRegister(u8 reg)
 	#if (SCC_SLOT_MODE == SCC_SLOT_DIRECT)
 		return Peek(0x9800 + reg);
 	#else
-		return Bios_InterSlotRead(SCC_SLOT, 0x9800 + reg);
+		return BIOS_InterSlotRead(SCC_SLOT, 0x9800 + reg);
 	#endif
 }
 
@@ -339,7 +339,7 @@ void SCC_Mute()
 	#if (SCC_SLOT_MODE == SCC_SLOT_DIRECT)
 		Poke(SCC_ADDR_MIXER, 0);
 	#else
-		Bios_InterSlotWrite(SCC_SLOT, SCC_ADDR_MIXER, 0x00);
+		BIOS_InterSlotWrite(SCC_SLOT, SCC_ADDR_MIXER, 0x00);
 	#endif
 }
 
@@ -351,7 +351,7 @@ void SCC_Resume()
 	#if (SCC_SLOT_MODE == SCC_SLOT_DIRECT)
 		Poke(SCC_ADDR_MIXER, g_SCC_MixerBackup);
 	#else
-		Bios_InterSlotWrite(SCC_SLOT, SCC_ADDR_MIXER, g_SCC_MixerBackup);
+		BIOS_InterSlotWrite(SCC_SLOT, SCC_ADDR_MIXER, g_SCC_MixerBackup);
 	#endif
 }
 #endif
@@ -371,7 +371,7 @@ void SCC_LoadWaveform(u8 channel, const u8* data)
 		Mem_Copy(data, addr, 32);
 	#else
 		loopx(32)
-			Bios_InterSlotWrite(SCC_SLOT, addr++, *data++);
+			BIOS_InterSlotWrite(SCC_SLOT, addr++, *data++);
 	#endif
 }
 
@@ -383,8 +383,8 @@ void SCC_SetFrequency(u8 channel, u16 freq)
 	#if (SCC_SLOT_MODE == SCC_SLOT_DIRECT)
 		Mem_Copy(&freq, addr, 2);
 	#else
-		Bios_InterSlotWrite(SCC_SLOT, addr++, (u8)freq);
-		Bios_InterSlotWrite(SCC_SLOT, addr, freq >> 8);
+		BIOS_InterSlotWrite(SCC_SLOT, addr++, (u8)freq);
+		BIOS_InterSlotWrite(SCC_SLOT, addr, freq >> 8);
 	#endif
 	
 }

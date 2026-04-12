@@ -142,5 +142,5 @@ void main()
 		}
 	}
 
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

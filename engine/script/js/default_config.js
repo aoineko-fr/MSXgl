@@ -158,10 +158,10 @@ BIOSReleaseEvent = false;
 //-- Use automatic banked call and trampoline functions (boolean). For mapped ROM
 BankedCall = false;
 
-//-- Overwrite code starting address (number). For example. 0xE0000 for a driver in RAM
+//-- Overwrite code starting address (number). For example. 0xE000 for a driver in RAM
 ForceCodeAddr = 0;
 
-//-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
+//-- Overwrite RAM starting address (number). For example. 0xE000 for 8K RAM machine
 ForceRamAddr = 0;
 
 //-- List of raw data files to be added to final binary (array). Each entry must be in the following format: { offset:0x0000, file:"myfile.bin" }

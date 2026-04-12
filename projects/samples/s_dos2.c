@@ -192,7 +192,7 @@ void DisplayLastError()
 	DOS_Explain(err, g_StrBuffer);
 	Print_DrawFormat("Error!\n%2x: %s\n", err, g_StrBuffer);
 	WaitKeyPress();
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }
 #endif
 
@@ -454,7 +454,7 @@ void DisplayFile()
 	Print_DrawText("OK\n");
 
 	WaitKeyPress();
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }
 
 //-----------------------------------------------------------------------------
@@ -822,6 +822,6 @@ DisplayMenu:
 		g_Frame++;
 	}
 
-	Bios_Exit(0);
+	BIOS_Exit(0);
 	return 0;   // Can be used only if you don't use VDP module
 }

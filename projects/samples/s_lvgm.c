@@ -427,7 +427,7 @@ void main()
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8 + VDP_SPRITE_SCALE_1);
 	VDP_LoadSpritePattern(g_Font_MGL_Sample8 + 4, 0, g_Font_MGL_Sample8[3] - g_Font_MGL_Sample8[2]);
 
-	// Bios_SetHookCallback(H_TIMI, VDP_InterruptHandler);
+	// BIOS_SetHookCallback(H_TIMI, VDP_InterruptHandler);
 
 	SetCursor(4);
 

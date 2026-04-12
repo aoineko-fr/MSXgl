@@ -280,8 +280,8 @@ void main()
 	Pawn_SetColorBlend(&g_PlayerPawn, TRUE);
 	Pawn_InitializePhysics(&g_PlayerPawn, PhysicsEvent, PhysicsCollision, 16, 16);
 
-	Bios_SetKeyClick(FALSE);
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
+	BIOS_SetKeyClick(FALSE);
+	BIOS_SetHookCallback(H_TIMI, VBlankHook);
 	VDP_EnableVBlank(TRUE);
 
 	bool bContinue = TRUE;
@@ -359,5 +359,5 @@ void main()
 	}
 
 	DEBUG_LOG("End debug session!");
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

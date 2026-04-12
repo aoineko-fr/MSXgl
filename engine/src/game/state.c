@@ -60,7 +60,7 @@ void Game_Initialize(u8 screenMode, bool b60hz)
 	#if (GAME_USE_VSYNC)
 		// Initialize v-synch hook
 		#if !(TARGET & TARGET_ISR)
-			Bios_SetHookCallback(H_TIMI, VDP_InterruptHandler);
+			BIOS_SetHookCallback(H_TIMI, VDP_InterruptHandler);
 		#endif
 	
 		// Enable v-synch interruption
@@ -92,7 +92,7 @@ void Game_Update()
 void Game_Release()
 {
 	#if ((GAME_USE_VSYNC) && !(TARGET & TARGET_ISR))
-		Bios_ClearHook(H_TIMI);
+		BIOS_ClearHook(H_TIMI);
 	#endif
 }
 

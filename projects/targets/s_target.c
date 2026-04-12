@@ -425,5 +425,5 @@ void main()
 		// BIOS not present in page 0
 		Sys_SetPage0Slot(g_EXPTBL[0]);
 	#endif
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

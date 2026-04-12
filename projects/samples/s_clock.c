@@ -501,5 +501,5 @@ void main()
 		g_Update();
 	}
 
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

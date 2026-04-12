@@ -709,8 +709,8 @@ void Update8()
 void main()
 {
 	// Setup system
-	Bios_SetKeyClick(FALSE);
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
+	BIOS_SetKeyClick(FALSE);
+	BIOS_SetHookCallback(H_TIMI, VBlankHook);
 
 	FSM_SetState(&g_State16);
 
@@ -730,8 +730,8 @@ void main()
 			bContinue = FALSE;
 	}
 
-	Bios_ClearHook(H_TIMI);
-	Bios_Exit(0);
+	BIOS_ClearHook(H_TIMI);
+	BIOS_Exit(0);
 }
 
 

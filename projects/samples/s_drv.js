@@ -11,10 +11,10 @@ Target = "RAW";
 //-- List of library modules to build (array)
 LibModules = [];
 
-//-- Overwrite code starting address (number). For example. 0xE0000 for a driver in RAM
+//-- Overwrite code starting address (number). For example. 0xE000 for a driver in RAM
 ForceCodeAddr = 0xE000;
 
-//-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
+//-- Overwrite RAM starting address (number). For example. 0xE000 for 8K RAM machine
 ForceRamAddr = 0; // 0: right after code area
 
 //-- Command lines to be executed after the build process (array)

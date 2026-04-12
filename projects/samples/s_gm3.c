@@ -146,7 +146,7 @@ void SetScreenMode(u8 mode)
 // Program entry point
 void main()
 {
-	Bios_SetKeyClick(FALSE);
+	BIOS_SetKeyClick(FALSE);
 
 	// Initialize video
 	SetScreenMode(VDP_MODE_GRAPHIC3_MIRROR); // Screen mode 4 (G3) with full mirrored pattern/color table

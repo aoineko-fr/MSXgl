@@ -445,7 +445,7 @@ void UpdateMain()
 // Program entry point
 void main()
 {
-	Bios_SetKeyClick(FALSE);
+	BIOS_SetKeyClick(FALSE);
 
 	// Initialize screen mode 0 (text)
 	VDP_SetMode(VDP_MODE_SCREEN0);

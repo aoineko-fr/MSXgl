@@ -172,7 +172,10 @@ module.exports.copyFile = function (src, dst)
 module.exports.delFile = function (src)
 {
 	module.exports.print(`Del ${src}`, PrintDetail);
-	fs.unlinkSync(src);
+	if (fs.existsSync(src))
+		fs.unlinkSync(src);
+	else
+		module.exports.print(`File not found: ${src}`, PrintWarning);
 }
 
 // Create a CAS file from binary data

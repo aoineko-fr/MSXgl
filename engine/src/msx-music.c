@@ -69,7 +69,7 @@ bool MSXMusic_CheckInternal(u8 slotId)
 	u16 dest = 0x4018;
 	while (*ptr != 0)
 	{
-		if (*ptr != Bios_InterSlotRead(slotId, dest++))
+		if (*ptr != BIOS_InterSlotRead(slotId, dest++))
 			return FALSE;
 		ptr++;
 	}
@@ -84,7 +84,7 @@ bool MSXMusic_CheckExternal(u8 slotId)
 	u16 dest = 0x401C;
 	while (*ptr != 0)
 	{
-		if (*ptr != Bios_InterSlotRead(slotId, dest++))
+		if (*ptr != BIOS_InterSlotRead(slotId, dest++))
 			return FALSE;
 		ptr++;
 	}
@@ -105,8 +105,8 @@ u8 MSXMusic_Detect()
 	if (g_MSXMusic_SlotId != SLOT_NOTFOUND)
 	{
 		// Activate external FM-PAC
-		u8 val = Bios_InterSlotRead(g_MSXMusic_SlotId, 0x7FF6);
-		Bios_InterSlotWrite(g_MSXMusic_SlotId, 0x7FF6, val | 0x01);
+		u8 val = BIOS_InterSlotRead(g_MSXMusic_SlotId, 0x7FF6);
+		BIOS_InterSlotWrite(g_MSXMusic_SlotId, 0x7FF6, val | 0x01);
 		return MSXMUSIC_EXTERNAL;
 	}
 	
