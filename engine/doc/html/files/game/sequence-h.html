@@ -8,103 +8,198 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="Functions"></a><a name="Topic282"></a><div class="CTopic TGroup LC first">
+<a name="Functions"></a><a name="Topic165"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="Sequence_Initialize"></a><a name="Topic693"></a><div class="CTopic TFunction LC">
+<a name="Sequence_Initialize"></a><a name="Topic166"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_Initialize</div>
- <div id="NDPrototype693" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">wait,</td></tr><tr><td class="first"></td><td class="PType">SeqDrawCB&nbsp;</td><td class="PName last">draw,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">SeqAction*&nbsp;</td><td class="PName last">left,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">SeqAction*&nbsp;</td><td class="PName last">right</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Initialize the sequencer</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">wait<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Frame wait time</p></td></tr><tr><td class="CDLEntry">draw<div class="CDLParameterType">SeqDrawCB</div></td><td class="CDLDefinition"><p>Draw callback function</p></td></tr><tr><td class="CDLEntry">left<div class="CDLParameterType"><span class="SHKeyword">const</span> SeqAction*</div></td><td class="CDLDefinition"><p>Action to move left</p></td></tr><tr><td class="CDLEntry">right<div class="CDLParameterType"><span class="SHKeyword">const</span> SeqAction*</div></td><td class="CDLDefinition"><p>Action to move right</p></td></tr></table></div>
+ <div id="NDPrototype166" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_Initialize(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">wait,</td></tr><tr><td class="PType first">SeqEventCB&nbsp;</td><td class="PName last">event,</td></tr><tr><td class="PType first">SeqDrawCB&nbsp;</td><td class="PName last">draw,</td></tr><tr><td class="PType first">SeqInputCB&nbsp;</td><td class="PName last">input</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize the sequencer</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">wait<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Frame wait time</p></td></tr><tr><td class="CDLEntry">event<div class="CDLParameterType">SeqEventCB</div></td><td class="CDLDefinition"><p>Event callback function</p></td></tr><tr><td class="CDLEntry">draw<div class="CDLParameterType">SeqDrawCB</div></td><td class="CDLDefinition"><p>Draw callback function</p></td></tr><tr><td class="CDLEntry">input<div class="CDLParameterType">SeqInputCB</div></td><td class="CDLDefinition"><p>Input check callback function</p></td></tr></table></div>
 </div>
 
-<a name="Sequence_SetCursor"></a><a name="Topic294"></a><div class="CTopic TFunction LC">
+<a name="Sequence_SetActions"></a><a name="Topic167"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_SetActions</div>
+ <div id="NDPrototype167" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetActions(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">SeqAction*&nbsp;</td><td class="PName last">left,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">SeqAction*&nbsp;</td><td class="PName last">right</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize the left and right move actions</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">left<div class="CDLParameterType"><span class="SHKeyword">const</span> SeqAction*</div></td><td class="CDLDefinition"><p>Action to move left</p></td></tr><tr><td class="CDLEntry">right<div class="CDLParameterType"><span class="SHKeyword">const</span> SeqAction*</div></td><td class="CDLDefinition"><p>Action to move right</p></td></tr></table></div>
+</div>
+
+<a name="Sequence_InitializeTimeline"></a><a name="Topic168"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_InitializeTimeline</div>
+ <div id="NDPrototype168" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_InitializeTimeline(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">SeqKey**&nbsp;</td><td class="PName last">timelines</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Initialize the timeline table</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">timelines<div class="CDLParameterType"><span class="SHKeyword">const</span> SeqKey**</div></td><td class="CDLDefinition"><p>Pointer to the timeline table</p></td></tr></table></div>
+</div>
+
+<a name="Sequence_SetSynchFrames"></a><a name="Topic169"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_SetSynchFrames</div>
+ <div id="NDPrototype169" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetSynchFrames(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">frames</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the synchronization display frame count</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">frames<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Number of display frames to wait before updating</p></td></tr></table></div>
+</div>
+
+<a name="Sequence_SetEventCallback"></a><a name="Topic170"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_SetEventCallback</div>
+ <div id="NDPrototype170" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetEventCallback(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">SeqEventCB&nbsp;</td><td class="PName last">event</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the event callback function</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">event<div class="CDLParameterType">SeqEventCB</div></td><td class="CDLDefinition"><p>Event callback function</p></td></tr></table></div>
+</div>
+
+<a name="Sequence_SetDrawCallback"></a><a name="Topic171"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_SetDrawCallback</div>
+ <div id="NDPrototype171" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetDrawCallback(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">SeqDrawCB&nbsp;</td><td class="PName last">draw</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the draw callback function</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">draw<div class="CDLParameterType">SeqDrawCB</div></td><td class="CDLDefinition"><p>Draw callback function</p></td></tr></table></div>
+</div>
+
+<a name="Sequence_SetDirty"></a><a name="Topic172"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_SetDirty</div>
+ <div id="NDPrototype172" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetDirty()</div></div>
+ <div class="CBody"><p>Set dirty flag to force redraw</p></div>
+</div>
+
+<a name="Sequence_SetFinished"></a><a name="Topic173"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_SetFinished</div>
+ <div id="NDPrototype173" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetFinished()</div></div>
+ <div class="CBody"><p>Set finish flag to force redraw</p></div>
+</div>
+
+<a name="Sequence_HideCursor"></a><a name="Topic174"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_HideCursor</div>
+ <div id="NDPrototype174" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_HideCursor()</div></div>
+ <div class="CBody"><p>Set hide cursor flag</p></div>
+</div>
+
+<a name="Sequence_ShowCursor"></a><a name="Topic175"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_ShowCursor</div>
+ <div id="NDPrototype175" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_ShowCursor()</div></div>
+ <div class="CBody"><p>Reset hide cursor flag</p></div>
+</div>
+
+<a name="Sequence_SetNextFrame"></a><a name="Topic176"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_SetNextFrame</div>
+ <div id="NDPrototype176" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetNextFrame(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">frame</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set next frame to be rendered</p></div>
+</div>
+
+<a name="Sequence_SetCursor"></a><a name="Topic177"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_SetCursor</div>
- <div id="NDPrototype294" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetCursor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype177" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetCursor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the cursor position</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>X coordinate of the cursor</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Y coordinate of the cursor</p></td></tr></table></div>
 </div>
 
-<a name="Sequence_MoveCursor"></a><a name="Topic579"></a><div class="CTopic TFunction LC">
+<a name="Sequence_GetCursorX"></a><a name="Topic178"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_GetCursorX</div>
+ <div id="NDPrototype178" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sequence_GetCursorX()</div></div>
+ <div class="CBody"><p>Get the cursor X coordinate</p><div class="CHeading">Return</div><p>Cursor X coordinate</p></div>
+</div>
+
+<a name="Sequence_GetCursorY"></a><a name="Topic179"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_GetCursorY</div>
+ <div id="NDPrototype179" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sequence_GetCursorY()</div></div>
+ <div class="CBody"><p>Get the cursor Y coordinate</p><div class="CHeading">Return</div><p>Cursor Y coordinate</p></div>
+</div>
+
+<a name="Sequence_MoveCursor"></a><a name="Topic180"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_MoveCursor</div>
- <div id="NDPrototype579" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_MoveCursor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">i8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">i8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype180" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_MoveCursor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">i8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">i8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Move the cursor position</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">x<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>X coordinate move offset</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">i8</div></td><td class="CDLDefinition"><p>Y coordinate move offset</p></td></tr></table></div>
 </div>
 
-<a name="Sequence_SetCustomCursor"></a><a name="Topic1537"></a><div class="CTopic TFunction LC">
+<a name="Sequence_SetCustomCursor"></a><a name="Topic181"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_SetCustomCursor</div>
- <div id="NDPrototype1537" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetCustomCursor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">cursor</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype181" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetCustomCursor(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">cursor</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set a custom cursor pattern Parameters: cursor - Custum cursor pattern index (can't be 0)</p></div>
 </div>
 
-<a name="Sequence_GetCustomCursor"></a><a name="Topic1538"></a><div class="CTopic TFunction LC">
+<a name="Sequence_GetCustomCursor"></a><a name="Topic182"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_GetCustomCursor</div>
- <div id="NDPrototype1538" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sequence_GetCustomCursor()</div></div>
+ <div id="NDPrototype182" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sequence_GetCustomCursor()</div></div>
  <div class="CBody"><p>Get the current custom cursor pattern</p><div class="CHeading">Return</div><p>Current custom cursor pattern index</p></div>
 </div>
 
-<a name="Sequence_HasCustomCursor"></a><a name="Topic1539"></a><div class="CTopic TFunction LC">
+<a name="Sequence_HasCustomCursor"></a><a name="Topic183"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_HasCustomCursor</div>
- <div id="NDPrototype1539" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Sequence_HasCustomCursor()</div></div>
+ <div id="NDPrototype183" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Sequence_HasCustomCursor()</div></div>
  <div class="CBody"><p>Check if a custom cursor pattern is set</p><div class="CHeading">Return</div><p>FALSE if no custom cursor pattern is set</p></div>
 </div>
 
-<a name="Sequence_ClearCustomCursor"></a><a name="Topic1540"></a><div class="CTopic TFunction LC">
+<a name="Sequence_ClearCustomCursor"></a><a name="Topic184"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_ClearCustomCursor</div>
- <div id="NDPrototype1540" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_ClearCustomCursor()</div></div>
+ <div id="NDPrototype184" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_ClearCustomCursor()</div></div>
  <div class="CBody"><p>Clear custom cursor pattern</p></div>
 </div>
 
-<a name="Sequence_Play"></a><a name="Topic274"></a><div class="CTopic TFunction LC">
+<a name="Sequence_Play"></a><a name="Topic185"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_Play</div>
- <div id="NDPrototype274" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Sequence_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">Sequence*&nbsp;</td><td class="PName last">seq,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">frame</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype185" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> Sequence_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">Sequence*&nbsp;</td><td class="PName last">seq,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">frame</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Play a sequence</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">seq<div class="CDLParameterType"><span class="SHKeyword">const</span> Sequence*</div></td><td class="CDLDefinition"><p>Pointer to the sequence structure</p></td></tr><tr><td class="CDLEntry">frame<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Frame number to start playing</p></td></tr></table></div>
 </div>
 
-<a name="Sequence_GetCurrent"></a><a name="Topic695"></a><div class="CTopic TFunction LC">
+<a name="SeqStartTransition"></a><a name="Topic186"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">SeqStartTransition</div>
+ <div class="CBody"><p>Start a pan sequence transition</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">frame</td><td class="CDLDefinition"><p>Pan's frame number to start the transition</p></td></tr><tr><td class="CDLEntry">nextSeq</td><td class="CDLDefinition"><p>Pointer to the next sequence structure</p></td></tr><tr><td class="CDLEntry">nextFrame</td><td class="CDLDefinition"><p>Frame number to start the next sequence</p></td></tr></table></div>
+</div>
+
+<a name="Sequence_GetCurrent"></a><a name="Topic187"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_GetCurrent</div>
- <div id="NDPrototype695" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline const</span> Sequence* Sequence_GetCurrent()</div></div>
+ <div id="NDPrototype187" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline const</span> Sequence* Sequence_GetCurrent()</div></div>
  <div class="CBody"><p>Get the current sequence</p><div class="CHeading">Return</div><p>Pointer to the current sequence structure</p></div>
 </div>
 
-<a name="Sequence_GetFrame"></a><a name="Topic305"></a><div class="CTopic TFunction LC">
+<a name="Sequence_GetFrame"></a><a name="Topic188"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_GetFrame</div>
- <div id="NDPrototype305" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sequence_GetFrame()</div></div>
+ <div id="NDPrototype188" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sequence_GetFrame()</div></div>
  <div class="CBody"><p>Get the current frame number</p><div class="CHeading">Return</div><p>Current frame number</p></div>
 </div>
 
-<a name="Sequence_GetInput"></a><a name="Topic1542"></a><div class="CTopic TFunction LC">
+<a name="Sequence_GetInput"></a><a name="Topic189"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_GetInput</div>
- <div id="NDPrototype1542" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sequence_GetInput()</div></div>
+ <div id="NDPrototype189" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 Sequence_GetInput()</div></div>
  <div class="CBody"><p>Get the current input flags Return: Current input flags</p></div>
 </div>
 
-<a name="Sequence_CheckInput"></a><a name="Topic1543"></a><div class="CTopic TFunction LC">
+<a name="Sequence_CheckInput"></a><a name="Topic190"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_CheckInput</div>
- <div id="NDPrototype1543" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Sequence_CheckInput(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">in</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype190" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> Sequence_CheckInput(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">in</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Check if specific input flag is set</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">in<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Input flag to check</p></td></tr></table><div class="CHeading">Return</div><p>FALSE if input flag is not set</p></div>
 </div>
 
-<a name="Sequence_CheckArea"></a><a name="Topic696"></a><div class="CTopic TFunction LC">
+<a name="Sequence_CheckArea"></a><a name="Topic191"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_CheckArea</div>
- <div id="NDPrototype696" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> Sequence_CheckArea(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">SeqActionArea*&nbsp;</td><td class="PName last">area</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype191" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> Sequence_CheckArea(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">SeqActionArea*&nbsp;</td><td class="PName last">area</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Check if cursor is in area</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">area<div class="CDLParameterType"><span class="SHKeyword">const</span> SeqActionArea*</div></td><td class="CDLDefinition"><p>Pointer to the action area to check</p></td></tr></table><div class="CHeading">Return</div><p>FALSE if cursor is not in area</p></div>
 </div>
 
-<a name="Sequence_Update"></a><a name="Topic918"></a><div class="CTopic TFunction LC">
- <div class="CTitle">Sequence_Update</div>
- <div id="NDPrototype918" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Sequence_Update()</div></div>
- <div class="CBody"><p>Update sequence and check for interaction</p></div>
+<a name="Sequence_SetActionCallback"></a><a name="Topic192"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_SetActionCallback</div>
+ <div id="NDPrototype192" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetActionCallback(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">callback&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set action callback</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">cb<div class="CDLParameterType">callback</div></td><td class="CDLDefinition"><p>Function to be called during action check</p></td></tr></table></div>
 </div>
 
-<a name="Sequence_Interrupt"></a><a name="Topic919"></a><div class="CTopic TFunction LC">
+<a name="Sequence_SetHoverAction"></a><a name="Topic193"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_SetHoverAction</div>
+ <div id="NDPrototype193" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> Sequence_SetHoverAction(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">SeqAction*&nbsp;</td><td class="PName last">act</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the action hovered by the cursor</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">act<div class="CDLParameterType"><span class="SHKeyword">const</span> SeqAction*</div></td><td class="CDLDefinition"><p>Pointer to hover action (can be NULL)</p></td></tr></table></div>
+</div>
+
+<a name="Sequence_GetHoverAction"></a><a name="Topic194"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_GetHoverAction</div>
+ <div id="NDPrototype194" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline const</span> SeqAction* Sequence_GetHoverAction()</div></div>
+ <div class="CBody"><p>Get the action hovered by the cursor</p><div class="CHeading">Return</div><p>Pointer to hover action (can be NULL)</p></div>
+</div>
+
+<a name="Sequence_Update"></a><a name="Topic195"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">Sequence_Update</div>
+ <div id="NDPrototype195" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Sequence_Update()</div></div>
+ <div class="CBody"><p>Update current sequence and check for interactions</p></div>
+</div>
+
+<a name="Sequence_Interrupt"></a><a name="Topic196"></a><div class="CTopic TFunction LC">
  <div class="CTitle">Sequence_Interrupt</div>
- <div id="NDPrototype919" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Sequence_Interrupt()</div></div>
+ <div id="NDPrototype196" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Sequence_Interrupt()</div></div>
  <div class="CBody"><p>Interruption handler</p></div>
 </div>
 
-<a name="Sequence_Wait"></a><a name="Topic920"></a><div class="CTopic TFunction LC last">
+<a name="Sequence_Wait"></a><a name="Topic197"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">Sequence_Wait</div>
- <div id="NDPrototype920" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Sequence_Wait()</div></div>
+ <div id="NDPrototype197" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> Sequence_Wait()</div></div>
  <div class="CBody"><p>Wait for sequence synchronization</p></div>
 </div>
 

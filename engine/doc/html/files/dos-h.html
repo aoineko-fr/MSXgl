@@ -8,482 +8,482 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="MSX-DOS_1_Core"></a><a name="Topic393"></a><div class="CTopic TGroup LC first">
+<a name="MSX-DOS_1_Core"></a><a name="Topic1268"></a><div class="CTopic TGroup LC first">
  <div class="CTitle">MSX-DOS 1 Core</div>
 </div>
 
-<a name="DOS_Call"></a><a name="Topic605"></a><div class="CTopic TFunction LC">
+<a name="DOS_Call"></a><a name="Topic1269"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Call</div>
- <div id="NDPrototype605" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_Call(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">func</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1269" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_Call(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">func</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Call a BDOS function</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">func<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Function number</p></td></tr></table></div>
 </div>
 
-<a name="DOS_Exit0"></a><a name="Topic454"></a><div class="CTopic TFunction LC">
+<a name="DOS_Exit0"></a><a name="Topic1270"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Exit0</div>
- <div id="NDPrototype454" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DOS_Exit0()</div></div>
+ <div id="NDPrototype1270" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> DOS_Exit0()</div></div>
  <div class="CBody"><p>Exit program and return to DOS</p><p>Wrapper for MSX-DOS's TERM0 routine (0x00) When this is called in MSX-DOS, the system is reset by jumping to 0000H.&nbsp; When MSX DISK-BASIC call this, it is “warm started”.&nbsp; That is, it returns to BASIC command level without destroying programs currently loaded.&nbsp; With MSX-DOS 2, this function terminates program with a zero return code.</p></div>
 </div>
 
-<a name="MSX-DOS_1_Console_IO"></a><a name="Topic396"></a><div class="CTopic TGroup LC">
+<a name="MSX-DOS_1_Console_IO"></a><a name="Topic1271"></a><div class="CTopic TGroup LC">
  <div class="CTitle">MSX-DOS 1 Console IO</div>
 </div>
 
-<a name="DOS_CharInput"></a><a name="Topic455"></a><div class="CTopic TFunction LC">
+<a name="DOS_CharInput"></a><a name="Topic1272"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_CharInput</div>
- <div id="NDPrototype455" class="NDPrototype"><div class="PSection PPlainSection">c8 DOS_CharInput()</div></div>
+ <div id="NDPrototype1272" class="NDPrototype"><div class="PSection PPlainSection">c8 DOS_CharInput()</div></div>
  <div class="CBody"><p>Input character</p><p>Wrapper for MSX-DOS's CONIN routine (0x01) A character will be read from the standard input (file handle 0 - usually the keyboard) and echoed to the standard output (file handle 1 - usually the screen).&nbsp; If no character is ready then this function will wait for one.&nbsp; Various control characters, as specified for the &quot;console status&quot; function (function 0Bh), will be trapped by this function for various control purposes.&nbsp; If one of these characters is detected then it will be processed and this function will wait for another character.&nbsp; Thus these characters will never be returned to the user by this function.</p><div class="CHeading">Return</div><p>Character from keyboard</p></div>
 </div>
 
-<a name="DOS_CharOutput"></a><a name="Topic456"></a><div class="CTopic TFunction LC">
+<a name="DOS_CharOutput"></a><a name="Topic1273"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_CharOutput</div>
- <div id="NDPrototype456" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_CharOutput(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">c8&nbsp;</td><td class="PName last">chr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1273" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_CharOutput(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">c8&nbsp;</td><td class="PName last">chr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Output character</p><p>Wrapper for MSX-DOS's CONOUT routine (0x02) The character passed in register E is written to the standard output (file handle 1 - usually the screen).&nbsp; If printer echo is enabled then the character is also written to the printer.&nbsp; Various control codes and escape sequences are interpreted as screen control codes.&nbsp; A list of these is included in the &quot;Program Interface Specification&quot;, they are a sub-set of the standard VT-52 control codes.&nbsp; TABs will be expanded to every eighth column.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">chr<div class="CDLParameterType">c8</div></td><td class="CDLDefinition"><p>Character to be output</p></td></tr></table></div>
 </div>
 
-<a name="DOS_StringOutput"></a><a name="Topic415"></a><div class="CTopic TFunction LC">
+<a name="DOS_StringOutput"></a><a name="Topic1274"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_StringOutput</div>
- <div id="NDPrototype415" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_StringOutput(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">str</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1274" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_StringOutput(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">str</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>The characters of the string will be output. The string is terminated by &quot;$&quot; (ASCII 24h).</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">str<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Address of string</p></td></tr></table></div>
 </div>
 
-<a name="DOS_Beep"></a><a name="Topic416"></a><div class="CTopic TFunction LC">
+<a name="DOS_Beep"></a><a name="Topic1275"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Beep</div>
- <div id="NDPrototype416" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DOS_Beep()</div></div>
+ <div id="NDPrototype1275" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DOS_Beep()</div></div>
  <div class="CBody"><p>Play bip sound</p></div>
 </div>
 
-<a name="DOS_ClearScreen"></a><a name="Topic417"></a><div class="CTopic TFunction LC">
+<a name="DOS_ClearScreen"></a><a name="Topic1276"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_ClearScreen</div>
- <div id="NDPrototype417" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DOS_ClearScreen()</div></div>
+ <div id="NDPrototype1276" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DOS_ClearScreen()</div></div>
  <div class="CBody"><p>Clear console screen</p></div>
 </div>
 
-<a name="DOS_Return"></a><a name="Topic418"></a><div class="CTopic TFunction LC">
+<a name="DOS_Return"></a><a name="Topic1277"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Return</div>
- <div id="NDPrototype418" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DOS_Return()</div></div>
+ <div id="NDPrototype1277" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DOS_Return()</div></div>
  <div class="CBody"><p>Carriage return</p></div>
 </div>
 
-<a name="MSX-DOS_1_File_Handling"></a><a name="Topic419"></a><div class="CTopic TGroup LC">
+<a name="MSX-DOS_1_File_Handling"></a><a name="Topic1278"></a><div class="CTopic TGroup LC">
  <div class="CTitle">MSX-DOS 1 File Handling</div>
 </div>
 
-<a name="DOS_SetTransferAddr"></a><a name="Topic420"></a><div class="CTopic TFunction LC">
+<a name="DOS_SetTransferAddr"></a><a name="Topic1279"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_SetTransferAddr</div>
- <div id="NDPrototype420" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_SetTransferAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1279" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_SetTransferAddr(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set transfer address This function simply records the address passed in DE as the disk transfer address.&nbsp; This address will be used for all subsequent FCB read and write calls, for &quot;search for first&quot; and &quot;search for next&quot; calls to store the directory entry, and for absolute read and write calls.&nbsp; It is not used by the new MSX-DOS read and write functions. The address is set back to 80h by a DISK RESET call.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">data<div class="CDLParameterType"><span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Required Disk Transfer Address</p></td></tr></table></div>
 </div>
 
-<a name="DOS_GetFreeSpace"></a><a name="Topic375"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetFreeSpace"></a><a name="Topic1280"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetFreeSpace</div>
- <div id="NDPrototype375" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_GetFreeSpace(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">drive</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1280" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_GetFreeSpace(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">drive</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get free space on disk</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">drive<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Drive number (0 for current drive, 1 for A, 2 for B, ..., 8 for H)</p></td></tr></table><div class="CHeading">Return</div><p>Number of free sectors on the disk</p></div>
 </div>
 
-<a name="DOS_OpenFCB"></a><a name="Topic421"></a><div class="CTopic TFunction LC">
+<a name="DOS_OpenFCB"></a><a name="Topic1281"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_OpenFCB</div>
- <div id="NDPrototype421" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_OpenFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1281" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_OpenFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Open file The unopened FCB must contain a drive which may be zero to indicate the current drive and a filename and extension which may be ambiguous.&nbsp; The current directory of the specified drive will be searched for a matching file and if found it will be opened.&nbsp; Matching entries which are sub-directories or system files will be ignored, and if the filename is ambiguous then the first suitable matching entry will be opened.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stream<div class="CDLParameterType">DOS_FCB*</div></td><td class="CDLDefinition"><p>Pointer to unopened FCB</p></td></tr></table><div class="CHeading">Return</div><p>Error code (DOS_ERR_NONE if succeed)</p></div>
 </div>
 
-<a name="DOS_GetSizeFCB"></a><a name="Topic422"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetSizeFCB"></a><a name="Topic1282"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetSizeFCB</div>
- <div id="NDPrototype422" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetSizeFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1282" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetSizeFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get the size of an opened file</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stream<div class="CDLParameterType">DOS_FCB*</div></td><td class="CDLDefinition"><p>Pointer to unopened FCB</p></td></tr></table><div class="CHeading">Return</div><p>File size</p></div>
 </div>
 
-<a name="DOS_CloseFCB"></a><a name="Topic423"></a><div class="CTopic TFunction LC">
+<a name="DOS_CloseFCB"></a><a name="Topic1283"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_CloseFCB</div>
- <div id="NDPrototype423" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CloseFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1283" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CloseFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Close file</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stream<div class="CDLParameterType">DOS_FCB*</div></td><td class="CDLDefinition"><p>Pointer to unopened FCB</p></td></tr></table><div class="CHeading">Return</div><p>Error code (DOS_ERR_NONE if succeed)</p><div class="CHeading">Return</div><p>Error code (DOS_ERR_NONE if succeed)</p></div>
 </div>
 
-<a name="DOS_CreateFCB"></a><a name="Topic424"></a><div class="CTopic TFunction LC">
+<a name="DOS_CreateFCB"></a><a name="Topic1284"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_CreateFCB</div>
- <div id="NDPrototype424" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CreateFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1284" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CreateFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Create file</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stream<div class="CDLParameterType">DOS_FCB*</div></td><td class="CDLDefinition"><p>Pointer to unopened FCB</p></td></tr></table><div class="CHeading">Return</div><p>Error code (DOS_ERR_NONE if succeed)</p></div>
 </div>
 
-<a name="DOS_DeleteFCB"></a><a name="Topic665"></a><div class="CTopic TFunction LC">
+<a name="DOS_DeleteFCB"></a><a name="Topic1285"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_DeleteFCB</div>
- <div id="NDPrototype665" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_DeleteFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1285" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_DeleteFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Delete file</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stream<div class="CDLParameterType">DOS_FCB*</div></td><td class="CDLDefinition"><p>Pointer to opened FCB Return: Error code (DOS_ERR_NONE if succeed)</p></td></tr></table></div>
 </div>
 
-<a name="DOS_SequentialReadFCB"></a><a name="Topic425"></a><div class="CTopic TFunction LC">
+<a name="DOS_SequentialReadFCB"></a><a name="Topic1286"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_SequentialReadFCB</div>
- <div id="NDPrototype425" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SequentialReadFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1286" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SequentialReadFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Sequential read</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stream<div class="CDLParameterType">DOS_FCB*</div></td><td class="CDLDefinition"><p>Pointer to unopened FCB</p></td></tr></table><div class="CHeading">Return</div><p>Error code (DOS_ERR_NONE if succeed)</p></div>
 </div>
 
-<a name="DOS_SequentialWriteFCB"></a><a name="Topic426"></a><div class="CTopic TFunction LC">
+<a name="DOS_SequentialWriteFCB"></a><a name="Topic1287"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_SequentialWriteFCB</div>
- <div id="NDPrototype426" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SequentialWriteFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1287" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SequentialWriteFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Sequential write</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stream<div class="CDLParameterType">DOS_FCB*</div></td><td class="CDLDefinition"><p>Pointer to unopened FCB</p></td></tr></table><div class="CHeading">Return</div><p>Error code (DOS_ERR_NONE if succeed)</p></div>
 </div>
 
-<a name="DOS_RandomBlockWriteFCB"></a><a name="Topic427"></a><div class="CTopic TFunction LC">
+<a name="DOS_RandomBlockWriteFCB"></a><a name="Topic1288"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_RandomBlockWriteFCB</div>
- <div id="NDPrototype427" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_RandomBlockWriteFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">records</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1288" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_RandomBlockWriteFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">records</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Random block write</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stream<div class="CDLParameterType">DOS_FCB*</div></td><td class="CDLDefinition"><p>Pointer to unopened FCB</p></td></tr><tr><td class="CDLEntry">records<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Number of records to write</p></td></tr></table><div class="CHeading">Return</div><p>Error code (DOS_ERR_NONE if succeed)</p></div>
 </div>
 
-<a name="DOS_RandomBlockReadFCB"></a><a name="Topic428"></a><div class="CTopic TFunction LC">
+<a name="DOS_RandomBlockReadFCB"></a><a name="Topic1289"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_RandomBlockReadFCB</div>
- <div id="NDPrototype428" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_RandomBlockReadFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">records</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1289" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_RandomBlockReadFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">records</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Random block read</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stream<div class="CDLParameterType">DOS_FCB*</div></td><td class="CDLDefinition"><p>Pointer to unopened FCB</p></td></tr><tr><td class="CDLEntry">records<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Number of records to write</p></td></tr></table><div class="CHeading">Return</div><p>Number of records actually read</p></div>
 </div>
 
-<a name="DOS_FindFirstFileFCB"></a><a name="Topic429"></a><div class="CTopic TFunction LC">
+<a name="DOS_FindFirstFileFCB"></a><a name="Topic1290"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_FindFirstFileFCB</div>
- <div id="NDPrototype429" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_FindFirstFileFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1290" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_FindFirstFileFCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_FCB*&nbsp;</td><td class="PName last">stream</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Search the first file matched with wildcard</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">stream<div class="CDLParameterType">DOS_FCB*</div></td><td class="CDLDefinition"><p>Pointer to unopened FCB</p></td></tr></table><div class="CHeading">Return</div><p>Error code (DOS_ERR_NONE if succeed)</p></div>
 </div>
 
-<a name="DOS_FindNextFileFCB"></a><a name="Topic430"></a><div class="CTopic TFunction LC">
+<a name="DOS_FindNextFileFCB"></a><a name="Topic1291"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_FindNextFileFCB</div>
- <div id="NDPrototype430" class="NDPrototype"><div class="PSection PPlainSection">u8 DOS_FindNextFileFCB()</div></div>
+ <div id="NDPrototype1291" class="NDPrototype"><div class="PSection PPlainSection">u8 DOS_FindNextFileFCB()</div></div>
  <div class="CBody"><p>Search the second and after the second file matched wildcard</p><div class="CHeading">Return</div><p>Error code (DOS_ERR_NONE if succeed)</p></div>
 </div>
 
-<a name="MSX-DOS_1_Error_Handling"></a><a name="Topic682"></a><div class="CTopic TGroup LC">
+<a name="MSX-DOS_1_Error_Handling"></a><a name="Topic1292"></a><div class="CTopic TGroup LC">
  <div class="CTitle">MSX-DOS 1 Error Handling</div>
 </div>
 
-<a name="DOS_InstallErrorHandler"></a><a name="Topic683"></a><div class="CTopic TFunction LC">
+<a name="DOS_InstallErrorHandler"></a><a name="Topic1293"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_InstallErrorHandler</div>
- <div id="NDPrototype683" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_InstallErrorHandler(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">callback&nbsp;</td><td class="PName last">cb,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1293" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_InstallErrorHandler(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">callback&nbsp;</td><td class="PName last">cb,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Install the DOS error handler in RAM (page 3).</p><p>Error stored in C register must be or-ed with 7 for error code never been 0.&nbsp; Result must be store in g_DOS_LastError variable.&nbsp; Error handler must restore SP from g_DOS_ErrorStack, then pop IX before returning.</p><div class="CHeading">Example</div><pre class="CText">ld     a, c                    ; Get error code<br />or     a, #0x70                ; Add marker so 0 is no error<br />ld     (_g_DOS_LastError), a   ; Save the error code<br />ld     sp, (_g_DOS_ErrorStack) ; Restore stack pointer<br />pop    ix                      ; Restore C frame pointer<br />ret</pre><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">cb<div class="CDLParameterType">callback</div></td><td class="CDLDefinition"><p>Callback function address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Size of the callback to be installed in RAM</p></td></tr></table></div>
 </div>
 
-<a name="DOS_ResetLastError"></a><a name="Topic684"></a><div class="CTopic TFunction LC">
+<a name="DOS_ResetLastError"></a><a name="Topic1294"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_ResetLastError</div>
- <div id="NDPrototype684" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DOS_ResetLastError()</div></div>
+ <div id="NDPrototype1294" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> DOS_ResetLastError()</div></div>
  <div class="CBody"><p>Reset the last error code.&nbsp; Must be called before any MSX-DOS 1 function call when you want to check whether an error has occurred.</p></div>
 </div>
 
-<a name="MSX-DOS_1_Misc"></a><a name="Topic395"></a><div class="CTopic TGroup LC">
+<a name="MSX-DOS_1_Misc"></a><a name="Topic1295"></a><div class="CTopic TGroup LC">
  <div class="CTitle">MSX-DOS 1 Misc</div>
 </div>
 
-<a name="DOS_GetVersion"></a><a name="Topic1379"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetVersion"></a><a name="Topic1296"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetVersion</div>
- <div id="NDPrototype1379" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetVersion(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_Version*&nbsp;</td><td class="PName last">ver</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1296" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetVersion(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_Version*&nbsp;</td><td class="PName last">ver</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get MSX-DOS version number</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">ver<div class="CDLParameterType">DOS_Version*</div></td><td class="CDLDefinition"><p>Pointer to DOS_Version structure</p></td></tr></table><div class="CHeading">Return</div><p>High part of the MSX-DOS kernel version</p></div>
 </div>
 
-<a name="DOS_SelectDrive"></a><a name="Topic1380"></a><div class="CTopic TFunction LC">
+<a name="DOS_SelectDrive"></a><a name="Topic1297"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_SelectDrive</div>
- <div id="NDPrototype1380" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SelectDrive(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">drive</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1297" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SelectDrive(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">drive</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Select disk drive number</p><p>Wrapper for MSX-DOS's SELDSK routine (0x0E)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">drive<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Disk drive number (0 for A, 1 for B, ..., 7 for H)</p></td></tr></table><div class="CHeading">Return</div><p>Number of available drives</p></div>
 </div>
 
-<a name="DOS_SelectDriveLetter"></a><a name="Topic1381"></a><div class="CTopic TFunction LC">
+<a name="DOS_SelectDriveLetter"></a><a name="Topic1298"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_SelectDriveLetter</div>
- <div id="NDPrototype1381" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_SelectDriveLetter(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">c8&nbsp;</td><td class="PName last">drive</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1298" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_SelectDriveLetter(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">c8&nbsp;</td><td class="PName last">drive</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Select disk drive letter</p><p>Wrapper for MSX-DOS's SELDSK routine (0x0E)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">drive<div class="CDLParameterType">c8</div></td><td class="CDLDefinition"><p>Disk drive letter ('A', 'B', ..., 'H')</p></td></tr></table><div class="CHeading">Return</div><p>Number of available drives</p></div>
 </div>
 
-<a name="DOS_AvailableDrivers"></a><a name="Topic1382"></a><div class="CTopic TFunction LC">
+<a name="DOS_AvailableDrivers"></a><a name="Topic1299"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_AvailableDrivers</div>
  <div class="CBody"><p>Get a bit field of all available disk drives</p><p>Wrapper for MSX-DOS's LOGIN routine (0x18)</p><div class="CHeading">Return</div><p>Bit field of available drives (bit 0 for A, bit 1 for B, ..., bit 7 for H)</p></div>
 </div>
 
-<a name="DOS_GetCurrentDrive"></a><a name="Topic1393"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetCurrentDrive"></a><a name="Topic1300"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetCurrentDrive</div>
- <div id="NDPrototype1393" class="NDPrototype"><div class="PSection PPlainSection">u8 DOS_GetCurrentDrive()</div></div>
+ <div id="NDPrototype1300" class="NDPrototype"><div class="PSection PPlainSection">u8 DOS_GetCurrentDrive()</div></div>
  <div class="CBody"><p>Get current disk drive number</p><p>Wrapper for MSX-DOS's CDRV routine (0x19)</p><div class="CHeading">Return</div><p>Current drive number (0 for A, 1 for B, ..., 7 for H)</p></div>
 </div>
 
-<a name="DOS_GetCurrentDriveLetter"></a><a name="Topic1420"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetCurrentDriveLetter"></a><a name="Topic1301"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetCurrentDriveLetter</div>
- <div id="NDPrototype1420" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> c8 DOS_GetCurrentDriveLetter()</div></div>
+ <div id="NDPrototype1301" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> c8 DOS_GetCurrentDriveLetter()</div></div>
  <div class="CBody"><p>Get current disk drive letter</p><p>Wrapper for MSX-DOS's CDRV routine (0x19)</p><div class="CHeading">Return</div><p>Current drive letter ('A', 'B', ..., 'H')</p></div>
 </div>
 
-<a name="DOS_GetDiskInfo"></a><a name="Topic1421"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetDiskInfo"></a><a name="Topic1302"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetDiskInfo</div>
- <div id="NDPrototype1421" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_GetDiskInfo(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">drive,</td></tr><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1302" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_GetDiskInfo(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">drive,</td></tr><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get given disk information</p><p>Wrapper for MSX-DOS's ALLOC routine (0x1B)</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">drive<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Drive number (0 for current drive, 1 for A, 2 for B, ..., 8 for H)</p></td></tr><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure to receive the information</p></td></tr></table></div>
 </div>
 
-<a name="DOS_GetFreeClusters"></a><a name="Topic1444"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetFreeClusters"></a><a name="Topic1303"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetFreeClusters</div>
- <div id="NDPrototype1444" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 DOS_GetFreeClusters(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1303" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 DOS_GetFreeClusters(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Retreive number of free clusters from a disk information structure</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()</p></td></tr></table><div class="CHeading">Return</div><p>Number of free clusters</p></div>
 </div>
 
-<a name="DOS_GetFreeSectors"></a><a name="Topic1445"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetFreeSectors"></a><a name="Topic1304"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetFreeSectors</div>
- <div id="NDPrototype1445" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetFreeSectors(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1304" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetFreeSectors(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Retreive number of free sectors from a disk information structure</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()</p></td></tr></table><div class="CHeading">Return</div><p>Number of free sectors</p></div>
 </div>
 
-<a name="DOS_GetFreeBytes"></a><a name="Topic1446"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetFreeBytes"></a><a name="Topic1305"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetFreeBytes</div>
- <div id="NDPrototype1446" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetFreeBytes(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1305" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetFreeBytes(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Retreive number of free bytes from a disk information structure</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()</p></td></tr></table><div class="CHeading">Return</div><p>Number of free bytes</p></div>
 </div>
 
-<a name="DOS_GetTotalClusters"></a><a name="Topic1447"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetTotalClusters"></a><a name="Topic1306"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetTotalClusters</div>
- <div id="NDPrototype1447" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 DOS_GetTotalClusters(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1306" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 DOS_GetTotalClusters(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Retreive total number of clusters from a disk information structure</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()</p></td></tr></table><div class="CHeading">Return</div><p>Total number of clusters</p></div>
 </div>
 
-<a name="DOS_GetTotalSectors"></a><a name="Topic1448"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetTotalSectors"></a><a name="Topic1307"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetTotalSectors</div>
- <div id="NDPrototype1448" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetTotalSectors(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1307" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetTotalSectors(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Retreive total number of sectors from a disk information structure</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()</p></td></tr></table><div class="CHeading">Return</div><p>Total number of sectors</p></div>
 </div>
 
-<a name="DOS_GetTotalBytes"></a><a name="Topic1449"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetTotalBytes"></a><a name="Topic1308"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetTotalBytes</div>
- <div id="NDPrototype1449" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetTotalBytes(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1308" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u32 DOS_GetTotalBytes(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">DOS_DiskInfo*&nbsp;</td><td class="PName last">info</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Retreive total number of bytes from a disk information structure</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">info<div class="CDLParameterType">DOS_DiskInfo*</div></td><td class="CDLDefinition"><p>Pointer to DOS_DiskInfo structure initialized using DOS_GetDiskInfo()</p></td></tr></table><div class="CHeading">Return</div></div>
 </div>
 
-<a name="MSX-DOS_2_File_Handling"></a><a name="Topic431"></a><div class="CTopic TGroup LC">
+<a name="MSX-DOS_2_File_Handling"></a><a name="Topic1309"></a><div class="CTopic TGroup LC">
  <div class="CTitle">MSX-DOS 2 File Handling</div>
 </div>
 
-<a name="DOS_OpenHandle"></a><a name="Topic434"></a><div class="CTopic TFunction LC">
+<a name="DOS_OpenHandle"></a><a name="Topic1310"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_OpenHandle</div>
- <div id="NDPrototype434" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_OpenHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1310" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_OpenHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Open file handle</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string</p></td></tr><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Open mode</p></td></tr></table><pre class="CText">O_RDONLY     Open file for reading only<br />O_WRONLY     Open file for writing only<br />O_RDWR       Open file for reading and writing<br />O_INHERIT</pre><div class="CHeading">Return</div><p>New file handle</p></div>
 </div>
 
-<a name="DOS_CreateHandle"></a><a name="Topic477"></a><div class="CTopic TFunction LC">
+<a name="DOS_CreateHandle"></a><a name="Topic1311"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_CreateHandle</div>
- <div id="NDPrototype477" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CreateHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">mode,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1311" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CreateHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">mode,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Create file handle</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string</p></td></tr><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Open mode</p></td></tr></table><pre class="CText">O_RDONLY     Open file for reading only<br />O_WRONLY     Open file for writing only<br />O_RDWR       Open file for reading and writing<br />O_INHERIT</pre><p>attr - Required attributes</p><div class="CHeading">Return</div><p>New file handle</p></div>
 </div>
 
-<a name="DOS_CloseHandle"></a><a name="Topic577"></a><div class="CTopic TFunction LC">
+<a name="DOS_CloseHandle"></a><a name="Topic1312"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_CloseHandle</div>
- <div id="NDPrototype577" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CloseHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1312" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_CloseHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Close file handle</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">file<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>File handle</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_EnsureHandle"></a><a name="Topic578"></a><div class="CTopic TFunction LC">
+<a name="DOS_EnsureHandle"></a><a name="Topic1313"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_EnsureHandle</div>
- <div id="NDPrototype578" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_EnsureHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1313" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_EnsureHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Ensure file handle</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">file<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>File handle</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_DuplicateHandle"></a><a name="Topic580"></a><div class="CTopic TFunction LC">
+<a name="DOS_DuplicateHandle"></a><a name="Topic1314"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_DuplicateHandle</div>
- <div id="NDPrototype580" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_DuplicateHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1314" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_DuplicateHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Duplicate file handle</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">file<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>File handle</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_ReadHandle"></a><a name="Topic846"></a><div class="CTopic TFunction LC">
+<a name="DOS_ReadHandle"></a><a name="Topic1315"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_ReadHandle</div>
- <div id="NDPrototype846" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_ReadHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">buffer,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1315" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_ReadHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">buffer,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Read from file handle</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">file<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>File handle</p></td></tr><tr><td class="CDLEntry">buffer<div class="CDLParameterType"><span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Buffer address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Number of bytes to read</p></td></tr></table><div class="CHeading">Return</div><p>Number of bytes actually read</p></div>
 </div>
 
-<a name="DOS_WriteHandle"></a><a name="Topic847"></a><div class="CTopic TFunction LC">
+<a name="DOS_WriteHandle"></a><a name="Topic1316"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_WriteHandle</div>
- <div id="NDPrototype847" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_WriteHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">buffer,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1316" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u16 DOS_WriteHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">buffer,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">size</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Write to file handle</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">file<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>File handle</p></td></tr><tr><td class="CDLEntry">buffer<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Buffer address</p></td></tr><tr><td class="CDLEntry">size<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Number of bytes to read</p></td></tr></table><div class="CHeading">Return</div><p>Number of bytes actually written</p></div>
 </div>
 
-<a name="DOS_SeekHandle"></a><a name="Topic92"></a><div class="CTopic TFunction LC">
+<a name="DOS_SeekHandle"></a><a name="Topic1317"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_SeekHandle</div>
- <div id="NDPrototype92" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u32 DOS_SeekHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PType first">i32&nbsp;</td><td class="PName last">offset,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">) __CALLEE</td></tr></table></div></div>
+ <div id="NDPrototype1317" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u32 DOS_SeekHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PType first">i32&nbsp;</td><td class="PName last">offset,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">) __CALLEE</td></tr></table></div></div>
  <div class="CBody"><p>Move file handle pointer</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">file<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>File handle</p></td></tr><tr><td class="CDLEntry">offset<div class="CDLParameterType">i32</div></td><td class="CDLDefinition"><p>Signed offset</p></td></tr><tr><td class="CDLEntry">mode<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Method code</p></td></tr></table><pre class="CText">SEEK_SET     Relative to the beginning of the file<br />SEEK_CUR     Relative to the current position<br />SEEK_END     Relative to the end of the file</pre><div class="CHeading">Return</div><p>New file pointer</p></div>
 </div>
 
-<a name="DOS_DeleteHandle"></a><a name="Topic849"></a><div class="CTopic TFunction LC">
+<a name="DOS_DeleteHandle"></a><a name="Topic1318"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_DeleteHandle</div>
- <div id="NDPrototype849" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_DeleteHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1318" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_DeleteHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Delete file or subdirectory</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">file<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>File handle</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_RenameHandle"></a><a name="Topic851"></a><div class="CTopic TFunction LC">
+<a name="DOS_RenameHandle"></a><a name="Topic1319"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_RenameHandle</div>
- <div id="NDPrototype851" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_RenameHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1319" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_RenameHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Rename file or subdirectory</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">file<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>File handle</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_MoveHandle"></a><a name="Topic852"></a><div class="CTopic TFunction LC">
+<a name="DOS_MoveHandle"></a><a name="Topic1320"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_MoveHandle</div>
- <div id="NDPrototype852" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_MoveHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1320" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_MoveHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Move the file associated with the specified file handle to the directory specified by the new path string.&nbsp; A file handle cannot be moved if there are any other separately opened file handles for this file (&quot;.FOPEN&quot; error), although it can be moved if there are copies of this file handle, and in this case the copies will also be moved.&nbsp; Moving a file handle will not alter the file pointer but it will do an implicit &quot;ensure&quot; operation.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">file<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>File handle</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_SetAttributeHandle"></a><a name="Topic853"></a><div class="CTopic TFunction LC">
+<a name="DOS_SetAttributeHandle"></a><a name="Topic1321"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_SetAttributeHandle</div>
- <div id="NDPrototype853" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SetAttributeHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1321" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SetAttributeHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the attributes byte of the file associated with the specified file handle.&nbsp; A file handle cannot have its attributes changed (although they can be read) if there are any other separately opened file handles for this file (&quot;.FOPEN&quot; error).&nbsp; The file pointer will not be altered but an implicit &quot;ensure&quot; operation will be done.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">file<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>File handle</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_GetAttributeHandle"></a><a name="Topic854"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetAttributeHandle"></a><a name="Topic1322"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetAttributeHandle</div>
- <div id="NDPrototype854" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetAttributeHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1322" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetAttributeHandle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">file</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get the attributes byte of the file associated with the specified file handle.&nbsp; A file handle cannot have its attributes changed (although they can be read) if there are any other separately opened file handles for this file (&quot;.FOPEN&quot; error).&nbsp; The file pointer will not be altered but an implicit &quot;ensure&quot; operation will be done.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">file<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>File handle</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="MSX-DOS_2_Core"></a><a name="Topic855"></a><div class="CTopic TGroup LC">
+<a name="MSX-DOS_2_Core"></a><a name="Topic1323"></a><div class="CTopic TGroup LC">
  <div class="CTitle">MSX-DOS 2 Core</div>
 </div>
 
-<a name="DOS_GetDiskParam"></a><a name="Topic856"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetDiskParam"></a><a name="Topic1324"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetDiskParam</div>
- <div id="NDPrototype856" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetDiskParam(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">drv,</td></tr><tr><td class="PType first">DOS_DiskParam*&nbsp;</td><td class="PName last">param</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1324" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetDiskParam(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">drv,</td></tr><tr><td class="PType first">DOS_DiskParam*&nbsp;</td><td class="PName last">param</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get disk parameters</p></div>
 </div>
 
-<a name="DOS_Exit"></a><a name="Topic857"></a><div class="CTopic TFunction LC">
+<a name="DOS_Exit"></a><a name="Topic1325"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Exit</div>
- <div id="NDPrototype857" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_Exit(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">err</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1325" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_Exit(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">err</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Terminate with error code</p></div>
 </div>
 
-<a name="DOS_Explain"></a><a name="Topic858"></a><div class="CTopic TFunction LC">
+<a name="DOS_Explain"></a><a name="Topic1326"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Explain</div>
- <div id="NDPrototype858" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_Explain(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">err,</td></tr><tr><td class="PType first">c8*&nbsp;</td><td class="PName last">str</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1326" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_Explain(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">err,</td></tr><tr><td class="PType first">c8*&nbsp;</td><td class="PName last">str</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Explain error code</p></div>
 </div>
 
-<a name="DOS_GetLastError"></a><a name="Topic859"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetLastError"></a><a name="Topic1327"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetLastError</div>
- <div id="NDPrototype859" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 DOS_GetLastError()</div></div>
+ <div id="NDPrototype1327" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 DOS_GetLastError()</div></div>
  <div class="CBody"><p>Get last error code</p></div>
 </div>
 
-<a name="MSX-DOS_2_Utilities"></a><a name="Topic860"></a><div class="CTopic TGroup LC">
+<a name="MSX-DOS_2_Utilities"></a><a name="Topic1328"></a><div class="CTopic TGroup LC">
  <div class="CTitle">MSX-DOS 2 Utilities</div>
 </div>
 
-<a name="DOS_FindFirstEntry"></a><a name="Topic861"></a><div class="CTopic TFunction LC">
+<a name="DOS_FindFirstEntry"></a><a name="Topic1329"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_FindFirstEntry</div>
- <div id="NDPrototype861" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">DOS_FIB* DOS_FindFirstEntry(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">filename,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1329" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">DOS_FIB* DOS_FindFirstEntry(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">filename,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Find first entry</p></div>
 </div>
 
-<a name="DOS_FindNextEntry"></a><a name="Topic862"></a><div class="CTopic TFunction LC">
+<a name="DOS_FindNextEntry"></a><a name="Topic1330"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_FindNextEntry</div>
- <div id="NDPrototype862" class="NDPrototype"><div class="PSection PPlainSection">DOS_FIB* DOS_FindNextEntry()</div></div>
+ <div id="NDPrototype1330" class="NDPrototype"><div class="PSection PPlainSection">DOS_FIB* DOS_FindNextEntry()</div></div>
  <div class="CBody"><p>Find next entry</p></div>
 </div>
 
-<a name="DOS_GetLastFileInfo"></a><a name="Topic863"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetLastFileInfo"></a><a name="Topic1331"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetLastFileInfo</div>
- <div id="NDPrototype863" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> DOS_FIB* DOS_GetLastFileInfo()</div></div>
+ <div id="NDPrototype1331" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> DOS_FIB* DOS_GetLastFileInfo()</div></div>
  <div class="CBody"><p>Get last file info</p></div>
 </div>
 
-<a name="DOS_GetFileYear"></a><a name="Topic864"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetFileYear"></a><a name="Topic1332"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetFileYear</div>
- <div id="NDPrototype864" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 DOS_GetFileYear(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">DOS_FIB*&nbsp;</td><td class="PName last">fib</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1332" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 DOS_GetFileYear(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">DOS_FIB*&nbsp;</td><td class="PName last">fib</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get last error code</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">fib<div class="CDLParameterType"><span class="SHKeyword">const</span> DOS_FIB*</div></td><td class="CDLDefinition"><p>Pointer to File Info Block structure</p></td></tr></table><div class="CHeading">Return</div><p>Year (from 1980)</p></div>
 </div>
 
-<a name="DOS_GetFileMonth"></a><a name="Topic865"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetFileMonth"></a><a name="Topic1333"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetFileMonth</div>
- <div id="NDPrototype865" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetFileMonth(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">DOS_FIB*&nbsp;</td><td class="PName last">fib</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1333" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetFileMonth(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">DOS_FIB*&nbsp;</td><td class="PName last">fib</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get last error code</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">fib<div class="CDLParameterType"><span class="SHKeyword">const</span> DOS_FIB*</div></td><td class="CDLDefinition"><p>Pointer to File Info Block structure</p></td></tr></table><div class="CHeading">Return</div><p>Month number</p></div>
 </div>
 
-<a name="DOS_GetFileDay"></a><a name="Topic866"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetFileDay"></a><a name="Topic1334"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetFileDay</div>
- <div id="NDPrototype866" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetFileDay(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">DOS_FIB*&nbsp;</td><td class="PName last">fib</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1334" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetFileDay(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">DOS_FIB*&nbsp;</td><td class="PName last">fib</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get last error code</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">fib<div class="CDLParameterType"><span class="SHKeyword">const</span> DOS_FIB*</div></td><td class="CDLDefinition"><p>Pointer to File Info Block structure</p></td></tr></table><div class="CHeading">Return</div><p>Day number</p></div>
 </div>
 
-<a name="DOS_GetFileHour"></a><a name="Topic867"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetFileHour"></a><a name="Topic1335"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetFileHour</div>
- <div id="NDPrototype867" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetFileHour(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">DOS_FIB*&nbsp;</td><td class="PName last">fib</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1335" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetFileHour(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">DOS_FIB*&nbsp;</td><td class="PName last">fib</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get last error code</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">fib<div class="CDLParameterType"><span class="SHKeyword">const</span> DOS_FIB*</div></td><td class="CDLDefinition"><p>Pointer to File Info Block structure</p></td></tr></table><div class="CHeading">Return</div><p>Hours</p></div>
 </div>
 
-<a name="DOS_GetFileMinute"></a><a name="Topic868"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetFileMinute"></a><a name="Topic1336"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetFileMinute</div>
- <div id="NDPrototype868" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetFileMinute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">DOS_FIB*&nbsp;</td><td class="PName last">fib</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1336" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetFileMinute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">DOS_FIB*&nbsp;</td><td class="PName last">fib</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get last error code</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">fib<div class="CDLParameterType"><span class="SHKeyword">const</span> DOS_FIB*</div></td><td class="CDLDefinition"><p>Pointer to File Info Block structure</p></td></tr></table><div class="CHeading">Return</div><p>Minutes</p></div>
 </div>
 
-<a name="DOS_GetFileSecond"></a><a name="Topic869"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetFileSecond"></a><a name="Topic1337"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetFileSecond</div>
- <div id="NDPrototype869" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetFileSecond(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">DOS_FIB*&nbsp;</td><td class="PName last">fib</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1337" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetFileSecond(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">DOS_FIB*&nbsp;</td><td class="PName last">fib</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get last error code</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">fib<div class="CDLParameterType"><span class="SHKeyword">const</span> DOS_FIB*</div></td><td class="CDLDefinition"><p>Pointer to File Info Block structure</p></td></tr></table><div class="CHeading">Return</div><p>Seconds</p></div>
 </div>
 
-<a name="DOS_Delete"></a><a name="Topic391"></a><div class="CTopic TFunction LC">
+<a name="DOS_Delete"></a><a name="Topic1338"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Delete</div>
- <div id="NDPrototype391" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Delete(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1338" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Delete(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Delete file or subdirectory</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string or fileinfo block pointer</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_Rename"></a><a name="Topic392"></a><div class="CTopic TFunction LC">
+<a name="DOS_Rename"></a><a name="Topic1339"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Rename</div>
- <div id="NDPrototype392" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Rename(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1339" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Rename(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Rename file or subdirectory</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string or fileinfo block pointer</p></td></tr><tr><td class="CDLEntry">newPath<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>New filename ASCIIZ string</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_Move"></a><a name="Topic595"></a><div class="CTopic TFunction LC">
+<a name="DOS_Move"></a><a name="Topic1340"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_Move</div>
- <div id="NDPrototype595" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Move(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1340" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_Move(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">newPath</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Move file or subdirectory</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string or fileinfo block pointer</p></td></tr><tr><td class="CDLEntry">newPath<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>New filename ASCIIZ string</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_SetAttribute"></a><a name="Topic612"></a><div class="CTopic TFunction LC">
+<a name="DOS_SetAttribute"></a><a name="Topic1341"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_SetAttribute</div>
- <div id="NDPrototype612" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SetAttribute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1341" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_SetAttribute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path,</td></tr><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">attr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set file attributes</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string or fileinfo block pointer</p></td></tr><tr><td class="CDLEntry">attr<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>New attributes byte</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_GetAttribute"></a><a name="Topic930"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetAttribute"></a><a name="Topic1342"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetAttribute</div>
- <div id="NDPrototype930" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetAttribute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1342" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetAttribute(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get file attributes</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string or fileinfo block pointer</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_GetDirectory"></a><a name="Topic931"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetDirectory"></a><a name="Topic1343"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetDirectory</div>
- <div id="NDPrototype931" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetDirectory(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">drive,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1343" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_GetDirectory(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="first"></td><td class="PType">u8&nbsp;</td><td class="PName last">drive,</td></tr><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get current directory</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">drive<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Drive number</p></td></tr><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Pointer to 64 byte buffer (Filled in with current path after call)</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_GetCurrentDiskDirectory"></a><a name="Topic932"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetCurrentDiskDirectory"></a><a name="Topic1344"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetCurrentDiskDirectory</div>
- <div id="NDPrototype932" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetCurrentDiskDirectory(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1344" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 DOS_GetCurrentDiskDirectory(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Get directory in the current drive</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Pointer to 64 byte buffer (Filled in with current path after call)</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_ChangeDirectory"></a><a name="Topic933"></a><div class="CTopic TFunction LC">
+<a name="DOS_ChangeDirectory"></a><a name="Topic1345"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_ChangeDirectory</div>
- <div id="NDPrototype933" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_ChangeDirectory(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1345" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_ChangeDirectory(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">c8*&nbsp;</td><td class="PName last">path</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Change current directory</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">path<div class="CDLParameterType"><span class="SHKeyword">const</span> c8*</div></td><td class="CDLDefinition"><p>Drive/path/file ASCIIZ string</p></td></tr></table><div class="CHeading">Return</div><p>Error code</p></div>
 </div>
 
-<a name="DOS_GetTime"></a><a name="Topic934"></a><div class="CTopic TFunction LC">
+<a name="DOS_GetTime"></a><a name="Topic1346"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_GetTime</div>
- <div id="NDPrototype934" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">const</span> DOS_Time* DOS_GetTime()</div></div>
+ <div id="NDPrototype1346" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">const</span> DOS_Time* DOS_GetTime()</div></div>
  <div class="CBody"><p>Get current date and time</p></div>
 </div>
 
-<a name="BIOS"></a><a name="Topic685"></a><div class="CTopic TGroup LC">
+<a name="BIOS"></a><a name="Topic1347"></a><div class="CTopic TGroup LC">
  <div class="CTitle">BIOS</div>
 </div>
 
-<a name="DOS_InterSlotRead"></a><a name="Topic691"></a><div class="CTopic TFunction LC">
+<a name="DOS_InterSlotRead"></a><a name="Topic1348"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_InterSlotRead</div>
- <div id="NDPrototype691" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_InterSlotRead(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1348" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 DOS_InterSlotRead(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Reads the value of an address in another slot</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">slot<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Slot-ID</p></td></tr><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to read</p></td></tr></table><div class="CHeading">Return</div><p>Contains the value of the read address</p></div>
 </div>
 
-<a name="DOS_InterSlotWrite"></a><a name="Topic397"></a><div class="CTopic TFunction LC">
+<a name="DOS_InterSlotWrite"></a><a name="Topic1349"></a><div class="CTopic TFunction LC">
  <div class="CTitle">DOS_InterSlotWrite</div>
- <div id="NDPrototype397" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_InterSlotWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1349" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_InterSlotWrite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">value</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Writes a value to an address in another slot</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">slot<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Slot-ID</p></td></tr><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to write</p></td></tr><tr><td class="CDLEntry">value<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Value to write</p></td></tr></table></div>
 </div>
 
-<a name="DOS_InterSlotCall"></a><a name="Topic398"></a><div class="CTopic TFunction LC last">
+<a name="DOS_InterSlotCall"></a><a name="Topic1350"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">DOS_InterSlotCall</div>
- <div id="NDPrototype398" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_InterSlotCall(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div id="NDPrototype1350" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> DOS_InterSlotCall(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">slot,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">addr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Executes inter-slot call.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">slot<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Slot-ID</p></td></tr><tr><td class="CDLEntry">addr<div class="CDLParameterType">u16</div></td><td class="CDLDefinition"><p>Address to call</p></td></tr></table></div>
 </div>
 

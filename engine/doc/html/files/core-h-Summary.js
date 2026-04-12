@@ -1,1 +1,1 @@
-﻿NDFramePage.OnPageTitleLoaded("File:core.h","core.h");NDSummary.OnSummaryLoaded("File:core.h",[["C/C++","C"]],[["Groups","Group"],["Macros","Macro"]],[[921,0,0,"Macros","Macros"],[922,0,1,"VERSION","VERSION"]]);
+﻿NDFramePage.OnPageTitleLoaded("File:core.h","core.h");NDSummary.OnSummaryLoaded("File:core.h",[["C/C++","C"]],[["Groups","Group"],["Macros","Macro"]],[[1371,0,0,"Macros","Macros"],[1372,0,1,"VERSION","VERSION"]]);
