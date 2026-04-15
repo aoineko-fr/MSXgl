@@ -696,7 +696,7 @@ if (DoPackage)
 			hexFile += ` -r ${raw.offset} ${raw.file}`;
 
 		fs.writeFileSync(`${OutDir}msxhex.txt`, hexFile);
-		H2BParam += `-f ${OutDir}msxhex.txt`;
+		H2BParam += ` -f ${OutDir}msxhex.txt`;
 	}
 	
 	// Execute MSXhex
