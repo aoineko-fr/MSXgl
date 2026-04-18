@@ -7,6 +7,7 @@
 *.cdb
 *.code-workspace
 out
+tmp
 test
 testcases
 bin

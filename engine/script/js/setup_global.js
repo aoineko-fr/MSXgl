@@ -509,7 +509,10 @@ global.EmulPortB = "";
 //-------------------------------------------------------------------------------
 // Run device options
 
-//-- Run device like 'RISKY MSX' or 'Easy-USB' (string)
+//-- Run device on which to execute the program (string)
+//   - Easy-USB
+//   - RISKY MSX
+//   - PICOVERSE 2040
 global.RunDevice = "";
 
 //-- Run device option (string)

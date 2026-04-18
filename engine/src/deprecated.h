@@ -38,6 +38,8 @@
 #define JOY_INPUT_DIR_UP_RIGTH		JOY_INPUT_DIR_UP_RIGHT
 #define JOY_INPUT_DIR_DOWN_RIGTH	JOY_INPUT_DIR_DOWN_RIGHT
 #define Joystick_GetTrigger			Joystick_IsButtonPressed
+#define INPUT_PORT_1				INPUT_PORT1
+#define INPUT_PORT_2				INPUT_PORT2
 
 // Compress module
 #define ZX0_Unpack					ZX0_UnpackToRAM
