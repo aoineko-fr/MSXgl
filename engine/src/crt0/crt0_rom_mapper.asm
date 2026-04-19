@@ -55,6 +55,9 @@ crt0_init:
 	ld		hl, #s__HEAP
 	ld		(#_g_HeapStartAddress), hl
 
+	; Initialize globals
+	INIT_GLOBALS
+
 	; Set Page 2 slot equal to Page 1 slot
 	INIT_P1_TO_P2
 	
@@ -63,9 +66,6 @@ crt0_init:
 
 	; Initialize ROM mapper segment
 	INIT_MAPPER
-
-	; Initialize globals
-	INIT_GLOBALS
 
 crt0_start:
 	; start main() function

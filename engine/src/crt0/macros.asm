@@ -187,6 +187,10 @@
 ;------------------------------------------------------------------------------
 .macro INIT_P1_TO_P02
 
+	; Backup Page 0 (Main-ROM) information
+	BACKUP_ROMINFO
+
+	; Call event before BIOS release
 	ON_BIOS_RELEASE
 
 	crt0_p1_to_p02::
@@ -242,6 +246,10 @@
 ;------------------------------------------------------------------------------
 .macro INIT_P3_TO_P0
 
+	; Backup Page 0 (Main-ROM) information
+	BACKUP_ROMINFO
+
+	; Call event before BIOS release
 	ON_BIOS_RELEASE
 
 	crt0_p3_to_p0::
@@ -720,10 +728,6 @@
 	.ifne ROM_RAMISR-RAM0_NONE
 
 	crt0_select_ram::
-
-	; Backup Page 0 (Main-ROM) information
-		BACKUP_ROMINFO
-
 		jp		crt0_interrupt_end
 
 	; ISR

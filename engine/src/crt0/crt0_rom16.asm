@@ -55,12 +55,12 @@ crt0_init:
 	ld		hl, #s__HEAP
 	ld		(#_g_HeapStartAddress), hl
 
-	; Install ISR in RAM (if ROM_RAMISR is set)
-	INSTALL_RAM_ISR
-
 	; Initialize globals
 	INIT_GLOBALS
 	
+	; Install ISR in RAM (if ROM_RAMISR is set)
+	INSTALL_RAM_ISR
+
 crt0_start:
 	; start main() function
 	ei
