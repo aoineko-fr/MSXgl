@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------
 // DEFINES
 
-const char* VERSION = "1.4.3";
+const char* VERSION = "1.4.5";
 
 #define BUFFER_SIZE 1024
 
@@ -86,6 +86,8 @@ bool					g_AddDefine = false;
 bool					g_AddSize = false;
 ADDR_OFFSET				g_Address = ADDR_NONE;
 bool					g_Decoration = true;
+bool					g_Date = true;
+std::string				g_CopyFile;
 
 // Globals
 bool					g_NewLine;
@@ -344,18 +346,35 @@ i32 Export()
 	// License
 	AddComment(strData, StringFormat("MSXbin %s by Guillaume \"Aoineko\" Blanchard (2022) under CC BY-SA free license", VERSION));
 	// Date
-	std::time_t result = std::time(nullptr);
-	char* ltime = std::asctime(std::localtime(&result));
-	ltime[strlen(ltime)-1] = 0; // remove final '\n'
-	AddComment(strData, StringFormat("File generated on %s", ltime));
+	if (g_Date)
+	{
+		std::time_t result = std::time(nullptr);
+		char* ltime = std::asctime(std::localtime(&result));
+		ltime[strlen(ltime) - 1] = 0; // remove final '\n'
+		AddComment(strData, StringFormat("File generated on %s", ltime));
+	}
 	// Source
 	AddComment(strData, StringFormat("Soure file: %s", g_InputFile.c_str()));
+	// Add copyright information
+	if (!g_CopyFile.empty())
+	{
+		AddComment(strData, u8"─────────────────────────────────────────────────────────────────────────────");
+		std::ifstream file(g_CopyFile);
+		std::string strLine;
+		while (std::getline(file, strLine))
+		{
+			AddComment(strData, strLine);
+		}
+		file.close();
+		AddComment(strData, u8"─────────────────────────────────────────────────────────────────────────────");
+	}
+	// Skip information
 	for (u32 i = 0; i < g_Skip.size(); i++)
 	{
 		if(i == 0)
 			AddComment(strData, StringFormat("Skip areas: from=%i size=%i", g_Skip[i].From, g_Skip[i].Size));
 		else
-			AddComment(strData, StringFormat("          : from=%i size=%i", g_Skip[i].From, g_Skip[i].Size));
+			AddComment(strData, StringFormat("            from=%i size=%i", g_Skip[i].From, g_Skip[i].Size));
 	}
 
 	if (g_PT3)
@@ -504,6 +523,8 @@ void PrintHelp()
 	printf("  -def			Add define before data structure (only for C language. default: false)\n");
 	printf("  -size			Add size define after data structure (only for C language. default: false)\n");
 	printf("  -nodeco       Don't display header decoration (default: false)\n");
+	printf("  -nodate       Don't display generation date (default: false)\n");
+	printf("  -copy file    Add copyright information from text file\n");
 	printf("  -help         Display this help\n");
 }
 
@@ -615,7 +636,31 @@ int main(int argc, const char* argv[])
 		}
 		// No decoraction
 		else if (MSX::StrEqual(argv[i], "-nodeco"))
+		{
 			g_Decoration = false;
+		}
+		// No date
+		else if (MSX::StrEqual(argv[i], "-nodate"))
+		{
+			g_Date = false;
+		}
+		// Copyright file
+		else if (MSX::StrEqual(argv[i], "-copy"))
+		{
+			if ((i < argc - 1) && *argv[i + 1] != '-')
+			{
+				g_CopyFile = argv[++i];
+			}
+			else
+			{
+				g_CopyFile = MSX::RemoveExt(g_InputFile) + ".txt";
+			}
+			if (!MSX::File::Exists(g_CopyFile))
+			{
+				printf("Error: Copyright file not found (%s)!\n", g_CopyFile.c_str());
+				return 1;
+			}
+		}
 	}
 
 	// Validate parameters

@@ -27,10 +27,8 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "0.1.13";
-
-#define BUFFER_SIZE 1024
-#define INVALID_ADDR 0xFFFF
+#define MSXHEX_VERSION	"1.0.0"
+#define INVALID_ADDR	0xFFFF
 
 // Record structure
 struct Record
@@ -88,23 +86,10 @@ enum LogType
 // VARIABLES
 //=============================================================================
 
-// Configuration
-std::string          g_InputFile;
-std::string          g_OutputFile;
-std::string          g_OutputExt;
-u8                   g_Log = Log_Verbose;
-bool                 g_Check = false;
-u32                  g_StartAddress = 0;
-u32                  g_DataSize = 0;
-u32                  g_BankSize = 0;
-std::vector<u8>      g_BinData;
-std::vector<bool>    g_BinCheck;
-u8                   g_Padding = 0xFF;
-std::vector<Segment> g_SegmentInfo;
-std::vector<RawData> g_RawData;
-std::vector<u32>     g_SegException;
+const char* VERSION = MSXHEX_VERSION;
 
-std::map<c8, u8> g_HexaMap = {
+// Hexadecimal character mapping
+const std::map<c8, u8> g_HexaMap = {
 	{ '0', 0 },
 	{ '1', 1 },
 	{ '2', 2 },
@@ -123,7 +108,8 @@ std::map<c8, u8> g_HexaMap = {
 	{ 'F', 15 },
 };
 
-std::map<const c8*, u32> g_NamedValue = {
+// Named values
+const std::map<const c8*, u32> g_NamedValue = {
 	{ "1K",   1024 * 1 },
 	{ "2K",   1024 * 2 },
 	{ "4K",   1024 * 4 },
@@ -146,37 +132,57 @@ std::map<const c8*, u32> g_NamedValue = {
 };
 
 //=============================================================================
+// VARIABLES
+//=============================================================================
+
+// Configuration
+std::string          g_InputFile;
+std::string          g_OutputFile;
+std::string          g_OutputExt;
+u8                   g_Log = Log_Verbose;
+bool                 g_Check = false;
+u32                  g_StartAddress = 0;
+u32                  g_DataSize = 0;
+u32                  g_BankSize = 0;
+std::vector<u8>      g_BinData;
+std::vector<bool>    g_BinCheck;
+u8                   g_Padding = 0xFF;
+std::vector<Segment> g_SegmentInfo;
+std::vector<RawData> g_RawData;
+std::vector<u32>     g_SegException;
+
+//=============================================================================
 // FUNCTIONS
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// 
+// Get 8-bit unsigned integer
 const c8* GetU8(const c8* ptr, u8& byte)
 {
-	byte =  (1 << 4) * g_HexaMap[*ptr++];
-	byte += (1 << 0) * g_HexaMap[*ptr++];
+	byte =  (1 << 4) * g_HexaMap.at(*ptr++);
+	byte += (1 << 0) * g_HexaMap.at(*ptr++);
 	return ptr;
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Get 16-bit unsigned integer
 const c8* GetU16(const c8* ptr, u16& word)
 {
-	word =  (1 << 12) * g_HexaMap[*ptr++];
-	word += (1 << 8)  * g_HexaMap[*ptr++];
-	word += (1 << 4)  * g_HexaMap[*ptr++];
-	word += (1 << 0)  * g_HexaMap[*ptr++];
+	word =  (1 << 12) * g_HexaMap.at(*ptr++);
+	word += (1 << 8)  * g_HexaMap.at(*ptr++);
+	word += (1 << 4)  * g_HexaMap.at(*ptr++);
+	word += (1 << 0)  * g_HexaMap.at(*ptr++);
 	return ptr;
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Get named value
 u32 GetValue(std::string name)
 {
 	// Named value
-	for (std::map<const c8*, u32>::iterator it = g_NamedValue.begin(); it != g_NamedValue.end(); ++it)
-		if (MSX::StrEqual(name.c_str(), it->first))
-			return it->second;
+	std::map<const c8*, u32>::const_iterator it = g_NamedValue.find(name.c_str());
+	if (it != g_NamedValue.end())
+		return it->second;
 
 	// Hexadecimal
 	if ((name[0] == '0') && (name[1] == 'x'))	
@@ -184,6 +190,35 @@ u32 GetValue(std::string name)
 
 	// Decimal
 	return atol(name.c_str());
+}
+
+//-----------------------------------------------------------------------------
+// 
+bool IsSeparator(u8 a)
+{
+	return (a == ' ') || (a == '\t') || (a == '\n') || (a == '\r');
+}
+
+//-----------------------------------------------------------------------------
+// 
+void ExtractParameters(std::vector<u8>& data, std::vector<std::string>& params)
+{
+	std::string str;
+	for (u32 i = 0; i < data.size(); i++)
+	{
+		if (IsSeparator(data[i]))
+		{
+			if (!str.empty())
+			{
+				params.push_back(str);
+				str.clear();
+			}
+		}
+		else
+			str += data[i];
+	}
+	if (!str.empty())
+		params.push_back(str);
 }
 
 //-----------------------------------------------------------------------------
@@ -458,24 +493,25 @@ void PrintHelp()
 	printf("--------------------------------------------------------------------------------\n");
 	printf("Usage: msxhex <inputfile> [options]\n\n");
 	printf("Options:\n");
-	printf(" -o filename         Output filename (default: use input filename with '.bin')\n");
-	printf(" -e ext              Output filename extension (can't be use with -o)\n");
-	printf(" -s addr             Starting address (default: 0)\n");
-	printf(" -l length           Total data length (default: 0, means autodetect)\n");
-	printf(" -b length           Bank size (default: 0, means don't use)\n");
-	printf(" -p value            Pading value (default: 0xFF)\n");
-	printf(" -r offset file      Raw data 'file' to add at a given 'offset'\n");
-	printf(" --check             Validate each record using checksum\n");
-	printf(" --log               Log each record\n");
-	printf(" --segcheck          Check if segment size does not exceed the bank size\n");
-	printf(" --segexcept num     Don't report oversize for this segment (can be use more than once)\n");
-	printf(" --segaddr seg addr  Base address of the given segment (can be use more than once)\n");
-	printf("                     If no base address is supplied, autodetection is used.\n");
-	printf(" -help               Display this help\n");
+	printf(" -o <filename>           Output filename (default: use input filename with '.bin')\n");
+	printf(" -e <ext>                Output filename extension (can't be use with -o)\n");
+	printf(" -s <addr>               Starting address (default: 0)\n");
+	printf(" -l <length>             Total data length (default: 0, means autodetect)\n");
+	printf(" -b <length>             Bank size (default: 0, means don't use)\n");
+	printf(" -p <value>              Pading value (default: 0xFF)\n");
+	printf(" -r <offset> <file>      Raw data 'file' to add at a given 'offset'\n");
+	printf(" -f <file>               Additionnal parameters (text) file\n");
+	printf(" --check                 Validate each record using checksum\n");
+	printf(" --log                   Log each record\n");
+	printf(" --segcheck              Check if segment size does not exceed the bank size\n");
+	printf(" --segexcept <num>       Don't report oversize for this segment (can be use more than once)\n");
+	printf(" --segaddr <seg> <addr>  Base address of the given segment (can be use more than once)\n");
+	printf("                         If no base address is supplied, autodetection is used.\n");
+	printf(" -help                   Display this help\n");
 	printf("\n");
 	printf(" All integers can be decimal or hexadecimal starting with '0x'.\n");
 	printf(" One of the following named values can also be used:\n  ");
-	for (std::map<const c8*, u32>::iterator it = g_NamedValue.begin(); it != g_NamedValue.end(); ++it)
+	for (std::map<const c8*, u32>::const_iterator it = g_NamedValue.cbegin(); it != g_NamedValue.cend(); ++it)
 	{
 		printf("%s", it->first);
 		if(std::next(it) != g_NamedValue.end())
@@ -486,6 +522,7 @@ void PrintHelp()
 
 //-----------------------------------------------------------------------------
 //const char* ARGV[] = { "", "../testcases/s_swsprt.ihx", "-e", "rom", "-s", "0x4000", "-l", "131072", "-b", "8192", "--segaddr", "4", "0x0000"};
+//const char* ARGV[] = { "", "../testcases/s_swsprt.ihx", "-f", "../testcases/msxhex_paramst.txt"};
 //#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
@@ -516,72 +553,90 @@ int main(int argc, const char* argv[])
 
 	g_InputFile = argv[1];
 
-	// Parse command line parameters
+	std::vector<std::string> params;
 	for (i32 i = 2; i < argc; ++i)
+		params.push_back(argv[i]);
+
+	// Parse command line parameters
+	for (u32 i = 0; i < params.size(); i++)
 	{
 		// Output filename
-		if (MSX::StrEqual(argv[i], "-o"))
+		if (MSX::StdStrEqual(params[i], "-o"))
 		{
-			g_OutputFile = argv[++i];
+			g_OutputFile = params[++i];
 		}
 		// Output filename extension
-		else if (MSX::StrEqual(argv[i], "-e"))
+		else if (MSX::StdStrEqual(params[i], "-e"))
 		{
-			g_OutputExt = argv[++i];
+			g_OutputExt = params[++i];
 		}
 		// Starting address
-		else if (MSX::StrEqual(argv[i], "-s"))
+		else if (MSX::StdStrEqual(params[i], "-s"))
 		{
-			g_StartAddress = GetValue(argv[++i]);
+			g_StartAddress = GetValue(params[++i]);
 		}
 		// Total data length (size)
-		else if (MSX::StrEqual(argv[i], "-l"))
+		else if (MSX::StdStrEqual(params[i], "-l"))
 		{
-			g_DataSize = GetValue(argv[++i]);
+			g_DataSize = GetValue(params[++i]);
 		}
 		// Bank size
-		else if (MSX::StrEqual(argv[i], "-b"))
+		else if (MSX::StdStrEqual(params[i], "-b"))
 		{
-			g_BankSize = GetValue(argv[++i]);
+			g_BankSize = GetValue(params[++i]);
 		}
 		// Padding value
-		else if (MSX::StrEqual(argv[i], "-p"))
+		else if (MSX::StdStrEqual(params[i], "-p"))
 		{
-			g_Padding = (u8)GetValue(argv[++i]);
+			g_Padding = (u8)GetValue(params[++i]);
 		}
 		// Raw data file
-		else if (MSX::StrEqual(argv[i], "-r"))
+		else if (MSX::StdStrEqual(params[i], "-r"))
 		{
-			u32 offset = GetValue(argv[++i]);
-			std::string file = argv[++i];
+			u32 offset = GetValue(params[++i]);
+			std::string file = params[++i];
 			AddRawData(offset, file);
 		}
+		// Additionnal parameters file
+		else if (MSX::StdStrEqual(params[i], "-f"))
+		{
+			MSX::FileData fd(params[++i]);
+			if (!MSX::File::Load(fd))
+			{
+				printf("Error: Invalid additionnal parameters file!\n");
+				return 1;
+			}
+			std::vector<std::string> ap; // additionnal parameters
+			ExtractParameters(fd.Data, ap);
+			for (std::vector<std::string>::iterator itap = ap.begin(); itap != ap.cend(); ++itap)
+				params.push_back(*itap);
+		}
 		// Activate record logging
-		else if (MSX::StrEqual(argv[i], "--log") || MSX::StrEqual(argv[i], "-log"))
+		else if (MSX::StdStrEqual(params[i], "--log") || MSX::StdStrEqual(params[i], "-log"))
 		{
 			g_Log |= Log_Records;
 		}
 		// Activate record logging
-		else if (MSX::StrEqual(argv[i], "--segcheck"))
+		else if (MSX::StdStrEqual(params[i], "--segcheck"))
 		{
 			g_Log |= Log_Segments;
 		}
 		// Activate record logging
-		else if (MSX::StrEqual(argv[i], "--segexcept"))
+		else if (MSX::StdStrEqual(params[i], "--segexcept"))
 		{
-			u32 val = GetValue(argv[++i]);
+			u32 val = GetValue(params[++i]);
 			g_SegException.push_back(val);
 		}
 		// Activate record validation check
-		else if (MSX::StrEqual(argv[i], "--check") || MSX::StrEqual(argv[i], "-check"))
+		else if (MSX::StdStrEqual(params[i], "--check") || MSX::StdStrEqual(params[i], "-check"))
 		{
 			g_Check = true;
 		}
 		// Activate record validation check
-		else if (MSX::StrEqual(argv[i], "--segaddr"))
+		else if (MSX::StdStrEqual(params[i], "--segaddr"))
 		{
-			u32 seg = GetValue(argv[++i]);
-			u32 addr = GetValue(argv[++i]);
+			u32 seg = GetValue(params[++i]);
+			u32 addr = GetValue(params[++i]);
 			if ((u16)g_SegmentInfo.size() < seg + 1)
 				g_SegmentInfo.resize(seg + 1);
 			g_SegmentInfo[seg].Base = addr;

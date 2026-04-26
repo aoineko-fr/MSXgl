@@ -59,7 +59,7 @@ enum TableType
 	TABLETYPE_Palette,			///< Palette
 };
 
-///Sprit layer information
+/// Sprit layer information
 struct Layer
 {
 	i32 posX;					///< Start X position for the layer (relative to block coordante)
@@ -69,6 +69,14 @@ struct Layer
 	bool size16;				///< 
 	bool include;				///< 
 	std::vector<u32> colors;	///< Layer colors
+};
+
+/// Palette modifier
+struct PaletteMod
+{
+	i32 id;
+	i32 scale;					///< Additionnal scaled palette (if != 0)
+	i32 contrast;				///< Contrast for additionnal palette
 };
 
 // Struct: ConfigMGLV
@@ -126,6 +134,7 @@ struct ExportParameters
 	i32 palOffset;				///< Index offset of the palette
 	bool pal24;					///< Use 24-bits palette (v9990)
 	i32 palInCount;				///< Number of colors in the input palette
+	std::vector<PaletteMod> palMod; ///< Palette modifier table
 	std::vector<u32> palInput;	///< Use 24-bits palette (v9990)
 	MSX::Compressor comp;		///< Compressor to use (@see MSX::Compressor)
 	MSX::DataFormat format;		///< Data format to use for text export (@see MSX::DataFormat)
@@ -147,6 +156,7 @@ struct ExportParameters
 	bool bDefine;				///< Add define block for C file that allow to add directive to table definition (to place data at a given address for e.g.)
 	bool bReturn0;				///< Return 0 instead of data size
 	bool bTitle;				///< Display ASCII-art title on top of exported text file
+	bool bDate;					///< Display generation date
 	std::vector<Layer> layers;	///< Block layers
 	bool bTilesCompressNames;	///< GM2 mode: Compress names/layout table
 	bool bTilesUnique;			///< GM2 mode: Export all unique tiles
@@ -206,6 +216,7 @@ struct ExportParameters
 		bStartAddr = FALSE;
 		startAddr = 0;
 		bTitle = TRUE;
+		bDate = TRUE;
 		bTilesCompressNames = FALSE;
 		bTilesUnique = FALSE;
 		bTilesName = TRUE;
@@ -322,7 +333,7 @@ public:
 	virtual u32 GetTotalBytes()
 	{
 		u32 totalSize = 0;
-		loop(i, Sections.size())
+		loop (i, Sections.size())
 			totalSize += (u32)Sections[i].Data.size();
 		return totalSize;
 	}
@@ -355,11 +366,17 @@ public:
 		}
 
 		// Add version & date
-		std::time_t result = std::time(nullptr);
-		char* ltime = std::asctime(std::localtime(&result));
-		ltime[strlen(ltime) - 1] = 0; // remove final '\n'
-		sprintf(strData, "Data generated using MSXimg %s on %s", MSXi_VERSION, ltime);
-		WriteCommentLine(strData);
+		if (Param->bDate)
+		{
+			std::time_t result = std::time(nullptr);
+			char* ltime = std::asctime(std::localtime(&result));
+			ltime[strlen(ltime) - 1] = 0; // remove final '\n'
+			WriteCommentLine(MSX::Format("Data generated using MSXimg %s on %s", MSXi_VERSION, ltime));
+		}
+		else
+		{
+			WriteCommentLine(MSX::Format("Data generated using MSXimg %s", MSXi_VERSION));
+		}
 
 		// Add author & license
 		WriteCommentLine("by Guillaume \"Aoineko\" Blanchard (2022) under CC BY-SA free license");
@@ -385,7 +402,16 @@ public:
 		WriteCommentLine(MSX::Format(" - Start position: %i, %i", Param->posX, Param->posY));
 		WriteCommentLine(MSX::Format(" - Sprite size:    %i, %i (gap: %i, %i)", Param->sizeX, Param->sizeY, Param->gapX, Param->gapY));
 		WriteCommentLine(MSX::Format(" - Sprite count:   %i, %i", Param->numX, Param->numY));
-		WriteCommentLine(MSX::Format(" - Color count:    %i (Transparent: #%04X)", 1 << Param->bpc, Param->transColor));
+		WriteCommentLine(MSX::Format(" - Color count:    %i (Transparent: #%06X)", 1 << Param->bpc, Param->transColor));
+		WriteCommentLine(MSX::Format(" - Palette mode:   %s [%i:%i]", GetPaletteTypeName(Param->palType), Param->palOffset, Param->palOffset + Param->palOutCount - 1));
+		if (Param->palInCount)
+		{
+			std::string str = MSX::Format(" - Palette input:  %i (", Param->palInCount);
+			for (u8 i = 0; i < Param->palInCount; i++)
+				str += MSX::Format("%s#%06X", i ? " " : "", Param->palInput[i]);
+			str += ")";
+			WriteCommentLine(str);
+		}
 		WriteCommentLine(MSX::Format(" - Compressor:     %s", GetCompressorName(Param->comp)));
 		WriteCommentLine(MSX::Format(" - Skip empty:     %s", Param->bSkipEmpty ? "TRUE" : "FALSE"));
 		switch (Param->mode)
@@ -463,7 +489,7 @@ public:
 
 	virtual void WriteSpriteHeader(i32 number)
 	{
-		WriteCommentLine(MSX::Format("// Sprite[%i] (offset:%i)\n", number, GetTotalBytes()));
+		WriteCommentLine(MSX::Format("Sprite[%i] (offset:%i)", number, GetTotalBytes()));
 	}
 
 	virtual void WriteTableBegin(TableFormat format, std::string name, std::string comment = "")
@@ -769,7 +795,7 @@ public:
 			printf("Error: Fail to create %s\n", Param->outFile.c_str());
 			return FALSE;
 		}
-		loop(i, Sections.size())
+		loop (i, Sections.size())
 			fwrite(Sections[i].Data.data(), 1, Sections[i].Data.size(), file);
 		fclose(file);
 		return TRUE;

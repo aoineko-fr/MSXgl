@@ -1,4 +1,4 @@
-MSXbin 1.4.4 - Convert a binary file for use in MSX development
+MSXbin 1.4.5 - Convert a binary file for use in MSX development
 Usage: msxbin <inputfile> [options]
 Options:
   -o output     Filename of the output file (default: use input filename with .h/.asm extension)
@@ -24,5 +24,6 @@ Options:
   -def			Add define before data structure (only for C language. default: false)
   -size			Add size define after data structure (only for C language. default: false)
   -nodeco       Don't display header decoration (default: false)
+  -nodate       Don't display generation date (default: false)
   -copy file    Add copyright information from text file
   -help         Display this help

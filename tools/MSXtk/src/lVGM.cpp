@@ -164,7 +164,7 @@ void CheckSplit(MSX::ExporterInterface* exp, u8 size)
 		u32 targetSize = curSize + size + 2;
 		if ((targetSize / g_lVGM_Split) > (curSize / g_lVGM_Split))
 		{
-			exp->AddByteList(std::vector<u8>{ 0xFD, 0x00 }, "======== End of data segment");
+			exp->AddByteList(std::vector<u8>{ LVGM_OP_NOTIFY, 0x00 }, "======== End of data segment");
 			u8 padding = g_lVGM_Split - (exp->GetTotalSize() % g_lVGM_Split);
 			loopx(padding)
 				exp->AddByteLine(0x00, "Padding");
@@ -218,14 +218,19 @@ void AddSequence(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator&
 void ExportPSG(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
 {
 	assert(chunk->Type == LVGM_CHUNK_REG);
-	assert(chunk->Chip == LVGM_CHIP_PSG);
+	assert((chunk->Chip == LVGM_CHIP_PSG) || (chunk->Chip == LVGM_CHIP_PSG2));
 	assert(chunk->Register < 16);
 
 	// Check chip section
-	if (g_lVGM_CurChip != LVGM_CHIP_PSG)
+	if (g_lVGM_CurChip != chunk->Chip)
 	{
-		g_lVGM_CurChip = LVGM_CHIP_PSG;
-		AddByte(exp, 0xF0, "---- Start PSG section");
+		g_lVGM_CurChip = chunk->Chip;
+		if (chunk->Chip == LVGM_CHIP_PSG)
+			AddByte(exp, LVGM_OP_PSG, "---- Start PSG section");
+		if (chunk->Chip == LVGM_OP_PSG2)
+			AddByte(exp, LVGM_OP_PSG2, "---- Start 2nd PSG section");
+		else
+			assert(1);
 	}
 
 	// Handle more common byte value
@@ -307,7 +312,7 @@ void ExportOPLL(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 	if (g_lVGM_CurChip != LVGM_CHIP_OPLL)
 	{
 		g_lVGM_CurChip = LVGM_CHIP_OPLL;
-		AddByte(exp, 0xF1, "---- Start OPLL section");
+		AddByte(exp, LVGM_OP_OPLL, "---- Start OPLL section");
 	}
 
 	u8 reg = chunk->Register;
@@ -406,7 +411,7 @@ void ExportOPL1(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 	if (g_lVGM_CurChip != LVGM_CHIP_OPL1)
 	{
 		g_lVGM_CurChip = LVGM_CHIP_OPL1;
-		AddByte(exp, 0xF2, "---- Start OPL1 section");
+		AddByte(exp, LVGM_OP_OPL1, "---- Start OPL1 section");
 	}
 
 	u8 reg = chunk->Register;
@@ -439,7 +444,7 @@ void ExportSCC(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& c
 	if (g_lVGM_CurChip != LVGM_CHIP_SCC)
 	{
 		g_lVGM_CurChip = LVGM_CHIP_SCC;
-		AddByte(exp, 0xF3, "---- Start SCC section");
+		AddByte(exp, LVGM_OP_SCC, "---- Start SCC section");
 	}
 
 	u8 reg = chunk->Register;
@@ -508,7 +513,7 @@ void ExportSCCI(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 	if (g_lVGM_CurChip != LVGM_CHIP_SCCI)
 	{
 		g_lVGM_CurChip = LVGM_CHIP_SCCI;
-		AddByte(exp, 0xF7, "---- Start SCC+ section");
+		AddByte(exp, LVGM_OP_SCCI, "---- Start SCC+ section");
 	}
 
 	AddList(exp, std::vector<u8>{ chunk->Port, chunk->Register, (u8)chunk->Value }, "");
@@ -522,7 +527,7 @@ void ExportOPL4(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 	if (g_lVGM_CurChip != LVGM_CHIP_OPL4)
 	{
 		g_lVGM_CurChip = LVGM_CHIP_OPL4;
-		AddByte(exp, 0xF7, "---- Start OPL4 section");
+		AddByte(exp, LVGM_OP_OPL4, "---- Start OPL4 section");
 	}
 
 	AddList(exp, std::vector<u8>{ chunk->Port, chunk->Register, (u8)chunk->Value }, "");
@@ -852,6 +857,7 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			switch (chunk->Chip)
 			{
 			case LVGM_CHIP_PSG:
+			case LVGM_CHIP_PSG2:
 				ExportPSG(exp, chunk);
 				break;
 			case LVGM_CHIP_OPLL:
@@ -869,24 +875,36 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			case LVGM_CHIP_OPL4:
 				ExportOPL4(exp, chunk);
 				break;
+			default:
+				break;
 			}
 			break;
 
 		case LVGM_CHUNK_FRAME:
 		{
-			u16 pack = chunk->Value / 16;
+			u32 frameCount = chunk->Value;
+			// Merge consecutive frame wait chunks
+			while ((std::next(chunk) != chunkList.end()) && (std::next(chunk)->Type == LVGM_CHUNK_FRAME))
+			{
+				++chunk;
+				frameCount += chunk->Value;
+			}
+
+			u16 pack = frameCount / 16;
 			for (u32 i = 0; i < pack; i++)
 				AddList(exp, std::vector<u8>{ 0xEF }, "-------- Wait: Ex");
-			AddList(exp, std::vector<u8>{ (u8)(0xE0 + ((chunk->Value - 1) & 0x0F)) }, "-------- Wait: Ex");
+			frameCount &= 0x0F;
+			if (frameCount)
+				AddList(exp, std::vector<u8>{ (u8)(0xE0 + (frameCount - 1)) }, "-------- Wait: Ex");
 			break;
 		}
 
 		case LVGM_CHUNK_LOOP:
-			AddByte(exp, 0xFE, "Loop marker");
+			AddByte(exp, LVGM_OP_LOOP, "Loop marker");
 			break;
 
 		case LVGM_CHUNK_END:
-			AddByte(exp, 0xFF, "End marker");
+			AddByte(exp, LVGM_OP_END, "End marker");
 			break;
 		}
 	}

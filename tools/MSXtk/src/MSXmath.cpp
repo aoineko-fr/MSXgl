@@ -23,7 +23,7 @@
 //-----------------------------------------------------------------------------
 // D E F I N E S
 
-const c8* VERSION = "1.7.1";
+const c8* VERSION = "1.8.2";
 
 const f64 PI = 3.14159265358979323846f;
 const f64 PI_2 = 2.0f * PI;
@@ -38,6 +38,9 @@ f64 ComputePower(f64 x);
 f64 ComputeCoTan(f64 x);
 f64 ComputeHypoDX(f64 x);
 f64 ComputeHypoDY(f64 x);
+// Double operator function
+f64 ComputeMul(f64 x, f64 y);
+f64 ComputeDiv(f64 x, f64 y);
 
 // Operator structure
 struct Operation
@@ -50,6 +53,16 @@ struct Operation
 	bool      IncRange;
 	bool      Signed;
 	f64       (*Func)(f64);
+};
+
+// Operator structure
+struct OperationDouble
+{
+	const c8* op;
+	const c8* Name;
+	const c8* Desc;
+	bool      Signed;
+	f64(*Func)(f64, f64);
 };
 
 //-----------------------------------------------------------------------------
@@ -77,8 +90,11 @@ i16					Height = 212;
 MSX::ExporterInterface* Exporter = NULL;
 MSX::FileFormat		OutputFormat = MSX::FILEFORMAT_Auto;
 std::string         OutputFile;
+// Display options
+bool				bDecoration = true;
+bool				bDate = true;
 
-enum OPERATOR
+enum OPERATOR_SIMPLE
 {
 	OP_SINUS = 0,
 	OP_COSINUS,
@@ -96,40 +112,69 @@ enum OPERATOR
 	OP_LOG10,
 	OP_HYPO_DX,
 	OP_HYPO_DY,
+	OP_SINCOS,
 };
 
+enum OPERATOR_DOUBLE
+{
+	OP_MULS,
+	OP_MULU,
+	OP_DIVS,
+	OP_DIVU,
+	OP_POWS,
+	OP_POWU,
+};
+	
 // Operator list
 const Operation OpTable[] =
 {
-	//         op       name           range         min:max        inc    sign   func
-	/*  0 */ { "sin",   "Sinus",       "0:Pi*2",     0, PI_2,       false, true, sin },
-	/*  1 */ { "cos",   "Cosinus",     "0:Pi*2",     0, PI_2,       false, true, cos },
-	/*  2 */ { "tan",   "Tangent",     "-Pi/2:Pi/2", -PI/2, PI/2,   false, true, tan },
-	/*  3 */ { "cot",   "Cotangent",   "-Pi/2:Pi/2", -PI/2, PI/2,   false, true, ComputeCoTan },
-	/*  4 */ { "asin",  "ArcSinus",    "-1:1",       -1, 1,         true,  true, asin },
-	/*  5 */ { "acos",  "ArcCosinus",  "-1:1",       -1, 1,         true,  true, acos },
-	/*  6 */ { "atan",  "ArcTangent",  "0:N",        0, 0,          true,  true, atan },
-	/*  7 */ { "sq",    "Square",      "0:1",        0, 1,          true,  true, ComputeSquare },
-	/*  8 */ { "sqrt",  "SquareRoot",  "0:N",        0, 0,          false, true, sqrt },
-	/*  9 */ { "map",   "Map",         "0:N",        0, 0,          false, true, ComputeMap },
-	/* 10 */ { "pow",   "Power",       "0:N",        0, 0,          false, true, ComputePower },
-	/* 11 */ { "exp",   "Exponential", "0:N",        0, 0,          false, true, exp },
-	/* 12 */ { "log",   "Log",         "0:N",        0, 0,          false, true, log },
-	/* 13 */ { "log10", "Log10",       "0:N",        0, 0,          false, true, log10 },
-	/* 14 */ { "hdx",   "HypoDX",      "0:Pi*2",     0, PI_2,       false, true, ComputeHypoDX },
-	/* 15 */ { "hdy",   "HypoDY",      "0:Pi*2",     0, PI_2,       false, true, ComputeHypoDY },
+	//         op       name            range         min:max        inc    sign  func
+	/*  0 */ { "sin",    "Sinus",       "0:Pi*2",     0, PI_2,       false, true, sin },
+	/*  1 */ { "cos",    "Cosinus",     "0:Pi*2",     0, PI_2,       false, true, cos },
+	/*  2 */ { "tan",    "Tangent",     "-Pi/2:Pi/2", -PI/2, PI/2,   false, true, tan },
+	/*  3 */ { "cot",    "Cotangent",   "-Pi/2:Pi/2", -PI/2, PI/2,   false, true, ComputeCoTan },
+	/*  4 */ { "asin",   "ArcSinus",    "-1:1",       -1, 1,         true,  true, asin },
+	/*  5 */ { "acos",   "ArcCosinus",  "-1:1",       -1, 1,         true,  true, acos },
+	/*  6 */ { "atan",   "ArcTangent",  "0:N",        0, 0,          true,  true, atan },
+	/*  7 */ { "sq",     "Square",      "0:1",        0, 1,          true,  true, ComputeSquare },
+	/*  8 */ { "sqrt",   "SquareRoot",  "0:N",        0, 0,          false, true, sqrt },
+	/*  9 */ { "map",    "Map",         "0:N",        0, 0,          false, true, ComputeMap },
+	/* 10 */ { "pow",    "Power",       "0:N",        0, 0,          false, true, ComputePower },
+	/* 11 */ { "exp",    "Exponential", "0:N",        0, 0,          false, true, exp },
+	/* 12 */ { "log",    "Log",         "0:N",        0, 0,          false, true, log },
+	/* 13 */ { "log10",  "Log10",       "0:N",        0, 0,          false, true, log10 },
+	/* 14 */ { "hdx",    "HypoDX",      "0:Pi*2",     0, PI_2,       false, true, ComputeHypoDX },
+	/* 15 */ { "hdy",    "HypoDY",      "0:Pi*2",     0, PI_2,       false, true, ComputeHypoDY },
+	/* 16 */ { "sincos", "SinCos",      "0:Pi*2",     0, PI_2,       false, true, sin },
 };
 
+// Operator list
+const OperationDouble DoubleTable[] =
+{
+	//         op      name         desc                       sign   func
+	/*  0 */ { "muls", "MulSign",   "Signed multiplication",   true,  ComputeMul },
+	/*  1 */ { "mulu", "MulUnsign", "Unsigned multiplication", false, ComputeMul },
+	/*  2 */ { "divs", "DivSign",   "Signed division",         true,  ComputeDiv },
+	/*  3 */ { "divu", "DivUnsign", "Unsigned division",       false, ComputeDiv },
+	/*  4 */ { "pows", "PowSign",   "Signed power",            true,  pow },
+	/*  5 */ { "powu", "PowUnsign", "Unsigned power",          false, pow },
+};
+	
 //-----------------------------------------------------------------------------
 // U T I L I T Y   F U N C T I O N S
 
-// Simple opetation functions
+// Simple operation functions
 f64 ComputeCoTan(f64 x)      { return 1 / tan(x); }
 f64 ComputeSquare(f64 x)     { return pow(x, 2); }
 f64 ComputeMap(f64 x)        { return (x / (Number - 1)) * (B - A) + A; }
 f64 ComputePower(f64 x)      { return pow(x, A); }
 f64 ComputeHypoDX(f64 x)     { return (cos(x) == 0) ? DBL_MAX : sqrt(1.0 + pow(-sin(x) / cos(x), 2)); }
 f64 ComputeHypoDY(f64 x)     { return (sin(x) == 0) ? DBL_MAX : sqrt(1.0 + pow(cos(x) / -sin(x), 2)); }
+
+// Double operation functions
+f64 ComputeMul(f64 x, f64 y) { return x * y; }
+f64 ComputeDiv(f64 x, f64 y) { return x / y; }
+
 
 // Print a generic table using operation pointer function
 f64 Clamp(f64 x, f64 min, f64 max)
@@ -141,16 +186,41 @@ f64 Clamp(f64 x, f64 min, f64 max)
 	return x;
 }
 
-// Print a generic table using operation pointer function
-void ExportTable(i32 t)
+// Convert number
+f64 ConverNumber(f64 x, bool bSigned = false)
 {
-	const Operation* op = &OpTable[t];
+	f64 multi = pow(2, Shift);
+	x *= multi;
+	x = round(x);
+	switch (DataSize)
+	{
+	case MSX::DATASIZE_8bits:
+		x = bSigned ? Clamp(x, INT8_MIN, INT8_MAX) : Clamp(x, 0, UINT8_MAX);
+		break;
+	case MSX::DATASIZE_16bits:
+		x = bSigned ? Clamp(x, INT16_MIN, INT16_MAX) : Clamp(x, 0, UINT16_MAX);
+		break;
+	case MSX::DATASIZE_32bits:
+		x = bSigned ? Clamp(x, INT32_MIN, INT32_MAX) : Clamp(x, 0, UINT32_MAX);
+		break;
+	default:
+		break;
+	}
+	return x;
+}
+
+// Print a generic table using operation pointer function
+void ExportTable(OPERATOR_SIMPLE tab)
+{
+	const Operation* op = &OpTable[tab];
 
 	// Initialize variables
-	f64 multi = pow(2, Shift);
 	i32 maxNumber = Number;
 	if (op->IncRange)
 		maxNumber++;
+	i32 maxLoop = Number;
+	if (tab == OP_SINCOS) // Add half the 
+		maxLoop += Number / 4;
 	f64 minRange = op->RangeMin;
 	f64 maxRange = op->RangeMax;
 
@@ -188,30 +258,21 @@ void ExportTable(i32 t)
 	Exporter->StartSection(MSX::Format("%s%s%d", Prefix, op->Name, Number), DataSize);
 
 	// Table content
-	for (i32 i = 0; i < Number; i++)
+	for (i32 i = 0; i < maxLoop; i++)
 	{
 		if ((i % 8 == 0))
 			Exporter->StartLine();
 
 		f64 x = (f64)i * (maxRange - minRange) / (f64)maxNumber + minRange;
 		x = op->Func(x);
-		x *= multi;
-		x = round(x);
+		x = ConverNumber(x, op->Signed);
 
 		switch (DataSize)
 		{
-		case MSX::DATASIZE_8bits:
-			x = op->Signed ? Clamp(x, INT8_MIN, INT8_MAX) : Clamp(x, 0, UINT8_MAX);
-			Exporter->AddByte(0xFF & (u32)x);
-			break;
-		case MSX::DATASIZE_16bits:
-			x = op->Signed ? Clamp(x, INT16_MIN, INT16_MAX) : Clamp(x, 0, UINT16_MAX);
-			Exporter->AddWord(0xFFFF & (u32)x);
-			break;
-		case MSX::DATASIZE_32bits:
-			x = op->Signed ? Clamp(x, INT32_MIN, INT32_MAX) : Clamp(x, 0, UINT32_MAX);
-			Exporter->AddDouble((u32)x);
-			break;
+		case MSX::DATASIZE_8bits:	Exporter->AddByte(0xFF & (u32)x); break;
+		case MSX::DATASIZE_16bits:	Exporter->AddWord(0xFFFF & (u32)x); break;
+		case MSX::DATASIZE_32bits:	Exporter->AddDouble((u32)x); break;
+		default: break;
 		}
 
 		if ((i % 8 == 7) || (i == maxNumber - 1)) // 8th column or last
@@ -219,8 +280,70 @@ void ExportTable(i32 t)
 	}
 
 	Exporter->EndSection();
+
+	if ((tab == OP_SINCOS) && OutputFormat == MSX::FILEFORMAT_C) // Add Sin-cos accessor
+	{
+		std::string str;
+		Exporter->AddReturn();
+		str = MSX::Format("Sinus table\n#define %s%s%d\t(&%s%s%d[0])", Prefix, "Sinus", Number, Prefix, "SinCos", Number);
+		Exporter->AddComment(str);
+		str = MSX::Format("Cosinus table\n#define %s%s%d\t(&%s%s%d[%d])", Prefix, "Cosinus", Number, Prefix, "SinCos", Number, Number / 4);
+		Exporter->AddComment(str);
+	}	
 }
 
+//
+void ExportTableDouble(OPERATOR_DOUBLE tab)
+{
+	const OperationDouble* op = &DoubleTable[tab];
+
+	// Add table
+	Exporter->AddReturn();
+	Exporter->AddComment(MSX::Format(" %s table [%dx%d]", op->Desc, Number, Number));
+	Exporter->StartSection(MSX::Format("%s%s%d", Prefix, op->Name, Number), DataSize);
+
+	for (i32 ia = 0; ia < Number; ia++)
+	{
+		i32 a;
+		if (op->Signed)
+			a = (i8)ia;
+		else
+			a = (u8)ia;
+
+		Exporter->AddComment(MSX::Format("A=%d (0x%02X)", a, ia));
+		for (i32 ib = 0; ib < Number; ib++)
+		{
+			i32 b;
+			if (op->Signed)
+				b = (i8)ib;
+			else
+				b = (u8)ib;
+
+			if ((ib % 8 == 0))
+				Exporter->StartLine();
+
+			f64 x;
+			if (op->Signed)
+				x = op->Func(f64((i8)a), f64((i8)b));
+			else
+				x = op->Func(f64((u8)a), f64((u8)b));
+			x = ConverNumber(x, op->Signed);
+
+			switch (DataSize)
+			{
+			case MSX::DATASIZE_8bits:	Exporter->AddByte(0xFF & (u32)x); break;
+			case MSX::DATASIZE_16bits:	Exporter->AddWord(0xFFFF & (u32)x); break;
+			case MSX::DATASIZE_32bits:	Exporter->AddDouble((u32)x); break;
+			default: break;
+			}
+
+			if (ib % 8 == 7) // 8th column or last
+				Exporter->EndLine();
+		}
+	}
+
+	Exporter->EndSection();
+}
 // 
 f64 ComputeAngle(f64 x, f64 y)
 {
@@ -263,10 +386,13 @@ void PrintHelp()
 	printf("    asm            Assembler file format\n");
 	printf("    bin            Raw binary data file\n");
 	printf("  -at     X        Data base address\n");
+	printf("  -nodeco          Don't display ASCII-art decoration\n");
+	printf("  -nodate          Don't display generation date\n");
 	printf("  -help            Display this help\n");
 	printf("Tables:\n");
 	printf("  sin              Sinus table [0:Pi*2]\n");
 	printf("  cos              Cosinus table [0:Pi*2]\n");
+	printf("  sincos           Combined sinus and cosinus table [0:Pi*2]\n");
 	printf("  tan              Tangente table [-Pi/2:Pi/2]\n");
 	printf("  cot              Cotangente table [-Pi/2:Pi/2]\n");
 	printf("  asin             Arc-sinus table [-1:1]\n");
@@ -295,7 +421,9 @@ void PrintHelp()
 //const c8* ARGV[] = { "", "-num", "16", "-Bytes", "1",  "-Shift", "0","map", "0", "100" };
 //const c8* ARGV[] = { "", "-o", "../testcases/sin.h", "-Shift", "12", "sin", "cos", "tan", "sq", "sqrt", "exp" };
 //const c8* ARGV[] = { "", "-num", "256", "-bytes", "2",  "-shift", "8", "hdx", "hdy" };
-//const c8* ARGV[] = { "", "-o", "../testcases/muls.h", "-num", "256", "-bytes", "2",  "-shift", "0", "muls" };
+//const c8* ARGV[] = { "", "-o", "../testcases/mul.h", "-num", "256", "-bytes", "2",  "-shift", "0", "muls", "mulu" };
+//const c8* ARGV[] = { "", "-o", "../testcases/div.h", "-num", "256", "-bytes", "2",  "-shift", "8", "divs", "divu" };
+//const c8* ARGV[] = { "", "-o", "../testcases/sincos.h", "-num", "128", "-bytes", "2",  "-shift", "8", "sincos" };
 //#define DEBUG_ARGS
 
 
@@ -377,6 +505,14 @@ int main(int argc, const c8* argv[])
 		{
 			conf.Address = MSX::StringToInt(argv[++argIndex]);
 		}
+		else if (MSX::StrEqual(argv[argIndex], "-nodeco")) // Don't display ASCII-art decoration
+		{
+			bDecoration = false;
+		}
+		else if (MSX::StrEqual(argv[argIndex], "-nodate")) // Don't display generation date
+		{
+			bDate = false;
+		}
 	}
 
 	if (OutputFormat == MSX::FILEFORMAT_Auto)
@@ -391,21 +527,26 @@ int main(int argc, const c8* argv[])
 		return -1;
 	}
 
-	// Date
-	std::time_t result = std::time(nullptr);
-	char* ltime = std::asctime(std::localtime(&result));
-	ltime[strlen(ltime) - 1] = 0; // remove final '\n'
-
 	// Add header
-	Exporter->AddComment(u8" ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█            ▄▄   ▄▄");
-	Exporter->AddComment(u8" ██  ▀  █▄  ▀██▄ ▀ ▄█  ▄█▄█ ▄▀██ ██▀  ██▄");
-	Exporter->AddComment(u8" █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █");
-	Exporter->AddComment(u8" ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀");
+	if (bDecoration)
+	{
+		Exporter->AddComment(u8" ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█            ▄▄   ▄▄");
+		Exporter->AddComment(u8" ██  ▀  █▄  ▀██▄ ▀ ▄█  ▄█▄█ ▄▀██ ██▀  ██▄");
+		Exporter->AddComment(u8" █  █ █  ▀▀  ▄█  █  █  ██ █ ▀▄██ ▀█▄▄ ██ █");
+		Exporter->AddComment(u8" ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀");
+	}
 	Exporter->AddComment(u8"─────────────────────────────────────────────────────────────────────────────");
 	Exporter->AddComment(MSX::Format(" MSXmath %s by Guillaume \"Aoineko\" Blanchard", VERSION));
 	Exporter->AddComment(" under CC-BY-SA free license");
 	Exporter->AddComment("");
-	Exporter->AddComment(MSX::Format(" Generated: %s", ltime));
+	if (bDate)
+	{
+		std::time_t result = std::time(nullptr);
+		char* ltime = std::asctime(std::localtime(&result));
+		ltime[strlen(ltime) - 1] = 0; // remove final '\n'
+
+		Exporter->AddComment(MSX::Format(" Generated: %s", ltime));
+	}
 	Exporter->AddComment(MSX::Format(" Parameters: Entries=%d, Bytes=%d (%i-bits), Shift=%d (Q%i.%i)", Number, Bytes, Bytes * 8, Shift, Bytes * 8 - Shift, Shift));
 	Exporter->AddComment(u8"─────────────────────────────────────────────────────────────────────────────");
 	
@@ -479,48 +620,25 @@ int main(int argc, const c8* argv[])
 		{
 			ExportTable(OP_HYPO_DY);
 		}
-		else if (MSX::StrEqual(argv[argIndex], "muls")) // Full 8-bit unsigned integer multiplication table
+		else if (MSX::StrEqual(argv[argIndex], "sincos")) // Combined sinus-cosinus table
 		{
-			// Add table
-			Exporter->AddReturn();
-			Exporter->AddComment("Multiplication table.");
-			Exporter->StartSection(MSX::Format("%s%s%d", Prefix, "MulS", Number), DataSize);
-
-			f64 multi = pow(2, Shift);
-			for (int a = 0; a < Number; a++)
-			{
-				Exporter->AddComment(MSX::Format("A=%d", (i8)a));
-				for (int b = 0; b < Number; b++)
-				{
-					if ((b % 8 == 0))
-						Exporter->StartLine();
-
-					f64 x = f64((i8)a) * f64((i8)b);
-					x *= multi;
-					x = round(x);
-
-					switch (DataSize)
-					{
-					case MSX::DATASIZE_8bits:
-						x = Clamp(x, INT8_MIN, INT8_MAX);
-						Exporter->AddByte(0xFF & (u32)x);
-						break;
-					case MSX::DATASIZE_16bits:
-						x = Clamp(x, INT16_MIN, INT16_MAX);
-						Exporter->AddWord(0xFFFF & (u32)x);
-						break;
-					case MSX::DATASIZE_32bits:
-						x = Clamp(x, INT32_MIN, INT32_MAX);
-						Exporter->AddDouble((u32)x);
-						break;
-					}
-
-					if (b % 8 == 7) // 8th column or last
-						Exporter->EndLine();
-				}
-			}
-
-			Exporter->EndSection();
+			ExportTable(OP_SINCOS);
+		}
+		else if (MSX::StrEqual(argv[argIndex], "muls")) // Full 8-bit signed integer multiplication table
+		{
+			ExportTableDouble(OP_MULS);
+		}
+		else if (MSX::StrEqual(argv[argIndex], "mulu")) // Full 8-bit unsigned integer multiplication table
+		{
+			ExportTableDouble(OP_MULU);
+		}
+		else if (MSX::StrEqual(argv[argIndex], "divs")) // Full 8-bit signed integer division table
+		{
+			ExportTableDouble(OP_DIVS);
+		}
+		else if (MSX::StrEqual(argv[argIndex], "divu")) // Full 8-bit unsigned integer division table
+		{
+			ExportTableDouble(OP_DIVU);
 		}
 		else if (MSX::StrEqual(argv[argIndex], "proj")) // X/Y 3d projection according to Z value
 		{
@@ -580,6 +698,8 @@ int main(int argc, const c8* argv[])
 					case MSX::DATASIZE_32bits:
 						x = Clamp(x, 0, UINT32_MAX);
 						Exporter->AddDouble((u32)x);
+						break;
+					default:
 						break;
 					}
 

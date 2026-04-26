@@ -32,6 +32,9 @@ struct FileData
 	FILE*			Interface = nullptr;
 	u32				Size = 0;
 	std::vector<u8>	Data;
+
+	FileData() {}
+	FileData(std::string fn) : Filename(fn) {}
 };
 
 class File

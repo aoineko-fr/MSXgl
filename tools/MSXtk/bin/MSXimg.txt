@@ -1,4 +1,4 @@
-MSXimg 1.22.0 - Image converter for MSX development
+MSXimg 1.22.1 - Image converter for MSX development
 Usage: MSXimg <filename> [options]
 
 General options:
@@ -106,7 +106,8 @@ Exporter options:
     asmsx         asMSX format
     sjasm         Sjasm format
  -idx             Add images index table (default: false)
- -notitle         Remove the ASCII-art title in top of exported text file
+ -notitle         Don't print the ASCII-art title in top of exported text file
+ -nodate          Don't print the generation date
  -copy (file)     Add copyright information from text file
                   If file name is empty, search for <inputFile>.txt
  -head            Add a header table contening input parameters (default: false)
