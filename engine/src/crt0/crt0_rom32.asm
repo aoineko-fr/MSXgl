@@ -55,12 +55,12 @@ crt0_init:
 	ld		hl, #s__HEAP
 	ld		(#_g_HeapStartAddress), hl
 
-	; Initialize globals
-	INIT_GLOBALS
-	
 	; Set Page 2 slot equal to Page 1 slot
 	INIT_P1_TO_P2
 
+	; Initialize globals
+	INIT_GLOBALS
+	
 	; Install ISR in RAM (if ROM_RAMISR is set)
 	INSTALL_RAM_ISR
 

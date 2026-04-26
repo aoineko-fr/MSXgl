@@ -64,11 +64,11 @@ crt0_init:
 	ld		hl, #s__HEAP
 	ld		(#_g_HeapStartAddress), hl
 
-	; Initialize globals
-	INIT_GLOBALS
-
 	; Set Page 0 & 2 at the same slot than the Page 1 one
 	INIT_P1_TO_P02
+
+	; Initialize globals
+	INIT_GLOBALS
 
 crt0_start:
 	; start main() function
