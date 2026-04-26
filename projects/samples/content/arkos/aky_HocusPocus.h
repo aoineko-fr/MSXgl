@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sat Nov 29 12:57:23 2025
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: arkos\HocusPocus.aky
 const unsigned char g_AKY_HocusPocus[] = {
 	0x80, 0x03, 0x40, 0x42, 0x0F, 0x00, 0xC0, 0x00, 0x31, 0xA6, 0x9A, 0xA6, 0x9A, 0xA6, 0xC0, 0x00, //      0

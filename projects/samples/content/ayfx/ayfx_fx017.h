@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sat Nov  9 14:46:21 2024
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: ayfx\ayfx_fx017.afx
 const unsigned char g_ayfx_fx017[] = {
 	0xEE, 0x7D, 0x00, 0x1F, 0x8E, 0xAE, 0x3E, 0x00, 0x8E, 0xAE, 0x63, 0x00, 0x8E, 0xAE, 0x4F, 0x00, //      0 | �}  ��> ��c ��O  

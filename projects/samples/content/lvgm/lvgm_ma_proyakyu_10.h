@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\ma_proyakyu_10.vgm (14175 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:OPL1)
@@ -96,7 +95,6 @@ const unsigned char g_lVGM_ma_proyakyu_10[] = {
 	0xA1, 0x02, // R#xx = yy
 	0xB1, 0x92, // R#xx = yy
 	0xB1, 0x32, // R#xx = yy
-	0xEF, // -------- Wait: Ex
 	0xEF, // -------- Wait: Ex
 	0xEF, // -------- Wait: Ex
 	0xEF, // -------- Wait: Ex
@@ -3059,8 +3057,7 @@ const unsigned char g_lVGM_ma_proyakyu_10[] = {
 	0x54, 0x0C, // R#xx = yy
 	0xE0, // -------- Wait: Ex
 	0x45, 0x1C, // R#xx = yy
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x4B, 0x6C, // R#xx = yy
 	0xE0, // -------- Wait: Ex
 	0x43, 0x3F, // R#xx = yy
@@ -3951,4 +3948,4 @@ const unsigned char g_lVGM_ma_proyakyu_10[] = {
 	0xE6, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 6931 bytes
+// Total size: 6929 bytes

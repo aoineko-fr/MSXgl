@@ -1,5 +1,5 @@
 ;-----------------------------------------------------------------------------
-; WYZ file merged for MSXgl on 09/11/2024 14:46:21,45 
+; WYZ file merged for MSXgl on 19/04/2026 18:06:41,84 
 ;-----------------------------------------------------------------------------
 .module wyz_shampoo 
 _shampoo_Song:: .DW SONG00 
@@ -46,9 +46,9 @@ _shampoo_Freq:: .DW 0,0
 .DW 95,90,85,80,76,71,67,64,60,57
 ; Song data 
 SONG00: 
-; MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-; File generated on Sat Nov  9 14:46:21 2024
-; Soure file: D:\Dev\Private\MSX\MSXgl\projects\samples\datasrc\wyz\shampoo.mus
+; MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
+; File generated on Sun Apr 19 18:06:41 2026
+; Soure file: C:\dev\MSX\MSXgl\projects\samples\datasrc\wyz\shampoo.mus
 _shampoo_Data::
 .db 0x03,0x31,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x3F,0x00,0x00,0x44
 .db 0x44,0x41,0x50,0x41,0x50,0x42,0x43,0x44,0x50,0x44,0x41,0x47,0x41,0x49,0x41,0x44

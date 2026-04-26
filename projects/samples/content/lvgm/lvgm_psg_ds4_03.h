@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\psg_ds4_03.vgm (6607 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG)
@@ -66,11 +65,9 @@ const unsigned char g_lVGM_psg_ds4_03[] = {
 	0x80, // R#9: 8n
 	0xE6, // -------- Wait: Ex
 	0x00, 0x0D, // R#0: 00 nn
-	0x11, // R#1: 1n
 	0xE0, // -------- Wait: Ex
 	0x6F, // R#8: 6n
 	0x02, 0x0F, // R#2: 02 nn
-	0x21, // R#3: 2n
 	0x8E, // R#9: 8n
 	0x04, 0x93, // R#4: 04 nn
 	0x31, // R#5: 3n
@@ -1807,4 +1804,4 @@ const unsigned char g_lVGM_psg_ds4_03[] = {
 	0x21, // R#3: 2n
 	0xFF, // End marker
 };
-// Total size: 1972 bytes
+// Total size: 1970 bytes

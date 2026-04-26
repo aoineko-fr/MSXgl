@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_undeadline_03.vgm (6103 bytes)
 // Compressor: lVGM
 // VGM version: 1.00 (chips:OPLL)
@@ -46,22 +45,16 @@ const unsigned char g_lVGM_mm_undeadline_03[] = {
 	0x33, 0x22, // rr: nn
 	0x13, 0x84, // rr: nn
 	0x23, 0x17, // rr: nn
-	0xA2, // rr: 0
-	0xA1, // rr: 0
-	0xA0, // rr: 0
 	0xE7, // -------- Wait: Ex
 	0x0E, 0x30, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x24, 0x03, // rr: nn
-	0x34, 0xE1, // rr: nn
-	0x14, 0x84, // rr: nn
 	0x24, 0x13, // rr: nn
 	0x23, 0x07, // rr: nn
 	0x23, 0x17, // rr: nn
 	0xE8, // -------- Wait: Ex
 	0x0E, 0x30, // rr: nn
 	0x0E, 0x39, // rr: nn
-	0xA5, // rr: 0
 	0x35, 0x02, // rr: nn
 	0x15, 0x84, // rr: nn
 	0x25, 0x17, // rr: nn
@@ -1384,8 +1377,8 @@ const unsigned char g_lVGM_mm_undeadline_03[] = {
 	0x24, 0x03, // rr: nn
 	0x23, 0x05, // rr: nn
 	0x0E, 0x20, // rr: nn
-	0x44, 0x20, 0x50, 0xC0, // 44 nn[3] => R#16~18
-	0x45, 0x05, 0x05, 0x01, // 45 nn[3] => R#26~28
+	0x17, 0x50, // rr: nn
+	0x18, 0xC0, // rr: nn
 	0x46, 0x03, 0x33, 0x33, // 46 nn[3] => R#36~38
 	0xA5, // rr: 0
 	0xA4, // rr: 0
@@ -1400,4 +1393,4 @@ const unsigned char g_lVGM_mm_undeadline_03[] = {
 	0x33, 0x22, // rr: nn
 	0xFF, // End marker
 };
-// Total size: 2528 bytes
+// Total size: 2516 bytes

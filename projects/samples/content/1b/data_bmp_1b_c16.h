@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.20.0 on Sat Nov  9 14:46:28 2024
+// Data generated using MSXimg 1.22.1
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Source image author: GrafxKid (https://opengameart.org/content/super-random-sprites)
@@ -15,6 +15,7 @@
 //  - Sprite size:    16, 16 (gap: 0, 0)
 //  - Sprite count:   1, 1
 //  - Color count:    2 (Transparent: #FF00FF)
+//  - Palette mode:   MSX1 [1:-1]
 //  - Compressor:     Crop16 (4-bits, max 16x16)
 //  - Skip empty:     FALSE
 

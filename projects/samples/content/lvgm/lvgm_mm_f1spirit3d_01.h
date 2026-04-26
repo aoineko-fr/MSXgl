@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_f1spirit3d_01.vgm (18122 bytes)
 // Compressor: lVGM
 // VGM version: 1.00 (chips:OPLL)
@@ -357,8 +356,7 @@ const unsigned char g_lVGM_mm_f1spirit3d_01[] = {
 	0xE1, // -------- Wait: Ex
 	0x20, 0x03, // rr: nn
 	0x22, 0x03, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x70, 0x23, 0x07, 0x07, 0x09, // 7n rr vv[] => R#rr~
 	0xE2, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
@@ -644,8 +642,7 @@ const unsigned char g_lVGM_mm_f1spirit3d_01[] = {
 	0x23, 0x17, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x21, 0x09, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x20, 0x05, // rr: nn
 	0x22, 0x05, // rr: nn
 	0xE3, // -------- Wait: Ex
@@ -759,8 +756,7 @@ const unsigned char g_lVGM_mm_f1spirit3d_01[] = {
 	0xE0, // -------- Wait: Ex
 	0x20, 0x03, // rr: nn
 	0x22, 0x03, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x70, 0x23, 0x07, 0x07, 0x09, // 7n rr vv[] => R#rr~
 	0xE2, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
@@ -1205,8 +1201,7 @@ const unsigned char g_lVGM_mm_f1spirit3d_01[] = {
 	0xE1, // -------- Wait: Ex
 	0x20, 0x03, // rr: nn
 	0x22, 0x03, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x70, 0x23, 0x07, 0x07, 0x09, // 7n rr vv[] => R#rr~
 	0xE2, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
@@ -2956,8 +2951,7 @@ const unsigned char g_lVGM_mm_f1spirit3d_01[] = {
 	0x70, 0x23, 0x15, 0x97, 0x0B, // 7n rr vv[] => R#rr~
 	0xE1, // -------- Wait: Ex
 	0x23, 0x05, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x21, 0x0B, // rr: nn
 	0xE2, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
@@ -3397,8 +3391,7 @@ const unsigned char g_lVGM_mm_f1spirit3d_01[] = {
 	0x70, 0x23, 0x15, 0x97, 0x0B, // 7n rr vv[] => R#rr~
 	0xE1, // -------- Wait: Ex
 	0x23, 0x05, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x21, 0x0B, // rr: nn
 	0xE2, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
@@ -3613,4 +3606,4 @@ const unsigned char g_lVGM_mm_f1spirit3d_01[] = {
 	0xE6, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 7907 bytes
+// Total size: 7901 bytes

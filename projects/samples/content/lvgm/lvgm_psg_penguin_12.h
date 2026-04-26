@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:24 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\psg_penguin_12.vgm (13858 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG)
@@ -1323,8 +1322,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xA8, // R#10: An
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0xA7, // R#10: An
 	0xE1, // -------- Wait: Ex
 	0xA6, // R#10: An
@@ -1349,8 +1347,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xE0, // -------- Wait: Ex
 	0xA3, // R#10: An
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x07, 0xBC, // R#7: 07 nn
 	0xDA, // R#n: Dn
 	0xE3, // -------- Wait: Ex
@@ -3020,16 +3017,14 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xE0, // -------- Wait: Ex
 	0xA7, // R#10: An
 	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x04, 0xC0, // R#4: 04 nn
 	0xDA, // R#n: Dn
 	0xE1, // -------- Wait: Ex
 	0x88, // R#9: 8n
 	0xE0, // -------- Wait: Ex
 	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x8C, // R#9: 8n
 	0x04, 0x72, // R#4: 04 nn
 	0xAA, // R#10: An
@@ -3351,8 +3346,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x8A, // R#9: 8n
 	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0x04, 0x98, // R#4: 04 nn
 	0xE2, // -------- Wait: Ex
@@ -3369,8 +3363,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x8A, // R#9: 8n
 	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x04, 0x86, // R#4: 04 nn
 	0xE2, // -------- Wait: Ex
@@ -4050,4 +4043,4 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x02, 0xF8, // R#2: 02 nn
 	0xFF, // End marker
 };
-// Total size: 4424 bytes
+// Total size: 4418 bytes

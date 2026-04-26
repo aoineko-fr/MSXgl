@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sat Nov 29 12:57:22 2025
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: arkos\CancinNueva.akm
 const unsigned char g_AKM_CancinNueva[] = {
 	0x08, 0xA0, 0x00, 0x00, 0x00, 0x00, 0x2B, 0xA0, 0x0C, 0xA0, 0x11, 0xA0, 0xFF, 0x00, 0x04, 0x0D, //      0

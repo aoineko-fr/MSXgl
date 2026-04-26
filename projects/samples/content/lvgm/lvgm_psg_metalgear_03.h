@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\psg_metalgear_03.vgm (37577 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG)
@@ -164,7 +163,6 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x12, // R#1: 1n
@@ -220,7 +218,6 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x12, // R#1: 1n
@@ -276,7 +273,6 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x12, // R#1: 1n
@@ -332,7 +328,6 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x12, // R#1: 1n
@@ -388,7 +383,6 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x12, // R#1: 1n
@@ -516,7 +510,6 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0xE0, // -------- Wait: Ex
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0x12, // R#1: 1n
 	0x00, 0xA6, // R#0: 00 nn
@@ -571,7 +564,6 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x12, // R#1: 1n
@@ -627,7 +619,6 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x12, // R#1: 1n
@@ -683,7 +674,6 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x12, // R#1: 1n
@@ -739,7 +729,6 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x12, // R#1: 1n
@@ -795,7 +784,6 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x12, // R#1: 1n
@@ -856,9 +844,7 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x07, 0xB8, // R#7: 07 nn
 	0xAB, // R#10: An
 	0xEE, // -------- Wait: Ex
-	0xD1, // R#n: Dn
 	0x00, 0x65, // R#0: 00 nn
-	0x22, // R#3: 2n
 	0x02, 0x5D, // R#2: 02 nn
 	0x04, 0xDD, // R#4: 04 nn
 	0xE4, // -------- Wait: Ex
@@ -8211,8 +8197,7 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x02, 0x4D, // R#2: 02 nn
 	0xE0, // -------- Wait: Ex
 	0x04, 0xAD, // R#4: 04 nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x02, 0x4F, // R#2: 02 nn
@@ -8545,8 +8530,7 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0xE0, // -------- Wait: Ex
 	0x88, // R#9: 8n
 	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x8D, // R#9: 8n
 	0x00, 0x79, // R#0: 00 nn
 	0xE0, // -------- Wait: Ex
@@ -10624,4 +10608,4 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x02, 0x60, // R#2: 02 nn
 	0xFF, // End marker
 };
-// Total size: 13421 bytes
+// Total size: 13406 bytes

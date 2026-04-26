@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sat Nov 29 12:57:22 2025
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: arkos\HocusPocus.akg
 const unsigned char g_AKG_HocusPocus[] = {
 	0x41, 0x54, 0x32, 0x30, 0x0E, 0xA0, 0x57, 0xA0, 0x89, 0xA0, 0x25, 0xA5, 0x4F, 0xA6, 0x1E, 0xA0, //      0

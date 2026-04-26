@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sat Nov  9 14:46:19 2024
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: trilo\SFX_TEST.afb
 const unsigned char g_SFX_TEST[] = {
 	0x08, 0x0F, 0x00, 0x4C, 0x00, 0x7A, 0x00, 0xA7, 0x00, 0xE4, 0x00, 0x53, 0x01, 0xC0, 0x01, 0xEA, //      0

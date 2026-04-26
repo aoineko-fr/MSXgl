@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.21.0 on Sun Oct 12 17:17:22 2025
+// Data generated using MSXimg 1.22.1
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Generation parameters:
@@ -11,7 +11,8 @@
 //  - Start position: 0, 0
 //  - Sprite size:    64, 64 (gap: 0, 0)
 //  - Sprite count:   1, 1
-//  - Color count:    256 (Transparent: #0000)
+//  - Color count:    256 (Transparent: #000000)
+//  - Palette mode:   MSX1 [1:-1]
 //  - Compressor:     None
 //  - Skip empty:     FALSE
 //  - Offset:         0
@@ -33,8 +34,7 @@ const unsigned char g_QRCode_Names[] =
 // Patterns Table
 const unsigned char g_QRCode_Patterns[] =
 {
-// // Sprite[0] (offset:64)
-
+// Sprite[0] (offset:64)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -43,8 +43,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
 	0xE6, /* ###..##. */ 
-// // Sprite[1] (offset:72)
-
+// Sprite[1] (offset:72)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -53,8 +52,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
 	0x06, /* .....##. */ 
-// // Sprite[2] (offset:80)
-
+// Sprite[2] (offset:80)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -63,8 +61,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x67, /* .##..### */ 
 	0x67, /* .##..### */ 
 	0x78, /* .####... */ 
-// // Sprite[3] (offset:88)
-
+// Sprite[3] (offset:88)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -73,8 +70,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
 	0x1E, /* ...####. */ 
-// // Sprite[4] (offset:96)
-
+// Sprite[4] (offset:96)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -83,8 +79,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x07, /* .....### */ 
 	0x07, /* .....### */ 
 	0x06, /* .....##. */ 
-// // Sprite[5] (offset:104)
-
+// Sprite[5] (offset:104)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -93,8 +88,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
 	0x06, /* .....##. */ 
-// // Sprite[6] (offset:112)
-
+// Sprite[6] (offset:112)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -103,8 +97,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x7F, /* .####### */ 
 	0x7F, /* .####### */ 
 	0x60, /* .##..... */ 
-// // Sprite[7] (offset:120)
-
+// Sprite[7] (offset:120)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -113,8 +106,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
 	0x67, /* .##..### */ 
-// // Sprite[8] (offset:128)
-
+// Sprite[8] (offset:128)
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -123,8 +115,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
 	0xE0, /* ###..... */ 
-// // Sprite[9] (offset:136)
-
+// Sprite[9] (offset:136)
 	0x06, /* .....##. */ 
 	0x06, /* .....##. */ 
 	0x06, /* .....##. */ 
@@ -133,8 +124,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
 	0x00, /* ........ */ 
-// // Sprite[10] (offset:144)
-
+// Sprite[10] (offset:144)
 	0x78, /* .####... */ 
 	0x61, /* .##....# */ 
 	0x61, /* .##....# */ 
@@ -143,8 +133,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x66, /* .##..##. */ 
 	0x66, /* .##..##. */ 
 	0x66, /* .##..##. */ 
-// // Sprite[11] (offset:152)
-
+// Sprite[11] (offset:152)
 	0x1E, /* ...####. */ 
 	0xE1, /* ###....# */ 
 	0xE1, /* ###....# */ 
@@ -153,8 +142,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x60, /* .##..... */ 
 	0x60, /* .##..... */ 
 	0x66, /* .##..##. */ 
-// // Sprite[12] (offset:160)
-
+// Sprite[12] (offset:160)
 	0x06, /* .....##. */ 
 	0x81, /* #......# */ 
 	0x81, /* #......# */ 
@@ -163,8 +151,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x18, /* ...##... */ 
 	0x18, /* ...##... */ 
 	0x66, /* .##..##. */ 
-// // Sprite[13] (offset:168)
-
+// Sprite[13] (offset:168)
 	0x06, /* .....##. */ 
 	0x9E, /* #..####. */ 
 	0x9E, /* #..####. */ 
@@ -173,8 +160,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x66, /* .##..##. */ 
 	0x66, /* .##..##. */ 
 	0x66, /* .##..##. */ 
-// // Sprite[14] (offset:176)
-
+// Sprite[14] (offset:176)
 	0x60, /* .##..... */ 
 	0x60, /* .##..... */ 
 	0x60, /* .##..... */ 
@@ -183,8 +169,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x7F, /* .####### */ 
 	0x7F, /* .####### */ 
 	0x00, /* ........ */ 
-// // Sprite[15] (offset:184)
-
+// Sprite[15] (offset:184)
 	0x67, /* .##..### */ 
 	0x67, /* .##..### */ 
 	0x67, /* .##..### */ 
@@ -193,8 +178,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
 	0x07, /* .....### */ 
-// // Sprite[16] (offset:192)
-
+// Sprite[16] (offset:192)
 	0xE0, /* ###..... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -203,8 +187,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
 	0xE0, /* ###..... */ 
-// // Sprite[17] (offset:200)
-
+// Sprite[17] (offset:200)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -213,8 +196,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x01, /* .......# */ 
 	0x01, /* .......# */ 
 	0x66, /* .##..##. */ 
-// // Sprite[18] (offset:208)
-
+// Sprite[18] (offset:208)
 	0x66, /* .##..##. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -223,8 +205,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE1, /* ###....# */ 
 	0xE1, /* ###....# */ 
 	0x61, /* .##....# */ 
-// // Sprite[19] (offset:216)
-
+// Sprite[19] (offset:216)
 	0x66, /* .##..##. */ 
 	0x9E, /* #..####. */ 
 	0x9E, /* #..####. */ 
@@ -233,8 +214,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x99, /* #..##..# */ 
 	0x99, /* #..##..# */ 
 	0xF8, /* #####... */ 
-// // Sprite[20] (offset:224)
-
+// Sprite[20] (offset:224)
 	0x66, /* .##..##. */ 
 	0x7F, /* .####### */ 
 	0x7F, /* .####### */ 
@@ -243,8 +223,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0x1E, /* ...####. */ 
-// // Sprite[21] (offset:232)
-
+// Sprite[21] (offset:232)
 	0x66, /* .##..##. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -253,8 +232,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x06, /* .....##. */ 
 	0x06, /* .....##. */ 
 	0x7F, /* .####### */ 
-// // Sprite[22] (offset:240)
-
+// Sprite[22] (offset:240)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -263,8 +241,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x07, /* .....### */ 
 	0x07, /* .....### */ 
 	0x87, /* #....### */ 
-// // Sprite[23] (offset:248)
-
+// Sprite[23] (offset:248)
 	0x07, /* .....### */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -273,8 +250,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
 	0x00, /* ........ */ 
-// // Sprite[24] (offset:256)
-
+// Sprite[24] (offset:256)
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
@@ -283,8 +259,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xF8, /* #####... */ 
-// // Sprite[25] (offset:264)
-
+// Sprite[25] (offset:264)
 	0x66, /* .##..##. */ 
 	0x61, /* .##....# */ 
 	0x61, /* .##....# */ 
@@ -293,8 +268,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x60, /* .##..... */ 
-// // Sprite[26] (offset:272)
-
+// Sprite[26] (offset:272)
 	0x61, /* .##....# */ 
 	0xF8, /* #####... */ 
 	0xF8, /* #####... */ 
@@ -303,8 +277,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xF8, /* #####... */ 
 	0xF8, /* #####... */ 
 	0x18, /* ...##... */ 
-// // Sprite[27] (offset:280)
-
+// Sprite[27] (offset:280)
 	0xF8, /* #####... */ 
 	0x1F, /* ...##### */ 
 	0x1F, /* ...##### */ 
@@ -313,8 +286,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x1F, /* ...##### */ 
 	0x1F, /* ...##### */ 
 	0x7E, /* .######. */ 
-// // Sprite[28] (offset:288)
-
+// Sprite[28] (offset:288)
 	0x1E, /* ...####. */ 
 	0x87, /* #....### */ 
 	0x87, /* #....### */ 
@@ -323,8 +295,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
 	0x07, /* .....### */ 
-// // Sprite[29] (offset:296)
-
+// Sprite[29] (offset:296)
 	0x7F, /* .####### */ 
 	0x99, /* #..##..# */ 
 	0x99, /* #..##..# */ 
@@ -333,8 +304,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
-// // Sprite[30] (offset:304)
-
+// Sprite[30] (offset:304)
 	0x87, /* #....### */ 
 	0x81, /* #......# */ 
 	0x81, /* #......# */ 
@@ -343,8 +313,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x07, /* .....### */ 
 	0x07, /* .....### */ 
 	0x78, /* .####... */ 
-// // Sprite[31] (offset:312)
-
+// Sprite[31] (offset:312)
 	0x00, /* ........ */ 
 	0x9F, /* #..##### */ 
 	0x9F, /* #..##### */ 
@@ -353,8 +322,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
 	0x7F, /* .####### */ 
-// // Sprite[32] (offset:320)
-
+// Sprite[32] (offset:320)
 	0xF8, /* #####... */ 
 	0xF9, /* #####..# */ 
 	0xF9, /* #####..# */ 
@@ -363,8 +331,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE1, /* ###....# */ 
 	0xE1, /* ###....# */ 
 	0xE6, /* ###..##. */ 
-// // Sprite[33] (offset:328)
-
+// Sprite[33] (offset:328)
 	0x60, /* .##..... */ 
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
@@ -373,8 +340,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xF9, /* #####..# */ 
 	0xF9, /* #####..# */ 
 	0x66, /* .##..##. */ 
-// // Sprite[34] (offset:336)
-
+// Sprite[34] (offset:336)
 	0x18, /* ...##... */ 
 	0x80, /* #....... */ 
 	0x80, /* #....... */ 
@@ -383,8 +349,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
 	0x19, /* ...##..# */ 
-// // Sprite[35] (offset:344)
-
+// Sprite[35] (offset:344)
 	0x7E, /* .######. */ 
 	0x07, /* .....### */ 
 	0x07, /* .....### */ 
@@ -393,8 +358,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x1E, /* ...####. */ 
 	0x1E, /* ...####. */ 
 	0x00, /* ........ */ 
-// // Sprite[36] (offset:352)
-
+// Sprite[36] (offset:352)
 	0x07, /* .....### */ 
 	0x9F, /* #..##### */ 
 	0x9F, /* #..##### */ 
@@ -403,8 +367,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x67, /* .##..### */ 
 	0x67, /* .##..### */ 
 	0x86, /* #....##. */ 
-// // Sprite[37] (offset:360)
-
+// Sprite[37] (offset:360)
 	0xFE, /* #######. */ 
 	0x86, /* #....##. */ 
 	0x86, /* #....##. */ 
@@ -413,8 +376,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x9E, /* #..####. */ 
 	0x9E, /* #..####. */ 
 	0x61, /* .##....# */ 
-// // Sprite[38] (offset:368)
-
+// Sprite[38] (offset:368)
 	0x78, /* .####... */ 
 	0x67, /* .##..### */ 
 	0x67, /* .##..### */ 
@@ -423,8 +385,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x06, /* .....##. */ 
 	0x06, /* .....##. */ 
 	0x86, /* #....##. */ 
-// // Sprite[39] (offset:376)
-
+// Sprite[39] (offset:376)
 	0x7F, /* .####### */ 
 	0x9F, /* #..##### */ 
 	0x9F, /* #..##### */ 
@@ -433,8 +394,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x67, /* .##..### */ 
 	0x67, /* .##..### */ 
 	0x7F, /* .####### */ 
-// // Sprite[40] (offset:384)
-
+// Sprite[40] (offset:384)
 	0xE6, /* ###..##. */ 
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
@@ -443,8 +403,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xE0, /* ###..... */ 
-// // Sprite[41] (offset:392)
-
+// Sprite[41] (offset:392)
 	0x66, /* .##..##. */ 
 	0x87, /* #....### */ 
 	0x87, /* #....### */ 
@@ -453,8 +412,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[42] (offset:400)
-
+// Sprite[42] (offset:400)
 	0x19, /* ...##..# */ 
 	0x81, /* #......# */ 
 	0x81, /* #......# */ 
@@ -463,8 +421,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
 	0x61, /* .##....# */ 
-// // Sprite[43] (offset:408)
-
+// Sprite[43] (offset:408)
 	0x00, /* ........ */ 
 	0x9F, /* #..##### */ 
 	0x9F, /* #..##### */ 
@@ -473,8 +430,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x99, /* #..##..# */ 
 	0x99, /* #..##..# */ 
 	0xFE, /* #######. */ 
-// // Sprite[44] (offset:416)
-
+// Sprite[44] (offset:416)
 	0x86, /* #....##. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -483,8 +439,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xF8, /* #####... */ 
 	0xF8, /* #####... */ 
 	0x01, /* .......# */ 
-// // Sprite[45] (offset:424)
-
+// Sprite[45] (offset:424)
 	0x61, /* .##....# */ 
 	0x18, /* ...##... */ 
 	0x18, /* ...##... */ 
@@ -493,8 +448,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x07, /* .....### */ 
 	0x07, /* .....### */ 
 	0x86, /* #....##. */ 
-// // Sprite[46] (offset:432)
-
+// Sprite[46] (offset:432)
 	0x86, /* #....##. */ 
 	0x67, /* .##..### */ 
 	0x67, /* .##..### */ 
@@ -503,8 +457,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
 	0x60, /* .##..... */ 
-// // Sprite[47] (offset:440)
-
+// Sprite[47] (offset:440)
 	0x7F, /* .####### */ 
 	0x9F, /* #..##### */ 
 	0x9F, /* #..##### */ 
@@ -513,8 +466,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x07, /* .....### */ 
 	0x07, /* .....### */ 
 	0x7F, /* .####### */ 
-// // Sprite[48] (offset:448)
-
+// Sprite[48] (offset:448)
 	0xE0, /* ###..... */ 
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
@@ -523,8 +475,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
-// // Sprite[49] (offset:456)
-
+// Sprite[49] (offset:456)
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
@@ -533,8 +484,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x06, /* .....##. */ 
 	0x06, /* .....##. */ 
 	0x06, /* .....##. */ 
-// // Sprite[50] (offset:464)
-
+// Sprite[50] (offset:464)
 	0x61, /* .##....# */ 
 	0x7F, /* .####### */ 
 	0x7F, /* .####### */ 
@@ -543,8 +493,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x67, /* .##..### */ 
 	0x67, /* .##..### */ 
 	0x66, /* .##..##. */ 
-// // Sprite[51] (offset:472)
-
+// Sprite[51] (offset:472)
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
@@ -553,8 +502,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x9F, /* #..##### */ 
 	0x9F, /* #..##### */ 
 	0x7E, /* .######. */ 
-// // Sprite[52] (offset:480)
-
+// Sprite[52] (offset:480)
 	0x01, /* .......# */ 
 	0x06, /* .....##. */ 
 	0x06, /* .....##. */ 
@@ -563,8 +511,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0x00, /* ........ */ 
-// // Sprite[53] (offset:488)
-
+// Sprite[53] (offset:488)
 	0x86, /* #....##. */ 
 	0x67, /* .##..### */ 
 	0x67, /* .##..### */ 
@@ -573,8 +520,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x19, /* ...##..# */ 
 	0x19, /* ...##..# */ 
 	0x7E, /* .######. */ 
-// // Sprite[54] (offset:496)
-
+// Sprite[54] (offset:496)
 	0x60, /* .##..... */ 
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
@@ -583,8 +529,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0xF8, /* #####... */ 
 	0xF8, /* #####... */ 
 	0x00, /* ........ */ 
-// // Sprite[55] (offset:504)
-
+// Sprite[55] (offset:504)
 	0x7F, /* .####### */ 
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
@@ -593,8 +538,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x67, /* .##..### */ 
 	0x67, /* .##..### */ 
 	0x1F, /* ...##### */ 
-// // Sprite[56] (offset:512)
-
+// Sprite[56] (offset:512)
 	0xE6, /* ###..##. */ 
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
@@ -603,8 +547,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[57] (offset:520)
-
+// Sprite[57] (offset:520)
 	0x06, /* .....##. */ 
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
@@ -613,8 +556,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[58] (offset:528)
-
+// Sprite[58] (offset:528)
 	0x66, /* .##..##. */ 
 	0x67, /* .##..### */ 
 	0x67, /* .##..### */ 
@@ -623,8 +565,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[59] (offset:536)
-
+// Sprite[59] (offset:536)
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -633,8 +574,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[60] (offset:544)
-
+// Sprite[60] (offset:544)
 	0x00, /* ........ */ 
 	0xE7, /* ###..### */ 
 	0xE7, /* ###..### */ 
@@ -643,8 +583,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[61] (offset:552)
-
+// Sprite[61] (offset:552)
 	0x7E, /* .######. */ 
 	0x87, /* #....### */ 
 	0x87, /* #....### */ 
@@ -653,8 +592,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[62] (offset:560)
-
+// Sprite[62] (offset:560)
 	0x00, /* ........ */ 
 	0xF9, /* #####..# */ 
 	0xF9, /* #####..# */ 
@@ -663,8 +601,7 @@ const unsigned char g_QRCode_Patterns[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[63] (offset:568)
-
+// Sprite[63] (offset:568)
 	0x1F, /* ...##### */ 
 	0x9F, /* #..##### */ 
 	0x9F, /* #..##### */ 
@@ -679,197 +616,133 @@ const unsigned char g_QRCode_Patterns[] =
 // Colors Table
 const unsigned char g_QRCode_Colors[] =
 {
-// // Sprite[0] (offset:576)
-
+// Sprite[0] (offset:576)
 	0xFF, 0xFF, 0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[1] (offset:584)
-
+// Sprite[1] (offset:584)
 	0xFF, 0xFF, 0xFF, 0x11, 0x11, 0xF1, 0xF1, 0xF1, 
-// // Sprite[2] (offset:592)
-
+// Sprite[2] (offset:592)
 	0xFF, 0xFF, 0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[3] (offset:600)
-
+// Sprite[3] (offset:600)
 	0xFF, 0xFF, 0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[4] (offset:608)
-
+// Sprite[4] (offset:608)
 	0xFF, 0xFF, 0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[5] (offset:616)
-
+// Sprite[5] (offset:616)
 	0xFF, 0xFF, 0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[6] (offset:624)
-
+// Sprite[6] (offset:624)
 	0xFF, 0xFF, 0xFF, 0x11, 0x11, 0xF1, 0xF1, 0xF1, 
-// // Sprite[7] (offset:632)
-
+// Sprite[7] (offset:632)
 	0xFF, 0xFF, 0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[8] (offset:640)
-
+// Sprite[8] (offset:640)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[9] (offset:648)
-
+// Sprite[9] (offset:648)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0x11, 
-// // Sprite[10] (offset:656)
-
+// Sprite[10] (offset:656)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[11] (offset:664)
-
+// Sprite[11] (offset:664)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[12] (offset:672)
-
+// Sprite[12] (offset:672)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[13] (offset:680)
-
+// Sprite[13] (offset:680)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[14] (offset:688)
-
+// Sprite[14] (offset:688)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0x11, 
-// // Sprite[15] (offset:696)
-
+// Sprite[15] (offset:696)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[16] (offset:704)
-
+// Sprite[16] (offset:704)
 	0xF1, 0xFF, 0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[17] (offset:712)
-
+// Sprite[17] (offset:712)
 	0x11, 0xFF, 0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[18] (offset:720)
-
+// Sprite[18] (offset:720)
 	0xF1, 0xFF, 0xFF, 0x11, 0x11, 0xF1, 0xF1, 0xF1, 
-// // Sprite[19] (offset:728)
-
+// Sprite[19] (offset:728)
 	0xF1, 0xF1, 0xF1, 0x11, 0x11, 0xF1, 0xF1, 0xF1, 
-// // Sprite[20] (offset:736)
-
+// Sprite[20] (offset:736)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[21] (offset:744)
-
+// Sprite[21] (offset:744)
 	0xF1, 0xFF, 0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[22] (offset:752)
-
+// Sprite[22] (offset:752)
 	0x11, 0xFF, 0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[23] (offset:760)
-
+// Sprite[23] (offset:760)
 	0xF1, 0xFF, 0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xFF, 
-// // Sprite[24] (offset:768)
-
+// Sprite[24] (offset:768)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xFF, 0xFF, 0xF1, 
-// // Sprite[25] (offset:776)
-
+// Sprite[25] (offset:776)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xFF, 0xFF, 0xF1, 
-// // Sprite[26] (offset:784)
-
+// Sprite[26] (offset:784)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[27] (offset:792)
-
+// Sprite[27] (offset:792)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[28] (offset:800)
-
+// Sprite[28] (offset:800)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[29] (offset:808)
-
+// Sprite[29] (offset:808)
 	0xF1, 0xF1, 0xF1, 0xFF, 0xFF, 0x11, 0x11, 0xF1, 
-// // Sprite[30] (offset:816)
-
+// Sprite[30] (offset:816)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[31] (offset:824)
-
+// Sprite[31] (offset:824)
 	0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[32] (offset:832)
-
+// Sprite[32] (offset:832)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[33] (offset:840)
-
+// Sprite[33] (offset:840)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[34] (offset:848)
-
+// Sprite[34] (offset:848)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[35] (offset:856)
-
+// Sprite[35] (offset:856)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xFF, 
-// // Sprite[36] (offset:864)
-
+// Sprite[36] (offset:864)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[37] (offset:872)
-
+// Sprite[37] (offset:872)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[38] (offset:880)
-
+// Sprite[38] (offset:880)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[39] (offset:888)
-
+// Sprite[39] (offset:888)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[40] (offset:896)
-
+// Sprite[40] (offset:896)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xFF, 0xFF, 0xF1, 
-// // Sprite[41] (offset:904)
-
+// Sprite[41] (offset:904)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xFF, 0xFF, 0x11, 
-// // Sprite[42] (offset:912)
-
+// Sprite[42] (offset:912)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[43] (offset:920)
-
+// Sprite[43] (offset:920)
 	0xFF, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[44] (offset:928)
-
+// Sprite[44] (offset:928)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[45] (offset:936)
-
+// Sprite[45] (offset:936)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[46] (offset:944)
-
+// Sprite[46] (offset:944)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[47] (offset:952)
-
+// Sprite[47] (offset:952)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[48] (offset:960)
-
+// Sprite[48] (offset:960)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[49] (offset:968)
-
+// Sprite[49] (offset:968)
 	0x11, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[50] (offset:976)
-
+// Sprite[50] (offset:976)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[51] (offset:984)
-
+// Sprite[51] (offset:984)
 	0xF1, 0xF1, 0xF1, 0x11, 0x11, 0xF1, 0xF1, 0xF1, 
-// // Sprite[52] (offset:992)
-
+// Sprite[52] (offset:992)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0x11, 
-// // Sprite[53] (offset:1000)
-
+// Sprite[53] (offset:1000)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[54] (offset:1008)
-
+// Sprite[54] (offset:1008)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0x11, 
-// // Sprite[55] (offset:1016)
-
+// Sprite[55] (offset:1016)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 
-// // Sprite[56] (offset:1024)
-
+// Sprite[56] (offset:1024)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xFF, 0xFF, 0xFF, 
-// // Sprite[57] (offset:1032)
-
+// Sprite[57] (offset:1032)
 	0xF1, 0xF1, 0xF1, 0x11, 0x11, 0xFF, 0xFF, 0xFF, 
-// // Sprite[58] (offset:1040)
-
+// Sprite[58] (offset:1040)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xFF, 0xFF, 0xFF, 
-// // Sprite[59] (offset:1048)
-
+// Sprite[59] (offset:1048)
 	0xF1, 0xFF, 0xFF, 0xF1, 0xF1, 0xFF, 0xFF, 0xFF, 
-// // Sprite[60] (offset:1056)
-
+// Sprite[60] (offset:1056)
 	0x11, 0xF1, 0xF1, 0xF1, 0xF1, 0xFF, 0xFF, 0xFF, 
-// // Sprite[61] (offset:1064)
-
+// Sprite[61] (offset:1064)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xFF, 0xFF, 0xFF, 
-// // Sprite[62] (offset:1072)
-
+// Sprite[62] (offset:1072)
 	0x11, 0xF1, 0xF1, 0xF1, 0xF1, 0xFF, 0xFF, 0xFF, 
-// // Sprite[63] (offset:1080)
-
+// Sprite[63] (offset:1080)
 	0xF1, 0xF1, 0xF1, 0xF1, 0xF1, 0xFF, 0xFF, 0xFF, 
 };
 // Colors size: 512 Bytes

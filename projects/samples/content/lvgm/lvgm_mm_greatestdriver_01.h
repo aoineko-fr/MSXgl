@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_greatestdriver_01.vgm (53941 bytes)
 // Compressor: lVGM
 // VGM version: 1.00 (chips:OPLL)
@@ -52,20 +51,16 @@ const unsigned char g_lVGM_mm_greatestdriver_01[] = {
 	0x34, 0x7F, // rr: nn
 	0x14, 0x6E, // rr: nn
 	0x24, 0x11, // rr: nn
-	0xA3, // rr: 0
 	0x33, 0x73, // rr: nn
 	0x33, 0x7F, // rr: nn
 	0x13, 0x6E, // rr: nn
 	0x23, 0x11, // rr: nn
-	0xA2, // rr: 0
-	0xA1, // rr: 0
 	0x20, 0x03, // rr: nn
 	0x30, 0xF3, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x10, 0x85, // rr: nn
 	0x20, 0x13, // rr: nn
 	0x15, 0x87, // rr: nn
-	0x25, 0x11, // rr: nn
 	0x14, 0x87, // rr: nn
 	0x13, 0x87, // rr: nn
 	0xE0, // -------- Wait: Ex
@@ -198,7 +193,6 @@ const unsigned char g_lVGM_mm_greatestdriver_01[] = {
 	0x12, 0x68, // rr: nn
 	0x31, 0x13, // rr: nn
 	0x31, 0x15, // rr: nn
-	0x11, 0x20, // rr: nn
 	0x21, 0x19, // rr: nn
 	0x10, 0x84, // rr: nn
 	0xE0, // -------- Wait: Ex
@@ -8532,8 +8526,7 @@ const unsigned char g_lVGM_mm_greatestdriver_01[] = {
 	0x20, 0x03, // rr: nn
 	0x14, 0x84, // rr: nn
 	0x12, 0x85, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x12, 0x82, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x12, 0x7C, // rr: nn
@@ -8544,8 +8537,7 @@ const unsigned char g_lVGM_mm_greatestdriver_01[] = {
 	0xE0, // -------- Wait: Ex
 	0x12, 0x83, // rr: nn
 	0x12, 0x88, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x12, 0x8E, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x12, 0x90, // rr: nn
@@ -9380,12 +9372,12 @@ const unsigned char g_lVGM_mm_greatestdriver_01[] = {
 	0x21, 0x17, // rr: nn
 	0x10, 0x88, // rr: nn
 	0xE2, // -------- Wait: Ex
-	0xFD, 0x00, // ======== End of data segment
 	0x10, 0x8B, // rr: nn
 	0xE2, // -------- Wait: Ex
 	0x22, 0x07, // rr: nn
 	0x12, 0x03, // rr: nn
 	0x22, 0x19, // rr: nn
+	0xFD, 0x00, // ======== End of data segment
 	0x10, 0x8A, // rr: nn
 	0xE2, // -------- Wait: Ex
 	0x22, 0x09, // rr: nn
@@ -9695,8 +9687,7 @@ const unsigned char g_lVGM_mm_greatestdriver_01[] = {
 	0x10, 0x84, // rr: nn
 	0x20, 0x13, // rr: nn
 	0x14, 0x58, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x10, 0x88, // rr: nn
 	0xE2, // -------- Wait: Ex
 	0x21, 0x09, // rr: nn
@@ -10040,8 +10031,7 @@ const unsigned char g_lVGM_mm_greatestdriver_01[] = {
 	0x12, 0x85, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x12, 0x82, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x12, 0x7C, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x12, 0x79, // rr: nn
@@ -13238,8 +13228,6 @@ const unsigned char g_lVGM_mm_greatestdriver_01[] = {
 	0x22, 0x1D, // rr: nn
 	0x20, 0x03, // rr: nn
 	0x0E, 0x20, // rr: nn
-	0x44, 0x20, 0x50, 0xC0, // 44 nn[3] => R#16~18
-	0x45, 0x05, 0x05, 0x01, // 45 nn[3] => R#26~28
 	0x46, 0x03, 0x33, 0x33, // 46 nn[3] => R#36~38
 	0xA5, // rr: 0
 	0xA4, // rr: 0
@@ -13254,4 +13242,4 @@ const unsigned char g_lVGM_mm_greatestdriver_01[] = {
 	0x25, 0x11, // rr: nn
 	0xFF, // End marker
 };
-// Total size: 23117 bytes
+// Total size: 23098 bytes

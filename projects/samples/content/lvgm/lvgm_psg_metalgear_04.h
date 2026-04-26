@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\psg_metalgear_04.vgm (24542 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG)
@@ -211,8 +210,6 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0xDA, // R#n: Dn
 	0xFE, // Loop marker
 	0xED, // -------- Wait: Ex
-	0x07, 0xB8, // R#7: 07 nn
-	0xD1, // R#n: Dn
 	0x00, 0xE4, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x25, // R#3: 2n
@@ -3379,8 +3376,7 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x8A, // R#9: 8n
 	0xE0, // -------- Wait: Ex
 	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x8E, // R#9: 8n
 	0x8D, // R#9: 8n
 	0xE0, // -------- Wait: Ex
@@ -4596,7 +4592,6 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -5118,7 +5113,6 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x8E, // R#9: 8n
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -5147,7 +5141,6 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -5585,7 +5578,6 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x8E, // R#9: 8n
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -5613,7 +5605,6 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -6136,7 +6127,6 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x8E, // R#9: 8n
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -6165,7 +6155,6 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -6893,4 +6882,4 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0xE0, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 7505 bytes
+// Total size: 7494 bytes

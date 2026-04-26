@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sat Nov 29 12:57:23 2025
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: arkos\SpecialforVortexTracker25.aky
 const unsigned char g_AKY_SpecialforVortexTracker25[] = {
 	0x80, 0x03, 0xF0, 0xB3, 0x1A, 0x00, 0x60, 0x00, 0x4D, 0xA1, 0x4A, 0xA1, 0x68, 0xA1, 0x60, 0x00, //      0

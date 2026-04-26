@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.20.0 on Sat Nov  9 14:46:27 2024
+// Data generated using MSXimg 1.22.1
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Source image author: GrafxKid (https://opengameart.org/content/super-random-sprites)
@@ -15,6 +15,7 @@
 //  - Sprite size:    16, 16 (gap: 0, 0)
 //  - Sprite count:   1, 1
 //  - Color count:    16 (Transparent: #FF00FF)
+//  - Palette mode:   MSX1 [1:15]
 //  - Compressor:     RLE4 (4-bits Run-length encoding)
 //  - Skip empty:     FALSE
 
@@ -33,13 +34,13 @@ const unsigned char g_DataBmp4b_rle4[] =
 	0xA1, 
 	0x50, 
 	0x31, 
-	0x13, 
+	0x15, 
 	0x2F, 
 	0x1E, 
 	0x11, 
 	0x1E, 
 	0x1F, 
-	0x13, 
+	0x15, 
 	0x11, 
 	0x40, 
 	0x31, 
@@ -60,16 +61,16 @@ const unsigned char g_DataBmp4b_rle4[] =
 	0x40, 
 	0x31, 
 	0x3F, 
-	0x38, 
+	0x39, 
 	0x2F, 
 	0x11, 
 	0x40, 
 	0x31, 
-	0x13, 
+	0x15, 
 	0x2F, 
 	0x26, 
 	0x2F, 
-	0x13, 
+	0x15, 
 	0x11, 
 	0x50, 
 	0x41, 
@@ -85,13 +86,13 @@ const unsigned char g_DataBmp4b_rle4[] =
 	0x11, 
 	0x30, 
 	0x31, 
-	0x13, 
+	0x15, 
 	0x11, 
 	0x7F, 
 	0x21, 
 	0x20, 
 	0x31, 
-	0x13, 
+	0x15, 
 	0x11, 
 	0x1E, 
 	0x5F, 
@@ -99,20 +100,20 @@ const unsigned char g_DataBmp4b_rle4[] =
 	0x21, 
 	0x20, 
 	0x11, 
-	0x23, 
+	0x25, 
 	0x21, 
-	0x13, 
+	0x15, 
 	0x1E, 
 	0x3F, 
 	0x1E, 
-	0x13, 
+	0x15, 
 	0x21, 
 	0x30, 
 	0xC1, 
 	0x50, 
 	0x11, 
 	0x16, 
-	0x48, 
+	0x49, 
 	0x11, 
 	0x36, 
 	0x11, 

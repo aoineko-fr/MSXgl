@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:24 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\scc_nemesis3_05.vgm (56442 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -44,15 +43,8 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xB3, 0x00, 0x19, 0x31, 0x47, 0x5A, 0x6A, 0x75, 0x7D, 0x7F, 0x7D, 0x75, 0x6A, 0x5A, 0x47, 0x31, 0x19, 0x80, 0xA0, 0xC0, 0xE0, 0x00, 0x20, 0x40, 0x60, 0x80, 0xA0, 0xC0, 0xE0, 0x00, 0x20, 0x40, 0x60, // B3 nn[32] => 9860h~
 	0x8F, 0x1E, // #rr = nn
 	0xF0, // ---- Start PSG section
-	0xD7, // R#n: Dn
 	0x00, 0x00, // R#0: 00 nn
 	0x16, // R#1: 1n
-	0x02, 0xA8, // R#2: 02 nn
-	0x21, // R#3: 2n
-	0x87, // R#9: 8n
-	0x04, 0x00, // R#4: 04 nn
-	0x30, // R#5: 3n
-	0xA0, // R#10: An
 	0xF3, // ---- Start SCC section
 	0xD1, 0x8B, 0x0C, 0x06, 0x09, 0x09, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Ex
@@ -123,9 +115,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD4, // R#2: 02 nn
 	0x20, // R#3: 2n
-	0x0B, 0x0A, // R#11: 0B nn
-	0x0C, 0x00, // R#12: 0C nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -352,7 +341,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEC, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -504,7 +492,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x50, // #rr = nn
@@ -551,7 +538,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEB, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -635,7 +621,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEC, // R#2: 02 nn
 	0x20, // R#3: 2n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -740,8 +725,7 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xD0, 0x8C, 0x04, 0x03, 0x03, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Ex
 	0x8C, 0x03, // #rr = nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x8C, 0x02, // #rr = nn
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
@@ -863,7 +847,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xFC, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -1015,7 +998,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x50, // #rr = nn
@@ -1062,7 +1044,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xFB, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -1146,7 +1127,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xFC, // R#2: 02 nn
 	0x20, // R#3: 2n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -1252,8 +1232,7 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xD0, 0x8C, 0x04, 0x03, 0x03, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Ex
 	0x8C, 0x03, // #rr = nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x8C, 0x02, // #rr = nn
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
@@ -1375,7 +1354,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x18, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -1527,7 +1505,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x50, // #rr = nn
@@ -1574,7 +1551,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x17, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -1654,7 +1630,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x30, // R#2: 02 nn
 	0x22, // R#3: 2n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD5, 0x82, 0xA0, 0x06, 0xD4, 0x00, 0xA8, 0x01, 0x30, 0x02, // Dn rr vv[] => R#rr~
@@ -1715,7 +1690,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x8B, 0x08, 0x04, 0x07, 0x06, // Dn rr vv[] => R#rr~
@@ -1742,7 +1716,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xC8, // R#2: 02 nn
 	0x22, // R#3: 2n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD5, 0x82, 0xC8, 0x02, 0xEC, 0x00, 0xD8, 0x01, 0xC8, 0x02, // Dn rr vv[] => R#rr~
@@ -1785,7 +1758,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD8, // R#2: 02 nn
 	0x21, // R#3: 2n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x90, 0x05, 0xB2, // Dn rr vv[] => R#rr~
@@ -1833,7 +1805,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x64, // R#2: 02 nn
 	0x0B, 0x0F, // R#11: 0B nn
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD5, 0x82, 0x20, 0x04, 0x08, 0x01, 0x10, 0x02, 0xC8, 0x02, // Dn rr vv[] => R#rr~
@@ -1871,7 +1842,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x10, // R#2: 02 nn
 	0x22, // R#3: 2n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD4, 0x82, 0x10, 0x02, 0xB2, 0x00, 0x64, 0x01, 0x10, // Dn rr vv[] => R#rr~
@@ -1908,7 +1878,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x64, // R#2: 02 nn
 	0x21, // R#3: 2n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x20, 0x04, 0x84, // Dn rr vv[] => R#rr~
@@ -1947,7 +1916,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x08, // R#2: 02 nn
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x60, 0x07, 0xEC, // Dn rr vv[] => R#rr~
@@ -1969,7 +1937,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x8B, 0x08, 0x04, 0x07, 0x06, // Dn rr vv[] => R#rr~
@@ -1995,7 +1962,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD8, // R#2: 02 nn
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xB0, 0x03, 0x9E, // Dn rr vv[] => R#rr~
@@ -2017,7 +1983,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x8B, 0x08, 0x04, 0x07, 0x06, // Dn rr vv[] => R#rr~
@@ -2043,7 +2008,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x3C, // R#2: 02 nn
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x60, 0x07, 0x76, // Dn rr vv[] => R#rr~
@@ -2063,7 +2027,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x8B, 0x08, 0x04, 0x07, 0x06, // Dn rr vv[] => R#rr~
@@ -2191,7 +2154,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD4, // R#2: 02 nn
 	0x20, // R#3: 2n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -2296,8 +2258,7 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xD0, 0x8C, 0x04, 0x03, 0x03, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Ex
 	0x8C, 0x03, // #rr = nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x8C, 0x02, // #rr = nn
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
@@ -2419,7 +2380,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEC, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -2571,7 +2531,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x50, // #rr = nn
@@ -2618,7 +2577,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEB, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -2702,7 +2660,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEC, // R#2: 02 nn
 	0x20, // R#3: 2n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -2807,8 +2764,7 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xD0, 0x8C, 0x04, 0x03, 0x03, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Ex
 	0x8C, 0x03, // #rr = nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x8C, 0x02, // #rr = nn
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
@@ -2930,7 +2886,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xFC, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -3082,7 +3037,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x50, // #rr = nn
@@ -3129,7 +3083,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xFB, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -3213,7 +3166,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xFC, // R#2: 02 nn
 	0x20, // R#3: 2n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -3441,7 +3393,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x18, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -3593,7 +3544,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x50, // #rr = nn
@@ -3640,7 +3590,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x17, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -3720,7 +3669,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x30, // R#2: 02 nn
 	0x22, // R#3: 2n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD5, 0x82, 0xA0, 0x06, 0xD4, 0x00, 0xA8, 0x01, 0x30, 0x02, // Dn rr vv[] => R#rr~
@@ -3781,7 +3729,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x8B, 0x08, 0x04, 0x07, 0x06, // Dn rr vv[] => R#rr~
@@ -3808,7 +3755,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xC8, // R#2: 02 nn
 	0x22, // R#3: 2n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD5, 0x82, 0xC8, 0x02, 0xEC, 0x00, 0xD8, 0x01, 0xC8, 0x02, // Dn rr vv[] => R#rr~
@@ -3851,7 +3797,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD8, // R#2: 02 nn
 	0x21, // R#3: 2n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x90, 0x05, 0xB2, // Dn rr vv[] => R#rr~
@@ -3978,7 +3923,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x64, // R#2: 02 nn
 	0x21, // R#3: 2n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x20, 0x04, 0x84, // Dn rr vv[] => R#rr~
@@ -4017,7 +3961,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x08, // R#2: 02 nn
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x60, 0x07, 0xEC, // Dn rr vv[] => R#rr~
@@ -4056,7 +3999,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD8, // R#2: 02 nn
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xB0, 0x03, 0x9E, // Dn rr vv[] => R#rr~
@@ -4095,7 +4037,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x3C, // R#2: 02 nn
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x60, 0x07, 0x76, // Dn rr vv[] => R#rr~
@@ -4213,7 +4154,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x88, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xE0, 0x07, 0xF8, 0x01, // Dn rr vv[] => R#rr~
@@ -4336,7 +4276,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xF0, 0x03, 0xFC, 0x00, // Dn rr vv[] => R#rr~
@@ -4473,7 +4412,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xE0, 0x07, 0x3C, 0x01, // Dn rr vv[] => R#rr~
@@ -4663,7 +4601,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xE0, 0x07, 0x50, 0x03, // Dn rr vv[] => R#rr~
@@ -4751,7 +4688,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x3C, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xE0, 0x07, 0xF8, 0x01, // Dn rr vv[] => R#rr~
@@ -4878,7 +4814,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xA8, // R#2: 02 nn
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xF0, 0x03, 0xFC, 0x00, // Dn rr vv[] => R#rr~
@@ -4999,7 +4934,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x3C, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xE0, 0x07, 0x3C, 0x01, // Dn rr vv[] => R#rr~
@@ -5161,7 +5095,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x60, 0x07, 0xF0, // Dn rr vv[] => R#rr~
@@ -5232,7 +5165,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x60, 0x07, 0xD8, 0x01, // Dn rr vv[] => R#rr~
@@ -5355,7 +5287,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xB0, 0x03, 0xEC, 0x00, // Dn rr vv[] => R#rr~
@@ -5483,7 +5414,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEC, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x60, 0x07, 0x3C, 0x01, // Dn rr vv[] => R#rr~
@@ -5652,7 +5582,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x60, 0x07, 0xF0, // Dn rr vv[] => R#rr~
@@ -5728,7 +5657,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xFC, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x60, 0x07, 0xD8, 0x01, // Dn rr vv[] => R#rr~
@@ -5851,7 +5779,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xB0, 0x03, 0xEC, 0x00, // Dn rr vv[] => R#rr~
@@ -5979,7 +5906,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x3C, // R#2: 02 nn
 	0x21, // R#3: 2n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x60, 0x07, 0x3C, 0x01, // Dn rr vv[] => R#rr~
@@ -6148,7 +6074,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x40, 0x08, 0xC8, // Dn rr vv[] => R#rr~
@@ -6225,7 +6150,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x08, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x40, 0x08, 0xA8, 0x01, // Dn rr vv[] => R#rr~
@@ -6348,7 +6272,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x20, 0x04, 0xD4, 0x00, // Dn rr vv[] => R#rr~
@@ -6485,7 +6408,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x40, 0x08, 0x08, 0x01, // Dn rr vv[] => R#rr~
@@ -6653,7 +6575,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x40, 0x08, 0xC8, // Dn rr vv[] => R#rr~
@@ -6722,7 +6643,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x40, 0x08, 0xA8, 0x01, // Dn rr vv[] => R#rr~
@@ -6840,7 +6760,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x64, // R#2: 02 nn
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x20, 0x04, 0xD4, 0x00, // Dn rr vv[] => R#rr~
@@ -6961,7 +6880,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x08, // R#2: 02 nn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x40, 0x08, 0x08, 0x01, // Dn rr vv[] => R#rr~
@@ -7123,7 +7041,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xC0, 0x08, 0xF0, // Dn rr vv[] => R#rr~
@@ -7193,7 +7110,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xC0, 0x08, 0xA8, 0x01, // Dn rr vv[] => R#rr~
@@ -7316,7 +7232,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x60, 0x04, 0xD4, 0x00, // Dn rr vv[] => R#rr~
@@ -7453,7 +7368,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xC0, 0x08, 0x18, 0x01, // Dn rr vv[] => R#rr~
@@ -7622,7 +7536,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0xD2, // R#n: Dn
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD2, 0x82, 0xC0, 0x08, 0xF0, 0x02, 0xE0, // Dn rr vv[] => R#rr~
@@ -7708,7 +7621,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xE0, // R#2: 02 nn
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xC0, 0x08, 0xC0, 0x01, // Dn rr vv[] => R#rr~
@@ -7753,7 +7665,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x60, 0x04, 0x78, // Dn rr vv[] => R#rr~
@@ -7798,7 +7709,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xC0, 0x08, 0x18, // Dn rr vv[] => R#rr~
@@ -7845,7 +7755,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x60, 0x04, 0xE0, 0x00, // Dn rr vv[] => R#rr~
@@ -7892,7 +7801,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x84, 0xD4, // #rr = nn
@@ -7916,7 +7824,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x8B, 0x08, // #rr = nn
@@ -7945,7 +7852,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xA0, 0x06, 0xE0, // Dn rr vv[] => R#rr~
@@ -7994,7 +7900,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xE0, 0x05, 0x18, 0x01, // Dn rr vv[] => R#rr~
@@ -8045,7 +7950,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x60, 0x04, 0xD4, 0x00, // Dn rr vv[] => R#rr~
@@ -8094,7 +7998,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xDF, // R#2: 02 nn
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x50, 0x03, 0xE0, // Dn rr vv[] => R#rr~
@@ -8142,7 +8045,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD2, 0x82, 0xF0, 0x02, 0x18, 0x01, 0xE0, // Dn rr vv[] => R#rr~
@@ -8287,7 +8189,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD4, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x3C, // #rr = nn
@@ -8526,7 +8427,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x02, 0xD4, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x3C, // #rr = nn
@@ -8697,7 +8597,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x3C, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x90, 0x05, 0xD8, // Dn rr vv[] => R#rr~
@@ -8774,7 +8673,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x02, 0xEC, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x3C, // #rr = nn
@@ -9013,7 +8911,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x02, 0xEC, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x3C, // #rr = nn
@@ -9184,7 +9081,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x3C, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x20, 0x04, 0x64, // Dn rr vv[] => R#rr~
@@ -9244,7 +9140,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x02, 0xD4, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x8B, 0x0D, // #rr = nn
@@ -9411,8 +9306,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x8B, 0x05, // #rr = nn
 	0x8C, 0x04, // #rr = nn
 	0xE0, // -------- Wait: Ex
-	0xFD, 0x00, // ======== End of data segment
-	0x00, // Padding
 	0x8B, 0x04, // #rr = nn
 	0x8C, 0x03, // #rr = nn
 	0xE0, // -------- Wait: Ex
@@ -9468,6 +9361,7 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x60, // R#8: 6n
 	0x07, 0xBD, // R#7: 07 nn
 	0xE2, // -------- Wait: Ex
+	0xFD, 0x00, // ======== End of data segment
 	0x02, 0xD3, // R#2: 02 nn
 	0xE1, // -------- Wait: Ex
 	0x00, 0x50, // R#0: 00 nn
@@ -9476,7 +9370,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x02, 0x08, // R#2: 02 nn
 	0x21, // R#3: 2n
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x8B, 0x0D, // #rr = nn
@@ -9650,7 +9543,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x00, 0x50, // R#0: 00 nn
 	0x14, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x60, // #rr = nn
@@ -9792,7 +9684,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x8B, 0x0D, 0x09, 0x0A, 0x0A, // Dn rr vv[] => R#rr~
@@ -10009,7 +9900,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xE0, // #rr = nn
@@ -10062,7 +9952,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -10193,7 +10082,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD4, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x3C, // #rr = nn
@@ -10432,7 +10320,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x02, 0xD4, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x3C, // #rr = nn
@@ -10603,7 +10490,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x3C, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x90, 0x05, 0xD8, // Dn rr vv[] => R#rr~
@@ -10680,7 +10566,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x02, 0xEC, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x3C, // #rr = nn
@@ -10919,7 +10804,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x02, 0xEC, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0x3C, // #rr = nn
@@ -11090,7 +10974,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x3C, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x20, 0x04, 0x64, // Dn rr vv[] => R#rr~
@@ -11150,7 +11033,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x02, 0xD4, // R#2: 02 nn
 	0x20, // R#3: 2n
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x8B, 0x0D, // #rr = nn
@@ -11380,7 +11262,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x02, 0x08, // R#2: 02 nn
 	0x21, // R#3: 2n
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x8B, 0x0D, // #rr = nn
@@ -11653,7 +11534,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x5E, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x60, // #rr = nn
@@ -11792,7 +11672,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x6A, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0xC9, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xF0, // #rr = nn
@@ -11860,7 +11739,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x82, // R#9: 8n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x86, 0xB2, // #rr = nn
@@ -11889,7 +11767,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x82, // R#9: 8n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xC8, // #rr = nn
@@ -11941,7 +11818,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x82, // R#9: 8n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x90, // #rr = nn
@@ -11993,7 +11869,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x82, // R#9: 8n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x40, 0x06, 0x90, // Dn rr vv[] => R#rr~
@@ -12044,7 +11919,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x82, // R#9: 8n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x20, // #rr = nn
@@ -12096,7 +11970,6 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x82, // R#9: 8n
-	0xC0, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
@@ -12161,4 +12034,4 @@ const unsigned char g_lVGM_scc_nemesis3_05[] = {
 	0xD1, 0x8B, 0x0D, 0x07, 0x0A, 0x0A, // Dn rr vv[] => R#rr~
 	0xFF, // End marker
 };
-// Total size: 21350 bytes
+// Total size: 21220 bytes

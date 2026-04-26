@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sat Nov 29 12:57:23 2025
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: arkos\Justaddcream.aky
 const unsigned char g_AKY_Justaddcream[] = {
 	0x80, 0x03, 0x80, 0x84, 0x1E, 0x00, 0x80, 0x01, 0x95, 0xA4, 0xAD, 0xA4, 0xD0, 0xA5, 0x80, 0x01, //      0

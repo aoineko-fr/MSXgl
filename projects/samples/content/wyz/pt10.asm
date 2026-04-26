@@ -1,5 +1,5 @@
 ;-----------------------------------------------------------------------------
-; WYZ file merged for MSXgl on 09/11/2024 14:46:20,92 
+; WYZ file merged for MSXgl on 19/04/2026 18:06:41,10 
 ;-----------------------------------------------------------------------------
 .module wyz_pt10 
 _pt10_Song:: .DW SONG00 
@@ -34,9 +34,9 @@ _pt10_Freq:: .DW 0,0
 .DW 95,90,85,80,76,71,67,64,60,57
 ; Song data 
 SONG00: 
-; MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-; File generated on Sat Nov  9 14:46:20 2024
-; Soure file: D:\Dev\Private\MSX\MSXgl\projects\samples\datasrc\wyz\pt10.mus
+; MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
+; File generated on Sun Apr 19 18:06:41 2026
+; Soure file: C:\dev\MSX\MSXgl\projects\samples\datasrc\wyz\pt10.mus
 _pt10_Data::
 .db 0x03,0x31,0x00,0x00,0x02,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x42,0x7E,0x3F,0x02
 .db 0x00,0x66,0x6A,0x6D,0x72,0x6D,0x6A,0x66,0x6A,0x6D,0x72,0x6D,0x6A,0x66,0x6A,0x6D
