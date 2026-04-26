@@ -343,6 +343,7 @@ AppID = "XX";
 // EmulPSG2     = false;				//-- Add second PSG extension (boolean)
 // EmulV9990    = false;				//-- Add V9990 video-chip extension (boolean)
 // EmulRAM      = false;				//-- Add mapped-RAM extension (boolean)
+// Emul2ndCart  = "";					//-- Add additionnal cartridge in secondary slot (string)
 
 //-------------------------------------------------------------------------------
 // Input options

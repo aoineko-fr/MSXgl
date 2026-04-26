@@ -492,6 +492,9 @@ global.EmulV9990 = false;
 //-- Add mapped-RAM extension (boolean)
 global.EmulRAM = false;
 
+//-- Add additionnal cartridge in secondary slot (string)
+global.Emul2ndCart = "";
+
 //-------------------------------------------------------------------------------
 // Input options
 

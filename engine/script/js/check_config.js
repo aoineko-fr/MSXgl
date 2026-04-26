@@ -129,3 +129,13 @@ if (DoRun)
 		DoRun = false; 
 	}
 }
+
+//***************************************************************************
+// CHECK ADDITIONNAL PARAMETERS
+//***************************************************************************
+if ((Ext !== "rom") && (Emul2ndCart !== ""))
+{
+	util.print("Second cartridge option can only be used with ROM main application!", PrintWarning);
+	util.print("Disactivate Emul2ndCart option");
+	Emul2ndCart = ""; 
+}

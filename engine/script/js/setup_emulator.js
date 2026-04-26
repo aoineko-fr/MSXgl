@@ -48,7 +48,7 @@ if (EmulatorName === "MSXW") { EmulatorName = "MSX"; }
 // Doc: https://openmsx.org/manual/commands.html
 if (EmulatorName === "OPENMSX") {
 
-	util.print("You can only change frequency by setting the machine");
+	util.print("You can only change frequency by setting a NTSC (60 Hz) or PAL (50 Hz) machine");
 
 	//---- Add launch options ----
 	if (EmulMachine) {
@@ -90,6 +90,7 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulPSG2)      { EmulExtCount++; }
 	if (EmulV9990)     { EmulExtCount++; }
 	if (EmulRAM)       { EmulExtCount++; }
+	if (Emul2ndCart !== "") { EmulExtCount++; }
 	if (EmulExtCount >= 3) { EmulatorArgs += " -exta slotexpander"; }
 	if (EmulExtCount >= 6) { EmulatorArgs += " -extb slotexpander"; }
 	util.print(`${EmulExtCount} extension found`);
@@ -103,7 +104,9 @@ if (EmulatorName === "OPENMSX") {
 			EmulatorArgs += ` -diska ${ProjDir}emul/bin`;
 	}
 	if (Ext === "rom") { 
-		EmulatorArgs += ` -cart ${ProjDir}emul/rom/${ProjName}.rom`;
+		EmulatorArgs += ` -carta ${ProjDir}emul/rom/${ProjName}.rom`;
+		if (Emul2ndCart !== "")
+			EmulatorArgs += ` -cartb ${Emul2ndCart}`;
 		if (ROMDelayBoot)
 			EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dsk/tmp`;
 		if (Mapper == "ROM_YAMANOOTO")
@@ -257,7 +260,12 @@ else if (EmulatorName === "FMSX") {
 		else
 			EmulatorArgs += ` -diska ${ProjDir}/emul/dsk/${ProjName}.dsk`;
 	}
-	if (Ext === "rom") { EmulatorArgs += ` ${ProjDir}/emul/rom/${ProjName}.rom` }
+	if (Ext === "rom")
+	{
+		EmulatorArgs += ` ${ProjDir}/emul/rom/${ProjName}.rom`;
+		if (Emul2ndCart !== "")
+			EmulatorArgs += ` ${Emul2ndCart}`;
+	}
 	if (Ext === "com") { EmulatorArgs += ` -diska ${ProjDir}/emul/dsk/${ProjName}.dsk` }
 }
 
@@ -267,6 +275,7 @@ else if (EmulatorName === "FMSX") {
 // Doc: http://cngsoft.no-ip.org/cpcec.htm
 else if (EmulatorName === "MSXEC") {
 
+	EmulatorArgs += " -O"; // Disable onscreen status
 	//---- Add launch options ----
 	// 0: Generic 8K
 	// 1: Generic 16K
@@ -285,9 +294,7 @@ else if (EmulatorName === "MSXEC") {
 	case "ROM_KONAMI":		EmulatorArgs += " -g3"; break;
 	case "ROM_KONAMI_SCC":	EmulatorArgs += " -g2"; break;
 	case "ROM_NEO8":
-	case "ROM_NEO16":
-		util.print("NEO mapper formats not supported by MSXEC", PrintError);
-		process.exit(520);
+	case "ROM_NEO16":		EmulatorArgs += " -g9"; break;
 	default:
 		// EmulatorArgs += " -g1";
 	}
@@ -304,10 +311,20 @@ else if (EmulatorName === "MSXEC") {
 			process.exit(530);
 		}
 	}
+
 	if (Emul60Hz)       { util.print("Emul60Hz can't be use with MSXEC", PrintWarning); }
 	if (EmulFullScreen) { EmulatorArgs += " -W"; }
 	if (EmulMute)       { EmulatorArgs += " -S"; }
 	if (EmulTurbo)		{ util.print("EmulTurbo can't be use with MSXEC", PrintWarning); }
+
+	//---- Emulator extensions ----
+	// if (EmulSCC)      { EmulatorArgs += " "; }
+	// if (EmulMSXMusic) { EmulatorArgs += " "; }
+	// if (EmulMSXAudio) { EmulatorArgs += " "; }
+	// if (EmulOPL4)     { EmulatorArgs += " "; }
+	if (EmulPSG2)     { EmulatorArgs += " -p"; }
+	// if (EmulV9990)    { EmulatorArgs += " "; }
+	if (EmulRAM)      { EmulatorArgs += " -k6"; }
 
 	//---- Emulator conenctors ----
 	// if      (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -joy 1'; }
@@ -323,10 +340,10 @@ else if (EmulatorName === "MSXEC") {
 		if (Target === "BIN_TAPE")
 			EmulatorArgs += ` ${ProjDir}emul/cas/${ProjName}.cas"`;
 		else
-			EmulatorArgs += ` ${ProjDir}/emul/dsk/${ProjName}.dsk`;
+			EmulatorArgs += ` -x ${ProjDir}/emul/dsk/${ProjName}.dsk`;
 	}
-	if (Ext === "rom") { EmulatorArgs += ` ${ProjDir}/emul/rom/${ProjName}.rom` }
-	if (Ext === "com") { EmulatorArgs += ` ${ProjDir}/emul/dsk/${ProjName}.dsk` }
+	else if (Ext === "rom") { EmulatorArgs += ` ${ProjDir}/emul/rom/${ProjName}.rom` }
+	else if (Ext === "com") { EmulatorArgs += ` -x ${ProjDir}/emul/dsk/${ProjName}.dsk` }
 }
 
 //*****************************************************************************

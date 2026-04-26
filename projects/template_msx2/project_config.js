@@ -119,7 +119,7 @@ Target = "ROM_32K";
 // ROMSkipBootKey = "ESC";
 
 //-- Add code to check MSX version at program startup (boolean)
-// CheckVersion = false;
+CheckVersion = true;
 
 //-- Postpone the ROM startup to let the other ROMs initialize like Disk controller or Network cartridge (boolean)
 // ROMDelayBoot = false;
@@ -342,6 +342,8 @@ Verbose = true;
 // EmulOPL4     = false;				//-- Add OPL4 extension (boolean)
 // EmulPSG2     = false;				//-- Add second PSG extension (boolean)
 // EmulV9990    = false;				//-- Add V9990 video-chip extension (boolean)
+// EmulRAM      = false;				//-- Add mapped-RAM extension (boolean)
+// Emul2ndCart  = "";					//-- Add additionnal cartridge in secondary slot (string)
 
 //-------------------------------------------------------------------------------
 // Input options
