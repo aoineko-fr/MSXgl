@@ -23,6 +23,7 @@
 #define V9_GROUND_Y					20
 #define V9_HORIZON_Y				14
 #define BMP_TILES_Y					256
+#define BG_COLOR					14
 
 // Bits per pixel
 #define BPP_2						0x02
@@ -185,7 +186,7 @@ void InitPalette()
 	case V9_MODE_B5:
 	case V9_MODE_B6:
 	case V9_MODE_B7:
-		loop(i, 2)
+		loop (i, 2)
 		{
 			V9_SetPaletteEntry(i * 32 + 0, g_ColorBlack);
 			V9_SetPalette(i * 32 + 1,  15, g_DataV9BG_palette);
@@ -216,7 +217,7 @@ void InitP1()
 	V9_SetScreenMode(V9_MODE_P1);
 	V9_SetDisplayEnable(FALSE);
 	V9_SetInterrupt(V9_INT_NONE);
-	V9_SetBackgroundColor(6);
+	V9_SetBackgroundColor(BG_COLOR);
 	V9_SetSpriteEnable(TRUE);
 
 	InitPalette();
@@ -364,7 +365,7 @@ void InitP2()
 	V9_SetScreenMode(V9_MODE_P2);
 	V9_SetDisplayEnable(FALSE);
 	V9_SetInterrupt(V9_INT_NONE);
-	V9_SetBackgroundColor(6);
+	V9_SetBackgroundColor(BG_COLOR);
 	V9_SetSpriteEnable(TRUE);
 
 	InitPalette();
@@ -578,7 +579,7 @@ void InitBmp()
 	V9_SetInterrupt(V9_INT_NONE);
 	V9_SetImageSpaceWidth(V9_R06_WIDH_1024);
 	V9_SetColorMode(g_ColorMode[g_CurrentColor].Mode);
-	V9_SetBackgroundColor(6);
+	V9_SetBackgroundColor(BG_COLOR);
 	V9_SetScrollingX(0);
 
 	u16 bgColor = 0;
@@ -595,14 +596,14 @@ void InitBmp()
 		// for (u8 i = 0; i < 24; ++i)
 		// 	V9_WriteVRAM((u32)(0 + (u32)(512 * (u32)(512 + 48 + i))), g_DataV9Font + (128 * i), 128);
 
-		// loop(i, 48+24)
-		// 	loop(j, 64)
+		// loop (i, 48+24)
+		// 	loop (j, 64)
 		// 		V9_Poke((u32)(0 + (u32)(512 * (u32)(256 + 0 + i)) + j), (j & 1) ? 0b11100100 : 0b00011011);
 		V9_FillVRAM(BMP_TILES_Y * 256, 0b00000000, 256 * 72);
 	}
 	else if (g_CurrentColor == V9_COLOR_BP4)
 	{
-		bgColor = 0x6666;
+		bgColor = 0xEEEE;
 		InitPalette();
 		V9_SelectPaletteBP4(0);
 
@@ -612,7 +613,7 @@ void InitBmp()
 		for (u8 i = 0; i < 24; ++i)
 		{
 			u8* buf = (u8*)Mem_GetHeapAddress();
-			loop(j, 128)
+			loop (j, 128)
 			{
 				u8 v = *(const u8*)(g_DataV9Font + (128 * i) + j);
 				if ((v & 0xF0) == 0x00)
@@ -633,10 +634,10 @@ void InitBmp()
 		bgColor = 0x8787;
 		// Load graphics data to VRAM
 		const u8* data = g_DataV9BG;
-		loop(i, 48)
+		loop (i, 48)
 		{
 			u32 addr = BMP_TILES_Y * 1024 + i * 1024;
-			loop(j, 128)
+			loop (j, 128)
 			{
 				V9_Poke(addr++, g_BD8_PaletteBG[*data >> 4]);
 				V9_Poke(addr++, g_BD8_PaletteBG[*data & 0x0F]);
@@ -702,11 +703,11 @@ void InitBmp()
 	V9_SetCursorEnable(true);
 	V9_SetCursorPalette(2); // entry 8
 	u8* buf = (u8*)Mem_GetHeapAddress();
-	loop(i, 128)
+	loop (i, 128)
 	{
 		buf[i] = i & 0x04 ? 0xAA : 0x55; // Initialize 'check' pattern
 	}
-	loop(i, 2)
+	loop (i, 2)
 		V9_SetCursorPattern(i, buf);
 
 	V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
@@ -737,7 +738,7 @@ void TickBmp()
 		V9_SetInterrupt(V9_INT_VBLANK | V9_INT_HBLANK);
 	}
 
-	loop(i, 2)
+	loop (i, 2)
 	{
 		u8 idx = ((g_Frame >> 2) + (i * 32)) % 64;
 		V9_SetCursorAttribute(i, 64 + i * 96, 64 + ((i16)g_Sinus64[idx] / 8), i + 1);
@@ -903,7 +904,7 @@ void main()
 	//---- CURRENT SCREEN MODE INIT ----
 	g_ScreenMode[g_CurrentScreen].Init();
 
-	loop(i, 80)
+	loop (i, 80)
 		g_KeyPressed[i] = FALSE;
 
 	u16 count = 0;

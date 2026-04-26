@@ -139,7 +139,7 @@ u8 MSXMusic_GetRegister(u8 reg)
 void MSXMusic_Mute()
 {
 	MSXMUSIC_DOBACKUP(FALSE);
-	loop(i, 9)
+	loop (i, 9)
 	{
 		MSXMusic_SetRegister(MSXMUSIC_REG_CTRL_1 + i, 0); // seem to be enough
 	}
@@ -151,7 +151,7 @@ void MSXMusic_Mute()
 // Resume MSX-Music sound
 void MSXMusic_Resume()
 {
-	loop(i, 9)
+	loop (i, 9)
 	{
 		MSXMusic_SetRegister(MSXMUSIC_REG_CTRL_1 + i, g_MSXMusic_RegBackup[i]); // seem to be enough
 	}

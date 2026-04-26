@@ -450,7 +450,7 @@ void Init16()
 	g_PosX1 = 0;
 
 	// Compute transformed sprite data
-	loop(i, 6 * 2)
+	loop (i, 6 * 2)
 	{
 		u16 idx = i * 4 * 8;
 		SpriteFX_RotateRight16(&g_PatternData[idx], &g_PatternDataRotRight[idx]);
@@ -614,7 +614,7 @@ void Init8()
 	VDP_LoadSpritePattern(g_Font_MGL_Symbol1 + 4 + (16 * 10 * 8), 0, 32);
 
 	// Initialize sprite attribute
-	loop(i, SPRITE_8_NUM)
+	loop (i, SPRITE_8_NUM)
 	{
 		VectorU8* vec = &g_SpritePos[i];
 		vec->x = Math_GetRandom8();
@@ -650,7 +650,7 @@ void Update8()
 	// Initialize sprite attribute
 	const u8* pat = g_Font_MGL_Symbol1 + 4 + (16 * 10 * 8);
 	u16 vram = g_SpritePatternLow;
-	loop(i, SPRITE_8_NUM)
+	loop (i, SPRITE_8_NUM)
 	{
 		if (!bStop && (g_Frame & 0x03) == 0)
 		{

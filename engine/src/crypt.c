@@ -60,7 +60,7 @@ bool Crypt_Encode(const void* data, u8 size, c8* str)
 	const u8* ptr = (const u8*)data;
 
 	u8 prev = 0;
-	loop(i, size)
+	loop (i, size)
 	{
 		u8 val = *ptr;
 		val += prev;
@@ -73,7 +73,7 @@ bool Crypt_Encode(const void* data, u8 size, c8* str)
 
 		u16 bits = 0;
 		u8 flag = 0x01;
-		loop(j, 8)
+		loop (j, 8)
 		{
 			if (val & flag)
 				bits |= g_CryptCode[cnt & 0x07];
@@ -93,7 +93,7 @@ bool Crypt_Encode(const void* data, u8 size, c8* str)
 u8 Crypt_SearchMap(u8 chr)
 {
 	const c8* map = g_CryptMap;
-	loop(i, 32)
+	loop (i, 32)
 		if (chr == *map++)
 			return i;
 
@@ -127,7 +127,7 @@ bool Crypt_Decode(const c8* str, void* data)
 		u16 bits = lsb + (msb << 8);
 		u8 val = 0;
 		u8 cnt = *key;
-		loop(i, 8)
+		loop (i, 8)
 		{
 			u16 code = g_CryptCode[cnt++ & 0x07];
 			u16 test = bits & code;

@@ -350,7 +350,7 @@ void main()
 		DOS_StringOutput("Error: Unable to init mapper\n$");
 		DOS_Exit(1);
 	}
-	loop(i, 4)
+	loop (i, 4)
 	{
 		if (!DOSMapper_Alloc(DOS_ALLOC_USER, DOS_SEGSLOT_PRIM, &g_SegList[i]))
 		{

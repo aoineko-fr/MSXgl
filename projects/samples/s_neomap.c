@@ -102,7 +102,7 @@ const u16 g_SwitchAddr[BANK_NUM] =
 //
 bool CheckSign(const u8* addr, const u8* sign)
 {
-	loop(i, 4)
+	loop (i, 4)
 		if (*addr++ != *sign++)
 			return FALSE;
 	return TRUE;
@@ -173,7 +173,7 @@ const c8* GetROMSize(u8 size)
 void DisplayMemory(u16 addr)
 {
 	const u8* ptr = (const u8*)addr; 
-	loop(i, 28)
+	loop (i, 28)
 		Print_DrawChar(*ptr++);
 }
 
@@ -220,7 +220,7 @@ void main()
 		Print_DrawFormat("Size:    %iKB\n", ROM_SIZE);
 	Print_DrawFormat("Seg num: %i\n", ROM_SEGMENTS);
 	// Slot selection
-	loop(i, 4)
+	loop (i, 4)
 	{
 		u8 slotId = Sys_GetPageSlot(i);
 		Print_SetPosition(20, 4+i);
@@ -231,7 +231,7 @@ void main()
 
 	Print_SetPosition(0, 8);
 	Print_DrawText("\nBank test:");
-	loop(b, BANK_NUM)
+	loop (b, BANK_NUM)
 	{
 		u16 s = 0;
 		switch (b)
@@ -264,7 +264,7 @@ void main()
 	Print_DrawText("\n\nAccess test:");
 	Print_DrawText("\n\x7SET_BANK_SEGMENT()  ");
 	SET_SEGMENT(0);
-	loop(i, numberof(g_Signs))
+	loop (i, numberof(g_Signs))
 	{
 		const struct SignEntry* e = &g_Signs[i];
 		SET_SEGMENT(e->Segment); // Set segment in bank
@@ -273,7 +273,7 @@ void main()
 
 	Print_DrawText("\n\x7""16b access          ");
 	SET_SEGMENT(0);
-	loop(i, numberof(g_Signs))
+	loop (i, numberof(g_Signs))
 	{
 		const struct SignEntry* e = &g_Signs[i];
 		Poke16(g_SwitchAddr[TEST_BANK], e->Segment); // Set segment in bank
@@ -282,7 +282,7 @@ void main()
 
 	Print_DrawText("\n\x7""16b access + mask   ");
 	SET_SEGMENT(0);
-	loop(i, numberof(g_Signs))
+	loop (i, numberof(g_Signs))
 	{
 		const struct SignEntry* e = &g_Signs[i];
 		u16 addr = g_SwitchAddr[TEST_BANK] | MIRROR_MASK;
@@ -292,7 +292,7 @@ void main()
 
 	Print_DrawText("\n\x7""8b access           ");
 	SET_SEGMENT(0);
-	loop(i, numberof(g_Signs))
+	loop (i, numberof(g_Signs))
 	{
 		const struct SignEntry* e = &g_Signs[i];
 		u16 addr = g_SwitchAddr[TEST_BANK];

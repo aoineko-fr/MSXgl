@@ -288,7 +288,7 @@ c8* SJIS_Convert(const c8* src, c8* dest)
 		{
 			src++;
 			u8 chr = '?';
-			loop(i, numberof(g_SJIS_MarkToMSX))
+			loop (i, numberof(g_SJIS_MarkToMSX))
 			{
 				const SJIS_MapToMSX* map = &g_SJIS_MarkToMSX[i];
 				if (*src == map->SJIS)
@@ -334,7 +334,7 @@ c8* SJIS_Convert(const c8* src, c8* dest)
 		{
 			u16 code = (src[0] << 8) + src[1];
 			u8 chr = '?';
-			loop(i, numberof(g_SJIS_KanjiToMSX))
+			loop (i, numberof(g_SJIS_KanjiToMSX))
 			{
 				const SJIS_MapToMSX16* map = &g_SJIS_KanjiToMSX[i];
 				if (code == map->SJIS)

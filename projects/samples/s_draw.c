@@ -280,7 +280,7 @@ void DisplayPage()
 	{
 		u16 x = src->Width - (palWidth * colNum + 1);
 		Draw_FillBox(x - 1, (u8)(PAL_POS_Y - 1), x + (palWidth * colNum), (u8)(PAL_POS_Y + 8), 0xFF, 0);
-		loop(i, colNum)
+		loop (i, colNum)
 		{
 			u8 col = (src->BPC == 4) ? COLOR_MERGE2(i) : COLOR_MERGE4(i);
 			Draw_FillBox(x, PAL_POS_Y, x + palWidth - 1, (u8)(PAL_POS_Y + 7), col, 0);

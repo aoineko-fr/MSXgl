@@ -19,6 +19,14 @@
 #define MSX_GL6		"\x01\x02\x03\x04\x05\x06"
 #define MSX_GL8		"\x02\x03\x04\x05"
 
+enum SCREEN_MODE
+{
+	SCREEN_MODE_5 = 0,
+	SCREEN_MODE_6,
+	SCREEN_MODE_7,
+	SCREEN_MODE_8,
+};
+
 // Screen setting
 struct ScreenSetting
 {
@@ -51,8 +59,8 @@ void DisplayPageLMMC();
 //=============================================================================
 
 // Screen mode setting index
-u8 g_CmdModeIndex;
-u8 g_SrcModeIndex;
+u8 g_CmdModeIndex = 0;
+u8 g_SrcModeIndex = SCREEN_MODE_8;
 u8 g_VBlank = 0;
 u8 g_Frame = 0;
 
@@ -125,9 +133,9 @@ const u8 g_CursorForm[] =
 
 // Screen mode settings
 const struct ScreenSetting g_Settings[] =
-{ //  Name              Mode              Width BPC Txt   BG    Red   White Gray  Black Font                Data         DataLMMC     Palette 
+{ //  Name										Mode              Width BPC Txt   BG    Red   White Gray  Black Font                Data         DataLMMC     Palette 
 	{ MSX_GL6 " VDP COMMAND SAMPLE (S5/G4)",	VDP_MODE_SCREEN5, 256,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample6, g_DataBmp4b, g_LMMC4b,    NULL }, // 0
-	{ MSX_GL8 " VDP COMMAND SAMPLE (S6/G5)",	VDP_MODE_SCREEN6, 512,	2,	0xFF, 0xAA, 0x55, 0xFF, 0xAA, 0x55, g_Font_MGL_Sample8, g_DataBmp2b, g_LMMC2b,    NULL }, // 1
+	{ MSX_GL8 " VDP COMMAND SAMPLE (S6/G5)",	VDP_MODE_SCREEN6, 512,	2,	0xFF, 0x00, 0x55, 0xFF, 0xAA, 0x55, g_Font_MGL_Sample8, g_DataBmp2b, g_LMMC2b,    NULL }, // 1
 	{ MSX_GL8 " VDP COMMAND SAMPLE (S7/G6)",	VDP_MODE_SCREEN7, 512,	4,	0xFF, 0x44, 0x88, 0xFF, 0x11, 0x11, g_Font_MGL_Sample8, g_DataBmp4b, g_LMMC4b,    NULL }, // 2
 	{ MSX_GL6 " VDP COMMAND SAMPLE (S8/G7)",	VDP_MODE_SCREEN8, 256,	8,	0xFF, 0x47, 0x1C, 0xFF, 0x6D, 0x00, g_Font_MGL_Sample6, g_DataBmp8b, g_DataBmp8b, NULL }, // 3
 };
@@ -166,9 +174,21 @@ void DisplayPage()
 	VDP_CommandHMMV(0, 0, src->Width, 212, src->Background);
 	VDP_EnableDisplay(FALSE);
 
-	VDP_SetPaletteEntry(1, RGB16(0, 0, 0));
-	VDP_SetPaletteEntry(2, RGB16(1, 1, 4));
-	VDP_SetPaletteEntry(3, RGB16(2, 2, 7));
+	switch (g_SrcModeIndex)
+	{
+	case SCREEN_MODE_5:
+	case SCREEN_MODE_7:
+		VDP_SetPaletteEntry(1,  RGB16(0, 0, 0));
+		VDP_SetPaletteEntry(5,  RGB16(4, 4, 4));
+		VDP_SetPaletteEntry(14, RGB16(6, 6, 6));
+		break;
+	case SCREEN_MODE_6:
+		VDP_SetPaletteEntry(0, RGB16(1, 1, 7));
+		VDP_SetPaletteEntry(1, RGB16(0, 0, 4));
+		VDP_SetPaletteEntry(2, RGB16(0, 0, 0));
+		VDP_SetPaletteEntry(3, RGB16(7, 7, 7));
+		break;
+	};
 
 	Print_SetBitmapFont(src->Font);
 	Print_SetColor(src->Text, src->Background);
@@ -453,8 +473,6 @@ void main()
 
 	// Init	
 	BIOS_SetHookCallback(H_TIMI, VBlankHook);
-	g_SrcModeIndex = 3;
-	g_CmdModeIndex = 0;
 	SX = 8;
 	SY = 32;
 	DisplayPage();

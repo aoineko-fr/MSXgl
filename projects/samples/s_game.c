@@ -165,22 +165,22 @@ void DrawLevel()
 	Print_DrawInt(g_Level);
 
 	// Background
-	loop(i, 24-2)
+	loop (i, 24-2)
 		VDP_FillVRAM((i == 12) ? 9 : (i < 12) ? 16 : 8, g_ScreenLayoutLow + (i+2) * 32, 0, 32);
 	// Ground
 	Math_SetRandomSeed16(g_Level);
-	loop(i, 8)
+	loop (i, 8)
 	{
 		if (i == 7)
 			Math_SetRandomSeed16(g_Level + 1);
 		u8 y = Math_GetRandom16() & 0x07 ;
-		loop(j, y)
+		loop (j, y)
 		{
 			VDP_FillVRAM((j == (y - 1)) ? 1 : 3, g_ScreenLayoutLow + ((23 - j) * 32) + (i * 4), 0, 4);
 		}
 	}
 	// Plateforms
-	loop(i, 12)
+	loop (i, 12)
 	{
 		u8 rnd = Math_GetRandom16();
 		VDP_FillVRAM(1, g_ScreenLayoutLow + ((rnd & 0x0F) + 2) * 32 + (rnd >> 3), 0, 2);

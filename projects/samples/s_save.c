@@ -360,7 +360,7 @@ void UpdateDisk()
 		if (DiskSave_Save(g_DiskSaveEntry, g_DataWrite, sizeof(g_DataWrite)))
 		{
 			DiskSaveLog("Saved data [");
-			loop(i, 8)
+			loop (i, 8)
 			{
 				if (i) Print_DrawChar(',');
 				Print_DrawHex8(g_DataWrite[i]);
@@ -377,7 +377,7 @@ void UpdateDisk()
 		if (DiskSave_Load(g_DiskSaveEntry, g_DiskSaveBuffer, sizeof(g_DataWrite)))
 		{
 			DiskSaveLog("Loaded data [");
-			loop(i, 8)
+			loop (i, 8)
 			{
 				if (i) Print_DrawChar(',');
 				Print_DrawHex8(g_DiskSaveBuffer[i]);

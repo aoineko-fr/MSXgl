@@ -222,7 +222,7 @@ void main()
 
 	VDP_LoadPattern_GM2(g_QRCode_Patterns, 64, QR_PATTERN);
 	VDP_LoadColor_GM2(g_QRCode_Colors, 64, QR_PATTERN);
-	loop(i, 64)
+	loop (i, 64)
 	{
 		u8 x = QR_X + (i & 0x7);
 		u8 y = QR_Y + (i >> 3);

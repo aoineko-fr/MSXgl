@@ -1275,7 +1275,7 @@ inline void VDP_HideSprite(u8 index) { VDP_SetSpritePositionY(index, VDP_SPRITE_
 //
 // Parameters:
 //   index - Index of the sprite to hide
-inline void VDP_HideAllSprites() { loop(i, 32) VDP_SetSpritePositionY(i, VDP_SPRITE_HIDE); }
+inline void VDP_HideAllSprites() { loop (i, 32) VDP_SetSpritePositionY(i, VDP_SPRITE_HIDE); }
 
 #endif // (VDP_USE_SPRITE)
 

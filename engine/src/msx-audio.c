@@ -88,7 +88,7 @@ u8 MSXAudio_GetRegister(u8 reg)
 void MSXAudio_Mute()
 {
 	MSXAUDIO_DOBACKUP(FALSE);
-	loop(i, 9)
+	loop (i, 9)
 	{
 		MSXAudio_SetRegister(MSXAUDIO_REG_CTRL_1 + i, 0); // seem to be enough
 	}
@@ -100,7 +100,7 @@ void MSXAudio_Mute()
 // Resume MSX-Audio sound
 void MSXAudio_Resume()
 {
-	loop(i, 9)
+	loop (i, 9)
 	{
 		MSXAudio_SetRegister(MSXAUDIO_REG_CTRL_1 + i, g_MSXAudio_RegBackup[i]); // seem to be enough
 	}
