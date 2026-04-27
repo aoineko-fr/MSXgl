@@ -12,10 +12,10 @@
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="VGM_Play"></a><a name="Topic84"></a><div class="CTopic TFunction LC">
+<a name="VGM_Play"></a><a name="Topic77"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VGM_Play</div>
- <div id="NDPrototype84" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> VGM_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="first"></td><td class="PType"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">loop</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Start music playback</p></div>
+ <div id="NDPrototype77" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> VGM_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">addr,</td></tr><tr><td class="first"></td><td class="PType"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">loop</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Start music playback</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">addr<div class="CDLParameterType"><span class="SHKeyword">const</span> <span class="SHKeyword">void</span>*</div></td><td class="CDLDefinition"><p>Address of source data</p></td></tr><tr><td class="CDLEntry">loop<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>If set to TRUE, playback restart when end is reached</p></td></tr></table><div class="CHeading">Return</div><p>TRUE if initialization succeed</p></div>
 </div>
 
 <a name="VGM_Stop"></a><a name="Topic85"></a><div class="CTopic TFunction LC">
@@ -24,22 +24,22 @@
  <div class="CBody"><p>Stop music playback</p></div>
 </div>
 
-<a name="VGM_SetFrequency50Hz"></a><a name="Topic197"></a><div class="CTopic TFunction LC">
+<a name="VGM_SetFrequency50Hz"></a><a name="Topic82"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VGM_SetFrequency50Hz</div>
- <div id="NDPrototype197" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_SetFrequency50Hz()</div></div>
+ <div id="NDPrototype82" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VGM_SetFrequency50Hz()</div></div>
  <div class="CBody"><p>Change frequency to 50 Hz</p></div>
 </div>
 
-<a name="VGM_SetFrequency60Hz"></a><a name="Topic482"></a><div class="CTopic TFunction LC">
+<a name="VGM_SetFrequency60Hz"></a><a name="Topic86"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VGM_SetFrequency60Hz</div>
- <div id="NDPrototype482" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_SetFrequency60Hz()</div></div>
+ <div id="NDPrototype86" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> VGM_SetFrequency60Hz()</div></div>
  <div class="CBody"><p>Change frequency to 60 Hz</p></div>
 </div>
 
-<a name="VGM_IsPlaying"></a><a name="Topic88"></a><div class="CTopic TFunction LC">
+<a name="VGM_IsPlaying"></a><a name="Topic78"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VGM_IsPlaying</div>
- <div id="NDPrototype88" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_IsPlaying()</div></div>
- <div class="CBody"><p>Check if music playing</p></div>
+ <div id="NDPrototype78" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_IsPlaying()</div></div>
+ <div class="CBody"><p>Check if music playing</p><div class="CHeading">Return</div><p>TRUR if music is playing</p></div>
 </div>
 
 <a name="VGM_Resume"></a><a name="Topic89"></a><div class="CTopic TFunction LC">
@@ -60,28 +60,28 @@
  <div class="CBody"><p>Decode a frame of music</p></div>
 </div>
 
-<a name="VGM_ContainsPSG"></a><a name="Topic92"></a><div class="CTopic TFunction LC">
+<a name="VGM_ContainsPSG"></a><a name="Topic483"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VGM_ContainsPSG</div>
- <div id="NDPrototype92" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_ContainsPSG()</div></div>
- <div class="CBody"><p>Check if initialized song contains PSG data</p></div>
+ <div id="NDPrototype483" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_ContainsPSG()</div></div>
+ <div class="CBody"><p>Check if initialized song contains PSG data</p><div class="CHeading">Return</div><p>FALSE if music dont contains PSG data</p></div>
 </div>
 
-<a name="VGM_ContainsMSXMusic"></a><a name="Topic93"></a><div class="CTopic TFunction LC">
+<a name="VGM_ContainsMSXMusic"></a><a name="Topic759"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VGM_ContainsMSXMusic</div>
- <div id="NDPrototype93" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_ContainsMSXMusic()</div></div>
- <div class="CBody"><p>Check if initialized song contains MSX-Music data</p></div>
+ <div id="NDPrototype759" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_ContainsMSXMusic()</div></div>
+ <div class="CBody"><p>Check if initialized song contains MSX-Music data</p><div class="CHeading">Return</div><p>FALSE if music dont contains MSX-Music data</p></div>
 </div>
 
-<a name="VGM_ContainsMSXAudio"></a><a name="Topic94"></a><div class="CTopic TFunction LC">
+<a name="VGM_ContainsMSXAudio"></a><a name="Topic807"></a><div class="CTopic TFunction LC">
  <div class="CTitle">VGM_ContainsMSXAudio</div>
- <div id="NDPrototype94" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_ContainsMSXAudio()</div></div>
- <div class="CBody"><p>Check if initialized song contains MSX-Audio data</p></div>
+ <div id="NDPrototype807" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_ContainsMSXAudio()</div></div>
+ <div class="CBody"><p>Check if initialized song contains MSX-Audio data</p><div class="CHeading">Return</div><p>FALSE if music dont contains MSX-Audio data</p></div>
 </div>
 
-<a name="VGM_ContainsSCC"></a><a name="Topic95"></a><div class="CTopic TFunction LC last">
+<a name="VGM_ContainsSCC"></a><a name="Topic808"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">VGM_ContainsSCC</div>
- <div id="NDPrototype95" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_ContainsSCC()</div></div>
- <div class="CBody"><p>Check if initialized song contains SCC data</p></div>
+ <div id="NDPrototype808" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> VGM_ContainsSCC()</div></div>
+ <div class="CBody"><p>Check if initialized song contains SCC data</p><div class="CHeading">Return</div><p>FALSE if music dont contains SCC data</p></div>
 </div>
 
 </body></html>

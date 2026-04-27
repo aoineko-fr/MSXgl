@@ -20,7 +20,7 @@ enum MSXi_Destination
 };
 
 // Unpack config structure
-typedef struct
+typedef struct MSXi_UnpackParam
 {
 	void*	Source;
 	u16		DestX;

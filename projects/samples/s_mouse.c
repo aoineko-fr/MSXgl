@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
-//  Hello world sample
+//  Mouse handling sample
 //─────────────────────────────────────────────────────────────────────────────
 #include "msxgl.h"
 #include "string.h"
@@ -24,10 +24,10 @@
 //=============================================================================
 
 // Font
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample8.h"
 
 // Cursors
-#include "cursor\cur_mgl1.h"
+#include "cursor/cur_mgl1.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
@@ -40,6 +40,7 @@ u8 g_DeviceID[2];
 u8 g_MouseX[2] = { 127, 127 };
 u8 g_MouseY[2] = { 95, 95 };
 u8 g_MouseCur[2] = { 0, 0 };
+Mouse_State g_MouseState[2];
 
 //=============================================================================
 // MAIN LOOP
@@ -49,21 +50,22 @@ u8 g_MouseCur[2] = { 0, 0 };
 // Program entry point
 void Detect()
 {
-	for(u8 i = 0; i < 2; ++i)
+	for (u8 i = 0; i < 2; ++i)
 	{
 		u8 px = 5 + i * 10;
 		u8 device = Input_Detect((i == 0) ? INPUT_PORT_1 : INPUT_PORT_2);
 		Print_SetPosition(px, 5);
 		Print_DrawHex8(device);
 		const c8* str;
-		switch(device)
+		switch (device)
 		{
 			case INPUT_TYPE_JOYSTICK:	str = "Joy/None "; break;
 			case INPUT_TYPE_MOUSE:		str = "Mouse    "; break;
 			case INPUT_TYPE_TRACKBALL:	str = "Trackball"; break;
 			case INPUT_TYPE_PADDLE:		str = "Paddle   "; break;
 			case INPUT_TYPE_TOUCHPAD:	str = "Touchpad "; break;
-			case INPUT_TYPE_LIGHTGUN:	str = "Lightgun "; break;
+			case INPUT_TYPE_NINJATAP:	str = "NinjaTap "; break;
+			case INPUT_TYPE_JOYMEGA:	str = "JoyMega  "; break;
 			default:					str = "Unknow   "; break;
 		}
 		Print_SetPosition(px, 6);
@@ -101,52 +103,50 @@ void main()
 	VDP_LoadSpritePattern(g_Cursor_MGL1, 0, 32);
 	VDP_SetSpriteSM1(0, 0, 0, 0, COLOR_LIGHT_BLUE);
 	VDP_SetSpriteSM1(1, 0, 0, 0, COLOR_LIGHT_RED);
-	VDP_HideSpriteFrom(2);
+	VDP_DisableSpritesFrom(2);
 	VDP_EnableDisplay(TRUE);
 
-	Mouse_State msState[2];
-
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 
 		Print_SetPosition(31, 0);
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 
-		for(u8 i = 0; i < 2; ++i)
+		for (u8 i = 0; i < 2; ++i)
 		{
-			Mouse_Read((i == 0) ? MOUSE_PORT_1 : MOUSE_PORT_2, &msState[i]);
-
-			if(g_DeviceID[i] != INPUT_TYPE_MOUSE)
+			if (g_DeviceID[i] != INPUT_TYPE_MOUSE)
 				continue;
 
-			i8 dX = REDUCE(Mouse_GetOffsetX(&msState[i]));
-			i8 dY = REDUCE(Mouse_GetOffsetY(&msState[i]));
+			Mouse_Read((i == 0) ? MOUSE_PORT_1 : MOUSE_PORT_2, &g_MouseState[i]);
+
+			i8 dX = REDUCE(Mouse_GetOffsetX(&g_MouseState[i]));
+			i8 dY = REDUCE(Mouse_GetOffsetY(&g_MouseState[i]));
 			g_MouseX[i] += dX;
 			g_MouseY[i] += dY;
 			VDP_SetSpritePosition(i, g_MouseX[i], g_MouseY[i]-1);
 		
 			c8 btn1 = '-';
-			if(Mouse_IsButtonClick(&msState[i], MOUSE_BOUTON_1))
+			if (Mouse_IsButtonClick(&g_MouseState[i], MOUSE_BOUTON_1))
 			{
 				g_MouseCur[i]++;
 				g_MouseCur[i] &= 0x1F;
 				VDP_SetSpritePattern(i, g_MouseCur[i]);
 				btn1 = 'X';
 			}
-			else if(Mouse_IsButtonPress(&msState[i], MOUSE_BOUTON_1))
+			else if (Mouse_IsButtonPress(&g_MouseState[i], MOUSE_BOUTON_1))
 				btn1 = 'O';
 
 			c8 btn2 = '-';
-			if(Mouse_IsButtonClick(&msState[i], MOUSE_BOUTON_2))
+			if (Mouse_IsButtonClick(&g_MouseState[i], MOUSE_BOUTON_2))
 			{
 				g_MouseCur[i]--;
 				g_MouseCur[i] &= 0x1F;
 				VDP_SetSpritePattern(i, g_MouseCur[i]);
 				btn2 = 'X';
 			}
-			else if(Mouse_IsButtonPress(&msState[i], MOUSE_BOUTON_2))
+			else if (Mouse_IsButtonPress(&g_MouseState[i], MOUSE_BOUTON_2))
 				btn2 = 'O';
 
 			u8 px = 5 + i * 10;
@@ -171,7 +171,7 @@ void main()
 			Print_DrawChar(btn2);
 		}
 		
-		if(Keyboard_IsKeyPressed(KEY_D))
+		if (Keyboard_IsKeyPressed(KEY_D))
 			Detect();
 	}
 }

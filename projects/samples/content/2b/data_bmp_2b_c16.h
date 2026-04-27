@@ -1,20 +1,20 @@
-// _____________________________________________________________________________
-//    ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄
-//   ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▄  ▄█▄█ ▄▀██
-//   ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██ ██ █  ▀██
-// _______________________________▀▀____________________________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█ ▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
+// █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
+// Data generated using MSXimg 1.20.0 on Sat Nov  9 14:46:27 2024
+// by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
+// ─────────────────────────────────────────────────────────────────────────────
 // Source image author: GrafxKid (https://opengameart.org/content/super-random-sprites)
 // License: CC-BY
-// _____________________________________________________________________________
-// Data generated using CMSXimg 1.12.0 on Sun Mar 20 11:14:18 2022
-// by Guillaume "Aoineko" Blanchard (2021) under CC BY-SA free license
+// ─────────────────────────────────────────────────────────────────────────────
 // Generation parameters:
 //  - Input file:     img\data.png
 //  - Mode:           Bitmap
 //  - Start position: 16, 0
 //  - Sprite size:    16, 16 (gap: 0, 0)
 //  - Sprite count:   1, 1
-//  - Color count:    4 (Transparent: #8468A1)
+//  - Color count:    4 (Transparent: #FF00FF)
 //  - Compressor:     Crop16 (4-bits, max 16x16)
 //  - Skip empty:     FALSE
 
@@ -39,4 +39,4 @@ const unsigned char g_DataBmp2b_c16[] =
 	0x05, 0x55, 0x55, 0x50, 
 	0x01, 0xAA, 0x9A, 0x90, 
 };
-// Total size :  62 bytes
+// Total size : 62 bytes

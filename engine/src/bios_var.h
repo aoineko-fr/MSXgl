@@ -223,7 +223,7 @@ const u16 __at(M_GETPNT) g_GETPNT;
 // Parameters For Cassette
 
 #define M_CS120	0xF3FC	// Cassette I/O parameters to use for 1200 baud
-typedef struct tagCassetteIO
+typedef struct CassetteIO
 {
 	u8 low0;	// LOW signal length of bit 0. (53h by default)
 	u8 high0;	// HIGH signal length of bit 0. (5Ch by default)
@@ -414,7 +414,7 @@ u8 __at(M_CMASK) g_CMASK;
 // RS-232 and MML buffers
 
 #define M_QUETAB	0xF959	// 24	Queue-table containing queue information. There are four queues in total, three PLAY queues and one RS232 queue, with 6-byte information blocks per queue:
-typedef struct tagRS232Queue
+typedef struct RS232Queue
 {
 	u8	head; // Queue head offset (for writing)
 	u8	tail; // Queue tail offset (for reading)
@@ -528,7 +528,7 @@ const u16 __at(M_RSFCB) g_RSFCB;
 const u8 __at(M_RSIQLN) g_RSIQLN;
 
 #define M_MEXBIh	0xFB07	// 5	Hook called by the RS-232C.
-typedef struct tagRS232Hook
+typedef struct RS232Hook
 {
 	u8	rst;		// RST 30h (0F7h)
 	u8	slot;		// Slot ID
@@ -549,7 +549,7 @@ const u8 __at(M_DEVNUM) g_DEVNUM;
 #define M_DATCNT	0xFB17	// 3	DATA area. (RS-232C)
 // DATCNT = Slot ID
 // DATCNT+1 = Address
-typedef struct tagRS232Area
+typedef struct RS232Area
 {
 	u8	slot; // Slot ID
 	u16	address;

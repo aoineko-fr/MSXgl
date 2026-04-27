@@ -1,10 +1,15 @@
-// __________________________
-// ██▀█▀██▀▀▀█▀▀█▀█  ▄▄▄ ▄▄  │  ▄▄▄   ▄▄   ▄ ▄ ▄▄▄▄ ▄▄▄   ▄▄ 
-// █  ▄ █▄ ▀██▄ ▀▄█ ██   ██  │  ██▄▀ ██ ▀ ██▀█ ██▄  ██▀█ ██ ▀
-// █  █ █▀▀ ▄█  █ █ ▀█▄█ ██▄▄│  ██   ▀█▄▀ ██ █ ██▄▄ ██ █ ▀█▄▀
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀──────────┘  
-//  PCM-Encoder replayer
+// ____________________________
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄ ▄  ▄▄▄  ▄ ▄
+// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██ █ ██   ██▀█
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▀█▀  ▀█▄█ ██ █
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
+// VGM replayer
+//  https://vgmrips.net/wiki/VGM_Specification
+//─────────────────────────────────────────────────────────────────────────────
+#pragma once
+
 #include "psg.h"
 #include "scc.h"
 
@@ -48,7 +53,7 @@ enum VGM_CHIP
 #define VGM_WAIT_60HZ	735 // 60 Hz
 
 // VGM header file data structure
-struct VGM_Header
+typedef struct VGM_Header
 {
 	u32 Ident;			u32 EoF_offset;		u32 Version;		u32 SN76489_clock;
 	u32 YM2413_clock;	u32 GD3_offset;		u32 Total_samples;	u32 Loop_offset;
@@ -77,10 +82,10 @@ struct VGM_Header
 						u8 dummyD7;			u32 X1_010_clock;	u32 C352_clock;
 	u32 GA20_clock;		u32 dummyE4;		u32 dummyE8;		u32 dummyEC;
 	u32 dummyF0;		u32 dummyF4;		u32 dummyF8;		u32 dummyFC;
-};
+} VGM_Header;
 
 // VGM work variables
-extern const struct VGM_Header* g_VGM_Header;
+extern const VGM_Header* g_VGM_Header;
 extern const u8* g_VGM_Pointer;
 extern const u8* g_VGM_Loop;
 extern u16       g_VGM_WaitCount;
@@ -93,6 +98,13 @@ extern u8        g_VGM_State;
 
 // Function: VGM_Play
 // Start music playback
+//
+// Parameters:
+//   addr - Address of source data
+//   loop - If set to TRUE, playback restart when end is reached 
+//
+// Return:
+//    TRUE if initialization succeed
 bool VGM_Play(const void* addr, bool loop);
 
 // Function: VGM_Stop
@@ -101,14 +113,17 @@ void VGM_Stop();
 
 // Function: VGM_SetFrequency50Hz
 // Change frequency to 50 Hz
-inline bool VGM_SetFrequency50Hz() { g_VGM_State |= VGM_STATE_50HZ; g_VGM_WaitFrame = VGM_WAIT_50HZ; }
+inline void VGM_SetFrequency50Hz() { g_VGM_State |= VGM_STATE_50HZ; g_VGM_WaitFrame = VGM_WAIT_50HZ; }
 
 // Function: VGM_SetFrequency60Hz
 // Change frequency to 60 Hz
-inline bool VGM_SetFrequency60Hz() { g_VGM_State &= ~VGM_STATE_50HZ; g_VGM_WaitFrame = VGM_WAIT_60HZ; }
+inline void VGM_SetFrequency60Hz() { g_VGM_State &= ~VGM_STATE_50HZ; g_VGM_WaitFrame = VGM_WAIT_60HZ; }
 
 // Function: VGM_IsPlaying
 // Check if music playing
+//
+// Return:
+//   TRUR if music is playing
 inline bool VGM_IsPlaying() { return g_VGM_State & VGM_STATE_PLAY; }
 
 // Function: VGM_Resume
@@ -125,16 +140,28 @@ void VGM_Decode();
 
 // Function: VGM_ContainsPSG
 // Check if initialized song contains PSG data
+//
+// Return:
+//   FALSE if music dont contains PSG data
 inline bool VGM_ContainsPSG() { return (g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock; }
 
 // Function: VGM_ContainsMSXMusic
 // Check if initialized song contains MSX-Music data
+//
+// Return:
+//   FALSE if music dont contains MSX-Music data
 inline bool VGM_ContainsMSXMusic() { return g_VGM_Header->YM2413_clock; }
 
 // Function: VGM_ContainsMSXAudio
 // Check if initialized song contains MSX-Audio data
+//
+// Return:
+//   FALSE if music dont contains MSX-Audio data
 inline bool VGM_ContainsMSXAudio() { return (g_VGM_Header->Version >= 0x0151) && g_VGM_Header->Y8950_clock; }
 
 // Function: VGM_ContainsSCC
 // Check if initialized song contains SCC data
+//
+// Return:
+//   FALSE if music dont contains SCC data
 inline bool VGM_ContainsSCC() { return (g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock; }

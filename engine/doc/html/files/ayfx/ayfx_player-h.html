@@ -12,21 +12,21 @@
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="ayFX_InitBank"></a><a name="Topic14"></a><div class="CTopic TFunction LC">
+<a name="ayFX_InitBank"></a><a name="Topic15"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ayFX_InitBank</div>
- <div id="NDPrototype14" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> ayFX_InitBank(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">bank</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
+ <div id="NDPrototype15" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> ayFX_InitBank(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">bank</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Setup the ayFX replayer</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">bank</td><td class="CDLDefinition"><p>Pointer to the ayFX bank data</p></td></tr></table></div>
 </div>
 
-<a name="ayFX_PlayBank"></a><a name="Topic15"></a><div class="CTopic TFunction LC">
+<a name="ayFX_PlayBank"></a><a name="Topic742"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ayFX_PlayBank</div>
- <div id="NDPrototype15" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">#define ayFX_PlayBank(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PName first last">id,</td></tr><tr><td class="PName first last">prio</td></tr></table></td><td class="PAfterParameters">) ayFX_PlayBankFC(FC88(prio, id)) u8 ayFX_PlayBankFC(u16 id_prio) __FASTCALL</td></tr></table></div></div>
- <div class="CBody"><p>Play a ayFX sound</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">id</td><td class="CDLDefinition"><p>Sound index in the bank</p></td></tr><tr><td class="CDLEntry">prio</td><td class="CDLDefinition"><p>Priority of the sound (0-15). 0 is the highest priority.&nbsp; Returns: Error number (if any) @see AYFX_ERROR</p></td></tr></table></div>
+ <div id="NDPrototype742" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 ayFX_PlayBank(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">prio</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Play a ayFX sound</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">id</td><td class="CDLDefinition"><p>Sound index in the bank</p></td></tr><tr><td class="CDLEntry">prio</td><td class="CDLDefinition"><p>Priority of the sound (0-15). 0 is the highest priority.</p></td></tr></table><div class="CHeading">Return</div><p>Error number (if any). See &lt;AYFX_ERROR&gt;.</p></div>
 </div>
 
-<a name="ayFX_Play"></a><a name="Topic16"></a><div class="CTopic TFunction LC">
+<a name="ayFX_Play"></a><a name="Topic940"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ayFX_Play</div>
- <div id="NDPrototype16" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters">u8 ayFX_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">) __FASTCALL</td></tr></table></div></div>
+ <div id="NDPrototype940" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> ayFX_Play(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">data</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Play a SFX directly from data pointer</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">file</td><td class="CDLDefinition"><p>Pointer to AFX file data</p></td></tr></table></div>
 </div>
 
@@ -48,34 +48,34 @@
  <div class="CBody"><p>Play a frame of an ayFX stream</p></div>
 </div>
 
-<a name="ayFX_SetMode"></a><a name="Topic20"></a><div class="CTopic TFunction LC">
+<a name="ayFX_SetMode"></a><a name="Topic941"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ayFX_SetMode</div>
- <div id="NDPrototype20" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> ayFX_SetMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set channel mode</p></div>
+ <div id="NDPrototype941" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> ayFX_SetMode(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">mode</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set channel mode</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">mode</td><td class="CDLDefinition"><p>Playback mode. See &lt;AYFX_MODE&gt;.</p></td></tr></table></div>
 </div>
 
-<a name="ayFX_SetChannel"></a><a name="Topic21"></a><div class="CTopic TFunction LC">
+<a name="ayFX_SetChannel"></a><a name="Topic942"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ayFX_SetChannel</div>
- <div id="NDPrototype21" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> ayFX_SetChannel(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chan</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set the channel to use for sound playback</p></div>
+ <div id="NDPrototype942" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> ayFX_SetChannel(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chan</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the channel to use for sound playback</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">chan</td><td class="CDLDefinition"><p>Channel number for sound playback.</p></td></tr></table></div>
 </div>
 
-<a name="ayFX_GetChannel"></a><a name="Topic22"></a><div class="CTopic TFunction LC">
+<a name="ayFX_GetChannel"></a><a name="Topic943"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ayFX_GetChannel</div>
- <div id="NDPrototype22" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 ayFX_GetChannel()</div></div>
- <div class="CBody"><p>Get the channel used for sound playback</p></div>
+ <div id="NDPrototype943" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 ayFX_GetChannel()</div></div>
+ <div class="CBody"><p>Get the channel used for sound playback</p><div class="CHeading">Return</div><p>Channel numberused for sound playback.</p></div>
 </div>
 
-<a name="ayFX_GetBankNumber"></a><a name="Topic23"></a><div class="CTopic TFunction LC">
+<a name="ayFX_GetBankNumber"></a><a name="Topic944"></a><div class="CTopic TFunction LC">
  <div class="CTitle">ayFX_GetBankNumber</div>
- <div id="NDPrototype23" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 ayFX_GetBankNumber()</div></div>
- <div class="CBody"><p>Get number of sound in the bank</p></div>
+ <div id="NDPrototype944" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 ayFX_GetBankNumber()</div></div>
+ <div class="CBody"><p>Get number of sound in the bank</p><div class="CHeading">Return</div><p>Number of sound in the bank</p></div>
 </div>
 
-<a name="ayFX_SetFinishCB"></a><a name="Topic24"></a><div class="CTopic TFunction LC last">
+<a name="ayFX_SetFinishCB"></a><a name="Topic945"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">ayFX_SetFinishCB</div>
- <div id="NDPrototype24" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u8 ayFX_SetFinishCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">callback&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set the function to be call when a sound ended</p></div>
+ <div id="NDPrototype945" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> ayFX_SetFinishCB(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">callback&nbsp;</td><td class="PName last">cb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set the function to be call when a sound ended</p><div class="CHeading">Paramaters</div><table class="CDefinitionList"><tr><td class="CDLEntry">cb</td><td class="CDLDefinition"><p>Function pointer to be called when sound end</p></td></tr></table></div>
 </div>
 
 </body></html>

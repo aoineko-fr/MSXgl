@@ -9,7 +9,7 @@ set OutFilePath=%2
 set OutFileName=%OutFilePath%\%FileName%.asm
 set IncFilePath=%3
 set Tools=%~d0%~p0\..\..
-set CMSXtk=%Tools%\CMSXtk\bin
+set MSXtk=%Tools%\MSXtk\bin
 set AudioMisc=%Tools%\audio\misc
 
 echo Merging '%FileName%' WYZ assembler data to %OutFilePath%...
@@ -19,7 +19,7 @@ if not exist %FilePath%%FileName%.mus goto Error
 if not exist %FilePath%%FileName%.mus.asm goto Error
 
 :: Convert binary to asm
-%CMSXtk%\CMSXbin.exe %FilePath%%FileName%.mus -asm -nodeco -t _%FileName%_Data -o %OutFilePath%\%FileName%_asmsong.asm
+%MSXtk%\MSXbin.exe %FilePath%%FileName%.mus -asm -nodeco -t _%FileName%_Data -o %OutFilePath%\%FileName%_asmsong.asm
 
 :: Create output assembler file
 echo ;-----------------------------------------------------------------------------> %OutFileName%

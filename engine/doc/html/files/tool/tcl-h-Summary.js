@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:tool/tcl.h","tcl.h");NDSummary.OnSummaryLoaded("File:tool/tcl.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[1367,0,1,"Functions","Functions"],[1472,0,0,"TCL_Send","TCL_Send"]]);

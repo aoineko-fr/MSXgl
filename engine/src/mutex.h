@@ -7,6 +7,8 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+#include "core.h"
+
 extern u8 g_Mutex; //< @note Must be declared somewhere in the application code
 #define MUTEX_DATA() u8 g_Mutex
 
@@ -33,7 +35,7 @@ inline void Mutex_Release(u8 mutex) { g_Mutex &= ~(1 << mutex); }
 //
 // Parameters:
 //   mutex - Mutex index (0-7)
-inline void Mutex_Wait(u8 mutex) { while((g_Mutex & (1 << mutex)) != 0); }
+inline void Mutex_Wait(u8 mutex) { while ((g_Mutex & (1 << mutex)) != 0); }
 
 // Function: Mutex_Gate
 // Gate for mutex

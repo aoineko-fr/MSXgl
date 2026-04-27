@@ -371,10 +371,8 @@ nem3st1_track_000:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
 	.db 0x6e			;Volume 12
@@ -413,7 +411,6 @@ nem3st1_track_000:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 nem3st1_track_001:
@@ -629,10 +626,8 @@ nem3st1_track_008:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
 	.db 0x6e			;Volume 12
@@ -968,10 +963,8 @@ nem3st1_track_024:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
 	.db 0x6e			;Volume 12
@@ -1054,10 +1047,8 @@ nem3st1_track_032:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
 	.db 0x6e			;Volume 12
@@ -1096,7 +1087,6 @@ nem3st1_track_032:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 nem3st1_track_033:
@@ -1560,37 +1550,26 @@ nem3st1_track_053:
 	.db 0x76			;Instrument 4
 	.db 0xc1			;Wait 2
 	.db 0x20			;Note G#3
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x24			;Note C-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x27			;Note D#4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x2c			;Note G#4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x30			;Note C-5
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x33			;Note D#5
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x30			;Note C-5
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x2c			;Note G#4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x27			;Note D#4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x24			;Note C-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x20			;Note G#3
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x1b			;Note D#3
 					;Wait Repeat 2
@@ -1742,10 +1721,8 @@ nem3st1_track_056:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0x21			;Note A-3
 	.db 0x6f			;Volume 13
@@ -1860,73 +1837,50 @@ nem3st1_track_061:
 	.db 0x76			;Instrument 4
 	.db 0xc1			;Wait 2
 	.db 0x1f			;Note G-3
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x24			;Note C-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x26			;Note D-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x2b			;Note G-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x30			;Note C-5
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x32			;Note D-5
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x30			;Note C-5
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x2b			;Note G-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x32			;Note D-5
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x30			;Note C-5
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x2b			;Note G-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x1a			;Note D-3
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x1f			;Note G-3
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x23			;Note B-3
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x26			;Note D-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x2b			;Note G-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x2f			;Note B-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x30			;Note C-5
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x2f			;Note B-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x2b			;Note G-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x30			;Note C-5
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x2f			;Note B-4
-	.db 0x76			;Instrument 4
 					;Wait Repeat 2
 	.db 0x2b			;Note G-4
-	.db 0x76			;Instrument 4
 	.db 0xc1			;Wait 2
 	.db 0xbf			;[End-Of-Track]
 nem3st1_track_062:
@@ -2027,7 +1981,6 @@ nem3st1_track_064:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
 	.db 0x6e			;Volume 12
@@ -2359,7 +2312,6 @@ nem3st1_track_072:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0x13			;Note G-2
 	.db 0x6e			;Volume 12
@@ -2784,7 +2736,6 @@ nem3st1_track_088:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0x21			;Note A-3
 	.db 0x70			;Volume 14
@@ -2794,7 +2745,6 @@ nem3st1_track_088:
 	.db 0x72			;Instrument 0
 					;Wait Repeat 2
 	.db 0x29			;Note F-4
-	.db 0x72			;Instrument 0
 	.db 0xc1			;Wait 2
 	.db 0x21			;Note A-3
 	.db 0x70			;Volume 14

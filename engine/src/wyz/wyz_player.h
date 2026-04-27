@@ -15,6 +15,7 @@
 //          http://www.cpcwiki.eu/index.php/WYZTracker
 // Desc:    Adaptation of the WYZ music player for programming in C with the SDCC compiler                                        
 //─────────────────────────────────────────────────────────────────────────────
+#pragma once
 
 //-----------------------------------------------------------------------------
 // INCLUDES
@@ -57,11 +58,11 @@ extern u8 AYREGS[16]; //PSG registers buffer
 //   inst - Instruments data index memory address
 //   fx   - FXs data index memory address
 //   freq - Notes Table memory address
-void WYZ_Initialize(u16 song, u16 inst, u16 fx, u16 freq) __sdcccall(0);
+void WYZ_Initialize(u16 song, u16 inst, u16 fx, u16 freq) __SDCCCALL0;
 
 // Function: WYZ_Pause
 // Pause song playback
-void WYZ_Pause() __naked;  
+void WYZ_Pause() __NAKED;  
 
 // Function: WYZ_Resume
 // Resume song playback
@@ -85,7 +86,7 @@ bool WYZ_IsFinished();
 // Play Sound Effect
 //
 // Parameters:
-//   FX number
+//   numSound - FX number
 void WYZ_PlayFX(u8 numSound); 
 
 // Function: WYZ_PlayAY
@@ -99,7 +100,7 @@ void WYZ_PlayAY();
 // Parameters:
 //   numSong - Song number
 //   loop    - Loop status
-void WYZ_PlaySong(u8 numSong, bool loop) __sdcccall(0); 
+void WYZ_PlaySong(u8 numSong, bool loop) __SDCCCALL0; 
 
 // Function: WYZ_Decode
 // Process the next step in the song sequence 

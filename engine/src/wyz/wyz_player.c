@@ -177,12 +177,13 @@ u8 TABLA_DATOS_CANAL_SFX[6];
 
 //-----------------------------------------------------------------------------
 // Initialize the Player
-void WYZ_Initialize(u16 song, u16 inst, u16 fx, u16 freq) __sdcccall(0)
+void WYZ_Initialize(u16 song, u16 inst, u16 fx, u16 freq) __NAKED __SDCCCALL0
 {
 	song; // IX+4
 	inst; // IX+6
 	fx;   // IX+8
 	freq; // IX+10
+
 __asm
 	push	IX
 	ld		IX, #0
@@ -272,13 +273,14 @@ __asm
 	ld		(#_TABLA_DATOS_CANAL_SFX+4), HL
 
 	pop		IX
+	ret
     		
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Pause song playback
-void WYZ_Pause() __naked
+void WYZ_Pause() __NAKED
 {
 __asm
 	// xor		A			
@@ -310,17 +312,18 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Resume song playback
-void WYZ_Resume()
+void WYZ_Resume() __NAKED
 {
 __asm
 	ld		HL, #_g_WYZ_State       
 	set		1, (HL)      //  Playing ON
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Indicates whether the song has finished playing
-bool WYZ_IsFinished()
+bool WYZ_IsFinished()__NAKED
 {
 __asm
 	xor		A
@@ -331,14 +334,16 @@ __asm
     
 retPlayerEndState:    
 	ld		L, A
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Change loop mode
-void WYZ_SetLoop(bool loop)
+void WYZ_SetLoop(bool loop) __NAKED
 {
 	loop; // A
+
 __asm
 	ld		HL, #_g_WYZ_State
 	or		A
@@ -350,14 +355,16 @@ setLoop:
 
 resetLoop:           
 	res		4, (HL) // Loop OFF
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Play Sound Effect
-void WYZ_PlayFX(u8 numSound)
+void WYZ_PlayFX(u8 numSound) __NAKED
 {
 	numSound; // A
+
 __asm
 	// cp		8		// SFX speech
 	// jp		Z, SLOOP
@@ -368,14 +375,14 @@ __asm
 	
 	ld      HL, #_g_WYZ_State
 	set     2, (HL) // SFX ON
-    
+    ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Send data from AYREGS buffer to AY registers.
 // Execute on each interruption of VBLANK
-void WYZ_PlayAY()
+void WYZ_PlayAY() __NAKED
 {
 __asm
 //Record register 7 of the AY38910 ----------------------------------------------
@@ -424,16 +431,17 @@ playAYLoop:
 	xor		A
 	ld		(#_AYREGS+PSG_REG_SHAPE), A
 	ld		(#_PSG_REG+PSG_REG_SHAPE), A
-
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Initialize song
-void WYZ_PlaySong(u8 numSong, bool loop) __sdcccall(0)
+void WYZ_PlaySong(u8 numSong, bool loop) __NAKED __SDCCCALL0
 {
 	numSong;
 	loop;
+
 __asm
 	push	IX
 	ld		IX, #0
@@ -605,14 +613,13 @@ BGICMODBC1:
 	inc		HL
 	inc		HL
 	jr		Z, BGICMODBC1
-	// ret
-
+	ret
 __endasm;
 }
 
 //-----------------------------------------------------------------------------
 // Process the next step in the song sequence 
-void WYZ_Decode()
+void WYZ_Decode() __NAKED
 {
 __asm
 
@@ -1281,7 +1288,7 @@ EXT_WORD:
     INC   HL
     LD    D,(HL)
     EX    DE,HL
-    // RET
+    RET
 
 __endasm;
 }

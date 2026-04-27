@@ -1,0 +1,106 @@
+MGLV is a video format for MSXgl.
+
+==============================================================================
+ FORMAT
+==============================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Header
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Offset		Size	Desc.		Value
+--------------------------------------------------------
+0x0000		3		Signature	"MGV"
+........................................................
+0x0003		1		Flag		7  6  5  4  3  2  1  0
+								│        │  └──┴──┴──┴── File format version (0-15)
+								│        └────────────── Segment size (0: 8 KB, 1: 16 KB)
+								└─────────────────────── Include video format data (4 bytes)
+........................................................
+(0x0004)	1		Image		7  6  5  4  3  2  1  0
+								│  │  │        └──┴──┴── Screen mode (0-7)
+								│  │  └───────────────── Screen width (0: 256 px, 1: 512 px)
+								└──┴──────────────────── Bit per pixel (0: 1-bit, 1: 2-bit, 2: 4-bit, 3: 8-bit)
+								Screen mode:
+									0: TEXT - Screen 0, width 40 & 80
+									1: GM1 - Screen 1
+									2: GM2 - Screen 2 & 4
+									3: MC - Screen 3
+									4: BITMAP - Screen 5 ~ 8
+									5: YAE - Screen 10 (GM7 + YJK + YAE)
+									6: YJK - Screen 12 (GM7 + YJK)
+........................................................
+(0x0005)	1	Replay			7  6  5  4  3  2  1  0
+								│  │        └──┴──┴──┴── Frame skip (0-15)
+								│  └──────────────────── Loop (0: No, 1: Yes)
+								└─────────────────────── Frequency (0: 50 Hz, 1: 60 Hz)
+								At 50 Hz, a frame skip of 1 means 25 fps.
+								At 60 Hz, a frame skip of 5 means 10 fps.
+........................................................
+(0x0006)	1	Width			1-256 (or 2-512 for Screen mode 6 and 7)
+........................................................
+(0x0007)	1	Height			1-256
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Cmd	Options			Desc.
+--------------------------------------------------------
+
+00~3F xx[]			Copy cc bytes [0:63]
+........................................................
+40~7F xx			Fill cc & 3F bytes [0:63]
+........................................................
+80~BF				Skip cc & 3F bytes [0:63]
+........................................................
+C0~DF				-- (32 values)
+........................................................
+E0    nn xx[]		Copy nn bytes [64:255]
+E1    nnnn xx[]		Copy nnnn bytes [256:65535]
+E2    xx[]			Copy full frame
+E3					--
+E4    nn xx			Fill nn bytes [64:255]
+E5    nnnn	xx		Fill nnnn bytes [64K]
+E6    xx			Fill full frame
+E7					--
+E8    nn			Skip nn bytes [64:255]
+E9    nnnn			Skip nnnn bytes [256:65535]
+EA					Skip full frame
+EB~EF				--
+........................................................
+F0					Set Pattern table (default)
+F1					Set Color table (screen mode 1, 2 and 3)
+F2					Set Layout table (tile based modes)
+F3					Set Palette table (MSX2/2+)
+F4~F5				--
+F6 nn				Subtile string 8-bit ID
+F7 nnnn				Subtile string 16-bit ID
+........................................................
+F8~FB				--					
+FC					End of segment (increment segment index and reset data pointer)
+FD					End of line
+FE					End of frame
+FF					End of movie
+
+Legend:
+	cc				Command (8-bit)
+	nn / xx			Number / value (8-bit)
+	nnnn			Value (16-bit)
+
+==============================================================================
+ EXTENSION
+==============================================================================
+
+.MGLV (for Windows/Linux) or .MGV (for MSX-DOS)
+
+
+==============================================================================
+ CHANGE LOG
+==============================================================================
+
+Version 1.0 (2024/03/31)
+	Original version (File format version 0).
+
+Version 1.1 (2025/02/18)
+	Added 6-bits data commands and re-organize the whole command list to use most of the 56 values.

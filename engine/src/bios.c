@@ -11,9 +11,10 @@
 // - MSX2 Technical Handbook
 // - http://map.grauw.nl/resources/msxbios.php
 // - https://www.msx.org/wiki/Main-ROM_BIOS
-// - Pratique du MSX 2
+// - Pratique du MSX2
 //─────────────────────────────────────────────────────────────────────────────
 #include "bios.h"
+#include "dos.h"
 
 //-----------------------------------------------------------------------------
 //  █ █ █▀▀ █   █▀█ █▀▀ █▀█
@@ -23,16 +24,16 @@
 //-----------------------------------------------------------------------------
 // Handle clean transition to Basic or MSX-DOS environment
 // For MSX-DOS, return value is in L
-void Bios_Exit(u8 ret) __FASTCALL
+void Bios_Exit(u8 ret)
 {
+	ret;	// A
 #if (TARGET_TYPE == TYPE_DOS)
 
 	__asm
-	#if BIOS_USE_VDP
-		push	ix
-		push	hl
-		// Set Screen mode to 5...
-		ld		a, #5
+
+		push	af
+		// Set Screen mode to 2...
+		ld		a, #2
 		ld		ix, #R_CHGMOD
 		ld		iy, (M_EXPTBL-1)
 		call	R_CALSLT
@@ -40,33 +41,36 @@ void Bios_Exit(u8 ret) __FASTCALL
 		ld		ix, #R_TOTEXT
 		ld		iy, (M_EXPTBL-1)
 		call	R_CALSLT
-		ei
-		// Set return value to L
-		pop		hl
-		pop		ix
-	#endif
+		pop		af
+
+		// Call DOS exit function
+		ld		b, a
+		ld		c, #DOS_FUNC_TERM // Try MSX-DOS 2's termination function...
+		call	BDOS
+		ld		c, #DOS_FUNC_TERM0 // ... if not available, use MSX-DOS 1's one
+		jp		BDOS
 	__endasm;
 
 #elif (TARGET_TYPE == TYPE_BIN)
 	
 	__asm
-	#if BIOS_USE_VDP
-		// Set Screen mode to 5...
-		ld		a, #5
+		// Set Screen mode to 2...
+		ld		a, #2
 		call	R_CHGMOD
 		// ... to be able to call TOTEXT routine
 		call	R_TOTEXT
-	#endif
+
 		// 
-		push	ix
-		ld		ix, #0x409B
+		ld		ix, #0x409B // address of "warm boot" BASIC interpreter
+		// this routine is called to reset the stack if basic is externally stopped and then restarted.
 		call	R_CALBAS
-		pop		ix
 	__endasm;
 
 #else // if (TARGET_TYPE == TYPE_ROM)
 
-	// Do nothing
+	__asm
+		call	0x0000				// Soft reset
+	__endasm;
 
 #endif
 }
@@ -126,16 +130,17 @@ void Bios_SetHookCallback(u16 hook, callback cb)
 // Output   : A  - Contains the value of the read address
 // Registers: AF, C, DE
 // Remark   : Can be call directly from MSX-DOS
-//            This routine turns off the interupt, but won't turn it on again
-u8 Bios_InterSlotRead(u8 slot, u16 addr)
+//            This routine turns off the interrupt, but won't turn it on again
+u8 Bios_InterSlotRead(u8 slot, u16 addr) __NAKED
 {
 	slot; // A
 	addr; // DE
 
 	__asm
-		ld		l, e
-		ld		h, d
+		ex		de, hl
 		call	R_RDSLT
+		ei
+		ret
 	__endasm;
 }
 
@@ -164,7 +169,7 @@ u8 Bios_InterSlotRead(u8 slot, u16 addr)
 //            E  - Value
 // Registers: AF, BC, D
 // Remark   : Can be call directly from MSX-DOS
-//            This routine turns off the interupt, but won't turn it on again
+//            This routine turns off the interrupt, but won't turn it on again
 void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value)
 {
 	slot;  // A
@@ -181,13 +186,14 @@ void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value)
 		ld		e, 0(iy)	
 		call	R_WRSLT
 		pop		iy
+		ei
 	__endasm;
 }
 
 //-----------------------------------------------------------------------------
 // OUTDO
 // Address  : #0018
-// Function : Output to current output channel (printer, file, etc.)
+// Function : Outputs to current output channel (printer, file, etc.)
 // Input    : A  - PRTFIL, PRTFLG
 // Remark   : Used in basic, in ML it's pretty difficult
 
@@ -236,11 +242,10 @@ void Bios_InterSlotCall(u8 slot, u16 addr)
 //-----------------------------------------------------------------------------
 // ENASLT
 // Address  : #0024
-// Function : selects the slot corresponding to the value of A and enables the slot to be used.
+// Function : Selects the slot corresponding to the value of A and enables the slot to be used.
 //            When this routine is called, interrupts are inhibited and remain so even after execution ends.
 // Input    : A - Slot ID, see RDSLT
 //            H - Bit 6 and 7 must contain the page number (00-11)
-		   
 void Bios_SwitchSlot(u8 page, u8 slot)
 {
 	page; // A
@@ -252,7 +257,7 @@ void Bios_SwitchSlot(u8 page, u8 slot)
 		ld		h, a
 		ld		a, b
 		call	R_ENASLT
-		// ei							// because ENASLT do DI
+		ei							// because ENASLT do DI
 	__endasm;
 }
 
@@ -329,7 +334,7 @@ void Bios_SwitchSlot(u8 page, u8 slot)
 //-----------------------------------------------------------------------------
 // WRTVDP
 // Address  : #0047
-// Function : Write data in the VDP-register
+// Function : Writes data in the VDP-register
 // Input    : B  - Data to write
 //            C  - Number of the register
 // Registers: AF, BC
@@ -482,7 +487,7 @@ void Bios_TransfertRAMtoVRAM(u16 ram, u16 vram, u16 length)
 // Function : Switches to given screen mode
 // Input    : A  - Screen mode
 // Registers: All
-// Remark   : Colors palette is not initialized by this routine, call the routine CHGMDP (001B5h in Sub-ROM) if you need to initialize the palette
+// Remark   : Color palette is not initialized by this routine, call the routine CHGMDP (001B5h in Sub-ROM) if you need to initialize the palette
 
 // inline void Bios_ChangeMode(u8 screen) { Call(R_CHGMOD); }
 
@@ -516,7 +521,7 @@ void Bios_ChangeColor(u8 text, u8 back, u8 border)
 //-----------------------------------------------------------------------------
 // NMI
 // Address  : #0066
-// Function : Executes non-maskable interupt handling routine
+// Function : Executes non-maskable interrupt handling routine
 
 //-----------------------------------------------------------------------------
 // CLRSPR
@@ -668,13 +673,14 @@ void Bios_InitScreen3Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 
 // Input    : A  - Sprite ID
 // Output   : HL - For the address
 // Registers: AF, DE, HL
-u16 Bios_GetPatternTableAddress(u8 id) __FASTCALL
+u16 Bios_GetPatternTableAddress(u8 id) __NAKED __FASTCALL
 {
 	id; // L
 
 	__asm
 		ld		a, l
 		call	R_CALPAT
+		ret
 	__endasm;
 }
 
@@ -685,13 +691,14 @@ u16 Bios_GetPatternTableAddress(u8 id) __FASTCALL
 // Input    : A  - Sprite number
 // Output   : HL - For the address
 // Registers: AF, DE, HL
-u16 Bios_GetAttributeTableAddress(u8 id) __FASTCALL
+u16 Bios_GetAttributeTableAddress(u8 id) __NAKED __FASTCALL
 {
 	id; // L
 
 	__asm
 		ld		a, l
 		call	R_CALATR
+		ret
 	__endasm;
 }
 
@@ -796,6 +803,17 @@ void Bios_WritePSG(u8 reg, u8 value)
 // Function : Tests the status of the keyboard buffer
 // Output   : Zero flag set if buffer is empty, otherwise not set
 // Registers: AF
+u8 Bios_HasCharacter() __NAKED __FASTCALL
+{
+	__asm
+		ld		l, #0
+		call	R_CHSNS
+		ret		z			// Return 0
+		call	R_CHGET
+		ld		l, a
+		ret
+	__endasm;
+}
 
 //-----------------------------------------------------------------------------
 // CHGET
@@ -881,7 +899,7 @@ void Bios_WritePSG(u8 reg, u8 value)
 //-----------------------------------------------------------------------------
 // CKCNTC
 // Address  : #00BD
-// Function : Same as ISCNTC. used in Basic
+// Function : Same as ISCNTC. Used in Basic
 
 //-----------------------------------------------------------------------------
 // BEEP
@@ -933,7 +951,7 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //-----------------------------------------------------------------------------
 // ERAFNK
 // Address  : #00CC
-// Function : Erase functionkey display
+// Function : Erases the function keys
 // Registers: All
 
 //-----------------------------------------------------------------------------
@@ -1023,7 +1041,7 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //-----------------------------------------------------------------------------
 // TAPIN
 // Address  : #00E4
-// Function : Read data from the tape
+// Function : Reads data from the tape
 // Output   : A  - Read value
 //            Carry flag set if failed
 // Registers: All
@@ -1081,7 +1099,7 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //-----------------------------------------------------------------------------
 // PUTQ
 // Address  : #00F9
-// Function : Put byte in queue
+// Function : Puts byte in queue
 // Remark   : Internal use
 
 
@@ -1149,14 +1167,14 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //-----------------------------------------------------------------------------
 // STOREC
 // Address  : #0117
-// Function : Record current cursor addresses mask pattern
+// Function : Records current cursor addresses mask pattern
 // Input    : HL - Cursor address
 //            A  - Mask pattern
 
 //-----------------------------------------------------------------------------
 // SETATR
 // Address  : #011A
-// Function : Set attribute byte
+// Function : Sets attribute byte
 
 //-----------------------------------------------------------------------------
 // READC
@@ -1171,12 +1189,12 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //-----------------------------------------------------------------------------
 // NSETCX
 // Address  : #0123
-// Function : Set horizontal screen pixels
+// Function : Sets horizontal screen pixels
 
 //-----------------------------------------------------------------------------
 // GTASPC
 // Address  : #0126
-// Function : Gets screen relations
+// Function : Gets screen aspect ratio
 // Output   : DE, HL
 // Registers: DE, HL
 
@@ -1327,7 +1345,7 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //-----------------------------------------------------------------------------
 // KILBUF
 // Address  : #0156
-// Function : Clear keyboard buffer
+// Function : Clears keyboard buffer
 // Registers: HL
 
 //-----------------------------------------------------------------------------
@@ -1345,7 +1363,7 @@ __endasm
 
 //=============================================================================
 //
-// MSX 2
+// MSX2
 //
 //=============================================================================
 #if (MSX_VERSION >= MSX_2)
@@ -1374,14 +1392,14 @@ __endasm
 //-----------------------------------------------------------------------------
 // CHKSLZ
 // Address  : #0162
-// Function : Search slots for SUB-ROM
+// Function : Searches slots for SUB-ROM
 // Registers: All
 
 //-----------------------------------------------------------------------------
 // CHKNEW
 // Address  : #0165
 // Function : Tests screen mode
-// Output   : Carry flag set if screenmode = 5, 6, 7 or 8 
+// Output   : Carry flag set if screen mode = 5, 6, 7 or 8 
 // Registers: AF
 
 //-----------------------------------------------------------------------------
@@ -1436,7 +1454,7 @@ __endasm
 
 //=============================================================================
 //
-// MSX 2+
+// MSX2+
 //
 //=============================================================================
 #if (MSX_VERSION >= MSX_2P)
@@ -1444,7 +1462,7 @@ __endasm
 //-----------------------------------------------------------------------------
 // RDRES
 // Address  : #017A
-// Function : Read value of I/O port #F4
+// Function : Reads value of I/O port #F4
 // Input    : None
 // Output   : A = value read
 // Registers: AF
@@ -1452,9 +1470,9 @@ __endasm
 //-----------------------------------------------------------------------------
 // WRRES
 // Address  : #017D
-// Function : Write value to I/O port #F4
+// Function : Writes value to I/O port #F4
 // Input    : A = value to write
-//            When bit 7 is reset it shows the MSX 2+ startup screen on boot,
+//            When bit 7 is reset it shows the MSX2+ startup screen on boot,
 //            and counts and initialises the RAM.
 // Output   : None
 // Registers: None

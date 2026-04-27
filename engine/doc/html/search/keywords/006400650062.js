@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("deb",["Function"],[["DEBUG_ASSERT",,[[,,,,0,"File:debug.h:DEBUG_ASSERT"]]],["DEBUG_BREAK",,[[,,,,0,"File:debug.h:DEBUG_BREAK"]]],["DEBUG_INIT",,[[,,,,0,"File:debug.h:DEBUG_INIT"]]],["DEBUG_LOG",,[[,,,,0,"File:debug.h:DEBUG_LOG"]]],["DEBUG_LOGNUM",,[[,,,,0,"File:debug.h:DEBUG_LOGNUM"]]],["DEBUG_PRINT",,[[,,,,0,"File:debug.h:DEBUG_PRINT"]]]]);

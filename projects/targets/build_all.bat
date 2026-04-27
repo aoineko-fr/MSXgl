@@ -13,11 +13,11 @@ setlocal EnableDelayedExpansion
 
 ::-----------------------------------------------------------------------------
 :: BASIC and MSX-DOS
-set Formats=BIN,DOS1,DOS2
-set Unsupported=DOS2_ARG
+set Formats=BIN_DISK,BIN_TAPE,DOS0,DOS1,DOS2
 for %%G in (%Formats%) do (
 	call build %%G
 )
+call build BIN_USR USR 0
 
 ::-----------------------------------------------------------------------------
 :: Plain ROM
@@ -52,14 +52,40 @@ for %%G in (64,128,256,512,1024,2048) do (
 )
 
 ::-----------------------------------------------------------------------------
+:: NEO-8 mapped ROM
+for %%G in (256, 512, 1024, 2048, 4096, 8192, 16384, 32768) do (
+	call build ROM_NEO8 ROM_NEO8_%%GK %%G
+)
+
+::-----------------------------------------------------------------------------
+:: NEO-16 mapped ROM
+for %%G in (256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536) do (
+	call build ROM_NEO16 ROM_NEO16_%%GK %%G
+)
+
+::-----------------------------------------------------------------------------
+:: Yamanooto mapped ROM
+for %%G in (2048, 4096, 8192) do (
+	call build ROM_YAMANOOTO ROM_YAMANOOTO_%%GK %%G
+)
+
+::-----------------------------------------------------------------------------
+:: ASCII16-X mapped ROM
+for %%G in (8192, 16384, 32768, 65536) do (
+	call build ROM_ASCII16X ROM_ASCII16X_%%GK %%G
+)
+
+::-----------------------------------------------------------------------------
 :: BDOS
 call build ROM_32K ROM_32K_BDOS 0 BDOS
+call build ROM_48K ROM_48K_BDOS 0 BDOS
+call build ROM_ASCII8 ROM_ASCII8_128K_BDOS 128 BDOS
 
 ::-----------------------------------------------------------------------------
 :: RAM ISR
 call build ROM_32K ROM_32K_RAMISR 0 RAMISR
+call build ROM_48K ROM_48K_RAMISR 0 RAMISR
 call build ROM_ASCII8 ROM_ASCII8_128K_RAMISR 128 RAMISR
-
-
+call build ROM_ASCII8 ROM_ASCII8_128K_RAMSEG 128 RAMSEG
 
 :EOF

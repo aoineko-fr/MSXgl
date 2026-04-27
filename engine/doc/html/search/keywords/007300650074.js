@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("set",["Function"],[["SET_BANK_SEGMENT",,[[,,,,0,"File:rom_mapper.h:SET_BANK_SEGMENT"]]],["SET_BANK_SEGMENT_HIGH",,[[,,,,0,"File:rom_mapper.h:SET_BANK_SEGMENT_HIGH"]]],["SET_BANK_SEGMENT_LOW",,[[,,,,0,"File:rom_mapper.h:SET_BANK_SEGMENT_LOW"]]]]);

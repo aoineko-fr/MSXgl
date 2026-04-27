@@ -1,5 +1,5 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄▄                ▄▄ 
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄▄                ▄▄
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │   ██  ██▀▄ ██▀▄ ██ █ ██▀
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄██▄ ██ █ ██▀  ▀█▄█ ▀█▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘            ▀▀  
@@ -9,7 +9,9 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
-// Handle interruptions disabling
+#include "core.h"
+
+// Handle interrupt disabling
 #if (INPUT_USE_ISR_PROTECTION)
 	#define INPUT_DI				di
 	#define INPUT_EI				ei
@@ -18,14 +20,34 @@
 	#define INPUT_EI
 #endif
 
+#define INPUT_PORT1_LOW				0b00000011
+#define INPUT_PORT1_HIGH			0b00010011
+
+#define INPUT_PORT2_LOW				0b01001100
+#define INPUT_PORT2_HIGH			0b01101100
+
+enum INPUT_PORT
+{
+	INPUT_PORT1 = INPUT_PORT1_HIGH,
+	INPUT_PORT2 = INPUT_PORT2_HIGH,
+};
+
+// Mask
+#define INPUT_PIN8_ONLY				0b00110000
+#define INPUT_PIN8_MASK				0b11001111
+#define INPUT_PORT1_ONLY			0b00010011
+#define INPUT_PORT1_MASK			0b11101100
+#define INPUT_PORT2_ONLY			0b00101100
+#define INPUT_PORT2_MASK			0b11010011
+
 //=============================================================================
 // Group: Joystick
 // Direct access to joystick
 //=============================================================================
-#if (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER || INPUT_USE_DETECT)
+#if (INPUT_USE_JOYSTICK || INPUT_USE_DETECT)
 
-#define JOY_PORT_1					0b00000011
-#define JOY_PORT_2					0b01001100
+#define JOY_PORT_1					0b00001111
+#define JOY_PORT_2					0b01001111
 
 #define JOY_INPUT_DIR_NONE			0
 #define JOY_INPUT_DIR_UP			(1 << 0)
@@ -40,21 +62,27 @@
 #define JOY_INPUT_DIR_UNCHANGED		0xFF
 #define JOY_INPUT_TRIGGER_A			(1 << 4)
 #define JOY_INPUT_TRIGGER_B			(1 << 5)
+#define JOY_INPUT_TRIGGER_RUN		(JOY_INPUT_DIR_RIGHT + JOY_INPUT_DIR_LEFT) // FM-Town input method
+#define JOY_INPUT_TRIGGER_SELECT	(JOY_INPUT_DIR_UP + JOY_INPUT_DIR_DOWN) // FM-Town input method
 
-#define IS_JOY_PRESSED(stat, input) ((stat & input) == 0)
-#define IS_JOY_RELEASED(stat, input) ((stat & input) != 0)
+#define IS_JOY_PRESSED(stat, input)	(((stat) & (input)) == 0)
+#define IS_JOY_RELEASED(stat, input) (((stat) & (input)) != 0)
 
-#define JOY_GET_DIR(in)				(~(in) & JOY_INPUT_DIR_MASK))
+#define JOY_GET_DIR(in)				(~(in) & JOY_INPUT_DIR_MASK)
 #define JOY_GET_TRIG1(in)			(((in) & JOY_INPUT_TRIGGER_A) == 0)
 #define JOY_GET_TRIG2(in)			(((in) & JOY_INPUT_TRIGGER_B) == 0)
+#define JOY_GET_A(in)				(((in) & JOY_INPUT_TRIGGER_A) == 0)
+#define JOY_GET_B(in)				(((in) & JOY_INPUT_TRIGGER_B) == 0)
+#define JOY_GET_RUN(in)				(((in) & JOY_INPUT_TRIGGER_RUN) == 0)
+#define JOY_GET_SELECT(in)			(((in) & JOY_INPUT_TRIGGER_SELECT) == 0)
 
 // Function: Joystick_Read
-// Get the current joystick information
+// Gets current joystick information
 //
 // Parameters:
 //   port - JOY_PORT_1 or JOY_PORT_2
 //
-// Returns:
+// Return:
 //   Joystick state (bit=0: pressed)
 // : xxBARLDU
 // :   │││││└─ Up
@@ -63,7 +91,7 @@
 // :   ││└──── Right
 // :   │└───── Trigger A
 // :   └────── Trigger B
-u8 Joystick_Read(u8 port) __FASTCALL;
+u8 Joystick_Read(u8 port) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh);
 
 #if (INPUT_JOY_UPDATE)
 
@@ -71,19 +99,19 @@ extern u8 g_JoyStats[2];
 extern u8 g_JoyStatsPrev[2];
 
 // Function: Joystick_Update
-// Update both joystick stats at once and store the result
+// Updates both joystick stats at once and stores the result
 // Only available when INPUT_JOY_UPDATE is TRUE
 void Joystick_Update();
 
 // Function: Joystick_GetDirection
-// Get current direction of the given joystick
-// If INPUT_JOY_UPDATE is TRUE, this function use data retreived by Joystick_Update().
-// Otherwise, this function read I/O data.
+// Gets current direction of the given joystick
+// If INPUT_JOY_UPDATE is TRUE, this function uses data retrieved by Joystick_Update().
+// Otherwise, this function reads I/O data.
 //
 // Parameters:
 //   port - JOY_PORT_1 or JOY_PORT_2
 //
-// Returns:
+// Return:
 //   One or two of those defines:
 // : JOY_INPUT_DIR_NONE
 // : JOY_INPUT_DIR_UP
@@ -93,13 +121,13 @@ void Joystick_Update();
 inline u8 Joystick_GetDirection(u8 port) { return g_JoyStats[port >> 6] & JOY_INPUT_DIR_MASK; }
 
 // Function: Joystick_GetDirectionChange
-// Get current direction of the given joystick if different from previous one
+// Gets current direction of the given joystick if different from previous one
 // Only available if INPUT_JOY_UPDATE is TRUE.
 //
 // Parameters:
 //   port - JOY_PORT_1 or JOY_PORT_2
 //
-// Returns:
+// Return:
 //   One or two of those defines:
 // : JOY_INPUT_DIR_NONE
 // : JOY_INPUT_DIR_UP
@@ -111,14 +139,14 @@ inline u8 Joystick_GetDirectionChange(u8 port)
 {
 	u8 in = g_JoyStats[port >> 6]  & JOY_INPUT_DIR_MASK;
 	u8 prev = g_JoyStatsPrev[port >> 6]  & JOY_INPUT_DIR_MASK;
-	if(in == prev)
+	if (in == prev)
 		in = JOY_INPUT_DIR_UNCHANGED;
 	return in;
 }
 
 // Function: Joystick_IsButtonPressed
-// Get current trigger status of the given joystick
-// If INPUT_JOY_UPDATE is TRUE, this function use data retreived by Joystick_Update().
+// Gets current trigger status of the given joystick
+// If INPUT_JOY_UPDATE is TRUE, this function uses data retrieved by Joystick_Update().
 // Otherwise, this function read I/O data.
 //
 // Parameters:
@@ -126,11 +154,11 @@ inline u8 Joystick_GetDirectionChange(u8 port)
 //   trigger - JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B
 //
 // Return:
-//   TRUE is given button is pressed
+//   TRUE if given button is pressed
 inline bool Joystick_IsButtonPressed(u8 port, u8 trigger) { return ((g_JoyStats[port >> 6] & trigger) != 0); }
 
 // Function: Joystick_IsButtonPushed
-// Get current trigger status of the given joystick
+// Gets current trigger status of the given joystick
 // Only available if INPUT_JOY_UPDATE is TRUE.
 //
 // Parameters:
@@ -138,7 +166,7 @@ inline bool Joystick_IsButtonPressed(u8 port, u8 trigger) { return ((g_JoyStats[
 //   trigger - JOY_INPUT_TRIGGER_A or JOY_INPUT_TRIGGER_B
 //
 // Return:
-//   TRUE is given button is pressed
+//   TRUE if given button is pressed
 inline bool Joystick_IsButtonPushed(u8 port, u8 trigger)
 {
 	u8 in = g_JoyStats[port >> 6];
@@ -148,14 +176,14 @@ inline bool Joystick_IsButtonPushed(u8 port, u8 trigger)
 
 #else // (!INPUT_JOY_UPDATE)
 
-// Get current direction of the given joystick
+// Gets current direction of the given joystick
 inline u8 Joystick_GetDirection(u8 port)
 {
 	u8 in = ~Joystick_Read(port);
 	return (in & JOY_INPUT_DIR_MASK);
 }
 
-// Get current trigger status of the given joystick (0: released; 1: pressed)
+// Gets current trigger status of the given joystick (0: released; 1: pressed)
 inline bool Joystick_IsButtonPressed(u8 port, u8 trigger)
 {
 	u8 in = Joystick_Read(port);
@@ -164,29 +192,39 @@ inline bool Joystick_IsButtonPressed(u8 port, u8 trigger)
 
 #endif // (INPUT_JOY_UPDATE)
 
-#endif // (INPUT_USE_JOYSTICK || INPUT_USE_MANAGER)
+#endif // (INPUT_USE_JOYSTICK || INPUT_USE_DETECT)
 
 
 //=============================================================================
 // Group: Detect
-// General purpose ports device detection
+// General purpose port device detection
 //=============================================================================
 #if (INPUT_USE_DETECT)
 
-// Value returned the device in the idle state (allows to detect approximately the connected device)
+// Value returned from device in idle state (allows approximate detection of the connected device)
 enum INPUT_TYPE
 {
-	INPUT_TYPE_UNPLUGGED			= 0x3F,
-	INPUT_TYPE_JOYSTICK				= INPUT_TYPE_UNPLUGGED,
+	INPUT_TYPE_JSX					= 0x0F,
+	INPUT_TYPE_JSX_A0_B1			= 0x01, // Joypad: 6 boutons
+	INPUT_TYPE_JSX_A2_B1			= 0x09, // Joypad: 2 axies, 6 boutons
+	INPUT_TYPE_JSX_A6_B2			= 0x1A, // Joypad: 6 axies, 12 boutons (Xbox gamepad)
+	INPUT_TYPE_NINJATAP				= 0x1F,
 	INPUT_TYPE_MOUSE				= 0x30,
+	INPUT_TYPE_JOYMEGA				= 0x33,
 	INPUT_TYPE_TRACKBALL			= 0x38,
+	INPUT_TYPE_TOUCHPAD				= 0x3D,
 	INPUT_TYPE_PADDLE				= 0x3E, // Arkanoid Vaus Paddle or MSX-Paddle
-	// Unvalidated types
-	INPUT_TYPE_TOUCHPAD				= 0x39, // Can also be 3D or 3B
-	INPUT_TYPE_LIGHTGUN				= 0x2F, // Can also be 20 or 3F
-	INPUT_TYPE_MUSIC_PAD			= 0x3C, // Yamaha MMP-01 music pad
-	INPUT_TYPE_IBM_ADAPTER			= 0x3A, // IBM-PC DA15 joystick adapter
-	INPUT_TYPE_ATARI_ADAPTER		= 0x36, // Atari dual-paddle adapter
+	INPUT_TYPE_JOYSTICK				= 0x3F,
+	INPUT_TYPE_LIGHTGUN_ASCII		= 0x20,
+	INPUT_TYPE_LIGHTGUN_GUNSTICK	= 0x3F,
+	INPUT_TYPE_LIGHTGUN_PHENIX		= 0x37, // Backward compatible with Gun-Stick
+	INPUT_TYPE_UNPLUGGED			= INPUT_TYPE_JOYSTICK,
+
+	// // Unvalidated types
+	// INPUT_TYPE_LIGHTGUN				= 0x2F, // Can also be 20 or 3F
+	// INPUT_TYPE_MUSIC_PAD			= 0x3C, // Yamaha MMP-01 music pad
+	// INPUT_TYPE_IBM_ADAPTER			= 0x3A, // IBM-PC DA15 joystick adapter
+	// INPUT_TYPE_ATARI_ADAPTER		= 0x36, // Atari dual-paddle adapter
 };
 
 #define INPUT_PORT_1				JOY_PORT_1
@@ -194,7 +232,13 @@ enum INPUT_TYPE
 
 // Function: Input_Detect
 // Detect device plugged in General purpose ports
-inline u8 Input_Detect(u8 port) { return Joystick_Read(port) & 0x3F; }
+//
+// Parameters:
+//   port - Port to check (INPUT_PORT_1 or INPUT_PORT_2)
+//
+// Return:
+//   Device type (INPUT_TYPE_JOYSTICK, INPUT_TYPE_MOUSE, etc.)
+u8 Input_Detect(enum INPUT_PORT port);
 
 #endif
 
@@ -225,8 +269,8 @@ enum MOUSE_SPEED
 	MOUSE_SPEED_DEFAULT = MOUSE_SPEED_MEDIUM,
 };
 
-// Mouse state structure (don't change parameter order
-typedef struct
+// Mouse state structure (don't change parameter order)
+typedef struct Mouse_State
 {
 	u8			Buttons;
 	i8			dX;
@@ -235,24 +279,75 @@ typedef struct
 } Mouse_State;
 
 // Function: Mouse_Read
+// Gets current mouse information
+//
+// Parameters:
+//   port - Port to check (MOUSE_PORT_1 or MOUSE_PORT_2)
+//   data - Output mouse state
 void Mouse_Read(u8 port, Mouse_State* data);
 
 // Function: Mouse_GetOffsetX
+// Gets current mouse X offset
+//
+// Parameters:
+//   data - Current mouse state (from Mouse_Read)
+//
+// Return:
+//   Mouse X offset
 inline i8 Mouse_GetOffsetX(Mouse_State* data) { return -data->dX; }
 
 // Function: Mouse_GetOffsetY
+// Gets current mouse Y offset
+//
+// Parameters:
+//   data - Current mouse state (from Mouse_Read)
+//
+// Return:
+//   Mouse Y offset
 inline i8 Mouse_GetOffsetY(Mouse_State* data) { return -data->dY; }
 
 // Function: Mouse_GetAdjustedOffsetX
+// Gets current mouse X offset adjusted by speed
+//
+// Parameters:
+//   data - Current mouse state (from Mouse_Read)
+//   spd - Mouse speed (MOUSE_SPEED_LOWEST, MOUSE_SPEED_LOW, MOUSE_SPEED_MEDIUM, MOUSE_SPEED_HIGH, MOUSE_SPEED_HIGHEST)
+//
+// Return:
+//   Mouse X offset
 inline i8 Mouse_GetAdjustedOffsetX(Mouse_State* data, u8 spd) { return -data->dX / spd; }
 
 // Function: Mouse_GetAdjustedOffsetY
+// Gets current mouse Y offset adjusted by speed
+//
+// Parameters:
+//   data - Current mouse state (from Mouse_Read)
+//   spd - Mouse speed (MOUSE_SPEED_LOWEST, MOUSE_SPEED_LOW, MOUSE_SPEED_MEDIUM, MOUSE_SPEED_HIGH, MOUSE_SPEED_HIGHEST)
+//
+// Return:
+//   Mouse Y offset
 inline i8 Mouse_GetAdjustedOffsetY(Mouse_State* data, u8 spd) { return -data->dY / spd; }
 
 // Function: Mouse_IsButtonPress
+// Check if mouse button is pressed
+//
+// Parameters:
+//   data - Current mouse state (from Mouse_Read)
+//   btn - Mouse button to check (MOUSE_BOUTON_LEFT, MOUSE_BOUTON_RIGHT)
+//
+// Return:
+//   FALSE is not pressed
 inline bool Mouse_IsButtonPress(Mouse_State* data, u8 btn) { return (data->Buttons & btn) == 0; }
 
 // Function: Mouse_IsButtonClick
+// Check if mouse button is clicked
+//
+// Parameters:
+//   data - Current mouse state (from Mouse_Read)
+//   btn - Mouse button to check (MOUSE_BOUTON_LEFT, MOUSE_BOUTON_RIGHT)
+//
+// Return:
+//   FALSE is not clicked
 inline bool Mouse_IsButtonClick(Mouse_State* data, u8 btn) { return ((data->Buttons & btn) == 0) && ((data->PrevButtons & btn) != 0); }
 
 #endif // (INPUT_USE_MOUSE)
@@ -261,18 +356,19 @@ inline bool Mouse_IsButtonClick(Mouse_State* data, u8 btn) { return ((data->Butt
 // Group: Keyboard
 // Direct access to keyboard
 //=============================================================================
-#if (INPUT_USE_KEYBOARD || INPUT_USE_MANAGER)
+#if (INPUT_USE_KEYBOARD)
 
-#define MAKE_KEY(r, b)		((b << 4) | r)
-#define KEY_ROW(key)		(key & 0x0F)
-#define KEY_IDX(key)		(key >> 4)
+#define MAKE_KEY(r, b)		(((b) << 4) | (r))
+#define KEY_ROW(key)		((key) & 0x0F)
+#define KEY_IDX(key)		((key) >> 4)
 #define KEY_FLAG(key)		(1 << KEY_IDX(key))
 
-#define IS_KEY_PRESSED(row, key)  ((row & KEY_FLAG(key)) == 0)
-#define IS_KEY_RELEASED(row, key) ((row & KEY_FLAG(key)) != 0)
+#define IS_KEY_PRESSED(row, key)  (((row) & KEY_FLAG(key)) == 0)
+#define IS_KEY_RELEASED(row, key) (((row) & KEY_FLAG(key)) != 0)
+#define IS_KEY_PUSHED(row, prev, key)  ((((row) & KEY_FLAG(key)) == 0) && (((prev) & KEY_FLAG(key)) != 0))
 
 // Function: KEY_ID
-// Value coding a given physical key combining row number and key index in that row
+// Value encoded by combining a row number with a given physical key index in that row
 // Can be KEY_1, KEY_SPACE, KEY_A, KEY_F1, etc.
 enum KEY_ID
 {
@@ -347,7 +443,7 @@ enum KEY_ID
 	KEY_STOP	= MAKE_KEY(7, 4),
 	KEY_BS		= MAKE_KEY(7, 5),
 	KEY_SELECT	= MAKE_KEY(7, 6),
-	KEY_RET		= MAKE_KEY(7, 7),
+	KEY_RETURN	= MAKE_KEY(7, 7),
 	// Row #8 keys
 	KEY_SPACE	= MAKE_KEY(8, 0),
 	KEY_HOME	= MAKE_KEY(8, 1),
@@ -376,26 +472,44 @@ enum KEY_ID
 	KEY_NUM_COM	= MAKE_KEY(10, 6),
 	KEY_NUM_DOT	= MAKE_KEY(10, 7),
 };
+// Key
+#define KEY_RET			KEY_RETURN
+#define KEY_ENTER		KEY_RETURN
+#define KEY_BACK		KEY_BS
 
 // Function: Keyboard_Read
-// Read keyboard matrix row
+// Reads keyboard matrix row
 //
 // Parameters:
 //   row - The row to read (0-10)
 //
 // Return:
 //   8-bits value where each bit to 0 represents the pressed keys
-u8 Keyboard_Read(u8 row) __FASTCALL;
+u8 Keyboard_Read(u8 row) __FASTCALL __PRESERVES(b, c, d, e, h, iyl, iyh);
 
 #if (INPUT_KB_UPDATE)
+
+// Buffer to store current frame keys state
+extern u8* g_InputBufferNew;
+// Buffer to store previous frame keys state
+extern u8* g_InputBufferOld;
+
+// Function: Keyboard_SetBuffer
+// Set the buffer to store keyboard state
+//
+// Parameters:
+//   new - Buffer to store current frame keys state
+//   old - Buffer to store previous frame keys state
+inline void Keyboard_SetBuffer(u8* new, u8* old) { g_InputBufferNew = new; g_InputBufferOld = old; }
+
 // Function: Keyboard_Update
-// Update all keyboard rows at once
+// Updates all keyboard rows at once
 // Only available when INPUT_KB_UPDATE is TRUE
 void Keyboard_Update();
 
 // Function: Keyboard_IsKeyPressed
-// When INPUT_KB_UPDATE is TRUE, this function use data retreived by Keyboard_Update() function
-// Otherwise, the function read the key's row before checking the key.
+// When INPUT_KB_UPDATE is TRUE, this function uses data retrieved by Keyboard_Update() function
+// Otherwise, the function reads the key's row before checking the key.
 //
 // Parameters:
 //   key - The key ID to check
@@ -405,14 +519,14 @@ void Keyboard_Update();
 bool Keyboard_IsKeyPressed(u8 key);
 
 // Function: Keyboard_IsKeyPushed
-// Check if a given key is just pushed
+// Checks if a given key was just pushed
 // Only available when INPUT_KB_UPDATE is TRUE
 //
 // Parameters:
 //   key - The key ID to check
 //
 // Return:
-//   TRUE is the key was pushed this frame
+//   TRUE if the key was pushed on this frame
 bool Keyboard_IsKeyPushed(u8 key);
 
 #else
@@ -422,151 +536,4 @@ bool Keyboard_IsKeyPressed(u8 key);
 
 #endif // (INPUT_KB_UPDATE)
 
-#endif // (INPUT_USE_KEYBOARD || INPUT_USE_MANAGER)
-
-//=============================================================================
-// Group: Input Manager
-// Advanced input manager
-//=============================================================================
-#if (INPUT_USE_MANAGER)
-
-// Device ID
-enum IPM_DEVICE
-{
-	IPM_DEVICE_JOYSTICK_1 = 0,
-	IPM_DEVICE_JOYSTICK_2,
-	IPM_DEVICE_KEYBOARD_1,
-	IPM_DEVICE_KEYBOARD_2,
-	//---------------------------------
-	IPM_DEVICE_MAX,
-	IPM_DEVICE_ANY,
-};
-
-// Device input ID
-enum IPM_INPUT
-{
-	IPM_INPUT_STICK = 0,
-	IPM_INPUT_BUTTON_A,
-	IPM_INPUT_BUTTON_B,
-	//---------------------------------
-	IPM_INPUT_MAX,
-	IPM_INPUT_ANY,
-};
-
-// Device event ID
-enum IPM_EVENT
-{
-	IPM_EVENT_CLICK = 0,
-	IPM_EVENT_HOLD,
-	IPM_EVENT_DOUBLE_CLICK,	
-	IPM_EVENT_DOUBLE_CLICK_HOLD,
-	IPM_EVENT_RELEASE,
-	//---------------------------------
-	IPM_EVENT_MAX,
-	IPM_EVENT_ANY,
-	IPM_EVENT_NONE,
-};
-
-// State flag
-#define IPM_STATE_OFF			0x00
-#define IPM_STATE_PRESS			0x01
-#define IPM_STATE_ON			0x02
-#define IPM_STATE_RELEASE		0x03
-#define IPM_STATE_PRESSMASK		0x03
-#define IPM_STATE_HOLD			0x10
-#define IPM_STATE_HOLDING		0x20
-#define IPM_STATE_HOLDMASK		0x30
-#define IPM_STATE_DOUBLE		0x80
-
-#define IPM_EVENT_TAB_SIZE		16
-
-typedef void (*IPM_cb)(u8 joy, u8 in, u8 evt);
-typedef u8 (*IPM_check)(u8 joy, u8 in);
-
-typedef struct
-{
-	u8			Device;
-	u8			Input;
-	u8			Event;
-	IPM_cb		Callback;
-} IPM_Event;
-
-typedef struct
-{
-	u8			CurrentStatus;
-	u8			PreviousStatus;
-	u8			State[IPM_INPUT_MAX];
-	u8			Timer[IPM_INPUT_MAX];
-} IPM_Process;	
-
-typedef struct
-{
-	u8			Up;
-	u8			Right;
-	u8			Down;
-	u8			Left;
-	u8			TriggerA;
-	u8			TriggerB;
-} IPM_KeySet;	
-
-typedef struct
-{
-	u8			DeviceSupport[IPM_DEVICE_MAX];
-	u8			HoldTimer;
-	u8			DoubleClickTimer;
-	IPM_KeySet	KeySet[2];
-} IPM_Config;	
-
-typedef struct
-{
-	IPM_Process	Process[IPM_DEVICE_MAX];
-	IPM_Event	Events[IPM_EVENT_TAB_SIZE];
-	u8			EventsNum;
-	IPM_check	Checker[IPM_EVENT_MAX];
-	IPM_Config  Config;
-} IPM_Data;
-
-extern IPM_Data g_IPM;
-
-// Function: IPM_Initialize
-// Initialize input manager
-void IPM_Initialize(IPM_Config* config);
-
-// Function: IPM_SetTimer
-// Initialize input manager
-inline void IPM_SetTimer(u8 doubleClk, u8 hold)
-{
-	g_IPM.Config.DoubleClickTimer = doubleClk;
-	g_IPM.Config.HoldTimer = hold;
-}
-
-// Function: IPM_Update
-// Update device manager
-void IPM_Update();
-
-// Function: IPM_RegisterEvent
-// Register a callback to a given device manager's event
-bool IPM_RegisterEvent(u8 joy, u8 input, u8 event, IPM_cb cb);
-
-// Function: IPM_GetStatus
-// Get current device status
-inline u8 IPM_GetStatus(u8 joy);
-
-// Function: IPM_GetStickDirection
-// Get current direction of the given device
-inline u8 IPM_GetStickDirection(u8 joy);
-
-// Function: IPM_GetInputState
-// Get current device state
-inline u8 IPM_GetInputState(u8 joy, u8 in);
-
-// Function: IPM_GetInputTimer
-// Get current device state timer
-inline u8 IPM_GetInputTimer(u8 joy, u8 in);
-
-// Function: IPM_GetEventName
-// Get event name
-const c8* IPM_GetEventName(u8 ev);
-
-#endif // INPUT_USE_MANAGER
-
+#endif // (INPUT_USE_KEYBOARD)

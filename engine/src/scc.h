@@ -115,10 +115,20 @@ void SCC_Select();
 
 // Function: SCC_SetRegister
 // Set the value of a given register
+//
+// Parameters:
+//   reg   - Register to set
+//   value - Value to set
 void SCC_SetRegister(u8 reg, u8 value);
 
 // Function: SCC_GetRegister
 // Get the value of a given register
+//
+// Parameters:
+//   reg - Register to get
+//
+// Return:
+//   Value of the register
 u8 SCC_GetRegister(u8 reg);
 
 // Function: SCC_Mute
@@ -136,18 +146,33 @@ void SCC_Resume();
 	
 // Function: SCC_LoadWaveform
 // Load a full waveform
+//
+// Parameters:
+//   channel - Channel number (1 to 5)
+//   data    - Waveform data (32 bytes)
 void SCC_LoadWaveform(u8 channel, const u8* data);
 
 // Function: SCC_SetFrequency
 // Set channel frquency
+//
+// Parameters:
+//   channel - Channel number (1 to 5)
+//   freq    - Frequency value
 void SCC_SetFrequency(u8 channel, u16 freq);
 
 // Function: SCC_SetVolume
 // Set channel volume
+//
+// Parameters:
+//   channel - Channel number (1 to 5)
+//   vol     - Volume value
 inline void SCC_SetVolume(u8 channel, u8 vol) { SCC_SetRegister(SCC_REG_VOL_1 + channel, vol); }
 
 // Function: SCC_SetMixer
 // Set channels mixer
+//
+// Parameters:
+//   mix - Mixer value
 inline void SCC_SetMixer(u8 mix) { SCC_SetRegister(SCC_REG_MIXER, mix); }
 
 #endif // (SCC_USE_EXTA)

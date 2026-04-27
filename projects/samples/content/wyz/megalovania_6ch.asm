@@ -1,5 +1,5 @@
 ;-----------------------------------------------------------------------------
-; WYZ file merged for MSXgl on 20/03/2022 11:10:29,75 
+; WYZ file merged for MSXgl on 09/11/2024 14:46:20,75 
 ;-----------------------------------------------------------------------------
 .module wyz_megalovania_6ch 
 _megalovania_6ch_Song:: .DW SONG00 
@@ -64,8 +64,8 @@ _megalovania_6ch_Freq:: .DW 0,0
 .DW 93,88,84,79,75,70,66,63,59,56
 ; Song data 
 SONG00: 
-; CMSXbin 1.2.0 by Guillaume "Aoineko" Blanchard (2021) under CC BY-SA free license
-; File generated on Sun Mar 20 11:10:29 2022
+; MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
+; File generated on Sat Nov  9 14:46:20 2024
 ; Soure file: D:\Dev\Private\MSX\MSXgl\projects\samples\datasrc\wyz\megalovania_6ch.mus
 _megalovania_6ch_Data::
 .db 0x02,0x6B,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00

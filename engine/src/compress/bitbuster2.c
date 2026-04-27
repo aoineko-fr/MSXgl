@@ -1,9 +1,9 @@
 // ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄  ▄  ▄▄  ▄▄             ▄▄           
+// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄▄▄  ▄  ▄▄  ▄▄             ▄▄
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ██▄▀ ▄  ██▀ ██▄  ██ █  ██▀ ██▀ ▄███ ██▄▀
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ██ ▀█▄ ██▄▀ ▀█▄█ ▄██  ▀█▄ ▀█▄▄ ██  
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
-// by Guillaume 'Aoineko' Blanchard under CC BY-SA license
+// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██▄▀ ██ ▀█▄ ██▄▀ ▀█▄█ ▄██  ▀█▄ ▀█▄▄ ██
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘
+//  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // Bitbuster 2
 //	Copyright (c) 2003-2004, 2022 Arjan Bakker
@@ -27,7 +27,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "bitbuster2.h"
 
-// File: bitbuster
+// File bitbuster
 //
 //	The bitbuster module gives you depack support for data packed
 //	using the bitbuster algorithm.
@@ -107,7 +107,7 @@ __asm
 
 #endif // ifndef BITBUSTER_OPTIMIZE_SPEED
 
-// FUNCTION:	depack
+// FUNCTION	depack
 //	Depack a blob of data that was packed with Bitbuster.
 //
 // ENTRY:
@@ -154,7 +154,7 @@ depack_next_block:
 	ret
 
 
-// FUNCTION:	depack_block
+// FUNCTION	depack_block
 //	Depack data that was packed with Bitbuster.
 //	Decompresses the RAW data, i.e. the data that is stored after the block count and block size!
 //

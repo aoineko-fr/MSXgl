@@ -1,6 +1,6 @@
 @echo off
 
-set Players=AKG,AKM,AKY,LW
+set Players=AKG,AKM,AKY,AKY_6ch,AKY_Darky
 
 for %%I in (%Players%) do (
 	echo ==== Generate %%I ====

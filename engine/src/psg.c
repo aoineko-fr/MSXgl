@@ -41,9 +41,9 @@ const u16 g_PSG_Notes[] = {
 //=============================================================================
 
 #if (PSG_ACCESS == PSG_INDIRECT)
-struct PSG_Data g_PSG_Regs;
+PSG_Data g_PSG_Regs;
 #if (PSG_CHIP == PSG_BOTH)
-struct PSG_Data g_PSG2_Regs;
+PSG_Data g_PSG2_Regs;
 #endif
 #endif
 
@@ -204,7 +204,7 @@ void PSG_SetShape(u8 shape)
 
 //-----------------------------------------------------------------------------
 //
-void PSG_EnableTone(u8 chan, u8 val)
+void PSG_EnableTone(u8 chan, bool val)
 {
 #if (PSG_ACCESS == PSG_INDIRECT)
 	u8 mix = g_PSG_Regs.Mixer;
@@ -216,7 +216,7 @@ void PSG_EnableTone(u8 chan, u8 val)
 	u8 bit = 1 << chan;
 	mix &= ~bit;
 	
-	if(val == 0)
+	if (val == 0)
 		mix |= bit;
 	
 #if (PSG_ACCESS == PSG_INDIRECT)
@@ -228,7 +228,7 @@ void PSG_EnableTone(u8 chan, u8 val)
 
 //-----------------------------------------------------------------------------
 //
-void PSG_EnableNoise(u8 chan, u8 val)
+void PSG_EnableNoise(u8 chan, bool val)
 {
 #if (PSG_ACCESS == PSG_INDIRECT)
 	u8 mix = g_PSG_Regs.Mixer;
@@ -240,7 +240,7 @@ void PSG_EnableNoise(u8 chan, u8 val)
 	u8 bit = 8 << chan;
 	mix &= ~bit;
 	
-	if(val == 0)
+	if (val == 0)
 		mix |= bit;
 	
 #if (PSG_ACCESS == PSG_INDIRECT)
@@ -252,7 +252,7 @@ void PSG_EnableNoise(u8 chan, u8 val)
 
 //-----------------------------------------------------------------------------
 //
-void PSG_EnableEnvelope(u8 chan, u8 val)
+void PSG_EnableEnvelope(u8 chan, bool val)
 {
 #if (PSG_ACCESS == PSG_INDIRECT)
 	u8 vol = g_PSG_Regs.Volume[chan];
@@ -263,7 +263,7 @@ void PSG_EnableEnvelope(u8 chan, u8 val)
 
 	vol &= 0x0F;
 	
-	if(val != 0)
+	if (val != 0)
 		vol |= PSG_F_ENV;
 	
 #if (PSG_ACCESS == PSG_INDIRECT)
@@ -332,7 +332,7 @@ void PSG_Resume()
 //-----------------------------------------------------------------------------
 // Send data to PSG registers #1 to #13
 // @note					Must be executed on each V-Blank interruption
-void PSG_Apply()
+void PSG_Apply() __NAKED __PRESERVES(d, e, iyl, iyh)
 {
 __asm
 	// Update mixer register wanted value with I/O 2-bits from the current mixer register value
@@ -351,11 +351,11 @@ __asm
 	ld		C, #PSG_PORT_WRITE		// Setup outi register
 	xor		A						// Initialize register number
 	// R#0-12
-	.rept 13
-		out		(PSG_PORT_REG), A	// port_reg <- reg_num
-		outi						// port_data <- data[i++]
-		inc		A					// 
-	.endm
+.rept 13
+	out		(PSG_PORT_REG), A		// port_reg <- reg_num
+	outi							// port_data <- data[i++]
+	inc		A						// 
+.endm
 	// R#13
 	out		(PSG_PORT_REG), A		// port_reg <- reg_num
 	ld		A, (HL)					// 
@@ -383,11 +383,11 @@ PSG_End:
 	ld		C, #PSG2_PORT_WRITE		// Setup outi register
 	xor		A						// Initialize register number
 	// R#0-12
-	.rept 13
-		out		(PSG2_PORT_REG), A	// port_reg <- reg_num
-		outi						// port_data <- data[i++]
-		inc		A					// 
-	.endm
+.rept 13
+	out		(PSG2_PORT_REG), A		// port_reg <- reg_num
+	outi							// port_data <- data[i++]
+	inc		A						// 
+.endm
 	// R#13
 	out		(PSG2_PORT_REG), A		// port_reg <- reg_num
 	ld		A, (HL)					// 
@@ -399,6 +399,7 @@ PSG2_End:
 	ld		(HL), A					// 
 #endif
 
+	ret
 __endasm;
 }
 

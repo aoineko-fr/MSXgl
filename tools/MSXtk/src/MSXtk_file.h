@@ -1,4 +1,4 @@
-//_____________________________________________________________________________
+﻿//_____________________________________________________________________________
 //   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄   ▄▄▄▄           ▄▄         ▄▄ ▄ ▄  ▄▄
 //  ██ ▀ ██▀█ ▀█▄  ▀█▄▀    ██  ▄█▀▄ ▄█▀▄ ██   ██▀   ██▄▀ ▄  ██▀
 //  ▀█▄▀ ██ █ ▄▄█▀ ██ █    ██  ▀█▄▀ ▀█▄▀ ▀█▄ ▄██    ██ █ ██ ▀█▄
@@ -15,6 +15,16 @@
 
 namespace MSX {
 
+/// Format of the data
+enum FileFormat : u8
+{
+	FILEFORMAT_Auto,				// Auto-detection
+	FILEFORMAT_C,					// C header file (text)
+	FILEFORMAT_Asm,					// Assembler header file (text)
+	FILEFORMAT_BASIC,				// BASIC listing file (text)
+	FILEFORMAT_Bin,					// Binary data file
+};
+	
 /// File structure
 struct FileData
 {
@@ -27,6 +37,19 @@ struct FileData
 class File
 {
 public:
+
+	//----------------------------------------------------------------------------
+	/// Check of file exists
+	static bool Exists(const std::string& filename)
+	{
+		FILE* file = fopen(filename.c_str(), "rb");
+		if (file == nullptr)
+		{
+			return false;
+		}
+		fclose(file);
+		return true;
+	}
 
 	//----------------------------------------------------------------------------
 	/// Read binary file
@@ -46,6 +69,27 @@ public:
 		{
 			file.Data.resize(0);
 			printf("Error: Fail to read file %s\n", file.Filename.c_str());
+			return false;
+		}
+		fclose(file.Interface);
+		return true;
+	}
+
+	//----------------------------------------------------------------------------
+	/// Read binary file
+	static bool Save(FileData& file)
+	{
+		// Open binary file
+		file.Interface = fopen(file.Filename.c_str(), "wb");
+		if (file.Interface == NULL)
+		{
+			printf("Error: Fail to open output file %s\n", file.Filename.c_str());
+			return false;
+		}
+		// Write data
+		if (fwrite(file.Data.data(), sizeof(u8), file.Data.size(), file.Interface) != file.Data.size())
+		{
+			printf("Error: Fail to write %i bytes to file %s\n", (int)file.Data.size(), file.Filename.c_str());
 			return false;
 		}
 		fclose(file.Interface);
@@ -80,6 +124,30 @@ public:
 
 		return str.substr(lastpos + 1);
 	}
+
+	//----------------------------------------------------------------------------
+	/// Check if filename contains the given extension
+	static bool HaveExt(const std::string& str, const std::string& ext)
+	{
+		return str.find(ext) != std::string::npos;
+	}
+
+	//----------------------------------------------------------------------------
+	/// Check if filename contains the given extension
+	static FileFormat GetFormat(const std::string& filename)
+	{
+		if (HaveExt(filename, ".c") || HaveExt(filename, ".h") || HaveExt(filename, ".inc"))
+			return MSX::FILEFORMAT_C;
+
+		if (HaveExt(filename, ".s") || HaveExt(filename, ".asm"))
+			return MSX::FILEFORMAT_Asm;
+
+		if (HaveExt(filename, ".bin") || HaveExt(filename, ".raw"))
+			return MSX::FILEFORMAT_Bin;
+
+		return FILEFORMAT_Auto;
+	}
+
 };
 
 } // namespace MSX

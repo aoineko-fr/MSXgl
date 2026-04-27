@@ -74,8 +74,8 @@ u8 g_LMMC4b[16*16];
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample6.h"
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample6.h"
+#include "font/font_mgl_sample8.h"
 
 // Cursor
 const u8 g_CursorForm[] = 
@@ -119,9 +119,9 @@ const u8 g_CursorForm[] =
 };
 
 // Bitmaps by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "content\data_bmp_2b.h"
-#include "content\data_bmp_4b.h"
-#include "content\data_bmp_8b.h"
+#include "content/data_bmp_2b.h"
+#include "content/data_bmp_4b.h"
+#include "content/data_bmp_8b.h"
 
 // Screen mode settings
 const struct ScreenSetting g_Settings[] =
@@ -184,7 +184,7 @@ void DisplayPage()
 
 	//-------------------------------------------------------------------------
 	// Footer
-	Draw_LineH(0, src->Width - 1, 200-4, src->Text, 0);
+	Draw_LineH(0, src->Width - 1, (u8)(200-4), src->Text, 0);
 	Print_SetPosition(4, 200);
 	Print_DrawText("\x82:Mode  \x81\x80:Cmd  \x83+\x81\x82\x80:Cursor");
 
@@ -196,7 +196,7 @@ void DisplayPage()
 	// Load and setup sprite
 	VDP_LoadSpritePattern(g_CursorForm, 0, 4);
 	VDP_SetSpriteExUniColor(0, SX, SY, 0, 0xF);
-	VDP_HideSpriteFrom(1);
+	VDP_DisableSpritesFrom(1);
 	VDP_EnableDisplay(TRUE);
 }
 
@@ -212,7 +212,7 @@ void DisplayPageMain()
 	Y = 24;
 	Print_SetPosition(X, Y);
 	Print_DrawText("Write");
-	for(u16 i = 0; i < 16; ++i)
+	for (u16 i = 0; i < 16; ++i)
 		VDP_WriteVRAM(src->Data + (blockBytes * i), (Y + 8 + i) * lineBytes + (X / scale), 0, blockBytes);
 
 	// HMMC(addr, dx, dy, nx, ny) - High speed move CPU to VRAM
@@ -245,10 +245,14 @@ void DisplayPageMain()
 	Y = 24;
 	Print_SetPosition(X, Y);
 	Print_DrawText("Read>W");
-	for(u16 i = 0; i < 16; ++i)
+	for (u16 i = 0; i < 16; ++i)
 	{
-		VDP_ReadVRAM((SY + i) * lineBytes + (SX / scale), 0, buffer + (blockBytes * i), blockBytes);
-		VDP_WriteVRAM(buffer + (blockBytes * i), (Y + 8 + i) * lineBytes + (X / scale), 0, blockBytes);
+		VDP_ReadVRAM((SY + i) * lineBytes + (SX / scale), 0, buffer + (blockBytes * i), blockBytes); // Read from page 0
+		VDP_WriteVRAM(buffer + (blockBytes * i), (Y + 8 + i) * lineBytes + (X / scale), 0, blockBytes); // Write to page 0
+		// Page 1 write 
+		VDP_WriteVRAM(buffer + (blockBytes * i), (Y + 8 + i) * lineBytes + (X / scale), 1, blockBytes); // Write to page 1
+		VDP_ReadVRAM((Y + 8 + i) * lineBytes + (X / scale), 1, buffer + (blockBytes * i), blockBytes); // Read from page 1
+		VDP_WriteVRAM(buffer + (blockBytes * i), (Y + 8 + i) * lineBytes + (X / scale) + 32, 1, blockBytes); // Write to page 1
 	}
 
 	// LMMC(addr, dx, dy, nx, ny, op) - Logical move CPU to VRAM
@@ -283,7 +287,7 @@ void DisplayPageMain()
 	Y = 24;
 	Print_SetPosition(X, Y);
 	Print_DrawText("Fill");
-	for(u16 i = 0; i < 16; ++i)
+	for (u16 i = 0; i < 16; ++i)
 		VDP_FillVRAM(src->Red, (Y + 8 + i) * lineBytes + (X / scale), 0, blockBytes * blockWidth/16);
 
 	// LINE - Draw straight line in VRAM
@@ -307,7 +311,7 @@ void DisplayPageMain()
 	Y += 32;
 	Print_SetPosition(X, Y);
 	Print_DrawText("PSET(I)");
-	for(u16 i = 0; i < 32; ++i)
+	for (u16 i = 0; i < 32; ++i)
 	{
 		u16 rnd = Math_GetRandom16();
 		VDP_CommandPSET(X + rnd % blockWidth, Y + 8 + (rnd >> 4) % 16, (rnd >> 8), VDP_OP_IMP);
@@ -410,7 +414,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 	g_Frame++;
 }
@@ -424,25 +428,25 @@ void WaitVBlank()
 void main()
 {
 	// Precalc
-	for(u16 i = 0; i < 256; ++i)
+	for (u16 i = 0; i < 256; ++i)
 	{
 		u8 c, b = g_DataBmp4b[i >> 1];
-		if((i & 0x1) == 0)
+		if ((i & 0x1) == 0)
 			c = b >> 4;
-		else // if((i & 0x1) == 1)
+		else // if ((i & 0x1) == 1)
 			c = b;		
 		g_LMMC4b[i] = c & 0x0F;
 	}
-	for(u16 i = 0; i < 256; ++i)
+	for (u16 i = 0; i < 256; ++i)
 	{
 		u8 c, b = g_DataBmp2b[i >> 2];
-		if((i & 0x3) == 0)
+		if ((i & 0x3) == 0)
 			c = b >> 6;
-		else if((i & 0x3) == 1)
+		else if ((i & 0x3) == 1)
 			c = b >> 4;
-		else if((i & 0x3) == 2)
+		else if ((i & 0x3) == 2)
 			c = b >> 2;
-		else // if((i & 0x3) == 3)
+		else // if ((i & 0x3) == 3)
 			c = b;
 		g_LMMC2b[i] = c  & 0x03;
 	}
@@ -457,54 +461,54 @@ void main()
 
 	bool bContinue = TRUE;
 	bool bEditing = FALSE;
-	while(bContinue)
+	while (bContinue)
 	{
 		const struct ScreenSetting* src = &g_Settings[g_SrcModeIndex];
 
 		Print_SetPosition(src->Width - 8, 2);
 		Print_DrawChar(chrAnim[g_Frame & 0x03]);
 
-		u8 row = Keyboard_Read(KEY_ROW(KEY_DOWN));
-		if((row & KEY_FLAG(KEY_SPACE)) == 0)
+		u8 row8 = Keyboard_Read(KEY_ROW(KEY_DOWN));
+		if ((row8 & KEY_FLAG(KEY_SPACE)) == 0)
 		{
 			// Move cursor
 			bEditing = TRUE;
-			if((row & KEY_FLAG(KEY_UP)) == 0)
+			if ((row8 & KEY_FLAG(KEY_UP)) == 0)
 			{
-				if(SY > 0)
+				if (SY > 0)
 					--SY;
 			}
-			if((row & KEY_FLAG(KEY_DOWN)) == 0)
+			if ((row8 & KEY_FLAG(KEY_DOWN)) == 0)
 			{
-				if(SY < 212)
+				if (SY < 212)
 					++SY;
 			}
-			if((row & KEY_FLAG(KEY_LEFT)) == 0)
+			if ((row8 & KEY_FLAG(KEY_LEFT)) == 0)
 			{
-				if(SX > 0)
+				if (SX > 0)
 					--SX;
 			}
-			if((row & KEY_FLAG(KEY_RIGHT)) == 0)
+			if ((row8 & KEY_FLAG(KEY_RIGHT)) == 0)
 			{
 				++SX;
-				if(SX >= src->Width)
+				if (SX >= src->Width)
 					SX = src->Width - 1;
 			}
 		}
 		else
 		{
 			// Change screen mode
-			if((row & KEY_FLAG(KEY_UP)) == 0)
+			if ((row8 & KEY_FLAG(KEY_UP)) == 0)
 			{
-				if(g_SrcModeIndex > 0)
+				if (g_SrcModeIndex > 0)
 					g_SrcModeIndex--;
 				else
 					g_SrcModeIndex = numberof(g_Settings) - 1;
 				DisplayPage();
 			}
-			else if((row & KEY_FLAG(KEY_DOWN)) == 0)
+			else if ((row8 & KEY_FLAG(KEY_DOWN)) == 0)
 			{
-				if(g_SrcModeIndex < numberof(g_Settings) - 1)
+				if (g_SrcModeIndex < numberof(g_Settings) - 1)
 					g_SrcModeIndex++;
 				else
 					g_SrcModeIndex = 0;
@@ -512,17 +516,17 @@ void main()
 			}
 
 			// Change page
-			if((row & KEY_FLAG(KEY_LEFT)) == 0)
+			if ((row8 & KEY_FLAG(KEY_LEFT)) == 0)
 			{
-				if(g_CmdModeIndex > 0)
+				if (g_CmdModeIndex > 0)
 					g_CmdModeIndex--;
 				else
 					g_CmdModeIndex = numberof(g_Page) - 1;
 				DisplayPage();
 			}
-			else if((row & KEY_FLAG(KEY_RIGHT)) == 0)
+			else if ((row8 & KEY_FLAG(KEY_RIGHT)) == 0)
 			{
-				if(g_CmdModeIndex < numberof(g_Page) - 1)
+				if (g_CmdModeIndex < numberof(g_Page) - 1)
 					g_CmdModeIndex++;
 				else
 					g_CmdModeIndex = 0;
@@ -535,11 +539,21 @@ void main()
 				bEditing = FALSE;
 			}
 			
-			if(Keyboard_IsKeyPressed(KEY_ESC))
+			if (Keyboard_IsKeyPressed(KEY_ESC))
 				bContinue = FALSE;
+
+			u8 row0 = Keyboard_Read(KEY_ROW(KEY_0));
+			if ((row0 & KEY_FLAG(KEY_1)) == 0)
+				VDP_SetPage(1);
+			else if ((row0 & KEY_FLAG(KEY_2)) == 0)
+				VDP_SetPage(2);
+			else if ((row0 & KEY_FLAG(KEY_3)) == 0)
+				VDP_SetPage(3);
+			else
+				VDP_SetPage(0);
 		}
 		
-		if(bEditing)
+		if (bEditing)
 			VDP_SetSpriteExUniColor(0, SX, SY-1, 0, 0x8);
 		else
 			VDP_SetSpriteExUniColor(0, SX, (((g_Frame >> 3) & 1) == 0) ? SY-1 : 212, 0, 0xF);

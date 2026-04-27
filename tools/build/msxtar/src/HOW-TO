@@ -1,0 +1,79 @@
+This files contains a quick overview of how to use the tool for simple diskmaintenance task. This files handles 3 kinds of usages:
+	* Simple diskimages
+	* Diskimages and subdirs
+	* IDE-HD images
+For a better understanding read the small alinea at the start of each section.
+
+
+
+Simple diskimages
+-----------------
+To specify a diskimage you'll need the '-f' option, otherwise the default
+name 'msxdiskimage.dsk'is used.
+
+Q1.1: I want to list the files in a given dsk-file.
+A: Use the command:
+	msxtar -tf <diskimage-name>
+
+Q1.2: How do I extract the files from a diskimage?
+A:  Important: extracting files will extract them to the current directory!
+    Use the command:
+	msxtar -xf <diskimage-name>
+
+Q1.3: How do I create a diskimage from all the files in my subdirectory X?
+A: Use the command:
+	msxtar -cvf <diskimage-name> X
+
+Q1.4: How do I create a single sided diskimage?
+A: Use the command:
+	msxtar -cvf <diskimage-name> --size=single <list of files/subdirs>
+
+Q1.5: I want to add/update only a few files on an existing diskimage.
+A: There is an update and an append command for these purposes.
+   Appending will only create files that do not yet exist.
+	msxtar -Avf <diskimage-name> <list of files/subdirs>
+   Updating will cause existing files to be altered, and non existing files
+   to be created
+	msxtar -uvf <diskimage-name> <list of files/subdirs>
+
+
+Diskimages and subdirs
+----------------------
+The default behaviour of msxtar is to allows work in the rootdirectory of a disk
+
+Q2.1: I don't want to create subdirectories on my diskimage
+A: Use the option --dos1 to disable subdirectorie support.
+   If you do this will creating a new diskimage, the bootsector will also
+   contain an MSX-DOS1 bootblock!
+
+Q2.2: I want to a my local subdirectory SUB to a diskimage
+A: If you would simply use the append command with the subdir ar parameter. All
+   the files in the subdirectory would be added to the root directory of the
+   image,so you have to use the '--msxdir' option like this
+	msxtar -uvf <diskimage-name> --msxdir=<subdir name on image> <subdir name on host>
+
+Q2.3: I only want to extract a certain subdirectory from the image
+A: msxtar -xvf <diskimage-name> --msxdir=<subdir name on image>
+
+
+IDE-HD images
+-------------
+Msxtar has to possibilty to manage files on an HD image meant for the MSX-IDE-bios from H.Gilvad and Jon Deschrijder. These images are recognised by a string written by IDEFDISK in the first sector of the HD.
+
+Q3.1: How do I create a new HD-image?
+      How do I alter/add/delete partitions on an HD image?
+A: This isn't supported by the current version of msxtar.
+   For this kind of operations use IDEFDISK.COM in the emulated MSX.
+   For more info see the openMSX manual, and the IDEFDISK.TXT file.
+
+Q3.2: How can I extract all files on the HD image at once
+A: You can extract all files at once by using the command
+	msxtar -xvf <diskimage-name> --partition=all <subdir name on host>
+   Each partition will be extract into a seperate subdirectory
+
+Q3.3: Can I add/udpate files/directories to existing partitions
+A: Yes, proceed as with simple diskimage but add the need '--partition' option
+   to indicate the partion you want to alter. 
+
+Note: the --partition=all only works when extracting or listing the files. Also
+the option '--msxdir' is ignored in such case!

@@ -20,8 +20,8 @@
 //-----------------------------------------------------------------------------
 // R#0    Tone Generator Control - Fine Tune Register - Channel A
 //-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0 	
+//	7	6	5	4	3	2	1	0
+//	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0
 //	└───┴───┴───┴───┴───┴───┴───┴── Channel A Frequency, LSB (fine tune)
 #define PSG_REG_TONE_A		0
 #define PSG_REG_TONEF_A		0
@@ -29,16 +29,16 @@
 //-----------------------------------------------------------------------------
 // R#1    Tone Generator Control - Coarse Tune Register - Channel A
 //-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	x   x   x   x   TPB TPA TP9 TP8 	
+//	7	6	5	4	3	2	1	0
+//	x   x   x   x   TPB TPA TP9 TP8
 //	                └───┴───┴───┴── Channel A Frequency, MSB (coarse tune)
 #define PSG_REG_TONEC_A		1
 
 //-----------------------------------------------------------------------------
 // R#2    Tone Generator Control - Fine Tune Register - Channel B
 //-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0 	
+//	7	6	5	4	3	2	1	0
+//	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0
 //	└───┴───┴───┴───┴───┴───┴───┴── Channel B Frequency, LSB (fine tune)
 #define PSG_REG_TONE_B		2
 #define PSG_REG_TONEF_B		2
@@ -46,16 +46,16 @@
 //-----------------------------------------------------------------------------
 // R#3    Tone Generator Control - Coarse Tune Register - Channel B
 //-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	x   x   x   x   TPB TPA TP9 TP8 	
+//	7	6	5	4	3	2	1	0
+//	x   x   x   x   TPB TPA TP9 TP8
 //	                └───┴───┴───┴── Channel B Frequency, MSB (coarse tune)
 #define PSG_REG_TONEC_B		3
 
 //-----------------------------------------------------------------------------
 // R#4    Tone Generator Control - Fine Tune Register - Channel C
 //-----------------------------------------------------------------------------
-//	7	6	5	4	3	2	1	0	
-//	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0 	
+//	7	6	5	4	3	2	1	0
+//	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0
 //	└───┴───┴───┴───┴───┴───┴───┴── Channel C Frequency, LSB (fine tune)
 #define PSG_REG_TONE_C		4
 #define PSG_REG_TONEF_C		4
@@ -174,4 +174,33 @@
 //             _                     _
 // 1  1  1  1  _ /|_________________ _
 
+//-----------------------------------------------------------------------------
+// R#14   I/O Parallel Port A (ready)
+//-----------------------------------------------------------------------------
+//	7	6	5	4	3	2	1	0	
+//	CR	JIS	P7	P6	P4	P3	P2	P1 	
+//  │	│	│	│	│	│	│	└── Pin 1 state of the selected general port (Up if joystick)
+//	│	│	│	│	│   │   └────── Pin 2 state of the selected general port (Down if joystick)
+//	│	│	│	│	│   └────────── Pin 3 state of the selected general port (Left if joystick)
+//	│	│	│	│	└────────────── Pin 4 state of the selected general port (Right if joystick)
+//	│	│	│	└────────────────── Pin 6 state of the selected general port (Trigger A if joystick)
+//	│	│	└────────────────────── Pin 7 state of the selected general port (Trigger B if joystick)
+//	│	└────────────────────────── 1 for JIS keyboard, 0 for JP50on (only valid for Japanese MSX)
+//	└────────────────────────────── CASRD (Reading signal on cassette)
+#define PSG_REG_IO_PORT_A	14
+
+//-----------------------------------------------------------------------------
+// R#15   I/O Parallel Port B (write)
+//-----------------------------------------------------------------------------
+//	7	6	5	4	3	2	1	0	
+//	LED	SEL	B8	A8	B7	B6	A7	A6 	
+//  │	│	│	│	│	│	│	└── Pin control 6 of the general port 1
+//	│	│	│	│	│   │   └────── Pin control 7 of the general port 1
+//	│	│	│	│	│   └────────── Pin control 6 of the general port 2
+//	│	│	│	│	└────────────── Pin control 7 of the general port 2
+//	│	│	│	└────────────────── Pin control 8 of the general port 1 (0 for standard joystick mode)
+//	│	│	└────────────────────── Pin control 8 of the general port 2 (0 for standard joystick mode)
+//	│	└────────────────────────── Selection of the general port readable via register 14 (1 for port 2)
+//	└────────────────────────────── LED control of the "Code" or "Kana" key. (1 to turn off)
+#define PSG_REG_IO_PORT_B	15
 

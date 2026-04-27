@@ -5,6 +5,12 @@
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
 //  ayFX replayer sample
 //─────────────────────────────────────────────────────────────────────────────
+// This sample program showcase the use of the ayFX module to play sound effect.
+// The replaye support both sound banks and individual sound file.
+// See ayFX editor for more detail: https://shiru.untergrund.net/software.shtml
+// Note: This program showcase the use of ayFX replayer with PT3 msic replayer
+//       but ayFX can be use as stand alone. 
+//─────────────────────────────────────────────────────────────────────────────
 
 //=============================================================================
 // INCLUDES
@@ -23,8 +29,8 @@
 // Song data structure
 struct SFXData
 {
-	u8*			Raw;
-	const c8*	Name;
+	const u8*	Raw;  // Pointer to sound data
+	const c8*	Name; // Name of the sound file
 };
 
 // Player font character
@@ -44,6 +50,7 @@ struct SFXData
 #define CHR_SOUND		126
 #define CHR_MUTE		127
 
+// Player display parameters
 #define PT3_Y			(24)
 #define PT3_PLY_X		(0)
 #define PT3_PLY_Y		(PT3_Y + 36)
@@ -57,42 +64,53 @@ struct SFXData
 // READ-ONLY DATA
 //=============================================================================
 
-// Fonts
-#include "font\font_mgl_sample6.h"
-#include "font\font_mgl_symbol1.h"
+// Fonts data
+#include "font/font_mgl_sample6.h"
+#include "font/font_mgl_symbol1.h"
 
-// Note table
-#include "pt3\pt3_notetable2.h"
+// Note table for PT3 replayer
+#include "pt3/pt3_notetable2.h"
 
 // Music
-#include "content\pt3\Beg!nsum.h"
+#include "content/pt3/Beg!nsum.h"
 
-// SFX bank
-#include "content\ayfx\ayfx_bank.h"
+// SFX bank (sound pack)
+#include "content/ayfx/ayfx_bank.h"
 
-// SFX file
-#include "content\ayfx\ayfx_fx017.h"
-#include "content\ayfx\ayfx_fx019.h"
+// SFX file (individual sound)
+#include "content/ayfx/ayfx_fx017.h"
+#include "content/ayfx/ayfx_fx019.h"
 
-// ayFX files
+// ayFX files list
 const struct SFXData g_SFXFiles[] =
 {
 	{ g_ayfx_fx017, "ayfx_fx017.afx" },
 	{ g_ayfx_fx019, "ayfx_fx019.afx" },
 };
 
-// Character animation
+// Character animation (sign-of-life)
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
-u8   g_VBlank = 0;
+// Vertical synchronization flag
+bool g_VBlank = FALSE;
+
+// Frame counter
 u8   g_Frame = 0;
+
+// Is music looping?
 bool g_Loop = FALSE;
+
+// PSG mute flag for the 3 chanels 
 bool g_Mute[3] = { FALSE, FALSE, FALSE };
+
+// Index of the current sound in he bank
 u8   g_BankFXNum = 0;
+
+// Index of the individual sound data
 u8   g_FileFXNum = 0;
 
 //=============================================================================
@@ -103,20 +121,20 @@ u8   g_FileFXNum = 0;
 // H_TIMI interrupt hook
 void VBlankHook()
 {
-	g_VBlank = 1;
+	g_VBlank = TRUE;
 	g_Frame++;
 
-	PT3_Decode();
-	ayFX_Update();
-	PT3_UpdatePSG();
+	PT3_Decode(); // Update data to write to the PSG regiters from the music
+	ayFX_Update(); // Overwrite PSG registers data for the SFX
+	PT3_UpdatePSG(); // Update PSG registers
 }
 
 //-----------------------------------------------------------------------------
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
-	g_VBlank = 0;
+	while (!g_VBlank) {}
+	g_VBlank = FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -130,61 +148,61 @@ void DrawVUMeter()
 	// Channel A
 	g_VDP_Command.DY = PSG_Y + (8*2) + ((8-VU_H)/2); 
 	u8 volA = PT3_GetVolume(PSG_CHANNEL_A) >> 1;
-	if(volA > VU_MAX)
+	if (volA > VU_MAX)
 		volA = VU_MAX;
-	if(volA > 0)
+	if (volA > 0)
 	{
 		g_VDP_Command.DX = VU_X;
 		g_VDP_Command.NX = volA * 8;
 		g_VDP_Command.CLR = 0x22;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 	}
-	if(volA < VU_MAX)
+	if (volA < VU_MAX)
 	{
 		g_VDP_Command.DX = VU_X + volA * 8;
 		g_VDP_Command.NX = (VU_MAX - volA) * 8;
 		g_VDP_Command.CLR = 0x11;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 	}
 
 	// Channel B
 	g_VDP_Command.DY = PSG_Y + (8*3) + ((8-VU_H)/2); 
 	u8 volB = PT3_GetVolume(PSG_CHANNEL_B) >> 1;
-	if(volB > VU_MAX)
+	if (volB > VU_MAX)
 		volB = VU_MAX;
-	if(volB > 0)
+	if (volB > 0)
 	{
 		g_VDP_Command.DX = VU_X;
 		g_VDP_Command.NX = volB * 8;
 		g_VDP_Command.CLR = 0x22;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 	}
-	if(volB < VU_MAX)
+	if (volB < VU_MAX)
 	{
 		g_VDP_Command.DX = VU_X + volB * 8;
 		g_VDP_Command.NX = (VU_MAX - volB) * 8;
 		g_VDP_Command.CLR = 0x11;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 	}
 
 	// Channel C
 	g_VDP_Command.DY = PSG_Y + (8*4) + ((8-VU_H)/2); 
 	u8 volC = PT3_GetVolume(PSG_CHANNEL_C)>> 1;
-	if(volC > VU_MAX)
+	if (volC > VU_MAX)
 		volC = VU_MAX;
-	if(volC > 0)
+	if (volC > 0)
 	{
 		g_VDP_Command.DX = VU_X;
 		g_VDP_Command.NX = volC * 8;
 		g_VDP_Command.CLR = 0x22;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 	}
-	if(volC < VU_MAX)
+	if (volC < VU_MAX)
 	{
 		g_VDP_Command.DX = VU_X + volC * 8;
 		g_VDP_Command.NX = (VU_MAX - volC) * 8;
 		g_VDP_Command.CLR = 0x11;
-		VPD_CommandSetupR36();
+		VDP_CommandSetupR36();
 	}
 }
 
@@ -192,14 +210,14 @@ void DrawVUMeter()
 // Play/resume the current music
 void PlayMusic()
 {
+	// Resume music playback
 	PT3_Resume();
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Symbol1);
-	
 	Print_SetColor(0x9, 0);
 	Print_SetPosition(PT3_PLY_X+1, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_PLAY);
-
 	Print_SetColor(0xF, 0);
 	Print_SetPosition(PT3_PLY_X+11, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_PAUSE);
@@ -211,14 +229,14 @@ void PlayMusic()
 // Pause the current music
 void PauseMusic()
 {
+	// Pause current music playback
 	PT3_Pause();
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Symbol1);
-
 	Print_SetColor(0x9, 0);
 	Print_SetPosition(PT3_PLY_X+11, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_PAUSE);
-
 	Print_SetColor(0xF, 0);
 	Print_SetPosition(PT3_PLY_X+1, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_PLAY);
@@ -230,15 +248,15 @@ void PauseMusic()
 // Stop the current music
 void StopMusic()
 {
+	// Pause he current music playback and rewind the music
 	PT3_Pause();
 	PT3_InitSong(g_Beg_nsum);
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Symbol1);
-
 	Print_SetColor(0x9, 0);
 	Print_SetPosition(PT3_PLY_X+11, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_PAUSE);
-
 	Print_SetColor(0xF, 0);
 	Print_SetPosition(PT3_PLY_X+1, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_PLAY);
@@ -248,13 +266,14 @@ void StopMusic()
 
 //-----------------------------------------------------------------------------
 // Set the current music loop flag
-void LoopMusic(bool enable) __FASTCALL
+void LoopMusic(bool enable)
 {
+	// Tell if curent music must loop or not
 	PT3_SetLoop(enable);
 	g_Loop = enable;
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Symbol1);
-
 	Print_SetColor(enable ? 0x9 : 0xF, 0);
 	Print_SetPosition(PT3_PLY_X+51, PT3_PLY_Y+1);
 	Print_DrawChar(CHR_LOOP);
@@ -265,9 +284,11 @@ void LoopMusic(bool enable) __FASTCALL
 // Mute one of the channels
 void MuteMusic(u8 chan, bool bMute)
 {
+	// Mute the given channel
 	PT3_Mute(chan, bMute);
-
 	g_Mute[chan] = bMute;
+
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Symbol1);
 	Print_SetColor(bMute ? 0x9 : 0xF, 0);
 	Print_SetPosition(64, PSG_Y + 8*2 + 8*chan);
@@ -276,11 +297,13 @@ void MuteMusic(u8 chan, bool bMute)
 }
 
 //-----------------------------------------------------------------------------
-//
-void PlayFileSFX(u8 id) __FASTCALL
+// Play an individual sound data
+void PlayFileSFX(u8 id)
 {
+	// Play a SFX file
 	ayFX_Play(g_SFXFiles[id].Raw);
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Sample6);
 	VDP_CommandHMMV(64, AYFX_Y+8*4, 16*6, 8, 0x44);
 	Print_SetPosition(64, AYFX_Y+8*4);
@@ -288,26 +311,30 @@ void PlayFileSFX(u8 id) __FASTCALL
 }
 
 //-----------------------------------------------------------------------------
-// 
-void PlayBankSFX(u8 id) __FASTCALL
+// Play a sound froma bank
+void PlayBankSFX(u8 id, u8 prio)
 {
-	ayFX_PlayBank(id, 0);
+	// Play the given SFX from the current bank
+	ayFX_PlayBank(id, prio);
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Sample6);
 	VDP_CommandHMMV(64, AYFX_Y+8*3, 7*6, 8, 0x44);
 	Print_SetPosition(64, AYFX_Y+8*3);
-	Print_DrawInt(id+1);
+	Print_DrawInt(id + 1);
 	Print_DrawChar('/');
 	Print_DrawInt(ayFX_GetBankNumber());
 }
 
 //-----------------------------------------------------------------------------
-// 
-void ChannelSFX(u8 chan) __FASTCALL
+// Select the channel where SFX are replayed
+void ChannelSFX(u8 chan)
 {
+	// Mute current sound effect and set the new cannel to replay SFX
 	ayFX_Mute();
 	ayFX_SetChannel(chan);
 
+	// Update screen information
 	Print_SetFont(g_Font_MGL_Sample6);
 	VDP_CommandHMMV(64, AYFX_Y+8*2, 6, 8, 0x44);
 	Print_SetPosition(64, AYFX_Y+8*2);
@@ -315,7 +342,7 @@ void ChannelSFX(u8 chan) __FASTCALL
 }
 
 //-----------------------------------------------------------------------------
-//
+// Print command reminder
 void PrintHelp(u8 y, const c8* str)
 {
 	u8 len = String_Length(str);
@@ -334,13 +361,13 @@ void PrintHelp(u8 y, const c8* str)
 // Program entry point
 void main()
 {
-	// INIT SCREEN
-
+	// Initialize screen mode 5 (MSX2)
 	VDP_SetMode(VDP_MODE_SCREEN5);
 	VDP_EnableSprite(FALSE);
 	VDP_SetColor(0x4);
 	VDP_CommandHMMV(0, 0, 256, 212, 0x44);
 
+	// Initialize fonts
 	Print_SetBitmapFont(NULL);
 	Print_SetFont(g_Font_MGL_Sample6);
 	Print_SetMode(PRINT_MODE_BITMAP_TRANS);
@@ -349,8 +376,7 @@ void main()
 	Print_DrawText(MSX_GL "  ayFX SAMPLE");
 	Draw_Box(0, 0, 255, 14, 0x0F, 0);
 
-	// INIT PT3
-
+	// Iitialize PT3 music
 	PT3_Init();
 	PT3_SetNoteTable(PT3_NT2);
 	PT3_SetLoop(TRUE);
@@ -392,7 +418,6 @@ void main()
 	//-----------------------------------------------------------------------------
 	// ayFX
 
-
 	Print_SetFont(g_Font_MGL_Sample6);
 
 	Print_SetPosition(0, AYFX_Y);
@@ -408,16 +433,15 @@ void main()
 	PrintHelp(AYFX_Y+8*4, "Home:File SFX");
 
 	ChannelSFX(PSG_CHANNEL_A);
-	PlayBankSFX(0);
+	PlayBankSFX(0, 0);
 
 
 	//-----------------------------------------------------------------------------
 	// PSG
 
-
 	Print_SetPosition(0, PSG_Y);
 	Print_DrawText(" PSG\n\n");		
-	Draw_LineH(0, 255, PSG_Y+10, 0x5, 0);
+	Draw_LineH(0, 255, (u8)(PSG_Y + 10), 0x5, 0);
 	Print_DrawText("Chan. A\n");		
 	Print_DrawText("Chan. B\n");
 	Print_DrawText("Chan. C\n");
@@ -438,7 +462,7 @@ void main()
 	u8 prevRow8 = 0xFF;
 	u8 prevRow0 = 0xFF;
 	u8 prevPattern = 0xFF;
-	while(1)
+	while (1)
 	{
 		WaitVBlank();
 
@@ -457,7 +481,7 @@ void main()
 		
 		// Display Current Pattern
 		u8 pattern = PT3_GetPattern();
-		if(pattern != prevPattern)
+		if (pattern != prevPattern)
 		{
 			VDP_CommandHMMV(64, PT3_Y+8*3, 3*6, 8, 0x44);
 			Print_SetPosition(64, PT3_Y+8*3);
@@ -468,32 +492,32 @@ void main()
 
 		// Read keyboard matrix row #8
 		u8 row8 = g_NEWKEY[KEY_ROW(KEY_SPACE)];
-		if((IS_KEY_PRESSED(row8, KEY_RIGHT)) && (IS_KEY_RELEASED(prevRow8, KEY_RIGHT))) // Next SFX
+		if ((IS_KEY_PRESSED(row8, KEY_RIGHT)) && (IS_KEY_RELEASED(prevRow8, KEY_RIGHT))) // Next SFX
 		{
 			g_BankFXNum++;
-			if(g_BankFXNum >= ayFX_GetBankNumber())
+			if (g_BankFXNum >= ayFX_GetBankNumber())
 				g_BankFXNum = 0;
-			PlayBankSFX(g_BankFXNum);
+			PlayBankSFX(g_BankFXNum, 0);
 		}
-		else if((IS_KEY_PRESSED(row8, KEY_LEFT)) && (IS_KEY_RELEASED(prevRow8, KEY_LEFT))) // Previous SFX
+		else if ((IS_KEY_PRESSED(row8, KEY_LEFT)) && (IS_KEY_RELEASED(prevRow8, KEY_LEFT))) // Previous SFX
 		{
-			if(g_BankFXNum > 0)
+			if (g_BankFXNum > 0)
 				g_BankFXNum--;
 			else
 				g_BankFXNum = ayFX_GetBankNumber() - 1;
-			PlayBankSFX(g_BankFXNum);
+			PlayBankSFX(g_BankFXNum, 15);
 		}
 
-		if((IS_KEY_PRESSED(row8, KEY_UP)) && (IS_KEY_RELEASED(prevRow8, KEY_UP))) // Next Channel
+		if ((IS_KEY_PRESSED(row8, KEY_UP)) && (IS_KEY_RELEASED(prevRow8, KEY_UP))) // Next Channel
 		{
 			fxChan++;
-			if(fxChan > 2)
+			if (fxChan > 2)
 				fxChan = 0;
 			ChannelSFX(fxChan);
 		}
-		else if((IS_KEY_PRESSED(row8, KEY_DOWN)) && (IS_KEY_RELEASED(prevRow8, KEY_DOWN))) // Previous Channel
+		else if ((IS_KEY_PRESSED(row8, KEY_DOWN)) && (IS_KEY_RELEASED(prevRow8, KEY_DOWN))) // Previous Channel
 		{
-			if(fxChan > 0)
+			if (fxChan > 0)
 				fxChan--;
 			else
 				fxChan = 2;
@@ -502,40 +526,40 @@ void main()
 
 		// PLAYER FONT -----------------------------------------------------------
 		
-		if((IS_KEY_PRESSED(row8, KEY_SPACE)) && (IS_KEY_RELEASED(prevRow8, KEY_SPACE))) // Pause / Resume
+		if ((IS_KEY_PRESSED(row8, KEY_SPACE)) && (IS_KEY_RELEASED(prevRow8, KEY_SPACE))) // Pause / Resume
 		{
-			if(PT3_IsPlaying())
+			if (PT3_IsPlaying())
 				PauseMusic();
 			else
 				PlayMusic();
 		}
-		else if((IS_KEY_PRESSED(row8, KEY_DEL)) && (IS_KEY_RELEASED(prevRow8, KEY_DEL))) // Loop
+		else if ((IS_KEY_PRESSED(row8, KEY_DEL)) && (IS_KEY_RELEASED(prevRow8, KEY_DEL))) // Loop
 		{
 			LoopMusic(1 - g_Loop);
 		}
-		else if((IS_KEY_PRESSED(row8, KEY_HOME)) && (IS_KEY_RELEASED(prevRow8, KEY_HOME))) // 
+		else if ((IS_KEY_PRESSED(row8, KEY_HOME)) && (IS_KEY_RELEASED(prevRow8, KEY_HOME))) // 
 		{
 			g_FileFXNum++;
 			g_FileFXNum %= numberof(g_SFXFiles);
 			PlayFileSFX(g_FileFXNum);
 		}
-		// else if((IS_KEY_PRESSED(row8, KEY_INS)) && (IS_KEY_RELEASED(prevRow8, KEY_INS))) // 
+		// else if ((IS_KEY_PRESSED(row8, KEY_INS)) && (IS_KEY_RELEASED(prevRow8, KEY_INS))) // 
 		// {
 		// }
 		
 		prevRow8 = row8;
 
-		// Read keyboard matrix row #0		
+		// Read keyboard matrix row #0
 		u8 row0 = g_NEWKEY[KEY_ROW(KEY_0)];
-		if((IS_KEY_PRESSED(row0, KEY_1)) && (IS_KEY_RELEASED(prevRow0, KEY_1))) // Mute channel A
+		if ((IS_KEY_PRESSED(row0, KEY_1)) && (IS_KEY_RELEASED(prevRow0, KEY_1))) // Mute channel A
 		{
 			MuteMusic(0, 1 - g_Mute[0]);
 		}
-		else if((IS_KEY_PRESSED(row0, KEY_2)) && (IS_KEY_RELEASED(prevRow0, KEY_2))) // Mute channel B
+		else if ((IS_KEY_PRESSED(row0, KEY_2)) && (IS_KEY_RELEASED(prevRow0, KEY_2))) // Mute channel B
 		{
 			MuteMusic(1, 1 - g_Mute[1]);
 		}
-		else if((IS_KEY_PRESSED(row0, KEY_3)) && (IS_KEY_RELEASED(prevRow0, KEY_3))) // Mute channel C
+		else if ((IS_KEY_PRESSED(row0, KEY_3)) && (IS_KEY_RELEASED(prevRow0, KEY_3))) // Mute channel C
 		{
 			MuteMusic(2, 1 - g_Mute[2]);
 		}

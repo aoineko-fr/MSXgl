@@ -8,6 +8,7 @@
 // Quick math functions
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
+
 #include "core.h"
 
 //-----------------------------------------------------------------------------
@@ -15,35 +16,35 @@
 //-----------------------------------------------------------------------------
 
 // 8-bits unsigned vector structure
-typedef struct
+typedef struct VectorU8
 {
 	u8			x;	
 	u8			y;	
 } VectorU8;
 
 // 8-bits signed vector structure
-typedef struct
+typedef struct VectorI8
 {
 	i8			x;	
 	i8			y;	
 } VectorI8;
 
 // 16-bits unsigned vector structure
-typedef struct
+typedef struct VectorU16
 {
 	u16			x;	
 	u16			y;	
 } VectorU16;
 
 // 16-bits signed vector structure
-typedef struct
+typedef struct VectorI16
 {
 	i16			x;	
 	i16			y;	
 } VectorI16;
 
 #define VECTOR(type) Vector_##type
-#define DEFVECTOR(type) typedef struct { type x; type y; } VECTOR(type)
+#define DEFVECTOR(type) typedef struct VECTOR(type) { type x; type y; } VECTOR(type)
 
 //-----------------------------------------------------------------------------
 // Group: Macros
@@ -66,27 +67,27 @@ typedef struct
 
 // Macro: Merge44
 // Merge two 4 bits value into a 8 bits integer
-#define MERGE44(a, b)		(u8)(((a) & 0x0F) << 4 | ((b) & 0x0F))
+#define MERGE44(a, b)		((u8)(((a) & 0x0F) << 4 | ((b) & 0x0F)))
 // Macro: Merge88
 // Merge two 8 bits value into a 16 bits integer
-#define MERGE88(a, b)		(u16)((u8)(a) << 8 | (u8)(b))
+#define MERGE88(a, b)		((u16)((u8)(a) << 8 | (u8)(b)))
 // Macro: ModuloPow2
 // Get the power-of-2 modulo of a integer (ie. "MOD_POW2(100, 32)")
-#define MOD_POW2(a, b)		((a) & ((b) - 1))
+#define MOD_POW2(a, b)		(((a) & ((b) - 1)))
 
 // Macro: Clamp8
 // Clamp a 8-bits value into a interval 
-#define CLAMP8(a, b, c)		((i8)(a) < (i8)(b)) ? (b) : ((i8)(a) > (i8)(c)) ? (c) : (a)
+#define CLAMP8(a, b, c)		(((i8)(a) < (i8)(b)) ? (b) : ((i8)(a) > (i8)(c)) ? (c) : (a))
 // Macro: Clamp16
 // Clamp a 16-bits value into a interval 
-#define CLAMP16(a, b, c)	((i16)(a) < (i16)(b)) ? (b) : ((i16)(a) > (i16)(c)) ? (c) : (a)
+#define CLAMP16(a, b, c)	(((i16)(a) < (i16)(b)) ? (b) : ((i16)(a) > (i16)(c)) ? (c) : (a))
 
 // Macro: Max
 // Find highest value
-#define MAX(a, b)			((a) > (b)) ? (a) : (b)
+#define MAX(a, b)			(((a) > (b)) ? (a) : (b))
 // Macro: Min
 // Find lowest value
-#define MIN(a, b)			((a) > (b)) ? (b) : (a)
+#define MIN(a, b)			(((a) > (b)) ? (b) : (a))
 
 //-----------------------------------------------------------------------------
 // Group: Quick math
@@ -101,7 +102,7 @@ typedef struct
 //
 // Return:
 //   val / 10
-i8 Math_Div10(i8 val) __FASTCALL;
+i8 Math_Div10(i8 val) __FASTCALL __PRESERVES(a, b, c, iyl, iyh);
 
 // Function: Math_Div10_16b
 // 16-bits fast 10 times division 
@@ -111,7 +112,7 @@ i8 Math_Div10(i8 val) __FASTCALL;
 //
 // Return:
 //   val / 10
-i16 Math_Div10_16b(i16 val) __FASTCALL;
+i16 Math_Div10_16b(i16 val) __FASTCALL __PRESERVES(b, d, e, iyl, iyh);
 
 // Function: Math_Mod10
 // 8-bits fast modulo-10 
@@ -121,7 +122,7 @@ i16 Math_Div10_16b(i16 val) __FASTCALL;
 //
 // Return:
 //   val % 10
-u8 Math_Mod10(u8 val);
+u8 Math_Mod10(u8 val) __PRESERVES(b, c, d, e, iyl, iyh);
 
 // Function: Math_Mod10_16b
 // 16-bits fast modulo-10 
@@ -131,7 +132,7 @@ u8 Math_Mod10(u8 val);
 //
 // Return:
 //   val % 10
-u8 Math_Mod10_16b(u16 val) __FASTCALL;
+u8 Math_Mod10_16b(u16 val) __FASTCALL __PRESERVES(b, c, d, e, iyl, iyh);
 
 // Function: Math_Flip
 // Bits flip routine
@@ -141,7 +142,7 @@ u8 Math_Mod10_16b(u16 val) __FASTCALL;
 //
 // Return:
 //   Bits flipped value
-u8 Math_Flip(u8 val);
+u8 Math_Flip(u8 val) __PRESERVES(c, d, e, h, l, iyl, iyh);
 
 // Function: Math_Flip_16b
 // Bits flip routine
@@ -151,27 +152,117 @@ u8 Math_Flip(u8 val);
 //
 // Return:
 //   Bits flipped value
-u16 Math_Flip_16b(u16 val) __FASTCALL;
+u16 Math_Flip_16b(u16 val) __PRESERVES(c, iyl, iyh);
+
+// Function: Math_Negative
+// Get the negative (additive inverse) of a 8-bit register
+//
+// Parameters:
+//   val - Signed 8-bit value to negate
+//
+// Return:
+//   Negative value of the input
+inline i8 Math_Negative(i8 val) { return -val; }
+
+// Function: Math_Negative16
+// Get the negative (additive inverse) of a 16-bit register
+//
+// Parameters:
+//   val - Signed 16-bit value to negate
+//
+// Return:
+//   Negative value of the input
+i16 Math_Negative16(i16 val) __FASTCALL __PRESERVES(b, c, d, e, iyl, iyh);
+
+// Function: Math_Swap
+// Swap MSB and LSB bytes
+//
+// Parameters:
+//   val - 16-bits value to swap
+//
+// Return:
+//   Swapped value
+u16 Math_Swap(u16 val) __PRESERVES(a, b, c, iyl, iyh);
 
 // Function: Math_SignedDiv2
 // Divide a signed 8-bits integer by 2 using shift
-i8 Math_SignedDiv2(i8 val);
+//
+// Parameters:
+//   val - Value to divide by 2
+//
+// Return:
+//   val / 2
+i8 Math_SignedDiv2(i8 val) __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_SignedDiv4
 // Divide a signed 8-bits integer by 4 using shift
-i8 Math_SignedDiv4(i8 val);
+//
+// Parameters:
+//   val - Value to divide by 4
+//
+// Return:
+//   val / 4
+i8 Math_SignedDiv4(i8 val) __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_SignedDiv8
 // Divide a signed 8-bits integer by 8 using shift
-i8 Math_SignedDiv8(i8 val);
+//
+// Parameters:
+//   val - Value to divide by 8
+//
+// Return:
+//   val / 8
+i8 Math_SignedDiv8(i8 val) __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_SignedDiv16
 // Divide a signed 8-bits integer by 16 using shift
-i8 Math_SignedDiv16(i8 val);
+//
+// Parameters:
+//   val - Value to divide by 16
+//
+// Return:
+//   val / 16
+i8 Math_SignedDiv16(i8 val) __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh);
 
 // Function: Math_SignedDiv32
 // Divide a signed 8-bits integer by 32 using shift
-i8 Math_SignedDiv32(i8 val);
+//
+// Parameters:
+//   val - Value to divide by 32
+//
+// Return:
+//   val / 32
+i8 Math_SignedDiv32(i8 val) __NAKED __PRESERVES(b, c, d, e, h, l, iyl, iyh);
+
+// Function: Math_Abs
+// Get absolute value of a signed 8-bits integer
+//
+// Parameters:
+//   val - Signed 8-bits value
+//
+// Return:
+//   Absolute value of the input
+inline u8 Math_Abs(i8 val) { return (((u8)(val) & 0x80) ? ~((u8)(val) - 1) : (val)); }
+
+// Function: Math_Abs_16b
+// Get absolute value of a signed 16-bits integer
+//
+// Parameters:
+//   val - Signed 16-bits value
+//
+// Return:
+//   Absolute value of the input
+inline u16 Math_Abs_16b(i16 val) { return (((u16)(val) & 0x8000) ? ~((u16)(val) - 1) : (val)); }
+
+// Function: Math_Abs_32b
+// Get absolute value of a signed 32-bits integer
+//
+// Parameters:
+//   val - Signed 32-bits value
+//
+// Return:
+//   Absolute value of the input
+inline u32 Math_Abs_32b(i32 val) { return (((u32)(val) & 0x80000000) ? ~((u32)(val) - 1) : (val)); }
 
 //-----------------------------------------------------------------------------
 // Group: Random

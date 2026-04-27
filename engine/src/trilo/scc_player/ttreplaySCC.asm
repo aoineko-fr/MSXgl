@@ -1377,7 +1377,8 @@ decode_cmd24_SCC_soften.softloop:
 	ld		a, (hl)
 	sra		a
 	ld		(de), a
-	dec		iyl
+	; dec		iyl
+	.db		0xFD, 0x2D
 	jp		z, decode_cmd24_SCC_soften.end
 	inc		hl
 	inc		de

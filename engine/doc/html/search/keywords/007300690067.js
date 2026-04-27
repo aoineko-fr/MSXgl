@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("sig",["Function"],[["Sign_SearchGame",,[[,,,,0,"File:tool/sign.h:Sign_SearchGame"]]]]);

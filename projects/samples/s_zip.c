@@ -12,6 +12,7 @@
 #include "msxgl.h"
 #include "dos.h"
 #include "compress/zx0.h"
+#include "compress/lz48.h"
 #include "compress/bitbuster.h"
 #include "compress/bitbuster2.h"
 #include "compress/pletter.h"
@@ -43,6 +44,7 @@ struct Entry
 u16 LoadRaw(const c8* filename);
 u16 LoadRLEp(const c8* filename);
 u16 LoadXZ0(const c8* filename);
+u16 LoadLZ48(const c8* filename);
 u16 LoadBitbuster(const c8* filename);
 u16 LoadBitbuster2(const c8* filename);
 u16 LoadPletter(const c8* filename);
@@ -52,7 +54,7 @@ u16 LoadPletter(const c8* filename);
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample8.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
@@ -63,6 +65,7 @@ const struct Entry g_Compressors[] =
 	{ "Raw",        "DATA10  BIN", LoadRaw },
 	{ "RLEp",       "DATA10  RLE", LoadRLEp },
 	{ "ZX0",        "DATA10  ZX0", LoadXZ0 },
+	{ "LZ48",       "DATA10  Z48", LoadLZ48 },
 	{ "Bitbuster",  "DATA10  PCK", LoadBitbuster },
 	{ "Bitbuster2", "DATA10  BB2", LoadBitbuster2 },
 	{ "Pletter",    "DATA10  PL5", LoadPletter },
@@ -138,6 +141,18 @@ u16 LoadXZ0(const c8* filename)
 
 //-----------------------------------------------------------------------------
 //
+u16 LoadLZ48(const c8* filename)
+{
+	u16 size = Load(filename, g_LoadBuffer);
+	g_Compression = 100 - (size / 82);
+
+	u16 time = g_JIFFY;
+	LZ48_UnpackToRAM(g_LoadBuffer, g_UnpackBuffer);
+	return g_JIFFY - time;
+}
+
+//-----------------------------------------------------------------------------
+//
 u16 LoadBitbuster(const c8* filename)
 {
 	u16 size = Load(filename, g_LoadBuffer);
@@ -187,7 +202,7 @@ void LoadAndUnpack(u8 id)
 	// Draw
 	u8* src = g_UnpackBuffer;
 	u16 dest = g_ScreenLayoutLow + (IMAGE_X/2) + (IMAGE_Y*128);
-	for(u8 y = 0; y < IMAGE_H; ++y)
+	for (u8 y = 0; y < IMAGE_H; ++y)
 	{
 		VDP_WriteVRAM(src, dest, 0, IMAGE_W/2);
 		src += IMAGE_W/2;
@@ -198,7 +213,7 @@ void LoadAndUnpack(u8 id)
 	Print_SetPosition(0, 128);
 	Print_DrawText("Time:");
 	Print_DrawInt(time);
-	Print_SetPosition(0, 128+8);
+	Print_SetPosition(0, (u8)(128+8));
 	Print_DrawText("Ratio:");
 	Print_DrawInt(g_Compression);
 	Print_DrawText("%");
@@ -220,16 +235,16 @@ void DisplayPage()
 	Print_SetPosition(0, 24);
 	Print_DrawText("Compressors:");
 
-	for(u8 i = 0; i < numberof(g_Compressors); ++i)
+	for (u8 i = 0; i < numberof(g_Compressors); ++i)
 	{
 		Print_SetPosition(MENU_X, MENU_Y + (i * 8));
 		Print_DrawText(g_Compressors[i].Name);
 	}
 
-	Draw_Box(IMAGE_X - 2, IMAGE_Y - 2, IMAGE_X + IMAGE_W + 1, IMAGE_Y + IMAGE_H + 1, 0x0F, 0);
+	Draw_Box(IMAGE_X - 2, IMAGE_Y - 2, (u8)(IMAGE_X + IMAGE_W + 1), (u8)(IMAGE_Y + IMAGE_H + 1), 0x0F, 0);
 
-	Draw_LineH(0, 255, 212-8-4, 0x0F, 0);
-	Print_SetPosition(0, 212-8);
+	Draw_LineH(0, 255, (u8)(212-8-4), 0x0F, 0);
+	Print_SetPosition(0, (u8)(212-8));
 	Print_DrawText("\x82:Select \x83:Load");
 }
 
@@ -252,14 +267,14 @@ void main()
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8 + VDP_SPRITE_SCALE_1);
 	VDP_LoadSpritePattern(g_Font_MGL_Sample8 + 4, 0, g_Font_MGL_Sample8[3] - g_Font_MGL_Sample8[2]);
 	VDP_SetSpriteExUniColor(0, 2, MENU_Y - 1, '\x80', COLOR_WHITE);
-	VDP_DisableSpritesFrom(0);
+	VDP_DisableSpritesFrom(1);
 
 	DisplayPage();
 	
 	u8 compId = 0;
 	u8 count = 0;
 	u8 prevRow8 = 0xFF;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt();
 
@@ -270,21 +285,21 @@ void main()
 
 		// Handle input
 		u8 row8 = Keyboard_Read(8);
-		if(IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
+		if (IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
 		{
-			if(compId == 0)
+			if (compId == 0)
 				compId = numberof(g_Compressors) - 1;
 			else
 				compId--;
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN))
+		else if (IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN))
 		{
-			if(compId == numberof(g_Compressors) - 1)
+			if (compId == numberof(g_Compressors) - 1)
 				compId = 0;
 			else
 				compId++;
 		}
-		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		if (IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
 			LoadAndUnpack(compId);
 		}

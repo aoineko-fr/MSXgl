@@ -7,6 +7,8 @@
 //─────────────────────────────────────────────────────────────────────────────
 // PCM-Encoder replayer
 //─────────────────────────────────────────────────────────────────────────────
+#pragma once
+
 #include "psg.h"
 
 // Unique PCM-Encoder player
@@ -25,6 +27,9 @@
 // Function: PCM_Play_8K
 // Play a pcmenc sound at 8 KHz (synchronously).
 // Available only if (PCMENC_FREQ & PCMENC_8K).
+//
+// Paramaters:
+//   addr	- Address of source data
 void PCM_Play_8K(u16 addr);
 #endif
 
@@ -32,6 +37,9 @@ void PCM_Play_8K(u16 addr);
 // Function: PCM_Play_11K
 // Play a pcmenc sound at 11 KHz (synchronously).
 // Available only if (PCMENC_FREQ & PCMENC_11K).
+//
+// Paramaters:
+//   addr	- Address of source data
 void PCM_Play_11K(u16 addr);
 #endif
 
@@ -39,6 +47,9 @@ void PCM_Play_11K(u16 addr);
 // Function: PCM_Play_22K
 // Play a pcmenc sound at 22 KHz (synchronously).
 // Available only if (PCMENC_FREQ & PCMENC_22K).
+//
+// Paramaters:
+//   addr	- Address of source data
 void PCM_Play_22K(u16 addr);
 #endif
 
@@ -46,5 +57,8 @@ void PCM_Play_22K(u16 addr);
 // Function: PCM_Play_44K
 // Play a pcmenc sound at 44 KHz (synchronously).
 // Available only if (PCMENC_FREQ & PCMENC_44K).
+//
+// Paramaters:
+//   addr	- Address of source data
 void PCM_Play_44K(u16 addr);
 #endif

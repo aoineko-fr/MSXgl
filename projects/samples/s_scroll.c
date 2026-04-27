@@ -19,7 +19,7 @@
 // Library's logo
 #define MSX_GL "\x02\x03\x04\x05"
 
-#if (MSX_VERSION == MSX_1)
+#if (MSX_VERSION & MSX_1)
 	#define SET_SPRITE		VDP_SetSpriteSM1
 #else
 	#define SET_SPRITE		VDP_SetSpriteExUniColor
@@ -30,12 +30,12 @@
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample8.h"
+#include "font/font_mgl_sample8.h"
 // Tiles
-#include "content\tile\data_tile_gm2.h"
-#include "content\tile\data_map_gm2.h"
+#include "content/tile/data_tile_gm2.h"
+#include "content/tile/data_map_gm2.h"
 // Sprites by GrafxKid (https://opengameart.org/content/super-random-sprites)
-#include "content\data_sprt_layer.h"
+#include "content/data_sprt_layer.h"
 
 //=============================================================================
 // MEMORY DATA
@@ -59,7 +59,7 @@ u8 g_HBlank = 0;
 // H-Blank interrupt hook
 void HBlankHook()
 {
-	if(g_HBlank == 0)
+	if (g_HBlank == 0)
 	{
 		Scroll_HBlankAdjust(1);
 		g_HBlank++;
@@ -74,24 +74,24 @@ void HBlankHook()
 // H_KEYI interrupt hook
 void InterruptHook()
 {
-	__asm
-		// Get S#1
-		ld		a, #1
-		out		(P_VDP_ADDR), a
-		ld		a, #(0x80 + 15)
-		out		(P_VDP_ADDR), a
-		in		a, (P_VDP_STAT)
-		//  Call H-Blank if bit #0 of S#1 is set 
-		rrca
-		jp		nc, _no_hblank
-		call	_HBlankHook // call to C function HBlankHook() 
-	_no_hblank:
-		// Reset R#15 to S#0
-		xor		a           		
-		out		(P_VDP_ADDR), a
-		ld		a, #(0x80 + 15)
-		out		(P_VDP_ADDR),a
-	__endasm;
+__asm
+	// Get S#1
+	ld		a, #1
+	out		(P_VDP_ADDR), a
+	ld		a, #(0x80 + 15)
+	out		(P_VDP_ADDR), a
+	in		a, (P_VDP_STAT)
+	//  Call H-Blank if bit #0 of S#1 is set 
+	rrca
+	jp		nc, _no_hblank
+	call	_HBlankHook // call to C function HBlankHook() 
+_no_hblank:
+	// Reset R#15 to S#0
+	xor		a           		
+	out		(P_VDP_ADDR), a
+	ld		a, #(0x80 + 15)
+	out		(P_VDP_ADDR),a
+__endasm;
 
 	// Call((u16)HookBackup_KEYI);
 }
@@ -108,7 +108,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 	#if ((SCROLL_ADJUST) && (SCROLL_ADJUST_SPLIT))
 	g_HBlank = 0;
@@ -125,7 +125,7 @@ void WaitVBlank()
 void main()
 {
 	// Initialize video
-	#if (MSX_VERSION >= MSX_2)
+	#if !(MSX_VERSION & MSX_1)
 	VDP_SetMode(VDP_MODE_GRAPHIC3); // Screen mode 4 (G3)
 	#else
 	VDP_SetMode(VDP_MODE_GRAPHIC2); // Screen mode 2 (G2)
@@ -174,12 +174,13 @@ void main()
 	SET_SPRITE(sprt+2, 70, 130, 40, COLOR_LIGHT_RED);
 	VDP_DisableSpritesFrom(sprt+3);
 
+	u8 frame = 0;
 	u8 prevRow8 = 0xFF;
-	while(1)
+	while (1)
 	{
 		// Wait for v-synch
 		WaitVBlank();
-		
+
 		// Update scrolling rendering
 		Scroll_Update();
 
@@ -188,20 +189,22 @@ void main()
 		VDP_SetSpritePositionX(sprt+1, 70 + sprtOffset);
 		VDP_SetSpritePositionX(sprt+2, 70 + sprtOffset);
 
+		u8 shape = 6;
+
 		u8 row8 = Keyboard_Read(8);
 		// Update scrolling speed
-		if(IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		if (IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
 		{
-			if(g_ScrollSpeed < 8)
+			if (g_ScrollSpeed < 8)
 				g_ScrollSpeed++;
 			else
 				g_ScrollSpeed = 1;
 			Print_SetPosition(19, 23);
 			Print_DrawInt(g_ScrollSpeed);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(prevRow8, KEY_HOME))
+		else if (IS_KEY_PRESSED(row8, KEY_HOME) && !IS_KEY_PRESSED(prevRow8, KEY_HOME))
 		{
-			if(g_ScrollSpeed > 1)
+			if (g_ScrollSpeed > 1)
 				g_ScrollSpeed--;				
 			else
 				g_ScrollSpeed = 7;
@@ -209,23 +212,31 @@ void main()
 			Print_DrawInt(g_ScrollSpeed);
 		}
 		// Update horizontal scrolling offset
-		if(IS_KEY_PRESSED(row8, KEY_RIGHT))
+		if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
 			Scroll_SetOffsetH(g_ScrollSpeed);
+			shape = (frame >> 2) % 6;
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_LEFT))
+		else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
 			Scroll_SetOffsetH(-g_ScrollSpeed);
+			shape = (frame >> 2) % 6;
 		}
 		// Update vertical scrolling offset
-		if(IS_KEY_PRESSED(row8, KEY_DOWN))
+		if (IS_KEY_PRESSED(row8, KEY_DOWN))
 		{
 			Scroll_SetOffsetV(g_ScrollSpeed);
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_UP))
+		else if (IS_KEY_PRESSED(row8, KEY_UP))
 		{
 			Scroll_SetOffsetV(-g_ScrollSpeed);
 		}
 		prevRow8 = row8;
+
+		VDP_SetSpritePattern(sprt+0, 32 + shape * 16);
+		VDP_SetSpritePattern(sprt+1, 36 + shape * 16);
+		VDP_SetSpritePattern(sprt+2, 40 + shape * 16);
+
+		frame++;
 	}
 }

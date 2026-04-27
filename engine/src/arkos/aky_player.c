@@ -12,49 +12,47 @@
 //─────────────────────────────────────────────────────────────────────────────
 #include "aky_player.h"
 
+bool g_AKY_EndOfSong;
+
 //-----------------------------------------------------------------------------
 //
-void AKY_Dummy()
+void AKY_Dummy() __NAKED
 {
-	__asm
-		#include "aky_player.asm"
-	__endasm;
+__asm
+	#include "aky_player.asm"
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-void AKY_Init(const void* data, u16 sng)
+// Initialize music and start playback
+void AKY_Play(const void* data)
 {
-	data; // HL
-	sng;  // DE
-	__asm	
-		ld			a, e // convert C parameter
-		push		ix
-		// Initialize a music. HL=music address, A=subsong index (>=0)
-		call		_PLY_AKY_INIT
-		pop			ix
+	data;
+__asm
+	// Initializes the player.
+	// IN:    HL = music address.
+	call	_PLY_AKY_INIT
 
-	__endasm;
+	ret
+__endasm;
 }
 
 //-----------------------------------------------------------------------------
-//
-/*void AKY_Stop()
+// Decode a music frame and update the PSG
+bool AKY_Update() __NAKED
 {
-	__asm
-		push		ix
-		call		_PLY_AKY_STOP
-		pop			ix
-	__endasm;
-}*/
+__asm
+	xor		a
+	ld		(_g_AKY_EndOfSong), a
+	// Plays the music. It must have been initialized before.
+	// The interruption SHOULD be disabled (DI), as the stack is heavily used.
+	push	ix
+	ARKOS_INT_DISABLE
+	call	_PLY_AKY_PLAY
+	ARKOS_INT_ENABLE
+	pop		ix
 
-//-----------------------------------------------------------------------------
-//
-void AKY_Decode()
-{
-	__asm
-		push		ix
-		call		_PLY_AKY_PLAY
-		pop			ix
-	__endasm;
+	ld		a, (_g_AKY_EndOfSong)
+	ret
+__endasm;
 }

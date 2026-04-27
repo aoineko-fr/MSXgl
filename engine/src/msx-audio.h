@@ -29,14 +29,27 @@ void MSXAudio_Initialize();
 
 // Function: MSXAudio_Detect
 // Search for MSX-Audio (Y8950) chip
+//
+// Return:
+//   FALSE if no MSX-Audio chip found
 bool MSXAudio_Detect();
 
 // Function: MSXAudio_SetRegister
 // Set MSX-Audio register value
+//
+// Parameters:
+//   reg   - Register to set
+//   value - Value to set
 void MSXAudio_SetRegister(u8 reg, u8 value);
 
 // Function: MSXAudio_GetRegister
 // Get MSX-Audio register value
+//
+// Parameters:
+//   reg - Register to get
+//
+// Return:
+//   Value of the register
 u8 MSXAudio_GetRegister(u8 reg);
 
 // Function: MSXAudio_Mute

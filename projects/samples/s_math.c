@@ -10,6 +10,7 @@
 // INCLUDES
 //=============================================================================
 #include "msxgl.h"
+#include "tool/mem_op.h"
 
 //=============================================================================
 // DEFINES
@@ -53,13 +54,13 @@ struct CurveEntry
 //=============================================================================
 
 // Fonts
-#include "font\font_mgl_sample6.h"
+#include "font/font_mgl_sample6.h"
 
 // Sinus & cosinus table
-#include "mathtable\mt_trigo_64.inc"
-#include "mathtable\mt_trigo_ext_64.inc"
-#include "mathtable\mt_sq_256.inc"
-#include "mathtable\mt_sqrt_256.inc"
+#include "mathtable/mt_trigo_64.inc"
+#include "mathtable/mt_trigo_ext_64.inc"
+#include "mathtable/mt_sq_256.inc"
+#include "mathtable/mt_sqrt_256.inc"
 
 // Character animation
 const u8 chrAnim[] = { '|', '\\', '-', '/' };
@@ -102,7 +103,7 @@ void VBlankHook()
 // Wait for V-Blank period
 void WaitVBlank()
 {
-	while(g_VBlank == 0) {}
+	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 }
 
@@ -119,8 +120,9 @@ void DisplayHeader(const c8* title)
 	// Setup print
 	Print_SetBitmapFont(g_Font_MGL_Sample6);
 	Print_SetColor(COLOR_WHITE, COLOR_DARK_BLUE);
+	Print_Clear();
 	Print_SetPosition(0, 2);
-	Print_DrawText("\x1\x2\x3\x4\x5\x6   MATH SAMPLE - ");
+	Print_DrawText("\x1\x2\x3\x4\x5\x6 MATH SAMPLE - ");
 	Print_DrawText(title);
 	Draw_LineH(0, 255, 12, COLOR_WHITE, 0);
 }
@@ -133,7 +135,7 @@ void DisplayFooter()
 	Draw_LineH(0, 255, 199, COLOR_WHITE, 0);
 	Print_SetColor(COLOR_WHITE, COLOR_DARK_BLUE);
 	Print_SetPosition(0, 203);
-	Print_DrawText("F1:Rnd8 F2:Rnd16 F3:Curve");
+	Print_DrawText("F1:Rnd8 F2:Rnd16 F3:Curve F4:Func F5:Tab");
 }
 
 //-----------------------------------------------------------------------------
@@ -146,7 +148,7 @@ void DisplayRandom16()
 	Print_DrawText("Method: ");
 	Print_DrawText(RANDOM_16_NAME);
 
-	Draw_Box(GRAPH_X - 1, GRAPH_Y, GRAPH_X + 128, GRAPH_Y + 128 + 1, COLOR_WHITE, 0);
+	Draw_Box(GRAPH_X - 1, GRAPH_Y, (u8)(GRAPH_X + 128), (u8)(GRAPH_Y + 128 + 1), COLOR_WHITE, 0);
 
 	Print_SetColor(COLOR_LIGHT_BLUE, COLOR_DARK_BLUE);
 	Print_SetPosition(158, GRAPH_Y);
@@ -161,12 +163,12 @@ void DisplayRandom16()
 	VDP_CommandHMMV(150, GRAPH_Y + 8 * 5, 4, 8, COLOR_MERGE2(COLOR_LIGHT_RED));
 
 	u16 startFrame = g_Frame;
-	for(u16 i = 0; i < RAND_SAMPLE; ++i)
+	for (u16 i = 0; i < RAND_SAMPLE; ++i)
 	{
 		u16 rand = Math_GetRandom16();
 		u16 x = GRAPH_X + ((rand % 0x00FF) / 2);
 		u16 y = GRAPH_Y + 128 - ((rand >> 8) / 2);
-		switch(VDP_CommandPOINT(x, y))
+		switch (VDP_CommandPOINT(x, y))
 		{
 		case COLOR_DARK_BLUE:		VDP_CommandPSET(x, y, COLOR_LIGHT_BLUE, 0); break;
 		case COLOR_LIGHT_BLUE:		VDP_CommandPSET(x, y, COLOR_CYAN, 0); break;
@@ -189,12 +191,12 @@ void DisplayRandom16()
 void DisplayRandom8()
 {
 	DisplayHeader("Random 8b");
-	
+
 	Print_SetPosition(0, 20);
 	Print_DrawText("Method: ");
 	Print_DrawText(RANDOM_8_NAME);
 
-	Draw_Box(GRAPH_X - 1, GRAPH_Y, GRAPH_X + 128, GRAPH_Y + 128 + 1, COLOR_WHITE, 0);
+	Draw_Box(GRAPH_X - 1, GRAPH_Y, (u8)(GRAPH_X + 128), (u8)(GRAPH_Y + 128 + 1), COLOR_WHITE, 0);
 
 	Print_SetColor(COLOR_LIGHT_BLUE, COLOR_DARK_BLUE);
 	Print_SetPosition(158, GRAPH_Y);
@@ -209,7 +211,7 @@ void DisplayRandom8()
 	VDP_CommandHMMV(150, GRAPH_Y + 8 * 5, 4, 8, COLOR_MERGE2(COLOR_LIGHT_RED));
 
 	u16 startFrame = g_Frame;
-	for(u16 i = 0; i < RAND_SAMPLE; ++i)
+	for (u16 i = 0; i < RAND_SAMPLE; ++i)
 	{
 		#if (MSX_VERSION != MSX_TR) && ((RANDOM_8_METHOD == RANDOM_8_REGISTER) || (RANDOM_8_METHOD == RANDOM_8_RACC)) // 7-bits RNG
 		u16 x = GRAPH_X + Math_GetRandom8();
@@ -218,7 +220,7 @@ void DisplayRandom8()
 		u16 x = GRAPH_X + (Math_GetRandom8() / 2);
 		u16 y = GRAPH_Y + 128 - (Math_GetRandom8() / 2);
 		#endif
-		switch(VDP_CommandPOINT(x, y))
+		switch (VDP_CommandPOINT(x, y))
 		{
 		case COLOR_DARK_BLUE:		VDP_CommandPSET(x, y, COLOR_LIGHT_BLUE, 0); break;
 		case COLOR_LIGHT_BLUE:		VDP_CommandPSET(x, y, COLOR_CYAN, 0); break;
@@ -228,16 +230,120 @@ void DisplayRandom8()
 		};
 		
 	}
-	
+
 	Print_SetPosition(0, 184);
 	Print_DrawText("t=");
 	Print_DrawInt(g_Frame - startFrame);	
-	
+
 	DisplayFooter();
 }
 
 //-----------------------------------------------------------------------------
-// Diplay page footer
+// Diplay 
+void DisplayFunc()
+{
+	DisplayHeader("Function");
+	
+	// 8-bits
+	Print_SetPosition(0, 20);
+	i8 rnd8, val8;
+
+	rnd8 = (i16)Math_GetRandom8();
+	Print_DrawFormat("A=Random8():  %i [%8b]\n", rnd8, rnd8);
+
+	val8 = Math_Div10(rnd8);
+	Print_DrawFormat("Div10(A):     %i\n", val8);
+
+	val8 = Math_Mod10(rnd8);
+	Print_DrawFormat("Mod10(A):     %i\n", val8);
+
+	val8 = Math_Flip(rnd8);
+	Print_DrawFormat("Flip(A):      %i [%8b]\n", val8, val8);
+
+	val8 = Math_Negative(rnd8);
+	Print_DrawFormat("Negative(A):  %i\n", val8);
+
+	val8 = Math_SignedDiv2(rnd8);
+	Print_DrawFormat("Div2(A):      %i\n", val8);
+
+	val8 = Math_SignedDiv4(rnd8);
+	Print_DrawFormat("Div4(A):      %i\n", val8);
+
+	val8 = Math_SignedDiv8(rnd8);
+	Print_DrawFormat("Div8(A):      %i\n", val8);
+
+	val8 = Math_SignedDiv16(rnd8);
+	Print_DrawFormat("Div16(A):     %i\n", val8);
+
+	val8 = Math_SignedDiv32(rnd8);
+	Print_DrawFormat("Div32(A):     %i\n", val8);
+
+	// 16-bits
+	Print_Return();
+	i16 rnd16, val16;
+
+	rnd16 = Math_GetRandom16();
+	Print_DrawFormat("B=Random16(): %i [%b]\n", rnd16, rnd16);
+
+	val16 = Math_Div10_16b(rnd16);
+	Print_DrawFormat("Div10_16b(B): %i\n", val16);
+
+	val16 = Math_Mod10_16b(rnd16);
+	Print_DrawFormat("Mod10_16b(B): %i\n", val16);
+
+	val16 = Math_Flip_16b(rnd16);
+	Print_DrawFormat("Flip_16b(B):  %i [%b]\n", val16, val16);
+
+	val16 = Math_Negative16(rnd16);
+	Print_DrawFormat("Negative16(B):%i\n", val16);
+
+	val16 = Math_Swap(rnd16);
+	Print_DrawFormat("Swap(B):      %i [%b]\n", val16, val16);
+
+	DisplayFooter();
+}
+
+u8 g_Tab[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+
+//-----------------------------------------------------------------------------
+// Diplay tab operation
+void DisplayTab()
+{
+	DisplayHeader("Tab Operation");
+
+	Print_SetPosition(0, 20);
+
+	Print_DrawFormat("Source:      [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_Inc(g_Tab, 8);
+	Print_DrawFormat("Increment:   [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_RShift(g_Tab, 8);
+	Print_DrawFormat("Right-Shift: [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_Inc(g_Tab, 8);
+	Print_DrawFormat("Increment:   [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_RShift(g_Tab, 8);
+	Print_DrawFormat("Right-Shift: [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_Dec(g_Tab, 8);
+	Print_DrawFormat("Decrement:   [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_LShift(g_Tab, 8);
+	Print_DrawFormat("Left-Shift:  [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_Dec(g_Tab, 8);
+	Print_DrawFormat("Decrement:   [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	Mem_LShift(g_Tab, 8);
+	Print_DrawFormat("Left-Shift:  [%i,%i,%i,%i,%i,%i,%i,%i]\n\n", g_Tab[0], g_Tab[1], g_Tab[2], g_Tab[3], g_Tab[4], g_Tab[5], g_Tab[6], g_Tab[7]);
+
+	DisplayFooter();
+}
+
+//-----------------------------------------------------------------------------
+// Diplay curves
 void DisplayCurve()
 {
 	DisplayHeader("Curve");
@@ -258,14 +364,14 @@ void DisplayCurve()
 	Print_DrawText(curve->Max);
 
 	u8 prevX = 0, prevY = 0;
-	for(u16 i = 0; i < CURVE_STEP; ++i)
+	for (u16 i = 0; i < CURVE_STEP; ++i)
 	{
 		u8 idx = i * (u8)((u16)curve->Count / CURVE_STEP);
 		
 		u8 x = i * (u8)((u16)256 / CURVE_STEP);
 		
 		u8 y = curve->ZeroY;
-		switch(curve->Format)
+		switch (curve->Format)
 		{
 			case CURVE_8B_SIGNED:
 			{
@@ -293,10 +399,10 @@ void DisplayCurve()
 			}
 		};
 		
-		#if(0)
+		#if (0)
 		VDP_CommandPSET(x, y, COLOR_WHITE, 0);
 		#else
-		if(i > 0)
+		if (i > 0)
 			Draw_Line(prevX, prevY, x, y, COLOR_WHITE, 0);
 		#endif
 		
@@ -324,7 +430,7 @@ void main()
 	DisplayCurve();
 	
 	bool bContinue = TRUE;
-	while(bContinue)
+	while (bContinue)
 	{
 		WaitVBlank();
 		
@@ -332,31 +438,36 @@ void main()
 		Print_DrawChar(chrAnim[g_Frame & 0x03]);
 
 		u8 row6 = Keyboard_Read(6);
-		if(IS_KEY_PRESSED(row6, KEY_F1))
+		if (IS_KEY_PRESSED(row6, KEY_F1))
 			DisplayRandom8();
-		else if(IS_KEY_PRESSED(row6, KEY_F2))
+		else if (IS_KEY_PRESSED(row6, KEY_F2))
 			DisplayRandom16();
-		else if(IS_KEY_PRESSED(row6, KEY_F3))
+		else if (IS_KEY_PRESSED(row6, KEY_F3))
 			DisplayCurve();
 
+		u8 row7 = Keyboard_Read(7);
+		if (IS_KEY_PRESSED(row7, KEY_F4))
+			DisplayFunc();
+		if (IS_KEY_PRESSED(row7, KEY_F5))
+			DisplayTab();
+
 		u8 row8 = Keyboard_Read(8);
-		if(IS_KEY_PRESSED(row8, KEY_UP) || IS_KEY_PRESSED(row8, KEY_LEFT))
+		if (IS_KEY_PRESSED(row8, KEY_UP) || IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
 			g_CurveIdx--;
-			if(g_CurveIdx < 0)
+			if (g_CurveIdx < 0)
 				g_CurveIdx = numberof(g_Curves) - 1;
-			DisplayCurve();			
+			DisplayCurve();
 		}
-		else if(IS_KEY_PRESSED(row8, KEY_DOWN) || IS_KEY_PRESSED(row8, KEY_RIGHT))
+		else if (IS_KEY_PRESSED(row8, KEY_DOWN) || IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
 			g_CurveIdx++;
-			if(g_CurveIdx >= numberof(g_Curves))
+			if (g_CurveIdx >= numberof(g_Curves))
 				g_CurveIdx = 0;
-			DisplayCurve();			
+			DisplayCurve();
 		}
-		
 
-		if(Keyboard_IsKeyPressed(KEY_ESC))
+		if (Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;
 	}
 

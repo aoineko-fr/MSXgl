@@ -12,6 +12,7 @@
 // - Pratique du MSX2
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
+
 #include "memory.h"
 
 //-----------------------------------------------------------------------------
@@ -82,7 +83,7 @@ inline void Bios_BackupHook(u16 hook, void* buffer)
 
 // // inline void AddDeferredHook()
 // {
-// 	if(g_DeferredHookCount < MAX_DEFERRED_HOOK)
+// 	if (g_DeferredHookCount < MAX_DEFERRED_HOOK)
 // 	{
 // 		DeferredHooks[DeferredHookCount] = g_LastCallback;
 // 		DeferredHookCount++;
@@ -238,17 +239,17 @@ inline void Bios_BackupHook(u16 hook, void* buffer)
 // Usage: Process the instruction.
 // Note: Used by the Disk-ROM.
 
-#define H_MKI0xFE30	
+#define H_MKI	0xFE30	
 // $	Call: At the beginning of Basic instruction MKI$.
 // Usage: Process the instruction.
 // Note: Used by the Disk-ROM.
 
-#define H_MKS0xFE35	
+#define H_MKS	0xFE35	
 // $	Call: At the beginning of Basic instruction MKS$.
 // Usage: Process the instruction.
 // Note: Used by the Disk-ROM.
 
-#define H_MKD0xFE3A	
+#define H_MKD	0xFE3A	
 // $	Call: At the beginning of Basic instruction MKD$.
 // Usage: Process the instruction.
 // Note: Used by the Disk-ROM.

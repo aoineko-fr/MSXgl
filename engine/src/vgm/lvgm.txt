@@ -1,0 +1,178 @@
+==============================================================================
+ HEADER  (4 bytes)
+==============================================================================
+	xx[4]		"lVGM"            Light-VGM identifier
+
+	xx			Options
+				7 6 5 4 3 2 1 0
+				│ │ │ │   │ │ └── Frequency (0: 60 Hz, 1: 50 Hz)
+				│ │ │ │   │ └──── Loop data included
+				│ │ │ │   └────── Devices (0: PSG only, 1: Device list incuded; see bellow)
+				└─┴─┴─┴────────── File format version (0)
+
+	(xx)		Devices (only present if Options#2 is 1)
+				7 6 5 4 3 2 1 0
+				│   │ │ │ │ │ └── Include PSG data (AY-3-8910)
+				│   │ │ │ │ └──── Include MSX-MUSIC data (YM2413/OPLL)
+				│   │ │ │ └────── Include MSX-AUDIO data (Y8950/OPL1+ADPCM)
+				│   │ │ └──────── Include SCC data (K051649)
+				│   │ └────────── Include SCC+ data (K052539)
+				│   └──────────── Include secondary PSG data
+				└──────────────── Include Moonsound data (YMF278/OPL4)
+
+	(xx)		PSG - Most common value (only present if Opions#2 is 0 or Devices#0 is 1)
+
+
+==============================================================================
+ COMMON DATA  (E0~FF)
+==============================================================================
+
+	Opcode			Action
+------------------------------------------------------------------------------
+	En				Wait n+1 cycles (1~16)
+..............................................................................
+	F0				Start of PSG chunk (default when not defined)
+	F1				Start of MSX-MUSIC chunk
+	F2				Start of MSX-AUDIO chunk
+	F3				Start of SCC chunk
+	F4				Start of SCC+ chunk
+	F5				Start of secondary PSG chunk
+	F7				Start of Moonsound chunk
+
+	FD nn			Special markers (trigger notification by the replayer)
+	   00			End of data segment
+	   ..			
+	   7F
+	............... Replayer ony notification (not incuded in data)
+	   80
+	   ..			
+	   FE			Reach loop marker
+	   FF			Jump to loop marker
+
+	FE				Loop position
+	FF				End of song
+..............................................................................
+					Not used: F6, F8~FC
+
+
+==============================================================================
+ PSG DATA  (00~DF)
+==============================================================================
+
+	Opcode			Action
+------------------------------------------------------------------------------
+ 	00 xx			Tone Period (R#0 = xx)
+	1x				Tone Period (R#1 = x)
+	02 xx			Tone Period (R#2 = xx)
+	2x				Tone Period (R#3 = x)
+	04 xx			Tone Period (R#4 = xx)
+	3x				Tone Period (R#5 = x)
+
+	4x				Noise Period (R#6 = x)
+	5x				Noise Period (R#6 = x | 0x10)
+
+	07 xx			Mixer (R#7 = x)
+
+	6x				Tone Amplitude (R#8 = x)
+	7x				Tone Amplitude (R#8 = x | 0x10)
+	8x				Tone Amplitude (R#9 = x)
+	9x				Tone Amplitude (R#9 = x | 0x10)
+	Ax				Tone Amplitude (R#10 = x)
+	Bx				Tone Amplitude (R#10 = x | 0x10)
+
+	0B xx			Envelope Period (R#11 = xx)
+	0C xx			Envelope Period (R#12 = xx)
+
+	Cx				Envelope Shape (R#13 = x)
+..............................................................................
+	Dx				More common byte value (R#x = <Most common value>)
+..............................................................................
+					Not used: 01, 03, 05, 06, 08, 09, 0A, 0D~0F, DE~DF
+
+
+==============================================================================
+ MSX-MUSIC DATA  (00~DF)
+==============================================================================
+
+	Opcode			Action
+------------------------------------------------------------------------------
+	xx yy			R#xx = yy (xx ∈ [00:38])
+	xx|80			R#xx = 0  (xx ∈ [80:B8])
+..............................................................................
+	40 xx[8]		User Tone (copy 8 bytes from R#0)
+	50 xx			User Tone (fill 8 bytes from R#0)
+
+	41 xx[9]		F-Number  (copy 9 bytes from R#10)
+	51 xx			F-Number  (fill 9 bytes from R#10)
+
+	42 xx[9]		Setting   (copy 9 bytes from R#20)
+	52 xx			Setting   (fill 9 bytes from R#20)
+
+	43 xx[9]		Inst/col  (copy 9 bytes from R#30)
+	53 xx			Inst/col  (fill 9 bytes from R#30)
+..............................................................................
+	44 xx[3]		Rhythm F-Number (copy 3 bytes from R#16)
+	54 xx			Rhythm F-Number (fill 3 bytes from R#16)
+
+	45 xx[3]		Rhythm Setting  (copy 3 bytes from R#26)
+	55 xx			Rhythm Setting  (fill 3 bytes from R#26)
+
+	46 xx[3]		Rhythm Inst/col (copy 3 bytes from R#36)
+	56 xx			Rhythm Inst/col (fill 3 bytes from R#36)
+..............................................................................
+	6x yy zz		Set x+3 bytes (3~18) start from R#yy
+	7x yy zz[]		Copy x+3 bytes (3~18) start from R#yy
+..............................................................................
+					Not used: 08~0D, 19~1F, 29~2F, 39~3F, 47~4F, 
+					 57~5F, 88~8D, 99~9F, A9~AF, B9~DF
+
+
+==============================================================================
+ MSX-AUDIO DATA  (00~DF)
+==============================================================================
+
+	Opcode			Action
+------------------------------------------------------------------------------
+	xx yy			R#xx = yy (xx ∈ [00:C8])
+..............................................................................
+	1F xx[8]		User Tone 1 (copy 8 bytes in 20,23,40,43,60,63,80,83)
+	2F xx[8]		User Tone 2 (copy 8 bytes in 21,24,41,44,61,64,81,84)
+	3F xx[8]		User Tone 3 (copy 8 bytes in 22,25,42,45,62,65,82,85)
+	4F xx[8]		User Tone 4 (copy 8 bytes in 28,2B,48,4B,68,6B,88,8B)
+	5F xx[8]		User Tone 5 (copy 8 bytes in 29,2C,49,4C,69,6C,89,8C)
+	6F xx[8]		User Tone 6 (copy 8 bytes in 2A,2D,4A,4D,6A,6D,8A,8D)
+	7F xx[8]		User Tone 7 (copy 8 bytes in 30,33,50,53,70,73,90,93)
+	8F xx[8]		User Tone 8 (copy 8 bytes in 31,34,51,54,71,74,91,94)
+	9F xx[8]		User Tone 9 (copy 8 bytes in 32,35,52,55,72,75,92,95)
+..............................................................................
+	Dx yy zz[]		Copy x+3 bytes (3~18) start from R#yy
+..............................................................................
+					Not used: 13~14, 1B~1E, 26~27, 2E, 36~3E, 46~47, 
+					 4E, 56~5E, 66~67, 6E, 76~7E, 86~87, 8E, 96~9E, 
+					 A9~AF, B9~BC, BE~BF, C9~CF
+
+
+==============================================================================
+ SCC/SCC+ DATA  (00~DF)
+==============================================================================
+
+	Opcode			Action                                  SCC    SCC+
+------------------------------------------------------------------------------
+	xx yy			R#xx = yy (xx ∈ [00:AF])                9800   B800
+..............................................................................
+	B0 xx[32]		Copy 32 bytes to channel 1 waveform     9800   B800
+	B1 xx[32]		Copy 32 bytes to channel 2 waveform     9820   B820
+	B2 xx[32]		Copy 32 bytes to channel 3 waveform     9840   B840
+	B3 xx[32]		Copy 32 bytes to channel 4 waveform     9860   B860
+	B4 xx[32]		Copy 32 bytes to channel 5 waveform            B880
+
+	B8 xx			Set 32 bytes to channel 1 waveform      9800   B800
+	B9 xx			Set 32 bytes to channel 2 waveform      9820   B820
+	BA xx			Set 32 bytes to channel 3 waveform      9840   B840
+	BB xx			Set 32 bytes to channel 4 waveform      9860   B860
+	BC xx			Set 32 bytes to channel 5 waveform             B880
+..............................................................................
+	Cx yy zz		Set x+3 bytes (3~18) start from R#yy
+	Dx yy zz[]		Copy x+3 bytes (3~18) start from R#yy
+..............................................................................
+					Not used: B5-B7, BD-BF

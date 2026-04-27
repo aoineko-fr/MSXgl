@@ -34,13 +34,13 @@ struct ModeData
 //=============================================================================
 
 // Fonts data
-#include "font\font_mgl_std0.h"
-#include "font\font_mgl_std1.h"
-#include "font\font_mgl_std2.h"
-#include "font\font_mgl_std3.h"
-#include "font\font_mgl_mini2.h"
-#include "font\font_mgl_sample6.h"
-#include "font\font_tsm9900.h"
+#include "font/font_mgl_std0.h"
+#include "font/font_mgl_std1.h"
+#include "font/font_mgl_std2.h"
+#include "font/font_mgl_std3.h"
+#include "font/font_mgl_mini2.h"
+#include "font/font_mgl_sample6.h"
+#include "font/font_tsm9900.h"
 
 // Font list
 const struct FontData g_Fonts[] = 
@@ -83,7 +83,7 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // MEMORY DATA
 //=============================================================================
 
-u8 g_CurrentFont = 0;
+u8 g_CurrentFont = 1;
 u8 g_CurrentMode = 0;
 bool g_DisplayFont = 0;
 
@@ -113,18 +113,34 @@ void DrawPage()
 	Print_DrawText("\nFont: ");
 	Print_DrawText(g_Fonts[g_CurrentFont].name);
 
-	if(g_DisplayFont)
+#if (MSX_VERSION >= MSX_2)
+	if (g_Modes[g_CurrentMode].mode == VDP_MODE_TEXT2)
+	{
+		VDP_SetBlinkColor(0xB0);
+		VDP_SetInfiniteBlink();
+		VDP_CleanBlinkScreen();
+		VDP_SetBlinkLine(0);
+		VDP_SetBlinkChunkMask(0, 3, 0b11111000);
+		VDP_SetBlinkChunkMask(0, 4, 0b11111000);
+		VDP_SetBlinkChunk(0, 6);
+		VDP_SetBlinkTile(0, 8);
+		VDP_SetBlinkTile(76, 11);
+		VDP_SetBlinkLine(23);
+	}
+#endif // (MSX_VERSION >= MSX_2)
+
+	if (g_DisplayFont)
 	{
 		Print_DrawText("\n\n");
 		const struct Print_Data* data = Print_GetFontInfo();
-		for(u8 j = 0; j < 16; ++j)
+		for (u8 j = 0; j < 16; ++j)
 		{
 			Print_DrawHex8(j * 16);
 			Print_DrawText("  ");
-			for(u8 i = 0; i < 16; ++i)
+			for (u8 i = 0; i < 16; ++i)
 			{
 				u8 chr = j * 16 + i;
-				if((chr >= data->CharFirst) && (chr <= data->CharLast))
+				if ((chr >= data->CharFirst) && (chr <= data->CharLast))
 					Print_DrawChar(chr);
 				else
 					Print_Space();
@@ -153,16 +169,16 @@ void main()
 	DrawPage();
 
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		// Change screen mode
-		if(Keyboard_IsKeyPressed(KEY_RIGHT))
+		if (Keyboard_IsKeyPressed(KEY_RIGHT))
 		{
 			g_CurrentMode++;
 			g_CurrentMode %= numberof(g_Modes);
 			DrawPage();
 		}
-		else if(Keyboard_IsKeyPressed(KEY_LEFT))
+		else if (Keyboard_IsKeyPressed(KEY_LEFT))
 		{
 			g_CurrentMode += numberof(g_Modes) - 1;
 			g_CurrentMode %= numberof(g_Modes);
@@ -170,19 +186,19 @@ void main()
 		}
 
 		// Change font
-		if(Keyboard_IsKeyPressed(KEY_UP))
+		if (Keyboard_IsKeyPressed(KEY_UP))
 		{
 			g_CurrentFont += numberof(g_Fonts) - 1;
 			g_CurrentFont %= numberof(g_Fonts);
 			DrawPage();
 		}
-		else if(Keyboard_IsKeyPressed(KEY_DOWN))
+		else if (Keyboard_IsKeyPressed(KEY_DOWN))
 		{
 			g_CurrentFont++;
 			g_CurrentFont %= numberof(g_Fonts);
 			DrawPage();
 		}
-		if(Keyboard_IsKeyPressed(KEY_F1))
+		if (Keyboard_IsKeyPressed(KEY_F1))
 		{
 			g_DisplayFont = 1 - g_DisplayFont;
 			DrawPage();

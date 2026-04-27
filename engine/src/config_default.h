@@ -22,7 +22,7 @@
 // TARGET
 #if !defined(TARGET)
 	#warning TARGET is not defined in "msxgl_config.h"! Default value will be used: TARGET_ROM32
-	#define TARGET						TARGET_ROM32
+	#define TARGET						TARGET_ROM_32K
 #endif
 
 // TARGET_TYPE
@@ -160,8 +160,14 @@
 	#define VDP_ISR_SAFE_MODE			VDP_ISR_SAFE_DEFAULT
 #endif
 
+// VDP_USE_PALETTE16
+#ifndef VDP_USE_PALETTE16 // Use 16 entries palette (use only 15 entries otherwise)
+	#warning VDP_USE_PALETTE16 is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define VDP_USE_PALETTE16			FALSE
+#endif
+
 //-----------------------------------------------------------------------------
-// INPUR MODULE
+// INPUT MODULE
 //-----------------------------------------------------------------------------
 
 #ifndef INPUT_USE_JOYSTICK // Add functions to handle joystick using I/O port
@@ -189,14 +195,14 @@
 	#define INPUT_USE_ISR_PROTECTION	TRUE
 #endif
 
-#ifndef INPUT_USE_MANAGER // Add input manager (IPM) with advanced input features
-	#warning INPUT_USE_MANAGER is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define INPUT_USE_MANAGER			FALSE
-#endif
-
 #ifndef INPUT_JOY_UPDATE // Add function to update all joystick states at once
 	#warning INPUT_JOY_UPDATE is not defined in "msxgl_config.h"! Default value will be used: FALSE
 	#define INPUT_JOY_UPDATE			FALSE
+#endif
+
+#ifndef INPUT_HOLD_SIGNAL // Determines whether functions that modify signals should keep the state of those they don't need to modify (which slows functions down a bit) 
+	#warning INPUT_HOLD_SIGNAL is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define INPUT_HOLD_SIGNAL			TRUE	
 #endif
 
 #ifndef INPUT_KB_UPDATE // Add function to update all keyboard rows at once
@@ -210,6 +216,15 @@
 
 #ifndef INPUT_KB_UPDATE // Last row to update (10 for numerical-pad, 8 otherwise)
 	#define INPUT_KB_UPDATE_MAX			8
+#endif
+
+//-----------------------------------------------------------------------------
+// PADDLE MODULE
+//-----------------------------------------------------------------------------
+
+#ifndef PADDLE_USE_CALIB // Add support for Mouse handling functions
+	#warning PADDLE_USE_CALIB is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PADDLE_USE_CALIB		FALSE
 #endif
 
 //-----------------------------------------------------------------------------
@@ -233,6 +248,49 @@
 	#warning MEM_USE_FASTSET is not defined in "msxgl_config.h"! Default value will be used: FALSE
 	#define MEM_USE_FASTSET			FALSE
 #endif
+
+// MEM_USE_DYNAMIC
+#ifndef MEM_USE_DYNAMIC
+	#warning MEM_USE_DYNAMIC is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define MEM_USE_DYNAMIC			FALSE
+#endif
+
+// MEM_USE_BUILTIN
+#ifndef MEM_USE_BUILTIN
+	#warning MEM_USE_BUILTIN is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define MEM_USE_BUILTIN			FALSE
+#endif
+
+//-----------------------------------------------------------------------------
+// CLOCK MODULE
+//-----------------------------------------------------------------------------
+// #ifdef CHECK_DEFAULT_CLOCK
+
+// // RTC_USE_CLOCK
+// #ifndef RTC_USE_CLOCK
+// 	#warning RTC_USE_CLOCK is not defined in "msxgl_config.h"! Default value will be used: TRUE
+// 	#define RTC_USE_CLOCK			TRUE
+// #endif
+
+// // RTC_USE_CLOCK_EXTRA
+// #ifndef RTC_USE_CLOCK_EXTRA
+// 	#warning RTC_USE_CLOCK_EXTRA is not defined in "msxgl_config.h"! Default value will be used: TRUE
+// 	#define RTC_USE_CLOCK_EXTRA		TRUE
+// #endif
+
+// // RTC_USE_SAVEDATA
+// #ifndef RTC_USE_SAVEDATA
+// 	#warning RTC_USE_SAVEDATA is not defined in "msxgl_config.h"! Default value will be used: TRUE
+// 	#define RTC_USE_SAVEDATA		TRUE
+// #endif
+
+// // RTC_USE_SAVESIGNED
+// #ifndef RTC_USE_SAVESIGNED
+// 	#warning RTC_USE_SAVESIGNED is not defined in "msxgl_config.h"! Default value will be used: TRUE
+// 	#define RTC_USE_SAVESIGNED		TRUE
+// #endif
+
+// #endif
 
 //-----------------------------------------------------------------------------
 // DRAW MODULE
@@ -314,7 +372,7 @@
 #endif
 
 //-----------------------------------------------------------------------------
-// GAME MODULE
+// GAME MAIN MODULE
 //-----------------------------------------------------------------------------
 
 // GAME_USE_STATE
@@ -333,83 +391,6 @@
 #ifndef GAME_USE_LOOP
 	#warning GAME_USE_LOOP is not defined in "msxgl_config.h"! Default value will be used: TRUE
 	#define GAME_USE_LOOP				TRUE
-#endif
-
-//-----------------------------------------------------------------------------
-// GAME PAWN MODULE
-//-----------------------------------------------------------------------------
-
-// GAMEPAWN_ID_PER_LAYER
-#ifndef GAMEPAWN_ID_PER_LAYER
-	#warning GAMEPAWN_ID_PER_LAYER is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define GAMEPAWN_ID_PER_LAYER		FALSE
-#endif
-
-// GAMEPAWN_USE_PHYSICS
-#ifndef GAMEPAWN_USE_PHYSICS
-	#warning GAMEPAWN_USE_PHYSICS is not defined in "msxgl_config.h"! Default value will be used: FALSE
-	#define GAMEPAWN_USE_PHYSICS		FALSE
-#endif
-
-// GAMEPAWN_BORDER_EVENT
-#ifndef GAMEPAWN_BORDER_EVENT
-	#warning GAMEPAWN_BORDER_EVENT is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define GAMEPAWN_BORDER_EVENT		0
-#endif
-
-// GAMEPAWN_BORDER_BLOCK
-#ifndef GAMEPAWN_BORDER_BLOCK
-	#warning GAMEPAWN_BORDER_BLOCK is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define GAMEPAWN_BORDER_BLOCK		0
-#endif
-
-// GAMEPAWN_BORDER_MIN_Y
-#ifndef GAMEPAWN_BORDER_MIN_Y
-	#warning GAMEPAWN_BORDER_MIN_Y is not defined in "msxgl_config.h"! Default value will be used: 0
-	#define GAMEPAWN_BORDER_MIN_Y		0
-#endif
-
-// GAMEPAWN_BORDER_MAX_Y
-#ifndef GAMEPAWN_BORDER_MAX_Y
-	#warning GAMEPAWN_BORDER_MAX_Y is not defined in "msxgl_config.h"! Default value will be used: 192
-	#define GAMEPAWN_BORDER_MAX_Y		192
-#endif
-
-
-// GAMEPAWN_COL_DOWN
-#ifndef GAMEPAWN_COL_DOWN
-	#warning GAMEPAWN_COL_DOWN is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
-	#define GAMEPAWN_COL_DOWN			GAMEPAWN_COL_50
-#endif
-
-// GAMEPAWN_COL_UP
-#ifndef GAMEPAWN_COL_UP
-	#warning GAMEPAWN_COL_UP is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
-	#define GAMEPAWN_COL_UP				GAMEPAWN_COL_50
-#endif
-
-// GAMEPAWN_COL_RIGHT
-#ifndef GAMEPAWN_COL_RIGHT
-	#warning GAMEPAWN_COL_RIGHT is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
-	#define GAMEPAWN_COL_RIGHT			GAMEPAWN_COL_50
-#endif
-
-// GAMEPAWN_COL_LEFT
-#ifndef GAMEPAWN_COL_LEFT
-	#warning GAMEPAWN_COL_LEFT is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_COL_50
-	#define GAMEPAWN_COL_LEFT			GAMEPAWN_COL_50
-#endif
-
-// GAMEPAWN_BOUND_X
-#ifndef GAMEPAWN_BOUND_X
-	#warning GAMEPAWN_BOUND_X is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_BOUND_CUSTOM
-	#define GAMEPAWN_BOUND_X			GAMEPAWN_BOUND_CUSTOM
-#endif
-
-// GAMEPAWN_BOUND_Y
-#ifndef GAMEPAWN_BOUND_Y
-	#warning GAMEPAWN_BOUND_Y is not defined in "msxgl_config.h"! Default value will be used: GAMEPAWN_BOUND_CUSTOM
-	#define GAMEPAWN_BOUND_Y			GAMEPAWN_BOUND_CUSTOM
 #endif
 
 //-----------------------------------------------------------------------------
@@ -535,6 +516,6 @@
 // PROFILE_LEVEL
 #if !defined(PROFILE_LEVEL)
 	#warning PROFILE_LEVEL is not defined in "msxgl_config.h"! Default value will be used: 10
-	#define PROFILE_LEVEL				10
+	#define PROFILE_LEVEL					10
 #endif
 

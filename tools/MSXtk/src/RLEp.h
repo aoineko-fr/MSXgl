@@ -7,6 +7,8 @@
 // by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
 // available on GitHub (https://github.com/aoineko-fr/MSXbin)
 // under CC-BY-AS free license (https://creativecommons.org/licenses/by-sa/2.0/)
+//_____________________________________________________________________________
+#pragma once
 
 // MSXtk
 #include "MSXtk.h"

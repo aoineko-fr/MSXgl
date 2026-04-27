@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("loc",["Function"],[["Loc_GetText",,[[,,,,0,"File:localize.h:Loc_GetText"]]],["Loc_Initialize",,[[,,,,0,"File:localize.h:Loc_Initialize"]]],["Loc_SetLanguage",,[[,,,,0,"File:localize.h:Loc_SetLanguage"]]]]);

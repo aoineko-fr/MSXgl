@@ -1,17 +1,24 @@
-MSXhex 0.1.3 - Convert Intel HEX file to binary
+MSXhex 1.0.0 - Convert Intel HEX file to binary
 --------------------------------------------------------------------------------
 Usage: msxhex <inputfile> [options]
 
 Options:
- -o filename    Output filename (default: use input filename with '.bin')
- -e ext         Output filename extension (can't be use with -o)
- -s addr        Starting address (default: 0)
- -l length      Total data length (default: 0, means autodetect)
- -b length      Bank size (default: 0, means don't use)
- -p value       Pading value (default: 0xFF)
- -check         Validate records
- -log           Log records
+ -o <filename>           Output filename (default: use input filename with '.bin')
+ -e <ext>                Output filename extension (can't be use with -o)
+ -s <addr>               Starting address (default: 0)
+ -l <length>             Total data length (default: 0, means autodetect)
+ -b <length>             Bank size (default: 0, means don't use)
+ -p <value>              Pading value (default: 0xFF)
+ -r <offset> <file>      Raw data 'file' to add at a given 'offset'
+ -f <file>               Additionnal parameters (text) file
+ --check                 Validate each record using checksum
+ --log                   Log each record
+ --segcheck              Check if segment size does not exceed the bank size
+ --segexcept <num>       Don't report oversize for this segment (can be use more than once)
+ --segaddr <seg> <addr>  Base address of the given segment (can be use more than once)
+                         If no base address is supplied, autodetection is used.
+ -help                   Display this help
 
  All integers can be decimal or hexadecimal starting with '0x'.
  One of the following named values can also be used:
-  1K, 2K, 4K, 8K, 16K, 24K, 32K, 48K, 64K, 128K, 256K, 512K, 1M, 2M, 4M
+  1K, 2K, 4K, 8K, 16K, 24K, 32K, 48K, 64K, 128K, 256K, 512K, 1M, 2M, 4M, 8M, 16M, 32M, 64M

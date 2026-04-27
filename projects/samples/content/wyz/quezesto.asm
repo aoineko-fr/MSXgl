@@ -1,5 +1,5 @@
 ;-----------------------------------------------------------------------------
-; WYZ file merged for MSXgl on 20/03/2022 11:10:30,24 
+; WYZ file merged for MSXgl on 09/11/2024 14:46:21,11 
 ;-----------------------------------------------------------------------------
 .module wyz_quezesto 
 _quezesto_Song:: .DW SONG00 
@@ -38,8 +38,8 @@ _quezesto_Freq:: .DW 0,0
 .DW 95,90,85,80,76,71,67,64,60,57
 ; Song data 
 SONG00: 
-; CMSXbin 1.2.0 by Guillaume "Aoineko" Blanchard (2021) under CC BY-SA free license
-; File generated on Sun Mar 20 11:10:30 2022
+; MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
+; File generated on Sat Nov  9 14:46:21 2024
 ; Soure file: D:\Dev\Private\MSX\MSXgl\projects\samples\datasrc\wyz\quezesto.mus
 _quezesto_Data::
 .db 0x04,0x31,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x3F,0x02,0x00,0x4E

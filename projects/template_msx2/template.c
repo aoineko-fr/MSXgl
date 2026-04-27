@@ -10,7 +10,6 @@
 // INCLUDES
 //=============================================================================
 #include "msxgl.h"
-#include "template.h"
 
 //=============================================================================
 // DEFINES
@@ -24,7 +23,7 @@
 //=============================================================================
 
 // Fonts data
-#include "font\font_mgl_sample6.h"
+#include "font/font_mgl_sample6.h"
 
 // Animation characters
 const u8 g_ChrAnim[] = { '-', '/', '|', '\\' };
@@ -34,7 +33,7 @@ const u8 g_ChrAnim[] = { '-', '/', '|', '\\' };
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-/// Program entry point
+// Program entry point
 void main()
 {
 	VDP_SetMode(VDP_MODE_SCREEN5);
@@ -48,7 +47,7 @@ void main()
 	Print_DrawText(MSX_GL" The MSX Game Library");
 
 	u8 count = 0;
-	while(!Keyboard_IsKeyPressed(KEY_ESC))
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
 	{
 		Halt(); // Wait V-Blank
 		Print_SetPosition(255-8, 0);

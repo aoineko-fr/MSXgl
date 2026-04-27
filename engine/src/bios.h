@@ -11,7 +11,7 @@
 // - MSX2 Technical Handbook
 // - http://map.grauw.nl/resources/msxbios.php
 // - https://www.msx.org/wiki/Main-ROM_BIOS
-// - Pratique du MSX 2
+// - Pratique du MSX2
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
@@ -54,22 +54,22 @@
 //
 // Parameters:
 //   ret - Return value (for MSX-DOS environment)
-void Bios_Exit(u8 ret) __FASTCALL;
+void Bios_Exit(u8 ret);
 
 // Function: Bios_SetKeyClick
 // Enable or disable key click
 //
 // Parameters:
-//   ret - TRUE to enable and FALSE to disable
+//   enable - TRUE to enable and FALSE to disable
 inline void Bios_SetKeyClick(bool enable) { g_CLIKSW = enable; }
 
 // Function: Bios_GetMSXVersion
 // Get MSX generation version
 //
 // Return:
-// - MSXVER_1 (0) for MSX 1.
-// - MSXVER_2 (1) for MSX 2.
-// - MSXVER_2P (2) for MSX 2+.
+// - MSXVER_1 (0) for MSX1.
+// - MSXVER_2 (1) for MSX2.
+// - MSXVER_2P (2) for MSX2+.
 // - MSXVER_TR (3) for MSX turbo R.
 inline u8 Bios_GetMSXVersion() { return g_MSXVER; }
 
@@ -87,27 +87,33 @@ inline u8 Bios_GetMSXVersion() { return g_MSXVER; }
 //-----------------------------------------------------------------------------
 
 // Function: Bios_Startup
-// Tests RAM and sets RAM slot for the system. Wrapper for CHKRAM routine.
+// Tests RAM and sets RAM slot for the system.
+// Wrapper for CHKRAM routine.
 inline void Bios_Startup() { Call(R_CHKRAM); }
 
 // Function: Bios_InterSlotRead
-// Reads the value of an address in another slot. Wrapper for RDSLT routine.
+// Reads the value of an address in another slot.
+// Wrapper for RDSLT routine.
 u8 Bios_InterSlotRead(u8 slot, u16 addr);
 
 // Function: Bios_InterSlotWrite
-// Writes a value to an address in another slot. Wrapper for WRSLT routine.
+// Writes a value to an address in another slot.
+// Wrapper for WRSLT routine.
 void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value);
 
 // Function: Bios_InterSlotCall
-// Executes inter-slot call. Wrapper for CALSLT routine.
+// Executes inter-slot call.
+// Wrapper for CALSLT routine.
 void Bios_InterSlotCall(u8 slot, u16 addr);
 
 // Function: Bios_SwitchSlot
-// Switches indicated slot at indicated page on perpetual. Wrapper for ENASLT routine.
+// Switches to specified slot and page definitively.
+// Wrapper for ENASLT routine.
 void Bios_SwitchSlot(u8 page, u8 slot);
 
 // Macro: BIOS_CALLF
-// Executes an interslot call. Wrapper for CALLF routine.
+// Executes an interslot call.
+// Wrapper for CALLF routine.
 #define BIOS_CALLF(slot, addr) \
 	__asm                      \
 		rst		R_CALLF        \
@@ -141,7 +147,7 @@ inline void Bios_DisableScreen() { Call(R_DISSCR); }
 inline void Bios_EnableScreen() { Call(R_ENASCR); }
 
 // Function: Bios_WriteVDP
-// Write data in the VDP-register. Wrapper for WRTVDP routine.
+// Writes data in the VDP-register. Wrapper for WRTVDP routine.
 void Bios_WriteVDP(u8 reg, u8 value);
 
 // Function: Bios_ReadVRAM
@@ -153,15 +159,15 @@ inline u8 Bios_ReadVRAM(u16 addr) { return ((u8(*)(u16))R_RDVRM)(addr); }
 void Bios_WriteVRAM(u16 addr, u8 value);
 
 // Function: Bios_SetAddressForRead
-// Enable VDP to read. Wrapper for SETRD routine.
+// Enables VDP to read. Wrapper for SETRD routine.
 inline void Bios_SetAddressForRead(u16 addr) { CallHL(R_SETRD, addr); }
 
 // Function: Bios_SetAddressForWrite
-// Enable VDP to write. Wrapper for SETWRT routine.
+// Enables VDP to write. Wrapper for SETWRT routine.
 inline void Bios_SetAddressForWrite(u16 addr) { CallHL(R_SETWRT, addr); }
 
 // Function: Bios_FillVRAM
-// Fill VRAM with value. Wrapper for FILVRM routine.
+// Fills VRAM with value. Wrapper for FILVRM routine.
 void Bios_FillVRAM(u16 addr, u16 length, u8 value);
 
 // Function: Bios_TransfertVRAMtoRAM
@@ -173,11 +179,11 @@ void Bios_TransfertVRAMtoRAM(u16 vram, u16 ram, u16 length);
 void Bios_TransfertRAMtoVRAM(u16 ram, u16 vram, u16 length);
 
 // Function: Bios_ChangeMode
-// Switches to given screenmode. Wrapper for CHGMOD routine.
+// Switches to given screen mode. Wrapper for CHGMOD routine.
 inline void Bios_ChangeMode(u8 screen) { ((void(*)(u8))R_CHGMOD)(screen); }
 
 // Function: Bios_ChangeColor
-// Changes the screencolors. Wrapper for CHGCLR routine.
+// Changes the screen colors. Wrapper for CHGCLR routine.
 void Bios_ChangeColor(u8 text, u8 back, u8 border);
 
 // Function: Bios_InitScreen0
@@ -322,11 +328,19 @@ inline void Bios_PlayPSG() { Call(R_STRTMS); }
 
 // Function: Bios_GetCharacter
 // One character input (waiting). Wrapper for CHGET routine.
-inline u8 Bios_GetCharacter() { return ((u8(*)(void))R_CHGET)(); }
+inline c8 Bios_GetCharacter() { return ((u8(*)(void))R_CHGET)(); }
+
+// Function: Bios_HasCharacter
+// Get a character input (if any) or return 0.
+u8 Bios_HasCharacter() __FASTCALL;
 
 // Function: Bios_TextPrintChar
 // Displays one character. Wrapper for CHPUT routine.
-inline void Bios_TextPrintChar(u8 chr) { ((void(*)(u8))R_CHPUT)(chr); }
+inline void Bios_TextPrintChar(c8 chr) { ((void(*)(u8))R_CHPUT)(chr); }
+
+// Function: Bios_TextPrintString
+// Displays a null-terminated string.
+inline void Bios_TextPrintString(const c8* str) { while (*str) Bios_TextPrintChar(*str++); }
 
 // Function: Bios_Beep
 // Generates beep. Wrapper for BEEP routine.
@@ -349,12 +363,92 @@ void Bios_SetCursorPosition(u8 X, u8 Y);
 //-----------------------------------------------------------------------------
 
 // Function: Bios_GetJoystickDirection
-// Returns the joystick status. Wrapper for GTSTCK routine.
+// Returns the state of the joystick or the cursor keys.
+// Wrapper for GTSTCK routine.
+//
+// Parameters:
+//   port - Joystick number to be tested:
+//> 0 = Cursor keys
+//> 1 = Joystick on port 1
+//> 2 = Joystick on port 2
+//
+// Return:
+//   Direction of the joystick or function keys (0-8):
+//>  8  1  2
+//>   \ | /
+//> 7 - 0 - 3
+//>   / |'\'
+//>  6  5  4
 inline u8 Bios_GetJoystickDirection(u8 port) { return ((u8(*)(u8))R_GTSTCK)(port); }
 
 // Function: Bios_GetJoystickTrigger
-// Returns current trigger status. Wrapper for GTTRIG routine.
+// Returns the state of the mouse, joystick or keyboard space bar buttons.
+// Wrapper for GTTRIG routine.
+//
+// Parameters:
+//   trigger - Trigger button to test:
+//> 0 = space bar
+//> 1 = port 1, button A
+//> 2 = port 2, button A
+//> 3 = port 1, button B
+//> 4 = port 2, button B
+//
+// Return:
+//   FALSE if trigger button is not pressed
 inline bool Bios_GetJoystickTrigger(u8 trigger) { return ((u8(*)(u8))R_GTTRIG)(trigger); }
+
+// Function: Bios_GetTouchPad
+// Returns the touch pad status.
+// Wrapper for GTPAD routine.
+//
+// Parameters:
+//   entry - Function call number. Fetch device data first, then read:
+//> MSX1:
+//>   0 = Fetch touch pad data from port 1 (#FF if available)
+//>   1 = Read X-position
+//>   2 = Read Y-position
+//>   3 = Read touchpad status from port 1 (#FF if pressed
+//>   4 = Fetch touch pad data from port 2 (#FF if available)
+//>   5 = Read X-position
+//>   6 = Read Y-position
+//>   7 = Read touchpad status from port 2 (#FF if pressed)
+//> MSX2/2+/turbo R: 
+//>   8 = Fetch light pen data (#FF if available)
+//>   9 = Read X-position
+//>  10 = Read Y-position
+//>  11 = Read light pen status (#FF if pressed)
+//>  12 = Fetch mouse data from port 1 (#FF if available)
+//>  13 = Read X-position
+//>  14 = Read Y-position
+//>  15 = Read mouse button status from port 1 (#FF if pressed)
+//>  16 = Fetch mouse data from port 2 (#FF if available)
+//>  17 = Read X-position
+//>  18 = Read Y-position
+//            19 = Read mouse button status from port 2 (#FF if pressed)
+//
+// Return:
+//   Value depending on entry parameter
+inline u8 Bios_GetTouchPad(u8 entry) { return ((u8(*)(u8))R_GTPAD)(entry); }
+
+// Function: Bios_GetPaddle
+// Returns the paddle position.
+// Wrapper for GTPDL routine.
+//
+// Parameters:
+//   num - Paddle number (1-12):
+//> Paddle | Port1 | Port2
+//> -------+-------+-------
+//>    A   |   1   |   2
+//>    B   |   3   |   4
+//>    C   |   5   |   6
+//>    D   |   7   |   8
+//>    E   |   9   |   10
+//>    F   |   11  |   12
+//
+// Return:
+//   Paddle position (0-255)
+inline u8 Bios_GetPaddle(u8 num) { return ((u8(*)(u8))R_GTPDL)(num); }
+
 
 //=============================================================================
 // Misc routines
@@ -381,7 +475,7 @@ inline bool Bios_IsKeyPressed(u8 key) {	return (g_NEWKEY[KEY_ROW(key)] & (1 << K
 }*/
 
 //=============================================================================
-// MSX 2
+// MSX2
 //=============================================================================
 
 //-----------------------------------------------------------------------------
@@ -391,7 +485,7 @@ inline bool Bios_IsKeyPressed(u8 key) {	return (g_NEWKEY[KEY_ROW(key)] & (1 << K
 #endif // (MSX_VERSION >= MSX_2)
 
 //=============================================================================
-// MSX 2+
+// MSX2+
 //=============================================================================
 
 //-----------------------------------------------------------------------------

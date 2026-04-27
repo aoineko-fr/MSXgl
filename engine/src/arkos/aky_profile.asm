@@ -13,8 +13,10 @@
 
 ; Setup replayer
 PLY_AKY_HARDWARE_MSX = 1
+; PLY_AKY_MANAGE_SOUND_EFFECTS = 1
+; PLY_AKY_SFX_PSG_NUMBER = 1
 PLY_AKY_ROM = 1
 PLY_AKY_ROM_Buffer = #F000
 
 ; Include replayer
-include "playerAky/sources/z80/PlayerAky.asm"
+include "playerAky/sources/z80/PlayerAkyMultiPsg.asm"

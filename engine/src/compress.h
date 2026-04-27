@@ -6,6 +6,7 @@
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
+
 #include "core.h"
 
 //=============================================================================
@@ -23,10 +24,10 @@
 
 #if (COMPRESS_USE_RLEP_FIXSIZE)
 	#define RLEP_FIXSIZE_PARAM	, u8 size
-	#define RLEP_FIXSIZE_WHILE	while(((u16)dst - start) < size)
+	#define RLEP_FIXSIZE_WHILE	while (((u16)dst - start) < size)
 #else
 	#define RLEP_FIXSIZE_PARAM
-	#define RLEP_FIXSIZE_WHILE	while(*src != 0)
+	#define RLEP_FIXSIZE_WHILE	while (*src != 0)
 #endif
 
 //-----------------------------------------------------------------------------
@@ -48,6 +49,9 @@
 //   src - Source data
 //   dst - Destination data in RAM
 //   size - Size of the data to unpack (only if COMPRESS_USE_RLEP_FIXSIZE is defined)
+//
+// Return:
+//   Unpacked data size
 u16 RLEp_UnpackToRAM(const u8* src, u8* dst RLEP_FIXSIZE_PARAM);
 
 #endif // (COMPRESS_USE_RLEP)

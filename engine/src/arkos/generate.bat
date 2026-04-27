@@ -32,7 +32,11 @@ type out\%low%_player.asm      >> %low%_player.asm
 
 :: Some formating to make the source file more readable
 %Tools%\audio\misc\fart.exe -C %low%_player.asm ": " ":\n\t"
-%Tools%\audio\misc\fart.exe -C %low%_player.asm ","  ", "
+%Tools%\audio\misc\fart.exe -C %low%_player.asm ": " ":\n\t"
+%Tools%\audio\misc\fart.exe -C %low%_player.asm "af'" "af' ;'"
+
+if "%UP%"=="AKY_6CH" ( %Tools%\audio\misc\fart.exe -C %low%_player.asm "AKY_" "AKY_6CH_" )
+if "%UP%"=="AKY_DARKY" ( %Tools%\audio\misc\fart.exe -C %low%_player.asm "AKY_" "AKY_DARKY_" )
 
 exit /b 0
 

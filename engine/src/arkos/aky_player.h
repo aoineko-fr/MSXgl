@@ -10,20 +10,22 @@
 // Arkos Tracker and the Z80 players are coded and designed by Julien Névo a.k.a Targhan/Arkos.
 //  https://www.julien-nevo.com/arkostracker/index.php/credits/
 //─────────────────────────────────────────────────────────────────────────────
-#include "core.h"
+#pragma once
 
-// Function: AKY_Init
+#include "arkos.h"
+
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
+
+// Function: AKY_Play
 // Initialize music and start playback
 //
 // Paramaters:
-//   data	- Pointer to the music data
-//   num	- Music number
-void AKY_Init(const void* data, u16 num);
+//   data	- Pointer to the music data (data must be export to be replayed at this exact location)
+//            Check Arkos Tracker documentation for more details: https://www.julien-nevo.com/arkostracker
+void AKY_Play(const void* data);
 
-// Function: AKY_Stop
-// Stop music playback
-// void AKY_Stop();
-
-// Function: AKY_Decode
+// Function: AKY_Update
 // Decode a music frame and update the PSG
-void AKY_Decode();
+bool AKY_Update();

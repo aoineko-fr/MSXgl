@@ -1,0 +1,9 @@
+to compile this program, in this directory simply type:  
+> make
+to install it,a become root and manually copy the executable msxtar to
+a directory in your general path fi. /usr/local/bin :
+> su
+# cp msxtar /usr/local/bin
+set the correct execute permissions for it:
+# chmod a+xr-w /usr/local/bin/msxtar
+
