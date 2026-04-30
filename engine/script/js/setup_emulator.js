@@ -104,7 +104,7 @@ if (EmulatorName === "OPENMSX") {
 			EmulatorArgs += ` -diska ${ProjDir}emul/bin`;
 	}
 	if (Ext === "rom") { 
-		EmulatorArgs += ` -carta ${ProjDir}emul/rom/${ProjName}.rom`;
+		EmulatorArgs += ` -cart ${ProjDir}emul/rom/${ProjName}.rom`;
 		if (Emul2ndCart !== "")
 			EmulatorArgs += ` -cartb ${Emul2ndCart}`;
 		if (ROMDelayBoot)

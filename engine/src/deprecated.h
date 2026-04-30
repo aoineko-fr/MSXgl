@@ -26,10 +26,10 @@
 #define VADDR_Hi					VADDR_HI
 #define g_SpriteAtributeLow			g_SpriteAttributeLow
 #define g_SpriteAtributeHigh		g_SpriteAttributeHigh
-#define VPD_CommandSetupR32			VPD_CommandSetupR32
-#define VPD_CommandSetupR36			VPD_CommandSetupR36
-#define VPD_CommandWriteLoop		VPD_CommandWriteLoop
-#define VPD_CommandReadLoop			VPD_CommandReadLoop
+#define VPD_CommandSetupR32			VDP_CommandSetupR32
+#define VPD_CommandSetupR36			VDP_CommandSetupR36
+#define VPD_CommandWriteLoop		VDP_CommandWriteLoop
+#define VPD_CommandReadLoop			VDP_CommandReadLoop
 
 // Compress module
 #define UnpackRLEpToRAM				RLEp_UnpackToRAM

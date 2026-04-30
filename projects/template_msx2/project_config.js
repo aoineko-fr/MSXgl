@@ -128,7 +128,7 @@ CheckVersion = true;
 AddROMSignature = true;
 
 //-- Select RAM in slot 0 and install ISR and optional code there (string). For MSX with at least 64 KB of RAM
-//   - RAM0_NONE       Don't install anything in RAM 
+//   - RAM0_NONE       Don't install RAM in page 0 
 //   - RAM0_ISR        Install only ISR
 //   - RAM0_SEGMENT    Install ISR and segment data (for mapped-ROM)
 // InstallRAMISR = "RAM0_NONE";

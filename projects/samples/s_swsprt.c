@@ -113,7 +113,6 @@ void InitScreen()
 
 	//-------------------------------------------------------------------------
 	// Setup variables
-	u8* buffer = Mem_HeapAlloc(256);
 	u16 blockWidth = src->Width / 16;
 	u16 blockBytes = 16 / 8 * src->BPC;
 	u16 lineBytes = src->Width / 8 * src->BPC;
@@ -125,9 +124,6 @@ void InitScreen()
 	VDP_SetMode(src->Mode);
 	VDP_SetColor(src->Background);
 	VDP_EnableSprite(FALSE);
-
-	// VDP_EnableHBlank(TRUE);
-	// VDP_SetHBlankLine(212/2);
 
 	//-------------------------------------------------------------------------
 	// Initialize background
@@ -204,13 +200,6 @@ void DisplaySprite()
 }
 
 //-----------------------------------------------------------------------------
-// HBlank interrupt
-void VDP_HBlankHandler()
-{
-	// VDP_SetColor(g_Frame);
-}
-
-//-----------------------------------------------------------------------------
 // VBlank interrupt
 void VDP_InterruptHandler()
 {
@@ -224,7 +213,6 @@ void WaitVBlank()
 	while (g_VBlank == 0) {}
 	g_VBlank = 0;
 	g_Frame++;
-	// VDP_SetColor(0);
 }
 
 //=============================================================================
