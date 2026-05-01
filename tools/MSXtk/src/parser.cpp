@@ -399,7 +399,6 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 	u8 c2, c4, byte = 0;
 	char strData[BUFFER_SIZE];
 	u32 transRGB = 0x00FFFFFF & ColorRGB(param->transColor, param);
-	u32 headAddr = 0, palAddr = 0;
 	std::vector<u16> sprtAddr;
 
 	dib32 = GetPreparedImage(param->inFile.c_str(), param); // open and load the file using the default load option
@@ -444,7 +443,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 		if (param->bUseTrans)
 		{
 			u32 black = 0;
-			i32 res = FreeImage_ApplyColorMapping(dib32, (RGBQUAD*)&transRGB, (RGBQUAD*)&black, 1, true, false); // @warning: must be call AFTER retreving raw data!
+			FreeImage_ApplyColorMapping(dib32, (RGBQUAD*)&transRGB, (RGBQUAD*)&black, 1, true, false); // @warning: must be call AFTER retreving raw data!
 		}
 		FIBITMAP* dibPal = FreeImage_ColorQuantizeEx(dib32, FIQ_LFPQUANT, param->palOutCount, inNum, inPal); // Try Lossless Fast Pseudo-Quantization algorithm (if there are 15 colors or less)
 		if (dibPal == NULL)
@@ -985,7 +984,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 	{
 		ExportPalette(param, exp, NULL);
 
-		for (int i = 0; i < param->palMod.size(); i++) // Modified palette
+		for (u32 i = 0; i < param->palMod.size(); i++) // Modified palette
 			ExportPalette(param, exp, &param->palMod[i]);
 	}
 
@@ -2464,6 +2463,8 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 				case MGLV_CMD_COPY_FRAME: // Copy a full frame from data table (raw frame)
 					exp->Write1ByteLine(chunk.Command, "COPY_FRAME");
 					exp->WriteBytesList(chunk.Value);
+					break;
+				default:
 					break;
 				}
 

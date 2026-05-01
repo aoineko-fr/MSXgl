@@ -227,7 +227,7 @@ void ExportPSG(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& c
 		g_lVGM_CurChip = chunk->Chip;
 		if (chunk->Chip == LVGM_CHIP_PSG)
 			AddByte(exp, LVGM_OP_PSG, "---- Start PSG section");
-		if (chunk->Chip == LVGM_OP_PSG2)
+		if (chunk->Chip == LVGM_CHIP_PSG2)
 			AddByte(exp, LVGM_OP_PSG2, "---- Start 2nd PSG section");
 		else
 			assert(1);

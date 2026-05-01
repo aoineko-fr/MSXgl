@@ -31,6 +31,7 @@ const char* GetCompressorName(MSX::Compressor comp, bool bShort)
 	case MSX::COMPRESS_Bitbuster:   return bShort ? "Bitbuster" :   "Bitbuster v1.2 by Team Bomba";
 	case MSX::COMPRESS_Bitbuster2:  return bShort ? "Bitbuster2" :  "Bitbuster v2 by Arjan Bakker";
 	case MSX::COMPRESS_ZX0:         return bShort ? "ZX0" :         "ZX0 by Einar Saukas & Urusergi";
+	default:                        return "Invalid";
 	}
 	return "Unknow";
 }
@@ -76,9 +77,13 @@ std::string GetTableCText(TableFormat format, std::string name, s32 addr)
 	std::string ret = "";
 	switch (format)
 	{
-	case TABLE_U8:	ret = "const unsigned char "; break;
+	case TABLE_U8:	ret = "const unsigned char ";  break;
+	case TABLE_S8:	ret = "const char ";           break;
 	case TABLE_U16: ret = "const unsigned short "; break;
-	case TABLE_U32: ret = "const unsigned long "; break;
+	case TABLE_S16: ret = "const short ";          break;
+	case TABLE_U32: ret = "const unsigned long ";  break;
+	case TABLE_S32: ret = "const long ";           break;
+	case TABLE_Header:                             break;
 	}
 
 	if (addr >= 0)

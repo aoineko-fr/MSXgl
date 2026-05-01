@@ -175,7 +175,7 @@ void createmetadata()
 {
 	unsigned i, j;
 	unsigned* last = new unsigned[65536];
-	memset(last, -1, 65536 * sizeof(unsigned));
+	memset(last, (unsigned)-1, 65536 * sizeof(unsigned));
 	unsigned* prev = new unsigned[inLength + 1];
 	for (i = 0; i != inLength; ++i)
 	{
@@ -183,8 +183,8 @@ void createmetadata()
 		prev[i] = last[inData[i] + inData[i + 1] * 256];
 		last[inData[i] + inData[i + 1] * 256] = i;
 	}
-	unsigned r = -1, t = 0;
-	for (i = inLength - 1; i != -1; --i)
+	unsigned r = (unsigned)-1, t = 0;
+	for (i = inLength - 1; i != (unsigned)-1; --i)
 		if (inData[i] == r)
 			metaData[i].reeks = ++t;
 		else
@@ -204,7 +204,7 @@ void createmetadata()
 				metaData[i].cpos[bl] = metaData[i].cpos[bl - 1];
 				p = i - metaData[i].cpos[bl];
 			}
-			while ((p = prev[p]) != -1)
+			while ((p = prev[p]) != (unsigned)-1)
 			{
 				if (i - p > maxlen[bl])
 					break;
@@ -238,7 +238,7 @@ int getlen(pakdata* p, unsigned q)
 {
 	unsigned i, j, cc, ccc, kc, kmode, kl;
 	p[inLength].cost = 0;
-	for (i = inLength - 1; i != -1; --i)
+	for (i = inLength - 1; i != (unsigned)-1; --i)
 	{
 		kmode = 0;
 		kl = 0;

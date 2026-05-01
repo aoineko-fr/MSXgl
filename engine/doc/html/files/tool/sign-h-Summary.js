@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:tool/sign.h","sign.h");NDSummary.OnSummaryLoaded("File:tool/sign.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[1447,0,1,"Functions","Functions"],[1448,0,0,"AppSign_Check","AppSign_Check"],[1449,0,0,"AppSign_CheckList","AppSign_CheckList"]]);

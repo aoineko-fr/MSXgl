@@ -29,7 +29,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "1.4.6";
+const char* VERSION = "1.4.7";
 
 /// Compressor enum
 enum COMPRESSOR

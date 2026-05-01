@@ -10,7 +10,7 @@
 // Library version
 #define VERSION_MAJOR				1		// 4-bits (0-15)
 #define VERSION_MINOR				4		// 6-bits (0-63)
-#define VERSION_PATCH				0		// 6-bits (0-63)
+#define VERSION_PATCH				1		// 6-bits (0-63)
 
 // Macro: VERSION
 // Combines major, minor, and patch versions into a single version number.

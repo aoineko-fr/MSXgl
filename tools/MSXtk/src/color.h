@@ -45,6 +45,8 @@ inline const c8* GetPaletteTypeName(PaletteType pal)
 			return "Input";
 		case PALETTE_Partial: // Combine partial input palette and custom palette
 			return "Partial";
+		default:
+			break;
 	};
 	return "None";
 }
