@@ -925,7 +925,7 @@ void VDP_SetPalette(const u8* pal) __FASTCALL __PRESERVES(d, e, iyl, iyh)
 	#else
 		ld		a, #1 // Start from index 1
 	#endif
-		// VDP_DI  //~~~~~~~~~~~~~~~~~~~~~~~~~~
+		VDP_DI  //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a
 		ld		a, #VDP_REG(16)
 		VDP_EI_DEF  //~~~~~~~~~~~~~~~~~~~~~~~~~~
