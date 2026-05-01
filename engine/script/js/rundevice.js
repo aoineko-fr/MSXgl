@@ -8,6 +8,7 @@ const util = require("./util.js");
 
 if (RunDevice === "EASY-USB")
 {
+	util.print("Start Easy-USB device");
 	if (Ext === "rom")
 	{
 		// Delete all .ROM files
@@ -26,6 +27,7 @@ if (RunDevice === "EASY-USB")
 }
 else if (RunDevice === "RISKY MSX")
 {
+	util.print("Start RISKY MSX device");
 	if ((Ext === "rom") && (ROMSize <= 256))
 	{
 		let destFileName = false;
@@ -58,6 +60,48 @@ else if (RunDevice === "RISKY MSX")
 	}
 	else
 		util.print(`RISKY MSX only support execution of ROM files up to 256 KB`, PrintWarning);
+}
+else if (RunDevice === "PICOVERSE 2040")
+{
+	util.print("Start PicoVerse 2040 device");
+	let validTarget = false;
+	if (Ext === "rom")
+	{
+		let destFileName = `${ProjName}.uf2`;
+		let tag = false;
+		switch (Target)
+		{
+		case "ROM_8K":
+		case "ROM_16K":			tag = "PLA-16"; break;
+		case "ROM_32K":			tag = "PLA-32"; break;
+		case "ROM_48K":
+		case "ROM_48K_ISR":		tag = "PLN-48"; break;
+		case "ROM_64K":
+		case "ROM_64K_ISR":		tag = "PLN-64"; break;
+		case "ROM_ASCII8":		tag = "ASC-08"; break;
+		case "ROM_ASCII16":		tag = "ASC-16"; break;
+		case "ROM_KONAMI":		tag = "Konami"; break;
+		case "ROM_KONAMI_SCC":	tag = "KonSCC"; break;
+		case "ROM_NEO8":		tag = "NEO-8"; break;
+		case "ROM_NEO16":		tag = "NEO-16"; break;
+		case "ROM_ASCII16X":	tag = "ASC-16X"; break;
+		}
+	
+		if (tag)
+		{
+			validTarget = true;
+			util.print(`Generate UF2 file (${destFileName})`, PrintDetail);
+			fs.copyFileSync(`${OutDir}${ProjName}.rom`, `${OutDir}${ProjName}.${tag}.rom`);
+			util.execSync(`${ToolsDir}/build/PicoVerse/2040/loadrom.exe -o ${OutDir}${destFileName} ${OutDir}${ProjName}.${tag}.rom`);
+			if (RunDeviceOpt && fs.existsSync(RunDeviceOpt))
+			{
+				util.print(`Install ${destFileName} on PicoVerse 2040 cartridge (${RunDeviceOpt})`, PrintDetail);
+				fs.copyFileSync(`${OutDir}${destFileName}`, `${RunDeviceOpt}/${destFileName}`);
+			}
+		}
+	}
+	if (!validTarget)
+		util.print(`PICOVERSE 2040 don't support the ${Target} format`, PrintWarning);
 }
 else
 	util.print(`Unknown run device '${RunDevice}'`, PrintWarning);

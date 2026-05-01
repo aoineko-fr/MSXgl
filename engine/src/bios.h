@@ -15,6 +15,10 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+//=============================================================================
+// INCLUDES
+//=============================================================================
+
 #include "core.h"
 #include "system.h"
 #include "vdp_reg.h"
@@ -49,21 +53,21 @@
 // Group: Helper
 //-----------------------------------------------------------------------------
 
-// Function: Bios_Exit
+// Function: BIOS_Exit
 // Handle clean exit form Basic or MSX-DOS environment
 //
 // Parameters:
 //   ret - Return value (for MSX-DOS environment)
-void Bios_Exit(u8 ret);
+void BIOS_Exit(u8 ret);
 
-// Function: Bios_SetKeyClick
+// Function: BIOS_SetKeyClick
 // Enable or disable key click
 //
 // Parameters:
 //   enable - TRUE to enable and FALSE to disable
-inline void Bios_SetKeyClick(bool enable) { g_CLIKSW = enable; }
+inline void BIOS_SetKeyClick(bool enable) { g_CLIKSW = enable; }
 
-// Function: Bios_GetMSXVersion
+// Function: BIOS_GetMSXVersion
 // Get MSX generation version
 //
 // Return:
@@ -71,7 +75,7 @@ inline void Bios_SetKeyClick(bool enable) { g_CLIKSW = enable; }
 // - MSXVER_2 (1) for MSX2.
 // - MSXVER_2P (2) for MSX2+.
 // - MSXVER_TR (3) for MSX turbo R.
-inline u8 Bios_GetMSXVersion() { return g_MSXVER; }
+inline u8 BIOS_GetMSXVersion() { return g_MSXVER; }
 
 //#############################################################################
 //  █▀▄▀█ ▄▀█ █ █▄ █ ▄▄ █▀█ █▀█ █▀▄▀█
@@ -86,30 +90,30 @@ inline u8 Bios_GetMSXVersion() { return g_MSXVER; }
 // Group: Main-ROM - Core
 //-----------------------------------------------------------------------------
 
-// Function: Bios_Startup
+// Function: BIOS_Reboot
 // Tests RAM and sets RAM slot for the system.
 // Wrapper for CHKRAM routine.
-inline void Bios_Startup() { Call(R_CHKRAM); }
+inline void BIOS_Reboot() { Call(R_CHKRAM); }
 
-// Function: Bios_InterSlotRead
+// Function: BIOS_InterSlotRead
 // Reads the value of an address in another slot.
 // Wrapper for RDSLT routine.
-u8 Bios_InterSlotRead(u8 slot, u16 addr);
+u8 BIOS_InterSlotRead(u8 slot, u16 addr);
 
-// Function: Bios_InterSlotWrite
+// Function: BIOS_InterSlotWrite
 // Writes a value to an address in another slot.
 // Wrapper for WRSLT routine.
-void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value);
+void BIOS_InterSlotWrite(u8 slot, u16 addr, u8 value);
 
-// Function: Bios_InterSlotCall
+// Function: BIOS_InterSlotCall
 // Executes inter-slot call.
 // Wrapper for CALSLT routine.
-void Bios_InterSlotCall(u8 slot, u16 addr);
+void BIOS_InterSlotCall(u8 slot, u16 addr);
 
-// Function: Bios_SwitchSlot
+// Function: BIOS_SwitchSlot
 // Switches to specified slot and page definitively.
 // Wrapper for ENASLT routine.
-void Bios_SwitchSlot(u8 page, u8 slot);
+void BIOS_SwitchSlot(u8 page, u8 slot);
 
 // Macro: BIOS_CALLF
 // Executes an interslot call.
@@ -136,158 +140,322 @@ void Bios_SwitchSlot(u8 page, u8 slot);
 //-----------------------------------------------------------------------------
 // Group: Main-ROM - VDP
 //-----------------------------------------------------------------------------
-#if BIOS_USE_VDP
+#if (BIOS_USE_VDP)
 
-// Function: Bios_DisableScreen
+// Function: BIOS_DisableScreen
 // Inhibits the screen display. Wrapper for DISSCR routine.
-inline void Bios_DisableScreen() { Call(R_DISSCR); }
+inline void BIOS_DisableScreen() { Call(R_DISSCR); }
 
-// Function: Bios_EnableScreen
+// Function: BIOS_EnableScreen
 // Displays the screen. Wrapper for ENASCR routine.
-inline void Bios_EnableScreen() { Call(R_ENASCR); }
+inline void BIOS_EnableScreen() { Call(R_ENASCR); }
 
-// Function: Bios_WriteVDP
+// Function: BIOS_EnableScreen
+// Display or disable the screen.
+inline void BIOS_DisplayScreen(bool enable) { if (enable) BIOS_EnableScreen(); else BIOS_DisableScreen(); }
+
+// Function: BIOS_WriteVDP
 // Writes data in the VDP-register. Wrapper for WRTVDP routine.
-void Bios_WriteVDP(u8 reg, u8 value);
+void BIOS_WriteVDP(u8 reg, u8 value);
 
-// Function: Bios_ReadVRAM
+// Function: BIOS_ReadVDP
+// Reads data from the VDP-register.
+inline u8 BIOS_ReadVDP(u8 reg)
+{
+	switch (reg)
+	{
+	case 0: return g_RG0SAV;
+	case 1: return g_RG1SAV;
+	case 2: return g_RG2SAV;
+	case 3: return g_RG3SAV;
+	case 4: return g_RG4SAV;
+	case 5: return g_RG5SAV;
+	case 6: return g_RG6SAV;
+	case 7: return g_RG7SAV;
+	}
+}
+
+// Function: BIOS_ReadVRAM
 // Reads the content of VRAM. Wrapper for RDVRM routine.
-inline u8 Bios_ReadVRAM(u16 addr) { return ((u8(*)(u16))R_RDVRM)(addr); }
+inline u8 BIOS_ReadVRAM(u16 addr) { return CallHL(R_RDVRM, addr); }
 
-// Function: Bios_WriteVRAM
+// Function: BIOS_WriteVRAM
 // Writes data in VRAM. Wrapper for WRTVRM routine.
-void Bios_WriteVRAM(u16 addr, u8 value);
+void BIOS_WriteVRAM(u8 value, u16 addr);
 
-// Function: Bios_SetAddressForRead
+// Function: BIOS_SetAddressForRead
 // Enables VDP to read. Wrapper for SETRD routine.
-inline void Bios_SetAddressForRead(u16 addr) { CallHL(R_SETRD, addr); }
+inline void BIOS_SetAddressForRead(u16 addr) { CallHL(R_SETRD, addr); }
 
-// Function: Bios_SetAddressForWrite
+// Function: BIOS_SetAddressForWrite
 // Enables VDP to write. Wrapper for SETWRT routine.
-inline void Bios_SetAddressForWrite(u16 addr) { CallHL(R_SETWRT, addr); }
+inline void BIOS_SetAddressForWrite(u16 addr) { CallHL(R_SETWRT, addr); }
 
-// Function: Bios_FillVRAM
+// Function: BIOS_FillVRAM
 // Fills VRAM with value. Wrapper for FILVRM routine.
-void Bios_FillVRAM(u16 addr, u16 length, u8 value);
+void BIOS_FillVRAM(u16 addr, u16 length, u8 value);
 
-// Function: Bios_TransfertVRAMtoRAM
+// Function: BIOS_CopyVRAMtoRAM
 // Block transfer to memory from VRAM. Wrapper for LDIRMV routine.
-void Bios_TransfertVRAMtoRAM(u16 vram, u16 ram, u16 length);
+void BIOS_CopyVRAMtoRAM(u16 vram, void* ram, u16 length);
 
-// Function: Bios_TransfertRAMtoVRAM
+// Function: BIOS_CopyRAMtoVRAM
 // Block transfer to VRAM from memory. Wrapper for LDIRVM routine.
-void Bios_TransfertRAMtoVRAM(u16 ram, u16 vram, u16 length);
+void BIOS_CopyRAMtoVRAM(const void* ram, u16 vram, u16 length);
 
-// Function: Bios_ChangeMode
+// Function: BIOS_SetScreenMode
 // Switches to given screen mode. Wrapper for CHGMOD routine.
-inline void Bios_ChangeMode(u8 screen) { ((void(*)(u8))R_CHGMOD)(screen); }
+inline void BIOS_SetScreenMode(u8 screen) { CallA(R_CHGMOD, screen); }
 
-// Function: Bios_ChangeColor
+// Function: BIOS_SetColor
+// Set screen colors.
+inline void BIOS_SetColor(u8 text, u8 back, u8 border) { g_FORCLR = text; g_BAKCLR = back; g_BDRCLR = border; }
+
+// Function: BIOS_ApplyColor
 // Changes the screen colors. Wrapper for CHGCLR routine.
-void Bios_ChangeColor(u8 text, u8 back, u8 border);
+inline void BIOS_ApplyColor(u8 text, u8 back, u8 border) { BIOS_SetColor(text, back, border); Call(R_CHGCLR); }
 
-// Function: Bios_InitScreen0
+// Function: BIOS_ApplyBorder
+// Changes the screen colors. Wrapper for CHGCLR routine.
+inline void BIOS_ApplyBorder(u8 border) { g_BDRCLR = border; Call(R_CHGCLR); }
+
+//.............................................................................
+// Screen 0
+
+// Function: BIOS_SetWidth40
+// 
+inline void BIOS_SetWidth40(u8 width) { g_LINL40 = width;}
+
+// Function: BIOS_InitScreen0
 // Switches to SCREEN 0 (text screen with 40*24 characters). Wrapper for INITXT routine.
-inline void Bios_InitScreen0() { Call(R_INITXT); }
+inline void BIOS_InitScreen0() { Call(R_INITXT); }
 
-// Function: Bios_InitScreen0Ex
+// Function: BIOS_InitScreen0Color
 // Switches to SCREEN 0 (text screen with 40*24 characters). Wrapper for INITXT routine.
-void Bios_InitScreen0Ex(u16 pnt, u16 pgt, u8 width, u8 text, u8 bg, u8 border);
+inline void BIOS_InitScreen0Color(u8 width, u8 text, u8 back, u8 border) { g_LINL40 = width; BIOS_SetColor(text, back, border); BIOS_InitScreen0(); }
 
-#define Bios_InitTextMode   Bios_InitScreen0
-#define Bios_InitTextModeEx Bios_InitScreen0Ex
+// Function: BIOS_InitScreen0Ex
+// Switches to SCREEN 0 (text screen with 40*24 characters). Wrapper for INITXT routine.
+inline void BIOS_InitScreen0Ex(u16 pnt, u16 pgt, u8 width, u8 text, u8 back, u8 border) { g_TXTNAM = pnt; g_TXTCGP = pgt; g_LINL40 = width; BIOS_SetColor(text, back, border); BIOS_InitScreen0(); }
 
-// Function: Bios_InitScreen1
-// Switches to SCREEN 1 (text screen with 32*24 characters). Wrapper for INIT32 routine.
-inline void Bios_InitScreen1() { Call(R_INIT32); }
-
-// Function: Bios_InitScreen1Ex
-// Switches to SCREEN 1 (text screen with 32*24 characters). Wrapper for INIT32 routine.
-void Bios_InitScreen1Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 bg, u8 border);
-
-#define Bios_InitText32Mode   Bios_InitScreen1	
-#define Bios_InitText32ModeEx Bios_InitScreen1Ex	
-
-// Function: Bios_InitScreen2
-// Switches to SCREEN 2 (high resolution screen with 256*192 pixels). Wrapper for INIGRP routine.
-inline void Bios_InitScreen2() { Call(R_INIGRP); }
-
-// Function: Bios_InitScreen2Ex
-// Switches to SCREEN 2 (high resolution screen with 256*192 pixels). Wrapper for INIGRP routine.
-void Bios_InitScreen2Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 bg, u8 border);
-
-#define Bios_InitGraphicMode   Bios_InitScreen2	
-#define Bios_InitGraphicModeEx Bios_InitScreen2Ex	
-
-// Function: Bios_InitScreen3
-// Switches to SCREEN 3 (multi-color screen 64*48 pixels). Wrapper for INIMLT routine.
-inline void Bios_InitScreen3() { Call(R_INIMLT); }
-
-// Function: Bios_InitScreen3Ex
-// Switches to SCREEN 3 (multi-color screen 64*48 pixels). Wrapper for INIMLT routine.
-void Bios_InitScreen3Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 bg, u8 border);
-
-#define Bios_InitMulticolorMode   Bios_InitScreen3
-#define Bios_InitMulticolorModeEx Bios_InitScreen3Ex
-
-// Function: Bios_SetScreen0
+// Function: BIOS_SetScreen0
 // Switches VDP in SCREEN 0 mode. Wrapper for SETTXT routine.
-inline void Bios_SetScreen0() { Call(R_SETTXT); }
+inline void BIOS_SetScreen0() { Call(R_SETTXT); }
 
-#define Bios_SetTextMode Bios_SetScreen0
+#define BIOS_InitTextMode			BIOS_InitScreen0
+#define BIOS_InitTextModeColor		BIOS_InitScreen0Color
+#define BIOS_InitTextModeEx			BIOS_InitScreen0Ex
+#define BIOS_SetTextMode			BIOS_SetScreen0
 
-// Function: Bios_SetScreen1
+//.............................................................................
+// Screen 1
+
+// Function: BIOS_SetWidth32
+// 
+inline void BIOS_SetWidth32(u8 width) { g_LINL32 = width;}
+
+// Function: BIOS_InitScreen1
+// Switches to SCREEN 1 (text screen with 32*24 characters). Wrapper for INIT32 routine.
+inline void BIOS_InitScreen1() { Call(R_INIT32); }
+
+// Function: BIOS_InitScreen1Color
+// Switches to SCREEN 1 (text screen with 32*24 characters). Wrapper for INIT32 routine.
+inline void BIOS_InitScreen1Color(u8 width, u8 text, u8 back, u8 border) { g_LINL32 = width; BIOS_SetColor(text, back, border); BIOS_InitScreen1(); }
+
+// Function: BIOS_InitScreen1Ex
+// Switches to SCREEN 1 (text screen with 32*24 characters). Wrapper for INIT32 routine.
+inline void BIOS_InitScreen1Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 width, u8 text, u8 back, u8 border) { g_T32NAM = pnt; g_T32COL = ct; g_T32CGP = pgt; g_T32ATR = sat; g_T32PAT = sgt; g_LINL32 = width; BIOS_SetColor(text, back, border); BIOS_InitScreen1(); }
+
+// Function: BIOS_SetScreen1
 // Switches VDP in SCREEN 1 mode. Wrapper for SETT32 routine.
-inline void Bios_SetScreen1() { Call(R_SETT32); }
+inline void BIOS_SetScreen1() { Call(R_SETT32); }
 
-#define Bios_SetText32Mode Bios_SetScreen1	
+#define BIOS_InitText32Mode			BIOS_InitScreen1
+#define BIOS_InitText32ModeColor	BIOS_InitScreen1Color
+#define BIOS_InitText32ModeEx		BIOS_InitScreen1Ex
+#define BIOS_SetText32Mode			BIOS_SetScreen1
 
-// Function: Bios_SetScreen2
+//.............................................................................
+// Screen 2
+
+// Function: BIOS_InitScreen2
+// Switches to SCREEN 2 (high resolution screen with 256*192 pixels). Wrapper for INIGRP routine.
+inline void BIOS_InitScreen2() { Call(R_INIGRP); }
+
+// Function: BIOS_InitScreen2Color
+// Switches to SCREEN 2 (high resolution screen with 256*192 pixels). Wrapper for INIGRP routine.
+inline void BIOS_InitScreen2Color(u8 width, u8 text, u8 back, u8 border) { g_LINL32 = width; BIOS_SetColor(text, back, border); BIOS_InitScreen2(); }
+
+// Function: BIOS_InitScreen2Ex
+// Switches to SCREEN 2 (high resolution screen with 256*192 pixels). Wrapper for INIGRP routine.
+inline void BIOS_InitScreen2Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 width, u8 text, u8 back, u8 border) { g_GRPNAM = pnt; g_GRPCOL = ct; g_GRPCGP = pgt; g_GRPATR = sat; g_GRPPAT = sgt; g_LINL32 = width; BIOS_SetColor(text, back, border); BIOS_InitScreen2(); }
+
+// Function: BIOS_SetScreen2
 // Switches VDP to SCREEN 2 mode. Wrapper for SETGRP routine.
-inline void Bios_SetScreen2() { Call(R_SETGRP); }
+inline void BIOS_SetScreen2() { Call(R_SETGRP); }
 
-#define Bios_SetGraphicMode Bios_SetScreen2	
+#define BIOS_InitGraphicMode		BIOS_InitScreen2	
+#define BIOS_InitGraphicModeColor	BIOS_InitScreen2Color	
+#define BIOS_InitGraphicModeEx		BIOS_InitScreen2Ex	
+#define BIOS_SetGraphicMode			BIOS_SetScreen2	
 
-// Function: Bios_SetScreen3
+//.............................................................................
+// Screen 3
+
+// Function: BIOS_InitScreen3
+// Switches to SCREEN 3 (multi-color screen 64*48 pixels). Wrapper for INIMLT routine.
+inline void BIOS_InitScreen3() { Call(R_INIMLT); }
+
+// Function: BIOS_InitScreen3Ex
+// Switches to SCREEN 3 (multi-color screen 64*48 pixels). Wrapper for INIMLT routine.
+void BIOS_InitScreen3Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 bg, u8 border);
+
+// Function: BIOS_SetScreen3
 // Switches VDP to SCREEN 3 mode. Wrapper for SETMLT routine.
-inline void Bios_SetScreen3() { Call(R_SETMLT); }
+inline void BIOS_SetScreen3() { Call(R_SETMLT); }
 
-#define Bios_SetMulticolorMode Bios_SetScreen3
+#define BIOS_InitMulticolorMode  	BIOS_InitScreen3
+#define BIOS_InitMulticolorModeEx	BIOS_InitScreen3Ex
+#define BIOS_SetMulticolorMode		BIOS_SetScreen3
 
-// Function: Bios_GetPatternTableAddress
+//.............................................................................
+// Sprites routines
+
+// Function: BIOS_ClearSprites
+// Initialises all sprites.
+inline void BIOS_ClearSprites() { Call(R_CLRSPR); }
+
+#define BIOS_SPRITE_MAG_1			(0)
+#define BIOS_SPRITE_MAG_2			(0b00000001)
+#define BIOS_SPRITE_SIZE_8			(0)
+#define BIOS_SPRITE_SIZE_16			(0b00000010)
+
+// Function: BIOS_SetSpriteMode
+// Set sprite size (8x8 or 16x16) and magnification mode (x1 or x2).
+//
+// Parameters:
+//   size - Sprite size (BIOS_SPRITE_SIZE_8 or BIOS_SPRITE_SIZE_16)
+//   mag - Sprite magnification (BIOS_SPRITE_MAG_1 or BIOS_SPRITE_MAG_2)
+inline void BIOS_SetSpriteMode(u8 size, u8 mag) { BIOS_WriteVDP(1, (BIOS_ReadVDP(1) & 0xFC) | size | mag); }
+
+// Function: BIOS_GetSpritePatternAddress
 // Returns the address of the sprite pattern table. Wrapper for CALPAT routine.
-u16 Bios_GetPatternTableAddress(u8 id) __FASTCALL;
+//
+// Parameters:
+//   id - Sprite pattern number [0:255] of 8x8 size and [0:63] of 16x16 size)
+//
+// Return:
+//   VRAM address of the sprite pattern table for the given sprite number
+u16 BIOS_GetSpritePatternAddress(u8 id);
 
-// Function: Bios_GetAttributeTableAddress
+// Function: BIOS_GetSpriteAttributeAddress
 // Returns the address of the sprite attribute table. Wrapper for CALATR routine.
-u16 Bios_GetAttributeTableAddress(u8 id) __FASTCALL;
+//
+// Parameters:
+//   id - Sprite attribute number [0:31]
+//
+// Return:
+//   VRAM address of the sprite attribute table for the given sprite number
+u16 BIOS_GetSpriteAttributeAddress(u8 id);
 
-// Function: Bios_GetSpriteSize
-// Returns current sprite size. Wrapper for GSPSIZ routine.
-inline u8 Bios_GetSpriteSize() { return ((u8(*)(void))R_GSPSIZ)(); }
+// Function: BIOS_SetSpritePosition
+// Set the position of a sprite on the screen.
+//
+// Parameters:
+//   id - Sprite attribute number [0:31]
+//   x  - Horizontal position of the sprite [0:255]
+//   y  - Vertical position of the sprite [0:255]
+inline void BIOS_SetSpritePosition(u8 id, u8 x, u8 y) { u16 vram = BIOS_GetSpriteAttributeAddress(id); BIOS_WriteVRAM(x, vram + 1); BIOS_WriteVRAM(y, vram); }
 
-// Function: Bios_GraphPrintChar
-// Displays a character on the graphic screen. Wrapper for GRPPRT routine.
-inline void Bios_GraphPrintChar(u8 chr) { ((void(*)(u8))R_GRPPRT)(chr); }
+// Function: BIOS_SetSpritePattern
+// Set the pattern of a sprite.
+//
+// Parameters:
+//   id  - Sprite attribute number [0:31]
+//   pat - Sprite pattern number [0:255]
+inline void BIOS_SetSpritePattern(u8 id, u8 pat) { BIOS_WriteVRAM(pat, BIOS_GetSpriteAttributeAddress(id) + 2); }
 
-// Function: Bios_GraphPrintCharEx
-// Displays a character on the graphic screen. Wrapper for GRPPRT routine.
-void Bios_GraphPrintCharEx(u8 chr, u16 x, u8 y, u8 color, u8 op);
+// Function: BIOS_SetSpriteColor
+// Set the color of a sprite.
+//
+// Parameters:
+//   id    - Sprite attribute number [0:31]
+//   color - Sprite color [0:15]
+inline void BIOS_SetSpriteColor(u8 id, u8 color) { BIOS_WriteVRAM(color, BIOS_GetSpriteAttributeAddress(id) + 3); }
 
-// Function: Bios_IsSpriteCollision
+// Function: BIOS_SetSprite
+// Set sprite attributes.
+//
+// Parameters:
+//   id    - Sprite attribute number [0:31]
+//   x     - Horizontal position of the sprite [0:255]
+//   y     - Vertical position of the sprite [0:255]
+//   pat   - Sprite pattern number [0:255]
+//   color - Sprite color [0:15]
+inline void BIOS_SetSprite(u8 id, u8 x, u8 y, u8 pat, u8 color) { u16 vram = BIOS_GetSpriteAttributeAddress(id); BIOS_WriteVRAM(y, vram); BIOS_WriteVRAM(x, vram + 1); BIOS_WriteVRAM(pat, vram + 2); BIOS_WriteVRAM(color, vram + 3); }
+
+typedef struct BIOS_SpriteAttributes
+{
+	u8 y;
+	u8 x;
+	u8 pattern;
+	u8 color;
+} BIOS_SpriteAttributes;
+
+// Function: BIOS_SetSpriteData
+// Set a sprite attributes.
+//
+// Parameters:
+//   id    - Sprite attribute number [0:31]
+//   attrs - Pointer to a 4-bytes array containing the sprite attributes (y, x, pattern and color)
+inline void BIOS_SetSpriteData(u8 id, const BIOS_SpriteAttributes* attrs) { BIOS_CopyRAMtoVRAM(attrs, BIOS_GetSpriteAttributeAddress(id), 4); }
+
+// Function: BIOS_GetSpriteSize
+// Returns current sprite size in bytes (8 or 32). Wrapper for GSPSIZ routine.
+inline u8 BIOS_GetSpriteSize() { return ((u8(*)(void))R_GSPSIZ)(); }
+
+// Function: BIOS_IsSpriteCollision
 // Returns FALSE if no collision occured during the previous frame, otherwise returns S00_C.
 // This function use value of VDP status register S#0 that BIOS backup in RAM (STATFL). 
-inline bool Bios_IsSpriteCollision() { return g_STATFL & S00_C; }
+inline bool BIOS_IsSpriteCollision() { return g_STATFL & S00_C; }
 
-// Function: Bios_IsSpriteOverScan
+// Function: BIOS_IsSpriteOverScan
 // Returns FALSE if no over-scan occured during the previous frame (more than 4/8 sprites on the same line), otherwise returns S00_5S.
 // This function use value of VDP status register S#0 that BIOS backup in RAM (STATFL). 
-inline bool Bios_IsSpriteOverScan() { return g_STATFL & S00_5S; }
+inline bool BIOS_IsSpriteOverScan() { return g_STATFL & S00_5S; }
 
-// Function: Bios_GetSpriteOverScanId
+// Function: BIOS_GetSpriteOverScanId
 // Returns index of the over-scaned sprite (5th/8th sprite on line). Value is in 0-31 range.
 // This function use value of VDP status register S#0 that BIOS backup in RAM (STATFL). 
-inline u8 Bios_GetSpriteOverScanId() { return S00_GET_SN(g_STATFL); }
+inline u8 BIOS_GetSpriteOverScanId() { return S00_GET_SN(g_STATFL); }
+
+//.............................................................................
+// Graph print routines
+
+// Function: BIOS_GraphSetCursor
+// Moves graphical cursor to the specified position.
+inline void BIOS_GraphSetCursor(u16 x, u16 y) { g_GRPACX = x; g_GRPACY = y; }
+
+// Function: BIOS_GraphPrintChar
+// Displays a character on the graphic screen. Wrapper for GRPPRT routine.
+inline void BIOS_GraphPrintChar(u8 chr) { CallA(R_GRPPRT, chr); }
+
+// Function: BIOS_GraphPrint
+// Displays a string on the graphic screen. Wrapper for GRPPRT routine.
+inline void BIOS_GraphPrint(const c8* str) { while (*str) BIOS_GraphPrintChar(*str++); }
+
+// Function: BIOS_GraphPrintAt
+// Displays a string on the graphic screen. Wrapper for GRPPRT routine.
+inline void BIOS_GraphPrintAt(u16 x, u16 y, const c8* str) { BIOS_GraphSetCursor(x, y); BIOS_GraphPrint(str); }
+
+#if (MSX_VERSION >= MSX_2)
+
+// Function: BIOS_GraphSetOperator
+// Changes the operator used for graphical print.
+inline void BIOS_GraphSetOperator(u8 op) { g_LOGOPR = op; }
+
+#endif // (MSX_VERSION >= MSX_2)
+
 
 #endif // BIOS_USE_VDP
 
@@ -298,23 +466,54 @@ inline u8 Bios_GetSpriteOverScanId() { return S00_GET_SN(g_STATFL); }
 //-----------------------------------------------------------------------------
 // Group: Main-ROM - PSG
 //-----------------------------------------------------------------------------
-#if BIOS_USE_PSG
+#if (BIOS_USE_PSG)
 
-// Function: Bios_InitPSG
+// Function: BIOS_InitPSG
 // Initialises PSG and sets initial value for the PLAY statement. Wrapper for GICINI routine.
-inline void Bios_InitPSG() { DisableInterrupt(); Call(R_GICINI); EnableInterrupt(); }
+//> GICINI
+//> Address  : #0090
+//> Function : Initialises PSG and sets initial value for the PLAY statement
+//> Registers: All
+//> Remarks  : Interrupts must be disabled to call this routine
+inline void BIOS_InitPSG() { DisableInterrupt(); Call(R_GICINI); EnableInterrupt(); }
 
-// Function: Bios_WritePSG
+// Function: BIOS_WritePSG
 // Writes data to PSG-register. Wrapper for WRTPSG routine.
-void Bios_WritePSG(u8 reg, u8 value);
+//> WRTPSG
+//> Address  : #0093
+//> Function : Writes data to PSG register
+//> Input    : A  - PSG register number
+//>            E  - Data write
+//> Remarks  : See https://www.msx.org/wiki/SOUND#Registers_Description
+//
+// Parameters:
+//   reg   - PSG register number (0-15)
+//   value - Value to write in the PSG register
+void BIOS_WritePSG(u8 reg, u8 value);
 
-// Function: Bios_ReadPSG
+// Function: BIOS_ReadPSG
 // Reads value from PSG-register. Wrapper for RDPSG routine.
-inline u8 Bios_ReadPSG(u8 reg) { return ((u8(*)(u8))R_RDPSG)(reg); }
+//> RDPSG
+//> Address  : #0096
+//> Function : Reads value from PSG register
+//> Input    : A  - PSG register read
+//> Output   : A  - Value read
+//
+// Parameters:
+//   reg - PSG register number (0-15)
+//
+// Return:
+//   Value read from the PSG register
+inline u8 BIOS_ReadPSG(u8 reg) { return ((u8(*)(u8))R_RDPSG)(reg); }
 
-// Function: Bios_PlayPSG
+// Function: BIOS_PlayPSG
 // Tests whether the PLAY statement is being executed as a background task. Wrapper for STRTMS routine.
-inline void Bios_PlayPSG() { Call(R_STRTMS); }
+//> STRTMS
+//> Address  : #0099
+//> Function : Tests whether the PLAY statement is being executed as a background
+//>            task. If not, begins to execute the PLAY statement
+//> Registers: All
+inline void BIOS_PlayPSG() { Call(R_STRTMS); }
 
 #endif // BIOS_USE_PSG
 
@@ -326,33 +525,38 @@ inline void Bios_PlayPSG() { Call(R_STRTMS); }
 // Group: Main-ROM - Console
 //-----------------------------------------------------------------------------
 
-// Function: Bios_GetCharacter
+// Function: BIOS_GetCharacter
 // One character input (waiting). Wrapper for CHGET routine.
-inline c8 Bios_GetCharacter() { return ((u8(*)(void))R_CHGET)(); }
+inline c8 BIOS_GetCharacter() { return CallToA(R_CHGET); }
 
-// Function: Bios_HasCharacter
+// Function: BIOS_HasCharacter
 // Get a character input (if any) or return 0.
-u8 Bios_HasCharacter() __FASTCALL;
+u8 BIOS_HasCharacter();
 
-// Function: Bios_TextPrintChar
-// Displays one character. Wrapper for CHPUT routine.
-inline void Bios_TextPrintChar(c8 chr) { ((void(*)(u8))R_CHPUT)(chr); }
-
-// Function: Bios_TextPrintString
-// Displays a null-terminated string.
-inline void Bios_TextPrintString(const c8* str) { while (*str) Bios_TextPrintChar(*str++); }
-
-// Function: Bios_Beep
-// Generates beep. Wrapper for BEEP routine.
-inline void Bios_Beep() { Call(R_BEEP); }
-
-// Function: Bios_ClearScreen
-// Clears the screen. Wrapper for CLS routine.
-void Bios_ClearScreen();
-
-// Function: Bios_SetCursorPosition
+// Function: BIOS_TextSetCursor
 // Moves cursor to the specified position. Wrapper for POSIT routine.
-void Bios_SetCursorPosition(u8 X, u8 Y);
+void BIOS_TextSetCursor(u8 x, u8 y);
+
+// Function: BIOS_TextPrintChar
+// Displays one character. Wrapper for CHPUT routine.
+inline void BIOS_TextPrintChar(c8 chr) { CallA(R_CHPUT, chr); }
+
+// Function: BIOS_TextPrint
+// Displays a null-terminated string.
+inline void BIOS_TextPrint(const c8* str) { while (*str) BIOS_TextPrintChar(*str++); }
+
+// Function: BIOS_TextPrintAt
+// Print a text at the specified position
+inline void BIOS_TextPrintAt(u8 x, u8 y, const c8* str) { BIOS_TextSetCursor(x, y); BIOS_TextPrint(str); }
+
+// Function: BIOS_Beep
+// Generates beep. Wrapper for BEEP routine.
+inline void BIOS_Beep() { Call(R_BEEP); }
+
+// Function: BIOS_ClearScreen
+// Clears the screen. Wrapper for CLS routine.
+void BIOS_ClearScreen();
+
 
 //=============================================================================
 // Controller routines
@@ -362,7 +566,21 @@ void Bios_SetCursorPosition(u8 X, u8 Y);
 // Group: Main-ROM - Controller
 //-----------------------------------------------------------------------------
 
-// Function: Bios_GetJoystickDirection
+#define BIOS_JOYSTICK_KEYBOARD		(0)
+#define BIOS_JOYSTICK_PORT1			(1)
+#define BIOS_JOYSTICK_PORT2			(2)
+
+#define BIOS_DIRECTION_NONE			(0)
+#define BIOS_DIRECTION_UP			(1)
+#define BIOS_DIRECTION_UP_RIGHT		(2)
+#define BIOS_DIRECTION_RIGHT		(3)
+#define BIOS_DIRECTION_DOWN_RIGHT	(4)
+#define BIOS_DIRECTION_DOWN			(5)
+#define BIOS_DIRECTION_DOWN_LEFT	(6)
+#define BIOS_DIRECTION_LEFT			(7)
+#define BIOS_DIRECTION_UP_LEFT		(8)
+
+// Function: BIOS_GetJoystickDirection
 // Returns the state of the joystick or the cursor keys.
 // Wrapper for GTSTCK routine.
 //
@@ -379,9 +597,15 @@ void Bios_SetCursorPosition(u8 X, u8 Y);
 //> 7 - 0 - 3
 //>   / |'\'
 //>  6  5  4
-inline u8 Bios_GetJoystickDirection(u8 port) { return ((u8(*)(u8))R_GTSTCK)(port); }
+inline u8 BIOS_GetJoystickDirection(u8 port) { return ((u8(*)(u8))R_GTSTCK)(port); }
 
-// Function: Bios_GetJoystickTrigger
+#define BIOS_TRIGGER_SPACEBAR		(0)
+#define BIOS_TRIGGER_PORT1_TRIG1	(1)
+#define BIOS_TRIGGER_PORT2_TRIG1	(2)
+#define BIOS_TRIGGER_PORT1_TRIG2	(3)
+#define BIOS_TRIGGER_PORT2_TRIG2	(4)
+
+// Function: BIOS_GetJoystickTrigger
 // Returns the state of the mouse, joystick or keyboard space bar buttons.
 // Wrapper for GTTRIG routine.
 //
@@ -395,9 +619,9 @@ inline u8 Bios_GetJoystickDirection(u8 port) { return ((u8(*)(u8))R_GTSTCK)(port
 //
 // Return:
 //   FALSE if trigger button is not pressed
-inline bool Bios_GetJoystickTrigger(u8 trigger) { return ((u8(*)(u8))R_GTTRIG)(trigger); }
+inline bool BIOS_GetJoystickTrigger(u8 trigger) { return ((u8(*)(u8))R_GTTRIG)(trigger); }
 
-// Function: Bios_GetTouchPad
+// Function: BIOS_GetTouchPad
 // Returns the touch pad status.
 // Wrapper for GTPAD routine.
 //
@@ -424,13 +648,13 @@ inline bool Bios_GetJoystickTrigger(u8 trigger) { return ((u8(*)(u8))R_GTTRIG)(t
 //>  16 = Fetch mouse data from port 2 (#FF if available)
 //>  17 = Read X-position
 //>  18 = Read Y-position
-//            19 = Read mouse button status from port 2 (#FF if pressed)
+//>  19 = Read mouse button status from port 2 (#FF if pressed)
 //
 // Return:
 //   Value depending on entry parameter
-inline u8 Bios_GetTouchPad(u8 entry) { return ((u8(*)(u8))R_GTPAD)(entry); }
+inline u8 BIOS_GetTouchPad(u8 entry) { return ((u8(*)(u8))R_GTPAD)(entry); }
 
-// Function: Bios_GetPaddle
+// Function: BIOS_GetPaddle
 // Returns the paddle position.
 // Wrapper for GTPDL routine.
 //
@@ -446,8 +670,8 @@ inline u8 Bios_GetTouchPad(u8 entry) { return ((u8(*)(u8))R_GTPAD)(entry); }
 //>    F   |   11  |   12
 //
 // Return:
-//   Paddle position (0-255)
-inline u8 Bios_GetPaddle(u8 num) { return ((u8(*)(u8))R_GTPDL)(num); }
+//   Paddle position [0:255]
+inline u8 BIOS_GetPaddle(u8 num) { return ((u8(*)(u8))R_GTPDL)(num); }
 
 
 //=============================================================================
@@ -458,21 +682,13 @@ inline u8 Bios_GetPaddle(u8 num) { return ((u8(*)(u8))R_GTPDL)(num); }
 // Group: Main-ROM - Misc
 //-----------------------------------------------------------------------------
 
-// Function: Bios_GetKeyboardMatrix
+// Function: BIOS_GetKeyboardMatrix
 // Returns the value of the specified line from the keyboard matrix. Wrapper for SNSMAT routine.
-inline u8 Bios_GetKeyboardMatrix(u8 line) { return ((u8(*)(u8))R_SNSMAT)(line); }
+inline u8 BIOS_GetKeyboardMatrix(u8 line) { return ((u8(*)(u8))R_SNSMAT)(line); }
 
-// Function: Bios_IsKeyPressed
+// Function: BIOS_IsKeyPressed
 // Check if the given key is pressed
-inline bool Bios_IsKeyPressed(u8 key) {	return (g_NEWKEY[KEY_ROW(key)] & (1 << KEY_IDX(key))) == 0; }
-
-// Check if the given key is just pushed // don't work with standard system BIOS because g_OLDKEY is reset during ISR
-/*inline bool Bios_IsKeyPushed(u8 key)
-{
-	u8 newKey = Bios_IsKeyPressed(key);
-	u8 oldKey = (g_OLDKEY[KEY_ROW(key)] & (1 << KEY_IDX(key))) == 0;
-	return newKey && !oldKey;
-}*/
+inline bool BIOS_IsKeyPressed(u8 key) {	return (g_NEWKEY[KEY_ROW(key)] & (1 << KEY_IDX(key))) == 0; }
 
 //=============================================================================
 // MSX2
@@ -508,12 +724,12 @@ inline bool Bios_IsKeyPressed(u8 key) {	return (g_NEWKEY[KEY_ROW(key)] & (1 << K
 #define CPU_MODE_R800_DRAM	0x02
 #define CPU_TURBO_LED		0x80
 
-// Function: Bios_SetCPUMode
+// Function: BIOS_SetCPUMode
 // Changes CPU mode. Wrapper for CHGCPU routine.
-inline void Bios_SetCPUMode(u8 mode) { ((void(*)(u8))R_CHGCPU)(mode); }
+inline void BIOS_SetCPUMode(u8 mode) { ((void(*)(u8))R_CHGCPU)(mode); }
 
-// Function: Bios_GetCPUMode
+// Function: BIOS_GetCPUMode
 // Returns current CPU mode. Wrapper for GETCPU routine.
-inline u8 Bios_GetCPUMode() { return ((u8(*)(void))R_GETCPU)(); }
+inline u8 BIOS_GetCPUMode() { return ((u8(*)(void))R_GETCPU)(); }
 
 #endif // (MSX_VERSION == MSX_TR)

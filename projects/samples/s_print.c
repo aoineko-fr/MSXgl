@@ -290,7 +290,7 @@ void PrintEffect()
 	Print_DrawText("VRAM: ");
 #if (PRINT_USE_VRAM)
 	Print_DrawText("Loading...");
-	Print_SetVRAMFont(g_Fonts[g_FontIndex].Font, 212, g_Modes[g_ModeIndex].ColorAlt);
+	Print_SetVRAMFont(g_Fonts[g_FontIndex].Font, 212, g_Modes[g_ModeIndex].ColorAlt, TRUE);
 	Print_Backspace(String_Length("Loading..."));
 	Print_DrawText(g_SampleTextShort);
 #else
@@ -349,7 +349,7 @@ void PrintBenchmark()
 
 	Print_DrawText("\n\nLoading...");
 	Print_SetColor(g_Modes[g_ModeIndex].ColorAlt, g_Modes[g_ModeIndex].ColorBG);
-	Print_SetVRAMFont(g_Fonts[g_FontIndex].Font, 212, g_Modes[g_ModeIndex].ColorAlt);
+	Print_SetVRAMFont(g_Fonts[g_FontIndex].Font, 212, g_Modes[g_ModeIndex].ColorAlt, TRUE);
 	Print_Backspace(String_Length("Loading..."));
 	u8 startTime = g_JIFFY;
 	Print_DrawText(text1);
@@ -462,5 +462,5 @@ void main()
 		// Halt();
 	}
 
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

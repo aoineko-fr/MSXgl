@@ -14,6 +14,10 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+//=============================================================================
+// DEFINES
+//=============================================================================
+
 //-----------------------------------------------------------------------------
 // System RAM Variables
 //-----------------------------------------------------------------------------
@@ -777,17 +781,17 @@ const u8 __at(M_CASPRV) g_CASPRV;
 #define M_BRDATR	0xFCB2	// 1	Border color for paint.
 const u8 __at(M_BRDATR) g_BRDATR;
 
-#define M_GXPOS		0xFCB3	// 1	X-position of graphic cursor.
-const u8 __at(M_GXPOS) g_GXPOS;
+#define M_GXPOS		0xFCB3	// 2	X-position of graphic cursor.
+const u16 __at(M_GXPOS) g_GXPOS;
 
-#define M_GYPOS		0xFCB5	// 1	Y-position of graphic cursor.
-const u8 __at(M_GYPOS) g_GYPOS;
+#define M_GYPOS		0xFCB5	// 2	Y-position of graphic cursor.
+const u16 __at(M_GYPOS) g_GYPOS;
 
-#define M_GRPACX	0xFCB7	// 1	X Graphics Accumulator.
-u8 __at(M_GRPACX) g_GRPACX;
+#define M_GRPACX	0xFCB7	// 2	X Graphics Accumulator.
+u16 __at(M_GRPACX) g_GRPACX;
 
-#define M_GRPACY	0xFCB9	// 1	Y Graphics Accumulator.
-u8 __at(M_GRPACY) g_GRPACY;
+#define M_GRPACY	0xFCB9	// 2	Y Graphics Accumulator.
+u16 __at(M_GRPACY) g_GRPACY;
 
 #define M_DRWFLG	0xFCBB	// 1	Used by the instruction DRAW (DrawFlag).
 // Bit 7 = Draw Line 0 = No / 1 = Yes (,N)

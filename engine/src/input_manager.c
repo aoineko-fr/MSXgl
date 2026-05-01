@@ -7,12 +7,17 @@
 //─────────────────────────────────────────────────────────────────────────────
 // Advanced input manager
 //─────────────────────────────────────────────────────────────────────────────
+
+//=============================================================================
+// INCLUDES
+//=============================================================================
+
 #include "msxgl.h"
 #include "input.h"
 #include "input_manager.h"
 
 //=============================================================================
-// OPTIONS VALIDATION
+// VALIDATION
 //=============================================================================
 #if (!INPUT_USE_JOYSTICK || !INPUT_USE_KEYBOARD)
 	#error Input manager need both Joystick and Keyboard support! Please include 'input' module in your module list and set INPUT_USE_JOYSTICK and INPUT_USE_KEYBOARD to TRUE.

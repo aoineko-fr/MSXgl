@@ -228,10 +228,18 @@ inline bool Sys_Is50Hz() { return Sys_GetFrequency() == SYS_FREQ_50HZ; }
 //
 // Parameters:
 //   addr - Address to call
+inline void Call(u16 addr) { ((void(*)(void))addr)(); }
+
+// Function: CallToA
+// Direct call a routine at a given address (generate ASM code: "call XXXX")
+// No extra cost due to calling a C function.
+//
+// Parameters:
+//   addr - Address to call
 //
 // Return:
 //   Value stored in register A
-inline void Call(u16 addr) { ((void(*)(void))addr)(); }
+inline u8 CallToA(u16 addr) { return ((u8(*)(void))addr)(); }
 
 // Function: CallA
 // Direct call a routine at a given address with a 8-bits parameter in register A (generate ASM code: "call XXXX")
@@ -242,7 +250,19 @@ inline void Call(u16 addr) { ((void(*)(void))addr)(); }
 //   a    - Function parameter to put in register A
 inline void CallA(u16 addr, u8 a) { ((void(*)(u8))addr)(a); }
 
-typedef void (*calll_t)(u8) __FASTCALL;
+// Function: CallAToA
+// Direct call a routine at a given address with a 8-bits parameter in register A (generate ASM code: "call XXXX")
+// No extra cost due to calling a C function.
+//
+// Parameters:
+//   addr - Address to call
+//   a    - Function parameter to put in register A
+//
+// Return:
+//   Value stored in register A
+inline u8 CallAToA(u16 addr, u8 a) { return ((u8(*)(u8))addr)(a); }
+
+typedef void (*call_l_t)(u8) __FASTCALL;
 
 // Function: CallL
 // Direct call a routine at a given address with a 8-bits parameter in register L (generate ASM code: "call XXXX")
@@ -251,7 +271,21 @@ typedef void (*calll_t)(u8) __FASTCALL;
 // Parameters:
 //   addr - Address to call
 //   l    - Function parameter to put in register L
-inline void CallL(u16 addr, u8 l) { ((calll_t)addr)(l); }
+inline void CallL(u16 addr, u8 l) { ((call_l_t)addr)(l); }
+
+typedef void (*call_l_a_t)(u8) __FASTCALL;
+
+// Function: CallLToA
+// Direct call a routine at a given address with a 8-bits parameter in register L (generate ASM code: "call XXXX")
+// No extra cost due to calling a C function.
+//
+// Parameters:
+//   addr - Address to call
+//   l    - Function parameter to put in register L
+//
+// Return:
+//   Value stored in register A
+inline u8 CallLToA(u16 addr, u8 l) { return ((call_l_a_t)addr)(l); }
 
 // Function: CallHL
 // Direct call a routine at a given address with a 16-bits parameter in register HL (generate ASM code: "call XXXX")
@@ -261,6 +295,18 @@ inline void CallL(u16 addr, u8 l) { ((calll_t)addr)(l); }
 //   addr - Address to call
 //   val  - Function parameter to put in register HL
 inline void CallHL(u16 addr, u16 hl) { ((void(*)(u16))addr)(hl); }
+
+// Function: CallHLToA
+// Direct call a routine at a given address with a 16-bits parameter in register HL (generate ASM code: "call XXXX")
+// No extra cost due to calling a C function.
+//
+// Parameters:
+//   addr - Address to call
+//   val  - Function parameter to put in register HL
+//
+// Return:
+//   Value stored in register A
+inline u8 CallHLToA(u16 addr, u16 hl) { return ((u8(*)(u16))addr)(hl); }
 
 // Function: CallDriver
 // Direct call a routine at a given address with a 8-bits parameter in register A (generate ASM code: "call XXXX")

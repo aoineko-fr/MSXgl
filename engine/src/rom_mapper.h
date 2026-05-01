@@ -76,29 +76,7 @@
 
 //-----------------------------------------------------------------------------
 // ROM mapper segments count
-#if (ROM_SIZE == ROM_64K)
-	#define ROM_SEGMENTS	(64/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_128K)
-	#define ROM_SEGMENTS	(128/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_256K)
-	#define ROM_SEGMENTS	(256/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_512K)
-	#define ROM_SEGMENTS	(512/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_1M)
-	#define ROM_SEGMENTS	(1*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_2M)
-	#define ROM_SEGMENTS	(2*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_4M)
-	#define ROM_SEGMENTS	(4*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_8M)
-	#define ROM_SEGMENTS	(8*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_16M)
-	#define ROM_SEGMENTS	(16*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_32M)
-	#define ROM_SEGMENTS	(32*1024/ROM_SEGMENT_SIZE)
-#elif (ROM_SIZE == ROM_64M)
-	#define ROM_SEGMENTS	(1024/ROM_SEGMENT_SIZE*64)
-#endif
+#define ROM_SEGMENTS				(ROM_SIZE/ROM_SEGMENT_SIZE)
 
 //-----------------------------------------------------------------------------
 // Macro to change a given bank's segment
@@ -110,7 +88,7 @@
 	inline void SET_BANK_SEGMENT(u8 b, u16 s)
 	{ 
 		g_Bank0Segment[b] = s;
-		if (b == 0)		Poke16(ADDR_BANK_0, s);
+		if (b == 0)			Poke16(ADDR_BANK_0, s);
 		else if (b == 1)	Poke16(ADDR_BANK_1, s);
 		else if (b == 2)	Poke16(ADDR_BANK_2, s);
 	#if (ROM_MAPPER == ROM_NEO8)
@@ -123,7 +101,7 @@
 	inline void SET_BANK_SEGMENT_LOW(u8 b, u8 s)
 	{
 		Poke((u16)&g_Bank0Segment[b] + 0, s);
-		if (b == 0)		Poke(ADDR_BANK_0 + 0, s);
+		if (b == 0)			Poke(ADDR_BANK_0 + 0, s);
 		else if (b == 1)	Poke(ADDR_BANK_1 + 0, s);
 		else if (b == 2)	Poke(ADDR_BANK_2 + 0, s);
 	#if (ROM_MAPPER == ROM_NEO8)
@@ -136,7 +114,7 @@
 	inline void SET_BANK_SEGMENT_HIGH(u8 b, u8 s)
 	{
 		Poke((u16)&g_Bank0Segment[b] + 1, s);
-		if (b == 0)		Poke(ADDR_BANK_0 + 1, s);
+		if (b == 0)			Poke(ADDR_BANK_0 + 1, s);
 		else if (b == 1)	Poke(ADDR_BANK_1 + 1, s);
 		else if (b == 2)	Poke(ADDR_BANK_2 + 1, s);
 	#if (ROM_MAPPER == ROM_NEO8)
@@ -184,12 +162,36 @@
 	// Segment value backup
 	extern u16 g_Bank0Segment[MAPPER_BANKS];
 
+	// Enable or disable Yamanooto extended features
+	inline void YAMANOOTO_ENABLE(bool enable)
+	{
+		Poke(YAMANOOTO_ENAR, (enable) ? YAMANOOTO_ENAR_REGEN : 0);
+	}
+
+	// Set the ENAR register of the Yamanooto mapper
+	inline void YAMANOOTO_SET_ENAR(u8 value)
+	{
+		Poke(YAMANOOTO_ENAR, value);
+	}
+
+	// Set the OFFR register of the Yamanooto mapper
+	inline void YAMANOOTO_SET_OFFR(u8 value)
+	{
+		Poke(YAMANOOTO_OFFR, value);
+	}
+
+	// Set the CFGR register of the Yamanooto mapper
+	inline void YAMANOOTO_SET_CFGR(u8 value)
+	{
+		Poke(YAMANOOTO_CFGR, value);
+	}
+
 	// Set the current segment of the given bank
 	inline void SET_BANK_SEGMENT(u8 b, u16 s)
 	{ 
 		g_Bank0Segment[b] = s;
-		Poke(YAMANOOTO_OFFR, (s >> 2) & 0xC0);
-		if (b == 0)		Poke(ADDR_BANK_0, s & 0xFF);
+		YAMANOOTO_SET_OFFR((s >> 2) & 0xC0);
+		if (b == 0)			Poke(ADDR_BANK_0, s & 0xFF);
 		else if (b == 1)	Poke(ADDR_BANK_1, s & 0xFF);
 		else if (b == 2)	Poke(ADDR_BANK_2, s & 0xFF);
 		else if (b == 3)	Poke(ADDR_BANK_3, s & 0xFF);
@@ -197,15 +199,15 @@
 	inline void SET_BANK_SEGMENT_LOW(u8 b, u8 s)
 	{ 
 		Poke((u16)&g_Bank0Segment[b] + 0, s);
-		if (b == 0)		Poke(ADDR_BANK_0, s);
+		if (b == 0)			Poke(ADDR_BANK_0, s);
 		else if (b == 1)	Poke(ADDR_BANK_1, s);
 		else if (b == 2)	Poke(ADDR_BANK_2, s);
 		else if (b == 3)	Poke(ADDR_BANK_3, s);
 	}
 	inline void SET_BANK_SEGMENT_HIGH(u8 b, u8 s)
 	{ 
+		YAMANOOTO_SET_OFFR(s << 6);
 		Poke((u16)&g_Bank0Segment[b] + 1, s);
-		Poke(YAMANOOTO_OFFR, s << 6);
 	}
 
 	// Get the current segment of the given bank
@@ -224,7 +226,7 @@
 	inline void SET_BANK_SEGMENT(u8 b, u16 s)
 	{ 
 		g_Bank0Segment[b] = s;
-		if (b == 0)		Poke(ADDR_BANK_0 | (s & 0x0F00), s & 0xFF);
+		if (b == 0)			Poke(ADDR_BANK_0 | (s & 0x0F00), s & 0xFF);
 		else if (b == 1)	Poke(ADDR_BANK_1 | (s & 0x0F00), s & 0xFF);
 	}
 	// Set the current segment of the given bank
@@ -250,7 +252,7 @@
 		g_Bank0Segment[b] = s;
 		if (b == 0)		Poke(ADDR_BANK_0, s);
 		else if (b == 1)	Poke(ADDR_BANK_1, s);
-	#if (ROM_MAPPER != ROM_ASCII16)
+	#if (MAPPER_BANKS > 2)
 		else if (b == 2)	Poke(ADDR_BANK_2, s);
 		else if (b == 3)	Poke(ADDR_BANK_3, s);
 	#endif

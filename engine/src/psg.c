@@ -281,7 +281,7 @@ void PSG_Mute()
 {
 #if (PSG_ACCESS == PSG_INDIRECT)
 
-	loop(i, 3)
+	loop (i, 3)
 	{
 		#if (PSG_USE_RESUME)
 		g_PSG_VolumeBackup[i] = g_PSG_Regs.Volume[i];
@@ -291,7 +291,7 @@ void PSG_Mute()
 
 #else // if (PSG_ACCESS == PSG_DIRECT)
 
-	loop(i, 3)
+	loop (i, 3)
 	{
 		PSG_VAR_REG = PSG_REG_AMP_A + i;
 		#if (PSG_USE_RESUME)
@@ -310,14 +310,14 @@ void PSG_Resume()
 {
 #if (PSG_ACCESS == PSG_INDIRECT)
 
-	loop(i, 3)
+	loop (i, 3)
 	{
 		g_PSG_Regs.Volume[i] = g_PSG_VolumeBackup[i];
 	}
 
 #else // if (PSG_ACCESS == PSG_DIRECT)
 
-	loop(i, 3)
+	loop (i, 3)
 	{
 		PSG_VAR_REG = PSG_REG_AMP_A + i;
 		PSG_VAR_WRITE = g_PSG_VolumeBackup[i];

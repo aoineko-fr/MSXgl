@@ -172,7 +172,10 @@ module.exports.copyFile = function (src, dst)
 module.exports.delFile = function (src)
 {
 	module.exports.print(`Del ${src}`, PrintDetail);
-	fs.unlinkSync(src);
+	if (fs.existsSync(src))
+		fs.unlinkSync(src);
+	else
+		module.exports.print(`File not found: ${src}`, PrintWarning);
 }
 
 // Create a CAS file from binary data
@@ -208,7 +211,7 @@ module.exports.createCAS = function (binFile, casFile)
 	fs.closeSync(fd);
 }
 
-// Get machine game name from code
+// Get machine name from code
 module.exports.getMachineName = function (machine)
 {
 	switch(machine)
@@ -230,7 +233,7 @@ module.exports.getMachineName = function (machine)
 	return `Unsupported (${machine})`;
 }
 
-// Get machine game name from code
+// Get machine ID from code
 module.exports.getMachineID = function (machine)
 {
 	switch(machine)

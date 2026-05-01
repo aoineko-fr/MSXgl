@@ -169,7 +169,7 @@ void main()
 	Print_DrawFormat("Bank 3: [%s]", 0xA000);
 
 	VDP_EnableVBlank(TRUE);
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
+	BIOS_SetHookCallback(H_TIMI, VBlankHook);
 
 	u8 frameCount = 0;
 	u8 errorCount = 0;
@@ -186,6 +186,6 @@ void main()
 		Print_DrawCharAt(39, 0, g_ChrAnim[frameCount++ & 0x03]);
 	}
 
-	Bios_ClearHook(H_TIMI);
-	Bios_Exit(0);
+	BIOS_ClearHook(H_TIMI);
+	BIOS_Exit(0);
 }

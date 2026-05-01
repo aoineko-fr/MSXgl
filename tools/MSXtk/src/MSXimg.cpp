@@ -22,7 +22,7 @@
 #include "FreeImage.h"
 // MSXtk
 #include "MSXtk.h"
-// MSXi
+// MSXimg
 #include "MSXimg.h"
 #include "color.h"
 #include "exporter.h"
@@ -33,7 +33,6 @@
 #define MEGA(x) (1024*1024*(x))
 #define GIGA(x) (1024*1024*1024*(x))
 #define TERA(x) (1024*1024*1024*1024*(x))
-
 
 // Named values table
 std::map<const c8*, u32> g_NamedValue =
@@ -173,6 +172,7 @@ void PrintHelp()
 	printf(" --palcount n     Number of color in the custom palette to create (default: 15)\n");
 	printf(" --paloff n       Index offset of the palette (default: 1)\n");
 	printf(" --pal24          Use 24-bits palette (for v9990; default: false)\n");
+	printf(" --palmod s c     Create a modified version of the palette (percentage of scale and contrast)\n");
 	printf(" -dither ?        Dithering method (for 1-bit color only)\n");
 	printf("    none          No dithering (default)\n");
 	printf("    floyd         Floyd & Steinberg error diffusion algorithm\n");
@@ -227,7 +227,8 @@ void PrintHelp()
 	printf("    asmsx         asMSX format\n");
 	printf("    sjasm         Sjasm format\n");
 	printf(" -idx             Add images index table (default: false)\n");
-	printf(" -notitle         Remove the ASCII-art title in top of exported text file\n");
+	printf(" -notitle         Don't print the ASCII-art title in top of exported text file\n");
+	printf(" -nodate          Don't print the generation date\n");
 	printf(" -copy (file)     Add copyright information from text file\n");
 	printf("                  If file name is empty, search for <inputFile>.txt\n");
 	printf(" -head            Add a header table contening input parameters (default: false)\n");
@@ -291,7 +292,7 @@ void PrintHelp()
 //const char* ARGV[] = { "", "../testcases/JoyAndHeron", "-out", "../testcases/JoyAndHeron.mglv", "-mode", "mglv", "-format", "bin", "-size", "256", "144", "-bpc", "4", "-pal", "custom" };
 //const char* ARGV[] = { "", "../testcases/JoyAndHeron", "-out", "../testcases/JoyAndHeron.h", "-mode", "mglv", "-format", "c", "-size", "256", "144", "-bpc", "4", "-pal", "custom" };
 //const char* ARGV[] = { "", "../testcases/image03.png", "-out", "../testcases/screen0.h", "-mode", "sc0", "-size", "150", "150" };
-//const char* ARGV[] = { "", "../testcases/vaus.png", "-out", "../testcases/vaus.h", "-mode", "bmp", "-bpc", "4", "-pal", "custom" };
+//const char* ARGV[] = { "", "../testcases/cursor.png", "-out", "../testcases/cursor.h", "-mode", "bmp", "-bpc", "4", "-pal", "partial", "2", "0x000000", "0xFFFFFF", "--paloff", "0", "--palcount", "16", "-pos", "0", "32", "-size", "256", "16" };
 //#define DEBUG_ARGS
 
 /** Main entry point
@@ -398,6 +399,8 @@ int main(int argc, const char* argv[])
 			i++;
 			if (MSX::StrEqual(argv[i], "msx1"))
 				param.palType = PALETTE_MSX1;
+			else if (MSX::StrEqual(argv[i], "msx2"))
+				param.palType = PALETTE_MSX2;
 			else if (MSX::StrEqual(argv[i], "custom"))
 				param.palType = PALETTE_Custom;
 			else if (MSX::StrEqual(argv[i], "input"))
@@ -429,6 +432,14 @@ int main(int argc, const char* argv[])
 		else if (MSX::StrEqual(argv[i], "--pal24") || MSX::StrEqual(argv[i], "-pal24")) // Palette 24b
 		{
 			param.pal24 = true;
+		}
+		else if (MSX::StrEqual(argv[i], "--palmod") || MSX::StrEqual(argv[i], "-palmod")) // Palette scale
+		{
+			PaletteMod mod;
+			mod.id = (i32)param.palMod.size();
+			mod.scale = GetValue(argv[++i]);
+			mod.contrast = GetValue(argv[++i]);
+			param.palMod.push_back(mod);
 		}
 		else if(MSX::StrEqual(argv[i], "-compress")) // Compression method
 		{
@@ -620,6 +631,10 @@ int main(int argc, const char* argv[])
 		else if (MSX::StrEqual(argv[i], "-notitle")) // Remove title
 		{
 			param.bTitle = false;
+		}
+		else if (MSX::StrEqual(argv[i], "-nodate")) // Remove date
+		{
+			param.bDate = false;
 		}
 		else if (MSX::StrEqual(argv[i], "-l")) // Block layers
 		{
@@ -944,12 +959,12 @@ int main(int argc, const char* argv[])
 	}
 	if ((param.bpc == 2) && (param.palOffset + param.palOutCount > 4))
 	{
-		printf("Warning: -paloffset is %i and -palcount is %i but total can't be more than 4 with 2-bits color (color index 0 is always transparent). Continue with 4 as value.\n", param.palOffset, param.palOutCount);
+		printf("Warning: --paloffset is %i and --palcount is %i but total can't be more than 4 with 2-bits color (color index 0 is always transparent). Continue with 4 as value.\n", param.palOffset, param.palOutCount);
 		param.palOutCount = 4 - param.palOffset;
 	}
 	if ((param.bpc == 4) && (param.palOffset + param.palOutCount > 16))
 	{
-		printf("Warning: -paloffset is %i and -palcount is %i but total can't be more than 16 with 4-bits color (color index 0 is always transparent). Continue with 16 as value.\n", param.palOffset, param.palOutCount);
+		printf("Warning: --paloffset is %i and --palcount is %i but total can't be more than 16 with 4-bits color (color index 0 is always transparent). Continue with 16 as value.\n", param.palOffset, param.palOutCount);
 		param.palOutCount = 16 - param.palOffset;
 	}
 	if ((param.dither != DITHER_None) && (param.bpc != 1))

@@ -62,7 +62,7 @@ void main()
 	Print_SetPosition(0, 23);
 	Print_DrawText("Space:Play");
 
-	Bios_SetKeyClick(FALSE);
+	BIOS_SetKeyClick(FALSE);
 
 	u8 count = 0;
 	while (!Keyboard_IsKeyPressed(KEY_ESC))

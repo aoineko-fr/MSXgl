@@ -29,7 +29,7 @@
 // DEFINES
 //=============================================================================
 
-const char* VERSION = "1.4.3";
+const char* VERSION = "1.4.6";
 
 /// Compressor enum
 enum COMPRESSOR
@@ -48,6 +48,8 @@ std::string				g_OutputFile;
 std::string				g_TableName;
 MSX::FileFormat			g_Format = MSX::FILEFORMAT_C;
 COMPRESSOR				g_Compressor = COMPRESS_NONE;
+bool					g_Decoration = true;
+bool					g_Date = true;
 
 // RLEp options
 u8						g_RLEp_DefaultValue = 0;
@@ -107,7 +109,9 @@ void PrintHelp()
 	printf(" -c             C data format (default)\n");
 	printf(" -asm           Assembler data format\n");
 	printf(" -bin           Binary data format\n");
-	printf(" -no            No compression (default)\n");
+	printf(" -nocomp        No compression (default)\n");
+	printf(" -nodeco        Don't display ASCII-art decoration\n");
+	printf(" -nodate        Don't display generation date\n");
 	printf(" -help          Display this help\n");
 	printf("RLEp options:\n");
 	printf(" -rlep          RLEp compression\n");
@@ -156,6 +160,7 @@ void PrintHelp()
 //const char* ARGV[] = { "", "../testcases/scc_nemesis2_03.vgm", "-c", "-lVGM", "--split", "16K" };
 //const char* ARGV[] = { "", "../testcases/ma_xevious_01.vgm", "-c", "-lVGM", "--freq", "50" };
 //const char* ARGV[] = { "", "../testcases/lvl5.dat.dts", "-c", "-rlep", "--def", "0", "--inczero" };
+//const char* ARGV[] = { "", "../testcases/Song00.vgm", "-c", "-lVGM", "--freq", "50" };
 //#define DEBUG_ARGS
 
 //-----------------------------------------------------------------------------
@@ -163,7 +168,8 @@ void PrintHelp()
 int main(int argc, const char* argv[])
 {
 #ifdef DEBUG_ARGS
-	argc = sizeof(ARGV) / sizeof(ARGV[0]); argv = ARGV;
+	argc = sizeof(ARGV) / sizeof(ARGV[0]);
+	argv = ARGV;
 #endif
 
 	// Search for -help option
@@ -209,8 +215,13 @@ int main(int argc, const char* argv[])
 			g_Format = MSX::FILEFORMAT_Asm;
 		else if (MSX::StrEqual(argv[i], "-bin"))
 			g_Format = MSX::FILEFORMAT_Bin;
+		// Display option
+		else if (MSX::StrEqual(argv[i], "-nodeco"))
+			g_Decoration = false;
+		else if (MSX::StrEqual(argv[i], "-nodate"))
+			g_Date = false;
 		// Compressor
-		else if (MSX::StrEqual(argv[i], "-no"))
+		else if (MSX::StrEqual(argv[i], "-nocomp") || MSX::StrEqual(argv[i], "-no"))
 			g_Compressor = COMPRESS_NONE;
 		else if (MSX::StrEqual(argv[i], "-rlep"))
 			g_Compressor = COMPRESS_RLEP;
@@ -298,18 +309,24 @@ int main(int argc, const char* argv[])
 	case MSX::FILEFORMAT_Bin: exp = new MSX::ExporterBin; break;
 	}
 
-	// Deco
-	exp->AddComment(u8"██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█      ▄");
-	exp->AddComment(u8"██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄");
-	exp->AddComment(u8"█  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀");
-	exp->AddComment(u8"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀");
+	// Deco{
+	if (g_Decoration)
+	{
+		exp->AddComment(u8"██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█      ▄");
+		exp->AddComment(u8"██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄");
+		exp->AddComment(u8"█  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀");
+		exp->AddComment(u8"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀");
+	}
 	// License
 	exp->AddComment(MSX::Format("MSXzip %s by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license", VERSION));
 	// Date
-	std::time_t result = std::time(nullptr);
-	char* ltime = std::asctime(std::localtime(&result));
-	ltime[strlen(ltime) - 1] = 0; // remove final '\n'
-	exp->AddComment(MSX::Format("File generated on %s", ltime));
+	if (g_Date)
+	{
+		std::time_t result = std::time(nullptr);
+		char* ltime = std::asctime(std::localtime(&result));
+		ltime[strlen(ltime) - 1] = 0; // remove final '\n'
+		exp->AddComment(MSX::Format("File generated on %s", ltime));
+	}
 	// Source
 	exp->AddComment(MSX::Format("Source file: %s (%d bytes)", g_InputFile.Filename.c_str(), g_InputFile.Data.size()));
 

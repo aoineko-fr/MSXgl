@@ -1,4 +1,4 @@
-MSXimg 1.21.1 - Image converter for MSX development
+MSXimg 1.22.1 - Image converter for MSX development
 Usage: MSXimg <filename> [options]
 
 General options:
@@ -51,6 +51,7 @@ Color options:
  --palcount n     Number of color in the custom palette to create (default: 15)
  --paloff n       Index offset of the palette (default: 1)
  --pal24          Use 24-bits palette (for v9990; default: false)
+ --palmod s c     Create a modified version of the palette (percentage of scale and contrast)
  -dither ?        Dithering method (for 1-bit color only)
     none          No dithering (default)
     floyd         Floyd & Steinberg error diffusion algorithm
@@ -105,7 +106,8 @@ Exporter options:
     asmsx         asMSX format
     sjasm         Sjasm format
  -idx             Add images index table (default: false)
- -notitle         Remove the ASCII-art title in top of exported text file
+ -notitle         Don't print the ASCII-art title in top of exported text file
+ -nodate          Don't print the generation date
  -copy (file)     Add copyright information from text file
                   If file name is empty, search for <inputFile>.txt
  -head            Add a header table contening input parameters (default: false)

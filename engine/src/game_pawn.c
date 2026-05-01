@@ -106,7 +106,7 @@ void GamePawn_ParseSprite(Game_Pawn* pawn, SpriteCallback cb)
 	u8 sprtIdx = g_Pawn->SpriteID;
 #endif
 	g_Sprite = g_Pawn->SpriteList;
-	loop(i, g_Pawn->SpriteNum)
+	loop (i, g_Pawn->SpriteNum)
 	{
 	#if (GAMEPAWN_ID_PER_LAYER)
 		u8 sprtIdx = g_Sprite->SpriteID;
@@ -511,7 +511,7 @@ void GamePawn_Draw(Game_Pawn* pawn)
 #if !(GAMEPAWN_ID_PER_LAYER)
 	u8 sprtId = g_Pawn->SpriteID;
 #endif
-	loop(i, g_Pawn->SpriteNum)
+	loop (i, g_Pawn->SpriteNum)
 	{
 	#if (GAMEPAWN_ID_PER_LAYER)
 		u8 sprtId = g_Sprite->SpriteID;
@@ -536,7 +536,7 @@ void GamePawn_Draw(Game_Pawn* pawn)
 	u16 dest = g_SpriteAttributeLow + (g_Pawn->SpriteID * 4);
 #endif
 
-	loop(i, g_Pawn->SpriteNum)
+	loop (i, g_Pawn->SpriteNum)
 	{
 		if (g_Sprite->Flag & PAWN_SPRITE_EVEN) // Skip odd frames
 		{

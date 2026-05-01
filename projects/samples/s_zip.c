@@ -307,5 +307,5 @@ void main()
 		prevRow8 = row8;	
 	}
 
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

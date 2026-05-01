@@ -350,7 +350,7 @@ void main()
 		DOS_StringOutput("Error: Unable to init mapper\n$");
 		DOS_Exit(1);
 	}
-	loop(i, 4)
+	loop (i, 4)
 	{
 		if (!DOSMapper_Alloc(DOS_ALLOC_USER, DOS_SEGSLOT_PRIM, &g_SegList[i]))
 		{
@@ -427,7 +427,7 @@ void main()
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8 + VDP_SPRITE_SCALE_1);
 	VDP_LoadSpritePattern(g_Font_MGL_Sample8 + 4, 0, g_Font_MGL_Sample8[3] - g_Font_MGL_Sample8[2]);
 
-	// Bios_SetHookCallback(H_TIMI, VDP_InterruptHandler);
+	// BIOS_SetHookCallback(H_TIMI, VDP_InterruptHandler);
 
 	SetCursor(4);
 

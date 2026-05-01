@@ -29,8 +29,8 @@ extern const u32 g_AppSignature;
 
 #elif (PAC_ACCESS == PAC_ACCESS_BIOS)
 
-	#define PAC_INTERSLOTREAD(slot, addr) Bios_InterSlotRead(slot, addr)
-	#define PAC_INTERSLOTWRITE(slot, addr, value) Bios_InterSlotWrite(slot, addr, value)
+	#define PAC_INTERSLOTREAD(slot, addr) BIOS_InterSlotRead(slot, addr)
+	#define PAC_INTERSLOTWRITE(slot, addr, value) BIOS_InterSlotWrite(slot, addr, value)
 
 #elif (PAC_ACCESS == PAC_ACCESS_SWITCH_BIOS)
 
@@ -38,7 +38,7 @@ extern const u32 g_AppSignature;
 	{
 		u8 cart = Sys_GetPageSlot(0);
 		Sys_SetPage0Slot(g_MNROM);
-		u8 value = Bios_InterSlotRead(slot, addr);
+		u8 value = BIOS_InterSlotRead(slot, addr);
 		Sys_SetPage0Slot(cart);
 		return value;
 	}
@@ -47,7 +47,7 @@ extern const u32 g_AppSignature;
 	{
 		u8 cart = Sys_GetPageSlot(0);
 		Sys_SetPage0Slot(g_MNROM);
-		Bios_InterSlotWrite(slot, addr, value);
+		BIOS_InterSlotWrite(slot, addr, value);
 		Sys_SetPage0Slot(cart);
 	}
 

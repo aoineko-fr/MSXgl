@@ -1,5 +1,5 @@
 ;-----------------------------------------------------------------------------
-; WYZ file merged for MSXgl on 09/11/2024 14:46:20,37 
+; WYZ file merged for MSXgl on 19/04/2026 18:06:40,38 
 ;-----------------------------------------------------------------------------
 .module wyz_jinj_med 
 _jinj_med_Song:: .DW SONG00 
@@ -32,9 +32,9 @@ _jinj_med_Freq:: .DW 0,0
 .DW 95,90,85,80,76,71,67,64,60,57
 ; Song data 
 SONG00: 
-; MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-; File generated on Sat Nov  9 14:46:20 2024
-; Soure file: D:\Dev\Private\MSX\MSXgl\projects\samples\datasrc\wyz\jinj_med.mus
+; MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
+; File generated on Sun Apr 19 18:06:40 2026
+; Soure file: C:\dev\MSX\MSXgl\projects\samples\datasrc\wyz\jinj_med.mus
 _jinj_med_Data::
 .db 0x05,0x31,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,0x3F,0x00,0x00,0xA3
 .db 0xE6,0x9E,0xE1,0xD9,0xDC,0xFE,0xFE,0xDE,0xFE,0xFE,0xA3,0xE6,0x9E,0xE1,0xD9,0xDC

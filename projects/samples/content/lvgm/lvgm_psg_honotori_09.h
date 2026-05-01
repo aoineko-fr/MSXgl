@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\psg_honotori_09.vgm (14842 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG)
@@ -1412,8 +1411,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0xAC, // R#10: An
 	0xAB, // R#10: An
 	0xE4, // -------- Wait: Ex
@@ -2991,8 +2989,7 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x32, // R#5: 3n
 	0xAC, // R#10: An
 	0xAB, // R#10: An
@@ -4231,4 +4228,4 @@ const unsigned char g_lVGM_psg_honotori_09[] = {
 	0xE0, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 4750 bytes
+// Total size: 4748 bytes

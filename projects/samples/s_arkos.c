@@ -366,7 +366,7 @@ void main()
 
 	// Enable interruption for screen frequency synchronization
 	VDP_EnableVBlank(TRUE);
-	Bios_SetHookCallback(H_TIMI, VBlankHook); // VBlankHook() will be call at each interruption
+	BIOS_SetHookCallback(H_TIMI, VBlankHook); // VBlankHook() will be call at each interruption
 
 	u8 prevRow7 = 0xFF;
 	u8 prevRow8 = 0xFF;

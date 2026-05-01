@@ -1159,7 +1159,7 @@ __endasm;
 // Results:       L=A = Number of drives (1...8)
 // This function simply selects the specified drive as the default drive. The current drive is also stored at address 0004h for CP/M compatibility.
 // The number of drives available is returned in register A but this will not include the RAM disk.
-u8 DOS_SelectDisk(u8 drive) __NAKED
+u8 DOS_SelectDrive(u8 drive) __NAKED
 {
 	drive; // A
 

@@ -139,7 +139,7 @@ ROMDelayBoot = false;
 AddROMSignature = false;
 
 //-- Select RAM in slot 0 and install ISR and optional code there (string). For MSX with at least 64 KB of RAM
-//   - RAM0_NONE       Don't install anything in RAM 
+//   - RAM0_NONE       Don't install RAM in page 0 
 //   - RAM0_ISR        Install only ISR
 //   - RAM0_SEGMENT    Install ISR and segment data (for mapped-ROM)
 InstallRAMISR = "RAM0_NONE";
@@ -152,13 +152,16 @@ InstallRAMISR = "RAM0_NONE";
 //   - V9990      V-blank, h-blank and command end handler (V9990)
 CustomISR = "VBLANK";
 
+//-- Event called before BIOS is released (boolean). For target format that switch out BIOS from page 0
+BIOSReleaseEvent = false;
+
 //-- Use automatic banked call and trampoline functions (boolean). For mapped ROM
 BankedCall = false;
 
-//-- Overwrite code starting address (number). For example. 0xE0000 for a driver in RAM
+//-- Overwrite code starting address (number). For example. 0xE000 for a driver in RAM
 ForceCodeAddr = 0;
 
-//-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
+//-- Overwrite RAM starting address (number). For example. 0xE000 for 8K RAM machine
 ForceRamAddr = 0;
 
 //-- List of raw data files to be added to final binary (array). Each entry must be in the following format: { offset:0x0000, file:"myfile.bin" }
@@ -351,6 +354,7 @@ EmulOPL4     = false;				//-- Add OPL4 extension (boolean)
 EmulPSG2     = false;				//-- Add second PSG extension (boolean)
 EmulV9990    = false;				//-- Add V9990 video-chip extension (boolean)
 EmulRAM      = false;				//-- Add mapped-RAM extension (boolean)
+Emul2ndCart  = "";					//-- Add additionnal cartridge in secondary slot (string)
 
 //-------------------------------------------------------------------------------
 // Input options

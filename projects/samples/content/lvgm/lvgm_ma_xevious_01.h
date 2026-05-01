@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\ma_xevious_01.vgm (15706 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:OPL1)
@@ -169,17 +168,9 @@ const unsigned char g_lVGM_ma_xevious_01[] = {
 	0xFE, // Loop marker
 	0xB1, 0x8E, // R#xx = yy
 	0xB1, 0x2E, // R#xx = yy
-	0x84, 0x06, // R#xx = yy
 	0x45, 0x44, // R#xx = yy
 	0xB2, 0x8A, // R#xx = yy
 	0xB2, 0x2A, // R#xx = yy
-	0x85, 0xC4, // R#xx = yy
-	0x4B, 0x3F, // R#xx = yy
-	0x4C, 0x7F, // R#xx = yy
-	0x4D, 0x3F, // R#xx = yy
-	0xBD, 0xE8, // R#xx = yy
-	0x43, 0x08, // R#xx = yy
-	0x44, 0x44, // R#xx = yy
 	0xE2, // -------- Wait: Ex
 	0x44, 0x48, // R#xx = yy
 	0x45, 0x48, // R#xx = yy
@@ -195,19 +186,16 @@ const unsigned char g_lVGM_ma_xevious_01[] = {
 	0xA0, 0x40, // R#xx = yy
 	0xB0, 0x92, // R#xx = yy
 	0xB0, 0x32, // R#xx = yy
-	0x83, 0x16, // R#xx = yy
 	0x45, 0x44, // R#xx = yy
 	0xB2, 0x8A, // R#xx = yy
 	0xB2, 0x2A, // R#xx = yy
 	0xBD, 0xE0, // R#xx = yy
 	0x54, 0x3F, // R#xx = yy
-	0x51, 0x3F, // R#xx = yy
 	0xE2, // -------- Wait: Ex
 	0x43, 0x04, // R#xx = yy
 	0x44, 0x50, // R#xx = yy
 	0x45, 0x48, // R#xx = yy
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0xB2, 0x0A, // R#xx = yy
 	0xE2, // -------- Wait: Ex
 	0x43, 0x08, // R#xx = yy
@@ -4345,4 +4333,4 @@ const unsigned char g_lVGM_ma_xevious_01[] = {
 	0xA1, 0x02, // R#xx = yy
 	0xFF, // End marker
 };
-// Total size: 7708 bytes
+// Total size: 7687 bytes

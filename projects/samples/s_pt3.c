@@ -351,7 +351,7 @@ void main()
 	Loop(TRUE);
 	Play();
 
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
+	BIOS_SetHookCallback(H_TIMI, VBlankHook);
 
 	u8 prevRow8 = 0xFF;
 	u8 prevRow0 = 0xFF;

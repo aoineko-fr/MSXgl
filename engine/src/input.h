@@ -9,7 +9,15 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+//=============================================================================
+// INCLUDES
+//=============================================================================
+
 #include "core.h"
+
+//=============================================================================
+// DEFINES
+//=============================================================================
 
 // Handle interrupt disabling
 #if (INPUT_USE_ISR_PROTECTION)
@@ -227,14 +235,11 @@ enum INPUT_TYPE
 	// INPUT_TYPE_ATARI_ADAPTER		= 0x36, // Atari dual-paddle adapter
 };
 
-#define INPUT_PORT_1				JOY_PORT_1
-#define INPUT_PORT_2				JOY_PORT_2
-
 // Function: Input_Detect
 // Detect device plugged in General purpose ports
 //
 // Parameters:
-//   port - Port to check (INPUT_PORT_1 or INPUT_PORT_2)
+//   port - Port to check (INPUT_PORT1 or INPUT_PORT2)
 //
 // Return:
 //   Device type (INPUT_TYPE_JOYSTICK, INPUT_TYPE_MOUSE, etc.)
@@ -248,8 +253,8 @@ u8 Input_Detect(enum INPUT_PORT port);
 //=============================================================================
 #if (INPUT_USE_MOUSE)
 
-#define MOUSE_PORT_1				0b00010011
-#define MOUSE_PORT_2				0b01101100
+#define MOUSE_PORT_1				INPUT_PORT1_HIGH
+#define MOUSE_PORT_2				INPUT_PORT2_HIGH
 
 #define MOUSE_NOTFOUND				0xFF
 

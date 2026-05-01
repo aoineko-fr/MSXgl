@@ -146,7 +146,7 @@ void SetScreenMode(u8 mode)
 // Program entry point
 void main()
 {
-	Bios_SetKeyClick(FALSE);
+	BIOS_SetKeyClick(FALSE);
 
 	// Initialize video
 	SetScreenMode(VDP_MODE_GRAPHIC3_MIRROR); // Screen mode 4 (G3) with full mirrored pattern/color table
@@ -189,7 +189,7 @@ void main()
 	VDP_LoadSpritePattern(g_BallPattern, 0, 4);
 	VDP_LoadSpritePattern(g_DataSprtLayer, 8*4, 13*4*4);
 
-	loop(s, 2)
+	loop (s, 2)
 	{
 		g_SpriteAttributeLow = g_SATAddr[s];
 		g_SpriteAttributeHigh = 0;
@@ -225,7 +225,7 @@ void main()
 		VDP_SetHBlankLine(SPLIT_LINE + g_Frame);
 		VDP_SetVerticalOffset(g_Frame);
 
-		loop(s, 2)
+		loop (s, 2)
 		{
 			// Update SAT address
 			g_SpriteAttributeLow = g_SATAddr[s];

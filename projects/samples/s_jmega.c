@@ -88,7 +88,7 @@ void main()
 	Print_DrawLineV(19, 2, 20);
 	Print_DrawLineH(0, 22, 40);
 
-	loop(i, 2)
+	loop (i, 2)
 	{
 		Print_DrawTextAt(8 + i * 20,  3, (i == 0) ? "Port 1" : "Port 2");
 
@@ -119,7 +119,7 @@ void main()
 		Print_SetPosition(39, 0);
 		Print_DrawChar(g_LifeAnim[frameCount++ % 4]);
 
-		loop(i, 2)
+		loop (i, 2)
 		{
 			u16 jm = JoyMega_Read6(i == 0 ? INPUT_PORT1 : INPUT_PORT2);
 
@@ -142,5 +142,5 @@ void main()
 		}
 	}
 
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

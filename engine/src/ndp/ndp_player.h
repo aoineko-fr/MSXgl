@@ -12,8 +12,22 @@
 #include "msxgl.h"
 
 //=============================================================================
+// CONFIG
+//=============================================================================
+
+// NDP_USE_INDERCT
+#ifndef NDP_USE_INDERCT
+	#warning NDP_USE_INDERCT is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define NDP_USE_INDERCT			FALSE
+#endif
+
+//=============================================================================
 // DEFINES
 //=============================================================================
+
+#if (NDP_USE_INDERCT)
+	extern PSG_Data g_PSG_Regs;
+#endif
 
 // NDP player status
 enum NDP_STATUS
@@ -112,7 +126,8 @@ typedef struct NDP_WorkArea
 #define NDP_CHNUM		4		// Number of channels used
 
 // NDP work area (defined in NDP_WRK.ASM)
-extern u8   g_NDP_CH1WRK[NDP_WSIZE];	// Rhythm track
+extern u8   g_NDP_CH1WRK[33];	// Rhythm track
+extern u8   g_NDP_RVOLW[28];
 extern NDP_WorkArea   g_NDP_CH2WRK;	// Standard track 1
 extern NDP_WorkArea   g_NDP_CH3WRK;	// Standard track 2
 extern NDP_WorkArea   g_NDP_CH4WRK;	// Standard track 3
@@ -160,7 +175,8 @@ extern u8   g_NDP_MIXWRK;			// 10NNNTTT 0:ON/1:OFF
 extern u8   g_NDP_MIXWRS;			// Sound effects mixing work
 extern u16  g_NDP_HENVPW;			// Hard envelope period
 extern u16  g_NDP_BGMADR;			// Song data start address
-extern u16  g_NDP_PTABLE[12 * 8];	// Pitch table
+extern u16  g_NDP_PTABLE[12*3];	// Pitch table
+extern u16  g_NDP_O4C[12*5];
 
 // Address of the SFX data
 extern const u8* g_NDP_SFXData;

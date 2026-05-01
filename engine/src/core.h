@@ -8,9 +8,9 @@
 #pragma once
 
 // Library version
-#define VERSION_MAJOR				(u16)1		// 4-bits (0-15)
-#define VERSION_MINOR				(u16)3		// 6-bits (0-63)
-#define VERSION_PATCH				(u16)7		// 6-bits (0-63)
+#define VERSION_MAJOR				1		// 4-bits (0-15)
+#define VERSION_MINOR				4		// 6-bits (0-63)
+#define VERSION_PATCH				0		// 6-bits (0-63)
 
 // Macro: VERSION
 // Combines major, minor, and patch versions into a single version number.
@@ -33,8 +33,8 @@
 
 // Boolean
 typedef unsigned char				bool;	// 8 bits boolean type
-#define TRUE						1		// Value for "TRUE" boolean
-#define FALSE						0		// Value for "FALSE" boolean
+#define TRUE						(1)		// Value for "TRUE" boolean
+#define FALSE						(0)		// Value for "FALSE" boolean
 
 #define TOGGLE(a)					(a) = !(a)     // Toggle boolean value
 #define IS_TRUE(a)					((a) != FALSE) // Check if boolean is TRUE
@@ -59,7 +59,7 @@ typedef unsigned short				c16;	// 16 bits character type (UTF-16, JIS, etc.)
 
 // Pointer
 typedef void*						ptr;	// Pointer type
-#define NULL						0		// Pointer "NULL" value
+#define NULL						0x0000	// Pointer "NULL" value
 
 // Functions
 typedef void (*callback)(void);				// Callback default signature
@@ -227,3 +227,5 @@ typedef void (*callback)(void);				// Callback default signature
 
 // __TIME__		This macro expands to a string constant that describes the time at which the preprocessor is being run. 
 // 				The string constant contains eight characters and looks like `"23:59:01"'.
+
+#define __FUNCTION__ 				__func__

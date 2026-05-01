@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:24 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\scc_manbow_03.vgm (116880 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -128,16 +127,7 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x8B, 0x03, // #rr = nn
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
-	0x07, 0xBE, // R#7: 07 nn
-	0xD0, // R#n: Dn
-	0x16, // R#1: 1n
 	0xD8, // R#n: Dn
-	0xD2, // R#n: Dn
-	0xD3, // R#n: Dn
-	0xD9, // R#n: Dn
-	0xD4, // R#n: Dn
-	0xD5, // R#n: Dn
-	0xDA, // R#n: Dn
 	0x07, 0xBF, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x8D, 0x08, // #rr = nn
@@ -411,7 +401,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x60, 0x04, 0x18, 0x01, // Dn rr vv[] => R#rr~
@@ -965,7 +954,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x60, 0x04, 0xE0, 0x00, // Dn rr vv[] => R#rr~
@@ -1543,7 +1531,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xC0, 0x08, 0x50, 0x01, // Dn rr vv[] => R#rr~
@@ -2105,7 +2092,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x85, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xC0, 0x08, 0x90, // Dn rr vv[] => R#rr~
@@ -2175,7 +2161,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0xB0, // R#0: 00 nn
 	0x11, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBE, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x80, 0x0A, 0xFC, 0x00, // Dn rr vv[] => R#rr~
@@ -2216,7 +2201,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x65, // R#2: 02 nn
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xC0, 0x08, 0xE0, // Dn rr vv[] => R#rr~
@@ -2256,7 +2240,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x91, // R#2: 02 nn
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xE0, 0x07, 0x78, 0x01, // Dn rr vv[] => R#rr~
@@ -2295,7 +2278,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xC1, // R#2: 02 nn
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x84, 0x18, // #rr = nn
@@ -2695,7 +2677,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x60, 0x04, 0x18, 0x01, // Dn rr vv[] => R#rr~
@@ -2737,7 +2718,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xE0, 0x05, 0xE0, 0x00, // Dn rr vv[] => R#rr~
 	0x88, 0xB7, // #rr = nn
@@ -3274,7 +3254,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x60, 0x04, 0xE0, 0x00, // Dn rr vv[] => R#rr~
@@ -3316,7 +3295,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x05, 0xBC, // Dn rr vv[] => R#rr~
 	0x88, 0xC3, // #rr = nn
@@ -3881,7 +3859,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xC0, 0x08, 0x50, 0x01, // Dn rr vv[] => R#rr~
@@ -3923,7 +3900,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x07, 0x78, // Dn rr vv[] => R#rr~
 	0x88, 0xF7, // #rr = nn
@@ -4145,7 +4121,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x80, 0x0A, 0x90, // Dn rr vv[] => R#rr~
 	0xD0, 0x8B, 0x09, 0x08, 0x09, // Dn rr vv[] => R#rr~
@@ -4277,7 +4252,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xC0, 0x08, 0xFC, 0x00, // Dn rr vv[] => R#rr~
@@ -4510,7 +4484,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF0, // ---- Start PSG section
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x83, 0x05, // #rr = nn
@@ -4561,7 +4534,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x60, 0x04, 0x5A, // Dn rr vv[] => R#rr~
@@ -4611,7 +4583,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x53, // R#2: 02 nn
 	0x21, // R#3: 2n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x40, 0x06, 0x5A, // Dn rr vv[] => R#rr~
@@ -4663,7 +4634,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x83, 0x05, // #rr = nn
@@ -4715,7 +4685,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x93, // R#2: 02 nn
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x60, 0x04, 0xE0, // Dn rr vv[] => R#rr~
@@ -5196,7 +5165,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x8C, // R#2: 02 nn
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF8, 0x01, 0xFC, // Dn rr vv[] => R#rr~
@@ -5864,7 +5832,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD2, 0x82, 0xE0, 0x07, 0xC8, 0x00, 0xC9, // Dn rr vv[] => R#rr~
@@ -5973,7 +5940,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD2, 0x82, 0xE0, 0x09, 0xC8, 0x00, 0xBD, // Dn rr vv[] => R#rr~
@@ -6449,7 +6415,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xBC, // R#2: 02 nn
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD2, 0x82, 0x30, 0x02, 0x18, 0x01, 0xA9, // Dn rr vv[] => R#rr~
@@ -7078,7 +7043,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x74, // R#2: 02 nn
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0x30, 0x02, 0xE0, 0x00, // Dn rr vv[] => R#rr~
@@ -7677,7 +7641,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x8C, // R#2: 02 nn
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF8, 0x01, 0xFC, // Dn rr vv[] => R#rr~
@@ -8068,7 +8031,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x07, 0xA8, // Dn rr vv[] => R#rr~
@@ -8117,7 +8079,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xFB, // R#2: 02 nn
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF0, 0x03, 0xC8, // Dn rr vv[] => R#rr~
@@ -8168,7 +8129,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF8, 0x01, 0xFC, // Dn rr vv[] => R#rr~
@@ -8213,7 +8173,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x07, 0xA8, // Dn rr vv[] => R#rr~
@@ -8259,7 +8218,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x84, 0xC8, // #rr = nn
@@ -8482,7 +8440,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x11, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xF3, // R#2: 02 nn
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF0, 0x03, 0xA8, // Dn rr vv[] => R#rr~
@@ -8532,7 +8489,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF8, 0x01, 0xC8, // Dn rr vv[] => R#rr~
@@ -8576,7 +8532,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x07, 0x8C, // Dn rr vv[] => R#rr~
@@ -8620,7 +8575,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA8, // #rr = nn
@@ -8803,7 +8757,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF3, // ---- Start SCC section
 	0xD0, 0x8B, 0x05, 0x05, 0x0D, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Ex
-	0xFD, 0x00, // ======== End of data segment
 	0xD0, 0x8B, 0x04, 0x04, 0x0E, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Ex
 	0xD0, 0x8B, 0x03, 0x03, 0x0D, // Dn rr vv[] => R#rr~
@@ -8823,6 +8776,14 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x8C, 0x08, // #rr = nn
 	0x8E, 0x08, // #rr = nn
 	0x8F, 0x00, // #rr = nn
+	0xFD, 0x00, // ======== End of data segment
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
 	0xB1, 0x00, 0x00, 0x00, 0x80, 0x00, 0x70, 0x70, 0x70, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x80, 0x80, 0x80, 0x80, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x80, 0x80, 0x80, 0x00, 0x80, 0x80, 0x80, // B1 nn[32] => 9820h~
 	0x8F, 0x1E, // #rr = nn
 	0xE0, // -------- Wait: Ex
@@ -9058,7 +9019,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF8, 0x01, 0xA8, // Dn rr vv[] => R#rr~
@@ -9730,7 +9690,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x07, 0x7E, // Dn rr vv[] => R#rr~
@@ -9843,7 +9802,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x07, 0x7E, // Dn rr vv[] => R#rr~
@@ -9887,7 +9845,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA8, // #rr = nn
@@ -10330,7 +10287,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF8, 0x01, 0xBC, // Dn rr vv[] => R#rr~
@@ -10973,7 +10929,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x00, 0x01, // R#0: 00 nn
 	0xD1, // R#n: Dn
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF8, 0x01, 0x8C, // Dn rr vv[] => R#rr~
@@ -11688,7 +11643,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x02, 0x23, // R#2: 02 nn
 	0x23, // R#3: 2n
 	0x83, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD1, 0x82, 0xF8, 0x01, 0xA0, 0x02, // Dn rr vv[] => R#rr~
@@ -12044,7 +11998,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x11, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x85, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF0, 0x03, 0x80, // Dn rr vv[] => R#rr~
@@ -12095,7 +12048,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x97, // R#2: 02 nn
 	0x83, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x07, 0x20, // Dn rr vv[] => R#rr~
@@ -12145,7 +12097,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x85, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD2, 0x82, 0xF0, 0x03, 0xA0, 0x02, 0x81, // Dn rr vv[] => R#rr~
@@ -12191,7 +12142,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xB5, // R#2: 02 nn
 	0x83, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD2, 0x82, 0xE0, 0x07, 0xF8, 0x01, 0x21, // Dn rr vv[] => R#rr~
@@ -12236,7 +12186,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x85, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF0, 0x03, 0xC0, // Dn rr vv[] => R#rr~
@@ -12282,7 +12231,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD7, // R#2: 02 nn
 	0x83, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x07, 0x90, // Dn rr vv[] => R#rr~
@@ -12327,7 +12275,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x85, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xF0, 0x03, 0x50, // Dn rr vv[] => R#rr~
@@ -12509,7 +12456,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x11, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x85, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA8, // #rr = nn
@@ -12596,7 +12542,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x85, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x84, 0x70, // #rr = nn
@@ -12642,7 +12587,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xAB, // R#2: 02 nn
 	0x83, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x84, 0x64, // #rr = nn
@@ -12688,7 +12632,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xF0, // ---- Start PSG section
 	0x72, // R#8: 7n | 0x10
 	0x85, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x84, 0x54, // #rr = nn
@@ -13209,7 +13152,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD4, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0xF0, // #rr = nn
@@ -13262,7 +13204,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x7E, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x8B, 0x0A, // #rr = nn
 	0x8C, 0x04, // #rr = nn
@@ -13960,7 +13901,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD4, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0xF0, // #rr = nn
@@ -14012,7 +13952,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x7E, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x84, 0x73, // #rr = nn
 	0x88, 0x7B, // #rr = nn
@@ -14713,7 +14652,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x02, 0xE0, // R#2: 02 nn
 	0xD3, // R#n: Dn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
@@ -14765,7 +14703,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xBC, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x84, 0x73, // #rr = nn
 	0x88, 0xBD, // #rr = nn
@@ -15402,7 +15339,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x70, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
@@ -15455,7 +15391,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x5E, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x84, 0x87, // #rr = nn
 	0x8B, 0x0A, // #rr = nn
@@ -16146,7 +16081,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD4, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0xF0, // #rr = nn
@@ -16202,7 +16136,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xA8, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x84, 0xF7, // #rr = nn
 	0x8B, 0x0A, // #rr = nn
@@ -16904,7 +16837,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD4, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -16959,7 +16891,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xA8, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x84, 0x23, // #rr = nn
 	0x88, 0x7B, // #rr = nn
@@ -17662,7 +17593,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xBC, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0x60, // #rr = nn
@@ -17716,7 +17646,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x9E, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x84, 0xDB, // #rr = nn
 	0x8B, 0x0A, // #rr = nn
@@ -18025,7 +17954,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x8C, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0x80, // #rr = nn
@@ -18070,7 +17998,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x9E, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD2, 0x82, 0x40, 0x08, 0xC0, 0x01, 0x3C, // Dn rr vv[] => R#rr~
@@ -18113,7 +18040,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xB2, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
@@ -18145,7 +18071,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xC8, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0x20, // #rr = nn
@@ -18164,7 +18089,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x84, // R#9: 8n
 	0xF3, // ---- Start SCC section
 	0xD1, 0x8B, 0x08, 0x02, 0x02, 0x02, // Dn rr vv[] => R#rr~
-	0xFD, 0x00, // ======== End of data segment
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x68, // R#8: 6n
@@ -18213,6 +18137,7 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0xD1, 0x8B, 0x0A, 0x09, 0x09, 0x09, // Dn rr vv[] => R#rr~
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
+	0xFD, 0x00, // ======== End of data segment
 	0x00, 0x80, // R#0: 00 nn
 	0x67, // R#8: 6n
 	0x84, // R#9: 8n
@@ -18276,7 +18201,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x18, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0x20, // #rr = nn
@@ -18371,7 +18295,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x64, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
@@ -18403,7 +18326,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x90, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0x20, // #rr = nn
@@ -18451,7 +18373,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x02, 0xC0, // R#2: 02 nn
 	0x86, // R#9: 8n
 	0x0B, 0x12, // R#11: 0B nn
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x40, 0x08, 0x78, // Dn rr vv[] => R#rr~
@@ -19086,7 +19007,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD4, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0xF0, // #rr = nn
@@ -19139,7 +19059,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x7E, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x8B, 0x0A, // #rr = nn
 	0x8C, 0x04, // #rr = nn
@@ -19837,7 +19756,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD4, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0xF0, // #rr = nn
@@ -19889,7 +19807,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x7E, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x84, 0x73, // #rr = nn
 	0x88, 0x7B, // #rr = nn
@@ -20590,7 +20507,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x02, 0xE0, // R#2: 02 nn
 	0xD3, // R#n: Dn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
@@ -20642,7 +20558,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xBC, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x84, 0x73, // #rr = nn
 	0x88, 0xBD, // #rr = nn
@@ -21269,7 +21184,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x70, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
@@ -21317,7 +21231,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x5E, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x84, 0x87, // #rr = nn
 	0xD1, 0x8B, 0x0A, 0x02, 0x02, 0x02, // Dn rr vv[] => R#rr~
@@ -22002,7 +21915,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x02, 0xFC, // R#2: 02 nn
 	0xD3, // R#n: Dn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0xE0, // #rr = nn
@@ -22055,7 +21967,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD4, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x8B, 0x0A, // #rr = nn
 	0x8C, 0x06, // #rr = nn
@@ -22766,7 +22677,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x02, 0xFC, // R#2: 02 nn
 	0xD3, // R#n: Dn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0x90, // #rr = nn
@@ -22820,7 +22730,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xD4, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x86, 0xBC, // #rr = nn
 	0x88, 0x7F, // #rr = nn
@@ -23523,7 +23432,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x02, 0xE0, // R#2: 02 nn
 	0xD3, // R#n: Dn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
@@ -23578,7 +23486,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xBC, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0x84, 0x4B, // #rr = nn
 	0x86, 0x52, // #rr = nn
@@ -23853,7 +23760,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x02, 0xF0, // R#2: 02 nn
 	0x22, // R#3: 2n
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x84, 0x80, 0x03, 0x40, // Dn rr vv[] => R#rr~
 	0xD0, 0x8B, 0x0B, 0x0A, 0x0A, // Dn rr vv[] => R#rr~
@@ -23942,7 +23848,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x10, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xC8, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA0, // #rr = nn
@@ -24127,7 +24032,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x08, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x84, 0x50, // #rr = nn
@@ -24170,7 +24074,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x02, 0xE0, // R#2: 02 nn
 	0xD3, // R#n: Dn
 	0x86, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x80, 0x0A, 0x08, // Dn rr vv[] => R#rr~
@@ -24264,7 +24167,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xA8, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0x00, 0x07, 0xBC, // Dn rr vv[] => R#rr~
@@ -24308,7 +24210,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0x84, // R#2: 02 nn
 	0x86, // R#9: 8n
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xE0, 0x05, 0xA8, // Dn rr vv[] => R#rr~
@@ -24353,7 +24254,6 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x02, 0x70, // R#2: 02 nn
 	0x86, // R#9: 8n
 	0x0B, 0x12, // R#11: 0B nn
-	0xCA, // R#13: Cn
 	0x07, 0xBC, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
@@ -24603,4 +24503,4 @@ const unsigned char g_lVGM_scc_manbow_03[] = {
 	0x16, // R#1: 1n
 	0xFF, // End marker
 };
-// Total size: 42818 bytes
+// Total size: 42718 bytes

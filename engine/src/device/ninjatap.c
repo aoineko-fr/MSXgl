@@ -192,7 +192,7 @@ u8 NTap_CheckST()
 void NTap_Update()
 {
 	#if (NTAP_USE_PREVIOUS)
-	loop(i, 8)
+	loop (i, 8)
 		g_NTap_Prev[i] = g_NTap_Data[i];
 	#endif
 

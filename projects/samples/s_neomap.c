@@ -32,6 +32,8 @@
 	#define BANK_SIZE				0x4000
 	#define TEST_BANK				2
 	#define TEST_ADDR				0x8000
+#else
+	#error Error: Invalide ROM mapper type (ROM_MAPPER)
 #endif
 
 #define MIRROR_MASK				0b0000011111111110
@@ -100,7 +102,7 @@ const u16 g_SwitchAddr[BANK_NUM] =
 //
 bool CheckSign(const u8* addr, const u8* sign)
 {
-	loop(i, 4)
+	loop (i, 4)
 		if (*addr++ != *sign++)
 			return FALSE;
 	return TRUE;
@@ -162,16 +164,6 @@ const c8* GetROMSize(u8 size)
 	case ROM_32K:	return "32 KB";
 	case ROM_48K:	return "48 KB";
 	case ROM_64K:	return "64 KB";
-	case ROM_128K:	return "128 KB";
-	case ROM_256K:	return "256 KB";
-	case ROM_512K:	return "512 KB";
-	case ROM_1M:	return "1024 KB";
-	case ROM_2M:	return "2048 KB";
-	case ROM_4M:	return "4096 KB";
-	case ROM_8M:	return "8192 KB";
-	case ROM_16M:	return "16 MB";
-	case ROM_32M:	return "32 MB";
-	case ROM_64M:	return "64 MB";
 	};
 	return "Unknow";
 }
@@ -181,7 +173,7 @@ const c8* GetROMSize(u8 size)
 void DisplayMemory(u16 addr)
 {
 	const u8* ptr = (const u8*)addr; 
-	loop(i, 28)
+	loop (i, 28)
 		Print_DrawChar(*ptr++);
 }
 
@@ -222,10 +214,13 @@ void main()
 	Print_DrawFormat("%s\n\n", TARGET_NAME);
 	Print_DrawFormat("Type:    %s\n", GetTargetType(TARGET_TYPE));
 	Print_DrawFormat("Mapper:  %s\n", GetROMMapper(ROM_MAPPER));
-	Print_DrawFormat("Size:    %s\n", GetROMSize(ROM_SIZE));
+	if (ROM_SIZE > 1024)
+		Print_DrawFormat("Size:    %iMB\n", ROM_SIZE / 1024);
+	else
+		Print_DrawFormat("Size:    %iKB\n", ROM_SIZE);
 	Print_DrawFormat("Seg num: %i\n", ROM_SEGMENTS);
 	// Slot selection
-	loop(i, 4)
+	loop (i, 4)
 	{
 		u8 slotId = Sys_GetPageSlot(i);
 		Print_SetPosition(20, 4+i);
@@ -236,7 +231,7 @@ void main()
 
 	Print_SetPosition(0, 8);
 	Print_DrawText("\nBank test:");
-	loop(b, BANK_NUM)
+	loop (b, BANK_NUM)
 	{
 		u16 s = 0;
 		switch (b)
@@ -269,7 +264,7 @@ void main()
 	Print_DrawText("\n\nAccess test:");
 	Print_DrawText("\n\x7SET_BANK_SEGMENT()  ");
 	SET_SEGMENT(0);
-	loop(i, numberof(g_Signs))
+	loop (i, numberof(g_Signs))
 	{
 		const struct SignEntry* e = &g_Signs[i];
 		SET_SEGMENT(e->Segment); // Set segment in bank
@@ -278,7 +273,7 @@ void main()
 
 	Print_DrawText("\n\x7""16b access          ");
 	SET_SEGMENT(0);
-	loop(i, numberof(g_Signs))
+	loop (i, numberof(g_Signs))
 	{
 		const struct SignEntry* e = &g_Signs[i];
 		Poke16(g_SwitchAddr[TEST_BANK], e->Segment); // Set segment in bank
@@ -287,7 +282,7 @@ void main()
 
 	Print_DrawText("\n\x7""16b access + mask   ");
 	SET_SEGMENT(0);
-	loop(i, numberof(g_Signs))
+	loop (i, numberof(g_Signs))
 	{
 		const struct SignEntry* e = &g_Signs[i];
 		u16 addr = g_SwitchAddr[TEST_BANK] | MIRROR_MASK;
@@ -297,7 +292,7 @@ void main()
 
 	Print_DrawText("\n\x7""8b access           ");
 	SET_SEGMENT(0);
-	loop(i, numberof(g_Signs))
+	loop (i, numberof(g_Signs))
 	{
 		const struct SignEntry* e = &g_Signs[i];
 		u16 addr = g_SwitchAddr[TEST_BANK];

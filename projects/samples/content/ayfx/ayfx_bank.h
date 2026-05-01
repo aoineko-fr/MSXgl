@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sat Nov  9 14:46:21 2024
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: ayfx\ayfx_bank.afb
 const unsigned char g_ayfx_bank[] = {
 	0x13, 0x25, 0x00, 0x56, 0x00, 0x8D, 0x00, 0xB6, 0x00, 0xCA, 0x00, 0xDC, 0x00, 0x64, 0x01, 0x99, //      0 |  % V � � � � d � 

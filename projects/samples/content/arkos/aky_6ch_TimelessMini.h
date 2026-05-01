@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sat Nov 29 12:57:23 2025
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: arkos\6ch_TimelessMini.aky
 const unsigned char g_AKY_6ch_TimelessMini[] = {
 	0x80, 0x06, 0x80, 0x84, 0x1E, 0x00, 0x80, 0x84, 0x1E, 0x00, 0xC0, 0x00, 0xB6, 0xA0, 0xE6, 0xA0, //      0

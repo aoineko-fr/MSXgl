@@ -226,19 +226,19 @@ bool RTC_LoadDataSigned(u8* data)
 	u8 a = *sign & 0x7F;
 	u8 b = RTC_Read(2) + (RTC_Read(3) << 4);
 	if (a != b)
-		return RTC_DATA_INVALID;
+		return FALSE;
 	// Signature 2nd byte (company MSB)
 	sign++;
 	a = *sign & 0x7F;
 	b = RTC_Read(4) + (RTC_Read(6) << 4);
 	if (a != b)
-		return RTC_DATA_INVALID;
+		return FALSE;
 	// Signature 4th byte (product LSB)
 	sign++;
 	a = *sign;
 	b = RTC_Read(5) + (RTC_Read(7) << 2) + (RTC_Read(8) << 6);
 	if (a != b)
-		return RTC_DATA_INVALID;
+		return FALSE;
 
 	// Load data
 	RTC_SetMode(RTC_MODE_BLOCK_3);

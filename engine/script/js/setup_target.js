@@ -227,7 +227,7 @@ else if (Target === "ROM_ASCII8")
 	if(!ROMMainSegments)
 		ROMMainSegments = 4;
 	Mapper = "ROM_ASCII8";
-	Target = `ROM_ASCII8_${ROMSize}K`;
+	// Target = `ROM_ASCII8_${ROMSize}K`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
 	StartAddr = 0x4000;
@@ -250,7 +250,7 @@ else if (Target === "ROM_ASCII16")
 	if(!ROMMainSegments)
 		ROMMainSegments = 2;
 	Mapper = "ROM_ASCII16";
-	Target = `ROM_ASCII16_${ROMSize}K`;
+	// Target = `ROM_ASCII16_${ROMSize}K`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
 	StartAddr = 0x4000;
@@ -271,7 +271,7 @@ else if (Target === "ROM_KONAMI")
 	if(!ROMMainSegments)
 		ROMMainSegments = 4;
 	Mapper = "ROM_KONAMI";
-	Target = `ROM_KONAMI_${ROMSize}K`;
+	// Target = `ROM_KONAMI_${ROMSize}K`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
 	StartAddr = 0x4000;
@@ -293,7 +293,7 @@ else if (Target === "ROM_KONAMI_SCC")
 	if(!ROMMainSegments)
 		ROMMainSegments = 4;
 	Mapper = "ROM_KONAMI_SCC";
-	Target = `ROM_KONAMI_SCC_${ROMSize}K`;
+	// Target = `ROM_KONAMI_SCC_${ROMSize}K`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
 	StartAddr = 0x4000;
@@ -316,7 +316,7 @@ else if (Target === "ROM_NEO8")
 	if(!ROMMainSegments)
 		ROMMainSegments = 4;
 	Mapper = "ROM_NEO8";
-	Target = (ROMSize >= 1024) ? `ROM_NEO8_${ROMSize/1024}M` : `ROM_NEO8_${ROMSize}K`;
+	// Target = (ROMSize >= 1024) ? `ROM_NEO8_${ROMSize/1024}M` : `ROM_NEO8_${ROMSize}K`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_neo";
 	StartAddr = 0x4000;
@@ -342,7 +342,7 @@ else if (Target === "ROM_NEO16")
 	if(!ROMMainSegments)
 		ROMMainSegments = 2;
 	Mapper = "ROM_NEO16";
-	Target = (ROMSize >= 1024) ? `ROM_NEO16_${ROMSize/1024}M` : `ROM_NEO16_${ROMSize}K`;
+	// Target = (ROMSize >= 1024) ? `ROM_NEO16_${ROMSize/1024}M` : `ROM_NEO16_${ROMSize}K`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_neo";
 	StartAddr = 0x4000;
@@ -365,7 +365,7 @@ else if (Target === "ROM_YAMANOOTO")
 	if(!ROMMainSegments)
 		ROMMainSegments = 4;
 	Mapper = "ROM_YAMANOOTO";
-	Target = `ROM_YAMANOOTO_${ROMSize/1024}M`;
+	// Target = `ROM_YAMANOOTO_${ROMSize/1024}M`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
 	StartAddr = 0x4000;
@@ -388,7 +388,7 @@ else if (Target === "ROM_ASCII16X")
 	if(!ROMMainSegments)
 		ROMMainSegments = 2;
 	Mapper = "ROM_ASCII16X";
-	Target = `ROM_ASCII16X_${ROMSize/1024}M`;
+	// Target = `ROM_ASCII16X_${ROMSize/1024}M`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
 	StartAddr = 0x4000;

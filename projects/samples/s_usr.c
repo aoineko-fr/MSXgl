@@ -27,10 +27,10 @@
 
 //-----------------------------------------------------------------------------
 //
-void Bios_PrintText(const c8* str)
+void BIOS_PrintText(const c8* str)
 {
 	while (*str)
-		Bios_TextPrintChar(*str++);
+		BIOS_TextPrintChar(*str++);
 }
 
 //-----------------------------------------------------------------------------
@@ -48,7 +48,7 @@ void main()
 	switch (val)
 	{
 	case 0:
-		// Bios_PrintText("Ntap:Init");
+		// BIOS_PrintText("Ntap:Init");
 		ret = NTap_Check();
 		break;
 	case 1:
@@ -59,16 +59,16 @@ void main()
 	case 6:
 	case 7:
 	case 8:
-		// Bios_PrintText("Ntap:Read");
+		// BIOS_PrintText("Ntap:Read");
 		ret = (i16)(u8)~NTap_GetData(val-1);
 		break;
 	case -1:
-		// Bios_PrintText("Ntap:Update");
+		// BIOS_PrintText("Ntap:Update");
 		NTap_Update();
 		ret = 1;
 		break;
 	default:
-		// Bios_PrintText("Ntap:Unknow");
+		// BIOS_PrintText("Ntap:Unknow");
 		break;
 	}
 

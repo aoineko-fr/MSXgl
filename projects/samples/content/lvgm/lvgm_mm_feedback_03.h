@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_feedback_03.vgm (19632 bytes)
 // Compressor: lVGM
 // VGM version: 1.00 (chips:OPLL)
@@ -1154,14 +1153,12 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x12, 0xD9, // rr: nn
 	0x22, 0x08, // rr: nn
 	0x22, 0x18, // rr: nn
-	0x33, 0xC1, // rr: nn
 	0x23, 0x09, // rr: nn
 	0x23, 0x19, // rr: nn
 	0xB6, // rr: 0
 	0x37, 0x22, // rr: nn
 	0x8E, // rr: 0
 	0x0E, 0x31, // rr: nn
-	0xA4, // rr: 0
 	0xE9, // -------- Wait: Ex
 	0x21, 0x04, // rr: nn
 	0xE0, // -------- Wait: Ex
@@ -1417,8 +1414,7 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x0E, 0x31, // rr: nn
 	0xE3, // -------- Wait: Ex
 	0x21, 0x04, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x10, 0xAB, // rr: nn
 	0x20, 0x08, // rr: nn
 	0x20, 0x18, // rr: nn
@@ -4854,4 +4850,4 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x21, 0x13, // rr: nn
 	0xFF, // End marker
 };
-// Total size: 8264 bytes
+// Total size: 8260 bytes

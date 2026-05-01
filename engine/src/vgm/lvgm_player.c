@@ -116,7 +116,7 @@ void LVGM_DecodeOPLL()
 			u8 id = op & 0x0F;
 			u8 cnt = g_lVGM_OPLL_Cnt[id];
 			u8 reg = g_lVGM_OPLL_Reg[id];
-			loop(i, cnt)
+			loop (i, cnt)
 				MSXMusic_SetRegister(reg++, *++g_LVGM_Pointer);
 			break;
 		}
@@ -126,7 +126,7 @@ void LVGM_DecodeOPLL()
 			u8 cnt = g_lVGM_OPLL_Cnt[id];
 			u8 reg = g_lVGM_OPLL_Reg[id];
 			u8 val = *++g_LVGM_Pointer;
-			loop(i, cnt)
+			loop (i, cnt)
 				MSXMusic_SetRegister(reg++, val);
 			break;
 		}
@@ -135,7 +135,7 @@ void LVGM_DecodeOPLL()
 			u8 cnt = (*g_LVGM_Pointer & 0x0F) + 3;
 			u8 reg = *++g_LVGM_Pointer;
 			u8 val = *++g_LVGM_Pointer;
-			loop(i, cnt)
+			loop (i, cnt)
 				MSXMusic_SetRegister(reg++, val);
 			break;
 		}
@@ -143,7 +143,7 @@ void LVGM_DecodeOPLL()
 		{
 			u8 cnt = (*g_LVGM_Pointer & 0x0F) + 3;
 			u8 reg = *++g_LVGM_Pointer;
-			loop(i, cnt)
+			loop (i, cnt)
 				MSXMusic_SetRegister(reg++, *++g_LVGM_Pointer);
 			break;
 		}
@@ -172,7 +172,7 @@ void LVGM_DecodeOPL1()
 	// {
 	// 	u8 cnt = (op & 0x0F) + 3;
 	// 	u8 reg = *++g_LVGM_Pointer;
-	// 	loop(i, cnt)
+	// 	loop (i, cnt)
 	// 		MSXAudio_SetRegister(reg++, *++g_LVGM_Pointer);
 	// }
 	// else // R#aa = bb
@@ -198,14 +198,14 @@ void  LVGM_DecodeSCC()
 	else if (op < 0xB8) // Bx | Waveform
 	{
 		u8 reg = g_lVGM_SCC_Reg[op & 0x07];
-		loop(i, 32)
+		loop (i, 32)
 			SCC_SetRegister(reg++, *++g_LVGM_Pointer);
 	}
 	else if (op < 0xC0) // Bx | Waveform
 	{
 		u8 reg = g_lVGM_SCC_Reg[op & 0x07];
 		u8 val = *++g_LVGM_Pointer;
-		loop(i, 32)
+		loop (i, 32)
 			SCC_SetRegister(reg++, val);
 	}
 	else if (op < 0xD0) // Cn rr vv | Set n+3 bytes (3~18) start from register #rr
@@ -213,14 +213,14 @@ void  LVGM_DecodeSCC()
 		u8 cnt = (op & 0x0F) + 3;
 		u8 reg = *++g_LVGM_Pointer;
 		u8 val = *++g_LVGM_Pointer;
-		loop(i, cnt)
+		loop (i, cnt)
 			SCC_SetRegister(reg++, val);
 	}
 	else if (op < 0xE0) // Dn rr vv[] | Copy n+3 bytes (3~18) start from register #rr
 	{
 		u8 cnt = (op & 0x0F) + 3;
 		u8 reg = *++g_LVGM_Pointer;
-		loop(i, cnt)
+		loop (i, cnt)
 			SCC_SetRegister(reg++, *++g_LVGM_Pointer);
 	}
 }

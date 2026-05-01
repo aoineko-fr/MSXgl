@@ -209,5 +209,5 @@ void main()
 		Print_DrawChar(g_ChrAnim[count++ & 0x03]);
 	}
 
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

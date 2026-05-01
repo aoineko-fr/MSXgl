@@ -148,7 +148,7 @@ void DiskSave_BuildFilename(u8 entry, c8* buffer, bool pad)
 	{
 		buffer[i++] = '.';
 		// Add the extension
-		loop(j, 3)
+		loop (j, 3)
 			buffer[i++] = g_DiskSave_Ext[j];
 
 		// buffer[i++] = g_DiskSave_Ext[0];
@@ -189,7 +189,7 @@ u8 DiskSave_Check(u8 entry)
 
 	// Check the save data signature
 	const u8* sign = (const u8*)&g_AppSignature;
-	loop(i, 4)
+	loop (i, 4)
 		if (g_DiskSave_Buffer[i] != *sign++)
 			return SAVEDATA_UNSIGNED; // Invalid signature
 

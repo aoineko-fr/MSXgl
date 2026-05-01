@@ -178,7 +178,7 @@ void Pawn_ParseSprite(Pawn* pawn, SpriteCallback cb)
 	g_Pawn = pawn;
 	g_Pawn_Sprite = g_Pawn->SpriteList;
 	PAWN_SPRT_INIT()
-	loop(i, g_Pawn->SpriteNum)
+	loop (i, g_Pawn->SpriteNum)
 	{
 		PAWN_SPRT_LOOP()
 		cb(sprtIdx);
@@ -599,7 +599,7 @@ inline void Pawn_Draw_V9()
 	g_Pawn_Sprite = g_Pawn->SpriteList;
 
 	PAWN_SPRT_INIT()
-	loop(i, g_Pawn->SpriteNum)
+	loop (i, g_Pawn->SpriteNum)
 	{
 		PAWN_SPRT_LOOP()
 		g_Pawn_Buffer[0] = g_Pawn->PositionY + g_Pawn_Sprite->OffsetY - 1; // Decrement Y to fit screen coordinate;
@@ -627,7 +627,7 @@ inline void Pawn_Draw_Sprite()
 {
 	g_Pawn_Sprite = g_Pawn->SpriteList;
 
-	loop(i, g_Pawn->SpriteNum)
+	loop (i, g_Pawn->SpriteNum)
 	{
 		g_Pawn_FrameOffset = 0;
 		if ((g_Pawn->Update & PAWN_UPDATE_BLEND) && (g_Pawn_Sprite->Flag & PAWN_SPRITE_BLEND)) // Skip odd frames
@@ -696,7 +696,7 @@ inline void Pawn_Draw_Sprite()
 
 	u8 sprtIdx = g_Pawn->SpriteID;
 	u16 dest = g_SpriteAttributeLow + (g_Pawn->SpriteID * 4);
-	loop(i, g_Pawn->SpriteNum)
+	loop (i, g_Pawn->SpriteNum)
 	{
 		g_Pawn_FrameOffset = 0;
 		if ((g_Pawn->Update & PAWN_UPDATE_BLEND) && (g_Pawn_Sprite->Flag & PAWN_SPRITE_BLEND)) // Skip odd frames

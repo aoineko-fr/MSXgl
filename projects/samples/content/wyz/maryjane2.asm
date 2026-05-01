@@ -1,5 +1,5 @@
 ;-----------------------------------------------------------------------------
-; WYZ file merged for MSXgl on 09/11/2024 14:46:20,54 
+; WYZ file merged for MSXgl on 19/04/2026 18:06:40,59 
 ;-----------------------------------------------------------------------------
 .module wyz_maryjane2 
 _maryjane2_Song:: .DW SONG00 
@@ -46,9 +46,9 @@ _maryjane2_Freq:: .DW 0,0
 .DW 95,90,85,80,76,71,67,64,60,57
 ; Song data 
 SONG00: 
-; MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-; File generated on Sat Nov  9 14:46:20 2024
-; Soure file: D:\Dev\Private\MSX\MSXgl\projects\samples\datasrc\wyz\maryjane2.mus
+; MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
+; File generated on Sun Apr 19 18:06:40 2026
+; Soure file: C:\dev\MSX\MSXgl\projects\samples\datasrc\wyz\maryjane2.mus
 _maryjane2_Data::
 .db 0x04,0x31,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x3F,0x01,0x00,0x75
 .db 0x3F,0x02,0x00,0x75,0x3F,0x05,0x00,0xB5,0xBE,0x3F,0x01,0x00,0x75,0x3F,0x02,0x00

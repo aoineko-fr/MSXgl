@@ -216,6 +216,7 @@
 #define PRINT_USE_UNIT				FALSE	// Display integer type (h: hexadecimal, b: binary)
 #define PRINT_USE_FORMAT			TRUE	// Add printf type function
 #define PRINT_USE_32B				TRUE	// Allow to print 32-bits integers
+#define PRINT_USE_MULTIFONT			FALSE	// Use multiple fonts (each one with its own data structure)
 #define PRINT_SKIP_SPACE			TRUE	// Skill space character
 #define PRINT_COLOR_NUM				12		// 1 color per line
 // Character width
@@ -343,6 +344,12 @@
 #define MENU_CURSOR_OFFSET			(-2)	// Cursor X position offset
 
 //-----------------------------------------------------------------------------
+// GAME QUEST VARIABLES MODULE
+//-----------------------------------------------------------------------------
+
+#define BITFIELD_MAX				64	// Maximum number of quest variables (8 variables per byte)
+
+//-----------------------------------------------------------------------------
 // STRING MODULE
 //-----------------------------------------------------------------------------
 
@@ -449,8 +456,9 @@
 #define PT3_EXTRA					TRUE	// Add helper functions
 
 // ayFX options
-// - AYFX_BUFFER_DEFAULT .......... Use PSG module PSG register buffer
-// - AYFX_BUFFER_PT3 .............. Use PT3 module PSG register buffer
+// - AYFX_BUFFER_DEFAULT .......... Use PSG module's PSG registers buffer
+// - AYFX_BUFFER_PSG2 ............. Use PSG module's 2nd PSG registers buffer (only if PSG_CHIP == PSG_BOTH)
+// - AYFX_BUFFER_PT3 .............. Use PT3 module's PSG registers buffer
 #define AYFX_BUFFER					AYFX_BUFFER_PT3
 
 // TriloTracker options
@@ -481,6 +489,9 @@
 #define ARKOS_ISR_PROTECTION		FALSE	// Prevent interruption during audio update
 #define ARKOS_SFX_START_IDX			0		// Do SFX indexes start at 0 or 1? Default is 0 but Arkos Tracker use 1
 #define ARKOS_USE_EVENT				FALSE	// Support for event callback function (AKG replayer only)
+
+// NDP player options
+#define NDP_USE_INDERCT				FALSE	// Output music data into RAM buffer (need to use with ayFX for example)
 
 //-----------------------------------------------------------------------------
 // MATH MODULE

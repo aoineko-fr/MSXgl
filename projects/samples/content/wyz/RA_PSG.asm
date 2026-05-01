@@ -1,5 +1,5 @@
 ;-----------------------------------------------------------------------------
-; WYZ file merged for MSXgl on 09/11/2024 14:46:21,28 
+; WYZ file merged for MSXgl on 19/04/2026 18:06:41,59 
 ;-----------------------------------------------------------------------------
 .module wyz_RA_PSG 
 _RA_PSG_Song:: .DW SONG00 
@@ -46,9 +46,9 @@ _RA_PSG_Freq:: .DW 0,0
 .DW 95,90,85,80,76,71,67,64,60,57
 ; Song data 
 SONG00: 
-; MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-; File generated on Sat Nov  9 14:46:21 2024
-; Soure file: D:\Dev\Private\MSX\MSXgl\projects\samples\datasrc\wyz\RA_PSG.mus
+; MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
+; File generated on Sun Apr 19 18:06:41 2026
+; Soure file: C:\dev\MSX\MSXgl\projects\samples\datasrc\wyz\RA_PSG.mus
 _RA_PSG_Data::
 .db 0x05,0x31,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x3F,0x00,0x00,0x52
 .db 0x12,0x12,0x52,0x52,0x12,0x12,0x52,0x52,0x12,0x12,0x50,0x10,0x10,0x50,0x50,0x10

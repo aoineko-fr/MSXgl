@@ -29,9 +29,10 @@ enum LVGM_FREQ
 // lVGM option
 enum LVGM_OPTION
 {
-	LVGM_OPTION_60HZ   = 0b00000000, // Frequency (0: 60 Hz)
-	LVGM_OPTION_50HZ   = 0b00000001, // Frequency (1: 50 Hz)
-	LVGM_OPTION_LOOP   = 0b00000010, // Loop data included
+	LVGM_OPTION_FREQ = 0b00000001, // Frequency
+	LVGM_OPTION_60HZ = 0b00000000, // Frequency (0: 60 Hz)
+	LVGM_OPTION_50HZ = 0b00000001, // Frequency (1: 50 Hz)
+	LVGM_OPTION_LOOP = 0b00000010, // Loop data included
 	LVGM_OPTION_DEVICE = 0b00000100, // Devices list
 	LVGM_OPTION_FORMAT = 0b11110000, // File format version (0)
 };
@@ -61,7 +62,39 @@ enum LVGM_CHIP
 	LVGM_CHIP_OPL4      = LVGM_CHIP_MOONSOUND,
 };
 
-//
+// LVGM playback state flag
+enum LVGM_STATE
+{
+	LVGM_STATE_50HZ = 0b00000001,
+	LVGM_STATE_LOOP = 0b00000010,
+	LVGM_STATE_PLAY = 0b10000000,
+};
+
+// Special operator
+enum LVGM_OP
+{
+	LVGM_OP_PSG    = 0xF0, // Start of PSG chunk (default when not defined)
+	LVGM_OP_OPLL   = 0xF1, // Start of MSX-MUSIC chunk
+	LVGM_OP_OPL1   = 0xF2, // Start of MSX-AUDIO chunk
+	LVGM_OP_SCC    = 0xF3, // Start of SCC chunk
+	LVGM_OP_SCCI   = 0xF4, // Start of SCC+ chunk
+	LVGM_OP_PSG2   = 0xF5, // Start of secondary PSG chunk
+	LVGM_OP_OPL4   = 0xF7, // Start of Moonsound chunk
+	LVGM_OP_WAIT   = 0xFC, // Wait counter
+	LVGM_OP_NOTIFY = 0xFD, // Optional markers
+	LVGM_OP_LOOP   = 0xFE, // Loop position
+	LVGM_OP_END    = 0xFF, // End of song
+};
+
+// Special operator
+enum LVGM_NOTIFY
+{
+	LVGM_NOTIFY_SEG_END   = 0x00, // End of data segment
+	LVGM_NOTIFY_LOOP_MARK = 0xFE, // Reach loop marker
+	LVGM_NOTIFY_LOOP_JUMP = 0xFF, // Jump to loop marker
+};
+
+// 
 enum LVGM_SIMPLIFY
 {
 	LVGM_SIMPLIFY_NONE,

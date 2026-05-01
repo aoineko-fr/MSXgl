@@ -14,6 +14,7 @@
 // - Pratique du MSX2
 //─────────────────────────────────────────────────────────────────────────────
 #include "bios.h"
+#include "system.h"
 #include "dos.h"
 
 //-----------------------------------------------------------------------------
@@ -24,7 +25,7 @@
 //-----------------------------------------------------------------------------
 // Handle clean transition to Basic or MSX-DOS environment
 // For MSX-DOS, return value is in L
-void Bios_Exit(u8 ret)
+void BIOS_Exit(u8 ret)
 {
 	ret;	// A
 #if (TARGET_TYPE == TYPE_DOS)
@@ -78,10 +79,10 @@ void Bios_Exit(u8 ret)
 
 //-----------------------------------------------------------------------------
 // Set a safe hook jump to given function
-void Bios_SetHookCallback(u16 hook, callback cb)
+void BIOS_SetHookCallback(u16 hook, callback cb)
 {
 	u8 slot = Sys_GetPageSlot((u16)cb >> 14);
-	Bios_SetHookInterSlotCallback(hook, slot, cb);
+	BIOS_SetHookInterSlotCallback(hook, slot, cb);
 }
 
 //-----------------------------------------------------------------------------
@@ -102,7 +103,7 @@ void Bios_SetHookCallback(u16 hook, callback cb)
 // Registers: All
 // Remark   : After this, a jump must be made to INIT, for further initialisation
 
-// inline void Bios_Startup() { Call(R_CHKRAM); }
+// inline void BIOS_Startup() { Call(R_CHKRAM); }
 
 //-----------------------------------------------------------------------------
 // SYNCHR
@@ -131,7 +132,7 @@ void Bios_SetHookCallback(u16 hook, callback cb)
 // Registers: AF, C, DE
 // Remark   : Can be call directly from MSX-DOS
 //            This routine turns off the interrupt, but won't turn it on again
-u8 Bios_InterSlotRead(u8 slot, u16 addr) __NAKED
+u8 BIOS_InterSlotRead(u8 slot, u16 addr) __NAKED
 {
 	slot; // A
 	addr; // DE
@@ -170,7 +171,7 @@ u8 Bios_InterSlotRead(u8 slot, u16 addr) __NAKED
 // Registers: AF, BC, D
 // Remark   : Can be call directly from MSX-DOS
 //            This routine turns off the interrupt, but won't turn it on again
-void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value)
+void BIOS_InterSlotWrite(u8 slot, u16 addr, u8 value)
 {
 	slot;  // A
 	addr;  // DE
@@ -207,7 +208,7 @@ void Bios_InterSlotWrite(u8 slot, u16 addr, u8 value)
 //            IX - The address that will be called
 // Remark   : Can be call directly from MSX-DOS
 //            Variables can never be given in alternative registers or IX and IY
-void Bios_InterSlotCall(u8 slot, u16 addr)
+void BIOS_InterSlotCall(u8 slot, u16 addr)
 {
 	slot; // A
 	addr; // DE
@@ -246,7 +247,7 @@ void Bios_InterSlotCall(u8 slot, u16 addr)
 //            When this routine is called, interrupts are inhibited and remain so even after execution ends.
 // Input    : A - Slot ID, see RDSLT
 //            H - Bit 6 and 7 must contain the page number (00-11)
-void Bios_SwitchSlot(u8 page, u8 slot)
+void BIOS_SwitchSlot(u8 page, u8 slot)
 {
 	page; // A
 	slot; // H
@@ -283,7 +284,7 @@ void Bios_SwitchSlot(u8 page, u8 slot)
 //            DB destination slot ID, see RDSLT
 //            DW destination address
 
-//@see Bios_InterSlotCallF(_slot, _addr)
+//@see BIOS_InterSlotCallF(_slot, _addr)
 		   
 //-----------------------------------------------------------------------------
 // KEYINT
@@ -322,14 +323,14 @@ void Bios_SwitchSlot(u8 page, u8 slot)
 // Address  : #0041
 // Function : Inhibits the screen display
 // Registers: AF, BC
-// void Bios_DisableScreen() { Call(R_DISSCR); }
+// void BIOS_DisableScreen() { Call(R_DISSCR); }
 
 //-----------------------------------------------------------------------------
 // ENASCR
 // Address  : #0044
 // Function : Displays the screen
 // Registers: AF, BC
-// void Bios_EnableScreen() { Call(R_ENASCR); }
+// void BIOS_EnableScreen() { Call(R_ENASCR); }
 
 //-----------------------------------------------------------------------------
 // WRTVDP
@@ -339,7 +340,7 @@ void Bios_SwitchSlot(u8 page, u8 slot)
 //            C  - Number of the register
 // Registers: AF, BC
 // Remark   : Call Sub-ROM on MSX2 or later if the bit EV of VDP register 0 is changed or if register number is greater than 7
-void Bios_WriteVDP(u8 reg, u8 value)
+void BIOS_WriteVDP(u8 reg, u8 value)
 {
 	reg;   // A
 	value; // L
@@ -360,7 +361,7 @@ void Bios_WriteVDP(u8 reg, u8 value)
 // Registers: AF
 // Remark   : Routine for MSX1, so only the 14 low order bits of the VRAM address are valid. To use all bits, call NRDVRM (00174h)
 
-// inline u8 Bios_ReadVRAM(u16 addr) { return ((u8(*)(u16))R_RDVRM)(addr); }
+// inline u8 BIOS_ReadVRAM(u16 addr) { return ((u8(*)(u16))R_RDVRM)(addr); }
 
 //-----------------------------------------------------------------------------
 // WRTVRM
@@ -370,16 +371,13 @@ void Bios_WriteVDP(u8 reg, u8 value)
 //            A  - Value write
 // Registers: AF
 // Remark   : Routine for MSX1, so only the 14 low order bits of the VRAM address are valid. To use all bits, call NWRVRM (00177h)
-void Bios_WriteVRAM(u16 addr, u8 value)
+void BIOS_WriteVRAM(u8 value, u16 addr)
 {
-	addr;  // HL
-	value; // (SP+4)
+	value; // A
+	addr;  // DE
 
 	__asm
-		ld		iy, #4
-		add		iy, sp
-
-		ld		a, 0(iy)
+		ex		de, hl
 		call	R_WRTVRM
 	__endasm;
 }
@@ -393,7 +391,7 @@ void Bios_WriteVRAM(u16 addr, u8 value)
 // Registers: AF
 // Remark   : Routine for MSX1, so only the 14 low order bits of the VRAM address are valid. To use all bits, call NSETRD (0016Eh)
 
-// inline void Bios_SetAddressForRead(u16 addr) { CallHL(R_SETRD, addr); }
+// inline void BIOS_SetAddressForRead(u16 addr) { CallHL(R_SETRD, addr); }
 
 //-----------------------------------------------------------------------------
 // SETWRT
@@ -403,7 +401,7 @@ void Bios_WriteVRAM(u16 addr, u8 value)
 // Registers: AF
 // Remark   : Routine for MSX1, so only the 14 low order bits of the VRAM address are valid. To use all bits, call NSTWRT (00171h).
 
-// inline void Bios_SetAddressForWrite(u16 addr) { CallHL(R_SETWRT, addr); }
+// inline void BIOS_SetAddressForWrite(u16 addr) { CallHL(R_SETWRT, addr); }
 
 //-----------------------------------------------------------------------------
 // FILVRM
@@ -414,14 +412,14 @@ void Bios_WriteVRAM(u16 addr, u8 value)
 //            A  - Data byte
 // Registers: AF, BC
 // Remark   : Routine for MSX1, so only the 14 low order bits of the VRAM address are valid. To use all bits, call BIGFIL (0016Bh)
-void Bios_FillVRAM(u16 addr, u16 length, u8 value)
+void BIOS_FillVRAM(u16 addr, u16 length, u8 value)
 {
 	addr;   // HL
 	length; // DE
-	value;  // (SP+4)
+	value;  // (SP+2)
 
 	__asm
-		ld		iy, #4
+		ld		iy, #2
 		add		iy, sp
 
 		ld		c, e
@@ -440,14 +438,14 @@ void Bios_FillVRAM(u16 addr, u16 length, u8 value)
 //            BC - Block length
 // Registers: All
 // Remark   : In screen modes other than MSX1. The variable ACPAGE (0FAF6h) indicates the page from which the transfer must take place
-void Bios_TransfertVRAMtoRAM(u16 vram, u16 ram, u16 length)
+void BIOS_CopyVRAMtoRAM(u16 vram, void* ram, u16 length)
 {
 	vram;   // LH
 	ram;    // DE
-	length; // (SP+4)
+	length; // (SP+2)
 
 	__asm
-		ld		iy, #4
+		ld		iy, #2
 		add		iy, sp
 
 		ld		c, 0(iy)
@@ -465,14 +463,14 @@ void Bios_TransfertVRAMtoRAM(u16 vram, u16 ram, u16 length)
 //            BC - Block length
 // Registers: All
 // Remark   : In screen modes other than MSX1. The variable ACPAGE (0FAF6h) indicates the page from which the transfer must take place
-void Bios_TransfertRAMtoVRAM(u16 ram, u16 vram, u16 length)
+void BIOS_CopyRAMtoVRAM(const void* ram, u16 vram, u16 length)
 {
 	ram;    // HL
 	vram;   // DE
-	length; // (SP+4)
+	length; // (SP+2)
 	
 	__asm
-		ld		iy, #4
+		ld		iy, #2
 		add		iy, sp
 
 		ld		c, 0(iy)
@@ -489,7 +487,7 @@ void Bios_TransfertRAMtoVRAM(u16 ram, u16 vram, u16 length)
 // Registers: All
 // Remark   : Color palette is not initialized by this routine, call the routine CHGMDP (001B5h in Sub-ROM) if you need to initialize the palette
 
-// inline void Bios_ChangeMode(u8 screen) { Call(R_CHGMOD); }
+// inline void BIOS_ChangeMode(u8 screen) { Call(R_CHGMOD); }
 
 //-----------------------------------------------------------------------------
 // CHGCLR
@@ -500,23 +498,6 @@ void Bios_TransfertRAMtoVRAM(u16 ram, u16 vram, u16 length)
 //            Border color in BDRCLR
 // Registers: All
 // Remark   : Same function as CHGCLR (00111h in Sub-ROM)
-void Bios_ChangeColor(u8 text, u8 back, u8 border)
-{
-	text;   // A
-	back;   // L
-	border; // (SP+4)
-	__asm
-		ld		iy, #4
-		add		iy, sp
-
-		ld  	(M_FORCLR), a
-		ld  	a, l
-		ld  	(M_BAKCLR), a
-		ld  	a, 0(iy)
-		ld  	(M_BDRCLR), a
-		call	R_CHGCLR
-	__endasm;
-}
 
 //-----------------------------------------------------------------------------
 // NMI
@@ -541,17 +522,7 @@ void Bios_ChangeColor(u8 text, u8 back, u8 border)
 //            BAKCLR (#F3EA) = Background color
 //            BDRCLR (#F3EB) = Border colour
 // Registers: All
-// void Bios_InitScreen0() { Call(R_INITXT); }
-void Bios_InitScreen0Ex(u16 pnt, u16 pgt, u8 width, u8 text, u8 bg, u8 border)
-{
-	g_TXTNAM = pnt;    // Address of pattern name table
-	g_TXTCGP = pgt;    // Address of pattern generator table
-	g_LINL40 = width;  // Character per line
-	g_FORCLR = text;   // Text color
-	g_BAKCLR = bg;     // Background color
-	g_BDRCLR = border; // Border colour
-	Call(R_INITXT);
-}
+// void BIOS_InitScreen0() { Call(R_INITXT); }
 
 //-----------------------------------------------------------------------------
 // INIT32
@@ -566,19 +537,7 @@ void Bios_InitScreen0Ex(u16 pnt, u16 pgt, u8 width, u8 text, u8 bg, u8 border)
 //            BAKCLR (#F3EA) = Background color
 //            BDRCLR (#F3EB) = Border color
 // Registers: All
-// void Bios_InitScreen1() { Call(R_INIT32); }
-void Bios_InitScreen1Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 bg, u8 border)
-{
-	g_T32NAM = pnt;    // Address of pattern name table
-	g_T32COL = ct;     // Address of colors table
-	g_T32CGP = pgt;    // Address of pattern generator table
-	g_T32ATR = sat;    // Address of sprite attribute table
-	g_T32PAT = sgt;    // Address of sprite generator table
-	g_FORCLR = text;   // Text color
-	g_BAKCLR = bg;     // Background color
-	g_BDRCLR = border; // Border color
-	Call(R_INIT32);
-}
+// void BIOS_InitScreen1() { Call(R_INIT32); }
 
 //-----------------------------------------------------------------------------
 // INIGRP
@@ -593,19 +552,7 @@ void Bios_InitScreen1Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 
 //            BAKCLR (#F3EA) = Background color
 //            BDRCLR (#F3EB) = Border color
 // Registers: All
-// void Bios_InitScreen2() { Call(R_INIGRP); }
-void Bios_InitScreen2Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 bg, u8 border)
-{
-	g_GRPNAM = pnt;    // Address of pattern name table
-	g_GRPCOL = ct;     // Address of colors table
-	g_GRPCGP = pgt;    // Address of pattern generator table
-	g_GRPATR = sat;    // Address of sprite attribute table
-	g_GRPPAT = sgt;    // Address of sprite generator table
-	g_FORCLR = text;   // Text color
-	g_BAKCLR = bg;     // Background color
-	g_BDRCLR = border; // Border color
-	Call(R_INIGRP);
-}
+// void BIOS_InitScreen2() { Call(R_INIGRP); }
 
 //-----------------------------------------------------------------------------
 // INIMLT
@@ -620,8 +567,8 @@ void Bios_InitScreen2Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 
 //            BAKCLR (#F3EA) = Background color
 //            BDRCLR (#F3EB) = Border color
 // Registers: All
-// void Bios_InitScreen3() { Call(R_INIMLT); }
-void Bios_InitScreen3Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 bg, u8 border)
+// void BIOS_InitScreen3() { Call(R_INIMLT); }
+void BIOS_InitScreen3Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 bg, u8 border)
 {
 	g_MLTNAM = pnt;    // Address of pattern name table
 	g_MLTCOL = ct;     // Address of colors table
@@ -640,7 +587,7 @@ void Bios_InitScreen3Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 
 // Function : Switches VDP to SCREEN 0 mode
 // Input    : See INITXT
 // Registers: All
-// void Bios_SetScreen0() { Call(R_SETTXT); }
+// void BIOS_SetScreen0() { Call(R_SETTXT); }
 
 //-----------------------------------------------------------------------------
 // SETT32
@@ -648,7 +595,7 @@ void Bios_InitScreen3Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 
 // Function : Switches VDP to SCREEN 1 mode
 // Input    : See INIT32
 // Registers: All
-// void Bios_SetScreen1() { Call(R_SETT32); }
+// void BIOS_SetScreen1() { Call(R_SETT32); }
 
 //-----------------------------------------------------------------------------
 // SETGRP
@@ -656,7 +603,7 @@ void Bios_InitScreen3Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 
 // Function : Switches VDP to SCREEN 2 mode
 // Input    : See INIGRP
 // Registers: All
-// void Bios_SetScreen2() { Call(R_SETGRP); }
+// void BIOS_SetScreen2() { Call(R_SETGRP); }
 
 //-----------------------------------------------------------------------------
 // SETMLT
@@ -664,7 +611,7 @@ void Bios_InitScreen3Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 
 // Function : Switches VDP to SCREEN 3 mode
 // Input    : See INIMLT
 // Registers: All
-// void Bios_SetScreen3() { Call(R_SETMLT); }
+// void BIOS_SetScreen3() { Call(R_SETMLT); }
 
 //-----------------------------------------------------------------------------
 // CALPAT
@@ -673,13 +620,13 @@ void Bios_InitScreen3Ex(u16 pnt, u16 ct, u16 pgt, u16 sat, u16 sgt, u8 text, u8 
 // Input    : A  - Sprite ID
 // Output   : HL - For the address
 // Registers: AF, DE, HL
-u16 Bios_GetPatternTableAddress(u8 id) __NAKED __FASTCALL
+u16 BIOS_GetSpritePatternAddress(u8 id) __NAKED
 {
-	id; // L
+	id; // A
 
 	__asm
-		ld		a, l
 		call	R_CALPAT
+		ex		de, hl
 		ret
 	__endasm;
 }
@@ -691,13 +638,13 @@ u16 Bios_GetPatternTableAddress(u8 id) __NAKED __FASTCALL
 // Input    : A  - Sprite number
 // Output   : HL - For the address
 // Registers: AF, DE, HL
-u16 Bios_GetAttributeTableAddress(u8 id) __NAKED __FASTCALL
+u16 BIOS_GetSpriteAttributeAddress(u8 id) __NAKED
 {
-	id; // L
+	id; // A
 
 	__asm
-		ld		a, l
 		call	R_CALATR
+		ex		de, hl
 		ret
 	__endasm;
 }
@@ -710,7 +657,7 @@ u16 Bios_GetAttributeTableAddress(u8 id) __NAKED __FASTCALL
 //            Carry flag set when size is 16×16 sprites otherwise Carry flag is reset
 // Registers: AF
 
-// inline u8 Bios_GetSpriteSize() { return ((u8(*)(void))R_GSPSIZ)(); }
+// inline u8 BIOS_GetSpriteSize() { return ((u8(*)(void))R_GSPSIZ)(); }
 
 //-----------------------------------------------------------------------------
 // GRPPRT
@@ -718,20 +665,12 @@ u16 Bios_GetAttributeTableAddress(u8 id) __NAKED __FASTCALL
 // Function : Displays a character on the graphic screen
 // Input    : A  - ASCII value of the character to print
 
-// inline void Bios_GraphPrintChar(u8 chr) { ((void(*)(u8))R_GRPPRT)(chr); }
+// inline void BIOS_GraphPrintChar(u8 chr) { ((void(*)(u8))R_GRPPRT)(chr); }
 
 // Input    : A  - ASCII value of the character to print
 //            CLOC (#F92A) = In SCREEN 2 to 4 and 10 to 12, address where is the graphical cursor in VRAM. In SCREEN 5 to 8, the current abscissa of the graphical cursor
 //            CMASK (#F92C) = In SCREEN 2 to 4 and 10 to 12, mask to apply. In SCREEN 5 to 8, current ordinate of the graphical cursor
 //            LOGOPR (#FB02) = Logical operation code (for graphic modes of SCREEN 5 to 12)
-void Bios_GraphPrintCharEx(u8 chr, u16 x, u8 y, u8 color, u8 op)
-{
-	g_GRPACX = x;
-	g_GRPACY = y;
-	g_ATRBYT = color;
-	g_LOGOPR = op;
-	Bios_GraphPrintChar(chr);
-}
 
 #endif // BIOS_USE_VDP
 
@@ -743,14 +682,6 @@ void Bios_GraphPrintCharEx(u8 chr, u16 x, u8 y, u8 color, u8 op)
 //=============================================================================
 #if BIOS_USE_PSG
 
-//-----------------------------------------------------------------------------
-// GICINI
-// Address  : #0090
-// Function : Initialises PSG and sets initial value for the PLAY statement
-// Registers: All
-// Remarks  : Interrupts must be disabled to call this routine
-
-// inline void Bios_InitPSG() { DisableInterrupt(); Call(R_GICINI); EnableInterrupt(); }
 
 //-----------------------------------------------------------------------------
 // WRTPSG
@@ -759,7 +690,7 @@ void Bios_GraphPrintCharEx(u8 chr, u16 x, u8 y, u8 color, u8 op)
 // Input    : A  - PSG register number
 //            E  - Data write
 // Remarks  : See https://www.msx.org/wiki/SOUND#Registers_Description
-void Bios_WritePSG(u8 reg, u8 value)
+void BIOS_WritePSG(u8 reg, u8 value)
 {
 	reg;   // A
 	value; // L
@@ -769,24 +700,6 @@ void Bios_WritePSG(u8 reg, u8 value)
 		call	R_WRTPSG
 	__endasm;	
 }
-
-//-----------------------------------------------------------------------------
-// RDPSG
-// Address  : #0096
-// Function : Reads value from PSG register
-// Input    : A  - PSG register read
-// Output   : A  - Value read
-
-// inline u8 Bios_ReadPSG(u8 reg) { return ((u8(*)(u8))R_RDPSG)(reg); }
-
-//-----------------------------------------------------------------------------
-// STRTMS
-// Address  : #0099
-// Function : Tests whether the PLAY statement is being executed as a background
-//            task. If not, begins to execute the PLAY statement
-// Registers: All
-
-// void Bios_PlayPSG() { Call(R_STRTMS); }
 
 #endif // BIOS_USE_PSG
 
@@ -803,14 +716,13 @@ void Bios_WritePSG(u8 reg, u8 value)
 // Function : Tests the status of the keyboard buffer
 // Output   : Zero flag set if buffer is empty, otherwise not set
 // Registers: AF
-u8 Bios_HasCharacter() __NAKED __FASTCALL
+u8 BIOS_HasCharacter() __NAKED
 {
 	__asm
 		ld		l, #0
 		call	R_CHSNS
 		ret		z			// Return 0
 		call	R_CHGET
-		ld		l, a
 		ret
 	__endasm;
 }
@@ -822,7 +734,7 @@ u8 Bios_HasCharacter() __NAKED __FASTCALL
 // Output   : A  - ASCII code of the input character
 // Registers: AF
 
-// inline u8 Bios_GetCharacter() { return ((u8(*)(void))R_CHGET)(); }
+// inline u8 BIOS_GetCharacter() { return ((u8(*)(void))R_CHGET)(); }
 
 //-----------------------------------------------------------------------------
 // CHPUT
@@ -830,7 +742,7 @@ u8 Bios_HasCharacter() __NAKED __FASTCALL
 // Function : Displays a character in text mode
 // Input    : A  - ASCII code of character to display
 
-// inline void Bios_TextPrintChar(u8 chr) { ((void(*)(u8))R_CHPUT)(chr); }
+// inline void BIOS_TextPrintChar(u8 chr) { ((void(*)(u8))R_CHPUT)(chr); }
 
 //-----------------------------------------------------------------------------
 // LPTOUT
@@ -914,7 +826,7 @@ u8 Bios_HasCharacter() __NAKED __FASTCALL
 // Registers: AF, BC, DE
 // Remark   : Zero flag must be set to be able to run this routine
 //            XOR A will do fine most of the time
-void Bios_ClearScreen()
+void BIOS_ClearScreen()
 {
 	__asm
 		xor		a, a
@@ -929,10 +841,10 @@ void Bios_ClearScreen()
 // Input    : H  - X coordinate of cursor
 //            L  - Y coordinate of cursor
 // Registers: AF
-void Bios_SetCursorPosition(u8 X, u8 Y)
+void BIOS_TextSetCursor(u8 x, u8 y)
 {
-	X; // A
-	Y; // L
+	x; // A
+	y; // L
 
 	__asm
 		ld		h, a
@@ -981,7 +893,7 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 // Output   : A  - Direction
 // Registers: All
 
-// inline u8 Bios_GetJoystickDirection(u8 port) { return ((u8(*)(u8))R_GTSTCK)(port); }
+// inline u8 BIOS_GetJoystickDirection(u8 port) { return ((u8(*)(u8))R_GTSTCK)(port); }
 
 //-----------------------------------------------------------------------------
 // GTTRIG
@@ -997,7 +909,7 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 //                 #FF trigger button pressed
 // Registers: AF
 
-// inline bool Bios_GetJoystickTrigger(u8 trigger) { return ((u8(*)(u8))R_GTTRIG)(trigger); }
+// inline bool BIOS_GetJoystickTrigger(u8 trigger) { return ((u8(*)(u8))R_GTTRIG)(trigger); }
 
 //-----------------------------------------------------------------------------
 // GTPAD
@@ -1269,7 +1181,7 @@ void Bios_SetCursorPosition(u8 X, u8 Y)
 // Output   : A  - For data (the bit corresponding to the pressed key will be 0)
 // Registers: AF
 
-// inline u8 Bios_GetKeyboardMatrix(u8 line) { return ((u8(*)(u8))R_SNSMAT)(line); }
+// inline u8 BIOS_GetKeyboardMatrix(u8 line) { return ((u8(*)(u8))R_SNSMAT)(line); }
 
 //-----------------------------------------------------------------------------
 // PHYDIO
@@ -1499,7 +1411,7 @@ __endasm
 // Output   : None
 // Registers: None
 
-// inline void Bios_SetCPUMode(u8 mode) { ((void(*)(u8))R_CHGCPU)(mode); }
+// inline void BIOS_SetCPUMode(u8 mode) { ((void(*)(u8))R_CHGCPU)(mode); }
 
 //-----------------------------------------------------------------------------
 // GETCPU
@@ -1512,7 +1424,7 @@ __endasm
 //                            1 0 = R800 DRAM mode
 // Registers: AF
 
-// inline u8 Bios_GetCPUMode() { return ((u8(*)(void))R_GETCPU)(); }
+// inline u8 BIOS_BIOS_GetCPUMode() { return ((u8(*)(void))R_GETCPU)(); }
 
 //-----------------------------------------------------------------------------
 // PCMPLY

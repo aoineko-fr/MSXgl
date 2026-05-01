@@ -13,17 +13,18 @@
 // - http://map.grauw.nl/articles/
 //─────────────────────────────────────────────────────────────────────────────
 
-//-----------------------------------------------------------------------------
+//=============================================================================
 // INCLUDES
-//-----------------------------------------------------------------------------
+//=============================================================================
+
 #include "vdp.h"
 #include "system_port.h"
 #include "color.h"
 #include "bios_mainrom.h"
 
-//-----------------------------------------------------------------------------
+//=============================================================================
 // DEFINES
-//-----------------------------------------------------------------------------
+//=============================================================================
 
 // VDP Registers Flags
 #if (VDP_USE_16X16_SPRITE)
@@ -63,9 +64,9 @@
 // #else // Worst case 15 cc
 // #endif
 
-//-----------------------------------------------------------------------------
-// PROTOTYPES
-//-----------------------------------------------------------------------------
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
 
 // Set screen mode to Text 1
 void VDP_SetModeText1();
@@ -269,7 +270,7 @@ void VDP_ClearVRAM()
 //
 // Parameters:
 //   src   - Source data address in RAM
-//   dest  - Destination address in VRAM (14bits address for 16KB VRAM)
+//   dest  - Destination address in VRAM (14-bit address for 16KB VRAM)
 //   count - Number of byte to copy in VRAM
 void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count)
 {
@@ -348,7 +349,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count)
 //
 // Parameters:
 //   value	- Byte value to copy in VRAM
-//   dest	- Destination address in VRAM (14 bits address form 16 KB VRAM)
+//   dest	- Destination address in VRAM (14-bit address form 16 KB VRAM)
 //   count	- Number of byte to copy in VRAM
 void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __NAKED // Stack: 4 bytes
 {
@@ -410,7 +411,7 @@ void VDP_FillVRAM_16K(u8 value, u16 dest, u16 count) __NAKED // Stack: 4 bytes
 //
 // Parameters:
 //   value	- Byte value to copy in VRAM
-//   dest	- Destination address in VRAM (14 bits address form 16 KB VRAM)
+//   dest	- Destination address in VRAM (14-bit address form 16 KB VRAM)
 //   count	- Number of byte to copy in VRAM
 void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count) __NAKED // Stack: 4 bytes
 {
@@ -512,7 +513,7 @@ void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count) __NAKED // Stack: 4 byt
 // Read data from VRAM to RAM [MSX1/2/2+/TR]
 //
 // Parameters:
-//   src	- Source address in VRAM (14bits address form 16KB VRAM)
+//   src	- Source address in VRAM (14-bit address form 16KB VRAM)
 //   dst	- Desitation data address in RAM
 //   count	- Number of byte to copy from VRAM
 void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count)
@@ -592,7 +593,7 @@ void VDP_ReadVRAM_16K(u16 src, u8* dest, u16 count)
 // Read a value from VRAM [MSX1/2/2+/TR]
 //
 // Parameters:
-//   dest	- Desitation address in VRAM (14bits address form 16KB VRAM)
+//   dest	- Desitation address in VRAM (14-bit address form 16KB VRAM)
 //
 // Return:
 //   Value read in VRAM
@@ -640,7 +641,7 @@ u8 VDP_Peek_16K(u16 dest) __NAKED __PRESERVES(b, c, d, e, iyl, iyh)
 //
 // Parameters:
 //   val	- Value to write in VRAM
-//   dest	- Desitation address in VRAM (14bits address form 16KB VRAM)
+//   dest	- Desitation address in VRAM (14-bit address form 16KB VRAM)
 void VDP_Poke_16K(u8 val, u16 dest) __PRESERVES(c, h, l, iyl, iyh)
 {
 	val;  // A
@@ -924,7 +925,7 @@ void VDP_SetPalette(const u8* pal) __FASTCALL __PRESERVES(d, e, iyl, iyh)
 	#else
 		ld		a, #1 // Start from index 1
 	#endif
-		// VDP_DI  //~~~~~~~~~~~~~~~~~~~~~~~~~~
+		VDP_DI  //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a
 		ld		a, #VDP_REG(16)
 		VDP_EI_DEF  //~~~~~~~~~~~~~~~~~~~~~~~~~~

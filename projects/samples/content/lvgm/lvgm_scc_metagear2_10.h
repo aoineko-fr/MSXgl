@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:24 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\scc_metagear2_10.vgm (184999 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -134,17 +133,7 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x8F, 0x1E, // #rr = nn
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
-	0xD7, // R#n: Dn
-	0x00, 0xC0, // R#0: 00 nn
-	0x11, // R#1: 1n
 	0x69, // R#8: 6n
-	0x02, 0xD3, // R#2: 02 nn
-	0x20, // R#3: 2n
-	0x82, // R#9: 8n
-	0x04, 0x00, // R#4: 04 nn
-	0x30, // R#5: 3n
-	0xA0, // R#10: An
-	0x44, // R#6: 4n
 	0x07, 0xB5, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x88, 0x3B, // #rr = nn
@@ -5757,8 +5746,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x07, 0xB5, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x8C, 0x01, // #rr = nn
-	0xFD, 0x00, // ======== End of data segment
-	0x00, // Padding
 	0x8E, 0x04, // #rr = nn
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
@@ -5766,6 +5753,11 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF3, // ---- Start SCC section
 	0x8B, 0x08, // #rr = nn
 	0x8F, 0x00, // #rr = nn
+	0xFD, 0x00, // ======== End of data segment
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
 	0xB1, 0x00, 0x15, 0x27, 0x39, 0x46, 0x6E, 0x71, 0x63, 0x63, 0x45, 0x3D, 0x36, 0x46, 0x39, 0x27, 0x15, 0xB8, 0xC4, 0xD0, 0xC2, 0xB2, 0xBE, 0xE6, 0xF4, 0x00, 0x0C, 0x32, 0x3E, 0x32, 0x3E, 0x2C, 0x38, // B1 nn[32] => 9820h~
 	0x8F, 0x1E, // #rr = nn
 	0xE0, // -------- Wait: Ex
@@ -11810,13 +11802,13 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x88, 0xD2, // #rr = nn
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
-	0xFD, 0x00, // ======== End of data segment
 	0x64, // R#8: 6n
 	0x02, 0x33, // R#2: 02 nn
 	0xF3, // ---- Start SCC section
 	0x84, 0xA8, // #rr = nn
 	0x86, 0xD4, // #rr = nn
 	0x88, 0xD1, // #rr = nn
+	0xFD, 0x00, // ======== End of data segment
 	0x8D, 0x02, // #rr = nn
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
@@ -16826,9 +16818,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x00, 0x00, // R#0: 00 nn
 	0x17, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0x0B, 0x80, // R#11: 0B nn
-	0x0C, 0x01, // R#12: 0C nn
-	0xC8, // R#13: Cn
 	0x07, 0xBE, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0xD2, 0x82, 0xA0, 0x06, 0xD4, 0x00, 0xDC, // Dn rr vv[] => R#rr~
@@ -17412,7 +17401,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEE, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
@@ -18115,7 +18103,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x17, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xCF, // R#2: 02 nn
-	0xC8, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -18185,8 +18172,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x67, // R#8: 6n
 	0x02, 0xD3, // R#2: 02 nn
 	0xF3, // ---- Start SCC section
-	0xFD, 0x00, // ======== End of data segment
-	0x00, // Padding
 	0x8C, 0x01, // #rr = nn
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
@@ -18194,6 +18179,15 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0xF3, // ---- Start SCC section
 	0x8C, 0x02, // #rr = nn
 	0x8F, 0x00, // #rr = nn
+	0xFD, 0x00, // ======== End of data segment
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
+	0x00, // Padding
 	0xB1, 0x0E, 0x46, 0x7D, 0x46, 0x0D, 0xD6, 0x9D, 0xD6, 0xF1, 0x28, 0x61, 0x28, 0xF1, 0xB8, 0xF1, 0x28, 0x0D, 0xF2, 0x0D, 0x0C, 0xF1, 0xE2, 0x0D, 0x1C, 0x0D, 0x0D, 0xF1, 0xF1, 0xF1, 0x28, 0x28, 0x28, // B1 nn[32] => 9820h~
 	0x8F, 0x1E, // #rr = nn
 	0xE0, // -------- Wait: Ex
@@ -18694,7 +18688,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEE, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
@@ -19377,7 +19370,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x00, 0x00, // R#0: 00 nn
 	0x17, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
-	0xC8, // R#13: Cn
 	0x07, 0xBE, // R#7: 07 nn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -19946,7 +19938,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEE, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
@@ -20634,7 +20625,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x17, // R#1: 1n
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xCF, // R#2: 02 nn
-	0xC8, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0xA0, // #rr = nn
@@ -21213,7 +21203,6 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x72, // R#8: 7n | 0x10
 	0x02, 0xEE, // R#2: 02 nn
 	0x87, // R#9: 8n
-	0xC8, // R#13: Cn
 	0xD7, // R#n: Dn
 	0xF3, // ---- Start SCC section
 	0x82, 0x40, // #rr = nn
@@ -22003,4 +21992,4 @@ const unsigned char g_lVGM_scc_metagear2_10[] = {
 	0x88, 0x3F, // #rr = nn
 	0xFF, // End marker
 };
-// Total size: 56909 bytes
+// Total size: 56894 bytes

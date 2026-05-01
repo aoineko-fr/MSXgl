@@ -13,62 +13,70 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+//=============================================================================
+// INCLUDES
+//=============================================================================
+
 #include "memory.h"
+
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
 
 //-----------------------------------------------------------------------------
 // Hooks handler
 
-// Function: Bios_SetHookCallback
+// Function: BIOS_SetHookCallback
 // Set a safe hook interslot jump to a given function
 //
 // Parameters:
 //   hook - Hook address
 //   cb - Function to be called
-void Bios_SetHookCallback(u16 hook, callback cb);
+void BIOS_SetHookCallback(u16 hook, callback cb);
 
-// Function: Bios_SetHookDirectCallback
+// Function: BIOS_SetHookDirectCallback
 // Set a Hook to jump directly to a given function
 //
 // Parameters:
 //   hook - Hook address
 //   cb - Function to be called
-inline void Bios_SetHookDirectCallback(u16 hook, callback cb)
+inline void BIOS_SetHookDirectCallback(u16 hook, callback cb)
 {
 	*((u8*)hook) = 0xC3; // JUMP
 	*((callback*)++hook) = cb; // Callback address
 }
 
-// Function: Bios_SetHookInterSlotCallback
+// Function: BIOS_SetHookInterSlotCallback
 // Set a Hook to jump to a given function in a given slot ID
 //
 // Parameters:
 //   hook - Hook address
 //   slot - Slot ID
 //   cb - Function to be called
-inline void Bios_SetHookInterSlotCallback(u16 hook, u32 slot, callback cb)
+inline void BIOS_SetHookInterSlotCallback(u16 hook, u32 slot, callback cb)
 {
 	*((u8*)hook) = 0xF7; // RST #30
 	*((u8*)++hook) = slot; // Slot ID
 	*((callback*)++hook) = cb; // Callback address
 }
 
-// Function: Bios_ClearHook
+// Function: BIOS_ClearHook
 // Clear a Hook (set RET asm code)
 //
 // Parameters:
 //   hook - Hook address
-inline void Bios_ClearHook(u16 hook)
+inline void BIOS_ClearHook(u16 hook)
 {
 	*((u8*)hook) = 0xC9; // RET
 }
 
-// Function: Bios_BackupHook
+// Function: BIOS_BackupHook
 // Backup hook content into a buffer (must be 5 bytes length). The buffer content can been call at any time using Call() function
 //
 // Parameters:
 //   hook - Hook address
 //   buffer - Destination buffer in RAM
-inline void Bios_BackupHook(u16 hook, void* buffer)
+inline void BIOS_BackupHook(u16 hook, void* buffer)
 {
 	Mem_Copy((void*)hook, (void*)buffer, 5);
 }

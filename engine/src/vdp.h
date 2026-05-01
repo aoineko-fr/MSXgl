@@ -17,6 +17,10 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+//=============================================================================
+// INCLUDES
+//=============================================================================
+
 #include "core.h"
 #include "vdp_reg.h"
 #include "bios_var.h"
@@ -121,10 +125,9 @@ typedef struct VDP_Sprite
 // EXTERNALS
 //-----------------------------------------------------------------------------
 
+extern u8 g_VDP_REGSAV[28]; // VDP register backup buffer
 
-extern u8                 g_VDP_REGSAV[28]; // VDP register backup buffer
-
-extern VDP_Data    g_VDP_Data; // VDP configuration structure
+extern VDP_Data g_VDP_Data; // VDP configuration structure
 
 #if (VDP_USE_COMMAND)
 extern VDP_Command g_VDP_Command; // VDP command buffer structure
@@ -437,7 +440,7 @@ enum VDP_BLINK_TIME
 // Screen 9 (Korean)
 
 //=============================================================================
-// PROTOTYPES
+// FUNCTIONS
 //=============================================================================
 
 //-----------------------------------------------------------------------------
@@ -632,7 +635,7 @@ u8 VDP_Peek_16K(u16 src) __PRESERVES(b, c, d, e, iyl, iyh);
 	#define VDP_Poke(val, destLow, destHigh)				VDP_Poke_16K(val, destLow)
 	#define VDP_Peek(srcLow, srcHigh)						VDP_Peek_16K(srcLow)
 
-#else // (MSX_VERSION >= MSX_2)
+#else // if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
 
 	// Function: VDP_WriteVRAM_128K
 	// Write data from RAM to VRAM. [MSX2/2+/TR]
@@ -1272,7 +1275,7 @@ inline void VDP_HideSprite(u8 index) { VDP_SetSpritePositionY(index, VDP_SPRITE_
 //
 // Parameters:
 //   index - Index of the sprite to hide
-inline void VDP_HideAllSprites() { loop(i, 32) VDP_SetSpritePositionY(i, VDP_SPRITE_HIDE); }
+inline void VDP_HideAllSprites() { loop (i, 32) VDP_SetSpritePositionY(i, VDP_SPRITE_HIDE); }
 
 #endif // (VDP_USE_SPRITE)
 

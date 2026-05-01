@@ -176,6 +176,20 @@ if (DoClean)
 	fs.mkdirSync(OutDir);
 }
 
+
+	// util.print(`Project segment: ${ProjSegments}`);
+	// let segDir = path.parse(ProjSegments).dir;
+	// util.print(`Segment directory: ${segDir}`);
+	// if (!segDir)
+	// 	segDir = ".";
+	// util.print("Get segment files...");
+	// const segFiles = fs.readdirSync(segDir);
+	// segFiles.forEach((item) => { util.print(segDir + "/" + item); });
+	// // rootFiles.concat(segFiles);
+
+	// return;
+
+
 //_____________________________________________________________________________
 //   ▄▄                 ▄  ▄▄
 //  ██ ▀ ▄█▀▄ ▄█▄█ ██▀▄ ▄  ██  ▄███
@@ -217,6 +231,7 @@ if (DoCompile)
 	if (Target === "DOS0")       conf += "DOS_ISR=1\n";
 	// if (Machine != "1")          conf += "ISR_SET_S0=1\n";
 	if (CheckVersion)            conf += `CHECK_MSX=${util.getMachineID(Machine)}\n`;
+	if (BIOSReleaseEvent)        conf += "BIOS_RELEASE=1\n";
 	if (AppSignature)
 	{
 		conf += "APP_SIGN=1\n";
@@ -262,7 +277,7 @@ if (DoCompile)
 	//=========================================================================
 	// GENERATE RAW FILES DEFINITIONS
 	//=========================================================================
-	if (/*RawFilesDef &&*/ RawFiles.length)
+	if (RawFiles.length)
 	{
 		util.print("Generate raw files definitions...", PrintHighlight);
 
@@ -408,6 +423,7 @@ if (DoCompile)
 	//=========================================================================
 	// COMPILE MAPPER SEGMENT
 	//=========================================================================
+
 	MapperBanks = "";
 	if ((Ext === "rom") && (MapperSize))
 	{
@@ -680,7 +696,7 @@ if (DoPackage)
 			hexFile += ` -r ${raw.offset} ${raw.file}`;
 
 		fs.writeFileSync(`${OutDir}msxhex.txt`, hexFile);
-		H2BParam += `-f ${OutDir}msxhex.txt`;
+		H2BParam += ` -f ${OutDir}msxhex.txt`;
 	}
 	
 	// Execute MSXhex

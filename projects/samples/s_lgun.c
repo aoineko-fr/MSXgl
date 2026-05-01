@@ -118,7 +118,7 @@ void main()
 
 	// Initialize sprite
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
-	loop(i, 4 * 8)	
+	loop (i, 4 * 8)	
 		g_SpritData[i] = 0xFF;
 	VDP_LoadSpritePattern(g_SpritData, 0, 32);
 	UpdatePosition();
@@ -149,7 +149,7 @@ void main()
 			UpdateSprite();
 		}
 
-		loop(i, 2)
+		loop (i, 2)
 		{
 			u8 x = (i == 0) ? COLUMN_PORT1 : COLUMN_PORT2;
 			

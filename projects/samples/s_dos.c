@@ -313,5 +313,5 @@ StartProgram:
 	}
 
 	// DOS_Exit0();
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

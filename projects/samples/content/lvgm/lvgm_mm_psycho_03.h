@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_psycho_03.vgm (10406 bytes)
 // Compressor: lVGM
 // VGM version: 1.00 (chips:OPLL)
@@ -18,7 +17,6 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0x45, 0x05, 0x05, 0x01, // 45 nn[3] => R#26~28
 	0x0E, 0x20, // rr: nn
 	0xFE, // Loop marker
-	0x0E, 0x20, // rr: nn
 	0x46, 0x01, 0x44, 0x42, // 46 nn[3] => R#36~38
 	0x0E, 0x33, // rr: nn
 	0xA5, // rr: 0
@@ -2641,4 +2639,4 @@ const unsigned char g_lVGM_mm_psycho_03[] = {
 	0xE5, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 4229 bytes
+// Total size: 4227 bytes

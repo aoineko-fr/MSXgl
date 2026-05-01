@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:24 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\scc_quarth_02.vgm (22215 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)
@@ -1067,19 +1066,11 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0x84, 0xE8, // #rr = nn
 	0x8D, 0x04, // #rr = nn
 	0xFE, // Loop marker
-	0xE1, // -------- Wait: Ex
+	0xE2, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
-	0x07, 0xBC, // R#7: 07 nn
-	0xE0, // -------- Wait: Ex
 	0xD0, // R#n: Dn
 	0x13, // R#1: 1n
 	0x67, // R#8: 6n
-	0x02, 0x96, // R#2: 02 nn
-	0x20, // R#3: 2n
-	0x86, // R#9: 8n
-	0x04, 0x00, // R#4: 04 nn
-	0x30, // R#5: 3n
-	0xA0, // R#10: An
 	0xF3, // ---- Start SCC section
 	0xD0, 0x82, 0xFC, 0x00, 0xC8, // Dn rr vv[] => R#rr~
 	0x86, 0x7E, // #rr = nn
@@ -3169,4 +3160,4 @@ const unsigned char g_lVGM_scc_quarth_02[] = {
 	0xE0, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 7126 bytes
+// Total size: 7115 bytes

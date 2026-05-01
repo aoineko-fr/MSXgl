@@ -15,6 +15,7 @@
 #include <string.h>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <assert.h>
 // FreeImage
 #include "FreeImage.h"
@@ -34,9 +35,24 @@ struct RLEHash
 	RLEHash() : length(0), color(0){}
 };
 
+u32 CustomPalette[16];
+
 //-----------------------------------------------------------------------------
 // MSX interface
 //-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Get palette
+u32* GetPalette(ExportParameters* param)
+{
+	if (param->palType == PALETTE_MSX1)
+		return PaletteMSX1;
+
+	if (param->palType == PALETTE_MSX2)
+		return PaletteMSX2;
+
+	return CustomPalette;
+}
 
 //-----------------------------------------------------------------------------
 // Get nearest color index
@@ -256,6 +272,18 @@ FIBITMAP* GetPreparedImage(std::string filename, ExportParameters* param)
 
 //-----------------------------------------------------------------------------
 // 
+u32 ColorRGB(u32 color, ExportParameters* param)
+{
+	if (!param->pal24)
+	{
+		color &= 0b00000000'11100000'11100000'11100000;
+		color |= 0b00000000'00010000'00010000'00010000;
+	}
+	return color;
+}
+
+//-----------------------------------------------------------------------------
+// 
 bool IsColorInPalette(u32 col, u32* pal, i32 size)
 {
 	for (i32 i = 0; i < size; i++)
@@ -274,7 +302,7 @@ void FillPalette(RGBQUAD* inPal, u32* outPal, ExportParameters* param)
 		for (i32 c = 0; c < param->palOffset; c++)
 			outPal[idx++] = 0;
 		for (i32 c = 0; c < param->palInCount; c++)
-			outPal[idx++] = param->palInput[c];
+			outPal[idx++] = ColorRGB(param->palInput[c], param);
 		for (i32 c = 0; c < param->palOutCount; c++)
 		{
 			u32 col = ((u32*)inPal)[c];
@@ -284,11 +312,79 @@ void FillPalette(RGBQUAD* inPal, u32* outPal, ExportParameters* param)
 	}
 	else // if (param->palType == PALETTE_Custom)
 	{
+		i32 idx = 0;
 		for (i32 c = 0; c < param->palOffset; c++)
-			outPal[c] = 0;
+			outPal[idx++] = 0;
 		for (i32 c = 0; c < param->palOutCount; c++)
-			outPal[c + param->palOffset] = ((u32*)inPal)[c];
+			outPal[idx++] = ((u32*)inPal)[c];
 	}
+}
+
+//-----------------------------------------------------------------------------
+//
+u8 ConvertComponent(u8 val, const PaletteMod* mod)
+{
+	f32 c = 127.5f + ((f32)val - 127.5f) * ((f32)mod->contrast / 100.f);
+	c = (u8)(c * ((f32)mod->scale / 100.f));
+	if (c < 0.f)
+		return 0;
+	if (c > 255.f)
+		return 255;
+	return (u8)c;
+}
+
+//-----------------------------------------------------------------------------
+//
+void ExportPalette(ExportParameters* param, ExporterInterface* exp, const PaletteMod* mod)
+{
+	char strData[BUFFER_SIZE];
+	if (mod)
+		sprintf(strData, "%s_palette_mod%i", param->tabName.c_str(), mod->id);
+	else
+		sprintf(strData, "%s_palette", param->tabName.c_str());
+	if (param->pal24)
+	{
+		exp->WriteTableBegin(TABLE_U8, strData, "Custom palette | Format: [x:3|R:5] [x:3|G:5] [x:3|B:5] (v9990)");
+		if (mod)
+			exp->WriteCommentLine(MSX::Format("Palette modifier: scale=%i, contrast=%i", mod->scale, mod->contrast));
+		for (i32 i = param->palOffset; i < param->palOffset + param->palOutCount; i++)
+		{
+			RGB24 color(CustomPalette[i]);
+			if (mod)
+			{
+				color.R = ConvertComponent(color.R, mod);
+				color.G = ConvertComponent(color.G, mod);
+				color.B = ConvertComponent(color.B, mod);
+			}
+			exp->WriteLineBegin();
+			exp->Write1ByteData(color.R >> 3);
+			exp->Write1ByteData(color.G >> 3);
+			exp->Write1ByteData(color.B >> 3);
+			sprintf(strData, "[%2i] #%06X", i, CustomPalette[i]);
+			exp->WriteCommentLine(strData);
+		}
+	}
+	else
+	{
+		exp->WriteTableBegin(TABLE_U8, strData, "Custom palette | Format: [x|R:3|x|B:3] [x:5|G:3] (v9938)");
+		if (mod)
+			exp->WriteCommentLine(MSX::Format("Palette modifier: scale=%i, contrast=%i", mod->scale, mod->contrast));
+		for (i32 i = param->palOffset; i < param->palOffset + param->palOutCount; i++)
+		{
+			RGB24 color(CustomPalette[i]);
+			if (mod)
+			{
+				color.R = ConvertComponent(color.R, mod);
+				color.G = ConvertComponent(color.G, mod);
+				color.B = ConvertComponent(color.B, mod);
+			}
+			u8 c1 = ((color.R >> 5) << 4) + (color.B >> 5);
+			u8 c2 = (color.G >> 5);
+			sprintf(strData, "[%2i] #%06X", i, CustomPalette[i]);
+			exp->Write2BytesLine(u8(c1), u8(c2), strData);
+		}
+	}
+	exp->WriteTableEnd("");
 }
 
 //-----------------------------------------------------------------------------
@@ -302,7 +398,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 	GRB8 c8;
 	u8 c2, c4, byte = 0;
 	char strData[BUFFER_SIZE];
-	u32 transRGB = 0x00FFFFFF & param->transColor;
+	u32 transRGB = 0x00FFFFFF & ColorRGB(param->transColor, param);
 	u32 headAddr = 0, palAddr = 0;
 	std::vector<u16> sprtAddr;
 
@@ -313,74 +409,59 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 		return false;
 	}
 
-	// Get 32 bits version
+	// Get 32-bit version
 	i32 imageX = FreeImage_GetWidth(dib32);
 	i32 imageY = FreeImage_GetHeight(dib32);
 	i32 scanWidth = FreeImage_GetPitch(dib32);
-	BYTE* bits = new BYTE[scanWidth * imageY];
-	FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
+	BYTE* rawData = new BYTE[scanWidth * imageY];
+	FreeImage_ConvertToRawBits(rawData, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
 
-	if (!param->pal24) // convert image for use with 9-bits palette
+	if (!param->pal24) // convert image for use with 9-bit palette
 	{
-		u32* rgb = (u32*)bits;
+		std::vector<u32> uniqueColor;
+		u32* rgb = (u32*)rawData;
 		for (i32 i = 0; i < imageX * imageY; i++)
 		{
-			rgb[i] &= 0b1111111111'11100000'11100000'11100000;
+			rgb[i] = ColorRGB(rgb[i], param);
 		}
-		dib32 = FreeImage_ConvertFromRawBits(bits, imageX, imageY, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
-		FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
+		dib32 = FreeImage_ConvertFromRawBits(rawData, imageX, imageY, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
+		FreeImage_ConvertToRawBits(rawData, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
 	}
 
 	// Get custom palette for 16 colors mode
-	u32 customPalette[16];
 	if ((param->palType == PALETTE_Input) || (param->palType == PALETTE_Partial))
 	{
 		for (i32 i = 0; i < param->palInCount; i++)
-			customPalette[i] = param->palInput[i];
+			CustomPalette[i] = ColorRGB(param->palInput[i], param);
 	}
 	
-	if ((param->bpc == 4) && ((param->palType == PALETTE_Custom) || (param->palType == PALETTE_Partial)))
+	// Custom palette for 2-bit and 4-bit modes
+	if (((param->bpc == 2) || (param->bpc == 4)) && ((param->palType == PALETTE_Custom) || (param->palType == PALETTE_Partial)))
 	{
-		i32 inNum = param->palInCount;
-		RGBQUAD* inPal = (param->palType == PALETTE_Partial) ? (RGBQUAD*)customPalette : NULL;
+		i32 inNum = (param->palType == PALETTE_Partial) ? param->palInCount : 0;
+		RGBQUAD* inPal = (param->palType == PALETTE_Partial) ? (RGBQUAD*)CustomPalette : NULL;
 
 		if (param->bUseTrans)
 		{
 			u32 black = 0;
 			i32 res = FreeImage_ApplyColorMapping(dib32, (RGBQUAD*)&transRGB, (RGBQUAD*)&black, 1, true, false); // @warning: must be call AFTER retreving raw data!
 		}
-		FIBITMAP* dib4 = FreeImage_ColorQuantizeEx(dib32, FIQ_LFPQUANT, param->palOutCount, inNum, inPal); // Try Lossless Fast Pseudo-Quantization algorithm (if there are 15 colors or less)
-		if (dib4 == NULL)
+		FIBITMAP* dibPal = FreeImage_ColorQuantizeEx(dib32, FIQ_LFPQUANT, param->palOutCount, inNum, inPal); // Try Lossless Fast Pseudo-Quantization algorithm (if there are 15 colors or less)
+		if (dibPal == NULL)
 		{
 			dib32 = FreeImage_ConvertTo24Bits(dib32);
-			dib4 = FreeImage_ColorQuantizeEx(dib32, FIQ_NNQUANT, param->palOutCount, inNum, inPal); // Else, use Efficient Statistical Computations for Optimal Color Quantization
+			dibPal = FreeImage_ColorQuantizeEx(dib32, FIQ_NNQUANT, param->palOutCount, inNum, inPal); // Else, use Efficient Statistical Computations for Optimal Color Quantization
 		}
-		RGBQUAD* pal = FreeImage_GetPalette(dib4);
-		FillPalette(pal, customPalette, param);
-		FreeImage_Unload(dib4);
+		RGBQUAD* pal = FreeImage_GetPalette(dibPal);
+		FillPalette(pal, CustomPalette, param);
+		FreeImage_Unload(dibPal);
 	}
-	else if ((param->bpc == 2) && ((param->palType == PALETTE_Custom) || (param->palType == PALETTE_Partial)))
-	{
-		i32 inNum = param->palInCount;
-		RGBQUAD* inPal = (param->palType == PALETTE_Partial) ? (RGBQUAD*)customPalette : NULL;
 
-		if (param->bUseTrans)
-		{
-			u32 black = 0;
-			i32 res = FreeImage_ApplyColorMapping(dib32, (RGBQUAD*)&transRGB, (RGBQUAD*)&black, 1, true, false); // @warning: must be call AFTER retreving raw data!
-		}
-		FIBITMAP* dib2 = FreeImage_ColorQuantizeEx(dib32, FIQ_LFPQUANT, param->palOutCount, inNum, inPal); // Try Lossless Fast Pseudo-Quantization algorithm (if there are 3 colors or less)
-		if (dib2 == NULL)
-			dib2 = FreeImage_ColorQuantizeEx(dib32, FIQ_WUQUANT, param->palOutCount, inNum, inPal); // Else, use Efficient Statistical Computations for Optimal Color Quantization
-		RGBQUAD* pal = FreeImage_GetPalette(dib2);
-		FillPalette(pal, customPalette, param);
-		FreeImage_Unload(dib2);
-	}
 	// Apply dithering for 2 color mode
 	if ((param->bpc == 1) && (param->dither != DITHER_None))
 	{
 		FIBITMAP* dib1 = FreeImage_Dither(dib32, (FREE_IMAGE_DITHER)param->dither);
-		FreeImage_ConvertToRawBits(bits, dib1, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
+		FreeImage_ConvertToRawBits(rawData, dib1, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
 		FreeImage_Unload(dib1);
 	}
 
@@ -481,7 +562,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 					for (i = 0; i < param->sizeX; i++)
 					{
 						i32 pixel = param->posX + i + (nx * (param->sizeX + param->gapX)) + ((param->posY + j + (ny * (param->sizeY + param->gapY))) * imageX);
-						u32 rgb = 0xFFFFFF & ((u32*)bits)[pixel];
+						u32 rgb = 0xFFFFFF & ((u32*)rawData)[pixel];
 
 						if (param->comp == MSX::COMPRESS_RLE0) // Transparency color Run-length encoding
 						{
@@ -533,17 +614,16 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 						else
 						{
 							exp->Write1ByteData((u8)hashTable[k].length);
-							if (param->bpc == 4) // 4-bits index color palette
+							if (param->bpc == 4) // 4-bit index color palette
 							{
 								u8 byte;
 								for (u32 l = 0; l < hashTable[k].data.size(); l++)
 								{
 									u32 rgb = hashTable[k].color;
-									u32* pal = (param->palType == PALETTE_MSX1) ? PaletteMSX : customPalette;
 									if (param->bUseTrans)
-										c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
+										c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, GetPalette(param), param->palOutCount, param->palOffset);
 									else
-										c4 = GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
+										c4 = GetNearestColorIndex(rgb, GetPalette(param), param->palOutCount, param->palOffset);
 									if (l & 0x1)
 										byte |= c4; // Second pixel use lower bits
 									else
@@ -555,7 +635,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 									}
 								}
 							}
-							else if (param->bpc == 8) // 8-bits GBR color
+							else if (param->bpc == 8) // 8-bit GBR color
 							{
 								for (u32 l = 0; l < hashTable[k].data.size(); l++)
 								{
@@ -563,7 +643,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 									exp->Write1ByteData(c8);
 								}
 							}
-							else if (param->bpc == 16) // 16-bits GBR color
+							else if (param->bpc == 16) // 16-bit GBR color
 							{
 								for (u32 l = 0; l < hashTable[k].data.size(); l++)
 								{
@@ -575,34 +655,32 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							
 						}
 					}
-					else if (param->comp == MSX::COMPRESS_RLE4) // Full color 4bits Run-length encoding
+					else if (param->comp == MSX::COMPRESS_RLE4) // Full color 4-bit Run-length encoding
 					{
-						if (param->bpc == 4) // 4-bits index color palette
+						if (param->bpc == 4) // 4-bit index color palette
 						{
 							u32 rgb = hashTable[k].color;
-							u32* pal = (param->palType == PALETTE_MSX1) ? PaletteMSX : customPalette;
 							if (param->bUseTrans)
-								c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
+								c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, GetPalette(param), param->palOutCount, param->palOffset);
 							else
-								c4 = GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
+								c4 = GetNearestColorIndex(rgb, GetPalette(param), param->palOutCount, param->palOffset);
 							u8 byte = ((0x0F & hashTable[k].length) << 4) + c4;
 							exp->Write1ByteData(byte);
 						}
 					}
-					else if (param->comp == MSX::COMPRESS_RLE8) // Full color 8bits Run-length encoding
+					else if (param->comp == MSX::COMPRESS_RLE8) // Full color 8-bit Run-length encoding
 					{
-						if (param->bpc == 4) // 4-bits index color palette
+						if (param->bpc == 4) // 4-bit index color palette
 						{
 							exp->Write1ByteData((u8)hashTable[k].length);
 							u32 rgb = hashTable[k].color;
-							u32* pal = (param->palType == PALETTE_MSX1) ? PaletteMSX : customPalette;
 							if (param->bUseTrans)
-								c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
+								c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, GetPalette(param), param->palOutCount, param->palOffset);
 							else
-								c4 = GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
+								c4 = GetNearestColorIndex(rgb, GetPalette(param), param->palOutCount, param->palOffset);
 							exp->Write1ByteData(c4);
 						}
-						else if (param->bpc == 8) // 8-bits GBR color
+						else if (param->bpc == 8) // 8-bit GBR color
 						{
 							exp->Write1ByteData((u8)hashTable[k].length);
 							c8 = GetGBR8(hashTable[k].color, param->bUseTrans, transRGB);
@@ -640,7 +718,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 						for (i = 0; i < param->sizeX; i++)
 						{
 							i32 pixel = param->posX + i + (nx * (param->sizeX + param->gapX)) + ((param->posY + j + (ny * (param->sizeY + param->gapY))) * imageX);
-							u32 rgb = 0xFFFFFF & ((u32*)bits)[pixel];
+							u32 rgb = 0xFFFFFF & ((u32*)rawData)[pixel];
 							if (rgb != transRGB)
 							{
 								if (param->comp & MSX::COMPRESS_Crop_Mask)
@@ -679,12 +757,12 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							minX &= 0xF8;	 // Round down 8
 							maxX |= 0x07;	 // Round up 8
 						}
-						else if (param->bpc == 2) // 2-bits index color palette
+						else if (param->bpc == 2) // 2-bit index color palette
 						{
 							minX &= 0xFC;	 // Round down 4
 							maxX |= 0x03;	 // Round up 4
 						}
-						else if (param->bpc == 4) // 4-bits index color palette
+						else if (param->bpc == 4) // 4-bit index color palette
 						{
 							minX &= 0xFE;	 // Round down 2
 							maxX |= 0x01;	 // Round up 2
@@ -692,30 +770,30 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 
 						if (param->comp == MSX::COMPRESS_Crop16)
 						{
-							minX &= 0x0F;	// Clamp to 4-bits (0-15)
-							maxX &= 0x0F;	// Clamp to 4-bits (0-15)
-							minY &= 0x0F;	// Clamp to 4-bits (0-15)
-							maxY &= 0x0F;	// Clamp to 4-bits (0-15)
+							minX &= 0x0F;	// Clamp to 4-bit (0-15)
+							maxX &= 0x0F;	// Clamp to 4-bit (0-15)
+							minY &= 0x0F;	// Clamp to 4-bit (0-15)
+							maxY &= 0x0F;	// Clamp to 4-bit (0-15)
 							exp->Write2BytesLine(u8((minX << 4) + maxX), u8(((minY) << 4) + maxY), "[minX:4|maxX:4] [minY:4|maxY:4]");
 						}
 						else if (param->comp == MSX::COMPRESS_CropLine16)
 						{
-							minY &= 0x0F;	// Clamp to 4-bits (0-15)
-							maxY &= 0x0F;	// Clamp to 4-bits (0-15)
+							minY &= 0x0F;	// Clamp to 4-bit (0-15)
+							maxY &= 0x0F;	// Clamp to 4-bit (0-15)
 							exp->Write1ByteLine(u8((minY << 4) + maxY), "[minY:4|maxY:4]");
 						}
 						else if (param->comp == MSX::COMPRESS_Crop32)
 						{
-							minX &= 0x07;	// Clamp to 3-bits (0-7)
-							maxX &= 0x1F;	// Clamp to 5-bits (0-31)
-							minY &= 0x07;	// Clamp to 3-bits (0-7)
-							maxY &= 0x1F;	// Clamp to 5-bits (0-31)
+							minX &= 0x07;	// Clamp to 3-bit (0-7)
+							maxX &= 0x1F;	// Clamp to 5-bit (0-31)
+							minY &= 0x07;	// Clamp to 3-bit (0-7)
+							maxY &= 0x1F;	// Clamp to 5-bit (0-31)
 							exp->Write2BytesLine(u8((minX << 5) + maxX), u8(((minY) << 5) + maxY), "[minX:3|maxX:5] [minY:3|maxY:5]");
 						}
 						else if (param->comp == MSX::COMPRESS_CropLine32)
 						{
-							minY &= 0x07;	// Clamp to 3-bits (0-7)
-							maxY &= 0x1F;	// Clamp to 5-bits (0-31)
+							minY &= 0x07;	// Clamp to 3-bit (0-7)
+							maxY &= 0x1F;	// Clamp to 5-bit (0-31)
 							exp->Write1ByteLine(u8(((minY) << 5) + maxY), "[minY:3|maxY:5]");
 						}
 						else if (param->comp == MSX::COMPRESS_Crop256)
@@ -742,7 +820,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							for (i = 0; i < param->sizeX; i++)
 							{
 								i32 pixel = param->posX + i + (nx * (param->sizeX + param->gapX)) + ((param->posY + j + (ny * (param->sizeY + param->gapY))) * imageX);
-								u32 rgb = 0xFFFFFF & ((u32*)bits)[pixel];
+								u32 rgb = 0xFFFFFF & ((u32*)rawData)[pixel];
 								if (rgb  != transRGB)
 								{
 									if (i < minX)
@@ -756,12 +834,12 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 								minX &= 0xF8;	 // Round down 8
 								maxX |= 0x07;	 // Round up 8
 							}
-							else if (param->bpc == 2) // 2-bits index color palette
+							else if (param->bpc == 2) // 2-bit index color palette
 							{
 								minX &= 0xFC;	 // Round down 4
 								maxX |= 0x03;	 // Round up 4
 							}
-							else if (param->bpc == 4) // 4-bits index color palette
+							else if (param->bpc == 4) // 4-bit index color palette
 							{
 								minX &= 0xFE;	 // Round down 2
 								maxX |= 0x01;	 // Round up 2
@@ -770,14 +848,14 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							// Add row range info
 							if (param->comp == MSX::COMPRESS_CropLine16)
 							{
-								minX &= 0x0F;	// Clamp to 4-bits (0-15)
-								maxX &= 0x0F;	// Clamp to 4-bits (0-15)
+								minX &= 0x0F;	// Clamp to 4-bit (0-15)
+								maxX &= 0x0F;	// Clamp to 4-bit (0-15)
 								exp->Write1ByteLine(u8((minX << 4) + maxX), "[minX:4|maxX:4]");
 							}
 							else if (param->comp == MSX::COMPRESS_CropLine32)
 							{
-								minX &= 0x07;	// Clamp to 3-bits (0-7)
-								maxX &= 0x1F;	// Clamp to 5-bits (0-31)
+								minX &= 0x07;	// Clamp to 3-bit (0-7)
+								maxX &= 0x1F;	// Clamp to 5-bit (0-31)
 								exp->Write1ByteLine(u8(((minX) << 5) + maxX), "[minX:3|maxX:5]");
 							}
 							else if (param->comp == MSX::COMPRESS_CropLine256)
@@ -794,30 +872,29 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 							if ((i >= minX) && (i <= maxX))
 							{
 								i32 pixel = param->posX + i + (nx * (param->sizeX + param->gapX)) + ((param->posY + j + (ny * (param->sizeY + param->gapY))) * imageX);
-								u32 rgb = 0xFFFFFF & ((u32*)bits)[pixel];
+								u32 rgb = 0xFFFFFF & ((u32*)rawData)[pixel];
 								//-----------------------------------------------------------------
-								if (param->bpc == 16) // 16-bits GBR color
+								if (param->bpc == 16) // 16-bit GBR color
 								{
-									// convert to 16 bits GRB
+									// convert to 16-bit GRB
 									c16 = GetGBR16(rgb, param->bUseTrans, transRGB);
 									exp->Write1ByteData(c16 & 0x00FF);
 									exp->Write1ByteData(c16 >> 8);
 								}
 								//-----------------------------------------------------------------
-								else if (param->bpc == 8) // 8-bits GBR color
+								else if (param->bpc == 8) // 8-bit GBR color
 								{
-									// convert to 8 bits GRB
+									// convert to 8-bit GRB
 									c8 = GetGBR8(rgb, param->bUseTrans, transRGB);
 									exp->Write1ByteData((u8)c8);
 								}
 								//-----------------------------------------------------------------
-								else if (param->bpc == 4) // 4-bits index color palette
+								else if (param->bpc == 4) // 4-bit index color palette
 								{
-									u32* pal = (param->palType == PALETTE_MSX1) ? PaletteMSX : customPalette;
 									if (param->bUseTrans)
-										c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
+										c4 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, GetPalette(param), param->palOutCount, param->palOffset);
 									else
-										c4 = GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
+										c4 = GetNearestColorIndex(rgb, GetPalette(param), param->palOutCount, param->palOffset);
 									c4 &= 0x0F;
 
 									if ((i & 0x1) == 0)
@@ -831,13 +908,12 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 									}
 								}
 								//-----------------------------------------------------------------
-								else if (param->bpc == 2) // 2-bits index color palette
+								else if (param->bpc == 2) // 2-bit index color palette
 								{
-									u32* pal = (param->palType == PALETTE_MSX1) ? PaletteMSX : customPalette;
 									if (param->bUseTrans)
-										c2 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
+										c2 = (rgb == transRGB) ? 0x0 : GetNearestColorIndex(rgb, GetPalette(param), param->palOutCount, param->palOffset);
 									else
-										c2 = GetNearestColorIndex(rgb, pal, param->palOutCount, param->palOffset);
+										c2 = GetNearestColorIndex(rgb, GetPalette(param), param->palOutCount, param->palOffset);
 									c2 &= 0x03;
 
 									if ((i & 0x3) == 0)
@@ -886,7 +962,7 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 	sprintf(strData, "Total size : %i bytes", exp->GetTotalBytes());
 	exp->WriteTableEnd(strData);
 
-	delete[] bits;
+	delete[] rawData;
 
 	//-------------------------------------------------------------------------
 	// INDEX TABLE
@@ -907,34 +983,10 @@ bool ExportBitmap(ExportParameters * param, ExporterInterface * exp)
 
 	if (((param->bpc == 2) || (param->bpc == 4)) && ((param->palType == PALETTE_Custom) || (param->palType == PALETTE_Partial) || (param->palType == PALETTE_Input)))
 	{
-		sprintf(strData, "%s_palette", param->tabName.c_str());
-		if (param->pal24)
-		{
-			exp->WriteTableBegin(TABLE_U8, strData, "Custom palette | Format: [x:3|R:5] [x:3|G:5] [x:3|B:5] (v9990)");
-			for (i32 i = param->palOffset; i < param->palOffset + param->palOutCount; i++)
-			{
-				exp->WriteLineBegin();
-				RGB24 color(customPalette[i]);
-				exp->Write1ByteData(color.R >> 3);
-				exp->Write1ByteData(color.G >> 3);
-				exp->Write1ByteData(color.B >> 3);
-				sprintf(strData, "[%2i] #%06X", i, customPalette[i]);
-				exp->WriteCommentLine(strData);
-			}
-		}
-		else
-		{
-			exp->WriteTableBegin(TABLE_U8, strData, "Custom palette | Format: [x|R:3|x|B:3] [x:5|G:3] (v9938)");
-			for (i32 i = param->palOffset; i < param->palOffset + param->palOutCount; i++)
-			{
-				RGB24 color(customPalette[i]);
-				u8 c1 = ((color.R >> 5) << 4) + (color.B >> 5);
-				u8 c2 = (color.G >> 5);
-				sprintf(strData, "[%2i] #%06X", i, customPalette[i]);
-				exp->Write2BytesLine(u8(c1), u8(c2), strData);
-			}
-		}
-		exp->WriteTableEnd("");
+		ExportPalette(param, exp, NULL);
+
+		for (int i = 0; i < param->palMod.size(); i++) // Modified palette
+			ExportPalette(param, exp, &param->palMod[i]);
 	}
 
 	// Write file
@@ -1220,12 +1272,12 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 		return false;
 	}
 
-	// Get 32 bits raw datas
+	// Get 32-bit raw datas
 	i32 imageX = FreeImage_GetWidth(dib32);
 	i32 imageY = FreeImage_GetHeight(dib32);
 	i32 scanWidth = FreeImage_GetPitch(dib32);
-	BYTE* bits = new BYTE[scanWidth * imageY];
-	FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
+	BYTE* rawData = new BYTE[scanWidth * imageY];
+	FreeImage_ConvertToRawBits(rawData, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
 	FreeImage_Unload(dib32);
 
 	// Check image size
@@ -1278,8 +1330,8 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 					for (i32 i = 0; i < 8; i++) // X
 					{
 						i32 idx = layer->posX + i + (nx * 8) + ((layer->posY + j + (ny * 8)) * imageX);
-						u32 c24 = 0xFFFFFF & ((u32*)bits)[idx];
-						u8 c4 = GetNearestColorIndex(c24, PaletteMSX, 16, 1);
+						u32 c24 = 0xFFFFFF & ((u32*)rawData)[idx];
+						u8 c4 = GetNearestColorIndex(c24, (param->palType == PALETTE_MSX1) ? PaletteMSX1 : PaletteMSX2, 16, 1);
 						if (colors.empty()) // special case: first color
 						{
 							colors.push_back(c4);
@@ -1329,7 +1381,7 @@ bool ExportGM1(ExportParameters* param, ExporterInterface* exp)
 	i32 namesSize = exp->GetTotalBytes();
 	exp->WriteCommentLine(MSX::Format("Names size: %i Bytes", namesSize));
 
-	delete[] bits;
+	delete[] rawData;
 
 	//-------------------------------------------------------------------------
 	// PATTERNS TABLE
@@ -1469,12 +1521,12 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 		return false;
 	}
 
-	// Get 32 bits raw datas
+	// Get 32-bit raw datas
 	i32 imageX = FreeImage_GetWidth(dib32);
 	i32 imageY = FreeImage_GetHeight(dib32);
 	i32 scanWidth = FreeImage_GetPitch(dib32);
-	BYTE* bits = new BYTE[scanWidth * imageY];
-	FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
+	BYTE* rawData = new BYTE[scanWidth * imageY];
+	FreeImage_ConvertToRawBits(rawData, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
 	FreeImage_Unload(dib32);
 
 	// Check image size
@@ -1527,8 +1579,8 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 					for (i32 i = 0; i < 8; i++)
 					{
 						i32 idx = layer->posX + i + (nx * 8) + ((layer->posY + j + (ny * 8)) * imageX);
-						u32 c24 = 0xFFFFFF & ((u32*)bits)[idx];
-						u8 c4 = GetNearestColorIndex(c24, PaletteMSX, 16, 1);
+						u32 c24 = 0xFFFFFF & ((u32*)rawData)[idx];
+						u8 c4 = GetNearestColorIndex(c24, (param->palType == PALETTE_MSX1) ? PaletteMSX1 : PaletteMSX2, 16, 1);
 						if (colors.empty()) // special case: first color
 						{
 							colors.push_back(c4);
@@ -1588,7 +1640,7 @@ bool ExportGM2(ExportParameters* param, ExporterInterface* exp)
 	i32 namesSize = exp->GetTotalBytes();
 	exp->WriteCommentLine(MSX::Format("Names size: %i Bytes", namesSize));
 
-	delete[] bits;
+	delete[] rawData;
 
 	//-------------------------------------------------------------------------
 	// PATTERNS TABLE
@@ -1703,7 +1755,7 @@ i32 ColorToBinary(Layer& layer, u32 c24)
 
 //-----------------------------------------------------------------------------
 // Export a 8x8 sprite data (1-bit per point)
-void ExportSpriteData(ExportParameters* param, ExporterInterface* exp, Layer& layer, i32 sid, i32 x, i32 y, BYTE* bits, i32 imageX, i32 imageY, std::vector<u8> &rawData)
+void ExportSpriteData(ExportParameters* param, ExporterInterface* exp, Layer& layer, i32 sid, i32 x, i32 y, BYTE* rawData, i32 imageX, i32 imageY, std::vector<u8> &expData)
 {
 	if (param->comp == MSX::COMPRESS_None)
 	{
@@ -1720,7 +1772,7 @@ void ExportSpriteData(ExportParameters* param, ExporterInterface* exp, Layer& la
 				if (((x + i) >= 0) || ((x + i) < imageX))
 				{
 					i32 idx = (x + i) + ((y + j) * imageX);
-					u32 c24 = 0xFFFFFF & ((u32*)bits)[idx];
+					u32 c24 = 0xFFFFFF & ((u32*)rawData)[idx];
 					if (ColorToBinary(layer, c24))
 						byte |= 1 << (7 - i);
 				}
@@ -1734,7 +1786,7 @@ void ExportSpriteData(ExportParameters* param, ExporterInterface* exp, Layer& la
 		}
 		else
 		{
-			rawData.push_back(byte);
+			expData.push_back(byte);
 		}
 	}
 }
@@ -1745,7 +1797,7 @@ bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 {
 	FIBITMAP *dib32;
 	u32 sid = 0; // sprite id
-	std::vector<u8> rawData;
+	std::vector<u8> expData;
 
 	//-------------------------------------------------------------------------
 	// Prepare image
@@ -1757,12 +1809,12 @@ bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 		return false;
 	}
 
-	// Get 32 bits raw datas
+	// Get 32-bit raw datas
 	i32 imageX = FreeImage_GetWidth(dib32);
 	i32 imageY = FreeImage_GetHeight(dib32);
 	i32 scanWidth = FreeImage_GetPitch(dib32);
-	BYTE* bits = new BYTE[scanWidth * imageY];
-	FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
+	BYTE* rawData = new BYTE[scanWidth * imageY];
+	FreeImage_ConvertToRawBits(rawData, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
 	FreeImage_Unload(dib32);
 
 	if (param->layers.size() == 0)
@@ -1810,20 +1862,20 @@ bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 						{
 							i32 x = param->posX + (nx * (param->sizeX + param->gapX)) + layer.posX + i * 16;
 							i32 y = param->posY + (ny * (param->sizeY + param->gapY)) + layer.posY + j * 16;
-							ExportSpriteData(param, exp, layer, sid++, x, y, bits, imageX, imageY, rawData);
+							ExportSpriteData(param, exp, layer, sid++, x, y, rawData, imageX, imageY, expData);
 							y += 8;
-							ExportSpriteData(param, exp, layer, sid++, x, y, bits, imageX, imageY, rawData);
+							ExportSpriteData(param, exp, layer, sid++, x, y, rawData, imageX, imageY, expData);
 							y -= 8;
 							x += 8;
-							ExportSpriteData(param, exp, layer, sid++, x, y, bits, imageX, imageY, rawData);
+							ExportSpriteData(param, exp, layer, sid++, x, y, rawData, imageX, imageY, expData);
 							y += 8;
-							ExportSpriteData(param, exp, layer, sid++, x, y, bits, imageX, imageY, rawData);
+							ExportSpriteData(param, exp, layer, sid++, x, y, rawData, imageX, imageY, expData);
 						}
 						else // if (layer.mode & LAYER_8x8)
 						{
 							i32 x = param->posX + (nx * (param->sizeX + param->gapX)) + layer.posX + i * 8;
 							i32 y = param->posY + (ny * (param->sizeY + param->gapY)) + layer.posY + j * 8;
-							ExportSpriteData(param, exp, layer, sid++, x, y, bits, imageX, imageY, rawData);
+							ExportSpriteData(param, exp, layer, sid++, x, y, rawData, imageX, imageY, expData);
 						}
 					}
 				}
@@ -1834,14 +1886,14 @@ bool ExportSprite(ExportParameters* param, ExporterInterface* exp)
 
 	// Export compressed data
 	if (param->comp == MSX::COMPRESS_RLEp)
-		ExportRLEp(param, exp, rawData);
+		ExportRLEp(param, exp, expData);
 	else if (param->comp == MSX::COMPRESS_Pletter)
-		ExportPletter(param, exp, rawData);
+		ExportPletter(param, exp, expData);
 
 	i32 namesSize = exp->GetTotalBytes();
 	exp->WriteTableEnd(MSX::Format("Patterns size: %i Bytes", namesSize));
 
-	delete[] bits;
+	delete[] rawData;
 
 	//-------------------------------------------------------------------------
 	// Write file
@@ -1950,12 +2002,12 @@ bool ExportText(ExportParameters* param, ExporterInterface* exp)
 		dib32 = FreeImage_ConvertTo32Bits(dib1);
 	}
 
-	// Get 32 bits raw datas
+	// Get 32-bit raw datas
 	i32 imageX = FreeImage_GetWidth(dib32);
 	i32 imageY = FreeImage_GetHeight(dib32);
 	i32 scanWidth = FreeImage_GetPitch(dib32);
-	BYTE* bits = new BYTE[scanWidth * imageY];
-	FreeImage_ConvertToRawBits(bits, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
+	BYTE* rawData = new BYTE[scanWidth * imageY];
+	FreeImage_ConvertToRawBits(rawData, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
 	FreeImage_Unload(dib32);
 
 	// Check image size
@@ -1988,7 +2040,7 @@ bool ExportText(ExportParameters* param, ExporterInterface* exp)
 				for (i32 i = 0; i < 6; i++) // X
 				{
 					i32 idx = param->posX + i + (nx * 6) + ((param->posY + j + (ny * 8)) * imageX);
-					u32 c24 = 0xFFFFFF & ((u32*)bits)[idx];
+					u32 c24 = 0xFFFFFF & ((u32*)rawData)[idx];
 					if(c24)
 						pattern |= 1 << (7 - i);
 				}
@@ -1999,7 +2051,7 @@ bool ExportText(ExportParameters* param, ExporterInterface* exp)
 		}
 	}
 
-	delete[] bits;
+	delete[] rawData;
 
 	//-------------------------------------------------------------------------
 	// Analyze and prepare for export

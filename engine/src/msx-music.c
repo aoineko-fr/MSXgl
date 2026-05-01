@@ -13,6 +13,11 @@
 //  - MSX-MUSIC programming
 //     https://www.msx.org/wiki/MSX-MUSIC_programming
 //─────────────────────────────────────────────────────────────────────────────
+
+//=============================================================================
+// INCLUDES
+//=============================================================================
+
 #include "msx-music.h"
 #include "bios.h"
 #include "system.h"
@@ -47,12 +52,13 @@ u8 g_MSXMusic_RegBackup[16];
 
 //-----------------------------------------------------------------------------
 // Initialize MSX-Music module
-void MSXMusic_Initialize()
+u8 MSXMusic_Initialize()
 {
-	MSXMusic_Detect();
+	u8 ret = MSXMusic_Detect();
 	#if (MSXMUSIC_USE_RESUME)
 	Mem_Set(0, g_MSXMusic_RegBackup, 16);
 	#endif
+	return ret;
 }
 
 //-----------------------------------------------------------------------------
@@ -63,7 +69,7 @@ bool MSXMusic_CheckInternal(u8 slotId)
 	u16 dest = 0x4018;
 	while (*ptr != 0)
 	{
-		if (*ptr != Bios_InterSlotRead(slotId, dest++))
+		if (*ptr != BIOS_InterSlotRead(slotId, dest++))
 			return FALSE;
 		ptr++;
 	}
@@ -78,7 +84,7 @@ bool MSXMusic_CheckExternal(u8 slotId)
 	u16 dest = 0x401C;
 	while (*ptr != 0)
 	{
-		if (*ptr != Bios_InterSlotRead(slotId, dest++))
+		if (*ptr != BIOS_InterSlotRead(slotId, dest++))
 			return FALSE;
 		ptr++;
 	}
@@ -99,8 +105,8 @@ u8 MSXMusic_Detect()
 	if (g_MSXMusic_SlotId != SLOT_NOTFOUND)
 	{
 		// Activate external FM-PAC
-		u8 val = Bios_InterSlotRead(g_MSXMusic_SlotId, 0x7FF6);
-		Bios_InterSlotWrite(g_MSXMusic_SlotId, 0x7FF6, val | 0x01);
+		u8 val = BIOS_InterSlotRead(g_MSXMusic_SlotId, 0x7FF6);
+		BIOS_InterSlotWrite(g_MSXMusic_SlotId, 0x7FF6, val | 0x01);
 		return MSXMUSIC_EXTERNAL;
 	}
 	
@@ -133,7 +139,7 @@ u8 MSXMusic_GetRegister(u8 reg)
 void MSXMusic_Mute()
 {
 	MSXMUSIC_DOBACKUP(FALSE);
-	loop(i, 9)
+	loop (i, 9)
 	{
 		MSXMusic_SetRegister(MSXMUSIC_REG_CTRL_1 + i, 0); // seem to be enough
 	}
@@ -145,7 +151,7 @@ void MSXMusic_Mute()
 // Resume MSX-Music sound
 void MSXMusic_Resume()
 {
-	loop(i, 9)
+	loop (i, 9)
 	{
 		MSXMusic_SetRegister(MSXMUSIC_REG_CTRL_1 + i, g_MSXMusic_RegBackup[i]); // seem to be enough
 	}

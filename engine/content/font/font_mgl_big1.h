@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.21.0 on Fri Oct 10 00:32:46 2025
+// Data generated using MSXimg 1.22.1
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Author: Guillaume "Aoineko" Blanchard, for MSXgl (MSX Game library)
@@ -14,7 +14,8 @@
 //  - Start position: 0, 0
 //  - Sprite size:    8, 11 (gap: 0, 5)
 //  - Sprite count:   16, 6
-//  - Color count:    2 (Transparent: #0000)
+//  - Color count:    2 (Transparent: #000000)
+//  - Palette mode:   MSX1 [1:-1]
 //  - Compressor:     None
 //  - Skip empty:     TRUE
 
@@ -25,7 +26,7 @@ const unsigned char g_Font_MGL_Big1[] =
 	0x8B, // Data size [x|y]
 	0x8B, // Font size [x|y]
 	0x21, // First character ASCII code (!)
-	0x5F, // Last character ASCII code (_)
+	0x7E, // Last character ASCII code (~)
 // // Sprite[0] (offset:4)
 
 // // Sprite[1] (offset:4)

@@ -286,5 +286,5 @@ void main()
 		Halt();
 	}
 
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

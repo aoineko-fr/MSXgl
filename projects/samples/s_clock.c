@@ -224,7 +224,7 @@ void DisplayClock()
 	// Draw the static part of the analog watch
 	Draw_Circle(ANALOG_X, ANALOG_Y, ANALOG_R, 0xF, 0);
 
-	loop(i, 12)
+	loop (i, 12)
 	{
 		// Analog clock hour numbers
 		u16 idx = (((i * 5) + 45) * 6) % 360;
@@ -501,5 +501,5 @@ void main()
 		g_Update();
 	}
 
-	Bios_Exit(0);
+	BIOS_Exit(0);
 }

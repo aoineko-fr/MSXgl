@@ -11,7 +11,7 @@
 ;// （NDP.ASM と NDP_WRK.ASM が別途必要）
 ;// =====================================
 
-	.area _CODE
+	; .area _CODE
 
 ;// ------	曲データのアドレス設定
 
@@ -256,7 +256,7 @@ MSTART:
 	XOR	A		;// うにスキーさんによるバイト数削減を適用
 	LD	HL,#CH1WRK
 	LD	DE,#CH1WRK+1
-	LD	BC,#CLREND-CH1WRK-1
+	LD	BC,#524;//CLREND-CH1WRK-1												#MSXgl: Fixed variable area missmatch
 	LD	(HL),A		;// LD (HL),0
 	LDIR			;// CH1WRK～CLRENDまでのワークをクリア
 
@@ -467,10 +467,22 @@ WPSGM1:
 ;// (通常用PSG書き込み)
 
 WPSG:
+;//																				#MSXgl: Added an option to output data into a buffer
+#if (NDP_USE_INDERCT)
+	push	HL
+	push	DE
+	ld		HL, #_g_PSG_Regs
+	ld		D, #0
+	add		HL, DE
+	ld		(HL), A
+	pop		DE
+	pop		HL
+#else
 	LD	C,#0xA0		;// PSGポート
 	OUT	(C),E
 	INC	C
 	OUT	(C),A
+#endif
 
 	RET
 

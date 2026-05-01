@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sat Nov 29 12:57:23 2025
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: arkos\ALIENALL.akl
 const unsigned char g_AKL_ALIENALL[] = {
 	0x41, 0x54, 0x4C, 0x57, 0x01, 0x19, 0xA0, 0x0D, 0xA0, 0x17, 0xA0, 0xE9, 0xA2, 0x00, 0x00, 0x2D, //      0

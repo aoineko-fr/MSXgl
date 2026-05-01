@@ -73,7 +73,7 @@ __asm
 	add		iy, bc
 	ld		c, 0(iy)			// C = g_SpriteMaskL[offset]
 
-// loop(i, 8)
+// loop (i, 8)
 // 	*dest++ = *src++ & mask;
 	ld		b, #8
 loopCropL8:
@@ -116,7 +116,7 @@ __asm
 	add		iy, bc
 	ld		c, 0(iy)			// C = g_SpriteMaskL[offset]
 
-// 	loop(i, 16)
+// 	loop (i, 16)
 // 		*dest++ = *src++ & mask;
 	ld		b, #16
 loopCropL16_1:
@@ -127,7 +127,7 @@ loopCropL16_1:
 	inc		de 
 	djnz	loopCropL16_1
 
-// 	loop(i, 16)
+// 	loop (i, 16)
 // 		*dest++ = *src++;
 	ld		bc, #16
 	ldir
@@ -137,7 +137,7 @@ loopCropL16_1:
 // } else {
 greaterCropL16:
 
-// 	loop(i, 16)
+// 	loop (i, 16)
 // 	{
 // 		*dest++ = 0;
 // 		src++;
@@ -157,7 +157,7 @@ loopCropL16_2:
 	add		iy, bc				// B = 0 {from djnz}  |  C = offset - 8 {computed previously}
 	ld		c, 0(iy)			// C = g_SpriteMaskL[offset - 8]
 
-// 	loop(i, 16)
+// 	loop (i, 16)
 // 		*dest++ = *src++ & mask;
 	ld		b, #16
 loopCropL16_3:
@@ -197,7 +197,7 @@ __asm
 	add		iy, bc
 	ld		c, 0(iy)			// C = g_SpriteMaskL[offset]
 
-// loop(i, 8)
+// loop (i, 8)
 // 	*dest++ = *src++ & mask;
 	ld		b, #8
 loopCropR8:
@@ -233,7 +233,7 @@ __asm
 	cp		#8
 	jp		nc, greaterCropR16	
 
-// 	loop(i, 16)
+// 	loop (i, 16)
 // 		*dest++ = *src++;
 	ld		bc, #16
 	ldir
@@ -244,7 +244,7 @@ __asm
 	add		iy, bc				// B = 0 {from ldir}  |  C = offset
 	ld		c, 0(iy)			// C = g_SpriteMaskR[offset]
 
-// 	loop(i, 16)
+// 	loop (i, 16)
 // 		*dest++ = *src++ & mask;
 	ld		b, #16
 loopCropR16_1:
@@ -268,7 +268,7 @@ greaterCropR16:
 	add		iy, bc
 	ld		c, 0(iy)			// C = g_SpriteMaskR[offset - 8]
 
-// 	loop(i, 16)
+// 	loop (i, 16)
 // 		*dest++ = *src++ & mask;
 	ld		b, #16
 loopCropR16_2:
@@ -279,7 +279,7 @@ loopCropR16_2:
 	inc		de 
 	djnz	loopCropR16_2
 
-// 	loop(i, 16)
+// 	loop (i, 16)
 // 		*dest++ = 0;
 	xor		a
 	ld		b, #16
@@ -313,7 +313,7 @@ __asm
 	ld		c, 0(iy)
 	inc		c					// C = offset + 1
 
-// loop(i, n)
+// loop (i, n)
 // {
 // 	*dest++ = 0;
 // 	src++;
@@ -360,7 +360,7 @@ __asm
 	inc		a					// A = offset + 1
 	ld______iyl_a				// IYL = A {backup}
 
-// loop(i, n)
+// loop (i, n)
 // {
 // 	*dest++ = 0;
 // 	src++;
@@ -384,7 +384,7 @@ loopCropT16_1:
 	ldir
 skipCropT16_1:
 
-// loop(i, n)
+// loop (i, n)
 // {
 // 	*dest++ = 0;
 // 	src += n;
@@ -433,7 +433,7 @@ __asm
 	add		#7					// A = 7 - offset
 	jp		z, skipCropB8
 
-// loop(i, n)
+// loop (i, n)
 // 	*dest++ = *src++;
 	ld		c, a
 	ld		b, #0
@@ -477,7 +477,7 @@ __asm
 	ld______iyl_a				// IYL = A (backup)
 	jp		z, skipCropB16_1
 
-// loop(i, n)
+// loop (i, n)
 // 	*dest++ = *src++;
 	ld		c, a
 	ld		b, #0
@@ -499,7 +499,7 @@ loopCropB16_1:
 	inc		de
 	djnz	loopCropB16_1
 
-// loop(i, n)
+// loop (i, n)
 // 	*dest++ = *src++;
 	ld______a_iyl				// Retore A
 	or		a

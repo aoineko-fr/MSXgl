@@ -9,6 +9,10 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+//=============================================================================
+// DEFINES
+//=============================================================================
+
 // Core
 #define true						TRUE
 #define false						FALSE
@@ -22,10 +26,10 @@
 #define VADDR_Hi					VADDR_HI
 #define g_SpriteAtributeLow			g_SpriteAttributeLow
 #define g_SpriteAtributeHigh		g_SpriteAttributeHigh
-#define VPD_CommandSetupR32			VPD_CommandSetupR32
-#define VPD_CommandSetupR36			VPD_CommandSetupR36
-#define VPD_CommandWriteLoop		VPD_CommandWriteLoop
-#define VPD_CommandReadLoop			VPD_CommandReadLoop
+#define VPD_CommandSetupR32			VDP_CommandSetupR32
+#define VPD_CommandSetupR36			VDP_CommandSetupR36
+#define VPD_CommandWriteLoop		VDP_CommandWriteLoop
+#define VPD_CommandReadLoop			VDP_CommandReadLoop
 
 // Compress module
 #define UnpackRLEpToRAM				RLEp_UnpackToRAM
@@ -34,6 +38,8 @@
 #define JOY_INPUT_DIR_UP_RIGTH		JOY_INPUT_DIR_UP_RIGHT
 #define JOY_INPUT_DIR_DOWN_RIGTH	JOY_INPUT_DIR_DOWN_RIGHT
 #define Joystick_GetTrigger			Joystick_IsButtonPressed
+#define INPUT_PORT_1				INPUT_PORT1
+#define INPUT_PORT_2				INPUT_PORT2
 
 // Compress module
 #define ZX0_Unpack					ZX0_UnpackToRAM
@@ -41,10 +47,81 @@
 #define Bitbuster_Unpack			Bitbuster_UnpackToRAM
 
 // BIOS module
+#define Bios_Startup				BIOS_Reboot
+#define Bios_InterSlotRead			BIOS_InterSlotRead
+#define Bios_InterSlotWrite			BIOS_InterSlotWrite
+#define Bios_InterSlotCall			BIOS_InterSlotCall
+#define Bios_SwitchSlot				BIOS_SwitchSlot
 #define Bios_InterSlotCallF			BIOS_CALLF
-#define Bios_Reboot					Bios_Startup
+#define Bios_Reboot					BIOS_Reboot
 #define Bios_MainCall				Call
-#define Bios_TextPrintSting			Bios_TextPrintString
+#define Bios_Exit					BIOS_Exit
+#define Bios_SetKeyClick			BIOS_SetKeyClick
+#define Bios_GetMSXVersion			BIOS_GetMSXVersion
+#define Bios_DisableScreen			BIOS_DisableScreen
+#define Bios_EnableScreen			BIOS_EnableScreen
+#define Bios_WriteVDP				BIOS_WriteVDP
+#define Bios_ReadVRAM				BIOS_ReadVRAM
+#define Bios_WriteVRAM				BIOS_WriteVRAM
+#define Bios_SetAddressForRead		BIOS_SetAddressForRead
+#define Bios_SetAddressForWrite		BIOS_SetAddressForWrite
+#define Bios_FillVRAM				BIOS_FillVRAM
+#define Bios_TransfertVRAMtoRAM		BIOS_CopyVRAMtoRAM
+#define Bios_TransfertRAMtoVRAM		BIOS_CopyRAMtoVRAM
+#define Bios_ChangeMode				BIOS_SetScreenMode
+#define Bios_ChangeColor			BIOS_ApplyColor
+#define Bios_InitScreen0			BIOS_InitScreen0
+#define Bios_InitScreen0Color		BIOS_InitScreen0Color
+#define Bios_InitScreen0Ex			BIOS_InitScreen0Ex
+#define Bios_SetScreen0				BIOS_SetScreen0
+#define Bios_InitScreen1			BIOS_InitScreen1
+#define Bios_InitScreen1Color		BIOS_InitScreen1Color
+#define Bios_InitScreen1Ex			BIOS_InitScreen1Ex
+#define Bios_SetScreen1				BIOS_SetScreen1
+#define Bios_InitScreen2			BIOS_InitScreen2
+#define Bios_InitScreen2Color		BIOS_InitScreen2Color
+#define Bios_InitScreen2Ex			BIOS_InitScreen2Ex
+#define Bios_SetScreen2				BIOS_SetScreen2
+#define Bios_InitScreen3			BIOS_InitScreen3
+#define Bios_InitScreen3Ex			BIOS_InitScreen3Ex
+#define Bios_SetScreen3				BIOS_SetScreen3
+#define Bios_InitMulticolorMode  	BIOS_InitScreen3
+#define Bios_InitMulticolorModeEx	BIOS_InitScreen3Ex
+#define Bios_SetMulticolorMode		BIOS_SetScreen3
+#define Bios_GetCharacter			BIOS_GetCharacter
+#define Bios_HasCharacter			BIOS_HasCharacter
+#define Bios_TextPrintChar			BIOS_TextPrintChar
+#define Bios_TextPrintString		BIOS_TextPrint
+#define Bios_Beep					BIOS_Beep
+#define Bios_ClearScreen			BIOS_ClearScreen
+#define Bios_SetCursorPosition		BIOS_TextSetCursor
+#define Bios_GetPatternTableAddress	BIOS_GetSpritePatternAddress
+#define Bios_GetAttributeTableAddress	BIOS_GetSpriteAttributeAddress
+#define Bios_GetSpriteSize			BIOS_GetSpriteSize
+#define Bios_GraphPrintChar			BIOS_GraphPrintChar
+#define BIOS_GraphPrintString		BIOS_GraphPrint
+#define Bios_GraphPrintCharEx		BIOS_GraphPrintCharEx
+#define Bios_IsSpriteCollision		BIOS_IsSpriteCollision
+#define Bios_IsSpriteOverScan		BIOS_IsSpriteOverScan
+#define Bios_GetSpriteOverScanId	BIOS_GetSpriteOverScanId
+#define Bios_GetJoystickDirection	BIOS_GetJoystickDirection
+#define Bios_GetJoystickTrigger		BIOS_GetJoystickTrigger
+#define Bios_GetTouchPad			BIOS_GetTouchPad
+#define Bios_GetPaddle				BIOS_GetPaddle
+#define Bios_InitPSG				BIOS_InitPSG
+#define Bios_WritePSG				BIOS_WritePSG
+#define Bios_ReadPSG				BIOS_ReadPSG
+#define Bios_PlayPSG				BIOS_PlayPSG
+#define Bios_GetKeyboardMatrix		BIOS_GetKeyboardMatrix
+#define Bios_IsKeyPressed			BIOS_IsKeyPressed
+#define Bios_SetCPUMode				BIOS_SetCPUMode
+#define Bios_GetCPUMode				BIOS_GetCPUMode
+// BIOS hook
+#define Bios_SetHookCallback		BIOS_SetHookCallback
+#define Bios_SetHookDirectCallback	BIOS_SetHookDirectCallback
+#define Bios_SetHookInterSlotCallback	BIOS_SetHookInterSlotCallback
+#define Bios_ClearHook				BIOS_ClearHook
+#define Bios_BackupHook				BIOS_BackupHook
 
 // Math module
 #define Abs8						ABS8

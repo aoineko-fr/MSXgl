@@ -187,6 +187,12 @@
 ;------------------------------------------------------------------------------
 .macro INIT_P1_TO_P02
 
+	; Backup Page 0 (Main-ROM) information
+	BACKUP_ROMINFO
+
+	; Call event before BIOS release
+	ON_BIOS_RELEASE
+
 	crt0_p1_to_p02::
 		; Set all pages primary slot equal to page #1 one
 		in		a, (PPI_A)				; A=[P3|P2|P1|P0] Get primary slots info
@@ -240,27 +246,11 @@
 ;------------------------------------------------------------------------------
 .macro INIT_P3_TO_P0
 
-	; crt0_p3_to_p0:
-	; 	; Set pages #0 primary slot equal to page #3 one
-	; 	in		a, (PPI_A)				; A=[P3|P2|P1|P0] Get primary slots info 
-	; 	and		a, #0b11111100			; A=[P3|P2|P1|00] Mask P0 slot 
-	; 	ld		b, a					; B=[P3|P2|P1|00] Backup
-	; 	and		a, #0b11000000			; A=[P3|00|00|00] Mask all pages slots but P3 
-	; 	rlca							;                 A<<1
-	; 	rlca							; A=[00|00|00|P3] A<<1
-	; 	or		a, b					; A=[P3|P2|P1|P3] Merge
-	; 	out		(PPI_A), a				;                 Set primary slots info
+	; Backup Page 0 (Main-ROM) information
+	BACKUP_ROMINFO
 
-	; 	; Set page #0 seconday slot equal to page #3 one
-	; 	ld		a, (SLTSL)				; A=[~3|~2|~1|~0] Read secondary slots register of selected primary slot
-	; 	cpl								; A=[S3|S2|S1|S0] Reverses the bits
-	; 	and		a, #0b11111100			; A=[S3|S2|S1|00] Mask S0 slot 
-	; 	ld		b, a					; B=[S3|S2|S1|00] Backup
-	; 	and		a, #0b11000000			; A=[S3|00|00|00] Mask all pages slots but S3 
-	; 	rlca							;                 A<<1
-	; 	rlca							; A=[00|00|00|S3] A<<1
-	; 	or		a, b					; A=[S3|S2|S1|S3] Merge
-	; 	ld		(SLTSL), a				;                 Set secondary slot info
+	; Call event before BIOS release
+	ON_BIOS_RELEASE
 
 	crt0_p3_to_p0::
 
@@ -381,6 +371,19 @@
 		ld		(SLTSL), a 				; restore orig sslot
 
 	ram_not_found:
+
+.endm
+
+;------------------------------------------------------------------------------
+; Call event before BIOS release
+;------------------------------------------------------------------------------
+.macro ON_BIOS_RELEASE
+
+	.if BIOS_RELEASE
+	.globl _BIOS_OnRelease
+	crt0_bios_release::
+		call _BIOS_OnRelease
+	.endif
 
 .endm
 
@@ -725,10 +728,6 @@
 	.ifne ROM_RAMISR-RAM0_NONE
 
 	crt0_select_ram::
-
-	; Backup Page 0 (Main-ROM) information
-		BACKUP_ROMINFO
-
 		jp		crt0_interrupt_end
 
 	; ISR

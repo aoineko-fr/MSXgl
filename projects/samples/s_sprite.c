@@ -229,12 +229,12 @@ void UpdateSprites()
 // Program entry point
 void main()
 {
-	Bios_SetKeyClick(FALSE);
+	BIOS_SetKeyClick(FALSE);
 	if (Sys_GetMSXVersion() == MSXVER_1)
 	{
-		Bios_ClearScreen();
-		Bios_TextPrintSting("This sample need MSX2 or above");
-		Bios_GetCharacter();
+		BIOS_ClearScreen();
+		BIOS_TextPrint("This sample need MSX2 or above");
+		BIOS_GetCharacter();
 		return;
 	}
 
@@ -345,8 +345,8 @@ void main()
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16);
 	VDP_SetHBlankLine(SPRITE_2X_LINE);
 	VDP_EnableHBlank(TRUE);
-	Bios_SetHookCallback(H_KEYI, InterruptHook);
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
+	BIOS_SetHookCallback(H_KEYI, InterruptHook);
+	BIOS_SetHookCallback(H_TIMI, VBlankHook);
 	
 	bool bContinue = TRUE;
 	while (bContinue)
@@ -361,9 +361,9 @@ void main()
 			bContinue = FALSE;
 	}
 
-	Bios_ClearHook(H_TIMI);
-	Bios_ClearHook(H_KEYI);
-	Bios_Exit(0);
+	BIOS_ClearHook(H_TIMI);
+	BIOS_ClearHook(H_KEYI);
+	BIOS_Exit(0);
 }
 
 

@@ -15,18 +15,41 @@
 // MSXtk
 #include "MSXtk.h"
 
-extern u32 PaletteMSX[16];
+// Default palettes
+extern u32 PaletteMSX1[16];
+extern u32 PaletteMSX2[16];
 
+// Palette type
 enum PaletteType
 {
 	PALETTE_None,
-	PALETTE_MSX1,
-	PALETTE_MSX2,
+	PALETTE_MSX1,    // Default MSX1 palette
+	PALETTE_MSX2,    // Default MSX2 palette
 	PALETTE_Custom,  // Generate a custom palette 
 	PALETTE_Input,   // Use input palette 
 	PALETTE_Partial, // Combine partial input palette and custom palette
 };
 
+// Get palette type name
+inline const c8* GetPaletteTypeName(PaletteType pal)
+{
+	switch (pal)
+	{
+		case PALETTE_MSX1:    // Default MSX1 palette
+			return "MSX1";
+		case PALETTE_MSX2:    // Default MSX2 palette
+			return "MSX2";
+		case PALETTE_Custom:  // Generate a custom palette 
+			return "Custom";
+		case PALETTE_Input:   // Use input palette 
+			return "Input";
+		case PALETTE_Partial: // Combine partial input palette and custom palette
+			return "Partial";
+	};
+	return "None";
+}
+
+// Ditherig method
 enum DitheringMethod
 {
 	DITHER_None      = -1,
@@ -39,6 +62,7 @@ enum DitheringMethod
 	DITHER_Cluster16 = FID_CLUSTER16x16, // Ordered clustered dot dithering(order 8 - 16x16 matrix)
 };
 
+// Filter method
 enum FilterMethod
 {
 	FILTER_None     = -1,
@@ -51,7 +75,6 @@ enum FilterMethod
 };
 
 // color types
-
 struct GRB8;
 struct RGB24;
 

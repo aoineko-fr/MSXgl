@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_laydock2_01.vgm (92461 bytes)
 // Compressor: lVGM
 // VGM version: 1.00 (chips:OPLL)
@@ -7120,8 +7119,7 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x21, 0x17, // rr: nn
 	0x15, 0xBD, // rr: nn
 	0x14, 0x03, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x94, // rr: 0
 	0x15, 0xB8, // rr: nn
 	0xE0, // -------- Wait: Ex
@@ -9686,9 +9684,8 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x0E, 0x3F, // rr: nn
 	0xE3, // -------- Wait: Ex
 	0x25, 0x09, // rr: nn
-	0xFD, 0x00, // ======== End of data segment
-	0x00, // Padding
 	0x15, 0xCC, // rr: nn
+	0xFD, 0x00, // ======== End of data segment
 	0x25, 0x19, // rr: nn
 	0x20, 0x03, // rr: nn
 	0x20, 0x13, // rr: nn
@@ -14421,8 +14418,6 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x22, 0x07, // rr: nn
 	0x21, 0x07, // rr: nn
 	0x0E, 0x20, // rr: nn
-	0x44, 0x20, 0x50, 0xC0, // 44 nn[3] => R#16~18
-	0x45, 0x05, 0x05, 0x01, // 45 nn[3] => R#26~28
 	0x46, 0x03, 0x33, 0x33, // 46 nn[3] => R#36~38
 	0xA5, // rr: 0
 	0xA4, // rr: 0
@@ -14437,13 +14432,10 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x35, 0x7F, // rr: nn
 	0x15, 0x22, // rr: nn
 	0x25, 0x19, // rr: nn
-	0x33, 0x33, // rr: nn
 	0x13, 0xB2, // rr: nn
 	0x23, 0x17, // rr: nn
-	0x32, 0x33, // rr: nn
 	0x12, 0x58, // rr: nn
 	0x22, 0x17, // rr: nn
-	0x31, 0x33, // rr: nn
 	0x11, 0x22, // rr: nn
 	0x21, 0x17, // rr: nn
 	0x30, 0xE3, // rr: nn
@@ -14726,8 +14718,7 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x15, 0x8A, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x15, 0x85, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x15, 0x82, // rr: nn
 	0x25, 0x09, // rr: nn
 	0xE0, // -------- Wait: Ex
@@ -16259,8 +16250,7 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x15, 0x82, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x15, 0x7E, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x15, 0x79, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x15, 0x78, // rr: nn
@@ -16286,8 +16276,7 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0xE0, // -------- Wait: Ex
 	0x15, 0x8A, // rr: nn
 	0x15, 0x85, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x15, 0x82, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x15, 0x7E, // rr: nn
@@ -19432,8 +19421,6 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x20, 0x03, // rr: nn
 	0x10, 0x58, // rr: nn
 	0x20, 0x13, // rr: nn
-	0xFD, 0x00, // ======== End of data segment
-	0x00, // Padding
 	0x15, 0x58, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x0E, 0x2E, // rr: nn
@@ -19445,6 +19432,7 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x14, 0xB1, // rr: nn
 	0x24, 0x19, // rr: nn
 	0x23, 0x07, // rr: nn
+	0xFD, 0x00, // ======== End of data segment
 	0x13, 0xB2, // rr: nn
 	0x23, 0x17, // rr: nn
 	0x22, 0x07, // rr: nn
@@ -22405,8 +22393,7 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0xE0, // -------- Wait: Ex
 	0x15, 0xC8, // rr: nn
 	0x15, 0xCD, // rr: nn
-	0xE0, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
 	0x15, 0xD3, // rr: nn
 	0x25, 0x09, // rr: nn
 	0xE0, // -------- Wait: Ex
@@ -24874,4 +24861,4 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x14, 0x47, // rr: nn
 	0xFF, // End marker
 };
-// Total size: 42002 bytes
+// Total size: 41981 bytes

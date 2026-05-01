@@ -133,7 +133,7 @@ void SetDevice(u8 dev)
 // Program entry point
 void main()
 {
-	Bios_SetKeyClick(FALSE);
+	BIOS_SetKeyClick(FALSE);
 
 	VDP_SetMode(VDP_MODE_SCREEN0); // Initialize screen mode 0 (text)
 	VDP_ClearVRAM();

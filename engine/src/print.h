@@ -7,13 +7,27 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
+//=============================================================================
+// INCLUDES
+//=============================================================================
+
 #include "core.h"
 #include "string.h"
 #include "vdp.h"
 
-//-----------------------------------------------------------------------------
+//=============================================================================
+// VALIDATION
+//=============================================================================
+
+// PRINT_USE_MULTIFONT
+#ifndef PRINT_USE_MULTIFONT
+	#warning PRINT_USE_MULTIFONT is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PRINT_USE_MULTIFONT		FALSE
+#endif
+
+//=============================================================================
 // DEFINES
-//-----------------------------------------------------------------------------
+//=============================================================================
 
 #define PRINT_USE_ALIGN			TRUE
 #define PRINT_USE_DIRECTION		TRUE
@@ -23,20 +37,21 @@ enum PRINT_MODE
 {
 	// Bitmap modes (from RAM)
 #if ((PRINT_USE_BITMAP) || (PRINT_USE_VRAM))
-	PRINT_MODE_BITMAP		= 0,	//< Draw characters from RAM (R-T unpack font data and draw it)
-	PRINT_MODE_BITMAP_TRANS	= 1,	//< Draw characters from RAM with transparency (R-T unpack font data and draw it)
+	PRINT_MODE_BITMAP		     = 0,	//< Draw characters from RAM (R-T unpack font data and draw it)
+	PRINT_MODE_BITMAP_TRANS      = 1,	//< Draw characters from RAM with transparency (R-T unpack font data and draw it)
 #endif
 	// Bitmap mode (from VRAM)
 #if (PRINT_USE_VRAM)
-	PRINT_MODE_BITMAP_VRAM	= 2,	//< Draw characters from VRAM (font data is upack once in VRAM thne drawing is done by VRAM copy)
+	PRINT_MODE_BITMAP_VRAM	     = 2,	//< Draw characters from VRAM (font data is upack once in VRAM thne drawing is done by VRAM copy)
+	PRINT_MODE_BITMAP_VRAM_TRANS = 3,	//< Draw characters from VRAM with transparency (font data is upack once in VRAM thne drawing is done by VRAM copy)
 #endif
 	// Sprite mode
 #if (PRINT_USE_SPRITE)
-	PRINT_MODE_SPRITE		= 3,	//< Draw characters from sprites (load font data as sprite pattern in VRAM then display characters using sprite system)
+	PRINT_MODE_SPRITE		     = 4,	//< Draw characters from sprites (load font data as sprite pattern in VRAM then display characters using sprite system)
 #endif
 	// Text mode
 #if (PRINT_USE_TEXT)
-	PRINT_MODE_TEXT			= 4,	//< Draw characters as pattern names (text mode)
+	PRINT_MODE_TEXT			     = 5,	//< Draw characters as pattern names (text mode)
 #endif
 	PRINT_MODE_MAX,
 };
@@ -44,12 +59,20 @@ enum PRINT_MODE
 // Handle fixed of variables character width
 #if (PRINT_WIDTH == PRINT_WIDTH_1)
 	#define PRINT_W(a) 1
+	#define PRINT_MOD256
+	#define PRINT_MOD512
 #elif (PRINT_WIDTH == PRINT_WIDTH_6)
 	#define PRINT_W(a) 6
+	#define PRINT_MOD256			42
+	#define PRINT_MOD512			85			
 #elif (PRINT_WIDTH == PRINT_WIDTH_8)
 	#define PRINT_W(a) 8
+	#define PRINT_MOD256			32
+	#define PRINT_MOD512			64			
 #else // (PRINT_WIDTH == PRINT_WIDTH_X)
 	#define PRINT_W(a) (a)
+	#define PRINT_MOD256			PRINT_DATA.CharPerLine
+	#define PRINT_MOD512			PRINT_DATA.CharPerLine			
 #endif
 
 // Handle fixed of variables character height
@@ -142,20 +165,41 @@ typedef struct Print_Data
 	u8 ShadowColor;				//< Shadow color
 #endif
 #if (PRINT_USE_FX_OUTLINE)
-	u8 OutlineColor;			//< Shadow color
+	u8 OutlineColor;			//< Outline color
 #endif
 	u8 Buffer[16];				//< Mode specifique buffer (used to pre-compute color combinations)
 #if (PRINT_USE_DIRECTION)
-	i8 Direction;				//< Shadow color
+	i8 Direction;				//< 
 #endif
 } Print_Data;
 
+#if (PRINT_USE_MULTIFONT)
+extern Print_Data* g_PrintData;
+#define PRINT_DATA (*g_PrintData)
+#else
 extern Print_Data g_PrintData;
+#define PRINT_DATA (g_PrintData)
+#endif
+
+//=============================================================================
+// FUNCTIONS
+//=============================================================================
 
 //-----------------------------------------------------------------------------
 // Group: Initialization
 // Font initialization functions
 //-----------------------------------------------------------------------------
+
+#if (PRINT_USE_MULTIFONT)
+
+// Function: Print_SetFontData
+// Set the current font data structure to use for print functions.
+//
+// Parameters:
+//   data - Address of the font data structure to use for print functions.
+inline void Print_SetFontData(Print_Data* data) { g_PrintData = data; }
+
+#endif
 
 // Function: Print_Initialize
 // Initialize print module.
@@ -167,11 +211,12 @@ bool Print_Initialize();
 //
 // Parameters:
 //   mode - Print mode to select. Can be:
-// > PRINT_MODE_BITMAP          Draw characters from RAM (R-T unpack font data and draw it). Need PRINT_USE_BITMAP or PRINT_USE_VRAM compile option.
-// > PRINT_MODE_BITMAP_TRANS    Draw characters from RAM with transparency (R-T unpack font data and draw it). Need PRINT_USE_BITMAP or PRINT_USE_VRAM compile option.
-// > PRINT_MODE_BITMAP_VRAM     Draw characters from VRAM (font data is upack once in VRAM thne drawing is done by VRAM copy). Need PRINT_USE_VRAM compile option.
-// > PRINT_MODE_SPRITE          Draw characters from sprites (load font data as sprite pattern in VRAM then display characters using sprite system). Need PRINT_USE_SPRITE compile option.
-// > PRINT_MODE_TEXT            Draw characters as pattern names (text mode). Need PRINT_USE_TEXT compile option.
+// > PRINT_MODE_BITMAP                Draw characters from RAM (R-T unpack font data and draw it). Need PRINT_USE_BITMAP or PRINT_USE_VRAM compile option.
+// > PRINT_MODE_BITMAP_TRANS          Draw characters from RAM with transparency (R-T unpack font data and draw it). Need PRINT_USE_BITMAP or PRINT_USE_VRAM compile option.
+// > PRINT_MODE_BITMAP_VRAM           Draw characters from VRAM (font data is upack once in VRAM thne drawing is done by VRAM copy). Need PRINT_USE_VRAM compile option.
+// > PRINT_MODE_BITMAP_VRAM_TRANS     Draw characters from VRAM (font data is upack once in VRAM thne drawing is done by VRAM copy). Need PRINT_USE_VRAM compile option.
+// > PRINT_MODE_SPRITE                Draw characters from sprites (load font data as sprite pattern in VRAM then display characters using sprite system). Need PRINT_USE_SPRITE compile option.
+// > PRINT_MODE_TEXT                  Draw characters as pattern names (text mode). Need PRINT_USE_TEXT compile option.
 void Print_SetMode(u8 mode);
 
 // Function: Print_SetFont
@@ -194,15 +239,15 @@ void Print_SetFont(const u8* font);
 //   patterns - Address of the character data table
 inline void Print_SetFontEx(u8 patternX, u8 patternY, u8 sizeX, u8 sizeY, u8 firstChr, u8 lastChr, const u8* patterns)
 {
-	g_PrintData.PatternX     = patternX;
-	g_PrintData.PatternY     = patternY;
-	g_PrintData.UnitX        = sizeX;
-	g_PrintData.UnitY        = sizeY;
-	g_PrintData.CharFirst    = firstChr;
-	g_PrintData.CharLast     = lastChr;
-	g_PrintData.CharCount    = lastChr - firstChr + 1;
-	g_PrintData.FontPatterns = patterns;
-	g_PrintData.FontAddr     = g_PrintData.FontPatterns - (firstChr * g_PrintData.PatternY); // pre-compute address of the virtual index 0 character (used to quick drawing in PutChar_GX functions)
+	PRINT_DATA.PatternX     = patternX;
+	PRINT_DATA.PatternY     = patternY;
+	PRINT_DATA.UnitX        = sizeX;
+	PRINT_DATA.UnitY        = sizeY;
+	PRINT_DATA.CharFirst    = firstChr;
+	PRINT_DATA.CharLast     = lastChr;
+	PRINT_DATA.CharCount    = lastChr - firstChr + 1;
+	PRINT_DATA.FontPatterns = patterns;
+	PRINT_DATA.FontAddr     = PRINT_DATA.FontPatterns - (firstChr * PRINT_DATA.PatternY); // pre-compute address of the virtual index 0 character (used to quick drawing in PutChar_GX functions)
 }
 
 // Function: Print_GetFontInfo
@@ -210,7 +255,7 @@ inline void Print_SetFontEx(u8 patternX, u8 patternY, u8 sizeX, u8 sizeY, u8 fir
 //
 // Return:
 //   Current font information structure
-inline const Print_Data* Print_GetFontInfo() { return &g_PrintData;}
+inline const Print_Data* Print_GetFontInfo() { return &PRINT_DATA;}
 
 // Function: Print_SetPosition
 // Set cursor position.
@@ -220,8 +265,8 @@ inline const Print_Data* Print_GetFontInfo() { return &g_PrintData;}
 //   Y - Print cursor position Y coordinate
 inline void Print_SetPosition(UX x, UY y)
 {
-	g_PrintData.CursorX = x;
-	g_PrintData.CursorY = y;
+	PRINT_DATA.CursorX = x;
+	PRINT_DATA.CursorY = y;
 }
 
 // Function: Print_SetPositionX
@@ -229,14 +274,14 @@ inline void Print_SetPosition(UX x, UY y)
 //
 // Parameters:
 //   X - Print cursor position X coordinate
-inline void Print_SetPositionX(UX x) { g_PrintData.CursorX = x; }
+inline void Print_SetPositionX(UX x) { PRINT_DATA.CursorX = x; }
 
 // Function: Print_SetPositionY
 // Set cursor Y coordinate.
 //
 // Parameters:
 //   Y - Print cursor position Y coordinate
-inline void Print_SetPositionY(UY y) { g_PrintData.CursorY = y; }
+inline void Print_SetPositionY(UY y) { PRINT_DATA.CursorY = y; }
 
 // Function: Print_SetCharSize
 // Set character size.
@@ -246,8 +291,8 @@ inline void Print_SetPositionY(UY y) { g_PrintData.CursorY = y; }
 //   Y - Character height
 inline void Print_SetCharSize(u8 x, u8 y)
 {
-	g_PrintData.UnitX = x;
-	g_PrintData.UnitY = y;
+	PRINT_DATA.UnitX = x;
+	PRINT_DATA.UnitY = y;
 }
 
 // Function: Print_SetTabSize
@@ -255,7 +300,7 @@ inline void Print_SetCharSize(u8 x, u8 y)
 //
 // Parameters:
 //   size - Size of the tabulation in pixel (must be a power of 2 like 16, 32, 64, ...)
-inline void Print_SetTabSize(u8 size) { g_PrintData.TabSize = size; }
+inline void Print_SetTabSize(u8 size) { PRINT_DATA.TabSize = size; }
 
 #if (PRINT_USE_BITMAP)
 // Function: Print_SetBitmapFont
@@ -276,7 +321,8 @@ void Print_SetBitmapFont(const u8* font);
 //   font  - Pointer to font structure. Character patterns plus a 4 bytes headers (character width/height, spacing width/height, 1st character code, last character code).
 //   y     - Y position to store the font in VRAM
 //   color - Color of the font
-void Print_SetVRAMFont(const u8* font, UY y, u8 color);
+//   trans - Use transparency
+void Print_SetVRAMFont(const u8* font, UY y, u8 color, bool trans);
 #endif
 
 #if (PRINT_USE_TEXT)
@@ -298,7 +344,7 @@ void Print_SetTextFont(const u8* font, u8 offset);
 //   offset - Pattern index where to start to store the font
 inline void Print_SelectTextFont(const u8* font, u8 offset)
 {
-	g_PrintData.PatternOffset = offset;
+	PRINT_DATA.PatternOffset = offset;
 	Print_SetFontEx(8, 8, 1, 1, font[2], font[3], font+4);
 	// Print_Initialize();
 	// Print_SetMode(PRINT_MODE_TEXT);
@@ -310,7 +356,7 @@ inline void Print_SelectTextFont(const u8* font, u8 offset)
 //
 // Return:
 //   Pattern index where the font is stored
-inline u8 Print_GetPatternOffset() { return g_PrintData.PatternOffset; }
+inline u8 Print_GetPatternOffset() { return PRINT_DATA.PatternOffset; }
 
 // Function: Print_SetPatternOffset
 // Set pattern index where the font is stored.
@@ -319,7 +365,7 @@ inline u8 Print_GetPatternOffset() { return g_PrintData.PatternOffset; }
 //
 // Parameters:
 //   offset - Pattern index where to start to store the font
-inline void  Print_SetPatternOffset(u8 offset) { g_PrintData.PatternOffset = offset; }
+inline void  Print_SetPatternOffset(u8 offset) { PRINT_DATA.PatternOffset = offset; }
 
 #endif
 
@@ -340,7 +386,7 @@ void Print_SetSpriteFont(const u8* font, u8 patIdx, u8 sprtIdx);
 //
 // Return:
 //   Pattern index where the font is stored
-inline u8 Print_GetSpritePattern() { return g_PrintData.SpritePattern; }
+inline u8 Print_GetSpritePattern() { return PRINT_DATA.SpritePattern; }
 
 // Function: Print_GetSpriteID
 // Get the next sprite index.
@@ -348,7 +394,7 @@ inline u8 Print_GetSpritePattern() { return g_PrintData.SpritePattern; }
 //
 // Return:
 //   Sprite index of the first sprite the module can use to display text
-inline u8 Print_GetSpriteID() { return g_PrintData.SpriteID; }
+inline u8 Print_GetSpriteID() { return PRINT_DATA.SpriteID; }
 
 // Function: Print_SetSpriteID
 // Set the next sprite index.
@@ -356,7 +402,7 @@ inline u8 Print_GetSpriteID() { return g_PrintData.SpriteID; }
 //
 // Parameters:
 //   id - Sprite index of the first sprite the module can use to display text
-inline void Print_SetSpriteID(u8 id) { g_PrintData.SpriteID = id; }
+inline void Print_SetSpriteID(u8 id) { PRINT_DATA.SpriteID = id; }
 
 #endif
 
@@ -437,22 +483,22 @@ void Print_DrawInt(i16 value);
 
 // Function: Print_Space
 // Print space.
-inline void Print_Space() { g_PrintData.CursorX += PRINT_W(g_PrintData.UnitX); }
+inline void Print_Space() { PRINT_DATA.CursorX += PRINT_W(PRINT_DATA.UnitX); }
 
 // Function: Print_Tab
 // Print tabulation.
 inline void Print_Tab()
 {
-	g_PrintData.CursorX += PRINT_W(g_PrintData.UnitX) + g_PrintData.TabSize - 1;
-	g_PrintData.CursorX &= ~(g_PrintData.TabSize - 1);
+	PRINT_DATA.CursorX += PRINT_W(PRINT_DATA.UnitX) + PRINT_DATA.TabSize - 1;
+	PRINT_DATA.CursorX &= ~(PRINT_DATA.TabSize - 1);
 }
 
 // Function: Print_Return
 // Print return.
 inline void Print_Return()
 {
-	g_PrintData.CursorX = 0;
-	g_PrintData.CursorY += PRINT_H(g_PrintData.UnitY);
+	PRINT_DATA.CursorX = 0;
+	PRINT_DATA.CursorY += PRINT_H(PRINT_DATA.UnitY);
 }
 
 //.............................................................................
@@ -745,10 +791,10 @@ inline void Print_DrawTextAlign(const c8* str, u8 align)
 	case PRINT_ALIGN_LEFT:
 		break;
 	case PRINT_ALIGN_CENTER:
-		g_PrintData.CursorX -= ((len - 1) / 2) * PRINT_W(g_PrintData.UnitX);
+		PRINT_DATA.CursorX -= ((len - 1) / 2) * PRINT_W(PRINT_DATA.UnitX);
 		break;
 	case PRINT_ALIGN_RIGHT:
-		g_PrintData.CursorX -= (len - 1) * PRINT_W(g_PrintData.UnitX);
+		PRINT_DATA.CursorX -= (len - 1) * PRINT_W(PRINT_DATA.UnitX);
 		break;
 	}
 	
@@ -773,6 +819,6 @@ inline void Print_DrawTextAlignAt(UX x, UY y, const c8* str, u8 align)
 
 #if (PRINT_USE_DIRECTION)
 
-inline void Print_SetDirection(u8 dir) { g_PrintData.Direction = dir; }
+inline void Print_SetDirection(u8 dir) { PRINT_DATA.Direction = dir; }
 
 #endif // (PRINT_USE_ALIGN)

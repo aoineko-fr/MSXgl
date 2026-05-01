@@ -456,7 +456,7 @@ void main()
 
 	//-----------------------------------------------------------------------------
 
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
+	BIOS_SetHookCallback(H_TIMI, VBlankHook);
 
 	u8 fxChan = ayFX_GetChannel();
 	u8 prevRow8 = 0xFF;

@@ -252,7 +252,7 @@ global.ROMDelayBoot = false;
 global.AddROMSignature = false;
 
 //-- Select RAM in slot 0 and install ISR and optional code there (string). For MSX with at least 64 KB of RAM
-//   - RAM0_NONE       Don't install anything in RAM 
+//   - RAM0_NONE       Don't install RAM in page 0 
 //   - RAM0_ISR        Install only ISR
 //   - RAM0_SEGMENT    Install ISR and segment data (for mapped-ROM)
 global.InstallRAMISR = "RAM0_NONE";
@@ -265,13 +265,16 @@ global.InstallRAMISR = "RAM0_NONE";
 //   - V9990      V-blank, h-blank and command end handler (V9990)
 global.CustomISR = "VBLANK";
 
+//-- Event called before BIOS is released (boolean). For target format that switch out BIOS from page 0
+global.BIOSReleaseEvent = false;
+
 //-- Use automatic banked call and trampoline functions (boolean). For mapped ROM
 global.BankedCall = false;
 
-//-- Overwrite code starting address (number). For example. 0xE0000 for a driver in RAM
+//-- Overwrite code starting address (number). For example. 0xE000 for a driver in RAM
 global.ForceCodeAddr = 0;
 
-//-- Overwrite RAM starting address (number). For example. 0xE0000 for 8K RAM machine
+//-- Overwrite RAM starting address (number). For example. 0xE000 for 8K RAM machine
 global.ForceRamAddr = 0;
 
 //-- List of raw data files to be added to final binary (array). Each entry must be in the following format: { offset:0x0000, file:"myfile.bin" }
@@ -489,6 +492,9 @@ global.EmulV9990 = false;
 //-- Add mapped-RAM extension (boolean)
 global.EmulRAM = false;
 
+//-- Add additionnal cartridge in secondary slot (string)
+global.Emul2ndCart = "";
+
 //-------------------------------------------------------------------------------
 // Input options
 
@@ -506,7 +512,10 @@ global.EmulPortB = "";
 //-------------------------------------------------------------------------------
 // Run device options
 
-//-- Run device like 'RISKY MSX' or 'Easy-USB' (string)
+//-- Run device on which to execute the program (string)
+//   - Easy-USB
+//   - RISKY MSX
+//   - PICOVERSE 2040
 global.RunDevice = "";
 
 //-- Run device option (string)

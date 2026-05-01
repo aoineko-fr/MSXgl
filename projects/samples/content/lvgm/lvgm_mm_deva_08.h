@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.1 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
-// File generated on Sat Nov  9 14:46:23 2024
+// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_deva_08.vgm (84303 bytes)
 // Compressor: lVGM
 // VGM version: 1.00 (chips:OPLL)
@@ -99,30 +98,23 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0x0E, 0x03, // rr: nn
 	0x0E, 0x23, // rr: nn
 	0xFE, // Loop marker
-	0xE5, // -------- Wait: Ex
-	0xE0, // -------- Wait: Ex
+	0xE6, // -------- Wait: Ex
 	0x10, 0x04, // rr: nn
 	0x20, 0x0B, // rr: nn
 	0x20, 0x1B, // rr: nn
 	0x11, 0xB6, // rr: nn
 	0x21, 0x0A, // rr: nn
 	0x21, 0x1A, // rr: nn
-	0x12, 0x03, // rr: nn
 	0x22, 0x03, // rr: nn
 	0x22, 0x13, // rr: nn
-	0x13, 0x03, // rr: nn
 	0x23, 0x03, // rr: nn
 	0x23, 0x13, // rr: nn
-	0x15, 0xE3, // rr: nn
-	0x25, 0x2A, // rr: nn
 	0x0E, 0x11, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x16, 0xBC, // rr: nn
 	0x26, 0x04, // rr: nn
 	0x17, 0x50, // rr: nn
 	0x27, 0x05, // rr: nn
-	0x18, 0xC0, // rr: nn
-	0x28, 0x01, // rr: nn
 	0xE6, // -------- Wait: Ex
 	0x11, 0x11, // rr: nn
 	0x21, 0x0B, // rr: nn
@@ -9191,8 +9183,6 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0xE0, // -------- Wait: Ex
 	0x10, 0x05, // rr: nn
 	0x11, 0x03, // rr: nn
-	0xFD, 0x00, // ======== End of data segment
-	0x00, // Padding
 	0x14, 0x05, // rr: nn
 	0x15, 0x03, // rr: nn
 	0xE0, // -------- Wait: Ex
@@ -9201,6 +9191,7 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0x14, 0x04, // rr: nn
 	0x15, 0x05, // rr: nn
 	0xE0, // -------- Wait: Ex
+	0xFD, 0x00, // ======== End of data segment
 	0x10, 0x02, // rr: nn
 	0x11, 0x07, // rr: nn
 	0x14, 0x02, // rr: nn
@@ -18204,8 +18195,6 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0x21, 0x0B, // rr: nn
 	0x21, 0x1B, // rr: nn
 	0x22, 0x04, // rr: nn
-	0xFD, 0x00, // ======== End of data segment
-	0x00, // Padding
 	0x22, 0x14, // rr: nn
 	0x23, 0x04, // rr: nn
 	0x23, 0x14, // rr: nn
@@ -18214,6 +18203,7 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0x0E, 0x31, // rr: nn
 	0x10, 0x36, // rr: nn
 	0x14, 0xCF, // rr: nn
+	0xFD, 0x00, // ======== End of data segment
 	0x15, 0xE1, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x10, 0x38, // rr: nn
@@ -22400,4 +22390,4 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0xE6, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 40572 bytes
+// Total size: 40557 bytes

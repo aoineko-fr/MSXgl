@@ -91,7 +91,7 @@ void Detect()
 	for (u8 i = 0; i < 2; ++i)
 	{
 		u8 px = 5 + i * 10;
-		u8 device = Input_Detect((i == 0) ? INPUT_PORT_1 : INPUT_PORT_2);
+		u8 device = Input_Detect((i == 0) ? INPUT_PORT1 : INPUT_PORT2);
 		Print_SetPosition(px, 5);
 		Print_DrawHex8(device);
 		const c8* str;

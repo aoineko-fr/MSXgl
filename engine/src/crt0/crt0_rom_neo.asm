@@ -55,17 +55,12 @@ crt0_init:
 	ld		hl, #s__HEAP
 	ld		(#_g_HeapStartAddress), hl
 
-	; Backup Page 0 (Main-ROM) information
-	BACKUP_ROMINFO
-
-	; ; Set Page 2 slot equal to Page 1 slot
-	; INIT_P1_TO_P2
 	; Set Page 0 & 2 at the same slot than the Page 1 one
 	INIT_P1_TO_P02
-	
+
 	; Initialize ROM mapper segment
 	INIT_MAPPER
-
+	
 	; Initialize globals
 	INIT_GLOBALS
 

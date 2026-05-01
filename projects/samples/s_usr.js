@@ -11,7 +11,7 @@ Target = "BIN_USR";
 //-- List of library modules to build (array)
 LibModules = [ "device/ninjatap", "bios" ];
 
-//-- Overwrite code starting address (number). For example. 0xE0000 for a driver in RAM
+//-- Overwrite code starting address (number). For example. 0xE000 for a driver in RAM
 ForceCodeAddr = 0xC000;
 
 //-- Plug a virtual device into the joystick port A (string)

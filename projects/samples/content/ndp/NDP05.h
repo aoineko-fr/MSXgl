@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sun Oct 12 00:15:40 2025
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: ndp\NDP05.NDP
 // Skip areas: from=0 size=7
 const unsigned char g_NDP_NDP05[] = {

@@ -180,7 +180,7 @@ void DisplayFont()
 	Print_SetPosition(0, 13);
 	Print_DrawFormat("-%s:%s\n", Loc_GetText(TEXT_FONT_LABEL), font->Name);
 	u16 addr = VDP_GetLayoutTable() + 14 * SRCSIZE;
-	loop(i, 255)
+	loop (i, 255)
 		VDP_Poke_16K(i, addr++);
 
 	DisplayFooter();
@@ -217,7 +217,7 @@ void DisplayTrans()
 
 	// Information
 	Print_SetPosition(0, 3);
-	loop(i, 5)
+	loop (i, 5)
 	{
 		Loc_SetLanguage(i);
 		Print_DrawFormat("%s: %s\n\n", Loc_GetText(TEXT_LANG_VALUE_EN), Loc_GetText(TEXT_PANGRAM_VALUE));

@@ -279,7 +279,7 @@ void main()
 		// VU metter
 		u8* ayReg = (u8*)AYREGS + PSG_REG_AMP_A;
 		u8 y = PLAYER_Y+3;
-		loop(i, 3)
+		loop (i, 3)
 		{
 			Print_SetPosition(8, y++);
 			

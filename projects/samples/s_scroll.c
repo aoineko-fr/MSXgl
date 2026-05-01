@@ -142,9 +142,9 @@ void main()
 	VDP_EnableVBlank(TRUE);
 	#if ((SCROLL_ADJUST) && (SCROLL_ADJUST_SPLIT))
 	VDP_EnableHBlank(TRUE);
-	Bios_SetHookCallback(H_KEYI, InterruptHook);
+	BIOS_SetHookCallback(H_KEYI, InterruptHook);
 	#endif
-	Bios_SetHookCallback(H_TIMI, VBlankHook);
+	BIOS_SetHookCallback(H_TIMI, VBlankHook);
 
 	// Initialize text
 	Print_SetTextFont(g_Font_MGL_Sample8, 96);

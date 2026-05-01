@@ -117,7 +117,7 @@ public:
 	virtual u32 GetTotalSize() const
 	{
 		u32 TotalBytes = 0;
-		for (int i = 0; i < Sections.size(); i++)
+		for (u32 i = 0; i < Sections.size(); i++)
 			TotalBytes += Sections[i].Size;
 		return TotalBytes;
 	}

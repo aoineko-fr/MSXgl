@@ -34,16 +34,7 @@ _g_HeaderAddr::
 ;------------------------------------------------------------------------------
 ; Initialization code
 crt0_init:
-	; di
-	; ; Set stack address at the top of free memory
-	; ld		sp, (HIMEM)
-
-	; ; Initialize globals and jump to main()
-	; INIT_GLOBALS
-
 crt0_start:
-	; start main() function
-	; ei
 	jp		_main
 
 ;------------------------------------------------------------------------------

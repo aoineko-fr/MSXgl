@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.1 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sat Nov  9 14:46:25 2024
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: pcm\pcmplay\hello_8k.pcm
 const unsigned char g_hello_8k[] = {
 	0x80, 0x7F, 0x80, 0x7F, 0x7E, 0x7F, 0x7F, 0x7E, 0x7F, 0x7F, 0x7F, 0x80, 0x7F, 0x80, 0x7F, 0x7E, 

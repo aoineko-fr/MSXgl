@@ -2,8 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ██▄  ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▀ ██ ██ █
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-// MSXbin 1.4.3 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
-// File generated on Sat Nov 29 12:57:23 2025
+// MSXbin 1.4.5 by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // Soure file: arkos\jinj_med.aky
 const unsigned char g_AKY_jinj_med[] = {
 	0x80, 0x03, 0x58, 0x0F, 0x1B, 0x00, 0x40, 0x01, 0x5B, 0xA0, 0x70, 0xA0, 0x3A, 0xA0, 0x40, 0x01, //      0
