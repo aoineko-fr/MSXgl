@@ -36,7 +36,7 @@ _g_HeaderAddr::
 crt0_init:
 	; Backup ROM's slot ID
 	ld		a, c
-	ld		(#_g_ROMSlotID), a
+	ld		(_g_ROMSlotID), a
 
 	; Check for minimum MSX version required (if CHECK_MSX is set)
 	DO_CHECK_MSX
@@ -53,7 +53,7 @@ crt0_init:
 
 	; Initialize heap address
 	ld		hl, #s__HEAP
-	ld		(#_g_HeapStartAddress), hl
+	ld		(_g_HeapStartAddress), hl
 
 	; Set Page 0 & 2 at the same slot than the Page 1 one
 	INIT_P1_TO_P02

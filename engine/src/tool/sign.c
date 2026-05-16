@@ -24,7 +24,7 @@ const u16 g_AppSign_Address[4] = { 0x4010, 0x4018, 0x8010, 0x8018 };
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// 
+// Check a given address in a given slot for the application signature
 bool AppSign_CheckSlotAddr(u8 slot, u16 addr, const AppSign sign)
 {
 	const u8* ptr = (const u8*)sign;
@@ -37,11 +37,11 @@ bool AppSign_CheckSlotAddr(u8 slot, u16 addr, const AppSign sign)
 }
 
 //-----------------------------------------------------------------------------
-// 
+// Check a given slot for the application signature
 bool AppSign_CheckSlot(u8 slot, const AppSign sign)
 {
 	const u16* addr = g_AppSign_Address;
-	loop (i, 4)
+	loop (i, numberof(g_AppSign_Address)) // check each address
 	{
 		if (AppSign_CheckSlotAddr(slot, *addr, sign))
 			return TRUE;
@@ -54,11 +54,11 @@ bool AppSign_CheckSlot(u8 slot, const AppSign sign)
 // Check if the application signature is present in any slot
 bool AppSign_Check(const AppSign sign)
 {
-	loop (slot, 4)
+	loop (slot, 4) // check each slot
 	{
 		if (g_EXPTBL[slot] & SLOT_EXP)
 		{
-			loop (sub, 4)
+			loop (sub, 4) // check each sub-slot
 			{
 				u8 slotId = SLOTEX(slot, sub);
 				if (AppSign_CheckSlot(slotId, sign))

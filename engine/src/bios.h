@@ -22,6 +22,7 @@
 #include "core.h"
 #include "system.h"
 #include "vdp_reg.h"
+#include "ascii.h"
 
 // R_xxxx	Data/routines in Main-ROM
 // S_xxxx	Data/routines in Sub-ROM
@@ -195,13 +196,13 @@ inline void BIOS_SetAddressForWrite(u16 addr) { CallHL(R_SETWRT, addr); }
 // Fills VRAM with value. Wrapper for FILVRM routine.
 void BIOS_FillVRAM(u16 addr, u16 length, u8 value);
 
-// Function: BIOS_CopyVRAMtoRAM
+// Function: BIOS_CopyFromVRAM
 // Block transfer to memory from VRAM. Wrapper for LDIRMV routine.
-void BIOS_CopyVRAMtoRAM(u16 vram, void* ram, u16 length);
+void BIOS_CopyFromVRAM(u16 vram, void* ram, u16 length);
 
-// Function: BIOS_CopyRAMtoVRAM
+// Function: BIOS_CopyToVRAM
 // Block transfer to VRAM from memory. Wrapper for LDIRVM routine.
-void BIOS_CopyRAMtoVRAM(const void* ram, u16 vram, u16 length);
+void BIOS_CopyToVRAM(const void* ram, u16 vram, u16 length);
 
 // Function: BIOS_SetScreenMode
 // Switches to given screen mode. Wrapper for CHGMOD routine.
@@ -218,6 +219,22 @@ inline void BIOS_ApplyColor(u8 text, u8 back, u8 border) { BIOS_SetColor(text, b
 // Function: BIOS_ApplyBorder
 // Changes the screen colors. Wrapper for CHGCLR routine.
 inline void BIOS_ApplyBorder(u8 border) { g_BDRCLR = border; Call(R_CHGCLR); }
+
+// Function: BIOS_GetFontAddress
+// Base address of the MSX character set in ROM. Wrapper for CALCGT variable.
+inline u16 BIOS_GetFontAddress() { return g_CGTABL; }
+
+// Function: BIOS_GetCharAddress
+// Base address of a given character in ROM. Wrapper for CALCGT variable.
+inline u16 BIOS_GetCharAddress(u8 chr) { return g_CGTABL + (chr * 8); }
+
+// Function: BIOS_GetVDPReadPort
+// Base port address for VDP data read. Wrapper for R_VDP_DR variable.
+inline u8 BIOS_GetVDPReadPort() { return g_VDP_DR; }
+
+// Function: BIOS_GetVDPWritePort
+// Base port address for VDP data write. Wrapper for R_VDP_DW variable.
+inline u8 BIOS_GetVDPWritePort() { return g_VDP_DW; }
 
 //.............................................................................
 // Screen 0
@@ -367,6 +384,13 @@ u16 BIOS_GetSpriteAttributeAddress(u8 id);
 //   y  - Vertical position of the sprite [0:255]
 inline void BIOS_SetSpritePosition(u8 id, u8 x, u8 y) { u16 vram = BIOS_GetSpriteAttributeAddress(id); BIOS_WriteVRAM(x, vram + 1); BIOS_WriteVRAM(y, vram); }
 
+// Function: BIOS_HideSprite
+// Hides a sprite from the screen (set vertical position to 212).
+//
+// Parameters:
+//   id - Sprite attribute number [0:31]
+inline void BIOS_HideSprite(u8 id) { u16 vram = BIOS_GetSpriteAttributeAddress(id); BIOS_WriteVRAM(212, vram); }
+
 // Function: BIOS_SetSpritePattern
 // Set the pattern of a sprite.
 //
@@ -408,7 +432,7 @@ typedef struct BIOS_SpriteAttributes
 // Parameters:
 //   id    - Sprite attribute number [0:31]
 //   attrs - Pointer to a 4-bytes array containing the sprite attributes (y, x, pattern and color)
-inline void BIOS_SetSpriteData(u8 id, const BIOS_SpriteAttributes* attrs) { BIOS_CopyRAMtoVRAM(attrs, BIOS_GetSpriteAttributeAddress(id), 4); }
+inline void BIOS_SetSpriteData(u8 id, const BIOS_SpriteAttributes* attrs) { BIOS_CopyToVRAM(attrs, BIOS_GetSpriteAttributeAddress(id), 4); }
 
 // Function: BIOS_GetSpriteSize
 // Returns current sprite size in bytes (8 or 32). Wrapper for GSPSIZ routine.
@@ -557,6 +581,41 @@ inline void BIOS_Beep() { Call(R_BEEP); }
 // Clears the screen. Wrapper for CLS routine.
 void BIOS_ClearScreen();
 
+//-----------------------------------------------------------------------------
+// Group: Main-ROM - Printer
+//-----------------------------------------------------------------------------
+
+// Function: BIOS_PrinterSendChar
+// Sends one character to printer. Wrapper for LPTOUT routine.
+//
+// Parameters:
+//   chr - ASCII code of character to send
+inline void BIOS_PrinterSendChar(u8 chr) { CallA(R_LPTOUT, chr); }
+
+// Function: BIOS_PrinterSendString
+// Sends a null-terminated string to the printer. Wrapper for LPTOUT routine.
+//
+// Parameters:
+//   str - Pointer to the string to send
+inline void BIOS_PrinterSendString(const u8* str) { while (*str) BIOS_PrinterSendChar(*str++); }
+
+// Function: BIOS_IsPrinterReady
+// Tests printer status. Wrapper for LPTSTT routine.
+//
+// Return:
+//   FALSE if printer is not ready
+inline bool BIOS_IsPrinterReady() { return CallToA(R_LPTSTT); }
+
+// Function: BIOS_PrinterOutput
+// Sends one character to printer if printer is ready. Wrapper for OUTDLP routine.
+//
+// Parameters:
+//   chr - ASCII code of character to send
+inline void BIOS_PrinterOutput(u8 chr) { CallA(R_OUTDLP, chr); }
+
+// Function: BIOS_PrinterChangePage
+// Send a change page code to the printer
+inline void BIOS_PrinterChangePage() { BIOS_PrinterSendChar(ASCII_FORM_FEED); }
 
 //=============================================================================
 // Controller routines

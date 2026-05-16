@@ -136,15 +136,15 @@
  <div class="CBody"><p>Fills VRAM with value. Wrapper for FILVRM routine.</p></div>
 </div>
 
-<a name="BIOS_CopyVRAMtoRAM"></a><a name="Topic1472"></a><div class="CTopic TFunction LC">
- <div class="CTitle">BIOS_CopyVRAMtoRAM</div>
- <div id="NDPrototype1472" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> BIOS_CopyVRAMtoRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">vram,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">ram,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">length</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="BIOS_CopyFromVRAM"></a><a name="Topic1463"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_CopyFromVRAM</div>
+ <div id="NDPrototype1463" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> BIOS_CopyFromVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u16&nbsp;</td><td class="PName last">vram,</td></tr><tr><td class="PType first"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">ram,</td></tr><tr><td class="PType first">u16&nbsp;</td><td class="PName last">length</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Block transfer to memory from VRAM. Wrapper for LDIRMV routine.</p></div>
 </div>
 
-<a name="BIOS_CopyRAMtoVRAM"></a><a name="Topic1473"></a><div class="CTopic TFunction LC">
- <div class="CTitle">BIOS_CopyRAMtoVRAM</div>
- <div id="NDPrototype1473" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> BIOS_CopyRAMtoVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">ram,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">vram,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">length</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+<a name="BIOS_CopyToVRAM"></a><a name="Topic1464"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_CopyToVRAM</div>
+ <div id="NDPrototype1464" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> BIOS_CopyToVRAM(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">void</span>*&nbsp;</td><td class="PName last">ram,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">vram,</td></tr><tr><td class="first"></td><td class="PType">u16&nbsp;</td><td class="PName last">length</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Block transfer to VRAM from memory. Wrapper for LDIRVM routine.</p></div>
 </div>
 
@@ -170,6 +170,30 @@
  <div class="CTitle">BIOS_ApplyBorder</div>
  <div id="NDPrototype1477" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> BIOS_ApplyBorder(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">border</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Changes the screen colors. Wrapper for CHGCLR routine.</p></div>
+</div>
+
+<a name="BIOS_GetFontAddress"></a><a name="Topic1465"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_GetFontAddress</div>
+ <div id="NDPrototype1465" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 BIOS_GetFontAddress()</div></div>
+ <div class="CBody"><p>Base address of the MSX character set in ROM. Wrapper for CALCGT variable.</p></div>
+</div>
+
+<a name="BIOS_GetCharAddress"></a><a name="Topic1466"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_GetCharAddress</div>
+ <div id="NDPrototype1466" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> u16 BIOS_GetCharAddress(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Base address of a given character in ROM. Wrapper for CALCGT variable.</p></div>
+</div>
+
+<a name="BIOS_GetVDPReadPort"></a><a name="Topic1492"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_GetVDPReadPort</div>
+ <div id="NDPrototype1492" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 BIOS_GetVDPReadPort()</div></div>
+ <div class="CBody"><p>Base port address for VDP data read. Wrapper for R_VDP_DR variable.</p></div>
+</div>
+
+<a name="BIOS_GetVDPWritePort"></a><a name="Topic1493"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_GetVDPWritePort</div>
+ <div id="NDPrototype1493" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8 BIOS_GetVDPWritePort()</div></div>
+ <div class="CBody"><p>Base port address for VDP data write. Wrapper for R_VDP_DW variable.</p></div>
 </div>
 
 <a name="BIOS_SetWidth40"></a><a name="Topic1478"></a><div class="CTopic TFunction LC">
@@ -300,6 +324,12 @@
  <div class="CTitle">BIOS_SetSpritePosition</div>
  <div id="NDPrototype1499" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> BIOS_SetSpritePosition(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">x,</td></tr><tr><td class="PType first">u8&nbsp;</td><td class="PName last">y</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
  <div class="CBody"><p>Set the position of a sprite on the screen.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">id<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite attribute number [0:31]</p></td></tr><tr><td class="CDLEntry">x<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Horizontal position of the sprite [0:255]</p></td></tr><tr><td class="CDLEntry">y<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Vertical position of the sprite [0:255]</p></td></tr></table></div>
+</div>
+
+<a name="BIOS_HideSprite"></a><a name="Topic1494"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_HideSprite</div>
+ <div id="NDPrototype1494" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> BIOS_HideSprite(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">id</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Hides a sprite from the screen (set vertical position to 212).</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">id<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Sprite attribute number [0:31]</p></td></tr></table></div>
 </div>
 
 <a name="BIOS_SetSpritePattern"></a><a name="Topic1500"></a><div class="CTopic TFunction LC">
@@ -458,6 +488,40 @@
  <div class="CTitle">BIOS_ClearScreen</div>
  <div id="NDPrototype1526" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> BIOS_ClearScreen()</div></div>
  <div class="CBody"><p>Clears the screen. Wrapper for CLS routine.</p></div>
+</div>
+
+<a name="Main-ROM-Printer"></a><a name="Topic230"></a><div class="CTopic TGroup LC">
+ <div class="CTitle">Main-ROM - Printer</div>
+</div>
+
+<a name="BIOS_PrinterSendChar"></a><a name="Topic1495"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_PrinterSendChar</div>
+ <div id="NDPrototype1495" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> BIOS_PrinterSendChar(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Sends one character to printer. Wrapper for LPTOUT routine.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">chr<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>ASCII code of character to send</p></td></tr></table></div>
+</div>
+
+<a name="BIOS_PrinterSendString"></a><a name="Topic1520"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_PrinterSendString</div>
+ <div id="NDPrototype1520" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> BIOS_PrinterSendString(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">u8*&nbsp;</td><td class="PName last">str</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Sends a null-terminated string to the printer. Wrapper for LPTOUT routine.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">str<div class="CDLParameterType"><span class="SHKeyword">const</span> u8*</div></td><td class="CDLDefinition"><p>Pointer to the string to send</p></td></tr></table></div>
+</div>
+
+<a name="BIOS_IsPrinterReady"></a><a name="Topic1533"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_IsPrinterReady</div>
+ <div id="NDPrototype1533" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> BIOS_IsPrinterReady()</div></div>
+ <div class="CBody"><p>Tests printer status. Wrapper for LPTSTT routine.</p><div class="CHeading">Return</div><p>FALSE if printer is not ready</p></div>
+</div>
+
+<a name="BIOS_PrinterOutput"></a><a name="Topic1534"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_PrinterOutput</div>
+ <div id="NDPrototype1534" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> BIOS_PrinterOutput(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">chr</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Sends one character to printer if printer is ready. Wrapper for OUTDLP routine.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">chr<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>ASCII code of character to send</p></td></tr></table></div>
+</div>
+
+<a name="BIOS_PrinterChangePage"></a><a name="Topic229"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_PrinterChangePage</div>
+ <div id="NDPrototype229" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> BIOS_PrinterChangePage()</div></div>
+ <div class="CBody"><p>Send a change page code to the printer</p></div>
 </div>
 
 <a name="Main-ROM-Controller"></a><a name="Topic1527"></a><div class="CTopic TGroup LC">

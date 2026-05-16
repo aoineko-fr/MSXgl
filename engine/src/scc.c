@@ -87,7 +87,7 @@ u8 SCC_AutoDetect()
 __asm
 	
 SCC_Detect:
-	in		a,(#0xA8)               // read prim. slotregister
+	in		a, (0xA8)               // read prim. slotregister
 	rra
 	rra
 	rra
@@ -139,13 +139,13 @@ SCC_TestReg:
 	bit		#7, l                   // 128 addresses (registers) tested ?
 	jr		z, SCC_TestReg          // no -> repeat mirror-test
 	ld		a, b
-	ld		(#0x9000), a            // restore value on 9000h
+	ld		(0x9000), a            // restore value on 9000h
 	pop		bc                      // retrieve slotcode (=SCC-slot) from stack
 	jr		SCC_Done                // SCC found, restore page 2-slot & return
 
 SCC_NextSlot:
 	ld		a, b
-	ld		(#0x9000), a            // restore value on 9000h
+	ld		(0x9000), a            // restore value on 9000h
 	pop		bc                      // retrieve slotcode from stack
 	bit		#7, b                   // test-slot = sec.slot ?
 	jr		z, SCC_NextPrim
@@ -245,10 +245,10 @@ TESTSLOT:
 	ld		h, #0x80
 	call	#R_ENASLT
 
-	ld		a, (#0x9000)
+	ld		a, (0x9000)
 	ld		d, a
 	ld		a, #0x3F
-	ld		(#0x9000), a
+	ld		(0x9000), a
 	ld		hl, #0x9800
 	ld		e, (hl)
 	xor		a
@@ -260,13 +260,13 @@ TESTSLOT:
 	ld		a, (hl)
 	inc		a
 	jr		nz, NOSCC
-	ld		a, (#0x9000)
+	ld		a, (0x9000)
 	xor		#0x3F
 	jr		nz, EXIT
 NOSCC:
 	ld		(hl), e
 	ld		a, d
-	ld		(#0x9000), a
+	ld		(0x9000), a
 	scf
 EXIT:
 	pop		hl

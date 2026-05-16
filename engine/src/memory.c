@@ -35,22 +35,6 @@ __asm
 __endasm;
 }
 
-//-----------------------------------------------------------------------------
-// Allocate a part of the heap
-void* Mem_HeapAlloc(u16 size)
-{ 
-	u16 addr = g_HeapStartAddress;
-	g_HeapStartAddress += size;
-	return (void*)addr;
-}
-
-//-----------------------------------------------------------------------------
-// Free the last allocated area of the heap
-void Mem_HeapFree(u16 size)
-{
-	g_HeapStartAddress -= size;	
-}
-
 #if (!MEM_USE_BUILTIN)
 //-----------------------------------------------------------------------------
 // Copy a memory block from a source address to an other

@@ -122,9 +122,12 @@
 	#define TARGET_NAME "NEO-16 ROM"
 
 #elif (TARGET == TARGET_ROM_YAMANOOTO)
-	#define TARGET_NAME "YAMANOOTO ROM"
+	#define TARGET_NAME "Yamanooto ROM"
 
 #elif (TARGET == TARGET_ROM_ASCII16X)
 	#define TARGET_NAME "ASCII16-X ROM"
+
+#elif (TARGET == TARGET_ROM_POPOLON)
+	#define TARGET_NAME "Popolon SCC ROM"
 
 #endif

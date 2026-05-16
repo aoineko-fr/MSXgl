@@ -20,14 +20,14 @@
 // VARIABLES
 //=============================================================================
 
-// Quest variables bit-field
+// Bit field data
 u8 g_BitField[BITFIELD_BYTES];
 
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
 
-// Quest variable bit masks
+// Bit masks
 const u8 g_BitFieldMask[8] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
 
 //=============================================================================
@@ -35,7 +35,7 @@ const u8 g_BitFieldMask[8] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// Initialize quest variables
+// Initialize bit field (set all bits to 0)
 void BitField_Initialize()
 {
 	for (u8 i = 0; i < BITFIELD_BYTES; i++)
@@ -43,28 +43,28 @@ void BitField_Initialize()
 }
 
 //-----------------------------------------------------------------------------
-// Set a quest variable
+// Set a given bit
 void BitField_Enable(u8 var)
 {
 	g_BitField[var / 8] |= g_BitFieldMask[var % 8];
 }
 
 //-----------------------------------------------------------------------------
-// Reset a quest variable
+// Reset a given bit
 void BitField_Disable(u8 var)
 {
 	g_BitField[var / 8] &= ~g_BitFieldMask[var % 8];
 }
 
 //-----------------------------------------------------------------------------
-// Toggle a quest variable
+// Toggle a given bit
 void BitField_Toggle(u8 var)
 {
 	g_BitField[var / 8] ^= g_BitFieldMask[var % 8];
 }
 
 //-----------------------------------------------------------------------------
-// Get a quest variable
+// Get a given bit
 bool BitField_Get(u8 var)
 {
 	return (g_BitField[var / 8] & g_BitFieldMask[var % 8]) != 0;

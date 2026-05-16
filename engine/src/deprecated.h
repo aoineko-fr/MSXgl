@@ -66,8 +66,8 @@
 #define Bios_SetAddressForRead		BIOS_SetAddressForRead
 #define Bios_SetAddressForWrite		BIOS_SetAddressForWrite
 #define Bios_FillVRAM				BIOS_FillVRAM
-#define Bios_TransfertVRAMtoRAM		BIOS_CopyVRAMtoRAM
-#define Bios_TransfertRAMtoVRAM		BIOS_CopyRAMtoVRAM
+#define Bios_TransfertVRAMtoRAM		BIOS_CopyFromVRAM
+#define Bios_TransfertRAMtoVRAM		BIOS_CopyToVRAM
 #define Bios_ChangeMode				BIOS_SetScreenMode
 #define Bios_ChangeColor			BIOS_ApplyColor
 #define Bios_InitScreen0			BIOS_InitScreen0

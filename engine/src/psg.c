@@ -336,15 +336,15 @@ void PSG_Apply() __NAKED __PRESERVES(d, e, iyl, iyh)
 {
 __asm
 	// Update mixer register wanted value with I/O 2-bits from the current mixer register value
-	ld		A, (#_g_PSG_Regs + PSG_REG_MIXER)
+	ld		A, (_g_PSG_Regs + PSG_REG_MIXER)
 	and		#0b00111111				// Keep register value but the higher 2-bits
 	ld		B, A					// Store in B
 	ld		A, #PSG_REG_MIXER		// Select R#7
-	out		(#PSG_PORT_REG), A
-	in		A, (#PSG_PORT_READ)		// Read R#7
+	out		(PSG_PORT_REG), A
+	in		A, (PSG_PORT_READ)		// Read R#7
 	and		#0b11000000				// Keep the higher 2-bits of R#7
 	or		B						// Merge
-	ld		(#_g_PSG_Regs + PSG_REG_MIXER), A
+	ld		(_g_PSG_Regs + PSG_REG_MIXER), A
 
 	// Registers value copy loop
 	ld		HL, #_g_PSG_Regs		// Data to copy to PSG registers
@@ -368,15 +368,15 @@ PSG_End:
 
 #if (PSG_CHIP == PSG_BOTH)
 	// Update mixer register wanted value with I/O 2-bits from the current mixer register value
-	ld		A, (#_g_PSG2_Regs + PSG_REG_MIXER)
+	ld		A, (_g_PSG2_Regs + PSG_REG_MIXER)
 	and		#0b00111111				// Keep register value but the higher 2-bits
 	ld		B, A					// Store in B
 	ld		A, #PSG_REG_MIXER		// Select R#7
-	out		(#PSG2_PORT_REG), A
-	in		A, (#PSG2_PORT_READ)		// Read R#7
+	out		(PSG2_PORT_REG), A
+	in		A, (PSG2_PORT_READ)		// Read R#7
 	and		#0b11000000				// Keep the higher 2-bits of R#7
 	or		B						// Merge
-	ld		(#_g_PSG2_Regs + PSG_REG_MIXER), A
+	ld		(_g_PSG2_Regs + PSG_REG_MIXER), A
 
 	// Registers value copy loop
 	ld		HL, #_g_PSG2_Regs		// Data to copy to PSG registers

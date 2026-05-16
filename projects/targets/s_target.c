@@ -103,7 +103,7 @@ u16 g_Address = BANK_ADDR;
 
 #if ((TARGET_TYPE == TYPE_ROM) || (TARGET == TARGET_DOS0))
 //-----------------------------------------------------------------------------
-/// ISR for 48/64K ROM
+// ISR for 48/64K ROM
 void VDP_InterruptHandler()
 {
 }
@@ -148,23 +148,8 @@ const c8* GetROMMapper(u8 mapper)
 	case ROM_NEO8:       return "NEO-8";
 	case ROM_NEO16:      return "NEO-16";
 	case ROM_YAMANOOTO:  return "Yamanooto";
-	case ROM_ASCII16X:    return "ASCII16-X";
-	};
-	return "Unknow";
-}
-
-//-----------------------------------------------------------------------------
-//
-const c8* GetROMFrame(u8 size)
-{
-	switch (size)
-	{
-	case ROM_8K:	return "8K";
-	case ROM_16K:	return "16K";
-	case ROM_24K:	return "24K";
-	case ROM_32K:	return "32K";
-	case ROM_48K:	return "48K";
-	case ROM_64K:	return "64K";
+	case ROM_ASCII16X:   return "ASCII16-X";
+	case ROM_POPOLON:    return "Popolon SCC";
 	};
 	return "Unknow";
 }
@@ -271,8 +256,10 @@ void DiplayInfo()
 	Print_DrawFormat("\n\nType:   %s", GetTargetType(TARGET_TYPE));
 	#if (TARGET_TYPE == TYPE_ROM)
 		Print_DrawFormat("\nMapper: %s", GetROMMapper(ROM_MAPPER));
-		
-		Print_DrawFormat("\nSize:   %iKB", ROM_SIZE);
+		if (ROM_SIZE >= 1024)
+			Print_DrawFormat("\nSize:   %i MB", ROM_SIZE / 1024);
+		else
+			Print_DrawFormat("\nSize:   %i KB", ROM_SIZE);
 		#if (ROM_MAPPER != ROM_PLAIN)
 			Print_DrawFormat(" (%i)", (i16)ROM_SEGMENTS);
 		#endif

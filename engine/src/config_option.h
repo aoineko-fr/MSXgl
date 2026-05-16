@@ -53,6 +53,7 @@
 
 //.............................................................................
 // BIN options
+//.............................................................................
 
 // BASIC program types
 #define BIN_DISK		  			0 // BASIC binary on disk
@@ -67,6 +68,7 @@
 
 //.............................................................................
 // ROM options
+//.............................................................................
 
 // ROM_MAPPER options (0-15)
 #define ROM_PLAIN					0 // Plain ROM (no mapper)
@@ -77,6 +79,7 @@
 #define ROM_KONAMI_SCC				4 // Konami with SCC mapper
 #define ROM_NEO8					5 // NEO-8 mapper
 #define ROM_YAMANOOTO				6 // Yamanooto mapper
+#define ROM_POPOLON					7 // Popolon SCC mapper
 // 16 KB mappers
 #define ROM_MAPPER_16K				10
 #define ROM_ASCII16					10 // ASCII-16 mmaper
@@ -109,6 +112,7 @@
 
 //.............................................................................
 // DOS options
+//.............................................................................
 
 // MSX-DOS program types
 #define DOS_0						0 // Disk boot program
@@ -177,19 +181,22 @@
 // -- ASCII-8 ROM
 #define TARGET_ROM_ASCII8			MAKE_ROM(ROM_ASCII8, ROM_32K, 1, 1) // ASCII 8KB ROM Mapper
 // -- ASCII-16 ROM
-#define TARGET_ROM_ASCII16			MAKE_ROM(ROM_ASCII16, ROM_32K, 1, 1) // ASCII 16KB ROM Mapper (4 segments)
+#define TARGET_ROM_ASCII16			MAKE_ROM(ROM_ASCII16, ROM_32K, 1, 1) // ASCII 16KB ROM Mapper
 // -- Konami ROM
-#define TARGET_ROM_KONAMI			MAKE_ROM(ROM_KONAMI, ROM_32K, 1, 1) // Konami 8KB ROM Mapper (8 segments)
+#define TARGET_ROM_KONAMI			MAKE_ROM(ROM_KONAMI, ROM_32K, 1, 1) // Konami 8KB ROM Mapper
 // -- Konami ROM with SCC
-#define TARGET_ROM_KONAMI_SCC		MAKE_ROM(ROM_KONAMI_SCC, ROM_32K, 1, 1) // Konami 8KB ROM Mapper (8 segments) + SCC sound chip
+#define TARGET_ROM_KONAMI_SCC		MAKE_ROM(ROM_KONAMI_SCC, ROM_32K, 1, 1) // Konami 8KB ROM Mapper + SCC sound chip
 // -- NEO-8 ROM
-#define TARGET_ROM_NEO8				MAKE_ROM(ROM_NEO8, ROM_48K, 0, 1) + ROM_ISR // NEO 8KB ROM Mapper (16 segments)
+#define TARGET_ROM_NEO8				MAKE_ROM(ROM_NEO8, ROM_48K, 0, 1) + ROM_ISR // NEO 8KB ROM Mapper
 // -- NEO-16 ROM
-#define TARGET_ROM_NEO16			MAKE_ROM(ROM_NEO16, ROM_48K, 0, 1) + ROM_ISR // NEO 16KB ROM Mapper (16 segments)
+#define TARGET_ROM_NEO16			MAKE_ROM(ROM_NEO16, ROM_48K, 0, 1) + ROM_ISR // NEO 16KB ROM Mapper
 // -- YAMANOOTO ROM
-#define TARGET_ROM_YAMANOOTO		MAKE_ROM(ROM_YAMANOOTO, ROM_32K, 1, 1) // YAMANOOTO 8KB ROM Mapper (256 segments)
+#define TARGET_ROM_YAMANOOTO		MAKE_ROM(ROM_YAMANOOTO, ROM_32K, 1, 1) // YAMANOOTO 8KB ROM Mapper
 // -- ASCII16-X ROM
-#define TARGET_ROM_ASCII16X			MAKE_ROM(ROM_ASCII16X, ROM_32K, 1, 1) // ASCII16-X 16KB ROM Mapper (512 segments)
+#define TARGET_ROM_ASCII16X			MAKE_ROM(ROM_ASCII16X, ROM_32K, 1, 1) // ASCII16-X 16KB ROM Mapper
+// -- POPOLON ROM
+#define TARGET_ROM_POPOLON			MAKE_ROM(ROM_POPOLON, ROM_32K, 1, 1) // POPOLON 8KB ROM Mapper + SCC sound chip
+
 
 #include "config_target.h"
 

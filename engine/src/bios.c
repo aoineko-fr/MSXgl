@@ -438,7 +438,7 @@ void BIOS_FillVRAM(u16 addr, u16 length, u8 value)
 //            BC - Block length
 // Registers: All
 // Remark   : In screen modes other than MSX1. The variable ACPAGE (0FAF6h) indicates the page from which the transfer must take place
-void BIOS_CopyVRAMtoRAM(u16 vram, void* ram, u16 length)
+void BIOS_CopyFromVRAM(u16 vram, void* ram, u16 length)
 {
 	vram;   // LH
 	ram;    // DE
@@ -463,7 +463,7 @@ void BIOS_CopyVRAMtoRAM(u16 vram, void* ram, u16 length)
 //            BC - Block length
 // Registers: All
 // Remark   : In screen modes other than MSX1. The variable ACPAGE (0FAF6h) indicates the page from which the transfer must take place
-void BIOS_CopyRAMtoVRAM(const void* ram, u16 vram, u16 length)
+void BIOS_CopyToVRAM(const void* ram, u16 vram, u16 length)
 {
 	ram;    // HL
 	vram;   // DE

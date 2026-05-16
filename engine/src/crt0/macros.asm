@@ -131,6 +131,14 @@
 	BANK1_ADDR = #0x7000
 	BANKED_ADDR = BANK1_ADDR
 .endif
+; ROM_POPOLON
+.ifeq ROM_MAPPER-ROM_POPOLON
+	BANK0_ADDR = #0x5000
+	BANK1_ADDR = #0x7000
+	BANK2_ADDR = #0x9000
+	BANK3_ADDR = #0xB000
+	BANKED_ADDR = BANK2_ADDR
+.endif
 
 ;==============================================================================
 ; HELPER
@@ -715,9 +723,9 @@
 
 .macro BACKUP_ROMINFO
 	ld		a, (ROMVER)
-	ld		(#_g_VersionROM), a
+	ld		(_g_VersionROM), a
 	ld		a, (MSXVER)
-	ld		(#_g_VersionMSX), a
+	ld		(_g_VersionMSX), a
 .endm
 
 ;------------------------------------------------------------------------------
@@ -788,6 +796,12 @@
 				ld		a, #2
 				ld		(BANK1_ADDR), a ; Segment 2 in Bank 1
 			.endif
+			.ifeq ROM_MAPPER-ROM_POPOLON
+				ld		a, #4
+				ld		(BANK2_ADDR), a ; Segment 4 in Bank 2
+				inc		a
+				ld		(BANK3_ADDR), a ; Segment 5 in Bank 3
+			.endif
 
 		; Copy Segment content to RAM
 			ld		hl, #0x8100 ; Page 2
@@ -853,18 +867,19 @@
 	.endm
 
 	.macro INIT_MAPPER
-		xor		a
-		ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
-		ld		(_g_Bank0Segment), a
-		inc		a
-		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
-		ld		(_g_Bank1Segment), a
-		inc		a
-		ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
-		ld		(_g_Bank2Segment), a
-		inc		a
-		ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
-		ld		(_g_Bank3Segment), a
+		ctr0_init_mapper::
+			xor		a
+			ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
+			ld		(_g_Bank0Segment), a
+			inc		a
+			ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
+			ld		(_g_Bank1Segment), a
+			inc		a
+			ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
+			ld		(_g_Bank2Segment), a
+			inc		a
+			ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
+			ld		(_g_Bank3Segment), a
 	.endm
 
 .endif
@@ -883,12 +898,13 @@
 	.endm
 
 	.macro INIT_MAPPER
-		xor		a
-		ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
-		ld		(_g_Bank0Segment), a
-		inc		a
-		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
-		ld		(_g_Bank1Segment), a
+		ctr0_init_mapper::
+			xor		a
+			ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
+			ld		(_g_Bank0Segment), a
+			inc		a
+			ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
+			ld		(_g_Bank1Segment), a
 	.endm
 
 .endif
@@ -911,17 +927,18 @@
 	.endm
 
 	.macro INIT_MAPPER
-		xor		a
-		ld		(_g_Bank0Segment), a
-		inc		a
-		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
-		ld		(_g_Bank1Segment), a
-		inc		a
-		ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
-		ld		(_g_Bank2Segment), a
-		inc		a
-		ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
-		ld		(_g_Bank3Segment), a
+		ctr0_init_mapper::
+			xor		a
+			ld		(_g_Bank0Segment), a
+			inc		a
+			ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
+			ld		(_g_Bank1Segment), a
+			inc		a
+			ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
+			ld		(_g_Bank2Segment), a
+			inc		a
+			ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
+			ld		(_g_Bank3Segment), a
 	.endm
 
 .endif
@@ -944,18 +961,19 @@
 	.endm
 
 	.macro INIT_MAPPER
-		xor		a
-		ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
-		ld		(_g_Bank0Segment), a
-		inc		a
-		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
-		ld		(_g_Bank1Segment), a
-		inc		a
-		ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
-		ld		(_g_Bank2Segment), a
-		inc		a
-		ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
-		ld		(_g_Bank3Segment), a
+		ctr0_init_mapper::
+			xor		a
+			ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
+			ld		(_g_Bank0Segment), a
+			inc		a
+			ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
+			ld		(_g_Bank1Segment), a
+			inc		a
+			ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
+			ld		(_g_Bank2Segment), a
+			inc		a
+			ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
+			ld		(_g_Bank3Segment), a
 	.endm
 
 .endif
@@ -982,25 +1000,25 @@
 	.endm
 
 	.macro INIT_MAPPER
-		ld		hl, #0x0000
-		ld		(BANK2_ADDR), hl ; Segment 0 in Bank 2
-		ld		(_g_Bank2Segment), hl
-		inc		hl
-		ld		(BANK3_ADDR), hl ; Segment 1 in Bank 3
-		ld		(_g_Bank3Segment), hl
-		inc		hl
-		ld		(BANK4_ADDR), hl ; Segment 2 in Bank 4
-		ld		(_g_Bank4Segment), hl
-		inc		hl
-		ld		(BANK5_ADDR), hl ; Segment 3 in Bank 5
-		ld		(_g_Bank5Segment), hl
-		inc		hl
-		ld		(BANK0_ADDR), hl ; Segment 4 in Bank 0
-		ld		(_g_Bank0Segment), hl
-		inc		hl
-		ld		(BANK1_ADDR), hl ; Segment 5 in Bank 1
-		ld		(_g_Bank1Segment), hl
-
+		ctr0_init_mapper::
+			ld		hl, #0x0000
+			ld		(BANK2_ADDR), hl ; Segment 0 in Bank 2
+			ld		(_g_Bank2Segment), hl
+			inc		hl
+			ld		(BANK3_ADDR), hl ; Segment 1 in Bank 3
+			ld		(_g_Bank3Segment), hl
+			inc		hl
+			ld		(BANK4_ADDR), hl ; Segment 2 in Bank 4
+			ld		(_g_Bank4Segment), hl
+			inc		hl
+			ld		(BANK5_ADDR), hl ; Segment 3 in Bank 5
+			ld		(_g_Bank5Segment), hl
+			inc		hl
+			ld		(BANK0_ADDR), hl ; Segment 4 in Bank 0
+			ld		(_g_Bank0Segment), hl
+			inc		hl
+			ld		(BANK1_ADDR), hl ; Segment 5 in Bank 1
+			ld		(_g_Bank1Segment), hl
 	.endm
 
 .endif
@@ -1021,15 +1039,16 @@
 	.endm
 
 	.macro INIT_MAPPER
-		ld		hl, #0x0000
-		ld		(BANK1_ADDR), hl ; Segment 0 in Bank 1
-		ld		(_g_Bank1Segment), hl
-		inc		hl
-		ld		(BANK2_ADDR), hl ; Segment 1 in Bank 2
-		ld		(_g_Bank2Segment), hl
-		inc		hl
-		ld		(BANK0_ADDR), hl ; Segment 2 in Bank 0
-		ld		(_g_Bank0Segment), hl
+		ctr0_init_mapper::
+			ld		hl, #0x0000
+			ld		(BANK1_ADDR), hl ; Segment 0 in Bank 1
+			ld		(_g_Bank1Segment), hl
+			inc		hl
+			ld		(BANK2_ADDR), hl ; Segment 1 in Bank 2
+			ld		(_g_Bank2Segment), hl
+			inc		hl
+			ld		(BANK0_ADDR), hl ; Segment 2 in Bank 0
+			ld		(_g_Bank0Segment), hl
 	.endm
 
 .endif
@@ -1052,28 +1071,29 @@
 	.endm
 
 	.macro INIT_MAPPER
-		ld		a, #YAMA_ENAR_REGEN
-		ld		(YAMA_ENAR), a ; Enable mapper
+		ctr0_init_mapper::
+			ld		a, #YAMA_ENAR_REGEN
+			ld		(YAMA_ENAR), a ; Enable mapper
 
-		xor		a
-		ld		(YAMA_OFFR), a ; Set mapper offset to 0
-		ld		(YAMA_CFGR), a ; Clear configuration
-		ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
-		inc		a
-		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
-		inc		a
-		ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
-		inc		a
-		ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
+			xor		a
+			ld		(YAMA_OFFR), a ; Set mapper offset to 0
+			ld		(YAMA_CFGR), a ; Clear configuration
+			ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
+			inc		a
+			ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
+			inc		a
+			ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
+			inc		a
+			ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
 
-		ld		hl, #0x0000
-		ld		(_g_Bank0Segment), hl
-		inc		hl
-		ld		(_g_Bank1Segment), hl
-		inc		hl
-		ld		(_g_Bank2Segment), hl
-		inc		hl
-		ld		(_g_Bank3Segment), hl
+			ld		hl, #0x0000
+			ld		(_g_Bank0Segment), hl
+			inc		hl
+			ld		(_g_Bank1Segment), hl
+			inc		hl
+			ld		(_g_Bank2Segment), hl
+			inc		hl
+			ld		(_g_Bank3Segment), hl
 	.endm
 
 .endif
@@ -1092,12 +1112,55 @@
 	.endm
 
 	.macro INIT_MAPPER
-		xor		a
-		ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
-		ld		(_g_Bank0Segment), a
-		inc		a
-		ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
-		ld		(_g_Bank1Segment), a
+		ctr0_init_mapper::
+			xor		a
+			ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
+			ld		(_g_Bank0Segment), a
+			inc		a
+			ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
+			ld		(_g_Bank1Segment), a
+	.endm
+
+.endif
+
+;------------------------------------------------------------------------------
+; ROM_POPOLON_SCC
+;------------------------------------------------------------------------------
+.ifeq ROM_MAPPER-ROM_POPOLON
+
+	.macro ALLOC_MAPPER
+		_g_Bank0Segment::
+			.ds 2
+		_g_Bank1Segment::
+			.ds 2
+		_g_CurrentSegment::
+		_g_Bank2Segment::
+			.ds 2
+		_g_Bank3Segment::
+			.ds 2
+	.endm
+
+	.macro INIT_MAPPER
+		ctr0_init_mapper::
+			; Disable offset
+			ld		a, (_g_ROMSlotID)
+			ld		hl, #POPOLON_CFGR
+			ld		e, #POPOLON_CFGR_OD
+			call	WRSLT
+
+			; Initialize banks register
+			xor		a
+			ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
+			ld		(_g_Bank0Segment), a
+			inc		a
+			ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
+			ld		(_g_Bank1Segment), a
+			inc		a
+			ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
+			ld		(_g_Bank2Segment), a
+			inc		a
+			ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
+			ld		(_g_Bank3Segment), a
 	.endm
 
 .endif

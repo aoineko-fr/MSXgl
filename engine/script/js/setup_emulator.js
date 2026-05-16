@@ -90,6 +90,7 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulPSG2)      { EmulExtCount++; }
 	if (EmulV9990)     { EmulExtCount++; }
 	if (EmulRAM)       { EmulExtCount++; }
+	if (EmulPAC)       { EmulExtCount++; }
 	if (Emul2ndCart !== "") { EmulExtCount++; }
 	if (EmulExtCount >= 3) { EmulatorArgs += " -exta slotexpander"; }
 	if (EmulExtCount >= 6) { EmulatorArgs += " -extb slotexpander"; }
@@ -137,6 +138,7 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulPSG2)     { EmulatorArgs += " -ext 2nd_PSG"; }
 	if (EmulV9990)    { EmulatorArgs += ' -ext gfx9000 -command "after time 0 {set videosource gfx9000}"'; }
 	if (EmulRAM)      { EmulatorArgs += ' -ext ram4mb'; }
+	if (EmulPAC)      { EmulatorArgs += ' -ext pac'; }
 
 	//---- Emulator conenctors ----
 	if (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -command "plug joyporta msxjoystick1"'; }
@@ -150,6 +152,8 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulPortB === "PADDLE")   { EmulatorArgs += ' -command "plug joyportb arkanoidpad"'; }
 	if (EmulPortB === "JOYMEGA")  { EmulatorArgs += ' -command "plug joyportb joymega2"'; }
 	if (EmulPortB === "NINJATAP") { EmulatorArgs += ' -command "plug joyportb ninjatap"'; }
+
+	if (EmulPrinter) { EmulatorArgs += ' -command "plug printerport msx-printer"'; }
 
 	//---- Start emulator ----
 	if (EmulDebug) {

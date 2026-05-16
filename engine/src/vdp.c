@@ -2157,7 +2157,7 @@ void VDP_SendSpriteAttribute(u8 index) __FASTCALL
 		ld		a, l			// Sprite index
 		rlca
 		rlca
-		ld		hl, (#M_ATRBAS)
+		ld		hl, (M_ATRBAS)
 		add		a, l
 		ld		l, a
 		adc		a, h 

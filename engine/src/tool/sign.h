@@ -23,7 +23,6 @@ typedef c8* AppSign;
 #define APPSIGN_NONE				0xFF	// Value returned when no signature is found
 
 // List of known application signatures
-
 #define APPSIGN_SNAKE_ESCAPE		"2NSE"
 #define APPSIGN_SUPER_SOKOBAN		"2NSO"
 #define APPSIGN_DELTA				"5BR3"
@@ -58,8 +57,7 @@ typedef c8* AppSign;
 // Check if the application signature is present in any slot
 //
 // Parameters:
-//   creatorID - Creator ID of the application to search for
-//   appID - Application ID of the application to search for
+//   sign - Application signature to search for
 //
 // Returns:
 //   FALSE if the application signature is not found
@@ -70,7 +68,7 @@ bool AppSign_Check(const AppSign sign);
 //
 // Parameters:
 //   appNum - Number of applications in the list
-//   signList - List of application signatures to check (8 max)
+//   appList - List of application signatures to check (8 max)
 //
 // Returns:
 //   The index of the first found application, or APPSIGN_NONE if not found

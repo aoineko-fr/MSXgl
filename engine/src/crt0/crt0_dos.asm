@@ -76,7 +76,7 @@ crt0_init:
 		;    and the command line itself at 0x81 (up to 127 characters).
 
 		;* Check if there are any parameters at all
-		ld		a, (#0x0080)			; Get parameters line length
+		ld		a, (0x0080)			; Get parameters line length
 		or		a
 		ld		c, #0					; Initialize parameters counter
 		jr		z, crt0_start			; Skip parameters parsing
@@ -84,7 +84,7 @@ crt0_init:
 		;* Terminate command line with 0
 		;  (DOS 2 does this automatically but DOS 1 does not)
 		ld		hl, #0x0081
-		ld		bc, (#0x0080)
+		ld		bc, (0x0080)
 		ld		b, #0
 		add		hl, bc
 		ld		(hl), #0

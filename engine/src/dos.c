@@ -1098,15 +1098,15 @@ __asm
 	// Get date
 	ld		c, #DOS_FUNC_GDATE
 	call	BDOS
-	ld		(#_g_DOS_Time+0), hl
-	ld		(#_g_DOS_Time+2), de
-	ld		(#_g_DOS_Time+4), a
+	ld		(_g_DOS_Time+0), hl
+	ld		(_g_DOS_Time+2), de
+	ld		(_g_DOS_Time+4), a
 	// Get time
 	ld		c, #DOS_FUNC_GTIME
 	call	BDOS
-	ld		(#_g_DOS_Time+5), hl
+	ld		(_g_DOS_Time+5), hl
 	ld		a, d
-	ld		(#_g_DOS_Time+7), a
+	ld		(_g_DOS_Time+7), a
 	// return
 	ld		de, #_g_DOS_Time
 	ret							// return DE

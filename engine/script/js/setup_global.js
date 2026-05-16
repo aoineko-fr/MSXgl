@@ -492,8 +492,14 @@ global.EmulV9990 = false;
 //-- Add mapped-RAM extension (boolean)
 global.EmulRAM = false;
 
+//-- Add PAC SRAM extension (boolean)
+global.EmulPAC = false;
+
 //-- Add additionnal cartridge in secondary slot (string)
 global.Emul2ndCart = "";
+
+//-- Plug printer device (boolean)
+global.EmulPrinter = false;
 
 //-------------------------------------------------------------------------------
 // Input options

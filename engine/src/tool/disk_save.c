@@ -68,7 +68,7 @@ _disksave_errorhandler_start:
 	pop		ix
 	// Restore ROM slot in page 1
 	ld		h, #0b01000000			;// Page 1
-	ld		a, (#_g_ROMSlotID)
+	ld		a, (_g_ROMSlotID)
 	call	R_ENASLT
 	ret
 _disksave_errorhandler_end:

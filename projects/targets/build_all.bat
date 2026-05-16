@@ -76,6 +76,12 @@ for %%G in (8192, 16384, 32768, 65536) do (
 )
 
 ::-----------------------------------------------------------------------------
+:: Popolon SCC mapped ROM
+for %%G in (8192, 16384, 32768, 65536) do (
+	call build ROM_POPOLON ROM_POPOLON_%%GK %%G
+)
+
+::-----------------------------------------------------------------------------
 :: BDOS
 call build ROM_32K ROM_32K_BDOS 0 BDOS
 call build ROM_48K ROM_48K_BDOS 0 BDOS

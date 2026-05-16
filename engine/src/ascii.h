@@ -7,46 +7,76 @@
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
-#define ASCII_CTRL_A				1
-#define ASCII_GRAPH					1
-#define ASCII_CTRL_B				2
-#define ASCII_CTRL_C				3
-#define ASCII_CTRL_E				5
-#define ASCII_CTRL_F				6
-#define ASCII_CTRL_G				7
-#define ASCII_BEEP					7
-#define ASCII_CTRL_H				8
-#define ASCII_BS					8
-#define ASCII_CTRL_I				9
-#define ASCII_TAB					9
-#define ASCII_CTRL_J				10
-#define ASCII_LF					10
-#define ASCII_CTRL_K				11
-#define ASCII_HOME					11
-#define ASCII_CTRL_L				12
-#define ASCII_CLS					12
-#define ASCII_CTRL_M				13
-#define ASCII_RET					13
-#define ASCII_RETURN				13
-#define ASCII_CTRL_N				14
-#define ASCII_CTRL_O				15
-#define ASCII_CTRL_P				16
-#define ASCII_CTRL_Q				17
-#define ASCII_CTRL_R				18
-#define ASCII_INSERT				18
-#define ASCII_CTRL_S				19
-#define ASCII_CTRL_T				20
-#define ASCII_CTRL_U				21
-#define ASCII_CTRL_X				24
-#define ASCII_SELECT				24
-#define ASCII_CTRL_Y				25
-#define ASCII_CTRL_W				26
-#define ASCII_ESC					27
-#define ASCII_RIGHT					28
-#define ASCII_LEFT					29
-#define ASCII_UP					30
-#define ASCII_DOWN					31
-#define ASCII_SPACE					32
+#define ASCII_NULL					0	//		Null character
+#define ASCII_HEAD_START			1	//		Start of Heading
+#define ASCII_CTRL_A				1	//		
+#define ASCII_GRAPH					1	//		
+#define ASCII_TEXT_START			2	//		Start of Text
+#define ASCII_CTRL_B				2	//		
+#define ASCII_TEXT_END				3	//		End of Text
+#define ASCII_CTRL_C				3	//		
+#define ASCII_TRANS_END				4	//		End of Transmission
+#define ASCII_ENQUIRY				5	//		Enquiry
+#define ASCII_CTRL_E				5	//		
+#define ASCII_ACKNOWLEDGE			6	//		Acknowledge
+#define ASCII_CTRL_F				6	//		
+#define ASCII_BELL					7	//		Bell, Alert
+#define ASCII_ALERT					7	//		Bell, Alert
+#define ASCII_BEEP					7	//		
+#define ASCII_CTRL_G				7	//		
+#define ASCII_BS					8	//		Backspace
+#define ASCII_CTRL_H				8	//		
+#define ASCII_TAB					9	//		Horizontal Tab
+#define ASCII_CTRL_I				9	//		
+#define ASCII_LINE_FEED				10	//		Line Feed
+#define ASCII_LF					10	//		
+#define ASCII_CTRL_J				10	//		
+#define ASCII_VTAB					11	//		Vertical Tabulation
+#define ASCII_HOME					11	//		
+#define ASCII_CTRL_K				11	//		
+#define ASCII_FORM_FEED				12	//		Form Feed
+#define ASCII_CLS					12	//		
+#define ASCII_CTRL_L				12	//		
+#define ASCII_RET					13	//		
+#define ASCII_RETURN				13	//		Carriage Return
+#define ASCII_CTRL_M				13	//		
+#define ASCII_SHIFT_OUT				14	//		Shift Out
+#define ASCII_CTRL_N				14	//		
+#define ASCII_SHIFT_IN				15	//		Shift In
+#define ASCII_CTRL_O				15	//		
+#define ASCII_DATALNK_ESC			16	//		Data Link Escape
+#define ASCII_CTRL_P				16	//		
+#define ASCII_CTRL_Q				17	//		
+#define ASCII_DEVCTRL1				17	//		Device Control One (XON)
+#define ASCII_INSERT				18	//		
+#define ASCII_DEVCTRL2				18	//		Device Control Two
+#define ASCII_CTRL_R				18	//		
+#define ASCII_DEVCTRL3				19	//		Device Control Three (XOFF)
+#define ASCII_CTRL_S				19	//		
+#define ASCII_DEVCTRL4				20	//		Device Control Four
+#define ASCII_CTRL_T				20	//		
+#define ASCII_NEG_ACKNOWLEDGE		21	//		Negative Acknowledge
+#define ASCII_CTRL_U				21	//		
+#define ASCII_SYNCH_IDLE			22	//		Synchronous Idle
+#define ASCII_LBOCK_END				23	//		End of Transmission Block
+#define ASCII_CANCEL				24	//		Cancel
+#define ASCII_SELECT				24	//		
+#define ASCII_CTRL_X				24	//		
+#define ASCII_MEDIUM_END			25	//		End of medium
+#define ASCII_CTRL_Y				25	//		
+#define ASCII_SUBS					26	//		Substitute
+#define ASCII_CTRL_W				26	//		
+#define ASCII_ESCAPE				27	//		Escape
+#define ASCII_ESC					27	//		
+#define ASCII_FILE_SEP				28	//		File Separator
+#define ASCII_RIGHT					28	//		
+#define ASCII_GROUP_SEP				29	//		Group Separator
+#define ASCII_LEFT					29	//		
+#define ASCII_RECORD_SEP			30	//		Record Separator
+#define ASCII_UP					30	//		
+#define ASCII_UNIT_SEP				31	//		Unit Separator
+#define ASCII_DOWN					31	//		
+#define ASCII_SPACE					32	//		
 #define ASCII_EXCLAMATION_MARK		33	// !	Exclamation mark
 #define ASCII_DOUBLE_QUOTE			34	// "	Double quote
 #define ASCII_NUMBER				35	// #	Number

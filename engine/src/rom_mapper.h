@@ -64,6 +64,12 @@
 	#define MAPPER_BANKS			2
 	#define ADDR_BANK_0				0x6000 // 4000h - 7FFFh
 	#define ADDR_BANK_1				0x7000 // 8000h - BFFFh (or 0x77FF ?)
+#elif (ROM_MAPPER == ROM_POPOLON)
+	#define MAPPER_BANKS			4
+	#define ADDR_BANK_0				0x5000 // 4000h - 5FFFh
+	#define ADDR_BANK_1				0x7000 // 6000h - 7FFFh
+	#define ADDR_BANK_2				0x9000 // 8000h - 9FFFh
+	#define ADDR_BANK_3				0xB000 // A000h - BFFFh
 #endif
 
 //-----------------------------------------------------------------------------
@@ -131,22 +137,84 @@
 	// Get the current segment of the given bank
 	inline u8 GET_BANK_SEGMENT_HIGH(u8 b) { return (u8)(g_Bank0Segment[b] >> 8); }
 
+#elif (ROM_MAPPER == ROM_POPOLON)
+
+#define POPOLON_OFFSET				0x3800
+#define POPOLON_OFFSET_LOW			0x3800
+//	7	6	5	4	3	2	1	0	
+//	S7	S6	S5	S4	S3	S2	S1	S0 	
+//	└───┴───┴───┴───┴───┴───┴───┴── 8 bits of the low part of the Offset (1 step = 1 segment)
+#define POPOLON_OFFSET_HIGH			0x3801
+//	7	6	5	4	3	2	1	0	
+//	x	x	x	x	x	S10	S9	S8 	
+//						└───┴───┴── 3 bits of the high part of the Offset (1 step = 256 segments)
+
+#define POPOLON_CONFIG				0x3804
+//	7	6	5	4	3	2	1	0	
+//	x	x	x	x	x	x	x	DO 	
+//  							└── Disable Offset (set 1 to disable, 0 to enable)
+#define POPOLON_OFFSET_ENABLE		0b00000000
+#define POPOLON_OFFSET_DISABLE		0b00000001
+
+	extern u16 g_Bank0Segment[MAPPER_BANKS];
+
+	// Set the mapper offset (will increment all banks segments by the given offset)
+	// inline void POPOLON_SET_OFFSET(u16 offset) { BIOS_InterSlotWrite(g_ROMSlotID, POPOLON_OFFSET, offset & 0xFF); BIOS_InterSlotWrite(g_ROMSlotID, POPOLON_OFFSET + 1, offset >> 8); }
+
+	// 
+	// inline void POPOLON_SET_CONFIG(u8 val) { BIOS_InterSlotWrite(g_ROMSlotID, POPOLON_CONFIG, val); }
+
+	// Set the current segment of the given bank
+	inline void SET_BANK_SEGMENT(u8 b, u16 s)
+	{ 
+		g_Bank0Segment[b] = s;
+		if (b == 0)			Poke16(ADDR_BANK_0, s);
+		else if (b == 1)	Poke16(ADDR_BANK_1, s);
+		else if (b == 2)	Poke16(ADDR_BANK_2, s);
+		else if (b == 3)	Poke16(ADDR_BANK_3, s);
+	}
+	// Set the current segment of the given bank
+	inline void SET_BANK_SEGMENT_LOW(u8 b, u8 s)
+	{
+		Poke((u16)&g_Bank0Segment[b] + 0, s);
+		if (b == 0)			Poke(ADDR_BANK_0 + 0, s);
+		else if (b == 1)	Poke(ADDR_BANK_1 + 0, s);
+		else if (b == 2)	Poke(ADDR_BANK_2 + 0, s);
+		else if (b == 3)	Poke(ADDR_BANK_3 + 0, s);
+	}
+	// Set the current segment of the given bank
+	inline void SET_BANK_SEGMENT_HIGH(u8 b, u8 s)
+	{
+		Poke((u16)&g_Bank0Segment[b] + 1, s);
+		if (b == 0)			Poke(ADDR_BANK_0 + 1, s);
+		else if (b == 1)	Poke(ADDR_BANK_1 + 1, s);
+		else if (b == 2)	Poke(ADDR_BANK_2 + 1, s);
+		else if (b == 3)	Poke(ADDR_BANK_3 + 1, s);
+	}
+
+	// Get the current segment of the given bank
+	inline u16 GET_BANK_SEGMENT(u8 b) { return g_Bank0Segment[b]; }
+	// Get the current segment of the given bank
+	inline u8 GET_BANK_SEGMENT_LOW(u8 b) { return (u8)(g_Bank0Segment[b] & 0xFF); }
+	// Get the current segment of the given bank
+	inline u8 GET_BANK_SEGMENT_HIGH(u8 b) { return (u8)(g_Bank0Segment[b] >> 8); }
+	
 #elif (ROM_MAPPER == ROM_YAMANOOTO)
 
-	// Features enable register
-	#define YAMANOOTO_ENAR			0x7FFF
+// Features enable register
+#define YAMANOOTO_ENAR			0x7FFF
 //	7	6	5	4	3	2	1	0	
 //	x	x	x	WE	x	x	x	RE 	
 //  			│				└── REGEN: Registers enable. Setting this bit allows writing to all other registers and all register readability.
 //				└────────────────── WREN: Write enable. Set to 1 to enable writes to flash rom
-	#define YAMANOOTO_ENAR_REGEN	0b00000001
-	#define YAMANOOTO_ENAR_WREN		0b00010000
+#define YAMANOOTO_ENAR_REGEN	0b00000001
+#define YAMANOOTO_ENAR_WREN		0b00010000
 
-	// Mapper offset register
-	#define YAMANOOTO_OFFR			0x7FFE
+// Mapper offset register
+#define YAMANOOTO_OFFR			0x7FFE
 
-	// Configuration and control register
-	#define YAMANOOTO_CFGR			0x7FFD
+// Configuration and control register
+#define YAMANOOTO_CFGR			0x7FFD
 //	7	6	5	4	3	2	1	0	
 //	x	x	SO2	SO1	K44	RD	PE	DM 	
 //  		│	│	│	│	│	└── MDIS: This bit disables mapping so you avoid mapper changes with small (up to 32 kbyte) roms that poke the switching area. Usually this is a problem only in K4 mode. Remember to reset this bit to make changes again.
@@ -154,10 +222,10 @@
 //  		│	│	│	└────────── ROMDIS: Setting this bit disables access to flash rom. This is automatically set during boot when the DEL key is pressed. You need to clear this bit in software to be able read/write the flash rom.
 //  		│	│	└────────────── K4: Changes mapper configuration from Konami5 (SCC) to Konami4 for compatibility with game compilations including non-SCC games.
 //  		└───┴────────────────── SUBOFF: Sub-offset. This provides 2 additional lower bits for offset register, to provide 8 kbyte granularity for offset.
-	#define YAMANOOTO_CFGR_MDIS		0b00000001
-	#define YAMANOOTO_CFGR_ECHO		0b00000010
-	#define YAMANOOTO_CFGR_ROMDIS	0b00000100
-	#define YAMANOOTO_CFGR_K4		0b00001000
+#define YAMANOOTO_CFGR_MDIS		0b00000001
+#define YAMANOOTO_CFGR_ECHO		0b00000010
+#define YAMANOOTO_CFGR_ROMDIS	0b00000100
+#define YAMANOOTO_CFGR_K4		0b00001000
 	
 	// Segment value backup
 	extern u16 g_Bank0Segment[MAPPER_BANKS];

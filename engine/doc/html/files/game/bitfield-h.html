@@ -12,46 +12,58 @@
  <div class="CTitle">Functions</div>
 </div>
 
-<a name="BitField_Initialize"></a><a name="Topic224"></a><div class="CTopic TFunction LC">
+<a name="BitField_Initialize"></a><a name="Topic1000"></a><div class="CTopic TFunction LC">
  <div class="CTitle">BitField_Initialize</div>
- <div id="NDPrototype224" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> BitField_Initialize()</div></div>
- <div class="CBody"><p>Initialize quest variables</p></div>
+ <div id="NDPrototype1000" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">void</span> BitField_Initialize()</div></div>
+ <div class="CBody"><p>Initialize bit field (set all bits to 0)</p></div>
 </div>
 
-<a name="BitField_Enable"></a><a name="Topic225"></a><div class="CTopic TFunction LC">
+<a name="BitField_Enable"></a><a name="Topic1001"></a><div class="CTopic TFunction LC">
  <div class="CTitle">BitField_Enable</div>
- <div id="NDPrototype225" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> BitField_Enable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">var</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set a quest variable</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">var<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Quest variable to set</p></td></tr></table></div>
+ <div id="NDPrototype1001" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> BitField_Enable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">var</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set a given bit</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">var<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Bit number to set</p></td></tr></table></div>
 </div>
 
-<a name="BitField_Disable"></a><a name="Topic226"></a><div class="CTopic TFunction LC">
+<a name="BitField_Disable"></a><a name="Topic1539"></a><div class="CTopic TFunction LC">
  <div class="CTitle">BitField_Disable</div>
- <div id="NDPrototype226" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> BitField_Disable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">var</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Reset a quest variable</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">var<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Quest variable to set</p></td></tr></table></div>
+ <div id="NDPrototype1539" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> BitField_Disable(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">var</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Reset a given bit</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">var<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Bit number to reset</p></td></tr></table></div>
 </div>
 
-<a name="BitField_Set"></a><a name="Topic227"></a><div class="CTopic TFunction LC">
+<a name="BitField_Set"></a><a name="Topic1559"></a><div class="CTopic TFunction LC">
  <div class="CTitle">BitField_Set</div>
- <div id="NDPrototype227" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> BitField_Set(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">var,</td></tr><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Set or reset a quest variable</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">var<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Quest variable to set</p></td></tr><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
+ <div id="NDPrototype1559" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> BitField_Set(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">var,</td></tr><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">enable</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Set or reset a given bit</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">var<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Bit number to set</p></td></tr><tr><td class="CDLEntry">enable<div class="CDLParameterType"><span class="SHKeyword">bool</span></div></td><td class="CDLDefinition"><p>TRUE to enable, FALSE to disable</p></td></tr></table></div>
 </div>
 
-<a name="BitField_Toggle"></a><a name="Topic228"></a><div class="CTopic TFunction LC">
+<a name="BitField_Toggle"></a><a name="Topic1560"></a><div class="CTopic TFunction LC">
  <div class="CTitle">BitField_Toggle</div>
- <div id="NDPrototype228" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> BitField_Toggle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">var</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Toggle a quest variable</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">var<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Quest variable to set</p></td></tr></table></div>
+ <div id="NDPrototype1560" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> BitField_Toggle(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">var</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Toggle a given bit</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">var<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Bit number to toggle</p></td></tr></table></div>
 </div>
 
-<a name="BitField_Get"></a><a name="Topic229"></a><div class="CTopic TFunction LC">
+<a name="BitField_Get"></a><a name="Topic1561"></a><div class="CTopic TFunction LC">
  <div class="CTitle">BitField_Get</div>
- <div id="NDPrototype229" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> BitField_Get(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">var</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
- <div class="CBody"><p>Get a quest variable</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">var<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Quest variable to set</p></td></tr></table><div class="CHeading">Return</div><p>FALSE if variable is not set</p></div>
+ <div id="NDPrototype1561" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> BitField_Get(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first">u8&nbsp;</td><td class="PName last">var</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Get a given bit</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">var<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>Bit number to get</p></td></tr></table><div class="CHeading">Return</div><p>FALSE if bit is not set</p></div>
 </div>
 
-<a name="BitField_GetData"></a><a name="Topic230"></a><div class="CTopic TFunction LC last">
+<a name="BitField_GetBitNumber"></a><a name="Topic1562"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BitField_GetBitNumber</div>
+ <div id="NDPrototype1562" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 BitField_GetBitNumber()</div></div>
+ <div class="CBody"><p>Get the number of bits that fit in the bit field</p></div>
+</div>
+
+<a name="BitField_GetSize"></a><a name="Topic1563"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BitField_GetSize</div>
+ <div id="NDPrototype1563" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u16 BitField_GetSize()</div></div>
+ <div class="CBody"><p>Get the size of the bit field in bytes</p></div>
+</div>
+
+<a name="BitField_GetData"></a><a name="Topic1564"></a><div class="CTopic TFunction LC last">
  <div class="CTitle">BitField_GetData</div>
- <div id="NDPrototype230" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8* BitField_GetData()</div></div>
- <div class="CBody"><p>Get bit field raw data</p><div class="CHeading">Return</div><p>Raw data of the bitfield</p></div>
+ <div id="NDPrototype1564" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> u8* BitField_GetData()</div></div>
+ <div class="CBody"><p>Get bit field raw data</p><div class="CHeading">Return</div><p>Raw data of the bit field</p></div>
 </div>
 
 </body></html>

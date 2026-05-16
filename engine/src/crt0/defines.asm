@@ -34,6 +34,7 @@ V9_P06			= #0x66
 
 ;------------------------------------------------------------------------------
 ; Main-ROM routines
+WRSLT			= #0x0014 ; Writes a value to an address in another slot
 ENASLT			= #0x0024 ; Switches indicated slot at indicated page on perpetually
 ROMVER			= #0x002B ; Basic ROM version
 MSXVER			= #0x002D ; MSX version number
@@ -74,6 +75,7 @@ KEY_RETURN		= #0b10000000
 
 ;------------------------------------------------------------------------------
 ; ROM types
+; /!\ Must match the values in "config_option.h"
 ROM_PLAIN		= 0		; Plain ROM (no mapper)
 ROM_MAPPER_8K	= 2		; Mapper 8 KB
 ROM_ASCII8		= 2		;  ASCII-8 mapper
@@ -81,6 +83,7 @@ ROM_KONAMI		= 3		;  Konami without SCC mapper
 ROM_KONAMI_SCC	= 4		;  Konami with SCC mapper
 ROM_NEO8		= 5		;  NEO-8 mapper
 ROM_YAMANOOTO	= 6		;  Yamanooto mapper
+ROM_POPOLON		= 7		;  Popolon SCC mapper
 ROM_MAPPER_16K	= 10	; Mapper 16 KB
 ROM_ASCII16		= 10	;  ASCII-16 mmaper
 ROM_NEO16		= 11	;  NEO-16 mapper
@@ -97,6 +100,13 @@ YAMA_CFGR_MDIS	= #0b00000001	; This bit disables mapping so you avoid mapper cha
 YAMA_CFGR_ECHO	= #0b00000010	; This bit allows the built-in PSG to respond to the port number of the internal PSG of the MSX, causing music intended for the internal PSG to be played too in the Yamanooto and be heard through the stereo output of the cartridge. This is set only during boot when you press the HOME key.
 YAMA_CFGR_ROMDIS= #0b00000100	; Setting this bit disables access to flash rom. This is automatically set during boot when the DEL key is pressed. You need to clear this bit in software to be able read/write the flash rom.
 YAMA_CFGR_K4	= #0b00001000	; Changes mapper configuration from Konami5 (SCC) to Konami4 for compatibility with game compilations including non-SCC games.
+
+;------------------------------------------------------------------------------
+; Popolon SCC registers
+POPOLON_OFF		= #0x3800		; Mapper 16-bit offset register
+POPOLON_CFGR	= #0x3804		; Configuration register
+POPOLON_CFGR_OE	= #0b00000000	; Offset enable (default mode)
+POPOLON_CFGR_OD	= #0b00000001	; Offset disable
 
 ;------------------------------------------------------------------------------
 ; ISR types

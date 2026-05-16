@@ -65,14 +65,14 @@ inline u16 Mem_GetHeapSize() { return Mem_GetStackAddress() - Mem_GetHeapAddress
 //
 // Return:
 //   Pointer to allocated heap chunk
-void* Mem_HeapAlloc(u16 size);
+inline void* Mem_HeapAlloc(u16 size) { u16 addr = g_HeapStartAddress; g_HeapStartAddress += size; return (void*)addr; }
 
 // Function: Mem_HeapFree
 // Free the last allocated area of the heap.
 //
 // Parameters:
 //   size - The size of data to allocate
-void Mem_HeapFree(u16 size);
+inline void Mem_HeapFree(u16 size) { g_HeapStartAddress -= size; }
 
 //.............................................................................
 // Group: Memory content modification

@@ -224,10 +224,9 @@ else if (Target === "ROM_64K_ISR")
 //-----------------------------------------------------------------------------
 else if (Target === "ROM_ASCII8")
 {
-	if(!ROMMainSegments)
+	if (!ROMMainSegments)
 		ROMMainSegments = 4;
 	Mapper = "ROM_ASCII8";
-	// Target = `ROM_ASCII8_${ROMSize}K`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
 	StartAddr = 0x4000;
@@ -247,10 +246,9 @@ else if (Target === "ROM_ASCII8")
 //-----------------------------------------------------------------------------
 else if (Target === "ROM_ASCII16")
 {
-	if(!ROMMainSegments)
+	if (!ROMMainSegments)
 		ROMMainSegments = 2;
 	Mapper = "ROM_ASCII16";
-	// Target = `ROM_ASCII16_${ROMSize}K`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
 	StartAddr = 0x4000;
@@ -268,10 +266,9 @@ else if (Target === "ROM_ASCII16")
 //-----------------------------------------------------------------------------
 else if (Target === "ROM_KONAMI")
 {
-	if(!ROMMainSegments)
+	if (!ROMMainSegments)
 		ROMMainSegments = 4;
 	Mapper = "ROM_KONAMI";
-	// Target = `ROM_KONAMI_${ROMSize}K`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
 	StartAddr = 0x4000;
@@ -285,15 +282,14 @@ else if (Target === "ROM_KONAMI")
 	Bank3Addr = 0xA000;
 	ROMSignature = "ROM_KON4";
 
-	TargetDesc = `${ROMSize}KB ROM using KONAMI mapper (starting at 4000h)`;
+	TargetDesc = `${ROMSize}KB ROM using Konami mapper (starting at 4000h)`;
 }
 //-----------------------------------------------------------------------------
 else if (Target === "ROM_KONAMI_SCC")
 {
-	if(!ROMMainSegments)
+	if (!ROMMainSegments)
 		ROMMainSegments = 4;
 	Mapper = "ROM_KONAMI_SCC";
-	// Target = `ROM_KONAMI_SCC_${ROMSize}K`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
 	StartAddr = 0x4000;
@@ -308,15 +304,14 @@ else if (Target === "ROM_KONAMI_SCC")
 	Bank3Addr = 0xA000;
 	ROMSignature = "ROM_KON5";
 
-	TargetDesc = `${ROMSize}KB ROM using KONAMI SCC mapper (starting at 4000h)`;
+	TargetDesc = `${ROMSize}KB ROM using Konami SCC mapper (starting at 4000h)`;
 }
 //-----------------------------------------------------------------------------
 else if (Target === "ROM_NEO8")
 {
-	if(!ROMMainSegments)
+	if (!ROMMainSegments)
 		ROMMainSegments = 4;
 	Mapper = "ROM_NEO8";
-	// Target = (ROMSize >= 1024) ? `ROM_NEO8_${ROMSize/1024}M` : `ROM_NEO8_${ROMSize}K`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_neo";
 	StartAddr = 0x4000;
@@ -339,10 +334,9 @@ else if (Target === "ROM_NEO8")
 //-----------------------------------------------------------------------------
 else if (Target === "ROM_NEO16")
 {
-	if(!ROMMainSegments)
+	if (!ROMMainSegments)
 		ROMMainSegments = 2;
 	Mapper = "ROM_NEO16";
-	// Target = (ROMSize >= 1024) ? `ROM_NEO16_${ROMSize/1024}M` : `ROM_NEO16_${ROMSize}K`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_neo";
 	StartAddr = 0x4000;
@@ -362,10 +356,9 @@ else if (Target === "ROM_NEO16")
 //-----------------------------------------------------------------------------
 else if (Target === "ROM_YAMANOOTO")
 {
-	if(!ROMMainSegments)
+	if (!ROMMainSegments)
 		ROMMainSegments = 4;
 	Mapper = "ROM_YAMANOOTO";
-	// Target = `ROM_YAMANOOTO_${ROMSize/1024}M`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
 	StartAddr = 0x4000;
@@ -385,10 +378,9 @@ else if (Target === "ROM_YAMANOOTO")
 //-----------------------------------------------------------------------------
 else if (Target === "ROM_ASCII16X")
 {
-	if(!ROMMainSegments)
+	if (!ROMMainSegments)
 		ROMMainSegments = 2;
 	Mapper = "ROM_ASCII16X";
-	// Target = `ROM_ASCII16X_${ROMSize/1024}M`;
 	Ext = "rom";
 	Crt0 = "crt0_rom_mapper";
 	StartAddr = 0x4000;
@@ -403,6 +395,28 @@ else if (Target === "ROM_ASCII16X")
 	AddROMSignature = true; // Force adding signature
 
 	TargetDesc = `${ROMSize}KB ROM using ASCII16-X mapper (starting at 4000h)`;
+}
+//-----------------------------------------------------------------------------
+else if (Target === "ROM_POPOLON")
+{
+	if (!ROMMainSegments)
+		ROMMainSegments = 4;
+	Mapper = "ROM_POPOLON";
+	Ext = "rom";
+	Crt0 = "crt0_rom_mapper";
+	StartAddr = 0x4000;
+	CodeAddr = 0x4000;
+	RamAddr = 0xC000;
+	MapperSize = ROMSize*1024;
+	SegSize = 8*1024;
+	FillSize = ROMMainSegments * SegSize;
+	Bank0Addr = 0x4000;
+	Bank1Addr = 0x6000;
+	Bank2Addr = 0x8000;
+	Bank3Addr = 0xA000;
+	ROMSignature = "ROM_PSCC";
+
+	TargetDesc = `${ROMSize}KB ROM using Popolon SCC mapper (starting at 4000h)`;
 }
 
 //*****************************************************************************
@@ -451,7 +465,7 @@ else if (Target === "DOS2")
 //-----------------------------------------------------------------------------
 else if (Target === "DOS2_MAPPER")
 {
-	if(!ROMMainSegments)
+	if (!ROMMainSegments)
 		ROMMainSegments = 2;
 	Mapper = "ROM_ASCII16";
 	Ext = "rom";
