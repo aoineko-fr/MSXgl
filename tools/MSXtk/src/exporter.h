@@ -19,7 +19,7 @@
 // MSXi
 #include "MSXimg.h"
 #include "color.h"
-#include "mglv.h"
+#include "MGLV.h"
 
 #define BUFFER_SIZE 1024
 
