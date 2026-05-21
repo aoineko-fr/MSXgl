@@ -317,7 +317,8 @@ void Keyboard_Update()
 // Check if a given key is pressed
 bool Keyboard_IsKeyPressed(u8 key)
 {
-	return (g_InputBufferNew[KEY_ROW(key)] & (1 << KEY_IDX(key))) == 0;
+	u8 flag = 1 << KEY_IDX(key);
+	return (g_InputBufferNew[KEY_ROW(key)] & flag) == 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -336,7 +337,8 @@ bool Keyboard_IsKeyPushed(u8 key)
 // Check if a given key is pressed
 u8 Keyboard_IsKeyPressed(u8 key)
 {
-	return (Keyboard_Read(KEY_ROW(key)) & (1 << KEY_IDX(key))) == 0;
+	u8 flag = 1 << KEY_IDX(key);
+	return (Keyboard_Read(KEY_ROW(key)) & flag) == 0;
 }
 
 #endif // (INPUT_KB_UPDATE)
