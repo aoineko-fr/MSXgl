@@ -306,10 +306,13 @@ u8* g_InputBufferOld = (u8*)g_OLDKEY;
 // Update all keyboard rows at once
 void Keyboard_Update()
 {
+	u8* inputBufferNew = g_InputBufferNew;
+	u8* inputBufferOld = g_InputBufferOld;
+	
 	for (u8 i = INPUT_KB_UPDATE_MIN; i <= INPUT_KB_UPDATE_MAX; ++i)	
 	{
-		g_InputBufferOld[i] = g_InputBufferNew[i];
-		g_InputBufferNew[i] = Keyboard_Read(i);
+		*inputBufferOld++ = *inputBufferNew;
+		*inputBufferNew++ = Keyboard_Read(i);
 	}
 }
 
