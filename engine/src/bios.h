@@ -656,7 +656,7 @@ inline void BIOS_PrinterChangePage() { BIOS_PrinterSendChar(ASCII_FORM_FEED); }
 //> 7 - 0 - 3
 //>   / |'\'
 //>  6  5  4
-inline u8 BIOS_GetJoystickDirection(u8 port) { return ((u8(*)(u8))R_GTSTCK)(port); }
+inline u8 BIOS_GetJoystickDirection(u8 port) { return CallAToA(R_GTSTCK, port); }
 
 #define BIOS_TRIGGER_SPACEBAR		(0)
 #define BIOS_TRIGGER_PORT1_TRIG1	(1)
@@ -678,7 +678,7 @@ inline u8 BIOS_GetJoystickDirection(u8 port) { return ((u8(*)(u8))R_GTSTCK)(port
 //
 // Return:
 //   FALSE if trigger button is not pressed
-inline bool BIOS_GetJoystickTrigger(u8 trigger) { return ((u8(*)(u8))R_GTTRIG)(trigger); }
+inline bool BIOS_GetJoystickTrigger(u8 trigger) { return CallAToA(R_GTTRIG, trigger); }
 
 // Function: BIOS_GetTouchPad
 // Returns the touch pad status.
@@ -711,7 +711,7 @@ inline bool BIOS_GetJoystickTrigger(u8 trigger) { return ((u8(*)(u8))R_GTTRIG)(t
 //
 // Return:
 //   Value depending on entry parameter
-inline u8 BIOS_GetTouchPad(u8 entry) { return ((u8(*)(u8))R_GTPAD)(entry); }
+inline u8 BIOS_GetTouchPad(u8 entry) { return CallAToA(R_GTPAD, entry); }
 
 // Function: BIOS_GetPaddle
 // Returns the paddle position.
@@ -730,7 +730,7 @@ inline u8 BIOS_GetTouchPad(u8 entry) { return ((u8(*)(u8))R_GTPAD)(entry); }
 //
 // Return:
 //   Paddle position [0:255]
-inline u8 BIOS_GetPaddle(u8 num) { return ((u8(*)(u8))R_GTPDL)(num); }
+inline u8 BIOS_GetPaddle(u8 num) { return CallAToA(R_GTPDL, num); }
 
 
 //=============================================================================
@@ -743,7 +743,7 @@ inline u8 BIOS_GetPaddle(u8 num) { return ((u8(*)(u8))R_GTPDL)(num); }
 
 // Function: BIOS_GetKeyboardMatrix
 // Returns the value of the specified line from the keyboard matrix. Wrapper for SNSMAT routine.
-inline u8 BIOS_GetKeyboardMatrix(u8 line) { return ((u8(*)(u8))R_SNSMAT)(line); }
+inline u8 BIOS_GetKeyboardMatrix(u8 line) { return CallAToA(R_SNSMAT, line); }
 
 // Function: BIOS_IsKeyPressed
 // Check if the given key is pressed

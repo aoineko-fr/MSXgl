@@ -25,7 +25,7 @@
 //=============================================================================
 // General purpose port device detection
 //=============================================================================
-#if (1)//(INPUT_USE_DETECT)
+#if (INPUT_USE_DETECT)
 
 //-----------------------------------------------------------------------------
 // Detect device plugged in General purpose ports
@@ -306,18 +306,14 @@ u8* g_InputBufferOld = (u8*)g_OLDKEY;
 // Update all keyboard rows at once
 void Keyboard_Update()
 {
+	u8* inputBufferNew = g_InputBufferNew;
+	u8* inputBufferOld = g_InputBufferOld;
+	
 	for (u8 i = INPUT_KB_UPDATE_MIN; i <= INPUT_KB_UPDATE_MAX; ++i)	
 	{
-		g_InputBufferOld[i] = g_InputBufferNew[i];
-		g_InputBufferNew[i] = Keyboard_Read(i);
+		*inputBufferOld++ = *inputBufferNew;
+		*inputBufferNew++ = Keyboard_Read(i);
 	}
-}
-
-//-----------------------------------------------------------------------------
-// Check if a given key is pressed
-bool Keyboard_IsKeyPressed(u8 key)
-{
-	return (g_InputBufferNew[KEY_ROW(key)] & (1 << KEY_IDX(key))) == 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -330,15 +326,68 @@ bool Keyboard_IsKeyPushed(u8 key)
 	return newKey && !oldKey;
 }
 
-#else // if !(INPUT_KB_UPDATE)
+#endif // (INPUT_KB_UPDATE)
 
-//-----------------------------------------------------------------------------
-// Check if a given key is pressed
-u8 Keyboard_IsKeyPressed(u8 key)
+#if (INPUT_KB_AS_JOYSTICK)
+
+// Emulate joystick input using keyboard keys (see Joystick_Read)
+//
+// Return:
+//   Keyboard state (bit=0: pressed)
+// : xxBARLDU
+// :   │││││└─ Up
+// :   ││││└── Down
+// :   │││└─── Left
+// :   ││└──── Right
+// :   │└───── Trigger A (space)
+// :   └────── Trigger B (N)
+u8 Keyboard_ReadAsJoystick() __NAKED
 {
-	return (Keyboard_Read(KEY_ROW(key)) & (1 << KEY_IDX(key))) == 0;
+__asm
+// Get keyboard row 8
+	in		a, (P_PPI_C)
+	and		#0b11110000				// only change bits 0-3
+	ld		d, a					// backup PPI state
+	or		#8						// set row number to 8
+	out		(P_PPI_C), a
+
+	in		a, (P_PPI_B)			// read row into A				[RDUL...1]
+	rrca							//								[1RDUL...]
+	rrca							//								[.1RDUL..]
+	ld		b, a					// backup
+	and		#0b00000100				// keep only Left				[-----L--]
+	ld		c, a					// backup Left
+
+	ld		a, b					// restore						[.1RDUL..]
+	rrca							//								[..1RDUL.]
+	rrca							//								[...1RDUL]
+	ld		b, a					// backup
+	and		#0b00011000				// keep only (1) and Right		[---1R---]
+	or		a, c					// combine Left and Right		[---1RL--]
+	ld		c, a					// backup (1) and Right
+
+	ld		a, b					// restore						[...1RDUL]
+	rrca							//								[L...1RDU]
+	and		#0b00000011				// keep only Down & Up			[------DU]
+	or		a, c					// combine with Up and Down		[---1RLDU]
+	ld		b, a					// backup
+
+// Get keyboard row 4
+	ld		a, d					// restore PPI state
+	or		#4						// set row number to 4
+	out		(P_PPI_C), a
+	in		a, (P_PPI_B)			// read row into A				[RQPONMLK]
+	and		#0b00111000				// keep only N					[--PON---]
+	rlca							//								[-PON----]
+	rlca							//								[PON-----]
+
+// Combine
+	or		a, b					// Combine with previous result	[PON1RLDU]
+	ret
+
+__endasm;
 }
 
-#endif // (INPUT_KB_UPDATE)
+#endif // (INPUT_KB_AS_JOYSTICK)
 
 #endif // (INPUT_USE_KEYBOARD)

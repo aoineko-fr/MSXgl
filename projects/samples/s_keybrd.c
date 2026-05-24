@@ -33,7 +33,7 @@ typedef struct
 
 // Keys entries table
 const KeyEntry keys[] =
-{
+{ // Code          PosX    PosY  Text
 	{ KEY_F1,		3,		4,	"F1" },
 	{ KEY_F2,		6,		4,	"F2" },
 	{ KEY_F3,		9,		4,	"F3" },
@@ -110,10 +110,10 @@ const KeyEntry keys[] =
 	{ KEY_CODE,		28,		9,	"CODE" },
 
 	// Arrow key
-	{ KEY_UP,		16,		12,	"^" },
-	{ KEY_LEFT,		14,		13,	"<" },
-	{ KEY_RIGHT,	18,		13,	">" },
-	{ KEY_DOWN,		16,		14,	"v" },
+	{ KEY_UP,		15,		12,	"\x88" },
+	{ KEY_LEFT,		14,		13,	"\x8B" },
+	{ KEY_RIGHT,	16,		13,	"\x8A" },
+	{ KEY_DOWN,		15,		14,	"\x89" },
 
 	// Numeric keypad
 	{ KEY_NUM_7,	3,		12,	"7" },
@@ -155,7 +155,7 @@ u8 keyPressed[numberof(keys)];
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-/// 
+// Input event callback
 void InputEvent(u8 dev, u8 in, u8 evt)
 {
 	if (g_LogY >= 24)
@@ -226,13 +226,12 @@ void main()
 
 	Print_DrawBox(0, 3, 40, 8);
 	Print_DrawBox(0, 11, 11, 6);
-	Print_DrawBox(11, 11, 9, 5);
+	Print_DrawBox(11, 11, 7, 5);
+	Print_DrawBox(11, 11, 7, 5);
 
-	Print_SetPosition(21, 12);
-	Print_DrawText("Raw:");
-
-	Print_SetPosition(0, 17);
-	Print_DrawText("Log:");
+	Print_DrawTextAt(19, 12, "Raw:");
+	Print_DrawTextAt(33, 12, "Joy:");
+	Print_DrawTextAt(0, 17, "Log:");
 	g_LogX = 1;
 	g_LogY = 18;
 
@@ -269,20 +268,30 @@ void main()
 		for (i = 0; i < 11; i++)
 		{
 			if ((i % 4) == 0)
-				Print_SetPosition(22, 13 + (i / 4));
+				Print_SetPosition(20, 13 + (i / 4));
 			Print_DrawHex8(Keyboard_Read(i));
 			Print_DrawChar(' ');
 		}
-		
+
+		// Keyboard as joystick
+		u8 joy = Keyboard_ReadAsJoystick();
+		Print_SetPosition(37, 12);
+		Print_DrawHex8(joy);
+		Print_DrawCharAt(36, 13, (joy & JOY_INPUT_DIR_UP) ? ' ' : '\x88');
+		Print_DrawCharAt(36, 15, (joy & JOY_INPUT_DIR_DOWN) ? ' ' : '\x89');
+		Print_DrawCharAt(35, 14, (joy & JOY_INPUT_DIR_LEFT) ? ' ' : '\x8B');
+		Print_DrawCharAt(37, 14, (joy & JOY_INPUT_DIR_RIGHT) ? ' ' : '\x8A');
+		Print_DrawCharAt(34, 15, (joy & JOY_INPUT_TRIGGER_A) ? ' ' : 'A');
+		Print_DrawCharAt(38, 15, (joy & JOY_INPUT_TRIGGER_B) ? ' ' : 'B');
+
 		if (Keyboard_IsKeyPressed(KEY_ESC) && Keyboard_IsKeyPressed(KEY_DEL))
 		{
 			loop = 0;
 		}
 
-		Print_SetPosition(37, 1);
 		u8 chr = count++ & 0x03;
-		Print_DrawChar(chrAnim[chr]);
-		
+		Print_DrawCharAt(37, 1, chrAnim[chr]);
+
 		Halt();
 	}
 
