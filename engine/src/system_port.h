@@ -67,6 +67,8 @@ __sfr __at(P_LPT_DATA)				g_Printer_DataPort;
 // Internal/external MSX-Music I/O ports
 #define P_MSXMUSIC_INDEX			0x7C // Register Index
 __sfr __at(P_MSXMUSIC_INDEX)		g_MSXMusic_IndexPort;
+#define P_MSXMUSIC_DATA				0x7D // Register data
+__sfr __at(P_MSXMUSIC_DATA)			g_MSXMusic_DataPort;
 
 
 //=============================================================================
