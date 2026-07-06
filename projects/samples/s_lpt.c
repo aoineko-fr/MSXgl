@@ -23,8 +23,8 @@ enum PRINTER_MODE
 	PRINTER_MODE_IOPORT,
 };
 
-typedef bool (*PrinterCheck)();
-typedef void (*PrinterSend)(u8 chr);
+typedef bool (*PrinterCheckCB)();
+typedef void (*PrinterSendCB)(u8 chr);
 
 //=============================================================================
 // READ-ONLY DATA

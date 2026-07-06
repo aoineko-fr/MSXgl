@@ -61,4 +61,4 @@
 #endif
 
 // Address conversion macro
-#define ARKOS_ADDR(a)				(a - 0xF000 + ARKOS_BUFFER_ADDR) 
+#define ARKOS_ADDR(a)				((a) - 0xF000 + ARKOS_BUFFER_ADDR) 

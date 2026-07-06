@@ -149,7 +149,7 @@
 ;------------------------------------------------------------------------------
 .macro INIT_GLOBALS
 
-	crt0_init_globals:
+	crt0_init_globals::
 		ld		bc, #l__INITIALIZER
 		ld		a, b
 		or		a, c
@@ -730,12 +730,59 @@
 
 ;------------------------------------------------------------------------------
 ; Install ISR in RAM
-; (needs 64 KB of RAM in Page #3's slot)
+; (needs 64 KB of RAM)
 ;------------------------------------------------------------------------------
 .macro INSTALL_RAM_ISR
-	.ifne ROM_RAMISR-RAM0_NONE
 
-	crt0_select_ram::
+	;..........................................................................
+	; Install ISR in RAM in page 3
+	.ifeq ROM_RAMISR-RAMISR_PAGE3
+
+	crt0_install_ram_isr::
+		jp		crt0_interrupt_end
+
+	; Jump code to be install
+	crt0_jump_code_start:
+		jp		0xC101
+	crt0_jump_code_end:
+
+	; ISR code to be install
+		INCLUDE_ISR
+
+	; Copy ISR to RAM
+	crt0_install_isr::
+		; Install vector table (257 bytes with 0xC1)
+		ld		hl, #0xC000
+		ld		(hl), #0xC1
+		ld		d, h
+		ld		e, l
+		inc		de
+		ld		bc, #256
+		ldir
+
+		; Install ISR
+		ld		hl, #crt0_interrupt_start
+		ld		de, #0xC101
+		ld		bc, #crt0_interrupt_end-crt0_interrupt_start
+		ldir
+
+		; Install Jump
+		ld		hl, #crt0_jump_code_start
+		ld		de, #0xC1C1
+		ld		bc, #crt0_jump_code_end-crt0_jump_code_start
+		ldir
+
+		; Setup Interrupt mode 2
+		ld		a, #0xC0 ; Vector table MSB
+		ld		i, a
+		im		2
+
+	;..........................................................................
+	; Install ISR in RAM in page 0
+	.else
+	.ifne ROM_RAMISR-RAMISR_NONE
+
+	crt0_install_ram_isr::
 		jp		crt0_interrupt_end
 
 	; ISR
@@ -751,7 +798,7 @@
 		ld		bc, #crt0_interrupt_end-crt0_interrupt_start
 		ldir
 
-		.ifeq ROM_RAMISR-RAM0_SEGMENT
+		.ifeq ROM_RAMISR-RAMISR_SEGMENT0
 	crt0_install_seg::
 
 			.ifeq ROM_MAPPER-ROM_ASCII8
@@ -811,8 +858,8 @@
 		.endif
 
 	.endif
+	.endif
 .endm
-
 
 ;------------------------------------------------------------------------------
 ; Add banked call trampoline

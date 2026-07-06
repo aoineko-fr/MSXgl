@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("jis",["Function"],[["JIS_ToKuTen",,[[,,,,0,"File:tool/jis.h:JIS_ToKuTen"]]],["JIS_ToSJIS",,[[,,,,0,"File:tool/jis.h:JIS_ToSJIS"]]]]);

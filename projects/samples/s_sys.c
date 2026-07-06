@@ -96,8 +96,8 @@ __asm
 	ld		l, 5(ix)
 	ld		h, 6(ix)		// HL=Write address
 	ld		a, 7(ix)		
-	ld		i, a			// I=Write value
-	
+	push	af				// Backup write value
+
 	// Backup primary slot
 	in		a, (P_PPI_A)	// A=[P3|P2|P1|P0]
 	ld		b, a			// B=[P3|P2|P1|P0] Save current primary slot in B
@@ -132,7 +132,7 @@ __asm
 	ld		(M_SLTSL), a	//				   write new seconday slot
 
 	// Write
-	ld		a, i
+	pop		af				// Restore write value
 	ld		(hl), a
 
 	// Restore		

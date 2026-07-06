@@ -1,7 +1,8 @@
 /*-------------------------------------------------------------------------
    wchar.h - Extended and multibyte wide character utilitites (ISO C 11 7.29)
 
-   Copyright (c) 2015-2016, Philipp Klaus Krause / pkk@spth.de
+   Copyright (c) 2015-2025, Philipp Klaus Krause / pkk@spth.de, philipp@colecovision.eu
+                 2023, Benedikt Freisen / b.freisen@gmx.net
 
    This library is free software; you can redistribute it and/or modify it
    under the terms of the GNU General Public License as published by the
@@ -55,11 +56,22 @@ struct tm;
   #define WEOF 0xfffffffful
 #endif
 
+/* C99 Character classification */
+
+inline int iswblank(wint_t c)
+{
+  return ((wchar_t)c == L' ' || (wchar_t)c == L'\t');
+}
+
 /* C99 Wide string comparison functions (ISO C11 7.29.4.4) */
-int wcscmp(const wchar_t *s1, const wchar_t *s2);
+int wcscmp(const wchar_t s1[static 1], const wchar_t s2[static 1]);
+int wcsncmp(const wchar_t *s1, const wchar_t *s2, size_t count);
 
 /* C99 Miscellaneous functions (ISO C11 7.29.4.6) */
-size_t wcslen(const wchar_t *s);
+size_t wcslen(const wchar_t s[static 1]);
+
+/* C2Y length function: */
+size_t wcsnlen (const wchar_t *s, size_t n);
 
 /* C99 Single-byte/wide character conversion functions (ISO C 11 7.29.6.1) */
 wint_t btowc(int c);
@@ -73,4 +85,45 @@ size_t mbrlen(const char *restrict s, size_t n, mbstate_t *restrict ps);
 size_t mbrtowc(wchar_t *restrict pwc, const char *restrict s, size_t n, mbstate_t *restrict ps);
 size_t wcrtomb(char *restrict s, wchar_t wc, mbstate_t *restrict ps);
 
+/* C99 Wide string numeric conversion functions (ISO C 11 7.29.4.1) */
+long int wcstol(const wchar_t nptr[restrict static 1], wchar_t **restrict endptr, int base);
+unsigned long int wcstoul(const wchar_t nptr[restrict static 1], wchar_t **restrict endptr, int base);
+#if !defined(__SDCC_pic14) // Unmaintained pic14 port never got long long support
+long long int wcstoll(const wchar_t nptr[restrict static 1], wchar_t **restrict endptr, int base);
+unsigned long long int wcstoull(const wchar_t nptr[restrict  static 1], wchar_t **restrict endptr, int base);
+#endif
+
+/* C23 const-preserving wrapper macros */
+
+#if __STDC_VERSION__ >= 202311L
+
+#ifndef __XFER_PTR_QUAL
+#define __XFER_PTR_QUAL(P, T)   typeof(_Generic(1 ? (P) : (void *)(P), \
+                                                const void * : (const T)nullptr, \
+                                                restrict void * : (restrict T)nullptr, \
+                                                restrict const void * : (restrict const T)nullptr, \
+                                                volatile void * : (volatile T)nullptr, \
+                                                volatile const void * : (volatile const T)nullptr, \
+                                                volatile restrict void * : (volatile restrict T)nullptr, \
+                                                volatile restrict const void * : (volatile restrict const T)nullptr, \
+                                                _Optional void * : (_Optional T)nullptr, \
+                                                _Optional const void * : (_Optional const T)nullptr, \
+                                                _Optional restrict void * : (_Optional restrict T)nullptr, \
+                                                _Optional restrict const void * : (_Optional restrict const T)nullptr, \
+                                                _Optional volatile void * : (_Optional volatile T)nullptr, \
+                                                _Optional volatile const void * : (_Optional volatile const T)nullptr, \
+                                                _Optional volatile restrict void * : (_Optional volatile restrict T)nullptr, \
+                                                _Optional volatile restrict const void * : (_Optional volatile restrict const T)nullptr, \
+                                                default : (T)nullptr))
+#endif
+
+#define wcschr(s, c)            ((__XFER_PTR_QUAL(s, wchar_t *))(wcschr)(s, c))
+#define wcspbrk(s1, s2)         ((__XFER_PTR_QUAL(s1, wchar_t *))(wcspbrk)(s1, s2))
+#define wcsrchr(s, c)           ((__XFER_PTR_QUAL(s, wchar_t *))(wcsrchr)(s, c))
+#define wcsstr(s1, s2)          ((__XFER_PTR_QUAL(s1, wchar_t *))(wcsstr)(s1, s2))
+#define wmemchr(s, c, n)        ((__XFER_PTR_QUAL(s, wchar_t *))(wmemchr)(s, c, n))
+
+#endif
+
 #endif /* __SDCC_WCHAR_H */
+

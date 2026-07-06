@@ -65,6 +65,12 @@
 	#define ROM_MAPPER_STR		""
 #endif
 
+struct SegmentEntry
+{
+	u8 Id;
+	const c8* Name;
+};
+
 // Function prototypes
 void main();
 
@@ -82,6 +88,20 @@ void main();
 // __at(0x8000) const c8 g_DataBank2[] = "Segment #2 (default in Bank #2)";
 // __at(0xA000) const c8 g_DataBank3[] = "Segment #3 (default in Bank #3)";
 // #endif
+
+#if (ROM_SEGMENTS > 6)
+	#define ROM_SEG6_TEXT			"Segment #6"			
+	#define ROM_SEG6_ENTRY			{ 6, ROM_SEG6_TEXT },
+	__at(0x60000) const c8 g_DataSeg6[] = ROM_SEG6_TEXT;
+#else
+	#define ROM_SEG6_ENTRY
+#endif
+
+//
+const SegmentEntry g_Segments[] =
+{
+	ROM_SEG6_ENTRY
+};
 
 // Character animation data
 const c8 g_ChrAnim[] = { '|', '\\', '-', '/' };

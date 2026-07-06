@@ -1208,14 +1208,6 @@ void VDP_SetSpritePattern(u8 index, u8 shape);
 //   color - Sprite color (LSB 4-bits) + optional EC flag (see <VDP_SPRITE_EC>)
 void VDP_SetSpriteColorSM1(u8 index, u8 color);
 
-// Function: VDP_SetSpriteData
-// Set sprite attribute using data structure. [MSX1/2/2+/TR]
-//
-// Parameters:
-//   index - Sprite index in the attribute table [0:31]
-//   data  - Address to a VDP_Sprite structure including sprite position, shape and color
-inline void VDP_SetSpriteData(u8 index, VDP_Sprite* data) {  VDP_WriteVRAM((u8*)data, g_SpriteAttributeLow + (index * 4), g_SpriteAttributeHigh, sizeof(VDP_Sprite)); }
-
 #if (MSX_VERSION >= MSX_2)
 	
 // Function: VDP_SetSpriteUniColor

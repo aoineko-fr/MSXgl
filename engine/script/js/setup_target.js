@@ -180,7 +180,7 @@ else if (Target === "ROM_48K_ISR")
 	FillSize = 48*1024;
 	ROMFirstPage = 0;
 	ROMLastPage = 2;
-	ROMWithISR = true;
+	ROMWithISR = (InstallRAMISR != "RAMISR_PAGE3"); // Add ISR to ROM only if not installed in RAM page 3
 	ROMSignature = "ROM_48P0";
 
 	TargetDesc = "48KB ROM in page 0-2 (0000h ~ BFFFh) with ISR replacement";
@@ -211,7 +211,7 @@ else if (Target === "ROM_64K_ISR")
 	FillSize = 64*1024;
 	ROMFirstPage = 0;
 	ROMLastPage = 3;
-	ROMWithISR = true;
+	ROMWithISR = (InstallRAMISR != "RAMISR_PAGE3"); // Add ISR to ROM only if not installed in RAM page 3
 	ROMSignature = "ROM_64P0";
 
 	TargetDesc = "64KB ROM in page 0-3 (0000h ~ FFFFh) with ISR replacement";
@@ -326,6 +326,7 @@ else if (Target === "ROM_NEO8")
 	Bank3Addr = 0x6000;
 	Bank4Addr = 0x8000;
 	Bank5Addr = 0xA000;
+	ROMWithISR = (InstallRAMISR != "RAMISR_PAGE3"); // Add ISR to ROM only if not installed in RAM page 3
 	ROMSignature = "ROM_NEO8";
 	AddROMSignature = true; // Force adding signature
 
@@ -348,6 +349,7 @@ else if (Target === "ROM_NEO16")
 	Bank0Addr = 0x0000;
 	Bank1Addr = 0x4000;
 	Bank2Addr = 0x8000;
+	ROMWithISR = (InstallRAMISR != "RAMISR_PAGE3"); // Add ISR to ROM only if not installed in RAM page 3
 	ROMSignature = "ROM_NE16";
 	AddROMSignature = true; // Force adding signature
 

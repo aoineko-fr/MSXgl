@@ -14,6 +14,7 @@
 // - Pratique du MSX2
 //─────────────────────────────────────────────────────────────────────────────
 #include "bios.h"
+#include "bios_var.h"
 #include "system.h"
 #include "dos.h"
 
@@ -700,6 +701,45 @@ void BIOS_WritePSG(u8 reg, u8 value)
 		call	R_WRTPSG
 	__endasm;	
 }
+
+//-----------------------------------------------------------------------------
+// STRTMS
+// Address  : #0099
+// Function : Tests whether the PLAY statement is being executed as a background
+//            task. If not, begins to execute the PLAY statement
+// Registers: All
+bool BIOS_PlayPSG(const BIOS_QCB* qcb) __NAKED
+{
+	qcb; // HL
+
+	__asm
+music_check:
+		// Wait if previous music is still playing 
+		ld		a, (M_MUSICF)
+		or		a
+		jr		nz, music_notready
+
+music_play:
+		di
+		// Install the music queue
+		ld		de, #M_QUETAB
+		ld		bc, #6*3
+		ldir
+		// Initialize the player count
+		ld		a, #1
+		ld		(M_PLYCNT), a
+		// Start music playback
+		call	R_STRTMS
+		ei
+		ld		a, #TRUE
+		ret
+
+music_notready:
+		xor		a // return FALSE
+		ret
+	__endasm;
+}
+
 
 #endif // BIOS_USE_PSG
 

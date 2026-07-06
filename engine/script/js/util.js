@@ -44,29 +44,35 @@ module.exports.print = function (string, flag = PrintNote)
 	if((flag == PrintDetail) && (!Verbose))
 		return;
 
+	let str = "";
 	if(LogFile)
 	{
 		switch(flag)
 		{
-			case PrintError:     string = "Error: " + string; break;
-			case PrintWarning:   string = "Warning: " + string; break;
+			case PrintError:     str = "Error: " + string; break;
+			case PrintWarning:   str = "Warning: " + string; break;
+			case PrintSuccess:   str = "Success: " + string; break;
+			case PrintHighlight: str = "Highlight: " + string; break;
+			case PrintNote:      str = "Note: " + string; break;
+			case PrintDetail:    str = "Detail: " + string; break;
+			case PrintBG:        str = "BG: " + string; break;
 		}
-		fs.appendFileSync(`${OutDir}${LogFileName}`, `${string}\n`);
+		fs.appendFileSync(`${OutDir}${LogFileName}`, `${str}\n`);
 	}
 
 	if(LogStdout)
 	{
 		switch(flag)
 		{
-			case PrintError:     string = ColorRed + "Error: " + string + ColorReset; break;
-			case PrintWarning:   string = ColorYellow + "Warning: " + string + ColorReset; break;
-			case PrintSuccess:   string = ColorGreen + string + ColorReset; break;
-			case PrintHighlight: string = ColorBlue + string + ColorReset; break;
-			case PrintNote:      break;
-			case PrintDetail:    string = ColorGray + string + ColorReset; break;
-			case PrintBG:        string = ColorBG + string + ColorReset; break;
+			case PrintError:     str = ColorRed + "Error: " + string + ColorReset; break;
+			case PrintWarning:   str = ColorYellow + "Warning: " + string + ColorReset; break;
+			case PrintSuccess:   str = ColorGreen + string + ColorReset; break;
+			case PrintHighlight: str = ColorBlue + string + ColorReset; break;
+			case PrintNote:      str = string; break;
+			case PrintDetail:    str = ColorGray + string + ColorReset; break;
+			case PrintBG:        str = ColorBG + string + ColorReset; break;
 		}
-		console.log(string);
+		console.log(str);
 	}
 }
 
@@ -114,7 +120,7 @@ module.exports.exec = function (cmd)
 	try
 	{
 		// cp.spawn(cmd, [], { detached: true });
-		cp.execSync(cmd);
+		cp.execSync(cmd, { stdio: 'inherit' });
 	}
 	catch (error)
 	{
@@ -133,7 +139,7 @@ module.exports.execSync = function (cmd)
 	let exitCode = 0;
 	try
 	{
-		cp.execSync(cmd, {stdio: 'inherit'});
+		cp.execSync(cmd, { stdio: 'inherit' });
 	}
 	catch (error)
 	{

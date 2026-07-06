@@ -1,7 +1,7 @@
 /*-------------------------------------------------------------------------
    assert.h - header file for assert ANSI routine
 
-   Copyright (C) 2018, Philipp Klaus Krause . pkk@spth.de
+   Copyright (C) 2018-2022, Philipp Klaus Krause . pkk@spth.de
 
    This library is free software; you can redistribute it and/or modify it
    under the terms of the GNU General Public License as published by the
@@ -26,21 +26,26 @@
    might be covered by the GNU General Public License.
 -------------------------------------------------------------------------*/
 
+#ifndef __STDC_VERSION_ASSERT_H__
+#define __STDC_VERSION_ASSERT_H__ __STDC_VERSION__
+
 #undef assert
 
 #ifdef NDEBUG
 
 /* Debugging disabled -- do not evaluate assertions. */
-#define assert(x) ((void)0)
+#define assert(...) ((void)0)
 
 #else
 
 /* Debugging enabled -- verify assertions at run time. */
 void __assert(const char *expression, const char *functionname, const char *filename, unsigned int linenumber);
-#define assert(x) ((x) ? (void)0 : __assert(#x, __func__, __FILE__, __LINE__))
+#define assert(...) ((__VA_ARGS__) ? (void)0 : __assert(#__VA_ARGS__, __func__, __FILE__, __LINE__))
 
-#if __STDC_VERSION__ >= 201112L
+#if __STDC_VERSION__ < 202311L
 #define static_assert _Static_assert
+#endif
+
 #endif
 
 #endif

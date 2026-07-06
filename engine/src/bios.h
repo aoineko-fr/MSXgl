@@ -530,6 +530,21 @@ void BIOS_WritePSG(u8 reg, u8 value);
 //   Value read from the PSG register
 inline u8 BIOS_ReadPSG(u8 reg) { return ((u8(*)(u8))R_RDPSG)(reg); }
 
+// Function: BIOS_IsPSGPlaying
+// Tests whether the PLAY statement is being executed as a background task.
+//
+// Return:
+//   FALSE if the PLAY statement is not being executed as a background task.
+inline bool BIOS_IsPSGPlaying() { return g_PLYCNT != 0; }
+
+typedef struct BIOS_QCB {
+	u8	PutOffset; // Queue head offset (for writing)
+	u8	GetOffset; // Queue tail offset (for reading).
+	u8	Backup;    // Flag indicating whether a byte has been returned.
+	u8	Length;
+	const u8* Queue;
+} BIOS_QCB;
+
 // Function: BIOS_PlayPSG
 // Tests whether the PLAY statement is being executed as a background task. Wrapper for STRTMS routine.
 //> STRTMS
@@ -537,7 +552,13 @@ inline u8 BIOS_ReadPSG(u8 reg) { return ((u8(*)(u8))R_RDPSG)(reg); }
 //> Function : Tests whether the PLAY statement is being executed as a background
 //>            task. If not, begins to execute the PLAY statement
 //> Registers: All
-inline void BIOS_PlayPSG() { Call(R_STRTMS); }
+//
+// Parameters:
+//   qcb - Pointer to 3 QCB structures containing the music data to play
+//
+// Return:
+//   FALSE if the PLAY statement is already being executed as a background task.
+bool BIOS_PlayPSG(const BIOS_QCB* qcb);
 
 #endif // BIOS_USE_PSG
 
@@ -740,6 +761,10 @@ inline u8 BIOS_GetPaddle(u8 num) { return CallAToA(R_GTPDL, num); }
 //-----------------------------------------------------------------------------
 // Group: Main-ROM - Misc
 //-----------------------------------------------------------------------------
+
+// Function: BIOS_Set1BitSound
+// Enable or disable 1-bit sound. Wrapper for CHGSND routine.
+inline void BIOS_Set1BitSound(bool on) { return CallA(R_CHGSND, on); }
 
 // Function: BIOS_GetKeyboardMatrix
 // Returns the value of the specified line from the keyboard matrix. Wrapper for SNSMAT routine.

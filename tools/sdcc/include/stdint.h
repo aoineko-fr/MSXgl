@@ -27,16 +27,19 @@
    might be covered by the GNU General Public License.
 -------------------------------------------------------------------------*/
 
-#ifndef _STDINT_H
-#define _STDINT_H       1
+#ifndef __STDC_VERSION_STDINT_H__
+#define __STDC_VERSION_STDINT_H__ __STDC_VERSION__
 
 /* Exact integral types.  */
 
-#if !defined(__SDCC_pic14) && !defined(__SDCC_pic16)
+#if !defined(__SDCC_pic14)
 #if __STDC_VERSION__ >= 199901L
 #define __SDCC_LONGLONG
 #endif
 #endif
+
+#ifndef __SPECIFIED_WIDTH_INTEGER_TYPES_DEFINED
+#define __SPECIFIED_WIDTH_INTEGER_TYPES_DEFINED
 
 /* Signed.  */
 
@@ -90,6 +93,8 @@ typedef unsigned long int       uint_fast32_t;
 #ifdef __SDCC_LONGLONG
 typedef unsigned long long int  uint_fast64_t;
 #endif
+
+#endif // __SPECIFIED_WIDTH_INTEGER_TYPES_DEFINED
 
 /* Types for `void *' pointers.  */
 #if defined (__SDCC_mcs51) || defined (__SDCC_ds390)

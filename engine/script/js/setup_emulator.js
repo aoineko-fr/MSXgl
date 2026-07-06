@@ -35,6 +35,9 @@ util.print(`- EmulMSXAudio: ${EmulMSXAudio}`, PrintDetail);
 util.print(`- EmulOPL4: ${EmulOPL4}`, PrintDetail);
 util.print(`- EmulPSG2: ${EmulPSG2}`, PrintDetail);
 util.print(`- EmulV9990: ${EmulV9990}`, PrintDetail);
+util.print(`- EmulRAM: ${EmulRAM}`, PrintDetail);
+util.print(`- EmulPAC: ${EmulPAC}`, PrintDetail);
+util.print(`- EmulKanji: ${EmulKanji}`, PrintDetail);
 util.print(`- EmulPortA: ${EmulPortA}`, PrintDetail);
 util.print(`- EmulPortB: ${EmulPortB}`, PrintDetail);
 
@@ -91,6 +94,7 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulV9990)     { EmulExtCount++; }
 	if (EmulRAM)       { EmulExtCount++; }
 	if (EmulPAC)       { EmulExtCount++; }
+	if (EmulKanji)     { EmulExtCount++; }
 	if (Emul2ndCart !== "") { EmulExtCount++; }
 	if (EmulExtCount >= 3) { EmulatorArgs += " -exta slotexpander"; }
 	if (EmulExtCount >= 6) { EmulatorArgs += " -extb slotexpander"; }
@@ -139,6 +143,7 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulV9990)    { EmulatorArgs += ' -ext gfx9000 -command "after time 0 {set videosource gfx9000}"'; }
 	if (EmulRAM)      { EmulatorArgs += ' -ext ram4mb'; }
 	if (EmulPAC)      { EmulatorArgs += ' -ext pac'; }
+	if (EmulKanji)    { EmulatorArgs += ' -ext Sony_HBI-J1'; }
 
 	//---- Emulator conenctors ----
 	if (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -command "plug joyporta msxjoystick1"'; }
@@ -206,6 +211,8 @@ else if (EmulatorName === "EMULICIOUS") {
 	// if (EmulPSG2)     {}
 	// if (EmulV9990)    {}
 	if (EmulRAM)      { EmulatorArgs += " -set MSXRAMBankShift=6"; }
+	// if (EmulPAC)       {}
+	// if (EmulKanji)     {}
 
 	//---- Add launch program ----
 	if (Ext === "rom") { EmulatorArgs += ` ${ProjDir}emul/rom/${ProjName}.rom`; }
@@ -329,6 +336,8 @@ else if (EmulatorName === "MSXEC") {
 	if (EmulPSG2)     { EmulatorArgs += " -p"; }
 	// if (EmulV9990)    { EmulatorArgs += " "; }
 	if (EmulRAM)      { EmulatorArgs += " -k6"; }
+	// if (EmulPAC)       { EmulExtCount++; }
+	// if (EmulKanji)     { EmulExtCount++; }
 
 	//---- Emulator conenctors ----
 	// if      (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -joy 1'; }

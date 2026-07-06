@@ -365,6 +365,13 @@
 #define STRING_USE_INT32			TRUE	// Add support for 32-bits integer
 
 //-----------------------------------------------------------------------------
+// KANJI MODULE
+//-----------------------------------------------------------------------------
+
+#define KANJI_USE_DETECT			TRUE	// Add feature to detect the supported kanji level
+#define KANJI_USE_LEVEL2			TRUE	// Add feature to handle kanji level 2
+
+//-----------------------------------------------------------------------------
 // SCROLL MODULE
 //-----------------------------------------------------------------------------
 
@@ -486,7 +493,7 @@
 #define WYZ_CHAN_BUFFER_SIZE		0x20	// Size of the channel buffer
 
 // Arkos Tracker options
-#define ARKOS_BUFFER_ADDR			0xF000	// Replayer working area address in RAM
+#define ARKOS_BUFFER_ADDR			0xC100	// Replayer working area address in RAM
 #define ARKOS_ISR_PROTECTION		TRUE	// Prevent interruption during audio update
 #define ARKOS_SFX_START_IDX			0		// Do SFX indexes start at 0 or 1? Default is 0 but Arkos Tracker use 1
 #define ARKOS_USE_EVENT				TRUE	// Support for event callback function (AKG replayer only)

@@ -543,7 +543,7 @@ inline u8 Pawn_GetPhysicsState(Pawn* pawn) { return pawn->PhysicsState; }
 //
 // Return:
 //   X coordinate of the current cell.
-inline const u8 Pawn_GetCallbackCellX() { return g_Pawn_CellX; }
+inline u8 Pawn_GetCallbackCellX() { return g_Pawn_CellX; }
 
 // Function: Pawn_GetCallbackCellY
 // Get the Y coordinate of the cell that triggered a callback.
@@ -552,6 +552,6 @@ inline const u8 Pawn_GetCallbackCellX() { return g_Pawn_CellX; }
 //
 // Return:
 //   Y coordinate of the current cell.
-inline const u8 Pawn_GetCallbackCellY() { return g_Pawn_CellY; }
+inline u8 Pawn_GetCallbackCellY() { return g_Pawn_CellY; }
 
 #endif

@@ -2,7 +2,7 @@
    stdarg.h - ANSI macros for variable parameter list
 
    Copyright (C) 2000, Michael Hope
-   Copyright (C) 2011, Philipp Klaus Krause pkk@spth.de
+   Copyright (C) 2011-2025, Philipp Klaus Krause pkk@spth.de, philipp@colecovision.eu
 
    This library is free software; you can redistribute it and/or modify it
    under the terms of the GNU General Public License as published by the
@@ -27,32 +27,38 @@
    might be covered by the GNU General Public License.
 -------------------------------------------------------------------------*/
 
-#ifndef __SDC51_STDARG_H
-#define __SDC51_STDARG_H 1
+#ifndef __STDC_VERSION_STDARG_H__
+#define __STDC_VERSION_STDARG_H__ __STDC_VERSION__
 
-#if defined(__SDCC_z80) || defined(__SDCC_z180) || defined(__SDCC_r2k) || defined(__SDCC_r2ka) || defined(__SDCC_r3ka) || defined(__SDCC_tlcs90) || defined (__SDCC_ez80_z80) || defined (__SDCC_z80n) || defined(__SDCC_sm83) || defined(__SDCC_hc08) || defined(__SDCC_s08) || defined(__SDCC_mos6502) || defined(__SDCC_mos65c02) || defined(__SDCC_stm8)
+#if defined(__SDCC_z80) || defined(__SDCC_z180) || defined(__SDCC_r2k) || defined(__SDCC_r2ka) || defined(__SDCC_r3ka) || defined(__SDCC_r4k) || defined(__SDCC_r5k) || defined(__SDCC_r6k) || defined(__SDCC_tlcs90) || defined (__SDCC_ez80) || defined (__SDCC_z80n) || defined(__SDCC_sm83) || defined(__SDCC_r800) || defined(__SDCC_hc08) || defined(__SDCC_s08) || defined(__SDCC_mos6502) || defined(__SDCC_mos65c02) || defined(__SDCC_stm8) || defined(__SDCC_pic16) || defined(__SDCC_f8) || defined(__SDCC_f8l)
 
-typedef unsigned char * va_list;
-#define va_start(marker, last)  { marker = (va_list)&last + sizeof(last); }
-#define va_arg(marker, type)    *((type *)((marker += sizeof(type)) - sizeof(type)))
+typedef unsigned char *va_list;
+#define va_start(marker, ...) do {marker = __va_start;} while (0)
+#define va_arg(marker, type)  *((type *)((marker += sizeof(type)) - sizeof(type)))
 
-#elif defined(__SDCC_ds390) || defined(__SDCC_ds400) || defined(__SDCC_pdk13) || defined(__SDCC_pdk14) || defined(__SDCC_pdk15)
+#elif defined(__SDCC_ds390) || defined(__SDCC_ds400)
 
-typedef unsigned char * va_list;
-#define va_start(marker, first) { marker = (va_list)&first; }
-#define va_arg(marker, type)    *((type *)(marker -= sizeof(type)))
+typedef unsigned char *va_list;
+#define va_start(marker, ...) do {marker = __va_start + 1;} while (0)
+#define va_arg(marker, type)  *((type *)(marker -= sizeof(type)))
+
+#elif defined(__SDCC_pdk13) || defined(__SDCC_pdk14) || defined(__SDCC_pdk15)
+
+typedef unsigned char *va_list;
+#define va_start(marker, ...) do {marker = __va_start + 1;} while (0)
+#define va_arg(marker, type)  *((type *)(marker -= (sizeof(type) + sizeof(type) % 2)))
 
 #elif defined(__SDCC_USE_XSTACK)
 
-typedef unsigned char __pdata * va_list;
-#define va_start(marker, first) { marker = (va_list)&first; }
-#define va_arg(marker, type)    *((type __pdata *)(marker -= sizeof(type)))
+typedef unsigned char __pdata *va_list;
+#define va_start(marker, ...) do {marker = __va_start + 1;} while (0)
+#define va_arg(marker, type)   *((type __pdata *)(marker -= sizeof(type)))
 
 #else
 
-typedef unsigned char __data * va_list;
-#define va_start(marker, first) { marker = (va_list)&first; }
-#define va_arg(marker, type)    *((type __data * )(marker -= sizeof(type)))
+typedef unsigned char __data *va_list;
+#define va_start(marker, ...) do {marker = __va_start + 1;} while (0)
+#define va_arg(marker, type)   *((type __data * )(marker -= sizeof(type)))
 
 #endif
 

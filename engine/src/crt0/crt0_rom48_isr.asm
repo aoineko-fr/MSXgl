@@ -24,12 +24,14 @@
 _g_FirstAddr::
 
 ;------------------------------------------------------------------------------
-; ISR code
+; ISR
+.ifne ROM_RAMISR-RAMISR_PAGE3
 	.area   _DRIVER (ABS)
 	.org	0x0038
 
-	; ISR
+	; Add ISR code in ROM (page 0)
 	INCLUDE_ISR
+.endif
 
 ;------------------------------------------------------------------------------
 ; Header
@@ -66,6 +68,11 @@ crt0_init:
 
 	; Set Page 0 & 2 at the same slot than the Page 1 one
 	INIT_P1_TO_P02
+
+	; Install ISR in RAM in page 3
+	.ifeq ROM_RAMISR-RAMISR_PAGE3
+		INSTALL_RAM_ISR
+	.endif
 
 	; Initialize globals
 	INIT_GLOBALS

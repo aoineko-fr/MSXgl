@@ -26,8 +26,8 @@
    might be covered by the GNU General Public License.
 -------------------------------------------------------------------------*/
 
-#ifndef __SDC51_STDIO_H
-#define __SDC51_STDIO_H 1
+#ifndef __SDCC_STDIO_H
+#define __SDCC_STDIO_H 1
 
 #include <stdarg.h>
 
@@ -65,30 +65,46 @@ typedef int errno_t;
 
 #endif
 
-typedef void (*pfn_outputchar)(char c, void* p) _REENTRANT;
-
-extern int _print_format (pfn_outputchar pfn, void* pvoid, const char *format, va_list ap);
-
 /*-----------------------------------------------------------------------*/
 
-extern void printf_small (char *,...) _REENTRANT;
-extern int printf (const char *,...);
-extern int vprintf (const char *, va_list);
-extern int sprintf (char *, const char *, ...);
-extern int vsprintf (char *, const char *, va_list);
-extern int puts(const char *);
-
-#if __STDC_VERSION__ < 201112L
-extern char *gets(char *);
+// Formatted input/output functions (ISO C23 7.24.6)
+#if __STDC_VERSION__ >= 199901L
+extern int printf (const char format[restrict static 1],...);
+extern int sprintf (char s[restrict static 1], const char format[restrict static 1], ...);
+extern int vprintf (const char format[restrict static 1], va_list arg);
+extern int vsprintf (char s[restrict static 1], const char format[restrict static 1], va_list);
+#else
+extern int printf (const char *format,...);
+extern int sprintf (char *s, const char *format, ...);
+extern int vprintf (const char *format, va_list arg);
+extern int vsprintf (char *s, const char *format, va_list);
 #endif
 
+// Character input/output functions (ISO C23 7.24.7, and C99 gets)
 extern int getchar(void);
+#if __STDC_VERSION__ < 201112L
+#if __STDC_VERSION__ >= 199901L
+extern char *gets(char s[static 1]);
+#else
+extern char *gets(char *s);
+#endif
+#endif
 extern int putchar(int);
+#if __STDC_VERSIOn >= 199901L
+extern int puts(const char s[static 1]);
+#else
+extern int puts(const char *s);
+#endif
 
+// SDCC-specific  stuff
+typedef void (*pfn_outputchar)(char c, void* p) _REENTRANT;
+extern int _print_format (pfn_outputchar pfn, void* pvoid, const char *format, va_list ap);
+extern void printf_small (char *,...) _REENTRANT;
 #if defined(__SDCC_mcs51) && !defined(__SDCC_USE_XSTACK)
 extern void printf_fast(__code const char *fmt, ...) _REENTRANT;
 extern void printf_fast_f(__code const char *fmt, ...) _REENTRANT;
 extern void printf_tiny(__code const char *fmt, ...) _REENTRANT;
 #endif
 
-#endif /* __SDC51_STDIO_H */
+#endif /* __SDCC_STDIO_H */
+

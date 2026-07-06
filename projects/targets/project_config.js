@@ -15,7 +15,7 @@ DoCompile = true;	//-- Compile all the project and engine source code (boolean).
 DoMake    = true;	//-- Link all the project and engine source code (boolean). Merge all REL into one IHX file
 DoPackage = true;	//-- Generate final binary file (boolean). Binarize the IHX file
 DoDeploy  = true;	//-- Gathering of all files necessary for the program to work (boolean). Depends on the type of target
-DoRun     = false;	//-- Start the program automatically at the end of the build (boolean)
+DoRun     = true;	//-- Start the program automatically at the end of the build (boolean)
 
 //*****************************************************************************
 // TOOLS SETTINGS
@@ -127,11 +127,12 @@ CheckVersion = true;
 //-- Add a ROM signature to help flasher and emulator to detect the ROM type properly (boolean)
 // AddROMSignature = false;
 
-//-- Select RAM in slot 0 and install ISR and optional code there (string). For MSX with at least 64 KB of RAM
-//   - RAM0_NONE       Don't install RAM in page 0 
-//   - RAM0_ISR        Install only ISR
-//   - RAM0_SEGMENT    Install ISR and segment data (for mapped-ROM)
-// InstallRAMISR = "RAM0_NONE";
+//-- Install ISR in RAM; either in page 0 (with optional code/data copy there) or in page 3 to use with IM2 (string). For MSX with at least 64 KB of RAM
+//   - RAMISR_NONE       Don't install ISR in RAM
+//   - RAMISR_PAGE0      Install ISR in page 0
+//   - RAMISR_SEGMENT0   Install ISR and segment data (for mapped-ROM) in page 0
+//   - RAMISR_PAGE3      Install ISR in page 3 (to use with IM2)
+// InstallRAMISR = "RAMISR_NONE";
 
 //-- Type of custom ISR to install (string). ISR is install in RAM or ROM depending on Target and InstallRAMISR parameters
 //   - NONE       No ISR
@@ -344,8 +345,9 @@ LogFile = false;
 // EmulV9990    = false;				//-- Add V9990 video-chip extension (boolean)
 // EmulRAM      = false;				//-- Add mapped-RAM extension (boolean)
 // EmulPAC      = false;				//-- Add PAC SRAM extension (boolean)
-// Emul2ndCart  = "";					//-- Add additionnal cartridge in secondary slot (string)
+// EmulKanji    = false;				//-- Add Kanji-ROM extension (boolean)
 // EmulPrinter  = false;				//-- Plug printer device (boolean)
+// Emul2ndCart  = "";					//-- Add additionnal cartridge in secondary slot (string)
 
 //-------------------------------------------------------------------------------
 // Input options

@@ -251,11 +251,12 @@ global.ROMDelayBoot = false;
 //-- Add a ROM signature to help flasher and emulator to detect the ROM type properly (boolean)
 global.AddROMSignature = false;
 
-//-- Select RAM in slot 0 and install ISR and optional code there (string). For MSX with at least 64 KB of RAM
-//   - RAM0_NONE       Don't install RAM in page 0 
-//   - RAM0_ISR        Install only ISR
-//   - RAM0_SEGMENT    Install ISR and segment data (for mapped-ROM)
-global.InstallRAMISR = "RAM0_NONE";
+//-- Install ISR in RAM; either in page 0 (with optional code/data copy there) or in page 3 to use with IM2 (string). For MSX with at least 64 KB of RAM
+//   - RAMISR_NONE       Don't install ISR in RAM
+//   - RAMISR_PAGE0      Install ISR in page 0
+//   - RAMISR_SEGMENT0   Install ISR and segment data (for mapped-ROM) in page 0
+//   - RAMISR_PAGE3      Install ISR in page 3 (to use with IM2)
+global.InstallRAMISR = "RAMISR_NONE";
 
 //-- Type of custom ISR to install (string). ISR is install in RAM or ROM depending on Target and InstallRAMISR parameters
 //   - NONE       No ISR
@@ -495,11 +496,14 @@ global.EmulRAM = false;
 //-- Add PAC SRAM extension (boolean)
 global.EmulPAC = false;
 
-//-- Add additionnal cartridge in secondary slot (string)
-global.Emul2ndCart = "";
+//-- Add Kanji-ROM extension (boolean)
+global.EmulKanji = false;
 
 //-- Plug printer device (boolean)
 global.EmulPrinter = false;
+
+//-- Add additionnal cartridge in secondary slot (string)
+global.Emul2ndCart = "";
 
 //-------------------------------------------------------------------------------
 // Input options

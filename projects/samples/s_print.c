@@ -10,6 +10,7 @@
 // INCLUDES
 //=============================================================================
 #include "msxgl.h"
+#include "tool/kanji.h"
 
 //=============================================================================
 // DEFINES
@@ -36,11 +37,17 @@ struct ModeEntry
 	const u8  ColorSprite[12];
 };
 
+void PrintList();
+void PrintSample();
+void PrintEffect();
+void PrintKanji();
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
 
 // Include font data
+#include "font/font_mgl_sample6.h"
 #include "font/font_mgl_std0.h"
 #include "font/font_mgl_symbol1.h"
 #if (TARGET_TYPE != TYPE_BIN)
@@ -107,10 +114,10 @@ const struct FontEntry g_Fonts[] =
 //
 const struct ModeEntry g_Modes[] =
 {
-	{ "G4", VDP_MODE_GRAPHIC4, g_Font_MGL_Std0, 0xF, 0x0, 0xE, 0xB, { 3, 2, 12, 2, 3, 2, 12, 2, 3, 2, 12, 2 }, { 3, 2, 12, 2, 3, 2, 12, 2, 3, 2, 12, 2 } },
-	{ "G5", VDP_MODE_GRAPHIC5, NULL,             0x3, 0x0, 0x2, 0x2, { 3, 3,  2, 2, 3, 3,  2, 2, 3, 3,  2, 2 }, { 15, 15, 10, 10, 15, 15, 10, 10, 15, 15, 10, 10 } },
-	{ "G6", VDP_MODE_GRAPHIC6, g_Font_MGL_Std0, 0xF, 0x0, 0xE, 0xB, { 3, 2, 12, 2, 3, 2, 12, 2, 3, 2, 12, 2 }, { 3, 2, 12, 2, 3, 2, 12, 2, 3, 2, 12, 2 } },
-	{ "G7",	VDP_MODE_GRAPHIC7, g_Font_MGL_Std0, COLOR8_WHITE, COLOR8_BLACK, RGB8(4,4,2), RGB8(6,6,2), 
+	{ "G4", VDP_MODE_GRAPHIC4, g_Font_MGL_Sample6, 0xF, 0x0, 0xE, 0xB, { 3, 2, 12, 2, 3, 2, 12, 2, 3, 2, 12, 2 }, { 3, 2, 12, 2, 3, 2, 12, 2, 3, 2, 12, 2 } },
+	{ "G5", VDP_MODE_GRAPHIC5, g_Font_MGL_Sample6, 0x3, 0x0, 0x2, 0x2, { 3, 3,  2, 2, 3, 3,  2, 2, 3, 3,  2, 2 }, { 15, 15, 10, 10, 15, 15, 10, 10, 15, 15, 10, 10 } },
+	{ "G6", VDP_MODE_GRAPHIC6, g_Font_MGL_Sample6, 0xF, 0x0, 0xE, 0xB, { 3, 2, 12, 2, 3, 2, 12, 2, 3, 2, 12, 2 }, { 3, 2, 12, 2, 3, 2, 12, 2, 3, 2, 12, 2 } },
+	{ "G7",	VDP_MODE_GRAPHIC7, g_Font_MGL_Sample6, COLOR8_WHITE, COLOR8_BLACK, RGB8(4,4,2), RGB8(6,6,2), 
 		{ COLOR8_DEFAULT3, COLOR8_DEFAULT2, COLOR8_DEFAULT12, COLOR8_DEFAULT2, 
 		  COLOR8_DEFAULT3, COLOR8_DEFAULT2, COLOR8_DEFAULT12, COLOR8_DEFAULT2, 
 		  COLOR8_DEFAULT3, COLOR8_DEFAULT2, COLOR8_DEFAULT12, COLOR8_DEFAULT2 },
@@ -124,16 +131,19 @@ const u8 chrAnim[] = { '|', '\\', '-', '/' };
 // MEMORY DATA
 //=============================================================================
 
+callback g_CB = PrintList;
 u8 g_FontIndex = 0;
 u8 g_ModeIndex = 0;
 u8 g_StartTime = 0;
+u8 g_KanjiBuffer[32];
+u8 g_KuBase = 16;
 
 //=============================================================================
 // HELPER FUNCTIONS
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-///
+//
 void PrintHeader()
 {
 	VDP_SetMode(g_Modes[g_ModeIndex].Mode);
@@ -151,14 +161,14 @@ void PrintHeader()
 	Print_SetPosition(0, 0);
 	Print_DrawText("MSXgl - PRINT SAMPLE (");
 	Print_DrawText(g_Modes[g_ModeIndex].Name);
-	Print_DrawText(")\n");
+	Print_DrawText(")");
 	Draw_LineH(0, g_PrintData.ScreenWidth - 1, 12, 0xFF, 0);
 
 	g_StartTime = g_JIFFY;
 }
 
 //-----------------------------------------------------------------------------
-///
+//
 void PrintFooter()
 {
 	u8 elapsedTime = g_JIFFY - g_StartTime;
@@ -166,20 +176,23 @@ void PrintFooter()
 	Print_SetColor(g_Modes[g_ModeIndex].ColorGray, g_Modes[g_ModeIndex].ColorBG);
 	Print_SetFont(g_Modes[g_ModeIndex].Font);
 	Print_SetPosition(0, 204);
-	Print_DrawText("F1:List F2:Text F3:FX ");
-	Print_SetFont(g_Font_MGL_Symbol1);
-	Print_DrawChar(61);
-	Print_SetFont(g_Modes[g_ModeIndex].Font);
-	Print_DrawText(" Font ");
-	Print_SetFont(g_Font_MGL_Symbol1);
-	Print_DrawChar(60);
-	Print_SetFont(g_Modes[g_ModeIndex].Font);
-	Print_DrawText(" Mode  #");
-	Print_DrawInt(elapsedTime);
+		
+	if (g_CB != PrintList)
+		Print_DrawText("F1:List ");
+	if (g_CB != PrintSample)
+		Print_DrawText("F2:Text ");
+	if (g_CB != PrintEffect)
+		Print_DrawText("F3:FX ");
+	if (g_CB != PrintKanji)
+		Print_DrawText("F4:Kanji ");
+
+	Print_DrawText("\x8D:Font \x82:Mode");
+
+	// Print_DrawInt(elapsedTime);
 }
 
 //-----------------------------------------------------------------------------
-///
+//
 void PrintList()
 {
 	PrintHeader();
@@ -199,7 +212,7 @@ void PrintList()
 }
 
 //-----------------------------------------------------------------------------
-///
+//
 void PrintSample()
 {
 	PrintHeader();
@@ -222,8 +235,116 @@ void PrintSample()
 	PrintFooter();
 }
 
+const u8 g_BitMask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
+const u8* g_KanjiPtr;
+
 //-----------------------------------------------------------------------------
-///
+//
+void PrintKanjiChar(u8 x, u8 y, const u8* buffer, u8 color)
+{
+	g_KanjiPtr = buffer;
+
+	GET_HIGH(g_VDP_Command.DX) = 0;
+	GET_HIGH(g_VDP_Command.DY) = 0;
+	g_VDP_Command.CLR = color;
+	g_VDP_Command.ARG = 0;
+	g_VDP_Command.CMD = VDP_CMD_PSET;
+
+	loop (j, 32)
+	{
+		switch (j)
+		{
+		case 8:
+			x += 8;
+			y -= 8;
+			break;
+		case 16:
+			x -= 8;
+			break;
+		case 24:
+			x += 8;
+			y -= 8;
+			break;
+		}
+
+		GET_LOW(g_VDP_Command.DY) = y;
+		loop (i, 8)
+		{
+			if (*g_KanjiPtr & g_BitMask[i])
+			{
+				GET_LOW(g_VDP_Command.DX) = x;
+				VDP_CommandSetupR36();
+			}
+			x++;
+		}
+
+		g_KanjiPtr++;
+		x -= 8;
+		y++;
+	}
+}
+
+//-----------------------------------------------------------------------------
+//
+void PrintKanji()
+{
+	PrintHeader();
+
+	u8 kanjiLevel = Kanji_DetectLevel();
+
+	//.........................................................................
+	// Level 1
+
+	Print_SetPosition(0, 24);
+	Print_DrawText("Level 1: ");
+	Print_DrawText(kanjiLevel >= KANJI_LEVEL_1 ? "Found" : "Not found");
+
+	Print_SetPosition(150, 24);
+	Print_DrawText("Ku: ");
+	Print_DrawInt(g_KuBase);
+
+	u8 ten = 0;
+	loop (j, 6)
+	{
+		loop (i, 16)
+		{
+			u16 code = (g_KuBase) * 96 + (ten);
+			if ((g_KuBase) > 15)
+				code -= 512;
+			Kanji_GetFromIndex(g_KanjiBuffer, code);
+			PrintKanjiChar(i * 16, j * 16 + 36, g_KanjiBuffer, (i + j) & 0x01 ? g_Modes[g_ModeIndex].ColorText : g_Modes[g_ModeIndex].ColorAlt);
+			ten++;
+		}
+	}
+	
+	//.........................................................................
+	// Level 2
+
+	Print_SetPosition(0, 144);
+	Print_DrawText("Level 2: ");
+	Print_DrawText(kanjiLevel >= KANJI_LEVEL_2 ? "Found" : "Not found");
+
+	Print_SetPosition(150, 144);
+	Print_DrawText("Ku: ");
+	Print_DrawInt(g_KuBase + 48);
+
+	ten = 0;
+	loop (j, 2)
+	{
+		loop (i, 16)
+		{
+			u16 code = (g_KuBase + 48) * 96 + (ten);
+			Kanji_GetFromIndexL2(g_KanjiBuffer, code);
+			PrintKanjiChar(i * 16, j * 16 + 156, g_KanjiBuffer, (i + j) & 0x01 ? g_Modes[g_ModeIndex].ColorText : g_Modes[g_ModeIndex].ColorAlt);
+			ten++;
+		}
+	}
+	
+	PrintFooter();
+}
+
+//-----------------------------------------------------------------------------
+//
 void PrintEffect()
 {
 	PrintHeader();
@@ -328,7 +449,7 @@ void PrintEffect()
 }
 
 //-----------------------------------------------------------------------------
-///
+//
 void PrintBenchmark()
 {
 	PrintHeader();
@@ -373,11 +494,10 @@ void PrintBenchmark()
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-/// Program entry point
+// Program entry point
 void main()
 {
-	callback cb = PrintList;
-	cb();
+	g_CB();
 
 	u8 count = 0;
 	bool bContinue = TRUE;
@@ -386,69 +506,88 @@ void main()
 		if (Keyboard_IsKeyPressed(KEY_ESC))
 			bContinue = FALSE;
 
-		u8 row = Keyboard_Read(KEY_ROW(KEY_F1));
-		
-		if (IS_KEY_PRESSED(row, KEY_F1))
+		u8 row6 = Keyboard_Read(6); // KEY_SHIFT, KEY_CTRL, KEY_GRAPH, KEY_CAPS, KEY_CODE, KEY_F1, KEY_F2, KEY_F3		
+		u8 row7 = Keyboard_Read(7); // KEY_SHIFT, KEY_CTRL, KEY_GRAPH, KEY_CAPS, KEY_CODE, KEY_F1, KEY_F2, KEY_F3		
+		u8 row8 = Keyboard_Read(8); // KEY_SPACE, KEY_HOME, KEY_INS, KEY_DEL, KEY_LEFT, KEY_UP, KEY_DOWN, KEY_RIGHT
+
+		if (IS_KEY_PRESSED(row6, KEY_F1))
 		{
-			cb = PrintList;
-			cb();
+			g_CB = PrintList;
+			g_CB();
 		}
-		else if (IS_KEY_PRESSED(row, KEY_F2))
+		else if (IS_KEY_PRESSED(row6, KEY_F2))
 		{
-			cb = PrintSample;
-			cb();
+			g_CB = PrintSample;
+			g_CB();
 		}
-		else if (IS_KEY_PRESSED(row, KEY_F3))
+		else if (IS_KEY_PRESSED(row6, KEY_F3))
 		{
-			cb = PrintEffect;
-			cb();
+			g_CB = PrintEffect;
+			g_CB();
 		}
-		else if (IS_KEY_PRESSED(row, KEY_CODE))
+		else if (IS_KEY_PRESSED(row7, KEY_F4))
 		{
-			cb = PrintBenchmark;
-			cb();
+			g_CB = PrintKanji;
+			g_CB();
+		}
+		else if (IS_KEY_PRESSED(row6, KEY_CODE))
+		{
+			g_CB = PrintBenchmark;
+			g_CB();
 		}		
 
-		row = Keyboard_Read(KEY_ROW(KEY_RIGHT));
-
-		if (IS_KEY_PRESSED(row, KEY_RIGHT))
+		if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 		{
-			if (g_FontIndex < numberof(g_Fonts) - 1)
-				g_FontIndex++;
+			if (g_CB == PrintKanji)
+			{
+				g_KuBase++;
+			}
 			else
-				g_FontIndex = 0;			
-			cb();
+			{
+				if (g_FontIndex < numberof(g_Fonts) - 1)
+					g_FontIndex++;
+				else
+					g_FontIndex = 0;			
+			}
+			g_CB();
 		}
-		else if (IS_KEY_PRESSED(row, KEY_LEFT))
+		else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 		{
-			if (g_FontIndex > 0)
-				g_FontIndex--;
+			if (g_CB == PrintKanji)
+			{
+				g_KuBase--;
+			}
 			else
-				g_FontIndex = numberof(g_Fonts) - 1;			
-			cb();
+			{
+				if (g_FontIndex > 0)
+					g_FontIndex--;
+				else
+					g_FontIndex = numberof(g_Fonts) - 1;			
+			}
+			g_CB();
 		}
-		if (IS_KEY_PRESSED(row, KEY_UP))
+		if (IS_KEY_PRESSED(row8, KEY_UP))
 		{
 			if (g_ModeIndex < numberof(g_Modes) - 1)
 				g_ModeIndex++;
 			else
 				g_ModeIndex = 0;			
-			cb();
+			g_CB();
 		}
-		else if (IS_KEY_PRESSED(row, KEY_DOWN))
+		else if (IS_KEY_PRESSED(row8, KEY_DOWN))
 		{
 			if (g_ModeIndex > 0)
 				g_ModeIndex--;
 			else
 				g_ModeIndex = numberof(g_Modes) - 1;			
-			cb();
+			g_CB();
 		}
 
 		Print_SetPosition(g_PrintData.ScreenWidth - 8, 0);
 		Print_DrawChar(chrAnim[count & 0x03]);
 
 		#if (PRINT_USE_SPRITE)
-		if (cb == PrintEffect)
+		if (g_CB == PrintEffect)
 		{
 			for (u8 i = 0; i < String_Length(g_SpriteText); ++i)
 			{

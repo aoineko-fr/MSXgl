@@ -62,18 +62,6 @@ require(`${ProjDir}project_config.js`);
 if (!fs.existsSync(OutDir))
 	fs.mkdirSync(OutDir);	
 
-//-- Setup log file
-if (LogFile)
-{
-	if (!LogFileName)
-		LogFileName = `log_${util.getDateTag()}.txt`;
-
-	if (fs.existsSync(`${OutDir}${LogFileName}`))
-		util.delFile(`${OutDir}${LogFileName}`);	
-
-	util.print(`Log to file: ${LogFileName}`, PrintDetail);
-}
-
 //-- Parse command line for project name overwrite
 let CommandArgs = process.argv.slice(2);
 for (let i = 0; i < CommandArgs.length; i++)
@@ -83,11 +71,20 @@ for (let i = 0; i < CommandArgs.length; i++)
 	{
 		let val = CommandArgs[i].substring(9);
 		if (val)
-		{
 			ProjName = val;
-			util.print(`Command line overwrite => ProjName=${ProjName}`, PrintDetail);
-		}
 	}
+}
+
+//-- Setup log file
+if (LogFile)
+{
+	if (!LogFileName)
+		LogFileName = `${ProjName}.log`;
+
+	if (fs.existsSync(`${OutDir}${LogFileName}`))
+		util.delFile(`${OutDir}${LogFileName}`);	
+
+	util.print(`Log to file: ${LogFileName}`, PrintDetail);
 }
 
 //-- Sub-project configuration overwrite
@@ -222,8 +219,15 @@ if (DoCompile)
 	}
 	if (ROMDelayBoot)            conf += "ROM_DELAY=1\n";
 	if (BankedCall)              conf += "ROM_BCALL=1\n";
-	if (InstallRAMISR === true)  conf += `ROM_RAMISR=RAM0_ISR\n`;
-	else if ((InstallRAMISR === "RAM0_ISR") || (InstallRAMISR === "RAM0_SEGMENT")) conf += `ROM_RAMISR=${InstallRAMISR}\n`;
+	if (InstallRAMISR === true)  conf += "ROM_RAMISR=RAMISR_PAGE0\n"; // for backward compatibility
+	else switch (InstallRAMISR)
+	{
+	case "RAM0_ISR":             conf += "ROM_RAMISR=RAMISR_PAGE0\n"; break; // for backward compatibility
+	case "RAM0_SEGMENT":         conf += "ROM_RAMISR=RAMISR_SEGMENT0\n"; break; // for backward compatibility
+	case "RAMISR_PAGE0":
+	case "RAMISR_SEGMENT0":
+	case "RAMISR_PAGE3":         conf += `ROM_RAMISR=${InstallRAMISR}\n`; break;
+	}
 	if (CustomISR === "VHBLANK") conf += "ROM_ISR=ISR_VHBLANK\n";
 	if (CustomISR === "V9990")   conf += "ROM_ISR=ISR_V9990\n";
 	if (CustomISR === "ALL")     conf += "ROM_ISR=ISR_ALL\n";
@@ -437,14 +441,14 @@ if (DoCompile)
 		{
 			for (let s = FirstSeg; s <= LastSeg; s++)
 			{
-				let hex = util.getHex(s);
+				let segHex = util.getHex(s);
 				for (let b = 0; b < bankAddrList.length; b++)
 				{
 					let bankAddr = bankAddrList[b];
-					switch (Mapper)
+					if (ROMWithISR)
 					{
-					case "ROM_NEO8":  if((b == 0) && (s == 4)) bankAddr = 0x0100; break;
-					case "ROM_NEO16": if((b == 0) && (s == 2)) bankAddr = 0x0100; break;
+						if ((Mapper == "ROM_NEO8") && (b == 0) && (s == 4)) bankAddr = 0x0100;
+						if ((Mapper == "ROM_NEO16") && (b == 0) && (s == 2)) bankAddr = 0x0100;
 					}
 					if (bankAddr != 0xFFFF)
 					{
@@ -453,9 +457,9 @@ if (DoCompile)
 						if (fs.existsSync(`${segPath}.${segExtList[e]}`))
 						{
 							let bankHex = util.getHex(bankAddr);
-							util.print(`Segment found: ${segPath}.${segExtList[e]} (addr: ${hex}${bankHex}h)`);
+							util.print(`Segment found: ${segPath}.${segExtList[e]} (addr: ${segHex}${bankHex}h)`);
 							compiler.compile(`${ProjDir}${segPath}.${segExtList[e]}`, SegSize, `SEG${s}`);
-							MapperBanks += `-Wl-b_SEG${s}=0x${hex}${bankHex} `;
+							MapperBanks += `-Wl-b_SEG${s}=0x${segHex}${bankHex} `;
 							if (PackSegments)
 								MapList.push(`${OutDir}${segName}.rel`);
 							else
@@ -466,7 +470,7 @@ if (DoCompile)
 			}
 		}
 
-		if (InstallRAMISR === "RAM0_SEGMENT")
+		if (InstallRAMISR === "RAMISR_SEGMENT0")
 		{
 			let pageName = `${ProjSegments}_p0`;
 			util.print(`Searching for page 0 code to be copied to RAM (${pageName})...`, PrintHighlight);
@@ -517,8 +521,7 @@ if (DoCompile)
 			let pageStartAddr;
 			switch(p)
 			{
-			// case 0: pageStartAddr = (ROMWithISR) ? "0x0100" : "0x0000"; break;
-			case 0: pageStartAddr = "0x0100"; break; // 0x0000 is not a valid address (it move the segment after the code)
+			case 0: pageStartAddr = (ROMWithISR) ? "0x0100" : "0x0001"; break; // 0x0000 is not a valid address (it move the segment after the code)
 			case 1: pageStartAddr = "0x4000"; break;
 			case 2: pageStartAddr = "0x8000"; break;
 			case 3: pageStartAddr = "0xC000"; break;
@@ -587,6 +590,16 @@ if (DoMake)
 	{
 		util.print(`» Force RAM address to ${util.getHex(ForceRamAddr)}h`);
 		RamAddr = ForceRamAddr;
+	}
+	if (InstallRAMISR == "RAMISR_PAGE3")
+	{
+		if (RamAddr == 0xC000)
+			RamAddr += 0x01C4;
+		else
+		{
+			util.print(`RAMISR_PAGE3 option only works with RAM address 0xC000! (RamAddr=0x${util.getHex(RamAddr)})`, PrintError);
+			process.exit(1);
+		}			
 	}
 
 	//=========================================================================

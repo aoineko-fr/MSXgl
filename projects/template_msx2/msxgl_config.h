@@ -365,6 +365,13 @@
 #define STRING_USE_INT32			TRUE	// Add support for 32-bits integer
 
 //-----------------------------------------------------------------------------
+// KANJI MODULE
+//-----------------------------------------------------------------------------
+
+#define KANJI_USE_DETECT			TRUE	// Add feature to detect the supported kanji level
+#define KANJI_USE_LEVEL2			TRUE	// Add feature to handle kanji level 2
+
+//-----------------------------------------------------------------------------
 // SCROLL MODULE
 //-----------------------------------------------------------------------------
 

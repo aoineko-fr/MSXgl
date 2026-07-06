@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:tool/jis.h","jis.h");NDSummary.OnSummaryLoaded("File:tool/jis.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[341,0,1,"Functions","Functions"],[342,0,0,"SJIS_Convert","SJIS_Convert"],[1410,0,0,"SJIS_ToJIS","SJIS_ToJIS"],[1411,0,0,"JIS_ToSJIS","JIS_ToSJIS"],[1417,0,0,"JIS_ToKuTen","JIS_ToKuTen"]]);

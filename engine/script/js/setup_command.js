@@ -56,12 +56,17 @@ for (let i = 0; i < CommandArgs.length; i++)
 	}
 	else if (arg === "ramisr")
 	{
-		InstallRAMISR = "RAM0_ISR";
+		InstallRAMISR = "RAMISR_PAGE0";
 		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
 	}
 	else if (arg === "ramseg")
 	{
-		InstallRAMISR = "RAM0_SEGMENT";
+		InstallRAMISR = "RAMISR_SEGMENT0";
+		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
+	}
+	else if (arg === "ram3isr")
+	{
+		InstallRAMISR = "RAMISR_PAGE3";
 		util.print(`Command line overwrite => InstallRAMISR=${InstallRAMISR}`, PrintDetail);
 	}
 	else if (arg === "clean")
@@ -119,6 +124,7 @@ for (let i = 0; i < CommandArgs.length; i++)
 		util.print(" delay                  Enable ROM delay boot");
 		util.print(" ramisr                 Install the RAM0 interrupt service routine");
 		util.print(" ramseg                 Install the RAM0 segment (with no ISR)");
+		util.print(" ram3isr                Install the RAM3 interrupt service routine");
 		util.print(" clean                  Clean all generated files");
 		util.print(" compile                Compile all source files");
 		util.print(" make                   Link all files together");

@@ -194,3 +194,22 @@ __sfr __at(P_MSXAUDIO_DATA)			g_MSXAudio_DataPort;
 __sfr __at(P_MSXAUDIO_INDEX2)		g_MSXAudio_IndexPort2;
 #define P_MSXAUDIO_DATA2			0xC3 // Register data
 __sfr __at(P_MSXAUDIO_DATA2)		g_MSXAudio_DataPort2;
+
+
+//=============================================================================
+//
+// Kanji-ROM Ports
+//
+//=============================================================================
+		
+// Kanji Level 1 I/O ports
+#define P_KANJI_LEVEL1_LOW				0xD8 // Register Index
+__sfr __at(P_KANJI_LEVEL1_LOW)			g_Kanji_Level1LowPort;
+#define P_KANJI_LEVEL1_HIGH				0xD9 // Register data
+__sfr __at(P_KANJI_LEVEL1_HIGH)			g_Kanji_Level1HighPort;
+
+// Kanji Level 2 I/O ports
+#define P_KANJI_LEVEL2_LOW				0xDA // Register Index
+__sfr __at(P_KANJI_LEVEL2_LOW)			g_Kanji_Level2LowPort;
+#define P_KANJI_LEVEL2_HIGH				0xDB // Register data
+__sfr __at(P_KANJI_LEVEL2_HIGH)			g_Kanji_Level2HighPort;

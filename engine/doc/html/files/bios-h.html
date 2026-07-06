@@ -432,10 +432,16 @@
  <div class="CBody"><p>Reads value from PSG-register. Wrapper for RDPSG routine.</p><pre class="CText">RDPSG<br />Address  : #0096<br />Function : Reads value from PSG register<br />Input    : A  - PSG register read<br />Output   : A  - Value read</pre><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">reg<div class="CDLParameterType">u8</div></td><td class="CDLDefinition"><p>PSG register number (0-15)</p></td></tr></table><div class="CHeading">Return</div><p>Value read from the PSG register</p></div>
 </div>
 
-<a name="BIOS_PlayPSG"></a><a name="Topic1516"></a><div class="CTopic TFunction LC">
+<a name="BIOS_IsPSGPlaying"></a><a name="Topic221"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_IsPSGPlaying</div>
+ <div id="NDPrototype221" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">bool</span> BIOS_IsPSGPlaying()</div></div>
+ <div class="CBody"><p>Tests whether the PLAY statement is being executed as a background task.</p><div class="CHeading">Return</div><p>FALSE if the PLAY statement is not being executed as a background task.</p></div>
+</div>
+
+<a name="BIOS_PlayPSG"></a><a name="Topic222"></a><div class="CTopic TFunction LC">
  <div class="CTitle">BIOS_PlayPSG</div>
- <div id="NDPrototype1516" class="NDPrototype"><div class="PSection PPlainSection"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> BIOS_PlayPSG()</div></div>
- <div class="CBody"><p>Tests whether the PLAY statement is being executed as a background task. Wrapper for STRTMS routine.</p><pre class="CText">STRTMS<br />Address  : #0099<br />Function : Tests whether the PLAY statement is being executed as a background<br />           task. If not, begins to execute the PLAY statement<br />Registers: All</pre></div>
+ <div id="NDPrototype222" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">bool</span> BIOS_PlayPSG(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType">BIOS_QCB*&nbsp;</td><td class="PName last">qcb</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Tests whether the PLAY statement is being executed as a background task. Wrapper for STRTMS routine.</p><pre class="CText">STRTMS<br />Address  : #0099<br />Function : Tests whether the PLAY statement is being executed as a background<br />           task. If not, begins to execute the PLAY statement<br />Registers: All</pre><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">qcb<div class="CDLParameterType"><span class="SHKeyword">const</span> BIOS_QCB*</div></td><td class="CDLDefinition"><p>Pointer to 3 QCB structures containing the music data to play</p></td></tr></table><div class="CHeading">Return</div><p>FALSE if the PLAY statement is already being executed as a background task.</p></div>
 </div>
 
 <a name="Main-ROM-Console"></a><a name="Topic1518"></a><div class="CTopic TGroup LC">
@@ -554,6 +560,12 @@
 
 <a name="Main-ROM-Misc"></a><a name="Topic1532"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Main-ROM - Misc</div>
+</div>
+
+<a name="BIOS_Set1BitSound"></a><a name="Topic1083"></a><div class="CTopic TFunction LC">
+ <div class="CTitle">BIOS_Set1BitSound</div>
+ <div id="NDPrototype1083" class="NDPrototype WideForm"><div class="PSection PParameterSection CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">inline</span> <span class="SHKeyword">void</span> BIOS_Set1BitSound(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">bool</span>&nbsp;</td><td class="PName last">on</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div></div>
+ <div class="CBody"><p>Enable or disable 1-bit sound. Wrapper for CHGSND routine.</p></div>
 </div>
 
 <a name="BIOS_GetKeyboardMatrix"></a><a name="Topic1555"></a><div class="CTopic TFunction LC">

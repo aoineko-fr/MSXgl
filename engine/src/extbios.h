@@ -28,10 +28,11 @@ const u8 __at(M_HOKVLD) g_HOKVLD;
 #define M_EXTBIO					0xFFCA
 const u8 __at(M_EXTBIO) g_EXTBIO;
 
-#define EXTBIOS_BROADCAST			0x00 // Broad-cast
+#define EXTBIOS_BROADCAST			0x00 // Broad-cast to all device
 #define EXTBIOS_MEMMAPPER			0x04 // Memory Mapper (MSX-DOS 2)
 #define EXTBIOS_MODEM				0x08 // MSX-Modem & RS-232C
 #define EXTBIOS_MSXAUDIO			0x0A // MSX-AUDIO
+#define EXTBIOS_MSXMUSIC			0x0B // MSX-MUSIC
 #define EXTBIOS_MSXJE				0x10 // MSX-JE
 #define EXTBIOS_KANJI				0x11 // Kanji driver
 #define EXTBIOS_UNAPI				0x22 // MSX-UNAPI (Unofficial)

@@ -153,7 +153,7 @@
 #define INPUT_USE_ISR_PROTECTION	TRUE	// Disable interruptions while access PSG registers (needed if you use BIOS or access PSG in your own ISR)
 #define INPUT_JOY_UPDATE			FALSE	// Add function to update all joystick states at once
 #define INPUT_HOLD_SIGNAL			FALSE	// Determines whether functions that modify signals should keep the state of those they don't need to modify (which slows functions down a bit) 
-#define INPUT_KB_AS_JOYSTICK	FALSE	// Add function to read keyboard state as joystick input (see Keyboard_ReadAsJoystick)
+#define INPUT_KB_AS_JOYSTICK		FALSE	// Add function to read keyboard state as joystick input (see Keyboard_ReadAsJoystick)
 // Key update handler
 #define INPUT_KB_UPDATE				FALSE	// Add function to update all keyboard rows at once
 #define INPUT_KB_UPDATE_MIN			0		// First row to update
@@ -363,6 +363,13 @@
 // Support for sprintf style formating function
 #define STRING_USE_FORMAT			TRUE
 #define STRING_USE_INT32			TRUE	// Add support for 32-bits integer
+
+//-----------------------------------------------------------------------------
+// KANJI MODULE
+//-----------------------------------------------------------------------------
+
+#define KANJI_USE_DETECT			TRUE	// Add feature to detect the supported kanji level
+#define KANJI_USE_LEVEL2			TRUE	// Add feature to handle kanji level 2
 
 //-----------------------------------------------------------------------------
 // SCROLL MODULE

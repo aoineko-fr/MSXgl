@@ -26,8 +26,8 @@
    might be covered by the GNU General Public License.
 -------------------------------------------------------------------------*/
 
-#ifndef TIME_H
-#define TIME_H
+#ifndef __SDCC_TIME_H
+#define __SDCC_TIME_H
 
 #ifndef __TIME_UNSIGNED
 #define __TIME_UNSIGNED 1
@@ -48,6 +48,7 @@ typedef int errno_t;
 
 #endif
 
+// C90 Components of time (ISO C23 7.31.1)
 #if __TIME_UNSIGNED
 struct tm
 {
@@ -80,11 +81,26 @@ struct tm
 
 typedef unsigned long time_t;
 
+
+#if __STDC_VERSION__ >= 199901L
+// C90 Time manipulation functions (ISO C23 7.31.2)
+time_t mktime(struct tm timeptr[static 1]);
 time_t time(time_t *t);
-struct tm *gmtime(time_t *timep);
-struct tm *localtime(time_t *timep);
+// C90 Time conversion functions (ISO C23 7.31.3)
+char *asctime(struct tm timeptr[static 1]);
+char *ctime(time_t timep[static 1]);
+struct tm *gmtime(time_t timep[static 1]);
+struct tm *localtime(time_t timep[static 1]);
+#else
+// C90 Time manipulation functions (ISO C23 7.31.2)
 time_t mktime(struct tm *timeptr);
+time_t time(time_t *t);
+// C90 Time conversion functions (ISO C23 7.31.3)
 char *asctime(struct tm *timeptr);
 char *ctime(time_t *timep);
+struct tm *gmtime(time_t *timep);
+struct tm *localtime(time_t *timep);
+#endif
 
-#endif /* TIME_H */
+#endif
+

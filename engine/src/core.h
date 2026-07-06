@@ -9,8 +9,8 @@
 
 // Library version
 #define VERSION_MAJOR				1		// 4-bits (0-15)
-#define VERSION_MINOR				4		// 6-bits (0-63)
-#define VERSION_PATCH				3		// 6-bits (0-63)
+#define VERSION_MINOR				5		// 6-bits (0-63)
+#define VERSION_PATCH				0		// 6-bits (0-63)
 
 // Macro: VERSION
 // Combines major, minor, and patch versions into a single version number.
@@ -59,7 +59,9 @@ typedef unsigned short				c16;	// 16 bits character type (UTF-16, JIS, etc.)
 
 // Pointer
 typedef void*						ptr;	// Pointer type
-#define NULL						0x0000	// Pointer "NULL" value
+#ifndef NULL
+#define NULL						(void*)0x0000	// Pointer "NULL" value
+#endif
 
 // Functions
 typedef void (*callback)(void);				// Callback default signature
@@ -98,6 +100,7 @@ typedef void (*callback)(void);				// Callback default signature
 //-----------------------------------------------------------------------------
 // SDCC calling convention 0
 //-----------------------------------------------------------------------------
+
 // Old SDCC calling convention
 // All parameters are pass through the call stack
 #define __SDCCCALL0					__sdcccall(0)
@@ -105,6 +108,7 @@ typedef void (*callback)(void);				// Callback default signature
 //-----------------------------------------------------------------------------
 // SDCC calling convention 1
 //-----------------------------------------------------------------------------
+
 // New SDCC calling convention (default)
 // Parameters register:
 // - 8 bits					A
@@ -123,6 +127,7 @@ typedef void (*callback)(void);				// Callback default signature
 //-----------------------------------------------------------------------------
 // z88dk fastcall calling convention
 //-----------------------------------------------------------------------------
+
 // Parameter/return register:
 // - 8 bits 				L
 // - 16 bits				HL
@@ -162,6 +167,7 @@ typedef void (*callback)(void);				// Callback default signature
 //-----------------------------------------------------------------------------
 // Bits handling
 //-----------------------------------------------------------------------------
+
 #define BIT_0						0x01	// LSB
 #define BIT_1						0x02
 #define BIT_2						0x04
@@ -182,6 +188,11 @@ typedef void (*callback)(void);				// Callback default signature
 #define BIT_SET(val, bit)			val |=  (1 << (bit))  		// Macro to set a given bit in an integer
 #define BIT_CLR(val, bit)			val &= ~(1 << (bit))  		// Macro to clear a given bit in an integer
 #define BIT_ISSET(val, bit)			((val) & (1 << (bit)) != 0)	// Macro to tell if a given bit is set or not
+
+#define SET_LOW(word, val)			((u8*)(&(word)))[0] = (val)
+#define SET_HIGH(word, val)			((u8*)(&(word)))[1] = (val)
+#define GET_LOW(word)				((u8*)(&(word)))[0]
+#define GET_HIGH(word)				((u8*)(&(word)))[1]
 
 //-----------------------------------------------------------------------------
 // Misc.

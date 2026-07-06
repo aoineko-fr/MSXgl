@@ -1,0 +1,67 @@
+MSXgl Cutscene Data Format
+
+========================================
+0x0. GLOBAL
+========================================
+0x00	Wait (0~255 frames)			[frames]
+0x01	Disable screen
+0x02	Enable screen
+0x04	Change screen mode			[mode] [sprtSize]
+0x08	Change backdrop color		[color]
+
+========================================
+0x1. TILE
+========================================
+
+========================================
+0x3. SPRITE
+========================================
+0x30	Initialize sprite			[id] [data...]
+
+========================================
+0x2. BITMAP [MSX2]
+========================================
+0x20	Initialize bitmap			[id] [x] [y] [w] [h] [data...]
+		(and copy data to VRAM)
+0x28	Display bitmap (HMMM)		[id] [x] [y]
+0x29	Display bitmap op (LMMM)	[id] [x] [y] [op]
+0x2F	Fill box (HMMV)				[x] [y] [w] [h] [color]
+
+========================================
+0x4. PALETTE [MSX2]
+========================================
+0x40	Load full palette			[[rgb]] x 16
+0x41	Load a partial palette		[num|from] [[rgb]] x num
++0b100	Apply the palette change
+		(in combination with load)
+0x48	Fade to black				[speed]
+0x49	Fade from black				[Speed]
+										1: 16 frames
+										2: 8 frames
+										3: 4 frames
+										4: 2 frames
+
+========================================
+0x7. PAWN
+========================================
+0x70	Initialize Pawn				[id] ...
+0x71	Set position				[id] [x] [y]
+0x72	Move						[id] [x] [y]
+0x73	Hide						[id]
+0x74	Show						[id]
+0x75	Set animation				[id] [anim]
+
+
+
+
+
+-------------------------------------------------------------------------------
+DATA EXAMPLE
+
+0x08, 1,																		// Set backdrop color to black
+0x01,																			// Disable screen
+0x04, 5, 16,																	// Change screen mode
+0x2F, 0, 0, 255, 211, 1,														// Fill screen to black
+0x41, 4|1, 0x0000, 0x0222, 0x0555, 0x0777, 										// Load a partial palette
+0x02,																			// Enable screen
+0x0F, 50,																		// Wait for 50 frames

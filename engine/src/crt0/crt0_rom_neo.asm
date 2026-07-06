@@ -58,6 +58,11 @@ crt0_init:
 	; Set Page 0 & 2 at the same slot than the Page 1 one
 	INIT_P1_TO_P02
 
+	; Install ISR in RAM in page 3
+	.ifeq ROM_RAMISR-RAMISR_PAGE3
+		INSTALL_RAM_ISR
+	.endif
+
 	; Initialize ROM mapper segment
 	INIT_MAPPER
 	
@@ -82,7 +87,8 @@ crt0_start:
 _g_LastAddr::
 
 ;------------------------------------------------------------------------------
-; ISR code
+; ISR
+.ifne ROM_RAMISR-RAMISR_PAGE3
 	.area   _DRIVER (ABS)
 .ifeq ROM_MAPPER-ROM_NEO8
 	.org	0x00040038
@@ -90,9 +96,9 @@ _g_LastAddr::
 .ifeq ROM_MAPPER-ROM_NEO16
 	.org	0x00020038
 .endif
-
-	; ISR
+	; Add ISR code in ROM (page 0)
 	INCLUDE_ISR
+.endif
 	
 ;==============================================================================
 ; RAM
