@@ -11,6 +11,10 @@
 :: PROJECT SETTINGS
 ::*****************************************************************************
 
+IF NOT DEFINED MSXGL_PATH (
+    set MSXGL_PATH=..\..
+)
+
 set ARGS=target^=%1 projname^=s_target
 
 :: Project name (will be use for output filename)
@@ -29,4 +33,4 @@ if "%4" == "RAMISR" set ARGS=%ARGS% ramisr
 if "%4" == "RAMSEG" set ARGS=%ARGS% ramseg
 
 cls
-..\..\tools\build\Node\node.exe ..\..\engine\script\js\build.js %ARGS% %5 %6 %7 %8 %9
+%MSXGL_PATH%\tools\build\Node\node.exe %MSXGL_PATH%\engine\script\js\build.js %ARGS% %5 %6 %7 %8 %9
