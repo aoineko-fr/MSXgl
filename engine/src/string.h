@@ -172,5 +172,6 @@ void String_FromUInt16(u16 value, c8* string);
 //   dest - Destination string buffer (must big enough to contain the whole string)
 //   format - Formating string
 //   ... - Variable number of parameter (must match the Formating string)
+void String_Format_va(c8* dest, const c8* format, va_list args);
 void String_Format(c8* dest, const c8* format, ...);
 #endif

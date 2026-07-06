@@ -127,7 +127,7 @@ void DEBUG_PRINT(const c8* format, ...)
 
 	va_list args;
 	va_start(args, format);
-  	String_Format(g_DebugBuffer, format, &args);
+	String_Format_va(g_DebugBuffer, format, args);
 	va_end(args);
 
 	DEBUG_LOG(g_DebugBuffer);
