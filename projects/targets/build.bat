@@ -11,9 +11,7 @@
 :: PROJECT SETTINGS
 ::*****************************************************************************
 
-IF NOT DEFINED MSXGL_PATH (
-    set MSXGL_PATH=..\..
-)
+if not defined MSXGL_PATH set MSXGL_PATH=..\..
 
 set ARGS=target^=%1 projname^=s_target
 

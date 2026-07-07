@@ -89,7 +89,7 @@ void Kanji_GetFromIndex(u8* buf, u16 index)
 	__asm
 		// Select kanji
 		ld		a, e
-		// and		#0x3F
+		and		#0x3F
 		out		(P_KANJI_LEVEL1_LOW), a		// Code's 6 low bits
 
 		ld      a, d
@@ -125,7 +125,7 @@ void Kanji_GetFromIndexL2(u8* buf, u16 index)
 
 		// Select kanji
 		ld		a, e
-		// and		#0x3F
+		and		#0x3F
 		out		(P_KANJI_LEVEL2_LOW), a		// Code's 6 low bits
 
 		ld      a, d

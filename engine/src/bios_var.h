@@ -218,10 +218,10 @@ const u8 __at(M_SCNCNT) g_SCNCNT;
 const u8 __at(M_REPCNT) g_REPCNT;
 
 #define M_PUTPNT	0xF3F8	// Address in the keyboard buffer where a character will be written
-volatile char *__at(M_PUTPNT) g_PUTPNT;
+volatile c8* __at(M_PUTPNT) g_PUTPNT;
 
 #define M_GETPNT	0xF3FA	// Address in the keyboard buffer where the next character is read
-volatile const char *__at(M_GETPNT) g_GETPNT;
+volatile const c8* __at(M_GETPNT) g_GETPNT;
 
 //-----------------------------------------------------------------------------
 // Parameters For Cassette

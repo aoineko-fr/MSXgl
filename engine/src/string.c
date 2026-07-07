@@ -125,15 +125,10 @@ __endasm;
 
 
 #if (STRING_USE_FORMAT)
-//-----------------------------------------------------------------------------
-// Build a zero-terminated string
-//
-// Parameters:
-//   dest - Destination string buffer (must big enough to contain the whole string)
-//   format - Formating string
-//   ... - Variable number of parameter (depends on the Formating string)
 
-void String_Format_va(c8* dest, const c8* format, va_list args)
+//-----------------------------------------------------------------------------
+// Build a zero-terminated string from a format string and variable number of parameters
+void String_FormatVA(c8* dest, const c8* format, va_list args)
 {
 	c8 str[16];
 	const c8* ptr = format;
@@ -295,11 +290,14 @@ void String_Format_va(c8* dest, const c8* format, va_list args)
 	*dest = 0;
 }
 
+//-----------------------------------------------------------------------------
+// Build a zero-terminated string from a format string and variable number of parameters
 void String_Format(c8* dest, const c8* format, ...)
 {
 	va_list args;
 	va_start(args, format);
-	String_Format_va(dest, format, args);
+	String_FormatVA(dest, format, args);
 	va_end(args);
 }
+
 #endif // (STRING_USE_FORMAT)

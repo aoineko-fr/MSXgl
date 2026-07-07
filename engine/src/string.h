@@ -154,7 +154,7 @@ void String_FromUInt16(u16 value, c8* string);
 
 #if (STRING_USE_FORMAT)
 // Function: String_Format
-// Build a zero-terminated string
+// Build a zero-terminated string from a format string and variable number of parameters
 //
 //> Data format: %[0]<padding><type>
 //> Type:      i      16 bits signed integer
@@ -172,6 +172,11 @@ void String_FromUInt16(u16 value, c8* string);
 //   dest - Destination string buffer (must big enough to contain the whole string)
 //   format - Formating string
 //   ... - Variable number of parameter (must match the Formating string)
-void String_Format_va(c8* dest, const c8* format, va_list args);
 void String_Format(c8* dest, const c8* format, ...);
+
+// Function: String_Format
+// Build a zero-terminated string from a format string and variable number of parameters
+// See <String_Format>
+void String_FormatVA(c8* dest, const c8* format, va_list args);
+
 #endif
