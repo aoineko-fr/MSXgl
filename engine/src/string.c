@@ -132,11 +132,9 @@ __endasm;
 //   dest - Destination string buffer (must big enough to contain the whole string)
 //   format - Formating string
 //   ... - Variable number of parameter (depends on the Formating string)
-void String_Format(c8* dest, const c8* format, ...)
-{
-	va_list args;
-	va_start(args, format);
 
+void String_Format_va(c8* dest, const c8* format, va_list args)
+{
 	c8 str[16];
 	const c8* ptr = format;
 	while (*ptr != 0)
@@ -295,7 +293,13 @@ void String_Format(c8* dest, const c8* format, ...)
 		ptr++;
 	}
 	*dest = 0;
+}
 
+void String_Format(c8* dest, const c8* format, ...)
+{
+	va_list args;
+	va_start(args, format);
+	String_Format_va(dest, format, args);
 	va_end(args);
 }
 #endif // (STRING_USE_FORMAT)
