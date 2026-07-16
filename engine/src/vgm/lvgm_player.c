@@ -22,7 +22,7 @@ typedef void (*LVGM_DecodeCB)(void); // Callback default signature
 // READ-ONLY DATA
 //=============================================================================
 
-// PSG regsiter convertor       -  1  2  3  4  5+ 6  7+ 8  9+ A   B+  C
+// PSG register convertor       -  1  2  3  4  5+ 6  7+ 8  9+ A   B+  C
 const u8  g_LVGM_RegTable[] = { 0, 1, 3, 5, 6, 6, 8, 8, 9, 9, 10, 10, 13 };
 
 // File ident data
@@ -283,7 +283,11 @@ bool LVGM_Play(const void* addr, bool loop)
 	g_LVGM_LoopAddr = g_LVGM_Pointer;
 	g_LVGM_Wait = 0;
 	g_LVGM_CurChip = LVGM_CHIP_PSG;
+	#if (LVGM_USE_PSG)
 	g_LVGM_Decode = LVGM_DecodePSG;
+	#else
+	g_LVGM_Decode = NULL;
+	#endif
 
 	LVGM_Pause();
 	LVGM_Resume();
