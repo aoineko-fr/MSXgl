@@ -750,7 +750,7 @@ inline void VDP_SetColor2(u8 bg, u8 text) { VDP_RegWrite(7, bg | (text << 4)); }
 inline void VDP_EnableSprite(u8 enable) { VDP_RegWriteBakMask(8, (u8)~R08_SPD, !enable ? R08_SPD : 0); }
 
 // Function: VDP_DisableSprite
-// Disable sprite rendering (see <VDP_EnableSprite>). [MSX1/2/2+/TR]
+// Disable sprite rendering (see <VDP_EnableSprite>). [MSX2/2+/TR]
 inline void VDP_DisableSprite() { VDP_EnableSprite(FALSE); }
 
 // Function: VDP_EnableTransparency
