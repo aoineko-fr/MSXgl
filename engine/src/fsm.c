@@ -17,20 +17,13 @@
 // MEMORY DATA
 //=============================================================================
 
-FSM_State* g_CurrentState = NULL;
-FSM_State* g_PrevState = NULL;
-FSM_State* g_NextState = NULL;
+const FSM_State* g_CurrentState = NULL;
+const FSM_State* g_PrevState = NULL;
+const FSM_State* g_NextState = NULL;
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
-
-//-----------------------------------------------------------------------------
-// Set current state and handle transition
-void FSM_SetState(FSM_State* state)
-{
-	g_NextState = state;
-}
 
 //-----------------------------------------------------------------------------
 // Update the current state

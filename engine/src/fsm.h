@@ -29,9 +29,9 @@ typedef struct FSM_State
 } FSM_State;
 
 //
-extern FSM_State* g_CurrentState;
-extern FSM_State* g_PrevState;
-extern FSM_State* g_NextState;
+extern const FSM_State* g_CurrentState;
+extern const FSM_State* g_PrevState;
+extern const FSM_State* g_NextState;
 
 //=============================================================================
 // FUNCTIONS
@@ -43,14 +43,15 @@ extern FSM_State* g_NextState;
 //
 // Parameters:
 //   state - The new state to be set
-void FSM_SetState(FSM_State* state);
+inline void FSM_SetState(const FSM_State* state) { g_NextState = state; }
+
 
 // Function: FSM_GetState
 // Get current state
 //
 // Return:
 //   The current state
-inline FSM_State* FSM_GetState() { return g_CurrentState; }
+inline const FSM_State* FSM_GetState() { return g_CurrentState; }
 
 // Function: FSM_SetPrevious
 // Reset previous state
@@ -62,7 +63,7 @@ inline void FSM_SetPrevious() { FSM_SetState(g_PrevState); g_PrevState = NULL; }
 //
 // Return:
 //   The previous state
-inline FSM_State* FSM_GetPrevious() { return g_PrevState; }
+inline const FSM_State* FSM_GetPrevious() { return g_PrevState; }
 
 // Function: FSM_Update
 // Update the current state
@@ -74,4 +75,4 @@ inline bool FSM_IsPending() { return g_NextState != NULL; }
 
 // Function: FSM_GetPending
 // Get the pending state
-inline FSM_State* FSM_GetPending() { return g_NextState; }
+inline const FSM_State* FSM_GetPending() { return g_NextState; }
