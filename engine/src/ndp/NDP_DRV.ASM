@@ -231,7 +231,7 @@ PSGINI:
 	LD	E,#7		;// R#7
 	LD	A,#0b10111000	;// 10NNNTTT 0=ON/1=OFF
 	LD	(MIXWRK),A
-	LD	(MIXWRS),A
+	; LD	(MIXWRS),A
 	CALL	WPSG
 
 	XOR	A
@@ -264,6 +264,9 @@ MSTART:
 	LD	(RITRK),A	;// リズム割り込まれトラック=1
 	LD	(STATS),A	;// 演奏状態=1
 	LD	(MIXNMH),A	;// 音量半減時のミックスモード退避用
+	LD	(CH2WRK+60),A	;CH2のミックスワーク
+	LD	(CH3WRK+60),A	;CH3のミックスワーク
+	LD	(CH4WRK+60),A	;CH4のミックスワーク
 	LD	A,#5
 	LD	(RPREG),A	;// 5
 	ADD	A,A
@@ -412,7 +415,7 @@ INIW2:
 
 NDP_SYSVER::
 SYSVER:
-	LD	HL,#0x0104	;// v1.04
+	LD	HL,#0x0107	;// v1.07
 
 	;// 上位バイトがメジャーバージョン、下位バイトがマイナーバージョン
 	;// 上位バイトが0なら0.9として扱い、下位バイトはビルドバージョンとする
@@ -508,20 +511,48 @@ IMAIN:
 	LD	A,(SLWPRM)
 	RRCA
 	LD	(SLWPRM),A
-	JR	C,INTEND	;// スロー再生処理（ビットが立ってたらドライバ処理しない）
+	JP	C,INTEND	;スロー再生処理（ビットが立ってたらドライバ処理しない）
 
 INT0:
+
+	;(効果音処理)
+SINT:
+	XOR	A
+	LD	(SECNT),A	;// 効果音の使用トラック数をゼロクリア
+	INC	A
+	LD	(SEMODE),A	;// 1=効果音処理モード
+
+	LD	B,#NDP_CHNUM-1
+	LD	IX,#SE1WRK
+SECHK1:
+	LD	A,10(IX)	;// SEトラック有効ならSE用MAINを呼ぶ
+	OR	A
+	CALL	NZ,MAINSE
+
+	LD	DE,#NDP_WSIZE	;// CHワークのインデックスをワークサイズ分進める
+	ADD	IX,DE
+
+	DJNZ	SECHK1
+
+	LD	A,(SECNT)	;// 効果音が
+	OR	A		;// 発音中なら
+	JR	NZ,SINTED	;// スキップ
+
+	LD	A,#7		;// 効果音が発音されていなければ
+	LD	(SEPRI),A	;// 現在の優先順位を7にする
+SINTED:
+
 	;// (BGM処理)
 MINT:
 	XOR	A
-	LD	(SEMODE),A	;// 0=BGMモード
+	LD	(SEMODE),A	;// 0=BGM処理モード
 
 	LD	B,#NDP_CHNUM
 	LD	IX,#CH1WRK
 MLOOP:
 	PUSH	BC
 
-	LD	A,10(IX)	;// チャンネル有効ならNMAINを呼ぶ
+	LD	A,10(IX)	;// BGMトラック有効ならNMAINを呼ぶ
 	OR	A
 	CALL	NZ,NMAIN
 
@@ -567,25 +598,6 @@ MFADE1:
 	LD	(FCOUNT),A
 MINTED:
 
-	;// (効果音処理)
-SINT:
-	XOR	A
-	LD	(SECNT),A	;// SEの使用トラック数をゼロクリア
-	INC	A
-	LD	(SEMODE),A	;// 1=SEモード
-
-	LD	B,#NDP_CHNUM-1
-	LD	IX,#SE1WRK
-SECHK1:
-	LD	A,10(IX)	;// チャンネル有効ならSE用MAINを呼ぶ
-	OR	A
-	CALL	NZ,MAINSE
-
-	LD	DE,#NDP_WSIZE	;// CHワークのインデックスをワークサイズ分進める
-	ADD	IX,DE
-
-	DJNZ	SECHK1
-SINTED:
 
 INTEND:
 	; POP	IY
@@ -666,14 +678,13 @@ MAIN01:
 	OR	A
 	JR	NZ,MAIN0A	;// リズム発音中ならR#7への書き込みはスキップ
 
-	CALL	MIX_IY
-	LD	A,(IY)		;// ミックスモード確認
+	LD	A,(MIXWRK)	;// ミックスモード確認
 	BIT	7,A
 	JR	NZ,MAIN0A	;// 最上位ビットが0でなければスキップ
 	OR	#0x80		;// 0なら1にして
-	LD	(IY),A		;// ワークに保存し
+	LD	(MIXWRK),A	;// ワークに保存し
 	LD	E,#7		;// R#7にも
-	CALL	WPSGM		;// 書き込む
+	CALL	WPSG		;// 書き込む
 MAIN0A:
 	LD	A,(NFREQW)	;// ノイズ周波数確認
 	CP	#32
@@ -681,7 +692,7 @@ MAIN0A:
 	AND	#31
 	LD	(NFREQW),A	;// 32以上なら31以下に丸めてワークに保存
 	LD	E,#6
-	CALL	WPSGM		;// ノイズ周波数書き込み
+	CALL	WPSG		;// ノイズ周波数書き込み
 MAIN0B:
 	LD	A,B		;// リズムチャンネルならリズムモード用のエンベに
 	CP	#NDP_CHNUM
@@ -876,9 +887,8 @@ ENV0:
 	OR	A
 	JR	Z,ENVH00	;// 割り込まれトラックでリズム発音中でなければ音量半減用のレジスタ書き込み
 
-	CALL	MIX_IY
-	CALL	MIXT		;// 割り込まれトラックでリズム発音中なら退避音量ワークのみ書き込み
-	LD	(IY),A
+	CALL	MIXT		;割り込まれトラックでリズム発音中なら退避音量ワークのみ書き込み
+	LD	(MIXWRK),A
 	JR	ENVH01
 ENVH00:
 	CALL	PITCH0		;// トーン有効・ノイズ無効に
@@ -996,7 +1006,7 @@ ENV11A:
 	SUB	#0xD0
 	LD	(NFREQW),A	;// ノイズ周波数を保存
 	LD	E,#6
-	CALL	WPSGM		;// 書き込み
+	CALL	WPSG		;// 書き込み
 	JP	ENV10
 
 ENV11B:
@@ -1005,14 +1015,16 @@ ENV11B:
 
 	AND	#3
 	CALL	MIXSWT
+	LD	C,A
 
 	LD	A,(RNON)
 	OR	A
 	JP	NZ,ENV10	;// リズム発音中ならレジスタ書き込みは行わない
+
 	LD	A,C
 	OR	#0x80
 	LD	E,#7
-	CALL	WPSGM		;// ミックスモード書き込み
+	CALL	WPSG		;// ミックスモード書き込み
 	JP	ENV10
 
 ENV11C:
@@ -1025,7 +1037,7 @@ ENV11C:
 	AND	#0x0F		;// ハードエンベ形状を
 	LD	(HENVSW),A	;// ワークエリアにセットして
 	LD	E,#13		;// R#13に
-	CALL	WPSG		;// 書き込む
+	CALL	WPSGM		;// 書き込む
 ENV11X:
 	CALL	REGV
 	LD	A,(RITRK)
@@ -1573,7 +1585,7 @@ RENV2:
 	POP	HL
 	LD	B,C
 	LD	E,#7
-	CALL	WPSGM		;// ミックスモード書き込み
+	CALL	WPSG		;// ミックスモード書き込み
 	JR	RENV1
 
 RENV2S:
@@ -1643,7 +1655,7 @@ RHYOFF:
 	LD	E,#7		;// ミックスモードを戻す
 	LD	A,(MIXWRK)
 	OR	#0x80
-	CALL	WPSGM
+	CALL	WPSG
 
 	LD	A,(RVREG)	;// リズム発音前の音量に戻す
 	LD	E,A
@@ -2678,8 +2690,7 @@ MIXMD1:
 
 MIXTWT:
 	CALL	MIXT
-	CALL	MIXWT
-	RET
+	JR	MIXWT
 MIXSWT:
 	PUSH	HL
 	CALL	MIXSUB
@@ -2688,17 +2699,7 @@ MIXSWT:
 	RET
 
 MIXWT:
-	LD	C,A
-	CALL	MIX_IY
-	LD	(IY),C
-	RET
-
-MIX_IY:
-	LD	IY,#MIXWRK	;// 効果音モードかどうかでミックスモードのワークを判断してIYに返す
-	LD	A,(SEMODE)
-	OR	A
-	RET	Z
-	INC	IY
+	LD	(MIXWRK),A
 	RET
 
 MIXSUB:
@@ -2715,8 +2716,7 @@ MIXON:
 MIXAND:
 	LD	D,#0
 	ADD	HL,DE
-	CALL	MIX_IY
-	LD	A,(IY)
+	LD	A,(MIXWRK)
 	AND	(HL)
 	RET
 MIXOFF:
@@ -2725,8 +2725,7 @@ MIXOFF:
 	LD	D,#0
 	LD	60(IX),D	;// *0を保存
 	ADD	HL,DE
-	CALL	MIX_IY
-	LD	A,(IY)
+	LD	A,(MIXWRK)
 	AND	#0b00111111
 	JR	MIXAO1
 MIXT:
@@ -2877,7 +2876,29 @@ SEPSUB:
 	PUSH	HL
 	PUSH	BC
 
-	PUSH	DE
+	LD	A,D
+	CP	#0x40
+	JR	C,SEPLY3	;// 効果音アドレスが4000H未満なら相対値として扱う
+
+	LD	H,D
+	LD	L,E
+	JR	SEPLY4
+SEPLY3:
+	LD	HL,(BGMADR)
+	ADD	HL,DE
+SEPLY4:
+	LD	DE,#7
+	ADD	HL,DE
+	LD	B,(HL)		;// これから発音する効果音の優先順位を取得して
+	LD	DE,#-7
+	ADD	HL,DE
+	LD	A,(SEPRI)	;// 発音中の効果音(A)の優先順位と比較
+	CP	B		;// 発音中の効果音(A)の優先順位＜これから発音する効果音の優先順位(B)なら
+	JR	C,SESRET	;// 発音せずにスキップ
+
+	LD	A,B
+	LD	(SEPRI),A	;// これから発音する効果音の効果音優先度をワークに保存
+	PUSH	HL
 
 	LD	IX,#SE1WRK
 	LD	IY,#CH2WRK
@@ -2897,22 +2918,13 @@ SEPLY2:
 	INC	HL
 	DJNZ	SEPLY1
 
-	POP	DE
-
-	LD	A,D
-	CP	#0x40
-	JR	C,SEPLY3	;// 効果音アドレスが4000H未満なら相対値として扱う
-
-	LD	H,D
-	LD	L,E
-	JR	SEPLY4
-SEPLY3:
-	LD	HL,(BGMADR)
-	ADD	HL,DE
-SEPLY4:
+	POP	HL
 	LD	IX,#SE1WRK
 	LD	B,#NDP_CHNUM-1
 	CALL	INIADR		;// 効果音データ先頭アドレス設定
+
+	INC	HL
+	LD	E,(HL)		;// 効果音データから優先度の値を読み込む
 
 	LD	IX,#CH2WRK
 	LD	IY,#SE1WRK
@@ -2936,9 +2948,11 @@ SEMOFL:
 	INC	HL
 	DJNZ	SEMOF1
 
-	LD	A,(MIXWRK)
-	AND	#0b00111111	;// 最上位ビットを0にして
-	LD	(MIXWRS),A	;// 効果音用ミックスワークに転送
+	LD	A,(MIXWRK)	;// ミックスワークの
+	AND	#0b00111111	;// 最上位ビットを0にすると
+	LD	(MIXWRK),A	;// ミックスワーク更新フラグ有効
+
+SESRET:
 	POP	BC
 	POP	HL
 	POP	IX
@@ -3165,25 +3179,9 @@ REGV:
 	LD	E,A		;// 音量レジスタ
 	RET
 
-;// 全PSGレジスタを戻す（未使用）
-;// 	IX=CHワーク先頭アドレス
-
-PRRETA:
-	LD	IX,#CH1WRK
-	LD	B,#NDP_CHNUM-1
-PRRETL:
-	CALL	PRRET1
-
-	LD	DE,#NDP_WSIZE
-	ADD	IX,DE
-
-	DJNZ	PRRETL
+;PSGレジスタを戻す
 
 PRRET0:
-	LD	E,#6		;// R#6
-	LD	A,(NFREQW)	;// ノイズ周波数
-	CALL	WPSG
-
 	LD	A,(MIXWRK)	;// ミックスモードのワークを読んで
 	AND	#0b00111111	;// 最上位ビットを0にして
 	LD	(MIXWRK),A	;// ワークに戻す（メイン先頭でレジスタ書き込み発動）
@@ -3194,14 +3192,14 @@ PRRET0:
 
 	LD	E,#11		;// R#11
 	LD	A,(HENVPW)	;// ハードエンベ周期下位
-	CALL	WPSG
+	CALL	WPSGM
 	INC	E		;// R#12
 	LD	A,(HENVPW+1)	;// ハードエンベ周期上位
-	CALL	WPSG
+	CALL	WPSGM
 
 	INC	E		;// R#13
 	LD	A,(HENVSW)	;// ハードエンベ番号
-	CALL	WPSG
+	CALL	WPSGM
 	RET
 
 PRRET1:
@@ -3211,15 +3209,15 @@ PRRET1:
 
 	CALL	REGP
 	LD	A,14(IX)	;// 発音中の音程レジスタ上位
-	CALL	WPSG
+	CALL	WPSGM
 
 	DEC	E		;// R#1 R#3 R#5
 	LD	A,13(IX)	;// 発音中の音程レジスタ下位
-	CALL	WPSG
+	CALL	WPSGM
 
 	CALL	REGV
 	XOR	A		;// 音量は0に
-	CALL	WPSG
+	CALL	WPSGM
 
 	RET
 
@@ -3254,14 +3252,16 @@ SEMON1:
 	INC	A
 SEMON2:
 	LD	10(IX),A	;// BGM側のトラック有効フラグを退避しておいた値に戻す
-	OR	A
-	;// JR	NZ,SEMON3
 
-	LD	A,#11		;// もしBGM側が
-	SUB	B		;// 未使用トラックなら
-	LD	E,A		;// 音量レジスタを
-	XOR	A		;// 0にする
-	CALL	WPSGM
+	LD	A,#11		;効果音トラックの
+	SUB	B		;終了時は
+	LD	E,A		;音量レジスタを
+	XOR	A		;0にする
+	CALL	WPSG
+
+	LD	A,60(IX)
+	CALL	MIXSUB
+	CALL	MIXWT
 
 SEMON3:
 	ADD	IX,DE

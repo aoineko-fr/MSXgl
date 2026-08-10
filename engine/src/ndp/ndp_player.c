@@ -6,6 +6,9 @@
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // NDP replayer
+//  original assembly source code by Naruto2413
+//  version 1.07
+//  doc & driver: https://ndp.squares.net/web
 //─────────────────────────────────────────────────────────────────────────────
 
 #include "msxgl.h"
@@ -85,6 +88,8 @@ u8   g_NDP_SEBAKR;			// Whether to trigger register reset at SE end during rhyth
 #define SEBAKR						_g_NDP_SEBAKR
 u8   g_NDP_SECNT;			// Sound effect track counter (Number of sound effect tracks currently playing)
 #define SECNT						_g_NDP_SECNT
+u8   g_NDP_SEPRI = 7;		// Priority of Sound Effects During Speech
+#define SEPRI						_g_NDP_SEPRI
 u8   g_NDP_VADTBL[32];		// Volume embedded address table
 #define VADTBL						_g_NDP_VADTBL
 u8   g_NDP_RADTBL[64];		// Rhythm tone address table
@@ -121,8 +126,6 @@ u8 g_NDP_MIXNMH = 1;	// Value of *n (mix mode) when using hard envelope
 
 u8 g_NDP_MIXWRK = 0b10111000;	// 10NNNTTT 0=ON/1=OFF
 #define MIXWRK						_g_NDP_MIXWRK
-u8 g_NDP_MIXWRS = 0b10111000;	// Sound Effects Mixing Work
-#define MIXWRS						_g_NDP_MIXWRS
 
 u16 g_NDP_HENVPW = 1024; // Hard Envelope Period
 #define HENVPW						_g_NDP_HENVPW

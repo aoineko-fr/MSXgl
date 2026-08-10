@@ -6,6 +6,9 @@
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
 // NDP replayer
+//  original assembly source code by Naruto2413
+//  version 1.07
+//  doc & driver: https://ndp.squares.net/web
 //─────────────────────────────────────────────────────────────────────────────
 #pragma once
 
@@ -157,6 +160,7 @@ extern u8   g_NDP_SEMODE;			// Playback Mode (0:BGM, 1:SE) ※Set within interru
 extern u8   g_NDP_SEBAKT[NDP_CHNUM];	// Save the track enable flag for the track being interrupted by sound effects here
 extern u8   g_NDP_SEBAKR;			// Whether to trigger register reset at SE end during rhythm key off
 extern u8   g_NDP_SECNT;			// Sound effect track counter (Number of sound effect tracks currently playing)
+extern u8   g_NDP_SEPRI;			// Priority of Sound Effects During Speech
 extern u8   g_NDP_VADTBL[32];		// Volume embedded address table
 extern u8   g_NDP_RADTBL[64];		// Rhythm tone address table
 extern u8   g_NDP_PADTBL[32];		// Pitch-embedded dressing table
