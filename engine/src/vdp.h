@@ -1366,6 +1366,21 @@ void VDP_SetBlinkTile(u8 x, u8 y);
 #endif // (VDP_USE_MODE_T2 && (MSX_VERSION >= MSX_2))
 
 //-----------------------------------------------------------------------------
+// Group: GM1
+// Graph mode 1 specific functions
+//-----------------------------------------------------------------------------
+#if (VDP_USE_MODE_G1)
+
+// Function: VDP_FillScreen_GM1
+// Fill the full screen with a given pattern value. [MSX1/2/2+/TR]
+//
+// Parameters:
+//   value - Pattern index to fill
+inline void VDP_FillScreen_GM1(u8 value) { VDP_FillVRAM(value, g_ScreenLayoutLow, g_ScreenLayoutHigh, 32*24); }
+
+#endif // (VDP_USE_MODE_G1)
+
+//-----------------------------------------------------------------------------
 // Group: GM2
 // Graph mode 2 & 3 specific functions
 //-----------------------------------------------------------------------------
