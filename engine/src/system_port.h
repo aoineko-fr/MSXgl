@@ -213,3 +213,17 @@ __sfr __at(P_KANJI_LEVEL1_HIGH)			g_Kanji_Level1HighPort;
 __sfr __at(P_KANJI_LEVEL2_LOW)			g_Kanji_Level2LowPort;
 #define P_KANJI_LEVEL2_HIGH				0xDB // Register data
 __sfr __at(P_KANJI_LEVEL2_HIGH)			g_Kanji_Level2HighPort;
+
+
+//=============================================================================
+//
+// System Timer Ports
+//
+//=============================================================================
+		
+// Kanji Level 1 I/O ports
+#define P_TIMER_LOW						0xE6 // Timer lower 8 bits
+__sfr __at(P_TIMER_LOW)					g_TimerLowPort;
+
+#define P_TIMER_HIGH					0xE7 // Timer higher 8 bits
+__sfr __at(P_TIMER_HIGH)				g_TimerHighPort;
