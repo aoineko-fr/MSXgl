@@ -2,23 +2,23 @@
 setlocal EnableDelayedExpansion
 
 :: Audio
-set BuildArkos=1
-set BuildTrilo=1
-set BuildWYZ=1
-set BuildayFX=1
-set BuildVGM=1
-set BuildlVGM=1
-set BuildlNDP=1
+set BuildArkos=0
+set BuildTrilo=0
+set BuildWYZ=0
+set BuildayFX=0
+set BuildVGM=0
+set BuildlVGM=0
+set BuildlNDP=0
 set BuildPCMEnc=0
-set BuildPCMPlay=1
+set BuildPCMPlay=0
 :: Image
-set BuildBitmap=1
+set BuildBitmap=0
 set BuildImage=1
-set BuildCompress=1
-set BuildTile=1
-set BuildV9990=1
+set BuildCompress=0
+set BuildTile=0
+set BuildV9990=0
 :: Misc
-set BuildZip=1
+set BuildZip=0
 
 :: Path
 set Tools=..\..\..\tools
@@ -248,6 +248,8 @@ if %BuildImage%==1 (
 		-l i16 0 0 1 1 0xCCC35E 0xDED087 ^
 		-l i16 0 0 1 1 0xCCC35E
 	%MSXtk%\MSXimg.exe img\data.png -nodate -out %Dest%\data_bg.h -pos 128 160 -size 8 8 -num 8 3 -name g_DataBackground -mode sprt -l i8 0 0 1 1 0xFFFDFF
+
+	%MSXtk%\MSXimg.exe img\data_bg.png -out %Dest%\data_bg_gm2i.h -mode gm2i -pos 0 96 -size 256 40
 )
 
 ::-----------------------------------------------------------------------------
