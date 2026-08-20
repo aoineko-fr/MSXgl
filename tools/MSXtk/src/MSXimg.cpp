@@ -293,6 +293,7 @@ void PrintHelp()
 //const char* ARGV[] = { "", "../testcases/JoyAndHeron", "-out", "../testcases/JoyAndHeron.h", "-mode", "mglv", "-format", "c", "-size", "256", "144", "-bpc", "4", "-pal", "custom" };
 //const char* ARGV[] = { "", "../testcases/image03.png", "-out", "../testcases/screen0.h", "-mode", "sc0", "-size", "150", "150" };
 //const char* ARGV[] = { "", "../testcases/cursor.png", "-out", "../testcases/cursor.h", "-mode", "bmp", "-bpc", "4", "-pal", "partial", "2", "0x000000", "0xFFFFFF", "--paloff", "0", "--palcount", "16", "-pos", "0", "32", "-size", "256", "16" };
+//const char* ARGV[] = { "", "C:/dev/MSX/MSXgl/projects/samples/datasrc/img/data_bg.png", "-out", "../testcases/gm2i.h", "-mode", "gm2i", "-pos", "0", "96", "-size", "256", "40" };
 //#define DEBUG_ARGS
 
 /** Main entry point
@@ -562,6 +563,8 @@ int main(int argc, const char* argv[])
 				param.mode = MODE_GM1;
 			else if (MSX::StrEqual(argv[i], "gm2") || MSX::StrEqual(argv[i], "sc2") || MSX::StrEqual(argv[i], "gm3") || MSX::StrEqual(argv[i], "sc4"))
 				param.mode = MODE_GM2;
+			else if (MSX::StrEqual(argv[i], "gm2i"))
+				param.mode = MODE_GM2i;
 			else if (MSX::StrEqual(argv[i], "sprt"))
 				param.mode = MODE_Sprite;
 			else if (MSX::StrEqual(argv[i], "mglv"))

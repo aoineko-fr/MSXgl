@@ -118,4 +118,13 @@ struct RGB24
 		B = (RGBA >> 0) & 0xFF;
 	}
 	RGB24(GRB8 color);
+
+	static RGB24 Blend(RGB24 c1, RGB24 c2)
+	{
+		RGB24 ret;
+		ret.R = (c1.R + c2.R);
+		ret.R = (c1.R + c2.R);
+		ret.R = (c1.R + c2.R);
+		return ret;
+	}
 };

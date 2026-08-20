@@ -15,8 +15,14 @@
 #include <string.h>
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <assert.h>
+#include <cstdint>
+#include <array>
+#include <limits>
+#include <stdexcept>
+#include <iostream>
+#include <cmath>
+
 // FreeImage
 #include "FreeImage.h"
 // MSXi
@@ -210,32 +216,33 @@ void ExportRLEp(ExportParameters* param, ExporterInterface* exp, const std::vect
 
 //-----------------------------------------------------------------------------
 // Prepare image for export
-FIBITMAP* GetPreparedImage(std::string filename, ExportParameters* param)
+FIBITMAP* GetPreparedImage(std::string filename, ExportParameters* param, bool bCrop = false)
 {
-	FIBITMAP *dib, *dib32;
-	dib = LoadImage(param->inFile.c_str()); // open and load the file using the default load option
+	// Open and load the file using the default load option
+	FIBITMAP* dib = LoadImage(param->inFile.c_str());
 	if (dib == NULL)
 	{
-		printf("Error: Fail to load %s\n", param->inFile.c_str());
+		printf("Error: Fail to load %s!\n", param->inFile.c_str());
 		return NULL;
 	}
 
 	// Apply transformations
 	if (param->scaleX && param->scaleY)
 	{
-		dib = FreeImage_Rescale(dib, param->scaleX, param->scaleY, (FREE_IMAGE_FILTER)param->scaleFilter);
-		if (dib == NULL)
+		FIBITMAP* dibScale = FreeImage_Rescale(dib, param->scaleX, param->scaleY, (FREE_IMAGE_FILTER)param->scaleFilter);
+		FreeImage_Unload(dib);
+		if (dibScale == NULL)
 		{
-			printf("Error: Fail to rescale image (x:%i, y:%i, filter:%i)\n", param->scaleX, param->scaleY, param->scaleFilter);
+			printf("Error: Fail to rescale image (x:%i, y:%i, filter:%i)!\n", param->scaleX, param->scaleY, param->scaleFilter);
 			return NULL;
 		}
+		dib = dibScale;
 	}
 	if (param->flipH)
 	{
 		if (!FreeImage_FlipHorizontal(dib))
 		{
-			printf("Error: Fail to apply horizontal flip\n");
-			FreeImage_Unload(dib); // free the original dib
+			printf("Error: Fail to apply horizontal flip!\n");
 			return NULL;
 		}
 	}
@@ -243,23 +250,41 @@ FIBITMAP* GetPreparedImage(std::string filename, ExportParameters* param)
 	{
 		if (!FreeImage_FlipVertical(dib))
 		{
-			printf("Error: Fail to apply vertical flip\n");
-			FreeImage_Unload(dib); // free the original dib
+			printf("Error: Fail to apply vertical flip!\n");
 			return NULL;
 		}
 	}
 	if (param->rotAngle != 0)
 	{
-		dib = FreeImage_Rotate(dib, param->rotAngle, NULL);
-		if (dib == NULL)
+		FIBITMAP* dibRot = FreeImage_Rotate(dib, param->rotAngle, NULL);
+		FreeImage_Unload(dib);
+		if (dibRot == NULL)
 		{
-			printf("Error: Fail to rotate image (angle:%i)\n", (i32)param->rotAngle);
+			printf("Error: Fail to rotate image (angle:%i)!\n", (i32)param->rotAngle);
 			return NULL;
 		}
+		dib = dibRot;
+	}
+	if (bCrop)
+	{
+		if ((param->sizeX == 0) || (param->sizeY == 0))
+		{
+			printf("Error: Can't crop image if size is not defined! Define size using '-size' parameter.\n");
+			return NULL;
+		}
+		FIBITMAP* dibCrop = FreeImage_Copy(dib, param->posX, param->posY, param->posX + param->sizeX, param->posY + param->sizeY);
+		FreeImage_Unload(dib);
+		if (dib == NULL)
+		{
+			printf("Error: Fail to crop image!\n");
+			return NULL;
+		}
+		dib = dibCrop;
 	}
 
-	dib32 = FreeImage_ConvertTo32Bits(dib);
-	FreeImage_Unload(dib); // free the original dib
+	// Convert to 32-bit image
+	FIBITMAP* dib32 = FreeImage_ConvertTo32Bits(dib);
+	FreeImage_Unload(dib);
 
 	return dib32;
 }
@@ -2499,6 +2524,234 @@ bool ExportMGLV(ExportParameters* param, ExporterInterface* exp)
 	return bSaved;
 }
 
+//#############################################################################
+//
+// EXPORT GM2-i
+// 
+//#############################################################################
+
+
+// Structure of the combination for 1 frame
+struct GM2i_Combo
+{
+	u8 Pattern; // Bitfield of 8x1 pixels chunk (0:Color0, 1:Color1)
+	u8 Color0;  // Color index [0:15]
+	u8 Color1;  // Color index [0:15]
+};
+
+// Final structure of the Chunk
+struct GM2i_Chunk
+{
+	std::array<RGB24, 8> SourcePixels; // Original 8 pixels RGB
+	GM2i_Combo Frame1; // Combination for frame 1
+	GM2i_Combo Frame2; // Combination for frame 2
+};
+
+//-----------------------------------------------------------------------------
+// Square distance between 2 RGB colors
+inline i32 ColorDistance(const RGB24& c1, const RGB24& c2)
+{
+	i32 dr = static_cast<i32>(c1.R) - static_cast<i32>(c2.R);
+	i32 dg = static_cast<i32>(c1.G) - static_cast<i32>(c2.G);
+	i32 db = static_cast<i32>(c1.B) - static_cast<i32>(c2.B);
+	return dr * dr + dg * dg + db * db;
+}
+
+//-----------------------------------------------------------------------------
+// A 50/50 blend of two colors
+inline RGB24 ColorBlend(const RGB24& c1, const RGB24& c2)
+{
+	return RGB24
+	{
+		static_cast<u8>((static_cast<i32>(c1.R) + c2.R) / 2),
+		static_cast<u8>((static_cast<i32>(c1.G) + c2.G) / 2),
+		static_cast<u8>((static_cast<i32>(c1.B) + c2.B) / 2)
+	};
+}
+
+//-----------------------------------------------------------------------------
+// Chunk optimization algorithm
+GM2i_Chunk ConvertChunk(const std::array<RGB24, 8>& src, u32* pal, u8 first, u8 last)
+{
+	GM2i_Chunk bestChunk;
+	bestChunk.SourcePixels = src;
+
+	u64 minTotalError = std::numeric_limits<u64>::max();
+
+	// Test all possible color pairs for Frame 1
+	for (u8 f1_c1 = first; f1_c1 <= last; f1_c1++)
+	{
+		for (u8 f1_c0 = f1_c1; f1_c0 <= last; f1_c0++)
+		{
+			// Test all possible color pairs for Frame 2
+			for (u8 f2_c1 = first; f2_c1 <= last; f2_c1++)
+			{
+				for (u8 f2_c0 = f2_c1; f2_c0 <= last; f2_c0++)
+				{
+					// The 4 possible color choices for a pixel based on bits F1 and F2:
+					// Bit F1=1, Bit F2=1 -> f1_c1 + f2_c1
+					// Bit F1=1, Bit F2=0 -> f1_c1 + f2_c0
+					// Bit F1=0, Bit F2=1 -> f1_c0 + f2_c1
+					// Bit F1=0, Bit F2=0 -> f1_c0 + f2_c0
+					RGB24 option11 = ColorBlend(pal[f1_c1], pal[f2_c1]);
+					RGB24 option10 = ColorBlend(pal[f1_c1], pal[f2_c0]);
+					RGB24 option01 = ColorBlend(pal[f1_c0], pal[f2_c1]);
+					RGB24 option00 = ColorBlend(pal[f1_c0], pal[f2_c0]);
+
+					u64 currentError = 0;
+					u8 f1_pat = 0;
+					u8 f2_pat = 0;
+
+					// For each pixel in the chunk (0 through 7), choose the best combination of bits
+					for (i32 p = 0; p < 8; p++)
+					{
+						const RGB24& target = src[p];
+
+						i32 d11 = ColorDistance(target, option11);
+						i32 d10 = ColorDistance(target, option10);
+						i32 d01 = ColorDistance(target, option01);
+						i32 d00 = ColorDistance(target, option00);
+
+						i32 bestPixelError = d11;
+						bool bestBit1 = true, bestBit2 = true;
+
+						if (d10 < bestPixelError) { bestPixelError = d10; bestBit1 = true;  bestBit2 = false; }
+						if (d01 < bestPixelError) { bestPixelError = d01; bestBit1 = false; bestBit2 = true; }
+						if (d00 < bestPixelError) { bestPixelError = d00; bestBit1 = false; bestBit2 = false; }
+
+						currentError += bestPixelError;
+
+						// Updates the bitmasks (the first pixel corresponds to the MSB—bit 7)
+						if (bestBit1) f1_pat |= (1 << (7 - p));
+						if (bestBit2) f2_pat |= (1 << (7 - p));
+					}
+
+					// If this overall combination is the best, we record
+					if (currentError < minTotalError)
+					{
+						minTotalError = currentError;
+						bestChunk.Frame1 = { f1_pat, f1_c0, f1_c1 };
+						bestChunk.Frame2 = { f2_pat, f2_c0, f2_c1 };
+					}
+				}
+			}
+		}
+	}
+
+	return bestChunk;
+}
+
+//-----------------------------------------------------------------------------
+// Export GM2i (interlace mode with 2 images)
+bool ExportGM2i(ExportParameters* param, ExporterInterface* exp)
+{
+	//-------------------------------------------------------------------------
+	// Prepare image
+	FIBITMAP* dib32 = GetPreparedImage(param->inFile.c_str(), param, true); // open and load the file using the default load option
+	if (dib32 == NULL)
+	{
+		printf("Error: Fail to prepare 32-bit image\n");
+		return false;
+	}
+
+	// Get 32-bit raw datas
+	i32 imageX = FreeImage_GetWidth(dib32);
+	i32 imageY = FreeImage_GetHeight(dib32);
+	i32 scanWidth = FreeImage_GetPitch(dib32);
+	BYTE* rawData = new BYTE[scanWidth * imageY];
+	FreeImage_ConvertToRawBits(rawData, dib32, scanWidth, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, TRUE);
+	FreeImage_Unload(dib32);
+	u32* rgb = (u32*)rawData;
+
+	i32 chunkNum = (param->sizeX / 8) * param->sizeY;
+	std::vector<u8> patternFrame1(chunkNum);
+	std::vector<u8> colorFrame1(chunkNum);
+	std::vector<u8> patternFrame2(chunkNum);
+	std::vector<u8> colorFrame2(chunkNum);
+
+	i32 cnt = 0;
+	for (i32 y = 0; y < param->sizeY; y++)
+	{
+		for (i32 x = 0; x < param->sizeX; x += 8)
+		{
+			std::array<RGB24, 8> pixels;
+			loop(i, 8)
+				pixels[i] = RGB24(rgb[y * param->sizeX + x + i]);
+			GM2i_Chunk chunk = ConvertChunk(pixels, PaletteMSX1, 1, 15);
+			
+			i32 idx = x + y % 8 + ((y / 8) * 256);
+
+			//printf("%04i | F1:[%02x][%02x] F2:[%02x][%02x] Idx:%i\n", cnt++,
+			//	chunk.Frame1.Pattern, (chunk.Frame1.Color1 << 4) + chunk.Frame1.Color0, 
+			//	chunk.Frame2.Pattern, (chunk.Frame2.Color1 << 4) + chunk.Frame2.Color0, idx);
+
+			patternFrame1[idx] = chunk.Frame1.Pattern;
+			colorFrame1[idx]   = (chunk.Frame1.Color1 << 4) + chunk.Frame1.Color0;
+			patternFrame2[idx] = chunk.Frame2.Pattern;
+			colorFrame2[idx]   = (chunk.Frame2.Color1 << 4) + chunk.Frame2.Color0;
+		}
+	}
+
+	delete[] rawData;
+
+	// Frame 1 pattern data
+	exp->WriteTableBegin(TABLE_U8, param->tabName + "_pattern1", "Frame 1 pattern data");
+	loop (i, patternFrame1.size())
+	{
+		if ((i % 8) == 0)
+			exp->WriteCommentLine(MSX::Format("Tile[%i] (offset:%i)", i / 8, i));
+		exp->WriteLineBegin();
+		exp->Write8BitsData(patternFrame1[i]);
+		exp->WriteLineEnd();
+	}
+	exp->WriteTableEnd();
+
+	// Frame 1 color data
+	exp->WriteTableBegin(TABLE_U8, param->tabName + "_color1",   "Frame 1 color data");
+	loop(i, colorFrame1.size())
+	{
+		if ((i % 8) == 0)
+		{
+			exp->WriteCommentLine(MSX::Format("Tile[%i] (offset:%i)", i / 8, i));
+			exp->WriteLineBegin();
+		}
+		exp->Write1ByteData(colorFrame1[i]);
+		if ((i % 8) == 7)
+			exp->WriteLineEnd();
+	}
+	exp->WriteTableEnd();
+
+	// Frame 2 pattern data
+	exp->WriteTableBegin(TABLE_U8, param->tabName + "_pattern2", "Frame 2 pattern data");
+	loop(i, patternFrame2.size())
+	{
+		if ((i % 8) == 0)
+			exp->WriteCommentLine(MSX::Format("Tile[%i] (offset:%i)", i / 8, i));
+		exp->WriteLineBegin();
+		exp->Write8BitsData(patternFrame2[i]);
+		exp->WriteLineEnd();
+	}
+	exp->WriteTableEnd();
+
+	// Frame 2 color data
+	exp->WriteTableBegin(TABLE_U8, param->tabName + "_color2",   "Frame 2 color data");
+	loop(i, colorFrame2.size())
+	{
+		if ((i % 8) == 0)
+		{
+			exp->WriteCommentLine(MSX::Format("Tile[%i] (offset:%i)", i / 8, i));
+			exp->WriteLineBegin();
+		}
+		exp->Write1ByteData(colorFrame2[i]);
+		if ((i % 8) == 7)
+			exp->WriteLineEnd();
+	}
+	exp->WriteTableEnd();
+
+	bool bSaved = exp->Export();
+	return bSaved;
+}
+
 //-----------------------------------------------------------------------------
 // PARSE IMAGE
 //-----------------------------------------------------------------------------
@@ -2516,5 +2769,6 @@ bool ParseImage(ExportParameters* param, ExporterInterface* exp)
 	case MODE_Sprite:	return ExportSprite(param, exp);
 	case MODE_Text:		return ExportText(param, exp);
 	case MODE_MGLV:		return ExportMGLV(param, exp);
+	case MODE_GM2i:		return ExportGM2i(param, exp);
 	};
 }

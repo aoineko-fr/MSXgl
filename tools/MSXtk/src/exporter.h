@@ -32,6 +32,7 @@ enum MSXi_Mode
 	MODE_Sprite,				///< Export 16x16 sprites with specific block ordering (0,2,1,3)
 	MODE_Text,					///< Export name/pattern tables for Text 1 & 2 mode
 	MODE_MGLV,					///< Export movie data in MGLV format
+	MODE_GM2i,					///< Export name/pattern/color tables for Graphic 2 & 3 mode using 2 interlaced images
 };
 
 /// Format of the data
