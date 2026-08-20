@@ -27,10 +27,8 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x88, // Font size [x|y]
 	0x21, // First character ASCII code (!)
 	0x7E, // Last character ASCII code (~)
-// // Sprite[0] (offset:4)
-
-// // Sprite[1] (offset:4)
-
+// Sprite[0] (offset:4)
+// Sprite[1] (offset:4)
 	0x78, /* .####... */ 
 	0x48, /* .#..#... */ 
 	0x48, /* .#..#... */ 
@@ -39,8 +37,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x48, /* .#..#... */ 
 	0x78, /* .####... */ 
 	0x00, /* ........ */ 
-// // Sprite[2] (offset:12)
-
+// Sprite[2] (offset:12)
 	0x7C, /* .#####.. */ 
 	0x54, /* .#.#.#.. */ 
 	0x54, /* .#.#.#.. */ 
@@ -49,8 +46,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[3] (offset:20)
-
+// Sprite[3] (offset:20)
 	0x7C, /* .#####.. */ 
 	0xD6, /* ##.#.##. */ 
 	0x82, /* #.....#. */ 
@@ -59,8 +55,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xD6, /* ##.#.##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[4] (offset:28)
-
+// Sprite[4] (offset:28)
 	0x6E, /* .##.###. */ 
 	0xC2, /* ##....#. */ 
 	0xAE, /* #.#.###. */ 
@@ -69,8 +64,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x86, /* #....##. */ 
 	0xEC, /* ###.##.. */ 
 	0x00, /* ........ */ 
-// // Sprite[5] (offset:36)
-
+// Sprite[5] (offset:36)
 	0xEE, /* ###.###. */ 
 	0xBA, /* #.###.#. */ 
 	0xF6, /* ####.##. */ 
@@ -79,8 +73,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xBA, /* #.###.#. */ 
 	0xEE, /* ###.###. */ 
 	0x00, /* ........ */ 
-// // Sprite[6] (offset:44)
-
+// Sprite[6] (offset:44)
 	0x78, /* .####... */ 
 	0xC8, /* ##..#... */ 
 	0xAE, /* #.#.###. */ 
@@ -89,8 +82,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xCA, /* ##..#.#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[7] (offset:52)
-
+// Sprite[7] (offset:52)
 	0x78, /* .####... */ 
 	0x48, /* .#..#... */ 
 	0x58, /* .#.##... */ 
@@ -99,8 +91,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[8] (offset:60)
-
+// Sprite[8] (offset:60)
 	0x1C, /* ...###.. */ 
 	0x34, /* ..##.#.. */ 
 	0x2C, /* ..#.##.. */ 
@@ -109,8 +100,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x34, /* ..##.#.. */ 
 	0x1C, /* ...###.. */ 
 	0x00, /* ........ */ 
-// // Sprite[9] (offset:68)
-
+// Sprite[9] (offset:68)
 	0x38, /* ..###... */ 
 	0x2C, /* ..#.##.. */ 
 	0x34, /* ..##.#.. */ 
@@ -119,8 +109,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x2C, /* ..#.##.. */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[10] (offset:76)
-
+// Sprite[10] (offset:76)
 	0x00, /* ........ */ 
 	0x7C, /* .#####.. */ 
 	0x54, /* .#.#.#.. */ 
@@ -129,8 +118,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[11] (offset:84)
-
+// Sprite[11] (offset:84)
 	0x00, /* ........ */ 
 	0x38, /* ..###... */ 
 	0x6C, /* .##.##.. */ 
@@ -139,8 +127,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[12] (offset:92)
-
+// Sprite[12] (offset:92)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -149,8 +136,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xD0, /* ##.#.... */ 
 	0x90, /* #..#.... */ 
 	0xF0, /* ####.... */ 
-// // Sprite[13] (offset:100)
-
+// Sprite[13] (offset:100)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x7C, /* .#####.. */ 
@@ -159,8 +145,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[14] (offset:108)
-
+// Sprite[14] (offset:108)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -169,8 +154,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x50, /* .#.#.... */ 
 	0x70, /* .###.... */ 
 	0x00, /* ........ */ 
-// // Sprite[15] (offset:116)
-
+// Sprite[15] (offset:116)
 	0x0E, /* ....###. */ 
 	0x1A, /* ...##.#. */ 
 	0x36, /* ..##.##. */ 
@@ -179,8 +163,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xB0, /* #.##.... */ 
 	0xE0, /* ###..... */ 
 	0x00, /* ........ */ 
-// // Sprite[16] (offset:124)
-
+// Sprite[16] (offset:124)
 	0x3C, /* ..####.. */ 
 	0x66, /* .##..##. */ 
 	0x5A, /* .#.##.#. */ 
@@ -189,8 +172,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x66, /* .##..##. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[17] (offset:132)
-
+// Sprite[17] (offset:132)
 	0x38, /* ..###... */ 
 	0x68, /* .##.#... */ 
 	0x48, /* .#..#... */ 
@@ -199,8 +181,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x44, /* .#...#.. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[18] (offset:140)
-
+// Sprite[18] (offset:140)
 	0x7C, /* .#####.. */ 
 	0x46, /* .#...##. */ 
 	0x7A, /* .####.#. */ 
@@ -209,8 +190,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x42, /* .#....#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[19] (offset:148)
-
+// Sprite[19] (offset:148)
 	0x7C, /* .#####.. */ 
 	0x46, /* .#...##. */ 
 	0x7A, /* .####.#. */ 
@@ -219,8 +199,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x46, /* .#...##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[20] (offset:156)
-
+// Sprite[20] (offset:156)
 	0x70, /* .###.... */ 
 	0x5C, /* .#.###.. */ 
 	0x56, /* .#.#.##. */ 
@@ -229,8 +208,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x14, /* ...#.#.. */ 
 	0x1C, /* ...###.. */ 
 	0x00, /* ........ */ 
-// // Sprite[21] (offset:164)
-
+// Sprite[21] (offset:164)
 	0x7E, /* .######. */ 
 	0x42, /* .#....#. */ 
 	0x5E, /* .#.####. */ 
@@ -239,8 +217,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x46, /* .#...##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[22] (offset:172)
-
+// Sprite[22] (offset:172)
 	0x3E, /* ..#####. */ 
 	0x62, /* .##...#. */ 
 	0x5E, /* .#.####. */ 
@@ -249,8 +226,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x66, /* .##..##. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[23] (offset:180)
-
+// Sprite[23] (offset:180)
 	0x7E, /* .######. */ 
 	0x42, /* .#....#. */ 
 	0x7A, /* .####.#. */ 
@@ -259,8 +235,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x58, /* .#.##... */ 
 	0x70, /* .###.... */ 
 	0x00, /* ........ */ 
-// // Sprite[24] (offset:188)
-
+// Sprite[24] (offset:188)
 	0x3C, /* ..####.. */ 
 	0x66, /* .##..##. */ 
 	0x5A, /* .#.##.#. */ 
@@ -269,8 +244,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x66, /* .##..##. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[25] (offset:196)
-
+// Sprite[25] (offset:196)
 	0x3C, /* ..####.. */ 
 	0x66, /* .##..##. */ 
 	0x5A, /* .#.##.#. */ 
@@ -279,8 +253,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x46, /* .#...##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[26] (offset:204)
-
+// Sprite[26] (offset:204)
 	0x00, /* ........ */ 
 	0x70, /* .###.... */ 
 	0x50, /* .#.#.... */ 
@@ -289,8 +262,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x70, /* .###.... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[27] (offset:212)
-
+// Sprite[27] (offset:212)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x70, /* .###.... */ 
@@ -299,8 +271,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xD0, /* ##.#.... */ 
 	0x90, /* #..#.... */ 
 	0xF0, /* ####.... */ 
-// // Sprite[28] (offset:220)
-
+// Sprite[28] (offset:220)
 	0x1C, /* ...###.. */ 
 	0x34, /* ..##.#.. */ 
 	0x6C, /* .##.##.. */ 
@@ -309,8 +280,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x34, /* ..##.#.. */ 
 	0x1C, /* ...###.. */ 
 	0x00, /* ........ */ 
-// // Sprite[29] (offset:228)
-
+// Sprite[29] (offset:228)
 	0x00, /* ........ */ 
 	0x7C, /* .#####.. */ 
 	0x44, /* .#...#.. */ 
@@ -319,8 +289,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[30] (offset:236)
-
+// Sprite[30] (offset:236)
 	0x70, /* .###.... */ 
 	0x58, /* .#.##... */ 
 	0x6C, /* .##.##.. */ 
@@ -329,8 +298,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x58, /* .#.##... */ 
 	0x70, /* .###.... */ 
 	0x00, /* ........ */ 
-// // Sprite[31] (offset:244)
-
+// Sprite[31] (offset:244)
 	0x78, /* .####... */ 
 	0x4C, /* .#..##.. */ 
 	0x74, /* .###.#.. */ 
@@ -339,8 +307,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x28, /* ..#.#... */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[32] (offset:252)
-
+// Sprite[32] (offset:252)
 	0x7C, /* .#####.. */ 
 	0xC6, /* ##...##. */ 
 	0xBA, /* #.###.#. */ 
@@ -349,8 +316,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x46, /* .#...##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[33] (offset:260)
-
+// Sprite[33] (offset:260)
 	0x3C, /* ..####.. */ 
 	0x66, /* .##..##. */ 
 	0x5A, /* .#.##.#. */ 
@@ -359,8 +325,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x5A, /* .#.##.#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[34] (offset:268)
-
+// Sprite[34] (offset:268)
 	0x7C, /* .#####.. */ 
 	0x46, /* .#...##. */ 
 	0x5A, /* .#.##.#. */ 
@@ -369,8 +334,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x46, /* .#...##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[35] (offset:276)
-
+// Sprite[35] (offset:276)
 	0x3C, /* ..####.. */ 
 	0x66, /* .##..##. */ 
 	0x5A, /* .#.##.#. */ 
@@ -379,8 +343,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x66, /* .##..##. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[36] (offset:284)
-
+// Sprite[36] (offset:284)
 	0x7C, /* .#####.. */ 
 	0x46, /* .#...##. */ 
 	0x5A, /* .#.##.#. */ 
@@ -389,8 +352,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x46, /* .#...##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[37] (offset:292)
-
+// Sprite[37] (offset:292)
 	0x7E, /* .######. */ 
 	0x42, /* .#....#. */ 
 	0x5E, /* .#.####. */ 
@@ -399,8 +361,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x42, /* .#....#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[38] (offset:300)
-
+// Sprite[38] (offset:300)
 	0x7E, /* .######. */ 
 	0x42, /* .#....#. */ 
 	0x5E, /* .#.####. */ 
@@ -409,8 +370,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x50, /* .#.#.... */ 
 	0x70, /* .###.... */ 
 	0x00, /* ........ */ 
-// // Sprite[39] (offset:308)
-
+// Sprite[39] (offset:308)
 	0x3C, /* ..####.. */ 
 	0x66, /* .##..##. */ 
 	0x5E, /* .#.####. */ 
@@ -419,8 +379,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x66, /* .##..##. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[40] (offset:316)
-
+// Sprite[40] (offset:316)
 	0x7E, /* .######. */ 
 	0x5A, /* .#.##.#. */ 
 	0x5A, /* .#.##.#. */ 
@@ -429,8 +388,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x5A, /* .#.##.#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[41] (offset:324)
-
+// Sprite[41] (offset:324)
 	0x7C, /* .#####.. */ 
 	0x44, /* .#...#.. */ 
 	0x6C, /* .##.##.. */ 
@@ -439,8 +397,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x44, /* .#...#.. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[42] (offset:332)
-
+// Sprite[42] (offset:332)
 	0x7E, /* .######. */ 
 	0x42, /* .#....#. */ 
 	0x76, /* .###.##. */ 
@@ -449,8 +406,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x6C, /* .##.##.. */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[43] (offset:340)
-
+// Sprite[43] (offset:340)
 	0x7E, /* .######. */ 
 	0x5A, /* .#.##.#. */ 
 	0x56, /* .#.#.##. */ 
@@ -459,8 +415,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x5A, /* .#.##.#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[44] (offset:348)
-
+// Sprite[44] (offset:348)
 	0x70, /* .###.... */ 
 	0x50, /* .#.#.... */ 
 	0x50, /* .#.#.... */ 
@@ -469,8 +424,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x42, /* .#....#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[45] (offset:356)
-
+// Sprite[45] (offset:356)
 	0xEE, /* ###.###. */ 
 	0xBA, /* #.###.#. */ 
 	0x92, /* #..#..#. */ 
@@ -479,8 +433,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xAA, /* #.#.#.#. */ 
 	0xEE, /* ###.###. */ 
 	0x00, /* ........ */ 
-// // Sprite[46] (offset:364)
-
+// Sprite[46] (offset:364)
 	0xEE, /* ###.###. */ 
 	0xBA, /* #.###.#. */ 
 	0x9A, /* #..##.#. */ 
@@ -489,8 +442,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xBA, /* #.###.#. */ 
 	0xEE, /* ###.###. */ 
 	0x00, /* ........ */ 
-// // Sprite[47] (offset:372)
-
+// Sprite[47] (offset:372)
 	0x7C, /* .#####.. */ 
 	0xC6, /* ##...##. */ 
 	0xBA, /* #.###.#. */ 
@@ -499,8 +451,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xC6, /* ##...##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[48] (offset:380)
-
+// Sprite[48] (offset:380)
 	0x7C, /* .#####.. */ 
 	0x46, /* .#...##. */ 
 	0x5A, /* .#.##.#. */ 
@@ -509,8 +460,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x50, /* .#.#.... */ 
 	0x70, /* .###.... */ 
 	0x00, /* ........ */ 
-// // Sprite[49] (offset:388)
-
+// Sprite[49] (offset:388)
 	0x3E, /* ..#####. */ 
 	0x62, /* .##...#. */ 
 	0x5A, /* .#.##.#. */ 
@@ -519,8 +469,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x0A, /* ....#.#. */ 
 	0x0E, /* ....###. */ 
 	0x00, /* ........ */ 
-// // Sprite[50] (offset:396)
-
+// Sprite[50] (offset:396)
 	0x7C, /* .#####.. */ 
 	0x46, /* .#...##. */ 
 	0x5A, /* .#.##.#. */ 
@@ -529,8 +478,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x5A, /* .#.##.#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[51] (offset:404)
-
+// Sprite[51] (offset:404)
 	0x3E, /* ..#####. */ 
 	0x62, /* .##...#. */ 
 	0x5E, /* .#.####. */ 
@@ -539,8 +487,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x46, /* .#...##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[52] (offset:412)
-
+// Sprite[52] (offset:412)
 	0xFE, /* #######. */ 
 	0x82, /* #.....#. */ 
 	0xEE, /* ###.###. */ 
@@ -549,8 +496,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x28, /* ..#.#... */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[53] (offset:420)
-
+// Sprite[53] (offset:420)
 	0x7E, /* .######. */ 
 	0x5A, /* .#.##.#. */ 
 	0x5A, /* .#.##.#. */ 
@@ -559,8 +505,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x66, /* .##..##. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[54] (offset:428)
-
+// Sprite[54] (offset:428)
 	0xEE, /* ###.###. */ 
 	0xAA, /* #.#.#.#. */ 
 	0xBA, /* #.###.#. */ 
@@ -569,8 +514,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x6C, /* .##.##.. */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[55] (offset:436)
-
+// Sprite[55] (offset:436)
 	0xEE, /* ###.###. */ 
 	0xAA, /* #.#.#.#. */ 
 	0xBA, /* #.###.#. */ 
@@ -579,8 +523,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xD6, /* ##.#.##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[56] (offset:444)
-
+// Sprite[56] (offset:444)
 	0xEE, /* ###.###. */ 
 	0xBA, /* #.###.#. */ 
 	0xD6, /* ##.#.##. */ 
@@ -589,8 +532,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xBA, /* #.###.#. */ 
 	0xEE, /* ###.###. */ 
 	0x00, /* ........ */ 
-// // Sprite[57] (offset:452)
-
+// Sprite[57] (offset:452)
 	0x7E, /* .######. */ 
 	0x5A, /* .#.##.#. */ 
 	0x5A, /* .#.##.#. */ 
@@ -599,8 +541,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x14, /* ...#.#.. */ 
 	0x1C, /* ...###.. */ 
 	0x00, /* ........ */ 
-// // Sprite[58] (offset:460)
-
+// Sprite[58] (offset:460)
 	0x7E, /* .######. */ 
 	0x42, /* .#....#. */ 
 	0x7A, /* .####.#. */ 
@@ -609,8 +550,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x42, /* .#....#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[59] (offset:468)
-
+// Sprite[59] (offset:468)
 	0x3C, /* ..####.. */ 
 	0x24, /* ..#..#.. */ 
 	0x2C, /* ..#.##.. */ 
@@ -619,8 +559,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x24, /* ..#..#.. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[60] (offset:476)
-
+// Sprite[60] (offset:476)
 	0xE0, /* ###..... */ 
 	0xB0, /* #.##.... */ 
 	0xD8, /* ##.##... */ 
@@ -629,8 +568,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x1A, /* ...##.#. */ 
 	0x0E, /* ....###. */ 
 	0x00, /* ........ */ 
-// // Sprite[61] (offset:484)
-
+// Sprite[61] (offset:484)
 	0x3C, /* ..####.. */ 
 	0x24, /* ..#..#.. */ 
 	0x34, /* ..##.#.. */ 
@@ -639,8 +577,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x24, /* ..#..#.. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[62] (offset:492)
-
+// Sprite[62] (offset:492)
 	0x38, /* ..###... */ 
 	0x6C, /* .##.##.. */ 
 	0xD6, /* ##.#.##. */ 
@@ -649,8 +586,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[63] (offset:500)
-
+// Sprite[63] (offset:500)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -659,8 +595,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xFE, /* #######. */ 
 	0x82, /* #.....#. */ 
 	0xFE, /* #######. */ 
-// // Sprite[64] (offset:508)
-
+// Sprite[64] (offset:508)
 	0x78, /* .####... */ 
 	0x48, /* .#..#... */ 
 	0x68, /* .##.#... */ 
@@ -669,8 +604,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[65] (offset:516)
-
+// Sprite[65] (offset:516)
 	0x3C, /* ..####.. */ 
 	0x26, /* ..#..##. */ 
 	0x3A, /* ..###.#. */ 
@@ -679,8 +613,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x62, /* .##...#. */ 
 	0x3E, /* ..#####. */ 
 	0x00, /* ........ */ 
-// // Sprite[66] (offset:524)
-
+// Sprite[66] (offset:524)
 	0x70, /* .###.... */ 
 	0x50, /* .#.#.... */ 
 	0x5C, /* .#.###.. */ 
@@ -689,8 +622,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x46, /* .#...##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[67] (offset:532)
-
+// Sprite[67] (offset:532)
 	0x00, /* ........ */ 
 	0x3E, /* ..#####. */ 
 	0x62, /* .##...#. */ 
@@ -699,8 +631,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x62, /* .##...#. */ 
 	0x3E, /* ..#####. */ 
 	0x00, /* ........ */ 
-// // Sprite[68] (offset:540)
-
+// Sprite[68] (offset:540)
 	0x0E, /* ....###. */ 
 	0x0A, /* ....#.#. */ 
 	0x3A, /* ..###.#. */ 
@@ -709,8 +640,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x62, /* .##...#. */ 
 	0x3E, /* ..#####. */ 
 	0x00, /* ........ */ 
-// // Sprite[69] (offset:548)
-
+// Sprite[69] (offset:548)
 	0x3C, /* ..####.. */ 
 	0x66, /* .##..##. */ 
 	0x5A, /* .#.##.#. */ 
@@ -719,8 +649,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x62, /* .##...#. */ 
 	0x3E, /* ..#####. */ 
 	0x00, /* ........ */ 
-// // Sprite[70] (offset:556)
-
+// Sprite[70] (offset:556)
 	0x3E, /* ..#####. */ 
 	0x62, /* .##...#. */ 
 	0x5E, /* .#.####. */ 
@@ -729,8 +658,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x50, /* .#.#.... */ 
 	0x70, /* .###.... */ 
 	0x00, /* ........ */ 
-// // Sprite[71] (offset:564)
-
+// Sprite[71] (offset:564)
 	0x00, /* ........ */ 
 	0x3E, /* ..#####. */ 
 	0x62, /* .##...#. */ 
@@ -739,8 +667,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x7A, /* .####.#. */ 
 	0x46, /* .#...##. */ 
 	0x7C, /* .#####.. */ 
-// // Sprite[72] (offset:572)
-
+// Sprite[72] (offset:572)
 	0x70, /* .###.... */ 
 	0x50, /* .#.#.... */ 
 	0x5C, /* .#.###.. */ 
@@ -749,8 +676,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x5A, /* .#.##.#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[73] (offset:580)
-
+// Sprite[73] (offset:580)
 	0x00, /* ........ */ 
 	0x38, /* ..###... */ 
 	0x28, /* ..#.#... */ 
@@ -759,8 +685,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x24, /* ..#..#.. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[74] (offset:588)
-
+// Sprite[74] (offset:588)
 	0x00, /* ........ */ 
 	0x0E, /* ....###. */ 
 	0x0A, /* ....#.#. */ 
@@ -769,8 +694,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x5A, /* .#.##.#. */ 
 	0x66, /* .##..##. */ 
 	0x3C, /* ..####.. */ 
-// // Sprite[75] (offset:596)
-
+// Sprite[75] (offset:596)
 	0x70, /* .###.... */ 
 	0x50, /* .#.#.... */ 
 	0x5E, /* .#.####. */ 
@@ -779,8 +703,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x52, /* .#.#..#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[76] (offset:604)
-
+// Sprite[76] (offset:604)
 	0x38, /* ..###... */ 
 	0x28, /* ..#.#... */ 
 	0x28, /* ..#.#... */ 
@@ -789,8 +712,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x34, /* ..##.#.. */ 
 	0x1C, /* ...###.. */ 
 	0x00, /* ........ */ 
-// // Sprite[77] (offset:612)
-
+// Sprite[77] (offset:612)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xFC, /* ######.. */ 
@@ -799,8 +721,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xAA, /* #.#.#.#. */ 
 	0xFE, /* #######. */ 
 	0x00, /* ........ */ 
-// // Sprite[78] (offset:620)
-
+// Sprite[78] (offset:620)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x7C, /* .#####.. */ 
@@ -809,8 +730,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x5A, /* .#.##.#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[79] (offset:628)
-
+// Sprite[79] (offset:628)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x3C, /* ..####.. */ 
@@ -819,8 +739,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x66, /* .##..##. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[80] (offset:636)
-
+// Sprite[80] (offset:636)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x7C, /* .#####.. */ 
@@ -829,8 +748,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x46, /* .#...##. */ 
 	0x5C, /* .#.###.. */ 
 	0x70, /* .###.... */ 
-// // Sprite[81] (offset:644)
-
+// Sprite[81] (offset:644)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x3C, /* ..####.. */ 
@@ -839,8 +757,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x62, /* .##...#. */ 
 	0x3A, /* ..###.#. */ 
 	0x0E, /* ....###. */ 
-// // Sprite[82] (offset:652)
-
+// Sprite[82] (offset:652)
 	0x00, /* ........ */ 
 	0x7E, /* .######. */ 
 	0x52, /* .#.#..#. */ 
@@ -849,8 +766,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x50, /* .#.#.... */ 
 	0x70, /* .###.... */ 
 	0x00, /* ........ */ 
-// // Sprite[83] (offset:660)
-
+// Sprite[83] (offset:660)
 	0x3C, /* ..####.. */ 
 	0x64, /* .##..#.. */ 
 	0x5C, /* .#.###.. */ 
@@ -859,8 +775,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x26, /* ..#..##. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[84] (offset:668)
-
+// Sprite[84] (offset:668)
 	0x70, /* .###.... */ 
 	0x58, /* .#.##... */ 
 	0x48, /* .#..#... */ 
@@ -869,8 +784,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x64, /* .##..#.. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[85] (offset:676)
-
+// Sprite[85] (offset:676)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x7E, /* .######. */ 
@@ -879,8 +793,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x62, /* .##...#. */ 
 	0x3E, /* ..#####. */ 
 	0x00, /* ........ */ 
-// // Sprite[86] (offset:684)
-
+// Sprite[86] (offset:684)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x7E, /* .######. */ 
@@ -889,8 +802,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x6C, /* .##.##.. */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[87] (offset:692)
-
+// Sprite[87] (offset:692)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
@@ -899,8 +811,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0xD6, /* ##.#.##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[88] (offset:700)
-
+// Sprite[88] (offset:700)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x7C, /* .#####.. */ 
@@ -909,8 +820,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x54, /* .#.#.#.. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[89] (offset:708)
-
+// Sprite[89] (offset:708)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x7E, /* .######. */ 
@@ -919,8 +829,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x7A, /* .####.#. */ 
 	0x46, /* .#...##. */ 
 	0x7C, /* .#####.. */ 
-// // Sprite[90] (offset:716)
-
+// Sprite[90] (offset:716)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x7E, /* .######. */ 
@@ -929,8 +838,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x6E, /* .##.###. */ 
 	0x42, /* .#....#. */ 
 	0x7E, /* .######. */ 
-// // Sprite[91] (offset:724)
-
+// Sprite[91] (offset:724)
 	0x3C, /* ..####.. */ 
 	0x24, /* ..#..#.. */ 
 	0x6C, /* .##.##.. */ 
@@ -939,8 +847,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x24, /* ..#..#.. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[92] (offset:732)
-
+// Sprite[92] (offset:732)
 	0x38, /* ..###... */ 
 	0x28, /* ..#.#... */ 
 	0x28, /* ..#.#... */ 
@@ -949,8 +856,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x28, /* ..#.#... */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[93] (offset:740)
-
+// Sprite[93] (offset:740)
 	0x78, /* .####... */ 
 	0x48, /* .#..#... */ 
 	0x6C, /* .##.##.. */ 
@@ -959,8 +865,7 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x48, /* .#..#... */ 
 	0x78, /* .####... */ 
 	0x00, /* ........ */ 
-// // Sprite[94] (offset:748)
-
+// Sprite[94] (offset:748)
 	0x00, /* ........ */ 
 	0x3E, /* ..#####. */ 
 	0x6A, /* .##.#.#. */ 
@@ -969,7 +874,6 @@ const unsigned char g_Font_MGL_Neon1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[95] (offset:756)
-
+// Sprite[95] (offset:756)
 };
 // Total size : 756 bytes

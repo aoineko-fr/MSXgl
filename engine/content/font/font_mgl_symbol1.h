@@ -27,8 +27,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x88, // Font size [x|y]
 	0x00, // First character ASCII code (
 	0xE0, // Last character ASCII code (à)
-// // Sprite[0] (offset:4)
-
+// Sprite[0] (offset:4)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -37,8 +36,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[1] (offset:12)
-
+// Sprite[1] (offset:12)
 	0x3C, /* ..####.. */ 
 	0x42, /* .#....#. */ 
 	0xA5, /* #.#..#.# */ 
@@ -47,8 +45,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x99, /* #..##..# */ 
 	0x42, /* .#....#. */ 
 	0x3C, /* ..####.. */ 
-// // Sprite[2] (offset:20)
-
+// Sprite[2] (offset:20)
 	0x3C, /* ..####.. */ 
 	0x7E, /* .######. */ 
 	0xDB, /* ##.##.## */ 
@@ -57,8 +54,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xDB, /* ##.##.## */ 
 	0x66, /* .##..##. */ 
 	0x3C, /* ..####.. */ 
-// // Sprite[3] (offset:28)
-
+// Sprite[3] (offset:28)
 	0x00, /* ........ */ 
 	0x6C, /* .##.##.. */ 
 	0xFE, /* #######. */ 
@@ -67,8 +63,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[4] (offset:36)
-
+// Sprite[4] (offset:36)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x38, /* ..###... */ 
@@ -77,8 +72,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[5] (offset:44)
-
+// Sprite[5] (offset:44)
 	0x00, /* ........ */ 
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
@@ -87,8 +81,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xD6, /* ##.#.##. */ 
 	0x10, /* ...#.... */ 
 	0x38, /* ..###... */ 
-// // Sprite[6] (offset:52)
-
+// Sprite[6] (offset:52)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x38, /* ..###... */ 
@@ -97,8 +90,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFE, /* #######. */ 
 	0x38, /* ..###... */ 
 	0x7C, /* .#####.. */ 
-// // Sprite[7] (offset:60)
-
+// Sprite[7] (offset:60)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -107,8 +99,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[8] (offset:68)
-
+// Sprite[8] (offset:68)
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
@@ -117,8 +108,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
-// // Sprite[9] (offset:76)
-
+// Sprite[9] (offset:76)
 	0x38, /* ..###... */ 
 	0x44, /* .#...#.. */ 
 	0x82, /* #.....#. */ 
@@ -127,8 +117,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x44, /* .#...#.. */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[10] (offset:84)
-
+// Sprite[10] (offset:84)
 	0xC7, /* ##...### */ 
 	0xBB, /* #.###.## */ 
 	0x7D, /* .#####.# */ 
@@ -137,8 +126,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xBB, /* #.###.## */ 
 	0xC7, /* ##...### */ 
 	0xFF, /* ######## */ 
-// // Sprite[11] (offset:92)
-
+// Sprite[11] (offset:92)
 	0x0F, /* ....#### */ 
 	0x03, /* ......## */ 
 	0x05, /* .....#.# */ 
@@ -147,8 +135,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x88, /* #...#... */ 
 	0x88, /* #...#... */ 
 	0x70, /* .###.... */ 
-// // Sprite[12] (offset:100)
-
+// Sprite[12] (offset:100)
 	0x38, /* ..###... */ 
 	0x44, /* .#...#.. */ 
 	0x44, /* .#...#.. */ 
@@ -157,8 +144,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x7C, /* .#####.. */ 
 	0x10, /* ...#.... */ 
-// // Sprite[13] (offset:108)
-
+// Sprite[13] (offset:108)
 	0x30, /* ..##.... */ 
 	0x28, /* ..#.#... */ 
 	0x24, /* ..#..#.. */ 
@@ -167,8 +153,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x20, /* ..#..... */ 
 	0xE0, /* ###..... */ 
 	0xC0, /* ##...... */ 
-// // Sprite[14] (offset:116)
-
+// Sprite[14] (offset:116)
 	0x3C, /* ..####.. */ 
 	0x24, /* ..#..#.. */ 
 	0x3C, /* ..####.. */ 
@@ -177,8 +162,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xE4, /* ###..#.. */ 
 	0xDC, /* ##.###.. */ 
 	0x18, /* ...##... */ 
-// // Sprite[15] (offset:124)
-
+// Sprite[15] (offset:124)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x54, /* .#.#.#.. */ 
@@ -187,8 +171,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x38, /* ..###... */ 
 	0x54, /* .#.#.#.. */ 
 	0x10, /* ...#.... */ 
-// // Sprite[16] (offset:132)
-
+// Sprite[16] (offset:132)
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
@@ -197,8 +180,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[17] (offset:140)
-
+// Sprite[17] (offset:140)
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
@@ -207,8 +189,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[18] (offset:148)
-
+// Sprite[18] (offset:148)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -217,8 +198,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[19] (offset:156)
-
+// Sprite[19] (offset:156)
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
@@ -227,8 +207,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[20] (offset:164)
-
+// Sprite[20] (offset:164)
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
@@ -237,8 +216,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[21] (offset:172)
-
+// Sprite[21] (offset:172)
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
@@ -247,8 +225,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[22] (offset:180)
-
+// Sprite[22] (offset:180)
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
@@ -257,8 +234,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[23] (offset:188)
-
+// Sprite[23] (offset:188)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -267,8 +243,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[24] (offset:196)
-
+// Sprite[24] (offset:196)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -277,8 +252,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[25] (offset:204)
-
+// Sprite[25] (offset:204)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -287,8 +261,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[26] (offset:212)
-
+// Sprite[26] (offset:212)
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
@@ -297,8 +270,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[27] (offset:220)
-
+// Sprite[27] (offset:220)
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
@@ -307,8 +279,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[28] (offset:228)
-
+// Sprite[28] (offset:228)
 	0x81, /* #......# */ 
 	0x42, /* .#....#. */ 
 	0x24, /* ..#..#.. */ 
@@ -317,8 +288,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x24, /* ..#..#.. */ 
 	0x42, /* .#....#. */ 
 	0x81, /* #......# */ 
-// // Sprite[29] (offset:236)
-
+// Sprite[29] (offset:236)
 	0x01, /* .......# */ 
 	0x02, /* ......#. */ 
 	0x04, /* .....#.. */ 
@@ -327,8 +297,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x20, /* ..#..... */ 
 	0x40, /* .#...... */ 
 	0x80, /* #....... */ 
-// // Sprite[30] (offset:244)
-
+// Sprite[30] (offset:244)
 	0x80, /* #....... */ 
 	0x40, /* .#...... */ 
 	0x20, /* ..#..... */ 
@@ -337,8 +306,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x04, /* .....#.. */ 
 	0x02, /* ......#. */ 
 	0x01, /* .......# */ 
-// // Sprite[31] (offset:252)
-
+// Sprite[31] (offset:252)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
@@ -347,8 +315,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[32] (offset:260)
-
+// Sprite[32] (offset:260)
 	0x00, /* ........ */ 
 	0x01, /* .......# */ 
 	0x13, /* ...#..## */ 
@@ -357,8 +324,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x37, /* ..##.### */ 
 	0x13, /* ...#..## */ 
 	0x01, /* .......# */ 
-// // Sprite[33] (offset:268)
-
+// Sprite[33] (offset:268)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x90, /* #..#.... */ 
@@ -367,8 +333,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xD8, /* ##.##... */ 
 	0x90, /* #..#.... */ 
 	0x00, /* ........ */ 
-// // Sprite[34] (offset:276)
-
+// Sprite[34] (offset:276)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -377,8 +342,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x42, /* .#....#. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[35] (offset:284)
-
+// Sprite[35] (offset:284)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x02, /* ......#. */ 
@@ -387,8 +351,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7E, /* .######. */ 
 	0x30, /* ..##.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[36] (offset:292)
-
+// Sprite[36] (offset:292)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x22, /* ..#...#. */ 
@@ -397,8 +360,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x62, /* .##...#. */ 
 	0x22, /* ..#...#. */ 
 	0x00, /* ........ */ 
-// // Sprite[37] (offset:300)
-
+// Sprite[37] (offset:300)
 	0x10, /* ...#.... */ 
 	0x38, /* ..###... */ 
 	0x7C, /* .#####.. */ 
@@ -407,8 +369,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7C, /* .#####.. */ 
 	0x10, /* ...#.... */ 
 	0x7C, /* .#####.. */ 
-// // Sprite[38] (offset:308)
-
+// Sprite[38] (offset:308)
 	0x7C, /* .#####.. */ 
 	0x10, /* ...#.... */ 
 	0x7C, /* .#####.. */ 
@@ -417,8 +378,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[39] (offset:316)
-
+// Sprite[39] (offset:316)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x90, /* #..#.... */ 
@@ -427,8 +387,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xA0, /* #.#..... */ 
 	0x90, /* #..#.... */ 
 	0x00, /* ........ */ 
-// // Sprite[40] (offset:324)
-
+// Sprite[40] (offset:324)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x12, /* ...#..#. */ 
@@ -437,8 +396,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x0A, /* ....#.#. */ 
 	0x12, /* ...#..#. */ 
 	0x00, /* ........ */ 
-// // Sprite[41] (offset:332)
-
+// Sprite[41] (offset:332)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x38, /* ..###... */ 
@@ -447,8 +405,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[42] (offset:340)
-
+// Sprite[42] (offset:340)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -457,8 +414,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[43] (offset:348)
-
+// Sprite[43] (offset:348)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -467,8 +423,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[44] (offset:356)
-
+// Sprite[44] (offset:356)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -477,8 +432,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[45] (offset:364)
-
+// Sprite[45] (offset:364)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -487,8 +441,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[46] (offset:372)
-
+// Sprite[46] (offset:372)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -497,8 +450,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[47] (offset:380)
-
+// Sprite[47] (offset:380)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -507,8 +459,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[48] (offset:388)
-
+// Sprite[48] (offset:388)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x30, /* ..##.... */ 
@@ -517,8 +468,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7F, /* .####### */ 
 	0x30, /* ..##.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[49] (offset:396)
-
+// Sprite[49] (offset:396)
 	0x00, /* ........ */ 
 	0x08, /* ....#... */ 
 	0x0C, /* ....##.. */ 
@@ -527,8 +477,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFE, /* #######. */ 
 	0x0C, /* ....##.. */ 
 	0x08, /* ....#... */ 
-// // Sprite[50] (offset:404)
-
+// Sprite[50] (offset:404)
 	0x10, /* ...#.... */ 
 	0x38, /* ..###... */ 
 	0x7C, /* .#####.. */ 
@@ -537,8 +486,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
-// // Sprite[51] (offset:412)
-
+// Sprite[51] (offset:412)
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
@@ -547,8 +495,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[52] (offset:420)
-
+// Sprite[52] (offset:420)
 	0xFC, /* ######.. */ 
 	0xF8, /* #####... */ 
 	0xF0, /* ####.... */ 
@@ -557,8 +504,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x8E, /* #...###. */ 
 	0x07, /* .....### */ 
 	0x02, /* ......#. */ 
-// // Sprite[53] (offset:428)
-
+// Sprite[53] (offset:428)
 	0x3F, /* ..###### */ 
 	0x1F, /* ...##### */ 
 	0x0F, /* ....#### */ 
@@ -567,8 +513,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x71, /* .###...# */ 
 	0xE0, /* ###..... */ 
 	0x40, /* .#...... */ 
-// // Sprite[54] (offset:436)
-
+// Sprite[54] (offset:436)
 	0x02, /* ......#. */ 
 	0x07, /* .....### */ 
 	0x8E, /* #...###. */ 
@@ -577,8 +522,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xF0, /* ####.... */ 
 	0xF8, /* #####... */ 
 	0xFC, /* ######.. */ 
-// // Sprite[55] (offset:444)
-
+// Sprite[55] (offset:444)
 	0x40, /* .#...... */ 
 	0xE0, /* ###..... */ 
 	0x71, /* .###...# */ 
@@ -587,8 +531,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x0F, /* ....#### */ 
 	0x1F, /* ...##### */ 
 	0x3F, /* ..###### */ 
-// // Sprite[56] (offset:452)
-
+// Sprite[56] (offset:452)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
@@ -597,8 +540,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFE, /* #######. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[57] (offset:460)
-
+// Sprite[57] (offset:460)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
@@ -607,8 +549,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[58] (offset:468)
-
+// Sprite[58] (offset:468)
 	0x00, /* ........ */ 
 	0x20, /* ..#..... */ 
 	0x30, /* ..##.... */ 
@@ -617,8 +558,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x38, /* ..###... */ 
 	0x30, /* ..##.... */ 
 	0x20, /* ..#..... */ 
-// // Sprite[59] (offset:476)
-
+// Sprite[59] (offset:476)
 	0x00, /* ........ */ 
 	0x04, /* .....#.. */ 
 	0x0C, /* ....##.. */ 
@@ -627,8 +567,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x1C, /* ...###.. */ 
 	0x0C, /* ....##.. */ 
 	0x04, /* .....#.. */ 
-// // Sprite[60] (offset:484)
-
+// Sprite[60] (offset:484)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x38, /* ..###... */ 
@@ -637,8 +576,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[61] (offset:492)
-
+// Sprite[61] (offset:492)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x28, /* ..#.#... */ 
@@ -647,8 +585,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x6C, /* .##.##.. */ 
 	0x28, /* ..#.#... */ 
 	0x00, /* ........ */ 
-// // Sprite[62] (offset:500)
-
+// Sprite[62] (offset:500)
 	0x00, /* ........ */ 
 	0x78, /* .####... */ 
 	0x70, /* .###.... */ 
@@ -657,8 +594,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x0E, /* ....###. */ 
 	0x1E, /* ...####. */ 
 	0x00, /* ........ */ 
-// // Sprite[63] (offset:508)
-
+// Sprite[63] (offset:508)
 	0x00, /* ........ */ 
 	0x1E, /* ...####. */ 
 	0x0E, /* ....###. */ 
@@ -667,8 +603,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x70, /* .###.... */ 
 	0x78, /* .####... */ 
 	0x00, /* ........ */ 
-// // Sprite[64] (offset:516)
-
+// Sprite[64] (offset:516)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x30, /* ..##.... */ 
@@ -677,8 +612,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x4F, /* .#..#### */ 
 	0x30, /* ..##.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[65] (offset:524)
-
+// Sprite[65] (offset:524)
 	0x00, /* ........ */ 
 	0x08, /* ....#... */ 
 	0x0C, /* ....##.. */ 
@@ -687,8 +621,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xF2, /* ####..#. */ 
 	0x0C, /* ....##.. */ 
 	0x08, /* ....#... */ 
-// // Sprite[66] (offset:532)
-
+// Sprite[66] (offset:532)
 	0x10, /* ...#.... */ 
 	0x28, /* ..#.#... */ 
 	0x44, /* .#...#.. */ 
@@ -697,8 +630,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x28, /* ..#.#... */ 
 	0x28, /* ..#.#... */ 
 	0x38, /* ..###... */ 
-// // Sprite[67] (offset:540)
-
+// Sprite[67] (offset:540)
 	0x38, /* ..###... */ 
 	0x28, /* ..#.#... */ 
 	0x28, /* ..#.#... */ 
@@ -707,8 +639,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x44, /* .#...#.. */ 
 	0x28, /* ..#.#... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[68] (offset:548)
-
+// Sprite[68] (offset:548)
 	0xFC, /* ######.. */ 
 	0x88, /* #...#... */ 
 	0x90, /* #..#.... */ 
@@ -717,8 +648,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x8A, /* #...#.#. */ 
 	0x05, /* .....#.# */ 
 	0x02, /* ......#. */ 
-// // Sprite[69] (offset:556)
-
+// Sprite[69] (offset:556)
 	0x3F, /* ..###### */ 
 	0x11, /* ...#...# */ 
 	0x09, /* ....#..# */ 
@@ -727,8 +657,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x51, /* .#.#...# */ 
 	0xA0, /* #.#..... */ 
 	0x40, /* .#...... */ 
-// // Sprite[70] (offset:564)
-
+// Sprite[70] (offset:564)
 	0x02, /* ......#. */ 
 	0x05, /* .....#.# */ 
 	0x8A, /* #...#.#. */ 
@@ -737,8 +666,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x90, /* #..#.... */ 
 	0x88, /* #...#... */ 
 	0xFC, /* ######.. */ 
-// // Sprite[71] (offset:572)
-
+// Sprite[71] (offset:572)
 	0x40, /* .#...... */ 
 	0xA0, /* #.#..... */ 
 	0x51, /* .#.#...# */ 
@@ -747,8 +675,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x09, /* ....#..# */ 
 	0x11, /* ...#...# */ 
 	0x3F, /* ..###### */ 
-// // Sprite[72] (offset:580)
-
+// Sprite[72] (offset:580)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
@@ -757,8 +684,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFE, /* #######. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[73] (offset:588)
-
+// Sprite[73] (offset:588)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
@@ -767,8 +693,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[74] (offset:596)
-
+// Sprite[74] (offset:596)
 	0x00, /* ........ */ 
 	0x20, /* ..#..... */ 
 	0x30, /* ..##.... */ 
@@ -777,8 +702,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x28, /* ..#.#... */ 
 	0x30, /* ..##.... */ 
 	0x20, /* ..#..... */ 
-// // Sprite[75] (offset:604)
-
+// Sprite[75] (offset:604)
 	0x00, /* ........ */ 
 	0x04, /* .....#.. */ 
 	0x0C, /* ....##.. */ 
@@ -787,8 +711,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x14, /* ...#.#.. */ 
 	0x0C, /* ....##.. */ 
 	0x04, /* .....#.. */ 
-// // Sprite[76] (offset:612)
-
+// Sprite[76] (offset:612)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x28, /* ..#.#... */ 
@@ -797,8 +720,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7C, /* .#####.. */ 
 	0x28, /* ..#.#... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[77] (offset:620)
-
+// Sprite[77] (offset:620)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x28, /* ..#.#... */ 
@@ -807,8 +729,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x6C, /* .##.##.. */ 
 	0x28, /* ..#.#... */ 
 	0x00, /* ........ */ 
-// // Sprite[78] (offset:628)
-
+// Sprite[78] (offset:628)
 	0x00, /* ........ */ 
 	0x78, /* .####... */ 
 	0x50, /* .#.#.... */ 
@@ -817,8 +738,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x0A, /* ....#.#. */ 
 	0x1E, /* ...####. */ 
 	0x00, /* ........ */ 
-// // Sprite[79] (offset:636)
-
+// Sprite[79] (offset:636)
 	0x00, /* ........ */ 
 	0x1E, /* ...####. */ 
 	0x0A, /* ....#.#. */ 
@@ -827,8 +747,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x50, /* .#.#.... */ 
 	0x78, /* .####... */ 
 	0x00, /* ........ */ 
-// // Sprite[80] (offset:644)
-
+// Sprite[80] (offset:644)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xFF, /* ######## */ 
@@ -837,8 +756,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x81, /* #......# */ 
 	0x81, /* #......# */ 
 	0xFF, /* ######## */ 
-// // Sprite[81] (offset:652)
-
+// Sprite[81] (offset:652)
 	0x00, /* ........ */ 
 	0xFC, /* ######.. */ 
 	0xAA, /* #.#.#.#. */ 
@@ -847,8 +765,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x92, /* #..#..#. */ 
 	0x82, /* #.....#. */ 
 	0xFE, /* #######. */ 
-// // Sprite[82] (offset:660)
-
+// Sprite[82] (offset:660)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xFF, /* ######## */ 
@@ -857,8 +774,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x81, /* #......# */ 
 	0xBD, /* #.####.# */ 
 	0xFF, /* ######## */ 
-// // Sprite[83] (offset:668)
-
+// Sprite[83] (offset:668)
 	0x0A, /* ....#.#. */ 
 	0x14, /* ...#.#.. */ 
 	0x10, /* ...#.... */ 
@@ -867,8 +783,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFF, /* ######## */ 
 	0xA9, /* #.#.#..# */ 
 	0xFF, /* ######## */ 
-// // Sprite[84] (offset:676)
-
+// Sprite[84] (offset:676)
 	0x00, /* ........ */ 
 	0x01, /* .......# */ 
 	0x01, /* .......# */ 
@@ -877,8 +792,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7F, /* .####### */ 
 	0x55, /* .#.#.#.# */ 
 	0x7F, /* .####### */ 
-// // Sprite[85] (offset:684)
-
+// Sprite[85] (offset:684)
 	0xA0, /* #.#..... */ 
 	0x40, /* .#...... */ 
 	0x00, /* ........ */ 
@@ -887,8 +801,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFE, /* #######. */ 
 	0x52, /* .#.#..#. */ 
 	0xFE, /* #######. */ 
-// // Sprite[86] (offset:692)
-
+// Sprite[86] (offset:692)
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
@@ -897,8 +810,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7C, /* .#####.. */ 
 	0x82, /* #.....#. */ 
 	0xFE, /* #######. */ 
-// // Sprite[87] (offset:700)
-
+// Sprite[87] (offset:700)
 	0x00, /* ........ */ 
 	0x3F, /* ..###### */ 
 	0x40, /* .#...... */ 
@@ -907,8 +819,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x90, /* #..#.... */ 
 	0x40, /* .#...... */ 
 	0x3F, /* ..###### */ 
-// // Sprite[88] (offset:708)
-
+// Sprite[88] (offset:708)
 	0x00, /* ........ */ 
 	0xE1, /* ###....# */ 
 	0x12, /* ...#..#. */ 
@@ -917,8 +828,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x09, /* ....#..# */ 
 	0x16, /* ...#.##. */ 
 	0xE0, /* ###..... */ 
-// // Sprite[89] (offset:716)
-
+// Sprite[89] (offset:716)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -927,8 +837,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[90] (offset:724)
-
+// Sprite[90] (offset:724)
 	0x00, /* ........ */ 
 	0x3F, /* ..###### */ 
 	0x21, /* ..#....# */ 
@@ -937,8 +846,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x42, /* .#....#. */ 
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
-// // Sprite[91] (offset:732)
-
+// Sprite[91] (offset:732)
 	0xFF, /* ######## */ 
 	0x81, /* #......# */ 
 	0x81, /* #......# */ 
@@ -947,8 +855,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFF, /* ######## */ 
 	0x18, /* ...##... */ 
 	0x7E, /* .######. */ 
-// // Sprite[92] (offset:740)
-
+// Sprite[92] (offset:740)
 	0x00, /* ........ */ 
 	0x3C, /* ..####.. */ 
 	0xFF, /* ######## */ 
@@ -957,8 +864,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7E, /* .######. */ 
 	0xE7, /* ###..### */ 
 	0xFF, /* ######## */ 
-// // Sprite[93] (offset:748)
-
+// Sprite[93] (offset:748)
 	0xCE, /* ##..###. */ 
 	0xD1, /* ##.#...# */ 
 	0xD1, /* ##.#...# */ 
@@ -967,8 +873,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xDF, /* ##.##### */ 
 	0xD5, /* ##.#.#.# */ 
 	0xCE, /* ##..###. */ 
-// // Sprite[94] (offset:756)
-
+// Sprite[94] (offset:756)
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
 	0x82, /* #.....#. */ 
@@ -977,8 +882,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFE, /* #######. */ 
 	0xAA, /* #.#.#.#. */ 
 	0xFE, /* #######. */ 
-// // Sprite[95] (offset:764)
-
+// Sprite[95] (offset:764)
 	0x7C, /* .#####.. */ 
 	0x44, /* .#...#.. */ 
 	0x44, /* .#...#.. */ 
@@ -987,8 +891,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7C, /* .#####.. */ 
 	0x54, /* .#.#.#.. */ 
 	0x7C, /* .#####.. */ 
-// // Sprite[96] (offset:772)
-
+// Sprite[96] (offset:772)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xE0, /* ###..... */ 
@@ -997,8 +900,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
-// // Sprite[97] (offset:780)
-
+// Sprite[97] (offset:780)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xE0, /* ###..... */ 
@@ -1007,8 +909,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x81, /* #......# */ 
 	0x81, /* #......# */ 
 	0xFF, /* ######## */ 
-// // Sprite[98] (offset:788)
-
+// Sprite[98] (offset:788)
 	0x78, /* .####... */ 
 	0x4C, /* .#..##.. */ 
 	0x4E, /* .#..###. */ 
@@ -1017,8 +918,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x42, /* .#....#. */ 
 	0x42, /* .#....#. */ 
 	0x7E, /* .######. */ 
-// // Sprite[99] (offset:796)
-
+// Sprite[99] (offset:796)
 	0x78, /* .####... */ 
 	0x44, /* .#...#.. */ 
 	0x42, /* .#....#. */ 
@@ -1027,8 +927,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x5A, /* .#.##.#. */ 
 	0x42, /* .#....#. */ 
 	0x7E, /* .######. */ 
-// // Sprite[100] (offset:804)
-
+// Sprite[100] (offset:804)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xFF, /* ######## */ 
@@ -1037,8 +936,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x99, /* #..##..# */ 
 	0x81, /* #......# */ 
 	0xFF, /* ######## */ 
-// // Sprite[101] (offset:812)
-
+// Sprite[101] (offset:812)
 	0x18, /* ...##... */ 
 	0x24, /* ..#..#.. */ 
 	0x42, /* .#....#. */ 
@@ -1047,8 +945,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x81, /* #......# */ 
 	0x81, /* #......# */ 
 	0xFF, /* ######## */ 
-// // Sprite[102] (offset:820)
-
+// Sprite[102] (offset:820)
 	0xFE, /* #######. */ 
 	0xA5, /* #.#..#.# */ 
 	0xBD, /* #.####.# */ 
@@ -1057,8 +954,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x99, /* #..##..# */ 
 	0x81, /* #......# */ 
 	0xFF, /* ######## */ 
-// // Sprite[103] (offset:828)
-
+// Sprite[103] (offset:828)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -1067,8 +963,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[104] (offset:836)
-
+// Sprite[104] (offset:836)
 	0x00, /* ........ */ 
 	0x3C, /* ..####.. */ 
 	0x42, /* .#....#. */ 
@@ -1077,8 +972,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x42, /* .#....#. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[105] (offset:844)
-
+// Sprite[105] (offset:844)
 	0x00, /* ........ */ 
 	0x3C, /* ..####.. */ 
 	0x42, /* .#....#. */ 
@@ -1087,8 +981,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x42, /* .#....#. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[106] (offset:852)
-
+// Sprite[106] (offset:852)
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
 	0x82, /* #.....#. */ 
@@ -1097,8 +990,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x82, /* #.....#. */ 
 	0x82, /* #.....#. */ 
 	0xFE, /* #######. */ 
-// // Sprite[107] (offset:860)
-
+// Sprite[107] (offset:860)
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
 	0x82, /* #.....#. */ 
@@ -1107,8 +999,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xBA, /* #.###.#. */ 
 	0x82, /* #.....#. */ 
 	0xFE, /* #######. */ 
-// // Sprite[108] (offset:868)
-
+// Sprite[108] (offset:868)
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
 	0x82, /* #.....#. */ 
@@ -1117,8 +1008,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x92, /* #..#..#. */ 
 	0x82, /* #.....#. */ 
 	0xFE, /* #######. */ 
-// // Sprite[109] (offset:876)
-
+// Sprite[109] (offset:876)
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
 	0x82, /* #.....#. */ 
@@ -1127,8 +1017,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xAA, /* #.#.#.#. */ 
 	0x82, /* #.....#. */ 
 	0xFE, /* #######. */ 
-// // Sprite[110] (offset:884)
-
+// Sprite[110] (offset:884)
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
 	0x82, /* #.....#. */ 
@@ -1137,8 +1026,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x92, /* #..#..#. */ 
 	0x82, /* #.....#. */ 
 	0xFE, /* #######. */ 
-// // Sprite[111] (offset:892)
-
+// Sprite[111] (offset:892)
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
 	0x82, /* #.....#. */ 
@@ -1147,8 +1035,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x82, /* #.....#. */ 
 	0x82, /* #.....#. */ 
 	0xFE, /* #######. */ 
-// // Sprite[112] (offset:900)
-
+// Sprite[112] (offset:900)
 	0x00, /* ........ */ 
 	0x20, /* ..#..... */ 
 	0x30, /* ..##.... */ 
@@ -1157,8 +1044,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x38, /* ..###... */ 
 	0x30, /* ..##.... */ 
 	0x20, /* ..#..... */ 
-// // Sprite[113] (offset:908)
-
+// Sprite[113] (offset:908)
 	0x00, /* ........ */ 
 	0x6C, /* .##.##.. */ 
 	0x6C, /* .##.##.. */ 
@@ -1167,8 +1053,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x6C, /* .##.##.. */ 
 	0x6C, /* .##.##.. */ 
 	0x6C, /* .##.##.. */ 
-// // Sprite[114] (offset:916)
-
+// Sprite[114] (offset:916)
 	0x00, /* ........ */ 
 	0x7E, /* .######. */ 
 	0x7E, /* .######. */ 
@@ -1177,8 +1062,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7E, /* .######. */ 
 	0x7E, /* .######. */ 
 	0x7E, /* .######. */ 
-// // Sprite[115] (offset:924)
-
+// Sprite[115] (offset:924)
 	0x00, /* ........ */ 
 	0x38, /* ..###... */ 
 	0x7C, /* .#####.. */ 
@@ -1187,8 +1071,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
-// // Sprite[116] (offset:932)
-
+// Sprite[116] (offset:932)
 	0x00, /* ........ */ 
 	0x86, /* #....##. */ 
 	0xC6, /* ##...##. */ 
@@ -1197,8 +1080,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xE6, /* ###..##. */ 
 	0xC6, /* ##...##. */ 
 	0x86, /* #....##. */ 
-// // Sprite[117] (offset:940)
-
+// Sprite[117] (offset:940)
 	0x00, /* ........ */ 
 	0xC2, /* ##....#. */ 
 	0xC6, /* ##...##. */ 
@@ -1207,8 +1089,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xCE, /* ##..###. */ 
 	0xC6, /* ##...##. */ 
 	0xC2, /* ##....#. */ 
-// // Sprite[118] (offset:948)
-
+// Sprite[118] (offset:948)
 	0x00, /* ........ */ 
 	0x88, /* #...#... */ 
 	0xCC, /* ##..##.. */ 
@@ -1217,8 +1098,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xEE, /* ###.###. */ 
 	0xCC, /* ##..##.. */ 
 	0x88, /* #...#... */ 
-// // Sprite[119] (offset:956)
-
+// Sprite[119] (offset:956)
 	0x00, /* ........ */ 
 	0x11, /* ...#...# */ 
 	0x33, /* ..##..## */ 
@@ -1227,8 +1107,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x77, /* .###.### */ 
 	0x33, /* ..##..## */ 
 	0x11, /* ...#...# */ 
-// // Sprite[120] (offset:964)
-
+// Sprite[120] (offset:964)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x38, /* ..###... */ 
@@ -1237,8 +1116,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
-// // Sprite[121] (offset:972)
-
+// Sprite[121] (offset:972)
 	0x00, /* ........ */ 
 	0x40, /* .#...... */ 
 	0xFC, /* ######.. */ 
@@ -1247,8 +1125,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x84, /* #....#.. */ 
 	0x7E, /* .######. */ 
 	0x04, /* .....#.. */ 
-// // Sprite[122] (offset:980)
-
+// Sprite[122] (offset:980)
 	0x00, /* ........ */ 
 	0x04, /* .....#.. */ 
 	0xCE, /* ##..###. */ 
@@ -1257,8 +1134,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x24, /* ..#..#.. */ 
 	0xCE, /* ##..###. */ 
 	0x04, /* .....#.. */ 
-// // Sprite[123] (offset:988)
-
+// Sprite[123] (offset:988)
 	0x00, /* ........ */ 
 	0x18, /* ...##... */ 
 	0x18, /* ...##... */ 
@@ -1267,8 +1143,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x18, /* ...##... */ 
 	0x18, /* ...##... */ 
 	0x00, /* ........ */ 
-// // Sprite[124] (offset:996)
-
+// Sprite[124] (offset:996)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -1277,8 +1152,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[125] (offset:1004)
-
+// Sprite[125] (offset:1004)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x30, /* ..##.... */ 
@@ -1287,8 +1161,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xF0, /* ####.... */ 
 	0x30, /* ..##.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[126] (offset:1012)
-
+// Sprite[126] (offset:1012)
 	0x00, /* ........ */ 
 	0x12, /* ...#..#. */ 
 	0x31, /* ..##...# */ 
@@ -1297,8 +1170,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xF5, /* ####.#.# */ 
 	0x31, /* ..##...# */ 
 	0x12, /* ...#..#. */ 
-// // Sprite[127] (offset:1020)
-
+// Sprite[127] (offset:1020)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x30, /* ..##.... */ 
@@ -1307,8 +1179,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xF5, /* ####.#.# */ 
 	0x30, /* ..##.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[128] (offset:1028)
-
+// Sprite[128] (offset:1028)
 	0x7F, /* .####### */ 
 	0x4E, /* .#..###. */ 
 	0x44, /* .#...#.. */ 
@@ -1317,8 +1188,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x4A, /* .#..#.#. */ 
 	0x4E, /* .#..###. */ 
 	0x7F, /* .####### */ 
-// // Sprite[129] (offset:1036)
-
+// Sprite[129] (offset:1036)
 	0xFF, /* ######## */ 
 	0x60, /* .##..... */ 
 	0x40, /* .#...... */ 
@@ -1327,8 +1197,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x01, /* .......# */ 
 	0x03, /* ......## */ 
 	0xFF, /* ######## */ 
-// // Sprite[130] (offset:1044)
-
+// Sprite[130] (offset:1044)
 	0xFF, /* ######## */ 
 	0x39, /* ..###..# */ 
 	0x11, /* ...#...# */ 
@@ -1337,8 +1206,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x11, /* ...#...# */ 
 	0x39, /* ..###..# */ 
 	0xFF, /* ######## */ 
-// // Sprite[131] (offset:1052)
-
+// Sprite[131] (offset:1052)
 	0x00, /* ........ */ 
 	0x3C, /* ..####.. */ 
 	0x66, /* .##..##. */ 
@@ -1347,8 +1215,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x38, /* ..###... */ 
 	0x60, /* .##..... */ 
 	0x7E, /* .######. */ 
-// // Sprite[132] (offset:1060)
-
+// Sprite[132] (offset:1060)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x20, /* ..#..... */ 
@@ -1357,8 +1224,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x20, /* ..#..... */ 
 	0x20, /* ..#..... */ 
 	0x00, /* ........ */ 
-// // Sprite[133] (offset:1068)
-
+// Sprite[133] (offset:1068)
 	0x00, /* ........ */ 
 	0x30, /* ..##.... */ 
 	0x30, /* ..##.... */ 
@@ -1367,8 +1233,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x30, /* ..##.... */ 
 	0x30, /* ..##.... */ 
 	0x18, /* ...##... */ 
-// // Sprite[134] (offset:1076)
-
+// Sprite[134] (offset:1076)
 	0x00, /* ........ */ 
 	0x38, /* ..###... */ 
 	0x36, /* ..##.##. */ 
@@ -1377,8 +1242,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x36, /* ..##.##. */ 
 	0x36, /* ..##.##. */ 
 	0x36, /* ..##.##. */ 
-// // Sprite[135] (offset:1084)
-
+// Sprite[135] (offset:1084)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -1387,8 +1251,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[136] (offset:1092)
-
+// Sprite[136] (offset:1092)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -1397,8 +1260,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[137] (offset:1100)
-
+// Sprite[137] (offset:1100)
 	0x28, /* ..#.#... */ 
 	0x10, /* ...#.... */ 
 	0x7E, /* .######. */ 
@@ -1407,8 +1269,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x83, /* #.....## */ 
 	0x83, /* #.....## */ 
 	0x7E, /* .######. */ 
-// // Sprite[138] (offset:1108)
-
+// Sprite[138] (offset:1108)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -1417,8 +1278,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[139] (offset:1116)
-
+// Sprite[139] (offset:1116)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -1427,8 +1287,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[140] (offset:1124)
-
+// Sprite[140] (offset:1124)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -1437,8 +1296,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x80, /* #....... */ 
 	0x80, /* #....... */ 
-// // Sprite[141] (offset:1132)
-
+// Sprite[141] (offset:1132)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -1447,8 +1305,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x20, /* ..#..... */ 
 	0xA0, /* #.#..... */ 
 	0xA0, /* #.#..... */ 
-// // Sprite[142] (offset:1140)
-
+// Sprite[142] (offset:1140)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x08, /* ....#... */ 
@@ -1457,8 +1314,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x28, /* ..#.#... */ 
 	0xA8, /* #.#.#... */ 
 	0xA8, /* #.#.#... */ 
-// // Sprite[143] (offset:1148)
-
+// Sprite[143] (offset:1148)
 	0x02, /* ......#. */ 
 	0x02, /* ......#. */ 
 	0x0A, /* ....#.#. */ 
@@ -1467,8 +1323,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x2A, /* ..#.#.#. */ 
 	0xAA, /* #.#.#.#. */ 
 	0xAA, /* #.#.#.#. */ 
-// // Sprite[144] (offset:1156)
-
+// Sprite[144] (offset:1156)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xC6, /* ##...##. */ 
@@ -1477,8 +1332,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xA2, /* #.#...#. */ 
 	0xCC, /* ##..##.. */ 
 	0x00, /* ........ */ 
-// // Sprite[145] (offset:1164)
-
+// Sprite[145] (offset:1164)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xB1, /* #.##...# */ 
@@ -1487,8 +1341,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xA9, /* #.#.#..# */ 
 	0xAA, /* #.#.#.#. */ 
 	0x00, /* ........ */ 
-// // Sprite[146] (offset:1172)
-
+// Sprite[146] (offset:1172)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x5A, /* .#.##.#. */ 
@@ -1497,8 +1350,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x52, /* .#.#..#. */ 
 	0x9B, /* #..##.## */ 
 	0x00, /* ........ */ 
-// // Sprite[147] (offset:1180)
-
+// Sprite[147] (offset:1180)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x64, /* .##..#.. */ 
@@ -1507,8 +1359,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x54, /* .#.#.#.. */ 
 	0x66, /* .##..##. */ 
 	0x00, /* ........ */ 
-// // Sprite[148] (offset:1188)
-
+// Sprite[148] (offset:1188)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x6C, /* .##.##.. */ 
@@ -1517,8 +1368,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xAA, /* #.#.#.#. */ 
 	0x4A, /* .#..#.#. */ 
 	0x00, /* ........ */ 
-// // Sprite[149] (offset:1196)
-
+// Sprite[149] (offset:1196)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x6A, /* .##.#.#. */ 
@@ -1527,8 +1377,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x2A, /* ..#.#.#. */ 
 	0xCA, /* ##..#.#. */ 
 	0x00, /* ........ */ 
-// // Sprite[150] (offset:1204)
-
+// Sprite[150] (offset:1204)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x6C, /* .##.##.. */ 
@@ -1537,8 +1386,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x28, /* ..#.#... */ 
 	0xC8, /* ##..#... */ 
 	0x00, /* ........ */ 
-// // Sprite[151] (offset:1212)
-
+// Sprite[151] (offset:1212)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x44, /* .#...#.. */ 
@@ -1547,8 +1395,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xAA, /* #.#.#.#. */ 
 	0x4A, /* .#..#.#. */ 
 	0x00, /* ........ */ 
-// // Sprite[152] (offset:1220)
-
+// Sprite[152] (offset:1220)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xEC, /* ###.##.. */ 
@@ -1557,8 +1404,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x4A, /* .#..#.#. */ 
 	0x4C, /* .#..##.. */ 
 	0x00, /* ........ */ 
-// // Sprite[153] (offset:1228)
-
+// Sprite[153] (offset:1228)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x37, /* ..##.### */ 
@@ -1567,8 +1413,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x42, /* .#....#. */ 
 	0x32, /* ..##..#. */ 
 	0x00, /* ........ */ 
-// // Sprite[154] (offset:1236)
-
+// Sprite[154] (offset:1236)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x64, /* .##..#.. */ 
@@ -1577,8 +1422,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x54, /* .#.#.#.. */ 
 	0x56, /* .#.#.##. */ 
 	0x00, /* ........ */ 
-// // Sprite[155] (offset:1244)
-
+// Sprite[155] (offset:1244)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xC9, /* ##..#..# */ 
@@ -1587,8 +1431,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x8A, /* #...#.#. */ 
 	0xD1, /* ##.#...# */ 
 	0x00, /* ........ */ 
-// // Sprite[156] (offset:1252)
-
+// Sprite[156] (offset:1252)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -1597,8 +1440,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[157] (offset:1260)
-
+// Sprite[157] (offset:1260)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -1607,8 +1449,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[158] (offset:1268)
-
+// Sprite[158] (offset:1268)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -1617,8 +1458,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[159] (offset:1276)
-
+// Sprite[159] (offset:1276)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -1627,8 +1467,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[160] (offset:1284)
-
+// Sprite[160] (offset:1284)
 	0x1A, /* ...##.#. */ 
 	0x26, /* ..#..##. */ 
 	0x5A, /* .#.##.#. */ 
@@ -1637,8 +1476,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x66, /* .##..##. */ 
 	0x66, /* .##..##. */ 
 	0x66, /* .##..##. */ 
-// // Sprite[161] (offset:1292)
-
+// Sprite[161] (offset:1292)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0xE0, /* ###..... */ 
@@ -1647,8 +1485,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[162] (offset:1300)
-
+// Sprite[162] (offset:1300)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x60, /* .##..... */ 
@@ -1657,8 +1494,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x60, /* .##..... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[163] (offset:1308)
-
+// Sprite[163] (offset:1308)
 	0x18, /* ...##... */ 
 	0x24, /* ..#..#.. */ 
 	0x24, /* ..#..#.. */ 
@@ -1667,8 +1503,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7E, /* .######. */ 
 	0x7E, /* .######. */ 
 	0x7E, /* .######. */ 
-// // Sprite[164] (offset:1316)
-
+// Sprite[164] (offset:1316)
 	0x60, /* .##..... */ 
 	0x90, /* #..#.... */ 
 	0x90, /* #..#.... */ 
@@ -1677,8 +1512,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x3F, /* ..###### */ 
 	0x3F, /* ..###### */ 
 	0x3F, /* ..###### */ 
-// // Sprite[165] (offset:1324)
-
+// Sprite[165] (offset:1324)
 	0x0C, /* ....##.. */ 
 	0x08, /* ....#... */ 
 	0x09, /* ....#..# */ 
@@ -1687,8 +1521,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x70, /* .###.... */ 
 	0xA0, /* #.#..... */ 
 	0xC0, /* ##...... */ 
-// // Sprite[166] (offset:1332)
-
+// Sprite[166] (offset:1332)
 	0x18, /* ...##... */ 
 	0x7C, /* .#####.. */ 
 	0x7E, /* .######. */ 
@@ -1697,8 +1530,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x18, /* ...##... */ 
 	0x18, /* ...##... */ 
 	0x18, /* ...##... */ 
-// // Sprite[167] (offset:1340)
-
+// Sprite[167] (offset:1340)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x7C, /* .#####.. */ 
@@ -1707,8 +1539,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[168] (offset:1348)
-
+// Sprite[168] (offset:1348)
 	0x00, /* ........ */ 
 	0x38, /* ..###... */ 
 	0x3C, /* ..####.. */ 
@@ -1717,8 +1548,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x20, /* ..#..... */ 
 	0x20, /* ..#..... */ 
 	0x20, /* ..#..... */ 
-// // Sprite[169] (offset:1356)
-
+// Sprite[169] (offset:1356)
 	0x00, /* ........ */ 
 	0x74, /* .###.#.. */ 
 	0x7C, /* .#####.. */ 
@@ -1727,8 +1557,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x40, /* .#...... */ 
 	0x40, /* .#...... */ 
 	0x40, /* .#...... */ 
-// // Sprite[170] (offset:1364)
-
+// Sprite[170] (offset:1364)
 	0x00, /* ........ */ 
 	0xEE, /* ###.###. */ 
 	0xC6, /* ##...##. */ 
@@ -1737,8 +1566,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xAA, /* #.#.#.#. */ 
 	0xC6, /* ##...##. */ 
 	0xEE, /* ###.###. */ 
-// // Sprite[171] (offset:1372)
-
+// Sprite[171] (offset:1372)
 	0x00, /* ........ */ 
 	0x3C, /* ..####.. */ 
 	0x24, /* ..#..#.. */ 
@@ -1747,8 +1575,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
-// // Sprite[172] (offset:1380)
-
+// Sprite[172] (offset:1380)
 	0x3C, /* ..####.. */ 
 	0x24, /* ..#..#.. */ 
 	0xFF, /* ######## */ 
@@ -1757,8 +1584,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xE7, /* ###..### */ 
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
-// // Sprite[173] (offset:1388)
-
+// Sprite[173] (offset:1388)
 	0x06, /* .....##. */ 
 	0x36, /* ..##.##. */ 
 	0x4C, /* .#..##.. */ 
@@ -1767,8 +1593,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xE4, /* ###..#.. */ 
 	0x04, /* .....#.. */ 
 	0x08, /* ....#... */ 
-// // Sprite[174] (offset:1396)
-
+// Sprite[174] (offset:1396)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x24, /* ..#..#.. */ 
@@ -1777,8 +1602,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x66, /* .##..##. */ 
 	0x24, /* ..#..#.. */ 
 	0x00, /* ........ */ 
-// // Sprite[175] (offset:1404)
-
+// Sprite[175] (offset:1404)
 	0x00, /* ........ */ 
 	0x51, /* .#.#...# */ 
 	0xDB, /* ##.##.## */ 
@@ -1787,8 +1611,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xDB, /* ##.##.## */ 
 	0xDB, /* ##.##.## */ 
 	0x8A, /* #...#.#. */ 
-// // Sprite[176] (offset:1412)
-
+// Sprite[176] (offset:1412)
 	0x38, /* ..###... */ 
 	0x7C, /* .#####.. */ 
 	0x92, /* #..#..#. */ 
@@ -1797,8 +1620,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xEE, /* ###.###. */ 
 	0x7C, /* .#####.. */ 
 	0x54, /* .#.#.#.. */ 
-// // Sprite[177] (offset:1420)
-
+// Sprite[177] (offset:1420)
 	0x1C, /* ...###.. */ 
 	0x38, /* ..###... */ 
 	0x70, /* .###.... */ 
@@ -1807,8 +1629,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x38, /* ..###... */ 
 	0x30, /* ..##.... */ 
 	0x40, /* .#...... */ 
-// // Sprite[178] (offset:1428)
-
+// Sprite[178] (offset:1428)
 	0x0C, /* ....##.. */ 
 	0x38, /* ..###... */ 
 	0x5C, /* .#.###.. */ 
@@ -1817,8 +1638,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
-// // Sprite[179] (offset:1436)
-
+// Sprite[179] (offset:1436)
 	0x3C, /* ..####.. */ 
 	0xE7, /* ###..### */ 
 	0x81, /* #......# */ 
@@ -1827,8 +1647,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x24, /* ..#..#.. */ 
 	0x24, /* ..#..#.. */ 
 	0x3C, /* ..####.. */ 
-// // Sprite[180] (offset:1444)
-
+// Sprite[180] (offset:1444)
 	0x3C, /* ..####.. */ 
 	0x42, /* .#....#. */ 
 	0xB1, /* #.##...# */ 
@@ -1837,8 +1656,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x85, /* #....#.# */ 
 	0x42, /* .#....#. */ 
 	0x3C, /* ..####.. */ 
-// // Sprite[181] (offset:1452)
-
+// Sprite[181] (offset:1452)
 	0x18, /* ...##... */ 
 	0x3C, /* ..####.. */ 
 	0x7E, /* .######. */ 
@@ -1847,8 +1665,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x24, /* ..#..#.. */ 
 	0x5A, /* .#.##.#. */ 
 	0x81, /* #......# */ 
-// // Sprite[182] (offset:1460)
-
+// Sprite[182] (offset:1460)
 	0x7C, /* .#####.. */ 
 	0x7C, /* .#####.. */ 
 	0x54, /* .#.#.#.. */ 
@@ -1857,8 +1674,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
 	0x28, /* ..#.#... */ 
-// // Sprite[183] (offset:1468)
-
+// Sprite[183] (offset:1468)
 	0x78, /* .####... */ 
 	0xFC, /* ######.. */ 
 	0xFE, /* #######. */ 
@@ -1867,8 +1683,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x46, /* .#...##. */ 
 	0x44, /* .#...#.. */ 
 	0x7C, /* .#####.. */ 
-// // Sprite[184] (offset:1476)
-
+// Sprite[184] (offset:1476)
 	0x00, /* ........ */ 
 	0x7E, /* .######. */ 
 	0x7D, /* .#####.# */ 
@@ -1877,8 +1692,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x3C, /* ..####.. */ 
 	0xFF, /* ######## */ 
 	0x7E, /* .######. */ 
-// // Sprite[185] (offset:1484)
-
+// Sprite[185] (offset:1484)
 	0x7E, /* .######. */ 
 	0xBD, /* #.####.# */ 
 	0xBD, /* #.####.# */ 
@@ -1887,8 +1701,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x18, /* ...##... */ 
 	0x18, /* ...##... */ 
 	0x3C, /* ..####.. */ 
-// // Sprite[186] (offset:1492)
-
+// Sprite[186] (offset:1492)
 	0x3C, /* ..####.. */ 
 	0x7E, /* .######. */ 
 	0xDF, /* ##.##### */ 
@@ -1897,8 +1710,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xE1, /* ###....# */ 
 	0x42, /* .#....#. */ 
 	0x3C, /* ..####.. */ 
-// // Sprite[187] (offset:1500)
-
+// Sprite[187] (offset:1500)
 	0x18, /* ...##... */ 
 	0x2C, /* ..#.##.. */ 
 	0x46, /* .#...##. */ 
@@ -1907,8 +1719,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x56, /* .#.#.##. */ 
 	0x56, /* .#.#.##. */ 
 	0xFF, /* ######## */ 
-// // Sprite[188] (offset:1508)
-
+// Sprite[188] (offset:1508)
 	0x38, /* ..###... */ 
 	0x54, /* .#.#.#.. */ 
 	0x92, /* #..#..#. */ 
@@ -1917,8 +1728,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x54, /* .#.#.#.. */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[189] (offset:1516)
-
+// Sprite[189] (offset:1516)
 	0x3C, /* ..####.. */ 
 	0x42, /* .#....#. */ 
 	0xA9, /* #.#.#..# */ 
@@ -1927,8 +1737,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xB9, /* #.###..# */ 
 	0x42, /* .#....#. */ 
 	0x3C, /* ..####.. */ 
-// // Sprite[190] (offset:1524)
-
+// Sprite[190] (offset:1524)
 	0x18, /* ...##... */ 
 	0x08, /* ....#... */ 
 	0x76, /* .###.##. */ 
@@ -1937,8 +1746,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFF, /* ######## */ 
 	0x7A, /* .####.#. */ 
 	0x34, /* ..##.#.. */ 
-// // Sprite[191] (offset:1532)
-
+// Sprite[191] (offset:1532)
 	0x40, /* .#...... */ 
 	0xB8, /* #.###... */ 
 	0x76, /* .###.##. */ 
@@ -1947,8 +1755,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x77, /* .###.### */ 
 	0x38, /* ..###... */ 
 	0x1E, /* ...####. */ 
-// // Sprite[192] (offset:1540)
-
+// Sprite[192] (offset:1540)
 	0x44, /* .#...#.. */ 
 	0x00, /* ........ */ 
 	0x18, /* ...##... */ 
@@ -1957,8 +1764,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x18, /* ...##... */ 
 	0x02, /* ......#. */ 
 	0x20, /* ..#..... */ 
-// // Sprite[193] (offset:1548)
-
+// Sprite[193] (offset:1548)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x6E, /* .##.###. */ 
@@ -1967,8 +1773,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x6E, /* .##.###. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[194] (offset:1556)
-
+// Sprite[194] (offset:1556)
 	0x28, /* ..#.#... */ 
 	0x80, /* #....... */ 
 	0x32, /* ..##..#. */ 
@@ -1977,8 +1782,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
 	0x6E, /* .##.###. */ 
-// // Sprite[195] (offset:1564)
-
+// Sprite[195] (offset:1564)
 	0x00, /* ........ */ 
 	0x6E, /* .##.###. */ 
 	0xFF, /* ######## */ 
@@ -1987,8 +1791,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x55, /* .#.#.#.# */ 
 	0x45, /* .#...#.# */ 
-// // Sprite[196] (offset:1572)
-
+// Sprite[196] (offset:1572)
 	0x38, /* ..###... */ 
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
@@ -1997,8 +1800,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x50, /* .#.#.... */ 
 	0x20, /* ..#..... */ 
-// // Sprite[197] (offset:1580)
-
+// Sprite[197] (offset:1580)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x38, /* ..###... */ 
@@ -2007,8 +1809,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x54, /* .#.#.#.. */ 
 	0x38, /* ..###... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[198] (offset:1588)
-
+// Sprite[198] (offset:1588)
 	0x00, /* ........ */ 
 	0x0C, /* ....##.. */ 
 	0x32, /* ..##..#. */ 
@@ -2017,8 +1818,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[199] (offset:1596)
-
+// Sprite[199] (offset:1596)
 	0x00, /* ........ */ 
 	0x0C, /* ....##.. */ 
 	0x32, /* ..##..#. */ 
@@ -2027,8 +1827,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[200] (offset:1604)
-
+// Sprite[200] (offset:1604)
 	0x0C, /* ....##.. */ 
 	0x32, /* ..##..#. */ 
 	0x41, /* .#.....# */ 
@@ -2037,8 +1836,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x2A, /* ..#.#.#. */ 
 	0x2A, /* ..#.#.#. */ 
-// // Sprite[201] (offset:1612)
-
+// Sprite[201] (offset:1612)
 	0x0C, /* ....##.. */ 
 	0x32, /* ..##..#. */ 
 	0x41, /* .#.....# */ 
@@ -2047,8 +1845,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x22, /* ..#...#. */ 
 	0x88, /* #...#... */ 
-// // Sprite[202] (offset:1620)
-
+// Sprite[202] (offset:1620)
 	0x60, /* .##..... */ 
 	0xF0, /* ####.... */ 
 	0xFC, /* ######.. */ 
@@ -2057,8 +1854,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x81, /* #......# */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[203] (offset:1628)
-
+// Sprite[203] (offset:1628)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -2067,8 +1863,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[204] (offset:1636)
-
+// Sprite[204] (offset:1636)
 	0x00, /* ........ */ 
 	0x38, /* ..###... */ 
 	0x70, /* .###.... */ 
@@ -2077,8 +1872,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xE0, /* ###..... */ 
 	0x70, /* .###.... */ 
 	0x38, /* ..###... */ 
-// // Sprite[205] (offset:1644)
-
+// Sprite[205] (offset:1644)
 	0x00, /* ........ */ 
 	0x38, /* ..###... */ 
 	0x5C, /* .#.###.. */ 
@@ -2087,8 +1881,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
-// // Sprite[206] (offset:1652)
-
+// Sprite[206] (offset:1652)
 	0x00, /* ........ */ 
 	0x38, /* ..###... */ 
 	0x1C, /* ...###.. */ 
@@ -2097,8 +1890,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x0E, /* ....###. */ 
 	0x1C, /* ...###.. */ 
 	0x38, /* ..###... */ 
-// // Sprite[207] (offset:1660)
-
+// Sprite[207] (offset:1660)
 	0x00, /* ........ */ 
 	0x38, /* ..###... */ 
 	0x44, /* .#...#.. */ 
@@ -2107,8 +1899,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x82, /* #.....#. */ 
 	0x44, /* .#...#.. */ 
 	0x38, /* ..###... */ 
-// // Sprite[208] (offset:1668)
-
+// Sprite[208] (offset:1668)
 	0xCA, /* ##..#.#. */ 
 	0xCB, /* ##..#.## */ 
 	0xC3, /* ##....## */ 
@@ -2117,8 +1908,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
 	0xFF, /* ######## */ 
-// // Sprite[209] (offset:1676)
-
+// Sprite[209] (offset:1676)
 	0x00, /* ........ */ 
 	0x41, /* .#.....# */ 
 	0xA2, /* #.#...#. */ 
@@ -2127,8 +1917,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x74, /* .###.#.. */ 
 	0xA2, /* #.#...#. */ 
 	0x41, /* .#.....# */ 
-// // Sprite[210] (offset:1684)
-
+// Sprite[210] (offset:1684)
 	0x88, /* #...#... */ 
 	0xF8, /* #####... */ 
 	0xA8, /* #.#.#... */ 
@@ -2137,8 +1926,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x79, /* .####..# */ 
 	0x7D, /* .#####.# */ 
 	0xBE, /* #.#####. */ 
-// // Sprite[211] (offset:1692)
-
+// Sprite[211] (offset:1692)
 	0x28, /* ..#.#... */ 
 	0x28, /* ..#.#... */ 
 	0x7C, /* .#####.. */ 
@@ -2147,8 +1935,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x38, /* ..###... */ 
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
-// // Sprite[212] (offset:1700)
-
+// Sprite[212] (offset:1700)
 	0x00, /* ........ */ 
 	0x38, /* ..###... */ 
 	0x44, /* .#...#.. */ 
@@ -2157,8 +1944,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x82, /* #.....#. */ 
 	0x44, /* .#...#.. */ 
 	0x38, /* ..###... */ 
-// // Sprite[213] (offset:1708)
-
+// Sprite[213] (offset:1708)
 	0x20, /* ..#..... */ 
 	0x10, /* ...#.... */ 
 	0x20, /* ..#..... */ 
@@ -2167,8 +1953,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x8A, /* #...#.#. */ 
 	0x8C, /* #...##.. */ 
 	0x70, /* .###.... */ 
-// // Sprite[214] (offset:1716)
-
+// Sprite[214] (offset:1716)
 	0x04, /* .....#.. */ 
 	0x08, /* ....#... */ 
 	0x7C, /* .#####.. */ 
@@ -2177,8 +1962,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x10, /* ...#.... */ 
 	0x10, /* ...#.... */ 
 	0x7C, /* .#####.. */ 
-// // Sprite[215] (offset:1724)
-
+// Sprite[215] (offset:1724)
 	0x70, /* .###.... */ 
 	0xD0, /* ##.#.... */ 
 	0x70, /* .###.... */ 
@@ -2187,8 +1971,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x44, /* .#...#.. */ 
 	0x78, /* .####... */ 
 	0xA0, /* #.#..... */ 
-// // Sprite[216] (offset:1732)
-
+// Sprite[216] (offset:1732)
 	0x00, /* ........ */ 
 	0x28, /* ..#.#... */ 
 	0xAA, /* #.#.#.#. */ 
@@ -2197,8 +1980,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7C, /* .#####.. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[217] (offset:1740)
-
+// Sprite[217] (offset:1740)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x24, /* ..#..#.. */ 
@@ -2207,8 +1989,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x42, /* .#....#. */ 
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[218] (offset:1748)
-
+// Sprite[218] (offset:1748)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x24, /* ..#..#.. */ 
@@ -2217,8 +1998,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x3C, /* ..####.. */ 
 	0x42, /* .#....#. */ 
 	0x00, /* ........ */ 
-// // Sprite[219] (offset:1756)
-
+// Sprite[219] (offset:1756)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x24, /* ..#..#.. */ 
@@ -2227,8 +2007,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x7E, /* .######. */ 
 	0x42, /* .#....#. */ 
 	0x3C, /* ..####.. */ 
-// // Sprite[220] (offset:1764)
-
+// Sprite[220] (offset:1764)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x66, /* .##..##. */ 
@@ -2237,8 +2016,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x18, /* ...##... */ 
 	0x24, /* ..#..#.. */ 
 	0x18, /* ...##... */ 
-// // Sprite[221] (offset:1772)
-
+// Sprite[221] (offset:1772)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x42, /* .#....#. */ 
@@ -2247,8 +2025,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[222] (offset:1780)
-
+// Sprite[222] (offset:1780)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x24, /* ..#..#.. */ 
@@ -2257,8 +2034,7 @@ const unsigned char g_Font_MGL_Symbol1[] =
 	0x3C, /* ..####.. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[223] (offset:1788)
-
+// Sprite[223] (offset:1788)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 

@@ -27,10 +27,8 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x88, // Font size [x|y]
 	0x21, // First character ASCII code (!)
 	0x5F, // Last character ASCII code (_)
-// // Sprite[0] (offset:4)
-
-// // Sprite[1] (offset:4)
-
+// Sprite[0] (offset:4)
+// Sprite[1] (offset:4)
 	0x38, /* ..###... */ 
 	0x7C, /* .#####.. */ 
 	0x7C, /* .#####.. */ 
@@ -39,8 +37,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[2] (offset:12)
-
+// Sprite[2] (offset:12)
 	0xD8, /* ##.##... */ 
 	0xD8, /* ##.##... */ 
 	0x48, /* .#..#... */ 
@@ -49,8 +46,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[3] (offset:20)
-
+// Sprite[3] (offset:20)
 	0x00, /* ........ */ 
 	0x28, /* ..#.#... */ 
 	0x7C, /* .#####.. */ 
@@ -59,8 +55,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x28, /* ..#.#... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[4] (offset:28)
-
+// Sprite[4] (offset:28)
 	0x18, /* ...##... */ 
 	0x3C, /* ..####.. */ 
 	0x28, /* ..#.#... */ 
@@ -69,8 +64,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x3C, /* ..####.. */ 
 	0x18, /* ...##... */ 
 	0x00, /* ........ */ 
-// // Sprite[5] (offset:36)
-
+// Sprite[5] (offset:36)
 	0x00, /* ........ */ 
 	0x48, /* .#..#... */ 
 	0x10, /* ...#.... */ 
@@ -79,8 +73,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[6] (offset:44)
-
+// Sprite[6] (offset:44)
 	0x70, /* .###.... */ 
 	0x50, /* .#.#.... */ 
 	0xF8, /* #####... */ 
@@ -89,8 +82,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x70, /* .###.... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[7] (offset:52)
-
+// Sprite[7] (offset:52)
 	0x70, /* .###.... */ 
 	0x70, /* .###.... */ 
 	0x40, /* .#...... */ 
@@ -99,8 +91,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[8] (offset:60)
-
+// Sprite[8] (offset:60)
 	0x00, /* ........ */ 
 	0x18, /* ...##... */ 
 	0x30, /* ..##.... */ 
@@ -109,8 +100,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x30, /* ..##.... */ 
 	0x18, /* ...##... */ 
 	0x00, /* ........ */ 
-// // Sprite[9] (offset:68)
-
+// Sprite[9] (offset:68)
 	0x00, /* ........ */ 
 	0x60, /* .##..... */ 
 	0x30, /* ..##.... */ 
@@ -119,8 +109,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x30, /* ..##.... */ 
 	0x60, /* .##..... */ 
 	0x00, /* ........ */ 
-// // Sprite[10] (offset:76)
-
+// Sprite[10] (offset:76)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -129,8 +118,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x28, /* ..#.#... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[11] (offset:84)
-
+// Sprite[11] (offset:84)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -139,8 +127,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x10, /* ...#.... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[12] (offset:92)
-
+// Sprite[12] (offset:92)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -149,8 +136,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x00, /* ........ */ 
 	0x60, /* .##..... */ 
 	0x20, /* ..#..... */ 
-// // Sprite[13] (offset:100)
-
+// Sprite[13] (offset:100)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -159,8 +145,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[14] (offset:108)
-
+// Sprite[14] (offset:108)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -169,8 +154,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x60, /* .##..... */ 
 	0x60, /* .##..... */ 
 	0x00, /* ........ */ 
-// // Sprite[15] (offset:116)
-
+// Sprite[15] (offset:116)
 	0x00, /* ........ */ 
 	0x0C, /* ....##.. */ 
 	0x18, /* ...##... */ 
@@ -179,8 +163,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xC0, /* ##...... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[16] (offset:124)
-
+// Sprite[16] (offset:124)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xEE, /* ###.###. */ 
@@ -189,8 +172,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[17] (offset:132)
-
+// Sprite[17] (offset:132)
 	0x3C, /* ..####.. */ 
 	0x7C, /* .#####.. */ 
 	0x1C, /* ...###.. */ 
@@ -199,8 +181,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x1C, /* ...###.. */ 
 	0x1C, /* ...###.. */ 
 	0x00, /* ........ */ 
-// // Sprite[18] (offset:140)
-
+// Sprite[18] (offset:140)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xCE, /* ##..###. */ 
@@ -209,8 +190,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x7E, /* .######. */ 
 	0xFE, /* #######. */ 
 	0x00, /* ........ */ 
-// // Sprite[19] (offset:148)
-
+// Sprite[19] (offset:148)
 	0x7C, /* .#####.. */ 
 	0x7E, /* .######. */ 
 	0x1E, /* ...####. */ 
@@ -219,8 +199,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x7E, /* .######. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[20] (offset:156)
-
+// Sprite[20] (offset:156)
 	0x1C, /* ...###.. */ 
 	0x3C, /* ..####.. */ 
 	0x7C, /* .#####.. */ 
@@ -229,8 +208,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0x1C, /* ...###.. */ 
 	0x00, /* ........ */ 
-// // Sprite[21] (offset:164)
-
+// Sprite[21] (offset:164)
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
 	0xE0, /* ###..... */ 
@@ -239,8 +217,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0xFC, /* ######.. */ 
 	0x00, /* ........ */ 
-// // Sprite[22] (offset:172)
-
+// Sprite[22] (offset:172)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xE0, /* ###..... */ 
@@ -249,8 +226,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[23] (offset:180)
-
+// Sprite[23] (offset:180)
 	0xFC, /* ######.. */ 
 	0xFC, /* ######.. */ 
 	0x1C, /* ...###.. */ 
@@ -259,8 +235,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x1C, /* ...###.. */ 
 	0x1C, /* ...###.. */ 
 	0x00, /* ........ */ 
-// // Sprite[24] (offset:188)
-
+// Sprite[24] (offset:188)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xC6, /* ##...##. */ 
@@ -269,8 +244,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[25] (offset:196)
-
+// Sprite[25] (offset:196)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xC6, /* ##...##. */ 
@@ -279,8 +253,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x0E, /* ....###. */ 
 	0x0E, /* ....###. */ 
 	0x00, /* ........ */ 
-// // Sprite[26] (offset:204)
-
+// Sprite[26] (offset:204)
 	0x00, /* ........ */ 
 	0x30, /* ..##.... */ 
 	0x30, /* ..##.... */ 
@@ -289,8 +262,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x30, /* ..##.... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[27] (offset:212)
-
+// Sprite[27] (offset:212)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x30, /* ..##.... */ 
@@ -299,8 +271,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x60, /* .##..... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[28] (offset:220)
-
+// Sprite[28] (offset:220)
 	0x00, /* ........ */ 
 	0x18, /* ...##... */ 
 	0x30, /* ..##.... */ 
@@ -309,8 +280,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x18, /* ...##... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[29] (offset:228)
-
+// Sprite[29] (offset:228)
 	0x00, /* ........ */ 
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
@@ -319,8 +289,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[30] (offset:236)
-
+// Sprite[30] (offset:236)
 	0x00, /* ........ */ 
 	0x30, /* ..##.... */ 
 	0x18, /* ...##... */ 
@@ -329,8 +298,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x30, /* ..##.... */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[31] (offset:244)
-
+// Sprite[31] (offset:244)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xCE, /* ##..###. */ 
@@ -339,8 +307,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x00, /* ........ */ 
 	0x30, /* ..##.... */ 
 	0x00, /* ........ */ 
-// // Sprite[32] (offset:252)
-
+// Sprite[32] (offset:252)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xD6, /* ##.#.##. */ 
@@ -349,8 +316,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xC0, /* ##...... */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[33] (offset:260)
-
+// Sprite[33] (offset:260)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xEE, /* ###.###. */ 
@@ -359,8 +325,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xEE, /* ###.###. */ 
 	0x6C, /* .##.##.. */ 
 	0x00, /* ........ */ 
-// // Sprite[34] (offset:268)
-
+// Sprite[34] (offset:268)
 	0xFC, /* ######.. */ 
 	0xFE, /* #######. */ 
 	0xEE, /* ###.###. */ 
@@ -369,8 +334,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0xFC, /* ######.. */ 
 	0x00, /* ........ */ 
-// // Sprite[35] (offset:276)
-
+// Sprite[35] (offset:276)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xEE, /* ###.###. */ 
@@ -379,8 +343,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[36] (offset:284)
-
+// Sprite[36] (offset:284)
 	0xFC, /* ######.. */ 
 	0xFE, /* #######. */ 
 	0xEE, /* ###.###. */ 
@@ -389,8 +352,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0xFC, /* ######.. */ 
 	0x00, /* ........ */ 
-// // Sprite[37] (offset:292)
-
+// Sprite[37] (offset:292)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xE0, /* ###..... */ 
@@ -399,8 +361,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[38] (offset:300)
-
+// Sprite[38] (offset:300)
 	0x7C, /* .#####.. */ 
 	0xFC, /* ######.. */ 
 	0xF0, /* ####.... */ 
@@ -409,8 +370,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xF0, /* ####.... */ 
 	0xF0, /* ####.... */ 
 	0x00, /* ........ */ 
-// // Sprite[39] (offset:308)
-
+// Sprite[39] (offset:308)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xE0, /* ###..... */ 
@@ -419,8 +379,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[40] (offset:316)
-
+// Sprite[40] (offset:316)
 	0x6C, /* .##.##.. */ 
 	0xEE, /* ###.###. */ 
 	0xEE, /* ###.###. */ 
@@ -429,8 +388,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xEE, /* ###.###. */ 
 	0x6C, /* .##.##.. */ 
 	0x00, /* ........ */ 
-// // Sprite[41] (offset:324)
-
+// Sprite[41] (offset:324)
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
 	0x7C, /* .#####.. */ 
@@ -439,8 +397,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[42] (offset:332)
-
+// Sprite[42] (offset:332)
 	0x1E, /* ...####. */ 
 	0x0E, /* ....###. */ 
 	0x0E, /* ....###. */ 
@@ -449,8 +406,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[43] (offset:340)
-
+// Sprite[43] (offset:340)
 	0xEC, /* ###.##.. */ 
 	0xFC, /* ######.. */ 
 	0xF8, /* #####... */ 
@@ -459,8 +415,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xEE, /* ###.###. */ 
 	0xEE, /* ###.###. */ 
 	0x00, /* ........ */ 
-// // Sprite[44] (offset:348)
-
+// Sprite[44] (offset:348)
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
@@ -469,8 +424,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0xFC, /* ######.. */ 
 	0x00, /* ........ */ 
-// // Sprite[45] (offset:356)
-
+// Sprite[45] (offset:356)
 	0x44, /* .#...#.. */ 
 	0xEE, /* ###.###. */ 
 	0xEE, /* ###.###. */ 
@@ -479,8 +433,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0xD6, /* ##.#.##. */ 
 	0x00, /* ........ */ 
-// // Sprite[46] (offset:364)
-
+// Sprite[46] (offset:364)
 	0xCE, /* ##..###. */ 
 	0xEE, /* ###.###. */ 
 	0xFE, /* #######. */ 
@@ -489,8 +442,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xEE, /* ###.###. */ 
 	0xE6, /* ###..##. */ 
 	0x00, /* ........ */ 
-// // Sprite[47] (offset:372)
-
+// Sprite[47] (offset:372)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
@@ -499,8 +451,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[48] (offset:380)
-
+// Sprite[48] (offset:380)
 	0x7C, /* .#####.. */ 
 	0x7E, /* .######. */ 
 	0x76, /* .###.##. */ 
@@ -509,8 +460,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x70, /* .###.... */ 
 	0x70, /* .###.... */ 
 	0x00, /* ........ */ 
-// // Sprite[49] (offset:388)
-
+// Sprite[49] (offset:388)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xEE, /* ###.###. */ 
@@ -519,8 +469,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFC, /* ######.. */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[50] (offset:396)
-
+// Sprite[50] (offset:396)
 	0xFC, /* ######.. */ 
 	0xFE, /* #######. */ 
 	0xEE, /* ###.###. */ 
@@ -529,8 +478,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xEC, /* ###.##.. */ 
 	0xEE, /* ###.###. */ 
 	0x00, /* ........ */ 
-// // Sprite[51] (offset:404)
-
+// Sprite[51] (offset:404)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xF6, /* ####.##. */ 
@@ -539,8 +487,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[52] (offset:412)
-
+// Sprite[52] (offset:412)
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
 	0x38, /* ..###... */ 
@@ -549,8 +496,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[53] (offset:420)
-
+// Sprite[53] (offset:420)
 	0xEE, /* ###.###. */ 
 	0xEE, /* ###.###. */ 
 	0xEE, /* ###.###. */ 
@@ -559,8 +505,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[54] (offset:428)
-
+// Sprite[54] (offset:428)
 	0xEE, /* ###.###. */ 
 	0xEE, /* ###.###. */ 
 	0xEE, /* ###.###. */ 
@@ -569,8 +514,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[55] (offset:436)
-
+// Sprite[55] (offset:436)
 	0xD6, /* ##.#.##. */ 
 	0xFE, /* #######. */ 
 	0xFE, /* #######. */ 
@@ -579,8 +523,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x6C, /* .##.##.. */ 
 	0x6C, /* .##.##.. */ 
 	0x00, /* ........ */ 
-// // Sprite[56] (offset:444)
-
+// Sprite[56] (offset:444)
 	0xEE, /* ###.###. */ 
 	0xEE, /* ###.###. */ 
 	0x7C, /* .#####.. */ 
@@ -589,8 +532,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xEE, /* ###.###. */ 
 	0xEE, /* ###.###. */ 
 	0x00, /* ........ */ 
-// // Sprite[57] (offset:452)
-
+// Sprite[57] (offset:452)
 	0xEE, /* ###.###. */ 
 	0xEE, /* ###.###. */ 
 	0xEE, /* ###.###. */ 
@@ -599,8 +541,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xF8, /* #####... */ 
 	0xF0, /* ####.... */ 
 	0x00, /* ........ */ 
-// // Sprite[58] (offset:460)
-
+// Sprite[58] (offset:460)
 	0x7C, /* .#####.. */ 
 	0xFE, /* #######. */ 
 	0xDC, /* ##.###.. */ 
@@ -609,8 +550,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xFE, /* #######. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[59] (offset:468)
-
+// Sprite[59] (offset:468)
 	0x60, /* .##..... */ 
 	0xC0, /* ##...... */ 
 	0xC0, /* ##...... */ 
@@ -619,8 +559,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0xC0, /* ##...... */ 
 	0x60, /* .##..... */ 
 	0x00, /* ........ */ 
-// // Sprite[60] (offset:476)
-
+// Sprite[60] (offset:476)
 	0x00, /* ........ */ 
 	0xC0, /* ##...... */ 
 	0x60, /* .##..... */ 
@@ -629,8 +568,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x0C, /* ....##.. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[61] (offset:484)
-
+// Sprite[61] (offset:484)
 	0xC0, /* ##...... */ 
 	0x60, /* .##..... */ 
 	0x60, /* .##..... */ 
@@ -639,8 +577,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x60, /* .##..... */ 
 	0xC0, /* ##...... */ 
 	0x00, /* ........ */ 
-// // Sprite[62] (offset:492)
-
+// Sprite[62] (offset:492)
 	0x00, /* ........ */ 
 	0x10, /* ...#.... */ 
 	0x38, /* ..###... */ 
@@ -649,8 +586,7 @@ const unsigned char g_Font_GFX_Tennis2[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[63] (offset:500)
-
+// Sprite[63] (offset:500)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 

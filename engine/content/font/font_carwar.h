@@ -17,7 +17,7 @@
 //  - Color count:    2 (Transparent: #DA48B6)
 //  - Palette mode:   MSX1 [1:-1]
 //  - Compressor:     None
-//  - Skip empty:     TRUE
+//  - Skip empty:     FALSE
 
 // Data table
 const unsigned char g_Font_Carwar[] =
@@ -25,12 +25,18 @@ const unsigned char g_Font_Carwar[] =
 // Font header data
 	0x88, // Data size [x|y]
 	0x88, // Font size [x|y]
-	0x21, // First character ASCII code (!)
+	0x20, // First character ASCII code ( )
 	0x5F, // Last character ASCII code (_)
-// // Sprite[0] (offset:4)
-
-// // Sprite[1] (offset:4)
-
+// Sprite[0] (offset:4)
+	0x00, /* ........ */ 
+	0x00, /* ........ */ 
+	0x00, /* ........ */ 
+	0x00, /* ........ */ 
+	0x00, /* ........ */ 
+	0x00, /* ........ */ 
+	0x00, /* ........ */ 
+	0x00, /* ........ */ 
+// Sprite[1] (offset:12)
 	0x30, /* ..##.... */ 
 	0x78, /* .####... */ 
 	0x78, /* .####... */ 
@@ -39,8 +45,7 @@ const unsigned char g_Font_Carwar[] =
 	0x00, /* ........ */ 
 	0x30, /* ..##.... */ 
 	0x00, /* ........ */ 
-// // Sprite[2] (offset:12)
-
+// Sprite[2] (offset:20)
 	0x6C, /* .##.##.. */ 
 	0x6C, /* .##.##.. */ 
 	0x6C, /* .##.##.. */ 
@@ -49,8 +54,7 @@ const unsigned char g_Font_Carwar[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[3] (offset:20)
-
+// Sprite[3] (offset:28)
 	0x6C, /* .##.##.. */ 
 	0x6C, /* .##.##.. */ 
 	0xFE, /* #######. */ 
@@ -59,8 +63,7 @@ const unsigned char g_Font_Carwar[] =
 	0x6C, /* .##.##.. */ 
 	0x6C, /* .##.##.. */ 
 	0x00, /* ........ */ 
-// // Sprite[4] (offset:28)
-
+// Sprite[4] (offset:36)
 	0x30, /* ..##.... */ 
 	0x7C, /* .#####.. */ 
 	0xE0, /* ###..... */ 
@@ -69,8 +72,7 @@ const unsigned char g_Font_Carwar[] =
 	0xF8, /* #####... */ 
 	0x30, /* ..##.... */ 
 	0x00, /* ........ */ 
-// // Sprite[5] (offset:36)
-
+// Sprite[5] (offset:44)
 	0xC3, /* ##....## */ 
 	0xC6, /* ##...##. */ 
 	0x0C, /* ....##.. */ 
@@ -79,8 +81,7 @@ const unsigned char g_Font_Carwar[] =
 	0x66, /* .##..##. */ 
 	0xC6, /* ##...##. */ 
 	0x00, /* ........ */ 
-// // Sprite[6] (offset:44)
-
+// Sprite[6] (offset:52)
 	0x38, /* ..###... */ 
 	0x6C, /* .##.##.. */ 
 	0x38, /* ..###... */ 
@@ -89,8 +90,7 @@ const unsigned char g_Font_Carwar[] =
 	0xCC, /* ##..##.. */ 
 	0x76, /* .###.##. */ 
 	0x00, /* ........ */ 
-// // Sprite[7] (offset:52)
-
+// Sprite[7] (offset:60)
 	0x60, /* .##..... */ 
 	0x60, /* .##..... */ 
 	0xC0, /* ##...... */ 
@@ -99,8 +99,7 @@ const unsigned char g_Font_Carwar[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[8] (offset:60)
-
+// Sprite[8] (offset:68)
 	0x18, /* ...##... */ 
 	0x30, /* ..##.... */ 
 	0x60, /* .##..... */ 
@@ -109,8 +108,7 @@ const unsigned char g_Font_Carwar[] =
 	0x30, /* ..##.... */ 
 	0x18, /* ...##... */ 
 	0x00, /* ........ */ 
-// // Sprite[9] (offset:68)
-
+// Sprite[9] (offset:76)
 	0x60, /* .##..... */ 
 	0x30, /* ..##.... */ 
 	0x18, /* ...##... */ 
@@ -119,8 +117,7 @@ const unsigned char g_Font_Carwar[] =
 	0x30, /* ..##.... */ 
 	0x60, /* .##..... */ 
 	0x00, /* ........ */ 
-// // Sprite[10] (offset:76)
-
+// Sprite[10] (offset:84)
 	0x00, /* ........ */ 
 	0x66, /* .##..##. */ 
 	0x3C, /* ..####.. */ 
@@ -129,8 +126,7 @@ const unsigned char g_Font_Carwar[] =
 	0x66, /* .##..##. */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[11] (offset:84)
-
+// Sprite[11] (offset:92)
 	0x00, /* ........ */ 
 	0x18, /* ...##... */ 
 	0x18, /* ...##... */ 
@@ -139,8 +135,7 @@ const unsigned char g_Font_Carwar[] =
 	0x18, /* ...##... */ 
 	0x18, /* ...##... */ 
 	0x00, /* ........ */ 
-// // Sprite[12] (offset:92)
-
+// Sprite[12] (offset:100)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -149,8 +144,7 @@ const unsigned char g_Font_Carwar[] =
 	0x70, /* .###.... */ 
 	0x30, /* ..##.... */ 
 	0x60, /* .##..... */ 
-// // Sprite[13] (offset:100)
-
+// Sprite[13] (offset:108)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -159,8 +153,7 @@ const unsigned char g_Font_Carwar[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[14] (offset:108)
-
+// Sprite[14] (offset:116)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -169,8 +162,7 @@ const unsigned char g_Font_Carwar[] =
 	0x30, /* ..##.... */ 
 	0x30, /* ..##.... */ 
 	0x00, /* ........ */ 
-// // Sprite[15] (offset:116)
-
+// Sprite[15] (offset:124)
 	0x06, /* .....##. */ 
 	0x0C, /* ....##.. */ 
 	0x18, /* ...##... */ 
@@ -179,8 +171,7 @@ const unsigned char g_Font_Carwar[] =
 	0xC0, /* ##...... */ 
 	0x80, /* #....... */ 
 	0x00, /* ........ */ 
-// // Sprite[16] (offset:124)
-
+// Sprite[16] (offset:132)
 	0x7C, /* .#####.. */ 
 	0xCE, /* ##..###. */ 
 	0xCE, /* ##..###. */ 
@@ -189,8 +180,7 @@ const unsigned char g_Font_Carwar[] =
 	0xCE, /* ##..###. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[17] (offset:132)
-
+// Sprite[17] (offset:140)
 	0x78, /* .####... */ 
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
@@ -199,8 +189,7 @@ const unsigned char g_Font_Carwar[] =
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[18] (offset:140)
-
+// Sprite[18] (offset:148)
 	0xFC, /* ######.. */ 
 	0x0E, /* ....###. */ 
 	0x0E, /* ....###. */ 
@@ -209,8 +198,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE0, /* ###..... */ 
 	0xFE, /* #######. */ 
 	0x00, /* ........ */ 
-// // Sprite[19] (offset:148)
-
+// Sprite[19] (offset:156)
 	0x7C, /* .#####.. */ 
 	0x8E, /* #...###. */ 
 	0x0E, /* ....###. */ 
@@ -219,8 +207,7 @@ const unsigned char g_Font_Carwar[] =
 	0x8E, /* #...###. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[20] (offset:156)
-
+// Sprite[20] (offset:164)
 	0x3C, /* ..####.. */ 
 	0x5C, /* .#.###.. */ 
 	0xDC, /* ##.###.. */ 
@@ -229,8 +216,7 @@ const unsigned char g_Font_Carwar[] =
 	0xFE, /* #######. */ 
 	0x1C, /* ...###.. */ 
 	0x00, /* ........ */ 
-// // Sprite[21] (offset:164)
-
+// Sprite[21] (offset:172)
 	0xFE, /* #######. */ 
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
@@ -239,8 +225,7 @@ const unsigned char g_Font_Carwar[] =
 	0x0E, /* ....###. */ 
 	0xFC, /* ######.. */ 
 	0x00, /* ........ */ 
-// // Sprite[22] (offset:172)
-
+// Sprite[22] (offset:180)
 	0x7E, /* .######. */ 
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
@@ -249,8 +234,7 @@ const unsigned char g_Font_Carwar[] =
 	0xCE, /* ##..###. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[23] (offset:180)
-
+// Sprite[23] (offset:188)
 	0xFE, /* #######. */ 
 	0x8E, /* #...###. */ 
 	0x1C, /* ...###.. */ 
@@ -259,8 +243,7 @@ const unsigned char g_Font_Carwar[] =
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[24] (offset:188)
-
+// Sprite[24] (offset:196)
 	0x7C, /* .#####.. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -269,8 +252,7 @@ const unsigned char g_Font_Carwar[] =
 	0xCE, /* ##..###. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[25] (offset:196)
-
+// Sprite[25] (offset:204)
 	0x7C, /* .#####.. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -279,8 +261,7 @@ const unsigned char g_Font_Carwar[] =
 	0x0E, /* ....###. */ 
 	0xFC, /* ######.. */ 
 	0x00, /* ........ */ 
-// // Sprite[26] (offset:204)
-
+// Sprite[26] (offset:212)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x18, /* ...##... */ 
@@ -289,8 +270,7 @@ const unsigned char g_Font_Carwar[] =
 	0x18, /* ...##... */ 
 	0x18, /* ...##... */ 
 	0x00, /* ........ */ 
-// // Sprite[27] (offset:212)
-
+// Sprite[27] (offset:220)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x30, /* ..##.... */ 
@@ -299,8 +279,7 @@ const unsigned char g_Font_Carwar[] =
 	0x30, /* ..##.... */ 
 	0x30, /* ..##.... */ 
 	0x60, /* .##..... */ 
-// // Sprite[28] (offset:220)
-
+// Sprite[28] (offset:228)
 	0x18, /* ...##... */ 
 	0x30, /* ..##.... */ 
 	0x60, /* .##..... */ 
@@ -309,8 +288,7 @@ const unsigned char g_Font_Carwar[] =
 	0x30, /* ..##.... */ 
 	0x18, /* ...##... */ 
 	0x00, /* ........ */ 
-// // Sprite[29] (offset:228)
-
+// Sprite[29] (offset:236)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x7C, /* .#####.. */ 
@@ -319,8 +297,7 @@ const unsigned char g_Font_Carwar[] =
 	0x7C, /* .#####.. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[30] (offset:236)
-
+// Sprite[30] (offset:244)
 	0x18, /* ...##... */ 
 	0x0C, /* ....##.. */ 
 	0x06, /* .....##. */ 
@@ -329,8 +306,7 @@ const unsigned char g_Font_Carwar[] =
 	0x0C, /* ....##.. */ 
 	0x18, /* ...##... */ 
 	0x00, /* ........ */ 
-// // Sprite[31] (offset:244)
-
+// Sprite[31] (offset:252)
 	0x3C, /* ..####.. */ 
 	0x66, /* .##..##. */ 
 	0x66, /* .##..##. */ 
@@ -339,8 +315,7 @@ const unsigned char g_Font_Carwar[] =
 	0x00, /* ........ */ 
 	0x18, /* ...##... */ 
 	0x18, /* ...##... */ 
-// // Sprite[32] (offset:252)
-
+// Sprite[32] (offset:260)
 	0x3C, /* ..####.. */ 
 	0x7E, /* .######. */ 
 	0xE7, /* ###..### */ 
@@ -349,8 +324,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE7, /* ###..### */ 
 	0x7E, /* .######. */ 
 	0x3C, /* ..####.. */ 
-// // Sprite[33] (offset:260)
-
+// Sprite[33] (offset:268)
 	0x7C, /* .#####.. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -359,8 +333,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0x00, /* ........ */ 
-// // Sprite[34] (offset:268)
-
+// Sprite[34] (offset:276)
 	0xFC, /* ######.. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -369,8 +342,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE6, /* ###..##. */ 
 	0xFC, /* ######.. */ 
 	0x00, /* ........ */ 
-// // Sprite[35] (offset:276)
-
+// Sprite[35] (offset:284)
 	0x7E, /* .######. */ 
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
@@ -379,8 +351,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE0, /* ###..... */ 
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
-// // Sprite[36] (offset:284)
-
+// Sprite[36] (offset:292)
 	0xFC, /* ######.. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -389,8 +360,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE6, /* ###..##. */ 
 	0xFC, /* ######.. */ 
 	0x00, /* ........ */ 
-// // Sprite[37] (offset:292)
-
+// Sprite[37] (offset:300)
 	0xFE, /* #######. */ 
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
@@ -399,8 +369,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE0, /* ###..... */ 
 	0xFE, /* #######. */ 
 	0x00, /* ........ */ 
-// // Sprite[38] (offset:300)
-
+// Sprite[38] (offset:308)
 	0xFE, /* #######. */ 
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
@@ -409,8 +378,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
 	0x00, /* ........ */ 
-// // Sprite[39] (offset:308)
-
+// Sprite[39] (offset:316)
 	0x7C, /* .#####.. */ 
 	0xE2, /* ###...#. */ 
 	0xE0, /* ###..... */ 
@@ -419,8 +387,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE6, /* ###..##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[40] (offset:316)
-
+// Sprite[40] (offset:324)
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -429,8 +396,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0x00, /* ........ */ 
-// // Sprite[41] (offset:324)
-
+// Sprite[41] (offset:332)
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
@@ -439,8 +405,7 @@ const unsigned char g_Font_Carwar[] =
 	0x38, /* ..###... */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[42] (offset:332)
-
+// Sprite[42] (offset:340)
 	0x7C, /* .#####.. */ 
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
@@ -449,8 +414,7 @@ const unsigned char g_Font_Carwar[] =
 	0xB8, /* #.###... */ 
 	0x70, /* .###.... */ 
 	0x00, /* ........ */ 
-// // Sprite[43] (offset:340)
-
+// Sprite[43] (offset:348)
 	0xE6, /* ###..##. */ 
 	0xEC, /* ###.##.. */ 
 	0xFC, /* ######.. */ 
@@ -459,8 +423,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0x00, /* ........ */ 
-// // Sprite[44] (offset:348)
-
+// Sprite[44] (offset:356)
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
@@ -469,8 +432,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE0, /* ###..... */ 
 	0xFE, /* #######. */ 
 	0x00, /* ........ */ 
-// // Sprite[45] (offset:356)
-
+// Sprite[45] (offset:364)
 	0xFC, /* ######.. */ 
 	0xDA, /* ##.##.#. */ 
 	0xDA, /* ##.##.#. */ 
@@ -479,8 +441,7 @@ const unsigned char g_Font_Carwar[] =
 	0xDA, /* ##.##.#. */ 
 	0xDA, /* ##.##.#. */ 
 	0x00, /* ........ */ 
-// // Sprite[46] (offset:364)
-
+// Sprite[46] (offset:372)
 	0xFC, /* ######.. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -489,8 +450,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0x00, /* ........ */ 
-// // Sprite[47] (offset:372)
-
+// Sprite[47] (offset:380)
 	0x7C, /* .#####.. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -499,8 +459,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE6, /* ###..##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[48] (offset:380)
-
+// Sprite[48] (offset:388)
 	0xFC, /* ######.. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -509,8 +468,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE0, /* ###..... */ 
 	0xE0, /* ###..... */ 
 	0x00, /* ........ */ 
-// // Sprite[49] (offset:388)
-
+// Sprite[49] (offset:396)
 	0x7C, /* .#####.. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -519,8 +477,7 @@ const unsigned char g_Font_Carwar[] =
 	0xEE, /* ###.###. */ 
 	0x7A, /* .####.#. */ 
 	0x00, /* ........ */ 
-// // Sprite[50] (offset:396)
-
+// Sprite[50] (offset:404)
 	0xFC, /* ######.. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -529,8 +486,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0x00, /* ........ */ 
-// // Sprite[51] (offset:404)
-
+// Sprite[51] (offset:412)
 	0x7C, /* .#####.. */ 
 	0xE6, /* ###..##. */ 
 	0xE0, /* ###..... */ 
@@ -539,8 +495,7 @@ const unsigned char g_Font_Carwar[] =
 	0xC6, /* ##...##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[52] (offset:412)
-
+// Sprite[52] (offset:420)
 	0xFE, /* #######. */ 
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
@@ -549,8 +504,7 @@ const unsigned char g_Font_Carwar[] =
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[53] (offset:420)
-
+// Sprite[53] (offset:428)
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -559,8 +513,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE6, /* ###..##. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[54] (offset:428)
-
+// Sprite[54] (offset:436)
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -569,8 +522,7 @@ const unsigned char g_Font_Carwar[] =
 	0x38, /* ..###... */ 
 	0x10, /* ...#.... */ 
 	0x00, /* ........ */ 
-// // Sprite[55] (offset:436)
-
+// Sprite[55] (offset:444)
 	0xDA, /* ##.##.#. */ 
 	0xDA, /* ##.##.#. */ 
 	0xDA, /* ##.##.#. */ 
@@ -579,8 +531,7 @@ const unsigned char g_Font_Carwar[] =
 	0xDA, /* ##.##.#. */ 
 	0x7C, /* .#####.. */ 
 	0x00, /* ........ */ 
-// // Sprite[56] (offset:444)
-
+// Sprite[56] (offset:452)
 	0xC6, /* ##...##. */ 
 	0xEE, /* ###.###. */ 
 	0x7C, /* .#####.. */ 
@@ -589,8 +540,7 @@ const unsigned char g_Font_Carwar[] =
 	0xEE, /* ###.###. */ 
 	0xC6, /* ##...##. */ 
 	0x00, /* ........ */ 
-// // Sprite[57] (offset:452)
-
+// Sprite[57] (offset:460)
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
 	0xE6, /* ###..##. */ 
@@ -599,8 +549,7 @@ const unsigned char g_Font_Carwar[] =
 	0x38, /* ..###... */ 
 	0x38, /* ..###... */ 
 	0x00, /* ........ */ 
-// // Sprite[58] (offset:460)
-
+// Sprite[58] (offset:468)
 	0xFE, /* #######. */ 
 	0x0E, /* ....###. */ 
 	0x1C, /* ...###.. */ 
@@ -609,8 +558,7 @@ const unsigned char g_Font_Carwar[] =
 	0xE0, /* ###..... */ 
 	0xFE, /* #######. */ 
 	0x00, /* ........ */ 
-// // Sprite[59] (offset:468)
-
+// Sprite[59] (offset:476)
 	0x78, /* .####... */ 
 	0x78, /* .####... */ 
 	0x60, /* .##..... */ 
@@ -619,8 +567,7 @@ const unsigned char g_Font_Carwar[] =
 	0x78, /* .####... */ 
 	0x78, /* .####... */ 
 	0x00, /* ........ */ 
-// // Sprite[60] (offset:476)
-
+// Sprite[60] (offset:484)
 	0xC0, /* ##...... */ 
 	0x60, /* .##..... */ 
 	0x30, /* ..##.... */ 
@@ -629,8 +576,7 @@ const unsigned char g_Font_Carwar[] =
 	0x06, /* .....##. */ 
 	0x02, /* ......#. */ 
 	0x00, /* ........ */ 
-// // Sprite[61] (offset:484)
-
+// Sprite[61] (offset:492)
 	0x78, /* .####... */ 
 	0x78, /* .####... */ 
 	0x18, /* ...##... */ 
@@ -639,8 +585,7 @@ const unsigned char g_Font_Carwar[] =
 	0x78, /* .####... */ 
 	0x78, /* .####... */ 
 	0x00, /* ........ */ 
-// // Sprite[62] (offset:492)
-
+// Sprite[62] (offset:500)
 	0x18, /* ...##... */ 
 	0x3C, /* ..####.. */ 
 	0x66, /* .##..##. */ 
@@ -649,8 +594,7 @@ const unsigned char g_Font_Carwar[] =
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
-// // Sprite[63] (offset:500)
-
+// Sprite[63] (offset:508)
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
 	0x00, /* ........ */ 
@@ -660,4 +604,4 @@ const unsigned char g_Font_Carwar[] =
 	0x7E, /* .######. */ 
 	0x00, /* ........ */ 
 };
-// Total size : 508 bytes
+// Total size : 516 bytes

@@ -87,8 +87,8 @@ if %BuildFont%==1 (
 	%MSXimg% font\font_mgl_makoto.png   -out ..\content\font\font_mgl_makoto.h      -nodate -pos 0 0  -size 8 8  -gap 0 0 -num 16 16 -trans 0x000000 -bpc 1 -name g_Font_MGL_Makoto   -copy msxgl.txt        -font 8 8 0x00 0xFD
 
 	REM -------- GAME FONTS --------
-	%MSXimg% font\font_carwar.png        -out ..\content\font\font_carwar.h         -nodate -pos 0 0  -size 8 8  -gap 0 0 -num 16 4  -trans 0xDA48B6 -bpc 1 -name g_Font_Carwar       -copy           -skip  -font 8 8 ! _
-	%MSXimg% font\font_room5.png         -out ..\content\font\font_room5.h          -nodate -pos 0 16 -size 8 8  -gap 0 0 -num 16 4  -trans 0x000000 -bpc 1 -name g_Font_Room5        -copy msxgl.txt -skip -font 8 8 ! _
+	%MSXimg% font\font_carwar.png        -out ..\content\font\font_carwar.h         -nodate -pos 0 0  -size 8 8  -gap 0 0 -num 16 4  -trans 0xDA48B6 -bpc 1 -name g_Font_Carwar       -copy                  -font 8 8 0x20 _
+	%MSXimg% font\font_room5.png         -out ..\content\font\font_room5.h          -nodate -pos 0 16 -size 8 8  -gap 0 0 -num 16 4  -trans 0x000000 -bpc 1 -name g_Font_Room5        -copy msxgl.txt -skip  -font 8 8 ! _
 	%MSXimg% font\font_gfx_future1.png   -out ..\content\font\font_gfx_future1.h    -nodate -pos 0 0  -size 8 8  -gap 0 0 -num 16 4  -trans 0x000000 -bpc 1 -name g_Font_GFX_Future1  -copy font\gfx.txt -skip  -font 8 8 ! _
 	%MSXimg% font\font_gfx_tennis1.png   -out ..\content\font\font_gfx_tennis1.h    -nodate -pos 0 0  -size 8 8  -gap 0 0 -num 16 4  -trans 0x000000 -bpc 1 -name g_Font_GFX_Tennis1  -copy font\gfx.txt -skip  -font 8 8 ! _
 	%MSXimg% font\font_gfx_tennis2.png   -out ..\content\font\font_gfx_tennis2.h    -nodate -pos 0 0  -size 8 8  -gap 0 0 -num 16 4  -trans 0x000000 -bpc 1 -name g_Font_GFX_Tennis2  -copy font\gfx.txt -skip  -font 8 8 ! _
