@@ -17,9 +17,10 @@
 // DEFINES
 //=============================================================================
 
-extern u8 g_Mutex; //< @note Must be declared somewhere in the application code
+extern u8 g_Mutex; 
 
-#define MUTEX_DATA() u8 g_Mutex
+// Note: Must be added somewhere in the application code
+#define MUTEX_DATA()				u8 g_Mutex
 
 //=============================================================================
 // FUNCTIONS
@@ -55,4 +56,7 @@ inline void Mutex_Wait(u8 mutex) { while ((g_Mutex & (1 << mutex)) != 0); }
 //
 // Parameters:
 //   mutex - Mutex index (0-7)
+//
+// Returns:
+//   FALSE if mutex is locked
 inline bool Mutex_Gate(u8 mutex) { return ((g_Mutex & (1 << mutex)) == 0); }
