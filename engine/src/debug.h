@@ -54,7 +54,8 @@
 	// Notes:
 	// - [Emulicious] You need the "Break on ld b, b instruction" exception to be activated.
 	// - [openMSX] You need the "tools/script/openMSX/debugger_pvm.tcl" script to be loaded to use this function.
-	void DEBUG_ASSERT(bool a);
+	#define DEBUG_ASSERT(cond) \
+		do { if (!cond) { DEBUG_PRINT("assert failed on \"" #cond "\" from file %s: %i\n", __FILE__, __LINE__); DEBUG_BREAK(); } } while(0) 
 
 	// Function: DEBUG_LOG
 	// Display debug message (and return to next line).
