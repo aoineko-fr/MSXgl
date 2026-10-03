@@ -300,7 +300,7 @@ void VDP_WriteVRAM_16K(const u8* src, u16 dest, u16 count)
 		VDP_EI_DEF //~~~~~~~~~~~~~~~~~~~~~~~~~~
 		out		(P_VDP_ADDR), a			// RegPort = ((dest >> 8) & 0x3F) + F_VDP_WRIT
 
-	#if ((MSX_VERSION & MSX_1) && (VDP_USE_MODE_G1 || VDP_USE_MODE_G2 || VDP_USE_MODE_MC)) // Worst case 29 cc (use 30 cc loop with "outi + jp nz")
+	#if ((MSX_VERSION & MSX_1) && (VDP_USE_MODE_G1 || VDP_USE_MODE_G2 || VDP_USE_MODE_MC)) // Worst case 29 cc (use 29 cc loop with "outi + jp nz")
 
 		// Setup fast 16-bits loop
 		ld		e, 0(iy)				// count

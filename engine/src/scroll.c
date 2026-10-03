@@ -101,7 +101,7 @@ void Scroll_SetOffsetH(i8 offset)
 	#if (SCROLL_WRAP)
 		g_Scroll_OffsetX += offset;
 		if (g_Scroll_OffsetX >= ((SCROLL_SRC_W) * 8))
-			g_Scroll_OffsetX += offset - ((SCROLL_SRC_W) * 8);
+			g_Scroll_OffsetX -= ((SCROLL_SRC_W) * 8);
 	#else
 		if (g_Scroll_OffsetX + offset < ((SCROLL_SRC_W) - (SCROLL_DST_W)) * 8)
 			g_Scroll_OffsetX += offset;
@@ -112,7 +112,7 @@ void Scroll_SetOffsetH(i8 offset)
 	else // if (offset <= 0)
 	{
 	#if (SCROLL_WRAP)
-		if (g_Scroll_OffsetX > -offset)
+		if (g_Scroll_OffsetX >= -offset)
 			g_Scroll_OffsetX += offset;
 		else
 			g_Scroll_OffsetX += offset + ((SCROLL_SRC_W) * 8);

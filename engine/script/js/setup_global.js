@@ -228,8 +228,11 @@ global.ROMSize = 128;
 //-- Number of segments in the main program of a mapped-ROM (number). 0 means 'number of segments to fill 32 KB of ROM'
 global.ROMMainSegments = 0;
 
-//-- Check for ROM boot skipping if a given key is pressed (boolean)
-global.ROMSkipBoot = false;
+//-- Check for ROM boot skipping if a given key is pressed (string)
+//   - SKIP_NONE        Don't skip the ROM boot
+//   - SKIP_ALL         Skip the ROM boot and go directly to BASIC or MSX-DOS
+//   - SKIP_DELAY		Skip the delay boot and start the ROM program immediately
+global.ROMSkipBoot = "SKIP_NONE";
 
 //-- The key to be check for ROM boot skipping (string). Key must be from keyboard row #7.
 //   - F4

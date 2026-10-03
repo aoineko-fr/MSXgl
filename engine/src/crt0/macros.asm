@@ -399,7 +399,7 @@
 ; Check for skip key press
 ;------------------------------------------------------------------------------
 .macro SKIP_BOOT
-	.if ROM_SKIP
+	.ifeq ROM_SKIP-SKIP_ALL
 	; Check for 'ESC' key press
 	ctr0_check_rom_skip:
 		in		a, (PPI_C)
@@ -417,6 +417,18 @@
 ;------------------------------------------------------------------------------
 .macro DELAY_BOOT
 	.if ROM_DELAY
+
+	.ifeq ROM_SKIP-SKIP_DELAY
+	crt0_bdos_skip:
+		in		a, (PPI_C)
+		and		#0xF0					; only change bits 0-3
+		or		#7						; check row number 7
+		out		(PPI_C), a
+		in		a, (PPI_B)				; read row into A
+		and		#ROM_SKIP_KEY
+		jp		z, crt0_bdos_end
+	.endif
+
 	; Setup the hook H.STKE to run the ROM with disk support
 	crt0_bdos_install::
 		ld		a, c					; Get the ROM slot number
@@ -431,12 +443,14 @@
 	crt0_bdos_hook:
 		rst		0x30					; Inter-slot call
 		.db		1						; This byte will be replaced by the slot number of ROM
-		.dw		crt0_bdos_end			; Address to execute the ROM
+		.dw		crt0_bdos_resume		; Address to execute the ROM
 
 	; Remove the hook and resume the ROM boot sequence
-	crt0_bdos_end:
+	crt0_bdos_resume:
 		ld		a, #0xC9				; 'ret' instruction
 		ld		(H_STKE), a
+
+	crt0_bdos_end:
 	.endif
 .endm
 

@@ -23,31 +23,31 @@ typedef c8* AppSign;
 #define APPSIGN_NONE				0xFF	// Value returned when no signature is found
 
 // List of known application signatures
-#define APPSIGN_SNAKE_ESCAPE		"2NSE"
-#define APPSIGN_SUPER_SOKOBAN		"2NSO"
-#define APPSIGN_DELTA				"5BR3"
-#define APPSIGN_CHRONO_RUNNER		"AMCR"
-#define APPSIGN_EGGYS_MAZE			"B5EM"
-#define APPSIGN_PHENIX_CORRUPTA		"CCPC"
-#define APPSIGN_SOUL_TRAPPED		"CCTR"
-#define APPSIGN_A_LONE_WOLF			"FDLW"
-#define APPSIGN_SAM_PR_EXPLORE		"FPEX"
-#define APPSIGN_MARTIAN_WAR			"FPMW"
-#define APPSIGN_SOCCER_LEAGUE		"FPSL"
-#define APPSIGN_SAM_PR				"FPSP"
-#define APPSIGN_MUGI				"HNMG"
-#define APPSIGN_ROOM5				"MOR5"
-#define APPSIGN_CRAWLERS			"PH\1\0"
-#define APPSIGN_FINAL_SMASH			"PH\2\0"
-#define APPSIGN_PENGPONG			"PH\3\0"
-#define APPSIGN_WIZZL				"PH\4\0"
-#define APPSIGN_ASTROJUMP			"RGAJ"
-#define APPSIGN_TERMSX_MULTI		"RGTM"
-#define APPSIGN_PETSCII_ROBOTS		"RSPE"
-#define APPSIGN_TINY_TETRIS_VS		"TT4P"
-#define APPSIGN_DUAEL_DROP			"TTDD"
-#define APPSIGN_DOOMLINGS			"TTDL"
-#define APPSIGN_TETPUZ				"TTTP"
+#define APPSIGN_SNAKE_ESCAPE		"2NSE"   // 2NICE - Snake Escape
+#define APPSIGN_SUPER_SOKOBAN		"2NSO"   // 2NICE - Super Sokoban
+#define APPSIGN_CHRONO_RUNNER		"AMCR"   // Associazione MSX Italia - Chrono Runner
+#define APPSIGN_EGGYS_MAZE			"B5EM"   // Bik5 - Eggy's Maze
+#define APPSIGN_DELTA				"B5R3"   // Bik5 - DELTA
+#define APPSIGN_PHENIX_CORRUPTA		"CCPC"   // Casper Croes - Phenix Corrupta
+#define APPSIGN_SOUL_TRAPPED		"CCTR"   // Casper Croes - Soul Trapped
+#define APPSIGN_A_LONE_WOLF			"FDLW"   // FutureDisk - A Lone Wolf
+#define APPSIGN_SAM_PR_EXPLORE		"FPEX"   // Fausto Pracek - Sam PR Explore
+#define APPSIGN_MARTIAN_WAR			"FPMW"   // Fausto Pracek - Martian War
+#define APPSIGN_SOCCER_LEAGUE		"FPSL"   // Fausto Pracek - Soccer League
+#define APPSIGN_SAM_PR				"FPSP"   // Fausto Pracek - Sam PR
+#define APPSIGN_MUGI				"HNMG"   // Hando - MUGI
+#define APPSIGN_ROOM5				"MOR5"   // MO5 Association - Room5
+#define APPSIGN_CRAWLERS			"PH\1\0" // Pixel Phenix - Crawlers
+#define APPSIGN_FINAL_SMASH			"PH\2\0" // Pixel Phenix - Final Smash
+#define APPSIGN_PENGPONG			"PH\3\0" // Pixel Phenix - Pengpong
+#define APPSIGN_WIZZL				"PH\4\0" // Pixel Phenix - Wizzl
+#define APPSIGN_ASTROJUMP			"RGAJ"   // Astrojump
+#define APPSIGN_TERMSX_MULTI		"RGTM"   // Rutagames - TermSX Multi
+#define APPSIGN_PETSCII_ROBOTS		"RSPE"   // RoboSoft - Petscii Robots
+#define APPSIGN_TINY_TETRIS_VS		"TT4P"   // Antxiko - Tiny Tetris VS
+#define APPSIGN_DUAEL_DROP			"TTDD"   // Totta - Duael Drop
+#define APPSIGN_DOOMLINGS			"TTDL"   // Totta - Doomlings
+#define APPSIGN_TETPUZ				"TTTP"   // Totta - Tetpuz
 
 //=============================================================================
 // FUNCTIONS

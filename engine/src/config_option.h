@@ -40,7 +40,7 @@
 #define MSX_3						0b01000000 // MSX3
 
 //-----------------------------------------------------------------------------
-// TARGET_TYPE options
+// TARGET_TYPE options (0-3)
 #define TYPE_BIN					0 // BASIC binary program
 #define TYPE_ROM					1 // ROM program
 #define TYPE_DOS					2 // MSX-DOS program
@@ -86,7 +86,7 @@
 #define ROM_NEO16					11 // NEO-16 mapper
 #define ROM_ASCII16X				12 // ASCII16-X mmaper
 
-// ROM_FRAME options (0-15)
+// ROM_FRAME options (0-7)
 #define ROM_8K						0
 #define ROM_16K						1
 #define ROM_24K						2
@@ -100,10 +100,10 @@
 
 // ROM target type define
 //	15	14	13	12	11	10	9	8	7	6	5	4	3	2	1	0
-//	0	1	ISR	MIR	M3	M2	M1	M0	S3	S2	S1	S0	P1	P0	B1	B0
-//			│	│	│	│	│	│	│	│	│	│	│	│	└───┴── ROM boot page (address of 'AB' header)
-//			│	│	│	│	│	│	│	│	│	│	└───┴────────── ROM starting page (first address of the ROM ; can be different from booting page)
-//			│	│	│	│	│	│	└───┴───┴───┴────────────────── ROM size
+//	0	1	ISR	MIR	M3	M2	M1	M0	0	F2	F1	F0	P1	P0	B1	B0
+//			│	│	│	│	│	│		│	│	│	│	│	└───┴── ROM boot page (address of 'AB' header)
+//			│	│	│	│	│	│		│	│	│	└───┴────────── ROM starting page (first address of the ROM ; can be different from booting page)
+//			│	│	│	│	│	│		└───┴───┴────────────────── ROM frame size (8KB to 64KB)
 //			│	│	└───┴───┴───┴────────────────────────────────── ROM Mapper Type
 //			│	└────────────────────────────────────────────────── Mirrored ROM
 //			└────────────────────────────────────────────────────── Use custom Interrupt Service Routine (place custom code in page 0)
@@ -172,10 +172,10 @@
 #define TARGET_ROM_48K				TARGET_ROM_48K_B1
 #define TARGET_ROM_48K_ISR			TARGET_ROM_48K_B1_ISR
 // -- Plain ROM 64KB
-#define TARGET_ROM_64K_B1			MAKE_ROM(ROM_PLAIN, ROM_64K, 0, 1) // 48KB ROM in pages 0-3 boot at 4000h
-#define TARGET_ROM_64K_B1_ISR		MAKE_ROM(ROM_PLAIN, ROM_64K, 0, 1) + ROM_ISR // 48KB ROM in pages 0-3 boot at 4000h. With ISR replacement
-#define TARGET_ROM_64K_B2			MAKE_ROM(ROM_PLAIN, ROM_64K, 0, 2) // 48KB ROM in pages 0-3 boot at 8000h
-#define TARGET_ROM_64K_B2_ISR		MAKE_ROM(ROM_PLAIN, ROM_64K, 0, 2) + ROM_ISR // 48KB ROM in pages 0-3 boot at 8000h. With ISR replacement
+#define TARGET_ROM_64K_B1			MAKE_ROM(ROM_PLAIN, ROM_64K, 0, 1) // 64KB ROM in pages 0-3 boot at 4000h
+#define TARGET_ROM_64K_B1_ISR		MAKE_ROM(ROM_PLAIN, ROM_64K, 0, 1) + ROM_ISR // 64KB ROM in pages 0-3 boot at 4000h. With ISR replacement
+#define TARGET_ROM_64K_B2			MAKE_ROM(ROM_PLAIN, ROM_64K, 0, 2) // 64KB ROM in pages 0-3 boot at 8000h
+#define TARGET_ROM_64K_B2_ISR		MAKE_ROM(ROM_PLAIN, ROM_64K, 0, 2) + ROM_ISR // 64KB ROM in pages 0-3 boot at 8000h. With ISR replacement
 #define TARGET_ROM_64K				TARGET_ROM_64K_B1
 #define TARGET_ROM_64K_ISR			TARGET_ROM_64K_B1_ISR
 // -- ASCII-8 ROM

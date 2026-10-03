@@ -115,8 +115,11 @@ Target = "ROM_32K";
 //-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096 for legacy mappers; can be up to 65536 for NEO-16 mapper)
 ROMSize = 128;
 
-//-- Check for ROM boot skipping if a given key is pressed (boolean)
-ROMSkipBoot = false;
+//-- Check for ROM boot skipping if a given key is pressed (string)
+//   - SKIP_NONE        Don't skip the ROM boot
+//   - SKIP_ALL         Skip the ROM boot and go directly to BASIC or MSX-DOS
+//   - SKIP_DELAY		Skip the delay boot and start the ROM program immediately
+ROMSkipBoot = "SKIP_NONE";
 
 //-- The key to be check for ROM boot skipping (string). Key must be from keyboard row #7.
 //   - F4

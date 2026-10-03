@@ -218,7 +218,7 @@
 	#define INPUT_KB_UPDATE_MAX			8
 #endif
 
-#ifndef INPUT_KB_AS_JOYSTICK // Add function to update all keyboard rows at once
+#ifndef INPUT_KB_AS_JOYSTICK // Add function to read keyboard state as joystick input (see Keyboard_ReadAsJoystick)
 	#warning INPUT_KB_AS_JOYSTICK is not defined in "msxgl_config.h"! Default value will be used: FALSE
 	#define INPUT_KB_AS_JOYSTICK		FALSE
 #endif

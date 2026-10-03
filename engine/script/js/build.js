@@ -212,9 +212,10 @@ if (DoCompile)
 	// Defines
 	conf += `ADDR_BOOT=0x${util.getHex(StartAddr)}\n`;
 	if (Mapper)                  conf += `ROM_MAPPER=${Mapper}\n`;
-	if (ROMSkipBoot)
+	if ((ROMSkipBoot !== false) && (ROMSkipBoot !== "SKIP_NONE"))
 	{
-		conf += "ROM_SKIP=1\n";
+		if (ROMSkipBoot === "SKIP_DELAY") conf += "ROM_SKIP=SKIP_DELAY\n";
+		else                              conf += "ROM_SKIP=SKIP_ALL\n";
 		conf += `ROM_SKIP_KEY=KEY_${ROMSkipBootKey}\n`;
 	}
 	if (ROMDelayBoot)            conf += "ROM_DELAY=1\n";

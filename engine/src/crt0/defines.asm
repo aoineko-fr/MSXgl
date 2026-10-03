@@ -124,16 +124,22 @@ RAMISR_SEGMENT0		= 2				; Install ISR and segment data (for mapped-ROM) in page 
 RAMISR_PAGE3		= 3				; Install ISR in page 3 (to use with IM2)
 
 ;------------------------------------------------------------------------------
+; Check for ROM boot skipping if a given key is pressed (string)
+SKIP_NONE			= 0				; Don't skip the ROM boot
+SKIP_ALL			= 1				; Skip the ROM boot and go directly to BASIC or MSX-DOS
+SKIP_DELAY			= 2				; Skip the delay boot and start the ROM program immediately
+
+;------------------------------------------------------------------------------
 ; Default values
 START_ADDR			= 0x4000		; Program start address
 ROM_MAPPER			= ROM_PLAIN		; ROM type
-ROM_SKIP			= 0				; Skip boot with a key press
+ROM_SKIP			= SKIP_NONE		; Skip boot with a key press
 ROM_SKIP_KEY		= KEY_ESC		; Skip key to check
-ROM_DELAY			= 0				; Install BDOS
+ROM_DELAY			= 0				; Delay boot using STKE hook (for using BDOS for example)
 ROM_BCALL			= 0				; Add banked call trampoline
 ROM_ISR				= ISR_VBLANK	; ISR type
 ROM_RAMISR			= RAMISR_NONE	; Install ISR in RAM's page 0
-ISR_SET_S0			= 0				; Reset statut register to S#0 in ISR
+ISR_SET_S0			= 0				; Reset status register to S#0 in ISR
 APP_SIGN			= 0				; Add application signature
 APP_SIGN_NAME		= "GL"			; Application creator/group/company name
 APP_SIGN_ID			= 0x0000		; Application number
