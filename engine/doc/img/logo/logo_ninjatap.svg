@@ -1,0 +1,998 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="svg8"
+   width="212"
+   height="212"
+   version="1.1"
+   viewBox="0 0 56.092 56.092"
+   sodipodi:docname="logo_ninjatap.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs9">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Invert"
+       id="filter2"
+       x="-0.026315762"
+       y="-0.026315768"
+       width="1.0526315"
+       height="1.0526315">
+      <feColorMatrix
+         type="hueRotate"
+         values="180"
+         result="color1"
+         id="feColorMatrix1" />
+      <feColorMatrix
+         values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 -0.21 -0.72 -0.07 2 0 "
+         result="color2"
+         id="feColorMatrix2" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Invert"
+       id="filter4"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         type="hueRotate"
+         values="180"
+         result="color1"
+         id="feColorMatrix3" />
+      <feColorMatrix
+         values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 -0.21 -0.72 -0.07 2 0 "
+         result="color2"
+         id="feColorMatrix4" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     showgrid="true"
+     inkscape:zoom="0.87853775"
+     inkscape:cx="550.3463"
+     inkscape:cy="-49.514093"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer4"
+     showborder="false"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid27116"
+       originx="0"
+       originy="0"
+       spacingy="1"
+       spacingx="1"
+       units="px" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="v1"
+     style="display:none">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.132292;stroke-miterlimit:2.7;stroke-dasharray:0.264585, 0.264585;stroke-opacity:1;stop-color:#000000"
+       id="rect848"
+       width="48.953201"
+       height="49.043999"
+       x="3.6075974"
+       y="3.5300024"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <g
+       id="g33548"
+       transform="translate(0.0957973)"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 17.414265,24.313613 c -2.128291,3.159701 -2.972306,3.399811 -3.644749,5.860854 -0.484416,1.772893 2.602271,4.995204 3.929766,5.362558 0.980692,0.271384 3.325359,-3.98633 2.25721,-4.5291 -2.266229,-1.151562 -0.04669,-3.254569 -2.542227,-6.694312 z"
+         id="path23423"
+         sodipodi:nodetypes="csssc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\layer1.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 19.790099,9.0441757 c 7.080816,-1.5054161 14.090935,-5.1629365 15.66443,-0.461895 0.50024,1.4945373 -2.883615,15.5239673 -5.747131,16.0641433 -1.815974,0.342567 -2.934413,-5.539642 -3.432024,-5.987492 0.509658,-0.637071 2.58497,2.192788 3.447615,1.390672 1.027646,-0.955539 2.581634,-8.821406 2.007488,-9.458268 -0.79115,-0.8775708 -8.941963,0.788817 -10.812632,1.269939 -1.666362,0.428575 -3.027803,0.756978 -3.16296,2.237795 -1.366642,-2.489115 -2.853179,-4.015598 2.035214,-5.0548943 z"
+         id="path31034"
+         sodipodi:nodetypes="ssscssscs"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\layer1.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 15.811974,21.531945 c 4.776291,-2.20919 7.943232,-7.90246 7.586554,-10.647795 l 3.992923,-0.50577 c -0.723044,5.063369 -3.825538,11.268173 -11.579477,11.153565 z"
+         id="path36641"
+         sodipodi:nodetypes="cccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\layer1.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 18.716341,15.904575 c 1.60509,-0.220659 3.624694,0.626155 6.487413,4.765011 0.927584,1.341081 -2.149906,2.641851 -2.619438,1.732254 -1.114059,-2.158202 -2.192763,-5.29945 -3.867975,-6.497265 z"
+         id="path39839"
+         sodipodi:nodetypes="cssc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\layer1.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 26.397396,24.832761 c -1.319098,2.97183 0.844883,4.209911 3.036281,4.428522 3.126035,0.254511 3.87631,-1.081582 4.417175,-2.425373 0.291692,-0.724715 -1.326485,-2.476996 -2.117979,-2.119315 -1.010989,0.456872 -2.164265,1.874013 -4.161545,1.719794 -0.983894,-0.07597 -0.67325,-0.813131 -1.173932,-1.603628 z"
+         id="path44453"
+         sodipodi:nodetypes="ccsssc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\layer1.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 22.572898,26.052912 c 3.050286,3.134811 1.062943,6.001117 8.805294,6.676198 3.627549,0.316297 4.916539,-2.210526 3.785509,-4.809509 2.415912,-0.230931 6.083332,3.054643 5.031597,4.507236 -2.32684,3.213693 -4.044216,4.829667 -8.874128,4.468019 -4.617591,-0.345751 -11.022674,-1.682314 -8.748272,-10.841944 z"
+         id="path48950"
+         sodipodi:nodetypes="cscssc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\layer1.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 33.780127,22.836299 c 0.866407,-0.504483 1.041103,-1.415097 1.703647,-1.091399 1.046486,0.51128 1.015343,4.319746 3.08786,5.69657 0.691849,0.459613 2.483042,-1.983499 2.102941,-2.928143 -0.774622,-1.925127 -2.056865,-4.159823 -4.551932,-4.498693 -1.591836,-0.216196 -1.972124,1.711294 -2.342516,2.821665 z"
+         id="path50682"
+         sodipodi:nodetypes="cssssc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\layer1.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+    </g>
+    <g
+       id="layer1"
+       transform="translate(0,-240.91)"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <path
+         id="path826"
+         d="M 1.002,296.73 C 0.71608,296.567 0.44106,296.27425 0.27169,295.95261 L 1e-5,295.43669 v -26.43 c 0,-18.389 0.037811,-26.53 0.12428,-26.759 0.16913,-0.44845 0.67338,-0.96847 1.1281,-1.1634 0.55906,-0.23965 53.016,-0.24111 53.588,-0.001 0.48634,0.20358 0.97023,0.77846 1.1249,1.3365 0.16807,0.60626 0.16807,52.474 0,53.08 -0.06638,0.23944 -0.25639,0.59691 -0.42224,0.79437 -0.63818,0.7598 1.6355,0.70199 -27.523,0.69987 l -26.56,-0.002 z M 52.465,268.959 V 244.435 H 3.505 v 49.049 h 48.96 z"
+         stroke-width="0.11696"
+         sodipodi:nodetypes="cscscccccsccccccccc"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-opacity:1" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.289px;line-height:1.25;font-family:'Courier New';-inkscape-font-specification:'Courier New';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264585"
+       x="5.8804245"
+       y="48.410923"
+       id="text53783"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan53781"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:11.289px;font-family:Candara;-inkscape-font-specification:'Candara Bold';stroke-width:0.264585"
+         x="5.8804245"
+         y="48.410923">NinjaTAP</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="v2"
+     style="display:inline">
+    <g
+       id="g986"
+       transform="translate(2.6458492)"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_B.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <rect
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.217306px;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+         id="rect9538"
+         width="45.786243"
+         height="45.786243"
+         x="5.291698"
+         y="0"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 17.54862,17.053621 c 3.035808,-2.520446 6.514758,-4.201419 6.757392,-8.3196863 L 28.145867,8.1880731 C 27.066335,12.558314 26.448749,16.343103 17.54862,17.053621 Z"
+         id="path1003"
+         sodipodi:nodetypes="cccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 20.216402,6.7216344 c -2.702499,-0.7880168 -3.348765,0.066671 -2.182798,2.3691343 1.455591,3.4314313 3.349112,1.2656213 3.59363,0.292814 2.220909,-0.7067719 10.280069,-2.0903747 10.221883,-1.9432224 0.937892,0.4856548 -0.85628,6.5948927 -1.650409,8.8642897 -1.529738,-0.962342 -3.051347,-1.914074 -3.380673,-1.783506 0.431106,1.551652 2.475752,5.549449 3.13976,5.874833 2.693876,-0.151529 4.842837,-6.97457 5.564811,-12.0239345 C 37.41029,7.1798266 35.08732,2.8140511 31.582922,3.7136324 27.661411,5.3409626 23.554904,6.2859111 20.216402,6.7216344 Z"
+         id="path1858"
+         sodipodi:nodetypes="cccccccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 19.355611,12.084397 c 1.588437,1.986974 3.553618,4.046398 3.915146,5.797428 0.455365,1.534315 1.23067,1.148994 1.919928,1.279952 1.335887,0.08531 1.232857,-1.21691 1.20466,-2.446967 -1.028927,-4.211715 -4.055305,-4.378591 -7.039734,-4.630413 z"
+         id="path5054"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 27.110613,20.404083 c 0.955178,1.738585 1.044999,1.679795 2.334028,1.656408 2.260015,-0.538926 0.622575,-0.948697 2.296385,-1.581117 2.787179,-0.903675 2.02134,0.92086 2.183448,2.032865 -0.408717,1.557892 -1.437505,2.634911 -4.291605,2.296384 -1.137747,-0.05259 -4.153673,-1.456719 -2.522256,-4.40454 z"
+         id="path5506"
+         sodipodi:nodetypes="cccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 19.769713,20.065272 c -0.0037,1.84124 -0.948239,3.279298 0.978787,5.94801 2.306288,1.107618 1.255587,1.080271 0.05647,2.804601 -0.796843,0.597149 -0.767237,2.103067 -3.143411,0.470571 -3.742359,-2.944798 -1.735924,-6.057202 2.108156,-9.223182 z"
+         id="path6300"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 33.284498,18.672383 c 1.200221,-0.341385 2.4324,-1.929086 3.538689,1.392889 0.471711,1.636587 0.998187,3.149953 2.258737,3.011651 0.684762,-0.498425 1.726374,-0.193937 1.279953,-3.237524 0.275501,-2.704391 -4.955003,-6.501592 -7.077379,-1.167016 z"
+         id="path7203"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 24.862448,21.14672 c 1.414642,2.963396 1.743373,6.343691 7.252863,6.497831 5.283665,0.16606 2.78758,-2.604543 2.843165,-4.779144 5.787703,1.422314 4.523561,5.076535 3.594967,6.078932 -2.068553,2.797317 -10.232532,4.16791 -13.199481,-0.181771 -1.905975,-1.915995 -2.234814,-5.193332 -0.491514,-7.615848 z"
+         id="path7888"
+         sodipodi:nodetypes="cccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5834px;line-height:1.25;font-family:'Courier New';-inkscape-font-specification:'Courier New';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585;stroke-opacity:1"
+         x="7.3151603"
+         y="41.146832"
+         id="text11954"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300"><tspan
+           sodipodi:role="line"
+           id="tspan11952"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.5834px;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585;stroke-opacity:1"
+           x="7.3151603"
+           y="41.146832">NinjaTAP</tspan></text>
+    </g>
+    <g
+       id="g986-3"
+       style="display:inline"
+       transform="translate(4.708302,60)"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_W.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.217306px;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+         id="rect9538-6"
+         width="45.786243"
+         height="45.786243"
+         x="5.291698"
+         y="0"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 17.54862,17.053621 c 3.035808,-2.520446 6.514758,-4.201419 6.757392,-8.3196863 L 28.145867,8.1880731 C 27.066335,12.558314 26.448749,16.343103 17.54862,17.053621 Z"
+         id="path1003-83"
+         sodipodi:nodetypes="cccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 20.216402,6.7216344 c -2.702499,-0.7880168 -3.348765,0.066671 -2.182798,2.3691343 1.455591,3.4314313 3.349112,1.2656213 3.59363,0.292814 2.220909,-0.7067719 10.280069,-2.0903747 10.221883,-1.9432224 0.937892,0.4856548 -0.85628,6.5948927 -1.650409,8.8642897 -1.529738,-0.962342 -3.051347,-1.914074 -3.380673,-1.783506 0.431106,1.551652 2.475752,5.549449 3.13976,5.874833 2.693876,-0.151529 4.842837,-6.97457 5.564811,-12.0239345 C 37.41029,7.1798266 35.08732,2.8140511 31.582922,3.7136324 27.661411,5.3409626 23.554904,6.2859111 20.216402,6.7216344 Z"
+         id="path1858-9"
+         sodipodi:nodetypes="cccccccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 19.355611,12.084397 c 1.588437,1.986974 3.553618,4.046398 3.915146,5.797428 0.455365,1.534315 1.23067,1.148994 1.919928,1.279952 1.335887,0.08531 1.232857,-1.21691 1.20466,-2.446967 -1.028927,-4.211715 -4.055305,-4.378591 -7.039734,-4.630413 z"
+         id="path5054-9"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 27.110613,20.404083 c 0.955178,1.738585 1.044999,1.679795 2.334028,1.656408 2.260015,-0.538926 0.622575,-0.948697 2.296385,-1.581117 2.787179,-0.903675 2.02134,0.92086 2.183448,2.032865 -0.408717,1.557892 -1.437505,2.634911 -4.291605,2.296384 -1.137747,-0.05259 -4.153673,-1.456719 -2.522256,-4.40454 z"
+         id="path5506-0"
+         sodipodi:nodetypes="cccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 19.769713,20.065272 c -0.0037,1.84124 -0.948239,3.279298 0.978787,5.94801 2.306288,1.107618 1.255587,1.080271 0.05647,2.804601 -0.796843,0.597149 -0.767237,2.103067 -3.143411,0.470571 -3.742359,-2.944798 -1.735924,-6.057202 2.108156,-9.223182 z"
+         id="path6300-9"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 33.284498,18.672383 c 1.200221,-0.341385 2.4324,-1.929086 3.538689,1.392889 0.471711,1.636587 0.998187,3.149953 2.258737,3.011651 0.684762,-0.498425 1.726374,-0.193937 1.279953,-3.237524 0.275501,-2.704391 -4.955003,-6.501592 -7.077379,-1.167016 z"
+         id="path7203-2"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 24.862448,21.14672 c 1.414642,2.963396 1.743373,6.343691 7.252863,6.497831 5.283665,0.16606 2.78758,-2.604543 2.843165,-4.779144 5.787703,1.422314 4.523561,5.076535 3.594967,6.078932 -2.068553,2.797317 -10.232532,4.16791 -13.199481,-0.181771 -1.905975,-1.915995 -2.234814,-5.193332 -0.491514,-7.615848 z"
+         id="path7888-9"
+         sodipodi:nodetypes="cccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5834px;line-height:1.25;font-family:'Courier New';-inkscape-font-specification:'Courier New';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264585;stroke-opacity:1"
+         x="7.3151603"
+         y="41.146832"
+         id="text11954-8"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300"><tspan
+           sodipodi:role="line"
+           id="tspan11952-1"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.5834px;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264585;stroke-opacity:1"
+           x="7.3151603"
+           y="41.146832">NinjaTAP</tspan></text>
+    </g>
+    <g
+       id="g986-8"
+       style="display:inline"
+       transform="matrix(1.0693168,0,0,1.0712606,65.779424,60.854523)"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_FrameB.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <rect
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.217306px;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+         id="rect9538-3"
+         width="45.786243"
+         height="45.786243"
+         x="5.291698"
+         y="0"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <g
+         id="g3986"
+         transform="translate(0.17102893,-0.49396927)">
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 17.54862,17.053621 c 3.035808,-2.520446 6.514758,-4.201419 6.757392,-8.3196863 L 28.145867,8.1880731 C 27.066335,12.558314 26.448749,16.343103 17.54862,17.053621 Z"
+           id="path1003-9"
+           sodipodi:nodetypes="cccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 20.216402,6.7216344 c -2.702499,-0.7880168 -3.348765,0.066671 -2.182798,2.3691343 1.455591,3.4314313 3.349112,1.2656213 3.59363,0.292814 2.220909,-0.7067719 10.280069,-2.0903747 10.221883,-1.9432224 0.937892,0.4856548 -0.85628,6.5948927 -1.650409,8.8642897 -1.529738,-0.962342 -3.051347,-1.914074 -3.380673,-1.783506 0.431106,1.551652 2.475752,5.549449 3.13976,5.874833 2.693876,-0.151529 4.842837,-6.97457 5.564811,-12.0239345 C 37.41029,7.1798266 35.08732,2.8140511 31.582922,3.7136324 27.661411,5.3409626 23.554904,6.2859111 20.216402,6.7216344 Z"
+           id="path1858-5"
+           sodipodi:nodetypes="cccccccccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 19.355611,12.084397 c 1.588437,1.986974 3.553618,4.046398 3.915146,5.797428 0.455365,1.534315 1.23067,1.148994 1.919928,1.279952 1.335887,0.08531 1.232857,-1.21691 1.20466,-2.446967 -1.028927,-4.211715 -4.055305,-4.378591 -7.039734,-4.630413 z"
+           id="path5054-6"
+           sodipodi:nodetypes="ccccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 27.110613,20.404083 c 0.955178,1.738585 1.044999,1.679795 2.334028,1.656408 2.260015,-0.538926 0.622575,-0.948697 2.296385,-1.581117 2.787179,-0.903675 2.02134,0.92086 2.183448,2.032865 -0.408717,1.557892 -1.437505,2.634911 -4.291605,2.296384 -1.137747,-0.05259 -4.153673,-1.456719 -2.522256,-4.40454 z"
+           id="path5506-5"
+           sodipodi:nodetypes="cccccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 19.769713,20.065272 c -0.0037,1.84124 -0.948239,3.279298 0.978787,5.94801 2.306288,1.107618 1.255587,1.080271 0.05647,2.804601 -0.796843,0.597149 -0.767237,2.103067 -3.143411,0.470571 -3.742359,-2.944798 -1.735924,-6.057202 2.108156,-9.223182 z"
+           id="path6300-5"
+           sodipodi:nodetypes="ccccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 33.284498,18.672383 c 1.200221,-0.341385 2.4324,-1.929086 3.538689,1.392889 0.471711,1.636587 0.998187,3.149953 2.258737,3.011651 0.684762,-0.498425 1.726374,-0.193937 1.279953,-3.237524 0.275501,-2.704391 -4.955003,-6.501592 -7.077379,-1.167016 z"
+           id="path7203-1"
+           sodipodi:nodetypes="ccccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 24.862448,21.14672 c 1.414642,2.963396 1.743373,6.343691 7.252863,6.497831 5.283665,0.16606 2.78758,-2.604543 2.843165,-4.779144 5.787703,1.422314 4.523561,5.076535 3.594967,6.078932 -2.068553,2.797317 -10.232532,4.16791 -13.199481,-0.181771 -1.905975,-1.915995 -2.234814,-5.193332 -0.491514,-7.615848 z"
+           id="path7888-0"
+           sodipodi:nodetypes="cccccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5834px;line-height:1.25;font-family:'Courier New';-inkscape-font-specification:'Courier New';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585;stroke-opacity:1"
+         x="7.3151608"
+         y="41.6408"
+         id="text11954-2"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300"><tspan
+           sodipodi:role="line"
+           id="tspan11952-0"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.5834px;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585;stroke-opacity:1"
+           x="7.3151608"
+           y="41.6408">NinjaTAP</tspan></text>
+    </g>
+    <g
+       id="g986-7"
+       style="display:inline"
+       transform="matrix(1.0693168,0,0,1.0712606,65.779423,0)"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_FrameW.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.217306px;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+         id="rect9538-7"
+         width="45.786243"
+         height="45.786243"
+         x="5.291698"
+         y="0"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <g
+         id="g3977"
+         transform="translate(0.17102987)">
+        <path
+           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 17.54862,16.558635 c 3.035808,-2.520446 6.514758,-4.201419 6.757392,-8.3196867 L 28.145867,7.6930867 C 27.066335,12.063328 26.448749,15.848117 17.54862,16.558635 Z"
+           id="path1003-8"
+           sodipodi:nodetypes="cccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <path
+           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 20.216402,6.226648 c -2.702499,-0.7880168 -3.348765,0.066671 -2.182798,2.3691343 1.455591,3.4314317 3.349112,1.2656213 3.59363,0.292814 2.220909,-0.7067719 10.280069,-2.0903747 10.221883,-1.9432224 0.937892,0.4856548 -0.85628,6.5948931 -1.650409,8.8642901 -1.529738,-0.962342 -3.051347,-1.914074 -3.380673,-1.783506 0.431106,1.551652 2.475752,5.549449 3.13976,5.874833 2.693876,-0.151529 4.842837,-6.97457 5.564811,-12.0239349 C 37.41029,6.6848402 35.08732,2.3190647 31.582922,3.218646 27.661411,4.8459762 23.554904,5.7909247 20.216402,6.226648 Z"
+           id="path1858-7"
+           sodipodi:nodetypes="cccccccccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <path
+           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 19.355611,11.589411 c 1.588437,1.986974 3.553618,4.046398 3.915146,5.797428 0.455365,1.534315 1.23067,1.148994 1.919928,1.279952 1.335887,0.08531 1.232857,-1.21691 1.20466,-2.446967 -1.028927,-4.211715 -4.055305,-4.378591 -7.039734,-4.630413 z"
+           id="path5054-0"
+           sodipodi:nodetypes="ccccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <path
+           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 27.110613,19.909097 c 0.955178,1.738585 1.044999,1.679795 2.334028,1.656408 2.260015,-0.538926 0.622575,-0.948697 2.296385,-1.581117 2.787179,-0.903675 2.02134,0.92086 2.183448,2.032865 -0.408717,1.557892 -1.437505,2.634911 -4.291605,2.296384 -1.137747,-0.05259 -4.153673,-1.456719 -2.522256,-4.40454 z"
+           id="path5506-73"
+           sodipodi:nodetypes="cccccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <path
+           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 19.769713,19.570286 c -0.0037,1.84124 -0.948239,3.279298 0.978787,5.94801 2.306288,1.107618 1.255587,1.080271 0.05647,2.804601 -0.796843,0.597149 -0.767237,2.103067 -3.143411,0.470571 -3.742359,-2.944798 -1.735924,-6.057202 2.108156,-9.223182 z"
+           id="path6300-6"
+           sodipodi:nodetypes="ccccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <path
+           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 33.284498,18.177397 c 1.200221,-0.341385 2.4324,-1.929086 3.538689,1.392889 0.471711,1.636587 0.998187,3.149953 2.258737,3.011651 0.684762,-0.498425 1.726374,-0.193937 1.279953,-3.237524 0.275501,-2.704391 -4.955003,-6.501592 -7.077379,-1.167016 z"
+           id="path7203-4"
+           sodipodi:nodetypes="ccccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <path
+           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 24.862448,20.651734 c 1.414642,2.963396 1.743373,6.343691 7.252863,6.497831 5.283665,0.16606 2.78758,-2.604543 2.843165,-4.779144 5.787703,1.422314 4.523561,5.076535 3.594967,6.078932 -2.068553,2.797317 -10.232532,4.16791 -13.199481,-0.181771 -1.905975,-1.915995 -2.234814,-5.193332 -0.491514,-7.615848 z"
+           id="path7888-49"
+           sodipodi:nodetypes="cccccc"
+           inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5834px;line-height:1.25;font-family:'Courier New';-inkscape-font-specification:'Courier New';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264585;stroke-opacity:1"
+         x="7.3719044"
+         y="41.641819"
+         id="text11954-7"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300"><tspan
+           sodipodi:role="line"
+           id="tspan11952-5"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.5834px;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264585;stroke-opacity:1"
+           x="7.3719044"
+           y="41.641819">NinjaTAP</tspan></text>
+    </g>
+    <g
+       id="layer1-8"
+       transform="translate(67.932925,-244.435)"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_FrameW.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       style="display:inline">
+      <path
+         id="path826-4"
+         d="M 1.002,296.73 C 0.71608,296.567 0.44106,296.27425 0.27169,295.95261 L 1e-5,295.43669 v -26.43 c 0,-18.389 0.037811,-26.53 0.12428,-26.759 0.16913,-0.44845 0.67338,-0.96847 1.1281,-1.1634 0.55906,-0.23965 53.016,-0.24111 53.588,-0.001 0.48634,0.20358 0.97023,0.77846 1.1249,1.3365 0.16807,0.60626 0.16807,52.474 0,53.08 -0.06638,0.23944 -0.25639,0.59691 -0.42224,0.79437 -0.63818,0.7598 1.6355,0.70199 -27.523,0.69987 l -26.56,-0.002 z M 52.465,268.959 V 244.435 H 3.505 v 49.049 h 48.96 z"
+         stroke-width="0.11696"
+         sodipodi:nodetypes="cscscccccsccccccccc"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="layer1-8-3"
+       transform="translate(67.932925,-183.58048)"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_FrameB.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1">
+      <path
+         id="path826-4-3"
+         d="M 1.002,296.73 C 0.71608,296.567 0.44106,296.27425 0.27169,295.95261 L 1e-5,295.43669 v -26.43 c 0,-18.389 0.037811,-26.53 0.12428,-26.759 0.16913,-0.44845 0.67338,-0.96847 1.1281,-1.1634 0.55906,-0.23965 53.016,-0.24111 53.588,-0.001 0.48634,0.20358 0.97023,0.77846 1.1249,1.3365 0.16807,0.60626 0.16807,52.474 0,53.08 -0.06638,0.23944 -0.25639,0.59691 -0.42224,0.79437 -0.63818,0.7598 1.6355,0.70199 -27.523,0.69987 l -26.56,-0.002 z M 52.465,268.959 V 244.435 H 3.505 v 49.049 h 48.96 z"
+         stroke-width="0.11696"
+         sodipodi:nodetypes="cscscccccsccccccccc"
+         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1" />
+    </g>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2.00001;stroke-linejoin:round;stroke-dasharray:none"
+       d="m 151,1 v 38.00022 h 38.00023 V 1 Z"
+       id="path1-9"
+       inkscape:export-filename="logo_ninjatap_frame_w.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       style="display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2.00001;stroke-linejoin:round;stroke-dasharray:none;filter:url(#filter2)"
+       d="m 196,1 v 38.000221 h 38.00023 V 1 Z"
+       id="path1-9-8"
+       inkscape:export-filename="logo_ninjatap_fame_b.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       sodipodi:nodetypes="ccccc" />
+    <g
+       id="g986-3-5"
+       style="display:inline"
+       transform="matrix(0.78626236,0,0,0.78626236,147.83934,2)"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_W.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.217306px;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+         id="rect9538-6-5"
+         width="45.786243"
+         height="45.786243"
+         x="5.291698"
+         y="0"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 17.54862,17.053621 c 3.035808,-2.520446 6.514758,-4.201419 6.757392,-8.3196863 L 28.145867,8.1880731 C 27.066335,12.558314 26.448749,16.343103 17.54862,17.053621 Z"
+         id="path1003-83-1"
+         sodipodi:nodetypes="cccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 20.216402,6.7216344 c -2.702499,-0.7880168 -3.348765,0.066671 -2.182798,2.3691343 1.455591,3.4314313 3.349112,1.2656213 3.59363,0.292814 2.220909,-0.7067719 10.280069,-2.0903747 10.221883,-1.9432224 0.937892,0.4856548 -0.85628,6.5948927 -1.650409,8.8642897 -1.529738,-0.962342 -3.051347,-1.914074 -3.380673,-1.783506 0.431106,1.551652 2.475752,5.549449 3.13976,5.874833 2.693876,-0.151529 4.842837,-6.97457 5.564811,-12.0239345 C 37.41029,7.1798266 35.08732,2.8140511 31.582922,3.7136324 27.661411,5.3409626 23.554904,6.2859111 20.216402,6.7216344 Z"
+         id="path1858-9-7"
+         sodipodi:nodetypes="cccccccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 19.355611,12.084397 c 1.588437,1.986974 3.553618,4.046398 3.915146,5.797428 0.455365,1.534315 1.23067,1.148994 1.919928,1.279952 1.335887,0.08531 1.232857,-1.21691 1.20466,-2.446967 -1.028927,-4.211715 -4.055305,-4.378591 -7.039734,-4.630413 z"
+         id="path5054-9-1"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 27.110613,20.404083 c 0.955178,1.738585 1.044999,1.679795 2.334028,1.656408 2.260015,-0.538926 0.622575,-0.948697 2.296385,-1.581117 2.787179,-0.903675 2.02134,0.92086 2.183448,2.032865 -0.408717,1.557892 -1.437505,2.634911 -4.291605,2.296384 -1.137747,-0.05259 -4.153673,-1.456719 -2.522256,-4.40454 z"
+         id="path5506-0-1"
+         sodipodi:nodetypes="cccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 19.769713,20.065272 c -0.0037,1.84124 -0.948239,3.279298 0.978787,5.94801 2.306288,1.107618 1.255587,1.080271 0.05647,2.804601 -0.796843,0.597149 -0.767237,2.103067 -3.143411,0.470571 -3.742359,-2.944798 -1.735924,-6.057202 2.108156,-9.223182 z"
+         id="path6300-9-5"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 33.284498,18.672383 c 1.200221,-0.341385 2.4324,-1.929086 3.538689,1.392889 0.471711,1.636587 0.998187,3.149953 2.258737,3.011651 0.684762,-0.498425 1.726374,-0.193937 1.279953,-3.237524 0.275501,-2.704391 -4.955003,-6.501592 -7.077379,-1.167016 z"
+         id="path7203-2-2"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 24.862448,21.14672 c 1.414642,2.963396 1.743373,6.343691 7.252863,6.497831 5.283665,0.16606 2.78758,-2.604543 2.843165,-4.779144 5.787703,1.422314 4.523561,5.076535 3.594967,6.078932 -2.068553,2.797317 -10.232532,4.16791 -13.199481,-0.181771 -1.905975,-1.915995 -2.234814,-5.193332 -0.491514,-7.615848 z"
+         id="path7888-9-7"
+         sodipodi:nodetypes="cccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5834px;line-height:1.25;font-family:'Courier New';-inkscape-font-specification:'Courier New';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264585;stroke-opacity:1"
+         x="7.3151603"
+         y="41.146832"
+         id="text11954-8-6"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300"><tspan
+           sodipodi:role="line"
+           id="tspan11952-1-1"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.5834px;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264585;stroke-opacity:1"
+           x="7.3151603"
+           y="41.146832">NinjaTAP</tspan></text>
+    </g>
+    <g
+       id="g986-2"
+       transform="matrix(0.78626745,0,0,0.78626745,192.83931,2)"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_B.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       style="display:inline">
+      <rect
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.217306px;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+         id="rect9538-32"
+         width="45.786243"
+         height="45.786243"
+         x="5.291698"
+         y="0"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 17.54862,17.053621 c 3.035808,-2.520446 6.514758,-4.201419 6.757392,-8.3196863 L 28.145867,8.1880731 C 27.066335,12.558314 26.448749,16.343103 17.54862,17.053621 Z"
+         id="path1003-2"
+         sodipodi:nodetypes="cccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 20.216402,6.7216344 c -2.702499,-0.7880168 -3.348765,0.066671 -2.182798,2.3691343 1.455591,3.4314313 3.349112,1.2656213 3.59363,0.292814 2.220909,-0.7067719 10.280069,-2.0903747 10.221883,-1.9432224 0.937892,0.4856548 -0.85628,6.5948927 -1.650409,8.8642897 -1.529738,-0.962342 -3.051347,-1.914074 -3.380673,-1.783506 0.431106,1.551652 2.475752,5.549449 3.13976,5.874833 2.693876,-0.151529 4.842837,-6.97457 5.564811,-12.0239345 C 37.41029,7.1798266 35.08732,2.8140511 31.582922,3.7136324 27.661411,5.3409626 23.554904,6.2859111 20.216402,6.7216344 Z"
+         id="path1858-1"
+         sodipodi:nodetypes="cccccccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 19.355611,12.084397 c 1.588437,1.986974 3.553618,4.046398 3.915146,5.797428 0.455365,1.534315 1.23067,1.148994 1.919928,1.279952 1.335887,0.08531 1.232857,-1.21691 1.20466,-2.446967 -1.028927,-4.211715 -4.055305,-4.378591 -7.039734,-4.630413 z"
+         id="path5054-68"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 27.110613,20.404083 c 0.955178,1.738585 1.044999,1.679795 2.334028,1.656408 2.260015,-0.538926 0.622575,-0.948697 2.296385,-1.581117 2.787179,-0.903675 2.02134,0.92086 2.183448,2.032865 -0.408717,1.557892 -1.437505,2.634911 -4.291605,2.296384 -1.137747,-0.05259 -4.153673,-1.456719 -2.522256,-4.40454 z"
+         id="path5506-57"
+         sodipodi:nodetypes="cccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 19.769713,20.065272 c -0.0037,1.84124 -0.948239,3.279298 0.978787,5.94801 2.306288,1.107618 1.255587,1.080271 0.05647,2.804601 -0.796843,0.597149 -0.767237,2.103067 -3.143411,0.470571 -3.742359,-2.944798 -1.735924,-6.057202 2.108156,-9.223182 z"
+         id="path6300-61"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 33.284498,18.672383 c 1.200221,-0.341385 2.4324,-1.929086 3.538689,1.392889 0.471711,1.636587 0.998187,3.149953 2.258737,3.011651 0.684762,-0.498425 1.726374,-0.193937 1.279953,-3.237524 0.275501,-2.704391 -4.955003,-6.501592 -7.077379,-1.167016 z"
+         id="path7203-8"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 24.862448,21.14672 c 1.414642,2.963396 1.743373,6.343691 7.252863,6.497831 5.283665,0.16606 2.78758,-2.604543 2.843165,-4.779144 5.787703,1.422314 4.523561,5.076535 3.594967,6.078932 -2.068553,2.797317 -10.232532,4.16791 -13.199481,-0.181771 -1.905975,-1.915995 -2.234814,-5.193332 -0.491514,-7.615848 z"
+         id="path7888-92"
+         sodipodi:nodetypes="cccccc"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5834px;line-height:1.25;font-family:'Courier New';-inkscape-font-specification:'Courier New';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585;stroke-opacity:1"
+         x="7.3151603"
+         y="41.146832"
+         id="text11954-79"
+         inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300"><tspan
+           sodipodi:role="line"
+           id="tspan11952-54"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.5834px;font-family:Candara;-inkscape-font-specification:'Candara Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585;stroke-opacity:1"
+           x="7.3151603"
+           y="41.146832">NinjaTAP</tspan></text>
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="Bak"
+     style="display:none">
+    <image
+       width="55.762989"
+       height="49.740299"
+       preserveAspectRatio="none"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxMAAAK+CAMAAADucbPmAAAABGdBTUEAALGPC/xhBQAAAAFzUkdC AK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAwBQTFRF AAAAEhISHx8fCAgIDAwMGRkZKCgoY2NjWFhYHR0dAQEBBAQEPj4+IiIiYGBgAgICBQUFAwMDBgYG Pz8/CwsLV1dX9fX1/f394uLiHBwcZ2dneHh4GBgYHh4e7e3tSkpKISEh6urq+Pj40tLSjo6OSEhI /Pz8/////v7+7u7u8fHx+fn5ZGRk8PDwVFRU8vLy9/f35OTk5eXllJSUS0tLDw8PCQkJ39/foaGh 8/PzaGho5ubmgICATExM4eHh7+/vICAgEBAQMjIyMTExGhoaBwcHFRUVNDQ0f39/FBQUJSUl2dnZ 9PT0+vr6DQ0Nzs7OYmJiX19f7Ozs6enp3d3dnZ2d0dHRrKysenp6+/v719fXp6env7+/PDw8l5eX 4ODgh4eHn5+fnp6eubm5t7e3i4uLKysrExMTg4ODKioqw8PDNzc3mZmZpKSkz8/PFxcX6OjozMzM LCwsQEBA4+Pj2trazc3N0NDQe3t7RUVF5+fnbW1t6+vrs7OzUlJSo6Oj9vb22NjYvb29j4+P3Nzc fn5+Jycnk5OTysrKiYmJgoKCWlpaCgoKMzMzvLy8wMDAdXV1R0dHr6+vqqqqIyMjLS0tJiYm3t7e ioqKjY2NQUFB1dXV1tbWVlZWdHR0hYWFpqamGxsbXV1dcXFx09PTwcHBcHBwhoaG1NTUDg4OycnJ Ozs7tLS0SUlJLy8vx8fH29vbxsbGcnJysbGxsrKyu7u7ZWVlmpqaJCQktbW1UVFRampqkJCQsLCw xcXFkpKSVVVVPT09ERERurq6TU1NLi4uoKCgmJiYUFBQQ0NDkZGRrq6uwsLCFhYWOjo6fHx8QkJC eXl5dnZ2ODg4ra2tOTk5W1tbNjY2vr6+oqKijIyMuLi4YWFhKSkpy8vLRkZGnJycqampfX19qKio Tk5Oq6uryMjIc3NzZmZmhISEXFxcREREtra2U1NTWVlZXl5ed3d3xMTEaWlpb29vT09PNTU1a2tr bGxslZWVlpaWgYGBMDAwbm5uiIiIm5ubpaWlL0HU1wAAIABJREFUeJztnQl8FdWh/ycGkNwLZIFy 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 "
+       id="image875"
+       x="-67.740746"
+       y="-0.28183845"
+       style="display:inline" />
+    <g
+       id="g27916"
+       transform="translate(-82.021321,2.645848)"
+       style="display:inline">
+      <path
+         style="fill:#ff0000;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -11.906321,52.916981 h 2.6458493 v 2.645849 h 1.3229246 v 2.645849 h 1.3229241 v 2.645849 h 1.322925 v -7.937547 h 2.645849 v 13.229245 h -2.645849 v -2.645849 h -1.322925 v -2.645849 h -1.3229241 v -2.645849 h -1.3229246 v 7.937547 h -2.6458493 z"
+         id="path27231" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="M 4.528302e-8,66.146226 V 58.208679 H 2.645849 c 0,0 0,7.937547 0,7.937547 z"
+         id="path27299" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="M 4.528302e-8,55.56283 V 52.916981 H 2.645849 v 2.645849 z"
+         id="path27301" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 5.291698,66.146226 v -7.937547 h 6.614623 v 2.645849 h 1.322925 v 5.291698 h -2.645849 v -5.291698 h -2.64585 v 5.291698 z"
+         id="path27303" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 15.875095,66.146227 v 2.64585 h 1.322924 v 2.645849 h 3.968774 v -2.645849 h 1.322924 V 58.20868 h -2.645849 v 10.583397 h -1.322924 v -2.64585 z"
+         id="path27455" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 19.843868,55.562831 v -2.645849 h 2.645849 v 2.645849 h -2.645849"
+         id="path27457" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 27.781416,60.854529 h -2.64585 V 58.20868 h 2.64585 z"
+         id="path27494" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 27.781416,63.500378 h -2.64585 v 2.645849 h 2.64585 z"
+         id="path27496" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 27.781416,63.500378 v -2.645849 h 5.291698 V 58.20868 h -5.291698 v -2.645849 h 6.614622 v 2.645849 h 1.322925 v 10.583397 h -7.937547 v -2.64585 h 5.291698 v -2.645849 z"
+         id="path27498" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 39.687736,52.916982 v 2.645849 h 2.64585 v 13.229246 h 2.645849 V 55.562831 h 2.645849 v -2.645849 z"
+         id="path27641" />
+      <path
+         id="path27643"
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 200,200 v 10 h -5 v 20 h -5 v 10 h -5 v 20 h 10 v -20 h 15 v 20 h 10 v -20 h -5 v -10 h -5 v -20 h -5 v -10 z m 0,20 h 5 v 10 h -5 z"
+         transform="scale(0.26458491)" />
+      <path
+         id="path27791"
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 230,200 v 60 h 10 v -20 h 20 v -10 h 5 v -20 h -5 v -10 z m 10,10 h 15 v 20 h -15 z"
+         transform="scale(0.26458491)" />
+    </g>
+    <rect
+       style="display:inline;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.217306px;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="rect9538-8"
+       width="45.786243"
+       height="45.786243"
+       x="58.208679"
+       y="3.5527137e-15"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_px.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 70.4656,17.053621 c 3.035808,-2.520446 6.514758,-4.201419 6.757392,-8.3196859 l 3.839855,-0.545862 C 79.983315,12.558314 79.365729,16.343103 70.4656,17.053621 Z"
+       id="path1003-5"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_px.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 73.133382,6.7216351 c -2.702499,-0.788017 -3.348765,0.06667 -2.182798,2.369134 1.455591,3.4314309 3.349112,1.2656209 3.59363,0.292814 2.220909,-0.706772 10.280069,-2.090375 10.221883,-1.943222 0.937892,0.485654 -0.85628,6.5948919 -1.650409,8.8642889 -1.529738,-0.962342 -3.051347,-1.914074 -3.380673,-1.783506 0.431106,1.551652 2.475752,5.549449 3.13976,5.874833 2.693876,-0.151529 4.842837,-6.97457 5.564811,-12.0239339 1.887684,-1.192216 -0.435286,-5.557992 -3.939684,-4.65841 -3.921511,1.62733 -8.028018,2.572278 -11.36652,3.008002 z"
+       id="path1858-2"
+       sodipodi:nodetypes="cccccccccc"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_px.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 72.272591,12.084397 c 1.588437,1.986974 3.553618,4.046398 3.915146,5.797428 0.455365,1.534315 1.23067,1.148994 1.919928,1.279952 1.335887,0.08531 1.232857,-1.21691 1.20466,-2.446967 -1.028927,-4.211715 -4.055305,-4.378591 -7.039734,-4.630413 z"
+       id="path5054-8"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_px.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 80.027593,20.404083 c 0.955178,1.738585 1.044999,1.679795 2.334028,1.656408 2.260015,-0.538926 0.622575,-0.948697 2.296385,-1.581117 2.787179,-0.903675 2.02134,0.92086 2.183448,2.032865 -0.408717,1.557892 -1.437505,2.634911 -4.291605,2.296384 -1.137747,-0.05259 -4.153673,-1.456719 -2.522256,-4.40454 z"
+       id="path5506-7"
+       sodipodi:nodetypes="cccccc"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_px.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 72.686693,20.065272 c -0.0037,1.84124 -0.948239,3.279298 0.978787,5.94801 2.306288,1.107618 1.255587,1.080271 0.05647,2.804601 -0.796843,0.597149 -0.767237,2.103067 -3.143411,0.470571 -3.742359,-2.944798 -1.735924,-6.057202 2.108156,-9.223182 z"
+       id="path6300-4"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_px.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 86.201478,18.672383 c 1.200221,-0.341385 2.4324,-1.929086 3.538689,1.392889 0.471711,1.636587 0.998187,3.149953 2.258737,3.011651 0.684762,-0.498425 1.726374,-0.193937 1.279953,-3.237524 0.275501,-2.704391 -4.955003,-6.501592 -7.077379,-1.167016 z"
+       id="path7203-0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_px.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 77.779428,21.14672 c 1.414642,2.963396 1.743373,6.343691 7.252863,6.497831 5.283665,0.16606 2.78758,-2.604543 2.843165,-4.779144 5.787703,1.422314 4.523561,5.076535 3.594967,6.078932 -2.068553,2.797317 -10.232532,4.16791 -13.199481,-0.181771 -1.905975,-1.915995 -2.234814,-5.193332 -0.491514,-7.615848 z"
+       id="path7888-4"
+       sodipodi:nodetypes="cccccc"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_px.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <g
+       id="g27916-0"
+       transform="matrix(0.49122807,0,0,0.49122807,66.703246,8.4017318)"
+       style="display:inline;fill:#ffffff"
+       inkscape:export-filename="D:\Dev\Private\MSX\media\logo\NinjaTap-Logo_px.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <path
+         style="fill:#ffffff;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -11.906321,52.916981 h 2.6458493 v 2.645849 h 1.3229246 v 2.645849 h 1.3229241 v 2.645849 h 1.322925 v -7.937547 h 2.645849 v 13.229245 h -2.645849 v -2.645849 h -1.322925 v -2.645849 h -1.3229241 v -2.645849 h -1.3229246 v 7.937547 h -2.6458493 z"
+         id="path27231-9" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="M 4.528302e-8,66.146226 V 58.208679 H 2.645849 c 0,0 0,7.937547 0,7.937547 z"
+         id="path27299-9" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="M 4.528302e-8,55.56283 V 52.916981 H 2.645849 v 2.645849 z"
+         id="path27301-8" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 5.291698,66.146226 v -7.937547 h 6.614623 v 2.645849 h 1.322925 v 5.291698 h -2.645849 v -5.291698 h -2.64585 v 5.291698 z"
+         id="path27303-4" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 15.875095,66.146227 v 2.64585 h 1.322924 v 2.645849 h 3.968774 v -2.645849 h 1.322924 V 58.20868 h -2.645849 v 10.583397 h -1.322924 v -2.64585 z"
+         id="path27455-6" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 19.843868,55.562831 v -2.645849 h 2.645849 v 2.645849 h -2.645849"
+         id="path27457-8" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 27.781416,60.854529 h -2.64585 V 58.20868 h 2.64585 z"
+         id="path27494-5" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 27.781416,63.500378 h -2.64585 v 2.645849 h 2.64585 z"
+         id="path27496-2" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 27.781416,63.500378 v -2.645849 h 5.291698 V 58.20868 h -5.291698 v -2.645849 h 6.614622 v 2.645849 h 1.322925 v 10.583397 h -7.937547 v -2.64585 h 5.291698 v -2.645849 z"
+         id="path27498-0" />
+      <path
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264585px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 39.687736,52.916982 v 2.645849 h 2.64585 v 13.229246 h 2.645849 V 55.562831 h 2.645849 v -2.645849 z"
+         id="path27641-4" />
+      <path
+         id="path27643-5"
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 200,200 v 10 h -5 v 20 h -5 v 10 h -5 v 20 h 10 v -20 h 15 v 20 h 10 v -20 h -5 v -10 h -5 v -20 h -5 v -10 z m 0,20 h 5 v 10 h -5 z"
+         transform="scale(0.26458491)" />
+      <path
+         id="path27791-9"
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         d="m 230,200 v 60 h 10 v -20 h 20 v -10 h 5 v -20 h -5 v -10 z m 10,10 h 15 v 20 h -15 z"
+         transform="scale(0.26458491)" />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="img"
+     style="display:none">
+    <image
+       width="48.953201"
+       height="46.622093"
+       preserveAspectRatio="none"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAA8CAMAAADmFZJDAAADAFBMVEX///8AAAD///////////// //////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////// //////////////9raFCKAAAACXBIWXMAAAsSAAALEgHS3X78AAAA1klEQVRIid3W6wrDIAwF4OT9 X3pQ1p1zokU0msLyo6ssX+qtUrPT4Ve84V2iyvtT1PgeSjx+2tud+56HWeBpz1NI7UKPCos86aGv a60neVvcFHiuw+VmK2Q91aGK8wWmPafgRZabg57fGj7LwlhOeZfONlt5GEnv6r35r8Zj50KE5hkv Wd6JAU97Xad5nfedcst4g///+G5WPbgsNjGH8fMi71urTurFp27w5r/+u+YjCz+232MMNJZ4jGlb 5z/r7cE3/e8sdtY/LFu//1XefJQwiKoD5wPEBwPDdBagCQAAAABJRU5ErkJggg== "
+       id="image17216"
+       x="3.6075974"
+       y="5.1175122"
+       style="opacity:0.5" />
+  </g>
+</svg>
