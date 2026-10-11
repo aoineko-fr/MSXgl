@@ -40,6 +40,8 @@ dos2
 !/projects/targets
 !/projects/template
 !/projects/template_msx2
+!/projects/wizard.bat
+!/projects/wizard.sh
 
 /projects/samples/datasrc
 
