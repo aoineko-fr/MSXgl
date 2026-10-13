@@ -276,6 +276,9 @@ enum PAWN_SPRITE_FX
 };
 #endif
 
+// Get action callback default signature
+typedef u8 (*Pawn_ActionCB)(void);
+
 // Pawn structure
 typedef struct Pawn
 {
@@ -287,6 +290,7 @@ typedef struct Pawn
 	const Pawn_Action*	ActionList;		// List of actions
 	PAWN_POS			PositionX;		// Pawn screen position
 	PAWN_POS			PositionY;
+	Pawn_ActionCB		ActionDefault;	// Default action callback
 	u8					ActionId;		// Current action id
 	u8					AnimFrame;		// Current animation frame id
 	u8					AnimStep;		// Current step into the animation
@@ -403,6 +407,14 @@ inline void Pawn_RestartAction(Game_Pawn* pawn) { pawn->AnimTimer = 0; pawn->Ani
 // Return:
 //   Current action ID of the pawn.
 inline u8 Pawn_GetAction(Pawn* pawn) { return pawn->ActionId; }
+
+// Function: Pawn_SetDefaultAction
+// Set the default action ID of the pawn. This action will be used when the current action is finished.
+//
+// Parameters:
+//   pawn - Pointer to pawn structure.
+//   cb   - Get default action callback.
+inline void Pawn_SetDefaultAction(Pawn* pawn, Pawn_ActionCB cb) { pawn->ActionDefault = cb; }
 
 #if (PAWN_TILEMAP_SRC == PAWN_TILEMAP_SRC_RAM)
 // Function: Pawn_SetTileMap

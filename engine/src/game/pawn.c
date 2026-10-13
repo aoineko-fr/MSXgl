@@ -187,6 +187,14 @@ void Pawn_ParseSprite(Pawn* pawn, SpriteCallback cb)
 	}
 }
 
+
+//-----------------------------------------------------------------------------
+// Get action default callback 
+u8 Pawn_GetDefaultAction()
+{
+	return 0;
+}
+
 //-----------------------------------------------------------------------------
 // Initialize game pawn
 void Pawn_Initialize(Pawn* pawn, const Pawn_Sprite* sprtList, u8 sprtNum, u8 sprtID, const Pawn_Action* actList)
@@ -201,6 +209,8 @@ void Pawn_Initialize(Pawn* pawn, const Pawn_Sprite* sprtList, u8 sprtNum, u8 spr
 	g_Pawn->SpriteID = sprtID;
 #endif
 	g_Pawn->ActionList = actList;
+
+	Pawn_SetDefaultAction(g_Pawn, Pawn_GetDefaultAction);
 
 	// Initialize pawn action
 	Pawn_ForceSetAction(g_Pawn, 0);
@@ -284,8 +294,9 @@ void Pawn_UpdateAnimation()
 		}
 		else // stop action and transit to default action
 		{
-			Pawn_ForceSetAction(g_Pawn, 0);
-			act = &g_Pawn->ActionList[0];
+			u8 actId = g_Pawn->ActionDefault();
+			Pawn_ForceSetAction(g_Pawn, actId);
+			act = &g_Pawn->ActionList[actId];
 		}
 	}
 

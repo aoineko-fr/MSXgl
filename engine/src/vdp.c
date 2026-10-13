@@ -946,7 +946,7 @@ void VDP_SetPalette(const u8* pal) __FASTCALL __PRESERVES(d, e, iyl, iyh)
 #include "palette/pal_msx2.h"
 void VDP_SetDefaultPalette()
 {
-	VDP_SetPalette((u8*)g_PaletteMSX2);
+	VDP_SetPalette((const u8*)g_PaletteMSX2);
 }
 #endif // VDP_USE_DEFAULT_PALETTE
 
@@ -955,7 +955,7 @@ void VDP_SetDefaultPalette()
 #include "palette/pal_msx1.h"
 void VDP_SetMSX1Palette()
 {
-	VDP_SetPalette((u8*)g_PaletteMSX1);
+	VDP_SetPalette((const u8*)g_PaletteMSX1);
 }
 #endif // VDP_USE_MSX1_PALETTE
 

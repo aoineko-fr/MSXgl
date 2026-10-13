@@ -10,7 +10,7 @@
 // Library version
 #define VERSION_MAJOR				1		// 4-bits (0-15)
 #define VERSION_MINOR				5		// 6-bits (0-63)
-#define VERSION_PATCH				3		// 6-bits (0-63)
+#define VERSION_PATCH				4		// 6-bits (0-63)
 
 // Macro: VERSION
 // Combines major, minor, and patch versions into a single version number.
@@ -84,7 +84,7 @@ typedef void (*callback)(void);				// Callback default signature
 //-----------------------------------------------------------------------------
 #pragma disable_warning	110		// Remove "conditional flow changed by optimizer: so said EVELYN the modified DOG" warning
 #pragma disable_warning	126		// Remove "unreachable code" warning
-#pragma disable_warning	218 	// Remove "z80instructionSize() failed to parse line node, assuming 999 bytes" info
+// #pragma disable_warning	218 	// Remove "z80instructionSize() failed to parse line node, assuming 999 bytes" info
 #pragma disable_warning	283 	// Remove "function declarator with no prototype" warning
 
 //-----------------------------------------------------------------------------
