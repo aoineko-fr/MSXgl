@@ -75,14 +75,6 @@ void DEBUG_BREAK()
 }
 
 //-----------------------------------------------------------------------------
-// Conditional break
-void DEBUG_ASSERT(bool a)
-{	
-	if (!(a))
-		DEBUG_BREAK();
-}
-
-//-----------------------------------------------------------------------------
 // Display debug message
 void DEBUG_LOG(const c8* msg)
 {
