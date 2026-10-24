@@ -251,7 +251,7 @@ void V9_SetColorMode(u8 mode)
 {
 	const u8* ptr = (const u8*)&g_V9_ColorConfig[mode];
 	V9_SetFlag(6, V9_R06_BPP_MASK, *ptr++);
-	V9_SetFlag(13, (u8)(V9_R13_PLTM_MASK + V9_R13_YAE), *ptr);
+	V9_SetRegister(13, *ptr);
 }
 
 #endif
