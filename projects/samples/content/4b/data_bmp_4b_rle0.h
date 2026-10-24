@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.22.1
+// Data generated using MSXimg 1.23.0
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Source image author: GrafxKid (https://opengameart.org/content/super-random-sprites)
@@ -24,7 +24,7 @@ const unsigned char g_DataBmp4b_rle0[] =
 {
 // Sprite[0] (offset:0)
 	0x93, 
-	0x01, 0xB0, 
+	0x01, 0x10, 
 	0x81, 
 	0x06, 0x11, 0x11, 0x11, 
 	0x87, 
