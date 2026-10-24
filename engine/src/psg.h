@@ -84,7 +84,6 @@
 #define PSG_USE_ENVELOPE		PSG_F_ENV
 
 #if (PSG_USE_NOTES)
-
 enum NOTE
 {
 	// Latin notation
@@ -115,6 +114,7 @@ enum NOTE
 	NOTE_B       // B
 };
 
+extern const u16 g_PSG_Notes[];
 #endif // (PSG_USE_NOTES)
 
 //-----------------------------------------------------------------------------
@@ -253,4 +253,13 @@ void PSG_Apply();
 
 #endif
 
-
+#if (PSG_USE_NOTES)
+// Function: PSG_SetNote
+// Set a note on the given channel
+//
+// Parameters:
+//   chan   - Channel to set (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
+//   note   - Note to set (0 to 11; or NOTE_DO, NOTE_RE, NOTE_MI, NOTE_FA, NOTE_SOL, NOTE_LA, NOTE_SI)
+//   octave - Octave to play (0 to 7)
+inline void PSG_SetNote(u8 chan, u8 note, u8 octave) { PSG_SetTone(chan, g_PSG_Notes[(octave * 12) + note]); }
+#endif // (PSG_USE_NOTES)
