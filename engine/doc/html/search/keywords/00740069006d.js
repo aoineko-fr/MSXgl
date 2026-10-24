@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("tim",["Function"],[["Timer_Get",,[[,,,,0,"File:timer.h:Timer_Get"]]],["Timer_GetHigh",,[[,,,,0,"File:timer.h:Timer_GetHigh"]]],["Timer_GetLow",,[[,,,,0,"File:timer.h:Timer_GetLow"]]],["Timer_Reset",,[[,,,,0,"File:timer.h:Timer_Reset"]]]]);

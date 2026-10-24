@@ -1,4 +1,4 @@
-﻿Format: 2.2
+﻿Format: 2.4 (Beta 1)
 
 # This is the main file you use to configure Natural Docs for your project.
 
@@ -88,6 +88,9 @@ Home Page: home.html
 Source Folder: ..\..\src
    Name: Source
 
+   Repository: https://github.com/aoineko-fr/MSXgl
+      Link Template: https://github.com/aoineko-fr/MSXgl/blob/main/engine/src/{File}#L{LineNumber}
+
 
 # This is where you tell Natural Docs which folders it should scan for source
 # files.  If you add any on the command line this section is ignored except
@@ -105,6 +108,24 @@ Source Folder: ..\..\src
 #    Name: [name]
 #       How this source folder will appear in the menu if you have more than
 #       one.
+#
+#    [name] Repository: [url]
+#       The web-based repository for the source files.  The URL should go to
+#       the main project page, such as "https://github.com/User/MyProject".
+#       You can optionally include the name of the repository site, such as
+#       "GitHub", which helps Natural Docs recognize self-hosted instances.
+#
+#       Additional repository properties can be added as needed:
+#
+#       Branch: [name]
+#          If you want repository links to go to a specific branch, add its
+#          name here.  Otherwise they will go to the trunk.
+#
+#       Link Template: [url]
+#          If Natural Docs doesn't recognize the repository site you must add
+#          the URL used to link to source files.  Use {File} to represent
+#          where the file path goes and {LineNumber} for the line number.  For
+#          example, "https://mysite.com/repo/src/{File}#L{LineNumber}".
 #
 #    Encoding: [name or code page number]
 #    Encoding: [name or code page number] *.[extension]

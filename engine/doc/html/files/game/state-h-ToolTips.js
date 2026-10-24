@@ -1,1 +1,1 @@
-﻿NDContentPage.OnToolTipsLoaded({491:"<div class=\"NDToolTip TEnumeration LC\"><div class=\"TTSummary\">VDP display modes</div></div>"});
+﻿NDContentPage.OnToolTipsLoaded({572:"<div class=\"NDToolTip TEnumeration LC\"><div class=\"TTSummary\">VDP display modes</div></div>"});

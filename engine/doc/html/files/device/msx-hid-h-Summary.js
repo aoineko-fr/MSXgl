@@ -1,1 +1,1 @@
-﻿NDFramePage.OnPageTitleLoaded("File:device/msx-hid.h","msx-hid.h");NDSummary.OnSummaryLoaded("File:device/msx-hid.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[91,0,1,"Functions","Functions"],[92,0,0,"HID_Detect","HID_Detect"]]);
+﻿NDFramePage.OnPageTitleLoaded("File:device/msx-hid.h","msx-hid.h");NDSummary.OnSummaryLoaded("File:device/msx-hid.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[97,0,1,"Functions","Functions"],[98,0,0,"HID_Detect","HID_Detect"]]);

@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:timer.h","timer.h");NDSummary.OnSummaryLoaded("File:timer.h",[["C/C++","C"]],[["Functions","Function"],["Groups","Group"]],[[538,0,1,"Functions","Functions"],[539,0,0,"Timer_Reset","Timer_Reset"],[540,0,0,"Timer_GetLow","Timer_GetLow"],[541,0,0,"Timer_GetHigh","Timer_GetHigh"],[542,0,0,"Timer_Get","Timer_Get"]]);
