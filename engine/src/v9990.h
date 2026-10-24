@@ -884,7 +884,7 @@ inline void V9_SetSpritePaletteP1(u8 id, u8 pal)
 // Parameters:
 //   id - Sprite index (0 to 124).
 //   attr - Pointer to sprite structure.
-inline void V9_SetSpriteP2(u8 id, const V9_Sprite* attr) { V9_WriteVRAM(V9_P2_SPAT + 4 * id, (const u8*)attr, 4); }
+inline void V9_SetSpriteP2(u8 id, const V9_Sprite* attr) { V9_WriteVRAM(V9_P2_SPAT + (4 * id), (const u8*)attr, 4); }
 
 // Function: V9_SetSpritePatternP2
 // Set sprite pattern for P2 mode.
@@ -892,7 +892,7 @@ inline void V9_SetSpriteP2(u8 id, const V9_Sprite* attr) { V9_WriteVRAM(V9_P2_SP
 // Parameters:
 //   id - Sprite index (0 to 124).
 //   pat - Pattern index (0 to 255).
-inline void V9_SetSpritePatternP2(u8 id, u8 pat) { V9_Poke(V9_P2_SPAT + 4 * id + 1, pat); }
+inline void V9_SetSpritePatternP2(u8 id, u8 pat) { V9_Poke(V9_P2_SPAT + 1 + (4 * id), pat); }
 
 // Function: V9_SetSpritePositionP2
 // Set sprite position for P2 mode.
@@ -901,7 +901,7 @@ inline void V9_SetSpritePatternP2(u8 id, u8 pat) { V9_Poke(V9_P2_SPAT + 4 * id +
 //   id - Sprite index (0 to 124).
 //   x - Sprite X coordinate.
 //   y - Sprite Y coordinate.
-inline void V9_SetSpritePositionP2(u8 id, u8 x, u8 y) { V9_Poke(V9_P2_SPAT + (4 * id), y); V9_Poke(V9_P2_SPAT + (4 * id) + 2, x); }
+inline void V9_SetSpritePositionP2(u8 id, u8 x, u8 y) { V9_Poke(V9_P2_SPAT + (4 * id), y); V9_Poke(V9_P2_SPAT + 2 + (4 * id), x); }
 
 // Function: V9_SetSpriteInfoP2
 // Set sprite additionnal information for P2 mode.
