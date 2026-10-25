@@ -297,6 +297,11 @@ $(ProjectDir)..\bin\$(TargetName)$(TargetExt) -help &gt; $(ProjectDir)..\bin\$(T
     <ClCompile Include="..\src\exporter.cpp" />
     <ClCompile Include="..\src\image.cpp" />
     <ClCompile Include="..\src\parser.cpp" />
+    <ClCompile Include="..\src\parser_bitmap.cpp" />
+    <ClCompile Include="..\src\parser_mglv.cpp" />
+    <ClCompile Include="..\src\parser_sprite.cpp" />
+    <ClCompile Include="..\src\parser_text.cpp" />
+    <ClCompile Include="..\src\parser_tilemap.cpp" />
     <ClCompile Include="..\src\Pletter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -305,8 +310,7 @@ $(ProjectDir)..\bin\$(TargetName)$(TargetExt) -help &gt; $(ProjectDir)..\bin\$(T
     <ClInclude Include="..\src\exporter.h" />
     <ClInclude Include="..\src\image.h" />
     <ClInclude Include="..\src\MSXimg.h" />
-    <ClInclude Include="..\src\parser.h" />
-  </ItemGroup>
+    <ClInclude Include="..\src\parser.h" />  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -37,7 +37,7 @@ fi
 
 echo ----------------------------------------------------------------------
 echo Building MSXimg...
-g++ -o out/MSXimg -Isrc -IFreeimage -Wall -std=c++17 src/MSXimg.cpp src/color.cpp src/exporter.cpp src/image.cpp src/parser.cpp src/Pletter.cpp Freeimage/libfreeimage.a
+g++ -o out/MSXimg -Isrc -IFreeimage -Wall -std=c++17 src/MSXimg.cpp src/color.cpp src/exporter.cpp src/image.cpp src/parser.cpp src/parser_bitmap.cpp src/parser_mglv.cpp src/parser_sprite.cpp src/parser_text.cpp src/parser_tilemap.cpp src/Pletter.cpp Freeimage/libfreeimage.a
 if [ $? -eq 0 ]; then
 	echo copy MSXimg to ./bin
 	cp out/MSXimg bin/MSXimg
