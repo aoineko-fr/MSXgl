@@ -35,7 +35,6 @@ dos2
 /projects/default_config.js
 
 /projects/*
-!/projects/example
 !/projects/samples
 !/projects/targets
 !/projects/template
