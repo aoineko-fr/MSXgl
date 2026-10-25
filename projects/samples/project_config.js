@@ -99,6 +99,8 @@ Machine = "2";
 //   - ROM_NEO16        .rom    NEO-16: 16 KB segments for a total of 1 MB to 64 MB
 //   - ROM_YAMANOOTO    .rom    Yamanooto: 8 KB segments for a total up to 8 MB
 //   - ROM_ASCII16X     .rom    ASCII16-X: 16 KB segments for a total up to 64 MB
+//   - RAW              .bin    Raw binary code and data to be compiled at a given address
+//   - LIB              .lib    C library to be included in other project
 Target = "ROM_32K";
 
 //-- ROM mapper total size in KB (number). Must be a multiple of 8 or 16 depending on the mapper type (from 64 to 4096 for legacy mappers; can be up to 65536 for NEO-16 mapper)

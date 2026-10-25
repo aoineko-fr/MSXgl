@@ -155,7 +155,7 @@
 #define INPUT_HOLD_SIGNAL			FALSE	// Determines whether functions that modify signals should keep the state of those they don't need to modify (which slows functions down a bit) 
 #define INPUT_KB_AS_JOYSTICK		TRUE	// Add function to read keyboard state as joystick input (see Keyboard_ReadAsJoystick)
 // Key update handler
-#define INPUT_KB_UPDATE				FALSE	// Add function to update all keyboard rows at once
+#define INPUT_KB_UPDATE				TRUE	// Add function to update all keyboard rows at once
 #define INPUT_KB_UPDATE_MIN			0		// First row to update
 #define INPUT_KB_UPDATE_MAX			8		// Last row to update (10 for numerical-pad, 8 otherwise)
 

@@ -11,8 +11,8 @@
 //  - Start position: 0, 256
 //  - Sprite size:    192, 144 (gap: 0, 0)
 //  - Sprite count:   1, 1
-//  - Color count:    256 (Transparent: #000000)
-//  - Palette mode:   MSX1 [1:-1]
+//  - Color count:    16 (Transparent: #000000)
+//  - Palette mode:   MSX1 [1:15]
 //  - Compressor:     None
 //  - Skip empty:     FALSE
 //  - Offset:         0
