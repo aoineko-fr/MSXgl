@@ -131,6 +131,7 @@ struct ExportParameters
 	bool bUseOpacity;			///< Use opacity color
 	u32 opacityColor;			///< Opacity color (24-bits RGB)
 	PaletteType palType;		///< Palette type (@see PaletteType)
+	ColorMode colorMode;		///< Color mode (@see ColorMode)
 	i32 palOutCount;			///< Number of colors in the output palette
 	i32 palOffset;				///< Index offset of the palette
 	bool pal24;					///< Use 24-bits palette (v9990)
@@ -194,6 +195,7 @@ struct ExportParameters
 		bUseOpacity = FALSE;
 		opacityColor = 0x000000;
 		palType = PALETTE_MSX1;
+		colorMode = COLORMODE_RGB8;
 		palOutCount = -1;
 		palOffset = 1;
 		pal24 = FALSE;

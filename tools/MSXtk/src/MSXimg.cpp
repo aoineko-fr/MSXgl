@@ -62,21 +62,55 @@ std::map<const c8*, u32> g_NamedValue =
 	{ "1G",   GIGA(1) },
 };
 
+// Number of required arguments for each command-line option
+const std::map<std::string, i32> g_OptionArgumentCount =
+{
+	{ "-help", 0 },
+	{ "-out", 1 }, { "-format", 1 }, { "-name", 1 },
+	{ "-pos", 2 }, { "-size", 2 }, { "-num", 2 }, { "-gap", 2 },
+	{ "-bpc", 1 }, { "-trans", 1 }, { "-opacity", 1 },
+	{ "-pal", 1 }, { "--palcount", 1 }, { "-palcount", 1 },
+	{ "--paloff", 1 }, { "-paloff", 1 }, { "-pal24", 0 }, { "--pal24", 0 },
+	{ "--palmod", 2 }, { "-palmod", 2 },
+	{ "-compress", 1 }, { "-dither", 1 }, { "-data", 1 }, { "-asm", 1 },
+	{ "-mode", 1 }, { "-skip", 0 }, { "-idx", 0 }, { "-copy", 0 },
+	{ "-head", 0 }, { "-font", 4 }, { "-at", 1 }, { "-def", 0 },
+	{ "-ret0", 0 }, { "-offset", 1 }, { "-notitle", 0 }, { "-nodate", 0 },
+	{ "-l", 5 }, { "-bload", 0 }, { "--bload", 0 },
+	{ "--tilesComp", 0 }, { "--gm2compnames", 0 },
+	{ "--tilesUnique", 0 }, { "--gm2unique", 0 },
+	{ "--noTilesName", 0 }, { "--noTilesPattern", 0 }, { "--noTilesColor", 0 },
+	{ "-vflip", 0 }, { "-hflip", 0 }, { "-rot", 1 }, { "-resize", 2 },
+	{ "-filter", 1 }, { "-mglvHead", 1 }, { "-mglvSeg", 1 },
+	{ "-mglvFreq", 1 }, { "-mglvTime", 1 }, { "-mglvLoop", 0 },
+	{ "-mglvMinSkip", 1 }, { "-mglvMinFill", 1 }
+};
+
 //-----------------------------------------------------------------------------
 // 
 u32 GetValue(std::string name)
 {
+	if (name.empty())
+		return 0;
+
 	// Named value
 	for (std::map<const c8*, u32>::iterator it = g_NamedValue.begin(); it != g_NamedValue.end(); ++it)
 		if (MSX::StrEqual(name.c_str(), it->first))
 			return it->second;
 
 	// Hexadecimal
-	if ((name[0] == '0') && (name[1] == 'x'))
+	if ((name.size() >= 2) && (name[0] == '0') && ((name[1] == 'x') || (name[1] == 'X')))
 		return strtol(name.c_str(), NULL, 16);
 
 	// Decimal
 	return atol(name.c_str());
+}
+
+/// Get the number of required arguments for a command-line option
+i32 GetRequiredArgCount(const c8* option)
+{
+	auto it = g_OptionArgumentCount.find(option);
+	return (it != g_OptionArgumentCount.end()) ? it->second : -1;
 }
 
 /// Check if filename contains the given extension
@@ -124,35 +158,50 @@ void PrintHelp()
 	printf("\n");
 	printf("General options:\n");
 	printf(" filename         Input filename. Can be 8, 16, 24 or 32 bits image\n");
-	printf("                  Supported format: BMP, JPEG, PCX, PNG, TGA, PSD, GIF, etc.\n");
+	printf("                   Supported format: BMP, JPEG, PCX, PNG, TGA, PSD, GIF, etc.\n");
 	printf(" -out outFile     Output filename\n");
 	printf(" -format ?        Output file format\n");
-	printf("    auto          Auto-detected from output file extension (default)\n");
-	printf("    c             C header file output (auto selected for .H or .INC file)\n");
-	printf("    asm           Assembler header file output (auto selected for .ASM or .S file)\n");
-	printf("    bas           BASIC listing file output (auto selected for .BAS or .LST file)\n");
-	printf("    bin           Raw binary data image (auto selected for .BIN or .ROW file)\n");
+	printf("    auto           Auto-detected from output file extension (default)\n");
+	printf("    c              C header file output (auto selected for .H or .INC file)\n");
+	printf("    asm            Assembler header file output (auto selected for .ASM or .S file)\n");
+	printf("    bas            BASIC listing file output (auto selected for .BAS or .LST file)\n");
+	printf("    bin            Raw binary data image (auto selected for .BIN or .ROW file)\n");
 	printf(" -name name       Name of the table to generate\n");
 	printf(" -mode ?          Exporter mode\n");
-	printf("    bmp           Export image as bitmap (default)\n");
-	printf("    txt           Generate all tables for Text mode 1 or 2 (Screen 0)\n");
-	printf("    gm1           Generate all tables for Graphic mode 1 (Screen 1)\n");
-	printf("    gm2           Generate all tables for Graphic mode 2 or 3 (Screen 2 or 4)\n");
-	printf("    sprt          Export 16x16 sprites with specific block ordering\n");
-	printf("    mglv          MGLV video format from multiple image\n");
+	printf("    bmp            Export image as bitmap (default)\n");
+	printf("    txt            Generate all tables for Text mode 1 or 2 (Screen 0)\n");
+	printf("    gm1            Generate all tables for Graphic mode 1 (Screen 1)\n");
+	printf("    gm2            Generate all tables for Graphic mode 2 or 3 (Screen 2 or 4)\n");
+	printf("    sprt           Export 16x16 sprites with specific block ordering\n");
+	printf("    mglv           MGLV video format from multiple image\n");
+	printf("                  Can also be any of those presets:\n");
+	printf("    sc0|t1         Screen mode 0 (text, 40x24)\n");
+	printf("    sc1|gm1        Screen mode 1 (tile, 32x24)\n");
+	printf("    sc2|gm2        Screen mode 2 (tile, 32x24)\n");
+	printf("    sc3|mc         Screen mode 3 (muticolor)\n");
+	printf("    sc0_w80|t2     Screen mode 0 (text, 80x24)\n");
+	printf("    sc4|gm3        Screen mode 4 (tile, 32x24)\n");
+	printf("    sc5|gm4        Screen mode 5 (bmp, 256x212, 16 colors)\n");
+	printf("    sc6|gm5        Screen mode 6 (bmp, 512x212, 4 colors)\n");
+	printf("    sc7|gm6        Screen mode 7 (bmp, 512x212, 16 colors)\n");
+	printf("    sc8|gm7        Screen mode 8 (bmp, 256x212, 256 colors)\n");
+	printf("    sc10|sc11|yae  Screen mode 10 (bmp, 256x212, 12499 colors)\n");
+	printf("    sc12|yjk       Screen mode 12 (bmp, 256x212, 19268 colors)\n");
+	printf("    p1|p2          V9990's pattern screen mode\n");
+	printf("    b0~b7          V9990's bitmap screen mode\n");
 	printf(" -pos x y         Start position in the input image\n");
 	printf(" -size x y        Width/height of a block to export (if 0, use image size)\n");
 	printf(" -num x y         Number of block to export (columns/rows number)\n");
 	printf(" -gap x y         Gap between blocks in pixels\n");
 	printf(" -l ? sx sy nx ny col1 [col2 col3 ...]\n");
-	printf("                  Layer including the given color(s) (coordinate are relative to each expoted block)\n");
-	printf("    i8            Include 8x8 sprites layer with only provided colors\n");
-	printf("    i16           Include 16x16 sprites layer with only provided colors\n");
-	printf("    e8            Exclude 8x8 sprites layer with all colors but the provided ones\n");
-	printf("    e16           Exclude 16x16 sprites layer with all colors but the provided ones\n");
-	printf("                  sx/sy is layer start position in pixel in a block\n");
-	printf("                  nx/ny is layer size in sprite count (1 equal 8 or 16 according to sprite size)\n");
-	printf("                  Colors are in RGB 24 bits format (0xFFFFFF)\n");
+	printf("                   Layer including the given color(s) (coordinate are relative to each expoted block)\n");
+	printf("    i8             Include 8x8 sprites layer with only provided colors\n");
+	printf("    i16            Include 16x16 sprites layer with only provided colors\n");
+	printf("    e8             Exclude 8x8 sprites layer with all colors but the provided ones\n");
+	printf("    e16            Exclude 16x16 sprites layer with all colors but the provided ones\n");
+	printf("                   sx/sy is layer start position in pixel in a block\n");
+	printf("                   nx/ny is layer size in sprite count (1 equal 8 or 16 according to sprite size)\n");
+	printf("                   Colors are in RGB 24 bits format (0xFFFFFF)\n");
 	printf(" -help            Display this help\n");
 	printf("\n");
 	printf("Color options:\n");
@@ -164,9 +213,19 @@ void PrintHelp()
 	printf("    4	           4-bits index in 16 colors palette\n");
 	printf("    8	           8 bits RGB 256 colors (format: [G:3|R:3|B2]; default)\n");
 	printf("    16	           16-bits RGB colors  (format: [G:5|R:5|B5])\n");
+	printf(" -color ?         Palette to use for 16 colors mode\n");
+	printf("    p2             2-bit palette (4 colors)\n");
+	printf("    p4             4-bit palette (16 colors)\n");
+	printf("    p6             6-bit palette (64 colors)\n");
+	printf("    rgb8           8-bit RGB (256 colors)\n");
+	printf("    rgb16          16-bit RGB (32768 colors)\n");
+	printf("    yjk            8-bit YJK decoder (19268 colors)\n");
+	printf("    yjk_yae        8-bit YJK Decoder + palette (12615 colors)\n");
+	printf("    yuv            8-bit YUV decoder (19268 colors)\n");
+	printf("    yuv_yae        8-bit YUV Decoder + palette (12615 colors)\n");
 	printf(" -pal ?           Palette to use for 16 colors mode\n");
-	printf("    msx1          Use default MSX1 palette\n");
-	printf("    custom        Generate a custom palette and add it to the output file\n");
+	printf("    msx1           Use default MSX1 palette\n");
+	printf("    custom         Generate a custom palette and add it to the output file\n");
 	printf("    input n [c1 c2 ...] Use the following colors for conversion\n");
 	printf("    partial n [c1 c2 ...] Use the following colors as base for custom palette\n");
 	printf(" --palcount n     Number of color in the custom palette to create (default: 15)\n");
@@ -174,14 +233,14 @@ void PrintHelp()
 	printf(" --pal24          Use 24-bits palette (for v9990; default: false)\n");
 	printf(" --palmod s c     Create a modified version of the palette (percentage of scale and contrast)\n");
 	printf(" -dither ?        Dithering method (for 1-bit color only)\n");
-	printf("    none          No dithering (default)\n");
-	printf("    floyd         Floyd & Steinberg error diffusion algorithm\n");
-	printf("    bayer4        Bayer ordered dispersed dot dithering (order 2 – 4x4 - dithering matrix)\n");
-	printf("    bayer8        Bayer ordered dispersed dot dithering (order 3 – 8x8 - dithering matrix)\n");
-	printf("    bayer16       Bayer ordered dispersed dot dithering (order 4 – 16x16 dithering matrix)\n");
-	printf("    cluster6      Ordered clustered dot dithering (order 3 - 6x6 matrix)\n");
-	printf("    cluster8      Ordered clustered dot dithering (order 4 - 8x8 matrix)\n");
-	printf("    cluster16     Ordered clustered dot dithering (order 8 - 16x16 matrix)\n");
+	printf("    none           No dithering (default)\n");
+	printf("    floyd          Floyd & Steinberg error diffusion algorithm\n");
+	printf("    bayer4         Bayer ordered dispersed dot dithering (order 2 – 4x4 - dithering matrix)\n");
+	printf("    bayer8         Bayer ordered dispersed dot dithering (order 3 – 8x8 - dithering matrix)\n");
+	printf("    bayer16        Bayer ordered dispersed dot dithering (order 4 – 16x16 dithering matrix)\n");
+	printf("    cluster6       Ordered clustered dot dithering (order 3 - 6x6 matrix)\n");
+	printf("    cluster8       Ordered clustered dot dithering (order 4 - 8x8 matrix)\n");
+	printf("    cluster16      Ordered clustered dot dithering (order 8 - 16x16 matrix)\n");
 	printf("\n");
 	printf("Transformations\n");
 	printf(" -vflip           Vertical flip\n");
@@ -307,8 +366,6 @@ int main(int argc, const char* argv[])
 	argv = ARGV;
 #endif
 
-	FreeImage_Initialise();
-
 	MSX::FileFormat outFormat = MSX::FILEFORMAT_Auto;
 	ExportParameters param;
 	i32 i;
@@ -339,6 +396,13 @@ int main(int argc, const char* argv[])
 	// Parse parameters
 	for(i = 2; i < argc; i++)
 	{
+		i32 requiredArgs = GetRequiredArgCount(argv[i]);
+		if ((requiredArgs >= 0) && (i + requiredArgs >= argc))
+		{
+			printf("Error: Option %s requires %i argument(s).\n", argv[i], requiredArgs);
+			return 1;
+		}
+
 		if (MSX::StrEqual(argv[i], "-out")) // Output filename
 		{
 			param.outFile = argv[++i];
@@ -384,6 +448,13 @@ int main(int argc, const char* argv[])
 		else if(MSX::StrEqual(argv[i], "-bpc")) // Byte per color
 		{
 			param.bpc = GetValue(argv[++i]);
+			switch (param.bpc)
+			{
+			case 2:		param.colorMode = COLORMODE_P2; break;
+			case 4:		param.colorMode = COLORMODE_P4; break;
+			case 8:		param.colorMode = COLORMODE_RGB8; break;
+			case 16:	param.colorMode = COLORMODE_RGB16; break;
+			}
 		}
 		else if(MSX::StrEqual(argv[i], "-trans")) // Use transparency color
 		{
@@ -407,7 +478,17 @@ int main(int argc, const char* argv[])
 			else if (MSX::StrEqual(argv[i], "input"))
 			{
 				param.palType = PALETTE_Input;
+				if (i + 1 >= argc)
+				{
+					printf("Error: Palette input requires a color count.\n");
+					return 1;
+				}
 				param.palInCount = GetValue(argv[++i]);
+				if ((param.palInCount < 1) || (param.palInCount > 16) || (i + param.palInCount >= argc))
+				{
+					printf("Error: Palette input count must be between 1 and 16 and include that many color values.\n");
+					return 1;
+				}
 				param.palInput.clear();
 				for (i32 j = 0; j < param.palInCount; j++)
 					param.palInput.push_back(GetValue(argv[++i]));
@@ -416,7 +497,17 @@ int main(int argc, const char* argv[])
 			else if (MSX::StrEqual(argv[i], "partial"))
 			{
 				param.palType = PALETTE_Partial;
+				if (i + 1 >= argc)
+				{
+					printf("Error: Partial palette requires a color count.\n");
+					return 1;
+				}
 				param.palInCount = GetValue(argv[++i]);
+				if ((param.palInCount < 1) || (param.palInCount > 16) || (i + param.palInCount >= argc))
+				{
+					printf("Error: Partial palette count must be between 1 and 16 and include that many color values.\n");
+					return 1;
+				}
 				param.palInput.clear();
 				for (i32 j = 0; j < param.palInCount; j++)
 					param.palInput.push_back(GetValue(argv[++i]));
@@ -537,40 +628,92 @@ int main(int argc, const char* argv[])
 		else if (MSX::StrEqual(argv[i], "-mode")) // Exporter mode
 		{
 			i++;
-			if (MSX::StrEqual(argv[i], "bmp"))
+			//.................................................................
+			// Tiles
+			if (MSX::StrInList(argv[i], {"txt", "t1", "sc0"}))
+			{
+				param.mode = MODE_Text;
+				param.bpc = 1;
+				param.colorMode = COLORMODE_P1;
+			}
+			if (MSX::StrInList(argv[i], {"t2", "sc0_w80"}))
+			{
+				param.mode = MODE_Text;
+				param.bpc = 2;
+				param.colorMode = COLORMODE_P2;
+			}
+			else if (MSX::StrInList(argv[i], {"gm1", "sc1"}))
+			{
+				param.mode = MODE_GM1;
+				param.bpc = 4;
+				param.colorMode = COLORMODE_P4;
+			}
+			else if (MSX::StrInList(argv[i], {"gm2", "sc2", "gm3", "sc4"}))
+			{
+				param.mode = MODE_GM2;
+				param.bpc = 4;
+				param.colorMode = COLORMODE_P4;
+			}
+			else if (MSX::StrEqual(argv[i], "gm2i"))
+			{
+				param.mode = MODE_GM2i;
+				param.bpc = 4;
+				param.colorMode = COLORMODE_P4;
+			}
+			//.................................................................
+			// Bitmap
+			else if (MSX::StrInList(argv[i], {"bmp", "b0", "b1", "b2", "b3", "b4", "b5", "b6", "b7"}))
+			{
 				param.mode = MODE_Bitmap;
-			else if (MSX::StrEqual(argv[i], "sc5"))
+			}
+			else if (MSX::StrInList(argv[i], {"gm4", "sc5"}))
 			{
 				param.mode = MODE_Bitmap;
 				param.bpc = 4;
+				param.colorMode = COLORMODE_P4;
 			}
-			else if (MSX::StrEqual(argv[i], "sc6"))
+			else if (MSX::StrInList(argv[i], {"gm5", "sc6"}))
 			{
 				param.mode = MODE_Bitmap;
 				param.bpc = 2;
+				param.colorMode = COLORMODE_P2;
 			}
-			else if (MSX::StrEqual(argv[i], "sc7"))
+			else if (MSX::StrInList(argv[i], {"gm6", "sc7"}))
 			{
 				param.mode = MODE_Bitmap;
 				param.bpc = 4;
+				param.colorMode = COLORMODE_P4;
 			}
-			else if (MSX::StrEqual(argv[i], "sc8"))
+			else if (MSX::StrInList(argv[i], {"gm7", "sc8"}))
 			{
 				param.mode = MODE_Bitmap;
 				param.bpc = 8;
+				param.colorMode = COLORMODE_RGB8;
 			}
-			else if (MSX::StrEqual(argv[i], "gm1") || MSX::StrEqual(argv[i], "sc1"))
-				param.mode = MODE_GM1;
-			else if (MSX::StrEqual(argv[i], "gm2") || MSX::StrEqual(argv[i], "sc2") || MSX::StrEqual(argv[i], "gm3") || MSX::StrEqual(argv[i], "sc4"))
-				param.mode = MODE_GM2;
-			else if (MSX::StrEqual(argv[i], "gm2i"))
-				param.mode = MODE_GM2i;
+			else if (MSX::StrInList(argv[i], {"yjk_yae", "sc10", "sc11"}))
+			{
+				param.mode = MODE_Bitmap;
+				param.bpc = 8;
+				param.colorMode = COLORMODE_YJK_YAE;
+			}
+			else if (MSX::StrInList(argv[i], {"yjk", "sc12"}))
+			{
+				param.mode = MODE_Bitmap;
+				param.bpc = 8;
+				param.colorMode = COLORMODE_YJK;
+			}
+			//.................................................................
+			// Sprite
 			else if (MSX::StrEqual(argv[i], "sprt"))
+			{
 				param.mode = MODE_Sprite;
+			}
+			//.................................................................
+			// Movie
 			else if (MSX::StrEqual(argv[i], "mglv"))
+			{
 				param.mode = MODE_MGLV;
-			else if (MSX::StrEqual(argv[i], "txt") || MSX::StrEqual(argv[i], "sc0"))
-				param.mode = MODE_Text;
+			}
 		}
 		else if (MSX::StrEqual(argv[i], "-skip")) // Skip empty blocks
 		{
@@ -774,15 +917,126 @@ int main(int argc, const char* argv[])
 		{
 			param.mglvConfig.minFill = GetValue(argv[++i]);
 		}
+		else
+		{
+			printf("Error: Unknown option %s.\n", argv[i]);
+			return 1;
+		}
 	}
 
+
 	//-------------------------------------------------------------------------
-	if (param.palOutCount < 0) // Set default palette count
+	// Validate parameters
+
+	//.........................................................................
+	// Errors
+	if (param.inFile == "")
 	{
-		if (param.bpc == 2)
-			param.palOutCount = 4 - param.palOffset;
-		else if (param.bpc == 4)
-			param.palOutCount = 16 - param.palOffset;
+		printf("Error: Input file required!\n");
+		return 1;
+	}
+	if (param.outFile == "")
+	{
+		switch (outFormat)
+		{
+		case MSX::FILEFORMAT_C:
+			param.outFile = RemoveExt(param.inFile) + ".h";
+			break;
+		case MSX::FILEFORMAT_Asm:
+			param.outFile = RemoveExt(param.inFile) + ".asm";
+			break;
+		case MSX::FILEFORMAT_BASIC:
+			param.outFile = RemoveExt(param.inFile) + ".bas";
+			break;
+		case MSX::FILEFORMAT_Bin:
+			param.outFile = RemoveExt(param.inFile) + ".bin";
+			break;
+		case MSX::FILEFORMAT_Auto:
+		default:
+			printf("Error: Output file is required if format is set to 'auto'!\n");
+			return 1;
+		}
+	}
+	if ((param.bpc != 1) && (param.bpc != 2) && (param.bpc != 4) && (param.bpc != 8) && (param.bpc != 16))
+	{
+		printf("Error: Invalid bits-per-color value (%i). Only 1, 2, 4, 8 or 16-bits colors are supported!\n", param.bpc);
+		return 1;
+	}
+	if (param.bBLOAD && (param.mode != MODE_Bitmap))
+	{
+		printf("Error: BLOAD header is supported only for bitmap mode.\n");
+		return 1;
+	}
+	if ((param.bAddCopy) && (!FileExists(param.copyFile)))
+	{
+		printf("Error: Copyright file not found (%s)!\n", param.copyFile.c_str());
+		return 1;
+	}
+	if (param.bUseTrans && param.bUseOpacity)
+	{
+		printf("Error: Transparency and Opacity can't be use together!\n");
+		return 1;
+	}
+
+	//.........................................................................
+	// Warnings
+	if ((param.sizeX == 0) || (param.sizeY == 0))
+	{
+		printf("Warning: sizeX or sizeY is 0. The whole image will be exported.\n");
+	}
+	if (!param.bUseTrans && (param.comp & MSX::COMPRESS_Crop_Mask))
+	{
+		printf("Warning: Crop compressor can't be use without transparency color. Crop compressor removed.\n");
+		param.comp = MSX::COMPRESS_None;
+	}
+	if (!param.bUseTrans && (param.comp == MSX::COMPRESS_RLE0))
+	{
+		printf("Warning: RLE0 compressor can't be use without transparency color. RLE0 compressor removed.\n");
+		param.comp = MSX::COMPRESS_None;
+	}
+	if (((param.bpc == 1) || (param.bpc == 2)) && (param.comp & MSX::COMPRESS_RLE_Mask))
+	{
+		printf("Warning: RLE compressor can be use only with 4 and 8-bits color format. RLE compressor removed.\n");
+		param.comp = MSX::COMPRESS_None;
+	}
+	if ((param.bpc == 8) && (param.comp == MSX::COMPRESS_RLE4))
+	{
+		printf("Warning: RLE4 compressor have no advantage with 8-bits color format. RLE8 compressor will be use instead.\n");
+		param.comp = MSX::COMPRESS_RLE8;
+	}
+	if (!param.bUseTrans && param.bSkipEmpty)
+	{
+		printf("Warning: -skip as no effect without transparency color.\n");
+	}
+	if ((param.dither != DITHER_None) && (param.bpc != 1))
+	{
+		printf("Warning: Dithering only work with 1-bit color format (current is %i-bits). Dithering value will be ignored.\n", param.bpc);
+	}
+
+	//.........................................................................
+	// Check palette
+	if ((param.bpc == 2) || (param.bpc == 4))
+	{
+		i32 paletteSize = (param.bpc == 2) ? 4 : 16;
+		if (param.palOffset >= paletteSize)
+		{
+			printf("Error: Palette offset must be between 0 and %i for %i-bit color mode.\n", paletteSize - 1, param.bpc);
+			return 1;
+		}
+
+		if (param.palOutCount < 0)
+			param.palOutCount = paletteSize - param.palOffset;
+		if (param.palOutCount < 1)
+		{
+			printf("Error: Palette count must be at least 1 with 2-bit and 4-bit color modes.\n");
+			return 1;
+		}
+		if (param.palOutCount > paletteSize - param.palOffset)
+		{
+			printf("Warning: Palette offset is %i and palette count is %i, but the total cannot exceed %i. Palette count reduced.\n",
+				param.palOffset, param.palOutCount, paletteSize);
+			param.palOutCount = paletteSize - param.palOffset;
+		}
 	}
 
 	//-------------------------------------------------------------------------
@@ -822,6 +1076,8 @@ int main(int argc, const char* argv[])
 		printf("Auto compress: %s method selected\n", GetCompressorName(param.comp));
 	}
 	
+	FreeImage_Initialise();
+
 	//-------------------------------------------------------------------------
 	// Search for best compressor according to input parameters
 	if (bBestCompress)
@@ -878,108 +1134,11 @@ int main(int argc, const char* argv[])
 	}
 
 	//-------------------------------------------------------------------------
-	// Validate parameters
-
-	//.........................................................................
-	// Errors
-	if (param.inFile == "")
-	{
-		printf("Error: Input file required!\n");
-		return 1;
-	}
-	if (param.outFile == "")
-	{
-		switch (outFormat)
-		{
-		case MSX::FILEFORMAT_C:
-			param.outFile = RemoveExt(param.inFile) + ".h";
-			break;
-		case MSX::FILEFORMAT_Asm:
-			param.outFile = RemoveExt(param.inFile) + ".asm";
-			break;
-		case MSX::FILEFORMAT_BASIC:
-			param.outFile = RemoveExt(param.inFile) + ".bas";
-			break;
-		case MSX::FILEFORMAT_Bin:
-			param.outFile = RemoveExt(param.inFile) + ".bin";
-			break;
-		case MSX::FILEFORMAT_Auto:
-		default:
-			printf("Error: Output file is required if format is set to 'auto'!\n");
-			return 1;
-		}
-	}
-	if ((param.bpc != 1) && (param.bpc != 2) && (param.bpc != 4) && (param.bpc != 8) && (param.bpc != 16))
-	{
-		printf("Error: Invalid bits-per-color value (%i). Only 1, 2, 4, 8 or 16-bits colors are supported!\n", param.bpc);
-		return 1;
-	}
-	if ((param.bAddCopy) && (!FileExists(param.copyFile)))
-	{
-		printf("Error: Copyright file not found (%s)!\n", param.copyFile.c_str());
-		return 1;
-	}
-	if (param.bUseTrans && param.bUseOpacity)
-	{
-		printf("Error: Transparency and Opacity can't be use together!\n");
-		return 1;
-	}
-	if (((param.bpc == 2) || (param.bpc == 4)) && (param.palOutCount < 1))
-	{
-		printf("Error: Palette count can't be less that 1 with 2-bits and 4-bits color mode!\n");
-		return 1;
-	}
-
-	//.........................................................................
-	// Warnings
-	if ((param.sizeX == 0) || (param.sizeY == 0))
-	{
-		printf("Warning: sizeX or sizeY is 0. The whole image will be exported.\n");
-	}
-	if (!param.bUseTrans && (param.comp & MSX::COMPRESS_Crop_Mask))
-	{
-		printf("Warning: Crop compressor can't be use without transparency color. Crop compressor removed.\n");
-		param.comp = MSX::COMPRESS_None;
-	}
-	if (!param.bUseTrans && (param.comp == MSX::COMPRESS_RLE0))
-	{
-		printf("Warning: RLE0 compressor can't be use without transparency color. RLE0 compressor removed.\n");
-		param.comp = MSX::COMPRESS_None;
-	}
-	if (((param.bpc == 1) || (param.bpc == 2)) && (param.comp & MSX::COMPRESS_RLE_Mask))
-	{
-		printf("Warning: RLE compressor can be use only with 4 and 8-bits color format. RLE compressor removed.\n");
-		param.comp = MSX::COMPRESS_None;
-	}
-	if ((param.bpc == 8) && (param.comp == MSX::COMPRESS_RLE4))
-	{
-		printf("Warning: RLE4 compressor have no advantage with 8-bits color format. RLE8 compressor will be use instead.\n");
-		param.comp = MSX::COMPRESS_RLE8;
-	}
-	if (!param.bUseTrans && param.bSkipEmpty)
-	{
-		printf("Warning: -skip as no effect without transparency color.\n");
-	}
-	if ((param.bpc == 2) && (param.palOffset + param.palOutCount > 4))
-	{
-		printf("Warning: --paloffset is %i and --palcount is %i but total can't be more than 4 with 2-bits color (color index 0 is always transparent). Continue with 4 as value.\n", param.palOffset, param.palOutCount);
-		param.palOutCount = 4 - param.palOffset;
-	}
-	if ((param.bpc == 4) && (param.palOffset + param.palOutCount > 16))
-	{
-		printf("Warning: --paloffset is %i and --palcount is %i but total can't be more than 16 with 4-bits color (color index 0 is always transparent). Continue with 16 as value.\n", param.palOffset, param.palOutCount);
-		param.palOutCount = 16 - param.palOffset;
-	}
-	if ((param.dither != DITHER_None) && (param.bpc != 1))
-	{
-		printf("Warning: Dithering only work with 1-bit color format (current is %i-bits). Dithering value will be ignored.\n", param.bpc);
-	}
+	// Convert
 
 	bool bSucceed = false;
 	u32 size = 0;
 
-	//-------------------------------------------------------------------------
-	// Convert
 	if((param.inFile != "") && (param.outFile != ""))
 	{
 		ExporterInterface* exp = NULL;
@@ -1033,4 +1192,3 @@ int main(int argc, const char* argv[])
 
 	return bSucceed ? param.startAddr + size : 0;
 }
-

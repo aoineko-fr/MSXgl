@@ -32,16 +32,20 @@ GRB8::GRB8(RGB24 color)
 		{
 		case 0:
 			b = 0;
+			break;
 		case 1:
 		case 2:
 			b = 1;
+			break;
 		case 3:
 		case 4:
 			b = 2;
+			break;
 		case 5:
 		case 6:
 		case 7:
 			b = 3;
+			break;
 		}
 	}
 	else // use linear scale

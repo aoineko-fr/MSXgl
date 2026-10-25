@@ -47,6 +47,7 @@ const char* GetModeName(MSXi_Mode mode)
 	case MODE_Sprite:	return "Sprite";
 	case MODE_Text:		return "Text (SC0)";
 	case MODE_MGLV:		return "MSXgl Video";
+	case MODE_GM2i:		return "Graphic Mode 2 (interlaced)";
 	};
 	return "Unknow";
 }

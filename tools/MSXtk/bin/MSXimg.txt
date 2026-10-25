@@ -1,37 +1,52 @@
-MSXimg 1.22.1 - Image converter for MSX development
+MSXimg 1.23.0 - Image converter for MSX development
 Usage: MSXimg <filename> [options]
 
 General options:
  filename         Input filename. Can be 8, 16, 24 or 32 bits image
-                  Supported format: BMP, JPEG, PCX, PNG, TGA, PSD, GIF, etc.
+                   Supported format: BMP, JPEG, PCX, PNG, TGA, PSD, GIF, etc.
  -out outFile     Output filename
  -format ?        Output file format
-    auto          Auto-detected from output file extension (default)
-    c             C header file output (auto selected for .H or .INC file)
-    asm           Assembler header file output (auto selected for .ASM or .S file)
-    bas           BASIC listing file output (auto selected for .BAS or .LST file)
-    bin           Raw binary data image (auto selected for .BIN or .ROW file)
+    auto           Auto-detected from output file extension (default)
+    c              C header file output (auto selected for .H or .INC file)
+    asm            Assembler header file output (auto selected for .ASM or .S file)
+    bas            BASIC listing file output (auto selected for .BAS or .LST file)
+    bin            Raw binary data image (auto selected for .BIN or .ROW file)
  -name name       Name of the table to generate
  -mode ?          Exporter mode
-    bmp           Export image as bitmap (default)
-    txt           Generate all tables for Text mode 1 or 2 (Screen 0)
-    gm1           Generate all tables for Graphic mode 1 (Screen 1)
-    gm2           Generate all tables for Graphic mode 2 or 3 (Screen 2 or 4)
-    sprt          Export 16x16 sprites with specific block ordering
-    mglv          MGLV video format from multiple image
+    bmp            Export image as bitmap (default)
+    txt            Generate all tables for Text mode 1 or 2 (Screen 0)
+    gm1            Generate all tables for Graphic mode 1 (Screen 1)
+    gm2            Generate all tables for Graphic mode 2 or 3 (Screen 2 or 4)
+    sprt           Export 16x16 sprites with specific block ordering
+    mglv           MGLV video format from multiple image
+                  Can also be any of those presets:
+    sc0|t1         Screen mode 0 (text, 40x24)
+    sc1|gm1        Screen mode 1 (tile, 32x24)
+    sc2|gm2        Screen mode 2 (tile, 32x24)
+    sc3|mc         Screen mode 3 (muticolor)
+    sc0_w80|t2     Screen mode 0 (text, 80x24)
+    sc4|gm3        Screen mode 4 (tile, 32x24)
+    sc5|gm4        Screen mode 5 (bmp, 256x212, 16 colors)
+    sc6|gm5        Screen mode 6 (bmp, 512x212, 4 colors)
+    sc7|gm6        Screen mode 7 (bmp, 512x212, 16 colors)
+    sc8|gm7        Screen mode 8 (bmp, 256x212, 256 colors)
+    sc10|sc11|yae  Screen mode 10 (bmp, 256x212, 12499 colors)
+    sc12|yjk       Screen mode 12 (bmp, 256x212, 19268 colors)
+    p1|p2          V9990's pattern screen mode
+    b0~b7          V9990's bitmap screen mode
  -pos x y         Start position in the input image
  -size x y        Width/height of a block to export (if 0, use image size)
  -num x y         Number of block to export (columns/rows number)
  -gap x y         Gap between blocks in pixels
  -l ? sx sy nx ny col1 [col2 col3 ...]
-                  Layer including the given color(s) (coordinate are relative to each expoted block)
-    i8            Include 8x8 sprites layer with only provided colors
-    i16           Include 16x16 sprites layer with only provided colors
-    e8            Exclude 8x8 sprites layer with all colors but the provided ones
-    e16           Exclude 16x16 sprites layer with all colors but the provided ones
-                  sx/sy is layer start position in pixel in a block
-                  nx/ny is layer size in sprite count (1 equal 8 or 16 according to sprite size)
-                  Colors are in RGB 24 bits format (0xFFFFFF)
+                   Layer including the given color(s) (coordinate are relative to each expoted block)
+    i8             Include 8x8 sprites layer with only provided colors
+    i16            Include 16x16 sprites layer with only provided colors
+    e8             Exclude 8x8 sprites layer with all colors but the provided ones
+    e16            Exclude 16x16 sprites layer with all colors but the provided ones
+                   sx/sy is layer start position in pixel in a block
+                   nx/ny is layer size in sprite count (1 equal 8 or 16 according to sprite size)
+                   Colors are in RGB 24 bits format (0xFFFFFF)
  -help            Display this help
 
 Color options:
@@ -43,9 +58,19 @@ Color options:
     4	           4-bits index in 16 colors palette
     8	           8 bits RGB 256 colors (format: [G:3|R:3|B2]; default)
     16	           16-bits RGB colors  (format: [G:5|R:5|B5])
+ -color ?         Palette to use for 16 colors mode
+    p2             2-bit palette (4 colors)
+    p4             4-bit palette (16 colors)
+    p6             6-bit palette (64 colors)
+    rgb8           8-bit RGB (256 colors)
+    rgb16          16-bit RGB (32768 colors)
+    yjk            8-bit YJK decoder (19268 colors)
+    yjk_yae        8-bit YJK Decoder + palette (12615 colors)
+    yuv            8-bit YUV decoder (19268 colors)
+    yuv_yae        8-bit YUV Decoder + palette (12615 colors)
  -pal ?           Palette to use for 16 colors mode
-    msx1          Use default MSX1 palette
-    custom        Generate a custom palette and add it to the output file
+    msx1           Use default MSX1 palette
+    custom         Generate a custom palette and add it to the output file
     input n [c1 c2 ...] Use the following colors for conversion
     partial n [c1 c2 ...] Use the following colors as base for custom palette
  --palcount n     Number of color in the custom palette to create (default: 15)
@@ -53,14 +78,14 @@ Color options:
  --pal24          Use 24-bits palette (for v9990; default: false)
  --palmod s c     Create a modified version of the palette (percentage of scale and contrast)
  -dither ?        Dithering method (for 1-bit color only)
-    none          No dithering (default)
-    floyd         Floyd & Steinberg error diffusion algorithm
-    bayer4        Bayer ordered dispersed dot dithering (order 2 – 4x4 - dithering matrix)
-    bayer8        Bayer ordered dispersed dot dithering (order 3 – 8x8 - dithering matrix)
-    bayer16       Bayer ordered dispersed dot dithering (order 4 – 16x16 dithering matrix)
-    cluster6      Ordered clustered dot dithering (order 3 - 6x6 matrix)
-    cluster8      Ordered clustered dot dithering (order 4 - 8x8 matrix)
-    cluster16     Ordered clustered dot dithering (order 8 - 16x16 matrix)
+    none           No dithering (default)
+    floyd          Floyd & Steinberg error diffusion algorithm
+    bayer4         Bayer ordered dispersed dot dithering (order 2 – 4x4 - dithering matrix)
+    bayer8         Bayer ordered dispersed dot dithering (order 3 – 8x8 - dithering matrix)
+    bayer16        Bayer ordered dispersed dot dithering (order 4 – 16x16 dithering matrix)
+    cluster6       Ordered clustered dot dithering (order 3 - 6x6 matrix)
+    cluster8       Ordered clustered dot dithering (order 4 - 8x8 matrix)
+    cluster16      Ordered clustered dot dithering (order 8 - 16x16 matrix)
 
 Transformations
  -vflip           Vertical flip

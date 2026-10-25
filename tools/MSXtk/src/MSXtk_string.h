@@ -95,6 +95,27 @@ inline bool StrEqual(const c8* str1, const c8* str2, bool bCaseInsensitive = tru
 		return (strcmp(str1, str2) == 0);
 }
 
+/// Check if a string is included in a string list
+inline bool StrInList(const c8* str1, std::vector<const c8*> strList, bool bCaseInsensitive = true)
+{
+	std::string out1 = str1;
+	for (const c8* str2 : strList)
+	{
+		std::string out2 = str2;
+		if (bCaseInsensitive)
+		{
+			if (strcmp(ToLower(out1).c_str(), ToLower(out2).c_str()) == 0)
+				return true;
+		}
+		else
+		{
+			if (strcmp(out1.c_str(), out2.c_str()) == 0)
+				return true;
+		}
+	}
+	return false;
+}
+
 /// Check if 2 strings are equal
 inline bool StdStrEqual(std::string str1, std::string str2, bool bCaseInsensitive = true)
 {

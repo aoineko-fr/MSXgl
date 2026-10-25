@@ -19,6 +19,21 @@
 extern u32 PaletteMSX1[16];
 extern u32 PaletteMSX2[16];
 
+// Color mode
+enum ColorMode
+{
+	COLORMODE_P1,       // 1-bit palette (2 colors)
+	COLORMODE_P2,       // 2-bit palette (4 colors)
+	COLORMODE_P4,       // 4-bit palette (16 colors)
+	COLORMODE_P6,       // 6-bit palette (64 colors)
+	COLORMODE_RGB8,     // 8-bit RGB (256 colors)
+	COLORMODE_RGB16,    // 16-bit RGB (32768 colors)
+	COLORMODE_YJK,      // 8-bit YJK decoder (19268 colors)
+	COLORMODE_YJK_YAE,  // 8-bit YJK Decoder + palette (12615 colors)
+	COLORMODE_YUV,      // 8-bit YUV decoder (19268 colors)
+	COLORMODE_YUV_YAE,  // 8-bit YUV Decoder + palette (12615 colors)
+};
+
 // Palette type
 enum PaletteType
 {
@@ -122,9 +137,9 @@ struct RGB24
 	static RGB24 Blend(RGB24 c1, RGB24 c2)
 	{
 		RGB24 ret;
-		ret.R = (c1.R + c2.R);
-		ret.R = (c1.R + c2.R);
-		ret.R = (c1.R + c2.R);
+		ret.R = (u8)(((u16)c1.R + c2.R) / 2);
+		ret.G = (u8)(((u16)c1.G + c2.G) / 2);
+		ret.B = (u8)(((u16)c1.B + c2.B) / 2);
 		return ret;
 	}
 };
