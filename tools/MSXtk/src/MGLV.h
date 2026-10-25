@@ -6,7 +6,7 @@
 //─────────────────────────────────────────────────────────────────────────────
 // by Guillaume 'Aoineko' Blanchard (aoineko@free.fr)
 // available on GitHub (https://github.com/aoineko-fr/MSXgl/tree/main/tools/MSXtk)
-// under CC-BY-AS free license (https://creativecommons.org/licenses/by-sa/4.0/)
+// under CC BY-SA free license (https://creativecommons.org/licenses/by-sa/4.0/)
 //_____________________________________________________________________________
 #pragma once
 

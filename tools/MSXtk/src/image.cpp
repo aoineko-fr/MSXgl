@@ -1,12 +1,12 @@
 ﻿//_____________________________________________________________________________
-//   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄                                                      
-//  ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▄  ▄█▄█ ▄▀██                                           
-//  ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██ ██ █  ▀██                                           
-//_______________________________▀▀____________________________________________
+//   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄                                                      
+//  ██▀█ ▀█▄  ▀█▄▀ ▄  ▄█▄█ ▄▀██                                           
+//  ██ █ ▄▄█▀ ██ █ ██ ██ █  ▀██                                           
+//__________________________▀▀_________________________________________________
 //
 // by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
 // available on GitHub (https://github.com/aoineko-fr/MSXimg)
-// under CC-BY-AS license (https://creativecommons.org/licenses/by-sa/2.0/)
+// under CC BY-SA license (https://creativecommons.org/licenses/by-sa/2.0/)
 
 // FreeImage
 #include "FreeImage.h"

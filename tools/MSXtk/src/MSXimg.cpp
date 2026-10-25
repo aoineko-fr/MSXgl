@@ -1,15 +1,12 @@
-﻿// ____________________________
-// ██▀▀█▀▀██▀▀▀▀▀▀▀█▀▀█        │  ▄              
-// ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▄  ▄█▄█ ▄▀██   
-// █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ██ ██ █  ▀██   
-// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘           ▀▀
-//  by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
-//  available on GitHub (https://github.com/aoineko-fr/MSXgl/tree/main/tools/MSXtk)
-//  under CC-BY-SA free license (https://creativecommons.org/licenses/by-sa/2.0/)
-//─────────────────────────────────────────────────────────────────────────────
+﻿//_____________________________________________________________________________
+//   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄                                                      
+//  ██▀█ ▀█▄  ▀█▄▀ ▄  ▄█▄█ ▄▀██                                           
+//  ██ █ ▄▄█▀ ██ █ ██ ██ █  ▀██                                           
+//__________________________▀▀_________________________________________________
+//
 // by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
 // available on GitHub (https://github.com/aoineko-fr/MSXimg)
-// under CC-BY-AS license (https://creativecommons.org/licenses/by-sa/2.0/)
+// under CC BY-SA license (https://creativecommons.org/licenses/by-sa/2.0/)
 
 // std
 #include <stdlib.h>
@@ -80,6 +77,7 @@ const std::map<std::string, i32> g_OptionArgumentCount =
 	{ "--tilesComp", 0 }, { "--gm2compnames", 0 },
 	{ "--tilesUnique", 0 }, { "--gm2unique", 0 },
 	{ "--noTilesName", 0 }, { "--noTilesPattern", 0 }, { "--noTilesColor", 0 },
+	{ "-flickerPenalty", 1 },
 	{ "-vflip", 0 }, { "-hflip", 0 }, { "-rot", 1 }, { "-resize", 2 },
 	{ "-filter", 1 }, { "-mglvHead", 1 }, { "-mglvSeg", 1 },
 	{ "-mglvFreq", 1 }, { "-mglvTime", 1 }, { "-mglvLoop", 0 },
@@ -248,54 +246,54 @@ void PrintHelp()
 	printf(" -rot x           Rotate image by X° (positive integer value)\n");
 	printf(" -resize x y      Resize the image to the given width & height (before starting export)\n");
 	printf(" -filter ?        Resize image filter\n");
-	printf("    box           Box, pulse, Fourier window, 1st order (constant) B-Spline\n");
-	printf("    bilinear      Bilinear filter\n");
-	printf("    bspline       4th order(cubic) B - Spline\n");
-	printf("    bicubic       Mitchell and Netravali's two-param cubic filter\n");
-	printf("    catmull       Catmull - Rom spline, Overhauser spline (default)\n");
-	printf("    lanczos       Lanczos - windowed sinc filter\n");
-	printf(" -compress ?\n");
-	printf("    none          No compression (default)\n");
-	printf("    crop16        Crop image to non transparent area (4-bits, max size 16x16)\n");
-	printf("    cropline16    Crop image to non transparent area (4-bits per line, max size 16x16)\n");
-	printf("    crop32        Crop image to non transparent area (5-bits, max size 32x32)\n");
-	printf("    cropline32    Crop image to non transparent area (5-bits per line, max size 32x32)\n");
-	printf("    crop256       Crop image to non transparent area (8-bits, max size 256x256)\n");
-	printf("    cropline256   Crop image to non transparent area (8-bits per line, max size 256x256)\n");
-	printf("    rle0          Run-length encoding of transparent blocs (7-bits for block length)\n");
-	printf("    rle4          Run-length encoding for all colors (4-bits for block length)\n");
-	printf("    rle8          Run-length encoding for all colors (8-bits for block length)\n");
-	printf("    rlep          Pattern based run-length encoding (6-bits for block length)\n");
-	printf("    auto          Determine a good compression method according to parameters\n");
-	printf("    best          Search for best compressor according to input parameters (smallest data)\n");
-	printf("    pletter       Pletter v0.5c1 by XL2S Entertainment\n");
+	printf("    box            Box, pulse, Fourier window, 1st order (constant) B-Spline\n");
+	printf("    bilinear       Bilinear filter\n");
+	printf("    bspline        4th order(cubic) B - Spline\n");
+	printf("    bicubic        Mitchell and Netravali's two-param cubic filter\n");
+	printf("    catmull        Catmull - Rom spline, Overhauser spline (default)\n");
+	printf("    lanczos        Lanczos - windowed sinc filter\n");
+	printf(" -compress ?      Compress mode\n");
+	printf("    none           No compression (default)\n");
+	printf("    crop16         Crop image to non transparent area (4-bits, max size 16x16)\n");
+	printf("    cropline16     Crop image to non transparent area (4-bits per line, max size 16x16)\n");
+	printf("    crop32         Crop image to non transparent area (5-bits, max size 32x32)\n");
+	printf("    cropline32     Crop image to non transparent area (5-bits per line, max size 32x32)\n");
+	printf("    crop256        Crop image to non transparent area (8-bits, max size 256x256)\n");
+	printf("    cropline256    Crop image to non transparent area (8-bits per line, max size 256x256)\n");
+	printf("    rle0           Run-length encoding of transparent blocs (7-bits for block length)\n");
+	printf("    rle4           Run-length encoding for all colors (4-bits for block length)\n");
+	printf("    rle8           Run-length encoding for all colors (8-bits for block length)\n");
+	printf("    rlep           Pattern based run-length encoding (6-bits for block length)\n");
+	printf("    auto           Determine a good compression method according to parameters\n");
+	printf("    best           Search for best compressor according to input parameters (smallest data)\n");
+	printf("    pletter        Pletter v0.5c1 by XL2S Entertainment\n");
 	printf(" -skip            Skip empty sprites (default: false)\n");
 	printf("\n");
 	printf("Exporter options:\n");
 	printf(" -data ?          Text format for numbers\n");
-	printf("    dec           Decimal data (c & asm)\n");
-	printf("    hexa          Default hexadecimal data (depend on langage; default)\n");
-	printf("    hexa0x        Hexadecimal data (0xFF; c & asm)\n");
-	printf("    hexaH         Hexadecimal data (0FFh; asm only)\n");
-	printf("    hexa$         Hexadecimal data ($FF; asm only)\n");
-	printf("    hexa#         Hexadecimal data (#FF; asm only)\n");
-	printf("    bin           Binary data (11001100b; asm only)\n");
+	printf("    dec            Decimal data (c & asm)\n");
+	printf("    hexa           Default hexadecimal data (depend on langage; default)\n");
+	printf("    hexa0x         Hexadecimal data (0xFF; c & asm)\n");
+	printf("    hexaH          Hexadecimal data (0FFh; asm only)\n");
+	printf("    hexa$          Hexadecimal data ($FF; asm only)\n");
+	printf("    hexa#          Hexadecimal data (#FF; asm only)\n");
+	printf("    bin            Binary data (11001100b; asm only)\n");
 	printf(" -asm ?           Assembler number format\n");
-	printf("    sdasz80       SDCC format (default)\n");
-	printf("    tniasm        tniASM format\n");
-	printf("    asmsx         asMSX format\n");
-	printf("    sjasm         Sjasm format\n");
+	printf("    sdasz80        SDCC format (default)\n");
+	printf("    tniasm         tniASM format\n");
+	printf("    asmsx          asMSX format\n");
+	printf("    sjasm          Sjasm format\n");
 	printf(" -idx             Add images index table (default: false)\n");
 	printf(" -notitle         Don't print the ASCII-art title in top of exported text file\n");
 	printf(" -nodate          Don't print the generation date\n");
 	printf(" -copy (file)     Add copyright information from text file\n");
-	printf("                  If file name is empty, search for <inputFile>.txt\n");
+	printf("                   If file name is empty, search for <inputFile>.txt\n");
 	printf(" -head            Add a header table contening input parameters (default: false)\n");
 	printf(" -bload           Add header for BLOAD image (default: false)\n");
 	printf(" -font x y f l    Add font header (default: false)\n");
-	printf("                  x/y: Font width/heigt in pixels\n");
-	printf("                  f/l: ASCII code of the first/last character to export\n");
-	printf("                  Can be character (like: &) or hexadecimal value (0xFF format)\n");
+	printf("                   x/y: Font width/heigt in pixels\n");
+	printf("                   f/l: ASCII code of the first/last character to export\n");
+	printf("                   Can be character (like: &) or hexadecimal value (0xFF format)\n");
 	printf(" -at x            Data starting address (can be decimal or hexadecimal starting with '0x')\n");
 	printf(" -def             Add defines for each table\n");
 	printf(" -ret0            Program return 0 for success instead of data size (default: data size)\n");
@@ -307,6 +305,9 @@ void PrintHelp()
 	printf(" --noTilesName    Exclude name table (default: false)\n");
 	printf(" --noTilesPattern Exclude pattern table (default: false)\n");
 	printf(" --noTilesColor   Exclude color table (default: false)\n");
+	printf("\n");
+	printf("GM2i specific options:\n");
+	printf(" -flickerPenalty n Luminance flicker penalty (0-100; 0=off, 100=identical colors)\n");
 	printf("\n");
 	printf("MGLV options:\n");
 	printf(" -mglvHead x      File header\n");
@@ -883,6 +884,16 @@ int main(int argc, const char* argv[])
 			else if (MSX::StrEqual(argv[i], "lanczos"))
 				param.scaleFilter = FILTER_Lanczos;
 		}
+		else if (MSX::StrEqual(argv[i], "-flickerPenalty"))
+		{
+			i32 penalty = GetValue(argv[++i]);
+			if ((penalty < 0) || (penalty > 100))
+			{
+				printf("Error: Invalid GM2i flicker penalty (%i)! Must be between 0 and 100.\n", penalty);
+				return 1;
+			}
+			param.gm2iFlickerPenalty = (u8)penalty;
+		}
 		else if (MSX::StrEqual(argv[i], "-mglvHead")) // File header
 		{
 			i++;
@@ -919,7 +930,7 @@ int main(int argc, const char* argv[])
 		}
 		else
 		{
-			printf("Error: Unknown option %s.\n", argv[i]);
+			printf("Error: Unknown option %s!\n", argv[i]);
 			return 1;
 		}
 	}

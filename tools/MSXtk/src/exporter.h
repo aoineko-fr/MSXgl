@@ -1,13 +1,12 @@
 ﻿//_____________________________________________________________________________
-//   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄                                                      
-//  ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▄  ▄█▄█ ▄▀██                                           
-//  ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██ ██ █  ▀██                                           
-//_______________________________▀▀____________________________________________
+//   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄                                                      
+//  ██▀█ ▀█▄  ▀█▄▀ ▄  ▄█▄█ ▄▀██                                           
+//  ██ █ ▄▄█▀ ██ █ ██ ██ █  ▀██                                           
+//__________________________▀▀_________________________________________________
 //
 // by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
 // available on GitHub (https://github.com/aoineko-fr/MSXimg)
 // under CC BY-SA license (https://creativecommons.org/licenses/by-sa/2.0/)
-
 #pragma once
 
 // std
@@ -153,6 +152,7 @@ struct ExportParameters
 	u8 fontX;					///< Font width (can be equal or greater than sizeX)
 	u8 fontY;					///< Font height (can be equal or greater than sizeY)
 	u8 offset;					///< Offset of layout index for GM1 et GM2 mode
+	u8 gm2iFlickerPenalty;		///< GM2i luminance flicker penalty (0-100)
 	bool bStartAddr;			///< Add starting address in the data definition
 	u32 startAddr;				///< Data starting adress
 	bool bDefine;				///< Add define block for C file that allow to add directive to table definition (to place data at a given address for e.g.)
@@ -215,6 +215,7 @@ struct ExportParameters
 		fontX = 0;
 		fontY = 0;
 		offset = 0;
+		gm2iFlickerPenalty = 0;
 		bDefine = FALSE;
 		bStartAddr = FALSE;
 		startAddr = 0;

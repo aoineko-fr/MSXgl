@@ -1,12 +1,12 @@
 ﻿//_____________________________________________________________________________
-//   ▄▄   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄                                                      
-//  ██ ▀ ██▀█ ▀█▄  ▀█▄▀ ▄  ▄█▄█ ▄▀██                                           
-//  ▀█▄▀ ██ █ ▄▄█▀ ██ █ ██ ██ █  ▀██                                           
-//_______________________________▀▀____________________________________________
+//   ▄ ▄  ▄▄▄ ▄▄ ▄ ▄                                                      
+//  ██▀█ ▀█▄  ▀█▄▀ ▄  ▄█▄█ ▄▀██                                           
+//  ██ █ ▄▄█▀ ██ █ ██ ██ █  ▀██                                           
+//__________________________▀▀_________________________________________________
 //
 // by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
 // available on GitHub (https://github.com/aoineko-fr/MSXimg)
-// under CC-BY-AS license (https://creativecommons.org/licenses/by-sa/2.0/)
+// under CC BY-SA license (https://creativecommons.org/licenses/by-sa/2.0/)
 
 // std
 #include <algorithm>
@@ -2619,6 +2619,13 @@ inline i32 ColorDistance(const RGB24& c1, const RGB24& c2)
 }
 
 //-----------------------------------------------------------------------------
+// Perceived luminance of an RGB color in the 0-255 range.
+inline i32 ColorLuminance(const RGB24& color)
+{
+	return (77 * color.R + 150 * color.G + 29 * color.B + 128) >> 8;
+}
+
+//-----------------------------------------------------------------------------
 // A 50/50 blend of two colors
 inline RGB24 ColorBlend(const RGB24& c1, const RGB24& c2)
 {
@@ -2632,10 +2639,18 @@ inline RGB24 ColorBlend(const RGB24& c1, const RGB24& c2)
 
 //-----------------------------------------------------------------------------
 // Chunk optimization algorithm
-GM2i_Chunk ConvertChunk(const std::array<RGB24, 8>& src, u32* pal, u8 first, u8 last)
+GM2i_Chunk ConvertChunk(const std::array<RGB24, 8>& src, u32* pal, u8 first, u8 last, u8 flickerPenalty)
 {
 	GM2i_Chunk bestChunk;
 	bestChunk.SourcePixels = src;
+
+	std::array<RGB24, 16> colors;
+	std::array<i32, 16> luminance;
+	for (u8 i = first; i <= last; ++i)
+	{
+		colors[i] = RGB24(pal[i]);
+		luminance[i] = ColorLuminance(colors[i]);
+	}
 
 	u64 minTotalError = std::numeric_limits<u64>::max();
 
@@ -2649,15 +2664,18 @@ GM2i_Chunk ConvertChunk(const std::array<RGB24, 8>& src, u32* pal, u8 first, u8 
 			{
 				for (u8 f2_c0 = f2_c1; f2_c0 <= last; f2_c0++)
 				{
+					if ((flickerPenalty == 100) && ((f1_c0 != f2_c0) || (f1_c1 != f2_c1)))
+						continue;
+
 					// The 4 possible color choices for a pixel based on bits F1 and F2:
 					// Bit F1=1, Bit F2=1 -> f1_c1 + f2_c1
 					// Bit F1=1, Bit F2=0 -> f1_c1 + f2_c0
 					// Bit F1=0, Bit F2=1 -> f1_c0 + f2_c1
 					// Bit F1=0, Bit F2=0 -> f1_c0 + f2_c0
-					RGB24 option11 = ColorBlend(pal[f1_c1], pal[f2_c1]);
-					RGB24 option10 = ColorBlend(pal[f1_c1], pal[f2_c0]);
-					RGB24 option01 = ColorBlend(pal[f1_c0], pal[f2_c1]);
-					RGB24 option00 = ColorBlend(pal[f1_c0], pal[f2_c0]);
+					RGB24 option11 = ColorBlend(colors[f1_c1], colors[f2_c1]);
+					RGB24 option10 = ColorBlend(colors[f1_c1], colors[f2_c0]);
+					RGB24 option01 = ColorBlend(colors[f1_c0], colors[f2_c1]);
+					RGB24 option00 = ColorBlend(colors[f1_c0], colors[f2_c0]);
 
 					u64 currentError = 0;
 					u8 f1_pat = 0;
@@ -2673,12 +2691,38 @@ GM2i_Chunk ConvertChunk(const std::array<RGB24, 8>& src, u32* pal, u8 first, u8 
 						i32 d01 = ColorDistance(target, option01);
 						i32 d00 = ColorDistance(target, option00);
 
-						i32 bestPixelError = d11;
+						i32 flicker11 = luminance[f1_c1] - luminance[f2_c1];
+						i32 flicker10 = luminance[f1_c1] - luminance[f2_c0];
+						i32 flicker01 = luminance[f1_c0] - luminance[f2_c1];
+						i32 flicker00 = luminance[f1_c0] - luminance[f2_c0];
+						u64 bestPixelError = (flickerPenalty == 100) ? (u64)d11 : (u64)d11 * (100 - flickerPenalty) + (u64)(flicker11 * flicker11) * flickerPenalty * 3;
 						bool bestBit1 = true, bestBit2 = true;
 
-						if (d10 < bestPixelError) { bestPixelError = d10; bestBit1 = true;  bestBit2 = false; }
-						if (d01 < bestPixelError) { bestPixelError = d01; bestBit1 = false; bestBit2 = true; }
-						if (d00 < bestPixelError) { bestPixelError = d00; bestBit1 = false; bestBit2 = false; }
+						if (flickerPenalty < 100)
+						{
+							u64 error10 = (u64)d10 * (100 - flickerPenalty) + (u64)(flicker10 * flicker10) * flickerPenalty * 3;
+							u64 error01 = (u64)d01 * (100 - flickerPenalty) + (u64)(flicker01 * flicker01) * flickerPenalty * 3;
+							if (error10 < bestPixelError)
+							{
+								bestPixelError = error10;
+								bestBit1 = true;
+								bestBit2 = false;
+							}
+							if (error01 < bestPixelError)
+							{
+								bestPixelError = error01;
+								bestBit1 = false;
+								bestBit2 = true;
+							}
+						}
+
+						u64 error00 = (flickerPenalty == 100) ? (u64)d00 : (u64)d00 * (100 - flickerPenalty) + (u64)(flicker00 * flicker00) * flickerPenalty * 3;
+						if (error00 < bestPixelError)
+						{
+							bestPixelError = error00;
+							bestBit1 = false;
+							bestBit2 = false;
+						}
 
 						currentError += bestPixelError;
 
@@ -2749,7 +2793,7 @@ bool ExportGM2i(ExportParameters* param, ExporterInterface* exp)
 			std::array<RGB24, 8> pixels;
 			loop(i, 8)
 				pixels[i] = RGB24(rgb[y * imageX + x + i]);
-			GM2i_Chunk chunk = ConvertChunk(pixels, PaletteMSX1, 1, 15);
+			GM2i_Chunk chunk = ConvertChunk(pixels, PaletteMSX1, 1, 15, param->gm2iFlickerPenalty);
 			
 			i32 idx = x + y % 8 + ((y / 8) * imageX);
 

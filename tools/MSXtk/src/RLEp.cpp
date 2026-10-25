@@ -6,7 +6,7 @@
 //
 // by Guillaume "Aoineko" Blanchard (aoineko@free.fr)
 // available on GitHub (https://github.com/aoineko-fr/MSXbin)
-// under CC-BY-AS free license (https://creativecommons.org/licenses/by-sa/2.0/)
+// under CC BY-SA free license (https://creativecommons.org/licenses/by-sa/2.0/)
 
 #include <stdlib.h>
 #include <stdio.h>
