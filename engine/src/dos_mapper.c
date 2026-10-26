@@ -98,8 +98,10 @@ __asm
 	jp		(iy)
 
 alloc_error:
+	pop		iy						// Return address
+	pop		hl						// Remove segment sctruct address from stack
 	xor		a						// Return FALSE
-	ret								// Return value in A
+	jp		(iy)
 __endasm;
 }
 
@@ -158,9 +160,11 @@ __asm
 	ld		iy, (_g_DOS_JumpTable)
 	ld		bc, #DOS_WR_SEG
 	add		iy, bc
-	call	___sdcc_call_iy			// Call ALL_SEG
+	call	___sdcc_call_iy			// Call WR_SEG
 	ei
-	ret
+	pop		hl						// Return address
+	inc		sp						// Remove val from stack
+	jp		(hl)
 __endasm;
 }
 

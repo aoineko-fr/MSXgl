@@ -6,10 +6,13 @@
 bool File_Copy(const c8* src, const c8* dst)
 {
 	u8 sFD, dFD;
-	if ((sFD = DOS_OpenHandle(src, O_RDONLY)) == 0)
+	if ((sFD = DOS_OpenHandle(src, O_RDONLY)) == HANDLE_INVALID)
 		return FALSE;
-	if ((dFD = DOS_CreateHandle(dst, O_WRONLY, 0)) == 0)
+	if ((dFD = DOS_CreateHandle(dst, O_WRONLY, 0)) == HANDLE_INVALID)
+	{
+		DOS_CloseHandle(sFD);
 		return FALSE;
+	}
 
 	u8 err = DOS_ERR_NONE;
 	u16 wrc = 0;
@@ -22,6 +25,11 @@ bool File_Copy(const c8* src, const c8* dst)
 			break;
 		}
 		u16 wr = DOS_WriteHandle(dFD, Mem_GetHeapAddress(), rd);
+		if (wr != rd)
+		{
+			err = DOS_GetLastError();
+			break;
+		}
 
 		// Print_DrawFormat("session:%d Bytes read:%d, wrote:%d\n", wrc++, rd, wr);
 	}

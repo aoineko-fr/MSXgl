@@ -134,7 +134,7 @@ u8 Print_MergeColor(u8 color)
 		case VDP_MODE_GRAPHIC4: return (color & 0x0F) << 4 | (color & 0x0F);
 	#endif
 	#if (VDP_USE_MODE_G5)
-		case VDP_MODE_GRAPHIC5: return (color & 0x03) << 6 + (color & 0x03) << 4 + (color & 0x03) << 2 + (color & 0x03);
+		case VDP_MODE_GRAPHIC5: return (color & 0x03) << 6 | (color & 0x03) << 4 | (color & 0x03) << 2 | (color & 0x03);
 	#endif
 	#if (VDP_USE_MODE_G6)
 		case VDP_MODE_GRAPHIC6: return (color & 0x0F) << 4 | (color & 0x0F);
@@ -1127,7 +1127,7 @@ void Print_Backspace(u8 num)
 				x = PRINT_DATA.CursorX - x;
 
 			u8 color = Print_MergeColor(PRINT_DATA.BGColor);
-			VDP_CommandHMMV(x, PRINT_DATA.CursorY, x - PRINT_DATA.CursorX, PRINT_H(PRINT_DATA.UnitY), color); // @todo Check the 192/212 lines parameter
+			VDP_CommandHMMV(x, PRINT_DATA.CursorY, PRINT_DATA.CursorX - x, PRINT_H(PRINT_DATA.UnitY), color); // @todo Check the 192/212 lines parameter
 			PRINT_DATA.CursorX = x;
 			VDP_CommandWait();	
 		#endif
@@ -1250,21 +1250,31 @@ void Print_DrawInt(i32 value)
 void Print_DrawInt(i16 value)
 #endif
 {
+	#if (PRINT_USE_32B)
+	u32 val;
+	c8 str[11]; // Terminator + up to 10 digits
+	#else
+	u16 val;
+	c8 str[6]; // Terminator + up to 5 digits
+	#endif
+
+	// Use unsigned value to handle the minimal signed value (-2^15 or -2^31)
 	if (value < 0)
-	{	
+	{
 		Print_DrawChar('-');
-		value = -value;
+		val = -value;
 	}
-	
-	c8 str[8];
+	else
+		val = value;
+
 	c8* ptr = str;
 	*ptr = 0;
-	while (value >= 10)
+	while (val >= 10)
 	{
-		*++ptr = '0' + (value % 10);
-		value /= 10;
+		*++ptr = '0' + (val % 10);
+		val /= 10;
 	}
-	*++ptr = '0' + value;
+	*++ptr = '0' + val;
 	while (*ptr != 0)
 		Print_DrawChar(*ptr--);	
 }

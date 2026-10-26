@@ -251,13 +251,12 @@ void BIOS_InterSlotCall(u8 slot, u16 addr)
 void BIOS_SwitchSlot(u8 page, u8 slot)
 {
 	page; // A
-	slot; // H
+	slot; // L
 
 	__asm
 		LShift(6)					// A << 6
-		ld		b, h				// 
 		ld		h, a
-		ld		a, b
+		ld		a, l
 		call	R_ENASLT
 		ei							// because ENASLT do DI
 	__endasm;

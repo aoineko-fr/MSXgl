@@ -71,18 +71,18 @@ u8 Scroll_Initialize(u16 map)
 	// Initialize mask sprites
 	VDP_EnableSprite(TRUE);
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_16 | VDP_SPRITE_SCALE_2);
-	VDP_FillVRAM(0xFF, g_SpritePatternLow + (SCROLL_MASK_PATTERN * 4), g_SpritePatternHigh, 8 * 4);
+	VDP_FillVRAM(0xFF, g_SpritePatternLow + (SCROLL_MASK_PATTERN * 8), g_SpritePatternHigh, 8 * 4);
 	sprtId = SCROLL_MASK_ID;
 	u8 y = (SCROLL_DST_Y) * 8 - 1;
 	for (u8 i = 0; i < (SCROLL_DST_H + 3) / 4; ++i)
 	{
-		VDP_SetSpriteExUniColor(sprtId++, 0, y, 0, (u8)(SCROLL_MASK_COLOR + VDP_SPRITE_EC));
+		VDP_SetSpriteExUniColor(sprtId++, 0, y, SCROLL_MASK_PATTERN, (u8)(SCROLL_MASK_COLOR + VDP_SPRITE_EC));
 		y += 32;
 	}
 	y = (SCROLL_DST_Y) * 8 - 1;
 	for (u8 i = 0; i < (SCROLL_DST_H + 3) / 4; ++i)
 	{
-		VDP_SetSpriteExUniColor(sprtId++, 0, y, 0, SCROLL_MASK_COLOR);
+		VDP_SetSpriteExUniColor(sprtId++, 0, y, SCROLL_MASK_PATTERN, SCROLL_MASK_COLOR);
 		y += 32;
 	}
 	VDP_DisableSpritesFrom(sprtId);

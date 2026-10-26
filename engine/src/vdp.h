@@ -76,10 +76,10 @@
 // Structure used to store VDP module data
 typedef struct VDP_Data
 {
-	u8  Mode;		// Current screen mode (see <VDP_MODE>)
-	u8  BPC    : 4;	// Bits per color of the current mode (can be 1, 2, 4 or 8)
-	u8  Width  : 1;	// Width of the current screen (0: 256 px, 1: 512 px)
-	u8  Height : 1;	// Height of the current screen (0: 192 px, 1: 212 px)
+	u8  Mode;		/// Current screen mode (see <VDP_MODE>)
+	u8  BPC    : 4;	/// Bits per color of the current mode (can be 1, 2, 4 or 8)
+	u8  Width  : 1;	/// Width of the current screen (0: 256 px, 1: 512 px)
+	u8  Height : 1;	/// Height of the current screen (0: 192 px, 1: 212 px)
 } VDP_Data;
 
 // Structure used to store register data for VDP command
@@ -173,7 +173,7 @@ extern u8 g_SpriteColorHigh;		// Address of the Sprite Color Table
 #else // if (VDP_VRAM_ADDR == VDP_VRAM_ADDR_17)
 	#define VADDR					u32
 	#define VADDR_LO(a)				(u16)(a)
-	#define VADDR_HI(a)				(((u16)(a)) >> 16)
+	#define VADDR_HI(a)				(((u32)(a)) >> 16)
 	#define VADDR_GET(lo, hi)		(((u32)(hi)) << 16 | ((u32)(lo)))
 	#define VADDR_14_CODE(a)
 	#define VADDR_17_CODE(a)		a
@@ -320,11 +320,11 @@ enum VDP_MODE
 // VDP version enumaration
 enum VDP_VERSION
 {
-	VDP_VERSION_TMS9918A = 0,	// MSX1 VDP (no ID from hardware)
-	VDP_VERSION_V9938,			// MSX2 VDP (ID from hardware is 0)
-	VDP_VERSION_V9958,			// MSX2+ & MSX turbo R VDP
-	VDP_VERSION_V9968,			// MSX2++ VDP
-	VDP_VERSION_V9978,			// MSX2 turbo R+ VDP (V9968+V9990)
+	VDP_VERSION_TMS9918A = 0,	/// MSX1 VDP (no ID from hardware)
+	VDP_VERSION_V9938,			/// MSX2 VDP (ID from hardware is 0)
+	VDP_VERSION_V9958,			/// MSX2+ & MSX turbo R VDP
+	VDP_VERSION_V9968,			/// MSX2++ VDP
+	VDP_VERSION_V9978,			/// MSX2 turbo R+ VDP (V9968+V9990)
 };
 
 // Enum: VRAM_SIZE
@@ -1425,9 +1425,9 @@ void VDP_LoadColor_GM2(const u8* src, u8 count, u8 offset);
 //
 // Parameters:
 //   src    - Address of data buffer to copy to VRAM
-//   count  - Number of pattern to copy. Note: A count of 0 mean 256
+//   count  - Number of pattern to copy [1:255]
 //   bank   - Screen section number (bank) from 0 (up) to 2 (bottom). On MSX2 or higher, a 4th bank is accessible via vertical scrolling
-//   offset - Pattern index from which to copy data 
+//   offset - Pattern index from which to copy data
 inline void VDP_LoadBankPattern_GM2(const u8* src, u8 count, u8 bank, u8 offset) { VDP_WriteVRAM(src, g_ScreenPatternLow + (bank * 0x800) + (offset * 8), g_ScreenPatternHigh, count * 8); }
 
 // Function: VDP_LoadBankColor_GM2
@@ -1435,9 +1435,9 @@ inline void VDP_LoadBankPattern_GM2(const u8* src, u8 count, u8 bank, u8 offset)
 //
 // Parameters:
 //   src    - Address of data buffer to copy to VRAM
-//   count  - Number of pattern to copy. Note: A count of 0 mean 256
+//   count  - Number of pattern to copy [1:255]
 //   bank   - Screen section number (bank) from 0 (up) to 2 (bottom). On MSX2 or higher, a 4th bank is accessible via vertical scrolling
-//   offset - Pattern index from which to copy data 
+//   offset - Pattern index from which to copy data
 inline void VDP_LoadBankColor_GM2(const u8* src, u8 count, u8 bank, u8 offset) { VDP_WriteVRAM(src, g_ScreenColorLow + (bank * 0x800) + (offset * 8), g_ScreenColorHigh, count * 8); }
 
 // Function: VDP_WriteLayout_GM2

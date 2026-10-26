@@ -144,7 +144,7 @@ void PSG_SetMixer(u8 mix)
 #else // if (PSG_ACCESS == PSG_DIRECT)
 
 	PSG_VAR_REG = PSG_REG_MIXER;
-	PSG_VAR_WRITE = ~mix;
+	PSG_VAR_WRITE = (PSG_VAR_READ & 0b11000000) | (~mix & 0b00111111); // Keep I/O port direction bits #6 & #7
 
 #endif
 }

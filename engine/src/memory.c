@@ -133,6 +133,8 @@ __asm
 	or		a, c
 	jp		z, mem_fill_end
 	dec		bc
+	ld		a, b
+	or		a, c
 	jp		z, mem_fill_end
 #else
 	dec		bc
@@ -208,6 +210,8 @@ __asm
 	or		a, c
 	jp		z, mem_fill_end
 	dec		bc
+	ld		a, b
+	or		a, c
 	jp		z, mem_fill_end
 #else
 	dec		bc
@@ -311,10 +315,11 @@ void Mem_DynamicMerge()
 		MemChunkHeader* nextChunk = chunk->Next;
 		if ((nextChunk != NULL) && (chunk->Size & MEM_CHUNK_FREE) && (nextChunk->Size & MEM_CHUNK_FREE))
 		{
-			chunk->Size += nextChunk->Size + sizeof(MemChunkHeader);
-			chunk->Next = nextChunk->Next;
+			chunk->Size += (nextChunk->Size & ~MEM_CHUNK_FREE) + sizeof(MemChunkHeader);
+			chunk->Next = nextChunk->Next; // Stay on the same chunk to merge following free chunks too
 		}
-		chunk = chunk->Next;
+		else
+			chunk = nextChunk;
 	}
 }
 

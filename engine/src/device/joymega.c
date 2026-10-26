@@ -208,6 +208,7 @@ jm6_detect_start:
 	ret								// return DE
 
 jm6_detect_failed:
+	INPUT_EI
 	ld		d, #0					// Reset D
 	ret								// Return DE (in 3-butons mode)
 

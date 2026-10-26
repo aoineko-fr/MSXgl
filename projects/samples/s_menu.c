@@ -186,13 +186,13 @@ void SetupScreen()
 // Program entry point
 void main()
 {
-	SetupScreen();
-
 	Menu_Initialize(g_Menus); // Initialize the menu
 	// Menu_SetInputCallback(Menu_HandleInput);
 	// Menu_SetDrawCallback(Menu_HandleDraw);
 	// Menu_SetEventCallback(Menu_HandleEvent);
 	Menu_DrawPage(MENU_MAIN); // Display the first page
+
+	SetupScreen();
 
 	while (!g_Exit)
 	{

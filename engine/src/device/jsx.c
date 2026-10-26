@@ -142,6 +142,7 @@ jsx_read_detect_start:
 	and		#0b00001111
 
 	add		a, b					// Total number of bytes to read
+	jr		z, jsx_read_detect_end	// Nothing to read
 
 	ld		b, a					// Setup loop counter
 
@@ -153,7 +154,7 @@ jsx_read_detect_loop:
 	ld		a, l
 	out		(P_PSG_DATA), a			// Set Pin 6 LOW and Pin 8 HIGH
 
-	ld		a, l
+	ld		a, h
 	out		(P_PSG_DATA), a			// Set Pin 6 and Pin 8 HIGH
 
 	ld		a, #14
@@ -166,6 +167,7 @@ jsx_read_detect_loop:
 
 	djnz	jsx_read_detect_loop
 
+jsx_read_detect_end:
 	ld		a, c
 	ret
 __endasm;
@@ -274,6 +276,7 @@ jsxc_read_detect_start:
 	and		#0b00001111				// Masking the lower 6 bits shouldn't be necessary
 
 	add		a, b					// Add number of axis and number of button rows to know the number of bytes to read
+	jr		z, jsxc_read_detect_end	// Nothing to read
 
 	ld		b, a					// Setup the loop counter
 

@@ -266,7 +266,7 @@ void Menu_Update()
 			const c8* str = cb(MENU_ACTION_UPDATE, g_MenuData.CurItem->Value);
 			if (str)
 			{
-				u8 y = MENU_FRAME_Y + item;
+				u8 y = MENU_ITEM_Y + item;
 				// Clear line
 				u16 dst = g_ScreenLayoutLow + MENU_FRAME_X + (y * MENU_GET_SCREEN_WIDTH());
 				VDP_FillVRAM(MENU_CHAR_CLEAR, dst, g_ScreenLayoutHigh, MENU_FRAME_WIDTH);

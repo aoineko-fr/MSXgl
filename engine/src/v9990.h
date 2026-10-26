@@ -453,7 +453,7 @@ void V9_SetColorMode(u8 mode);
 //
 // Return:
 //   Current bits per pixel. Can be: <V9_R06_BPP_2>, <V9_R06_BPP_4>, <V9_R06_BPP_8> or <V9_R06_BPP_16>.
-inline u8 V9_GetBPP() { return V9_GetRegister(6) & (~V9_R06_BPP_MASK); }
+inline u8 V9_GetBPP() { return V9_GetRegister(6) & V9_R06_BPP_MASK; }
 
 // Function: V9_SetImageSpaceWidth
 // Set number of pixels in X direction of image space.
@@ -467,7 +467,7 @@ inline void V9_SetImageSpaceWidth(u8 width) { V9_SetFlag(6, V9_R06_WIDH_MASK, wi
 //
 // Return:
 //   Current image space width. Can be: <V9_R06_WIDH_256>, <V9_R06_WIDH_512>, <V9_R06_WIDH_1024> or <V9_R06_WIDH_2048>.
-inline u8 V9_GetImageSpaceWidth() { return V9_GetRegister(6) & (~V9_R06_WIDH_MASK); }
+inline u8 V9_GetImageSpaceWidth() { return V9_GetRegister(6) & V9_R06_WIDH_MASK; }
 
 // Function: V9_SetDisplayEnable
 // Enalbe or disable the screen display.

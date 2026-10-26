@@ -56,7 +56,9 @@ MGL_CKNTAP::
 	ld		(_g_NTap_Buffer), bc
 // Restore Port (6,7,8=H)
 	ld		de, #0xFF3F
-	jp		MGL_PORSEL
+	call	MGL_PORSEL
+	ei
+	ret
 
 //======================================
 // Connection Check Sub.

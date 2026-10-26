@@ -458,13 +458,19 @@ void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count) __NAKED // Stack: 4 byt
 		rra									//  5 cc
 		ld		e, a						//  5 cc	DE >> 4
 
+		// Add the partial loop (if any) to the 16-bytes loop count
+		ld		a, h						//  5 cc	Retrieve count LSB
+		and		#0x0F						//  8 cc
+		jr		z, fastfill16_noremain		// 13/8 cc
+		inc		de							//  7 cc
+	fastfill16_noremain:
+
 		// Setup 16-bits fast loop
-		ld		b, e						//  5 cc	Calculate DB value... B is count LSB 
+		ld		b, e						//  5 cc	Calculate DB value... B is count LSB
 		dec		de							//  7 cc
 		inc		d							//  5 cc	D is count's MSB + 1 except when LSB is equal 0 (in this case D equal count's MSB)
 
-		ld		a, h						//  5 cc	Retrieve count LSB
-		and		#0x0F						//  8 cc
+		or		a							//  5 cc	A still contains count LSB & 0x0F
 		jr		z, fastfill16_jump			// 13/8 cc
 
 	fastfill16_setup:
@@ -484,9 +490,8 @@ void VDP_FastFillVRAM_16K(u8 value, u16 dest, u16 count) __NAKED // Stack: 4 byt
 		exx									//  5 cc
 
 		ld		a, l						//  5 cc	Retreive fill value
-		inc		b							//  5 cc
 
-		ret									// 11 cc	Jump to "fastfill16_loop + 15 - count:LSB"
+		ret								// 11 cc	Jump to "fastfill16_loop + 15 - count:LSB"
 
 	fastfill16_jump:
 		ld		a, l						//  5 cc	Retreive fill value
