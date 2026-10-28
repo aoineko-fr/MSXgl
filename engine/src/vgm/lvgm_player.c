@@ -35,6 +35,7 @@ const u8  g_LVGM_Ident[4] = { 'l', 'V', 'G', 'M' };
 const LVGM_Header* g_LVGM_Header;
 const u8*                 g_LVGM_Pointer;
 const u8*                 g_LVGM_LoopAddr;
+const u8*                 g_LVGM_StartAddr;
 u8                        g_LVGM_Devices;
 u8                        g_LVGM_PSG_Default;
 u8                        g_LVGM_Wait;
@@ -85,7 +86,7 @@ void LVGM_DecodePSG()
 		// case 0xC0: // R#13 = n
 		default:
 		{
-			PSG_SetRegister(g_LVGM_RegTable[*g_LVGM_Pointer >> 4], *g_LVGM_Pointer);
+			PSG_SetRegister(g_LVGM_RegTable[*g_LVGM_Pointer >> 4], *g_LVGM_Pointer & 0x1F);
 			break;
 		}
 	}
@@ -251,6 +252,19 @@ void  LVGM_DecodeOPL4()
 #endif
 
 //-----------------------------------------------------------------------------
+// Reset LVGM data
+static void LVGM_Reset()
+{
+	g_LVGM_Wait = 0;
+	g_LVGM_CurChip = LVGM_CHIP_PSG;
+	#if (LVGM_USE_PSG)
+	g_LVGM_Decode = LVGM_DecodePSG;
+	#else
+	g_LVGM_Decode = NULL;
+	#endif
+}
+
+//-----------------------------------------------------------------------------
 // Play a LVGM data
 bool LVGM_Play(const void* addr, bool loop)
 {
@@ -280,17 +294,14 @@ bool LVGM_Play(const void* addr, bool loop)
 		g_LVGM_PSG_Default = *g_LVGM_Pointer++;
 
 	// Init variables
+	g_LVGM_StartAddr = g_LVGM_Pointer;
 	g_LVGM_LoopAddr = g_LVGM_Pointer;
-	g_LVGM_Wait = 0;
-	g_LVGM_CurChip = LVGM_CHIP_PSG;
-	#if (LVGM_USE_PSG)
-	g_LVGM_Decode = LVGM_DecodePSG;
-	#else
-	g_LVGM_Decode = NULL;
-	#endif
 
+	LVGM_Reset();
 	LVGM_Pause();
-	LVGM_Resume();
+	
+	g_LVGM_State |= LVGM_STATE_PLAY; // Start playback
+	
 	return TRUE;
 }
 
@@ -300,10 +311,8 @@ void LVGM_Stop()
 {
 	LVGM_Pause();
 
-	g_LVGM_Pointer = (const u8*)(g_LVGM_Header) + 2;
-	if (g_LVGM_Header->Option & LVGM_OPTION_DEVICE)
-		g_LVGM_Pointer++;
-	g_LVGM_Wait = 0;
+	g_LVGM_Pointer = g_LVGM_StartAddr;
+	LVGM_Reset();
 }
 
 //-----------------------------------------------------------------------------
@@ -328,6 +337,30 @@ void LVGM_Pause()
 	SCC_Mute();
 	#endif
 }
+
+//-----------------------------------------------------------------------------
+// Resume music playback
+void LVGM_Resume()
+{
+	g_LVGM_State |= LVGM_STATE_PLAY;
+
+	#if (LVGM_USE_PSG && PSG_USE_RESUME)
+	PSG_Resume();
+	#endif
+
+	#if (LVGM_USE_MSXMUSIC && MSXMUSIC_USE_RESUME)
+	MSXMusic_Resume();
+	#endif
+	
+	#if (LVGM_USE_MSXAUDIO && MSXAUDIO_USE_RESUME)
+	MSXAudio_Resume();
+	#endif
+	
+	#if (LVGM_USE_SCC && SCC_USE_RESUME)
+	SCC_Resume();
+	#endif
+}
+
 
 //-----------------------------------------------------------------------------
 //
@@ -408,9 +441,14 @@ void LVGM_Decode()
 				break;
 			#endif
 
+			case LVGM_OP_WAIT: // Wait nn+1 cycles (1~256)
+				g_LVGM_Wait += *++g_LVGM_Pointer;
+				g_LVGM_Pointer++;
+				return;
+
 			case LVGM_OP_NOTIFY:
 			#if (LVGM_USE_NOTIFY)
-				if (g_LVGM_Callback(*++g_LVGM_Pointer))
+				if (!g_LVGM_Callback(*++g_LVGM_Pointer)) // If the callback returns FALSE, it means the notification has changed the playback pointer
 					continue;
 			#else
 				g_LVGM_Pointer++; // Skip notification
@@ -419,7 +457,7 @@ void LVGM_Decode()
 
 			case LVGM_OP_LOOP: // Loop position
 			#if (LVGM_USE_NOTIFY)
-				g_LVGM_Callback(0xFE);
+				g_LVGM_Callback(LVGM_NOTIFY_LOOP_MARK);
 			#endif
 				g_LVGM_LoopAddr = g_LVGM_Pointer + 1;
 				break;
@@ -428,10 +466,10 @@ void LVGM_Decode()
 				if (g_LVGM_State & LVGM_STATE_LOOP) // handle loop
 				{
 				#if (LVGM_USE_NOTIFY)
-					g_LVGM_Callback(0xFF);
+					g_LVGM_Callback(LVGM_NOTIFY_LOOP_JUMP);
 				#endif
 					g_LVGM_Pointer = g_LVGM_LoopAddr;
-					break;
+					continue;
 				}
 				LVGM_Stop();
 				return;

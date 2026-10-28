@@ -890,10 +890,18 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 				frameCount += chunk->Value;
 			}
 
-			u16 pack = frameCount / 16;
-			for (u32 i = 0; i < pack; i++)
-				AddList(exp, std::vector<u8>{ 0xEF }, "-------- Wait: Ex");
-			frameCount &= 0x0F;
+			// Long wait (FC nn: 1~256 frames)
+			while (frameCount > 256)
+			{
+				AddList(exp, std::vector<u8>{ LVGM_OP_WAIT, 255 }, "-------- Wait: FC nn");
+				frameCount -= 256;
+			}
+			if (frameCount > 16)
+			{
+				AddList(exp, std::vector<u8>{ LVGM_OP_WAIT, (u8)(frameCount - 1) }, "-------- Wait: FC nn");
+				frameCount = 0;
+			}
+			// Short wait (En: 1~16 frames)
 			if (frameCount)
 				AddList(exp, std::vector<u8>{ (u8)(0xE0 + (frameCount - 1)) }, "-------- Wait: Ex");
 			break;
@@ -901,6 +909,9 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 
 		case LVGM_CHUNK_LOOP:
 			AddByte(exp, LVGM_OP_LOOP, "Loop marker");
+			// With multiple chips, force the chip marker after the loop point (the replayer's current chip at the end of the song is unknown)
+			if (detect.Devices & (detect.Devices - 1))
+				g_lVGM_CurChip = LVGM_CHIP_NONE;
 			break;
 
 		case LVGM_CHUNK_END:

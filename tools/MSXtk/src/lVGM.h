@@ -80,7 +80,8 @@ enum LVGM_OP
 	LVGM_OP_SCCI   = 0xF4, // Start of SCC+ chunk
 	LVGM_OP_PSG2   = 0xF5, // Start of secondary PSG chunk
 	LVGM_OP_OPL4   = 0xF7, // Start of Moonsound chunk
-	LVGM_OP_WAIT   = 0xFC, // Wait counter
+	//-----------------------------------------------------
+	LVGM_OP_WAIT   = 0xFC, // 8-bit wait counter
 	LVGM_OP_NOTIFY = 0xFD, // Optional markers
 	LVGM_OP_LOOP   = 0xFE, // Loop position
 	LVGM_OP_END    = 0xFF, // End of song

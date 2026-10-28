@@ -61,6 +61,17 @@
 	#define LVGM_USE_NOTIFY			TRUE
 #endif
 
+// Not yet supported chips
+#if (LVGM_USE_SCCI)
+	#error LVGM_USE_SCCI is not yet supported!
+#endif
+#if (LVGM_USE_PSG2)
+	#error LVGM_USE_PSG2 is not yet supported!
+#endif
+#if (LVGM_USE_OPL4)
+	#error LVGM_USE_OPL4 is not yet supported!
+#endif
+
 #if (LVGM_USE_PSG)
 #include "psg.h"
 #endif
@@ -140,6 +151,7 @@ enum LVGM_OP
 	LVGM_OP_SCCI		= 0xF4, // Start of SCC+ chunk
 	LVGM_OP_PSG2		= 0xF5, // Start of secondary PSG chunk
 	LVGM_OP_OPL4		= 0xF7, // Start of Moonsound chunk
+	LVGM_OP_WAIT		= 0xFC, // Wait nn+1 cycles (1~256)
 	LVGM_OP_NOTIFY		= 0xFD, // Optional markers
 	LVGM_OP_LOOP		= 0xFE, // Loop position
 	LVGM_OP_END			= 0xFF, // End of song
@@ -162,6 +174,7 @@ typedef struct LVGM_Header
 } LVGM_Header;
 
 // Notification callback signature
+// Return TRUE to continue the playback normally, and FALSE if the notification has changed the playback pointer
 typedef bool (*LVGM_NotifyCB)(u8);
 
 //=============================================================================
@@ -230,13 +243,13 @@ inline bool LVGM_IsFrequency60Hz() { return (g_LVGM_State & LVGM_STATE_50HZ) == 
 //   FALSE if music is not playing
 inline bool LVGM_IsPlaying() { return g_LVGM_State & LVGM_STATE_PLAY; }
 
-// Function: LVGM_Resume
-// Resume music playback
-inline void LVGM_Resume() { g_LVGM_State |= LVGM_STATE_PLAY; }
-
 // Function: LVGM_Pause
 // Pause music playback
 void LVGM_Pause();
+
+// Function: LVGM_Resume
+// Resume music playback
+void LVGM_Resume();
 
 // Function: LVGM_Decode
 // Decode a frame of music

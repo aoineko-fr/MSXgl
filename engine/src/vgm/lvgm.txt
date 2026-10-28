@@ -39,7 +39,7 @@
 	F5				Start of secondary PSG chunk
 	F7				Start of Moonsound chunk
 
-	FC nn			Wait nn cycles (1~255) 										<-- TO BE IMPLEMENTED!
+	FC nn			Wait nn+1 cycles (1~256)
 
 	FD nn			Special markers (trigger notification by the replayer)
 	   00			End of data segment
