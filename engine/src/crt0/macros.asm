@@ -1065,19 +1065,19 @@
 			ld		hl, #0x0000
 			ld		(BANK2_ADDR), hl ; Segment 0 in Bank 2
 			ld		(_g_Bank2Segment), hl
-			inc		hl
+			inc		l
 			ld		(BANK3_ADDR), hl ; Segment 1 in Bank 3
 			ld		(_g_Bank3Segment), hl
-			inc		hl
+			inc		l
 			ld		(BANK4_ADDR), hl ; Segment 2 in Bank 4
 			ld		(_g_Bank4Segment), hl
-			inc		hl
+			inc		l
 			ld		(BANK5_ADDR), hl ; Segment 3 in Bank 5
 			ld		(_g_Bank5Segment), hl
-			inc		hl
+			inc		l
 			ld		(BANK0_ADDR), hl ; Segment 4 in Bank 0
 			ld		(_g_Bank0Segment), hl
-			inc		hl
+			inc		l
 			ld		(BANK1_ADDR), hl ; Segment 5 in Bank 1
 			ld		(_g_Bank1Segment), hl
 	.endm
@@ -1104,10 +1104,10 @@
 			ld		hl, #0x0000
 			ld		(BANK1_ADDR), hl ; Segment 0 in Bank 1
 			ld		(_g_Bank1Segment), hl
-			inc		hl
+			inc		l
 			ld		(BANK2_ADDR), hl ; Segment 1 in Bank 2
 			ld		(_g_Bank2Segment), hl
-			inc		hl
+			inc		l
 			ld		(BANK0_ADDR), hl ; Segment 2 in Bank 0
 			ld		(_g_Bank0Segment), hl
 	.endm
@@ -1149,11 +1149,11 @@
 
 			ld		hl, #0x0000
 			ld		(_g_Bank0Segment), hl
-			inc		hl
+			inc		l
 			ld		(_g_Bank1Segment), hl
-			inc		hl
+			inc		l
 			ld		(_g_Bank2Segment), hl
-			inc		hl
+			inc		l
 			ld		(_g_Bank3Segment), hl
 	.endm
 
