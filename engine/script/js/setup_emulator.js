@@ -110,6 +110,8 @@ if (EmulatorName === "OPENMSX") {
 	}
 	if (Ext === "rom") { 
 		EmulatorArgs += ` -cart ${ProjDir}emul/rom/${ProjName}.rom`;
+		if (Mapper == "ROM_ASCII8")
+			EmulatorArgs += " -romtype ASCII8";
 		if (Emul2ndCart !== "")
 			EmulatorArgs += ` -cartb ${Emul2ndCart}`;
 		if (ROMDelayBoot)
