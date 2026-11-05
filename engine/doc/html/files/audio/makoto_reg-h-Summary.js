@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:audio/makoto_reg.h","makoto_reg.h");NDSummary.OnSummaryLoaded("File:audio/makoto_reg.h",[["C/C++","C"]],[["Groups","Group"]],[[505,0,0,"Status","Status"],[1611,0,0,"SSG","SSG"],[1612,0,0,"Rhythm","Rhythm"],[1613,0,0,"System","System"],[1614,0,0,"FM Operator","FM_Operator"],[1615,0,0,"FM Channel","FM_Channel"],[1616,0,0,"ADPCM-B","ADPCM-B"]]);

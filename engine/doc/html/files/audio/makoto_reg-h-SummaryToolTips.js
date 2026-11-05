@@ -1,0 +1,1 @@
+﻿NDSummary.OnToolTipsLoaded("File:audio/makoto_reg.h",{});
