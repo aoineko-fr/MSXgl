@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// MSXzip 1.4.7 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_laydock2_01.vgm (92461 bytes)
 // Compressor: lVGM
 // VGM version: 1.00 (chips:OPLL)
@@ -9327,8 +9327,7 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x23, 0x07, // rr: nn
 	0x22, 0x07, // rr: nn
 	0x21, 0x05, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE4, // -------- Wait: Ex
+	0xFC, 0x14, // -------- Wait: FC nn
 	0x35, 0x7F, // rr: nn
 	0x15, 0x84, // rr: nn
 	0x25, 0x19, // rr: nn
@@ -11181,8 +11180,7 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x23, 0x09, // rr: nn
 	0x22, 0x07, // rr: nn
 	0x21, 0x07, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE4, // -------- Wait: Ex
+	0xFC, 0x14, // -------- Wait: FC nn
 	0x35, 0x7F, // rr: nn
 	0x15, 0x84, // rr: nn
 	0x25, 0x1B, // rr: nn
@@ -20741,8 +20739,7 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x23, 0x07, // rr: nn
 	0x22, 0x07, // rr: nn
 	0x21, 0x05, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE4, // -------- Wait: Ex
+	0xFC, 0x14, // -------- Wait: FC nn
 	0x35, 0x7F, // rr: nn
 	0x15, 0x84, // rr: nn
 	0x25, 0x19, // rr: nn
@@ -22048,8 +22045,7 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x23, 0x09, // rr: nn
 	0x22, 0x07, // rr: nn
 	0x21, 0x07, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE4, // -------- Wait: Ex
+	0xFC, 0x14, // -------- Wait: FC nn
 	0x35, 0x7F, // rr: nn
 	0x15, 0x84, // rr: nn
 	0x25, 0x1B, // rr: nn

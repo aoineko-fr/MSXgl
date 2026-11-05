@@ -347,6 +347,7 @@ Verbose = true;
 // EmulMSXAudio = false;				//-- Add MSX-Audio extension (boolean)
 // EmulOPL4     = false;				//-- Add OPL4 extension (boolean)
 // EmulPSG2     = false;				//-- Add second PSG extension (boolean)
+// EmulOPNA     = false;				//-- Add OPNA extension (boolean)
 // EmulV9990    = false;				//-- Add V9990 video-chip extension (boolean)
 // EmulRAM      = false;				//-- Add mapped-RAM extension (boolean)
 // EmulPAC      = false;				//-- Add PAC SRAM extension (boolean)

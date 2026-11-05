@@ -443,6 +443,9 @@
 // - SCC_SLOT_AUTO ................ First auto-detected cartridge
 #define SCC_SLOT_MODE				SCC_SLOT_AUTO
 
+// Makoto options
+#define MAKOTO_USE_RESUME			TRUE	// Add function to allow playback pause and resume
+
 // VGM supported chip
 #define VGM_USE_PSG					TRUE	// Allow PSG data parsing and audio output
 #define VGM_USE_MSXMUSIC			TRUE	// Allow MSX-Music data parsing and audio output

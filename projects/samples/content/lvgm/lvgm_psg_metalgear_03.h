@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// MSXzip 1.4.7 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\psg_metalgear_03.vgm (37577 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG)
@@ -26,8 +26,7 @@ const unsigned char g_lVGM_psg_metalgear_03[] = {
 	0x04, 0x00, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
 	0xA0, // R#10: An
-	0xEF, // -------- Wait: Ex
-	0xEA, // -------- Wait: Ex
+	0xFC, 0x1A, // -------- Wait: FC nn
 	0xD1, // R#n: Dn
 	0x00, 0x68, // R#0: 00 nn
 	0x6B, // R#8: 6n

@@ -490,6 +490,9 @@ global.EmulOPL4 = false;
 //-- Add second PSG extension (boolean)
 global.EmulPSG2 = false;
 
+//-- Add OPNA extension (boolean)
+global.EmulOPNA = false;
+
 //-- Add V9990 video-chip extension (boolean)
 global.EmulV9990 = false;
 

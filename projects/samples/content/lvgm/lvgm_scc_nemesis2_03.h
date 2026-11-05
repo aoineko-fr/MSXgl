@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// MSXzip 1.4.7 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\scc_nemesis2_03.vgm (52021 bytes)
 // Compressor: lVGM
 // VGM version: 1.01 (chips:PSG, SCC)

@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.6 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// MSXzip 1.4.7 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_feedback_03.vgm (19632 bytes)
 // Compressor: lVGM
 // VGM version: 1.00 (chips:OPLL)
@@ -79,8 +79,7 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x23, 0x19, // rr: nn
 	0x8E, // rr: 0
 	0x0E, 0x30, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE6, // -------- Wait: Ex
+	0xFC, 0x16, // -------- Wait: FC nn
 	0x10, 0x01, // rr: nn
 	0x20, 0x09, // rr: nn
 	0x20, 0x19, // rr: nn
@@ -110,8 +109,7 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x23, 0x19, // rr: nn
 	0x8E, // rr: 0
 	0x0E, 0x30, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE6, // -------- Wait: Ex
+	0xFC, 0x16, // -------- Wait: FC nn
 	0x10, 0xF2, // rr: nn
 	0x20, 0x08, // rr: nn
 	0x20, 0x18, // rr: nn
@@ -141,8 +139,7 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x23, 0x18, // rr: nn
 	0x8E, // rr: 0
 	0x0E, 0x30, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE6, // -------- Wait: Ex
+	0xFC, 0x16, // -------- Wait: FC nn
 	0x10, 0xCC, // rr: nn
 	0x20, 0x08, // rr: nn
 	0x20, 0x18, // rr: nn
@@ -2329,9 +2326,7 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x23, 0x19, // rr: nn
 	0x8E, // rr: 0
 	0x0E, 0x38, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xEF, // -------- Wait: Ex
-	0xE1, // -------- Wait: Ex
+	0xFC, 0x21, // -------- Wait: FC nn
 	0x21, 0x04, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x31, 0xF0, // rr: nn
@@ -2342,8 +2337,7 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0xE0, // -------- Wait: Ex
 	0x8E, // rr: 0
 	0x0E, 0x32, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE3, // -------- Wait: Ex
+	0xFC, 0x13, // -------- Wait: FC nn
 	0x23, 0x09, // rr: nn
 	0xE1, // -------- Wait: Ex
 	0x21, 0x02, // rr: nn
@@ -2435,8 +2429,7 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x23, 0x18, // rr: nn
 	0x8E, // rr: 0
 	0x0E, 0x38, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE5, // -------- Wait: Ex
+	0xFC, 0x15, // -------- Wait: FC nn
 	0x21, 0x03, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x21, 0x01, // rr: nn
@@ -2455,8 +2448,7 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x38, 0x20, // rr: nn
 	0x8E, // rr: 0
 	0x0E, 0x32, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE4, // -------- Wait: Ex
+	0xFC, 0x14, // -------- Wait: FC nn
 	0x23, 0x08, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x21, 0x01, // rr: nn
@@ -2535,9 +2527,7 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x23, 0x19, // rr: nn
 	0x8E, // rr: 0
 	0x0E, 0x38, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xEF, // -------- Wait: Ex
-	0xE2, // -------- Wait: Ex
+	0xFC, 0x22, // -------- Wait: FC nn
 	0x21, 0x04, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x31, 0xF0, // rr: nn
@@ -2547,8 +2537,7 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x38, 0x20, // rr: nn
 	0x8E, // rr: 0
 	0x0E, 0x32, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE4, // -------- Wait: Ex
+	0xFC, 0x14, // -------- Wait: FC nn
 	0x23, 0x09, // rr: nn
 	0xE1, // -------- Wait: Ex
 	0x21, 0x02, // rr: nn
@@ -2633,8 +2622,7 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x23, 0x18, // rr: nn
 	0x8E, // rr: 0
 	0x0E, 0x38, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE6, // -------- Wait: Ex
+	0xFC, 0x16, // -------- Wait: FC nn
 	0x21, 0x03, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x21, 0x01, // rr: nn
@@ -2657,8 +2645,7 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x38, 0x20, // rr: nn
 	0x8E, // rr: 0
 	0x0E, 0x32, // rr: nn
-	0xEF, // -------- Wait: Ex
-	0xE4, // -------- Wait: Ex
+	0xFC, 0x14, // -------- Wait: FC nn
 	0x23, 0x08, // rr: nn
 	0xE1, // -------- Wait: Ex
 	0x21, 0x01, // rr: nn
@@ -4850,4 +4837,4 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x21, 0x13, // rr: nn
 	0xFF, // End marker
 };
-// Total size: 8260 bytes
+// Total size: 8258 bytes

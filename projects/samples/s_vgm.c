@@ -17,6 +17,9 @@
 #if (VGM_USE_MSXAUDIO)
 	#include "msx-audio.h"
 #endif
+#if (VGM_USE_MAKOTO)
+	#include "audio/makoto.h"
+#endif
 #include "s_vgm_rawdef.h"
 
 //=============================================================================
@@ -87,6 +90,9 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Final Fantasy (M-M)", 0x8000 + MM_FF_03_VGM_REL,         MM_FF_03_VGM_SEG },
 	{ "Xevious (M-A)      ", 0x8000 + MA_XEVIOUS_01_VGM_REL,    MA_XEVIOUS_01_VGM_SEG },
 	{ "Pro Yakyu (M-A)    ", 0x8000 + MA_PROYAKYU_10_VGM_REL,   MA_PROYAKYU_10_VGM_SEG },
+	{ "Behoder 3 (OPNA)   ", 0x8000 + OPNA_BEHOLDER3_02_VGM_REL,   OPNA_BEHOLDER3_02_VGM_SEG },
+	{ "Hydlide 3 (OPNA)   ", 0x8000 + OPNA_HYDLIDE3_02_VGM_REL,   OPNA_HYDLIDE3_02_VGM_SEG },
+	{ "Valis 2 (OPNA)     ", 0x8000 + OPNA_VALIS2_23_VGM_REL,     OPNA_VALIS2_23_VGM_SEG },
 };
 
 // Player button list
@@ -180,6 +186,18 @@ void DrawVGM(const u8* ptr)
 			ptr += 2;
 		}
 		#endif
+		#if (VGM_USE_MAKOTO)
+		else if (*ptr == 0x56) // YM2608 port 0, write value dd to register aa
+		{
+			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
+			ptr += 2;
+		}
+		else if (*ptr == 0x57) // YM2608 port 1, write value dd to register aa
+		{
+			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
+			ptr += 2;
+		}
+		#endif
 		else if (*ptr == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
 			Print_DrawFormat("W=%4x", *(u16*)(ptr+1));
@@ -239,20 +257,16 @@ void SetMusic(u8 idx)
 	Print_DrawFormat("Ident:   %s   (%x)\n", ok ? "OK" : "Invalide", (u16)&g_VGM_Header->Ident);
 	Print_DrawFormat("Version: %1x.%1x%1x\n", (u8)(g_VGM_Header->Version >> 8) & 0xF, (u8)(g_VGM_Header->Version >> 4) & 0xF, (u8)(g_VGM_Header->Version) & 0xF);
 	Print_DrawFormat("Loop:    %4X (%x)\n", g_VGM_Header->Loop_offset, (u16)&g_VGM_Header->Loop_offset + (u16)g_VGM_Header->Loop_offset);
-	Print_DrawFormat("AY8910:  %c\n", VGM_ContainsPSG() ? '\x0C' : '\x0B');
+	Print_DrawText("\n");
+	Print_DrawFormat("AY8910:  %c", VGM_ContainsPSG() ? '\x0C' : '\x0B');
 	if (VGM_ContainsPSG())
-	{
-		Print_DrawFormat(" type:   %s\n", GetChipName(g_VGM_Header->AYT));
-		Print_DrawFormat(" flag:   %2x,%2x,%2x\n", g_VGM_Header->AY_Flags[0], g_VGM_Header->AY_Flags[1], g_VGM_Header->AY_Flags[2]);
-	}
+		Print_DrawFormat("(%s)\n", GetChipName(g_VGM_Header->AYT));
 	else
-	{
-		Print_DrawText(" type:         \n");
-		Print_DrawText(" flag:           \n");
-	}
+		Print_DrawText("\n");
+	Print_DrawFormat("K051649: %c\n", VGM_ContainsSCC() ? '\x0C' : '\x0B');
 	Print_DrawFormat("YM2413:  %c\n", VGM_ContainsMSXMusic() ? '\x0C' : '\x0B');
 	Print_DrawFormat("Y8950:   %c\n", VGM_ContainsMSXAudio() ? '\x0C' : '\x0B');
-	Print_DrawFormat("K051649: %c\n", VGM_ContainsSCC() ? '\x0C' : '\x0B');
+	Print_DrawFormat("YM2608:  %c\n", VGM_ContainsOPNA() ? '\x0C' : '\x0B');
 
 	UpdatePlayer();
 }
@@ -356,6 +370,9 @@ void main()
 	#if (VGM_USE_MSXAUDIO)
 		MSXAudio_Initialize();
 	#endif
+	#if (VGM_USE_MAKOTO)
+		Makoto_Initialize();
+	#endif
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
@@ -367,18 +384,29 @@ void main()
 	Print_SetPosition(20, 8);
 	Print_DrawFormat("\x07" "Freq  %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
 
-	Print_SetPosition(20, 17);
-	Print_DrawText("Slots: ");
-	Print_SetPosition(20, 18);
-	Print_DrawText("\x07" "YM2413: ");
-	Print_DrawSlot(g_MSXMusic_SlotId);
-	Print_SetPosition(20, 19);
-	Print_DrawText("\x07" "Y8950:  ");
-	Print_DrawChar(MSXAudio_Detect() ? '\x0C' : '\x0B');
-	// Print_DrawSlot(g_MSXAudio_SlotId);
-	Print_SetPosition(20, 20);
+	u8 y = 16;
+	Print_SetPosition(20, y++);
+	Print_DrawText("Detect: ");
+	#if (VGM_USE_SCC)
+	Print_SetPosition(20, y++);
 	Print_DrawText("\x07" "SCC:    ");
 	Print_DrawSlot(SCC_SLOT);
+	#endif
+	#if (VGM_USE_MSXMUSIC)
+	Print_SetPosition(20, y++);
+	Print_DrawText("\x07" "YM2413: ");
+	Print_DrawSlot(g_MSXMusic_SlotId);
+	#endif
+	#if (VGM_USE_MSXAUDIO)
+	Print_SetPosition(20, y++);
+	Print_DrawText("\x07" "Y8950:  ");
+	Print_DrawChar(MSXAudio_Detect() ? '\x0C' : '\x0B');
+	#endif
+	#if (VGM_USE_MAKOTO)
+	Print_SetPosition(20, y++);
+	Print_DrawText("\x07" "YM2608: ");
+	Print_DrawChar(Makoto_Detect() ? '\x0C' : '\x0B');
+	#endif
 
 	// Decode VGM header
 	SetMusic(0);

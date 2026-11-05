@@ -20,6 +20,9 @@
 #if (VGM_USE_MSXAUDIO)
 #include "msx-audio.h"
 #endif
+#if (VGM_USE_MAKOTO)
+#include "audio/makoto.h"
+#endif
 
 //=============================================================================
 // DEFINES
@@ -97,6 +100,11 @@ void VGM_Resume()
 	if (VGM_ContainsSCC())
 		SCC_Resume();
 	#endif
+
+	#if (VGM_USE_MAKOTO && MAKOTO_USE_RESUME)
+	if (VGM_ContainsOPNA())
+		Makoto_Resume();
+	#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -117,6 +125,10 @@ void VGM_Pause()
 	
 	#if (VGM_USE_SCC)
 	SCC_Mute();
+	#endif
+
+	#if (VGM_USE_MAKOTO)
+	Makoto_Mute();
 	#endif
 }
 
@@ -164,6 +176,24 @@ void VGM_Decode()
 		else if (*g_VGM_Pointer == 0x51) // YM2413, write value dd to register aa
 		{
 			MSXMusic_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
+			g_VGM_Pointer += 2;
+		}
+		#endif
+		#if (VGM_USE_MAKOTO)
+		else if (*g_VGM_Pointer == 0x56) // YM2608 port 0, write value dd to register aa
+		{
+			u8 reg = g_VGM_Pointer[1];
+			u8 value = g_VGM_Pointer[2];
+			if (reg == 0x27) // Timer control: keep only CH3 mode
+				value &= 0xC0;
+			else if (reg == 0x29) // IRQ enable: keep only SCH (6 FM channels)
+				value &= 0x80;
+			Makoto_SetRegister0(reg, value);
+			g_VGM_Pointer += 2;
+		}
+		else if (*g_VGM_Pointer == 0x57) // YM2608 port 1, write value dd to register aa
+		{
+			Makoto_SetRegister1(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
 		}
 		#endif

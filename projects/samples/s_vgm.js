@@ -12,7 +12,7 @@ Target = "ROM_ASCII16";
 ROMSize = 256;
 
 //-- List of library modules to build (array)
-LibModules = [ "psg", "scc", "msx-music", "msx-audio", "vgm/vgm_player", "system", "bios", "vdp", "print", "input", "memory" ];
+LibModules = [ "audio/makoto", "psg", "scc", "msx-music", "msx-audio", "vgm/vgm_player", "system", "bios", "vdp", "print", "input", "memory" ];
 
 //-- List of raw data files to be added to final binary (array). Each entry must be in the following format: { offset:0x0000, file:"myfile.bin" }
 RawFiles = [
@@ -25,6 +25,9 @@ RawFiles = [
 	{ segment: 8, file:"content/vgm/mm_ff_03.vgm" },
 	{ segment: 9, file:"content/vgm/ma_xevious_01.vgm" },
 	{ segment:10, file:"content/vgm/ma_proyakyu_10.vgm" },
+	{ segment:11, file:"content/vgm/opna_beholder3_02.vgm" },
+	{ segment:12, file:"content/vgm/opna_hydlide3_02.vgm" },
+	{ segment:13, file:"content/vgm/opna_valis2_23.vgm" },
 ];
 
 //-- Add SCC extension (boolean)
@@ -35,6 +38,9 @@ EmulMSXMusic = true;
 
 //-- Add MSX-Audio extension (boolean)
 EmulMSXAudio = true;
+
+//-- Add OPNA extension (boolean)
+EmulOPNA = true;
 
 //-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
 AppID = "VG";

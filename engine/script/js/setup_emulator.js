@@ -34,6 +34,7 @@ util.print(`- EmulMSXMusic: ${EmulMSXMusic}`, PrintDetail);
 util.print(`- EmulMSXAudio: ${EmulMSXAudio}`, PrintDetail);
 util.print(`- EmulOPL4: ${EmulOPL4}`, PrintDetail);
 util.print(`- EmulPSG2: ${EmulPSG2}`, PrintDetail);
+util.print(`- EmulOPNA: ${EmulOPNA}`, PrintDetail);
 util.print(`- EmulV9990: ${EmulV9990}`, PrintDetail);
 util.print(`- EmulRAM: ${EmulRAM}`, PrintDetail);
 util.print(`- EmulPAC: ${EmulPAC}`, PrintDetail);
@@ -90,6 +91,7 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulMSXMusic)  { EmulExtCount++; }
 	if (EmulMSXAudio)  { EmulExtCount++; }
 	if (EmulOPL4)      { EmulExtCount++; }
+	if (EmulOPNA)      { EmulExtCount++; }
 	if (EmulPSG2)      { EmulExtCount++; }
 	if (EmulV9990)     { EmulExtCount++; }
 	if (EmulRAM)       { EmulExtCount++; }
@@ -108,14 +110,25 @@ if (EmulatorName === "OPENMSX") {
 		else
 			EmulatorArgs += ` -diska ${ProjDir}emul/bin`;
 	}
-	if (Ext === "rom") { 
+	if (Ext === "rom")
+	{ 
 		EmulatorArgs += ` -cart ${ProjDir}emul/rom/${ProjName}.rom`;
+		switch (Mapper)
+		{
+			case "ROM_ASCII8":		EmulatorArgs += " -romtype ASCII8"; break;
+			case "ROM_ASCII16":		EmulatorArgs += " -romtype ASCII16"; break;
+			case "ROM_KONAMI":		EmulatorArgs += " -romtype Konami"; break;
+			case "ROM_KONAMI_SCC":	EmulatorArgs += " -romtype KonamiSCC"; break;
+			case "ROM_NEO8":		EmulatorArgs += " -romtype NEO-8"; break;
+			case "ROM_NEO16":		EmulatorArgs += " -romtype NEO-16"; break;
+			case "ROM_YAMANOOTO":	EmulatorArgs += " -romtype Yamanooto"; break;
+			case "ROM_ASCII16X":	EmulatorArgs += " -romtype ASCII16-X"; break;
+			case "ROM_POPOLON":		break;
+		}
 		if (Emul2ndCart !== "")
 			EmulatorArgs += ` -cartb ${Emul2ndCart}`;
 		if (ROMDelayBoot)
 			EmulatorArgs += ` -ext msxdos2 -diska ${ProjDir}emul/dsk/tmp`;
-		if (Mapper == "ROM_YAMANOOTO")
-			EmulatorArgs += " -romtype Yamanooto";
 	}
 	if (Ext === "com")
 	{ 
@@ -140,6 +153,7 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulMSXAudio) { EmulatorArgs += " -ext audio"; }
 	if (EmulOPL4)     { EmulatorArgs += " -ext moonsound"; }
 	if (EmulPSG2)     { EmulatorArgs += " -ext 2nd_PSG"; }
+	if (EmulOPNA)     { EmulatorArgs += " -ext makoto"; }
 	if (EmulV9990)    { EmulatorArgs += ' -ext gfx9000 -command "after time 0 {set videosource gfx9000}"'; }
 	if (EmulRAM)      { EmulatorArgs += ' -ext ram4mb'; }
 	if (EmulPAC)      { EmulatorArgs += ' -ext pac'; }

@@ -34,7 +34,7 @@ enum VGM_CHIP
 	VGM_CHIP_SCC		= 0b00001000,
 	VGM_CHIP_SCCI		= 0b00010000,
 	VGM_CHIP_MOONSOUND	= 0b00100000,
-	// VGM_CHIP_			= 0b01000000,
+	VGM_CHIP_MAKOTO		= 0b01000000,
 	// VGM_CHIP_			= 0b10000000,
 	
 	VGM_CHIP_AY8910		= VGM_CHIP_PSG,
@@ -47,6 +47,8 @@ enum VGM_CHIP
 	VGM_CHIP_OPL1		= VGM_CHIP_MSXAUDIO, // + ADPCM
 	VGM_CHIP_YMF278B	= VGM_CHIP_MOONSOUND, // + YAC513 DAC
 	VGM_CHIP_OPL4		= VGM_CHIP_MOONSOUND, // + YAC513 DAC
+	VGM_CHIP_OPNA		= VGM_CHIP_MAKOTO,
+	VGM_CHIP_YM2608		= VGM_CHIP_MAKOTO,
 };
 
 #define VGM_WAIT_50HZ	882 // 50 Hz
@@ -165,3 +167,10 @@ inline bool VGM_ContainsMSXAudio() { return (g_VGM_Header->Version >= 0x0151) &&
 // Return:
 //   FALSE if music dont contains SCC data
 inline bool VGM_ContainsSCC() { return (g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock; }
+
+// Function: VGM_ContainsOPNA
+// Check if initialized song contains OPNA data
+//
+// Return:
+//   FALSE if music dont contains OPNA data
+inline bool VGM_ContainsOPNA() { return (g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YM2608_clock; }
