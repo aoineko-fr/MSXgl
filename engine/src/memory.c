@@ -149,7 +149,7 @@ __endasm;
 
 //-----------------------------------------------------------------------------
 // Fill a memory block with a given 16-bits value (minimal size of 2 bytes).
-void Mem_Set_16b(u16 val, void* dest, u16 size)
+void Mem_Set_16b(u16 val, void* dest, u16 size) __NAKED
 {
 	val;	// HL
 	dest;	// DE
@@ -158,9 +158,9 @@ void Mem_Set_16b(u16 val, void* dest, u16 size)
 __asm
 	push	de
 	ex		de, hl
-	ld		(hl), d
-	inc		hl
 	ld		(hl), e
+	inc		hl
+	ld		(hl), d
 	inc		hl
 	ex		de, hl
 	pop		hl

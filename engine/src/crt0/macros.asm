@@ -883,12 +883,12 @@
 	; Set segment (get value from register A)
 	set_bank::
 		ld		(BANKED_ADDR), a ; Address used to switch defaut bank for banked call
-		ld		(_g_CurrentSegment), a
+		ld		(_g_BankCallSegment), a
 		ret
 
 	; Get segment (return value in register A)
 	get_bank::
-		ld		a, (_g_CurrentSegment)
+		ld		a, (_g_BankCallSegment)
 		ret
 	.endif
 .endm
@@ -920,7 +920,7 @@
 			.ds 1
 		_g_Bank1Segment::
 			.ds 1
-		_g_CurrentSegment::
+		_g_BankCallSegment::
 		_g_Bank2Segment::
 			.ds 1
 		_g_Bank3Segment::
@@ -953,7 +953,7 @@
 	.macro ALLOC_MAPPER
 		_g_Bank0Segment::
 			.ds 1
-		_g_CurrentSegment::
+		_g_BankCallSegment::
 		_g_Bank1Segment::
 			.ds 1
 	.endm
@@ -980,7 +980,7 @@
 			.ds 1
 		_g_Bank1Segment::
 			.ds 1
-		_g_CurrentSegment::
+		_g_BankCallSegment::
 		_g_Bank2Segment::
 			.ds 1
 		_g_Bank3Segment::
@@ -1014,7 +1014,7 @@
 			.ds 1
 		_g_Bank1Segment::
 			.ds 1
-		_g_CurrentSegment::
+		_g_BankCallSegment::
 		_g_Bank2Segment::
 			.ds 1
 		_g_Bank3Segment::
@@ -1053,7 +1053,7 @@
 			.ds 2
 		_g_Bank3Segment::
 			.ds 2
-		_g_CurrentSegment::
+		_g_BankCallSegment::
 		_g_Bank4Segment::
 			.ds 2
 		_g_Bank5Segment::
@@ -1094,7 +1094,7 @@
 			.ds 2
 		_g_Bank1Segment::
 			.ds 2
-		_g_CurrentSegment::
+		_g_BankCallSegment::
 		_g_Bank2Segment::
 			.ds 2
 	.endm
@@ -1124,7 +1124,7 @@
 			.ds 2
 		_g_Bank1Segment::
 			.ds 2
-		_g_CurrentSegment::
+		_g_BankCallSegment::
 		_g_Bank2Segment::
 			.ds 2
 		_g_Bank3Segment::
@@ -1167,7 +1167,7 @@
 	.macro ALLOC_MAPPER
 		_g_Bank0Segment::
 			.ds 2
-		_g_CurrentSegment::
+		_g_BankCallSegment::
 		_g_Bank1Segment::
 			.ds 2
 	.endm
@@ -1194,7 +1194,7 @@
 			.ds 2
 		_g_Bank1Segment::
 			.ds 2
-		_g_CurrentSegment::
+		_g_BankCallSegment::
 		_g_Bank2Segment::
 			.ds 2
 		_g_Bank3Segment::

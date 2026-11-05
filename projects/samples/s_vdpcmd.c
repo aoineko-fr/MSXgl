@@ -184,9 +184,9 @@ void DisplayPage()
 		break;
 	case SCREEN_MODE_6:
 		VDP_SetPaletteEntry(0, RGB16(1, 1, 7));
-		VDP_SetPaletteEntry(1, RGB16(0, 0, 4));
-		VDP_SetPaletteEntry(2, RGB16(0, 0, 0));
-		VDP_SetPaletteEntry(3, RGB16(7, 7, 7));
+		VDP_SetPaletteEntry(1, RGB16(0, 0, 0));
+		VDP_SetPaletteEntry(2, RGB16(7, 7, 7));
+		VDP_SetPaletteEntry(3, RGB16(0, 0, 4));
 		break;
 	};
 

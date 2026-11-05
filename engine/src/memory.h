@@ -145,7 +145,7 @@ void Mem_Set(u8 val, void* dest, u16 size);
 // Parameters:
 //   val - Value to write
 //   dst - Destination address
-//   size - The size of data to fill. Note: size can be 1 to 32767. 0 mean 32768
+//   size - The size of data to fill. Note: size can be 2 to 32766
 void Mem_Set_16b(u16 val, void* dest, u16 size);
 
 #if (MEM_USE_FASTSET)

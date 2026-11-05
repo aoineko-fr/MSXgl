@@ -38,6 +38,25 @@ __sfr __at(P_PSG_EXT_STAT)			g_PSG_Ext_StatPort;
 
 //=============================================================================
 //
+// Makoto YM2608 (OPNA) Ports [0x14-0x17]
+//
+//=============================================================================
+
+// Makoto YM2608 (OPNA) I/O ports
+#define P_OPNA_ADDR0				0x14 // Part 0 address (FM CH1–3, SSG, rhythm, timers, 29h)
+__sfr __at(P_OPNA_ADDR0)			g_OPNA_Addr0Port;
+#define P_OPNA_DATA0				0x15 // Part 0 data
+__sfr __at(P_OPNA_DATA0)			g_OPNA_Data0Port;
+#define P_OPNA_ADDR1				0x16 // Part 1 address (ADPCM-B, FM CH4–6)
+__sfr __at(P_OPNA_ADDR1)			g_OPNA_Addr1Port;
+#define P_OPNA_DATA1				0x17 // Part 1 data
+__sfr __at(P_OPNA_DATA1)			g_OPNA_Data1Port;
+#define P_OPNA_STATUS				0x16 // Status (BUSY, timer flags and ADPCM flags)
+const __sfr __at(P_OPNA_STATUS)		g_OPNA_StatusPort;
+
+
+//=============================================================================
+//
 // Printer Ports
 //
 //=============================================================================
