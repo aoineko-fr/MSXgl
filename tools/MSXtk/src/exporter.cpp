@@ -105,6 +105,9 @@ bool IsCompressorCompatible(MSX::Compressor comp, const ExportParameters& param)
 	if ((param.bpc == 8) && (comp == MSX::COMPRESS_RLE4))
 		return false;
 
+	if (IsYJKColorMode(param.colorMode) && (comp & MSX::COMPRESS_RLE_Mask))
+		return false;
+
 	if (((comp == MSX::COMPRESS_Crop16) || (comp == MSX::COMPRESS_CropLine16)) && ((param.sizeX > 16) || (param.sizeY > 16)))
 		return false;
 	if (((comp == MSX::COMPRESS_Crop32) || (comp == MSX::COMPRESS_CropLine32)) && ((param.sizeX > 32) || (param.sizeY > 32)))

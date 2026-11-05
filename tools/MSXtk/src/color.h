@@ -21,17 +21,69 @@ extern u32 PaletteMSX2[16];
 // Color mode
 enum ColorMode
 {
-	COLORMODE_P1,       // 1-bit palette (2 colors)
-	COLORMODE_P2,       // 2-bit palette (4 colors)
-	COLORMODE_P4,       // 4-bit palette (16 colors)
-	COLORMODE_P6,       // 6-bit palette (64 colors)
-	COLORMODE_RGB8,     // 8-bit RGB (256 colors)
-	COLORMODE_RGB16,    // 16-bit RGB (32768 colors)
-	COLORMODE_YJK,      // 8-bit YJK decoder (19268 colors)
-	COLORMODE_YJK_YAE,  // 8-bit YJK Decoder + palette (12615 colors)
-	COLORMODE_YUV,      // 8-bit YUV decoder (19268 colors)
-	COLORMODE_YUV_YAE,  // 8-bit YUV Decoder + palette (12615 colors)
+	COLORMODE_P1,     // 1-bit palette (2 colors)                     [MSX1]
+	COLORMODE_P2,     // 2-bit palette (4 colors)                     [MSX2]  [V9990]
+	COLORMODE_P4,     // 4-bit palette (16 colors)                    [MSX1]  [V9990]
+	COLORMODE_P6,     // 6-bit palette (64 colors)                            [V9990]
+	COLORMODE_RGB8,   // 8-bit RGB (256 colors)                       [MSX2]  [V9990]
+	COLORMODE_RGB16,  // 16-bit RGB (32768 colors)                            [V9990]
+	COLORMODE_YJK,    // 8-bit YJK decoder (19268 colors)             [MSX2+] [V9990]
+	COLORMODE_YJKP,   // 8-bit YJK Decoder + palette (12615 colors)   [MSX2+] [V9990]
+	COLORMODE_YUV,    // 8-bit YUV decoder (19268 colors)                     [V9990]
+	COLORMODE_YUVP,   // 8-bit YUV Decoder + palette (12615 colors)           [V9990]
 };
+
+// Get color mode name
+inline const c8* GetColorModeName(ColorMode mode)
+{
+	switch (mode)
+	{
+		case COLORMODE_P1:      return "P1 (1-bit black & white)";
+		case COLORMODE_P2:      return "P2 (2-bit palette)";
+		case COLORMODE_P4:      return "P4 (4-bit palette)";
+		case COLORMODE_P6:      return "P6 (6-bit palette)";
+		case COLORMODE_RGB8:    return "RGB8 (8-bit GRB)";
+		case COLORMODE_RGB16:   return "RGB16 (16-bit GRB)";
+		case COLORMODE_YJK:     return "YJK";
+		case COLORMODE_YJKP:	return "YJK + palette";
+		case COLORMODE_YUV:     return "YUV";
+		case COLORMODE_YUVP:	return "YUV + palette";
+		default:                break;
+	};
+	return "Unknown";
+}
+
+// Check if color mode uses a color palette
+inline bool IsPaletteColorMode(ColorMode mode)
+{
+	return (mode == COLORMODE_P2) || (mode == COLORMODE_P4) || (mode == COLORMODE_P6) || (mode == COLORMODE_YJKP) || (mode == COLORMODE_YUVP);
+}
+
+// Check if color mode uses YJK/YUV encoding (4 pixels share the same chrominance)
+inline bool IsYJKColorMode(ColorMode mode)
+{
+	return (mode == COLORMODE_YJK) || (mode == COLORMODE_YJKP) || (mode == COLORMODE_YUV) || (mode == COLORMODE_YUVP);
+}
+
+// Check if color mode is only available on V9990
+inline bool IsV9990ColorMode(ColorMode mode)
+{
+	return (mode == COLORMODE_P6) || (mode == COLORMODE_RGB16) || (mode == COLORMODE_YUV) || (mode == COLORMODE_YUVP);
+}
+
+// Get the number of entries of the color palette for the given color mode
+inline i32 GetColorModePaletteSize(ColorMode mode)
+{
+	switch (mode)
+	{
+		case COLORMODE_P2:      return 4;
+		case COLORMODE_P4:      return 16;
+		case COLORMODE_P6:      return 64;
+		case COLORMODE_YJKP:	return 16;
+		case COLORMODE_YUVP:	return 16;
+		default:                return 0;
+	};
+}
 
 // Palette type
 enum PaletteType

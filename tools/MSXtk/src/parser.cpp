@@ -27,7 +27,7 @@
 // MSXi
 #include "parser.h"
 
-u32 CustomPalette[16];
+u32 CustomPalette[64];
 
 //-----------------------------------------------------------------------------
 // MSX interface

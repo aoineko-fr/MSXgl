@@ -37,7 +37,7 @@ void Create16ColorsPalette(const char* filename);
 // Shared helpers (parser.cpp)
 //-----------------------------------------------------------------------------
 
-extern u32 CustomPalette[16];
+extern u32 CustomPalette[64];
 
 // Get palette
 u32* GetPalette(ExportParameters* param);

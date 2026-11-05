@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.23.0
+// Data generated using MSXimg 1.23.1
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Generation parameters:
@@ -11,6 +11,7 @@
 //  - Start position: 0, 0
 //  - Sprite size:    256, 192 (gap: 0, 0)
 //  - Sprite count:   1, 1
+//  - Color mode:     P4 (4-bit palette)
 //  - Color count:    16 (Transparent: #000000)
 //  - Palette mode:   Input [1:8]
 //  - Palette input:  8 (#000000 #222222 #444444 #666666 #888888 #AAAAAA #CCCCCC #EEEEEE)

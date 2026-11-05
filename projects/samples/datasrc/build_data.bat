@@ -12,13 +12,13 @@ set BuildlNDP=0
 set BuildPCMEnc=0
 set BuildPCMPlay=0
 :: Image
-set BuildBitmap=0
+set BuildBitmap=1
 set BuildImage=1
-set BuildCompress=0
-set BuildTile=0
-set BuildV9990=0
+set BuildCompress=1
+set BuildTile=1
+set BuildV9990=1
 :: Misc
-set BuildZip=0
+set BuildZip=1
 
 :: Path
 set Tools=..\..\..\tools
@@ -225,6 +225,17 @@ if %BuildBitmap%==1 (
 	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 4  -format bin -nodate -out %Dest%\img\data10_sc5.bin -pal msx1
 	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 8  -format bin -nodate -out %Dest%\img\data10_sc8.bin
 	%MSXtk%\MSXimg.exe img\image10.png -pos 0 0 -size 128 128 -bpc 16 -format bin -nodate -out %Dest%\img\data10_db16.bin
+
+	%MSXtk%\MSXimg.exe img\image01.png -nodate -out %Dest%\img\image01_p1.bin   -mode p1  
+	%MSXtk%\MSXimg.exe img\image01.png -nodate -out %Dest%\img\image01_p2.bin   -mode p2  
+	%MSXtk%\MSXimg.exe img\image01.png -nodate -out %Dest%\img\image01_p4.bin   -mode p4  
+	%MSXtk%\MSXimg.exe img\image01.png -nodate -out %Dest%\img\image01_p6.bin   -mode p6  
+	%MSXtk%\MSXimg.exe img\image01.png -nodate -out %Dest%\img\image01_b8.bin   -mode b8  
+	%MSXtk%\MSXimg.exe img\image01.png -nodate -out %Dest%\img\image01_b16.bin  -mode b16  
+	%MSXtk%\MSXimg.exe img\image01.png -nodate -out %Dest%\img\image01_yjk.bin  -mode yjk
+	%MSXtk%\MSXimg.exe img\image01.png -nodate -out %Dest%\img\image01_yjkp.bin -mode yjkp
+	%MSXtk%\MSXimg.exe img\image01.png -nodate -out %Dest%\img\image01_yuv.bin  -mode yuv
+	%MSXtk%\MSXimg.exe img\image01.png -nodate -out %Dest%\img\image01_yuvp.bin -mode yuvp
 )
 
 ::-----------------------------------------------------------------------------
@@ -321,9 +332,20 @@ if %BuildV9990%==1 (
 	echo ----------------------------------------
 	echo Building V9990 data...
 	if not exist %Dest%\v9990 md %Dest%\v9990
-	%MSXtk%\MSXimg.exe img\data.png    -copy gk.txt -nodate -out %Dest%\v9990\data_v9_chr.h  -pos 0 128 -size 256 16 -num 1 1 -name g_DataV9Chr  -trans 0xFF00FF -bpc 4 -pal custom --pal24
-	%MSXtk%\MSXimg.exe img\data_bg.png -copy gk.txt -nodate -out %Dest%\v9990\data_v9_bg.h   -pos 0 0   -size 256 48 -num 1 1 -name g_DataV9BG   -trans 0xFF00FF -bpc 4 -pal custom --pal24
-	%MSXtk%\MSXimg.exe img\font16.png  -copy gk.txt -nodate -out %Dest%\v9990\data_v9_font.h -pos 0 8   -size 256 24 -num 1 1 -name g_DataV9Font -trans 0xFF00FF -bpc 4 -pal custom --pal24
+	echo -- Tiles
+	%MSXtk%\MSXimg.exe img\data.png    -copy gk.txt -nodate -out %Dest%\v9990\data_v9_chr.h  -pos 0 128 -size 256 16 -name g_DataV9Chr  -trans 0xFF00FF -bpc 4 -pal custom --pal24
+	%MSXtk%\MSXimg.exe img\data_bg.png -copy gk.txt -nodate -out %Dest%\v9990\data_v9_bg.h   -pos 0 0   -size 256 48 -name g_DataV9BG   -trans 0xFF00FF -bpc 4 -pal custom --pal24
+	%MSXtk%\MSXimg.exe img\font16.png  -copy gk.txt -nodate -out %Dest%\v9990\data_v9_font.h -pos 0 8   -size 256 24 -name g_DataV9Font -trans 0xFF00FF -bpc 4 -pal custom --pal24
+	echo -- Bitmap
+	%MSXtk%\MSXimg.exe img\data_bg.png -nodate -out   %Dest%\v9990\data_bg_bp2.bin -size 256 64 -mode bmp -color p2    -trans 0xFF00FF -pal custom --paloff 0 --palcrop --pal24
+	%MSXtk%\MSXimg.exe img\data_bg.png -nodate -out   %Dest%\v9990\data_bg_bp4.bin -size 256 64 -mode bmp -color p4    -trans 0xFF00FF -pal custom --paloff 0 --palcrop --pal24
+	%MSXtk%\MSXimg.exe img\data_bg.png -nodate -out   %Dest%\v9990\data_bg_bp6.bin -size 256 64 -mode bmp -color p6    -trans 0xFF00FF -pal custom --paloff 0 --palcrop --pal24
+	%MSXtk%\MSXimg.exe img\data_bg.png -nodate -out   %Dest%\v9990\data_bg_bd8.bin -size 256 64 -mode bmp -color rgb8  -trans 0xFF00FF
+	%MSXtk%\MSXimg.exe img\data_bg.png -nodate -out  %Dest%\v9990\data_bg_bd16.bin -size 256 64 -mode bmp -color rgb16 -trans 0xFF00FF
+	%MSXtk%\MSXimg.exe img\data_bg.png -nodate -out  %Dest%\v9990\data_bg_byjk.bin -size 256 64 -mode bmp -color yjk   -trans 0xFF00FF
+	%MSXtk%\MSXimg.exe img\data_bg.png -nodate -out %Dest%\v9990\data_bg_byjkp.bin -size 256 64 -mode bmp -color yjkp  -trans 0xFF00FF -pal custom --paloff 0 --palcrop --pal24
+	%MSXtk%\MSXimg.exe img\data_bg.png -nodate -out  %Dest%\v9990\data_bg_byuv.bin -size 256 64 -mode bmp -color yuv   -trans 0xFF00FF
+	%MSXtk%\MSXimg.exe img\data_bg.png -nodate -out %Dest%\v9990\data_bg_byuvp.bin -size 256 64 -mode bmp -color yuvp  -trans 0xFF00FF -pal custom --paloff 0 --palcrop --pal24
 )
 
 

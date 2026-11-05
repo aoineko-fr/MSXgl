@@ -32,7 +32,7 @@
 #define MGLV_SCR_MODE_GM2			2 // Screen 2 & 4
 #define MGLV_SCR_MODE_MC			3 // Screen 3
 #define MGLV_SCR_MODE_BITMAP		4 // Screen 5 ~ 8
-#define MGLV_SCR_MODE_YAE			5 // Screen 10 (GM7 + YJK + YAE)
+#define MGLV_SCR_MODE_YJKP			5 // Screen 10 (GM7 + YJK + YAE)
 #define MGLV_SCR_MODE_YJK			6 // Screen 12 (GM7 + YJK)
 #define MGLV_SCR_MODE_7				7
 #define MGLV_SCR_WIDTH_MASK			0b00100000

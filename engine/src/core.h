@@ -10,7 +10,7 @@
 // Library version
 #define VERSION_MAJOR				1		// 4-bits (0-15)
 #define VERSION_MINOR				5		// 6-bits (0-63)
-#define VERSION_PATCH				4		// 6-bits (0-63)
+#define VERSION_PATCH				5		// 6-bits (0-63)
 
 // Macro: VERSION
 // Combines major, minor, and patch versions into a single version number.
@@ -187,7 +187,7 @@ typedef void (*callback)(void);				// Callback default signature
 
 #define BIT_SET(val, bit)			val |=  (1 << (bit))  		// Macro to set a given bit in an integer
 #define BIT_CLR(val, bit)			val &= ~(1 << (bit))  		// Macro to clear a given bit in an integer
-#define BIT_ISSET(val, bit)			((val) & (1 << (bit)) != 0)	// Macro to tell if a given bit is set or not
+#define BIT_ISSET(val, bit)			(((val) & (1 << (bit))) != 0)	// Macro to tell if a given bit is set or not
 
 #define SET_LOW(word, val)			((u8*)(&(word)))[0] = (val)
 #define SET_HIGH(word, val)			((u8*)(&(word)))[1] = (val)

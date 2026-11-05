@@ -65,9 +65,9 @@ const std::map<std::string, i32> g_OptionArgumentCount =
 	{ "-help", 0 },
 	{ "-out", 1 }, { "-format", 1 }, { "-name", 1 },
 	{ "-pos", 2 }, { "-size", 2 }, { "-num", 2 }, { "-gap", 2 },
-	{ "-bpc", 1 }, { "-trans", 1 }, { "-opacity", 1 },
+	{ "-bpc", 1 }, { "-color", 1 }, { "-trans", 1 }, { "-opacity", 1 },
 	{ "-pal", 1 }, { "--palcount", 1 }, { "-palcount", 1 },
-	{ "--paloff", 1 }, { "-paloff", 1 }, { "-pal24", 0 }, { "--pal24", 0 },
+	{ "--paloff", 1 }, { "-paloff", 1 }, { "-pal24", 0 }, { "--pal24", 0 }, { "-palcrop", 0 }, { "--palcrop", 0 },
 	{ "--palmod", 2 }, { "-palmod", 2 },
 	{ "-compress", 1 }, { "-dither", 1 }, { "-data", 1 }, { "-asm", 1 },
 	{ "-mode", 1 }, { "-skip", 0 }, { "-idx", 0 }, { "-copy", 0 },
@@ -211,16 +211,17 @@ void PrintHelp()
 	printf("    4	           4-bits index in 16 colors palette\n");
 	printf("    8	           8 bits RGB 256 colors (format: [G:3|R:3|B2]; default)\n");
 	printf("    16	           16-bits RGB colors  (format: [G:5|R:5|B5])\n");
-	printf(" -color ?         Palette to use for 16 colors mode\n");
-	printf("    p2             2-bit palette (4 colors)\n");
-	printf("    p4             4-bit palette (16 colors)\n");
-	printf("    p6             6-bit palette (64 colors)\n");
-	printf("    rgb8           8-bit RGB (256 colors)\n");
-	printf("    rgb16          16-bit RGB (32768 colors)\n");
-	printf("    yjk            8-bit YJK decoder (19268 colors)\n");
-	printf("    yjk_yae        8-bit YJK Decoder + palette (12615 colors)\n");
-	printf("    yuv            8-bit YUV decoder (19268 colors)\n");
-	printf("    yuv_yae        8-bit YUV Decoder + palette (12615 colors)\n");
+	printf(" -color ?         Color mode for bitmap export (override -bpc)\n");
+	printf("    p1             1-bit black & white (same as -bpc 1)\n");
+	printf("    p2             2-bit palette (4 colors; same as -bpc 2)\n");
+	printf("    p4             4-bit palette (16 colors; same as -bpc 4)\n");
+	printf("    p6             6-bit palette (64 colors; v9990 only)\n");
+	printf("    rgb8           8-bit RGB (256 colors; same as -bpc 8)\n");
+	printf("    rgb16          16-bit RGB (32768 colors; same as -bpc 16; v9990 only)\n");
+	printf("    yjk            8-bit YJK decoder (19268 colors; width must be a multiple of 4)\n");
+	printf("    yjkp           8-bit YJK Decoder + palette (12615 colors; width must be a multiple of 4)\n");
+	printf("    yuv            8-bit YUV decoder (19268 colors; width must be a multiple of 4; v9990 only)\n");
+	printf("    yuvp           8-bit YUV Decoder + palette (12615 colors; width must be a multiple of 4; v9990 only)\n");
 	printf(" -pal ?           Palette to use for 16 colors mode\n");
 	printf("    msx1           Use default MSX1 palette\n");
 	printf("    custom         Generate a custom palette and add it to the output file\n");
@@ -229,6 +230,7 @@ void PrintHelp()
 	printf(" --palcount n     Number of color in the custom palette to create (default: 15)\n");
 	printf(" --paloff n       Index offset of the palette (default: 1)\n");
 	printf(" --pal24          Use 24-bits palette (for v9990; default: false)\n");
+	printf(" --palcrop        Generate the palette only from the exported area instead of the whole image (bitmap mode; default: false)\n");
 	printf(" --palmod s c     Create a modified version of the palette (percentage of scale and contrast)\n");
 	printf(" -dither ?        Dithering method (for 1-bit color only)\n");
 	printf("    none           No dithering (default)\n");
@@ -451,10 +453,70 @@ int main(int argc, const char* argv[])
 			param.bpc = GetValue(argv[++i]);
 			switch (param.bpc)
 			{
+			case 1:		param.colorMode = COLORMODE_P1; break;
 			case 2:		param.colorMode = COLORMODE_P2; break;
 			case 4:		param.colorMode = COLORMODE_P4; break;
 			case 8:		param.colorMode = COLORMODE_RGB8; break;
 			case 16:	param.colorMode = COLORMODE_RGB16; break;
+			}
+		}
+		else if (MSX::StrEqual(argv[i], "-color")) // Color mode
+		{
+			i++;
+			if (MSX::StrEqual(argv[i], "p1"))
+			{
+				param.colorMode = COLORMODE_P1;
+				param.bpc = 1;
+			}
+			else if (MSX::StrEqual(argv[i], "p2"))
+			{
+				param.colorMode = COLORMODE_P2;
+				param.bpc = 2;
+			}
+			else if (MSX::StrEqual(argv[i], "p4"))
+			{
+				param.colorMode = COLORMODE_P4;
+				param.bpc = 4;
+			}
+			else if (MSX::StrEqual(argv[i], "p6"))
+			{
+				param.colorMode = COLORMODE_P6;
+				param.bpc = 8;
+			}
+			else if (MSX::StrEqual(argv[i], "rgb8"))
+			{
+				param.colorMode = COLORMODE_RGB8;
+				param.bpc = 8;
+			}
+			else if (MSX::StrEqual(argv[i], "rgb16"))
+			{
+				param.colorMode = COLORMODE_RGB16;
+				param.bpc = 16;
+			}
+			else if (MSX::StrEqual(argv[i], "yjk"))
+			{
+				param.colorMode = COLORMODE_YJK;
+				param.bpc = 8;
+			}
+			else if (MSX::StrEqual(argv[i], "yjkp"))
+			{
+				param.colorMode = COLORMODE_YJKP;
+				param.bpc = 8;
+			}
+			else if (MSX::StrEqual(argv[i], "yuv"))
+			{
+				param.colorMode = COLORMODE_YUV;
+				param.bpc = 8;
+			}
+			else if (MSX::StrEqual(argv[i], "yuvp"))
+			{
+				param.colorMode = COLORMODE_YUVP;
+				param.bpc = 8;
+			}
+			else
+			{
+				printf("Error: Unknown color mode '%s'!\n", argv[i]);
+				return 1;
 			}
 		}
 		else if(MSX::StrEqual(argv[i], "-trans")) // Use transparency color
@@ -485,9 +547,9 @@ int main(int argc, const char* argv[])
 					return 1;
 				}
 				param.palInCount = GetValue(argv[++i]);
-				if ((param.palInCount < 1) || (param.palInCount > 16) || (i + param.palInCount >= argc))
+				if ((param.palInCount < 1) || (param.palInCount > 64) || (i + param.palInCount >= argc))
 				{
-					printf("Error: Palette input count must be between 1 and 16 and include that many color values.\n");
+					printf("Error: Palette input count must be between 1 and 64 and include that many color values.\n");
 					return 1;
 				}
 				param.palInput.clear();
@@ -504,9 +566,9 @@ int main(int argc, const char* argv[])
 					return 1;
 				}
 				param.palInCount = GetValue(argv[++i]);
-				if ((param.palInCount < 1) || (param.palInCount > 16) || (i + param.palInCount >= argc))
+				if ((param.palInCount < 1) || (param.palInCount > 64) || (i + param.palInCount >= argc))
 				{
-					printf("Error: Partial palette count must be between 1 and 16 and include that many color values.\n");
+					printf("Error: Partial palette count must be between 1 and 64 and include that many color values.\n");
 					return 1;
 				}
 				param.palInput.clear();
@@ -525,6 +587,10 @@ int main(int argc, const char* argv[])
 		else if (MSX::StrEqual(argv[i], "--pal24") || MSX::StrEqual(argv[i], "-pal24")) // Palette 24b
 		{
 			param.pal24 = true;
+		}
+		else if (MSX::StrEqual(argv[i], "--palcrop") || MSX::StrEqual(argv[i], "-palcrop")) // Palette from exported area
+		{
+			param.bPalCrop = true;
 		}
 		else if (MSX::StrEqual(argv[i], "--palmod") || MSX::StrEqual(argv[i], "-palmod")) // Palette scale
 		{
@@ -691,11 +757,11 @@ int main(int argc, const char* argv[])
 				param.bpc = 8;
 				param.colorMode = COLORMODE_RGB8;
 			}
-			else if (MSX::StrInList(argv[i], {"yjk_yae", "sc10", "sc11"}))
+			else if (MSX::StrInList(argv[i], {"yjkp", "sc10", "sc11"}))
 			{
 				param.mode = MODE_Bitmap;
 				param.bpc = 8;
-				param.colorMode = COLORMODE_YJK_YAE;
+				param.colorMode = COLORMODE_YJKP;
 			}
 			else if (MSX::StrInList(argv[i], {"yjk", "sc12"}))
 			{
@@ -1023,15 +1089,37 @@ int main(int argc, const char* argv[])
 	{
 		printf("Warning: Dithering only work with 1-bit color format (current is %i-bits). Dithering value will be ignored.\n", param.bpc);
 	}
+	if (IsYJKColorMode(param.colorMode) && (param.comp & MSX::COMPRESS_RLE_Mask))
+	{
+		printf("Warning: RLE compressor can't be use with YJK/YUV color modes. RLE compressor removed.\n");
+		param.comp = MSX::COMPRESS_None;
+	}
+	if (IsYJKColorMode(param.colorMode) && ((param.sizeX % 4) != 0))
+	{
+		printf("Error: Block width must be a multiple of 4 with YJK/YUV color modes (current is %i).\n", param.sizeX);
+		return 1;
+	}
+	if (IsV9990ColorMode(param.colorMode) && IsPaletteColorMode(param.colorMode) && !param.pal24)
+	{
+		printf("Warning: %s color mode is only available on V9990. 24-bits palette enabled.\n", GetColorModeName(param.colorMode));
+		param.pal24 = true;
+	}
 
 	//.........................................................................
 	// Check palette
-	if ((param.bpc == 2) || (param.bpc == 4))
+	if (IsPaletteColorMode(param.colorMode))
 	{
-		i32 paletteSize = (param.bpc == 2) ? 4 : 16;
+		i32 paletteSize = GetColorModePaletteSize(param.colorMode);
+		if ((param.palType == PALETTE_MSX1) || (param.palType == PALETTE_MSX2))
+			paletteSize = 16; // Default palettes only have 16 colors
 		if (param.palOffset >= paletteSize)
 		{
-			printf("Error: Palette offset must be between 0 and %i for %i-bit color mode.\n", paletteSize - 1, param.bpc);
+			printf("Error: Palette offset must be between 0 and %i for %s color mode.\n", paletteSize - 1, GetColorModeName(param.colorMode));
+			return 1;
+		}
+		if (param.palInCount > paletteSize)
+		{
+			printf("Error: Input palette can't have more than %i colors for %s color mode.\n", paletteSize, GetColorModeName(param.colorMode));
 			return 1;
 		}
 
@@ -1039,7 +1127,7 @@ int main(int argc, const char* argv[])
 			param.palOutCount = paletteSize - param.palOffset;
 		if (param.palOutCount < 1)
 		{
-			printf("Error: Palette count must be at least 1 with 2-bit and 4-bit color modes.\n");
+			printf("Error: Palette count must be at least 1 with palette color modes.\n");
 			return 1;
 		}
 		if (param.palOutCount > paletteSize - param.palOffset)

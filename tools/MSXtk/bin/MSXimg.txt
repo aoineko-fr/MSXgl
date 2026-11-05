@@ -1,4 +1,4 @@
-MSXimg 1.23.0 - Image converter for MSX development
+MSXimg 1.23.1 - Image converter for MSX development
 Usage: MSXimg <filename> [options]
 
 General options:
@@ -58,16 +58,17 @@ Color options:
     4	           4-bits index in 16 colors palette
     8	           8 bits RGB 256 colors (format: [G:3|R:3|B2]; default)
     16	           16-bits RGB colors  (format: [G:5|R:5|B5])
- -color ?         Palette to use for 16 colors mode
-    p2             2-bit palette (4 colors)
-    p4             4-bit palette (16 colors)
-    p6             6-bit palette (64 colors)
-    rgb8           8-bit RGB (256 colors)
-    rgb16          16-bit RGB (32768 colors)
-    yjk            8-bit YJK decoder (19268 colors)
-    yjk_yae        8-bit YJK Decoder + palette (12615 colors)
-    yuv            8-bit YUV decoder (19268 colors)
-    yuv_yae        8-bit YUV Decoder + palette (12615 colors)
+ -color ?         Color mode for bitmap export (override -bpc)
+    p1             1-bit black & white (same as -bpc 1)
+    p2             2-bit palette (4 colors; same as -bpc 2)
+    p4             4-bit palette (16 colors; same as -bpc 4)
+    p6             6-bit palette (64 colors; v9990 only)
+    rgb8           8-bit RGB (256 colors; same as -bpc 8)
+    rgb16          16-bit RGB (32768 colors; same as -bpc 16; v9990 only)
+    yjk            8-bit YJK decoder (19268 colors; width must be a multiple of 4)
+    yjkp           8-bit YJK Decoder + palette (12615 colors; width must be a multiple of 4)
+    yuv            8-bit YUV decoder (19268 colors; width must be a multiple of 4; v9990 only)
+    yuvp           8-bit YUV Decoder + palette (12615 colors; width must be a multiple of 4; v9990 only)
  -pal ?           Palette to use for 16 colors mode
     msx1           Use default MSX1 palette
     custom         Generate a custom palette and add it to the output file
@@ -76,6 +77,7 @@ Color options:
  --palcount n     Number of color in the custom palette to create (default: 15)
  --paloff n       Index offset of the palette (default: 1)
  --pal24          Use 24-bits palette (for v9990; default: false)
+ --palcrop        Generate the palette only from the exported area instead of the whole image (bitmap mode; default: false)
  --palmod s c     Create a modified version of the palette (percentage of scale and contrast)
  -dither ?        Dithering method (for 1-bit color only)
     none           No dithering (default)

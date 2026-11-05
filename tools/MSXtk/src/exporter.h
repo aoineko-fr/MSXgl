@@ -134,6 +134,7 @@ struct ExportParameters
 	i32 palOutCount;			///< Number of colors in the output palette
 	i32 palOffset;				///< Index offset of the palette
 	bool pal24;					///< Use 24-bits palette (v9990)
+	bool bPalCrop;				///< Generate the palette only from the exported area (bitmap mode)
 	i32 palInCount;				///< Number of colors in the input palette
 	std::vector<PaletteMod> palMod; ///< Palette modifier table
 	std::vector<u32> palInput;	///< Use 24-bits palette (v9990)
@@ -199,6 +200,7 @@ struct ExportParameters
 		palOutCount = -1;
 		palOffset = 1;
 		pal24 = FALSE;
+		bPalCrop = FALSE;
 		palInCount = 0;
 		comp = MSX::COMPRESS_None;
 		format = MSX::DATAFORMAT_Hexa;
@@ -406,6 +408,7 @@ public:
 		WriteCommentLine(MSX::Format(" - Start position: %i, %i", Param->posX, Param->posY));
 		WriteCommentLine(MSX::Format(" - Sprite size:    %i, %i (gap: %i, %i)", Param->sizeX, Param->sizeY, Param->gapX, Param->gapY));
 		WriteCommentLine(MSX::Format(" - Sprite count:   %i, %i", Param->numX, Param->numY));
+		WriteCommentLine(MSX::Format(" - Color mode:     %s", GetColorModeName(Param->colorMode)));
 		WriteCommentLine(MSX::Format(" - Color count:    %i (Transparent: #%06X)", 1 << Param->bpc, Param->transColor));
 		WriteCommentLine(MSX::Format(" - Palette mode:   %s [%i:%i]", GetPaletteTypeName(Param->palType), Param->palOffset, Param->palOffset + Param->palOutCount - 1));
 		if (Param->palInCount)
