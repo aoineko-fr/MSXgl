@@ -11,14 +11,17 @@
 #include "dos_mapper.h"
 #include "memory.h"
 #include "psg.h"
-#if (LVGM_USE_SCC)
-#include "scc.h"
-#endif
 #if (LVGM_USE_MSXMUSIC)
 #include "msx-music.h"
 #endif
 #if (LVGM_USE_MSXAUDIO)
 #include "msx-audio.h"
+#endif
+#if (LVGM_USE_SCC)
+#include "scc.h"
+#endif
+#if (LVGM_USE_MAKOTO)
+#include "audio/makoto.h"
 #endif
 
 //=============================================================================
@@ -82,6 +85,9 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Metal Gear 2 (SCC)",   "mg2.lvm" },
  	{ "Pro Yakyuu (OPL1)",    "proyakyu.lvm" },
  	{ "Xevious (OPL1)",       "xevious.lvm" },
+ 	{ "Beholder 3 (OPNA)",    "beholder.lvm" },
+ 	{ "Hydlide 3 (OPNA)",     "hydlide3.lvm" },
+ 	{ "Valis 2 (OPNA)",       "valis2.lvm" },
  };
 
 // Player button list
@@ -364,18 +370,9 @@ void main()
 	VDP_ClearVRAM();
 	VDP_EnableVBlank(TRUE);
 
-	// Initialize audio chip
+	// Initialize LVGM module
+	LVGM_Initialize();
 	LVGM_SetNotifyCallback(MusicNotification);
-
-	#if (LVGM_USE_SCC)
-	SCC_Initialize();
-	#endif
-	#if (LVGM_USE_MSXMUSIC)
-	MSXMusic_Initialize();
-	#endif
-	#if (LVGM_USE_MSXAUDIO)
-	MSXAudio_Initialize();
-	#endif
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
@@ -387,9 +384,9 @@ void main()
 	Print_SetPosition(20, 12);
 	Print_DrawFormat("\x07" "Freq  %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
 
-	u8 Y = 17;
+	u8 Y = 16;
 	Print_SetPosition(20, Y++);
-	Print_DrawText("Slots: ");
+	Print_DrawText("Detect: ");
 	#if (LVGM_USE_MSXMUSIC)
 	Print_SetPosition(20, Y++);
 	Print_DrawText("\x07" "YM2413: ");
@@ -404,6 +401,11 @@ void main()
 	Print_SetPosition(20, Y++);
 	Print_DrawText("\x07" "SCC:    ");
 	Print_DrawSlot(SCC_SLOT);
+	#endif
+	#if (LVGM_USE_MAKOTO)
+	Print_SetPosition(20, Y++);
+	Print_DrawText("\x07" "YM2608: ");
+	Print_DrawChar(Makoto_Detect() ? '\x0C' : '\x0B');
 	#endif
 
 	// Decode VGM header

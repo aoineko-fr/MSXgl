@@ -451,6 +451,10 @@
 #define VGM_USE_MSXMUSIC			TRUE	// Allow MSX-Music data parsing and audio output
 #define VGM_USE_MSXAUDIO			TRUE	// Allow MSX-Audio data parsing and audio output
 #define VGM_USE_SCC					TRUE	// Allow SCC data parsing and audio output
+#define VGM_USE_SCCI				FALSE	// Allow SCC+ data parsing and audio output
+#define VGM_USE_PSG2				FALSE	// Allow secondary PSG data parsing and audio output
+#define VGM_USE_OPL4				FALSE	// Allow OPL4 data parsing and audio output
+#define VGM_USE_MAKOTO				FALSE	// Allow OPNA data parsing and audio output
 
 // PCM-Encoder supported frequency (more than 1 value allowed)
 // - PCMENC_NONE, PCMENC_8K, PCMENC_11K, PCMENC_22K and PCMENC_44K
@@ -485,6 +489,7 @@
 #define LVGM_USE_SCCI				FALSE	// Add parser for Konami SCC+ data
 #define LVGM_USE_PSG2				FALSE	// Add parser for secondary PSG data
 #define LVGM_USE_OPL4				FALSE	// Add parser for OPL4 data
+#define LVGM_USE_MAKOTO				FALSE	// Add parser for Makoto (OPNA) data
 #define LVGM_USE_NOTIFY				TRUE	// Add parser for PSG data
 
 // WYZ Tracker replayer options

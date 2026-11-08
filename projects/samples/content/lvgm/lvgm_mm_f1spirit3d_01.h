@@ -2,10 +2,10 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.7 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// MSXzip 1.5.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_f1spirit3d_01.vgm (18122 bytes)
 // Compressor: lVGM
-// VGM version: 1.00 (chips:OPLL)
+// VGM version: 1.50 (chips:OPLL)
 const unsigned char g_lVGM_mm_f1spirit3d_01[] = {
 // ---- Header ----
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
@@ -166,8 +166,8 @@ const unsigned char g_lVGM_mm_f1spirit3d_01[] = {
 	0xE0, // -------- Wait: Ex
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x31, // rr: nn
-	0xFE, // Loop marker
 	0xE6, // -------- Wait: Ex
+	0xFE, // Loop marker
 	0x0E, 0x20, // rr: nn
 	0x0E, 0x21, // rr: nn
 	0x15, 0x46, // rr: nn

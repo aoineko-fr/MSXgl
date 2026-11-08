@@ -84,6 +84,9 @@
 #if (LVGM_USE_SCC)
 #include "scc.h"
 #endif
+#if (LVGM_USE_MAKOTO)
+#include "audio/makoto.h"
+#endif
 
 //=============================================================================
 // DEFINES
@@ -119,8 +122,8 @@ enum LVGM_CHIP
 	LVGM_CHIP_SCC       = 0b00001000, // Include SCC data (K051649)
 	LVGM_CHIP_SCCI      = 0b00010000, // Include SCC+ data (K052539)
 	LVGM_CHIP_PSG2      = 0b00100000, // Include secondary PSG data
-	LVGM_CHIP_7         = 0b01000000, // 
-	LVGM_CHIP_MOONSOUND = 0b10000000, // Include Moonsound data (YMF278/OPL4)
+	LVGM_CHIP_MOONSOUND = 0b01000000, // Include Moonsound data (YMF278/OPL4)
+	LVGM_CHIP_MAKOTO    = 0b10000000, // Include Makoto data (YM2608/OPNA)
 	// Alias
 	LVGM_CHIP_AY8910    = LVGM_CHIP_PSG,
 	LVGM_CHIP_YM2413    = LVGM_CHIP_MSXMUSIC,
@@ -131,6 +134,8 @@ enum LVGM_CHIP
 	LVGM_CHIP_K052539   = LVGM_CHIP_SCCI,
 	LVGM_CHIP_YMF278    = LVGM_CHIP_MOONSOUND,
 	LVGM_CHIP_OPL4      = LVGM_CHIP_MOONSOUND,
+	LVGM_CHIP_YM2608    = LVGM_CHIP_MAKOTO,
+	LVGM_CHIP_OPNA      = LVGM_CHIP_MAKOTO,
 };
 
 // LVGM playback state flag
@@ -150,7 +155,8 @@ enum LVGM_OP
 	LVGM_OP_SCC			= 0xF3, // Start of SCC chunk
 	LVGM_OP_SCCI		= 0xF4, // Start of SCC+ chunk
 	LVGM_OP_PSG2		= 0xF5, // Start of secondary PSG chunk
-	LVGM_OP_OPL4		= 0xF7, // Start of Moonsound chunk
+	LVGM_OP_OPL4		= 0xF6, // Start of Moonsound chunk
+	LVGM_OP_OPNA		= 0xF7, // Start of Makoto chunk
 	LVGM_OP_WAIT		= 0xFC, // Wait nn+1 cycles (1~256)
 	LVGM_OP_NOTIFY		= 0xFD, // Optional markers
 	LVGM_OP_LOOP		= 0xFE, // Loop position
@@ -183,21 +189,28 @@ typedef bool (*LVGM_NotifyCB)(u8);
 
 // Extern data
 extern const LVGM_Header* g_LVGM_Header;
-extern const u8* g_LVGM_Pointer;
-extern u8        g_LVGM_Wait;
-extern u8        g_LVGM_State;
-extern const u8  g_LVGM_Ident[4];
-extern u8        g_LVGM_CurChip;
-extern u8        g_LVGM_Devices;
-extern u8        g_LVGM_PSG_Default;
-
+extern const u8*          g_LVGM_Pointer;
+extern const u8*          g_LVGM_LoopAddr;
+extern const u8*          g_LVGM_StartAddr;
+extern u8                 g_LVGM_Devices;
+extern u8                 g_LVGM_PSG_Default;
+extern u8                 g_LVGM_Wait;
+extern u8                 g_LVGM_State;
+extern u8                 g_LVGM_CurChip;
 #if (LVGM_USE_NOTIFY)
-extern LVGM_NotifyCB g_LVGM_Callback;
+extern LVGM_NotifyCB      g_LVGM_Callback;
+#endif
+#if (LVGM_USE_MAKOTO)
+extern u8                 g_LVGM_OPNA_Port;
 #endif
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
+
+// Function: LVGM_Initialize
+// Initialize LVGM replayer
+void LVGM_Initialize();
 
 // Function: LVGM_Play
 // Start music playback.

@@ -46,7 +46,28 @@ u8        g_VGM_State;
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-/// Play a VGM data
+// Initialize VGM replayer
+void VGM_Initialize()
+{
+	#if (VGM_USE_PSG)
+		// Initialize PSG module
+	#endif
+	#if (VGM_USE_MSXMUSIC)
+		MSXMusic_Initialize();
+	#endif
+	#if (VGM_USE_MSXAUDIO)
+		MSXAudio_Initialize();
+	#endif
+	#if (VGM_USE_SCC)
+		SCC_Initialize();
+	#endif
+	#if (VGM_USE_MAKOTO)
+		Makoto_Initialize();
+	#endif
+}
+
+//-----------------------------------------------------------------------------
+// Play a VGM data
 bool VGM_Play(const void* addr, bool loop)
 {
 	VGM_Pause(); // Mute all sound chip
@@ -142,7 +163,7 @@ void VGM_Stop()
 }
 
 //-----------------------------------------------------------------------------
-/// Decode a frame of VGM data
+// Decode a frame of VGM data
 void VGM_Decode()
 {
 	if (!(g_VGM_State & VGM_STATE_PLAY))

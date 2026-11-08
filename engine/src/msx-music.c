@@ -52,13 +52,13 @@ u8 g_MSXMusic_RegBackup[16];
 
 //-----------------------------------------------------------------------------
 // Initialize MSX-Music module
-u8 MSXMusic_Initialize()
+bool MSXMusic_Initialize()
 {
 	u8 ret = MSXMusic_Detect();
 	#if (MSXMUSIC_USE_RESUME)
 	Mem_Set(0, g_MSXMusic_RegBackup, 16);
 	#endif
-	return ret;
+	return ret != MSXMUSIC_NOTFOUND;
 }
 
 //-----------------------------------------------------------------------------

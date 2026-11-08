@@ -29,7 +29,7 @@
 // DEFINES
 //=============================================================================
 
-//
+// lVGM chunk type
 enum LVGM_CHUNK_TYPE
 {
 	LVGM_CHUNK_REG,
@@ -38,7 +38,7 @@ enum LVGM_CHUNK_TYPE
 	LVGM_CHUNK_END,
 };
 
-//
+// lVGM chunk structure
 struct lVGM_Chunk
 {
 	LVGM_CHUNK_TYPE Type;
@@ -51,7 +51,7 @@ struct lVGM_Chunk
 	lVGM_Chunk(LVGM_CHUNK_TYPE t, LVGM_CHIP c = LVGM_CHIP_NONE, u8 p = 0, u8 r = 0, u16 v = 0) : Type(t), Chip(c), Port(p), Register(r), Value(v) {}
 };
 
-//
+// lVGM sequence structure
 struct lVGM_Seq
 {
 	u8 FirstReg;
@@ -59,7 +59,7 @@ struct lVGM_Seq
 	std::vector<u8> Values;
 };
 
-//
+// lVGM detect structure
 struct lVGM_Detect
 {
 	u8          ChipNum;
@@ -87,6 +87,7 @@ u32						g_lVGM_Split;
 // Global variables
 u8                      g_lVGM_CurChip;
 u8                      g_lVGM_Default;
+u8                      g_lVGM_CurPort;
 
 // Register map
 std::map<u8, std::map<u8, u8>> g_lVGM_RegMap;
@@ -96,8 +97,8 @@ std::map<u8, std::map<u8, u8>> g_lVGM_RegMap;
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-//
-void AddDevice(lVGM_Detect& detect, std::string name, u8 flag)
+// Add a device to the detection structure (description string, device flags and chip counter)
+void AddDevice(lVGM_Detect& detect, const c8* name, u8 flag)
 {
 	if(detect.ChipNum)
 		detect.ChipDesc += ", ";
@@ -107,7 +108,8 @@ void AddDevice(lVGM_Detect& detect, std::string name, u8 flag)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Detect sound chips used by the source VGM from its header clock fields
+// Returns false if no supported chip is found
 bool DetectDevices(lVGM_Detect& detect)
 {
 	detect.ChipDesc = "";
@@ -128,6 +130,8 @@ bool DetectDevices(lVGM_Detect& detect)
 		AddDevice(detect, "PSGx2", LVGM_CHIP_PSG2);
 	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YMF278B_clock)
 		AddDevice(detect, "OPL4", LVGM_CHIP_OPL4);
+	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YM2608_clock)
+		AddDevice(detect, "OPNA", LVGM_CHIP_OPNA);
 
 	detect.bMultiChip = (detect.ChipNum > 1);
 
@@ -135,14 +139,15 @@ bool DetectDevices(lVGM_Detect& detect)
 }
 
 //-----------------------------------------------------------------------------
-//
-u16 CountIncSequence(std::vector<lVGM_Chunk>::iterator& chunk, bool& bUnique)
+// Count the number of consecutive writes to incremental registers of the same chip, starting at the given chunk (up to maxLen)
+// bUnique is set to true if all the written values (of the counted sequence) are identical
+u16 CountIncSequence(std::vector<lVGM_Chunk>::iterator& chunk, bool& bUnique, u16 maxLen)
 {
 	bUnique = true;
 	u16 seqLen = 1;
 	u8 regCnt = chunk->Register + 1;
 	auto it = std::next(chunk);
-	while ((it->Type == LVGM_CHUNK_REG) && (it->Chip == chunk->Chip) && (it->Register == regCnt))
+	while ((seqLen < maxLen) && (it->Type == LVGM_CHUNK_REG) && (it->Chip == chunk->Chip) && (it->Port == chunk->Port) && (it->Register == regCnt))
 	{
 		if (it->Value != chunk->Value)
 			bUnique = false;
@@ -155,7 +160,8 @@ u16 CountIncSequence(std::vector<lVGM_Chunk>::iterator& chunk, bool& bUnique)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Check if adding 'size' bytes would cross a data segment boundary (when split option is set)
+// If so, add an end-of-segment notification followed by padding up to the next segment
 void CheckSplit(MSX::ExporterInterface* exp, u8 size)
 {
 	if (g_lVGM_Split)
@@ -173,7 +179,7 @@ void CheckSplit(MSX::ExporterInterface* exp, u8 size)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Export a single byte (with segment split check)
 void AddByte(MSX::ExporterInterface* exp, u8 value, std::string comment = "")
 {
 	CheckSplit(exp, 1);
@@ -182,7 +188,7 @@ void AddByte(MSX::ExporterInterface* exp, u8 value, std::string comment = "")
 }
 
 //-----------------------------------------------------------------------------
-//
+// Export a list of bytes on a single line (with segment split check)
 void AddList(MSX::ExporterInterface* exp, std::vector<u8> list, std::string comment = "")
 {
 	CheckSplit(exp, (u8)list.size());
@@ -191,7 +197,7 @@ void AddList(MSX::ExporterInterface* exp, std::vector<u8> list, std::string comm
 }
 
 //-----------------------------------------------------------------------------
-//
+// Export a register sequence: opcode, optional first register number, then the values of 'count' consecutive chunks
 void AddSequence(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk, u16 count, u8 code, std::string comment = "", bool addReg = false)
 {
 	CheckSplit(exp, addReg ? count + 2 : count + 1);
@@ -214,7 +220,8 @@ void AddSequence(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator&
 }
 
 //-----------------------------------------------------------------------------
-//
+// Export a PSG (AY-3-8910) register write chunk (1st or 2nd PSG)
+// Uses the most common value shortcut (Dn) and 4-bit packed opcodes when possible
 void ExportPSG(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
 {
 	assert(chunk->Type == LVGM_CHUNK_REG);
@@ -302,7 +309,8 @@ void ExportPSG(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& c
 }
 
 //-----------------------------------------------------------------------------
-//
+// Export an OPLL (YM2413) register write chunk
+// Detects register sequences (instrument, channel groups, generic 3-7 registers) and advances 'chunk' accordingly
 void ExportOPLL(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
 {
 	assert(chunk->Type == LVGM_CHUNK_REG);
@@ -320,7 +328,7 @@ void ExportOPLL(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 
 	// Check for sequence
 	bool bUnique;
-	u16 seqLen = CountIncSequence(chunk, bUnique);
+	u16 seqLen = CountIncSequence(chunk, bUnique, 18); // 6n/7n opcodes can handle up to 18 registers
 	if ((reg == 0x00) && (seqLen == 8))
 	{
 		if (bUnique)
@@ -384,7 +392,7 @@ void ExportOPLL(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 		chunk += seqLen - 1;
 		return;
 	}
-	else if ((seqLen >= 3) && (seqLen <= 7))
+	else if (seqLen >= 3)
 	{
 		if (bUnique)
 			AddList(exp, std::vector<u8>{ (u8)(0x60 + seqLen - 3), reg, val }, "6n rr vv => R#rr~");
@@ -401,7 +409,7 @@ void ExportOPLL(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 }
 	
 //-----------------------------------------------------------------------------
-//
+// Export an OPL1 (Y8950) register write chunk (raw register/value pair)
 void ExportOPL1(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
 {
 	assert(chunk->Type == LVGM_CHUNK_REG);
@@ -417,24 +425,22 @@ void ExportOPL1(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 	u8 reg = chunk->Register;
 	u8 val = (u8)chunk->Value;
 
-	// Check for sequence
-	/*bool bUnique;
-	u16 seqLen = CountIncSequence(chunk, bUnique);
-	if ((seqLen >= 3) && (seqLen <= 18))
+	// Check for sequence (Dn opcode can handle up to 18 registers)
+	bool bUnique;
+	u16 seqLen = CountIncSequence(chunk, bUnique, 18);
+	if (seqLen >= 3)
 	{
-		AddSequence(exp, chunk, seqLen, (u8)(0xD0 + seqLen - 3), "Dx yy zz[x] => R#yy~", true);
+		AddSequence(exp, chunk, seqLen, (u8)(0xD0 + seqLen - 3), "Dn rr vv[] => R#rr~", true);
 		chunk += seqLen - 1;
 		return;
-	}*/
+	}
 
-	AddList(exp, std::vector<u8>{ reg, val }, "R#xx = yy");
-
-	// Yakyu		6931	6926
-	// Xevious		7712	7599
+	AddList(exp, std::vector<u8>{ reg, val }, "rr: nn");
 }
 
 //-----------------------------------------------------------------------------
-//
+// Export an SCC (K051649) register write chunk
+// Detects full waveform (32 bytes) and generic 3-18 registers sequences and advances 'chunk' accordingly
 void ExportSCC(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
 {
 	assert(chunk->Type == LVGM_CHUNK_REG);
@@ -452,7 +458,7 @@ void ExportSCC(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& c
 
 	// Check for sequence
 	bool bUnique;
-	u16 seqLen = CountIncSequence(chunk, bUnique);
+	u16 seqLen = CountIncSequence(chunk, bUnique, 32); // Full waveform
 	if ((reg == 0x00) && (seqLen >= 32))
 	{
 		if (bUnique)
@@ -493,7 +499,10 @@ void ExportSCC(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& c
 	{
 		printf("Warning: Channel 5's waveform data found in SCC set! (SCC+ only feature)\n");
 	}
-	else if ((seqLen >= 3) && (seqLen <= 18))
+
+	// Generic sequence (Cn/Dn opcodes can handle up to 18 registers)
+	seqLen = CountIncSequence(chunk, bUnique, 18);
+	if (seqLen >= 3)
 	{
 		if (bUnique)
 			AddList(exp, std::vector<u8>{ (u8)(0xC0 + seqLen - 3), reg, val }, "Cn rr vv => R#rr~");
@@ -503,11 +512,11 @@ void ExportSCC(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& c
 		return;
 	}
 
-	AddList(exp, std::vector<u8>{ reg, (u8)chunk->Value }, "#rr = nn");
+	AddList(exp, std::vector<u8>{ reg, (u8)chunk->Value }, "rr: nn");
 }
 
 //-----------------------------------------------------------------------------
-//
+// Export an SCC+ (K052539) register write chunk (raw port/register/value)
 void ExportSCCI(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
 {
 	if (g_lVGM_CurChip != LVGM_CHIP_SCCI)
@@ -521,7 +530,7 @@ void ExportSCCI(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 
 
 //-----------------------------------------------------------------------------
-//
+// Export an OPL4 (YMF278B) register write chunk (raw port/register/value)
 void ExportOPL4(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
 {
 	if (g_lVGM_CurChip != LVGM_CHIP_OPL4)
@@ -533,16 +542,54 @@ void ExportOPL4(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 	AddList(exp, std::vector<u8>{ chunk->Port, chunk->Register, (u8)chunk->Value }, "");
 }
 
+//-----------------------------------------------------------------------------
+// Export an OPNA (YM2608) register write chunk (raw port/register/value)
+void ExportOPNA(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
+{
+	assert(chunk->Type == LVGM_CHUNK_REG);
+	assert(chunk->Chip == LVGM_CHIP_OPNA);
+
+	// Check for chip switch
+	if (g_lVGM_CurChip != LVGM_CHIP_OPNA)
+	{
+		g_lVGM_CurChip = LVGM_CHIP_OPNA;
+		AddByte(exp, LVGM_OP_OPNA, "---- Start OPNA section");
+	}
+
+	// Check for port switch
+	if (g_lVGM_CurPort != chunk->Port)
+	{
+		g_lVGM_CurPort = chunk->Port;
+		AddByte(exp, (u8)(0xBE + chunk->Port), "Select port");
+	}
+
+	// Check for sequence
+	bool bUnique;
+	u16 seqLen = CountIncSequence(chunk, bUnique, 18); 	// Data sequence (Cn/Dn opcodes can handle up to 18 registers)s
+	if (seqLen >= 3)
+	{
+		if (bUnique)
+			AddList(exp, std::vector<u8>{ (u8)(0xC0 + seqLen - 3), chunk->Register, (u8)chunk->Value }, "Cn rr vv => R#rr~");
+		else
+			AddSequence(exp, chunk, seqLen, (u8)(0xD0 + seqLen - 3), "Dn rr vv[] => R#rr~", true);
+		chunk += seqLen - 1;
+		return;
+	}
+
+	AddList(exp, std::vector<u8>{ chunk->Register, (u8)chunk->Value }, "rr: nn");
+}
 
 //-----------------------------------------------------------------------------
-//
+// Simplify register writes inside each frame according to g_lVGM_Simplify option
+//  LVGM_SIMPLIFY_ORDER:     sort writes by port/register (keeps all writes)
+//  LVGM_SIMPLIFY_DUPLICATE: keep only the last write to each chip/port/register
 void Simplify(std::vector<lVGM_Chunk>& chunkList)
 {
 	std::vector<lVGM_Chunk> workList;
 	std::map<u32, lVGM_Chunk> workMap;
 
 	u32 count = 0;
-	for (const auto& chunk : chunkList)
+	for (const lVGM_Chunk& chunk : chunkList)
 	{
 		switch (chunk.Type)
 		{
@@ -561,8 +608,6 @@ void Simplify(std::vector<lVGM_Chunk>& chunkList)
 			//	workList.push_back(chunk);
 			break;
 		case LVGM_CHUNK_LOOP:
-			workList.push_back(chunk);
-			break;
 		case LVGM_CHUNK_FRAME:
 		case LVGM_CHUNK_END:
 			if (workMap.size())
@@ -581,7 +626,70 @@ void Simplify(std::vector<lVGM_Chunk>& chunkList)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Output the register writes of a frame grouped by chip (writes order for a given chip is preserved)
+// The first group is the chip active at the end of the previous frame. lastChip is updated with the last group chip
+void FlushFrameByChip(std::vector<lVGM_Chunk>& frame, std::vector<lVGM_Chunk>& workList, u8& lastChip)
+{
+	if (frame.empty())
+		return;
+
+	// Build chip order: last active chip first (if used in this frame), then other chips by first appearance
+	std::vector<u8> order;
+	for (const lVGM_Chunk& chunk : frame)
+	{
+		if (chunk.Chip == lastChip)
+		{
+			order.push_back(lastChip);
+			break;
+		}
+	}
+	for (const lVGM_Chunk& chunk : frame)
+	{
+		if (std::find(order.begin(), order.end(), chunk.Chip) == order.end())
+			order.push_back(chunk.Chip);
+	}
+
+	// Output writes grouped by chip
+	for (u8 chip : order)
+	{
+		for (const lVGM_Chunk& chunk : frame)
+		{
+			if (chunk.Chip == chip)
+				workList.push_back(chunk);
+		}
+	}
+
+	lastChip = order.back();
+	frame.clear();
+}
+
+//-----------------------------------------------------------------------------
+// Group register writes by chip inside each frame to minimize chip section markers
+// FRAME, LOOP and END chunks are barriers (no write is moved across them)
+void GroupByChip(std::vector<lVGM_Chunk>& chunkList)
+{
+	std::vector<lVGM_Chunk> workList;
+	std::vector<lVGM_Chunk> frame; // Register writes of the current frame
+	u8 lastChip = LVGM_CHIP_PSG;   // Default chip selected by the replayer
+
+	for (const lVGM_Chunk& chunk : chunkList)
+	{
+		if (chunk.Type == LVGM_CHUNK_REG)
+			frame.push_back(chunk);
+		else
+		{
+			FlushFrameByChip(frame, workList, lastChip);
+			workList.push_back(chunk);
+		}
+	}
+	FlushFrameByChip(frame, workList, lastChip);
+
+	chunkList = workList;
+}
+
+//-----------------------------------------------------------------------------
+// Check if a register write changes the current register value (and update the register map)
+// Returns false if the value is the same as the previous write (write can be skipped)
 bool ExportValue(u8 chip, u8 reg, u8 val)
 {
 	if ((g_lVGM_RegMap[chip].find(reg) == g_lVGM_RegMap[chip].end()) || (g_lVGM_RegMap[chip][reg] != val))
@@ -593,7 +701,9 @@ bool ExportValue(u8 chip, u8 reg, u8 val)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Convert VGM data to lVGM format and export it through the given exporter
+// Parse the VGM commands into a chunk list (register writes, frame waits, loop and end markers), then encode each chunk
+// Returns false if the input is not a valid VGM or if no supported chip is found
 bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector<u8>& data)
 {
 	g_VGM_Header = (const VGM_Header*)&data[0];
@@ -626,13 +736,14 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 	}
 
 	// File info
-	exp->AddComment(MSX::Format("VGM version: %01x.%02x (chips:%s)", (g_VGM_Header->Version >> 8) & 0xF, g_VGM_Header->Version & 0x3, detect.ChipDesc.c_str()));
+	exp->AddComment(MSX::Format("VGM version: %01x.%02x (chips:%s)", (g_VGM_Header->Version >> 8) & 0xF, g_VGM_Header->Version & 0xFF, detect.ChipDesc.c_str()));
 
 	//............................................................................
 	// Parse data
 
 	g_lVGM_CurChip = LVGM_CHIP_PSG;
 	g_lVGM_Default = 0;
+	g_lVGM_CurPort = 0;
 	bool bLoop = false;
 	u32 sampleFrame = (g_lVGM_Frequency == LVGM_FREQ_60HZ) ? VGM_WAIT_60HZ : VGM_WAIT_50HZ;
 	u32 sampleCount = 0;
@@ -642,6 +753,13 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 	// Parse input data
 	while (1)
 	{
+		// Check loop position (before processing the command located at loop offset)
+		if (g_VGM_Loop && !bLoop && (g_VGM_Pointer >= g_VGM_Loop))
+		{
+			bLoop = true;
+			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_LOOP));
+		}
+
 		//-----------------------------------------------------------------------------
 		if (*g_VGM_Pointer == VGM_CMD_AY8910) // PSG/AY8910, write value dd to register aa
 		{
@@ -752,6 +870,25 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL4, port, reg, val));
 		}
 		//-----------------------------------------------------------------------------
+		else if ((*g_VGM_Pointer == VGM_CMD_YM2608_0) || (*g_VGM_Pointer == VGM_CMD_YM2608_1)) // MAKOTO/YM2608/OPNA, write value dd to register aa
+		{
+			u8 port = (*g_VGM_Pointer == VGM_CMD_YM2608_0) ? 0 : 1;
+			u8 reg = g_VGM_Pointer[1];
+			u8 val = g_VGM_Pointer[2];
+			g_VGM_Pointer += 2;
+
+			if (port == 0)
+			{
+				if (reg == 0x27) // Timer control: keep only CH3 mode
+					val &= 0xC0;
+				else if (reg == 0x29) // IRQ enable: keep only SCH (6 FM channels)
+					val &= 0x80;
+			}
+
+			if (reg <= 0xB6)
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPNA, port, reg, val));
+		}
+		//-----------------------------------------------------------------------------
 		else if (*g_VGM_Pointer == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
 			u16 nn = *(u16*)(g_VGM_Pointer + 1);
@@ -779,14 +916,23 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 		else
 		{
 			printf("Warning: Invalid command! %02x\n", *g_VGM_Pointer);
+			if ((*g_VGM_Pointer >= 0x30) && (*g_VGM_Pointer <= 0x3F))
+				g_VGM_Pointer++;
+			else if ((*g_VGM_Pointer >= 0x40) && (*g_VGM_Pointer <= 0x5F))
+				g_VGM_Pointer += 2;
+			else if ((*g_VGM_Pointer >= 0xA0) && (*g_VGM_Pointer <= 0xBF))
+				g_VGM_Pointer += 2;
+			else if ((*g_VGM_Pointer >= 0xC0) && (*g_VGM_Pointer <= 0xDF))
+				g_VGM_Pointer += 3;
+			else if ((*g_VGM_Pointer >= 0xE0) && (*g_VGM_Pointer <= 0xFF))
+				g_VGM_Pointer += 4;			
+			else if (*g_VGM_Pointer == 0x67) // Data block: 0x67 0x66 tt ss ss ss ss data[ss]
+			{
+				u32 size = *(u32*)(g_VGM_Pointer + 3) & 0x7FFFFFFF;
+				g_VGM_Pointer += 6 + size;
+			}
 		}
 		g_VGM_Pointer++;
-
-		if (!bLoop && (g_VGM_Pointer >= g_VGM_Loop))
-		{
-			bLoop = true;
-			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_LOOP));
-		}
 
 		// Check for end of 50/60 Hz frame
 		if (sampleCount >= sampleFrame)
@@ -848,6 +994,10 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 		Simplify(chunkList);
 	}
 
+	// Group register writes by chip in each frame (to minimize chip section markers)
+	if (detect.bMultiChip)
+		GroupByChip(chunkList);
+
 	// Write data
 	for (auto chunk = chunkList.begin(); chunk != chunkList.end(); ++chunk)
 	{
@@ -874,6 +1024,9 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 				break;
 			case LVGM_CHIP_OPL4:
 				ExportOPL4(exp, chunk);
+				break;
+			case LVGM_CHIP_OPNA:
+				ExportOPNA(exp, chunk);
 				break;
 			default:
 				break;
@@ -909,9 +1062,10 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 
 		case LVGM_CHUNK_LOOP:
 			AddByte(exp, LVGM_OP_LOOP, "Loop marker");
-			// With multiple chips, force the chip marker after the loop point (the replayer's current chip at the end of the song is unknown)
+			// With multiple chips, force the chip marker after the loop point
 			if (detect.Devices & (detect.Devices - 1))
 				g_lVGM_CurChip = LVGM_CHIP_NONE;
+			g_lVGM_CurPort = 0xFF; // Force the port marker after the loop point
 			break;
 
 		case LVGM_CHUNK_END:

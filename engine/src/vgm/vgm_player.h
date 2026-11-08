@@ -98,6 +98,10 @@ extern u8        g_VGM_State;
 // FUNCTIONS
 //=============================================================================
 
+// Function: VGM_Initialize
+// Initialize VGM replayer
+void VGM_Initialize();
+
 // Function: VGM_Play
 // Start music playback
 //

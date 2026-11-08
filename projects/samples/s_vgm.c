@@ -361,18 +361,8 @@ void main()
 	VDP_ClearVRAM();
 	VDP_EnableVBlank(TRUE);
 
-	#if (VGM_USE_SCC)
-		SCC_Initialize();
-	#endif
-	#if (VGM_USE_MSXMUSIC)
-		MSXMusic_Initialize();
-	#endif
-	#if (VGM_USE_MSXAUDIO)
-		MSXAudio_Initialize();
-	#endif
-	#if (VGM_USE_MAKOTO)
-		Makoto_Initialize();
-	#endif
+	// Initialize VGM module
+	VGM_Initialize();
 
 	// Initialize font
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
@@ -415,7 +405,6 @@ void main()
 	{
 		Print_SetPosition(1 + 2 * i, PLAYER_Y + 1);
 		Print_DrawChar(g_ButtonEntry[i].Char);
-		
 	}
 
 	// Footer

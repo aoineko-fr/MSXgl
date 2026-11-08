@@ -2,18 +2,18 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.7 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// MSXzip 1.5.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\psg_honotori_09.vgm (14842 bytes)
 // Compressor: lVGM
-// VGM version: 1.01 (chips:PSG)
+// VGM version: 1.51 (chips:PSG)
 const unsigned char g_lVGM_psg_honotori_09[] = {
 // ---- Header ----
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
 	0x02, // Options (freq:60Hz loop:1 dev:0)
 	0xBE, // PSG - More common byte
 // ---- Data ----
-	0x07, 0x80, // R#7: 07 nn
 	0xFE, // Loop marker
+	0x07, 0x80, // R#7: 07 nn
 	0x10, // R#1: 1n
 	0xD0, // R#n: Dn
 	0x07, 0x88, // R#7: 07 nn

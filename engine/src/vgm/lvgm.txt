@@ -12,13 +12,14 @@
 
 	(xx)		Devices (only present if Options#2 is 1)
 				7 6 5 4 3 2 1 0
-				│   │ │ │ │ │ └── Include PSG data (AY-3-8910)
-				│   │ │ │ │ └──── Include MSX-MUSIC data (YM2413/OPLL)
-				│   │ │ │ └────── Include MSX-AUDIO data (Y8950/OPL1+ADPCM)
-				│   │ │ └──────── Include SCC data (K051649)
-				│   │ └────────── Include SCC+ data (K052539)
-				│   └──────────── Include secondary PSG data
-				└──────────────── Include Moonsound data (YMF278/OPL4)
+				│ │ │ │ │ │ │ └── Include PSG data (AY-3-8910)
+				│ │ │ │ │ │ └──── Include MSX-MUSIC data (YM2413/OPLL)
+				│ │ │ │ │ └────── Include MSX-AUDIO data (Y8950/OPL1+ADPCM)
+				│ │ │ │ └──────── Include SCC data (K051649)
+				│ │ │ └────────── Include SCC+ data (K052539)
+				│ │ └──────────── Include secondary PSG data
+				│ └────────────── Include Moonsound data (YMF278/OPL4)
+				└──────────────── Include Makoto (YM2608/OPNA)
 
 	(xx)		PSG - Most common value (only present if Opions#2 is 0 or Devices#0 is 1)
 
@@ -37,7 +38,8 @@
 	F3				Start of SCC chunk
 	F4				Start of SCC+ chunk
 	F5				Start of secondary PSG chunk
-	F7				Start of Moonsound chunk
+	F6				Start of Moonsound (OPL4) chunk
+	F7				Start of Makoto (OPNA) chunk
 
 	FC nn			Wait nn+1 cycles (1~256)
 
@@ -54,7 +56,7 @@
 	FE				Loop position
 	FF				End of song
 ..............................................................................
-					Not used: F6, F8~FB
+					Not used: F6, F9~FB
 
 
 ==============================================================================
@@ -137,21 +139,12 @@
 ------------------------------------------------------------------------------
 	xx yy			R#xx = yy (xx ∈ [00:C8])
 ..............................................................................
-	1F xx[8]		User Tone 1 (copy 8 bytes in 20,23,40,43,60,63,80,83)
-	2F xx[8]		User Tone 2 (copy 8 bytes in 21,24,41,44,61,64,81,84)
-	3F xx[8]		User Tone 3 (copy 8 bytes in 22,25,42,45,62,65,82,85)
-	4F xx[8]		User Tone 4 (copy 8 bytes in 28,2B,48,4B,68,6B,88,8B)
-	5F xx[8]		User Tone 5 (copy 8 bytes in 29,2C,49,4C,69,6C,89,8C)
-	6F xx[8]		User Tone 6 (copy 8 bytes in 2A,2D,4A,4D,6A,6D,8A,8D)
-	7F xx[8]		User Tone 7 (copy 8 bytes in 30,33,50,53,70,73,90,93)
-	8F xx[8]		User Tone 8 (copy 8 bytes in 31,34,51,54,71,74,91,94)
-	9F xx[8]		User Tone 9 (copy 8 bytes in 32,35,52,55,72,75,92,95)
-..............................................................................
 	Dx yy zz[]		Copy x+3 bytes (3~18) start from R#yy
 ..............................................................................
-					Not used: 13~14, 1B~1E, 26~27, 2E, 36~3E, 46~47, 
-					 4E, 56~5E, 66~67, 6E, 76~7E, 86~87, 8E, 96~9E, 
-					 A9~AF, B9~BC, BE~BF, C9~CF
+					Not used: 00, 13~14, 1B~1F, 26~27, 2E~2F, 36~3F,
+					 46~47, 4E~4F, 56~5F, 66~67, 6E~6F, 76~7F, 86~87,
+					 8E~8F, 96~9F, A9~AF, B9~BC, BE~BF, C9~CF
+					Filtered by the converter (never in data): 04, 18~19
 
 
 ==============================================================================
@@ -178,3 +171,20 @@
 	Dx yy zz[]		Copy x+3 bytes (3~18) start from R#yy
 ..............................................................................
 					Not used: B5-B7, BD-BF
+
+
+==============================================================================
+ MAKOTO DATA  (00~DF)
+==============================================================================
+
+	Opcode			Action
+------------------------------------------------------------------------------
+	xx yy			R#xx = yy (xx ∈ [00:B6])
+..............................................................................
+	BE				Select Part 0
+	BF				Select Part 1
+..............................................................................
+	Cx yy zz		Set x+3 bytes (3~18) start from R#yy
+	Dx yy zz[]		Copy x+3 bytes (3~18) start from R#yy
+..............................................................................
+					Not used: 

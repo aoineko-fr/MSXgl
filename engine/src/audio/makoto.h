@@ -45,17 +45,17 @@
 // Group: Core
 
 // Function: Makoto_Initialize
-// Initialize Makoto module
+// Initialize Makoto (OPNA/YM2608) module
 //
 // Return:
-//   FALSE if no Makoto (YM2608) chip found
+//   FALSE if no Makoto cartridge found
 bool Makoto_Initialize();
 
 // Function: Makoto_Detect
-// Search for Makoto (YM2608) chip
+// Search for Makoto (OPNA/YM2608) cartridge
 //
 // Return:
-//   FALSE if no Makoto (YM2608) chip found
+//   FALSE if no Makoto cartridge found
 bool Makoto_Detect();
 
 // Function: Makoto_GetStatus
@@ -63,13 +63,13 @@ bool Makoto_Detect();
 //
 // Return:
 //   Status value
-//> OPNA_STATUS_FLAG_A			0x01	// Timer A overflow flag
-//> OPNA_STATUS_FLAG_B			0x02	// Timer B overflow flag
-//> OPNA_STATUS_EOS				0x04	// ADPCM end of sample/transfer
-//> OPNA_STATUS_BRDY			0x08	// ADPCM buffer ready
-//> OPNA_STATUS_ZERO			0x10	// ADPCM zero level detected
-//> OPNA_STATUS_PCMBSY			0x20	// ADPCM playing
-//> OPNA_STATUS_BUSY			0x80	// Busy
+//> OPNA_STATUS_FLAG_A		Timer A overflow flag
+//> OPNA_STATUS_FLAG_B		Timer B overflow flag
+//> OPNA_STATUS_EOS			ADPCM end of sample/transfer
+//> OPNA_STATUS_BRDY		ADPCM buffer ready
+//> OPNA_STATUS_ZERO		ADPCM zero level detected
+//> OPNA_STATUS_PCMBSY		ADPCM playing
+//> OPNA_STATUS_BUSY		Busy
 inline u8 Makoto_GetStatus() { return g_OPNA_StatusPort; }
 
 // Function: Makoto_IsBusy

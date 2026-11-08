@@ -45,10 +45,8 @@ extern u8 g_MSXMusic_SlotId;
 // Initialize MSX-Music module
 //
 // Return:
-//   MSXMUSIC_NOTFOUND if no MSX-Music chip found
-//   MSXMUSIC_INTERNAL if an internal MSX-Music chip is found
-//   MSXMUSIC_EXTERNAL if an external MSX-Music chip (FM-PAC)
-u8 MSXMusic_Initialize();
+//   FALSE if not found
+bool MSXMusic_Initialize();
 
 // Function: MSXMusic_Detect
 // Search for MSX-Music (YM2413) chip

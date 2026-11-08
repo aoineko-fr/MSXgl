@@ -2,10 +2,10 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.7 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// MSXzip 1.5.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_undeadline_03.vgm (6103 bytes)
 // Compressor: lVGM
-// VGM version: 1.00 (chips:OPLL)
+// VGM version: 1.50 (chips:OPLL)
 const unsigned char g_lVGM_mm_undeadline_03[] = {
 // ---- Header ----
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
@@ -13,9 +13,7 @@ const unsigned char g_lVGM_mm_undeadline_03[] = {
 	0x02, // Devices (chips:OPLL)
 // ---- Data ----
 	0xF1, // ---- Start OPLL section
-	0x8E, // rr: 0
-	0x8F, // rr: 0
-	0x51, 0x20, // 51 nn => R#10~18
+	0x78, 0x0E, 0x00, 0x00, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, // 7n rr vv[] => R#rr~
 	0x52, 0x07, // 52 nn => R#20~28
 	0x53, 0x93, // 53 nn => R#30~38
 	0x0E, 0x20, // rr: nn
@@ -40,8 +38,8 @@ const unsigned char g_lVGM_mm_undeadline_03[] = {
 	0x14, 0x84, // rr: nn
 	0x24, 0x13, // rr: nn
 	0x33, 0x23, // rr: nn
-	0xFE, // Loop marker
 	0xE0, // -------- Wait: Ex
+	0xFE, // Loop marker
 	0x33, 0x22, // rr: nn
 	0x13, 0x84, // rr: nn
 	0x23, 0x17, // rr: nn
@@ -1393,4 +1391,4 @@ const unsigned char g_lVGM_mm_undeadline_03[] = {
 	0x33, 0x22, // rr: nn
 	0xFF, // End marker
 };
-// Total size: 2516 bytes
+// Total size: 2525 bytes

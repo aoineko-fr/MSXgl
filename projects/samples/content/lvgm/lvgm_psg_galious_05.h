@@ -2,10 +2,10 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.7 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// MSXzip 1.5.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\psg_galious_05.vgm (5554 bytes)
 // Compressor: lVGM
-// VGM version: 1.01 (chips:PSG)
+// VGM version: 1.51 (chips:PSG)
 const unsigned char g_lVGM_psg_galious_05[] = {
 // ---- Header ----
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
@@ -341,8 +341,8 @@ const unsigned char g_lVGM_psg_galious_05[] = {
 	0xE1, // -------- Wait: Ex
 	0x00, 0xD3, // R#0: 00 nn
 	0x04, 0xA7, // R#4: 04 nn
-	0xFE, // Loop marker
 	0xE3, // -------- Wait: Ex
+	0xFE, // Loop marker
 	0x00, 0xD7, // R#0: 00 nn
 	0x04, 0xD6, // R#4: 04 nn
 	0xAA, // R#10: An

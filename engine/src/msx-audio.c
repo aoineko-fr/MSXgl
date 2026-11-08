@@ -47,12 +47,13 @@ u8 g_MSXAudio_RegBackup[16];
 
 //-----------------------------------------------------------------------------
 // Initialize MSX-Audio module
-void MSXAudio_Initialize()
+bool MSXAudio_Initialize()
 {
-	MSXAudio_Detect();
+	bool ret = MSXAudio_Detect();
 	#if (MSXAUDIO_USE_RESUME)
 	Mem_Set(0, g_MSXAudio_RegBackup, 16);
 	#endif
+	return ret;
 }
 
 //-----------------------------------------------------------------------------

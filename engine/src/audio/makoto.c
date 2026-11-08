@@ -58,7 +58,7 @@ bool Makoto_Initialize()
 }
 
 //-----------------------------------------------------------------------------
-// Search for Makoto (YM2608) chip
+// Search for Makoto (OPNA/YM2608) chip
 bool Makoto_Detect()
 {
 	if (g_OPNA_StatusPort == 0xFF) // Is port connected?
@@ -74,7 +74,10 @@ void Makoto_SetRegister0(u8 reg, u8 value)
 	g_OPNA_Data0Port = value;
 
 	if (reg == OPNA_REG_RHY_KEY)
-		while (Makoto_IsBusy()) {}
+	{
+		u8 timeout = 0; // 256 tries max (avoid infinite loop when no chip is present)
+		while (Makoto_IsBusy() && --timeout) {}
+	}
 
 #if (MAKOTO_USE_RESUME)
 	if (g_Makoto_DoBackup)

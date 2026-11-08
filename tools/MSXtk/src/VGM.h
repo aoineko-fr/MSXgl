@@ -31,8 +31,10 @@ enum VGM_COMMAND
 	VGM_CMD_Y8950     = 0x5C, // aa dd	  | MSX-AUDIO/Y8950/OPL1, write value dd to register aa
 	VGM_CMD_SCC       = 0xD2, // pp aa dd | SCC/SCC+/K051649/K052539, port pp, write value dd to register aa
 	VGM_CMD_YMF278    = 0xD0, // pp aa dd | MOONSOUND/YMF278B/OPL4, port pp, write value dd to register aa
+	VGM_CMD_YM2608_0  = 0x56, // aa dd    | MAKOTO/YM2608/OPNA port 0, write value dd to register aa
+	VGM_CMD_YM2608_1  = 0x57, // aa dd    | MAKOTO/YM2608/OPNA port 1, write value dd to register aa
 	// Waits
-	VGM_CMD_WAIT_16B  = 0x61, // nn nn	  | Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds).Longer pauses than this are represented by multiple wait commands.
+	VGM_CMD_WAIT_16B  = 0x61, // nn nn    | Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds).Longer pauses than this are represented by multiple wait commands.
 	VGM_CMD_WAIT_60HZ = 0x62, // wait 735 samples(60th of a second), a shortcut for 0x61 0xdf 0x02
 	VGM_CMD_WAIT_50HZ = 0x63, // wait 882 samples(50th of a second), a shortcut for 0x61 0x72 0x03
 	VGM_CMD_WAIT_4B   = 0x7F, // wait n+1 samples, n can range from 0 to 15.

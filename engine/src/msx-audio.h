@@ -29,7 +29,10 @@
 
 // Function: MSXAudio_Initialize
 // Initialize MSX-Audio module
-void MSXAudio_Initialize();
+//
+// Return:
+//   FALSE if no MSX-Audio chip found
+bool MSXAudio_Initialize();
 
 // Function: MSXAudio_Detect
 // Search for MSX-Audio (Y8950) chip

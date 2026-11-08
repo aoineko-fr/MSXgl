@@ -33,26 +33,50 @@ const u8  g_LVGM_Ident[4] = { 'l', 'V', 'G', 'M' };
 //=============================================================================
 
 const LVGM_Header* g_LVGM_Header;
-const u8*                 g_LVGM_Pointer;
-const u8*                 g_LVGM_LoopAddr;
-const u8*                 g_LVGM_StartAddr;
-u8                        g_LVGM_Devices;
-u8                        g_LVGM_PSG_Default;
-u8                        g_LVGM_Wait;
-u8                        g_LVGM_State;
-u8                        g_LVGM_CurChip;
-LVGM_DecodeCB             g_LVGM_Decode;
+const u8*          g_LVGM_Pointer;
+const u8*          g_LVGM_LoopAddr;
+const u8*          g_LVGM_StartAddr;
+u8                 g_LVGM_Devices;
+u8                 g_LVGM_PSG_Default;
+u8                 g_LVGM_Wait;
+u8                 g_LVGM_State;
+u8                 g_LVGM_CurChip;
+LVGM_DecodeCB      g_LVGM_Decode;
 #if (LVGM_USE_NOTIFY)
-LVGM_NotifyCB             g_LVGM_Callback = LVGM_Defaultcallback;
+LVGM_NotifyCB      g_LVGM_Callback = LVGM_Defaultcallback;
+#endif
+#if (LVGM_USE_MAKOTO)
+u8                 g_LVGM_OPNA_Port;
 #endif
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
+//-----------------------------------------------------------------------------
+// Initialize VGM replayer
+void LVGM_Initialize()
+{
+	#if (LVGM_USE_PSG)
+		// Initialize PSG module
+	#endif
+	#if (LVGM_USE_MSXMUSIC)
+		MSXMusic_Initialize();
+	#endif
+	#if (LVGM_USE_MSXAUDIO)
+		MSXAudio_Initialize();
+	#endif
+	#if (LVGM_USE_SCC)
+		SCC_Initialize();
+	#endif
+	#if (LVGM_USE_MAKOTO)
+		Makoto_Initialize();
+	#endif
+}
+
 #if (LVGM_USE_PSG)
 //-----------------------------------------------------------------------------
-//
+// Decode PSG (AY-3-8910) data stream
 void LVGM_DecodePSG()
 {
 	u8 op = *g_LVGM_Pointer & 0xF0;
@@ -99,7 +123,7 @@ const u8 g_lVGM_OPLL_Cnt[] = { 8,    9,    9,    9,    3,    3,    3 };
 const u8 g_lVGM_OPLL_Reg[] = { 0x00, 0x10, 0x20, 0x30, 0x16, 0x26, 0x36 };
 
 //-----------------------------------------------------------------------------
-//
+// Decode OPLL (YM2413) data stream
 void LVGM_DecodeOPLL()
 {
 	u8 op = *g_LVGM_Pointer;
@@ -160,26 +184,21 @@ void LVGM_DecodeOPLL()
 
 #if (LVGM_USE_MSXAUDIO)
 //-----------------------------------------------------------------------------
-//
+// Decode OPL1 (YM3812) data stream
 void LVGM_DecodeOPL1()
 {
-	u8 reg = *g_LVGM_Pointer;
-	u8 val = *++g_LVGM_Pointer;
-
-	MSXAudio_SetRegister(reg, val);
-
-	// u8 op = *g_LVGM_Pointer;
-	// if ((op & 0xF0) == 0xD0) // Da bb cc[a] | Copy a+3 bytes (3~18) start from R#bb
-	// {
-	// 	u8 cnt = (op & 0x0F) + 3;
-	// 	u8 reg = *++g_LVGM_Pointer;
-	// 	loop (i, cnt)
-	// 		MSXAudio_SetRegister(reg++, *++g_LVGM_Pointer);
-	// }
-	// else // R#aa = bb
-	// {
-	// 	MSXAudio_SetRegister(op, *++g_LVGM_Pointer);
-	// }
+	u8 op = *g_LVGM_Pointer;
+	if ((op & 0xF0) == 0xD0) // Dn rr vv[] | Copy n+3 bytes (3~18) start from R#rr
+	{
+		u8 cnt = (op & 0x0F) + 3;
+		u8 reg = *++g_LVGM_Pointer;
+		loop (i, cnt)
+			MSXAudio_SetRegister(reg++, *++g_LVGM_Pointer);
+	}
+	else // rr vv | R#rr = vv
+	{
+		MSXAudio_SetRegister(op, *++g_LVGM_Pointer);
+	}
 }
 #endif
 
@@ -188,7 +207,7 @@ void LVGM_DecodeOPL1()
 const u8 g_lVGM_SCC_Reg[] = { 0x00, 0x20, 0x40, 0x60, 0x80 };
 
 //-----------------------------------------------------------------------------
-//
+// Decode SCC data stream
 void  LVGM_DecodeSCC()
 {
 	u8 op = *g_LVGM_Pointer;
@@ -229,7 +248,7 @@ void  LVGM_DecodeSCC()
 
 #if (LVGM_USE_SCCI)
 //-----------------------------------------------------------------------------
-//
+// Decode SCC+ (K052539) data stream
 void  LVGM_DecodeSCCI()
 {
 }
@@ -237,7 +256,7 @@ void  LVGM_DecodeSCCI()
 
 #if (LVGM_USE_PSG2)
 //-----------------------------------------------------------------------------
-//
+// Decode 2nd PSG data stream
 void  LVGM_DecodePSG2()
 {
 }
@@ -245,9 +264,60 @@ void  LVGM_DecodePSG2()
 
 #if (LVGM_USE_OPL4)
 //-----------------------------------------------------------------------------
-//
+// Decode OPL4 (YMF278B) data stream
 void  LVGM_DecodeOPL4()
 {
+}
+#endif
+
+#if (LVGM_USE_MAKOTO)
+//-----------------------------------------------------------------------------
+// Decode OPNA (YM2608) data stream
+void  LVGM_DecodeOPNA()
+{
+	u8 op = *g_LVGM_Pointer;
+	if ((op & 0xF0) == 0xC0) // Cn rr vv | Set n+3 bytes (3~18) start from register #rr
+	{
+		u8 cnt = (op & 0x0F) + 3;
+		u8 reg = *++g_LVGM_Pointer;
+		u8 val = *++g_LVGM_Pointer;
+		if (g_LVGM_OPNA_Port)
+		{
+			loop (i, cnt)
+				Makoto_SetRegister1(reg++, val);
+		}
+		else
+		{
+			loop (i, cnt)
+				Makoto_SetRegister0(reg++, val);
+		}
+	}
+	else if ((op & 0xF0) == 0xD0) // Dn rr vv[] | Copy n+3 bytes (3~18) start from register #rr
+	{
+		u8 cnt = (op & 0x0F) + 3;
+		u8 reg = *++g_LVGM_Pointer;
+		if (g_LVGM_OPNA_Port)
+		{
+			loop (i, cnt)
+				Makoto_SetRegister1(reg++, *++g_LVGM_Pointer);
+		}
+		else
+		{
+			loop (i, cnt)
+				Makoto_SetRegister0(reg++, *++g_LVGM_Pointer);
+		}
+	}
+	else if ((op & 0xFE) == 0xBE) // BE/BF | Select port 0/1
+	{
+		g_LVGM_OPNA_Port = op & 0x01;
+	}
+	else // rr vv | R#rr = vv
+	{
+		if (g_LVGM_OPNA_Port)
+			Makoto_SetRegister1(op, *++g_LVGM_Pointer);
+		else
+			Makoto_SetRegister0(op, *++g_LVGM_Pointer);
+	}
 }
 #endif
 
@@ -261,6 +331,9 @@ static void LVGM_Reset()
 	g_LVGM_Decode = LVGM_DecodePSG;
 	#else
 	g_LVGM_Decode = NULL;
+	#endif
+	#if (LVGM_USE_MAKOTO)
+	g_LVGM_OPNA_Port = 0;
 	#endif
 }
 
@@ -336,6 +409,10 @@ void LVGM_Pause()
 	#if (LVGM_USE_SCC)
 	SCC_Mute();
 	#endif
+
+	#if (LVGM_USE_MAKOTO)
+	Makoto_Mute();
+	#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -358,6 +435,10 @@ void LVGM_Resume()
 	
 	#if (LVGM_USE_SCC && SCC_USE_RESUME)
 	SCC_Resume();
+	#endif
+
+	#if (LVGM_USE_MAKOTO && MAKOTO_USE_RESUME)
+	Makoto_Resume();
 	#endif
 }
 
@@ -438,6 +519,13 @@ void LVGM_Decode()
 			case LVGM_OP_OPL4: // MOONBLASTER / YMF278
 				g_LVGM_CurChip = LVGM_CHIP_OPL4;
 				g_LVGM_Decode = LVGM_DecodeOPL4;
+				break;
+			#endif
+
+			#if (LVGM_USE_MAKOTO)
+			case LVGM_OP_OPNA: // MAKOTO / YM2608
+				g_LVGM_CurChip = LVGM_CHIP_MAKOTO;
+				g_LVGM_Decode = LVGM_DecodeOPNA;
 				break;
 			#endif
 

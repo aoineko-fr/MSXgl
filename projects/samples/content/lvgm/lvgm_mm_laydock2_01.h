@@ -2,10 +2,10 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.7 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// MSXzip 1.5.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_laydock2_01.vgm (92461 bytes)
 // Compressor: lVGM
-// VGM version: 1.00 (chips:OPLL)
+// VGM version: 1.50 (chips:OPLL)
 const unsigned char g_lVGM_mm_laydock2_01[] = {
 // ---- Header ----
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
@@ -13,9 +13,7 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x02, // Devices (chips:OPLL)
 // ---- Data ----
 	0xF1, // ---- Start OPLL section
-	0x8E, // rr: 0
-	0x8F, // rr: 0
-	0x51, 0x20, // 51 nn => R#10~18
+	0x78, 0x0E, 0x00, 0x00, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, // 7n rr vv[] => R#rr~
 	0x52, 0x07, // 52 nn => R#20~28
 	0x53, 0x93, // 53 nn => R#30~38
 	0x0E, 0x20, // rr: nn
@@ -9679,12 +9677,12 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x11, 0x58, // rr: nn
 	0x21, 0x17, // rr: nn
 	0xE5, // -------- Wait: Ex
+	0xFD, 0x00, // ======== End of data segment
 	0x0E, 0x3E, // rr: nn
 	0x0E, 0x3F, // rr: nn
 	0xE3, // -------- Wait: Ex
 	0x25, 0x09, // rr: nn
 	0x15, 0xCC, // rr: nn
-	0xFD, 0x00, // ======== End of data segment
 	0x25, 0x19, // rr: nn
 	0x20, 0x03, // rr: nn
 	0x20, 0x13, // rr: nn
@@ -19425,12 +19423,13 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x0E, 0x3F, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x24, 0x09, // rr: nn
+	0xFD, 0x00, // ======== End of data segment
+	0x00, // Padding
 	0x34, 0x51, // rr: nn
 	0x34, 0x55, // rr: nn
 	0x14, 0xB1, // rr: nn
 	0x24, 0x19, // rr: nn
 	0x23, 0x07, // rr: nn
-	0xFD, 0x00, // ======== End of data segment
 	0x13, 0xB2, // rr: nn
 	0x23, 0x17, // rr: nn
 	0x22, 0x07, // rr: nn
@@ -24857,4 +24856,4 @@ const unsigned char g_lVGM_mm_laydock2_01[] = {
 	0x14, 0x47, // rr: nn
 	0xFF, // End marker
 };
-// Total size: 41981 bytes
+// Total size: 41991 bytes

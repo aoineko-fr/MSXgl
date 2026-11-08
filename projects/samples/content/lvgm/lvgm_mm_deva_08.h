@@ -2,10 +2,10 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▀▀██ ▄  ██▀▄
 // █  █ █  ▀▀  ▄█  █  █ ██▄▄ ██ ██▀
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀
-// MSXzip 1.4.7 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
+// MSXzip 1.5.0 by Guillaume 'Aoineko' Blanchard (2022) under CC-BY-SA free license
 // Source file: vgm\mm_deva_08.vgm (84303 bytes)
 // Compressor: lVGM
-// VGM version: 1.00 (chips:OPLL)
+// VGM version: 1.50 (chips:OPLL)
 const unsigned char g_lVGM_mm_deva_08[] = {
 // ---- Header ----
 	0x6C, 0x56, 0x47, 0x4D, // Ident "lVGM"
@@ -97,8 +97,9 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0x23, 0x13, // rr: nn
 	0x0E, 0x03, // rr: nn
 	0x0E, 0x23, // rr: nn
+	0xE5, // -------- Wait: Ex
 	0xFE, // Loop marker
-	0xE6, // -------- Wait: Ex
+	0xE0, // -------- Wait: Ex
 	0x10, 0x04, // rr: nn
 	0x20, 0x0B, // rr: nn
 	0x20, 0x1B, // rr: nn
@@ -9190,8 +9191,8 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0x11, 0x05, // rr: nn
 	0x14, 0x04, // rr: nn
 	0x15, 0x05, // rr: nn
-	0xE0, // -------- Wait: Ex
 	0xFD, 0x00, // ======== End of data segment
+	0xE0, // -------- Wait: Ex
 	0x10, 0x02, // rr: nn
 	0x11, 0x07, // rr: nn
 	0x14, 0x02, // rr: nn
@@ -18202,8 +18203,9 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0x0E, 0x11, // rr: nn
 	0x0E, 0x31, // rr: nn
 	0x10, 0x36, // rr: nn
-	0x14, 0xCF, // rr: nn
 	0xFD, 0x00, // ======== End of data segment
+	0x00, // Padding
+	0x14, 0xCF, // rr: nn
 	0x15, 0xE1, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0x10, 0x38, // rr: nn
@@ -22390,4 +22392,4 @@ const unsigned char g_lVGM_mm_deva_08[] = {
 	0xE6, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 40557 bytes
+// Total size: 40559 bytes
