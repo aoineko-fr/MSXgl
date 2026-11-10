@@ -250,6 +250,7 @@ void VGM_Decode()
 			if ((g_VGM_Loop != 0) && (g_VGM_State & VGM_STATE_LOOP))
 			{
 				g_VGM_Pointer = g_VGM_Loop;
+				continue; // Don't skip the first command of the loop
 			}
 			else
 			{
@@ -259,10 +260,34 @@ void VGM_Decode()
 		}
 		else if ((*g_VGM_Pointer & 0xF0) == 0x70) // wait n+1 samples, n can range from 0 to 15.
 		{
-			g_VGM_WaitCount += 1 + *g_VGM_Pointer & 0x0F;
+			g_VGM_WaitCount += 1 + (*g_VGM_Pointer & 0x0F);
+		}
+		else if ((*g_VGM_Pointer & 0xF0) == 0x80) // YM2612 DAC write then wait n samples (DAC is ignored)
+		{
+			g_VGM_WaitCount += *g_VGM_Pointer & 0x0F;
+		}
+		else if (*g_VGM_Pointer == 0x67) // Data block: 67 66 tt ss ss ss ss data[ss] (skipped)
+		{
+			g_VGM_Pointer += 6 + *(u16*)(g_VGM_Pointer + 3); // Only the 16-bit LSB of the size is relevant on MSX
 		}
 		else
 		{
+			// Unsupported command: skip its operands
+			u8 op = *g_VGM_Pointer;
+			if ((op == 0x4F) || (op == 0x50) || ((op & 0xF0) == 0x30) || (op == 0x94)) // 1 operand
+				g_VGM_Pointer += 1;
+			else if (((op & 0xE0) == 0x40) || ((op & 0xE0) == 0xA0)) // 0x40~0x5F, 0xA0~0xBF: 2 operands
+				g_VGM_Pointer += 2;
+			else if ((op & 0xE0) == 0xC0) // 0xC0~0xDF: 3 operands
+				g_VGM_Pointer += 3;
+			else if ((op >= 0xE0) || (op == 0x90) || (op == 0x91) || (op == 0x95)) // 4 operands
+				g_VGM_Pointer += 4;
+			else if (op == 0x92) // DAC stream: set frequency
+				g_VGM_Pointer += 5;
+			else if (op == 0x93) // DAC stream: start
+				g_VGM_Pointer += 10;
+			else if (op == 0x68) // PCM RAM write
+				g_VGM_Pointer += 11;
 		}
 		g_VGM_Pointer++;
 	}

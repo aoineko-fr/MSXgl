@@ -160,17 +160,26 @@ if (EmulatorName === "OPENMSX") {
 	if (EmulKanji)    { EmulatorArgs += ' -ext Sony_HBI-J1'; }
 
 	//---- Emulator conenctors ----
-	if (EmulPortA === "JOYSTICK") { EmulatorArgs += ' -command "plug joyporta msxjoystick1"'; }
-	if (EmulPortA === "MOUSE")    { EmulatorArgs += ' -command "plug joyporta mouse"'; }
-	if (EmulPortA === "PADDLE")   { EmulatorArgs += ' -command "plug joyporta arkanoidpad"'; }
-	if (EmulPortA === "JOYMEGA")  { EmulatorArgs += ' -command "plug joyporta joymega1"'; }
-	if (EmulPortA === "NINJATAP") { EmulatorArgs += ' -command "plug joyporta ninjatap"'; }
-
-	if (EmulPortB === "JOYSTICK") { EmulatorArgs += ' -command "plug joyportb msxjoystick2"'; }
-	if (EmulPortB === "MOUSE")    { EmulatorArgs += ' -command "plug joyportb mouse"'; }
-	if (EmulPortB === "PADDLE")   { EmulatorArgs += ' -command "plug joyportb arkanoidpad"'; }
-	if (EmulPortB === "JOYMEGA")  { EmulatorArgs += ' -command "plug joyportb joymega2"'; }
-	if (EmulPortB === "NINJATAP") { EmulatorArgs += ' -command "plug joyportb ninjatap"'; }
+	switch (EmulPortA)
+	{
+		case "JOYSTICK":   EmulatorArgs += ' -command "plug joyporta msxjoystick1"'; break;
+		case "MOUSE":      EmulatorArgs += ' -command "plug joyporta mouse"'; break;
+		case "PADDLE":     EmulatorArgs += ' -command "plug joyporta arkanoidpad"'; break;
+		case "JOYMEGA":    EmulatorArgs += ' -command "plug joyporta joymega1"'; break;
+		case "NINJATAP":   EmulatorArgs += ' -command "plug joyporta ninjatap"'; break;
+		case "GUNSTICK":   EmulatorArgs += ' -command "plug joyporta gunstick"'; break;
+		case "TERMINATOR": EmulatorArgs += ' -command "plug joyporta terminatorlaser"'; break;
+	}
+	switch (EmulPortB)
+	{
+		case "JOYSTICK":   EmulatorArgs += ' -command "plug joyportb msxjoystick1"'; break;
+		case "MOUSE":      EmulatorArgs += ' -command "plug joyportb mouse"'; break;
+		case "PADDLE":     EmulatorArgs += ' -command "plug joyportb arkanoidpad"'; break;
+		case "JOYMEGA":    EmulatorArgs += ' -command "plug joyportb joymega1"'; break;
+		case "NINJATAP":   EmulatorArgs += ' -command "plug joyportb ninjatap"'; break;
+		case "GUNSTICK":   EmulatorArgs += ' -command "plug joyportb gunstick"'; break;
+		case "TERMINATOR": EmulatorArgs += ' -command "plug joyportb terminatorlaser"'; break;
+	}
 
 	if (EmulPrinter) { EmulatorArgs += ' -command "plug printerport msx-printer"'; }
 

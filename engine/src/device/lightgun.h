@@ -16,11 +16,31 @@
 // OPTIONS VALIDATION
 //=============================================================================
 
-#define LIGHTGUN_USE_ASCII			TRUE
-#define LIGHTGUN_USE_GUNSTICK		TRUE
-#define LIGHTGUN_USE_PHENIX			TRUE
-#define LIGHTGUN_USE_UPDATE			TRUE
-
+// LIGHTGUN_DRIVER
+#ifndef LIGHTGUN_DRIVER
+	#warning LIGHTGUN_DRIVER is not defined in "msxgl_config.h"! Default value will be used: (LIGHTGUN_ASCII + LIGHTGUN_GUNSTICK + LIGHTGUN_PHENIX)
+	#define LIGHTGUN_DRIVER			(LIGHTGUN_ASCII + LIGHTGUN_GUNSTICK + LIGHTGUN_PHENIX)
+#endif
+#if ((LIGHTGUN_DRIVER & (LIGHTGUN_ASCII + LIGHTGUN_GUNSTICK + LIGHTGUN_PHENIX)) == 0)
+	#warning Invalid value for LIGHTGUN_DRIVER! Default value will be used: (LIGHTGUN_ASCII + LIGHTGUN_GUNSTICK + LIGHTGUN_PHENIX)
+	#undef  LIGHTGUN_DRIVER
+	#define LIGHTGUN_DRIVER			(LIGHTGUN_ASCII + LIGHTGUN_GUNSTICK + LIGHTGUN_PHENIX)
+#endif
+// LIGHTGUN_USE_UPDATE
+#ifndef LIGHTGUN_USE_UPDATE
+	#warning LIGHTGUN_USE_UPDATE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LIGHTGUN_USE_UPDATE		TRUE
+#endif
+// LIGHTGUN_FRAME_DURATION
+#ifndef LIGHTGUN_FRAME_DURATION
+	#warning LIGHTGUN_FRAME_DURATION is not defined in "msxgl_config.h"! Default value will be used: 2
+	#define LIGHTGUN_FRAME_DURATION	2
+#endif
+// LIGHTGUN_FRAME_LATENCY
+#ifndef LIGHTGUN_FRAME_LATENCY
+	#warning LIGHTGUN_FRAME_LATENCY is not defined in "msxgl_config.h"! Default value will be used: 4
+	#define LIGHTGUN_FRAME_LATENCY	4
+#endif
 
 //=============================================================================
 // DEFINES
@@ -37,31 +57,32 @@
 // Phenix Light Gun mapping
 #define LIGHTGUN_PHENIX_TRIGGER_A	(JOY_INPUT_TRIGGER_A)
 #define LIGHTGUN_PHENIX_TRIGGER_B	(JOY_INPUT_TRIGGER_B)
-#define LIGHTGUN_PHENIX_LIGHT		(0x0F) // 3-bit RGB color (0b000: Black, 0b111: White) + 1-bit luminance
+#define LIGHTGUN_PHENIX_LIGHT_MASK	(0x0F) // 3-bit RGB color (0b000: Black, 0b111: White) + 1-bit luminance
+#define LIGHTGUN_PHENIX_LIGHT		(0x08)
 
-#define LGUN_WHITE_THRESHOLD		(8) // x >= LGUN_WHITE_THRESHOLD --> white
-#define LGUN_BLACK_THRESHOLD		(8) // x < LGUN_BLACK_THRESHOLD --> black
+// 
+#if (LIGHTGUN_FRAME_DURATION == LIGHTGUN_CUSTOM)
+extern u8 g_LightGun_Duration;
+#endif
 
-#define LGUN_FRAME_BLACK			(2)
-#define LGUN_FRAME_WHITE			(2)
+// 
+#if (LIGHTGUN_FRAME_LATENCY == LIGHTGUN_CUSTOM)
+extern u8 g_LightGun_Latency;
+#endif
 
-#define LGUN_COUNT_BLACK1			(0)
-#define LGUN_COUNT_WHITE			(LGUN_FRAME_BLACK)
-#define LGUN_COUNT_BLACK2			((LGUN_FRAME_BLACK) + (LGUN_FRAME_WHITE))
-#define LGUN_COUNT_DEFAULT			((LGUN_FRAME_BLACK) + (LGUN_FRAME_WHITE) + (LGUN_FRAME_BLACK))
-#define LGUN_COUNT_MAX				((LGUN_COUNT_DEFAULT) + 8)
-
+// Light gun detection states
 enum LGUN_STATE_ID
 {
-	LGUN_STATE_DEFAULT = 0,			// Default
-	LGUN_STATE_DETECT,				// Default -> Trigger
+	LGUN_STATE_IDLE = 0,			// Idle
+	LGUN_STATE_DETECT,				// Idle -> Trigger
 	LGUN_STATE_BLACK,				// Trigger -> Black
 	LGUN_STATE_WHITE,				// Black -> White
-	LGUN_STATE_HIT,					// White -> Hit
+	LGUN_STATE_HIT,					// White -> Hit!
 //.....................................
 	LGUN_STATE_MAX,
 };
 
+// Light gun detection event
 enum LGUN_EVENT_ID
 {
 	LGUN_EVENT_REF1 = 0,			// Reference frame (black screen)
@@ -98,7 +119,7 @@ inline u8 LightGun_Read(u8 port) { return Joystick_Read(port) & 0x3F; }
 // Group: ASCII Plus-X Terminator Laser
 //-----------------------------------------------------------------------------
 
-#if (LIGHTGUN_USE_ASCII)
+#if (LIGHTGUN_DRIVER & LIGHTGUN_ASCII)
 
 // Function: LightGun_ASCII_GetTrigger
 // Get the trigger status of the ASCII light gun.
@@ -120,13 +141,13 @@ inline bool LightGun_ASCII_GetTrigger(u8 state) { return (state & LIGHTGUN_ASCII
 //   FALSE if the gun don't detect light (not pointing to white image on screen).
 inline u8 LightGun_ASCII_GetLight(u8 state) { return (state & LIGHTGUN_ASCII_LIGHT) != 0; }
 
-#endif // (LIGHTGUN_USE_ASCII)
+#endif // (LIGHTGUN_DRIVER & LIGHTGUN_ASCII)
 
 //-----------------------------------------------------------------------------
 // Group: MHT Ingenieros Gun-Stick
 //-----------------------------------------------------------------------------
 
-#if (LIGHTGUN_USE_GUNSTICK)
+#if (LIGHTGUN_DRIVER & LIGHTGUN_GUNSTICK)
 
 // Function: LightGun_GunStick_GetTrigger
 // Get the trigger status of the MHT Ingenieros Gun-Stick light gun.
@@ -147,13 +168,13 @@ inline bool LightGun_GunStick_GetTrigger(u8 state) { return (state & LIGHTGUN_GU
 //   FALSE if the gun don't detect light (not pointing to white image on screen).
 inline u8 LightGun_GunStick_GetLight(u8 state) { return (state & LIGHTGUN_GUNSTICK_LIGHT) == 0; }
 
-#endif // (LIGHTGUN_USE_GUNSTICK)
+#endif // (LIGHTGUN_DRIVER & LIGHTGUN_GUNSTICK)
 
 //-----------------------------------------------------------------------------
 // Group: Phenix Light Gun
 //-----------------------------------------------------------------------------
 
-#if (LIGHTGUN_USE_PHENIX)
+#if (LIGHTGUN_DRIVER & LIGHTGUN_PHENIX)
 
 #if (!LIGHTGUN_USE_UPDATE)
 
@@ -177,6 +198,16 @@ inline bool LightGun_Phenix_GetTriggerA(u8 state) { return (state & LIGHTGUN_PHE
 //   FALSE if the trigger B is not pressed.
 inline bool LightGun_Phenix_GetTriggerB(u8 state) { return (state & LIGHTGUN_PHENIX_TRIGGER_B) == 0; }
 
+// Function: LightGun_Phenix_GetLightValue
+// Get the light value of the Phenix light gun.
+//
+// Parameters:
+//   state - Current state of the light gun (from <LightGun_Read>)
+//
+// Return:
+//   Detected 4-bit light intensity (0b0000: Black, 0b1111: White)
+inline u8 LightGun_Phenix_GetLightValue(u8 state) { return state & LIGHTGUN_PHENIX_LIGHT_MASK; }
+
 // Function: LightGun_Phenix_GetLight
 // Get the light status of the Phenix light gun.
 //
@@ -184,18 +215,8 @@ inline bool LightGun_Phenix_GetTriggerB(u8 state) { return (state & LIGHTGUN_PHE
 //   state - Current state of the light gun (from <LightGun_Read>)
 //
 // Return:
-//   Detected 3-bit RGB color
-// ==== Code ====
-// 0b000: Black (no light detected)
-// 0b001: Blue
-// 0b010: Green
-// 0b011: Cyan
-// 0b100: Red
-// 0b101: Magenta
-// 0b110: Yellow
-// 0b111: White (light detected)
-// ==============
-inline u8 LightGun_Phenix_GetLight(u8 state) { return state & LIGHTGUN_PHENIX_LIGHT; }
+//   FALSE if the gun don't detect light (not pointing to white image on screen).
+inline bool LightGun_Phenix_GetLight(u8 state) { return (state & LIGHTGUN_PHENIX_LIGHT); }
 
 #else // if (LIGHTGUN_USE_UPDATE)
 
@@ -232,6 +253,16 @@ inline bool LightGun_Phenix_GetTriggerA() { return (g_LGun_Value & LIGHTGUN_PHEN
 //   FALSE if the trigger B is not pressed.
 inline bool LightGun_Phenix_GetTriggerB() { return (g_LGun_Value & LIGHTGUN_PHENIX_TRIGGER_B) == 0; }
 
+// Function: LightGun_Phenix_GetLightValue
+// Get the light value of the Phenix light gun.
+//
+// Parameters:
+//   state - Current state of the light gun (from <LightGun_Read>)
+//
+// Return:
+//   Detected 4-bit light intensity (0b0000: Black, 0b1111: White)
+inline u8 LightGun_Phenix_GetLightValue() { return g_LGun_Value & LIGHTGUN_PHENIX_LIGHT_MASK; }
+
 // Function: LightGun_Phenix_GetLight
 // Get the light status of the Phenix light gun.
 //
@@ -239,18 +270,8 @@ inline bool LightGun_Phenix_GetTriggerB() { return (g_LGun_Value & LIGHTGUN_PHEN
 //   state - Current state of the light gun (from <LightGun_Read>)
 //
 // Return:
-//   Detected 3-bit RGB color
-// ==== Code ====
-// 0b000: Black (no light detected)
-// 0b001: Blue
-// 0b010: Green
-// 0b011: Cyan
-// 0b100: Red
-// 0b101: Magenta
-// 0b110: Yellow
-// 0b111: White (light detected)
-// ==============
-inline u8 LightGun_Phenix_GetLight() { return g_LGun_Value & LIGHTGUN_PHENIX_LIGHT; }
+//   FALSE if the gun don't detect light (not pointing to white image on screen).
+inline bool LightGun_Phenix_GetLight() { return g_LGun_Value & LIGHTGUN_PHENIX_LIGHT; }
 
 // Function: LightGun_Phenix_Init
 // Initialize the Phenix light gun.
@@ -263,16 +284,36 @@ inline void LightGun_Phenix_Init(LGun_EventCB cb, u8 port) { g_LGun_CB = cb; g_L
 // Update the Phenix light gun.
 void LightGun_Phenix_Update();
 
+// Function: LightGun_Phenix_GetRaw
 // Get current lightgun raw value
-inline u8 Lightgun_Phenix_GetRaw() { return g_LGun_Value; }
+inline u8 LightGun_Phenix_GetRaw() { return g_LGun_Value; }
 
+// Function: LightGun_Phenix_GetCounter
 // Get light detection counter
-inline u8 Lightgun_Phenix_GetCounter() { return g_LGun_Counter; }
+inline u8 LightGun_Phenix_GetCounter() { return g_LGun_Counter; }
 
+// Function: LightGun_Phenix_GetState
 // Get light detection state
-inline u8 Lightgun_Phenix_GetState() { return g_LGun_State; }
+inline u8 LightGun_Phenix_GetState() { return g_LGun_State; }
 
+#if (LIGHTGUN_FRAME_DURATION == LIGHTGUN_CUSTOM)
+// Function: LightGun_SetFrameDuration
+// Light gun detection frames duration
+//
+// Paremeters:
+//  frame - Number of frames for each detection phase (black > white > black)
+inline void LightGun_SetFrameDuration(u8 frame) { g_LightGun_Duration = frame; }
+#endif
+
+#if (LIGHTGUN_FRAME_LATENCY == LIGHTGUN_CUSTOM)
+// Function: LightGun_SetFrameDuration
+// Light gun detection frames latency
+//
+// Paremeters:
+//  latency - Number of frames allowed to support display screen latency
+inline void LightGun_SetFrameLatency(u8 latency) { g_LightGun_Latency = latency; }
+#endif
 
 #endif // (LIGHTGUN_USE_UPDATE)
 
-#endif // (LIGHTGUN_USE_PHENIX)
+#endif // (LIGHTGUN_DRIVER & LIGHTGUN_PHENIX)

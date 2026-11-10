@@ -31,8 +31,9 @@
 #define VPD_CommandWriteLoop		VDP_CommandWriteLoop
 #define VPD_CommandReadLoop			VDP_CommandReadLoop
 
-// Compress module
-#define UnpackRLEpToRAM				RLEp_UnpackToRAM
+// Print module
+#define PRINT_WIDTH_X				PRINT_WIDTH_CUSTOM
+#define PRINT_HEIGHT_X				PRINT_HEIGHT_CUSTOM
 
 // Input module
 #define JOY_INPUT_DIR_UP_RIGTH		JOY_INPUT_DIR_UP_RIGHT
@@ -42,6 +43,7 @@
 #define INPUT_PORT_2				INPUT_PORT2
 
 // Compress module
+#define UnpackRLEpToRAM				RLEp_UnpackToRAM
 #define ZX0_Unpack					ZX0_UnpackToRAM
 #define Pletter_Unpack				Pletter_UnpackToRAM
 #define Bitbuster_Unpack			Bitbuster_UnpackToRAM

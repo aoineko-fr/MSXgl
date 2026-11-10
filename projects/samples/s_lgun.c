@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
-//  Hello world sample
+//  Lightgun sample
 //─────────────────────────────────────────────────────────────────────────────
 
 #include "msxgl.h"
@@ -38,16 +38,6 @@ enum LGUN_DRIVER_ID
 	LGUN_DRIVER_MAX,
 };
 
-// Program state
-enum STATE_ID
-{
-	STATE_INFO = 0,
-	STATE_BLACK,
-	STATE_DETECT,
-//.....................................
-	STATE_MAX,
-};
-
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -62,7 +52,8 @@ enum STATE_ID
 const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
 // Sinus table (64 samples)
-const u8 g_Sinus64[] = {
+const u8 g_Sinus64[] =
+{
 	0x00, 0x02, 0x03, 0x05, 0x06, 0x08, 0x09, 0x0A, 
 	0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x0F, 0x10, 0x10, 
 	0x10, 0x10, 0x10, 0x0F, 0x0F, 0x0E, 0x0D, 0x0C, 
@@ -73,12 +64,13 @@ const u8 g_Sinus64[] = {
 	0xF5, 0xF6, 0xF7, 0xF8, 0xFA, 0xFB, 0xFD, 0xFE, 
 };
 
-const u8 g_SpriteColor[2][2] = {
+const u8 g_SpriteColor[2][2] =
+{
 	{ COLOR_LIGHT_GREEN, COLOR_DARK_GREEN },
 	{ COLOR_LIGHT_RED, COLOR_DARK_RED }
 };
 
-const u8 g_BGColorTab[] = { COLOR_DARK_BLUE, COLOR_LIGHT_BLUE, COLOR_CYAN, COLOR_WHITE, COLOR_BLACK };
+const u8 g_BGColorTab[] = { COLOR_DARK_BLUE, COLOR_LIGHT_BLUE, COLOR_CYAN, COLOR_BLACK };
 
 void InitInfo();
 void UpdateInfo();
@@ -95,39 +87,29 @@ const FSM_State g_StateDetect = { 0, InitDetect, UpdateDetect, NULL };
 // MEMORY DATA
 //=============================================================================
 
+// Render
 bool g_VBlank = FALSE;
 u16  g_Frame = 0;
-
-u8   g_SpritData[8 * 4];
-
-u8   g_SpritePosX;
-u8   g_SpritePosY;
-
+// Driver
 u8   g_Driver = LGUN_DRIVER_PHENIX;
 u8   g_Port = 0;
-
-bool g_Hide = FALSE;
-
+// Sprite
+u8   g_SpritData[8 * 4];
+u8   g_SpritePosX;
+u8   g_SpritePosY; 
 u16  g_FrameCount = 0;
+bool g_Moving = FALSE;
 u16  g_MoveCount = 160 * 2;
-bool g_Move = FALSE;
-
+// Lightgun
+u8   g_JoyData = 0;
 u8   g_LogCount = 0;
-
-u8   g_Joy = 0;
-bool g_Trig = FALSE;
-bool g_TrigPrev = FALSE;
-u8   g_Light = 0;
-
-u8   g_KeyWait = 0;
-
-u8   g_ClearFrame;
-u8   g_DetectFrame;
-
+// Gameplay
+bool g_Hide = FALSE;
 bool g_ColorTest = FALSE;
 u8   g_HitCounter = 0;
 u8   g_ColorNum = 0;
-
+u8   g_FrameDuration = 2;
+u8   g_FrameLatency = 4;
 
 //=============================================================================
 // FUNCTIONS
@@ -138,7 +120,8 @@ u8   g_ColorNum = 0;
 void UpdatePosition()
 {
 	g_SpritePosX = g_MoveCount++ / 2;
-	g_SpritePosY = 128 + 2 * g_Sinus64[(g_MoveCount / 2) & 0x3F];
+	g_SpritePosY = 96 + 2 * g_Sinus64[(g_MoveCount / 2) & 0x3F];
+	VDP_SetHBlankLine(g_SpritePosY + 31);
 }
 
 //-----------------------------------------------------------------------------
@@ -152,52 +135,57 @@ void UpdateSprite()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update lightgun data
 void UpdateLightgun()
 {
-	// Update text
 	if (g_Driver == LGUN_DRIVER_PHENIX)
-		g_Joy = Lightgun_Phenix_GetRaw();
-	else
-		g_Joy = LightGun_Read((g_Port == 0) ? JOY_PORT_1 : JOY_PORT_2);
+	{
+		LightGun_Phenix_Update();
+		g_JoyData = LightGun_Phenix_GetRaw();
+	}
 
-	Print_DrawBin8At(1, 5, g_Joy);
-	Print_DrawHex8At(10, 5, g_Joy);
+	// Update text
+	Print_DrawBin8At(1, 5, g_JoyData);
+	Print_DrawHex8At(10, 5, g_JoyData);
 
-	g_TrigPrev = g_Trig;
-	g_Trig = FALSE;
-	g_Light = 0;
+	bool trig = FALSE;
+	bool light = 0;
+	u8 value = 0;
 	switch (g_Driver)
 	{
 	case LGUN_DRIVER_ASCII:
-		g_Trig = LightGun_ASCII_GetTrigger(g_Joy);
-		g_Light = LightGun_ASCII_GetLight(g_Joy);
+		trig = LightGun_ASCII_GetTrigger(g_JoyData);
+		light = LightGun_ASCII_GetLight(g_JoyData);
 		break;
+
 	case LGUN_DRIVER_GUNSTICK:
-		g_Trig = LightGun_GunStick_GetTrigger(g_Joy);
-		g_Light = LightGun_GunStick_GetLight(g_Joy);
+		trig = LightGun_GunStick_GetTrigger(g_JoyData);
+		light = LightGun_GunStick_GetLight(g_JoyData);
 		break;
+
 	case LGUN_DRIVER_PHENIX:
-		g_Trig = LightGun_Phenix_GetTriggerB();
-		g_Light = LightGun_Phenix_GetLight();
-		// g_Trig = LightGun_Phenix_GetTriggerA(g_Joy);
-		// g_Light = LightGun_Phenix_GetLight(g_Joy);
-		// Print_DrawCharAt(12, 8, LightGun_Phenix_GetTriggerB(g_Joy) ? 0x0C : 0x0B);
+		trig = LightGun_Phenix_GetTriggerB();
+		light = LightGun_Phenix_GetLight();
+		value = LightGun_Phenix_GetLightValue();
 		break;
 	}
-	Print_DrawCharAt(10, 8, g_Trig ? 0x0C : 0x0B);
-	Print_DrawCharAt(10, 9, g_Light ? 0x0C : 0x0B);
-	Print_DrawHex8At(12, 9, g_Light);
+	Print_DrawCharAt(10, 8, trig ? 0x0C : 0x0B);
+	Print_DrawCharAt(10, 9, light ? 0x0C : 0x0B);
+	if (g_Driver == LGUN_DRIVER_PHENIX)
+		Print_DrawHex8At(12, 9, value);
+
+	Print_DrawIntAt(17, 7, g_FrameDuration);
+	Print_DrawIntAt(20, 7, g_FrameLatency);
 
 	if (g_LogCount)
 	{
 		u8 y = 12 + LOG_COUNT_MAX - g_LogCount;
-		Print_DrawBin8At(1, y, g_Joy);
-		Print_DrawHex8At(10, y, g_Joy);
+		Print_DrawBin8At(1, y, g_JoyData);
+		Print_DrawHex8At(10, y, g_JoyData);
 		if (g_Driver == LGUN_DRIVER_PHENIX)
 		{
 			c8 chr = 'x';
-			switch (Lightgun_Phenix_GetState())
+			switch (LightGun_Phenix_GetState())
 			{
 			case LGUN_STATE_DETECT:	chr = 'D'; break;
 			case LGUN_STATE_BLACK:	chr = 'B'; break;
@@ -212,7 +200,6 @@ void UpdateLightgun()
 	if (g_HitCounter)
 		g_HitCounter--;
 }
-
 
 //-----------------------------------------------------------------------------
 // Diplay information page
@@ -238,7 +225,7 @@ void DiplayPage()
 		Print_DrawTextAt(0, 7, "DRIVER: Gun-Stick");
 		break;
 	case LGUN_DRIVER_PHENIX:
-		Print_DrawTextAt(0, 7, "DRIVER: Phenix");
+		Print_DrawTextAt(0, 7, "DRIVER: Phenix (D_|L_)");
 		break;
 	}
 	Print_DrawTextAt(1, 8, "Triggers");
@@ -252,11 +239,19 @@ void DiplayPage()
 }
 
 //-----------------------------------------------------------------------------
-// Interrupt handler
+// VBlank interrupt handler
 void VDP_InterruptHandler()
 {
 	g_VBlank = TRUE;
 	g_Frame++;
+}
+
+//-----------------------------------------------------------------------------
+// HBlank interrupt handler
+void VDP_HBlankHandler()
+{
+	if (g_Driver != LGUN_DRIVER_PHENIX)
+		g_JoyData = LightGun_Read((g_Port == 0) ? JOY_PORT_1 : JOY_PORT_2);
 }
 
 //-----------------------------------------------------------------------------
@@ -268,95 +263,104 @@ void WaitVBlank()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Initialize information state
 void InitInfo()
 {
 	VDP_EnableDisplay(TRUE);
-	// VDP_SetColor(COLOR_HIDE);
-	// VDP_RegWrite(2,(u8)(LAYOUT_HIDE_ADDR >> 10));
-	// VDP_SetSpriteSM1(0, g_SpritePosX, g_SpritePosY, 48, COLOR_WHITE);
-	// VDP_HideSpriteFrom(1);
-	// // g_DetectFrame = DETECT_FRAME;
-	// u8 y = 12 + LOG_COUNT_MAX - g_LogCount;
-	// Print_DrawCharAt(13, y, 'W');
-
-
-
 	VDP_SetColor(g_BGColorTab[g_ColorNum]);
 	VDP_RegWrite(2, g_Hide ? (u8)(LAYOUT_HIDE_ADDR >> 10) : (u8)(LAYOUT_SHOW_ADDR >> 10));
+
 	UpdateSprite();
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update information state
 void UpdateInfo()
 {
 	// Sign of life
 	Print_DrawCharAt(31, 0, g_ChrAnim[g_FrameCount++ & 0x03]);
 
 	// Handle input
-	if (g_KeyWait == 0)
+	if (Keyboard_IsKeyPushed(KEY_D))
 	{
-		if (Keyboard_IsKeyPressed(KEY_D))
-		{
-			g_Driver++;
-			if (g_Driver == LGUN_DRIVER_MAX)
-				g_Driver = LGUN_DRIVER_ASCII;
-			DiplayPage();
-			g_KeyWait = INPUT_WAIT;
-		}
-		if (Keyboard_IsKeyPressed(KEY_P))
-		{
-			g_Port = 1 - g_Port; 
-			DiplayPage();
-			g_KeyWait = INPUT_WAIT;
-		}
-		if (Keyboard_IsKeyPressed(KEY_M))
-		{
-			g_Move = !g_Move;
-			g_KeyWait = INPUT_WAIT;
-		}
-		if (Keyboard_IsKeyPressed(KEY_H))
-		{
-			TOGGLE(g_Hide);
-			VDP_RegWrite(2, g_Hide ? (u8)(LAYOUT_HIDE_ADDR >> 10) : (u8)(LAYOUT_SHOW_ADDR >> 10));
-			g_KeyWait = INPUT_WAIT;
-		}
-		if (Keyboard_IsKeyPressed(KEY_C))
-		{
-			if (g_ColorNum >= numberof(g_BGColorTab))
-				g_ColorNum = 0;
-			VDP_SetColor(g_BGColorTab[g_ColorNum++]);
-			g_KeyWait = INPUT_WAIT;
-		}
-		if (Keyboard_IsKeyPressed(KEY_T))
-		{
-			TOGGLE(g_ColorTest);
-			if (g_ColorTest)
-			{
-				VDP_SetSpriteSM1(2, 125, 16,      48, COLOR_WHITE);
-				VDP_SetSpriteSM1(3, 157, 16,      48, COLOR_WHITE);
-				VDP_SetSpriteSM1(4, 125, 16 + 32, 48, COLOR_WHITE);
-				VDP_SetSpriteSM1(5, 157, 16 + 32, 48, COLOR_WHITE);
-				VDP_SetSpriteSM1(6, 189, 16,      48, COLOR_BLACK);
-				VDP_SetSpriteSM1(7, 221, 16,      48, COLOR_BLACK);
-				VDP_SetSpriteSM1(8, 189, 16 + 32, 48, COLOR_BLACK);
-				VDP_SetSpriteSM1(9, 221, 16 + 32, 48, COLOR_BLACK);
-			}
-			else
-			{
-				VDP_HideSpriteFrom(2);
-			}
-			g_KeyWait = INPUT_WAIT;
-		}
-	}	
-	else if (g_KeyWait > 0)
+		g_Driver++;
+		if (g_Driver == LGUN_DRIVER_MAX)
+			g_Driver = LGUN_DRIVER_ASCII;
+		DiplayPage();
+	}
+	if (Keyboard_IsKeyPushed(KEY_P))
 	{
-		g_KeyWait--;
+		g_Port = 1 - g_Port; 
+		DiplayPage();
+	}
+	if (Keyboard_IsKeyPushed(KEY_M))
+	{
+		g_Moving = !g_Moving;
+	}
+	if (Keyboard_IsKeyPushed(KEY_H))
+	{
+		TOGGLE(g_Hide);
+		VDP_RegWrite(2, g_Hide ? (u8)(LAYOUT_HIDE_ADDR >> 10) : (u8)(LAYOUT_SHOW_ADDR >> 10));
+	}
+	if (Keyboard_IsKeyPushed(KEY_C))
+	{
+		g_ColorNum++;
+		g_ColorNum %= numberof(g_BGColorTab);
+		VDP_SetColor(g_BGColorTab[g_ColorNum]);
+		DiplayPage();
+	}
+	if (Keyboard_IsKeyPushed(KEY_T))
+	{
+		TOGGLE(g_ColorTest);
+		if (g_ColorTest)
+		{
+			VDP_SetSpriteSM1(2, 125, 16,      48, COLOR_WHITE);
+			VDP_SetSpriteSM1(3, 157, 16,      48, COLOR_WHITE);
+			VDP_SetSpriteSM1(4, 125, 16 + 32, 48, COLOR_WHITE);
+			VDP_SetSpriteSM1(5, 157, 16 + 32, 48, COLOR_WHITE);
+			VDP_SetSpriteSM1(6, 189, 16,      48, COLOR_BLACK);
+			VDP_SetSpriteSM1(7, 221, 16,      48, COLOR_BLACK);
+			VDP_SetSpriteSM1(8, 189, 16 + 32, 48, COLOR_BLACK);
+			VDP_SetSpriteSM1(9, 221, 16 + 32, 48, COLOR_BLACK);
+		}
+		else
+		{
+			VDP_HideSpriteFrom(2);
+		}
 	}
 
+#if (LIGHTGUN_FRAME_DURATION == LIGHTGUN_CUSTOM)
+	if (Keyboard_IsKeyPushed(KEY_UP) && (g_FrameDuration < 9))
+	{
+		g_FrameDuration++;
+		LightGun_SetFrameDuration(g_FrameDuration);
+		DiplayPage();
+	}
+	else if (Keyboard_IsKeyPushed(KEY_DOWN) && (g_FrameDuration > 1))
+	{
+		g_FrameDuration--;
+		LightGun_SetFrameDuration(g_FrameDuration);
+		DiplayPage();
+	}
+#endif
+
+#if (LIGHTGUN_FRAME_LATENCY == LIGHTGUN_CUSTOM)
+	if (Keyboard_IsKeyPushed(KEY_RIGHT) && (g_FrameLatency < 9))
+	{
+		g_FrameLatency++;
+		LightGun_SetFrameLatency(g_FrameLatency);
+		DiplayPage();
+	}
+	else if (Keyboard_IsKeyPushed(KEY_LEFT) && (g_FrameLatency > 0))
+	{
+		g_FrameLatency--;
+		LightGun_SetFrameLatency(g_FrameLatency);
+		DiplayPage();
+	}
+#endif
+
 	// Update sprite
-	if (g_Move && !g_HitCounter)
+	if (g_Moving && !g_HitCounter)
 		UpdatePosition();
 	UpdateSprite();
 
@@ -368,27 +372,23 @@ void UpdateInfo()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Initialize clear state
 void InitClear()
 {
 	VDP_SetColor(COLOR_HIDE);
 	VDP_EnableDisplay(FALSE);
-	// g_ClearFrame = CLEAR_FRAME;
 	u8 y = 12 + LOG_COUNT_MAX - g_LogCount;
 	Print_DrawCharAt(13, y, 'B');
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update clear state
 void UpdateClear()
 {
-	// g_ClearFrame--;
-	// if (!g_ClearFrame)
-	// 	FSM_SetState(&g_StateDetect);
 }
 
 //-----------------------------------------------------------------------------
-//
+// Initialize detect state
 void InitDetect()
 {
 	VDP_EnableDisplay(TRUE);
@@ -396,22 +396,19 @@ void InitDetect()
 	VDP_RegWrite(2,(u8)(LAYOUT_HIDE_ADDR >> 10));
 	VDP_SetSpriteSM1(0, g_SpritePosX, g_SpritePosY, 48, COLOR_WHITE);
 	VDP_HideSpriteFrom(1);
-	// g_DetectFrame = DETECT_FRAME;
+
 	u8 y = 12 + LOG_COUNT_MAX - g_LogCount;
 	Print_DrawCharAt(13, y, 'W');
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update detect state
 void UpdateDetect()
 {
-	// g_DetectFrame--;
-	// if (!g_DetectFrame)
-	// 	FSM_SetState(&g_StateInfo);
 }
 
 //-----------------------------------------------------------------------------
-//
+// Lightgun event handler
 void LGunEvent(u8 event)
 {
 	switch (event)
@@ -479,16 +476,25 @@ void main()
 	VDP_LoadSpritePattern(g_SpritData, 48, 4);
 	UpdatePosition();
 	UpdateSprite();
-	FSM_SetState(&g_StateInfo);
+
 	LightGun_Phenix_Init(LGunEvent, JOY_PORT_1);
+#if (LIGHTGUN_FRAME_DURATION == LIGHTGUN_CUSTOM)
+	LightGun_SetFrameDuration(g_FrameDuration);
+#endif
+#if (LIGHTGUN_FRAME_LATENCY == LIGHTGUN_CUSTOM)
+	LightGun_SetFrameLatency(g_FrameLatency);
+#endif
+
+	FSM_SetState(&g_StateInfo);
+	VDP_EnableHBlank(TRUE);
 
 	// Main loop
 	while (1)
 	{
 		// V-synch
 		WaitVBlank();
+		Keyboard_Update();
 
-		LightGun_Phenix_Update();
 		UpdateLightgun();
 
 		FSM_Update();

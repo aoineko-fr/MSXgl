@@ -24,26 +24,26 @@
 
 //-----------------------------------------------------------------------------
 // MSX_VERSION options
-#define MSX_1						0b00000001 // MSX1
-#define MSX_2						0b00000010 // MSX2
+#define MSX_1						(0b00000001) // MSX1
+#define MSX_2						(0b00000010) // MSX2
 #define MSX_12						(MSX_1|MSX_2) // MSX1 and 2 (support each)
-#define MSX_2K						0b00000100 // Korean MSX2 (SC9 support)
-#define MSX_2P						0b00001000 // MSX2+
+#define MSX_2K						(0b00000100) // Korean MSX2 (SC9 support)
+#define MSX_2P						(0b00001000) // MSX2+
 #define MSX_22P						(MSX_2|MSX_2P) // MSX2 and 2+ (support each)
 #define MSX_122P					(MSX_1|MSX_2|MSX_2P) // MSX1, 2 and 2+ (support each)
 #define MSX_TR						0b00010000 // MSX turbo R
 //.............................................................................
 #define MSX_0						MSX_2P // MSX0 (MSX2+)
-#define MSX_PP						0b00100000 // MSX++
+#define MSX_PP						(0b00100000) // MSX++
 #define MSX_2PP						(MSX_2P|MSX_PP) // MSX2++
 #define MSX_TRP						(MSX_TR|MSX_PP) // MSX turbo R+
-#define MSX_3						0b01000000 // MSX3
+#define MSX_3						(0b01000000) // MSX3
 
 //-----------------------------------------------------------------------------
 // TARGET_TYPE options (0-3)
-#define TYPE_BIN					0 // BASIC binary program
-#define TYPE_ROM					1 // ROM program
-#define TYPE_DOS					2 // MSX-DOS program
+#define TYPE_BIN					(0) // BASIC binary program
+#define TYPE_ROM					(1) // ROM program
+#define TYPE_DOS					(2) // MSX-DOS program
 
 // General target options
 #define TARGET_ISR					(1<<13)
@@ -56,9 +56,9 @@
 //.............................................................................
 
 // BASIC program types
-#define BIN_DISK		  			0 // BASIC binary on disk
-#define BIN_TAPE		  			1 // BASIC binary on tape
-#define BIN_USR		  				2 // BASIC USR driver
+#define BIN_DISK		  			(0) // BASIC binary on disk
+#define BIN_TAPE		  			(1) // BASIC binary on tape
+#define BIN_USR		  				(2) // BASIC USR driver
 
 // Basic target type define
 //	15	14	13	12	11	10	9	8	7	6	5	4	3	2	1	0
@@ -71,28 +71,28 @@
 //.............................................................................
 
 // ROM_MAPPER options (0-15)
-#define ROM_PLAIN					0 // Plain ROM (no mapper)
+#define ROM_PLAIN					(0) // Plain ROM (no mapper)
 // 8 KB mappers
-#define ROM_MAPPER_8K				2
-#define ROM_ASCII8					2 // ASCII-8 mapper
-#define ROM_KONAMI					3 // Konami without SCC mapper
-#define ROM_KONAMI_SCC				4 // Konami with SCC mapper
-#define ROM_NEO8					5 // NEO-8 mapper
-#define ROM_YAMANOOTO				6 // Yamanooto mapper
-#define ROM_POPOLON					7 // Popolon SCC mapper
+#define ROM_MAPPER_8K				(2)
+#define ROM_ASCII8					(2) // ASCII-8 mapper
+#define ROM_KONAMI					(3) // Konami without SCC mapper
+#define ROM_KONAMI_SCC				(4) // Konami with SCC mapper
+#define ROM_NEO8					(5) // NEO-8 mapper
+#define ROM_YAMANOOTO				(6) // Yamanooto mapper
+#define ROM_POPOLON					(7) // Popolon SCC mapper
 // 16 KB mappers
-#define ROM_MAPPER_16K				10
-#define ROM_ASCII16					10 // ASCII-16 mmaper
-#define ROM_NEO16					11 // NEO-16 mapper
-#define ROM_ASCII16X				12 // ASCII16-X mmaper
+#define ROM_MAPPER_16K				(10)
+#define ROM_ASCII16					(10) // ASCII-16 mmaper
+#define ROM_NEO16					(11) // NEO-16 mapper
+#define ROM_ASCII16X				(12) // ASCII16-X mmaper
 
 // ROM_FRAME options (0-7)
-#define ROM_8K						0
-#define ROM_16K						1
-#define ROM_24K						2
-#define ROM_32K						3
-#define ROM_48K						4
-#define ROM_64K						5
+#define ROM_8K						(0)
+#define ROM_16K						(1)
+#define ROM_24K						(2)
+#define ROM_32K						(3)
+#define ROM_48K						(4)
+#define ROM_64K						(5)
 
 // Additionnal ROM options
 #define ROM_MIRROR					(1<<12)
@@ -115,10 +115,10 @@
 //.............................................................................
 
 // MSX-DOS program types
-#define DOS_0						0 // Disk boot program
-#define DOS_1						1 // MSX-DOS 1 program
-#define DOS_2						2 // MSX-DOS 2 program
-#define DOS_3						3 // NEXTOR program
+#define DOS_0						(0) // Disk boot program
+#define DOS_1						(1) // MSX-DOS 1 program
+#define DOS_2						(2) // MSX-DOS 2 program
+#define DOS_3						(3) // NEXTOR program
 
 // Additionnal MSX-DOS options
 #define DOS_MAPPER					(1<<12)
@@ -205,26 +205,26 @@
 //-----------------------------------------------------------------------------
 
 // RENDER_MODE options
-#define RENDER_BIOS					0 // Use BIOS routines
-#define RENDER_VDP					1 // Use direct VDP registers
+#define RENDER_BIOS					(0) // Use BIOS routines
+#define RENDER_VDP					(1) // Use direct VDP registers
 
 // BIOS_CALL options		
-#define CALL_DIRECT					0 // Use direct access to Bios routines (Main-ROM must be in Slot 0)
-#define CALL_INTERSLOT				1 // Use inter-slot access to Bios routines
+#define CALL_DIRECT					(0) // Use direct access to Bios routines (Main-ROM must be in Slot 0)
+#define CALL_INTERSLOT				(1) // Use inter-slot access to Bios routines
 
 //-----------------------------------------------------------------------------
 // PRINT MODULE
 //-----------------------------------------------------------------------------
 
 // PRINT_WIDTH
-#define PRINT_WIDTH_1				1 // 
-#define PRINT_WIDTH_6				6 // 
-#define PRINT_WIDTH_8				8 // 
-#define PRINT_WIDTH_X				0 // Not supported (fall back to PRINT_WIDTH_8)
+#define PRINT_WIDTH_1				(1) // 
+#define PRINT_WIDTH_6				(6) // 
+#define PRINT_WIDTH_8				(8) // 
+#define PRINT_WIDTH_CUSTOM			(0x10000) // Not supported (fall back to PRINT_WIDTH_8)
 // PRINT_HEIGHT
-#define PRINT_HEIGHT_1				1 // 
-#define PRINT_HEIGHT_8				8 // 
-#define PRINT_HEIGHT_X				0 // 
+#define PRINT_HEIGHT_1				(1) // 
+#define PRINT_HEIGHT_8				(8) // 
+#define PRINT_HEIGHT_CUSTOM			(0x10000) // 
 
 //-----------------------------------------------------------------------------
 // VDP MODULE
@@ -327,51 +327,61 @@
 //-----------------------------------------------------------------------------
 
 // Border collision options
-#define PAWN_BORDER_NONE			0 // 0000
-#define PAWN_BORDER_DOWN			1 // 0001
-#define PAWN_BORDER_UP				2 // 0010
-#define PAWN_BORDER_RIGHT			4 // 0100
-#define PAWN_BORDER_LEFT			8 // 1000
+#define PAWN_BORDER_NONE			(0) // 0000
+#define PAWN_BORDER_DOWN			(1) // 0001
+#define PAWN_BORDER_UP				(2) // 0010
+#define PAWN_BORDER_RIGHT			(4) // 0100
+#define PAWN_BORDER_LEFT			(8) // 1000
 
 // Collision position options
-#define PAWN_COL_NONE				0  // 00000000
-#define PAWN_COL_0					1  // 00000001
-#define PAWN_COL_25					2  // 00000010
-#define PAWN_COL_50					4  // 00000100
-#define PAWN_COL_75					8  // 00001000
-#define PAWN_COL_100				16 // 00010000
+#define PAWN_COL_NONE				(0)  // 00000000
+#define PAWN_COL_0					(1)  // 00000001
+#define PAWN_COL_25					(2)  // 00000010
+#define PAWN_COL_50					(4)  // 00000100
+#define PAWN_COL_75					(8)  // 00001000
+#define PAWN_COL_100				(16) // 00010000
 
-#define PAWN_COL_1P_MIDDLE			PAWN_COL_50
+#define PAWN_COL_1P_MIDDLE			(PAWN_COL_50)
 #define PAWN_COL_2P_MIDDLE			(PAWN_COL_25|PAWN_COL_75)
 #define PAWN_COL_2P_CORNER			(PAWN_COL_0|PAWN_COL_100)
 
-#define PAWN_BOUND_CUSTOM			0x10000 // Use variable bound value for each pawn
+#define PAWN_BOUND_CUSTOM			(-1) // Use variable bound value for each pawn
 
 // Collision tilemap source
-#define PAWN_TILEMAP_SRC_AUTO		0 // Backward compatibility option
-#define PAWN_TILEMAP_SRC_RAM		1 // Tilemap located in a buffer in RAM (best for performance)
-#define PAWN_TILEMAP_SRC_VRAM		2 // Tilemap located in VRAM (slow but don't need additionnal data)
-#define PAWN_TILEMAP_SRC_V9			3 // Tilemap located in V9990's VRAM
+#define PAWN_TILEMAP_SRC_AUTO		(0) // Backward compatibility option
+#define PAWN_TILEMAP_SRC_RAM		(1) // Tilemap located in a buffer in RAM (best for performance)
+#define PAWN_TILEMAP_SRC_VRAM		(2) // Tilemap located in VRAM (slow but don't need additionnal data)
+#define PAWN_TILEMAP_SRC_V9			(3) // Tilemap located in V9990's VRAM
 
 // Pawn's sprite mode
-#define PAWN_SPT_MODE_AUTO			0x00 // Backward compatibility option
-#define PAWN_SPT_MODE_MSX1			0x10 // Sprite Mode 1 (MSX1 screens)
-#define PAWN_SPT_MODE_MSX2			0x20 // Sprite Mode 2 unicolor (MSX2 screens)
-#define PAWN_SPT_MODE_MSX2_MULTI	0x21 // Sprite Mode 2 multi-color (MSX2 screens)
-#define PAWN_SPT_MODE_MSX12			0x30 // Sprite Mode 1 & 2 unicolor (MSX1 and MSX2 screens)
-#define PAWN_SPT_MODE_BITMAP		0x40 // V9938/58 software sprite (Todo)
-#define PAWN_SPT_MODE_V9_P1			0x80 // V9990 sprite in P1 mode
-#define PAWN_SPT_MODE_V9_P2			0x81 // V9990 sprite in P2 mode
+#define PAWN_SPT_MODE_AUTO			(0x00) // Backward compatibility option
+#define PAWN_SPT_MODE_MSX1			(0x10) // Sprite Mode 1 (MSX1 screens)
+#define PAWN_SPT_MODE_MSX2			(0x20) // Sprite Mode 2 unicolor (MSX2 screens)
+#define PAWN_SPT_MODE_MSX2_MULTI	(0x21) // Sprite Mode 2 multi-color (MSX2 screens)
+#define PAWN_SPT_MODE_MSX12			(0x30) // Sprite Mode 1 & 2 unicolor (MSX1 and MSX2 screens)
+#define PAWN_SPT_MODE_BITMAP		(0x40) // V9938/58 software sprite (Todo)
+#define PAWN_SPT_MODE_V9_P1			(0x80) // V9990 sprite in P1 mode
+#define PAWN_SPT_MODE_V9_P2			(0x81) // V9990 sprite in P2 mode
 // Pawn coordinate unit
-#define PAWN_UNIT_SCREEN			0x10000 // Default screen (pixel) unit (8-bit unsigned int)
+#define PAWN_UNIT_SCREEN			(0x10000) // Default screen (pixel) unit (8-bit unsigned int)
 #define PAWN_UNIT_QMN(n)			(1 << (n)) // Fixed-point (Qm.n) unit (16-bit signed int)
 
 //-----------------------------------------------------------------------------
 // GAME MENU MODULE
 //-----------------------------------------------------------------------------
 
-#define MENU_VARIABLE               0x10000
-#define MENU_AUTO               	0x10001
+#define MENU_VARIABLE               (0x10000)
+#define MENU_AUTO               	(0x10001)
+
+//-----------------------------------------------------------------------------
+// LIGHTGUN MODULE
+//-----------------------------------------------------------------------------
+
+#define LIGHTGUN_ASCII				(0b00000001)	// Add support for ASCII Plus-X Terminator Laser light gun
+#define LIGHTGUN_GUNSTICK			(0b00000010)	// Add support for Gun-Stick light gun
+#define LIGHTGUN_PHENIX				(0b00000100)	// Add support for Phenix light gun
+
+#define LIGHTGUN_CUSTOM				(0x10000)
 
 //-----------------------------------------------------------------------------
 // COMPRESS MODULE
@@ -412,7 +422,7 @@
 // QR CODE MODULE
 //-----------------------------------------------------------------------------
 
-#define QRCODE_PARAM_CUSTOM			0x10000 // Give access to function to customize the parameter
+#define QRCODE_PARAM_CUSTOM			(0x10000) // Give access to function to customize the parameter
 
 // The error correction level in a QR Code symbol.
 #define QRCODE_ECC_LOW				0 // The QR Code can tolerate about  7% erroneous codewords

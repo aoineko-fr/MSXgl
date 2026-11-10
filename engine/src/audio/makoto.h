@@ -223,4 +223,4 @@ inline void Makoto_RythmSetMainVolume(u8 vol) { Makoto_SetRegister0(OPNA_REG_RHY
 //> OPNA_F_R				Right output enable
 //> OPNA_F_L				Left output enable
 //> OPNA_F_LR				Both outputs enable
-inline void Makoto_RythmSetInstVolume(u8 rtyhm, u8 vol, u8 pan) { Makoto_SetRegister0(OPNA_REG_RHY_BD + rtyhm, (vol & 0x0F) | pan); }
+inline void Makoto_RythmSetInstVolume(u8 rtyhm, u8 vol, u8 pan) { Makoto_SetRegister0(OPNA_REG_RHY_BD + rtyhm, (vol & 0x1F) | pan); }

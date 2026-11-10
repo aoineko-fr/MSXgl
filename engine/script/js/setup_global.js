@@ -519,7 +519,9 @@ global.Emul2ndCart = "";
 //   - Mouse
 //   - Paddle
 //   - JoyMega
-//   - NinjaTap
+//   - NinjaTap			4-ports multitap
+//   - Gunstick			MHT Gun-Stick
+//   - Terminator		ASCII Plus-X Terminator Laser
 global.EmulPortA = "";
 
 //-- Plug a virtual device into the joystick port B (string)

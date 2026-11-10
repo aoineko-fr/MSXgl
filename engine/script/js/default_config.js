@@ -372,7 +372,9 @@ Emul2ndCart  = "";					//-- Add additionnal cartridge in secondary slot (string)
 //   - Mouse
 //   - Paddle
 //   - JoyMega
-//   - NinjaTap
+//   - NinjaTap			4-ports multitap
+//   - Gunstick			MHT Gun-Stick
+//   - Terminator		ASCII Plus-X Terminator Laser
 EmulPortA = "";
 
 //-- Plug a virtual device into the joystick port B (string)
