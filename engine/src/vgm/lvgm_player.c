@@ -311,12 +311,24 @@ void  LVGM_DecodeOPNA()
 	{
 		g_LVGM_OPNA_Port = op & 0x01;
 	}
+	else if (op == 0xBD) // BD aa aa nn data[] | Load (nn+1)*4 bytes of ADPCM data at address aaaa (in 4 bytes unit)
+	{
+		u16 size = g_LVGM_Pointer[3] + 1;
+		#if (MAKOTO_USE_ADPCM)
+		Makoto_ADPCMLoad(g_LVGM_Pointer + 4, *(u16*)(g_LVGM_Pointer + 1), size);
+		#endif
+		g_LVGM_Pointer += 3 + (size << 2);
+	}
 	else // rr vv | R#rr = vv
 	{
 		if (g_LVGM_OPNA_Port)
 			Makoto_SetRegister1(op, *++g_LVGM_Pointer);
 		else
+		{
 			Makoto_SetRegister0(op, *++g_LVGM_Pointer);
+			if (op == 0x10) // Rhythm key on/off: wait before next write (the converter never puts R#16 in a Cn/Dn sequence)
+				Makoto_WaitBusy();
+		}
 	}
 }
 #endif

@@ -210,6 +210,8 @@ void VGM_Decode()
 			else if (reg == 0x29) // IRQ enable: keep only SCH (6 FM channels)
 				value &= 0x80;
 			Makoto_SetRegister0(reg, value);
+			if (reg == 0x10) // Rhythm key on/off: wait before next write
+				Makoto_WaitBusy();
 			g_VGM_Pointer += 2;
 		}
 		else if (*g_VGM_Pointer == 0x57) // YM2608 port 1, write value dd to register aa
@@ -258,6 +260,23 @@ void VGM_Decode()
 				return;
 			}
 		}
+		else if (*g_VGM_Pointer == 0x67) // Data block: 67 66 tt ss ss ss ss data[ss]
+		{
+			u16 size = *(u16*)(g_VGM_Pointer + 3); // Get stream size (only the 16-bit LSB is relevant on MSX)
+			switch (g_VGM_Pointer[2]) // Switch on stream type
+			{
+		#if (VGM_USE_MAKOTO && MAKOTO_USE_ADPCM)
+			case 0x81: // YM2608 DELTA-T (ADPCM-B) memory image: rr rr rr rr (memory size) aa aa aa aa (start address) data[size-8]
+				if (size > 8) // Some VGM contain empty data block
+				{
+					u16 addr = (*(u16*)(g_VGM_Pointer + 11) >> 2) | ((u16)g_VGM_Pointer[13] << 14); // Byte address to 4 bytes unit
+					Makoto_ADPCMLoad(g_VGM_Pointer + 15, addr, (size - 8 + 3) >> 2);
+				}
+				break;
+		#endif
+			}
+			g_VGM_Pointer += size + 6;
+		}
 		else if ((*g_VGM_Pointer & 0xF0) == 0x70) // wait n+1 samples, n can range from 0 to 15.
 		{
 			g_VGM_WaitCount += 1 + (*g_VGM_Pointer & 0x0F);
@@ -265,10 +284,6 @@ void VGM_Decode()
 		else if ((*g_VGM_Pointer & 0xF0) == 0x80) // YM2612 DAC write then wait n samples (DAC is ignored)
 		{
 			g_VGM_WaitCount += *g_VGM_Pointer & 0x0F;
-		}
-		else if (*g_VGM_Pointer == 0x67) // Data block: 67 66 tt ss ss ss ss data[ss] (skipped)
-		{
-			g_VGM_Pointer += 6 + *(u16*)(g_VGM_Pointer + 3); // Only the 16-bit LSB of the size is relevant on MSX
 		}
 		else
 		{

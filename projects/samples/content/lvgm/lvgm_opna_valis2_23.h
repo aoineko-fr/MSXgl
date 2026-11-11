@@ -14,7 +14,9 @@ const unsigned char g_lVGM_opna_valis2_23[] = {
 // ---- Data ----
 	0xF7, // ---- Start OPNA section
 	0xD1, 0x07, 0x3F, 0x00, 0x00, 0x00, // Dn rr vv[] => R#rr~
-	0xD0, 0x10, 0xBF, 0x3A, 0x00, // Dn rr vv[] => R#rr~
+	0x10, 0xBF, // rr: nn
+	0x11, 0x3A, // rr: nn
+	0x12, 0x00, // rr: nn
 	0x22, 0x00, // rr: nn
 	0x29, 0x80, // rr: nn
 	0xC0, 0x30, 0x7C, // Cn rr vv => R#rr~
@@ -3367,4 +3369,4 @@ const unsigned char g_lVGM_opna_valis2_23[] = {
 	0xA0, 0xA4, // rr: nn
 	0xFF, // End marker
 };
-// Total size: 5994 bytes
+// Total size: 5995 bytes

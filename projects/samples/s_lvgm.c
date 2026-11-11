@@ -29,10 +29,19 @@
 //=============================================================================
 
 // Library's logo
-#define MSX_GL "\x02\x03\x04\x05"
+#define MSX_GL						"\x02\x03\x04\x05"
 
-//
-#define LOG_SIZE 16
+// Layout
+#define LAYOUT_FILE_X				0
+#define LAYOUT_FILE_Y				2
+#define LAYOUT_PLAYER_X				0
+#define LAYOUT_PLAYER_Y				4
+#define LAYOUT_INFO_X				0
+#define LAYOUT_INFO_Y				8
+#define LAYOUT_DATA_X				0
+#define LAYOUT_DATA_Y				13
+#define LAYOUT_DETECT_X				20
+#define LAYOUT_DETECT_Y				8
 
 // VGM music entry
 struct MusicEntry
@@ -86,8 +95,8 @@ const struct MusicEntry g_MusicEntry[] =
  	{ "Pro Yakyuu (OPL1)",    "proyakyu.lvm" },
  	{ "Xevious (OPL1)",       "xevious.lvm" },
  	{ "Beholder 3 (OPNA)",    "beholder.lvm" },
- 	{ "Hydlide 3 (OPNA)",     "hydlide3.lvm" },
  	{ "Valis 2 (OPNA)",       "valis2.lvm" },
+ 	{ "Misty Blue (OPNA)",    "misty.lvm" },
  };
 
 // Player button list
@@ -121,41 +130,45 @@ u8 g_SegLoop;
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-//
-void DrawVGM(const u8* ptr)
+// Display lVGM raw data at the current playback position
+void DrawRawData(const u8* ptr)
 {
-	Print_SetPosition(32-6, 4);
+	Print_SetPosition(32 - 6, LAYOUT_PLAYER_Y + 1);
 	Print_DrawFormat("%i %4x", g_SegIdx, ptr);
 }
 
 //-----------------------------------------------------------------------------
-//
+// Update player information
 void UpdatePlayer()
 {
-	Print_SetPosition(0, 11);
-	Print_DrawText("Player:\n");
-	Print_DrawFormat("\x07" "Freq      %s\n", (g_LVGM_State & LVGM_STATE_50HZ) ? "50Hz" : "60Hz");
-	Print_DrawFormat("\x07" "DoLoop    %c\n", (g_LVGM_State & LVGM_STATE_LOOP) ? '\x0C' : '\x0B');
-	Print_DrawFormat("\x07" "DoPlay    %c\n", (g_LVGM_State & LVGM_STATE_PLAY) ? '\x0C' : '\x0B');
+	u8 y = LAYOUT_INFO_Y;
+	Print_SetPosition(LAYOUT_INFO_X, y++);
+	Print_DrawText("Player:");
+	Print_SetPosition(LAYOUT_INFO_X, y++);
+	Print_DrawFormat("\x07" "Freq      %s", (g_LVGM_State & LVGM_STATE_50HZ) ? "50Hz" : "60Hz");
+	Print_SetPosition(LAYOUT_INFO_X, y++);
+	Print_DrawFormat("\x07" "DoLoop    %c", (g_LVGM_State & LVGM_STATE_LOOP) ? '\x0C' : '\x0B');
+	Print_SetPosition(LAYOUT_INFO_X, y++);
+	Print_DrawFormat("\x07" "DoPlay    %c", (g_LVGM_State & LVGM_STATE_PLAY) ? '\x0C' : '\x0B');
 }
 
 //-----------------------------------------------------------------------------
-//
+// Handle lVGM notifications
 bool MusicNotification(u8 id)
 {
 	switch (id)
 	{
-	case 0: // End of data segment
+	case LVGM_NOTIFY_SEG_END: // End of data segment
 		g_SegIdx++;
 		DOSMapper_SetPage2(g_SegList[g_SegIdx].Number); // Select the next segment 
 		LVGM_SetPointer((const u8*)0x8000); // Set playback address to the start of the next segment
 		return FALSE;
 
-	case 0xFE: // Reach loop marker
+	case LVGM_NOTIFY_LOOP_MARK: // Reach loop marker
 		g_SegLoop = g_SegIdx; // Backup the segment that contain the loop marker
 		break;
 	
-	case 0xFF: // Jump to loop marker
+	case LVGM_NOTIFY_LOOP_JUMP: // Jump to loop marker
 		g_SegIdx = g_SegLoop; // Restore the segment that contain the loop marker
 		DOSMapper_SetPage2(g_SegList[g_SegIdx].Number);
 	}
@@ -164,7 +177,16 @@ bool MusicNotification(u8 id)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Reset RAM mapper to default segment
+void ResetMapper()
+{
+	g_SegIdx = 0;
+	g_SegLoop = 0;
+	DOSMapper_SetPage2(g_SegList[g_SegIdx].Number);
+}
+
+//-----------------------------------------------------------------------------
+// Select a new music: Upload it to RAM mapper segment, display information and start playback
 void SetMusic(u8 idx)
 {
 	g_CurrentMusic = idx;
@@ -176,16 +198,14 @@ void SetMusic(u8 idx)
 
 	//.........................................................................
 	// Init mapper
-	g_SegIdx = 0;
-	g_SegLoop = 0;
-	DOSMapper_SetPage2(g_SegList[g_SegIdx].Number);
+	ResetMapper();
 
 	//.........................................................................
 	// Load file
 	u8 err;
-	Print_SetPosition(0, 2);
-	Print_DrawCharX(' ', 32);
-	Print_SetPosition(0, 2);
+	Print_SetPosition(LAYOUT_FILE_X, LAYOUT_FILE_Y);
+	Print_DrawCharX(' ', 32 - LAYOUT_FILE_X);
+	Print_SetPosition(LAYOUT_FILE_X, LAYOUT_FILE_Y);
 	Print_DrawFormat("Load \"%s\"...", g_MusicEntry[idx].File);
 	// open
 	u8 file = DOS_FOpen(g_MusicEntry[idx].File, O_RDONLY);
@@ -222,18 +242,23 @@ void SetMusic(u8 idx)
 	
 	//.........................................................................
 	// Display music info
-	Print_SetPosition(0, 2);
-	Print_DrawCharX(' ', 32);
-	Print_SetPosition(0, 2);
+	Print_SetPosition(LAYOUT_FILE_X, LAYOUT_FILE_Y);
+	Print_DrawCharX(' ', 32 - LAYOUT_FILE_X);
+	Print_SetPosition(LAYOUT_FILE_X, LAYOUT_FILE_Y);
 	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
 
-	Print_SetPosition(0, 4);
-	Print_DrawText("Data:\n");
-	Print_DrawFormat("\x07" "Ident     %c\n", ok ? '\x0C' : '\x0B');
-	Print_DrawFormat("\x07" "Freq      %i Hz\n", (g_LVGM_Header->Option & LVGM_OPTION_50HZ) ? 50 : 60);
-	Print_DrawFormat("\x07" "Loop      %c\n", (g_LVGM_Header->Option & LVGM_OPTION_LOOP) ? '\x0C' : '\x0B');
-	Print_DrawCharX(' ', 32);
-	Print_SetPosition(0, 8);
+	u8 y = LAYOUT_DATA_Y;
+	Print_SetPosition(LAYOUT_DATA_X, y++);
+	Print_DrawText("Data:");
+	Print_SetPosition(LAYOUT_DATA_X, y++);
+	Print_DrawFormat("\x07" "Ident     %c", ok ? '\x0C' : '\x0B');
+	Print_SetPosition(LAYOUT_DATA_X, y++);
+	Print_DrawFormat("\x07" "Freq      %iHz", (g_LVGM_Header->Option & LVGM_OPTION_50HZ) ? 50 : 60);
+	Print_SetPosition(LAYOUT_DATA_X, y++);
+	Print_DrawFormat("\x07" "Loop      %c", (g_LVGM_Header->Option & LVGM_OPTION_LOOP) ? '\x0C' : '\x0B');
+	Print_SetPosition(LAYOUT_DATA_X, y);
+	Print_DrawCharX(' ', 32 - LAYOUT_DATA_X);
+	Print_SetPosition(LAYOUT_DATA_X, y++);
 	Print_DrawFormat("\x07" "Chips     %c", (g_LVGM_Header->Option & LVGM_OPTION_DEVICE) ? '\x0C' : '\x0B');
 	if (LVGM_GetDevices() & LVGM_CHIP_PSG)
 		Print_DrawText(" PSG");
@@ -243,14 +268,16 @@ void SetMusic(u8 idx)
 		Print_DrawText(" OPL1");
 	if (LVGM_GetDevices() & LVGM_CHIP_SCC)
 		Print_DrawText(" SCC");
-	Print_SetPosition(0, 9);
+	if (LVGM_GetDevices() & LVGM_CHIP_OPNA)
+		Print_DrawText(" OPNA");
+	Print_SetPosition(LAYOUT_DATA_X, y++);
 	Print_DrawFormat("\x07" "Default   %c %2xh", (LVGM_GetDevices() & LVGM_CHIP_PSG) ? '\x0C' : '\x0B', LVGM_GetDefaultPSGValue());
 
 	UpdatePlayer();
 }
 
 //-----------------------------------------------------------------------------
-//
+// Handle Play button action
 void ButtonPlay()
 {
 	LVGM_Resume();
@@ -258,7 +285,7 @@ void ButtonPlay()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Handle Pause button action
 void ButtonPause()
 {
 	LVGM_Pause();
@@ -266,15 +293,16 @@ void ButtonPause()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Handle Stop button action
 void ButtonStop()
 {
-	LVGM_Stop();	
+	LVGM_Stop();
+	ResetMapper();
 	UpdatePlayer();
 }
 
 //-----------------------------------------------------------------------------
-//
+// Handle Previous button action
 void ButtonPrev()
 {
 	if (g_CurrentMusic > 0)
@@ -284,7 +312,7 @@ void ButtonPrev()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Handle Next button action
 void ButtonNext()
 {
 	if (g_CurrentMusic < numberof(g_MusicEntry) - 1)
@@ -294,7 +322,7 @@ void ButtonNext()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Handle Loop button action
 void ButtonLoop()
 {
 	if (g_LVGM_State & LVGM_STATE_LOOP)
@@ -305,15 +333,15 @@ void ButtonLoop()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Set player cursor position
 void SetCursor(u8 id)
 {
 	g_CurrentButton = id % 6;
-	VDP_SetSpriteSM1(0, 8 + 16*g_CurrentButton, (u8)(128 + 8 - 1), g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
+	VDP_SetSpriteSM1(0, (u8)((LAYOUT_PLAYER_X + 1) * 8) + 16 * g_CurrentButton, (u8)(((LAYOUT_PLAYER_Y + 1) * 8) - 1), g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
 }
 
 //-----------------------------------------------------------------------------
-//
+// Print a slot number
 void Print_DrawSlot(u8 slot)
 {
 	if (slot == 0xFF)
@@ -330,15 +358,15 @@ void Print_DrawSlot(u8 slot)
 }
 
 //-----------------------------------------------------------------------------
-//
+// Interrupt handle synchronized at 50/60 Hz
 void VDP_InterruptHandler()
 {
 	VDP_SetColor(0xF4);
-			LVGM_Decode();
+	LVGM_Decode();
 	VDP_SetColor(0xF6);
-			#if (PSG_ACCESS == PSG_INDIRECT)
-			PSG_Apply();
-			#endif
+	#if (PSG_ACCESS == PSG_INDIRECT)
+	PSG_Apply();
+	#endif
 	VDP_SetColor(0xF0);
 }
 
@@ -365,72 +393,69 @@ void main()
 		}
 	}
 
+	// Initialize LVGM module (and all supported audio chip)
+	LVGM_Initialize();
+	LVGM_SetNotifyCallback(MusicNotification);
+
 	// Initialize screen
 	VDP_SetMode(VDP_MODE_SCREEN1);
 	VDP_ClearVRAM();
 	VDP_EnableVBlank(TRUE);
 
-	// Initialize LVGM module
-	LVGM_Initialize();
-	LVGM_SetNotifyCallback(MusicNotification);
-
-	// Initialize font
+	// Initialize font and draw title
 	Print_SetTextFont(g_Font_MGL_Sample8, 1); // Initialize font
-	Print_DrawText(MSX_GL " LVGM SAMPLE");
+	Print_DrawTextAt(0, 0, MSX_GL " LVGM SAMPLE");
 	Print_DrawLineH(0, 1, 32);
 
-	Print_SetPosition(20, 11);
+	// Hardware detection
+	u8 y = LAYOUT_DETECT_Y;
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawText("Main-ROM:");
-	Print_SetPosition(20, 12);
+	Print_SetPosition(LAYOUT_DETECT_X, y);
 	Print_DrawFormat("\x07" "Freq  %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
-
-	u8 Y = 16;
-	Print_SetPosition(20, Y++);
+	y += 2;
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawText("Detect: ");
 	#if (LVGM_USE_MSXMUSIC)
-	Print_SetPosition(20, Y++);
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawText("\x07" "YM2413: ");
-	Print_DrawSlot(g_MSXMusic_SlotId);
+	Print_DrawSlot(MSXMusic_GetSlotId());
 	#endif
 	#if (LVGM_USE_MSXAUDIO)
-	Print_SetPosition(20, Y++);
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawText("\x07" "Y8950:  ");
 	Print_DrawChar(MSXAudio_Detect() ? '\x0C' : '\x0B');
 	#endif
 	#if (LVGM_USE_SCC)
-	Print_SetPosition(20, Y++);
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawText("\x07" "SCC:    ");
 	Print_DrawSlot(SCC_SLOT);
 	#endif
 	#if (LVGM_USE_MAKOTO)
-	Print_SetPosition(20, Y++);
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawText("\x07" "YM2608: ");
 	Print_DrawChar(Makoto_Detect() ? '\x0C' : '\x0B');
 	#endif
 
-	// Decode VGM header
-	SetMusic(0);
-	Print_DrawBox(0, 16, numberof(g_ButtonEntry) * 2 + 1, 3);
+	// Draw player
+	Print_SetDrawStyle(PRINT_DRAW_STYLE_DOUBLE);
+	Print_DrawBox(LAYOUT_PLAYER_X, LAYOUT_PLAYER_Y, numberof(g_ButtonEntry) * 2 + 1, 3);
 	for (u8 i = 0; i < numberof(g_ButtonEntry); ++i)
 	{
-		Print_SetPosition(1 + 2 * i, 17);
+		Print_SetPosition(LAYOUT_PLAYER_X + 1 + 2 * i, LAYOUT_PLAYER_Y + 1);
 		Print_DrawChar(g_ButtonEntry[i].Char);
 		
 	}
 
-	// Footer
+	// Display footer
 	Print_DrawLineH(0, 22, 32);
-	Print_SetPosition(0, 23);
-	Print_DrawText("\x8D:Button \x83:Action \x82:Freq");
+	Print_DrawTextAt(0, 23, "\x8D:Button \x83:Action \x82:Freq");
 
-	//-------------------------------------------------------------------------
-	// Sprite
-	
+	// Initialize player sprite	
 	VDP_SetSpriteFlag(VDP_SPRITE_SIZE_8 + VDP_SPRITE_SCALE_1);
 	VDP_LoadSpritePattern(g_Font_MGL_Sample8 + 4, 0, g_Font_MGL_Sample8[3] - g_Font_MGL_Sample8[2]);
 
-	// BIOS_SetHookCallback(H_TIMI, VDP_InterruptHandler);
-
+	SetMusic(0);
 	SetCursor(4);
 
 	u8 prevRow8 = 0xFF;
@@ -442,7 +467,7 @@ void main()
 
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
-		DrawVGM(g_LVGM_Pointer);
+		DrawRawData(g_LVGM_Pointer);
 
 		Print_SetPosition(31, 0);
 		u8 chr = count++ & 0x03;

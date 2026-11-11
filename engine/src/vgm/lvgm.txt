@@ -181,10 +181,13 @@
 ------------------------------------------------------------------------------
 	xx yy			R#xx = yy (xx ∈ [00:B6])
 ..............................................................................
+	BD aaaa nn zz[]	Load (nn+1)*4 bytes (4~256) of ADPCM data into the sample RAM at address aaaa (16-bit LSB first, in 4 bytes unit)
+..............................................................................
 	BE				Select Part 0
 	BF				Select Part 1
 ..............................................................................
 	Cx yy zz		Set x+3 bytes (3~18) start from R#yy
 	Dx yy zz[]		Copy x+3 bytes (3~18) start from R#yy
 ..............................................................................
-					Not used: 
+					Not used: B7~BC
+					Note: Part 0 R#10 (rhythm key) is always written alone (never in Cx/Dx): the replayer waits for the chip after it

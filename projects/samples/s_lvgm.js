@@ -30,8 +30,8 @@ DiskFiles = [
 	"content/lvgm/proyakyu.lvm",
 	"content/lvgm/xevious.lvm",
 	"content/lvgm/beholder.lvm",
-	"content/lvgm/hydlide3.lvm",
-	"content/lvgm/valis2.lvm"
+	"content/lvgm/valis2.lvm",
+	"content/lvgm/misty.lvm"
 ];
 
 //-- Add SCC extension (boolean)

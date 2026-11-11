@@ -443,8 +443,9 @@
 // - SCC_SLOT_AUTO ................ First auto-detected cartridge
 #define SCC_SLOT_MODE				SCC_SLOT_AUTO
 
-// Makoto options
-#define MAKOTO_USE_RESUME			TRUE	// Add function to allow playback pause and resume
+// Makoto (OPNA) options
+#define MAKOTO_USE_RESUME			TRUE	// Add feature to allow playback pause and resume
+#define MAKOTO_USE_ADPCM			TRUE	// Add feature to handle ADPCM data (Delta-T format)
 
 // VGM supported chip
 #define VGM_USE_PSG					TRUE	// Allow PSG data parsing and audio output

@@ -26,8 +26,8 @@ RawFiles = [
 	{ segment: 9, file:"content/vgm/ma_xevious_01.vgm" },
 	{ segment:10, file:"content/vgm/ma_proyakyu_10.vgm" },
 	{ segment:11, file:"content/vgm/opna_beholder3_02.vgm" },
-	{ segment:12, file:"content/vgm/opna_hydlide3_02.vgm" },
 	{ segment:13, file:"content/vgm/opna_valis2_23.vgm" },
+	{ segment:12, file:"content/vgm/opna_mistyblue_05.vgm" },
 ];
 
 //-- Add SCC extension (boolean)

@@ -81,18 +81,18 @@ const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
-	{ "Dragon Slayer 4    ", 0x8000 + PSG_DS4_03_VGM_REL,       PSG_DS4_03_VGM_SEG },
-	{ "Gambare Goemon     ", 0x8000 + PSG_GOEMON_07_VGM_REL,    PSG_GOEMON_07_VGM_SEG },
-	{ "Metal Gear         ", 0x8000 + PSG_METALGEAR_05_VGM_REL, PSG_METALGEAR_05_VGM_SEG },
-	{ "Hi no Tori         ", 0x8000 + PSG_HONOTORI_09_VGM_REL,  PSG_HONOTORI_09_VGM_SEG },
-	{ "F1 Spirit (SCC)    ", 0x8000 + SCC_F1SPIRIT_01_VGM_REL,  SCC_F1SPIRIT_01_VGM_SEG },
-	{ "Undeadline (M-M)   ", 0x8000 + MM_UNDEADLINE_03_VGM_REL, MM_UNDEADLINE_03_VGM_SEG },
-	{ "Final Fantasy (M-M)", 0x8000 + MM_FF_03_VGM_REL,         MM_FF_03_VGM_SEG },
-	{ "Xevious (M-A)      ", 0x8000 + MA_XEVIOUS_01_VGM_REL,    MA_XEVIOUS_01_VGM_SEG },
-	{ "Pro Yakyu (M-A)    ", 0x8000 + MA_PROYAKYU_10_VGM_REL,   MA_PROYAKYU_10_VGM_SEG },
-	{ "Behoder 3 (OPNA)   ", 0x8000 + OPNA_BEHOLDER3_02_VGM_REL,   OPNA_BEHOLDER3_02_VGM_SEG },
-	{ "Hydlide 3 (OPNA)   ", 0x8000 + OPNA_HYDLIDE3_02_VGM_REL,   OPNA_HYDLIDE3_02_VGM_SEG },
-	{ "Valis 2 (OPNA)     ", 0x8000 + OPNA_VALIS2_23_VGM_REL,     OPNA_VALIS2_23_VGM_SEG },
+	{ "Dragon Slayer 4    ", 0x8000 + PSG_DS4_03_VGM_REL,        PSG_DS4_03_VGM_SEG },
+	{ "Gambare Goemon     ", 0x8000 + PSG_GOEMON_07_VGM_REL,     PSG_GOEMON_07_VGM_SEG },
+	{ "Metal Gear         ", 0x8000 + PSG_METALGEAR_05_VGM_REL,  PSG_METALGEAR_05_VGM_SEG },
+	{ "Hi no Tori         ", 0x8000 + PSG_HONOTORI_09_VGM_REL,   PSG_HONOTORI_09_VGM_SEG },
+	{ "F1 Spirit (SCC)    ", 0x8000 + SCC_F1SPIRIT_01_VGM_REL,   SCC_F1SPIRIT_01_VGM_SEG },
+	{ "Undeadline (M-M)   ", 0x8000 + MM_UNDEADLINE_03_VGM_REL,  MM_UNDEADLINE_03_VGM_SEG },
+	{ "Final Fantasy (M-M)", 0x8000 + MM_FF_03_VGM_REL,          MM_FF_03_VGM_SEG },
+	{ "Xevious (M-A)      ", 0x8000 + MA_XEVIOUS_01_VGM_REL,     MA_XEVIOUS_01_VGM_SEG },
+	{ "Pro Yakyu (M-A)    ", 0x8000 + MA_PROYAKYU_10_VGM_REL,    MA_PROYAKYU_10_VGM_SEG },
+	{ "Behoder 3 (OPNA)   ", 0x8000 + OPNA_BEHOLDER3_02_VGM_REL, OPNA_BEHOLDER3_02_VGM_SEG },
+	{ "Valis 2 (OPNA)     ", 0x8000 + OPNA_VALIS2_23_VGM_REL,    OPNA_VALIS2_23_VGM_SEG },
+	{ "Misty Blue (OPNA)  ", 0x8000 + OPNA_MISTYBLUE_05_VGM_REL, OPNA_MISTYBLUE_05_VGM_SEG },
 };
 
 // Player button list

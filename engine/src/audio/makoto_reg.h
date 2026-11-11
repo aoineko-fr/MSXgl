@@ -56,8 +56,8 @@
 //	7	6	5	4	3	2	1	0
 //	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0
 //	└───┴───┴───┴───┴───┴───┴───┴── Channel A Frequency, LSB (fine tune)
-#define OPNA_REG_SSG_TONE_A			0
-#define OPNA_REG_SSG_TONE_A_L		0
+#define OPNA_REG_SSG_TONE_A			0x00	// R#0
+#define OPNA_REG_SSG_TONE_A_L		0x00	// R#0
 
 //-----------------------------------------------------------------------------
 // R#1    Tone Generator Control - Coarse Tune Register - Channel A
@@ -65,7 +65,7 @@
 //	7	6	5	4	3	2	1	0
 //	x   x   x   x   TPB TPA TP9 TP8
 //	                └───┴───┴───┴── Channel A Frequency, MSB (coarse tune)
-#define OPNA_REG_SSG_TONE_A_H		1
+#define OPNA_REG_SSG_TONE_A_H		0x01	// R#1
 
 //-----------------------------------------------------------------------------
 // R#2    Tone Generator Control - Fine Tune Register - Channel B
@@ -73,8 +73,8 @@
 //	7	6	5	4	3	2	1	0
 //	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0
 //	└───┴───┴───┴───┴───┴───┴───┴── Channel B Frequency, LSB (fine tune)
-#define OPNA_REG_SSG_TONE_B			2
-#define OPNA_REG_SSG_TONE_B_L		2
+#define OPNA_REG_SSG_TONE_B			0x02	// R#2
+#define OPNA_REG_SSG_TONE_B_L		0x02	// R#2
 
 //-----------------------------------------------------------------------------
 // R#3    Tone Generator Control - Coarse Tune Register - Channel B
@@ -82,7 +82,7 @@
 //	7	6	5	4	3	2	1	0
 //	x   x   x   x   TPB TPA TP9 TP8
 //	                └───┴───┴───┴── Channel B Frequency, MSB (coarse tune)
-#define OPNA_REG_SSG_TONE_B_H		3
+#define OPNA_REG_SSG_TONE_B_H		0x03	// R#3
 
 //-----------------------------------------------------------------------------
 // R#4    Tone Generator Control - Fine Tune Register - Channel C
@@ -90,8 +90,8 @@
 //	7	6	5	4	3	2	1	0
 //	TP7 TP6 TP5 TP4 TP3 TP2 TP1 TP0
 //	└───┴───┴───┴───┴───┴───┴───┴── Channel C Frequency, LSB (fine tune)
-#define OPNA_REG_SSG_TONE_C			4
-#define OPNA_REG_SSG_TONE_C_L		4
+#define OPNA_REG_SSG_TONE_C			0x04	// R#4
+#define OPNA_REG_SSG_TONE_C_L		0x04	// R#4
 
 //-----------------------------------------------------------------------------
 // R#5    Tone Generator Control - Coarse Tune Register - Channel C
@@ -99,7 +99,7 @@
 //	7	6	5	4	3	2	1	0	
 //	x   x   x   x   TPB TPA TP9 TP8 	
 //	                └───┴───┴───┴── Channel C Frequency, MSB (coarse tune)
-#define OPNA_REG_SSG_TONE_C_H		5
+#define OPNA_REG_SSG_TONE_C_H		0x05	// R#5
 
 //-----------------------------------------------------------------------------
 // R#6    Noise Generator Control
@@ -107,7 +107,7 @@
 //	7	6	5	4	3	2	1	0	
 //	x   x   x   NP4 NP3 NP2 NP1 NP0 	
 //	            └───┴───┴───┴───┴── Noise Frequency
-#define OPNA_REG_SSG_NOISE			6
+#define OPNA_REG_SSG_NOISE			0x06	// R#6
 
 //-----------------------------------------------------------------------------
 // R#7    Mixer Control-I/O Enable
@@ -122,7 +122,7 @@
 //	│	│	└────────────────────── Noise Generator C enable/disable
 //	│	└────────────────────────── Port A input/output control
 //	└────────────────────────────── Port B input/output control
-#define OPNA_REG_SSG_MIXER			7
+#define OPNA_REG_SSG_MIXER			0x07	// R#7
 #define OPNA_F_TA					(0x01)	// Tone Genrator A enable/disable
 #define OPNA_F_TB					(0x02)	// Tone Genrator B enable/disable
 #define OPNA_F_TC					(0x04)	// Tone Genrator C enable/disable
@@ -139,18 +139,18 @@
 //	x	x	x	M	L3	L2	L1	L0 	
 //  			│	└───┴───┴───┴── Channel A Amplitude (volume)
 //				└────────────────── Volume controlled by Envelope enable/disable
-#define OPNA_REG_SSG_AMP_A			8
+#define OPNA_REG_SSG_AMP_A			0x08	// R#8
 #define OPNA_F_ENV					(0x10)	// Volume controlled by Envelope enable/disable
 
 //-----------------------------------------------------------------------------
 // R#9    Amplitude Control - Channel B
 //-----------------------------------------------------------------------------
-#define OPNA_REG_SSG_AMP_B			9
+#define OPNA_REG_SSG_AMP_B			0x09	// R#9
 
 //-----------------------------------------------------------------------------
 // R#10   Amplitude Control - Channel C
 //-----------------------------------------------------------------------------
-#define OPNA_REG_SSG_AMP_C			10
+#define OPNA_REG_SSG_AMP_C			0x0A	// R#10
 
 //-----------------------------------------------------------------------------
 // R#11   Envelope Generator Control - Fine Tune Register
@@ -158,8 +158,8 @@
 //	7	6	5	4	3	2	1	0	
 //	EP7 EP6 EP5 EP4 EP3 EP2 EP1 EP0 	
 //	└───┴───┴───┴───┴───┴───┴───┴── Envelope Frequency, LSB (period fine tune)
-#define OPNA_REG_SSG_ENV			11
-#define OPNA_REG_SSG_ENV_L			11
+#define OPNA_REG_SSG_ENV			0x0B	// R#11
+#define OPNA_REG_SSG_ENV_L			0x0B	// R#11
 
 //-----------------------------------------------------------------------------
 // R#12   Envelope Generator Control - Coarse Tune Register
@@ -167,7 +167,7 @@
 //	7	6	5	4	3	2	1	0	
 //	EPF EPE EPD EPC EPB EPA EP9 EP8 	
 //	└───┴───┴───┴───┴───┴───┴───┴── Envelope Frequency, MSB (period coarse tune)
-#define OPNA_REG_SSG_ENV_H			12
+#define OPNA_REG_SSG_ENV_H			0x0C	// R#12
 
 //-----------------------------------------------------------------------------
 // R#13   Envelope Shape/Cycle Control
@@ -178,7 +178,7 @@
 //					│   │   └────── Envelope shape, Alternate
 //					│   └────────── Envelope shape, Attack
 //					└────────────── Envelope shape, Continue
-#define OPNA_REG_SSG_SHAPE			13
+#define OPNA_REG_SSG_SHAPE			0x0D	// R#13
 #define OPNA_F_HLD					(0x01)	// Envelope shape, Hold
 #define OPNA_F_ALT					(0x02)	// Envelope shape, Alternate
 #define OPNA_F_ATT					(0x04)	// Envelope shape, Attack
@@ -220,7 +220,7 @@
 //	│	│	└────────────────────── Pin 7 state of the selected general port (Trigger B if joystick)
 //	│	└────────────────────────── 1 for JIS keyboard, 0 for JP50on (only valid for Japanese MSX)
 //	└────────────────────────────── CASRD (Reading signal on cassette)
-#define OPNA_REG_SSG_IO_PORT_A	14
+#define OPNA_REG_SSG_IO_PORT_A	0x0E	// R#14
 
 //-----------------------------------------------------------------------------
 // R#15   I/O Parallel Port B (write)
@@ -235,7 +235,7 @@
 //	│	│	└────────────────────── Pin control 8 of the general port 2 (0 for standard joystick mode)
 //	│	└────────────────────────── Selection of the general port readable via register 14 (1 for port 2)
 //	└────────────────────────────── LED control of the "Code" or "Kana" key. (1 to turn off)
-#define OPNA_REG_SSG_IO_PORT_B	15
+#define OPNA_REG_SSG_IO_PORT_B	0x0F	// R#15
 
 // Group: Rhythm
 
@@ -252,7 +252,7 @@
 //	│		│	└────────────────── Tom-tom
 //	│		└────────────────────── Rim Shot
 //	└────────────────────────────── Dump (0: key on selected instruments, 1: stop them)
-#define OPNA_REG_RHY_KEY		16
+#define OPNA_REG_RHY_KEY		0x10	// R#16
 #define OPNA_F_RHY_BD			0x01	// Bass Drum
 #define OPNA_F_RHY_SD			0x02	// Snare Drum
 #define OPNA_F_RHY_TOP			0x04	// Top Cymbal
@@ -268,7 +268,7 @@
 //	7	6	5	4	3	2	1	0
 //	x	x	TL5	TL4	TL3	TL2	TL1	TL0
 //			└───┴───┴───┴───┴───┴── Rhythm total level (0-63, 63 = loudest, 0.75 dB/step)
-#define OPNA_REG_RHY_TL			17
+#define OPNA_REG_RHY_TL			0x11	// R#17
 
 //-----------------------------------------------------------------------------
 // R#24   Rhythm - Bass Drum Output/Level
@@ -278,7 +278,7 @@
 //	│	│		└───┴───┴───┴───┴── Instrument level (0-31, 31 = loudest, 0.75 dB/step)
 //	│	└────────────────────────── Right output enable
 //	└────────────────────────────── Left output enable
-#define OPNA_REG_RHY_BD			24
+#define OPNA_REG_RHY_BD			0x18	// R#24
 #define OPNA_F_R				0x40	// Right output enable (also used by R#180-182 and R#257)
 #define OPNA_F_L				0x80	// Left output enable (also used by R#180-182 and R#257)
 #define OPNA_F_LR				0xC0	// Left and right outputs enable
@@ -286,27 +286,27 @@
 //-----------------------------------------------------------------------------
 // R#25   Rhythm - Snare Drum Output/Level
 //-----------------------------------------------------------------------------
-#define OPNA_REG_RHY_SD			25
+#define OPNA_REG_RHY_SD			0x19	// R#25
 
 //-----------------------------------------------------------------------------
 // R#26   Rhythm - Top Cymbal Output/Level
 //-----------------------------------------------------------------------------
-#define OPNA_REG_RHY_TOP		26
+#define OPNA_REG_RHY_TOP		0x1A	// R#26
 
 //-----------------------------------------------------------------------------
 // R#27   Rhythm - Hi-Hat Output/Level
 //-----------------------------------------------------------------------------
-#define OPNA_REG_RHY_HH			27
+#define OPNA_REG_RHY_HH			0x1B	// R#27
 
 //-----------------------------------------------------------------------------
 // R#28   Rhythm - Tom-tom Output/Level
 //-----------------------------------------------------------------------------
-#define OPNA_REG_RHY_TOM		28
+#define OPNA_REG_RHY_TOM		0x1C	// R#28
 
 //-----------------------------------------------------------------------------
 // R#29   Rhythm - Rim Shot Output/Level
 //-----------------------------------------------------------------------------
-#define OPNA_REG_RHY_RIM		29
+#define OPNA_REG_RHY_RIM		0x1D	// R#29
 
 // Group: System
 
@@ -314,7 +314,7 @@
 // R#33   Test
 //-----------------------------------------------------------------------------
 // Always 00h
-#define OPNA_REG_TEST			33
+#define OPNA_REG_TEST			0x21	// R#33
 
 //-----------------------------------------------------------------------------
 // R#34   LFO Control
@@ -323,7 +323,7 @@
 //	x	x	x	x	EN	F2	F1	F0
 //					│	└───┴───┴── LFO frequency (0-7: 3.98, 5.56, 6.02, 6.37, 6.88, 9.63, 48.1, 72.2 Hz)
 //					└────────────── LFO enable
-#define OPNA_REG_LFO			34
+#define OPNA_REG_LFO			0x22	// R#34
 #define OPNA_F_LFO_EN			0x08	// LFO enable
 
 //-----------------------------------------------------------------------------
@@ -333,7 +333,7 @@
 //	7	6	5	4	3	2	1	0
 //	NA9	NA8	NA7	NA6	NA5	NA4	NA3	NA2
 //	└───┴───┴───┴───┴───┴───┴───┴── Timer A value, MSB (bits 9-2)
-#define OPNA_REG_TIMER_A_H		36
+#define OPNA_REG_TIMER_A_H		0x24	// R#36
 
 //-----------------------------------------------------------------------------
 // R#37   Timer A - LSB
@@ -341,7 +341,7 @@
 //	7	6	5	4	3	2	1	0
 //	x	x	x	x	x	x	NA1	NA0
 //							└───┴── Timer A value, LSB (bits 1-0)
-#define OPNA_REG_TIMER_A_L		37
+#define OPNA_REG_TIMER_A_L		0x25	// R#37
 
 //-----------------------------------------------------------------------------
 // R#38   Timer B
@@ -350,7 +350,7 @@
 //	7	6	5	4	3	2	1	0
 //	NB7	NB6	NB5	NB4	NB3	NB2	NB1	NB0
 //	└───┴───┴───┴───┴───┴───┴───┴── Timer B value
-#define OPNA_REG_TIMER_B		38
+#define OPNA_REG_TIMER_B		0x26	// R#38
 
 //-----------------------------------------------------------------------------
 // R#39   Timer Control - Channel 3 Mode
@@ -365,7 +365,7 @@
 //	│	│	│	└────────────────── Timer A flag reset
 //	│	│	└────────────────────── Timer B flag reset
 //	└───┴────────────────────────── Channel 3 mode (00: normal, 01: special, 10: CSM)
-#define OPNA_REG_TIMER_CTRL		39
+#define OPNA_REG_TIMER_CTRL		0x27	// R#39
 #define OPNA_F_LOAD_A			0x01	// Timer A load
 #define OPNA_F_LOAD_B			0x02	// Timer B load
 #define OPNA_F_ENABLE_A			0x04	// Timer A flag enable
@@ -386,7 +386,7 @@
 //	│	│	└────────────────────── Slot 2 key on
 //	│	└────────────────────────── Slot 3 key on
 //	└────────────────────────────── Slot 4 key on
-#define OPNA_REG_KEY			40
+#define OPNA_REG_KEY			0x28	// R#40
 #define OPNA_F_KEY_S1			0x10	// Slot 1 key on
 #define OPNA_F_KEY_S2			0x20	// Slot 2 key on
 #define OPNA_F_KEY_S3			0x40	// Slot 3 key on
@@ -404,7 +404,7 @@
 //	│			│	└────────────── ADPCM buffer ready IRQ enable
 //	│			└────────────────── ADPCM zero level IRQ enable
 //	└────────────────────────────── 6 FM channels enable (0: CH1-3 only)
-#define OPNA_REG_MODE			41
+#define OPNA_REG_MODE			0x29	// R#41
 #define OPNA_F_EN_TA			0x01	// Timer A IRQ enable
 #define OPNA_F_EN_TB			0x02	// Timer B IRQ enable
 #define OPNA_F_EN_EOS			0x04	// ADPCM end of sample IRQ enable
@@ -417,9 +417,9 @@
 //-----------------------------------------------------------------------------
 // Selected by writing the register number on the address port only (no data)
 // 2Dh: FM ÷6, SSG ÷4 (default) | 2Dh then 2Eh: FM ÷3, SSG ÷2 | 2Fh: FM ÷2, SSG ÷1
-#define OPNA_REG_PRESCALER_6	45
-#define OPNA_REG_PRESCALER_3	46
-#define OPNA_REG_PRESCALER_2	47
+#define OPNA_REG_PRESCALER_6	0x2D	// R#45
+#define OPNA_REG_PRESCALER_3	0x2E	// R#46
+#define OPNA_REG_PRESCALER_2	0x2F	// R#47
 
 // Group: FM Operator
 
@@ -440,19 +440,19 @@
 //	x	DT2	DT1	DT0	ML3	ML2	ML1	ML0
 //		│	│	│	└───┴───┴───┴── Multiple (0: ×½, 1-15: ×1-×15)
 //		└───┴───┴────────────────── Detune (0-3: 0/+1/+2/+3, 4-7: 0/-1/-2/-3)
-#define OPNA_REG_DTMUL			48
-#define OPNA_REG_DTMUL_1_S1		48
-#define OPNA_REG_DTMUL_2_S1		49
-#define OPNA_REG_DTMUL_3_S1		50
-#define OPNA_REG_DTMUL_1_S3		52
-#define OPNA_REG_DTMUL_2_S3		53
-#define OPNA_REG_DTMUL_3_S3		54
-#define OPNA_REG_DTMUL_1_S2		56
-#define OPNA_REG_DTMUL_2_S2		57
-#define OPNA_REG_DTMUL_3_S2		58
-#define OPNA_REG_DTMUL_1_S4		60
-#define OPNA_REG_DTMUL_2_S4		61
-#define OPNA_REG_DTMUL_3_S4		62
+#define OPNA_REG_DTMUL			0x30	// R#48
+#define OPNA_REG_DTMUL_1_S1		0x30	// R#48
+#define OPNA_REG_DTMUL_2_S1		0x31	// R#49
+#define OPNA_REG_DTMUL_3_S1		0x32	// R#50
+#define OPNA_REG_DTMUL_1_S3		0x34	// R#52
+#define OPNA_REG_DTMUL_2_S3		0x35	// R#53
+#define OPNA_REG_DTMUL_3_S3		0x36	// R#54
+#define OPNA_REG_DTMUL_1_S2		0x38	// R#56
+#define OPNA_REG_DTMUL_2_S2		0x39	// R#57
+#define OPNA_REG_DTMUL_3_S2		0x3A	// R#58
+#define OPNA_REG_DTMUL_1_S4		0x3C	// R#60
+#define OPNA_REG_DTMUL_2_S4		0x3D	// R#61
+#define OPNA_REG_DTMUL_3_S4		0x3E	// R#62
 
 //-----------------------------------------------------------------------------
 // R#64-78 FM Operator - Total Level
@@ -460,19 +460,19 @@
 //	7	6	5	4	3	2	1	0
 //	x	TL6	TL5	TL4	TL3	TL2	TL1	TL0
 //		└───┴───┴───┴───┴───┴───┴── Total level (0-127, 0.75 dB/step, 0 = loudest)
-#define OPNA_REG_TL				64
-#define OPNA_REG_TL_1_S1		64
-#define OPNA_REG_TL_2_S1		65
-#define OPNA_REG_TL_3_S1		66
-#define OPNA_REG_TL_1_S3		68
-#define OPNA_REG_TL_2_S3		69
-#define OPNA_REG_TL_3_S3		70
-#define OPNA_REG_TL_1_S2		72
-#define OPNA_REG_TL_2_S2		73
-#define OPNA_REG_TL_3_S2		74
-#define OPNA_REG_TL_1_S4		76
-#define OPNA_REG_TL_2_S4		77
-#define OPNA_REG_TL_3_S4		78
+#define OPNA_REG_TL				0x40	// R#64
+#define OPNA_REG_TL_1_S1		0x40	// R#64
+#define OPNA_REG_TL_2_S1		0x41	// R#65
+#define OPNA_REG_TL_3_S1		0x42	// R#66
+#define OPNA_REG_TL_1_S3		0x44	// R#68
+#define OPNA_REG_TL_2_S3		0x45	// R#69
+#define OPNA_REG_TL_3_S3		0x46	// R#70
+#define OPNA_REG_TL_1_S2		0x48	// R#72
+#define OPNA_REG_TL_2_S2		0x49	// R#73
+#define OPNA_REG_TL_3_S2		0x4A	// R#74
+#define OPNA_REG_TL_1_S4		0x4C	// R#76
+#define OPNA_REG_TL_2_S4		0x4D	// R#77
+#define OPNA_REG_TL_3_S4		0x4E	// R#78
 
 //-----------------------------------------------------------------------------
 // R#80-94 FM Operator - Key Scale/Attack Rate
@@ -481,19 +481,19 @@
 //	KS1	KS0	x	AR4	AR3	AR2	AR1	AR0
 //	│	│		└───┴───┴───┴───┴── Attack rate (0-31, 31 = instant)
 //	└───┴────────────────────────── Key scale (0-3)
-#define OPNA_REG_KSAR			80
-#define OPNA_REG_KSAR_1_S1		80
-#define OPNA_REG_KSAR_2_S1		81
-#define OPNA_REG_KSAR_3_S1		82
-#define OPNA_REG_KSAR_1_S3		84
-#define OPNA_REG_KSAR_2_S3		85
-#define OPNA_REG_KSAR_3_S3		86
-#define OPNA_REG_KSAR_1_S2		88
-#define OPNA_REG_KSAR_2_S2		89
-#define OPNA_REG_KSAR_3_S2		90
-#define OPNA_REG_KSAR_1_S4		92
-#define OPNA_REG_KSAR_2_S4		93
-#define OPNA_REG_KSAR_3_S4		94
+#define OPNA_REG_KSAR			0x50	// R#80
+#define OPNA_REG_KSAR_1_S1		0x50	// R#80
+#define OPNA_REG_KSAR_2_S1		0x51	// R#81
+#define OPNA_REG_KSAR_3_S1		0x52	// R#82
+#define OPNA_REG_KSAR_1_S3		0x54	// R#84
+#define OPNA_REG_KSAR_2_S3		0x55	// R#85
+#define OPNA_REG_KSAR_3_S3		0x56	// R#86
+#define OPNA_REG_KSAR_1_S2		0x58	// R#88
+#define OPNA_REG_KSAR_2_S2		0x59	// R#89
+#define OPNA_REG_KSAR_3_S2		0x5A	// R#90
+#define OPNA_REG_KSAR_1_S4		0x5C	// R#92
+#define OPNA_REG_KSAR_2_S4		0x5D	// R#93
+#define OPNA_REG_KSAR_3_S4		0x5E	// R#94
 
 //-----------------------------------------------------------------------------
 // R#96-110 FM Operator - AM Enable/Decay Rate
@@ -502,19 +502,19 @@
 //	AM	x	x	DR4	DR3	DR2	DR1	DR0
 //	│			└───┴───┴───┴───┴── Decay rate (0-31)
 //	└────────────────────────────── LFO amplitude modulation enable
-#define OPNA_REG_AMDR			96
-#define OPNA_REG_AMDR_1_S1		96
-#define OPNA_REG_AMDR_2_S1		97
-#define OPNA_REG_AMDR_3_S1		98
-#define OPNA_REG_AMDR_1_S3		100
-#define OPNA_REG_AMDR_2_S3		101
-#define OPNA_REG_AMDR_3_S3		102
-#define OPNA_REG_AMDR_1_S2		104
-#define OPNA_REG_AMDR_2_S2		105
-#define OPNA_REG_AMDR_3_S2		106
-#define OPNA_REG_AMDR_1_S4		108
-#define OPNA_REG_AMDR_2_S4		109
-#define OPNA_REG_AMDR_3_S4		110
+#define OPNA_REG_AMDR			0x60	// R#96
+#define OPNA_REG_AMDR_1_S1		0x60	// R#96
+#define OPNA_REG_AMDR_2_S1		0x61	// R#97
+#define OPNA_REG_AMDR_3_S1		0x62	// R#98
+#define OPNA_REG_AMDR_1_S3		0x64	// R#100
+#define OPNA_REG_AMDR_2_S3		0x65	// R#101
+#define OPNA_REG_AMDR_3_S3		0x66	// R#102
+#define OPNA_REG_AMDR_1_S2		0x68	// R#104
+#define OPNA_REG_AMDR_2_S2		0x69	// R#105
+#define OPNA_REG_AMDR_3_S2		0x6A	// R#106
+#define OPNA_REG_AMDR_1_S4		0x6C	// R#108
+#define OPNA_REG_AMDR_2_S4		0x6D	// R#109
+#define OPNA_REG_AMDR_3_S4		0x6E	// R#110
 #define OPNA_F_AM				0x80	// LFO amplitude modulation enable
 
 //-----------------------------------------------------------------------------
@@ -523,19 +523,19 @@
 //	7	6	5	4	3	2	1	0
 //	x	x	x	SR4	SR3	SR2	SR1	SR0
 //				└───┴───┴───┴───┴── Sustain rate (0-31, 0 = hold at sustain level)
-#define OPNA_REG_SR				112
-#define OPNA_REG_SR_1_S1		112
-#define OPNA_REG_SR_2_S1		113
-#define OPNA_REG_SR_3_S1		114
-#define OPNA_REG_SR_1_S3		116
-#define OPNA_REG_SR_2_S3		117
-#define OPNA_REG_SR_3_S3		118
-#define OPNA_REG_SR_1_S2		120
-#define OPNA_REG_SR_2_S2		121
-#define OPNA_REG_SR_3_S2		122
-#define OPNA_REG_SR_1_S4		124
-#define OPNA_REG_SR_2_S4		125
-#define OPNA_REG_SR_3_S4		126
+#define OPNA_REG_SR				0x70	// R#112
+#define OPNA_REG_SR_1_S1		0x70	// R#112
+#define OPNA_REG_SR_2_S1		0x71	// R#113
+#define OPNA_REG_SR_3_S1		0x72	// R#114
+#define OPNA_REG_SR_1_S3		0x74	// R#116
+#define OPNA_REG_SR_2_S3		0x75	// R#117
+#define OPNA_REG_SR_3_S3		0x76	// R#118
+#define OPNA_REG_SR_1_S2		0x78	// R#120
+#define OPNA_REG_SR_2_S2		0x79	// R#121
+#define OPNA_REG_SR_3_S2		0x7A	// R#122
+#define OPNA_REG_SR_1_S4		0x7C	// R#124
+#define OPNA_REG_SR_2_S4		0x7D	// R#125
+#define OPNA_REG_SR_3_S4		0x7E	// R#126
 
 //-----------------------------------------------------------------------------
 // R#128-142 FM Operator - Sustain Level/Release Rate
@@ -544,19 +544,19 @@
 //	SL3	SL2	SL1	SL0	RR3	RR2	RR1	RR0
 //	│	│	│	│	└───┴───┴───┴── Release rate (0-15)
 //	└───┴───┴───┴────────────────── Sustain level (0-15, 3 dB/step, 15 = -93 dB)
-#define OPNA_REG_SLRR			128
-#define OPNA_REG_SLRR_1_S1		128
-#define OPNA_REG_SLRR_2_S1		129
-#define OPNA_REG_SLRR_3_S1		130
-#define OPNA_REG_SLRR_1_S3		132
-#define OPNA_REG_SLRR_2_S3		133
-#define OPNA_REG_SLRR_3_S3		134
-#define OPNA_REG_SLRR_1_S2		136
-#define OPNA_REG_SLRR_2_S2		137
-#define OPNA_REG_SLRR_3_S2		138
-#define OPNA_REG_SLRR_1_S4		140
-#define OPNA_REG_SLRR_2_S4		141
-#define OPNA_REG_SLRR_3_S4		142
+#define OPNA_REG_SLRR			0x80	// R#128
+#define OPNA_REG_SLRR_1_S1		0x80	// R#128
+#define OPNA_REG_SLRR_2_S1		0x81	// R#129
+#define OPNA_REG_SLRR_3_S1		0x82	// R#130
+#define OPNA_REG_SLRR_1_S3		0x84	// R#132
+#define OPNA_REG_SLRR_2_S3		0x85	// R#133
+#define OPNA_REG_SLRR_3_S3		0x86	// R#134
+#define OPNA_REG_SLRR_1_S2		0x88	// R#136
+#define OPNA_REG_SLRR_2_S2		0x89	// R#137
+#define OPNA_REG_SLRR_3_S2		0x8A	// R#138
+#define OPNA_REG_SLRR_1_S4		0x8C	// R#140
+#define OPNA_REG_SLRR_2_S4		0x8D	// R#141
+#define OPNA_REG_SLRR_3_S4		0x8E	// R#142
 
 //-----------------------------------------------------------------------------
 // R#144-158 FM Operator - SSG-type Envelope
@@ -567,19 +567,19 @@
 //					│	│	└────── Envelope shape, Alternate
 //					│	└────────── Envelope shape, Attack
 //					└────────────── SSG-type envelope enable (write 00h for normal envelope)
-#define OPNA_REG_SSGEG			144
-#define OPNA_REG_SSGEG_1_S1		144
-#define OPNA_REG_SSGEG_2_S1		145
-#define OPNA_REG_SSGEG_3_S1		146
-#define OPNA_REG_SSGEG_1_S3		148
-#define OPNA_REG_SSGEG_2_S3		149
-#define OPNA_REG_SSGEG_3_S3		150
-#define OPNA_REG_SSGEG_1_S2		152
-#define OPNA_REG_SSGEG_2_S2		153
-#define OPNA_REG_SSGEG_3_S2		154
-#define OPNA_REG_SSGEG_1_S4		156
-#define OPNA_REG_SSGEG_2_S4		157
-#define OPNA_REG_SSGEG_3_S4		158
+#define OPNA_REG_SSGEG			0x90	// R#144
+#define OPNA_REG_SSGEG_1_S1		0x90	// R#144
+#define OPNA_REG_SSGEG_2_S1		0x91	// R#145
+#define OPNA_REG_SSGEG_3_S1		0x92	// R#146
+#define OPNA_REG_SSGEG_1_S3		0x94	// R#148
+#define OPNA_REG_SSGEG_2_S3		0x95	// R#149
+#define OPNA_REG_SSGEG_3_S3		0x96	// R#150
+#define OPNA_REG_SSGEG_1_S2		0x98	// R#152
+#define OPNA_REG_SSGEG_2_S2		0x99	// R#153
+#define OPNA_REG_SSGEG_3_S2		0x9A	// R#154
+#define OPNA_REG_SSGEG_1_S4		0x9C	// R#156
+#define OPNA_REG_SSGEG_2_S4		0x9D	// R#157
+#define OPNA_REG_SSGEG_3_S4		0x9E	// R#158
 #define OPNA_F_SSGEG_HLD		0x01	// Envelope shape, Hold
 #define OPNA_F_SSGEG_ALT		0x02	// Envelope shape, Alternate
 #define OPNA_F_SSGEG_ATT		0x04	// Envelope shape, Attack
@@ -595,17 +595,17 @@
 //	7	6	5	4	3	2	1	0
 //	FN7	FN6	FN5	FN4	FN3	FN2	FN1	FN0
 //	└───┴───┴───┴───┴───┴───┴───┴── F-Number, LSB (bits 7-0)
-#define OPNA_REG_FNUM_1_L		160
+#define OPNA_REG_FNUM_1_L		0xA0	// R#160
 
 //-----------------------------------------------------------------------------
 // R#161  FM Channel 2 - F-Number LSB
 //-----------------------------------------------------------------------------
-#define OPNA_REG_FNUM_2_L		161
+#define OPNA_REG_FNUM_2_L		0xA1	// R#161
 
 //-----------------------------------------------------------------------------
 // R#162  FM Channel 3 - F-Number LSB (also Slot 4 in channel 3 special mode)
 //-----------------------------------------------------------------------------
-#define OPNA_REG_FNUM_3_L		162
+#define OPNA_REG_FNUM_3_L		0xA2	// R#162
 
 //-----------------------------------------------------------------------------
 // R#164  FM Channel 1 - Block/F-Number MSB
@@ -615,49 +615,49 @@
 //	x	x	B2	B1	B0	FNA	FN9	FN8
 //			│	│	│	└───┴───┴── F-Number, MSB (bits 10-8)
 //			└───┴───┴────────────── Block (octave 0-7)
-#define OPNA_REG_FNUM_1_H		164
+#define OPNA_REG_FNUM_1_H		0xA4	// R#164
 
 //-----------------------------------------------------------------------------
 // R#165  FM Channel 2 - Block/F-Number MSB
 //-----------------------------------------------------------------------------
-#define OPNA_REG_FNUM_2_H		165
+#define OPNA_REG_FNUM_2_H		0xA5	// R#165
 
 //-----------------------------------------------------------------------------
 // R#166  FM Channel 3 - Block/F-Number MSB (also Slot 4 in channel 3 special mode)
 //-----------------------------------------------------------------------------
-#define OPNA_REG_FNUM_3_H		166
+#define OPNA_REG_FNUM_3_H		0xA6	// R#166
 
 //-----------------------------------------------------------------------------
 // R#168  FM Channel 3 Special Mode - Slot 3 F-Number LSB
 //-----------------------------------------------------------------------------
 // Same layout as R#160
-#define OPNA_REG_CH3_FNUM_S3_L	168
+#define OPNA_REG_CH3_FNUM_S3_L	0xA8	// R#168
 
 //-----------------------------------------------------------------------------
 // R#169  FM Channel 3 Special Mode - Slot 1 F-Number LSB
 //-----------------------------------------------------------------------------
-#define OPNA_REG_CH3_FNUM_S1_L	169
+#define OPNA_REG_CH3_FNUM_S1_L	0xA9	// R#169
 
 //-----------------------------------------------------------------------------
 // R#170  FM Channel 3 Special Mode - Slot 2 F-Number LSB
 //-----------------------------------------------------------------------------
-#define OPNA_REG_CH3_FNUM_S2_L	170
+#define OPNA_REG_CH3_FNUM_S2_L	0xAA	// R#170
 
 //-----------------------------------------------------------------------------
 // R#172  FM Channel 3 Special Mode - Slot 3 Block/F-Number MSB
 //-----------------------------------------------------------------------------
 // Same layout as R#164
-#define OPNA_REG_CH3_FNUM_S3_H	172
+#define OPNA_REG_CH3_FNUM_S3_H	0xAC	// R#172
 
 //-----------------------------------------------------------------------------
 // R#173  FM Channel 3 Special Mode - Slot 1 Block/F-Number MSB
 //-----------------------------------------------------------------------------
-#define OPNA_REG_CH3_FNUM_S1_H	173
+#define OPNA_REG_CH3_FNUM_S1_H	0xAD	// R#173
 
 //-----------------------------------------------------------------------------
 // R#174  FM Channel 3 Special Mode - Slot 2 Block/F-Number MSB
 //-----------------------------------------------------------------------------
-#define OPNA_REG_CH3_FNUM_S2_H	174
+#define OPNA_REG_CH3_FNUM_S2_H	0xAE	// R#174
 
 //-----------------------------------------------------------------------------
 // R#176  FM Channel 1 - Feedback/Algorithm
@@ -666,17 +666,17 @@
 //	x	x	FB2	FB1	FB0	AL2	AL1	AL0
 //			│	│	│	└───┴───┴── Algorithm (0-7)
 //			└───┴───┴────────────── Slot 1 self-feedback (0 = off, 7 = max)
-#define OPNA_REG_FBALG_1		176
+#define OPNA_REG_FBALG_1		0xB0	// R#176
 
 //-----------------------------------------------------------------------------
 // R#177  FM Channel 2 - Feedback/Algorithm
 //-----------------------------------------------------------------------------
-#define OPNA_REG_FBALG_2		177
+#define OPNA_REG_FBALG_2		0xB1	// R#177
 
 //-----------------------------------------------------------------------------
 // R#178  FM Channel 3 - Feedback/Algorithm
 //-----------------------------------------------------------------------------
-#define OPNA_REG_FBALG_3		178
+#define OPNA_REG_FBALG_3		0xB2	// R#178
 
 //-----------------------------------------------------------------------------
 // R#180  FM Channel 1 - Output/LFO Sensitivity
@@ -687,22 +687,22 @@
 //	│	│	└───┴────────────────── Amplitude modulation sensitivity (0-3: 0, 1.4, 5.9, 11.8 dB)
 //	│	└────────────────────────── Right output enable
 //	└────────────────────────────── Left output enable
-#define OPNA_REG_PAN_1			180
+#define OPNA_REG_PAN_1			0xB4	// R#180
 
 //-----------------------------------------------------------------------------
 // R#181  FM Channel 2 - Output/LFO Sensitivity
 //-----------------------------------------------------------------------------
-#define OPNA_REG_PAN_2			181
+#define OPNA_REG_PAN_2			0xB5	// R#181
 
 //-----------------------------------------------------------------------------
 // R#182  FM Channel 3 - Output/LFO Sensitivity
 //-----------------------------------------------------------------------------
-#define OPNA_REG_PAN_3			182
+#define OPNA_REG_PAN_3			0xB6	// R#182
 
 //-----------------------------------------------------------------------------
 // R#255  Chip ID (read only)
 //-----------------------------------------------------------------------------
-#define OPNA_REG_ID				255
+#define OPNA_REG_ID				0xFF	// R#255
 #define OPNA_ID_YM2608			0x01	// Value returned by YM2608
 
 // Group: ADPCM-B
@@ -725,7 +725,7 @@
 //	│	│	└────────────────────── External memory access
 //	│	└────────────────────────── Record/CPU write (0: playback/CPU read)
 //	└────────────────────────────── Start
-#define OPNA_REG_ADPCM_CTRL1	256
+#define OPNA_REG_ADPCM_CTRL1	0x00	// R#256
 #define OPNA_F_ADPCM_RESET		0x01	// Reset
 #define OPNA_F_ADPCM_SPOFF		0x08	// Speaker off
 #define OPNA_F_ADPCM_REPEAT		0x10	// Repeat
@@ -745,7 +745,7 @@
 //	│	└────────────────────────── Right output enable
 //	└────────────────────────────── Left output enable
 // Makoto: 256 KB DRAM in x1-bit mode (RAM type = 0)
-#define OPNA_REG_ADPCM_CTRL2	257
+#define OPNA_REG_ADPCM_CTRL2	0x01	// R#257
 #define OPNA_F_ADPCM_ROM		0x01	// Memory is ROM
 #define OPNA_F_ADPCM_RAM8		0x02	// RAM type x8-bit
 #define OPNA_F_ADPCM_DAAD		0x04	// D/A-A/D conversion mode
@@ -758,7 +758,7 @@
 //	7	6	5	4	3	2	1	0
 //	A7	A6	A5	A4	A3	A2	A1	A0
 //	└───┴───┴───┴───┴───┴───┴───┴── Start address, LSB
-#define OPNA_REG_ADPCM_START_L	258
+#define OPNA_REG_ADPCM_START_L	0x02	// R#258
 
 //-----------------------------------------------------------------------------
 // R#259  ADPCM - Start Address MSB
@@ -766,19 +766,19 @@
 //	7	6	5	4	3	2	1	0
 //	AF	AE	AD	AC	AB	AA	A9	A8
 //	└───┴───┴───┴───┴───┴───┴───┴── Start address, MSB
-#define OPNA_REG_ADPCM_START_H	259
+#define OPNA_REG_ADPCM_START_H	0x03	// R#259
 
 //-----------------------------------------------------------------------------
 // R#260  ADPCM - Stop Address LSB
 //-----------------------------------------------------------------------------
 // Same layout as R#258 (inclusive: the whole last unit is used)
-#define OPNA_REG_ADPCM_STOP_L	260
+#define OPNA_REG_ADPCM_STOP_L	0x04	// R#260
 
 //-----------------------------------------------------------------------------
 // R#261  ADPCM - Stop Address MSB
 //-----------------------------------------------------------------------------
 // Same layout as R#259
-#define OPNA_REG_ADPCM_STOP_H	261
+#define OPNA_REG_ADPCM_STOP_H	0x05	// R#261
 
 //-----------------------------------------------------------------------------
 // R#262  ADPCM - Prescale LSB
@@ -787,7 +787,7 @@
 //	7	6	5	4	3	2	1	0
 //	P7	P6	P5	P4	P3	P2	P1	P0
 //	└───┴───┴───┴───┴───┴───┴───┴── Prescale, LSB
-#define OPNA_REG_ADPCM_PRESCALE_L	262
+#define OPNA_REG_ADPCM_PRESCALE_L	0x06	// R#262
 
 //-----------------------------------------------------------------------------
 // R#263  ADPCM - Prescale MSB
@@ -795,7 +795,7 @@
 //	7	6	5	4	3	2	1	0
 //	x	x	x	x	x	PA	P9	P8
 //						└───┴───┴── Prescale, MSB (bits 10-8)
-#define OPNA_REG_ADPCM_PRESCALE_H	263
+#define OPNA_REG_ADPCM_PRESCALE_H	0x07	// R#263
 
 //-----------------------------------------------------------------------------
 // R#264  ADPCM - Data
@@ -805,7 +805,7 @@
 //	7	6	5	4	3	2	1	0
 //	D7	D6	D5	D4	D3	D2	D1	D0
 //	└───┴───┴───┴───┴───┴───┴───┴── ADPCM data
-#define OPNA_REG_ADPCM_DATA		264
+#define OPNA_REG_ADPCM_DATA		0x08	// R#264
 
 //-----------------------------------------------------------------------------
 // R#265  ADPCM - Delta-N LSB
@@ -814,7 +814,7 @@
 //	7	6	5	4	3	2	1	0
 //	DN7	DN6	DN5	DN4	DN3	DN2	DN1	DN0
 //	└───┴───┴───┴───┴───┴───┴───┴── Delta-N, LSB
-#define OPNA_REG_ADPCM_DELTA_L	265
+#define OPNA_REG_ADPCM_DELTA_L	0x09	// R#265
 
 //-----------------------------------------------------------------------------
 // R#266  ADPCM - Delta-N MSB
@@ -822,7 +822,7 @@
 //	7	6	5	4	3	2	1	0
 //	DNF	DNE	DND	DNC	DNB	DNA	DN9	DN8
 //	└───┴───┴───┴───┴───┴───┴───┴── Delta-N, MSB
-#define OPNA_REG_ADPCM_DELTA_H	266
+#define OPNA_REG_ADPCM_DELTA_H	0x0A	// R#266
 
 //-----------------------------------------------------------------------------
 // R#267  ADPCM - Level
@@ -830,19 +830,19 @@
 //	7	6	5	4	3	2	1	0
 //	L7	L6	L5	L4	L3	L2	L1	L0
 //	└───┴───┴───┴───┴───┴───┴───┴── Output level (00h = silent, FFh = max)
-#define OPNA_REG_ADPCM_LEVEL	267
+#define OPNA_REG_ADPCM_LEVEL	0x0B	// R#267
 
 //-----------------------------------------------------------------------------
 // R#268  ADPCM - Limit Address LSB
 //-----------------------------------------------------------------------------
 // Same layout as R#258 (CPU memory access wraps to 0 after this unit)
-#define OPNA_REG_ADPCM_LIMIT_L	268
+#define OPNA_REG_ADPCM_LIMIT_L	0x0C	// R#268
 
 //-----------------------------------------------------------------------------
 // R#269  ADPCM - Limit Address MSB
 //-----------------------------------------------------------------------------
 // Same layout as R#259
-#define OPNA_REG_ADPCM_LIMIT_H	269
+#define OPNA_REG_ADPCM_LIMIT_H	0x0D	// R#269
 
 //-----------------------------------------------------------------------------
 // R#270  ADPCM - DAC Data
@@ -850,7 +850,7 @@
 //	7	6	5	4	3	2	1	0
 //	D7	D6	D5	D4	D3	D2	D1	D0
 //	└───┴───┴───┴───┴───┴───┴───┴── Direct output value (D/A mode)
-#define OPNA_REG_ADPCM_DAC		270
+#define OPNA_REG_ADPCM_DAC		0x0E	// R#270
 
 //-----------------------------------------------------------------------------
 // R#271  ADPCM - PCM Data
@@ -858,12 +858,15 @@
 //	7	6	5	4	3	2	1	0
 //	D7	D6	D5	D4	D3	D2	D1	D0
 //	└───┴───┴───┴───┴───┴───┴───┴── A/D-D/A conversion data
-#define OPNA_REG_ADPCM_PCM		271
+#define OPNA_REG_ADPCM_PCM		0x0F	// R#271
 
 //-----------------------------------------------------------------------------
 // R#272  ADPCM - Flag Control
 //-----------------------------------------------------------------------------
-// Some emulators power up with 1Ch (BRDY masked): write 80h before polling BRDY
+// After reset: 1Ch (ZERO, BRDY and EOS flags masked)
+// D7 = 1 resets all flags but ignores D4-D0 (masks are unchanged): write 13h to unmask BRDY and EOS
+// Writing a mask bit to 1 also resets the related flag (e.g. 1Bh then 13h resets BRDY only)
+// Unmasked flags also raise /IRQ if enabled in R#41 (all enabled after reset)
 //	7	6	5	4	3	2	1	0
 //	RST	x	x	MZ	MBR	MEO	MTB	MTA
 //	│			│	│	│	│	└── Mask Timer A flag
@@ -872,7 +875,7 @@
 //	│			│	└────────────── Mask ADPCM buffer ready flag
 //	│			└────────────────── Mask ADPCM zero level flag
 //	└────────────────────────────── Reset all status 1 flags
-#define OPNA_REG_ADPCM_FLAG		272
+#define OPNA_REG_ADPCM_FLAG		0x10	// R#272
 #define OPNA_F_MSK_TA			0x01	// Mask Timer A flag
 #define OPNA_F_MSK_TB			0x02	// Mask Timer B flag
 #define OPNA_F_MSK_EOS			0x04	// Mask ADPCM end of sample flag

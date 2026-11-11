@@ -36,7 +36,11 @@ enum LVGM_CHUNK_TYPE
 	LVGM_CHUNK_FRAME,
 	LVGM_CHUNK_LOOP,
 	LVGM_CHUNK_END,
+	LVGM_CHUNK_DATA, // Data block (Value = start address)
 };
+
+// Max data block size in lVGM (in 4 bytes unit)
+#define LVGM_DATA_MAX_UNIT		64
 
 // lVGM chunk structure
 struct lVGM_Chunk
@@ -46,6 +50,7 @@ struct lVGM_Chunk
 	u8              Port;
 	u8              Register;
 	u16             Value;
+	std::vector<u8> Data; // Data block content (LVGM_CHUNK_DATA only)
 
 	lVGM_Chunk() : Type(LVGM_CHUNK_REG), Chip(LVGM_CHIP_NONE), Port(0), Register(0), Value(0) {}
 	lVGM_Chunk(LVGM_CHUNK_TYPE t, LVGM_CHIP c = LVGM_CHIP_NONE, u8 p = 0, u8 r = 0, u16 v = 0) : Type(t), Chip(c), Port(p), Register(r), Value(v) {}
@@ -162,7 +167,7 @@ u16 CountIncSequence(std::vector<lVGM_Chunk>::iterator& chunk, bool& bUnique, u1
 //-----------------------------------------------------------------------------
 // Check if adding 'size' bytes would cross a data segment boundary (when split option is set)
 // If so, add an end-of-segment notification followed by padding up to the next segment
-void CheckSplit(MSX::ExporterInterface* exp, u8 size)
+void CheckSplit(MSX::ExporterInterface* exp, u16 size)
 {
 	if (g_lVGM_Split)
 	{
@@ -564,8 +569,13 @@ void ExportOPNA(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 	}
 
 	// Check for sequence
+	// Rhythm key register (part 0, R#16) must not be in a sequence: the replayer needs to wait for the chip after writing it
+	u16 maxLen = 18; // Cn/Dn opcodes can handle up to 18 registers
+	if ((chunk->Port == 0) && (chunk->Register <= 0x10))
+		maxLen = 0x10 - chunk->Register; // Stop before R#16 (0 for R#16 itself: CountIncSequence then returns 1)
+
 	bool bUnique;
-	u16 seqLen = CountIncSequence(chunk, bUnique, 18); 	// Data sequence (Cn/Dn opcodes can handle up to 18 registers)s
+	u16 seqLen = CountIncSequence(chunk, bUnique, maxLen);
 	if (seqLen >= 3)
 	{
 		if (bUnique)
@@ -577,6 +587,31 @@ void ExportOPNA(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 	}
 
 	AddList(exp, std::vector<u8>{ chunk->Register, (u8)chunk->Value }, "rr: nn");
+}
+
+//-----------------------------------------------------------------------------
+// Export an OPNA (YM2608) ADPCM data block chunk (BD aa aa nn data[(nn+1)*4])
+void ExportOPNAData(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
+{
+	assert(chunk->Type == LVGM_CHUNK_DATA);
+	assert(chunk->Chip == LVGM_CHIP_OPNA);
+	assert(!chunk->Data.empty() && (chunk->Data.size() % 4 == 0) && (chunk->Data.size() <= LVGM_DATA_MAX_UNIT * 4));
+
+	// Check for chip switch
+	if (g_lVGM_CurChip != LVGM_CHIP_OPNA)
+	{
+		g_lVGM_CurChip = LVGM_CHIP_OPNA;
+		AddByte(exp, LVGM_OP_OPNA, "---- Start OPNA section");
+	}
+
+	u8 units = (u8)(chunk->Data.size() / 4);
+	CheckSplit(exp, (u16)(4 + chunk->Data.size()));
+	exp->AddByteList(std::vector<u8>{ 0xBD, (u8)chunk->Value, (u8)(chunk->Value >> 8), (u8)(units - 1) }, MSX::Format("BD aa aa nn => ADPCM data (addr:%04Xh size:%i)", chunk->Value, units));
+	for (u32 i = 0; i < chunk->Data.size(); i += 16)
+	{
+		std::vector<u8> line(chunk->Data.begin() + i, chunk->Data.begin() + std::min<u32>(i + 16, (u32)chunk->Data.size()));
+		exp->AddByteList(line);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -610,6 +645,7 @@ void Simplify(std::vector<lVGM_Chunk>& chunkList)
 		case LVGM_CHUNK_LOOP:
 		case LVGM_CHUNK_FRAME:
 		case LVGM_CHUNK_END:
+		case LVGM_CHUNK_DATA:
 			if (workMap.size())
 			{
 				for (const auto& pair : workMap)
@@ -913,6 +949,37 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			u8 n = 1 + (*g_VGM_Pointer & 0xF);
 			sampleCount += n;
 		}
+		//-----------------------------------------------------------------------------
+		else if (*g_VGM_Pointer == 0x67) // Data block: 0x67 0x66 tt ss ss ss ss data[ss]
+		{
+			u8 type = g_VGM_Pointer[2];
+			u32 size = *(u32*)(g_VGM_Pointer + 3) & 0x7FFFFFFF;
+			if (type != 0x81)
+				printf("Warning: Unsupported data block type! %02x\n", type);
+			else if ((detect.Devices & LVGM_CHIP_OPNA) && (size > 8)) // YM2608 DELTA-T (ADPCM-B) memory image: rr rr rr rr (memory size) aa aa aa aa (start address) data[ss-8]
+			{
+				u32 start = *(u32*)(g_VGM_Pointer + 11);
+				const u8* src = g_VGM_Pointer + 15;
+				u32 len = size - 8;
+				if (start & 3)
+					printf("Warning: ADPCM data block start address not aligned on 4 bytes! %06x\n", start);
+				if (len & 3)
+					printf("Warning: ADPCM data block size not aligned on 4 bytes (padded with 0)! %06x\n", len);
+
+				// Split the data block into chunks of 64 units max (4 bytes each)
+				u32 addr = start >> 2;
+				u32 units = (len + 3) / 4;
+				for (u32 ofs = 0; ofs < units; ofs += LVGM_DATA_MAX_UNIT)
+				{
+					u32 cnt = std::min<u32>(LVGM_DATA_MAX_UNIT, units - ofs);
+					lVGM_Chunk chunk(LVGM_CHUNK_DATA, LVGM_CHIP_OPNA, 1, 0, (u16)(addr + ofs));
+					for (u32 i = ofs * 4; i < (ofs + cnt) * 4; i++)
+						chunk.Data.push_back((i < len) ? src[i] : 0);
+					chunkList.push_back(chunk);
+				}
+			}
+			g_VGM_Pointer += 6 + size;
+		}
 		else
 		{
 			printf("Warning: Invalid command! %02x\n", *g_VGM_Pointer);
@@ -925,12 +992,7 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			else if ((*g_VGM_Pointer >= 0xC0) && (*g_VGM_Pointer <= 0xDF))
 				g_VGM_Pointer += 3;
 			else if ((*g_VGM_Pointer >= 0xE0) && (*g_VGM_Pointer <= 0xFF))
-				g_VGM_Pointer += 4;			
-			else if (*g_VGM_Pointer == 0x67) // Data block: 0x67 0x66 tt ss ss ss ss data[ss]
-			{
-				u32 size = *(u32*)(g_VGM_Pointer + 3) & 0x7FFFFFFF;
-				g_VGM_Pointer += 6 + size;
-			}
+				g_VGM_Pointer += 4;
 		}
 		g_VGM_Pointer++;
 
@@ -1029,6 +1091,15 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 				ExportOPNA(exp, chunk);
 				break;
 			default:
+				break;
+			}
+			break;
+
+		case LVGM_CHUNK_DATA:
+			switch (chunk->Chip)
+			{
+			case LVGM_CHIP_OPNA:
+				ExportOPNAData(exp, chunk);
 				break;
 			}
 			break;
