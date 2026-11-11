@@ -111,6 +111,29 @@ enum PRINT_ALIGN
 	PRINT_ALIGN_RIGHT,
 };
 
+#if (PRINT_USE_GRAPH)
+// Styles of the print draw functions
+enum PRINT_DRAW_STYLE
+{
+	PRINT_DRAW_STYLE_LINE = 0, // Simple line
+	PRINT_DRAW_STYLE_DOUBLE,   // Double line
+	PRINT_DRAW_STYLE_DASHED,   // Dashed line
+	PRINT_DRAW_STYLE_PLAIN,    // Plain
+	PRINT_DRAW_STYLE_MAX,
+};
+// Character to be used for drawing
+enum PRINT_DRAW_CHR
+{
+	PRINT_DRAW_CHR_V = 0, // │  Vertical line
+	PRINT_DRAW_CHR_H, // ─  Horizontal line
+	PRINT_DRAW_CHR_UL,    // ┌  Upper-left corner
+	PRINT_DRAW_CHR_UR,    // ┐  Upper-right corner
+	PRINT_DRAW_CHR_LL,    // └  Lower-left corner
+	PRINT_DRAW_CHR_LR,    // ┘  Lower-right corner
+	PRINT_DRAW_CHR_MAX,
+};
+#endif
+
 //-----------------------------------------------------------------------------
 // STRUCTURES
 //-----------------------------------------------------------------------------
@@ -179,6 +202,10 @@ extern Print_Data* g_PrintData;
 #else
 extern Print_Data g_PrintData;
 #define PRINT_DATA (g_PrintData)
+#endif
+
+#if (PRINT_USE_GRAPH)
+extern u8 g_PrintDrawStyle;
 #endif
 
 //=============================================================================
@@ -739,6 +766,17 @@ void Print_DrawTextOutline(const c8* string, u8 color);
 // Boxes draw functions
 //-----------------------------------------------------------------------------
 #if (PRINT_USE_GRAPH)
+
+// Function: Print_SetDrawStyle
+// Set the style of the graphic drawing functions
+//
+// Parameters:
+//   style - Style to be selected 
+//> PRINT_DRAW_STYLE_LINE		Simple line
+//> PRINT_DRAW_STYLE_DOUBLE		Double line
+//> PRINT_DRAW_STYLE_DASHED		Dashed line
+//> PRINT_DRAW_STYLE_PLAIN		Plain
+inline void Print_SetDrawStyle(u8 style) { g_PrintDrawStyle = style; }
 
 // Function: Print_DrawLineH
 // Draw an horizontal line using characters

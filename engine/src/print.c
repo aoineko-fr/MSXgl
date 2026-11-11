@@ -89,6 +89,16 @@ u8 g_PrintInvalid[] =
 };
 #endif
 
+#if (PRINT_USE_GRAPH)
+u8 g_PrintDrawStyle = 0;
+const u8 g_PrintStyleChar[PRINT_DRAW_STYLE_MAX][PRINT_DRAW_CHR_MAX] =
+{//   │     ─     ┌     ┐     └     ┘     
+	{ 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B }, // Simple line
+	{ 0x96, 0x97, 0x98, 0x99, 0x9A, 0x9B }, // Double line
+	{ 0x1C, 0x1D, 0x18, 0x19, 0x1A, 0x1B }, // Dashed line
+	{ 0x9F, 0x9F, 0x9F, 0x9F, 0x9F, 0x9F }, // Plain
+};
+#endif
 
 //-----------------------------------------------------------------------------
 //
@@ -1445,18 +1455,20 @@ void Print_DrawFormat(const c8* format, ...)
 // Draw an horizontal line using characters
 void Print_DrawLineH(UX x, UY y, u8 len)
 {
+	const u8* style = g_PrintStyleChar[g_PrintDrawStyle];
 	Print_SetPosition(x, y);
-	Print_DrawCharX(0x17, len);
+	Print_DrawCharX(style[PRINT_DRAW_CHR_H], len);
 }
 
 //-----------------------------------------------------------------------------
 // Draw a vertical line using characters
 void Print_DrawLineV(UX x, UY y, u8 len)
 {
+	const u8* style = g_PrintStyleChar[g_PrintDrawStyle];
 	for (u8 i = 0; i < len; i++)
 	{
 		Print_SetPosition(x, y + i);
-		Print_DrawChar(0x16);
+		Print_DrawChar(style[PRINT_DRAW_CHR_V]);
 	}
 }
 
@@ -1464,15 +1476,17 @@ void Print_DrawLineV(UX x, UY y, u8 len)
 // Draw a box using characters
 void Print_DrawBox(UX x, UY y, u8 width, u8 height)
 {
+	const u8* style = g_PrintStyleChar[g_PrintDrawStyle];
+
 	// Draw corners
 	Print_SetPosition(x, y);
-	Print_DrawChar(0x18);
+	Print_DrawChar(style[PRINT_DRAW_CHR_UL]);
 	Print_SetPosition(x + width - 1, y);
-	Print_DrawChar(0x19);
+	Print_DrawChar(style[PRINT_DRAW_CHR_UR]);
 	Print_SetPosition(x, y + height - 1);
-	Print_DrawChar(0x1A);
+	Print_DrawChar(style[PRINT_DRAW_CHR_LL]);
 	Print_SetPosition(x + width - 1, y + height - 1);
-	Print_DrawChar(0x1B);
+	Print_DrawChar(style[PRINT_DRAW_CHR_LR]);
 
 	// Draw horizontal lines
 	Print_DrawLineH(x + 1, y,              width - 2);
