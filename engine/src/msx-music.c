@@ -117,8 +117,8 @@ u8 MSXMusic_Detect()
 // Set MSX-Music register value
 void MSXMusic_SetRegister(u8 reg, u8 value)
 {
-	g_MSXMusic_IndexPort = reg;
-	g_MSXMusic_DataPort = value;
+	io_MSXMusic_Reg = reg;
+	io_MSXMusic_Data = value;
 
 	#if (MSXMUSIC_USE_RESUME)
 	if ((g_MSXMusic_DoBackup) && ((reg & 0xF0) == 0x20)) // MSXMUSIC_REG_CTRL_x
@@ -130,8 +130,8 @@ void MSXMusic_SetRegister(u8 reg, u8 value)
 // Get MSX-Music register value (most of the registers are write-only)
 u8 MSXMusic_GetRegister(u8 reg)
 {
-	g_MSXMusic_IndexPort = reg;
-	return g_MSXMusic_DataPort;
+	io_MSXMusic_Reg = reg;
+	return io_MSXMusic_Data;
 }
 
 //-----------------------------------------------------------------------------

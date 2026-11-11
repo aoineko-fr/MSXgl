@@ -216,7 +216,7 @@
 //
 // Parameters:
 //   mode - The clock mode flags
-inline void RTC_SetMode(u8 mode) { g_RTC_AddrPort = RTC_REG_MODE; g_RTC_DataPort = mode | (RTC_MODE_ALARM_OFF + RTC_MODE_TIMER_ON); }
+inline void RTC_SetMode(u8 mode) { io_RTC_Reg = RTC_REG_MODE; io_RTC_Data = mode | (RTC_MODE_ALARM_OFF + RTC_MODE_TIMER_ON); }
 
 // Function: RTC_Read
 // Read a RTC register value
@@ -226,7 +226,7 @@ inline void RTC_SetMode(u8 mode) { g_RTC_AddrPort = RTC_REG_MODE; g_RTC_DataPort
 //
 // Return:
 //   Register value (4 bits)
-inline u8 RTC_Read(u8 reg) { g_RTC_AddrPort = reg; return 0xF & g_RTC_DataPort; }
+inline u8 RTC_Read(u8 reg) { io_RTC_Reg = reg; return 0xF & io_RTC_Data; }
 
 // Function: RTC_Write
 // Write a RTC register value
@@ -234,7 +234,7 @@ inline u8 RTC_Read(u8 reg) { g_RTC_AddrPort = reg; return 0xF & g_RTC_DataPort; 
 // Parameters:
 //   reg - RTC register number
 //   value - The value to write in the register
-inline void RTC_Write(u8 reg, u8 value) { g_RTC_AddrPort = reg; g_RTC_DataPort = value; }
+inline void RTC_Write(u8 reg, u8 value) { io_RTC_Reg = reg; io_RTC_Data = value; }
 
 // Function: RTC_WriteRaw
 // Write data in CMOS in the current block

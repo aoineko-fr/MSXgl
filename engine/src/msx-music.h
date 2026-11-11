@@ -26,6 +26,12 @@
 // DEFINES
 //=============================================================================
 
+// Internal/external MSX-Music I/O ports
+#define P_MSXMUSIC_INDEX			0x7C // Register Index
+__sfr __at(P_MSXMUSIC_INDEX)		io_MSXMusic_Reg;
+#define P_MSXMUSIC_DATA				0x7D // Register data
+__sfr __at(P_MSXMUSIC_DATA)			io_MSXMusic_Data;
+
 // Detection result
 enum MSXMUSIC_DETECTION
 {

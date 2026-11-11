@@ -20,14 +20,14 @@
 //-----------------------------------------------------------------------------
 #define V9_P00						0x60
 #define V9_PORT_VRAM				V9_P00
-__sfr __at(V9_P00)					g_V9_VRAMPort;
+__sfr __at(V9_P00)					io_V9_VRAM;
 
 //-----------------------------------------------------------------------------
 // P#1 - Palette data port - Read/write
 //-----------------------------------------------------------------------------
 #define V9_P01						0x61
 #define V9_PORT_PALETTE				V9_P01
-__sfr __at(V9_P01)					g_V9_PalettePort;
+__sfr __at(V9_P01)					io_V9_Palette;
 
 // V9990 color trilet structure
 typedef struct V9_ColorTriplet
@@ -48,14 +48,14 @@ typedef struct V9_ColorTriplet
 //-----------------------------------------------------------------------------
 #define V9_P02						0x62
 #define V9_PORT_CMD_DATA			V9_P02
-__sfr __at(V9_P02)					g_V9_CmdDataPort;
+__sfr __at(V9_P02)					io_V9_CmdData;
 
 //-----------------------------------------------------------------------------
 // P#3 - Register data port - Read/write
 //-----------------------------------------------------------------------------
 #define V9_P03						0x63
 #define V9_PORT_REG_DATA			V9_P03
-__sfr __at(V9_P03)					g_V9_RegDataPort;
+__sfr __at(V9_P03)					io_V9_RegData;
 
 //-----------------------------------------------------------------------------
 // P#4 - Register select port - Write Only
@@ -67,7 +67,7 @@ __sfr __at(V9_P03)					g_V9_RegDataPort;
 //	└────────────────────────────── Write increment inhibit (disable register automatic increment on write access)
 #define V9_P04						0x64
 #define V9_PORT_REG_SELECT			V9_P04
-__sfr __at(V9_P04)					g_V9_RegSelectPort;
+__sfr __at(V9_P04)					io_V9_RegSelect;
 
 #define V9_P04_RII					0b01000000
 #define V9_P04_WII					0b10000000
@@ -94,7 +94,7 @@ typedef struct V9_RegisterSelect
 //	└────────────────────────────── Command data transfer ready. It is reset through P#2 access.
 #define V9_P05						0x65
 #define V9_PORT_STATUS				V9_P05
-__sfr __at(V9_P05)					g_V9_SatusPort;
+__sfr __at(V9_P05)					io_V9_Status;
 
 #define V9_P05_CE					0b00000001
 #define V9_P05_E0					0b00000010
@@ -127,7 +127,7 @@ typedef struct V9_Status
 //						└────────── Command completion flag
 #define V9_P06						0x66
 #define V9_PORT_INT_FLAG			V9_P06
-__sfr __at(V9_P06)					g_V9_IntFlagPort;
+__sfr __at(V9_P06)					io_V9_IntFlag;
 
 #define V9_P06_NONE					0b00000000
 #define V9_P06_VI					0b00000001
@@ -154,7 +154,7 @@ typedef struct V9_InterruptFlag
 //							└────── Writing "1" will set all ports except this one in "power ON reset" state. "0" should be written to cancel it.
 #define V9_P07						0x67
 #define V9_PORT_SYS_CTRL			V9_P07
-__sfr __at(V9_P07)					g_V9_SysCtrlPort;
+__sfr __at(V9_P07)					io_V9_SysCtrl;
 
 #define V9_P07_MCS					0b00000001
 #define V9_P07_SRS					0b00000010
@@ -175,7 +175,7 @@ typedef struct V9_SystemControl
 //-----------------------------------------------------------------------------
 #define V9_P08						0x68	// not used in Gfx9000
 #define V9_PORT_KANJI_ADDR_L		V9_P08
-__sfr __at(V9_P08)					g_V9_KanjiAddrLPort;
+__sfr __at(V9_P08)					io_V9_KanjiAddrL;
 
 //-----------------------------------------------------------------------------
 // P#9 - Primary standard Kanji ROM port - Read/write
@@ -183,17 +183,17 @@ __sfr __at(V9_P08)					g_V9_KanjiAddrLPort;
 #define V9_P09						0x69	// not used in Gfx9000
 // Write: Primary standard Kanji ROM address port
 #define V9_PORT_KANJI_ADDR_H		V9_P09
-__sfr __at(V9_P09)					g_V9_KanjiAddrHPort;
+__sfr __at(V9_P09)					io_V9_KanjiAddrH;
 // Read: Primary standard Kanji ROM data port
 #define V9_PORT_KANJI_DATA			V9_P09
-__sfr __at(V9_P09)					g_V9_KanjiDataPort;
+__sfr __at(V9_P09)					io_V9_KanjiData;
 
 //-----------------------------------------------------------------------------
 // Port 6Ah & 6Bh - Secondary standard Kanji ROM address port - Write Only
 //-----------------------------------------------------------------------------
 #define V9_P10						0x6A	// not used in Gfx9000
 #define V9_PORT_KANJI2_ADDR_L		V9_P10
-__sfr __at(V9_P10)					g_V9_Kanji2AddrLPort;
+__sfr __at(V9_P10)					io_V9_Kanji2AddrL;
 
 //-----------------------------------------------------------------------------
 // P#11 - Secondary standard Kanji ROM port - Write Only
@@ -201,10 +201,10 @@ __sfr __at(V9_P10)					g_V9_Kanji2AddrLPort;
 #define V9_P11						0x6B	// not used in Gfx9000
 // Write: Secondary standard Kanji ROM address port
 #define V9_PORT_KANJI2_ADDR_H		V9_P11
-__sfr __at(V9_P11)					g_V9_Kanji2AddrHPort;
+__sfr __at(V9_P11)					io_V9_Kanji2AddrH;
 // Read: Secondary standard Kanji ROM data port
 #define V9_PORT_KANJI2_DATA			V9_P11
-__sfr __at(V9_P11)					g_V9_Kanji2DataPort;
+__sfr __at(V9_P11)					io_V9_Kanji2Data;
 
 // P#12 ~ P#14 - Reserved
 
@@ -221,7 +221,7 @@ __sfr __at(V9_P11)					g_V9_Kanji2DataPort;
 //		└───┴────────────────────── Video source select: 0-1=RGB input is used, 2=CVBS input is used, 3=S-VHS input is used
 #define V9_P15						0x6F	// Gfx9000 and Video9000
 #define V9_PORT_OUTPUT_CTRL			V9_P15
-__sfr __at(V9_P15)					g_V9_OutputCtrPort;
+__sfr __at(V9_P15)					io_V9_OutputCtrl;
 
 #define V9_P15_YM					0b00000001
 #define V9_P15_MIX					0b00000010

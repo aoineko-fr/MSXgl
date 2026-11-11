@@ -72,9 +72,6 @@ void ButtonLoop();
 // Fonts
 #include "font/font_mgl_sample8.h"
 
-// Animation characters
-const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
-
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
@@ -469,9 +466,8 @@ void main()
 		
 		DrawRawData(g_LVGM_Pointer);
 
-		Print_SetPosition(31, 0);
-		u8 chr = count++ & 0x03;
-		Print_DrawChar(g_ChrAnim[chr]);
+		Print_DrawCharAt(31, 0, 0xB0 + ((count >> 2) & 0x7));
+		count++;
 		
 		// Handle input
 		u8 row8 = Keyboard_Read(8);

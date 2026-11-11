@@ -65,7 +65,7 @@ bool Makoto_Initialize()
 // Search for Makoto (OPNA/YM2608) chip
 bool Makoto_Detect()
 {
-	if (g_OPNA_StatusPort == 0xFF) // Is port connected?
+	if (io_OPNA_Stat == 0xFF) // Is port connected?
 		return FALSE;
 	return Makoto_GetRegister0(OPNA_REG_ID) == OPNA_ID_YM2608;
 }
@@ -74,8 +74,8 @@ bool Makoto_Detect()
 // Set Makoto register value
 void Makoto_SetRegister0(u8 reg, u8 value)
 {
-	g_OPNA_Addr0Port = reg;
-	g_OPNA_Data0Port = value;
+	io_OPNA_Reg0 = reg;
+	io_OPNA_Data0 = value;
 
 #if (MAKOTO_USE_RESUME)
 	if (g_Makoto_DoBackup)
@@ -97,16 +97,16 @@ void Makoto_SetRegister0(u8 reg, u8 value)
 // Get Makoto register value (most of the registers are write-only)
 u8 Makoto_GetRegister0(u8 reg)
 {
-	g_OPNA_Addr0Port = reg;
-	return g_OPNA_Data0Port;
+	io_OPNA_Reg0 = reg;
+	return io_OPNA_Data0;
 }
 
 //-----------------------------------------------------------------------------
 // Set Makoto register value
 void Makoto_SetRegister1(u8 reg, u8 value)
 {
-	g_OPNA_Addr1Port = reg;
-	g_OPNA_Data1Port = value;
+	io_OPNA_Reg1 = reg;
+	io_OPNA_Data1 = value;
 
 #if (MAKOTO_USE_RESUME)
 	if (g_Makoto_DoBackup)
@@ -126,8 +126,8 @@ void Makoto_SetRegister1(u8 reg, u8 value)
 // Get Makoto register value (most of the registers are write-only)
 u8 Makoto_GetRegister1(u8 reg)
 {
-	g_OPNA_Addr1Port = reg;
-	return g_OPNA_Data1Port;
+	io_OPNA_Reg1 = reg;
+	return io_OPNA_Data1;
 }
 
 //-----------------------------------------------------------------------------
@@ -178,11 +178,11 @@ void Makoto_ADPCMLoad(const u8* data, u16 addr, u16 size)
 	u16 count = size << 2; // 16384 units (64 KB) gives 0, handled as 65536 by the do-while
 	do
 	{
-		g_OPNA_Addr1Port = OPNA_REG_ADPCM_DATA;
-		g_OPNA_Data1Port = *data++;
-		g_OPNA_Addr1Port = OPNA_REG_ADPCM_FLAG;
-		g_OPNA_Data1Port = OPNA_F_MSK_ZERO | OPNA_F_MSK_BRDY | OPNA_F_MSK_TB | OPNA_F_MSK_TA; // Reset BRDY flag (1Bh)
-		g_OPNA_Data1Port = OPNA_F_MSK_ZERO | OPNA_F_MSK_TB | OPNA_F_MSK_TA; // Enable BRDY and EOS flags (13h)
+		io_OPNA_Reg1 = OPNA_REG_ADPCM_DATA;
+		io_OPNA_Data1 = *data++;
+		io_OPNA_Reg1 = OPNA_REG_ADPCM_FLAG;
+		io_OPNA_Data1 = OPNA_F_MSK_ZERO | OPNA_F_MSK_BRDY | OPNA_F_MSK_TB | OPNA_F_MSK_TA; // Reset BRDY flag (1Bh)
+		io_OPNA_Data1 = OPNA_F_MSK_ZERO | OPNA_F_MSK_TB | OPNA_F_MSK_TA; // Enable BRDY and EOS flags (13h)
 		while (!(Makoto_GetStatus() & OPNA_STATUS_BRDY)) {} // Wait for the data to be written (status is FFh when no chip, so no infinite loop)
 	} while (--count);
 	Makoto_SetRegister1(OPNA_REG_ADPCM_CTRL1, 0); // End of memory access

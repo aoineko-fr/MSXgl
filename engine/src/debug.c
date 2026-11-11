@@ -30,8 +30,8 @@
 
 #define P_DEBUG_MODE		0x2E
 #define P_DEBUG_DATA		0x2F
-__sfr __at(P_DEBUG_MODE) g_PortDebugMode; // Mode Set Register. (Write only)
-__sfr __at(P_DEBUG_DATA) g_PortDebugData; // Data Register. (Write only)
+__sfr __at(P_DEBUG_MODE) io_Debug_Mode; // Mode Set Register. (Write only)
+__sfr __at(P_DEBUG_DATA) io_Debug_Data; // Data Register. (Write only)
 
 //-----------------------------------------------------------------------------
 // Port 0x2E - Mode Set Register
@@ -70,7 +70,7 @@ void DEBUG_INIT() {}
 void DEBUG_BREAK()
 {
 #if (DEBUG_TOOL == DEBUG_OPENMSX_P)
-	g_PortDebugMode = 0xFF;
+	io_Debug_Mode = 0xFF;
 #endif
 }
 
@@ -89,9 +89,9 @@ void DEBUG_LOG(const c8* msg)
 #if (DEBUG_TOOL == DEBUG_OPENMSX_P)
 	DEBUG_PRINT("%s", msg);
 #else
-	g_PortDebugMode = DEBUG_MODE_MULTI|DEBUG_MULTI_ASCII; // Multi byte ASCII mode
+	io_Debug_Mode = DEBUG_MODE_MULTI|DEBUG_MULTI_ASCII; // Multi byte ASCII mode
 	while (*msg)
-		g_PortDebugData = *msg++;
+		io_Debug_Data = *msg++;
 #endif
 }
 
@@ -103,9 +103,9 @@ void DEBUG_LOGNUM(const c8* msg, u8 num)
 	DEBUG_PRINT("%s:%d", msg, num);
 #else
 	DEBUG_LOG(msg);
-	g_PortDebugData = ':';
-	g_PortDebugMode = DEBUG_NOLINEFEED|DEBUG_MODE_MULTI|DEBUG_MULTI_DEC; // Multi byte ASCII mode
-	g_PortDebugData = num;
+	io_Debug_Data = ':';
+	io_Debug_Mode = DEBUG_NOLINEFEED|DEBUG_MODE_MULTI|DEBUG_MULTI_DEC; // Multi byte ASCII mode
+	io_Debug_Data = num;
 #endif
 }
 
@@ -119,9 +119,9 @@ void DEBUG_PRINT(const c8* format, ...)
     u16 val = ((u16)args - sizeof(format));
 	va_end(args);
 
-	g_PortDebugMode = 1;
-	g_PortDebugData = val & 0xFF; // low byte
-	g_PortDebugData = val >> 8; // high byte
+	io_Debug_Mode = 1;
+	io_Debug_Data = val & 0xFF; // low byte
+	io_Debug_Data = val >> 8; // high byte
 #else
 	static c8 g_DebugBuffer[64];
 

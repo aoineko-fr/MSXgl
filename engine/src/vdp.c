@@ -977,14 +977,14 @@ void VDP_SetPaletteEntry(u8 index, u16 color)
 	color; // DE
 	__asm
 		VDP_DI
-		out	(_g_VDP_RegPort), a
+		out	(_io_VDP_Reg), a
 		ld	a, #VDP_REG(16)
-		out	(_g_VDP_RegPort), a
+		out	(_io_VDP_Reg), a
 		ld	a, e
-		out	(_g_VDP_PalPort), a
+		out	(_io_VDP_Pal), a
 		ld	a, d
 		VDP_EI
-		out	(_g_VDP_PalPort), a
+		out	(_io_VDP_Pal), a
 	__endasm;
 }
 

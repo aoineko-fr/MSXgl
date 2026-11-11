@@ -23,6 +23,18 @@
 // DEFINES
 //=============================================================================
 
+// Primary MSX-Audio I/O ports
+#define P_MSXAUDIO_INDEX			0xC0 // Register Index
+__sfr __at(P_MSXAUDIO_INDEX)		io_MSXAudio_Reg;
+#define P_MSXAUDIO_DATA				0xC1 // Register data
+__sfr __at(P_MSXAUDIO_DATA)			io_MSXAudio_Data;
+
+// Secondary MSX-Audio I/O ports
+#define P_MSXAUDIO_INDEX2			0xC2 // Register Index
+__sfr __at(P_MSXAUDIO_INDEX2)		io_MSXAudio_Reg2;
+#define P_MSXAUDIO_DATA2			0xC3 // Register data
+__sfr __at(P_MSXAUDIO_DATA2)		io_MSXAudio_Data2;
+
 //=============================================================================
 // PROTOTYPE
 //=============================================================================

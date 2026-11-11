@@ -182,14 +182,6 @@
 #define Clock_GetMonthString		RTC_GetMonthString
 #define Clock_GetYear4				RTC_GetYear4
 
-// System module
-#define Sys_GetHeardAddr            Sys_GetHeaderAddr
-#define POKE						Poke
-#define POKEW						Poke16
-#define PEEK						Peek
-#define PEEKW						Poke16
-#define Sys_GetBASICVersion			Sys_GetBIOSInfo
-
 // V9990 module
 #define V9_SetLayerPalette          V9_SelectPaletteP1
 #define V9_SetMode					V9_SetScreenMode
@@ -283,3 +275,80 @@
 #define AKM_Decode					AKM_Update
 #define AKY_Init(data, sng)			AKY_Play(data)
 #define AKY_Decode					AKY_Update
+
+// System module
+#define Sys_GetHeardAddr            Sys_GetHeaderAddr
+#define POKE						Poke
+#define POKEW						Poke16
+#define PEEK						Peek
+#define PEEKW						Poke16
+#define Sys_GetBASICVersion			Sys_GetBIOSInfo
+
+// I/O ports
+#define g_PortPrimarySlot			io_PPI_Slot     // Port to access the primary Slot selection register. (PPI's port A is used)
+#define g_PortReadKeyboard			io_PPI_KBRead   // Port to read the keyboard matrix row specified via the port AAh. (PPI's port B is used)
+#define g_PortAccessKeyboard		io_PPI_KBAccess // Port to access the register that control the keyboard CAP LED, two signals to data recorder and a matrix row (use the port C of PPI).
+#define g_PortControl				io_PPI_Control  // Port to access the ports control register. (Write only)
+#define g_VDP_DataPort				io_VDP_Data     // VRAM data port (read/write)
+#define g_VDP_RegPort				io_VDP_Reg	    // Register setup port (write) (bit 7=1 in second write)
+#define g_VDP_AddrPort				io_VDP_Addr     // VRAM address port (write) (bit 7=0 in second write, bit 6: read/write access (0=read, 1=write))
+#define g_VDP_StatPort				io_VDP_Stat     // Status register port (read)
+#define g_VDP_PalPort				io_VDP_Pal	    // Palette access port (write)
+#define g_VDP_IRegPort				io_VDP_IReg     // Indirect register access port (write)
+#define g_PSG_RegPort				io_PSG_Reg
+#define g_PSG_DataPort				io_PSG_Data
+#define g_PSG_StatPort				io_PSG_Stat
+#define g_PSG_Ext_RegPort			io_PSG_Ext_Reg
+#define g_PSG_Ext_DataPort			io_PSG_Ext_Data
+#define g_PSG_Ext_StatPort			io_PSG_Ext_Stat
+#define g_MSXMusic_IndexPort		io_MSXMusic_Reg
+#define g_MSXMusic_DataPort			io_MSXMusic_Data
+#define g_MSXAudio_IndexPort		io_MSXAudio_Reg
+#define g_MSXAudio_DataPort			io_MSXAudio_Data
+#define g_MSXAudio_IndexPort2		io_MSXAudio_Reg2
+#define g_MSXAudio_DataPort2		io_MSXAudio_Data2
+#define g_Darky_EnablePort			io_Darky_Enable
+#define g_Darky_ControlPort			io_Darky_Control
+#define g_Darky_RegisterPort		io_Darky_Reg
+#define g_Darky_PSG1_IndexPort		io_Darky_PSG1_Reg
+#define g_Darky_PSG1_DataPort		io_Darky_PSG1_Data
+#define g_Darky_PSG1_ReadPort		io_Darky_PSG1_Read
+#define g_Darky_PSG2_IndexPort		io_Darky_PSG2_Reg
+#define g_Darky_PSG2_DataPort		io_Darky_PSG2_Data
+#define g_Darky_PSG2_ReadPort		io_Darky_PSG2_Read
+#define g_RTC_AddrPort				io_RTC_Reg
+#define g_RTC_DataPort				io_RTC_Data
+#define g_Printer_ControlPort		io_Printer_Control
+#define g_Printer_DataPort			io_Printer_Data
+#define g_Kanji_Level1LowPort		io_Kanji_Level1Low
+#define g_Kanji_Level1HighPort		io_Kanji_Level1High
+#define g_Kanji_Level2LowPort		io_Kanji_Level2Low
+#define g_Kanji_Level2HighPort		io_Kanji_Level2High
+#define g_TimerLowPort				io_Timer_Low
+#define g_TimerHighPort				io_Timer_High
+#define g_PortMemPage0				io_MemMap_Page0
+#define g_PortMemPage1				io_MemMap_Page1
+#define g_PortMemPage2				io_MemMap_Page2
+#define g_PortMemPage3				io_MemMap_Page3
+#define g_PortWaveGame				io_WaveGame
+#define g_V9_VRAMPort				io_V9_VRAM
+#define g_V9_PalettePort			io_V9_Palette
+#define g_V9_CmdDataPort			io_V9_CmdData
+#define g_V9_RegDataPort			io_V9_RegData
+#define g_V9_RegSelectPort			io_V9_RegSelect
+#define g_V9_SatusPort				io_V9_Status
+#define g_V9_IntFlagPort			io_V9_IntFlag
+#define g_V9_SysCtrlPort			io_V9_SysCtrl
+#define g_V9_KanjiAddrLPort			io_V9_KanjiAddrL
+#define g_V9_KanjiAddrHPort			io_V9_KanjiAddrH
+#define g_V9_KanjiDataPort			io_V9_KanjiData
+#define g_V9_Kanji2AddrLPort		io_V9_Kanji2AddrL
+#define g_V9_Kanji2AddrHPort		io_V9_Kanji2AddrH
+#define g_V9_Kanji2DataPort			io_V9_Kanji2Data
+#define g_V9_OutputCtrPort			io_V9_OutputCtrl
+#define g_PortDebugMode				io_Debug_Mode
+#define g_PortDebugData				io_Debug_Data
+#define g_PortDebugSection			io_Debug_Section
+#define g_PortDebugFrame			io_Debug_Frame
+#define g_PortStartProfile			io_Debug_ProfileStart
+#define g_PortEndProfile			io_Debug_ProfileEnd

@@ -37,7 +37,20 @@
 //=============================================================================
 // DEFINES
 //=============================================================================
+		
+// Kanji Level 1 I/O ports
+#define P_KANJI_LEVEL1_LOW				0xD8 // Register Index
+__sfr __at(P_KANJI_LEVEL1_LOW)			io_Kanji_Level1Low;
+#define P_KANJI_LEVEL1_HIGH				0xD9 // Register data
+__sfr __at(P_KANJI_LEVEL1_HIGH)			io_Kanji_Level1High;
 
+// Kanji Level 2 I/O ports
+#define P_KANJI_LEVEL2_LOW				0xDA // Register Index
+__sfr __at(P_KANJI_LEVEL2_LOW)			io_Kanji_Level2Low;
+#define P_KANJI_LEVEL2_HIGH				0xDB // Register data
+__sfr __at(P_KANJI_LEVEL2_HIGH)			io_Kanji_Level2High;
+
+// Kanji Level ID
 enum KANJI_LEVEL
 {
 	KANJI_LEVEL_NONE = 0,

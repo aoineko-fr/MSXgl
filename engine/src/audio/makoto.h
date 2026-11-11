@@ -41,6 +41,18 @@
 // DEFINES
 //=============================================================================
 
+// Makoto (OPNA/YM2608) I/O ports
+#define P_OPNA_ADDR0				0x14 // Array 0 address (FM CH1–3, SSG, rhythm, timers, 29h)
+__sfr __at(P_OPNA_ADDR0)			io_OPNA_Reg0;
+#define P_OPNA_DATA0				0x15 // Array 0 data
+__sfr __at(P_OPNA_DATA0)			io_OPNA_Data0;
+#define P_OPNA_ADDR1				0x16 // Array 1 address (ADPCM-B, FM CH4–6)
+__sfr __at(P_OPNA_ADDR1)			io_OPNA_Reg1;
+#define P_OPNA_DATA1				0x17 // Array 1 data
+__sfr __at(P_OPNA_DATA1)			io_OPNA_Data1;
+#define P_OPNA_STATUS				0x16 // Status (BUSY, timer flags and ADPCM flags)
+const __sfr __at(P_OPNA_STATUS)		io_OPNA_Stat;
+
 // SSG channels
 #define MAKOTO_SSG_CHANNEL_A		0
 #define MAKOTO_SSG_CHANNEL_B		1
@@ -98,7 +110,7 @@ bool Makoto_Detect();
 //> OPNA_STATUS_ZERO		ADPCM zero level detected
 //> OPNA_STATUS_PCMBSY		ADPCM playing
 //> OPNA_STATUS_BUSY		Busy
-inline u8 Makoto_GetStatus() { return g_OPNA_StatusPort; }
+inline u8 Makoto_GetStatus() { return io_OPNA_Stat; }
 
 // Function: Makoto_IsBusy
 // Is Makoto busy (registers are not ready to be written)

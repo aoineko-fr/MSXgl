@@ -60,15 +60,15 @@ bool MSXAudio_Initialize()
 // Search for MSX-Audio (YM2413) chip
 bool MSXAudio_Detect()
 {
-	return (g_MSXAudio_IndexPort | 0x06) == 0x06; // can be 0x00 for Moonsound
+	return (io_MSXAudio_Reg | 0x06) == 0x06; // can be 0x00 for Moonsound
 }
 
 //-----------------------------------------------------------------------------
 // Set MSX-Audio register value
 void MSXAudio_SetRegister(u8 reg, u8 value)
 {
-	g_MSXAudio_IndexPort = reg;
-	g_MSXAudio_DataPort = value;
+	io_MSXAudio_Reg = reg;
+	io_MSXAudio_Data = value;
 
 	#if (MSXAUDIO_USE_RESUME)
 	if (g_MSXAudio_DoBackup && ((reg & 0xF0)) == 0xB0) // MSXAUDIO_REG_CTRL_x
@@ -80,8 +80,8 @@ void MSXAudio_SetRegister(u8 reg, u8 value)
 // Get MSX-Audio register value (most of the registers are write-only)
 u8 MSXAudio_GetRegister(u8 reg)
 {
-	g_MSXAudio_IndexPort = reg;
-	return g_MSXAudio_DataPort;
+	io_MSXAudio_Reg = reg;
+	return io_MSXAudio_Data;
 }
 
 //-----------------------------------------------------------------------------

@@ -20,10 +20,10 @@
 
 #define MEM_SETSEGMENT(page, seg)	MemMap_SetPage##page(seg)
 
-__sfr __at(P_MEM_P0)				g_PortMemPage0; // Port to access memory mapper for memory page 0 (0000-3FFFh)
-__sfr __at(P_MEM_P1)				g_PortMemPage1; // Port to access memory mapper for memory page 1 (4000-7FFFh)
-__sfr __at(P_MEM_P2)				g_PortMemPage2; // Port to access memory mapper for memory page 2 (8000-BFFFh)
-__sfr __at(P_MEM_P3)				g_PortMemPage3; // Port to access memory mapper for memory page 3 (C000-FFFEh)
+__sfr __at(P_MEM_P0)				io_MemMap_Page0; // Port to access memory mapper for memory page 0 (0000-3FFFh)
+__sfr __at(P_MEM_P1)				io_MemMap_Page1; // Port to access memory mapper for memory page 1 (4000-7FFFh)
+__sfr __at(P_MEM_P2)				io_MemMap_Page2; // Port to access memory mapper for memory page 2 (8000-BFFFh)
+__sfr __at(P_MEM_P3)				io_MemMap_Page3; // Port to access memory mapper for memory page 3 (C000-FFFEh)
 
 //=============================================================================
 // FUNCTIONS
@@ -34,28 +34,28 @@ __sfr __at(P_MEM_P3)				g_PortMemPage3; // Port to access memory mapper for memo
 //
 // Parameters:
 //   seg - Segment number to set
-inline void MemMap_SetPage0(u8 seg) { g_PortMemPage0 = seg; }
+inline void MemMap_SetPage0(u8 seg) { io_MemMap_Page0 = seg; }
 
 // Function: MemMap_SetPage1
 // Set memory mapper segment to switch in page 1.
 //
 // Parameters:
 //   seg - Segment number to set
-inline void MemMap_SetPage1(u8 seg) { g_PortMemPage1 = seg; }
+inline void MemMap_SetPage1(u8 seg) { io_MemMap_Page1 = seg; }
 
 // Function: MemMap_SetPage2
 // Set memory mapper segment to switch in page 2.
 //
 // Parameters:
 //   seg - Segment number to set
-inline void MemMap_SetPage2(u8 seg) { g_PortMemPage2 = seg; }
+inline void MemMap_SetPage2(u8 seg) { io_MemMap_Page2 = seg; }
 
 // Function: MemMap_SetPage3
 // Set memory mapper segment to switch in page 3.
 //
 // Parameters:
 //   seg - Segment number to set
-inline void MemMap_SetPage3(u8 seg) { g_PortMemPage3 = seg; }
+inline void MemMap_SetPage3(u8 seg) { io_MemMap_Page3 = seg; }
 
 // Function: MemMap_Initialize
 // Initialize memory mapper

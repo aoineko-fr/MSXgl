@@ -12,17 +12,17 @@
 u8 Sys_GetPageSlot(u8 page)
 {
 	// Get page's primary slot
-	u8 slot = (g_PortPrimarySlot >> (page * 2)) & 0x03;
+	u8 slot = (io_PPI_Slot >> (page * 2)) & 0x03;
 	
 	// Check if slot is expended
 	if (g_EXPTBL[slot] & SLOT_EXP)
 	{
-		u8 prevSlot = g_PortPrimarySlot; // Backup current primary slots register
+		u8 prevSlot = io_PPI_Slot; // Backup current primary slots register
 		DisableInterrupt();
-		g_PortPrimarySlot = (prevSlot & 0x3F) | (slot << 6); // Select primary slot in page 3
+		io_PPI_Slot = (prevSlot & 0x3F) | (slot << 6); // Select primary slot in page 3
 		slot |= SLOT_EXP;
 		slot |= (((~g_SLTSL) >> (page * 2)) & 0x03) << 2;
-		g_PortPrimarySlot = prevSlot; // Restore primary slots register
+		io_PPI_Slot = prevSlot; // Restore primary slots register
 		EnableInterrupt();
 	}
 	return slot;
@@ -43,19 +43,19 @@ void Sys_SetPageSlot(u8 page, u8 slotId)
 	DisableInterrupt();
 	if (slotId & SLOT_EXP)
 	{
-		// u8 prevSlot = g_PortPrimarySlot;
-		// g_PortPrimarySlot = (prevSlot & ~(0b11000000 | (0b00000011 << (page * 2)))) | ((slotId & 0b00000011) << (page * 2)) | ((slotId & 0b00000011) << 6);
+		// u8 prevSlot = io_PPI_Slot;
+		// io_PPI_Slot = (prevSlot & ~(0b11000000 | (0b00000011 << (page * 2)))) | ((slotId & 0b00000011) << (page * 2)) | ((slotId & 0b00000011) << 6);
 		// g_SLTSL = (~g_SLTSL & ~(0b00000011 << (page * 2))) | (((slotId & 0b00001100) >> 2) << (page * 2));
 
-		u8 prevSlot = g_PortPrimarySlot;
+		u8 prevSlot = io_PPI_Slot;
 
 	}
 	else
 	{
-		g_PortPrimarySlot = (g_PortPrimarySlot & ~(0b00000011 << (page * 2))) | ((slotId & 0b00000011) << (page * 2));
+		io_PPI_Slot = (io_PPI_Slot & ~(0b00000011 << (page * 2))) | ((slotId & 0b00000011) << (page * 2));
 
 		// u8 slot = *(mask00 + 4 * (slotId & 0b00000011) + page);
-		// g_PortPrimarySlot = (g_PortPrimarySlot & ~mask11[page]) | (slot);
+		// io_PPI_Slot = (io_PPI_Slot & ~mask11[page]) | (slot);
 	}*/
 }
 

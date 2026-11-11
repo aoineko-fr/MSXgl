@@ -251,18 +251,18 @@ void MuteMusic()
 	loop (i, 3)
 	{
 		// Mute internal PSG
-		g_PSG_RegPort = PSG_REG_AMP_A + i;
-		g_PSG_DataPort = 0;
+		io_PSG_Reg = PSG_REG_AMP_A + i;
+		io_PSG_Data = 0;
 
 		// Mute external PSG
-		g_PSG_Ext_RegPort = PSG_REG_AMP_A + i;
-		g_PSG_Ext_DataPort = 0;
+		io_PSG_Ext_Reg = PSG_REG_AMP_A + i;
+		io_PSG_Ext_Data = 0;
 
 		// Mute Darky PSGs
-		g_Darky_PSG1_IndexPort = PSG_REG_AMP_A + i;
-		g_Darky_PSG1_DataPort = 0;
-		g_Darky_PSG2_IndexPort = PSG_REG_AMP_A + i;
-		g_Darky_PSG2_DataPort = 0;
+		io_Darky_PSG1_Reg = PSG_REG_AMP_A + i;
+		io_Darky_PSG1_Data = 0;
+		io_Darky_PSG2_Reg = PSG_REG_AMP_A + i;
+		io_Darky_PSG2_Data = 0;
 	}
 }
 

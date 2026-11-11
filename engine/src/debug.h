@@ -118,8 +118,8 @@
 	#define P_PROFILE_SECTION		0x2C
 	#define P_PROFILE_FRAME			0x2D
 
-	__sfr __at(P_PROFILE_SECTION)	g_PortDebugSection;
-	__sfr __at(P_PROFILE_FRAME)		g_PortDebugFrame;
+	__sfr __at(P_PROFILE_SECTION)	io_Debug_Section;
+	__sfr __at(P_PROFILE_FRAME)		io_Debug_Frame;
 
 	inline void do_PROFILE_SECTION_START(u8 id)
 	{
@@ -160,8 +160,8 @@
 	#define P_PROFILE_START			0x2C
 	#define P_PROFILE_END			0x2D
 
-	__sfr __at(P_PROFILE_START)		g_PortStartProfile;
-	__sfr __at(P_PROFILE_END)		g_PortEndProfile;
+	__sfr __at(P_PROFILE_START)		io_Debug_ProfileStart;
+	__sfr __at(P_PROFILE_END)		io_Debug_ProfileEnd;
 
 	const c8* __at(0xF931) g_ProfileMsg;
 
@@ -170,7 +170,7 @@
 		if (level < PROFILE_LEVEL)
 		{
 			g_ProfileMsg = msg;
-			g_PortStartProfile = section;
+			io_Debug_ProfileStart = section;
 		}
 	}
 
@@ -179,7 +179,7 @@
 		if (level < PROFILE_LEVEL)
 		{
 			g_ProfileMsg = msg;
-			g_PortEndProfile = section;
+			io_Debug_ProfileEnd = section;
 		}
 	}
 

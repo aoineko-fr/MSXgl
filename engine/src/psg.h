@@ -37,17 +37,17 @@
 	#define PSG_PORT_REG		P_PSG_REGS     //< Used to select a specific register by writing its number (0 to 15)
 	#define PSG_PORT_WRITE		P_PSG_DATA     //< Used to write to any register once it has been selected by the Address Port.	
 	#define PSG_PORT_READ		P_PSG_STAT     //< Used to read any register once it has been selected by the Address Port.
-	#define PSG_VAR_REG			g_PSG_RegPort
-	#define PSG_VAR_WRITE		g_PSG_DataPort
-	#define PSG_VAR_READ		g_PSG_StatPort
+	#define PSG_VAR_REG			io_PSG_Reg
+	#define PSG_VAR_WRITE		io_PSG_Data
+	#define PSG_VAR_READ		io_PSG_Stat
 	
 #elif (PSG_CHIP == PSG_EXTERNAL)
 	#define PSG_PORT_REG		P_PSG_EXT_REGS //< Used to select a specific register by writing its number (0 to 15)
 	#define PSG_PORT_WRITE		P_PSG_EXT_DATA //< Used to write to any register once it has been selected by the Address Port.	
 	#define PSG_PORT_READ		P_PSG_EXT_STAT //< Used to read any register once it has been selected by the Address Port.
-	#define PSG_VAR_REG			g_PSG_Ext_RegPort
-	#define PSG_VAR_WRITE		g_PSG_Ext_DataPort
-	#define PSG_VAR_READ		g_PSG_Ext_StatPort
+	#define PSG_VAR_REG			io_PSG_Ext_Reg
+	#define PSG_VAR_WRITE		io_PSG_Ext_Data
+	#define PSG_VAR_READ		io_PSG_Ext_Stat
 
 #elif (PSG_CHIP == PSG_BOTH)
 	// Primary PSG
