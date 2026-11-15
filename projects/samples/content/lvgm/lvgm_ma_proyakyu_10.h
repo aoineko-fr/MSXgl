@@ -40,7 +40,6 @@ const unsigned char g_lVGM_ma_proyakyu_10[] = {
 	0x75, 0xF8, // rr: nn
 	0x95, 0x45, // rr: nn
 	0xD3, 0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // Dn rr vv[] => R#rr~
-	0x01, 0x00, // rr: nn
 	0x43, 0x3F, // rr: nn
 	0x40, 0x3F, // rr: nn
 	0xB0, 0x00, // rr: nn
@@ -3931,4 +3930,4 @@ const unsigned char g_lVGM_ma_proyakyu_10[] = {
 	0xFC, 0x56, // -------- Wait: FC nn
 	0xFF, // End marker
 };
-// Total size: 6917 bytes
+// Total size: 6915 bytes

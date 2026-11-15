@@ -56,7 +56,15 @@ const unsigned char g_lVGM_psg_yureikun_02[] = {
 	0x02, 0x08, // R#2: 02 nn
 	0x21, // R#3: 2n
 	0xFE, // Loop marker
+	0xA9, // R#10: An
+	0x04, 0x05, // R#4: 04 nn
+	0x34, // R#5: 3n
+	0x5F, // R#6: 5n | 0x10
+	0x07, 0xB8, // R#7: 07 nn
 	0xE0, // -------- Wait: Ex
+	0x6B, // R#8: 6n
+	0x00, 0x54, // R#0: 00 nn
+	0x10, // R#1: 1n
 	0x84, // R#9: 8n
 	0x02, 0x54, // R#2: 02 nn
 	0x20, // R#3: 2n
@@ -5511,4 +5519,4 @@ const unsigned char g_lVGM_psg_yureikun_02[] = {
 	0x02, 0x86, // R#2: 02 nn
 	0xFF, // End marker
 };
-// Total size: 7559 bytes
+// Total size: 7570 bytes

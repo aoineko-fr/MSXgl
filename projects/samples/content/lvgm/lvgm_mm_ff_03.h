@@ -72,6 +72,7 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x21, 0x0C, // rr: nn
 	0x31, 0x43, // rr: nn
 	0x21, 0x1C, // rr: nn
+	0xA5, // rr: 0
 	0x15, 0x03, // rr: nn
 	0x25, 0x07, // rr: nn
 	0x35, 0xB4, // rr: nn
@@ -80,6 +81,7 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
 	0x00, 0xA8, // R#0: 00 nn
+	0x10, // R#1: 1n
 	0xE0, // -------- Wait: Ex
 	0x00, 0xA9, // R#0: 00 nn
 	0xE0, // -------- Wait: Ex
@@ -102,6 +104,7 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x24, 0x06, // rr: nn
 	0x14, 0xD8, // rr: nn
 	0x24, 0x08, // rr: nn
+	0x34, 0xB4, // rr: nn
 	0x24, 0x18, // rr: nn
 	0xE0, // -------- Wait: Ex
 	0xF0, // ---- Start PSG section
@@ -197,6 +200,8 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0xD7, // R#n: Dn
 	0xF1, // ---- Start OPLL section
 	0x20, 0x0C, // rr: nn
+	0x10, 0xDA, // rr: nn
+	0x30, 0x32, // rr: nn
 	0x20, 0x1C, // rr: nn
 	0x24, 0x08, // rr: nn
 	0x14, 0xD8, // rr: nn
@@ -473,6 +478,7 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0xD7, // R#n: Dn
 	0x00, 0xBD, // R#0: 00 nn
 	0x02, 0xC1, // R#2: 02 nn
+	0x21, // R#3: 2n
 	0x8C, // R#9: 8n
 	0x07, 0xBA, // R#7: 07 nn
 	0xD7, // R#n: Dn
@@ -487,11 +493,13 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x22, 0x06, // rr: nn
 	0x12, 0x47, // rr: nn
 	0x22, 0x05, // rr: nn
+	0x32, 0xE2, // rr: nn
 	0x22, 0x04, // rr: nn
 	0x22, 0x15, // rr: nn
 	0x23, 0x06, // rr: nn
 	0x13, 0x44, // rr: nn
 	0x23, 0x05, // rr: nn
+	0x33, 0xA3, // rr: nn
 	0x23, 0x04, // rr: nn
 	0x23, 0x15, // rr: nn
 	0x24, 0x08, // rr: nn
@@ -3643,4 +3651,4 @@ const unsigned char g_lVGM_mm_ff_03[] = {
 	0x21, 0x0C, // rr: nn
 	0xFF, // End marker
 };
-// Total size: 5591 bytes
+// Total size: 5604 bytes

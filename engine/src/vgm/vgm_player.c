@@ -20,8 +20,8 @@
 #if (VGM_USE_MSXAUDIO)
 #include "msx-audio.h"
 #endif
-#if (VGM_USE_MAKOTO)
-#include "audio/makoto.h"
+#if (VGM_USE_OPNA)
+#include "audio/opna.h"
 #endif
 
 //=============================================================================
@@ -35,11 +35,11 @@
 //=============================================================================
 
 const VGM_Header* g_VGM_Header;
-const u8* g_VGM_Pointer;
-const u8* g_VGM_Loop;
-u16       g_VGM_WaitCount;
-u16       g_VGM_WaitFrame;
-u8        g_VGM_State;
+const u8*         g_VGM_Pointer;
+const u8*         g_VGM_Loop;
+u16               g_VGM_WaitCount;
+u16               g_VGM_WaitFrame;
+u8                g_VGM_State;
 
 //=============================================================================
 // FUNCTIONS
@@ -61,8 +61,31 @@ void VGM_Initialize()
 	#if (VGM_USE_SCC)
 		SCC_Initialize();
 	#endif
-	#if (VGM_USE_MAKOTO)
-		Makoto_Initialize();
+	#if (VGM_USE_OPNA)
+		OPNA_Initialize();
+	#endif
+}
+
+//-----------------------------------------------------------------------------
+// Mute all sound chips (playback state is not changed)
+void VGM_Mute()
+{
+	PSG_Mute();
+
+	#if (VGM_USE_MSXMUSIC)
+	MSXMusic_Mute();
+	#endif
+	
+	#if (VGM_USE_MSXAUDIO)
+	MSXAudio_Mute();
+	#endif
+	
+	#if (VGM_USE_SCC)
+	SCC_Mute();
+	#endif
+
+	#if (VGM_USE_OPNA)
+	OPNA_Mute();
 	#endif
 }
 
@@ -70,7 +93,7 @@ void VGM_Initialize()
 // Play a VGM data
 bool VGM_Play(const void* addr, bool loop)
 {
-	VGM_Pause(); // Mute all sound chip
+	VGM_Mute(); // Mute all sound chip
 	
 	g_VGM_Header = (VGM_Header*)addr;
 
@@ -96,10 +119,20 @@ bool VGM_Play(const void* addr, bool loop)
 	return TRUE;
 }
 
+#if (VGM_USE_RESUME)
+
 //-----------------------------------------------------------------------------
 // Resume music playback
 void VGM_Resume()
 {
+	// After a stop, restart from the muted state (like VGM_Play)
+	if (g_VGM_State & VGM_STATE_STOP)
+	{
+		g_VGM_State &= ~VGM_STATE_STOP;
+		g_VGM_State |= VGM_STATE_PLAY;
+		return;
+	}
+
 	g_VGM_State |= VGM_STATE_PLAY;
 
 	#if (PSG_USE_RESUME)
@@ -122,9 +155,9 @@ void VGM_Resume()
 		SCC_Resume();
 	#endif
 
-	#if (VGM_USE_MAKOTO && MAKOTO_USE_RESUME)
+	#if (VGM_USE_OPNA && OPNA_USE_RESUME)
 	if (VGM_ContainsOPNA())
-		Makoto_Resume();
+		OPNA_Resume();
 	#endif
 }
 
@@ -133,33 +166,22 @@ void VGM_Resume()
 void VGM_Pause()
 {
 	g_VGM_State &= ~VGM_STATE_PLAY;
-	
-	PSG_Mute();
-
-	#if (VGM_USE_MSXMUSIC)
-	MSXMusic_Mute();
-	#endif
-	
-	#if (VGM_USE_MSXAUDIO)
-	MSXAudio_Mute();
-	#endif
-	
-	#if (VGM_USE_SCC)
-	SCC_Mute();
-	#endif
-
-	#if (VGM_USE_MAKOTO)
-	Makoto_Mute();
-	#endif
+	VGM_Mute();
 }
+
+#endif // (VGM_USE_RESUME)
 
 //-----------------------------------------------------------------------------
 // Play a ayVGM data
 void VGM_Stop()
 {
-	VGM_Pause();
+	g_VGM_State &= ~VGM_STATE_PLAY;
+	VGM_Mute();
 	g_VGM_Pointer = (u8*)((u16)&g_VGM_Header->Data_offset + (u16)g_VGM_Header->Data_offset);
 	g_VGM_WaitCount = 0;
+	#if (VGM_USE_RESUME)
+	g_VGM_State |= VGM_STATE_STOP; // Chips state saved by the mute must not be restored
+	#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -171,13 +193,13 @@ void VGM_Decode()
 	
 	while (g_VGM_WaitCount < g_VGM_WaitFrame)
 	{
-		if (*g_VGM_Pointer == 0xA0) // AY8910, write value dd to register aa
+		if (*g_VGM_Pointer == VGM_CMD_AY8910) // AY8910, write value dd to register aa
 		{
 			PSG_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
 		}
 		#if (VGM_USE_SCC)
-		else if (*g_VGM_Pointer == 0xD2) // SCC1, port pp, write value dd to register aa
+		else if (*g_VGM_Pointer == VGM_CMD_SCC) // SCC1, port pp, write value dd to register aa
 		{
 			u8 reg = 0;
 			switch (g_VGM_Pointer[1])
@@ -194,14 +216,14 @@ void VGM_Decode()
 		}
 		#endif
 		#if (VGM_USE_MSXMUSIC)
-		else if (*g_VGM_Pointer == 0x51) // YM2413, write value dd to register aa
+		else if (*g_VGM_Pointer == VGM_CMD_YM2413) // YM2413, write value dd to register aa
 		{
 			MSXMusic_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
 		}
 		#endif
-		#if (VGM_USE_MAKOTO)
-		else if (*g_VGM_Pointer == 0x56) // YM2608 port 0, write value dd to register aa
+		#if (VGM_USE_OPNA)
+		else if (*g_VGM_Pointer == VGM_CMD_YM2608_0) // YM2608 port 0, write value dd to register aa
 		{
 			u8 reg = g_VGM_Pointer[1];
 			u8 value = g_VGM_Pointer[2];
@@ -209,19 +231,19 @@ void VGM_Decode()
 				value &= 0xC0;
 			else if (reg == 0x29) // IRQ enable: keep only SCH (6 FM channels)
 				value &= 0x80;
-			Makoto_SetRegister0(reg, value);
+			OPNA_SetPart0Register(reg, value);
 			if (reg == 0x10) // Rhythm key on/off: wait before next write
-				Makoto_WaitBusy();
+				OPNA_WaitBusy();
 			g_VGM_Pointer += 2;
 		}
-		else if (*g_VGM_Pointer == 0x57) // YM2608 port 1, write value dd to register aa
+		else if (*g_VGM_Pointer == VGM_CMD_YM2608_1) // YM2608 port 1, write value dd to register aa
 		{
-			Makoto_SetRegister1(g_VGM_Pointer[1], g_VGM_Pointer[2]);
+			OPNA_SetPart1Register(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
 		}
 		#endif
 		#if (VGM_USE_MSXAUDIO)
-		else if (*g_VGM_Pointer == 0x5C) // Y8950, write value dd to register aa
+		else if (*g_VGM_Pointer == VGM_CMD_Y8950) // Y8950, write value dd to register aa
 		{
 			u8 reg = g_VGM_Pointer[1];
 			if ((reg != 0x04) && (reg != 0x18) && (reg != 0x19))
@@ -234,20 +256,20 @@ void VGM_Decode()
 			g_VGM_Pointer += 2;
 		}
 		#endif
-		else if (*g_VGM_Pointer == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
+		else if (*g_VGM_Pointer == VGM_CMD_WAIT_16B) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
 			g_VGM_WaitCount += *(u16*)(g_VGM_Pointer+1);
 			g_VGM_Pointer += 2;
 		}
-		else if (*g_VGM_Pointer == 0x62) // Wait 735 samples (60th of a second), a shortcut for 0x61 0xdf 0x02
+		else if (*g_VGM_Pointer == VGM_CMD_WAIT_60HZ) // Wait 735 samples (60th of a second), a shortcut for 0x61 0xdf 0x02
 		{
 			g_VGM_WaitCount += 735;
 		}
-		else if (*g_VGM_Pointer == 0x63) // Wait 882 samples (50th of a second), a shortcut for 0x61 0x72 0x03
+		else if (*g_VGM_Pointer == VGM_CMD_WAIT_50HZ) // Wait 882 samples (50th of a second), a shortcut for 0x61 0x72 0x03
 		{
 			g_VGM_WaitCount += 882;
 		}
-		else if (*g_VGM_Pointer == 0x66) // End of sound data
+		else if (*g_VGM_Pointer == VGM_CMD_END) // End of sound data
 		{
 			if ((g_VGM_Loop != 0) && (g_VGM_State & VGM_STATE_LOOP))
 			{
@@ -260,24 +282,24 @@ void VGM_Decode()
 				return;
 			}
 		}
-		else if (*g_VGM_Pointer == 0x67) // Data block: 67 66 tt ss ss ss ss data[ss]
+		else if (*g_VGM_Pointer == VGM_CMD_BLOCK) // Data block: 67 66 tt ss ss ss ss data[ss]
 		{
 			u16 size = *(u16*)(g_VGM_Pointer + 3); // Get stream size (only the 16-bit LSB is relevant on MSX)
 			switch (g_VGM_Pointer[2]) // Switch on stream type
 			{
-		#if (VGM_USE_MAKOTO && MAKOTO_USE_ADPCM)
-			case 0x81: // YM2608 DELTA-T (ADPCM-B) memory image: rr rr rr rr (memory size) aa aa aa aa (start address) data[size-8]
+		#if (VGM_USE_OPNA && OPNA_USE_ADPCM)
+			case VGM_BLOCK_YM2608: // YM2608 DELTA-T (ADPCM-B) memory image: rr rr rr rr (memory size) aa aa aa aa (start address) data[size-8]
 				if (size > 8) // Some VGM contain empty data block
 				{
 					u16 addr = (*(u16*)(g_VGM_Pointer + 11) >> 2) | ((u16)g_VGM_Pointer[13] << 14); // Byte address to 4 bytes unit
-					Makoto_ADPCMLoad(g_VGM_Pointer + 15, addr, (size - 8 + 3) >> 2);
+					OPNA_ADPCMLoad(g_VGM_Pointer + 15, addr, (size - 8 + 3) >> 2);
 				}
 				break;
 		#endif
 			}
 			g_VGM_Pointer += size + 6;
 		}
-		else if ((*g_VGM_Pointer & 0xF0) == 0x70) // wait n+1 samples, n can range from 0 to 15.
+		else if ((*g_VGM_Pointer & 0xF0) == VGM_CMD_WAIT_4B) // wait n+1 samples, n can range from 0 to 15.
 		{
 			g_VGM_WaitCount += 1 + (*g_VGM_Pointer & 0x0F);
 		}

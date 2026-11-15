@@ -1,0 +1,1 @@
+﻿NDSummary.OnToolTipsLoaded("File:audio/opl4_reg.h",{});

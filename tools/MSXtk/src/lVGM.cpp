@@ -29,28 +29,40 @@
 // DEFINES
 //=============================================================================
 
+// OPNA parameters
+#define LVGM_OPNA_DATA_MAX_UNIT	64	// Max data block size in lVGM (in 4 bytes unit)
+
+// OPL4 parameters
+#define LVGM_OPL4_DATA_MAX		0xFFFF	// Max size of a DF block (OPL4_WaveLoad() size is 16-bit)
+#define LVGM_OPL4_DATA_MIN		64		// Min size of a DF block at the end of a segment (else start it in the next segment)
+#define LVGM_OPL4_RAM_BASE		0x200000 // OPL4 address of the RAM start (VGM RAM data block addresses are relative to it)
+#define LVGM_OPL4_NEW			0x01	// Expansion register (part 1 R#05) NEW flag (OPL3 mode)
+#define LVGM_OPL4_NEW2			0x02	// Expansion register (part 1 R#05) NEW2 flag (OPL4 mode)
+
+// Register index
+#define REG_ID(p, r)			(((p) * 256) + (r))
+
 // lVGM chunk type
 enum LVGM_CHUNK_TYPE
 {
-	LVGM_CHUNK_REG,
+	LVGM_CHUNK_REG = 0,
 	LVGM_CHUNK_FRAME,
 	LVGM_CHUNK_LOOP,
 	LVGM_CHUNK_END,
 	LVGM_CHUNK_DATA, // Data block (Value = start address)
+//.....................................
+	LVGM_CHUNK_MAX,
 };
-
-// Max data block size in lVGM (in 4 bytes unit)
-#define LVGM_DATA_MAX_UNIT		64
 
 // lVGM chunk structure
 struct lVGM_Chunk
 {
-	LVGM_CHUNK_TYPE Type;
-	LVGM_CHIP       Chip;
-	u8              Port;
-	u8              Register;
-	u16             Value;
-	std::vector<u8> Data; // Data block content (LVGM_CHUNK_DATA only)
+	LVGM_CHUNK_TYPE		Type;
+	LVGM_CHIP			Chip;
+	u8					Port;
+	u8					Register;
+	u16					Value;
+	std::vector<u8>		Data; // Data block content (LVGM_CHUNK_DATA only)
 
 	lVGM_Chunk() : Type(LVGM_CHUNK_REG), Chip(LVGM_CHIP_NONE), Port(0), Register(0), Value(0) {}
 	lVGM_Chunk(LVGM_CHUNK_TYPE t, LVGM_CHIP c = LVGM_CHIP_NONE, u8 p = 0, u8 r = 0, u16 v = 0) : Type(t), Chip(c), Port(p), Register(r), Value(v) {}
@@ -59,19 +71,42 @@ struct lVGM_Chunk
 // lVGM sequence structure
 struct lVGM_Seq
 {
-	u8 FirstReg;
-	u8 Count;
-	std::vector<u8> Values;
+	u8					FirstReg;
+	u8					Count;
+	std::vector<u8>		Values;
 };
 
 // lVGM detect structure
 struct lVGM_Detect
 {
-	u8          ChipNum;
-	std::string ChipDesc;
-	u8          Devices;
-	bool        bMultiChip;
+	u8					ChipNum;
+	std::string			ChipDesc;
+	u8					Devices;
+	bool				bMultiChip;
+	u8					OPLSource; // Source of OPL4 data: 0 = OPL4 (or none), 2 = OPL2 (YM3812), 3 = OPL3 (YMF262)
 };
+
+// lVGM register check result
+enum LVGM_CHECK_ID
+{
+	LVGM_CHECK_NEW,  // Keep the register if value is new
+	LVGM_CHECK_KEEP, // Always keep the register
+	LVGM_CHECK_SKIP, // Always skip the register
+//.....................................
+	LVGM_CHECK_MAX,
+};
+
+// Function signature for register validation
+typedef u8 (*lVGM_CheckReg)(u16);
+
+// Register validation function prototypes
+u8 lVGM_CheckRegPSG(u16 reg);
+u8 lVGM_CheckRegMSXMusic(u16 reg);
+u8 lVGM_CheckRegMSXAudio(u16 reg);
+u8 lVGM_CheckRegSCC(u16 reg);
+u8 lVGM_CheckRegOPL4(u16 reg);
+u8 lVGM_CheckRegOPNA(u16 reg);
+
 
 //=============================================================================
 // VARIABLES
@@ -95,7 +130,26 @@ u8                      g_lVGM_Default;
 u8                      g_lVGM_CurPort;
 
 // Register map
-std::map<u8, std::map<u8, u8>> g_lVGM_RegMap;
+std::map<u8, std::map<u16, u8>> g_lVGM_RegMap;
+
+
+//=============================================================================
+// CONST DATA
+//=============================================================================
+
+// Function to check registers to always export
+const std::map<u8, lVGM_CheckReg> lVGM_CheckRegs =
+{
+	{ LVGM_CHIP_PSG ,     lVGM_CheckRegPSG },
+	{ LVGM_CHIP_MSXMUSIC, lVGM_CheckRegMSXMusic },
+	{ LVGM_CHIP_MSXAUDIO, lVGM_CheckRegMSXAudio },
+	{ LVGM_CHIP_SCC,      lVGM_CheckRegSCC },
+	{ LVGM_CHIP_SCCI,     lVGM_CheckRegSCC },
+	{ LVGM_CHIP_PSG2,     lVGM_CheckRegPSG },
+	{ LVGM_CHIP_OPL4,     lVGM_CheckRegOPL4 },
+	{ LVGM_CHIP_OPNA,     lVGM_CheckRegOPNA },
+};
+
 
 //=============================================================================
 // FUNCTIONS
@@ -120,6 +174,7 @@ bool DetectDevices(lVGM_Detect& detect)
 	detect.ChipDesc = "";
 	detect.ChipNum = 0;
 	detect.Devices = 0;
+	detect.OPLSource = 0;
 
 	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock)
 		AddDevice(detect, "PSG", LVGM_CHIP_PSG);
@@ -135,6 +190,20 @@ bool DetectDevices(lVGM_Detect& detect)
 		AddDevice(detect, "PSGx2", LVGM_CHIP_PSG2);
 	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YMF278B_clock)
 		AddDevice(detect, "OPL4", LVGM_CHIP_OPL4);
+	else if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YMF262_clock) // Converted to OPL4 FM
+	{
+		AddDevice(detect, "OPL3 (as OPL4)", LVGM_CHIP_OPL4);
+		detect.OPLSource = 3;
+		if (g_VGM_Header->YMF262_clock & (1 << 30))
+			printf("Warning: Dual OPL3 is not supported! Only the first chip is converted\n");
+	}
+	else if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YM3812_clock) // Converted to OPL4 FM
+	{
+		AddDevice(detect, "OPL2 (as OPL4)", LVGM_CHIP_OPL4);
+		detect.OPLSource = 2;
+		if (g_VGM_Header->YM3812_clock & (1 << 30))
+			printf("Warning: Dual OPL2 is not supported! Only the first chip is converted\n");
+	}
 	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YM2608_clock)
 		AddDevice(detect, "OPNA", LVGM_CHIP_OPNA);
 
@@ -176,7 +245,7 @@ void CheckSplit(MSX::ExporterInterface* exp, u16 size)
 		if ((targetSize / g_lVGM_Split) > (curSize / g_lVGM_Split))
 		{
 			exp->AddByteList(std::vector<u8>{ LVGM_OP_NOTIFY, 0x00 }, "======== End of data segment");
-			u8 padding = g_lVGM_Split - (exp->GetTotalSize() % g_lVGM_Split);
+			u32 padding = (g_lVGM_Split - (exp->GetTotalSize() % g_lVGM_Split)) % g_lVGM_Split; // No padding if the notification ends exactly at the segment end
 			loopx(padding)
 				exp->AddByteLine(0x00, "Padding");
 		}
@@ -239,10 +308,8 @@ void ExportPSG(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& c
 		g_lVGM_CurChip = chunk->Chip;
 		if (chunk->Chip == LVGM_CHIP_PSG)
 			AddByte(exp, LVGM_OP_PSG, "---- Start PSG section");
-		if (chunk->Chip == LVGM_CHIP_PSG2)
+		else // if (chunk->Chip == LVGM_CHIP_PSG2)
 			AddByte(exp, LVGM_OP_PSG2, "---- Start 2nd PSG section");
-		else
-			assert(1);
 	}
 
 	// Handle more common byte value
@@ -535,16 +602,92 @@ void ExportSCCI(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& 
 
 
 //-----------------------------------------------------------------------------
-// Export an OPL4 (YMF278B) register write chunk (raw port/register/value)
+// Export OPL4 (YMF278B) register write chunks
+// Consecutive writes to the same part are grouped in a single block: xx {rr vv}[n+1] with xx = [pp nnnnnn] (pp: part, n+1: number of pairs)
 void ExportOPL4(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
 {
+	assert(chunk->Type == LVGM_CHUNK_REG);
+	assert(chunk->Chip == LVGM_CHIP_OPL4);
+	assert(chunk->Port <= VGM_PORT_OPL4_WAVE);
+
+	// Check for chip switch
 	if (g_lVGM_CurChip != LVGM_CHIP_OPL4)
 	{
 		g_lVGM_CurChip = LVGM_CHIP_OPL4;
 		AddByte(exp, LVGM_OP_OPL4, "---- Start OPL4 section");
 	}
 
-	AddList(exp, std::vector<u8>{ chunk->Port, chunk->Register, (u8)chunk->Value }, "");
+	// Count consecutive writes to the same part (up to 64 pairs)
+	u8 part = chunk->Port;
+	u16 count = 1;
+	auto it = std::next(chunk);
+	while ((count < 64) && (it->Type == LVGM_CHUNK_REG) && (it->Chip == LVGM_CHIP_OPL4) && (it->Port == part))
+	{
+		it = std::next(it);
+		count++;
+	}
+
+	// Build the block
+	std::vector<u8> block;
+	block.push_back((u8)((part << 6) | (count - 1)));
+	it = chunk;
+	for (u16 i = 0; i < count; i++)
+	{
+		block.push_back(it->Register);
+		block.push_back((u8)it->Value);
+		it = std::next(it);
+	}
+	chunk += count - 1;
+
+	static const c8* partName[] = { "Part 0", "Part 1", "Wave" };
+	AddList(exp, block, MSX::Format("xx {rr vv}[] => %s (%i)", partName[part], count));
+}
+
+//-----------------------------------------------------------------------------
+// Export an OPL4 (YMF278B) wave data block chunk: DF aa aa aa nn nn data[nnnn+1] (24-bit address and 16-bit size, LSB first)
+// The chunk holds the whole VGM data block (Register: address bits 23-16, Value: address bits 15-0)
+// Data is split in several DF blocks to fill each segment up to its end
+void ExportOPL4Data(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterator& chunk)
+{
+	assert(chunk->Type == LVGM_CHUNK_DATA);
+	assert(chunk->Chip == LVGM_CHIP_OPL4);
+	assert(!chunk->Data.empty());
+
+	// Check for chip switch
+	if (g_lVGM_CurChip != LVGM_CHIP_OPL4)
+	{
+		g_lVGM_CurChip = LVGM_CHIP_OPL4;
+		AddByte(exp, LVGM_OP_OPL4, "---- Start OPL4 section");
+	}
+
+	const u32 header = 6; // DF aa aa aa nn nn
+	u32 addr = ((u32)chunk->Register << 16) | chunk->Value;
+	u32 len = (u32)chunk->Data.size();
+	u32 ofs = 0;
+	while (ofs < len)
+	{
+		u32 piece = std::min<u32>(len - ofs, LVGM_OPL4_DATA_MAX);
+		if (g_lVGM_Split)
+		{
+			// Room left in the current segment (end-of-segment notification FD 00 excluded)
+			u32 room = g_lVGM_Split - (exp->GetTotalSize() % g_lVGM_Split) - 2;
+			if (room >= header + std::min<u32>(piece, LVGM_OPL4_DATA_MIN))
+				piece = std::min<u32>(piece, room - header); // Fill the current segment
+			else
+				piece = std::min<u32>(piece, g_lVGM_Split - 2 - header); // Not enough room: CheckSplit will go to the next segment
+		}
+
+		CheckSplit(exp, (u16)(header + piece));
+		u32 a = addr + ofs;
+		u32 n = piece - 1;
+		exp->AddByteList(std::vector<u8>{ LVGM_OP_OPL4_DATA, (u8)a, (u8)(a >> 8), (u8)(a >> 16), (u8)n, (u8)(n >> 8) }, MSX::Format("DF aa aa aa nn nn => Wave data (addr:%06Xh size:%i)", a, piece));
+		for (u32 i = 0; i < piece; i += 16)
+		{
+			std::vector<u8> line(chunk->Data.begin() + ofs + i, chunk->Data.begin() + ofs + std::min<u32>(i + 16, piece));
+			exp->AddByteList(line);
+		}
+		ofs += piece;
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -595,7 +738,7 @@ void ExportOPNAData(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterat
 {
 	assert(chunk->Type == LVGM_CHUNK_DATA);
 	assert(chunk->Chip == LVGM_CHIP_OPNA);
-	assert(!chunk->Data.empty() && (chunk->Data.size() % 4 == 0) && (chunk->Data.size() <= LVGM_DATA_MAX_UNIT * 4));
+	assert(!chunk->Data.empty() && (chunk->Data.size() % 4 == 0) && (chunk->Data.size() <= LVGM_OPNA_DATA_MAX_UNIT * 4));
 
 	// Check for chip switch
 	if (g_lVGM_CurChip != LVGM_CHIP_OPNA)
@@ -614,52 +757,52 @@ void ExportOPNAData(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterat
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Simplify register writes inside each frame according to g_lVGM_Simplify option
-//  LVGM_SIMPLIFY_ORDER:     sort writes by port/register (keeps all writes)
-//  LVGM_SIMPLIFY_DUPLICATE: keep only the last write to each chip/port/register
-void Simplify(std::vector<lVGM_Chunk>& chunkList)
-{
-	std::vector<lVGM_Chunk> workList;
-	std::map<u32, lVGM_Chunk> workMap;
+// //-----------------------------------------------------------------------------
+// // Simplify register writes inside each frame according to g_lVGM_Simplify option
+// //  LVGM_SIMPLIFY_ORDER:     sort writes by port/register (keeps all writes)
+// //  LVGM_SIMPLIFY_DUPLICATE: keep only the last write to each chip/port/register
+// void Simplify(std::vector<lVGM_Chunk>& chunkList)
+// {
+// 	std::vector<lVGM_Chunk> workList;
+// 	std::map<u32, lVGM_Chunk> workMap;
 
-	u32 count = 0;
-	for (const lVGM_Chunk& chunk : chunkList)
-	{
-		switch (chunk.Type)
-		{
-		case LVGM_CHUNK_REG:
-			if (g_lVGM_Simplify == LVGM_SIMPLIFY_ORDER)
-			{
-				u32 id = (chunk.Port << 24) + (chunk.Register << 16) + (count++ & 0xFFFF);
-				workMap[id] = chunk;
-			}
-			else //if (g_lVGM_Simplify == LVGM_SIMPLIFY_DUPLICATE)
-			{
-				u32 id = ((u8)chunk.Chip << 16) + (chunk.Port << 8) + chunk.Register;
-				workMap.insert_or_assign(id, chunk);
-			}
-			//else
-			//	workList.push_back(chunk);
-			break;
-		case LVGM_CHUNK_LOOP:
-		case LVGM_CHUNK_FRAME:
-		case LVGM_CHUNK_END:
-		case LVGM_CHUNK_DATA:
-			if (workMap.size())
-			{
-				for (const auto& pair : workMap)
-					workList.push_back(pair.second);
-				workMap.clear();
-				count = 0;
-			}
-			workList.push_back(chunk);
-			break;
-		}
-	}
+// 	u32 count = 0;
+// 	for (const lVGM_Chunk& chunk : chunkList)
+// 	{
+// 		switch (chunk.Type)
+// 		{
+// 		case LVGM_CHUNK_REG:
+// 			if (g_lVGM_Simplify == LVGM_SIMPLIFY_ORDER)
+// 			{
+// 				u32 id = (chunk.Port << 24) + (chunk.Register << 16) + (count++ & 0xFFFF);
+// 				workMap[id] = chunk;
+// 			}
+// 			else //if (g_lVGM_Simplify == LVGM_SIMPLIFY_DUPLICATE)
+// 			{
+// 				u32 id = ((u8)chunk.Chip << 16) + (chunk.Port << 8) + chunk.Register;
+// 				workMap.insert_or_assign(id, chunk);
+// 			}
+// 			//else
+// 			//	workList.push_back(chunk);
+// 			break;
+// 		case LVGM_CHUNK_LOOP:
+// 		case LVGM_CHUNK_FRAME:
+// 		case LVGM_CHUNK_END:
+// 		case LVGM_CHUNK_DATA:
+// 			if (workMap.size())
+// 			{
+// 				for (const auto& pair : workMap)
+// 					workList.push_back(pair.second);
+// 				workMap.clear();
+// 				count = 0;
+// 			}
+// 			workList.push_back(chunk);
+// 			break;
+// 		}
+// 	}
 
-	chunkList = workList;
-}
+// 	chunkList = workList;
+// }
 
 //-----------------------------------------------------------------------------
 // Output the register writes of a frame grouped by chip (writes order for a given chip is preserved)
@@ -724,15 +867,176 @@ void GroupByChip(std::vector<lVGM_Chunk>& chunkList)
 }
 
 //-----------------------------------------------------------------------------
-// Check if a register write changes the current register value (and update the register map)
-// Returns false if the value is the same as the previous write (write can be skipped)
-bool ExportValue(u8 chip, u8 reg, u8 val)
+// Check if the given PSG (AY-3-8910) register must always be exported (KEEP), always be removed (SKIP) or exported only when its value changes (NEW)
+u8 lVGM_CheckRegPSG(u16 reg)
 {
-	if ((g_lVGM_RegMap[chip].find(reg) == g_lVGM_RegMap[chip].end()) || (g_lVGM_RegMap[chip][reg] != val))
+	if (reg == 13) // Envelope shape (writing restarts the envelope)
+		return LVGM_CHECK_KEEP;
+
+	if (reg > 13) // R#14~15: I/O ports A/B (joystick, kana LED, etc.); R#16+: not existing
+		return LVGM_CHECK_SKIP;
+
+	return LVGM_CHECK_NEW;
+}
+
+//-----------------------------------------------------------------------------
+// Check if the given MSX-MUSIC (YM2413) register must always be exported (KEEP), always be removed (SKIP) or exported only when its value changes (NEW)
+u8 lVGM_CheckRegMSXMusic(u16 reg)
+{
+	if ((reg >= 0x08) && (reg <= 0x0D)) // Not existing
+		return LVGM_CHECK_SKIP;
+	if (reg == 0x0F) // Test
+		return LVGM_CHECK_SKIP;
+	if ((reg >= 0x19) && (reg <= 0x1F)) // Not existing
+		return LVGM_CHECK_SKIP;
+	if ((reg >= 0x29) && (reg <= 0x2F)) // Not existing
+		return LVGM_CHECK_SKIP;
+	if (reg >= 0x39) // Not existing (would also be decoded as 4x~7x opcodes)
+		return LVGM_CHECK_SKIP;
+
+	return LVGM_CHECK_NEW;
+}
+
+//-----------------------------------------------------------------------------
+// Check if the given MSX-AUDIO (Y8950) register must always be exported (KEEP), always be removed (SKIP) or exported only when its value changes (NEW)
+u8 lVGM_CheckRegMSXAudio(u16 reg)
+{
+	static const std::vector<u16> toKeep =
 	{
-		g_lVGM_RegMap[chip][reg] = val;
+		0x07, // ADPCM control (start, record, repeat, reset)
+		0x0F, // ADPCM data (CPU data stream)
+	};
+	if (std::find(toKeep.begin(), toKeep.end(), reg) != toKeep.end())
+		return LVGM_CHECK_KEEP;
+
+	static const std::vector<u16> toSkip =
+	{
+		0x00, // Not existing
+		0x01, // Test
+		0x02, // Timer 1 value
+		0x03, // Timer 2 value
+		0x04, // Flag control (IRQ reset, flag masks, timers start)
+		0x05, // Keyboard input
+		0x06, // Keyboard output
+		0x13, // Not existing
+		0x14, // Not existing
+		0x18, // I/O port direction
+		0x19, // I/O port data
+		0x1A, // PCM data (AD/DA conversion)
+	};
+	if (std::find(toSkip.begin(), toSkip.end(), reg) != toSkip.end())
+		return LVGM_CHECK_SKIP;
+	if ((reg >= 0x1B) && (reg <= 0x1F)) // Not existing
+		return LVGM_CHECK_SKIP;
+	if (reg >= 0xC9) // Not existing (would also be decoded as Dx opcodes)
+		return LVGM_CHECK_SKIP;
+
+	return LVGM_CHECK_NEW;
+}
+
+//-----------------------------------------------------------------------------
+// Check if the given SCC/SCC+ (K051649/K052539) register must always be exported (KEEP), always be removed (SKIP) or exported only when its value changes (NEW)
+u8 lVGM_CheckRegSCC(u16 reg)
+{
+	if (reg >= 0xE0) // Test (VGM port 5)
+		return LVGM_CHECK_SKIP;
+
+	return LVGM_CHECK_NEW;
+}
+
+//-----------------------------------------------------------------------------
+// Check if the given OPL4 (YMF278B) register must always be exported (KEEP), always be removed (SKIP) or exported only when its value changes (NEW)
+// Also used for OPL2 (YM3812) and OPL3 (YMF262) sources converted to OPL4
+u8 lVGM_CheckRegOPL4(u16 reg)
+{
+	// FM part 0
+	if (reg == REG_ID(VGM_PORT_OPL4_PART0, 0x01)) // LSI test (OPL2 WSE bit has no effect on OPL4)
+		return LVGM_CHECK_SKIP;
+	if ((reg >= REG_ID(VGM_PORT_OPL4_PART0, 0x02)) && (reg <= REG_ID(VGM_PORT_OPL4_PART0, 0x04))) // Timer 1 value, timer 2 value, timer/IRQ control (no CSM mode on OPL4)
+		return LVGM_CHECK_SKIP;
+
+	// FM part 1
+	if (reg == REG_ID(VGM_PORT_OPL4_PART1, 0x01)) // LSI test
+		return LVGM_CHECK_SKIP;
+
+	// Wave part
+	if ((reg == REG_ID(VGM_PORT_OPL4_WAVE, 0x00)) || (reg == REG_ID(VGM_PORT_OPL4_WAVE, 0x01))) // LSI test
+		return LVGM_CHECK_SKIP;
+	if ((reg >= REG_ID(VGM_PORT_OPL4_WAVE, 0x02)) && (reg <= REG_ID(VGM_PORT_OPL4_WAVE, 0x06))) // Memory control, memory address (H/M/L) and memory data (address auto-increments)
+		return LVGM_CHECK_KEEP;
+	if ((reg >= REG_ID(VGM_PORT_OPL4_WAVE, 0x08)) && (reg <= REG_ID(VGM_PORT_OPL4_WAVE, 0x1F))) // Wave number (writing loads the wave header)
+		return LVGM_CHECK_KEEP;
+	if ((reg >= REG_ID(VGM_PORT_OPL4_WAVE, 0x68)) && (reg <= REG_ID(VGM_PORT_OPL4_WAVE, 0x7F))) // Key on, damp, LFO reset, output channel, panpot
+		return LVGM_CHECK_KEEP;
+	if ((reg >= REG_ID(VGM_PORT_OPL4_WAVE, 0x80)) && (reg <= REG_ID(VGM_PORT_OPL4_WAVE, 0xF7))) // LFO, vibrato, envelope and AM (overwritten by the wave header loading)
+		return LVGM_CHECK_KEEP;
+
+	return LVGM_CHECK_NEW;
+}
+
+//-----------------------------------------------------------------------------
+// Check if the given OPNA (YM2608) register must always be exported (KEEP), always be removed (SKIP) or exported only when its value changes (NEW)
+u8 lVGM_CheckRegOPNA(u16 reg)
+{
+	static const std::vector<u16> toKeep = 
+	{
+		REG_ID(VGM_PORT_OPNA_PART0, 0x0D), // SSG envelope shape (writing restarts the envelope)
+		REG_ID(VGM_PORT_OPNA_PART0, 0x10), // Rhythm key on/off
+		REG_ID(VGM_PORT_OPNA_PART0, 0x28), // FM key on/off
+		REG_ID(VGM_PORT_OPNA_PART1, 0x00), // ADPCM control 1 (start, record, repeat, reset)
+		REG_ID(VGM_PORT_OPNA_PART1, 0x08), // ADPCM data (CPU data stream)
+		REG_ID(VGM_PORT_OPNA_PART1, 0x10), // Flag control (IRQ reset, flag masks)
+	};
+	if (std::find(toKeep.begin(), toKeep.end(), reg) != toKeep.end())
+		return LVGM_CHECK_KEEP;
+	// FM frequency (both parts): the MSB (A4~A6, AC~AE) goes to a latch shared by the part channels, and is applied when the LSB (A0~A2, A8~AA) is written
+	u8 r = reg & 0xFF;
+	if ((r >= 0xA0) && (r <= 0xAE) && (r != 0xA3) && (r != 0xA7) && (r != 0xAB))
+		return LVGM_CHECK_KEEP;
+
+	static const std::vector<u16> toSkip =
+	{
+		REG_ID(VGM_PORT_OPNA_PART0, 0x0E), // SSG I/O port A
+		REG_ID(VGM_PORT_OPNA_PART0, 0x0F), // SSG I/O port B
+		REG_ID(VGM_PORT_OPNA_PART0, 0x21), // LSI test
+		REG_ID(VGM_PORT_OPNA_PART0, 0x24), // Timer A value (MSB)
+		REG_ID(VGM_PORT_OPNA_PART0, 0x25), // Timer A value (LSB)
+		REG_ID(VGM_PORT_OPNA_PART0, 0x26), // Timer B value
+	};
+	if (std::find(toSkip.begin(), toSkip.end(), reg) != toSkip.end())
+		return LVGM_CHECK_SKIP;
+	if ((reg >= REG_ID(VGM_PORT_OPNA_PART1, 0x11)) && (reg <= REG_ID(VGM_PORT_OPNA_PART1, 0x2F))) // Not existing
+		return LVGM_CHECK_SKIP;
+	if ((reg & 0xFF) > 0xB6) // Not existing (both parts)
+		return LVGM_CHECK_SKIP;
+
+	return LVGM_CHECK_NEW;
+}
+
+//-----------------------------------------------------------------------------
+// Check if the register need to be export or not (because value didn't changed for example)
+bool ShouldExport(u8 chip, u8 port, u8 reg, u8 val)
+{
+	u16 r = REG_ID(port, reg);
+
+	// Check for 'always export' and 'always skip' registers (chip specific)
+	auto check = lVGM_CheckRegs.find(chip);
+	if (check != lVGM_CheckRegs.end())
+	{
+		u8 result = check->second(r);
+		if (result == LVGM_CHECK_KEEP)
+			return true;
+		if (result == LVGM_CHECK_SKIP)
+			return false;
+	}
+
+	// Check if value changed since last set
+	if ((g_lVGM_RegMap[chip].find(r) == g_lVGM_RegMap[chip].end()) || (g_lVGM_RegMap[chip][r] != val))
+	{
+		g_lVGM_RegMap[chip][r] = val;
 		return true;
 	}
+
 	return false;
 }
 
@@ -780,35 +1084,59 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 	g_lVGM_CurChip = LVGM_CHIP_PSG;
 	g_lVGM_Default = 0;
 	g_lVGM_CurPort = 0;
+	g_lVGM_RegMap.clear();
 	bool bLoop = false;
 	u32 sampleFrame = (g_lVGM_Frequency == LVGM_FREQ_60HZ) ? VGM_WAIT_60HZ : VGM_WAIT_50HZ;
 	u32 sampleCount = 0;
 	std::vector<lVGM_Chunk> chunkList;
 	std::map<u8, u16> psgValFreq;
 
+	// Specific initialisation
+	if (detect.OPLSource == 2) 	// OPL2 converted to OPL4: set OPL4 mode and enable left and right outputs of all FM channels (OPL2 songs don't write CHA/CHB bits)
+	{
+		if (ShouldExport(LVGM_CHIP_OPL4, VGM_PORT_OPL4_PART1, 0x05, LVGM_OPL4_NEW | LVGM_OPL4_NEW2))
+			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL4, VGM_PORT_OPL4_PART1, 0x05, LVGM_OPL4_NEW | LVGM_OPL4_NEW2));
+		for (u8 reg = 0xC0; reg <= 0xC8; reg++)
+			if (ShouldExport(LVGM_CHIP_OPL4, VGM_PORT_OPL4_PART0, reg, 0x30))
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL4, VGM_PORT_OPL4_PART0, reg, 0x30));
+	}
+
 	// Parse input data
+	const u8* dataEnd = &data[0] + data.size();
 	while (1)
 	{
+		// Check for end of input data (missing end command)
+		if (g_VGM_Pointer >= dataEnd)
+		{
+			printf("Warning: End of VGM data reached without end command!\n");
+			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_END));
+			break;
+		}
+
 		// Check loop position (before processing the command located at loop offset)
 		if (g_VGM_Loop && !bLoop && (g_VGM_Pointer >= g_VGM_Loop))
 		{
 			bLoop = true;
 			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_LOOP));
+			g_lVGM_RegMap.clear(); // Registers state is unknown when coming back from the end of the song
 		}
 
 		//-----------------------------------------------------------------------------
 		if (*g_VGM_Pointer == VGM_CMD_AY8910) // PSG/AY8910, write value dd to register aa
 		{
-			u8 reg = g_VGM_Pointer[1];
+			LVGM_CHIP chip = (g_VGM_Pointer[1] & 0x80) ? LVGM_CHIP_PSG2 : LVGM_CHIP_PSG;
+			u8 reg = g_VGM_Pointer[1] & 0x7F;
 			u8 val = g_VGM_Pointer[2];
 			g_VGM_Pointer += 2;
 
-			if (ExportValue(VGM_CMD_AY8910, reg, val))
+			if (reg == 7)
+				val = (val & 0b00111111) | 0b10000000; // Validate register values
+
+			if (ShouldExport(chip, 0, reg, val))
 			{
 				switch (reg)
 				{
 				case 7:
-					val = (val & 0b00111111) | 0b10000000; // Validate register values
 				case 0:
 				case 2:
 				case 4:
@@ -818,7 +1146,7 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 					break;
 				}
 
-				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_PSG, 0, reg, val));
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, chip, 0, reg, val));
 			}
 		}
 		//-----------------------------------------------------------------------------
@@ -828,9 +1156,9 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			u8 val = g_VGM_Pointer[2];
 			g_VGM_Pointer += 2;
 
-			if (ExportValue(VGM_CMD_YM2413, reg, val))
+			if (ShouldExport(LVGM_CHIP_MSXMUSIC, 0, reg, val))
 			{
-				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPLL, 0, reg, val));
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_MSXMUSIC, 0, reg, val));
 			}
 		}
 		//-----------------------------------------------------------------------------
@@ -840,15 +1168,12 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			u8 val = g_VGM_Pointer[2];
 			g_VGM_Pointer += 2;
 
-			if (ExportValue(VGM_CMD_Y8950, reg, val))
-			{
-				if ((reg != 0x04) && (reg != 0x18) && (reg != 0x19))
-				{
-					if (reg == 0x08)
-						val &= 0b11000100;
+			if (reg == 0x08)
+				val &= 0b11000100;
 
-					chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL1, 0, reg, val));
-				}
+			if (ShouldExport(LVGM_CHIP_MSXAUDIO, 0, reg, val))
+			{
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_MSXAUDIO, 0, reg, val));
 			}
 		}
 		//-----------------------------------------------------------------------------
@@ -872,26 +1197,32 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 
 			if (detect.Devices & LVGM_CHIP_SCCI) // SCC+
 			{
-				// Check for mirrored register
-				if ((reg >= 0xB0) && (reg <= 0xBF))
-					reg -= 0x10;
-
-				// Skip 'no function' and 'test register' access
-				if (reg < 0xC0)
+				if (ShouldExport(LVGM_CHIP_SCCI, 0, reg, val))
 				{
-					chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_SCCI, 0, reg, val));
+					// Check for mirrored register
+					if ((reg >= 0xB0) && (reg <= 0xBF))
+						reg -= 0x10;
+
+					// Skip 'no function' and 'test register' access
+					if (reg < 0xC0)
+					{
+						chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_SCCI, 0, reg, val));
+					}
 				}
 			}
 			else // SCC
 			{
-				// Check for mirrored register
-				if ((reg >= 0x90) && (reg <= 0x9F))
-					reg -= 0x10;
-
-				// Skip 'no function' and 'test register' access
-				if (reg < 0xA0)
+				if (ShouldExport(LVGM_CHIP_SCC, 0, reg, val))
 				{
-					chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_SCC, 0, reg, val));
+					// Check for mirrored register
+					if ((reg >= 0x90) && (reg <= 0x9F))
+						reg -= 0x10;
+
+					// Skip 'no function' and 'test register' access
+					if (reg < 0xA0)
+					{
+						chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_SCC, 0, reg, val));
+					}
 				}
 			}
 		}
@@ -903,7 +1234,36 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			u8 val  = g_VGM_Pointer[3];
 			g_VGM_Pointer += 3;
 
-			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL4, port, reg, val));
+			// Skip second chip (port bit 7) and invalid ports
+			if ((port <= VGM_PORT_OPL4_WAVE) && ShouldExport(LVGM_CHIP_OPL4, port, reg, val))
+			{
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL4, port, reg, val));
+			}
+		}
+		else if (detect.OPLSource && ((*g_VGM_Pointer == VGM_CMD_YM3812) || (*g_VGM_Pointer == VGM_CMD_YMF262_0) || (*g_VGM_Pointer == VGM_CMD_YMF262_1))) // OPL2 or OPL3: Converted as OPL4 FM (OPL4 mode)
+		{
+			u8 port = (*g_VGM_Pointer != VGM_CMD_YMF262_1) ? VGM_PORT_OPL4_PART0 : VGM_PORT_OPL4_PART1;
+			u8 reg = g_VGM_Pointer[1];
+			u8 val = g_VGM_Pointer[2];
+			g_VGM_Pointer += 2;
+
+			if (detect.OPLSource == 2) // OPL2
+			{
+				if ((reg >= 0xC0) && (reg <= 0xC8)) // Output to both left and right channels (OPL2 has no CHA/CHB bits but they are needed when NEW = 1)
+					val = (val & 0x0F) | 0x30;
+				else if ((reg >= 0xE0) && (reg <= 0xF5)) // OPL2 has only 4 waveforms
+					val &= 0x03;
+			}
+			else if ((port == VGM_PORT_OPL4_PART1) && (reg == 0x05)) // OPL3 mode: keep NEW2 set (OPL4 mode, wave part still accessible)
+			{
+				if (val & LVGM_OPL4_NEW)
+					val = LVGM_OPL4_NEW | LVGM_OPL4_NEW2;
+			}
+
+			if (ShouldExport(LVGM_CHIP_OPL4, port, reg, val))
+			{
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL4, port, reg, val));
+			}
 		}
 		//-----------------------------------------------------------------------------
 		else if ((*g_VGM_Pointer == VGM_CMD_YM2608_0) || (*g_VGM_Pointer == VGM_CMD_YM2608_1)) // MAKOTO/YM2608/OPNA, write value dd to register aa
@@ -921,77 +1281,115 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 					val &= 0x80;
 			}
 
-			if (reg <= 0xB6)
+			if (ShouldExport(LVGM_CHIP_OPNA, port, reg, val))
+			{
 				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPNA, port, reg, val));
+			}
 		}
 		//-----------------------------------------------------------------------------
-		else if (*g_VGM_Pointer == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
+		else if (*g_VGM_Pointer == VGM_CMD_WAIT_16B) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
 			u16 nn = *(u16*)(g_VGM_Pointer + 1);
 			sampleCount += nn;
 			g_VGM_Pointer += 2;
 		}
-		else if (*g_VGM_Pointer == 0x62) // Wait 735 samples (60th of a second), a shortcut for 0x61 0xdf 0x02
+		else if (*g_VGM_Pointer == VGM_CMD_WAIT_60HZ) // Wait 735 samples (60th of a second), a shortcut for 0x61 0xdf 0x02
 		{
 			sampleCount += VGM_WAIT_60HZ;
 		}
-		else if (*g_VGM_Pointer == 0x63) // Wait 882 samples (50th of a second), a shortcut for 0x61 0x72 0x03
+		else if (*g_VGM_Pointer == VGM_CMD_WAIT_50HZ) // Wait 882 samples (50th of a second), a shortcut for 0x61 0x72 0x03
 		{
 			sampleCount += VGM_WAIT_50HZ;
 		}
-		else if (*g_VGM_Pointer == 0x66) // End of sound data
-		{
-			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_END));
-			break;
-		}
-		else if ((*g_VGM_Pointer & 0xF0) == 0x70) // wait n+1 samples, n can range from 0 to 15.
+		else if ((*g_VGM_Pointer & 0xF0) == VGM_CMD_WAIT_4B) // wait n+1 samples, n can range from 0 to 15.
 		{
 			u8 n = 1 + (*g_VGM_Pointer & 0xF);
 			sampleCount += n;
 		}
 		//-----------------------------------------------------------------------------
-		else if (*g_VGM_Pointer == 0x67) // Data block: 0x67 0x66 tt ss ss ss ss data[ss]
+		else if (*g_VGM_Pointer == VGM_CMD_END) // End of sound data
+		{
+			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_END));
+			break;
+		}
+		else if (*g_VGM_Pointer == VGM_CMD_BLOCK) // Data block: 0x67 0x66 tt ss ss ss ss data[ss]
 		{
 			u8 type = g_VGM_Pointer[2];
 			u32 size = *(u32*)(g_VGM_Pointer + 3) & 0x7FFFFFFF;
-			if (type != 0x81)
-				printf("Warning: Unsupported data block type! %02x\n", type);
-			else if ((detect.Devices & LVGM_CHIP_OPNA) && (size > 8)) // YM2608 DELTA-T (ADPCM-B) memory image: rr rr rr rr (memory size) aa aa aa aa (start address) data[ss-8]
+			switch (type)
 			{
-				u32 start = *(u32*)(g_VGM_Pointer + 11);
-				const u8* src = g_VGM_Pointer + 15;
-				u32 len = size - 8;
-				if (start & 3)
-					printf("Warning: ADPCM data block start address not aligned on 4 bytes! %06x\n", start);
-				if (len & 3)
-					printf("Warning: ADPCM data block size not aligned on 4 bytes (padded with 0)! %06x\n", len);
-
-				// Split the data block into chunks of 64 units max (4 bytes each)
-				u32 addr = start >> 2;
-				u32 units = (len + 3) / 4;
-				for (u32 ofs = 0; ofs < units; ofs += LVGM_DATA_MAX_UNIT)
+			case VGM_BLOCK_YM2608: // YM2608/OPNA DELTA-T ROM data
+				if ((detect.Devices & LVGM_CHIP_OPNA) && (size > 8)) // YM2608 DELTA-T (ADPCM-B) memory image: rr rr rr rr (memory size) aa aa aa aa (start address) data[ss-8]
 				{
-					u32 cnt = std::min<u32>(LVGM_DATA_MAX_UNIT, units - ofs);
-					lVGM_Chunk chunk(LVGM_CHUNK_DATA, LVGM_CHIP_OPNA, 1, 0, (u16)(addr + ofs));
-					for (u32 i = ofs * 4; i < (ofs + cnt) * 4; i++)
-						chunk.Data.push_back((i < len) ? src[i] : 0);
+					u32 start = *(u32*)(g_VGM_Pointer + 11);
+					const u8* src = g_VGM_Pointer + 15;
+					u32 len = size - 8;
+					if (start & 3)
+						printf("Warning: ADPCM data block start address not aligned on 4 bytes! %06x\n", start);
+					if (len & 3)
+						printf("Warning: ADPCM data block size not aligned on 4 bytes (padded with 0)! %06x\n", len);
+
+					// Split the data block into chunks of 64 units max (4 bytes each)
+					u32 addr = start >> 2;
+					u32 units = (len + 3) / 4;
+					for (u32 ofs = 0; ofs < units; ofs += LVGM_OPNA_DATA_MAX_UNIT)
+					{
+						u32 cnt = std::min<u32>(LVGM_OPNA_DATA_MAX_UNIT, units - ofs);
+						lVGM_Chunk chunk(LVGM_CHUNK_DATA, LVGM_CHIP_OPNA, 1, 0, (u16)(addr + ofs));
+						for (u32 i = ofs * 4; i < (ofs + cnt) * 4; i++)
+							chunk.Data.push_back((i < len) ? src[i] : 0);
+						chunkList.push_back(chunk);
+					}
+				}
+				break;
+			case VGM_BLOCK_YMF278B: // YMF278B/OPL4 RAM data
+				if ((detect.Devices & LVGM_CHIP_OPL4) && (size > 8)) // YMF278B RAM image: rr rr rr rr (memory size) aa aa aa aa (start address) data[ss-8]
+				{
+					u32 start = (LVGM_OPL4_RAM_BASE + *(u32*)(g_VGM_Pointer + 11)) & 0x3FFFFF; // VGM start address is relative to the RAM start (22-bit address)
+					const u8* src = g_VGM_Pointer + 15;
+					lVGM_Chunk chunk(LVGM_CHUNK_DATA, LVGM_CHIP_OPL4, VGM_PORT_OPL4_WAVE, (u8)(start >> 16), (u16)start);
+					chunk.Data.assign(src, src + size - 8);
 					chunkList.push_back(chunk);
 				}
+				break;
+			case VGM_BLOCK_Y8950: // Y8950/MSX-Audio RAM data
+			default:
+				printf("Warning: Unsupported data block type! %02x\n", type);
 			}
+
+			
+
 			g_VGM_Pointer += 6 + size;
 		}
-		else
+		else if ((*g_VGM_Pointer & 0xF0) == VGM_CMD_DAC_WAIT) // YM2612 DAC write and wait n samples (DAC write is not supported)
 		{
-			printf("Warning: Invalid command! %02x\n", *g_VGM_Pointer);
-			if ((*g_VGM_Pointer >= 0x30) && (*g_VGM_Pointer <= 0x3F))
-				g_VGM_Pointer++;
-			else if ((*g_VGM_Pointer >= 0x40) && (*g_VGM_Pointer <= 0x5F))
+			sampleCount += *g_VGM_Pointer & 0x0F;
+		}
+		else // Unsupported commands (skip operands)
+		{
+			u8 cmd = *g_VGM_Pointer;
+			printf("Warning: Invalid command! %02x\n", cmd);
+			if ((cmd >= 0x30) && (cmd <= 0x3F))
+				g_VGM_Pointer += 1;
+			else if ((cmd == 0x4F) || (cmd == 0x50))
+				g_VGM_Pointer += 1;
+			else if ((cmd >= 0x40) && (cmd <= 0x5F))
 				g_VGM_Pointer += 2;
-			else if ((*g_VGM_Pointer >= 0xA0) && (*g_VGM_Pointer <= 0xBF))
+			else if (cmd == VGM_CMD_PCM_WRITE) // 0x68 0x66 cc oo oo oo dd dd dd ss ss ss
+				g_VGM_Pointer += 11;
+			else if ((cmd == VGM_CMD_DAC_SETUP) || (cmd == VGM_CMD_DAC_DATA) || (cmd == VGM_CMD_DAC_START_FAST)) // DAC stream control
+				g_VGM_Pointer += 4;
+			else if (cmd == VGM_CMD_DAC_FREQ)
+				g_VGM_Pointer += 5;
+			else if (cmd == VGM_CMD_DAC_START)
+				g_VGM_Pointer += 10;
+			else if (cmd == VGM_CMD_DAC_STOP)
+				g_VGM_Pointer += 1;
+			else if ((cmd >= 0xA0) && (cmd <= 0xBF))
 				g_VGM_Pointer += 2;
-			else if ((*g_VGM_Pointer >= 0xC0) && (*g_VGM_Pointer <= 0xDF))
+			else if ((cmd >= 0xC0) && (cmd <= 0xDF))
 				g_VGM_Pointer += 3;
-			else if ((*g_VGM_Pointer >= 0xE0) && (*g_VGM_Pointer <= 0xFF))
+			else if (cmd >= 0xE0)
 				g_VGM_Pointer += 4;
 		}
 		g_VGM_Pointer++;
@@ -1007,7 +1405,7 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 
 	//............................................................................
 	// More common byte for PSG
-	if (detect.Devices & LVGM_CHIP_PSG)
+	if ((detect.Devices & LVGM_CHIP_PSG) && !psgValFreq.empty())
 	{
 		using pair_type = decltype(psgValFreq)::value_type;
 		auto pr = std::max_element(std::begin(psgValFreq), std::end(psgValFreq),
@@ -1050,11 +1448,11 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 		exp->AddComment("---- Data ----");
 	}
 
-	// Remove dulicate and/or reorder register write
-	if (g_lVGM_Simplify != LVGM_SIMPLIFY_NONE)
-	{
-		Simplify(chunkList);
-	}
+	// // Remove dulicate and/or reorder register write
+	// if (g_lVGM_Simplify != LVGM_SIMPLIFY_NONE)
+	// {
+	// 	Simplify(chunkList);
+	// }
 
 	// Group register writes by chip in each frame (to minimize chip section markers)
 	if (detect.bMultiChip)
@@ -1098,8 +1496,13 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 		case LVGM_CHUNK_DATA:
 			switch (chunk->Chip)
 			{
+			case LVGM_CHIP_OPL4:
+				ExportOPL4Data(exp, chunk);
+				break;
 			case LVGM_CHIP_OPNA:
 				ExportOPNAData(exp, chunk);
+				break;
+			default:
 				break;
 			}
 			break;
@@ -1141,6 +1544,9 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 
 		case LVGM_CHUNK_END:
 			AddByte(exp, LVGM_OP_END, "End marker");
+			break;
+
+		default:
 			break;
 		}
 	}

@@ -159,13 +159,18 @@ const unsigned char g_lVGM_psg_goemon_07[] = {
 	0x6A, // R#8: 6n
 	0xFE, // Loop marker
 	0x8B, // R#9: 8n
+	0x04, 0x64, // R#4: 04 nn
+	0x30, // R#5: 3n
 	0xE0, // -------- Wait: Ex
+	0x07, 0xB8, // R#7: 07 nn
 	0x00, 0x8A, // R#0: 00 nn
 	0x13, // R#1: 1n
 	0x6E, // R#8: 6n
 	0x02, 0xE3, // R#2: 02 nn
+	0x20, // R#3: 2n
 	0x8C, // R#9: 8n
 	0x04, 0x71, // R#4: 04 nn
+	0xAC, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x6D, // R#8: 6n
 	0xE0, // -------- Wait: Ex
@@ -3396,4 +3401,4 @@ const unsigned char g_lVGM_psg_goemon_07[] = {
 	0x6A, // R#8: 6n
 	0xFF, // End marker
 };
-// Total size: 3892 bytes
+// Total size: 3899 bytes

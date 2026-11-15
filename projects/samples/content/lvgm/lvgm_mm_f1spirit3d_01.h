@@ -14,7 +14,6 @@ const unsigned char g_lVGM_mm_f1spirit3d_01[] = {
 // ---- Data ----
 	0xF1, // ---- Start OPLL section
 	0x0E, 0x20, // rr: nn
-	0x8F, // rr: 0
 	0x52, 0x00, // 52 nn => R#20~28
 	0x53, 0xBF, // 53 nn => R#30~38
 	0x44, 0x20, 0x50, 0xC0, // 44 nn[3] => R#16~18
@@ -3606,4 +3605,4 @@ const unsigned char g_lVGM_mm_f1spirit3d_01[] = {
 	0xE6, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 7901 bytes
+// Total size: 7900 bytes

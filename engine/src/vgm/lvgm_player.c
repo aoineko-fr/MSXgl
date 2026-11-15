@@ -45,7 +45,7 @@ LVGM_DecodeCB      g_LVGM_Decode;
 #if (LVGM_USE_NOTIFY)
 LVGM_NotifyCB      g_LVGM_Callback = LVGM_Defaultcallback;
 #endif
-#if (LVGM_USE_MAKOTO)
+#if (LVGM_USE_OPNA)
 u8                 g_LVGM_OPNA_Port;
 #endif
 
@@ -69,8 +69,8 @@ void LVGM_Initialize()
 	#if (LVGM_USE_SCC)
 		SCC_Initialize();
 	#endif
-	#if (LVGM_USE_MAKOTO)
-		Makoto_Initialize();
+	#if (LVGM_USE_OPNA)
+		OPNA_Initialize();
 	#endif
 }
 
@@ -270,7 +270,7 @@ void  LVGM_DecodeOPL4()
 }
 #endif
 
-#if (LVGM_USE_MAKOTO)
+#if (LVGM_USE_OPNA)
 //-----------------------------------------------------------------------------
 // Decode OPNA (YM2608) data stream
 void  LVGM_DecodeOPNA()
@@ -284,12 +284,12 @@ void  LVGM_DecodeOPNA()
 		if (g_LVGM_OPNA_Port)
 		{
 			loop (i, cnt)
-				Makoto_SetRegister1(reg++, val);
+				OPNA_SetPart1Register(reg++, val);
 		}
 		else
 		{
 			loop (i, cnt)
-				Makoto_SetRegister0(reg++, val);
+				OPNA_SetPart0Register(reg++, val);
 		}
 	}
 	else if ((op & 0xF0) == 0xD0) // Dn rr vv[] | Copy n+3 bytes (3~18) start from register #rr
@@ -299,12 +299,12 @@ void  LVGM_DecodeOPNA()
 		if (g_LVGM_OPNA_Port)
 		{
 			loop (i, cnt)
-				Makoto_SetRegister1(reg++, *++g_LVGM_Pointer);
+				OPNA_SetPart1Register(reg++, *++g_LVGM_Pointer);
 		}
 		else
 		{
 			loop (i, cnt)
-				Makoto_SetRegister0(reg++, *++g_LVGM_Pointer);
+				OPNA_SetPart0Register(reg++, *++g_LVGM_Pointer);
 		}
 	}
 	else if ((op & 0xFE) == 0xBE) // BE/BF | Select port 0/1
@@ -314,20 +314,20 @@ void  LVGM_DecodeOPNA()
 	else if (op == 0xBD) // BD aa aa nn data[] | Load (nn+1)*4 bytes of ADPCM data at address aaaa (in 4 bytes unit)
 	{
 		u16 size = g_LVGM_Pointer[3] + 1;
-		#if (MAKOTO_USE_ADPCM)
-		Makoto_ADPCMLoad(g_LVGM_Pointer + 4, *(u16*)(g_LVGM_Pointer + 1), size);
+		#if (OPNA_USE_ADPCM)
+		OPNA_ADPCMLoad(g_LVGM_Pointer + 4, *(u16*)(g_LVGM_Pointer + 1), size);
 		#endif
 		g_LVGM_Pointer += 3 + (size << 2);
 	}
 	else // rr vv | R#rr = vv
 	{
 		if (g_LVGM_OPNA_Port)
-			Makoto_SetRegister1(op, *++g_LVGM_Pointer);
+			OPNA_SetPart1Register(op, *++g_LVGM_Pointer);
 		else
 		{
-			Makoto_SetRegister0(op, *++g_LVGM_Pointer);
+			OPNA_SetPart0Register(op, *++g_LVGM_Pointer);
 			if (op == 0x10) // Rhythm key on/off: wait before next write (the converter never puts R#16 in a Cn/Dn sequence)
-				Makoto_WaitBusy();
+				OPNA_WaitBusy();
 		}
 	}
 }
@@ -344,8 +344,33 @@ static void LVGM_Reset()
 	#else
 	g_LVGM_Decode = NULL;
 	#endif
-	#if (LVGM_USE_MAKOTO)
+	#if (LVGM_USE_OPNA)
 	g_LVGM_OPNA_Port = 0;
+	#endif
+}
+
+//-----------------------------------------------------------------------------
+// Mute all sound chips (playback state is not changed)
+void LVGM_Mute()
+{
+	#if (LVGM_USE_PSG)
+	PSG_Mute();
+	#endif
+
+	#if (LVGM_USE_MSXMUSIC)
+	MSXMusic_Mute();
+	#endif
+
+	#if (LVGM_USE_MSXAUDIO)
+	MSXAudio_Mute();
+	#endif
+
+	#if (LVGM_USE_SCC)
+	SCC_Mute();
+	#endif
+
+	#if (LVGM_USE_OPNA)
+	OPNA_Mute();
 	#endif
 }
 
@@ -383,8 +408,8 @@ bool LVGM_Play(const void* addr, bool loop)
 	g_LVGM_LoopAddr = g_LVGM_Pointer;
 
 	LVGM_Reset();
-	LVGM_Pause();
-	
+	LVGM_Mute();
+
 	g_LVGM_State |= LVGM_STATE_PLAY; // Start playback
 	
 	return TRUE;
@@ -394,43 +419,38 @@ bool LVGM_Play(const void* addr, bool loop)
 // Play a LVGM data
 void LVGM_Stop()
 {
-	LVGM_Pause();
+	g_LVGM_State &= ~LVGM_STATE_PLAY;
+	LVGM_Mute();
 
 	g_LVGM_Pointer = g_LVGM_StartAddr;
 	LVGM_Reset();
+	#if (LVGM_USE_RESUME)
+	g_LVGM_State |= LVGM_STATE_STOP; // Chips state saved by the mute must not be restored
+	#endif
 }
 
+#if (LVGM_USE_RESUME)
+
 //-----------------------------------------------------------------------------
-//
+// Pause music playback
 void LVGM_Pause()
 {
 	g_LVGM_State &= ~LVGM_STATE_PLAY;
-	
-	#if (LVGM_USE_PSG)
-	PSG_Mute();
-	#endif
-
-	#if (LVGM_USE_MSXMUSIC)
-	MSXMusic_Mute();
-	#endif
-	
-	#if (LVGM_USE_MSXAUDIO)
-	MSXAudio_Mute();
-	#endif
-	
-	#if (LVGM_USE_SCC)
-	SCC_Mute();
-	#endif
-
-	#if (LVGM_USE_MAKOTO)
-	Makoto_Mute();
-	#endif
+	LVGM_Mute();
 }
 
 //-----------------------------------------------------------------------------
 // Resume music playback
 void LVGM_Resume()
 {
+	// After a stop, restart from the muted state (like LVGM_Play)
+	if (g_LVGM_State & LVGM_STATE_STOP)
+	{
+		g_LVGM_State &= ~LVGM_STATE_STOP;
+		g_LVGM_State |= LVGM_STATE_PLAY;
+		return;
+	}
+
 	g_LVGM_State |= LVGM_STATE_PLAY;
 
 	#if (LVGM_USE_PSG && PSG_USE_RESUME)
@@ -449,10 +469,12 @@ void LVGM_Resume()
 	SCC_Resume();
 	#endif
 
-	#if (LVGM_USE_MAKOTO && MAKOTO_USE_RESUME)
-	Makoto_Resume();
+	#if (LVGM_USE_OPNA && OPNA_USE_RESUME)
+	OPNA_Resume();
 	#endif
 }
+
+#endif // (LVGM_USE_RESUME)
 
 
 //-----------------------------------------------------------------------------
@@ -534,9 +556,9 @@ void LVGM_Decode()
 				break;
 			#endif
 
-			#if (LVGM_USE_MAKOTO)
-			case LVGM_OP_OPNA: // MAKOTO / YM2608
-				g_LVGM_CurChip = LVGM_CHIP_MAKOTO;
+			#if (LVGM_USE_OPNA)
+			case LVGM_OP_OPNA: // OPNA / YM2608
+				g_LVGM_CurChip = LVGM_CHIP_OPNA;
 				g_LVGM_Decode = LVGM_DecodeOPNA;
 				break;
 			#endif

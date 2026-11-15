@@ -1150,12 +1150,14 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x12, 0xD9, // rr: nn
 	0x22, 0x08, // rr: nn
 	0x22, 0x18, // rr: nn
+	0x33, 0xC1, // rr: nn
 	0x23, 0x09, // rr: nn
 	0x23, 0x19, // rr: nn
 	0xB6, // rr: 0
 	0x37, 0x22, // rr: nn
 	0x8E, // rr: 0
 	0x0E, 0x31, // rr: nn
+	0xA4, // rr: 0
 	0xE9, // -------- Wait: Ex
 	0x21, 0x04, // rr: nn
 	0xE0, // -------- Wait: Ex
@@ -4837,4 +4839,4 @@ const unsigned char g_lVGM_mm_feedback_03[] = {
 	0x21, 0x13, // rr: nn
 	0xFF, // End marker
 };
-// Total size: 8258 bytes
+// Total size: 8261 bytes

@@ -61,6 +61,12 @@
 	#define LVGM_USE_NOTIFY			TRUE
 #endif
 
+// LVGM_USE_RESUME
+#ifndef LVGM_USE_RESUME
+	#warning LVGM_USE_RESUME is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LVGM_USE_RESUME			TRUE
+#endif
+
 // Not yet supported chips
 #if (LVGM_USE_SCCI)
 	#error LVGM_USE_SCCI is not yet supported!
@@ -84,8 +90,8 @@
 #if (LVGM_USE_SCC)
 #include "scc.h"
 #endif
-#if (LVGM_USE_MAKOTO)
-#include "audio/makoto.h"
+#if (LVGM_USE_OPNA)
+#include "audio/opna.h"
 #endif
 
 //=============================================================================
@@ -122,8 +128,8 @@ enum LVGM_CHIP
 	LVGM_CHIP_SCC       = 0b00001000, // Include SCC data (K051649)
 	LVGM_CHIP_SCCI      = 0b00010000, // Include SCC+ data (K052539)
 	LVGM_CHIP_PSG2      = 0b00100000, // Include secondary PSG data
-	LVGM_CHIP_MOONSOUND = 0b01000000, // Include Moonsound data (YMF278/OPL4)
-	LVGM_CHIP_MAKOTO    = 0b10000000, // Include Makoto data (YM2608/OPNA)
+	LVGM_CHIP_OPL4		= 0b01000000, // Include Moonsound data (YMF278/OPL4)
+	LVGM_CHIP_OPNA		= 0b10000000, // Include Makoto data (YM2608/OPNA)
 	// Alias
 	LVGM_CHIP_AY8910    = LVGM_CHIP_PSG,
 	LVGM_CHIP_YM2413    = LVGM_CHIP_MSXMUSIC,
@@ -132,10 +138,10 @@ enum LVGM_CHIP
 	LVGM_CHIP_OPL1      = LVGM_CHIP_MSXAUDIO,
 	LVGM_CHIP_K051649   = LVGM_CHIP_SCC,
 	LVGM_CHIP_K052539   = LVGM_CHIP_SCCI,
-	LVGM_CHIP_YMF278    = LVGM_CHIP_MOONSOUND,
-	LVGM_CHIP_OPL4      = LVGM_CHIP_MOONSOUND,
-	LVGM_CHIP_YM2608    = LVGM_CHIP_MAKOTO,
-	LVGM_CHIP_OPNA      = LVGM_CHIP_MAKOTO,
+	LVGM_CHIP_YMF278    = LVGM_CHIP_OPL4,
+	LVGM_CHIP_MOONSOUND = LVGM_CHIP_OPL4,
+	LVGM_CHIP_YM2608    = LVGM_CHIP_OPNA,
+	LVGM_CHIP_MAKOTO	= LVGM_CHIP_OPNA,
 };
 
 // LVGM playback state flag
@@ -143,24 +149,28 @@ enum LVGM_STATE
 {
 	LVGM_STATE_50HZ = 0b00000001,
 	LVGM_STATE_LOOP = 0b00000010,
+	LVGM_STATE_STOP = 0b01000000, // Playback stopped (resume restarts from a clean state)
 	LVGM_STATE_PLAY = 0b10000000,
 };
 
 // Special operator
 enum LVGM_OP
 {
-	LVGM_OP_PSG			= 0xF0, // Start of PSG chunk (default when not defined)
-	LVGM_OP_OPLL		= 0xF1, // Start of MSX-MUSIC chunk
-	LVGM_OP_OPL1		= 0xF2, // Start of MSX-AUDIO chunk
-	LVGM_OP_SCC			= 0xF3, // Start of SCC chunk
-	LVGM_OP_SCCI		= 0xF4, // Start of SCC+ chunk
-	LVGM_OP_PSG2		= 0xF5, // Start of secondary PSG chunk
-	LVGM_OP_OPL4		= 0xF6, // Start of Moonsound chunk
-	LVGM_OP_OPNA		= 0xF7, // Start of Makoto chunk
-	LVGM_OP_WAIT		= 0xFC, // Wait nn+1 cycles (1~256)
-	LVGM_OP_NOTIFY		= 0xFD, // Optional markers
-	LVGM_OP_LOOP		= 0xFE, // Loop position
-	LVGM_OP_END			= 0xFF, // End of song
+	LVGM_OP_WAIT4  = 0xE0, // 4-bit wait count
+	//-----------------------------------------------------
+	LVGM_OP_PSG    = 0xF0, // Start of PSG chunk (default when not defined)
+	LVGM_OP_OPLL   = 0xF1, // Start of MSX-MUSIC chunk
+	LVGM_OP_OPL1   = 0xF2, // Start of MSX-AUDIO chunk
+	LVGM_OP_SCC    = 0xF3, // Start of SCC chunk
+	LVGM_OP_SCCI   = 0xF4, // Start of SCC+ chunk
+	LVGM_OP_PSG2   = 0xF5, // Start of secondary PSG chunk
+	LVGM_OP_OPL4   = 0xF6, // Start of Moonsound chunk
+	LVGM_OP_OPNA   = 0xF7, // Start of Makoto chunk
+	//-----------------------------------------------------
+	LVGM_OP_WAIT   = 0xFC, // 8-bit wait counter
+	LVGM_OP_NOTIFY = 0xFD, // Optional markers
+	LVGM_OP_LOOP   = 0xFE, // Loop position
+	LVGM_OP_END    = 0xFF, // End of song
 };
 
 // Special operator
@@ -200,7 +210,7 @@ extern u8                 g_LVGM_CurChip;
 #if (LVGM_USE_NOTIFY)
 extern LVGM_NotifyCB      g_LVGM_Callback;
 #endif
-#if (LVGM_USE_MAKOTO)
+#if (LVGM_USE_OPNA)
 extern u8                 g_LVGM_OPNA_Port;
 #endif
 
@@ -256,13 +266,21 @@ inline bool LVGM_IsFrequency60Hz() { return (g_LVGM_State & LVGM_STATE_50HZ) == 
 //   FALSE if music is not playing
 inline bool LVGM_IsPlaying() { return g_LVGM_State & LVGM_STATE_PLAY; }
 
+// Function: LVGM_Mute
+// Mute all sound chips (playback state is not changed)
+void LVGM_Mute();
+
+#if (LVGM_USE_RESUME)
 // Function: LVGM_Pause
 // Pause music playback
+// Note: LVGM_USE_RESUME need to be set to TRUE to use this function
 void LVGM_Pause();
 
 // Function: LVGM_Resume
-// Resume music playback
+// Resume music playback (after a stop, playback restarts from the beginning without restoring the chips state)
+// Note: LVGM_USE_RESUME need to be set to TRUE to use this function
 void LVGM_Resume();
+#endif
 
 // Function: LVGM_Decode
 // Decode a frame of music

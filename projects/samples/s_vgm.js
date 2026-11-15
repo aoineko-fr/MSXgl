@@ -12,7 +12,7 @@ Target = "ROM_ASCII16";
 ROMSize = 256;
 
 //-- List of library modules to build (array)
-LibModules = [ "audio/makoto", "psg", "scc", "msx-music", "msx-audio", "vgm/vgm_player", "system", "bios", "vdp", "print", "input", "memory" ];
+LibModules = [ "audio/opna", "psg", "scc", "msx-music", "msx-audio", "vgm/vgm_player", "system", "bios", "vdp", "print", "input", "memory" ];
 
 //-- List of raw data files to be added to final binary (array). Each entry must be in the following format: { offset:0x0000, file:"myfile.bin" }
 RawFiles = [

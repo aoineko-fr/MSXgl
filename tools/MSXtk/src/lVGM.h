@@ -22,19 +22,19 @@
 // lVGM export frequency
 enum LVGM_FREQ
 {
-	LVGM_FREQ_50HZ     = 50,
-	LVGM_FREQ_60HZ     = 60,
+	LVGM_FREQ_50HZ		= 50,
+	LVGM_FREQ_60HZ		= 60,
 };
 
 // lVGM option
 enum LVGM_OPTION
 {
-	LVGM_OPTION_FREQ = 0b00000001, // Frequency
-	LVGM_OPTION_60HZ = 0b00000000, // Frequency (0: 60 Hz)
-	LVGM_OPTION_50HZ = 0b00000001, // Frequency (1: 50 Hz)
-	LVGM_OPTION_LOOP = 0b00000010, // Loop data included
-	LVGM_OPTION_DEVICE = 0b00000100, // Devices list
-	LVGM_OPTION_FORMAT = 0b11110000, // File format version (0)
+	LVGM_OPTION_FREQ	= 0b00000001, // Frequency
+	LVGM_OPTION_60HZ	= 0b00000000, // Frequency (0: 60 Hz)
+	LVGM_OPTION_50HZ	= 0b00000001, // Frequency (1: 50 Hz)
+	LVGM_OPTION_LOOP	= 0b00000010, // Loop data included
+	LVGM_OPTION_DEVICE	= 0b00000100, // Devices list
+	LVGM_OPTION_FORMAT	= 0b11110000, // File format version (0)
 };
 
 // lVGM audio chips
@@ -48,8 +48,8 @@ enum LVGM_CHIP
 	LVGM_CHIP_SCC       = 0b00001000, // Include SCC data (K051649)
 	LVGM_CHIP_SCCI      = 0b00010000, // Include SCC+ data (K052539)
 	LVGM_CHIP_PSG2      = 0b00100000, // Include secondary PSG data
-	LVGM_CHIP_MOONSOUND = 0b01000000, // Include Moonsound data (YMF278/OPL4)
-	LVGM_CHIP_MAKOTO    = 0b10000000, // Include Makoto data (YM2608/OPNA)
+	LVGM_CHIP_OPL4		= 0b01000000, // Include Moonsound data (YMF278/OPL4)
+	LVGM_CHIP_OPNA		= 0b10000000, // Include Makoto data (YM2608/OPNA)
 	// Alias
 	LVGM_CHIP_AY8910    = LVGM_CHIP_PSG,
 	LVGM_CHIP_YM2413    = LVGM_CHIP_MSXMUSIC,
@@ -58,10 +58,10 @@ enum LVGM_CHIP
 	LVGM_CHIP_OPL1      = LVGM_CHIP_MSXAUDIO,
 	LVGM_CHIP_K051649   = LVGM_CHIP_SCC,
 	LVGM_CHIP_K052539   = LVGM_CHIP_SCCI,
-	LVGM_CHIP_YMF278    = LVGM_CHIP_MOONSOUND,
-	LVGM_CHIP_OPL4      = LVGM_CHIP_MOONSOUND,
-	LVGM_CHIP_YM2608    = LVGM_CHIP_MAKOTO,
-	LVGM_CHIP_OPNA      = LVGM_CHIP_MAKOTO,
+	LVGM_CHIP_YMF278    = LVGM_CHIP_OPL4,
+	LVGM_CHIP_MOONSOUND = LVGM_CHIP_OPL4,
+	LVGM_CHIP_YM2608    = LVGM_CHIP_OPNA,
+	LVGM_CHIP_MAKOTO	= LVGM_CHIP_OPNA,
 };
 
 // LVGM playback state flag
@@ -75,6 +75,10 @@ enum LVGM_STATE
 // Special operator
 enum LVGM_OP
 {
+	//-----------------------------------------------------
+	// COMMUN
+	LVGM_OP_WAIT4  = 0xE0, // 4-bit wait count
+	//-----------------------------------------------------
 	LVGM_OP_PSG    = 0xF0, // Start of PSG chunk (default when not defined)
 	LVGM_OP_OPLL   = 0xF1, // Start of MSX-MUSIC chunk
 	LVGM_OP_OPL1   = 0xF2, // Start of MSX-AUDIO chunk
@@ -88,6 +92,10 @@ enum LVGM_OP
 	LVGM_OP_NOTIFY = 0xFD, // Optional markers
 	LVGM_OP_LOOP   = 0xFE, // Loop position
 	LVGM_OP_END    = 0xFF, // End of song
+
+	//-----------------------------------------------------
+	// OPL4
+	LVGM_OP_OPL4_DATA = 0xDF,	// DF aa aa aa nn nn data[]: load wave data
 };
 
 // Special operator

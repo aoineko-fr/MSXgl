@@ -20,8 +20,8 @@
 #if (LVGM_USE_SCC)
 #include "scc.h"
 #endif
-#if (LVGM_USE_MAKOTO)
-#include "audio/makoto.h"
+#if (LVGM_USE_OPNA)
+#include "audio/opna.h"
 #endif
 
 //=============================================================================
@@ -265,6 +265,8 @@ void SetMusic(u8 idx)
 		Print_DrawText(" OPL1");
 	if (LVGM_GetDevices() & LVGM_CHIP_SCC)
 		Print_DrawText(" SCC");
+	if (LVGM_GetDevices() & LVGM_CHIP_OPL4)
+		Print_DrawText(" OPL4");
 	if (LVGM_GetDevices() & LVGM_CHIP_OPNA)
 		Print_DrawText(" OPNA");
 	Print_SetPosition(LAYOUT_DATA_X, y++);
@@ -428,10 +430,10 @@ void main()
 	Print_DrawText("\x07" "SCC:    ");
 	Print_DrawSlot(SCC_SLOT);
 	#endif
-	#if (LVGM_USE_MAKOTO)
+	#if (LVGM_USE_OPNA)
 	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawText("\x07" "YM2608: ");
-	Print_DrawChar(Makoto_Detect() ? '\x0C' : '\x0B');
+	Print_DrawChar(OPNA_Detect() ? '\x0C' : '\x0B');
 	#endif
 
 	// Draw player

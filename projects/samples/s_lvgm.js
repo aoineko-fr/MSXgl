@@ -9,7 +9,7 @@ Machine = "1";
 Target = "DOS2";
 
 //-- List of library modules to build (array)
-LibModules = [ "audio/makoto", "psg", "scc", "msx-music", "msx-audio", "vgm/lvgm_player", "dos", "dos_mapper", "system", "bios", "vdp", "print", "input", "memory" ];
+LibModules = [ "audio/opna", "psg", "scc", "msx-music", "msx-audio", "vgm/lvgm_player", "dos", "dos_mapper", "system", "bios", "vdp", "print", "input", "memory" ];
 
 //-- List of data files to copy to disk (array)
 DiskFiles = [

@@ -209,6 +209,8 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0xDA, // R#n: Dn
 	0xED, // -------- Wait: Ex
 	0xFE, // Loop marker
+	0x07, 0xB8, // R#7: 07 nn
+	0xD1, // R#n: Dn
 	0x00, 0xE4, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x25, // R#3: 2n
@@ -4591,6 +4593,7 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
+	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -5112,6 +5115,7 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x8E, // R#9: 8n
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
+	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -5140,6 +5144,7 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
+	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -5577,6 +5582,7 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x8E, // R#9: 8n
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
+	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -5604,6 +5610,7 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
+	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -6126,6 +6133,7 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x8E, // R#9: 8n
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
+	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -6154,6 +6162,7 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0x33, // R#5: 3n
 	0x04, 0xD0, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
+	0xC9, // R#13: Cn
 	0xB0, // R#10: Bn | 0x10
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
@@ -6881,4 +6890,4 @@ const unsigned char g_lVGM_psg_metalgear_04[] = {
 	0xE0, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 7494 bytes
+// Total size: 7504 bytes

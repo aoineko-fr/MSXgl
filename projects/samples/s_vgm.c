@@ -17,8 +17,8 @@
 #if (VGM_USE_MSXAUDIO)
 	#include "msx-audio.h"
 #endif
-#if (VGM_USE_MAKOTO)
-	#include "audio/makoto.h"
+#if (VGM_USE_OPNA)
+	#include "audio/opna.h"
 #endif
 #include "s_vgm_rawdef.h"
 
@@ -186,7 +186,7 @@ void DrawVGM(const u8* ptr)
 			ptr += 2;
 		}
 		#endif
-		#if (VGM_USE_MAKOTO)
+		#if (VGM_USE_OPNA)
 		else if (*ptr == 0x56) // YM2608 port 0, write value dd to register aa
 		{
 			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
@@ -392,10 +392,10 @@ void main()
 	Print_DrawText("\x07" "Y8950:  ");
 	Print_DrawChar(MSXAudio_Detect() ? '\x0C' : '\x0B');
 	#endif
-	#if (VGM_USE_MAKOTO)
+	#if (VGM_USE_OPNA)
 	Print_SetPosition(20, y++);
 	Print_DrawText("\x07" "YM2608: ");
-	Print_DrawChar(Makoto_Detect() ? '\x0C' : '\x0B');
+	Print_DrawChar(OPNA_Detect() ? '\x0C' : '\x0B');
 	#endif
 
 	// Decode VGM header

@@ -28,6 +28,8 @@ const unsigned char g_lVGM_psg_metalgear_05[] = {
 	0xA0, // R#10: An
 	0xFC, 0x10, // -------- Wait: FC nn
 	0xFE, // Loop marker
+	0x07, 0xB8, // R#7: 07 nn
+	0x10, // R#1: 1n
 	0xD0, // R#n: Dn
 	0x6C, // R#8: 6n
 	0xE0, // -------- Wait: Ex
@@ -3119,4 +3121,4 @@ const unsigned char g_lVGM_psg_metalgear_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 3673 bytes
+// Total size: 3676 bytes

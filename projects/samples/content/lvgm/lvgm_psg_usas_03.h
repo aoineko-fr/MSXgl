@@ -79,11 +79,14 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xA9, // R#10: An
 	0xFE, // Loop marker
 	0xE0, // -------- Wait: Ex
+	0x07, 0xB8, // R#7: 07 nn
 	0x6B, // R#8: 6n
 	0x8C, // R#9: 8n
 	0xE0, // -------- Wait: Ex
 	0x8B, // R#9: 8n
 	0xE2, // -------- Wait: Ex
+	0x04, 0x1E, // R#4: 04 nn
+	0x31, // R#5: 3n
 	0xAA, // R#10: An
 	0xE2, // -------- Wait: Ex
 	0x8A, // R#9: 8n
@@ -92,7 +95,10 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0x89, // R#9: 8n
 	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
+	0x10, // R#1: 1n
 	0x6C, // R#8: 6n
+	0x02, 0x57, // R#2: 02 nn
+	0x23, // R#3: 2n
 	0x8A, // R#9: 8n
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Ex
@@ -3793,4 +3799,4 @@ const unsigned char g_lVGM_psg_usas_03[] = {
 	0xE0, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 4365 bytes
+// Total size: 4374 bytes

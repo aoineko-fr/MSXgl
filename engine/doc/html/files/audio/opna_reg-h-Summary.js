@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:audio/opna_reg.h","opna_reg.h");NDSummary.OnSummaryLoaded("File:audio/opna_reg.h",[["C/C++","C"]],[["Groups","Group"]],[[472,0,0,"Status","Status"],[473,0,0,"SSG","SSG"],[1604,0,0,"Rhythm","Rhythm"],[1605,0,0,"System","System"],[1606,0,0,"FM Operator","FM_Operator"],[1607,0,0,"FM Channel","FM_Channel"],[1609,0,0,"ADPCM-B","ADPCM-B"]]);

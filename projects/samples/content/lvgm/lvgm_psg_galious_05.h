@@ -343,8 +343,11 @@ const unsigned char g_lVGM_psg_galious_05[] = {
 	0x04, 0xA7, // R#4: 04 nn
 	0xE3, // -------- Wait: Ex
 	0xFE, // Loop marker
+	0x07, 0xB8, // R#7: 07 nn
 	0x00, 0xD7, // R#0: 00 nn
+	0x10, // R#1: 1n
 	0x04, 0xD6, // R#4: 04 nn
+	0x30, // R#5: 3n
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
@@ -356,6 +359,8 @@ const unsigned char g_lVGM_psg_galious_05[] = {
 	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x6B, // R#8: 6n
+	0x02, 0xFA, // R#2: 02 nn
+	0x23, // R#3: 2n
 	0x8D, // R#9: 8n
 	0xE7, // -------- Wait: Ex
 	0x04, 0xD8, // R#4: 04 nn
@@ -1601,4 +1606,4 @@ const unsigned char g_lVGM_psg_galious_05[] = {
 	0xE0, // -------- Wait: Ex
 	0xFF, // End marker
 };
-// Total size: 2077 bytes
+// Total size: 2084 bytes

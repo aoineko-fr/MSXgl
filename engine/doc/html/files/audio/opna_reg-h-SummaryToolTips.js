@@ -1,0 +1,1 @@
+﻿NDSummary.OnToolTipsLoaded("File:audio/opna_reg.h",{});
