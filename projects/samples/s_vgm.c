@@ -17,6 +17,9 @@
 #if (VGM_USE_MSXAUDIO)
 	#include "msx-audio.h"
 #endif
+#if (VGM_USE_OPL4)
+	#include "audio/opl4.h"
+#endif
 #if (VGM_USE_OPNA)
 	#include "audio/opna.h"
 #endif
@@ -90,9 +93,9 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Final Fantasy (M-M)", 0x8000 + MM_FF_03_VGM_REL,          MM_FF_03_VGM_SEG },
 	{ "Xevious (M-A)      ", 0x8000 + MA_XEVIOUS_01_VGM_REL,     MA_XEVIOUS_01_VGM_SEG },
 	{ "Pro Yakyu (M-A)    ", 0x8000 + MA_PROYAKYU_10_VGM_REL,    MA_PROYAKYU_10_VGM_SEG },
-	{ "Behoder 3 (OPNA)   ", 0x8000 + OPNA_BEHOLDER3_02_VGM_REL, OPNA_BEHOLDER3_02_VGM_SEG },
 	{ "Valis 2 (OPNA)     ", 0x8000 + OPNA_VALIS2_23_VGM_REL,    OPNA_VALIS2_23_VGM_SEG },
 	{ "Misty Blue (OPNA)  ", 0x8000 + OPNA_MISTYBLUE_05_VGM_REL, OPNA_MISTYBLUE_05_VGM_SEG },
+	{ "Sonyc (OPL4)       ", 0x8000 + OPL4_SONYC_05_VGM_REL,     OPL4_SONYC_05_VGM_SEG },
 };
 
 // Player button list
@@ -391,6 +394,11 @@ void main()
 	Print_SetPosition(20, y++);
 	Print_DrawText("\x07" "Y8950:  ");
 	Print_DrawChar(MSXAudio_Detect() ? '\x0C' : '\x0B');
+	#endif
+	#if (VGM_USE_OPL4)
+	Print_SetPosition(20, y++);
+	Print_DrawText("\x07" "YMF278B:");
+	Print_DrawChar(OPL4_Detect() ? '\x0C' : '\x0B');
 	#endif
 	#if (VGM_USE_OPNA)
 	Print_SetPosition(20, y++);

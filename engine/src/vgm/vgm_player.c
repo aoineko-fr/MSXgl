@@ -20,6 +20,9 @@
 #if (VGM_USE_MSXAUDIO)
 #include "msx-audio.h"
 #endif
+#if (VGM_USE_OPL4)
+#include "audio/opl4.h"
+#endif
 #if (VGM_USE_OPNA)
 #include "audio/opna.h"
 #endif
@@ -50,19 +53,22 @@ u8                g_VGM_State;
 void VGM_Initialize()
 {
 	#if (VGM_USE_PSG)
-		// Initialize PSG module
+	// Initialize PSG module
 	#endif
 	#if (VGM_USE_MSXMUSIC)
-		MSXMusic_Initialize();
+	MSXMusic_Initialize();
 	#endif
 	#if (VGM_USE_MSXAUDIO)
-		MSXAudio_Initialize();
+	MSXAudio_Initialize();
 	#endif
 	#if (VGM_USE_SCC)
-		SCC_Initialize();
+	SCC_Initialize();
+	#endif
+	#if (VGM_USE_OPL4)
+	OPL4_Initialize(OPL4_MODE_OPL4);
 	#endif
 	#if (VGM_USE_OPNA)
-		OPNA_Initialize();
+	OPNA_Initialize();
 	#endif
 }
 
@@ -70,20 +76,21 @@ void VGM_Initialize()
 // Mute all sound chips (playback state is not changed)
 void VGM_Mute()
 {
+	#if (VGM_USE_PSG)
 	PSG_Mute();
-
+	#endif
 	#if (VGM_USE_MSXMUSIC)
 	MSXMusic_Mute();
 	#endif
-	
 	#if (VGM_USE_MSXAUDIO)
 	MSXAudio_Mute();
 	#endif
-	
 	#if (VGM_USE_SCC)
 	SCC_Mute();
 	#endif
-
+	#if (VGM_USE_OPL4)
+	OPL4_Mute();
+	#endif
 	#if (VGM_USE_OPNA)
 	OPNA_Mute();
 	#endif
@@ -94,7 +101,7 @@ void VGM_Mute()
 bool VGM_Play(const void* addr, bool loop)
 {
 	VGM_Mute(); // Mute all sound chip
-	
+
 	g_VGM_Header = (VGM_Header*)addr;
 
 	if (g_VGM_Header->Ident != VGM_IDENT)
@@ -108,7 +115,7 @@ bool VGM_Play(const void* addr, bool loop)
 	if (g_VGM_Header->Loop_offset)
 		g_VGM_Loop = (u8*)((u16)&g_VGM_Header->Loop_offset + (u16)g_VGM_Header->Loop_offset);
 	else
-		g_VGM_Loop = 0;
+		g_VGM_Loop = g_VGM_Pointer; // No loop point: loop the whole song
 	g_VGM_WaitCount = 0;
 
 	if (Sys_Is50Hz())
@@ -135,26 +142,26 @@ void VGM_Resume()
 
 	g_VGM_State |= VGM_STATE_PLAY;
 
-	#if (PSG_USE_RESUME)
+	#if (VGM_USE_PSG && PSG_USE_RESUME)
 	if (VGM_ContainsPSG())
 		PSG_Resume();
 	#endif
-
 	#if (VGM_USE_MSXMUSIC && MSXMUSIC_USE_RESUME)
 	if (VGM_ContainsMSXMusic())
 		MSXMusic_Resume();
 	#endif
-
 	#if (VGM_USE_MSXAUDIO && MSXAUDIO_USE_RESUME)
 	if (VGM_ContainsMSXAudio())
 		MSXAudio_Resume();
 	#endif
-
 	#if (VGM_USE_SCC && SCC_USE_RESUME)
 	if (VGM_ContainsSCC())
 		SCC_Resume();
 	#endif
-
+	#if (VGM_USE_OPL4 && OPL4_USE_RESUME)
+	if (VGM_ContainsOPL4())
+		OPL4_Resume();
+	#endif
 	#if (VGM_USE_OPNA && OPNA_USE_RESUME)
 	if (VGM_ContainsOPNA())
 		OPNA_Resume();
@@ -193,13 +200,15 @@ void VGM_Decode()
 	
 	while (g_VGM_WaitCount < g_VGM_WaitFrame)
 	{
+		#if (VGM_USE_PSG)
 		if (*g_VGM_Pointer == VGM_CMD_AY8910) // AY8910, write value dd to register aa
 		{
 			PSG_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
-		}
+		} else 
+		#endif
 		#if (VGM_USE_SCC)
-		else if (*g_VGM_Pointer == VGM_CMD_SCC) // SCC1, port pp, write value dd to register aa
+		if (*g_VGM_Pointer == VGM_CMD_SCC) // SCC1, port pp, write value dd to register aa
 		{
 			u8 reg = 0;
 			switch (g_VGM_Pointer[1])
@@ -213,17 +222,38 @@ void VGM_Decode()
 			}
 			SCC_SetRegister(reg + g_VGM_Pointer[2], g_VGM_Pointer[3]);
 			g_VGM_Pointer += 3;
-		}
+		} else
 		#endif
 		#if (VGM_USE_MSXMUSIC)
-		else if (*g_VGM_Pointer == VGM_CMD_YM2413) // YM2413, write value dd to register aa
+		if (*g_VGM_Pointer == VGM_CMD_YM2413) // YM2413, write value dd to register aa
 		{
 			MSXMusic_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
-		}
+		} else
+		#endif
+		#if (VGM_USE_OPL4)
+		if (*g_VGM_Pointer == VGM_CMD_YMF278) // MOONSOUND/YMF278B/OPL4, port pp, write value dd to register aa
+		{
+			u8 reg = g_VGM_Pointer[2];
+			switch(g_VGM_Pointer[1])
+			{
+			case VGM_PORT_OPL4_PART0:
+				OPL4_SetPart0Register(reg, g_VGM_Pointer[3]);
+				break;
+			case VGM_PORT_OPL4_PART1:
+				OPL4_SetPart1Register(reg, g_VGM_Pointer[3]);
+				break;
+			case VGM_PORT_OPL4_WAVE:
+				OPL4_SetWaveRegister(reg, g_VGM_Pointer[3]);
+				if ((reg >= 0x08) && (reg <= 0x1F))
+					OPL4_WaitLoad();
+				break;
+			}
+			g_VGM_Pointer += 3;
+		} else
 		#endif
 		#if (VGM_USE_OPNA)
-		else if (*g_VGM_Pointer == VGM_CMD_YM2608_0) // YM2608 port 0, write value dd to register aa
+		if (*g_VGM_Pointer == VGM_CMD_YM2608_0) // YM2608 port 0, write value dd to register aa
 		{
 			u8 reg = g_VGM_Pointer[1];
 			u8 value = g_VGM_Pointer[2];
@@ -240,10 +270,10 @@ void VGM_Decode()
 		{
 			OPNA_SetPart1Register(g_VGM_Pointer[1], g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
-		}
+		} else
 		#endif
 		#if (VGM_USE_MSXAUDIO)
-		else if (*g_VGM_Pointer == VGM_CMD_Y8950) // Y8950, write value dd to register aa
+		if (*g_VGM_Pointer == VGM_CMD_Y8950) // Y8950, write value dd to register aa
 		{
 			u8 reg = g_VGM_Pointer[1];
 			if ((reg != 0x04) && (reg != 0x18) && (reg != 0x19))
@@ -254,24 +284,24 @@ void VGM_Decode()
 				MSXAudio_SetRegister(reg, value);
 			}
 			g_VGM_Pointer += 2;
-		}
+		} else
 		#endif
-		else if (*g_VGM_Pointer == VGM_CMD_WAIT_16B) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
+		if (*g_VGM_Pointer == VGM_CMD_WAIT_16B) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
 		{
 			g_VGM_WaitCount += *(u16*)(g_VGM_Pointer+1);
 			g_VGM_Pointer += 2;
 		}
 		else if (*g_VGM_Pointer == VGM_CMD_WAIT_60HZ) // Wait 735 samples (60th of a second), a shortcut for 0x61 0xdf 0x02
 		{
-			g_VGM_WaitCount += 735;
+			g_VGM_WaitCount += VGM_WAIT_60HZ;
 		}
 		else if (*g_VGM_Pointer == VGM_CMD_WAIT_50HZ) // Wait 882 samples (50th of a second), a shortcut for 0x61 0x72 0x03
 		{
-			g_VGM_WaitCount += 882;
+			g_VGM_WaitCount += VGM_WAIT_50HZ;
 		}
 		else if (*g_VGM_Pointer == VGM_CMD_END) // End of sound data
 		{
-			if ((g_VGM_Loop != 0) && (g_VGM_State & VGM_STATE_LOOP))
+			if (g_VGM_State & VGM_STATE_LOOP)
 			{
 				g_VGM_Pointer = g_VGM_Loop;
 				continue; // Don't skip the first command of the loop
@@ -287,7 +317,7 @@ void VGM_Decode()
 			u16 size = *(u16*)(g_VGM_Pointer + 3); // Get stream size (only the 16-bit LSB is relevant on MSX)
 			switch (g_VGM_Pointer[2]) // Switch on stream type
 			{
-		#if (VGM_USE_OPNA && OPNA_USE_ADPCM)
+			#if (VGM_USE_OPNA && OPNA_USE_ADPCM)
 			case VGM_BLOCK_YM2608: // YM2608 DELTA-T (ADPCM-B) memory image: rr rr rr rr (memory size) aa aa aa aa (start address) data[size-8]
 				if (size > 8) // Some VGM contain empty data block
 				{
@@ -295,7 +325,13 @@ void VGM_Decode()
 					OPNA_ADPCMLoad(g_VGM_Pointer + 15, addr, (size - 8 + 3) >> 2);
 				}
 				break;
-		#endif
+			#endif
+			#if (VGM_USE_OPL4 && OPL4_USE_WAVE)
+			case VGM_BLOCK_YMF278B: // YMF278B RAM image: rr rr rr rr (memory size) aa aa aa aa (start address, relative to RAM start) data[size-8]
+				if (size > 8) // Some VGM contain empty data block
+					OPL4_WaveLoad(g_VGM_Pointer + 15, g_VGM_Pointer[13] + 0x20, *(u16*)(g_VGM_Pointer + 11), size - 8); // MoonSound RAM starts at 200000h
+				break;
+			#endif
 			}
 			g_VGM_Pointer += size + 6;
 		}
@@ -303,7 +339,7 @@ void VGM_Decode()
 		{
 			g_VGM_WaitCount += 1 + (*g_VGM_Pointer & 0x0F);
 		}
-		else if ((*g_VGM_Pointer & 0xF0) == 0x80) // YM2612 DAC write then wait n samples (DAC is ignored)
+		else if ((*g_VGM_Pointer & 0xF0) == VGM_CMD_DAC_WAIT) // YM2612 DAC write then wait n samples (DAC is ignored)
 		{
 			g_VGM_WaitCount += *g_VGM_Pointer & 0x0F;
 		}

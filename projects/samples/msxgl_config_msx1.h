@@ -443,18 +443,22 @@
 // - SCC_SLOT_AUTO ................ First auto-detected cartridge
 #define SCC_SLOT_MODE				SCC_SLOT_AUTO
 
-// OPNA (OPNA) options
-#define OPNA_USE_RESUME			TRUE	// Add feature to allow playback pause and resume
-#define OPNA_USE_ADPCM			TRUE	// Add feature to handle ADPCM data (Delta-T format)
+// OPL4 (Moonsound/YMF278B) options
+#define OPL4_USE_RESUME				TRUE	// Add feature to allow playback pause and resume
+#define OPL4_USE_WAVE				TRUE	// Add feature to handle Wave data
+
+// OPNA (Makoto/YM2608) options
+#define OPNA_USE_RESUME				TRUE	// Add feature to allow playback pause and resume
+#define OPNA_USE_ADPCM				TRUE	// Add feature to handle ADPCM data (Delta-T format)
 
 // VGM supported chip
 #define VGM_USE_PSG					TRUE	// Allow PSG data parsing and audio output
 #define VGM_USE_MSXMUSIC			TRUE	// Allow MSX-Music data parsing and audio output
 #define VGM_USE_MSXAUDIO			TRUE	// Allow MSX-Audio data parsing and audio output
 #define VGM_USE_SCC					TRUE	// Allow SCC data parsing and audio output
-#define VGM_USE_SCCI				FALSE	// Allow SCC+ data parsing and audio output
-#define VGM_USE_PSG2				FALSE	// Allow secondary PSG data parsing and audio output
-#define VGM_USE_OPL4				FALSE	// Allow OPL4 data parsing and audio output
+#define VGM_USE_SCCI				TRUE	// Allow SCC+ data parsing and audio output
+#define VGM_USE_PSG2				TRUE	// Allow secondary PSG data parsing and audio output
+#define VGM_USE_OPL4				TRUE	// Allow OPL4 data parsing and audio output
 #define VGM_USE_OPNA				TRUE	// Allow OPNA data parsing and audio output
 #define VGM_USE_RESUME				TRUE	// Add Pause/Resume functions (else only Play and Stop)
 
@@ -488,9 +492,9 @@
 #define LVGM_USE_MSXMUSIC			TRUE	// Add parser for MSX-Music data
 #define LVGM_USE_MSXAUDIO			TRUE	// Add parser for MSX-Audio data
 #define LVGM_USE_SCC				TRUE	// Add parser for Konami SCC data
-#define LVGM_USE_SCCI				FALSE	// Add parser for Konami SCC+ data
-#define LVGM_USE_PSG2				FALSE	// Add parser for secondary PSG data
-#define LVGM_USE_OPL4				FALSE	// Add parser for OPL4 data
+#define LVGM_USE_SCCI				TRUE	// Add parser for Konami SCC+ data
+#define LVGM_USE_PSG2				TRUE	// Add parser for secondary PSG data
+#define LVGM_USE_OPL4				TRUE	// Add parser for OPL4 data
 #define LVGM_USE_OPNA				TRUE	// Add parser for OPNA (OPNA) data
 #define LVGM_USE_NOTIFY				TRUE	// Add parser for PSG data
 #define LVGM_USE_RESUME				TRUE	// Add Pause/Resume functions (else only Play and Stop)
@@ -603,7 +607,7 @@
 // Supported driver(s)
 // - LIGHTGUN_ASCII ............... ASCII Plus-X Terminator Laser
 // - LIGHTGUN_GUNSTICK ............ MHT Gun-Stick
-// - LIGHTGUN_PHENIX .............. Phenix
+// - LIGHTGUN_PHENIX .............. Phenix light gun
 #define LIGHTGUN_DRIVER				(LIGHTGUN_ASCII + LIGHTGUN_GUNSTICK + LIGHTGUN_PHENIX)
 #define LIGHTGUN_USE_UPDATE			TRUE	// Add support for Phenix light gun detection protocol
 #define LIGHTGUN_FRAME_DURATION		LIGHTGUN_CUSTOM	// Duration of each step of the detection (in frame count)

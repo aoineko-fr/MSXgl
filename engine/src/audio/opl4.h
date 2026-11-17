@@ -25,7 +25,11 @@
 // CHECK OPTIONS
 //-----------------------------------------------------------------------------
 
-#define OPL4_USE_WAVE				TRUE
+// OPL4_USE_WAVE
+#ifndef OPL4_USE_WAVE
+	#warning OPL4_USE_WAVE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define OPL4_USE_WAVE			TRUE
+#endif
 
 // OPL4_USE_RESUME
 #ifndef OPL4_USE_RESUME
@@ -144,7 +148,11 @@ inline void OPL4_WaitLoad() { u8 timeout = 0; while (OPL4_IsLoading() && --timeo
 // Parameters:
 //   reg   - Register to set
 //   value - Value to set
+#if (OPL4_USE_RESUME)
+void OPL4_SetPart0Register(u8 reg, u8 value);
+#else
 inline void OPL4_SetPart0Register(u8 reg, u8 value) { io_OPL4_Reg0 = reg; io_OPL4_Data0 = value; }
+#endif
 
 // Function: OPL4_GetPart0Register
 // Get OPL4 FM register value for part 0 (timers, rhythm, FM global control and FM channels 0-8)
@@ -163,7 +171,11 @@ inline u8 OPL4_GetPart0Register(u8 reg) { io_OPL4_Reg0 = reg; return io_OPL4_Dat
 // Parameters:
 //   reg   - Register to set
 //   value - Value to set
+#if (OPL4_USE_RESUME)
+void OPL4_SetPart1Register(u8 reg, u8 value);
+#else
 inline void OPL4_SetPart1Register(u8 reg, u8 value) { io_OPL4_Reg1 = reg; io_OPL4_Data1 = value; }
+#endif
 
 // Function: OPL4_GetPart1Register
 // Get OPL4 FM register value for part 1 (4-operator mode, expansion and FM channels 9-17)
@@ -182,7 +194,11 @@ inline u8 OPL4_GetPart1Register(u8 reg) { io_OPL4_Reg1 = reg; return io_OPL4_Dat
 // Parameters:
 //   reg   - Register to set
 //   value - Value to set
+#if (OPL4_USE_RESUME)
+void OPL4_SetWaveRegister(u8 reg, u8 value);
+#else
 inline void OPL4_SetWaveRegister(u8 reg, u8 value) { io_OPL4_WaveReg = reg; io_OPL4_WaveData = value; }
+#endif
 
 // Function: OPL4_GetWaveRegister
 // Get OPL4 wave register value (memory control and wave channels 0-23)
@@ -196,13 +212,13 @@ inline void OPL4_SetWaveRegister(u8 reg, u8 value) { io_OPL4_WaveReg = reg; io_O
 inline u8 OPL4_GetWaveRegister(u8 reg) { io_OPL4_WaveReg = reg; return io_OPL4_WaveData; }
 
 // Function: OPL4_Mute
-// Mute OPL4 sound (FM and wave) using the mix control registers (W#248 and W#249)
-// Note: Sound stays muted until <OPL4_Resume> is called or mix control registers are written
+// Mute OPL4 sound (FM channels output and wave channels total level)
+// Note: A channel stays muted until <OPL4_Resume> is called or its register (R#C0-C8 or W#50-67) is written
 void OPL4_Mute();
 
 #if (OPL4_USE_RESUME)
 // Function: OPL4_Resume
-// Resume OPL4 sound (restore mix control registers values from before <OPL4_Mute>)
+// Resume OPL4 sound (restore registers values from before <OPL4_Mute>)
 void OPL4_Resume();
 #endif
 
@@ -250,10 +266,16 @@ inline void OPL4_WaveStartMemAccess() { OPL4_SetWaveRegister(OPL4_REG_WAV_MEMORY
 
 // Function: OPL4_WaveEndMemAccess
 // End of memory access
+// Note: OPL4_USE_WAVE need to be set to TRUE to use this function
 inline void OPL4_WaveEndMemAccess() { OPL4_SetWaveRegister(OPL4_REG_WAV_MEMORY, (OPL4_GetWaveRegister(OPL4_REG_WAV_MEMORY) & ~OPL4_ID_MASK) & ~OPL4_F_MEM_ACCESS); }
 
 // Function: OPL4_WaveSetMemAddr
 // Set wave memory address (and select the memory data register)
+// Note: OPL4_USE_WAVE need to be set to TRUE to use this function
+//
+// Parameters:
+//   addr_h - Bits 16-21 of the memory address
+//   addr_l - Bits 0-15 of the memory address
 void OPL4_WaveSetMemAddr(u8 addr_h, u16 addr_l);
 
 #endif // (OPL4_USE_WAVE)

@@ -24,9 +24,9 @@
 
 #define OPL4_MEM_BLOCK_MAX			32		// Number of 128 KB blocks in the 22-bit wave memory space (4 MB)
 #define OPL4_MEM_MARKER				0xA5	// Base value of the RAM detection marker
-#define OPL4_MIX_MUTE				0x3F	// Mix control value to mute both sides
-#define OPL4_MIX_FM_DEFAULT			0x1B	// FM mix control value after reset (-9 dB on both sides)
-#define OPL4_MIX_WAVE_DEFAULT		0x00	// Wave mix control value after reset (0 dB on both sides)
+#define OPL4_FM_CH_NUM				9		// Number of FM channels per part
+#define OPL4_WAVE_CH_NUM			24		// Number of wave channels
+#define OPL4_WAVE_MUTE				0xFF	// Wave total level value to mute a channel (TL = 7Fh with level direct)
 
 //=============================================================================
 // READ-ONLY DATA
@@ -48,11 +48,16 @@ const u8 g_OPL4_ModeFlags[OPL4_MODE_MAX] =
 u8 g_OPL4_Expansion = OPL4_F_NEW | OPL4_F_NEW2;
 
 #if (OPL4_USE_RESUME)
-	// Backup of mix control registers
-	u8 g_OPL4_BakMixFM = OPL4_MIX_FM_DEFAULT;
-	u8 g_OPL4_BakMixWave = OPL4_MIX_WAVE_DEFAULT;
-	bool g_OPL4_Muted = FALSE;
+	// Backup registers
+	u8 g_OPL4_BakFM0[OPL4_FM_CH_NUM]    = { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30 }; // R#C0-C8 (part 0)
+	u8 g_OPL4_BakFM1[OPL4_FM_CH_NUM]    = { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30 }; // R#C0-C8 (part 1)
+	u8 g_OPL4_BakWave[OPL4_WAVE_CH_NUM];                                                            // W#50-67
+	bool g_OPL4_DoBackup = TRUE;
+	#define OPL4_DOBACKUP(do)	g_OPL4_DoBackup = do
+#else
+	#define OPL4_DOBACKUP(do)
 #endif
+
 
 //=============================================================================
 // FUNCTIONS
@@ -95,20 +100,55 @@ void OPL4_SetMix(u8 fm, u8 wave)
 	OPL4_SetPart1Register(OPL4_REG_EXPANSION, g_OPL4_Expansion); // Restore compatibility mode
 }
 
+#if (OPL4_USE_RESUME)
+
+//-----------------------------------------------------------------------------
+// Set OPL4 FM register value for part 0
+void OPL4_SetPart0Register(u8 reg, u8 value)
+{
+	io_OPL4_Reg0 = reg;
+	io_OPL4_Data0 = value;
+	if (g_OPL4_DoBackup && (reg >= OPL4_REG_FBCNT) && (reg < OPL4_REG_FBCNT + OPL4_FM_CH_NUM))
+		g_OPL4_BakFM0[reg - OPL4_REG_FBCNT] = value;
+}
+
+//-----------------------------------------------------------------------------
+// Set OPL4 FM register value for part 1
+void OPL4_SetPart1Register(u8 reg, u8 value)
+{
+	io_OPL4_Reg1 = reg;
+	io_OPL4_Data1 = value;
+	if (g_OPL4_DoBackup && (reg >= OPL4_REG_FBCNT) && (reg < OPL4_REG_FBCNT + OPL4_FM_CH_NUM))
+		g_OPL4_BakFM1[reg - OPL4_REG_FBCNT] = value;
+}
+
+//-----------------------------------------------------------------------------
+// Set OPL4 wave register value
+void OPL4_SetWaveRegister(u8 reg, u8 value)
+{
+	io_OPL4_WaveReg = reg;
+	io_OPL4_WaveData = value;
+	if (g_OPL4_DoBackup && (reg >= OPL4_REG_WAV_TL) && (reg < OPL4_REG_WAV_TL + OPL4_WAVE_CH_NUM))
+		g_OPL4_BakWave[reg - OPL4_REG_WAV_TL] = value;
+}
+
+#endif // (OPL4_USE_RESUME)
+
 //-----------------------------------------------------------------------------
 // Mute OPL4 sound
 void OPL4_Mute()
 {
-#if (OPL4_USE_RESUME)
-	if (!g_OPL4_Muted) // Don't overwrite the backup with mute values
+	OPL4_DOBACKUP(FALSE);
+	// Disable FM channels output
+	loop(i, OPL4_FM_CH_NUM)
 	{
-		OPL4_SetPart1Register(OPL4_REG_EXPANSION, OPL4_F_NEW | OPL4_F_NEW2);
-		g_OPL4_BakMixFM = OPL4_GetWaveRegister(OPL4_REG_MIX_FM);
-		g_OPL4_BakMixWave = OPL4_GetWaveRegister(OPL4_REG_MIX_WAVE);
-		g_OPL4_Muted = TRUE;
+		OPL4_SetPart0Register(OPL4_REG_FBCNT + i, 0);
+		OPL4_SetPart1Register(OPL4_REG_FBCNT + i, 0);
 	}
-#endif
-	OPL4_SetMix(OPL4_MIX_MUTE, OPL4_MIX_MUTE);
+	// Set wave channels total level to minimum (writes are ignored while NEW2 = 0)
+	loop(i, OPL4_WAVE_CH_NUM)
+		OPL4_SetWaveRegister(OPL4_REG_WAV_TL + i, OPL4_WAVE_MUTE);
+	OPL4_DOBACKUP(TRUE);
 }
 
 #if (OPL4_USE_RESUME)
@@ -117,11 +157,15 @@ void OPL4_Mute()
 // Resume OPL4 sound
 void OPL4_Resume()
 {
-	if (g_OPL4_Muted)
+	// Restore FM channels output
+	loop(i, OPL4_FM_CH_NUM)
 	{
-		OPL4_SetMix(g_OPL4_BakMixFM, g_OPL4_BakMixWave);
-		g_OPL4_Muted = FALSE;
+		OPL4_SetPart0Register(OPL4_REG_FBCNT + i, g_OPL4_BakFM0[i]);
+		OPL4_SetPart1Register(OPL4_REG_FBCNT + i, g_OPL4_BakFM1[i]);
 	}
+	// Restore wave channels total level
+	loop(i, OPL4_WAVE_CH_NUM)
+		OPL4_SetWaveRegister(OPL4_REG_WAV_TL + i, g_OPL4_BakWave[i]);
 }
 
 #endif

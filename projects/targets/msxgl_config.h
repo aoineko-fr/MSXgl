@@ -443,6 +443,10 @@
 // - SCC_SLOT_AUTO ................ First auto-detected cartridge
 #define SCC_SLOT_MODE				SCC_SLOT_AUTO
 
+// OPL4 (Moonsound/YMF278B) options
+#define OPL4_USE_RESUME				TRUE	// Add feature to allow playback pause and resume
+#define OPL4_USE_WAVE				TRUE	// Add feature to handle Wave data
+
 // OPNA (OPNA) options
 #define OPNA_USE_RESUME			TRUE	// Add feature to allow playback pause and resume
 #define OPNA_USE_ADPCM			TRUE	// Add feature to handle ADPCM data (Delta-T format)
@@ -603,7 +607,7 @@
 // Supported driver(s)
 // - LIGHTGUN_ASCII ............... ASCII Plus-X Terminator Laser
 // - LIGHTGUN_GUNSTICK ............ MHT Gun-Stick
-// - LIGHTGUN_PHENIX .............. Phenix
+// - LIGHTGUN_PHENIX .............. Phenix light gun
 #define LIGHTGUN_DRIVER				(LIGHTGUN_ASCII + LIGHTGUN_GUNSTICK + LIGHTGUN_PHENIX)
 #define LIGHTGUN_USE_UPDATE			TRUE	// Add support for Phenix light gun detection protocol
 #define LIGHTGUN_FRAME_DURATION		LIGHTGUN_CUSTOM	// Duration of each step of the detection (in frame count)

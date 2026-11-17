@@ -96,6 +96,17 @@ enum VGM_BLOCK
 	VGM_BLOCK_Y8950   = 0x88,
 };
 
+// VGM ports value
+enum VGM_PORT
+{
+	VGM_PORT_OPL4_PART0 = 0,
+	VGM_PORT_OPL4_PART1,
+	VGM_PORT_OPL4_WAVE,
+
+	VGM_PORT_OPNA_PART0 = 0,
+	VGM_PORT_OPNA_PART1,
+};
+
 // VGM header file data structure
 typedef struct VGM_Header
 {
@@ -221,6 +232,13 @@ inline bool VGM_ContainsMSXAudio() { return (g_VGM_Header->Version >= 0x0151) &&
 // Return:
 //   FALSE if music dont contains SCC data
 inline bool VGM_ContainsSCC() { return (g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock; }
+
+// Function: VGM_ContainsOPL4
+// Check if initialized song contains OPL4 data
+//
+// Return:
+//   FALSE if music dont contains OPL4 data
+inline bool VGM_ContainsOPL4() { return (g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YMF278B_clock; }
 
 // Function: VGM_ContainsOPNA
 // Check if initialized song contains OPNA data
