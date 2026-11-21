@@ -97,10 +97,12 @@ typedef void (*print_loadfont)(VADDR); //< Font load callback signature
 #define PRINT_FX_ONLY				0b10000000
 
 // Print direction enum
-enum PRINT_DRI
+enum PRINT_DIR
 {
 	PRINT_DIR_RIGHT = 0,			// Right to left
 	PRINT_DIR_LEFT,					// Left to right
+//.....................................
+	PRINT_DIR_MAX,
 };
 
 // Print aligment enum
@@ -109,6 +111,8 @@ enum PRINT_ALIGN
 	PRINT_ALIGN_LEFT = 0,
 	PRINT_ALIGN_CENTER,
 	PRINT_ALIGN_RIGHT,
+//.....................................
+	PRINT_ALIGN_MAX,
 };
 
 #if (PRINT_USE_GRAPH)
@@ -119,17 +123,19 @@ enum PRINT_DRAW_STYLE
 	PRINT_DRAW_STYLE_DOUBLE,   // Double line
 	PRINT_DRAW_STYLE_DASHED,   // Dashed line
 	PRINT_DRAW_STYLE_PLAIN,    // Plain
+//.....................................
 	PRINT_DRAW_STYLE_MAX,
 };
 // Character to be used for drawing
 enum PRINT_DRAW_CHR
 {
 	PRINT_DRAW_CHR_V = 0, // │  Vertical line
-	PRINT_DRAW_CHR_H, // ─  Horizontal line
+	PRINT_DRAW_CHR_H,     // ─  Horizontal line
 	PRINT_DRAW_CHR_UL,    // ┌  Upper-left corner
 	PRINT_DRAW_CHR_UR,    // ┐  Upper-right corner
 	PRINT_DRAW_CHR_LL,    // └  Lower-left corner
 	PRINT_DRAW_CHR_LR,    // ┘  Lower-right corner
+//.....................................
 	PRINT_DRAW_CHR_MAX,
 };
 #endif

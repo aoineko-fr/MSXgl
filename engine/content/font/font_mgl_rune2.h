@@ -2,7 +2,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄  ▄█▄█ ▄▀██
 // █  █ █  ▀▀  ▄█  █  █ ██ ██ █  ▀██
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀          ▀▀
-// Data generated using MSXimg 1.22.1
+// Data generated using MSXimg 1.23.1
 // by Guillaume "Aoineko" Blanchard (2022) under CC BY-SA free license
 // ─────────────────────────────────────────────────────────────────────────────
 // Author: Guillaume "Aoineko" Blanchard, for MSXgl (MSX Game library)
@@ -14,6 +14,7 @@
 //  - Start position: 0, 16
 //  - Sprite size:    8, 8 (gap: 0, 0)
 //  - Sprite count:   16, 6
+//  - Color mode:     P1 (1-bit black & white)
 //  - Color count:    2 (Transparent: #000000)
 //  - Palette mode:   MSX1 [1:-1]
 //  - Compressor:     None
