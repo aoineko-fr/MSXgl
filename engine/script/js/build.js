@@ -548,6 +548,9 @@ if (DoCompile)
 	{
 		util.print(`Generate ${ProjName}.lib...`, PrintHighlight);
 
+		if (fs.existsSync(`${OutDir}${ProjName}.lib`))
+			util.delFile(`${OutDir}${ProjName}.lib`);
+
 		let libStr = RelList.join(" ");
 		let SDARParam = `-rc ${OutDir}${ProjName}.lib ${libStr}`
 		let err = util.execSync(`"${MakeLib}" ${SDARParam}`);
@@ -610,8 +613,8 @@ if (DoMake)
 	{
 		util.print("Generate msxgl.lib...", PrintHighlight);
 
-		// if (fs.existsSync(`${OutDir}msxgl.lib`))
-			// util.delFile(`${OutDir}msxgl.lib`);
+		if (fs.existsSync(`${OutDir}msxgl.lib`))
+			util.delFile(`${OutDir}msxgl.lib`);
 
 		let libStr = LibList.join(" ");
 		let SDARParam = `-rc ${OutDir}msxgl.lib ${libStr}`
@@ -631,8 +634,8 @@ if (DoMake)
 	{
 		util.print("Generate mapper.lib...", PrintHighlight);
 
-		// if (fs.existsSync(`${OutDir}mapper.lib`))
-			// util.delFile(`${OutDir}mapper.lib`);
+		if (fs.existsSync(`${OutDir}mapper.lib`))
+			util.delFile(`${OutDir}mapper.lib`);
 
 		let mapStr = MapList.join(" ");
 		let SDARParam = `-rc ${OutDir}mapper.lib ${mapStr}`
