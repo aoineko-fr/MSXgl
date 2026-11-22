@@ -274,7 +274,7 @@ void PSG_Apply();
 //   note   - Note to set (0 to 11; or NOTE_DO, NOTE_RE, NOTE_MI, NOTE_FA, NOTE_SOL, NOTE_LA, NOTE_SI)
 //   octave - Octave to play (0 to 7)
 inline void PSG_SetNote(u8 chan, u8 note, u8 octave) { PSG_SetTone(chan, g_PSG_Notes[(octave * 12) + note]); }
-#endif)
+#endif
 
 #if (PSG_USE_CHANNEL)
 // Group: Channel

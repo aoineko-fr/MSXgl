@@ -5,7 +5,7 @@
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘  
 //  by Guillaume 'Aoineko' Blanchard under CC BY-SA license
 //─────────────────────────────────────────────────────────────────────────────
-// OL4 (YMF278B) handler module
+// OPL4 (YMF278B) handler module
 //
 // References:
 //  - OPL4 YMF278B Application Manual
