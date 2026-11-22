@@ -45,6 +45,14 @@ const u8 g_OPNA_MuteReg1[] = { 0x0B, 0xB4, 0xB5, 0xB6 };
 	#define OPNA_DOBACKUP(do)
 #endif
 
+#if (OPNA_USE_CHANNEL)
+	u8 g_OPNA_ChanSSG[3];       // Copy of R#08-0A
+	u8 g_OPNA_ChanSSGMix;       // Copy of R#07
+	u8 g_OPNA_ChanKey[6];       // Copy of R#28 for each FM channel
+	u8 g_OPNA_ChanTrig[6];      // R#28 values ORed since the last read
+	u8 g_OPNA_ChanRhyKey;       // Rhythm instruments keyed on since the last read
+#endif
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -55,6 +63,18 @@ bool OPNA_Initialize()
 {
 	if (!OPNA_Detect())
 		return FALSE;
+
+#if (OPNA_USE_CHANNEL)
+	// All channels are disabled
+	g_OPNA_ChanRhyKey = 0;
+	loop(i, 3)
+		g_OPNA_ChanSSG[i] = 0;
+	loop(i, 6)
+	{
+		g_OPNA_ChanKey[i] = 0;
+		g_OPNA_ChanTrig[i] = 0;
+	}
+#endif
 
 #if (OPNA_USE_ADPCM)
 	// Disable all interrupts
@@ -91,6 +111,39 @@ void OPNA_SetPart0Register(u8 reg, u8 value)
 		case 0xB4: g_OPNA_BakReg0[3] = value; break;
 		case 0xB5: g_OPNA_BakReg0[4] = value; break;
 		case 0xB6: g_OPNA_BakReg0[5] = value; break;
+		}
+	}
+#endif
+
+#if (OPNA_USE_CHANNEL)
+	u8 i = reg - OPNA_REG_SSG_AMP_A;
+	if (i < 3) // SSG volume
+	{
+		g_OPNA_ChanSSG[i] = value;
+		return;
+	}
+	if (reg == OPNA_REG_SSG_MIXER)
+	{
+		g_OPNA_ChanSSGMix = value;
+		return;
+	}
+	if (reg == OPNA_REG_RHY_KEY)
+	{
+		if (value & OPNA_F_RHY_DUMP) // Stop selected instruments
+			g_OPNA_ChanRhyKey &= ~value;
+		else // Key on selected instruments
+			g_OPNA_ChanRhyKey |= value;
+		return;
+	}
+	if (reg == OPNA_REG_KEY)
+	{
+		u8 ch = value & 0x03;
+		if (ch < 3) // 3 is not a valid channel
+		{
+			if (value & 0x04) // Channels 4-6
+				ch += 3;
+			g_OPNA_ChanKey[ch] = value;
+			g_OPNA_ChanTrig[ch] |= value;
 		}
 	}
 #endif
@@ -143,9 +196,18 @@ void OPNA_Mute()
 		OPNA_SetPart0Register(g_OPNA_MuteReg0[i], 0);
 	loop(i, sizeof(g_OPNA_MuteReg1))
 		OPNA_SetPart1Register(g_OPNA_MuteReg1[i], 0);
-	// Stop Rythm
-	OPNA_RythmSetKey(0xBF);
+	// Stop Rhythm
+	OPNA_RhythmSetKey(0xBF);
 	OPNA_DOBACKUP(TRUE);
+
+#if (OPNA_USE_CHANNEL)
+	// Release channels state
+	loop(i, 6)
+	{
+		g_OPNA_ChanKey[i] = 0;
+		g_OPNA_ChanTrig[i] = 0;
+	}
+#endif
 }
 
 #if (OPNA_USE_RESUME)
@@ -158,6 +220,40 @@ void OPNA_Resume()
 		OPNA_SetPart0Register(g_OPNA_MuteReg0[i], g_OPNA_BakReg0[i]);
 	loop(i, sizeof(g_OPNA_MuteReg1))
 		OPNA_SetPart1Register(g_OPNA_MuteReg1[i], g_OPNA_BakReg1[i]);
+}
+#endif
+
+#if (OPNA_USE_CHANNEL)
+//-----------------------------------------------------------------------------
+// Get the current volume of a given channel
+u8 OPNA_GetChannelVolume(u8 chan)
+{
+	if (chan < 3) // SSG channel
+	{
+		u8 off = (OPNA_F_TA | OPNA_F_NA) << chan;
+		if ((g_OPNA_ChanSSGMix & off) == off)
+			return 0;
+		u8 amp = g_OPNA_ChanSSG[chan];
+		if (amp & 0x10) // Envelope
+			return 15;
+		return amp & 0x0F;
+	}
+	chan -= 3;
+	if (chan < 6) // FM channel
+	{
+		u8 on = g_OPNA_ChanKey[chan] | g_OPNA_ChanTrig[chan];
+		g_OPNA_ChanTrig[chan] = 0;
+		return (on & OPNA_F_KEY_ALL) ? 15 : 0;
+	}
+	chan -= 6;
+	if (chan < 6) // Rhythm instrument (no key off)
+	{
+		u8 bit = 1 << chan;
+		u8 on = g_OPNA_ChanRhyKey & bit;
+		g_OPNA_ChanRhyKey &= ~bit;
+		return on ? 15 : 0;
+	}
+	return (OPNA_GetStatus() & OPNA_STATUS_PCMBSY) ? 15 : 0; // ADPCM
 }
 #endif
 

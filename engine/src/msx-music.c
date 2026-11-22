@@ -46,6 +46,13 @@ u8 g_MSXMusic_RegBackup[16];
 #define MSXMUSIC_DOBACKUP(do)
 #endif
 
+#if (MSXMUSIC_USE_CHANNEL)
+u8 g_MSXMusic_ChanKey[9];   // Copy of R#20-28
+u8 g_MSXMusic_ChanTrig[9];  // R#20-28 values ORed since the last read
+u8 g_MSXMusic_ChanRhythm;   // Copy of R#0E
+u8 g_MSXMusic_ChanRhyTrig;  // R#0E values ORed since the last read
+#endif
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -57,6 +64,12 @@ bool MSXMusic_Initialize()
 	u8 ret = MSXMusic_Detect();
 	#if (MSXMUSIC_USE_RESUME)
 	Mem_Set(0, g_MSXMusic_RegBackup, 16);
+	#endif
+	#if (MSXMUSIC_USE_CHANNEL)
+	g_MSXMusic_ChanRhythm = 0;
+	g_MSXMusic_ChanRhyTrig = 0;
+	Mem_Set(0, g_MSXMusic_ChanKey, 9);
+	Mem_Set(0, g_MSXMusic_ChanTrig, 9);
 	#endif
 	return ret != MSXMUSIC_NOTFOUND;
 }
@@ -124,6 +137,20 @@ void MSXMusic_SetRegister(u8 reg, u8 value)
 	if ((g_MSXMusic_DoBackup) && ((reg & 0xF0) == 0x20)) // MSXMUSIC_REG_CTRL_x
 		g_MSXMusic_RegBackup[reg & 0x0F] = value;
 	#endif
+
+	#if (MSXMUSIC_USE_CHANNEL)
+	u8 i = reg - MSXMUSIC_REG_CTRL_1;
+	if (i < 9) // Key on
+	{
+		g_MSXMusic_ChanKey[i] = value;
+		g_MSXMusic_ChanTrig[i] |= value;
+	}
+	else if (reg == MSXMUSIC_REG_RHYTHM)
+	{
+		g_MSXMusic_ChanRhythm = value;
+		g_MSXMusic_ChanRhyTrig |= value;
+	}
+	#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -155,5 +182,29 @@ void MSXMusic_Resume()
 	{
 		MSXMusic_SetRegister(MSXMUSIC_REG_CTRL_1 + i, g_MSXMusic_RegBackup[i]); // seem to be enough
 	}
+}
+#endif
+
+#if (MSXMUSIC_USE_CHANNEL)
+//-----------------------------------------------------------------------------
+// Get the current volume of a given channel
+u8 MSXMusic_GetChannelVolume(u8 chan)
+{
+	u8 s;
+	if (chan < 9) // Melodic channel
+	{
+		if ((chan >= 6) && (g_MSXMusic_ChanRhythm & 0x20)) // Used by rhythm
+			return 0;
+		s = g_MSXMusic_ChanKey[chan] | g_MSXMusic_ChanTrig[chan];
+		g_MSXMusic_ChanTrig[chan] = 0;
+		return (s & 0x10) ? 15 : 0; // R#2x bit 4
+	}
+	// Rhythm instrument
+	if (!(g_MSXMusic_ChanRhythm & 0x20)) // Rhythm mode
+		return 0;
+	u8 bit = 0x10 >> (chan - 9); // BD, SD, TOM, TCY, HH
+	s = (g_MSXMusic_ChanRhythm | g_MSXMusic_ChanRhyTrig) & bit;
+	g_MSXMusic_ChanRhyTrig &= ~bit;
+	return s ? 15 : 0;
 }
 #endif

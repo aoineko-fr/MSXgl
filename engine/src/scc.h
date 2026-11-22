@@ -18,6 +18,17 @@
 //=============================================================================
 
 #include "core.h"
+#include "audio/audio.h"
+
+//-----------------------------------------------------------------------------
+// CHECK OPTIONS
+//-----------------------------------------------------------------------------
+
+// SCC_USE_CHANNEL
+#ifndef SCC_USE_CHANNEL
+	#warning SCC_USE_CHANNEL is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define SCC_USE_CHANNEL			TRUE
+#endif
 
 //=============================================================================
 // DEFINES
@@ -135,6 +146,8 @@ void SCC_SetRegister(u8 reg, u8 value);
 //   Value of the register
 u8 SCC_GetRegister(u8 reg);
 
+// Group: Player
+
 // Function: SCC_Mute
 // Mute the SCC sound chip
 void SCC_Mute();
@@ -143,6 +156,42 @@ void SCC_Mute();
 // Function: SCC_Resume
 // Resume SCC sound
 void SCC_Resume();
+#endif
+
+#if (SCC_USE_CHANNEL)
+// Group: Channel
+
+// Function: SCC_GetChannelCount
+// Get the number of SCC channels
+// Note: SCC_USE_CHANNEL need to be set to TRUE to use this function
+//
+// Return:
+//   Number of channels
+inline u8 SCC_GetChannelCount() { return 5; }
+
+extern u8 g_SCC_ChanCopy[6];
+
+// Function: SCC_GetChannelVolume
+// Get the current volume of a given channel (based on the values written with <SCC_SetRegister>)
+// Note: SCC_USE_CHANNEL need to be set to TRUE to use this function
+//
+// Parameters:
+//   chan - Channel index (0 to 4)
+//
+// Return:
+//   Volume from 0 (mute) to 15 (max). 0 if the channel is disabled in the mixer
+inline u8 SCC_GetChannelVolume(u8 chan) { return (g_SCC_ChanCopy[5] & (1 << chan)) ? (g_SCC_ChanCopy[chan] & 0x0F) : 0; }
+
+// Function: SCC_GetChannelType
+// Get the type of a given channel
+// Note: SCC_USE_CHANNEL need to be set to TRUE to use this function
+//
+// Parameters:
+//   chan - Channel index (0 to 4)
+//
+// Return:
+//   Channel type (always CHANNEL_TYPE_WAVETABLE)
+inline u8 SCC_GetChannelType(u8 chan) { chan; return CHANNEL_TYPE_WAVETABLE; }
 #endif
 
 #if (SCC_USE_EXTA)

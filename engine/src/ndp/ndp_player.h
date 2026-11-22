@@ -42,7 +42,7 @@ enum NDP_STATUS
 // NDP tracks IDs
 enum NDP_TRACK
 {
-	NDP_TRACK_RYTHM = 0b00000001,
+	NDP_TRACK_RHYTHM = 0b00000001,
 	NDP_TRACK_1     = 0b00000010,
 	NDP_TRACK_2     = 0b00000100,
 	NDP_TRACK_3     = 0b00001000,
@@ -371,7 +371,7 @@ inline bool NDP_IsStopped() { return NDP_GetStatus() == NDP_STATUS_STOPPED; }
 //> NDP_TRACK_1
 //> NDP_TRACK_2
 //> NDP_TRACK_3
-//> NDP_TRACK_RYTHM
+//> NDP_TRACK_RHYTHM
 //> NDP_TRACK_ALL
 //
 // Return:

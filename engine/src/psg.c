@@ -327,6 +327,34 @@ void PSG_Resume()
 }
 #endif
 
+#if (PSG_USE_CHANNEL)
+//-----------------------------------------------------------------------------
+// Get the current volume of a given channel
+u8 PSG_GetChannelVolume(u8 chan)
+{
+	u8 mix, amp;
+#if ((PSG_CHIP == PSG_BOTH) && (PSG_ACCESS == PSG_INDIRECT))
+	if (chan >= 3) // Secondary PSG
+	{
+		chan -= 3;
+		mix = g_PSG2_Regs.Mixer;
+		amp = g_PSG2_Regs.Volume[chan];
+	}
+	else
+#endif
+	{
+		mix = PSG_GetRegister(PSG_REG_MIXER);
+		amp = PSG_GetRegister(PSG_REG_AMP_A + chan);
+	}
+
+	u8 off = 0b00001001 << chan; // Tone and noise disable bits of the channel
+	if ((mix & off) == off)
+		return 0;
+	if (amp & PSG_F_ENV)
+		return 15;
+	return amp & 0x0F;
+}
+#endif
 
 #if (PSG_ACCESS == PSG_INDIRECT)
 //-----------------------------------------------------------------------------

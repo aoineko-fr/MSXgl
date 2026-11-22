@@ -20,6 +20,7 @@
 #include "core.h"
 #include "system_port.h"
 #include "audio/opna_reg.h"
+#include "audio/audio.h"
 
 //-----------------------------------------------------------------------------
 // CHECK OPTIONS
@@ -35,6 +36,12 @@
 #ifndef OPNA_USE_ADPCM
 	#warning OPNA_USE_ADPCM is not defined in "msxgl_config.h"! Default value will be used: TRUE
 	#define OPNA_USE_ADPCM		TRUE
+#endif
+
+// OPNA_USE_CHANNEL
+#ifndef OPNA_USE_CHANNEL
+	#warning OPNA_USE_CHANNEL is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define OPNA_USE_CHANNEL	TRUE
 #endif
 
 //=============================================================================
@@ -58,7 +65,7 @@ const __sfr __at(P_OPNA_STATUS)		io_OPNA_Stat;
 #define OPNA_SSG_CHANNEL_B		1
 #define OPNA_SSG_CHANNEL_C		2
 
-// Rythm instrument ID
+// Rhythm instrument ID
 #define OPNA_RHY_BASS_DRUM		0
 #define OPNA_RHY_SNARE_DRUM		1
 #define OPNA_RHY_TOP_CYMBAL		2
@@ -125,7 +132,7 @@ inline void OPNA_WaitBusy() { u8 timeout = 0; while (OPNA_IsBusy() && --timeout)
 
 // Function: OPNA_SetPart0Register
 // Set OPNA register value for part 0 (FM CH1–3, SSG, rhythm, timers, 29h)
-// Note: Writing R#16 (rhythm key) needs 576 φM cycles before next write; use <OPNA_RythmSetKey> or call <OPNA_WaitBusy> after
+// Note: Writing R#16 (rhythm key) needs 576 φM cycles before next write; use <OPNA_RhythmSetKey> or call <OPNA_WaitBusy> after
 //
 // Parameters:
 //   reg   - Register to set
@@ -241,10 +248,10 @@ inline void OPNA_SSGSetEnvelopeShape(u8 shape) { OPNA_SetPart0Register(OPNA_REG_
 /* ... */
 
 //.............................................................................
-// Group: Rythm
+// Group: Rhythm
 
-// Function: OPNA_RythmSetKey
-// Set the rythm key (Rythm key on/off register)
+// Function: OPNA_RhythmSetKey
+// Set the rhythm key (Rhythm key on/off register)
 //
 // Parameters:
 //   key - Key to set (6-bits value)
@@ -256,26 +263,26 @@ inline void OPNA_SSGSetEnvelopeShape(u8 shape) { OPNA_SetPart0Register(OPNA_REG_
 //> OPNA_F_RHY_RIM		Rim Shot
 //> OPNA_F_RHY_ALL		All instruments
 //> OPNA_F_RHY_DUMP		Dump (stop selected instruments)
-inline void OPNA_RythmSetKey(u8 key) { OPNA_SetPart0Register(OPNA_REG_RHY_KEY, key); OPNA_WaitBusy(); }
+inline void OPNA_RhythmSetKey(u8 key) { OPNA_SetPart0Register(OPNA_REG_RHY_KEY, key); OPNA_WaitBusy(); }
 
-// Function: OPNA_RythmSetMainVolume
-// Set the main volume of the rythm instruments (Rythm total level register)
+// Function: OPNA_RhythmSetMainVolume
+// Set the main volume of the rhythm instruments (Rhythm total level register)
 //
 // Parameters:
 //   vol - Rhythm main level (0-63, 63 = loudest, 0.75 dB/step)
-inline void OPNA_RythmSetMainVolume(u8 vol) { OPNA_SetPart0Register(OPNA_REG_RHY_TL, vol); }
+inline void OPNA_RhythmSetMainVolume(u8 vol) { OPNA_SetPart0Register(OPNA_REG_RHY_TL, vol); }
 
-// Function: OPNA_RythmSetInstVolume
-// Set the volume of a given rythm instrument (Rythm output/level register)
+// Function: OPNA_RhythmSetInstVolume
+// Set the volume of a given rhythm instrument (Rhythm output/level register)
 //
 // Parameters:
-//   rtyhm - Rythm instrument to set (0 to 5; or OPNA_RHY_BASS_DRUM, OPNA_RHY_SNARE_DRUM, OPNA_RHY_TOP_CYMBAL, OPNA_RHY_HI_HAT, OPNA_RHY_TOM_TOM, OPNA_RHY_RIM_SHOT)
+//   rtyhm - Rhythm instrument to set (0 to 5; or OPNA_RHY_BASS_DRUM, OPNA_RHY_SNARE_DRUM, OPNA_RHY_TOP_CYMBAL, OPNA_RHY_HI_HAT, OPNA_RHY_TOM_TOM, OPNA_RHY_RIM_SHOT)
 //   vol   - Instrument level (0-31, 31 = loudest, 0.75 dB/step)
 //   pan   - Pan to set
 //> OPNA_F_R				Right output enable
 //> OPNA_F_L				Left output enable
 //> OPNA_F_LR				Both outputs enable
-inline void OPNA_RythmSetInstVolume(u8 rtyhm, u8 vol, u8 pan) { OPNA_SetPart0Register(OPNA_REG_RHY_BD + rtyhm, (vol & 0x1F) | pan); }
+inline void OPNA_RhythmSetInstVolume(u8 rtyhm, u8 vol, u8 pan) { OPNA_SetPart0Register(OPNA_REG_RHY_BD + rtyhm, (vol & 0x1F) | pan); }
 
 //.............................................................................
 // Group: ADPCM
@@ -382,3 +389,37 @@ inline void OPNA_ADPCMSetVolume(u8 vol) { OPNA_SetPart1Register(OPNA_REG_ADPCM_L
 inline void OPNA_ADPCMSetPan(u8 pan) { OPNA_SetPart1Register(OPNA_REG_ADPCM_CTRL2, pan); }
 
 #endif // (OPNA_USE_ADPCM)
+
+#if (OPNA_USE_CHANNEL)
+// Group: Channel Info
+
+// Function: OPNA_GetChannelCount
+// Get the number of OPNA channels: 3 SSG channels, 6 FM channels, 6 rhythm instruments and the ADPCM channel
+// Note: OPNA_USE_CHANNEL need to be set to TRUE to use this function
+//
+// Return:
+//   Number of channels
+inline u8 OPNA_GetChannelCount() { return 16; }
+
+// Function: OPNA_GetChannelVolume
+// Get the current volume of a given channel (based on the values written with OPNA_Set*Register functions)
+// Note: OPNA_USE_CHANNEL need to be set to TRUE to use this function
+//
+// Parameters:
+//   chan - Channel index (0 to 2 for SSG, 3 to 8 for FM channels, 9 to 14 for rhythm instruments, 15 for ADPCM)
+//
+// Return:
+//   Volume from 0 (mute) to 15 (max). FM channels, rhythm instruments and ADPCM are only 0 or 15
+u8 OPNA_GetChannelVolume(u8 chan);
+
+// Function: OPNA_GetChannelType
+// Get the type of a given channel
+// Note: OPNA_USE_CHANNEL need to be set to TRUE to use this function
+//
+// Parameters:
+//   chan - Channel index (0 to 15)
+//
+// Return:
+//   Channel type
+inline u8 OPNA_GetChannelType(u8 chan) { return (chan < 3) ? CHANNEL_TYPE_TONE : (chan < 9) ? CHANNEL_TYPE_FM_INST : (chan < 15) ? CHANNEL_TYPE_FM_RHYTHM : CHANNEL_TYPE_SAMPLE; }
+#endif

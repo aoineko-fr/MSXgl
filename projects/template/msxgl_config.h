@@ -427,16 +427,20 @@
 #define PSG_USE_NOTES				FALSE	// Add notes table to convert note to tone
 #define PSG_USE_EXTRA				TRUE	// Add helper functions to handle PSG settings
 #define PSG_USE_RESUME				TRUE	// Add function to allow playback pause and resume
+#define PSG_USE_CHANNEL				TRUE	// Add functions to get channels count and volume
 
 // MSX-Music options
 #define MSXAUDIO_USE_RESUME			TRUE	// Add function to allow playback pause and resume
+#define MSXAUDIO_USE_CHANNEL		TRUE	// Add functions to get channels count and volume
 
 // MSX-Audio options
 #define MSXMUSIC_USE_RESUME			TRUE	// Add function to allow playback pause and resume
+#define MSXMUSIC_USE_CHANNEL		TRUE	// Add functions to get channels count and volume
 
 // SCC options
 #define SCC_USE_EXTA				TRUE	// Add helper functions to handle PSG settings
 #define SCC_USE_RESUME				TRUE	// Add function to allow playback pause and resume
+#define SCC_USE_CHANNEL				TRUE	// Add functions to get channels count and volume
 // - SCC_SLOT_DIRECT .............. Program on a SCC cartridge
 // - SCC_SLOT_FIXED	............... Fixed slot-id (non-expanded second cartridge slot)
 // - SCC_SLOT_USER ................ Defined by the user
@@ -445,10 +449,12 @@
 
 // OPL4 (Moonsound/YMF278B) options
 #define OPL4_USE_RESUME				TRUE	// Add feature to allow playback pause and resume
+#define OPL4_USE_CHANNEL			TRUE	// Add functions to get channels count and volume
 #define OPL4_USE_WAVE				TRUE	// Add feature to handle Wave data
 
 // OPNA (OPNA) options
 #define OPNA_USE_RESUME			TRUE	// Add feature to allow playback pause and resume
+#define OPNA_USE_CHANNEL			TRUE	// Add functions to get channels count and volume
 #define OPNA_USE_ADPCM			TRUE	// Add feature to handle ADPCM data (Delta-T format)
 
 // VGM supported chip

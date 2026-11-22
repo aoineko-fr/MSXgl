@@ -32,6 +32,7 @@ enum VGM_STATE
 {
 	VGM_STATE_50HZ = 0b00000001,
 	VGM_STATE_LOOP = 0b00000010,
+	VGM_STATE_OPL2 = 0b00001000, // OPL2 song played on OPL4 (register values need to be adapted)
 	VGM_STATE_STOP = 0b01000000, // Playback stopped (resume restarts from a clean state)
 	VGM_STATE_PLAY = 0b10000000,
 };
@@ -43,14 +44,14 @@ enum VGM_STATE
 enum VGM_COMMAND
 {
 	// Chips
-	VGM_CMD_YM2413         = 0x51, // aa dd	  | MSX-MUSIC/YM2413/OPLL, write value dd to register aa
+	VGM_CMD_YM2413         = 0x51, // aa dd	   | MSX-MUSIC/YM2413/OPLL, write value dd to register aa
 	VGM_CMD_YM2608_0       = 0x56, // aa dd    | MAKOTO/YM2608/OPNA port 0, write value dd to register aa
 	VGM_CMD_YM2608_1       = 0x57, // aa dd    | MAKOTO/YM2608/OPNA port 1, write value dd to register aa
-	VGM_CMD_Y8950          = 0x5C, // aa dd	  | MSX-AUDIO/Y8950/OPL1, write value dd to register aa
-	VGM_CMD_YM3812         = 0x5A, // aa dd	  | YM3812/OPL2, write value dd to register aa
+	VGM_CMD_Y8950          = 0x5C, // aa dd	   | MSX-AUDIO/Y8950/OPL1, write value dd to register aa
+	VGM_CMD_YM3812         = 0x5A, // aa dd	   | YM3812/OPL2, write value dd to register aa
 	VGM_CMD_YMF262_0       = 0x5E, // aa dd    | YMF262/OPL3 port 0, write value dd to register aa
 	VGM_CMD_YMF262_1       = 0x5F, // aa dd    | YMF262/OPL3 port 1, write value dd to register aa
-	VGM_CMD_AY8910         = 0xA0, // aa dd	  | PSG/AY8910, write value dd to register aa
+	VGM_CMD_AY8910         = 0xA0, // aa dd	   | PSG/AY8910, write value dd to register aa
 	VGM_CMD_YMF278         = 0xD0, // pp aa dd | MOONSOUND/YMF278B/OPL4, port pp, write value dd to register aa
 	VGM_CMD_SCC            = 0xD2, // pp aa dd | SCC/SCC+/K051649/K052539, port pp, write value dd to register aa
 	// Waits
@@ -110,33 +111,95 @@ enum VGM_PORT
 // VGM header file data structure
 typedef struct VGM_Header
 {
-	u32 Ident;			u32 EoF_offset;		u32 Version;		u32 SN76489_clock;
-	u32 YM2413_clock;	u32 GD3_offset;		u32 Total_samples;	u32 Loop_offset;
-	u32 Loop_samples;	u32 Rate;			u16 SN_FB;
-											u8 SNW;
-											u8 SF;				u32 YM2612_clock;
-	u32 YM2151_clock;	u32 Data_offset;	u32 Sega_PCM_clock;	u32 SPCM_Interface;
-	u32 RF5C68_clock;	u32 YM2203_clock;	u32 YM2608_clock;	u32 YM2610B_clock;
-	u32 YM3812_clock;	u32 YM3526_clock;	u32 Y8950_clock;	u32 YMF262_clock;
-	u32 YMF278B_clock;	u32 YMF271_clock;	u32 YMZ280B_clock;	u32 RF5C164_clock;
-	u32 PWM_clock;		u32 AY8910_clock;	u8 AYT;
-											u8 AY_Flags[3];		u8 VM;
-																u8 dummy7D;
-																u8 LB;
-																u8 LM;
-	u32 GB_DMG_clock;	u32 NES_APU_clock;	u32 MultiPCM_clock;	u32 uPD7759_clock;
-	u32 OKIM6258_clock;	u8 OF;
-						u8 KF;
-						u8 CF;
-						u8 dummy97;			u32 OKIM6295_clock;	u32 K051649_clock;
-	u32 K054539_clock;	u32 HuC6280_clock;	u32 C140_clock;		u32 K053260_clock;
-	u32 Pokey_clock;	u32 QSound_clock;	u32 SCSP_clock;		u32 Extra_Hdr_ofs;
-	u32 WonderSwan_clock; u32 VSU_clock;	u32 SAA1099_clock;	u32 ES5503_clock;
-	u32 ES5506_clock;	u16 ES_chns;
-						u8 CD;
-						u8 dummyD7;			u32 X1_010_clock;	u32 C352_clock;
-	u32 GA20_clock;		u32 dummyE4;		u32 dummyE8;		u32 dummyEC;
-	u32 dummyF0;		u32 dummyF4;		u32 dummyF8;		u32 dummyFC;
+	// 1.00
+	u32 Ident;
+	u32 EoF_offset;
+	u32 Version;
+	u32 SN76489_clock;
+	u32 YM2413_clock;				// MSX-Music (OPLL)
+	u32 GD3_offset;
+	u32 Total_samples;
+	u32 Loop_offset;
+	u32 Loop_samples;
+	// 1.01
+	u32 Rate;
+	// 1.10
+	u16 SN_FB;
+	u8  SNW;
+	// 1.51
+	u8  SF;
+	// 1.10
+	u32 YM2612_clock;				// OPN2
+	u32 YM2151_clock;				// OPM
+	// 1.50
+	u32 Data_offset;
+	// 1.51
+	u32 Sega_PCM_clock;
+	u32 SPCM_Interface;
+	u32 RF5C68_clock;
+	u32 YM2203_clock;				// OPN
+	u32 YM2608_clock;				// OPNA (Makoto)
+	u32 YM2610B_clock;				// OPNB
+	u32 YM3812_clock;				// OPL2
+	u32 YM3526_clock;				// OPL/OPL1
+	u32 Y8950_clock;				// MSX-Audio (OPL1)
+	u32 YMF262_clock;				// OPL3
+	u32 YMF278B_clock;				// OPL4
+	u32 YMF271_clock;				// OPX
+	u32 YMZ280B_clock;				// PCMD8
+	u32 RF5C164_clock;
+	u32 PWM_clock;
+	u32 AY8910_clock;				// PSG
+	u8  AYT;
+	u8  AY_Flags[3];
+	// 1.60
+	u8  VM;
+	u8  dummy7D;
+	u8  LB;
+	// 1.51
+	u8  LM;
+	// 1.61
+	u32 GB_DMG_clock;
+	u32 NES_APU_clock;
+	u32 MultiPCM_clock;
+	u32 uPD7759_clock;
+	u32 OKIM6258_clock;
+	u8  OF;
+	u8  KF;
+	u8  CF;
+	u8  dummy97;
+	u32 OKIM6295_clock;
+	u32 K051649_clock;				// SCC
+	u32 K054539_clock;
+	u32 HuC6280_clock;
+	u32 C140_clock;
+	u32 K053260_clock;
+	u32 Pokey_clock;
+	u32 QSound_clock;
+	// 1.71
+	u32 SCSP_clock;
+	// 1.70
+	u32 Extra_Hdr_ofs;
+	// 1.71
+	u32 WonderSwan_clock;
+	u32 VSU_clock;
+	u32 SAA1099_clock;
+	u32 ES5503_clock;
+	u32 ES5506_clock;
+	u16 ES_chns;
+	u8  CD;
+	u8  dummyD7;
+	u32 X1_010_clock;
+	u32 C352_clock;
+	u32 GA20_clock;
+	// 1.72
+	u32 Mikey_clock;
+	u32 dummyE8;
+	u32 dummyEC;
+	u32 dummyF0;
+	u32 dummyF4;
+	u32 dummyF8;
+	u32 dummyFC;
 } VGM_Header;
 
 // VGM work variables
@@ -232,6 +295,20 @@ inline bool VGM_ContainsMSXAudio() { return (g_VGM_Header->Version >= 0x0151) &&
 // Return:
 //   FALSE if music dont contains SCC data
 inline bool VGM_ContainsSCC() { return (g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock; }
+
+// Function: VGM_ContainsOPL2
+// Check if initialized song contains OPL2 data
+//
+// Return:
+//   FALSE if music dont contains OPL2 data
+inline bool VGM_ContainsOPL2() { return (g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YM3812_clock; }
+
+// Function: VGM_ContainsOPL3
+// Check if initialized song contains OPL3 data
+//
+// Return:
+//   FALSE if music dont contains OPL3 data
+inline bool VGM_ContainsOPL3() { return (g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YMF262_clock; }
 
 // Function: VGM_ContainsOPL4
 // Check if initialized song contains OPL4 data

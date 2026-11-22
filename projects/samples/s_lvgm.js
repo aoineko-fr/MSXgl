@@ -9,7 +9,7 @@ Machine = "1";
 Target = "DOS2";
 
 //-- List of library modules to build (array)
-LibModules = [ "audio/opna", "psg", "scc", "msx-music", "msx-audio", "vgm/lvgm_player", "dos", "dos_mapper", "system", "bios", "vdp", "print", "input", "memory" ];
+LibModules = [ "audio/opl4", "audio/opna", "psg", "scc", "msx-music", "msx-audio", "vgm/lvgm_player", "dos", "dos_mapper", "system", "bios", "vdp", "print", "input", "memory" ];
 
 //-- List of data files to copy to disk (array)
 DiskFiles = [
@@ -29,9 +29,14 @@ DiskFiles = [
 	"content/lvgm/mg2.lvm",
 	"content/lvgm/proyakyu.lvm",
 	"content/lvgm/xevious.lvm",
-	"content/lvgm/beholder.lvm",
+	"content/lvgm/eob3.lvm",
 	"content/lvgm/valis2.lvm",
-	"content/lvgm/misty.lvm"
+	"content/lvgm/misty.lvm",
+	"content/lvgm/beholder.lvm",
+	"content/lvgm/dragonsl.lvm",
+	"content/lvgm/moondrv.lvm",
+	"content/lvgm/sorceria.lvm",
+	"content/lvgm/sonyc.lvm",
 ];
 
 //-- Add SCC extension (boolean)
@@ -42,6 +47,9 @@ EmulMSXMusic = true;
 
 //-- Add MSX-Audio extension (boolean)
 EmulMSXAudio = true;
+
+//-- Add OPL4 extension (boolean)
+EmulOPL4 = true;
 
 //-- Add OPNA extension (boolean)
 EmulOPNA = true;

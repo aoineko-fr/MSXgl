@@ -20,6 +20,9 @@
 #if (LVGM_USE_SCC)
 #include "scc.h"
 #endif
+#if (LVGM_USE_OPL4)
+#include "audio/opl4.h"
+#endif
 #if (LVGM_USE_OPNA)
 #include "audio/opna.h"
 #endif
@@ -91,10 +94,15 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Metal Gear 2 (SCC)",   "mg2.lvm" },
  	{ "Pro Yakyuu (OPL1)",    "proyakyu.lvm" },
  	{ "Xevious (OPL1)",       "xevious.lvm" },
- 	{ "Beholder 3 (OPNA)",    "beholder.lvm" },
+ 	{ "Beholder (OPL2)",      "beholder.lvm" },
+ 	{ "Dragon Slayer (OPL2)", "dragonsl.lvm" },
+ 	{ "Moon Driver (OPL3)",   "moondrv.lvm" },
+ 	{ "Sorcerian (OPL3)",     "sorceria.lvm" },
+ 	{ "Sonyc (OPL4)",         "sonyc.lvm" },
+ 	{ "Beholder 3 (OPNA)",    "eob3.lvm" },
  	{ "Valis 2 (OPNA)",       "valis2.lvm" },
  	{ "Misty Blue (OPNA)",    "misty.lvm" },
- };
+};
 
 // Player button list
 const struct ButtonEntry g_ButtonEntry[] =
@@ -109,6 +117,9 @@ const struct ButtonEntry g_ButtonEntry[] =
 
 // Color shade
 const u8 g_ColorBlink[4] = { COLOR_LIGHT_RED, COLOR_MEDIUM_RED, COLOR_DARK_RED, COLOR_MEDIUM_RED };
+
+// Channel type ID character
+const c8 g_ChanTypeID[CHANNEL_TYPE_MAX] = { 'T', 'W', 'I', 'R', 'S' };
 
 //=============================================================================
 // MEMORY DATA
@@ -142,11 +153,11 @@ void UpdatePlayer()
 	Print_SetPosition(LAYOUT_INFO_X, y++);
 	Print_DrawText("Player:");
 	Print_SetPosition(LAYOUT_INFO_X, y++);
-	Print_DrawFormat("\x07" "Freq      %s", (g_LVGM_State & LVGM_STATE_50HZ) ? "50Hz" : "60Hz");
+	Print_DrawFormat("\x07" "Freq     %s", (g_LVGM_State & LVGM_STATE_50HZ) ? "50Hz" : "60Hz");
 	Print_SetPosition(LAYOUT_INFO_X, y++);
-	Print_DrawFormat("\x07" "DoLoop    %c", (g_LVGM_State & LVGM_STATE_LOOP) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "DoLoop   %c", (g_LVGM_State & LVGM_STATE_LOOP) ? '\x0C' : '\x0B');
 	Print_SetPosition(LAYOUT_INFO_X, y++);
-	Print_DrawFormat("\x07" "DoPlay    %c", (g_LVGM_State & LVGM_STATE_PLAY) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "DoPlay   %c", (g_LVGM_State & LVGM_STATE_PLAY) ? '\x0C' : '\x0B');
 }
 
 //-----------------------------------------------------------------------------
@@ -248,15 +259,17 @@ void SetMusic(u8 idx)
 	Print_SetPosition(LAYOUT_DATA_X, y++);
 	Print_DrawText("Data:");
 	Print_SetPosition(LAYOUT_DATA_X, y++);
-	Print_DrawFormat("\x07" "Ident     %c", ok ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Ident    %c", ok ? '\x0C' : '\x0B');
 	Print_SetPosition(LAYOUT_DATA_X, y++);
-	Print_DrawFormat("\x07" "Freq      %iHz", (g_LVGM_Header->Option & LVGM_OPTION_50HZ) ? 50 : 60);
+	Print_DrawFormat("\x07" "Freq     %iHz", (g_LVGM_Header->Option & LVGM_OPTION_50HZ) ? 50 : 60);
 	Print_SetPosition(LAYOUT_DATA_X, y++);
-	Print_DrawFormat("\x07" "Loop      %c", (g_LVGM_Header->Option & LVGM_OPTION_LOOP) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Loop     %c", (g_LVGM_Header->Option & LVGM_OPTION_LOOP) ? '\x0C' : '\x0B');
+	Print_SetPosition(LAYOUT_DATA_X, y++);
+	Print_DrawFormat("\x07" "Default  %c %2xh", (LVGM_GetDevices() & LVGM_CHIP_PSG) ? '\x0C' : '\x0B', LVGM_GetDefaultPSGValue());
 	Print_SetPosition(LAYOUT_DATA_X, y);
-	Print_DrawCharX(' ', 32 - LAYOUT_DATA_X);
+	Print_DrawCharX(' ', LAYOUT_DETECT_X - LAYOUT_DATA_X);
 	Print_SetPosition(LAYOUT_DATA_X, y++);
-	Print_DrawFormat("\x07" "Chips     %c", (g_LVGM_Header->Option & LVGM_OPTION_DEVICE) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Chips    %c", (g_LVGM_Header->Option & LVGM_OPTION_DEVICE) ? '\x0C' : '\x0B');
 	if (LVGM_GetDevices() & LVGM_CHIP_PSG)
 		Print_DrawText(" PSG");
 	if (LVGM_GetDevices() & LVGM_CHIP_OPLL)
@@ -269,26 +282,84 @@ void SetMusic(u8 idx)
 		Print_DrawText(" OPL4");
 	if (LVGM_GetDevices() & LVGM_CHIP_OPNA)
 		Print_DrawText(" OPNA");
-	Print_SetPosition(LAYOUT_DATA_X, y++);
-	Print_DrawFormat("\x07" "Default   %c %2xh", (LVGM_GetDevices() & LVGM_CHIP_PSG) ? '\x0C' : '\x0B', LVGM_GetDefaultPSGValue());
+
+	Print_DrawCharXAt(0, 21, ' ', 32);
 
 	UpdatePlayer();
+}
+
+//-----------------------------------------------------------------------------
+// Draw VU
+void DrawVU()
+{
+	Print_SetPosition(0, 21);
+	#if (PSG_USE_CHANNEL)
+	if (LVGM_GetDevices() & LVGM_CHIP_PSG)
+	{
+		loop (i, PSG_GetChannelCount())
+			Print_DrawChar(0xA0 + ((PSG_GetChannelVolume(i) / 2 + 1) & 0x07));
+		Print_Space();
+	}
+	#endif
+	#if (MSXMUSIC_USE_CHANNEL)
+	if (LVGM_GetDevices() & LVGM_CHIP_OPLL)
+	{
+		loop (i, MSXMusic_GetChannelCount())
+			Print_DrawChar(0xA0 + ((MSXMusic_GetChannelVolume(i) / 2 + 1) & 0x07));
+		Print_Space();
+	}
+	#endif
+	#if (MSXAUDIO_USE_CHANNEL)
+	if (LVGM_GetDevices() & LVGM_CHIP_OPL1)
+	{
+		loop (i, MSXAudio_GetChannelCount())
+			Print_DrawChar(0xA0 + ((MSXAudio_GetChannelVolume(i) / 2 + 1) & 0x07));
+		Print_Space();
+	}
+	#endif
+	#if (SCC_USE_CHANNEL)
+	if (LVGM_GetDevices() & LVGM_CHIP_SCC)
+	{
+		loop (i, SCC_GetChannelCount())
+			Print_DrawChar(0xA0 + ((SCC_GetChannelVolume(i) / 2 + 1) & 0x07));
+		Print_Space();
+	}
+	#endif
+	#if (OPL4_USE_CHANNEL)
+	if (LVGM_GetDevices() & LVGM_CHIP_OPL4)
+	{
+		loop (i, 32)//OPL4_GetChannelCount())
+			Print_DrawChar(0xA0 + ((OPL4_GetChannelVolume(i) / 2 + 1) & 0x07));
+	}
+	#endif
+	#if (OPNA_USE_CHANNEL)
+	if (LVGM_GetDevices() & LVGM_CHIP_OPNA)
+	{
+		loop (i, OPNA_GetChannelCount())
+			Print_DrawChar(0xA0 + ((OPNA_GetChannelVolume(i) / 2 + 1) & 0x07));
+		Print_Space();
+	}
+	#endif
 }
 
 //-----------------------------------------------------------------------------
 // Handle Play button action
 void ButtonPlay()
 {
+	#if (LVGM_USE_RESUME)
 	LVGM_Resume();
 	UpdatePlayer();
+	#endif
 }
 
 //-----------------------------------------------------------------------------
 // Handle Pause button action
 void ButtonPause()
 {
+	#if (LVGM_USE_RESUME)
 	LVGM_Pause();
 	UpdatePlayer();
+	#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -411,28 +482,35 @@ void main()
 	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawText("Main-ROM:");
 	Print_SetPosition(LAYOUT_DETECT_X, y);
-	Print_DrawFormat("\x07" "Freq  %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
+	Print_DrawFormat("\x07" "Freq   %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
 	y += 2;
 	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawText("Detect: ");
 	#if (LVGM_USE_MSXMUSIC)
 	Print_SetPosition(LAYOUT_DETECT_X, y++);
-	Print_DrawText("\x07" "YM2413: ");
+	Print_DrawText("\x07" "YM2413  ");
 	Print_DrawSlot(MSXMusic_GetSlotId());
 	#endif
 	#if (LVGM_USE_MSXAUDIO)
 	Print_SetPosition(LAYOUT_DETECT_X, y++);
-	Print_DrawText("\x07" "Y8950:  ");
+	Print_DrawText("\x07" "Y8950   ");
 	Print_DrawChar(MSXAudio_Detect() ? '\x0C' : '\x0B');
 	#endif
 	#if (LVGM_USE_SCC)
 	Print_SetPosition(LAYOUT_DETECT_X, y++);
-	Print_DrawText("\x07" "SCC:    ");
+	Print_DrawText("\x07" "SCC     ");
 	Print_DrawSlot(SCC_SLOT);
+	#endif
+	#if (LVGM_USE_OPL4)
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
+	Print_DrawText("\x07" "YMF278B ");
+	Print_DrawChar(OPL4_Detect() ? '\x0C' : '\x0B');
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
+	Print_DrawFormat(" (%iKB)", OPL4_WaveGetMemSize() * 128);
 	#endif
 	#if (LVGM_USE_OPNA)
 	Print_SetPosition(LAYOUT_DETECT_X, y++);
-	Print_DrawText("\x07" "YM2608: ");
+	Print_DrawText("\x07" "YM2608  ");
 	Print_DrawChar(OPNA_Detect() ? '\x0C' : '\x0B');
 	#endif
 
@@ -447,6 +525,7 @@ void main()
 	}
 
 	// Display footer
+	Print_SetDrawStyle(PRINT_DRAW_STYLE_LINE);
 	Print_DrawLineH(0, 22, 32);
 	Print_DrawTextAt(0, 23, "\x8D:Button \x83:Action \x82:Freq");
 
@@ -467,6 +546,7 @@ void main()
 		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
 		
 		DrawRawData(g_LVGM_Pointer);
+		DrawVU();
 
 		Print_DrawCharAt(31, 0, 0xB0 + ((count >> 2) & 0x7));
 		count++;

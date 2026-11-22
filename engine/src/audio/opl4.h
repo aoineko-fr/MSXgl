@@ -20,6 +20,7 @@
 #include "core.h"
 #include "system_port.h"
 #include "audio/opl4_reg.h"
+#include "audio/audio.h"
 
 //-----------------------------------------------------------------------------
 // CHECK OPTIONS
@@ -37,9 +38,21 @@
 	#define OPL4_USE_RESUME			TRUE
 #endif
 
+// OPL4_USE_CHANNEL
+#ifndef OPL4_USE_CHANNEL
+	#warning OPL4_USE_CHANNEL is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define OPL4_USE_CHANNEL		TRUE
+#endif
+
+// Registers write functions need to keep a copy of some registers
+#define OPL4_USE_REGCOPY			(OPL4_USE_RESUME || OPL4_USE_CHANNEL)
+
 //=============================================================================
 // DEFINES
 //=============================================================================
+
+#define OPL4_FM_CH_NUM				9		// Number of FM channels per part
+#define OPL4_WAVE_CH_NUM			24		// Number of wave channels
 
 // Moonsound (OPL4/YMF278) FM I/O ports
 #define P_OPL4_ADDR0				0xC4 // Part 0 address
@@ -68,23 +81,22 @@ enum OPL4_MODE
 	OPL4_MODE_MAX,
 };
 
-//
-enum OPL4_MEMSIZE
+// Wave memory size
+enum OPL4_MEMORY
 {
-	OPL4_MEMSIZE_128K = 1,
-	OPL4_MEMSIZE_256K = 2,
-	OPL4_MEMSIZE_512K = 4,
-	OPL4_MEMSIZE_640K = 5,
-	OPL4_MEMSIZE_1M   = 8,
-	OPL4_MEMSIZE_2M   = 16,
-	OPL4_MEMSIZE_4M   = 32,
+	OPL4_MEMORY_128K = 1,
+	OPL4_MEMORY_256K = 2,
+	OPL4_MEMORY_512K = 4,
+	OPL4_MEMORY_640K = 5,
+	OPL4_MEMORY_1M   = 8,
+	OPL4_MEMORY_2M   = 16,
+	OPL4_MEMORY_4M   = 32,
 };
 
 //=============================================================================
 // PROTOTYPE
 //=============================================================================
 
-//.............................................................................
 // Group: Core
 
 // Function: OPL4_Initialize
@@ -148,7 +160,7 @@ inline void OPL4_WaitLoad() { u8 timeout = 0; while (OPL4_IsLoading() && --timeo
 // Parameters:
 //   reg   - Register to set
 //   value - Value to set
-#if (OPL4_USE_RESUME)
+#if (OPL4_USE_REGCOPY)
 void OPL4_SetPart0Register(u8 reg, u8 value);
 #else
 inline void OPL4_SetPart0Register(u8 reg, u8 value) { io_OPL4_Reg0 = reg; io_OPL4_Data0 = value; }
@@ -171,7 +183,7 @@ inline u8 OPL4_GetPart0Register(u8 reg) { io_OPL4_Reg0 = reg; return io_OPL4_Dat
 // Parameters:
 //   reg   - Register to set
 //   value - Value to set
-#if (OPL4_USE_RESUME)
+#if (OPL4_USE_REGCOPY)
 void OPL4_SetPart1Register(u8 reg, u8 value);
 #else
 inline void OPL4_SetPart1Register(u8 reg, u8 value) { io_OPL4_Reg1 = reg; io_OPL4_Data1 = value; }
@@ -211,17 +223,6 @@ inline void OPL4_SetWaveRegister(u8 reg, u8 value) { io_OPL4_WaveReg = reg; io_O
 //   Value of the register
 inline u8 OPL4_GetWaveRegister(u8 reg) { io_OPL4_WaveReg = reg; return io_OPL4_WaveData; }
 
-// Function: OPL4_Mute
-// Mute OPL4 sound (FM channels output and wave channels total level)
-// Note: A channel stays muted until <OPL4_Resume> is called or its register (R#C0-C8 or W#50-67) is written
-void OPL4_Mute();
-
-#if (OPL4_USE_RESUME)
-// Function: OPL4_Resume
-// Resume OPL4 sound (restore registers values from before <OPL4_Mute>)
-void OPL4_Resume();
-#endif
-
 // Function: OPL4_SetMix
 // Set FM and wave mix control registers (W#248 and W#249), whatever the compatibility mode
 //
@@ -231,6 +232,8 @@ void OPL4_Resume();
 void OPL4_SetMix(u8 fm, u8 wave);
 
 #if (OPL4_USE_WAVE)
+
+// Group: Wave
 
 // Function: OPL4_WaveLoad
 // Write Wave data into the OPL4 memory
@@ -250,13 +253,13 @@ void OPL4_WaveLoad(const u8* data, u8 addr_h, u16 addr_l, u16 size);
 //
 // Return:
 //   Number of 128 KB RAM blocks
-//> OPL4_MEMSIZE_128K
-//> OPL4_MEMSIZE_256K
-//> OPL4_MEMSIZE_512K
-//> OPL4_MEMSIZE_640K
-//> OPL4_MEMSIZE_1M
-//> OPL4_MEMSIZE_2M
-//> OPL4_MEMSIZE_4M
+//> OPL4_MEMORY_128K
+//> OPL4_MEMORY_256K
+//> OPL4_MEMORY_512K
+//> OPL4_MEMORY_640K
+//> OPL4_MEMORY_1M
+//> OPL4_MEMORY_2M
+//> OPL4_MEMORY_4M
 u8 OPL4_WaveGetMemSize();
 
 // Function: OPL4_WaveStartMemAccess
@@ -279,3 +282,50 @@ inline void OPL4_WaveEndMemAccess() { OPL4_SetWaveRegister(OPL4_REG_WAV_MEMORY, 
 void OPL4_WaveSetMemAddr(u8 addr_h, u16 addr_l);
 
 #endif // (OPL4_USE_WAVE)
+
+// Group: Player
+
+// Function: OPL4_Mute
+// Mute OPL4 sound (FM channels output and wave channels total level)
+// Note: A channel stays muted until <OPL4_Resume> is called or its register (R#C0-C8 or W#50-67) is written
+void OPL4_Mute();
+
+#if (OPL4_USE_RESUME)
+// Function: OPL4_Resume
+// Resume OPL4 sound (restore registers values from before <OPL4_Mute>)
+void OPL4_Resume();
+#endif
+
+#if (OPL4_USE_CHANNEL)
+// Group: Channel Info
+
+// Function: OPL4_GetChannelCount
+// Get the number of OPL4 channels (18 FM channels, 5 rhythm instruments and 24 wave channels)
+// Note: OPL4_USE_CHANNEL need to be set to TRUE to use this function
+//
+// Return:
+//   Number of channels
+inline u8 OPL4_GetChannelCount() { return 2 * OPL4_FM_CH_NUM + 5 + OPL4_WAVE_CH_NUM; }
+
+// Function: OPL4_GetChannelVolume
+// Get the current volume of a given channel (based on the values written with OPL4_Set*Register functions)
+// Note: OPL4_USE_CHANNEL need to be set to TRUE to use this function
+//
+// Parameters:
+//   chan - Channel index (0 to 17 for FM channels, 18 to 22 for rhythm instruments, 23 to 46 for wave channels)
+//
+// Return:
+//   Volume from 0 (mute) to 15 (max). FM channels and rhythm instruments are only 0 or 15
+u8 OPL4_GetChannelVolume(u8 chan);
+
+// Function: OPL4_GetChannelType
+// Get the type of a given channel
+// Note: OPL4_USE_CHANNEL need to be set to TRUE to use this function
+//
+// Parameters:
+//   chan - Channel index (0 to 46)
+//
+// Return:
+//   Channel type
+inline u8 OPL4_GetChannelType(u8 chan) { return (chan < 2 * OPL4_FM_CH_NUM) ? CHANNEL_TYPE_FM_INST : (chan < 2 * OPL4_FM_CH_NUM + 5) ? CHANNEL_TYPE_FM_RHYTHM : CHANNEL_TYPE_SAMPLE; }
+#endif

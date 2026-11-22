@@ -74,10 +74,6 @@
 #if (LVGM_USE_PSG2)
 	#error LVGM_USE_PSG2 is not yet supported!
 #endif
-#if (LVGM_USE_OPL4)
-	#error LVGM_USE_OPL4 is not yet supported!
-#endif
-
 #if (LVGM_USE_PSG)
 #include "psg.h"
 #endif
@@ -89,6 +85,9 @@
 #endif
 #if (LVGM_USE_SCC)
 #include "scc.h"
+#endif
+#if (LVGM_USE_OPL4)
+#include "audio/opl4.h"
 #endif
 #if (LVGM_USE_OPNA)
 #include "audio/opna.h"

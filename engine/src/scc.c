@@ -39,6 +39,10 @@ u8 g_SCC_MixerBackup;
 	u8 g_SCC_SlotId = SLOT_NOTFOUND;
 #endif
 
+#if (SCC_USE_CHANNEL)
+	u8 g_SCC_ChanCopy[6];   // Copy of volume registers (8Ah-8Eh) and mixer (8Fh)
+#endif
+
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
@@ -281,6 +285,10 @@ __endasm;
 // Initialize SCC module
 bool SCC_Initialize()
 {
+	#if (SCC_USE_CHANNEL)
+		g_SCC_ChanCopy[5] = 0; // All channels disabled
+	#endif
+
 	#if (SCC_SLOT_MODE == SCC_SLOT_AUTO)
 		g_SCC_SlotId = SCC_AutoDetect();
 		if (g_SCC_SlotId == SLOT_NOTFOUND)
@@ -319,6 +327,12 @@ void SCC_SetRegister(u8 reg, u8 value)
 	if (reg == SCC_REG_MIXER)
 		g_SCC_MixerBackup = value;
 	#endif
+
+	#if (SCC_USE_CHANNEL)
+	u8 i = reg - SCC_REG_VOL_1;
+	if (i < 6) // Volume and mixer
+		g_SCC_ChanCopy[i] = value;
+	#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -341,6 +355,10 @@ void SCC_Mute()
 	#else
 		BIOS_InterSlotWrite(SCC_SLOT, SCC_ADDR_MIXER, 0x00);
 	#endif
+
+	#if (SCC_USE_CHANNEL)
+		g_SCC_ChanCopy[5] = 0;
+	#endif
 }
 
 #if (SCC_USE_RESUME)
@@ -352,6 +370,10 @@ void SCC_Resume()
 		Poke(SCC_ADDR_MIXER, g_SCC_MixerBackup);
 	#else
 		BIOS_InterSlotWrite(SCC_SLOT, SCC_ADDR_MIXER, g_SCC_MixerBackup);
+	#endif
+
+	#if (SCC_USE_CHANNEL)
+		g_SCC_ChanCopy[5] = g_SCC_MixerBackup;
 	#endif
 }
 #endif

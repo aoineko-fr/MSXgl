@@ -24,8 +24,6 @@
 
 #define OPL4_MEM_BLOCK_MAX			32		// Number of 128 KB blocks in the 22-bit wave memory space (4 MB)
 #define OPL4_MEM_MARKER				0xA5	// Base value of the RAM detection marker
-#define OPL4_FM_CH_NUM				9		// Number of FM channels per part
-#define OPL4_WAVE_CH_NUM			24		// Number of wave channels
 #define OPL4_WAVE_MUTE				0xFF	// Wave total level value to mute a channel (TL = 7Fh with level direct)
 
 //=============================================================================
@@ -49,13 +47,20 @@ u8 g_OPL4_Expansion = OPL4_F_NEW | OPL4_F_NEW2;
 
 #if (OPL4_USE_RESUME)
 	// Backup registers
-	u8 g_OPL4_BakFM0[OPL4_FM_CH_NUM]    = { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30 }; // R#C0-C8 (part 0)
-	u8 g_OPL4_BakFM1[OPL4_FM_CH_NUM]    = { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30 }; // R#C0-C8 (part 1)
-	u8 g_OPL4_BakWave[OPL4_WAVE_CH_NUM];                                                            // W#50-67
+	u8 g_OPL4_BakFM0[OPL4_FM_CH_NUM] = { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30 }; // R#C0-C8 (part 0)
+	u8 g_OPL4_BakFM1[OPL4_FM_CH_NUM] = { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30 }; // R#C0-C8 (part 1)
+	u8 g_OPL4_BakWave[OPL4_WAVE_CH_NUM];                                                         // W#50-67
 	bool g_OPL4_DoBackup = TRUE;
-	#define OPL4_DOBACKUP(do)	g_OPL4_DoBackup = do
+	#define OPL4_DOBACKUP(do)		g_OPL4_DoBackup = do
 #else
 	#define OPL4_DOBACKUP(do)
+#endif
+
+#if (OPL4_USE_CHANNEL)
+	u8 g_OPL4_ChanKey[2 * OPL4_FM_CH_NUM];  // Copy of R#B0-B8 (part 0 then part 1)
+	u8 g_OPL4_ChanTrig[2 * OPL4_FM_CH_NUM]; // R#B0-B8 values ORed since the last read
+	u8 g_OPL4_ChanRhythm;                   // Copy of R#BD (part 0)
+	u8 g_OPL4_ChanRhyTrig;                  // R#BD values ORed since the last read
 #endif
 
 
@@ -70,6 +75,17 @@ bool OPL4_Initialize(u8 mode)
 	// Check for OPL4 device
 	if (!OPL4_Detect())
 		return FALSE;
+
+	#if (OPL4_USE_CHANNEL)
+	// All channels are keyed off
+	g_OPL4_ChanRhythm = 0;
+	g_OPL4_ChanRhyTrig = 0;
+	loop(i, 2 * OPL4_FM_CH_NUM)
+	{
+		g_OPL4_ChanKey[i] = 0;
+		g_OPL4_ChanTrig[i] = 0;
+	}
+	#endif
 
 	// Set compatibility mode
 	g_OPL4_Expansion = g_OPL4_ModeFlags[mode];
@@ -100,7 +116,7 @@ void OPL4_SetMix(u8 fm, u8 wave)
 	OPL4_SetPart1Register(OPL4_REG_EXPANSION, g_OPL4_Expansion); // Restore compatibility mode
 }
 
-#if (OPL4_USE_RESUME)
+#if (OPL4_USE_REGCOPY)
 
 //-----------------------------------------------------------------------------
 // Set OPL4 FM register value for part 0
@@ -108,8 +124,23 @@ void OPL4_SetPart0Register(u8 reg, u8 value)
 {
 	io_OPL4_Reg0 = reg;
 	io_OPL4_Data0 = value;
+	#if (OPL4_USE_RESUME)
 	if (g_OPL4_DoBackup && (reg >= OPL4_REG_FBCNT) && (reg < OPL4_REG_FBCNT + OPL4_FM_CH_NUM))
 		g_OPL4_BakFM0[reg - OPL4_REG_FBCNT] = value;
+	#endif
+	#if (OPL4_USE_CHANNEL)
+	u8 i = reg - OPL4_REG_FNUM_H;
+	if (i < OPL4_FM_CH_NUM) // Key on
+	{
+		g_OPL4_ChanKey[i] = value;
+		g_OPL4_ChanTrig[i] |= value;
+	}
+	else if (reg == OPL4_REG_RHYTHM)
+	{
+		g_OPL4_ChanRhythm = value;
+		g_OPL4_ChanRhyTrig |= value;
+	}
+	#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -118,9 +149,23 @@ void OPL4_SetPart1Register(u8 reg, u8 value)
 {
 	io_OPL4_Reg1 = reg;
 	io_OPL4_Data1 = value;
+	#if (OPL4_USE_RESUME)
 	if (g_OPL4_DoBackup && (reg >= OPL4_REG_FBCNT) && (reg < OPL4_REG_FBCNT + OPL4_FM_CH_NUM))
 		g_OPL4_BakFM1[reg - OPL4_REG_FBCNT] = value;
+	#endif
+	#if (OPL4_USE_CHANNEL)
+	u8 i = reg - OPL4_REG_FNUM_H;
+	if (i < OPL4_FM_CH_NUM) // Key on
+	{
+		g_OPL4_ChanKey[OPL4_FM_CH_NUM + i] = value;
+		g_OPL4_ChanTrig[OPL4_FM_CH_NUM + i] |= value;
+	}
+	#endif
 }
+
+#endif // (OPL4_USE_REGCOPY)
+
+#if (OPL4_USE_RESUME)
 
 //-----------------------------------------------------------------------------
 // Set OPL4 wave register value
@@ -149,6 +194,17 @@ void OPL4_Mute()
 	loop(i, OPL4_WAVE_CH_NUM)
 		OPL4_SetWaveRegister(OPL4_REG_WAV_TL + i, OPL4_WAVE_MUTE);
 	OPL4_DOBACKUP(TRUE);
+
+	#if (OPL4_USE_CHANNEL)
+	// Release channels state
+	loop(i, 2 * OPL4_FM_CH_NUM)
+	{
+		g_OPL4_ChanKey[i] = 0;
+		g_OPL4_ChanTrig[i] = 0;
+	}
+	g_OPL4_ChanRhythm &= OPL4_F_RHY_EN;
+	g_OPL4_ChanRhyTrig = 0;
+	#endif
 }
 
 #if (OPL4_USE_RESUME)
@@ -169,6 +225,42 @@ void OPL4_Resume()
 }
 
 #endif
+
+#if (OPL4_USE_CHANNEL)
+
+//-----------------------------------------------------------------------------
+// Get the current volume of a given channel
+u8 OPL4_GetChannelVolume(u8 chan)
+{
+	u8 on;
+	if (chan < 2 * OPL4_FM_CH_NUM) // FM channel
+	{
+		if ((chan >= 6) && (chan < 9) && (g_OPL4_ChanRhythm & OPL4_F_RHY_EN)) // Used by rhythm
+			return 0;
+		on = g_OPL4_ChanKey[chan] | g_OPL4_ChanTrig[chan];
+		g_OPL4_ChanTrig[chan] = 0;
+		return (on & OPL4_F_KEY_ON) ? 15 : 0;
+	}
+	chan -= 2 * OPL4_FM_CH_NUM;
+	if (chan < 5) // Rhythm instrument
+	{
+		if (!(g_OPL4_ChanRhythm & OPL4_F_RHY_EN))
+			return 0;
+		u8 bit = OPL4_F_RHY_BD >> chan; // BD, SD, TOM, TCY, HH
+		on = (g_OPL4_ChanRhythm | g_OPL4_ChanRhyTrig) & bit;
+		g_OPL4_ChanRhyTrig &= ~bit;
+		return on ? 15 : 0;
+	}
+	// Wave channel (registers are readable)
+	if (!(g_OPL4_Expansion & OPL4_F_NEW2))
+		return 0;
+	chan -= 5;
+	if (!(OPL4_GetWaveRegister(OPL4_REG_WAV_KEY + chan) & OPL4_F_WAV_KEY_ON))
+		return 0;
+	return (u8)~OPL4_GetWaveRegister(OPL4_REG_WAV_TL + chan) >> 4; // Total level (bits 7-1) is an attenuation
+}
+
+#endif // (OPL4_USE_CHANNEL)
 
 
 #if (OPL4_USE_WAVE)

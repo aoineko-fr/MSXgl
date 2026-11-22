@@ -69,6 +69,9 @@ void LVGM_Initialize()
 	#if (LVGM_USE_SCC)
 		SCC_Initialize();
 	#endif
+	#if (LVGM_USE_OPL4)
+		OPL4_Initialize(OPL4_MODE_OPL4);
+	#endif
 	#if (LVGM_USE_OPNA)
 		OPNA_Initialize();
 	#endif
@@ -267,6 +270,45 @@ void  LVGM_DecodePSG2()
 // Decode OPL4 (YMF278B) data stream
 void  LVGM_DecodeOPL4()
 {
+	u8 op = *g_LVGM_Pointer;
+	if (op == 0xDF) // DF aaaaaa nnnn xx[]			Load nnnn+1 bytes into wave memory at address aaaaaa (24-bit)
+	{
+		u16 size = *(u16*)(g_LVGM_Pointer + 4) + 1;
+		#if (OPL4_USE_WAVE)
+		OPL4_WaveLoad(g_LVGM_Pointer + 6, g_LVGM_Pointer[3], *(u16*)(g_LVGM_Pointer + 1), size); // MoonSound RAM starts at 200000h
+		#endif
+		g_LVGM_Pointer += 5 + size;
+	}
+	else // pn {rr vv}[]		Copy n+1 pairs of register-value to the given part (pn ∈ [00:BF])
+	{
+		u8 n = (op & 0x3F) + 1;
+		switch (op >> 6) // Port
+		{
+		case 0:
+			loop (i, n)
+			{
+				u8 reg = *++g_LVGM_Pointer;
+				OPL4_SetPart0Register(reg, *++g_LVGM_Pointer);
+			}
+			break;
+		case 1:
+			loop (i, n)
+			{
+				u8 reg = *++g_LVGM_Pointer;
+				OPL4_SetPart1Register(reg, *++g_LVGM_Pointer);
+			}
+			break;
+		case 2:
+			loop (i, n)
+			{
+				u8 reg = *++g_LVGM_Pointer;
+				OPL4_SetWaveRegister(reg, *++g_LVGM_Pointer);
+				if ((reg >= 0x08) && (reg <= 0x1F))
+					OPL4_WaitLoad();
+			}
+			break;
+		}
+	}
 }
 #endif
 
@@ -356,19 +398,18 @@ void LVGM_Mute()
 	#if (LVGM_USE_PSG)
 	PSG_Mute();
 	#endif
-
 	#if (LVGM_USE_MSXMUSIC)
 	MSXMusic_Mute();
 	#endif
-
 	#if (LVGM_USE_MSXAUDIO)
 	MSXAudio_Mute();
 	#endif
-
 	#if (LVGM_USE_SCC)
 	SCC_Mute();
 	#endif
-
+	#if (LVGM_USE_OPL4)
+	OPL4_Mute();
+	#endif
 	#if (LVGM_USE_OPNA)
 	OPNA_Mute();
 	#endif
@@ -456,19 +497,18 @@ void LVGM_Resume()
 	#if (LVGM_USE_PSG && PSG_USE_RESUME)
 	PSG_Resume();
 	#endif
-
 	#if (LVGM_USE_MSXMUSIC && MSXMUSIC_USE_RESUME)
 	MSXMusic_Resume();
 	#endif
-	
 	#if (LVGM_USE_MSXAUDIO && MSXAUDIO_USE_RESUME)
 	MSXAudio_Resume();
 	#endif
-	
 	#if (LVGM_USE_SCC && SCC_USE_RESUME)
 	SCC_Resume();
 	#endif
-
+	#if (LVGM_USE_OPL4 && OPL4_USE_RESUME)
+	OPL4_Resume();
+	#endif
 	#if (LVGM_USE_OPNA && OPNA_USE_RESUME)
 	OPNA_Resume();
 	#endif

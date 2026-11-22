@@ -123,6 +123,21 @@ bool VGM_Play(const void* addr, bool loop)
 	else
 		VGM_SetFrequency60Hz();
 
+	#if (VGM_USE_OPL4)
+	// Initialize OPL2/3 (played on OPL4 in OPL4 mode to keep wave part accessible)
+	if (VGM_ContainsOPL2())
+	{
+		g_VGM_State |= VGM_STATE_OPL2;
+		OPL4_SetPart1Register(OPL4_REG_EXPANSION, OPL4_F_NEW | OPL4_F_NEW2);
+		loop(i, 9) // Enable left and right outputs of all FM channels (OPL2 songs don't write CHA/CHB bits)
+			OPL4_SetPart0Register(OPL4_REG_FBCNT + i, OPL4_F_CHA | OPL4_F_CHB);
+	}
+	else if (VGM_ContainsOPL3())
+	{
+		OPL4_SetPart1Register(OPL4_REG_EXPANSION, OPL4_F_NEW | OPL4_F_NEW2);
+	}
+	#endif
+
 	return TRUE;
 }
 
@@ -234,8 +249,9 @@ void VGM_Decode()
 		#if (VGM_USE_OPL4)
 		if (*g_VGM_Pointer == VGM_CMD_YMF278) // MOONSOUND/YMF278B/OPL4, port pp, write value dd to register aa
 		{
+			u8 port = g_VGM_Pointer[1];
 			u8 reg = g_VGM_Pointer[2];
-			switch(g_VGM_Pointer[1])
+			switch(port)
 			{
 			case VGM_PORT_OPL4_PART0:
 				OPL4_SetPart0Register(reg, g_VGM_Pointer[3]);
@@ -250,6 +266,29 @@ void VGM_Decode()
 				break;
 			}
 			g_VGM_Pointer += 3;
+		} else
+		if ((*g_VGM_Pointer == VGM_CMD_YM3812) || (*g_VGM_Pointer == VGM_CMD_YMF262_0) || (*g_VGM_Pointer == VGM_CMD_YMF262_1)) // OPL2/3
+ 		{
+			u8 reg = g_VGM_Pointer[1];
+			u8 value = g_VGM_Pointer[2];
+			if (*g_VGM_Pointer == VGM_CMD_YMF262_1) // Part 1
+			{
+				if ((reg == OPL4_REG_EXPANSION) && (value & OPL4_F_NEW)) // OPL3 mode: keep NEW2 set (OPL4 mode)
+					value = OPL4_F_NEW | OPL4_F_NEW2;
+				OPL4_SetPart1Register(reg, value);
+			}
+			else if (reg != 0x01) // Part 0 (R#01 is the LSI test register on OPL4)
+			{
+				if (g_VGM_State & VGM_STATE_OPL2)
+				{
+					if ((reg >= OPL4_REG_FBCNT) && (reg <= OPL4_REG_FBCNT + 8)) // OPL2 has no CHA/CHB bits: output to both left and right channels
+						value = (value & 0x0F) | OPL4_F_CHA | OPL4_F_CHB;
+					else if ((reg >= 0xE0) && (reg <= 0xF5)) // OPL2 has only 4 waveforms
+						value &= 0x03;
+				}
+				OPL4_SetPart0Register(reg, value);
+			}
+			g_VGM_Pointer += 2;
 		} else
 		#endif
 		#if (VGM_USE_OPNA)

@@ -30,12 +30,23 @@
 //=============================================================================
 
 // Library's logo
-#define MSX_GL "\x02\x03\x04\x05"
+#define MSX_GL						"\x02\x03\x04\x05"
 
-//
-#define LOG_SIZE 16
-//
-#define PLAYER_Y 3
+#define MUSIC_BANK					1
+
+// Layout
+#define LAYOUT_FILE_X				0
+#define LAYOUT_FILE_Y				2
+#define LAYOUT_PLAYER_X				0
+#define LAYOUT_PLAYER_Y				4
+#define LAYOUT_INFO_X				0
+#define LAYOUT_INFO_Y				8
+#define LAYOUT_DATA_X				0
+#define LAYOUT_DATA_Y				13
+#define LAYOUT_DETECT_X				20
+#define LAYOUT_DETECT_Y				8
+#define LAYOUT_OPCODE_X				26
+#define LAYOUT_OPCODE_Y				4
 
 // VGM music entry
 struct MusicEntry
@@ -71,15 +82,13 @@ extern const c8* g_VGM_mm_ff_03;
 extern const c8* g_VGM_ma_xevious_01;
 extern const c8* g_VGM_ma_proyakyu_10;
 
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
 
 // Fonts
 #include "font/font_mgl_sample8.h"
-
-// Animation characters
-const u8 g_ChrAnim[] = { '|', '\\', '-', '/' };
 
 // Music list
 const struct MusicEntry g_MusicEntry[] =
@@ -93,9 +102,11 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Final Fantasy (M-M)", 0x8000 + MM_FF_03_VGM_REL,          MM_FF_03_VGM_SEG },
 	{ "Xevious (M-A)      ", 0x8000 + MA_XEVIOUS_01_VGM_REL,     MA_XEVIOUS_01_VGM_SEG },
 	{ "Pro Yakyu (M-A)    ", 0x8000 + MA_PROYAKYU_10_VGM_REL,    MA_PROYAKYU_10_VGM_SEG },
+	{ "Monkey Isl. (OPL2) ", 0x8000 + OPL2_MONKEYISLAND_11_VGM_REL, OPL2_MONKEYISLAND_11_VGM_SEG },
+	{ "Heretic (OPL3)     ", 0x8000 + OPL3_HERETIC_01_VGM_REL,   OPL3_HERETIC_01_VGM_SEG },
+	{ "Sonyc (OPL4)       ", 0x8000 + OPL4_SONYC_05_VGM_REL,     OPL4_SONYC_05_VGM_SEG },
 	{ "Valis 2 (OPNA)     ", 0x8000 + OPNA_VALIS2_23_VGM_REL,    OPNA_VALIS2_23_VGM_SEG },
 	{ "Misty Blue (OPNA)  ", 0x8000 + OPNA_MISTYBLUE_05_VGM_REL, OPNA_MISTYBLUE_05_VGM_SEG },
-	{ "Sonyc (OPL4)       ", 0x8000 + OPL4_SONYC_05_VGM_REL,     OPL4_SONYC_05_VGM_SEG },
 };
 
 // Player button list
@@ -112,10 +123,12 @@ const struct ButtonEntry g_ButtonEntry[] =
 // Color shade
 const u8 g_ColorBlink[4] = { COLOR_LIGHT_RED, COLOR_MEDIUM_RED, COLOR_DARK_RED, COLOR_MEDIUM_RED };
 
+
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
 
+u8 g_Frame = 0;
 u8 g_CurrentMusic = 0;
 u8 g_CurrentButton;
 
@@ -125,118 +138,10 @@ u8 g_CurrentButton;
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-//
-const c8* GetChipName(u8 type)
-{
-	switch (type)
-	{
-	case 0x00: return "AY8910";
-	case 0x01: return "AY8912";
-	case 0x02: return "AY8913";
-	case 0x03: return "AY8930";
-	case 0x10: return "YM2149";
-	case 0x11: return "YM3439";
-	case 0x12: return "YMZ284";
-	case 0x13: return "YMZ294";
-	}
-	return "Unknow";
-}
-
-//-----------------------------------------------------------------------------
-//
-void DrawVGM(const u8* ptr)
-{
-	Print_SetPosition(25, 2);
-	Print_DrawFormat("%4x", ptr);
-	Print_SetPosition(25, 3);
-	Print_DrawText("------");
-	for (u8 i = 0; i < 1; ++i)
-	{
-		Print_SetPosition(25, 4 + i);
-		if (*ptr == 0xA0) // AY8910, write value dd to register aa
-		{
-			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
-			ptr += 2;
-		}
-		#if (VGM_USE_SCC)
-		else if (*ptr == 0xD2) // SCC1, port pp, write value dd to register aa
-		{
-			u8 reg = 0;
-			switch (ptr[1])
-			{
-			case 0:	reg = 0x00;	break; // 0x00 - waveform
-			case 1:	reg = 0x80;	break; // 0x01 - frequency
-			case 2:	reg = 0x8A;	break; // 0x02 - volume
-			case 3:	reg = 0x8F;	break; // 0x03 - key on/off
-			case 4:	reg = 0xA0;	break; // 0x04 - waveform (0x00 used to do SCC access, 0x04 SCC+)
-			case 5:	reg = 0xE0;	break; // 0x05 - test register
-			}
-			Print_DrawFormat("#%2x=%2x", reg + ptr[2], ptr[3]);
-			ptr += 3;
-		}
-		#endif
-		#if (VGM_USE_MSXMUSIC)
-		else if (*ptr == 0x51) // YM2413, write value dd to register aa
-		{
-			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
-			ptr += 2;
-		}
-		#endif
-		#if (VGM_USE_MSXAUDIO)
-		else if (*ptr == 0x5C) // Y8950, write value dd to register aa
-		{
-			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
-			ptr += 2;
-		}
-		#endif
-		#if (VGM_USE_OPNA)
-		else if (*ptr == 0x56) // YM2608 port 0, write value dd to register aa
-		{
-			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
-			ptr += 2;
-		}
-		else if (*ptr == 0x57) // YM2608 port 1, write value dd to register aa
-		{
-			Print_DrawFormat("#%2x=%2x", ptr[1], ptr[2]);
-			ptr += 2;
-		}
-		#endif
-		else if (*ptr == 0x61) // Wait n samples, n can range from 0 to 65535 (approx 1.49 seconds). Longer pauses than this are represented by multiple wait commands.
-		{
-			Print_DrawFormat("W=%4x", *(u16*)(ptr+1));
-			ptr += 2;
-		}
-		else if (*ptr == 0x62) // Wait 735 samples (60th of a second), a shortcut for 0x61 0xdf 0x02
-		{
-			Print_DrawText("W=60Hz");
-		}
-		else if (*ptr == 0x63) // Wait 882 samples (50th of a second), a shortcut for 0x61 0x72 0x03
-		{
-			Print_DrawText("W=50Hz");
-		}
-		else if (*ptr == 0x66) // End of sound data
-		{
-			Print_DrawText("END!!!");
-		}
-		else if ((*ptr & 0xF0) == 0x70) // wait n+1 samples, n can range from 0 to 15.
-		{
-			Print_DrawFormat("W=%1x   ", 1 + *ptr & 0x0F);
-		}
-		else
-		{
-			Print_DrawFormat("~~%2x~~", *ptr);
-			// Print_DrawHex8(*ptr);
-		}
-		Print_Return();
-		ptr++;
-	}
-}
-
-//-----------------------------------------------------------------------------
-//
+// Update player information
 void UpdatePlayer()
 {
-	Print_SetPosition(0, 7);
+	Print_SetPosition(LAYOUT_INFO_X, LAYOUT_INFO_Y);
 	Print_DrawText("Player:\n");
 	Print_DrawFormat("\x07" "Freq    %s\n", (g_VGM_State & VGM_STATE_50HZ) ? "50Hz" : "60Hz");
 	Print_DrawFormat("\x07" "DoLoop  %c\n", (g_VGM_State & VGM_STATE_LOOP) ? '\x0C' : '\x0B');
@@ -244,54 +149,128 @@ void UpdatePlayer()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Select a new music
 void SetMusic(u8 idx)
 {
 	g_CurrentMusic = idx;
 
-	SET_BANK_SEGMENT(1, g_MusicEntry[idx].Segment);
+	SET_BANK_SEGMENT(MUSIC_BANK, g_MusicEntry[idx].Segment);
 
 	bool ok = VGM_Play(g_MusicEntry[idx].Data, TRUE);
 
-	Print_SetPosition(0, 2);
+	Print_SetPosition(LAYOUT_FILE_X, LAYOUT_FILE_Y);
 	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
 
-	Print_SetPosition(0, 12);
-	Print_DrawFormat("Ident:   %s   (%x)\n", ok ? "OK" : "Invalide", (u16)&g_VGM_Header->Ident);
-	Print_DrawFormat("Version: %1x.%1x%1x\n", (u8)(g_VGM_Header->Version >> 8) & 0xF, (u8)(g_VGM_Header->Version >> 4) & 0xF, (u8)(g_VGM_Header->Version) & 0xF);
-	Print_DrawFormat("Loop:    %4X (%x)\n", g_VGM_Header->Loop_offset, (u16)&g_VGM_Header->Loop_offset + (u16)g_VGM_Header->Loop_offset);
-	Print_DrawText("\n");
-	Print_DrawFormat("AY8910:  %c", VGM_ContainsPSG() ? '\x0C' : '\x0B');
-	if (VGM_ContainsPSG())
-		Print_DrawFormat("(%s)\n", GetChipName(g_VGM_Header->AYT));
+	Print_SetPosition(LAYOUT_DATA_X, LAYOUT_DATA_Y);
+	Print_DrawText("Data:\n");
+	Print_DrawFormat("\x07" "Ident   %s\n", ok ? "OK" : "Wrong");
+	Print_DrawFormat("\x07" "Version %1x.%1x%1x\n", (u8)(g_VGM_Header->Version >> 8) & 0xF, (u8)(g_VGM_Header->Version >> 4) & 0xF, (u8)(g_VGM_Header->Version) & 0xF);
+	Print_DrawFormat("\x07" "Loop    %4X(%4X)\n", g_VGM_Header->Loop_offset, (u16)&g_VGM_Header->Loop_offset + (u16)g_VGM_Header->Loop_offset);
+	if (g_VGM_Header->Rate)
+		Print_DrawFormat("\x07" "Freq    %i    \n", g_VGM_Header->Rate);
 	else
-		Print_DrawText("\n");
-	Print_DrawFormat("K051649: %c\n", VGM_ContainsSCC() ? '\x0C' : '\x0B');
-	Print_DrawFormat("YM2413:  %c\n", VGM_ContainsMSXMusic() ? '\x0C' : '\x0B');
-	Print_DrawFormat("Y8950:   %c\n", VGM_ContainsMSXAudio() ? '\x0C' : '\x0B');
-	Print_DrawFormat("YM2608:  %c\n", VGM_ContainsOPNA() ? '\x0C' : '\x0B');
+		Print_DrawText("\x07" "Freq    Undef\n");
+	Print_DrawCharXAt(LAYOUT_DATA_X, LAYOUT_DATA_Y + 5, ' ', LAYOUT_DETECT_X - LAYOUT_DATA_X);
+	Print_SetPosition(LAYOUT_DATA_X, LAYOUT_DATA_Y + 5);
+	Print_DrawText(  "\x07" "Chip    ");
+	if (VGM_ContainsPSG())
+		Print_DrawText("PSG ");
+	if (VGM_ContainsMSXMusic())
+		Print_DrawText("OPLL ");
+	if (VGM_ContainsMSXAudio())
+		Print_DrawText("OPL1 ");
+	if (VGM_ContainsSCC())
+		Print_DrawText("SCC ");
+	if (VGM_ContainsOPL2())
+		Print_DrawText("OPL2 ");
+	if (VGM_ContainsOPL3())
+		Print_DrawText("OPL3 ");
+	if (VGM_ContainsOPL4())
+		Print_DrawText("OPL4 ");
+	if (VGM_ContainsOPNA())
+		Print_DrawText("OPNA ");
+		
+	Print_DrawCharXAt(0, 21, ' ', 32);
 
 	UpdatePlayer();
 }
 
 //-----------------------------------------------------------------------------
-//
+// Draw VU
+void DrawVU()
+{
+	Print_SetPosition(0, 21);
+	#if (PSG_USE_CHANNEL)
+	if (VGM_ContainsPSG())
+	{
+		loop (i, PSG_GetChannelCount())
+			Print_DrawChar(0xA0 + ((PSG_GetChannelVolume(i) / 2 + 1) & 0x07));
+		Print_Space();
+	}
+	#endif
+	#if (MSXMUSIC_USE_CHANNEL)
+	if (VGM_ContainsMSXMusic())
+	{
+		loop (i, MSXMusic_GetChannelCount())
+			Print_DrawChar(0xA0 + ((MSXMusic_GetChannelVolume(i) / 2 + 1) & 0x07));
+		Print_Space();
+	}
+	#endif
+	#if (MSXAUDIO_USE_CHANNEL)
+	if (VGM_ContainsMSXAudio())
+	{
+		loop (i, MSXAudio_GetChannelCount())
+			Print_DrawChar(0xA0 + ((MSXAudio_GetChannelVolume(i) / 2 + 1) & 0x07));
+		Print_Space();
+	}
+	#endif
+	#if (SCC_USE_CHANNEL)
+	if (VGM_ContainsSCC())
+	{
+		loop (i, SCC_GetChannelCount())
+			Print_DrawChar(0xA0 + ((SCC_GetChannelVolume(i) / 2 + 1) & 0x07));
+		Print_Space();
+	}
+	#endif
+	#if (OPL4_USE_CHANNEL)
+	if (VGM_ContainsOPL2() || VGM_ContainsOPL3() || VGM_ContainsOPL4())
+	{
+		loop (i, 32)//OPL4_GetChannelCount())
+			Print_DrawChar(0xA0 + ((OPL4_GetChannelVolume(i) / 2 + 1) & 0x07));
+	}
+	#endif
+	#if (OPNA_USE_CHANNEL)
+	if (VGM_ContainsOPNA())
+	{
+		loop (i, OPNA_GetChannelCount())
+			Print_DrawChar(0xA0 + ((OPNA_GetChannelVolume(i) / 2 + 1) & 0x07));
+		Print_Space();
+	}
+	#endif
+}
+
+//-----------------------------------------------------------------------------
+// Select Play button
 void ButtonPlay()
 {
+	#if (VGM_USE_RESUME)
 	VGM_Resume();
 	UpdatePlayer();
+	#endif
 }
 
 //-----------------------------------------------------------------------------
-//
+// Select Pause button
 void ButtonPause()
 {
+	#if (VGM_USE_RESUME)
 	VGM_Pause();
 	UpdatePlayer();
+	#endif
 }
 
 //-----------------------------------------------------------------------------
-//
+// Select Stop button
 void ButtonStop()
 {
 	VGM_Stop();	
@@ -299,7 +278,7 @@ void ButtonStop()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Select Previous button
 void ButtonPrev()
 {
 	if (g_CurrentMusic > 0)
@@ -307,7 +286,7 @@ void ButtonPrev()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Select Next button
 void ButtonNext()
 {
 	if (g_CurrentMusic < numberof(g_MusicEntry) - 1)
@@ -315,7 +294,7 @@ void ButtonNext()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Select Loop button
 void ButtonLoop()
 {
 	if (g_VGM_State & VGM_STATE_LOOP)
@@ -326,15 +305,15 @@ void ButtonLoop()
 }
 
 //-----------------------------------------------------------------------------
-//
+// Move player's cursor
 void SetCursor(u8 id)
 {
 	g_CurrentButton = id % 6;
-	VDP_SetSpriteSM1(0, 8 + 16 * g_CurrentButton, (PLAYER_Y + 1) * 8 - 1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
+	VDP_SetSpriteSM1(0, (LAYOUT_PLAYER_X + 1) * 8 + 16 * g_CurrentButton, (LAYOUT_PLAYER_Y + 1) * 8 - 1, g_ButtonEntry[g_CurrentButton].Char, COLOR_LIGHT_RED);
 }
 
 //-----------------------------------------------------------------------------
-//
+// Draw a given slot
 void Print_DrawSlot(u8 slot)
 {
 	if (slot == 0xFF)
@@ -372,50 +351,54 @@ void main()
 	Print_DrawText(MSX_GL " VGM SAMPLE");
 	Print_DrawLineH(0, 1, 32);
 
-	Print_SetPosition(20, 7);
-	Print_DrawText("Main-ROM:");
-	Print_SetPosition(20, 8);
+	// Diplayr detected information
+	u8 y = LAYOUT_DETECT_Y;
+	Print_DrawTextAt(LAYOUT_DETECT_X, y++, "Main-ROM:");
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawFormat("\x07" "Freq  %s", Sys_Is50Hz() ? "50Hz" : "60Hz");
-
-	u8 y = 16;
-	Print_SetPosition(20, y++);
+	y++;
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawText("Detect: ");
-	#if (VGM_USE_SCC)
-	Print_SetPosition(20, y++);
-	Print_DrawText("\x07" "SCC:    ");
-	Print_DrawSlot(SCC_SLOT);
-	#endif
 	#if (VGM_USE_MSXMUSIC)
-	Print_SetPosition(20, y++);
-	Print_DrawText("\x07" "YM2413: ");
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
+	Print_DrawText("\x07" "YM2413  ");
 	Print_DrawSlot(g_MSXMusic_SlotId);
 	#endif
 	#if (VGM_USE_MSXAUDIO)
-	Print_SetPosition(20, y++);
-	Print_DrawText("\x07" "Y8950:  ");
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
+	Print_DrawText("\x07" "Y8950   ");
 	Print_DrawChar(MSXAudio_Detect() ? '\x0C' : '\x0B');
 	#endif
+	#if (VGM_USE_SCC)
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
+	Print_DrawText("\x07" "SCC     ");
+	Print_DrawSlot(SCC_SLOT);
+	#endif
 	#if (VGM_USE_OPL4)
-	Print_SetPosition(20, y++);
-	Print_DrawText("\x07" "YMF278B:");
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
+	Print_DrawText("\x07" "YMF278B ");
 	Print_DrawChar(OPL4_Detect() ? '\x0C' : '\x0B');
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
+	Print_DrawFormat(" (%iKB)", OPL4_WaveGetMemSize() * 128);
 	#endif
 	#if (VGM_USE_OPNA)
-	Print_SetPosition(20, y++);
-	Print_DrawText("\x07" "YM2608: ");
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
+	Print_DrawText("\x07" "YM2608  ");
 	Print_DrawChar(OPNA_Detect() ? '\x0C' : '\x0B');
 	#endif
 
 	// Decode VGM header
 	SetMusic(0);
-	Print_DrawBox(0, PLAYER_Y, numberof(g_ButtonEntry) * 2 + 1, 3);
+	Print_SetDrawStyle(PRINT_DRAW_STYLE_DOUBLE);
+	Print_DrawBox(LAYOUT_PLAYER_X, LAYOUT_PLAYER_Y, numberof(g_ButtonEntry) * 2 + 1, 3);
 	for (u8 i = 0; i < numberof(g_ButtonEntry); ++i)
 	{
-		Print_SetPosition(1 + 2 * i, PLAYER_Y + 1);
+		Print_SetPosition(LAYOUT_PLAYER_X + 1 + (2 * i), LAYOUT_PLAYER_Y + 1);
 		Print_DrawChar(g_ButtonEntry[i].Char);
 	}
 
 	// Footer
+	Print_SetDrawStyle(PRINT_DRAW_STYLE_LINE);
 	Print_DrawLineH(0, 22, 32);
 	Print_SetPosition(0, 23);
 	Print_DrawText("\x8D:Button \x83:Action \x82:Freq");
@@ -429,24 +412,21 @@ void main()
 	SetCursor(4);
 
 	u8 prevRow8 = 0xFF;
-	u8 count = 0;
 	while (1)
 	{
 		Halt();
+		g_Frame++;
+
 		// VDP_SetColor(0xFE);
 		VGM_Decode();
 		#if (PSG_ACCESS == PSG_INDIRECT)
 		PSG_Apply();
 		#endif
 		// VDP_SetColor(0xF0);
-		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
-		
-		DrawVGM(g_VGM_Pointer);
 
-
-		Print_SetPosition(31, 0);
-		u8 chr = count++ & 0x03;
-		Print_DrawChar(g_ChrAnim[chr]);
+		VDP_SetSpriteColorSM1(0, g_ColorBlink[(g_Frame >> 2) & 0x03]);
+		Print_DrawCharAt(31, 0, 0xB0 + ((g_Frame >> 2) & 0x7));
+		DrawVU();
 		
 		// Handle input
 		u8 row8 = Keyboard_Read(8);

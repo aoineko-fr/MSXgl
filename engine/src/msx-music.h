@@ -21,6 +21,17 @@
 
 #include "core.h"
 #include "msx-music_reg.h"
+#include "audio/audio.h"
+
+//-----------------------------------------------------------------------------
+// CHECK OPTIONS
+//-----------------------------------------------------------------------------
+
+// MSXMUSIC_USE_CHANNEL
+#ifndef MSXMUSIC_USE_CHANNEL
+	#warning MSXMUSIC_USE_CHANNEL is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define MSXMUSIC_USE_CHANNEL	TRUE
+#endif
 
 //=============================================================================
 // DEFINES
@@ -46,6 +57,8 @@ extern u8 g_MSXMusic_SlotId;
 //=============================================================================
 // PROTOTYPE
 //=============================================================================
+
+// Group: Core
 
 // Function: MSXMusic_Initialize
 // Initialize MSX-Music module
@@ -89,6 +102,8 @@ void MSXMusic_SetRegister(u8 reg, u8 value);
 //   Value of the register
 u8 MSXMusic_GetRegister(u8 reg);
 
+// Group: Player
+
 // Function: MSXMusic_Mute
 // Mute MSX-Music sound
 void MSXMusic_Mute();
@@ -97,4 +112,36 @@ void MSXMusic_Mute();
 // Function: MSXMusic_Resume
 // Resume MSX-Music sound
 void MSXMusic_Resume();
+#endif
+
+#if (MSXMUSIC_USE_CHANNEL)
+// Group: Channel Info
+// Note: MSXMUSIC_USE_CHANNEL need to be set to TRUE to use functions from this group
+
+// Function: MSXMusic_GetChannelCount
+// Get the number of MSX-Music channels (9 melodic channels and 5 rhythm instruments)
+//
+// Return:
+//   Number of channels
+inline u8 MSXMusic_GetChannelCount() { return 14; }
+
+// Function: MSXMusic_GetChannelVolume
+// Get the current volume of a given channel (based on the values written with <MSXMusic_SetRegister>)
+//
+// Parameters:
+//   chan - Channel index (0 to 8 for melodic channels, 9 to 13 for rhythm instruments)
+//
+// Return:
+//   0 (off) or 15 (keyed on)
+u8 MSXMusic_GetChannelVolume(u8 chan);
+
+// Function: MSXMusic_GetChannelType
+// Get the type of a given channel
+//
+// Parameters:
+//   chan - Channel index (0 to 13)
+//
+// Return:
+//   Channel type
+inline u8 MSXMusic_GetChannelType(u8 chan) { return (chan < 9) ? CHANNEL_TYPE_FM_INST : CHANNEL_TYPE_FM_RHYTHM; }
 #endif

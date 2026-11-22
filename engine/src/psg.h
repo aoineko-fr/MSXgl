@@ -24,6 +24,17 @@
 #include "core.h"
 #include "system_port.h"
 #include "psg_reg.h"
+#include "audio/audio.h"
+
+//-----------------------------------------------------------------------------
+// CHECK OPTIONS
+//-----------------------------------------------------------------------------
+
+// PSG_USE_CHANNEL
+#ifndef PSG_USE_CHANNEL
+	#warning PSG_USE_CHANNEL is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define PSG_USE_CHANNEL			TRUE
+#endif
 
 //=============================================================================
 // DEFINES
@@ -256,10 +267,49 @@ void PSG_Apply();
 #if (PSG_USE_NOTES)
 // Function: PSG_SetNote
 // Set a note on the given channel
+// Note: PSG_USE_NOTES need to be set to TRUE to use this function
 //
 // Parameters:
 //   chan   - Channel to set (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
 //   note   - Note to set (0 to 11; or NOTE_DO, NOTE_RE, NOTE_MI, NOTE_FA, NOTE_SOL, NOTE_LA, NOTE_SI)
 //   octave - Octave to play (0 to 7)
 inline void PSG_SetNote(u8 chan, u8 note, u8 octave) { PSG_SetTone(chan, g_PSG_Notes[(octave * 12) + note]); }
-#endif // (PSG_USE_NOTES)
+#endif)
+
+#if (PSG_USE_CHANNEL)
+// Group: Channel
+
+// Function: PSG_GetChannelCount
+// Get the number of PSG channels (6 if both internal and external PSG are used in indirect mode, 3 otherwise)
+// Note: PSG_USE_CHANNEL need to be set to TRUE to use this function
+//
+// Return:
+//   Number of channels
+#if (PSG_CHIP == PSG_BOTH)
+inline u8 PSG_GetChannelCount() { return 6; }
+#else
+inline u8 PSG_GetChannelCount() { return 3; }
+#endif
+
+// Function: PSG_GetChannelVolume
+// Get the current volume of a given channel
+// Note: PSG_USE_CHANNEL need to be set to TRUE to use this function
+//
+// Parameters:
+//   chan - Channel index (0 to 2; 3 to 5 for the secondary PSG)
+//
+// Return:
+//   Volume from 0 (mute) to 15 (max). 0 if neither tone nor noise is enabled on the channel. 15 if the channel volume is controlled by the envelope
+u8 PSG_GetChannelVolume(u8 chan);
+
+// Function: PSG_GetChannelType
+// Get the type of a given channel
+// Note: PSG_USE_CHANNEL need to be set to TRUE to use this function
+//
+// Parameters:
+//   chan - Channel index (0 to 2; 3 to 5 for the secondary PSG)
+//
+// Return:
+//   Channel type (always CHANNEL_TYPE_TONE)
+inline u8 PSG_GetChannelType(u8 chan) { chan; return CHANNEL_TYPE_TONE; }
+#endif
