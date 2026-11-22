@@ -218,7 +218,14 @@ void VGM_Decode()
 		#if (VGM_USE_PSG)
 		if (*g_VGM_Pointer == VGM_CMD_AY8910) // AY8910, write value dd to register aa
 		{
-			PSG_SetRegister(g_VGM_Pointer[1], g_VGM_Pointer[2]);
+			u8 reg = g_VGM_Pointer[1];
+			u8 val = g_VGM_Pointer[2];
+			if (reg == 13)
+			{
+				val &= 0x3F;
+				val |= 0x80;
+			}
+			PSG_SetRegister(reg, g_VGM_Pointer[2]);
 			g_VGM_Pointer += 2;
 		} else 
 		#endif
