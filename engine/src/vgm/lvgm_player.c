@@ -377,7 +377,7 @@ void  LVGM_DecodeOPNA()
 
 //-----------------------------------------------------------------------------
 // Reset LVGM data
-static void LVGM_Reset()
+void LVGM_Reset()
 {
 	g_LVGM_Wait = 0;
 	g_LVGM_CurChip = LVGM_CHIP_PSG;
@@ -495,22 +495,28 @@ void LVGM_Resume()
 	g_LVGM_State |= LVGM_STATE_PLAY;
 
 	#if (LVGM_USE_PSG && PSG_USE_RESUME)
-	PSG_Resume();
+	if (LVGM_IncludePSG())
+		PSG_Resume();
 	#endif
 	#if (LVGM_USE_MSXMUSIC && MSXMUSIC_USE_RESUME)
-	MSXMusic_Resume();
+	if (LVGM_IncludeOPLL())
+		MSXMusic_Resume();
 	#endif
 	#if (LVGM_USE_MSXAUDIO && MSXAUDIO_USE_RESUME)
-	MSXAudio_Resume();
+	if (LVGM_IncludeOPL())
+		MSXAudio_Resume();
 	#endif
 	#if (LVGM_USE_SCC && SCC_USE_RESUME)
-	SCC_Resume();
+	if (LVGM_IncludeSCC())
+		SCC_Resume();
 	#endif
 	#if (LVGM_USE_OPL4 && OPL4_USE_RESUME)
-	OPL4_Resume();
+	if (LVGM_IncludeOPL4())
+		OPL4_Resume();
 	#endif
 	#if (LVGM_USE_OPNA && OPNA_USE_RESUME)
-	OPNA_Resume();
+	if (LVGM_IncludeOPNA())
+		OPNA_Resume();
 	#endif
 }
 

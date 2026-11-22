@@ -327,6 +327,20 @@ inline bool LVGM_IncludeOPL() { return g_LVGM_Devices & LVGM_CHIP_MSXAUDIO; }
 //   TRUE is current music include SCC data
 inline bool LVGM_IncludeSCC() { return g_LVGM_Devices & LVGM_CHIP_SCC; }
 
+// Function: LVGM_IncludeOPL4
+// Is music including OPL4 data
+//
+// Return:
+//   TRUE is current music include OPL4 data
+inline bool LVGM_IncludeOPL4() { return g_LVGM_Devices & LVGM_CHIP_OPL4; }
+
+// Function: LVGM_IncludeOPNA
+// Is music including OPNA data
+//
+// Return:
+//   TRUE is current music include OPNA data
+inline bool LVGM_IncludeOPNA() { return g_LVGM_Devices & LVGM_CHIP_OPNA; }
+
 // Function: LVGM_GetDefaultPSGValue
 // Get default PSG value used to optimized more commun data
 //
