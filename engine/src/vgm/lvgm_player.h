@@ -61,10 +61,10 @@
 	#define LVGM_USE_NOTIFY			TRUE
 #endif
 
-// LVGM_USE_RESUME
-#ifndef LVGM_USE_RESUME
-	#warning LVGM_USE_RESUME is not defined in "msxgl_config.h"! Default value will be used: TRUE
-	#define LVGM_USE_RESUME			TRUE
+// LVGM_USE_PAUSE
+#ifndef LVGM_USE_PAUSE
+	#warning LVGM_USE_PAUSE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LVGM_USE_PAUSE			TRUE
 #endif
 
 // Not yet supported chips
@@ -269,17 +269,16 @@ inline bool LVGM_IsPlaying() { return g_LVGM_State & LVGM_STATE_PLAY; }
 // Mute all sound chips (playback state is not changed)
 void LVGM_Mute();
 
-#if (LVGM_USE_RESUME)
+#if (LVGM_USE_PAUSE)
 // Function: LVGM_Pause
 // Pause music playback
-// Note: LVGM_USE_RESUME need to be set to TRUE to use this function
+// Note: LVGM_USE_PAUSE need to be set to TRUE to use this function
 void LVGM_Pause();
+#endif
 
 // Function: LVGM_Resume
 // Resume music playback (after a stop, playback restarts from the beginning without restoring the chips state)
-// Note: LVGM_USE_RESUME need to be set to TRUE to use this function
 void LVGM_Resume();
-#endif
 
 // Function: LVGM_Decode
 // Decode a frame of music

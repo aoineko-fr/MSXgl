@@ -367,9 +367,9 @@ if (DoCompile)
 
 		for (let e = 0; e < codeExtList.length; e++)
 		{
-			if (fs.existsSync(`./${ProjModules[i]}.${codeExtList[e]}`))
+			if (fs.existsSync(`${ProjDir}${ProjModules[i]}.${codeExtList[e]}`))
 			{
-				SrcList.push(`./${ProjModules[i]}.${codeExtList[e]}`);
+				SrcList.push(`${ProjDir}${ProjModules[i]}.${codeExtList[e]}`);
 				let fileName = path.parse(ProjModules[i]).name;
 				RelList.push(`${OutDir}${fileName}.rel`);
 				bFound = true;
@@ -1059,8 +1059,8 @@ if (DoDeploy)
 		// Copy all available header files
 		for (let i = 0; i < ProjModules.length; i++)
 		{
-			if (fs.existsSync(`./${ProjModules[i]}.h`))
-				util.copyFile(`./${ProjModules[i]}.h`, `${ProjDir}lib/${ProjModules[i]}.h`);
+			if (fs.existsSync(`${ProjDir}${ProjModules[i]}.h`))
+				util.copyFile(`${ProjDir}${ProjModules[i]}.h`, `${ProjDir}lib/${ProjModules[i]}.h`);
 		}	
 	}
 	util.print("Success", PrintSuccess);

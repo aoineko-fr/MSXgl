@@ -68,6 +68,9 @@ void ButtonPrev();
 void ButtonNext();
 void ButtonLoop();
 
+void InterruptHandler();
+void WaitVBlank();
+
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -125,8 +128,14 @@ const c8 g_ChanTypeID[CHANNEL_TYPE_MAX] = { 'T', 'W', 'I', 'R', 'S' };
 // MEMORY DATA
 //=============================================================================
 
+bool g_VBlank = FALSE;
+u8 g_Frame;
 u8 g_CurrentMusic = 0;
 u8 g_CurrentButton;
+
+// Buffer to store keys state
+u8 g_InputBuffer[INPUT_KB_UPDATE_MAX - INPUT_KB_UPDATE_MIN + 1]; // Current state
+u8 g_InputPrev[INPUT_KB_UPDATE_MAX - INPUT_KB_UPDATE_MIN + 1]; // Previous state
 
 // Last segment
 DOS_Segment g_SegList[4];
@@ -197,6 +206,8 @@ void ResetMapper()
 // Select a new music: Upload it to RAM mapper segment, display information and start playback
 void SetMusic(u8 idx)
 {
+	BIOS_ClearHook(H_TIMI);
+
 	g_CurrentMusic = idx;
 	LVGM_Stop();
 	LVGM_Decode();
@@ -286,6 +297,8 @@ void SetMusic(u8 idx)
 	Print_DrawCharXAt(0, 21, ' ', 32);
 
 	UpdatePlayer();
+
+	BIOS_SetHookCallback(H_TIMI, InterruptHandler);
 }
 
 //-----------------------------------------------------------------------------
@@ -346,17 +359,15 @@ void DrawVU()
 // Handle Play button action
 void ButtonPlay()
 {
-	#if (LVGM_USE_RESUME)
 	LVGM_Resume();
 	UpdatePlayer();
-	#endif
 }
 
 //-----------------------------------------------------------------------------
 // Handle Pause button action
 void ButtonPause()
 {
-	#if (LVGM_USE_RESUME)
+	#if (LVGM_USE_PAUSE)
 	LVGM_Pause();
 	UpdatePlayer();
 	#endif
@@ -375,20 +386,14 @@ void ButtonStop()
 // Handle Previous button action
 void ButtonPrev()
 {
-	if (g_CurrentMusic > 0)
-		SetMusic(g_CurrentMusic - 1);
-	else
-		SetMusic(numberof(g_MusicEntry) - 1);
+	SetMusic((g_CurrentMusic + numberof(g_MusicEntry) - 1) % numberof(g_MusicEntry));
 }
 
 //-----------------------------------------------------------------------------
 // Handle Next button action
 void ButtonNext()
 {
-	if (g_CurrentMusic < numberof(g_MusicEntry) - 1)
-		SetMusic(g_CurrentMusic + 1);
-	else
-		SetMusic(0);
+	SetMusic((g_CurrentMusic + 1) % numberof(g_MusicEntry));
 }
 
 //-----------------------------------------------------------------------------
@@ -429,15 +434,22 @@ void Print_DrawSlot(u8 slot)
 
 //-----------------------------------------------------------------------------
 // Interrupt handle synchronized at 50/60 Hz
-void VDP_InterruptHandler()
+void InterruptHandler()
 {
-	VDP_SetColor(0xF4);
 	LVGM_Decode();
-	VDP_SetColor(0xF6);
 	#if (PSG_ACCESS == PSG_INDIRECT)
 	PSG_Apply();
 	#endif
-	VDP_SetColor(0xF0);
+	g_VBlank = TRUE;
+	g_Frame++;
+}
+
+//-----------------------------------------------------------------------------
+// Wait for screen synchronization signal
+void WaitVBlank()
+{
+	while (!g_VBlank) {}
+	g_VBlank = FALSE;
 }
 
 //=============================================================================
@@ -469,6 +481,7 @@ void main()
 
 	// Initialize screen
 	VDP_SetMode(VDP_MODE_SCREEN1);
+	VDP_SetColor(COLOR_BLACK);
 	VDP_ClearVRAM();
 	VDP_EnableVBlank(TRUE);
 
@@ -536,41 +549,38 @@ void main()
 	SetMusic(0);
 	SetCursor(4);
 
-	u8 prevRow8 = 0xFF;
-	u8 count = 0;
-	while (1)
-	{
-		Halt();
-		VDP_InterruptHandler();
+	Keyboard_SetBuffer(g_InputBuffer, g_InputPrev);
 
-		VDP_SetSpriteColorSM1(0, g_ColorBlink[(count >> 2) & 0x03]);
+	while (!Keyboard_IsKeyPressed(KEY_ESC))
+	{
+		// Synchronize with screen display
+		WaitVBlank();
+
+		// Handle input
+		Keyboard_Update();
+
+		VDP_SetSpriteColorSM1(0, g_ColorBlink[(g_Frame >> 2) & 0x03]);
 		
 		DrawRawData(g_LVGM_Pointer);
 		DrawVU();
-
-		Print_DrawCharAt(31, 0, 0xB0 + ((count >> 2) & 0x7));
-		count++;
+		Print_DrawCharAt(31, 0, 0xB0 + ((g_Frame >> 2) & 0x7));
 		
-		// Handle input
-		u8 row8 = Keyboard_Read(8);
-
 		// Change button
-		if (IS_KEY_PRESSED(row8, KEY_RIGHT) && !IS_KEY_PRESSED(prevRow8, KEY_RIGHT))
+		if (Keyboard_IsKeyPushed(KEY_RIGHT))
 		{
 			SetCursor((g_CurrentButton < numberof(g_ButtonEntry) - 1) ? g_CurrentButton + 1 : 0);
 		}
-		else if (IS_KEY_PRESSED(row8, KEY_LEFT) && !IS_KEY_PRESSED(prevRow8, KEY_LEFT))
+		else if (Keyboard_IsKeyPushed(KEY_LEFT))
 		{
 			SetCursor((g_CurrentButton > 0) ? g_CurrentButton - 1 : numberof(g_ButtonEntry) - 1);
 		}
 		// Activate button
-		if (IS_KEY_PRESSED(row8, KEY_SPACE) && !IS_KEY_PRESSED(prevRow8, KEY_SPACE))
+		if (Keyboard_IsKeyPushed(KEY_SPACE))
 		{
 			g_ButtonEntry[g_CurrentButton].Func();
 		}
 		// Change frequency
-		if ((IS_KEY_PRESSED(row8, KEY_UP) && !IS_KEY_PRESSED(prevRow8, KEY_UP))
-		 || (IS_KEY_PRESSED(row8, KEY_DOWN) && !IS_KEY_PRESSED(prevRow8, KEY_DOWN)))
+		if (Keyboard_IsKeyPushed(KEY_UP) || Keyboard_IsKeyPushed(KEY_DOWN))
 		{
 			if (g_LVGM_State & LVGM_STATE_50HZ)
 				g_LVGM_State &= ~LVGM_STATE_50HZ;
@@ -578,10 +588,15 @@ void main()
 				g_LVGM_State |= LVGM_STATE_50HZ;
 			UpdatePlayer();
 		}
-		// Exit
-		if (IS_KEY_PRESSED(row8, KEY_ESC))
-			DOS_Exit(0);
-		
-		prevRow8 = row8;
 	}
+
+	// Release resources
+	BIOS_ClearHook(H_TIMI);
+	LVGM_Mute();
+	#if (PSG_ACCESS == PSG_INDIRECT)
+	PSG_Apply();
+	#endif
+	loop (i, 4)
+		DOSMapper_Free(g_SegList[i].Number, DOS_SEGSLOT_PRIM);
+	BIOS_Exit(0);
 }

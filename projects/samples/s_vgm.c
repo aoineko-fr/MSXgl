@@ -253,17 +253,15 @@ void DrawVU()
 // Select Play button
 void ButtonPlay()
 {
-	#if (VGM_USE_RESUME)
 	VGM_Resume();
 	UpdatePlayer();
-	#endif
 }
 
 //-----------------------------------------------------------------------------
 // Select Pause button
 void ButtonPause()
 {
-	#if (VGM_USE_RESUME)
+	#if (VGM_USE_PAUSE)
 	VGM_Pause();
 	UpdatePlayer();
 	#endif

@@ -17,10 +17,10 @@
 // CHECK OPTIONS
 //-----------------------------------------------------------------------------
 
-// VGM_USE_RESUME
-#ifndef VGM_USE_RESUME
-	#warning VGM_USE_RESUME is not defined in "msxgl_config.h"! Default value will be used: TRUE
-	#define VGM_USE_RESUME			TRUE
+// VGM_USE_PAUSE
+#ifndef VGM_USE_PAUSE
+	#warning VGM_USE_PAUSE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define VGM_USE_PAUSE			TRUE
 #endif
 
 //=============================================================================
@@ -252,17 +252,16 @@ inline bool VGM_IsPlaying() { return g_VGM_State & VGM_STATE_PLAY; }
 // Mute all sound chips (playback state is not changed)
 void VGM_Mute();
 
-#if (VGM_USE_RESUME)
-// Function: VGM_Resume
-// Resume music playback (after a stop, playback restarts from the beginning without restoring the chips state)
-// Note: VGM_USE_RESUME need to be set to TRUE to use this function
-void VGM_Resume();
-
+#if (VGM_USE_PAUSE)
 // Function: VGM_Pause
 // Pause music playback
-// Note: VGM_USE_RESUME need to be set to TRUE to use this function
+// Note: VGM_USE_PAUSE need to be set to TRUE to use this function
 void VGM_Pause();
 #endif
+
+// Function: VGM_Resume
+// Resume music playback (after a stop, playback restarts from the beginning without restoring the chips state)
+void VGM_Resume();
 
 // Function: VGM_Decode
 // Decode a frame of music

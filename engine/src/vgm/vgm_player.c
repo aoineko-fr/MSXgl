@@ -141,8 +141,6 @@ bool VGM_Play(const void* addr, bool loop)
 	return TRUE;
 }
 
-#if (VGM_USE_RESUME)
-
 //-----------------------------------------------------------------------------
 // Resume music playback
 void VGM_Resume()
@@ -157,6 +155,7 @@ void VGM_Resume()
 
 	g_VGM_State |= VGM_STATE_PLAY;
 
+	#if (VGM_USE_PAUSE)
 	#if (VGM_USE_PSG && PSG_USE_RESUME)
 	if (VGM_ContainsPSG())
 		PSG_Resume();
@@ -181,8 +180,10 @@ void VGM_Resume()
 	if (VGM_ContainsOPNA())
 		OPNA_Resume();
 	#endif
+	#endif // (VGM_USE_PAUSE)
 }
 
+#if (VGM_USE_PAUSE)
 //-----------------------------------------------------------------------------
 // Pause music playback
 void VGM_Pause()
@@ -190,8 +191,7 @@ void VGM_Pause()
 	g_VGM_State &= ~VGM_STATE_PLAY;
 	VGM_Mute();
 }
-
-#endif // (VGM_USE_RESUME)
+#endif // (VGM_USE_PAUSE)
 
 //-----------------------------------------------------------------------------
 // Play a ayVGM data
@@ -201,7 +201,7 @@ void VGM_Stop()
 	VGM_Mute();
 	g_VGM_Pointer = (u8*)((u16)&g_VGM_Header->Data_offset + (u16)g_VGM_Header->Data_offset);
 	g_VGM_WaitCount = 0;
-	#if (VGM_USE_RESUME)
+	#if (VGM_USE_PAUSE)
 	g_VGM_State |= VGM_STATE_STOP; // Chips state saved by the mute must not be restored
 	#endif
 }

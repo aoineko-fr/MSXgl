@@ -161,18 +161,19 @@ extern u8* g_InputBufferNew;
 // Buffer to store previous frame keys state
 extern u8* g_InputBufferOld;
 
-// Function: Keyboard_SetBuffer
-// Set the buffer to store keyboard state
-//
-// Parameters:
-//   new - Buffer to store current frame keys state
-//   old - Buffer to store previous frame keys state
-inline void Keyboard_SetBuffer(u8* new, u8* old) { g_InputBufferNew = new; g_InputBufferOld = old; }
-
 // Function: Keyboard_Update
 // Updates all keyboard rows at once
 // Only available when INPUT_KB_UPDATE is TRUE
 void Keyboard_Update();
+
+// Function: Keyboard_SetBuffer
+// Set the buffer to store keyboard state
+// Size of the buffer must be 'INPUT_KB_UPDATE_MAX - INPUT_KB_UPDATE_MIN + 1'
+//
+// Parameters:
+//   new - Buffer to store current frame keys state
+//   old - Buffer to store previous frame keys state
+inline void Keyboard_SetBuffer(u8* new, u8* old) { g_InputBufferNew = new; g_InputBufferOld = old; Keyboard_Update(); }
 
 // Function: Keyboard_IsKeyPressed
 // When INPUT_KB_UPDATE is TRUE, this function uses data retrieved by Keyboard_Update() function

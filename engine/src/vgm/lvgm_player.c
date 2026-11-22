@@ -465,13 +465,12 @@ void LVGM_Stop()
 
 	g_LVGM_Pointer = g_LVGM_StartAddr;
 	LVGM_Reset();
-	#if (LVGM_USE_RESUME)
+	#if (LVGM_USE_PAUSE)
 	g_LVGM_State |= LVGM_STATE_STOP; // Chips state saved by the mute must not be restored
 	#endif
 }
 
-#if (LVGM_USE_RESUME)
-
+#if (LVGM_USE_PAUSE)
 //-----------------------------------------------------------------------------
 // Pause music playback
 void LVGM_Pause()
@@ -479,6 +478,7 @@ void LVGM_Pause()
 	g_LVGM_State &= ~LVGM_STATE_PLAY;
 	LVGM_Mute();
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Resume music playback
@@ -494,6 +494,7 @@ void LVGM_Resume()
 
 	g_LVGM_State |= LVGM_STATE_PLAY;
 
+	#if (LVGM_USE_PAUSE)
 	#if (LVGM_USE_PSG && PSG_USE_RESUME)
 	if (LVGM_IncludePSG())
 		PSG_Resume();
@@ -518,10 +519,8 @@ void LVGM_Resume()
 	if (LVGM_IncludeOPNA())
 		OPNA_Resume();
 	#endif
+	#endif // (LVGM_USE_PAUSE)
 }
-
-#endif // (LVGM_USE_RESUME)
-
 
 //-----------------------------------------------------------------------------
 //

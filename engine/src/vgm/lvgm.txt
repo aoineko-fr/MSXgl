@@ -5,10 +5,11 @@
 
 	xx			Options
 				7 6 5 4 3 2 1 0
-				│ │ │ │   │ │ └── Frequency (0: 60 Hz, 1: 50 Hz)
-				│ │ │ │   │ └──── Loop data included
-				│ │ │ │   └────── Devices (0: PSG only, 1: Device list incuded; see bellow)
-				└─┴─┴─┴────────── File format version (0)
+				│ │ │ │ │ │ │ └── Frequency (0: 60 Hz, 1: 50 Hz)
+				│ │ │ │ │ │ └──── Loop data included
+				│ │ │ │ │ └────── Devices (0: PSG only, 1: Device list incuded; see bellow)
+				│ │ │ │ └──────── Segment size (0: 8 KB, 1: 16 KB)
+				└─┴─┴─┴────────── File format version (1)
 
 	(xx)		Devices (only present if Options#2 is 1)
 				7 6 5 4 3 2 1 0
@@ -19,7 +20,7 @@
 				│ │ │ └────────── Include SCC+ data (K052539)
 				│ │ └──────────── Include secondary PSG data
 				│ └────────────── Include Moonsound data (YMF278/OPL4)
-				└──────────────── Include Makoto (YM2608/OPNA)
+				└──────────────── Include Makoto data (YM2608/OPNA)
 
 	(xx)		PSG - Most common value (only present if Opions#2 is 0 or Devices#0 is 1)
 
@@ -41,6 +42,8 @@
 	F6				Start of Moonsound (OPL4) chunk
 	F7				Start of Makoto (OPNA) chunk
 
+	FB nn aaaa		Replay nn+5 bytes of data from same segment (5~260)
+
 	FC nn			Wait nn+1 cycles (1~256)
 
 	FD nn			Special markers (trigger notification by the replayer)
@@ -56,7 +59,7 @@
 	FE				Loop position
 	FF				End of song
 ..............................................................................
-					Not used: F6, F9~FB
+					Not used: F8~FA
 
 
 ==============================================================================
@@ -87,7 +90,7 @@
 	0B xx			Envelope Period (R#11 = xx)
 	0C xx			Envelope Period (R#12 = xx)
 
-	Cx				Envelope Shape (R#13 = x)
+	Cx				Envelope Shape (R#13 = x | 0x80)
 ..............................................................................
 	Dx				More common byte value (R#x = <Most common value>)
 ..............................................................................
@@ -191,3 +194,20 @@
 ..............................................................................
 					Not used: B7~BC
 					Note: Part 0 R#10 (rhythm key) is always written alone (never in Cx/Dx): the replayer waits for the chip after it
+
+
+==============================================================================
+ OPL4 DATA  (00~DF)
+==============================================================================
+
+	Opcode		Data			Action
+------------------------------------------------------------------------------
+	xx	        {yy zz}[]		Copy n+1 pairs of register-value to the given part (xx ∈ [00:BF])
+	[00......]					 Part 0
+	[01......]					 Part 1
+	[10......]					 Wave Part
+	[..nnnnnn]		 			 Number of pairs (n ∈ [0:63])
+..............................................................................
+	DF xxxxxx yyyy zz[]			Load yyyy+1 bytes into wave memory at address xxxxxx (24-bit)
+..............................................................................
+								Not used: C0~DE

@@ -466,7 +466,7 @@
 #define VGM_USE_PSG2				FALSE	// Allow secondary PSG data parsing and audio output
 #define VGM_USE_OPL4				FALSE	// Allow OPL4 data parsing and audio output
 #define VGM_USE_OPNA				FALSE	// Allow OPNA data parsing and audio output
-#define VGM_USE_RESUME				TRUE	// Add Pause/Resume functions (else only Play and Stop)
+#define VGM_USE_PAUSE				TRUE	// Add Pause/Resume functions (else only Play and Stop)
 
 // PCM-Encoder supported frequency (more than 1 value allowed)
 // - PCMENC_NONE, PCMENC_8K, PCMENC_11K, PCMENC_22K and PCMENC_44K
@@ -503,7 +503,7 @@
 #define LVGM_USE_OPL4				FALSE	// Add parser for OPL4 data
 #define LVGM_USE_OPNA				FALSE	// Add parser for OPNA (OPNA) data
 #define LVGM_USE_NOTIFY				TRUE	// Add parser for PSG data
-#define LVGM_USE_RESUME				TRUE	// Add Pause/Resume functions (else only Play and Stop)
+#define LVGM_USE_PAUSE				TRUE	// Add Pause/Resume functions (else only Play and Stop)
 
 // WYZ Tracker replayer options
 // Channels number
