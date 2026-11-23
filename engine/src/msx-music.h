@@ -108,7 +108,7 @@ u8 MSXMusic_GetRegister(u8 reg);
 // Mute MSX-Music sound
 void MSXMusic_Mute();
 
-#if (MSXMUSIC_USE_RESUME)
+#if (MSXMUSIC_USE_PAUSE)
 // Function: MSXMusic_Resume
 // Resume MSX-Music sound
 void MSXMusic_Resume();

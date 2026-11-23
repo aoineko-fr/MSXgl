@@ -35,7 +35,7 @@ const u8 g_OPNA_MuteReg1[] = { 0x0B, 0xB4, 0xB5, 0xB6 };
 // MEMORY DATA
 //=============================================================================
 
-#if (OPNA_USE_RESUME)
+#if (OPNA_USE_PAUSE)
 	// Backup registers
 	u8 g_OPNA_BakReg0[sizeof(g_OPNA_MuteReg0)] = { 0x00, 0x00, 0x00, 0xC0, 0xC0, 0xC0 };
 	u8 g_OPNA_BakReg1[sizeof(g_OPNA_MuteReg1)] = { 0x00, 0xC0, 0xC0, 0xC0 };
@@ -100,7 +100,7 @@ void OPNA_SetPart0Register(u8 reg, u8 value)
 	io_OPNA_Reg0 = reg;
 	io_OPNA_Data0 = value;
 
-#if (OPNA_USE_RESUME)
+#if (OPNA_USE_PAUSE)
 	if (g_OPNA_DoBackup)
 	{
 		switch (reg)
@@ -164,7 +164,7 @@ void OPNA_SetPart1Register(u8 reg, u8 value)
 	io_OPNA_Reg1 = reg;
 	io_OPNA_Data1 = value;
 
-#if (OPNA_USE_RESUME)
+#if (OPNA_USE_PAUSE)
 	if (g_OPNA_DoBackup)
 	{
 		switch (reg)
@@ -210,7 +210,7 @@ void OPNA_Mute()
 #endif
 }
 
-#if (OPNA_USE_RESUME)
+#if (OPNA_USE_PAUSE)
 //-----------------------------------------------------------------------------
 // Resume OPNA sound
 void OPNA_Resume()

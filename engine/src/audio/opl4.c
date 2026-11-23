@@ -45,7 +45,7 @@ const u8 g_OPL4_ModeFlags[OPL4_MODE_MAX] =
 // Current expansion register (R#261) value
 u8 g_OPL4_Expansion = OPL4_F_NEW | OPL4_F_NEW2;
 
-#if (OPL4_USE_RESUME)
+#if (OPL4_USE_PAUSE)
 	// Backup registers
 	u8 g_OPL4_BakFM0[OPL4_FM_CH_NUM] = { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30 }; // R#C0-C8 (part 0)
 	u8 g_OPL4_BakFM1[OPL4_FM_CH_NUM] = { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30 }; // R#C0-C8 (part 1)
@@ -124,7 +124,7 @@ void OPL4_SetPart0Register(u8 reg, u8 value)
 {
 	io_OPL4_Reg0 = reg;
 	io_OPL4_Data0 = value;
-	#if (OPL4_USE_RESUME)
+	#if (OPL4_USE_PAUSE)
 	if (g_OPL4_DoBackup && (reg >= OPL4_REG_FBCNT) && (reg < OPL4_REG_FBCNT + OPL4_FM_CH_NUM))
 		g_OPL4_BakFM0[reg - OPL4_REG_FBCNT] = value;
 	#endif
@@ -149,7 +149,7 @@ void OPL4_SetPart1Register(u8 reg, u8 value)
 {
 	io_OPL4_Reg1 = reg;
 	io_OPL4_Data1 = value;
-	#if (OPL4_USE_RESUME)
+	#if (OPL4_USE_PAUSE)
 	if (g_OPL4_DoBackup && (reg >= OPL4_REG_FBCNT) && (reg < OPL4_REG_FBCNT + OPL4_FM_CH_NUM))
 		g_OPL4_BakFM1[reg - OPL4_REG_FBCNT] = value;
 	#endif
@@ -165,7 +165,7 @@ void OPL4_SetPart1Register(u8 reg, u8 value)
 
 #endif // (OPL4_USE_REGCOPY)
 
-#if (OPL4_USE_RESUME)
+#if (OPL4_USE_PAUSE)
 
 //-----------------------------------------------------------------------------
 // Set OPL4 wave register value
@@ -177,7 +177,7 @@ void OPL4_SetWaveRegister(u8 reg, u8 value)
 		g_OPL4_BakWave[reg - OPL4_REG_WAV_TL] = value;
 }
 
-#endif // (OPL4_USE_RESUME)
+#endif // (OPL4_USE_PAUSE)
 
 //-----------------------------------------------------------------------------
 // Mute OPL4 sound
@@ -207,7 +207,7 @@ void OPL4_Mute()
 	#endif
 }
 
-#if (OPL4_USE_RESUME)
+#if (OPL4_USE_PAUSE)
 
 //-----------------------------------------------------------------------------
 // Resume OPL4 sound

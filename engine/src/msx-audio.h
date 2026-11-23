@@ -90,7 +90,7 @@ u8 MSXAudio_GetRegister(u8 reg);
 // Mute MSX-Audio sound
 void MSXAudio_Mute();
 
-#if (MSXAUDIO_USE_RESUME)
+#if (MSXAUDIO_USE_PAUSE)
 // Function: MSXAudio_Resume
 // Resume MSX-Audio sound
 void MSXAudio_Resume();

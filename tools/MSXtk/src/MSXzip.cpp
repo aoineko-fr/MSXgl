@@ -125,6 +125,7 @@ void PrintHelp()
 	printf(" --reorder      Reorder register writes\n");
 	printf(" --simplify     Reorder register writes and remove duplicate\n");
 	printf(" --split X      Split data in X bytes chunk\n");
+	printf(" --noreplay     Don't use replay opcode (FB)\n");
 	printf("\n");
 	printf(" All integers can be decimal or hexadecimal starting with '0x'.\n");
 	printf(" One of the following named values can also be used:\n  ");
@@ -197,6 +198,7 @@ int main(int argc, const char* argv[])
 	g_lVGM_AddHeader = true;
 	g_lVGM_Simplify = LVGM_SIMPLIFY_NONE;
 	g_lVGM_Split = 0;
+	g_lVGM_Replay = true;
 
 	// Parse command line parameters
 	for (i32 i = 2; i < argc; ++i)
@@ -272,6 +274,10 @@ int main(int argc, const char* argv[])
 		{
 			i++;
 			g_lVGM_Split = GetValue(argv[i]);
+		}
+		else if (MSX::StrEqual(argv[i], "--noreplay"))
+		{
+			g_lVGM_Replay = false;
 		}
 	}
 

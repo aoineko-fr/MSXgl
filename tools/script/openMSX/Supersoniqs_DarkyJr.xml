@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!DOCTYPE msxconfig SYSTEM 'msxconfig2.dtd'>
+<msxconfig>
+
+  <info>
+    <manufacturer>Supersoniqs</manufacturer>
+    <code>Darky Jr.</code>
+    <release_year>2025</release_year>
+    <description>Cartridge with 2 PSG and Spin SPN1001 FV-1 effect processor.</description>
+    <type>sound expansion</type>
+  </info>
+
+  <devices>
+    <PSG id="PSG 3">
+      <io base="0x44" num="4" type="IO"/>
+      <sound>
+        <volume>21000</volume>
+      </sound>
+    </PSG>
+    <PSG id="PSG 4">
+      <io base="0x4C" num="4" type="IO"/>
+      <sound>
+        <volume>21000</volume>
+      </sound>
+    </PSG>
+  </devices>
+
+</msxconfig>

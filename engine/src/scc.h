@@ -152,7 +152,7 @@ u8 SCC_GetRegister(u8 reg);
 // Mute the SCC sound chip
 void SCC_Mute();
 
-#if (SCC_USE_RESUME)
+#if (SCC_USE_PAUSE)
 // Function: SCC_Resume
 // Resume SCC sound
 void SCC_Resume();

@@ -12,6 +12,14 @@
 // DEFINES
 //=============================================================================
 
+#if (LVGM_USE_PSG2)
+#define LVGM_PSG_REG(r)		((r) | g_LVGM_PSG_Dev)
+#define LVGM_PSG_DEV(d)		((d) << 4)
+#else
+#define LVGM_PSG_REG(r)		(r)
+#endif
+
+
 // Default callback prototype
 bool LVGM_Defaultcallback(u8 id);
 
@@ -22,11 +30,13 @@ typedef void (*LVGM_DecodeCB)(void); // Callback default signature
 // READ-ONLY DATA
 //=============================================================================
 
-// PSG register convertor       -  1  2  3  4  5+ 6  7+ 8  9+ A   B+  C
-const u8  g_LVGM_RegTable[] = { 0, 1, 3, 5, 6, 6, 8, 8, 9, 9, 10, 10, 13 };
-
 // File ident data
 const u8  g_LVGM_Ident[4] = { 'l', 'V', 'G', 'M' };
+
+#if ((LVGM_USE_PSG) || (LVGM_USE_PSG2))
+// PSG register convertor       -  1  2  3  4  5+ 6  7+ 8  9+ A   B+  C
+const u8  g_LVGM_RegTable[] = { 0, 1, 3, 5, 6, 6, 8, 8, 9, 9, 10, 10, 13 };
+#endif
 
 //=============================================================================
 // MEMORY DATA
@@ -40,13 +50,19 @@ u8                 g_LVGM_Devices;
 u8                 g_LVGM_PSG_Default;
 u8                 g_LVGM_Wait;
 u8                 g_LVGM_State;
-u8                 g_LVGM_CurChip;
 LVGM_DecodeCB      g_LVGM_Decode;
 #if (LVGM_USE_NOTIFY)
 LVGM_NotifyCB      g_LVGM_Callback = LVGM_Defaultcallback;
 #endif
+#if (LVGM_USE_PSG2)
+u8                 g_LVGM_PSG_Dev; // Current PSG device register offset
+#endif
 #if (LVGM_USE_OPNA)
 u8                 g_LVGM_OPNA_Port;
+#endif
+#if (LVGM_USE_REPLAY)
+const u8*          g_LVGM_ReplayEnd;
+const u8*          g_LVGM_ReplayRet;
 #endif
 
 //=============================================================================
@@ -58,7 +74,7 @@ u8                 g_LVGM_OPNA_Port;
 void LVGM_Initialize()
 {
 	#if (LVGM_USE_PSG)
-		// Initialize PSG module
+		PSG_Initialize();
 	#endif
 	#if (LVGM_USE_MSXMUSIC)
 		MSXMusic_Initialize();
@@ -77,7 +93,7 @@ void LVGM_Initialize()
 	#endif
 }
 
-#if (LVGM_USE_PSG)
+#if ((LVGM_USE_PSG) || (LVGM_USE_PSG2))
 //-----------------------------------------------------------------------------
 // Decode PSG (AY-3-8910) data stream
 void LVGM_DecodePSG()
@@ -87,14 +103,14 @@ void LVGM_DecodePSG()
 	{
 		case 0x00: // R#0n = nn
 		{
-			u8 reg = *g_LVGM_Pointer;
+			u8 reg = LVGM_PSG_REG(*g_LVGM_Pointer);
 			PSG_SetRegister(reg, *++g_LVGM_Pointer);
 			break;
 		}
 
 		case 0xD0: // More common byte (R#n = X)
 		{
-			u8 reg = *g_LVGM_Pointer & 0x0F;
+			u8 reg = LVGM_PSG_REG(*g_LVGM_Pointer & 0x0F);
 			PSG_SetRegister(reg, g_LVGM_PSG_Default);
 			break;
 		}
@@ -113,7 +129,8 @@ void LVGM_DecodePSG()
 		// case 0xC0: // R#13 = n
 		default:
 		{
-			PSG_SetRegister(g_LVGM_RegTable[*g_LVGM_Pointer >> 4], *g_LVGM_Pointer & 0x1F);
+			u8 reg = LVGM_PSG_REG(g_LVGM_RegTable[*g_LVGM_Pointer >> 4]);
+			PSG_SetRegister(reg, *g_LVGM_Pointer & 0x1F);
 			break;
 		}
 	}
@@ -257,14 +274,6 @@ void  LVGM_DecodeSCCI()
 }
 #endif
 
-#if (LVGM_USE_PSG2)
-//-----------------------------------------------------------------------------
-// Decode 2nd PSG data stream
-void  LVGM_DecodePSG2()
-{
-}
-#endif
-
 #if (LVGM_USE_OPL4)
 //-----------------------------------------------------------------------------
 // Decode OPL4 (YMF278B) data stream
@@ -380,14 +389,23 @@ void  LVGM_DecodeOPNA()
 void LVGM_Reset()
 {
 	g_LVGM_Wait = 0;
-	g_LVGM_CurChip = LVGM_CHIP_PSG;
+
 	#if (LVGM_USE_PSG)
 	g_LVGM_Decode = LVGM_DecodePSG;
 	#else
 	g_LVGM_Decode = NULL;
 	#endif
+
+	#if (LVGM_USE_PSG2)
+	g_LVGM_PSG_Dev = LVGM_PSG_DEV(0); // Current PSG device register offset (0x00 or 0x10)
+	#endif
+
 	#if (LVGM_USE_OPNA)
 	g_LVGM_OPNA_Port = 0;
+	#endif
+
+	#if (LVGM_USE_REPLAY)
+	g_LVGM_ReplayEnd = NULL;
 	#endif
 }
 
@@ -398,18 +416,23 @@ void LVGM_Mute()
 	#if (LVGM_USE_PSG)
 	PSG_Mute();
 	#endif
+
 	#if (LVGM_USE_MSXMUSIC)
 	MSXMusic_Mute();
 	#endif
+
 	#if (LVGM_USE_MSXAUDIO)
 	MSXAudio_Mute();
 	#endif
+
 	#if (LVGM_USE_SCC)
 	SCC_Mute();
 	#endif
+
 	#if (LVGM_USE_OPL4)
 	OPL4_Mute();
 	#endif
+
 	#if (LVGM_USE_OPNA)
 	OPNA_Mute();
 	#endif
@@ -495,27 +518,32 @@ void LVGM_Resume()
 	g_LVGM_State |= LVGM_STATE_PLAY;
 
 	#if (LVGM_USE_PAUSE)
-	#if (LVGM_USE_PSG && PSG_USE_RESUME)
+	#if (LVGM_USE_PSG && PSG_USE_PAUSE)
 	if (LVGM_IncludePSG())
 		PSG_Resume();
 	#endif
-	#if (LVGM_USE_MSXMUSIC && MSXMUSIC_USE_RESUME)
+
+	#if (LVGM_USE_MSXMUSIC && MSXMUSIC_USE_PAUSE)
 	if (LVGM_IncludeOPLL())
 		MSXMusic_Resume();
 	#endif
-	#if (LVGM_USE_MSXAUDIO && MSXAUDIO_USE_RESUME)
+
+	#if (LVGM_USE_MSXAUDIO && MSXAUDIO_USE_PAUSE)
 	if (LVGM_IncludeOPL())
 		MSXAudio_Resume();
 	#endif
-	#if (LVGM_USE_SCC && SCC_USE_RESUME)
+
+	#if (LVGM_USE_SCC && SCC_USE_PAUSE)
 	if (LVGM_IncludeSCC())
 		SCC_Resume();
 	#endif
-	#if (LVGM_USE_OPL4 && OPL4_USE_RESUME)
+
+	#if (LVGM_USE_OPL4 && OPL4_USE_PAUSE)
 	if (LVGM_IncludeOPL4())
 		OPL4_Resume();
 	#endif
-	#if (LVGM_USE_OPNA && OPNA_USE_RESUME)
+
+	#if (LVGM_USE_OPNA && OPNA_USE_PAUSE)
 	if (LVGM_IncludeOPNA())
 		OPNA_Resume();
 	#endif
@@ -540,6 +568,14 @@ void LVGM_Decode()
 	// Parse music data
 	while (1)
 	{
+		#if (LVGM_USE_REPLAY)
+		if (g_LVGM_Pointer == g_LVGM_ReplayEnd) // End of replayed data
+		{
+			g_LVGM_Pointer = g_LVGM_ReplayRet;
+			g_LVGM_ReplayEnd = NULL;
+		}
+		#endif
+
 		u8 op = *g_LVGM_Pointer & 0xF0;
 
 		if (op == 0xE0) // Wait n+1 cycles (1~16)
@@ -554,58 +590,65 @@ void LVGM_Decode()
 			{
 			#if (LVGM_USE_PSG)
 			case LVGM_OP_PSG: // PSG / AY-3-8910
-				g_LVGM_CurChip = LVGM_CHIP_PSG;
+				#if (LVGM_USE_PSG2)
+				g_LVGM_PSG_Dev = LVGM_PSG_DEV(0);
+				#endif
 				g_LVGM_Decode = LVGM_DecodePSG;
 				break;
 			#endif
 
 			#if (LVGM_USE_MSXMUSIC)
 			case LVGM_OP_OPLL: // MSX-MUSIC / YM2413 / OPLL
-				g_LVGM_CurChip = LVGM_CHIP_OPLL;
 				g_LVGM_Decode = LVGM_DecodeOPLL;
 				break;
 			#endif
 
 			#if (LVGM_USE_MSXAUDIO)
 			case LVGM_OP_OPL1: // MSX-AUDIO / Y8950 / OPL1 + ADPCM
-				g_LVGM_CurChip = LVGM_CHIP_OPL1;
 				g_LVGM_Decode = LVGM_DecodeOPL1;
 				break;
 			#endif
 
 			#if (LVGM_USE_SCC)
 			case LVGM_OP_SCC: // SCC / K051649
-				g_LVGM_CurChip = LVGM_CHIP_SCC;
 				g_LVGM_Decode = LVGM_DecodeSCC;
 				break;
 			#endif
 
 			#if (LVGM_USE_SCCI)
 			case LVGM_OP_SCCI: // SCC+ / K052539
-				g_LVGM_CurChip = LVGM_CHIP_SCCI;
 				g_LVGM_Decode = LVGM_DecodeSCCI;
 				break;
 			#endif
 
 			#if (LVGM_USE_PSG2)
 			case LVGM_OP_PSG2: // 2nd PSG
-				g_LVGM_CurChip = LVGM_CHIP_PSG2;
-				g_LVGM_Decode = LVGM_DecodePSG2;
+				g_LVGM_PSG_Dev = LVGM_PSG_DEV(1);
+				g_LVGM_Decode = LVGM_DecodePSG;
 				break;
 			#endif
 
 			#if (LVGM_USE_OPL4)
 			case LVGM_OP_OPL4: // MOONBLASTER / YMF278
-				g_LVGM_CurChip = LVGM_CHIP_OPL4;
 				g_LVGM_Decode = LVGM_DecodeOPL4;
 				break;
 			#endif
 
 			#if (LVGM_USE_OPNA)
 			case LVGM_OP_OPNA: // OPNA / YM2608
-				g_LVGM_CurChip = LVGM_CHIP_OPNA;
 				g_LVGM_Decode = LVGM_DecodeOPNA;
 				break;
+			#endif
+
+			#if (LVGM_USE_REPLAY)
+			case LVGM_OP_REPLAY: // Replay nn+5 bytes located dddd bytes before
+			{
+				const u8* src = g_LVGM_Pointer - *(const u16*)(g_LVGM_Pointer + 2);
+				g_LVGM_ReplayEnd = src + g_LVGM_Pointer[1] + 5;
+				g_LVGM_ReplayRet = g_LVGM_Pointer + 4;
+				g_LVGM_Pointer = src;
+				continue;
+			}
 			#endif
 
 			case LVGM_OP_WAIT: // Wait nn+1 cycles (1~256)

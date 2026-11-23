@@ -285,10 +285,11 @@
 // AUDIO
 //-----------------------------------------------------------------------------
 
-// PSG_CHIP
-#define PSG_INTERNAL				0 // Use internal PSG chip (port A0-A2)
-#define PSG_EXTERNAL				1 // Use external PSG chip (port 10-12)
-#define PSG_BOTH					2 // Use both internal and external PSG chips
+// PSG_DEVICE
+#define PSG_DEVICE_INTERN			0x01 // Internal PSG: A0h-A2h
+#define PSG_DEVICE_EXTERN			0x02 // External PGS: 10h-12h
+#define PSG_DEVICE_DARKY			0x04 // 2x ePSG: 44h-46h, 4Ch-4Eh
+#define PSG_DEVICE_OPNA				0x08 // YM2608's SSG: 14h-15h
 
 // PSG_ACCESS
 #define PSG_DIRECT					0 // Function set directly the PSG registers

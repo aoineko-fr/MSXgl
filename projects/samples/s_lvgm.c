@@ -88,6 +88,7 @@ const struct MusicEntry g_MusicEntry[] =
 	{ "Hi no Tori",           "honotori.lvm" },
 	{ "Penguin Adventure",    "penguin.lvm" },
 	{ "Yurei Kun",            "yureikun.lvm" },
+	{ "Timeless (PSGx2)",     "Timeless.lvm" },
 	{ "Final Fantasy (OPLL)", "ff.lvm" },
 	{ "Laydock 2 (OPLL)",     "laydock2.lvm" },
 	{ "Undeadline (OPLL)",    "undeadli.lvm" },
@@ -162,11 +163,11 @@ void UpdatePlayer()
 	Print_SetPosition(LAYOUT_INFO_X, y++);
 	Print_DrawText("Player:");
 	Print_SetPosition(LAYOUT_INFO_X, y++);
-	Print_DrawFormat("\x07" "Freq     %s", (g_LVGM_State & LVGM_STATE_50HZ) ? "50Hz" : "60Hz");
+	Print_DrawFormat("\x07" "Freq    %s", (g_LVGM_State & LVGM_STATE_50HZ) ? "50Hz" : "60Hz");
 	Print_SetPosition(LAYOUT_INFO_X, y++);
-	Print_DrawFormat("\x07" "DoLoop   %c", (g_LVGM_State & LVGM_STATE_LOOP) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "DoLoop  %c", (g_LVGM_State & LVGM_STATE_LOOP) ? '\x0C' : '\x0B');
 	Print_SetPosition(LAYOUT_INFO_X, y++);
-	Print_DrawFormat("\x07" "DoPlay   %c", (g_LVGM_State & LVGM_STATE_PLAY) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "DoPlay  %c", (g_LVGM_State & LVGM_STATE_PLAY) ? '\x0C' : '\x0B');
 }
 
 //-----------------------------------------------------------------------------
@@ -270,17 +271,17 @@ void SetMusic(u8 idx)
 	Print_SetPosition(LAYOUT_DATA_X, y++);
 	Print_DrawText("Data:");
 	Print_SetPosition(LAYOUT_DATA_X, y++);
-	Print_DrawFormat("\x07" "Ident    %c", ok ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Ident   %c", ok ? '\x0C' : '\x0B');
 	Print_SetPosition(LAYOUT_DATA_X, y++);
-	Print_DrawFormat("\x07" "Freq     %iHz", (g_LVGM_Header->Option & LVGM_OPTION_50HZ) ? 50 : 60);
+	Print_DrawFormat("\x07" "Freq    %iHz", (g_LVGM_Header->Option & LVGM_OPTION_50HZ) ? 50 : 60);
 	Print_SetPosition(LAYOUT_DATA_X, y++);
-	Print_DrawFormat("\x07" "Loop     %c", (g_LVGM_Header->Option & LVGM_OPTION_LOOP) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Loop    %c", (g_LVGM_Header->Option & LVGM_OPTION_LOOP) ? '\x0C' : '\x0B');
 	Print_SetPosition(LAYOUT_DATA_X, y++);
-	Print_DrawFormat("\x07" "Default  %c %2xh", (LVGM_GetDevices() & LVGM_CHIP_PSG) ? '\x0C' : '\x0B', LVGM_GetDefaultPSGValue());
+	Print_DrawFormat("\x07" "Default %c %2xh", (LVGM_GetDevices() & LVGM_CHIP_PSG) ? '\x0C' : '\x0B', LVGM_GetDefaultPSGValue());
 	Print_SetPosition(LAYOUT_DATA_X, y);
 	Print_DrawCharX(' ', LAYOUT_DETECT_X - LAYOUT_DATA_X);
 	Print_SetPosition(LAYOUT_DATA_X, y++);
-	Print_DrawFormat("\x07" "Chips    %c", (g_LVGM_Header->Option & LVGM_OPTION_DEVICE) ? '\x0C' : '\x0B');
+	Print_DrawFormat("\x07" "Chips   %c", (g_LVGM_Header->Option & LVGM_OPTION_DEVICE) ? '\x0C' : '\x0B');
 	if (LVGM_GetDevices() & LVGM_CHIP_PSG)
 		Print_DrawText(" PSG");
 	if (LVGM_GetDevices() & LVGM_CHIP_OPLL)
@@ -499,6 +500,10 @@ void main()
 	y += 2;
 	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawText("Detect: ");
+	#if (LVGM_USE_PSG)
+	Print_SetPosition(LAYOUT_DETECT_X, y++);
+	Print_DrawFormat("\x07" "PSG     x%i", PSG_GetDeviceNum());
+	#endif
 	#if (LVGM_USE_MSXMUSIC)
 	Print_SetPosition(LAYOUT_DETECT_X, y++);
 	Print_DrawText("\x07" "YM2413  ");

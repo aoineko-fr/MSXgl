@@ -36,41 +36,88 @@
 	#define PSG_USE_CHANNEL			TRUE
 #endif
 
+// PSG_DEVICE
+#ifndef PSG_DEVICE
+	#warning PSG_DEVICE is not defined in "msxgl_config.h"! Default value will be used: PSG_DEVICE_INTERN
+	#define PSG_DEVICE				PSG_DEVICE_INTERN
+#endif
+
+#if (PSG_DEVICE & PSG_DEVICE_DARKY)
+#include "device/darky.h"
+#endif
+#if (PSG_DEVICE & PSG_DEVICE_OPNA)
+#include "audio/opna.h"
+#endif
+
 //=============================================================================
 // DEFINES
 //=============================================================================
 
-#define PSG_REG(a)				((a) & 0x0F)
-#define PSG_CHAN(a)				((a) & 0x03)
+// Devices number and index (in the order: internal, external, Darky x2, OPNA)
+#if (PSG_DEVICE & PSG_DEVICE_INTERN)
+	#define PSG_INTERN_NUM		1
+#else
+	#define PSG_INTERN_NUM		0
+#endif
+#if (PSG_DEVICE & PSG_DEVICE_EXTERN)
+	#define PSG_EXTERN_NUM		1
+#else
+	#define PSG_EXTERN_NUM		0
+#endif
+#if (PSG_DEVICE & PSG_DEVICE_DARKY)
+	#define PSG_DARKY_NUM		2
+#else
+	#define PSG_DARKY_NUM		0
+#endif
+#if (PSG_DEVICE & PSG_DEVICE_OPNA)
+	#define PSG_OPNA_NUM		1
+#else
+	#define PSG_OPNA_NUM		0
+#endif
 
-// Ports
-#if (PSG_CHIP == PSG_INTERNAL)
-	#define PSG_PORT_REG		P_PSG_REGS     //< Used to select a specific register by writing its number (0 to 15)
-	#define PSG_PORT_WRITE		P_PSG_DATA     //< Used to write to any register once it has been selected by the Address Port.	
-	#define PSG_PORT_READ		P_PSG_STAT     //< Used to read any register once it has been selected by the Address Port.
-	#define PSG_VAR_REG			io_PSG_Reg
-	#define PSG_VAR_WRITE		io_PSG_Data
-	#define PSG_VAR_READ		io_PSG_Stat
-	
-#elif (PSG_CHIP == PSG_EXTERNAL)
-	#define PSG_PORT_REG		P_PSG_EXT_REGS //< Used to select a specific register by writing its number (0 to 15)
-	#define PSG_PORT_WRITE		P_PSG_EXT_DATA //< Used to write to any register once it has been selected by the Address Port.	
-	#define PSG_PORT_READ		P_PSG_EXT_STAT //< Used to read any register once it has been selected by the Address Port.
-	#define PSG_VAR_REG			io_PSG_Ext_Reg
-	#define PSG_VAR_WRITE		io_PSG_Ext_Data
-	#define PSG_VAR_READ		io_PSG_Ext_Stat
+#define PSG_INTERN_IDX			0
+#define PSG_EXTERN_IDX			(PSG_INTERN_IDX + PSG_INTERN_NUM)
+#define PSG_DARKY_IDX			(PSG_EXTERN_IDX + PSG_EXTERN_NUM)
+#define PSG_OPNA_IDX			(PSG_DARKY_IDX + PSG_DARKY_NUM)
 
-#elif (PSG_CHIP == PSG_BOTH)
-	// Primary PSG
+// PSG device number
+#define PSG_DEVICE_NUM			(PSG_INTERN_NUM + PSG_EXTERN_NUM + PSG_DARKY_NUM + PSG_OPNA_NUM)
+#if (PSG_DEVICE_NUM == 0)
+	#error Error: PSG module need at least 1 device!
+#endif
+
+// Register index for a given device (device index in bits 4-7, register in bits 0-3)
+#define PSG_DEVICE_REG(dev, reg)	(((dev) << 4) | (reg))
+
+// Ports of the 1st device
+#if (PSG_DEVICE & PSG_DEVICE_INTERN)
 	#define PSG_PORT_REG		P_PSG_REGS
 	#define PSG_PORT_WRITE		P_PSG_DATA
 	#define PSG_PORT_READ		P_PSG_STAT
-	// Secondary PSG
-	#define PSG2_PORT_REG		P_PSG_EXT_REGS
-	#define PSG2_PORT_WRITE		P_PSG_EXT_DATA
-	#define PSG2_PORT_READ		P_PSG_EXT_STAT
-	#define PSG2_REG(a)			(PSG_REG(a) | 0x80)
-	#define PSG2_CHAN(a)		(PSG_CHAN(a) | 0x80)
+	#define PSG_VAR_REG			io_PSG_Reg
+	#define PSG_VAR_WRITE		io_PSG_Data
+	#define PSG_VAR_READ		io_PSG_Stat
+#elif (PSG_DEVICE & PSG_DEVICE_EXTERN)
+	#define PSG_PORT_REG		P_PSG_EXT_REGS
+	#define PSG_PORT_WRITE		P_PSG_EXT_DATA
+	#define PSG_PORT_READ		P_PSG_EXT_STAT
+	#define PSG_VAR_REG			io_PSG_Ext_Reg
+	#define PSG_VAR_WRITE		io_PSG_Ext_Data
+	#define PSG_VAR_READ		io_PSG_Ext_Stat
+#elif (PSG_DEVICE & PSG_DEVICE_DARKY)
+	#define PSG_PORT_REG		P_DARKY_PSG1_IDX
+	#define PSG_PORT_WRITE		P_DARKY_PSG1_DATA
+	#define PSG_PORT_READ		P_DARKY_PSG1_READ
+	#define PSG_VAR_REG			io_Darky_PSG1_Reg
+	#define PSG_VAR_WRITE		io_Darky_PSG1_Data
+	#define PSG_VAR_READ		io_Darky_PSG1_Read
+#else // (PSG_DEVICE & PSG_DEVICE_OPNA)
+	#define PSG_PORT_REG		P_OPNA_ADDR0
+	#define PSG_PORT_WRITE		P_OPNA_DATA0
+	#define PSG_PORT_READ		P_OPNA_DATA0
+	#define PSG_VAR_REG			io_OPNA_Reg0
+	#define PSG_VAR_WRITE		io_OPNA_Data0
+	#define PSG_VAR_READ		io_OPNA_Data0
 #endif
 
 // Channels
@@ -142,23 +189,24 @@ typedef struct PSG_Data
 } PSG_Data;
 
 #if (PSG_ACCESS == PSG_INDIRECT)
-extern PSG_Data g_PSG_Regs;
-#if (PSG_CHIP == PSG_BOTH)
-extern PSG_Data g_PSG2_Regs;
-#endif
+extern u8 g_PSG_Regs[PSG_DEVICE_NUM][16];
 #endif
 
 //=============================================================================
 // FUNCTIONS
 //=============================================================================
 
-// Group: Register
+// Group: Core
+
+// Function: PSG_Initialize
+// Initialize the PSG
+void PSG_Initialize();
 
 // Function: PSG_SetRegister
 // Set the value of a given register
 //
 // Parameters:
-//   reg   - Register to set
+//   reg   - Register to set (device index in bits 4-7, register in bits 0-3; see <PSG_DEVICE_REG>)
 //   value - Value to set
 void PSG_SetRegister(u8 reg, u8 value);
 
@@ -166,16 +214,46 @@ void PSG_SetRegister(u8 reg, u8 value);
 // Get the value of a given register
 //
 // Parameters:
-//   reg - Register to get
+//   reg - Register to get (device index in bits 4-7, register in bits 0-3; see <PSG_DEVICE_REG>)
 //
 // Return:
 //   Value of the register
 u8 PSG_GetRegister(u8 reg);
 
+// Function: PSG_GetDeviceNum
+// Get number of supported PSG devices
+//
+// Return:
+//   PSG devices number
+inline u8 PSG_GetDeviceNum() { return PSG_DEVICE_NUM; }
+
+#if (PSG_DEVICE_NUM > 1)
+// Function: PSG_SetDeviceRegister
+// Get the value of a given register from the given PSG device
+//
+// Parameters:
+//   dev - PSG device index
+//   reg - Register to set
+//   val - Value to write
+inline void PSG_SetDeviceRegister(u8 dev, u8 reg, u8 val) { PSG_SetRegister(PSG_DEVICE_REG(dev, reg), val); }
+
+// Function: PSG_GetDeviceRegister
+// Get the value of a given register from the given PSG device
+//
+// Parameters:
+//   dev - PSG device index
+//   reg - Register to get
+//
+// Return:
+//   Value of the register
+inline u8 PSG_GetDeviceRegister(u8 dev, u8 reg) { return PSG_GetRegister(PSG_DEVICE_REG(dev, reg)); }
+#endif
+
 // Group: Helper
+// Note: Helper functions only act on the 1st PSG device
 #if (PSG_USE_EXTRA)
 // Function: PSG_SetTone
-// Set the tone period of a given channel (tone generator control register)
+// Set the tone period of a given channel (tone generator control register) (1st PSG device only)
 //
 // Parameters:
 //   chan   - Channel to set (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
@@ -183,21 +261,21 @@ u8 PSG_GetRegister(u8 reg);
 void PSG_SetTone(u8 chan, u16 period);
 
 // Function: PSG_SetNoise
-// Set the noise period (noise generator control register)
+// Set the noise period (noise generator control register) (1st PSG device only)
 //
 // Parameters:
 //   period - Period to set (5-bits value)
 void PSG_SetNoise(u8 period);
 
 // Function: PSG_SetMixer
-// Setup mixer by enabling tune and noise generators for each channel (mixer control enable register)
+// Setup mixer by enabling tune and noise generators for each channel (mixer control enable register) (1st PSG device only)
 //
 // Parameters:
 //   mix - Mixer value to set
 void PSG_SetMixer(u8 mix);
 
 // Function: PSG_SetVolume
-// Set the volume of a given channel (Amplitude control register)
+// Set the volume of a given channel (Amplitude control register) (1st PSG device only)
 //
 // Parameters:
 //   chan - Channel to set (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
@@ -205,21 +283,21 @@ void PSG_SetMixer(u8 mix);
 void PSG_SetVolume(u8 chan, u8 vol);
 
 // Function: PSG_SetEnvelope
-// Set the envelope period (Envelope priod control register)
+// Set the envelope period (Envelope priod control register) (1st PSG device only)
 //
 // Parameters:
 //   period - Period to set (16-bits value)
 void PSG_SetEnvelope(u16 period);
 
 // Function: PSG_SetShape
-// Set the envelope shape (Envelope shape control register)
+// Set the envelope shape (Envelope shape control register) (1st PSG device only)
 //
 // Parameters:
 //   shape - Shape to set (4-bits value)
 void PSG_SetShape(u8 shape);
 
 // Function: PSG_EnableTone
-// Enable/disable tone on the given channel
+// Enable/disable tone on the given channel (1st PSG device only)
 //
 // Parameters:
 //   chan - Channel to set (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
@@ -227,7 +305,7 @@ void PSG_SetShape(u8 shape);
 void PSG_EnableTone(u8 chan, bool val);
 
 // Function: PSG_EnableNoise
-// Enable/disable noise on the given channel
+// Enable/disable noise on the given channel (1st PSG device only)
 //
 // Parameters:
 //   chan - Channel to set (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
@@ -235,22 +313,70 @@ void PSG_EnableTone(u8 chan, bool val);
 void PSG_EnableNoise(u8 chan, bool val);
 
 // Function: PSG_EnableEnvelope
-// Enable/disable envelope on the given channel
+// Enable/disable envelope on the given channel (1st PSG device only)
 //
 // Parameters:
 //   chan - Channel to set (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
 
 void PSG_EnableEnvelope(u8 chan, bool val);
 
+// Function: PSG_GetTone
+// Get the tone period of a given channel (1st PSG device only)
+//
+// Parameters:
+//   chan - Channel to get (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
+//
+// Return:
+//   Tone period (12-bits value)
+u16 PSG_GetTone(u8 chan);
+
+// Function: PSG_GetNoise
+// Get the noise period (1st PSG device only)
+//
+// Return:
+//   Noise period (5-bits value)
+inline u8 PSG_GetNoise() { return PSG_GetRegister(PSG_REG_NOISE); }
+
+// Function: PSG_GetMixer
+// Get the mixer value (same format than <PSG_SetMixer>: bit set to 1 when tone/noise generator is enabled) (1st PSG device only)
+//
+// Return:
+//   Mixer value
+inline u8 PSG_GetMixer() { return ~PSG_GetRegister(PSG_REG_MIXER) & 0b00111111; }
+
+// Function: PSG_GetVolume
+// Get the volume of a given channel (including envelope flag <PSG_F_ENV>) (1st PSG device only)
+//
+// Parameters:
+//   chan - Channel to get (0 to 2; or PSG_CHANNEL_A, PSG_CHANNEL_B, PSG_CHANNEL_C)
+//
+// Return:
+//   Volume value
+inline u8 PSG_GetVolume(u8 chan) { return PSG_GetRegister(PSG_REG_AMP_A + chan); }
+
+// Function: PSG_GetEnvelope
+// Get the envelope period (1st PSG device only)
+//
+// Return:
+//   Envelope period (16-bits value)
+u16 PSG_GetEnvelope();
+
+// Function: PSG_GetShape
+// Get the envelope shape (1st PSG device only)
+//
+// Return:
+//   Envelope shape (4-bits value)
+inline u8 PSG_GetShape() { return PSG_GetRegister(PSG_REG_SHAPE) & 0x0F; }
+
 #endif //(PSG_USE_EXTRA)
 
 // Function: PSG_Mute
-// Silent the PSG (set according registers)
+// Silent all PSG devices (set according registers)
 void PSG_Mute();
 
-#if (PSG_USE_RESUME)
+#if (PSG_USE_PAUSE)
 // Function: PSG_Resume
-// Resume PSG sound
+// Resume all PSG devices sound
 void PSG_Resume();
 #endif
 
@@ -259,7 +385,7 @@ void PSG_Resume();
 // Group: Indirect
 
 // Function: PSG_Apply
-// Send data to PSG registers #0 to #13
+// Send data to registers #0 to #13 of all PSG devices
 void PSG_Apply();
 
 #endif
@@ -280,23 +406,19 @@ inline void PSG_SetNote(u8 chan, u8 note, u8 octave) { PSG_SetTone(chan, g_PSG_N
 // Group: Channel
 
 // Function: PSG_GetChannelCount
-// Get the number of PSG channels (6 if both internal and external PSG are used in indirect mode, 3 otherwise)
+// Get the number of PSG channels (3 per device)
 // Note: PSG_USE_CHANNEL need to be set to TRUE to use this function
 //
 // Return:
 //   Number of channels
-#if (PSG_CHIP == PSG_BOTH)
-inline u8 PSG_GetChannelCount() { return 6; }
-#else
-inline u8 PSG_GetChannelCount() { return 3; }
-#endif
+inline u8 PSG_GetChannelCount() { return PSG_DEVICE_NUM * 3; }
 
 // Function: PSG_GetChannelVolume
 // Get the current volume of a given channel
 // Note: PSG_USE_CHANNEL need to be set to TRUE to use this function
 //
 // Parameters:
-//   chan - Channel index (0 to 2; 3 to 5 for the secondary PSG)
+//   chan - Channel index (0 to 2; 3 to 5 for the secondary PSG, etc.)
 //
 // Return:
 //   Volume from 0 (mute) to 15 (max). 0 if neither tone nor noise is enabled on the channel. 15 if the channel volume is controlled by the envelope
@@ -307,7 +429,7 @@ u8 PSG_GetChannelVolume(u8 chan);
 // Note: PSG_USE_CHANNEL need to be set to TRUE to use this function
 //
 // Parameters:
-//   chan - Channel index (0 to 2; 3 to 5 for the secondary PSG)
+//   chan - Channel index (0 to 2; 3 to 5 for the secondary PSG, etc.)
 //
 // Return:
 //   Channel type (always CHANNEL_TYPE_TONE)

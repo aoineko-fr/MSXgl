@@ -26,10 +26,10 @@
 // CHECK OPTIONS
 //-----------------------------------------------------------------------------
 
-// OPNA_USE_RESUME
-#ifndef OPNA_USE_RESUME
-	#warning OPNA_USE_RESUME is not defined in "msxgl_config.h"! Default value will be used: TRUE
-	#define OPNA_USE_RESUME		TRUE
+// OPNA_USE_PAUSE
+#ifndef OPNA_USE_PAUSE
+	#warning OPNA_USE_PAUSE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define OPNA_USE_PAUSE		TRUE
 #endif
 
 // OPNA_USE_ADPCM
@@ -189,7 +189,7 @@ inline u8 OPNA_GetRegister(u16 reg) { return (reg < 256) ? OPNA_GetPart0Register
 // Mute OPNA sound
 void OPNA_Mute();
 
-#if (OPNA_USE_RESUME)
+#if (OPNA_USE_PAUSE)
 // Function: OPNA_Resume
 // Resume OPNA sound
 void OPNA_Resume();

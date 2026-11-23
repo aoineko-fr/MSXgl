@@ -71,8 +71,8 @@ extern u8  g_WYZ_Header; // Music data header
 	#define AYREGS  PSG_REG_INT
 	#define AYREGS2 PSG_REG_EXT
 #else
-	#define AYREGS  g_PSG_Regs
-	#define AYREGS2 g_PSG2_Regs
+	#define AYREGS  g_PSG_Regs[0]
+	#define AYREGS2 g_PSG_Regs[1]
 #endif
 
 //=============================================================================

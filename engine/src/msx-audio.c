@@ -33,7 +33,7 @@ const c8 g_MSXAudio_Ident[] = "AUDIO";
 // MEMORY DATA
 //=============================================================================
 
-#if (MSXAUDIO_USE_RESUME)
+#if (MSXAUDIO_USE_PAUSE)
 bool g_MSXAudio_DoBackup = TRUE;
 u8 g_MSXAudio_RegBackup[16];
 #define MSXAUDIO_DOBACKUP(do)	g_MSXAudio_DoBackup = do
@@ -57,7 +57,7 @@ u8 g_MSXAudio_ChanRhyTrig;  // R#BD values ORed since the last read
 bool MSXAudio_Initialize()
 {
 	bool ret = MSXAudio_Detect();
-	#if (MSXAUDIO_USE_RESUME)
+	#if (MSXAUDIO_USE_PAUSE)
 	Mem_Set(0, g_MSXAudio_RegBackup, 16);
 	#endif
 	#if (MSXAUDIO_USE_CHANNEL)
@@ -83,7 +83,7 @@ void MSXAudio_SetRegister(u8 reg, u8 value)
 	io_MSXAudio_Reg = reg;
 	io_MSXAudio_Data = value;
 
-	#if (MSXAUDIO_USE_RESUME)
+	#if (MSXAUDIO_USE_PAUSE)
 	if (g_MSXAudio_DoBackup && ((reg & 0xF0)) == 0xB0) // MSXAUDIO_REG_CTRL_x
 		g_MSXAudio_RegBackup[reg & 0x0F] = value;
 	#endif
@@ -123,7 +123,7 @@ void MSXAudio_Mute()
 	MSXAUDIO_DOBACKUP(TRUE);
 }
 
-#if (MSXAUDIO_USE_RESUME)
+#if (MSXAUDIO_USE_PAUSE)
 //-----------------------------------------------------------------------------
 // Resume MSX-Audio sound
 void MSXAudio_Resume()

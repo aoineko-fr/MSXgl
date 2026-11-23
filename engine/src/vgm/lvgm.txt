@@ -42,7 +42,7 @@
 	F6				Start of Moonsound (OPL4) chunk
 	F7				Start of Makoto (OPNA) chunk
 
-	FB nn aaaa		Replay nn+5 bytes of data from same segment (5~260)
+	FB nn dddd		Replay nn+5 bytes (5~260) located dddd bytes before FB (same segment, no nested FB)
 
 	FC nn			Wait nn+1 cycles (1~256)
 

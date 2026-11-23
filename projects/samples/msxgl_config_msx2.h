@@ -417,29 +417,30 @@
 //-----------------------------------------------------------------------------
 
 // PSG options
-// - PSG_INTERNAL ................. Use internal PSG chip (port A0-A2)
-// - PSG_EXTERNAL ................. Use external PSG chip (port 10-12)
-// - PSG_BOTH ..................... Use both internal and external PSG chips
-#define PSG_CHIP					PSG_INTERNAL
+// - PSG_DEVICE_INTERN............. Internal PSG (ports A0-A2)
+// - PSG_DEVICE_EXTERN ............ External PGS (ports 10-12)
+// - PSG_DEVICE_DARKY ............. 2x ePSG: (ports 44-46 & 4C-4E)
+// - PSG_DEVICE_OPNA .............. YM2608's SSG (ports 14-15)
+#define PSG_DEVICE					PSG_DEVICE_INTERN
 // - PSG_DIRECT ................... Function set directly the PSG registers
 // - PSG_INDIRECT ................. Function set a buffer (Apply() function must be call once a frame)
 #define PSG_ACCESS					PSG_INDIRECT
 #define PSG_USE_NOTES				FALSE	// Add notes table to convert note to tone
 #define PSG_USE_EXTRA				TRUE	// Add helper functions to handle PSG settings
-#define PSG_USE_RESUME				TRUE	// Add function to allow playback pause and resume
+#define PSG_USE_PAUSE				TRUE	// Add function to allow playback pause and resume
 #define PSG_USE_CHANNEL				TRUE	// Add functions to get channels count and volume
 
 // MSX-Music options
-#define MSXAUDIO_USE_RESUME			TRUE	// Add function to allow playback pause and resume
+#define MSXAUDIO_USE_PAUSE			TRUE	// Add function to allow playback pause and resume
 #define MSXAUDIO_USE_CHANNEL		TRUE	// Add functions to get channels count and volume
 
 // MSX-Audio options
-#define MSXMUSIC_USE_RESUME			TRUE	// Add function to allow playback pause and resume
+#define MSXMUSIC_USE_PAUSE			TRUE	// Add function to allow playback pause and resume
 #define MSXMUSIC_USE_CHANNEL		TRUE	// Add functions to get channels count and volume
 
 // SCC options
 #define SCC_USE_EXTA				TRUE	// Add helper functions to handle PSG settings
-#define SCC_USE_RESUME				TRUE	// Add function to allow playback pause and resume
+#define SCC_USE_PAUSE				TRUE	// Add function to allow playback pause and resume
 #define SCC_USE_CHANNEL				TRUE	// Add functions to get channels count and volume
 // - SCC_SLOT_DIRECT .............. Program on a SCC cartridge
 // - SCC_SLOT_FIXED	............... Fixed slot-id (non-expanded second cartridge slot)
@@ -448,12 +449,12 @@
 #define SCC_SLOT_MODE				SCC_SLOT_AUTO
 
 // OPL4 (Moonsound/YMF278B) options
-#define OPL4_USE_RESUME				TRUE	// Add feature to allow playback pause and resume
+#define OPL4_USE_PAUSE				TRUE	// Add feature to allow playback pause and resume
 #define OPL4_USE_CHANNEL			TRUE	// Add functions to get channels count and volume
 #define OPL4_USE_WAVE				TRUE	// Add feature to handle Wave data
 
 // OPNA (OPNA) options
-#define OPNA_USE_RESUME			TRUE	// Add feature to allow playback pause and resume
+#define OPNA_USE_PAUSE			TRUE	// Add feature to allow playback pause and resume
 #define OPNA_USE_CHANNEL			TRUE	// Add functions to get channels count and volume
 #define OPNA_USE_ADPCM			TRUE	// Add feature to handle ADPCM data (Delta-T format)
 
@@ -503,6 +504,7 @@
 #define LVGM_USE_OPL4				TRUE	// Add parser for OPL4 data
 #define LVGM_USE_OPNA				TRUE	// Add parser for OPNA (OPNA) data
 #define LVGM_USE_NOTIFY				TRUE	// Add parser for PSG data
+#define LVGM_USE_REPLAY				TRUE	// Add support for replay opcode (FB)
 #define LVGM_USE_PAUSE				TRUE	// Add Pause/Resume functions (else only Play and Stop)
 
 // WYZ Tracker replayer options

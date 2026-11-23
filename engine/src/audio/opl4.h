@@ -32,10 +32,10 @@
 	#define OPL4_USE_WAVE			TRUE
 #endif
 
-// OPL4_USE_RESUME
-#ifndef OPL4_USE_RESUME
-	#warning OPL4_USE_RESUME is not defined in "msxgl_config.h"! Default value will be used: TRUE
-	#define OPL4_USE_RESUME			TRUE
+// OPL4_USE_PAUSE
+#ifndef OPL4_USE_PAUSE
+	#warning OPL4_USE_PAUSE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define OPL4_USE_PAUSE			TRUE
 #endif
 
 // OPL4_USE_CHANNEL
@@ -45,7 +45,7 @@
 #endif
 
 // Registers write functions need to keep a copy of some registers
-#define OPL4_USE_REGCOPY			(OPL4_USE_RESUME || OPL4_USE_CHANNEL)
+#define OPL4_USE_REGCOPY			(OPL4_USE_PAUSE || OPL4_USE_CHANNEL)
 
 //=============================================================================
 // DEFINES
@@ -206,7 +206,7 @@ inline u8 OPL4_GetPart1Register(u8 reg) { io_OPL4_Reg1 = reg; return io_OPL4_Dat
 // Parameters:
 //   reg   - Register to set
 //   value - Value to set
-#if (OPL4_USE_RESUME)
+#if (OPL4_USE_PAUSE)
 void OPL4_SetWaveRegister(u8 reg, u8 value);
 #else
 inline void OPL4_SetWaveRegister(u8 reg, u8 value) { io_OPL4_WaveReg = reg; io_OPL4_WaveData = value; }
@@ -290,7 +290,7 @@ void OPL4_WaveSetMemAddr(u8 addr_h, u16 addr_l);
 // Note: A channel stays muted until <OPL4_Resume> is called or its register (R#C0-C8 or W#50-67) is written
 void OPL4_Mute();
 
-#if (OPL4_USE_RESUME)
+#if (OPL4_USE_PAUSE)
 // Function: OPL4_Resume
 // Resume OPL4 sound (restore registers values from before <OPL4_Mute>)
 void OPL4_Resume();

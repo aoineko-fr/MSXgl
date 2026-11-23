@@ -19,6 +19,31 @@
 //  - v1.0		Initial release
 //─────────────────────────────────────────────────────────────────────────────
 #include "ayfx_player.h"
+#include "psg.h"
+
+//-----------------------------------------------------------------------------
+// DEFINES
+//-----------------------------------------------------------------------------
+
+#if ((AYFX_BUFFER == AYFX_BUFFER_PSG2) && (PSG_DEVICE_NUM < 2))
+	#error At least 2 PSG devices is needed to use AYFX_BUFFER_PSG2 options!
+#endif
+
+#if (((AYFX_BUFFER == AYFX_BUFFER_DEFAULT) || (AYFX_BUFFER == AYFX_BUFFER_PSG2)) && (PSG_ACCESS != PSG_INDIRECT))
+	#error PSG_ACCESS must be PSG_INDIRECT to use AYFX_BUFFER_DEFAULT or AYFX_BUFFER_PSG2 options!
+#endif
+
+#if (AYFX_BUFFER == AYFX_BUFFER_DEFAULT)
+	#define AYREGS					_g_PSG_Regs
+#elif (AYFX_BUFFER == AYFX_BUFFER_PSG2)
+	#define AYREGS					_g_PSG_Regs+16
+#elif (AYFX_BUFFER == AYFX_BUFFER_PT3)
+	#define AYREGS					_PT3_Regs
+#endif
+
+//-----------------------------------------------------------------------------
+// VARIABLES
+//-----------------------------------------------------------------------------
 
 // ayFX mode
 u8  ayFX_Mode = AYFX_MODE_FIXED;
@@ -59,17 +84,9 @@ u16 ayFX_VT;
 
 // Finish callback
 // @note Can be:	ayFX_Stop to only stop the sound playback
-///					ayFX_Mute to stop the sound playback and mute the ayFX current channel
-///					Any custom callback from application (must handle playback termination and mute as needed)
+//					ayFX_Mute to stop the sound playback and mute the ayFX current channel
+//					Any custom callback from application (must handle playback termination and mute as needed)
 callback ayFX_Finish = ayFX_Mute;
-
-#if (AYFX_BUFFER == AYFX_BUFFER_DEFAULT)
-	#define AYREGS					_g_PSG_Regs
-#elif (AYFX_BUFFER == AYFX_BUFFER_PSG2)
-	#define AYREGS					_g_PSG2_Regs
-#elif (AYFX_BUFFER == AYFX_BUFFER_PT3)
-	#define AYREGS					_PT3_Regs
-#endif
 
 //-----------------------------------------------------------------------------
 // Setup the ayFX replayer

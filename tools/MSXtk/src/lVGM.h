@@ -88,6 +88,7 @@ enum LVGM_OP
 	LVGM_OP_OPL4   = 0xF6, // Start of Moonsound chunk
 	LVGM_OP_OPNA   = 0xF7, // Start of Makoto chunk
 	//-----------------------------------------------------
+	LVGM_OP_REPLAY = 0xFB, // Replay data
 	LVGM_OP_WAIT   = 0xFC, // 8-bit wait counter
 	LVGM_OP_NOTIFY = 0xFD, // Optional markers
 	LVGM_OP_LOOP   = 0xFE, // Loop position
@@ -119,6 +120,7 @@ extern LVGM_FREQ     g_lVGM_Frequency;
 extern bool          g_lVGM_AddHeader;
 extern LVGM_SIMPLIFY g_lVGM_Simplify;
 extern u32           g_lVGM_Split;
+extern bool          g_lVGM_Replay;
 
 //=============================================================================
 // FUNCTIONS

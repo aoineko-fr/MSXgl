@@ -27,7 +27,7 @@
 const u16 g_SCC_WaveformAddr[5] = { SCC_ADDR_WAVE_1, SCC_ADDR_WAVE_2, SCC_ADDR_WAVE_3, SCC_ADDR_WAVE_4, SCC_ADDR_WAVE_5 };
 #endif
 
-#if (SCC_USE_RESUME)
+#if (SCC_USE_PAUSE)
 u8 g_SCC_MixerBackup;
 #endif
 
@@ -323,7 +323,7 @@ void SCC_SetRegister(u8 reg, u8 value)
 		BIOS_InterSlotWrite(SCC_SLOT, 0x9800 + reg, value);
 	#endif
 
-	#if (SCC_USE_RESUME)
+	#if (SCC_USE_PAUSE)
 	if (reg == SCC_REG_MIXER)
 		g_SCC_MixerBackup = value;
 	#endif
@@ -361,7 +361,7 @@ void SCC_Mute()
 	#endif
 }
 
-#if (SCC_USE_RESUME)
+#if (SCC_USE_PAUSE)
 //-----------------------------------------------------------------------------
 // Resume SCC sound
 void SCC_Resume()

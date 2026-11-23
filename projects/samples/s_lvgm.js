@@ -20,6 +20,7 @@ DiskFiles = [
 	"content/lvgm/honotori.lvm",
 	"content/lvgm/penguin.lvm",
 	"content/lvgm/yureikun.lvm",
+	"content/lvgm/timeless.lvm",
 	"content/lvgm/ff.lvm",
 	"content/lvgm/laydock2.lvm",
 	"content/lvgm/undeadli.lvm",
@@ -47,6 +48,9 @@ EmulMSXMusic = true;
 
 //-- Add MSX-Audio extension (boolean)
 EmulMSXAudio = true;
+
+//-- Add second PSG extension (boolean)
+EmulPSG2 = true;
 
 //-- Add OPL4 extension (boolean)
 EmulOPL4 = true;

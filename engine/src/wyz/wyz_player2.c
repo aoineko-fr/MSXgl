@@ -14,10 +14,20 @@
 // INCLUDES
 //-----------------------------------------------------------------------------
 #include "wyz_player2.h"
+#include "psg.h"
 
 //-----------------------------------------------------------------------------
 // DEFINES
 //-----------------------------------------------------------------------------
+
+#if ((WYZ_CHANNELS == WYZ_6CH) && (PSG_DEVICE_NUM < 2))
+	#error At least 2 PSG devices is needed to use WYZ_6CH options!
+#endif
+
+#if (!WYZ_USE_DIRECT_ACCESS && (PSG_ACCESS != PSG_INDIRECT))
+	#error PSG_ACCESS must be PSG_INDIRECT when WYZ_USE_DIRECT_ACCESS is FALSE!
+#endif
+
 
 //-----------------------------------------------------------------------------
 // VARIABLES
@@ -164,7 +174,7 @@ u16 POINTER_SONIDO;		// Pointer of the sound being played
 #else
 	#define _PSG_REG_INT _g_PSG_Regs
 	u8 PSG_REG_BAK[14];
-	#define _PSG_REG_EXT _g_PSG2_Regs
+	#define _PSG_REG_EXT _g_PSG_Regs+16
 #endif
 
 // Envelope

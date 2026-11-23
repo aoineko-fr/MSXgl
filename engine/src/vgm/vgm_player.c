@@ -53,7 +53,7 @@ u8                g_VGM_State;
 void VGM_Initialize()
 {
 	#if (VGM_USE_PSG)
-	// Initialize PSG module
+	PSG_Initialize();
 	#endif
 	#if (VGM_USE_MSXMUSIC)
 	MSXMusic_Initialize();
@@ -156,27 +156,27 @@ void VGM_Resume()
 	g_VGM_State |= VGM_STATE_PLAY;
 
 	#if (VGM_USE_PAUSE)
-	#if (VGM_USE_PSG && PSG_USE_RESUME)
+	#if (VGM_USE_PSG && PSG_USE_PAUSE)
 	if (VGM_ContainsPSG())
 		PSG_Resume();
 	#endif
-	#if (VGM_USE_MSXMUSIC && MSXMUSIC_USE_RESUME)
+	#if (VGM_USE_MSXMUSIC && MSXMUSIC_USE_PAUSE)
 	if (VGM_ContainsMSXMusic())
 		MSXMusic_Resume();
 	#endif
-	#if (VGM_USE_MSXAUDIO && MSXAUDIO_USE_RESUME)
+	#if (VGM_USE_MSXAUDIO && MSXAUDIO_USE_PAUSE)
 	if (VGM_ContainsMSXAudio())
 		MSXAudio_Resume();
 	#endif
-	#if (VGM_USE_SCC && SCC_USE_RESUME)
+	#if (VGM_USE_SCC && SCC_USE_PAUSE)
 	if (VGM_ContainsSCC())
 		SCC_Resume();
 	#endif
-	#if (VGM_USE_OPL4 && OPL4_USE_RESUME)
+	#if (VGM_USE_OPL4 && OPL4_USE_PAUSE)
 	if (VGM_ContainsOPL4())
 		OPL4_Resume();
 	#endif
-	#if (VGM_USE_OPNA && OPNA_USE_RESUME)
+	#if (VGM_USE_OPNA && OPNA_USE_PAUSE)
 	if (VGM_ContainsOPNA())
 		OPNA_Resume();
 	#endif
@@ -219,13 +219,18 @@ void VGM_Decode()
 		if (*g_VGM_Pointer == VGM_CMD_AY8910) // AY8910, write value dd to register aa
 		{
 			u8 reg = g_VGM_Pointer[1];
+			if (reg & 0x80) // Handle 2nd PSG data
+			{
+				reg &= 0x3F; 
+				reg |= 0x10; 
+			}
 			u8 val = g_VGM_Pointer[2];
-			if (reg == 13)
+			if (reg == 7)
 			{
 				val &= 0x3F;
 				val |= 0x80;
 			}
-			PSG_SetRegister(reg, g_VGM_Pointer[2]);
+			PSG_SetRegister(reg, val);
 			g_VGM_Pointer += 2;
 		} else 
 		#endif

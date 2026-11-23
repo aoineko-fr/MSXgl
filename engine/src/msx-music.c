@@ -38,7 +38,7 @@ const c8 g_MSXMusic_Ident[] = "APRLOPLL";
 //=============================================================================
 u8 g_MSXMusic_SlotId = SLOT_NOTFOUND;
 
-#if (MSXMUSIC_USE_RESUME)
+#if (MSXMUSIC_USE_PAUSE)
 bool g_MSXMusic_DoBackup = TRUE;
 u8 g_MSXMusic_RegBackup[16];
 #define MSXMUSIC_DOBACKUP(do)	g_MSXMusic_DoBackup = do
@@ -62,7 +62,7 @@ u8 g_MSXMusic_ChanRhyTrig;  // R#0E values ORed since the last read
 bool MSXMusic_Initialize()
 {
 	u8 ret = MSXMusic_Detect();
-	#if (MSXMUSIC_USE_RESUME)
+	#if (MSXMUSIC_USE_PAUSE)
 	Mem_Set(0, g_MSXMusic_RegBackup, 16);
 	#endif
 	#if (MSXMUSIC_USE_CHANNEL)
@@ -133,7 +133,7 @@ void MSXMusic_SetRegister(u8 reg, u8 value)
 	io_MSXMusic_Reg = reg;
 	io_MSXMusic_Data = value;
 
-	#if (MSXMUSIC_USE_RESUME)
+	#if (MSXMUSIC_USE_PAUSE)
 	if ((g_MSXMusic_DoBackup) && ((reg & 0xF0) == 0x20)) // MSXMUSIC_REG_CTRL_x
 		g_MSXMusic_RegBackup[reg & 0x0F] = value;
 	#endif
@@ -173,7 +173,7 @@ void MSXMusic_Mute()
 	MSXMUSIC_DOBACKUP(TRUE);
 }
 
-#if (MSXMUSIC_USE_RESUME)
+#if (MSXMUSIC_USE_PAUSE)
 //-----------------------------------------------------------------------------
 // Resume MSX-Music sound
 void MSXMusic_Resume()

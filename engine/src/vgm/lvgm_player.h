@@ -18,6 +18,11 @@
 	#warning LVGM_USE_PSG is not defined in "msxgl_config.h"! Default value will be used: TRUE
 	#define LVGM_USE_PSG			TRUE
 #endif
+// LVGM_USE_PSG2
+#ifndef LVGM_USE_PSG2
+	#warning LVGM_USE_PSG2 is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define LVGM_USE_PSG2			FALSE
+#endif
 
 // LVGM_USE_MSXMUSIC
 #ifndef LVGM_USE_MSXMUSIC
@@ -36,22 +41,15 @@
 	#warning LVGM_USE_SCC is not defined in "msxgl_config.h"! Default value will be used: TRUE
 	#define LVGM_USE_SCC			TRUE
 #endif
-
-// LVGM_USE_SCCI
+// LVGM_USE_SCCI (SCC+)
 #ifndef LVGM_USE_SCCI
 	#warning LVGM_USE_SCCI is not defined in "msxgl_config.h"! Default value will be used: TRUE
 	#define LVGM_USE_SCCI			FALSE
 #endif
 
-// LVGM_USE_PSG2
-#ifndef LVGM_USE_PSG2
-	#warning LVGM_USE_PSG2 is not defined in "msxgl_config.h"! Default value will be used: TRUE
-	#define LVGM_USE_PSG2			FALSE
-#endif
-
 // LVGM_USE_OPL4
 #ifndef LVGM_USE_OPL4
-	#warning LVGM_USE_OPL4 is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#warning LVGM_USE_OPL4 is not defined in "msxgl_config.h"! Default value will be used: FALSE
 	#define LVGM_USE_OPL4			FALSE
 #endif
 
@@ -61,20 +59,20 @@
 	#define LVGM_USE_NOTIFY			TRUE
 #endif
 
+// LVGM_USE_REPLAY
+#ifndef LVGM_USE_REPLAY
+	#warning LVGM_USE_REPLAY is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LVGM_USE_REPLAY			TRUE
+#endif
+
 // LVGM_USE_PAUSE
 #ifndef LVGM_USE_PAUSE
 	#warning LVGM_USE_PAUSE is not defined in "msxgl_config.h"! Default value will be used: TRUE
 	#define LVGM_USE_PAUSE			TRUE
 #endif
 
-// Not yet supported chips
-#if (LVGM_USE_SCCI)
-	#error LVGM_USE_SCCI is not yet supported!
-#endif
-#if (LVGM_USE_PSG2)
-	#error LVGM_USE_PSG2 is not yet supported!
-#endif
-#if (LVGM_USE_PSG)
+// Supported chips
+#if ((LVGM_USE_PSG) || (LVGM_USE_PSG2))
 #include "psg.h"
 #endif
 #if (LVGM_USE_MSXMUSIC)
@@ -86,6 +84,9 @@
 #if (LVGM_USE_SCC)
 #include "scc.h"
 #endif
+#if (LVGM_USE_SCCI)
+	#error LVGM_USE_SCCI is not yet supported!
+#endif
 #if (LVGM_USE_OPL4)
 #include "audio/opl4.h"
 #endif
@@ -96,6 +97,10 @@
 //=============================================================================
 // DEFINES
 //=============================================================================
+
+#if (LVGM_USE_PSG2 && (PSG_DEVICE_NUM < 2))
+	#error LVGM_USE_PSG2 needs at least 2 PSG devices (see PSG_DEVICE)!
+#endif
 
 // lVGM option
 enum LVGM_OPTION
@@ -166,6 +171,7 @@ enum LVGM_OP
 	LVGM_OP_OPL4   = 0xF6, // Start of Moonsound chunk
 	LVGM_OP_OPNA   = 0xF7, // Start of Makoto chunk
 	//-----------------------------------------------------
+	LVGM_OP_REPLAY = 0xFB, // Replay data
 	LVGM_OP_WAIT   = 0xFC, // 8-bit wait counter
 	LVGM_OP_NOTIFY = 0xFD, // Optional markers
 	LVGM_OP_LOOP   = 0xFE, // Loop position
@@ -205,12 +211,15 @@ extern u8                 g_LVGM_Devices;
 extern u8                 g_LVGM_PSG_Default;
 extern u8                 g_LVGM_Wait;
 extern u8                 g_LVGM_State;
-extern u8                 g_LVGM_CurChip;
 #if (LVGM_USE_NOTIFY)
 extern LVGM_NotifyCB      g_LVGM_Callback;
 #endif
 #if (LVGM_USE_OPNA)
 extern u8                 g_LVGM_OPNA_Port;
+#endif
+#if (LVGM_USE_REPLAY)
+extern const u8*          g_LVGM_ReplayEnd;
+extern const u8*          g_LVGM_ReplayRet;
 #endif
 
 //=============================================================================

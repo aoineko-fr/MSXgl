@@ -68,29 +68,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x8B, // R#9: 8n
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x23, // R#3: 2n
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
-	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAA, // R#10: An
-	0xE5, // -------- Wait: Ex
+	0xFB, 0x13, 0x27, 0x00, // FB nn dddd => Replay 24 bytes (-39)
 	0x68, // R#8: 6n
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
@@ -104,48 +82,14 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x02, 0x38, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0x04, 0x1C, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
+	0xFB, 0x06, 0x42, 0x00, // FB nn dddd => Replay 11 bytes (-66)
 	0xED, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x23, // R#3: 2n
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
+	0xFB, 0x06, 0x3B, 0x00, // FB nn dddd => Replay 11 bytes (-59)
 	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAA, // R#10: An
-	0xE5, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x22, // R#3: 2n
+	0xFB, 0x06, 0x34, 0x00, // FB nn dddd => Replay 11 bytes (-52)
 	0x8C, // R#9: 8n
 	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0x2B, 0x00, // FB nn dddd => Replay 5 bytes (-43)
 	0x8A, // R#9: 8n
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Ex
@@ -185,46 +129,17 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xAB, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0x7A, 0x00, // FB nn dddd => Replay 5 bytes (-122)
+	0xFB, 0x06, 0x1C, 0x00, // FB nn dddd => Replay 11 bytes (-28)
 	0x00, 0x30, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
 	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
+	0xFB, 0x02, 0x15, 0x00, // FB nn dddd => Replay 7 bytes (-21)
+	0xFB, 0x00, 0x8C, 0x00, // FB nn dddd => Replay 5 bytes (-140)
 	0x69, // R#8: 6n
 	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x01, 0x67, 0x00, // FB nn dddd => Replay 6 bytes (-103)
 	0x00, 0x54, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x04, 0x94, // R#4: 04 nn
@@ -235,35 +150,12 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
 	0xAA, // R#10: An
-	0xE4, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x07, 0x41, 0x00, // FB nn dddd => Replay 12 bytes (-65)
 	0x00, 0x30, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x7C, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE4, // -------- Wait: Ex
+	0xFB, 0x05, 0x3B, 0x00, // FB nn dddd => Replay 10 bytes (-59)
+	0xFB, 0x00, 0x5E, 0x00, // FB nn dddd => Replay 5 bytes (-94)
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0xA8, // R#10: An
@@ -302,11 +194,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xE3, // -------- Wait: Ex
 	0xA5, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
+	0xFB, 0x00, 0x7A, 0x00, // FB nn dddd => Replay 5 bytes (-122)
 	0xE0, // -------- Wait: Ex
 	0x67, // R#8: 6n
 	0x86, // R#9: 8n
@@ -316,246 +204,36 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x8C, // R#9: 8n
 	0x31, // R#5: 3n
 	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x23, // R#3: 2n
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
-	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAA, // R#10: An
-	0xE5, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x22, // R#3: 2n
-	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x23, // R#3: 2n
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
-	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAA, // R#10: An
-	0xE5, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xD1, // R#n: Dn
-	0x00, 0xE4, // R#0: 00 nn
-	0x6B, // R#8: 6n
-	0x22, // R#3: 2n
-	0x02, 0x38, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x1C, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
+	0xFB, 0x29, 0xF1, 0x00, // FB nn dddd => Replay 46 bytes (-241)
+	0xFB, 0x13, 0xEE, 0x00, // FB nn dddd => Replay 24 bytes (-238)
+	0xFB, 0x0B, 0xC7, 0x00, // FB nn dddd => Replay 16 bytes (-199)
+	0xFB, 0x06, 0xFD, 0x00, // FB nn dddd => Replay 11 bytes (-253)
 	0xED, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x23, // R#3: 2n
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
+	0xFB, 0x06, 0xF6, 0x00, // FB nn dddd => Replay 11 bytes (-246)
 	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAA, // R#10: An
-	0xE5, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x22, // R#3: 2n
+	0xFB, 0x06, 0xEF, 0x00, // FB nn dddd => Replay 11 bytes (-239)
 	0x8C, // R#9: 8n
 	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE4, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x11, // R#1: 1n
-	0xD0, // R#n: Dn
-	0x6C, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xE4, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x1C, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x8C, // R#9: 8n
-	0x04, 0x7C, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x30, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x8C, // R#9: 8n
-	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
+	0xFB, 0x00, 0xE6, 0x00, // FB nn dddd => Replay 5 bytes (-230)
+	0xFB, 0x24, 0xBB, 0x00, // FB nn dddd => Replay 41 bytes (-187)
+	0xFB, 0x00, 0x10, 0x01, // FB nn dddd => Replay 5 bytes (-272)
+	0xFB, 0x06, 0xB2, 0x00, // FB nn dddd => Replay 11 bytes (-178)
+	0xFB, 0x01, 0x96, 0x00, // FB nn dddd => Replay 6 bytes (-150)
+	0xFB, 0x02, 0xA9, 0x00, // FB nn dddd => Replay 7 bytes (-169)
+	0xFB, 0x00, 0x20, 0x01, // FB nn dddd => Replay 5 bytes (-288)
 	0x69, // R#8: 6n
 	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x54, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x04, 0x94, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xAA, // R#10: An
-	0xE4, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x01, 0xFB, 0x00, // FB nn dddd => Replay 6 bytes (-251)
+	0xFB, 0x07, 0x94, 0x00, // FB nn dddd => Replay 12 bytes (-148)
+	0xFB, 0x07, 0xCD, 0x00, // FB nn dddd => Replay 12 bytes (-205)
 	0x00, 0x7C, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x02, 0xF8, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0x32, // R#5: 3n
 	0xD4, // R#n: Dn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE4, // -------- Wait: Ex
+	0xFB, 0x02, 0xC7, 0x00, // FB nn dddd => Replay 7 bytes (-199)
+	0xFB, 0x00, 0xED, 0x00, // FB nn dddd => Replay 5 bytes (-237)
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0xA8, // R#10: An
@@ -586,11 +264,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x00, 0x80, // R#0: 00 nn
 	0xD8, // R#n: Dn
 	0xE2, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE3, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE3, // -------- Wait: Ex
-	0xA5, // R#10: An
+	0xFB, 0x00, 0x8C, 0x00, // FB nn dddd => Replay 5 bytes (-140)
 	0xE3, // -------- Wait: Ex
 	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
@@ -599,572 +273,61 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x8C, // R#9: 8n
 	0x31, // R#5: 3n
 	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x23, // R#3: 2n
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
-	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAA, // R#10: An
-	0xE5, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x22, // R#3: 2n
-	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x23, // R#3: 2n
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
-	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAA, // R#10: An
-	0xE5, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xD1, // R#n: Dn
-	0x00, 0xE4, // R#0: 00 nn
-	0x6B, // R#8: 6n
-	0x22, // R#3: 2n
-	0x02, 0x38, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x1C, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
+	0xFB, 0x29, 0x77, 0x01, // FB nn dddd => Replay 46 bytes (-375)
+	0xFB, 0x13, 0x74, 0x01, // FB nn dddd => Replay 24 bytes (-372)
+	0xFB, 0x0B, 0x4D, 0x01, // FB nn dddd => Replay 16 bytes (-333)
+	0xFB, 0x06, 0x83, 0x01, // FB nn dddd => Replay 11 bytes (-387)
 	0xED, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x23, // R#3: 2n
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
+	0xFB, 0x06, 0x7C, 0x01, // FB nn dddd => Replay 11 bytes (-380)
 	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAA, // R#10: An
-	0xE5, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x22, // R#3: 2n
+	0xFB, 0x06, 0x75, 0x01, // FB nn dddd => Replay 11 bytes (-373)
 	0x8C, // R#9: 8n
 	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE4, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x11, // R#1: 1n
-	0xD0, // R#n: Dn
-	0x6C, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xE4, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x1C, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x8C, // R#9: 8n
-	0x04, 0x7C, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x30, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x8C, // R#9: 8n
-	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
+	0xFB, 0x00, 0x6C, 0x01, // FB nn dddd => Replay 5 bytes (-364)
+	0xFB, 0x24, 0x41, 0x01, // FB nn dddd => Replay 41 bytes (-321)
+	0xFB, 0x00, 0x96, 0x01, // FB nn dddd => Replay 5 bytes (-406)
+	0xFB, 0x06, 0x38, 0x01, // FB nn dddd => Replay 11 bytes (-312)
+	0xFB, 0x01, 0x1C, 0x01, // FB nn dddd => Replay 6 bytes (-284)
+	0xFB, 0x02, 0x2F, 0x01, // FB nn dddd => Replay 7 bytes (-303)
+	0xFB, 0x00, 0xA6, 0x01, // FB nn dddd => Replay 5 bytes (-422)
 	0x69, // R#8: 6n
 	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x54, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x04, 0x94, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xAA, // R#10: An
-	0xE4, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x30, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x7C, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE4, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x80, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE6, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x86, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0x7C, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x8C, // R#9: 8n
-	0xD5, // R#n: Dn
-	0x04, 0x2F, // R#4: 04 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA8, // R#10: An
-	0xE3, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE3, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE3, // -------- Wait: Ex
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x86, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xD0, // R#n: Dn
-	0x6B, // R#8: 6n
-	0x8C, // R#9: 8n
-	0x31, // R#5: 3n
-	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x23, // R#3: 2n
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
-	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAA, // R#10: An
-	0xE5, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x22, // R#3: 2n
-	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x23, // R#3: 2n
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
-	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAA, // R#10: An
-	0xE5, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xD1, // R#n: Dn
-	0x00, 0xE4, // R#0: 00 nn
-	0x6B, // R#8: 6n
-	0x22, // R#3: 2n
-	0x02, 0x38, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x1C, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
+	0xFB, 0x01, 0x81, 0x01, // FB nn dddd => Replay 6 bytes (-385)
+	0xFB, 0x07, 0x1A, 0x01, // FB nn dddd => Replay 12 bytes (-282)
+	0xFB, 0x07, 0x53, 0x01, // FB nn dddd => Replay 12 bytes (-339)
+	0xFB, 0x00, 0x12, 0x01, // FB nn dddd => Replay 5 bytes (-274)
+	0xFB, 0x05, 0x4C, 0x01, // FB nn dddd => Replay 10 bytes (-332)
+	0xFB, 0x00, 0x6F, 0x01, // FB nn dddd => Replay 5 bytes (-367)
+	0xFB, 0x24, 0x11, 0x01, // FB nn dddd => Replay 41 bytes (-273)
+	0xFB, 0x00, 0x66, 0x01, // FB nn dddd => Replay 5 bytes (-358)
+	0xFB, 0x05, 0xEC, 0x00, // FB nn dddd => Replay 10 bytes (-236)
+	0xFB, 0x29, 0xD7, 0x01, // FB nn dddd => Replay 46 bytes (-471)
+	0xFB, 0x13, 0xD4, 0x01, // FB nn dddd => Replay 24 bytes (-468)
+	0xFB, 0x0B, 0xAD, 0x01, // FB nn dddd => Replay 16 bytes (-429)
+	0xFB, 0x06, 0xE3, 0x01, // FB nn dddd => Replay 11 bytes (-483)
 	0xED, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x23, // R#3: 2n
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
+	0xFB, 0x06, 0xDC, 0x01, // FB nn dddd => Replay 11 bytes (-476)
 	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAA, // R#10: An
-	0xE5, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x22, // R#3: 2n
+	0xFB, 0x06, 0xD5, 0x01, // FB nn dddd => Replay 11 bytes (-469)
 	0x8C, // R#9: 8n
 	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE4, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x11, // R#1: 1n
-	0xD0, // R#n: Dn
-	0x6C, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xE4, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x1C, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x8C, // R#9: 8n
-	0x04, 0x7C, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x30, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x8C, // R#9: 8n
-	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
+	0xFB, 0x00, 0xCC, 0x01, // FB nn dddd => Replay 5 bytes (-460)
+	0xFB, 0x24, 0xA1, 0x01, // FB nn dddd => Replay 41 bytes (-417)
+	0xFB, 0x00, 0xF6, 0x01, // FB nn dddd => Replay 5 bytes (-502)
+	0xFB, 0x06, 0x98, 0x01, // FB nn dddd => Replay 11 bytes (-408)
+	0xFB, 0x01, 0x7C, 0x01, // FB nn dddd => Replay 6 bytes (-380)
+	0xFB, 0x02, 0x8F, 0x01, // FB nn dddd => Replay 7 bytes (-399)
+	0xFB, 0x00, 0x06, 0x02, // FB nn dddd => Replay 5 bytes (-518)
 	0x69, // R#8: 6n
 	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x54, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x04, 0x94, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xAA, // R#10: An
-	0xE4, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x86, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x7C, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x32, // R#5: 3n
-	0xD4, // R#n: Dn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE4, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xD5, // R#n: Dn
-	0x04, 0x2F, // R#4: 04 nn
-	0xA9, // R#10: An
-	0xE3, // -------- Wait: Ex
-	0xA8, // R#10: An
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x86, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x23, // R#3: 2n
-	0xD2, // R#n: Dn
-	0xD9, // R#n: Dn
-	0xA9, // R#10: An
-	0xE2, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x80, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE3, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE3, // -------- Wait: Ex
-	0xA5, // R#10: An
+	0xFB, 0x01, 0xE1, 0x01, // FB nn dddd => Replay 6 bytes (-481)
+	0xFB, 0x07, 0x7A, 0x01, // FB nn dddd => Replay 12 bytes (-378)
+	0xFB, 0x07, 0xB3, 0x01, // FB nn dddd => Replay 12 bytes (-435)
+	0xFB, 0x03, 0xE6, 0x00, // FB nn dddd => Replay 8 bytes (-230)
+	0xFB, 0x02, 0xA9, 0x01, // FB nn dddd => Replay 7 bytes (-425)
+	0xFB, 0x00, 0xCF, 0x01, // FB nn dddd => Replay 5 bytes (-463)
+	0xFB, 0x1B, 0xE2, 0x00, // FB nn dddd => Replay 32 bytes (-226)
+	0xFB, 0x00, 0x52, 0x01, // FB nn dddd => Replay 5 bytes (-338)
 	0xE3, // -------- Wait: Ex
 	0xD0, // R#n: Dn
 	0x6C, // R#8: 6n
@@ -1173,11 +336,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x8C, // R#9: 8n
 	0xE0, // -------- Wait: Ex
 	0xA9, // R#10: An
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
+	0xFB, 0x00, 0x69, 0x01, // FB nn dddd => Replay 5 bytes (-361)
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
@@ -1222,29 +381,8 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xE0, // -------- Wait: Ex
 	0x07, 0xB8, // R#7: 07 nn
 	0xA9, // R#10: An
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0x80, // R#0: 00 nn
-	0xD8, // R#n: Dn
+	0xFB, 0x00, 0x9D, 0x01, // FB nn dddd => Replay 5 bytes (-413)
+	0xFB, 0x0E, 0x34, 0x00, // FB nn dddd => Replay 19 bytes (-52)
 	0x02, 0x80, // R#2: 02 nn
 	0xD9, // R#n: Dn
 	0xE0, // -------- Wait: Ex
@@ -1257,28 +395,11 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xE5, // -------- Wait: Ex
 	0xD1, // R#n: Dn
 	0x00, 0xBE, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x22, // R#3: 2n
-	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x01, 0x52, 0x00, // FB nn dddd => Replay 6 bytes (-82)
 	0x07, 0xB8, // R#7: 07 nn
 	0xA9, // R#10: An
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x68, // R#8: 6n
+	0xFB, 0x00, 0xBB, 0x01, // FB nn dddd => Replay 5 bytes (-443)
+	0xFB, 0x05, 0x52, 0x00, // FB nn dddd => Replay 10 bytes (-82)
 	0xA5, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x67, // R#8: 6n
@@ -1313,12 +434,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x8C, // R#9: 8n
 	0x07, 0xB8, // R#7: 07 nn
 	0xA9, // R#10: An
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x01, 0xE9, 0x01, // FB nn dddd => Replay 6 bytes (-489)
 	0xA8, // R#10: An
 	0x69, // R#8: 6n
 	0x89, // R#9: 8n
@@ -1348,13 +464,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xA3, // R#10: An
 	0x89, // R#9: 8n
 	0xE1, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x03, 0x81, 0x00, // FB nn dddd => Replay 8 bytes (-129)
 	0x00, 0x80, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x24, // R#3: 2n
@@ -1362,21 +472,10 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x8C, // R#9: 8n
 	0x04, 0x32, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
+	0xFB, 0x02, 0x1C, 0x02, // FB nn dddd => Replay 7 bytes (-540)
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
+	0xFB, 0x01, 0xB0, 0x00, // FB nn dddd => Replay 6 bytes (-176)
 	0x88, // R#9: 8n
 	0xA5, // R#10: An
 	0xE0, // -------- Wait: Ex
@@ -1384,23 +483,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xE0, // -------- Wait: Ex
 	0x22, // R#3: 2n
 	0x02, 0xA8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x0D, 0xAB, 0x00, // FB nn dddd => Replay 18 bytes (-171)
 	0x21, // R#3: 2n
 	0x02, 0x94, // R#2: 02 nn
 	0x8C, // R#9: 8n
@@ -1412,25 +495,13 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x8A, // R#9: 8n
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x01, 0xCD, 0x00, // FB nn dddd => Replay 6 bytes (-205)
+	0xFB, 0x00, 0x1D, 0x00, // FB nn dddd => Replay 5 bytes (-29)
 	0x02, 0x80, // R#2: 02 nn
 	0xD9, // R#n: Dn
 	0xA4, // R#10: An
 	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
+	0xFB, 0x00, 0x9F, 0x00, // FB nn dddd => Replay 5 bytes (-159)
 	0xE3, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xE0, // -------- Wait: Ex
@@ -1439,10 +510,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x00, 0xAA, // R#0: 00 nn
 	0x6D, // R#8: 6n
 	0x24, // R#3: 2n
-	0xD2, // R#n: Dn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
+	0xFB, 0x00, 0x73, 0x00, // FB nn dddd => Replay 5 bytes (-115)
 	0xE0, // -------- Wait: Ex
 	0x6C, // R#8: 6n
 	0x8B, // R#9: 8n
@@ -1452,51 +520,16 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
+	0xFB, 0x01, 0xF4, 0x00, // FB nn dddd => Replay 6 bytes (-244)
 	0xA5, // R#10: An
 	0xE1, // -------- Wait: Ex
 	0xA4, // R#10: An
 	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x0E, 0x9F, 0x00, // FB nn dddd => Replay 19 bytes (-159)
 	0x22, // R#3: 2n
 	0x02, 0xA8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
+	0xFB, 0x05, 0x40, 0x00, // FB nn dddd => Replay 10 bytes (-64)
+	0xFB, 0x01, 0x07, 0x01, // FB nn dddd => Replay 6 bytes (-263)
 	0x69, // R#8: 6n
 	0x88, // R#9: 8n
 	0xA5, // R#10: An
@@ -1508,23 +541,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xD8, // R#n: Dn
 	0x21, // R#3: 2n
 	0x02, 0x94, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x0D, 0x07, 0x01, // FB nn dddd => Replay 18 bytes (-263)
 	0x00, 0xBE, // R#0: 00 nn
 	0x6D, // R#8: 6n
 	0x23, // R#3: 2n
@@ -1533,111 +550,28 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x04, 0x2F, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xC0, // R#0: 00 nn
-	0xD8, // R#n: Dn
+	0xFB, 0x04, 0x3D, 0x00, // FB nn dddd => Replay 9 bytes (-61)
+	0xFB, 0x01, 0x2C, 0x01, // FB nn dddd => Replay 6 bytes (-300)
+	0xFB, 0x05, 0x25, 0x00, // FB nn dddd => Replay 10 bytes (-37)
 	0x22, // R#3: 2n
 	0x02, 0x60, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x0D, 0x26, 0x01, // FB nn dddd => Replay 18 bytes (-294)
 	0x00, 0xAA, // R#0: 00 nn
 	0x6D, // R#8: 6n
 	0x21, // R#3: 2n
 	0x02, 0x7C, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xC0, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0x02, 0x80, // R#2: 02 nn
-	0xD9, // R#n: Dn
-	0xA4, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE5, // -------- Wait: Ex
+	0xFB, 0x00, 0x7E, 0x00, // FB nn dddd => Replay 5 bytes (-126)
+	0xFB, 0x03, 0x59, 0x00, // FB nn dddd => Replay 8 bytes (-89)
+	0xFB, 0x01, 0x49, 0x01, // FB nn dddd => Replay 6 bytes (-329)
+	0xFB, 0x05, 0x42, 0x00, // FB nn dddd => Replay 10 bytes (-66)
+	0xFB, 0x00, 0x7C, 0x00, // FB nn dddd => Replay 5 bytes (-124)
+	0xFB, 0x01, 0x1A, 0x01, // FB nn dddd => Replay 6 bytes (-282)
 	0x00, 0x98, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x23, // R#3: 2n
-	0x02, 0x90, // R#2: 02 nn
-	0x8C, // R#9: 8n
+	0xFB, 0x00, 0x3D, 0x00, // FB nn dddd => Replay 5 bytes (-61)
 	0x07, 0xB8, // R#7: 07 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
+	0xFB, 0x04, 0x77, 0x00, // FB nn dddd => Replay 9 bytes (-119)
+	0xFB, 0x01, 0x66, 0x01, // FB nn dddd => Replay 6 bytes (-358)
 	0x69, // R#8: 6n
 	0xA5, // R#10: An
 	0xE0, // -------- Wait: Ex
@@ -1647,74 +581,17 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xD8, // R#n: Dn
 	0xA4, // R#10: An
 	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x0E, 0x17, 0x01, // FB nn dddd => Replay 19 bytes (-279)
 	0x00, 0x8E, // R#0: 00 nn
 	0x6D, // R#8: 6n
 	0x22, // R#3: 2n
 	0x02, 0x60, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xC0, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0x21, // R#3: 2n
+	0xFB, 0x00, 0xBB, 0x00, // FB nn dddd => Replay 5 bytes (-187)
+	0xFB, 0x03, 0x96, 0x00, // FB nn dddd => Replay 8 bytes (-150)
+	0xFB, 0x01, 0x86, 0x01, // FB nn dddd => Replay 6 bytes (-390)
+	0xFB, 0x06, 0x7F, 0x00, // FB nn dddd => Replay 11 bytes (-127)
 	0x02, 0x7C, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x0D, 0x7F, 0x01, // FB nn dddd => Replay 18 bytes (-383)
 	0x00, 0x98, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x24, // R#3: 2n
@@ -1722,896 +599,145 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x8C, // R#9: 8n
 	0x04, 0x26, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
+	0xFB, 0x02, 0x10, 0x03, // FB nn dddd => Replay 7 bytes (-784)
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x22, // R#3: 2n
-	0x02, 0xA8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x21, // R#3: 2n
-	0x02, 0x94, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x02, 0x80, // R#2: 02 nn
-	0xD9, // R#n: Dn
-	0xA4, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xAA, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x24, // R#3: 2n
+	0xFB, 0x01, 0xA4, 0x01, // FB nn dddd => Replay 6 bytes (-420)
+	0xFB, 0x03, 0xF4, 0x00, // FB nn dddd => Replay 8 bytes (-244)
+	0xFB, 0x0D, 0x9B, 0x01, // FB nn dddd => Replay 18 bytes (-411)
+	0xFB, 0x08, 0xF0, 0x00, // FB nn dddd => Replay 13 bytes (-240)
+	0xFB, 0x01, 0xB4, 0x01, // FB nn dddd => Replay 6 bytes (-436)
+	0xFB, 0x00, 0x04, 0x01, // FB nn dddd => Replay 5 bytes (-260)
+	0xFB, 0x00, 0xE7, 0x00, // FB nn dddd => Replay 5 bytes (-231)
+	0xFB, 0x00, 0x85, 0x01, // FB nn dddd => Replay 5 bytes (-389)
+	0xFB, 0x04, 0xE6, 0x00, // FB nn dddd => Replay 9 bytes (-230)
 	0xD2, // R#n: Dn
 	0x8C, // R#9: 8n
 	0x04, 0x2A, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
+	0xFB, 0x04, 0xE4, 0x00, // FB nn dddd => Replay 9 bytes (-228)
+	0xFB, 0x01, 0xD3, 0x01, // FB nn dddd => Replay 6 bytes (-467)
 	0xA5, // R#10: An
 	0xE1, // -------- Wait: Ex
 	0xA4, // R#10: An
 	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x0E, 0x7E, 0x01, // FB nn dddd => Replay 19 bytes (-382)
 	0x22, // R#3: 2n
 	0x02, 0xA8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xC0, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0x21, // R#3: 2n
-	0x02, 0x94, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x05, 0x1F, 0x01, // FB nn dddd => Replay 10 bytes (-287)
+	0xFB, 0x01, 0xE6, 0x01, // FB nn dddd => Replay 6 bytes (-486)
+	0xFB, 0x08, 0xDF, 0x00, // FB nn dddd => Replay 13 bytes (-223)
+	0xFB, 0x0D, 0xDD, 0x01, // FB nn dddd => Replay 18 bytes (-477)
 	0x11, // R#1: 1n
-	0xD0, // R#n: Dn
-	0x6C, // R#8: 6n
-	0x22, // R#3: 2n
-	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x2F, // R#4: 04 nn
+	0xFB, 0x01, 0x02, 0x02, // FB nn dddd => Replay 6 bytes (-514)
+	0xFB, 0x00, 0xD4, 0x00, // FB nn dddd => Replay 5 bytes (-212)
+	0xFB, 0x01, 0x6C, 0x03, // FB nn dddd => Replay 6 bytes (-876)
+	0xFB, 0x27, 0x02, 0x02, // FB nn dddd => Replay 44 bytes (-514)
 	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0x80, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0xD2, // R#n: Dn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xD0, // R#n: Dn
-	0x6C, // R#8: 6n
-	0x21, // R#3: 2n
-	0x02, 0x7C, // R#2: 02 nn
-	0x8C, // R#9: 8n
+	0xFB, 0x02, 0x77, 0x03, // FB nn dddd => Replay 7 bytes (-887)
+	0xFB, 0x0E, 0x0C, 0x02, // FB nn dddd => Replay 19 bytes (-524)
+	0xFB, 0x00, 0x38, 0x01, // FB nn dddd => Replay 5 bytes (-312)
+	0xFB, 0x04, 0xD6, 0x01, // FB nn dddd => Replay 9 bytes (-470)
+	0xFB, 0x00, 0x23, 0x02, // FB nn dddd => Replay 5 bytes (-547)
 	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0x80, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0x02, 0x80, // R#2: 02 nn
-	0xD9, // R#n: Dn
+	0xFB, 0x02, 0x8D, 0x03, // FB nn dddd => Replay 7 bytes (-909)
+	0xFB, 0x05, 0x22, 0x02, // FB nn dddd => Replay 10 bytes (-546)
+	0xFB, 0x02, 0xD0, 0x01, // FB nn dddd => Replay 7 bytes (-464)
 	0xA4, // R#10: An
 	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE5, // -------- Wait: Ex
-	0xD1, // R#n: Dn
-	0x00, 0xBE, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x22, // R#3: 2n
-	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x11, 0xCC, 0x01, // FB nn dddd => Replay 22 bytes (-460)
+	0xFB, 0x00, 0xB9, 0x01, // FB nn dddd => Replay 5 bytes (-441)
+	0xFB, 0x01, 0xA2, 0x03, // FB nn dddd => Replay 6 bytes (-930)
+	0xFB, 0x0B, 0x38, 0x02, // FB nn dddd => Replay 16 bytes (-568)
 	0x00, 0xC0, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0xA4, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0x98, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0xD2, // R#n: Dn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
+	0xFB, 0x01, 0xAC, 0x01, // FB nn dddd => Replay 6 bytes (-428)
+	0xFB, 0x0B, 0x2C, 0x02, // FB nn dddd => Replay 16 bytes (-556)
+	0xFB, 0x05, 0xA3, 0x01, // FB nn dddd => Replay 10 bytes (-419)
+	0xFB, 0x02, 0xB9, 0x03, // FB nn dddd => Replay 7 bytes (-953)
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x88, // R#9: 8n
+	0xFB, 0x01, 0x4D, 0x02, // FB nn dddd => Replay 6 bytes (-589)
+	0xFB, 0x03, 0x9D, 0x01, // FB nn dddd => Replay 8 bytes (-413)
+	0xFB, 0x0D, 0x44, 0x02, // FB nn dddd => Replay 18 bytes (-580)
+	0xFB, 0x08, 0x99, 0x01, // FB nn dddd => Replay 13 bytes (-409)
+	0xFB, 0x01, 0x5D, 0x02, // FB nn dddd => Replay 6 bytes (-605)
+	0xFB, 0x00, 0xAD, 0x01, // FB nn dddd => Replay 5 bytes (-429)
+	0xFB, 0x00, 0x90, 0x01, // FB nn dddd => Replay 5 bytes (-400)
+	0xFB, 0x00, 0x2E, 0x02, // FB nn dddd => Replay 5 bytes (-558)
+	0xFB, 0x04, 0x8F, 0x01, // FB nn dddd => Replay 9 bytes (-399)
+	0xFB, 0x00, 0xFD, 0x01, // FB nn dddd => Replay 5 bytes (-509)
+	0xFB, 0x04, 0x8A, 0x01, // FB nn dddd => Replay 9 bytes (-394)
+	0xFB, 0x01, 0x79, 0x02, // FB nn dddd => Replay 6 bytes (-633)
 	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x67, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xC0, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0x21, // R#3: 2n
-	0x02, 0x7C, // R#2: 02 nn
-	0x8C, // R#9: 8n
+	0xE1, // -------- Wait: Ex
 	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0x80, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x24, // R#3: 2n
-	0xD2, // R#n: Dn
-	0x8C, // R#9: 8n
-	0x04, 0x32, // R#4: 04 nn
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
 	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x0E, 0x24, 0x02, // FB nn dddd => Replay 19 bytes (-548)
 	0x22, // R#3: 2n
 	0x02, 0xA8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x21, // R#3: 2n
-	0x02, 0x94, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x02, 0x80, // R#2: 02 nn
-	0xD9, // R#n: Dn
-	0xA4, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xAA, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x24, // R#3: 2n
-	0xD2, // R#n: Dn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA5, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA4, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x22, // R#3: 2n
-	0x02, 0xA8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xC0, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0x21, // R#3: 2n
-	0x02, 0x94, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xBE, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x23, // R#3: 2n
-	0x02, 0x90, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x2F, // R#4: 04 nn
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xC0, // R#0: 00 nn
-	0xD8, // R#n: Dn
+	0xFB, 0x05, 0xC5, 0x01, // FB nn dddd => Replay 10 bytes (-453)
+	0xFB, 0x01, 0x8C, 0x02, // FB nn dddd => Replay 6 bytes (-652)
+	0xFB, 0x08, 0x85, 0x01, // FB nn dddd => Replay 13 bytes (-389)
+	0xFB, 0x0D, 0x83, 0x02, // FB nn dddd => Replay 18 bytes (-643)
+	0xFB, 0x07, 0x7C, 0x01, // FB nn dddd => Replay 12 bytes (-380)
+	0xFB, 0x04, 0xB1, 0x01, // FB nn dddd => Replay 9 bytes (-433)
+	0xFB, 0x01, 0xA0, 0x02, // FB nn dddd => Replay 6 bytes (-672)
+	0xFB, 0x05, 0x99, 0x01, // FB nn dddd => Replay 10 bytes (-409)
 	0x22, // R#3: 2n
 	0x02, 0x60, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xAA, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x21, // R#3: 2n
-	0x02, 0x7C, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xC0, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0x02, 0x80, // R#2: 02 nn
-	0xD9, // R#n: Dn
-	0xA4, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE5, // -------- Wait: Ex
+	0xFB, 0x0D, 0x9A, 0x02, // FB nn dddd => Replay 18 bytes (-666)
+	0xFB, 0x01, 0x74, 0x01, // FB nn dddd => Replay 6 bytes (-372)
+	0xFB, 0x00, 0xF0, 0x01, // FB nn dddd => Replay 5 bytes (-496)
+	0xFB, 0x03, 0xCB, 0x01, // FB nn dddd => Replay 8 bytes (-459)
+	0xFB, 0x01, 0xBB, 0x02, // FB nn dddd => Replay 6 bytes (-699)
+	0xFB, 0x05, 0xB4, 0x01, // FB nn dddd => Replay 10 bytes (-436)
+	0xFB, 0x00, 0xEE, 0x01, // FB nn dddd => Replay 5 bytes (-494)
+	0xFB, 0x01, 0x8C, 0x02, // FB nn dddd => Replay 6 bytes (-652)
 	0x00, 0x98, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x23, // R#3: 2n
-	0x02, 0x90, // R#2: 02 nn
-	0x8C, // R#9: 8n
+	0xFB, 0x00, 0xAF, 0x01, // FB nn dddd => Replay 5 bytes (-431)
 	0x07, 0xB8, // R#7: 07 nn
 	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xC0, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0xA4, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0x8E, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x22, // R#3: 2n
-	0x02, 0x60, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xC0, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0x21, // R#3: 2n
+	0xFB, 0x04, 0xE9, 0x01, // FB nn dddd => Replay 9 bytes (-489)
+	0xFB, 0x01, 0xD8, 0x02, // FB nn dddd => Replay 6 bytes (-728)
+	0xFB, 0x05, 0x72, 0x01, // FB nn dddd => Replay 10 bytes (-370)
+	0xFB, 0x0E, 0x83, 0x02, // FB nn dddd => Replay 19 bytes (-643)
+	0xFB, 0x01, 0x6C, 0x01, // FB nn dddd => Replay 6 bytes (-364)
+	0xFB, 0x00, 0x25, 0x02, // FB nn dddd => Replay 5 bytes (-549)
+	0xFB, 0x03, 0x00, 0x02, // FB nn dddd => Replay 8 bytes (-512)
+	0xFB, 0x01, 0xF0, 0x02, // FB nn dddd => Replay 6 bytes (-752)
+	0xFB, 0x06, 0xE9, 0x01, // FB nn dddd => Replay 11 bytes (-489)
 	0x02, 0x7C, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0x98, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x24, // R#3: 2n
-	0xD2, // R#n: Dn
-	0x8C, // R#9: 8n
-	0x04, 0x26, // R#4: 04 nn
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
+	0xFB, 0x0D, 0xE9, 0x02, // FB nn dddd => Replay 18 bytes (-745)
+	0xFB, 0x05, 0x6A, 0x01, // FB nn dddd => Replay 10 bytes (-362)
+	0xFB, 0x02, 0x74, 0x04, // FB nn dddd => Replay 7 bytes (-1140)
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x88, // R#9: 8n
+	0xFB, 0x01, 0x08, 0x03, // FB nn dddd => Replay 6 bytes (-776)
+	0xFB, 0x03, 0x58, 0x02, // FB nn dddd => Replay 8 bytes (-600)
+	0xFB, 0x0D, 0xFF, 0x02, // FB nn dddd => Replay 18 bytes (-767)
+	0xFB, 0x08, 0x54, 0x02, // FB nn dddd => Replay 13 bytes (-596)
+	0xFB, 0x01, 0x18, 0x03, // FB nn dddd => Replay 6 bytes (-792)
+	0xFB, 0x00, 0x68, 0x02, // FB nn dddd => Replay 5 bytes (-616)
+	0xFB, 0x00, 0x4B, 0x02, // FB nn dddd => Replay 5 bytes (-587)
+	0xFB, 0x00, 0xE9, 0x02, // FB nn dddd => Replay 5 bytes (-745)
+	0xFB, 0x04, 0x4A, 0x02, // FB nn dddd => Replay 9 bytes (-586)
+	0xFB, 0x02, 0x64, 0x01, // FB nn dddd => Replay 7 bytes (-356)
+	0xFB, 0x04, 0x45, 0x02, // FB nn dddd => Replay 9 bytes (-581)
+	0xFB, 0x01, 0x34, 0x03, // FB nn dddd => Replay 6 bytes (-820)
 	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xE1, // -------- Wait: Ex
+	0xA4, // R#10: An
+	0xE1, // -------- Wait: Ex
+	0xFB, 0x0E, 0xDF, 0x02, // FB nn dddd => Replay 19 bytes (-735)
 	0x22, // R#3: 2n
 	0x02, 0xA8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x21, // R#3: 2n
-	0x02, 0x94, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x02, 0x80, // R#2: 02 nn
-	0xD9, // R#n: Dn
-	0xA4, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xAA, // R#0: 00 nn
-	0x6D, // R#8: 6n
-	0x24, // R#3: 2n
-	0xD2, // R#n: Dn
-	0x8C, // R#9: 8n
-	0x04, 0x2A, // R#4: 04 nn
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6C, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA5, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA4, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x22, // R#3: 2n
-	0x02, 0xA8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x07, 0xB8, // R#7: 07 nn
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE1, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA5, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xC0, // R#0: 00 nn
-	0xD8, // R#n: Dn
-	0x21, // R#3: 2n
-	0x02, 0x94, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xA4, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA3, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x07, 0xBC, // R#7: 07 nn
-	0xDA, // R#n: Dn
-	0xE3, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x05, 0x80, 0x02, // FB nn dddd => Replay 10 bytes (-640)
+	0xFB, 0x01, 0x47, 0x03, // FB nn dddd => Replay 6 bytes (-839)
+	0xFB, 0x08, 0x40, 0x02, // FB nn dddd => Replay 13 bytes (-576)
+	0xFB, 0x0D, 0x3E, 0x03, // FB nn dddd => Replay 18 bytes (-830)
 	0x00, 0x80, // R#0: 00 nn
-	0x6B, // R#8: 6n
-	0x22, // R#3: 2n
-	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
+	0xFB, 0x00, 0x29, 0x04, // FB nn dddd => Replay 5 bytes (-1065)
 	0x04, 0x5F, // R#4: 04 nn
 	0x07, 0xB8, // R#7: 07 nn
 	0xAA, // R#10: An
@@ -2639,94 +765,22 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x04, 0x5F, // R#4: 04 nn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0x04, 0x5F, // R#4: 04 nn
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0x04, 0x5F, // R#4: 04 nn
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
+	0xFB, 0x13, 0x18, 0x00, // FB nn dddd => Replay 24 bytes (-24)
+	0xFB, 0x13, 0x1C, 0x00, // FB nn dddd => Replay 24 bytes (-28)
+	0xFB, 0x0A, 0x20, 0x00, // FB nn dddd => Replay 15 bytes (-32)
+	0xFB, 0x00, 0x5E, 0x05, // FB nn dddd => Replay 5 bytes (-1374)
 	0xE0, // -------- Wait: Ex
 	0x00, 0x72, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x21, // R#3: 2n
 	0x02, 0x30, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x5F, // R#4: 04 nn
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0x1C, 0x00, // FB nn dddd => Replay 5 bytes (-28)
 	0x6B, // R#8: 6n
 	0x8B, // R#9: 8n
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
+	0xFB, 0x07, 0x35, 0x00, // FB nn dddd => Replay 12 bytes (-53)
 	0x69, // R#8: 6n
 	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
@@ -2742,70 +796,25 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x6A, // R#8: 6n
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
+	0xFB, 0x03, 0x46, 0x00, // FB nn dddd => Replay 8 bytes (-70)
 	0x69, // R#8: 6n
 	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x04, 0x5F, // R#4: 04 nn
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
+	0xFB, 0x06, 0x15, 0x00, // FB nn dddd => Replay 11 bytes (-21)
+	0xFB, 0x03, 0x54, 0x00, // FB nn dddd => Replay 8 bytes (-84)
+	0xFB, 0x00, 0x99, 0x05, // FB nn dddd => Replay 5 bytes (-1433)
 	0xE0, // -------- Wait: Ex
 	0x00, 0x98, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x22, // R#3: 2n
-	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x5F, // R#4: 04 nn
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
+	0xFB, 0x00, 0xD4, 0x03, // FB nn dddd => Replay 5 bytes (-980)
+	0xFB, 0x00, 0x27, 0x00, // FB nn dddd => Replay 5 bytes (-39)
 	0x8B, // R#9: 8n
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
+	0xFB, 0x07, 0x6F, 0x00, // FB nn dddd => Replay 12 bytes (-111)
+	0xFB, 0x00, 0xB0, 0x05, // FB nn dddd => Replay 5 bytes (-1456)
 	0xE0, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -2815,99 +824,24 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x04, 0x40, // R#4: 04 nn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
+	0xFB, 0x00, 0x52, 0x00, // FB nn dddd => Replay 5 bytes (-82)
+	0xFB, 0x0C, 0x86, 0x00, // FB nn dddd => Replay 17 bytes (-134)
 	0x04, 0x40, // R#4: 04 nn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
+	0xFB, 0x0F, 0x91, 0x00, // FB nn dddd => Replay 20 bytes (-145)
 	0x04, 0x40, // R#4: 04 nn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
+	0xFB, 0x0A, 0x99, 0x00, // FB nn dddd => Replay 15 bytes (-153)
+	0xFB, 0x00, 0xD7, 0x05, // FB nn dddd => Replay 5 bytes (-1495)
 	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0x6C, // R#8: 6n
-	0x8C, // R#9: 8n
-	0x04, 0x40, // R#4: 04 nn
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
+	0xFB, 0x00, 0x25, 0x00, // FB nn dddd => Replay 5 bytes (-37)
+	0xFB, 0x00, 0x76, 0x00, // FB nn dddd => Replay 5 bytes (-118)
+	0xFB, 0x07, 0xAA, 0x00, // FB nn dddd => Replay 12 bytes (-170)
+	0xFB, 0x00, 0xEB, 0x05, // FB nn dddd => Replay 5 bytes (-1515)
 	0xE0, // -------- Wait: Ex
 	0x00, 0x80, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -2918,19 +852,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x04, 0x55, // R#4: 04 nn
 	0xAA, // R#10: An
 	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
+	0xFB, 0x09, 0xC2, 0x00, // FB nn dddd => Replay 14 bytes (-194)
 	0xE4, // -------- Wait: Ex
 	0x04, 0x55, // R#4: 04 nn
 	0xAA, // R#10: An
@@ -2939,13 +861,7 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xE0, // -------- Wait: Ex
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
+	0xFB, 0x03, 0xC8, 0x00, // FB nn dddd => Replay 8 bytes (-200)
 	0x6A, // R#8: 6n
 	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
@@ -2960,44 +876,16 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xE0, // -------- Wait: Ex
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x07, 0xDC, 0x00, // FB nn dddd => Replay 12 bytes (-220)
 	0x24, // R#3: 2n
 	0xD2, // R#n: Dn
-	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x04, 0x55, // R#4: 04 nn
-	0xAA, // R#10: An
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
+	0xFB, 0x00, 0x2D, 0x00, // FB nn dddd => Replay 5 bytes (-45)
+	0xFB, 0x08, 0xED, 0x00, // FB nn dddd => Replay 13 bytes (-237)
 	0xE0, // -------- Wait: Ex
 	0xDA, // R#n: Dn
 	0xE1, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0xD6, 0x05, // FB nn dddd => Replay 5 bytes (-1494)
 	0x00, 0x98, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0xE0, // -------- Wait: Ex
@@ -3029,173 +917,52 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x04, 0x72, // R#4: 04 nn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x06, 0x1D, 0x01, // FB nn dddd => Replay 11 bytes (-285)
 	0x04, 0xC0, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
+	0xFB, 0x02, 0x16, 0x01, // FB nn dddd => Replay 7 bytes (-278)
 	0x04, 0x72, // R#4: 04 nn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x06, 0x2B, 0x01, // FB nn dddd => Replay 11 bytes (-299)
 	0x04, 0xC0, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
+	0xFB, 0x02, 0x24, 0x01, // FB nn dddd => Replay 7 bytes (-292)
 	0x04, 0x72, // R#4: 04 nn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x06, 0x39, 0x01, // FB nn dddd => Replay 11 bytes (-313)
 	0x04, 0xC0, // R#4: 04 nn
 	0xDA, // R#n: Dn
 	0xE2, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0x23, 0x06, // FB nn dddd => Replay 5 bytes (-1571)
 	0x00, 0x8E, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x21, // R#3: 2n
-	0x02, 0x7C, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x5F, // R#4: 04 nn
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
+	0xFB, 0x00, 0x84, 0x04, // FB nn dddd => Replay 5 bytes (-1156)
+	0xFB, 0x00, 0x09, 0x01, // FB nn dddd => Replay 5 bytes (-265)
 	0x8B, // R#9: 8n
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
+	0xFB, 0x07, 0x51, 0x01, // FB nn dddd => Replay 12 bytes (-337)
 	0x69, // R#8: 6n
 	0xE0, // -------- Wait: Ex
 	0x68, // R#8: 6n
 	0xE0, // -------- Wait: Ex
 	0x00, 0x98, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x04, 0x5F, // R#4: 04 nn
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x00, 0xAA, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x04, 0x5F, // R#4: 04 nn
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
+	0xFB, 0x06, 0x1C, 0x01, // FB nn dddd => Replay 11 bytes (-284)
+	0xFB, 0x03, 0x5B, 0x01, // FB nn dddd => Replay 8 bytes (-347)
+	0xFB, 0x01, 0xE7, 0x03, // FB nn dddd => Replay 6 bytes (-999)
+	0xFB, 0x06, 0x28, 0x01, // FB nn dddd => Replay 11 bytes (-296)
+	0xFB, 0x03, 0x67, 0x01, // FB nn dddd => Replay 8 bytes (-359)
+	0xFB, 0x00, 0xAC, 0x06, // FB nn dddd => Replay 5 bytes (-1708)
 	0xE0, // -------- Wait: Ex
 	0x00, 0xBE, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x23, // R#3: 2n
 	0x02, 0x90, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x04, 0x5F, // R#4: 04 nn
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
+	0xFB, 0x00, 0x6A, 0x01, // FB nn dddd => Replay 5 bytes (-362)
+	0xFB, 0x00, 0x4E, 0x01, // FB nn dddd => Replay 5 bytes (-334)
+	0xFB, 0x07, 0x82, 0x01, // FB nn dddd => Replay 12 bytes (-386)
+	0xFB, 0x00, 0xC3, 0x06, // FB nn dddd => Replay 5 bytes (-1731)
 	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0x6C, // R#8: 6n
@@ -3205,95 +972,19 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x04, 0x55, // R#4: 04 nn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
+	0xFB, 0x00, 0x65, 0x01, // FB nn dddd => Replay 5 bytes (-357)
+	0xFB, 0x0C, 0x99, 0x01, // FB nn dddd => Replay 17 bytes (-409)
 	0x04, 0x55, // R#4: 04 nn
 	0xAA, // R#10: An
 	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x0E, 0xA4, 0x01, // FB nn dddd => Replay 19 bytes (-420)
 	0x22, // R#3: 2n
-	0x8C, // R#9: 8n
-	0x04, 0x55, // R#4: 04 nn
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0x16, 0x00, // FB nn dddd => Replay 5 bytes (-22)
+	0xFB, 0x0E, 0xAD, 0x01, // FB nn dddd => Replay 19 bytes (-429)
 	0x24, // R#3: 2n
-	0x8C, // R#9: 8n
-	0x04, 0x55, // R#4: 04 nn
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xA6, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x04, 0x60, // R#4: 04 nn
-	0xDA, // R#n: Dn
-	0xE2, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
+	0xFB, 0x00, 0x1F, 0x00, // FB nn dddd => Replay 5 bytes (-31)
+	0xFB, 0x0A, 0xB6, 0x01, // FB nn dddd => Replay 15 bytes (-438)
+	0xFB, 0x00, 0xF4, 0x06, // FB nn dddd => Replay 5 bytes (-1780)
 	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0xD8, // R#n: Dn
@@ -3301,92 +992,44 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x31, // R#5: 3n
 	0xD4, // R#n: Dn
 	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
+	0xFB, 0x01, 0xBF, 0x04, // FB nn dddd => Replay 6 bytes (-1215)
 	0xE1, // -------- Wait: Ex
 	0x11, // R#1: 1n
 	0xD0, // R#n: Dn
 	0x6B, // R#8: 6n
 	0xD5, // R#n: Dn
 	0x04, 0xE4, // R#4: 04 nn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0xC3, 0x01, // FB nn dddd => Replay 5 bytes (-451)
 	0xD1, // R#n: Dn
 	0x00, 0xE4, // R#0: 00 nn
 	0x8C, // R#9: 8n
 	0x04, 0xCA, // R#4: 04 nn
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
+	0xFB, 0x01, 0xD4, 0x04, // FB nn dddd => Replay 6 bytes (-1236)
 	0xE1, // -------- Wait: Ex
 	0x00, 0xCA, // R#0: 00 nn
 	0x04, 0xBE, // R#4: 04 nn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0xD6, 0x01, // FB nn dddd => Replay 5 bytes (-470)
 	0x00, 0xBE, // R#0: 00 nn
 	0x22, // R#3: 2n
 	0x8C, // R#9: 8n
 	0x04, 0xAA, // R#4: 04 nn
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
+	0xFB, 0x01, 0xE7, 0x04, // FB nn dddd => Replay 6 bytes (-1255)
 	0xE1, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0x04, 0x98, // R#4: 04 nn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0xE9, 0x01, // FB nn dddd => Replay 5 bytes (-489)
 	0x00, 0x98, // R#0: 00 nn
 	0x8C, // R#9: 8n
 	0x04, 0x8E, // R#4: 04 nn
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
+	0xFB, 0x01, 0xF9, 0x04, // FB nn dddd => Replay 6 bytes (-1273)
 	0xE1, // -------- Wait: Ex
 	0x00, 0x8E, // R#0: 00 nn
 	0x04, 0x86, // R#4: 04 nn
-	0xE2, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0xFB, 0x01, // FB nn dddd => Replay 5 bytes (-507)
 	0x00, 0x80, // R#0: 00 nn
-	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0x31, // R#5: 3n
-	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
+	0xFB, 0x01, 0x41, 0x06, // FB nn dddd => Replay 6 bytes (-1601)
+	0xFB, 0x01, 0xB6, 0x07, // FB nn dddd => Replay 6 bytes (-1974)
+	0xFB, 0x00, 0xB3, 0x07, // FB nn dddd => Replay 5 bytes (-1971)
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x88, // R#9: 8n
@@ -3396,58 +1039,17 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xA7, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x8C, // R#9: 8n
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
+	0xFB, 0x00, 0x9E, 0x07, // FB nn dddd => Replay 5 bytes (-1950)
+	0xFB, 0x00, 0xC4, 0x07, // FB nn dddd => Replay 5 bytes (-1988)
+	0xFB, 0x04, 0x11, 0x00, // FB nn dddd => Replay 9 bytes (-17)
 	0xD5, // R#n: Dn
 	0x04, 0xBE, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
+	0xFB, 0x00, 0xAD, 0x07, // FB nn dddd => Replay 5 bytes (-1965)
+	0xFB, 0x00, 0xD3, 0x07, // FB nn dddd => Replay 5 bytes (-2003)
+	0xFB, 0x04, 0x20, 0x00, // FB nn dddd => Replay 9 bytes (-32)
 	0x31, // R#5: 3n
-	0x04, 0x30, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
+	0xFB, 0x02, 0xBC, 0x07, // FB nn dddd => Replay 7 bytes (-1980)
+	0xFB, 0x00, 0xE0, 0x07, // FB nn dddd => Replay 5 bytes (-2016)
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
@@ -3457,24 +1059,10 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x68, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x72, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x21, // R#3: 2n
-	0x02, 0x30, // R#2: 02 nn
+	0xFB, 0x02, 0x29, 0x02, // FB nn dddd => Replay 7 bytes (-553)
 	0x8C, // R#9: 8n
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
+	0xFB, 0x02, 0x7F, 0x07, // FB nn dddd => Replay 7 bytes (-1919)
+	0xFB, 0x00, 0xF6, 0x07, // FB nn dddd => Replay 5 bytes (-2038)
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
@@ -3487,175 +1075,44 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x6C, // R#8: 6n
 	0xD5, // R#n: Dn
 	0x04, 0xBE, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xAA, // R#10: An
+	0xFB, 0x02, 0x6D, 0x07, // FB nn dddd => Replay 7 bytes (-1901)
 	0xE5, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x00, 0x8E, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xE4, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
+	0xFB, 0x01, 0x20, 0x02, // FB nn dddd => Replay 6 bytes (-544)
+	0xFB, 0x01, 0xB5, 0x07, // FB nn dddd => Replay 6 bytes (-1973)
+	0xFB, 0x04, 0x31, 0x00, // FB nn dddd => Replay 9 bytes (-49)
 	0xE0, // -------- Wait: Ex
 	0x00, 0x98, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x22, // R#3: 2n
-	0x02, 0xF8, // R#2: 02 nn
-	0x8C, // R#9: 8n
+	0xFB, 0x00, 0xEE, 0x05, // FB nn dddd => Replay 5 bytes (-1518)
 	0x04, 0x80, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x8E, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x24, // R#3: 2n
-	0xD2, // R#n: Dn
-	0x8C, // R#9: 8n
+	0xFB, 0x02, 0xAF, 0x07, // FB nn dddd => Replay 7 bytes (-1967)
+	0xFB, 0x00, 0x26, 0x08, // FB nn dddd => Replay 5 bytes (-2086)
+	0xFB, 0x04, 0x46, 0x00, // FB nn dddd => Replay 9 bytes (-70)
+	0xFB, 0x02, 0x18, 0x02, // FB nn dddd => Replay 7 bytes (-536)
 	0x31, // R#5: 3n
 	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
+	0xFB, 0x02, 0xC2, 0x07, // FB nn dddd => Replay 7 bytes (-1986)
+	0xFB, 0x00, 0x39, 0x08, // FB nn dddd => Replay 5 bytes (-2105)
+	0xFB, 0x04, 0x86, 0x00, // FB nn dddd => Replay 9 bytes (-134)
+	0xFB, 0x00, 0x1F, 0x08, // FB nn dddd => Replay 5 bytes (-2079)
+	0xFB, 0x00, 0x45, 0x08, // FB nn dddd => Replay 5 bytes (-2117)
+	0xFB, 0x04, 0x92, 0x00, // FB nn dddd => Replay 9 bytes (-146)
 	0xD5, // R#n: Dn
 	0x04, 0xCA, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
+	0xFB, 0x00, 0x2E, 0x08, // FB nn dddd => Replay 5 bytes (-2094)
+	0xFB, 0x00, 0x54, 0x08, // FB nn dddd => Replay 5 bytes (-2132)
+	0xFB, 0x04, 0x74, 0x00, // FB nn dddd => Replay 9 bytes (-116)
 	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
 	0x6C, // R#8: 6n
 	0x8C, // R#9: 8n
 	0x31, // R#5: 3n
 	0x04, 0x54, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x68, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x80, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x21, // R#3: 2n
-	0x02, 0x94, // R#2: 02 nn
-	0x8C, // R#9: 8n
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
+	0xFB, 0x02, 0xF1, 0x07, // FB nn dddd => Replay 7 bytes (-2033)
+	0xFB, 0x00, 0x68, 0x08, // FB nn dddd => Replay 5 bytes (-2152)
+	0xFB, 0x04, 0x88, 0x00, // FB nn dddd => Replay 9 bytes (-136)
+	0xFB, 0x03, 0x1F, 0x02, // FB nn dddd => Replay 8 bytes (-543)
+	0xFB, 0x01, 0x01, 0x08, // FB nn dddd => Replay 6 bytes (-2049)
+	0xFB, 0x00, 0x78, 0x08, // FB nn dddd => Replay 5 bytes (-2168)
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0xA8, // R#10: An
@@ -3664,43 +1121,18 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0xE0, // -------- Wait: Ex
 	0xD5, // R#n: Dn
 	0x04, 0xCA, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0xAA, // R#10: An
-	0xE5, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x00, 0x8E, // R#0: 00 nn
-	0x6C, // R#8: 6n
+	0xFB, 0x01, 0x73, 0x08, // FB nn dddd => Replay 6 bytes (-2163)
+	0xFB, 0x02, 0x1A, 0x02, // FB nn dddd => Replay 7 bytes (-538)
 	0xE0, // -------- Wait: Ex
 	0x6B, // R#8: 6n
 	0xE5, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x03, 0xD9, 0x00, // FB nn dddd => Replay 8 bytes (-217)
 	0x24, // R#3: 2n
 	0xD2, // R#n: Dn
 	0x8C, // R#9: 8n
 	0x04, 0xAA, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
+	0xFB, 0x00, 0x77, 0x08, // FB nn dddd => Replay 5 bytes (-2167)
+	0xFB, 0x00, 0x9D, 0x08, // FB nn dddd => Replay 5 bytes (-2205)
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x6A, // R#8: 6n
@@ -3717,324 +1149,98 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x02, 0x90, // R#2: 02 nn
 	0x8C, // R#9: 8n
 	0x31, // R#5: 3n
-	0x04, 0x7C, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
+	0xFB, 0x03, 0x42, 0x08, // FB nn dddd => Replay 8 bytes (-2114)
+	0xFB, 0x00, 0xB7, 0x08, // FB nn dddd => Replay 5 bytes (-2231)
+	0xFB, 0x04, 0x04, 0x01, // FB nn dddd => Replay 9 bytes (-260)
+	0xFB, 0x00, 0x9D, 0x08, // FB nn dddd => Replay 5 bytes (-2205)
+	0xFB, 0x00, 0xC3, 0x08, // FB nn dddd => Replay 5 bytes (-2243)
+	0xFB, 0x04, 0x10, 0x01, // FB nn dddd => Replay 9 bytes (-272)
 	0xD5, // R#n: Dn
 	0x04, 0xE4, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
+	0xFB, 0x00, 0xAC, 0x08, // FB nn dddd => Replay 5 bytes (-2220)
+	0xFB, 0x00, 0xD2, 0x08, // FB nn dddd => Replay 5 bytes (-2258)
+	0xFB, 0x04, 0x1F, 0x01, // FB nn dddd => Replay 9 bytes (-287)
 	0x31, // R#5: 3n
 	0x04, 0x7C, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x69, // R#8: 6n
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0xBB, 0x08, // FB nn dddd => Replay 5 bytes (-2235)
+	0xFB, 0x00, 0xE1, 0x08, // FB nn dddd => Replay 5 bytes (-2273)
+	0xFB, 0x05, 0x44, 0x00, // FB nn dddd => Replay 10 bytes (-68)
 	0x00, 0x8E, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x21, // R#3: 2n
-	0x02, 0x7C, // R#2: 02 nn
-	0x8C, // R#9: 8n
+	0xFB, 0x00, 0x8B, 0x06, // FB nn dddd => Replay 5 bytes (-1675)
 	0x04, 0x1C, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
+	0xFB, 0x02, 0x7E, 0x08, // FB nn dddd => Replay 7 bytes (-2174)
+	0xFB, 0x00, 0xF5, 0x08, // FB nn dddd => Replay 5 bytes (-2293)
 	0xA9, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0xA8, // R#10: An
 	0xE0, // -------- Wait: Ex
 	0x69, // R#8: 6n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0x98, // R#0: 00 nn
-	0x6C, // R#8: 6n
+	0xFB, 0x00, 0x55, 0x00, // FB nn dddd => Replay 5 bytes (-85)
 	0xD5, // R#n: Dn
 	0x04, 0xE4, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xAA, // R#10: An
+	0xFB, 0x02, 0x6A, 0x08, // FB nn dddd => Replay 7 bytes (-2154)
 	0xE6, // -------- Wait: Ex
 	0x69, // R#8: 6n
 	0xE0, // -------- Wait: Ex
 	0x00, 0xAA, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0xE4, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x01, 0xB2, 0x08, // FB nn dddd => Replay 6 bytes (-2226)
+	0xFB, 0x00, 0x5B, 0x01, // FB nn dddd => Replay 5 bytes (-347)
 	0x69, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0xBE, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x23, // R#3: 2n
-	0x02, 0x90, // R#2: 02 nn
+	0xFB, 0x02, 0x07, 0x02, // FB nn dddd => Replay 7 bytes (-519)
 	0x8C, // R#9: 8n
 	0x04, 0x8E, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x02, 0xAD, 0x08, // FB nn dddd => Replay 7 bytes (-2221)
+	0xFB, 0x00, 0x24, 0x09, // FB nn dddd => Replay 5 bytes (-2340)
+	0xFB, 0x00, 0x71, 0x01, // FB nn dddd => Replay 5 bytes (-369)
 	0x69, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x00, 0xAA, // R#0: 00 nn
-	0x6C, // R#8: 6n
-	0x24, // R#3: 2n
-	0xD2, // R#n: Dn
-	0x8C, // R#9: 8n
+	0xFB, 0x02, 0x06, 0x02, // FB nn dddd => Replay 7 bytes (-518)
 	0x31, // R#5: 3n
 	0xD4, // R#n: Dn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x02, 0xC2, 0x08, // FB nn dddd => Replay 7 bytes (-2242)
+	0xFB, 0x00, 0x39, 0x09, // FB nn dddd => Replay 5 bytes (-2361)
+	0xFB, 0x04, 0x86, 0x01, // FB nn dddd => Replay 9 bytes (-390)
+	0xFB, 0x00, 0x1F, 0x09, // FB nn dddd => Replay 5 bytes (-2335)
+	0xFB, 0x00, 0x45, 0x09, // FB nn dddd => Replay 5 bytes (-2373)
+	0xFB, 0x03, 0x92, 0x01, // FB nn dddd => Replay 8 bytes (-402)
 	0x22, // R#3: 2n
 	0x8C, // R#9: 8n
 	0xD5, // R#n: Dn
 	0x04, 0xCA, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0x30, 0x09, // FB nn dddd => Replay 5 bytes (-2352)
+	0xFB, 0x00, 0x56, 0x09, // FB nn dddd => Replay 5 bytes (-2390)
+	0xFB, 0x03, 0xA3, 0x01, // FB nn dddd => Replay 8 bytes (-419)
 	0x24, // R#3: 2n
 	0x8C, // R#9: 8n
 	0x04, 0x80, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
+	0xFB, 0x00, 0x40, 0x09, // FB nn dddd => Replay 5 bytes (-2368)
+	0xFB, 0x00, 0x15, 0x09, // FB nn dddd => Replay 5 bytes (-2325)
+	0xFB, 0x00, 0xBF, 0x03, // FB nn dddd => Replay 5 bytes (-959)
+	0xFB, 0x01, 0xCB, 0x06, // FB nn dddd => Replay 6 bytes (-1739)
 	0xE4, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE4, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0xC8, 0x03, // FB nn dddd => Replay 5 bytes (-968)
+	0xFB, 0x02, 0xD4, 0x06, // FB nn dddd => Replay 7 bytes (-1748)
 	0x69, // R#8: 6n
 	0xE0, // -------- Wait: Ex
 	0x00, 0xC0, // R#0: 00 nn
 	0xD8, // R#n: Dn
 	0xE1, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xA7, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x03, 0xCA, 0x01, // FB nn dddd => Replay 8 bytes (-458)
 	0x11, // R#1: 1n
 	0xD0, // R#n: Dn
 	0x6C, // R#8: 6n
 	0x22, // R#3: 2n
 	0x8C, // R#9: 8n
 	0x04, 0x8E, // R#4: 04 nn
-	0xAC, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6B, // R#8: 6n
-	0x8B, // R#9: 8n
-	0xAB, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x6A, // R#8: 6n
-	0x8A, // R#9: 8n
-	0xAA, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
-	0xE4, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x87, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8C, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8B, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x8A, // R#9: 8n
-	0xE0, // -------- Wait: Ex
-	0x89, // R#9: 8n
+	0xFB, 0x02, 0x19, 0x09, // FB nn dddd => Replay 7 bytes (-2329)
+	0xFB, 0x00, 0x3F, 0x09, // FB nn dddd => Replay 5 bytes (-2367)
+	0xFB, 0x00, 0xE9, 0x03, // FB nn dddd => Replay 5 bytes (-1001)
+	0xFB, 0x01, 0xF5, 0x06, // FB nn dddd => Replay 6 bytes (-1781)
 	0xE3, // -------- Wait: Ex
-	0xA9, // R#10: An
-	0xE0, // -------- Wait: Ex
-	0x88, // R#9: 8n
-	0xA8, // R#10: An
-	0xE0, // -------- Wait: Ex
+	0xFB, 0x00, 0xE6, 0x01, // FB nn dddd => Replay 5 bytes (-486)
 	0x69, // R#8: 6n
 	0x87, // R#9: 8n
 	0xA7, // R#10: An
@@ -4043,4 +1249,4 @@ const unsigned char g_lVGM_psg_penguin_12[] = {
 	0x02, 0xF8, // R#2: 02 nn
 	0xFF, // End marker
 };
-// Total size: 4418 bytes
+// Total size: 2505 bytes

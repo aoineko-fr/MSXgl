@@ -129,7 +129,7 @@ u8 g_CursorPos = 0;
 //
 void SetToneEnable(u8 chan, u8 action)
 {
-	u8 enable = (g_PSG_Regs.Mixer & (1 << chan)) ? 0 : 1;
+	u8 enable = (PSG_GetMixer() & (1 << chan)) ? 1 : 0;
 	if (action == ACTION_HOLD_UP)
 		enable = 1;
 	else if (action == ACTION_HOLD_DOWN)
@@ -143,7 +143,7 @@ void SetToneEnable(u8 chan, u8 action)
 //
 void SetTonePeriod(u8 chan, u8 action)
 {
-	u16 val = g_PSG_Regs.Tone[chan];
+	u16 val = PSG_GetTone(chan);
 	if (action == ACTION_HOLD_UP)
 	{
 		if (val < TONE_FREQ_MAX - TONE_FREQ_OFFSET)
@@ -169,7 +169,7 @@ void SetTonePeriod(u8 chan, u8 action)
 //
 void SetToneVolume(u8 chan, u8 action)
 {
-	u8 val = g_PSG_Regs.Volume[chan];
+	u8 val = PSG_GetVolume(chan);
 	u8 env = val & PSG_F_ENV;
 	val &= 0x0F;
 	if (action == ACTION_HOLD_UP)
@@ -197,7 +197,7 @@ void SetToneVolume(u8 chan, u8 action)
 //
 void SetEnvEnable(u8 chan, u8 action)
 {
-	u8 enable = (g_PSG_Regs.Volume[chan] & PSG_F_ENV) ? 1 : 0;
+	u8 enable = (PSG_GetVolume(chan) & PSG_F_ENV) ? 1 : 0;
 	if (action == ACTION_HOLD_UP)
 		enable = 1;
 	else if (action == ACTION_HOLD_DOWN)
@@ -211,7 +211,7 @@ void SetEnvEnable(u8 chan, u8 action)
 //
 void SetEnvPeriod(u8 chan, u8 action)
 {
-	u16 val = g_PSG_Regs.Envelope;
+	u16 val = PSG_GetEnvelope();
 	if (action == ACTION_HOLD_UP)
 	{
 		if (val < ENV_FREQ_MAX - ENV_FREQ_OFFSET)
@@ -237,7 +237,7 @@ void SetEnvPeriod(u8 chan, u8 action)
 //
 void SetEnvShape(u8 chan, u8 action)
 {
-	u8 val = g_PSG_Regs.Shape;
+	u8 val = PSG_GetShape();
 	val &= 0x0F;
 	if (action == ACTION_PRESS_UP)
 	{
@@ -256,7 +256,7 @@ void SetEnvShape(u8 chan, u8 action)
 	PSG_SetShape(val);
 
 	Print_SetPosition(10 + chan * 8, 13);
-	Print_DrawFormat("%1x %s", g_PSG_Regs.Shape & 0x0F, g_ShapesName[g_ShapesId[g_PSG_Regs.Shape & 0x0F]]);
+	Print_DrawFormat("%1x %s", PSG_GetShape(), g_ShapesName[g_ShapesId[PSG_GetShape()]]);
 
 	VDP_SetSpritePattern(15 + chan, 0x82);
 }
@@ -265,7 +265,7 @@ void SetEnvShape(u8 chan, u8 action)
 //
 void SetNoiseEnable(u8 chan, u8 action)
 {
-	u8 enable = (g_PSG_Regs.Mixer & (8 << chan)) ? 0 : 1;
+	u8 enable = (PSG_GetMixer() & (8 << chan)) ? 1 : 0;
 	if (action == ACTION_HOLD_UP)
 		enable = 1;
 	else if (action == ACTION_HOLD_DOWN)
@@ -279,7 +279,7 @@ void SetNoiseEnable(u8 chan, u8 action)
 //
 void SetNoisePeriod(u8 chan, u8 action)
 {
-	u8 val = g_PSG_Regs.Noise;
+	u8 val = PSG_GetNoise();
 	if (action == ACTION_HOLD_UP)
 	{
 		if (val < NOISE_FREQ_MAX - NOISE_FREQ_OFFSET)
@@ -327,6 +327,8 @@ void MoveCursor(i8 offset)
 // Program entry point
 void main()
 {
+	PSG_Initialize();
+
 	VDP_SetMode(VDP_MODE_SCREEN1); // Initialize screen mode 1 (G1)
 	VDP_SetColor2(COLOR_BLACK, COLOR_WHITE);
 	VDP_ClearVRAM();
@@ -338,13 +340,20 @@ void main()
 	Print_DrawText(MSX_GL " PSG SAMPLE");
 	Print_DrawLineH(0, 1, 32);
 	
-	#if (PSG_CHIP == PSG_INTERNAL)
-		Print_DrawFormat("Chip:  Intern (%2x)\n", PSG_PORT_REG);
-	#elif (PSG_CHIP == PSG_EXTERNAL)
-		Print_DrawFormat("Chip:  Extern (%2x)\n", PSG_PORT_REG);
-	#elif (PSG_CHIP == PSG_BOTH)
-		Print_DrawFormat("Chip:  Both (%2x+%2x)\n", PSG_PORT_REG, PSG2_PORT_REG);
+	Print_DrawText("Chip:  ");
+	#if (PSG_DEVICE & PSG_DEVICE_INTERN)
+		Print_DrawText("Intern ");
 	#endif
+	#if (PSG_DEVICE & PSG_DEVICE_EXTERN)
+		Print_DrawText("Extern ");
+	#endif
+	#if (PSG_DEVICE & PSG_DEVICE_DARKY)
+		Print_DrawText("Darky ");
+	#endif
+	#if (PSG_DEVICE & PSG_DEVICE_OPNA)
+		Print_DrawText("OPNA ");
+	#endif
+	Print_DrawFormat("(%2x)\n", PSG_PORT_REG);
 	#if (PSG_ACCESS == PSG_DIRECT)
 		Print_DrawText("Access:Direct\n");
 	#else
@@ -481,10 +490,11 @@ void main()
 		count++;
 		
 		Print_SetPosition(4, 20);
-		i8* ptr = (u8*)g_PSG_Regs;
 		for (u8 i = 0; i < 14; ++i)
-			Print_DrawHex8(*ptr++);
+			Print_DrawHex8(PSG_GetRegister(i));
 
+		#if (PSG_ACCESS == PSG_INDIRECT)
 		PSG_Apply();
+		#endif
 	}
 }

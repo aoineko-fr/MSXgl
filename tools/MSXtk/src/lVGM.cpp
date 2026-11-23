@@ -96,6 +96,49 @@ enum LVGM_CHECK_ID
 	LVGM_CHECK_MAX,
 };
 
+// Replay (FB) parameters
+#define LVGM_REPLAY_MIN			5		// Min replay size (FB opcode is 4 bytes)
+#define LVGM_REPLAY_MAX			260		// Max replay size
+#define LVGM_REPLAY_DIST		0xFFFF	// Max distance between FB opcode and replayed data
+#define LVGM_REPLAY_TRIES		256		// Max candidates checked per line
+
+// Recorded output line (one opcode)
+struct lVGM_Line
+{
+	std::vector<u8>		Data;
+	std::string			Comment;
+	bool				bDeferred; // Data block exported at the second pass
+	u8					Chip;      // Current chip before data block
+	std::vector<lVGM_Chunk>::iterator Chunk; // Data block chunk
+
+	lVGM_Line() : bDeferred(false), Chip(LVGM_CHIP_NONE) {}
+};
+
+// Exporter recording each line (for replay detection)
+class ExporterRecord : public MSX::ExporterInterface
+{
+public:
+	std::vector<lVGM_Line> Lines;
+
+	virtual void AddReturn() {}
+	virtual void AddComment(std::string comment = "") {}
+	virtual void StartSection(std::string name, u8 size = MSX::DATASIZE_8bits, std::string comment = "") { Sections.push_back(MSX::ExportSection()); }
+	virtual void EndSection(std::string comment = "") {}
+	virtual void StartLine() { Lines.push_back(lVGM_Line()); }
+	virtual void AddByte(u8 data) { Lines.back().Data.push_back(data); Sections.back().Size++; }
+	virtual void AddWord(u16 data) { AddByte((u8)data); AddByte((u8)(data >> 8)); }
+	virtual void AddDouble(u32 data) { AddWord((u16)data); AddWord((u16)(data >> 16)); }
+	virtual void EndLine(std::string comment = "") { Lines.back().Comment = comment; }
+	virtual bool Export(std::string filename) const { return true; }
+};
+
+// Literal line already exported
+struct lVGM_Literal
+{
+	u32					Line;
+	u32					Pos;
+};
+
 // Function signature for register validation
 typedef u8 (*lVGM_CheckReg)(u16);
 
@@ -123,6 +166,7 @@ LVGM_FREQ               g_lVGM_Frequency;
 bool                    g_lVGM_AddHeader;
 LVGM_SIMPLIFY           g_lVGM_Simplify;
 u32						g_lVGM_Split;
+bool					g_lVGM_Replay;
 
 // Global variables
 u8                      g_lVGM_CurChip;
@@ -754,6 +798,117 @@ void ExportOPNAData(MSX::ExporterInterface* exp, std::vector<lVGM_Chunk>::iterat
 	{
 		std::vector<u8> line(chunk->Data.begin() + i, chunk->Data.begin() + std::min<u32>(i + 16, (u32)chunk->Data.size()));
 		exp->AddByteList(line);
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Check if a line can be part of a replayed data (FB, FD, FE and FF are excluded)
+bool IsReplayable(const lVGM_Line& line)
+{
+	return !line.bDeferred && !line.Data.empty() && ((line.Data[0] < LVGM_OP_REPLAY) || (line.Data[0] == LVGM_OP_WAIT));
+}
+
+//-----------------------------------------------------------------------------
+// Find the longest already exported literal data matching the lines starting at 'cur'
+// Return the number of matching lines (0 if none), with replayed data size and position
+u32 FindReplay(const std::vector<lVGM_Line>& lines, u32 cur, const std::vector<lVGM_Literal>& hist, const std::map<std::vector<u8>, std::vector<u32>>& map, u32 pos, u32& bestSize, u32& bestPos)
+{
+	u32 bestCnt = 0;
+	bestSize = 0;
+
+	auto it = map.find(lines[cur].Data);
+	if (it == map.end())
+		return 0;
+
+	const std::vector<u32>& cand = it->second;
+	for (u32 n = (u32)cand.size(), tries = 0; (n > 0) && (tries < LVGM_REPLAY_TRIES); tries++)
+	{
+		u32 h = cand[--n];
+		const lVGM_Literal& src = hist[h];
+		if (pos - src.Pos > LVGM_REPLAY_DIST)
+			break;
+		if (g_lVGM_Split && (pos / g_lVGM_Split != src.Pos / g_lVGM_Split))
+			break;
+
+		u32 size = 0, cnt = 0;
+		while ((cur + cnt < lines.size()) && (h + cnt < hist.size()))
+		{
+			const lVGM_Literal& lit = hist[h + cnt];
+			if (cnt && ((lit.Line != hist[h + cnt - 1].Line + 1) || (lit.Pos != src.Pos + size))) // Not contiguous
+				break;
+			const lVGM_Line& line = lines[cur + cnt];
+			if (!IsReplayable(line) || (line.Data != lines[lit.Line].Data) || (size + line.Data.size() > LVGM_REPLAY_MAX))
+				break;
+			size += (u32)line.Data.size();
+			cnt++;
+		}
+
+		if (size > bestSize)
+		{
+			bestSize = size;
+			bestCnt = cnt;
+			bestPos = src.Pos;
+		}
+	}
+
+	return (bestSize >= LVGM_REPLAY_MIN) ? bestCnt : 0;
+}
+
+//-----------------------------------------------------------------------------
+// Export recorded lines, replacing repeated data with replay opcode (FB nn dddd)
+// Replayed data only contains literal lines (no nested replay)
+void ExportReplay(MSX::ExporterInterface* exp, std::vector<lVGM_Line>& lines)
+{
+	std::vector<lVGM_Literal> hist;
+	std::map<std::vector<u8>, std::vector<u32>> map;
+
+	for (u32 i = 0; i < lines.size(); )
+	{
+		lVGM_Line& line = lines[i];
+		if (line.bDeferred)
+		{
+			g_lVGM_CurChip = line.Chip;
+			if (line.Chunk->Chip == LVGM_CHIP_OPL4)
+				ExportOPL4Data(exp, line.Chunk);
+			else
+				ExportOPNAData(exp, line.Chunk);
+			i++;
+			continue;
+		}
+
+		u32 cnt = 0, size, src;
+		bool bNewSeg = false;
+		if (IsReplayable(line))
+		{
+			u32 pos = exp->GetTotalSize();
+			cnt = FindReplay(lines, i, hist, map, pos, size, src);
+			if (cnt)
+			{
+				CheckSplit(exp, 4);
+				bNewSeg = (exp->GetTotalSize() != pos);
+				if (bNewSeg)
+					cnt = FindReplay(lines, i, hist, map, exp->GetTotalSize(), size, src);
+			}
+		}
+
+		if (cnt)
+		{
+			u32 dist = exp->GetTotalSize() - src;
+			exp->AddByteList(std::vector<u8>{ LVGM_OP_REPLAY, (u8)(size - LVGM_REPLAY_MIN), (u8)dist, (u8)(dist >> 8) }, MSX::Format("FB nn dddd => Replay %i bytes (-%i)", size, dist));
+			i += cnt;
+		}
+		else
+		{
+			if (!bNewSeg) // CheckSplit at a segment start would add an empty segment
+				CheckSplit(exp, (u16)line.Data.size());
+			if (IsReplayable(line))
+			{
+				hist.push_back({ i, exp->GetTotalSize() });
+				map[line.Data].push_back((u32)hist.size() - 1);
+			}
+			exp->AddByteList(line.Data, line.Comment);
+			i++;
+		}
 	}
 }
 
@@ -1458,6 +1613,19 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 	if (detect.bMultiChip)
 		GroupByChip(chunkList);
 
+	// With replay, record lines without segment split (done at the second pass)
+	ExporterRecord rec;
+	MSX::ExporterDummy dummy;
+	MSX::ExporterInterface* out = exp;
+	u32 split = g_lVGM_Split;
+	if (g_lVGM_Replay)
+	{
+		rec.StartSection(name);
+		dummy.StartSection(name);
+		out = &rec;
+		g_lVGM_Split = 0;
+	}
+
 	// Write data
 	for (auto chunk = chunkList.begin(); chunk != chunkList.end(); ++chunk)
 	{
@@ -1468,25 +1636,25 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			{
 			case LVGM_CHIP_PSG:
 			case LVGM_CHIP_PSG2:
-				ExportPSG(exp, chunk);
+				ExportPSG(out, chunk);
 				break;
 			case LVGM_CHIP_OPLL:
-				ExportOPLL(exp, chunk);
+				ExportOPLL(out, chunk);
 				break;
 			case LVGM_CHIP_OPL1:
-				ExportOPL1(exp, chunk);
+				ExportOPL1(out, chunk);
 				break;
 			case LVGM_CHIP_SCC:
-				ExportSCC(exp, chunk);
+				ExportSCC(out, chunk);
 				break;
 			case LVGM_CHIP_SCCI:
-				ExportSCCI(exp, chunk);
+				ExportSCCI(out, chunk);
 				break;
 			case LVGM_CHIP_OPL4:
-				ExportOPL4(exp, chunk);
+				ExportOPL4(out, chunk);
 				break;
 			case LVGM_CHIP_OPNA:
-				ExportOPNA(exp, chunk);
+				ExportOPNA(out, chunk);
 				break;
 			default:
 				break;
@@ -1494,18 +1662,30 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			break;
 
 		case LVGM_CHUNK_DATA:
+		{
+			MSX::ExporterInterface* dataOut = out;
+			if (g_lVGM_Replay) // Deferred to the second pass (size depends on segment split)
+			{
+				lVGM_Line line;
+				line.bDeferred = true;
+				line.Chip = g_lVGM_CurChip;
+				line.Chunk = chunk;
+				rec.Lines.push_back(line);
+				dataOut = &dummy;
+			}
 			switch (chunk->Chip)
 			{
 			case LVGM_CHIP_OPL4:
-				ExportOPL4Data(exp, chunk);
+				ExportOPL4Data(dataOut, chunk);
 				break;
 			case LVGM_CHIP_OPNA:
-				ExportOPNAData(exp, chunk);
+				ExportOPNAData(dataOut, chunk);
 				break;
 			default:
 				break;
 			}
 			break;
+		}
 
 		case LVGM_CHUNK_FRAME:
 		{
@@ -1520,22 +1700,22 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			// Long wait (FC nn: 1~256 frames)
 			while (frameCount > 256)
 			{
-				AddList(exp, std::vector<u8>{ LVGM_OP_WAIT, 255 }, "-------- Wait: FC nn");
+				AddList(out, std::vector<u8>{ LVGM_OP_WAIT, 255 }, "-------- Wait: FC nn");
 				frameCount -= 256;
 			}
 			if (frameCount > 16)
 			{
-				AddList(exp, std::vector<u8>{ LVGM_OP_WAIT, (u8)(frameCount - 1) }, "-------- Wait: FC nn");
+				AddList(out, std::vector<u8>{ LVGM_OP_WAIT, (u8)(frameCount - 1) }, "-------- Wait: FC nn");
 				frameCount = 0;
 			}
 			// Short wait (En: 1~16 frames)
 			if (frameCount)
-				AddList(exp, std::vector<u8>{ (u8)(0xE0 + (frameCount - 1)) }, "-------- Wait: Ex");
+				AddList(out, std::vector<u8>{ (u8)(0xE0 + (frameCount - 1)) }, "-------- Wait: Ex");
 			break;
 		}
 
 		case LVGM_CHUNK_LOOP:
-			AddByte(exp, LVGM_OP_LOOP, "Loop marker");
+			AddByte(out, LVGM_OP_LOOP, "Loop marker");
 			// With multiple chips, force the chip marker after the loop point
 			if (detect.Devices & (detect.Devices - 1))
 				g_lVGM_CurChip = LVGM_CHIP_NONE;
@@ -1543,12 +1723,18 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			break;
 
 		case LVGM_CHUNK_END:
-			AddByte(exp, LVGM_OP_END, "End marker");
+			AddByte(out, LVGM_OP_END, "End marker");
 			break;
 
 		default:
 			break;
 		}
+	}
+
+	if (g_lVGM_Replay)
+	{
+		g_lVGM_Split = split;
+		ExportReplay(exp, rec.Lines);
 	}
 
 	// Close section

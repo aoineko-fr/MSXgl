@@ -6,4 +6,4 @@
 //  Arkos Tracker sample
 //─────────────────────────────────────────────────────────────────────────────
 
-// #include "content/arkos/aky_9ch_TheLastV8.h"
+#include "content/arkos/aky_9ch_TheLastV8.h"

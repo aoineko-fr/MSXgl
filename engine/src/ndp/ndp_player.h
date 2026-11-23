@@ -13,6 +13,7 @@
 #pragma once
 
 #include "msxgl.h"
+#include "psg.h"
 
 //=============================================================================
 // CONFIG
@@ -24,13 +25,13 @@
 	#define NDP_USE_INDERCT			FALSE
 #endif
 
+#if (NDP_USE_INDERCT && (PSG_ACCESS != PSG_INDIRECT))
+	#error PSG_ACCESS must be PSG_INDIRECT when NDP_USE_INDERCT is TRUE!
+#endif
+
 //=============================================================================
 // DEFINES
 //=============================================================================
-
-#if (NDP_USE_INDERCT)
-	extern PSG_Data g_PSG_Regs;
-#endif
 
 // NDP player status
 enum NDP_STATUS
