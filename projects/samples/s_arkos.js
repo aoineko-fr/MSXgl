@@ -15,10 +15,13 @@ ROMSize = 256;
 ProjSegments = "segment/s_arkos";
 
 //-- List of library modules to build (array)
-LibModules = [ "arkos/akg_player", "arkos/akm_player", "arkos/aky_player", "arkos/aky_6ch_player", "arkos/aky_darky_player", ...LibModules ];
+LibModules = [ "arkos/akg_player", "arkos/akm_player", "arkos/aky_player", "arkos/aky_6ch_player", "arkos/aky_darky_player", "arkos/aky_9ch_player", ...LibModules ];
 
 //-- Application ID. Can be 2 character string or 16-bits integer (0~65535)
 AppID = "AK";
+
+//-- Emulator extra parameters to be add to command-line (string). Emulator sotfware specific
+EmulExtraParam = "-ext Supersoniqs_DarkyJr";
 
 //-- Add second PSG extension (boolean)
 EmulPSG2 = true;

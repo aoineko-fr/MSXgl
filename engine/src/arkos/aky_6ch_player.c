@@ -56,3 +56,73 @@ __asm
 	ret
 __endasm;
 }
+
+//-----------------------------------------------------------------------------
+// Initialize sound effects. It MUST be called at any time before a first sound effect is triggered.
+// It doesn't matter whether a song is playing or not, or even if AKY6ch_Play has been called.
+//
+// Paramaters:
+//   data	- Address to the sound effects data.
+u8 AKY6ch_InitSFX(const void* data) __NAKED
+{
+	data;	// HL
+
+__asm
+	// Initializes the sound effects.
+	// IN:    HL = Address to the sound effects data.
+	call	_PLY_AKY_6CH_INITSOUNDEFFECTS
+
+	ld		a, (hl)				// Inchanged by Arkos routine (first byte is num*2)
+	srl		a
+	ret
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Plays a sound effect. If a previous one was already playing on the same channel, it is replaced.
+// This does not actually plays the sound effect, but programs its playing.
+//
+// Paramaters:
+//   sfx	- Sound effect number (>0!).
+//   chan	- The channel where to play the sound effect (0, 1, 2).
+//   vol	- Inverted volume (0 = full volume, 16 = no sound). Hardware sounds are also lowered.
+void AKY6ch_PlaySFX(u8 sfx, u8 chan, u8 vol) __NAKED
+{
+	sfx;	// A
+	chan;	// L
+	vol;	// SP[2]
+
+__asm
+	pop		de					// Retreive return address
+	dec		sp					// Adjust Stack-pointer
+	pop		bc					// Retreive vol in B
+	ld		c, l
+	push	de
+#if (ARKOS_SFX_START_IDX == 0)
+	inc		a
+#endif
+	// IN:    A = Sound effect number (>0!).
+	//        C = The channel where to play the sound effect (0, 1, 2).
+	//        B = Inverted volume (0 = full volume, 16 = no sound). Hardware sounds are also lowered.
+	call	_PLY_AKY_6CH_PLAYSOUNDEFFECT
+
+	ret
+__endasm;
+}
+
+//-----------------------------------------------------------------------------
+// Stops a sound effect. Nothing happens if there was no sound effect.
+//
+// Paramaters:
+//   chan	- The channel where to stop the sound effect (0, 1, 2).
+void AKY6ch_StopSFX(u8 chan) __NAKED
+{
+	chan;	// A
+
+__asm
+	// IN:    A = The channel where to stop the sound effect (0, 1, 2).
+	call	_PLY_AKY_6CH_STOPSOUNDEFFECTFROMCHANNEL
+
+	ret
+__endasm;
+}

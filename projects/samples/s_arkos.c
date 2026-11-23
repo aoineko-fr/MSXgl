@@ -29,6 +29,7 @@
 #include "arkos/aky_player.h"
 #include "arkos/aky_6ch_player.h"
 #include "arkos/aky_darky_player.h"
+#include "arkos/aky_9ch_player.h"
 
 // Library's logo
 #define MSX_GL						"\x01\x02\x03\x04\x05\x06"
@@ -84,11 +85,13 @@ extern const u8* g_AKY_AHarmlessGrenade;
 extern const u8* g_AKY_Justaddcream;
 extern const u8* g_AKY_Sarkboteur;
 extern const u8* g_AKY_6ch_TimelessMini;
+extern const u8* g_AKY_9ch_TheLastV8;
 
 // Function prototypes
 void AKY3ch(u8 song, const void* data);
 void AKY6ch(u8 song, const void* data);
 void AKYDarky(u8 song, const void* data);
+void AKY9ch(u8 song, const void* data);
 
 
 //=============================================================================
@@ -140,14 +143,24 @@ const struct MusicEntry g_MusicEntryAKY_6CH[] =
 	{ "Timeless (by Doclands / C.Wild)      ", g_AKY_6ch_TimelessMini, 16 },
 };
 
+// Musics list for AKY 9 channels replayer
+const struct MusicEntry g_MusicEntryAKY_9CH[] =
+{
+	{ "The Last V8 (by ?)                   ", g_AKY_9ch_TheLastV8, 20 },
+	{ "The Last V8 (by ?)                   ", g_AKY_9ch_TheLastV8, 20 },
+	{ "The Last V8 (by ?)                   ", g_AKY_9ch_TheLastV8, 20 },
+	{ "The Last V8 (by ?)                   ", g_AKY_9ch_TheLastV8, 20 },
+};
+
 // Replayers data
 const struct PlayerEntry g_PlayerEntry[] =
 {
-	{ "AKG (generic)",    AKG_Play, AKG_Update,      AKG_Stop, AKG_InitSFX, AKG_PlaySFX, AKG_StopSFX, g_MusicEntryAKG },
-	{ "AKM (minimalist)", AKM_Play, AKM_Update,      AKM_Stop, AKM_InitSFX, AKM_PlaySFX, AKM_StopSFX, g_MusicEntryAKM },
-	{ "AKY (fast)",       AKY3ch,   AKY_Update,      NULL,     NULL,        NULL,        NULL,        g_MusicEntryAKY },
-	{ "AKY 6ch",          AKY6ch,   AKY6ch_Update,   NULL,     NULL,        NULL,        NULL,        g_MusicEntryAKY_6CH },
-	{ "AKY Darky",        AKYDarky, AKYDarky_Update, NULL,     NULL,        NULL,        NULL,        g_MusicEntryAKY_6CH },
+	{ "AKG (generic)",    AKG_Play, AKG_Update,      AKG_Stop, AKG_InitSFX,      AKG_PlaySFX,      AKG_StopSFX,      g_MusicEntryAKG },
+	{ "AKM (minimalist)", AKM_Play, AKM_Update,      AKM_Stop, AKM_InitSFX,      AKM_PlaySFX,      AKM_StopSFX,      g_MusicEntryAKM },
+	{ "AKY (fast)",       AKY3ch,   AKY_Update,      NULL,     AKY_InitSFX,      AKY_PlaySFX,      AKY_StopSFX,      g_MusicEntryAKY },
+	{ "AKY 6ch",          AKY6ch,   AKY6ch_Update,   NULL,     AKY6ch_InitSFX,   AKY6ch_PlaySFX,   AKY6ch_StopSFX,   g_MusicEntryAKY_6CH },
+	{ "AKY Darky",        AKYDarky, AKYDarky_Update, NULL,     AKYDarky_InitSFX, AKYDarky_PlaySFX, AKYDarky_StopSFX, g_MusicEntryAKY_6CH },
+	{ "AKY Darky 9ch",    AKY9ch,   AKY9ch_Update,   NULL,     AKY9ch_InitSFX,   AKY9ch_PlaySFX,   AKY9ch_StopSFX,   g_MusicEntryAKY_9CH },
 };
 
 //=============================================================================
@@ -219,6 +232,14 @@ void AKYDarky(u8 song, const void* data)
 }
 
 //-----------------------------------------------------------------------------
+// Dummy function to match AKY9ch_Play signature
+void AKY9ch(u8 song, const void* data)
+{
+	song;
+	AKY9ch_Play(data);
+}
+
+//-----------------------------------------------------------------------------
 // Display the current frquency
 void DisplayFreq()
 {
@@ -230,7 +251,7 @@ void DisplayFreq()
 // Display information about SFX
 void DisplaySFX()
 {
-	Print_SetPosition(0, 15);
+	Print_SetPosition(0, 16);
 	if (g_CurrentPlayer->InitSFX)
 		Print_DrawFormat("SFX: %i/%i        ", g_SFXNum ? g_SFXIdx + 1 : 0, g_SFXNum);
 	else
@@ -270,6 +291,8 @@ void MuteMusic()
 // Set the new music to be played
 void SetMusic(u8 idx)
 {
+	MuteMusic();
+
 	g_MusicIdx = idx;
 	g_SFXIdx = 0;
 
@@ -285,7 +308,7 @@ void SetMusic(u8 idx)
 	}
 
 	// Update the current music information on screen
-	Print_SetPosition(0, 11);
+	Print_SetPosition(0, 12);
 	Print_DrawFormat("Music [%i/%i]:\n\n  %s", idx + 1, MUSIC_NUM, mus->Name);
 
 	// Update the SFX information on screen
@@ -309,7 +332,6 @@ void SetPlayer(u8 idx)
 		if (g_CurrentPlayer->Stop)
 			g_CurrentPlayer->Stop();
 	}
-	MuteMusic();
 
 	// Select the new replayer
 	g_PlayerIdx = idx;
