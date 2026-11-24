@@ -40,6 +40,19 @@ enum VGM_STATE
 #define VGM_WAIT_50HZ	882 // 50 Hz
 #define VGM_WAIT_60HZ	735 // 60 Hz
 
+// VGM devices flag (same values than LVGM_CHIP)
+enum VGM_CHIP
+{
+	VGM_CHIP_PSG      = 0b00000001, // AY-3-8910
+	VGM_CHIP_MSXMUSIC = 0b00000010, // YM2413/OPLL
+	VGM_CHIP_MSXAUDIO = 0b00000100, // Y8950/OPL1
+	VGM_CHIP_SCC      = 0b00001000, // K051649
+	VGM_CHIP_SCCI     = 0b00010000, // K052539
+	VGM_CHIP_PSG2     = 0b00100000, // 2nd AY-3-8910
+	VGM_CHIP_OPL4     = 0b01000000, // YMF278B (also OPL2/OPL3 data)
+	VGM_CHIP_OPNA     = 0b10000000, // YM2608
+};
+
 // VGM commands
 enum VGM_COMMAND
 {
@@ -322,3 +335,33 @@ inline bool VGM_ContainsOPL4() { return (g_VGM_Header->Version >= 0x0151) && g_V
 // Return:
 //   FALSE if music dont contains OPNA data
 inline bool VGM_ContainsOPNA() { return (g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YM2608_clock; }
+
+// Function: VGM_GetFileDevices
+// Get devices list of a VGM data without playing it
+//
+// Parameters:
+//   addr - Address of the VGM data
+//
+// Return:
+//   Device list (see <VGM_CHIP>)
+inline u8 VGM_GetFileDevices(const void* addr)
+{
+	const VGM_Header* hdr = (const VGM_Header*)addr;
+	u8 dev = 0;
+	if (hdr->YM2413_clock)
+		dev |= VGM_CHIP_MSXMUSIC;
+	if (hdr->Version >= 0x0151)
+	{
+		if (hdr->AY8910_clock)
+			dev |= (hdr->AY8910_clock & 0x40000000) ? (VGM_CHIP_PSG | VGM_CHIP_PSG2) : VGM_CHIP_PSG; // Bit 30: dual chip
+		if (hdr->Y8950_clock)
+			dev |= VGM_CHIP_MSXAUDIO;
+		if (hdr->YMF278B_clock || hdr->YM3812_clock || hdr->YMF262_clock)
+			dev |= VGM_CHIP_OPL4;
+		if (hdr->YM2608_clock)
+			dev |= VGM_CHIP_OPNA;
+	}
+	if ((hdr->Version >= 0x0161) && hdr->K051649_clock)
+		dev |= (hdr->K051649_clock & 0x80000000) ? VGM_CHIP_SCCI : VGM_CHIP_SCC; // Bit 31: K052539
+	return dev;
+}

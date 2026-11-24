@@ -429,6 +429,7 @@
 #define PSG_USE_EXTRA				TRUE	// Add helper functions to handle PSG settings
 #define PSG_USE_PAUSE				TRUE	// Add function to allow playback pause and resume
 #define PSG_USE_CHANNEL				TRUE	// Add functions to get channels count and volume
+#define PSG_USE_DETECTION			FALSE	// Add functions to detect PSG devices
 
 // MSX-Music options
 #define MSXAUDIO_USE_PAUSE			TRUE	// Add function to allow playback pause and resume

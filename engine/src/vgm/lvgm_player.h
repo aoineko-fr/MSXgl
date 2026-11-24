@@ -101,6 +101,9 @@
 #if (LVGM_USE_PSG2 && (PSG_DEVICE_NUM < 2))
 	#error LVGM_USE_PSG2 needs at least 2 PSG devices (see PSG_DEVICE)!
 #endif
+#if (LVGM_USE_PSG2 && !LVGM_USE_PSG)
+	#error LVGM_USE_PSG2 needs LVGM_USE_PSG!
+#endif
 
 // lVGM option
 enum LVGM_OPTION
@@ -306,6 +309,16 @@ inline void LVGM_SetPointer(const u8* ptr) { g_LVGM_Pointer = ptr; }
 // Return:
 //   Device list (see <LVGM_CHIP>)
 inline u8 LVGM_GetDevices() { return g_LVGM_Devices; }
+
+// Function: LVGM_GetFileDevices
+// Get devices list of a lVGM data without playing it
+//
+// Parameters:
+//   addr - Address of the lVGM data
+//
+// Return:
+//   Device list (see <LVGM_CHIP>)
+inline u8 LVGM_GetFileDevices(const void* addr) { const LVGM_Header* hdr = (const LVGM_Header*)addr; return (hdr->Option & LVGM_OPTION_DEVICE) ? hdr->Device : LVGM_CHIP_PSG; }
 
 // Function: LVGM_IncludePSG
 // Is music including PSG data

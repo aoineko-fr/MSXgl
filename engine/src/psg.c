@@ -21,7 +21,7 @@
 // READ-ONLY DATA
 //=============================================================================
 
-#if ((PSG_ACCESS == PSG_DIRECT) && (PSG_DEVICE_NUM > 1))
+#if (((PSG_ACCESS == PSG_DIRECT) && (PSG_DEVICE_NUM > 1)) || PSG_USE_DETECTION)
 // Register port of each device (data write port is always the next one)
 const u8 g_PSG_Ports[] =
 {
@@ -512,3 +512,54 @@ skip:
 __endasm;
 }
 #endif // (PSG_ACCESS == PSG_INDIRECT)
+
+#if (PSG_USE_DETECTION)
+//-----------------------------------------------------------------------------
+// Detect a PSG device (R#0 write and read back)
+bool PSG_DetectDevice(u8 dev) __NAKED
+{
+	dev; // A
+
+__asm
+	ld		hl, #_g_PSG_Ports
+	add		a, l
+	ld		l, a
+	adc		a, h
+	sub		l
+	ld		h, a					// HL = &g_PSG_Ports[dev]
+	ld		c, (hl)					// C = register port
+	xor		a
+	out		(c), a					// Select R#0
+	inc		c
+	ld		b, c					// B = data port
+#if (PSG_DEVICE & PSG_DEVICE_OPNA)
+	ld		a, c
+	cp		#P_OPNA_DATA0
+	jr		z, 10$					// OPNA: read port = data port
+#endif
+	inc		c						// C = read port
+10$:
+	in		e, (c)					// E = R#0 backup
+	ld		h, #0					// H = result
+	ld		d, #0xA5				// D = test pattern
+20$:
+	ld		l, c
+	ld		c, b
+	out		(c), d					// Write pattern
+	ld		c, l
+	in		a, (c)					// Read back
+	cp		d
+	jr		nz, 30$					// Mismatch: no device
+	cpl
+	ld		d, a					// Next pattern
+	cp		#0x5A
+	jr		z, 20$					// Test 0x5A after 0xA5
+	inc		h						// H = TRUE
+30$:
+	ld		c, b
+	out		(c), e					// Restore R#0
+	ld		a, h
+	ret
+__endasm;
+}
+#endif // (PSG_USE_DETECTION)

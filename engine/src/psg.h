@@ -36,6 +36,12 @@
 	#define PSG_USE_CHANNEL			TRUE
 #endif
 
+// PSG_USE_DETECTION
+#ifndef PSG_USE_DETECTION
+	#warning PSG_USE_DETECTION is not defined in "msxgl_config.h"! Default value will be used: FALSE
+	#define PSG_USE_DETECTION		FALSE
+#endif
+
 // PSG_DEVICE
 #ifndef PSG_DEVICE
 	#warning PSG_DEVICE is not defined in "msxgl_config.h"! Default value will be used: PSG_DEVICE_INTERN
@@ -200,6 +206,7 @@ extern u8 g_PSG_Regs[PSG_DEVICE_NUM][16];
 
 // Function: PSG_Initialize
 // Initialize the PSG
+// Note: Mandatory with Darky and OPNA devices
 void PSG_Initialize();
 
 // Function: PSG_SetRegister
@@ -372,6 +379,7 @@ inline u8 PSG_GetShape() { return PSG_GetRegister(PSG_REG_SHAPE) & 0x0F; }
 
 // Function: PSG_Mute
 // Silent all PSG devices (set according registers)
+// Note: With PSG_USE_PAUSE, a second call overwrites the volume backup used by <PSG_Resume>
 void PSG_Mute();
 
 #if (PSG_USE_PAUSE)
@@ -389,6 +397,67 @@ void PSG_Resume();
 void PSG_Apply();
 
 #endif
+
+#if (PSG_USE_DETECTION)
+
+// Group: Detection
+// Note: <PSG_Initialize> must be called first
+
+// Function: PSG_DetectDevice
+// Detect a PSG device (R#0 write and read back)
+//
+// Parameters:
+//   dev - PSG device index
+//
+// Return:
+//   TRUE if the device is present
+bool PSG_DetectDevice(u8 dev);
+
+#if (PSG_DEVICE & PSG_DEVICE_EXTERN)
+// Function: PSG_DetectExtern
+// Detect the external PSG
+//
+// Return:
+//   TRUE if the device is present
+inline bool PSG_DetectExtern() { return PSG_DetectDevice(PSG_EXTERN_IDX); }
+#endif
+
+#if (PSG_DEVICE & PSG_DEVICE_DARKY)
+// Function: PSG_DetectDarky
+// Detect the Darky (1st ePSG only)
+//
+// Return:
+//   TRUE if the device is present
+inline bool PSG_DetectDarky() { return PSG_DetectDevice(PSG_DARKY_IDX); }
+#endif
+
+// Function: PSG_GetPresentDevices
+// Get the present PSG devices among the ones set in PSG_DEVICE (internal PSG is not tested)
+//
+// Return:
+//   Present devices flags (see PSG_DEVICE_INTERN, PSG_DEVICE_EXTERN, PSG_DEVICE_DARKY and PSG_DEVICE_OPNA)
+inline u8 PSG_GetPresentDevices()
+{
+	u8 dev = 0;
+	#if (PSG_DEVICE & PSG_DEVICE_INTERN)
+	dev |= PSG_DEVICE_INTERN;
+	#endif
+	#if (PSG_DEVICE & PSG_DEVICE_EXTERN)
+	if (PSG_DetectDevice(PSG_EXTERN_IDX))
+		dev |= PSG_DEVICE_EXTERN;
+	#endif
+	#if (PSG_DEVICE & PSG_DEVICE_DARKY)
+	if (PSG_DetectDevice(PSG_DARKY_IDX))
+		dev |= PSG_DEVICE_DARKY;
+	#endif
+	#if (PSG_DEVICE & PSG_DEVICE_OPNA)
+	if (PSG_DetectDevice(PSG_OPNA_IDX))
+		dev |= PSG_DEVICE_OPNA;
+	#endif
+	return dev;
+}
+
+#endif // (PSG_USE_DETECTION)
 
 #if (PSG_USE_NOTES)
 // Function: PSG_SetNote
