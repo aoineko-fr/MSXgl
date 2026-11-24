@@ -10,7 +10,7 @@
 // Library version
 #define VERSION_MAJOR				1		// 4-bits (0-15)
 #define VERSION_MINOR				5		// 6-bits (0-63)
-#define VERSION_PATCH				13		// 6-bits (0-63)
+#define VERSION_PATCH				14		// 6-bits (0-63)
 
 // Macro: VERSION
 // Combines major, minor, and patch versions into a single version number.
@@ -36,9 +36,9 @@ typedef unsigned char				bool;	// 8 bits boolean type
 #define TRUE						(1)		// Value for "TRUE" boolean
 #define FALSE						(0)		// Value for "FALSE" boolean
 
-#define TOGGLE(a)					(a) = !(a)     // Toggle boolean value
-#define IS_TRUE(a)					((a) != FALSE) // Check if boolean is TRUE
-#define IS_FALSE(a)					((a) == FALSE) // Check if boolean is FALSE
+#define TOGGLE(a)					(a) = !(a)     // Toggle a boolean value
+#define IS_TRUE(a)					((a) != FALSE) // Check if aboolean is TRUE
+#define IS_FALSE(a)					((a) == FALSE) // Check if a boolean is FALSE
 
 // Integer
 typedef signed char					i8;		// 8 bits signed integer type
@@ -62,9 +62,11 @@ typedef void*						ptr;	// Pointer type
 #ifndef NULL
 #define NULL						(void*)0x0000	// Pointer "NULL" value
 #endif
+#define PTR_OFFSET8(p, o)			(((u8*)(p)) + (o)) // Offset 8-bit pointer address
+#define PTR_OFFSET16(p, o)			((u16*)(((u8*)(p)) + (o))) // Offset 8-bit pointer address
 
 // Functions
-typedef void (*callback)(void);				// Callback default signature
+typedef void (*callback)(void); // Callback default signature
 
 //-----------------------------------------------------------------------------
 // Includes
