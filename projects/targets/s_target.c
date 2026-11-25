@@ -37,7 +37,6 @@
 	#define VIEWER_ADDR				0x8000
 #endif
 
-
 #if (ROM_MAPPER == ROM_NEO8) // NEO-8 mapper
 	#define TEST_BANK				4
 	#define SEG_FREE				1
@@ -79,6 +78,9 @@ void main();
 
 // ROM test data
 #if (TARGET_TYPE == TYPE_ROM)
+
+	const c8* g_ROMSignature = TARGET_SIGN;
+
 #if (ROM_MAPPER == ROM_PLAIN)
 
 	#if (ROM_START == 0)
@@ -90,17 +92,41 @@ void main();
 	#if (SEG_ISR >= 0)
 	__at(SEG_ADDR(SEG_ISR)) const c8 g_SegmentISR[] = "#ISR SEGMENT";
 	#endif
-
-	#if (ROM_SEGMENTS >= 10)
+	#if (ROM_SEGMENTS > 10)
 	__at(SEG_ADDR(10)) const c8 g_Segment10[] = "#SEGMENT 10";
 	#endif
-
-	#if (ROM_SEGMENTS >= 100)
+	#if (ROM_SEGMENTS > 16)
+	__at(SEG_ADDR(16)) const c8 g_Segment16[] = "#SEGMENT 16";
+	#endif
+	#if (ROM_SEGMENTS > 32)
+	__at(SEG_ADDR(32)) const c8 g_Segment32[] = "#SEGMENT 32";
+	#endif
+	#if (ROM_SEGMENTS > 64)
+	__at(SEG_ADDR(64)) const c8 g_Segment64[] = "#SEGMENT 64";
+	#endif
+	#if (ROM_SEGMENTS > 100)
 	__at(SEG_ADDR(100)) const c8 g_Segment100[] = "#SEGMENT 100";
 	#endif
-
-	#if (ROM_SEGMENTS >= 1000)
+	#if (ROM_SEGMENTS > 128)
+	__at(SEG_ADDR(128)) const c8 g_Segment128[] = "#SEGMENT 128";
+	#endif
+	#if (ROM_SEGMENTS > 256)
+	__at(SEG_ADDR(256)) const c8 g_Segment256[] = "#SEGMENT 256";
+	#endif
+	#if (ROM_SEGMENTS > 512)
+	__at(SEG_ADDR(512)) const c8 g_Segment512[] = "#SEGMENT 512";
+	#endif
+	#if (ROM_SEGMENTS > 1000)
 	__at(SEG_ADDR(1000)) const c8 g_Segment1000[] = "#SEGMENT 1000";
+	#endif
+	#if (ROM_SEGMENTS > 1024)
+	__at(SEG_ADDR(1024)) const c8 g_Segment1024[] = "#SEGMENT 1024";
+	#endif
+	#if (ROM_SEGMENTS > 2048)
+	__at(SEG_ADDR(2048)) const c8 g_Segment2048[] = "#SEGMENT 2048";
+	#endif
+	#if (ROM_SEGMENTS > 4096)
+	__at(SEG_ADDR(4096)) const c8 g_Segment4096[] = "#SEGMENT 4096";
 	#endif
 
 	__at(SEG_ADDR(SEG_FREE)) const c8 g_SegmentFirst[] = "#FIRST FREE SEGMENT";
@@ -279,6 +305,23 @@ void UpdateViewer()
 }
 #endif
 
+//-----------------------------------------------------------------------------
+// Check for ROM signature
+bool FindSign()
+{
+#if (TARGET_TYPE == TYPE_ROM)
+	const c8* sign = g_ROMSignature;
+	const c8* rom = (const c8*)(((u16)main & 0xC000) + 16);
+	loop (i, 8)
+	{
+		if (*rom++ != *sign++)
+			return FALSE;
+	}
+	return TRUE;
+#else
+	return FALSE;
+#endif
+}
 
 //-----------------------------------------------------------------------------
 // Display media target information
@@ -301,7 +344,9 @@ void DiplayInfo()
 	#endif
 	Print_DrawFormat("\nAddr:   %4x~%4x", Sys_GetFirstAddr(), Sys_GetLastAddr());
 	Print_DrawFormat("\nISR:    %c", GET_TARGET_ISR(TARGET) ? 0x0C : 0x0B);
-	Print_DrawFormat("\nSign:   %c", GET_TARGET_ISR(TARGET) ? 0x0C : 0x0B);
+	#if (TARGET_TYPE == TYPE_ROM)
+	Print_DrawFormat("\nSign:   %c %s", FindSign() ? 0x0C : 0x0B, FindSign() ? g_ROMSignature : "");
+	#endif
 
 	Print_SetPosition(29, 4);
 	Print_DrawText("Page  Slot");
@@ -350,7 +395,23 @@ void DiplayInfo()
 		Print_DrawCharX('\x17', 20);
 		Print_DrawChar('\x1B');
 
- #if (ROM_MAPPER != ROM_PLAIN)
+		#if (ROM_MAPPER == ROM_PLAIN)
+		u8 num = 0;
+		switch (ROM_FRAME)
+		{
+			case ROM_8K:  num = 1; break;
+			case ROM_16K: num = 1; break;
+			case ROM_24K: num = 2; break;
+			case ROM_32K: num = 2; break;
+			case ROM_48K: num = 3; break;
+			case ROM_64K: num = 4; break;
+		}
+		for (u8 i = ROM_START; i < ROM_START + num; ++i)
+		{
+			Print_SetPosition(29, VIEWER_Y + 2 + i);
+			Print_DrawHex16(i * 0x4000);
+		}
+		#else
 		Print_SetPosition(29, VIEWER_Y + 2);
 		Print_DrawText("Bank  Seg");
 
@@ -367,7 +428,7 @@ void DiplayInfo()
 		}
 		Print_SetPosition(29, VIEWER_Y + 4 + MAPPER_BANKS);
 		Print_DrawText("\x1A\x17\x17\x17\x11\x17\x17\x17\x17\x17\x1B");
- #endif
+		#endif
 
 		UpdateViewer();
 

@@ -90,16 +90,6 @@ typedef void (*callback)(void); // Callback default signature
 #pragma disable_warning	283 	// Remove "function declarator with no prototype" warning
 
 //-----------------------------------------------------------------------------
-// Helper macros
-//-----------------------------------------------------------------------------
-
-// Get the number of elements of a static initialized structure
-#define numberof(tab)				(sizeof(tab) / sizeof(tab[0]))
-
-#define loop(a, b)					for (u8 a = 0; a < (b); ++a)
-#define loopx(a)					for (u8 i##__LINE__ = 0; i##__LINE__ < a; ++i##__LINE__)
-
-//-----------------------------------------------------------------------------
 // SDCC calling convention 0
 //-----------------------------------------------------------------------------
 
@@ -167,6 +157,24 @@ typedef void (*callback)(void); // Callback default signature
 // __PRESERVES(a, b, c, d, e, h, l, iyl, iyh)
 
 //-----------------------------------------------------------------------------
+// Helper macros
+//-----------------------------------------------------------------------------
+
+// Macro to create a name by concatenating two part
+#define MACRO_MERGE(a, b)			a##b
+
+// Macro to overcome # in macro error with SDCC 4.3.0 
+#define HASH #
+
+// Get the number of elements of a static initialized structure
+#define numberof(tab)				(sizeof(tab) / sizeof(tab[0]))
+
+#define loop(a, b)					for (u8 a = 0; a < (b); ++a)
+#define loopx(a)					for (u8 MACRO_MERGE(i,__LINE__) = 0; MACRO_MERGE(i,__LINE__) < a; ++MACRO_MERGE(i,__LINE__))
+#define loop16(a, b)				for (u16 a = 0; a < (b); ++a)
+#define loopx16(a)					for (u16 MACRO_MERGE(i,__LINE__) = 0; MACRO_MERGE(i,__LINE__) < a; ++MACRO_MERGE(i,__LINE__))
+
+//-----------------------------------------------------------------------------
 // Bits handling
 //-----------------------------------------------------------------------------
 
@@ -199,12 +207,6 @@ typedef void (*callback)(void); // Callback default signature
 //-----------------------------------------------------------------------------
 // Misc.
 //-----------------------------------------------------------------------------
-
-// Macro to create a name by concatenating two part
-#define MACRO_MERGE(a, b)			a##b
-
-// Macro to overcome # in macro error with SDCC 4.3.0 
-#define HASH #
 
 // Macro to include assembler code into C source file
 #define INCLUDE_ASM(label, path) void MACRO_MERGE(DummyASM_,label)() __NAKED { \

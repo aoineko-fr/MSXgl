@@ -33,101 +33,134 @@
 // Target names
 #if (TARGET == TARGET_BIN_DISK)
 	#define TARGET_NAME "BASIC binary on disk"
+	#define TARGET_SIGN ""
 
 #elif (TARGET == TARGET_BIN_TAPE)
 	#define TARGET_NAME "BASIC binary on tape"
+	#define TARGET_SIGN ""
 
 #elif (TARGET == TARGET_BIN_USR)
 	#define TARGET_NAME "BASIC USR driver"
+	#define TARGET_SIGN ""
 
 #elif (TARGET == TARGET_DOS0)
 	#define TARGET_NAME "Auto boot disk"
+	#define TARGET_SIGN ""
 
 #elif (TARGET == TARGET_DOS1)
 	#define TARGET_NAME "MSX-DOS 1"
+	#define TARGET_SIGN ""
 
 #elif (TARGET == TARGET_DOS2)
 	#define TARGET_NAME "MSX-DOS 2"
+	#define TARGET_SIGN ""
 
 #elif (TARGET == TARGET_DOS2_MAPPER)
 	#define TARGET_NAME "MSX-DOS 2 with RAM mapper"
+	#define TARGET_SIGN ""
 
 #elif (TARGET == TARGET_DOS3)
 	#define TARGET_NAME "NEXTOR"
+	#define TARGET_SIGN ""
 
 #elif (TARGET == TARGET_ROM_8K_P1)
 	#define TARGET_NAME "8K ROM in page 1"
+	#define TARGET_SIGN "ROM_16P1"
 
 #elif (TARGET == TARGET_ROM_8K_P2)
 	#define TARGET_NAME "8K ROM in page 2"
+	#define TARGET_SIGN "ROM_16P2"
 
 #elif (TARGET == TARGET_ROM_16K_P1)
 	#define TARGET_NAME "16K ROM in page 1"
+	#define TARGET_SIGN "ROM_16P1"
 
 #elif (TARGET == TARGET_ROM_16K_P2)
 	#define TARGET_NAME "16K ROM in page 2"
+	#define TARGET_SIGN "ROM_16P2"
 
 #elif (TARGET == TARGET_ROM_32K_P0)
 	#define TARGET_NAME "32K ROM in pages 0-1"
+	#define TARGET_SIGN "ROM_32P0"
 
 #elif (TARGET == TARGET_ROM_32K_P0_ISR)
 	#define TARGET_NAME "32K ROM in pages 0-1 with ISR"
+	#define TARGET_SIGN "ROM_32P0"
 
 #elif (TARGET == TARGET_ROM_32K_P1)
 	#define TARGET_NAME "32K ROM in pages 1-2 @4000h"
+	#define TARGET_SIGN "ROM_32P1"
 
 #elif (TARGET == TARGET_ROM_32K_P1_B2)
 	#define TARGET_NAME "32K ROM in pages 1-2 @8000h"
+	#define TARGET_SIGN "ROM_32P1"
 
 #elif (TARGET == TARGET_ROM_48K_B1)
 	#define TARGET_NAME "48K ROM in pages 0-2 @4000h"
+	#define TARGET_SIGN "ROM_48P0"
 
 #elif (TARGET == TARGET_ROM_48K_B1_ISR)
 	#define TARGET_NAME "48K ROM in pages 0-2 @4000h with ISR"
+	#define TARGET_SIGN "ROM_48P0"
 
 #elif (TARGET == TARGET_ROM_48K_B2)
 	#define TARGET_NAME "48K ROM in pages 0-2 @8000h"
+	#define TARGET_SIGN "ROM_48P0"
 
 #elif (TARGET == TARGET_ROM_48K_B2_ISR)
 	#define TARGET_NAME "48K ROM in pages 0-2 @8000h with ISR"
+	#define TARGET_SIGN "ROM_48P0"
 
 #elif (TARGET == TARGET_ROM_64K_B1)
 	#define TARGET_NAME "64K ROM in pages 0-3 @4000"
+	#define TARGET_SIGN "ROM_64P0"
 
 #elif (TARGET == TARGET_ROM_64K_B1_ISR)
 	#define TARGET_NAME "64K ROM in pages 0-3 @4000 with ISR"
+	#define TARGET_SIGN "ROM_64P0"
 
 #elif (TARGET == TARGET_ROM_64K_B2)
 	#define TARGET_NAME "64K ROM in pages 0-3 @8000"
+	#define TARGET_SIGN "ROM_64P0"
 
 #elif (TARGET == TARGET_ROM_64K_B2_ISR)
 	#define TARGET_NAME "64K ROM in pages 0-3 @8000 with ISR"
+	#define TARGET_SIGN "ROM_64P0"
 
 #elif (TARGET == TARGET_ROM_ASCII8)
 	#define TARGET_NAME "ASCII-8 ROM"
+	#define TARGET_SIGN "ROM_ASC8"
 
 #elif (TARGET == TARGET_ROM_ASCII16)
 	#define TARGET_NAME "ASCII-16 ROM"
+	#define TARGET_SIGN "ROM_AS16"
 
 #elif (TARGET == TARGET_ROM_KONAMI)
 	#define TARGET_NAME "Konami ROM"
+	#define TARGET_SIGN "ROM_KON4"
 
 #elif (TARGET == TARGET_ROM_KONAMI_SCC)
 	#define TARGET_NAME "Konami ROM with SCC"
+	#define TARGET_SIGN "ROM_KON5"
 
 #elif (TARGET == TARGET_ROM_NEO8)
 	#define TARGET_NAME "NEO-8 ROM"
+	#define TARGET_SIGN "ROM_NEO8"
 
 #elif (TARGET == TARGET_ROM_NEO16)
 	#define TARGET_NAME "NEO-16 ROM"
+	#define TARGET_SIGN "ROM_NE16"
 
 #elif (TARGET == TARGET_ROM_YAMANOOTO)
 	#define TARGET_NAME "Yamanooto ROM"
+	#define TARGET_SIGN "ROM_YAM8"
 
 #elif (TARGET == TARGET_ROM_ASCII16X)
 	#define TARGET_NAME "ASCII16-X ROM"
+	#define TARGET_SIGN "ASCII16X"
 
 #elif (TARGET == TARGET_ROM_POPOLON)
 	#define TARGET_NAME "Popolon SCC ROM"
+	#define TARGET_SIGN "ROM_PSCC"
 
 #endif
