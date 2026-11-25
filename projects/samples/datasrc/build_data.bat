@@ -2,15 +2,15 @@
 setlocal EnableDelayedExpansion
 
 :: Audio
-set BuildArkos=0
-set BuildTrilo=0
-set BuildWYZ=0
-set BuildayFX=0
-set BuildVGM=0
-set BuildlVGM=0
-set BuildlNDP=0
-set BuildPCMEnc=0
-set BuildPCMPlay=0
+set BuildArkos=1
+set BuildTrilo=1
+set BuildWYZ=1
+set BuildayFX=1
+set BuildVGM=1
+set BuildlVGM=1
+set BuildlNDP=1
+set BuildPCMEnc=1
+set BuildPCMPlay=1
 :: Image
 set BuildBitmap=1
 set BuildImage=1
@@ -110,22 +110,33 @@ if %BuildlVGM%==1 (
 		%MSXtk%\MSXzip.exe %%I -t g_lVGM_%%~nI -ad -nodate -lVGM --split 16K --freq 60 -bin -o %Dest%\lvgm\lvgm_%%~nI.bin
 	)
 
-	copy /Y %Dest%\lvgm\lvgm_psg_ds4_03.bin        %Dest%\lvgm\ds4.lvm
-	copy /Y %Dest%\lvgm\lvgm_psg_galious_05.bin    %Dest%\lvgm\galious.lvm
-	copy /Y %Dest%\lvgm\lvgm_psg_goemon_07.bin     %Dest%\lvgm\goemon.lvm
-	copy /Y %Dest%\lvgm\lvgm_psg_metalgear_05.bin  %Dest%\lvgm\mg.lvm
-	copy /Y %Dest%\lvgm\lvgm_psg_honotori_09.bin   %Dest%\lvgm\honotori.lvm
-	copy /Y %Dest%\lvgm\lvgm_psg_penguin_05.bin    %Dest%\lvgm\penguin.lvm
-	copy /Y %Dest%\lvgm\lvgm_psg_yureikun_02.bin   %Dest%\lvgm\yureikun.lvm
-	copy /Y %Dest%\lvgm\lvgm_mm_ff_03.bin          %Dest%\lvgm\ff.lvm
-	copy /Y %Dest%\lvgm\lvgm_mm_laydock2_01.bin    %Dest%\lvgm\laydock2.lvm
-	copy /Y %Dest%\lvgm\lvgm_mm_undeadline_03.bin  %Dest%\lvgm\undeadli.lvm
-	copy /Y %Dest%\lvgm\lvgm_scc_f1spirit_01.bin   %Dest%\lvgm\f1spirit.lvm
-	copy /Y %Dest%\lvgm\lvgm_scc_salamander_02.bin %Dest%\lvgm\salamand.lvm
-	copy /Y %Dest%\lvgm\lvgm_scc_manbow_03.bin     %Dest%\lvgm\manbow.lvm
-	copy /Y %Dest%\lvgm\lvgm_scc_metagear2_10.bin  %Dest%\lvgm\mg2.lvm
-	copy /Y %Dest%\lvgm\lvgm_ma_proyakyu_10.bin    %Dest%\lvgm\proyakyu.lvm
-	copy /Y %Dest%\lvgm\lvgm_ma_xevious_02.bin     %Dest%\lvgm\xevious.lvm
+	copy /Y %Dest%\lvgm\lvgm_psg_ds4_03.bin           %Dest%\lvgm\ds4.lvm
+	copy /Y %Dest%\lvgm\lvgm_psg_galious_05.bin       %Dest%\lvgm\galious.lvm
+	copy /Y %Dest%\lvgm\lvgm_psg_goemon_07.bin        %Dest%\lvgm\goemon.lvm
+	copy /Y %Dest%\lvgm\lvgm_psg_metalgear_05.bin     %Dest%\lvgm\mg.lvm
+	copy /Y %Dest%\lvgm\lvgm_psg_honotori_09.bin      %Dest%\lvgm\honotori.lvm
+	copy /Y %Dest%\lvgm\lvgm_psg_penguin_05.bin       %Dest%\lvgm\penguin.lvm
+	copy /Y %Dest%\lvgm\lvgm_psg_yureikun_02.bin      %Dest%\lvgm\yureikun.lvm
+	copy /Y %Dest%\lvgm\lvgm_psg2_timeless.bin        %Dest%\lvgm\timeless.lvm
+	copy /Y %Dest%\lvgm\lvgm_mm_ff_03.bin             %Dest%\lvgm\ff.lvm
+	copy /Y %Dest%\lvgm\lvgm_mm_laydock2_01.bin       %Dest%\lvgm\laydock2.lvm
+	copy /Y %Dest%\lvgm\lvgm_mm_undeadline_03.bin     %Dest%\lvgm\undeadli.lvm
+	copy /Y %Dest%\lvgm\lvgm_scc_f1spirit_01.bin      %Dest%\lvgm\f1spirit.lvm
+	copy /Y %Dest%\lvgm\lvgm_scc_salamander_02.bin    %Dest%\lvgm\salamand.lvm
+	copy /Y %Dest%\lvgm\lvgm_scc_manbow_03.bin        %Dest%\lvgm\manbow.lvm
+	copy /Y %Dest%\lvgm\lvgm_scc_metagear2_10.bin     %Dest%\lvgm\mg2.lvm
+	copy /Y %Dest%\lvgm\lvgm_ma_proyakyu_10.bin       %Dest%\lvgm\proyakyu.lvm
+	copy /Y %Dest%\lvgm\lvgm_ma_xevious_01.bin        %Dest%\lvgm\xevious.lvm
+	copy /Y %Dest%\lvgm\lvgm_opl2_beholder_02.bin     %Dest%\lvgm\beholder.lvm
+	copy /Y %Dest%\lvgm\lvgm_opl2_dragonslayer_03.bin %Dest%\lvgm\dragonsl.lvm
+	copy /Y %Dest%\lvgm\lvgm_opl3_moondriver_01.bin   %Dest%\lvgm\moondrv.lvm
+	copy /Y %Dest%\lvgm\lvgm_opl3_sorcerian_06.bin    %Dest%\lvgm\sorceria.lvm
+	copy /Y %Dest%\lvgm\lvgm_opl4_sonyc_07.bin        %Dest%\lvgm\sonyc.lvm
+	copy /Y %Dest%\lvgm\lvgm_opn_konamic_08.bin       %Dest%\lvgm\konamic.lvm
+	copy /Y %Dest%\lvgm\lvgm_opna_beholder3_02.bin    %Dest%\lvgm\eob3.lvm
+	copy /Y %Dest%\lvgm\lvgm_opna_hydlide3_02.bin     %Dest%\lvgm\hydlide3.lvm
+	copy /Y %Dest%\lvgm\lvgm_opna_valis2_23.bin       %Dest%\lvgm\valis2.lvm
+	copy /Y %Dest%\lvgm\lvgm_opna_mistyblue_10.bin    %Dest%\lvgm\misty.lvm
 )
 
 ::-----------------------------------------------------------------------------
