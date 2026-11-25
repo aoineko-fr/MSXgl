@@ -189,10 +189,10 @@ u8 PSG_GetRegister(u8 reg) __NAKED __PRESERVES(d, e, iyl, iyh)
 	#if (PSG_DEVICE & PSG_DEVICE_OPNA)
 		ld		a, b
 		cp		#PSG_OPNA_IDX
-		jr		z, 10$					// OPNA: read port = data port
+		jr		z, psg_getreg_read		// OPNA: read port = data port
 	#endif
 		inc		c						// C = read port
-	10$:
+	psg_getreg_read:
 		in		a, (c)
 		ret
 	__endasm;
@@ -535,27 +535,27 @@ __asm
 #if (PSG_DEVICE & PSG_DEVICE_OPNA)
 	ld		a, c
 	cp		#P_OPNA_DATA0
-	jr		z, 10$					// OPNA: read port = data port
+	jr		z, psg_detect_backup	// OPNA: read port = data port
 #endif
 	inc		c						// C = read port
-10$:
+psg_detect_backup:
 	in		e, (c)					// E = R#0 backup
 	ld		h, #0					// H = result
 	ld		d, #0xA5				// D = test pattern
-20$:
+psg_detect_test:
 	ld		l, c
 	ld		c, b
 	out		(c), d					// Write pattern
 	ld		c, l
 	in		a, (c)					// Read back
 	cp		d
-	jr		nz, 30$					// Mismatch: no device
+	jr		nz, psg_detect_restore	// Mismatch: no device
 	cpl
 	ld		d, a					// Next pattern
 	cp		#0x5A
-	jr		z, 20$					// Test 0x5A after 0xA5
+	jr		z, psg_detect_test		// Test 0x5A after 0xA5
 	inc		h						// H = TRUE
-30$:
+psg_detect_restore:
 	ld		c, b
 	out		(c), e					// Restore R#0
 	ld		a, h
