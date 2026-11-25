@@ -618,8 +618,9 @@
 // - LIGHTGUN_PHENIX .............. Phenix light gun
 #define LIGHTGUN_DRIVER				(LIGHTGUN_ASCII + LIGHTGUN_GUNSTICK + LIGHTGUN_PHENIX)
 #define LIGHTGUN_USE_UPDATE			TRUE	// Add support for Phenix light gun detection protocol
-#define LIGHTGUN_FRAME_DURATION		LIGHTGUN_CUSTOM	// Duration of each step of the detection (in frame count)
-#define LIGHTGUN_FRAME_LATENCY		LIGHTGUN_CUSTOM	// Allowed latency for slow LCD screens
+#define LIGHTGUN_USE_CALIBRATE		TRUE	// Add support for Phenix light gun calibration protocol
+#define LIGHTGUN_FRAME_DURATION		2		// Default duration of each step of the detection (in frame count)
+#define LIGHTGUN_FRAME_LATENCY		4		// Default allowed latency for slow LCD screens
 
 //-----------------------------------------------------------------------------
 // PAC MODULE

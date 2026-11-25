@@ -10,6 +10,7 @@
 
 #include "core.h"
 #include "lightgun.h"
+#include "system.h"
 
 //=============================================================================
 // DEFINES
@@ -17,27 +18,12 @@
 
 #if ((LIGHTGUN_DRIVER & LIGHTGUN_PHENIX) && LIGHTGUN_USE_UPDATE)
 
-// Light gun detection frames duration 
-#if (LIGHTGUN_FRAME_DURATION == LIGHTGUN_CUSTOM)
-u8 g_LightGun_Duration = 2;
-#define LIGHTGUN_DURATION			g_LightGun_Duration
-#else
-#define LIGHTGUN_DURATION			LIGHTGUN_FRAME_DURATION
-#endif
-
-// Light gun detection frames latency
-#if (LIGHTGUN_FRAME_LATENCY == LIGHTGUN_CUSTOM)
-u8 g_LightGun_Latency = 4;
-#define LIGHTGUN_LATENCY			g_LightGun_Latency
-#else
-#define LIGHTGUN_LATENCY			LIGHTGUN_FRAME_LATENCY
-#endif
-
 #define LIGHTGUN_COUNT_BLACK1		(0)
-#define LIGHTGUN_COUNT_WHITE		(LIGHTGUN_DURATION)
-#define LIGHTGUN_COUNT_BLACK2		(LIGHTGUN_COUNT_WHITE + LIGHTGUN_DURATION)
-#define LIGHTGUN_COUNT_GAME			(LIGHTGUN_COUNT_BLACK2 + LIGHTGUN_DURATION)
+#define LIGHTGUN_COUNT_WHITE		(g_LightGun_Duration)
+#define LIGHTGUN_COUNT_BLACK2		(LIGHTGUN_COUNT_WHITE + g_LightGun_Duration)
+#define LIGHTGUN_COUNT_GAME			(LIGHTGUN_COUNT_BLACK2 + g_LightGun_Duration)
 
+#define LIGHTGUN_CALIB_TIMEOUT		60
 
 //=============================================================================
 // VARIABLES
@@ -61,6 +47,12 @@ u8 g_LightGun_Counter = 0;
 // Light detection state
 u8 g_LightGun_State = LIGHTGUN_STATE_IDLE;
 
+// Light gun detection frames duration 
+u8 g_LightGun_Duration = LIGHTGUN_FRAME_DURATION;
+
+// Light gun detection frames latency
+u8 g_LightGun_Latency = LIGHTGUN_FRAME_LATENCY;
+
 
 //=============================================================================
 // FUNCTIONS
@@ -71,7 +63,7 @@ u8 g_LightGun_State = LIGHTGUN_STATE_IDLE;
 void LightGun_Phenix_Update()
 {
 	g_LightGun_Value = LightGun_Read(g_LightGun_Port);
-	u8 trig = LightGun_Phenix_GetTriggerA();
+	bool trig = LightGun_Phenix_GetTriggerA();
 
 	// Detect trigger press
 	if ((g_LightGun_State == LIGHTGUN_STATE_IDLE) && trig && !g_LightGun_TrigPrev)
@@ -100,14 +92,14 @@ void LightGun_Phenix_Update()
 		case LIGHTGUN_STATE_DETECT: // Wait for black screen
 			if (!LightGun_Phenix_GetLight())
 				g_LightGun_State = LIGHTGUN_STATE_BLACK;
-			else if (g_LightGun_Counter > LIGHTGUN_COUNT_WHITE + LIGHTGUN_LATENCY)
+			else if (g_LightGun_Counter > LIGHTGUN_COUNT_WHITE + g_LightGun_Latency)
 				goto LightGun_Phenix_Update_Timeout;
 			break;
 
 		case LIGHTGUN_STATE_BLACK:
 			if (LightGun_Phenix_GetLight())
 				g_LightGun_State = LIGHTGUN_STATE_WHITE;
-			else if (g_LightGun_Counter > LIGHTGUN_COUNT_BLACK2 + LIGHTGUN_LATENCY)
+			else if (g_LightGun_Counter > LIGHTGUN_COUNT_BLACK2 + g_LightGun_Latency)
 				goto LightGun_Phenix_Update_Timeout;
 			break;
 
@@ -117,7 +109,7 @@ void LightGun_Phenix_Update()
 				g_LightGun_State = LIGHTGUN_STATE_HIT;
 				g_LightGun_CB(LIGHTGUN_EVENT_HIT);
 			}
-			else if (g_LightGun_Counter > LIGHTGUN_COUNT_GAME + LIGHTGUN_LATENCY)
+			else if (g_LightGun_Counter > LIGHTGUN_COUNT_GAME + g_LightGun_Latency)
 				goto LightGun_Phenix_Update_Timeout;
 			break;
 
@@ -135,5 +127,48 @@ LightGun_Phenix_Update_Timeout:
 		g_LightGun_CB(LIGHTGUN_EVENT_GAME);
 	return;
 }
+
+
+#if (LIGHTGUN_USE_CALIBRATE)
+//-----------------------------------------------------------------------------
+// Calibrate the Phenix light gun.
+u8 LightGun_Phenix_Calibrate()
+{
+	// Set black screen
+	g_LightGun_CB(LIGHTGUN_EVENT_CALIB_BLACK);
+
+	// Wait for trigger
+	bool trig = FALSE;
+	while (!trig)
+	{
+		g_LightGun_Value = LightGun_Read(g_LightGun_Port);
+		trig = LightGun_Phenix_GetTriggerA();
+	}
+
+	// Set black screen
+	g_LightGun_CB(LIGHTGUN_EVENT_CALIB_WHITE);
+
+	// Set for lightgun seeing the white screen
+	bool light = FALSE;
+	u8 count = 0;
+	while (!light)
+	{
+		Halt();
+		g_LightGun_Value = LightGun_Read(g_LightGun_Port);
+		light = LightGun_Phenix_GetLight();
+		count++;
+		if (count > LIGHTGUN_CALIB_TIMEOUT)
+		{
+			g_LightGun_CB(LIGHTGUN_EVENT_GAME);
+			return FALSE;
+		}
+	}
+
+	// Set new latency value
+	LightGun_SetFrameLatency(count);
+	g_LightGun_CB(LIGHTGUN_EVENT_GAME);
+	return TRUE;
+}
+#endif // (LIGHTGUN_USE_CALIBRATE)
 
 #endif // ((LIGHTGUN_DRIVER & LIGHTGUN_PHENIX) && LIGHTGUN_USE_UPDATE)

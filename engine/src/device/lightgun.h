@@ -26,6 +26,11 @@
 	#warning LIGHTGUN_USE_UPDATE is not defined in "msxgl_config.h"! Default value will be used: TRUE
 	#define LIGHTGUN_USE_UPDATE		TRUE
 #endif
+// LIGHTGUN_USE_CALIBRATE
+#ifndef LIGHTGUN_USE_CALIBRATE
+	#warning LIGHTGUN_USE_CALIBRATE is not defined in "msxgl_config.h"! Default value will be used: TRUE
+	#define LIGHTGUN_USE_CALIBRATE	TRUE
+#endif
 // LIGHTGUN_FRAME_DURATION
 #ifndef LIGHTGUN_FRAME_DURATION
 	#warning LIGHTGUN_FRAME_DURATION is not defined in "msxgl_config.h"! Default value will be used: 2
@@ -52,7 +57,7 @@
 // Phenix Light Gun mapping
 #define LIGHTGUN_PHENIX_TRIGGER_A	(JOY_INPUT_TRIGGER_A)
 #define LIGHTGUN_PHENIX_TRIGGER_B	(JOY_INPUT_TRIGGER_B)
-#define LIGHTGUN_PHENIX_LIGHT_MASK	(0x0F) // 3-bit RGB color (0b000: Black, 0b111: White) + 1-bit luminance
+#define LIGHTGUN_PHENIX_LIGHT_MASK	(0x0F) // 4-bit light intensity
 #define LIGHTGUN_PHENIX_LIGHT		(0x08)
 
 #if (LIGHTGUN_DRIVER & LIGHTGUN_PHENIX)
@@ -77,6 +82,8 @@ enum LIGHTGUN_EVENT_ID
 	LIGHTGUN_EVENT_REF2,			// Reference frame (black screen)
 	LIGHTGUN_EVENT_GAME,			// Detection ended (back to )
 	LIGHTGUN_EVENT_HIT,				// Hit occurs
+	LIGHTGUN_EVENT_CALIB_BLACK,		// Calibration black frame
+	LIGHTGUN_EVENT_CALIB_WHITE,		// Calibration white frame
 //.....................................
 	LIGHTGUN_EVENT_MAX,
 };
@@ -102,15 +109,11 @@ extern u8 g_LightGun_Counter;
 // Light detection state
 extern u8 g_LightGun_State;
 
-// 
-#if (LIGHTGUN_FRAME_DURATION == LIGHTGUN_CUSTOM)
+// Duration of each step of the detection (in frame count)
 extern u8 g_LightGun_Duration;
-#endif
 
-// 
-#if (LIGHTGUN_FRAME_LATENCY == LIGHTGUN_CUSTOM)
+// Allowed latency for slow LCD screens
 extern u8 g_LightGun_Latency;
-#endif
 
 #endif // (LIGHTGUN_DRIVER & LIGHTGUN_PHENIX)
 
@@ -296,22 +299,41 @@ inline u8 LightGun_Phenix_GetCounter() { return g_LightGun_Counter; }
 // Get light detection state
 inline u8 LightGun_Phenix_GetState() { return g_LightGun_State; }
 
-#if (LIGHTGUN_FRAME_DURATION == LIGHTGUN_CUSTOM)
 // Function: LightGun_SetFrameDuration
 // Light gun detection frames duration
 //
 // Paremeters:
 //  frame - Number of frames for each detection phase (black > white > black)
 inline void LightGun_SetFrameDuration(u8 frame) { g_LightGun_Duration = frame; }
-#endif
 
-#if (LIGHTGUN_FRAME_LATENCY == LIGHTGUN_CUSTOM)
+// Function: LightGun_GetFrameDuration
+// Light gun detection frames duration
+//
+// Return:
+//  Number of frames for each detection phase (black > white > black)
+inline u8 LightGun_GetFrameDuration() { return g_LightGun_Duration; }
+
 // Function: LightGun_SetFrameDuration
 // Light gun detection frames latency
 //
 // Paremeters:
 //  latency - Number of frames allowed to support display screen latency
 inline void LightGun_SetFrameLatency(u8 latency) { g_LightGun_Latency = latency; }
+
+// Function: LightGun_GetFrameLatency
+// Light gun detection frames latency
+//
+// Return:
+//  Number of frames allowed to support display screen latency
+inline u8 LightGun_GetFrameLatency() { return g_LightGun_Latency; }
+
+#if (LIGHTGUN_USE_CALIBRATE)
+// Function: LightGun_Phenix_Calibrate
+// Calibrate the Phenix light gun.
+//
+// Return:
+//   FALSE if calibration failed
+bool LightGun_Phenix_Calibrate();
 #endif
 
 #endif // (LIGHTGUN_USE_UPDATE)

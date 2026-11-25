@@ -3,7 +3,7 @@
 // ██  ▀  █▄  ▀██▄ ▀ ▄█ ▄▀▀ █  │  ▀█▄  ▄▀██ ▄█▄█ ██▀▄ ██  ▄███
 // █  █ █  ▀▀  ▄█  █  █ ▀▄█ █▄ │  ▄▄█▀ ▀▄██ ██ █ ██▀  ▀█▄ ▀█▄▄
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀────────┘                 ▀▀
-//  Lightgun sample
+//  Light gun sample
 //─────────────────────────────────────────────────────────────────────────────
 
 #include "msxgl.h"
@@ -22,14 +22,13 @@
 #define LAYOUT_SHOW_ADDR			0x1800
 #define LAYOUT_HIDE_ADDR			0x1C00
 
-#define COLOR_HIDE					COLOR_BLACK
 #define LOG_COUNT_MAX				10
 #define CLEAR_FRAME					2
 #define DETECT_FRAME				2
 #define INPUT_WAIT					10
 #define HIT_COUNT					24//15
 
-// Lightgun driver ID
+// Light gun driver ID
 enum LIGHTGUN_DRIVER_ID
 {
 	LIGHTGUN_DRIVER_ASCII = 0,
@@ -84,6 +83,8 @@ const FSM_State g_StateInfo   = { 0, InitInfo,   UpdateInfo,   NULL };
 const FSM_State g_StateClear  = { 0, InitClear,  UpdateClear,  NULL };
 const FSM_State g_StateDetect = { 0, InitDetect, UpdateDetect, NULL };
 
+void LightGunEvent(u8 event);
+
 //=============================================================================
 // MEMORY DATA
 //=============================================================================
@@ -102,8 +103,9 @@ u8   g_SpritePattern;
 u16  g_FrameCount = 0;
 bool g_Moving = FALSE;
 u16  g_MoveCount = 160 * 2;
-// Lightgun
+// Light gun
 u8   g_JoyData = 0;
+bool g_JoyTrig = FALSE;
 u8   g_LogCount = 0;
 // Gameplay
 bool g_Hide = FALSE;
@@ -138,7 +140,7 @@ void UpdateSprite()
 
 //-----------------------------------------------------------------------------
 // Update lightgun data
-void UpdateLightgun()
+void UpdateLightGun()
 {
 	if (g_Driver == LIGHTGUN_DRIVER_PHENIX)
 	{
@@ -174,10 +176,20 @@ void UpdateLightgun()
 	Print_DrawCharAt(10, 8, trig ? 0x0C : 0x0B);
 	Print_DrawCharAt(10, 9, light ? 0x0C : 0x0B);
 	if (g_Driver == LIGHTGUN_DRIVER_PHENIX)
+	{
 		Print_DrawHex8At(12, 9, value);
+		Print_DrawIntAt(27, 7, g_FrameDuration);
+		Print_DrawIntAt(30, 7, g_FrameLatency);
+	}
 
-	Print_DrawIntAt(17, 7, g_FrameDuration);
-	Print_DrawIntAt(20, 7, g_FrameLatency);
+	if (g_Driver != LIGHTGUN_DRIVER_PHENIX)
+	{
+		if (trig && !g_JoyTrig)
+		{
+			g_JoyTrig = trig;
+			LightGunEvent(LIGHTGUN_EVENT_DETECT);
+		}
+	}
 
 	if (g_LogCount)
 	{
@@ -221,13 +233,13 @@ void DiplayPage()
 	switch (g_Driver)
 	{
 	case LIGHTGUN_DRIVER_ASCII:
-		Print_DrawTextAt(0, 7, "DRIVER: ASCII");
+		Print_DrawTextAt(0, 7, "DRIVER: ASCII Plus-X Terminator");
 		break;
 	case LIGHTGUN_DRIVER_GUNSTICK:
-		Print_DrawTextAt(0, 7, "DRIVER: Gun-Stick");
+		Print_DrawTextAt(0, 7, "DRIVER: MHT Gun-Stick");
 		break;
 	case LIGHTGUN_DRIVER_PHENIX:
-		Print_DrawTextAt(0, 7, "DRIVER: Phenix (D_|L_)");
+		Print_DrawTextAt(0, 7, "DRIVER: Phenix Laser Gun (D_|L_)");
 		break;
 	}
 	Print_DrawTextAt(1, 8, "Triggers");
@@ -238,30 +250,6 @@ void DiplayPage()
 	// Footer
 	Print_DrawLineH(0, 22, 32);
 	Print_DrawTextAt(0, 23, "D:Driver P:Port M:Move H:Hide");
-}
-
-//-----------------------------------------------------------------------------
-// VBlank interrupt handler
-void VDP_InterruptHandler()
-{
-	g_VBlank = TRUE;
-	g_Frame++;
-}
-
-//-----------------------------------------------------------------------------
-// HBlank interrupt handler
-void VDP_HBlankHandler()
-{
-	if (g_Driver != LIGHTGUN_DRIVER_PHENIX)
-		g_JoyData = LightGun_Read((g_Port == 0) ? JOY_PORT_1 : JOY_PORT_2);
-}
-
-//-----------------------------------------------------------------------------
-// Wait for v-blank signal
-void WaitVBlank()
-{
-	while (!g_VBlank) {}
-	g_VBlank = FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -331,7 +319,13 @@ void UpdateInfo()
 		}
 	}
 
-#if (LIGHTGUN_FRAME_DURATION == LIGHTGUN_CUSTOM)
+	if (Keyboard_IsKeyPushed(KEY_K))
+	{
+		LightGun_Phenix_Calibrate();
+		g_FrameDuration = LightGun_GetFrameDuration();
+		g_FrameLatency = LightGun_GetFrameLatency();
+		DiplayPage();
+	}
 	if (Keyboard_IsKeyPushed(KEY_UP) && (g_FrameDuration < 9))
 	{
 		g_FrameDuration++;
@@ -344,9 +338,7 @@ void UpdateInfo()
 		LightGun_SetFrameDuration(g_FrameDuration);
 		DiplayPage();
 	}
-#endif
 
-#if (LIGHTGUN_FRAME_LATENCY == LIGHTGUN_CUSTOM)
 	if (Keyboard_IsKeyPushed(KEY_RIGHT) && (g_FrameLatency < 9))
 	{
 		g_FrameLatency++;
@@ -359,25 +351,18 @@ void UpdateInfo()
 		LightGun_SetFrameLatency(g_FrameLatency);
 		DiplayPage();
 	}
-#endif
 
 	// Update sprite
 	if (g_Moving && !g_HitCounter)
 		UpdatePosition();
 	UpdateSprite();
-
-	// if (g_Trig && !g_TrigPrev)
-	// {
-	// 	g_LogCount = LOG_COUNT_MAX;
-	// 	FSM_SetState(&g_StateClear);
-	// }
 }
 
 //-----------------------------------------------------------------------------
 // Initialize clear state
 void InitClear()
 {
-	VDP_SetColor(COLOR_HIDE);
+	VDP_SetColor(COLOR_BLACK);
 	VDP_EnableDisplay(FALSE);
 	u8 y = 12 + LOG_COUNT_MAX - g_LogCount;
 	Print_DrawCharAt(13, y, 'B');
@@ -394,7 +379,7 @@ void UpdateClear()
 void InitDetect()
 {
 	VDP_EnableDisplay(TRUE);
-	VDP_SetColor(COLOR_HIDE);
+	VDP_SetColor(COLOR_BLACK);
 	VDP_RegWrite(2,(u8)(LAYOUT_HIDE_ADDR >> 10));
 	VDP_SetSpriteSM1(0, g_SpritePosX, g_SpritePosY, g_SpritePattern, COLOR_WHITE);
 	VDP_SetSpriteSM1(1, g_SpritePosX, g_SpritePosY, g_SpritePattern + 24, COLOR_WHITE);
@@ -410,7 +395,7 @@ void UpdateDetect()
 }
 
 //-----------------------------------------------------------------------------
-// Lightgun event handler
+// Light gun event handler
 void LightGunEvent(u8 event)
 {
 	switch (event)
@@ -437,7 +422,58 @@ void LightGunEvent(u8 event)
 		Print_DrawCharAt(31, 23, 'H');
 		g_HitCounter = HIT_COUNT;
 		break;
+
+	// Calibration black frame
+	case LIGHTGUN_EVENT_CALIB_BLACK:
+		VDP_SetColor(COLOR_BLACK);
+		VDP_EnableDisplay(FALSE);
+		break;
+
+	// Calibration white frame
+	case LIGHTGUN_EVENT_CALIB_WHITE:
+		VDP_SetColor(COLOR_WHITE);
+		VDP_EnableDisplay(FALSE);
+		break;
 	}
+}
+
+//-----------------------------------------------------------------------------
+// VBlank interrupt handler
+void VDP_InterruptHandler()
+{
+	g_VBlank = TRUE;
+	g_Frame++;
+}
+
+//-----------------------------------------------------------------------------
+// HBlank interrupt handler
+void VDP_HBlankHandler()
+{
+	if (g_Driver != LIGHTGUN_DRIVER_PHENIX)
+	{
+		g_JoyData = LightGun_Read((g_Port == 0) ? JOY_PORT_1 : JOY_PORT_2);
+		if (g_JoyTrig)
+		{
+			bool light = FALSE;
+			switch (g_Driver)
+			{
+			case LIGHTGUN_DRIVER_ASCII:    light = LightGun_ASCII_GetLight(g_JoyData); break;
+			case LIGHTGUN_DRIVER_GUNSTICK: light = LightGun_GunStick_GetLight(g_JoyData); break;
+			}
+			if (light)
+				g_HitCounter = HIT_COUNT;
+			LightGunEvent(LIGHTGUN_EVENT_GAME);
+			g_JoyTrig = FALSE;
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Wait for v-blank signal
+void WaitVBlank()
+{
+	while (!g_VBlank) {}
+	g_VBlank = FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -480,12 +516,8 @@ void main()
 	UpdateSprite();
 
 	LightGun_Phenix_Init(LightGunEvent, JOY_PORT_1);
-#if (LIGHTGUN_FRAME_DURATION == LIGHTGUN_CUSTOM)
 	LightGun_SetFrameDuration(g_FrameDuration);
-#endif
-#if (LIGHTGUN_FRAME_LATENCY == LIGHTGUN_CUSTOM)
 	LightGun_SetFrameLatency(g_FrameLatency);
-#endif
 
 	FSM_SetState(&g_StateInfo);
 	VDP_EnableHBlank(TRUE);
@@ -497,7 +529,7 @@ void main()
 		WaitVBlank();
 		Keyboard_Update();
 
-		UpdateLightgun();
+		UpdateLightGun();
 
 		FSM_Update();
 	}
