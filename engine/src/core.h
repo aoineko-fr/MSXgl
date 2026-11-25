@@ -9,8 +9,8 @@
 
 // Library version
 #define VERSION_MAJOR				1		// 4-bits (0-15)
-#define VERSION_MINOR				5		// 6-bits (0-63)
-#define VERSION_PATCH				15		// 6-bits (0-63)
+#define VERSION_MINOR				6		// 6-bits (0-63)
+#define VERSION_PATCH				0		// 6-bits (0-63)
 
 // Macro: VERSION
 // Combines major, minor, and patch versions into a single version number.
@@ -88,6 +88,7 @@ typedef void (*callback)(void); // Callback default signature
 #pragma disable_warning	126		// Remove "unreachable code" warning
 // #pragma disable_warning	218 	// Remove "z80instructionSize() failed to parse line node, assuming 999 bytes" info
 #pragma disable_warning	283 	// Remove "function declarator with no prototype" warning
+#pragma disable_warning 323		// Function main should be void main(void) or int main(void) --> false for MSX-DOS application that can get command line parameters
 
 //-----------------------------------------------------------------------------
 // SDCC calling convention 0
