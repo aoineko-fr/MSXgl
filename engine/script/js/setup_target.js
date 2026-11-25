@@ -87,7 +87,8 @@ else if (Target === "ROM_8K")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0x8000;
-	FillSize = 8*1024;
+	ROMSize = 8;
+	FillSize = ROMSize * 1024;
 	ROMFirstPage = 1;
 	ROMLastPage = 1;
 	ROMSignature = "ROM_16P1";
@@ -102,7 +103,8 @@ else if (Target === "ROM_8K_P2")
 	StartAddr = 0x8000;
 	CodeAddr = 0x8000;
 	RamAddr = 0xC000;
-	FillSize = 8*1024;
+	ROMSize = 8;
+	FillSize = ROMSize * 1024;
 	ROMFirstPage = 2;
 	ROMLastPage = 2;
 	ROMSignature = "ROM_16P2";
@@ -117,7 +119,8 @@ else if (Target === "ROM_16K")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0x8000;
-	FillSize = 16*1024;
+	ROMSize = 16;
+	FillSize = ROMSize * 1024;
 	ROMFirstPage = 1;
 	ROMLastPage = 1;
 	ROMSignature = "ROM_16P1";
@@ -132,7 +135,8 @@ else if (Target === "ROM_16K_P2")
 	StartAddr = 0x8000;
 	CodeAddr = 0x8000;
 	RamAddr = 0xC000;
-	FillSize = 16*1024;
+	ROMSize = 16;
+	FillSize = ROMSize * 1024;
 	ROMFirstPage = 2;
 	ROMLastPage = 2;
 	ROMSignature = "ROM_16P2";
@@ -147,7 +151,8 @@ else if (Target === "ROM_32K")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	FillSize = 32*1024;
+	ROMSize = 32;
+	FillSize = ROMSize * 1024;
 	ROMFirstPage = 1;
 	ROMLastPage = 2;
 	ROMSignature = "ROM_32P1";
@@ -162,7 +167,8 @@ else if (Target === "ROM_48K")
 	StartAddr = 0x0000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	FillSize = 48*1024;
+	ROMSize = 48;
+	FillSize = ROMSize * 1024;
 	ROMFirstPage = 0;
 	ROMLastPage = 2;
 	ROMSignature = "ROM_48P0";
@@ -177,7 +183,8 @@ else if (Target === "ROM_48K_ISR")
 	StartAddr = 0x0000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	FillSize = 48*1024;
+	ROMSize = 48;
+	FillSize = ROMSize * 1024;
 	ROMFirstPage = 0;
 	ROMLastPage = 2;
 	ROMWithISR = (InstallRAMISR != "RAMISR_PAGE3"); // Add ISR to ROM only if not installed in RAM page 3
@@ -193,7 +200,8 @@ else if (Target === "ROM_64K")
 	StartAddr = 0x0000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	FillSize = 64*1024;
+	ROMSize = 64;
+	FillSize = ROMSize * 1024;
 	ROMFirstPage = 0;
 	ROMLastPage = 3;
 	ROMSignature = "ROM_64P0";
@@ -208,7 +216,8 @@ else if (Target === "ROM_64K_ISR")
 	StartAddr = 0x0000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	FillSize = 64*1024;
+	ROMSize = 64;
+	FillSize = ROMSize * 1024;
 	ROMFirstPage = 0;
 	ROMLastPage = 3;
 	ROMWithISR = (InstallRAMISR != "RAMISR_PAGE3"); // Add ISR to ROM only if not installed in RAM page 3
@@ -232,7 +241,7 @@ else if (Target === "ROM_ASCII8")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	MapperSize = ROMSize*1024;
+	MapperSize = ROMSize * 1024;
 	SegSize = 8*1024;
 	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x4000;
@@ -254,7 +263,7 @@ else if (Target === "ROM_ASCII16")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	MapperSize = ROMSize*1024;
+	MapperSize = ROMSize * 1024;
 	SegSize = 16*1024;
 	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x4000;
@@ -274,7 +283,7 @@ else if (Target === "ROM_KONAMI")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	MapperSize = ROMSize*1024;
+	MapperSize = ROMSize * 1024;
 	SegSize = 8*1024;
 	FillSize = ROMMainSegments * SegSize;
 	Bank1Addr = 0x6000;
@@ -295,7 +304,7 @@ else if (Target === "ROM_KONAMI_SCC")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	MapperSize = ROMSize*1024;
+	MapperSize = ROMSize * 1024;
 	SegSize = 8*1024;
 	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x4000;
@@ -317,7 +326,7 @@ else if (Target === "ROM_NEO8")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	MapperSize = ROMSize*1024;
+	MapperSize = ROMSize * 1024;
 	SegSize = 8*1024;
 	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x0000;
@@ -343,7 +352,7 @@ else if (Target === "ROM_NEO16")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	MapperSize = ROMSize*1024;
+	MapperSize = ROMSize * 1024;
 	SegSize = 16*1024;
 	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x0000;
@@ -366,7 +375,7 @@ else if (Target === "ROM_YAMANOOTO")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	MapperSize = ROMSize*1024;
+	MapperSize = ROMSize * 1024;
 	SegSize = 8*1024;
 	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x4000;
@@ -388,7 +397,7 @@ else if (Target === "ROM_ASCII16X")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	MapperSize = ROMSize*1024;
+	MapperSize = ROMSize * 1024;
 	SegSize = 16*1024;
 	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x4000;
@@ -409,7 +418,7 @@ else if (Target === "ROM_POPOLON")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	MapperSize = ROMSize*1024;
+	MapperSize = ROMSize * 1024;
 	SegSize = 8*1024;
 	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x4000;
@@ -475,8 +484,8 @@ else if (Target === "DOS2_MAPPER")
 	StartAddr = 0x4000;
 	CodeAddr = 0x4000;
 	RamAddr = 0xC000;
-	MapperSize = ROMSize*1024;
-	SegSize = 16*1024;
+	MapperSize = ROMSize * 1024;
+	SegSize = 16 * 1024;
 	FillSize = ROMMainSegments * SegSize;
 	Bank0Addr = 0x4000;
 	Bank1Addr = 0x8000;

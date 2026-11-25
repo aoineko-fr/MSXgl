@@ -12,64 +12,60 @@
 //=============================================================================
 
 // Library's logo
-#define MSX_GL			"\x01\x02\x03\x04\x05\x06"
+#define MSX_GL						"\x01\x02\x03\x04\x05\x06"
 
 // Mapper page
-#define BANK_ADDR		0x8000
-#define MAPPER_Y		10
-#define MAPPER_NUM		8
-#define MAPPER_ADDR_X	20
-#define CHAR_ASCII		20
-#define CHAR_HEXA		7
-#define QUICK_JUMP		16
+#define VIEWER_Y					11
+#define VIEWER_ADDR_X				20
+#define CHAR_ASCII					20
+#define CHAR_HEXA					7
+#define QUICK_JUMP					16
 
-#if (MAPPER_NUM > ROM_SEGMENTS)
-	#undef  MAPPER_NUM
-	#define MAPPER_NUM	ROM_SEGMENTS
-#endif
+#if (TARGET_TYPE == TYPE_ROM)
 
-#if ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER == ROM_NEO8))
-	// void PrintSegment500Data(u8 x, u8 y) __banked;
-	// #define BANKED_BANK 1
-	// #define BANKED_SEG 500
-	// #define BANKED_CALL(x, y)	PrintSegment500Data(x, y)
-	#define TEST_BANK			4
-	#define ROM_MAPPER_STR		"Segment in bank 4"
-#elif ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER == ROM_NEO16))
-	// void PrintSegment500Data(u8 x, u8 y) __banked;
-	// #define BANKED_BANK 1
-	// #define BANKED_SEG 500
-	// #define BANKED_CALL(x, y) 	PrintSegment500Data(x, y)
-	#define TEST_BANK			2
-	#define ROM_MAPPER_STR		"Segment in bank 2"
-#elif ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER >= ROM_MAPPER_16K))
-	// void PrintSegment2Data(u8 x, u8 y) __banked;
-	// #define BANKED_BANK 1
-	// #define BANKED_SEG 2
-	// #define BANKED_CALL(x, y)	PrintSegment2Data(x, y)
-	#define TEST_BANK			1
-	#define ROM_MAPPER_STR		"Segment in bank 1"
-#elif ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER > ROM_PLAIN))
-	// void PrintSegment4Data(u8 x, u8 y) __banked;
-	// #define BANKED_BANK 2
-	// #define BANKED_SEG 4
-	// #define BANKED_CALL(x, y)	PrintSegment4Data(x, y)
-	#define TEST_BANK			2
-	#define ROM_MAPPER_STR		"Segment in bank 2"
+#if (ROM_MAPPER == ROM_PLAIN)
+	#define VIEWER_LINE				4
+#elif (ROM_SEGMENTS < 8)
+	#define VIEWER_LINE				ROM_SEGMENTS
 #else
-	// void PrintSegment4Data(u8 x, u8 y) __banked;
-	// #define BANKED_BANK 2
-	// #define BANKED_SEG 4
-	// #define BANKED_CALL(x, y)	PrintSegment4Data(x, y)
-	#define TEST_BANK			0
-	#define ROM_MAPPER_STR		""
+	#define VIEWER_LINE				8
 #endif
 
-struct SegmentEntry
-{
-	u8 Id;
-	const c8* Name;
-};
+#if (ROM_MAPPER == ROM_PLAIN)
+	#define VIEWER_ADDR				0x0000
+#else
+	#define VIEWER_ADDR				0x8000
+#endif
+
+
+#if (ROM_MAPPER == ROM_NEO8) // NEO-8 mapper
+	#define TEST_BANK				4
+	#define SEG_FREE				1
+	#define SEG_ISR					4
+	#define ROM_VIEWER_STR			"Segment in bank 4"
+#elif (ROM_MAPPER == ROM_NEO16) // NEO-16 mapper
+	#define TEST_BANK				2
+	#define SEG_FREE				1
+	#define SEG_ISR					2
+	#define ROM_VIEWER_STR			"Segment in bank 2"
+#elif (ROM_MAPPER >= ROM_MAPPER_16K) // 16K mapper
+	#define TEST_BANK				1
+	#define SEG_FREE				1
+	#define SEG_ISR					-1
+	#define ROM_VIEWER_STR			"Segment in bank 1"
+#elif (ROM_MAPPER > ROM_PLAIN) // 8K mapper
+	#define TEST_BANK				2
+	#define SEG_FREE				1
+	#define SEG_ISR					-1
+	#define ROM_VIEWER_STR			"Segment in bank 2"
+#else
+	#define TEST_BANK				0
+	#define ROM_VIEWER_STR			"Page"
+#endif
+
+#endif // (TARGET_TYPE == TYPE_ROM)
+
+#define SEG_ADDR(s)					((u32)(s) << (u32)(16))
 
 // Function prototypes
 void main();
@@ -81,27 +77,37 @@ void main();
 // Fonts data
 #include "font/font_mgl_sample6.h"
 
-// // Data in bank 2 & 3
-// #if (ROM_MAPPER == ROM_ASCII16)
-// __at(0x8000) const c8 g_DataBank1[] = "Segment #1 (default in Bank #1)";
-// #elif ((ROM_MAPPER == ROM_ASCII8) || (ROM_MAPPER == ROM_KONAMI) || (ROM_MAPPER == ROM_KONAMI_SCC))
-// __at(0x8000) const c8 g_DataBank2[] = "Segment #2 (default in Bank #2)";
-// __at(0xA000) const c8 g_DataBank3[] = "Segment #3 (default in Bank #3)";
-// #endif
+// ROM test data
+#if (TARGET_TYPE == TYPE_ROM)
+#if (ROM_MAPPER == ROM_PLAIN)
 
-#if (ROM_SEGMENTS > 6)
-	#define ROM_SEG6_TEXT			"Segment #6"			
-	#define ROM_SEG6_ENTRY			{ 6, ROM_SEG6_TEXT },
-	__at(0x60000) const c8 g_DataSeg6[] = ROM_SEG6_TEXT;
+	#if (ROM_START == 0)
+	__at(SEG_ADDR(0)) const c8 g_SegmentISR[] = "#ISR PAGE";
+	#endif
+
 #else
-	#define ROM_SEG6_ENTRY
-#endif
 
-//
-const SegmentEntry g_Segments[] =
-{
-	ROM_SEG6_ENTRY
-};
+	#if (SEG_ISR >= 0)
+	__at(SEG_ADDR(SEG_ISR)) const c8 g_SegmentISR[] = "#ISR SEGMENT";
+	#endif
+
+	#if (ROM_SEGMENTS >= 10)
+	__at(SEG_ADDR(10)) const c8 g_Segment10[] = "#SEGMENT 10";
+	#endif
+
+	#if (ROM_SEGMENTS >= 100)
+	__at(SEG_ADDR(100)) const c8 g_Segment100[] = "#SEGMENT 100";
+	#endif
+
+	#if (ROM_SEGMENTS >= 1000)
+	__at(SEG_ADDR(1000)) const c8 g_Segment1000[] = "#SEGMENT 1000";
+	#endif
+
+	__at(SEG_ADDR(SEG_FREE)) const c8 g_SegmentFirst[] = "#FIRST FREE SEGMENT";
+	__at(SEG_ADDR(ROM_SEGMENTS - 1)) const c8 g_SegmentLast[] = "#LAST SEGMENT";
+
+#endif
+#endif
 
 // Character animation data
 const c8 g_ChrAnim[] = { '|', '\\', '-', '/' };
@@ -114,7 +120,7 @@ u8  g_Buffer[128];
 #if ((TARGET_TYPE == TYPE_ROM) || (ROM_MAPPER != ROM_PLAIN))
 u8  g_DisplayASCII = 0;
 i16 g_Segment = 0;
-u16 g_Address = BANK_ADDR;
+u16 g_Address = VIEWER_ADDR;
 #endif
 
 //=============================================================================
@@ -200,38 +206,45 @@ void DisplayFooter()
 	#endif
 }
 
-#if ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER != ROM_PLAIN))
+#if (TARGET_TYPE == TYPE_ROM)
 
 //-----------------------------------------------------------------------------
 //
-void UpdateMapper()
+void UpdateViewer()
 {
-	Print_SetPosition(MAPPER_ADDR_X, MAPPER_Y);
+	Print_SetPosition(VIEWER_ADDR_X, VIEWER_Y);
 	Print_DrawText("\x81 ");
 	Print_DrawHex16(g_Address);
 	Print_DrawText(" \x80\n");
 
-	Print_SetPosition(1, MAPPER_Y + 2);
+ #if (ROM_MAPPER != ROM_PLAIN)
+ 	Print_SetPosition(1, VIEWER_Y + 2);
 	Print_DrawChar((g_Segment == 0) ? ' ' : '\x8E');
-	Print_SetPosition(1, MAPPER_Y + 1 + MAPPER_NUM);
-	Print_DrawChar((g_Segment == ROM_SEGMENTS - MAPPER_NUM) ? ' ' : '\x8F');
+	Print_SetPosition(1, VIEWER_Y + 1 + VIEWER_LINE);
+	Print_DrawChar((g_Segment == ROM_SEGMENTS - VIEWER_LINE) ? ' ' : '\x8F');
+ #endif
 
-	for (u8 i = 0; i < MAPPER_NUM; i++)
+	for (u8 i = 0; i < VIEWER_LINE; i++)
 	{
 		u16 index = g_Segment + i;
-		Print_SetPosition(2, MAPPER_Y + 2 + i);
+		Print_SetPosition(2, VIEWER_Y + 2 + i);
 		Print_DrawInt(index);
 		if (index < 100)
 			Print_DrawChar(' ');
 		if (index < 1000)
 			Print_DrawChar(' ');
 
-		Print_SetPosition(7, MAPPER_Y + 2 + i);
+		Print_SetPosition(7, VIEWER_Y + 2 + i);
+ #if (ROM_MAPPER == ROM_PLAIN)
+		const u8* ptr = (const u8*)g_Address + (i * 0x4000);
+ #else
 		SET_BANK_SEGMENT(TEST_BANK, index);
+		const u8* ptr = (const u8*)g_Address;
+ #endif
 		u8 max = g_DisplayASCII ? CHAR_ASCII : CHAR_HEXA;
 		for (u8 j = 0; j < max; j++)
 		{
-			u8 chr = ((const u8*)(g_Address))[j];
+			u8 chr = ptr[j];
 			if (g_DisplayASCII)
 				Print_DrawChar(chr);
 			else
@@ -244,6 +257,7 @@ void UpdateMapper()
 		Print_Return();
 	}
 
+ #if (ROM_MAPPER != ROM_PLAIN)
 	for (u8 i = 0; i < MAPPER_BANKS; i++)
 	{
 		u16 seg = 0;
@@ -256,11 +270,12 @@ void UpdateMapper()
 		case 4: seg = GET_BANK_SEGMENT(4); break;
 		case 5: seg = GET_BANK_SEGMENT(5); break;
 		};
-		Print_SetPosition(30, MAPPER_Y + 4 + i);
+		Print_SetPosition(30, VIEWER_Y + 4 + i);
 		Print_DrawFormat("%c%i", (i == TEST_BANK) ? 0x80 : ' ', i);
-		Print_SetPosition(35, MAPPER_Y + 4 + i);
+		Print_SetPosition(35, VIEWER_Y + 4 + i);
 		Print_DrawFormat("%i ", seg);
 	}
+#endif
 }
 #endif
 
@@ -285,7 +300,8 @@ void DiplayInfo()
 		#endif
 	#endif
 	Print_DrawFormat("\nAddr:   %4x~%4x", Sys_GetFirstAddr(), Sys_GetLastAddr());
-	Print_DrawFormat("\nISR:    %c", TARGET_ISR ? 0x0C : 0x0B);
+	Print_DrawFormat("\nISR:    %c", GET_TARGET_ISR(TARGET) ? 0x0C : 0x0B);
+	Print_DrawFormat("\nSign:   %c", GET_TARGET_ISR(TARGET) ? 0x0C : 0x0B);
 
 	Print_SetPosition(29, 4);
 	Print_DrawText("Page  Slot");
@@ -311,51 +327,49 @@ void DiplayInfo()
 	Print_SetPosition(29, 6 + 4);
 	Print_DrawText("\x1A\x17\x17\x17\x11\x17\x17\x17\x17\x17\x1B");
 
-	#if ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER != ROM_PLAIN))
+	#if (TARGET_TYPE == TYPE_ROM)
 
-		Print_SetPosition(0, MAPPER_Y);
-		Print_DrawText(ROM_MAPPER_STR);
+		Print_SetPosition(0, VIEWER_Y);
+		Print_DrawText(ROM_VIEWER_STR);
 		
-		Print_SetPosition(0, MAPPER_Y + 1);
+		Print_SetPosition(0, VIEWER_Y + 1);
 		Print_DrawText("\x18\x17\x17\x17\x17\x17\x12");
 		Print_DrawCharX('\x17', 20);
 		Print_DrawChar('\x19');
-		for (u8 i = 0; i < MAPPER_NUM; i++)
+		for (u8 i = 0; i < VIEWER_LINE; i++)
 		{
-			Print_SetPosition(0, MAPPER_Y + 2 + i);
+			Print_SetPosition(0, VIEWER_Y + 2 + i);
 			Print_DrawChar('\x16');
 			g_PrintData.CursorX = 6;
 			Print_DrawChar('\x16');
 			g_PrintData.CursorX = 27;
 			Print_DrawChar('\x16');
 		}
-		Print_SetPosition(0, MAPPER_Y + 2 + MAPPER_NUM);
+		Print_SetPosition(0, VIEWER_Y + 2 + VIEWER_LINE);
 		Print_DrawText("\x1A\x17\x17\x17\x17\x17\x11");
 		Print_DrawCharX('\x17', 20);
 		Print_DrawChar('\x1B');
 
-		Print_SetPosition(29, MAPPER_Y + 2);
+ #if (ROM_MAPPER != ROM_PLAIN)
+		Print_SetPosition(29, VIEWER_Y + 2);
 		Print_DrawText("Bank  Seg");
 
-		Print_SetPosition(29, MAPPER_Y + 3);
+		Print_SetPosition(29, VIEWER_Y + 3);
 		Print_DrawText("\x18\x17\x17\x17\x12\x17\x17\x17\x17\x17\x19");
 		for (u8 i = 0; i < MAPPER_BANKS; i++)
 		{
-			Print_SetPosition(29, MAPPER_Y + 4 + i);
+			Print_SetPosition(29, VIEWER_Y + 4 + i);
 			Print_DrawChar('\x16');
 			g_PrintData.CursorX = 33;
 			Print_DrawChar('\x16');
 			g_PrintData.CursorX = 39;
 			Print_DrawChar('\x16');
 		}
-		Print_SetPosition(29, MAPPER_Y + 4 + MAPPER_BANKS);
+		Print_SetPosition(29, VIEWER_Y + 4 + MAPPER_BANKS);
 		Print_DrawText("\x1A\x17\x17\x17\x11\x17\x17\x17\x17\x17\x1B");
+ #endif
 
-		UpdateMapper();
-
-		// Print_SetPosition(0, MAPPER_Y + 4 + MAPPER_NUM);
-		// Print_DrawText("Banked call:");
-		// BANKED_CALL(1, MAPPER_Y + 5 + MAPPER_NUM);
+		UpdateViewer();
 
 	#endif
 
@@ -365,6 +379,7 @@ void DiplayInfo()
 //=============================================================================
 // MAIN LOOP
 //=============================================================================
+
 //-----------------------------------------------------------------------------
 // Program entry point
 void main()
@@ -388,34 +403,45 @@ void main()
 		u8 row6 = Keyboard_Read(6);
 		u8 row8 = Keyboard_Read(8);
 
-		#if ((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER != ROM_PLAIN))
+		#if (TARGET_TYPE == TYPE_ROM)
 			if (IS_KEY_PRESSED(row6, KEY_F1))
 			{
 				g_DisplayASCII = 1 - g_DisplayASCII;
-				UpdateMapper();
+				UpdateViewer();
 			}
 			if (IS_KEY_PRESSED(row8, KEY_RIGHT))
 			{
-				g_Address++;
-				UpdateMapper();
+				if (IS_KEY_PRESSED(row6, KEY_CTRL))
+					g_Address += QUICK_JUMP;
+				else
+					g_Address++;
+				UpdateViewer();
 			}
-			if (IS_KEY_PRESSED(row8, KEY_LEFT))
+			else if (IS_KEY_PRESSED(row8, KEY_LEFT))
 			{
-				if (g_Address > BANK_ADDR)
+				if (IS_KEY_PRESSED(row6, KEY_CTRL))
+				{
+					if (g_Address > VIEWER_ADDR + QUICK_JUMP)
+						g_Address -= QUICK_JUMP;
+					else
+						g_Address = VIEWER_ADDR;
+				}
+				else if (g_Address > VIEWER_ADDR)
 					g_Address--;
-				UpdateMapper();
+				UpdateViewer();
 			}
+			 #if (ROM_MAPPER != ROM_PLAIN)
 			if (IS_KEY_PRESSED(row8, KEY_DOWN))
 			{
 				if (IS_KEY_PRESSED(row6, KEY_CTRL))
 					g_Segment += QUICK_JUMP;
 				else
 					g_Segment++;
-				if (g_Segment > ROM_SEGMENTS - MAPPER_NUM)
-					g_Segment = ROM_SEGMENTS - MAPPER_NUM;
-				UpdateMapper();
+				if (g_Segment > ROM_SEGMENTS - VIEWER_LINE)
+					g_Segment = ROM_SEGMENTS - VIEWER_LINE;
+				UpdateViewer();
 			}
-			if (IS_KEY_PRESSED(row8, KEY_UP))
+			else if (IS_KEY_PRESSED(row8, KEY_UP))
 			{
 				if (IS_KEY_PRESSED(row6, KEY_CTRL))
 					g_Segment -= QUICK_JUMP;
@@ -423,8 +449,9 @@ void main()
 					g_Segment--;
 				if (g_Segment < 0)
 					g_Segment = 0;
-				UpdateMapper();
+				UpdateViewer();
 			}
+			 #endif
 		#endif
 	}
 	

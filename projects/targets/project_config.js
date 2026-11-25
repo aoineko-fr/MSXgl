@@ -15,7 +15,7 @@ DoCompile = true;	//-- Compile all the project and engine source code (boolean).
 DoMake    = true;	//-- Link all the project and engine source code (boolean). Merge all REL into one IHX file
 DoPackage = true;	//-- Generate final binary file (boolean). Binarize the IHX file
 DoDeploy  = true;	//-- Gathering of all files necessary for the program to work (boolean). Depends on the type of target
-DoRun     = true;	//-- Start the program automatically at the end of the build (boolean)
+DoRun     = false;	//-- Start the program automatically at the end of the build (boolean)
 
 //*****************************************************************************
 // TOOLS SETTINGS
@@ -130,7 +130,7 @@ CheckVersion = true;
 // ROMDelayBoot = false;
 
 //-- Add a ROM signature to help flasher and emulator to detect the ROM type properly (boolean)
-// AddROMSignature = false;
+AddROMSignature = true;
 
 //-- Install ISR in RAM; either in page 0 (with optional code/data copy there) or in page 3 to use with IM2 (string). For MSX with at least 64 KB of RAM
 //   - RAMISR_NONE       Don't install ISR in RAM
