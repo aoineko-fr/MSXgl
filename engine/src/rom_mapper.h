@@ -17,62 +17,6 @@
 // DEFINES
 //=============================================================================
 
-//-----------------------------------------------------------------------------
-// ROM mapper segment switch addresses
-#if (ROM_MAPPER == ROM_ASCII8)
-	#define MAPPER_BANKS			4
-	#define ADDR_BANK_0				0x6000 // 4000h - 5FFFh
-	#define ADDR_BANK_1				0x6800 // 6000h - 7FFFh
-	#define ADDR_BANK_2				0x7000 // 8000h - 9FFFh
-	#define ADDR_BANK_3				0x7800 // A000h - BFFFh
-#elif (ROM_MAPPER == ROM_ASCII16)
-	#define MAPPER_BANKS			2
-	#define ADDR_BANK_0				0x6000 // 4000h - 7FFFh
-	#define ADDR_BANK_1				0x77FF // 8000h - BFFFh (or 0x7000 ?)
-#elif (ROM_MAPPER == ROM_KONAMI)
-	#define MAPPER_BANKS			4
-	#define ADDR_BANK_0		        0      // 4000h - 5FFFh
-	#define ADDR_BANK_1				0x6000 // 6000h - 7FFFh
-	#define ADDR_BANK_2				0x8000 // 8000h - 9FFFh
-	#define ADDR_BANK_3				0xA000 // A000h - BFFFh
-#elif (ROM_MAPPER == ROM_KONAMI_SCC)
-	#define MAPPER_BANKS			4
-	#define ADDR_BANK_0				0x5000 // 4000h - 5FFFh
-	#define ADDR_BANK_1				0x7000 // 6000h - 7FFFh
-	#define ADDR_BANK_2				0x9000 // 8000h - 9FFFh
-	#define ADDR_BANK_3				0xB000 // A000h - BFFFh
-#elif (ROM_MAPPER == ROM_NEO8)
-	#define MAPPER_BANKS			6
-	#define ADDR_BANK_0				0x5000 // 0000h - 1FFFh
-	#define ADDR_BANK_1				0x5800 // 2000h - 3FFFh
-	#define ADDR_BANK_2				0x6000 // 4000h - 5FFFh
-	#define ADDR_BANK_3				0x6800 // 6000h - 7FFFh
-	#define ADDR_BANK_4				0x7000 // 8000h - 9FFFh
-	#define ADDR_BANK_5				0x7800 // A000h - BFFFh
-#elif (ROM_MAPPER == ROM_NEO16)
-	#define MAPPER_BANKS			3
-	#define ADDR_BANK_0				0x5000 // 0000h - 3FFFh
-	#define ADDR_BANK_1				0x6000 // 4000h - 7FFFh
-	#define ADDR_BANK_2				0x7000 // 8000h - BFFFh
-#elif (ROM_MAPPER == ROM_YAMANOOTO)
-	#define MAPPER_BANKS			4
-	#define ADDR_BANK_0				0x5000 // 5000h - 57FFh
-	#define ADDR_BANK_1				0x7000 // 7000h - 77FFh
-	#define ADDR_BANK_2				0x9000 // 9000h - 97FFh
-	#define ADDR_BANK_3				0xB000 // B000h - B7FFh
-#elif (ROM_MAPPER == ROM_ASCII16X)
-	#define MAPPER_BANKS			2
-	#define ADDR_BANK_0				0x6000 // 4000h - 7FFFh
-	#define ADDR_BANK_1				0x7000 // 8000h - BFFFh (or 0x77FF ?)
-#elif (ROM_MAPPER == ROM_POPOLON)
-	#define MAPPER_BANKS			4
-	#define ADDR_BANK_0				0x5000 // 4000h - 5FFFh
-	#define ADDR_BANK_1				0x7000 // 6000h - 7FFFh
-	#define ADDR_BANK_2				0x9000 // 8000h - 9FFFh
-	#define ADDR_BANK_3				0xB000 // A000h - BFFFh
-#endif
-
-//-----------------------------------------------------------------------------
 // ROM mapper segment size
 #if (ROM_MAPPER >= ROM_MAPPER_16K)
 	#define ROM_SEGMENT_SIZE		16
@@ -80,13 +24,38 @@
 	#define ROM_SEGMENT_SIZE		8
 #endif
 
-//-----------------------------------------------------------------------------
 // ROM mapper segments count
 #define ROM_SEGMENTS				(ROM_SIZE/ROM_SEGMENT_SIZE)
 
-//-----------------------------------------------------------------------------
-// Macro to change a given bank's segment
-#if ((ROM_MAPPER == ROM_NEO8) || (ROM_MAPPER == ROM_NEO16))
+// Check if the current target is a mapped-ROM
+#define IS_ROM_MAPPED()				((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER > ROM_PLAIN))
+
+// Check if the current target is a ROM using the given mapper
+#define IS_ROM_MAPPER(x)			((TARGET_TYPE == TYPE_ROM) && (ROM_MAPPER == x))
+
+
+//.............................................................................
+//  ▄▄▄  ▄▄▄▄  ▄▄  
+//  ██▀█ ██▄  ██ █ 
+//  ██ █ ██▄▄ ▀█▄▀ 
+//.............................................................................
+// https://aoineko.org/msxgl/index.php?title=NEO_mapper
+#if (IS_ROM_MAPPER(ROM_NEO8) || IS_ROM_MAPPER(ROM_NEO16))
+
+	#if IS_ROM_MAPPER(ROM_NEO8)
+	#define MAPPER_BANKS			6
+	#define ADDR_BANK_0				0x5000 // 0000h - 1FFFh
+	#define ADDR_BANK_1				0x5800 // 2000h - 3FFFh
+	#define ADDR_BANK_2				0x6000 // 4000h - 5FFFh
+	#define ADDR_BANK_3				0x6800 // 6000h - 7FFFh
+	#define ADDR_BANK_4				0x7000 // 8000h - 9FFFh
+	#define ADDR_BANK_5				0x7800 // A000h - BFFFh
+	#else // IS_ROM_MAPPER(ROM_NEO16)
+	#define MAPPER_BANKS			3
+	#define ADDR_BANK_0				0x5000 // 0000h - 3FFFh
+	#define ADDR_BANK_1				0x6000 // 4000h - 7FFFh
+	#define ADDR_BANK_2				0x7000 // 8000h - BFFFh
+	#endif
 
 	extern u16 g_Bank0Segment[MAPPER_BANKS];
 
@@ -137,32 +106,52 @@
 	// Get the current segment of the given bank
 	inline u8 GET_BANK_SEGMENT_HIGH(u8 b) { return (u8)(g_Bank0Segment[b] >> 8); }
 
-#elif (ROM_MAPPER == ROM_POPOLON)
+//.............................................................................
+//  ▄▄▄                 ▄▄  
+//  ██▄▀ ▄█▀▄ ██▀▄ ▄█▀▄ ██  ▄█▀▄ ██▀▄
+//  ██   ▀█▄▀ ██▀  ▀█▄▀ ▀█▄ ▀█▄▀ ██ █
+//............▀▀...............................................................
+// https://github.com/popolonfr/Flash-ROM-SCC-Cartridge
+// Note: 16-bit mapper mode (Game and Developer editions). For ROM up to 2 MB, use ROM_KONAMI_SCC.
+#elif IS_ROM_MAPPER(ROM_POPOLON)
 
-#define POPOLON_OFFSET				0x3800
-#define POPOLON_OFFSET_LOW			0x3800
-//	7	6	5	4	3	2	1	0	
-//	S7	S6	S5	S4	S3	S2	S1	S0 	
-//	└───┴───┴───┴───┴───┴───┴───┴── 8 bits of the low part of the Offset (1 step = 1 segment)
-#define POPOLON_OFFSET_HIGH			0x3801
-//	7	6	5	4	3	2	1	0	
-//	x	x	x	x	x	S10	S9	S8 	
-//						└───┴───┴── 3 bits of the high part of the Offset (1 step = 256 segments)
+	#define MAPPER_BANKS			4
+	#define ADDR_BANK_0				0x5000 // 4000h - 5FFFh
+	#define ADDR_BANK_1				0x7000 // 6000h - 7FFFh
+	#define ADDR_BANK_2				0x9000 // 8000h - 9FFFh
+	#define ADDR_BANK_3				0xB000 // A000h - BFFFh
 
-#define POPOLON_CONFIG				0x3804
-//	7	6	5	4	3	2	1	0	
-//	x	x	x	x	x	x	x	DO 	
-//  							└── Disable Offset (set 1 to disable, 0 to enable)
-#define POPOLON_OFFSET_ENABLE		0b00000000
-#define POPOLON_OFFSET_DISABLE		0b00000001
+	// Offset register (Multi-ROM and Developer editions)
+	#define POPOLON_OFFSET			0x3800
+	#define POPOLON_OFFSET_LOW		0x3800
+	//	7	6	5	4	3	2	1	0
+	//	S7	S6	S5	S4	S3	S2	S1	S0
+	//	└───┴───┴───┴───┴───┴───┴───┴── 8 bits of the low part of the Offset (1 step = 1 segment)
+	#define POPOLON_OFFSET_HIGH		0x3801
+	//	7	6	5	4	3	2	1	0
+	//	x	x	S13	S12	S11	S10	S9	S8
+	//			└───┴───┴───┴───┴───┴── 6 bits of the high part of the Offset (1 step = 256 segments)
+
+	// Offset register (Basic edition)
+	#define POPOLON_OFFSET_BASIC	0x3FFF
+
+	// Operating mode register (Game and Developer editions)
+	#define POPOLON_CONFIG			0x3804
+	//	7	6	5	4	3	2	1	0
+	//	x	x	x	x	x	x	M	R
+	//  						│	└── Reserved
+	//  						└────── Mapper mode (0: 8-bit, 1: 16-bit)
+	#define POPOLON_CONFIG_M16		0b00000010
 
 	extern u16 g_Bank0Segment[MAPPER_BANKS];
 
-	// Set the mapper offset (will increment all banks segments by the given offset)
-	// inline void POPOLON_SET_OFFSET(u16 offset) { BIOS_InterSlotWrite(g_ROMSlotID, POPOLON_OFFSET, offset & 0xFF); BIOS_InterSlotWrite(g_ROMSlotID, POPOLON_OFFSET + 1, offset >> 8); }
+	void BIOS_InterSlotWrite(u8 slot, u16 addr, u8 value);
 
-	// 
-	// inline void POPOLON_SET_CONFIG(u8 val) { BIOS_InterSlotWrite(g_ROMSlotID, POPOLON_CONFIG, val); }
+	// Set the mapper offset added to all banks segment (Multi-ROM and Developer editions; needs BIOS module)
+	inline void POPOLON_SET_OFFSET(u16 offset) { BIOS_InterSlotWrite(g_ROMSlotID, POPOLON_OFFSET_LOW, offset & 0xFF); BIOS_InterSlotWrite(g_ROMSlotID, POPOLON_OFFSET_HIGH, offset >> 8); }
+
+	// Set the mapper offset added to all banks segment (Basic edition; needs BIOS module)
+	inline void POPOLON_SET_OFFSET_BASIC(u8 offset) { BIOS_InterSlotWrite(g_ROMSlotID, POPOLON_OFFSET_BASIC, offset); }
 
 	// Set the current segment of the given bank
 	inline void SET_BANK_SEGMENT(u8 b, u16 s)
@@ -199,34 +188,48 @@
 	// Get the current segment of the given bank
 	inline u8 GET_BANK_SEGMENT_HIGH(u8 b) { return (u8)(g_Bank0Segment[b] >> 8); }
 	
-#elif (ROM_MAPPER == ROM_YAMANOOTO)
+//.............................................................................
+//  ▄▄ ▄                               ▄▄       
+//  ▀█▄▀ ▄▀██ ▄█▄█ ▄▀██ ██▀▄ ▄█▀▄ ▄█▀▄ ██▀ ▄█▀▄ 
+//   ██  ▀▄██ ██ █ ▀▄██ ██ █ ▀█▄▀ ▀█▄▀ ▀█▄ ▀█▄▀ 
+//.............................................................................
+// https://docs.google.com/document/d/1VOiwKtc_0Lrv9cU2BOcAge0uUyHKitxG3ccWc_uWTes/edit
+// https://genami.shop/blogs/news/programming-the-yamanooto
+#elif IS_ROM_MAPPER(ROM_YAMANOOTO)
 
-// Features enable register
-#define YAMANOOTO_ENAR			0x7FFF
-//	7	6	5	4	3	2	1	0	
-//	x	x	x	WE	x	x	x	RE 	
-//  			│				└── REGEN: Registers enable. Setting this bit allows writing to all other registers and all register readability.
-//				└────────────────── WREN: Write enable. Set to 1 to enable writes to flash rom
-#define YAMANOOTO_ENAR_REGEN	0b00000001
-#define YAMANOOTO_ENAR_WREN		0b00010000
+	#define MAPPER_BANKS			4
+	#define ADDR_BANK_0				0x5000 // 5000h - 57FFh
+	#define ADDR_BANK_1				0x7000 // 7000h - 77FFh
+	#define ADDR_BANK_2				0x9000 // 9000h - 97FFh
+	#define ADDR_BANK_3				0xB000 // B000h - B7FFh
 
-// Mapper offset register
-#define YAMANOOTO_OFFR			0x7FFE
+	// Features enable register
+	#define YAMANOOTO_ENAR			0x7FFF
+	//	7	6	5	4	3	2	1	0
+	//	x	x	x	WE	x	R	R	RE
+	//  			│				└── REGEN: Registers enable. Setting this bit allows writing to all other registers and all register readability.
+	//				└────────────────── WREN: Write enable. Set to 1 to enable writes to flash rom
+	#define YAMANOOTO_ENAR_REGEN	0b00000001
+	#define YAMANOOTO_ENAR_WREN		0b00010000
 
-// Configuration and control register
-#define YAMANOOTO_CFGR			0x7FFD
-//	7	6	5	4	3	2	1	0	
-//	x	x	SO2	SO1	K44	RD	PE	DM 	
-//  		│	│	│	│	│	└── MDIS: This bit disables mapping so you avoid mapper changes with small (up to 32 kbyte) roms that poke the switching area. Usually this is a problem only in K4 mode. Remember to reset this bit to make changes again.
-//  		│	│	│	│	└────── ECHO: This bit allows the built-in PSG to respond to the port number of the internal PSG of the MSX, causing music intended for the internal PSG to be played too in the Yamanooto and be heard through the stereo output of the cartridge. This is set only during boot when you press the HOME key.
-//  		│	│	│	└────────── ROMDIS: Setting this bit disables access to flash rom. This is automatically set during boot when the DEL key is pressed. You need to clear this bit in software to be able read/write the flash rom.
-//  		│	│	└────────────── K4: Changes mapper configuration from Konami5 (SCC) to Konami4 for compatibility with game compilations including non-SCC games.
-//  		└───┴────────────────── SUBOFF: Sub-offset. This provides 2 additional lower bits for offset register, to provide 8 kbyte granularity for offset.
-#define YAMANOOTO_CFGR_MDIS		0b00000001
-#define YAMANOOTO_CFGR_ECHO		0b00000010
-#define YAMANOOTO_CFGR_ROMDIS	0b00000100
-#define YAMANOOTO_CFGR_K4		0b00001000
-	
+	// Mapper offset register (segment = OFFR * 4 + bank value; applied when a bank is written)
+	#define YAMANOOTO_OFFR			0x7FFE
+
+	// Configuration and control register
+	#define YAMANOOTO_CFGR			0x7FFD
+	//	7	6	5	4	3	2	1	0	
+	//	x	x	SO2	SO1	K44	RD	PE	DM 	
+	//  		│	│	│	│	│	└── MDIS: This bit disables mapping so you avoid mapper changes with small (up to 32 kbyte) roms that poke the switching area. Usually this is a problem only in K4 mode. Remember to reset this bit to make changes again.
+	//  		│	│	│	│	└────── ECHO: This bit allows the built-in PSG to respond to the port number of the internal PSG of the MSX, causing music intended for the internal PSG to be played too in the Yamanooto and be heard through the stereo output of the cartridge. This is set only during boot when you press the HOME key.
+	//  		│	│	│	└────────── ROMDIS: Setting this bit disables access to flash rom. This is automatically set during boot when the DEL key is pressed. You need to clear this bit in software to be able read/write the flash rom.
+	//  		│	│	└────────────── K4: Changes mapper configuration from Konami5 (SCC) to Konami4 for compatibility with game compilations including non-SCC games.
+	//  		└───┴────────────────── SUBOFF: Sub-offset. This provides 2 additional lower bits for offset register, to provide 8 kbyte granularity for offset.
+	#define YAMANOOTO_CFGR_MDIS		0b00000001
+	#define YAMANOOTO_CFGR_ECHO		0b00000010
+	#define YAMANOOTO_CFGR_ROMDIS	0b00000100
+	#define YAMANOOTO_CFGR_K4		0b00001000
+	#define YAMANOOTO_CFGR_SUBOFF	0b00110000
+
 	// Segment value backup
 	extern u16 g_Bank0Segment[MAPPER_BANKS];
 
@@ -264,19 +267,10 @@
 		else if (b == 2)	Poke(ADDR_BANK_2, s & 0xFF);
 		else if (b == 3)	Poke(ADDR_BANK_3, s & 0xFF);
 	}
-	inline void SET_BANK_SEGMENT_LOW(u8 b, u8 s)
-	{ 
-		Poke((u16)&g_Bank0Segment[b] + 0, s);
-		if (b == 0)			Poke(ADDR_BANK_0, s);
-		else if (b == 1)	Poke(ADDR_BANK_1, s);
-		else if (b == 2)	Poke(ADDR_BANK_2, s);
-		else if (b == 3)	Poke(ADDR_BANK_3, s);
-	}
-	inline void SET_BANK_SEGMENT_HIGH(u8 b, u8 s)
-	{ 
-		YAMANOOTO_SET_OFFR(s << 6);
-		Poke((u16)&g_Bank0Segment[b] + 1, s);
-	}
+	// Set the current segment of the given bank
+	inline void SET_BANK_SEGMENT_LOW(u8 b, u8 s) { SET_BANK_SEGMENT(b, (g_Bank0Segment[b] & 0xFF00) | s); }
+	// Set the current segment of the given bank
+	inline void SET_BANK_SEGMENT_HIGH(u8 b, u8 s) { SET_BANK_SEGMENT(b, ((u16)s << 8) | (g_Bank0Segment[b] & 0x00FF)); }
 
 	// Get the current segment of the given bank
 	inline u16 GET_BANK_SEGMENT(u8 b) { return g_Bank0Segment[b]; }
@@ -285,31 +279,75 @@
 	// Get the current segment of the given bank
 	inline u8 GET_BANK_SEGMENT_HIGH(u8 b) { return (u8)(g_Bank0Segment[b] >> 8); }
 	
-#elif (ROM_MAPPER == ROM_ASCII16X)
+//.............................................................................
+//   ▄▄   ▄▄▄  ▄▄  ▄▄▄▄ ▄▄▄▄  ▄▄   ▄▄        ▄▄ ▄
+//  ██▄█ ▀█▄  ██ ▀  ██   ██  ▀██  ██▄▄  ▄▄▄  ▀█▄▀
+//  ██ █ ▄▄█▀ ▀█▄▀ ▄██▄ ▄██▄ ▄██▄ ▀█▄▀       ██ █
+//.............................................................................
+// https://www.grauw.nl/projects/ascii-x/ascii16-x/
+// https://www.grauw.nl/projects/ascii-x/
+#elif IS_ROM_MAPPER(ROM_ASCII16X)
+
+	#define MAPPER_BANKS			2
+	#define ADDR_BANK_0				0x6000 // 4000h - 7FFFh
+	#define ADDR_BANK_1				0x7000 // 8000h - BFFFh (A8-A11 give the segment high bits, so 77FFh can't be used)
 
 	// Segment value backup
 	extern u16 g_Bank0Segment[MAPPER_BANKS];
 
 	// Set the current segment of the given bank
 	inline void SET_BANK_SEGMENT(u8 b, u16 s)
-	{ 
+	{
 		g_Bank0Segment[b] = s;
 		if (b == 0)			Poke(ADDR_BANK_0 | (s & 0x0F00), s & 0xFF);
 		else if (b == 1)	Poke(ADDR_BANK_1 | (s & 0x0F00), s & 0xFF);
 	}
 	// Set the current segment of the given bank
-	inline void SET_BANK_SEGMENT_LOW(u8 b, u8 s) { b; s; }
+	inline void SET_BANK_SEGMENT_LOW(u8 b, u8 s) { SET_BANK_SEGMENT(b, (g_Bank0Segment[b] & 0xFF00) | s); }
 	// Set the current segment of the given bank
-	inline void SET_BANK_SEGMENT_HIGH(u8 b, u8 s) { b; s; }
+	inline void SET_BANK_SEGMENT_HIGH(u8 b, u8 s) { SET_BANK_SEGMENT(b, ((u16)s << 8) | (g_Bank0Segment[b] & 0x00FF)); }
 
 	// Get the current segment of the given bank
 	inline u16 GET_BANK_SEGMENT(u8 b) { return g_Bank0Segment[b]; }
 	// Get the current segment of the given bank
-	inline u8 GET_BANK_SEGMENT_LOW(u8 b) { b; return 0; }
+	inline u8 GET_BANK_SEGMENT_LOW(u8 b) { return (u8)(g_Bank0Segment[b] & 0xFF); }
 	// Get the current segment of the given bank
-	inline u8 GET_BANK_SEGMENT_HIGH(u8 b) { b; return 0; }
+	inline u8 GET_BANK_SEGMENT_HIGH(u8 b) { return (u8)(g_Bank0Segment[b] >> 8); }
 
-#elif (ROM_MAPPER > ROM_PLAIN) // ROM_ASCII8, ROM_ASCII16, ROM_KONAMI, ROM_KONAMI_SCC
+//.............................................................................
+//   ▄▄  ▄▄                 ▄      
+//  ██ ▀ ██  ▄▀██ ▄██▀ ▄██▀ ▄  ▄█▀▀
+//  ▀█▄▀ ▀█▄ ▀▄██ ▄██▀ ▄██▀ ██ ▀█▄▄
+//.............................................................................
+// https://www.msx.org/wiki/MegaROM_Mappers
+// http://bifi.msxnet.org/msxnet/tech/megaroms
+#elif IS_ROM_MAPPED() // ROM_ASCII8, ROM_ASCII16, ROM_KONAMI, ROM_KONAMI_SCC
+
+	#if IS_ROM_MAPPER(ROM_ASCII8)
+	#define MAPPER_BANKS			4
+	#define ADDR_BANK_0				0x6000 // 4000h - 5FFFh
+	#define ADDR_BANK_1				0x6800 // 6000h - 7FFFh
+	#define ADDR_BANK_2				0x7000 // 8000h - 9FFFh
+	#define ADDR_BANK_3				0x7800 // A000h - BFFFh
+	#elif IS_ROM_MAPPER(ROM_ASCII16)
+	#define MAPPER_BANKS			2
+	#define ADDR_BANK_0				0x6000 // 4000h - 7FFFh
+	#define ADDR_BANK_1				0x77FF // 8000h - BFFFh (or 0x7000 ?)
+	#elif IS_ROM_MAPPER(ROM_KONAMI)
+	#define MAPPER_BANKS			4
+	#define ADDR_BANK_0		        0      // 4000h - 5FFFh
+	#define ADDR_BANK_1				0x6000 // 6000h - 7FFFh
+	#define ADDR_BANK_2				0x8000 // 8000h - 9FFFh
+	#define ADDR_BANK_3				0xA000 // A000h - BFFFh
+	#elif IS_ROM_MAPPER(ROM_KONAMI_SCC)
+	#define MAPPER_BANKS			4
+	#define ADDR_BANK_0				0x5000 // 4000h - 5FFFh
+	#define ADDR_BANK_1				0x7000 // 6000h - 7FFFh
+	#define ADDR_BANK_2				0x9000 // 8000h - 9FFFh
+	#define ADDR_BANK_3				0xB000 // A000h - BFFFh
+	#else
+	#error Unsupported mapper type!
+	#endif
 
 	// Segment value backup
 	extern u8 g_Bank0Segment[MAPPER_BANKS];
@@ -337,6 +375,11 @@
 	// Get the current segment of the given bank
 	inline u8 GET_BANK_SEGMENT_HIGH(u8 b) { b; return 0; }
 
+//.............................................................................
+//  ▄▄▄   ▄▄   ▄▄▄
+//  ██ █ ██ █ ▀█▄ 
+//  ██▄▀ ▀█▄▀ ▄▄█▀
+//.............................................................................
 #elif (TARGET == TARGET_DOS2_MAPPER)
 
 	// Set the current segment of the given bank
@@ -353,6 +396,11 @@
 	// Get the current segment of the given bank
 	inline u8 GET_BANK_SEGMENT_HIGH(u8 b) { b; return 0; }
 
+//.............................................................................
+//  ▄▄▄  
+//  ██ █ ██ █ ▄█▄█ ▄█▄█ █ ██
+//  ██▄▀ ▀█▄█ ██ █ ██ █  ▀██
+//.......................▀▀....................................................
 #else
 
 	// Function: SET_BANK_SEGMENT
@@ -410,3 +458,4 @@
 	inline u8 GET_BANK_SEGMENT_HIGH(u8 b) { b; return 0; }
 
 #endif
+

@@ -100,13 +100,13 @@ YAMA_CFGR_MDIS		= #0b00000001	; This bit disables mapping so you avoid mapper ch
 YAMA_CFGR_ECHO		= #0b00000010	; This bit allows the built-in PSG to respond to the port number of the internal PSG of the MSX, causing music intended for the internal PSG to be played too in the Yamanooto and be heard through the stereo output of the cartridge. This is set only during boot when you press the HOME key.
 YAMA_CFGR_ROMDIS	= #0b00000100	; Setting this bit disables access to flash rom. This is automatically set during boot when the DEL key is pressed. You need to clear this bit in software to be able read/write the flash rom.
 YAMA_CFGR_K4		= #0b00001000	; Changes mapper configuration from Konami5 (SCC) to Konami4 for compatibility with game compilations including non-SCC games.
+YAMA_CFGR_SUBOFF	= #0b00110000	; Sub-offset. This provides 2 additional lower bits for offset register, to provide 8 kbyte granularity for offset.
 
 ;------------------------------------------------------------------------------
 ; Popolon SCC registers
-POPOLON_OFF			= #0x3800		; Mapper 16-bit offset register
-POPOLON_CFGR		= #0x3804		; Configuration register
-POPOLON_CFGR_OE		= #0b00000000	; Offset enable (default mode)
-POPOLON_CFGR_OD		= #0b00000001	; Offset disable
+POPOLON_OFF			= #0x3800		; Mapper 14-bit offset register (8 KB unit)
+POPOLON_CFGR		= #0x3804		; Operating mode register (Game and Developer editions)
+POPOLON_CFGR_M16	= #0b00000010	; 16-bit mapper mode
 
 ;------------------------------------------------------------------------------
 ; ISR types

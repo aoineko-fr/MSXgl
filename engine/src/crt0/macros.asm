@@ -109,6 +109,8 @@
 	BANK4_ADDR = #0x7000
 	BANK5_ADDR = #0x7800
 	BANKED_ADDR = BANK4_ADDR
+	BANKED_SEG16 = 1 ; 16-bit segment backup
+	BANKED_REG16 = 1 ; Segment high byte register at BANKED_ADDR+1
 .endif
 ; ROM_NEO16
 .ifeq ROM_MAPPER-ROM_NEO16
@@ -116,6 +118,8 @@
 	BANK1_ADDR = #0x6000
 	BANK2_ADDR = #0x7000
 	BANKED_ADDR = BANK2_ADDR
+	BANKED_SEG16 = 1 ; 16-bit segment backup
+	BANKED_REG16 = 1 ; Segment high byte register at BANKED_ADDR+1
 .endif
 ; ROM_YAMANOOTO
 .ifeq ROM_MAPPER-ROM_YAMANOOTO
@@ -124,12 +128,14 @@
 	BANK2_ADDR = #0x9000
 	BANK3_ADDR = #0xB000
 	BANKED_ADDR = BANK2_ADDR
+	BANKED_SEG16 = 1 ; 16-bit segment backup
 .endif
 ; ROM_ASCII16-X
 .ifeq ROM_MAPPER-ROM_ASCII16X
 	BANK0_ADDR = #0x6000
 	BANK1_ADDR = #0x7000
 	BANKED_ADDR = BANK1_ADDR
+	BANKED_SEG16 = 1 ; 16-bit segment backup
 .endif
 ; ROM_POPOLON
 .ifeq ROM_MAPPER-ROM_POPOLON
@@ -138,6 +144,8 @@
 	BANK2_ADDR = #0x9000
 	BANK3_ADDR = #0xB000
 	BANKED_ADDR = BANK2_ADDR
+	BANKED_SEG16 = 1 ; 16-bit segment backup
+	BANKED_REG16 = 1 ; Segment high byte register at BANKED_ADDR+1
 .endif
 
 ;==============================================================================
@@ -882,8 +890,21 @@
 	.if ROM_BCALL
 	; Set segment (get value from register A)
 	set_bank::
+	.ifeq ROM_MAPPER-ROM_YAMANOOTO
+		push	af
+		xor		a
+		ld		(YAMA_OFFR), a ; No offset (segment high bits = 0)
+		pop		af
+	.endif
 		ld		(BANKED_ADDR), a ; Address used to switch defaut bank for banked call
 		ld		(_g_BankCallSegment), a
+	.ifdef BANKED_SEG16
+		xor		a
+		.ifdef BANKED_REG16
+		ld		(BANKED_ADDR+1), a ; Segment high byte = 0
+		.endif
+		ld		(_g_BankCallSegment+1), a
+	.endif
 		ret
 
 	; Get segment (return value in register A)
@@ -1137,23 +1158,22 @@
 			ld		(YAMA_ENAR), a ; Enable mapper
 
 			xor		a
+			ld		hl, #0x0000
 			ld		(YAMA_OFFR), a ; Set mapper offset to 0
 			ld		(YAMA_CFGR), a ; Clear configuration
 			ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
-			inc		a
-			ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
-			inc		a
-			ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
-			inc		a
-			ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
-
-			ld		hl, #0x0000
 			ld		(_g_Bank0Segment), hl
+			inc		a
 			inc		l
+			ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
 			ld		(_g_Bank1Segment), hl
+			inc		a
 			inc		l
+			ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
 			ld		(_g_Bank2Segment), hl
+			inc		a
 			inc		l
+			ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
 			ld		(_g_Bank3Segment), hl
 	.endm
 
@@ -1175,11 +1195,14 @@
 	.macro INIT_MAPPER
 		ctr0_init_mapper::
 			xor		a
+			ld		h, a
+			ld		l, a
 			ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
-			ld		(_g_Bank0Segment), a
+			ld		(_g_Bank0Segment), hl
 			inc		a
+			inc		l
 			ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
-			ld		(_g_Bank1Segment), a
+			ld		(_g_Bank1Segment), hl
 	.endm
 
 .endif
@@ -1203,25 +1226,25 @@
 
 	.macro INIT_MAPPER
 		ctr0_init_mapper::
-			; Disable offset
+			; Enable 16-bit mapper mode
 			ld		a, (_g_ROMSlotID)
 			ld		hl, #POPOLON_CFGR
-			ld		e, #POPOLON_CFGR_OD
+			ld		e, #POPOLON_CFGR_M16
 			call	WRSLT
 
 			; Initialize banks register
-			xor		a
-			ld		(BANK0_ADDR), a ; Segment 0 in Bank 0
-			ld		(_g_Bank0Segment), a
-			inc		a
-			ld		(BANK1_ADDR), a ; Segment 1 in Bank 1
-			ld		(_g_Bank1Segment), a
-			inc		a
-			ld		(BANK2_ADDR), a ; Segment 2 in Bank 2
-			ld		(_g_Bank2Segment), a
-			inc		a
-			ld		(BANK3_ADDR), a ; Segment 3 in Bank 3
-			ld		(_g_Bank3Segment), a
+			ld		hl, #0x0000
+			ld		(BANK0_ADDR), hl ; Segment 0 in Bank 0
+			ld		(_g_Bank0Segment), hl
+			inc		l
+			ld		(BANK1_ADDR), hl ; Segment 1 in Bank 1
+			ld		(_g_Bank1Segment), hl
+			inc		l
+			ld		(BANK2_ADDR), hl ; Segment 2 in Bank 2
+			ld		(_g_Bank2Segment), hl
+			inc		l
+			ld		(BANK3_ADDR), hl ; Segment 3 in Bank 3
+			ld		(_g_Bank3Segment), hl
 	.endm
 
 .endif
