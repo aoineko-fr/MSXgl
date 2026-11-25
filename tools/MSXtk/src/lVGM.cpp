@@ -83,7 +83,16 @@ struct lVGM_Detect
 	std::string			ChipDesc;
 	u8					Devices;
 	bool				bMultiChip;
-	u8					OPLSource; // Source of OPL4 data: 0 = OPL4 (or none), 2 = OPL2 (YM3812), 3 = OPL3 (YMF262)
+	u8					Convert; // Data converted to another chip (see LVGM_CONVERT)
+};
+
+// lVGM chip conversion flags (source chip data played on a compatible chip)
+enum LVGM_CONVERT
+{
+	LVGM_CONVERT_NONE = 0,
+	LVGM_CONVERT_OPL2 = 0b00000001, // OPL2 (YM3812) data played on OPL4 FM
+	LVGM_CONVERT_OPL3 = 0b00000010, // OPL3 (YMF262) data played on OPL4 FM
+	LVGM_CONVERT_OPN  = 0b00000100, // OPN (YM2203) data played on OPNA part 0
 };
 
 // lVGM register check result
@@ -218,38 +227,60 @@ bool DetectDevices(lVGM_Detect& detect)
 	detect.ChipDesc = "";
 	detect.ChipNum = 0;
 	detect.Devices = 0;
-	detect.OPLSource = 0;
+	detect.Convert = LVGM_CONVERT_NONE;
 
+	// Single/dual PSG
 	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock)
 		AddDevice(detect, "PSG", LVGM_CHIP_PSG);
+	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock && (g_VGM_Header->AY8910_clock & (1 << 30)))
+		AddDevice(detect, "PSGx2", LVGM_CHIP_PSG2);
+
+	// MSX-Music/OPLL
 	if ((g_VGM_Header->Version >= 0x0000) && g_VGM_Header->YM2413_clock)
+	{
 		AddDevice(detect, "OPLL", LVGM_CHIP_MSXMUSIC);
+		if (g_VGM_Header->YM2413_clock & (1 << 30))
+			printf("Warning: Dual OPLL is not supported! Only the first chip will be converted\n");
+	}
+
+	// MSX-Audio/OPL1+ADPCM
 	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->Y8950_clock)
 		AddDevice(detect, "OPL1", LVGM_CHIP_MSXAUDIO);
+
+	// SCC/SCC+
 	if ((g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock && (g_VGM_Header->K051649_clock & (1 << 31)))
 		AddDevice(detect, "SCC+", LVGM_CHIP_SCCI);
 	else if ((g_VGM_Header->Version >= 0x0161) && g_VGM_Header->K051649_clock)
 		AddDevice(detect, "SCC", LVGM_CHIP_SCC);
-	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->AY8910_clock && (g_VGM_Header->AY8910_clock & (1 << 30)))
-		AddDevice(detect, "PSGx2", LVGM_CHIP_PSG2);
+
+	// OPL2/3/4
 	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YMF278B_clock)
 		AddDevice(detect, "OPL4", LVGM_CHIP_OPL4);
 	else if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YMF262_clock) // Converted to OPL4 FM
 	{
 		AddDevice(detect, "OPL3 (as OPL4)", LVGM_CHIP_OPL4);
-		detect.OPLSource = 3;
+		detect.Convert |= LVGM_CONVERT_OPL3;
 		if (g_VGM_Header->YMF262_clock & (1 << 30))
-			printf("Warning: Dual OPL3 is not supported! Only the first chip is converted\n");
+			printf("Warning: Dual OPL3 is not supported! Only the first chip will be converted\n");
 	}
 	else if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YM3812_clock) // Converted to OPL4 FM
 	{
 		AddDevice(detect, "OPL2 (as OPL4)", LVGM_CHIP_OPL4);
-		detect.OPLSource = 2;
+		detect.Convert |= LVGM_CONVERT_OPL2;
 		if (g_VGM_Header->YM3812_clock & (1 << 30))
-			printf("Warning: Dual OPL2 is not supported! Only the first chip is converted\n");
+			printf("Warning: Dual OPL2 is not supported! Only the first chip will be converted\n");
 	}
+
+	// OPN/OPNA
 	if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YM2608_clock)
 		AddDevice(detect, "OPNA", LVGM_CHIP_OPNA);
+	else if ((g_VGM_Header->Version >= 0x0151) && g_VGM_Header->YM2203_clock) // Played on OPNA part 0
+	{
+		AddDevice(detect, "OPN (as OPNA)", LVGM_CHIP_OPNA);
+		detect.Convert |= LVGM_CONVERT_OPN;
+		if (g_VGM_Header->YM2203_clock & (1 << 30))
+			printf("Warning: Dual OPN is not supported! Only the first chip will be converted\n");
+	}
 
 	detect.bMultiChip = (detect.ChipNum > 1);
 
@@ -1247,13 +1278,19 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 	std::map<u8, u16> psgValFreq;
 
 	// Specific initialisation
-	if (detect.OPLSource == 2) 	// OPL2 converted to OPL4: set OPL4 mode and enable left and right outputs of all FM channels (OPL2 songs don't write CHA/CHB bits)
+	if (detect.Convert & LVGM_CONVERT_OPL2) // OPL2 converted to OPL4: set OPL4 mode and enable left and right outputs of all FM channels (OPL2 songs don't write CHA/CHB bits)
 	{
 		if (ShouldExport(LVGM_CHIP_OPL4, VGM_PORT_OPL4_PART1, 0x05, LVGM_OPL4_NEW | LVGM_OPL4_NEW2))
 			chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL4, VGM_PORT_OPL4_PART1, 0x05, LVGM_OPL4_NEW | LVGM_OPL4_NEW2));
 		for (u8 reg = 0xC0; reg <= 0xC8; reg++)
 			if (ShouldExport(LVGM_CHIP_OPL4, VGM_PORT_OPL4_PART0, reg, 0x30))
 				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL4, VGM_PORT_OPL4_PART0, reg, 0x30));
+	}
+	if (detect.Convert & LVGM_CONVERT_OPN) // OPN converted to OPNA: enable left and right outputs of the 3 FM channels (OPN has no L/R registers)
+	{
+		for (u8 reg = 0xB4; reg <= 0xB6; reg++)
+			if (ShouldExport(LVGM_CHIP_OPNA, VGM_PORT_OPNA_PART0, reg, 0xC0))
+				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPNA, VGM_PORT_OPNA_PART0, reg, 0xC0));
 	}
 
 	// Parse input data
@@ -1395,14 +1432,14 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 				chunkList.push_back(lVGM_Chunk(LVGM_CHUNK_REG, LVGM_CHIP_OPL4, port, reg, val));
 			}
 		}
-		else if (detect.OPLSource && ((*g_VGM_Pointer == VGM_CMD_YM3812) || (*g_VGM_Pointer == VGM_CMD_YMF262_0) || (*g_VGM_Pointer == VGM_CMD_YMF262_1))) // OPL2 or OPL3: Converted as OPL4 FM (OPL4 mode)
+		else if ((detect.Convert & (LVGM_CONVERT_OPL2 | LVGM_CONVERT_OPL3)) && ((*g_VGM_Pointer == VGM_CMD_YM3812) || (*g_VGM_Pointer == VGM_CMD_YMF262_0) || (*g_VGM_Pointer == VGM_CMD_YMF262_1))) // OPL2 or OPL3: Converted as OPL4 FM (OPL4 mode)
 		{
 			u8 port = (*g_VGM_Pointer != VGM_CMD_YMF262_1) ? VGM_PORT_OPL4_PART0 : VGM_PORT_OPL4_PART1;
 			u8 reg = g_VGM_Pointer[1];
 			u8 val = g_VGM_Pointer[2];
 			g_VGM_Pointer += 2;
 
-			if (detect.OPLSource == 2) // OPL2
+			if (detect.Convert & LVGM_CONVERT_OPL2) // OPL2
 			{
 				if ((reg >= 0xC0) && (reg <= 0xC8)) // Output to both left and right channels (OPL2 has no CHA/CHB bits but they are needed when NEW = 1)
 					val = (val & 0x0F) | 0x30;
@@ -1421,9 +1458,9 @@ bool ExportlVGM(std::string name, MSX::ExporterInterface* exp, const std::vector
 			}
 		}
 		//-----------------------------------------------------------------------------
-		else if ((*g_VGM_Pointer == VGM_CMD_YM2608_0) || (*g_VGM_Pointer == VGM_CMD_YM2608_1)) // MAKOTO/YM2608/OPNA, write value dd to register aa
+		else if ((*g_VGM_Pointer == VGM_CMD_YM2608_0) || (*g_VGM_Pointer == VGM_CMD_YM2608_1) || ((detect.Convert & LVGM_CONVERT_OPN) && (*g_VGM_Pointer == VGM_CMD_YM2203))) // MAKOTO/YM2608/OPNA (or YM2203/OPN played on part 0), write value dd to register aa
 		{
-			u8 port = (*g_VGM_Pointer == VGM_CMD_YM2608_0) ? 0 : 1;
+			u8 port = (*g_VGM_Pointer == VGM_CMD_YM2608_1) ? 1 : 0;
 			u8 reg = g_VGM_Pointer[1];
 			u8 val = g_VGM_Pointer[2];
 			g_VGM_Pointer += 2;

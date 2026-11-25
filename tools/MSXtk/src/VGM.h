@@ -26,14 +26,15 @@
 enum VGM_COMMAND
 {
 	// Chips
-	VGM_CMD_YM2413         = 0x51, // aa dd	  | MSX-MUSIC/YM2413/OPLL, write value dd to register aa
+	VGM_CMD_YM2413         = 0x51, // aa dd	   | MSX-MUSIC/YM2413/OPLL, write value dd to register aa
+	VGM_CMD_YM2203         = 0x55, // aa dd    | YM2203/OPN, write value dd to register aa
 	VGM_CMD_YM2608_0       = 0x56, // aa dd    | MAKOTO/YM2608/OPNA port 0, write value dd to register aa
 	VGM_CMD_YM2608_1       = 0x57, // aa dd    | MAKOTO/YM2608/OPNA port 1, write value dd to register aa
-	VGM_CMD_Y8950          = 0x5C, // aa dd	  | MSX-AUDIO/Y8950/OPL1, write value dd to register aa
-	VGM_CMD_YM3812         = 0x5A, // aa dd	  | YM3812/OPL2, write value dd to register aa
+	VGM_CMD_Y8950          = 0x5C, // aa dd	   | MSX-AUDIO/Y8950/OPL1, write value dd to register aa
+	VGM_CMD_YM3812         = 0x5A, // aa dd	   | YM3812/OPL2, write value dd to register aa
 	VGM_CMD_YMF262_0       = 0x5E, // aa dd    | YMF262/OPL3 port 0, write value dd to register aa
 	VGM_CMD_YMF262_1       = 0x5F, // aa dd    | YMF262/OPL3 port 1, write value dd to register aa
-	VGM_CMD_AY8910         = 0xA0, // aa dd	  | PSG/AY8910, write value dd to register aa
+	VGM_CMD_AY8910         = 0xA0, // aa dd	   | PSG/AY8910, write value dd to register aa
 	VGM_CMD_YMF278         = 0xD0, // pp aa dd | MOONSOUND/YMF278B/OPL4, port pp, write value dd to register aa
 	VGM_CMD_SCC            = 0xD2, // pp aa dd | SCC/SCC+/K051649/K052539, port pp, write value dd to register aa
 	// Waits

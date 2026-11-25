@@ -30,14 +30,14 @@ DiskFiles = [
 	"content/lvgm/mg2.lvm",
 	"content/lvgm/proyakyu.lvm",
 	"content/lvgm/xevious.lvm",
-	"content/lvgm/eob3.lvm",
-	"content/lvgm/valis2.lvm",
-	"content/lvgm/misty.lvm",
 	"content/lvgm/beholder.lvm",
 	"content/lvgm/dragonsl.lvm",
 	"content/lvgm/moondrv.lvm",
 	"content/lvgm/sorceria.lvm",
 	"content/lvgm/sonyc.lvm",
+	"content/lvgm/konamic.lvm",
+	"content/lvgm/valis2.lvm",
+	"content/lvgm/misty.lvm",
 ];
 
 //-- Add SCC extension (boolean)

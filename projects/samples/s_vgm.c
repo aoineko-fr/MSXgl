@@ -71,18 +71,6 @@ void ButtonPrev();
 void ButtonNext();
 void ButtonLoop();
 
-// Segment data
-extern const c8* g_VGM_psg_ds4_03;
-extern const c8* g_VGM_psg_goemon_07;
-extern const c8* g_VGM_psg_metalgear_05;
-extern const c8* g_VGM_psg_honotori_09;
-extern const c8* g_VGM_scc_f1spirit_01;
-extern const c8* g_VGM_mm_undeadline_03;
-extern const c8* g_VGM_mm_ff_03;
-extern const c8* g_VGM_ma_xevious_01;
-extern const c8* g_VGM_ma_proyakyu_10;
-
-
 //=============================================================================
 // READ-ONLY DATA
 //=============================================================================
@@ -93,20 +81,20 @@ extern const c8* g_VGM_ma_proyakyu_10;
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
-	{ "Dragon Slayer 4    ", 0x8000 + PSG_DS4_03_VGM_REL,        PSG_DS4_03_VGM_SEG },
-	{ "Gambare Goemon     ", 0x8000 + PSG_GOEMON_07_VGM_REL,     PSG_GOEMON_07_VGM_SEG },
-	{ "Metal Gear         ", 0x8000 + PSG_METALGEAR_05_VGM_REL,  PSG_METALGEAR_05_VGM_SEG },
-	{ "Hi no Tori         ", 0x8000 + PSG_HONOTORI_09_VGM_REL,   PSG_HONOTORI_09_VGM_SEG },
-	{ "F1 Spirit (SCC)    ", 0x8000 + SCC_F1SPIRIT_01_VGM_REL,   SCC_F1SPIRIT_01_VGM_SEG },
-	{ "Undeadline (M-M)   ", 0x8000 + MM_UNDEADLINE_03_VGM_REL,  MM_UNDEADLINE_03_VGM_SEG },
-	{ "Final Fantasy (M-M)", 0x8000 + MM_FF_03_VGM_REL,          MM_FF_03_VGM_SEG },
-	{ "Xevious (M-A)      ", 0x8000 + MA_XEVIOUS_01_VGM_REL,     MA_XEVIOUS_01_VGM_SEG },
-	{ "Pro Yakyu (M-A)    ", 0x8000 + MA_PROYAKYU_10_VGM_REL,    MA_PROYAKYU_10_VGM_SEG },
-	{ "Monkey Isl. (OPL2) ", 0x8000 + OPL2_MONKEYISLAND_11_VGM_REL, OPL2_MONKEYISLAND_11_VGM_SEG },
-	{ "Heretic (OPL3)     ", 0x8000 + OPL3_HERETIC_01_VGM_REL,   OPL3_HERETIC_01_VGM_SEG },
-	{ "Sonyc (OPL4)       ", 0x8000 + OPL4_SONYC_05_VGM_REL,     OPL4_SONYC_05_VGM_SEG },
-	{ "Valis 2 (OPNA)     ", 0x8000 + OPNA_VALIS2_23_VGM_REL,    OPNA_VALIS2_23_VGM_SEG },
-	{ "Misty Blue (OPNA)  ", 0x8000 + OPNA_MISTYBLUE_05_VGM_REL, OPNA_MISTYBLUE_05_VGM_SEG },
+	{ "Dragon Slayer 4",       0x8000 + PSG_DS4_03_VGM_REL,           PSG_DS4_03_VGM_SEG },
+	{ "Gambare Goemon",        0x8000 + PSG_GOEMON_07_VGM_REL,        PSG_GOEMON_07_VGM_SEG },
+	{ "Metal Gear",            0x8000 + PSG_METALGEAR_05_VGM_REL,     PSG_METALGEAR_05_VGM_SEG },
+	{ "F1 Spirit (SCC)",       0x8000 + SCC_F1SPIRIT_01_VGM_REL,      SCC_F1SPIRIT_01_VGM_SEG },
+	{ "Undeadline (OPLL)",     0x8000 + MM_UNDEADLINE_03_VGM_REL,     MM_UNDEADLINE_03_VGM_SEG },
+	{ "Final Fantasy (OPLL)",  0x8000 + MM_FF_03_VGM_REL,             MM_FF_03_VGM_SEG },
+	{ "Xevious (MSX-Audio)",   0x8000 + MA_XEVIOUS_01_VGM_REL,        MA_XEVIOUS_01_VGM_SEG },
+	{ "Pro Yakyu (MSX-Audio)", 0x8000 + MA_PROYAKYU_10_VGM_REL,       MA_PROYAKYU_10_VGM_SEG },
+	{ "Monkey Isl. (OPL2)",    0x8000 + OPL2_MONKEYISLAND_11_VGM_REL, OPL2_MONKEYISLAND_11_VGM_SEG },
+	{ "Heretic (OPL3)",        0x8000 + OPL3_HERETIC_01_VGM_REL,      OPL3_HERETIC_01_VGM_SEG },
+	{ "Sonyc (OPL4)",          0x8000 + OPL4_SONYC_05_VGM_REL,        OPL4_SONYC_05_VGM_SEG },
+	{ "Konamic Equip. (OPN)",  0x8000 + OPN_KONAMIC_31_VGM_REL,       OPN_KONAMIC_31_VGM_SEG },
+	{ "Valis 2 (OPNA)",        0x8000 + OPNA_VALIS2_23_VGM_REL,       OPNA_VALIS2_23_VGM_SEG },
+	{ "Misty Blue (OPNA)",     0x8000 + OPNA_MISTYBLUE_05_VGM_REL,    OPNA_MISTYBLUE_05_VGM_SEG },
 };
 
 // Player button list
@@ -159,7 +147,9 @@ void SetMusic(u8 idx)
 	bool ok = VGM_Play(g_MusicEntry[idx].Data, TRUE);
 
 	Print_SetPosition(LAYOUT_FILE_X, LAYOUT_FILE_Y);
-	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
+	Print_DrawCharX(' ', 32 - LAYOUT_FILE_X);
+	Print_SetPosition(LAYOUT_FILE_X, LAYOUT_FILE_Y);
+	Print_DrawFormat("%i/%i %s \x0D", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
 
 	Print_SetPosition(LAYOUT_DATA_X, LAYOUT_DATA_Y);
 	Print_DrawText("Data:\n");

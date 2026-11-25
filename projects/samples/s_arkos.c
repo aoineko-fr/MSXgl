@@ -155,12 +155,12 @@ const struct MusicEntry g_MusicEntryAKY_9CH[] =
 // Replayers data
 const struct PlayerEntry g_PlayerEntry[] =
 {
-	{ "AKG (generic)",    AKG_Play, AKG_Update,      AKG_Stop, AKG_InitSFX,      AKG_PlaySFX,      AKG_StopSFX,      g_MusicEntryAKG },
-	{ "AKM (minimalist)", AKM_Play, AKM_Update,      AKM_Stop, AKM_InitSFX,      AKM_PlaySFX,      AKM_StopSFX,      g_MusicEntryAKM },
-	{ "AKY (fast)",       AKY3ch,   AKY_Update,      NULL,     AKY_InitSFX,      AKY_PlaySFX,      AKY_StopSFX,      g_MusicEntryAKY },
-	{ "AKY 6ch",          AKY6ch,   AKY6ch_Update,   NULL,     AKY6ch_InitSFX,   AKY6ch_PlaySFX,   AKY6ch_StopSFX,   g_MusicEntryAKY_6CH },
-	{ "AKY Darky",        AKYDarky, AKYDarky_Update, NULL,     AKYDarky_InitSFX, AKYDarky_PlaySFX, AKYDarky_StopSFX, g_MusicEntryAKY_6CH },
-	{ "AKY Darky 9ch",    AKY9ch,   AKY9ch_Update,   NULL,     AKY9ch_InitSFX,   AKY9ch_PlaySFX,   AKY9ch_StopSFX,   g_MusicEntryAKY_9CH },
+	{ "AKG (generic)",         AKG_Play, AKG_Update,      AKG_Stop, AKG_InitSFX,      AKG_PlaySFX,      AKG_StopSFX,      g_MusicEntryAKG },
+	{ "AKM (minimalist)",      AKM_Play, AKM_Update,      AKM_Stop, AKM_InitSFX,      AKM_PlaySFX,      AKM_StopSFX,      g_MusicEntryAKM },
+	{ "AKY (fast)",            AKY3ch,   AKY_Update,      NULL,     AKY_InitSFX,      AKY_PlaySFX,      AKY_StopSFX,      g_MusicEntryAKY },
+	{ "AKY PSG x 2 (6ch)",     AKY6ch,   AKY6ch_Update,   NULL,     AKY6ch_InitSFX,   AKY6ch_PlaySFX,   AKY6ch_StopSFX,   g_MusicEntryAKY_6CH },
+	{ "AKY Darky (6ch)",       AKYDarky, AKYDarky_Update, NULL,     AKYDarky_InitSFX, AKYDarky_PlaySFX, AKYDarky_StopSFX, g_MusicEntryAKY_6CH },
+	{ "AKY PSG + Darky (9ch)", AKY9ch,   AKY9ch_Update,   NULL,     AKY9ch_InitSFX,   AKY9ch_PlaySFX,   AKY9ch_StopSFX,   g_MusicEntryAKY_9CH },
 };
 
 //=============================================================================

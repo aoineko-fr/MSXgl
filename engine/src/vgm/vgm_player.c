@@ -97,6 +97,36 @@ void VGM_Mute()
 }
 
 //-----------------------------------------------------------------------------
+// Setup the sound chips that play another chip data (OPL2/3 on OPL4, OPN on OPNA)
+void VGM_SetupChips()
+{
+	#if (VGM_USE_OPL4)
+	// Initialize OPL2/3 (played on OPL4 in OPL4 mode to keep wave part accessible)
+	if (VGM_ContainsOPL2())
+	{
+		g_VGM_State |= VGM_STATE_OPL2;
+		OPL4_SetPart1Register(OPL4_REG_EXPANSION, OPL4_F_NEW | OPL4_F_NEW2);
+		loop(i, 9) // Enable left and right outputs of all FM channels (OPL2 songs don't write CHA/CHB bits)
+			OPL4_SetPart0Register(OPL4_REG_FBCNT + i, OPL4_F_CHA | OPL4_F_CHB);
+	}
+	else if (VGM_ContainsOPL3())
+	{
+		OPL4_SetPart1Register(OPL4_REG_EXPANSION, OPL4_F_NEW | OPL4_F_NEW2);
+	}
+	#endif
+
+	#if (VGM_USE_OPNA)
+	// Initialize OPN (played on OPNA part 0)
+	if (VGM_ContainsOPN()) // Enable left and right outputs of the 3 FM channels (OPN has no L/R registers)
+	{
+		OPNA_SetPart0Register(OPNA_REG_PAN_1, OPNA_F_L | OPNA_F_R);
+		OPNA_SetPart0Register(OPNA_REG_PAN_2, OPNA_F_L | OPNA_F_R);
+		OPNA_SetPart0Register(OPNA_REG_PAN_3, OPNA_F_L | OPNA_F_R);
+	}
+	#endif
+}
+
+//-----------------------------------------------------------------------------
 // Play a VGM data
 bool VGM_Play(const void* addr, bool loop)
 {
@@ -123,20 +153,7 @@ bool VGM_Play(const void* addr, bool loop)
 	else
 		VGM_SetFrequency60Hz();
 
-	#if (VGM_USE_OPL4)
-	// Initialize OPL2/3 (played on OPL4 in OPL4 mode to keep wave part accessible)
-	if (VGM_ContainsOPL2())
-	{
-		g_VGM_State |= VGM_STATE_OPL2;
-		OPL4_SetPart1Register(OPL4_REG_EXPANSION, OPL4_F_NEW | OPL4_F_NEW2);
-		loop(i, 9) // Enable left and right outputs of all FM channels (OPL2 songs don't write CHA/CHB bits)
-			OPL4_SetPart0Register(OPL4_REG_FBCNT + i, OPL4_F_CHA | OPL4_F_CHB);
-	}
-	else if (VGM_ContainsOPL3())
-	{
-		OPL4_SetPart1Register(OPL4_REG_EXPANSION, OPL4_F_NEW | OPL4_F_NEW2);
-	}
-	#endif
+	VGM_SetupChips();
 
 	return TRUE;
 }
@@ -150,6 +167,7 @@ void VGM_Resume()
 	{
 		g_VGM_State &= ~VGM_STATE_STOP;
 		g_VGM_State |= VGM_STATE_PLAY;
+		VGM_SetupChips(); // Restore the setup cleared by the mute
 		return;
 	}
 
@@ -173,11 +191,11 @@ void VGM_Resume()
 		SCC_Resume();
 	#endif
 	#if (VGM_USE_OPL4 && OPL4_USE_PAUSE)
-	if (VGM_ContainsOPL4())
+	if (VGM_ContainsOPL4() || VGM_ContainsOPL2() || VGM_ContainsOPL3())
 		OPL4_Resume();
 	#endif
 	#if (VGM_USE_OPNA && OPNA_USE_PAUSE)
-	if (VGM_ContainsOPNA())
+	if (VGM_ContainsOPNA() || VGM_ContainsOPN())
 		OPNA_Resume();
 	#endif
 	#endif // (VGM_USE_PAUSE)
@@ -304,7 +322,7 @@ void VGM_Decode()
 		} else
 		#endif
 		#if (VGM_USE_OPNA)
-		if (*g_VGM_Pointer == VGM_CMD_YM2608_0) // YM2608 port 0, write value dd to register aa
+		if ((*g_VGM_Pointer == VGM_CMD_YM2608_0) || (*g_VGM_Pointer == VGM_CMD_YM2203)) // YM2608 port 0 (or YM2203), write value dd to register aa
 		{
 			u8 reg = g_VGM_Pointer[1];
 			u8 value = g_VGM_Pointer[2];

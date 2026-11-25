@@ -81,31 +81,31 @@ void WaitVBlank();
 // Music list
 const struct MusicEntry g_MusicEntry[] =
 {
-	{ "Dragon Slayer 4",      "ds4.lvm" },	
-	{ "Maze of Galious",      "galious.lvm" },
-	{ "Gambare Goemon",       "goemon.lvm" },
-	{ "Metal Gear",           "mg.lvm" },
-	{ "Hi no Tori",           "honotori.lvm" },
-	{ "Penguin Adventure",    "penguin.lvm" },
-	{ "Yurei Kun",            "yureikun.lvm" },
-	{ "Timeless (PSGx2)",     "Timeless.lvm" },
-	{ "Final Fantasy (OPLL)", "ff.lvm" },
-	{ "Laydock 2 (OPLL)",     "laydock2.lvm" },
-	{ "Undeadline (OPLL)",    "undeadli.lvm" },
-	{ "F1 Spirit (SCC)",      "f1spirit.lvm" },
-	{ "Salamander (SCC)",     "salamand.lvm" },
-	{ "Space Manbow (SCC)",   "manbow.lvm" },
-	{ "Metal Gear 2 (SCC)",   "mg2.lvm" },
- 	{ "Pro Yakyuu (OPL1)",    "proyakyu.lvm" },
- 	{ "Xevious (OPL1)",       "xevious.lvm" },
- 	{ "Beholder (OPL2)",      "beholder.lvm" },
- 	{ "Dragon Slayer (OPL2)", "dragonsl.lvm" },
- 	{ "Moon Driver (OPL3)",   "moondrv.lvm" },
- 	{ "Sorcerian (OPL3)",     "sorceria.lvm" },
- 	{ "Sonyc (OPL4)",         "sonyc.lvm" },
- 	{ "Beholder 3 (OPNA)",    "eob3.lvm" },
- 	{ "Valis 2 (OPNA)",       "valis2.lvm" },
- 	{ "Misty Blue (OPNA)",    "misty.lvm" },
+	{ "Dragon Slayer 4",          "ds4.lvm" },	
+	{ "Maze of Galious",          "galious.lvm" },
+	{ "Gambare Goemon",           "goemon.lvm" },
+	{ "Metal Gear",               "mg.lvm" },
+	{ "Hi no Tori",               "honotori.lvm" },
+	{ "Penguin Adventure",        "penguin.lvm" },
+	{ "Yurei Kun",                "yureikun.lvm" },
+	{ "Timeless (PSGx2)",         "Timeless.lvm" },
+	{ "Final Fantasy (OPLL)",     "ff.lvm" },
+	{ "Laydock 2 (OPLL)",         "laydock2.lvm" },
+	{ "Undeadline (OPLL)",        "undeadli.lvm" },
+	{ "F1 Spirit (SCC)",          "f1spirit.lvm" },
+	{ "Salamander (SCC)",         "salamand.lvm" },
+	{ "Space Manbow (SCC)",       "manbow.lvm" },
+	{ "Metal Gear 2 (SCC)",       "mg2.lvm" },
+ 	{ "Pro Yakyuu (OPL1)",        "proyakyu.lvm" },
+ 	{ "Xevious (OPL1)",           "xevious.lvm" },
+ 	{ "Beholder (OPL2)",          "beholder.lvm" },
+ 	{ "Dragon Slayer (OPL2)",     "dragonsl.lvm" },
+ 	{ "Moon Driver (OPL3)",       "moondrv.lvm" },
+ 	{ "Sorcerian (OPL3)",         "sorceria.lvm" },
+ 	{ "Sonyc (OPL4)",             "sonyc.lvm" },
+ 	{ "Konamic Battle (OPN)",     "konamic.lvm" },
+ 	{ "Valis 2 (OPNA)",           "valis2.lvm" },
+ 	{ "Misty Blue (OPNA)",        "misty.lvm" },
 };
 
 // Player button list
@@ -265,7 +265,7 @@ void SetMusic(u8 idx)
 	Print_SetPosition(LAYOUT_FILE_X, LAYOUT_FILE_Y);
 	Print_DrawCharX(' ', 32 - LAYOUT_FILE_X);
 	Print_SetPosition(LAYOUT_FILE_X, LAYOUT_FILE_Y);
-	Print_DrawFormat("%i/%i %s", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
+	Print_DrawFormat("%i/%i %s \x0D", 1 + idx, numberof(g_MusicEntry), g_MusicEntry[idx].Name);
 
 	u8 y = LAYOUT_DATA_Y;
 	Print_SetPosition(LAYOUT_DATA_X, y++);
