@@ -332,7 +332,7 @@ if (DoCompile)
 			rawDefTxt += `#define ${name}_ABS \t0x${util.getHex(raw.offset)}\n`; 
 			rawDefTxt += `#define ${name}_SIZE\t0x${util.getHex(stats.size)}\n`;
 		}
-		fs.writeFileSync(`${ProjName}_rawdef.h`, rawDefTxt);
+		fs.writeFileSync(path.join(OutDir, `${ProjName}_rawdef.h`), rawDefTxt);
 		util.print("Success", PrintSuccess);
 	}
 	
